@@ -131,7 +131,7 @@ SDL_String16 *create_string16(Uint16 * pInTextString, Uint16 ptsize)
   str->forecol.r = 0x00;
   str->forecol.g = 0x00;
   str->forecol.b = 0x00;
-  str->forecol.unused = 0x00;
+  str->forecol.unused = 0xff;
   str->render = 2;		/* oh... alpha :) */
 
   /* pInTextString must be allocated in memory (MALLOC/CALLOC) */

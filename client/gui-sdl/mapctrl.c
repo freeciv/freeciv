@@ -557,7 +557,7 @@ void Init_MapView(void)
   tmp_map_surfaces_init();
 
   SDL_Client_Flags |= (CF_REVOLUTION | CF_MAP_UNIT_W_CREATED |
-		       CF_UNIT_INFO_SHOW | CF_MINI_MAP_SHOW);
+	       CF_UNIT_INFO_SHOW | CF_MINI_MAP_SHOW | CF_DRAW_MAP_DITHER);
 }
 
 /**************************************************************************
@@ -588,7 +588,11 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
     popit(ev, xtile, ytile);
 #endif
   } else {
-    center_tile_mapcanvas(col, row);
+    if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
+      popup_advanced_terrain_dialog(col , row);
+    } else {
+      center_tile_mapcanvas(col, row);
+    }
   }
 }
 

@@ -26,5 +26,7 @@
 
 void refresh_city_dlg_background(void);
 SDL_Rect *get_citydlg_rect(void);
-
+void popup_change_production_dialog(struct city *pCity);
+void popup_hurry_production_dialog(struct city *pCity);
+  
 #endif	/* FC__CITYDLG_H */

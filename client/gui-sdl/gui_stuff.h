@@ -44,8 +44,10 @@
 #define WF_ICON_UNDER_TEXT		0x10000	/* 65536 */
 #define WF_ICON_CENTER			0x20000	/* 131072 */
 #define WF_ICON_CENTER_RIGHT		0x40000	/* 262144 */
-#define WF_WIDGET_HAS_INFO_LABEL	0x80000	/* 524228 */
-#define WF_DRAW_FRAME_AROUND_WIDGET	0x100000	/* 2 x 524228 */
+#define WF_WIDGET_HAS_INFO_LABEL	0x80000	/* 524288 */
+#define WF_DRAW_FRAME_AROUND_WIDGET	0x100000 /* 1048576 */
+#define WF_DRAW_TEXT_LABEL_WITH_SPACE	0x200000 /* 2097152 */
+#define WF_FREE_DATA			0x400000 /* # */
 
 /* Widget states */
 enum WState {
@@ -93,7 +95,9 @@ struct GUI {
   SDL_Surface *theme;
   SDL_Surface *gfx;		/* Icon, background or theme2 */
   SDL_String16 *string16;
-
+  
+  void *data;
+  
   Uint32 state_types_flags;	/* "packed" widget info */
 
   SDL_Rect size;		/* size.w and size.h are the size of widget   
@@ -264,16 +268,16 @@ struct GUI *create_checkbox(bool state, Uint32 flags);
 void togle_checkbox(struct GUI *pCBox);
 int redraw_textcheckbox(struct GUI *pCBox);
 
-#define set_wstate(pWidget, state )			\
-do {							\
-	pWidget->state_types_flags &= ~STATE_MASK;	\
-	pWidget->state_types_flags |= state;		\
+#define set_wstate(pWidget, state )		\
+do {						\
+  pWidget->state_types_flags &= ~STATE_MASK;	\
+  pWidget->state_types_flags |= state;		\
 } while(0)
 
-#define set_wtype(pWidget, type)			\
-do {							\
-	pWidget->state_types_flags &= ~TYPE_MASK;	\
-	pWidget->state_types_flags |= type;		\
+#define set_wtype(pWidget, type)		\
+do {						\
+  pWidget->state_types_flags &= ~TYPE_MASK;	\
+  pWidget->state_types_flags |= type;		\
 } while(0)
 
 #define set_wflag(pWidget, flag )	\
@@ -297,18 +301,21 @@ do {							\
 	(pWidget->state_types_flags & FLAG_MASK)	\
 )
 
-#define FREEWIDGET(pGUI)				\
-do {							\
-	if (get_wflags(pGUI) & WF_FREE_STRING) {	\
-		FREESTRING16(pGUI->string16);		\
-	}						\
-	if (get_wflags(pGUI) & WF_FREE_GFX) {		\
-		FREESURFACE(pGUI->gfx);			\
-	}						\
-	if (get_wflags(pGUI) & WF_FREE_THEME) {		\
-		FREESURFACE(pGUI->theme);		\
-	}						\
-	FREE(pGUI);					\
+#define FREEWIDGET(pGUI)			\
+do {						\
+  if (get_wflags(pGUI) & WF_FREE_STRING) {	\
+    FREESTRING16(pGUI->string16);		\
+  }						\
+  if (get_wflags(pGUI) & WF_FREE_GFX) {		\
+    FREESURFACE(pGUI->gfx);			\
+  }						\
+  if (get_wflags(pGUI) & WF_FREE_THEME) {	\
+    FREESURFACE(pGUI->theme);			\
+  }						\
+  if (get_wflags(pGUI) & WF_FREE_DATA) {		\
+    FREE(pGUI->data);				\
+  }						\
+  FREE(pGUI);					\
 } while(0)
 
 #define redraw_ID(ID) \
@@ -317,17 +324,17 @@ do {							\
 #define refresh_ID_background(ID) \
 	refresh_widget_background(get_widget_pointer_form_main_list(ID))
 
-#define del_widget_from_gui_list(__pGUI)		\
-do {							\
-	del_widget_pointer_from_gui_list(__pGUI);	\
-	FREEWIDGET(__pGUI);				\
+#define del_widget_from_gui_list(__pGUI)	\
+do {						\
+  del_widget_pointer_from_gui_list(__pGUI);	\
+  FREEWIDGET(__pGUI);				\
 } while(0)
 
-#define del_ID_from_gui_list(ID)					\
-do {									\
-	struct GUI *___pTmp = get_widget_pointer_form_main_list(ID);	\
-	del_widget_pointer_from_gui_list(___pTmp);			\
-	FREEWIDGET(___pTmp);						\
+#define del_ID_from_gui_list(ID)				\
+do {								\
+  struct GUI *___pTmp = get_widget_pointer_form_main_list(ID);	\
+  del_widget_pointer_from_gui_list(___pTmp);			\
+  FREEWIDGET(___pTmp);						\
 } while(0)
 
 #define move_ID_to_front_of_gui_list(ID)	\
@@ -336,10 +343,10 @@ do {									\
 
 #define del_group( pBeginGroupWidgetList, pEndGroupWidgetList )		\
 do {									\
-	del_group_of_widgets_from_gui_list(pBeginGroupWidgetList,	\
+  del_group_of_widgets_from_gui_list(pBeginGroupWidgetList,		\
 					   pEndGroupWidgetList);	\
-	pBeginGroupWidgetList = NULL;					\
-	pEndGroupWidgetList = NULL;					\
+  pBeginGroupWidgetList = NULL;						\
+  pEndGroupWidgetList = NULL;						\
 } while(0)
 
 #define enable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
@@ -359,23 +366,23 @@ do {									\
 #define set_mod(ID, mod )	\
 	get_widget_pointer_form_main_list(ID)->mod = mod
 
-#define enable(ID)							\
-do {									\
-	struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
-	set_wstate(____pGUI, WS_NORMAL);				\
+#define enable(ID)						\
+do {								\
+  struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  set_wstate(____pGUI, WS_NORMAL);				\
 } while(0)
 
-#define disable(ID)							\
-do {									\
-	struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
-	set_wstate(____pGUI , WS_DISABLED);				\
+#define disable(ID)						\
+do {								\
+  struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  set_wstate(____pGUI , WS_DISABLED);				\
 } while(0)
 
 #define show(ID)	\
-	clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+  clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
 #define hide(ID)	\
-	set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+  set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
 /* BUTTON */
 #define create_icon_button_from_unichar(pIcon, pUniChar, iPtsize, flags) \

@@ -44,13 +44,11 @@
 #define CF_CHANGE_TAXRATE_TAX_BLOCK	0x2000
 #define CF_CHANGE_TAXRATE_LUX_BLOCK	0x4000
 #define CF_CHANGE_TAXRATE_SCI_BLOCK	0x8000
-#define CF_CIV3_CITY_TEXT_STYLE	0x10000
+#define CF_CIV3_CITY_TEXT_STYLE		0x10000
+#define CF_DRAW_MAP_DITHER		0x20000
 
 extern struct Sdl Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
-
-const char *liczebniki(int liczba, const char *lpoj,
-		       const char *lmno234, const char *lmno);
 
 #endif				/* FC__GUI_MAIN_H */

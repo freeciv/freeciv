@@ -33,6 +33,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
+#include "climap.h" /* for tile_get_known() */
 #include "fcintl.h"
 #include "log.h"
 #include "game.h"
@@ -53,6 +54,8 @@
 
 #include "colors.h"
 
+#include "citydlg_g.h"
+#include "citydlg.h"
 #include "graphics.h"
 #include "unistring.h"
 #include "gui_string.h"
@@ -63,10 +66,35 @@
 #include "gui_main.h"
 
 #include "mapview.h"
+#include "mapctrl.h"
 #include "options.h"
+#include "optiondlg.h"
 #include "tilespec.h"
 
 #include "dialogs.h"
+
+#define create_active_iconlabel( pBuf , pStr , pString , pData, pCallback ) \
+do { 						\
+  pStr = create_str16_from_char( pString , 10);	\
+  pStr->style |= TTF_STYLE_BOLD;		\
+  pBuf = create_iconlabel( NULL, pStr , 	\
+    	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
+  pBuf->string16->style &= ~SF_CENTER;		\
+  pBuf->string16->backcol.r = 0;		\
+  pBuf->string16->backcol.g = 0;		\
+  pBuf->string16->backcol.b = 255;		\
+  pBuf->string16->backcol.unused = 96;		\
+  pBuf->data = (void *)pData;			\
+  pBuf->action = pCallback;			\
+} while(0)
+
+
+static void popdown_unit_select_dialog(void);
+static void popdown_advanced_terrain_dialog(void);
+static void popdown_terrain_info_dialog(void);
+static void popdown_caravan_dialog(void);
+static void popdown_diplomat_dialog(void);
+static void popdown_pillage_dialog(void);
 
 /********************************************************************** 
   This function is called when the client disconnects or the game is
@@ -74,7 +102,14 @@
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  freelog(LOG_DEBUG, "popdown_all_game_dialogs : PORT ME");	
+  popdown_caravan_dialog();  
+  popdown_unit_select_dialog();
+  popdown_advanced_terrain_dialog();
+  popdown_terrain_info_dialog();
+  popdown_newcity_dialog();
+  podown_optiondlg();
+  popdown_diplomat_dialog();
+  popdown_pillage_dialog();
 }
 
 /**************************************************************************
@@ -95,12 +130,1315 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   freelog(LOG_DEBUG, "popup_notify_dialog : PORT ME");
 }
 
+/* =======================================================================*/
+/* ======================== UNIT SELECTION DIALOG ========================*/
+/* =======================================================================*/
+static struct UNIT_SELECT_DLG {
+  struct GUI *pBeginUnitsWidgetList;
+  struct GUI *pBeginActiveUnitsWidgetList;
+  struct GUI *pEndUnitsWidgetList;
+  struct ScrollBar *pVscroll;
+} *pUnit_Select_Dlg = NULL;
+
+
+/**************************************************************************
+...
+**************************************************************************/
+static int unit_select_window_callback( struct GUI *pWindow )
+{
+  if (move_window_group_dialog(pUnit_Select_Dlg->pBeginUnitsWidgetList,
+								    pWindow)) {
+    refresh_rect(pWindow->size);
+  }
+  return -1;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+static int exit_unit_select_callback( struct GUI *pWidget )
+{
+  popdown_unit_select_dialog();
+  return -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int unit_select_callback( struct GUI *pWidget )
+{
+  struct unit *pUnit = player_find_unit_by_id(game.player_ptr,
+                                   MAX_ID - pWidget->ID);
+
+  popdown_unit_select_dialog();
+  
+  if (pUnit) {
+    request_new_unit_activity(pUnit, ACTIVITY_IDLE);
+    set_unit_focus(pUnit);
+  }
+
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int up_unit_select_dlg_callback(struct GUI *pButton)
+{
+  struct GUI *pBegin = up_scroll_widget_list(NULL,
+			pUnit_Select_Dlg->pVscroll,
+			pUnit_Select_Dlg->pBeginActiveUnitsWidgetList,
+			pUnit_Select_Dlg->pBeginUnitsWidgetList->next->next,
+			pUnit_Select_Dlg->pEndUnitsWidgetList->prev);
+
+  if (pBegin) {
+    pUnit_Select_Dlg->pBeginActiveUnitsWidgetList = pBegin;
+  }
+
+  unsellect_widget_action();
+  pSellected_Widget = pButton;
+  set_wstate(pButton, WS_SELLECTED);
+  redraw_tibutton(pButton);
+  refresh_rect(pButton->size);
+
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int down_unit_select_dlg_callback(struct GUI *pButton)
+{
+  struct GUI *pBegin = down_scroll_widget_list(NULL,
+			pUnit_Select_Dlg->pVscroll,
+			pUnit_Select_Dlg->pBeginActiveUnitsWidgetList,
+			pUnit_Select_Dlg->pBeginUnitsWidgetList->next->next,
+			pUnit_Select_Dlg->pEndUnitsWidgetList->prev);
+
+  if (pBegin) {
+    pUnit_Select_Dlg->pBeginActiveUnitsWidgetList = pBegin;
+  }
+
+  unsellect_widget_action();
+  pSellected_Widget = pButton;
+  set_wstate(pButton, WS_SELLECTED);
+  redraw_tibutton(pButton);
+  refresh_rect(pButton->size);
+
+  return -1;
+}
+
+/**************************************************************************
+  Popdown a dialog window to select units on a particular tile.
+**************************************************************************/
+static void popdown_unit_select_dialog(void)
+{
+  if ( !pUnit_Select_Dlg ) return;
+    
+  popdown_window_group_dialog(pUnit_Select_Dlg->pBeginUnitsWidgetList,
+				pUnit_Select_Dlg->pEndUnitsWidgetList);
+				   
+  FREE( pUnit_Select_Dlg->pVscroll );
+  FREE( pUnit_Select_Dlg );
+  
+}
+
 /**************************************************************************
   Popup a dialog window to select units on a particular tile.
 **************************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
 {
-  freelog(LOG_DEBUG, "popup_unit_select_dialog : PORT ME");
+  struct GUI *pBuf = NULL, *pWindow;
+  SDL_String16 *pStr;
+  struct unit *pUnit;
+  struct unit_type *pUnitType;
+  /* struct city *pCity; */
+  char cBuf[255];  
+  int i , w = 0, h , n , canvas_x = 0, canvas_y = 0, high = 0;
+  
+  if ( pUnit_Select_Dlg ) return;
+    
+  pUnit_Select_Dlg = MALLOC(sizeof(struct UNIT_SELECT_DLG));
+  
+  n = unit_list_size(&ptile->units);
+  
+  my_snprintf( cBuf , sizeof(cBuf),"%s (%d)", _("Unit selection") , n );
+  pStr = create_str16_from_char(cBuf , 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window( pStr , 10 , 10 , WF_DRAW_THEME_TRANSPARENT );
+  
+  pWindow->action = unit_select_window_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  w = MAX( w , pWindow->size.w );
+  
+  add_to_gui_list(ID_UNIT_SELLECT_DLG_WINDOW, pWindow);
+  pUnit_Select_Dlg->pEndUnitsWidgetList = pWindow;
+  
+  /* ---------- */
+  h = WINDOW_TILE_HIGH + 1 + FRAME_WH;
+  
+  for(i=0; i<n; i++) {
+    pUnit = unit_list_get(&ptile->units, i);
+    pUnitType = unit_type(pUnit);
+    
+    if (!canvas_x && !canvas_y)
+    {
+      get_canvas_xy( pUnit->x , pUnit->y , &canvas_x , &canvas_y );
+    }
+    
+    my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
+            pUnit->veteran ? _("Veteran") : "" ,
+            pUnit->hp, pUnitType->hp,
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / 3),
+	    unit_activity_text(pUnit));
+    
+    
+    create_active_iconlabel( pBuf , pStr , cBuf , NULL, unit_select_callback);
+            
+    add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+    w = MAX( w , pBuf->size.w );
+    h += pBuf->size.h;
+    
+    if ( i > 14 )
+    {
+      set_wflag( pBuf , WF_HIDDEN );
+    }
+    else
+    {
+      set_wstate( pBuf , WS_NORMAL );
+    }
+    
+  }
+  pUnit_Select_Dlg->pBeginUnitsWidgetList = pBuf;
+  
+  w += DOUBLE_FRAME_WH;
+  if ( n > 15 )
+  {
+    int tmp;
+    
+    /* create up button */
+    pBuf = create_themeicon_button(pTheme->UP_Icon, NULL, 0);
+
+    /* ------- window ------- */
+    h = WINDOW_TILE_HIGH + 1 + 2 * pBuf->size.h +
+	    15 * pWindow->prev->size.h + FRAME_WH;
+    
+    if ( canvas_x + NORMAL_TILE_WIDTH + w > Main.screen->w )
+    {
+      if ( canvas_x - w >= 0 )
+      {
+        pWindow->size.x = canvas_x - w;
+      }
+      else
+      {
+	pWindow->size.x = ( Main.screen->w - w ) / 2;
+      }
+    }
+    else
+    {
+      pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+    }
+    
+    if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+    {
+      if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+      {
+        pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+      }
+      else
+      {
+	pWindow->size.y = ( Main.screen->h - h ) / 2;
+      }
+    }
+    else
+    {
+      pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+    }
+        
+    resize_window( pWindow , NULL , NULL , w , h );
+    /* ---------------------- */   
+    
+    pBuf->size.x = pWindow->size.x + FRAME_WH;
+    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
+
+    pBuf->size.w = w - DOUBLE_FRAME_WH;
+
+    high = pBuf->size.h;
+
+    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+
+    pBuf->action = up_unit_select_dlg_callback;
+    set_wstate(pBuf, WS_NORMAL);
+
+    add_to_gui_list(ID_UNIT_SELLECT_DLG_UP_BUTTON, pBuf);
+
+
+    /* create down button */
+    pBuf = create_themeicon_button(pTheme->DOWN_Icon, NULL, 0);
+
+    pBuf->size.x = pWindow->size.x + FRAME_WH;
+    pBuf->size.y = pWindow->size.y + h - FRAME_WH - pBuf->size.h;
+
+    tmp = pBuf->size.y;
+
+    pBuf->size.w = w - DOUBLE_FRAME_WH;
+
+    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+
+    pBuf->action = down_unit_select_dlg_callback;
+    set_wstate(pBuf, WS_NORMAL);
+
+    add_to_gui_list(ID_UNIT_SELLECT_DLG_DOWN_BUTTON, pBuf);
+
+    pUnit_Select_Dlg->pVscroll = MALLOC(sizeof(struct ScrollBar));
+    pUnit_Select_Dlg->pVscroll->active = 15;
+    pUnit_Select_Dlg->pVscroll->count = n;
+    pUnit_Select_Dlg->pVscroll->min = pBuf->size.y;
+    pUnit_Select_Dlg->pVscroll->max = tmp;
+
+    pUnit_Select_Dlg->pBeginUnitsWidgetList = pBuf;
+   
+  }
+  else
+  {
+    
+    if ( canvas_x + NORMAL_TILE_WIDTH + w > Main.screen->w )
+    {
+      if ( canvas_x - w >= 0 )
+      {
+        pWindow->size.x = canvas_x - w;
+      }
+      else
+      {
+	pWindow->size.x = ( Main.screen->w - w ) / 2;
+      }
+    }
+    else
+    {
+      pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+    }
+    
+    if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+    {
+      if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+      {
+        pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+      }
+      else
+      {
+	pWindow->size.y = ( Main.screen->h - h ) / 2;
+      }
+    }
+    else
+    {
+      pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+    }
+    
+    resize_window( pWindow , NULL , NULL , w , h );
+    
+  }
+
+  w-= DOUBLE_FRAME_WH;
+  pBuf = pWindow->prev;
+  pBuf->size.w = w;
+  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + high;
+  pBuf = pBuf->prev;
+  i = 1;
+  while(TRUE)
+  {
+    pBuf->size.w = w;
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    if (pBuf == pUnit_Select_Dlg->pBeginUnitsWidgetList || i > 14 ) break;
+    i++;  
+    pBuf = pBuf->prev;  
+  }
+  
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1) ,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey( pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , getpixel( pBuf->theme , 0 ,0 ));
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+  
+  pBuf->action = exit_unit_select_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_UNIT_SELLECT_DLG_EXIT_BUTTON, pBuf);
+  pUnit_Select_Dlg->pBeginUnitsWidgetList = pBuf;
+  /* ==================================================== */
+  pUnit_Select_Dlg->pBeginActiveUnitsWidgetList = pWindow->prev;
+  
+  /* redraw */
+  redraw_group(pUnit_Select_Dlg->pBeginUnitsWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
+  
+}
+
+/* ====================================================================== */
+/* ============================ TERRAIN INFO ============================ */
+/* ====================================================================== */
+static struct TERRAIN_INFO_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;
+} *pTerrain_Info_Dlg = NULL;
+
+
+/**************************************************************************
+  Popdown terrain information dialog.
+**************************************************************************/
+static int terrain_info_window_dlg_callback( struct GUI *pWindow )
+{
+  if (move_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList, pWindow)) {
+    refresh_rect(pWindow->size);
+  }
+  return -1;
+}
+
+/**************************************************************************
+  Popdown terrain information dialog.
+**************************************************************************/
+static void popdown_terrain_info_dialog(void)
+{
+  if ( !pTerrain_Info_Dlg ) return;
+    
+  popdown_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList,
+				pTerrain_Info_Dlg->pEndWidgetList);
+				   
+  FREE( pTerrain_Info_Dlg );  
+}
+
+/**************************************************************************
+  Popdown terrain information dialog.
+**************************************************************************/
+static int exit_terrain_info_dialog( struct GUI *pButton )
+{
+  popdown_terrain_info_dialog();
+  return -1;
+}
+
+/***************************************************************
+  Return a (static) string with terrain name;
+  eg: "Hills"
+  eg: "Hills (Coals)"
+  eg: "Hills (Coals) [Pollution]"
+***************************************************************/
+static const char *sdl_map_get_tile_info_text(int x, int y)
+{
+  static char s[64];
+  struct tile *ptile=map_get_tile(x, y);
+  bool first;
+
+  my_snprintf(s, sizeof(s), _("Terrain: %s"), 
+  				tile_types[ptile->terrain].terrain_name);
+  /* sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);*/
+  if (tile_has_special(ptile, S_RIVER)) {
+    sz_strlcat(s, "/");
+    sz_strlcat(s, get_special_name(S_RIVER));
+  }
+
+  first = TRUE;
+  if (tile_has_special(ptile, S_SPECIAL_1)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
+  }
+  if (tile_has_special(ptile, S_SPECIAL_2)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special_2_name);
+  }
+  if (!first) {
+    sz_strlcat(s, ")");
+  }
+
+  first = TRUE;
+  if (tile_has_special(ptile, S_POLLUTION)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, "\n[");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_POLLUTION));
+  }
+  if (tile_has_special(ptile, S_FALLOUT)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " [");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_FALLOUT));
+  }
+  if (!first) {
+    sz_strlcat(s, "]");
+  }
+  
+  return s;
+}
+
+
+/**************************************************************************
+  Popup terrain information dialog.
+**************************************************************************/
+static void popup_terrain_info_dialog(struct tile *pTile , int x , int y)
+{
+  SDL_Surface *pSurf;
+  struct GUI *pBuf , *pWindow;
+  char cBuf[255];  
+  int canvas_x , canvas_y;
+  
+  if ( pTerrain_Info_Dlg ) return;
+  
+  get_canvas_xy( x , y , &canvas_x , &canvas_y );
+    
+  pSurf = get_terrain_surface(x , y);
+  pTerrain_Info_Dlg = MALLOC(sizeof(struct TERRAIN_INFO_DLG));
+  
+  my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), x , y);
+  
+  pWindow = create_window( create_str16_from_char(cBuf , 12) , 10 , 10 , 0 );
+  pWindow->string16->style |= TTF_STYLE_BOLD;
+  
+  pWindow->action = terrain_info_window_dlg_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  
+  add_to_gui_list(ID_TERRAIN_INFO_DLG_WINDOW, pWindow);
+  pTerrain_Info_Dlg->pEndWidgetList = pWindow;
+  /* ---------- */
+  
+  if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
+  
+    my_snprintf(cBuf, sizeof(cBuf), _("%s\nFood/Prod/Trade: %s\n"),
+		sdl_map_get_tile_info_text(x, y),
+		map_get_tile_fpt_text(x, y) );
+  
+  
+    if ( tile_has_special(pTile, S_HUT) )
+    { 
+      sz_strlcat(cBuf, _("Minor Tribe Village") );
+    }
+    else
+    {
+      if ( get_tile_infrastructure_set(pTile) )
+      {
+        sz_strlcat(cBuf, _("Infrastructure: "));
+        sz_strlcat(cBuf, map_get_infrastructure_text(pTile->special));
+      }
+    }
+  }
+  else
+  {
+    my_snprintf(cBuf, sizeof(cBuf), _("Terrain : UNKNOWN") );
+  }
+  
+  pBuf = create_iconlabel( pSurf ,
+	  create_str16_from_char( cBuf , 12), 
+    		WF_FREE_THEME );
+  
+  pBuf->size.h += NORMAL_TILE_HEIGHT / 2;
+  
+  add_to_gui_list(ID_LABEL , pBuf);
+  
+  /* ------ window ---------- */
+  pWindow->size.w = pBuf->size.w + 20;
+  pWindow->size.h = pBuf->size.h + WINDOW_TILE_HIGH + 1 + FRAME_WH;
+						    
+  if ( canvas_x + NORMAL_TILE_WIDTH + pWindow->size.w > Main.screen->w )
+  {
+    pWindow->size.x = canvas_x - pWindow->size.w;
+  }
+  else
+  {
+    pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+  }
+  
+  if ( canvas_y - NORMAL_TILE_HEIGHT + pWindow->size.h > Main.screen->h )
+  {
+    if ( canvas_y - pWindow->size.h + NORMAL_TILE_HEIGHT > Main.screen->h )
+    {
+       pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
+    }
+    else
+    {
+       pWindow->size.y = canvas_y - pWindow->size.h + NORMAL_TILE_HEIGHT;
+    }
+  }
+  else
+  {
+    if ( canvas_y - NORMAL_TILE_HEIGHT < 0 )
+    {
+      if ( canvas_y < 0 )
+      {
+	pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT;
+      }
+      else
+      {
+	pWindow->size.y = canvas_y;
+      }        
+    }
+    else
+    {
+       pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+    }
+  }
+  
+  resize_window( pWindow , NULL ,
+	  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN) ,
+				  pWindow->size.w , pWindow->size.h );
+  
+  /* ------------------------ */
+  
+  pBuf->size.x = pWindow->size.x + 10;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
+  
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1) ,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey( pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , getpixel( pBuf->theme , 0 ,0 ));
+  
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+  
+  pBuf->action = exit_terrain_info_dialog;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_TERRAIN_INFO_DLG_EXIT_BUTTON, pBuf);
+    
+  pTerrain_Info_Dlg->pBeginWidgetList = pBuf;
+   
+  
+  /* --------------------------------- */
+  /* redraw */
+  redraw_group(pTerrain_Info_Dlg->pBeginWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
+}
+/* ====================================================================== */
+/* ========================= ADVANCED_TERRAIN_MENU ====================== */
+/* ====================================================================== */
+static struct ADVANCED_TERRAIN_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;/* window */
+    
+  struct GUI *pBeginActiveWidgetList;
+  struct GUI *pEndActiveWidgetList;  
+  struct GUI *pActiveWidgetList;
+    
+  struct ScrollBar *pScroll;
+} *pAdvanced_Terrain_Dlg = NULL;
+
+/**************************************************************************
+  Popdown a generic dialog to display some generic information about
+  terrain : tile, units , cities, etc.
+**************************************************************************/
+static void popdown_advanced_terrain_dialog(void)
+{
+  if ( !pAdvanced_Terrain_Dlg ) return;
+  
+  popdown_window_group_dialog(pAdvanced_Terrain_Dlg->pBeginWidgetList,
+				pAdvanced_Terrain_Dlg->pEndWidgetList);
+				   
+  FREE( pAdvanced_Terrain_Dlg->pScroll );
+  FREE( pAdvanced_Terrain_Dlg );
+}
+
+static int advanced_terrain_window_dlg_callback( struct GUI *pWindow )
+{
+  
+  return -1;
+}
+
+static int exit_advanced_terrain_dlg_callback( struct GUI *pWidget )
+{
+  popdown_advanced_terrain_dialog();
+  return -1;
+}
+
+static int terrain_info_callback( struct GUI *pWidget )
+{
+  int x = ((struct map_position *)pWidget->data)->x;
+  int y = ((struct map_position *)pWidget->data)->y;
+    
+  popdown_advanced_terrain_dialog();
+
+  popup_terrain_info_dialog( map_get_tile( x , y ) , x , y);
+  return -1;
+}
+
+static int zoom_to_city_callback( struct GUI *pWidget )
+{
+  
+  struct city *pCity = (struct city *)pWidget->data;
+    
+  popdown_advanced_terrain_dialog();
+
+  popup_city_dialog( pCity, 0 );
+  return -1;
+}
+
+static int change_production_callback( struct GUI *pWidget )
+{
+  
+  struct city *pCity = (struct city *)pWidget->data;
+    
+  popdown_advanced_terrain_dialog();
+
+  popup_change_production_dialog(pCity);
+  return -1;
+}
+
+static int hurry_production_callback( struct GUI *pWidget )
+{
+  
+  struct city *pCity = (struct city *)pWidget->data;
+    
+  popdown_advanced_terrain_dialog();
+
+  popup_hurry_production_dialog(pCity);
+  return -1;
+}
+
+static int cma_callback( struct GUI *pWidget )
+{
+  
+  /* struct city *pCity = (struct city *)pWidget->data; */ 
+    
+  popdown_advanced_terrain_dialog();
+
+  /*popup_city_dialog( pCity, 0 );*/
+  return -1;
+}
+
+static int change_work_list_callback( struct GUI *pWidget )
+{
+  
+  /* struct city *pCity = (struct city *)pWidget->data; */
+    
+  popdown_advanced_terrain_dialog();
+
+  /*popup_city_dialog( pCity, 0 );*/
+  return -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int adv_unit_select_callback( struct GUI *pWidget )
+{
+  struct unit *pUnit = player_find_unit_by_id(game.player_ptr,
+                                   MAX_ID - pWidget->ID);
+
+  popdown_advanced_terrain_dialog();
+  
+  if (pUnit) {
+    request_new_unit_activity(pUnit, ACTIVITY_IDLE);
+    set_unit_focus(pUnit);
+  }
+
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int up_adv_unit_select_dlg_callback(struct GUI *pButton)
+{
+  struct GUI *pBegin = up_scroll_widget_list(pButton->prev,
+			pAdvanced_Terrain_Dlg->pScroll,
+			pAdvanced_Terrain_Dlg->pActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pBeginActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pAdvanced_Terrain_Dlg->pActiveWidgetList = pBegin;
+  }
+  unsellect_widget_action();
+  pSellected_Widget = pButton;
+  set_wstate(pButton, WS_SELLECTED);
+  redraw_tibutton(pButton);
+  refresh_rect(pButton->size);
+
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int down_adv_unit_select_dlg_callback(struct GUI *pButton)
+{
+  struct GUI *pBegin = down_scroll_widget_list(pButton->next,
+			pAdvanced_Terrain_Dlg->pScroll,
+			pAdvanced_Terrain_Dlg->pActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pBeginActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pAdvanced_Terrain_Dlg->pActiveWidgetList = pBegin;
+  }
+
+  unsellect_widget_action();
+  pSellected_Widget = pButton;
+  set_wstate(pButton, WS_SELLECTED);
+  redraw_tibutton(pButton);
+  refresh_rect(pButton->size);
+
+  return -1;
+}
+
+/**************************************************************************
+  FIXME : fix main funct : vertic_scroll_widget_list(...)
+**************************************************************************/
+static int vscroll_adv_unit_select_dlg_callback(struct GUI *pVscrollBar)
+{
+
+  struct GUI *pBegin = vertic_scroll_widget_list(pVscrollBar,
+			pAdvanced_Terrain_Dlg->pScroll,
+			pAdvanced_Terrain_Dlg->pActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pBeginActiveWidgetList,
+			pAdvanced_Terrain_Dlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pAdvanced_Terrain_Dlg->pActiveWidgetList = pBegin;
+  }
+  
+  unsellect_widget_action();
+  set_wstate(pVscrollBar, WS_SELLECTED);
+  pSellected_Widget = pVscrollBar;
+  redraw_vert(pVscrollBar);
+  refresh_rect(pVscrollBar->size);
+
+  return -1;
+}
+
+/**************************************************************************
+  Popup a generic dialog to display some generic information about
+  terrain : tile, units , cities, etc.
+**************************************************************************/
+void popup_advanced_terrain_dialog(int x , int y)
+{
+  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct tile *pTile;
+  struct city *pCity;
+  SDL_String16 *pStr;  
+  char cBuf[255]; 
+  int n , w = 0, h , units_h = 0, canvas_x , canvas_y ;
+  
+  if ( pAdvanced_Terrain_Dlg ) return;
+  
+  pTile = map_get_tile(x, y);
+  pCity = pTile->city;
+  n = unit_list_size(&pTile->units);
+  
+  if ( !n && !pCity )
+  {
+    return popup_terrain_info_dialog( pTile , x , y);
+  }
+  
+  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
+  
+  get_canvas_xy( x , y , &canvas_x , &canvas_y );
+  
+  pAdvanced_Terrain_Dlg = MALLOC(sizeof(struct ADVANCED_TERRAIN_DLG));
+  
+  pStr = create_str16_from_char(_("Advanced Menu") , 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window( pStr , 10 , 10 , WF_DRAW_THEME_TRANSPARENT );
+    
+  pWindow->action = advanced_terrain_window_dlg_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  w = MAX( w , pWindow->size.w );
+  
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pWindow);
+  pAdvanced_Terrain_Dlg->pEndWidgetList = pWindow;
+  /* ---------- */
+  /* exit button */
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1) ,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey( pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , getpixel( pBuf->theme , 0 ,0 ));
+  
+  w += pBuf->size.w + 10;
+  pBuf->action = exit_advanced_terrain_dlg_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
+  /* ---------- */
+  
+  pStr = create_str16_from_char(_("Terrain Info") , 10);
+  pStr->style |= TTF_STYLE_BOLD;
+   
+  pBuf = create_iconlabel( NULL, pStr , 
+    	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
+    
+  pBuf->string16->style &= ~SF_CENTER;
+  pBuf->string16->backcol.r = 0;
+  pBuf->string16->backcol.g = 0;
+  pBuf->string16->backcol.b = 255;
+  pBuf->string16->backcol.unused = 96;
+    
+  pBuf->data = (void *)MALLOC(sizeof(struct map_position));
+  ((struct map_position *)pBuf->data)->x = x;
+  ((struct map_position *)pBuf->data)->y = y;
+  
+  pBuf->action = terrain_info_callback;
+  set_wstate( pBuf , WS_NORMAL );
+  
+  add_to_gui_list( ID_LABEL , pBuf );
+    
+  w = MAX( w , pBuf->size.w );  
+  h += pBuf->size.h;
+
+  /* ---------- */  
+  if ( pCity )
+  {
+    /* separator */
+    pBuf = create_iconlabel( NULL, NULL, WF_FREE_THEME);
+    
+    add_to_gui_list( ID_SEPARATOR , pBuf );
+    h += pBuf->next->size.h;
+    /* ------------------ */
+    
+    my_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), pCity->name );
+    
+    create_active_iconlabel( pBuf, pStr, cBuf, pCity, zoom_to_city_callback);
+    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( ID_LABEL , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    /* ----------- */
+    
+    create_active_iconlabel( pBuf, pStr,
+	    _("Change Production"), pCity, change_production_callback);
+	    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( ID_LABEL , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    /* -------------- */
+    
+    create_active_iconlabel( pBuf, pStr,
+	    _("Hurry production"), pCity, hurry_production_callback);
+    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( ID_LABEL , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    /* ----------- */
+    
+    create_active_iconlabel( pBuf, pStr,
+	    _("Change WorkList") , pCity, change_work_list_callback);
+        
+    pBuf->string16->forecol = *(get_game_colorRGB( COLOR_STD_DISABLED ));
+    
+    /* set_wstate( pBuf , WS_NORMAL ); */
+  
+    add_to_gui_list( ID_LABEL , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    
+    /* ----------- */
+
+    create_active_iconlabel( pBuf, pStr,
+	    _("Change C.M.A Settings") , pCity, cma_callback);
+
+    pBuf->string16->forecol = *(get_game_colorRGB( COLOR_STD_DISABLED ));
+    
+    /* set_wstate( pBuf , WS_NORMAL ); */
+  
+    add_to_gui_list( ID_LABEL , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    
+  }
+  
+  /* ---------- */
+  if ( n )
+  {
+    int i;
+    struct unit *pUnit;
+    struct unit_type *pUnitType;
+    units_h = 0;  
+    /* separator */
+    pBuf = create_iconlabel( NULL, NULL, WF_FREE_THEME);
+    
+    add_to_gui_list( ID_SEPARATOR , pBuf );
+    h += pBuf->next->size.h;
+    /* ---------- */
+    
+    if ( n > 1 )
+    {
+      for(i=0; i<n; i++) {
+        pUnit = unit_list_get(&pTile->units, i);
+        pUnitType = unit_type(pUnit);
+    
+        my_snprintf(cBuf , sizeof(cBuf),
+            _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
+            pUnit->veteran ? _("Veteran") : "" ,
+            pUnit->hp, pUnitType->hp,
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / 3),
+	    unit_activity_text(pUnit));
+    
+	pStr = create_str16_from_char( cBuf , 10);
+        pStr->style |= TTF_STYLE_BOLD;
+	
+        pBuf = create_iconlabel( NULL, pStr, 
+    		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE) );
+    
+        pBuf->string16->style &= ~SF_CENTER;
+        pBuf->string16->backcol.r = 0;
+        pBuf->string16->backcol.g = 0;
+        pBuf->string16->backcol.b = 255;
+        pBuf->string16->backcol.unused = 96;
+	
+        pBuf->action = adv_unit_select_callback;
+        set_wstate( pBuf , WS_NORMAL );
+	
+        add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+        w = MAX( w , pBuf->size.w );
+        units_h += pBuf->size.h;
+    
+    	if ( !pAdvanced_Terrain_Dlg->pEndActiveWidgetList )
+	{
+	  pAdvanced_Terrain_Dlg->pEndActiveWidgetList = pBuf;
+	}
+    
+        if ( i > 9 )
+        {
+          set_wflag( pBuf , WF_HIDDEN );
+        }
+        
+      }
+      pAdvanced_Terrain_Dlg->pBeginActiveWidgetList = pBuf;
+      pAdvanced_Terrain_Dlg->pActiveWidgetList =
+			      pAdvanced_Terrain_Dlg->pEndActiveWidgetList;
+      
+      if ( n > 10 )
+     {
+        units_h = 10 * pBuf->size.h;
+       
+        /* create up button */
+        pBuf = create_themeicon_button(pTheme->UP_Icon, NULL, 0);
+        clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+
+        pBuf->action = up_adv_unit_select_dlg_callback;
+        set_wstate(pBuf, WS_NORMAL);
+
+        add_to_gui_list(ID_UNIT_SELLECT_DLG_UP_BUTTON, pBuf);
+      
+        /* create vsrollbar */
+        pBuf = create_vertical(pTheme->Vertic, 50, WF_DRAW_THEME_TRANSPARENT);
+       
+        set_wstate(pBuf, WS_NORMAL);
+        pBuf->action = vscroll_adv_unit_select_dlg_callback;
+
+        add_to_gui_list(ID_UNIT_SELLECT_DLG_VSCROLLBAR, pBuf);
+
+        /* create down button */
+        pBuf = create_themeicon_button(pTheme->DOWN_Icon, NULL, 0);
+       
+        clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+
+        pBuf->action = down_adv_unit_select_dlg_callback;
+        set_wstate(pBuf, WS_NORMAL);
+
+        add_to_gui_list(ID_UNIT_SELLECT_DLG_DOWN_BUTTON, pBuf);
+
+        w += pBuf->size.w;
+       
+        pAdvanced_Terrain_Dlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+        pAdvanced_Terrain_Dlg->pScroll->active = 10;
+        pAdvanced_Terrain_Dlg->pScroll->count = n;
+      }
+      
+    }
+    else
+    {
+      /* one unit - give orders */
+      pUnit = unit_list_get(&pTile->units, 0);
+      pUnitType = unit_type(pUnit);
+      
+      if ( pCity )
+      {
+        my_snprintf(cBuf , sizeof(cBuf),
+            _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
+            pUnit->veteran ? _("Veteran") : "" ,
+            pUnit->hp, pUnitType->hp,
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / 3),
+	    unit_activity_text(pUnit));
+    
+	create_active_iconlabel( pBuf, pStr,
+	    		cBuf , NULL , adv_unit_select_callback);
+	
+        set_wstate( pBuf , WS_NORMAL );
+	
+        add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+        w = MAX( w , pBuf->size.w );
+        units_h += pBuf->size.h;
+      }
+      /* ---------------- */
+      my_snprintf(cBuf , sizeof(cBuf),
+            _("View Civiliopedia entry for %s"), pUnitType->name );
+    
+      create_active_iconlabel( pBuf, pStr,
+	    		cBuf , pUnitType , NULL );
+      
+      pBuf->string16->forecol = *(get_game_colorRGB( COLOR_STD_DISABLED ));      
+      
+      /* set_wstate( pBuf , WS_NORMAL ); */
+      
+      add_to_gui_list( ID_LABEL , pBuf );
+    
+      w = MAX( w , pBuf->size.w );
+      units_h += pBuf->size.h;
+      /* ---------------- */  
+    }
+    
+  }
+  /* ---------- */
+  
+  pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
+  
+  
+  w += DOUBLE_FRAME_WH;
+  
+  h += units_h;
+  
+  
+  if ( canvas_x + NORMAL_TILE_WIDTH + w > Main.screen->w )
+  {
+    if ( canvas_x - w >= 0 )
+    {
+      pWindow->size.x = canvas_x - w;
+    }
+    else
+    {
+      pWindow->size.x = ( Main.screen->w - w ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+  }
+    
+  if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+  {
+    if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+    {
+      pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+    }
+    else
+    {
+      pWindow->size.y = ( Main.screen->h - h ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+  }
+        
+  resize_window( pWindow , NULL , NULL , w , h );
+  
+  w -= DOUBLE_FRAME_WH;
+  
+  if ( n > 10 )
+  {
+    units_h = pBuf->size.w;
+  }
+  else
+  {
+    units_h = 0;
+  }
+  
+  /* exit button */
+  pBuf = pWindow->prev;
+  
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+  
+  /* terrain info */
+  pBuf = pBuf->prev;
+  
+  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
+  pBuf->size.w = w;
+  h = pBuf->size.h;
+  
+  pBuf = pBuf->prev;
+  while( TRUE )
+  {
+    
+    if ( pBuf == pAdvanced_Terrain_Dlg->pEndActiveWidgetList )
+    {
+      w -= units_h;
+    }
+    
+    pBuf->size.w = w;
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    
+    if ( pBuf->ID == ID_SEPARATOR )
+    {
+      FREESURFACE( pBuf->theme );
+      pBuf->size.h = h;
+      pBuf->theme = create_surf( w , h , SDL_SWSURFACE );
+      SDL_FillRect( pBuf->theme ,
+	      &((SDL_Rect){ 10 , pBuf->size.h / 2 - 1 , pBuf->size.w - 20 , 2}),
+	      0x64 );
+      SDL_SetColorKey( pBuf->theme , SDL_SRCCOLORKEY|SDL_RLEACCEL , 0x0 );
+    }
+    
+    if ( pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList || 
+        pBuf == pAdvanced_Terrain_Dlg->pBeginActiveWidgetList ) break;
+    pBuf = pBuf->prev;  
+   
+  }
+  
+  if ( n > 10 )
+  {
+    /* up button */
+    pBuf = pBuf->prev;
+    
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH;
+    pBuf->size.y = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y;
+    
+    pAdvanced_Terrain_Dlg->pScroll->min = pBuf->size.y + pBuf->size.h;
+    
+    /* scrollbar */
+    pBuf = pBuf->prev;
+    
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    
+    /* down button */
+    pBuf = pBuf->prev;
+    
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH;
+    pBuf->size.y = pWindow->size.y + pWindow->size.h - FRAME_WH - pBuf->size.h;
+    
+    
+    pAdvanced_Terrain_Dlg->pScroll->max = pBuf->size.y;
+    
+    /* 
+       scrollbar high
+       10 - units. seen in window.
+     */
+    pBuf->next->size.h = ((float) 10 / n ) *
+    	( pAdvanced_Terrain_Dlg->pScroll->max -
+			    pAdvanced_Terrain_Dlg->pScroll->min );
+    
+  }
+  
+  /* -------------------- */
+  /* redraw */
+  redraw_group(pAdvanced_Terrain_Dlg->pBeginWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
+  
+}
+
+/* ====================================================================== */
+/* ============================ CARAVAN DIALOG ========================== */
+/* ====================================================================== */
+static struct CARAVAN_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;/* window */
+} *pCaravan_Dlg = NULL;
+
+static int caravan_dlg_window_callback( struct GUI *pWindow )
+{
+  
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int caravan_establish_trade_callback( struct GUI *pWidget )
+{
+  struct packet_unit_request req;
+  req.unit_id = MAX_ID - pWidget->ID;
+  req.city_id = ((struct city *)pWidget->data)->id;
+  req.name[0]='\0';
+  popdown_caravan_dialog();
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+  return -1;
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+static int caravan_help_build_wonder_callback( struct GUI *pWidget )
+{
+  struct packet_unit_request req;
+  req.unit_id = MAX_ID - pWidget->ID;
+  req.city_id = ((struct city *)pWidget->data)->id;
+  req.name[0]='\0';
+  popdown_caravan_dialog();
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+  return -1;
+}
+
+static int exit_caravan_dlg_callback( struct GUI *pWidget )
+{
+  popdown_caravan_dialog();
+  process_caravan_arrival(NULL);
+  return -1;
+}
+  
+static void popdown_caravan_dialog(void)
+{
+  if ( !pCaravan_Dlg ) return;
+  
+  popdown_window_group_dialog(pCaravan_Dlg->pBeginWidgetList,
+				pCaravan_Dlg->pEndWidgetList);
+  FREE( pCaravan_Dlg );
+  
 }
 
 /**************************************************************************
@@ -110,10 +1448,139 @@ void popup_unit_select_dialog(struct tile *ptile)
     - Help build wonder.
     - Keep moving.
 **************************************************************************/
-void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity)
+void popup_caravan_dialog(struct unit *pUnit,
+			  struct city *pHomecity, struct city *pDestcity)
 {
-  freelog(LOG_DEBUG, "popup_caravan_dialog : PORT ME");
+  struct GUI *pWindow = NULL, *pBuf = NULL;
+  SDL_String16 *pStr;
+  int w = 0, h , canvas_x , canvas_y;
+  
+  if ( pCaravan_Dlg ) return;
+
+  pCaravan_Dlg = MALLOC(sizeof(struct CARAVAN_DLG));
+  
+  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
+  
+  get_canvas_xy( pUnit->x , pUnit->y , &canvas_x , &canvas_y );
+  
+  /* window */
+  pStr = create_str16_from_char(_("Your Caravan Has Arrived") , 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window( pStr , 10 , 10 , WF_DRAW_THEME_TRANSPARENT );
+    
+  pWindow->action = caravan_dlg_window_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  w = MAX( w , pWindow->size.w );
+  
+  add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
+  pCaravan_Dlg->pEndWidgetList = pWindow;
+    
+  /* ---------- */
+  if ( can_establish_trade_route(pHomecity, pDestcity) )
+  {
+    
+    create_active_iconlabel( pBuf , pStr ,
+	    _("Establish Traderoute") , pDestcity,
+			    caravan_establish_trade_callback );
+    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+  }
+  
+  /* ---------- */
+  if (unit_can_help_build_wonder(pUnit, pDestcity)) {
+        
+    create_active_iconlabel( pBuf , pStr ,
+	_("Help build Wonder"), pDestcity, caravan_help_build_wonder_callback);
+    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+  }
+  /* ---------- */
+  
+  create_active_iconlabel( pBuf , pStr ,
+	    _("Keep moving") , pDestcity, exit_caravan_dlg_callback );
+			    
+  set_wstate( pBuf , WS_NORMAL );
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+  w = MAX( w , pBuf->size.w );  
+  h += pBuf->size.h;
+  /* ---------- */
+  pCaravan_Dlg->pBeginWidgetList = pBuf;
+  
+  /* setup window size and start position */
+  
+  pWindow->size.w = w + DOUBLE_FRAME_WH;
+  pWindow->size.h = h;
+  
+  if ( canvas_x + NORMAL_TILE_WIDTH + (w + DOUBLE_FRAME_WH) > Main.screen->w )
+  {
+    if ( canvas_x - w >= 0 )
+    {
+      pWindow->size.x = canvas_x - (w + DOUBLE_FRAME_WH);
+    }
+    else
+    {
+      pWindow->size.x = ( Main.screen->w - (w + DOUBLE_FRAME_WH) ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+  }
+    
+  if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+  {
+    if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+    {
+      pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+    }
+    else
+    {
+      pWindow->size.y = ( Main.screen->h - h ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+  }
+        
+  resize_window( pWindow , NULL , NULL , pWindow->size.w , h );
+  
+  /* setup widget size and start position */
+    
+  pBuf = pWindow->prev;
+    
+  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
+  pBuf->size.w = w;
+  
+  pBuf = pBuf->prev;
+  while( TRUE )
+  {
+    pBuf->size.w = w;
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    if ( pBuf == pCaravan_Dlg->pBeginWidgetList ) break;
+    pBuf = pBuf->prev;
+  }
+  /* --------------------- */
+  /* redraw */
+  redraw_group(pCaravan_Dlg->pBeginWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
 }
 
 /**************************************************************************
@@ -122,17 +1589,534 @@ void popup_caravan_dialog(struct unit *punit,
 **************************************************************************/
 bool caravan_dialog_is_open(void)
 {
-  freelog(LOG_DEBUG, "caravan_dialog_is_open : PORT ME");
-  return FALSE;
+  return pCaravan_Dlg != NULL;
+}
+
+/* ====================================================================== */
+/* ============================ DIPLOMAT DIALOGs ======================== */
+/* ====================================================================== */
+static struct DIPLOMAT_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;/* window */
+} *pDiplomat_Dlg = NULL;
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_dlg_window_callback( struct GUI *pWindow )
+{
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_embassy_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+  
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_diplomat_action req;
+
+    req.action_type = DIPLOMAT_EMBASSY;
+    req.diplomat_id = id;
+    req.target_id = pCity->id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_investigate_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_diplomat_action req;
+
+    req.action_type = DIPLOMAT_INVESTIGATE;
+    req.diplomat_id = id;
+    req.target_id = pCity->id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int spy_poison_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_diplomat_action req;
+
+    req.action_type = SPY_POISON;
+    req.diplomat_id = id;
+    req.target_id = pCity->id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int spy_sabotage_popup( struct GUI *pWidget )
+{
+  popdown_diplomat_dialog();
+  /* port me */
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_sabotage_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+  
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_diplomat_action req;
+
+    req.action_type = DIPLOMAT_SABOTAGE;
+    req.diplomat_id = id;
+    req.target_id = pCity->id;
+    req.value = -1;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int spy_steal_popup( struct GUI *pWidget )
+{
+  popdown_diplomat_dialog();
+  /* port me */
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_steal_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+  
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_diplomat_action req;
+
+    req.action_type = DIPLOMAT_STEAL;
+    req.diplomat_id = id;
+    req.target_id = pCity->id;
+    req.value=0;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/****************************************************************
+...  Ask the server how much the revolt is going to cost us
+*****************************************************************/
+static int diplomat_incite_callback( struct GUI *pWidget )
+{
+  struct city *pCity = ((struct city *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+  
+  popdown_diplomat_dialog();
+  if(pCity && find_unit_by_id(id)) { 
+    struct packet_generic_integer packet;
+    packet.value = pCity->id;
+    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  }
+  
+  return -1;
+}
+
+/****************************************************************
+  Callback from diplomat/spy dialog for "keep moving".
+  (This should only occur when entering allied city.)
+*****************************************************************/
+static int diplomat_keep_moving_callback( struct GUI *pWidget )
+{
+  struct unit *pUnit = find_unit_by_id(MAX_ID - pWidget->ID);
+  struct city *pCity = ((struct city *)pWidget->data);
+  
+  popdown_diplomat_dialog();
+  
+  if( pUnit && pCity && !same_pos(pUnit->x, pUnit->y, pCity->x, pCity->y)) {
+    struct packet_diplomat_action req;
+    req.action_type = DIPLOMAT_MOVE;
+    req.diplomat_id = pUnit->id;
+    req.target_id = pCity->id;
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+  process_diplomat_arrival(NULL, 0);
+  
+  return -1;
+}
+
+/****************************************************************
+...  Ask the server how much the bribe is
+*****************************************************************/
+static int diplomat_bribe_callback( struct GUI *pWidget )
+{
+  struct packet_generic_integer packet;
+  struct unit *pTunit = ((struct unit *)pWidget->data);
+  int id = MAX_ID - pWidget->ID;
+  
+  popdown_diplomat_dialog();
+  
+  if(find_unit_by_id(id) && pTunit ) { 
+    packet.value = pTunit->id;
+    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  }
+   
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int spy_sabotage_unit_callback( struct GUI *pWidget )
+{
+  
+  struct packet_diplomat_action req;
+  
+  req.action_type = SPY_SABOTAGE_UNIT;
+  req.diplomat_id = MAX_ID - pWidget->ID;
+  req.target_id = ((struct unit *)pWidget->data)->id;
+  
+  popdown_diplomat_dialog();
+  
+  send_packet_diplomat_action(&aconnection, &req);
+  
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int diplomat_close_callback( struct GUI *pWidget )
+{
+  popdown_diplomat_dialog();
+  process_diplomat_arrival(NULL, 0);
+  return -1;
+}
+
+/**************************************************************************
+  Popdown a dialog giving a diplomatic unit some options when moving into
+  the target tile.
+**************************************************************************/
+static void popdown_diplomat_dialog(void)
+{
+  if ( !pDiplomat_Dlg ) return;
+    
+  popdown_window_group_dialog(pDiplomat_Dlg->pBeginWidgetList,
+				pDiplomat_Dlg->pEndWidgetList);
+  FREE( pDiplomat_Dlg );
+  
 }
 
 /**************************************************************************
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+void popup_diplomat_dialog(struct unit *pUnit, int target_x, int target_y)
 {
-  freelog(LOG_DEBUG, "popup_diplomat_dialog : PORT ME");
+  
+  struct GUI *pWindow = NULL, *pBuf = NULL;
+  SDL_String16 *pStr;
+  struct city *pCity;
+  struct unit *pTunit;
+  //char cBuf[255]; 
+  int w = 0, h , canvas_x , canvas_y;
+  bool spy;
+  
+  if ( pDiplomat_Dlg ) return;
+
+  pCity = map_get_city(target_x, target_y);
+  spy = unit_flag(pUnit, F_SPY);
+  
+  pDiplomat_Dlg = MALLOC(sizeof(struct DIPLOMAT_DLG));
+  
+  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
+  
+  get_canvas_xy( pUnit->x , pUnit->y , &canvas_x , &canvas_y );
+  
+  /* window */
+  if (pCity)
+  {
+    if(spy) {
+      pStr = create_str16_from_char(_("Choose Your Spy's Strategy") , 12);
+    }
+    else
+    {
+      pStr = create_str16_from_char(_(" Choose Your Diplomat's Strategy"), 12);
+    }
+  }
+  else
+  {
+    pStr = create_str16_from_char(_("Subvert Enemy Unit"), 12);
+  }
+  
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window( NULL , 10 , 10 , WF_DRAW_THEME_TRANSPARENT );
+    
+  pWindow->action = diplomat_dlg_window_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  w = MAX( w , pWindow->size.w );
+  
+  add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
+  pDiplomat_Dlg->pEndWidgetList = pWindow;
+    
+  /* ---------- */
+  if((pCity))
+  {
+    /* Spy/Diplomat acting against a city */
+    
+    /* -------------- */
+    if ( diplomat_can_do_action(pUnit, DIPLOMAT_EMBASSY, target_x, target_y) )
+    {
+	
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Establish Embassy") , pCity , diplomat_embassy_callback );
+	
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+  
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_INVESTIGATE, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    spy ? _("Investigate City (free)") : _("Investigate City"), pCity,
+			    diplomat_investigate_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+  
+    /* ---------- */
+    if (spy && diplomat_can_do_action(pUnit, SPY_POISON, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Poison City") , pCity , spy_poison_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }    
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_SABOTAGE, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Sabotage City") , pCity ,
+		spy ? spy_sabotage_popup : diplomat_sabotage_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+  
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_STEAL, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Steal Technology") , pCity ,
+		spy ? spy_steal_popup : diplomat_steal_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+      
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_INCITE, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Incite a Revolt") , pCity , diplomat_incite_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+      
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_MOVE, target_x, target_y)) {
+    
+      create_active_iconlabel( pBuf , pStr ,
+	    _("Keep moving") , pCity , diplomat_keep_moving_callback );
+    
+      set_wstate( pBuf , WS_NORMAL );
+  
+      add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+      w = MAX( w , pBuf->size.w );  
+      h += pBuf->size.h;
+    }
+  }
+  else
+  {
+    if((pTunit=unit_list_get(&map_get_tile(target_x, target_y)->units, 0))){
+       /* Spy/Diplomat acting against a unit */ 
+      /* ---------- */
+      if (diplomat_can_do_action(pUnit, DIPLOMAT_BRIBE, target_x, target_y)) {
+    
+        create_active_iconlabel( pBuf , pStr ,
+	    _("Bribe Enemy Unit") , pTunit , diplomat_bribe_callback );
+    
+        set_wstate( pBuf , WS_NORMAL );
+  
+        add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+        w = MAX( w , pBuf->size.w );  
+        h += pBuf->size.h;
+      }
+      
+      /* ---------- */
+      if (diplomat_can_do_action(pUnit, SPY_SABOTAGE_UNIT, target_x, target_y)) {
+    
+        create_active_iconlabel( pBuf , pStr ,
+	    _("Sabotage Enemy Unit") , pTunit , spy_sabotage_unit_callback );
+    
+        set_wstate( pBuf , WS_NORMAL );
+  
+        add_to_gui_list( MAX_ID - pUnit->id , pBuf );
+    
+        w = MAX( w , pBuf->size.w );  
+        h += pBuf->size.h;
+      }
+    }
+  }
+  /* ---------- */
+  
+  create_active_iconlabel( pBuf , pStr ,
+	    _("Cancel") , NULL , diplomat_close_callback );
+    
+  set_wstate( pBuf , WS_NORMAL );
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list( ID_LABEL , pBuf );
+    
+  w = MAX( w , pBuf->size.w );  
+  h += pBuf->size.h;
+  /* ---------- */
+  pDiplomat_Dlg->pBeginWidgetList = pBuf;
+  
+  /* setup window size and start position */
+  
+  pWindow->size.w = w + DOUBLE_FRAME_WH;
+  pWindow->size.h = h;
+  
+  if ( canvas_x + NORMAL_TILE_WIDTH + (w + DOUBLE_FRAME_WH) > Main.screen->w )
+  {
+    if ( canvas_x - w >= 0 )
+    {
+      pWindow->size.x = canvas_x - (w + DOUBLE_FRAME_WH);
+    }
+    else
+    {
+      pWindow->size.x = ( Main.screen->w - (w + DOUBLE_FRAME_WH) ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+  }
+    
+  if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+  {
+    if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+    {
+      pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+    }
+    else
+    {
+      pWindow->size.y = ( Main.screen->h - h ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+  }
+        
+  resize_window( pWindow , NULL , NULL , pWindow->size.w , h );
+  
+  /* setup widget size and start position */
+    
+  pBuf = pWindow->prev;
+    
+  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
+  pBuf->size.w = w;
+    
+  pBuf = pBuf->prev;
+  while( TRUE )
+  {
+    pBuf->size.w = w;
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    if ( pBuf == pDiplomat_Dlg->pBeginWidgetList ) break;
+    pBuf = pBuf->prev;
+  }
+  /* --------------------- */
+  /* redraw */
+  redraw_group(pDiplomat_Dlg->pBeginWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
+  
 }
 
 /**************************************************************************
@@ -141,8 +2125,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 **************************************************************************/
 bool diplomat_dialog_is_open(void)
 {
-  freelog(LOG_DEBUG, "diplomat_dialog_is_open : PORT ME");
-  return FALSE;
+  return pDiplomat_Dlg != NULL;
 }
 
 /**************************************************************************
@@ -172,15 +2155,194 @@ void popup_sabotage_dialog(struct city *pcity)
   freelog(LOG_DEBUG, "popup_sabotage_dialog : PORT ME");
 }
 
+/* ====================================================================== */
+/* ============================ CARAVAN DIALOG ========================== */
+/* ====================================================================== */
+static struct PILLAGE_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;/* window */
+} *pPillage_Dlg = NULL;
+
+
+static int pillage_window_callback( struct GUI *pWindow )
+{
+  return -1;
+}
+
+static int pillage_callback( struct GUI *pWidget )
+{
+  
+  struct unit *pUnit = ((struct unit *)pWidget->data);
+  enum tile_special_type what = MAX_ID - pWidget->ID;
+  
+  popdown_pillage_dialog();
+  
+  if (pUnit) 
+  {
+    request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, what);
+  }
+  
+  return -1;
+}
+
+static int exit_pillage_dlg_callback( struct GUI *pWidget )
+{
+  popdown_pillage_dialog();
+  return -1;
+}
+
+/**************************************************************************
+  Popdown a dialog asking the unit which improvement they would like to
+  pillage.
+**************************************************************************/
+static void popdown_pillage_dialog(void)
+{
+  if ( !pPillage_Dlg ) return;
+  popdown_window_group_dialog(pPillage_Dlg->pBeginWidgetList,
+				pPillage_Dlg->pEndWidgetList);
+  FREE( pDiplomat_Dlg );
+}
+
 /**************************************************************************
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit,
+void popup_pillage_dialog(struct unit *pUnit,
 			  enum tile_special_type may_pillage)
 {
-  freelog(LOG_DEBUG, "popup_pillage_dialog : PORT ME");
+  struct GUI *pWindow = NULL, *pBuf = NULL;
+  SDL_String16 *pStr;
+  enum tile_special_type what;
+  int w = 0, h , canvas_x , canvas_y;
+  
+  if ( pPillage_Dlg ) return;
+
+  pPillage_Dlg = MALLOC(sizeof(struct PILLAGE_DLG));
+  
+  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
+  
+  get_canvas_xy( pUnit->x , pUnit->y , &canvas_x , &canvas_y );
+  
+  /* window */
+  pStr = create_str16_from_char(_("What To Pillage") , 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window( pStr , 10 , 10 , WF_DRAW_THEME_TRANSPARENT );
+    
+  pWindow->action = pillage_window_callback;
+  set_wstate( pWindow , WS_NORMAL );
+  w = MAX( w , pWindow->size.w );
+  
+  add_to_gui_list(ID_PILLAGE_DLG_WINDOW, pWindow);
+  pPillage_Dlg->pEndWidgetList = pWindow;
+    
+  /* ---------- */
+  /* exit button */
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1) ,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey( pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , getpixel( pBuf->theme , 0 ,0 ));
+  
+  w += pBuf->size.w + 10;
+  pBuf->action = exit_pillage_dlg_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
+  /* ---------- */
+  
+  while (may_pillage != S_NO_SPECIAL) {
+    what = get_preferred_pillage(may_pillage);
+    
+    create_active_iconlabel( pBuf , pStr ,
+	    get_special_name(what) , pUnit , pillage_callback );
+    
+    set_wstate( pBuf , WS_NORMAL );
+  
+    add_to_gui_list( MAX_ID - what , pBuf );
+    
+    w = MAX( w , pBuf->size.w );  
+    h += pBuf->size.h;
+    
+    
+    may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
+  }
+  pPillage_Dlg->pBeginWidgetList = pBuf;
+  
+  /* setup window size and start position */
+  
+  pWindow->size.w = w + DOUBLE_FRAME_WH;
+  pWindow->size.h = h;
+  
+  if ( canvas_x + NORMAL_TILE_WIDTH + (w + DOUBLE_FRAME_WH) > Main.screen->w )
+  {
+    if ( canvas_x - w >= 0 )
+    {
+      pWindow->size.x = canvas_x - (w + DOUBLE_FRAME_WH);
+    }
+    else
+    {
+      pWindow->size.x = ( Main.screen->w - (w + DOUBLE_FRAME_WH) ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+  }
+    
+  if ( canvas_y - NORMAL_TILE_HEIGHT + h > Main.screen->h )
+  {
+    if ( canvas_y + NORMAL_TILE_HEIGHT - h >= 0 )
+    {
+      pWindow->size.y = canvas_y + NORMAL_TILE_HEIGHT - h;
+    }
+    else
+    {
+      pWindow->size.y = ( Main.screen->h - h ) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+  }
+        
+  resize_window( pWindow , NULL , NULL , pWindow->size.w , h );
+  
+  /* setup widget size and start position */
+
+  /* exit button */  
+  pBuf = pWindow->prev;
+  
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+
+  /* first special to pillage */
+  pBuf = pBuf->prev;
+  
+  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
+  pBuf->size.w = w;
+    
+  pBuf = pBuf->prev;
+  while( pBuf )
+  {
+    pBuf->size.w = w;
+    pBuf->size.x = pBuf->next->size.x;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    if ( pBuf == pPillage_Dlg->pBeginWidgetList ) break;
+    pBuf = pBuf->prev;
+  }
+  /* --------------------- */
+  /* redraw */
+  redraw_group(pPillage_Dlg->pBeginWidgetList, pWindow, 0);
+
+  refresh_rect(pWindow->size);
+  
 }
+
+/* ======================================================================= */
 
 /**************************************************************************
   Popup a dialog asking the unit how they want to "connect" their
@@ -494,9 +2656,7 @@ void popup_taxrate_dialog(void)
 					 SDL_TRUE, 2, 334,
 					 pTheme->Horiz->h - 3);
 
-  pStr =
-      create_str16_from_char(_("Select tax, luxury and science rates"),
-			     12);
+  pStr = create_str16_from_char(_("Select tax, luxury and science rates"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 440, 230, 0);
@@ -863,8 +3023,7 @@ void popup_revolution_dialog(void)
   pBeginRevolutionDlgWidgetList = pOK_Button;
 
   /* redraw */
-  redraw_group(pBeginRevolutionDlgWidgetList, pEndRevolutionDlgWidgetList,
-	       0);
+  redraw_group(pBeginRevolutionDlgWidgetList, pEndRevolutionDlgWidgetList, 0);
   refresh_rect(pWindow->size);
 }
 

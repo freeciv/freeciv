@@ -3050,15 +3050,23 @@ struct GUI *create_window(SDL_String16 * pTitle, Uint16 w, Uint16 h,
 			  Uint32 flags)
 {
   struct GUI *pWindow = MALLOC(sizeof(struct GUI));
-
+    
   pWindow->string16 = pTitle;
-  pWindow->size.w = w;
-  pWindow->size.h = h;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME | flags);
   set_wstate(pWindow, WS_DISABLED);
   set_wtype(pWindow, WT_WINDOW);
   pWindow->mod = KMOD_NONE;
 
+  if ( pTitle )
+  {
+    SDL_Rect size = str16size(pTitle);
+    w = MAX( w , size.w + 10 );
+    h = MAX( h , WINDOW_TILE_HIGH + 1 );
+  }
+  
+  pWindow->size.w = w;
+  pWindow->size.h = h;
+  
   return pWindow;
 }
 
@@ -3495,33 +3503,42 @@ void remake_label_size(struct GUI *pLabel)
   SDL_String16 *pText = pLabel->string16;
   Uint32 flags = get_wflags(pLabel);
   SDL_Rect buf = { 0, 0, 0, 0 };
-  Uint16 w = 0, h = 0;
-
+  Uint16 w = 0, h = 0 , space;
+  
+  if ( flags & WF_DRAW_TEXT_LABEL_WITH_SPACE )
+  {
+    space = 10;
+  }
+  else
+  {
+    space = 0;
+  }
+  
   if (pText) {
     pLabel->string16->style |= SF_CENTER;
     buf = str16size(pText);
 
-    w = MAX(w, buf.w);
+    w = MAX(w, buf.w + space);
     h = MAX(h, buf.h);
   }
 
   if (pIcon) {
     if (pText) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-	w = MAX(w, pIcon->w);
+	w = MAX(w, pIcon->w + space);
 	h = MAX(h, buf.h + pIcon->h + 3);
       } else {
 	if (flags & WF_ICON_CENTER) {
-	  w = MAX(w, pIcon->w);
+	  w = MAX(w, pIcon->w + space);
 	  h = MAX(h, pIcon->h);
 	} else {
-	  w = MAX(w, buf.w + pIcon->w + 5);
+	  w = MAX(w, buf.w + pIcon->w + 5 + space);
 	  h = MAX(h, pIcon->h);
 	}
       }
     } /* pText */
     else {
-      w = MAX(w, pIcon->w);
+      w = MAX(w, pIcon->w + space);
       h = MAX(h, pIcon->h);
     }
   }
@@ -3567,11 +3584,11 @@ struct GUI *create_iconlabel(SDL_Surface * pIcon, SDL_String16 * pText,
 			     Uint32 flags)
 {
   struct GUI *pILabel = NULL;
-
+/*
   if (!pIcon && !pText) {
     return NULL;
   }
-
+*/
   pILabel = MALLOC(sizeof(struct GUI));
 
   pILabel->theme = pIcon;
@@ -3638,35 +3655,47 @@ static int redraw_themelabel(struct GUI *pLabel)
 **************************************************************************/
 static int redraw_iconlabel(struct GUI *pLabel)
 {
-  int ret = 0; /* FIXME: possibly uninitialized */
+  int space , ret = 0; /* FIXME: possibly uninitialized */
   Sint16 x, xI, yI;
   Sint16 y = 0; /* FIXME: possibly uninitialized */
   SDL_Surface *pText = NULL;
-
+  Uint32 flags;
+  
   if (!pLabel) {
     return -3;
   }
 
+  flags = get_wflags(pLabel);
+  
+  if ( flags & WF_DRAW_TEXT_LABEL_WITH_SPACE )
+  {
+    space = 5;
+  }
+  else
+  {
+    space = 0;
+  }
+  
   pText = create_text_surf_from_str16(pLabel->string16);
 
   if (pLabel->theme) {		/* Icon */
     if (pText) {
-      if (get_wflags(pLabel) & WF_ICON_CENTER_RIGHT) {
-	xI = pLabel->size.w - pLabel->theme->w;
+      if (flags & WF_ICON_CENTER_RIGHT) {
+	xI = pLabel->size.w - pLabel->theme->w - space;
       } else {
-	if (get_wflags(pLabel) & WF_ICON_CENTER) {
+	if (flags & WF_ICON_CENTER) {
 	  xI = (pLabel->size.w - pLabel->theme->w) / 2;
 	} else {
-	  xI = 0;
+	  xI = space;
 	}
       }
 
-      if (get_wflags(pLabel) & WF_ICON_ABOVE_TEXT) {
+      if (flags & WF_ICON_ABOVE_TEXT) {
 	yI = 0;
 	y = pLabel->theme->h + 3
 	    + (pLabel->size.h - (pLabel->theme->h + 3) - pText->h) / 2;
       } else {
-	if (get_wflags(pLabel) & WF_ICON_UNDER_TEXT) {
+	if (flags & WF_ICON_UNDER_TEXT) {
 	  y = (pLabel->size.h - (pLabel->theme->h + 3) - pText->h) / 2;
 	  yI = y + pText->h + 3;
 	} else {
@@ -3681,7 +3710,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
       xI = (pLabel->size.w - pLabel->theme->w) / 2;
 #endif
       yI = 0;
-      xI = 0;
+      xI = space;
     }
 
     ret = blit_entire_src(pLabel->theme, Main.screen, pLabel->size.x + xI,
@@ -3692,34 +3721,34 @@ static int redraw_iconlabel(struct GUI *pLabel)
   }
 
   if (pText) {
-    if (pLabel->theme) {
-      if (!(get_wflags(pLabel) & WF_ICON_ABOVE_TEXT) &&
-	  !(get_wflags(pLabel) & WF_ICON_UNDER_TEXT)) {
-	if (get_wflags(pLabel) & WF_ICON_CENTER_RIGHT) {
+    if (pLabel->theme) { /* Icon */
+      if (!(flags & WF_ICON_ABOVE_TEXT) &&
+	  !(flags & WF_ICON_UNDER_TEXT)) {
+	if (flags & WF_ICON_CENTER_RIGHT) {
 	  if (pLabel->string16->style & SF_CENTER) {
-	    x = (pLabel->size.w - (pLabel->theme->w + 5) - pText->w) / 2;
+	    x = (pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w)/2;
 	  } else {
 	    if (pLabel->string16->style & SF_CENTER_RIGHT) {
-	      x = pLabel->size.w - (pLabel->theme->w + 5) - pText->w;
+	      x = pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w;
 	    } else {
-	      x = 0;
+	      x = space;
 	    }
 	  }
 	} /* WF_ICON_CENTER_RIGHT */
 	else {
-	  if (get_wflags(pLabel) & WF_ICON_CENTER) {
+	  if (flags & WF_ICON_CENTER) {
 	    /* text is blit on icon */
 	    goto Alone;
 	  } else {		/* WF_ICON_CENTER_LEFT */
 	    if (pLabel->string16->style & SF_CENTER) {
-	      x = pLabel->theme->w + 5 + ((pLabel->size.w -
-					   (pLabel->theme->w + 5) -
+	      x = space + pLabel->theme->w + 5 + ((pLabel->size.w -
+					   (space + pLabel->theme->w + 5) -
 					   pText->w) / 2);
 	    } else {
 	      if (pLabel->string16->style & SF_CENTER_RIGHT) {
-		x = pLabel->size.w - pText->w;
+		x = pLabel->size.w - pText->w - space;
 	      } else {
-		x = pLabel->theme->w + 5;
+		x = space + pLabel->theme->w + 5;
 	      }
 	    }
 	  }			/* WF_ICON_CENTER_LEFT */
@@ -3728,16 +3757,17 @@ static int redraw_iconlabel(struct GUI *pLabel)
       else {
 	goto Alone;
       }
-    } /* pLabel->theme */
+    } /* pLabel->theme == Icon */
     else {
       y = (pLabel->size.h - pText->h) / 2;
-    Alone:if (pLabel->string16->style & SF_CENTER) {
+    Alone:
+      if (pLabel->string16->style & SF_CENTER) {
 	x = (pLabel->size.w - pText->w) / 2;
       } else {
 	if (pLabel->string16->style & SF_CENTER_RIGHT) {
-	  x = pLabel->size.w - pText->w;
+	  x = pLabel->size.w - pText->w - space;
 	} else {
-	  x = 0;
+	  x = space;
 	}
       }
     }

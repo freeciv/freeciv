@@ -68,7 +68,8 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
   {138, 114, 82, 255},		/* Background2 (brown) */
   {190, 190, 190, 255},		/* Grid line color */
   {0, 200, 0, 150},		/* Quick info (green) */
-  {0, 0, 0, 128}		/* FOG OF WAR color */
+  {0, 0, 0, 128},		/* FOG OF WAR color */
+  {90, 90, 90, 255}		/* disable color */
 };
 
 /**************************************************************************

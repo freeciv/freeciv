@@ -28,7 +28,8 @@ enum SDLClient_std_color {
   COLOR_STD_BACKGROUND_BROWN = COLOR_STD_LAST,	/* Background2 (brown) */
   COLOR_STD_GRID,		/* Grid line color */
   QUICK_INFO,			/* Quick info Background color */
-  COLOR_STD_FOG_OF_WAR,		/* FOG OF WAR color */	
+  COLOR_STD_FOG_OF_WAR,		/* FOG OF WAR color */
+  COLOR_STD_DISABLED,		/* FOG OF WAR color */
   SDLCLIENT_STD_COLOR_LAST
 };
 

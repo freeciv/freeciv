@@ -26,8 +26,9 @@
 #include "dialogs_g.h"
 
 struct tile;
-
+  
+void popup_advanced_terrain_dialog(int x , int y);
 void popdown_revolution_dialog(void);
 void popup_taxrate_dialog(void);
 
-#endif				/* FC__DIALOGS_H */
+#endif	/* FC__DIALOGS_H */

@@ -240,6 +240,7 @@ void flush_mapcanvas( int canvas_x , int canvas_y ,
 		     int pixel_width , int pixel_height )
 {
    refresh_screen( canvas_x, canvas_y,
+/*     add_refresh_region( canvas_x, canvas_y,*/
       (Uint16)pixel_width, (Uint16)pixel_height );	
    /* refresh_rects();
       refresh_fullscreen(); */
@@ -338,7 +339,7 @@ void center_tile_mapcanvas(int col, int row)
 	  1000.0 * read_timer_seconds_free(ttt));
 #endif
   
-    refresh_fullscreen();
+    /*refresh_fullscreen();*/
 
   /*update_map_canvas_scrollbars(); */
   /*refresh_overview_viewrect(); */
@@ -1481,9 +1482,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   
     return;
   }
-
- fill_dither_buffers( pDitherBufs , map_col, map_row , pTile->terrain );
-
   
 #if 0
   /* Replace with check for is_normal_tile later */
@@ -1496,6 +1494,11 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   pUnit = get_drawable_unit(map_col, map_row, citymode);
   pFocus = get_unit_in_focus();
   full_ocean = is_full_ocean(pTile->terrain, map_col, map_row );
+
+  if ( !full_ocean && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
+  { 
+    fill_dither_buffers( pDitherBufs , map_col, map_row , pTile->terrain );
+  }
   
   if ( fog && !full_ocean ) {
     des.x = 0;
@@ -1551,7 +1554,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     des = dst;
     /*** Dither base terrain ***/
 
-    if ( !full_ocean )
+    if ( !full_ocean && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
     {
       /* north */
       if ( pDitherBufs[0] ) {
@@ -1696,6 +1699,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
     if (!pCity
 	&& unit_list_size( &(pTile->units) ) > 1) {
+      des.y -= NORMAL_TILE_HEIGHT / 2;	  
       SDL_BlitSurface((SDL_Surface *) sprites.unit.stack, NULL,
 		      pBufSurface, &des);
       des = dst;		
@@ -1825,6 +1829,8 @@ static void redraw_map_widgets(void)
   /* redraw Log window */
   Redraw_Log_Window(2);
 
+  refresh_fullscreen();
+  
 #ifdef DRAW_TIMING
   freelog(LOG_NORMAL, "redraw_map_widgets = %fms\n============================",
 	  1000.0 * read_timer_seconds_free(tttt));
@@ -2123,6 +2129,56 @@ SDL_Surface *create_city_map(struct city *pCity)
   FREESURFACE(pTile);
 
   return pDest;
+}
+
+
+SDL_Surface * get_terrain_surface(int x , int y)
+{
+  SDL_Surface *pSurf = create_surf(UNIT_TILE_WIDTH,
+			           UNIT_TILE_HEIGHT,
+			           SDL_SWSURFACE);
+  int fg = draw_fog_of_war,
+     ci = draw_cities ,
+     tr = draw_terrain ,
+     rr = draw_roads_rails,
+     ir = draw_irrigation,
+     un = draw_units,
+     gr = draw_map_grid,
+     pl = draw_pollution ,
+     fa = draw_fortress_airbase,
+     mi = draw_mines;
+  
+  draw_fog_of_war = FALSE;
+  draw_cities = FALSE;
+  draw_terrain = TRUE;
+  draw_roads_rails = FALSE;
+  draw_irrigation = FALSE;
+  draw_units = FALSE;
+  draw_map_grid = FALSE;
+  draw_pollution = FALSE;
+  draw_fortress_airbase = FALSE;
+  draw_mines = FALSE;
+  
+  SDL_Client_Flags &= ~CF_DRAW_MAP_DITHER;
+  
+  draw_map_cell( pSurf, 0, NORMAL_TILE_HEIGHT / 2, x , y , 0 );
+    
+  SDL_SetColorKey( pSurf , SDL_SRCCOLORKEY|SDL_RLEACCEL , 0x0 );
+  
+  SDL_Client_Flags |= CF_DRAW_MAP_DITHER;
+  
+  draw_fog_of_war = fg;
+  draw_cities = ci;
+  draw_terrain = tr;
+  draw_roads_rails = rr;
+  draw_irrigation = ir;
+  draw_units = un;
+  draw_map_grid = gr;
+  draw_pollution = pl;
+  draw_fortress_airbase = fa;
+  draw_mines = mi;
+  
+  return pSurf;
 }
 
 /* =====================================================================

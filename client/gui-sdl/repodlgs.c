@@ -882,7 +882,7 @@ static int change_research_goal(struct GUI *pWidget)
 **************************************************************************/
 void popup_science_dialog(bool make_modal)
 {
-  struct GUI *pBuf, *pWindow;
+  struct GUI *pBuf = NULL, *pWindow = NULL;
   SDL_String16 *pStr;
   /*SDL_Surface *pLogo; */
 
