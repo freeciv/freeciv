@@ -25,10 +25,9 @@
 #include "player.h"
 #include "support.h"
 #include "tech.h"
-#include "shared.h" /* ARRAY_SIZE */
+#include "shared.h"
 
 #include "unittype.h"
-
 
 struct unit_type unit_types[U_LAST];
 /* the unit_types array is now setup in:
@@ -133,7 +132,9 @@ bool is_water_unit(Unit_Type_id id)
 int utype_shield_cost(struct unit_type *ut, struct government *g)
 {
   if (government_has_flag(g, G_FANATIC_TROOPS) &&
-      TEST_BIT(ut->flags, F_FANATIC)) return 0;
+      BV_ISSET(ut->flags, F_FANATIC)) {
+    return 0;
+  }
   return ut->shield_cost * g->unit_shield_cost_factor;
 }
 
@@ -167,7 +168,7 @@ int utype_gold_cost(struct unit_type *ut, struct government *g)
 bool unit_type_flag(Unit_Type_id id, int flag)
 {
   assert(flag>=0 && flag<F_LAST);
-  return TEST_BIT(unit_types[id].flags, flag);
+  return BV_ISSET(unit_types[id].flags, flag);
 }
 
 /**************************************************************************
@@ -184,7 +185,7 @@ bool unit_flag(struct unit *punit, enum unit_flag_id flag)
 bool unit_has_role(Unit_Type_id id, int role)
 {
   assert(role>=L_FIRST && role<L_LAST);
-  return TEST_BIT(unit_types[id].roles, (role - L_FIRST));
+  return BV_ISSET(unit_types[id].roles, role - L_FIRST);
 }
 
 /**************************************************************************
@@ -547,7 +548,7 @@ Unit_Type_id get_role_unit(int role, int index)
 
 /**************************************************************************
 Return "best" unit this city can build, with given role/flag.
-Returns U_LAST if none match.
+Returns U_LAST if none match. "Best" means highest unit type id.
 **************************************************************************/
 Unit_Type_id best_role_unit(struct city *pcity, int role)
 {

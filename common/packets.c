@@ -115,6 +115,8 @@ static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop)
 static unsigned char *put_bit_string(unsigned char *buffer, char *str);
 static unsigned char *put_city_map(unsigned char *buffer, char *str);
 static unsigned char *put_tech_list(unsigned char *buffer, const int *techs);
+static unsigned char *put_memory(unsigned char *buffer, const void *src,
+				 size_t size);
 
 /* iget = iterator versions */
 static void iget_uint8(struct pack_iter *piter, int *val);
@@ -131,6 +133,7 @@ static void iget_string(struct pack_iter *piter, char *mystring, size_t navail);
 static void iget_bit_string(struct pack_iter *piter, char *str, size_t navail);
 static void iget_city_map(struct pack_iter *piter, char *str, size_t navail);
 static void iget_tech_list(struct pack_iter *piter, int *techs);
+static void iget_memory(struct pack_iter *piter, void *dest, size_t size);
 
 /* Use the above iget versions instead of the get versions below,
  * except in special cases --dwp */
@@ -147,6 +150,16 @@ static void swab_puint16(int *ptr);
 static void swab_puint32(int *ptr);
 static int send_packet_data(struct connection *pc, unsigned char *data,
 			    int len);
+
+/* Bitvector convenience macros. */
+#define BV_PUT(buf, bv) \
+  put_memory(buf, (bv).vec, sizeof((bv).vec))
+
+#define BV_GET(buf, bv) \
+  get_memory(buf, (bv).vec, sizeof((bv).vec))
+
+#define BV_IGET(buf, bv) \
+  iget_memory(buf, (bv).vec, sizeof((bv).vec))
 
 /**************************************************************************
 Swap bytes on an integer considered as 16 bits
@@ -667,6 +680,38 @@ static unsigned char *get_sint8(unsigned char *buffer, int *val)
   return buffer+1;
 }
 #endif
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void iget_memory(struct pack_iter *piter, void *dest, size_t size)
+{
+  unsigned char *buf = dest;
+  size_t i;
+
+  assert(piter != NULL);
+  for (i = 0; i < size; i++) {
+    int val;
+
+    iget_uint8(piter, &val);
+    buf[i] = val;
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static unsigned char *put_memory(unsigned char *buffer, const void *src,
+				 size_t size)
+{
+  const unsigned char *buf = src;
+  size_t i;
+
+  for (i = 0; i < size; i++) {
+    buffer = put_uint8(buffer, buf[i]);
+  }
+  return buffer;
+}
 
 /**************************************************************************
 ...
@@ -2894,8 +2939,24 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_uint8(cptr, packet->firepower);
   cptr=put_uint8(cptr, packet->obsoleted_by);
   cptr=put_uint8(cptr, packet->fuel);
-  cptr=put_uint32(cptr, packet->flags);
-  cptr=put_uint32(cptr, packet->roles);
+  if (!has_capability("unitbv", pc->capability)) {
+    int i, value;
+
+    value = 0;
+    for (i = 0; i < 32; i++) {
+      value |= COND_SET_BIT(BV_ISSET(packet->flags, i), i);
+    }
+    cptr = put_uint32(cptr, value);
+
+    value = 0;
+    for (i = 0; i < 32; i++) {
+      value |= COND_SET_BIT(BV_ISSET(packet->roles, i), i);
+    }
+    cptr = put_uint32(cptr, value);
+  } else {
+    cptr = BV_PUT(cptr, packet->flags);
+    cptr = BV_PUT(cptr, packet->roles);
+  }
   cptr=put_uint8(cptr, packet->happy_cost);   /* unit upkeep -- SKi */
   cptr=put_uint8(cptr, packet->shield_cost);
   cptr=put_uint8(cptr, packet->food_cost);
@@ -2946,8 +3007,28 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_uint8(&iter, &packet->obsoleted_by);
   if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
   iget_uint8(&iter, &packet->fuel);
-  iget_uint32(&iter, &packet->flags);
-  iget_uint32(&iter, &packet->roles);
+  if (!has_capability("unitbv", pc->capability)) {
+    int val, i;
+
+    BV_CLR_ALL(packet->flags);
+    iget_uint32(&iter, &val);
+    for (i = 0; i < 32; i++) {
+      if (TEST_BIT(val, i)) {
+	BV_SET(packet->flags, i);
+      }
+    }
+
+    BV_CLR_ALL(packet->roles);
+    iget_uint32(&iter, &val);
+    for (i = 0; i < 32; i++) {
+      if (TEST_BIT(val, i)) {
+	BV_SET(packet->roles, i);
+      }
+    }
+  } else {
+    BV_IGET(&iter, packet->flags);
+    BV_IGET(&iter, packet->roles);
+  }
   iget_uint8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
   iget_uint8(&iter, &packet->shield_cost);
   iget_uint8(&iter, &packet->food_cost);
@@ -2960,8 +3041,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->sound_fight, sizeof(packet->sound_fight));
   iget_string(&iter, packet->sound_fight_alt,
 	      sizeof(packet->sound_fight_alt));
-
-  if(TEST_BIT(packet->flags, F_PARATROOPERS)) {
+  if (BV_ISSET(packet->flags, F_PARATROOPERS)) {
     iget_uint16(&iter, &packet->paratroopers_range);
     iget_uint8(&iter, &packet->paratroopers_mr_req);
     iget_uint8(&iter, &packet->paratroopers_mr_sub);

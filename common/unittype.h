@@ -111,6 +111,7 @@ enum unit_flag_id {
 			 these units */
   F_LAST
 };
+#define F_MAX 64
 
 /* Unit "roles": these are similar to unit flags but differ in that
    they don't represent intrinsic properties or abilities of units,
@@ -123,7 +124,7 @@ enum unit_flag_id {
    so some functions can use them interchangably.
    See data/default/units.ruleset for documentation of their effects.
 */
-#define L_FIRST 64		/* should be >= F_LAST */
+#define L_FIRST F_MAX
 enum unit_role_id {
   L_FIRSTBUILD=L_FIRST, /* is built first when city established */
   L_EXPLORER,           /* initial explorer unit */
@@ -145,7 +146,10 @@ enum unit_role_id {
   L_BARBARIAN_SEA_TECH, /* sea raider unit, global tech required */
   L_LAST
 };
+#define L_MAX 64
 
+BV_DEFINE(bv_flags, F_MAX);
+BV_DEFINE(bv_roles, L_MAX);
 struct unit_type {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
@@ -170,8 +174,8 @@ struct unit_type {
   int obsoleted_by;
   int fuel;
 
-  unsigned int flags;
-  unsigned int roles;
+  bv_flags flags;
+  bv_roles roles;
 
   int happy_cost;  /* unhappy people in home city */
   int shield_cost; /* normal upkeep cost */

@@ -74,6 +74,21 @@ typedef int bool;
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
+/* Bitvectors. */
+#define _BV_BYTES(bits)		(((bits-1)/8)+1)
+#define _BV_BITMASK(bit)	(1u << ((bit) & 0x7))
+#define BV_ISSET(bv, bit) \
+  (((bv).vec[_BV_BYTES(bit)] & _BV_BITMASK(bit)) != 0)
+#define BV_SET(bv, bit) \
+  do { (bv).vec[_BV_BYTES(bit)] |= _BV_BITMASK(bit); } while(FALSE)
+#define BV_CLR(bv, bit) \
+  do { (bv).vec[_BV_BYTES(bit)] &= ~_BV_BITMASK(bit); } while(FALSE)
+#define BV_CLR_ALL(bv) \
+  do { memset((bv).vec, 0, sizeof((bv).vec)); } while(FALSE)
+
+#define BV_DEFINE(name, bits) \
+  typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name;
+
 char *create_centered_string(char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);

@@ -714,8 +714,9 @@ static void load_ruleset_units(struct section_file *file)
   /* flags */
   unit_type_iterate(i) {
     u = &unit_types[i];
-    u->flags = 0;
-    
+    BV_CLR_ALL(u->flags);
+    assert(!unit_type_flag(i, F_LAST-1));
+
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
     for(j=0; j<nval; j++) {
       sval = slist[j];
@@ -725,8 +726,8 @@ static void load_ruleset_units(struct section_file *file)
       if (strcmp(sval, "Submarine")==0) {
 	/* Backwards compatibility */
 	freelog(LOG_NORMAL, "Old-style \"Submarine\" flag in %s (ok)", filename);
-	u->flags |= (1<<F_NO_LAND_ATTACK);
-	u->flags |= (1<<F_MISSILE_CARRIER);
+	BV_SET(u->flags, F_NO_LAND_ATTACK);
+	BV_SET(u->flags, F_MISSILE_CARRIER);
 	ival = F_PARTIAL_INVIS;
       } else {
 	ival = unit_flag_from_str(sval);
@@ -735,7 +736,8 @@ static void load_ruleset_units(struct section_file *file)
 	freelog(LOG_ERROR, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
-      u->flags |= (1<<ival);
+      BV_SET(u->flags, ival);
+      assert(unit_type_flag(i, ival));
 
       if(ival == F_PARATROOPERS) {
         u->paratroopers_range = secfile_lookup_int(file,
@@ -756,7 +758,7 @@ static void load_ruleset_units(struct section_file *file)
   /* roles */
   unit_type_iterate(i) {
     u = &unit_types[i];
-    u->roles = 0;
+    BV_CLR_ALL(u->roles);
     
     slist = secfile_lookup_str_vec(file, &nval, "%s.roles", sec[i] );
     for(j=0; j<nval; j++) {
@@ -769,14 +771,14 @@ static void load_ruleset_units(struct section_file *file)
 	freelog(LOG_ERROR, "for unit_type \"%s\": bad role name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
-      u->roles |= (1<<(ival-L_FIRST));
+      BV_SET(u->roles, ival - L_FIRST);
+      assert(unit_has_role(i, ival));
     }
     free(slist);
   } unit_type_iterate_end;
 
   lookup_tech_list(file, "u_specials", "partisan_req",
 		   game.rtech.partisan_req, filename);
-
 
   /* Some more consistency checking: */
   unit_type_iterate(i) {

@@ -19,6 +19,7 @@
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
 #include "worklist.h"
+#include "unittype.h"
 
 #define MAX_LEN_USERNAME        10        /* see below */
 #define MAX_LEN_MSG             1536
@@ -597,8 +598,9 @@ struct packet_ruleset_unit {
   int firepower;
   int obsoleted_by;
   int fuel;
-  int flags;
-  int roles;			/* a client-side-ai might be interested */
+
+  bv_flags flags;
+  bv_roles roles;
 
   int happy_cost;  /* unhappy people in home city */
   int shield_cost; /* normal upkeep cost */
