@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 15:35+0100\n"
+"PO-Revision-Date: 2005-01-30 17:21+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5124,7 +5124,7 @@ msgstr "popis"
 
 #: server/stdinhand.c:1995
 msgid "Try 'show situational' or 'show rare' to show more options"
-msgstr ""
+msgstr "Zkuste 'show situational' nebo 'show rare' pro zobrazení více možností"
 
 #: server/stdinhand.c:2042
 msgid "Cannot change teams once game has begun."
@@ -5963,9 +5963,9 @@ msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:863
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
-msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
+msgstr "Hra: Naložena naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:878
 #, c-format
@@ -6061,9 +6061,9 @@ msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Hra: %s ztracena při útoku %s %s."
 
 #: server/unittools.c:2012
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was nuked by %s."
-msgstr "Hra: Váš %s byl sabotován hráčem %s!"
+msgstr "Hra: Na náš %s podnikli %s jaderný útok!"
 
 #: server/unittools.c:2014
 #: server/unittools.c:2030
@@ -6076,9 +6076,9 @@ msgid "Game: %s's %s was nuked."
 msgstr "Hra: Na %s %s byl proveden jaderný útok."
 
 #: server/unittools.c:2028
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s was nuked by %s."
-msgstr "Hra: Váš %s byl sabotován hráčem %s!"
+msgstr "Hra: Na %s podnikli %s jaderný útok!"
 
 #: server/unittools.c:2035
 #, c-format
@@ -8734,6 +8734,8 @@ msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
 "a sprite offset with a cell-based drawing method."
 msgstr ""
+"Chyba ve %s vrstvě %d: nemůžete mít vyšší terén nebo\n"
+"offset spritu při použití metody vykreslování buněk."
 
 #: client/tilespec.c:1179
 #, c-format
@@ -10487,9 +10489,9 @@ msgstr "Města: %d celkem, %d nad hranicí z %d měst.\n"
 #: client/gui-gtk/happiness.c:249
 #: client/gui-mui/citydlg.c:2222
 #: client/gui-win32/happiness.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "%d content before penalty with "
-msgstr "Styly bez obsahu"
+msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:245
 #: client/gui-gtk/happiness.c:251
@@ -12113,9 +12115,8 @@ msgstr "_Zrušit dohodu"
 #: client/gui-gtk-2.0/plrdlg.c:411
 #: client/gui-gtk/plrdlg.c:206
 #: client/gui-mui/plrdlg.c:335
-#, fuzzy
 msgid "_Withdraw vision"
-msgstr "?vision:Oba"
+msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:418
 #: client/gui-gtk/plrdlg.c:212
@@ -13221,6 +13222,11 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
+"Tato věčná smlouva\n"
+"obsahuje výsledky diplomatické práce mezi\n"
+"%s %s %s\n"
+"a\n"
+"%s %s %s"
 
 #: client/gui-gtk/diplodlg.c:541
 #: client/gui-gtk/diplodlg.c:550
@@ -14062,6 +14068,12 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
+"Tato věčná smlouva\n"
+"obsahuje výsledky\n"
+"diplomatické práce mezi\n"
+"%s %s %s\n"
+"a\n"
+"%s %s %s"
 
 #: client/gui-mui/finddlg.c:99
 msgid "Select a city"
@@ -14666,6 +14678,13 @@ msgid ""
 "Success prob.:\n"
 "Year of arrival:"
 msgstr ""
+"Populace:\n"
+"Podpora:\n"
+"Energie:\n"
+"Hmotnost:\n"
+"Doba letu:\n"
+"Úspěšnost proc.:\n"
+"Rok doletu:"
 
 #: client/gui-mui/spaceshipdlg.c:268
 #, c-format
@@ -14935,9 +14954,8 @@ msgstr "Zrušit dohodu"
 
 #: client/gui-win32/plrdlg.c:360
 #: data/Freeciv.in:3261
-#, fuzzy
 msgid "Withdraw vision"
-msgstr "?vision:Oba"
+msgstr ""
 
 #: client/gui-win32/repodlgs.c:251
 msgid "Science Report"
@@ -15536,9 +15554,8 @@ msgstr "Diplomacie"
 
 #: data/Freeciv.in:474
 #: data/Freeciv.in:483
-#, fuzzy
 msgid "Shared vision"
-msgstr "%s dovolí nahlížet do svých map"
+msgstr ""
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
@@ -15854,7 +15871,7 @@ msgstr " Ok "
 
 #: data/Freeciv.in:3216
 msgid "Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host"
-msgstr ""
+msgstr "Jméno            Národ         Ambasáda  Dipl.stav      Nahlížení   Reputace      Stav    Hostitel"
 
 #: data/Freeciv.in:3253
 msgid "Cancel pact"
@@ -15949,7 +15966,6 @@ msgid "When the game has started, everyone can connect as any player who isn't a
 msgstr "Pokud je hra spuštěna, každý se může přihlásit jako libovolný hráč, který ještě není připojen, včetně hráčů řízenných počítačem. S tím, že připojování se na hřáče řízeného počítačem ho ještě nenastaví na řízeného člověkem, to je nezávislé nastavení serveru.  Pokud ztratíte spojení časně ze začátku hry, použijte jméno svého zvoleného vůdce, ne svoji přezdívku!  Pokud se server hlásí na metaserveru, mohou tam být jména hráčů nalezena."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15986,62 +16002,44 @@ msgid ""
 "    x: auto-e(x)plore\n"
 "space: unit stay put\n"
 msgstr ""
-"Klávesnice:\n"
-"=========\n"
-"  a: (a)utomatický osadník  (osadník/pracovníci/inženýři)\n"
-"  a: (a)utomatický ůtok  (vojenské jednotky)\n"
+"Rozkazy jednotky:\n"
+"================\n"
+"  a: (a)utomatický osadník  (osadník/pracovník)\n"
+"  a: (a)utomatický útok  (vojenské jednotky)\n"
 "  b: (b) založit město  (osadník)\n"
 "  b: pomoci se stav(b)ou divu světa  (karavana)\n"
 "  c: vy(c)entrovat výhled na jednotku\n"
-"  C: unit (c)onnect  (následováno levým kliknutím pro volbu cíle)\n"
-"  d: akce pro (d)iplomata/špiona  (diplomat/špion)\n"
+"  C: spojit  (následováno levým kliknutím pro volbu cíle)\n"
+"  d: akce pro (d)iplomata/špióna  (diplomat/špión)\n"
 "  D: Rozpustit je(D)notku\n"
-"  e: Postavit leteckou základnu  (osadník/pracovník/inženýr)\n"
+"  e: Postavit leteckou základnu  (osadník/pracovník)\n"
 "  f: Opevnit jednotku (f)  (vojenské jednotky)\n"
-"  f: postavit opevnění (f)  (osadníci/pracovníci/inženýři)\n"
-"  F: optevře dialog pro hledání města (F)\n"
+"  f: postavit opevnění (f)  (osadníci/pracovníci)\n"
 "  g: jdi (g)  (následováno udáním pozice levým kliknutím)\n"
 "  g: zadání pomocných bodů pro pohyb (g) (při zadávání cesty)\n"
-"  h: zvol nove homovské město (h)  (na město, ve kterém se zrovna nachází)\n"
-"  i: postav zavlažování (i)  (osadníci/pracovníci/inženýři; může měnit terén)\n"
-"  l: (l)etecký most do města\n"
-"  L: Otevře pracovní seznam (L) (???)\n"
-"  m: postav doly (m)  (osadníci/pracovníci/inženýři; může měnit terén)\n"
+"  h: zvol nové domovské město (h)  (na město, ve kterém se zrovna nachází)\n"
+"  i: postav zavlažování (i) nebo změň terén  (osadníci/pracovníci)\n"
+"  l: na(l)ožit jednotku na loď\n"
+"  L: (l)etecký most do města\n"
+"  m: postav doly (m) nebo změna terénu (osadníci/pracovníci)\n"
 "  n: odstraň nukleární odpad\n"
-"  N: Odpal (N)ucleární střelu\n"
+"  N: Odpal (N) Jadernou střelu\n"
 "  o: přeměň terén (o)\n"
 "  p: odstraň od(p)ad  (osadníci/pracovníci/inženýři)\n"
 "  p: výsadek (p)  (výsadkáři)\n"
-"  P: drancovat (P)\n"
+"  P: (P)lenit\n"
 "  q: hlídkovat  (následováno udáním pozice levým kliknutím)\n"
 "\n"
 "  q: přidat další místo při cestě hlídky (při zadávání hlídky)\n"
-"  r: postavit cestu/železnici (r)  (osadníci/pracovníci/inženýři)\n"
+"  r: postavit cestu/železnici (r)  (osadníci/pracovníci)\n"
 "  r: vybudovat obchodní cestu (r)  (karavana)\n"
-"  R: vyvolat (R)evoluci\n"
 "  s: nechat jednotku (s)trážit\n"
-"  t: ukaž, která políčka město využívá (t)  (platí pro město, u kerého je myš)\n"
-"  T: o(T)evři dialog s nastavením daní/luxusu/výzkumu\n"
 "  u: vyložit loď (u)\n"
+"  U: (U) Vyložit všechny jednotky z lodi\n"
 "  w: počkej na pozdější část kola (w)\n"
 "  W: probudit ostatní jednotky na políčku (W)\n"
 "  x: automatický průzkum (x)\n"
-"\n"
-"  1: pohyb na jiho-západ              F1: Seznam měst\n"
-"  2: pohyb na jih                     F2: Seznam jednotek\n"
-"  3: pohyb ma jiho-východ             F3: Seznam hráčů\n"
-"  4: pohyb na západ                   F5: Ekonomika\n"
-"  5: aktivuj předchozí jednotku       F6: Výzkum\n"
-"  6: pohyb na východ                  F7: Divy světa\n"
-"  7: pohyb na severo-západ            F8: 5 nejlepších měst\n"
-"  8: pohyb na sever                  F10: Zprávy\n"
-"  9: pohyb na severo-východ          F11: Demografické údaje\n"
-"                                     F12: Vesmírná loď\n"
-"\n"
-"    home: vycentrovat na hlavní město\n"
-"   šipky: posun mapy                 Control-g: mřížka mapy zap/vyp\n"
-"mezerník: jednotka vynechá tah       Control-n: názvy měst zap/vyp\n"
-"  return: tah dokončen               Control-p: produkce měst zap/vyp\n"
+"mezerník: jednotka vynechá tah\n"
 
 #: data/helpdata.txt:468
 msgid ""
@@ -16102,7 +16100,6 @@ msgstr ""
 "             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
 
 #: data/helpdata.txt:495
-#, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -16128,29 +16125,30 @@ msgid ""
 "  The cities that become highlighted on the map,\n"
 "  will also be highlighted in the City Report."
 msgstr ""
-"Myš:\n"
-"======\n"
-"  Levý-klik:  (na město):   Zobrazí okno nastavení města\n"
-"             (na jednotku): Aktivuje jednotku\n"
+"Hlavní mapa (myš):\n"
+"=================\n"
+"  Levý-klik na město:   Zobrazí okno města\n"
+"  Levý klik na jednotku: Aktivuje jednotku\n"
+"  Levý klik a drag na jednotku: Přesun jednotky\n"
 "  Střední-klik:              Ukáže vlastnosti políčka\n"
 "  Pravý klik:                Vycentruje výhled na políčko\n"
 "\n"
-"  Shift-Levý-klik: (na město nebo jednotku): Kopírovat produkci (GTK)\n"
-"  Shift-Pravý-klik: (na město):              Vložit produkci do města (GTK)\n"
+"  Shift-Levý-klik:                   Kopírovat produkci (GTK)\n"
+"  Shift-Pravý-klik na město:    Vložit produkci do města (GTK)\n"
 "\n"
 "  Shift-Ctrl-Levý-klik:     Přizpůsobí zaměstnanost pracovníků ve městě\n"
 "  Ctrl-Střední-klik:        Probudí stážící jednotky\n"
 "\n"
-"  Pravý-klik-a-potáhnout:   Přjít na režim výběru oblasti (GTK)\n"
-"\n"
-"  V režimu výběru oblasti:\n"
-"  =======================\n"
-"  Levý-klik:         Přepíná výběr políčka\n"
-"  Pravý-klik:        Zruší režim výběru oblasti\n"
-"\n"
+"   V režimu výběru oblasti (GTK):\n"
+"  =============================\n"
+"  Levý-klik a drag:         Vstup do výběru políčka\n"
+"  Levý-klik:           Přepne zvýraznění políčka\n"
 "  Shift-Pravý-klik:  Vložit produkci vybraným městům\n"
 "\n"
-"  Města vybraná na mapě, budou označena i v seznamu měst."
+"  Pravý-klik:        Zruší režim výběru oblasti\n"
+"\n"
+"  Města zvýrazněná na mapě,\n"
+" budou zvýrazněna i v přehledu měst."
 
 #: data/helpdata.txt:519
 msgid ""
@@ -16204,7 +16202,7 @@ msgstr "  - Zprávy začínající '/' jsou interpretovány jako serverové př�
 
 #: data/helpdata.txt:549
 msgid "  - Messages starting with 'John:' are private messages to 'John'. Names can be abbreviated. The server looks for players named 'John' and if that fails tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr ""
+msgstr "  - Zprávy začínající na 'John:' jsou soukromé zprávy pro 'John'. Jména mohou být zkrácena. Server hledá hráče se jménem 'John' a pokud niho nenajde, zkusí uživatelské jméno začínající na 'John' (např. 'Johnathan')."
 
 #: data/helpdata.txt:554
 msgid "  - Messages starting with 'John::' are private messages as above, but will match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -16232,7 +16230,7 @@ msgstr "Položku z pracovního listu odeberete jednoduše tak, že na ni dvakrá
 
 #: data/helpdata.txt:575
 msgid "Keyboard shortcuts: Home to focus the worklist, End to focus the available list, Up/Down arrows to select previous/next item in worklist or available list, PageUp/Down to move items up/down in the worklist, Insert to insert items from the available list into the worklist and Delete to delete the selected item from the worklist."
-msgstr ""
+msgstr "Klávesové zkratky: Home pro aktivaci seznamu prací, End pro aktivaci dostupného seznamu, Šipky nahoru/dolů pro výběr předchozí/následující položky v seznamu prací nebo dostupném seznamu, PageUp/Down pro přesun položek nahodu/dolů v seznamu prací, Insert pro vložení položek z dostupného seznamu do seznamu prací a Delete pro smazání vybrané položky ze seznamu prací."
 
 #: data/helpdata.txt:581
 msgid "If you want to buy the unit that's first on the list, you can do that from the City Overview window."
@@ -21471,7 +21469,7 @@ msgstr "?plural:Peršané"
 
 #: data/nation/persian.ruleset:6
 msgid "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the second (Sassanid) from 226AD to 642AD."
-msgstr ""
+msgstr "První Perské (Achaemenid) Impérium trvalo od 550 - 330 př.n.l.; druhé (Sassanid) od 226 - 642 n.l."
 
 #: data/nation/persian.ruleset:15
 msgid "Shah"
