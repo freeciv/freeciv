@@ -1268,7 +1268,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     return;
   }
 
-  city_reduce_size(pcity, 1);
   coins = cplayer->economic.gold;
   coins = myrand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
   pplayer->economic.gold += coins;
@@ -1304,7 +1303,10 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   get_a_tech(pplayer, cplayer);
   make_partisans(pcity);
 
+  /* We transfer the city first so that it is in a consistent state when
+   * the size is reduced. */
   transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE);
+  city_reduce_size(pcity, 1);
   send_player_info(pplayer, pplayer); /* Update techs */
 
   if (do_civil_war) {
