@@ -5505,7 +5505,7 @@ msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 #: client/civclient.c:135
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr " -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen\n"
+msgstr "  -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen\n"
 
 #: client/civclient.c:137
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
