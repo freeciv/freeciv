@@ -129,6 +129,7 @@ extern Window root_window;
 extern Widget map_canvas, info_command, turn_done_button;
 extern Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 extern Widget overview_canvas, main_form, left_column_form;
+extern Widget econ_label[10];
 extern Widget bulb_label, sun_label, government_label, timeout_label;
 extern Widget unit_info_label;
 extern Widget unit_pix_canvas, unit_below_canvas[4];
@@ -289,7 +290,7 @@ void update_timeout_label(void)
 **************************************************************************/
 void update_info_label(void)
 {
-  char buffer[512];
+  char buffer[512]; int d;
   
   sprintf(buffer, "%s People\nYear: %s\nGold: %d\nTax:%d Lux:%d Sci:%d",
 	  int_to_text(civ_population(game.player_ptr)),
@@ -304,6 +305,17 @@ void update_info_label(void)
 			 (research_time(game.player_ptr)+1),
 			 game.heating, 
 			 game.player_ptr->government);
+
+
+  d=0;
+  for(;d<game.player_ptr->economic.tax/10;d++)
+    xaw_set_bitmap(econ_label[d], get_tile_sprite(SUN_TILES)->pixmap); /* no money tile */
+
+  for(;d<(game.player_ptr->economic.tax+game.player_ptr->economic.luxury)/10;d++)
+    xaw_set_bitmap(econ_label[d], get_tile_sprite(PEOPLE_TILES+5+(d&1))->pixmap); /* no lux tile */
+
+  for(;d<10;d++)
+    xaw_set_bitmap(econ_label[d], get_tile_sprite(BULB_TILES+game.player_ptr->economic.science/15)->pixmap);
 
   update_timeout_label();
 }

@@ -148,6 +148,7 @@ Widget map_canvas;
 Widget overview_canvas;
 Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 Widget inputline_text, outputwindow_text;
+Widget econ_label[10];
 Widget turn_done_button;
 Widget info_command, bulb_label, sun_label, government_label, timeout_label;
 Widget unit_info_label;
@@ -488,6 +489,48 @@ void setup_widgets(void)
 				       XtNfromVert, 
 				       (XtArgVal)overview_canvas,
 				       NULL);   
+
+  econ_label[0] = XtVaCreateManagedWidget("econlabel0", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[1] = XtVaCreateManagedWidget("econlabel1", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[2] = XtVaCreateManagedWidget("econlabel2", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[3] = XtVaCreateManagedWidget("econlabel3", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[4] = XtVaCreateManagedWidget("econlabel4", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[5] = XtVaCreateManagedWidget("econlabel5", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[6] = XtVaCreateManagedWidget("econlabel6", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[7] = XtVaCreateManagedWidget("econlabel7", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[8] = XtVaCreateManagedWidget("econlabel8", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+  econ_label[9] = XtVaCreateManagedWidget("econlabel9", 
+				       labelWidgetClass,
+				       left_column_form,
+				       NULL);  
+
 
   turn_done_button = XtVaCreateManagedWidget("turndonebutton", 
 					     commandWidgetClass,
