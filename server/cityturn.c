@@ -151,6 +151,7 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_parameter cmp;
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
+  int i;
 
   /* HACK: make sure everything is up-to-date before continuing.  This may
    * result in recursive calls to auto_arrange_workers, but it's better
@@ -256,9 +257,9 @@ void auto_arrange_workers(struct city *pcity)
       server_set_worker_city(pcity, x, y);
     }
   } city_map_checked_iterate_end;
-  pcity->specialists[SP_ELVIS] = cmr.entertainers;
-  pcity->specialists[SP_SCIENTIST] = cmr.scientists;
-  pcity->specialists[SP_TAXMAN] = cmr.taxmen;
+  for (i = 0; i < SP_COUNT; i++) {
+    pcity->specialists[i] = cmr.specialists[i];
+  }
 
   sanity_check_city(pcity);
 

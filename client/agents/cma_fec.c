@@ -361,9 +361,13 @@ const char *cmafec_get_result_descr(struct city *pcity,
 
     my_snprintf(buf[6], BUFFER_SIZE, "%d/%d/%d/%d%s",
 		pcity->size -
-		(result->entertainers + result->scientists +
-		 result->taxmen), result->entertainers, result->scientists,
-		result->taxmen, result->happy ? _(" happy") : "");
+		(result->specialists[SP_ELVIS]
+		 + result->specialists[SP_SCIENTIST]
+		 + result->specialists[SP_TAXMAN]),
+		result->specialists[SP_ELVIS],
+		result->specialists[SP_SCIENTIST],
+		result->specialists[SP_TAXMAN],
+		result->happy ? _(" happy") : "");
 
     my_snprintf(buf[7], BUFFER_SIZE, "%s",
 		get_city_growth_string(pcity, result->surplus[FOOD]));

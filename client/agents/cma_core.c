@@ -117,9 +117,9 @@ static bool results_are_equal(struct city *pcity,
 {
   T(disorder);
   T(happy);
-  T(entertainers);
-  T(scientists);
-  T(taxmen);
+  T(specialists[SP_ELVIS]);
+  T(specialists[SP_SCIENTIST]);
+  T(specialists[SP_TAXMAN]);
 
   T(production[FOOD]);
   T(production[SHIELD]);
@@ -225,8 +225,8 @@ static void print_result(struct city *pcity,
 
   freelog(LOG_NORMAL,
 	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
-	  worker, result->entertainers, result->scientists,
-	  result->taxmen);
+	  worker, result->specialists[SP_ELVIS],
+	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN]);
 
   for (i = 0; i < NUM_STATS; i++) {
     freelog(LOG_NORMAL,
@@ -269,7 +269,7 @@ static void copy_stats(struct city *pcity, struct cm_result *result)
 static void get_current_as_result(struct city *pcity,
 				  struct cm_result *result)
 {
-  int worker = 0;
+  int worker = 0, i;
 
   memset(result->worker_positions_used, 0,
 	 sizeof(result->worker_positions_used));
@@ -282,12 +282,13 @@ static void get_current_as_result(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  result->entertainers = pcity->specialists[SP_ELVIS];
-  result->scientists = pcity->specialists[SP_SCIENTIST];
-  result->taxmen = pcity->specialists[SP_TAXMAN];
+  for (i = 0; i < SP_COUNT; i++) {
+    result->specialists[i] = pcity->specialists[i];
+  }
 
-  assert(worker + result->entertainers + result->scientists +
-	 result->taxmen == pcity->size);
+  assert(worker + result->specialists[SP_ELVIS]
+	 + result->specialists[SP_SCIENTIST]
+	 + result->specialists[SP_TAXMAN] == pcity->size);
 
   result->found_a_valid = TRUE;
 
@@ -330,7 +331,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 static bool apply_result_on_server(struct city *pcity,
 				   const struct cm_result *const result)
 {
-  int first_request_id = 0, last_request_id = 0, i, worker;
+  int first_request_id = 0, last_request_id = 0, i, sp, worker;
   struct cm_result current_state;
   bool success;
 
@@ -352,8 +353,9 @@ static bool apply_result_on_server(struct city *pcity,
   /* Do checks */
   worker = count_worker(pcity, result);
   if (pcity->size !=
-      (worker + result->entertainers + result->scientists +
-       result->taxmen)) {
+      (worker + result->specialists[SP_ELVIS]
+       + result->specialists[SP_SCIENTIST]
+       + result->specialists[SP_TAXMAN])) {
     print_city(pcity);
     print_result(pcity, result);
     assert(0);
@@ -370,26 +372,22 @@ static bool apply_result_on_server(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  /* Change surplus scientists to entertainers */
-  for (i = 0; i < pcity->specialists[SP_SCIENTIST] - result->scientists;
-       i++) {
-    last_request_id = city_change_specialist(pcity, SP_SCIENTIST, SP_ELVIS);
-    if (first_request_id == 0) {
-      first_request_id = last_request_id;
-    }
-  }
-
-  /* Change surplus taxmen to entertainers */
-  for (i = 0; i < pcity->specialists[SP_TAXMAN] - result->taxmen; i++) {
-    last_request_id = city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
-    if (first_request_id == 0) {
-      first_request_id = last_request_id;
+  /* Change the excess non-elvis specialists to elvises. */
+  assert(SP_ELVIS == 0);
+  for (sp = 1; sp < SP_COUNT; sp++) {
+    for (i = 0; i < pcity->specialists[sp] - result->specialists[sp]; i++) {
+      last_request_id = city_change_specialist(pcity, sp, SP_ELVIS);
+      if (first_request_id == 0) {
+	first_request_id = last_request_id;
+      }
     }
   }
 
   /* now all surplus people are enterainers */
 
   /* Set workers */
+  /* FIXME: This code assumes that any toggled worker will turn into an
+   * elvis! */
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
@@ -401,20 +399,15 @@ static bool apply_result_on_server(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  /* Set scientists. */
-  for (i = 0; i < result->scientists - pcity->specialists[SP_SCIENTIST];
-       i++) {
-    last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_SCIENTIST);
-    if (first_request_id == 0) {
-      first_request_id = last_request_id;
-    }
-  }
-
-  /* Set taxmen. */
-  for (i = 0; i < result->taxmen - pcity->specialists[SP_TAXMAN]; i++) {
-    last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_TAXMAN);
-    if (first_request_id == 0) {
-      first_request_id = last_request_id;
+  /* Set all specialists except SP_ELVIS (all the unchanged ones remain
+   * as elvises). */
+  assert(SP_ELVIS == 0);
+  for (sp = 1; sp < SP_COUNT; sp++) {
+    for (i = 0; i < result->specialists[sp] - pcity->specialists[sp]; i++) {
+      last_request_id = city_change_specialist(pcity, SP_ELVIS, sp);
+      if (first_request_id == 0) {
+	first_request_id = last_request_id;
+      }
     }
   }
 

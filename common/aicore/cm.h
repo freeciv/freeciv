@@ -57,7 +57,7 @@ struct cm_result {
   int surplus[NUM_STATS];
 
   bool worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int entertainers, scientists, taxmen;
+  int specialists[SP_COUNT];
 };
 
 /*

@@ -326,7 +326,8 @@ static bool is_valid_result(const struct cm_parameter *const parameter,
   int i;
 
   if (!parameter->allow_specialists
-      && (result->entertainers + result->scientists + result->taxmen) >
+      && (result->specialists[SP_ELVIS] + result->specialists[SP_SCIENTIST]
+	  + result->specialists[SP_TAXMAN]) >
       MAX(0,cache3.pcity->size - cache3.fields_available_total)) {
     return FALSE;
   }
@@ -423,8 +424,9 @@ static void print_result(struct city *pcity,
 
   freelog(LOG_NORMAL,
 	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
-	  worker, result->entertainers, result->scientists,
-	  result->taxmen);
+	  worker, result->specialists[SP_ELVIS],
+	  result->specialists[SP_SCIENTIST],
+	  result->specialists[SP_TAXMAN]);
 
   for (i = 0; i < NUM_STATS; i++) {
     freelog(LOG_NORMAL,
@@ -528,7 +530,8 @@ static void update_cache2(struct city *pcity,
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p = get_secondary_stat(result->production[TRADE], result->scientists,
+    p = get_secondary_stat(result->production[TRADE],
+			   result->specialists[SP_SCIENTIST],
 			   SP_SCIENTIST);
     if (!p->is_valid) {
       p->production = result->production[SCIENCE];
@@ -545,7 +548,8 @@ static void update_cache2(struct city *pcity,
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p = get_secondary_stat(result->production[TRADE], result->taxmen,
+    p = get_secondary_stat(result->production[TRADE],
+			   result->specialists[SP_TAXMAN],
 			   SP_TAXMAN);
     if (!p->is_valid && !result->disorder) {
       p->production = result->production[GOLD];
@@ -557,7 +561,8 @@ static void update_cache2(struct city *pcity,
     }
   }
 
-  p = get_secondary_stat(result->production[TRADE], result->entertainers,
+  p = get_secondary_stat(result->production[TRADE],
+			 result->specialists[SP_ELVIS],
 			 SP_ELVIS);
   if (!p->is_valid) {
     p->production = result->production[LUXURY];
@@ -616,8 +621,9 @@ static void real_fill_out_result(struct city *pcity,
 
   /* Do checks */
   if (pcity->size !=
-      (worker + result->entertainers + result->scientists +
-       result->taxmen)) {
+      (worker + result->specialists[SP_ELVIS]
+       + result->specialists[SP_SCIENTIST]
+       + result->specialists[SP_TAXMAN])) {
     print_city(pcity);
     print_result(pcity, result);
     assert(0);
@@ -639,9 +645,9 @@ static void real_fill_out_result(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  pcity->specialists[SP_ELVIS] = result->entertainers;
-  pcity->specialists[SP_SCIENTIST] = result->scientists;
-  pcity->specialists[SP_TAXMAN] = result->taxmen;
+  pcity->specialists[SP_ELVIS] = result->specialists[SP_ELVIS];
+  pcity->specialists[SP_SCIENTIST] = result->specialists[SP_SCIENTIST];
+  pcity->specialists[SP_TAXMAN] = result->specialists[SP_TAXMAN];
 
   /* Do a local recalculation of the city */
   generic_city_refresh(pcity, FALSE, NULL);
@@ -653,8 +659,8 @@ static void real_fill_out_result(struct city *pcity,
 
   freelog(LOG_DEBUG, "xyz: w=%d e=%d s=%d t=%d trade=%d "
 	  "sci=%d lux=%d tax=%d dis=%s happy=%s",
-	  count_worker(pcity, result), result->entertainers,
-	  result->scientists, result->taxmen,
+	  count_worker(pcity, result), result->specialists[SP_ELVIS],
+	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN],
 	  result->production[TRADE],
 	  result->production[SCIENCE],
 	  result->production[LUXURY],
@@ -817,15 +823,15 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
 	(base_combination->worker_positions[x][y] == C_TILE_WORKER);
   } my_city_map_iterate_end;
 
-  result->scientists = scientists;
-  result->taxmen = taxmen;
-  result->entertainers =
+  result->specialists[SP_SCIENTIST] = scientists;
+  result->specialists[SP_TAXMAN] = taxmen;
+  result->specialists[SP_ELVIS] =
       pcity->size - (base_combination->worker + scientists + taxmen);
 
   freelog(LOG_DEBUG,
 	  "fill_out_result(city='%s'(%d), entrt.s=%d, scien.s=%d, taxmen=%d)",
-	  pcity->name, pcity->id, result->entertainers,
-	  result->scientists, result->taxmen);
+	  pcity->name, pcity->id, result->specialists[SP_ELVIS],
+	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN]);
 
   /* try to fill result from cache2 */
   if (!base_combination->all_entertainer.found_a_valid) {
@@ -847,7 +853,8 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
       result->surplus[i] = base_combination->all_entertainer.surplus[i];
     }
 
-    p = get_secondary_stat(result->production[TRADE], result->scientists,
+    p = get_secondary_stat(result->production[TRADE],
+			   result->specialists[SP_SCIENTIST],
 			   SP_SCIENTIST);
     if (!p->is_valid) {
       got_all = FALSE;
@@ -856,7 +863,8 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
       result->surplus[SCIENCE] = p->surplus;
     }
 
-    p = get_secondary_stat(result->production[TRADE], result->taxmen,
+    p = get_secondary_stat(result->production[TRADE],
+			   result->specialists[SP_TAXMAN],
 			   SP_TAXMAN);
     if (!p->is_valid) {
       got_all = FALSE;
@@ -865,7 +873,8 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
       result->surplus[GOLD] = p->surplus;
     }
 
-    p = get_secondary_stat(result->production[TRADE], result->entertainers,
+    p = get_secondary_stat(result->production[TRADE],
+			   result->specialists[SP_ELVIS],
 			   SP_ELVIS);
     if (!p->is_valid) {
       got_all = FALSE;
