@@ -822,8 +822,8 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
   if ((id==B_HARBOUR || id==B_COASTAL || id == B_OFFSHORE || id == B_PORT) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
     return 0;
   if ((id == B_HYDRO || id == B_HOOVER)
-      && !(get_terrain_type(pcity->x, pcity->y) == T_RIVER)
-      && !(get_terrain_type(pcity->x, pcity->y) == T_MOUNTAINS)
+      && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
+      && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER))
     return 0;
