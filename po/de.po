@@ -7686,10 +7686,9 @@ msgstr "Stadt: %s(%s) %s"
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "A:%d V:%d FK:%d TP:%d/%d%s%s"
 
-# ?
 #: client/gui-xaw/mapctrl.c:175
 msgid " V"
-msgstr ""
+msgstr " V"
 
 #: client/gui-xaw/mapctrl.c:184
 msgid "A:%d D:%d FP:%d HP:%d0%%"
@@ -13119,9 +13118,10 @@ msgstr "chinesisch"
 msgid "?plural:Chinese"
 msgstr "?plural:Chinesen"
 
+# EH: Dieser Titel sollte mE nicht übersetzt werden.
 #: data/nation/chinese.ruleset:13
 msgid "Dowager"
-msgstr "dowagisch"
+msgstr "Dowager"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
