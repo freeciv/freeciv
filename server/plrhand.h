@@ -18,6 +18,7 @@
 struct player;
 struct packet_player_request;
 struct section_file;
+struct connection;
 
 void server_player_init(struct player *pplayer, int initmap);
 void server_remove_player(struct player *pplayer);
@@ -76,5 +77,8 @@ void show_ending(void);
 void player_load(struct player *plr, int plrno, struct section_file *file);
 void player_map_load(struct player *plr, int plrno, struct section_file *file);
 void player_save(struct player *plr, int plrno, struct section_file *file);
+
+void associate_player_connection(struct player *plr, struct connection *pconn);
+void unassociate_player_connection(struct player *plr, struct connection *pconn);
 
 #endif  /* FC__PLRHAND_H */

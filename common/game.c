@@ -796,6 +796,10 @@ void game_init(void)
   map_init();
   idex_init();
   
+  conn_list_init(&game.all_connections);
+  conn_list_init(&game.est_connections);
+  conn_list_init(&game.game_connections);
+  
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */

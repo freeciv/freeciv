@@ -130,6 +130,11 @@ static void handle_readline_input_callback(char *line)
 *****************************************************************************/
 void close_connection(struct connection *pconn)
 {
+  /* safe to do these even if not in lists: */
+  conn_list_unlink(&game.all_connections, pconn);
+  conn_list_unlink(&game.est_connections, pconn);
+  conn_list_unlink(&game.game_connections, pconn);
+  
   close(pconn->sock);
   pconn->used = 0;
   pconn->established = 0;
@@ -168,7 +173,7 @@ void close_connections_and_socket(void)
 *****************************************************************************/
 static void close_socket_callback(struct connection *pc)
 {
-  lost_connection_to_player(pc);
+  lost_connection_to_client(pc);
   close_connection(pc);
 }
 
@@ -382,9 +387,9 @@ static const char *makeup_connection_name(void)
 
   for(;;) {
     my_snprintf(name, sizeof(name), "c%lu", i++);
-    /* fixme: also find_conn_by_name() when implemented */
     if (!find_player_by_name(name)
-	&& !find_player_by_user(name)) {
+	&& !find_player_by_user(name)
+	&& !find_conn_by_name(name)) {
       return name;
     }
   }
@@ -432,6 +437,8 @@ int server_accept_connection(int sockfd)
       sz_strlcpy(pconn->addr,
 		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 
+      conn_list_insert_back(&game.all_connections, pconn);
+  
       freelog(LOG_VERBOSE, "connection (%s) from %s", pconn->name, pconn->addr);
       return 0;
     }
@@ -496,7 +503,10 @@ void init_connections(void)
 {
   int i;
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
-    connections[i].used=0;
+    struct connection *pconn = &connections[i];
+    pconn->used = 0;
+    conn_list_init(&pconn->self);
+    conn_list_insert(&pconn->self, pconn);
   }
 #ifdef __VMS
   {

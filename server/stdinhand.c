@@ -2614,7 +2614,7 @@ static void cut_player_connection(struct player *caller, char *playername)
   if((pc=pplayer->conn)) {
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	       _("Cutting connection to %s."), pplayer->name);
-    lost_connection_to_player(pc);
+    lost_connection_to_client(pc);
     close_connection(pc);
   }
   else {

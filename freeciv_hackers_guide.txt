@@ -401,7 +401,7 @@ There are four player-related entities:
 + connection
   Records a client connection; like a user, but disappears when the user 
   disconnects, whereas for real users we may want to remember them between 
-  connections.
+  connections.  See Connections section below.
 
 Where do these entities exist?
 
@@ -469,6 +469,71 @@ no useful purpose.
 Access levels can set for individual users, including AI players with 
 a connected observer, but only while someone is connected; they will not 
 be remembered when the user disconnects.
+
+===========================================================================
+Connections
+===========================================================================
+
+The code is currently transitioning from 1 or 0 connections per player
+only, to allowing multiple connections for each player (recall
+'player' means a civilization, see above), where each connection may
+be either an "observer" or "controller".
+
+This discussion is mostly about connection in the server.  The client
+only has one real connection: 'aconnection' - its connection to the
+server, though it does use some other connection structs (currently
+pplayer->conn) to store information about other connected clients
+(eg, capability strings).
+
+In the old paradigm, server code would usually send information to a
+single player, or to all connected players (usually represented by
+destination being a NULL player pointer).  With multiple connections
+per player things become more complicated.  Sometimes information
+should be sent to a single connection, or to all connections for a
+single player, or to all (established) connections, etc.  To handle
+this, "destinations" should now be specified as a pointer to a struct
+conn_list (list of connections).  For convenience the following
+commonly applicable lists are maintained:
+   game.all_connections   -  all connections
+   game.est_connections   -  established connections
+   game.game_connections  -  connections observing and/or involved in game
+   pplayer->connections   -  connections for specific player
+   pconn->self            -  single connection (as list)
+
+Connections can be classified as follows:  (first match applies)
+
+1. (pconn->used == 0) Not a real connection (closed/unused), should
+   not exist in any list of have any information sent to it.
+
+(All following cases exist in game.all_connections.)
+
+2. (pconn->established == 0) TCP connection has been made, but initial
+   Freeciv packets have not yet been negotiated (join_game etc).
+   Exists in game.all_connections only.  Should not be sent any
+   information except directly as result of join_game etc packets, 
+   or server shutdown, or connection close, etc.
+
+(All following cases exist in game.est_connections.)
+
+3. (pconn->player == NULL) Connection has been established, but is not
+   yet associated with a player.  Currently this is not possible, but
+   the plan is to allow this in future, so clients can connect and
+   then see list of players to choose from, or just control the server
+   or observe etc. Two subcases:
+
+   3a. (pconn->observer == 0) Not observing the game.  Should receive
+       information about other clients, game status etc, but not map,
+       units, cities, etc.
+
+(All following cases exist in game.game_connections.)
+
+   3b. (pconn->observer == 1) Observing the game.  Exists in
+       game.game_connections.  Should receive game information about
+       map, units, cities, etc.
+
+4. (pconn->player != NULL) Connected to specific player, either as
+   "observer" or "controller".  (But observers not yet implemented.)
+   Exists in game.game_connections, and in pconn->player->connections.
 
 ===========================================================================
 Mini Style Guide

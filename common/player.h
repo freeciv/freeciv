@@ -14,6 +14,7 @@
 #define FC__PLAYER_H
 
 #include "city.h"
+#include "connection.h"		/* struct conn_list */
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
@@ -150,8 +151,9 @@ struct player {
   struct player_spaceship spaceship;
   int future_tech;
   struct player_ai ai;
-  int is_connected;
+  int is_connected;		       /* observers don't count */
   struct connection *conn;
+  struct conn_list connections;	       /* will replace conn */
   char addr[MAX_LEN_ADDR];
   struct worklist worklists[MAX_NUM_WORKLISTS];
 };

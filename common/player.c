@@ -71,6 +71,9 @@ void player_init(struct player *plr)
   plr->capital=0;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);
+  conn_list_init(&plr->connections);
+  plr->conn = NULL;
+  plr->is_connected = 0;
   sz_strlcpy(plr->addr, "---.---.---.---");
   plr->is_alive=1;
   plr->embassy=0;

@@ -121,8 +121,6 @@ static int check_for_full_turn_done(void);
 static void Mac_options(int *argc, char *argv[]);
 #endif
 
-extern struct connection connections[];
-
 enum server_states server_state;
 
 /* this global is checked deep down the netcode. 
@@ -1398,24 +1396,27 @@ static void send_select_nation(struct player *pplayer)
 
 
 /**************************************************************************
- Send a join_game reply, accepting the player.
- (Send to pplayer->conn, which should be set, as should pplayer->addr)
+ Send a join_game reply, accepting the connection.
+ pconn->player should be set and non-NULL.
  'rejoin' is whether this is a new player, or re-connection.
  Prints a log message, and notifies other players.
 **************************************************************************/
-static void join_game_accept(struct player *pplayer, int rejoin)
+static void join_game_accept(struct connection *pconn, int rejoin)
 {
   struct packet_join_game_reply packet;
+  struct player *pplayer = pconn->player;
   int i;
 
   assert(pplayer);
-  assert(pplayer->conn);
   packet.you_can_join = 1;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message),
 	      "%s %s.", (rejoin?"Welcome back":"Welcome"), pplayer->name);
-  send_packet_join_game_reply(pplayer->conn, &packet);
-  pplayer->conn->established = 1;
+  send_packet_join_game_reply(pconn, &packet);
+  pconn->established = 1;
+  conn_list_insert_back(&game.est_connections, pconn);
+  conn_list_insert_back(&game.game_connections, pconn);
+
   if (rejoin) {
     freelog(LOG_NORMAL, _("<%s@%s> has rejoined the game."),
 	    pplayer->name, pplayer->addr);
@@ -1538,13 +1539,10 @@ void accept_new_player(char *name, struct connection *pconn)
   
   sz_strlcpy(pplayer->name, name);
   sz_strlcpy(pplayer->username, name);
-  pplayer->conn = pconn;
-  pplayer->is_connected = (pconn!=NULL);
 
   if (pconn) {
-    sz_strlcpy(pplayer->addr, pconn->addr);
-    pconn->player = pplayer;
-    join_game_accept(pplayer, 0);
+    associate_player_connection(pplayer, pconn);
+    join_game_accept(pconn, 0);
   } else {
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
 	    name);
@@ -1596,6 +1594,11 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
+  if (!find_conn_by_name(req->name)) {
+    sz_strlcpy(pconn->name, req->name);
+    /* else leave made-up name */
+  }
+  
   freelog(LOG_NORMAL,
 	  _("Connection request from %s with client version %d.%d.%d%s"),
 	  req->name, req->major_version, req->minor_version,
@@ -1685,11 +1688,8 @@ static void handle_request_join_game(struct connection *pconn,
 	}
       }
 
-      pplayer->conn=pconn;
-      pconn->player = pplayer;
-      pplayer->is_connected=1;
-      sz_strlcpy(pplayer->addr, pconn->addr); 
-      join_game_accept(pplayer, 1);
+      associate_player_connection(pplayer, pconn);
+      join_game_accept(pconn, 1);
       introduce_game_to_player(pplayer);
       if(server_state==RUN_GAME_STATE) {
         send_rulesets(pplayer);
@@ -1767,24 +1767,35 @@ static void handle_request_join_game(struct connection *pconn,
 }
 
 /**************************************************************************
-...
+  High-level server stuff when connection to client is closed or lost.
+  Reports loss to log, and to other players if the connection was a
+  player.  Also removes player if in pregame, applies auto_toggle, and
+  does check for turn done (since can depend on connection/ai status).
+  Note caller should also call close_connection() after this, to do
+  lower-level close stuff.
 **************************************************************************/
-void lost_connection_to_player(struct connection *pconn)
+void lost_connection_to_client(struct connection *pconn)
 {
   struct player *pplayer = pconn->player;
 
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
-    freelog(LOG_FATAL, _("Lost connection to <unknown>."));
+    freelog(LOG_NORMAL, _("Lost connection to <unknown>."));
     return;
   }
   
   freelog(LOG_NORMAL, _("Lost connection to %s."), pplayer->name);
-  
-  pplayer->conn = NULL;
-  pplayer->is_connected = 0;
-  sz_strlcpy(pplayer->addr, "---.---.---.---");
 
+  unassociate_player_connection(pplayer, pconn);
+
+  /* Remove from lists so this conn is not included in broadcasts.
+   * safe to do these even if not in lists:
+   */
+  conn_list_unlink(&game.all_connections, pconn);
+  conn_list_unlink(&game.est_connections, pconn);
+  conn_list_unlink(&game.game_connections, pconn);
+  pconn->established = 0;
+  
   send_player_info(pplayer, 0);
   notify_player(0, _("Game: Lost connection to %s."), pplayer->name);
 
@@ -1792,10 +1803,12 @@ void lost_connection_to_player(struct connection *pconn)
 			   server_state==SELECT_RACES_STATE)) {
     server_remove_player(pplayer);
   }
-  else if (game.auto_ai_toggle && !pplayer->ai.control) {
-    toggle_ai_player_direct(NULL, pplayer);
+  else {
+    if (game.auto_ai_toggle && !pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+    check_for_full_turn_done();
   }
-  check_for_full_turn_done();
 }
 
 /**************************************************************************

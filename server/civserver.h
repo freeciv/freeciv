@@ -20,7 +20,7 @@ struct connection;
 struct unit;
 
 void handle_packet_input(struct connection *pconn, char *packet, int type);
-void lost_connection_to_player(struct connection *pconn);
+void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 int send_server_info_to_metaserver(int do_send,int reset_timer);
 void start_game(void);

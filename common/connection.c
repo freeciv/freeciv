@@ -32,11 +32,18 @@
 #include <sys/select.h>
 #endif
 
+#include "game.h"		/* game.all_connections */
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
+#include "support.h"		/* mystr(n)casecmp */
 
 #include "connection.h"
+
+/* get 'struct conn_list' functions: */
+#define SPECLIST_TAG conn
+#define SPECLIST_TYPE struct connection
+#include "speclist_c.h"
 
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -259,6 +266,63 @@ void connection_do_unbuffer(struct connection *pc)
     pc->send_buffer->do_buffer_sends--;
     if(pc->send_buffer->do_buffer_sends == 0)
       flush_connection_send_buffer(pc);
+  }
+}
+
+/**************************************************************************
+  Convenience functions to buffer/unbuffer a list of connections:
+**************************************************************************/
+void conn_list_do_buffer(struct conn_list *dest)
+{
+  conn_list_iterate(*dest, pconn)
+    connection_do_buffer(pconn);
+  conn_list_iterate_end;
+}
+void conn_list_do_unbuffer(struct conn_list *dest)
+{
+  conn_list_iterate(*dest, pconn)
+    connection_do_unbuffer(pconn);
+  conn_list_iterate_end;
+}
+
+/***************************************************************
+  Find connection by exact name, from game.all_connections,
+  case-insensitve.  Returns NULL if not found.
+***************************************************************/
+struct connection *find_conn_by_name(const char *name)
+{
+  conn_list_iterate(game.all_connections, pconn) {
+    if (mystrcasecmp(name, pconn->name)==0) {
+      return pconn;
+    }
+  }
+  conn_list_iterate_end;
+  return NULL;
+}
+
+/***************************************************************
+  Like find_conn_by_name(), but allow unambigous prefix
+  (ie abbreviation).
+  Returns NULL if could not match, or if ambiguous or other
+  problem, and fills *result with characterisation of
+  match/non-match (see shared.[ch])
+***************************************************************/
+static const char *connection_accessor(int i) {
+  return conn_list_get(&game.all_connections, i)->name;
+}
+struct connection *find_conn_by_name_prefix(const char *name,
+					    enum m_pre_result *result)
+{
+  int ind;
+
+  *result = match_prefix(connection_accessor,
+			 conn_list_size(&game.all_connections),
+			 MAX_LEN_NAME-1, mystrncasecmp, name, &ind);
+  
+  if (*result < M_PRE_AMBIGUOUS) {
+    return conn_list_get(&game.all_connections, ind);
+  } else {
+    return NULL;
   }
 }
 

@@ -47,6 +47,18 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
   see freeciv_hackers_guide.txt
 ***************************************************************************/
 
+/* get 'struct conn_list' and related functions: */
+/* do this with forward definition of struct connection, so that
+ * connection struct can contain a struct conn_list */
+struct connection;
+#define SPECLIST_TAG conn
+#define SPECLIST_TYPE struct connection
+#include "speclist.h"
+
+#define conn_list_iterate(connlist, pconn) \
+    TYPED_LIST_ITERATE(struct connection, connlist, pconn)
+#define conn_list_iterate_end  LIST_ITERATE_END
+
 /***********************************************************
   This is a buffer where the data is first collected,
   whenever it arrives to the client/server.
@@ -73,6 +85,7 @@ struct connection {
  				   (implementation incomplete) */
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
+  struct conn_list self;	/* list with this connection as single element */
   char name[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
@@ -98,6 +111,13 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
+
+void conn_list_do_buffer(struct conn_list *dest);
+void conn_list_do_unbuffer(struct conn_list *dest);
+
+struct connection *find_conn_by_name(const char *name);
+struct connection *find_conn_by_name_prefix(const char *name,
+					    enum m_pre_result *result);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
   

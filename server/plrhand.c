@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -3091,9 +3092,11 @@ void server_remove_player(struct player *pplayer)
   }
 
   notify_player(pplayer, _("Game: You've been removed from the game!"));
-  if(pplayer->conn)
-    close_connection(pplayer->conn);
-  pplayer->conn=NULL;
+  if (pplayer->conn) {
+    struct connection *pconn = pplayer->conn;  /* save */
+    unassociate_player_connection(pplayer, pconn);
+    close_connection(pconn);
+  }
   notify_player(0, _("Game: %s has been removed from the game."),
 		pplayer->name);
   
@@ -3180,6 +3183,70 @@ void neutralize_ai_player(struct player *pplayer)
       continue;
     while (pplayers_non_attack(pplayer, pother) || pplayers_allied(pplayer, pother)) {
       handle_player_cancel_pact(pplayer, other_player);
+    }
+  }
+}
+
+/**************************************************************************
+  Setup pconn as a client connected to pplayer:
+  Updates pconn->player, pplayer->connections, pplayer->is_connected.
+  Note "observer" connections do not count for is_connected.
+
+  TEMPORARY: if this is pplayer's only connection, set pplayer->conn
+  to pconn, and pplayer->addr to pconn->addr, for interim where we have
+  both pplayer->conn and pplayer->connections. 
+**************************************************************************/
+void associate_player_connection(struct player *pplayer,
+				 struct connection *pconn)
+{
+  assert(pplayer && pconn);
+  
+  pconn->player = pplayer;
+  conn_list_insert_back(&pplayer->connections, pconn);
+  if (!pconn->observer) {
+    pplayer->is_connected = 1;
+  }
+  
+  /* TEMPORARY: */
+  if (conn_list_size(&pplayer->connections)==1) {
+    sz_strlcpy(pplayer->addr, pconn->addr);
+    pplayer->conn = pconn;
+  }
+}
+
+/**************************************************************************
+  Remove pconn as a client connected to pplayer:
+  Update pplayer->connections, pplayer->is_connected.
+  Sets pconn->player to NULL (normally expect pconn->player==pplayer
+  when function entered, but not checked).
+  
+  TEMPORARY: if pconn is pplayer->conn, adjust appropriately...
+**************************************************************************/
+void unassociate_player_connection(struct player *pplayer,
+				   struct connection *pconn)
+{
+  assert(pplayer && pconn);
+
+  pconn->player = NULL;
+  conn_list_unlink(&pplayer->connections, pconn);
+
+  pplayer->is_connected = 0;
+  conn_list_iterate(pplayer->connections, aconn) {
+    if (!aconn->observer) {
+      pplayer->is_connected = 1;
+      break;
+    }
+  }
+  conn_list_iterate_end;
+  
+  /* TEMPORARY: */
+  if (pplayer->conn == pconn) {
+    if (conn_list_size(&pplayer->connections)==0) {
+      pplayer->conn = NULL;
+      sz_strlcpy(pplayer->addr, "---.---.---.---");
+    } else {
+      pplayer->conn = conn_list_get(&pplayer->connections, 0);
+      sz_strlcpy(pplayer->addr, pplayer->conn->addr);
     }
   }
 }
