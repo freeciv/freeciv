@@ -834,9 +834,10 @@ void player_restore_units(struct player *pplayer)
 *****************************************************************************/
 void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
+  struct city *pcity = map_get_city(punit->x,punit->y);
   int was_lower;
 
-  if(punit->moved)
+  if((punit->moved)&&(!pcity || !city_got_barracks(pcity)))
     punit->moved=0;
   else {
     was_lower=(punit->hp < get_unit_type(punit->type)->hp);
@@ -846,7 +847,7 @@ void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
     if (player_owns_active_wonder(pplayer, B_UNITED)) 
       punit->hp+=2;
     
-    if(!map_get_city(punit->x,punit->y) && (is_heli_unit(punit)))
+    if(!pcity && (is_heli_unit(punit)))
       punit->hp-=get_unit_type(punit->type)->hp/10;
     if(punit->hp>=get_unit_type(punit->type)->hp) {
       punit->hp=get_unit_type(punit->type)->hp;
