@@ -383,6 +383,7 @@ void send_unit_info(struct unit *punit)
   info.movesleft=punit->moves_left;
   info.activity=punit->activity;
   info.activity_target=punit->activity_target;
+  info.select_it=0;
 
   send_packet_unit_info(&aconnection, &info);
 }

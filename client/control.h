@@ -28,6 +28,7 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy); /* used by
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
 					int tgt);
+void request_unit_selected(struct unit *punit);
 void request_unit_pillage(struct unit *punit);
 void request_unit_sentry(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
@@ -55,6 +56,7 @@ void advance_unit_focus(void);
 struct unit *get_unit_in_focus(void);
 void set_unit_focus(struct unit *punit);
 void set_unit_focus_no_center(struct unit *punit);
+void set_unit_focus_and_select(struct unit *punit);
 void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);

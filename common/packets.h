@@ -294,8 +294,8 @@ struct packet_unit_info {
   int paradropped;
   int connecting;
   int carried;
+  int select_it;
 };
-
 
 
 /*********************************************************

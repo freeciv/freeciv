@@ -453,13 +453,16 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
     }
     else if(punit->activity!=pinfo->activity ||
 	    punit->activity_target!=pinfo->activity_target ||
+	    pinfo->select_it ||
 	    punit->ai.control==1) {
       /* Treat change in ai.control as change in activity, so
        * idle autosettlers behave correctly when selected --dwp
        */
       punit->ai.control=0;
       handle_unit_activity_request_targeted(punit,
-					    pinfo->activity, pinfo->activity_target);
+					    pinfo->activity,
+					    pinfo->activity_target,
+					    pinfo->select_it);
     }
   }
 }
@@ -1322,13 +1325,13 @@ void handle_unit_activity_request(struct unit *punit,
 **************************************************************************/
 void handle_unit_activity_request_targeted(struct unit *punit, 
 					   enum unit_activity new_activity,
-					   int new_target)
+					   int new_target, int select_unit)
 {
   if(can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
     int old_target = punit->activity_target;
     set_unit_activity_targeted(punit, new_activity, new_target);
-    send_unit_info(0, punit);
+    send_unit_info_to_onlookers(0, punit, punit->x, punit->y, 0, select_unit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }

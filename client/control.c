@@ -88,7 +88,6 @@ void set_unit_focus(struct unit *punit)
 
     punit->focus_status=FOCUS_AVAIL;
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
-    put_cross_overlay_tile(punit->x, punit->y);
   }
   
   /* avoid the old focus unit disappearing: */
@@ -115,6 +114,17 @@ void set_unit_focus_no_center(struct unit *punit)
   if(punit) {
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
     punit->focus_status=FOCUS_AVAIL;
+  }
+}
+
+/**************************************************************************
+The only difference is that here we draw the "cross".
+**************************************************************************/
+void set_unit_focus_and_select(struct unit *punit)
+{
+  set_unit_focus(punit);
+  if (punit) {
+    put_cross_overlay_tile(punit->x, punit->y);
   }
 }
 
@@ -579,6 +589,28 @@ void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity a
   send_unit_info(&req_unit);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_selected(struct unit *punit)
+{
+  struct packet_unit_info info;
+
+  info.id=punit->id;
+  info.owner=punit->owner;
+  info.x=punit->x;
+  info.y=punit->y;
+  info.homecity=punit->homecity;
+  info.veteran=punit->veteran;
+  info.type=punit->type;
+  info.movesleft=punit->moves_left;
+  info.activity=ACTIVITY_IDLE;
+  info.activity_target=0;
+  info.select_it=1;
+
+  send_packet_unit_info(&aconnection, &info);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -934,12 +966,11 @@ void do_map_click(int xtile, int ytile)
     struct unit *punit=unit_list_get(&ptile->units, 0);
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-        /* struct unit *old_focus=get_unit_in_focus(); */
-        request_new_unit_activity(punit, ACTIVITY_IDLE);
-        /* this is now done in set_unit_focus: --dwp */
-        /* if(old_focus)
-             refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
-        set_unit_focus(punit);
+	request_unit_selected(punit);
+	if (!(game.player_ptr->conn &&
+	      has_capability("select_unit", game.player_ptr->conn->capability))) {
+	  set_unit_focus(punit);
+	}
       }
     }
   }
