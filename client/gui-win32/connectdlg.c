@@ -49,6 +49,7 @@
 #include "menu.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "packhand_gen.h"
 #include "spaceshipdlg.h"
 #include "tilespec.h"
 

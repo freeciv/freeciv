@@ -355,8 +355,11 @@ static void handle_cities_menu(struct Diplomacy_dialog *pdialog,int choice)
 static void handle_advances_menu(struct Diplomacy_dialog *pdialog,int choice)
 {
   int plrno0 = choice / 10000;
+#if 0 /* Unneeded. */
   int plrno1 = (choice / 100) % 100;
+#endif
   int value = choice % 100;
+
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
 					   pdialog->treaty.plr1->player_no,
 					   plrno0, CLAUSE_ADVANCE, value);

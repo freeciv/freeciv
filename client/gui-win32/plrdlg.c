@@ -403,7 +403,7 @@ update_players_dialog(void)
     ListView_DeleteAllItems(lv);
     for (i = 0; i < game.nplayers; i++) {
       build_row(row_texts, i, 0);
-      row=fcwin_listview_add_row(lv,i,NUM_COLUMNS,row_texts);
+      row=fcwin_listview_add_row(lv,i,NUM_COLUMNS, (char **)row_texts);
       lvi.iItem=row;
       lvi.iSubItem=0;
       lvi.lParam=i;

@@ -333,7 +333,9 @@ void indicator_handle_but(int i)
   int delta = 10;
   int lux_end = game.player_ptr->economic.luxury;
   int sci_end = lux_end + game.player_ptr->economic.science;
+#if 0 /* Unneeded. */
   int tax_end = 100; 
+#endif
   int luxury = game.player_ptr->economic.luxury;
   int science = game.player_ptr->economic.science;
   int tax = game.player_ptr->economic.tax;
