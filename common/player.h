@@ -45,7 +45,7 @@ enum handicap_type {
   H_TECH=4, /* doesn't know what enemies have researched */
   H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */
   H_CITYUNITS=16, /* doesn't know what units are in enemy cities */
-  H_STACKS=32, /* doesn't know what units are in stacks */
+  H_DEFENSIVE=32, /* builds lots of defensive buildings without calculating need */
   H_VETERAN=64, /* doesn't know veteran status of enemy units */
   H_SUB=128, /* doesn't know where subs may be lurking */
 /* below this point are milder handicaps that I can actually implement -- Syela */
@@ -113,6 +113,19 @@ struct player_score {
   int spaceship;
 };
 
+/* these variables are used for improvements evaluations in
+ * ai/advdomestic.c, only valid between ai_eval_threat_init() 
+ * and ai_eval_threat_done()
+ */
+struct eval_threat_type {
+  bool invasions;   /* check if we need to consider invasions */
+  bool *continent;  /* non-allied cities on continent? */
+  bool sea;         /* check if exists non-allied offensive ships */
+  bool air;         /* check for non-allied offensive aircraft */
+  bool missile;     /* check for non-allied missiles */
+  int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
+};
+
 struct player_ai {
   bool control;
   int tech_goal;
@@ -126,6 +139,7 @@ struct player_ai {
   int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
   enum barbarian_type barbarian_type;
+  struct eval_threat_type eval_threat;
 };
 
 /* Diplomatic states (how one player views another).

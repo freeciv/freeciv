@@ -19,6 +19,7 @@
 #include "log.h"
 #include "map.h"
 #include "unit.h"
+#include "mem.h"
 
 #include "citytools.h"
 #include "settlers.h"
@@ -31,6 +32,223 @@
 
 #include "advdomestic.h"
 
+/**************************************************************************
+  Make and cache lots of calculations needed for other functions, notably:
+  ai_eval_defense_land, ai_eval_defense_nuclear, ai_eval_defense_sea and 
+  ai_eval_defense_air.
+
+  FIXME: We should try to find the lowest common defence strength of our
+  defending units, and ignore enemy units that are incapable of harming 
+  us, instead of just checking attack strength > 1.
+**************************************************************************/
+void ai_eval_threat_init(struct player *pplayer) {
+  int i, nuke_units = num_role_units(F_NUCLEAR);
+  bool got_nukes = FALSE;
+  bool have_antisea = can_player_build_improvement(pplayer, B_COASTAL);
+  bool have_antiair =  can_player_build_improvement(pplayer, B_SAM);
+  bool have_antinuke = can_player_build_improvement(pplayer, B_SDI);
+  bool have_antimissile = can_player_build_improvement(pplayer, B_SDI);
+
+  pplayer->ai.eval_threat.continent = 
+                               fc_calloc(map.num_continents + 1, sizeof(bool));
+  pplayer->ai.eval_threat.invasions = FALSE;
+  pplayer->ai.eval_threat.air = FALSE;
+  pplayer->ai.eval_threat.nuclear = 0;
+  pplayer->ai.eval_threat.sea = FALSE;
+
+  players_iterate(aplayer) {
+    /* allies and ourselves we trust, we don't trust peace treaties that much */
+    if (pplayers_allied(pplayer, aplayer)) continue; 
+
+    /* The idea is that if there aren't any hostile cities on
+     * our continent, the danger of land attacks is not big
+     * enough to warrant city walls. Concentrate instead on 
+     * coastal fortresses and hunting down enemy transports. */
+    city_list_iterate(aplayer->cities, acity) {
+      int continent = map_get_continent(acity->x, acity->y);
+      pplayer->ai.eval_threat.continent[continent] = TRUE;
+    } city_list_iterate_end;
+
+    unit_list_iterate(aplayer->units, punit) {
+      if (is_sailing_unit(punit)) {
+
+        /* If the enemy has not started sailing yet, or we have total
+         * control over the seas, don't worry, keep attacking. */
+        if (is_ground_units_transport(punit)) {
+          pplayer->ai.eval_threat.invasions = TRUE;
+        }
+
+        /* The idea is that while our enemies don't have any offensive
+         * seaborne units, we don't have to worry. Go on the offensive! */
+        if (have_antisea && unit_type(punit)->attack_strength > 1) {
+          pplayer->ai.eval_threat.sea = TRUE;
+        }
+      }
+
+      /* The next idea is that if our enemies don't have any offensive
+       * airborne units, we don't have to worry. Go on the offensive! */
+      if (have_antiair && (is_air_unit(punit) || is_heli_unit(punit))
+           && unit_type(punit)->attack_strength > 1) {
+        pplayer->ai.eval_threat.air = TRUE;
+      }
+
+      /* If our enemy builds missiles, worry about missile defence. */
+      if (have_antimissile && unit_flag(punit, F_MISSILE)
+          && unit_type(punit)->attack_strength > 1) {
+        pplayer->ai.eval_threat.missile = TRUE;
+      }
+
+      /* If he builds nukes, worry a lot. */
+      if (have_antinuke && unit_flag(punit, F_NUCLEAR)) got_nukes = TRUE;
+
+      /* If all our darkest fears have come true, we're done here. It
+       * can't possibly get any worse! */
+      if ((pplayer->ai.eval_threat.air || !have_antiair) 
+          && (pplayer->ai.eval_threat.missile || !have_antimissile)
+          && (got_nukes || !have_antinuke)
+          && (pplayer->ai.eval_threat.sea || !have_antisea)
+          && pplayer->ai.eval_threat.invasions) {
+        break;
+      }
+    } unit_list_iterate_end;
+
+    /* Check for nuke capability */
+    for (i = 0; i < nuke_units; i++) {
+      Unit_Type_id nuke = get_role_unit(F_NUCLEAR, i);
+      if (can_player_build_unit_direct(aplayer, nuke)) { 
+        pplayer->ai.eval_threat.nuclear = 1;
+      }
+    }
+  } players_iterate_end;
+
+  /* Increase from fear to terror if opponent actually has nukes */
+  if (got_nukes) pplayer->ai.eval_threat.nuclear++; 
+}
+
+/**************************************************************************
+  Clean up our mess.
+**************************************************************************/
+void ai_eval_threat_done(struct player *pplayer) {
+  free(pplayer->ai.eval_threat.continent);
+}
+
+/**************************************************************************
+  Calculate desire for land defense. First look for potentially hostile 
+  cities on our continent, indicating danger of being attacked by land. 
+  Then check if we are on the shoreline because we want to stop invasions
+  too - but only if a non-allied player has started using sea units yet. 
+  If they are slow to go on the offensive, we should expand or attack.
+
+  Returns a base value of desire for land defense building.
+
+  FIXME: We should have a concept of "oceans" just like we do for
+  continents. Too many times I've seen the AI build destroyers and 
+  coastal defences in inlands cities with a small pond adjacent. - Per
+**************************************************************************/
+static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
+{
+  int continent;
+  bool vulnerable;
+
+  /* make easy AI dumb */
+  if (ai_handicap(pplayer, H_DEFENSIVE)) {
+    return 40;
+  }
+
+  continent = map_get_continent(pcity->x, pcity->y);
+  vulnerable = pplayer->ai.eval_threat.continent[continent]
+               || city_got_building(pcity, B_PALACE)
+               || (pplayer->ai.eval_threat.invasions
+                   && is_water_adjacent_to_tile(pcity->x, pcity->y));
+
+  /* 40 is a magic number inherited from Syela */
+  return vulnerable ? 40 : 1;
+}
+
+/**************************************************************************
+  Calculate desire for coastal defence building.
+**************************************************************************/
+static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
+{
+  /* make easy AI stay dumb */
+  if (ai_handicap(pplayer, H_DEFENSIVE)) {
+    return 40;
+  }
+
+  /* 40 is a magic number inherited from Syela */
+  return pplayer->ai.eval_threat.sea ? 40 : 1;
+}
+
+/**************************************************************************
+  Calculate desire for air defence building.
+**************************************************************************/
+static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
+{
+  int continent;
+  bool vulnerable;
+
+  /* make easy AI dumber */
+  if (ai_handicap(pplayer, H_DEFENSIVE)) {
+    return 50;
+  }
+
+  continent = map_get_continent(pcity->x, pcity->y);
+  vulnerable = pplayer->ai.eval_threat.air
+               && (pplayer->ai.eval_threat.continent[continent]
+                   || is_water_adjacent_to_tile(pcity->x, pcity->y) 
+                   || city_got_building(pcity, B_PALACE));
+
+  /* 50 is a magic number inherited from Syela */
+  return vulnerable ? 50 : 0;
+}
+
+/**************************************************************************
+  Calculate need for nuclear defence. Look for players capable of building
+  nuclear weapons. Capable of building, not has, because at this stage in
+  the game we can get nukes and use nukes faster than we can manage to
+  build SDIs. We also look if players _have_ nukes, and increase our
+  want for SDIs correspondingly. Lastly, we check if we are in a strategic
+  position (ie near water or on a continent with non-allied cities).
+**************************************************************************/
+static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
+{
+  int continent;
+  int vulnerable = 1;
+
+  /* make easy AI really dumb, like it was before */
+  if (ai_handicap(pplayer, H_DEFENSIVE)) {
+    return 50;
+  }
+
+  /* No non-allied player has nuclear capability yet. */
+  if (pplayer->ai.eval_threat.nuclear == 0) { return 0; }
+
+  continent = map_get_continent(pcity->x, pcity->y);
+  vulnerable += pplayer->ai.eval_threat.continent[continent]
+                || is_water_adjacent_to_tile(pcity->x, pcity->y)
+                || city_got_building(pcity, B_PALACE);
+
+  /* 20 is just a new magic number, which will be +20 if we are
+     in a vulnerable spot, and +20 if someone we are not allied
+     with really have built nukes. This might be overkill, but
+     at least it is not as bad as it used to be. */
+  return ((pplayer->ai.eval_threat.nuclear + vulnerable) * 20);
+}
+
+/**************************************************************************
+  Calculate desire for missile defence.
+**************************************************************************/
+static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
+{
+  int continent = map_get_continent(pcity->x, pcity->y);
+  bool vulnerable = is_water_adjacent_to_tile(pcity->x, pcity->y)
+                    || pplayer->ai.eval_threat.continent[continent]
+                    || city_got_building(pcity, B_PALACE);
+
+  /* Only build missile defence if opponent builds them, and we are in
+     a vulnerable spot. FIXME: 10 is a totally arbitrary Syelaism. - Per */
+  return (pplayer->ai.eval_threat.missile && vulnerable) ? 10 : 0;
+}
 
 /**************************************************************************
 Get value of best usable tile on city map.
@@ -277,7 +495,7 @@ void ai_eval_buildings(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   int needpower;
   int wwtv = worst_worker_tile_value(pcity);
-  
+
   t = pcity->ai.trade_want; /* trade_weighting */
   sci = (pcity->trade_prod * pplayer->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
@@ -374,14 +592,13 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 /* and it would have no chance to finish them before it was too late */
 
   if (could_build_improvement(pcity, B_CITY))
-/* && !built_elsewhere(pcity, B_WALL))      was counterproductive -- Syela */
-    values[B_CITY] = 40; /* WAG */
+    values[B_CITY] = ai_eval_threat_land(pplayer, pcity);
 
   if (could_build_improvement(pcity, B_COASTAL))
-    values[B_COASTAL] = 40; /* WAG */
+    values[B_COASTAL] = ai_eval_threat_sea(pplayer, pcity);
 
   if (could_build_improvement(pcity, B_SAM))
-    values[B_SAM] = 50; /* WAG */
+    values[B_SAM] = ai_eval_threat_air(pplayer, pcity);
 
   if (could_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = impr_happy_val(get_colosseum_power(pcity), pcity, val);
@@ -439,7 +656,8 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_RESEARCH] = sci/2;
 
   if (could_build_improvement(pcity, B_SDI))
-    values[B_SDI] = 50; /* WAG */
+    values[B_SDI] = MAX(ai_eval_threat_nuclear(pplayer, pcity),
+                        ai_eval_threat_missile(pplayer, pcity));
 
   /* see comments above on B_AQUADUCT (wrt. granary size).  --Jing */
   if (could_build_improvement(pcity, B_SEWER)) {
