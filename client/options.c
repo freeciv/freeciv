@@ -43,17 +43,17 @@ int center_when_popup_city=1;
 int draw_map_grid=0;
 
 client_option options[] = {
-	GEN_OPTION(use_solid_color_behind_units, "Solid unit background color"),
-	GEN_OPTION(sound_bell_at_new_turn, "Sound bell at new turn"),
-	GEN_OPTION(smooth_move_units, "Smooth unit moves"),
-	GEN_OPTION(flags_are_transparent, "Flags are transparent"),
-	GEN_OPTION(ai_popup_windows, "Popup dialogs in AI Mode"),
-	GEN_OPTION(ai_manual_turn_done, "Manual Turn Done in AI Mode"),
-	GEN_OPTION(auto_center_on_unit, "Auto Center on Units"),
-	GEN_OPTION(wakeup_focus, "Focus on Awakened Units"),
-	GEN_OPTION(draw_diagonal_roads, "Draw Diagonal Roads/Rails"),
-	GEN_OPTION(center_when_popup_city, "Center map when Popup city"),
-	NULL_OPTION
+  GEN_OPTION(use_solid_color_behind_units,  "Solid unit background color"),
+  GEN_OPTION(sound_bell_at_new_turn,	    "Sound bell at new turn     "),
+  GEN_OPTION(smooth_move_units,		    "Smooth unit moves          "),
+  GEN_OPTION(flags_are_transparent,	    "Flags are transparent      "),
+  GEN_OPTION(ai_popup_windows,		    "Popup dialogs in AI Mode   "),
+  GEN_OPTION(ai_manual_turn_done,	    "Manual Turn Done in AI Mode"),
+  GEN_OPTION(auto_center_on_unit,	    "Auto Center on Units       "),
+  GEN_OPTION(wakeup_focus,		    "Focus on Awakened Units    "),
+  GEN_OPTION(draw_diagonal_roads,	    "Draw Diagonal Roads/Rails  "),
+  GEN_OPTION(center_when_popup_city,	    "Center map when Popup city "),
+  NULL_OPTION
 };
 
 unsigned int messages_where[E_LAST];

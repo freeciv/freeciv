@@ -406,7 +406,7 @@ static void create_option_dialog(void)
 
 
   for (o=options; o->name; ++o) {
-    o->p_gui_data = (void *)gtk_check_button_new_with_label (o->description);
+    o->p_gui_data = (void *)gtk_check_button_new_with_label ( _(o->description) );
     gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
   }
 

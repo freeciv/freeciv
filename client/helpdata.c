@@ -282,7 +282,7 @@ void boot_help_texts(void)
 	  if (terrain_control.river_help_text) {
 	    pitem = new_help_item(HELP_TEXT);
 	    pitem->topic = mystrdup(_("  Rivers"));
-	    strcpy(long_buffer, terrain_control.river_help_text);
+	    strcpy(long_buffer, _(terrain_control.river_help_text));
 	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
 	    genlist_insert(&category_nodes, pitem, -1);
