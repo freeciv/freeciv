@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14\n"
-"POT-Creation-Date: 2002-07-18 12:25+0200\n"
+"POT-Creation-Date: 2002-07-19 10:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -5434,8 +5434,9 @@ msgstr "Es konnte kein Audiosystem gestartet werden!"
 
 #: client/audio.c:219
 msgid "Perhaps there is some misconfigurationg or bad permissions"
-msgstr "Vielleicht ist etwas falsch konfiguriert oder mit falschen "
-"Zugriffsrechten versehen."
+msgstr ""
+"Vielleicht ist etwas falsch konfiguriert oder mit falschen Zugriffsrechten "
+"versehen."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/audio.c:242
@@ -5489,6 +5490,11 @@ msgstr "%3d/%3d:%s"
 msgid "%3d/%3d %s"
 msgstr "%3d/%3d %s"
 
+#: client/citydlg_common.c:164
+#, c-format
+msgid "%s (XX) %d/turn"
+msgstr "%s (XX) %d Runden"
+
 #: client/citydlg_common.c:181
 #, c-format
 msgid "%s (%d) %d turn"
@@ -5509,6 +5515,11 @@ msgstr "Fertig"
 #: client/gui-mui/worklistclass.c:112
 msgid "Obsolete"
 msgstr "Veraltet"
+
+#: client/citydlg_common.c:248
+#, c-format
+msgid "%d/turn"
+msgstr "%d/Runden"
 
 #: client/cityrepdata.c:69
 msgid "?city_state:Rapture"
