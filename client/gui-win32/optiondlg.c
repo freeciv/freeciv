@@ -83,7 +83,7 @@ static void create_option_dialog(void)
 					     root_window,NULL,NULL);
 
   hbox=fcwin_hbox_new(option_dialog,FALSE);
-  vbox=fcwin_vbox_new(option_dialog,FALSE);
+  vbox=fcwin_vbox_new(option_dialog,TRUE);
   vbox_labels=fcwin_vbox_new(option_dialog,TRUE);
   for (o=options; o->name; ++o) {
     switch (o->type) {

@@ -1015,7 +1015,7 @@ void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
       {
 	minsize->y=MAX(minsize->y,
 		       fbi->min.y);
-	biggest_minsize.y=MAX(biggest_minsize.y,fbi->biggest_min.x);
+	biggest_minsize.y=MAX(biggest_minsize.y,fbi->biggest_min.y);
 	minsize->x+=fbi->min.x+fbi->padding;
 	biggest_minsize.x+=fbi->biggest_min.x+fbi->padding;
       }
@@ -1038,10 +1038,13 @@ void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize)
 	fbi->biggest_min.x=biggest_minsize.x;
 	fbi->biggest_min.y=biggest_minsize.y;
       }
-      if (box->horiz)
+      if (box->horiz) {
 	minsize->x*=i;
-      else
+	biggest_minsize.x*=i;
+      } else {
 	minsize->y*=i;
+	biggest_minsize.y*=i;
+      }
       genlist_iterator_init(&myiter,&box->item_list,0);
       for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
 	fbi=(struct fcwin_box_item *)ITERATOR_PTR(myiter);
