@@ -27,6 +27,8 @@ void user_ended_turn(void);
 void set_client_state(enum client_states newstate);
 enum client_states get_client_state(void);
 
+void client_remove_cli_conn(struct connection *pconn);
+
 extern int turn_gold_difference;
 
 #endif  /* FC__CIVCLIENT_H */

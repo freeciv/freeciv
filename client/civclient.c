@@ -77,6 +77,8 @@ int turn_gold_difference;
 
 int did_advance_tech_this_turn;
 
+static void client_remove_all_cli_conn(void);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -348,6 +350,10 @@ void handle_packet_input(char *packet, int type)
     handle_advance_focus((struct packet_generic_integer *)packet);
     break;
     
+  case PACKET_CONN_INFO:
+    handle_conn_info((struct packet_conn_info *)packet);
+    break;
+    
   default:
     freelog(LOG_FATAL, _("Received unknown packet from server!"));
     exit(1);
@@ -447,6 +453,7 @@ void set_client_state(enum client_states newstate)
     }
     else if(client_state==CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
+      client_remove_all_cli_conn();
       game_remove_all_players();
       set_unit_focus_no_center(0);
       clear_notify_window();
@@ -465,6 +472,32 @@ void set_client_state(enum client_states newstate)
 enum client_states get_client_state(void)
 {
   return client_state;
+}
+
+/**************************************************************************
+  Remove pconn from all connection lists in client, then free it.
+**************************************************************************/
+void client_remove_cli_conn(struct connection *pconn)
+{
+  if (pconn->player) {
+    conn_list_unlink(&pconn->player->connections, pconn);
+  }
+  conn_list_unlink(&game.all_connections, pconn);
+  conn_list_unlink(&game.est_connections, pconn);
+  conn_list_unlink(&game.game_connections, pconn);
+  free(pconn);
+}
+
+/**************************************************************************
+  Remove (and free) all connections from all connection lists in client.
+  Assumes game.all_connections is properly maintained with all connections.
+**************************************************************************/
+static void client_remove_all_cli_conn(void)
+{
+  while (conn_list_size(&game.all_connections)) {
+    struct connection *pconn = conn_list_get(&game.all_connections, 0);
+    client_remove_cli_conn(pconn);
+  }
 }
 
 void dealloc_id(int id); /* double kludge (suppress a possible warning) */

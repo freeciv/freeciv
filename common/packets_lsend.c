@@ -89,6 +89,14 @@ void lsend_packet_player_info(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_conn_info(struct conn_list *dest,
+			  struct packet_conn_info *pinfo)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_conn_info(pconn, pinfo);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_new_year(struct conn_list *dest, 
 			 struct packet_new_year *request)
 {

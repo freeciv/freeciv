@@ -72,7 +72,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
-" event00_fix"
+" event00_fix conn_info"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -100,6 +100,10 @@ const char * const our_capability = our_capability_internal;
    "event00_fix" is that client understands that negative positions for
    events means no position.  Previous clients expect (0,0), which is
    also a genuine position.
+
+   "conn_info" is protocol changes to tell clients more information
+   about other connections to the server, including about multiple
+   connections per player.
 */
 
 void init_our_capability(void)

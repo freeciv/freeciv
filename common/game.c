@@ -806,6 +806,7 @@ void game_init(void)
     game.global_advances[i]=0;
   for (i=0; i<B_LAST; i++)
     game.global_wonders[i]=0;
+  game.conn_id = 0;
   game.player_idx=0;
   game.player_ptr=&game.players[0];
   terrain_control.river_help_text = NULL;

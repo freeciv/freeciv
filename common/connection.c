@@ -335,6 +335,22 @@ struct connection *find_conn_by_name_prefix(const char *name,
   }
 }
 
+/***************************************************************
+  Find connection by id, from game.all_connections.
+  Returns NULL if not found.
+  Number of connections will always be relatively small given
+  current implementation, so linear search should be fine.
+***************************************************************/
+struct connection *find_conn_by_id(int id)
+{
+  conn_list_iterate(game.all_connections, pconn) {
+    if (pconn->id == id) {
+      return pconn;
+    }
+  }
+  conn_list_iterate_end;
+  return NULL;
+}
 
 /**************************************************************************
   Return malloced struct, appropriately initialized.
@@ -356,8 +372,7 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
 
   Note that if pconn is client's aconnection (connection to server),
   pconn->name and pconn->addr contain empty string, and pconn->player
-  is NULL: in this case returns empty string, which is usually ok because
-  client needs no description for conn to server.
+  is NULL: in this case return string "server".
 **************************************************************************/
 const char *conn_description(const struct connection *pconn)
 {
@@ -368,6 +383,8 @@ const char *conn_description(const struct connection *pconn)
   if (*pconn->name) {
     my_snprintf(buffer, sizeof(buffer), _("%s from %s"),
 		pconn->name, pconn->addr); 
+  } else {
+    sz_strlcpy(buffer, "server");
   }
   if (!pconn->established) {
     sz_strlcat(buffer, _(" (connection incomplete)"));

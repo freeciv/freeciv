@@ -116,10 +116,12 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = 1;
+    game.conn_id = packet->conn_id;
   } else {
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), packet->message);
     append_output_window(msg);
+    game.conn_id = 0;
   }
   if (strcmp(s_capability, our_capability)==0)
     return;
@@ -822,7 +824,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   int poptechup;
   char msg[MAX_LEN_MSG];
   struct player *pplayer=&game.players[pinfo->playerno];
-  struct connection *cli_conn;
 
   sz_strlcpy(pplayer->name, pinfo->name);
   pplayer->nation=pinfo->nation;
@@ -860,23 +861,37 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
 
-  /* Fixme when client knows about multiconnects properly: currently
-   * client always allocates one connection struct per player and adds
-   * to pplayer->connections list.  Note this is allocated regardless
-   * whether the player really has any connections, and is never freed.
-   */
-  if (conn_list_size(&pplayer->connections)==0) {
-    cli_conn = fc_calloc(1, sizeof(struct connection));
-    conn_list_insert(&pplayer->connections, cli_conn);
-    cli_conn->buffer = NULL;
-    cli_conn->send_buffer = NULL;
-    cli_conn->player = NULL;
+  /* Remove this when "conn_info" capability removed: */
+  if (!has_capability("conn_info", aconnection.capability)) {
+    /* Fake things for old servers; old server sends blank_addr_str
+     * for non-connected players.
+     */
+    struct connection *pconn;
+    if (strcmp(pinfo->addr, blank_addr_str)==0) {
+      while (conn_list_size(&pplayer->connections)) { /* only expect one */
+	pconn = conn_list_get(&pplayer->connections, 0);
+	client_remove_cli_conn(pconn);
+      }
+    } else {
+      if (conn_list_size(&pplayer->connections)) {
+	pconn = conn_list_get(&pplayer->connections, 0);
+      } else {
+	pconn = fc_calloc(1, sizeof(struct connection));
+	pconn->buffer = NULL;
+	pconn->send_buffer = NULL;
+	conn_list_insert_back(&pplayer->connections, pconn);
+	conn_list_insert_back(&game.all_connections, pconn);
+	conn_list_insert_back(&game.est_connections, pconn);
+	conn_list_insert_back(&game.game_connections, pconn);
+      }
+      sz_strlcpy(pconn->capability, pinfo->capability);
+      sz_strlcpy(pconn->addr, pinfo->addr);
+      sz_strlcpy(pconn->name, pplayer->name);
+      pconn->player = pplayer;
+      pconn->established = 1;
+    }
   }
-  else {
-    cli_conn = conn_list_get(&pplayer->connections, 0);
-  }
-
-  sz_strlcpy(cli_conn->capability, pinfo->capability);
+  /* Remove to here */
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     sz_strlcpy(name, pplayer->name);
@@ -893,7 +908,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_alive=pinfo->is_alive;
   
   pplayer->is_connected=pinfo->is_connected;
-  sz_strlcpy(cli_conn->addr, pinfo->addr);   	/* see cli_conn above */
 
   pplayer->ai.is_barbarian=pinfo->is_barbarian;
   pplayer->revolution=pinfo->revolution;
@@ -926,6 +940,72 @@ void handle_player_info(struct packet_player_info *pinfo)
       update_info_label();
     }
   }
+}
+
+/**************************************************************************
+  Remove, add, or update dummy connection struct representing some
+  connection to the server, with info from packet_conn_info.
+  Updates player and game connection lists.
+  Calls update_players_dialog() in case info for that has changed.
+**************************************************************************/
+void handle_conn_info(struct packet_conn_info *pinfo)
+{
+  struct connection *pconn = find_conn_by_id(pinfo->id);
+  
+  freelog(LOG_DEBUG, "conn_info id%d used%d est%d plr%d obs%d acc%d",
+	  pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
+	  pinfo->observer, (int)pinfo->access_level);
+  freelog(LOG_DEBUG, "conn_info \"%s\" \"%s\" \"%s\"",
+	  pinfo->name, pinfo->addr, pinfo->capability);
+  
+  if (pinfo->used==0) {
+    /* Forget the connection */
+    if (!pconn) {
+      freelog(LOG_VERBOSE, "Server removed unknown connection %d", pinfo->id);
+      return;
+    }
+    client_remove_cli_conn(pconn);
+  }
+  else {
+    /* Add or update the connection */
+    struct player *pplayer =
+      ((pinfo->player_num >= 0 && pinfo->player_num < game.nplayers)
+       ? get_player(pinfo->player_num) : NULL);
+    
+    if (!pconn) {
+      freelog(LOG_VERBOSE, "Server reports new connection %d %s",
+	      pinfo->id, pinfo->name);
+      pconn = fc_calloc(1, sizeof(struct connection));
+      pconn->buffer = NULL;
+      pconn->send_buffer = NULL;
+      if (pplayer) {
+	conn_list_insert_back(&pplayer->connections, pconn);
+      }
+      conn_list_insert_back(&game.all_connections, pconn);
+      conn_list_insert_back(&game.est_connections, pconn);
+      conn_list_insert_back(&game.game_connections, pconn);
+    } else {
+      freelog(LOG_DEBUG, "Server reports updated connection %d %s",
+	      pinfo->id, pinfo->name);
+      if (pplayer != pconn->player) {
+	if (pconn->player) {
+	  conn_list_unlink(&pconn->player->connections, pconn);
+	}
+	if (pplayer) {
+	  conn_list_insert_back(&pplayer->connections, pconn);
+	}
+      }
+    }
+    pconn->id = pinfo->id;
+    pconn->established = pinfo->established;
+    pconn->observer = pinfo->observer;
+    pconn->access_level = pinfo->access_level;
+    pconn->player = pplayer;
+    sz_strlcpy(pconn->name, pinfo->name);
+    sz_strlcpy(pconn->addr, pinfo->addr);
+    sz_strlcpy(pconn->capability, pinfo->capability);
+  }
+  update_players_dialog();
 }
 
 /**************************************************************************

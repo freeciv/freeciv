@@ -2218,8 +2218,9 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       info.ai=game.players[i].ai.control;
       info.is_barbarian=game.players[i].ai.is_barbarian;
 
-      /* Fixme: For now, use player_addr_hack(), and capstr of
-       * first connection:
+      /* Remove when "conn_info" capability removed: now sent in
+       * conn_info packet.  For old clients (conditional in packets.c)
+       * use player_addr_hack() and capstr of first connection:
        */
       sz_strlcpy(info.addr, player_addr_hack(&game.players[i]));
       if (conn_list_size(&game.players[i].connections)) {
@@ -2228,6 +2229,7 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       } else {
 	info.capability[0] = '\0';
       }
+      /* Remove to here */
       
       for (j = 0; j < MAX_NUM_WORKLISTS; j++)
 	copy_worklist(&info.worklists[j], &game.players[i].worklists[j]);
@@ -2248,6 +2250,62 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 void send_player_info(struct player *src, struct player *dest)
 {
   send_player_info_c(src, (dest ? &dest->connections : &game.est_connections));
+}
+
+/**************************************************************************
+  Fill in packet_conn_info from full connection struct.
+**************************************************************************/
+static void package_conn_info(struct connection *pconn,
+			      struct packet_conn_info *packet)
+{
+  packet->id           = pconn->id;
+  packet->used         = pconn->used;
+  packet->established  = pconn->established;
+  packet->player_num   = pconn->player ? pconn->player->player_no : -1;
+  packet->observer     = pconn->observer;
+  packet->access_level = pconn->access_level;
+
+  sz_strlcpy(packet->name, pconn->name);
+  sz_strlcpy(packet->addr, pconn->addr);
+  sz_strlcpy(packet->capability, pconn->capability);
+}
+
+/**************************************************************************
+  Handle both send_conn_info() and send_conn_info_removed(), depending
+  on 'remove' arg.  Sends conn_info packets for 'src' to 'dest', turning
+  off 'used' if 'remove' is specified.
+**************************************************************************/
+static void send_conn_info_arg(struct conn_list *src,
+			       struct conn_list *dest, int remove)
+{
+  struct packet_conn_info packet;
+  
+  conn_list_iterate(*src, psrc) {
+    package_conn_info(psrc, &packet);
+    if (remove) {
+      packet.used = 0;
+    }
+    lsend_packet_conn_info(dest, &packet);
+  }
+  conn_list_iterate_end;
+}
+
+/**************************************************************************
+  Send conn_info packets to tell 'dest' connections all about
+  'src' connections.
+**************************************************************************/
+void send_conn_info(struct conn_list *src, struct conn_list *dest)
+{
+  send_conn_info_arg(src, dest, 0);
+}
+
+/**************************************************************************
+  Like send_conn_info(), but turn off the 'used' bits to tell clients
+  to remove info about these connections instead of adding it.
+**************************************************************************/
+void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
+{
+  send_conn_info_arg(src, dest, 1);
 }
 
 /***************************************************************

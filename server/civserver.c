@@ -682,6 +682,7 @@ static void send_all_info(struct conn_list *dest)
   send_game_info(dest);
   send_map_info(dest);
   send_player_info_c(0, dest);
+  send_conn_info(&game.est_connections, dest);
   send_spaceship_info(0, dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
@@ -1440,6 +1441,8 @@ static void join_game_accept(struct connection *pconn, int rejoin)
   conn_list_insert_back(&game.est_connections, pconn);
   conn_list_insert_back(&game.game_connections, pconn);
 
+  send_conn_info(&pconn->self, &game.est_connections);
+
   freelog(LOG_NORMAL, _("%s has joined as player %s."),
 	  pconn->name, pplayer->name);
   conn_list_iterate(game.est_connections, aconn) {
@@ -1778,6 +1781,7 @@ void lost_connection_to_client(struct connection *pconn)
   conn_list_unlink(&game.game_connections, pconn);
   pconn->established = 0;
   
+  send_conn_info_remove(&pconn->self, &game.est_connections);
   send_player_info(pplayer, 0);
 
   if (game.is_new_game

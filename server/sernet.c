@@ -385,23 +385,26 @@ int sniff_packets(void)
   Make up a name for the connection, before we get any data from
   it to use as a sensible name.  Name will be 'c' + integer,
   guaranteed not to be the same as any other connection name,
-  nor player name nor user name (avoid possible confusions).
-  Returns pointer to static buffer.
+  nor player name nor user name, nor connection id (avoid possible
+  confusions).   Returns pointer to static buffer, and fills in
+  (*id) with chosen value.
 ********************************************************************/
-static const char *makeup_connection_name(void)
+static const char *makeup_connection_name(int *id)
 {
-  static unsigned long i = 0;
+  static unsigned short i = 0;
   static char name[MAX_LEN_NAME];
 
   for(;;) {
-    my_snprintf(name, sizeof(name), "c%lu", i++);
+    if (i==(unsigned short)-1) i++;              /* don't use 0 */
+    my_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
     if (!find_player_by_name(name)
 	&& !find_player_by_user(name)
+	&& !find_conn_by_id(i)
 	&& !find_conn_by_name(name)) {
+      *id = i;
       return name;
     }
   }
-  return NULL;	/* not reached */
 }
   
 /********************************************************************
@@ -442,9 +445,10 @@ static int server_accept_connection(int sockfd)
       pconn->send_buffer = new_socket_packet_buffer();
       pconn->first_packet = 1;
       pconn->byte_swap = 0;
+      pconn->capability[0] = '\0';
       pconn->access_level = (i?default_access_level:first_access_level);
 
-      sz_strlcpy(pconn->name, makeup_connection_name());
+      sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,
 		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 

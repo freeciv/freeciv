@@ -75,6 +75,7 @@ struct civ_game {
   int occupychance;
   int unhappysize;
   char *startmessage;
+  int conn_id;			/* client-only: id client known to server as */
   int player_idx;
   struct player *player_ptr;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];

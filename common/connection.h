@@ -74,6 +74,7 @@ struct socket_packet_buffer {
   at the other end of a network connection.
 ***********************************************************/
 struct connection {
+  int id;			/* used for server/client communication */
   int sock, used;
   int established;		/* have negotiated initial packets */
   int first_packet;		/* check byte order on first packet */
@@ -118,6 +119,7 @@ void conn_list_do_unbuffer(struct conn_list *dest);
 struct connection *find_conn_by_name(const char *name);
 struct connection *find_conn_by_name_prefix(const char *name,
 					    enum m_pre_result *result);
+struct connection *find_conn_by_id(int id);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
 

@@ -34,6 +34,8 @@ void lsend_packet_game_info(struct conn_list *dest,
 			  struct packet_game_info *pinfo);
 void lsend_packet_player_info(struct conn_list *dest, 
 			    struct packet_player_info *pinfo);
+void lsend_packet_conn_info(struct conn_list *dest,
+			  struct packet_conn_info *pinfo);
 void lsend_packet_new_year(struct conn_list *dest, 
 			 struct packet_new_year *request);
 void lsend_packet_move_unit(struct conn_list *dest, 

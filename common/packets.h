@@ -110,6 +110,7 @@ enum packet_type {
   PACKET_SABOTAGE_LIST,
   PACKET_ADVANCE_FOCUS,
   PACKET_RULESET_GAME,
+  PACKET_CONN_INFO,
   PACKET_LAST  /* leave this last */
 };
 
@@ -381,6 +382,7 @@ struct packet_join_game_reply {
   int you_can_join;             /* true/false */
   char message[MAX_LEN_MSG];
   char capability[MAX_LEN_CAPSTR];
+  int conn_id;			/* clients conn id as known in server */
 };
 
 
@@ -438,12 +440,35 @@ struct packet_player_info {
   int tech_goal;
   unsigned char inventions[A_LAST+1];
   int is_connected;
-  char addr[MAX_LEN_ADDR];
   int revolution;
   int ai;
   int is_barbarian;
-  char capability[MAX_LEN_CAPSTR];
   struct worklist worklists[MAX_NUM_WORKLISTS];
+
+  /* Remove following when "conn_info" capability removed: */
+  char addr[MAX_LEN_ADDR];
+  char capability[MAX_LEN_CAPSTR];
+  /* Remove to here */
+};
+
+/**************************************************************************
+  For telling clients information about other connections to server.
+  Clients may not use all info, but supply now to avoid unnecessary
+  protocol changes later.
+**************************************************************************/
+struct packet_conn_info {
+  int id;
+  int used;			/* boolean; 0 means client should forget its
+				   info about this connection */
+  int established;		/* boolean */
+  int player_num;		/* range uchar; index in game.players, or 255 */
+  int observer;			/* boolean (?) */
+  
+  enum cmdlevel_id access_level;   /* range uchar */
+  
+  char name[MAX_LEN_NAME];
+  char addr[MAX_LEN_ADDR];
+  char capability[MAX_LEN_CAPSTR];
 };
 
 /*********************************************************
@@ -847,6 +872,9 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc);
 int send_packet_player_info(struct connection *pc, 
 			    struct packet_player_info *pinfo);
 
+struct packet_conn_info *receive_packet_conn_info(struct connection *pc);
+int send_packet_conn_info(struct connection *pc,
+			  struct packet_conn_info *pinfo);
 
 int send_packet_new_year(struct connection *pc, 
 			 struct packet_new_year *request);

@@ -348,12 +348,12 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_SABOTAGE_LIST:
     return receive_packet_sabotage_list(pc);
 
+  case PACKET_CONN_INFO:
+    return receive_packet_conn_info(pc);
+
   default:
-    {
-      const char *desc = conn_description(pc);
-      freelog(LOG_NORMAL, "unknown packet type %d received%s%s",
-	      type, (strlen(desc) ? " from " : ""), desc);
-    }
+    freelog(LOG_NORMAL, "unknown packet type %d received from %s",
+	    type, conn_description(pc));
     remove_packet_from_buffer(pc->buffer);
     return NULL;
   };
@@ -427,10 +427,7 @@ static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
    * unless we know we will need it:
    */
   if (piter->bad_string || piter->bad_bit_string || rem != 0) {
-    const char *desc = conn_description(pc);
-    if (strlen(desc)) {
-      my_snprintf(from, sizeof(from), " from %s", desc);
-    }
+    my_snprintf(from, sizeof(from), " from %s", conn_description(pc));
   }
   
   if (piter->bad_string) {
@@ -1593,15 +1590,24 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint16(cptr, pinfo->future_tech);
   
   cptr=put_uint8(cptr, pinfo->is_connected?1:0);
+
+  /* Remove block when "conn_info" removed: now sent in conn_info packet */
+ if (pc && !has_capability("conn_info", pc->capability)) {
   cptr=put_string(cptr, pinfo->addr);
+ }
+  /* Remove to here */
+  
   cptr=put_uint8(cptr, pinfo->revolution);
   cptr=put_uint8(cptr, pinfo->tech_goal);
   cptr=put_uint8(cptr, pinfo->ai?1:0);
   cptr=put_uint8(cptr, pinfo->is_barbarian);
 
-  /* if (pc && has_capability("clientcapabilities", pc->capability)) */
+  /* Remove block when "conn_info" removed: now sent in conn_info packet */
+ if (pc && !has_capability("conn_info", pc->capability)) {
   cptr=put_string(cptr, pinfo->capability);
-
+ }
+  /* Remove to here */
+ 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++)
     cptr = put_worklist(cptr, &pinfo->worklists[i]);
 
@@ -1655,17 +1661,97 @@ receive_packet_player_info(struct connection *pc)
   iget_uint16(&iter, &pinfo->future_tech);
 
   iget_uint8(&iter, &pinfo->is_connected);
+  
+  /* Remove block when "conn_info" removed: now sent in conn_info packet */
+ if (pc && !has_capability("conn_info", pc->capability)) {
   iget_string(&iter, pinfo->addr, sizeof(pinfo->addr));
+ }
+  /* Remove to here */
+  
   iget_uint8(&iter, &pinfo->revolution);
   iget_uint8(&iter, &pinfo->tech_goal);
   iget_uint8(&iter, &pinfo->ai);
   iget_uint8(&iter, &pinfo->is_barbarian);
 
-  /* if (has_capability("clientcapabilities", pc->capability)) */
+  /* Remove block when "conn_info" removed: now sent in conn_info packet */
+ if (pc && !has_capability("conn_info", pc->capability)) {
   iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
-  
+ }
+  /* Remove to here */
+ 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++)
     iget_worklist(&iter, &pinfo->worklists[i]);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(pc->buffer);
+  return pinfo;
+}
+
+/*************************************************************************
+  Send connection.id as uint32 even though currently only use ushort
+  range, in case want to use it for more later, eg global user-id...?
+...
+**************************************************************************/
+int send_packet_conn_info(struct connection *pc,
+			  struct packet_conn_info *pinfo)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  int data;
+
+  /* Remove block when "conn_info" removed: */
+  if (!(pc && has_capability("conn_info", pc->capability))) {
+    return 0;
+  }
+  /* Remove to here */
+ 
+  cptr=put_uint8(buffer+2, PACKET_CONN_INFO);
+  
+  cptr=put_uint32(cptr, pinfo->id);
+  
+  data = pinfo->used ? 1 : 0;
+  data |= pinfo->established ? 2 : 0;
+  data |= pinfo->observer ? 4 : 0;
+  cptr=put_uint8(cptr, data);
+  
+  cptr=put_uint8(cptr, pinfo->player_num);
+  cptr=put_uint8(cptr, pinfo->access_level);
+  
+  cptr=put_string(cptr, pinfo->name);
+  cptr=put_string(cptr, pinfo->addr);
+  cptr=put_string(cptr, pinfo->capability);
+
+  put_uint16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_conn_info *
+receive_packet_conn_info(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_conn_info *pinfo=
+     fc_malloc(sizeof(struct packet_conn_info));
+  int data;
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint32(&iter, &pinfo->id);
+  
+  iget_uint8(&iter, &data);
+  pinfo->used = data&1;
+  pinfo->established = (data>>=1)&1;
+  pinfo->observer = (data>>=1)&1;
+
+  iget_uint8(&iter, &pinfo->player_num);
+  iget_uint8(&iter, &data);
+  pinfo->access_level = data;
+
+  iget_string(&iter, pinfo->name, sizeof(pinfo->name));
+  iget_string(&iter, pinfo->addr, sizeof(pinfo->addr));
+  iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2323,7 +2409,8 @@ int send_packet_req_join_game(struct connection *pc, struct
 }
 
 /**************************************************************************
-...
+  ...
+  Fills in conn.id automatically, no need to set in packet_join_game_reply.
 **************************************************************************/
 int send_packet_join_game_reply(struct connection *pc, struct 
 			        packet_join_game_reply *reply)
@@ -2336,6 +2423,10 @@ int send_packet_join_game_reply(struct connection *pc, struct
   cptr=put_string(cptr, reply->message);
   cptr=put_string(cptr, reply->capability);
 
+if (pc && has_capability("conn_info", pc->capability)) {
+  cptr=put_uint32(cptr, pc->id);
+}
+ 
   /* so that old clients will understand the reply: */
   if(pc->byte_swap) {
     put_uint16(buffer, swab_uint16(cptr-buffer));
@@ -2440,6 +2531,13 @@ receive_packet_join_game_reply(struct connection *pc)
   iget_uint32(&iter, &packet->you_can_join);
   iget_string(&iter, packet->message, sizeof(packet->message));
   iget_string(&iter, packet->capability, sizeof(packet->capability));
+
+  /* NOTE: pc doesn't yet have capability filled in!  Use packet value: */
+if (has_capability("conn_info", packet->capability)) {
+  iget_uint32(&iter, &packet->conn_id);
+} else {
+  packet->conn_id = 0;
+}
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

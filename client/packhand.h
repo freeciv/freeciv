@@ -19,6 +19,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet);
 
 void handle_tile_info(struct packet_tile_info *packet);
 void handle_player_info(struct packet_player_info *packet);
+void handle_conn_info(struct packet_conn_info *packet);
 void handle_game_info(struct packet_game_info *packet);
 void handle_map_info(struct packet_map_info *pinfo);
 void handle_select_nation(struct packet_generic_values *packet);

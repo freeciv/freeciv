@@ -37,6 +37,8 @@ void neutralize_ai_player(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
+void send_conn_info(struct conn_list *src, struct conn_list *dest);
+void send_conn_info_remove(struct conn_list *src, struct conn_list *dest);
 
 void page_conn(struct conn_list *dest, char *caption, char *headline,
 	       char *lines);
