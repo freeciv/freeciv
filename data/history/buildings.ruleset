@@ -263,7 +263,7 @@ City Walls make it easier to defend a city.  They triple the defence\
 
 [building_coastal_defense]
 name		= _("Coastal Defense")
-tech_req	= "Metallurgy"
+tech_req	= "Gunpowder"
 bldg_req	= "None"
 terr_gate	= "Ocean"
 ;spec_gate	=
@@ -399,7 +399,7 @@ The amount of stored food will be set to half full whenever a city\
 
 [building_harbour]
 name		= _("Harbour")
-tech_req	= "Seafaring"
+tech_req	= "Map Making"
 bldg_req	= "None"
 terr_gate	= "Ocean"
 ;spec_gate	=
@@ -465,7 +465,7 @@ A city can only have one Hydro Plant, Power Plant, or\
 
 [building_library]
 name		= _("Library")
-tech_req	= "Writing"
+tech_req	= "Alphabet"
 bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
@@ -1513,7 +1513,7 @@ Makes two unhappy citizens content in every city.\
 
 [building_king_richards_crusade]
 name		= _("King Richard's Crusade")
-tech_req	= "Engineering"
+tech_req	= "Milling"
 bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
@@ -1562,7 +1562,7 @@ Upgrades one obsolete unit per game turn.\
 
 [building_lighthouse]
 name		= _("Lighthouse")
-tech_req	= "Map Making"
+tech_req	= "Seafaring"
 bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=

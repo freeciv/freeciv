@@ -367,7 +367,7 @@ roles         = "DefendGood", "FirstBuild"
 [unit_musketeers]
 name          = _("Musketeers")
 move_type     = "Land"
-tech_req      = "Gunpowder"
+tech_req      = "Metallurgy"
 obsolete_by   = "Riflemen"
 graphic       = "u.musketeers"
 graphic_alt   = "-"
@@ -492,7 +492,7 @@ roles         = "DefendGood"
 [unit_riflemen]
 name          = _("Riflemen")
 move_type     = "Land"
-tech_req      = "Conscription"
+tech_req      = "Riflery"
 obsolete_by   = "None"
 graphic       = "u.riflemen"
 graphic_alt   = "-"
@@ -603,7 +603,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood"
+roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Mechanized Infantry; this unit has the strongest defence strength\
  of any land unit, but is only available near the end of the\
@@ -866,7 +866,7 @@ roles         = "AttackStrong"
 [unit_cannon]
 name          = _("Cannon")
 move_type     = "Land"
-tech_req      = "Metallurgy"
+tech_req      = "Gunpowder"
 obsolete_by   = "Artillery"
 graphic       = "u.cannon"
 graphic_alt   = "-"
@@ -1104,7 +1104,7 @@ An improved Bomber, with improved attack and a higher movement\
 [unit_trireme]
 name          = _("Trireme")
 move_type     = "Sea"
-tech_req      = "Map Making"
+tech_req      = "Seafaring"
 obsolete_by   = "Caravel"
 graphic       = "u.trireme"
 graphic_alt   = "-"
@@ -1244,7 +1244,7 @@ roles         = ""
 [unit_destroyer]
 name          = _("Destroyer")
 move_type     = "Sea"
-tech_req      = "Electricity"
+tech_req      = "Combustion"
 obsolete_by   = "None"
 graphic       = "u.destroyer"
 graphic_alt   = "-"
@@ -1276,7 +1276,7 @@ TIP:  A very fast unit, which is very useful for hunting down enemy\
 [unit_cruiser]
 name          = _("Cruiser")
 move_type     = "Sea"
-tech_req      = "Steel"
+tech_req      = "Combustion"
 obsolete_by   = "AEGIS Cruiser"
 graphic       = "u.cruiser"
 graphic_alt   = "-"
@@ -1360,7 +1360,7 @@ roles         = ""
 [unit_submarine]
 name          = _("Submarine")
 move_type     = "Sea"
-tech_req      = "Combustion"
+tech_req      = "Refining"
 obsolete_by   = "None"
 graphic       = "u.submarine"
 graphic_alt   = "-"
@@ -1426,7 +1426,7 @@ TIP:  Guard Carriers with a handful of fast-moving ships and a\
 [unit_transport]
 name          = _("Transport")
 move_type     = "Sea"
-tech_req      = "Industrialization"
+tech_req      = "Steam Engine"
 obsolete_by   = "None"
 graphic       = "u.transport"
 graphic_alt   = "-"
@@ -1693,7 +1693,7 @@ The Freight unit replaces the Caravan, and moves at twice the speed.\
 [unit_explorer]
 name          = _("Explorer")
 move_type     = "Land"
-tech_req      = "Seafaring"
+tech_req      = "Map Making"
 obsolete_by   = "Partisan"
 graphic       = "u.explorer"
 graphic_alt   = "-"
