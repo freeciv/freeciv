@@ -2309,11 +2309,11 @@ static bool hut_get_barbarians(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   bool ok = TRUE;
 
-  if (city_exists_within_city_radius(punit->x, punit->y, TRUE)) {
+  if (city_exists_within_city_radius(punit->x, punit->y, TRUE)
+      || unit_flag(punit, F_GAMELOSS)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_HUT_BARB_CITY_NEAR,
 		     _("Game: An abandoned village is here."));
-  }
-  else {
+  } else {
     /* save coords and type in case unit dies */
     int punit_x = punit->x;
     int punit_y = punit->y;
