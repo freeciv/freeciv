@@ -17,9 +17,11 @@
 
 #include <assert.h>
 #include <string.h>
-
-#include <mmsystem.h>
+/************************************************************************* 
+ This two includes are misordered, but it does not compile otherwise
+*************************************************************************/
 #include <windows.h>
+#include <mmsystem.h>
 
 #include "fcintl.h"
 #include "log.h"
