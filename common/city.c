@@ -131,6 +131,7 @@ static char *effect_type_names[] = {
   "Science_Bonus",
   "Science_Pct",
   "Size_Unlimit",
+  "Slow_Nuke_Winter",
   "Slow_Global_Warm",
   "Space_Part",
   "Spy_Resistant",
@@ -870,6 +871,8 @@ int get_shields_tile(int x, int y, struct city *pcity)
     s--;
   if (spec_t & S_POLLUTION)
     s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here is icky */
+  if (spec_t & S_FALLOUT)
+    s-=(s*terrain_control.fallout_shield_penalty)/100;
   return s;
 }
 
@@ -923,6 +926,8 @@ int get_trade_tile(int x, int y, struct city *pcity)
       t--;
     if (spec_t & S_POLLUTION)
       t-=(t*terrain_control.pollution_trade_penalty)/100; /* The trade here is dirty */
+    if (spec_t & S_FALLOUT)
+      t-=(t*terrain_control.fallout_trade_penalty)/100;
   }
   return t;
 }
@@ -982,6 +987,8 @@ int get_food_tile(int x, int y, struct city *pcity)
 
   if (spec_t & S_POLLUTION)
     f-=(f*terrain_control.pollution_food_penalty)/100; /* The food here is yucky */
+  if (spec_t & S_FALLOUT)
+    f-=(f*terrain_control.fallout_food_penalty)/100;
 
   return f;
 }

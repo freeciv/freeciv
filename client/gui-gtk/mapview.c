@@ -78,6 +78,7 @@ extern GtkWidget *	main_label_info;
 extern GtkWidget *	econ_label			[10];
 extern GtkWidget *	bulb_label;
 extern GtkWidget *	sun_label;
+extern GtkWidget *	flake_label;
 extern GtkWidget *	government_label;
 extern GtkWidget *	timeout_label;
 extern GtkWidget *	turn_done_button;
@@ -272,7 +273,10 @@ void update_timeout_label(void)
 {
   char buffer[512];
 
-  format_duration(buffer, sizeof(buffer), seconds_to_turndone);
+  if (game.timeout <= 0)
+    sz_strlcpy(buffer, Q_("?timeout:off"));
+  else
+    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
   gtk_set_label(timeout_label, buffer);
 }
 
@@ -297,9 +301,10 @@ void update_info_label( void )
 
   gtk_set_label(main_label_info, buffer);
 
-  set_bulb_sol_government(client_research_sprite(),
-			  client_pollution_sprite(),
-			  game.player_ptr->government);
+  set_indicator_icons(client_research_sprite(),
+		      client_warming_sprite(),
+		      client_cooling_sprite(),
+		      game.player_ptr->government);
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
@@ -476,22 +481,23 @@ SPRITE *get_citizen_sprite(int frame)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_bulb_sol_government(int bulb, int sol, int government)
+void set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
   struct Sprite *gov_sprite;
-  
+
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
-  sol  = CLIP(0, sol, NUM_TILES_PROGRESS-1);
+  sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
+  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
 
   gtk_pixmap_set(GTK_PIXMAP(bulb_label), sprites.bulb[bulb]->pixmap, NULL);
-
   gtk_pixmap_set(GTK_PIXMAP(sun_label), sprites.warming[sol]->pixmap, NULL);
-  
+  gtk_pixmap_set(GTK_PIXMAP(flake_label), sprites.cooling[flake]->pixmap, NULL);
+
   if (game.government_count==0) {
     /* not sure what to do here */
     gov_sprite = sprites.citizen[7]; 
   } else {
-    gov_sprite = get_government(government)->sprite;
+    gov_sprite = get_government(gov)->sprite;
   }
   gtk_pixmap_set(GTK_PIXMAP(government_label), gov_sprite->pixmap, NULL);
 }
@@ -1011,57 +1017,6 @@ static void show_city_descriptions(void)
     }
   }
 }
-
-#ifdef UNUSED
-
-/**************************************************************************
- Can be removed
-**************************************************************************/
-void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile)
-{
-  SPRITE *mysprite;
-
-  if(solid_color_behind_units) {
-    gdk_gc_set_foreground( fill_bg_gc,
-			   colors_standard[player_color(city_owner(pcity))]);
-    gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-		    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
-  }
-  else if(!flags_are_transparent) {	/* observe transparency here, too! */
-    mysprite=get_city_nation_flag_sprite(pcity);
-    gdk_draw_pixmap( pm, civ_gc, mysprite->pixmap,
-		0, 0,
-		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
-		mysprite->width, mysprite->height );
-  } else {
-    pixmap_put_overlay_tile(pm, xtile, ytile, get_city_nation_flag_sprite(pcity));
-  }
-  
-
-  pixmap_put_overlay_tile(pm, xtile, ytile,
-			  (city_got_citywalls(pcity)
-			   ? sprites.tx.city_walls
-			   : sprites.tx.city));
-
-  if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.occupied);
-
-  if(pcity->size>=10) {
-    pixmap_put_overlay_tile(pm, xtile, ytile,
-			    sprites.city.size_tens[pcity->size/10]);
-  }
-  pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.size[pcity->size%10]);
-
-  if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.tx.pollution);
-
-  if(city_unhappy(pcity))
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.disorder);
-
-}
-
-#endif
 
 /**************************************************************************
 ...

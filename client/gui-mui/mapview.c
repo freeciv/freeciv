@@ -68,6 +68,7 @@ IMPORT Object *main_gold_text;
 IMPORT Object *main_tax_text;
 IMPORT Object *main_bulb_sprite;
 IMPORT Object *main_sun_sprite;
+IMPORT Object *main_flake_sprite;
 IMPORT Object *main_government_sprite;
 IMPORT Object *main_timeout_text;
 IMPORT Object *main_econ_sprite[10];
@@ -230,9 +231,10 @@ void update_info_label(void)
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
 
-  set_bulb_sol_government(client_research_sprite(),
-			  client_pollution_sprite(),
-			  game.player_ptr->government);
+  set_indicator_icons(client_research_sprite(),
+		      client_warming_sprite(),
+		      client_cooling_sprite(),
+		      game.player_ptr->government);
 
   d = 0;
   for (; d < (game.player_ptr->economic.luxury) / 10; d++)
@@ -276,15 +278,17 @@ void update_unit_info_label(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_bulb_sol_government(int bulb, int sol, int government)
+void set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
   struct Sprite *gov_sprite;
 
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS - 1);
   sol = CLIP(0, sol, NUM_TILES_PROGRESS - 1);
+  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
 
   set(main_bulb_sprite, MUIA_Sprite_Sprite, sprites.bulb[bulb]);
   set(main_sun_sprite, MUIA_Sprite_Sprite, sprites.warming[sol]);
+  set(main_flake_sprite, MUIA_Sprite_Sprite, sprites.cooling[flake]);
 
   if (game.government_count == 0)
   {
@@ -293,7 +297,7 @@ void set_bulb_sol_government(int bulb, int sol, int government)
   }
   else
   {
-    gov_sprite = get_government(government)->sprite;
+    gov_sprite = get_government(gov)->sprite;
   }
   set(main_government_sprite, MUIA_Sprite_Sprite, gov_sprite);
 }

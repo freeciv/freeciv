@@ -368,6 +368,12 @@ static void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *a
     key_unit_done();
 }
 
+static void xaw_key_unit_fallout(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FALLOUT))
+    key_unit_fallout();
+}
+
 static void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FORTIFY))
@@ -620,6 +626,7 @@ static XtActionsRec Actions[] = {
   { "key-unit-connect", xaw_key_unit_connect },
   { "key-unit-disband", xaw_key_unit_disband },
   { "key-unit-done", xaw_key_unit_done },
+  { "key-unit-fallout", xaw_key_unit_fallout },
   { "key-unit-fortify", xaw_key_unit_fortify },
   { "key-unit-fortify-or-fortress", xaw_key_unit_fortify_or_fortress },
   { "key-unit-fortress", xaw_key_unit_fortress },

@@ -726,6 +726,7 @@ struct packet_ruleset_game {
   int init_vis_radius_sq;
   int hut_overflight;
   int pillage_select;
+  int nuke_contamination;
 };
 
 /*********************************************************
@@ -744,6 +745,8 @@ struct packet_game_info {
   int player_idx;
   int globalwarming;
   int heating;
+  int nuclearwinter;
+  int cooling;
   int cityfactor;
   int unhappysize;
   int diplcost,freecost,conquercost;

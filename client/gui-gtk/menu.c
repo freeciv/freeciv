@@ -96,6 +96,7 @@ enum MenuID {
   MENU_ORDER_ROAD,
   MENU_ORDER_CONNECT,
   MENU_ORDER_POLLUTION,
+  MENU_ORDER_FALLOUT,
   MENU_ORDER_FORTIFY,
   MENU_ORDER_SENTRY,
   MENU_ORDER_PILLAGE,
@@ -282,6 +283,10 @@ static void orders_menu_callback(gpointer callback_data,
       key_unit_paradrop();
     else
       key_unit_pollution();
+    break;
+   case MENU_ORDER_FALLOUT:
+    if(get_unit_in_focus())
+      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FALLOUT);
     break;
    case MENU_ORDER_HOMECITY:
     if(get_unit_in_focus())
@@ -559,6 +564,8 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_ORDER_AIRBASE								      },
   { "/" N_("Orders") "/" N_("Clean Pollution"), "p",		orders_menu_callback,
     MENU_ORDER_POLLUTION						      },
+  { "/" N_("Orders") "/" N_("Clean Nuclear Fallout"), "n",	orders_menu_callback,
+    MENU_ORDER_FALLOUT							      },
   { "/" N_("Orders") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
   { "/" N_("Orders") "/" N_("Fortify"),	"f",		orders_menu_callback,
@@ -913,6 +920,8 @@ void update_menus(void)
       menus_set_sensitive("<main>/Orders/Clean Pollution",
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradrop(punit));
+      menus_set_sensitive("<main>/Orders/Clean Nuclear Fallout",
+			   can_unit_do_activity(punit, ACTIVITY_FALLOUT));
       menus_set_sensitive("<main>/Orders/Fortify",
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menus_set_sensitive("<main>/Orders/Sentry",

@@ -94,7 +94,8 @@ roles         = ""
 helptext      = _("\
 Setters are one of the key units in the game.  They can be used to\
  found new cities, irrigate land, build roads, railroads, fortresses\
- and mines, and clean up pollution.  Upkeep for Settlers is in food\
+ and mines, and clean up pollution and nuclear fallout.  Upkeep for\
+ Settlers is in food\
  as well as production, and a Setter can die if its supporting city\
  runs out of food.\
 \n\n\
@@ -1167,9 +1168,9 @@ You can build Nuclear units when you have the required advance, and\
 \n\n\
 On impact, the blast will destroy any unit in a 3x3-square area,\
  including friendly units.  When striking a city, the city size is\
- halved, and the surrounding squares are polluted.\
+ halved, and the surrounding squares are subject to nuclear fallout.\
 \n\n\
-TIP 1:  Nuking the ocean will not generate pollution, and is a most\
+TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
  ships.\
 \n\n\
@@ -1177,8 +1178,8 @@ TIP 2:  You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\
  Before using a Nuclear unit, assemble a gang of Settlers\
  next to the city and have them ready to fix\
- the pollution on the same turn it occurs!  This minimises the\
- chance of global warming.  Eco-friendly nukes!\
+ the fallout on the same turn it occurs!  This minimizes the\
+ chance of nuclear winter.  Eco-friendly nukes!\
 ")
 
 [unit_diplomat]

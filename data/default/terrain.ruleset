@@ -81,6 +81,15 @@ pollution_shield_penalty=50
 ; percent subtracted from trade production if square is polluted
 pollution_trade_penalty=50
 
+; percent subtracted from food production if square has fallout
+fallout_food_penalty=50
+
+; percent subtracted from shield production if square has fallout
+fallout_shield_penalty=50
+
+; percent subtracted from trade production if square has fallout
+fallout_trade_penalty=50
+
 ; Below: The individual terrain types, one per section.
 ; For now, the number of such sections must be kept the same (=12).
 ; Also, terrains should be in the same order as defined in common/map.h,
@@ -422,7 +431,7 @@ helptext	     = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
 \n\n\
-Ocean squares can never be polluted.\
+Ocean squares can never be polluted or subjected to fallout.\
 ")
 
 [terrain_plains]

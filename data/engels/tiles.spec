@@ -8,7 +8,7 @@ options = "+spec2"
 
 artists = "
     Ralph Engels <rengels@hydra.informatik.uni-ulm.de>
-    Jeff Mallatt <jjm@codewell.com> (additional specials)
+    Jeff Mallatt <jjm@codewell.com> (additional specials, miscellaneous)
 "
 
 [file]
@@ -382,6 +382,7 @@ tiles = { "row", "column", "tag"
  12, 15, "tx.fortress"
  13, 16, "tx.airbase"
  13, 17, "tx.fog"
+ 13, 18, "tx.fallout"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 
@@ -402,6 +403,7 @@ tiles = { "row", "column", "tag"
  12, 16, "unit.airbase"
  12, 17, "unit.pillage"
  12, 18, "unit.fortified"
+ 12, 19, "unit.fallout"
 
 ; Unit hit-point bars: approx percent of hp remaining
 

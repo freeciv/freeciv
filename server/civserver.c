@@ -678,30 +678,6 @@ static void send_all_info(struct player *dest)
   send_player_turn_notifications(dest);
 }
 
-#ifdef UNUSED
-/**************************************************************************
-...
-**************************************************************************/
-int find_highest_used_id(void)
-{
-  int i, max_id;
-
-  max_id=0;
-  for(i=0; i<game.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pcity) {
-      max_id=MAX(max_id, pcity->id);
-    }
-    city_list_iterate_end;
-    unit_list_iterate(game.players[i].units, punit) {
-      max_id=MAX(max_id, punit->id);
-    }
-    unit_list_iterate_end;
-  }
-  return max_id;
-}
-#endif /* UNUSED */
-
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -744,36 +720,38 @@ static void marco_polo_make_contact(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void update_pollution(void)
+static void update_environmental_upset(enum tile_special_type cause,
+				       int *current, int *accum, int *level,
+				       void (*upset_action_fn)(int))
 {
-  int x,y,count=0;
-  
-  for (x=0;x<map.xsize;x++) 
-    for (y=0;y<map.ysize;y++) 
-      if (map_get_special(x,y)&S_POLLUTION) {
+  int x, y, count;
+
+  count = 0;
+  for (x = 0; x < map.xsize; x++) {
+    for (y = 0; y < map.ysize; y++) {
+      if (map_get_special(x,y) & cause) {
 	count++;
       }
-  game.heating=count;
-  game.globalwarming+=count;
-  if (game.globalwarming<game.warminglevel) 
-    game.globalwarming=0;
-  else {
-    game.globalwarming-=game.warminglevel;
-    if (myrand(200)<=game.globalwarming) {
-      freelog(LOG_NORMAL, "Global warming:%d\n", count);
-      global_warming(map.xsize/10+map.ysize/10+game.globalwarming*5);
-      game.globalwarming=0;
-      send_all_known_tiles(0);
-      notify_player_ex(0, 0,0, E_WARMING,
-		       _("Game: Global warming has occurred!"));
-      notify_player(0, _("Game: Coastlines have been flooded and vast ranges "
-			 "of grassland have become deserts."));
-      game.warminglevel+=4;
     }
   }
+
+  *current = count;
+  *accum += count;
+  if (*accum < *level) {
+    *accum = 0;
+  } else {
+    *accum -= *level;
+    if (myrand(200) <= *accum) {
+      upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
+      *accum = 0;
+      *level+=4;
+      send_all_known_tiles(0);
+    }
+  }
+
   freelog(LOG_DEBUG,
-	  "pollution: heating=%d warminglevel=%d globalwarming=%d",
-	  game.heating, game.warminglevel, game.globalwarming);
+	  "environmental_upset: cause=%-4d current=%-2d level=%-2d accum=%-2d",
+	  cause, *current, *level, *accum);
 }
 
 /**************************************************************************
@@ -925,7 +903,12 @@ static int end_turn(void)
   for (i=0; i<game.nplayers;i++) {
     send_player_cities(&game.players[i]);
   }
-  update_pollution();
+  update_environmental_upset(S_POLLUTION, &game.heating,
+			     &game.globalwarming, &game.warminglevel,
+			     global_warming);
+  update_environmental_upset(S_FALLOUT, &game.cooling,
+			     &game.nuclearwinter, &game.coolinglevel,
+			     nuclear_winter);
   update_diplomatics();
   do_apollo_program();
   marco_polo_make_contact();

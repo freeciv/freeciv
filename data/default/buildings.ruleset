@@ -123,6 +123,8 @@ options="1.10.1"
 ;			  (all Science_Bonus' are summed before being applied)
 ;     "Science_Pct"	- increases science research by AMOUNT percent
 ;     "Size_Unlimit"	- cities not affected will not grow beyond AMOUNT
+;     "Slow_Nuke_Winter"- reduces the affect of terrain with fallout within
+;			  range on nuclear winter by AMOUNT percent
 ;     "Slow_Global_Warm"- reduces the affect of polluted terrain within
 ;			  range on global warming by AMOUNT percent
 ;     "Space_Part"	- a part of a spaceship; per AMOUNT:

@@ -723,6 +723,8 @@ void game_init(void)
   game.is_new_game = 1;
   game.globalwarming=0;
   game.warminglevel=8;
+  game.nuclearwinter=0;
+  game.coolinglevel=8;
   game.gold        = GAME_DEFAULT_GOLD;
   game.tech        = GAME_DEFAULT_TECHLEVEL;
   game.skill_level = GAME_DEFAULT_SKILL_LEVEL;
@@ -759,6 +761,7 @@ void game_init(void)
   game.nbarbarians = 0;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
+  game.cooling     = 0;
   sz_strlcpy(game.save_name, "civgame");
   game.save_nturns=10;
   game.randseed=GAME_DEFAULT_RANDSEED;

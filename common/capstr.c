@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix
- game_ruleset"
+ game_ruleset nuclear_fallout"
 
 /* "+1.11" is protocol for 1.11.0 stable release
 
@@ -84,6 +84,9 @@ const char * const our_capability = our_capability_internal;
    when changing back to original class.
 
    "game_ruleset" is use of game.ruleset instead of civstyle option.
+
+   "nuclear_fallout" is protocol extension for having nuclear fallout
+   be distinct from industrial pollution.
 */
 
 void init_our_capability(void)

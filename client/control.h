@@ -88,6 +88,7 @@ void key_unit_build_wonder(void);
 void key_unit_connect(void);
 void key_unit_disband(void);
 void key_unit_done(void);
+void key_unit_fallout(void);
 void key_unit_fortify(void);
 void key_unit_fortress(void);
 void key_unit_goto(void);

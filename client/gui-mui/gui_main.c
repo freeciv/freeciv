@@ -183,6 +183,7 @@ Object *main_turndone_button;
 Object *main_econ_sprite[10];
 Object *main_bulb_sprite;
 Object *main_sun_sprite;
+Object *main_flake_sprite;
 Object *main_government_sprite;
 Object *main_timeout_text;
 
@@ -257,6 +258,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Build Fortress", MENU_ORDER_FORTRESS, "SHIFT F", NM_COMMANDSTRING),
   MAKE_ITEM("Build Airbase", MENU_ORDER_AIRBASE, "e", NM_COMMANDSTRING),
   MAKE_ITEM("Clean Pollution", MENU_ORDER_POLLUTION, "p", NM_COMMANDSTRING),
+  MAKE_ITEM("Clean Nuclear Fallout", MENU_ORDER_FALLOUT, "n", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Fortify", MENU_ORDER_FORTIFY, "f", NM_COMMANDSTRING),
   MAKE_ITEM("Sentry", MENU_ORDER_SENTRY, "s", NM_COMMANDSTRING),
@@ -538,6 +540,9 @@ static void control_callback(ULONG * value)
         key_unit_paradrop();
       else
         key_unit_pollution();
+      break;
+    case MENU_ORDER_FALLOUT:
+      key_unit_fallout();
       break;
     case MENU_ORDER_FORTIFY:
       key_unit_fortify();
@@ -1200,6 +1205,8 @@ void update_menus(void) /* from menu.c */
 	menu_entry_sensitive(MENU_ORDER_POLLUTION, can_unit_do_activity(punit, ACTIVITY_POLLUTION));
       }
 
+      menu_entry_sensitive(MENU_ORDER_FALLOUT, can_unit_do_activity(punit, ACTIVITY_FALLOUT));
+
       menu_entry_sensitive(MENU_ORDER_FORTIFY, can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menu_entry_sensitive(MENU_ORDER_AIRBASE, can_unit_do_activity(punit, ACTIVITY_AIRBASE));
       menu_entry_sensitive(MENU_ORDER_SENTRY, can_unit_do_activity(punit, ACTIVITY_SENTRY));
@@ -1299,6 +1306,7 @@ void ui_main(int argc, char *argv[])
       /* TODO: Move this into init_gui() */
       main_bulb_sprite = MakeBorderSprite(sprites.bulb[0]);
       main_sun_sprite = MakeBorderSprite(sprites.warming[0]);
+      main_flake_sprite = MakeBorderSprite(sprites.cooling[0]);
       main_government_sprite = MakeBorderSprite(sprites.citizen[7]);
       main_timeout_text = TextObject, End;
 
@@ -1323,6 +1331,7 @@ void ui_main(int argc, char *argv[])
       DoMethod(main_info_group, OM_ADDMEMBER, econ_group);
       DoMethod(main_turndone_group, OM_ADDMEMBER, main_bulb_sprite);
       DoMethod(main_turndone_group, OM_ADDMEMBER, main_sun_sprite);
+      DoMethod(main_turndone_group, OM_ADDMEMBER, main_flake_sprite);
       DoMethod(main_turndone_group, OM_ADDMEMBER, main_government_sprite);
       DoMethod(main_turndone_group, OM_ADDMEMBER, main_timeout_text);
       DoMethod(main_info_group, MUIM_Group_Sort, econ_group, main_turndone_group, NULL);

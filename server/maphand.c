@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "events.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -50,8 +51,11 @@ static char terrain_chars[] = "adfghjm prst";
 **************************************************************************/
 void global_warming(int effect)
 {
-  int x, y;
-  int k=map.xsize*map.ysize;
+  int x, y, k;
+
+  freelog(LOG_NORMAL, "Global warming: %d", game.heating);
+
+  k=map.xsize*map.ysize;
   while(effect && k--) {
     x=myrand(map.xsize);
     y=myrand(map.ysize);
@@ -62,7 +66,7 @@ void global_warming(int effect)
 	  effect--;
 	  map_set_terrain(x, y, T_JUNGLE);
           reset_move_costs(x, y);
-          send_tile_info(0,x,y);
+          send_tile_info(0, x, y);
 	  break;
 	case T_DESERT:
 	case T_PLAINS:
@@ -72,7 +76,7 @@ void global_warming(int effect)
 	  map_clear_special(x, y, S_FARMLAND);
 	  map_clear_special(x, y, S_IRRIGATION);
           reset_move_costs(x, y);
-          send_tile_info(0,x,y);
+          send_tile_info(0, x, y);
 	  break;
 	default:
 	  break;
@@ -85,20 +89,71 @@ void global_warming(int effect)
 	  effect--;
 	  map_set_terrain(x, y, T_DESERT);
           reset_move_costs(x, y);
-          send_tile_info(0,x,y);
+          send_tile_info(0, x, y);
 	  break;
 	default:
 	  break;
 	}
       }
+      unit_list_iterate(map_get_tile(x, y)->units, punit) {
+	if (!can_unit_do_activity(punit, punit->activity)
+	    && !punit->connecting)
+	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      } unit_list_iterate_end;
     }
-
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      if (!can_unit_do_activity(punit, punit->activity)
-	  && !punit->connecting)
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    } unit_list_iterate_end;
   }
+
+  notify_player_ex(0, 0,0, E_GLOBAL_ECO,
+		   _("Game: Global warming has occurred!"));
+  notify_player(0, _("Game: Coastlines have been flooded and vast "
+		     "ranges of grassland have become deserts."));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void nuclear_winter(int effect)
+{
+  int x, y, k;
+
+  freelog(LOG_NORMAL, "Nuclear winter: %d", game.cooling);
+
+  k=map.xsize*map.ysize;
+  while(effect && k--) {
+    x=myrand(map.xsize);
+    y=myrand(map.ysize);
+    if (map_get_terrain(x, y)!=T_OCEAN) {
+      switch (map_get_terrain(x, y)) {
+      case T_JUNGLE:
+      case T_SWAMP:
+      case T_PLAINS:
+      case T_GRASSLAND:
+	effect--;
+	map_set_terrain(x, y, is_water_adjacent(x, y) ? T_DESERT : T_TUNDRA);
+	reset_move_costs(x, y);
+	send_tile_info(0, x, y);
+	break;
+      case T_TUNDRA:
+	effect--;
+	map_set_terrain(x, y, T_ARCTIC);
+	reset_move_costs(x, y);
+	send_tile_info(0, x, y);
+	break;
+      default:
+	break;
+      }
+      unit_list_iterate(map_get_tile(x, y)->units, punit) {
+	if (!can_unit_do_activity(punit, punit->activity)
+	    && !punit->connecting)
+	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      } unit_list_iterate_end;
+    }
+  }
+
+  notify_player_ex(0, 0,0, E_GLOBAL_ECO,
+		   _("Game: Nuclear winter has occurred!"));
+  notify_player(0, _("Game: Wetlands have dried up and vast "
+		     "ranges of grassland have become tundra."));
 }
 
 /**************************************************************************
@@ -454,6 +509,15 @@ void map_save(struct section_file *file)
     secfile_insert_str(file, pbuf, "map.n%03d", y);
   }
 
+  /* put "final" 4 bits of special flags */
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++)
+      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf000)>>12];
+    pbuf[x]='\0';
+
+    secfile_insert_str(file, pbuf, "map.f%03d", y);
+  }
+
   /* put bit 0-3 of known bits */
   for(y=0; y<map.ysize; y++) {
     for(x=0; x<map.xsize; x++)
@@ -614,6 +678,25 @@ void map_load(struct section_file *file)
 	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
 	} else if(ch!=' ') {
 	  freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
+      }
+    }
+  }
+
+  /* get "final" 4 bits of special flags */
+  for(y=0; y<map.ysize; y++) {
+    char *terline=secfile_lookup_str_default(file, NULL, "map.f%03d", y);
+
+    if (terline) {
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown special flag(final) (map.f) in map "
 		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
 	  exit(1);
 	}

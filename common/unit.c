@@ -755,6 +755,7 @@ char* get_activity_text (int activity)
   case ACTIVITY_EXPLORE:	text = _("Explore"); break;
   case ACTIVITY_TRANSFORM:	text = _("Transform"); break;
   case ACTIVITY_AIRBASE:	text = _("Airbase"); break;
+  case ACTIVITY_FALLOUT:	text = _("Fallout"); break;
   default:			text = _("Unknown"); break;
   }
 
@@ -853,6 +854,9 @@ int can_unit_do_activity_targeted(struct unit *punit,
 
   case ACTIVITY_POLLUTION:
     return unit_flag(punit->type, F_SETTLERS) && (ptile->special&S_POLLUTION);
+
+  case ACTIVITY_FALLOUT:
+    return unit_flag(punit->type, F_SETTLERS) && (ptile->special&S_FALLOUT);
 
   case ACTIVITY_ROAD:
     return terrain_control.may_road &&
@@ -1087,6 +1091,7 @@ char *unit_activity_text(struct unit *punit)
      }
      return text;
    case ACTIVITY_POLLUTION:
+   case ACTIVITY_FALLOUT:
    case ACTIVITY_ROAD:
    case ACTIVITY_RAILROAD:
    case ACTIVITY_MINE: 

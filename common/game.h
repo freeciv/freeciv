@@ -44,6 +44,9 @@ struct city;
 #define OVERFLIGHT_NOTHING  1
 #define OVERFLIGHT_FRIGHTEN 2
 
+#define CONTAMINATION_POLLUTION 1
+#define CONTAMINATION_FALLOUT   2
+
 struct civ_game {
   int is_new_game;		/* 1 for games never started */
   int version;
@@ -80,6 +83,9 @@ struct civ_game {
 					      mother nature is */
   int heating;
   int warminglevel;
+  int nuclearwinter;
+  int cooling;
+  int coolinglevel;
   char save_name[MAX_LEN_NAME];
   int save_nturns;
   int foodbox;
@@ -150,6 +156,7 @@ struct civ_game {
     int init_vis_radius_sq;
     int hut_overflight;
     int pillage_select;
+    int nuke_contamination;
   } rgame;
 
   char demography[MAX_LEN_DEMOGRAPHY];
@@ -297,7 +304,7 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_TIMEOUT         0
 #define GAME_MIN_TIMEOUT             0
-#define GAME_MAX_TIMEOUT             86400
+#define GAME_MAX_TIMEOUT             8639999
 
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0

@@ -71,6 +71,9 @@ struct terrain_misc
   int pollution_food_penalty;          /* % subtr. from food if polluted */
   int pollution_shield_penalty;        /* % subtr. from shield if polluted */
   int pollution_trade_penalty;         /* % subtr. from trade if polluted */
+  int fallout_food_penalty;            /* % subtr. from food if fallout */
+  int fallout_shield_penalty;          /* % subtr. from shield if fallout */
+  int fallout_trade_penalty;           /* % subtr. from trade if fallout */
 };
 
 /****************************************************************

@@ -8,6 +8,7 @@ options = "+spec2"
 
 artists = "
     Alexandre Beraud <a_beraud@lemel.fr>
+    Jeff Mallatt <jjm@codewell.com> (cooling flakes)
 "
 
 [file]
@@ -52,6 +53,17 @@ tiles = { "row", "column", "tag"
   0, 19, "s.warming_sun_5"
   0, 20, "s.warming_sun_6"
   0, 21, "s.warming_sun_7"
+
+; Nuclear winter progress indicators:
+
+  0, 31, "s.cooling_flake_0"
+  0, 32, "s.cooling_flake_1"
+  0, 33, "s.cooling_flake_2"
+  0, 34, "s.cooling_flake_3"
+  0, 35, "s.cooling_flake_4"
+  0, 36, "s.cooling_flake_5"
+  0, 37, "s.cooling_flake_6"
+  0, 38, "s.cooling_flake_7"
 
 ; Citizen icons:
 

@@ -33,3 +33,8 @@ hut_overflight		= "Frighten"
 
 ; Whether player gets to select which terrain improvement to pillage.
 pillage_select		= 1
+
+; The type of collateral contamination produced by a nuclear attack.
+;   "Pollution" - Pollution (same as industrial/population-generated).
+;   "Fallout"   - Nuclear Fallout (distinct from industrial/population).
+nuke_contamination	= "Fallout"

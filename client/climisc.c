@@ -321,20 +321,27 @@ void client_change_all(int x, int y)
 
 /**************************************************************************
 Format a duration, in seconds, so it comes up in minutes or hours if
-that would be more meaningful.  (Three characters, maximum.)
+that would be more meaningful.
+(Eleven characters, maximum.  Enough for, e.g., "99h 59m 59s".)
 **************************************************************************/
 void format_duration(char *buffer, int buffer_size, int duration)
 {
   if (duration < 0)
     duration = 0;
-  if (duration <= 999)
-    my_snprintf(buffer, buffer_size, Q_("?seconds:%d"), duration);
-  else if (duration < 5970)	/* < 99.5 minutes */
-    my_snprintf(buffer, buffer_size, Q_("?minutes:%dm"), duration/60);
-  else if (duration < 358200)	/* < 99.5 hours */
-    my_snprintf(buffer, buffer_size, Q_("?hours:%dh"), duration/3600);
+  if (duration < 60)
+    my_snprintf(buffer, buffer_size, Q_("?seconds:%02ds"),
+		duration);
+  else if (duration < 3600)	/* < 60 minutes */
+    my_snprintf(buffer, buffer_size, Q_("?mins/secs:%02dm %02ds"),
+		duration/60, duration%60);
+  else if (duration < 360000)	/* < 100 hours */
+    my_snprintf(buffer, buffer_size, Q_("?hrs/mns/scs:%02dh %02dm %02ds"),
+		duration/3600, (duration/60)%60, duration%60);
+  else if (duration < 8640000)	/* < 100 days */
+    my_snprintf(buffer, buffer_size, Q_("?dys/hrs/mns:%02dd %02dh %02dm"),
+		duration/86400, (duration/3600)%24, (duration/60)%60);
   else
-    my_snprintf(buffer, buffer_size, "+++");
+    my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
 }
 
 /**************************************************************************
@@ -395,9 +402,9 @@ int client_research_sprite(void)
 }
 
 /**************************************************************************
-Return the sprite index for the pollution indicator.
+Return the sprite index for the global-warming indicator.
 **************************************************************************/
-int client_pollution_sprite(void)
+int client_warming_sprite(void)
 {
   int index;
   if ((game.globalwarming <= 0) &&
@@ -406,6 +413,23 @@ int client_pollution_sprite(void)
   } else {
     index = MIN(NUM_TILES_PROGRESS,
 		(MAX(0, 4 + game.globalwarming) / 5) +
+		((NUM_TILES_PROGRESS / 2) - 1));
+  }
+  return index;
+}
+
+/**************************************************************************
+Return the sprite index for the global-cooling indicator.
+**************************************************************************/
+int client_cooling_sprite(void)
+{
+  int index;
+  if ((game.nuclearwinter <= 0) &&
+      (game.cooling < (NUM_TILES_PROGRESS / 2))) {
+    index = MAX(0, game.cooling);
+  } else {
+    index = MIN(NUM_TILES_PROGRESS,
+		(MAX(0, 4 + game.nuclearwinter) / 5) +
 		((NUM_TILES_PROGRESS / 2) - 1));
   }
   return index;

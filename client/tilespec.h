@@ -70,6 +70,7 @@ struct named_sprites {
   struct Sprite
     *bulb[NUM_TILES_PROGRESS],
     *warming[NUM_TILES_PROGRESS],
+    *cooling[NUM_TILES_PROGRESS],
     *citizen[NUM_TILES_CITIZEN],   /* internal code... */
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow;
@@ -98,6 +99,7 @@ struct named_sprites {
       *auto_attack,
       *auto_settler,
       *auto_explore,
+      *fallout,
       *fortified,
       *fortifying,
       *fortress,
@@ -143,6 +145,7 @@ struct named_sprites {
       *village,
       *fortress,
       *airbase,
+      *fallout,
       *fog,
       *spec_river[NUM_DIRECTION_NSEW],
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */

@@ -128,6 +128,9 @@ int amortize(int benefit, int delay)
   return(benefit * s);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void generate_minimap(void)
 {
   int a, i, j;
@@ -142,6 +145,9 @@ void generate_minimap(void)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void remove_city_from_minimap(int x, int y)
 {
   int i, j, n, xx;
@@ -162,6 +168,9 @@ void remove_city_from_minimap(int x, int y)
   }
 }    
 
+/**************************************************************************
+...
+**************************************************************************/
 void add_city_to_minimap(int x, int y)
 {
   int i, j, n, xx;
@@ -182,6 +191,9 @@ void add_city_to_minimap(int x, int y)
   }
 }    
 
+/**************************************************************************
+...
+**************************************************************************/
 void locally_zero_minimap(int x, int y)
 {
   int i, j, n, xx;
@@ -197,6 +209,9 @@ void locally_zero_minimap(int x, int y)
   }
 }  
 
+/**************************************************************************
+...
+**************************************************************************/
 int city_desirability(struct player *pplayer, int x, int y)
 { /* this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela */
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
@@ -462,41 +477,6 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
   return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
 }
 
-#ifdef UNUSED
-int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
-{
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
-#ifdef RIDICULOUS
-  if (same_pos(myunit->x, myunit->y, x, y))
-    return 0;
-#endif
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (myunit==punit) continue;
-    if (punit->owner!=pplayer->player_no)
-      return 1;
-    if (unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type, F_SETTLERS))
-      return 1;
-  }
-  unit_list_iterate_end;
-#ifndef RIDICULOUS
-  if (same_pos(myunit->x, myunit->y, x, y))
-    return 0;
-#endif
-  unit_list_iterate(pplayer->units, punit) {
-    if (myunit==punit) continue;
-    if (punit->owner!=pplayer->player_no)
-      return 1;
-    if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x, y) && unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type,F_SETTLERS) && punit->activity==ACTIVITY_GOTO)
-      return 1;
-    if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x, y) && !unit_flag(myunit->type, F_SETTLERS) && punit->activity==ACTIVITY_GOTO)
-      return 1;
-  }
-  unit_list_iterate_end;
-  return 0;
-}
-#endif
-
 /*************************************************************************/
 
 /* all of the benefit and ai_calc routines rewritten by Syela */
@@ -509,7 +489,7 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
 ...
 **************************************************************************/
 static int ai_calc_pollution(struct city *pcity, struct player *pplayer,
-			     int i, int j)
+			     int i, int j, int best)
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
@@ -517,6 +497,24 @@ static int ai_calc_pollution(struct city *pcity, struct player *pplayer,
   map_clear_special(x, y, S_POLLUTION);
   m = city_tile_value(pcity, i, j, 0, 0);
   map_set_special(x, y, S_POLLUTION);
+  m = (m + best + 50) * 2;
+  return(m);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
+			   int i, int j, int best)
+{
+  int x, y, m;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!(map_get_special(x, y) & S_FALLOUT)) return(-1);
+  map_clear_special(x, y, S_FALLOUT);
+  m = city_tile_value(pcity, i, j, 0, 0);
+  map_set_special(x, y, S_FALLOUT);
+  if (!pplayer->ai.control)
+    m = (m + best + 50) * 2;
   return(m);
 }
 
@@ -813,6 +811,9 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   return 1;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int find_boat(struct player *pplayer, int *x, int *y, int cap)
 { /* this function uses the current warmap, whatever it may hold */
 /* unit is no longer an arg!  we just trust the map! -- Syela */
@@ -848,6 +849,9 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap)
   return(id);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 struct unit *other_passengers(struct unit *punit)
 {
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
@@ -929,9 +933,12 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int x, y, i, j;
   int b=0, d=0;
 
-  int save_newv;		/* for debugging only */
-  
   struct ai_choice choice;	/* for nav want only */
+
+#ifdef DEBUG
+  /* for debugging only */
+  int save_newv;
+#endif
 
   choice.type = 1;
   choice.want = 0;		/* will change as needed */
@@ -959,6 +966,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
      AI settlers improving enemy cities.  arguably should include city_spot  */
   generate_warmap(mycity, punit);
   city_list_iterate(pplayer->cities, pcity)
+    freelog(LOG_DEBUG, "%s", pcity->name);
     /* try to work near the city */
     city_map_iterate_outwards(i, j)
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
@@ -1036,6 +1044,21 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 				&best_newv, &best_oldv, &best_act, &gx, &gy,
 				x, y);
 
+	d = (3*3 + mv_rate - 1)/mv_rate +
+	  mv_turns;
+	consider_settler_action(pplayer, ACTIVITY_FALLOUT,
+				pplayer->ai.warmth,
+				pcity->ai.derad[i][j], oldv, in_use, d,
+				&best_newv, &best_oldv, &best_act, &gx, &gy,
+				x, y);
+
+	freelog(LOG_DEBUG,
+		"(%d %d) I=%+-4d O=%+-4d M=%+-4d R=%+-4d RR=%+-4d P=%+-4d N=%+-4d",
+		i, j,
+		pcity->ai.irrigate[i][j], pcity->ai.transform[i][j],
+		pcity->ai.mine[i][j], pcity->ai.road[i][j],
+		pcity->ai.railroad[i][j], pcity->ai.detox[i][j],
+		pcity->ai.derad[i][j]);
       } /* end if we are a legal destination */
     city_map_iterate_outwards_end;
   city_list_iterate_end;
@@ -1053,7 +1076,9 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 	    punit->id, punit->x, punit->y, get_activity_text(best_act),
 	    gx, gy, best_newv);
   }
+#ifdef DEBUG
   save_newv = best_newv;
+#endif
 
   if (pplayer->ai.control)
     boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
@@ -1292,8 +1317,10 @@ void initialize_infrastructure_cache(struct city *pcity)
 {
   int i, j;
   struct player *pplayer = &game.players[pcity->owner];
+  int best = best_worker_tile_value(pcity);
   city_map_iterate(i, j) {
-    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j);
+    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j, best);
+    pcity->ai.derad[i][j] = ai_calc_fallout(pcity, pplayer, i, j, best);
     pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
     pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
     pcity->ai.transform[i][j] = ai_calc_transform(pcity, pplayer, i, j);

@@ -2469,19 +2469,11 @@ Freeciv*econlabels.bottom:                         chainTop
 Freeciv*econlabels.left:                           chainLeft
 Freeciv*econlabels.right:                          chainLeft
 
-Freeciv*turndonebutton.label:                      _("Turn Done")
-Freeciv*turndonebutton.fromVert:                   econlabels
-Freeciv*turndonebutton.top:                        chainTop
-Freeciv*turndonebutton.bottom:                     chainTop
-Freeciv*turndonebutton.left:                       chainLeft
-Freeciv*turndonebutton.right:                      chainRight
-
 Freeciv*bulblabel.width:                           15
 Freeciv*bulblabel.height:                          20
 Freeciv*bulblabel.internalWidth:                   0
 Freeciv*bulblabel.internalHeight:                  0
 Freeciv*bulblabel.fromVert:                        econlabels
-Freeciv*bulblabel.fromHoriz:                       turndonebutton
 Freeciv*bulblabel.top:                             chainTop
 Freeciv*bulblabel.bottom:                          chainTop
 Freeciv*bulblabel.left:                            chainLeft
@@ -2498,18 +2490,29 @@ Freeciv*sunlabel.bottom:                           chainTop
 Freeciv*sunlabel.left:                             chainLeft
 Freeciv*sunlabel.right:                            chainLeft
 
+Freeciv*flakelabel.width:                          15
+Freeciv*flakelabel.height:                         20
+Freeciv*flakelabel.internalWidth:                  0
+Freeciv*flakelabel.internalHeight:                 0
+Freeciv*flakelabel.fromVert:                       econlabels
+Freeciv*flakelabel.fromHoriz:                      sunlabel
+Freeciv*flakelabel.top:                            chainTop
+Freeciv*flakelabel.bottom:                         chainTop
+Freeciv*flakelabel.left:                           chainLeft
+Freeciv*flakelabel.right:                          chainLeft
+
 Freeciv*governmentlabel.width:                     15
 Freeciv*governmentlabel.height:                    20
 Freeciv*governmentlabel.internalWidth:             0
 Freeciv*governmentlabel.internalHeight:            0
 Freeciv*governmentlabel.fromVert:                  econlabels
-Freeciv*governmentlabel.fromHoriz:                 sunlabel
+Freeciv*governmentlabel.fromHoriz:                 flakelabel
 Freeciv*governmentlabel.top:                       chainTop
 Freeciv*governmentlabel.bottom:                    chainTop
 Freeciv*governmentlabel.left:                      chainLeft
 Freeciv*governmentlabel.right:                     chainLeft
 
-Freeciv*timeoutlabel.label:                        \ 0\ 
+Freeciv*timeoutlabel.label:                        \ \ \ \ \ \ \ \ \ \ \ 
 Freeciv*timeoutlabel.fromVert:                     econlabels
 Freeciv*timeoutlabel.fromHoriz:                    governmentlabel
 Freeciv*timeoutlabel.top:                          chainTop
@@ -2519,6 +2522,13 @@ Freeciv*timeoutlabel.right:                        chainLeft
 Freeciv*timeoutlabel.borderWidth:                  1
 Freeciv*timeoutlabel.internalWidth:                1
 Freeciv*timeoutlabel.background:                   lightblue
+
+Freeciv*turndonebutton.label:                      _("Turn Done")
+Freeciv*turndonebutton.fromVert:                   bulblabel
+Freeciv*turndonebutton.top:                        chainTop
+Freeciv*turndonebutton.bottom:                     chainTop
+Freeciv*turndonebutton.left:                       chainLeft
+Freeciv*turndonebutton.right:                      chainRight
 
 Freeciv*unitinfolabel.label:	\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
 Freeciv*unitinfolabel.justify:                     left
@@ -2749,6 +2759,7 @@ Freeciv*mapcanvas.translations:\
    <Key>i:            key-unit-irrigate()              \n\
    <Key>l:            key-open-goto-airlift()          \n\
    <Key>m:            key-unit-mine()                  \n\
+   <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
    <Key>r:            key-unit-road-or-traderoute()    \n\
@@ -2823,6 +2834,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>i:            key-unit-irrigate()              \n\
    <Key>l:            key-open-goto-airlift()          \n\
    <Key>m:            key-unit-mine()                  \n\
+   <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
    <Key>r:            key-unit-road-or-traderoute()    \n\

@@ -1178,6 +1178,12 @@ static void load_ruleset_terrain(char *ruleset_subdir)
     secfile_lookup_int_default(&file, 50, "parameters.pollution_shield_penalty");
   terrain_control.pollution_trade_penalty =
     secfile_lookup_int_default(&file, 50, "parameters.pollution_trade_penalty");
+  terrain_control.fallout_food_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.fallout_food_penalty");
+  terrain_control.fallout_shield_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.fallout_shield_penalty");
+  terrain_control.fallout_trade_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.fallout_trade_penalty");
 
   /* terrain names */
 
@@ -1924,6 +1930,17 @@ static void load_ruleset_game(char *ruleset_subdir)
   game.rgame.pillage_select =
     secfile_lookup_int(&file, "civstyle.pillage_select");
 
+  sval = secfile_lookup_str(&file, "civstyle.nuke_contamination" );
+  if (mystrcasecmp(sval, "Pollution") == 0) {
+    game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
+  } else if (mystrcasecmp(sval, "Fallout") == 0) {
+    game.rgame.nuke_contamination = CONTAMINATION_FALLOUT;
+  } else {
+    freelog(LOG_NORMAL, _("Bad value %s for nuke_contamination. Using "
+            "\"Pollution\"."), sval);
+    game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
+  }
+
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
@@ -2273,6 +2290,7 @@ static void send_ruleset_game(struct player *dest)
   misc_p.init_vis_radius_sq = game.rgame.init_vis_radius_sq;
   misc_p.hut_overflight = game.rgame.hut_overflight;
   misc_p.pillage_select = game.rgame.pillage_select;
+  misc_p.nuke_contamination = game.rgame.nuke_contamination;
 
   for(to = 0; to < game.nplayers; to++) {           /* dests */
     if(dest==0 || get_player(to)==dest) {

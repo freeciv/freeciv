@@ -112,6 +112,7 @@ enum effect_type_id {
   EFT_SCIENCE_BONUS,
   EFT_SCIENCE_PCT,
   EFT_SIZE_UNLIMIT,
+  EFT_SLOW_NUKE_WINTER,
   EFT_SLOW_GLOBAL_WARM,
   EFT_SPACE_PART,
   EFT_SPY_RESISTANT,
@@ -292,10 +293,16 @@ struct ai_city {
   struct ai_choice choice; /* to spend gold in the right place only */
   int downtown; /* distance from neighbours, for locating wonders wisely */
   int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
-  signed short int detox[5][5], mine[5][5], irrigate[5][5], road[5][5], railroad[5][5], transform[5][5];
-/* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
+  /* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
+  signed short int detox[5][5];
+  signed short int derad[5][5];
+  signed short int mine[5][5];
+  signed short int irrigate[5][5];
+  signed short int road[5][5];
+  signed short int railroad[5][5];
+  signed short int transform[5][5];
   signed short int tile_value[5][5]; /* caching these will help too. */
-/* so we can contemplate with warmap fresh and decide later */
+  /* so we can contemplate with warmap fresh and decide later */
   int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
   int a, f, invasion; /* who's coming to kill us, for attack co-ordination */
 };

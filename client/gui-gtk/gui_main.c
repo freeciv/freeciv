@@ -113,6 +113,7 @@ GtkText *	main_message_area;
 GtkWidget *	econ_label			[10];
 GtkWidget *	bulb_label;
 GtkWidget *	sun_label;
+GtkWidget *	flake_label;
 GtkWidget *	government_label;
 GtkWidget *	timeout_label;
 GtkWidget *	turn_done_button;
@@ -388,7 +389,7 @@ static void setup_widgets(void)
       box4 = gtk_hbox_new( FALSE, 0 );
       gtk_box_pack_start(GTK_BOX(avbox), box4, FALSE, FALSE, 0);
 
-      table = gtk_table_new(10, 2, FALSE);
+      table = gtk_table_new(10, 3, FALSE);
       gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
       gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
       gtk_box_pack_start(GTK_BOX(box4), table, TRUE, FALSE, 0);
@@ -403,41 +404,44 @@ static void setup_widgets(void)
           gtk_signal_connect( GTK_OBJECT( ebox ), "button_press_event",
               GTK_SIGNAL_FUNC(taxrates_callback), (gpointer)i);
 
-          econ_label[i] = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
+          econ_label[i] = gtk_pixmap_new(get_citizen_pixmap(i<5?1:2), NULL);
           gtk_container_add( GTK_CONTAINER( ebox ), econ_label[i] );
       }
 
       bulb_label      = gtk_pixmap_new(sprites.bulb[0]->pixmap, NULL);
       sun_label       = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
+      flake_label     = gtk_pixmap_new(sprites.cooling[0]->pixmap, NULL);
       government_label= gtk_pixmap_new(sprites.citizen[7]->pixmap, NULL);
       timeout_label   = gtk_label_new("");
 
-      for (i=5; i<9; i++)
+      for (i=0; i<5; i++)
       {
           frame = gtk_frame_new(NULL);
           gtk_widget_set_usize(frame, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
 
-	  if (i==8)
-            gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 2, 1, 2);
+	  if (i==4)
+            gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 6, 1, 2);
 	  else
             gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 1, 1, 2);
 
           switch (i)
           {
-          case 5: gtk_container_add( GTK_CONTAINER( frame ), bulb_label );
+          case 0: gtk_container_add( GTK_CONTAINER( frame ), bulb_label );
               break;
-          case 6: gtk_container_add( GTK_CONTAINER( frame ), sun_label );
+          case 1: gtk_container_add( GTK_CONTAINER( frame ), sun_label );
               break;
-          case 7: gtk_container_add( GTK_CONTAINER( frame ), government_label );
+          case 2: gtk_container_add( GTK_CONTAINER( frame ), flake_label );
               break;
-          case 8: gtk_container_add( GTK_CONTAINER( frame ), timeout_label );
+          case 3: gtk_container_add( GTK_CONTAINER( frame ), government_label );
+              break;
+          case 4: gtk_container_add( GTK_CONTAINER( frame ), timeout_label );
               break;
           }
       }
 
-  turn_done_button = gtk_button_new_with_label( _("Turn Done") );
-  gtk_widget_set_style(turn_done_button, gtk_style_copy(turn_done_button->style));
-  gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
+      turn_done_button = gtk_button_new_with_label( _("Turn Done") );
+      gtk_widget_set_style(turn_done_button, gtk_style_copy(turn_done_button->style));
+      gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
   }
  
   { /* selected unit status */

@@ -62,7 +62,7 @@ update_turn_done_button(int do_restore)
 }
 
 void
-set_bulb_sol_government(int bulb, int sol, int government)
+set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
 	/* PORTME */
 }

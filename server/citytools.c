@@ -173,6 +173,9 @@ int can_place_worker_here(struct city *pcity, int x, int y)
     && !is_worked_here(map_adjust_x(pcity->x+x-2), pcity->y+y-2));
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int food_weighting(int n)
 {
   static int value[56] = { -1, 57, 38, 25, 19, 15, 12, 10, 9, 8, 7,
@@ -182,8 +185,11 @@ int food_weighting(int n)
   return(value[n]);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed)
-{ /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
+{
   int i, j, k;
   struct player *plr;
 
@@ -198,18 +204,23 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   if (prodneed > 0) j += 9 * (MIN(j, prodneed));
   j *= SHIELD_WEIGHTING * city_shield_bonus(pcity);
   j /= 100;
+
   k = get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
       (city_tax_bonus(pcity) * (plr->economic.tax + plr->economic.luxury) +
        city_science_bonus(pcity) * plr->economic.science) / 10000;
+
   return(i + j + k);
 }  
 
+/**************************************************************************
+...
+**************************************************************************/
 int worst_worker_tile_value(struct city *pcity)
 {
   int x, y;
   int worst = 0, tmp;
   city_map_iterate(x, y) {
-    if ((x !=2 || y != 2) && get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+    if ((x != 2 || y != 2) && get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
       if (tmp < worst || !worst) worst = tmp;
     }
@@ -217,37 +228,32 @@ int worst_worker_tile_value(struct city *pcity)
   return(worst);
 }
 
-int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
-{
-  return (city_tile_value(pcity, x, y, foodneed, prodneed) >
-          city_tile_value(pcity, bx, by, foodneed, prodneed));
-}
 /**************************************************************************
 ...
 **************************************************************************/
-int best_tile(struct city *pcity, int x, int y, int bx, int by)
-{ /* obsoleted but not deleted by Syela */
-  return (4*get_food_tile(x, y, pcity) +
-          12*get_shields_tile(x, y, pcity) +
-          8*get_trade_tile(x, y, pcity) >
-          4*get_food_tile(bx, by, pcity) +
-          12*get_shields_tile(bx, by, pcity) +
-          8*get_trade_tile(bx, by, pcity) 
-          );
+int best_worker_tile_value(struct city *pcity)
+{
+  int x, y;
+  int best = 0, tmp;
+  city_map_iterate(x, y) {
+    if ((x == 2 || y == 2) ||
+	(get_worker_city(pcity, x, y) == C_TILE_WORKER) ||
+	can_place_worker_here(pcity, x, y)) {
+      tmp = city_tile_value(pcity, x, y, 0, 0);
+      if (tmp < best || !best) best = tmp;
+    }
+  }
+  return(best);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int best_food_tile(struct city *pcity, int x, int y, int bx, int by)
-{ /* obsoleted but not deleted by Syela */
-  return (100*get_food_tile(x, y, pcity) +
-          12*get_shields_tile(x, y, pcity) +
-          8*get_trade_tile(x, y, pcity) >
-          100*get_food_tile(bx, by, pcity) +
-          12*get_shields_tile(bx, by, pcity) +
-          8*get_trade_tile(bx, by, pcity) 
-          );
+int better_tile(struct city *pcity, int x, int y, int bx, int by,
+		int foodneed, int prodneed)
+{
+  return (city_tile_value(pcity, x, y, foodneed, prodneed) >
+          city_tile_value(pcity, bx, by, foodneed, prodneed));
 }
 
 /**************************************************************************

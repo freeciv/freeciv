@@ -183,7 +183,8 @@ Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 Widget inputline_text, outputwindow_text;
 Widget econ_label[10];
 Widget turn_done_button;
-Widget info_command, bulb_label, sun_label, government_label, timeout_label;
+Widget info_command;
+Widget bulb_label, sun_label, flake_label, government_label, timeout_label;
 Widget unit_info_label;
 Widget unit_pix_canvas;
 Widget unit_below_canvas[MAX_NUM_UNITS_BELOW];
@@ -451,8 +452,8 @@ void ui_main(int argc, char *argv[])
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 
 				       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
 				       display_depth);  
-  
-  set_bulb_sol_government(0, 0, 0);
+
+  set_indicator_icons(0, 0, 0, 0);
 
   wm_delete_window = XInternAtom(XtDisplay(toplevel), "WM_DELETE_WINDOW", 0);
   XSetWMProtocols(display, XtWindow(toplevel), &wm_delete_window, 1);
@@ -491,6 +492,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
 void setup_widgets(void)
 {
   long i;
+  int econ_label_count=10, econ_label_space=1;
 
   main_form = XtVaCreateManagedWidget("mainform", formWidgetClass, 
 				      toplevel, 
@@ -549,9 +551,8 @@ void setup_widgets(void)
 				       NULL);   
 
 
-
   /* Don't put the citizens in here yet because not loaded yet */
-  for(i=0;i<10;i++)  {
+  for(i=0;i<econ_label_count;i++)  {
     econ_label[i] = XtVaCreateManagedWidget("econlabels",
 					    commandWidgetClass,
 					    left_column_form,
@@ -559,24 +560,24 @@ void setup_widgets(void)
 					    XtNheight, SMALL_TILE_HEIGHT,
 					    i?XtNfromHoriz:NULL, 
 					    i?econ_label[i-1]:NULL,
-					    XtNhorizDistance, 1,
+					    XtNhorizDistance, econ_label_space,
 					    NULL);  
   }
-
-  turn_done_button = I_L(XtVaCreateManagedWidget("turndonebutton", 
-						 commandWidgetClass,
-						 left_column_form,
-						 NULL));
   
   bulb_label = XtVaCreateManagedWidget("bulblabel", 
 				       labelWidgetClass,
 				       left_column_form,
 				       NULL);
-  
+
   sun_label = XtVaCreateManagedWidget("sunlabel", 
 				      labelWidgetClass, 
 				      left_column_form,
 				      NULL);
+
+  flake_label = XtVaCreateManagedWidget("flakelabel", 
+					labelWidgetClass, 
+					left_column_form,
+					NULL);
 
   government_label = XtVaCreateManagedWidget("governmentlabel", 
 					    labelWidgetClass, 
@@ -588,7 +589,15 @@ void setup_widgets(void)
 					  left_column_form,
 					  NULL);
 
-  
+
+  turn_done_button =
+    I_LW(XtVaCreateManagedWidget("turndonebutton", 
+				 commandWidgetClass,
+				 left_column_form,
+				 XtNwidth, econ_label_count*
+						(SMALL_TILE_WIDTH+econ_label_space),
+				 NULL));
+
   
   unit_info_label = XtVaCreateManagedWidget("unitinfolabel", 
 					    labelWidgetClass, 

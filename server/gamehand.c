@@ -201,6 +201,8 @@ void send_game_info(struct player *dest)
   ginfo.nplayers=game.nplayers;
   ginfo.globalwarming=game.globalwarming;
   ginfo.heating=game.heating;
+  ginfo.nuclearwinter=game.nuclearwinter;
+  ginfo.cooling=game.cooling;
   ginfo.techpenalty=game.techpenalty;
   ginfo.foodbox = game.foodbox;
   ginfo.civstyle=game.civstyle;
@@ -314,6 +316,8 @@ void game_load(struct section_file *file)
   game.nplayers      = secfile_lookup_int(file, "game.nplayers");
   game.globalwarming = secfile_lookup_int(file, "game.globalwarming");
   game.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
+  game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
+  game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
   game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
 
   if (game.version >= 10100) {
@@ -445,6 +449,7 @@ void game_load(struct section_file *file)
 						   "game.auto_ai_toggle");
 
   game.heating=0;
+  game.cooling=0;
   if(tmp_server_state==PRE_GAME_STATE 
      || has_capability("startoptions", savefile_options)) {
     if (game.version >= 10300) {
@@ -595,6 +600,8 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.nplayers, "game.nplayers");
   secfile_insert_int(file, game.globalwarming, "game.globalwarming");
   secfile_insert_int(file, game.warminglevel, "game.warminglevel");
+  secfile_insert_int(file, game.nuclearwinter, "game.nuclearwinter");
+  secfile_insert_int(file, game.coolinglevel, "game.coolinglevel");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");

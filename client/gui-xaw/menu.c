@@ -155,6 +155,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Build Airbase"), 0        },     "e", MENU_ORDER_AIRBASE, 0 },
     { { N_("Clean Pollution"),
 	N_("Paradrop"), 0             },     "p", MENU_ORDER_POLLUTION, 0 },
+    { { N_("Clean Nuclear Fallout"), 0},     "n", MENU_ORDER_FALLOUT, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Fortify"), 0              },     "f", MENU_ORDER_FORTIFY, 0 },
     { { N_("Sentry"), 0               },     "s", MENU_ORDER_SENTRY, 0 },
@@ -305,6 +306,8 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_POLLUTION, 
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradrop(punit));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FALLOUT, 
+			   can_unit_do_activity(punit, ACTIVITY_FALLOUT));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FORTIFY, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_SENTRY, 
@@ -527,6 +530,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
       else
 	key_unit_paradrop();
     }
+    break;
+  case MENU_ORDER_FALLOUT:
+    key_unit_fallout();
     break;
   case MENU_ORDER_FORTIFY:
     key_unit_fortify();

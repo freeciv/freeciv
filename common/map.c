@@ -44,44 +44,85 @@ struct tile_type tile_types[T_LAST];
  */
 static char *tile_special_type_names[] =
 {
-  "Special1",
-  "Road",
-  "Irrigation",
-  "Railroad",
-  "Mine",
-  "Pollution",
-  "Hut",
-  "Fortress",
-  "Special2",
-  "River",
-  "Farmland",
-  "Airbase"
+  N_("Special1"),
+  N_("Road"),
+  N_("Irrigation"),
+  N_("Railroad"),
+  N_("Mine"),
+  N_("Pollution"),
+  N_("Hut"),
+  N_("Fortress"),
+  N_("Special2"),
+  N_("River"),
+  N_("Farmland"),
+  N_("Airbase"),
+  N_("Fallout")
 };
 
 /***************************************************************
   Return a (static) string with terrain name;
   eg: "Hills"
   eg: "Hills (Coals)"
-  eg: "Polluted Hills (Coals)"
+  eg: "Hills (Coals) [Pollution]"
 ***************************************************************/
 char *map_get_tile_info_text(int x, int y)
 {
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
-  
-  my_snprintf(s, sizeof(s), "%s%s",
-	      (ptile->special&S_POLLUTION ? _("Polluted ") : ""),
-	      tile_types[ptile->terrain].terrain_name);
+  int first;
+
+  sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
   if(ptile->special&S_RIVER) {
-    cat_snprintf(s, sizeof(s), "/%s", _("River"));
+    sz_strlcat(s, "/");
+    sz_strlcat(s, _(get_special_name(S_RIVER)));
   }
-  if(ptile->special&S_SPECIAL_1) {
-    cat_snprintf(s, sizeof(s), "(%s)",
-		 tile_types[ptile->terrain].special_1_name);
-  } else if(ptile->special&S_SPECIAL_2) {
-    cat_snprintf(s, sizeof(s), "(%s)",
-		 tile_types[ptile->terrain].special_2_name);
+
+  first = 1;
+  if (ptile->special & S_SPECIAL_1) {
+    if (first) {
+      first = 0;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
   }
+  if (ptile->special & S_SPECIAL_2) {
+    if (first) {
+      first = 0;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special_2_name);
+  }
+  if (!first) {
+    sz_strlcat(s, ")");
+  }
+
+  first = 1;
+  if (ptile->special & S_POLLUTION) {
+    if (first) {
+      first = 0;
+      sz_strlcat(s, " [");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, _(get_special_name(S_POLLUTION)));
+  }
+  if (ptile->special & S_FALLOUT) {
+    if (first) {
+      first = 0;
+      sz_strlcat(s, " [");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, _(get_special_name(S_FALLOUT)));
+  }
+  if (!first) {
+    sz_strlcat(s, "]");
+  }
+
   return s;
 }
 
@@ -732,10 +773,18 @@ static void clear_infrastructure(int x, int y)
   map_clear_special(x, y, S_IRRIGATION);
   map_clear_special(x, y, S_RAILROAD);
   map_clear_special(x, y, S_MINE);
-  map_clear_special(x, y, S_POLLUTION);
   map_clear_special(x, y, S_FORTRESS);
   map_clear_special(x, y, S_FARMLAND);
   map_clear_special(x, y, S_AIRBASE);
+}
+
+/***************************************************************
+...
+***************************************************************/
+static void clear_dirtiness(int x, int y)
+{
+  map_clear_special(x, y, S_POLLUTION);
+  map_clear_special(x, y, S_FALLOUT);
 }
 
 /***************************************************************
@@ -759,6 +808,7 @@ void map_irrigate_tile(int x, int y)
     map_set_terrain(x, y, result);
     if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      clear_dirtiness(x, y);
       map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
 					   rivers in oceans, don't clear this! */
     }
@@ -783,6 +833,7 @@ void map_mine_tile(int x, int y)
     map_set_terrain(x, y, result);
     if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      clear_dirtiness(x, y);
       map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
 					   rivers in oceans, don't clear this! */
     }
@@ -806,6 +857,7 @@ void map_transform_tile(int x, int y)
     map_set_terrain(x, y, result);
     if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      clear_dirtiness(x, y);
       map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
 					   rivers in oceans, don't clear this! */
     }

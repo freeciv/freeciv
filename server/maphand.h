@@ -35,6 +35,7 @@ struct player_tile{
 };
 
 void global_warming(int effect);
+void nuclear_winter(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_citymap_from_player_to_player(struct city *pcity,

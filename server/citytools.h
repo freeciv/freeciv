@@ -41,8 +41,6 @@ int can_place_worker_here(struct city *pcity, int x, int y);
 int food_weighting(int n);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed);
-int best_tile(struct city *pcity, int x, int y, int bx, int by);
-int best_food_tile(struct city *pcity, int x, int y, int bx, int by);
 int settler_eats(struct city *pcity);
 int is_building_other_wonder(struct city *pc);
 int built_elsewhere(struct city *pc, int wonder);
@@ -57,6 +55,7 @@ int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 int wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
+int best_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity,
 			 int kill_outside, int verbose);

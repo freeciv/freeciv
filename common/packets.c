@@ -1675,8 +1675,19 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->max_players);
   cptr=put_uint8(cptr, pinfo->nplayers);
   cptr=put_uint8(cptr, pinfo->player_idx);
+/* when removing "nuclear_fallout" capability,
+   leave only the code from the *else* clause (send unmodified values) */
+if (pc && !has_capability("nuclear_fallout", pc->capability)) {
+  cptr=put_uint32(cptr, pinfo->globalwarming + pinfo->nuclearwinter);
+  cptr=put_uint32(cptr, pinfo->heating + pinfo->cooling);
+} else {  /* the following is the code to leave when removing "nuclear_fallout" */
   cptr=put_uint32(cptr, pinfo->globalwarming);
   cptr=put_uint32(cptr, pinfo->heating);
+}
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  cptr=put_uint32(cptr, pinfo->nuclearwinter);
+  cptr=put_uint32(cptr, pinfo->cooling);
+}
   cptr=put_uint8(cptr, pinfo->cityfactor);
   cptr=put_uint8(cptr, pinfo->diplcost);
   cptr=put_uint8(cptr, pinfo->freecost);
@@ -1725,6 +1736,13 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->player_idx);
   iget_uint32(&iter, &pinfo->globalwarming);
   iget_uint32(&iter, &pinfo->heating);
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  iget_uint32(&iter, &pinfo->nuclearwinter);
+  iget_uint32(&iter, &pinfo->cooling);
+} else {
+  pinfo->nuclearwinter = 0;
+  pinfo->cooling = 0;
+}
   iget_uint8(&iter, &pinfo->cityfactor);
   iget_uint8(&iter, &pinfo->diplcost);
   iget_uint8(&iter, &pinfo->freecost);
@@ -1838,7 +1856,16 @@ int send_packet_tile_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->x);
   cptr=put_uint8(cptr, pinfo->y);
   cptr=put_uint8(cptr, pinfo->type);
+/* when removing "nuclear_fallout" capability,
+   leave only the code from the *else* clause (send unmodified special) */
+if (pc && !has_capability("nuclear_fallout", pc->capability)) {
+if (pinfo->special & S_FALLOUT)
+cptr=put_uint16(cptr, pinfo->special | S_POLLUTION);
+else
+cptr=put_uint16(cptr, pinfo->special);
+} else {  /* the following is the code to leave when removing "nuclear_fallout" */
   cptr=put_uint16(cptr, pinfo->special);
+}
   cptr=put_uint8(cptr, pinfo->known);
   put_uint16(buffer, cptr-buffer);
 
@@ -1933,7 +1960,16 @@ return 0;
   cptr=put_uint8(cptr, req->upkeep_food);
   cptr=put_uint8(cptr, req->upkeep_gold);
   cptr=put_uint8(cptr, req->unhappiness);
+/* when removing "nuclear_fallout" capability,
+   leave only the code from the *else* clause (send unmodified activity) */
+if (pc && !has_capability("nuclear_fallout", pc->capability)) {
+if (req->activity == ACTIVITY_FALLOUT)
+cptr=put_uint8(cptr, ACTIVITY_POLLUTION);
+else
+cptr=put_uint8(cptr, req->activity);
+} else {  /* the following is the code to leave when removing "nuclear_fallout" */
   cptr=put_uint8(cptr, req->activity);
+}
   cptr=put_uint8(cptr, req->activity_count);
   cptr=put_uint8(cptr, req->goto_dest_x);
   cptr=put_uint8(cptr, req->goto_dest_y);
@@ -2149,6 +2185,15 @@ receive_packet_unit_info(struct connection *pc)
   iget_uint8(&iter, &packet->upkeep_gold);
   iget_uint8(&iter, &packet->unhappiness);
   iget_uint8(&iter, &packet->activity);
+/* when removing "nuclear_fallout" capability,
+   remove this *entire* piece of code (to REMOVE TO HERE, below) */
+if (pc && !has_capability("nuclear_fallout", pc->capability)) {
+if ((packet->activity == ACTIVITY_POLLUTION) &&
+    (map_get_special(packet->x, packet->y) & S_FALLOUT)) {
+packet->activity = ACTIVITY_FALLOUT;
+}
+}
+/* REMOVE TO HERE */
   iget_uint8(&iter, &packet->activity_count);
   iget_uint8(&iter, &packet->goto_dest_x);
   iget_uint8(&iter, &packet->goto_dest_y);
@@ -2976,6 +3021,11 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint16(cptr, packet->pollution_food_penalty);
   cptr=put_uint16(cptr, packet->pollution_shield_penalty);
   cptr=put_uint16(cptr, packet->pollution_trade_penalty);
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  cptr=put_uint16(cptr, packet->fallout_food_penalty);
+  cptr=put_uint16(cptr, packet->fallout_shield_penalty);
+  cptr=put_uint16(cptr, packet->fallout_trade_penalty);
+}
   if (packet->river_help_text) cptr=put_string(cptr, packet->river_help_text);
 
   put_uint16(buffer, cptr-buffer);
@@ -3014,6 +3064,11 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint16(&iter, &packet->pollution_food_penalty);
   iget_uint16(&iter, &packet->pollution_shield_penalty);
   iget_uint16(&iter, &packet->pollution_trade_penalty);
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  iget_uint16(&iter, &packet->fallout_food_penalty);
+  iget_uint16(&iter, &packet->fallout_shield_penalty);
+  iget_uint16(&iter, &packet->fallout_trade_penalty);
+}
 
   len = pack_iter_remaining(&iter);
   if (len) {
@@ -3345,6 +3400,9 @@ return 0;
   cptr=put_uint8(cptr, packet->init_vis_radius_sq);
   cptr=put_uint8(cptr, packet->hut_overflight);
   cptr=put_uint8(cptr, packet->pillage_select);
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  cptr=put_uint8(cptr, packet->nuke_contamination);
+}
 
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -3369,6 +3427,11 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->init_vis_radius_sq);
   iget_uint8(&iter, &packet->hut_overflight);
   iget_uint8(&iter, &packet->pillage_select);
+if (pc && has_capability("nuclear_fallout", pc->capability)) {
+  iget_uint8(&iter, &packet->nuke_contamination);
+} else {
+  packet->nuke_contamination = CONTAMINATION_POLLUTION;
+}
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

@@ -378,7 +378,7 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
       case E_TECH_GAIN:
       case E_DESTROYED:
 	break;
-      case E_WARMING:
+      case E_GLOBAL_ECO:
       case E_CITY_LOST:
       case E_UNIT_LOST:
       case E_UNIT_WIN:

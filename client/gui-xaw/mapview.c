@@ -77,7 +77,7 @@ extern Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 extern Widget overview_canvas, main_form, left_column_form;
 extern Widget menu_form, below_menu_form, bottom_form;
 extern Widget econ_label[10];
-extern Widget bulb_label, sun_label, government_label, timeout_label;
+extern Widget bulb_label, sun_label, flake_label, government_label, timeout_label;
 extern Widget unit_info_label;
 extern Widget unit_pix_canvas, unit_below_canvas[MAX_NUM_UNITS_BELOW];
 extern Widget more_arrow_label;
@@ -251,7 +251,10 @@ void update_timeout_label(void)
 {
   char buffer[512];
 
-  format_duration(buffer, sizeof(buffer), seconds_to_turndone);
+  if (game.timeout <= 0)
+    sz_strlcpy(buffer, Q_("?timeout:off"));
+  else
+    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
   xaw_set_label(timeout_label, buffer);
 }
 
@@ -276,9 +279,10 @@ void update_info_label(void)
 	  game.player_ptr->economic.science);
   xaw_set_label(info_command, buffer);
 
-  set_bulb_sol_government(client_research_sprite(),
-			  client_pollution_sprite(),
-			  game.player_ptr->government);
+  set_indicator_icons(client_research_sprite(),
+		      client_warming_sprite(),
+		      client_cooling_sprite(),
+		      game.player_ptr->government);
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
@@ -440,25 +444,25 @@ Pixmap get_citizen_pixmap(int frame)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_bulb_sol_government(int bulb, int sol, int government)
+void set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
   struct Sprite *gov_sprite;
-  
+
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
-  sol  = CLIP(0, sol, NUM_TILES_PROGRESS-1);
-  
+  sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
+  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
+
   xaw_set_bitmap(bulb_label, sprites.bulb[bulb]->pixmap);
   xaw_set_bitmap(sun_label, sprites.warming[sol]->pixmap);
+  xaw_set_bitmap(flake_label, sprites.cooling[flake]->pixmap);
 
   if (game.government_count==0) {
     /* not sure what to do here */
     gov_sprite = sprites.citizen[7]; 
   } else {
-    gov_sprite = get_government(government)->sprite;
+    gov_sprite = get_government(gov)->sprite;
   }
-
-  if (gov_sprite)
-    xaw_set_bitmap(government_label, gov_sprite->pixmap);
+  xaw_set_bitmap(government_label, gov_sprite->pixmap);
 }
 
 /**************************************************************************
@@ -974,54 +978,6 @@ static void show_city_descriptions(void)
     }
   }
 }
-
-#ifdef UNUSED
-/**************************************************************************
-...
-**************************************************************************/
-void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
-{
-  struct Sprite *mysprite;
-
-  if(solid_color_behind_units) {
-    XSetForeground(display, fill_bg_gc,
-		   colors_standard[player_color(city_owner(pcity))]);
-    XFillRectangle(display, pm, fill_bg_gc, 
-		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  }
-  else if(!flags_are_transparent) {	/* observe transparency here, too! */
-    mysprite=get_city_nation_flag_sprite(pcity);
-    XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
-	      mysprite->width, mysprite->height, 
-	      xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
-  }
-  else {
-    pixmap_put_overlay_tile(pm,xtile,ytile, get_city_nation_flag_sprite(pcity));
-  }
-
-  pixmap_put_overlay_tile(pm, xtile, ytile,
-			  (city_got_citywalls(pcity)
-			   ? sprites.tx.city_walls
-			   : sprites.tx.city));
-
-  if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.occupied);
-
-  if(pcity->size>=10) {
-    pixmap_put_overlay_tile(pm, xtile, ytile,
-			    sprites.city.size_tens[pcity->size/10]);
-  }
-  pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.size[pcity->size%10]);
-
-  if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.tx.pollution);
-
-  if(city_unhappy(pcity))
-    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.disorder);
-  
-}
-#endif
 
 /**************************************************************************
 ...

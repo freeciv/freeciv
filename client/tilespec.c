@@ -404,6 +404,8 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(bulb[i], buffer);
     my_snprintf(buffer, sizeof(buffer), "s.warming_sun_%d", i);
     SET_SPRITE(warming[i], buffer);
+    my_snprintf(buffer, sizeof(buffer), "s.cooling_flake_%d", i);
+    SET_SPRITE(cooling[i], buffer);
   }
 
   SET_SPRITE(right_arrow, "s.right_arrow");
@@ -472,6 +474,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
   SET_SPRITE(unit.auto_settler, "unit.auto_settler");
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
+  SET_SPRITE(unit.fallout,	"unit.fallout");
   SET_SPRITE(unit.fortified,	"unit.fortified");     
   SET_SPRITE(unit.fortifying,	"unit.fortifying");     
   SET_SPRITE(unit.fortress,     "unit.fortress");
@@ -517,6 +520,7 @@ static void tilespec_lookup_sprite_tags(void)
   
   SET_SPRITE(user.attention, "user.attention");
 
+  SET_SPRITE(tx.fallout,    "tx.fallout");
   SET_SPRITE(tx.farmland,   "tx.farmland");
   SET_SPRITE(tx.irrigation, "tx.irrigation");
   SET_SPRITE(tx.mine,       "tx.mine");
@@ -766,6 +770,8 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
 
   if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
     *sprs++ = sprites.tx.pollution;
+  if(map_get_special(pcity->x, pcity->y) & S_FALLOUT)
+    *sprs++ = sprites.tx.fallout;
 
   if(city_unhappy(pcity))
     *sprs++ = sprites.city.disorder;
@@ -813,6 +819,9 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
       break;
     case ACTIVITY_POLLUTION:
       s = sprites.unit.pollution;
+      break;
+    case ACTIVITY_FALLOUT:
+      s = sprites.unit.fallout;
       break;
     case ACTIVITY_PILLAGE:
       s = sprites.unit.pillage;
@@ -1118,6 +1127,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   if(tspecial & S_FORTRESS) *sprs++ = sprites.tx.fortress;
   if(tspecial & S_AIRBASE) *sprs++ = sprites.tx.airbase;
   if(tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
+  if(tspecial & S_FALLOUT) *sprs++ = sprites.tx.fallout;
   if(ptile->known==TILE_KNOWN_FOGGED) *sprs++ = sprites.tx.fog;
 
   if(!citymode) {

@@ -2156,6 +2156,13 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
     }
   }
 
+  if (activity==ACTIVITY_FALLOUT) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_FALLOUT) >= 3) {
+      map_clear_special(punit->x, punit->y, S_FALLOUT);
+      unit_activity_done = 1;
+    }
+  }
+
   if (activity==ACTIVITY_FORTRESS) {
     if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS) >= 3) {
       map_set_special(punit->x, punit->y, S_FORTRESS);
@@ -2420,7 +2427,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
  1) remove all units on the square
  2) half the size of the city on the square
  if it isn't a city square or an ocean square then with 50% chance 
- add some pollution, then notify the client about the changes.
+ add some fallout, then notify the client about the changes.
 **************************************************************************/
 void do_nuke_tile(int x, int y)
 {
@@ -2439,11 +2446,19 @@ void do_nuke_tile(int x, int y)
       auto_arrange_workers(pcity);
       send_city_info(0, pcity);
     }
-  }
-  else if ((map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
-           (!(map_get_special(x,y)&S_POLLUTION)) && myrand(2)) { 
-    map_set_special(x,y, S_POLLUTION);
-    send_tile_info(0, x, y);
+  } else if ((map_get_terrain(x, y) != T_OCEAN &&
+	      map_get_terrain(x, y) < T_UNKNOWN) && myrand(2)) {
+    if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
+      if (!(map_get_special(x, y) & S_POLLUTION)) {
+	map_set_special(x, y, S_POLLUTION);
+	send_tile_info(0, x, y);
+      }
+    } else {
+      if (!(map_get_special(x, y) & S_FALLOUT)) {
+	map_set_special(x, y, S_FALLOUT);
+	send_tile_info(0, x, y);
+      }
+    }
   }
 }
 
@@ -3028,6 +3043,7 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
   case ACTIVITY_PILLAGE:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_AIRBASE:
+  case ACTIVITY_FALLOUT:
     restr = GOTO_MOVE_STRAIGHTEST;
     break;
   default:

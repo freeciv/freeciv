@@ -751,6 +751,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nplayers=pinfo->nplayers;
   game.globalwarming=pinfo->globalwarming;
   game.heating=pinfo->heating;
+  game.nuclearwinter=pinfo->nuclearwinter;
+  game.cooling=pinfo->cooling;
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     game.player_idx=pinfo->player_idx;
     game.player_ptr=&game.players[game.player_idx];
@@ -787,6 +789,7 @@ game.rgame.init_vis_radius_sq = 5;
 game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
 game.rgame.pillage_select = 1;
 }
+game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
 }
 /* REMOVE TO HERE */
 
@@ -1679,6 +1682,9 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.pollution_food_penalty = p->pollution_food_penalty;
   terrain_control.pollution_shield_penalty = p->pollution_shield_penalty;
   terrain_control.pollution_trade_penalty = p->pollution_trade_penalty;
+  terrain_control.fallout_food_penalty = p->fallout_food_penalty;
+  terrain_control.fallout_shield_penalty = p->fallout_shield_penalty;
+  terrain_control.fallout_trade_penalty = p->fallout_trade_penalty;
 }
 
 /**************************************************************************
@@ -1748,6 +1754,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.init_vis_radius_sq = packet->init_vis_radius_sq;
   game.rgame.hut_overflight = packet->hut_overflight;
   game.rgame.pillage_select = packet->pillage_select;
+  game.rgame.nuke_contamination = packet->nuke_contamination;
 }
 
 /**************************************************************************
