@@ -10,8 +10,6 @@ dnl not to work, and version 2.12 is known to work:
 AC_PREREQ(2.12)
 
 PACKAGE=freeciv
-MAILING_LIST=freeciv-dev@freeciv.org
-SITE=http://www.freeciv.org
 
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
@@ -33,8 +31,6 @@ AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION)
 AC_DEFINE_UNQUOTED(PATCH_VERSION, $PATCH_VERSION)
 AC_DEFINE_UNQUOTED(VERSION_STRING, "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 AC_DEFINE_UNQUOTED(IS_BETA_VERSION, $IS_BETA_VERSION)
-AC_DEFINE_UNQUOTED(MAILING_LIST, "${MAILING_LIST}")
-AC_DEFINE_UNQUOTED(SITE,"${SITE}")
 
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)

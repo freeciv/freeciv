@@ -245,7 +245,8 @@ int main(int argc, char *argv[])
   }
 
   con_write(C_VERSION, "This is the server for %s", FREECIV_NAME_VERSION);
-  con_write(C_COMMENT, "You can learn a lot about Freeciv at %s", SITE);
+  con_write(C_COMMENT, "You can learn a lot about Freeciv at %s",
+	    WEBSITE_URL);
 
   if(h) {
     fprintf(stderr, "  -f, --file F\t\tLoad saved game F\n");
@@ -263,7 +264,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -d, --debug N\t\tSet debug log level (0,1,2)\n");
 #endif
     fprintf(stderr, "  -v, --version\t\tPrint the version number\n");
-    fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
+    fprintf(stderr, "Report bugs to <%s>.\n", BUG_EMAIL_ADDRESS);
     exit(0);
   }
 
@@ -274,7 +275,7 @@ int main(int argc, char *argv[])
   
 #if IS_BETA_VERSION
   con_write(C_COMMENT, "Freeciv 1.8 will be released "
-	    "third week of March at %s", SITE);
+	    "third week of March at %s", WEBSITE_URL);
 #endif
   con_flush();
 

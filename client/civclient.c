@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 #endif
     fprintf(stderr, "  -version\tPrint the version number\n");
     fprintf(stderr, "  -tiles D\tLook in data subdirectory D for the tiles\n");
-    fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
+    fprintf(stderr, "Report bugs to <%s>.\n", BUG_EMAIL_ADDRESS);
     exit(0);
   }
   

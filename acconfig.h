@@ -19,8 +19,6 @@
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
 #undef FREECIV_DATADIR
-#undef MAILING_LIST
-#undef SITE
 #undef HAVE_LIBICE
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11

@@ -16,6 +16,9 @@
 /* Note: the capability string is now in capstr.c --dwp */
 /* Version stuff is now in version.h --dwp */
 
+#define BUG_EMAIL_ADDRESS "bugs@cvs.freeciv.org"
+#define WEBSITE_URL "http://www.freeciv.org"
+
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2
 
