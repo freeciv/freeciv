@@ -77,7 +77,7 @@ AC_ARG_ENABLE(client,
   xaw3d)  client=xaw
 	  WITH_XAW3D=1 ;;
   *)	  client="${enableval}"
-	  if test ! -d "client/gui-$client" ; then
+	  if test ! -d "${srcdir}/client/gui-$client" ; then
 	    AC_MSG_ERROR(bad value ${enableval} for --enable-client)
 	  fi ;;
 esac], [client=yes])

@@ -950,7 +950,7 @@ if test "${enable_client+set}" = set; then
   xaw3d)  client=xaw
 	  WITH_XAW3D=1 ;;
   *)	  client="${enableval}"
-	  if test ! -d "client/gui-$client" ; then
+	  if test ! -d "${srcdir}/client/gui-$client" ; then
 	    { echo "configure: error: bad value ${enableval} for --enable-client" 1>&2; exit 1; }
 	  fi ;;
 esac
