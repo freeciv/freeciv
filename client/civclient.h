@@ -16,6 +16,13 @@
 #include "packets.h"		/* enum report_type */
 #include "game.h"		/* enum client_states */
 
+/*
+ * Every TIMER_INTERVAL milliseconds real_timer_callback is
+ * called. TIMER_INTERVAL has to stay 500 because real_timer_callback
+ * also updates the timeout info.
+ */
+#define TIMER_INTERVAL 500
+
 void handle_packet_input(void *packet, int type);
 
 void send_unit_info(struct unit *punit);
@@ -44,5 +51,6 @@ extern bool auto_connect;
 
 void wait_till_request_got_processed(int request_id);
 bool client_is_observer(void);
+void real_timer_callback(void);
 
 #endif  /* FC__CIVCLIENT_H */

@@ -671,3 +671,48 @@ bool client_is_observer(void)
 {
   return aconnection.established && find_conn_by_id(game.conn_id)->observer;
 }
+
+/**************************************************************************
+ This function should be called every 500ms. It lets the unit blink
+ and update the timeout.
+**************************************************************************/
+void real_timer_callback(void)
+{
+  static bool flip = FALSE;
+
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
+
+  if (game.player_ptr->is_connected && game.player_ptr->is_alive &&
+      !game.player_ptr->turn_done) {
+    int is_waiting = 0, is_moving = 0;
+
+    players_iterate(pplayer) {
+      if (pplayer->is_alive && pplayer->is_connected) {
+	if (pplayer->turn_done) {
+	  is_waiting++;
+	} else {
+	  is_moving++;
+	}
+      }
+    } players_iterate_end;
+
+    if (is_moving == 1 && is_waiting > 0) {
+      update_turn_done_button(FALSE);	/* stress the slow player! */
+    }
+  }
+
+  blink_active_unit();
+
+  if (flip) {
+    update_timeout_label();
+    if (seconds_to_turndone > 0) {
+      seconds_to_turndone--;
+    } else {
+      seconds_to_turndone = 0;
+    }
+  }
+
+  flip = !flip;
+}

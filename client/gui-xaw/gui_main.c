@@ -431,7 +431,7 @@ void ui_main(int argc, char *argv[])
   XtRealizeWidget(toplevel);
 
 
-  x_interval_id=XtAppAddTimeOut(app_context, 500,
+  x_interval_id=XtAppAddTimeOut(app_context, TIMER_INTERVAL,
 				(XtTimerCallbackProc)timer_callback, NULL);
 
   map_canvas_resize();
@@ -817,43 +817,12 @@ void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /**************************************************************************
 ...
 **************************************************************************/
-void timer_callback(XtPointer client_data, XtIntervalId *id)
+void timer_callback(XtPointer client_data, XtIntervalId * id)
 {
-  static int flip;
-  
-  x_interval_id=XtAppAddTimeOut(app_context, 500,
-				(XtTimerCallbackProc)timer_callback, NULL);  
-  
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
-  
-    if(game.player_ptr->is_connected && game.player_ptr->is_alive && 
-       !game.player_ptr->turn_done) { 
-      int i, is_waiting, is_moving;
-      
-      for(i=0, is_waiting=0, is_moving=0; i<game.nplayers; i++)
-	if(game.players[i].is_alive && game.players[i].is_connected) {
-	  if(game.players[i].turn_done)
-	    is_waiting++;
-	  else
-	    is_moving++;
-	}
-      
-      if(is_moving==1 && is_waiting) 
-	update_turn_done_button(0);  /* stress the slow player! */
-    }
-    
-    blink_active_unit();
-    
-    if(flip) {
-      update_timeout_label();
-      if(seconds_to_turndone > 0)
-	seconds_to_turndone--;
-      else
-	seconds_to_turndone = 0;
-    }
-    
-    flip=!flip;
-  }
+  x_interval_id = XtAppAddTimeOut(app_context, TIMER_INTERVAL,
+				  (XtTimerCallbackProc) timer_callback,
+				  NULL);
+  real_timer_callback();
 }
 
 /**************************************************************************

@@ -122,48 +122,12 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
- This function should be called every 500ms
- it lets the unit blink and update the timeout
- belongs maybe to civclient.c
+ ...
 **************************************************************************/
 static void handle_timer(void)
 {
-  static int flip;
-
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-  {
-
-    if (game.player_ptr->is_connected && game.player_ptr->is_alive &&
-	!game.player_ptr->turn_done)
-    {
-      int i, is_waiting, is_moving;
-
-      for (i = 0, is_waiting = 0, is_moving = 0; i < game.nplayers; i++)
-	if (game.players[i].is_alive && game.players[i].is_connected)
-	{
-	  if (game.players[i].turn_done)
-	    is_waiting++;
-	  else
-	    is_moving++;
-	}
-
-      if (is_moving == 1 && is_waiting)
-	update_turn_done_button(0);	/* stress the slow player! */
-    }
-
-    blink_active_unit();
-
-    if (flip)
-    {
-      update_timeout_label();
-      if (seconds_to_turndone)
-	seconds_to_turndone--;
-    }
-
-    flip = !flip;
-  }
+  real_timer_callback();
 }
-
 
 static BOOL connected;		/* TRUE, if connected to the server */
 static int connected_sock;
@@ -1141,7 +1105,7 @@ static void loop(void)
 	  timer_outstanding--;
 	}
 
-	if (!timer_outstanding) send_timer(0, 500000);
+	if (!timer_outstanding) send_timer(0, TIMER_INTERVAL * 1000);
 	CurrentTime(&secs, &mics);
 
 	handle_timer();
@@ -1463,7 +1427,7 @@ void ui_main(int argc, char *argv[])
       if (xget(main_wnd, MUIA_Window_Open))
       {
 	set_client_state(CLIENT_PRE_GAME_STATE);
-	send_timer(0, 500000);
+	send_timer(0, TIMER_INTERVAL * 1000);
 	loop();
       }
       else

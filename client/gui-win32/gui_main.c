@@ -455,41 +455,15 @@ void create_main_window()
 /**************************************************************************
 
 **************************************************************************/
-static VOID CALLBACK blink_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTime)   
+static VOID CALLBACK blink_timer(HWND hwnd, UINT uMsg, UINT idEvent,
+				 DWORD dwTime)
 {
-  static int flip;
- 
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
- 
-    if(game.player_ptr->is_connected && game.player_ptr->is_alive &&
-       !game.player_ptr->turn_done) {
-      int i, is_waiting, is_moving;
- 
-      for(i=0, is_waiting=0, is_moving=0; i<game.nplayers; i++)
-        if(game.players[i].is_alive && game.players[i].is_connected) {
-          if(game.players[i].turn_done)
-            is_waiting++;
-          else
-            is_moving++;
-        }
- 
-      if(is_moving==1 && is_waiting)
-        update_turn_done_button(0);  /* stress the slow player! */
-    }
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     check_mapstore();
-    blink_active_unit();
- 
-    if(flip) {
-      update_timeout_label();
-      if(seconds_to_turndone > 0)
-        seconds_to_turndone--;
-      else
-        seconds_to_turndone = 0;
-    }
- 
-    flip=!flip;
   }
-}         
+
+  real_timer_callback();
+}
 
 /**************************************************************************
 
@@ -591,7 +565,7 @@ ui_main(int argc, char *argv[])
   set_client_state(CLIENT_PRE_GAME_STATE);
   
   SetTimer(root_window,1,100,socket_timer);
-  SetTimer(root_window,2,500,blink_timer);
+  SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
   while (GetMessage(&msg,NULL,0,0))
     {
       if (!((msg.hwnd==root_window)&&(TranslateAccelerator(root_window,
