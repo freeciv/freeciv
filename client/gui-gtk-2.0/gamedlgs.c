@@ -390,8 +390,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
     }
   }
 
-  gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(option_dialog_shell);
+  option_dialog_shell = NULL;
 }
 
 
@@ -400,20 +399,23 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *button, *label, *table;
-  GtkAccelGroup *accel=gtk_accel_group_new();
+  GtkWidget *label, *table;
   client_option *o;
   int i;
 
-  option_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(option_dialog_shell),"delete_event",
-      GTK_SIGNAL_FUNC(deleted_callback),NULL );
+  option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
+  	GTK_WINDOW(toplevel),
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(option_dialog_shell),
+				  GTK_RESPONSE_CLOSE);
+  g_signal_connect(option_dialog_shell, "response",
+		   G_CALLBACK(gtk_widget_destroy), NULL);
+  g_signal_connect(option_dialog_shell, "destroy",
+		   G_CALLBACK(option_ok_command_callback), NULL);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(option_dialog_shell));
-  gtk_container_set_border_width(
-  		GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox), 5);
-
-  gtk_window_set_title(GTK_WINDOW(option_dialog_shell), _("Set local options"));
 
   for (o=options, i=0; o->name; ++o, i++)
     ;
@@ -442,18 +444,7 @@ static void create_option_dialog(void)
     }
   }
 
-  button = gtk_button_new_with_label( _("Close") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( option_dialog_shell )->action_area ),
-		      button, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( button );
-  gtk_signal_connect(GTK_OBJECT(button),"clicked",
-      GTK_SIGNAL_FUNC(option_ok_command_callback), NULL);
-  gtk_widget_add_accelerator(button, "clicked",
-	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
-
   gtk_widget_show_all( GTK_DIALOG( option_dialog_shell )->vbox );
-  gtk_widget_show_all( GTK_DIALOG( option_dialog_shell )->action_area );
 }
 
 /****************************************************************
@@ -464,7 +455,9 @@ void popup_option_dialog(void)
   client_option *o;
   char valstr[64];
 
-  create_option_dialog();
+  if (!option_dialog_shell) {
+    create_option_dialog();
+  }
 
   for (o=options; o->name; ++o) {
     switch (o->type) {
@@ -479,7 +472,5 @@ void popup_option_dialog(void)
     }
   }
 
-/*  gtk_set_relative_position(toplevel, option_dialog_shell, 25, 25);*/
   gtk_widget_show(option_dialog_shell);
-  gtk_widget_set_sensitive(top_vbox, FALSE);
 }

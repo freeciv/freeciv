@@ -77,6 +77,7 @@ GtkWidget *create_messageopt_dialog(void)
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_REJECT,
 	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
   explanation = gtk_label_new(NULL);

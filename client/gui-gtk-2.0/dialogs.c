@@ -156,9 +156,10 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   	GTK_WINDOW(toplevel),
 	GTK_DIALOG_MODAL,
 	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_NONE,
+	GTK_RESPONSE_CLOSE,
 	NULL);
-
+  gtk_dialog_set_default_response(GTK_DIALOG(notify_dialog_shell),
+				  GTK_RESPONSE_CLOSE);
   g_signal_connect(notify_dialog_shell, "response",
 		   G_CALLBACK(gtk_widget_destroy), NULL);
   g_signal_connect(notify_dialog_shell, "destroy",

@@ -70,6 +70,8 @@ void popup_find_dialog(void)
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_REJECT,
 	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(find_dialog_shell),
+	GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(find_dialog_shell), GTK_WIN_POS_MOUSE);
 
   g_signal_connect(find_dialog_shell, "response",
