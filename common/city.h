@@ -82,6 +82,7 @@ enum city_options {
 extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];
 
 #define city_map_iterate_outwards(x, y) { \
+  int x, y; \
   int city_map_iterate_outwards_index; \
   for \
   ( \

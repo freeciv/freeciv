@@ -640,12 +640,11 @@ static void worker_loop(struct city *pcity, int *foodneed,
   } city_map_iterate_end;
 
   do {
-    int x, y;
     bx=0;
     by=0;
     best = 0;
     /* try to work near the city */
-    city_map_iterate_outwards(x, y)
+    city_map_iterate_outwards(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
         cur = city_tile_value(pcity, x, y, *foodneed, *prodneed) - conflict[x][y];
         if (cur > best) {
@@ -654,7 +653,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
           best = cur;
 	}
       }
-    city_map_iterate_outwards_end;
+    } city_map_iterate_outwards_end;
     if(bx || by) {
       server_set_worker_city(pcity, bx, by);
       (*workers)--; /* amazing what this did with no parens! -- Syela */

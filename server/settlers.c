@@ -932,7 +932,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int boatid, bx = 0, by = 0;	/* as returned by find_boat */
   struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
   
-  int x, y, i, j;
+  int x, y;
   int b, d;
 
   struct ai_choice choice;	/* for nav want only */
@@ -967,10 +967,10 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
      our own cities.  The old method wasted billions of CPU cycles and led to
      AI settlers improving enemy cities.  arguably should include city_spot  */
   generate_warmap(mycity, punit);
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
     freelog(LOG_DEBUG, "%s", pcity->name);
     /* try to work near the city */
-    city_map_iterate_outwards(i, j)
+    city_map_iterate_outwards(i, j) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       x = map_adjust_x(pcity->x + i - 2);
@@ -1062,8 +1062,8 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 		pcity->ai.railroad[i][j], pcity->ai.detox[i][j],
 		pcity->ai.derad[i][j]);
       } /* end if we are a legal destination */
-    city_map_iterate_outwards_end;
-  city_list_iterate_end;
+    } city_map_iterate_outwards_end;
+  } city_list_iterate_end;
 
   /** Found the best square to upgrade, have gx, gy, best_newv, best_act **/
 
@@ -1096,6 +1096,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   if (unit_flag(punit->type, F_CITIES) &&
       pplayer->ai.control &&
       ai_fuzzy(pplayer,1)) {    /* don't want to make cities otherwise */
+    int i, j;
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
     }
