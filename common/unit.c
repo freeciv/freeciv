@@ -1518,7 +1518,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   case AIR_MOVING:
   case HELI_MOVING:
-    return FALSE;
+    return tile_has_special(punit->tile, S_AIRBASE);
   }
   die("Invalid move type");
   return TRUE;
