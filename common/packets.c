@@ -3077,8 +3077,9 @@ void send_attribute_block(const struct player *pplayer,
   struct packet_attribute_chunk packet;
   int current_chunk, chunks, bytes_left;
 
-  if (!pplayer->attribute_block.data)
+  if (!pplayer || !pplayer->attribute_block.data) {
     return;
+  }
 
   assert(pplayer->attribute_block.length > 0 &&
 	 pplayer->attribute_block.length < MAX_ATTRIBUTE_BLOCK);
