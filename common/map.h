@@ -115,8 +115,32 @@ struct tile_type {
   char *helptext;
 };
 
-struct civ_map { 
+/* The direction8 gives the 8 possible directions.  These may be used in
+ * a number of ways, for instance as an index into the DIR_DX/DIR_DY
+ * arrays.  Not all directions may be valid; see is_valid_dir and
+ * DIR_IS_CARDINAL. */
+enum direction8 {
+  /* The DIR8/direction8 naming system is used to avoid conflict with
+   * DIR4/direction4 in client/tilespec.h
+   *
+   * Changing the order of the directions will break network compatability.
+   *
+   * Some code assumes that the first 4 directions are the reverses of the
+   * last 4 (in no particular order).  See client/goto.c. */
+  DIR8_NORTHWEST = 0,
+  DIR8_NORTH = 1,
+  DIR8_NORTHEAST = 2,
+  DIR8_WEST = 3,
+  DIR8_EAST = 4,
+  DIR8_SOUTHWEST = 5,
+  DIR8_SOUTH = 6,
+  DIR8_SOUTHEAST = 7
+};
+
+struct civ_map {
   int topology_id;
+  enum direction8 valid_dirs[8], cardinal_dirs[8];
+  int num_valid_dirs, num_cardinal_dirs;
   int size; /* used to calculate [xy]size */
   int xsize, ysize; /* native dimensions */
   int seed;
@@ -527,26 +551,39 @@ extern struct terrain_misc terrain_control;
   } adjc_dir_iterate_end;                                                     \
 }
 
-/* Iterate through all tiles adjacent to a tile.  dir_itr is the
-   directional value (see DIR_D[XY]).  This assumes that center_x and
-   center_y are normalized. --JDS */
-#define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)           \
-{                                                                             \
-  int x_itr, y_itr, dir_itr;                                                  \
-  bool MACRO_border = IS_BORDER_MAP_POS((center_x), (center_y), 1);           \
-  int MACRO_center_x = (center_x);                                            \
-  int MACRO_center_y = (center_y);                                            \
-  CHECK_MAP_POS(MACRO_center_x, MACRO_center_y);                              \
-  for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
-    DIRSTEP(x_itr, y_itr, dir_itr);                                           \
-    x_itr += MACRO_center_x;                                                  \
-    y_itr += MACRO_center_y;                                                  \
-    if (MACRO_border && !normalize_map_pos(&x_itr, &y_itr)) {                 \
-	continue;                                                             \
+#define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)	    \
+  adjc_dirlist_iterate(center_x, center_y, x_itr, y_itr, dir_itr,	    \
+		       map.valid_dirs, map.num_valid_dirs)
+
+#define adjc_dir_iterate_end adjc_dirlist_iterate_end
+
+/* Iterate through all tiles adjacent to a tile using the given list of
+ * directions.  dir_itr is the directional value, (center_x, center_y) is
+ * the center tile (which must be normalized), and (x_itr, y_itr) is the
+ * position corresponding to dir_itr.
+ *
+ * This macro should not be used directly.  Instead, use adjc_dir_iterate
+ * or cartesian_adjacent_iterate. */
+#define adjc_dirlist_iterate(center_x, center_y, x_itr, y_itr, dir_itr,     \
+                             dirlist, dircount)				    \
+{									    \
+  int x_itr, y_itr, _dir_index;						    \
+  enum direction8 dir_itr;						    \
+  bool _is_border = IS_BORDER_MAP_POS((center_x), (center_y), 1);	    \
+  int _center_x = (center_x), _center_y = (center_y);			    \
+									    \
+  CHECK_MAP_POS(_center_x, _center_y);					    \
+  for (_dir_index = 0; _dir_index < (dircount); _dir_index++) {		    \
+    dir_itr = dirlist[_dir_index];					    \
+    DIRSTEP(x_itr, y_itr, dir_itr);					    \
+    x_itr += _center_x;							    \
+    y_itr += _center_y;							    \
+    if (_is_border && !normalize_map_pos(&x_itr, &y_itr)) {		    \
+      continue;								    \
     }
 
-#define adjc_dir_iterate_end                                                  \
-  }                                                                           \
+#define adjc_dirlist_iterate_end					    \
+    }									    \
 }
 
 /* Iterate over all positions on the globe. */
@@ -562,40 +599,6 @@ extern struct terrain_misc terrain_control;
     }                                                                       \
   }                                                                         \
 }
-
-/*
-used to compute neighboring tiles:
-using
-x1 = x + DIR_DX[dir];
-y1 = y + DIR_DX[dir];
-will give you the tile as shown below.
--------
-|0|1|2|
-|-+-+-|
-|3| |4|
-|-+-+-|
-|5|6|7|
--------
-Note that you must normalize x1 and y1 yourself.
-*/
-
-enum direction8 {
-  /* The DIR8/direction8 naming system is used to avoid conflict with
-   * DIR4/direction4 in client/tilespec.h
-   *
-   * Changing the order of the directions will break network compatability.
-   *
-   * Some code assumes that the first 4 directions are the reverses of the
-   * last 4 (in no particular order.  See client/goto.c. */
-  DIR8_NORTHWEST = 0,
-  DIR8_NORTH = 1,
-  DIR8_NORTHEAST = 2,
-  DIR8_WEST = 3,
-  DIR8_EAST = 4,
-  DIR8_SOUTHWEST = 5,
-  DIR8_SOUTH = 6,
-  DIR8_SOUTHEAST = 7
-};
 
 BV_DEFINE(dir_vector, 8);
 
@@ -625,23 +628,11 @@ extern const int DIR_DY[8];
 extern const int CAR_DIR_DX[4];
 extern const int CAR_DIR_DY[4];
 
-#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y)                        \
-{                                                                             \
-  int IAC_i;                                                                  \
-  int IAC_x, IAC_y;                                                           \
-  bool _is_border = IS_BORDER_MAP_POS(x, y, 1);                               \
-  CHECK_MAP_POS(x, y);                                                        \
-  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                                       \
-    IAC_x = x + CAR_DIR_DX[IAC_i];                                            \
-    IAC_y = y + CAR_DIR_DY[IAC_i];                                            \
-                                                                              \
-    if (_is_border && !normalize_map_pos(&IAC_x, &IAC_y)) {                   \
-      continue;                                                               \
-    }
+#define cartesian_adjacent_iterate(center_x, center_y, x_itr, y_itr)	    \
+  adjc_dirlist_iterate(center_x, center_y, x_itr, y_itr, _dir_itr,	    \
+		       map.cardinal_dirs, map.num_cardinal_dirs)
 
-#define cartesian_adjacent_iterate_end                                        \
-  }                                                                           \
-}
+#define cartesian_adjacent_iterate_end adjc_dirlist_iterate_end
 
 /* Used for network transmission; do not change. */
 #define MAP_TILE_OWNER_NULL	 MAX_UINT8

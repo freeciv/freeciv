@@ -36,7 +36,21 @@ struct civ_map map;
 /* these are initialized from the terrain ruleset */
 struct terrain_misc terrain_control;
 
-/* used to compute neighboring tiles */
+/* used to compute neighboring tiles.
+ *
+ * using
+ *   x1 = x + DIR_DX[dir];
+ *   y1 = y + DIR_DY[dir];
+ * will give you the tile as shown below.
+ *   -------
+ *   |0|1|2|
+ *   |-+-+-|
+ *   |3| |4|
+ *   |-+-+-|
+ *   |5|6|7|
+ *   -------
+ * Note that you must normalize x1 and y1 yourself.
+ */
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
@@ -289,6 +303,8 @@ static void set_ratio(double base_size, int Xratio, int Yratio)
 ****************************************************************************/
 void map_init_topology(bool set_sizes)
 {
+  enum direction8 dir;
+
   /* Changing or reordering the topo_flag enum will break this code. */
   const int default_ratios[4][2] =
       {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
@@ -304,6 +320,21 @@ void map_init_topology(bool set_sizes)
     /* Set map.size based on map.xsize and map.ysize. */
     map.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
   }
+
+  map.num_valid_dirs = map.num_cardinal_dirs = 0;
+  for (dir = 0; dir < 8; dir++) {
+    if (is_valid_dir(dir)) {
+      map.valid_dirs[map.num_valid_dirs] = dir;
+      map.num_valid_dirs++;
+    }
+    if (DIR_IS_CARDINAL(dir)) {
+      map.cardinal_dirs[map.num_cardinal_dirs] = dir;
+      map.num_cardinal_dirs++;
+    }
+  }
+  assert(map.num_valid_dirs > 0 && map.num_valid_dirs <= 8);
+  assert(map.num_cardinal_dirs > 0
+	 && map.num_cardinal_dirs <= map.num_valid_dirs);
 }
 
 /***************************************************************
