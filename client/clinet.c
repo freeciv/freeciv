@@ -325,8 +325,8 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   server_list = fc_malloc(sizeof(struct server_list));
   server_list_init(server_list);
 
-  while(fgets(str,512,f)!=NULL)  {
-    if(!strncmp(str,"<TR BGCOLOR",11))  {
+  while(fgets(str, 512, f) != NULL) {
+    if((0 == strncmp(str, "<TR BGCOLOR",11)) && strchr(str, '\n')) {
       char *name,*port,*version,*status,*players,*metastring;
       char *p;
       struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
