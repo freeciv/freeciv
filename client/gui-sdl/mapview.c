@@ -1814,11 +1814,13 @@ void draw_unit_animation_frame(struct unit *punit,
   
   /* Draw the new sprite. */
   SDL_BlitSurface(Main.map, &dest, pMap_Copy, NULL);
-  
-  /* draw animation frame */
-  dest.y += (NORMAL_TILE_HEIGHT >> 1);
-  SDL_BlitSurface(pTheme->ActiveUnit[frame++], NULL, Main.map, &dest);
-  dest.y -= (NORMAL_TILE_HEIGHT >> 1);
+
+  if(is_isometric) {  
+    /* draw animation frame */
+    dest.y += (NORMAL_TILE_HEIGHT >> 1);
+    SDL_BlitSurface(pTheme->ActiveUnit[frame++], NULL, Main.map, &dest);
+    dest.y -= (NORMAL_TILE_HEIGHT >> 1);
+  }
   
   SDL_BlitSurface(pUnit_Surf, NULL, Main.map, &dest);
   sdl_dirty_rect(dest);

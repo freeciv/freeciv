@@ -73,7 +73,7 @@ static int exit_find_city_dlg_callback( struct GUI *pWidget )
   return -1;
 }
 
-static int find_city_callback( struct GUI *pWidget )
+static int find_city_callback(struct GUI *pWidget)
 {
   struct city *pCity = (struct city *)pWidget->data;
   if(pCity) {
@@ -159,7 +159,7 @@ void popup_find_dialog(void)
   
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
   
-  get_map_xy( Main.map->w/2 , Main.map->h/2 , &orginal_x , &orginal_y );
+  get_map_xy(Main.map->w/2 , Main.map->h/2 , &orginal_x , &orginal_y);
   
   pFind_City_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
@@ -276,7 +276,7 @@ void popup_find_dialog(void)
     w += pBuf->size.w;
        
     pFind_City_Dlg->pScroll = MALLOC(sizeof(struct ScrollBar));
-    pFind_City_Dlg->pScroll->active = 10;
+    pFind_City_Dlg->pScroll->active = 20;
     pFind_City_Dlg->pScroll->count = n;
   } else {
     units_h = h;
@@ -293,13 +293,16 @@ void popup_find_dialog(void)
   
   pWindow->size.x = 10;
   pWindow->size.y = (Main.gui->h - h) / 2;
-  
+#if 0  
   pLogo = get_logo_gfx();  
   if(resize_window( pWindow , pLogo , NULL , w , h )) {
     FREESURFACE(pLogo);
   }
   SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
-    
+#endif
+  resize_window(pWindow , NULL,
+	  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+	  
   w -= DOUBLE_FRAME_WH;
   
   if (n > 20)

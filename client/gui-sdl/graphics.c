@@ -1715,7 +1715,7 @@ bool isometric_view_supported(void)
 **************************************************************************/
 bool overhead_view_supported(void)
 {
-  return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************

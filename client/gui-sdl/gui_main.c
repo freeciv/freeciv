@@ -352,7 +352,11 @@ static void gui_main_loop(void)
 #endif
 	break;
 	case ANIM:
-	  real_blink_active_unit();
+	  if(is_isometric) {
+	    real_blink_active_unit();
+	  } else {
+	    blink_active_unit();
+	  }
 	break;
 	case SHOW_WIDGET_INFO_LABBEL:
 	  draw_widget_info_label();

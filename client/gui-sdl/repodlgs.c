@@ -314,17 +314,17 @@ void science_dialog_update(void)
 {
   char cBuf[120];
   SDL_String16 *pStr;
-  int cost = total_bulbs_required(game.player_ptr);
+  int cost;
   SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
   int step, i;
   SDL_Rect dest, src;
-  SDL_Color color = *get_game_colorRGB(COLOR_STD_WHITE);
+  SDL_Color color;
   struct impr_type *pImpr;
   struct unit_type *pUnit;
   int turns_to_advance, turns_to_next_tech, steps;
   int curent_output = 0;
   div_t result;
-  struct GUI *pWindow = pScienceDlg->pEndWidgetList;
+  struct GUI *pWindow;
   color.unused = 128;
   
 #if 0
@@ -335,6 +335,14 @@ void science_dialog_update(void)
   }
 #endif
 
+  if(!pScienceDlg) {
+    return;
+  }
+  
+  pWindow = pScienceDlg->pEndWidgetList;
+  color = *get_game_colorRGB(COLOR_STD_WHITE);
+  cost = total_bulbs_required(game.player_ptr);
+  
   pWindow->prev->theme =
     GET_SURF(advances[game.player_ptr->research.researching].sprite);
   
