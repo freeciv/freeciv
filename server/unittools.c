@@ -59,6 +59,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 				 struct genlist_iterator *iter);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static int upgrade_would_strand(struct unit *punit, int upgrade_type);
+static void handle_leonardo(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
 
@@ -766,9 +767,57 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 }
 
 /***************************************************************************
+Do Leonardo's Workshop upgrade(s). Select unit to upgrade by random. --Zamar
+Now be careful not to strand units at sea with the Workshop. --dwp
+****************************************************************************/
+static void handle_leonardo(struct player *pplayer)
+{
+  int upgrade_type; 
+  int leonardo_variant;
+	
+  struct unit_list candidates;
+  int candidate_to_upgrade=-1;
+
+  int i;
+
+  leonardo_variant = improvement_variant(B_LEONARDO);
+	
+  unit_list_init(&candidates);
+	
+  unit_list_iterate(pplayer->units, punit) {
+    if ((upgrade_type=can_upgrade_unittype(pplayer, punit->type))!=-1 &&
+       !upgrade_would_strand(punit, upgrade_type))
+      unit_list_insert(&candidates, punit); /* Potential candidate :) */
+  } unit_list_iterate_end;
+	
+  if (!unit_list_size(&candidates))
+    return; /* We have Leonardo, but nothing to upgrade! */
+	
+  if (!leonardo_variant)
+    candidate_to_upgrade=myrand(unit_list_size(&candidates));
+
+  i=0;	
+  unit_list_iterate(candidates, punit) {
+    if (leonardo_variant || i == candidate_to_upgrade) {
+      upgrade_type=can_upgrade_unittype(pplayer, punit->type);
+      notify_player(pplayer,
+            _("Game: %s has upgraded %s to %s%s."),
+            improvement_types[B_LEONARDO].name,
+            get_unit_type(punit->type)->name,
+            get_unit_type(upgrade_type)->name,
+            get_location_str_in(pplayer, punit->x, punit->y));
+      punit->veteran = 0;
+      upgrade_unit(punit, upgrade_type);
+    }
+    i++;
+  } unit_list_iterate_end;
+	
+  unit_list_unlink_all(&candidates);
+}	
+		  
+/***************************************************************************
 Restore unit hitpoints. (movepoint - restoration moved to update_unit_activities)
 Do Leonardo's Workshop upgrade if applicable.
-Now be careful not to strand units at sea with the Workshop. --dwp
 Adjust air units for fuel: air units lose fuel unless in a city,
 on a Carrier or on a airbase special (or, for Missles, on a Submarine).
 Air units which run out of fuel get wiped.
@@ -781,32 +830,13 @@ land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
-  int leonardo, leonardo_variant;
   int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
-  int upgrade_type, done;
-
-  leonardo = player_owns_active_wonder(pplayer, B_LEONARDO);
-  leonardo_variant = improvement_variant(B_LEONARDO);
+  int done;
 
   /* get Leonardo out of the way first: */
-  if (leonardo) {
-    unit_list_iterate(pplayer->units, punit) {
-      if (leonardo &&
-	  (upgrade_type=can_upgrade_unittype(pplayer, punit->type))!=-1
-	  && !upgrade_would_strand(punit, upgrade_type)) {
-	notify_player(pplayer,
-		      _("Game: %s has upgraded %s to %s%s."),
-		      improvement_types[B_LEONARDO].name,
-		      get_unit_type(punit->type)->name,
-		      get_unit_type(upgrade_type)->name,
-		      get_location_str_in(pplayer, punit->x, punit->y));
-	punit->veteran = 0;
-	upgrade_unit(punit,upgrade_type);
-	leonardo = leonardo_variant;
-      }
-    }
-    unit_list_iterate_end;
-  }
+	
+  if (player_owns_active_wonder(pplayer, B_LEONARDO))
+    handle_leonardo(pplayer);
 
   /* Temporarily use 'fuel' on Carriers and Subs to keep track
      of numbers of supported Air Units:   --dwp */
