@@ -1876,15 +1876,19 @@ Now.. Go give'em hell!
    <Key>KP_8:         key-unit-north()      \n\
    <Key>Up:           key-unit-north()      \n\
    <Key>KP_9:         key-unit-north-east() \n\
+   <Key>Prior:        key-unit-north-east() \n\
    <Key>KP_6:         key-unit-east()       \n\
    <Key>Right:        key-unit-east()       \n\
    <Key>KP_3:         key-unit-south-east() \n\
+   <Key>Next:         key-unit-south-east() \n\
    <Key>KP_2:         key-unit-south()      \n\
    <Key>Down:         key-unit-south()      \n\
    <Key>KP_1:         key-unit-south-west() \n\
+   <Key>End:          key-unit-south-west() \n\
    <Key>KP_4:         key-unit-west()       \n\
    <Key>Left:         key-unit-west()       \n\
    <Key>KP_7:         key-unit-north-west() \n\
+   <Key>Home:         key-unit-north-west() \n\
    <Key>KP_5:         focus-to-next-unit()  \n\
    <Key>i:            key-unit-irrigate()   \n\
    <Key>r:            key-unit-road()       \n\
