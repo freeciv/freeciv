@@ -950,8 +950,20 @@ bool city_can_be_built_here(int x, int y, struct unit *punit)
     return FALSE;
   }
 
+  if (punit) {
+    enum unit_move_type move_type = unit_type(punit)->move_type;
+    enum tile_terrain_type t = map_get_terrain(x, y);
+
+    /* We allow land units to build land cities and sea units to build
+     * ocean cities. */
+    if ((move_type == LAND_MOVING && is_ocean(t))
+	|| (move_type == SEA_MOVING && !is_ocean(t))) {
+      return FALSE;
+    }
+  }
+
   /* game.rgame.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
-  square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {
+  square_iterate(x, y, game.rgame.min_dist_bw_cities - 1, x1, y1) {
     if (map_get_city(x1, y1)) {
       return FALSE;
     }
