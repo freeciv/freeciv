@@ -24,15 +24,33 @@
 /* ===================== Move Cost Callbacks ========================= */
 
 /*************************************************************
-  SINGLE_MOVE cost function for SEA_MOVING 
-  Note: this is a reversable function
+  A cost function for SEA_MOVING.  Allows shore bombardment.
+  Should be used in conjunction with a TB callback which 
+  prohibits going through an enemy city/tile.
 *************************************************************/
-static int single_seamove(int x, int y, enum direction8 dir,
-			  int x1, int y1, struct pf_parameter *param)
+static int seamove(int x, int y, enum direction8 dir,
+                   int x1, int y1, struct pf_parameter *param)
 {
   /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (map_get_tile(x, y)->move_cost[dir]
-      == MOVE_COST_FOR_VALID_SEA_STEP) {
+  if (map_get_tile(x, y)->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
+      || is_non_allied_unit_tile(map_get_tile(x1, y1), param->owner)
+      || is_non_allied_city_tile(map_get_tile(x1, y1), param->owner)) {
+    return SINGLE_MOVE;
+  } else {
+    return PF_IMPOSSIBLE_MC;
+  }
+}
+
+/*************************************************************
+  A cost function for SEA_MOVING.  Does not allow shore 
+  bombardment.
+*************************************************************/
+static int seamove_no_bombard(int x, int y, enum direction8 dir,
+                              int x1, int y1, struct pf_parameter *param)
+{
+  /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
+  if (map_get_tile(x, y)->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
+      && !is_non_allied_city_tile(map_get_tile(x1, y1), param->owner)) {
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -287,7 +305,11 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     }
     break;
   case SEA_MOVING:
-    parameter->get_MC = single_seamove;
+    if (unit_flag(punit, F_NO_LAND_ATTACK)) {
+      parameter->get_MC = seamove_no_bombard;
+    } else {
+      parameter->get_MC = seamove;
+    }
     break;
   default:
     die("unknown move_type");

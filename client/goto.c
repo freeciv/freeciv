@@ -319,10 +319,11 @@ static int get_EC(int x, int y, enum known_type known,
 }
 
 /********************************************************************** 
-  PF callback to prohibit going into the unknown.
+  PF callback to prohibit going into the unknown.  Also makes sure we 
+  don't plan our route through enemy city/tile.
 ***********************************************************************/
-static enum tile_behavior get_TB(int x, int y, enum known_type known,
-				 struct pf_parameter *param)
+static enum tile_behavior get_TB_aggr(int x, int y, enum known_type known,
+                                      struct pf_parameter *param)
 {
   struct tile *ptile = map_get_tile(x, y);
 
@@ -333,6 +334,24 @@ static enum tile_behavior get_TB(int x, int y, enum known_type known,
       || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can attack but can't count on going through */
     return TB_DONT_LEAVE;
+  }
+  return TB_NORMAL;
+}
+
+/********************************************************************** 
+  PF callback to prohibit going into the unknown.  Also makes sure we 
+  don't plan to attack anyone.
+***********************************************************************/
+static enum tile_behavior get_TB_peace(int x, int y, enum known_type known,
+                                       struct pf_parameter *param)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  if (known == TILE_UNKNOWN
+      || is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_city_tile(ptile, param->owner)) {
+    /* Can't attack */
+    return TB_IGNORE;
   }
   return TB_NORMAL;
 }
@@ -353,7 +372,11 @@ void enter_goto_state(struct unit *punit)
   assert(goto_map.template.get_EC == NULL);
   goto_map.template.get_EC = get_EC;
   assert(goto_map.template.get_TB == NULL);
-  goto_map.template.get_TB = get_TB;
+  if (unit_type(punit)->attack_strength > 0) {
+    goto_map.template.get_TB = get_TB_aggr;
+  } else {
+    goto_map.template.get_TB = get_TB_peace;
+  }    
   goto_map.template.turn_mode = TM_WORST_TIME;
 
   add_part();
