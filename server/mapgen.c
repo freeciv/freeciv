@@ -180,10 +180,9 @@ static void make_forest(int x, int y, int height, int diff)
     else 
       map_set_terrain(x, y, T_FOREST);
       if (abs(hmap(x, y)-height)<diff) {
-	if (myrand(10)>5) make_forest(x-1,y, height, diff-5);
-	if (myrand(10)>5) make_forest(x,y-1, height, diff-5);
-	if (myrand(10)>5) make_forest(x+1,y, height, diff-5);
-	if (myrand(10)>5) make_forest(x,y+1, height, diff-5);
+	cartesian_adjacent_iterate(x, y, x1, y1) {
+	  if (myrand(10)>5) make_forest(x1, y1, height, diff-5);
+	} cartesian_adjacent_iterate_end;
       }
     forests++;
   }
@@ -805,32 +804,14 @@ static void make_fair(void)
 	    !(map_get_special(x, y) & S_RIVER)) {
 	  map_set_terrain(map_adjust_x(x), y, T_HILLS);
 	}
-	if (myrand(100) > 66 &&
-	    map_get_terrain(map_adjust_x(x - 1), y) != T_OCEAN &&
-	    map_get_terrain(map_adjust_x(x - 1), y) != T_RIVER &&
-	    !(map_get_special(map_adjust_x(x - 1), y) & S_RIVER)) {
-	  map_set_terrain(map_adjust_x(x - 1), y, T_HILLS);
-	}
-	if (myrand(100) > 66 &&
-	    map_get_terrain(map_adjust_x(x + 1), y) != T_OCEAN &&
-	    map_get_terrain(map_adjust_x(x + 1), y) != T_RIVER &&
-	    !(map_get_special(map_adjust_x(x + 1), y) & S_RIVER)) {
-	  map_set_terrain(map_adjust_x(x + 1), y, T_HILLS);
-	}
-	if (y > 0 &&
-	    myrand(100) > 66 &&
-	    map_get_terrain(x, y - 1) != T_OCEAN && 
-	    map_get_terrain(x, y - 1) != T_RIVER &&
-	    !(map_get_special(x, y - 1) & S_RIVER)) {
-	  map_set_terrain(x, y - 1, T_HILLS);
-	}
-	if (y < map.ysize - 1 &&
-	    myrand(100) > 66 &&
-	    map_get_terrain(x, y + 1) != T_OCEAN && 
-	    map_get_terrain(x, y + 1) != T_RIVER &&
-	    !(map_get_special(x, y + 1) & S_RIVER)) {
-	  map_set_terrain(x, y + 1, T_HILLS);
-	}
+	cartesian_adjacent_iterate(x, y, x1, y1) {
+	  if (myrand(100) > 66 &&
+	      map_get_terrain(x1, y1) != T_OCEAN
+	      && map_get_terrain(x1, y1) != T_RIVER
+	      && !(map_get_special(x1, y1) & S_RIVER)) {
+	    map_set_terrain(x1, y1, T_HILLS);
+	  }	  
+	} cartesian_adjacent_iterate_end;
       }
     }
   }
@@ -883,11 +864,12 @@ static void make_land(void)
 **************************************************************************/
 static int is_tiny_island(int x, int y) 
 {
-  if (map_get_terrain(x,y)==T_OCEAN) return 0;
-  if (map_get_terrain(x-1,y)!=T_OCEAN) return 0;
-  if (map_get_terrain(x+1,y)!=T_OCEAN) return 0;
-  if (map_get_terrain(x,y-1)!=T_OCEAN) return 0;
-  if (map_get_terrain(x,y+1)!=T_OCEAN) return 0;
+  if (map_get_terrain(x,y) == T_OCEAN) return 0;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) != T_OCEAN) return 0;
+  } cartesian_adjacent_iterate_end;
+
   return 1;
 }
 
@@ -897,8 +879,8 @@ static int is_tiny_island(int x, int y)
 static void remove_tiny_islands(void)
 {
   whole_map_iterate(x, y) {
-    if (is_tiny_island(x,y)) {
-      map_set_terrain(x,y, T_OCEAN);
+    if (is_tiny_island(x, y)) {
+      map_set_terrain(x, y, T_OCEAN);
       map_clear_special(x, y, S_RIVER);
       map_set_continent(x, y, 0);
     }
@@ -912,24 +894,15 @@ static void remove_tiny_islands(void)
 **************************************************************************/
 static int assign_continent_flood(int x, int y, int nr)
 {
-  x = map_adjust_x(x);
-  
-  if (y<0 || y>=map.ysize)             return 0;
-  if (map_get_continent(x, y))         return 0;
-  if (map_get_terrain(x, y)==T_OCEAN)  return 0;
+  if (y<0 || y>=map.ysize)              return 0;
+  if (map_get_continent(x, y))          return 0;
+  if (map_get_terrain(x, y) == T_OCEAN) return 0;
 
   map_set_continent(x, y, nr);
-  
-  assign_continent_flood(x-1, y-1, nr);
-  assign_continent_flood(x-1, y,   nr);
-  assign_continent_flood(x-1, y+1, nr);
-  
-  assign_continent_flood(x,   y-1, nr);
-  assign_continent_flood(x,   y+1, nr);
-  
-  assign_continent_flood(x+1, y-1, nr);
-  assign_continent_flood(x+1, y,   nr);
-  assign_continent_flood(x+1, y+1, nr);
+
+  adjc_iterate(x, y, x1, y1) {
+    assign_continent_flood(x1, y1, nr);
+  } adjc_iterate_end;
 
   return 1;
 }
@@ -1028,15 +1001,12 @@ static void setup_isledata(void)
 	   only use for adjacent land (cont1>0) below */
 	{
 	  int goodval = is_good_tile(x, y);
-	  int x1, y1;
-	  for (x1=-1; x1<=1; x1++) {
-	    for (y1=-1; y1<=1; y1++) {
-	      int cont1 = map_get_continent(x+x1, y+y1);
-	      if (cont1>0) {  
-		islands[cont1].goodies += goodval;
-	      }
+	  square_iterate(x, y, 1, x1, y1) {
+	    int cont1 = map_get_continent(x1, y1);
+	    if (cont1>0) {  
+	      islands[cont1].goodies += goodval;
 	    }
-	  }
+	  } square_iterate_end;
 	}
       }
     }
@@ -1472,9 +1442,9 @@ static int is_cold(int x, int y){
 /**************************************************************************
   fill an island with up four types of terrains, rivers have extra code
 **************************************************************************/
-static void fillisland(int coast, long int *bucket,
-		       int warm0_weight, int warm1_weight, 
-		       int cold0_weight, int cold1_weight, 
+static void fill_island(int coast, long int *bucket,
+			int warm0_weight, int warm1_weight, 
+			int cold0_weight, int cold1_weight, 
 		enum tile_terrain_type warm0, enum tile_terrain_type warm1,
 		enum tile_terrain_type cold0, enum tile_terrain_type cold1)
 {
@@ -1532,7 +1502,7 @@ static void fillisland(int coast, long int *bucket,
 /**************************************************************************
   fill an island with rivers, when river style is R_AS_SPECIAL
 **************************************************************************/
-static void fillislandrivers(int coast, long int *bucket)
+static void fill_island_rivers(int coast, long int *bucket)
 {
   int x, y, i, k, capac;
   long int failsafe;
@@ -1578,7 +1548,7 @@ static long int checkmass;
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int placeisland(void)
+static int place_island(void)
 {
   int x, y, xo, yo, i=0;
   yo = myrand(map.ysize);
@@ -1632,7 +1602,7 @@ static int placeisland(void)
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int createisland(int islemass)
+static int create_island(int islemass)
 {
   int x, y, i;
   long int tries=islemass*(2+islemass/20)+99;
@@ -1669,12 +1639,12 @@ static int createisland(int islemass)
     }
   }
   if(tries<=0) {
-    freelog(LOG_ERROR, "createisland ended early with %d/%d.",
+    freelog(LOG_ERROR, "create_island ended early with %d/%d.",
 	    islemass-i, islemass);
   }
   
   tries= map.xsize*(long int)map.ysize/4;/* on a 40x60 map, there are 2400 places */
-  while (!(i = placeisland()) && --tries);
+  while (!(i = place_island()) && --tries);
   return i;
 }
 
@@ -1686,7 +1656,7 @@ static long int totalweight;
   make an island, fill every tile type except plains
   note: you have to create big islands first.
 **************************************************************************/
-static void makeisland(int islemass, int starters)
+static void make_island(int islemass, int starters)
 {
   static long int tilefactor, balance, lastplaced;/* int may be only 2 byte ! */
   static long int riverbuck, mountbuck, desertbuck, forestbuck, swampbuck;
@@ -1739,7 +1709,7 @@ static void makeisland(int islemass, int starters)
 
     freelog(LOG_VERBOSE, "island %i",isleindex);
 
-    while (!createisland(i--) && i*10>islemass );
+    while (!create_island(i--) && i*10>islemass );
     i++;
     lastplaced= i;
     if(i*10>islemass){
@@ -1754,29 +1724,29 @@ static void makeisland(int islemass, int starters)
     i *= tilefactor;
     if (terrain_control.river_style==R_AS_TERRAIN) {
       riverbuck += map.riverlength / 10 * i;
-      fillisland(1, &riverbuck,
+      fill_island(1, &riverbuck,
 		 1,1,1,1,
 		 T_RIVER, T_RIVER, T_RIVER, T_RIVER);
     }
     if (terrain_control.river_style==R_AS_SPECIAL) {
       riverbuck += map.riverlength / 10 * i;
-      fillislandrivers(1, &riverbuck);
+      fill_island_rivers(1, &riverbuck);
     }
     mountbuck += map.mountains * i;
-    fillisland(20, &mountbuck,
-	       3,1, 3,1,
+    fill_island(20, &mountbuck,
+		3,1, 3,1,
 		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS);
     desertbuck += map.deserts * i;
-    fillisland(40, &desertbuck,
-	       map.deserts, map.deserts, map.deserts, map.deserts,
+    fill_island(40, &desertbuck,
+		map.deserts, map.deserts, map.deserts, map.deserts,
 		T_DESERT, T_DESERT, T_DESERT, T_TUNDRA);
     forestbuck += map.forestsize * i;
-    fillisland(60, &forestbuck,
-	       map.forestsize, map.swampsize, map.forestsize, map.swampsize,
+    fill_island(60, &forestbuck,
+		map.forestsize, map.swampsize, map.forestsize, map.swampsize,
 		T_FOREST, T_JUNGLE, T_FOREST, T_TUNDRA);
     swampbuck += map.swampsize * i;
-    fillisland(80, &swampbuck,
-	       map.swampsize, map.swampsize, map.swampsize, map.swampsize,
+    fill_island(80, &swampbuck,
+		map.swampsize, map.swampsize, map.swampsize, map.swampsize,
 		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP);
 
     isleindex++;
@@ -1814,7 +1784,7 @@ static void initworld(void)
     }
   }
   map.num_continents = 2;
-  makeisland(0, 0);
+  make_island(0, 0);
   islands[2].starters = 0;
   islands[1].starters = 0;
   islands[0].starters = 0;
@@ -1838,7 +1808,7 @@ static void mapgenerator2(void)
   totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
-  /* copying the flow of the makeisland loops is the safest way */
+  /* copying the flow of the make_island loops is the safest way */
   totalweight= 0;
   for (i = game.nplayers ; i ; i--)
     totalweight+= 70;
@@ -1850,11 +1820,11 @@ static void mapgenerator2(void)
   initworld();
 
   for (i = game.nplayers ; i ; i--)
-    makeisland(70*totalmass/totalweight, 1);
+    make_island(70*totalmass/totalweight, 1);
   for (i = game.nplayers ; i ; i--)
-    makeisland(20*totalmass/totalweight, 0);
+    make_island(20*totalmass/totalweight, 0);
   for (i = game.nplayers ; i ; i--)
-    makeisland(10*totalmass/totalweight, 0);
+    make_island(10*totalmass/totalweight, 0);
   make_plains();  
   free(height_map);
 
@@ -1910,7 +1880,7 @@ static void mapgenerator3(void)
   initworld();
 
   while( isleindex-2<=bigislands && checkmass>islandmass && ++j<500 ) {
-    makeisland(islandmass,1);
+    make_island(islandmass,1);
   }
 
   if(j==500){
@@ -1930,7 +1900,7 @@ static void mapgenerator3(void)
 	size = myrand((islandmass+1)/2+1);
       if(size<2) size=2;
 
-      makeisland(size, (isleindex-2<=game.nplayers)?1:0 );
+      make_island(size, (isleindex-2<=game.nplayers)?1:0 );
   }
 
   make_plains();  
@@ -1990,15 +1960,15 @@ static void mapgenerator4(void)
 
   i = game.nplayers / 2;
   if (game.nplayers % 2)
-    makeisland(bigweight*3, 3);
+    make_island(bigweight*3, 3);
   else
     i++;
   while (--i)
-    makeisland(bigweight*2*totalmass/totalweight, 2);
+    make_island(bigweight*2*totalmass/totalweight, 2);
   for (i = game.nplayers ; i ; i--)
-    makeisland(20*totalmass/totalweight, 0);
+    make_island(20*totalmass/totalweight, 0);
   for (i = game.nplayers ; i ; i--)
-    makeisland(10*totalmass/totalweight, 0);
+    make_island(10*totalmass/totalweight, 0);
   make_plains();  
   free(height_map);
 
