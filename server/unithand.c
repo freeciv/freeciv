@@ -822,7 +822,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 	 the diplomat didn't have any moves left and so don't pop up the box.
 	 (We are in the middle of the unit restore cycle when doing goto's, and
 	 the unit's movepoints have been restored, but we only send the unit
-	 info at the end of the function. */
+	 info at the end of the function.) */
       send_unit_info(pplayer, punit);
 
       /* if is_diplomat_action_available() then there must be a city or a unit */
@@ -840,7 +840,9 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return 0;
     } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-  		       _("Game: No diplomat action possible."));
+		map_get_terrain(punit->x, punit->y)==T_OCEAN
+			? _("Game: Diplomats cannot act from sea.")
+  		        : _("Game: No diplomat action possible."));
       return 0;
     }
   }
