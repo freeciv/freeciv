@@ -960,8 +960,6 @@ void update_menus(void)
     menus_set_sensitive("<main>/Game/Local Options", TRUE);
     menus_set_sensitive("<main>/Game/Message Options", TRUE);
     menus_set_sensitive("<main>/Game/Save Settings", TRUE);
-    menus_set_sensitive("<main>/Game/Players", TRUE);
-    menus_set_sensitive("<main>/Game/Messages", TRUE);
     menus_set_sensitive("<main>/Game/Server Opt initial", TRUE);
     menus_set_sensitive("<main>/Game/Server Opt ongoing", TRUE);
     menus_set_sensitive("<main>/Game/Export Log", TRUE);
