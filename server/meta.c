@@ -199,7 +199,7 @@ void server_open_udp(void)
   InetSvcRef ref=OTOpenInternetServices(kDefaultInternetServicesPath, 0, &err1);
   InetHostInfo hinfo;
 #else
-  struct sockaddr_in cli_addr, serv_addr;
+  struct sockaddr_in serv_addr;
 #endif
   
   /*
@@ -248,23 +248,13 @@ void server_open_udp(void)
    * associate datagram socket with server.
    */
 #ifdef GENERATING_MAC  /* mac networking */
-  err1=OTBind(meta_ep, NULL, NULL);
-  bad = (err1 != 0);
-#else
-  memset(&cli_addr, 0, sizeof(cli_addr));
-  cli_addr.sin_family      = AF_INET;
-  cli_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-  cli_addr.sin_port        = htons(0);
-
-  bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr))==-1);
-#endif
-  if (bad) {
+  if (OTBind(meta_ep, NULL, NULL) != 0) {
     freelog(LOG_ERROR, "Metaserver: can't bind local address: %s",
 	    mystrerror(errno));
     metaserver_failed();
     return;
   }
-#ifndef GENERATING_MAC
+#else
   /* no, this is not weird, see man connect(2) --vasc */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr))==-1) {
     freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror(errno));

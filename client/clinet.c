@@ -19,7 +19,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include <signal.h>
 #include <assert.h>
 
 #ifdef HAVE_UNISTD_H
@@ -30,9 +29,6 @@
 #endif
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
-#ifdef HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
 #endif
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
@@ -161,12 +157,6 @@ int get_server_address(char *hostname, int port, char *errbuf,
   }
 
   server_addr.sin_port = htons(port);
-
-#ifdef HAVE_SIGPIPE
-  /* ignore broken pipes */
-  signal(SIGPIPE, SIG_IGN);
-#endif
-
   return 0;
 }
 
@@ -185,16 +175,14 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
 {
   struct packet_req_join_game req;
 
-  if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+  if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     return -1;
   }
 
-  if (connect
-      (aconnection.sock, (struct sockaddr *) &server_addr,
-       sizeof(server_addr)) < 0) {
+  if (connect(aconnection.sock, (struct sockaddr *) &server_addr,
+      sizeof(server_addr)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), errbufsize);
-    my_closesocket(aconnection.sock);
     aconnection.sock = -1;
     return errno;
   }
@@ -521,14 +509,13 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   
   addr.sin_port = htons(port);
   
-  if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+  if((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     return NULL;
   }
   
-  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
+  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
-    my_closesocket(s);
     return NULL;
   }
 

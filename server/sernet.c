@@ -19,7 +19,6 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
-#include <signal.h>
 #include <assert.h>
 
 #ifdef HAVE_UNISTD_H
@@ -27,9 +26,6 @@
 #endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
 #endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -680,7 +676,7 @@ static int server_accept_connection(int sockfd)
 
   my_nonblock(new_sock);
 
-  from=gethostbyaddr((char*)&fromend.sin_addr, sizeof(fromend.sin_addr),
+  from=gethostbyaddr((char *)&fromend.sin_addr, sizeof(fromend.sin_addr),
 		     AF_INET);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
@@ -730,11 +726,6 @@ int server_open_socket(void)
   struct sockaddr_in src;
   int opt;
 
-  /* broken pipes are ignored. */
-#ifdef HAVE_SIGPIPE
-  signal (SIGPIPE, SIG_IGN);
-#endif
-
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
     exit(1);
@@ -742,7 +733,7 @@ int server_open_socket(void)
 
   opt=1; 
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
-		(char*)&opt, sizeof(opt)) == -1) {
+		(char *)&opt, sizeof(opt)) == -1) {
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
   }
 

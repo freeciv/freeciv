@@ -20,6 +20,7 @@
 #endif
 
 #include <errno.h>
+#include <signal.h>
 #include <string.h>
 
 #ifdef HAVE_FCNTL_H
@@ -27,6 +28,9 @@
 #endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SIGNAL_H
+#include <sys/signal.h>
 #endif
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
@@ -104,6 +108,11 @@ void my_init_network(void)
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
     freelog(LOG_ERROR, "no useable WINSOCK.DLL: %s", mystrerror(errno));
   }
+#endif
+
+  /* broken pipes are ignored. */
+#ifdef HAVE_SIGPIPE
+  signal(SIGPIPE, SIG_IGN);
 #endif
 }
 
