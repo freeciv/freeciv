@@ -482,7 +482,7 @@ int pplayers_allied(const struct player *pplayer,
     return TRUE;
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return FALSE;
-  return ((pplayer == pplayer2) || (ds == DS_ALLIANCE));
+  return (ds == DS_ALLIANCE);
 }
 
 /***************************************************************
