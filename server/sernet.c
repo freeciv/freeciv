@@ -61,6 +61,7 @@
 #endif
 
 #include "capability.h"
+#include "events.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -204,9 +205,11 @@ void close_connection(struct connection *pconn)
 void close_connections_and_socket(void)
 {
   int i;
-
   struct packet_generic_message gen_packet;
+
   gen_packet.message[0]='\0';
+  gen_packet.x = gen_packet.y = -1;
+  gen_packet.event = E_NOEVENT;
 
   lsend_packet_generic_message(&game.all_connections, PACKET_SERVER_SHUTDOWN,
 			       &gen_packet);
