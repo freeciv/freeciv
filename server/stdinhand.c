@@ -1006,7 +1006,8 @@ void handle_stdin_input(char *str)
   
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
 
-  for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for(cptr_d=command; *cptr_s && isalnum(*cptr_s) &&
+      cptr_d < command+sizeof(command)-1; cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
