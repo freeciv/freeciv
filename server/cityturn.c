@@ -1138,6 +1138,13 @@ int update_city_activity(struct player *pplayer, struct city *pcity)
       pcity->food_surplus>0 && pcity->size>4) {
     pcity->food_stock=pcity->size*game.foodbox+1; 
   }
+
+/* the AI often has widespread disorder when the Gardens or Oracle
+become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
+  while (pplayer->ai.control && city_unhappy(pcity)) {
+    if (!ai_make_elvis(pcity)) break;
+  } /* putting this lower in the routine would basically be cheating. -- Syela */
+
   city_build_stuff(pplayer, pcity);
   if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
@@ -1172,6 +1179,7 @@ int update_city_activity(struct player *pplayer, struct city *pcity)
     got_tech = 1;
   pplayer->economic.gold+=pcity->tax_total;
   pay_for_buildings(pplayer, pcity);
+
   if(city_unhappy(pcity)) { 
     pcity->anarchy++;
     if (pcity->anarchy == 1) 
