@@ -11,6 +11,7 @@
 #  - Per I. Mathisen <permath@ifi.ntnu.no>
 #  - Jørgen Skjaanes <jorgen@gulesider.no>
 #  - Gaute (B) Strokkenes <gs234@cam.ac.uk>
+#  - Petter Reinholdtsen <pere@hungry.com>
 #
 #
 msgid ""
@@ -6227,7 +6228,7 @@ msgstr "Vis dialoger i AI modus"
 
 #: client/options.c:100
 msgid "Manual Turn Done in AI Mode"
-msgstr ""
+msgstr "Avslutt runde manuelt i AI modus"
 
 #: client/options.c:101
 msgid "Auto Center on Units"
@@ -11969,12 +11970,12 @@ msgstr ""
 "\"Native Language Support\" i README filen.\n"
 "\n"
 "Tilbakemeldinger til den norske oversettelsen kan sendes til den \n"
-"nåværende oversetteren: Andreas Røsdal <andreasr@www.freeciv.org>\n"
+"nåværende oversetteren Andreas Røsdal - andreasr@www.freeciv.org\n"
 "\n"
 "For mer informasjon om oversettelser av Freeciv, gå til\n"
-"<http://www.freeciv.org/l10n.phtml>\n"
+"http://www.freeciv.org/l10n.phtml\n"
 "Du kan også sende inn spørsmål til mailinglisten \n"
-"Freeciv International:  <freeciv-i18n@freeciv.org>"
+"Freeciv International:  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:403
 msgid ""
@@ -15024,7 +15025,7 @@ msgstr "Postmoderne"
 #: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
 #: data/civ1/governments.ruleset:103 data/history/governments.ruleset:102
 msgid "Anarchy"
-msgstr "anarki"
+msgstr "Anarki"
 
 #: data/default/governments.ruleset:143 data/civ2/governments.ruleset:142
 #: data/civ1/governments.ruleset:144 data/history/governments.ruleset:143
@@ -15084,7 +15085,7 @@ msgstr ""
 #: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:174 data/history/governments.ruleset:173
 msgid "Despotism"
-msgstr "despotisme"
+msgstr "Despotisme"
 
 #: data/default/governments.ruleset:213 data/civ2/governments.ruleset:212
 #: data/civ1/governments.ruleset:214 data/history/governments.ruleset:213
@@ -15148,7 +15149,7 @@ msgstr ""
 #: data/default/techs.ruleset:374 data/civ2/techs.ruleset:367
 #: data/civ1/techs.ruleset:367 data/history/techs.ruleset:374
 msgid "Monarchy"
-msgstr "monarki"
+msgstr "Monarki"
 
 #: data/default/governments.ruleset:284 data/civ2/governments.ruleset:283
 #: data/civ1/governments.ruleset:283 data/history/governments.ruleset:284
@@ -15213,7 +15214,7 @@ msgstr ""
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
-msgstr "kommunisme"
+msgstr "Kommunisme"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
@@ -15281,7 +15282,7 @@ msgstr ""
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
 #: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
 msgid "Republic"
-msgstr "republikk"
+msgstr "Republikk"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
@@ -15353,7 +15354,7 @@ msgstr ""
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
-msgstr "demokrati"
+msgstr "Demokrati"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
