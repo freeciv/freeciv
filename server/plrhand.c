@@ -218,7 +218,7 @@ void wonders_of_the_world(struct player *pplayer)
   for (i=0;i<B_LAST;i++) {
     if(is_wonder(i) && game.global_wonders[i] && 
        (pcity=find_city_by_id(game.global_wonders[i]))) {
-      sprintf(buf2, "%s (%s) have the %s\n", pcity->name, 
+      sprintf(buf2, "%s (%s) has the %s\n", pcity->name, 
 	      get_race_name(game.players[pcity->owner].race), 
 	      get_imp_name_ex(pcity, i));
       strcat(buffer, buf2);
@@ -482,6 +482,8 @@ Main update loop, for each player at end of turn.
 
 void update_player_activities(struct player *pplayer) 
 {
+  if (pplayer->ai.control)
+    ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
   notify_player(pplayer, "Year: %s", textyear(game.year)); 
   great_library(pplayer);
   update_revolution(pplayer);
@@ -491,8 +493,6 @@ void update_player_activities(struct player *pplayer)
   update_city_activities(pplayer);
   update_unit_activities(pplayer);
   update_player_aliveness(pplayer);
-  if (pplayer->ai.control)
-    ai_do_activities(pplayer);
 }
 
 /**************************************************************************
@@ -552,8 +552,8 @@ int update_tech(struct player *plr, int bulbs)
   }
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))
-      notify_player(&game.players[i], "Game: the %s have researched %s.", 
-		    get_race_name_plural(plr->race),
+      notify_player(&game.players[i], "Game: The %s have researched %s.", 
+		   get_race_name_plural(plr->race),
 		    advances[old].name);
   }
 
@@ -638,9 +638,6 @@ void choose_tech(struct player *plr, int tech)
     plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);     /* subtract a penalty because we changed subject */
 }
 
-/**************************************************************************
-...
-**************************************************************************/
 void choose_tech_goal(struct player *plr, int tech)
 {
   notify_player(plr, "Game: Technology goal is %s.", advances[tech].name);
@@ -657,10 +654,10 @@ void init_tech(struct player *plr, int tech)
   for (i=0;i<A_LAST;i++) 
     set_invention(plr, i, 0);
   set_invention(plr, A_NONE, TECH_KNOWN);
-  
+
   plr->research.researchpoints=1;
   for (i=0;i<tech;i++) {
-    choose_random_tech(plr);
+    choose_random_tech(plr); /* could be choose_goal_tech -- Syela */
     set_invention(plr, plr->research.researching, TECH_KNOWN);
   }
   choose_goal_tech(plr);
@@ -697,11 +694,12 @@ void handle_player_research(struct player *pplayer,
 }
 
 void handle_player_tech_goal(struct player *pplayer,
-			     struct packet_player_request *preq)
+			    struct packet_player_request *preq)
 {
   choose_tech_goal(pplayer, preq->tech);
   send_player_info(pplayer, pplayer);
-}  
+}
+
 
 /**************************************************************************
 ...
