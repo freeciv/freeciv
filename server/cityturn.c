@@ -749,6 +749,7 @@ void city_auto_remove_worker(struct city *pcity)
 **************************************************************************/
 static void city_increase_size(struct city *pcity)
 {
+  int have_square, x, y;
   int has_granary = city_got_effect(pcity, B_GRANARY);
   
   if (!city_got_building(pcity, B_AQUEDUCT)
@@ -793,8 +794,15 @@ static void city_increase_size(struct city *pcity)
 
   /* If there is enough food, and the city is big enough,
    * make new citizens into scientists or taxmen -- Massimo */
-  if (pcity->food_surplus >= 2  &&  pcity->size >= 5  &&
-      (pcity->city_options & ((1<<CITYO_NEW_EINSTEIN) | (1<<CITYO_NEW_TAXMAN)))) {
+  /* Ignore food if no square can be worked */
+  have_square = FALSE;
+  city_map_iterate(x, y) {
+    if (can_place_worker_here(pcity, x, y)) {
+      have_square = TRUE;
+    }
+  }
+  if (((pcity->food_surplus >= 2) || !have_square)  &&  pcity->size >= 5  &&
+      (pcity->city_options & ((1<<CITYO_NEW_EINSTEIN) | (1<<CITYO_NEW_TAXMAN)))){
 
     if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
       pcity->ppl_scientist++;
