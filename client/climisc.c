@@ -1040,17 +1040,19 @@ void renumber_island_impr_effect(int old, int newnumber)
     /* First move any island-range effects to the new vector. */
     for (i=0, j=0; i<geff_vector_size(oldv); i++) {
       olde=geff_vector_get(oldv, i);
-      newe=geff_vector_get(newv, j);
 
       if (olde->eff.impr!=B_LAST) {
 	changed=TRUE;
-	while (j<geff_vector_size(newv) && newe->eff.impr<B_LAST)
-	  j++;
-	if (j==geff_vector_size(newv)) {
-	  /* Add a new entry to the new vector. */
-	  geff_vector_reserve(newv, j+1);
+	for (; j<geff_vector_size(newv); j++) {
 	  newe=geff_vector_get(newv, j);
+	  if (newe->eff.impr==B_LAST)
+	    break;
 	}
+	/* Add a new entry to the new vector. */
+	if (j==geff_vector_size(newv)) {
+	  geff_vector_reserve(newv, j+1);
+	}
+	newe=geff_vector_get(newv, j);
 	newe->eff	 = olde->eff;
 	newe->cityid	 = olde->cityid;
 	olde->eff.impr	 = B_LAST;   /* Mark the old entry as unused. */
