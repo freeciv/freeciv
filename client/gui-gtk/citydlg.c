@@ -1634,8 +1634,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     plist = &(pdialog->pcity->units_supported);
   }
 
-  size=plist->list.nelements/NUM_UNITS_SHOWN;
-  if (size<=0 || pdialog->support_unit_pos>size) {
+  size = (plist->list.nelements-1)/NUM_UNITS_SHOWN;
+  size = MAX(0, size);
+  if (size==0 || pdialog->support_unit_pos>size) {
     pdialog->support_unit_pos=0;
   }
 
@@ -1706,8 +1707,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
     plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
 
-  size=plist->list.nelements/NUM_UNITS_SHOWN;
-  if (size<=0 || pdialog->present_unit_pos>size) {
+  size = (plist->list.nelements-1)/NUM_UNITS_SHOWN;
+  size = MAX(0, size);
+  if (size==0 || pdialog->present_unit_pos>size) {
     pdialog->present_unit_pos=0;
   }
 
