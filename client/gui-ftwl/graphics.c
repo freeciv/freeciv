@@ -33,8 +33,7 @@ struct Sprite *radar_gfx_sprite;
 **************************************************************************/
 bool isometric_view_supported(void)
 {
-  /* PORTME */
-  return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -42,7 +41,6 @@ bool isometric_view_supported(void)
 **************************************************************************/
 bool overhead_view_supported(void)
 {
-  /* PORTME */
   return TRUE;
 }
 
