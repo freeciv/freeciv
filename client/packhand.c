@@ -1231,7 +1231,18 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if (repaint_unit) {
-    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+    if (unit_type_flag(punit->type, F_CITIES)) {
+      int width = get_citydlg_canvas_width();
+      int height = get_citydlg_canvas_height();
+      int canvas_x, canvas_y;
+
+      map_to_canvas_pos(&canvas_x, &canvas_y, punit->x, punit->y);
+      update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+			width, height);
+    } else {
+      refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+    }
   }
 
   if ((check_focus || get_unit_in_focus() == NULL) &&

@@ -155,6 +155,7 @@ void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y);
 void toggle_city_color(struct city *pcity);
+void toggle_unit_color(struct unit *punit);
 void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y);
 
@@ -182,7 +183,9 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 			     struct unit *punit1, int hp1);
 void move_unit_map_canvas(struct unit *punit,
 			  int map_x, int map_y, int dx, int dy);
-				
+
+struct city *find_city_or_settler_near_tile(int x, int y,
+					    struct unit **punit);
 struct city *find_city_near_tile(int x, int y);
 
 void get_city_mapview_production(struct city *pcity,

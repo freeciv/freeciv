@@ -904,6 +904,25 @@ void toggle_city_color(struct city *pcity)
 }
 
 /****************************************************************************
+  Toggle the unit color.  This cycles through the possible colors for the
+  citymap as shown on the mapview.  These colors are listed in the
+  city_colors array; above.
+****************************************************************************/
+void toggle_unit_color(struct unit *punit)
+{
+  int canvas_x, canvas_y;
+  int width = get_citydlg_canvas_width();
+  int height = get_citydlg_canvas_height();
+
+  punit->client.color = (punit->client.color + 1) % NUM_CITY_COLORS;
+
+  map_to_canvas_pos(&canvas_x, &canvas_y, punit->x, punit->y);
+  update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+		    width, height);
+}
+
+/****************************************************************************
   Return the vertices of the given edge of the tile.  This will return
   FALSE if the edge doesn't exist (or if it does exist but is part of an
   adjacent tile).
@@ -1536,10 +1555,13 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   /* Draw citymap overlays on top. */
   gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
-    if (normalize_map_pos(&map_x, &map_y)) {
-      struct city *pcity = find_city_near_tile(map_x, map_y);
+    if (normalize_map_pos(&map_x, &map_y)
+	&& tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
+      struct unit *punit;
+      struct city *pcity;
       int city_x, city_y, canvas_x2, canvas_y2;
 
+      pcity = find_city_or_settler_near_tile(map_x, map_y, &punit);
       if (pcity
 	  && city_colors[pcity->client.color] != COLOR_STD_LAST
 	  && map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)
@@ -1553,6 +1575,14 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  put_city_tile_output(pcity, city_x, city_y,
 			       mapview_canvas.store, canvas_x2, canvas_y2);
 	}
+      } else if (punit
+		 && city_colors[punit->client.color] != COLOR_STD_LAST
+		 && map_to_canvas_pos(&canvas_x2, &canvas_y2,
+				      map_x, map_y)) {
+	/* Draw citymap overlay for settlers. */
+	put_city_worker(mapview_canvas.store,
+			city_colors[punit->client.color], C_TILE_EMPTY,
+			canvas_x2, canvas_y2);
       }
     }
   } gui_rect_iterate_end;
@@ -1919,16 +1949,26 @@ void move_unit_map_canvas(struct unit *punit,
 }
 
 /**************************************************************************
-  Find the "best" city to associate with the selected tile.
+  Find the "best" city/settlers to associate with the selected tile.
     a.  If a city is working the tile, return that city.
     b.  If another player's city is working the tile, return NULL.
     c.  If any selected cities are within range, return the closest one.
     d.  If any cities are within range, return the closest one.
-    e.  If nobody can work it, return NULL.
+    e.  If any active (with color) settler could work it if they founded a
+        city, choose the closest one (only if punit != NULL).
+    f.  If any settler could work it if they founded a city, choose the
+        closest one (only if punit != NULL).
+    g.  If nobody can work it, return NULL.
 **************************************************************************/
-struct city *find_city_near_tile(int x, int y)
+struct city *find_city_or_settler_near_tile(int x, int y,
+					    struct unit **punit)
 {
   struct city *pcity = map_get_tile(x, y)->worked, *closest_city;
+  struct unit *closest_settler = NULL, *best_settler = NULL;
+
+  if (punit) {
+    *punit = NULL;
+  }
 
   if (pcity) {
     if (pcity->owner == game.player_idx) {
@@ -1966,7 +2006,50 @@ struct city *find_city_near_tile(int x, int y)
   } city_map_checked_iterate_end;
 
   /* rule d */
-  return closest_city;
+  if (closest_city || !punit) {
+    return closest_city;
+  }
+
+  city_map_iterate_outwards(city_x, city_y) {
+    int new_x = x + city_x - CITY_MAP_RADIUS;
+    int new_y = y + city_y - CITY_MAP_RADIUS;
+
+    if (normalize_map_pos(&new_x, &new_y)) {
+      struct tile *ptile = map_get_tile(new_x, new_y);
+
+      unit_list_iterate(ptile->units, psettler) {
+	if (psettler->owner == game.player_idx
+	    && unit_flag(psettler, F_CITIES)
+	    && city_can_be_built_here(psettler->x, psettler->y, psettler)) {
+	  if (!closest_settler) {
+	    closest_settler = psettler;
+	  }
+	  if (!best_settler && psettler->client.color != 0) {
+	    best_settler = psettler;
+	  }
+	}
+      } unit_list_iterate_end;
+    }
+  } city_map_iterate_outwards_end;
+
+  if (best_settler) {
+    /* Rule e */
+    *punit = best_settler;
+  } else if (closest_settler) {
+    /* Rule f */
+    *punit = closest_settler;
+  }
+
+  /* rule g */
+  return NULL;
+}
+
+/**************************************************************************
+  Find the nearest/best city that owns the tile.
+**************************************************************************/
+struct city *find_city_near_tile(int x, int y)
+{
+  return find_city_or_settler_near_tile(x, y, NULL);
 }
 
 /**************************************************************************

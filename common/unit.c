@@ -1765,6 +1765,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->ord_city = 0;
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->occupy = 0;
+  punit->client.color = DEFAULT_CITY_COLOR;
   punit->has_orders = FALSE;
 
   return punit;

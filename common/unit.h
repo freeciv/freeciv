@@ -172,6 +172,10 @@ struct unit {
 
   int transported_by;
   int occupy; /* number of units that occupy transporter */
+  struct {
+    /* Equivalent to pcity->client.color.  Only for F_CITIES units. */
+    int color;
+  } client;
 
   bool has_orders;
   struct {

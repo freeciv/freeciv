@@ -1318,7 +1318,21 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    refresh_tile_mapcanvas(x, y, FALSE);
+    if (unit_type_flag(punit->type, F_CITIES)
+	&& punit->client.color != 0) {
+      /* For settlers with an overlay, redraw the entire area of the
+       * overlay. */
+      int width = get_citydlg_canvas_width();
+      int height = get_citydlg_canvas_height();
+      int canvas_x, canvas_y;
+
+      map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
+      update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+			width, height);
+    } else {
+      refresh_tile_mapcanvas(x, y, FALSE);
+    }
 
     if (do_animation) {
       int dx, dy;

@@ -314,10 +314,14 @@ void key_city_overlay(int canvas_x, int canvas_y)
 
   if (can_client_change_view()
       && canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-    struct city *pcity = find_city_near_tile(map_x, map_y);
+    struct unit *punit;
+    struct city *pcity = find_city_or_settler_near_tile(map_x, map_y,
+							&punit);
 
     if (pcity) {
       toggle_city_color(pcity);
+    } else if (punit) {
+      toggle_unit_color(punit);
     }
   }
 }
