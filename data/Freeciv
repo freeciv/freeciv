@@ -97,8 +97,8 @@ Freeciv*connectdialog.*.cquitc.fromHoriz: cmetac
 
 Freeciv*connectdialog.*.cbetaline.label: _("\
 THIS IS A BETA RELEASE\n\
-Freeciv 1.8 will be released third\n\
-week of March at http://www.freeciv.org")
+Freeciv 1.9 will be released early\n\
+October, at http://www.freeciv.org")
 Freeciv*connectdialog.*.cbetaline.fromVert: cconnectc
 Freeciv*connectdialog.*.cbetaline.justify: left
 Freeciv*connectdialog.*.cbetaline.background: grey

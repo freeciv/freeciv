@@ -41,7 +41,7 @@ The info string should look like this:
 #define	DEFAULT_META_SERVER_ADDR	"www.freeciv.org"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if IS_BETA_VERSION
-#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.8: beware"
+#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.9: beware"
 #else
 #  define DEFAULT_META_SERVER_INFO_STRING "(default)"
 #endif
