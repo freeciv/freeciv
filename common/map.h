@@ -31,11 +31,6 @@
 #define MOVE_COST_FOR_VALID_SEA_STEP	(-3)
 #define MOVE_COST_FOR_VALID_AIR_STEP	(-3)
 
-/* For client Area Selection */
-enum tile_hilite {
-  HILITE_NONE = 0, HILITE_CITY
-};
-
 /* Convenience macro for accessing tile coordinates.  This should only be
  * used for debugging. */
 #define TILE_XY(ptile) ((ptile) ? (ptile)->x : -1), \
@@ -57,10 +52,6 @@ struct tile {
   Continent_id continent;
   signed char move_cost[8]; /* don't know if this helps! */
   struct player *owner;     /* Player owning this tile, or NULL. */
-  struct {
-    /* Area Selection in client. */
-    enum tile_hilite hilite;
-  } client;
   char *spec_sprite;
 };
 

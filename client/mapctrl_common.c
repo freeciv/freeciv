@@ -144,7 +144,7 @@ static void define_tiles_within_rectangle(void)
       /*  Tile passed all tests; process it.
        */
       if (ptile->city && ptile->city->owner == game.player_idx) {
-        ptile->client.hilite = HILITE_CITY;
+        map_deco[ptile->index].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
     }
@@ -237,7 +237,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
 **************************************************************************/
 bool is_city_hilited(struct city *pcity)
 {
-  return pcity->tile->client.hilite == HILITE_CITY;
+  return map_deco[pcity->tile->index].hilite == HILITE_CITY;
 }
 
 /**************************************************************************
@@ -249,7 +249,7 @@ void cancel_tile_hiliting(void)
     tiles_hilited_cities = FALSE;
 
     whole_map_iterate(ptile) {
-      ptile->client.hilite = HILITE_NONE;
+      map_deco[ptile->index].hilite = HILITE_NONE;
     } whole_map_iterate_end;
 
     update_map_canvas_visible();
@@ -279,14 +279,14 @@ void toggle_tile_hilite(struct tile *ptile)
 {
   struct city *pcity = ptile->city;
 
-  if (ptile->client.hilite == HILITE_CITY) {
-    ptile->client.hilite = HILITE_NONE;
+  if (map_deco[ptile->index].hilite == HILITE_CITY) {
+    map_deco[ptile->index].hilite = HILITE_NONE;
     if (pcity) {
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
   else if (pcity && pcity->owner == game.player_idx) {
-    ptile->client.hilite = HILITE_CITY;
+    map_deco[ptile->index].hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
   }

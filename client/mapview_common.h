@@ -25,6 +25,13 @@
 
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
+struct mapview_decoration {
+  /* For client Area Selection */
+  enum tile_hilite {
+    HILITE_NONE, HILITE_CITY
+  } hilite;
+};
+
 struct mapview_canvas {
   int gui_x0, gui_y0;
   int width, height;		/* Size in pixels. */
@@ -41,6 +48,7 @@ struct overview {
   struct canvas *store;
 };
 
+extern struct mapview_decoration *map_deco;
 extern struct mapview_canvas mapview_canvas;
 extern struct overview overview;
 
@@ -218,6 +226,7 @@ void refresh_overview_canvas(void);
 void overview_update_tile(struct tile *ptile);
 void set_overview_dimensions(int width, int height);
 
+void init_mapview_decorations(void);
 bool map_canvas_resized(int width, int height);
 void init_mapcanvas_and_overview(void);
 

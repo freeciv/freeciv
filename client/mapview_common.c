@@ -35,6 +35,7 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
+struct mapview_decoration *map_deco;
 struct mapview_canvas mapview_canvas;
 struct overview overview;
 bool can_slide = TRUE;
@@ -1426,10 +1427,10 @@ static void tile_draw_selection(struct canvas *pcanvas,
      * map grid if it is drawn. */
     if (get_tile_boundaries(dir, inset, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
-      if (ptile->client.hilite == HILITE_CITY
+      if (map_deco[ptile->index].hilite == HILITE_CITY
 	  || (is_isometric
 	      && (adjc_tile = mapstep(ptile, dir))
-	      && adjc_tile->client.hilite == HILITE_CITY)) {
+	      && map_deco[adjc_tile->index].hilite == HILITE_CITY)) {
 	canvas_put_line(pcanvas, COLOR_STD_YELLOW, LINE_NORMAL,
 			canvas_x + start_x, canvas_y + start_y,
 			end_x - start_x, end_y - start_y);
@@ -2016,7 +2017,7 @@ struct city *find_city_or_settler_near_tile(struct tile *ptile,
        * causing it to be marked as C_TILE_UNAVAILABLE.
        */
       
-      if (pcity->tile->client.hilite == HILITE_CITY) {
+      if (map_deco[pcity->tile->index].hilite == HILITE_CITY) {
 	/* rule c */
 	return pcity;
       }
@@ -2478,6 +2479,18 @@ void set_overview_dimensions(int width, int height)
 
   /* Call gui specific function. */
   map_size_changed();
+}
+
+/**************************************************************************
+  Called when we receive map dimensions.  It initialized the mapview
+  decorations.
+**************************************************************************/
+void init_mapview_decorations(void)
+{
+  map_deco = fc_realloc(map_deco, MAP_INDEX_SIZE * sizeof(*map_deco));
+  whole_map_iterate(ptile) {
+    map_deco[ptile->index].hilite = HILITE_NONE;
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
