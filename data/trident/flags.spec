@@ -62,4 +62,6 @@ tiles = { "row", "column", "tag"
   2,  6, "f.sioux"        ; actually Cheyenne...
   2,  7, "f.norway"
   2,  8, "f.portugal"
+  2,  9, "f.czech"
+  2, 13, "f.barbarian"
 }
