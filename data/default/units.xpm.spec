@@ -78,8 +78,8 @@ tiles = { "row", "column", "tag"
   2,  7, "u.stealth_fighter"
   2,  8, "u.aegis_cruiser"
 
-; In trident:
-;  2,  9, "u.paratroopers"
+; From trident:
+  2,  9, "u.paratroopers"
 ;  2, 10, "u.elephants"
 ;  2, 11, "u.crusaders"
 ;  2, 12, "u.fanatics"
