@@ -317,13 +317,7 @@ static void set_pollution(struct city *pcity)
     pcity->pollution/=2;
   
   if (!city_got_building(pcity, B_MASS)) {
-    int i, mod = 0;
-    
-    for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-      int tech = game.rtech.pop_pollution[i];
-      if (tech == A_LAST) break;
-      if (get_invention(pplayer, tech)==TECH_KNOWN) mod = i;
-    }
+    int mod = player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC);
     /* was: A_INDUSTRIALIZATION, A_AUTOMOBILE, A_MASS, A_PLASTICS */
     poppul=(pcity->size*mod)/4;
     pcity->pollution+=poppul;

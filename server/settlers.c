@@ -635,7 +635,7 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       (((ptile->terrain != T_RIVER) && !(ptile->special&S_RIVER)) ||
-       get_invention(pplayer, game.rtech.construct_bridges) == TECH_KNOWN) &&
+       player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
       !(ptile->special&S_ROAD)) {
     ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -653,7 +653,7 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
   x = pcity->x + i - 2; y = pcity->y + j - 2;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
-      get_invention(pplayer, game.rtech.construct_rail) == TECH_KNOWN &&
+      player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
       !(ptile->special&S_RAILROAD)) {
     spe_sav = ptile->special;
     ptile->special|=(S_ROAD | S_RAILROAD);

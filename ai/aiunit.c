@@ -57,9 +57,7 @@ int unit_move_turns(struct unit *punit, int x, int y)
       m += 3;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
       m += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
-    /* A_POWER in default ruleset: */
-    if (get_invention(pplayer, game.rtech.boat_fast) == TECH_KNOWN)
-      m += 3;
+    m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
   }   
 
   if (unit_types[punit->type].move_type == LAND_MOVING)

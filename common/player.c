@@ -255,6 +255,22 @@ int player_owns_active_govchange_wonder(struct player *pplayer)
 }
 
 /**************************************************************************
+ Returns the number of techs the player has researched which has this
+ flag. Needs to be optimized later (e.g. int tech_flags[TF_LAST] in
+ struct player)
+**************************************************************************/
+int player_knows_techs_with_flag(struct player *pplayer, int flag)
+{
+  int i;
+  int count=0;
+  for( i=0; i<A_LAST; i++ ) {
+    if((get_invention(pplayer, i) == TECH_KNOWN) && tech_flag(i,flag))
+      count++;
+  }
+  return count;
+}
+
+/**************************************************************************
 Locate the city where the players palace is located, (NULL Otherwise) 
 **************************************************************************/
 struct city *find_palace(struct player *pplayer)

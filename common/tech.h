@@ -36,6 +36,19 @@ typedef int Tech_Type_id;
    full number of techs.
 */
 
+enum tech_flag_id {
+  TF_BONUS_TECH, /* player gets extra tech if rearched first
+                    Note: currently only one tech with this flag is supported */
+  TF_BOAT_FAST,  /* all see units get one extra move point */
+  TF_BRIDGE,    /* "Settler" unit types can build bridges over rivers */
+  TF_RAILROAD,  /* "Settler" unit types can build rail roads */
+  TF_FORTRESS,  /* "Settler" unit types can build fortress */
+  TF_POPULATION_POLLUTION_INC,  /* Increase the pollution factor created by popultaion by one */
+  TF_TRADE_REVENUE_REDUCE, /* When known by the player establishing a trade route 
+                              reduces the initial revenue by cumulative factors of 2/3 */
+  TF_LAST
+};
+
 #define TECH_UNKNOWN 0
 #define TECH_KNOWN 1
 #define TECH_REACHABLE 2
@@ -44,6 +57,7 @@ typedef int Tech_Type_id;
 struct advance {
   char name[MAX_LEN_NAME];
   int req[2];
+  unsigned int flags;
 };
 
 int get_invention(struct player *plr, int tech);
@@ -54,6 +68,11 @@ int get_next_tech(struct player *plr, int goal);
 
 int tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
+
+int tech_flag(int tech, int flag);
+enum tech_flag_id tech_flag_from_str(char *s);
+int find_tech_by_flag( int index, int flag );
+
 
 extern struct advance advances[];
 

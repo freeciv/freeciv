@@ -99,25 +99,20 @@ struct civ_game {
   int firepower_factor;		/* See README.rulesets */
   struct {
     int get_bonus_tech;		/* eg Philosophy */
-    int boat_fast;		/* eg Nuclear Power */
     int cathedral_plus;		/* eg Theology */
     int cathedral_minus;	/* eg Communism */
     int colosseum_plus;		/* eg Electricity */
     int temple_plus;		/* eg Mysticism */
-    int construct_bridges;	/* eg Bridge Building */
-    int construct_fortress;	/* eg Construction */
-    int construct_rail;		/* eg Railroad */
     int nav;			/* AI convenience: tech_req for first
 				   non-trireme ferryboat */
     int u_partisan;		/* convenience: tech_req for first
 				   Partisan unit */
-    /* Following tech lists are A_LAST terminated if shorter than
+    /* Following tech list is A_LAST terminated if shorter than
        max len, and the techs listed are guaranteed to exist;
-       these could be better implemented as tech flags?
+       this could be better implemented as a new field in the
+       units.ruleset
     */
-    int pop_pollution[MAX_NUM_TECH_LIST];      /* pop = population */
     int partisan_req[MAX_NUM_TECH_LIST];       /* all required for uprisings */
-    int trade_route_reduce[MAX_NUM_TECH_LIST]; /* reduce to 2/3 cumulative */
   } rtech;
 
   char demography[MAX_LEN_DEMOGRAPHY];

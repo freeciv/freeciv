@@ -206,6 +206,7 @@ int player_owns_active_wonder(struct player *pplayer,
 int player_owns_active_govchange_wonder(struct player *pplayer);
 int player_knows_improvement_tech(struct player *pplayer,
 				   enum improvement_type_id id);
+int player_knows_techs_with_flag(struct player *pplayer, int flag);
 
 struct city *find_palace(struct player *pplayer);
 

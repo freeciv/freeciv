@@ -448,17 +448,11 @@ struct packet_ruleset_control {
   int num_unit_types;
   struct {
     int get_bonus_tech;
-    int boat_fast;
     int cathedral_plus;
     int cathedral_minus;
     int colosseum_plus;
     int temple_plus;
-    int construct_bridges;
-    int construct_fortress;
-    int construct_rail;
-    int pop_pollution[MAX_NUM_TECH_LIST];
     int partisan_req[MAX_NUM_TECH_LIST]; 
-    int trade_route_reduce[MAX_NUM_TECH_LIST];
   } rtech;
   int government_when_anarchy;
   int default_government;
@@ -497,6 +491,7 @@ struct packet_ruleset_unit {
 
 struct packet_ruleset_tech {
   int id, req[2];		/* indices for advances[] */
+  int flags;
   char name[MAX_LEN_NAME];
 };
 

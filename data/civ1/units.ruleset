@@ -1232,3 +1232,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer", "IgZOC", "NonMil"
 roles         = "Explorer"
+
+[u_specials]
+partisan_req = "" ; "Gunpowder","Communism"
+

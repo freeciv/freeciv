@@ -287,7 +287,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: %s's %s stole %s from %s.", 
 		   pplayer->name, unit_name(pdiplomat->type),
 		   advances[i].name, pcity->name); 
-  if (i==game.rtech.construct_rail) {
+  if (tech_flag(i,TF_RAILROAD)) {
     upgrade_city_rails(pplayer, 0);
   }
   gamelog(GAMELOG_TECH,"%s steals %s from the %s",
@@ -485,8 +485,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
    
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
   if (terrain_control.may_road &&
-      (get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN) &&
-      (get_invention(cplayer, game.rtech.construct_rail)!=TECH_KNOWN) &&
+      (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) &&
+      (!player_knows_techs_with_flag(cplayer, TF_RAILROAD)) &&
       (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
     notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
     map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
@@ -1618,7 +1618,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		advances[i].name, target->name); 
   notify_player(target, "Game: %s discovered %s in the city.", pplayer->name, 
 		advances[i].name); 
-  if (i==game.rtech.construct_rail) {
+  if (tech_flag(i,TF_RAILROAD)) {
     upgrade_city_rails(pplayer, 0);
   }
   if (pplayer->research.researching==i) {

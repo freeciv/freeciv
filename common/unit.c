@@ -15,6 +15,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "astring.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -95,8 +96,7 @@ int unit_move_rate(struct unit *punit)
       val+=3;
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
       val += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
-    if (get_invention(pplayer, game.rtech.boat_fast/*A_POWER*/) == TECH_KNOWN)
-      val+=3;
+    val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
     if (val < 6) 
       val = 6;
   }
@@ -622,6 +622,51 @@ struct unit_type *get_unit_type(Unit_Type_id id)
   return &unit_types[id];
 }
 
+/**************************************************************************
+ Return a string with all the names of units with this flag
+ Return NULL if no unit with this flag exists.
+ The string must be free'd
+
+ TODO: if there are more than 4 units with this flag return
+       a fallback string (e.g. first unit name + "and similar units"
+**************************************************************************/
+char *get_units_with_flag_string(int flag)
+{
+  int count=num_role_units(flag);
+
+  if(count==1)
+    return mystrdup(unit_name(get_role_unit(flag,0)));
+
+  if(count) {
+    struct astring astr;
+
+    astr_init(&astr);
+    astr_minsize(&astr,1);
+    astr.str[0] = 0;
+
+    while(count--) {
+      int u = get_role_unit(flag,count);
+      char *unitname = unit_name(u);
+
+      /* there should be something like astr_append() */
+      astr_minsize(&astr,astr.n+strlen(unitname));
+      strcat(astr.str,unitname);
+
+      if(count==1) {
+        astr_minsize(&astr,astr.n+strlen(" and "));
+        strcat(astr.str," and ");
+      }
+      else {
+        if(count != 0) {
+          astr_minsize(&astr,astr.n+strlen(", "));
+          strcat(astr.str,", ");
+        }
+        else return astr.str;
+      }
+    }
+  }
+  return NULL;
+}
 
 /**************************************************************************
 ...
@@ -807,7 +852,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
            unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
 	   ((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER)) || 
-	    get_invention(pplayer, game.rtech.construct_bridges)==TECH_KNOWN);
+	    player_knows_techs_with_flag(pplayer, TF_BRIDGE));
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
@@ -847,7 +892,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 
   case ACTIVITY_FORTRESS:
     return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-           get_invention(pplayer, game.rtech.construct_fortress) == TECH_KNOWN &&
+           player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
 	   !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN;
 
   case ACTIVITY_SENTRY:
@@ -858,7 +903,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return terrain_control.may_road &&
            unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            (ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD) &&
-	   get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN;
+	   player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   case ACTIVITY_PILLAGE:
     {

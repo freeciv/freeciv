@@ -156,12 +156,7 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
            id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
 
   if (!city_got_building(pcity, B_MASS) && id != B_MASS) {
-    int i;
-    for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-      int tech = game.rtech.pop_pollution[i];
-      if (tech == A_LAST) break;
-      if (get_invention(pplayer, tech)==TECH_KNOWN) mod = i;
-    }
+    mod = player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC);
     poppul=(pcity->size*mod)/4;
     p += poppul;
   }

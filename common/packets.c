@@ -1908,14 +1908,10 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_int8(cptr, packet->sewer_size);
   
   cptr=put_int8(cptr, packet->rtech.get_bonus_tech);
-  cptr=put_int8(cptr, packet->rtech.boat_fast);
   cptr=put_int8(cptr, packet->rtech.cathedral_plus);
   cptr=put_int8(cptr, packet->rtech.cathedral_minus);
   cptr=put_int8(cptr, packet->rtech.colosseum_plus);
   cptr=put_int8(cptr, packet->rtech.temple_plus);
-  cptr=put_int8(cptr, packet->rtech.construct_bridges);
-  cptr=put_int8(cptr, packet->rtech.construct_fortress);
-  cptr=put_int8(cptr, packet->rtech.construct_rail);
 
   cptr=put_int8(cptr, packet->government_count);
   cptr=put_int8(cptr, packet->default_government);
@@ -1925,9 +1921,7 @@ int send_packet_ruleset_control(struct connection *pc,
  
   cptr=put_int8(cptr, packet->nation_count);
 
-  cptr=put_tech_list(cptr, packet->rtech.pop_pollution);
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
-  cptr=put_tech_list(cptr, packet->rtech.trade_route_reduce);
 
   put_int16(buffer, cptr-buffer);
 
@@ -1950,14 +1944,10 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_int8(&iter, &packet->sewer_size);
   
   iget_int8(&iter, &packet->rtech.get_bonus_tech);
-  iget_int8(&iter, &packet->rtech.boat_fast);
   iget_int8(&iter, &packet->rtech.cathedral_plus);
   iget_int8(&iter, &packet->rtech.cathedral_minus);
   iget_int8(&iter, &packet->rtech.colosseum_plus);
   iget_int8(&iter, &packet->rtech.temple_plus);
-  iget_int8(&iter, &packet->rtech.construct_bridges);
-  iget_int8(&iter, &packet->rtech.construct_fortress);
-  iget_int8(&iter, &packet->rtech.construct_rail);
   
   iget_int8(&iter, &packet->government_count);
   iget_int8(&iter, &packet->default_government);
@@ -1967,9 +1957,7 @@ receive_packet_ruleset_control(struct connection *pc)
 
   iget_int8(&iter, &packet->nation_count);
 
-  iget_tech_list(&iter, packet->rtech.pop_pollution);
   iget_tech_list(&iter, packet->rtech.partisan_req);
-  iget_tech_list(&iter, packet->rtech.trade_route_reduce);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2066,6 +2054,7 @@ int send_packet_ruleset_tech(struct connection *pc,
   cptr=put_int8(cptr, packet->id);
   cptr=put_int8(cptr, packet->req[0]);
   cptr=put_int8(cptr, packet->req[1]);
+  cptr=put_int32(cptr, packet->flags);
   cptr=put_string(cptr, packet->name);
   put_int16(buffer, cptr-buffer);
 
@@ -2087,6 +2076,7 @@ receive_packet_ruleset_tech(struct connection *pc)
   iget_int8(&iter, &packet->id);
   iget_int8(&iter, &packet->req[0]);
   iget_int8(&iter, &packet->req[1]);
+  iget_int32(&iter, &packet->flags);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);

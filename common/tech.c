@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "game.h"
 #include "player.h"
@@ -23,6 +24,12 @@ struct advance advances[A_LAST];
 /* the advances array is now setup in:
    server/ruleset.c (for the server)
    client/packhand.c (for the client) */
+
+static char *flag_names[] = {
+  "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
+  "Population_Pollution_Inc","Trade_Revenue_Reduce"
+};
+
 
 /**************************************************************************
 ...
@@ -163,3 +170,45 @@ Tech_Type_id find_tech_by_name(const char *s)
   }
   return A_LAST;
 }
+
+/**************************************************************************
+ Return TRUE if the tech has this flag otherwise FALSE
+**************************************************************************/
+int tech_flag(int tech, int flag)
+{
+  assert(flag>=0 && flag<TF_LAST);
+  return (advances[tech].flags & (1<<flag))?TRUE:FALSE;
+}
+
+/**************************************************************************
+ Convert flag names to enum; case insensitive;
+ returns TF_LAST if can't match.
+**************************************************************************/
+enum tech_flag_id tech_flag_from_str(char *s)
+{
+  enum tech_flag_id i;
+
+  assert(sizeof(flag_names)/sizeof(char*)==TF_LAST);
+  
+  for(i=0; i<A_LAST; i++) {
+    if (mystrcasecmp(flag_names[i], s)==0) {
+      return i;
+    }
+  }
+  return TF_LAST;
+}
+
+/**************************************************************************
+ Search for a tech with a given flag starting at index
+ Returns A_LAST if no tech has been found
+**************************************************************************/
+int find_tech_by_flag( int index, int flag )
+{
+  int i;
+  for(i=index;i<A_LAST;i++)
+  {
+    if(tech_flag(i,flag)) return i;
+  }
+  return A_LAST;
+}
+

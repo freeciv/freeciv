@@ -221,6 +221,7 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 struct unit *find_unit_by_id(int id);
 
 char *get_unit_name(Unit_Type_id id);
+char *get_units_with_flag_string(int flag);
 
 int unit_move_rate(struct unit *punit);
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity);

@@ -63,18 +63,14 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
 /* should this be real_map_distance?  Leaving for now -- Syela */
   tb=(tb*(pc1->trade_prod+pc2->trade_prod))/24;
   if (map_get_continent(pc1->x, pc1->y) == map_get_continent(pc2->x, pc2->y))
-    tb*=0.5;
+    tb/=2;
   if (pc1->owner==pc2->owner)
-    tb*=0.5;
+    tb/=2;
 
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    int tech = game.rtech.trade_route_reduce[i];
-    if (tech == A_LAST)
-      break;
-    if (get_invention(city_owner(pc1), tech)==TECH_KNOWN)
-      tb*=0.66;
-    /* was: A_RAILROAD, A_FLIGHT */
+  for(i=0;i<player_knows_techs_with_flag(city_owner(pc1),TF_TRADE_REVENUE_REDUCE);i++) {
+    tb = (tb * 2)/3;
   }
+  /* was: A_RAILROAD, A_FLIGHT */
   return tb;
 }
 

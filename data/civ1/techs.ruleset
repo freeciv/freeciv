@@ -9,7 +9,7 @@
 
 [datafile]
 description="Civ1-style technology data for Freeciv"
-options="1.8.2"
+options="1.8.2a"
 
 ; Below: The individual advances, one per section.
 ; For now, the number of such sections must be kept the same (=89).
@@ -24,6 +24,7 @@ options="1.8.2"
 ;
 ; name          = name as seen by user 
 ; req1, req2	= advances required before researching this one
+; flags       = special flag strings (see default/techs.ruleset)
 ;
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
@@ -33,470 +34,533 @@ options="1.8.2"
 name     = "None"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_advanced_flight]
 name     = "Advanced Flight"
 req1     = "Flight"
 req2     = "Electricity"
+flags    = ""
 
 [advance_alphabet]
 name     = "Alphabet"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_amphibious_warfare]
 name     = "Amphibious Warfare"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_astronomy]
 name     = "Astronomy"
 req1     = "Mysticism"
 req2     = "Mathematics"
+flags    = ""
 
 [advance_atomic_theory]
 name     = "Atomic Theory"
 req1     = "Theory of Gravity"
 req2     = "Physics"
+flags    = ""
 
 [advance_automobile]
 name     = "Automobile"
 req1     = "Combustion"
 req2     = "Steel"
+flags    = "Population_Pollution_Inc"
 
 [advance_banking]
 name     = "Banking"
 req1     = "Trade"
 req2     = "The Republic"
+flags    = ""
 
 [advance_bridge_building]
 name     = "Bridge Building"
 req1     = "Iron Working"
 req2     = "Construction"
+flags    = "Bridge"
 
 [advance_bronze_working]
 name     = "Bronze Working"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_ceremonial_burial]
 name     = "Ceremonial Burial"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_chemistry]
 name     = "Chemistry"
 req1     = "University"
 req2     = "Medicine"
+flags    = ""
 
 [advance_chivalry]
 name     = "Chivalry"
 req1     = "Feudalism"
 req2     = "Horseback Riding"
+flags    = ""
 
 [advance_code_of_laws]
 name     = "Code of Laws"
 req1     = "Alphabet"
 req2     = "None"
+flags    = ""
 
 [advance_combined_arms]
 name     = "Combined Arms"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_combustion]
 name     = "Combustion"
 req1     = "Refining"
 req2     = "Explosives"
+flags    = ""
 
 [advance_communism]
 name     = "Communism"
 req1     = "Philosophy"
 req2     = "Industrialization"
+flags    = ""
 
 [advance_computers]
 name     = "Computers"
 req1     = "Mathematics"
 req2     = "Electronics"
+flags    = ""
 
 [advance_conscription]
 name     = "Conscription"
 req1     = "The Republic"
 req2     = "Explosives"
+flags    = ""
 
 [advance_construction]
 name     = "Construction"
 req1     = "Masonry"
 req2     = "Currency"
+flags    = "Fortress"
 
 [advance_currency]
 name     = "Currency"
 req1     = "Bronze Working"
 req2     = "None"
+flags    = ""
 
 [advance_democracy]
 name     = "Democracy"
 req1     = "Philosophy"
 req2     = "Literacy"
+flags    = ""
 
 [advance_economics]
 name     = "Economics"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_electricity]
 name     = "Electricity"
 req1     = "Metallurgy"
 req2     = "Magnetism"
+flags    = ""
 
 [advance_electronics]
 name     = "Electronics"
 req1     = "Engineering"
 req2     = "Electricity"
+flags    = ""
 
 [advance_engineering]
 name     = "Engineering"
 req1     = "The Wheel"
 req2     = "Construction"
+flags    = ""
 
 [advance_environmentalism]
 name     = "Environmentalism"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_espionage]
 name     = "Espionage"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_explosives]
 name     = "Explosives"
 req1     = "Gunpowder"
 req2     = "Chemistry"
+flags    = ""
 
 [advance_feudalism]
 name     = "Feudalism"
 req1     = "Masonry"
 req2     = "Monarchy"
+flags    = ""
 
 [advance_flight]
 name     = "Flight"
 req1     = "Combustion"
 req2     = "Physics"
+flags    = "Trade_Revenue_Reduce"
 
 [advance_fundamentalism]
 name     = "Fundamentalism"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_fusion_power]
 name     = "Fusion Power"
 req1     = "Nuclear Power"
 req2     = "Superconductors"
+flags    = ""
 
 [advance_genetic_engineering]
 name     = "Genetic Engineering"
 req1     = "Medicine"
 req2     = "The Corporation"
+flags    = ""
 
 [advance_guerilla_warfare]
 name     = "Guerilla Warfare"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_gunpowder]
 name     = "Gunpowder"
 req1     = "Invention"
 req2     = "Iron Working"
+flags    = ""
 
 [advance_horseback_riding]
 name     = "Horseback Riding"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_industrialization]
 name     = "Industrialization"
 req1     = "Railroad"
 req2     = "Banking"
+flags    = "Population_Pollution_Inc"
 
 [advance_invention]
 name     = "Invention"
 req1     = "Engineering"
 req2     = "Literacy"
+flags    = ""
 
 [advance_iron_working]
 name     = "Iron Working"
 req1     = "Bronze Working"
 req2     = "None"
+flags    = ""
 
 [advance_labor_union]
 name     = "Labor Union"
 req1     = "Mass Production"
 req2     = "Communism"
+flags    = ""
 
 [advance_laser]
 name     = "Laser"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_leadership]
 name     = "Leadership"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_literacy]
 name     = "Literacy"
 req1     = "Writing"
 req2     = "Code of Laws"
+flags    = ""
 
 [advance_machine_tools]
 name     = "Machine Tools"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_magnetism]
 name     = "Magnetism"
 req1     = "Navigation"
 req2     = "Physics"
+flags    = ""
 
 [advance_map_making]
 name     = "Map Making"
 req1     = "Alphabet"
 req2     = "None"
+flags    = ""
 
 [advance_masonry]
 name     = "Masonry"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_mass_production]
 name     = "Mass Production"
 req1     = "Automobile"
 req2     = "The Corporation"
+flags    = "Population_Pollution_Inc"
 
 [advance_mathematics]
 name     = "Mathematics"
 req1     = "Alphabet"
 req2     = "Masonry"
+flags    = ""
 
 [advance_medicine]
 name     = "Medicine"
 req1     = "Philosophy"
 req2     = "Trade"
+flags    = ""
 
 [advance_metallurgy]
 name     = "Metallurgy"
 req1     = "Gunpowder"
 req2     = "University"
+flags    = ""
 
 [advance_miniaturization]
 name     = "Miniaturization"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_mobile_warfare]
 name     = "Mobile Warfare"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_monarchy]
 name     = "Monarchy"
 req1     = "Ceremonial Burial"
 req2     = "Code of Laws"
+flags    = ""
 
 [advance_monotheism]
 name     = "Monotheism"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_mysticism]
 name     = "Mysticism"
 req1     = "Ceremonial Burial"
 req2     = "None"
+flags    = ""
 
 [advance_navigation]
 name     = "Navigation"
 req1     = "Map Making"
 req2     = "Astronomy"
+flags    = ""
 
 [advance_nuclear_fission]
 name     = "Nuclear Fission"
 req1     = "Mass Production"
 req2     = "Atomic Theory"
+flags    = ""
 
 [advance_nuclear_power]
 name     = "Nuclear Power"
 req1     = "Nuclear Fission"
 req2     = "Electronics"
+flags    = ""
 
 [advance_philosophy]
 name     = "Philosophy"
 req1     = "Mysticism"
 req2     = "Literacy"
+flags    = ""
 
 [advance_physics]
 name     = "Physics"
 req1     = "Mathematics"
 req2     = "Navigation"
+flags    = ""
 
 [advance_plastics]
 name     = "Plastics"
 req1     = "Refining"
 req2     = "Space Flight"
+flags    = "Population_Pollution_Inc"
 
 [advance_polytheism]
 name     = "Polytheism"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_pottery]
 name     = "Pottery"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_radio]
 name     = "Radio"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_railroad]
 name     = "Railroad"
 req1     = "Steam Engine"
 req2     = "Bridge Building"
+flags    = "Railroad","Trade_Revenue_Reduce"
 
 [advance_recycling]
 name     = "Recycling"
 req1     = "Mass Production"
 req2     = "Democracy"
+flags    = ""
 
 [advance_refining]
 name     = "Refining"
 req1     = "Chemistry"
 req2     = "The Corporation"
+flags    = ""
 
 [advance_refrigeration]
 name     = "Refrigeration"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_robotics]
 name     = "Robotics"
 req1     = "Plastics"
 req2     = "Computers"
+flags    = ""
 
 [advance_rocketry]
 name     = "Rocketry"
 req1     = "Advanced Flight"
 req2     = "Electronics"
+flags    = ""
 
 [advance_sanitation]
 name     = "Sanitation"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_seafaring]
 name     = "Seafaring"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_space_flight]
 name     = "Space Flight"
 req1     = "Computers"
 req2     = "Rocketry"
+flags    = ""
 
 [advance_stealth]
 name     = "Stealth"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_steam_engine]
 name     = "Steam Engine"
 req1     = "Physics"
 req2     = "Invention"
+flags    = ""
 
 [advance_steel]
 name     = "Steel"
 req1     = "Metallurgy"
 req2     = "Industrialization"
+flags    = ""
 
 [advance_superconductors]
 name     = "Superconductors"
 req1     = "Plastics"
 req2     = "Mass Production"
+flags    = ""
 
 [advance_tactics]
 name     = "Tactics"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_the_corporation]
 name     = "The Corporation"
 req1     = "Banking"
 req2     = "Industrialization"
+flags    = ""
 
 [advance_the_republic]
 name     = "The Republic"
 req1     = "Code of Laws"
 req2     = "Literacy"
+flags    = ""
 
 [advance_the_wheel]
 name     = "The Wheel"
 req1     = "None"
 req2     = "None"
+flags    = ""
 
 [advance_religion]		; for Civ2 Theology
 name     = "Religion"
 req1     = "Philosophy"
 req2     = "Writing"
+flags    = ""
 
 [advance_theory_of_gravity]
 name     = "Theory of Gravity"
 req1     = "Astronomy"
 req2     = "University"
+flags    = ""
 
 [advance_trade]
 name     = "Trade"
 req1     = "Currency"
 req2     = "Code of Laws"
+flags    = ""
 
 [advance_university]
 name     = "University"
 req1     = "Mathematics"
 req2     = "Philosophy"
+flags    = ""
 
 [advance_warrior_code]
 name     = "Warrior Code"
 req1     = "Never"
 req2     = "Never"
+flags    = ""
 
 [advance_writing]
 name     = "Writing"
 req1     = "Alphabet"
 req2     = "None"
+flags    = ""
 
-
-[a_special]
-
-; Advances which have a direct effect in the game
-
-bonus_tech="Never"		; extra tech to first to research
-boat_fast="Never"		; extra move point to ships
-
-construct_bridges="Bridge Building"
-construct_fortress="Construction"
-construct_rail="Railroad"
-
-; Pollution due to population is multipied by the index of
-; the rightmost tech player knows: (eg times 2 if player
-; knows Automobile)
-population_pollution = "Industrialization", "Automobile", 
-		       "Mass Production", "Plastics"
-
-; All of following must be known by city owner for
-; partisan uprising to occur:  (as well as other conditions)
-partisan_required = ""  ;  "Communism", "Gunpowder"
-
-; Each of the following known by the player establishing
-; a trade route reduces the initial revenue by cumulative
-; factors of 2/3:
-trade_route_reduce = "Railroad", "Flight"

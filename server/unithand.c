@@ -433,7 +433,7 @@ void handle_unit_build_city(struct player *pplayer,
   send_remove_unit(0, req->unit_id);
   if (terrain_control.may_road) {
     map_set_special(punit->x, punit->y, S_ROAD);
-    if (get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN)
+    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
       map_set_special(punit->x, punit->y, S_RAILROAD);
   }
   send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
@@ -656,7 +656,7 @@ int handle_unit_enter_hut(struct unit *punit)
        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
                         "Game: You gain knowledge about %s.", 
                         advances[pplayer->research.researching].name);
-       if (pplayer->research.researching==game.rtech.construct_rail) {
+       if (tech_flag(pplayer->research.researching,TF_RAILROAD)) {
 	 upgrade_city_rails(pplayer, 1);
        }
        set_invention(pplayer, pplayer->research.researching, TECH_KNOWN);
@@ -701,7 +701,7 @@ int handle_unit_enter_hut(struct unit *punit)
     if (is_ok_city_spot(punit->x, punit->y)) {
       if (terrain_control.may_road) {
 	map_set_special(punit->x, punit->y, S_ROAD);
-	if (get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN)
+	if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
 	  map_set_special(punit->x, punit->y, S_RAILROAD);
       }
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
@@ -1170,8 +1170,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
     if (terrain_control.may_road &&
-       (get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN) &&
-       (get_invention(cplayer, game.rtech.construct_rail)!=TECH_KNOWN) &&
+       (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) &&
+       (!player_knows_techs_with_flag(cplayer, TF_RAILROAD)) &&
        (!(map_get_special(pnewcity->x,pnewcity->y)&S_RAILROAD))) {
       notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
       map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);

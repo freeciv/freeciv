@@ -344,7 +344,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
   int i, nval;
   
   filename = openload_ruleset_file(&file, ruleset_subdir, "techs");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2a", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -362,6 +362,9 @@ static void load_ruleset_techs(char *ruleset_subdir)
   }
   
   for( i=0; i<A_LAST; i++ ) {
+    char *sval, **slist;
+    int j,ival;
+
     a = &advances[i];
 
     a->req[0] = lookup_tech(&file, sec[i], "req1", 0, filename, a->name);
@@ -379,6 +382,23 @@ static void load_ruleset_techs(char *ruleset_subdir)
       a->req[0] = a->req[1];
       a->req[1] = A_NONE;
     }
+
+    a->flags = 0;
+
+    slist = secfile_lookup_str_vec(&file, &nval, "%s.flags", sec[i]);
+    for(j=0; j<nval; j++) {
+      sval = slist[j];
+      if(strcmp(sval,"")==0) {
+        continue;
+      }
+      ival = tech_flag_from_str(sval);
+      if (ival==TF_LAST) {
+        freelog(LOG_NORMAL, "for advance_type \"%s\": bad flag name \"%s\" (%s)",
+                a->name, sval, filename);
+      }
+      a->flags |= (1<<ival);
+    }
+    free(slist);
   }
 
   /* Some more consistency checking: 
@@ -400,25 +420,11 @@ static void load_ruleset_techs(char *ruleset_subdir)
       }
     }
   } 
-  
-  game.rtech.get_bonus_tech =
-    lookup_tech(&file, "a_special", "bonus_tech", 0, filename, NULL);
-  game.rtech.boat_fast =
-    lookup_tech(&file, "a_special", "boat_fast", 0, filename, NULL);
-  game.rtech.construct_bridges =
-    lookup_tech(&file, "a_special", "construct_bridges", 0, filename, NULL);
-  game.rtech.construct_fortress =
-    lookup_tech(&file, "a_special", "construct_fortress", 0, filename, NULL);
-  game.rtech.construct_rail =
-    lookup_tech(&file, "a_special", "construct_rail", 0, filename, NULL);
 
-  lookup_tech_list(&file, "a_special", "population_pollution",
-		   game.rtech.pop_pollution, filename);
-  lookup_tech_list(&file, "a_special", "partisan_required",
-		   game.rtech.partisan_req, filename);
-  lookup_tech_list(&file, "a_special", "trade_route_reduce",
-		   game.rtech.trade_route_reduce, filename);
-  
+  /* Should be removed and use the flag directly in the future
+     to allow more bonus techs -- sb */  
+  game.rtech.get_bonus_tech = find_tech_by_flag(0,TF_BONUS_TECH);
+
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
@@ -575,6 +581,10 @@ static void load_ruleset_units(char *ruleset_subdir)
     free(slist);
   }
   free(sec);
+
+  lookup_tech_list(file, "u_specials", "partisan_req",
+		   game.rtech.partisan_req, filename);
+
 
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -1146,19 +1156,13 @@ static void send_ruleset_control(struct player *dest)
   packet.sewer_size = game.sewer_size;
   
   packet.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
-  packet.rtech.boat_fast = game.rtech.boat_fast;
   packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
   packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
   packet.rtech.colosseum_plus = game.rtech.colosseum_plus;
   packet.rtech.temple_plus = game.rtech.temple_plus;
-  packet.rtech.construct_bridges = game.rtech.construct_bridges;
-  packet.rtech.construct_fortress = game.rtech.construct_fortress;
-  packet.rtech.construct_rail = game.rtech.construct_rail;
 
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    packet.rtech.pop_pollution[i] = game.rtech.pop_pollution[i];
     packet.rtech.partisan_req[i] = game.rtech.partisan_req[i];
-    packet.rtech.trade_route_reduce[i] = game.rtech.trade_route_reduce[i];
   }
 
   packet.government_count = game.government_count;
@@ -1360,6 +1364,7 @@ static void send_ruleset_techs(struct player *dest)
     strcpy(packet.name, a->name);
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
+    packet.flags = a->flags;
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
