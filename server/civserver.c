@@ -426,6 +426,9 @@ int main(int argc, char *argv[])
     if(0) freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
 
+    printf("\n");              /* in case no output since last show_prompt() */
+    show_prompt();
+
     if(0) freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
     
