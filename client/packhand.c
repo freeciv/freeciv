@@ -700,6 +700,7 @@ void handle_before_new_year(void)
 void handle_start_turn(void)
 {
   agents_start_turn();
+  non_ai_unit_focus = FALSE;
 
   turn_done_sent = FALSE;
   update_turn_done_button_state();
@@ -840,6 +841,10 @@ void handle_unit_info(struct packet_unit_info *packet)
   if(punit) {
     int dest_x,dest_y;
     punit->activity_count = packet->activity_count;
+    if (punit->ai.control!=packet->ai) {
+      punit->ai.control = packet->ai;
+      repaint_unit = TRUE;
+    }
     if((punit->activity!=packet->activity)         /* change activity */
        || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
       repaint_unit = TRUE;
@@ -892,10 +897,6 @@ void handle_unit_info(struct packet_unit_info *packet)
       if (pcity && (pcity->id != punit->homecity)) {
 	refresh_city_dialog(pcity);
       }
-    }
-    if (punit->ai.control!=packet->ai) {
-      punit->ai.control=packet->ai;
-      repaint_unit = TRUE;
     }
 
     if (!same_pos(punit->x, punit->y, packet->x, packet->y)) { 
