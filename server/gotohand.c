@@ -844,7 +844,15 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
-ok, I'll restrain myself with the cleanup - FOR NOW! :) -Thue
+This is used to choose among the valid directions marked on the warmap by
+the find_the_shortest_path() function.
+Returns a direction as used in ii[] and jj[] arrays, or -1 if none could be
+found.
+
+This function does not check for loops, which we currently rely on
+find_the_shortest_path() to make sure there are none of. If the warmap did
+contain a loop repeated calls of this function may result in the unit going
+in cycles forever.
 **************************************************************************/
 static int find_a_direction(struct unit *punit,
 			    enum goto_move_restriction restriction)
@@ -962,7 +970,7 @@ static int find_a_direction(struct unit *punit,
 }
 
 /**************************************************************************
-...
+Basic checks as to whether a GOTO is possible.
 **************************************************************************/
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni)
 {  
@@ -1005,16 +1013,14 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
 
 
 /**************************************************************************
+Handles a unit goto (Duh?)
+Uses find_the_shortest_path() to find all the shortest paths to the goal.
+Uses find_a_direction() to choose between these.
+
 If we have an air unit we use
 find_air_first_destination(punit, &waypoint_x, &waypoint_y)
 to get a waypoint to goto. The actual goto is still done with
 find_the_shortest_path(pplayer, punit, waypoint_x, waypoint_y, restriction)
-
-There was a really oogy if here.  Mighty Mouse told me not to axe it
-because it would cost oodles of CPU time.  He's right for the most part
-but Peter and others have recommended more flexibility, so this is a little
-different but should still pre-empt calculation of impossible GOTO's.
-     -- Syela
 **************************************************************************/
 void do_unit_goto(struct player *pplayer, struct unit *punit,
 		  enum goto_move_restriction restriction)
@@ -1509,7 +1515,7 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
 
   /* Nope, we couldn't find a quick way. Lets do the full monty.
      Copied from find_the_shortest_path. If you want to know how
-     it works refer to the excellent documentation there */
+     it works refer to the documentation there */
  TRYFULL:
   freelog(LOG_DEBUG, "didn't work. Lets try full");
   {
