@@ -350,6 +350,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	} else if (psrctile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_types[punit->type].move_rate);
+	  if (src_x != x || src_y != y) {
+	    /* Attempting to make a path through a sea transporter */
+	    move_cost += MOVE_COST_ROAD; /* Rather arbitrary deterrent */
+	  }
 	} else if (igter) {
 	  move_cost = (psrctile->move_cost[dir] ? MOVE_COST_ROAD : 0);
 	} else {
@@ -360,10 +364,18 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 3 * SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
-	  add_to_queue = 0;
-	  move_cost = SINGLE_MOVE;
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	    continue; /* Attempting to attack from a ship */
+	  } else {
+	    add_to_queue = 0;
+	    move_cost = SINGLE_MOVE;
+	  }
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
-	  add_to_queue = 0;
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	    continue; /* Attempting to attack from a ship */
+	  } else {
+	    add_to_queue = 0;
+	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
 	  continue;
 

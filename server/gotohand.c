@@ -711,6 +711,10 @@ static int find_the_shortest_path(struct unit *punit,
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	    continue; /* Attempting to attack from a ship */
+	  }
+
 	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
 	    if (pplayer->ai.control) {
 	      if ((!is_enemy_unit_tile(pdesttile, punit->owner)
@@ -727,6 +731,10 @@ static int find_the_shortest_path(struct unit *punit,
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	    continue; /* Attempting to attack from a ship */
+	  }
+
 	  if ((is_non_attack_city_tile(pdesttile, punit->owner)
 	       || !is_military_unit(punit))) {
 	    if (!is_diplomat_unit(punit)
