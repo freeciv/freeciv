@@ -186,6 +186,8 @@ void server_open_udp(void)
     serv_addr.fHost=hinfo.addrs[0];
     bad = ((serv_addr.fHost == 0) || (err1 != 0));
   } else {
+    freelog(LOG_NORMAL, _("Error opening OpenTransport (Id: %g)"),
+	    err1);
     bad=true;
   }
 #else
@@ -242,7 +244,7 @@ void server_open_udp(void)
     metaserver_failed();
     return;
   }
-#ifndef GENERATINC_MAC
+#ifndef GENERATING_MAC
   /* no, this is not weird, see man connect(2) --vasc */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr))==-1) {
     freelog(LOG_DEBUG, "Metaserver: connect failed: %s", mystrerror(errno));

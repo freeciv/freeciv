@@ -152,7 +152,7 @@ void myusleep(unsigned long usec)
   usec /= 16666;		/* microseconds to 1/60th seconds */
   if (usec < 1) usec = 1;
   /* suposed to give other application processor time for the mac */
-  WaitNextEvent(0, &the_event, usec, nil);
+  WaitNextEvent(0, &the_event, usec, 0L);
 #else
   struct timeval tv;
   tv.tv_sec=0;

@@ -3,6 +3,7 @@
 #define FC_CONFIG_H
 
 #include <MacHeaders.h>
+#include <ansi_prefix.mac.h> /*needed in time.h and ansi_files.c*/
 
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
@@ -72,6 +73,7 @@
 #undef MINOR_VERSION
 #undef PATCH_VERSION
 #undef VERSION_LABEL
+#undef IS_DEVEL_VERSION
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
 #undef HAVE_LIBICE
@@ -94,15 +96,22 @@
 #undef XPM_H_NO_X11
 #undef FUNCPROTO
 #undef NARROWPROTO
+#undef HAVE_LIBREADLINE
 #define ALWAYS_ROOT 1 /*may not be needed.  Metroworks provides dummy functions*/
 #undef STRICT_WINDOWS/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #define STRICT_WINDOWS 1 /* seq used to enable strict windows */
 #undef STRICT_CONTROLS/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #define STRICT_CONTROLS 1 /* seq used to enable strict controls */
+#undef STRICT_MENUS/* copland Compatability? (os x?), _MAC ONLY_ (pointless on other systems)*/
+#define STRICT_MENUS 1 /* seq used to enable strict menus */
 #define GENERATING_MAC /*use for mac native code*/
 #define HAVE_OPENTRANSPORT /*used for OpenTransport Networking*/
 #undef PATH_SEPARATOR
-#undef SOCKET_ZERO_ISNT_STDIN
+#define SOCKET_ZERO_ISNT_STDIN 1
+#undef NONBLOCKING_SOCKETS
+#undef HAVE_FCNTL
+#undef HAVE_IOCTL
+#undef OPTION_FILE_NAME
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
@@ -167,17 +176,32 @@
 /* Define if you have the strerror function.  */
 #define HAVE_STRERROR
 
+/* Define if you have the strlcat function.  */
+#undef HAVE_STRLCAT
+
+/* Define if you have the strlcpy function.  */
+#undef HAVE_STRLCPY
+
+/* Define if you have the strncasecmp function.  */
+#undef HAVE_STRNCASECMP
+
 /* Define if you have the strstr function.  */
 #define HAVE_STRSTR
 
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
 
+/* Define if you have the vsnprintf function.  */
+#undef HAVE_VSNPRINTF
+
 /* Define if you have the <argz.h> header file.  */
 #undef HAVE_ARGZ_H
 
 /* Define if you have the <arpa/inet.h> header file.  */
 #undef HAVE_ARPA_INET_H
+
+/* Define if you have the <fcntl.h> header file.  */
+#undef HAVE_FCNTL_H
 
 /* Define if you have the <limits.h> header file.  */
 #define HAVE_LIMITS_H
@@ -234,7 +258,7 @@
 #undef HAVE_TERMIOS_H
 
 /* Define if you have the <unistd.h> header file.  */
-#define HAVE_UNISTD_H
+#undef HAVE_UNISTD_H	/*conflicts with ot*/
 
 /* Define if you have the i library (-li).  */
 #undef HAVE_LIBI
@@ -242,10 +266,14 @@
 /* Define if you have the nls library (-lnls).  */
 #undef HAVE_LIBNLS
 
+/* Define if you have the z library (-lz).  */
+#undef HAVE_LIBZ
+
 /* Name of package */
 #undef PACKAGE
 
 /* Version number of package */
 #undef VERSION
+
 
 #endif /* FC_CONFIG_H */
