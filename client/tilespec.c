@@ -492,7 +492,9 @@ void tilespec_reread(const char *tileset_name)
   }
   generate_citydlg_dimensions();
   tileset_changed();
+  can_slide = FALSE;
   center_tile_mapcanvas(center_tile);
+  can_slide = TRUE;
 }
 
 /**************************************************************************

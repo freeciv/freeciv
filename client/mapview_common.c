@@ -37,6 +37,7 @@
 
 struct mapview_canvas mapview_canvas;
 struct overview overview;
+bool can_slide = TRUE;
 
 /* Arbitrary estimated maximums for width and height of a city description
  * text.  Eventually this may be determined dynamically. */
@@ -498,7 +499,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     return;
   }
 
-  if (smooth_center_slide_msec > 0) {
+  if (can_slide && smooth_center_slide_msec > 0) {
     int start_x = mapview_canvas.gui_x0, start_y = mapview_canvas.gui_y0;
     int diff_x, diff_y;
     double timing_sec = (double)smooth_center_slide_msec / 1000.0, mytime;
@@ -657,7 +658,9 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 {
   int gui_x0 = scroll_x, gui_y0 = scroll_y;
 
+  can_slide = FALSE;
   set_mapview_origin(gui_x0, gui_y0);
+  can_slide = TRUE;
 }
 
 /**************************************************************************

@@ -457,7 +457,9 @@ void set_client_state(enum client_states newstate)
       update_research(game.player_ptr);
       role_unit_precalcs();
       boot_help_texts();	/* reboot */
+      can_slide = FALSE;
       update_unit_focus();
+      can_slide = TRUE;
     }
     else if (client_state == CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();

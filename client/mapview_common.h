@@ -44,6 +44,10 @@ struct overview {
 extern struct mapview_canvas mapview_canvas;
 extern struct overview overview;
 
+/* HACK: Callers can set this to FALSE to disable sliding.  It should be
+ * reenabled afterwards. */
+extern bool can_slide;
+
 #define BORDER_WIDTH 2
 #define GOTO_WIDTH 2
 
