@@ -116,50 +116,47 @@ static struct genlist dialog_list;
 static int city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
 
-struct city_dialog *get_city_dialog(struct city *pcity);
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
-void close_city_dialog(struct city_dialog *pdialog);
+static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
+static void close_city_dialog(struct city_dialog *pdialog);
 
-void city_dialog_update_improvement_list(struct city_dialog *pdialog);
-void city_dialog_update_title(struct city_dialog *pdialog);
-void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
-void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
-void city_dialog_update_citizens(struct city_dialog *pdialog);
-void city_dialog_update_map(struct city_dialog *pdialog);
-void city_dialog_update_food(struct city_dialog *pdialog);
-void city_dialog_update_production(struct city_dialog *pdialog);
-void city_dialog_update_output(struct city_dialog *pdialog);
-void city_dialog_update_building(struct city_dialog *pdialog);
-void city_dialog_update_storage(struct city_dialog *pdialog);
-void city_dialog_update_pollution(struct city_dialog *pdialog);
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
+static void city_dialog_update_title(struct city_dialog *pdialog);
+static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_citizens(struct city_dialog *pdialog);
+static void city_dialog_update_map(struct city_dialog *pdialog);
+static void city_dialog_update_production(struct city_dialog *pdialog);
+static void city_dialog_update_output(struct city_dialog *pdialog);
+static void city_dialog_update_building(struct city_dialog *pdialog);
+static void city_dialog_update_storage(struct city_dialog *pdialog);
+static void city_dialog_update_pollution(struct city_dialog *pdialog);
 
-void sell_callback	(GtkWidget *w, gpointer data);
-void buy_callback	(GtkWidget *w, gpointer data);
-void change_callback	(GtkWidget *w, gpointer data);
-void worklist_callback	(GtkWidget *w, gpointer data);
-void commit_city_worklist(struct worklist *pwl, void *data);
-void cancel_city_worklist(void *data);
-void close_callback	(GtkWidget *w, gpointer data);
-void rename_callback	(GtkWidget *w, gpointer data);
-void trade_callback	(GtkWidget *w, gpointer data);
-void activate_callback	(GtkWidget *w, gpointer data);
-void show_units_callback(GtkWidget *w, gpointer data);
-void unitupgrade_callback_yes	(GtkWidget *w, gpointer data);
-void unitupgrade_callback_no	(GtkWidget *w, gpointer data);
-void upgrade_callback	(GtkWidget *w, gpointer data);
+static void sell_callback	(GtkWidget *w, gpointer data);
+static void buy_callback	(GtkWidget *w, gpointer data);
+static void change_callback	(GtkWidget *w, gpointer data);
+static void worklist_callback	(GtkWidget *w, gpointer data);
+static void commit_city_worklist(struct worklist *pwl, void *data);
+static void cancel_city_worklist(void *data);
+static void close_callback	(GtkWidget *w, gpointer data);
+static void rename_callback	(GtkWidget *w, gpointer data);
+static void trade_callback	(GtkWidget *w, gpointer data);
+static void activate_callback	(GtkWidget *w, gpointer data);
+static void show_units_callback(GtkWidget *w, gpointer data);
+static void unitupgrade_callback_yes	(GtkWidget *w, gpointer data);
+static void unitupgrade_callback_no	(GtkWidget *w, gpointer data);
+static void upgrade_callback	(GtkWidget *w, gpointer data);
 
-gint elvis_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
-gint scientist_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
-gint taxman_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
-void rename_ok_return_action(GtkWidget *w);
+static gint elvis_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gint scientist_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gint taxman_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
-gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
-gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
-gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
-void cityopt_callback(GtkWidget *w, gpointer data);
-void popdown_cityopt_dialog(void);
+static gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static void cityopt_callback(GtkWidget *w, gpointer data);
+static void popdown_cityopt_dialog(void);
 
-GdkBitmap *icon_bitmap;
+static GdkBitmap *icon_bitmap;
 
 /****************************************************************
 ...
@@ -182,7 +179,7 @@ static void initialize_city_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-struct city_dialog *get_city_dialog(struct city *pcity)
+static struct city_dialog *get_city_dialog(struct city *pcity)
 {
   struct genlist_iterator myiter;
 
@@ -365,7 +362,7 @@ static void city_dialog_present_unit_pos_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
+static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   int i;
   struct city_dialog *pdialog;
@@ -719,7 +716,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void activate_callback(GtkWidget *w, gpointer data)
+static void activate_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)data;
   int x=pdialog->pcity->x,y=pdialog->pcity->y;
@@ -741,7 +738,7 @@ void activate_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void show_units_callback(GtkWidget *w, gpointer data)
+static void show_units_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)data;
   struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
@@ -882,7 +879,7 @@ static void present_units_cancel_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -902,7 +899,7 @@ gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -922,7 +919,7 @@ gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 Pop-up menu to change attributes of units, ex. change homecity.
 *****************************************************************/
-gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -1008,7 +1005,7 @@ static gint rename_callback_delete(GtkWidget *widget, GdkEvent *event,
 /****************************************************************
 ...
 *****************************************************************/
-void rename_callback(GtkWidget *w, gpointer data)
+static void rename_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
 
@@ -1038,7 +1035,7 @@ static void trade_message_dialog_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_callback(GtkWidget *w, gpointer data)
+static void trade_callback(GtkWidget *w, gpointer data)
 {
   int i;
   int x=0,total=0;
@@ -1087,7 +1084,7 @@ void trade_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_pollution(struct city_dialog *pdialog)
+static void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
   char buf[512];
   struct city *pcity=pdialog->pcity;
@@ -1114,7 +1111,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_storage(struct city_dialog *pdialog)
+static void city_dialog_update_storage(struct city_dialog *pdialog)
 {
   char buf[512];
   struct city *pcity=pdialog->pcity;
@@ -1128,7 +1125,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_building(struct city_dialog *pdialog)
+static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[64];
   int turns;
@@ -1188,7 +1185,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_production(struct city_dialog *pdialog)
+static void city_dialog_update_production(struct city_dialog *pdialog)
 {
   char buf[512];
   struct city *pcity=pdialog->pcity;
@@ -1204,7 +1201,7 @@ void city_dialog_update_production(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_output(struct city_dialog *pdialog)
+static void city_dialog_update_output(struct city_dialog *pdialog)
 {
   char buf[512];
   struct city *pcity=pdialog->pcity;
@@ -1264,7 +1261,7 @@ static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_map(struct city_dialog *pdialog)
+static void city_dialog_update_map(struct city_dialog *pdialog)
 {
   int x, y;
   struct city *pcity = pdialog->pcity;
@@ -1394,7 +1391,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_citizens(struct city_dialog *pdialog)
+static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i, n;
   struct city *pcity=pdialog->pcity;
@@ -1522,8 +1519,8 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_supported_units(struct city_dialog *pdialog, 
-					int unitid)
+static void city_dialog_update_supported_units(struct city_dialog *pdialog, 
+					       int unitid)
 {
   int i;
   struct unit_list *plist;
@@ -1595,7 +1592,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
+static void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
   int i;
   struct unit_list *plist;
@@ -1666,7 +1663,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_title(struct city_dialog *pdialog)
+static void city_dialog_update_title(struct city_dialog *pdialog)
 {
   char buf[512];
   char *now;
@@ -1684,7 +1681,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_improvement_list(struct city_dialog *pdialog)
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int i, n, flag;
 
@@ -1754,7 +1751,7 @@ gint button_down_citymap(GtkWidget *w, GdkEventButton *ev)
 /****************************************************************
 ...
 *****************************************************************/
-gint elvis_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint elvis_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1775,7 +1772,7 @@ gint elvis_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint scientist_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint scientist_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1796,7 +1793,7 @@ gint scientist_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1859,7 +1856,7 @@ static gint buy_callback_delete(GtkWidget *widget, GdkEvent *event,
 /****************************************************************
 ...
 *****************************************************************/
-void buy_callback(GtkWidget *w, gpointer data)
+static void buy_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   int value;
@@ -1905,7 +1902,7 @@ void buy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void unitupgrade_callback_yes(GtkWidget *w, gpointer data)
+static void unitupgrade_callback_yes(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
@@ -1919,7 +1916,7 @@ void unitupgrade_callback_yes(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void unitupgrade_callback_no(GtkWidget *w, gpointer data)
+static void unitupgrade_callback_no(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -1928,7 +1925,7 @@ void unitupgrade_callback_no(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void upgrade_callback(GtkWidget *w, gpointer data)
+static void upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   char buf[512];
@@ -2078,7 +2075,7 @@ static void change_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev,
 /****************************************************************
 ...
 *****************************************************************/
-void change_callback(GtkWidget *w, gpointer data)
+static void change_callback(GtkWidget *w, gpointer data)
 {
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
@@ -2233,7 +2230,7 @@ void change_callback(GtkWidget *w, gpointer data)
 /****************************************************************
   Display the city's worklist.
 *****************************************************************/
-void worklist_callback(GtkWidget *w, gpointer data)
+static void worklist_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   
@@ -2254,7 +2251,7 @@ void worklist_callback(GtkWidget *w, gpointer data)
 /****************************************************************
   Commit the changes to the worklist for the city.
 *****************************************************************/
-void commit_city_worklist(struct worklist *pwl, void *data)
+static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *)data;
@@ -2310,7 +2307,11 @@ void commit_city_worklist(struct worklist *pwl, void *data)
   pdialog->worklist_shell = NULL;
 }
 
-void cancel_city_worklist(void *data) {
+
+/****************************************************************
+...
+*****************************************************************/
+static void cancel_city_worklist(void *data) {
   struct city_dialog *pdialog = (struct city_dialog *)data;
   pdialog->worklist_shell = NULL;
 }
@@ -2361,7 +2362,7 @@ static gint sell_callback_delete(GtkWidget *widget, GdkEvent *event,
 /****************************************************************
 ...
 *****************************************************************/
-void sell_callback(GtkWidget *w, gpointer data)
+static void sell_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   GList *selection;
@@ -2440,7 +2441,7 @@ void close_city_dialog(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void close_callback(GtkWidget *w, gpointer data)
+static void close_callback(GtkWidget *w, gpointer data)
 {
   close_city_dialog((struct city_dialog *)data);
 }
@@ -2474,7 +2475,7 @@ static int ncitizen_idx;
 /****************************************************************
 ...
 *****************************************************************/
-void cityopt_callback(GtkWidget *w, gpointer data)
+static void cityopt_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)data;
   struct city *pcity = pdialog->pcity;
@@ -2647,7 +2648,7 @@ void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void popdown_cityopt_dialog(void)
+static void popdown_cityopt_dialog(void)
 {
   if(cityopt_shell) {
     gtk_widget_destroy(cityopt_shell);
