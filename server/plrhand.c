@@ -1044,8 +1044,8 @@ repeat_break_treaty:
   coordinates have been normalized.  For generic event use E_NOEVENT.
   (But current clients do not use (x,y) data for E_NOEVENT events.)
 **************************************************************************/
-static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
-			    const char *format, va_list vargs) 
+void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
+		     const char *format, va_list vargs) 
 {
   struct packet_generic_message genmsg;
   

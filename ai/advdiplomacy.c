@@ -88,9 +88,10 @@ static void notify(struct player *pplayer, const char *text, ...)
 {
   if (diplomacy_verbose) {
     va_list ap;
+    struct conn_list *dest = (struct conn_list*)&pplayer->connections;
 
     va_start(ap, text);
-    notify_player_ex(pplayer, -1, -1, E_DIPLOMACY, text, ap);
+    vnotify_conn_ex(dest, -1, -1, E_DIPLOMACY, text, ap);
     va_end(ap);
   }
 }

@@ -47,6 +47,8 @@ void send_player_info_c(struct player *src, struct conn_list *dest);
 void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
 		    const char *format, ...) 
                     fc__attribute((format (printf, 5, 6)));
+void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
+		     const char *format, va_list vargs);
 void notify_conn(struct conn_list *dest, const char *format, ...) 
                  fc__attribute((format (printf, 2, 3)));
 void notify_player_ex(const struct player *pplayer, int x, int y,
