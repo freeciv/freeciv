@@ -287,6 +287,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM(N_("Disband Unit"), MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Help Build Wonder"), MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Make Trade Route"), MENU_ORDER_TRADEROUTE, "SHIFT M", NM_COMMANDSTRING),
+  MAKE_ITEM(N_("Diplomat/Spy Actions"), MENU_ORDER_DIPLOMAT_DLG, "SHIFT B", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Explode Nuclear"), MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM(N_("Wait"), MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
@@ -607,6 +608,10 @@ static void control_callback(ULONG * value)
       break;
     case MENU_ORDER_TRADEROUTE:
       key_unit_traderoute();
+      break;
+    case MENU_ORDER_DIPLOMAT_DLG:
+      if(get_unit_in_focus())
+        key_unit_diplomat_actions();
       break;
     case MENU_ORDER_DONE:
       key_unit_done();
@@ -1271,6 +1276,8 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_BUILD_WONDER, unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));
       menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit->type, F_NUCLEAR));
+      menu_entry_sensitive(MENU_ORDER_DIPLOMAT_DLG, is_diplomat_unit(punit) &&
+        diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, punit->x, punit->y));
 
       if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y))
       {

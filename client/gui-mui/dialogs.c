@@ -654,6 +654,30 @@ static void diplomat_bribe_unit(struct popup_message_data *data)
 }
 
 /****************************************************************
+  Callback from diplomat/spy dialog for "keep moving".
+  (This should only occur when entering allied city.)
+*****************************************************************/
+static void diplomat_move(struct popup_message_data *data)
+{
+  struct unit *punit;
+  struct city *pcity;
+  
+  message_close(data);
+  diplomat_dialog_open=0;
+
+  if( (punit=find_unit_by_id(diplomat_id))
+      && (pcity=find_city_by_id(diplomat_target_id))
+      && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+    struct packet_diplomat_action req;
+    req.action_type = DIPLOMAT_MOVE;
+    req.diplomat_id = diplomat_id;
+    req.target_id = diplomat_target_id;
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+  process_diplomat_arrival(NULL, 0);
+}
+
+/****************************************************************
  Callback for Cancel Button
 *****************************************************************/
 static void diplomat_cancel(struct popup_message_data *data)
@@ -815,6 +839,15 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       	i++;
       }
 
+      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
+	 && has_capability("diplo_move_city", aconnection.capability))
+      {
+      	msg_dlg[i].label = _("_Keep moving");
+      	msg_dlg[i].function = (APTR)diplomat_move;
+      	msg_dlg[i].data = NULL;
+      	i++;
+      }
+
       msg_dlg[i].label = _("_Cancel");
       msg_dlg[i].function = (APTR)diplomat_cancel;
       msg_dlg[i++].data = NULL;
@@ -870,6 +903,15 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       {
       	msg_dlg[i].label = _("Incite a _revolt");
       	msg_dlg[i].function = (APTR)diplomat_incite;
+      	msg_dlg[i].data = NULL;
+      	i++;
+      }
+
+      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
+	 && has_capability("diplo_move_city", aconnection.capability))
+      {
+      	msg_dlg[i].label = _("_Keep moving");
+      	msg_dlg[i].function = (APTR)diplomat_move;
       	msg_dlg[i].data = NULL;
       	i++;
       }

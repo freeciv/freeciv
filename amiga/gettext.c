@@ -231,7 +231,7 @@ static char *find_msg(const char * msgid)
 
   /* Now we try the default method:  binary search in the sorted
      array of messages.  */
-  bottom = 0;
+  bottom = act = 0;
   top = domain.nstrings;
   while(bottom < top)
   {
