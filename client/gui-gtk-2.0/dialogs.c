@@ -66,7 +66,6 @@ static GtkWidget  *races_leader;
 static GList      *races_leader_list;
 static GtkWidget  *races_sex[2];
 static GtkWidget  *races_city_style_list;
-static GtkTextBuffer *races_text;
 
 /******************************************************************/
 static GtkWidget  *spy_tech_shell;
