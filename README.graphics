@@ -107,7 +107,7 @@ for standard tags:
   city.	      city related (city, size, sq.-prod., disorder, occupied)
   cd.	      city defaults
   citizen.    citizens, including specialists
-  explode.    explosion graphics (nuke explosion)
+  explode.    explosion graphics (nuke, units)
   spaceship.  spaceship components
   treaty.     treaty thumbs
   user.	      crosshairs (in general: user interface?)
