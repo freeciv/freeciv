@@ -2,13 +2,23 @@
 Welcome to Freeciv 1.14
 =======================
 
-This is release 1.14.1.
+This is release 1.14.2.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.14.1
+ - important compile fixes for some platforms
+ - game balance adjustments:
+	x all buildings except wonders and space parts 30% cheaper
+	x some wonders cheaper: Colossus, Copernicus, Isaac Newton's,
+          King Richard's, Oracle and Shakespeare's
+	x submarine has more attack and movement, and costs less
+ - reputation recovery fixed (now much slower)
+ - a few other minor bugfixes
 
 WHAT'S CHANGED SINCE 1.14.0
  - The GTK+-2.0 client is now built by default.
