@@ -51,7 +51,8 @@ int assess_defense_quadratic(struct city *pcity)
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     v = get_defense_power(punit) * punit->hp *
         (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
-    v /= (is_ground_unit(punit) ? 20 : 30);
+    if (is_ground_unit(punit)) v *= 1.5;
+    v /= 30;
     if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
       v *= l; v /= 10;
     }
@@ -68,7 +69,8 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
   int v;
   v = get_defense_power(punit) * punit->hp *
       (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
-  v /= (is_ground_unit(punit) ? 20 : 30);
+  if (is_ground_unit(punit)) v *= 1.5;
+  v /= 30;
   v *= v;
   if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
     v *= pcity->ai.wallvalue; v /= 10;
@@ -129,6 +131,48 @@ int dangerfunct(int v, int m, int dist)
 #endif
 }
 
+int assess_danger_unit(struct city *pcity, struct unit *punit)
+{
+  int v = get_unit_type(punit->type)->attack_strength * 10;
+  if (punit->veteran) v *= 1.5;
+  if (unit_flag(punit->type, F_SUBMARINE)) v = 0;
+  if (is_sailing_unit(punit) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) v = 0;
+/* get_attack_power will be wrong if moves_left == 1 || == 2 */
+  v *= punit->hp * get_unit_type(punit->type)->firepower;
+  if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v >>= 1;
+  if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v >>= 1;
+  v /= 30; /* rescaling factor to stop the overflow nonsense */
+  return(v);
+}
+
+int assess_distance(struct city *pcity, struct unit *punit, int m,
+                    int boatid, int boatdist, int boatspeed)
+{
+  int x, y, dist;
+  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = 3;
+  else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
+  else if (!is_ground_unit(punit))
+    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
+  else if (unit_flag(punit->type, F_IGTER))
+    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
+  else dist = warmap.cost[punit->x][punit->y];
+/* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
+/* Samarkand bug should be obsoleted by re-ordering of events */
+  if (dist < 3) dist = 3;
+
+  if (is_ground_unit(punit) && boatid &&
+      find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
+/* this bug is so obvious I can't believe it wasn't discovered sooner. -- Syela */
+    y = warmap.seacost[punit->x][punit->y];
+    if (y >= 6 * THRESHOLD)
+      y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * 3;
+    x = MAX(y, boatdist) * m / boatspeed;
+    if (dist > x) dist = x;
+    if (dist < 3) dist = 3;
+  }
+  return(dist);
+}
+
 int assess_danger(struct city *pcity)
 {
   int i, danger = 0, v, dist, con, m;
@@ -144,7 +188,10 @@ int assess_danger(struct city *pcity)
   int boatspeed;
   int boatid, boatdist;
   int x = pcity->x, y = pcity->y; /* dummy variables */
+  struct unit virtualunit;
+  struct unit *funit = &virtualunit; /* saves me a lot of typing. -- Syela */
 
+  memset(&virtualunit, 0, sizeof(struct unit));
   pplayer = &game.players[pcity->owner];
   con = map_get_continent(pcity->x, pcity->y); /* Not using because of boats */
 
@@ -164,31 +211,69 @@ int assess_danger(struct city *pcity)
       if (boatid) boatdist = warmap.seacost[x][y];
       else boatdist = -1;
 /* should I treat empty enemy cities as danger? */
+/* After much contemplation, I've decided the answer is sometimes -- Syela */
+      city_list_iterate(aplayer->cities, acity)
+        if (acity->is_building_unit &&
+            build_points_left(acity) <= acity->shield_surplus) {
+          virtualunit.owner = i;
+          virtualunit.x = acity->x;
+          virtualunit.y = acity->y;
+          v = acity->currently_building;
+          virtualunit.type = v;
+          virtualunit.veteran = do_make_unit_veteran(acity, v);
+          virtualunit.hp = unit_types[v].hp;
+/* yes, I know cloning all this code is bad form.  I don't really
+want to write a funct that takes nine ints by reference. -- Syela */
+          m = get_unit_type(funit->type)->move_rate;
+          v = assess_danger_unit(pcity, funit);
+          dist = assess_distance(pcity, funit, m, boatid, boatdist, boatspeed);
+          igwall = 0;
+          if (unit_ignores_citywalls(funit) || 
+              (!is_heli_unit(funit) && !is_ground_unit(funit))) igwall++;
+          if ((is_ground_unit(funit) && v) ||
+             (get_transporter_capacity(funit) &&
+              !unit_flag(funit->type, F_SUBMARINE) &&
+              !unit_flag(funit->type, F_CARRIER))) {
+
+            if (dist <= m * 3) urgency++;
+            if (dist <= m) pcity->ai.grave_danger++;
+/* NOTE: This should actually implement grave_danger, which is supposed
+to be a feedback-sensitive formula for immediate danger.  I'm having
+second thoughts about the best implementation, and therefore this
+will have to wait until after 1.7.0.  I don't want to do anything I'm
+not totally sure about and can't thoroughly test in the hours before
+the release.  The AI is in fact vulnerable to gang-attacks, but I'm
+content to let it remain that way for now. -- Syela 980805 */
+          }
+
+          if (unit_flag(funit->type, F_HORSE)) {
+            if (pikemen) v >>= 1;
+            else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
+              pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
+          }
+
+          v *= v;
+
+          if (!igwall) danger2 += v * m / dist;
+          else if (is_sailing_unit(funit)) danger3 += v * m / dist;
+          else if (is_air_unit(funit) && funit->type != U_NUCLEAR) danger4 += v * m / dist;
+          if (unit_flag(funit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
+          if (funit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
+            v = dangerfunct(v, m, dist);
+            danger += v;
+            if (igwall) badmojo += v;
+          }
+        }
+      city_list_iterate_end;
+
       unit_list_iterate(aplayer->units, punit)
+        m = get_unit_type(punit->type)->move_rate;
+        v = assess_danger_unit(pcity, punit);
+        dist = assess_distance(pcity, punit, m, boatid, boatdist, boatspeed);
         igwall = 0;
-        v = get_unit_type(punit->type)->attack_strength * 10;
-        if (punit->veteran) v *= 1.5;
-        if (unit_flag(punit->type, F_SUBMARINE)) v = 0;
-        if (is_sailing_unit(punit) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) v = 0;
-/* get_attack_power will be wrong if moves_left == 1 || == 2 */
-        v *= punit->hp * get_unit_type(punit->type)->firepower;
         if (unit_ignores_citywalls(punit) || 
             (!is_heli_unit(punit) && !is_ground_unit(punit))) igwall++;
-        if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v >>= 1;
-        if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v >>= 1;
-
-        if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = 3;
-        else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
-        else if (!is_ground_unit(punit))
-          dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
-        else if (unit_flag(punit->type, F_IGTER))
-          dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
-        else dist = warmap.cost[punit->x][punit->y];
           
-        m = get_unit_type(punit->type)->move_rate;
-/* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
-/* Samarkand bug should be obsoleted by re-ordering of events */
-        if (dist < 3) dist = 3;
         if ((is_ground_unit(punit) && v) ||
            (get_transporter_capacity(punit) &&
             !unit_flag(punit->type, F_SUBMARINE) &&
@@ -203,19 +288,6 @@ not totally sure about and can't thoroughly test in the hours before
 the release.  The AI is in fact vulnerable to gang-attacks, but I'm
 content to let it remain that way for now. -- Syela 980805 */
         }
-
-        if (is_ground_unit(punit) && boatid &&
-            find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
-/* this bug is so obvious I can't believe it wasn't discovered sooner. -- Syela */
-          y = warmap.seacost[punit->x][punit->y];
-          if (y >= 6 * THRESHOLD)
-            y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * 3;
-          x = MAX(y, boatdist) * m / boatspeed;
-          if (dist > x) dist = x;
-          if (dist < 3) dist = 3;
-        }
-
-        v /= 30; /* rescaling factor to stop the overflow nonsense */
 
         if (unit_flag(punit->type, F_HORSE)) {
           if (pikemen) v >>= 1;
@@ -234,10 +306,6 @@ content to let it remain that way for now. -- Syela 980805 */
           danger += v;
           if (igwall) badmojo += v;
         }
-
-/* if (v > 1000 || (v > 100 && !city_got_citywalls(pcity)))
-printf("%s sees %d danger from %s at (%d, %d) [%d]\n", pcity->name, v,
-unit_types[punit->type].name, punit->x, punit->y, dist);  */
       unit_list_iterate_end;
     }
   } /* end for */
@@ -304,8 +372,9 @@ int unit_desirability(int i, int def)
   d = get_unit_type(i)->defense_strength;
   if (def) cur *= d;
   else if (d > a) return(0);
-  else if (d < 2) cur = (cur * (a + d))>>1;
+/*  else if (d < 2) cur = (cur * (a + d))>>1; Don't believe in this anymore */
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
+/* which we will do by munging f in the attacker want equations */
   if (unit_flag(i, F_IGTER) && !def) cur *= 3;
   if (unit_flag(i, F_PIKEMEN) && def) cur *= 1.5;
   if (unit_types[i].move_type == LAND_MOVING && def) cur *= 1.5;
@@ -334,8 +403,9 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
       j *= j;
       if (can_build_unit(pcity, i)) {
         if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
-        if (j > best || (j == best && get_unit_type(i)->build_cost <=
-                               get_unit_type(bestid)->build_cost)) {
+        if ((j > best || (j == best && get_unit_type(i)->build_cost <=
+                               get_unit_type(bestid)->build_cost)) &&
+            unit_types[i].build_cost <= pcity->shield_stock + 40) {
           best = j;
           bestid = i;
         }
@@ -373,21 +443,25 @@ pcity->name, advances[j].name, n, desire[i]); */
 }
 
 void process_attacker_want(struct player *pplayer, struct city *pcity, int b, int n,
-                            int vet, int x, int y, int unhap, int movetype, 
-                            int bx, int by, int boatspeed)
-{ /* I am beginning to wonder whether this should be its own function! -- Syela */
+                            int vet, int x, int y, int unhap, int *e0, int *v,
+                            int bx, int by, int boatspeed, int needferry)
+{ 
 /* n is type of defender, vet is vet status, x,y is location of target */
-  int a, c, d, e, i, a0, b0, f;
-  int j, k, l, m;
+/* I decided this funct wasn't confusing enough, so I made k_s_w send
+it some more variables for it to meddle with -- Syela */
+  int a, c, d, e, i, a0, b0, f, g, fprime;
+  int j, k, l, m, q;
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   struct city *acity = map_get_city(x, y);
+  int movetype = unit_types[*v].move_type;
 
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;
     if (j != A_LAST) k = pplayer->ai.tech_turns[j];
-    else k = 0; /* stupid -Wall -Werror -- Syela */
-    if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST && k &&
+    else k = 0;
+    if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST &&
+         (k || !can_build_unit_direct(pcity, unit_types[i].obsoleted_by)) &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
       l = k * (k + pplayer->research.researchpoints) * game.techlevel;
@@ -396,7 +470,8 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
       l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 
-      a = unit_types[i].attack_strength * (do_make_unit_veteran(pcity, i) ? 15 : 10) *
+      a = unit_types[i].attack_strength *  ((m == LAND_MOVING ||
+          get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN) ? 15 : 10) *
              unit_types[i].firepower * unit_types[i].hp;
       a /= 30; /* scaling factor to prevent integer overflows */
       if (acity) a += acity->ai.a;
@@ -404,40 +479,65 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
       /* b is unchanged */
 
       m = unit_types[i].move_rate;
+      q = (acity ? 1 : unit_types[n].move_rate * (unit_flag(n, F_IGTER) ? 3 : 1));
       if (get_unit_type(i)->flags & F_IGTER) m *= 3; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
         if (boatspeed) {
-          c = (warmap.cost[bx][by] + m - 1) / m + 1 +
-                warmap.seacost[x][y] / boatspeed; /* kluge */
-        } else c = (warmap.cost[x][y] + m - 1) / m;
+          c = (warmap.cost[bx][by] * q + m - 1) / m + 1 +
+                warmap.seacost[x][y] * q / boatspeed; /* kluge */
+          if (unit_flag(i, F_MARINES)) c -= 1;
+        } else c = (warmap.cost[x][y] * q + m - 1) / m;
       } else if (unit_types[i].move_type == SEA_MOVING)
-        c = (warmap.seacost[x][y] + m - 1) / m;
-      else c = real_map_distance(pcity->x, pcity->y, x, y) * 3 / m;
+        c = (warmap.seacost[x][y] * q + m - 1) / m;
+      else c = real_map_distance(pcity->x, pcity->y, x, y) * 3 * q / m;
 
       m = get_virtual_defense_power(i, n, x, y);
       m *= unit_types[n].hp * unit_types[n].firepower;
-      m /= (vet ? 20 : 30);
+      if (vet) m *= 1.5;
+      m /= 30;
       m *= m;
       d = m;
 
+      if (unit_types[i].move_type == LAND_MOVING && acity && c > 2 &&
+          !unit_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
+
       f = unit_types[i].build_cost;
+      fprime = f * 2 * unit_types[i].attack_strength /
+           (unit_types[i].attack_strength +
+            unit_types[i].defense_strength);
+
+      if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+      else g = 1;
       if (unit_types[i].move_type != LAND_MOVING && !d) b0 = 0;
-      else b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * SHIELD_WEIGHTING / (a + d);
-      if (acity && acity->ai.a)
-        b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
-                              SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + d);
+/* not bothering to s/!d/!pdef here for the time being -- Syela */
+      else if ((unit_types[i].move_type == LAND_MOVING ||
+              unit_types[i].move_type == HELI_MOVING) && acity &&
+              acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
+      else {
+        b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
+        if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
+          b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
+                           g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
+      }
       if (b0 > 0) {
         b0 -= l * SHIELD_WEIGHTING;
         b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
       }
       if (b0 > 0) {
         a0 = amortize(b0, MAX(1, c));
-        e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (f * MORT);
+        e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
       } else e = 0;  
       if (e > 0) {
-        pplayer->ai.tech_want[j] += e;
-/*      printf("%s wants %s for attack with desire %d\n",
-pcity->name, advances[j].name, e); */
+        if (k) {
+          pplayer->ai.tech_want[j] += e;
+/*if (movetype == SEA_MOVING) printf("%s wants %s to punish %s@(%d, %d) with desire %d.\n", 
+pcity->name, unit_name(i), (acity ? acity->name : "punit"), x, y, e);*/
+        } else if (e > *e0) {
+/*printf("%s overriding %s(%d) with %s(%d) [a=%d,b=%d,c=%d,d=%d,f=%d]\n",
+pcity->name, unit_name(*v), *e0, unit_name(i), e, a, b, c, d, f);*/
+          *v = i;
+          *e0 = e;
+        }
       }
     }
   }
@@ -446,13 +546,13 @@ pcity->name, advances[j].name, e); */
 void kill_something_with(struct player *pplayer, struct city *pcity, 
                          struct unit *myunit, struct ai_choice *choice)
 {
-  int a, b, c, d, e; /* variables in the attacker-want equation */
-  int m, n, vet, dist, v, a0, b0;
+  int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
+  int m, n, vet, dist, v, a0, b0, fprime;
   int x, y, unhap = 0;
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
-  int f, boatid = 0, harborcity = 0, bx, by;
-  int needferry = 0, fstk, boatspeed;
+  int boatid = 0, harborcity = 0, bx, by;
+  int needferry = 0, fstk, boatspeed, sanity;
 
   if (pcity->ai.danger && !assess_defense(pcity)) return;
 
@@ -482,7 +582,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
     vet = myunit->veteran;
 
     a = unit_types[v].attack_strength * (vet ? 15 : 10) *
-             unit_types[v].firepower * unit_types[v].hp;
+             unit_types[v].firepower * myunit->hp;
     a /= 30; /* scaling factor to prevent integer overflows */
     if (acity) a += acity->ai.a;
     a *= a;
@@ -493,11 +593,15 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       m = unit_types[v].move_rate;
       if (get_unit_type(v)->flags & F_IGTER) m *= 3; /* not quite right */
 
+      sanity = (goto_is_sane(pplayer, myunit, acity->x, acity->y, 1) &&
+              warmap.cost[x][y] <= (MIN(6, m) * THRESHOLD));
+
       if (is_ground_unit(myunit)) {
-        if (!goto_is_sane(pplayer, myunit, acity->x, acity->y, 1)) {
+        if (!sanity) {
           if (boatid) c = (warmap.cost[bx][by] + m - 1) / m + 1 +
                 warmap.seacost[acity->x][acity->y] / boatspeed; /* kluge */
           else c = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
+          if (unit_flag(myunit->type, F_MARINES)) c -= 1;
 /*printf("%s attempting to attack via ferryboat (boatid = %d, c = %d)\n",
 unit_types[v].name, boatid, c);*/
         } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
@@ -508,7 +612,8 @@ unit_types[v].name, boatid, c);*/
       n = ai_choose_defender_versus(acity, v);
       m = get_virtual_defense_power(v, n, x, y);
       m *= unit_types[n].hp * unit_types[n].firepower;
-      m /= (do_make_unit_veteran(acity, n) ? 20 : 30);
+      if (do_make_unit_veteran(acity, n)) m *= 1.5;
+      m /= 30;
       if (c > 1) {
         d = m * m;
         b = unit_types[n].build_cost + 40;
@@ -519,16 +624,27 @@ unit_types[v].name, boatid, c);*/
         vet = 0;
       }
       if (pdef) {
-        n = pdef->type;
-        m = get_virtual_defense_power(v, n, x, y);
-        m *= unit_types[n].hp * unit_types[n].firepower;
-        m /= (pdef->veteran ? 20 : 30);
+/*        n = pdef->type;    Now, really, I could not possibly have written this.
+Yet, somehow, this line existed, and remained here for months, bugging the AI
+tech progression beyond all description.  Only when adding the override code
+did I realize the magnitude of my transgression.  How despicable. -- Syela */
+        m = get_virtual_defense_power(v, pdef->type, x, y);
+        if (pdef->veteran) m *= 1.5; /* with real defenders, this must be before * hp -- Syela */
+        m *= (myunit->id ? pdef->hp : unit_types[pdef->type].hp) *
+              unit_types[pdef->type].firepower;
+/*        m /= (pdef->veteran ? 20 : 30);  -- led to rounding errors.  Duh! -- Syela */
+        m /= 30;
         if (d < m * m) {
           d = m * m;
           b = unit_types[pdef->type].build_cost + 40; 
           vet = pdef->veteran;
+          n = pdef->type; /* and not before, or heinous things occur!! */
         }
       }
+      if (!is_ground_unit(myunit) && !is_heli_unit(myunit) &&
+         (!(acity->ai.invasion&1))) b -= 40; /* boats can't conquer cities */
+      if (!myunit->id && (is_ground_unit(myunit) || is_heli_unit(myunit)) && c > 2 &&
+          !unit_flag(myunit->type, F_IGWALL) && !city_got_citywalls(acity)) d *= 9;
     } /* end dealing with cities */
 
     else {
@@ -537,6 +653,7 @@ unit_types[v].name, boatid, c);*/
 
       m = unit_types[pdef->type].build_cost;
       b = m;
+      sanity = 1;
 
       if (is_ground_unit(myunit)) dist = warmap.cost[x][y];
       else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
@@ -551,14 +668,21 @@ unit_types[v].name, boatid, c);*/
 
       n = pdef->type;
       m = get_virtual_defense_power(v, n, x, y);
-      m *= unit_types[n].hp * unit_types[n].firepower;
-      m /= (pdef->veteran ? 20 : 30);
+      if (pdef->veteran) m += m / 2;
+      if (pdef->activity == ACTIVITY_FORTIFY) m += m / 2;
+/* attempting to recreate the rounding errors in get_total_defense_power -- Syela */
+
+      m *= (myunit->id ? pdef->hp : unit_types[n].hp) * unit_types[n].firepower;
+/* let this be the LAST discrepancy!  How horribly many there have been! -- Syela */
+/*     m /= (pdef->veteran ? 20 : 30);*/
+      m /= 30;
       m *= m;
       d = m;
       vet = pdef->veteran;
     } /* end dealing with units */
 
-    if (get_government(pplayer->player_no) == G_REPUBLIC) {
+    if (get_government(pplayer->player_no) == G_REPUBLIC &&
+        (pcity->id == myunit->homecity || !myunit->id)) {
       unit_list_iterate(pcity->units_supported, punit)
         if (unit_being_aggressive(punit)) {
           unhap++;
@@ -570,44 +694,62 @@ unit_types[v].name, boatid, c);*/
           city_got_building(pcity, B_POLICE)) unhap--;
     } /* handle other governments later */
 
-    if (is_ground_unit(myunit) && !goto_is_sane(pplayer, myunit, x, y, 1) && !boatid)
+    if (is_ground_unit(myunit) && !sanity && !boatid)
       needferry = 40; /* cost of ferry */
     f = unit_types[v].build_cost;
-    if (unit_types[v].move_type != LAND_MOVING && !d) b0 = 0;
+    fprime = f * 2 * unit_types[v].attack_strength /
+           (unit_types[v].attack_strength +
+            unit_types[v].defense_strength);
+
+    if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+    else g = 1;
+    if (unit_types[v].move_type != LAND_MOVING &&
+        unit_types[v].move_type != HELI_MOVING && !pdef) b0 = 0;
+/* !d instead of !pdef was horrible bug that led to yoyo-ing AI warships -- Syela */
     else if (c > THRESHOLD) b0 = 0;
-    else b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * SHIELD_WEIGHTING / (a + d);
-    if (acity && acity->ai.a)
-      b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
-                            SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + d);
-    if (b0 > 0)
-      b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
+    else if ((unit_types[v].move_type == LAND_MOVING ||
+              unit_types[v].move_type == HELI_MOVING) && acity &&
+              acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
+    else {
+      b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
+      if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
+        b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
+               g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
+    }
+    b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
     if (b0 > 0) {
       a0 = amortize(b0, MAX(1, c));
-      e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((f + needferry) * MORT);
+      e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
     } else e = 0;  
 
-    if (goto_is_sane(pplayer, myunit, x, y, 1))
-      process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-         unit_types[v].move_type, 0, 0, 0);
-    else if (boatid) process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-         unit_types[v].move_type, bx, by, boatspeed);
-    else process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-         unit_types[v].move_type, myunit->x, myunit->y, boatspeed);
+if (e != fstk && acity) {
+printf("%s (%d, %d), %s#%d -> %s[%d] (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n",
+pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
+acity->name, acity->ai.invasion, acity->x, acity->y, a, b, c, d, e, fstk, f);
+} else if (e != fstk && aunit) {
+printf("%s (%d, %d), %s#%d -> %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n", 
+pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
+unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
+}
 
-/*if (acity) {
-printf("%s (%d, %d), %s -> %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n", 
-pcity->name, pcity->x, pcity->y, unit_types[v].name, acity->name, acity->x, acity->y, a, b, c, d, e, fstk, f);
-} else if (aunit) {
-printf("%s (%d, %d), %s -> %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n", 
-pcity->name, pcity->x, pcity->y, unit_types[v].name, unit_types[pdef->type].name, pdef->x, pdef->y,
-a, b, c, d, e, fstk, f);
-}*/
-    if (e > choice->want) {
-      if (get_invention(pplayer, A_GUNPOWDER) == TECH_KNOWN &&
-          !city_got_barracks(pcity) && is_ground_unit(myunit)) {
+    if (!myunit->id) {  /* I don't want to know what happens otherwise -- Syela */
+      if (sanity)
+        process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
+           &e, &v, 0, 0, 0, needferry);
+      else if (boatid) process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
+           &e, &v, bx, by, boatspeed, needferry);
+      else process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
+           &e, &v, myunit->x, myunit->y, boatspeed, needferry);
+    }
+
+    if (e > choice->want && /* Without this &&, the AI will try to make attackers */
+        choice->want <= 100) { /* instead of defenders when being attacked -- Syela */
+      if (!city_got_barracks(pcity) && is_ground_unit(myunit)) {
         if (get_invention(pplayer, A_COMBUSTION) == TECH_KNOWN)
           choice->choice = B_BARRACKS3;
-        else choice->choice = B_BARRACKS2;
+        else if (get_invention(pplayer, A_GUNPOWDER) == TECH_KNOWN)
+          choice->choice = B_BARRACKS2;
+        else choice->choice = B_BARRACKS;
         choice->want = e;
         choice->type = 0;
       } else {
@@ -673,6 +815,11 @@ code was added and walls got built, but now danger -= def would be very bad -- S
       else { danger *= 100; danger /= def; danger += urgency; }
 /* without the += urgency, wasn't buying with danger == def.  Duh. -- Syela */
     } else { danger *= 100; danger /= def; }
+    if (pcity->shield_surplus <= 0 && def) danger = 0;
+/* this is somewhat of an ugly kluge, but polar cities with no ability to
+increase prod were buying alpines, panicking, disbanding them, buying alpines
+and so on every other turn.  This will fix that problem, hopefully without
+creating any other problems that are worse. -- Syela */
     if (pcity->ai.building_want[B_CITY] && def && can_build_improvement(pcity, B_CITY)
         && (danger < 101 || unit_list_size(&ptile->units) > 1 ||
 /* walls before a second defender, unless we need it RIGHT NOW */
@@ -709,6 +856,9 @@ code was added and walls got built, but now danger -= def would be very bad -- S
     }
   } /* ok, don't need to defend */
 
+  if (pcity->shield_surplus <= 0 || /* must be able to upkeep units */
+      pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]) return; /* and no disorder! */
+
   memset(&virtualunit, 0, sizeof(struct unit));
 /* this memset didn't work because of syntax that
 the intrepid David Pfitzner discovered was in error. -- Syela */
@@ -731,9 +881,10 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   }
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if ((get_unit_type(punit->type)->attack_strength * 4 >
+    if (((get_unit_type(punit->type)->attack_strength * 4 >
         get_unit_type(punit->type)->defense_strength * 5) ||
-        unit_flag(punit->type, F_FIELDUNIT))
+        unit_flag(punit->type, F_FIELDUNIT)) &&
+        punit->activity != ACTIVITY_GOTO) /* very important clause, this -- Syela */
      myunit = punit;
   unit_list_iterate_end;
 /* if myunit is non-null, it is an attacker forced to defend */
@@ -744,13 +895,15 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
     v = ai_choose_attacker_sailing(pcity);
     if (v > 0) { /* have to put sailing first before we mung the seamap */
       virtualunit.type = v;
-      virtualunit.veteran = do_make_unit_veteran(pcity, v);
+/*     virtualunit.veteran = do_make_unit_veteran(pcity, v); */
+      virtualunit.veteran = (get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN);
       virtualunit.hp = unit_types[v].hp;
       kill_something_with(pplayer, pcity, &virtualunit, choice);
     } /* ok.  can now mung seamap for ferryboat code.  Proceed! */
     v = ai_choose_attacker_ground(pcity);
     virtualunit.type = v;
-    virtualunit.veteran = do_make_unit_veteran(pcity, v);
+/*    virtualunit.veteran = do_make_unit_veteran(pcity, v);*/
+    virtualunit.veteran = 1;
     virtualunit.hp = unit_types[v].hp;
     kill_something_with(pplayer, pcity, &virtualunit, choice);
   }
