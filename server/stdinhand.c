@@ -1502,8 +1502,6 @@ static void open_metaserver_connection(struct connection *caller)
   if (send_server_info_to_metaserver(TRUE, FALSE)) {
     notify_player(NULL, _("Open metaserver connection to [%s]."),
 		  meta_addr_port());
-    cmd_reply(CMD_METACONN, caller, C_OK,
-	      _("Metaserver connection opened."));
   }
 }
 
@@ -1516,8 +1514,6 @@ static void close_metaserver_connection(struct connection *caller)
     server_close_udp();
     notify_player(NULL, _("Close metaserver connection to [%s]."),
 		  meta_addr_port());
-    cmd_reply(CMD_METACONN, caller, C_OK,
-	      _("Metaserver connection closed."));
   }
 }
 
@@ -1569,8 +1565,6 @@ static void metainfo_command(struct connection *caller, char *arg)
   } else {
     notify_player(NULL, _("Metaserver infostring set to '%s'."),
 		  srvarg.metaserver_info_line);
-    cmd_reply(CMD_METAINFO, caller, C_OK,
-	      _("Metaserver info string set."));
   }
 }
 
@@ -1586,8 +1580,6 @@ static void metaserver_command(struct connection *caller, char *arg)
 
   notify_player(NULL, _("Metaserver is now [%s]."),
 		meta_addr_port());
-  cmd_reply(CMD_METASERVER, caller, C_OK,
-	    _("Metaserver address set."));
 }
 
 /***************************************************************
@@ -1778,8 +1770,6 @@ static void create_ai_player(struct connection *caller, char *arg)
 
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.skill_level);
-  cmd_reply(CMD_CREATE, caller, C_OK,
-	    _("Created new AI player: %s."), pplayer->name);
 }
 
 
@@ -2497,8 +2487,8 @@ static void set_ai_level(struct connection *caller, char *name, int level)
   if (pplayer) {
     if (pplayer->ai.control) {
       set_ai_level_directer(pplayer, level);
-      cmd_reply(cmd, caller, C_OK,
-		_("%s is now %s."), pplayer->name, name_of_skill_level(level));
+      notify_player(NULL, _("Game: Player '%s' now has skill level '%s'."),
+		pplayer->name, name_of_skill_level(level));
     } else {
       cmd_reply(cmd, caller, C_FAIL,
 		_("%s is not controlled by the AI."), pplayer->name);
@@ -2507,12 +2497,10 @@ static void set_ai_level(struct connection *caller, char *name, int level)
     players_iterate(pplayer) {
       if (pplayer->ai.control) {
 	set_ai_level_directer(pplayer, level);
-	cmd_reply(cmd, caller, C_OK,
-		  _("%s is now %s."), pplayer->name, name_of_skill_level(level));
       }
     } players_iterate_end;
-    cmd_reply(cmd, caller, C_OK,
-	      _("Setting game.skill_level to %d."), level);
+    notify_player(NULL, _("Game: AI players now have skill level '%s'."),
+	name_of_skill_level(level));
     game.skill_level = level;
   } else {
     cmd_reply_no_such_player(cmd, caller, name, match_result);
@@ -2787,11 +2775,8 @@ static void set_command(struct connection *caller, char *str)
     break;
   }
 
-  if (strlen(buffer) > 0) {
-    cmd_reply(CMD_SET, caller, C_OK, "%s", buffer);
-    if (sset_is_to_client(cmd)) {
-      notify_player(NULL, "%s", buffer);
-    }
+  if (strlen(buffer) > 0 && sset_is_to_client(cmd)) {
+    notify_player(NULL, "%s", buffer);
   }
 
   if (do_update) {
@@ -3002,7 +2987,7 @@ static void cut_comment(char *str)
   Handle "command input", which could really come from stdin on console,
   or from client chat command, or read from file with -r, etc.
   caller==NULL means console, str is the input, which may optionally
-  start with SERVER_COMMAND_PREFIX character.
+  start with SERVER_COMMAND_PREFIX character
 **************************************************************************/
 void handle_stdin_input(struct connection *caller, char *str)
 {
@@ -3083,6 +3068,17 @@ void handle_stdin_input(struct connection *caller, char *str)
   i=strlen(arg)-1;
   while(i>0 && my_isspace(arg[i]))
     arg[i--]='\0';
+
+  if (commands[cmd].level > ALLOW_INFO) {
+    /*
+     * this command will affect the game - inform all players
+     *
+     * use command,arg instead of str because of the trailing
+     * newline in str when it comes from the server command line
+     */
+    notify_player(NULL, "%s: '%s %s'",
+      caller ? caller->name : "(server prompt)", command, arg);
+  }
 
   switch(cmd) {
   case CMD_REMOVE:
