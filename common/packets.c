@@ -158,9 +158,9 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT) {
       pc->compression.frozen_level--;
       if (pc->compression.frozen_level == 0) {
-	long int compressed_size = 12 + pc->compression.queue.size * 1.001;
+	unsigned long int compressed_size = 12 + pc->compression.queue.size * 1.001;
 	int error;
-	char compressed[compressed_size];
+	unsigned char compressed[compressed_size];
 
 	error =
 	    compress2(compressed, &compressed_size,
@@ -372,7 +372,7 @@ void *get_packet_from_connection(struct connection *pc,
      * We don't know the decompressed size. We assume a bad case
      * here: an expansion by an factor of 100. 
      */
-    long int decompressed_size = 100 * compressed_size;
+    unsigned long int decompressed_size = 100 * compressed_size;
     void *decompressed = fc_malloc(decompressed_size);
     int error;
     struct socket_packet_buffer *buffer = pc->buffer;

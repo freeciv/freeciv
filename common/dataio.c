@@ -466,7 +466,7 @@ void dio_get_bool8(struct data_in *din, bool * dest)
 **************************************************************************/
 void dio_get_bool32(struct data_in *din, bool * dest)
 {
-  int ival;
+  int ival = 0;
 
   dio_get_uint32(din, &ival);
 
@@ -499,7 +499,7 @@ void dio_get_sint8(struct data_in *din, int *dest)
 **************************************************************************/
 void dio_get_sint16(struct data_in *din, int *dest)
 {
-  int tmp;
+  int tmp = 0;
 
   dio_get_uint16(din, &tmp);
   if (dest) {
@@ -570,7 +570,7 @@ void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
 void dio_get_bit_string(struct data_in *din, char *dest,
 			size_t max_dest_size)
 {
-  int npack;			/* number claimed in packet */
+  int npack = 0;		/* number claimed in packet */
   int i;			/* iterate the bytes */
 
   assert(dest != NULL && max_dest_size > 0);

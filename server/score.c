@@ -366,7 +366,7 @@ static void get_player_landarea(struct claim_map *pcmap,
 void calc_civ_score(struct player *pplayer)
 {
   struct city *pcity;
-  int landarea, settledarea;
+  int landarea = 0, settledarea = 0;
   static struct claim_map cmap = { NULL, NULL, NULL,NULL };
 
   pplayer->score.happy = 0;

@@ -1032,11 +1032,11 @@ static void get_lanserver_announcement(void)
 static void send_lanserver_response(void)
 {
   unsigned char buffer[MAX_LEN_PACKET];
-  unsigned char hostname[512];
-  unsigned char port[256];
-  unsigned char version[256];
-  unsigned char players[256];
-  unsigned char status[256];
+  char hostname[512];
+  char port[256];
+  char version[256];
+  char players[256];
+  char status[256];
   struct data_out dout;
   union my_sockaddr addr;
   int socksend, setting = 1;

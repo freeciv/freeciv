@@ -1399,7 +1399,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 ...
 **************************************************************************/
 static bool read_player_info_techs(struct player *pplayer,
-				   unsigned char *inventions)
+				   char *inventions)
 {
   bool need_effect_update = FALSE;
 
