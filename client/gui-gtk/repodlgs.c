@@ -623,10 +623,11 @@ void economy_list_callback(GtkWidget *w, gint row, gint column)
 {
   int i;
 
-  i=economy_improvement_type[row];
-  if(i>=0 && i<game.num_impr_types && !is_wonder(i))
+  i = economy_improvement_type[row];
+  if (i >= 0 && i < game.num_impr_types && !is_wonder(i)) {
     gtk_widget_set_sensitive(sellobsolete_command, TRUE);
     gtk_widget_set_sensitive(sellall_command, TRUE);
+  }
   return;
 }
 
