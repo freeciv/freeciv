@@ -37,6 +37,7 @@ server/plrhand.c
 server/report.c
 server/ruleset.c
 server/savegame.c
+server/settings.c
 server/sernet.c
 server/spacerace.c
 server/srv_main.c

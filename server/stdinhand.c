@@ -60,6 +60,7 @@
 #include "sanitycheck.h"
 #include "savegame.h"
 #include "sernet.h"
+#include "settings.h"
 #include "srv_main.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
@@ -104,7 +105,7 @@ static int last_vote;
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
 
-static bool valid_max_players(int v, const char **r_m)
+bool valid_max_players(int v, const char **r_m)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
 
@@ -3830,7 +3831,7 @@ static void show_connections(struct connection *caller)
 /**************************************************************************
   Verify that notradesize is always smaller than fulltradesize
 **************************************************************************/
-static bool valid_notradesize(int value, const char **reject_message)
+bool valid_notradesize(int value, const char **reject_message)
 {
   if (value < game.fulltradesize) {
     return TRUE;
@@ -3844,7 +3845,7 @@ static bool valid_notradesize(int value, const char **reject_message)
 /**************************************************************************
   Verify that fulltradesize is always bigger than notradesize
 **************************************************************************/
-static bool valid_fulltradesize(int value, const char **reject_message)
+bool valid_fulltradesize(int value, const char **reject_message)
 {
   if (value > game.notradesize) {
     return TRUE;
@@ -3858,7 +3859,7 @@ static bool valid_fulltradesize(int value, const char **reject_message)
 /**************************************************************************
   A callback invoked when autotoggle is set.
 **************************************************************************/
-static bool autotoggle(bool value, const char **reject_message)
+bool autotoggle(bool value, const char **reject_message)
 {
   if (!value) {
     return TRUE;
@@ -3880,8 +3881,7 @@ static bool autotoggle(bool value, const char **reject_message)
   Verify that a given allowtake string is valid.  See
   game.allow_take.
 *************************************************************************/
-static bool is_valid_allowtake(const char *allow_take,
-			       const char **error_string)
+bool is_valid_allowtake(const char *allow_take, const char **error_string)
 {
   int len = strlen(allow_take), i;
   bool havecharacter_state = FALSE;
@@ -3923,8 +3923,7 @@ static bool is_valid_allowtake(const char *allow_take,
   Verify that a given startunits string is valid.  See
   game.start_units.
 *************************************************************************/
-static bool is_valid_startunits(const char *start_units,
-			       const char **error_string)
+bool is_valid_startunits(const char *start_units, const char **error_string)
 {
   int len = strlen(start_units), i;
   bool have_founder = FALSE;

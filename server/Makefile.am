@@ -65,6 +65,8 @@ libcivserver_a_SOURCES = \
 		score.h		\
 		sernet.c	\
 		sernet.h	\
+		settings.c	\
+		settings.h	\
 		settlers.c	\
 		settlers.h	\
 		spacerace.c	\
