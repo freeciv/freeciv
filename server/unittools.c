@@ -43,8 +43,6 @@
   5) marines are the only units that can attack from a ocean square
   6) naval units can only be moved to ocean squares or city squares
   7) if there is no enemy units blocking (zoc)
-TODO: units without marine flag that tries to attack from ocean
-      should generate a better error message.
 **************************************************************************/
 int can_unit_move_to_tile(struct unit *punit, int x, int y)
 {
@@ -52,6 +50,7 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
   struct unit_list *punit_list;
   struct unit *punit2;
   int zoc;
+
   if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
     return 0;
   
@@ -61,31 +60,92 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
   if(!is_tiles_adjacent(punit->x, punit->y, x, y))
     return 0;
 
+  if(is_enemy_unit_tile(x,y,punit->owner))
+    return 0;
+
   ptile=map_get_tile(x, y);
   ptile2=map_get_tile(punit->x, punit->y);
   if(is_ground_unit(punit)) {
-    if(ptile->terrain==T_OCEAN)  {
-      if(!is_transporter_with_free_space(&game.players[punit->owner], x, y))
+    /* Check condition 4 */
+    if(ptile->terrain==T_OCEAN &&
+       !is_transporter_with_free_space(&game.players[punit->owner], x, y))
 	return 0;
-    }
-    if (ptile2->terrain==T_OCEAN) {
-      if  (!unit_flag(punit->type, F_MARINES) && map_get_city(x,y) && map_get_city(x,y)->owner!=punit->owner) /* no marines */
+
+    /* Moving from ocean */
+    if(ptile2->terrain==T_OCEAN) {
+      /* Can't attack a city from ocean unless marines */
+      if(!unit_flag(punit->type, F_MARINES) && is_enemy_city_tile(x,y,punit->owner)) {
+        notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT, "Game: Only Marines can attack from sea.");
 	return 0;
-      punit_list=&map_get_tile(x, y)->units;
-      punit2 = unit_list_get(punit_list, 0);
-      if (!punit2 || punit2->owner == punit->owner)
-	return 1;
+      }
     }
-  } 
-  else if(is_sailing_unit(punit)) {
+  } else if(is_sailing_unit(punit)) {
     if(ptile->terrain!=T_OCEAN && ptile->terrain!=T_UNKNOWN)
-      if(!map_get_city(x, y) || map_get_city(x, y)->owner!=punit->owner)
+      if(!is_friendly_city_tile(x,y,punit->owner))
 	return 0;
   } 
   zoc = zoc_ok_move(punit, x, y);
   if (!zoc) 
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT, "Game: Can only move into your own zone of control.");
   return zoc;
+}
+
+/**************************************************************************
+ is there an enemy city on this tile?
+**************************************************************************/
+int is_enemy_city_tile(int x, int y, int owner)
+{
+    struct city *pcity;
+
+    pcity=map_get_city(x,y);
+
+    if(pcity==NULL) return 0;
+
+    return(pcity->owner != owner);
+}
+
+/**************************************************************************
+ is there an enemy unit on this tile?
+**************************************************************************/
+int is_enemy_unit_tile(int x, int y, int owner)
+{
+    struct unit_list *punit_list;
+    struct unit *punit;
+
+    punit_list=&map_get_tile(x, y)->units;
+    punit = unit_list_get(punit_list, 0);
+
+    if(!punit) return 0;
+    return(punit->owner != owner);
+}
+
+/**************************************************************************
+ is there an friendly unit on this tile?
+**************************************************************************/
+int is_friendly_unit_tile(int x, int y, int owner)
+{
+    struct unit_list *punit_list;
+    struct unit *punit;
+
+    punit_list=&map_get_tile(x, y)->units;
+    punit = unit_list_get(punit_list, 0);
+
+    if(!punit) return 0;
+    return(punit->owner == owner);
+}
+
+/**************************************************************************
+ is there an friendly city on this tile?
+**************************************************************************/
+int is_friendly_city_tile(int x, int y, int owner)
+{
+    struct city *pcity;
+
+    pcity=map_get_city(x,y);
+
+    if(pcity==NULL) return 0;
+
+    return(pcity->owner == owner);
 }
 
 /**************************************************************************
@@ -110,37 +170,39 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
   struct unit *punit;
   int x,y;
   int owner=myunit->owner;
-  for (x=x0-1;x<x0+2;x++)
-    for (y=y0-1;y<y0+2;y++) {
-      punit_list=&map_get_tile(x, y)->units;
-      if((punit=unit_list_get(punit_list, 0)) && punit->owner!=owner) {
-	if (is_sailing_unit(myunit)) {
-	  if (is_sailing_unit_tile(x,y)) 
+  for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
+      if (is_enemy_unit_tile(x,y,owner))
+	if ((is_sailing_unit(myunit) && is_sailing_unit_tile(x,y)) ||
+	    (!is_sailing_unit(myunit) && !is_sailing_unit_tile(x,y)) )
 	    return 0;
-	} else 
-	  return 0;
-      }
-    }
+  }
   return 1;
 }
 
 /**************************************************************************
-  return whether or not the square, the unit wants to enter is blocked by
+  return whether or not the square the unit wants to enter is blocked by
   enemy units? 
+  You CAN move if:
+  1. You have units there already
+  2. Your unit isn't a ground unit
+  3. Your unit ignores ZOC (diplomat, freight, etc.)
+  4. You're moving from or to a city
+  5. The spot you're moving from or to is in your ZOC
 **************************************************************************/
 int zoc_ok_move(struct unit *punit,int x, int y)
 {
   struct unit_list *punit_list;
 
   punit_list=&map_get_tile(x, y)->units;
-    if((unit_list_get(punit_list, 0))) 
-      return 1;
-    if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC))
+  /* if you have units there, you can move */
+  if (is_friendly_unit_tile(x,y,punit->owner))
+    return 1;
+  if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC))
     return 1;
   if (map_get_city(x,y) || map_get_city(punit->x, punit->y))
-      return 1;
-  return (is_my_zoc(punit, punit->x, punit->y) || 
-      is_my_zoc(punit, x, y)); 
+    return 1;
+  return(is_my_zoc(punit, punit->x, punit->y) || 
+         is_my_zoc(punit, x, y)); 
 }
 
 /**************************************************************************
@@ -398,7 +460,7 @@ int find_a_unit_type()
  1) it don't have any attack power
  2) it's not a fighter and the defender is a flying unit
  3) if it's not a marine (and ground unit) and it attacks from ocean
- 4) a ground unit can't make attack an attack on a oceans square
+ 4) a ground unit can't attack a ship on an ocean square
 **************************************************************************/
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
@@ -410,7 +472,7 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
     return 0;
   
   pdefender=get_defender(&game.players[punit->owner], punit, dest_x, dest_y);
-    /*only fighters can attack planes, except for city attacks */
+  /*only fighters can attack planes, except for city attacks */
   if (!unit_flag(punit->type, F_FIGHTER) && is_air_unit(pdefender) && !map_get_city(dest_x, dest_y)) {
     return 0;
   }
@@ -419,12 +481,12 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
     return 0;
   }
 
-  if(fromtile!=T_OCEAN && totile==T_OCEAN && is_ground_unit(punit)) {
+  if(totile==T_OCEAN && is_ground_unit(punit)) {
     return 0;
   }
   
   /* Shore bombardement */
-  else if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
+  if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
     return (get_attack_power(punit)>0);
   return 1;
 }
