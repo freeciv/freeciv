@@ -842,30 +842,26 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
   #define coastal_improvements_count \
     (sizeof(coastal_improvements)/sizeof(coastal_improvements[0]))
 
-  int i, j, k;
-  struct city *pcity;
-  struct player *pplayer;
 
-  for (i=-1; i<=1; i++) {
-    for (j=-1; j<=1; j++) {
-      if ((i || j) &&
-	  (pcity = map_get_city(x+i, y+j)) &&
-	  (!(is_terrain_near_tile(x+i, y+j, T_OCEAN)))) {
-	pplayer = city_owner(pcity);
-	for (k=0; k<coastal_improvements_count; k++) {
-	  if (city_got_building(pcity, coastal_improvements[k])) {
-	    do_sell_building(pplayer, pcity, coastal_improvements[k]);
-	    notify_player_ex(pplayer, x+i, y+j, E_IMP_SOLD,
-			     _("Game: You sell %s in %s (now landlocked)"
-			       " for %d gold."),
-			     get_improvement_name(coastal_improvements[k]),
-			     pcity->name,
-			     improvement_value(coastal_improvements[k]));
-	  }
+
+  adjc_iterate(x, y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+    if (pcity && !is_terrain_near_tile(x1, y1, T_OCEAN)) {
+      struct player *pplayer = city_owner(pcity);
+      int k;
+      for (k=0; k<coastal_improvements_count; k++) {
+	if (city_got_building(pcity, coastal_improvements[k])) {
+	  do_sell_building(pplayer, pcity, coastal_improvements[k]);
+	  notify_player_ex(pplayer, x1, y1, E_IMP_SOLD,
+			   _("Game: You sell %s in %s (now landlocked)"
+			     " for %d gold."),
+			   get_improvement_name(coastal_improvements[k]),
+			   pcity->name,
+			   improvement_value(coastal_improvements[k]));
 	}
       }
     }
-  }
+  } adjc_iterate_end;
 }
 
 /**************************************************************************
@@ -881,37 +877,19 @@ static void ocean_to_land_fix_rivers(int x, int y)
   /* clear the river if it exists */
   map_clear_special(x, y, S_RIVER);
 
-  /* check north */
-  if((map_get_special(x, y-1) & S_RIVER) &&
-     (map_get_terrain(x-1, y-1) != T_OCEAN) &&
-     (map_get_terrain(x+1, y-1) != T_OCEAN)) {
-    map_set_special(x, y, S_RIVER);
-    return;
-  }
-
-  /* check south */
-  if((map_get_special(x, y+1) & S_RIVER) &&
-     (map_get_terrain(x-1, y+1) != T_OCEAN) &&
-     (map_get_terrain(x+1, y+1) != T_OCEAN)) {
-    map_set_special(x, y, S_RIVER);
-    return;
-  }
-
-  /* check east */
-  if((map_get_special(x-1, y) & S_RIVER) &&
-     (map_get_terrain(x-1, y-1) != T_OCEAN) &&
-     (map_get_terrain(x-1, y+1) != T_OCEAN)) {
-    map_set_special(x, y, S_RIVER);
-    return;
-  }
-
-  /* check west */
-  if((map_get_special(x+1, y) & S_RIVER) &&
-     (map_get_terrain(x+1, y-1) != T_OCEAN) &&
-     (map_get_terrain(x+1, y+1) != T_OCEAN)) {
-    map_set_special(x, y, S_RIVER);
-    return;
-  }
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_get_special(x1, y1) & S_RIVER) {
+      int ocean_near = 0;
+      cartesian_adjacent_iterate(x1, y1, x2, y2) {
+	if (map_get_terrain(x2, y2) == T_OCEAN)
+	  ocean_near = 1;
+      } cartesian_adjacent_iterate_end;
+      if (!ocean_near) {
+	map_set_special(x, y, S_RIVER);
+	return;
+      }
+    }
+  } cartesian_adjacent_iterate_end;
 }
 
 /**************************************************************************
@@ -1481,7 +1459,7 @@ void make_partisans(struct city *pcity)
 **************************************************************************/
 int enemies_at(struct unit *punit, int x, int y)
 {
-  int i, j, a = 0, d, db;
+  int a = 0, d, db;
   struct player *pplayer = get_player(punit->owner);
   struct city *pcity = map_get_tile(x,y)->city;
 
@@ -1492,21 +1470,18 @@ int enemies_at(struct unit *punit, int x, int y)
   if (map_get_special(x, y) & S_RIVER)
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_vulnerability_virtual(punit) * db;
-  for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = x - 1; i <= x + 1; i++) {
-      if (same_pos(i, j, x, y)) continue; /* after some contemplation */
-      if (!pplayer->ai.control && !map_get_known_and_seen(x, y, punit->owner)) continue;
-      if (is_enemy_city_tile(map_get_tile(i, j), punit->owner)) return 1;
-      unit_list_iterate(map_get_tile(i, j)->units, enemy)
-        if (players_at_war(enemy->owner, punit->owner) &&
-            can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
-          a += unit_belligerence_basic(enemy);
-          if ((a * a * 10) >= d) return 1;
-        }
-      unit_list_iterate_end;
-    }
-  }
+  adjc_iterate(x, y, x1, y1) {
+    if (!pplayer->ai.control && !map_get_known_and_seen(x1, y1, punit->owner)) continue;
+    if (is_enemy_city_tile(map_get_tile(x1, y1), punit->owner)) return 1;
+    unit_list_iterate(map_get_tile(x1, y1)->units, enemy) {
+      if (players_at_war(enemy->owner, punit->owner) &&
+	  can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
+	a += unit_belligerence_basic(enemy);
+	if ((a * a * 10) >= d) return 1;
+      }
+    } unit_list_iterate_end;
+  } adjc_iterate_end;
+
   return 0; /* as good a quick'n'dirty should be -- Syela */
 }
 
@@ -2234,10 +2209,9 @@ static void do_nuke_tile(int x, int y)
 **************************************************************************/
 void do_nuclear_explosion(int x, int y)
 {
-  int i,j;
-  for (i=0;i<3;i++)
-    for (j=0;j<3;j++)
-      do_nuke_tile(map_adjust_x(x+i-1),map_adjust_y(y+j-1));
+  square_iterate(x, y, 1, x1, y1) {
+    do_nuke_tile(x1, y1);
+  } square_iterate_end;
 }
 
 /**************************************************************************
