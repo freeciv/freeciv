@@ -40,7 +40,7 @@ Most time is spend in the sniff_packets() function, where a select()
 call waits for packets or input on stdin(server-op commands).
 
 ===========================================================================
-Datastructures
+Data Structures
 ===========================================================================
 If you study the code, you'll soon come upon the genlist constructs.
 The genlist is a simple double-linked list, into which any kind of 
@@ -105,7 +105,7 @@ some more macro-magic, the much-used scan_all_the_list case could have
 been handled much more elegant. Well Claus just did this for 1.5.3 -PU]
 
 =========================================================================
-Network and packets
+Network and Packets
 =========================================================================
 The basic netcode is located in server/sernet.c and client/clinet.c.
 Notice the XtAppAddInput() call in client, that tells Xt to call
@@ -200,7 +200,7 @@ diplomacy loses link. I'm not sure the server Treaty is removed, making
 it impossible to establish a new Treaty between the two players -PU]
 
 =========================================================================
-Map and fog of war
+Map and Fog of War
 =========================================================================
 The map is maintained in a pretty straightforward C array, containing
 X*Y tiles. However the 'known' field needs a comment.
@@ -351,9 +351,6 @@ out that subclassing from any widgets but Core, chains the new
 widgets to libXaw. In hindsight I should just subclassed the Canvas
 widget and add more highlevel functionality. -PU]
 
-
-
-
 ===========================================================================
 Misc - The idea trashcan 
 ===========================================================================
@@ -478,20 +475,71 @@ Mini Style Guide
 If you want to hack Freeciv, and want your patches to be accepted, it
 helps to follow some simple style rules:
 
-- Use K&R indentation style with indentation 2 (in doubt, use
-  'indent -kr -i2').
+- Use K&R indentation style with indentation 2 (when in doubt, use
+  "indent -kr -i2").  However, do not re-indent areas of code you are
+  not modifying or creating.
 
-- First state all system include files with <> in alphabetic order,
-  then all Freeciv include files with "", sorted by folder (common,
-  server...) and then by alphabet, with a blank line between the
-  sections.  This helps avoiding adding unnecessary include files.
+- Order include files consistently:  First state all system include
+  files with <> in alphabetic order, then all Freeciv include files
+  with "", sorted by directory (common, server, ...) and then by
+  alphabetic order, with a blank line between the sections.  This helps
+  to avoid adding unnecessary or duplicated include files.
 
 - If you use a system specific feature, don't add #ifdef __CRAY__ or
   something like that.  Rather write a check for that feature for
-  configure.in and use a meaningful macro name in the source.
+  configure.in, and use a meaningful macro name in the source.
 
-- Don't use C++-style // comments.
+- Always prototype global functions in the appropriate header file.
+  Local functions should always be declared as static.
 
-- If you send patches, use diff -u.
+- Don't use C++-style comments (i.e., // comments).
+
+- If you send patches, use "diff -u" (or "diff -r -u").  For further
+  information, see <http://www.freeciv.org/contribute.html>.  Also,
+  name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
+  but "freeciv.diff" is not).
+
+- When doing a "diff" for a patch, be sure to exclude unnecessary files
+  by using the "-X" argument to "diff".  E.g.:
+
+    % diff -ruN -Xno.freeciv freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
+
+  Here is a useful no.freeciv file:
+
+*~
+.#*
+*.o
+*.a
+*.deps
+*.rej
+*.orig
+*.bak
+core
+aclocal.m4
+configure
+config.log
+config.h
+config.h.in
+config.cache
+config.status
+undep.sh
+CVS
+TAGS
+Makefile
+Makefile.in
+Freeciv.h
+civclient
+civserver
+stamp-h
+stamp-h.in
+civgame.log
+civgame*.sav
+*.pot
+*.gmo
+libintl.h
+po2tbl.sed
+POTFILES
+cat-id-tbl.c
+stamp-cat-id
 
 ===========================================================================
