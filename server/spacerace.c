@@ -351,15 +351,11 @@ Use shuffled order to randomly resolve ties.
 **************************************************************************/
 void check_spaceship_arrivals(void)
 {
-  int i;
   double arrival, best_arrival = 0.0;
   struct player *best_pplayer = NULL;
-  struct player *pplayer;
-  struct player_spaceship *ship;
 
-  for(i=0; i<game.nplayers; i++) {
-    pplayer = shuffled_player(i);
-    ship = &pplayer->spaceship;
+  shuffled_players_iterate(pplayer) {
+    struct player_spaceship *ship = &pplayer->spaceship;
     
     if (ship->state == SSHIP_LAUNCHED) {
       arrival = ship->launch_year + ship->travel_time;
@@ -369,7 +365,7 @@ void check_spaceship_arrivals(void)
 	best_pplayer = pplayer;
       }
     }
-  }
+  } shuffled_players_iterate_end;
   if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
     server_state = GAME_OVER_STATE;

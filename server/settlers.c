@@ -1444,14 +1444,13 @@ static void assign_settlers_player(struct player *pplayer)
 **************************************************************************/
 static void assign_settlers(void)
 {
-  int i;
   whole_map_iterate(x, y) {
     map_get_tile(x, y)->assigned = 0;
   } whole_map_iterate_end;
 
-  for (i = 0; i < game.nplayers; i++) {
-    assign_settlers_player(shuffled_player(i));
-  }
+  shuffled_players_iterate(pplayer) {
+    assign_settlers_player(pplayer);
+  } shuffled_players_iterate_end;
 }
 
 /************************************************************************** 
@@ -1542,13 +1541,12 @@ static void recount_enemy_masks(void)
 **************************************************************************/
 void auto_settlers(void)
 {
-  int i;
   assign_settlers();
   assign_territory();
   recount_enemy_masks();
-  for (i = 0; i < game.nplayers; i++) {
-    auto_settlers_player(shuffled_player(i));
-  }
+  shuffled_players_iterate(pplayer) {
+    auto_settlers_player(pplayer);
+  } shuffled_players_iterate_end;
 }
 
 /**************************************************************************

@@ -429,15 +429,12 @@ static void before_end_year(void)
 **************************************************************************/
 static void ai_start_turn(void)
 {
-  int i;
-
-  for (i = 0; i < game.nplayers; i++) {
-    struct player *pplayer = shuffled_player(i);
+  shuffled_players_iterate(pplayer) {
     if (pplayer->ai.control) {
       ai_do_first_activities(pplayer);
       flush_packets();			/* AIs can be such spammers... */
     }
-  }
+  } shuffled_players_iterate_end;
 }
 
 /**************************************************************************
@@ -488,8 +485,6 @@ static void begin_turn(void)
 **************************************************************************/
 static void end_turn(void)
 {
-  int i;
-
   nocity_send = TRUE;
 
   /* AI end of turn activities */
@@ -500,24 +495,22 @@ static void end_turn(void)
   } players_iterate_end;
 
   /* Refresh cities */
-  for(i=0; i<game.nplayers; i++) {
-    struct player *pplayer = shuffled_player(i);
+  shuffled_players_iterate(pplayer) {
     great_library(pplayer);
     update_revolution(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
     pplayer->research.changed_from=-1;
     flush_packets();
-  }
+  } shuffled_players_iterate_end;
 
   /* Unit end of turn activities */
-  for(i=0; i<game.nplayers; i++) {
-    struct player *pplayer = shuffled_player(i);
+  shuffled_players_iterate(pplayer) {
     update_unit_activities(pplayer); /* major network traffic */
     update_player_aliveness(pplayer);
     flush_packets();
     pplayer->turn_done = FALSE;
-  }
+  } shuffled_players_iterate_end;
 
   nocity_send = FALSE;
   players_iterate(pplayer) {

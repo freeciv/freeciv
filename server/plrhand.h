@@ -88,6 +88,19 @@ void do_conquer_cost(struct player *pplayer);
 void shuffle_players(void);
 struct player *shuffled_player(int i);
 
+#define shuffled_players_iterate(pplayer)                                   \
+{                                                                           \
+  struct player *pplayer;                                                   \
+  int i;                                                                    \
+  for (i = 0; i < game.nplayers; i++) {                                     \
+    pplayer = shuffled_player(i);                                           \
+    {
+
+#define shuffled_players_iterate_end                                        \
+    }                                                                       \
+  }                                                                         \
+}
+
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 

@@ -280,14 +280,13 @@ static void auto_attack_player(struct player *pplayer)
 void auto_attack(void)
 {
   static struct timer *t = NULL;      /* alloc once, never free */
-  int i;
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
   /* re-use shuffle order from civserver.c */
-  for (i = 0; i < game.nplayers; i++) {
-    auto_attack_player(shuffled_player(i));
-  }
+  shuffled_players_iterate(pplayer) {
+    auto_attack_player(pplayer);
+  } shuffled_players_iterate_end;
   if (timer_in_use(t)) {
     freelog(LOG_VERBOSE, "autoattack consumed %g milliseconds.",
 	    1000.0*read_timer_seconds(t));
