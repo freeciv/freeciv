@@ -259,7 +259,7 @@ structure like in civ2 for isometric view.
 Unknown tiles and Fog of War
 =========================================================================
 
-in the tile struct there is a field
+In the tile struct there is a field
 
 struct tile {
   ...
@@ -277,7 +277,7 @@ enum known_type {
 
 The values TILE_UNKNOWN, TILE_KNOWN are straightforward. TILE_FOGGED
 is a tile of which the user knows the terrain (inclusive cities, roads,
- etc...).
+etc...).
 
 Because of how the tile-drawing system works, the client has to know the
 terrain and specials of tiles adjacent to TILE_KNOWN and TILE_KNOWN_FOGGED
@@ -301,16 +301,16 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 and
 void fog_area(struct player *pplayer, int x, int y, int len)
 functions. "int len" is the radius of the area that should be
-fogged/unfogged, ie a len of 1 is a normal unit. In addition to keeping
+fogged/unfogged, i.e. a len of 1 is a normal unit. In addition to keeping
 track of fog of war, these functions also make sure to reveal TILE_UNKNOWN
 tiles you get near, and send info about TILE_UNKNOWN tiles near that the
-client need for te drawing. They then send the tiles to
+client needs for te drawing. They then send the tiles to
 void send_tile_info(struct player *dest, int x, int y)
 which then sets the correct known_type and sends the tile to the client.
 
 [Beware of using map_adjust_y. If you have a 80x50 map and then iterate
 around the tile 40,49 you can get values like 40,50, which is not a
-tile. if you map_adjust the y value it will return 40,49 . If you then
+tile. if you map_adjust the y value it will return 40,49. If you then
 think this should count as a unit seeing tile 40,49 and add a sight
 point for it at 40,49 fog of war gets out of sync. This will usually
 result in a wrap error on some point, as you unfog a square twice and it
@@ -339,8 +339,8 @@ game can be saved. For the purpose of 2) each player has a map on the
 server (consisting of player_tile's and dumb_city's) where the relevant
 information is kept.
 
-The case where a player p1 gives map info to another player p2. This
-requires some extra info; imagine a tile that neither player sees, but
+The case where a player p1 gives map info to another player p2: This
+requires some extra info. Imagine a tile that neither player sees, but
 which p1 have the most recent info on. In that case the age of the players'
 info should be compared which is why the player tile has a last_updated
 field.
@@ -622,7 +622,7 @@ helps to follow some simple style rules:
   some more information.
   Example:
     /* TRANS: Don't translate "commandname". */
-    printf(N_("commandname <arg> [-o <optarg>]"));
+    printf(_("commandname <arg> [-o <optarg>]"));
 
 - If you send patches, use "diff -u" (or "diff -r -u").  For further
   information, see <http://www.freeciv.org/contribute.html>.  Also,
