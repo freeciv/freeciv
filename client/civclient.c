@@ -113,24 +113,24 @@ int main(int argc, char *argv[])
 
   while (i < argc) {
    if (is_option("--help", argv[i])) {
-    fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
-    fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
-    fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
-    fprintf(stderr, _("  -a, --autoconnect\tAutomatically connect to server\n"));
-    fprintf(stderr, _("  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"));
-#ifdef SOUND
-    fprintf(stderr, _("  -s, --sound FILE\tRead sound information from FILE\n"));
-#endif
-    fprintf(stderr, _("  -m, --meta HOST\tConnect to the metaserver at HOST\n"));
+    fprintf(stderr, _("Usage: %s [option ...]\n"
+		      "Valid options are:\n"), argv[0]);
+    fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
 #ifdef DEBUG
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
                                   " or 4:file1,min,max:...)\n"));
 #else
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
+    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fprintf(stderr, _("  -m, --meta HOST\t"
+		      "Connect to the metaserver at HOST\n"));
+    fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
+    fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
+    fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
+    fprintf(stderr, _("  -t, --tiles FILE\t"
+		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s\n", freeciv_name_version());
