@@ -468,9 +468,10 @@ void handle_city_change(struct player *pplayer,
     
     if(is_wonder(preq->build_id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-		       "Game: The %s have started building The %s.",
+		       "Game: The %s have started building The %s in %s.",
 		       get_race_name_plural(pplayer->race),
-		       get_imp_name_ex(pcity, pcity->currently_building));
+		       get_imp_name_ex(pcity, pcity->currently_building),
+		       pcity->name);
     }
   }
   
