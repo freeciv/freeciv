@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
 #ifdef WIN32_NATIVE
 # ifndef NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
-    fprintf(stderr, "exchndl.dll could not be loaded");
+#  ifdef DEBUG
+    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
+#  endif
   }
 # endif
 #endif
