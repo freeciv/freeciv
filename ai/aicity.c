@@ -96,6 +96,9 @@ int ai_city_build_peaceful_unit(struct city *pcity)
 }
 #endif /* UNUSED */
 
+/************************************************************************** 
+...
+**************************************************************************/
 static void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
   struct government *g = get_gov_pplayer(pplayer);
@@ -171,7 +174,6 @@ static void ai_manage_buildings(struct player *pplayer)
 /************************************************************************** 
 ... change the build order.
 **************************************************************************/
-
 static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice bestchoice, curchoice;
@@ -274,6 +276,9 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 #ifdef GRAVEDANGERWORKS
 static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 {
@@ -286,6 +291,9 @@ static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 }
 #endif
 
+/************************************************************************** 
+...
+**************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   int id;
@@ -298,18 +306,27 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   }
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static void ai_new_spend_gold(struct player *pplayer)
 {
   int buycost, id, cost, frugal = 0, trireme=0;
-  int total, build, did_upgrade;
+  int total, build, did_upgrade, reserve;
   struct ai_choice bestchoice;
   struct city *pcity = NULL;
 
+  reserve=ai_gold_reserve(pplayer);
+
   do {
+    if (reserve > pplayer->economic.gold)
+      break;
+
     bestchoice.want = 0;
     bestchoice.type = 0;
     bestchoice.choice = 0;
     city_list_iterate(pplayer->cities, acity)
+      if (acity->anarchy) continue;
       if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer,1)) {
         bestchoice.choice = acity->ai.choice.choice;
         bestchoice.want = acity->ai.choice.want;
@@ -482,7 +499,6 @@ static void ai_new_spend_gold(struct player *pplayer)
 /**************************************************************************
  cities, build order and worker allocation stuff here..
 **************************************************************************/
-
 void ai_manage_cities(struct player *pplayer)
 {
   int i;
@@ -534,7 +550,6 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
 /**************************************************************************
 ...
 **************************************************************************/
-
 int city_get_buildings(struct city *pcity)
 {
   int b=0;
@@ -547,10 +562,10 @@ int city_get_buildings(struct city *pcity)
   }
   return b;
 }
+
 /**************************************************************************
 ... find a good (bad) tile to remove
 **************************************************************************/
-
 static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 			    int foodneed, int prodneed)
 {
@@ -567,7 +582,6 @@ static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 /************************************************************************** 
 ...
 **************************************************************************/
-
 static int is_defender_unit(int unit_type) 
 {
   return unit_has_role(unit_type, L_DEFEND_GOOD)
@@ -578,7 +592,6 @@ static int is_defender_unit(int unit_type)
 /************************************************************************** 
 ...
 **************************************************************************/
-
 int city_get_defenders(struct city *pcity)
 {
   int def=0;
@@ -597,7 +610,6 @@ int city_get_defenders(struct city *pcity)
 /************************************************************************** 
 ...
 **************************************************************************/
-
 int city_get_settlers(struct city *pcity)
 {
   int set=0;
@@ -612,7 +624,6 @@ int city_get_settlers(struct city *pcity)
 /************************************************************************** 
 ...
 **************************************************************************/
-
 int ai_in_initial_expand(struct player *pplayer)
 {
   int expand_cities [3] = {3, 5, 7};
