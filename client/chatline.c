@@ -80,3 +80,30 @@ void append_output_window(char *astring)
   
   free(newout);
 }
+
+/**************************************************************************
+ I have no idea what module this belongs in -- Syela
+ I've decided to put output_window routines in chatline.c, because
+ the are somewhat related and append_output_window is already here.  --dwp
+**************************************************************************/
+void log_output_window(void)
+{ 
+  String theoutput;
+  FILE *flog;
+  
+  append_output_window("Exporting output window to civgame.log ...");
+  XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
+  flog = fopen("civgame.log", "w"); /* should allow choice of name? */
+  fprintf(flog, "%s", theoutput);
+  fclose(flog);
+  append_output_window("Export complete.");
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void clear_output_window(void)
+{
+  XtVaSetValues(outputwindow_text, XtNstring, "Cleared output window.", NULL);
+}
+

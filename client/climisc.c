@@ -28,8 +28,6 @@ used throughout the client.
 #include <map.h>
 #include <chatline.h>
 
-extern Widget outputwindow_text;
-
 #ifndef FREECIV_DATADIR
 #define FREECIV_DATADIR "data"
 #endif
@@ -122,19 +120,6 @@ void client_remove_city(int city_id)
     game_remove_city(pcity);
     refresh_tile_mapcanvas(x, y, 1);
   }
-}
-
-void log_output_window(void)
-{ /* I have no idea what module this belongs in -- Syela */
-  String theoutput;
-  FILE *flog;
-  
-  append_output_window("Exporting output window to civgame.log ...");
-  XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
-  flog = fopen("civgame.log", "w"); /* should allow choice of name? */
-  fprintf(flog, "%s", theoutput);
-  fclose(flog);
-  append_output_window("Export complete.");
 }
 
 struct city *find_city_by_id(int id)

@@ -35,7 +35,7 @@
 #include <map.h>
 #include <gotodlg.h>
 #include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
-#include <climisc.h>
+#include <chatline.h>
 #include <clinet.h>
 
 enum MenuID {
@@ -51,6 +51,7 @@ enum MenuID {
   MENU_GAME_MESSAGES,
   MENU_GAME_SERVER_OPTIONS,
   MENU_GAME_OUTPUT_LOG,
+  MENU_GAME_CLEAR_OUTPUT,
   MENU_GAME_DISCONNECT,
   MENU_GAME_QUIT,
   
@@ -121,6 +122,7 @@ struct MenuEntry game_menu_entries[]={
     { "Messages",       MENU_GAME_MESSAGES, 0 },
     { "Server options", MENU_GAME_SERVER_OPTIONS, 0 },
     { "Export log",     MENU_GAME_OUTPUT_LOG, 0 }, /* added by Syela */
+    { "Clear log",      MENU_GAME_CLEAR_OUTPUT, 0 },
     { "Disconnect",     MENU_GAME_DISCONNECT, 0 }, /* added by Syela */
     { "Quit",           MENU_GAME_QUIT, 0 },
     { 0, MENU_END_OF_LIST, 0 },
@@ -203,6 +205,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
   
   }
@@ -221,6 +224,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
   
@@ -340,6 +344,9 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();
+    break;
+  case MENU_GAME_CLEAR_OUTPUT:
+    clear_output_window();
     break;
   case MENU_GAME_DISCONNECT:
     disconnect_from_server();
