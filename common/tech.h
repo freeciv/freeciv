@@ -78,9 +78,9 @@ int get_next_tech(struct player *plr, int goal);
 int tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
 
-int tech_flag(int tech, int flag);
+int tech_flag(int tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(char *s);
-int find_tech_by_flag( int index, int flag );
+int find_tech_by_flag(int index, enum tech_flag_id flag);
 int tech_turns_to_advance(struct player *pplayer);
 
 extern struct advance advances[];

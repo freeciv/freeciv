@@ -274,7 +274,8 @@ int player_owns_active_govchange_wonder(struct player *pplayer)
  flag. Needs to be optimized later (e.g. int tech_flags[TF_LAST] in
  struct player)
 **************************************************************************/
-int player_knows_techs_with_flag(struct player *pplayer, int flag)
+int player_knows_techs_with_flag(struct player *pplayer,
+				 enum tech_flag_id flag)
 {
   int i;
   int count=0;

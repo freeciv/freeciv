@@ -184,7 +184,8 @@ int player_owns_active_wonder(struct player *pplayer,
 int player_owns_active_govchange_wonder(struct player *pplayer);
 int player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id);
-int player_knows_techs_with_flag(struct player *pplayer, int flag);
+int player_knows_techs_with_flag(struct player *pplayer,
+				 enum tech_flag_id flag);
 
 void player_limit_to_government_rates(struct player *pplayer);
 

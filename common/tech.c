@@ -133,7 +133,6 @@ static int get_next_tech_rec(struct player *plr, int goal)
     if return value > A_LAST then we have a bug
     caller should do something in that case.
 **************************************************************************/
-
 int get_next_tech(struct player *plr, int goal)
 {
   if (goal == A_NONE || !tech_exists(goal) ||
@@ -177,7 +176,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-int tech_flag(int tech, int flag)
+int tech_flag(int tech, enum tech_flag_id flag)
 {
   assert(flag>=0 && flag<TF_LAST);
   return BOOL_VAL(advances[tech].flags & (1<<flag));
@@ -205,7 +204,7 @@ enum tech_flag_id tech_flag_from_str(char *s)
  Search for a tech with a given flag starting at index
  Returns A_LAST if no tech has been found
 **************************************************************************/
-int find_tech_by_flag( int index, int flag )
+int find_tech_by_flag( int index, enum tech_flag_id flag )
 {
   int i;
   for(i=index;i<game.num_tech_types;i++)
