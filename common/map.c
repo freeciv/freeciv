@@ -1289,25 +1289,6 @@ int same_pos(int x1, int y1, int x2, int y2)
   return (x1 == x2 && y1 == y2);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-int check_coords(int *x, int *y)
-{
-  int save_x = *x, save_y = *y;
-
-  if (!normalize_map_pos(x, y)) {
-    freelog(LOG_ERROR, "%d, %d is not a real tile!", *x, *y);
-    nearest_real_pos(x, y);
-    return 0;
-  }
-
-  if (*x != save_x || *y != save_y)
-    freelog(LOG_ERROR, "Had to adjust coords %d, %d", *x, *y);
-
-  return 1;
-}
-
 int is_real_tile(int x, int y)
 {
   int x1 = x, y1 = y;

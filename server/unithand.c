@@ -67,8 +67,13 @@ void handle_unit_goto_tile(struct player *pplayer,
 {
   struct unit *punit;
 
-  if (!check_coords(&req->x, &req->y))
+  /* 
+   * Discard invalid packet. Replace this with is_normal_map_pos if
+   * capstr is set to "1.12.0".
+   */
+  if (!normalize_map_pos(&req->x, &req->y)) {
     return;
+  }
 
   if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     punit->goto_dest_x=req->x;
@@ -97,8 +102,13 @@ void handle_unit_airlift(struct player *pplayer,
   struct unit *punit;
   struct city *pcity;
 
-  if (!check_coords(&req->x, &req->y))
+  /* 
+   * Discard invalid packet. Replace this with is_normal_map_pos if
+   * capstr is set to "1.12.0".
+   */
+  if (!normalize_map_pos(&req->x, &req->y)) {
     return;
+  }
 
   punit = player_find_unit_by_id(pplayer, req->unit_id);
   pcity = map_get_city(req->x, req->y);
@@ -117,8 +127,13 @@ void handle_unit_connect(struct player *pplayer,
 {
   struct unit *punit;
 
-  if (!check_coords(&req->dest_x, &req->dest_y))
+  /* 
+   * Discard invalid packet. Replace this with is_normal_map_pos if
+   * capstr is set to "1.12.0".
+   */
+  if (!normalize_map_pos(&req->dest_x, &req->dest_y)) {
     return;
+  }
 
   if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     if (can_unit_do_connect (punit, req->activity_type)) {
@@ -572,8 +587,13 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
-      if (!check_coords(&pinfo->x, &pinfo->y))
+      /* 
+       * Discard invalid packet. Replace this with is_normal_map_pos
+       * if capstr is set to "1.12.0".
+       */
+      if (!normalize_map_pos(&pinfo->x, &pinfo->y)) {
 	return;
+      }
 
       if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
 	punit->ai.control = 0;
@@ -607,8 +627,13 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 {
   struct unit *punit;
 
-  if (!check_coords(&pmove->x, &pmove->y))
+  /* 
+   * Discard invalid packet. Replace this with is_normal_map_pos if
+   * capstr is set to "1.12.0".
+   */
+  if (!normalize_map_pos(&pmove->x, &pmove->y)) {
     return;
+  }
 
   punit=player_find_unit_by_id(pplayer, pmove->unid);
   if (punit && is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
@@ -835,8 +860,13 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return 0;
   }
 
-  if (!check_coords(&dest_x, &dest_y))
+  /* 
+   * Discard invalid packet. Replace this with is_normal_map_pos if
+   * capstr is set to "1.12.0".
+   */
+  if (!normalize_map_pos(&dest_x, &dest_y)) {
     return 0;
+  }
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */
   if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
