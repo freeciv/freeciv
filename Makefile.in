@@ -57,7 +57,7 @@ VERSION = @VERSION@
 
 SUBDIRS = data common ai client server
 
-EXTRA_DIST  = HOWTOPLAY Imakefile Makefile.noimake \
+EXTRA_DIST  = CREDITS HOWTOPLAY Imakefile Makefile.noimake \
 	freeciv_hackers_guide.txt civ ser
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -70,7 +70,7 @@ configure.in install-sh missing mkinstalldirs stamp-h.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP = --best
 default: all
 
