@@ -202,15 +202,9 @@ void update_unit_info_label(struct unit *punit)
 {
   if(punit) {
     char buffer[512];
-    struct city *pcity;
-    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
-    my_snprintf(buffer, sizeof(buffer), "%s %s\n%s\n%s\n%s", 
-		unit_type(punit)->name,
-		(punit->veteran) ? _("(veteran)") : "",
-		(hover_unit==punit->id) ? 
-		_("Select destination") : unit_activity_text(punit), 
-		map_get_tile_info_text(punit->tile),
-		pcity ? pcity->name : "");
+    my_snprintf(buffer, sizeof(buffer), "%s\n%s",
+		get_unit_info_label_text1(punit),
+		get_unit_info_label_text2(punit));
     xaw_set_label(unit_info_label, buffer);
 
     if (hover_unit != punit->id)
