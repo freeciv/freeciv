@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2003-02-03 23:35-0800\n"
-"PO-Revision-Date: 2003-02-04 00:20-0800\n"
+"PO-Revision-Date: 2003-02-04 02:46-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -5922,6 +5922,8 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
+"      --\t\t続くオプション全てを UI へ渡します。\n"
+"\t\t\t詳しくは \"%s -- --help\" を試みて下さい。\n"
 
 #: client/civclient.c:186
 #, c-format
@@ -15183,19 +15185,19 @@ msgstr ""
 
 #: data/default/cities.ruleset:26
 msgid "European"
-msgstr "ヨーロピアン"
+msgstr "ヨーロッパ"
 
 #: data/default/cities.ruleset:33
 msgid "Classical"
-msgstr "クラシカル"
+msgstr "古典"
 
 #: data/default/cities.ruleset:40
 msgid "Tropical"
-msgstr ""
+msgstr "熱帯"
 
 #: data/default/cities.ruleset:47
 msgid "Asian"
-msgstr ""
+msgstr "アジア"
 
 #: data/default/cities.ruleset:54
 msgid "Industrial"
