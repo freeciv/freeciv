@@ -176,6 +176,7 @@ void intel_create_dialog(struct player *p)
   for (i=0; i<j; i++)
     gtk_clist_append(GTK_CLIST(list), &tech_list_names_ptrs[i]);
   
+  gtk_clist_sort(GTK_CLIST(list));
   gtk_clist_thaw(GTK_CLIST(list));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
 	scrolled, TRUE, FALSE, 2);
