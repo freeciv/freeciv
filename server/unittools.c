@@ -171,9 +171,6 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
     ay=map_adjust_y(y);
     if ((map_get_terrain(ax,ay)!=T_OCEAN) && is_enemy_unit_tile(ax,ay,owner))
       return 0;
-    /* remove following case for empty cities to not impose zoc: */
-    if (is_enemy_city_tile(ax,ay,owner))
-      return 0;
   }
   return 1;
 }
@@ -186,7 +183,8 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
   2. Your unit isn't a ground unit
   3. Your unit ignores ZOC (diplomat, freight, etc.)
   4. You're moving from or to a city
-  5. The spot you're moving from or to is in your ZOC
+  5. You're moving from an ocean square (from a boat)
+  6. The spot you're moving from or to is in your ZOC
 **************************************************************************/
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
 {
@@ -195,6 +193,8 @@ int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
   if (is_friendly_unit_tile(x2, y2, punit->owner))
     return 1;
   if (map_get_city(x1, y1) || map_get_city(x2, y2))
+    return 1;
+  if (map_get_terrain(x1,y1)==T_OCEAN)
     return 1;
   return (is_my_zoc(punit, x1, y1) || is_my_zoc(punit, x2, y2)); 
 }

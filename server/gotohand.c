@@ -269,10 +269,6 @@ int could_be_my_zoc(struct unit *myunit, int x0, int y0)
     ax = map_adjust_x(myunit->x + ii[k]);
     ay = map_adjust_y(myunit->y + jj[k]);
     
-    /* remove following case if/when empty cities do not impose zoc: */
-    if (is_enemy_city_tile(ax,ay,owner))
-      return 0;
-    
     if (!dir_ok(x0, y0, myunit->goto_dest_x, myunit->goto_dest_y, k))
       continue;
     /* don't care too much about ZOC of units we've already gone past -- Syela */

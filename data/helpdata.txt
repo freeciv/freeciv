@@ -1657,21 +1657,27 @@ controlled) by enemy forces.
 The general rule is that a land unit which is adjacent to an enemy
 occupied square cannot move directly to another square which is
 also adjacent to an enemy occupied square.  Here an enemy occupied
-square means an enemy city, or an enemy unit on a land square.
-Adjacency means any of the eight squares surrounding a unit.
+square means a land square with an enemy unit on it.  Adjacency 
+means any of the eight squares surrounding a unit.
 
 In the following special cases ZOC does not apply:
 - A unit moving directly into or out of a city.
 - A unit moving onto a square occupied by a friendly unit.
+- A unit moving from an ocean square (disembarking from a boat).
 - A unit type which explicitly ignores ZOC, eg Diplomats.
 
-Note:
+Notes:
 - Only land units are restricted by ZOC.
 - Non-land units can impose ZOC (that is, count as enemy occupied
   squares), but only if they are on a land square.  So effectively
   sea units cannot impose ZOC, and air units (including helicopters)
-  do not impose ZOC if they are over sea squares.
+  do not impose ZOC if they are over ocean squares.
 - ZOC does not restrict unit attacks, only movement.
+- An enemy city counts as an enemy occupied square if they are any 
+  units inside the city, but not if the city is empty.
+- Moving from an ocean square is a special case; moving _to_ an 
+  ocean square (moving back onto a boat) is also permitted, by the
+  special case of moving onto a friendly unit (the boat).
 
 TIP: You can infiltrate enemy zones by first moving in a Diplomat
      (or some other unit which ignores ZOC), and then moving regular
@@ -1680,10 +1686,10 @@ TIP: You can infiltrate enemy zones by first moving in a Diplomat
      behind to keep squares occupied), you can make a path through
      enemy territory.
 
-The following Freeciv ZOC effects differ from some similar games:
-- Enemy cities with no units in them impose ZOC.
-- Land units moving from boats at sea onto land are subject to ZOC.
-These cases will probably be changed in a future version of Freeciv.
+These rules differ slightly from previous versions of freeciv 
+(release 1.8.0 and before) in the following ways:
+- Enemy cities with no units in them no longer impose ZOC.
+- The special case for land units disembarking is new.
 ---
 %% It would probably be better to have some client-side code to
 %% automatically pull terrain information from the tile_types[]
