@@ -1442,6 +1442,11 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
   struct goto_route *pgr = NULL;
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
 
+  if (punit->pgr) {
+    free(punit->pgr->pos);
+    free(punit->pgr);
+  }
+
   pgr = fc_malloc(sizeof(struct goto_route));
 
   pgr->pos = packet->pos; /* here goes the malloced packet->pos */

@@ -2957,6 +2957,7 @@ enum goto_result goto_route_execute(struct unit *punit)
 
     index = pgr->first_index;
     if (index == pgr->last_index) {
+      free(punit->pgr->pos);
       free(punit->pgr);
       punit->pgr = NULL;
       if (punit->activity == ACTIVITY_GOTO) 
