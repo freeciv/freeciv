@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <game.h>
 #include <player.h>
 #include <unithand.h>
 #include <unittools.h>

@@ -423,7 +423,7 @@ struct settings_s settings[] = {
 
   { "timeout", &game.timeout,
     SSET_META, SSET_TO_CLIENT,
-    0, 999, GAME_DEFAULT_TIMEOUT,
+    GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
     "Maximum seconds per turn",
     "  If all players have not hit \"end turn\" before this time is up, then the\n"
     "  turn ends automatically.  Zero means there is no timeout." },

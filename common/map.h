@@ -10,11 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAP_H
-#define __MAP_H
+#ifndef FC__MAP_H
+#define FC__MAP_H
 
 #include "player.h"
-#include "genlist.h"
 #include "unit.h"
 
 enum tile_special_type {
@@ -186,13 +185,9 @@ int map_transform_time(int x, int y);
 #define MAP_MIN_HEIGHT           25
 #define MAP_MAX_HEIGHT           100
 
-#define GAME_DEFAULT_RANDSEED        0
-#define GAME_MIN_RANDSEED            0
-#define GAME_MAX_RANDSEED            (MAX_UINT32 >> 1)
-
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
-#define MAP_MAX_SEED             GAME_MAX_RANDSEED
+#define MAP_MAX_SEED             (MAX_UINT32 >> 1)
 
 #define MAP_DEFAULT_LANDMASS     30
 #define MAP_MIN_LANDMASS         15
@@ -230,110 +225,4 @@ int map_transform_time(int x, int y);
 #define MAP_MIN_GENERATOR        1
 #define MAP_MAX_GENERATOR        4
 
-#define GAME_DEFAULT_GOLD        50
-#define GAME_MIN_GOLD            0
-#define GAME_MAX_GOLD            5000
-
-#define GAME_DEFAULT_SETTLERS    2
-#define GAME_MIN_SETTLERS        1
-#define GAME_MAX_SETTLERS        10
-
-#define GAME_DEFAULT_EXPLORER    1
-#define GAME_MIN_EXPLORER        0
-#define GAME_MAX_EXPLORER        10
-
-#define GAME_DEFAULT_TECHLEVEL   3
-#define GAME_MIN_TECHLEVEL       0
-#define GAME_MAX_TECHLEVEL       50
-
-#define GAME_DEFAULT_UNHAPPYSIZE 4
-#define GAME_MIN_UNHAPPYSIZE 1
-#define GAME_MAX_UNHAPPYSIZE 6
-
-#define GAME_DEFAULT_END_YEAR    2000
-#define GAME_MIN_END_YEAR        GAME_START_YEAR
-#define GAME_MAX_END_YEAR        5000
-
-#define GAME_DEFAULT_MIN_PLAYERS     1
-#define GAME_MIN_MIN_PLAYERS         1
-#define GAME_MAX_MIN_PLAYERS         MAX_PLAYERS
-
-#define GAME_DEFAULT_MAX_PLAYERS     14
-#define GAME_MIN_MAX_PLAYERS         1
-#define GAME_MAX_MAX_PLAYERS         MAX_PLAYERS
-
-#define GAME_DEFAULT_AIFILL          0
-#define GAME_MIN_AIFILL              0
-#define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
-
-#define GAME_DEFAULT_RESEARCHLEVEL   10
-#define GAME_MIN_RESEARCHLEVEL       4
-#define GAME_MAX_RESEARCHLEVEL       100
-
-#define GAME_DEFAULT_DIPLCOST        0
-#define GAME_MIN_DIPLCOST            0
-#define GAME_MAX_DIPLCOST            100
-
-#define GAME_DEFAULT_DIPLCHANCE      3
-#define GAME_MIN_DIPLCHANCE          1
-#define GAME_MAX_DIPLCHANCE          10
-
-#define GAME_DEFAULT_FREECOST        0
-#define GAME_MIN_FREECOST            0
-#define GAME_MAX_FREECOST            100
-
-#define GAME_DEFAULT_CONQUERCOST     0
-#define GAME_MIN_CONQUERCOST         0
-#define GAME_MAX_CONQUERCOST         100
-
-#define GAME_DEFAULT_CITYFACTOR      14
-#define GAME_MIN_CITYFACTOR          6
-#define GAME_MAX_CITYFACTOR          100
-
-#define GAME_DEFAULT_CIVILWARSIZE    10
-#define GAME_MIN_CIVILWARSIZE        6
-#define GAME_MAX_CIVILWARSIZE        1000
-
-#define GAME_DEFAULT_RAILFOOD        0
-#define GAME_MIN_RAILFOOD            0
-#define GAME_MAX_RAILFOOD            100
-
-#define GAME_DEFAULT_RAILTRADE       0
-#define GAME_MIN_RAILTRADE           0
-#define GAME_MAX_RAILTRADE           100
-
-#define GAME_DEFAULT_RAILPROD        50
-#define GAME_MIN_RAILPROD            0
-#define GAME_MAX_RAILPROD            100
-
-#define GAME_DEFAULT_FOODBOX         10
-#define GAME_MIN_FOODBOX             5
-#define GAME_MAX_FOODBOX             30
-
-#define GAME_DEFAULT_AQUEDUCTLOSS    0
-#define GAME_MIN_AQUEDUCTLOSS        0
-#define GAME_MAX_AQUEDUCTLOSS        100
-
-#define GAME_DEFAULT_TECHPENALTY     100
-#define GAME_MIN_TECHPENALTY         0
-#define GAME_MAX_TECHPENALTY         100
-
-#define GAME_DEFAULT_RAZECHANCE      20
-#define GAME_MIN_RAZECHANCE          0
-#define GAME_MAX_RAZECHANCE          100
-
-#define GAME_DEFAULT_CIVSTYLE        2
-#define GAME_MIN_CIVSTYLE            1
-#define GAME_MAX_CIVSTYLE            2
-
-#define GAME_DEFAULT_SCORELOG        0
-#define GAME_MIN_SCORELOG            0
-#define GAME_MAX_SCORELOG            1
-
-#define GAME_DEFAULT_RULESET         "default"
-
-#define GAME_DEFAULT_SPACERACE       1
-#define GAME_MIN_SPACERACE           0
-#define GAME_MAX_SPACERACE           1
-
-#endif
+#endif  /* FC__MAP_H */
