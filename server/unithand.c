@@ -698,8 +698,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 
     if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&
        (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
-       (!(map_get_special(pcity->x,pcity->y)&S_RAILROAD))) {
-      notify_player(pplayer, "Game: The people in %s are stunned by youre technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+       (!(map_get_special(pnewcity->x,pnewcity->y)&S_RAILROAD))) {
+      notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
       map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
       send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
     }
@@ -711,7 +711,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
         for (x=0;x<5;x++) {
           if ((x==0 || x==4) && (y==0 || y==4))
             continue;
-          light_square(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
+          light_square(pplayer, x+pnewcity->x-2, y+pnewcity->y-2, 0);
         }
       }
     }
