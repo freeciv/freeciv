@@ -309,9 +309,9 @@ static int read_from_connection(struct connection *pc, int block)
  This function is called when the client received a new input from the
  server.
 **************************************************************************/
-void input_from_server(int fid)
+void input_from_server(int fd)
 {
-  assert(fid == aconnection.sock);
+  assert(fd == aconnection.sock);
 
   if (read_from_connection(&aconnection, 0) >= 0) {
     int type, result;

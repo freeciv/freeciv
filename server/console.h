@@ -35,7 +35,7 @@
 #define C_READY 999		/* waiting for input */
 
 /* initialize logging via console */
-void con_log_init(char *log_message, int log_level);
+void con_log_init(char *log_filename, int log_level);
 
 /* write to console without line-break, don't print prompt */
 int con_dump(int i, char *message, ...)

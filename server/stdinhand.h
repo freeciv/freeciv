@@ -29,7 +29,8 @@ void show_players(struct connection *caller);
 
 void quit_game(struct connection *caller);
 
-void toggle_ai_player_direct(struct connection *caller, struct player *subject);
+void toggle_ai_player_direct(struct connection *caller,
+			     struct player *pplayer);
 
 /* for sernet.c in initing a new connection */
 enum cmdlevel_id access_level_for_next_connection(void);

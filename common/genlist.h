@@ -96,7 +96,7 @@ struct genlist_iterator {
 
 
 int genlist_size(struct genlist *pgenlist);
-void *genlist_get(struct genlist *pgenlist, int inx);
+void *genlist_get(struct genlist *pgenlist, int idx);
 void genlist_init(struct genlist *pgenlist);
 void genlist_unlink_all(struct genlist *pgenlist);
 void genlist_insert(struct genlist *pgenlist, void *data, int pos);

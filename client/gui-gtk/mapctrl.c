@@ -256,15 +256,17 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 (RP:) wake up my own sentried units on the tile that was clicked
 **************************************************************************/
-gint butt_down_wakeup(GtkWidget *widget, GdkEventButton *event)
+gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
 {
   int xtile, ytile;
 
   /* when you get a <SHIFT>+<LMB> pow! */
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE||!(event->state & GDK_SHIFT_MASK))
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE
+      || !(ev->state & GDK_SHIFT_MASK)) {
     return TRUE;
+  }
 
-  get_map_xy(event->x, event->y, &xtile, &ytile);
+  get_map_xy(ev->x, ev->y, &xtile, &ytile);
 
   wakeup_sentried_units(xtile,ytile);
   return TRUE;
@@ -273,28 +275,28 @@ gint butt_down_wakeup(GtkWidget *widget, GdkEventButton *event)
 /**************************************************************************
 ...
 **************************************************************************/
-gint butt_down_mapcanvas(GtkWidget *widget, GdkEventButton *event)
+gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 {
   int xtile, ytile;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return TRUE;
   
-  if((event->button==1)&&(event->state&GDK_SHIFT_MASK)) {
-    adjust_workers(widget, event);
+  if ((ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
+    adjust_workers(w, ev);
     return TRUE;
   }
 
-  get_map_xy(event->x, event->y, &xtile, &ytile);
+  get_map_xy(ev->x, ev->y, &xtile, &ytile);
 
-  if(event->button==1) {
+  if (ev->button == 1) {
     do_map_click(xtile, ytile);
     gtk_widget_grab_focus(turn_done_button);
-  }
-  else if((event->button==2)||(event->state&GDK_CONTROL_MASK))
-    popit(event, xtile, ytile);
-  else
+  } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
+    popit(ev, xtile, ytile);
+  } else {
     center_tile_mapcanvas(xtile, ytile);
+  }
   return TRUE;
 }
 
@@ -385,27 +387,32 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 /**************************************************************************
 ...
 **************************************************************************/
-gint butt_down_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
+gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
 {
   int xtile, ytile;
 
-  if (event->type != GDK_BUTTON_PRESS)
+  if (ev->type != GDK_BUTTON_PRESS)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
   if (is_isometric) {
-    xtile=event->x/2-(map.xsize/2-(map_view_x0+(map_canvas_store_twidth+map_canvas_store_theight)/2));
+    xtile = ev->x / 2 - (map.xsize / 2 -
+			 (map_view_x0 +
+			  (map_canvas_store_twidth +
+			   map_canvas_store_theight) / 2));
   } else {
-    xtile=event->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
+    xtile = ev->x / 2 - (map.xsize / 2 -
+			 (map_view_x0 + map_canvas_store_twidth / 2));
   }
-  ytile=event->y/2;
+  ytile = ev->y / 2;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
      return TRUE;
 
-  if(event->button==1)
-    do_unit_goto(xtile,ytile);
-  else if(event->button==3)
+  if (ev->button == 1) {
+    do_unit_goto(xtile, ytile);
+  } else if (ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
+  }
   return TRUE;
 }
 
@@ -420,7 +427,7 @@ void center_on_unit(void)
 /**************************************************************************
   Draws the on the map the tiles the given city is using
 **************************************************************************/
-gint key_city_workers(GtkWidget *widget, GdkEventKey *ev)
+gint key_city_workers(GtkWidget *w, GdkEventKey *ev)
 {
   int x,y;
   struct city *pcity;

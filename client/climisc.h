@@ -23,7 +23,7 @@ typedef int cid;
 typedef int wid;
 
 void client_init_player(struct player *plr);
-void client_remove_player(int plr_id);
+void client_remove_player(int plrno);
 void client_remove_city(struct city *pcity);
 void client_remove_unit(int unit_id);
 

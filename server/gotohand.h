@@ -33,7 +33,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 			      int trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
-			    enum unit_move_type which);
+			    enum unit_move_type move_type);
 int calculate_move_cost(struct unit *punit, int dest_x, int dest_y);
 int air_can_move_between(int moves, int src_x, int src_y,
 			 int dest_x, int dest_y, struct player *pplayer);

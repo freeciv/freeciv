@@ -110,7 +110,7 @@ static void reject_new_player(char *msg, struct connection *pconn);
 static void handle_alloc_nation(struct player *pplayer,
 				struct packet_alloc_nation *packet);
 static int handle_request_join_game(struct connection *pconn, 
-				    struct packet_req_join_game *request);
+				    struct packet_req_join_game *req);
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static int check_for_full_turn_done(void);

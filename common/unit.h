@@ -207,7 +207,7 @@ int is_military_unit(struct unit *punit);           /* !set !dip !cara */
 int is_diplomat_unit(struct unit *punit);
 int is_ground_threat(struct player *pplayer, struct unit *punit);
 int is_square_threatened(struct player *pplayer, int x, int y);
-int is_field_unit(struct unit *this_unit);              /* ships+aero */
+int is_field_unit(struct unit *punit);              /* ships+aero */
 int is_hiding_unit(struct unit *punit);
 int is_sailing_unit(struct unit *punit);
 int is_air_unit(struct unit *punit);

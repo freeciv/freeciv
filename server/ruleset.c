@@ -46,7 +46,8 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 static void openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
 static char *check_ruleset_capabilities(struct section_file *file,
-					char *required,	const char *filename);
+					char *us_capstr,
+					const char *filename);
 
 static int lookup_tech(struct section_file *file, char *prefix,
 		       char *entry, int required, const char *filename,

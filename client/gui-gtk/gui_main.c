@@ -186,7 +186,7 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
  handles main window keyboard events.
 **************************************************************************/
-static gint keyboard_handler(GtkWidget *widget, GdkEventKey *ev)
+static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 {
   /* inputline history code */
   if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
@@ -219,7 +219,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *ev)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
 
     if (keypress)
-      gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
+      gtk_signal_emit_stop_by_name(GTK_OBJECT(w), "key_press_event");
 
     return keypress;
   }
@@ -282,7 +282,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *ev)
         break;
   
       case GDK_t:
-        key_city_workers(widget, ev);
+        key_city_workers(w, ev);
         break;
 
       default:
@@ -346,7 +346,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *ev)
         break;
   
       case GDK_t:
-        key_city_workers(widget, ev);
+        key_city_workers(w, ev);
         break;
 
       default:
@@ -354,7 +354,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *ev)
     }
   }
 
-  gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
+  gtk_signal_emit_stop_by_name(GTK_OBJECT(w), "key_press_event");
   return TRUE;
 }
 

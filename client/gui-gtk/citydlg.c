@@ -2981,7 +2981,7 @@ static void buy_callback(GtkWidget * w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static gint buy_callback_delete(GtkWidget * widget, GdkEvent * event,
+static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
 				gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
@@ -3257,7 +3257,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static gint sell_callback_delete(GtkWidget * widget, GdkEvent * event,
+static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
 				 gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;

@@ -87,21 +87,21 @@ void agents_init(void)
 /***********************************************************************
 ...
 ***********************************************************************/
-void register_agent(struct agent *user_agent)
+void register_agent(struct agent *agent)
 {
-  struct my_agent *agent = &agents.entries[agents.entries_used];
+  struct my_agent *priv_agent = &agents.entries[agents.entries_used];
 
   assert(agents.entries_used < MAX_AGENTS);
-  assert(user_agent->level > 0);
+  assert(agent->level > 0);
 
-  memcpy(&agent->agent, user_agent, sizeof(struct agent));
+  memcpy(&priv_agent->agent, agent, sizeof(struct agent));
 
-  agent->first_outstanding_request_id = 0;
-  agent->last_outstanding_request_id = 0;
+  priv_agent->first_outstanding_request_id = 0;
+  priv_agent->last_outstanding_request_id = 0;
 
-  agent->stats.network_wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
-  agent->stats.wait_at_network = 0;
-  agent->stats.wait_at_network_requests = 0;
+  priv_agent->stats.network_wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  priv_agent->stats.wait_at_network = 0;
+  priv_agent->stats.wait_at_network_requests = 0;
 
   agents.entries_used++;
 }

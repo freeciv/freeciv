@@ -310,7 +310,7 @@ void rand_map_pos(int *x, int *y);
 
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
-int is_move_cardinal(int x0, int y0, int x1, int y1);
+int is_move_cardinal(int start_x, int start_y, int end_x, int end_y);
 int map_move_cost(struct unit *punit, int x, int y);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);

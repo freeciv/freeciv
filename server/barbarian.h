@@ -30,7 +30,7 @@ struct player;
 
 #define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */
 
-int unleash_barbarians(struct player* vict, int x, int y);
+int unleash_barbarians(struct player *victim, int x, int y);
 void summon_barbarians(void);
 int is_land_barbarian(struct player *pplayer);
 int is_sea_barbarian(struct player *pplayer);

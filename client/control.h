@@ -93,7 +93,7 @@ void blink_active_unit(void);
 void update_unit_pix_label(struct unit *punit);
 
 void process_caravan_arrival(struct unit *punit);
-void process_diplomat_arrival(struct unit *punit, int victim_id);
+void process_diplomat_arrival(struct unit *pdiplomat, int victim_id);
 
 void key_cancel_action(void);
 void key_city_names_toggle(void);

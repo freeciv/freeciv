@@ -50,7 +50,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
 			 int kill_outside, int verbose);
-struct city *transfer_city(struct player *pplayer,
+struct city *transfer_city(struct player *ptaker,
 			   struct city *pcity, int kill_outside,
 			   int transfer_unit_verbose, int resolve_stack, int raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,

@@ -26,12 +26,12 @@ typedef int (*hash_cmp_fn_t)(const void *, const void *);
 
 /* Supplied functions (matching above typedefs) appropriate for
    keys being normal nul-terminated strings: */
-unsigned int hash_fval_string(const void *key, unsigned int num_buckets);
-int hash_fcmp_string(const void *key1, const void *key2);
+unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets);
+int hash_fcmp_string(const void *vkey1, const void *vkey2);
 
 /* Appropriate for int values: */
-unsigned int hash_fval_int(const void *key, unsigned int num_buckets);
-int hash_fcmp_int(const void *key1, const void *key2);
+unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets);
+int hash_fcmp_int(const void *vkey1, const void *vkey2);
 
 /* Appropriate for void pointers or casted longs, used as keys
    directly instead of by reference. */

@@ -530,17 +530,19 @@ static int section_file_load_dup(struct section_file *sf,
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_load(struct section_file *sf, const char *filename)
+int section_file_load(struct section_file *my_section_file,
+		      const char *filename)
 {
-  return section_file_load_dup(sf, filename, 1);
+  return section_file_load_dup(my_section_file, filename, 1);
 }
 
 /**************************************************************************
   Load a section_file, but disallow (die on) duplicate entries.
 **************************************************************************/
-int section_file_load_nodup(struct section_file *sf, const char *filename)
+int section_file_load_nodup(struct section_file *my_section_file,
+			    const char *filename)
 {
-  return section_file_load_dup(sf, filename, 0);
+  return section_file_load_dup(my_section_file, filename, 0);
 }
 
 /**************************************************************************

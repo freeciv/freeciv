@@ -83,12 +83,12 @@ enum draw_type {
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
-static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
+static void put_overlay_tile_gpixmap(GtkPixcomm *p,
 				     int canvas_x, int canvas_y,
 				     struct Sprite *ssprite);
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
-static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y, int dir);
+static void put_line(GdkDrawable *pm, int x, int y, int dir);
 static void show_city_descriptions(void);
 
 static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
@@ -757,13 +757,13 @@ void set_overview_dimensions(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-gint overview_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
+gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(radar_gfx_sprite)
-      gdk_draw_pixmap( overview_canvas->window, civ_gc, radar_gfx_sprite->pixmap,
-		event->area.x, event->area.y, event->area.x, event->area.y,
-		event->area.width, event->area.height );
+      gdk_draw_pixmap(overview_canvas->window, civ_gc,
+		      radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
+		      ev->area.x, ev->area.y, ev->area.width, ev->area.height);
     return TRUE;
   }
   
@@ -900,14 +900,14 @@ void refresh_overview_viewrect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
+gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   gint height, width;
   int tile_width, tile_height;
   gboolean map_resized;
   static int exposed_once = 0;
 
-  gdk_window_get_size( widget->window, &width, &height );
+  gdk_window_get_size(w->window, &width, &height);
 
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
@@ -953,9 +953,9 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
     
     if (scaled_intro_sprite) {
       gdk_draw_pixmap(map_canvas->window, civ_gc,
-		      scaled_intro_sprite->pixmap, event->area.x,
-		      event->area.y, event->area.x, event->area.y,
-		      event->area.width, event->area.height);
+		      scaled_intro_sprite->pixmap, ev->area.x,
+		      ev->area.y, ev->area.x, ev->area.y,
+		      ev->area.width, ev->area.height);
     }
   }
   else
@@ -975,8 +975,8 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
       }
       else {
 	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
-		event->area.x, event->area.y, event->area.x, event->area.y,
-		event->area.width, event->area.height );
+		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+		ev->area.width, ev->area.height );
 	show_city_descriptions();
       }
     }

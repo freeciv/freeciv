@@ -102,7 +102,7 @@ static int city_style_get_current(void);
 
 static void create_races_dialog	(void);
 static void races_buttons_callback	( GtkWidget *w, gpointer data );
-static void races_toggles_callback	( GtkWidget *w, gpointer data );
+static void races_toggles_callback(GtkWidget * w, gpointer race_id_p);
 static void races_sex_toggles_callback ( GtkWidget *w, gpointer data );
 static void races_name_callback	( GtkWidget *w, gpointer data );
 static void city_style_toggles_callback ( GtkWidget *w, gpointer data );
@@ -147,7 +147,7 @@ static void notify_command_callback(GtkWidget *w, GtkWidget *t)
 /****************************************************************
 ...
 *****************************************************************/
-gint deleted_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
+gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   gtk_widget_set_sensitive( top_vbox, TRUE );
   return FALSE;
@@ -2263,7 +2263,7 @@ void destroy_me_callback( GtkWidget *w, gpointer data)
 /**************************************************************************
   Adjust tax rates from main window
 **************************************************************************/
-void taxrates_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int tax_end,lux_end,sci_end;
   size_t i;

@@ -18,9 +18,9 @@
 void handle_join_game_reply(struct packet_join_game_reply *packet);
 
 void handle_tile_info(struct packet_tile_info *packet);
-void handle_player_info(struct packet_player_info *packet);
-void handle_conn_info(struct packet_conn_info *packet);
-void handle_game_info(struct packet_game_info *packet);
+void handle_player_info(struct packet_player_info *pinfo);
+void handle_conn_info(struct packet_conn_info *pinfo);
+void handle_game_info(struct packet_game_info *pinfo);
 void handle_map_info(struct packet_map_info *pinfo);
 void handle_select_nation(struct packet_generic_values *packet);
 void handle_unit_info(struct packet_unit_info *packet);
@@ -32,7 +32,7 @@ void handle_incite_cost(struct packet_generic_values *packet);
 
 void handle_city_options(struct packet_generic_values *preq);
 
-void handle_spaceship_info(struct packet_spaceship_info *packet);
+void handle_spaceship_info(struct packet_spaceship_info *p);
 
 void handle_move_unit(void);
 void handle_new_year(struct packet_new_year *ppacket);
@@ -45,20 +45,20 @@ void handle_page_msg(struct packet_generic_message *packet);
 void handle_before_new_year(void);
 void handle_remove_player(struct packet_generic_integer *packet);
 void handle_ruleset_control(struct packet_ruleset_control *packet);
-void handle_ruleset_unit(struct packet_ruleset_unit *packet);
-void handle_ruleset_tech(struct packet_ruleset_tech *packet);
-void handle_ruleset_building(struct packet_ruleset_building *packet);
-void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
-void handle_ruleset_terrain_control(struct terrain_misc *packet);
-void handle_ruleset_government(struct packet_ruleset_government *packet);
-void handle_ruleset_government_ruler_title(struct packet_ruleset_government_ruler_title *packet);
+void handle_ruleset_unit(struct packet_ruleset_unit *p);
+void handle_ruleset_tech(struct packet_ruleset_tech *p);
+void handle_ruleset_building(struct packet_ruleset_building *p);
+void handle_ruleset_terrain(struct packet_ruleset_terrain *p);
+void handle_ruleset_terrain_control(struct terrain_misc *p);
+void handle_ruleset_government(struct packet_ruleset_government *p);
+void handle_ruleset_government_ruler_title(struct packet_ruleset_government_ruler_title *p);
 void handle_city_name_suggestion(struct packet_city_name_suggestion *packet);
-void handle_ruleset_nation(struct packet_ruleset_nation *packet);
+void handle_ruleset_nation(struct packet_ruleset_nation *p);
 void handle_ruleset_city(struct packet_ruleset_city *packet);
 void handle_ruleset_game(struct packet_ruleset_game *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
-void handle_player_attribute_chunk(struct packet_attribute_chunk *packet);
+void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk);
 void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_start_turn(void);

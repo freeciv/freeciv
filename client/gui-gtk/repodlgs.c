@@ -60,8 +60,8 @@ static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
 static void create_economy_report_dialog(int make_modal);
-static void economy_close_callback(GtkWidget * widget, gpointer data);
-static void economy_selloff_callback(GtkWidget * widget, gpointer data);
+static void economy_close_callback(GtkWidget * w, gpointer data);
+static void economy_selloff_callback(GtkWidget * w, gpointer data);
 static void economy_list_callback(GtkWidget * w, gint row, gint column);
 static void economy_list_ucallback(GtkWidget * w, gint row, gint column);
 static int economy_improvement_type[B_LAST];
@@ -74,9 +74,9 @@ static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 static void create_activeunits_report_dialog(int make_modal);
-static void activeunits_close_callback(GtkWidget * widget, gpointer data);
-static void activeunits_upgrade_callback(GtkWidget * widget, gpointer data);
-static void activeunits_refresh_callback(GtkWidget * widget, gpointer data);
+static void activeunits_close_callback(GtkWidget * w, gpointer data);
+static void activeunits_upgrade_callback(GtkWidget * w, gpointer data);
+static void activeunits_refresh_callback(GtkWidget * w, gpointer data);
 static void activeunits_list_callback(GtkWidget * w, gint row, gint column);
 static void activeunits_list_ucallback(GtkWidget * w, gint row, gint column);
 static int activeunits_type[U_LAST];

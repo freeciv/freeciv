@@ -75,7 +75,7 @@ struct nation_type {
 Nation_Type_id find_nation_by_name(char *name);
 char *get_nation_name(Nation_Type_id nation);
 char *get_nation_name_plural(Nation_Type_id nation);
-char **get_nation_leader_names(Nation_Type_id nation, int *num);
+char **get_nation_leader_names(Nation_Type_id nation, int *dim);
 int get_nation_leader_sex(Nation_Type_id nation, const char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);

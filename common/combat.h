@@ -40,7 +40,7 @@ int get_simple_defense_power(Unit_Type_id d_type, int x, int y);
 int get_virtual_defense_power(Unit_Type_id a_type, Unit_Type_id d_type, int x, int y);
 int get_total_attack_power(struct unit *attacker, struct unit *defender);
 
-struct unit *get_defender(struct unit *aunit, int x, int y);
-struct unit *get_attacker(struct unit *aunit, int x, int y);
+struct unit *get_defender(struct unit *attacker, int x, int y);
+struct unit *get_attacker(struct unit *defender, int x, int y);
 
 #endif /* FC__COMBAT_H */

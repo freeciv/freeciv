@@ -33,7 +33,7 @@ void tilespec_setup_unit_type(int id);
 void tilespec_setup_tile_type(int id);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);
-void tilespec_setup_city_tiles(int id);
+void tilespec_setup_city_tiles(int style);
 void tilespec_alloc_city_tiles(int count);
 void tilespec_free_city_tiles(int count);
 
@@ -41,7 +41,7 @@ void tilespec_free_city_tiles(int count);
 
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
-			       int abs_x0, int abs_y0, int citymode,
+			       int x, int y, int citymode,
 			       int *solid_bg);
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			   int citymode, int *solid_bg, struct player **pplayer);

@@ -87,11 +87,11 @@ struct advance {
   int num_reqs;
 };
 
-enum tech_state get_invention(struct player *plr, Tech_Type_id tech);
-void set_invention(struct player *plr, Tech_Type_id tech,
+enum tech_state get_invention(struct player *pplayer, Tech_Type_id tech);
+void set_invention(struct player *pplayer, Tech_Type_id tech,
 		   enum tech_state value);
-void update_research(struct player *plr);
-Tech_Type_id get_next_tech(struct player *plr, Tech_Type_id goal);
+void update_research(struct player *pplayer);
+Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal);
 
 int tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
@@ -106,7 +106,7 @@ int total_bulbs_required(struct player *pplayer);
 int base_total_bulbs_required(struct player *pplayer,Tech_Type_id tech);
 int techs_have_fixed_costs(void);
 
-int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal);
+int num_unknown_techs_for_goal(struct player *pplayer, Tech_Type_id goal);
 int total_bulbs_required_for_goal(struct player *pplayer, Tech_Type_id goal);
 int is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
 			   Tech_Type_id goal);

@@ -53,7 +53,7 @@ struct worklist_editor {
 };
 
 /* The global worklist view */
-void popup_worklists_report(struct player *pplay);
+void popup_worklists_report(struct player *pplr);
 
 /* An individual worklist */
 struct worklist_editor *create_worklist_editor(struct worklist *pwl,

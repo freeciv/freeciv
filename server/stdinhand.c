@@ -60,7 +60,7 @@
 static enum cmdlevel_id default_access_level = ALLOW_INFO;
 static enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
-static void cut_client_connection(struct connection *caller, char *playername);
+static void cut_client_connection(struct connection *caller, char *name);
 static void show_help(struct connection *caller, char *arg);
 static void show_list(struct connection *caller, char *arg);
 static void show_connections(struct connection *caller);

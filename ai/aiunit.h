@@ -21,7 +21,8 @@ struct unit;
 struct ai_choice;
 
 void ai_manage_units(struct player *pplayer); 
-int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
+int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
+			    int dest_x, int dest_y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 

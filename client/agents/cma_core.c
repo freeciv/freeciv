@@ -165,7 +165,7 @@ static void real_fill_out_result(struct city *pcity,
 static void copy_stats(struct city *pcity, struct cma_result *result);
 static void optimize_final(struct city *pcity,
 			   const struct cma_parameter *const parameter,
-			   struct cma_result *result);
+			   struct cma_result *best_result);
 static void calc_fitness(struct city *pcity,
 			 const struct cma_parameter *const parameter,
 			 const struct cma_result *const result,

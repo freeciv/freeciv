@@ -111,7 +111,7 @@ static void targets_type_rotate_callback(GtkWidget * w, int col,
 static void worklist_prep(struct worklist_editor *peditor);
 static void worklist_insert_item(struct worklist_editor *peditor);
 static void worklist_really_insert_item(struct worklist_editor *peditor,
-					int before, int id);
+					int before, int wid);
 static void worklist_remove_item(struct worklist_editor *peditor);
 
 static void worklist_swap_entries(int i, int j,

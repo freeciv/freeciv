@@ -72,7 +72,7 @@ static int cma_preset_remove_callback_delete(GtkWidget *w, GdkEvent *ev,
 static void cma_add_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data);
 static void cma_preset_add_callback_no(GtkWidget *w, gpointer data);
-static int cma_preset_add_callback_delete(GtkWidget *w, GdkEvent *event,
+static int cma_preset_add_callback_delete(GtkWidget *w, GdkEvent *ev,
 					  gpointer data);
 
 static void cma_change_to_callback(GtkWidget *w, gpointer data);

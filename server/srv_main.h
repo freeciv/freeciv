@@ -47,7 +47,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 void start_game(void);
-void save_game(char *filename);
+void save_game(char *orig_filename);
 void pick_ai_player_name(Nation_Type_id nation, char *newname);
 
 void dealloc_id(int id);

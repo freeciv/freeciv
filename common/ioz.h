@@ -28,7 +28,7 @@ typedef struct fz_FILE_s fz_FILE;
 enum fz_method { FZ_PLAIN, FZ_ZLIB, FZ_LAST };
 #define FZ_NOT_USED FZ_LAST
 
-fz_FILE *fz_fopen(const char *filename, const char *mode,
+fz_FILE *fz_fopen(const char *filename, const char *in_mode,
 		  enum fz_method method, int compress_level);
 int fz_fclose(fz_FILE *fp);
 char *fz_fgets(char *buffer, int size, fz_FILE *fp);

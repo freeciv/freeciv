@@ -57,19 +57,19 @@ static GtkWidget *config_toggle[NUM_CREPORT_COLS];
 
 static void create_city_report_config_dialog(void);
 static void popup_city_report_config_dialog(void);
-static void config_ok_command_callback(GtkWidget *widget, gpointer data);
+static void config_ok_command_callback(GtkWidget *w, gpointer data);
 
 /******************************************************************/
 static void create_city_report_dialog(int make_modal);
-static void city_close_callback(GtkWidget *widget, gpointer data);
-static void city_center_callback(GtkWidget *widget, gpointer data);
-static void city_popup_callback(GtkWidget *widget, gpointer data);
-static void city_buy_callback(GtkWidget *widget, gpointer data);
-static void city_refresh_callback(GtkWidget *widget, gpointer data);
+static void city_close_callback(GtkWidget *w, gpointer data);
+static void city_center_callback(GtkWidget *w, gpointer data);
+static void city_popup_callback(GtkWidget *w, gpointer data);
+static void city_buy_callback(GtkWidget *w, gpointer data);
+static void city_refresh_callback(GtkWidget *w, gpointer data);
 static void city_change_all_dialog_callback(GtkWidget *w, gpointer data);
 static void city_change_all_callback(GtkWidget *w, gpointer data);
 static void city_list_callback(GtkWidget *w, gint row, gint column);
-static void city_config_callback(GtkWidget *widget, gpointer data);
+static void city_config_callback(GtkWidget *w, gpointer data);
 static gboolean city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data);
 static gboolean city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data);
 static void city_report_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data);

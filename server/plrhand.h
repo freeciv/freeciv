@@ -34,7 +34,8 @@ void handle_player_rates(struct player *pplayer,
 			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
 void handle_player_cancel_pact(struct player *pplayer, int other_player);
-void make_contact(struct player *player1, struct player *player2, int x, int y);
+void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
+		  int y);
 void maybe_make_first_contact(int x, int y, struct player *pplayer);
 void neutralize_ai_player(struct player *pplayer);
 
@@ -68,7 +69,7 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_worklist(struct player *pplayer,
                             struct packet_player_request *preq);
 void handle_player_attribute_chunk(struct player *pplayer,
-				   struct packet_attribute_chunk *preq);
+				   struct packet_attribute_chunk *chunk);
 void handle_player_attribute_block(struct player *pplayer);
 void found_new_tech(struct player *plr, int tech_found, char was_discovery, 
 		    char saving_bulbs);
@@ -88,8 +89,10 @@ void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
 
-void associate_player_connection(struct player *plr, struct connection *pconn);
-void unassociate_player_connection(struct player *plr, struct connection *pconn);
+void associate_player_connection(struct player *pplayer,
+				 struct connection *pconn);
+void unassociate_player_connection(struct player *pplayer,
+				   struct connection *pconn);
 
 void shuffle_players(void);
 struct player *shuffled_player(int i);

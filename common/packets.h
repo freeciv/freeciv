@@ -964,7 +964,7 @@ struct packet_alloc_nation *receive_packet_alloc_nation(struct connection *pc);
 
 
 int send_packet_generic_message(struct connection *pc, int type,
-				const struct packet_generic_message *message);
+				const struct packet_generic_message *packet);
 struct packet_generic_message *receive_packet_generic_message(struct 
 							      connection *pc);
 
@@ -1005,7 +1005,7 @@ int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
 
 int send_packet_ruleset_control(struct connection *pc, 
-				const struct packet_ruleset_control *pinfo);
+				const struct packet_ruleset_control *packet);
 struct packet_ruleset_control *
 receive_packet_ruleset_control(struct connection *pc);
 
