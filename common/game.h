@@ -188,6 +188,8 @@ struct civ_game {
     int nuke_contamination;
     int granary_food_ini;
     int granary_food_inc;
+    int tech_cost_style;
+    int tech_leakage;
 
     /* 
      * Advances given to all players at game start.

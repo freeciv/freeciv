@@ -82,6 +82,11 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
     }
   }
 
+  if (advances[itech].preset_cost != -1) {
+    secfile_insert_int(file, advances[itech].preset_cost, "%s.cost",
+		       prefix);
+  }
+
   ieffect = 0;
 
   /* The effect tags ("gov: " etc) below are not translated, because

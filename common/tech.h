@@ -68,8 +68,23 @@ struct advance {
   int req[2];
   unsigned int flags;
   char *helptext;
-  /* Message displayed to the first player to get a bonus tech */
+
+  /* 
+   * Message displayed to the first player to get a bonus tech 
+   */
   char *bonus_message;
+
+  /* 
+   * Cost of advance in bulbs as specified in ruleset. -1 means that
+   * no value was set in ruleset. Server send this to client.
+   */
+  int preset_cost;
+
+  /* 
+   * Number of requirements this technology has _including_
+   * itself. Precalculated at server then send to client.
+   */
+  int num_reqs;
 };
 
 enum tech_state get_invention(struct player *plr, Tech_Type_id tech);
@@ -94,6 +109,8 @@ int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal);
 int total_bulbs_required_for_goal(struct player *pplayer, Tech_Type_id goal);
 int is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
 			   Tech_Type_id goal);
+
+void precalc_tech_data(void);
 
 extern struct advance advances[];
 

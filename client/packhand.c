@@ -1700,6 +1700,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->req[0] = p->req[0];
   a->req[1] = p->req[1];
   a->flags = p->flags;
+  a->preset_cost = p->preset_cost;
+  a->num_reqs = p->num_reqs;
   
   free(a->helptext);
   a->helptext = p->helptext;	/* pointer assignment */
@@ -2117,6 +2119,13 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.nuke_contamination = packet->nuke_contamination;
   game.rgame.granary_food_ini = packet->granary_food_ini;
   game.rgame.granary_food_inc = packet->granary_food_inc;
+  if(has_capability("tech_cost_style", aconnection.capability)) {
+    game.rgame.tech_cost_style = packet->tech_cost_style;
+    game.rgame.tech_leakage = packet->tech_leakage;
+  } else {
+    game.rgame.tech_cost_style = 0;
+    game.rgame.tech_leakage = 0;
+  }
 }
 
 /**************************************************************************

@@ -620,6 +620,8 @@ struct packet_ruleset_tech {
   int flags;
   char name[MAX_LEN_NAME];
   char *helptext;		/* same as for packet_ruleset_unit, above */
+  int preset_cost;
+  int num_reqs;
 };
 
 struct packet_ruleset_building {
@@ -787,6 +789,8 @@ struct packet_ruleset_game {
   int nuke_contamination;
   int granary_food_ini;
   int granary_food_inc;
+  int tech_cost_style;
+  int tech_leakage;
   int global_init_techs[MAX_NUM_TECH_LIST];
 };
 

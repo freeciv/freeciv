@@ -531,6 +531,9 @@ static void load_ruleset_techs(struct section_file *file)
 
     a->helptext = lookup_helptext(file, sec[i]);    
     a->bonus_message = lookup_string(file, sec[i], "bonus_message");
+    a->preset_cost =
+	secfile_lookup_int_default(file, -1, "%s.%s", sec[i], "cost");
+    a->num_reqs = 0;
     
     a++;
   }
@@ -554,6 +557,8 @@ static void load_ruleset_techs(struct section_file *file)
       }
     }
   } 
+
+  precalc_tech_data();
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -2242,6 +2247,29 @@ static void load_ruleset_game(char *ruleset_subdir)
     game.rgame.granary_food_inc = 100;
   }
 
+  game.rgame.tech_cost_style =
+      secfile_lookup_int(&file, "civstyle.tech_cost_style");
+  if (game.rgame.tech_cost_style < 0 || game.rgame.tech_cost_style > 2) {
+    freelog(LOG_ERROR, "Bad value %i for tech_cost_style. Using 0.",
+	    game.rgame.tech_cost_style);
+    game.rgame.tech_cost_style = 0;
+  }
+
+  game.rgame.tech_leakage =
+      secfile_lookup_int(&file, "civstyle.tech_leakage");
+  if (game.rgame.tech_leakage < 0 || game.rgame.tech_leakage > 2) {
+    freelog(LOG_ERROR, "Bad value %i for tech_leakage. Using 0.",
+	    game.rgame.tech_leakage);
+    game.rgame.tech_leakage = 0;
+  }
+
+  if (game.rgame.tech_cost_style == 0 && game.rgame.tech_leakage != 0) {
+    freelog(LOG_ERROR,
+	    "Only tech_leakage 0 supported with tech_cost_style 0.");
+    freelog(LOG_ERROR, "Switching to tech_leakage 0.");
+    game.rgame.tech_leakage = 0;
+  }
+
   /*
    * Load global initial techs
    */
@@ -2309,6 +2337,8 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.flags = a->flags;
+    packet.preset_cost = a->preset_cost;
+    packet.num_reqs = a->num_reqs;
     packet.helptext = a->helptext;   /* pointer assignment */
 
     lsend_packet_ruleset_tech(dest, &packet);
@@ -2569,6 +2599,8 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.nuke_contamination = game.rgame.nuke_contamination;
   misc_p.granary_food_ini = game.rgame.granary_food_ini;
   misc_p.granary_food_inc = game.rgame.granary_food_inc;
+  misc_p.tech_cost_style = game.rgame.tech_cost_style;
+  misc_p.tech_leakage = game.rgame.tech_leakage;
 
   assert(sizeof(misc_p.global_init_techs) ==
 	 sizeof(game.rgame.global_init_techs));

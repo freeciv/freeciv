@@ -72,7 +72,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
 " fund_added processing_packets angrycitizen tile_trade init_techs"\
-" short_worklists"
+" short_worklists tech_cost_style"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -106,6 +106,10 @@ const char * const our_capability = our_capability_internal;
    specified in rulesets.
 
    "short_worklists" sends short worklists to reduce bandwidth used.
+
+   "tech_cost_style" allows using different algorithms for calculation
+   technology cost. The algorithm used is selected with
+   game.ruleset.tech_cost_style and game.ruleset.tech_leakage.
 */
 
 void init_our_capability(void)

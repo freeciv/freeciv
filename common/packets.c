@@ -3100,6 +3100,10 @@ int send_packet_ruleset_tech(struct connection *pc,
   cptr=put_uint8(cptr, packet->req[0]);
   cptr=put_uint8(cptr, packet->req[1]);
   cptr=put_uint32(cptr, packet->flags);
+  if (has_capability("tech_cost_style", pc->capability)) {
+    cptr = put_uint32(cptr, packet->preset_cost);
+    cptr = put_uint32(cptr, packet->num_reqs);
+  }
   cptr=put_string(cptr, packet->name);
   
   /* This must be last, so client can determine length: */
@@ -3128,6 +3132,10 @@ receive_packet_ruleset_tech(struct connection *pc)
   iget_uint8(&iter, &packet->req[0]);
   iget_uint8(&iter, &packet->req[1]);
   iget_uint32(&iter, &packet->flags);
+  if (has_capability("tech_cost_style", pc->capability)) {
+    iget_uint32(&iter, &packet->preset_cost);
+    iget_uint32(&iter, &packet->num_reqs);
+  }
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
@@ -3782,6 +3790,10 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr=put_uint8(cptr, packet->nuke_contamination);
   cptr=put_uint8(cptr, packet->granary_food_ini);
   cptr=put_uint8(cptr, packet->granary_food_inc);
+  if (has_capability("tech_cost_style", pc->capability)) {
+    cptr = put_uint8(cptr, packet->tech_cost_style);
+    cptr = put_uint8(cptr, packet->tech_leakage);
+  }
   if (has_capability("init_techs", pc->capability)) {
     cptr = put_tech_list(cptr, packet->global_init_techs);
   }
@@ -3812,6 +3824,10 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->nuke_contamination);
   iget_uint8(&iter, &packet->granary_food_ini);
   iget_uint8(&iter, &packet->granary_food_inc);
+  if (has_capability("tech_cost_style", pc->capability)) {
+    iget_uint8(&iter, &packet->tech_cost_style);
+    iget_uint8(&iter, &packet->tech_leakage);
+  }
   if (has_capability("init_techs", pc->capability)) {
     iget_tech_list(&iter, packet->global_init_techs);
   }
