@@ -571,7 +571,7 @@ Gives one extra food resource on all Ocean squares.  The city needs\
 [building_hydro_plant]
 name		= _("Hydro Plant")
 tech_req	= "Electronics"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.hydro_plant"
 graphic_alt	= "-"
 terr_gate	= "Mountains"
@@ -724,7 +724,7 @@ Together with a Factory, a Manufacturing Plant increases the shield\
 [building_nuclear_plant]
 name		= _("Nuclear Plant")
 tech_req	= "Nuclear Power"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.nuclear_plant"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -894,7 +894,7 @@ Allows a city to build veteran sea units.  Also, damaged sea units\
 [building_power_plant]
 name		= _("Power Plant")
 tech_req	= "Refining"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.power_plant"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -1074,7 +1074,7 @@ Allows a city to grow larger than size 12.  An Aqueduct is first\
 [building_solar_plant]
 name		= _("Solar Plant")
 tech_req	= "Never"		; "Environmentalism"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.solar_plant"
 graphic_alt	= "-"
 ;terr_gate	=
