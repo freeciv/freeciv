@@ -66,11 +66,11 @@ static int unit_can_defend(Unit_Type_id type);
   - don't care about some directions?
   
   Note this function only makes sense for ground units.
+
+  Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela
 **************************************************************************/
 static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 {
-  /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
-  int ax, ay, k;
   int owner=myunit->owner;
 
   assert(is_ground_unit(myunit));
@@ -81,20 +81,13 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
       && !is_non_allied_unit_tile(map_get_tile(x0, y0), owner))
     return 0;
 
-  for (k = 0; k < 8; k++) {
-    ax = map_adjust_x(myunit->x + DIR_DX[k]);
-    ay = map_adjust_y(myunit->y + DIR_DY[k]);
-    
-    if (map_get_terrain(ax,ay)!=T_OCEAN
-	&& is_non_allied_unit_tile(map_get_tile(ax,ay),owner))
+  adjc_iterate(x0, y0, ax, ay) {
+    if (map_get_terrain(ax, ay) != T_OCEAN
+	&& is_non_allied_unit_tile(map_get_tile(ax,ay), owner))
       return 0;
-  }
+  } adjc_iterate_end;
   
   return 1;
-  /* return was -1 as a flag value; I've moved -1 value into
-   * could_unit_move_to_tile(), since that's where it becomes
-   * distinct/relevant --dwp
-   */
 }
 
 /**************************************************************************
@@ -219,14 +212,14 @@ static int unit_move_turns(struct unit *punit, int x, int y)
       m += SINGLE_MOVE;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
       m += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
-  }   
+    m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST) * SINGLE_MOVE;
+  }
 
   if (unit_types[punit->type].move_type == LAND_MOVING)
     d = warmap.cost[x][y] / m;
   else if (unit_types[punit->type].move_type == SEA_MOVING)
     d = warmap.seacost[x][y] / m;
-  else d = real_map_distance(punit->x, punit->y, x, y) * 3 / m;
+  else d = real_map_distance(punit->x, punit->y, x, y) * SINGLE_MOVE / m;
   return(d);
 }
 
@@ -235,21 +228,14 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 **************************************************************************/
 static int tile_is_accessible(struct unit *punit, int x, int y)
 {
-  int dir, x1, y1;
-  
   if (unit_really_ignores_zoc(punit))  return 1;
   if (is_my_zoc(punit, x, y))          return 1;
 
-  for (dir = 0; dir < 8; dir++) {
-    x1 = x + DIR_DX[dir];
-    y1 = y + DIR_DY[dir];
-    if (!normalize_map_pos(&x1, &y1))
-      continue;
-
+  adjc_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) != T_OCEAN
 	&& is_my_zoc(punit, x1, y1))
       return 1;
-  }
+  } adjc_iterate_end;
 
   return 0;
 }
@@ -284,7 +270,7 @@ int ai_manage_explorer(struct unit *punit)
   if (!is_barbarian(pplayer)
       && is_ground_unit(punit)) { /* boats don't hunt huts */
     int maxcost = pplayer->ai.control ? 2 * THRESHOLD : 3;
-    int bestcost = maxcost * 3 + 1;
+    int bestcost = maxcost * SINGLE_MOVE + 1;
 
     /* Iterating outward so that with two tiles with the same movecost
        the nearest is used */
@@ -299,7 +285,7 @@ int ai_manage_explorer(struct unit *punit)
 	bestcost = warmap.cost[best_x][best_y];
       }
     } iterate_outward_end;
-    if (bestcost <= maxcost * 3) {
+    if (bestcost <= maxcost * SINGLE_MOVE) {
       punit->goto_dest_x = best_x;
       punit->goto_dest_y = best_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
@@ -551,37 +537,33 @@ static int stack_attack_value(int x, int y)
 
 static void invasion_funct(struct unit *punit, int dest, int n, int which)
 { 
-  int i, j;
-  struct city *pcity;
   int x, y;
   if (dest) { x = punit->goto_dest_x; y = punit->goto_dest_y; }
   else { x = punit->x; y = punit->y; }
-  for (j = y - n; j <= y + n; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = x - n; i <= x + n; i++) {
-      pcity = map_get_city(i, j);
-      if (pcity && pcity->owner != punit->owner)
-        if (dest || punit->activity != ACTIVITY_GOTO || !has_defense(pcity))
-          pcity->ai.invasion |= which;
-    }
-  }
+
+  square_iterate(x, y, n, i, j) {
+    struct city *pcity = map_get_city(i, j);
+    if (pcity && pcity->owner != punit->owner)
+      if (dest || punit->activity != ACTIVITY_GOTO || !has_defense(pcity))
+	pcity->ai.invasion |= which;
+  } square_iterate_end;
 }
 
+/**************************************************************************
+ this is still pretty dopey but better than the original -- Syela
+**************************************************************************/
 static int reinforcements_value(struct unit *punit, int x, int y)
-{ /* this is still pretty dopey but better than the original -- Syela */
-  int val = 0, i, j;
-  struct tile *ptile;
-  for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = x - 1; i <= x + 1; i++) {
-      ptile = map_get_tile(i, j);
-      unit_list_iterate(ptile->units, aunit)
-        if (aunit == punit || aunit->owner != punit->owner) continue;
-        val += (unit_belligerence_basic(aunit));
-      unit_list_iterate_end;
-    }
-  }
-  return(val);
+{
+  int val = 0;
+  square_iterate(x, y, 1, i, j) {
+    struct tile *ptile = map_get_tile(i, j);
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit == punit || aunit->owner != punit->owner) continue;
+      val += (unit_belligerence_basic(aunit));
+    } unit_list_iterate_end;
+  } square_iterate_end;
+
+  return val;
 }
 
 static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
