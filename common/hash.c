@@ -228,7 +228,7 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
 					    unsigned int nbuckets)
 {
   struct hash_table *h;
-  int i;
+  unsigned i;
 
   freelog(LOG_DEBUG, "New hash table with %u buckets", nbuckets);
   
@@ -271,7 +271,7 @@ struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp)
 **************************************************************************/
 static void hash_free_contents(struct hash_table *h)
 {
-  int i;
+  unsigned i;
 
   for(i=0; i<h->num_buckets; i++) {
     zero_hbucket(&h->buckets[i]);
@@ -297,7 +297,7 @@ void hash_free(struct hash_table *h)
 static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
 {
   struct hash_table *h_new;
-  int i;
+  unsigned i;
 
   assert(new_nbuckets >= h->num_entries);
 
