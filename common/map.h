@@ -222,21 +222,7 @@ void reset_move_costs(int x, int y);
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
-/* Use map_to_native_pos instead unless you know what you're doing. */
-#define map_pos_to_native_x(map_x, map_y)                                   \
-  (topo_has_flag(TF_ISO)                                                    \
-   ? (((map_x) - (map_y) + map.xsize                                        \
-       - (((map_x) + (map_y) - map.xsize) & 1)) / 2)                        \
-   : (map_x))
-#define map_pos_to_native_y(map_x, map_y)                                   \
-  (topo_has_flag(TF_ISO)                                                    \
-   ? ((map_x) + (map_y) - map.xsize)                                        \
-   : (map_y))
-
-#define map_pos_to_index(map_x, map_y)        \
-  (CHECK_MAP_POS((map_x), (map_y)),           \
-   (map_pos_to_native_x(map_x, map_y)         \
-    + map_pos_to_native_y(map_x, map_y) * map.xsize))
+static inline int map_pos_to_index(int map_x, int map_y);
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
 #define index_to_map_pos(pmap_x, pmap_y, index) \
@@ -683,5 +669,21 @@ extern const int CAR_DIR_DY[4];
 #define MAP_DEFAULT_SEPARATE_POLES   TRUE
 #define MAP_MIN_SEPARATE_POLES       FALSE
 #define MAP_MAX_SEPARATE_POLES       TRUE
+
+
+/*
+ * Inline function definitions.  These are at the bottom because they may use
+ * elements defined above.
+ */
+
+static inline int map_pos_to_index(int map_x, int map_y)
+{
+  /* Note: writing this as a macro is hard; it needs temp variables. */
+  int nat_x, nat_y;
+
+  CHECK_MAP_POS(map_x, map_y);
+  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  return nat_x + nat_y * map.xsize;
+}
 
 #endif  /* FC__MAP_H */
