@@ -257,7 +257,7 @@ struct named_sprites {
       *total[MAX_INDEX_VALID];     /* includes all possibilities */
   } road, rail;
   struct {
-    struct Sprite **unit;
+    struct sprite_vector unit;
     struct Sprite *nuke;
   } explode;
   struct {
@@ -368,6 +368,7 @@ struct Sprite *get_sample_city_sprite(int city_style);
 struct Sprite *get_arrow_sprite(void);
 struct Sprite *get_tax_sprite(Output_type_id otype);
 struct Sprite *get_treaty_thumb_sprite(bool on_off);
+struct sprite_vector *get_unit_explode_animation(void);
 
 /* full pathnames: */
 extern char *main_intro_filename;
@@ -410,8 +411,6 @@ extern char *minimap_intro_filename;
 extern int OVERVIEW_TILE_SIZE;
 #define OVERVIEW_TILE_WIDTH ((MAP_IS_ISOMETRIC ? 2 : 1) * OVERVIEW_TILE_SIZE)
 #define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
-
-extern int num_tiles_explode_unit;
 
 /* Tileset accessor functions. */
 bool tileset_is_isometric(void);

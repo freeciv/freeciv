@@ -1937,6 +1937,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 			     struct unit *punit1, int hp1)
 {
   static struct timer *anim_timer = NULL; 
+  struct sprite_vector *anim = get_unit_explode_animation();
+  const int num_tiles_explode_unit = sprite_vector_size(anim);
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int canvas_x, canvas_y, i;
 
@@ -1973,8 +1975,9 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     for (i = 0; i < num_tiles_explode_unit; i++) {
       int w, h;
+      struct Sprite *sprite = *sprite_vector_get(anim, i);
 
-      get_sprite_dimensions(sprites.explode.unit[i], &w, &h);
+      get_sprite_dimensions(sprite, &w, &h);
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
       /* We first draw the explosion onto the unit and draw draw the
@@ -1986,7 +1989,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       canvas_put_sprite_full(mapview.store,
 			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
 			     canvas_y + NORMAL_TILE_HEIGHT / 2 - h / 2,
-			     sprites.explode.unit[i]);
+			     sprite);
       dirty_rect(canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
       flush_dirty();

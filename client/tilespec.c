@@ -79,8 +79,6 @@ static int small_sprite_width, small_sprite_height;
 
 static int city_names_font_size, city_productions_font_size;
 
-int num_tiles_explode_unit=0;
-
 static int roadstyle;
 enum fog_style fogstyle;
 
@@ -1447,23 +1445,16 @@ static void tilespec_lookup_sprite_tags(void)
 
   SET_SPRITE(explode.nuke, "explode.nuke");
 
-  num_tiles_explode_unit = 0;
-  do {
-    my_snprintf(buffer, sizeof(buffer), "explode.unit_%d",
-		num_tiles_explode_unit++);
-  } while (sprite_exists(buffer));
-  num_tiles_explode_unit--;
-    
-  if (num_tiles_explode_unit==0) {
-    sprites.explode.unit = NULL;
-  } else {
-    sprites.explode.unit = fc_calloc(num_tiles_explode_unit,
-				     sizeof(struct Sprite *));
+  sprite_vector_init(&sprites.explode.unit);
+  for (i = 0; ; i++) {
+    struct Sprite *sprite;
 
-    for (i = 0; i < num_tiles_explode_unit; i++) {
-      my_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
-      SET_SPRITE(explode.unit[i], buffer);
+    my_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
+    sprite = load_sprite(buffer);
+    if (!sprite) {
+      break;
     }
+    sprite_vector_append(&sprites.explode.unit, &sprite);
   }
 
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
@@ -3607,9 +3598,7 @@ void tilespec_free_tiles(void)
     free(sf);
   } specfile_list_iterate_end;
 
-  if (num_tiles_explode_unit > 0) {
-    free(sprites.explode.unit);
-  }
+  sprite_vector_free(&sprites.explode.unit);
 }
 
 /**************************************************************************
@@ -3680,6 +3669,15 @@ struct Sprite *get_tax_sprite(Output_type_id otype)
 struct Sprite *get_treaty_thumb_sprite(bool on_off)
 {
   return sprites.treaty_thumb[on_off ? 1 : 0];
+}
+
+/**************************************************************************
+  Return a sprite_vector containing the animation sprites for a unit
+  explosion.
+**************************************************************************/
+struct sprite_vector *get_unit_explode_animation(void)
+{
+  return &sprites.explode.unit;
 }
 
 /**************************************************************************
