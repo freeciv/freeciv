@@ -716,6 +716,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     auto_arrange_workers(pcity);
   } city_list_iterate_end;
 
+  city_list_unlink_all(&minilist);
+
   sync_cities();
 }
 #undef LOG_EMERGENCY
