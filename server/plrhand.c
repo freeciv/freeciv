@@ -420,19 +420,16 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
    * Inform player about his new tech.
    */
   send_player_info(plr, plr);
-  
+
   /*
-   * Update all cities if the new tech affects happiness.
+   * Update all cities in case the tech changed some effects. This is
+   * inefficient; it could be optimized if it's found to be a problem.  But
+   * techs aren't researched that often.
    */
-  if (tech_found == game.rtech.cathedral_plus
-      || tech_found == game.rtech.cathedral_minus
-      || tech_found == game.rtech.colosseum_plus
-      || tech_found == game.rtech.temple_plus) {
-    city_list_iterate(plr->cities, pcity) {
-      city_refresh(pcity);
-      send_city_info(plr, pcity);
-    } city_list_iterate_end;
-  }
+  cities_iterate(pcity) {
+    city_refresh(pcity);
+    send_city_info(city_owner(pcity), pcity);
+  } cities_iterate_end;
 
   /*
    * Send all player an updated info of the owner of the Marco Polo

@@ -1469,17 +1469,6 @@ static void load_ruleset_buildings(struct section_file *file)
     game.default_building = B_LAST;
   }
 
-  /* FIXME: remove all of the following when gen-impr implemented... */
-
-  game.rtech.cathedral_plus =
-    lookup_tech(file, "b_special", "cathedral_plus", FALSE, filename, NULL);
-  game.rtech.cathedral_minus =
-    lookup_tech(file, "b_special", "cathedral_minus", FALSE, filename, NULL);
-  game.rtech.colosseum_plus =
-    lookup_tech(file, "b_special", "colosseum_plus", FALSE, filename, NULL);
-  game.rtech.temple_plus =
-    lookup_tech(file, "b_special", "temple_plus", FALSE, filename, NULL);
-
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -1962,11 +1951,6 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.add_to_size_limit = game.add_to_size_limit;
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;
-
-  packet.rtech_cathedral_plus = game.rtech.cathedral_plus;
-  packet.rtech_cathedral_minus = game.rtech.cathedral_minus;
-  packet.rtech_colosseum_plus = game.rtech.colosseum_plus;
-  packet.rtech_temple_plus = game.rtech.temple_plus;
 
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
     packet.rtech_partisan_req[i] = game.rtech.partisan_req[i];

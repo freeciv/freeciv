@@ -133,6 +133,7 @@ name     = _("Communism")
 req1     = "Philosophy"
 req2     = "Industrialization"
 flags    = ""
+helptext = _("Reduces the effect of Cathedrals.")
 
 [advance_computers]
 name     = _("Computers")
@@ -175,6 +176,7 @@ name     = _("Electricity")
 req1     = "Metallurgy"
 req2     = "Magnetism"
 flags    = ""
+helptext = _("Improves the effect of Colosseums.")
 
 [advance_electronics]
 name     = _("Electronics")
@@ -373,6 +375,7 @@ name     = _("Mysticism")
 req1     = "Ceremonial Burial"
 req2     = "None"
 flags    = ""
+helptext = _("Improves the effect of Temples.")
 
 [advance_navigation]
 name     = _("Navigation")
@@ -535,6 +538,7 @@ name     = _("Theology")
 req1     = "Feudalism"
 req2     = "Monotheism"
 flags    = ""
+helptext = _("Improves the effect of Cathedrals.")
 
 [advance_theory_of_gravity]
 name     = _("Theory of Gravity")

@@ -373,6 +373,7 @@ name     = _("Mysticism")
 req1     = "Ceremonial Burial"
 req2     = "None"
 flags    = ""
+helptext = _("Improves the effect of Temples.")
 
 [advance_navigation]
 name     = _("Navigation")

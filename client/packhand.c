@@ -2113,11 +2113,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.notradesize = packet->notradesize;
   game.fulltradesize = packet->fulltradesize;
   
-  game.rtech.cathedral_plus = packet->rtech_cathedral_plus;
-  game.rtech.cathedral_minus = packet->rtech_cathedral_minus;
-  game.rtech.colosseum_plus = packet->rtech_colosseum_plus;
-  game.rtech.temple_plus = packet->rtech_temple_plus;
-
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
     game.rtech.partisan_req[i]  = packet->rtech_partisan_req[i];
     freelog(LOG_DEBUG, "techl %d: %d", i, game.rtech.partisan_req[i]);

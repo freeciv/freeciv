@@ -174,10 +174,6 @@ struct civ_game {
   Impr_Type_id land_defend_building;
 
   struct {
-    int cathedral_plus;		/* eg Theology */
-    int cathedral_minus;	/* eg Communism */
-    int colosseum_plus;		/* eg Electricity */
-    int temple_plus;		/* eg Mysticism */
     int nav;			/* AI convenience: tech_req for first
 				   non-trireme ferryboat */
     int u_partisan;		/* convenience: tech_req for first

@@ -1197,10 +1197,6 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
-  UINT8 rtech_cathedral_plus;
-  UINT8 rtech_cathedral_minus;
-  UINT8 rtech_colosseum_plus;
-  UINT8 rtech_temple_plus;
   TECH_LIST rtech_partisan_req[MAX_NUM_TECH_LIST]; 
   UINT8 government_when_anarchy;
   UINT8 default_government;

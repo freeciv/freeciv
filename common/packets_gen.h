@@ -921,10 +921,6 @@ struct packet_ruleset_control {
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;
-  int rtech_cathedral_plus;
-  int rtech_cathedral_minus;
-  int rtech_colosseum_plus;
-  int rtech_temple_plus;
   int rtech_partisan_req[MAX_NUM_TECH_LIST];
   int government_when_anarchy;
   int default_government;
