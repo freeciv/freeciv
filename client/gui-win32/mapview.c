@@ -790,8 +790,23 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct Sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  pixmap_put_overlay_tile_draw(pcanvas->hdc, canvas_x, canvas_y,
+  HDC hdc;
+  HBITMAP old = NULL;
+
+  if (pcanvas->hdc == NULL) {
+    hdc = CreateCompatibleDC(NULL);
+    old = SelectObject(hdc, pcanvas->bitmap);
+  } else {
+    hdc = pcanvas->hdc;
+  }
+
+  pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       psprite, fog);
+
+  if (pcanvas->hdc == NULL) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
 }
 
 /**************************************************************************
