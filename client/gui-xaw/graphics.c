@@ -75,20 +75,31 @@ void load_intro_gfx(void)
 {
   int w;
   char s[64];
+  int y=44;
 
   intro_gfx_sprite=load_gfxfile(main_intro_filename);
   radar_gfx_sprite=load_gfxfile(minimap_intro_filename);
 
   w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
-	
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
-	      160/2-w/2, 40, 
+	      (160/2-w/2)+1, y+1, 
 	      WORD_VERSION, strlen(WORD_VERSION));
-  
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+	      160/2-w/2, y, 
+	      WORD_VERSION, strlen(WORD_VERSION));
+
+  y+=(main_font_struct->ascent + main_font_struct->descent);
+
   sprintf(s, "%d.%d.%d", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION);
   w=XTextWidth(main_font_struct, s, strlen(s));
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
-	      160/2-w/2, 60, s, strlen(s));
+	      (160/2-w/2)+1, y+1, s, strlen(s));
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+	      160/2-w/2, y, s, strlen(s));
 }
 
 /***************************************************************************
