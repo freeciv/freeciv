@@ -145,7 +145,7 @@ static void popup_connect_window(void)
   env.edit_get_width=edit_get_width;
   env.button_callback=button_callback;
 
-  screen = te_get_screen(root_window, "connect", &env, DEPTH_MIN + 2);
+//  screen = te_get_screen(root_window, "connect", &env, DEPTH_MIN + 2);
 }
 
 /**************************************************************************
@@ -234,7 +234,7 @@ void close_connection_dialog(void)
   /* I do not think this is right, but currently gui-fs depends on it.
    * It is called from client common code when shutting down. So I am
    * not changing it now. - Per */
-  te_destroy_screen(screen);
+//  te_destroy_screen(screen);
 }
 
 /**************************************************************************
