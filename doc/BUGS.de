@@ -1,0 +1,78 @@
+======
+FEHLER
+======                                                                                                 
+
+Freeciv 1.12.0 ist eine stabile Version, und kann für den täglichen
+Gebrauch als ausreichend fehlerfrei betrachtet werden. Wenn Du jedoch
+einen Fehler findest, würden wir wirklich gerne davon erfahren, damit
+wir ihn reparieren können. Diese Datei listet die bekannten Fehler
+dieser Version, und informiert darüber, wie Fehler berichtet werden 
+können.
+
+Hier sind nur die offensichtlichsten Fehler aufgeführt. Eine vollständige
+Liste findest Du unter:
+	
+	http://www.freeciv.org/cgi-bin/bugs
+
+
+BEKANNTE FEHLER:
+================
+   
+ - Einige Texte, die spezielle Zeichen enthalten, werden nicht
+   angezeigt, wenn Dein "locale" (die Umgebungsvariable LANG) auf "C"
+   gestellt ist. Zur Umgehung stelle Dein locale auf etwas anderes, 
+   zum Beispiel "de_DE".
+ - Die auf "easy" gestellten Computerspieler sind nicht leicht genug
+   für neue Spieler. Wenn Dich die KI schon in einer früher Spielphase
+   vernichtet, probiere, die "generator" Option auf 2 oder 3 zu
+   stellen. Gib im Server "set generator 2" oder "set generator 3" ein, 
+   bevor das Spiel gestartet wird.
+ - Die auf "hard" gestellten Computergegner sind nicht schwer genug
+   für sehr erfahrene Spieler, und sie tun immer noch einige dumme
+   Dinge. Zum Beispiel lassen sie Städte revoltieren, anstatt sie
+   schrumpfen zu lassen.
+ - Manchmal gibt es zu viele Fortschritte im "Ziel" Menü des
+   Fortschrittsdialoges, so daß das Menü unten aus dem Schirm
+   herausläuft, und sich manche Einträge nicht anwählen lassen.
+ - Der Server schneidet sehr lange Hostnamen ab.
+ - Das Wunder Große Mauer, das als Stadtmauer in jeder Stadt wirkt,
+   verhindert, das Du in den Städten richtige Mauern bauen kannst,
+   die nicht verschwinden, wenn das Wunder veraltet ist.
+ - Einige Wirkungen von Wundern und Fortschritten treten erst nach
+   einer Runde Verzögerung ein. Wenn Du zum Beispiel den Leuchturm
+   fertigstellst, bekommen einige Triremen den Bewegungsbonus erst eine 
+   Runde später.
+ - Der Xaw Client kann im Stadtdialog nur maximal 25 Bürger anzeigen.
+ - Das "automatische Angreifen" funktioniert allgemein nicht
+   besonders gut.
+ - Wenn der Server den Weg für einen "Gehe nach" Befehl festlegt, zum
+   Beispiel für einen automatische Siedler oder ein Flugzeug, benutzt
+   der Server Wissen, das dem Spieler nicht zur Verfügung steht.
+ - Der Fortschrittsdialog wird nicht erneuert, wenn Du einen
+   Fortschritt erhälst. Du mußt den Dialog schließen und wieder öffnen.
+ - Im Gtk Clienten enthält die Anzeige unter der kleinen Karte manchmal
+   Unsinn.
+ - Automatische Funktionen wie automatisches Erkunden behandeln
+   Triremen nicht sehr gut.
+ - LOG_DEBUG funktioniert nur mit GCC Compilern.
+ - Die Farbmarkierungen im Gtk Nachrichtenfenster gehen verloren,
+   wenn das Fenster geschlossen und wieder geöffnet wird.
+ - Beim setzen von Servervariablen werden manche Werte nicht gut
+   genug überprüft.
+ - Wenn Du gleichzeitig mehrere globale Arbeitslisten veränderst,
+   passieren böse Dinge.
+ - Auch im Einzelspiel hat die KI die Möglichkeit, sowohl vor als
+   auch nach dem Zug des menschlichen Spielers zu ziehen. Das ergibt
+   manchmal den Eindruck, als wenn ein Computerspieler zweimal ziehen
+   würde.
+
+FEHLER MITTEILEN:
+=================
+
+
+WEITERE INFORMATIONEN:
+======================
+
+Weitere Informationen findest Du, wie immer, auf der Freeciv Website:
+
+        http://www.freeciv.org/
