@@ -341,6 +341,7 @@ int sniff_packets(void)
       rl_attempted_completion_function = freeciv_completion;
 
       readline_initialized = TRUE;
+      atexit(rl_callback_handler_remove);
     }
   }
 #endif /* HAVE_LIBREADLINE */
