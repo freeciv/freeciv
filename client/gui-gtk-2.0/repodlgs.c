@@ -131,6 +131,8 @@ void create_science_dialog(bool make_modal)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(science_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(science_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -165,7 +167,7 @@ void create_science_dialog(bool make_modal)
 
   science_current_label=gtk_progress_bar_new();
   gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
-  gtk_widget_set_usize(science_current_label, 0, 25);
+  gtk_widget_set_size_request(science_current_label, -1, 25);
   
   science_help_toggle = gtk_check_button_new_with_label (_("Help"));
   gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
@@ -185,7 +187,7 @@ void create_science_dialog(bool make_modal)
 
   science_goal_label = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( hbox ), science_goal_label, TRUE, FALSE, 0 );
-  gtk_widget_set_usize(science_goal_label, 0,25);
+  gtk_widget_set_size_request(science_goal_label, -1, 25);
 
   w = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
@@ -280,7 +282,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     int steps = num_unknown_techs_for_goal(game.player_ptr, to);
     my_snprintf(text, sizeof(text),
 		PL_("(%d step)", "(%d steps)", steps), steps);
-    gtk_set_label(science_goal_label,text);
+    gtk_label_set_text(GTK_LABEL(science_goal_label),text);
 
     packet.tech=to;
     send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
@@ -448,9 +450,9 @@ void science_dialog_update(void)
     item = gtk_menu_item_new_with_label(data);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
     if (strlen(data) > 0)
-      gtk_signal_connect(GTK_OBJECT(item), "activate",
-			 GTK_SIGNAL_FUNC(science_change_callback),
-			 g_list_nth_data(sorting_list, i));
+      g_signal_connect(item, "activate",
+		       G_CALLBACK(science_change_callback),
+		       g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(popupmenu);
@@ -497,9 +499,9 @@ void science_dialog_update(void)
 
     item = gtk_menu_item_new_with_label(data);
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
-    gtk_signal_connect(GTK_OBJECT(item), "activate",
-		       GTK_SIGNAL_FUNC(science_goal_callback),
-		       g_list_nth_data(sorting_list, i));
+    g_signal_connect(item, "activate",
+		     G_CALLBACK(science_goal_callback),
+		     g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(goalmenu);
@@ -563,6 +565,8 @@ void create_economy_report_dialog(bool make_modal)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(economy_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(economy_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -575,6 +579,8 @@ void create_economy_report_dialog(bool make_modal)
   economy_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
   sw = gtk_scrolled_window_new(NULL,NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(economy_dialog_shell)->vbox),
@@ -843,6 +849,8 @@ void create_activeunits_report_dialog(bool make_modal)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(activeunits_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -855,6 +863,8 @@ void create_activeunits_report_dialog(bool make_modal)
   activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
   sw = gtk_scrolled_window_new(NULL,NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
