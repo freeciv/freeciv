@@ -480,6 +480,8 @@ tiles = { "row", "column", "tag"
 ; These should probably be handled differently and have
 ; a different size...
 
+ 16, 12, "upkeep.gold"
+ 16, 13, "upkeep.gold2"
  16, 15, "upkeep.food"
  16, 16, "upkeep.food2"
  16, 17, "upkeep.unhappy"
