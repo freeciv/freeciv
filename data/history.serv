@@ -1,0 +1,5 @@
+# Server commands to use the history rules.
+#
+# Use this as, eg, "./ser -r data/history.serv" 
+#
+rulesetdir history

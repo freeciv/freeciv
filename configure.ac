@@ -697,6 +697,7 @@ AC_CONFIG_FILES([Makefile
 	  data/civ2/Makefile 
 	  data/scenario/Makefile 
 	  data/nation/Makefile 
+	  data/history/Makefile 
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
