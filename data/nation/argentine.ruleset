@@ -2,8 +2,12 @@
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
-leader="San Martin", "de Rosas", "Rivadavia", "Peron", "Eva Peron", "Menem"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+leader="José de San Martín", "Juan Manuel de Rosas", "Justo Urquiza",
+       "Bernardino Rivadavia", "Domingo Sarmiento", "Juan Domingo Perón",
+       "Eva Duarte de Perón", "Carlos Saúl Menem"
+leader_sex="Male", "Male", "Male",
+           "Male", "Male", "Male",
+           "Female", "Male"
 flag="f.argentina"
 flag_alt = "-"
 city_style = "European"
@@ -19,11 +23,25 @@ wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
-  "Buenos Aires", "San Juan", "Mendoza", "San Luís", "Córdoba", "Rosario",
-  "Tucumán", "Entre Rios", "Rio Grande", "Mar del Plata", "Santa Fe",
-  "Rawson", "Usuahia", "Islas Malvinas", "Comodoro Rivadavia", "Junín",
-  "Maipú", "Chimbas", "El Leoncito", "La Quiaca", "Paraná", "Santa Cruz",
-  "Santiago del Estero", "Jujuy", "Rio Gallegos", "Corrientes", "Mercedes",
-  "Reconquista", "La Rioja", "Lanus", "Moron", "La Plata", "San Lorenzo",
-  "San Pedro", "Rio Negro", "Quequén", "Neuquén", "Bariloche", "Bahia Blanca",
-  "San Sebastián", "Quilmes", "Decepción", "Esperanza", "Teniente Matienzo"
+  "Buenos Aires", "Mar del Plata", "Rosario", "La Plata", "Paraná",
+  "Santa Fe", "Corrientes", "Resistencia", "Salta", "Córdoba",
+  "San Miguel de Tucumán", "Santiago del Estero", "San Juan", "Mendoza",
+  "Bahía Blanca", "San Salvador de Jujuy", "Formosa", "Catamarca",
+  "San Luis", "Río Cuarto", "Villa María", "San Nicolás de los arroyos",
+  "Zárate", "Junín", "Comodoro Rivadavia", "San Carlos de Bariloche",
+  "Tandil", "Tartagal", "Embarcación", "Libertador General San Martín",
+  "San Antonio de los Cobres", "Metán", "Rosario de la Frontera",
+  "Las Lomitas", "Campo Gallo", "Tintina", "Andalgalá", "Tinogasta",
+  "Añatuya", "Pinto", "Tostado", "Santo Tomé", "Mercedes", "Albardón",
+  "Quilmes", "San Rafael", "General Alvear", "Malargüe", "Zapala",
+  "Neuquén", "General Roca", "Venado Tuerto", "Rufino", "Pergamino",
+  "Ibicuy", "Maipú", "Chascomús", "Dolores", "Las Flores", "Balcarce",
+  "Necochea", "25 de Mayo", "9 de Julio", "Olavarría", "Coronel Suárez",
+  "Coronel Pringles", "Tres Arroyos", "Punta Alta", "General Acha",
+  "Río Colorado", "San Cristóbal", "Santa Isabel", "Pehuajo", "Viedma",
+  "Maquinchao", "Esquel", "Paso de indios", "Las Plumas", "Rawson",
+  "Sarmiento", "San Julián", "Perito Moreno", "Puerto Deseado",
+  "Santa Cruz", "Río Gallegos", "Río Grande", "Ushuaia", "Entre Ríos",
+  "Chimbas", "El Leoncito", "Lanús", "Morón", "San Lorenzo",
+  "Teniente Matienzo", "Cruz del Eje", "San Pedro", "Río Negro",
+  "Quequén", "Decepción", "Esperanza"
