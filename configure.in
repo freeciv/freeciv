@@ -504,17 +504,16 @@ AC_OUTPUT_COMMANDS(
    fi])
 
 dnl Vast quantities of meaningless errors from xgettext is also annoying.
-dnl We fix this by filtering its output, removing "unknown extension"
-dnl warnings.
+dnl We fix this by forcing xgettext to assume all files are C source files.
 AC_OUTPUT_COMMANDS(
   [if test -f po/Makefile ; then
-     if grep 'grep -v "is unknown; will try C"' po/Makefile >/dev/null 2>&1 ; then
+     if grep 'language=C --files-from=\$(srcdir)/POTFILES.in' po/Makefile >/dev/null 2>&1 ; then
        # has already been silenced
        :
      else
        echo silencing po/Makefile
        mv -f po/Makefile po/Makefile.tmp
-       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--files-from=$(srcdir)\/POTFILES.in 2>\&1 | grep -v "is unknown; will try C"/' po/Makefile.tmp > po/Makefile
+       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--language=C --files-from=$(srcdir)\/POTFILES.in/' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi])
