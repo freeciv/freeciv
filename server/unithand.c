@@ -418,13 +418,12 @@ void handle_unit_disband_safe(struct player *pplayer,
 			      struct genlist_iterator *iter)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
-  struct city *pcity = map_get_city(punit->x, punit->y);
 
   if (!punit) {
     return;
   }
 
-  do_unit_disband_safe(pcity, punit, iter);
+  do_unit_disband_safe(map_get_city(punit->x, punit->y), punit, iter);
 }
 
 /**************************************************************************
