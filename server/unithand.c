@@ -1200,6 +1200,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
       break;
     default: 
       /* do nothing */
+      break;
     }
     break;
   case ACTIVITY_EXPLORE:
