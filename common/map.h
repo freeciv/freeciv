@@ -235,15 +235,29 @@ void reset_move_costs(int x, int y);
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
-#define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y) \
-  (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y))
+/* Obscure math.  See explanation in doc/HACKING. */
+#define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                     \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
+      *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
+   : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
-#define map_to_native_pos(pnat_x, pnat_y, map_x, map_y) \
-  (*(pnat_x) = (map_x), *(pnat_y) = (map_y))
+#define map_to_native_pos(pnat_x, pnat_y, map_x, map_y)                     \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
+      *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
+   : *(pnat_x) = (map_x), *(pnat_y) = (map_y))
 
 /* Use map_to_native_pos instead unless you know what you're doing. */
-#define map_pos_to_native_x(map_x, map_y) (map_x)
-#define map_pos_to_native_y(map_x, map_y) (map_y)
+#define map_pos_to_native_x(map_x, map_y)                                   \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? (((map_x) - (map_y) + map.xsize                                        \
+       - (((map_x) + (map_y) - map.xsize) & 1)) / 2)                        \
+   : (map_x))
+#define map_pos_to_native_y(map_x, map_y)                                   \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? ((map_x) + (map_y) - map.xsize)                                        \
+   : (map_y))
 
 #define map_pos_to_index(map_x, map_y)        \
   (CHECK_MAP_POS((map_x), (map_y)),           \

@@ -556,6 +556,49 @@ Of course, if a future topology does not fit these rules for coordinate
 systems, they will have to be refined.
 
 =========================================================================
+Native coordinates on an isometric map
+=========================================================================
+
+An isometric map is defined by the operation that converts between map
+(user) coordinates and native (internal) ones.  In native coordinates, an
+isometric map behaves exactly the same way as a standard one.  (See
+"native coordinates", above.
+
+Converting from map to native coordinates involves a pi/2 rotation (which
+scales in each dimension by sqrt(2)) followed by a compression in the X
+direction by a factor of 2.  Then a translation is required since the
+"normal set" of native coordinates is defined as
+  {(x, y) | x: [0..map.xsize) and y: [0..map.ysize)}
+while the normal set of map coordinates must satisfy x >= 0 and y >= 0.
+
+Converting from native to map coordinates (a less cumbersome operation) is
+the opposite.
+                                        EJ
+           ABCDE     A B C D E         DIO
+  (native) FGHIJ <=>  F G H I J <=>   CHN  (map)
+           KLMNO     K L M N O       BGM
+                                    AFL
+                                     K
+
+Note that
+
+  native_to_map_pos(0, 0) == (0, map.xsize-1)
+  native_to_map_pos(map.xsize-1, 0) == (map.xsize-1, 0)
+  native_to_map_pos(x, y+2) = native_to_map_pos(x,y) + (1,1)
+  native_to_map_pos(x+1, y) = native_to_map_pos(x,y) + (1,-1)
+
+The math then works out to
+
+  map_x = ceiling(nat_y / 2) + nat_x
+  map_y = floor(nat_y / 2) - nat_x + map.xsize - 1
+
+  nat_y = map_x + map_y - map.xsize
+  nat_x = floor(map_x - map_y + map.xsize / 2)
+
+which leads to the macros native_to_map_pos, map_to_native_pos,
+map_pos_to_native_x, and map_pos_to_native_y that are defined in map.h.
+
+=========================================================================
 Unknown tiles and Fog of War
 =========================================================================
 
