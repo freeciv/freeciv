@@ -664,7 +664,7 @@ void handle_short_city(struct packet_short_city *packet)
 
   /* update the descriptions if necessary */
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
-    update_city_descriptions();
+    queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
   }
 
   try_update_effects(need_effect_update);
@@ -698,7 +698,7 @@ void handle_new_year(struct packet_new_year *ppacket)
   last_turn_gold_amount=game.player_ptr->economic.gold;
 #endif
 
-  update_city_descriptions();
+  queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
 
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
