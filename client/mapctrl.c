@@ -79,9 +79,9 @@ extern int auto_center_on_unit;
 void name_new_city_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data)
 {
-  int unit_id;
+  size_t unit_id;
   
-  if((unit_id=(int)client_data)) {
+  if((unit_id=(size_t)client_data)) {
     struct packet_unit_request req;
     req.unit_id=unit_id;
     strncpy(req.name, input_dialog_get_input(w), MAX_LENGTH_NAME);

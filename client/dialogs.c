@@ -1101,7 +1101,7 @@ void government_callback(Widget w, XtPointer client_data,
 {
   struct packet_player_request packet;
 
-  packet.government=(int)client_data;
+  packet.government=(size_t)client_data;
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
 
   destroy_message_dialog(w);
@@ -1667,11 +1667,12 @@ void destroy_me_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  int i,tax_end,lux_end,sci_end;
+  int tax_end,lux_end,sci_end;
+  size_t i;
   int delta=10;
 
   struct packet_player_request packet;
-  i= (int)client_data;
+  i= (size_t)client_data;
   
   lux_end= game.player_ptr->economic.luxury;
   sci_end= lux_end + game.player_ptr->economic.science;

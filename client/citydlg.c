@@ -726,7 +726,7 @@ void present_units_activate_callback(Widget w, XtPointer client_data,
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
     activate_unit(punit);
   destroy_message_dialog(w);
 }
@@ -744,7 +744,7 @@ void present_units_activate_close_callback(Widget w, XtPointer client_data,
 
   destroy_message_dialog(w);
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))  {
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))  {
     activate_unit(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
@@ -764,7 +764,7 @@ void supported_units_activate_close_callback(Widget w, XtPointer client_data,
 
   destroy_message_dialog(w);
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))  {
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))  {
     activate_unit(punit);
     if((pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))
@@ -782,7 +782,7 @@ void present_units_disband_callback(Widget w, XtPointer client_data,
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
     request_unit_disband(punit);
 
   destroy_message_dialog(w);
@@ -797,7 +797,7 @@ void present_units_homecity_callback(Widget w, XtPointer client_data,
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
     request_unit_change_homecity(punit);
 
   destroy_message_dialog(w);
@@ -826,7 +826,7 @@ void present_units_callback(Widget w, XtPointer client_data,
   Widget wd;
   XEvent *e = (XEvent*)call_data;
   
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)) &&
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)) &&
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
     
@@ -1155,7 +1155,7 @@ void support_units_callback(Widget w, XtPointer client_data,
   struct city_dialog *pdialog;
   XEvent *e = (XEvent*)call_data;
   
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
     if((pcity=find_city_by_id(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
 	if(e->type==ButtonRelease && e->xbutton.button==2)  {
@@ -1487,7 +1487,7 @@ void unitupgrade_callback_yes(Widget w, XtPointer client_data, XtPointer call_da
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data))) {
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data))) {
     request_unit_upgrade(punit);
   }
   destroy_message_dialog(w);
@@ -1513,7 +1513,7 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
   int ut1,ut2;
   int value;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data))) {
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data))) {
     ut1 = punit->type;
     /* printf("upgrade_callback for %s\n", unit_types[ut1].name); */
 

@@ -188,7 +188,8 @@ void create_science_dialog(int make_modal)
   Widget  close_command;
   static char *tech_list_names_ptrs[A_LAST+1];
   static char tech_list_names[A_LAST+1][200];
-  int i, j, flag, num_list;
+  int j, flag, num_list;
+  size_t i;
   Dimension width;
   char current_text[512];
   char goal_text[512];
@@ -350,10 +351,10 @@ void science_change_callback(Widget w, XtPointer client_data,
 {
   char current_text[512];
   struct packet_player_request packet;
-  int to;
+  size_t to;
   Boolean b;
 
-  to=(int)client_data;
+  to=(size_t)client_data;
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE)
@@ -379,10 +380,10 @@ void science_goal_callback(Widget w, XtPointer client_data,
 {
   char goal_text[512];
   struct packet_player_request packet;
-  int to;
+  size_t to;
   Boolean b;
 
-  to=(int)client_data;
+  to=(size_t)client_data;
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE)
@@ -442,7 +443,8 @@ void science_dialog_update(void)
     char text[512];
     static char *tech_list_names_ptrs[A_LAST+1];
     static char tech_list_names[A_LAST+1][200];
-    int i, j, flag;
+    int j, flag;
+    size_t i;
     char *report_title;
     
     report_title=get_report_title("Science Advisor");
@@ -894,7 +896,7 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 void upgrade_callback_yes(Widget w, XtPointer client_data, 
                                  XtPointer call_data)
 {
-  send_packet_unittype_info(&aconnection, (int)client_data, PACKET_UNITTYPE_UPGRADE);
+  send_packet_unittype_info(&aconnection, (size_t)client_data, PACKET_UNITTYPE_UPGRADE);
   destroy_message_dialog(w);
 }
 

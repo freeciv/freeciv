@@ -1219,7 +1219,7 @@ int help_tree_destroy_children(Widget w)
 void help_tree_node_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  int tech=(int)client_data;
+  size_t tech=(size_t)client_data;
   
   if(!help_tree_destroy_children(w)) {
     if(advances[tech].req[0]!=A_NONE)

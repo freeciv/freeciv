@@ -499,7 +499,8 @@ void city_list_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
-    int flag,i;
+    int flag;
+    size_t i;
     char buf[512];
 
     XtSetSensitive(city_change_command, TRUE);
@@ -563,7 +564,7 @@ void city_change_callback(Widget w, XtPointer client_data,
     int build_nr;
     Boolean unit;
       
-    build_nr = (int) client_data;
+    build_nr = (size_t) client_data;
 
     if (build_nr >= B_LAST) {
       build_nr -= B_LAST;

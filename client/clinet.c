@@ -75,7 +75,7 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   if(!hostname)
     hostname="localhost";
   
-  if(isdigit((int)*hostname)) {
+  if(isdigit((size_t)*hostname)) {
     if((address = inet_addr(hostname)) == -1) {
       strcpy(errbuf, "Invalid hostname");
       return -1;

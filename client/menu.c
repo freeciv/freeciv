@@ -365,7 +365,7 @@ void update_menus()
 *****************************************************************/
 void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 {
-  int pane_num = (int)client_data;
+  size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
   case MENU_GAME_FIND_CITY:
@@ -418,7 +418,7 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 *****************************************************************/
 void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 {
-  int pane_num = (int)client_data;
+  size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
    case MENU_ORDER_AUTO_SETTLER:
@@ -522,7 +522,7 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 *****************************************************************/
 void reports_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 {
-  int pane_num = (int)client_data;
+  size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
    case MENU_REPORT_CITY:
@@ -558,7 +558,7 @@ void reports_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 *****************************************************************/
 void help_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 {
-  int pane_num = (int)client_data;
+  size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
   case MENU_HELP_CONTROLS:

@@ -609,10 +609,10 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  int choice;
+  size_t choice;
   struct packet_diplomacy_info pa;
   
-  choice=(int)client_data;
+  choice=(size_t)client_data;
 
   pa.plrno0=choice/10000;
   pa.plrno1=(choice/100)%100;
@@ -631,10 +631,10 @@ Callback for trading cities
 void diplomacy_dialog_city_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  int choice;
+  size_t choice;
   struct packet_diplomacy_info pa;
   
-  choice=(int)client_data;
+  choice=(size_t)client_data;
 
   pa.plrno0=choice/100000;
   choice -= pa.plrno0 * 100000;
