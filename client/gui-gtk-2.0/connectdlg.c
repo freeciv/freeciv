@@ -554,6 +554,7 @@ GtkWidget *create_file_selection(const char *title, bool is_save)
   
   /* Create the selector */
   filesel = gtk_file_selection_new(title);
+  setup_dialog(filesel, toplevel);
   gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
    
   if (current_filename) {

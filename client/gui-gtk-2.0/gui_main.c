@@ -431,6 +431,7 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
 
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
