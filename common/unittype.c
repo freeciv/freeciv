@@ -312,17 +312,17 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the cost (gold) of upgrading a single unit of the specified type
+  to the new type.  This price could (but currently does not) depend on
+  other attributes (like nation or government type) of the player the unit
+  belongs to.
 **************************************************************************/
-int unit_upgrade_price(struct player *pplayer, Unit_Type_id from,
-		       Unit_Type_id to)
+int unit_upgrade_price(const struct player * const pplayer,
+		       const Unit_Type_id from, const Unit_Type_id to)
 {
-  int total, build;
-  build = unit_value(from)/2;
-  total = unit_value(to);
-  if (build>=total)
-    return 0;
-  return (total-build)*2+(total-build)*(total-build)/20; 
+  const int diff = unit_value(to) - unit_value(from) / 2;
+
+  return (diff <= 0) ? 0 : (diff * 2 + diff * diff / 20);
 }
 
 /**************************************************************************
