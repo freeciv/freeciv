@@ -826,9 +826,14 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return handle_unit_establish_trade(pplayer, &req);
   }
 
+  /* Pop up a diplomat action dialog in the client. If the ai has used a goto to 
+     send a diplomat to a target do not pop up a dialog in the client */
   if (is_diplomat_unit(punit)
       && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
     struct packet_diplomat_action packet;
+    if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
+      return 0;
+
     /* If we didn't send_unit_info the client would sometimes think that
        the diplomat didn't have any moves left and so don't pop up the box.
        (We are in the middle of the unit restore cycle when doing goto's, and
