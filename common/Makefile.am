@@ -4,7 +4,7 @@ SUBDIRS=	aicore
 
 noinst_LIBRARIES = libcivcommon.a
 
-INCLUDES = -I../intl -I$(top_srcdir)/utility -I$(srcdir)/aicore
+AM_CPPFLAGS = -I../intl -I$(top_srcdir)/utility -I$(srcdir)/aicore
 
 ## Above, note -I../intl instead of -I$(top_srcdir/intl) is deliberate.
 

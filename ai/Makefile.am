@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libcivai.a
 
-INCLUDES = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../server -I../intl -I$(top_srcdir)/common/aicore
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../server -I../intl -I$(top_srcdir)/common/aicore
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 

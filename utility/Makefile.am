@@ -4,7 +4,7 @@ SUBDIRS=        ftwl
 
 noinst_LIBRARIES = libcivutility.a
 
-INCLUDES = -I../intl
+AM_CPPFLAGS = -I../intl
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 

@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libftwl.a
 
-INCLUDES = -I. -I$(top_srcdir)/utility  -I../../intl -I/usr/include/freetype2 @CLIENT_CFLAGS@
+AM_CPPFLAGS = -I. -I$(top_srcdir)/utility  -I../../intl -I/usr/include/freetype2 @CLIENT_CFLAGS@
 
 BACKEND_COMMON_FILES=			\
 	be_common_24.c		\

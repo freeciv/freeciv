@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libuserdb.a
 
-INCLUDES = -I$(top_srcdir)/utility -I$(top_srcdir)/common
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common
 
 libuserdb_a_SOURCES = \
 	lockfile.c	\
