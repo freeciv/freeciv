@@ -451,9 +451,9 @@ static void create_city_report_dialog(int make_modal)
   gtk_clist_set_selection_mode(GTK_CLIST (city_list), GTK_SELECTION_EXTENDED);
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), city_list);
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(city_list, 620, 250);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_usize(scrolled, -2, 350);
 
   gtk_signal_connect(GTK_OBJECT(city_list), "select_row",
 		     GTK_SIGNAL_FUNC(city_report_list_callback), NULL);

@@ -73,6 +73,7 @@ struct city_dialog {
   GtkWidget *pollution_label;
   GtkWidget *sub_form;
   GtkWidget *map_canvas;
+  GtkWidget *map_canvas_pixmap;
   GdkPixmap *map_canvas_store;
   GtkWidget *building_label; 
   GtkWidget *progress_label; 
@@ -382,12 +383,31 @@ void popdown_all_city_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-static gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev,
+static void draw_map_canvas(struct city_dialog *pdialog)
+{
+  struct Sprite tmp;
+
+  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->map_canvas_pixmap), TRUE);
+
+  tmp.pixmap = pdialog->map_canvas_store;
+  tmp.has_mask = 0;
+  tmp.width = canvas_width;
+  tmp.height = canvas_height;
+
+  gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->map_canvas_pixmap),
+		     &tmp, 0, 0, TRUE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gint city_map_canvas_expose(GtkWidget * w, GdkEventExpose * ev,
 				   gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *)data;
-  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
-		  0, 0, 0, 0, canvas_width, canvas_height);
+  struct city_dialog *pdialog = (struct city_dialog *) data;
+  
+  draw_map_canvas(pdialog);
+
   return TRUE;
 }
 
@@ -575,18 +595,20 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   frame=gtk_frame_new(NULL);
   gtk_box_pack_start(GTK_BOX(box), frame, TRUE, FALSE, 0);
 
-  pdialog->map_canvas = gtk_drawing_area_new();
-  pdialog->map_canvas_store = gdk_pixmap_new(root_window,
-					     canvas_width, canvas_height, -1);
-
+  pdialog->map_canvas = gtk_event_box_new();
   gtk_widget_set_events(pdialog->map_canvas,
-	GDK_EXPOSURE_MASK|GDK_BUTTON_PRESS_MASK);
+			GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK);
 
-  gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
-			canvas_width, canvas_height);
+  pdialog->map_canvas_pixmap = gtk_pixcomm_new(root_window,
+					       canvas_width,
+					       canvas_height);
+  gtk_container_add(GTK_CONTAINER(pdialog->map_canvas),
+		    pdialog->map_canvas_pixmap);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
-  
   gtk_widget_realize (pdialog->map_canvas);
+
+  pdialog->map_canvas_store =
+      gdk_pixmap_new(root_window, canvas_width, canvas_height, -1);
 
   /* "production queue" vbox */
   box=gtk_vbox_new(FALSE, 5);
@@ -1414,10 +1436,6 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
       }
     }
   } city_map_iterate_end;
-
-  /* draw to real window */
-  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
-		  0, 0, 0, 0, canvas_width, canvas_height);
 }
 
 /****************************************************************
@@ -1453,10 +1471,6 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
 			      y * NORMAL_TILE_HEIGHT);
       }
     }
-
-  /* draw to real window */
-  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
-		  0, 0, 0, 0, canvas_width, canvas_height);
 }
 
 /****************************************************************
@@ -1469,6 +1483,9 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
   } else {
     city_dialog_update_map_ovh(pdialog);
   }
+
+  /* draw to real window */
+  draw_map_canvas(pdialog);
 }
 
 /****************************************************************
@@ -2213,8 +2230,8 @@ static void change_callback(GtkWidget *w, gpointer data)
 		     GTK_SIGNAL_FUNC(change_list_callback), pdialog);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(scrolled, 310, 350);
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_usize(scrolled, -2, 350);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), scrolled,
 	TRUE, TRUE, 0);
   
