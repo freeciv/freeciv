@@ -713,19 +713,12 @@ void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
 **************************************************************************/
 void map_fog_city_area(struct city *pcity)
 {
-  int x,y;
-  struct player *pplayer;
-  x = pcity->x;
-  y = pcity->y;
-
   if (!pcity) {
-    freelog(LOG_DEBUG, "Attempting to fog non-existent city at %i,%i.", x,y);
+    freelog(LOG_DEBUG, "Attempting to fog non-existent city");
     return;
   }
 
-  pplayer = &game.players[pcity->owner];
-
-  map_fog_pseudo_city_area(pplayer, x, y);
+  map_fog_pseudo_city_area(city_owner(pcity), pcity->x, pcity->y);
 }
 
 /**************************************************************************
@@ -733,19 +726,12 @@ void map_fog_city_area(struct city *pcity)
 **************************************************************************/
 void map_unfog_city_area(struct city *pcity)
 {
-  int x,y;
-  struct player *pplayer;
-  x = pcity->x;
-  y = pcity->y;
-
   if (!pcity) {
-    freelog(LOG_DEBUG, "Attempting to unfog non-existent city at %i,%i.",x,y);
+    freelog(LOG_DEBUG, "Attempting to unfog non-existent city");
     return;
   }
 
-  pplayer = &game.players[pcity->owner];
-
-  map_unfog_pseudo_city_area(pplayer, x, y);
+  map_unfog_pseudo_city_area(city_owner(pcity), pcity->x, pcity->y);
 }
 
 /**************************************************************************
