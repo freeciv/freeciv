@@ -1907,6 +1907,7 @@ LONG APIENTRY CitydlgWndProc (
   switch(message)
     {
     case WM_CLOSE:
+      SendMessage(pdialog->tab_childs[PAGE_WORKLIST],WM_COMMAND,IDOK,0);
       CityDlgClose(pdialog);
       break;
     case WM_DESTROY:
@@ -1944,6 +1945,7 @@ LONG APIENTRY CitydlgWndProc (
 	{
 
 	case ID_CITY_CLOSE:
+	  SendMessage(pdialog->tab_childs[PAGE_WORKLIST],WM_COMMAND,IDOK,0);
 	  CityDlgClose(pdialog);
 	  break;
 	case ID_CITY_RENAME:
