@@ -96,6 +96,8 @@ static const char *economics_to_text(int value);
 static const char *mil_service_to_text(int value);
 static const char *pollution_to_text(int value);
 
+#define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p) && !(p)->is_observer)
+
 /*
  * Describes a row.
  */
@@ -165,7 +167,7 @@ static void historian_generic(enum historian_type which_news)
   struct player_score_entry size[game.nplayers];
 
   players_iterate(pplayer) {
-    if (pplayer->is_alive && !is_barbarian(pplayer)) {
+    if (GOOD_PLAYER(pplayer)) {
       switch(which_news) {
       case HISTORIAN_RICHEST:
 	size[j].value = pplayer->economic.gold;
@@ -187,7 +189,7 @@ static void historian_generic(enum historian_type which_news)
       }
       size[j].player = pplayer;
       j++;
-    } /* else the player is dead or barbarian */
+    } /* else the player is dead or barbarian or observer */
   } players_iterate_end;
 
   qsort(size, j, sizeof(struct player_score_entry), secompare);
@@ -607,11 +609,11 @@ static void dem_line_item(char *outptr, size_t out_size,
     int place = 1;
 
     players_iterate(other) {
-      if (other->is_alive && !is_barbarian(other) &&
-	  ((prow->greater_values_are_better
-	    && prow->get_value(other) > basis)
-	   || (!prow->greater_values_are_better
-	       && prow->get_value(other) < basis))) {
+      if (GOOD_PLAYER(other)
+	  && ((prow->greater_values_are_better
+	       && prow->get_value(other) > basis)
+	      || (!prow->greater_values_are_better
+	          && prow->get_value(other) < basis))) {
 	place++;
       }
     } players_iterate_end;
@@ -624,7 +626,7 @@ static void dem_line_item(char *outptr, size_t out_size,
     int best_value = prow->get_value(pplayer);
 
     players_iterate(other) {
-      if (other->is_alive && !is_barbarian(other)) {
+      if (GOOD_PLAYER(other)) {
 	int value = prow->get_value(other);
 
 	if ((prow->greater_values_are_better && value > best_value)
@@ -969,8 +971,6 @@ static void log_civ_score(void)
     }
   }
 
-#define GOOD_PLAYER(p) ((p)->is_alive)
-
   if (game.turn > last_turn) {
     fprintf(fp, "turn %d %d %s\n", game.turn, game.year, textyear(game.year));
     last_turn = game.turn;
@@ -1029,8 +1029,6 @@ log_civ_score_disable:
   disabled = TRUE;
 }
 
-#undef GOOD_PLAYER
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -1073,7 +1071,7 @@ void report_progress_scores(void)
   struct player_score_entry size[game.nplayers];
 
   players_iterate(pplayer) {
-    if (!is_barbarian(pplayer)) {
+    if (GOOD_PLAYER(pplayer)) {
       size[j].value = get_civ_score(pplayer);
       size[j].player = pplayer;
       j++;
@@ -1107,7 +1105,7 @@ void report_final_scores(void)
   struct packet_endgame_report packet;
 
   players_iterate(pplayer) {
-    if (!is_barbarian(pplayer)) {
+    if (GOOD_PLAYER(pplayer)) {
       size[j].value = get_civ_score(pplayer);
       size[j].player = pplayer;
       j++;
