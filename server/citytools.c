@@ -1115,7 +1115,10 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
     raze_city(pnewcity);
 
   send_city_info(0, pnewcity);
-  
+
+  /* What wasn't obsolete for the old owner may be so now. */
+  remove_obsolete_buildings_city(pnewcity, 1);
+
   if (terrain_control.may_road &&
       (player_knows_techs_with_flag (pplayer, TF_RAILROAD)) &&
       (!player_knows_techs_with_flag (cplayer, TF_RAILROAD)) &&

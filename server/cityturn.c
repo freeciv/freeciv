@@ -556,27 +556,41 @@ static void city_support(struct city *pcity)
   } unit_list_iterate_end;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void remove_obsolete_buildings_city(struct city *pcity, int refresh)
+{
+  struct player *pplayer = city_owner(pcity);
+  int i, sold = 0;
+  for (i=0;i<game.num_impr_types;i++) {
+    if (city_got_building(pcity, i) 
+	&& !is_wonder(i) 
+	&& improvement_obsolete(pplayer, i)) {
+      do_sell_building(pplayer, pcity, i);
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
+		       _("Game: %s is selling %s (obsolete) for %d."),
+		       pcity->name, get_improvement_name(i), 
+		       improvement_value(i)/2);
+      sold = 1;
+    }
+  }
+
+  if (sold && refresh) {
+    city_refresh(pcity);
+    send_city_info(pplayer, pcity);
+    send_player_info(pplayer, 0); /* Send updated gold to all */
+  }
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
 void remove_obsolete_buildings(struct player *pplayer)
 {
-  int i;
   city_list_iterate(pplayer->cities, pcity) {
-    for (i=0;i<game.num_impr_types;i++) {
-      if(city_got_building(pcity, i) 
-	 && !is_wonder(i) 
-	 && improvement_obsolete(pplayer, i)) {
-	do_sell_building(pplayer, pcity, i);
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
-			 _("Game: %s is selling %s (obsolete) for %d."),
-			 pcity->name, get_improvement_name(i), 
-			 improvement_value(i)/2);
-      }
-    }
-  }
-  city_list_iterate_end;
+    remove_obsolete_buildings_city(pcity, 0);
+  } city_list_iterate_end;
 }
 
 /**************************************************************************
