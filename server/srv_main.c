@@ -916,8 +916,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 
   pplayer->nturns_idle=0;
 
-  /* Fixme: this is too restrictive?   Eg, reports, at least.  --dwp */
-  if((!pplayer->is_alive || pconn->observer) && type!=PACKET_CHAT_MSG) {
+  if((!pplayer->is_alive || pconn->observer)
+     && !(type == PACKET_CHAT_MSG || type == PACKET_REPORT_REQUEST)) {
     free(packet);
     return;
   }

@@ -918,7 +918,8 @@ void report_demographics(struct connection *pconn)
 	}
     }
 
-  if (pplayer == NULL || !anyrows || (selcols == DEM_NONE)) {
+  if (pplayer == NULL || !pplayer->is_alive || !anyrows
+      || (selcols == DEM_NONE)) {
     page_conn(&pconn->self, _("Demographics Report:"),
 	      _("Sorry, the Demographics report is unavailable."),
 	      "");
