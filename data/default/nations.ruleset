@@ -736,17 +736,19 @@ tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
 wonder="Magellan's Expedition"
 government="Republic"
 
-;names from around Scandinavia
+;Norwegian (and Icelandic) names.
+;Norwegian places listed up in the order it struck my mind.
 
 cities =
- "Oslo", "Bergen", "Stavanger", "Trondheim", "Narvik",
- "Kobenhavn", "Aalborg", "Roskilde", "Odense", "Århus",
- "Helsingborg", "Malmö", "Skagen", "Esbjerg", "Stockholm",
- "Uppsala", "Solentuna", "Sigtuna", "Birka", "Norrköping",
- "Linköping", "Örebro", "Gävle", "Västeras", "Göteborg",
- "Karlstad", "Växjö", "Kalmar", "Visby", "Tromso",
- "Reykjavik", "Ystad", "Luleå", "Kiruna", "Lund",
- "Halmstad", "Östersund", "Helsingfors", "Thisted"
+ "Oslo", "Bergen", "Kaupang", "Stavanger", "Nidaros", "Narvik", "Tromsø",
+ "Reykjavik", "Harstad", "Fagernes", "Tønsberg", "Kirkenes", "Hamar",
+ "Fredrikstad", "Kristansand", "Kristiansund", "Christiania", "Drammen",
+ "Sandnes", "Arendal", "Vardø", "Vadsø", "Haugesund", "Sarpsborg",
+ "Kongsberg", "Kongsvinger", "Gjøvik", "Bardufoss", "Skjold", "Setermoen",
+ "Lillehammer", "Lillestrøm", "Strømmen", "Fredrikborg", "Halden", "Karmøy",
+ "Kragerø", "Fauske", "Bodø", "Andenes", "Stokkmarknes", "Svolvær",
+ "Sortland", "Moss", "Honningsvåg", "Hammerfest", "Ås", "Os", "Tynset",
+ "Longyearbyen"
 
 [nation21]
 
@@ -906,7 +908,8 @@ cities =
  "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
  "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
  "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
- "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun"
+ "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
+ "Vyborg", "Holmgard", "Västerås"
 
 [nation26]
 
