@@ -5908,7 +5908,7 @@ msgstr "Die Verhandlungspartner schließen eine Allianz"
 #: client/climisc.c:417
 #, c-format
 msgid "The %s gives shared vision"
-msgstr "Die %s erlauben uns ihre Karte einzusehen"
+msgstr "Die %s gestatten dauerhafte Karteneinsicht"
 
 #: client/climisc.c:540
 #, c-format
