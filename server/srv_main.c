@@ -935,7 +935,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   pplayer->nturns_idle=0;
 
   if((!pplayer->is_alive || pconn->observer)
-     && !(type == PACKET_CHAT_MSG || type == PACKET_REPORT_REQUEST)) {
+     && !(type == PACKET_CHAT_MSG || type == PACKET_REPORT_REQUEST
+	  || type == PACKET_CONN_PONG)) {
     free(packet);
     return;
   }
