@@ -311,7 +311,7 @@ cities =
 
 name=_("Russian")
 plural=_("?plural:Russians")
-leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter the Great", "Anne"
+leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter", "Anne"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"
 flag_alt = "-"
@@ -555,7 +555,7 @@ cities =
 
 name=_("Turk")
 plural=_("?plural:Turks")
-leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad",
+leader="Kemal Atatürk", "Sulayman", "Osman", "Murad",
        "Selim", "Mehmed"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
@@ -819,7 +819,7 @@ cities =
 
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
-leader="Arpad", "Stephen", "Bela", "Mary", "Louis the Great"
+leader="Arpad", "Stephen", "Bela", "Mary", "Louis"
 leader_sex="Male", "Male", "Male", "Female", "Male"
 flag="f.hungary"
 flag_alt = "-"
@@ -1362,7 +1362,7 @@ cities =
 
 name=_("Canadian")
 plural=_("?plural:Canadians")
-leader="Pierre Trudeau", "Sir John A. MacDonald", "John Diefenbaker"
+leader="Pierre Trudeau", "John A. MacDonald", "John Diefenbaker"
 leader_sex="Male", "Male", "Male"
 flag="f.canada"
 flag_alt = "f.united_kingdom"
