@@ -10,19 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GRAPHICS_G_H
-#define FC__GRAPHICS_G_H
 
-#include "shared.h"		/* bool type */
+#ifndef FC__SPRITE_H
+#define FC__SPRITE_H
 
 #include "sprite_g.h"
 
-bool isometric_view_supported(void);
-bool overhead_view_supported(void);
 
-void load_intro_gfx(void);
-void load_cursors(void);
-
-void free_intro_radar_sprites(void);
-
-#endif  /* FC__GRAPHICS_G_H */
+#endif				/* FC__SPRITE_H */
