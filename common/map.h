@@ -100,7 +100,7 @@ struct terrain_misc
 tile_type for each terrain type
 expand with government bonuses??
 *****************************************************************/
-
+BV_DEFINE(bv_terrain_flags, TER_MAX);
 struct tile_type {
   char terrain_name[MAX_LEN_NAME];     /* "" if unused */
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
@@ -148,6 +148,8 @@ struct tile_type {
 
   enum tile_terrain_type transform_result;
   int transform_time;
+
+  bv_terrain_flags flags;
 
   char *helptext;
 };
@@ -344,6 +346,7 @@ enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
 bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
+enum terrain_flag_id terrain_flag_from_str(const char *s);
 bool is_special_near_tile(int x, int y, enum tile_special_type spe);
 int count_special_near_tile(int x, int y, enum tile_special_type spe);
 bool is_coastline(int x,int y);

@@ -171,6 +171,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+flags                = "NoBarbs"
 helptext	     = _("\
 Arctic squares are found only in the most northerly or southerly\
  reaches of the world.  They are very cold, and hence difficult to\
@@ -572,6 +573,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+flags                = "NoBarbs"
 helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\

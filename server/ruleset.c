@@ -1431,8 +1431,7 @@ static void load_ruleset_terrain(struct section_file *file)
 
   for (i = T_FIRST; i < T_COUNT; i++)
     {
-      char *s1_name;
-      char *s2_name;
+      char *s1_name, *s2_name, **slist;
       t = &(tile_types[i]);
 
       sz_strlcpy(t->graphic_str,
@@ -1488,6 +1487,22 @@ static void load_ruleset_terrain(struct section_file *file)
       t->transform_result =
 	lookup_terrain(secfile_lookup_str(file, "%s.transform_result", sec[i]), i);
       t->transform_time = secfile_lookup_int(file, "%s.transform_time", sec[i]);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
+      BV_CLR_ALL(t->flags);
+      for (j = 0; j < nval; j++) {
+	const char *sval = slist[j];
+	enum terrain_flag_id flag = terrain_flag_from_str(sval);
+
+	if (flag == TER_LAST) {
+	  /* TRANS: Rare error message. */
+	  freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
+		  t->terrain_name, sval);
+	  exit(EXIT_FAILURE);
+	} else {
+	  BV_SET(t->flags, flag);
+	}
+      }
       
       t->helptext = lookup_helptext(file, sec[i]);
     }
@@ -2655,6 +2670,8 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
       packet.transform_result = t->transform_result;
       packet.transform_time = t->transform_time;
+
+      packet.flags = t->flags;
 
       packet.helptext = t->helptext;   /* pointer assignment */
       

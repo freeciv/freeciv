@@ -35,6 +35,7 @@
 #include "rand.h"
 #include "support.h"
 #include "tech.h"
+#include "terrain.h"
 
 #include "gamehand.h"
 #include "maphand.h"
@@ -328,10 +329,17 @@ static void try_summon_barbarians(void)
   struct city *pc;
   struct player *barbarians, *victim;
 
-  /* No uprising on North or South Pole */
-  do {
-    rand_map_pos(&x, &y);
-  } while (y == 0 || y == map.ysize - 1);
+  /* We attempt the summons on a particular, random position.  If this is
+   * an invalid position then the summons simply fails this time.  This means
+   * that a particular tile's chance of being summoned on is independent of
+   * all the other tiles on the map - which is essential for balanced
+   * gameplay. */
+  rand_map_pos(&x, &y);
+
+  if (terrain_has_flag(map_get_terrain(x, y), TER_NO_BARBS)) {
+    return;
+  }
+
 
   if (!(pc = dist_nearest_city(NULL, x, y, TRUE, FALSE))) {
     /* any city */

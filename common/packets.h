@@ -761,6 +761,8 @@ struct packet_ruleset_terrain {
 
   enum tile_terrain_type transform_result;
   int transform_time;
+
+  bv_terrain_flags flags;
   
   char *helptext;		/* same as for packet_ruleset_unit, above */
 };

@@ -408,6 +408,29 @@ int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
   return count;
 }
 
+/****************************************************************************
+  Return the terrain flag matching the given string, or TER_LAST if there's
+  no match.
+****************************************************************************/
+enum terrain_flag_id terrain_flag_from_str(const char *s)
+{
+  enum terrain_flag_id flag;
+  const char *flag_names[] = {
+    /* Must match terrain flags in terrain.h. */
+    "NoBarbs"
+  };
+
+  assert(ARRAY_SIZE(flag_names) == TER_COUNT);
+
+  for (flag = TER_FIRST; flag < TER_LAST; flag++) {
+    if (mystrcasecmp(flag_names[flag], s) == 0) {
+      return flag;
+    }
+  }
+
+  return TER_LAST;
+}
+
 /***************************************************************
   determines if any tile close to x,y has special spe
 ***************************************************************/

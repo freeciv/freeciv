@@ -2388,6 +2388,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->transform_result = p->transform_result;
   t->transform_time = p->transform_time;
   
+  t->flags = p->flags;
+
   t->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_tile_type(p->id);

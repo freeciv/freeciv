@@ -179,6 +179,7 @@ mining_shield_incr   = 1
 mining_time          = 10
 transform_result     = "Tundra"
 transform_time       = 24
+flags                = "NoBarbs"
 helptext	     = _("\
 Glaciers are found only in the most northerly or southerly\
  reaches of the world.  They are very cold, and hence difficult to\
@@ -573,6 +574,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "Desert"
 transform_time       = 24
+flags                = "NoBarbs"
 helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\

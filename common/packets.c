@@ -2443,6 +2443,8 @@ int send_packet_ruleset_terrain(struct connection *pc,
     dio_put_string(&dout, packet->special[i].graphic_alt);
   }
 
+  DIO_BV_PUT(&dout, packet->flags);
+
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
     dio_put_string(&dout, packet->helptext);
@@ -2494,6 +2496,8 @@ receive_packet_ruleset_terrain(struct connection *pc)
     dio_get_string(&din, packet->special[i].graphic_alt,
 		sizeof(packet->special[i].graphic_alt));
   }
+
+  DIO_BV_GET(&din, packet->flags);
 
   len = dio_input_remaining(&din);
   if (len > 0) {

@@ -71,6 +71,14 @@ enum tile_terrain_type {
 #define T_FIRST (T_ARCTIC)
 #define T_COUNT (T_UNKNOWN)
 
+enum terrain_flag_id {
+  TER_NO_BARBS, /* No barbarians summoned on this terrain. */
+  TER_LAST
+};
+#define TER_FIRST (TER_NO_BARBS)
+#define TER_COUNT (TER_LAST)
+#define TER_MAX 64 /* Changing this breaks network compatability. */
+
 enum known_type {
  TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
@@ -82,5 +90,7 @@ enum known_type {
 #define is_ocean_near_tile(x, y) is_terrain_near_tile(x, y, T_OCEAN)
 #define adjacent_ocean_tiles4(x, y) adjacent_terrain_tiles4(x, y, T_OCEAN)
 #define count_ocean_near_tile(x,y) count_terrain_near_tile(x,y, T_OCEAN)
+
+#define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
 
 #endif  /* FC__TERRAIN_H */
