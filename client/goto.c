@@ -786,9 +786,7 @@ void draw_line(int dest_x, int dest_y)
   int start_index;
 
   assert(is_active);
-
-  if (!normalize_map_pos(&dest_x, &dest_y))
-    return;
+  assert(normalize_map_pos(&dest_x, &dest_y));
 
   if (!goto_map.vector[dest_x][dest_y]) {
     undraw_line();

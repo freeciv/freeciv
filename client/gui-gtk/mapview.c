@@ -353,9 +353,11 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
     /* If we are outside the map find the nearest tile, with distance as
        seen on the map. */
     if (*map_y < 0) {
-      *map_x += *map_y;
       *map_y = 0;
+    } else if (*map_y >= map.ysize) {
+      *map_y = map.ysize - 1;
     }
+
     *map_x %= map.xsize;
     if (*map_x < 0)
       *map_x += map.xsize;
