@@ -75,8 +75,8 @@ typedef int bool;
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
 /* Bitvectors. */
-#define _BV_BYTES(bits)		(((bits - 1) / 8) + 1)
-#define _BV_BYTE_INDEX(bits)	(bits / 8)
+#define _BV_BYTES(bits)		((((bits) - 1) / 8) + 1)
+#define _BV_BYTE_INDEX(bits)	((bits) / 8)
 #define _BV_BITMASK(bit)	(1u << ((bit) & 0x7))
 #define BV_ISSET(bv, bit) \
   (((bv).vec[_BV_BYTE_INDEX(bit)] & _BV_BITMASK(bit)) != 0)
