@@ -28,11 +28,11 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
+# Revision 1.50  2000/06/18 19:55:21  egbert
+# de.po updated
+#
 # Revision 1.49  2000/06/18 09:20:09  egbert
 # Additions and improvements by Christian Knoke <ChrisK@enter.de>
-#
-# Revision 1.48  2000/06/17 18:07:11  egbert
-# Patches until 06/17/00 included.
 #
 # ###################################
 # ## The real PO file starts here: ##
@@ -42,7 +42,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-17 19:05+0200\n"
+"POT-Creation-Date: 2000-06-18 21:29+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -185,34 +185,37 @@ msgid "Use a non-privileged account instead.\n"
 msgstr "*** Starten Sie es als 'normaler' Benutzer.\n"
 
 # ?
-#: common/shared.c:635
+#: common/shared.c:637
 msgid "exact match"
 msgstr ""
 
 # ?
-#: common/shared.c:636
+#: common/shared.c:638
 msgid "only match"
 msgstr ""
 
-#: common/shared.c:637
+# ?
+#: common/shared.c:639
 msgid "ambiguous"
 msgstr "mehrdeutig"
 
-#: common/shared.c:638
+# ?
+#: common/shared.c:640
 msgid "empty"
 msgstr "leer"
 
-#: common/shared.c:639
+# ?
+#: common/shared.c:641
 msgid "too long"
 msgstr "zu lang"
 
 # ?
-#: common/shared.c:640
+#: common/shared.c:642
 msgid "non-match"
 msgstr ""
 
 # EH: Diese Meldung sollte mE nicht übersetzt werden.
-#: common/shared.c:700
+#: common/shared.c:702
 msgid "'Cause civilization should be free!"
 msgstr "Because civilization(s) should be free!"
 
@@ -234,10 +237,9 @@ msgstr "untätig"
 msgid "Pollution"
 msgstr "Verschmutzung"
 
-# ?
 #: common/unit.c:763
 msgid "Fortifying"
-msgstr ""
+msgstr "beim befestigen"
 
 #: common/unit.c:764
 msgid "Fortified"
@@ -347,7 +349,7 @@ msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
 
 #: ai/aicity.c:357 ai/aicity.c:485
 #, c-format
-msgid "Game: %s upgraded to %s in %s for %d credits."
+msgid "Game: %s upgraded to %s in %s for %d gold."
 msgstr "Spiel: In %3$s %1$s zum Preis von %4$d Goldstücken durch %2$s ersetzt."
 
 #: ai/aicity.c:381
@@ -385,7 +387,7 @@ msgstr "Spiel: In dieser Runde wurde hier bereits etwas verkauft."
 
 #: server/cityhand.c:409
 #, c-format
-msgid "Game: You sell %s in %s for %d credits."
+msgid "Game: You sell %s in %s for %d gold."
 msgstr "Spiel: %s in %s wurde für %d Goldstücke verkauft."
 
 #: server/cityhand.c:437
@@ -493,42 +495,55 @@ msgstr ""
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Spiel: %s verkauft %s (veraltet) für %d Goldstücke."
 
-#: server/cityturn.c:748
+#: server/cityturn.c:755
+#, c-format
+msgid ""
+"Game: Suggest throttling growth in %s to use %s (being built) more "
+"effectively."
+msgstr ""
+"%s empfiehlt, das Wachstum zu beschleunigen, um %s (im Bau) besser nutzen zu "
+"können."
+
+#: server/cityturn.c:764
+#, c-format
+msgid "Game: %s may soon grow to size %i."
+msgstr "Spiel: %s wächst vermutlich bald zu Größe %d."
+
+#: server/cityturn.c:784
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 
-#: server/cityturn.c:797 server/cityturn.c:816
+#: server/cityturn.c:833 server/cityturn.c:852
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s bauen, um weiter wachsen zu können."
 
-#: server/cityturn.c:802
+#: server/cityturn.c:838
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
 
-#: server/cityturn.c:874
+#: server/cityturn.c:910
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spiel: %s wächst zu Größe %d."
 
-#: server/cityturn.c:884
+#: server/cityturn.c:920
 #, c-format
 msgid "Game: Famine feared in %s."
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet."
 
-#: server/cityturn.c:916
+#: server/cityturn.c:952
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 
-#: server/cityturn.c:1001 server/cityturn.c:1041
+#: server/cityturn.c:1037 server/cityturn.c:1077
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag "
-"gelöscht."
+msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag gelöscht."
 
-#: server/cityturn.c:1020 server/cityturn.c:1060
+#: server/cityturn.c:1056 server/cityturn.c:1096
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -537,116 +552,108 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:1028 server/cityturn.c:1068 server/cityturn.c:1171
+#: server/cityturn.c:1064 server/cityturn.c:1104 server/cityturn.c:1207
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spiel: Anstatt %s wird %s produziert (in %s)."
 
-#: server/cityturn.c:1093
+#: server/cityturn.c:1129
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spiel: %ss Arbeitsliste ist jetzt leer."
 
-#: server/cityturn.c:1192
+#: server/cityturn.c:1228
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spiel: %s kann %s nicht mehr versorgen, Einheit aufgelöst."
 
-#: server/cityturn.c:1210
+#: server/cityturn.c:1246
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spiel: %s baut %s, obwohl das nicht mehr erhältlich ist."
 
-#: server/cityturn.c:1241
+#: server/cityturn.c:1277
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spiel: Die %s haben %s in %s fertiggestellt."
 
-#: server/cityturn.c:1257
+#: server/cityturn.c:1293
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:1263
+#: server/cityturn.c:1299
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Spiel: %s beschleunigt die Forschung;\n"
 "       2 Fortschritte werden sofort erzielt."
 
-#: server/cityturn.c:1271
+#: server/cityturn.c:1307
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spiel: Die %s haben mit dem Bau eines Raumschiffs begonnen!"
 
-#: server/cityturn.c:1306
+#: server/cityturn.c:1342
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spiel: %s kann zur Zeit %s nicht bauen."
 
-#: server/cityturn.c:1330
+#: server/cityturn.c:1366
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:1373
+#: server/cityturn.c:1409
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Spiel: %s in %s verkauft, da die laufenden Kosten nicht erbracht werden "
 "konnten!"
 
-#: server/cityturn.c:1436
+#: server/cityturn.c:1472
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spiel: Umweltverschmutzung bei %s."
 
-#: server/cityturn.c:1526
-#, c-format
-msgid ""
-"Game: %s suggest throttling growth to use %s (being built) more effectively."
-msgstr ""
-"%s empfiehlt, das Wachstum zu beschleunigen, um %s (im Bau) besser nutzen zu "
-"können."
-
-#: server/cityturn.c:1547
+#: server/cityturn.c:1561
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spiel: %ss Ehrentag wird in %s gefeiert."
 
-#: server/cityturn.c:1555
+#: server/cityturn.c:1569
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spiel: %ss Ehrentag wurde in %s abgeschafft."
 
-#: server/cityturn.c:1588
+#: server/cityturn.c:1602
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spiel: Aufruhr in %s."
 
-#: server/cityturn.c:1591
+#: server/cityturn.c:1605
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spiel: IMMER NOCH AUFRUHR in %s."
 
-#: server/cityturn.c:1597
+#: server/cityturn.c:1611
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 
-#: server/cityturn.c:1606
+#: server/cityturn.c:1620
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr"
 
-#: server/cityturn.c:1631
+#: server/cityturn.c:1645
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spiel: %s kann zur keine %s bauen und wir können nicht unsere einzige Stadt "
 "aufgeben."
 
-#: server/cityturn.c:1645
+#: server/cityturn.c:1659
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spiel: %s wurde aufgegeben um %s zu bekommen."
@@ -770,11 +777,11 @@ msgstr ""
 msgid "Game: The game is over..."
 msgstr "Spiel: Das Spiel ist beendet..."
 
-#: server/civserver.c:769
+#: server/civserver.c:770
 msgid "Game: Global warming has occurred!"
 msgstr "Spiel: Es ist zu globaler Erwärmung gekommen!"
 
-#: server/civserver.c:770
+#: server/civserver.c:771
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
@@ -783,7 +790,7 @@ msgstr ""
 "Wüsten geworden."
 
 # EH: grammatisch leider nicht anders möglich!
-#: server/civserver.c:794
+#: server/civserver.c:795
 #, c-format
 msgid ""
 "Game: Concerned citizens point out that the cease-fire with %s will run out "
@@ -791,31 +798,31 @@ msgid ""
 msgstr "Spiel: Die %s weisen darauf hin, daß der Waffenstillstand bald endet."
 
 # EH: grammatisch leider nicht anders möglich!
-#: server/civserver.c:800
+#: server/civserver.c:801
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Für die %s ist der Waffenstillstand beendet. Sie sind jetzt neutral."
 
-#: server/civserver.c:914
+#: server/civserver.c:919
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Konnte das Spiel nicht in der Datei '%s' speichern"
 
-#: server/civserver.c:916
+#: server/civserver.c:921
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spiel gespeichert als '%s'"
 
-#: server/civserver.c:947
+#: server/civserver.c:952
 msgid "The game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/civserver.c:951
+#: server/civserver.c:956
 msgid "Starting game."
 msgstr "Spiel begonnen."
 
-#: server/civserver.c:1282
+#: server/civserver.c:1287
 #, c-format
 msgid ""
 "Another player named '%s' has already joined the game.  Please choose "
@@ -824,102 +831,102 @@ msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "einen anderen Namen wählen."
 
-#: server/civserver.c:1288
+#: server/civserver.c:1293
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/civserver.c:1315
+#: server/civserver.c:1320
 msgid "Sorry, you can't play.  There are no nations left."
 msgstr ""
 "Mitspielen ist leider nicht möglich, da alle Staaten bereits vergeben sind."
 
-#: server/civserver.c:1318 server/civserver.c:1605
+#: server/civserver.c:1323 server/civserver.c:1610
 #, c-format
 msgid "Game full - %s was rejected."
 msgstr "Max. Spielerzahl anwesend - %s wurde abgewiesen."
 
-#: server/civserver.c:1370
+#: server/civserver.c:1375
 #, c-format
 msgid "<%s@%s> has rejoined the game."
 msgstr "<%s@%s> nimmt wieder am Spiel teil."
 
-#: server/civserver.c:1373
+#: server/civserver.c:1378
 #, c-format
 msgid "<%s@%s> has joined the game."
 msgstr "<%s@%s> nimmt am Spiel teil."
 
-#: server/civserver.c:1380
+#: server/civserver.c:1385
 #, c-format
 msgid "Game: Player <%s@%s> has reconnected."
 msgstr "Spiel: <%s@%s> ist wieder da."
 
-#: server/civserver.c:1384
+#: server/civserver.c:1389
 #, c-format
 msgid "Game: Player <%s@%s> has connected."
 msgstr "Spiel: <%s@%s> hat sich angemeldet."
 
-#: server/civserver.c:1404
+#: server/civserver.c:1409
 #, c-format
 msgid "Welcome to the %s Server running at %s."
 msgstr "Willkommen auf dem %s Server von %s."
 
-#: server/civserver.c:1407
+#: server/civserver.c:1412
 #, c-format
 msgid "Welcome to the %s Server."
 msgstr "Willkommen auf dem %s Server."
 
-#: server/civserver.c:1424
+#: server/civserver.c:1429
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
 
-#: server/civserver.c:1440
+#: server/civserver.c:1445
 #, c-format
 msgid "There are currently %d players connected:"
 msgstr "Zur Zeit sind %d Spieler anwesend:"
 
-#: server/civserver.c:1443
+#: server/civserver.c:1448
 msgid "There is currently 1 player connected:"
 msgstr "Zur Zeit ist 1 Spieler anwesend:"
 
-#: server/civserver.c:1449 server/civserver.c:1465
+#: server/civserver.c:1454 server/civserver.c:1470
 msgid " (R.I.P.)"
 msgstr " (R.I.P.)"
 
-#: server/civserver.c:1450
+#: server/civserver.c:1455
 msgid " (AI mode)"
 msgstr " (KI Modus)"
 
-#: server/civserver.c:1456
+#: server/civserver.c:1461
 msgid "There is 1 other player:"
 msgstr "1 anderer Spieler ist anwesend:"
 
-#: server/civserver.c:1458
+#: server/civserver.c:1463
 #, c-format
 msgid "There are %d other players:"
 msgstr "%d andere Spieler sind anwesend:"
 
-#: server/civserver.c:1466
+#: server/civserver.c:1471
 msgid " (an AI player)"
 msgstr " (ein KI-Spieler)"
 
-#: server/civserver.c:1497
+#: server/civserver.c:1502
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ist als KI-Spieler dazu gekommen."
 
-#: server/civserver.c:1499
+#: server/civserver.c:1504
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
 
-#: server/civserver.c:1534
+#: server/civserver.c:1539
 #, c-format
 msgid "Connection request from %s with client version %d.%d.%d%s"
 msgstr "%s (Client %d.%d.%d%s) erbittet Verbindung."
 
-#: server/civserver.c:1544
+#: server/civserver.c:1549
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -929,12 +936,12 @@ msgstr ""
 "Der Client hat nicht die vom Server benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/civserver.c:1551
+#: server/civserver.c:1556
 #, c-format
 msgid "%s was rejected: mismatched capabilities."
 msgstr "%s abgewiesen: inkompatible Version."
 
-#: server/civserver.c:1560
+#: server/civserver.c:1565
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -944,21 +951,21 @@ msgstr ""
 "Der Server hat nicht die vom Client benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/civserver.c:1567
+#: server/civserver.c:1572
 #, c-format
 msgid "%s was rejected: mismatched capabilities"
 msgstr "%s abgewiesen: inkompatible Version."
 
-#: server/civserver.c:1577
+#: server/civserver.c:1582
 msgid "Sorry, you can't observe a barbarian."
 msgstr "Barbaren können nicht beobachtet werden."
 
-#: server/civserver.c:1579
+#: server/civserver.c:1584
 #, c-format
 msgid "No observation of barbarians - %s was rejected."
 msgstr "Beobachtung von Barbaren unzulässig - %s abgewiesen."
 
-#: server/civserver.c:1604 server/civserver.c:1646
+#: server/civserver.c:1609 server/civserver.c:1651
 msgid "Sorry, you can't join.  The game is full."
 msgstr ""
 "Mitspielen ist leider nicht mehr möglich: Die max. Spielerzahl ist bereits "
@@ -969,90 +976,90 @@ msgstr ""
 #. * because they are used to identify players for various
 #. * server commands. --dwp
 #.
-#: server/civserver.c:1615
+#: server/civserver.c:1620
 msgid "Sorry, someone else already has that name."
 msgstr "Dieser Name ist bereits vergeben."
 
-#: server/civserver.c:1617
+#: server/civserver.c:1622
 #, c-format
 msgid "%s was rejected, name already used."
 msgstr "%s abgewiesen, der Name war bereits vergeben."
 
-#: server/civserver.c:1625
+#: server/civserver.c:1630
 #, c-format
 msgid "You can't join the game.  %s is already connected."
 msgstr "Du kannst nicht mitspielen. %s ist bereits hier."
 
-#: server/civserver.c:1628
+#: server/civserver.c:1633
 #, c-format
 msgid "%s was rejected."
 msgstr "%s abgewiesen."
 
-#: server/civserver.c:1637
+#: server/civserver.c:1642
 msgid "Sorry, you can't join.  The game is already running."
 msgstr "Du kannst leider nicht mitspielen. Das Spiel läuft bereits."
 
-#: server/civserver.c:1639
+#: server/civserver.c:1644
 #, c-format
 msgid "Game running - %s was rejected."
 msgstr "Spiel läuft - %s abgewiesen."
 
-#: server/civserver.c:1647
+#: server/civserver.c:1652
 #, c-format
 msgid "game full - %s was rejected."
 msgstr "Max. Spielerzahl bereits erreicht - %s abgewiesen."
 
 #. This happens eg if the player has not yet joined properly.
-#: server/civserver.c:1673
+#: server/civserver.c:1678
 msgid "Lost connection to <unknown>."
 msgstr "Verbindung zu <unbekannt> verloren."
 
-#: server/civserver.c:1677
+#: server/civserver.c:1682
 #, c-format
 msgid "Lost connection to %s."
 msgstr "Verbindung zu %s verloren."
 
-#: server/civserver.c:1684
+#: server/civserver.c:1689
 #, c-format
 msgid "Game: Lost connection to %s."
 msgstr "Spiel: Verbindung zu %s verloren."
 
-#: server/civserver.c:1730
+#: server/civserver.c:1735
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Keine Staaten mehr verfügbar. KI-Spieler %s nicht generiert."
 
-#: server/civserver.c:1762
+#: server/civserver.c:1767
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Anzahl der Staaten kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/civserver.c:1769
+#: server/civserver.c:1774
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Max. Anzahl der Spieler kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/civserver.c:1791
+#: server/civserver.c:1796
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fehler bei der Generierung eines neuen KI-Spielers: %s\n"
 
-#: server/civserver.c:1839
+#: server/civserver.c:1844
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
 #. no more unused nation
-#: server/civserver.c:1854
+#: server/civserver.c:1859
 msgid "Argh! ran out of nations!"
 msgstr "Keine Staaten mehr verfügbar!"
 
-#: server/civserver.c:1871
+#: server/civserver.c:1876
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI kontrolliert die %s unter %s."
 
-#: server/civserver.c:1877
+#: server/civserver.c:1882
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spiel: %s beherrscht die %s."
@@ -1401,40 +1408,40 @@ msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 msgid "The %s of the %s"
 msgstr "Die %s der %s"
 
-#: server/plrhand.c:1279
+#: server/plrhand.c:1297
 #, c-format
 msgid "%2d: The %s %s scored %d points\n"
 msgstr "%2d: Die %s %s erreichten %d Punkte.\n"
 
-#: server/plrhand.c:1286
+#: server/plrhand.c:1304
 msgid "Final Report:"
 msgstr "Abschlußbericht:"
 
-#: server/plrhand.c:1287
+#: server/plrhand.c:1305
 msgid "The Greatest Civilizations in the world."
 msgstr "Die großartigsten Nationen der Welt."
 
-#: server/plrhand.c:1321
+#: server/plrhand.c:1339
 #, c-format
 msgid "Game: %s acquired from The Great Library!"
 msgstr "Spiel: %s in der Großen Bibliothek entdeckt!"
 
-#: server/plrhand.c:1326
+#: server/plrhand.c:1344
 #, c-format
 msgid "Game: The %s have aquired %s from the Great Library"
 msgstr "Spiel: Die %s haben %s in der Großen Bibliothek entdeckt!"
 
-#: server/plrhand.c:1384
+#: server/plrhand.c:1402
 #, c-format
 msgid "Game: The %s are no more!"
 msgstr "Spiel: Die %s existieren nicht mehr!"
 
-#: server/plrhand.c:1411
+#: server/plrhand.c:1429
 #, c-format
 msgid "%s are first to learn %s"
 msgstr "Die %s sind die Ersten, die %s erforscht haben."
 
-#: server/plrhand.c:1436
+#: server/plrhand.c:1454
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
@@ -1442,28 +1449,28 @@ msgstr ""
 "        Unsere Wissenschaftler konzentrieren sich jetzt auf %s,\n"
 "        Ziel ist die Entwicklung von %s."
 
-#: server/plrhand.c:1445
+#: server/plrhand.c:1463
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr ""
 "Spiel: %s erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt %s."
 
-#: server/plrhand.c:1450
+#: server/plrhand.c:1468
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
 msgstr ""
 "Spiel: %s erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt Zukunftstechnologie 1."
 
-#: server/plrhand.c:1456
+#: server/plrhand.c:1474
 #, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
 msgstr ""
 "Spiel: Zukunftstechnologie %d erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt Zukunftstechnologie %d."
 
-#: server/plrhand.c:1466
+#: server/plrhand.c:1484
 msgid ""
 "Game: Great philosophers from all the world join your civilization; you get "
 "an immediate advance."
@@ -1472,79 +1479,79 @@ msgstr ""
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
-#: server/plrhand.c:1482
+#: server/plrhand.c:1500
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spiel: Die %s haben %s erforscht."
 
-#: server/plrhand.c:1486
+#: server/plrhand.c:1504
 #, c-format
 msgid "%s discover %s"
 msgstr "Die %s haben %s erforscht."
 
-#: server/plrhand.c:1492
+#: server/plrhand.c:1510
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spiel: Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:1496
+#: server/plrhand.c:1514
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:1598
+#: server/plrhand.c:1616
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spiel: Entwicklungsziel ist %s."
 
-#: server/plrhand.c:1634
+#: server/plrhand.c:1652
 msgid "Game: Cannot change rates before game start."
 msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 
-#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1647
+#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1665
 msgid "Tax"
 msgstr "Steuern"
 
-#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1649
+#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1667
 msgid "Luxury"
 msgstr "Luxus"
 
-#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1651
+#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1669
 msgid "Science"
 msgstr "Forschung"
 
-#: server/plrhand.c:1652
+#: server/plrhand.c:1670
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spiel: %s Quote übersteigt die Höchstgrenze für %s."
 
-#: server/plrhand.c:1710
+#: server/plrhand.c:1728
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spiel: %s regiert die %s jetzt als %s."
 
-#: server/plrhand.c:1745
+#: server/plrhand.c:1763
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
-#: server/plrhand.c:1772
+#: server/plrhand.c:1790
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1778
+#: server/plrhand.c:1796
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Spiel: Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1784
+#: server/plrhand.c:1802
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1840
+#: server/plrhand.c:1858
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1552,12 +1559,12 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:1850
+#: server/plrhand.c:1868
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-#: server/plrhand.c:1854
+#: server/plrhand.c:1872
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1565,36 +1572,36 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:1907
+#: server/plrhand.c:1925
 #, c-format
 msgid "Game: The diplomatic state between %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:1912
+#: server/plrhand.c:1930
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spiel: %s hat die Vereinbarung aufgekündigt!"
 
-#: server/plrhand.c:1915
+#: server/plrhand.c:1933
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/plrhand.c:2014
+#: server/plrhand.c:2032
 msgid "Message too long in page_player_generic!!"
 msgstr "Message too long in page_player_generic!!"
 
-#: server/plrhand.c:2975
+#: server/plrhand.c:2993
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:2979
+#: server/plrhand.c:2997
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:3014 server/plrhand.c:3018
+#: server/plrhand.c:3032 server/plrhand.c:3036
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Kontakt zu %2$s (beherrscht die %1$s) aufgenommen."
@@ -1981,9 +1988,9 @@ msgid ""
 "research points, you lose this percentage of those research points.  This "
 "does not apply if you have just gained tech this turn."
 msgstr ""
-"Bei Änderung des Forschungsprojekts geht dieser Prozentsatz an "
-"(vorhandenen) Punkten verloren. (Ausgenommen sind Runden, in denen "
-"ein Forschungsprojekt erfolgreich abgeschlossen wurde.)"
+"Bei Änderung des Forschungsprojekts geht dieser Prozentsatz an (vorhandenen) "
+"Punkten verloren. (Ausgenommen sind Runden, in denen ein Forschungsprojekt "
+"erfolgreich abgeschlossen wurde.)"
 
 #: server/stdinhand.c:383
 msgid "Penalty when getting tech from treaty"
@@ -2209,10 +2216,10 @@ msgid ""
 msgstr ""
 "Ein Diplomat (oder Spion), der gegen eine von Diplomaten (oder Spionen) "
 "verteidigte Stadt agiert, hat die Chance 1:N gegenüber jedem einzelnen "
-"Verrteidiger, diesen zu überwinden. Mit der gleichen Chance kehrt ein "
-"Spion von einer erfolgreichen Mission zurück. (Diplomaten kehren nie "
-"zurück.) Verteidigende Spione sind doppelt so fähig wie Diplomaten; "
-"erfahrene Einheiten sind anderen um 50 % überlegen."
+"Verrteidiger, diesen zu überwinden. Mit der gleichen Chance kehrt ein Spion "
+"von einer erfolgreichen Mission zurück. (Diplomaten kehren nie zurück.) "
+"Verteidigende Spione sind doppelt so fähig wie Diplomaten; erfahrene "
+"Einheiten sind anderen um 50 % überlegen."
 
 #: server/stdinhand.c:534
 msgid "Whether to allow space race"
@@ -2798,6 +2805,12 @@ msgstr "Abkürzung '%s' des Spielernamens ist mehrdeutig."
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Kein Spieler mit dem Namen '%s'."
+
+# ?
+#: server/stdinhand.c:1180
+#, c-format
+msgid "Unexpected match_result %d (%s) for '%s'."
+msgstr ""
 
 #: server/stdinhand.c:1195
 #, c-format
@@ -3777,7 +3790,7 @@ msgstr "Spiel: %s ist auf hoher See gesunken."
 
 #: server/unitfunc.c:1974
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d credits."
+msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spiel: %s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
 
 #: server/unitfunc.c:2227
@@ -3934,7 +3947,7 @@ msgstr "Game: Illegal package, can't upgrade %s (yet)."
 
 #: server/unithand.c:138
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d credits."
+msgid "Game: %d %s upgraded to %s for %d gold."
 msgstr "Spiel: %d %s durch %s ersetzt (Kosten: %d Goldstücke)."
 
 #: server/unithand.c:143
@@ -3952,7 +3965,7 @@ msgstr "Spiel: Unzureichende Mittel, Erneuerung kostet %d."
 
 #: server/unithand.c:180
 #, c-format
-msgid "Game: %s upgraded to %s for %d credits."
+msgid "Game: %s upgraded to %s for %d gold."
 msgstr "Spiel: %s durch %s ersetzt (Kosten: %d Goldstücke)."
 
 #: server/unithand.c:366
@@ -4038,8 +4051,8 @@ msgstr ""
 
 #: server/unithand.c:705 server/unithand.c:713 server/unithand.c:719
 #, c-format
-msgid "Game: You found %d credits."
-msgstr "Spiel: %d Goldstücke gefunden."
+msgid "Game: You found %d gold."
+msgstr "Spiel: %d Goldstücke erhalten."
 
 #: server/unithand.c:727
 msgid "Game: You found ancient scrolls of wisdom."
@@ -4774,45 +4787,49 @@ msgstr ""
 msgid "%s%dg"
 msgstr ""
 
-#: client/options.c:56
+#: client/options.c:55
 msgid "Solid unit background color"
-msgstr "Einheiten haben undurchsichtige Hintergrundfarbe"
+msgstr "Einheiten haben undurchsichtige Hintergrundfarbe     "
+
+#: client/options.c:56
+msgid "Sound bell at new turn     "
+msgstr "Akustisches Zeichen zu Beginn einer neuen Runde      "
 
 #: client/options.c:57
-msgid "Sound bell at new turn     "
-msgstr "Akustisches Zeichen zu Beginn einer neuen Runde"
+msgid "Smooth unit moves          "
+msgstr "Einheiten langsam bewegen                            "
 
 #: client/options.c:58
-msgid "Smooth unit moves          "
-msgstr "Einheiten langsam bewegen                             "
+msgid "Smooth unit move steps     "
+msgstr "Einheiten langsam bewegen                            "
 
 #: client/options.c:59
 msgid "Show combat animation      "
-msgstr "Kampfanimationen zeigen    "
+msgstr "Kampfanimationen zeigen                              "
 
 #: client/options.c:60
 msgid "Popup dialogs in AI Mode   "
-msgstr "Eigene Mitteilungsfenster auch im KI-Modus öffnen     "
+msgstr "Eigene Mitteilungsfenster auch im KI-Modus öffnen    "
 
 #: client/options.c:61
 msgid "Manual Turn Done in AI Mode"
-msgstr "Rundenende auch im KI-Modus manuell bestätigen        "
+msgstr "Rundenende auch im KI-Modus manuell bestätigen       "
 
 #: client/options.c:62
 msgid "Auto Center on Units       "
-msgstr "Ansicht automatisch auf die aktive Einheit zentrieren "
+msgstr "Ansicht automatisch auf die aktive Einheit zentrieren"
 
 #: client/options.c:63
 msgid "Focus on Awakened Units    "
-msgstr "Ansicht auf alarmierte Einheiten zentrieren           "
+msgstr "Ansicht auf alarmierte Einheiten zentrieren          "
 
 #: client/options.c:64
 msgid "Draw Diagonal Roads/Rails  "
-msgstr "Diagonale Darstellung von Straßen und Schienen        "
+msgstr "Diagonale Darstellung von Straßen und Schienen       "
 
 #: client/options.c:65
 msgid "Center map when Popup city "
-msgstr "Ansicht auf die Stadt im Stadtfenster zentrieren      "
+msgstr "Ansicht auf die Stadt im Stadtfenster zentriere      "
 
 #: client/options.c:66
 msgid "Concise City Production    "
@@ -4822,199 +4839,204 @@ msgstr "Produktion ändern          "
 msgid "End Turn when done moving  "
 msgstr "Automatisches Rundenende   "
 
-#: client/options.c:75
+#: client/options.c:93
 msgid "Low Funds                "
 msgstr "sehr wenig Gold          "
 
 #. E_LOW_ON_FUNDS
-#: client/options.c:76
+#: client/options.c:94
 msgid "Pollution                "
 msgstr "Umweltverschmutzung      "
 
-#: client/options.c:77
+#: client/options.c:95
 msgid "Global Warming           "
 msgstr "Globale Erwärmung        "
 
-#: client/options.c:78
+#: client/options.c:96
 msgid "Civil Disorder           "
 msgstr "Aufruhr                  "
 
-#: client/options.c:79
+#: client/options.c:97
 msgid "City Celebrating         "
 msgstr "Stadtfest                "
 
-#: client/options.c:80
+#: client/options.c:98
 msgid "City Normal              "
 msgstr "Alltag                   "
 
-#: client/options.c:81
+#: client/options.c:99
 msgid "City Growth              "
 msgstr "Stadtwachstum            "
 
-#: client/options.c:82
+#: client/options.c:100
 msgid "City Needs Aqueduct      "
 msgstr "Stadt benötigt Aquädukt  "
 
-#: client/options.c:83
+#: client/options.c:101
 msgid "Famine in City           "
 msgstr "Hungersnot in der Stadt  "
 
-#: client/options.c:84
+#: client/options.c:102
 msgid "City Captured/Destroyed  "
 msgstr "Stadt erobert/zerstört   "
 
-#: client/options.c:85
+#: client/options.c:103
 msgid "Building Unavailable Item"
 msgstr "Unmögliches im Bau       "
 
-#: client/options.c:86
+#: client/options.c:104
 msgid "Wonder Started           "
 msgstr "Weltwunder im Bau        "
 
-#: client/options.c:87
+#: client/options.c:105
 msgid "Wonder Finished          "
 msgstr "Weltwunder fertig        "
 
-#: client/options.c:88
+#: client/options.c:106
 msgid "Improvement Built        "
 msgstr "fertige Erweiterungen    "
 
-#: client/options.c:89
+#: client/options.c:107
 msgid "New Improvement Selected "
 msgstr "Neu gewählte Erweiterung "
 
-#: client/options.c:90
+#: client/options.c:108
 msgid "Forced Improvement Sale  "
 msgstr "Notwendiger Verkauf      "
 
-#: client/options.c:91
+#: client/options.c:109
 msgid "Production Upgraded      "
 msgstr "Produktion modernisiert  "
 
-#: client/options.c:92
+#: client/options.c:110
 msgid "Unit Built               "
 msgstr "Einheit gebaut           "
 
-#: client/options.c:93
+#: client/options.c:111
 msgid "Unit Defender Destroyed  "
 msgstr "zerstörte Verteidiger    "
 
-#: client/options.c:94
+#: client/options.c:112
 msgid "Unit Defender Survived   "
 msgstr "überlebende Verteidiger  "
 
-#: client/options.c:95
+#: client/options.c:113
 msgid "Collapse to Anarchy      "
 msgstr "Anarchie                 "
 
-#: client/options.c:96
+#: client/options.c:114
 msgid "Diplomat Actions - Enemy "
 msgstr "feindl. dipl. Aktionen   "
 
-#: client/options.c:97
+#: client/options.c:115
 msgid "Tech from Great Library  "
 msgstr "Wissen (Gr. Bibliothek)  "
 
-#: client/options.c:98
+#: client/options.c:116
 msgid "Player Destroyed         "
 msgstr "Spieler vernichtet       "
 
 #. E_DESTROYED
-#: client/options.c:99
+#: client/options.c:117
 msgid "Improvement Bought       "
 msgstr "gekaufte Erweiterung     "
 
 #. E_IMP_BUY
-#: client/options.c:100
+#: client/options.c:118
 msgid "Improvement Sold         "
 msgstr "verkaufte Erweiterung    "
 
 #. E_IMP_SOLD
-#: client/options.c:101
+#: client/options.c:119
 msgid "Unit Bought              "
 msgstr "gekaufte Einheit         "
 
 #. E_UNIT_BUY
-#: client/options.c:102
+#: client/options.c:120
 msgid "Wonder Stopped           "
 msgstr "abgebrochene Weltwunder  "
 
 #. E_WONDER_STOPPED
-#: client/options.c:103
+#: client/options.c:121
 msgid "City Needs Aq Being Built"
 msgstr "Stadt benötigt Aquädukt  "
 
 #. E_CITY_AQ_BUILDING
-#: client/options.c:104
+#: client/options.c:122
 msgid "Diplomat Actions - Own   "
 msgstr "eigene dipl. Aktionen    "
 
 #. E_MY_DIPLOMAT
-#: client/options.c:105
+#: client/options.c:123
 msgid "Unit Attack Failed       "
 msgstr "Angriff fehlgeschlagen   "
 
 #. E_UNIT_LOST_ATT
-#: client/options.c:106
+#: client/options.c:124
 msgid "Unit Attack Succeeded    "
 msgstr "Angriff erfolgreich      "
 
 #. E_UNIT_WIN_ATT
-#: client/options.c:107
+#: client/options.c:125
 msgid "Suggest Growth Throttling"
 msgstr "Schlage vor, das Wachstum zu verlangsamen"
 
 # ?
 #. E_CITY_GRAN_THROTTLE
-#: client/options.c:108
+#: client/options.c:126
 msgid "Spaceship Events         "
 msgstr ""
 
 #. E_SPACESHIP
-#: client/options.c:109
+#: client/options.c:127
 msgid "Barbarian Uprising       "
 msgstr "Barbarenaufstand        "
 
 #. E_UPRISING
-#: client/options.c:110
+#: client/options.c:128
 msgid "Worklist Events          "
 msgstr "Arbeitsliste             "
 
 #. E_WORKLIST
-#: client/options.c:111
+#: client/options.c:129
 msgid "Pact Cancelled           "
 msgstr "Vertrag aufgekündigt     "
 
 #. E_CANCEL_PACT
-#: client/options.c:112
+#: client/options.c:130
 msgid "Diplomatic Incident      "
 msgstr "diplomatische Krise      "
 
 #. E_DIPL_INCIDENT
-#: client/options.c:113
+#: client/options.c:131
 msgid "First Contact            "
 msgstr "Erstkontakt              "
 
+#. E_FIRST_CONTACT
+#: client/options.c:132
+msgid "City May Soon Grow       "
+msgstr "Stadt wächst vermutlich bald"
+
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/options.c:177
+#: client/options.c:196
 msgid "Cannot find your home directory"
 msgstr "Cannot find your home directory"
 
-#: client/options.c:208
+#: client/options.c:227
 #, c-format
 msgid "Settings file is %s"
 msgstr "Ihre Konfigurationsdatei ist %s."
 
-#: client/options.c:211
+#: client/options.c:230
 #, c-format
 msgid "Cannot write to file %s"
 msgstr "Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:270
+#: client/options.c:295
 msgid "Cannot save settings."
 msgstr "Einstellungen können nicht gespeichert werden."
 
-#: client/options.c:293
+#: client/options.c:321
 msgid "Saved settings."
 msgstr "Einstellunugen gespeichert."
 
@@ -5222,7 +5244,7 @@ msgstr ""
 "Gesamter Handel %d Handel/Jahr\n"
 
 #. "citytradedialog"
-#: client/gui-gtk/citydlg.c:950 data/Freeciv:2160
+#: client/gui-gtk/citydlg.c:950 data/Freeciv:2145
 msgid "Trade Routes"
 msgstr "Handelswege"
 
@@ -5302,7 +5324,7 @@ msgstr ""
 
 #. "buydialog"
 #: client/gui-gtk/citydlg.c:1563 client/gui-gtk/citydlg.c:1572
-#: data/Freeciv:2149 data/Freeciv:2179
+#: data/Freeciv:2134 data/Freeciv:2164
 msgid "Buy It!"
 msgstr "Kaufen!"
 
@@ -5329,8 +5351,8 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1573 client/gui-gtk/citydlg.c:1622
 #: client/gui-gtk/citydlg.c:1646 client/gui-gtk/dialogs.c:418
-#: client/gui-gtk/dialogs.c:994 data/Freeciv:2181 data/Freeciv:2379
-#: data/Freeciv:2409
+#: client/gui-gtk/dialogs.c:994 data/Freeciv:2166 data/Freeciv:2364
+#: data/Freeciv:2394
 msgid "Darn"
 msgstr "Zurück"
 
@@ -5341,7 +5363,7 @@ msgstr "%s können nicht modernisiert werden."
 
 #. "upgradenodialog"
 #: client/gui-gtk/citydlg.c:1621 client/gui-gtk/citydlg.c:1645
-#: data/Freeciv:2407
+#: data/Freeciv:2392
 msgid "Upgrade Unit!"
 msgstr "Einheit modernisieren!"
 
@@ -5356,7 +5378,7 @@ msgstr ""
 
 #. "upgradedialog"
 #: client/gui-gtk/citydlg.c:1633 client/gui-gtk/repodlgs.c:970
-#: data/Freeciv:2396
+#: data/Freeciv:2381
 msgid "Upgrade Obsolete Units"
 msgstr "Modernisiere veraltete Einheiten"
 
@@ -5386,7 +5408,7 @@ msgstr "Kosten"
 msgid "Turns"
 msgstr "Runden"
 
-#: client/gui-gtk/citydlg.c:1776 data/Freeciv:2008
+#: client/gui-gtk/citydlg.c:1776 data/Freeciv:1993
 msgid "Change Production"
 msgstr "Produktion ändern"
 
@@ -5416,7 +5438,7 @@ msgid "Sell %s for %d gold?"
 msgstr "%s für %d Goldstücke verkaufen?"
 
 #. "selldialog"
-#: client/gui-gtk/citydlg.c:2045 data/Freeciv:2168
+#: client/gui-gtk/citydlg.c:2045 data/Freeciv:2153
 msgid "Sell It!"
 msgstr "Verkaufen!"
 
@@ -5432,7 +5454,7 @@ msgstr "Forscher"
 msgid "Taxmen"
 msgstr "Steuereintreiber"
 
-#: client/gui-gtk/citydlg.c:2157 data/Freeciv:1445 data/Freeciv:2943
+#: client/gui-gtk/citydlg.c:2157 data/Freeciv:1430 data/Freeciv:2928
 msgid "City Options"
 msgstr "Allgemeine Einstellungen"
 
@@ -5464,8 +5486,8 @@ msgstr "Helikopter automatisch angreifen"
 #: client/gui-gtk/citydlg.c:2211 client/gui-gtk/dialogs.c:1972
 #: client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101
 #: client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463
-#: client/gui-xaw/inputdlg.c:100 data/Freeciv:1231 data/Freeciv:1268
-#: data/Freeciv:1345 data/Freeciv:1493
+#: client/gui-xaw/inputdlg.c:100 data/Freeciv:1223 data/Freeciv:1253
+#: data/Freeciv:1330 data/Freeciv:1478
 msgid "Ok"
 msgstr "OK"
 
@@ -5474,10 +5496,10 @@ msgstr "OK"
 #: client/gui-gtk/finddlg.c:109 client/gui-gtk/gamedlgs.c:317
 #: client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149
 #: client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:107 data/Freeciv:1078
-#: data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1237
-#: data/Freeciv:1270 data/Freeciv:1348 data/Freeciv:1496 data/Freeciv:1748
-#: data/Freeciv:2028 data/Freeciv:2105 data/Freeciv:2219 data/Freeciv:2252
-#: data/Freeciv:2360 data/Freeciv:2428 data/Freeciv:2438
+#: data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1225
+#: data/Freeciv:1255 data/Freeciv:1333 data/Freeciv:1481 data/Freeciv:1733
+#: data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237
+#: data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -5497,7 +5519,7 @@ msgid "No Units Available"
 msgstr "Keine Einheiten erhältlich"
 
 #: client/gui-gtk/cityrep.c:429 client/gui-gtk/menu.c:613
-#: client/gui-xaw/menu.c:185 data/Freeciv:1504
+#: client/gui-xaw/menu.c:185 data/Freeciv:1489
 msgid "City Report"
 msgstr "Stadtbericht"
 
@@ -5579,20 +5601,20 @@ msgstr "Spiel: Das ist dasselbe!"
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spiel: Anstatt %s werden jetzt überall %s (auf)gebaut."
 
-#: client/gui-gtk/cityrep.c:844 data/Freeciv:1687
+#: client/gui-gtk/cityrep.c:844 data/Freeciv:1672
 msgid "From:"
 msgstr "Von:"
 
-#: client/gui-gtk/cityrep.c:845 data/Freeciv:1697
+#: client/gui-gtk/cityrep.c:845 data/Freeciv:1682
 msgid "To:"
 msgstr "Zu:"
 
-#: client/gui-gtk/cityrep.c:869 data/Freeciv:1681
+#: client/gui-gtk/cityrep.c:869 data/Freeciv:1666
 msgid "Change Production Everywhere"
 msgstr "Produktion überall verändert."
 
-#: client/gui-gtk/cityrep.c:985 data/Freeciv:1377 data/Freeciv:1579
-#: data/Freeciv:1733 data/Freeciv:2022 data/Freeciv:2947
+#: client/gui-gtk/cityrep.c:985 data/Freeciv:1362 data/Freeciv:1564
+#: data/Freeciv:1718 data/Freeciv:2007 data/Freeciv:2932
 msgid "Change"
 msgstr "Ändern"
 
@@ -5601,11 +5623,11 @@ msgstr "Ändern"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
 
-#: client/gui-gtk/cityrep.c:1268 data/Freeciv:1662
+#: client/gui-gtk/cityrep.c:1268 data/Freeciv:1647
 msgid "Configure City Report"
 msgstr "Stadtbericht: Einstellungen"
 
-#: client/gui-gtk/cityrep.c:1271 data/Freeciv:1667
+#: client/gui-gtk/cityrep.c:1271 data/Freeciv:1652
 msgid "Set columns shown"
 msgstr "Gewünschte Spalten markieren:"
 
@@ -5614,15 +5636,15 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-gtk/cityrep.c:1282 client/gui-gtk/dialogs.c:206
 #: client/gui-gtk/dialogs.c:331 client/gui-gtk/dialogs.c:710
 #: client/gui-gtk/dialogs.c:808 client/gui-gtk/dialogs.c:1741
-#: client/gui-gtk/gamedlgs.c:414 client/gui-gtk/helpdlg.c:615
+#: client/gui-gtk/gamedlgs.c:438 client/gui-gtk/helpdlg.c:615
 #: client/gui-gtk/inteldlg.c:184 client/gui-gtk/messagewin.c:148
 #: client/gui-gtk/repodlgs.c:249 client/gui-gtk/repodlgs.c:606
 #: client/gui-gtk/repodlgs.c:869 client/gui-gtk/spaceshipdlg.c:215
 #: client/gui-gtk/wldlg.c:203 data/Freeciv:145 data/Freeciv:195
-#: data/Freeciv:481 data/Freeciv:515 data/Freeciv:560 data/Freeciv:1435
-#: data/Freeciv:1548 data/Freeciv:1644 data/Freeciv:1675 data/Freeciv:1808
-#: data/Freeciv:1882 data/Freeciv:1924 data/Freeciv:2283 data/Freeciv:2325
-#: data/Freeciv:2930 data/Freeciv:3089 data/Freeciv:3164
+#: data/Freeciv:481 data/Freeciv:515 data/Freeciv:560 data/Freeciv:1420
+#: data/Freeciv:1533 data/Freeciv:1629 data/Freeciv:1660 data/Freeciv:1793
+#: data/Freeciv:1867 data/Freeciv:1909 data/Freeciv:2268 data/Freeciv:2310
+#: data/Freeciv:2915 data/Freeciv:3074 data/Freeciv:3149
 msgid "Close"
 msgstr "Schließen"
 
@@ -5643,8 +5665,8 @@ msgid "Status"
 msgstr "Status"
 
 #: client/gui-gtk/connectdlg.c:126 client/gui-gtk/menu.c:487
-#: client/gui-gtk/plrdlg.c:98 client/gui-xaw/menu.c:109 data/Freeciv:3059
-#: data/Freeciv:3060
+#: client/gui-gtk/plrdlg.c:98 client/gui-xaw/menu.c:109 data/Freeciv:3044
+#: data/Freeciv:3045
 msgid "Players"
 msgstr "Spieler"
 
@@ -5682,12 +5704,12 @@ msgstr "Aktualisieren"
 
 #: client/gui-gtk/connectdlg.c:222 client/gui-gtk/dialogs.c:1473
 #: client/gui-gtk/menu.c:586 client/gui-xaw/menu.c:170 data/Freeciv:95
-#: data/Freeciv:2433
+#: data/Freeciv:2418
 msgid "Connect"
 msgstr "Verbinden"
 
 #: client/gui-gtk/connectdlg.c:228 client/gui-gtk/menu.c:507
-#: client/gui-xaw/menu.c:119 data/Freeciv:102 data/Freeciv:3047
+#: client/gui-xaw/menu.c:119 data/Freeciv:102 data/Freeciv:3032
 msgid "Quit"
 msgstr "Beenden"
 
@@ -5709,7 +5731,7 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #. "diplomatbribedialog"
-#: client/gui-gtk/dialogs.c:409 data/Freeciv:2342 data/Freeciv:2355
+#: client/gui-gtk/dialogs.c:409 data/Freeciv:2327 data/Freeciv:2340
 msgid "Bribe Enemy Unit"
 msgstr "Feindliche Einheit bestechen"
 
@@ -5723,19 +5745,19 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #. "diplomatnogolddialog"
-#: client/gui-gtk/dialogs.c:417 client/gui-gtk/dialogs.c:993 data/Freeciv:2377
+#: client/gui-gtk/dialogs.c:417 client/gui-gtk/dialogs.c:993 data/Freeciv:2362
 msgid "Traitors Demand Too Much!"
 msgstr "Verräter verlangen zu viel!"
 
-#: client/gui-gtk/dialogs.c:685 data/Freeciv:2273
+#: client/gui-gtk/dialogs.c:685 data/Freeciv:2258
 msgid "Select Advance to Steal"
 msgstr "Wähle das zu stehlende Forschungsergebnis"
 
-#: client/gui-gtk/dialogs.c:692 data/Freeciv:2245 data/Freeciv:2258
+#: client/gui-gtk/dialogs.c:692 data/Freeciv:2230 data/Freeciv:2243
 msgid "Steal Technology"
 msgstr "Forschungsergebnis stehlen"
 
-#: client/gui-gtk/dialogs.c:715 data/Freeciv:2289
+#: client/gui-gtk/dialogs.c:715 data/Freeciv:2274
 msgid "Steal"
 msgstr "Stehlen"
 
@@ -5748,15 +5770,15 @@ msgstr "Nach Wahl des Spions"
 msgid "NONE"
 msgstr "NICHTS"
 
-#: client/gui-gtk/dialogs.c:784 data/Freeciv:2315
+#: client/gui-gtk/dialogs.c:784 data/Freeciv:2300
 msgid "Select Improvement to Sabotage"
 msgstr "Wähle die zu sabotierende Stadterweiterung"
 
-#: client/gui-gtk/dialogs.c:791 data/Freeciv:2300
+#: client/gui-gtk/dialogs.c:791 data/Freeciv:2285
 msgid "Sabotage Improvements"
 msgstr "Sabotiere Stadterweiterung"
 
-#: client/gui-gtk/dialogs.c:813 data/Freeciv:2331
+#: client/gui-gtk/dialogs.c:813 data/Freeciv:2316
 msgid "Sabotage"
 msgstr "Sabotiere"
 
@@ -5774,7 +5796,7 @@ msgstr ""
 "Die Schatzkammer enthält %d Gold."
 
 #. "diplomatrevoltdialog"
-#: client/gui-gtk/dialogs.c:985 data/Freeciv:2366
+#: client/gui-gtk/dialogs.c:985 data/Freeciv:2351
 msgid "Incite a Revolt!"
 msgstr "Zu einer Revolte anstiften!"
 
@@ -5823,7 +5845,7 @@ msgid "Incite a _Revolt"
 msgstr "_Revolte anstiften"
 
 #. "spydialog"
-#: client/gui-gtk/dialogs.c:1055 data/Freeciv:2226
+#: client/gui-gtk/dialogs.c:1055 data/Freeciv:2211
 msgid "Choose Your Spy's Strategy"
 msgstr "Strategie des Spions wählen"
 
@@ -5840,7 +5862,7 @@ msgid "Industrial _Sabotage"
 msgstr "_Industrie sabotieren"
 
 #. "spybribedialog"
-#: client/gui-gtk/dialogs.c:1086 data/Freeciv:2353
+#: client/gui-gtk/dialogs.c:1086 data/Freeciv:2338
 msgid "Subvert Enemy Unit"
 msgstr "Feindliche Einheit unterwandern"
 
@@ -5868,7 +5890,7 @@ msgid ""
 msgstr "Karawane aus %s erreicht die Stadt %s."
 
 #. "caravandialog"
-#: client/gui-gtk/dialogs.c:1190 data/Freeciv:2188
+#: client/gui-gtk/dialogs.c:1190 data/Freeciv:2173
 msgid "Your Caravan Has Arrived"
 msgstr "Karawane ist angekommen"
 
@@ -5888,12 +5910,12 @@ msgstr "_Weiterziehen"
 msgid "Choose Your New Government"
 msgstr "Wähle die neue Regierung"
 
-#: client/gui-gtk/dialogs.c:1264 data/Freeciv:2417
+#: client/gui-gtk/dialogs.c:1264 data/Freeciv:2402
 msgid "Select government type:"
 msgstr "Wähle die Regierungsform:"
 
 #. "revolutiondialog"
-#: client/gui-gtk/dialogs.c:1319 data/Freeciv:2385
+#: client/gui-gtk/dialogs.c:1319 data/Freeciv:2370
 msgid "Revolution!"
 msgstr "Revolution!"
 
@@ -5901,15 +5923,15 @@ msgstr "Revolution!"
 msgid "You say you wanna revolution?"
 msgstr "Sicher?"
 
-#: client/gui-gtk/dialogs.c:1374 data/Freeciv:2423
+#: client/gui-gtk/dialogs.c:1374 data/Freeciv:2408
 msgid "What To Pillage"
 msgstr "Was gebrandschatzt werden soll"
 
-#: client/gui-gtk/dialogs.c:1381 data/Freeciv:2425
+#: client/gui-gtk/dialogs.c:1381 data/Freeciv:2410
 msgid "Select what to pillage:"
 msgstr "Wähle aus, was gebrandschatzt werden soll:"
 
-#: client/gui-gtk/dialogs.c:1480 data/Freeciv:2435
+#: client/gui-gtk/dialogs.c:1480 data/Freeciv:2420
 msgid "Choose unit activity:"
 msgstr "Was soll die Einheit machen?"
 
@@ -5938,7 +5960,7 @@ msgstr "Geschlecht:"
 msgid "Male"
 msgstr "männlich"
 
-#: client/gui-gtk/dialogs.c:1929 data/Freeciv:3026
+#: client/gui-gtk/dialogs.c:1929 data/Freeciv:3011
 msgid "Female"
 msgstr "weiblich"
 
@@ -6064,7 +6086,7 @@ msgstr "Finde Stadt"
 msgid "Select a city:"
 msgstr "Wähle eine Stadt:"
 
-#: client/gui-gtk/finddlg.c:94 data/Freeciv:1071 data/Freeciv:1555
+#: client/gui-gtk/finddlg.c:94 data/Freeciv:1071 data/Freeciv:1540
 msgid "Center"
 msgstr "Zentrieren"
 
@@ -6073,8 +6095,8 @@ msgid "Select tax, luxury and science rates"
 msgstr "Wählen Sie Steuer-, Luxus- und Forschungsquote"
 
 #: client/gui-gtk/gamedlgs.c:263 client/gui-gtk/gamedlgs.c:283
-#: client/gui-gtk/gamedlgs.c:303 data/Freeciv:1301 data/Freeciv:1319
-#: data/Freeciv:1338
+#: client/gui-gtk/gamedlgs.c:303 data/Freeciv:1286 data/Freeciv:1304
+#: data/Freeciv:1323
 msgid "Lock"
 msgstr "Feststellen"
 
@@ -6082,7 +6104,7 @@ msgstr "Feststellen"
 msgid "%s max rate: %d%%"
 msgstr "%s Maximum: %d%%"
 
-#: client/gui-gtk/gamedlgs.c:406 data/Freeciv:1209
+#: client/gui-gtk/gamedlgs.c:415 data/Freeciv:1211
 msgid "Set local options"
 msgstr "Client konfigurieren"
 
@@ -6099,11 +6121,11 @@ msgstr "Bestimmungsort wählen"
 msgid "_Goto"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk/gui_main.c:423 data/Freeciv:2487
+#: client/gui-gtk/gui_main.c:423 data/Freeciv:2472
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk/gui_main.c:542 data/Freeciv:2722
+#: client/gui-gtk/gui_main.c:542 data/Freeciv:2707
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -6442,7 +6464,7 @@ msgstr "_Spiel"
 #: client/gui-gtk/menu.c:495 client/gui-gtk/menu.c:497
 #: client/gui-gtk/menu.c:499 client/gui-gtk/menu.c:501
 #: client/gui-gtk/menu.c:503 client/gui-gtk/menu.c:505
-#: client/gui-gtk/menu.c:507 data/Freeciv:1961
+#: client/gui-gtk/menu.c:507 data/Freeciv:1946
 msgid "Game"
 msgstr "Spiel"
 
@@ -6461,7 +6483,7 @@ msgid "Local Options"
 msgstr "Lokale Optionen"
 
 #: client/gui-gtk/menu.c:481 client/gui-gtk/messagedlg.c:88
-#: client/gui-xaw/menu.c:106 data/Freeciv:1247
+#: client/gui-xaw/menu.c:106 data/Freeciv:1232
 msgid "Message Options"
 msgstr "Einstellung der Nachrichtendarstellung"
 
@@ -6470,8 +6492,8 @@ msgid "Save Settings"
 msgstr "Lokale Einstellungen speichern"
 
 #: client/gui-gtk/menu.c:489 client/gui-gtk/messagewin.c:127
-#: client/gui-gtk/messagewin.c:137 client/gui-xaw/menu.c:110 data/Freeciv:3131
-#: data/Freeciv:3132 data/Freeciv:3141
+#: client/gui-gtk/messagewin.c:137 client/gui-xaw/menu.c:110 data/Freeciv:3116
+#: data/Freeciv:3117 data/Freeciv:3126
 msgid "Messages"
 msgstr "Nachrichtenfenster öffnen"
 
@@ -6491,7 +6513,7 @@ msgstr "Textfenster speichern"
 msgid "Clear Log"
 msgstr "Textfenster löschen"
 
-#: client/gui-gtk/menu.c:505 client/gui-xaw/menu.c:118 data/Freeciv:3045
+#: client/gui-gtk/menu.c:505 client/gui-xaw/menu.c:118 data/Freeciv:3030
 msgid "Disconnect"
 msgstr "Verbindung zum Server trennen"
 
@@ -6502,7 +6524,7 @@ msgstr "_Königreich"
 #: client/gui-gtk/menu.c:512 client/gui-gtk/menu.c:514
 #: client/gui-gtk/menu.c:516 client/gui-gtk/menu.c:518
 #: client/gui-gtk/menu.c:520 client/gui-gtk/menu.c:522
-#: client/gui-gtk/menu.c:524 data/Freeciv:1962
+#: client/gui-gtk/menu.c:524 data/Freeciv:1947
 msgid "Kingdom"
 msgstr "Königreich"
 
@@ -6528,7 +6550,7 @@ msgstr "_Ansicht"
 
 #: client/gui-gtk/menu.c:529 client/gui-gtk/menu.c:531
 #: client/gui-gtk/menu.c:533 client/gui-gtk/menu.c:535
-#: client/gui-gtk/menu.c:537 client/gui-gtk/menu.c:539 data/Freeciv:1963
+#: client/gui-gtk/menu.c:537 client/gui-gtk/menu.c:539 data/Freeciv:1948
 msgid "View"
 msgstr "Ansicht"
 
@@ -6567,7 +6589,7 @@ msgstr "_Befehle"
 #: client/gui-gtk/menu.c:592 client/gui-gtk/menu.c:594
 #: client/gui-gtk/menu.c:596 client/gui-gtk/menu.c:598
 #: client/gui-gtk/menu.c:600 client/gui-gtk/menu.c:602
-#: client/gui-gtk/menu.c:604 client/gui-gtk/menu.c:606 data/Freeciv:1964
+#: client/gui-gtk/menu.c:604 client/gui-gtk/menu.c:606 data/Freeciv:1949
 msgid "Orders"
 msgstr "Befehle"
 
@@ -6673,24 +6695,24 @@ msgstr "Be_richte"
 #: client/gui-gtk/menu.c:615 client/gui-gtk/menu.c:617
 #: client/gui-gtk/menu.c:619 client/gui-gtk/menu.c:621
 #: client/gui-gtk/menu.c:623 client/gui-gtk/menu.c:625
-#: client/gui-gtk/menu.c:627 client/gui-gtk/menu.c:629 data/Freeciv:1965
+#: client/gui-gtk/menu.c:627 client/gui-gtk/menu.c:629 data/Freeciv:1950
 msgid "Reports"
 msgstr "Berichte"
 
 #: client/gui-gtk/menu.c:615 client/gui-gtk/repodlgs.c:845
 #: client/gui-gtk/repodlgs.c:847 client/gui-gtk/repodlgs.c:1017
 #: client/gui-xaw/menu.c:186 client/gui-xaw/repodlgs.c:899
-#: client/gui-xaw/repodlgs.c:1092 data/Freeciv:1834
+#: client/gui-xaw/repodlgs.c:1092 data/Freeciv:1819
 msgid "Military Report"
 msgstr "Militärischer Bericht"
 
 #: client/gui-gtk/menu.c:617 client/gui-gtk/repodlgs.c:580
-#: client/gui-xaw/menu.c:187 data/Freeciv:1759
+#: client/gui-xaw/menu.c:187 data/Freeciv:1744
 msgid "Trade Report"
 msgstr "Handelsbericht"
 
 #: client/gui-gtk/menu.c:619 client/gui-gtk/repodlgs.c:185
-#: client/gui-xaw/menu.c:188 data/Freeciv:1356
+#: client/gui-xaw/menu.c:188 data/Freeciv:1341
 msgid "Science Report"
 msgstr "Forschungsbericht"
 
@@ -6702,7 +6724,7 @@ msgstr "Die besten 5 Städte"
 msgid "Demographics"
 msgstr "Bericht zur Lage der Nation"
 
-#: client/gui-gtk/menu.c:629 client/gui-xaw/menu.c:193 data/Freeciv:3120
+#: client/gui-gtk/menu.c:629 client/gui-xaw/menu.c:193 data/Freeciv:3105
 msgid "Spaceship"
 msgstr "Raumschiff"
 
@@ -6717,8 +6739,8 @@ msgstr "Raumschiff"
 #: client/gui-gtk/menu.c:666 client/gui-gtk/menu.c:668
 #: client/gui-gtk/menu.c:670 client/gui-gtk/menu.c:672
 #: client/gui-gtk/repodlgs.c:214 client/gui-gtk/wldlg.c:356
-#: client/gui-gtk/wldlg.c:443 data/Freeciv:1966 data/Freeciv:2034
-#: data/Freeciv:2117 data/Freeciv:2123
+#: client/gui-gtk/wldlg.c:443 data/Freeciv:1951 data/Freeciv:2019
+#: data/Freeciv:2102 data/Freeciv:2108
 msgid "Help"
 msgstr "Hilfe"
 
@@ -6833,11 +6855,11 @@ msgstr "Nach:"
 msgid "Pop:"
 msgstr "Eig:"
 
-#: client/gui-gtk/messagewin.c:153 data/Freeciv:3171
+#: client/gui-gtk/messagewin.c:153 data/Freeciv:3156
 msgid "Goto location"
 msgstr "Gehe nach"
 
-#: client/gui-gtk/messagewin.c:158 data/Freeciv:3179
+#: client/gui-gtk/messagewin.c:158 data/Freeciv:3164
 msgid "Popup City"
 msgstr "Stadtschirm anzeigen"
 
@@ -6932,7 +6954,7 @@ msgstr ""
 msgid "Researching"
 msgstr "Erforsche"
 
-#: client/gui-gtk/repodlgs.c:217 data/Freeciv:1417
+#: client/gui-gtk/repodlgs.c:217 data/Freeciv:1402
 msgid "Goal"
 msgstr "Ziel"
 
@@ -6968,11 +6990,11 @@ msgstr "Handelsratgeber"
 msgid "Total Cost:"
 msgstr "Gesamtkosten:"
 
-#: client/gui-gtk/repodlgs.c:612 data/Freeciv:1815
+#: client/gui-gtk/repodlgs.c:612 data/Freeciv:1800
 msgid "Sell Obsolete"
 msgstr "Verkaufe Veraltetes"
 
-#: client/gui-gtk/repodlgs.c:618 data/Freeciv:1823
+#: client/gui-gtk/repodlgs.c:618 data/Freeciv:1808
 msgid "Sell All"
 msgstr "Alles verkaufen"
 
@@ -7023,12 +7045,12 @@ msgstr "Schild"
 msgid "Totals: ..."
 msgstr "Insgesamt: ..."
 
-#: client/gui-gtk/repodlgs.c:875 data/Freeciv:1889
+#: client/gui-gtk/repodlgs.c:875 data/Freeciv:1874
 msgid "Upgrade"
 msgstr "Modernisieren"
 
-#: client/gui-gtk/repodlgs.c:881 data/Freeciv:1595 data/Freeciv:1740
-#: data/Freeciv:1897
+#: client/gui-gtk/repodlgs.c:881 data/Freeciv:1580 data/Freeciv:1725
+#: data/Freeciv:1882
 msgid "Refresh"
 msgstr "Neu laden"
 
@@ -7043,18 +7065,18 @@ msgstr ""
 
 #: client/gui-gtk/repodlgs.c:971 client/gui-xaw/citydlg.c:2615
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
-#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
-#: client/gui-xaw/wldlg.c:1211 data/Freeciv:2137 data/Freeciv:2151
-#: data/Freeciv:2170 data/Freeciv:2344 data/Freeciv:2368 data/Freeciv:2387
-#: data/Freeciv:2398
+#: client/gui-xaw/optiondlg.c:77 client/gui-xaw/optiondlg.c:173
+#: client/gui-xaw/wldlg.c:1211 data/Freeciv:2122 data/Freeciv:2136
+#: data/Freeciv:2155 data/Freeciv:2329 data/Freeciv:2353 data/Freeciv:2372
+#: data/Freeciv:2383
 msgid "Yes"
 msgstr "Ja"
 
 #: client/gui-gtk/repodlgs.c:972 client/gui-xaw/citydlg.c:2615
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
-#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
-#: client/gui-xaw/wldlg.c:1211 data/Freeciv:2153 data/Freeciv:2172
-#: data/Freeciv:2346 data/Freeciv:2370 data/Freeciv:2389 data/Freeciv:2400
+#: client/gui-xaw/optiondlg.c:77 client/gui-xaw/optiondlg.c:173
+#: client/gui-xaw/wldlg.c:1211 data/Freeciv:2138 data/Freeciv:2157
+#: data/Freeciv:2331 data/Freeciv:2355 data/Freeciv:2374 data/Freeciv:2385
 msgid "No"
 msgstr "Nein"
 
@@ -7081,7 +7103,7 @@ msgstr ""
 "Erfolgswahrscheinlichkeit:   100 %\n"
 "Ankunftsjahr:               1234 AD"
 
-#: client/gui-gtk/spaceshipdlg.c:217 data/Freeciv:1651
+#: client/gui-gtk/spaceshipdlg.c:217 data/Freeciv:1636
 msgid "Launch"
 msgstr "Start"
 
@@ -7104,7 +7126,7 @@ msgstr ""
 "Erfolgswahrscheinlichkeit:  %5d %%\n"
 "Ankunftsjahr:               %8s"
 
-#: client/gui-gtk/wldlg.c:157 data/Freeciv:1911
+#: client/gui-gtk/wldlg.c:157 data/Freeciv:1896
 msgid "Available worklists"
 msgstr "Verfügbare Arbeitslisten"
 
@@ -7113,34 +7135,34 @@ msgid "Edit worklists"
 msgstr "Arbeitslisten bearbeiten"
 
 #. + Edit
-#: client/gui-gtk/wldlg.c:212 data/Freeciv:1930
+#: client/gui-gtk/wldlg.c:212 data/Freeciv:1915
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #. + Rename
-#: client/gui-gtk/wldlg.c:220 data/Freeciv:1936 data/Freeciv:2935
+#: client/gui-gtk/wldlg.c:220 data/Freeciv:1921 data/Freeciv:2920
 msgid "Rename"
 msgstr "Umbenennen"
 
 #. + Insert
-#: client/gui-gtk/wldlg.c:228 client/gui-gtk/wldlg.c:375 data/Freeciv:1945
-#: data/Freeciv:2081
+#: client/gui-gtk/wldlg.c:228 client/gui-gtk/wldlg.c:375 data/Freeciv:1930
+#: data/Freeciv:2066
 msgid "Insert"
 msgstr "Einfügen"
 
 #. + Delete
-#: client/gui-gtk/wldlg.c:236 client/gui-gtk/wldlg.c:382 data/Freeciv:1951
-#: data/Freeciv:2087
+#: client/gui-gtk/wldlg.c:236 client/gui-gtk/wldlg.c:382 data/Freeciv:1936
+#: data/Freeciv:2072
 msgid "Delete"
 msgstr "Löschen"
 
 #. Stuff for the current worklist.
-#: client/gui-gtk/wldlg.c:295 data/Freeciv:2046
+#: client/gui-gtk/wldlg.c:295 data/Freeciv:2031
 msgid "Current worklist"
 msgstr "Aktuelle Arbeitsliste"
 
 #. Stuff for the available targets.
-#: client/gui-gtk/wldlg.c:299 data/Freeciv:2053
+#: client/gui-gtk/wldlg.c:299 data/Freeciv:2038
 msgid "Available targets"
 msgstr "Mögliche Aufträge"
 
@@ -7148,15 +7170,15 @@ msgstr "Mögliche Aufträge"
 msgid "Production worklist"
 msgstr "Arbeitsliste"
 
-#: client/gui-gtk/wldlg.c:368 data/Freeciv:2075
+#: client/gui-gtk/wldlg.c:368 data/Freeciv:2060
 msgid "Prepend"
 msgstr "1. Eintrag"
 
-#: client/gui-gtk/wldlg.c:389 data/Freeciv:2093
+#: client/gui-gtk/wldlg.c:389 data/Freeciv:2078
 msgid "Up"
 msgstr "Aufwärts"
 
-#: client/gui-gtk/wldlg.c:396 data/Freeciv:2099
+#: client/gui-gtk/wldlg.c:396 data/Freeciv:2084
 msgid "Down"
 msgstr "Abwärts"
 
@@ -7353,7 +7375,7 @@ msgstr ""
 msgid "Tax Rates"
 msgstr "Steuern"
 
-#: client/gui-xaw/menu.c:127 data/Freeciv:1909
+#: client/gui-xaw/menu.c:127 data/Freeciv:1894
 msgid "Worklists"
 msgstr "Arbeitslisten"
 
@@ -7464,225 +7486,225 @@ msgstr "Einheit modernisieren"
 msgid "Options"
 msgstr "Optionen"
 
-#: data/Freeciv:1257
+#: data/Freeciv:1242
 msgid "Where to Display Messages"
 msgstr "Optionen zur Anzeige von Nachrichten                  "
 
-#: data/Freeciv:1258
+#: data/Freeciv:1243
 msgid ""
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
 msgstr "Txt = Textfenter, Nach = Nachrichtenfenster, Eig = eigenes Fenster"
 
-#: data/Freeciv:1266
+#: data/Freeciv:1251
 msgid "                          Out: Mes: Pop:"
 msgstr "                          Txt: Nach: Eig:"
 
-#: data/Freeciv:1277
+#: data/Freeciv:1262
 msgid "Rates"
 msgstr "Quoten"
 
-#: data/Freeciv:1279
+#: data/Freeciv:1264
 msgid "Select tax, luxury and science rates:"
 msgstr "Wähle Steuer-, Luxus- und Forschungsquote:"
 
-#: data/Freeciv:1385
+#: data/Freeciv:1370
 msgid "Help:"
 msgstr "Hilfe:"
 
-#: data/Freeciv:1455
+#: data/Freeciv:1440
 msgid "Make new citizens into:     "
 msgstr "Neue Bürger werden:         "
 
-#: data/Freeciv:1463
+#: data/Freeciv:1448
 msgid "Disband if build settler at size 1:"
 msgstr "Auflösen, falls bei Größe 1 Siedler gebaut werden:"
 
-#: data/Freeciv:1469
+#: data/Freeciv:1454
 msgid "Auto-attack vs land units:         "
 msgstr "Landeinheiten automatisch angreifen:          "
 
-#: data/Freeciv:1475
+#: data/Freeciv:1460
 msgid "Auto-attack vs sea units:          "
 msgstr "Marineeinheiten automatisch angreifen:        "
 
-#: data/Freeciv:1481
+#: data/Freeciv:1466
 msgid "Auto-attack vs air units:          "
 msgstr "Luftwaffeneinheiten automatisch angreifen:    "
 
-#: data/Freeciv:1487
+#: data/Freeciv:1472
 msgid "Auto-attack vs helicopters:        "
 msgstr "Helikopter automatisch angreifen:             "
 
-#: data/Freeciv:1563
+#: data/Freeciv:1548
 msgid "Popup"
 msgstr "Anzeigen"
 
-#: data/Freeciv:1571
+#: data/Freeciv:1556
 msgid "Buy"
 msgstr "Kaufen"
 
-#: data/Freeciv:1587
+#: data/Freeciv:1572
 msgid "Change All"
 msgstr "Alles ändern"
 
-#: data/Freeciv:1603
+#: data/Freeciv:1588
 msgid "Configure"
 msgstr "Einstellen"
 
-#: data/Freeciv:1786
+#: data/Freeciv:1771
 msgid "Building Name       Count Cost Total"
 msgstr "Im Bau Name       Zählt Kostet Total"
 
-#: data/Freeciv:1861
+#: data/Freeciv:1846
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
 msgstr "Einheit       Modernisierung im Gange  aktiv    Schild  Nahrung"
 
-#: data/Freeciv:1941
+#: data/Freeciv:1926
 msgid "Rename worklist"
 msgstr "Arbeitsliste umbenennen"
 
-#: data/Freeciv:2010
+#: data/Freeciv:1995
 msgid "Select new production"
 msgstr "Was soll hergestellt werden?"
 
-#: data/Freeciv:2044
+#: data/Freeciv:2029
 msgid "Production Worklist"
 msgstr "Arbeitsliste"
 
-#: data/Freeciv:2111
+#: data/Freeciv:2096
 msgid "  Ok  "
 msgstr "  Ok  "
 
-#: data/Freeciv:2129
+#: data/Freeciv:2114
 msgid "Show future targets:"
 msgstr "noch nicht ausführbare Aufträge anzeigen:"
 
-#: data/Freeciv:2190
+#: data/Freeciv:2175
 msgid "Establish traderoute"
 msgstr "Handelsweg gründen"
 
-#: data/Freeciv:2192
+#: data/Freeciv:2177
 msgid "Help build Wonder"
 msgstr "Beim Bau des Weltwunders helfen"
 
-#: data/Freeciv:2195
+#: data/Freeciv:2180
 msgid "Keep moving"
 msgstr "Weiterziehen"
 
-#: data/Freeciv:2202
+#: data/Freeciv:2187
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
 
-#: data/Freeciv:2207
+#: data/Freeciv:2192
 msgid "Establish embassy"
 msgstr "Botschaft eröffnen"
 
-#: data/Freeciv:2209
+#: data/Freeciv:2194
 msgid "Investigate City"
 msgstr "Stadt auskundschaften"
 
-#: data/Freeciv:2212
+#: data/Freeciv:2197
 msgid "Sabotage city"
 msgstr "Stadt sabotieren"
 
-#: data/Freeciv:2214
+#: data/Freeciv:2199
 msgid "Steal technology"
 msgstr "Forschungergebnisse stehlen"
 
-#: data/Freeciv:2217
+#: data/Freeciv:2202
 msgid "Incite a revolt"
 msgstr "Zur Revolte anstiften"
 
-#: data/Freeciv:2231
+#: data/Freeciv:2216
 msgid "Establish Embassy"
 msgstr "Botschaft eröffnen"
 
-#: data/Freeciv:2234
+#: data/Freeciv:2219
 msgid "Investigate City (free)"
 msgstr "Stadt auskundschaften (kostenlos)"
 
-#: data/Freeciv:2238
+#: data/Freeciv:2223
 msgid "Poison City"
 msgstr "Wasser vergiften"
 
-#: data/Freeciv:2241
+#: data/Freeciv:2226
 msgid "Industrial Sabotage"
 msgstr "Industrie sabotieren"
 
-#: data/Freeciv:2248
+#: data/Freeciv:2233
 msgid "Incite a Revolt"
 msgstr "Zur Revolte anstiften"
 
-#: data/Freeciv:2357
+#: data/Freeciv:2342
 msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
-#: data/Freeciv:2415
+#: data/Freeciv:2400
 msgid "Your New Government"
 msgstr "Neue Staatsform"
 
-#: data/Freeciv:2928
+#: data/Freeciv:2913
 msgid " Sell "
 msgstr " Verkaufen "
 
-#: data/Freeciv:2937 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
+#: data/Freeciv:2922 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:553
 msgid "Trade"
 msgstr "Handel"
 
-#: data/Freeciv:2939
+#: data/Freeciv:2924
 msgid "Activate Units"
 msgstr "Einheiten aktivieren"
 
-#: data/Freeciv:2941
+#: data/Freeciv:2926
 msgid "Unit List"
 msgstr "Liste aller Einheiten"
 
-#: data/Freeciv:2945
+#: data/Freeciv:2930
 msgid " Buy "
 msgstr " Kaufen "
 
-#: data/Freeciv:2949
+#: data/Freeciv:2934
 msgid "Worklist"
 msgstr "Arbeitsliste"
 
-#: data/Freeciv:2951
+#: data/Freeciv:2936
 msgid "Supported units:"
 msgstr "Zu versorgende Einheiten:"
 
-#: data/Freeciv:2972
+#: data/Freeciv:2957
 msgid "Units present:"
 msgstr "stationierte Einheiten:"
 
-#: data/Freeciv:3001
+#: data/Freeciv:2986
 msgid "What Nation Will You Be?"
 msgstr "Bitte wählen:"
 
-#: data/Freeciv:3006
+#: data/Freeciv:2991
 msgid "Select nation and name:"
 msgstr "Nationalität und Name"
 
-#: data/Freeciv:3019
+#: data/Freeciv:3004
 msgid "Pick Name"
 msgstr "Namen wählen"
 
-#: data/Freeciv:3021
+#: data/Freeciv:3006
 msgid "Select your sex:"
 msgstr "Geschlecht:"
 
-#: data/Freeciv:3025
+#: data/Freeciv:3010
 msgid "Male  "
 msgstr "männlich  "
 
-#: data/Freeciv:3032
+#: data/Freeciv:3017
 msgid "Select city style:"
 msgstr "Bauweise:"
 
-#: data/Freeciv:3043
+#: data/Freeciv:3028
 msgid " Ok "
 msgstr " OK "
 
-#: data/Freeciv:3076
+#: data/Freeciv:3061
 msgid ""
 "Name             Race         Embassy  Dipl.State      Reputation    State   "
 " Host"
@@ -7690,15 +7712,15 @@ msgstr ""
 "Name             Staat       Botschaft Dipl. Status    Reputation  "
 "Staatsform Server"
 
-#: data/Freeciv:3096
+#: data/Freeciv:3081
 msgid "Intelligence"
 msgstr "Geheimdienst"
 
-#: data/Freeciv:3104
+#: data/Freeciv:3089
 msgid "Meet"
 msgstr "Konferenz"
 
-#: data/Freeciv:3112
+#: data/Freeciv:3097
 msgid "Cancel pact"
 msgstr "Abkommen aufkündigen"
 
@@ -7834,10 +7856,10 @@ msgstr ""
 "anmelden, vorausgesetzt, daß unter diesem Namen kein anderer Spieler "
 "angemeldet ist. Es ist auch zulässig, sich unter dem Namen eines KI-Spielers "
 "anzumelden - allerdings übernehmen Sie dadurch noch nicht seine Steuerung; "
-"diese muß durch einen gesonderten Serverbefehl übergeben werden. Dies "
-"gilt auch für den Fall, daß eine unterbrochene Verbindung neu aufgenommen "
-"werden soll. Wird ein Metaserver benutzt, kann man dort, die Namen der "
-"Anführer ersehen."
+"diese muß durch einen gesonderten Serverbefehl übergeben werden. Dies gilt "
+"auch für den Fall, daß eine unterbrochene Verbindung neu aufgenommen werden "
+"soll. Wird ein Metaserver benutzt, kann man dort, die Namen der Anführer "
+"ersehen."
 
 #: data/helpdata.txt:429
 msgid ""
@@ -7977,8 +7999,8 @@ msgid ""
 "'foo'; player names can be abbreviated."
 msgstr ""
 " - Nachrichten, die mit einem Spielernamen (oder einer Abkürzung davon), "
-"gefolgt von einem Doppelpunkt, beginnen sind private Mitteilungen an "
-"diesen Spieler."
+"gefolgt von einem Doppelpunkt, beginnen sind private Mitteilungen an diesen "
+"Spieler."
 
 #: data/helpdata.txt:495
 msgid ""
@@ -9277,10 +9299,9 @@ msgid ""
 "is designated by the term \"Rapture\" on the City Report.  The effects of "
 "celebration vary depending on your government type:"
 msgstr ""
-"Sollten allerdings in einer Stadt ab der Größe 3 "
-"mindestens genauso viele glückliche wie zufriedene und keine unzufriedenen "
-"Bürger sein, feiert die Stadt. Die Ergebnisse der Feier sind abhängig von "
-"der Regierungsform:"
+"Sollten allerdings in einer Stadt ab der Größe 3 mindestens genauso viele "
+"glückliche wie zufriedene und keine unzufriedenen Bürger sein, feiert die "
+"Stadt. Die Ergebnisse der Feier sind abhängig von der Regierungsform:"
 
 #: data/helpdata.txt:1196
 msgid ""
@@ -9307,9 +9328,9 @@ msgid ""
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
-" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um "
-"1 bis keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl "
-"der glücklichen Bürger zum Feiern nicht mehr ausreicht."
+" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um 1 bis "
+"keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl der "
+"glücklichen Bürger zum Feiern nicht mehr ausreicht."
 
 #: data/helpdata.txt:1209
 msgid ""
@@ -9322,9 +9343,10 @@ msgid ""
 msgstr ""
 "Normalweise sind Bürger zufrieden. Allerdings sorgt wachsende Bevölkerung "
 "für Unzufriedenheit. Standardmäßig sind bei Städten ab Größe 4 alle neu "
-"hinzukommenden Bürger unzufrieden. Gibt es viele Städte, sinkt - abhängig von der "
-"Servereinstellung und der Regeierungsform - die Anzahl der Zufriedenen auf "
-"3. Diese Vorgaben lassen sich über die Servereinstellungen ändern."
+"hinzukommenden Bürger unzufrieden. Gibt es viele Städte, sinkt - abhängig "
+"von der Servereinstellung und der Regeierungsform - die Anzahl der "
+"Zufriedenen auf 3. Diese Vorgaben lassen sich über die Servereinstellungen "
+"ändern."
 
 #: data/helpdata.txt:1219
 msgid ""
@@ -9930,11 +9952,11 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Verhindert die gesamte durch Produktion verursachte "
-"Umweltverschmutzung einer Stadt und steigert die Produktion von "
-"Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
-"oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
-"vorhanden, erhöht sich der Bonus auf 150%.\n"
+"Verhindert die gesamte durch Produktion verursachte Umweltverschmutzung "
+"einer Stadt und steigert die Produktion von Fabriken und Fertigungsstätten "
+"der Stadt. In Verbindung mit einer Fabrik oder einer Fertigungsstätte gibt "
+"es einen Bonus von 75%, sind beide vorhanden, erhöht sich der Bonus auf "
+"150%.\n"
 "\n"
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
 "Atomkraftwerk bauen."
@@ -10545,10 +10567,10 @@ msgid ""
 "Plant."
 msgstr ""
 "Verhindert die gesamte durch die Produktion einer Stadt verursachte "
-"Umweltverschmutzung und steigert die Produktion von "
-"Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
-"oder einer Fertigungsstätte gibt es einen Bonus von 100%, sind beide "
-"vorhanden, erhöht sich der Bonus auf 150%.\n"
+"Umweltverschmutzung und steigert die Produktion von Fabriken und "
+"Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik oder einer "
+"Fertigungsstätte gibt es einen Bonus von 100%, sind beide vorhanden, erhöht "
+"sich der Bonus auf 150%.\n"
 "\n"
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
 "Atomkraftwerk bauen."
