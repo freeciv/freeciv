@@ -635,7 +635,7 @@ static bool stay_and_defend_city(struct unit *punit)
   if (pcity->owner != punit->owner) return FALSE;
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef) {
-    if (assess_defense_unit(pcity, punit, FALSE) >= 0
+    if (assess_defense_unit(pcity, pdef, FALSE) >= 0
 	&& pdef != punit
 	&& pdef->homecity == pcity->id) {
       has_defense = TRUE;
@@ -1401,7 +1401,11 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
       continue;
     }
     dist = unit_move_turns(punit, buddy->x, buddy->y);
-    def = (toughness - unit_vulnerability_virtual(buddy)) >> dist;
+    def = (toughness - unit_vulnerability_virtual(buddy));
+    if (def <= 0) {
+      continue;
+    }
+    def = def >> dist;
     freelog(LOG_DEBUG, "(%d,%d)->(%d,%d), %d turns, def=%d",
 	    punit->x, punit->y, buddy->x, buddy->y, dist, def);
 
@@ -1426,7 +1430,11 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
       continue; 
     }
     dist = unit_move_turns(punit, mycity->x, mycity->y);
-    def = (mycity->ai.danger - assess_defense_quadratic(mycity)) >> dist;
+    def = (mycity->ai.danger - assess_defense_quadratic(mycity));
+    if (def <= 0) {
+      continue;
+    }
+    def = def >> dist;
     if (def > best && ai_fuzzy(pplayer, TRUE)) { 
       *acity = mycity; 
       best = def; 
