@@ -106,6 +106,7 @@ enum event_type {
   E_WONDER_WILL_BE_BUILT,
   E_DIPLOMACY,
   E_CITY_PRODUCTION_CHANGED,
+  E_TREATY_EMBASSY,
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in client/options.c using GEN_EV and to

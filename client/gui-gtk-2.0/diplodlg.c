@@ -88,6 +88,7 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
@@ -323,6 +324,19 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 		   G_CALLBACK(diplomacy_dialog_vision_callback), pdialog);
 
   if (gives_shared_vision(plr0, plr1)) {
+    gtk_widget_set_sensitive(item, FALSE);
+  }
+  gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+  gtk_widget_show(item);
+
+
+  /* Give embassy. */
+  item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
+  g_object_set_data(G_OBJECT(item), "plr", plr);
+  g_signal_connect(item, "activate",
+		   G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
+
+  if (player_has_embassy(plr1, plr0)) {
     gtk_widget_set_sensitive(item, FALSE);
   }
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
@@ -784,6 +798,21 @@ static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
   dsend_packet_diplomacy_create_clause_req(&aconnection,
 					   pdialog->treaty.plr1->player_no,
 					   pgiver->player_no, CLAUSE_VISION,
+					   0);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
+{
+  struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *) data;
+  struct player *pgiver =
+      (struct player *) g_object_get_data(G_OBJECT(w), "plr");
+
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pdialog->treaty.plr1->player_no,
+					   pgiver->player_no, CLAUSE_EMBASSY,
 					   0);
 }
 

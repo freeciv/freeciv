@@ -288,6 +288,10 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
 		get_nation_name_plural(pclause->from->nation));
     break;
+  case CLAUSE_EMBASSY:
+    my_snprintf(buf, bufsiz, _("The %s gives an embassy"),
+                get_nation_name_plural(pclause->from->nation));
+    break;
   default:
     assert(FALSE);
     if (bufsiz > 0) {

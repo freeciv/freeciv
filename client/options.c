@@ -273,6 +273,7 @@ static struct {
   GEN_EV(N_("Wonder: Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
   GEN_EV(N_("Diplomatic Message"),                    E_DIPLOMACY),
   GEN_EV(N_("City: Production changed"),              E_CITY_PRODUCTION_CHANGED),
+  GEN_EV(N_("Treaty: Embassy"),                       E_TREATY_EMBASSY),
   GEN_EV_TERMINATOR
 };
 

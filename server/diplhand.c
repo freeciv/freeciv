@@ -126,6 +126,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
       if (pclause->from == pplayer) {
 	switch(pclause->type) {
+	case CLAUSE_EMBASSY:
+          if (player_has_embassy(pother, pplayer)) {
+            freelog(LOG_ERROR, "%s tried to give embassy to %s, who already "
+                    "has an embassy", pplayer->name, pother->name);
+            return;
+          }
+          break;
 	case CLAUSE_ADVANCE:
           if (!tech_is_available(pother, pclause->value)) {
 	    /* It is impossible to give a technology to a civilization that
@@ -331,6 +338,15 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       struct player *pdest = (pplayer == pgiver) ? pother : pplayer;
 
       switch (pclause->type) {
+      case CLAUSE_EMBASSY:
+        establish_embassy(pdest, pgiver); /* sic */
+        notify_player_ex(pgiver, -1, -1, E_TREATY_SHARED_VISION,
+                         _("Game: You gave an embassy to %s."),
+                         pdest->name);
+        notify_player_ex(pdest, -1, -1, E_TREATY_SHARED_VISION,
+                         _("Game: %s allowed you to create an embassy!"),
+                         pgiver->name);
+        break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
          * and try to give us the same tech at the same time. This
