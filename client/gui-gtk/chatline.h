@@ -18,5 +18,6 @@
 #include "chatline_g.h"
 
 void inputline_return(GtkWidget *w, gpointer data);
+void set_output_window_text(const char *text);
 
 #endif  /* FC__CHATLINE_H */

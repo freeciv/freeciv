@@ -51,8 +51,8 @@ void inputline_return(GtkWidget *w, gpointer data)
 void append_output_window(char *astring)
 {
   gtk_text_freeze(GTK_TEXT(main_message_area));
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring, -1);
   gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, "\n", -1);
+  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring, -1);
   gtk_text_thaw(GTK_TEXT(main_message_area));
 
   /* move the scrollbar forward by a ridiculous amount */
@@ -82,9 +82,16 @@ void log_output_window(void)
 **************************************************************************/
 void clear_output_window(void)
 {
+  set_output_window_text(_("Cleared output window."));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_output_window_text(const char *text)
+{
   gtk_text_freeze(GTK_TEXT(main_message_area));
   gtk_editable_delete_text(GTK_EDITABLE(main_message_area), 0, -1);
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL,
-	_("Cleared output window.\n"), -1);
+  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, text, -1);
   gtk_text_thaw(GTK_TEXT(main_message_area));
 }

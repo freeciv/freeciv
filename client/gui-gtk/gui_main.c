@@ -507,7 +507,7 @@ static void setup_widgets(void)
       gtk_box_pack_start (GTK_BOX(hbox), text_scrollbar, FALSE, FALSE, 0);
       gtk_widget_realize (text_scrollbar);
 
-      append_output_window(
+      set_output_window_text(
       _("Freeciv is free software and you are welcome to distribute copies of"
       " it\nunder certain conditions; See the \"Copying\" item on the Help"
       " menu.\nNow.. Go give'em hell!") );
