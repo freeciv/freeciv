@@ -217,7 +217,6 @@ void send_game_info(struct conn_list *dest)
   ginfo.end_year = game.end_year;
   ginfo.year = game.year;
   ginfo.turn = game.turn;
-  ginfo.spaceage_year = game.spaceage_year;
   ginfo.min_players = game.min_players;
   ginfo.max_players = game.max_players;
   ginfo.nplayers = game.nplayers;

@@ -17,57 +17,6 @@ options="1.11.1"
 [options]
 global_init_techs=""
 
-; Below: One section for each calendar, in order (see default ruleset)
-
-[calendar_prehistory]
-name                   = _("Prehistory")
-first_year             = -4001
-turn_years             = 50
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_ancient_age]
-name                   = _("Ancient Age")
-first_year             = -1001
-turn_years             = 25
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_classical_age]
-name                   = _("Classical Age")
-first_year             = -1
-turn_years             = 20
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_dark_ages]
-name                   = _("Dark Ages")
-first_year             = 1000
-turn_years             = 10
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_middle_ages]
-name                   = _("Middle Ages")
-first_year             = 1500
-turn_years             = 5
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_renaissance]
-name                   = _("Renaissance")
-first_year             = 1750
-turn_years             = 2
-req_tech               = "None"
-early_tech             = "None"
-
-[calendar_modern]
-name                   = _("Modern Age")
-first_year             = 1900
-turn_years             = 1
-req_tech               = "None"
-early_tech             = "None"
-
 [civstyle]
 min_city_center_food	= 1
 min_city_center_shield	= 1

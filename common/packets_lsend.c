@@ -299,14 +299,6 @@ void lsend_packet_ruleset_game(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_ruleset_calendar(struct conn_list *dest,
-    				 const struct packet_ruleset_calendar *packet)
-{
-  conn_list_iterate(*dest, pconn)
-    send_packet_ruleset_calendar(pconn, packet);
-  conn_list_iterate_end;
-}
-
 void lsend_packet_generic_values(struct conn_list *dest, enum packet_type type,
 			       const struct packet_generic_values *req)
 {

@@ -76,7 +76,6 @@ static void load_government_names(struct section_file *file);
 static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
-static void load_calendar_names(struct section_file *file);
 static struct city_name* load_city_name_list(struct section_file *file,
 					     char *secfile_str1,
 					     char *secfile_str2);
@@ -88,7 +87,8 @@ static void load_ruleset_governments(struct section_file *file);
 static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_nations(struct section_file *file);
-static void load_ruleset_game(struct section_file *file);
+
+static void load_ruleset_game();
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_units(struct conn_list *dest);
@@ -98,7 +98,6 @@ static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_nations(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
-static void send_ruleset_calendars(struct conn_list *dest);
 
 /**************************************************************************
   datafilename() wrapper: tries to match in two ways.
@@ -1736,7 +1735,6 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.num_unit_types = game.num_unit_types;
   packet.num_impr_types = game.num_impr_types;
   packet.num_tech_types = game.num_tech_types;
-  packet.num_calendars = game.num_calendars;
 
   packet.nation_count = game.nation_count;
   packet.playable_nation_count = game.playable_nation_count;
@@ -1820,40 +1818,6 @@ static void load_nation_names(struct section_file *file)
         exit(EXIT_FAILURE);
       }
     }
-  }
-  free(sec);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void load_calendar_names(struct section_file *file)
-{
-  char **sec;
-  int num_calendars; /* number of calendars in game.ruleset */
-  int i;
-  const char *filename = secfile_filename(file);
-
-  section_file_lookup(file, "datafile.description"); /* unused */
-
-  /* The names: */
-  sec = secfile_get_secnames_prefix(file, "calendar_", &num_calendars);
-  freelog(LOG_VERBOSE, "%d calendars (including possibly unused)", 
-	  num_calendars);
-  if (num_calendars == 0) {
-    freelog(LOG_NORMAL, "No calendars; using default (%s)", filename);
-  }
-  if (num_calendars > C_LAST) {
-    freelog(LOG_FATAL, "Too many calendars (%d, max %d) (%s)",
-	    num_calendars, C_LAST, filename);
-    exit(EXIT_FAILURE);
-  }
-
-  game.num_calendars = num_calendars;
-  for (i = 0; i < num_calendars; ++i) {
-    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    game.calendars[i].id = i;
-    name_strlcpy(game.calendars[i].name, name);
   }
   free(sec);
 }
@@ -2296,62 +2260,33 @@ static void load_ruleset_cities(struct section_file *file)
   section_file_free(file);
 }
 
-static void load_calendars(struct section_file *file)
-{
-  char **sec;
-  const char *filename = secfile_filename(file);
-  int i, nval;
-
-  sec = secfile_get_secnames_prefix(file, "calendar_", &nval);
-  for (i = 0; i < game.num_calendars; ++i ) {
-    game.calendars[i].first_year =
-	secfile_lookup_int(file, "%s.first_year", sec[i]);
-    game.calendars[i].turn_years =
-	secfile_lookup_int(file, "%s.turn_years", sec[i]);
-    game.calendars[i].req_tech =
-	lookup_tech(file, sec[i], "req_tech", 0, filename,
-		    game.calendars[i].name);
-    if (game.calendars[i].req_tech == A_LAST) {
-      game.calendars[i].req_tech = A_NONE;
-    }
-    game.calendars[i].early_tech =
-	lookup_tech(file, sec[i], "early_tech", 0, filename,
-		    game.calendars[i].name);
-    if (game.calendars[i].early_tech == A_LAST) {
-      game.calendars[i].early_tech = A_NONE;
-    }
-  }
-  free(sec);
-
-  if (game.num_calendars == 0) {
-    setup_default_calendars();
-  }
-}
-
 /**************************************************************************
 Load ruleset file
 **************************************************************************/
-static void load_ruleset_game(struct section_file *file)
+static void load_ruleset_game()
 {
+  struct section_file file;
   char *datafile_options;
   char *sval;
-  const char *filename = secfile_filename(file);
+  const char *filename;
 
-  datafile_options = check_ruleset_capabilities(file, "+1.11.1", filename);
-  (void) section_file_lookup(file, "datafile.description");	/* unused */
+  openload_ruleset_file(&file, "game");
+  filename = secfile_filename(&file);
+  datafile_options = check_ruleset_capabilities(&file, "+1.11.1", filename);
+  (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
   game.rgame.min_city_center_food =
-    secfile_lookup_int(file, "civstyle.min_city_center_food");
+    secfile_lookup_int(&file, "civstyle.min_city_center_food");
   game.rgame.min_city_center_shield =
-    secfile_lookup_int(file, "civstyle.min_city_center_shield");
+    secfile_lookup_int(&file, "civstyle.min_city_center_shield");
   game.rgame.min_city_center_trade =
-    secfile_lookup_int(file, "civstyle.min_city_center_trade");
+    secfile_lookup_int(&file, "civstyle.min_city_center_trade");
 
   /* if the server variable citymindist is set (!= 0) the ruleset
      setting is overwritten by citymindist */
   if (game.citymindist == 0) {
     game.rgame.min_dist_bw_cities =
-	secfile_lookup_int(file, "civstyle.min_dist_bw_cities");
+	secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
     if (game.rgame.min_dist_bw_cities < 1) {
       freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
 	      game.rgame.min_dist_bw_cities);
@@ -2362,9 +2297,9 @@ static void load_ruleset_game(struct section_file *file)
   }
 
   game.rgame.init_vis_radius_sq =
-    secfile_lookup_int(file, "civstyle.init_vis_radius_sq");
+    secfile_lookup_int(&file, "civstyle.init_vis_radius_sq");
 
-  sval = secfile_lookup_str(file, "civstyle.hut_overflight" );
+  sval = secfile_lookup_str(&file, "civstyle.hut_overflight" );
   if (mystrcasecmp(sval, "Nothing") == 0) {
     game.rgame.hut_overflight = OVERFLIGHT_NOTHING;
   } else if (mystrcasecmp(sval, "Frighten") == 0) {
@@ -2376,9 +2311,9 @@ static void load_ruleset_game(struct section_file *file)
   }
 
   game.rgame.pillage_select =
-      secfile_lookup_bool(file, "civstyle.pillage_select");
+      secfile_lookup_bool(&file, "civstyle.pillage_select");
 
-  sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
+  sval = secfile_lookup_str(&file, "civstyle.nuke_contamination" );
   if (mystrcasecmp(sval, "Pollution") == 0) {
     game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
   } else if (mystrcasecmp(sval, "Fallout") == 0) {
@@ -2390,14 +2325,14 @@ static void load_ruleset_game(struct section_file *file)
   }
 
   game.rgame.granary_food_ini =
-    secfile_lookup_int(file, "civstyle.granary_food_ini");
+    secfile_lookup_int(&file, "civstyle.granary_food_ini");
   if (game.rgame.granary_food_ini < 0) {
     freelog(LOG_ERROR, "Bad value %i for granary_food_ini. Using 1.",
 	    game.rgame.granary_food_ini);
     game.rgame.granary_food_ini = 1;
   }
   game.rgame.granary_food_inc =
-    secfile_lookup_int(file, "civstyle.granary_food_inc");
+    secfile_lookup_int(&file, "civstyle.granary_food_inc");
   if (game.rgame.granary_food_inc < 0 ||
       /* can't have a granary size of zero */
       (game.rgame.granary_food_ini == 0 && 
@@ -2408,7 +2343,7 @@ static void load_ruleset_game(struct section_file *file)
   }
 
   game.rgame.tech_cost_style =
-      secfile_lookup_int(file, "civstyle.tech_cost_style");
+      secfile_lookup_int(&file, "civstyle.tech_cost_style");
   if (game.rgame.tech_cost_style < 0 || game.rgame.tech_cost_style > 2) {
     freelog(LOG_ERROR, "Bad value %i for tech_cost_style. Using 0.",
 	    game.rgame.tech_cost_style);
@@ -2416,7 +2351,7 @@ static void load_ruleset_game(struct section_file *file)
   }
 
   game.rgame.tech_leakage =
-      secfile_lookup_int(file, "civstyle.tech_leakage");
+      secfile_lookup_int(&file, "civstyle.tech_leakage");
   if (game.rgame.tech_leakage < 0 || game.rgame.tech_leakage > 3) {
     freelog(LOG_ERROR, "Bad value %i for tech_leakage. Using 0.",
 	    game.rgame.tech_leakage);
@@ -2433,13 +2368,11 @@ static void load_ruleset_game(struct section_file *file)
   /*
    * Load global initial techs
    */
-  lookup_tech_list(file, "options", "global_init_techs",
+  lookup_tech_list(&file, "options", "global_init_techs",
 		   game.rgame.global_init_techs, filename);
 
-  load_calendars(file);
-
-  section_file_check_unused(file, filename);
-  section_file_free(file);
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
 }
 
 /**************************************************************************
@@ -2781,34 +2714,13 @@ static void send_ruleset_game(struct conn_list *dest)
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
- /**************************************************************************
-  Send the calendar information from the game ruleset (all calendars)
-  to the specified connections.
-**************************************************************************/
-static void send_ruleset_calendars(struct conn_list *dest)
-{
-  struct packet_ruleset_calendar packet;
-  struct calendar *c;
-
-  for(c = game.calendars; c < game.calendars + game.num_calendars; ++c) {
-    packet.id = c->id;
-    sz_strlcpy(packet.name, c->name);
-    packet.first_year = c->first_year;
-    packet.turn_years = c->turn_years;
-    packet.req_tech = c->req_tech;
-    packet.early_tech = c->early_tech;
-
-    lsend_packet_ruleset_calendar(dest, &packet);
-  }
-}
-
 /**************************************************************************
 ...  
 **************************************************************************/
 void load_rulesets(void)
 {
   struct section_file techfile, unitfile, buildfile, govfile, terrfile;
-  struct section_file cityfile, nationfile, gamefile;
+  struct section_file cityfile, nationfile;
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
 
@@ -2833,9 +2745,6 @@ void load_rulesets(void)
   openload_ruleset_file(&nationfile, "nations");
   load_nation_names(&nationfile);
 
-  openload_ruleset_file(&gamefile, "game");
-  load_calendar_names(&gamefile);
-
   load_ruleset_techs(&techfile);
   load_ruleset_cities(&cityfile);
   load_ruleset_governments(&govfile);
@@ -2843,7 +2752,7 @@ void load_rulesets(void)
   load_ruleset_terrain(&terrfile);    /* terrain must precede nations */
   load_ruleset_buildings(&buildfile);
   load_ruleset_nations(&nationfile);
-  load_ruleset_game(&gamefile);
+  load_ruleset_game();
   translate_data_names();
 }
 
@@ -2863,7 +2772,6 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
-  send_ruleset_calendars(dest);
 
   conn_list_do_unbuffer(dest);
 }

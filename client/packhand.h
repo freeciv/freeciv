@@ -56,7 +56,6 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet);
 void handle_ruleset_nation(struct packet_ruleset_nation *p);
 void handle_ruleset_city(struct packet_ruleset_city *packet);
 void handle_ruleset_game(struct packet_ruleset_game *packet);
-void handle_ruleset_calendar(struct packet_ruleset_calendar *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
 void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk);

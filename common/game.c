@@ -658,7 +658,6 @@ void game_init(void)
   game.end_year      = GAME_DEFAULT_END_YEAR;
   game.year          = GAME_START_YEAR;
   game.turn          = 0;
-  game.spaceage_year = GAME_MAX_END_YEAR + 1;
   game.min_players   = GAME_DEFAULT_MIN_PLAYERS;
   game.max_players  = GAME_DEFAULT_MAX_PLAYERS;
   game.aifill      = GAME_DEFAULT_AIFILL;
@@ -800,63 +799,55 @@ void initialize_globals(void)
 }
 
 /***************************************************************
-  Returns the relevant calendar for the given year
-***************************************************************/
-const struct calendar *game_get_calendar(int year)
-{
-  const static struct calendar spaceage_cal = {
-    0, N_("Space Age"), 0, 1, A_NONE, A_NONE
-  };
-  int calind;
-
-  /* If a spaceship has been launched, then use the hard-coded 1 year/turn
-   * "space age" calendar (for Civ compatibility). Otherwise, we use a
-   * ruleset-defined calendar */
-  if (game.spacerace && year >= game.spaceage_year) {
-    return &spaceage_cal;
-  }
-
-  for (calind = 1; calind < game.num_calendars; ++calind) {
-    /* Someone must have the req_tech to reach a calendar. */
-    if (tech_exists(game.calendars[calind].req_tech)
-        && !game.global_advances[game.calendars[calind].req_tech]) {
-      break;
-    }
-    /* Either the first_year must be reached, or someone must have
-     * the early_tech, to reach a calendar. */
-    if (year < game.calendars[calind].first_year
-        && (game.calendars[calind].early_tech == A_NONE
-            || !game.global_advances[game.calendars[calind].early_tech])) {
-      break;
-    }
-  }
-  calind--;
-
-  return &game.calendars[calind];
-}
-
-/***************************************************************
-  Returns the relevant calendar for the current game year
-***************************************************************/
-const struct calendar *game_get_current_calendar(void)
-{
-  return game_get_calendar(game.year);
-}
-
-/***************************************************************
   Returns the next year in the game.
 ***************************************************************/
 int game_next_year(int year)
 {
-  int oldyear = year;
-  const struct calendar *cal = game_get_calendar(year);
+  int spaceshipparts, i;
+  Impr_Type_id parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
 
-  year += cal->turn_years;
+  if (year == 1) /* hacked it to get rid of year 0 */
+    year = 0;
 
-  /* There is no such thing as "0AD", so skip a year if we passed it */
-  if (oldyear < 0 && year >= 0) {
-    year++;
+    /* !McFred: 
+       - want year += 1 for spaceship.
+    */
+
+  /* test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0: 
+   * Gunpowder about 0 AD
+   * Railroad  about 500 AD
+   * Electricity about 1000 AD
+   * Refining about 1500 AD (212 active units)
+   * about 1750 AD
+   * about 1900 AD
+   */
+
+  spaceshipparts= 0;
+  if (game.spacerace) {
+    for(i=0; parts[i] < B_LAST; i++) {
+      int t = improvement_types[parts[i]].tech_req;
+      if (tech_exists(t) && game.global_advances[t] != 0)
+	spaceshipparts++;
+    }
   }
+
+  if( year >= 1900 || ( spaceshipparts>=3 && year>0 ) )
+    year += 1;
+  else if( year >= 1750 || spaceshipparts>=2 )
+    year += 2;
+  else if( year >= 1500 || spaceshipparts>=1 )
+    year += 5;
+  else if( year >= 1000 )
+    year += 10;
+  else if( year >= 0 )
+    year += 20;
+  else if( year >= -1000 ) /* used this line for tuning (was -1250) */
+    year += 25;
+  else
+    year += 50; 
+
+  if (year == 0) 
+    year = 1;
 
   return year;
 }
@@ -1098,43 +1089,4 @@ void update_all_effects(void)
       } built_impr_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
-}
-
-/***************************************************************
-  Creates a set of calendars that reproduce the behaviour of
-  original Freeciv. These are used if the calendars cannot be
-  read from the rulesets (i.e. server and client do not share
-  the "calendars" capability).
-***************************************************************/
-void setup_default_calendars(void)
-{
-  int i;
-
-  assert(C_LAST >= 7);
-  game.num_calendars = 7;
-  for (i = 0; i < game.num_calendars; ++i) {
-    game.calendars[i].req_tech = A_NONE;
-    game.calendars[i].early_tech = A_NONE;
-  }
-  sz_strlcpy(game.calendars[0].name, N_("Prehistory"));
-  game.calendars[0].first_year = -4001;
-  game.calendars[0].turn_years = 50;
-  sz_strlcpy(game.calendars[1].name, N_("Ancient Age"));
-  game.calendars[1].first_year = -1001;
-  game.calendars[1].turn_years = 25;
-  sz_strlcpy(game.calendars[2].name, _("Classical Age"));
-  game.calendars[2].first_year = -1;
-  game.calendars[2].turn_years = 20;
-  sz_strlcpy(game.calendars[3].name, N_("Dark Ages"));
-  game.calendars[3].first_year = 1000;
-  game.calendars[3].turn_years = 10;
-  sz_strlcpy(game.calendars[4].name, N_("Middle Ages"));
-  game.calendars[4].first_year = 1500;
-  game.calendars[4].turn_years = 5;
-  sz_strlcpy(game.calendars[5].name, N_("Renaissance"));
-  game.calendars[5].first_year = 1750;
-  game.calendars[5].turn_years = 2;
-  sz_strlcpy(game.calendars[6].name, N_("Modern Age"));
-  game.calendars[6].first_year = 1900;
-  game.calendars[6].turn_years = 1;
 }
