@@ -2,8 +2,10 @@
 
 name=_("German")
 plural=_("?plural:Germans")
-leader="Frederick", "Otto", "Wilhelm", "Bismarck", "Hitler"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leader="Frederick", "Otto", "Wilhelm", "Bismarck", "Hitler",
+  "Barbarossa", "Luther", "Müntzer"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+  "Male", "Male", "Male"
 flag="f.germany"
 flag_alt = "-"
 city_style = "European"
@@ -38,5 +40,3 @@ cities =
   "Oldenburg", "Weimar", "Freiburg", "Baden-Baden", "Mannheim", "Kiel",
   "Solingen", "Elberfeld", "Barmen", "Essen", "Dortmund", "Duisburg",
   "Düsseldorf", "Gelsenkirchen", "Bochum", "Saarbrücken", "Ludwigshafen"
-
-
