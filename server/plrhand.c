@@ -915,7 +915,7 @@ static void start_revolution(struct player *pplayer)
   } else if (game.revolution_length == 0) {
     pplayer->revolution_finishes = game.turn + myrand(5) + 1;
   } else {
-    pplayer->revolution_finishes = game.revolution_length;
+    pplayer->revolution_finishes = game.turn + game.revolution_length;
   }
 
   freelog(LOG_DEBUG,
@@ -1036,6 +1036,7 @@ void update_revolution(struct player *pplayer)
     freelog(LOG_DEBUG, "Update: resetting revofin for %s.",
 	    pplayer->name);
     pplayer->revolution_finishes = -1;
+    send_player_info(pplayer, pplayer);
   }
 }
 
