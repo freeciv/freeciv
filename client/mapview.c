@@ -70,7 +70,9 @@
 
 #define RAIL_TILES       13*20
 #define FLAG_TILES       14*20
+#define CROSS_TILE       14*20+17
 #define AUTO_TILE        14*20+18
+#define PLUS_TILE        14*20+19
 
 /*
 #define UNIT_TILES       15*20
@@ -983,7 +985,7 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 
   if(punit->ai.control)
     pixmap_put_overlay_tile(pm, xtile, ytile, AUTO_TILE);
-  
+
   pixmap_put_overlay_tile(pm, xtile, ytile, HP_BAR_TILES+
 			  (12*(get_unit_type(punit->type)->hp-punit->hp))/
 			  (get_unit_type(punit->type)->hp));
@@ -1088,7 +1090,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
   int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
 
-  int tileno;
+  int tileno,n;
   struct tile *ptile;
   struct Sprite *mysprite;
   struct unit *punit;
@@ -1113,10 +1115,11 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       return;
   }
   
-  if(unit_list_size(&ptile->units))
+  if((n=unit_list_size(&ptile->units))>0)
     if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
       if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
 	put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
+	if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
 	return;
       }
     }
