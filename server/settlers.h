@@ -27,7 +27,7 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap);
 int amortize(int benefit, int delay);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 
-void generate_minimap(void);
+void init_settlers(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);
 void initialize_infrastructure_cache(struct city *pcity);
@@ -37,6 +37,7 @@ void contemplate_new_city(struct city *pcity);
 
 struct unit *other_passengers(struct unit *punit);
 
-extern signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+extern signed int *minimap;
+#define MINIMAP(map_x, map_y) minimap[map_pos_to_index(map_x, map_y)]
 
 #endif   /* FC__SETTLERS_H */

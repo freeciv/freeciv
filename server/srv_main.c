@@ -1768,7 +1768,7 @@ main_start_players:
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
-  generate_minimap(); /* for city_desire; saves a lot of calculations */
+  init_settlers(); /* create minimap and other settlers.c data */
 
   if (!game.is_new_game) {
     players_iterate(pplayer) {

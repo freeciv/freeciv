@@ -24,6 +24,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "packets.h"
 #include "support.h"
 #include "timing.h"
@@ -44,10 +45,12 @@
 #include "settlers.h"
 
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
-signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+signed int *minimap;
 
 BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-static nearness territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+static nearness *territory;
+#define TERRITORY(map_x, map_y) territory[map_pos_to_index(map_x, map_y)]
+
 BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
@@ -131,13 +134,20 @@ int amortize(int benefit, int delay)
   don't settle in their area. This also include cities we plan on
   settling.
 **************************************************************************/
-void generate_minimap(void)
+void init_settlers(void)
 {
-  memset(minimap, 0, sizeof(minimap));
+  /* (Re)allocate map arrays.  Note that the server may run more than one
+   * game so the realloc() is necessary. */
+  minimap = fc_realloc(minimap, map.xsize * map.ysize * sizeof(*minimap));
+  territory = fc_realloc(territory,
+			 map.xsize * map.ysize * sizeof(*territory));
+
+  memset(minimap, 0, map.xsize * map.ysize * sizeof(*minimap));
+
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
-	minimap[x_itr][y_itr]--;
+	MINIMAP(x_itr, y_itr)--;
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
@@ -154,10 +164,9 @@ void remove_city_from_minimap(int x, int y)
   square_iterate(x, y, CITY_MAP_SIZE-1, x1, y1) {
     int dist = sq_map_distance(x, y, x1, y1);
     if (dist <= CITY_MAP_SIZE) {
-      if (minimap[x1][y1] < 0) minimap[x1][y1]++;
-      else minimap[x1][y1] = 0;
+      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1) + 1, 0);
     } else if (dist <= 20) {
-      if (minimap[x1][y1] > 0) minimap[x1][y1] = 0;
+      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1), 0);
     }
   } square_iterate_end;
 }    
@@ -175,10 +184,9 @@ void add_city_to_minimap(int x, int y)
   square_iterate(x, y, CITY_MAP_SIZE-1, x1, y1) {
     int dist = sq_map_distance(x, y, x1, y1);
     if (dist <= CITY_MAP_SIZE) {
-      if (minimap[x1][y1] < 0) minimap[x1][y1]--;
-      else minimap[x1][y1] = -1;
+      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1) - 1, -1);
     } else if (dist <= 20) {
-      if (minimap[x1][y1] > 0) minimap[x1][y1] = 0;
+      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1), 0);
     }
   } square_iterate_end;
 }
@@ -222,8 +230,12 @@ static int city_desirability(struct player *pplayer, int x, int y)
   }
   pcity = map_get_city(x, y);
   if (pcity && pcity->size >= game.add_to_size_limit) return 0;
-  if (!pcity && minimap[x][y] < 0) return 0;
-  if (!pcity && minimap[x][y] > 0) return minimap[x][y];
+  if (!pcity && MINIMAP(x, y) < 0) {
+    return 0;
+  }
+  if (!pcity && MINIMAP(x, y) > 0) {
+    return MINIMAP(x, y);
+  }
 
   harbour = is_ocean_near_tile(x, y);
 
@@ -241,7 +253,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
     const int cshields = SHIELD_WEIGHTING * MORT;
     const int ctrade = TRADE_WEIGHTING * MORT; 
 
-    if ((!pcity && minimap[map_x][map_y] >= 0)
+    if ((!pcity && MINIMAP(map_x, map_y) >= 0)
 	|| (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
       ptile = map_get_tile(map_x, map_y);
       continent2 = ptile->continent;
@@ -426,7 +438,7 @@ get this EXACTLY right instead of just reasonably close. -- Syela */
     else val = tmp;
   }
   val -= 110 * SHIELD_WEIGHTING; /* WAG: walls, defenders */
-  minimap[x][y] = val;
+  MINIMAP(x, y) = val;
 
   if (debug) {
     freelog(LOG_DEBUG, "Total value of (%d, %d) [%d workers] = %d",
@@ -920,7 +932,7 @@ static int evaluate_city_building(struct unit *punit,
 
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& city_can_be_built_here(x, y, punit)
-	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
+	&& !BV_CHECK_MASK(TERRITORY(x, y), my_enemies)
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y) != ucont)
 	&& !city_exists_within_city_radius(x, y, FALSE)) {
@@ -1064,7 +1076,7 @@ static int evaluate_improvements(struct unit *punit,
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       if (map_get_continent(x, y) == ucont
 	  && WARMAP_COST(x, y) <= THRESHOLD * mv_rate
-	  && !BV_CHECK_MASK(territory[x][y], my_enemies)
+	  && !BV_CHECK_MASK(TERRITORY(x, y), my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */
 	  && !is_already_assigned(punit, pplayer, x, y)) {
 	/* calling is_already_assigned once instead of four times
@@ -1445,8 +1457,9 @@ static void assign_settlers(void)
 static void assign_region(int x, int y, int player_no, int distance, int s)
 {
   square_iterate(x, y, distance, x1, y1) {
-    if (s == 0 || is_ocean_near_tile(x1, y1))
-      BV_SET(territory[x1][y1], player_no);
+    if (s == 0 || is_ocean_near_tile(x1, y1)) {
+      BV_SET(TERRITORY(x1, y1), player_no);
+    }
   } square_iterate_end;
 }
 
@@ -1493,9 +1506,7 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
 **************************************************************************/
 static void assign_territory(void)
 {
-  whole_map_iterate(x, y) {
-    BV_CLR_ALL(territory[x][y]);
-  } whole_map_iterate_end;
+  memset(territory, 0, map.xsize * map.ysize * sizeof(*territory));
 
   players_iterate(pplayer) {
     assign_territory_player(pplayer);
