@@ -310,7 +310,7 @@ static void game_focused_unit_anim(void)
       }
     }
 
-    if(is_isometric) {
+    if(is_isometric && pAnim->num_tiles_focused_unit) {
       real_blink_active_unit();
     } else {
       blink_active_unit();

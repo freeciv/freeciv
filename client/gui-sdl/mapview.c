@@ -2069,12 +2069,12 @@ void real_blink_active_unit(void)
 				  pBlinkSurfaceB, 0, NORMAL_TILE_HEIGHT);
 	  }
 	}
-              
-        /* draw animation frame */
+         
+        /* draw focus animation frame */
         area.y += HALF_NORMAL_TILE_HEIGHT;
         SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &area);
         area = backup;
-      
+		
         /* draw unit graphic */
         SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.map, &area);
       
@@ -2088,7 +2088,7 @@ void real_blink_active_unit(void)
     }
   }
   
-  if(frame > 3) {
+  if(!(frame < pAnim->num_tiles_focused_unit)) {
     frame = 0;
   }
     
@@ -2138,11 +2138,16 @@ void draw_unit_animation_frame(struct unit *punit,
   SDL_BlitSurface(Main.map, &dst, pMap_Copy, NULL);
 
   /* draw focus animation frame */
-  if(is_isometric && (SDL_Client_Flags & CF_FOCUS_ANIMATION)) {
+  if(is_isometric && (SDL_Client_Flags & CF_FOCUS_ANIMATION) &&
+    pAnim->num_tiles_focused_unit) {
     dest.y += HALF_NORMAL_TILE_HEIGHT;
     dst = dest;
     SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &dst);
     dest.y -= HALF_NORMAL_TILE_HEIGHT;
+      
+    if(!(frame < pAnim->num_tiles_focused_unit)) {
+      frame = 0;
+    }
   }
   
   /* Draw the new sprite. */
@@ -2152,11 +2157,7 @@ void draw_unit_animation_frame(struct unit *punit,
 
   /* Write to screen. */
   flush_dirty();
-  
-  if(frame > 3) {
-    frame = 0;
-  }
-  
+    
   if (last_frame) {
     FREESURFACE(pMap_Copy);
     FREESURFACE(pUnit_Surf);
@@ -2281,7 +2282,65 @@ void put_city_workers(struct city *pcity, int color)
 **************************************************************************/
 void put_nuke_mushroom_pixmaps(int x, int y)
 {
-  freelog(LOG_DEBUG, "MAPVIEW: put_nuke_mushroom_pixmaps : PORT ME");
+  int canvas_x, canvas_y;
+      
+  if (pAnim->num_tiles_explode_nuke &&
+     map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+    struct Sprite *pNuke;
+    SDL_Surface *pStore;
+    struct timer *anim_timer = NULL;
+    SDL_Rect src, dst;
+    char tag[32];
+    int i;
+    
+    my_snprintf(tag , sizeof(tag), "explode.iso_nuke_0");
+    pNuke = load_sprite(tag);
+    assert(pNuke != NULL);   
+    /* copy screen area */
+    src.w = GET_SURF(pNuke)->w;
+    src.h = GET_SURF(pNuke)->h;
+    src.x = canvas_x + (NORMAL_TILE_WIDTH - src.w) / 2;
+    src.y = canvas_y + (NORMAL_TILE_HEIGHT - src.h) / 2 - 24;/* hard coded y position !! */
+    dst = src;
+       
+    pStore = create_surf(src.w, src.h, SDL_SWSURFACE);
+    SDL_BlitSurface(Main.map, &src, pStore, NULL);
+    src = dst;
+       
+    /* draw nuke explosion animations */
+    for (i = 0; i < pAnim->num_tiles_explode_nuke; i++) {
+
+      if(!pNuke) {
+       my_snprintf(tag , sizeof(tag), "explode.iso_nuke_%d", i);
+        pNuke = load_sprite(tag);
+      }
+      assert(pNuke != NULL);
+      
+      SDL_SetColorKey(GET_SURF(pNuke), SDL_SRCCOLORKEY,
+			    		get_first_pixel(GET_SURF(pNuke)));
+      
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+      /* blit explosion */
+      SDL_BlitSurface(GET_SURF(pNuke), NULL, Main.map, &dst);
+      
+      flush_rect(dst);
+      dst = src;
+      
+      usleep_since_timer_start(anim_timer, 40000);
+
+      /* clear explosion */
+      SDL_BlitSurface(pStore, NULL, Main.map, &dst);
+      dst = src;
+      
+      unload_sprite(tag);
+      pNuke = NULL;
+    }
+    
+    FREESURFACE(pStore);
+    finish_loading_sprites();
+  }
+  
 }
 
 /**************************************************************************

@@ -250,7 +250,7 @@ SEND:
       to = SP_SCIENTIST;
       break;
     case SP_SCIENTIST:
-      to = SP_ELVIST;
+      to = SP_ELVIS;
       break;
     }
 
@@ -1924,24 +1924,32 @@ static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
   int food = city_get_food_tile(city_col, city_row, pCity);
   int shield = city_get_shields_tile(city_col, city_row, pCity);
   int trade = city_get_trade_tile(city_col, city_row, pCity);
+  
+  step = food + shield + trade;
+  if(step) {
+    dest.y = (SCALLED_TILE_HEIGHT - pIcons->pFood->h) / 2;
+    dest.x = 10;
+    step = (SCALLED_TILE_WIDTH - 2 * dest.x) / step;
+  
 
-  dest.y = (SCALLED_TILE_HEIGHT - pIcons->pFood->h) / 2;
-  dest.x = 10;
-  step = (SCALLED_TILE_WIDTH - 2 * dest.x) / (food + shield + trade);
+    for (i = 0; i < food; i++) {
+      SDL_BlitSurface(pIcons->pFood, NULL, pTile, &dest);
+      dest.x += step;
+    }
 
-  for (i = 0; i < food; i++) {
-    SDL_BlitSurface(pIcons->pFood, NULL, pTile, &dest);
-    dest.x += step;
-  }
+    for (i = 0; i < shield; i++) {
+      SDL_BlitSurface(pIcons->pShield, NULL, pTile, &dest);
+      dest.x += step;
+    }
 
-  for (i = 0; i < shield; i++) {
-    SDL_BlitSurface(pIcons->pShield, NULL, pTile, &dest);
-    dest.x += step;
-  }
-
-  for (i = 0; i < trade; i++) {
-    SDL_BlitSurface(pIcons->pTrade, NULL, pTile, &dest);
-    dest.x += step;
+    for (i = 0; i < trade; i++) {
+      SDL_BlitSurface(pIcons->pTrade, NULL, pTile, &dest);
+      dest.x += step;
+    }
+  } else {
+    dest.x = (SCALLED_TILE_WIDTH - pIcons->pFace->w) / 2;
+    dest.y = (SCALLED_TILE_HEIGHT - pIcons->pFace->h) / 2;
+    SDL_BlitSurface(pIcons->pFace, NULL, pTile, &dest);
   }
 }
 

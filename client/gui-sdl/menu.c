@@ -425,7 +425,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_GOTO_CITY, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Airlift"), " (L)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OAirLift_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, FC_WS_NORMAL);

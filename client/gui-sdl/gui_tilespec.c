@@ -297,6 +297,7 @@ void tilespec_setup_city_icons(void)
   load_city_icon_surface(pSpr, pBIG_Luxury, "city.lux");
   load_city_icon_surface(pSpr, pBIG_Coin, "city.coin");
   load_city_icon_surface(pSpr, pBIG_Colb, "city.colb");
+  load_city_icon_surface(pSpr, pBIG_Face, "city.red_face");
   load_city_icon_surface(pSpr, pBIG_Coin_Corr, "city.dark_coin");
   load_city_icon_surface(pSpr, pBIG_Coin_UpKeep, "city.unkeep_coin");
   		  
@@ -347,6 +348,7 @@ void tilespec_free_city_icons(void)
   FREE(pIcons->pBIG_Luxury);
   FREE(pIcons->pBIG_Coin);
   FREE(pIcons->pBIG_Colb);
+  FREE(pIcons->pBIG_Face);
   FREE(pIcons->pBIG_Coin_Corr);
   FREE(pIcons->pBIG_Coin_UpKeep);
   
@@ -394,11 +396,11 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.order_return")) {
+  if(!sprite_exists("theme.order_airlift")) {
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE"
+    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE5"
     "(again:) tileset theme");
   }
   
@@ -490,6 +492,8 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OSpy_Icon, "theme.order_spying");
   load_order_theme_surface(pBuf, OWakeUp_Icon, "theme.order_wakeup");
   load_order_theme_surface(pBuf, OReturn_Icon, "theme.order_return");
+  load_order_theme_surface(pBuf, OAirLift_Icon, "theme.order_airlift");
+  
   /* ------------------------------ */
     
   /* Map Dithering */
@@ -520,10 +524,27 @@ void tilespec_setup_anim(void)
   int i;
   
   pAnim = MALLOC(sizeof(struct Animation));
+    
+  i = 0;
+  my_snprintf(buf , sizeof(buf), "explode.iso_nuke_%d", i);
+  while(sprite_exists(buf)) {
+    i++;
+    my_snprintf(buf , sizeof(buf), "explode.iso_nuke_%d", i);
+  }
+  pAnim->num_tiles_explode_nuke = i;
   
   /* current only one */
-  for( i=0; i<4; i++) {
-    my_snprintf(buf,sizeof(buf), "anim.focus%d", i);
+  i = 0;
+  my_snprintf(buf , sizeof(buf), "anim.focus_%d", i);
+  while(sprite_exists(buf)) {
+    i++;
+    my_snprintf(buf , sizeof(buf), "anim.focus_%d", i);
+  }
+  pAnim->num_tiles_focused_unit = i;
+  
+  pAnim->Focus = CALLOC(pAnim->num_tiles_focused_unit, sizeof(SDL_Surface *));
+  for( i=0; i<pAnim->num_tiles_focused_unit; i++) {
+    my_snprintf(buf,sizeof(buf), "anim.focus_%d", i);
     load_GUI_surface(pSpr, pAnim, Focus[i], buf);
   }
 }
@@ -531,9 +552,10 @@ void tilespec_setup_anim(void)
 void tilespec_free_anim(void)
 {
   int i;
-  for( i=0; i<4; i++) {
+  for(i=0; i<pAnim->num_tiles_focused_unit; i++) {
     FREESURFACE(pAnim->Focus[i]);
   }
+  FREE(pAnim->Focus);
   FREE(pAnim);
 }
 
@@ -629,6 +651,7 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->OSpy_Icon);
   FREESURFACE(pTheme->OWakeUp_Icon);
   FREESURFACE(pTheme->OReturn_Icon);
+  FREESURFACE(pTheme->OAirLift_Icon);
 
   /* Map Dithering */
    
@@ -683,4 +706,5 @@ void unload_unused_graphics(void)
   unload_sprite("upkeep.unhappy");
   unload_sprite("upkeep.unhappy2");
   unload_sprite("upkeep.shield");
+  unload_sprite("explode.iso_nuke");
 }

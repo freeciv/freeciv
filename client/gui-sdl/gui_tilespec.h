@@ -75,7 +75,7 @@ struct Theme {
 	SDL_Surface *CANCEL_PACT_Icon;
 	
 	/* borders */
-       SDL_Surface *NWEST_BORDER_Icon;
+        SDL_Surface *NWEST_BORDER_Icon;
 	SDL_Surface *NNORTH_BORDER_Icon;
 	SDL_Surface *NSOUTH_BORDER_Icon;
 	SDL_Surface *NEAST_BORDER_Icon;
@@ -117,6 +117,7 @@ struct Theme {
 	SDL_Surface *OSpy_Icon;
 	SDL_Surface *OWakeUp_Icon;
 	SDL_Surface *OReturn_Icon;
+	SDL_Surface *OAirLift_Icon;
 			
 } *pTheme;
 
@@ -124,7 +125,9 @@ void tilespec_setup_theme(void);
 void tilespec_unload_theme(void);
 
 struct Animation {
-  SDL_Surface *Focus[4];
+  SDL_Surface **Focus;
+  int num_tiles_focused_unit;
+  int num_tiles_explode_nuke;
 } *pAnim;
 
 void tilespec_setup_anim(void);
@@ -141,7 +144,7 @@ struct City_Icon {
   SDL_Surface *pBIG_Luxury;
   SDL_Surface *pBIG_Coin;
   SDL_Surface *pBIG_Colb;
-  /*SDL_Surface *pBIG_Face;*/
+  SDL_Surface *pBIG_Face;
   SDL_Surface *pBIG_Coin_Corr;
   SDL_Surface *pBIG_Coin_UpKeep;
   SDL_Surface *pBIG_Shield_Surplus;
