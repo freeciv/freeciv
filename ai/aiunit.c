@@ -1277,15 +1277,22 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
         handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
       } else {
+      /*
+       * We really don't want to just drop all caravans in immediately.
+       * Instead, we want to aggregate enough caravans to build instantly.
+       * -AJS, 990704
+       */
 	req.unit_id = punit->id;
 	req.city_id = pcity->id;
 	handle_unit_help_build_wonder(pplayer, &req);
       }
     }
      else {
+       /* A caravan without a home?  Kinda strange, but it might happen.  */
        pcity=city_list_find_id(&pplayer->cities, punit->homecity);
        city_list_iterate(pplayer->cities,pdest)
-         if (pcity && can_establish_trade_route(pcity,pdest) && (map_get_continent(pcity->x, pcity->y) == map_get_continent(pdest->x, pdest->y))) {
+         if (pcity && can_establish_trade_route(pcity,pdest) &&
+            map_same_continent(pcity->x, pcity->y, pdest->x, pdest->y)) {
            tradeval=trade_between_cities(pcity, pdest);
            if (tradeval) {
              if (best < tradeval) {
