@@ -195,7 +195,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
   if (!can_sell_building(pcity, id))
     return;
 
-  pcity->did_sell=1;
+  pcity->did_sell=TRUE;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		   _("Game: You sell %s in %s for %d gold."), 
 		   get_improvement_name(id), pcity->name,

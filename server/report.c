@@ -987,7 +987,7 @@ static void log_civ_score(void)
   static char *logname = "civscore.log";
   static char *endmark = "end";
   static FILE *fp = NULL;
-  static int disabled = 0;
+  static int disabled = FALSE;
 
   /* add new tags only at end of this list;
      maintaining the order of old tags is critical */
@@ -1367,7 +1367,7 @@ log_civ_score_disable:
       fp = NULL;
     }
 
-  disabled = 1;
+  disabled = TRUE;
 }
 
 /**************************************************************************

@@ -41,14 +41,14 @@ static int bounds_check_nation_id(Nation_Type_id nid, int loglevel,
 {
   if (game.nation_count==0) {
     freelog(loglevel, "%s before nations setup", func_name);
-    return 0;
+    return FALSE;
   }
   if (nid < 0 || nid >= game.nation_count) {
     freelog(loglevel, "Bad nation id %d (count %d) in %s",
 	    nid, game.nation_count, func_name);
-    return 0;
+    return FALSE;
   }
-  return 1;
+  return TRUE;
 }
 
 /***************************************************************
@@ -98,7 +98,7 @@ int get_nation_leader_sex(Nation_Type_id nation, const char *name)
   int i;
   
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_leader_sex")) {
-    return 0;
+    return FALSE;
   }
   for( i=0; i < nations[nation].leader_count; i++ ) {
     if( !strcmp(nations[nation].leader_name[i],name) )
@@ -107,7 +107,7 @@ int get_nation_leader_sex(Nation_Type_id nation, const char *name)
   if( i <  nations[nation].leader_count )
     return nations[nation].leader_is_male[i];
   else
-    return 1;
+    return TRUE;
 }
 
 /***************************************************************
@@ -115,14 +115,14 @@ checks if given leader name exist for given nation.
 ***************************************************************/
 int check_nation_leader_name(Nation_Type_id nation, const char *name)
 {
-  int i, found=0;
+  int i, found = FALSE;
   
   if (!bounds_check_nation_id(nation, LOG_ERROR, "check_nation_leader_name")) {
-    return 1;			/* ? */
+    return TRUE;			/* ? */
   }
   for( i=0; i<nations[nation].leader_count; i++) {
     if( !strcmp(name, nations[nation].leader_name[i]) )
-      found = 1;
+      found = TRUE;
   }
   return found;
 }

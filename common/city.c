@@ -83,13 +83,13 @@ int is_valid_city_coords(const int city_x, const int city_y)
 {
   if ((city_x == 0 || city_x == CITY_MAP_SIZE-1)
       && (city_y == 0 || city_y == CITY_MAP_SIZE-1))
-    return 0;
+    return FALSE;
   if (city_x < 0 || city_y < 0
       || city_x >= CITY_MAP_SIZE
       || city_y >= CITY_MAP_SIZE)
-    return 0;
+    return FALSE;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -114,10 +114,10 @@ int base_map_to_city_map(int *city_map_x, int *city_map_y,
     if (mx == map_x && my == map_y) {
       *city_map_x = cx;
       *city_map_y = cy;
-      return 1;
+      return TRUE;
     }
   } city_map_checked_iterate_end;
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -197,7 +197,7 @@ enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y)
 int is_worker_here(struct city *pcity, int city_x, int city_y) 
 {
   if (!is_valid_city_coords(city_x, city_y)) {
-    return 0;
+    return FALSE;
   }
 
   return get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER;
@@ -209,46 +209,46 @@ int is_worker_here(struct city *pcity, int city_x, int city_y)
 **************************************************************************/
 int wonder_replacement(struct city *pcity, Impr_Type_id id)
 {
-  if(is_wonder(id)) return 0;
+  if(is_wonder(id)) return FALSE;
   switch (id) {
   case B_BARRACKS:
   case B_BARRACKS2:
   case B_BARRACKS3:
     if (city_affected_by_wonder(pcity, B_SUNTZU))
-      return 1;
+      return TRUE;
     break;
   case B_GRANARY:
     if (improvement_variant(B_PYRAMIDS)==0
 	&& city_affected_by_wonder(pcity, B_PYRAMIDS))
-      return 1;
+      return TRUE;
     break;
   case B_CATHEDRAL:
     if (improvement_variant(B_MICHELANGELO)==0
 	&& city_affected_by_wonder(pcity, B_MICHELANGELO))
-      return 1;
+      return TRUE;
     break;
   case B_CITY:  
     if (city_affected_by_wonder(pcity, B_WALL))
-      return 1;
+      return TRUE;
     break;
   case B_HYDRO:
   case B_POWER:
   case B_NUCLEAR:
     if (city_affected_by_wonder(pcity, B_HOOVER))
-      return 1;
+      return TRUE;
     break;
   case B_POLICE:
     if (city_affected_by_wonder(pcity, B_WOMENS))
-      return 1;
+      return TRUE;
     break;
   case B_RESEARCH:
     if (city_affected_by_wonder(pcity, B_SETI))
-      return 1;
+      return TRUE;
     break;
   default:
     break;
   }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -331,19 +331,19 @@ static int city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
   spec_gate = impr->spec_gate;
   terr_gate = impr->terr_gate;
 
-  if (*spec_gate==S_NO_SPECIAL && *terr_gate==T_LAST) return 1;
+  if (*spec_gate==S_NO_SPECIAL && *terr_gate==T_LAST) return TRUE;
 
   for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
     if (map_get_special(pcity->x,pcity->y) & *spec_gate ||
-        is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return 1;
+        is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return TRUE;
   }
 
   for (;*terr_gate!=T_LAST;terr_gate++) {
     if (map_get_terrain(pcity->x,pcity->y) == *terr_gate ||
-        is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) return 1;
+        is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) return TRUE;
   }
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -354,15 +354,15 @@ int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   /* also does an improvement_exists() */
   if (!could_player_eventually_build_improvement(city_owner(pcity),id))
-    return 0;
+    return FALSE;
 
   if (city_got_building(pcity, id))
-    return 0;
+    return FALSE;
 
   if (!city_has_terr_spec_gate(pcity,id))
-    return 0;
+    return FALSE;
 
-  return !improvement_redundant(city_owner(pcity),pcity, id,1);
+  return !improvement_redundant(city_owner(pcity),pcity, id, TRUE);
 }
 
 /**************************************************************************
@@ -375,16 +375,16 @@ int could_build_improvement(struct city *pcity, Impr_Type_id id)
   struct impr_type *impr;
 
   if (!can_eventually_build_improvement(pcity, id))
-    return 0;
+    return FALSE;
 
   impr = get_improvement_type(id);
 
   /* The building pre req */
   if (impr->bldg_req != B_LAST)
     if (!city_got_building(pcity,impr->bldg_req))
-      return 0;
+      return FALSE;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -395,9 +395,9 @@ int can_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   struct player *p=city_owner(pcity);
   if (!improvement_exists(id))
-    return 0;
+    return FALSE;
   if (!player_knows_improvement_tech(p,id))
-    return 0;
+    return FALSE;
   return(could_build_improvement(pcity, id));
 }
 
@@ -409,10 +409,10 @@ ignoring whether unit is obsolete.
 int can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 {
   if (!can_player_build_unit_direct(city_owner(pcity), id))
-    return 0;
+    return FALSE;
   if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
-    return 0;
-  return 1;
+    return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -422,11 +422,11 @@ returns 0 if unit is obsolete.
 int can_build_unit(struct city *pcity, Unit_Type_id id)
 {  
   if (!can_build_unit_direct(pcity, id))
-    return 0;
+    return FALSE;
   while(unit_type_exists((id = unit_types[id].obsoleted_by)))
     if (can_player_build_unit_direct(city_owner(pcity), id))
-	return 0;
-  return 1;
+	return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -463,7 +463,7 @@ int city_population(struct city *pcity)
 int city_got_building(struct city *pcity,  Impr_Type_id id) 
 {
   if (!improvement_exists(id))
-    return 0;
+    return FALSE;
   else 
     return (pcity->improvements[id]);
 }
@@ -810,16 +810,16 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
 int city_can_be_built_here(int x, int y)
 {
   if (map_get_terrain(x, y) == T_OCEAN)
-    return 0;
+    return FALSE;
 
   /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
   square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {
     if (map_get_city(x1, y1) != NULL) {
-      return 0;
+      return FALSE;
     }
   } square_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -832,7 +832,7 @@ int can_establish_trade_route(struct city *pc1, struct city *pc2)
   if (pc1 == NULL || pc2 == NULL || pc1 == pc2
       || (pc1->owner == pc2->owner
 	  && map_distance(pc1->x, pc1->y, pc2->x, pc2->y) <= 8))
-    return 0;
+    return FALSE;
   
   for(i=0;i<4;i++) {
     r*=pc1->trade[i];
@@ -907,7 +907,7 @@ int city_got_effect(struct city *pcity, Impr_Type_id id)
 int city_got_citywalls(struct city *pcity)
 {
   if (city_got_building(pcity, B_CITY))
-    return 1;
+    return TRUE;
   return (city_affected_by_wonder(pcity, B_WALL));
 }
 
@@ -918,11 +918,11 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
 {
   struct city *tmp;
   if (!improvement_exists(id))
-    return 0;
+    return FALSE;
   if (!is_wonder(id) || wonder_obsolete(id))
-    return 0;
+    return FALSE;
   if (city_got_building(pcity, id))
-    return 1;
+    return TRUE;
   
   /* For Manhatten it can be owned by anyone, and it doesn't matter
    * whether it is destroyed or not.
@@ -942,7 +942,7 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
   
   tmp = player_find_city_by_id(city_owner(pcity), game.global_wonders[id]);
   if (tmp == NULL)
-    return 0;
+    return FALSE;
   switch (id) {
   case B_ASMITHS:
   case B_APOLLO:
@@ -961,23 +961,23 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
   case B_PYRAMIDS:
   case B_LIBERTY:
   case B_SUNTZU:
-    return 1;
+    return TRUE;
   case B_ISAAC:
   case B_COPERNICUS:
   case B_SHAKESPEARE:
   case B_COLLOSSUS:
   case B_RICHARDS:
-    return 0;
+    return FALSE;
   case B_HOOVER:
   case B_BACH:
     if (improvement_variant(id)==1) {
       return (map_get_continent(tmp->x, tmp->y) ==
 	      map_get_continent(pcity->x, pcity->y));
     } else {
-      return 1;
+      return TRUE;
     }
   default:
-    return 0;
+    return FALSE;
   }
 }
 
@@ -1322,10 +1322,10 @@ int is_friendly_city_near(struct player *owner, int x, int y)
   square_iterate (x, y, 3, x1, y1) {
     struct city * pcity = map_get_city (x1, y1);
     if (pcity != NULL && pplayers_allied(owner, city_owner(pcity)))
-      return 1;
+      return TRUE;
   } square_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1337,12 +1337,12 @@ int city_exists_within_city_radius(int x, int y, int may_be_on_center)
   map_city_radius_iterate(x, y, x1, y1) {
     if (may_be_on_center || x != x1 || y != y1) {
       if (map_get_city(x1, y1) != NULL) {
-	return 1;
+	return TRUE;
       }
     }
   } map_city_radius_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************

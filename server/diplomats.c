@@ -650,7 +650,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     do_conquer_cost (pplayer);
-    found_new_tech (pplayer, target, 0, 1);
+    found_new_tech (pplayer, target, FALSE, TRUE);
     /* Report it. */
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		      _("Game: Your %s stole %s from %s."),
@@ -812,7 +812,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
      are within one square of the city) to the new owner.
      Remember that pcity is destroyed as part of the transfer,
      Which is why we do this last */
-  transfer_city (pplayer, pcity, 1, 1, 1, 0);
+  transfer_city (pplayer, pcity, 1, TRUE, TRUE, FALSE);
 
   /* Check if a spy survives her mission. Diplomats never do.
      _After_ transfering the city, or the city area is first fogged
@@ -1140,12 +1140,12 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  pcity->name);
 
 	wipe_unit_safe(pdiplomat, &myiter);
-	return 0;
+	return FALSE;
       }
     }
   unit_list_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1191,7 +1191,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
       maybe_make_veteran (pdiplomat);
 
       /* being teleported costs all movement */
-      if (!teleport_unit_to_city (pdiplomat, spyhome, -1, 0)) {
+      if (!teleport_unit_to_city (pdiplomat, spyhome, -1, FALSE)) {
 	send_unit_info (pplayer, pdiplomat);
 	freelog(LOG_ERROR, "Bug in diplomat_escape: Spy can't teleport.");
 	return;

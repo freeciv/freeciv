@@ -11,6 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#include "shared.h"		/* TRUE, FALSE */
+
 #include "spaceship.h"
 
 const struct sship_part_info structurals_info[NUM_SS_STRUCTURALS] = {
@@ -92,7 +94,7 @@ void spaceship_init(struct player_spaceship *ship)
   
   ship->structurals = ship->components = ship->modules = 0;
   for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    ship->structure[i] = 0;
+    ship->structure[i] = FALSE;
   }
   ship->fuel = ship->propulsion = 0;
   ship->habitation = ship->life_support = ship->solar_panels = 0;

@@ -34,6 +34,7 @@
 #include <assert.h>
 
 #include "log.h"
+#include "shared.h"		/* TRUE, FALSE */
 
 #include "rand.h"
 
@@ -130,7 +131,7 @@ void mysrand(RANDOM_TYPE seed)
     rand_state.k = (55-24);
     rand_state.x = (55-0);
 
-    rand_state.is_init = 1;
+    rand_state.is_init = TRUE;
 
     /* Heat it up a bit:
      * Using modulus in myrand() this was important to pass
@@ -180,7 +181,7 @@ void test_random1(int n)
 {
   RANDOM_STATE saved_state;
   int i, old = 0, new;
-  int didchange, olddidchange = 0;
+  int didchange, olddidchange = FALSE;
   int behaviourchange = 0, behavioursame = 0;
 
   saved_state = get_myrand_state();

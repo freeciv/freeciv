@@ -49,27 +49,27 @@ static int check_packet(struct packet_diplomacy_info *packet, int check_other)
   if (packet->plrno0 >= game.nplayers) {
     freelog(LOG_ERROR, "plrno0 is %d >= game.nplayers (%d).",
 	    packet->plrno0, game.nplayers);
-    return 0;
+    return FALSE;
   }
   if (packet->plrno1 >= game.nplayers) {
     freelog(LOG_ERROR, "plrno1 is %d >= game.nplayers (%d).",
 	    packet->plrno1, game.nplayers);
-    return 0;
+    return FALSE;
   }
   if (check_other && packet->plrno_from >= game.nplayers) {
     freelog(LOG_ERROR, "plrno_from is %d >= game.nplayers (%d).",
 	    packet->plrno_from, game.nplayers);
-    return 0;
+    return FALSE;
   }
 
   if (packet->plrno_from != packet->plrno0
       && packet->plrno_from != packet->plrno1) {
     freelog(LOG_ERROR, "plrno_from(%d) != plrno0(%d) and plrno1(%d)",
 	    packet->plrno_from, packet->plrno0, packet->plrno1);
-    return 0;
+    return FALSE;
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -81,7 +81,7 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
   
   if(!did_init_treaties) {
     genlist_init(&treaties);
-    did_init_treaties=1;
+    did_init_treaties = TRUE;
   }
 
   genlist_iterator_init(&myiter, &treaties, 0);
@@ -107,7 +107,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
   struct player *plr0, *plr1, *pgiver, *pdest, *other;
   int *giver_accept;
 
-  if (!check_packet(packet, 1))
+  if (!check_packet(packet, TRUE))
     return;
 
   plr0 = &game.players[packet->plrno0];
@@ -288,7 +288,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
 	do_dipl_cost(pdest);
 
-	found_new_tech(pdest, pclause->value, 0, 1);
+	found_new_tech(pdest, pclause->value, FALSE, TRUE);
 	break;
       case CLAUSE_GOLD:
 	notify_player(pdest, _("Game: You get %d gold."), pclause->value);
@@ -323,7 +323,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
 
-	  pnewcity = transfer_city(pdest, pcity, -1, 1, 1, 0);
+	  pnewcity = transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  if (pnewcity == NULL) {
 	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
@@ -390,7 +390,7 @@ void handle_diplomacy_remove_clause(struct player *pplayer,
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver;
 
-  if (!check_packet(packet, 1))
+  if (!check_packet(packet, TRUE))
     return;
 
   plr0=&game.players[packet->plrno0];
@@ -417,7 +417,7 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver;
 
-  if (!check_packet(packet, 1))
+  if (!check_packet(packet, TRUE))
     return;
 
   plr0=&game.players[packet->plrno0];
@@ -488,7 +488,7 @@ void handle_diplomacy_cancel_meeting(struct player *pplayer,
 {
   struct player *plr0, *plr1, *theother;
 
-  if (!check_packet(packet, 0))
+  if (!check_packet(packet, FALSE))
     return;
 
   plr0=&game.players[packet->plrno0];
@@ -508,7 +508,7 @@ void handle_diplomacy_init(struct player *pplayer,
   struct packet_diplomacy_info pa;
   struct player *plr0, *plr1;
 
-  if (!check_packet(packet, 0))
+  if (!check_packet(packet, FALSE))
     return;
 
   plr0=&game.players[packet->plrno0];

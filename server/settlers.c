@@ -63,7 +63,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   handle_unit_build_city(pplayer, &req);        
   pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
   if (pcity == NULL)
-    return 0;
+    return FALSE;
 
   /* initialize infrastructure cache for both this city and other cities
      nearby. This is neccesary to avoid having settlers want to transform
@@ -73,7 +73,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
     if (pcity2 != NULL && city_owner(pcity2) == pplayer)
       initialize_infrastructure_cache(pcity2);
   } map_city_radius_iterate_end;
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -171,7 +171,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
   int d = 0;
   int a, i0, j0; /* need some temp variables */
   int temp=0, tmp=0;
-  int debug = 0;
+  int debug = FALSE;
   int g = 1;
   struct tile *ptile;
   int con, con2;
@@ -411,11 +411,11 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
     unit_list_iterate(map_get_tile(x, y)->units, punit)
       if (myunit==punit) continue;
       if (punit->owner!=pplayer->player_no)
-        return 1;
+        return TRUE;
       if (unit_flag(punit, F_SETTLERS) && unit_flag(myunit, F_SETTLERS))
-        return 1;
+        return TRUE;
     unit_list_iterate_end;
-    return 0;
+    return FALSE;
   }
   return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
 }
@@ -472,13 +472,13 @@ static int is_wet(struct player *pplayer, int x, int y)
   enum tile_terrain_type t;
   enum tile_special_type s;
 
-  if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return 0;
+  if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return FALSE;
 
   t=map_get_terrain(x,y);
-  if (t == T_OCEAN || t == T_RIVER) return 1;
+  if (t == T_OCEAN || t == T_RIVER) return TRUE;
   s=map_get_special(x,y);
-  if ((s & S_RIVER) || (s & S_IRRIGATION)) return 1;
-  return 0;
+  if ((s & S_RIVER) || (s & S_IRRIGATION)) return TRUE;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -488,14 +488,14 @@ static int is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
 					    int y)
 {
   if (is_wet(pplayer, x, y))
-    return 1;
+    return TRUE;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (is_wet(pplayer, x1, y1))
-      return 1;
+      return TRUE;
   } cartesian_adjacent_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -748,7 +748,7 @@ int is_ok_city_spot(int x, int y)
   case T_SWAMP:
   case T_TUNDRA:
   case T_LAST:
-    return 0;
+    return FALSE;
   case T_DESERT:
     if
     (
@@ -756,7 +756,7 @@ int is_ok_city_spot(int x, int y)
     &&
      !((map_get_tile(x, y))->special&S_SPECIAL_2)
     )
-      return 0;
+      return FALSE;
   case T_GRASSLAND:
   case T_PLAINS:
   case T_RIVER:
@@ -771,17 +771,17 @@ int is_ok_city_spot(int x, int y)
 	dx = abs(dx), dy = abs(dy);
 	/* these are heuristics... */
         if (dx<=5 && dy<5)
-          return 0;
+          return FALSE;
         if (dx<5 && dy<=5)
-          return 0;
+          return FALSE;
 	/* this is the law... */
 	if (dx<game.rgame.min_dist_bw_cities && dy<game.rgame.min_dist_bw_cities)
-          return 0;
+          return FALSE;
       }
     }
     city_list_iterate_end;
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -795,7 +795,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(NULL, punit);
   do_unit_goto(punit, GOTO_MOVE_ANY, 0);
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -987,7 +987,7 @@ static int evaluate_city_building(struct unit *punit,
 	  mv_cost = warmap.seacost[x][y] * mv_rate /
 	      unit_type(*ferryboat)->move_rate;
 	}
-      } else if (!goto_is_sane(punit, x, y, 1) ||
+      } else if (!goto_is_sane(punit, x, y, TRUE) ||
 		 warmap.cost[x][y] > THRESHOLD * mv_rate) {
 	/* for Rome->Carthage */
 	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
@@ -1218,9 +1218,9 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
   int save_id         = punit->id;              /* in case unit dies */
 
   if (!same_pos(gx, gy, punit->x, punit->y)) {
-    if (!goto_is_sane(punit, gx, gy, 1)
+    if (!goto_is_sane(punit, gx, gy, TRUE)
 	|| (ferryboat != NULL
-	    && goto_is_sane(ferryboat, gx, gy, 1)
+	    && goto_is_sane(ferryboat, gx, gy, TRUE)
 	    && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		|| !could_unit_move_to_tile(punit, punit->x, punit->y,
 					    gx, gy)))) {
@@ -1230,7 +1230,7 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
 	      punit->id, punit->x, punit->y);
       if (!same_pos(x, y, punit->x, punit->y)) {
 	auto_settler_do_goto(pplayer, punit, x, y);
-	if (player_find_unit_by_id(pplayer, save_id) == NULL) return 0; /* died */
+	if (player_find_unit_by_id(pplayer, save_id) == NULL) return FALSE; /* died */
       }
       ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
 				 punit->ai.ferryboat);
@@ -1248,19 +1248,19 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
 	set_unit_activity(punit, ACTIVITY_IDLE);
       } /* need to zero pass & ferryboat at some point. */
     }
-    if (goto_is_sane(punit, gx, gy, 1)
+    if (goto_is_sane(punit, gx, gy, TRUE)
 	&& punit->moves_left
 	&& (ferryboat == NULL
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, punit->x, punit->y,
 					   gx, gy)))) {
       auto_settler_do_goto(pplayer, punit, gx, gy);
-      if (player_find_unit_by_id(pplayer, save_id) == NULL) return 0; /* died */
+      if (player_find_unit_by_id(pplayer, save_id) == NULL) return FALSE; /* died */
       punit->ai.ferryboat = 0;
     }
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

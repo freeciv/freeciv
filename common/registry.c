@@ -166,8 +166,8 @@
 
 #define MAX_LEN_BUFFER 1024
 
-#define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
-#define SECF_DEBUG_ENTRIES 0	/* LOG_DEBUG each entry value */
+#define SAVE_TABLES TRUE	/* set to 0 for old-style savefiles */
+#define SECF_DEBUG_ENTRIES FALSE/* LOG_DEBUG each entry value */
 
 /* An 'entry' is a single value, either a string or integer;
  * Whether string or int is determined by whether svalue is NULL.
@@ -358,7 +358,7 @@ static int section_file_load_dup(struct section_file *sf,
   struct inputfile *inf;
   struct section *psection = NULL;
   struct entry *pentry;
-  int table_state = 0;		/* 1 when within tabular format */
+  int table_state = FALSE;	/* 1 when within tabular format */
   int table_lineno = 0;		/* row number in tabular, 0=top data row */
   struct sbuffer *sb;
   const char *tok;
@@ -370,7 +370,7 @@ static int section_file_load_dup(struct section_file *sf,
 
   inf = inf_open(filename, datafilename);
   if (inf == NULL) {
-    return 0;
+    return FALSE;
   }
   section_file_init(sf);
   sf->filename = mystrdup(filename);
@@ -423,7 +423,7 @@ static int section_file_load_dup(struct section_file *sf,
 	inf_die(inf, "misplaced \"}\"");
       }
       inf_token_required(inf, INF_TOK_EOL);
-      table_state=0;
+      table_state = FALSE;
       continue;
     }
     if (table_state) {
@@ -484,7 +484,7 @@ static int section_file_load_dup(struct section_file *sf,
       } while(inf_token(inf, INF_TOK_COMMA) != NULL);
       
       inf_token_required(inf, INF_TOK_EOL);
-      table_state=1;
+      table_state = TRUE;
       table_lineno=0;
       continue;
     }
@@ -524,7 +524,7 @@ static int section_file_load_dup(struct section_file *sf,
   
   secfilehash_build(sf, allow_duplicates);
     
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -533,7 +533,7 @@ static int section_file_load_dup(struct section_file *sf,
 int section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
-  return section_file_load_dup(my_section_file, filename, 1);
+  return section_file_load_dup(my_section_file, filename, TRUE);
 }
 
 /**************************************************************************
@@ -542,7 +542,7 @@ int section_file_load(struct section_file *my_section_file,
 int section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename)
 {
-  return section_file_load_dup(my_section_file, filename, 0);
+  return section_file_load_dup(my_section_file, filename, FALSE);
 }
 
 /**************************************************************************
@@ -573,7 +573,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
   struct entry *pentry, *col_pentry;
 
   if (fs == NULL)
-    return 0;
+    return FALSE;
 
   section_list_iterate(*my_section_file->sections, psection) {
     fz_fprintf(fs, "\n[%s]\n", psection->name);
@@ -700,14 +700,14 @@ int section_file_save(struct section_file *my_section_file, const char *filename
     freelog(LOG_ERROR, "Error before closing %s: %s", filename,
 	    fz_strerror(fs));
     fz_fclose(fs);
-    return 0;
+    return FALSE;
   }
   if (fz_fclose(fs) != 0) {
     freelog(LOG_ERROR, "Error closing %s", filename);
-    return 0;
+    return FALSE;
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

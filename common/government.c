@@ -242,7 +242,7 @@ int can_change_to_government(struct player *pplayer, int government)
 
   req = governments[government].required_tech;
   if (!tech_exists(req))
-    return 0;
+    return FALSE;
   else 
     return (req == A_NONE
 	    || (get_invention(pplayer, req) == TECH_KNOWN)

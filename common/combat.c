@@ -177,7 +177,7 @@ int unit_behind_walls(struct unit *punit)
   if((pcity=map_get_city(punit->x, punit->y)) != NULL)
     return city_got_citywalls(pcity);
   
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -196,7 +196,7 @@ int unit_behind_coastal(struct unit *punit)
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)) != NULL)
     return city_got_building(pcity, B_COASTAL);
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -207,7 +207,7 @@ int unit_behind_sam(struct unit *punit)
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)) != NULL)
     return city_got_building(pcity, B_SAM);
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -218,7 +218,7 @@ int unit_behind_sdi(struct unit *punit)
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)) != NULL)
     return city_got_building(pcity, B_SDI);
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -446,7 +446,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
       continue;
     count++;
     if (unit_can_defend_here(defender)) {
-      int change = 0;
+      int change = FALSE;
       int build_cost = unit_type(defender)->build_cost;
 
       /* This will make units roughly evenly good defenders look alike. */
@@ -454,13 +454,13 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
       assert(unit_def >= 0);
 
       if (unit_def > bestvalue) {
-	change = 1;
+	change = TRUE;
       } else if (unit_def == bestvalue) {
 	if (build_cost < best_cost) {
-	  change = 1;
+	  change = TRUE;
 	} else if (build_cost == best_cost) {
 	  if (rating_of_best < get_defense_rating(attacker, defender)) {	
-	    change = 1;
+	    change = TRUE;
 	  }
 	}
       }

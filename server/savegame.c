@@ -355,7 +355,7 @@ static void map_load(struct section_file *file)
    */
 
   map_tiles_load(file);
-  if (secfile_lookup_int_default(file, 1, "game.save_starts")
+  if (secfile_lookup_int_default(file, TRUE, "game.save_starts")
       && game.load_options.load_starts) {
     map_startpos_load(file);
   } else {
@@ -373,7 +373,7 @@ static void map_load(struct section_file *file)
   LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.f%03d", y),
 		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 3));
 
-  if (secfile_lookup_int_default(file, 1, "game.save_known")
+  if (secfile_lookup_int_default(file, TRUE, "game.save_known")
       && game.load_options.load_known) {
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
@@ -571,7 +571,7 @@ static void player_load(struct player *plr, int plrno,
   char *p;
   char *savefile_options = get_savefile_options(file);
 
-  server_player_init(plr, 1);
+  server_player_init(plr, TRUE);
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
@@ -1539,7 +1539,7 @@ static void player_save(struct player *plr, int plrno,
 				       (x, y, plr)->last_updated, 3),
 			 "player%d.map_ud%03d", plrno);
 
-    if (1) {
+    if (TRUE) {
       struct dumb_city *pdcity;
       i = 0;
       
@@ -2166,7 +2166,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
 
-  if (1) {
+  if (TRUE) {
     /* Now always save these, so the server options reflect the
      * actual values used at the start of the game.
      * The first two used to be saved as "map.xsize" and "map.ysize"

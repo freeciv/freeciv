@@ -112,7 +112,7 @@ static void start_processing_request(struct connection *pconn,
 				     int request_id);
 static void finish_processing_request(struct connection *pconn);
 
-static int no_input = 0;
+static int no_input = FALSE;
 
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
@@ -120,7 +120,7 @@ static int no_input = 0;
 static void handle_stdin_close(void)
 {
   freelog(LOG_NORMAL, _("Server cannot read standard input. Ignoring input."));
-  no_input = 1;
+  no_input = TRUE;
 }
 
 #ifdef HAVE_LIBREADLINE
@@ -169,8 +169,8 @@ void close_connection(struct connection *pconn)
   conn_list_unlink(&game.game_connections, pconn);
 
   my_closesocket(pconn->sock);
-  pconn->used = 0;
-  pconn->established = 0;
+  pconn->used = FALSE;
+  pconn->established = FALSE;
   pconn->player = NULL;
   pconn->access_level = ALLOW_NONE;
   free_socket_packet_buffer(pconn->buffer);
@@ -350,11 +350,11 @@ int sniff_packets(void)
   if (!game.timeout)
     game.turn_start = time(NULL);
   
-  while(1) {
+  while(TRUE) {
     con_prompt_on();		/* accepting new input */
     
     if(force_end_of_sniff) {
-      force_end_of_sniff=0;
+      force_end_of_sniff = FALSE;
       con_prompt_off();
       return 2;
     }
@@ -369,7 +369,7 @@ int sniff_packets(void)
 	    sz_strlcpy(srvarg.metaserver_info_line,
 		       "restarting for lack of players");
 	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	    send_server_info_to_metaserver(1,0);
+	    send_server_info_to_metaserver(TRUE, FALSE);
 
 	    close_connections_and_socket();
 	    exit(EXIT_SUCCESS);
@@ -382,7 +382,7 @@ int sniff_packets(void)
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
 	  freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	  send_server_info_to_metaserver(1,0);
+	  send_server_info_to_metaserver(TRUE, FALSE);
 	}
       } else {
         last_noplayers = 0;
@@ -397,7 +397,7 @@ int sniff_packets(void)
 	  send_packet_generic_empty(pconn, PACKET_CONN_PING);
 
 	  if (pconn->ponged) {
-	    pconn->ponged = 0;
+	    pconn->ponged = FALSE;
 	  } else {
 	    freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
 		    conn_description(pconn));
@@ -410,7 +410,7 @@ int sniff_packets(void)
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
-      send_server_info_to_metaserver(0, 0);
+      send_server_info_to_metaserver(FALSE, FALSE);
 
       /* kick out of the srv_main loop */
       if (server_state == GAME_OVER_STATE) {
@@ -453,7 +453,7 @@ int sniff_packets(void)
     con_prompt_off();		/* output doesn't generate a new prompt */
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
-      send_server_info_to_metaserver(0,0);
+      send_server_info_to_metaserver(FALSE, FALSE);
       if((game.timeout) 
 	&& (time(NULL)>game.turn_start + game.timeout)
 	&& (server_state == RUN_GAME_STATE)){
@@ -543,8 +543,10 @@ int sniff_packets(void)
 	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {
 	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
 	    char *packet;
-	    int type, result;
-	    while (1) {
+	    int type;
+	    int result;
+
+	    while (TRUE) {
 	      packet = get_packet_from_connection(pconn, &type, &result);
 	      if (result) {
 		int command_ok;
@@ -682,20 +684,20 @@ static int server_accept_connection(int sockfd)
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
     if (!pconn->used) {
-      pconn->used = 1;
+      pconn->used = TRUE;
       pconn->sock = new_sock;
-      pconn->established = 0;
-      pconn->observer = 0;
+      pconn->established = FALSE;
+      pconn->observer = FALSE;
       pconn->player = NULL;
       pconn->buffer = new_socket_packet_buffer();
       pconn->send_buffer = new_socket_packet_buffer();
       pconn->last_write = 0;
-      pconn->ponged = 1;
-      pconn->first_packet = 1;
-      pconn->byte_swap = 0;
+      pconn->ponged = TRUE;
+      pconn->first_packet = TRUE;
+      pconn->byte_swap = FALSE;
       pconn->capability[0] = '\0';
       pconn->access_level = access_level_for_next_connection();
-      pconn->delayed_disconnect = 0;
+      pconn->delayed_disconnect = FALSE;
       pconn->notify_of_writable_data = NULL;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
@@ -765,7 +767,7 @@ void init_connections(void)
   int i;
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     struct connection *pconn = &connections[i];
-    pconn->used = 0;
+    pconn->used = FALSE;
     conn_list_init(&pconn->self);
     conn_list_insert(&pconn->self, pconn);
     pconn->route = NULL;

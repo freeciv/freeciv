@@ -310,15 +310,15 @@ static int adjacent_terrain_tiles4(int x, int y,
 static int river_test_blocked(int x, int y)
 {
   if (rmap(x, y) & RS_BLOCKED)
-    return 1;
+    return TRUE;
 
   /* any un-blocked? */
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (!(rmap(x1, y1) & RS_BLOCKED))
-      return 0;
+      return FALSE;
   } cartesian_adjacent_iterate_end;
 
-  return 1; /* none non-blocked |- all blocked */
+  return TRUE; /* none non-blocked |- all blocked */
 }
 
 /*********************************************************************
@@ -410,15 +410,15 @@ struct test_func {
 
 #define NUM_TEST_FUNCTIONS 9
 static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
-  {river_test_blocked,            1},
-  {river_test_rivergrid,          1},
-  {river_test_highlands,          0},
-  {river_test_adjacent_ocean,     0},
-  {river_test_adjacent_river,     0},
-  {river_test_adjacent_highlands, 0},
-  {river_test_swamp,              0},
-  {river_test_adjacent_swamp,     0},
-  {river_test_height_map,         0}
+  {river_test_blocked,            TRUE},
+  {river_test_rivergrid,          TRUE},
+  {river_test_highlands,          FALSE},
+  {river_test_adjacent_ocean,     FALSE},
+  {river_test_adjacent_river,     FALSE},
+  {river_test_adjacent_highlands, FALSE},
+  {river_test_swamp,              FALSE},
+  {river_test_adjacent_swamp,     FALSE},
+  {river_test_height_map,         FALSE}
 };
 
 /********************************************************************
@@ -524,7 +524,7 @@ static int make_river(int x, int y)
   int rd_direction_is_valid[4];
   int num_valid_directions, dir, func_num, direction;
 
-  while (1) {
+  while (TRUE) {
     /* Mark the current tile as river. */
     rmap(x, y) |= RS_RIVER;
     freelog(LOG_DEBUG,
@@ -536,7 +536,7 @@ static int make_river(int x, int y)
 	adjacent_terrain_tiles4(x, y, T_OCEAN)) {
       freelog(LOG_DEBUG,
 	      "The river ended at (%d, %d).\n", x, y);
-      return 1;
+      return TRUE;
     }
 
     /* Else choose a direction to continue the river. */
@@ -545,7 +545,7 @@ static int make_river(int x, int y)
 
     /* Mark all directions as available. */
     for (dir = 0; dir < 4; dir++)
-      rd_direction_is_valid[dir] = 1;
+      rd_direction_is_valid[dir] = TRUE;
 
     /* Test series that selects a direction for the river. */
     for (func_num = 0; func_num < NUM_TEST_FUNCTIONS; func_num++) {
@@ -567,7 +567,7 @@ static int make_river(int x, int y)
       assert(best_val != -1);
 
       /* should we abort? */
-      if (best_val > 0 && test_funcs[func_num].fatal) return 0;
+      if (best_val > 0 && test_funcs[func_num].fatal) return FALSE;
 
       /* mark the less attractive directions as invalid */
       for (dir = 0; dir < 4; dir++) {
@@ -576,7 +576,7 @@ static int make_river(int x, int y)
 	if (normalize_map_pos(&x1, &y1)
 	    && rd_direction_is_valid[dir]) {
 	  if (rd_comparison_val[dir] != best_val)
-	    rd_direction_is_valid[dir] = 0;
+	    rd_direction_is_valid[dir] = FALSE;
 	}
       }
     }
@@ -590,7 +590,7 @@ static int make_river(int x, int y)
 
     switch (num_valid_directions) {
     case 0:
-      return 0; /* river aborted */
+      return FALSE; /* river aborted */
     case 1:
       for (dir = 0; dir < 4; dir++) {
 	int x1 = x + CAR_DIR_DX[dir];
@@ -861,13 +861,13 @@ static void make_land(void)
 **************************************************************************/
 static int is_tiny_island(int x, int y) 
 {
-  if (map_get_terrain(x,y) == T_OCEAN) return 0;
+  if (map_get_terrain(x,y) == T_OCEAN) return FALSE;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) != T_OCEAN) return 0;
+    if (map_get_terrain(x1, y1) != T_OCEAN) return FALSE;
   } cartesian_adjacent_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -891,9 +891,9 @@ static void remove_tiny_islands(void)
 **************************************************************************/
 static int assign_continent_flood(int x, int y, int nr)
 {
-  if (y<0 || y>=map.ysize)              return 0;
-  if (map_get_continent(x, y))          return 0;
-  if (map_get_terrain(x, y) == T_OCEAN) return 0;
+  if (y<0 || y>=map.ysize)              return FALSE;
+  if (map_get_continent(x, y) != 0)     return FALSE;
+  if (map_get_terrain(x, y) == T_OCEAN) return FALSE;
 
   map_set_continent(x, y, nr);
 
@@ -901,7 +901,7 @@ static int assign_continent_flood(int x, int y, int nr)
     assign_continent_flood(x1, y1, nr);
   } adjc_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1593,9 +1593,9 @@ static int place_island(struct gen234_state *pstate)
     int map_y = y + yo - pstate->n;
 
     if (!normalize_map_pos(&map_x, &map_y))
-      return 0;
+      return FALSE;
     if (hmap(x, y) && is_coastline(map_x, map_y))
-      return 0;
+      return FALSE;
   }
 		       
   for (y = pstate->n; y < pstate->s; y++) {
@@ -1604,9 +1604,9 @@ static int place_island(struct gen234_state *pstate)
       int map_y = y + yo - pstate->n;
 
       if (!normalize_map_pos(&map_x, &map_y))
-	return 0;
+	return FALSE;
       if (hmap(x, y) && is_coastline(map_x, map_y))
-	return 0;
+	return FALSE;
     }
   }
 

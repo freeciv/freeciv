@@ -208,11 +208,11 @@ Arguably this should be called improvement_type_exists, but that's too long.
 int improvement_exists(Impr_Type_id id)
 {
   if (id<0 || id>=B_LAST || id>=game.num_impr_types)
-    return 0;
+    return FALSE;
 
   if ((id==B_SCOMP || id==B_SMODULE || id==B_SSTRUCTURAL)
       && !game.spacerace)
-    return 0;
+    return FALSE;
 
   return (improvement_types[id].tech_req!=A_LAST);
 }
@@ -278,7 +278,7 @@ int improvement_variant(Impr_Type_id id)
 int improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
 {
   if (improvement_types[id].obsolete_by==A_NONE) 
-    return 0;
+    return FALSE;
 
   if (improvement_types[id].is_wonder) {
     /* a wonder is obsolette, as soon as *any* player researched the
@@ -339,7 +339,7 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
     for (i=0;i<EFR_LAST;i++) {
       if (equiv_list[i] != NULL) {
       	 Impr_Status stat = equiv_list[i][*ept];
-      	 if (stat != I_NONE && stat != I_OBSOLETE) return 1;
+      	 if (stat != I_NONE && stat != I_OBSOLETE) return TRUE;
       }
     }
   }
@@ -352,12 +352,12 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
       for (i=0;i<EFR_LAST;i++) {
 	if (equiv_list[i] != NULL) {
 	  Impr_Status stat = equiv_list[i][*ept];
-	  if (stat != I_NONE && stat != I_OBSOLETE) return 1;
+	  if (stat != I_NONE && stat != I_OBSOLETE) return TRUE;
 	}
       }
     }
   }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -366,7 +366,7 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
 int wonder_obsolete(Impr_Type_id id)
 { 
   if (improvement_types[id].obsolete_by==A_NONE)
-    return 0;
+    return FALSE;
   return (game.global_advances[improvement_types[id].obsolete_by]);
 }
 
@@ -375,8 +375,8 @@ Barbarians don't get enough knowledges to be counted as normal players.
 **************************************************************************/
 int is_wonder_useful(Impr_Type_id id)
 {
-  if ((id == B_GREAT) && (get_num_human_and_ai_players () < 3)) return 0;
-  return 1;
+  if ((id == B_GREAT) && (get_num_human_and_ai_players () < 3)) return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -399,7 +399,7 @@ int could_player_eventually_build_improvement(struct player *p,
 
   /* This also checks if tech req is Never */
   if (!improvement_exists(id))
-    return 0;
+    return FALSE;
 
   impr = get_improvement_type(id);
 
@@ -412,27 +412,27 @@ int could_player_eventually_build_improvement(struct player *p,
       if (type == EFT_SPACE_PART) {
       	/* TODO: remove this */
 	if (!game.global_wonders[B_APOLLO])
-	  return 0;
+	  return FALSE;
         if (p->spaceship.state >= SSHIP_LAUNCHED)
-	  return 0;
+	  return FALSE;
 	if (peffect->amount == 1 && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
-	  return 0;
+	  return FALSE;
 	if (peffect->amount == 2 && p->spaceship.components >= NUM_SS_COMPONENTS)
-	  return 0;
+	  return FALSE;
 	if (peffect->amount == 3 && p->spaceship.modules >= NUM_SS_MODULES)
-	  return 0;
+	  return FALSE;
       }
       peffect++;
     }
   }
   if (is_wonder(id)) {
     /* Can't build wonder if already built */
-    if (game.global_wonders[id]) return 0;
+    if (game.global_wonders[id]) return FALSE;
   } else {
     /* Can't build if obsolette */
-    if (improvement_obsolete(p, id)) return 0;
+    if (improvement_obsolete(p, id)) return FALSE;
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -441,12 +441,12 @@ int could_player_eventually_build_improvement(struct player *p,
 int could_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!could_player_eventually_build_improvement(p, id))
-    return 0;
+    return FALSE;
 
   /* Make sure we have the tech /now/.*/
   if (get_invention(p, improvement_types[id].tech_req) == TECH_KNOWN)
-    return 1;
-  return 0;
+    return TRUE;
+  return FALSE;
 }
   
 /**************************************************************************
@@ -456,9 +456,9 @@ fact that player may not have a city with appropriate prereqs.
 int can_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!improvement_exists(id))
-    return 0;
+    return FALSE;
   if (!player_knows_improvement_tech(p,id))
-    return 0;
+    return FALSE;
   return(could_player_build_improvement(p, id));
 }
 

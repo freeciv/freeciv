@@ -55,6 +55,7 @@
 #include "log.h"
 #include "mem.h"
 #include "support.h"
+#include "shared.h"		/* TRUE, FALSE */
 
 #include "timing.h"
 
@@ -101,11 +102,11 @@ struct timer {
 ***********************************************************************/
 static void report_clock_failed(struct timer *t)
 {
-  static int first = 1;
+  static int first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "clock() returned -1, ignoring timer");
-    first = 0;
+    first = FALSE;
   }
   t->use = TIMER_IGNORE;
 }
@@ -117,11 +118,11 @@ static void report_clock_failed(struct timer *t)
 ***********************************************************************/
 static void report_gettimeofday_failed(struct timer *t)
 {
-  static int first = 1;
+  static int first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "gettimeofday() returned -1, ignoring timer");
-    first = 0;
+    first = FALSE;
   }
   t->use = TIMER_IGNORE;
 }
@@ -132,11 +133,11 @@ static void report_gettimeofday_failed(struct timer *t)
 ***********************************************************************/
 static void report_time_failed(struct timer *t)
 {
-  static int first = 1;
+  static int first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "time() returned -1, ignoring timer");
-    first = 0;
+    first = FALSE;
   }
   t->use = TIMER_IGNORE;
 }

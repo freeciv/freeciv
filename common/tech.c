@@ -77,7 +77,7 @@ int is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
 			   Tech_Type_id goal)
 {
   if (tech == goal) {
-    return 0;
+    return FALSE;
   } else {
     /* *INDENT-OFF* */ 
     return BOOL_VAL(pplayer->research.inventions[goal].
@@ -231,7 +231,7 @@ A tech doesn't exist if one of:
 int tech_exists(Tech_Type_id id)
 {
   if (id<0 || id>=game.num_tech_types)
-    return 0;
+    return FALSE;
   else 
     return advances[id].req[0]!=A_LAST && advances[id].req[1]!=A_LAST;
 }
@@ -488,7 +488,7 @@ static int precalc_tech_data_helper(Tech_Type_id tech, char *counted)
     return 0;
   }
 
-  counted[tech] = 1;
+  counted[tech] = TRUE;
 
   return 1 + 
       precalc_tech_data_helper(advances[tech].req[0], counted)+ 

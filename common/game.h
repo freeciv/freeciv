@@ -311,9 +311,9 @@ extern int is_server;
 #define GAME_MIN_DIPLCOST            0
 #define GAME_MAX_DIPLCOST            100
 
-#define GAME_DEFAULT_FOGOFWAR        1
-#define GAME_MIN_FOGOFWAR            0
-#define GAME_MAX_FOGOFWAR            1
+#define GAME_DEFAULT_FOGOFWAR        TRUE
+#define GAME_MIN_FOGOFWAR            FALSE
+#define GAME_MAX_FOGOFWAR            TRUE
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1
@@ -339,9 +339,9 @@ extern int is_server;
 #define GAME_MIN_CIVILWARSIZE        6
 #define GAME_MAX_CIVILWARSIZE        1000
 
-#define GAME_MIN_SAVEPALACE          0
-#define GAME_MAX_SAVEPALACE          1
-#define GAME_DEFAULT_SAVEPALACE      1
+#define GAME_MIN_SAVEPALACE          FALSE
+#define GAME_MAX_SAVEPALACE          TRUE
+#define GAME_DEFAULT_SAVEPALACE      TRUE
 
 #define GAME_DEFAULT_FOODBOX         10
 #define GAME_MIN_FOODBOX             5
@@ -371,13 +371,13 @@ extern int is_server;
 #define GAME_MIN_SCORELOG            0
 #define GAME_MAX_SCORELOG            1
 
-#define GAME_DEFAULT_SPACERACE       1
-#define GAME_MIN_SPACERACE           0
-#define GAME_MAX_SPACERACE           1
+#define GAME_DEFAULT_SPACERACE       TRUE
+#define GAME_MIN_SPACERACE           FALSE
+#define GAME_MAX_SPACERACE           TRUE
 
-#define GAME_DEFAULT_AUTO_AI_TOGGLE  0
-#define GAME_MIN_AUTO_AI_TOGGLE      0
-#define GAME_MAX_AUTO_AI_TOGGLE      1
+#define GAME_DEFAULT_AUTO_AI_TOGGLE  FALSE
+#define GAME_MIN_AUTO_AI_TOGGLE      FALSE
+#define GAME_MAX_AUTO_AI_TOGGLE      TRUE
 
 #define GAME_DEFAULT_TIMEOUT         0
 #ifndef NDEBUG

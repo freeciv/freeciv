@@ -156,7 +156,7 @@ int city_got_barracks(struct city *pcity)
 **************************************************************************/
 int can_sell_building(struct city *pcity, int id)
 {
-  return (city_got_building(pcity, id) ? (!is_wonder(id)) : 0);
+  return (city_got_building(pcity, id) ? !is_wonder(id) : FALSE);
 }
 
 /**************************************************************************
@@ -307,9 +307,9 @@ int built_elsewhere(struct city *pc, int wonder)
   struct player *pplayer = city_owner(pc);
   city_list_iterate(pplayer->cities, pcity) 
     if ((pc != pcity) && !(pcity->is_building_unit) && pcity->currently_building == wonder)
-      return 1;
+      return TRUE;
   city_list_iterate_end;
-  return 0;
+  return FALSE;
 }
 
 #ifdef UNUSED
@@ -505,15 +505,15 @@ int city_science_bonus(struct city *pcity)
 **************************************************************************/
 int wants_to_be_bigger(struct city *pcity)
 {
-  if (pcity->size < game.aqueduct_size) return 1;
-  if (city_got_building(pcity, B_SEWER)) return 1;
+  if (pcity->size < game.aqueduct_size) return TRUE;
+  if (city_got_building(pcity, B_SEWER)) return TRUE;
   if (city_got_building(pcity, B_AQUEDUCT)
-      && pcity->size < game.sewer_size) return 1;
+      && pcity->size < game.sewer_size) return TRUE;
   if (!pcity->is_building_unit) {
-    if (pcity->currently_building == B_SEWER && pcity->did_buy == 1) return 1;
-    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy == 1) return 1;
+    if (pcity->currently_building == B_SEWER && pcity->did_buy == 1) return TRUE;
+    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy == 1) return TRUE;
   } /* saves a lot of stupid flipflops -- Syela */
-  return 0;
+  return FALSE;
 }
 
 /*********************************************************************
@@ -617,7 +617,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
        no cargo deletion => no trouble with "units" list.
        In cases where the cargo can be left without transport the calling
        function should take that into account. */
-    wipe_unit_spec_safe(vunit, NULL, 0);
+    wipe_unit_spec_safe(vunit, NULL, FALSE);
   } unit_list_iterate_end;
 }
 
@@ -860,7 +860,7 @@ struct city *transfer_city(struct player *ptaker,
   send_city_info(NULL, pcity);
 
   /* What wasn't obsolete for the old owner may be so now. */
-  remove_obsolete_buildings_city(pcity, 1);
+  remove_obsolete_buildings_city(pcity, TRUE);
 
   if (terrain_control.may_road
       && player_knows_techs_with_flag (ptaker, TF_RAILROAD)
@@ -926,7 +926,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->ppl_content[4] = 1;
   pcity->ppl_unhappy[4] = 0;
   pcity->ppl_angry[4] = 0;
-  pcity->was_happy=0;
+  pcity->was_happy = FALSE;
   pcity->steal=0;
   for (i=0;i<4;i++)
     pcity->trade_value[i]=pcity->trade[i]=0;
@@ -934,9 +934,9 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->shield_stock=0;
   pcity->trade_prod=0;
   pcity->original = pplayer->player_no;
-  pcity->is_building_unit=1;
+  pcity->is_building_unit = TRUE;
   pcity->did_buy=-1; /* code so we get a different message */
-  pcity->airlift=0;
+  pcity->airlift = FALSE;
   pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
   /* Set up the worklist */
@@ -949,14 +949,14 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   ceff_vector_init(&pcity->effects);
 
   if (!pplayer->capital) {
-    pplayer->capital=1;
+    pplayer->capital = TRUE;
     city_add_improvement(pcity,B_PALACE);
     update_all_effects();
   }
   pcity->turn_last_built = game.year;
   pcity->turn_changed_target = game.year;
   pcity->changed_from_id = 0;
-  pcity->changed_from_is_unit = 0;
+  pcity->changed_from_is_unit = FALSE;
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;
@@ -1024,7 +1024,7 @@ sea movement at the point it's called.  This led to a problem with the
 warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
 to use ferryboats.  I really should have identified this sooner. -- Syela */
 
-  pcity->synced = 0;
+  pcity->synced = FALSE;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
   maybe_make_first_contact(x, y, city_owner(pcity));
@@ -1098,11 +1098,11 @@ void remove_city(struct city *pcity)
     }
 
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    moved = 0;
+    moved = FALSE;
     adjc_iterate(x, y, x1, y1) {
       if (map_get_terrain(x1, y1) == T_OCEAN) {
 	if (could_unit_move_to_tile(punit, x, y, x1, y1) == 1) {
-	  moved = handle_unit_move_request(punit, x1, y1, 0, 1);
+	  moved = handle_unit_move_request(punit, x1, y1, FALSE, TRUE);
 	  if (moved) {
 	    notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
 			     _("Game: Moved %s out of disbanded city %s "
@@ -1180,7 +1180,7 @@ void remove_city(struct city *pcity)
 **************************************************************************/
 void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 {
-  int i, n, do_civil_war = 0;
+  int i, n, do_civil_war = FALSE;
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
@@ -1210,7 +1210,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
       if(!is_barbarian(&game.players[i]))
 	n++;
     if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer))
-      do_civil_war = 1;
+      do_civil_war = TRUE;
   }
 
   /* 
@@ -1269,7 +1269,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   get_a_tech(pplayer, cplayer);
   make_partisans(pcity);
 
-  transfer_city(pplayer, pcity , 0, 0, 1, 1);
+  transfer_city(pplayer, pcity , 0, FALSE, TRUE, TRUE);
   send_player_info(pplayer, pplayer); /* Update techs */
 
   if (do_civil_war)
@@ -1288,10 +1288,10 @@ static int player_has_traderoute_with_city(struct player *pplayer,
   for (i = 0; i < 4; i++) {
     struct city *other = find_city_by_id(pcity->trade[i]);
     if (other != NULL && city_owner(other) == pplayer) {
-      return 1;
+      return TRUE;
     }
   }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1317,13 +1317,13 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
        and if it didn't actually have a city pdcity would be NULL */
     packet->happy = !city_unhappy(pcity);
   } else {
-    packet->happy=1;
+    packet->happy = TRUE;
   }
 
   if (pcity->id == pdcity->id && city_got_building(pcity, B_PALACE))
-    packet->capital=1;
+    packet->capital = TRUE;
   else
-    packet->capital=0;
+    packet->capital = FALSE;
 
   packet->walls = pdcity->has_walls;
 
@@ -1432,7 +1432,7 @@ void send_city_info(struct player *dest, struct city *pcity)
     return;
 
   if (dest == NULL || dest == city_owner(pcity))
-    pcity->synced = 1;
+    pcity->synced = TRUE;
   if (dest==NULL) {
     broadcast_city_info(pcity);
   } else {
@@ -1812,20 +1812,20 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
   struct tile *ptile;
 
   if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y))
-    return 0;
+    return FALSE;
   ptile = map_get_tile(map_x, map_y);
 
   if (is_enemy_unit_tile(ptile, city_owner(pcity)) != NULL
       && !is_city_center(city_x, city_y))
-    return 0;
+    return FALSE;
 
   if (!map_get_known(map_x, map_y, city_owner(pcity)))
-    return 0;
+    return FALSE;
 
   if (ptile->worked != NULL && ptile->worked != pcity)
-    return 0;
+    return FALSE;
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1849,7 +1849,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
   assert(current != type);
 
   set_worker_city(pcity, city_x, city_y, type);
-  pcity->synced = 0;
+  pcity->synced = FALSE;
 
   /* Update adjacent cities. */
   {

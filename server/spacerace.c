@@ -224,7 +224,7 @@ void handle_spaceship_action(struct player *pplayer,
 			       " would not be connected!"));
       return;
     }
-    ship->structure[num] = 1;
+    ship->structure[num] = TRUE;
     spaceship_calc_derived(ship);
     send_spaceship_info(pplayer, NULL);
     return;

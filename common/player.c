@@ -53,7 +53,7 @@ int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 int player_owns_city(struct player *pplayer, struct city *pcity)
 {
   if (pcity == NULL || pplayer == NULL)
-    return 0;			/* better safe than sorry */
+    return FALSE;			/* better safe than sorry */
   return (pcity->owner==pplayer->player_no);
 }
 
@@ -68,16 +68,16 @@ void player_init(struct player *plr)
 
   sz_strlcpy(plr->name, "YourName");
   sz_strlcpy(plr->username, "UserName");
-  plr->is_male = 1;
+  plr->is_male = TRUE;
   plr->government=game.default_government;
   plr->nation=MAX_NUM_NATIONS;
-  plr->capital=0;
+  plr->capital = FALSE;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);
   conn_list_init(&plr->connections);
   plr->current_conn = NULL;
-  plr->is_connected = 0;
-  plr->is_alive=1;
+  plr->is_connected = FALSE;
+  plr->is_alive=TRUE;
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -85,13 +85,13 @@ void player_init(struct player *plr)
     plr->diplstates[i].has_reason_to_cancel = 0;
   }
   plr->city_style=0;            /* should be first basic style */
-  plr->ai.control=0;
+  plr->ai.control=FALSE;
   plr->ai.tech_goal = A_NONE;
   plr->ai.handicap = 0;
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;
   plr->ai.expand = 100;
-  plr->ai.is_barbarian = 0;
+  plr->ai.is_barbarian = FALSE;
   plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
@@ -101,7 +101,7 @@ void player_init(struct player *plr)
   spaceship_init(&plr->spaceship);
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     init_worklist(&plr->worklists[i]);
-    plr->worklists[i].is_valid = 0;
+    plr->worklists[i].is_valid = FALSE;
   }
   plr->gives_shared_vision = 0;
   plr->really_gives_vision = 0;
@@ -432,7 +432,7 @@ int player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id)
 {
   int t;
-  if (!improvement_exists(id)) return 0;
+  if (!improvement_exists(id)) return FALSE;
   t = get_improvement_type(id)->tech_req;
   return (get_invention(pplayer, t) == TECH_KNOWN);
 }
@@ -531,7 +531,7 @@ int pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
-  if (pplayer == pplayer2) return 0;
+  if (pplayer == pplayer2) return FALSE;
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return TRUE;
   return ds == DS_WAR || ds == DS_NO_CONTACT;

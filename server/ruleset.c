@@ -497,8 +497,8 @@ static void load_ruleset_techs(struct section_file *file)
     char *sval, **slist;
     int j,ival,nval;
 
-    a->req[0] = lookup_tech(file, sec[i], "req1", 0, filename, a->name);
-    a->req[1] = lookup_tech(file, sec[i], "req2", 0, filename, a->name);
+    a->req[0] = lookup_tech(file, sec[i], "req1", FALSE, filename, a->name);
+    a->req[1] = lookup_tech(file, sec[i], "req2", FALSE, filename, a->name);
     
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
@@ -628,13 +628,13 @@ static void load_ruleset_units(struct section_file *file)
   for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
-				      0, filename, u->name);
+				      FALSE, filename, u->name);
   }
   for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     if (unit_type_exists(i)) {
       u->obsoleted_by = lookup_unit_type(file, sec[i],
-					 "obsolete_by", 0, filename, u->name);
+					 "obsolete_by", FALSE, filename, u->name);
     } else {
       section_file_lookup(file, "%s.obsolete_by", sec[i]);  /* unused */
       u->obsoleted_by = -1;
@@ -931,9 +931,9 @@ static void load_ruleset_buildings(struct section_file *file)
   for (i = 0; i < nval; i++) {
     b = &improvement_types[i];
 
-    b->tech_req = lookup_tech(file, sec[i], "tech_req", 0, filename, b->name);
+    b->tech_req = lookup_tech(file, sec[i], "tech_req", FALSE, filename, b->name);
 
-    b->bldg_req = lookup_impr_type(file, sec[i], "bldg_req", 0, filename, b->name);
+    b->bldg_req = lookup_impr_type(file, sec[i], "bldg_req", FALSE, filename, b->name);
 
     list = secfile_lookup_str_vec(file, &count, "%s.terr_gate", sec[i]);
     b->terr_gate = fc_malloc((count + 1) * sizeof(b->terr_gate[0]));
@@ -1009,7 +1009,7 @@ static void load_ruleset_buildings(struct section_file *file)
     free(list);
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
-				 0, filename, b->name);
+				 FALSE, filename, b->name);
     if ((b->obsolete_by == A_LAST) || !tech_exists(b->obsolete_by)) {
       b->obsolete_by = A_NONE;
     }
@@ -1222,13 +1222,13 @@ static void load_ruleset_buildings(struct section_file *file)
   game.sewer_size = secfile_lookup_int(file, "b_special.sewer_size");
   
   game.rtech.cathedral_plus =
-    lookup_tech(file, "b_special", "cathedral_plus", 0, filename, NULL);
+    lookup_tech(file, "b_special", "cathedral_plus", FALSE, filename, NULL);
   game.rtech.cathedral_minus =
-    lookup_tech(file, "b_special", "cathedral_minus", 0, filename, NULL);
+    lookup_tech(file, "b_special", "cathedral_minus", FALSE, filename, NULL);
   game.rtech.colosseum_plus =
-    lookup_tech(file, "b_special", "colosseum_plus", 0, filename, NULL);
+    lookup_tech(file, "b_special", "colosseum_plus", FALSE, filename, NULL);
   game.rtech.temple_plus =
-    lookup_tech(file, "b_special", "temple_plus", 0, filename, NULL);
+    lookup_tech(file, "b_special", "temple_plus", FALSE, filename, NULL);
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -1489,7 +1489,7 @@ static void load_ruleset_governments(struct section_file *file)
     g = &governments[i];
     
     g->required_tech
-      = lookup_tech(file, sec[i], "tech_req", 0, filename, g->name);
+      = lookup_tech(file, sec[i], "tech_req", FALSE, filename, g->name);
     
     sz_strlcpy(g->graphic_str,
 	       secfile_lookup_str(file, "%s.graphic", sec[i]));
@@ -2145,7 +2145,7 @@ static void load_ruleset_cities(struct section_file *file)
 	       secfile_lookup_str(file, "%s.graphic", styles[i]));
     sz_strlcpy(city_styles[i].graphic_alt, 
 	       secfile_lookup_str(file, "%s.graphic_alt", styles[i]));
-    city_styles[i].techreq = lookup_tech(file, styles[i], "tech", 1,
+    city_styles[i].techreq = lookup_tech(file, styles[i], "tech", TRUE,
                                          filename, city_styles[i].name);
     
     replacement = secfile_lookup_str(file, "%s.replaced_by", styles[i]);

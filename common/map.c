@@ -98,10 +98,10 @@ char *map_get_tile_info_text(int x, int y)
     sz_strlcat(s, _(get_special_name(S_RIVER)));
   }
 
-  first = 1;
+  first = TRUE;
   if (ptile->special & S_SPECIAL_1) {
     if (first) {
-      first = 0;
+      first = FALSE;
       sz_strlcat(s, " (");
     } else {
       sz_strlcat(s, "/");
@@ -110,7 +110,7 @@ char *map_get_tile_info_text(int x, int y)
   }
   if (ptile->special & S_SPECIAL_2) {
     if (first) {
-      first = 0;
+      first = FALSE;
       sz_strlcat(s, " (");
     } else {
       sz_strlcat(s, "/");
@@ -121,10 +121,10 @@ char *map_get_tile_info_text(int x, int y)
     sz_strlcat(s, ")");
   }
 
-  first = 1;
+  first = TRUE;
   if (ptile->special & S_POLLUTION) {
     if (first) {
-      first = 0;
+      first = FALSE;
       sz_strlcat(s, " [");
     } else {
       sz_strlcat(s, "/");
@@ -133,7 +133,7 @@ char *map_get_tile_info_text(int x, int y)
   }
   if (ptile->special & S_FALLOUT) {
     if (first) {
-      first = 0;
+      first = FALSE;
       sz_strlcat(s, " [");
     } else {
       sz_strlcat(s, "/");
@@ -181,7 +181,7 @@ void map_init(void)
   map.ysize                 = MAP_DEFAULT_HEIGHT;
   map.seed                  = MAP_DEFAULT_SEED;
   map.riches                = MAP_DEFAULT_RICHES;
-  map.is_earth              = 0;
+  map.is_earth              = FALSE;
   map.huts                  = MAP_DEFAULT_HUTS;
   map.landpercent           = MAP_DEFAULT_LANDMASS;
   map.grasssize             = MAP_DEFAULT_GRASS;
@@ -197,9 +197,9 @@ void map_init(void)
   map.num_continents        = 0;
   map.num_start_positions   = 0;
   map.fixed_start_positions = 0;
-  map.have_specials         = 0;
-  map.have_rivers_overlay   = 0;
-  map.have_huts             = 0;
+  map.have_specials         = FALSE;
+  map.have_rivers_overlay   = FALSE;
+  map.have_huts             = FALSE;
 }
 
 /**************************************************************************
@@ -515,10 +515,10 @@ int is_hut_close(int x, int y)
 {
   square_iterate(x, y, 3, x1, y1) {
     if (map_get_tile(x1, y1)->special & S_HUT)
-      return 1;
+      return TRUE;
   } square_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 
@@ -529,10 +529,10 @@ int is_special_close(int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
     if (map_get_tile(x1, y1)->special & (S_SPECIAL_1 | S_SPECIAL_2))
-      return 1;
+      return TRUE;
   } square_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -543,10 +543,10 @@ int is_sea_usable(int x, int y)
 {
   map_city_radius_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) != T_OCEAN)
-      return 1;
+      return TRUE;
   } map_city_radius_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -1414,11 +1414,11 @@ int base_get_direction_for_step(int start_x, int start_y, int end_x,
   adjc_dir_iterate(start_x, start_y, x1, y1, dir2) {
     if (x1 == end_x && y1 == end_y) {
       *dir = dir2;
-      return 1;
+      return TRUE;
     }
   } adjc_dir_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************

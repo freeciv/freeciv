@@ -93,12 +93,12 @@ static int logdebug_check(const char *file, int line)
   if ((level) != LOG_DEBUG || logdebug_check(__FILE__, __LINE__)) { \
     real_freelog((level), args); \
   } \
-} while(0) 
+} while(FALSE) 
 #else
 #define freelog(level, args...) do { \
   if ((level) != LOG_DEBUG) { \
     real_freelog((level), args); } \
-} while(0) 
+} while(FALSE) 
 #endif  /* DEBUG */
 #else
 /* non-GCC: */

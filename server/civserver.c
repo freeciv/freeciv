@@ -49,8 +49,8 @@ static void Mac_options(int argc);  /* don't need argv */
 int main(int argc, char *argv[])
 {
   int inx;
-  int showhelp = 0;
-  int showvers = 0;
+  int showhelp = FALSE;
+  int showvers = FALSE;
   char *option = NULL;
 
   /* initialize server */
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     if ((option = get_option("--file", argv, &inx, argc)) != NULL)
       srvarg.load_filename = option;
     else if (is_option("--help", argv[inx])) {
-      showhelp = 1;
+      showhelp = TRUE;
       break;
     } else if ((option = get_option("--log", argv, &inx, argc)) != NULL)
       srvarg.log_filename = option;
@@ -80,13 +80,13 @@ int main(int argc, char *argv[])
     else if (is_option("--nometa", argv[inx])) {
       fprintf(stderr, _("Warning: the %s option is obsolete.  "
 			"Use -m to enable the metaserver.\n"), argv[inx]);
-      showhelp = 1;
+      showhelp = TRUE;
     } else if (is_option("--meta", argv[inx]))
-      srvarg.metaserver_no_send = 0;
+      srvarg.metaserver_no_send = FALSE;
     else if ((option = get_option("--Metaserver", argv, &inx, argc)) != NULL) {
       sz_strlcpy(srvarg.metaserver_addr, argv[inx]);
       meta_addr_split();
-      srvarg.metaserver_no_send = 0;	/* --Metaserver implies --meta */
+      srvarg.metaserver_no_send = FALSE;	/* --Metaserver implies --meta */
     } else if ((option = get_option("--port", argv, &inx, argc)) != NULL)
       srvarg.port = atoi(option);
     else if ((option = get_option("--read", argv, &inx, argc)) != NULL)
@@ -99,14 +99,14 @@ int main(int argc, char *argv[])
       srvarg.loglevel = log_parse_level_str(option);
       if (srvarg.loglevel == -1) {
 	srvarg.loglevel = LOG_NORMAL;
-	showhelp = 1;
+	showhelp = TRUE;
 	break;
       }
     } else if (is_option("--version", argv[inx]))
-      showvers = 1;
+      showvers = TRUE;
     else {
       fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
-      showhelp = 1;
+      showhelp = TRUE;
       break;
     }
     inx++;

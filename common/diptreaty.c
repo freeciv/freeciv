@@ -32,8 +32,8 @@ void init_treaty(struct Treaty *ptreaty,
 {
   ptreaty->plr0=plr0;
   ptreaty->plr1=plr1;
-  ptreaty->accept0=0;
-  ptreaty->accept1=0;
+  ptreaty->accept0 = FALSE;
+  ptreaty->accept1 = FALSE;
   clause_list_init(&ptreaty->clauses);
 }
 
@@ -50,14 +50,14 @@ int remove_clause(struct Treaty *ptreaty, struct player *pfrom,
       clause_list_unlink(&ptreaty->clauses, pclause);
       free(pclause);
 
-      ptreaty->accept0=0;
-      ptreaty->accept1=0;
+      ptreaty->accept0 = FALSE;
+      ptreaty->accept1 = FALSE;
 
-      return 1;
+      return TRUE;
     }
   } clause_list_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 
@@ -71,7 +71,7 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
 
   if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
     freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
-    return 0;
+    return FALSE;
   }
   
   clause_list_iterate(ptreaty->clauses, pclause) {
@@ -79,23 +79,23 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
        && pclause->from==pfrom
        && pclause->value==val) {
       /* same clause already there */
-      return 0;
+      return FALSE;
     }
     if(is_pact_clause(type) &&
        is_pact_clause(pclause->type)) {
       /* pact clause already there */
-      ptreaty->accept0=0;
-      ptreaty->accept1=0;
+      ptreaty->accept0 = FALSE;
+      ptreaty->accept1 = FALSE;
       pclause->type=type;
-      return 1;
+      return TRUE;
     }
     if (type == CLAUSE_GOLD && pclause->type==CLAUSE_GOLD &&
         pclause->from==pfrom) {
       /* gold clause there, different value */
-      ptreaty->accept0=0;
-      ptreaty->accept1=0;
+      ptreaty->accept0 = FALSE;
+      ptreaty->accept1 = FALSE;
       pclause->value=val;
-      return 1;
+      return TRUE;
     }
   } clause_list_iterate_end;
    
@@ -107,8 +107,8 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
   
   clause_list_insert_back(&ptreaty->clauses, pclause);
 
-  ptreaty->accept0=0;
-  ptreaty->accept1=0;
+  ptreaty->accept0 = FALSE;
+  ptreaty->accept1 = FALSE;
 
-  return 1;
+  return TRUE;
 }

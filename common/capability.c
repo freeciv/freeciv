@@ -15,6 +15,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "shared.h"		/* TRUE, FALSE */
+
 #include "capability.h"
 
 #define	GET_TOKEN(start, end)	\
@@ -44,10 +46,10 @@ static int my_has_capability(const char *cap, const char *capstr,
       capstr++;
     }
     if ((next-capstr == cap_len) && strncmp(cap, capstr, cap_len)==0) {
-      return 1;
+      return TRUE;
     }
     if (*next == '\0') {
-      return 0;
+      return FALSE;
     }
 
     capstr = next+1;
@@ -72,10 +74,10 @@ int has_capabilities(const char *us, const char *them)
     GET_TOKEN(us, next);
 
     if (*us == '+' && !my_has_capability(us+1, them, next-(us+1))) {
-      return 0;
+      return FALSE;
     }
     if (*next == '\0') {
-      return 1;
+      return TRUE;
     }
 
     us = next+1;

@@ -132,7 +132,7 @@ static void great_library(struct player *pplayer)
 			   advances[i].name);
 
 	  do_free_cost(pplayer);
-	  found_new_tech(pplayer,i,0,0);
+	  found_new_tech(pplayer, i, FALSE, FALSE);
 	  break;
 	}
       }
@@ -188,7 +188,7 @@ static void update_player_aliveness(struct player *pplayer)
   if(pplayer->is_alive) {
     if(unit_list_size(&pplayer->units)==0 && 
        city_list_size(&pplayer->cities)==0) {
-      pplayer->is_alive=0;
+      pplayer->is_alive = FALSE;
       if( !is_barbarian(pplayer) ) {
 	notify_player_ex(NULL, -1, -1, E_DESTROYED,
 			 _("Game: The %s are no more!"),
@@ -216,13 +216,13 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 		    char saving_bulbs)
 {
   int i;
-  int bonus_tech_hack = 0;
-  int was_first=0;
+  int bonus_tech_hack = FALSE;
+  int was_first = FALSE;
   int saved_bulbs;
   int wonder;
   struct city *pcity;
 
-  plr->got_tech=1;
+  plr->got_tech = TRUE;
   plr->research.techs_researched++;
   was_first = !game.global_advances[tech_found];
 
@@ -255,7 +255,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   }
     
   if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
-    bonus_tech_hack = 1;
+    bonus_tech_hack = TRUE;
   }
 
   set_invention(plr, tech_found, TECH_KNOWN);
@@ -371,7 +371,7 @@ void tech_researched(struct player* plr)
   }
 
   /* do all the updates needed after finding new tech */
-  found_new_tech(plr, plr->research.researching, 1, 0);
+  found_new_tech(plr, plr->research.researching, TRUE, FALSE);
 }
 
 /**************************************************************************
@@ -591,7 +591,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_nation_name_plural(target->nation));
 
   do_conquer_cost(pplayer);
-  found_new_tech(pplayer,i,0,1);
+  found_new_tech(pplayer, i, FALSE, TRUE);
 }
 
 /**************************************************************************
@@ -880,7 +880,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
 
     if (resolve_list != NULL) {
       for (i = 0; i < tot_units * 2; i += 2)
-	resolve_unit_stack(resolve_list[i], resolve_list[i+1], 1);
+	resolve_unit_stack(resolve_list[i], resolve_list[i+1], TRUE);
       free(resolve_list);
     }
   }
@@ -1246,7 +1246,7 @@ static void send_conn_info_arg(struct conn_list *src,
   conn_list_iterate(*src, psrc) {
     package_conn_info(psrc, &packet);
     if (remove) {
-      packet.used = 0;
+      packet.used = FALSE;
     }
     lsend_packet_conn_info(dest, &packet);
   }
@@ -1259,7 +1259,7 @@ static void send_conn_info_arg(struct conn_list *src,
 **************************************************************************/
 void send_conn_info(struct conn_list *src, struct conn_list *dest)
 {
-  send_conn_info_arg(src, dest, 0);
+  send_conn_info_arg(src, dest, FALSE);
 }
 
 /**************************************************************************
@@ -1268,7 +1268,7 @@ void send_conn_info(struct conn_list *src, struct conn_list *dest)
 **************************************************************************/
 void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
 {
-  send_conn_info_arg(src, dest, 1);
+  send_conn_info_arg(src, dest, TRUE);
 }
 
 /**************************************************************************
@@ -1419,7 +1419,7 @@ void associate_player_connection(struct player *pplayer,
   pconn->player = pplayer;
   conn_list_insert_back(&pplayer->connections, pconn);
   if (!pconn->observer) {
-    pplayer->is_connected = 1;
+    pplayer->is_connected = TRUE;
   }
 }
 
@@ -1437,10 +1437,10 @@ void unassociate_player_connection(struct player *pplayer,
   pconn->player = NULL;
   conn_list_unlink(&pplayer->connections, pconn);
 
-  pplayer->is_connected = 0;
+  pplayer->is_connected = FALSE;
   conn_list_iterate(pplayer->connections, aconn) {
     if (!aconn->observer) {
-      pplayer->is_connected = 1;
+      pplayer->is_connected = TRUE;
       break;
     }
   }
@@ -1524,7 +1524,7 @@ struct player *split_player(struct player *pplayer)
   
   /* make a new player */
 
-  server_player_init(cplayer, 1);
+  server_player_init(cplayer, TRUE);
   
   /* select a new name and nation for the copied player. */
 
@@ -1554,10 +1554,10 @@ struct player *split_player(struct player *pplayer)
   pick_ai_player_name(cplayer->nation,cplayer->name);
 
   sz_strlcpy(cplayer->username, cplayer->name);
-  cplayer->is_connected = 0;
+  cplayer->is_connected = FALSE;
   cplayer->government = game.government_when_anarchy;  
   pplayer->revolution = 1;
-  cplayer->capital = 1;
+  cplayer->capital = TRUE;
 
   /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
    * but for now AI players are always at war.
@@ -1591,12 +1591,12 @@ struct player *split_player(struct player *pplayer)
   
   for(i = 0; i<game.num_tech_types ; i++)
     cplayer->research.inventions[i] = pplayer->research.inventions[i];
-  cplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  cplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
   cplayer->embassy = 0;   /* all embassys destroyed */
 
   /* Do the ai */
 
-  cplayer->ai.control = 1;
+  cplayer->ai.control = TRUE;
   cplayer->ai.tech_goal = pplayer->ai.tech_goal;
   cplayer->ai.prev_gold = pplayer->ai.prev_gold;
   cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
@@ -1617,7 +1617,7 @@ struct player *split_player(struct player *pplayer)
   pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
   pplayer->economic.gold = cplayer->economic.gold;
   pplayer->research.bulbs_researched = 0;
-  pplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  pplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
   pplayer->embassy = 0; /* all embassys destroyed */
 
   player_limit_to_government_rates(pplayer);
@@ -1754,7 +1754,7 @@ void civil_war(struct player *pplayer)
 	 a unit from another city, and both cities join the rebellion. We
 	 resolved stack conflicts for each city we would teleport the first
 	 of the units we met since the other would have another owner */
-	pnewcity = transfer_city(cplayer, pcity, -1, 0, 0, 0);
+	pnewcity = transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pnewcity->name, cplayer->name);
 	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
@@ -1769,13 +1769,13 @@ void civil_war(struct player *pplayer)
   i = 0;
   
   unit_list_iterate(pplayer->units, punit) 
-    resolve_unit_stack(punit->x, punit->y, 0);
+    resolve_unit_stack(punit->x, punit->y, FALSE);
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) {
-    resolve_unit_stack(pcity->x, pcity->y, 0);
+    resolve_unit_stack(pcity->x, pcity->y, FALSE);
   } city_list_iterate_end;
   city_list_iterate(cplayer->cities, pcity) {
-    resolve_unit_stack(pcity->x, pcity->y, 0);
+    resolve_unit_stack(pcity->x, pcity->y, FALSE);
   } city_list_iterate_end;
 
 

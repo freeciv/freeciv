@@ -73,11 +73,12 @@
 #include "log.h"
 #include "mem.h"
 #include "support.h"
+#include "shared.h"		/* TRUE, FALSE */
 
 #include "inputfile.h"
 
-#define INF_DEBUG_FOUND     0
-#define INF_DEBUG_NOT_FOUND 0
+#define INF_DEBUG_FOUND     FALSE
+#define INF_DEBUG_NOT_FOUND FALSE
 
 #define INF_MAGIC (0xabdc0132)	/* arbitrary */
 
@@ -157,7 +158,8 @@ static void init_zeros(struct inputfile *inf)
   inf->fp = NULL;
   inf->datafn = NULL;
   inf->included_from = NULL;
-  inf->line_num = inf->at_eof = inf->cur_line_pos = inf->in_string = 0;
+  inf->line_num = inf->cur_line_pos = 0;
+  inf->at_eof = inf->in_string = FALSE;
   inf->string_start_line = 0;
   astr_init(&inf->cur_line);
   astr_init(&inf->copy_line);
@@ -176,8 +178,8 @@ static void assert_sanity(struct inputfile *inf)
   assert(inf->fp != NULL);
   assert(inf->line_num >= 0);
   assert(inf->cur_line_pos >= 0);
-  assert(inf->at_eof==0 || inf->at_eof==1);
-  assert(inf->in_string==0 || inf->in_string==1);
+  assert(inf->at_eof == FALSE || inf->at_eof == TRUE);
+  assert(inf->in_string == FALSE || inf->in_string == TRUE);
 #ifdef DEBUG
   assert(inf->string_start_line >= 0);
   assert(inf->cur_line.n >= 0);
@@ -323,10 +325,10 @@ static int check_include(struct inputfile *inf)
   assert_sanity(inf);
   if (inf->at_eof || inf->in_string || inf->cur_line.n <= len
       || inf->cur_line_pos > 0) {
-    return 0;
+    return FALSE;
   }
   if (strncmp(inf->cur_line.str, include_prefix, len)!=0) {
-    return 0;
+    return FALSE;
   }
   /* from here, the include-line must be well formed or we die */
   /* keep inf->cur_line_pos accurate just so error messages are useful */
@@ -386,7 +388,7 @@ static int check_include(struct inputfile *inf)
   *new_inf = *inf;
   *inf = temp;
   inf->included_from = new_inf;
-  return 1;
+  return TRUE;
 }
 
 /********************************************************************** 
@@ -404,7 +406,7 @@ static int read_a_line(struct inputfile *inf)
   assert_sanity(inf);
 
   if (inf->at_eof)
-    return 0;
+    return FALSE;
   
   /* abbreviation: */
   line = &inf->cur_line;
@@ -425,7 +427,7 @@ static int read_a_line(struct inputfile *inf)
     
     if (ret == NULL) {
       /* fgets failed */
-      inf->at_eof = 1;
+      inf->at_eof = TRUE;
       if (pos != 0) {
 	inf_warn(inf, "missing newline at EOF, or failed read");
 	/* treat as simple EOF, ignoring last line: */
@@ -583,12 +585,12 @@ static const char *get_token(struct inputfile *inf,
   
 const char *inf_token(struct inputfile *inf, enum inf_token_type type)
 {
-  return get_token(inf, type, 0);
+  return get_token(inf, type, FALSE);
 }
 
 const char *inf_token_required(struct inputfile *inf, enum inf_token_type type)
 {
-  return get_token(inf, type, 1);
+  return get_token(inf, type, TRUE);
 }
 
 /********************************************************************** 
@@ -744,7 +746,7 @@ static const char *get_token_value(struct inputfile *inf)
   struct astring *partial;
   char *c, *start;
   char trailing;
-  int has_i18n_marking = 0;
+  int has_i18n_marking = FALSE;
   
   assert(have_line(inf));
 
@@ -780,7 +782,7 @@ static const char *get_token_value(struct inputfile *inf)
 
   /* allow gettext marker: */
   if (*c == '_' && *(c+1) == '(') {
-    has_i18n_marking = 1;
+    has_i18n_marking = TRUE;
     c += 2;
     while(*c && isspace(*c)) {
       c++;
@@ -807,7 +809,7 @@ static const char *get_token_value(struct inputfile *inf)
 
   /* prepare for possibly multi-line string: */
   inf->string_start_line = inf->line_num;
-  inf->in_string = 1;
+  inf->in_string = TRUE;
 
   partial = &inf->partial;	/* abbreviation */
   astr_minsize(partial, 1);
@@ -860,6 +862,6 @@ static const char *get_token_value(struct inputfile *inf)
       inf_warn(inf, "Missing end of i18n string marking");
     }
   }
-  inf->in_string = 0;
+  inf->in_string = FALSE;
   return inf->token.str;
 }

@@ -59,7 +59,7 @@ const char blank_addr_str[] = "---.---.---.---";
    If it is set the disconnection of conns is posponed. This is sometimes
    neccesary as removing a random connection while we are iterating through
    a connection list might corrupt the list. */
-int delayed_disconnect = 0;
+int delayed_disconnect = FALSE;
   
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -189,7 +189,7 @@ static int write_socket_data(struct connection *pc,
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
       if (delayed_disconnect) {
-	pc->delayed_disconnect = 1;
+	pc->delayed_disconnect = TRUE;
 	return 0;
       } else {
 	if (close_callback != NULL) {
@@ -209,7 +209,7 @@ static int write_socket_data(struct connection *pc,
 	}
 #endif
 	if (delayed_disconnect) {
-	  pc->delayed_disconnect = 1;
+	  pc->delayed_disconnect = TRUE;
 	  return 0;
 	} else {
 	  if (close_callback != NULL) {
@@ -267,12 +267,12 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 {
   if (pc != NULL && pc->delayed_disconnect) {
     if (delayed_disconnect) {
-      return 1;
+      return TRUE;
     } else {
       if (close_callback != NULL) {
 	(*close_callback)(pc);
       }
-      return 0;
+      return FALSE;
     }
   }
 
@@ -288,13 +288,13 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
       /* added this check so we don't gobble up too much mem */
       if (buf->nsize > MAX_LEN_BUFFER) {
 	if (delayed_disconnect) {
-	  pc->delayed_disconnect = 1;
-	  return 1;
+	  pc->delayed_disconnect = TRUE;
+	  return TRUE;
 	} else {
 	  if (close_callback != NULL) {
 	    (*close_callback)(pc);
 	  }
-	  return 0;
+	  return FALSE;
 	}
       } else {
 	buf->data = fc_realloc(buf->data, buf->nsize);
@@ -302,9 +302,9 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
     }
     memcpy(buf->data + buf->ndata, data, len);
     buf->ndata += len;
-    return 1;
+    return TRUE;
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

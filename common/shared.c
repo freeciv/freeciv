@@ -162,8 +162,8 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
 int is_option(const char *option_name,char *option)
 {
   if (!strcmp(option_name,option) || 
-      !strncmp(option_name+1,option,2)) return 1;
-  return 0;
+      strncmp(option_name+1,option,2) == 0) return TRUE;
+  return FALSE;
 }
 
 /***************************************************************
@@ -254,12 +254,12 @@ static int is_iso_latin1(char ch)
    
   /* this works with both signed and unsignd char */
   if (i>=0) {
-    if (ch < ' ')  return 0;
-    if (ch <= '~')  return 1;
+    if (ch < ' ')  return FALSE;
+    if (ch <= '~')  return TRUE;
   }
-  if (ch < '¡')  return 0; /* FIXME: Is it really a good idea to
+  if (ch < '¡')  return FALSE; /* FIXME: Is it really a good idea to
 				 use 8 bit characters in source code? */
-  return 1;
+  return TRUE;
 }
 
 /***************************************************************
@@ -494,9 +494,9 @@ int check_strlen(const char *str, size_t len, const char *errmsg)
 {
   if (strlen(str) >= len) {
     freelog(LOG_ERROR, errmsg, str, len);
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /********************************************************************** 
@@ -547,7 +547,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
 ***************************************************************************/
 char *user_home_dir(void)
 {
-  static int init = 0;
+  static int init = FALSE;
   static char *home_dir = NULL;
   
   if (!init) {
@@ -568,7 +568,7 @@ char *user_home_dir(void)
       home_dir = NULL;
 #endif
     }
-    init = 1;
+    init = TRUE;
   }
   return home_dir;
 }

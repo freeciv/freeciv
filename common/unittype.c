@@ -73,7 +73,7 @@ A unit_type doesn't exist if one of:
 int unit_type_exists(Unit_Type_id id)
 {
   if (id<0 || id>=U_LAST || id>=game.num_unit_types)
-    return 0;
+    return FALSE;
   else 
     return unit_types[id].tech_requirement!=A_LAST;
 }
@@ -417,15 +417,15 @@ player has a coastal city.
 int can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 {
   if (!unit_type_exists(id))
-    return 0;
+    return FALSE;
   if (unit_type_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
-    return 0;
+    return FALSE;
   if (unit_type_flag(id, F_FANATIC)
       && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))
-    return 0;
+    return FALSE;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
-    return 0;
-  return 1;
+    return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -435,11 +435,11 @@ returns 0 if unit is obsolete.
 int can_player_build_unit(struct player *p, Unit_Type_id id)
 {  
   if (!can_player_build_unit_direct(p, id))
-    return 0;
+    return FALSE;
   while(unit_type_exists((id = unit_types[id].obsoleted_by)))
     if (can_player_build_unit_direct(p, id))
-	return 0;
-  return 1;
+	return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -450,11 +450,11 @@ with future tech.  returns 0 if unit is obsolete.
 int can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
 {
   if (!unit_type_exists(id))
-    return 0;
+    return FALSE;
   while(unit_type_exists((id = unit_types[id].obsoleted_by)))
     if (can_player_build_unit_direct(p, id))
-	return 0;
-  return 1;
+	return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -465,7 +465,7 @@ and any "role" argument can also be a "flag".
 Only units which pass unit_type_exists are counted.
 Unit order is in terms of the order in the units ruleset.
 **************************************************************************/
-static int first_init = 1;
+static int first_init = TRUE;
 static int n_with_role[L_LAST];
 static Unit_Type_id *with_role[L_LAST];
 
@@ -518,7 +518,7 @@ void role_unit_precalcs(void)
   for(i=L_FIRST; i<L_LAST; i++) {
     precalc_one(i, unit_has_role);
   }
-  first_init = 0;
+  first_init = FALSE;
 }
 
 /**************************************************************************

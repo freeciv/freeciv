@@ -146,7 +146,7 @@ static void zero_htable(struct hash_table *h)
   h->fval = NULL;
   h->fcmp = NULL;
   h->num_buckets = h->num_entries = h->num_deleted = 0;
-  h->frozen = 0;
+  h->frozen = FALSE;
 }
 
 
@@ -352,7 +352,7 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
   assert(new_nbuckets >= h->num_entries);
 
   h_new = hash_new_nbuckets(h->fval, h->fcmp, new_nbuckets);
-  h_new->frozen = 1;
+  h_new->frozen = TRUE;
   
   for(i=0; i<h->num_buckets; i++) {
     struct hash_bucket *bucket = &h->buckets[i];
@@ -363,7 +363,7 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
       }
     }
   }
-  h_new->frozen = 0;
+  h_new->frozen = FALSE;
 
   hash_free_contents(h);
   *h = *h_new;
@@ -377,8 +377,8 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
   entries.  But for determining new size, ignore deleted entries,
   since they'll be removed by rehashing.
 **************************************************************************/
-#define hash_maybe_expand(htab) hash_maybe_resize((htab),1)
-#define hash_maybe_shrink(htab) hash_maybe_resize((htab),0)
+#define hash_maybe_expand(htab) hash_maybe_resize((htab), TRUE)
+#define hash_maybe_shrink(htab) hash_maybe_resize((htab), FALSE)
 static void hash_maybe_resize(struct hash_table *h, int expandingp)
 {
   unsigned int num_used, limit, new_nbuckets;
@@ -477,7 +477,7 @@ int hash_insert(struct hash_table *h, const void *key, const void *data)
   hash_val = HASH_VAL(h, key);
   bucket = internal_lookup(h, key, hash_val);
   if (bucket->used == BUCKET_USED) {
-    return 0;
+    return FALSE;
   }
   if (bucket->used == BUCKET_DELETED) {
     assert(h->num_deleted>0);
@@ -488,7 +488,7 @@ int hash_insert(struct hash_table *h, const void *key, const void *data)
   bucket->used = BUCKET_USED;
   bucket->hash_val = hash_val;
   h->num_entries++;
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

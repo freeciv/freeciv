@@ -425,10 +425,10 @@ static void ai_manage_government(struct player *pplayer)
 
 #else  /* following may need updating before enabled --dwp */
 
-#define DEBUG_AMG_RATING        (0)
-#define DEBUG_AMG_BOOST		(0)
-#define DEBUG_AMG_CHANGED	(0)
-#define DEBUG_AMG_CHOICE	(1)
+#define DEBUG_AMG_RATING	(FALSE)
+#define DEBUG_AMG_BOOST		(FALSE)
+#define DEBUG_AMG_CHANGED	(FALSE)
+#define DEBUG_AMG_CHOICE	(TRUE)
 static void ai_manage_government(struct player *pplayer)
 {
   static int prev_rating[10][10];  /* these are for debugging only */

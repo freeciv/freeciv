@@ -102,12 +102,12 @@ static int highest_cost;
 static void init_queue(void)
 {
   int i;
-  static int is_initialized = 0;
+  static int is_initialized = FALSE;
   if (!is_initialized) {
     for (i = 0; i < MAXARRAYS; i++) {
       mappos_arrays[i] = NULL;
     }
-    is_initialized = 1;
+    is_initialized = TRUE;
   }
 
   for (i = 0; i < MAXCOST; i++) {
@@ -170,7 +170,7 @@ static int get_from_mapqueue(int *x, int *y)
   freelog(LOG_DEBUG, "trying get");
   while (lowest_cost < MAXCOST) {
     if (lowest_cost > highest_cost)
-      return 0;
+      return FALSE;
     our_array = cost_lookup[lowest_cost].first_array;
     if (our_array == NULL) {
       lowest_cost++;
@@ -189,9 +189,9 @@ static int get_from_mapqueue(int *x, int *y)
     *x = our_array->pos[our_array->first_pos].x;
     *y = our_array->pos[our_array->first_pos].y;
     our_array->first_pos++;
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -303,9 +303,9 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit != NULL && unit_flag(punit, F_IGTER))
-    igter = 1;
+    igter = TRUE;
   else
-    igter = 0;
+    igter = FALSE;
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit != NULL
@@ -472,7 +472,7 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 {
   if (can_step_taken_wrt_to_zoc
       (punit->type, unit_owner(punit), src_x, src_y, dest_x, dest_y))
-    return 1;
+    return TRUE;
 
   /* 
    * Both positions are currently enemy ZOC. Since the AI depend on
@@ -495,7 +495,7 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
   if (src_x == punit->x && src_y == punit->y
       && is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
 				  unit_owner(punit)) == NULL)
-    return 0;
+    return FALSE;
 
   {
     struct player *owner = unit_owner(punit);
@@ -506,10 +506,10 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 	  /* and there is an enemy there */
 	  && is_enemy_unit_tile(map_get_tile(x, y), owner) != NULL) {
 	/* then it counts in the zoc claculation */
-	return 0;
+	return FALSE;
       }
     } adjc_dir_iterate_end;
-    return 1;
+    return TRUE;
   }
 }
 
@@ -599,7 +599,7 @@ static int find_the_shortest_path(struct unit *punit,
   orig_x = punit->x;
   orig_y = punit->y;
 
-  if ((dest_x == orig_x) && (dest_y == orig_y)) return 1; /* [Kero] */
+  if ((dest_x == orig_x) && (dest_y == orig_y)) return TRUE; /* [Kero] */
   
   local_vector[orig_x][orig_y] = 0;
 
@@ -607,9 +607,9 @@ static int find_the_shortest_path(struct unit *punit,
   add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit != NULL && unit_flag(punit, F_IGTER))
-    igter = 1;
+    igter = TRUE;
   else
-    igter = 0;
+    igter = FALSE;
 
   /* If we have a passenger abord a ship we must be sure he can disembark
      This shouldn't be neccesary, as ZOC does not have an effect for sea-land
@@ -826,7 +826,7 @@ static int find_the_shortest_path(struct unit *punit,
 	  orig_x, orig_y, dest_x, dest_y, maxcost - 1);
 
   if (maxcost == MAXCOST)
-    return 0; /* No route */
+    return FALSE; /* No route */
 
   /*** Succeeded. The vector at the destination indicates which way we get there.
      Now backtrack to remove all the blind paths ***/
@@ -836,7 +836,7 @@ static int find_the_shortest_path(struct unit *punit,
   init_queue();
   add_to_mapqueue(0, dest_x, dest_y);
 
-  while (1) {
+  while (TRUE) {
     if (!get_from_mapqueue(&x, &y))
       break;
 
@@ -857,7 +857,7 @@ static int find_the_shortest_path(struct unit *punit,
     } adjc_dir_iterate_end;
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1211,7 +1211,7 @@ int goto_is_sane(struct unit *punit, int x, int y, int omni)
 {  
   struct player *pplayer = unit_owner(punit);
   int possible = 0;
-  if (same_pos(punit->x, punit->y, x, y)) return 1;
+  if (same_pos(punit->x, punit->y, x, y)) return TRUE;
   if (is_ground_unit(punit) &&
       (omni || map_get_known_and_seen(x, y, pplayer))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
@@ -1232,15 +1232,15 @@ int goto_is_sane(struct unit *punit, int x, int y, int omni)
 	} adjc_iterate_end;
       }
     }
-    return(possible);
+    return possible > 0;
   } else if (is_sailing_unit(punit) &&
 	     (omni || map_get_known_and_seen(x, y, pplayer)) &&
 	     map_get_terrain(x, y) != T_OCEAN && map_get_city(x, y) == NULL &&
 	     !is_terrain_near_tile(x, y, T_OCEAN)) {
-    return(0);
+    return FALSE;
   }
 
-  return(1);
+  return TRUE;
 }
 
 
@@ -1274,9 +1274,9 @@ enum goto_result do_unit_goto(struct unit *punit,
   dest_y = waypoint_y = punit->goto_dest_y;
 
   if (same_pos(punit->x, punit->y, dest_x, dest_y) ||
-      !goto_is_sane(punit, dest_x, dest_y, 0)) {
+      !goto_is_sane(punit, dest_x, dest_y, FALSE)) {
     punit->activity = ACTIVITY_IDLE;
-    punit->connecting = 0;
+    punit->connecting = FALSE;
     send_unit_info(NULL, punit);
     if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
       return GR_ARRIVED;
@@ -1303,7 +1303,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 	      pplayer->name, unit_type(punit)->name,
 	      punit->x, punit->y, dest_x, dest_y);
       punit->activity = ACTIVITY_IDLE;
-      punit->connecting = 0;
+      punit->connecting = FALSE;
       send_unit_info(NULL, punit);
       return GR_FAILED;
     }
@@ -1377,7 +1377,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 	    pplayer->name, unit_type(punit)->name,
 	    punit->x, punit->y, dest_x, dest_y);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    punit->connecting = 0;
+    punit->connecting = FALSE;
     send_unit_info(NULL, punit);
     return GR_FAILED;
   }
@@ -1401,7 +1401,7 @@ enum goto_result do_unit_goto(struct unit *punit,
     status = GR_OUT_OF_MOVEPOINTS;
   }
 
-  punit->connecting=0;
+  punit->connecting = FALSE;
   send_unit_info(NULL, punit);
   return status;
 }
@@ -1555,7 +1555,7 @@ static int find_air_first_destination(
   refuels[refuellist_size++] = pgoal;
 
   assert(!same_pos(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y));
-  reached_goal = 0; /* assume start.(x,y) != pgoal->(x,y) */
+  reached_goal = FALSE; /* assume start.(x,y) != pgoal->(x,y) */
   turns = 0;
   turn_index[0] = 0;
   new_nodes = 1; /* the node where we start has been added already */
@@ -1603,7 +1603,7 @@ static int find_air_first_destination(
 	      pto->coming_from = pfrom;
 	      pto->moves_left = unit_moves_left;
 	      pto->turns = turns;
-	      if (pto->type == FUEL_GOAL) reached_goal = 1;
+	      if (pto->type == FUEL_GOAL) reached_goal = TRUE;
 
 	      freelog(LOG_DEBUG, "insert (%i,%i) -> (%i,%i) %d, %d", pfrom->x,
 		      pfrom->y, pto->x, pto->y, pto->turns, unit_moves_left);
@@ -1664,7 +1664,7 @@ static int airspace_looks_safe(int x, int y, struct player *pplayer)
   /* This is bad: there could be a city there that the player doesn't
       know about.  How can we check that? */
   if (is_non_allied_city_tile(ptile, pplayer) != NULL) {
-    return 0;
+    return FALSE;
   }
 
   /* If the tile's fogged we again (may) assume it's safe. */

@@ -419,7 +419,7 @@ static char *nsew_str(int idx)
 #define SET_SPRITE(field, tag) do { \
        sprites.field = hash_lookup_data(sprite_hash, tag);\
        assert(sprites.field != NULL);\
-    } while(0)
+    } while(FALSE)
 
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which

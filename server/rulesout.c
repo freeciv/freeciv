@@ -201,7 +201,7 @@ int rulesout_techs(const char *filename)
   int retval;
   
   if (game.num_tech_types==0) {
-    return 0;
+    return FALSE;
   }
   section_file_init(&file);
   for(itech=0; itech<game.num_tech_types; itech++) {

@@ -30,9 +30,9 @@
 
 #include "console.h"
 
-static int console_show_prompt=0;
-static int console_prompt_is_showing=0;
-static int console_rfcstyle=0;
+static int console_show_prompt = FALSE;
+static int console_prompt_is_showing = FALSE;
+static int console_rfcstyle = FALSE;
 #ifdef HAVE_LIBREADLINE
 static int readline_received_enter = 1;
 #endif
@@ -69,7 +69,7 @@ static void con_update_prompt(void)
   con_flush();
 #endif
 
-  console_prompt_is_showing = 1;
+  console_prompt_is_showing = TRUE;
 }
 
 /************************************************************************
@@ -101,7 +101,7 @@ int con_dump(int i, char *message, ...)
   } else {
     printf("%s", buf);
   }
-  console_prompt_is_showing = 0;
+  console_prompt_is_showing = FALSE;
   return (int) strlen(buf);
 }
 
@@ -137,7 +137,7 @@ void con_puts(int i, char *str)
   } else {
     printf("%s\n", str);
   }
-  console_prompt_is_showing = 0;
+  console_prompt_is_showing = FALSE;
   con_update_prompt();
 }
 
@@ -156,7 +156,7 @@ void con_rfconly(int i, char *message, ...)
   
   if ((console_rfcstyle) && (i >= 0))
     printf("%.3d %s\n", i, buf);
-  console_prompt_is_showing = 0;
+  console_prompt_is_showing = FALSE;
   con_update_prompt();
 }
 
@@ -193,11 +193,11 @@ Initialize prompt; display initial message.
 ************************************************************************/
 void con_prompt_init(void)
 {
-  static int first = 1;
+  static int first = TRUE;
   if (first) {
     con_puts(C_COMMENT, "");
     con_puts(C_COMMENT, _("For introductory help, type 'help'."));
-    first = 0;
+    first = FALSE;
   }
 }
 
@@ -206,7 +206,7 @@ Make sure a prompt is printed, and re-printed after every message.
 ************************************************************************/
 void con_prompt_on(void)
 {
-  console_show_prompt = 1;
+  console_show_prompt = TRUE;
   con_update_prompt();
 }
 
@@ -215,7 +215,7 @@ Do not print a prompt after log messages.
 ************************************************************************/
 void con_prompt_off(void)
 {
-  console_show_prompt = 0;
+  console_show_prompt = FALSE;
 }
 
 /************************************************************************
@@ -223,7 +223,7 @@ User pressed enter: will need a new prompt
 ************************************************************************/
 void con_prompt_enter(void)
 {
-  console_prompt_is_showing = 0;
+  console_prompt_is_showing = FALSE;
 #ifdef HAVE_LIBREADLINE
   readline_received_enter = 1;
 #endif
@@ -234,7 +234,7 @@ Clear "user pressed enter" state (used in special cases).
 ************************************************************************/
 void con_prompt_enter_clear(void)
 {
-  console_prompt_is_showing = 1;
+  console_prompt_is_showing = TRUE;
 #ifdef HAVE_LIBREADLINE
   readline_received_enter = 0;
 #endif

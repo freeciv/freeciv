@@ -317,7 +317,7 @@ void input_from_server(int fd)
     int type, result;
     char *packet;
 
-    while (1) {
+    while (TRUE) {
       packet = get_packet_from_connection(&aconnection, &type, &result);
       if (result) {
 	handle_packet_input(packet, type);
@@ -346,7 +346,7 @@ void input_from_server_till_request_got_processed(int fd,
 	  "input_from_server_till_request_got_processed("
 	  "expected_request_id=%d)", expected_request_id);
 
-  while (1) {
+  while (TRUE) {
     if (read_from_connection(&aconnection, 1) >= 0) {
       int type, result;
       char *packet;

@@ -733,7 +733,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   }
 
   if (!same_pos(punit->x, punit->y, x, y)) {
-    if (goto_is_sane(punit, x, y, 1)) {
+    if (goto_is_sane(punit, x, y, TRUE)) {
       punit->goto_dest_x = x;
       punit->goto_dest_y = y;
       do_unit_goto(punit, GOTO_MOVE_ANY, 0);
@@ -871,8 +871,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       punit->ai.bodyguard = 0;
 /* end protection subroutine */
 
-    if (!goto_is_sane(punit, dest_x, dest_y, 1) ||
-       (ferryboat != NULL && goto_is_sane(ferryboat, dest_x, dest_y, 1))) { /* Important!! */
+    if (!goto_is_sane(punit, dest_x, dest_y, TRUE) ||
+       (ferryboat != NULL && goto_is_sane(ferryboat, dest_x, dest_y, TRUE))) { /* Important!! */
       punit->ai.ferryboat = boatid;
       freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
 		    pplayer->name, punit->id, punit->x, punit->y, boatid);
@@ -917,7 +917,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         }
       } 
     }
-    if (goto_is_sane(punit, dest_x, dest_y, 1) && punit->moves_left &&
+    if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left &&
        (ferryboat == NULL || 
        (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 &&
        (!punit->ai.bodyguard || unit_list_find(&(map_get_tile(punit->x,
@@ -1008,7 +1008,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
   if (!u) return(0);
   unit_list_iterate(pplayer->units, buddy)
     if (!buddy->ai.bodyguard) continue;
-    if (!goto_is_sane(punit, buddy->x, buddy->y, 1)) continue;
+    if (!goto_is_sane(punit, buddy->x, buddy->y, TRUE)) continue;
     if (unit_type(buddy)->move_rate > unit_type(punit)->move_rate) continue;
     if (unit_type(buddy)->move_type != unit_type(punit)->move_type) continue;
     d = unit_move_turns(punit, buddy->x, buddy->y);
@@ -1021,7 +1021,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
     if (def > val && ai_fuzzy(pplayer,1)) { *aunit = buddy; val = def; }
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, mycity)
-    if (!goto_is_sane(punit, mycity->x, mycity->y, 1)) continue;
+    if (!goto_is_sane(punit, mycity->x, mycity->y, TRUE)) continue;
     if (!mycity->ai.urgency) continue;
     d = unit_move_turns(punit, mycity->x, mycity->y);
     def = (mycity->ai.danger - assess_defense_quadratic(mycity))>>d;
@@ -1276,7 +1276,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
     if (aplayer != pplayer) { /* enemy */
       city_list_iterate(aplayer->cities, acity)
         if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
-        sanity = (goto_is_sane(punit, acity->x, acity->y, 1) &&
+        sanity = (goto_is_sane(punit, acity->x, acity->y, TRUE) &&
                  warmap.cost[acity->x][acity->y] < maxd); /* for Tangier->Malaga */
         if (ai_fuzzy(pplayer,1) && ((is_ground_unit(punit) &&
           ((sanity) || 
@@ -1409,7 +1409,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
                 map_get_continent(aunit->x, aunit->y) == con &&
                 warmap.cost[aunit->x][aunit->y] < maxd) ||
             (is_sailing_unit(punit) &&
-                goto_is_sane(punit, aunit->x, aunit->y, 1) && /* Thanks, Damon */
+                goto_is_sane(punit, aunit->x, aunit->y, TRUE) && /* Thanks, Damon */
                 warmap.seacost[aunit->x][aunit->y] < maxd)))) {
           d = unit_vulnerability(punit, aunit);
 

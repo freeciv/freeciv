@@ -26,6 +26,8 @@
 
 #include "fcintl.h"
 #include "log.h"
+#include "shared.h"		/* TRUE, FALSE */
+
 #include "mem.h"
 
 /**********************************************************************

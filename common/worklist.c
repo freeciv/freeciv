@@ -41,7 +41,7 @@ void init_worklist(struct worklist *pwl)
 {
   int i;
 
-  pwl->is_valid = 1;
+  pwl->is_valid = TRUE;
   strcpy(pwl->name, "a worklist");
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
@@ -88,7 +88,7 @@ int worklist_is_empty(const struct worklist *pwl)
 int worklist_peek(const struct worklist *pwl, int *id, int *is_unit)
 {
   if (worklist_is_empty(pwl))
-    return 0;
+    return FALSE;
 
   return worklist_peek_ith(pwl, id, is_unit, 0);
 }
@@ -104,17 +104,17 @@ int worklist_peek_ith(const struct worklist *pwl, int *id, int *is_unit,
 
   /* Out of possible bounds. */
   if (idx < 0 || MAX_LEN_WORKLIST <= idx)
-    return 0;
+    return FALSE;
 
   /* Worklist isn't long enough. */
   for (i = 0; i <= idx; i++)
     if (pwl->wlefs[i] == WEF_END)
-      return 0;
+      return FALSE;
 
   *is_unit = (pwl->wlefs[idx] == WEF_UNIT);
   *id = pwl->wlids[idx];
 
-  return 1;
+  return TRUE;
 }
 
 /****************************************************************

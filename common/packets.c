@@ -240,7 +240,7 @@ return a NULL packet even if everything is OK (receive_packet_goto_route).
 void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult)
 {
   int len, type;
-  *presult = 0;
+  *presult = FALSE;
 
   if (pc->used==0)
     return NULL;		/* connection was closed, stop reading */
@@ -257,11 +257,11 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
     if(len > 1024) {
       freelog(LOG_NORMAL, "connection %s detected as old byte order",
 	      conn_description(pc));
-      pc->byte_swap = 1;
+      pc->byte_swap = TRUE;
     } else {
-      pc->byte_swap = 0;
+      pc->byte_swap = FALSE;
     }
-    pc->first_packet = 0;
+    pc->first_packet = FALSE;
   }
 
   if(pc->byte_swap) {
@@ -281,7 +281,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
 	  pc->buffer->ndata);
 
   *ptype=type;
-  *presult = 1;
+  *presult = TRUE;
 
   if (pc->incoming_packet_notify != NULL) {
     pc->incoming_packet_notify(pc, type, len);
@@ -548,8 +548,8 @@ static void pack_iter_init(struct pack_iter *piter, struct connection *pc)
   piter->ptr = get_uint16(piter->ptr, &piter->len);
   piter->ptr = get_uint8(piter->ptr, &piter->type);
   piter->short_packet = (piter->len < 3);
-  piter->bad_string = 0;
-  piter->bad_bit_string = 0;
+  piter->bad_string = FALSE;
+  piter->bad_bit_string = FALSE;
 }
 
 /**************************************************************************
@@ -878,7 +878,7 @@ static void iget_uint8(struct pack_iter *piter, int *val)
 {
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -895,7 +895,7 @@ static void iget_sint8(struct pack_iter *piter, int *val)
 {
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -913,7 +913,7 @@ static void iget_uint16(struct pack_iter *piter, int *val)
 {
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -933,7 +933,7 @@ static void iget_sint16(struct pack_iter *piter, int *val)
 {
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -953,7 +953,7 @@ static void iget_uint32(struct pack_iter *piter, int *val)
 {
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 4) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -974,7 +974,7 @@ static void iget_sint32(struct pack_iter *piter, int *val)
 {
   assert(piter);
   if (pack_iter_remaining(piter) < 4) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = 0;
     return;
   }
@@ -995,14 +995,14 @@ static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop)
   int count;
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
   get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
@@ -1020,14 +1020,14 @@ static void iget_sint8_vec8(struct pack_iter *piter, int **val, int stop)
   int count;
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
   get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
@@ -1045,7 +1045,7 @@ static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
   int count;
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
@@ -1053,7 +1053,7 @@ static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
   count *= 2;				/* number of bytes in vector */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val != NULL) *val = NULL;
     return;
   }
@@ -1071,7 +1071,7 @@ static void iget_sint16_vec8(struct pack_iter *piter, int **val, int stop)
   int count;
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val) *val = NULL;
     return;
   }
@@ -1079,7 +1079,7 @@ static void iget_sint16_vec8(struct pack_iter *piter, int **val, int stop)
   count *= 2;				/* number of bytes in vector */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (val) *val = NULL;
     return;
   }
@@ -1116,7 +1116,7 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
   assert((navail>0) || (mystring==NULL));
 
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     if (mystring != NULL) *mystring = '\0';
     return;
   }
@@ -1126,14 +1126,14 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
 
   if ((c-piter->base) >= piter->len) {
     ps_len = pack_iter_remaining(piter);
-    piter->short_packet = 1;
-    piter->bad_string = 1;
+    piter->short_packet = TRUE;
+    piter->bad_string = TRUE;
   } else {
     ps_len = c - piter->ptr;
   }
   len = ps_len;
   if (mystring != NULL && navail > 0 && ps_len >= navail) {
-    piter->bad_string = 1;
+    piter->bad_string = TRUE;
     len = navail-1;
   }
   if (mystring != NULL) {
@@ -1182,7 +1182,7 @@ static void iget_city_map(struct pack_iter *piter, char *str, int navail)
   assert((navail>0) || (str==NULL));
   
   if (pack_iter_remaining(piter) < 4) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
   }
 
   if (str == NULL) {
@@ -1255,7 +1255,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
   assert(str!=NULL && navail>0);
   
   if (pack_iter_remaining(piter) < 1) {
-    piter->short_packet = 1;
+    piter->short_packet = TRUE;
     str[0] = '\0';
     return;
   }
@@ -1279,11 +1279,11 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
     str[npack] = '\0';
   } else {
     str[navail-1] = '\0';
-    piter->bad_bit_string = 1;
+    piter->bad_bit_string = TRUE;
   }
 
   if (piter->short_packet) {
-    piter->bad_bit_string = 1;
+    piter->bad_bit_string = TRUE;
   }
 }
 
@@ -1714,7 +1714,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
-  cptr = put_worklist(pc, cptr, &packet->worklist, 1);
+  cptr = put_worklist(pc, cptr, &packet->worklist, TRUE);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1799,7 +1799,7 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->is_barbarian);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    cptr = put_worklist(pc, cptr, &pinfo->worklists[i], 1);
+    cptr = put_worklist(pc, cptr, &pinfo->worklists[i], TRUE);
   }
 
   cptr=put_uint32(cptr, pinfo->gives_shared_vision);
@@ -2309,7 +2309,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint16(cptr, req->disbanded_shields);
   cptr=put_uint16(cptr, req->caravan_shields);
 
-  cptr = put_worklist(pc, cptr, &req->worklist, 1);
+  cptr = put_worklist(pc, cptr, &req->worklist, TRUE);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;

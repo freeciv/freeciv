@@ -110,7 +110,7 @@ void global_city_refresh(struct player *pplayer)
 void remove_obsolete_buildings_city(struct city *pcity, int refresh)
 {
   struct player *pplayer = city_owner(pcity);
-  int i, sold = 0;
+  int i, sold = FALSE;
   for (i=0;i<game.num_impr_types;i++) {
     if (city_got_building(pcity, i) 
 	&& !is_wonder(i) 
@@ -120,7 +120,7 @@ void remove_obsolete_buildings_city(struct city *pcity, int refresh)
 		       _("Game: %s is selling %s (obsolete) for %d."),
 		       pcity->name, get_improvement_name(i), 
 		       improvement_value(i));
-      sold = 1;
+      sold = TRUE;
     }
   }
 
@@ -139,7 +139,7 @@ void remove_obsolete_buildings_city(struct city *pcity, int refresh)
 void remove_obsolete_buildings(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
-    remove_obsolete_buildings_city(pcity, 0);
+    remove_obsolete_buildings_city(pcity, FALSE);
   } city_list_iterate_end;
 }
 
@@ -239,11 +239,11 @@ int add_adjust_workers(struct city *pcity)
   if (iswork+city_specialists(pcity)>workers) {
     freelog(LOG_ERROR, "Encountered an inconsistency in "
 	    "add_adjust_workers() for city %s", pcity->name);
-    return 0;
+    return FALSE;
   }
 
   if (iswork+city_specialists(pcity)==workers)
-    return 1;
+    return TRUE;
 
   toplace = workers-(iswork+city_specialists(pcity));
   foodneed = -pcity->food_surplus;
@@ -252,7 +252,7 @@ int add_adjust_workers(struct city *pcity)
   worker_loop(pcity, &foodneed, &prodneed, &toplace);
 
   pcity->ppl_elvis+=toplace;
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -323,7 +323,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
       /* can_player_build_improvement() checks whether wonder is build
 	 elsewhere (or destroyed) */
       if (!pcity->is_building_unit && is_wonder(pcity->currently_building)
-	  && (city_turns_to_build(pcity, pcity->currently_building, 0, 1)
+	  && (city_turns_to_build(pcity, pcity->currently_building, FALSE, TRUE)
 	      <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
 	notify_conn_ex(dest, pcity->x, pcity->y,
@@ -405,7 +405,7 @@ void update_city_activities(struct player *pplayer)
 {
   int gold;
   gold=pplayer->economic.gold;
-  pplayer->got_tech=0;
+  pplayer->got_tech = FALSE;
   city_list_iterate(pplayer->cities, pcity)
      update_city_activity(pplayer, pcity);
   city_list_iterate_end;
@@ -625,17 +625,17 @@ static int advisor_choose_build(struct player *pplayer, struct city *pcity)
   want = choice.want;
 
   if (id!=-1 && id != B_LAST && want > 0) {
-    change_build_target(pplayer, pcity, id, 0, E_IMP_AUTO);
-    return 1; /* making something.  return value = 1 */
+    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
+    return TRUE; /* making something.  return value = 1 */
   }
 
   for (i=0;i<game.num_impr_types;i++)
     if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
       pcity->currently_building=i;
-      pcity->is_building_unit=0;
-      return 0;
+      pcity->is_building_unit = FALSE;
+      return FALSE;
     }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -646,15 +646,15 @@ static int advisor_choose_build(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int worklist_change_build_target(struct player *pplayer, struct city *pcity)
 {
-  int success = 0;
+  int success = FALSE;
   int i;
 
   if (worklist_is_empty(pcity->worklist))
     /* Nothing in the worklist; bail now. */
-    return 0;
+    return FALSE;
 
   i = 0;
-  while (1) {
+  while (TRUE) {
     int target, is_unit;
 
     /* What's the next item in the worklist? */
@@ -768,7 +768,7 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
     /* All okay.  Switch targets. */
     change_build_target(pplayer, pcity, target, is_unit, E_WORKLIST);
 
-    success = 1;
+    success = TRUE;
     break;
   }
 
@@ -913,7 +913,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
 		     pcity->name, get_impr_name_ex(pcity,
 						   pcity->
 						   currently_building));
-    return 1;
+    return TRUE;
   }
   if (pcity->shield_stock >= improvement_value(pcity->currently_building)) {
     if (pcity->currently_building == B_PALACE) {
@@ -925,7 +925,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
       city_list_iterate_end;
     }
 
-    space_part = 1;
+    space_part = TRUE;
     if (pcity->currently_building == B_SSTRUCTURAL) {
       pplayer->spaceship.structurals++;
     } else if (pcity->currently_building == B_SCOMP) {
@@ -933,7 +933,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
     } else if (pcity->currently_building == B_SMODULE) {
       pplayer->spaceship.modules++;
     } else {
-      space_part = 0;
+      space_part = FALSE;
       city_add_improvement(pcity, pcity->currently_building);
       update_all_effects();
     }
@@ -997,7 +997,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
     }
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1020,7 +1020,7 @@ static int city_build_unit(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
 		       _("Game: %s can't build %s yet."),
 		       pcity->name, unit_name(pcity->currently_building));
-      return 1;
+      return TRUE;
     }
 
     assert(pop_cost == 0 || pcity->size >= pop_cost);
@@ -1059,7 +1059,7 @@ static int city_build_unit(struct player *pplayer, struct city *pcity)
        won't do anything. */
     worklist_change_build_target(pplayer, pcity);
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1276,14 +1276,14 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 	return;
     }
 
-    pcity->is_updated=1;
+    pcity->is_updated=TRUE;
 
-    pcity->did_sell=0;
+    pcity->did_sell=FALSE;
     pcity->did_buy=0;
     if (city_got_building(pcity, B_AIRPORT))
-      pcity->airlift=1;
+      pcity->airlift=TRUE;
     else
-      pcity->airlift=0;
+      pcity->airlift=FALSE;
     update_tech(pplayer, pcity->science_total);
     pplayer->economic.gold+=pcity->tax_total;
     pay_for_buildings(pplayer, pcity);
@@ -1329,7 +1329,7 @@ static int disband_city(struct city *pcity)
   struct city *rcity=NULL;
 
   /* find closest city other than pcity */
-  rcity = find_closest_owned_city(pplayer, x, y, 0, pcity);
+  rcity = find_closest_owned_city(pplayer, x, y, FALSE, pcity);
 
   if (rcity == NULL) {
     /* What should we do when we try to disband our only city? */
@@ -1337,7 +1337,7 @@ static int disband_city(struct city *pcity)
 		     _("Game: %s can't build %s yet, "
 		     "and we can't disband our only city."),
 		     pcity->name, unit_name(pcity->currently_building));
-    return 0;
+    return FALSE;
   }
 
   create_unit(pplayer, x, y, pcity->currently_building,
@@ -1348,7 +1348,7 @@ static int disband_city(struct city *pcity)
      to rcity.  transfer_city_units does not make sure no units are
      left floating without a transport, but since all units are
      transfered this is not a problem. */
-  transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, 1);
+  transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, TRUE);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
 		   _("Game: %s is disbanded into %s."), 
@@ -1358,5 +1358,5 @@ static int disband_city(struct city *pcity)
 	  get_nation_name_plural(pplayer->nation));
 
   remove_city(pcity);
-  return 1;
+  return TRUE;
 }

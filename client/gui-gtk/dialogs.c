@@ -1891,7 +1891,7 @@ Updates the gui elements and the selected_* variables.
 static void select_random_race(void)
 {
   /* try to find a free nation */
-  while(1) {
+  while(TRUE) {
     selected_nation = myrand(game.playable_nation_count);
     if(GTK_WIDGET_SENSITIVE(races_toggles[g_list_index(sorted_races_list,
 				       GINT_TO_POINTER(selected_nation))]))

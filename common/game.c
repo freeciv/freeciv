@@ -644,7 +644,7 @@ void game_remove_city(struct city *pcity)
 void game_init(void)
 {
   int i;
-  game.is_new_game   = 1;
+  game.is_new_game   = TRUE;
   game.globalwarming = 0;
   game.warminglevel  = 8;
   game.nuclearwinter = 0;
@@ -733,18 +733,18 @@ void game_init(void)
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT);
 
-  game.save_options.save_random = 1;
-  game.save_options.save_players = 1;
-  game.save_options.save_known = 1;
-  game.save_options.save_starts = 1;
-  game.save_options.save_private_map = 1;
+  game.save_options.save_random = TRUE;
+  game.save_options.save_players = TRUE;
+  game.save_options.save_known = TRUE;
+  game.save_options.save_starts = TRUE;
+  game.save_options.save_private_map = TRUE;
 
-  game.load_options.load_random = 1;
-  game.load_options.load_players = 1;
-  game.load_options.load_known = 1;
-  game.load_options.load_starts = 1;
-  game.load_options.load_private_map = 1;
-  game.load_options.load_settings = 1;
+  game.load_options.load_random = TRUE;
+  game.load_options.load_players = TRUE;
+  game.load_options.load_known = TRUE;
+  game.load_options.load_starts = TRUE;
+  game.load_options.load_private_map = TRUE;
+  game.load_options.load_settings = TRUE;
   
   map_init();
   idex_init();
@@ -1055,7 +1055,7 @@ void update_all_effects(void)
       for (i=0;i<game.num_impr_types;i++) {
         if (pcity->improvements[i]==I_NONE ||
             pcity->improvements[i]==I_OBSOLETE) continue;
-        if (improvement_redundant(pplayer,pcity,i,0)) {
+	if (improvement_redundant(pplayer, pcity, i, FALSE)) {
           freelog(LOG_DEBUG,"%s in %s is redundant",
                   improvement_types[i].name,pcity->name);
           mark_improvement(pcity,i,I_REDUNDANT);

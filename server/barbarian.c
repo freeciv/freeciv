@@ -87,9 +87,9 @@ static struct player *create_barbarian_player(int land)
     barbarians = &game.players[i];
     if( (land && is_land_barbarian(barbarians)) ||
         (!land && is_sea_barbarian(barbarians)) ) {
-      if( barbarians->is_alive == 0 ) {
+      if (!barbarians->is_alive) {
         barbarians->economic.gold = 0;
-        barbarians->is_alive = 1;
+        barbarians->is_alive = TRUE;
         pick_ai_player_name( game.nation_count-1, barbarians->name);
 	sz_strlcpy(barbarians->username, barbarians->name);
         /* I need to make them to forget the map, I think */
@@ -111,22 +111,22 @@ static struct player *create_barbarian_player(int land)
 
   /* make a new player */
 
-  server_player_init(barbarians, 1);
+  server_player_init(barbarians, TRUE);
 
   barbarians->nation = game.nation_count-1;
   pick_ai_player_name( game.nation_count-1, barbarians->name);
 
   sz_strlcpy(barbarians->username, barbarians->name);
-  barbarians->is_connected = 0;
+  barbarians->is_connected = FALSE;
   barbarians->government = game.government_when_anarchy; 
-  barbarians->capital = 0;
+  barbarians->capital = FALSE;
   barbarians->economic.gold = 100;
 
-  barbarians->turn_done = 1;
+  barbarians->turn_done = TRUE;
 
   /* Do the ai */
 
-  barbarians->ai.control = 1;
+  barbarians->ai.control = TRUE;
   if( land )
     barbarians->ai.is_barbarian = LAND_BARBARIAN;
   else
@@ -154,9 +154,9 @@ static int is_free_land(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) == T_OCEAN
       || is_non_allied_unit_tile(map_get_tile(x, y), who) != NULL)
-    return 0;
+    return FALSE;
   else
-    return 1;
+    return TRUE;
 }
 
 /**************************************************************************
@@ -166,9 +166,9 @@ static int is_free_sea(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) != T_OCEAN
       || is_non_allied_unit_tile(map_get_tile(x, y), who) != NULL)
-    return 0;
+    return FALSE;
   else
-    return 1;
+    return TRUE;
 }
 
 /**************************************************************************
@@ -186,23 +186,23 @@ int unleash_barbarians(struct player* victim, int x, int y)
   int unit, unit_cnt, land_cnt=0, sea_cnt=0;
   int boat;
   int i, xu, yu, me;
-  int alive = 1;     /* explorer survived */
+  int alive = TRUE;     /* explorer survived */
 
   if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
       wipe_unit_safe(punit, &myiter);
     } unit_list_iterate_end;
-    return 0;
+    return FALSE;
   }
 
   unit_cnt = 3 + myrand(4);
 
-  barbarians = create_barbarian_player(1);
+  barbarians = create_barbarian_player(TRUE);
   me = barbarians->player_no;
 
   for( i=0; i<unit_cnt; i++) {
     unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-    create_unit( barbarians, x, y, unit, 0, 0, -1);
+    create_unit(barbarians, x, y, unit, FALSE, 0, -1);
     freelog(LOG_DEBUG, "Created barbarian unit %s",unit_types[unit].name);
   }
 
@@ -232,7 +232,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
       unit_list_iterate(map_get_tile(x, y)->units, punit2)
         if( punit2->owner == me ) {
           send_unit_info(NULL, punit2);
-          while(1) {
+          while(TRUE) {
 	    rand_neighbour(x, y, &xu, &yu);
 	    if (can_unit_move_to_tile_with_notify(punit2, xu, yu, TRUE))
 	      break;
@@ -242,7 +242,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
 	    }
 	    if (is_free_sea(xu, yu, barbarians)) {
               boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
-	      create_unit( barbarians, xu, yu, boat, 0, 0, -1);
+	      create_unit( barbarians, xu, yu, boat, FALSE, 0, -1);
 	      xb = xu; yb = yu;
 	      break;
 	    }
@@ -255,7 +255,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
       unit_list_iterate(map_get_tile(x, y)->units, punit2)
         if( punit2->owner != me ) {
           wipe_unit_safe(punit2, &myiter);
-          alive = 0;
+          alive = FALSE;
         }
         else
           send_unit_info(NULL, punit2);
@@ -276,10 +276,10 @@ static int is_near_land(int x0, int y0)
 {
   square_iterate(x0, y0, 4, x, y) {
     if (map_get_terrain(x,y) != T_OCEAN)
-      return 1;
+      return TRUE;
   } square_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -291,11 +291,11 @@ static int find_empty_tile_nearby(int x0, int y0, int *x, int *y)
     if (unit_list_size(&map_get_tile(x1, y1)->units) == 0) {
       *x = x1;
       *y = y1;
-      return 1;
+      return TRUE;
     }
   } square_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -361,28 +361,28 @@ static void try_summon_barbarians(void)
   }
 
   if( map_get_terrain(xu,yu) != T_OCEAN ) {        /* land barbarians */
-    barbarians = create_barbarian_player(1);
+    barbarians = create_barbarian_player(TRUE);
     if( city_list_size(&victim->cities) > UPRISE_CIV_MOST )
       uprise = 3;
     for( i=0; i < myrand(3) + uprise*(game.barbarianrate); i++) {
       unit = find_a_unit_type(L_BARBARIAN,L_BARBARIAN_TECH);
-      create_unit( barbarians, xu, yu, unit, 0, 0, -1);
+      create_unit(barbarians, xu, yu, unit, FALSE, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s",unit_types[unit].name);
     }
-    create_unit( barbarians, xu, yu, get_role_unit(L_BARBARIAN_LEADER,0), 0, 0, -1);
+    create_unit(barbarians, xu, yu, get_role_unit(L_BARBARIAN_LEADER, 0), FALSE, 0, -1);
   }
   else {                   /* sea raiders - their units will be veteran */
 
-    barbarians = create_barbarian_player(0);
+    barbarians = create_barbarian_player(FALSE);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
-    create_unit( barbarians, xu, yu, boat, 1, 0, -1);
+    create_unit(barbarians, xu, yu, boat, TRUE, 0, -1);
     cap = get_transporter_capacity(unit_list_get(&map_get_tile(xu, yu)->units, 0));
     for( i=0; i<cap-1; i++) {
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
-      create_unit( barbarians, xu, yu, unit, 1, 0, -1);
+      create_unit(barbarians, xu, yu, unit, TRUE, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s",unit_types[unit].name);
     }
-    create_unit( barbarians, xu, yu, get_role_unit(L_BARBARIAN_LEADER,0), 0, 0, -1);
+    create_unit(barbarians, xu, yu, get_role_unit(L_BARBARIAN_LEADER, 0), FALSE, 0, -1);
   }
 
   unit_list_iterate(map_get_tile(x, y)->units, punit2) {

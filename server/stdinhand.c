@@ -2950,10 +2950,10 @@ void handle_stdin_input(struct connection *caller, char *str)
     rulesout_command(caller, arg);
     break;
   case CMD_RFCSTYLE:	/* undocumented */
-    con_set_style(1);
+    con_set_style(TRUE);
     break;
   case CMD_FREESTYLE:	/* undocumented */
-    con_set_style(0);
+    con_set_style(FALSE);
     break;
   case CMD_CMDLEVEL:
     cmdlevel_command(caller,arg);

@@ -71,7 +71,7 @@ void init_new_game(void)
       int nation = game.players[i].nation;
       if (nation < npos) {
 	start_pos[i] = nation;
-	pos_used[nation] = 1;
+	pos_used[nation] = TRUE;
 	nrem--;
       } else {
 	start_pos[i] = npos;
@@ -85,7 +85,7 @@ void init_new_game(void)
 	for(j=0; j<npos; j++) {
 	  if (!pos_used[j] && (0==k--)) {
 	    start_pos[i] = j;
-	    pos_used[j] = 1;
+	    pos_used[j] = TRUE;
 	    nrem--;
 	    break;
 	  }
@@ -136,7 +136,7 @@ void init_new_game(void)
       } circle_iterate_end;
       /* Create the unit of an appropriate type. */
       utype = get_role_unit((j < game.settlers) ? F_CITIES : L_EXPLORER, 0);
-      create_unit(&game.players[i], dx, dy, utype, 0, 0, -1);
+      create_unit(&game.players[i], dx, dy, utype, FALSE, 0, -1);
     }
   }
 
@@ -169,7 +169,7 @@ void send_year_to_clients(int year)
   
   for(i=0; i<game.nplayers; i++) {
     struct player *pplayer = &game.players[i];
-    pplayer->turn_done=0;
+    pplayer->turn_done = FALSE;
     pplayer->nturns_idle++;
   }
 

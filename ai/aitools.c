@@ -250,7 +250,7 @@ int ai_assess_military_unhappiness(struct city *pcity,
  */
 #if 1
 
-#define DEBUG_AEG_PRODUCTION (1)
+#define DEBUG_AEG_PRODUCTION (TRUE)
 
 int ai_evaluate_government (struct player *pplayer, struct government *g)
 {

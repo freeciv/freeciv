@@ -53,6 +53,7 @@
 
 #include "log.h"
 #include "support.h"
+#include "shared.h"		/* TRUE, FALSE */
 
 #include "netintf.h"
 
@@ -170,18 +171,18 @@ int fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
 
 #ifdef HAVE_INET_ATON
   if (inet_aton(hostname, &sock->sin_addr)) {
-    return 1;
+    return TRUE;
   }
 #else
   if ((sock->sin_addr.s_addr = inet_addr(hostname)) != INADDR_NONE) {
-    return 1;
+    return TRUE;
   }
 #endif
   hp = gethostbyname(hostname);
   if (hp == NULL || hp->h_addrtype != AF_INET) {
-    return 0;
+    return FALSE;
   }
 
   memcpy(&sock->sin_addr, hp->h_addr, hp->h_length);
-  return 1;
+  return TRUE;
 }

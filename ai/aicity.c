@@ -920,7 +920,7 @@ static void make_elvises(struct city *pcity)
   pcity->ppl_scientist = 0;
   city_refresh(pcity);
  
-  while (1) {
+  while (TRUE) {
     if ((elviscost = ai_find_elvis_pos(pcity, &xp, &yp))) {
       if (city_get_food_tile(xp, yp, pcity) > pcity->food_surplus)
 	break;

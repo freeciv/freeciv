@@ -39,7 +39,7 @@
 
 
 #ifndef IDEX_DIE
-#define IDEX_DIE 0
+#define IDEX_DIE FALSE
 #endif
 #define LOG_IDEX_ERR (IDEX_DIE ? LOG_FATAL : LOG_ERROR)
 
