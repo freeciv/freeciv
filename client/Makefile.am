@@ -8,9 +8,11 @@ BUILT_SOURCES = Freeciv.h
 Freeciv.h: ../data/Freeciv
 	./ad2c ../data/Freeciv > Freeciv.h
 
+civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
+civclient_LDADD        = ../common/libcivcommon.a
+
 civclient_SOURCES = \
 		Freeciv.h	\
-		ad2c		\
 		canvas.c	\
 		canvas.h	\
 		canvasp.h	\
@@ -18,7 +20,6 @@ civclient_SOURCES = \
 		chatline.h	\
 		citydlg.c	\
 		citydlg.h	\
-		cityicon.ico	\
 		civclient.c	\
 		civclient.h	\
 		climisc.c	\
@@ -35,7 +36,6 @@ civclient_SOURCES = \
 		diplodlg.h	\
 		finddlg.c	\
 		finddlg.h	\
-		freeciv.ico	\
 		gotodlg.c	\
 		gotodlg.h	\
 		graphics.c	\
@@ -75,5 +75,3 @@ civclient_SOURCES = \
 		xmain.h		\
 		xstuff.c	\
 		xstuff.h
-civclient_DEPENDENCIES = ../common/libcivcommon.a
-civclient_LDADD        = ../common/libcivcommon.a

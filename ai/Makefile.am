@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = libcivai.a
+noinst_LIBRARIES = civai
 
 INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../server
 
-libcivai_a_SOURCES = \
+civai_SOURCES = \
 		advattitude.c	\
 		advattitude.h	\
 		advdomestic.c	\
