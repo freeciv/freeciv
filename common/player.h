@@ -195,6 +195,7 @@ struct player {
   struct player_spaceship spaceship;
   int future_tech;
   struct player_ai ai;
+  bool was_created;                    /* if the player was /created */
   bool is_connected;		       /* observers don't count */
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list connections;	       /* will replace conn */

@@ -141,6 +141,8 @@ static void establish_new_connection(struct connection *pconn)
     if (!attach_connection_to_player(pconn, NULL)) {
       notify_conn(dest, _("Couldn't attach your connection to new player."));
       freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
+    } else {
+      sz_strlcpy(pconn->player->name, pconn->username);
     }
   }
 

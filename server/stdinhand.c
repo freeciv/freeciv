@@ -75,7 +75,9 @@ static void set_ai_level(struct connection *caller, char *name, int level);
 static void set_away(struct connection *caller, char *name);
 
 static void fix_command(struct connection *caller, char *str, int cmd_enum);
+static void observe_command(struct connection *caller, char *name);
 static void take_command(struct connection *caller, char *name);
+static void detach_command(struct connection *caller, char *name);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -981,6 +983,8 @@ enum command_id {
   CMD_METASERVER,
   CMD_AITOGGLE,
   CMD_TAKE,
+  CMD_OBSERVE,
+  CMD_DETACH,
   CMD_CREATE,
   CMD_AWAY,
   CMD_NOVICE,
@@ -1159,6 +1163,21 @@ static const struct command commands[] = {
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to take over a player. If you're not one of these, "
       "only the <player-name> argument is allowed")
+  },
+  {"observe",    ALLOW_INFO,
+   /* TRANS: translate text between [] and <> only */
+   N_("observe [connection-name] <player-name>"),
+   N_("Observe a player."),
+   N_("Only the console and connections with cmdlevel 'hack' can force "
+      "other connections to observe a player. If you're not one of these, "
+      "only the <player-name> argument is allowed")
+  },
+  {"detach",    ALLOW_INFO,
+   /* TRANS: translate text between <> only */
+   N_("detach <connection-name>"),
+   N_("detach from a player."),
+   N_("Only the console and connections with cmdlevel 'hack' can force "
+      "other connections to detach from a player.")
   },
   {"create",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -1856,7 +1875,8 @@ static void create_ai_player(struct connection *caller, char *arg)
   pplayer = &game.players[game.nplayers];
   server_player_init(pplayer, FALSE);
   sz_strlcpy(pplayer->name, arg);
-  sz_strlcpy(pplayer->username, "Unassigned");
+  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
 
   game.nplayers++;
 
@@ -2789,7 +2809,7 @@ static bool is_ok_opt_name_value_sep_char(char c)
 }
 
 /******************************************************************
-  ...
+...
 ******************************************************************/
 static void team_command(struct connection *caller, char *str) 
 {
@@ -3068,26 +3088,166 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
 }
 
 /**************************************************************************
-  take over a player. If a connection already has control of that player, 
-  disallow unless the connection can multiconnect to the player 
-  (not implemented yet).
+ Observe another player. If we were already attached, detach 
+ (see detach_command()). The console and those with ALLOW_HACK can
+ use the two-argument command and force others to observe.
+**************************************************************************/
+static void observe_command(struct connection *caller, char *str)
+{
+  int i = 0, ntokens = 0;
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[2];  
+  bool is_newgame = (server_state == PRE_GAME_STATE || 
+                     server_state == SELECT_RACES_STATE) && game.is_new_game;
+  
+  enum m_pre_result result;
+  struct connection *pconn = NULL;
+  struct player *pplayer = NULL;
+  
+  /******** PART I: fill pconn and pplayer ********/
 
-  if there are two arguments, treat the first as the connection name and the
-  second as the player name. (only hack and the console can do this)
-  otherwise, there should be one argument, that being the player that the 
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+  
+  /* check syntax, only certain syntax if allowed depending on the caller */
+  if (!caller && ntokens < 1) {
+    cmd_reply(CMD_OBSERVE, caller, C_SYNTAX,
+              _("Usage: observe [connection-name [player-name]]"));
+    goto end;
+  } 
+
+  if (ntokens == 2 && (caller && caller->access_level != ALLOW_HACK)) {
+    cmd_reply(CMD_OBSERVE, caller, C_SYNTAX,
+              _("Usage: observe [player-name]"));
+    goto end;
+  }
+
+#define NO_GLOBAL_OBS /* remove this construction when global obs is reality */
+
+#ifdef NO_GLOBAL_OBS
+  if ((caller && ntokens == 0) || (!caller && ntokens == 1)) {
+    cmd_reply(CMD_OBSERVE, caller, C_SYNTAX,
+              _("Usage: observe [connection-name [player-name]]"));
+    goto end;
+  }
+#endif
+
+  /* match connection if we're console, match a player if we're not */
+  if (ntokens == 1) {
+    if (!caller && !(pconn = find_conn_by_user_prefix(arg[0], &result))) {
+      cmd_reply_no_such_conn(CMD_OBSERVE, caller, arg[0], result);
+      goto end;
+    } else if (caller 
+               && !(pplayer = find_player_by_name_prefix(arg[0], &result))) {
+      cmd_reply_no_such_player(CMD_OBSERVE, caller, arg[0], result);
+      goto end;
+    }
+  }
+
+  /* get connection name then player name */
+  if (ntokens == 2) {
+    if (!(pconn = find_conn_by_user_prefix(arg[0], &result))) {
+      cmd_reply_no_such_conn(CMD_OBSERVE, caller, arg[0], result);
+      goto end;
+    }
+    if (!(pplayer = find_player_by_name_prefix(arg[1], &result))) {
+      cmd_reply_no_such_player(CMD_OBSERVE, caller, arg[1], result);
+      goto end;
+    }
+  }
+
+  /* if we can't force other connections to observe, assign us to be pconn. */
+  if (!pconn) {
+    pconn = caller;
+  }
+
+#ifndef NO_GLOBAL_OBS
+  /* global observing needs some code here! */ 
+#endif
+
+  /******** PART II: do the observing ********/
+
+  /* observing your own player (during pregame) makes no sense. */
+  if (pconn->player == pplayer && !pconn->observer
+      && is_newgame && !pplayer->was_created) {
+    cmd_reply(CMD_OBSERVE, caller, C_FAIL, 
+              _("%s already controls %s. Using 'observe' would remove %s"),
+              pconn->username, pplayer->name, pplayer->name);
+    goto end;
+  }
+
+  /* if we want to switch players, reset the client */
+  if (pconn->player && server_state == RUN_GAME_STATE) {
+    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+  }
+
+  /* if the connection is already attached to a player,
+   * unattach and cleanup old player (rename, remove, etc) */
+  if (pconn->player) {
+    char name[MAX_LEN_NAME];
+
+    /* if a pconn->player is removed, we'll lose pplayer */
+    sz_strlcpy(name, pplayer->name);
+  
+    detach_command(NULL, pconn->username);
+
+    /* find pplayer again, the pointer might have been changed */
+    pplayer = find_player_by_name(name);
+  } 
+
+  /* we don't want the connection's username on another player */
+  players_iterate(aplayer) {
+    if (strncmp(aplayer->username, pconn->username, MAX_LEN_NAME) == 0) {
+      sz_strlcpy(aplayer->username, ANON_USER_NAME);
+    }
+  } players_iterate_end;
+
+  /* attach pconn to new player as an observer */
+  pconn->observer = TRUE; /* do this before attach! */
+  attach_connection_to_player(pconn, pplayer);
+
+  if (server_state == RUN_GAME_STATE) {
+    send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
+    send_rulesets(&pconn->self);
+    send_all_info(&pconn->self);
+    send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_player_info(NULL, NULL);
+    send_diplomatic_meetings(pconn);
+    send_packet_generic_empty(pconn, PACKET_THAW_HINT);
+    send_packet_generic_empty(pconn, PACKET_START_TURN);
+  }
+
+  cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
+            pconn->username, pplayer->name);
+
+  end:;
+  /* free our args */
+  for (i = 0; i < ntokens; i++) {
+    free(arg[i]);
+  }
+}
+
+/**************************************************************************
+  Take over a player. If a connection already has control of that player, 
+  disallow it. 
+
+  If there are two arguments, treat the first as the connection name and the
+  second as the player name (only hack and the console can do this).
+  Otherwise, there should be one argument, that being the player that the 
   caller wants to take.
 **************************************************************************/
 static void take_command(struct connection *caller, char *str)
 {
   int i = 0, ntokens = 0;
-  char buf[MAX_LEN_CONSOLE_LINE];
-  char *arg[2];  
-  bool was_connected;
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[2];
+  bool is_newgame = (server_state == PRE_GAME_STATE || 
+                     server_state == SELECT_RACES_STATE) && game.is_new_game;
 
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
   
+  /******** PART I: fill pconn and pplayer ********/
+
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
   
@@ -3129,78 +3289,65 @@ static void take_command(struct connection *caller, char *str)
     pconn = caller;
   }
 
-  if (pconn->player == pplayer) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL,
-              _("%s already controls or observes %s"),
+  /******** PART II: do the attaching ********/
+
+  /* taking your own player makes no sense. */
+  if (pconn->player == pplayer && !pconn->observer) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
               pconn->username, pplayer->name);
     goto end;
   } 
 
-  was_connected = pplayer->is_connected;
+  /* if we want to switch players, reset the client if the game is running */
+  if (pconn->player && server_state == RUN_GAME_STATE) {
+    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+  }
 
-  /* FIXME: remove when multiconnect becomes mature */
-  conn_list_iterate(pplayer->connections, aconn) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL,
-              _("%s already controls or observes %s.\n"
-                "  multiple controlling connections aren't allowed yet."),
+  /* if we're taking another player with a user attached 
+   * and we have the power, forcibly detach the user from the player. */
+  if (!caller || caller->access_level == ALLOW_HACK) {
+    conn_list_iterate(pplayer->connections, aconn) {
+      if (!aconn->observer) {
+        if (server_state == RUN_GAME_STATE) {
+          send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);\
+        }
+        notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
+        unattach_connection_from_player(aconn);
+      }
+    } conn_list_iterate_end;
+  } else {
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
               pplayer->username, pplayer->name);
     goto end;
-  } conn_list_iterate_end;
-
-  /* if we want to switch players, reset the client */
-  if (pconn->player && server_state == RUN_GAME_STATE) {
-    if (has_capability("retake", pconn->capability)) {
-      send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
-    } else {    
-      cmd_reply(CMD_TAKE, caller, C_FAIL,
-                _("You can't switch players with \"take\" "
-                  "after the game has started."));
-      goto end;
-    }
   }
 
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (pconn->player) {
-    struct player *old_plr = pconn->player;
+    char name[MAX_LEN_NAME];
 
-    /* FIXME: need to reset the client somehow, if this
-     * happens while the game is running */
+    /* if a pconn->player is removed, we'll lose pplayer */
+    sz_strlcpy(name, pplayer->name);
 
-    unattach_connection_from_player(pconn);
+    detach_command(NULL, pconn->username);
 
-    /* aitoggle the player if necessary */
-    if (game.auto_ai_toggle && !old_plr->ai.control 
-        && !old_plr->is_connected) {
-      toggle_ai_player_direct(NULL, old_plr);
+    /* find pplayer again, the pointer might have been changed */
+    pplayer = find_player_by_name(name);
+  }
+
+  /* we don't want the connection's username on another player */
+  players_iterate(aplayer) {
+    if (strncmp(aplayer->username, pconn->username, MAX_LEN_NAME) == 0) {
+      sz_strlcpy(aplayer->username, ANON_USER_NAME);
     }
+  } players_iterate_end;
 
-    /* need to reattach before we possibly remove the old player */
-    attach_connection_to_player(pconn, pplayer);
-
-    cmd_reply(CMD_TAKE, caller, C_COMMENT,
-              _("%s detaching from %s"), pconn->username, old_plr->name);
-
-    /* only remove the player if the game is new and in pregame, nobody 
-     * is connected to it anymore and it wasn't AI-controlled. */
-    if (!old_plr->is_connected && game.is_new_game && !old_plr->ai.control 
-          && (server_state == PRE_GAME_STATE
-              || server_state == SELECT_RACES_STATE)) {
-
-      /* debugging, should we keep this around? */
-      cmd_reply(CMD_TAKE, caller, C_COMMENT,
-                _("removing %s [%d]"), old_plr->name, old_plr->player_no);
-
-      game_remove_player(old_plr);
-      game_renumber_players(old_plr->player_no);
-
-      /* we screwed up the pplayer pointer by removing old_plr; get it back */
-      pplayer = pconn->player;
-    } else {
-      sz_strlcpy(old_plr->username, ANON_USER_NAME);
-    }
-  } else {
-    attach_connection_to_player(pconn, pplayer);
+  /* now attach to new player */
+  attach_connection_to_player(pconn, pplayer);
+ 
+  /* if pplayer wasn't /created, and we're still in pregame, change its name */
+  if (!pplayer->was_created && is_newgame) {
+    sz_strlcpy(pplayer->name, pconn->username);
   }
 
   if (server_state == RUN_GAME_STATE) {
@@ -3214,14 +3361,110 @@ static void take_command(struct connection *caller, char *str)
     send_packet_generic_empty(pconn, PACKET_START_TURN);
   }
 
-  /* if the player we're taking was already connected, then the primary
-   * controller set that player to ai control. don't undo that decision */
-  if (!was_connected && pplayer->ai.control && game.auto_ai_toggle) {
+  /* aitoggle the player back to human if necessary. */
+  if (pplayer->ai.control && game.auto_ai_toggle) {
     toggle_ai_player_direct(NULL, pplayer);
   }
 
-  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"),
+  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"), 
             pconn->username, pplayer->name);
+
+  end:;
+  /* free our args */
+  for (i = 0; i < ntokens; i++) {
+    free(arg[i]);
+  }
+}
+
+/**************************************************************************
+  Detach from a player. if that player wasn't /created and you were 
+  controlling the player, remove it (and then detach any observers as well).
+**************************************************************************/
+static void detach_command(struct connection *caller, char *str)
+{
+  int i = 0, ntokens = 0;
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[1];
+
+  enum m_pre_result match_result;
+  struct connection *pconn = NULL;
+  struct player *pplayer = NULL;
+  bool is_newgame = (server_state == PRE_GAME_STATE || 
+                     server_state == SELECT_RACES_STATE) && game.is_new_game;
+
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 1, TOKEN_DELIMITERS);
+
+  if (!caller && ntokens == 0) {
+    cmd_reply(CMD_DETACH, caller, C_SYNTAX,
+              _("Usage: detach <connection-name>"));
+    goto end;
+  }
+
+  /* match the connection if the argument was given */
+  if (ntokens == 1 
+      && !(pconn = find_conn_by_user_prefix(arg[0], &match_result))) {
+    cmd_reply_no_such_conn(CMD_DETACH, caller, arg[0], match_result);
+    goto end;
+  }
+
+  /* if no argument is given, the caller wants to detach himself */
+  if (!pconn) {
+    pconn = caller;
+  }
+
+  /* if pconn and caller are not the same, only continue 
+   * if we're console, or we have ALLOW_HACK */
+  if (pconn != caller  && caller && caller->access_level != ALLOW_HACK) {
+    cmd_reply(CMD_DETACH, caller, C_FAIL, 
+                _("You can not detach other users."));
+    goto end;
+  }
+
+  pplayer = pconn->player;
+
+  /* must have someone to detach from... */
+  if (!pplayer) {
+    cmd_reply(CMD_DETACH, caller, C_FAIL, 
+              _("%s is not attached to any player."), pconn->username);
+    goto end;
+  }
+
+  /* if we want to detach while the game is running, reset the client */
+  if (server_state == RUN_GAME_STATE) {
+    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+  }
+
+  /* actually do the detaching */
+  unattach_connection_from_player(pconn);
+  cmd_reply(CMD_DETACH, caller, C_COMMENT,
+            _("%s detaching from %s"), pconn->username, pplayer->name);
+
+  /* only remove the player if the game is new and in pregame, 
+   * the player wasn't /created, and no one is controlling it */
+  if (!pplayer->is_connected && !pplayer->was_created && is_newgame) {
+    /* detach any observers */
+    conn_list_iterate(pplayer->connections, aconn) {
+      if (aconn->observer) {
+        unattach_connection_from_player(aconn);
+        notify_conn(&aconn->self, _("detaching from %s."), pplayer->name);
+      }
+    } conn_list_iterate_end;
+
+    /* actually do the removal */
+    game_remove_player(pplayer);
+    game_renumber_players(pplayer->player_no);
+  }
+
+  if (!pplayer->is_connected) {
+    /* aitoggle the player if no longer connected. */
+    if (game.auto_ai_toggle && !pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+    /* reset username if in pregame. */
+    if (is_newgame) {
+      sz_strlcpy(pplayer->username, ANON_USER_NAME);
+    }
+  }
 
   end:;
   /* free our args */
@@ -3479,6 +3722,12 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_TAKE:
     take_command(caller, arg);
+    break;
+  case CMD_OBSERVE:
+    observe_command(caller, arg);
+    break;
+  case CMD_DETACH:
+    detach_command(caller, arg);
     break;
   case CMD_CREATE:
     create_ai_player(caller,arg);

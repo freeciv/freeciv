@@ -102,6 +102,7 @@ void player_init(struct player *plr)
   conn_list_init(&plr->connections);
   plr->current_conn = NULL;
   plr->is_connected = FALSE;
+  plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
