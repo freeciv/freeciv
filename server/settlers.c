@@ -478,74 +478,118 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
 }
 
 /**************************************************************************
-  Calculates the value of removing pollution.
-**************************************************************************/
-static int ai_calc_pollution(struct city *pcity, int cx, int cy, int best,
-			     int mx, int my)
-{
-  int m;
+  Calculates the value of removing pollution at the given tile.
 
-  if (!map_has_special(mx, my, S_POLLUTION)) return(-1);
-  map_clear_special(mx, my, S_POLLUTION);
-  m = city_tile_value(pcity, cx, cy, 0, 0);
-  map_set_special(mx, my, S_POLLUTION);
-  m = (m + best + 50) * 2;
-  return(m);
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
+
+  The return value is the goodness of the tile after the cleanup.  This
+  should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
+**************************************************************************/
+static int ai_calc_pollution(struct city *pcity, int city_x, int city_y,
+			     int best, int map_x, int map_y)
+{
+  int goodness;
+
+  if (!map_has_special(map_x, map_y, S_POLLUTION)) {
+    return -1;
+  }
+  map_clear_special(map_x, map_y, S_POLLUTION);
+  goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+  map_set_special(map_x, map_y, S_POLLUTION);
+
+  /* FIXME: need a better way to guarantee pollution is cleaned up. */
+  goodness = (goodness + best + 50) * 2;
+
+  return goodness;
 }
 
 /**************************************************************************
-  Calculates the value of removing fallout.
+  Calculates the value of removing fallout at the given tile.
+
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
+
+  The return value is the goodness of the tile after the cleanup.  This
+  should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
 **************************************************************************/
 static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
-			   int cx, int cy, int best, int mx, int my)
+			   int city_x, int city_y, int best,
+			   int map_x, int map_y)
 {
-  int m;
+  int goodness;
 
-  if (!map_has_special(mx, my, S_FALLOUT)) return(-1);
-  map_clear_special(mx, my, S_FALLOUT);
-  m = city_tile_value(pcity, cx, cy, 0, 0);
-  map_set_special(mx, my, S_FALLOUT);
-  if (!pplayer->ai.control)
-    m = (m + best + 50) * 2;
-  return(m);
+  if (!map_has_special(map_x, map_y, S_FALLOUT)) {
+    return -1;
+  }
+  map_clear_special(map_x, map_y, S_FALLOUT);
+  goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+  map_set_special(map_x, map_y, S_FALLOUT);
+
+  /* FIXME: need a better way to guarantee fallout is cleaned up. */
+  if (!pplayer->ai.control) {
+    goodness = (goodness + best + 50) * 2;
+  }
+
+  return goodness;
 }
 
 /**************************************************************************
-  Returns TRUE if tile at x, y is useful as a source of irrigation. If
-  the given player is an AI, it will ignore fog of war. (Do not "fix" this,
-  since the AI does too little exploration yet to manage without this.)
-**************************************************************************/
-static bool is_wet(struct player *pplayer, int x, int y)
-{
-  enum tile_terrain_type t;
-  enum tile_special_type s;
+  Returns TRUE if tile at (map_x,map_y) is useful as a source of
+  irrigation.  This takes player vision into account, but allows the AI
+  to cheat.
 
-  if (!pplayer->ai.control && !map_is_known(x, y, pplayer)) {
+  This function should probably only be used by
+  is_wet_or_is_wet_cardinal_around, below.
+**************************************************************************/
+static bool is_wet(struct player *pplayer, int map_x, int map_y)
+{
+  enum tile_terrain_type terrain;
+  enum tile_special_type special;
+
+  /* FIXME: this should check a handicap. */
+  if (!pplayer->ai.control && !map_is_known(map_x, map_y, pplayer)) {
     return FALSE;
   }
 
-  t=map_get_terrain(x,y);
-  if (is_ocean(t)) {
+  terrain = map_get_terrain(map_x, map_y);
+  if (is_ocean(terrain)) {
+    /* TODO: perhaps salt water should not be usable for irrigation? */
     return TRUE;
   }
-  s=map_get_special(x,y);
-  if (contains_special(s, S_RIVER) || contains_special(s, S_IRRIGATION)) return TRUE;
+
+  special = map_get_special(map_x, map_y);
+  if (contains_special(special, S_RIVER)
+      || contains_special(special, S_IRRIGATION)) {
+    return TRUE;
+  }
+
   return FALSE;
 }
 
 /**************************************************************************
   Returns TRUE if there is an irrigation source adjacent to the given x, y
-  position.
-**************************************************************************/
-static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
-					    int y)
-{
-  if (is_wet(pplayer, x, y))
-    return TRUE;
+  position.  This takes player vision into account, but allows the AI to
+  cheat. (See is_wet() for the definition of an irrigation source.)
 
-  cardinal_adjc_iterate(x, y, x1, y1) {
-    if (is_wet(pplayer, x1, y1))
+  This function exactly mimics is_water_adjacent_to_tile, except that it
+  checks vision.
+**************************************************************************/
+static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer,
+					     int map_x, int map_y)
+{
+  if (is_wet(pplayer, map_x, map_y)) {
+    return TRUE;
+  }
+
+  cardinal_adjc_iterate(map_x, map_y, x1, y1) {
+    if (is_wet(pplayer, x1, y1)) {
       return TRUE;
+    }
   } cardinal_adjc_iterate_end;
 
   return FALSE;
@@ -728,99 +772,214 @@ static int ai_calc_transform(struct city *pcity,
 }
 
 /**************************************************************************
-Calculate the attractiveness
-"spc" will be S_ROAD or S_RAILROAD for sane calls.
+  Calculate the attractiveness of building a road/rail at the given tile.
+
+  This calculates the overall benefit of connecting the civilization; this
+  is independent from the local tile (trade) bonus granted by the road.
+
+  "special" must be either S_ROAD or S_RAILROAD.
 **************************************************************************/
-static int road_bonus(int x, int y, enum tile_special_type spc)
+static int road_bonus(int map_x, int map_y, enum tile_special_type special)
 {
-  int m = 0, k;
-  bool rd[12], te[12];
-  int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
-  int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
+  int bonus = 0, i;
+  bool has_road[12], is_slow[12];
+  int dx[12] = {-1,  0,  1, -1, 1, -1, 0, 1,  0, -2, 2, 0};
+  int dy[12] = {-1, -1, -1,  0, 0,  1, 1, 1, -2,  0, 0, 2};
   struct tile *ptile;
-  bool is_border = IS_BORDER_MAP_POS(x, y, 2);
+  bool is_border = IS_BORDER_MAP_POS(map_x, map_y, 2);
   
-  assert(spc == S_ROAD || spc == S_RAILROAD);
+  assert(special == S_ROAD || special == S_RAILROAD);
 
-  if (!normalize_map_pos(&x, &y))
+  /* TODO: should just be CHECK_MAP_POS call. */
+  if (!normalize_map_pos(&map_x, &map_y)) {
     return 0;
+  }
 
-  for (k = 0; k < 12; k++) {
-    int x1 = x + ii[k], y1 = y + jj[k];
+  for (i = 0; i < 12; i++) {
+    int x1 = map_x + dx[i], y1 = map_y + dy[i];
     if (is_border && !normalize_map_pos(&x1, &y1)) {
-      rd[k] = FALSE;
-      te[k] = FALSE;
+      has_road[i] = FALSE;
+      is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
       ptile = map_get_tile(x1, y1);
-      rd[k] = tile_has_special(ptile, spc);
-      te[k] = (ptile->terrain == T_MOUNTAINS || is_ocean(ptile->terrain));
-      if (!rd[k]) {
+      has_road[i] = tile_has_special(ptile, special);
+
+      /* If TRUE, this value indicates that this tile does not need
+       * a road connector.  FIXME: this shouldn't include mountains. */
+      is_slow[i] = (ptile->terrain == T_MOUNTAINS
+		    || is_ocean(ptile->terrain));
+
+      if (!has_road[i]) {
 	unit_list_iterate(ptile->units, punit) {
 	  if (punit->activity == ACTIVITY_ROAD 
               || punit->activity == ACTIVITY_RAILROAD) {
-	    rd[k] = TRUE;
+	    /* If a road is being built here, consider as if it's already
+	     * built. */
+	    has_road[i] = TRUE;
           }
 	} unit_list_iterate_end;
       }
     }
   }
 
-  if (rd[0] && !rd[1] && !rd[3] && (!rd[2] || !rd[8]) &&
-      (!te[2] || !te[4] || !te[7] || !te[6] || !te[5])) m++;
-  if (rd[2] && !rd[1] && !rd[4] && (!rd[7] || !rd[10]) &&
-      (!te[0] || !te[3] || !te[7] || !te[6] || !te[5])) m++;
-  if (rd[5] && !rd[6] && !rd[3] && (!rd[5] || !rd[11]) &&
-      (!te[2] || !te[4] || !te[7] || !te[1] || !te[0])) m++;
-  if (rd[7] && !rd[6] && !rd[4] && (!rd[0] || !rd[9]) &&
-      (!te[2] || !te[3] || !te[0] || !te[1] || !te[5])) m++;
+  /*
+   * Consider the following tile arrangement (numbered in hex):
+   *
+   *   8
+   *  012
+   * 93 4A
+   *  567
+   *   B
+   *
+   * these are the tiles defined by the (dx,dy) arrays above.
+   *
+   * Then the following algorithm is supposed to determine if it's a good
+   * idea to build a road here.  Note this won't work well for hex maps
+   * since the (dx,dy) arrays will not cover the same tiles.
+   *
+   * FIXME: if you can understand the algorithm below please rewrite this
+   * explanation!
+   */
+  if (has_road[0]
+      && !has_road[1] && !has_road[3]
+      && (!has_road[2] || !has_road[8])
+      && (!is_slow[2] || !is_slow[4] || !is_slow[7]
+	  || !is_slow[6] || !is_slow[5])) {
+    bonus++;
+  }
+  if (has_road[2]
+      && !has_road[1] && !has_road[4]
+      && (!has_road[7] || !has_road[10])
+      && (!is_slow[0] || !is_slow[3] || !is_slow[7]
+	  || !is_slow[6] || !is_slow[5])) {
+    bonus++;
+  }
+  if (has_road[5]
+      && !has_road[6] && !has_road[3]
+      && (!has_road[5] || !has_road[11])
+      && (!is_slow[2] || !is_slow[4] || !is_slow[7]
+	  || !is_slow[1] || !is_slow[0])) {
+    bonus++;
+  }
+  if (has_road[7]
+      && !has_road[6] && !has_road[4]
+      && (!has_road[0] || !has_road[9])
+      && (!is_slow[2] || !is_slow[3] || !is_slow[0]
+	  || !is_slow[1] || !is_slow[5])) {
+    bonus++;
+  }
 
-  if (rd[1] && !rd[4] && !rd[3] && (!te[5] || !te[6] || !te[7])) m++;
-  if (rd[3] && !rd[1] && !rd[6] && (!te[2] || !te[4] || !te[7])) m++;
-  if (rd[4] && !rd[1] && !rd[6] && (!te[0] || !te[3] || !te[5])) m++;
-  if (rd[6] && !rd[4] && !rd[3] && (!te[0] || !te[1] || !te[2])) m++;
-  return(m);
+  /*   A
+   *  B*B
+   *  CCC
+   *
+   * We are at tile *.  If tile A has a road, and neither B tile does, and
+   * one C tile is a valid destination, then we might want a road here.
+   *
+   * Of course the same logic applies if you rotate the diagram.
+   */
+  if (has_road[1] && !has_road[4] && !has_road[3]
+      && (!is_slow[5] || !is_slow[6] || !is_slow[7])) {
+    bonus++;
+  }
+  if (has_road[3] && !has_road[1] && !has_road[6]
+      && (!is_slow[2] || !is_slow[4] || !is_slow[7])) {
+    bonus++;
+  }
+  if (has_road[4] && !has_road[1] && !has_road[6]
+      && (!is_slow[0] || !is_slow[3] || !is_slow[5])) {
+    bonus++;
+  }
+  if (has_road[6] && !has_road[4] && !has_road[3]
+      && (!is_slow[0] || !is_slow[1] || !is_slow[2])) {
+    bonus++;
+  }
+
+  return bonus;
 }
 
 /**************************************************************************
-  Calculate the value of building a road.
+  Calculate the benefit of building a road at the given tile.
+
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
+    pplayer is the player under consideration.
+
+  The return value is the goodness of the tile after the road is built.
+  This should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
+
+  This function does not calculate the benefit of being able to quickly
+  move units (i.e., of connecting the civilization).  See road_bonus() for
+  that calculation.
 **************************************************************************/
 static int ai_calc_road(struct city *pcity, struct player *pplayer,
-			int cx, int cy, int mx, int my)
+			int city_x, int city_y, int map_x, int map_y)
 {
-  int m;
-  struct tile *ptile = map_get_tile(mx, my);
+  int goodness;
+  struct tile *ptile = map_get_tile(map_x, map_y);
 
-  if (!is_ocean(ptile->terrain) &&
-      (!tile_has_special(ptile, S_RIVER) ||
-       player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
-      !tile_has_special(ptile, S_ROAD)) {
-    ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->special&=~S_ROAD;
-    return(m);
-  } else return(-1);
+  if (!is_ocean(ptile->terrain)
+      && (!tile_has_special(ptile, S_RIVER)
+	  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))
+      && !tile_has_special(ptile, S_ROAD)) {
+
+    /* HACK: calling map_set_special here will have side effects, so we
+     * have to set it manually. */
+    assert((ptile->special & S_ROAD) == 0);
+    ptile->special |= S_ROAD;
+
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+
+    ptile->special &= ~S_ROAD;
+
+    return goodness;
+  } else {
+    return -1;
+  }
 }
 
 /**************************************************************************
-  Calculate the value of building a railroad.
+  Calculate the benefit of building a railroad at the given tile.
+
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
+    pplayer is the player under consideration.
+
+  The return value is the goodness of the tile after the railroad is built.
+  This should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
+
+  This function does not calculate the benefit of being able to quickly
+  move units (i.e., of connecting the civilization).  See road_bonus() for
+  that calculation.
 **************************************************************************/
 static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
-			    int cx, int cy, int mx, int my)
+			    int city_x, int city_y, int map_x, int map_y)
 {
-  int m;
-  enum tile_special_type spe_sav;
-  struct tile *ptile = map_get_tile(mx, my);
+  int goodness;
+  enum tile_special_type old_special;
+  struct tile *ptile = map_get_tile(map_x, map_y);
 
-  if (!is_ocean(ptile->terrain) &&
-      player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
-      !tile_has_special(ptile, S_RAILROAD)) {
-    spe_sav = ptile->special;
-    ptile->special|=(S_ROAD | S_RAILROAD);
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->special = spe_sav;
-    return(m);
-  } else return(-1);
-  /* bonuses for adjacent railroad tiles */
+  if (!is_ocean(ptile->terrain)
+      && player_knows_techs_with_flag(pplayer, TF_RAILROAD)
+      && !tile_has_special(ptile, S_RAILROAD)) {
+    old_special = ptile->special;
+
+    /* HACK: calling map_set_special here will have side effects, so we
+     * have to set it manually. */
+    ptile->special |= (S_ROAD | S_RAILROAD);
+
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+
+    ptile->special = old_special;
+
+    return goodness;
+  } else {
+    return -1;
+  }
 }
 
 /**************************************************************************
@@ -1361,29 +1520,36 @@ void initialize_infrastructure_cache(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     int best = best_worker_tile_value(pcity);
 
-    city_map_iterate(cx, cy) {
-      pcity->ai.detox[cx][cy] = -1;
-      pcity->ai.derad[cx][cy] = -1;
-      pcity->ai.mine[cx][cy] = -1;
-      pcity->ai.irrigate[cx][cy] = -1;
-      pcity->ai.transform[cx][cy] = -1;
-      pcity->ai.road[cx][cy] = -1;
-      pcity->ai.railroad[cx][cy] = -1;
+    city_map_iterate(city_x, city_y) {
+      pcity->ai.detox[city_x][city_y] = -1;
+      pcity->ai.derad[city_x][city_y] = -1;
+      pcity->ai.mine[city_x][city_y] = -1;
+      pcity->ai.irrigate[city_x][city_y] = -1;
+      pcity->ai.transform[city_x][city_y] = -1;
+      pcity->ai.road[city_x][city_y] = -1;
+      pcity->ai.railroad[city_x][city_y] = -1;
     } city_map_iterate_end;
 
-    city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-      pcity->ai.detox[cx][cy] = ai_calc_pollution(pcity, cx, cy, best, mx, my);
-      pcity->ai.derad[cx][cy] =
-	ai_calc_fallout(pcity, pplayer, cx, cy, best, mx, my);
-      pcity->ai.mine[cx][cy] = ai_calc_mine(pcity, cx, cy, mx, my);
-      pcity->ai.irrigate[cx][cy] =
-	ai_calc_irrigate(pcity, pplayer, cx, cy, mx, my);
-      pcity->ai.transform[cx][cy] = ai_calc_transform(pcity, cx, cy, mx, my);
-      pcity->ai.road[cx][cy] = ai_calc_road(pcity, pplayer, cx, cy, mx, my);
-      /* gonna handle road_bo dynamically for now since it can change
-	 as punits arrive at adjacent tiles and start laying road -- Syela */
-      pcity->ai.railroad[cx][cy] =
-	ai_calc_railroad(pcity, pplayer, cx, cy, mx, my);
+    city_map_checked_iterate(pcity->x, pcity->y,
+			     city_x, city_y, map_x, map_y) {
+      pcity->ai.detox[city_x][city_y]
+	= ai_calc_pollution(pcity, city_x, city_y, best, map_x, map_y);
+      pcity->ai.derad[city_x][city_y] =
+	ai_calc_fallout(pcity, pplayer, city_x, city_y, best, map_x, map_y);
+      pcity->ai.mine[city_x][city_y]
+	= ai_calc_mine(pcity, city_x, city_y, map_x, map_y);
+      pcity->ai.irrigate[city_x][city_y]
+        = ai_calc_irrigate(pcity, pplayer, city_x, city_y, map_x, map_y);
+      pcity->ai.transform[city_x][city_y]
+	= ai_calc_transform(pcity, city_x, city_y, map_x, map_y);
+
+      /* road_bonus() is handled dynamically later; it takes into
+       * account settlers that have already been assigned to building
+       * roads this turn. */
+      pcity->ai.road[city_x][city_y]
+	= ai_calc_road(pcity, pplayer, city_x, city_y, map_x, map_y);
+      pcity->ai.railroad[city_x][city_y] =
+	ai_calc_railroad(pcity, pplayer, city_x, city_y, map_x, map_y);
     } city_map_checked_iterate_end;
   } city_list_iterate_end;
 }
