@@ -1007,11 +1007,25 @@ void put_one_tile_iso(struct canvas *pcanvas,
 		      int width, int height, int height_unit,
 		      enum draw_type draw, bool citymode)
 {
-  pixmap_put_tile_iso(pcanvas->hdc, map_x, map_y,
+  HDC hdc;
+  HBITMAP old = NULL; /*Remove warning*/
+
+  /* FIXME: we don't want to have to recreate the hdc each time! */
+  if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas->hdc);
+    old = SelectObject(hdc, pcanvas->bitmap);
+  } else {
+    hdc = pcanvas->hdc;
+  }
+  pixmap_put_tile_iso(hdc, map_x, map_y,
 		      canvas_x, canvas_y, 0,
 		      offset_x, offset_y, offset_y_unit,
 		      width, height, height_unit,
 		      draw);
+  if (pcanvas->bitmap) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
 }
 
 /**************************************************************************
