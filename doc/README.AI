@@ -267,12 +267,15 @@ This way 'easy' will be more easy --- a frequently requested feature.
 DIFFICULTY LEVELS
 =================
 
-There are currently three difficulty levels: 'easy', 'medium' and
-'hard'.  The 'hard' level is no-holds-barred, while 'medium' has a
-number of handicaps.  In 'easy', the AI also does random stupid things
-through the ai_fuzzy function. 
+There are currently four difficulty levels: 'easy', 'medium', 
+'hard' and 'experimental'.  The 'hard' level is no-holds-barred, 
+while 'medium' has a number of handicaps.  In 'easy', the AI 
+also does random stupid things through the ai_fuzzy function. The
+'experimental' level is only for coding - you can gate new code
+with the H_EXPERIMENTAL handicap and test 'experimental' level
+AIs against 'hard' level AIs.
 
-The handicaps used are:
+Other handicaps used are:
   H_RATES, can't set its rates beyond government limits
   H_TARGETS, can't target anything it doesn't know exists
   H_HUTS, doesn't know which unseen tiles have huts on them
@@ -285,8 +288,6 @@ use.
 THINGS THAT NEED TO BE FIXED
 ============================
 
-* The AI difficulty levels aren't fully implemented.  Either add more
-handicaps to 'easy', or use easy diplomacy mode.
 * AI doesn't understand when to become DEMOCRACY or FUNDAMENTALIST.
 Actually it doesn't evalute governments much at all.
 * Cities don't realize units are on their way to defend it.
@@ -319,19 +320,12 @@ kill one enemy is profitable (PR#1340)
 * Stop building ships and shore defense in landlocked cities with a
 pond adjacent.
 * Make the AI building evaluation code use the new buildings.ruleset.
-* Create a function that gives a statistically exact value for a units
-chance of winning a battle.  [Now done.  What about expected number
-of hit points remaing, or the variance?  Can we come up with clever
-ways for the ai to use this information?]
-* Make a function that can generate a warmap for airplanes.
-* Convert the ai_manage_diplomat() function to use the warmap.
 * Make the AI respect FoW. (They don't get much bigger than this...)
 * Move goto code to common code
 * Teach the AI to Fortify units in non-city strategic positions. Also, it
 needs to not idle all it's units every turn, breaking 2 turn fortify.
 * Teach the AI to leave units alone in a turn to regain hit points. (it
 seems to have no concept of this at all!)
-* Stop the AI from trying to buy capitalization...
 * Fix the AI valuation of supermarket. (It currently never builds it).
 See farmland_food() and ai_eval_buildings() in advdomestic.c
 * Teach the AI to coordinate the units in an attack (ok, this one is a bit
@@ -343,8 +337,6 @@ See ai_manage_explorer() and ai_manage_ferryboat().
 THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)
 ===============================================================
 
-* teach AI to use planes and missiles. [GB]
-* teach AI to use diplomats [Per]
 * teach AI to do diplomacy (see Diplomacy section) [Per]
 
 
@@ -354,15 +346,10 @@ IDEA SPACE
 * Friendly cities can be used as beachheads
 * Assess_danger should acknowledge positive feedback between multiple 
 attackers
-* Urgency and grave_danger should probably be ints showing magnitude 
-of danger
 * It would be nice for bodyguard and charge to meet en-route more 
 elegantly.
 * It may be correct to starve workers instead of allowing disorder to 
 continue.  Ideal if CMA code or similar is used here.
-* Bodyguards could be used much more often.  Actually it would be nice
-if the bodyguard code was taken out and shot, too.  Then rewritten, of
-course.
 * struct choice should have a priority indicator in it.  This will
 reduce the number of "special" want values and remove the necessity to
 have want capped, thus reducing confusion.
