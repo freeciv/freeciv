@@ -77,36 +77,9 @@ void real_append_output_window(const char *astring, int conn_id)
    *
    * Now uses window's font size and width.  Assumes fixed-width font.  --jjm
    */
-  static int m_width=0;
-
-  Dimension windowwth;
-  int maxlinelen;
   String theoutput;
   char *newout, *rmcr, *astring2 = mystrdup(astring);
 
-  if (!m_width) {
-    /* Sometimes XtVaGetValues has garbage for the XtNfont; see PR#6452.
-     * In this case it's safest if the value is initialized to NULL. */
-    XFontStruct *out_font = NULL;
-
-    XtVaGetValues(outputwindow_text, XtNfont, &out_font, NULL);
-    if (out_font)
-      m_width=XTextWidth(out_font, "M", 1);
-    else
-      m_width=10;
-  }
-
-  XtVaGetValues(outputwindow_text, XtNwidth, &windowwth, NULL);
-  maxlinelen=(windowwth/m_width)-1;
-  if (maxlinelen<32) maxlinelen=32;
-
-  freelog(LOG_DEBUG, "m_width %d windowwth %d maxlinelen %d",
-	  m_width, (int)windowwth, maxlinelen);
-
-  if (strlen(astring2) > maxlinelen) {
-    wordwrap_string(astring2, maxlinelen);
-  }
-  
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
   newout=fc_malloc(strlen(astring2)+strlen(theoutput)+2);
   sprintf(newout, "%s\n%s", theoutput, astring2);

@@ -93,10 +93,12 @@ void load_intro_gfx(void)
   XColor face;
   int have_face;
   const char *motto = freeciv_motto();
+  XFontSetExtents *exts;
 
   /* metrics */
 
-  lin=main_font_struct->ascent+main_font_struct->descent;
+  exts = XExtentsOfFontSet(main_font_set);
+  lin = exts->max_logical_extent.height;
 
   /* get colors */
 
@@ -115,9 +117,10 @@ void load_intro_gfx(void)
 
   y=intro_gfx_sprite->height-(2*lin);
 
-  w=XTextWidth(main_font_struct, motto, strlen(motto));
+  w = XmbTextEscapement(main_font_set, motto, strlen(motto));
   XSetForeground(display, font_gc, face.pixel);
-  XDrawString(display, intro_gfx_sprite->pixmap, font_gc, 
+  XmbDrawString(display, intro_gfx_sprite->pixmap,
+      	      main_font_set, font_gc, 
 	      tot/2-w/2, y, 
 	      motto, strlen(motto));
 
@@ -126,15 +129,18 @@ void load_intro_gfx(void)
   radar_gfx_sprite=load_gfxfile(minimap_intro_filename);
   tot=radar_gfx_sprite->width;
 
-  y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font_struct->descent)));
+  y = radar_gfx_sprite->height - (lin +
+      1.5 * (exts->max_logical_extent.height + exts->max_logical_extent.y));
 
-  w=XTextWidth(main_font_struct, word_version(), strlen(word_version()));
+  w = XmbTextEscapement(main_font_set, word_version(), strlen(word_version()));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
-  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+      	      main_font_set, font_gc, 
 	      (tot/2-w/2)+1, y+1, 
 	      word_version(), strlen(word_version()));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
-  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+      	      main_font_set, font_gc, 
 	      tot/2-w/2, y, 
 	      word_version(), strlen(word_version()));
 
@@ -143,12 +149,14 @@ void load_intro_gfx(void)
   my_snprintf(s, sizeof(s), "%d.%d.%d%s",
 	      MAJOR_VERSION, MINOR_VERSION,
 	      PATCH_VERSION, VERSION_LABEL);
-  w=XTextWidth(main_font_struct, s, strlen(s));
+  w = XmbTextEscapement(main_font_set, s, strlen(s));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
-  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+      	      main_font_set, font_gc, 
 	      (tot/2-w/2)+1, y+1, s, strlen(s));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
-  XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+      	      main_font_set, font_gc, 
 	      tot/2-w/2, y, s, strlen(s));
 
   /* free colors */

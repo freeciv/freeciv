@@ -14,6 +14,9 @@ Freeciv*borderColor:                         black
 !Freeciv*server:                              localhost
 !Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
 
+Freeciv*international: True
+Freeciv*fontSet: -*-*-*-*-*--14-*
+
 !
 ! Default colors, by widget type
 !
@@ -1572,7 +1575,7 @@ Freeciv*reportcitylabel.right:              chainRight
 
 Freeciv*reportcitylistlabel.justify:            left
 Freeciv*reportcitylistlabel.width:              600
-Freeciv*reportcitylistlabel.font:		 6x13
+!Freeciv*reportcitylistlabel.font:		 6x13
 Freeciv*reportcitylistlabel.borderWidth:        1
 Freeciv*reportcitylistlabel.resizable:          True
 Freeciv*reportcitylistlabel.top:                chainTop
@@ -1596,7 +1599,7 @@ Freeciv*reportcityviewport.left:                chainLeft
 Freeciv*reportcityviewport.right:               chainRight
 Freeciv*reportcityviewport.fromVert:            reportcitylistlabel
 
-Freeciv*reportcitylist.font:		     6x13
+!Freeciv*reportcitylist.font:		     6x13
 Freeciv*reportcitylist.forceColumns:        true
 Freeciv*reportcitylist.defaultColumns:      1
 Freeciv*reportcitylist.verticalList:        true

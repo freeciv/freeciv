@@ -176,10 +176,10 @@ Pixmap gray50,gray25;
 
 /* overall font GC                                    */
 GC font_gc;
-XFontStruct *main_font_struct;
+XFontSet main_font_set;
 /* productions font GC                                */
 GC prod_font_gc;
-XFontStruct *prod_font_struct;
+XFontSet prod_font_set;
 
 Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 Widget bottom_form;
@@ -276,7 +276,7 @@ void ui_main(int argc, char *argv[])
   parse_options(argc, argv);
 
   /* include later - pain to see the warning at every run */
-  /* XtSetLanguageProc(NULL, (XtLanguageProc)NULL, NULL); */
+  XtSetLanguageProc(NULL, NULL, NULL);
   
   toplevel = XtVaAppInitialize(
 	       &app_context,               /* Application context */
@@ -342,32 +342,55 @@ void ui_main(int argc, char *argv[])
 
   {
     XGCValues values;
+    char **missing_charset_list_return;
+    int missing_charset_count_return;
+    char *def_string_return;
 
     values.graphics_exposures = False;
     civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
-    main_font_struct=XLoadQueryFont(display, city_names_font);
-    if(main_font_struct==0) {
-      freelog(LOG_FATAL, _("Failed loading font: %s"), city_names_font);
+    free(city_names_font);
+    city_names_font = mystrdup("-*-*-*-*-*--14-*");
+
+    free(city_productions_font_name);
+    city_productions_font_name = mystrdup("-*-*-*-*-*--14-*");
+
+    main_font_set = XCreateFontSet(display, city_names_font,
+	&missing_charset_list_return,
+	&missing_charset_count_return,
+	&def_string_return);
+    if(!main_font_set) {
+      freelog(LOG_FATAL, _("Unable to open fontset: %s"),
+	  city_names_font);
       exit(EXIT_FAILURE);
+    }
+    for(i = 0; i < missing_charset_count_return; i++) {
+      freelog(LOG_ERROR, _("Font for charset %s is lacking"),
+	  missing_charset_list_return[i]);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
     values.background = colors_standard[COLOR_STD_BLACK];
-    values.font = main_font_struct->fid;
     font_gc= XCreateGC(display, root_window, 
-		       GCForeground|GCBackground|GCFont|GCGraphicsExposures, 
+		       GCForeground|GCBackground|GCGraphicsExposures, 
 		       &values);
 
-    prod_font_struct=XLoadQueryFont(display, city_productions_font_name);
-    if(prod_font_struct==0) {
-      freelog(LOG_FATAL, _("Failed loading font: %s"), city_productions_font_name);
+    prod_font_set = XCreateFontSet(display, city_productions_font_name,
+	&missing_charset_list_return,
+	&missing_charset_count_return,
+	&def_string_return);
+    if(!prod_font_set) {
+      freelog(LOG_FATAL, _("Unable to open fontset: %s"),
+	  city_productions_font_name);
       exit(EXIT_FAILURE);
+    }
+    for(i = 0; i < missing_charset_count_return; i++) {
+      freelog(LOG_ERROR, _("Font for charset %s is lacking"),
+	  missing_charset_list_return[i]);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
     values.background = colors_standard[COLOR_STD_BLACK];
-    values.font = prod_font_struct->fid;
     prod_font_gc= XCreateGC(display, root_window,
-			    GCForeground|GCBackground|GCFont|GCGraphicsExposures,
+			    GCForeground|GCBackground|GCGraphicsExposures,
 			    &values);
 
     values.line_width = BORDER_WIDTH;
