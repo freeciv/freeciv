@@ -3092,6 +3092,15 @@ STATIC ULONG Unit_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
+STATIC ULONG Unit_Get(struct IClass * cl, Object * o, struct opGet * msg)
+{
+  struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
+  if (msg->opg_AttrID == MUIA_Unit_Unit) *msg->opg_Storage = (LONG)data->punit;
+  else return DoSuperMethodA(cl, o, (Msg) msg);
+  return 1;
+}
+
+
 STATIC ULONG Unit_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   if (!DoSuperMethodA(cl, o, msg))
@@ -3180,6 +3189,8 @@ DISPATCHERPROTO(Unit_Dispatcher)
     return Unit_Dispose(cl, obj, msg);
   case OM_SET:
     return Unit_Set(cl, obj, (struct opSet *) msg);
+  case OM_GET:
+    return Unit_Get(cl, obj, (struct opGet *) msg);
   case MUIM_Setup:
     return Unit_Setup(cl, obj, msg);
   case MUIM_Cleanup:
@@ -3188,6 +3199,277 @@ DISPATCHERPROTO(Unit_Dispatcher)
     return Unit_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
   case MUIM_Draw:
     return Unit_Draw(cl, obj, (struct MUIP_Draw *) msg);
+  }
+  return (DoSuperMethodA(cl, obj, msg));
+}
+
+/****************************************************************
+ PresentUnit Custom Class
+*****************************************************************/
+
+struct MUI_CustomClass *CL_PresentUnit;
+
+Object *MakePresentUnit(struct unit *punit)
+{
+  return PresentUnitObject,
+    MUIA_Unit_Unit, punit,
+    MUIA_Unit_Upkeep, FALSE,
+    MUIA_InputMode, MUIV_InputMode_RelVerify,
+    End;
+}
+
+struct PresentUnit_Data
+{
+  Object *context_menu;
+};
+
+
+STATIC ULONG PresentUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
+{
+  if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
+  {
+    set(o, MUIA_ContextMenu, 1);
+  }
+  return (ULONG) o;
+}
+
+STATIC ULONG PresentUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
+{
+  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
+  if (data->context_menu)
+    MUI_DisposeObject(data->context_menu);
+  
+  return DoSuperMethodA(cl, o, msg);
+}
+
+STATIC ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
+{
+  Object *context_menu = NULL;
+  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
+  struct unit *punit;
+
+  if (data->context_menu)
+    MUI_DisposeObject(data->context_menu);
+
+  if ((punit = (struct unit*)xget(o,MUIA_Unit_Unit)))
+  {
+    if (_isinobject(msg->mx, msg->my))
+    {
+      Object *menu_title;
+
+      context_menu = MenustripObject,
+	  Child, menu_title = MenuObjectT(unit_name(punit->type)),
+	  End,
+      End;
+
+      if (context_menu)
+      {
+      	Object *entry;
+      	struct city *pcity = map_get_city(punit->x,punit->y);
+
+	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Activate"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	{
+	  set(entry, MUIA_UserData, PACK_USERDATA(punit, UNIT_ACTIVATE));
+	  DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	}
+
+	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Disband"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	{
+	  set(entry, MUIA_UserData, PACK_USERDATA(punit, MENU_ORDER_DISBAND));
+	  DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	}
+
+	if (punit->activity != ACTIVITY_FORTIFYING &&
+	    can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+	{
+
+	  if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Fortify"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	  {
+	    set(entry, MUIA_UserData, PACK_USERDATA(punit, MENU_ORDER_FORTIFY));
+	    DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	  }
+	}
+
+	if (pcity && pcity->id != punit->homecity)
+	{
+	  if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Make new homecity"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	  {
+	    set(entry, MUIA_UserData, PACK_USERDATA(punit, MENU_ORDER_HOMECITY));
+	    DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	  }
+	}
+
+	if (punit->activity != ACTIVITY_SENTRY &&
+	    can_unit_do_activity(punit, ACTIVITY_SENTRY))
+	{
+	  if (pcity && pcity->id != punit->homecity)
+	  {
+	    if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Sentry"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	    {
+	      set(entry, MUIA_UserData, PACK_USERDATA(punit, MENU_ORDER_SENTRY));
+	      DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	    }
+	  }
+	}
+
+	if (can_upgrade_unittype(game.player_ptr,punit->type) != -1)
+	{
+	  if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Upgrade"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	  {
+	    set(entry, MUIA_UserData, PACK_USERDATA(punit, UNIT_UPGRADE));
+	    DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	  }
+	}
+      }
+    }
+  }
+
+  data->context_menu = context_menu;
+
+  return (ULONG) context_menu;
+}
+
+STATIC ULONG PresentUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
+{
+  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
+  ULONG udata = muiUserData(msg->item);
+  ULONG command = UNPACK_COMMAND(udata);
+
+  struct unit *punit = UNPACK_UNIT(udata);
+  if (punit)
+  {
+    do_unit_function(punit, command);
+  }
+  return 0;
+}
+
+
+DISPATCHERPROTO(PresentUnit_Dispatcher)
+{
+  switch (msg->MethodID)
+  {
+  case OM_NEW:
+    return PresentUnit_New(cl, obj, (struct opSet *) msg);
+  case OM_DISPOSE:
+    return PresentUnit_Dispose(cl, obj, msg);
+  case MUIM_ContextMenuBuild:
+    return PresentUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
+  case MUIM_ContextMenuChoice:
+    return PresentUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
+  }
+  return (DoSuperMethodA(cl, obj, msg));
+}
+
+/****************************************************************
+ SupportedUnit Custom Class
+*****************************************************************/
+
+struct MUI_CustomClass *CL_SupportedUnit;
+
+Object *MakeSupportedUnit(struct unit *punit)
+{
+  return SupportedUnitObject,
+    MUIA_Unit_Unit, punit,
+    MUIA_Unit_Upkeep, TRUE,
+    MUIA_InputMode, MUIV_InputMode_RelVerify,
+    End;
+}
+
+struct SupportedUnit_Data
+{
+  Object *context_menu;
+};
+
+
+STATIC ULONG SupportedUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
+{
+  if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
+  {
+    set(o, MUIA_ContextMenu, 1);
+  }
+  return (ULONG) o;
+}
+
+STATIC ULONG SupportedUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
+{
+  struct SupportedUnit_Data *data = (struct SupportedUnit_Data *) INST_DATA(cl, o);
+  if (data->context_menu)
+    MUI_DisposeObject(data->context_menu);
+  
+  return DoSuperMethodA(cl, o, msg);
+}
+
+STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
+{
+  Object *context_menu = NULL;
+  struct SupportedUnit_Data *data = (struct SupportedUnit_Data *) INST_DATA(cl, o);
+  struct unit *punit;
+
+  if (data->context_menu)
+    MUI_DisposeObject(data->context_menu);
+
+  if ((punit = (struct unit*)xget(o,MUIA_Unit_Unit)))
+  {
+    if (_isinobject(msg->mx, msg->my))
+    {
+      Object *menu_title;
+
+      context_menu = MenustripObject,
+	  Child, menu_title = MenuObjectT(unit_name(punit->type)),
+	  End,
+      End;
+
+      if (context_menu)
+      {
+      	Object *entry;
+
+	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Activate"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	{
+	  set(entry, MUIA_UserData, PACK_USERDATA(punit, UNIT_ACTIVATE));
+	  DoMethod(menu_title, MUIM_Family_AddTail, entry);
+	}
+
+	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Disband"), NULL, MUIO_Menuitem_CopyStrings, 0)))
+	{
+	  set(entry, MUIA_UserData, NULL);
+	  DoMethod(menu_title, MUIM_Family_AddTail, PACK_USERDATA(punit, MENU_ORDER_DISBAND));
+	}
+      }
+    }
+  }
+
+  data->context_menu = context_menu;
+
+  return (ULONG) context_menu;
+}
+
+STATIC ULONG SupportedUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
+{
+  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
+  ULONG udata = muiUserData(msg->item);
+  ULONG command = UNPACK_COMMAND(udata);
+
+  struct unit *punit = UNPACK_UNIT(udata);
+  if (punit)
+  {
+    do_unit_function(punit, command);
+  }
+  return 0;
+}
+
+
+DISPATCHERPROTO(SupportedUnit_Dispatcher)
+{
+  switch (msg->MethodID)
+  {
+  case OM_NEW:
+    return PresentUnit_New(cl, obj, (struct opSet *) msg);
+  case OM_DISPOSE:
+    return PresentUnit_Dispose(cl, obj, msg);
+  case MUIM_ContextMenuBuild:
+    return PresentUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
+  case MUIM_ContextMenuChoice:
+    return PresentUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
   }
   return (DoSuperMethodA(cl, obj, msg));
 }
@@ -3250,8 +3532,10 @@ BOOL create_map_class(void)
 	if ((CL_SpaceShip = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct SpaceShip_Data), (APTR) SpaceShip_Dispatcher)))
 	  if ((CL_Sprite = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Sprite_Data), (APTR) Sprite_Dispatcher)))
 	    if ((CL_Unit = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Unit_Data), (APTR) Unit_Dispatcher)))
-	      if ((CL_MyGauge = MUI_CreateCustomClass(NULL, MUIC_Gauge, NULL, sizeof(struct MyGauge_Data), (APTR) MyGauge_Dispatcher)))
-		  return TRUE;
+	      if ((CL_PresentUnit = MUI_CreateCustomClass(NULL, NULL, CL_Unit, sizeof(struct PresentUnit_Data), (APTR) PresentUnit_Dispatcher)))
+		if ((CL_SupportedUnit = MUI_CreateCustomClass(NULL, NULL, CL_Unit, sizeof(struct SupportedUnit_Data), (APTR) SupportedUnit_Dispatcher)))
+		  if ((CL_MyGauge = MUI_CreateCustomClass(NULL, MUIC_Gauge, NULL, sizeof(struct MyGauge_Data), (APTR) MyGauge_Dispatcher)))
+		    return TRUE;
   return FALSE;
 }
 
@@ -3262,6 +3546,10 @@ VOID delete_map_class(void)
 {
   if (CL_MyGauge)
     MUI_DeleteCustomClass(CL_MyGauge);
+  if (CL_PresentUnit)
+    MUI_DeleteCustomClass(CL_PresentUnit);
+  if (CL_SupportedUnit)
+    MUI_DeleteCustomClass(CL_SupportedUnit);
   if (CL_Unit)
     MUI_DeleteCustomClass(CL_Unit);
   if (CL_Sprite)

@@ -63,7 +63,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
-#include "dialogs_g.h"
+#include "dialogs.h"
 #include "gui_main.h"
 #include "gotodlg.h"
 #include "finddlg.h"
@@ -416,7 +416,6 @@ static void control_callback(ULONG * value)
 	}
       }
       break;
-
     case UNIT_POPUP_UNITLIST:
       {
 	struct unit *punit;
@@ -430,9 +429,17 @@ static void control_callback(ULONG * value)
 	}
       }
       break;
-
     case UNIT_ESCAPE:
       key_cancel_action();
+      break;
+    case UNIT_UPGRADE:
+      {
+	struct unit *punit;
+	if ((punit = get_unit_in_focus()))
+	{
+	  popup_upgrade_dialog(punit);
+	}
+      }
       break;
     case END_TURN:
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
@@ -702,7 +709,9 @@ void do_unit_function(struct unit *punit, ULONG value)
   }
   else
   {
-    set_unit_focus(punit);
+    if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+      request_unit_selected(punit);
+    }
   }
 }
 

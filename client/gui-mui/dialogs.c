@@ -1398,8 +1398,7 @@ static void unitsel_unit(struct unit **ppunit)
   struct unit *punit = *ppunit;
 
   if(punit && punit->owner == game.player_idx) {
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-    set_unit_focus(punit);
+    request_unit_selected(punit);
   }
   set(unitsel_wnd, MUIA_Window_Open, FALSE);
 }
@@ -1818,3 +1817,67 @@ void races_toggles_set_sensitive(int bits1, int bits2)
      return;
 */
 }
+
+/****************************************************************
+ Callback for the Yes button in the upgrade dialog
+*****************************************************************/
+static void upgrade_yes(struct popup_message_data *msg)
+{
+  if(msg->data)
+  {
+    struct unit *punit = find_unit_by_id ((int)msg->data);
+    if (punit) {
+      request_unit_upgrade(punit);
+    }
+  }
+  message_close(msg);
+}
+
+/****************************************************************
+ Only in the MUI client
+*****************************************************************/
+void popup_upgrade_dialog(struct unit *punit)
+{
+  char buf[512];
+  int ut1,ut2;
+  int value;
+
+  ut1 = punit->type;
+  ut2 = can_upgrade_unittype(game.player_ptr,ut1);
+
+  if (ut2 == -1)
+  {
+    /* this shouldn't generally happen, but it is conceivable */
+    my_snprintf(buf, sizeof(buf),
+		_("Sorry: cannot upgrade %s."), unit_types[ut1].name);
+    popup_message_dialog( main_wnd, _("Upgrade Unit!"), buf,
+			  _("_Darn"), message_close, 0,
+			  NULL);
+  } else
+  {
+    value = unit_upgrade_price(game.player_ptr, ut1, ut2);
+
+    if (game.player_ptr->economic.gold>=value)
+    {
+      my_snprintf(buf, sizeof(buf), _("Upgrade %s to %s for %d gold?\n"
+	         "Treasury contains %d gold."),
+	         unit_types[ut1].name, unit_types[ut2].name,
+	         value, game.player_ptr->economic.gold);
+      popup_message_dialog(main_wnd, _("Upgrade Obsolete Units"), buf,
+			   _("_Yes"), upgrade_yes, punit->id,
+			   _("_No"), message_close, 0,
+			     NULL);
+    } else
+    {
+	my_snprintf(buf, sizeof(buf), _("Upgrading %s to %s costs %d gold.\n"
+	       "Treasury contains %d gold."),
+	       unit_types[ut1].name, unit_types[ut2].name,
+	       value, game.player_ptr->economic.gold);
+	popup_message_dialog(main_wnd,
+			     _("Upgrade Unit!"), buf,
+			     _("_Darn"), message_close, 0,
+			     NULL);
+    }
+  }
+}
+

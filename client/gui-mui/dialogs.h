@@ -38,5 +38,6 @@ Object *popup_message_dialog_args( Object *parent, char *title, char *text, stru
 Object *popup_message_dialog( Object *parent, char *title, char *text, ... );
 void destroy_message_dialog( Object *);
 
+void popup_upgrade_dialog(struct unit *punit);
 
 #endif  /* FC__DIALOGS_H */

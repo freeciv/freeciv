@@ -129,6 +129,8 @@ enum{
   END_TURN,
 
   CITY_POPUP,
+
+  UNIT_UPGRADE
 };
 
 void do_unit_function( struct unit *punit, ULONG value);

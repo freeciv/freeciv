@@ -252,17 +252,24 @@ static int fill_diplomacy_tech_menu(Object *menu_title, struct Diplomacy_dialog 
 				    struct player *plr0, struct player *plr1)
 {
   int i, flag;
+  Object *entry;
 
   for(i=1, flag=0; i<game.num_tech_types; i++)
   {
     if(get_invention(plr0, i)==TECH_KNOWN && (get_invention(plr1, i)==TECH_UNKNOWN || get_invention(plr1, i)==TECH_REACHABLE))
     {
-      Object *entry;
       entry = MUI_MakeObject(MUIO_Menuitem,advances[i].name,NULL,0,0);
       set(entry,MUIA_UserData,i);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_tech, pdialog, plr0->player_no,entry);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
+      flag = 1;
     }
+  }
+
+  if (!flag)
+  {
+    entry = MUI_MakeObject(MUIO_Menuitem,_("No technology"),NULL,0,0);
+    DoMethod(menu_title,MUIM_Family_AddTail, entry);
   }
 
   return flag;
@@ -277,10 +284,10 @@ static int fill_diplomacy_city_menu(Object *menu_title, struct Diplomacy_dialog 
 				    struct player *plr0, struct player *plr1)
 {
   int flag=0;
+  Object *entry;
 
   city_list_iterate(plr0->cities, pcity) {
     if(!city_got_effect(pcity, B_PALACE)){
-      Object *entry;
       entry = MUI_MakeObject(MUIO_Menuitem,pcity->name,NULL,0,0);
       set(entry,MUIA_UserData,pcity->id);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_city, pdialog, plr0->player_no,entry);
@@ -288,6 +295,12 @@ static int fill_diplomacy_city_menu(Object *menu_title, struct Diplomacy_dialog 
       flag=1;
     }
   } city_list_iterate_end;
+
+  if (!flag)
+  {
+    entry = MUI_MakeObject(MUIO_Menuitem,_("No city"),NULL,0,0);
+    DoMethod(menu_title,MUIM_Family_AddTail, entry);
+  }
 
   return flag;
 }

@@ -132,16 +132,6 @@ struct city_dialog
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
 
-/* GUI Independ */
-
-static void activate_unit(struct unit *punit)
-{
-  if ((punit->activity != ACTIVITY_IDLE || punit->ai.control)
-      && can_unit_do_activity(punit, ACTIVITY_IDLE))
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-  set_unit_focus(punit);
-}
-
 /****************************************************************
  ...
 *****************************************************************/
@@ -1035,7 +1025,7 @@ static void city_citizen(struct city_citizen_msg *msg)
 **************************************************************************/
 static void city_present(struct city_unit_msg *data)
 {
-  activate_unit(data->punit);
+  request_unit_selected(data->punit);
 }
 
 /****************************************************************
@@ -1684,7 +1674,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     Object *o;
 
     punit = (struct unit *) ITERATOR_PTR(myiter);
-    o = MakeUnit(punit, TRUE);
+    o = MakeSupportedUnit(punit);
     if (o)
       DoMethod(pdialog->supported_group, OM_ADDMEMBER, o);
   }
@@ -1719,8 +1709,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
     Object *o;
 
     punit = (struct unit *) ITERATOR_PTR(myiter);
-    o = MakeUnit(punit, FALSE);
-    if (o)
+    if ((o = MakePresentUnit(punit)))
     {
       DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_present, pdialog, punit);
       DoMethod(pdialog->present_group, OM_ADDMEMBER, o);

@@ -23,6 +23,8 @@
 #define SpaceShipObject NewObject(CL_SpaceShip->mcc_Class, NULL
 #define SpriteObject NewObject(CL_Sprite->mcc_Class, NULL
 #define UnitObject NewObject(CL_Unit->mcc_Class, NULL
+#define PresentUnitObject NewObject(CL_PresentUnit->mcc_Class, NULL
+#define SupportedUnitObject NewObject(CL_SupportedUnit->mcc_Class, NULL
 #define MyGaugeObject NewObject(CL_MyGauge->mcc_Class, NULL
 
 IMPORT struct MUI_CustomClass *CL_Map;
@@ -30,6 +32,8 @@ IMPORT struct MUI_CustomClass *CL_CityMap;
 IMPORT struct MUI_CustomClass *CL_SpaceShip;
 IMPORT struct MUI_CustomClass *CL_Sprite;
 IMPORT struct MUI_CustomClass *CL_Unit;
+IMPORT struct MUI_CustomClass *CL_PresentUnit;
+IMPORT struct MUI_CustomClass *CL_SupportedUnit;
 IMPORT struct MUI_CustomClass *CL_MyGauge;
 
 struct Map_Click
@@ -79,7 +83,7 @@ struct MUIP_Map_ExplodeUnit {ULONG MethodID; struct unit *punit;};
 #define MUIA_Sprite_OverlaySprite (TAG_USER+0x1234802) /* N... struct Sprite * */
 #define MUIA_Sprite_Background    (TAG_USER+0x1234803) /* NS.. ULONG */
 
-#define MUIA_Unit_Unit						(TAG_USER+0x1234900) /* NS.. struct unit * */
+#define MUIA_Unit_Unit						(TAG_USER+0x1234900) /* NSG. struct unit * */
 #define MUIA_Unit_Upkeep					(TAG_USER+0x1234901) /* N... BOOL */
 
 
@@ -100,6 +104,8 @@ Object *MakeSpaceShip(struct player_spaceship *ship);
 Object *MakeSprite(struct Sprite *sprite);
 Object *MakeBorderSprite(struct Sprite *sprite);
 Object *MakeUnit(struct unit *punit, LONG upkeep);
+Object *MakePresentUnit(struct unit *punit);
+Object *MakeSupportedUnit(struct unit *punit);
 
 /* Something which should be otherwere */
 
