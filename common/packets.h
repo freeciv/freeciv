@@ -536,22 +536,14 @@ struct connection {
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
-unsigned char *get_int8(unsigned char *buffer, int *val);
-unsigned char *put_int8(unsigned char *buffer, int val);
-unsigned char *get_int16(unsigned char *buffer, int *val);
+/* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_int16(unsigned char *buffer, int val);
-unsigned char *get_int32(unsigned char *buffer, int *val);
-unsigned char *put_int32(unsigned char *buffer, int val);
 unsigned char *put_string(unsigned char *buffer, char *mystring);
-unsigned char *get_string(unsigned char *buffer, char *mystring);
 
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       struct packet_diplomacy_info *packet);
 struct packet_diplomacy_info *
 receive_packet_diplomacy_info(struct connection *pc);
-
-
-
 
 int send_packet_diplomat_action(struct connection *pc, 
 				struct packet_diplomat_action *packet);
