@@ -780,24 +780,27 @@ void resolve_unit_stack(int x, int y, int verbose)
   if(!punit && cunit)
     punit = cunit;
   
-  if(punit && map_get_terrain(punit->x, punit->y)==T_OCEAN && 
-     !is_enough_transporter_space(get_player(punit->owner), x, y)){    
-    unit_list_iterate(map_get_tile(x, y)->units, vunit){
-      struct city *vcity = find_closest_owned_city(get_player(vunit->owner), x, y);
-      if(is_ground_unit(vunit)){
-	teleport_unit_to_city(vunit, vcity, 0);	  
-	freelog(LOG_VERBOSE, "Teleported  %s's %s to %s"
-		" as there is no transport space on square (%d, %d)",
-		get_player(vunit->owner)->name, unit_name(vunit->type),
-		vcity->name, x, y);
-	if (verbose) {
-	  notify_player(get_player(vunit->owner),
-			_("Game: Teleported your %s to %s as there is"
-			  " no transport space on square (%d, %d)."),
-			unit_name(vunit->type), vcity->name, x, y);
+  if(punit && map_get_terrain(punit->x, punit->y)==T_OCEAN) {
+    while(!is_enough_transporter_space(get_player(punit->owner), x, y)) {
+      unit_list_iterate(map_get_tile(x, y)->units, vunit) {
+	if(is_ground_unit(vunit)) {
+	  struct city *vcity =
+	    find_closest_owned_city(get_player(vunit->owner), x, y);
+	  teleport_unit_to_city(vunit, vcity, 0);	  
+	  freelog(LOG_VERBOSE, "Teleported  %s's %s to %s"
+		  " as there is no transport space on square (%d, %d)",
+		  get_player(vunit->owner)->name, unit_name(vunit->type),
+		  vcity->name, x, y);
+	  if (verbose) {
+	    notify_player(get_player(vunit->owner),
+			  _("Game: Teleported your %s to %s as there is"
+			    " no transport space on square (%d, %d)."),
+			  unit_name(vunit->type), vcity->name, x, y);
+	  }
+	  break;   /* break out of unit_list_iterate loop */
 	}
       }
+      unit_list_iterate_end;
     }
-    unit_list_iterate_end;
   }
 }

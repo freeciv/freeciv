@@ -274,42 +274,45 @@ int unit_can_defend_here(struct unit *punit)
 }
 
 /**************************************************************************
-...
+Check for any free space on pplayer's transporters at (x,y).
+(Return number of units which may be added to transporters to fill them.)
 **************************************************************************/
 int is_transporter_with_free_space(struct player *pplayer, int x, int y)
 {
-  int none_transporters=0, total_capacity=0;
+  int availability = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if(is_ground_units_transport(punit))
-      total_capacity+=get_transporter_capacity(punit);
-    else if (is_ground_unit(punit))
-      none_transporters++;
+    if (punit->owner == pplayer->player_no) {
+      if (is_ground_units_transport(punit))
+	availability += get_transporter_capacity(punit);
+      else if (is_ground_unit(punit))
+	availability--;
+    }
   }
   unit_list_iterate_end;
-  
-  return(total_capacity>none_transporters ? total_capacity-none_transporters : 0);
+
+  return (availability > 0 ? availability : 0);
 }
 
 /**************************************************************************
-The above one isn't quite what I want - Kris
-Specifically: only pplayer's transports count; only returns true/false;
-and returns true if (capacity == passengers).  --dwp
+Check for enough pplayer's transporters to carry pplayer's ground units at (x,y).
+(Return true if capacity of transporters >= number of ground units.)
 **************************************************************************/
-int is_enough_transporter_space (struct player *pplayer, int x, int y)
+int is_enough_transporter_space(struct player *pplayer, int x, int y)
 {
-  int none_transporters=0, total_capacity=0;
-  
+  int availability = 0;
+
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if(is_ground_units_transport(punit)
-       && punit->owner == pplayer->player_no)
-      total_capacity+=get_transporter_capacity(punit);
-    else if (is_ground_unit(punit))
-      none_transporters++;
+    if (punit->owner == pplayer->player_no) {
+      if (is_ground_units_transport(punit))
+	availability += get_transporter_capacity(punit);
+      else if (is_ground_unit(punit))
+	availability--;
+    }
   }
   unit_list_iterate_end;
-  
-  return(total_capacity>=none_transporters ? 1 : 0);
+
+  return (availability >= 0 ? 1 : 0);
 }
 
 
