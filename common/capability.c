@@ -16,6 +16,7 @@
 #include <ctype.h>
 
 #include "capability.h"
+#include "shared.h"		/* mystrdup */
 
 /* This routine returns true if the capability in cap appears
  * in the capability list in capstr.  The capabilities in capstr
@@ -29,7 +30,7 @@ int has_capability(char *cap, char *capstr)
   char *capstr_, *token, *next;
   int res=0, finished=0;
 
-  token = capstr_ = strdup(capstr);
+  token = capstr_ = mystrdup(capstr);
   do {
     /* skip leading whitespace */
     while (isspace(*token))
@@ -66,7 +67,7 @@ int has_capabilities(char *us, char *them)
   char *us_, *token;
   int res=1;
 
-  us_ = strdup(us);
+  us_ = mystrdup(us);
   token = strtok(us_, ", ");
   while (token != NULL)
   {
