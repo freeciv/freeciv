@@ -51,15 +51,6 @@
 #define CMA_NONE	(-1)
 #define CMA_CUSTOM	(-2)
 
-/* get 'struct city *' functions: */
-#define SPECVEC_TAG pcity
-#define SPECVEC_TYPE struct city *
-#include "specvec.h"
-
-#define SPECVEC_TAG pcity
-#define SPECVEC_TYPE struct city *
-#include "specvec_c.h"
-
 /******************************************************************/
 static void create_city_report_dialog(bool make_modal);
 static void city_model_init(void);
@@ -178,35 +169,29 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   gtk_widget_set_name(menu, "Freeciv");
 
   if (change_prod) {
-    struct pcity_vector selected;
+    GPtrArray *selected;
     ITree it;
     int num_selected = 0;
     GtkTreeModel *model = GTK_TREE_MODEL(city_model);
+    struct city **data;
 
-    pcity_vector_init(&selected);
-    pcity_vector_reserve(&selected, size);
+    selected = g_ptr_array_sized_new(size);
 
     for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
-      struct city *pcity, **pdest;
       gpointer res;
     
       if (!itree_is_selected(city_selection, &it))
     	continue;
 
       itree_get(&it, 0, &res, -1);
-      pcity = res;
-
-      pdest = pcity_vector_get(&selected, num_selected);
-      *pdest = pcity;
+      g_ptr_array_add(selected, res);
       num_selected++;
     }
 
-    assert(num_selected == size);
-
-    cids_used = collect_cids1(cids, pcity_vector_get(&selected, 0),
-        		      num_selected, append_units,
+    data = (struct city **)g_ptr_array_free(selected, FALSE);
+    cids_used = collect_cids1(cids, data, num_selected, append_units,
         		      append_wonders, change_prod, test_func);
-    pcity_vector_free(&selected);
+    g_free(data);
   } else {
     cids_used = collect_cids1(cids, NULL, 0, append_units,
 			      append_wonders, change_prod, test_func);
