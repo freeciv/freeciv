@@ -139,6 +139,7 @@ int impr_sell_gold(Impr_Type_id id);
 
 bool is_wonder(Impr_Type_id id);
 const char *get_improvement_name(Impr_Type_id id);
+const char *get_improvement_name_orig(Impr_Type_id id);
 
 /* FIXME: remove improvement_variant() when gen-impr obsoletes */
 int improvement_variant(Impr_Type_id id);  
@@ -149,6 +150,7 @@ bool improvement_redundant(struct player *pplayer, const struct city *pcity,
 bool wonder_obsolete(Impr_Type_id id);
 bool is_wonder_useful(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(const char *s);
+Impr_Type_id find_improvement_by_name_orig(const char *s);
 void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */

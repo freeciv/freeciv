@@ -567,84 +567,6 @@ static void map_save(struct section_file *file)
   } whole_map_iterate_end;
 }
 
-/***************************************************************
-Load the worklist elements specified by path, given the arguments
-plrno and wlinx, into the worklist pointed to by pwl.
-***************************************************************/
-static void worklist_load(struct section_file *file,
-			  const char *path, int plrno, int wlinx,
-			  struct worklist *pwl)
-{
-  char efpath[64];
-  char idpath[64];
-  int i;
-  bool end = FALSE;
-
-  sz_strlcpy(efpath, path);
-  sz_strlcat(efpath, ".wlef%d");
-  sz_strlcpy(idpath, path);
-  sz_strlcat(idpath, ".wlid%d");
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    if (end) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
-      (void) section_file_lookup(file, efpath, plrno, wlinx, i);
-      (void) section_file_lookup(file, idpath, plrno, wlinx, i);
-    } else {
-      pwl->wlefs[i] =
-	secfile_lookup_int_default(file, WEF_END, efpath, plrno, wlinx, i);
-      pwl->wlids[i] =
-	secfile_lookup_int_default(file, 0, idpath, plrno, wlinx, i);
-
-      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
-	  ((pwl->wlefs[i] == WEF_UNIT) && !unit_type_exists(pwl->wlids[i])) ||
-	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
-	pwl->wlefs[i] = WEF_END;
-	pwl->wlids[i] = 0;
-	end = TRUE;
-      }
-    }
-  }
-}
-
-/***************************************************************
-Load the worklist elements specified by path, given the arguments
-plrno and wlinx, into the worklist pointed to by pwl.
-Assumes original save-file format.  Use for backward compatibility.
-***************************************************************/
-static void worklist_load_old(struct section_file *file,
-			      const char *path, int plrno, int wlinx,
-			      struct worklist *pwl)
-{
-  int i, id;
-  bool end = FALSE;
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    if (end) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
-      (void) section_file_lookup(file, path, plrno, wlinx, i);
-    } else {
-      id = secfile_lookup_int_default(file, -1, path, plrno, wlinx, i);
-
-      if ((id < 0) || (id >= 284)) {	/* 284 was flag value for end of list */
-	pwl->wlefs[i] = WEF_END;
-	pwl->wlids[i] = 0;
-	end = TRUE;
-      } else if (id >= 68) {		/* 68 was offset to unit ids */
-	pwl->wlefs[i] = WEF_UNIT;
-	pwl->wlids[i] = id - 68;
-	end = !unit_type_exists(pwl->wlids[i]);
-      } else {				/* must be an improvement id */
-	pwl->wlefs[i] = WEF_IMPR;
-	pwl->wlids[i] = id;
-	end = !improvement_exists(pwl->wlids[i]);
-      }
-    }
-  }
-}
-
 /*
  * Previously (with 1.14.1 and earlier) units had their type saved by ID.
  * This meant any time a unit was added (unless it was added at the end)
@@ -695,12 +617,40 @@ static const char* old_civ1_unit_types[] = {
   "Caravan",	"Freight",	"Explorer",	"Barbarian Leader"
 };
 
+/* old (1.14.1) improvement order in default ruleset */
+const char* old_impr_types[] =
+{
+  "Airport",		"Aqueduct",		"Bank",
+  "Barracks",		"Barracks II",		"Barracks III",
+  "Cathedral",		"City Walls",		"Coastal Defense",
+  "Colosseum",		"Courthouse",		"Factory",
+  "Granary",		"Harbour",		"Hydro Plant",
+  "Library",		"Marketplace",		"Mass Transit",
+  "Mfg. Plant",		"Nuclear Plant",	"Offshore Platform",
+  "Palace",		"Police Station",	"Port Facility",
+  "Power Plant",	"Recycling Center",	"Research Lab",
+  "SAM Battery",	"SDI Defense",		"Sewer System",
+  "Solar Plant",	"Space Component",	"Space Module",
+  "Space Structural",	"Stock Exchange",	"Super Highways",
+  "Supermarket",	"Temple",		"University",
+  "Apollo Program",	"A.Smith's Trading Co.","Colossus",
+  "Copernicus' Observatory", "Cure For Cancer",	"Darwin's Voyage",
+  "Eiffel Tower",	"Great Library",	"Great Wall",
+  "Hanging Gardens",	"Hoover Dam",		"Isaac Newton's College",
+  "J.S. Bach's Cathedral","King Richard's Crusade", "Leonardo's Workshop",
+  "Lighthouse",		"Magellan's Expedition","Manhattan Project",
+  "Marco Polo's Embassy","Michelangelo's Chapel","Oracle",
+  "Pyramids",		"SETI Program",		"Shakespeare's Theatre",
+  "Statue of Liberty",	"Sun Tzu's War Academy","United Nations",
+  "Women's Suffrage",	"Coinage"
+};
+
 /****************************************************************************
   Nowadays unit types are saved by name, but old servers need the
   unit_type_id.  This function tries to find the correct _old_ id for the
   unit's type.  It is used when the unit is saved.
 ****************************************************************************/
-static int old_type_id(struct unit* punit)
+static int old_unit_type_id(Unit_Type_id type)
 {
   const char** types;
   int num_types, i;
@@ -714,14 +664,190 @@ static int old_type_id(struct unit* punit)
   }
 
   for (i = 0; i < num_types; i++) {
-    if (strcmp(unit_name_orig(punit->type), types[i]) == 0) {
+    if (mystrcasecmp(unit_name_orig(type), types[i]) == 0) {
       return i;
     }
   }
 
   /* It's a new unit. Savegame cannot be backward compatible so we can
    * return anything */
-  return punit->type;
+  return type;
+}
+
+/****************************************************************************
+  Convert an old-style unit type id into a unit type name.
+****************************************************************************/
+static const char* old_unit_type_name(int id)
+{
+  /* before 1.15.0 unit types used to be saved by id */
+  if (id < 0) {
+    freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
+    exit(EXIT_FAILURE);
+  }
+  /* Different rulesets had different unit names. */
+  if (strcmp(game.rulesetdir, "civ1") == 0) {
+    if (id >= ARRAY_SIZE(old_civ1_unit_types)) {
+      freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
+      exit(EXIT_FAILURE);
+    }
+    return old_civ1_unit_types[id];
+  } else {
+    if (id >= ARRAY_SIZE(old_default_unit_types)) {
+      freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
+      exit(EXIT_FAILURE);
+    }
+    return old_default_unit_types[id];
+  }
+}
+
+/****************************************************************************
+  Nowadays improvement types are saved by name, but old servers need the
+  Impr_type_id.  This function tries to find the correct _old_ id for the
+  improvements's type.  It is used when the improvement is saved.
+****************************************************************************/
+static int old_impr_type_id(Impr_Type_id type)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(old_impr_types); i++) {
+    if (mystrcasecmp(unit_name_orig(type), old_impr_types[i]) == 0) {
+      return i;
+    }
+  }
+
+  /* It's a new improvement. Savegame cannot be backward compatible so we can
+   * return anything */
+  return type;
+}
+
+/***************************************************************
+  Convert old-style improvement type id into improvement type name
+***************************************************************/
+static const char* old_impr_type_name(int id)
+{
+  /* before 1.15.0 improvement types used to be saved by id */
+  if (id < 0 || id >= ARRAY_SIZE(old_impr_types)) {
+    freelog(LOG_ERROR, _("Wrong improvement type id value (%d)"), id);
+    exit(EXIT_FAILURE);
+  }
+  return old_impr_types[id];
+}
+
+/***************************************************************
+Load the worklist elements specified by path, given the arguments
+plrno and wlinx, into the worklist pointed to by pwl.
+***************************************************************/
+static void worklist_load(struct section_file *file,
+			  const char *path, int plrno, int wlinx,
+			  struct worklist *pwl)
+{
+  char efpath[64];
+  char idpath[64];
+  char namepath[64];
+  int i;
+  bool end = FALSE;
+  const char* name;
+
+  sz_strlcpy(efpath, path);
+  sz_strlcat(efpath, ".wlef%d");
+  sz_strlcpy(idpath, path);
+  sz_strlcat(idpath, ".wlid%d");
+  sz_strlcpy(namepath, path);
+  sz_strlcat(namepath, ".wlname%d");
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    if (end) {
+      pwl->wlefs[i] = WEF_END;
+      pwl->wlids[i] = 0;
+      (void) section_file_lookup(file, efpath, plrno, wlinx, i);
+      (void) section_file_lookup(file, idpath, plrno, wlinx, i);
+    } else {
+      pwl->wlefs[i] =
+	secfile_lookup_int_default(file, WEF_END, efpath, plrno, wlinx, i);
+      name = secfile_lookup_str_default(file, NULL, namepath, plrno, wlinx, i);
+
+      if (pwl->wlefs[i] == WEF_UNIT) {
+	Unit_Type_id type;
+
+	if (!name) {
+	    /* before 1.15.0 unit types used to be saved by id */
+	    name = old_unit_type_name(secfile_lookup_int(file, idpath,
+							 plrno, wlinx, i));
+	}
+
+	type = find_unit_type_by_name_orig(name);
+	if (type == U_LAST) {
+	  freelog(LOG_ERROR, _("Unknown unit type '%s' in worklist"),
+		  name);
+	  exit(EXIT_FAILURE);
+	}
+	pwl->wlids[i] = type;
+      } else if (pwl->wlefs[i] == WEF_IMPR) {
+	Impr_Type_id type;
+
+	if (!name) {
+	  name = old_impr_type_name(secfile_lookup_int(file, idpath,
+						       plrno, wlinx, i));
+	}
+
+	type = find_improvement_by_name_orig(name);
+	if (type == B_LAST) {
+	  freelog(LOG_ERROR, _("Unknown improvement type '%s' in worklist"),
+	           name);
+	}
+	pwl->wlids[i] = type;
+      }
+
+      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
+	  ((pwl->wlefs[i] == WEF_UNIT) && !unit_type_exists(pwl->wlids[i])) ||
+	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
+	pwl->wlefs[i] = WEF_END;
+	pwl->wlids[i] = 0;
+	end = TRUE;
+      }
+    }
+  }
+}
+
+/***************************************************************
+Load the worklist elements specified by path, given the arguments
+plrno and wlinx, into the worklist pointed to by pwl.
+Assumes original save-file format.  Use for backward compatibility.
+***************************************************************/
+static void worklist_load_old(struct section_file *file,
+			      const char *path, int plrno, int wlinx,
+			      struct worklist *pwl)
+{
+  int i, id;
+  bool end = FALSE;
+  const char* name;
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    if (end) {
+      pwl->wlefs[i] = WEF_END;
+      pwl->wlids[i] = 0;
+      (void) section_file_lookup(file, path, plrno, wlinx, i);
+    } else {
+      id = secfile_lookup_int_default(file, -1, path, plrno, wlinx, i);
+
+      if ((id < 0) || (id >= 284)) { /* 284 was flag value for end of list */
+	pwl->wlefs[i] = WEF_END;
+	pwl->wlids[i] = 0;
+	end = TRUE;
+      } else if (id >= 68) {		/* 68 was offset to unit ids */
+	name = old_unit_type_name(id-68);
+	pwl->wlefs[i] = WEF_UNIT;
+	pwl->wlids[i] = find_unit_type_by_name_orig(name);
+	end = !unit_type_exists(pwl->wlids[i]);
+      } else {				/* must be an improvement id */
+	name = old_impr_type_name(id);
+	pwl->wlefs[i] = WEF_IMPR;
+	pwl->wlids[i] = find_improvement_by_name_orig(name);
+	end = !improvement_exists(pwl->wlids[i]);
+      }
+    }
+  }
+
 }
 
 /****************************************************************************
@@ -759,23 +885,8 @@ static void load_player_units(struct player *plr, int plrno,
 	        plrno, i, t);
 	exit(EXIT_FAILURE);
       }
+      type_name = old_unit_type_name(t);
 
-      /* Different rulesets had different unit names. */
-      if (strcmp(game.rulesetdir, "civ1") == 0) {
-        if (t >= ARRAY_SIZE(old_civ1_unit_types)) {
-          freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
-	          plrno, i, t);
-	  exit(EXIT_FAILURE);
-	}
-	type_name = old_civ1_unit_types[t];
-      } else {
-        if (t >= ARRAY_SIZE(old_default_unit_types)) {
-	  freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
-	          plrno, i, t);
-	  exit(EXIT_FAILURE);
-	}
-	type_name = old_default_unit_types[t];
-      }
     }
     
     type = find_unit_type_by_name_orig(type_name);
@@ -1229,6 +1340,8 @@ static void player_load(struct player *plr, int plrno,
     int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     int map_x, map_y;
+    const char* name;
+    int id;
 
     native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
     pcity = create_city_virtual(plr, map_x, map_y,
@@ -1268,9 +1381,25 @@ static void player_load(struct player *plr, int plrno,
     pcity->is_building_unit=
       secfile_lookup_bool(file, 
 			 "player%d.c%d.is_building_unit", plrno, i);
-    pcity->currently_building=
-      secfile_lookup_int(file, 
-			 "player%d.c%d.currently_building", plrno, i);
+    name = secfile_lookup_str_default(file, NULL,
+				      "player%d.c%d.currently_building_name",
+				      plrno, i);
+    if (pcity->is_building_unit) {
+      if (!name) {
+	id = secfile_lookup_int(file, "player%d.c%d.currently_building", 
+				plrno, i);
+	name = old_unit_type_name(id);
+      }
+      pcity->currently_building = find_unit_type_by_name_orig(name);
+    } else {
+      if (!name) {
+	id = secfile_lookup_int(file, "player%d.c%d.currently_building",
+				plrno, i);
+	name = old_impr_type_name(id);
+      }
+      pcity->currently_building = find_improvement_by_name_orig(name);
+    }
+
     if (has_capability("turn_last_built", savefile_options)) {
       pcity->turn_last_built = secfile_lookup_int(file,
 				"player%d.c%d.turn_last_built", plrno, i);
@@ -1279,12 +1408,28 @@ static void player_load(struct player *plr, int plrno,
        * way to convert this into a turn value. */
       pcity->turn_last_built = 0;
     }
-    pcity->changed_from_id=
-      secfile_lookup_int_default(file, pcity->currently_building,
-				 "player%d.c%d.changed_from_id", plrno, i);
     pcity->changed_from_is_unit=
       secfile_lookup_bool_default(file, pcity->is_building_unit,
 				 "player%d.c%d.changed_from_is_unit", plrno, i);
+    name = secfile_lookup_str_default(file, NULL,
+				      "player%d.c%d.changed_from_name",
+				      plrno, i);
+    if (pcity->changed_from_is_unit) {
+      if (!name) {
+	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id", 
+				plrno, i);
+	name = old_unit_type_name(id);
+      }
+      pcity->changed_from_id = find_unit_type_by_name_orig(name);
+    } else {
+      if (!name) {
+	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id",
+				plrno, i);
+	name = old_impr_type_name(id);
+      }
+      pcity->changed_from_id = find_improvement_by_name_orig(name);
+    }
+			 
     pcity->before_change_shields=
       secfile_lookup_int_default(file, pcity->shield_stock,
 				 "player%d.c%d.before_change_shields", plrno, i);
@@ -1595,16 +1740,31 @@ static void worklist_save(struct section_file *file,
 {
   char efpath[64];
   char idpath[64];
+  char namepath[64];
   int i;
 
   sz_strlcpy(efpath, path);
   sz_strlcat(efpath, ".wlef%d");
   sz_strlcpy(idpath, path);
   sz_strlcat(idpath, ".wlid%d");
+  sz_strlcpy(namepath, path);
+  sz_strlcat(namepath, ".wlname%d");
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
-    secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
+    if (pwl->wlefs[i] == WEF_UNIT) {
+      secfile_insert_int(file, old_unit_type_id(pwl->wlids[i]), idpath,
+			 plrno, wlinx, i);
+      secfile_insert_str(file, unit_name_orig(pwl->wlids[i]), namepath, plrno,
+			 wlinx, i);
+    } else if (pwl->wlefs[i] == WEF_IMPR) {
+      secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
+      secfile_insert_str(file, get_improvement_name_orig(pwl->wlids[i]),
+			 namepath, plrno, wlinx, i);
+    } else {
+      secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
+      secfile_insert_str(file, "", namepath, plrno, wlinx, i);
+    }
     if (pwl->wlefs[i] == WEF_END) {
       break;
     }
@@ -1615,6 +1775,7 @@ static void worklist_save(struct section_file *file,
     /* These values match what worklist_load fills in for unused entries. */
     secfile_insert_int(file, WEF_END, efpath, plrno, wlinx, i);
     secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
+    secfile_insert_str(file, "", namepath, plrno, wlinx, i);
   }
 }
 
@@ -1772,7 +1933,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",
 				plrno, i);
     /* .type is actually kept only for backward compatibility */
-    secfile_insert_int(file, old_type_id(punit), "player%d.u%d.type",
+    secfile_insert_int(file, old_unit_type_id(punit->type), "player%d.u%d.type",
 		       plrno, i);
     secfile_insert_str(file, unit_name_orig(punit->type),
 		       "player%d.u%d.type_by_name",
@@ -1887,10 +2048,19 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->turn_last_built,
 		       "player%d.c%d.turn_last_built", plrno, i);
-    secfile_insert_int(file, pcity->changed_from_id,
-		       "player%d.c%d.changed_from_id", plrno, i);
     secfile_insert_bool(file, pcity->changed_from_is_unit,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
+    secfile_insert_int(file, pcity->changed_from_id,
+		       "player%d.c%d.changed_from_id", plrno, i);
+    if (pcity->changed_from_is_unit) {
+      secfile_insert_str(file, unit_name_orig(pcity->changed_from_id),
+                         "player%d.c%d.changed_from_name", plrno, i);
+    } else {
+      secfile_insert_str(file, get_improvement_name_orig(
+                                 pcity->changed_from_id),
+                         "player%d.c%d.changed_from_name", plrno, i);
+    }
+
     secfile_insert_int(file, pcity->before_change_shields,
 		       "player%d.c%d.before_change_shields", plrno, i);
     secfile_insert_int(file, pcity->disbanded_shields,
@@ -1934,8 +2104,18 @@ static void player_save(struct player *plr, int plrno,
 
     secfile_insert_bool(file, pcity->is_building_unit, 
 		       "player%d.c%d.is_building_unit", plrno, i);
-    secfile_insert_int(file, pcity->currently_building, 
-		       "player%d.c%d.currently_building", plrno, i);
+    if (pcity->is_building_unit) {
+      secfile_insert_int(file, old_unit_type_id(pcity->currently_building), 
+		         "player%d.c%d.currently_building", plrno, i);
+      secfile_insert_str(file, unit_name_orig(pcity->currently_building),
+                         "player%d.c%d.currently_building_name", plrno, i);
+    } else {
+      secfile_insert_int(file, old_impr_type_id(pcity->currently_building),
+                         "player%d.c%d.currently_building", plrno, i);
+      secfile_insert_str(file, get_improvement_name_orig(
+                                   pcity->currently_building),
+                         "player%d.c%d.currently_building_name", plrno, i);
+    }
 
     impr_type_iterate(id) {
       buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';

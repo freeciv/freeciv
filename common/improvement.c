@@ -154,6 +154,14 @@ const char *get_improvement_name(Impr_Type_id id)
 }
 
 /****************************************************************************
+  Get the original (untranslated) improvement name.
+****************************************************************************/
+const char *get_improvement_name_orig(Impr_Type_id id)
+{
+  return get_improvement_type(id)->name_orig; 
+}
+
+/****************************************************************************
   Returns the number of shields it takes to build this improvement.
 ****************************************************************************/
 int impr_build_shield_cost(Impr_Type_id id)
@@ -204,6 +212,22 @@ Impr_Type_id find_improvement_by_name(const char *s)
   impr_type_iterate(i) {
     if (strcmp(improvement_types[i].name, s)==0)
       return i;
+  } impr_type_iterate_end;
+
+  return B_LAST;
+}
+
+/****************************************************************************
+  Does a linear search of improvement_types[].name_orig to find the
+  improvement that matches the given original (untranslated) name.  Returns
+  B_LAST if none match.
+****************************************************************************/
+Impr_Type_id find_improvement_by_name_orig(const char *s)
+{
+  impr_type_iterate(i) {
+    if (mystrcasecmp(improvement_types[i].name_orig, s) == 0) {
+      return i;
+    }
   } impr_type_iterate_end;
 
   return B_LAST;
