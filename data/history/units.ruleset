@@ -1660,6 +1660,39 @@ helptext      = _("\
 Explorers are very useful for mapping unknown territory.\
 ")
 
+[unit_leader]
+name          = _("Leader")
+move_type     = "Land"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.leader"
+graphic_alt   = "u.explorer"
+sound_move    = "m_leader"
+sound_move_alt = "m_generic"
+sound_fight   = "f_leader"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy", 
+                "Undisbandable", "Unbribable", "GameLoss", "Unique",
+                "NoVeteran"
+roles         = "GameLoss"
+helptext      = _("\
+This is you. If you lose this unit, you lose the game. So don't.\
+")
+
 [unit_barbarian_leader]
 name          = _("Barbarian Leader")
 move_type     = "Land"
