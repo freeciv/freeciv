@@ -241,15 +241,21 @@ void reset_move_costs(int x, int y);
 #define map_to_native_pos(pnat_x, pnat_y, map_x, map_y) \
   (*(pnat_x) = (map_x), *(pnat_y) = (map_y))
 
+/* Use map_to_native_pos instead unless you know what you're doing. */
+#define map_pos_to_native_x(map_x, map_y) (map_x)
+#define map_pos_to_native_y(map_x, map_y) (map_y)
+
 #define map_pos_to_index(map_x, map_y)        \
   (CHECK_MAP_POS((map_x), (map_y)),           \
-   (map_x) + (map_y) * map.xsize)
+   (map_pos_to_native_x(map_x, map_y)         \
+    + map_pos_to_native_y(map_x, map_y) * map.xsize))
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
 #define index_to_map_pos(pmap_x, pmap_y, index) \
   (CHECK_INDEX(index),                          \
    *(pmap_x) = (index) % map.xsize,             \
-   *(pmap_y) = (index) / map.xsize)
+   *(pmap_y) = (index) / map.xsize,             \
+   native_to_map_pos(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
