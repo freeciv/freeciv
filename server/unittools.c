@@ -1643,27 +1643,55 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static int find_a_good_partisan_spot(struct city *pcity, int u_type,
+				     int *x, int *y)
+{
+  int bestvalue = 0;
+  /* coords of best tile in arg pointers */
+  map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
+    struct tile *ptile = map_get_tile(x1, y1);
+    int value;
+    if (ptile->terrain == T_OCEAN)
+      continue;
+    if (ptile->city)
+      continue;
+    if (unit_list_size(&ptile->units) > 0)
+      continue;
+    value = get_simple_defense_power(u_type, x1, y1);
+    value *= 10;
+
+    if (ptile->continent != map_get_continent(pcity->x, pcity->y))
+      value /= 2;
+
+    value -= myrand(value/3);
+
+    if (value > bestvalue) {
+      *x = x1;
+      *y = y1;
+      bestvalue = value;
+    }
+  } map_city_radius_iterate_end;
+
+  return bestvalue > 0;
+}
+
+/**************************************************************************
   finds a spot around pcity and place a partisan.
 **************************************************************************/
-static void place_partisans(struct city *pcity,int count)
+static void place_partisans(struct city *pcity, int count)
 {
-  int x,y,i;
-  int ok[25];
-  int total=0;
+  int x, y;
+  int u_type = get_role_unit(L_PARTISAN, 0);
 
-  for (i = 0,x = pcity->x -2; x < pcity->x + 3; x++) {
-    for (y = pcity->y - 2; y < pcity->y + 3; y++, i++) {
-      ok[i]=can_place_partisan(map_adjust_x(x), map_adjust_y(y));
-      if(ok[i]) total++;
+  while (count-- && find_a_good_partisan_spot(pcity, u_type, &x, &y)) {
+    struct unit *punit;
+    punit = create_unit(city_owner(pcity), x, y, u_type, 0, 0, -1);
+    if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+      punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
+      send_unit_info(0, punit);
     }
-  }
-
-  while(count && total)  {
-    for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
-    ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
-    create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
-		get_role_unit(L_PARTISAN,0), 0, 0, -1);
-    count--; total--;
   }
 }
 
@@ -1704,20 +1732,6 @@ void make_partisans(struct city *pcity)
     partisans = 8;
   
   place_partisans(pcity,partisans);
-}
-
-/**************************************************************************
-  return if it's possible to place a partisan on this square 
-  possible if:
-  1) square isn't a city square
-  2) there is no units on this square
-  3) it's not an ocean square 
-**************************************************************************/
-int can_place_partisan(int x, int y) 
-{
-  struct tile *ptile;
-  ptile = map_get_tile(x, y);
-  return (!map_get_city(x, y) && !unit_list_size(&ptile->units) && map_get_terrain(x,y) != T_OCEAN && map_get_terrain(x, y) < T_UNKNOWN); 
 }
 
 /**************************************************************************
@@ -1969,17 +1983,17 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 
 /* This is a wrapper */
 
-void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
-		 int make_veteran, int homecity_id, int moves_left)
+struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
+			 int make_veteran, int homecity_id, int moves_left)
 {
-  create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
+  return create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
 }
 
 /* This is the full call.  We don't want to have to change all other calls to
    this function to ensure the hp are set */
-void create_unit_full(struct player *pplayer, int x, int y,
-		      Unit_Type_id type, int make_veteran, int homecity_id,
-		      int moves_left, int hp_left)
+struct unit *create_unit_full(struct player *pplayer, int x, int y,
+			      Unit_Type_id type, int make_veteran, int homecity_id,
+			      int moves_left, int hp_left)
 {
   struct unit *punit;
   struct city *pcity;
@@ -2072,6 +2086,8 @@ void create_unit_full(struct player *pplayer, int x, int y,
       }
     }
   } map_city_radius_iterate_end;
+
+  return punit;
 }
 
 /**************************************************************************

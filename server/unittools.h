@@ -62,7 +62,6 @@ char *get_location_str_in(struct player *pplayer, int x, int y);
 char *get_location_str_at(struct player *pplayer, int x, int y);
 enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
 void make_partisans(struct city *pcity);
-int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
 			  int verbose);
@@ -73,11 +72,11 @@ int is_airunit_refuel_point(int x, int y, int playerid,
 
 /* creation/deletion/upgrading */
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
-void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
-		 int make_veteran, int homecity_id, int moves_left);
-void create_unit_full(struct player *pplayer, int x, int y,
-		      Unit_Type_id type, int make_veteran, int homecity_id,
-		      int moves_left, int hp_left);
+struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
+			 int make_veteran, int homecity_id, int moves_left);
+struct unit *create_unit_full(struct player *pplayer, int x, int y,
+			      Unit_Type_id type, int make_veteran, int homecity_id,
+			      int moves_left, int hp_left);
 void wipe_unit(struct unit *punit);
 void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter);
 void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
