@@ -151,11 +151,6 @@
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
 #define MAX_COMBINATIONS				150
 
-/* Maps scientists and taxmen to result for a certain combination. */
-static struct {
-  int hits, misses;
-} cache1;
-
 /*
  * Maps (trade, taxmen) -> (gold_production, gold_surplus)
  * Maps (trade, entertainers) -> (luxury_production, luxury_surplus)
@@ -164,7 +159,6 @@ static struct {
  */
 static struct {
   int allocated_trade, allocated_size, allocated_luxury;
-  int hits, misses;
 
   struct secondary_stat {
     bool is_valid;
@@ -188,12 +182,16 @@ static struct {
       int max_scientists, max_taxmen, worker;
       int production2[NUM_PRIMARY_STATS];
       enum city_tile_type worker_positions[CITY_MAP_SIZE][CITY_MAP_SIZE];
+
+      /* 
+       * Cache1 maps scientists and taxmen to result for a certain
+       * combination.
+       */
       struct cm_result *cache1;
       struct cm_result all_entertainer;
     } combinations[MAX_COMBINATIONS];
   } results[MAX_FIELDS_USED + 1];
 
-  int hits, misses;
   struct city *pcity;
 } cache3;
 
@@ -203,6 +201,9 @@ static struct {
 static struct {
   struct timer *wall_timer;
   int queries;
+  struct cache_stats {
+    int hits, misses;
+  } cache1, cache2, cache3;
 } stats;
 
 /*
@@ -717,56 +718,48 @@ static void calc_fitness(struct city *pcity,
 	  *minor_fitness);
 }
 
+
+/****************************************************************************
+ Prints the data of one cache_stats struct.  Called only if the define
+ is on, so compile only then or else we get a warning about being
+ unused.
+*****************************************************************************/
+#if SHOW_CACHE_STATS
+static void report_one_cache_stat(struct cache_stats *cache_stat,
+				  const char *cache_name)
+{
+  int total = cache_stat->hits + cache_stat->misses, per_mill;
+
+  if (total != 0) {
+    per_mill = (cache_stat->hits * 1000) / total;
+  } else {
+    per_mill = 0;
+  }
+  freelog(LOG_NORMAL,
+	  "CM: %s: hits=%3d.%d%% misses=%3d.%d%% total=%d",
+	  cache_name,
+	  per_mill / 10, per_mill % 10, (1000 - per_mill) / 10,
+	  (1000 - per_mill) % 10, total);
+}
+#endif
+
+
 /****************************************************************************
  Prints the data of the stats struct via freelog(LOG_NORMAL,...).
 *****************************************************************************/
 static void report_stats(void)
 {
 #if SHOW_TIME_STATS
-  int total, per_mill;
-
   freelog(LOG_NORMAL, "CM: overall=%fs queries=%d %fms / query",
 	  read_timer_seconds(stats.wall_timer), stats.queries,
 	  (1000.0 * read_timer_seconds(stats.wall_timer)) /
 	  ((double) stats.queries));
-  total = stats.apply_result_ignored + stats.apply_result_applied;
-  per_mill = (stats.apply_result_ignored * 1000) / (total ? total : 1);
-
 #endif
 
 #if SHOW_CACHE_STATS
-  total = cache1.hits + cache1.misses;
-  if (total) {
-    per_mill = (cache1.hits * 1000) / total;
-  } else {
-    per_mill = 0;
-  }
-  freelog(LOG_NORMAL,
-	  "CM: CACHE1: hits=%2d.%d%% misses=%2d.%d%% total=%d",
-	  per_mill / 10, per_mill % 10, (1000 - per_mill) / 10,
-	  (1000 - per_mill) % 10, total);
-
-  total = cache2.hits + cache2.misses;
-  if (total) {
-    per_mill = (cache2.hits * 1000) / total;
-  } else {
-    per_mill = 0;
-  }
-  freelog(LOG_NORMAL,
-	  "CM: CACHE2: hits=%2d.%d%% misses=%2d.%d%% total=%d",
-	  per_mill / 10, per_mill % 10, (1000 - per_mill) / 10,
-	  (1000 - per_mill) % 10, total);
-
-  total = cache3.hits + cache3.misses;
-  if (total) {
-    per_mill = (cache3.hits * 1000) / total;
-  } else {
-    per_mill = 0;
-  }
-  freelog(LOG_NORMAL,
-	  "CM: CACHE3: hits=%2d.%d%% misses=%2d.%d%% total=%d",
-	  per_mill / 10, per_mill % 10, (1000 - per_mill) / 10,
-	  (1000 - per_mill) % 10, total);
+  report_one_cache_stat(&stats.cache1, "CACHE1");
+  report_one_cache_stat(&stats.cache2, "CACHE2");
+  report_one_cache_stat(&stats.cache3, "CACHE3");
 #endif
 }
 
@@ -811,11 +804,11 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
 
   if (slot->found_a_valid) {
     /* Cache1 contains the result */
-    cache1.hits++;
+    stats.cache1.hits++;
     memcpy(result, slot, sizeof(struct cm_result));
     return;
   }
-  cache1.misses++;
+  stats.cache1.misses++;
 
   my_city_map_iterate(pcity, x, y) {
     result->worker_positions_used[x][y] =
@@ -895,13 +888,13 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
      * cache2.
      */
 
-    cache2.hits++;
+    stats.cache2.hits++;
     memcpy(slot, result, sizeof(struct cm_result));
     slot->found_a_valid = TRUE;
     return;
   }
 
-  cache2.misses++;
+  stats.cache2.misses++;
 
   /*
    * Result can't be constructed from caches. Do the slow
@@ -1166,12 +1159,12 @@ static void build_cache3(struct city *pcity)
   if (cache3.pcity != pcity) {
     cache3.pcity = NULL;
   } else {
-    cache3.hits++;
+    stats.cache3.hits++;
     return;
   }
 
   cache3.pcity = pcity;
-  cache3.misses++;
+  stats.cache3.misses++;
 
   /* Make cache3 invalid */
   for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
@@ -1436,17 +1429,9 @@ static void optimize_final(struct city *pcity,
 *****************************************************************************/
 void cm_init(void)
 {
-  /* reset cache counters */
-  cache1.hits = 0;
-  cache1.misses = 0;
-
-  cache2.hits = 0;
-  cache2.misses = 0;
-
   cache3.pcity = NULL;
-  cache3.hits = 0;
-  cache3.misses = 0;
 
+  /* Reset the stats. */
   memset(&stats, 0, sizeof(stats));
   stats.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
 }
