@@ -23,14 +23,14 @@ void overview_expose(HDC hdc);
 void map_handle_hscroll(int pos);
 void map_handle_vscroll(int pos);
 
-/* These values are stored in the mapview_canvas struct now. */
-#define map_view_x mapview_canvas.map_x0
-#define map_view_y mapview_canvas.map_y0
-#define map_win_width mapview_canvas.width
-#define map_win_height mapview_canvas.height
-#define map_view_width mapview_canvas.tile_width
-#define map_view_height mapview_canvas.tile_height
-#define mapstorebitmap		(mapview.store->bmp)
+/* These values are stored in the mapview struct now. */
+#define map_view_x 	mapview.map_x0
+#define map_view_y 	mapview.map_y0
+#define map_win_width 	mapview.width
+#define map_win_height 	mapview.height
+#define map_view_width 	mapview.tile_width
+#define map_view_height mapview.tile_height
+#define mapstorebitmap	(mapview.store->bmp)
 
 /* Use of these wrapper functions is deprecated. */
 #define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
