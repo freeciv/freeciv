@@ -1795,6 +1795,7 @@ void game_load(struct section_file *file)
     game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
     game.scorelog = secfile_lookup_bool_default(file, FALSE, "game.scorelog");
+    sz_strlcpy(game.id, secfile_lookup_str_default(file, "", "game.id"));
 
     game.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
     game.fogofwar_old = game.fogofwar;
@@ -2147,6 +2148,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.save_name, "game.save_name");
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_bool(file, game.scorelog, "game.scorelog");
+  secfile_insert_str(file, game.id, "game.id");
   secfile_insert_bool(file, game.fogofwar, "game.fogofwar");
   secfile_insert_bool(file, game.spacerace, "game.spacerace");
   secfile_insert_bool(file, game.auto_ai_toggle, "game.auto_ai_toggle");
