@@ -122,7 +122,8 @@ const struct command commands[] = {
       "case if nobody votes against it.")
   },
   {"debug",	ALLOW_CTRL,
-   N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"),
+   N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> "
+      "| tech <player> | timing ]"),
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),

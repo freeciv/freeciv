@@ -2221,7 +2221,7 @@ static bool debug_command(struct connection *caller, char *str,
   int ntokens = 0, i;
   const char *usage = _("Undefined arguments. Usage: debug <diplomacy "
 			"<player> | city <x> <y> | units <x> <y> | "
-			"unit <id> | tech <player>>.");
+			"unit <id> | tech <player> | timing>.");
 
   if (server_state != RUN_GAME_STATE) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -2341,6 +2341,14 @@ static bool debug_command(struct connection *caller, char *str,
                  unit_owner(punit)->name, unit_name(punit->type));
       }
     } unit_list_iterate_end;
+  } else if (strcmp(arg[0], "timing") == 0) {
+    if (srvarg.timing_debug) {
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("AI timing deactivated"));
+      srvarg.timing_debug = FALSE;
+  } else {
+      srvarg.timing_debug = TRUE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("AI timing activated"));
+    }
   } else if (strcmp(arg[0], "unit") == 0) {
     int id;
     struct unit *punit;

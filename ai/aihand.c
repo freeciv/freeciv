@@ -411,7 +411,9 @@ void ai_do_first_activities(struct player *pplayer)
    * us and make ai_mange_units and Co act upon this information, trying
    * to eliminate the source of danger */
 
+  TIMING_LOG(LOG_DEBUG, pplayer, "Manage units");
   ai_manage_units(pplayer); 
+  TIMING_LOG(LOG_DEBUG, pplayer, "All first activities done");
   /* STOP.  Everything else is at end of turn. */
 }
 
@@ -425,12 +427,17 @@ void ai_do_first_activities(struct player *pplayer)
 **************************************************************************/
 void ai_do_last_activities(struct player *pplayer)
 {
+  TIMING_LOG(LOG_DEBUG, pplayer, "Manage government");
   ai_manage_government(pplayer);
+  TIMING_LOG(LOG_DEBUG, pplayer, "Manage taxes");
   ai_manage_taxes(pplayer); 
+  TIMING_LOG(LOG_DEBUG, pplayer, "Manage cities");
   ai_manage_cities(pplayer);
+  TIMING_LOG(LOG_DEBUG, pplayer, "Manage tech, space and aidata cleanup");
   ai_manage_tech(pplayer); 
   ai_manage_spaceship(pplayer);
   ai_data_phase_done(pplayer);
+  TIMING_LOG(LOG_DEBUG, pplayer, "Last activities done");
 }
 
 /**************************************************************************

@@ -49,6 +49,8 @@ struct server_arguments {
   bool auth_enabled;            /* defaults to FALSE */
   bool auth_allow_guests;       /* defaults to TRUE */
   bool auth_allow_newusers;     /* defaults to TRUE */
+
+  bool timing_debug;
 };
 
 void init_game_seed(void);

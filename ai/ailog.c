@@ -22,9 +22,11 @@
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
+#include "timing.h"
 
 #include "gotohand.h"
 #include "plrhand.h"
+#include "srv_main.h"
 
 #include "aidata.h"
 #include "ailog.h"
@@ -242,6 +244,37 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
 	      s, id, ptile->x, ptile->y);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (punit->debug) {
+    notify_conn(game.est_connections, buffer);
+  }
+  freelog(minlevel, buffer);
+}
+
+/**************************************************************************
+  Measure the time between the calls.  Used to see where in the AI too
+  much CPU is being used.
+**************************************************************************/
+void TIMING_LOG(int level, struct player *pplayer, const char *msg)
+{
+  char buffer[500];
+  int minlevel = MIN(LOGLEVEL_BODYGUARD, level);
+  static struct timer *t = NULL;
+
+  if (t == NULL) {
+    t = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+  }
+
+  if (srvarg.timing_debug) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
+    clear_timer_start(t);
+    return;
+  }
+
+  my_snprintf(buffer, sizeof(buffer), "... %g seconds. %s: ",
+              read_timer_seconds(t), pplayer->name);
+  clear_timer_start(t);
+  cat_snprintf(buffer, sizeof(buffer), msg);
+  if (srvarg.timing_debug) {
     notify_conn(game.est_connections, buffer);
   }
   freelog(minlevel, buffer);

@@ -192,6 +192,8 @@ void srv_init(void)
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
+  srvarg.timing_debug = FALSE;
+
   /* initialize teams */
   team_init();
 
