@@ -639,7 +639,7 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
     sprintf(str,"No %s could be sold",get_improvement_name(i));
   };
     gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
-  popup_notify_dialog("Sell-Off Results",str);
+  popup_notify_dialog("Sell-Off:","Results",str);
   }
   return;
 }

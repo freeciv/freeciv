@@ -18,7 +18,7 @@ struct unit;
 struct city;
 
 void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
-void popup_notify_dialog(char *headline, char *lines);
+void popup_notify_dialog(char *caption, char *headline, char *lines);
 
 void popup_races_dialog(void);
 void popdown_races_dialog(void);

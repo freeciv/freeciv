@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include "capability.h"
@@ -331,16 +332,28 @@ void handle_chat_msg(struct packet_generic_message *packet)
 **************************************************************************/
 void handle_page_msg(struct packet_generic_message *packet)
 {
-  int i;
-  char title[512];
-  
-  for(i=0; packet->message[i]!='\n'; i++)
-    title[i]=packet->message[i];
-  title[i]='\0';
-  
+  char *caption;
+  char *headline;
+  char *lines;
+
+  caption = packet->message;
+  headline = strchr (caption, '\n');
+  if (headline) {
+    *(headline++) = '\0';
+    lines = strchr (headline, '\n');
+    if (lines) {
+      *(lines++) = '\0';
+    } else {
+      lines = "";
+    }
+  } else {
+    headline = "";
+    lines = "";
+  }
+
   if (!game.player_ptr->ai.control || ai_popup_windows || 
        packet->event != BROADCAST_EVENT)
-    popup_notify_dialog(title, packet->message+i+1);
+    popup_notify_dialog(caption, headline, lines);
 }
 
 /**************************************************************************

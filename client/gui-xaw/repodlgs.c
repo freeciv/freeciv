@@ -742,7 +742,7 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
   } else {
     sprintf(str,"No %s could be sold",get_improvement_name(i));
   };
-  popup_notify_dialog("Sell-Off Results",str);
+  popup_notify_dialog("Sell-Off:","Results",str);
   return;
 }
 

@@ -1286,8 +1286,12 @@ void report_server_options(struct player *pplayer, int which)
   char buffer[4096];
   char buf2[4096];
   char title[128];
+  char *caption;
   buffer[0]=0;
   sprintf(title, "%-20svalue  (min , max)", "Option");
+  caption = (which == 1) ?
+    "Server Options (initial)" :
+    "Server Options (ongoing)";
 
   for (i=0;settings[i].name;i++) {
     struct settings_s *op = &settings[i];
@@ -1308,7 +1312,7 @@ void report_server_options(struct player *pplayer, int which)
   i = strlen(buffer);
   assert(i<sizeof(buffer));
   freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
-  page_player(pplayer, title, buffer);
+  page_player(pplayer, caption, title, buffer);
 }
 
 /******************************************************************

@@ -122,7 +122,7 @@ static void historian_generic(enum historian_type which_news)
     strcat(buffer,buf2);
   }
   free(size);
-  page_player_generic(0,historian_message[which_news],
+  page_player_generic(0,"Historian Publishes!",historian_message[which_news],
 	  buffer, BROADCAST_EVENT);
 
 }
@@ -170,7 +170,8 @@ void top_five_cities(struct player *pplayer)
     }
   }
   free(size);
-  page_player(pplayer, "The Five Greatest Cities in the World!", buffer);
+  page_player(pplayer, "Traveler's Report:",
+	      "The Five Greatest Cities in the World!", buffer);
 }
 
 void wonders_of_the_world(struct player *pplayer)
@@ -193,7 +194,8 @@ void wonders_of_the_world(struct player *pplayer)
       strcat(buffer, buf2);
     }
   }
-  page_player(pplayer, "Wonders of the World", buffer);
+  page_player(pplayer, "Traveler's Report:",
+	      "Wonders of the World", buffer);
 }
 
 static int rank_calc_research(struct player *pplayer)
@@ -319,9 +321,14 @@ void do_conquer_cost(struct player *pplayer)
 
 void demographics_report(struct player *pplayer)
 {
+  char civbuf[1024];
   char buffer[4096];
   char buf2[4096];
   buffer[0]=0;
+
+  sprintf(civbuf,"The %s of the %s",
+	  get_government_name(pplayer->government),
+	  get_race_name_plural(pplayer->race));
 
   sprintf(buf2, "%-20s:%d%% (%s)\n", "Research Speed", rank_calc_research(pplayer), number_to_string(rank_research(pplayer)));
   strcat(buffer, buf2);
@@ -339,7 +346,8 @@ void demographics_report(struct player *pplayer)
   sprintf(buf2, "%-20s:%d Tons (%s)\n", "Pollution", pplayer->score.pollution, number_to_string(rank_pollution(pplayer)));
   strcat(buffer, buf2);
   
-  page_player(pplayer, "Demographics Report", buffer);
+  page_player(pplayer, "Demographics Report:",
+	      civbuf, buffer);
 }
 
 /* create a log file of the civilizations so you can see what was happening */
@@ -471,7 +479,8 @@ void show_ending(void)
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "The Greatest Civilizations in the world.", buffer);
+  page_player(0, "Final Report:",
+	      "The Greatest Civilizations in the world.", buffer);
 
 }
 
@@ -972,8 +981,9 @@ void notify_player(struct player *pplayer, char *format, ...)
 /**************************************************************************
 This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
-void page_player(struct player *pplayer, char *headline, char *lines) {
-    page_player_generic(pplayer,headline,lines,-1);
+void page_player(struct player *pplayer, char *caption, char *headline,
+		 char *lines) {
+    page_player_generic(pplayer,caption,headline,lines,-1);
 }
 
 
@@ -986,16 +996,20 @@ event == BROADCAST_EVENT: message can safely be ignored by clients watching AI
                           players with ai_popup_windows off.
          For example: Herodot's report... and similar messages.
 **************************************************************************/
-void page_player_generic(struct player *pplayer, char *headline, char *lines, int event) 
+void page_player_generic(struct player *pplayer, char *caption, char *headline,
+			 char *lines, int event) 
 {
   int i;
   struct packet_generic_message genmsg;
 
-  if(strlen(headline)+1+strlen(lines) >= sizeof(genmsg.message)) {
+  if(strlen(caption)+1+strlen(headline)+1+strlen(lines) >=
+     sizeof(genmsg.message)) {
     freelog(LOG_NORMAL, "Message too long in page_player_generic!!");
     return;
   }
-  strcpy(genmsg.message, headline);
+  strcpy(genmsg.message, caption);
+  strcat(genmsg.message, "\n");
+  strcat(genmsg.message, headline);
   strcat(genmsg.message, "\n");
   strcat(genmsg.message, lines);
   genmsg.event = event;

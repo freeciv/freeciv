@@ -146,13 +146,13 @@ static void notify_command_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_notify_dialog(char *headline, char *lines)
+void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
   Widget notify_dialog_shell, notify_form, notify_command;
   Widget notify_headline, notify_label;
   Dimension width, width2;
   
-  notify_dialog_shell = XtCreatePopupShell(headline,
+  notify_dialog_shell = XtCreatePopupShell(caption,
 					   transientShellWidgetClass,
 					   toplevel, NULL, 0);
 
@@ -274,10 +274,10 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   Dimension width, width2, width_1, width_2;
   
   if (x == 0 && y == 0) {
-    popup_notify_dialog(headline, lines);
+    popup_notify_dialog("Message:", headline, lines);
     return;
   }
-  notify_dialog_shell = XtCreatePopupShell(headline,
+  notify_dialog_shell = XtCreatePopupShell("Message:",
 					   transientShellWidgetClass,
 					   toplevel, NULL, 0);
 

@@ -31,8 +31,9 @@ void check_player_government_rates(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 
-void page_player(struct player *pplayer, char *headline, char *lines);
-void page_player_generic(struct player *pplayer, char *headline,
+void page_player(struct player *pplayer, char *caption, char *headline,
+		 char *lines);
+void page_player_generic(struct player *pplayer, char *caption, char *headline,
 			 char *lines, int event);
 void notify_player(struct player *pplayer, char *format, ...)
                    fc__attribute((format (printf, 2, 3)));

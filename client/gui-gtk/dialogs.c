@@ -119,7 +119,7 @@ gint deleted_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
 /****************************************************************
 ...
 *****************************************************************/
-void popup_notify_dialog(char *headline, char *lines)
+void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
   GtkWidget *notify_dialog_shell, *notify_command;
   GtkWidget *notify_label, *notify_headline, *notify_scrolled;
@@ -130,7 +130,7 @@ void popup_notify_dialog(char *headline, char *lines)
 	GTK_SIGNAL_FUNC(deleted_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(notify_dialog_shell));
 
-  gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), "Notify dialog" );
+  gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), caption );
   
   gtk_container_border_width( GTK_CONTAINER(GTK_DIALOG(notify_dialog_shell)->vbox), 5 );
 
@@ -269,7 +269,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   GtkWidget *notify_label;
   
   if (x == 0 && y == 0) {
-    popup_notify_dialog(headline, lines);
+    popup_notify_dialog("Message:", headline, lines);
     return;
   }
   notify_dialog_shell = gtk_dialog_new();
