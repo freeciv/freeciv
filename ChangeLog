@@ -1,3 +1,797 @@
+Wed Aug  1 22:34:12 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Add kludge to enable ISO-8859-1 support in the GTK client even
+	when the LC_TYPE is set to "C".
+
+Wed Aug  1 19:24:55 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Fixes for the citydialog supported/present unit display.
+
+Wed Aug  1 10:38:49 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	Correction.
+
+Tue Jul 31 23:51:44 2001  Michael Stefaniuc <mstefani@redhat.de>:
+
+	* po/ro.po:
+
+	more than 150 new translated strings some fixed translations
+
+Tue Jul 31 13:46:19 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe, amiga/ReadMe.developer, amiga/amigaclient.c,
+	amiga/amigaserver.c, amiga/gettext.c, amiga/smakefile,
+	amiga/vmakefile, amiga/vsnprintf.c, client/packhand.c,
+	client/gui-mui/graphics.c, client/gui-mui/gui_main.c,
+	client/gui-mui/mapclass.c:
+
+	Amiga: - Updated to compile again with SAS-C and VBCC 0.8 - Fixed
+	warnings
+
+	patch submitted by Dirk Stoecker <stoecker@epost.de>
+
+Tue Jul 31 11:14:43 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.h:
+
+	adjc_dir_iterate fixes.
+
+	Patch by Jason Dorje Short <jshort@devon.dhs.org>
+
+Mon Jul 30 22:59:01 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/map.h:
+
+	common/map.h: Fix formatting thinko.
+
+Mon Jul 30 22:53:55 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/map.h, server/gotohand.c:
+
+	common/map.h: Add adjc_dir_iterate() macro.  server/gotohand.c:
+	Use it.
+
+	Patch by Jason Dorje Short <jshort@devon.dhs.org>.
+
+Mon Jul 30 14:13:53 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1983t+47f+541u+18o.
+
+Sat Jul 28 16:39:11 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/goto.c, client/gui-gtk/mapview.c,
+	client/gui-mui/graphics.c, client/gui-mui/mapclass.c,
+	client/gui-xaw/mapview.c, server/citytools.c, server/unittools.c:
+
+	Don't run code inside an assert when we depend on the sideeffects.
+	(ie, mostly fix "assert(normalize_map_pos(&x, &y))").
+
+	Fixes (PR#864) reported by Gaute Strokkenes <gs234@cam.ac.uk>
+
+Sat Jul 28 16:21:39 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.c, server/citytools.c:
+
+	Readd neccesary calls to normalize_map_pos().
+
+Sat Jul 28 12:03:32 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/mapgen.c:
+
+	Fix typo. (make the server compile)
+
+	Patch by Jason Dorje Short <jshort@devon.dhs.org>
+
+Sat Jul 28 08:05:49 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Fri Jul 27 23:57:59 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* server/console.c, server/console.h, server/stdinhand.c:
+
+	Add macro MAX_LEN_CONSOLE and use it.  Patch by Reinier Post
+	<rp@win.tue.nl>.
+
+Fri Jul 27 23:51:03 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/unit.h:
+
+	Add comment.
+
+Fri Jul 27 23:48:05 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* server/citytools.c, server/mapgen.c:
+
+	Change some assertion from normalize_map_pos() to is_real_tile().
+
+Fri Jul 27 23:40:47 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/map.c:
+
+	Change some assertions from normalize_map_pos() to is_real_tile().
+
+Fri Jul 27 19:51:57 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/srv_main.c:
+
+	Make error messages about bad packages received in END_GAME_STATE
+	LOG_DEBUG instead of LOG_ERROR.
+
+Fri Jul 27 10:01:12 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aiunit.c:
+
+	square_iterate_end -> adjc_iterate_end.
+
+	Patch by Jason Dorje Short <jshort@devon.dhs.org>
+
+Fri Jul 27 00:14:21 2001  Erik Sigra <sigra@home.se>:
+
+	* po/sv.po:
+
+	update sv.po (including some suggestions by Dennis Bjorklund
+	<db@zigo.dhs.org>)
+
+Thu Jul 26 17:18:27 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/mapgen.c:
+
+	Raise MAXTRIES as we found an example where we hit the old value. 
+	(Temporary fix, better fix wanted post 1.12.0)
+
+Thu Jul 26 16:00:51 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Reinier Post (patch), David Zverina (bug report).
+
+Thu Jul 26 15:55:20 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/stdinhand.c:
+
+	Allow the syntax "set <option>=<value>" to not break old config
+	files.  If there is no value to a set call, give an error message
+	instead of assuming the value is 0.
+
+	Bug reported by David Zverina <David.Zverina@uk.wmmercer.com>
+	Patch by Reinier Post <rp@win.tue.nl>
+
+Thu Jul 26 10:06:46 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/INSTALL.debian.de:
+
+	Translated by Jens Georg <jgeorg@ldknet.org>
+
+Tue Jul 24 18:50:58 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Micha Riser to bug reporter section.
+
+Tue Jul 24 18:48:17 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityturn.c:
+
+	When building a F_CITIES unit (settler), when removing the pop
+	point make sure there is enough food to support the unit.
+
+	Fixes (PR#855) reported by Micha Riser <mriser@gmx.net>
+
+Mon Jul 23 19:45:38 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/clinet.c, common/connection.c, common/connection.h,
+	server/sernet.c, server/srv_main.c:
+
+	Fix crash when a connection fail while we were sending a
+	"connection failed" message. (due to genlist corruption.)
+
+Sun Jul 22 21:38:20 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/map.c:
+
+	(normalize_map_pos): Speed up by avoiding integer modulo
+	calculation.  Patch by Gregory Berkolaiko
+	<Gregory.Berkolaiko@weizmann.ac.il>.
+
+Sun Jul 22 17:04:30 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/README.de:
+
+	Infos about a special mailing list for German translators added.
+
+Sun Jul 22 17:02:29 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	Infos about a special mailing list for German translators added.
+
+Sun Jul 22 10:44:03 2001  Stig E Sandoe <stig@ii.uib.no>:
+
+	* po/no.po:
+
+	Minor patching of no.po
+
+Sat Jul 21 18:47:39 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add some bug reporters.
+
+Sat Jul 21 18:35:09 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/ruleset.c:
+
+	Check that a unit's firepower is > 0 when loading rulesets.
+
+	Bug reported by Gregory Berkolaiko
+	<Gregory.Berkolaiko@weizmann.ac.il>
+
+Sat Jul 21 18:25:10 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/unit.c, server/unittools.c:
+
+	Make units with 0 movement points work as expected.
+
+	Bug reported by Pablo Belluscio <pablibell@fibertel.com.ar>
+
+Sat Jul 21 18:19:19 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/wldlg.c, client/gui-xaw/wldlg.c:
+
+	In the city worklist dialog, clicking on help will now bring up
+	the improvement help screen, instead of the help screen of a
+	random unit.
+
+	Fixes (PR#845) reported by Alejandro G. Belluscio
+	<baldusi@hotmail.com>
+
+Sat Jul 21 17:45:37 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/citytools.c, server/plrhand.c:
+
+	When transferring a city, move non-allied units on the city square
+	away.
+
+	Fixes (PR#841) reported by Hjalmar Böhm <hjr.boehm@gmx.net>
+
+Fri Jul 20 14:09:37 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* BUGS, PEOPLE:
+
+	Run another commit to make CVS actually commit all the files.
+
+Fri Jul 20 14:08:42 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Make the gtk city dialog variable width. This fixes problems with
+	truncated text on buttons in the dialog.
+
+	Fixes (PR#841) reported by Pieter J. Kersten <kersten@dia.eur.nl>
+	Patch by <Daniel_Speyer@FirstClass.choate.edu>
+
+Wed Jul 18 11:00:40 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* po/ro.po:
+
+	Update Romanian translation.  Patch by Michael Stefaniuc
+	<mstefani@redhat.de>.
+
+Wed Jul 18 10:56:00 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* po/ru.po:
+
+	Update the Russian translation.  Patch by Dmitriy Genzel
+	<dg@cs.brown.edu>.
+
+Sun Jul 15 21:45:00 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* po/ro.po:
+
+	Update Romanian translation.  Patch by Michael Stefaniuc
+	<mstefani@redhat.de>.
+
+Sun Jul 15 21:34:11 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* TODO:
+
+	Update.
+
+Sun Jul 15 21:25:25 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* PEOPLE:
+
+	Add Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il>.
+
+Sun Jul 15 21:11:02 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/combat.c:
+
+	(win_chance): Fix thinko.  Patch by Gregory Berkolaiko
+	<Gregory.Berkolaiko@weizmann.ac.il>.
+
+Sun Jul 15 11:42:21 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* PEOPLE, configure, configure.in:
+
+	Add the !"#!"#$#"$#"!$#"!$#" files for f***ing real this time.
+
+Sun Jul 15 11:30:42 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* po/ro.po:
+
+	Add Romanian translation.  Regenerate generated files.
+
+Sun Jul 15 11:11:55 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* data/civ1/units.ruleset, data/civ2/units.ruleset,
+	data/default/units.ruleset:
+
+	Fix typos.  Patch by Michael Stefaniuc <mstefani@redhat.de>.
+
+Sat Jul 14 16:16:28 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Sat Jul 14 15:55:28 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* Makefile.am, Makefile.in, configure, configure.in:
+
+	Commit files that, for some mysterious reason, were not committed
+	in the last commit.  The mind boggles.
+
+Sat Jul 14 14:32:26 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* client/Makefile.am, client/Makefile.in, vms/Makefile.am,
+	vms/Makefile.in:
+
+	Add the vms and amiga directories and their contents to EXTRA_DIST
+	in Makefile.am.  Add the gui-mui directory and its contents to the
+	EXTRA_DIST in client/Makefile.am.  Remove vms/Makefile.am and
+	vms/Makefile.in.  Update generated files.
+
+Sat Jul 14 12:58:05 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1937t+71f+573u+32o.
+
+Fri Jul 13 17:06:38 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* po/hu.po:
+
+	Update Hungarian translation.  Patch by Gabor Dukai
+	<dukai@EUnet.yu>.
+
+Fri Jul 13 15:03:51 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* doc/NEWS.ja:
+
+	Update NEWS.ja file based on cvs-1.36's NEWS.
+
+Thu Jul 12 10:38:28 2001  Paolo Sammicheli <xdatap1@siena.linux.it>:
+
+	* doc/HOWTOPLAY.it, doc/INSTALL.it, doc/README.it, po/it.po:
+
+	Updated italian l10n.
+
+	HOWTOPLAY.it translated by Lino Mastrodomenico <mastro@freeciv.it>
+	INSTALL.it translated by Paolo Sammicheli <xdatap1@freeciv.it>
+	README.it translated by Matteo Scordino <felinux@freeciv.it>
+
+	it.po translated by Leandro Noferini <leandro@freeciv.it>, Lino
+	Mastrodomenico <mastro@freeciv.it>, Samuele Catuzzi
+	<v3nt0@freeciv.it>, and Paolo Sammicheli <xdatap1@freeciv.it>
+
+Wed Jul 11 23:18:00 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* data/civ1/buildings.ruleset, data/civ2/buildings.ruleset:
+
+	Add magic /* xgettext:no-c-format */ comments.  Patch by Lino
+	Mastrodomenico <mastro@freeciv.it>.
+
+Wed Jul 11 21:23:00 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/unit.h:
+
+	Avoid malloc()-ing 0 bytes.
+
+Wed Jul 11 10:40:49 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* data/helpdata.txt, data/civ1/buildings.ruleset,
+	data/civ2/buildings.ruleset, data/default/buildings.ruleset:
+
+	Add magic /* xgettext:no-c-format */ comment to translatable
+	strings.
+
+Wed Jul 11 01:37:40 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/INSTALL.de:
+
+	INSTALL.de updated
+
+Wed Jul 11 01:34:03 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Mon Jul  9 23:14:55 2001  Stig E Sandoe <stig@ii.uib.no>:
+
+	* po/no.po:
+
+	tiny updates on no.po after a patch by Gaute B Strokkenes
+	<gs234@cam.ac.uk>
+
+Mon Jul  9 23:12:37 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* data/helpdata.txt, data/civ1/buildings.ruleset,
+	data/civ2/buildings.ruleset, data/default/buildings.ruleset:
+
+	* data/helpdata.txt, data/civ1/buildings.rulest,
+	data/civ2/buildings.ruleset, data/default/buildings.ruleset:  Add
+	magic /* xgettext:no-c-format */ comments.
+
+Mon Jul  9 10:46:08 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Mon Jul  9 09:44:32 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Udpated nl.po
+
+Mon Jul  9 00:33:09 2001  Stig E Sandoe <stig@ii.uib.no>:
+
+	* po/no.po:
+
+	made a no.pox of current tree and updated no.po to be
+	bleeding-edge.
+
+Sun Jul  8 21:17:40 2001  freeciv :
+
+	* server/stdinhand.c:
+
+	* Prefix translatable string with /* xgettext:no-c-format */ to
+	avoid confusing xgettext.
+
+Sun Jul  8 21:11:25 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/unit.h, server/unittools.c:
+
+	Take into account that units can die in update_unit_activity(). 
+	Fixes some crashes.
+
+Sun Jul  8 08:53:18 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated.  This does NOT solve the reported bug: I had to
+	generate freeciv.pot manually.
+
+Sat Jul  7 19:19:17 2001  freeciv :
+
+	* po/en_GB.po, po/ja.po, data/nation/dunedain.ruleset,
+	data/nation/polish.ruleset:
+
+	* po/en_GB.po: Remove fuzzy flag from header entry.  Change
+	charset to ISO-8859-1.  Updated Dunedain entries.
+
+	* po/ja.po: Remove fuzzy flag from header entry.
+
+	* data/nation/polish.ruleset: Change "Krol" and "Krolowa" to
+	"King" and "Queen" respectively.
+
+	* data/nation/dunedain.ruleset: Use "u" rather than "u" with an
+	accent in translatable strings.  Add comment for translators to
+	use "u" with accent if available in the charset used.
+
+Sat Jul  7 18:49:45 2001  freeciv :
+
+	* INSTALL:
+
+	* INSTALL: Update pointer to the latest GNU gettext release.
+
+Sat Jul  7 16:12:08 2001  Stig E Sandoe <stig@ii.uib.no>:
+
+	* po/no.po:
+
+	Updated the revision-date in no.po as requested on freeciv-dev
+
+Sat Jul  7 14:24:55 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/connection.h:
+
+	Increase MAX_LEN_BUFFER to avoid being cut off on large map
+	transfers, like apollo program and the end of the game.
+
+	Fixes (PR#816) reported by Xavier Renaut
+	<xavier@ideasandassociates.com>
+
+Fri Jul  6 07:46:35 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Thu Jul  5 19:20:54 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/diplomats.c:
+
+	send_player_info() when a diplomat has gained him a new tech.
+
+	Patch by Michael Zinn <michaelz@cse.unsw.edu.au>
+
+Thu Jul  5 19:13:35 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Christian Knoke, Andrew Pimlott.
+
+Thu Jul  5 19:09:47 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/city.c:
+
+	Fix tile trade bug at (x,y)=(2,2)
+
+	Patch by Andrew Pimlott <andrew@pimlott.ne.mediaone.net>
+
+Wed Jul  4 13:41:40 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/INSTALL.de:
+
+	INSTALL.de updated by Jens Georg <jgeorg@ldknet.org>
+
+Wed Jul  4 13:40:51 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/NEWS.de:
+
+	NEWS.de updated by Christian Knoke <ChrisK@enter.de>
+
+Wed Jul  4 13:14:04 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* po/sv.po:
+
+	Update sv.po
+
+	Patch by Erik Sigra <sigra@home.se>
+
+Wed Jul  4 11:54:09 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Set the gtk message area to do work wrapping.
+
+	Fixes (PR#822) reported by Egbert Hinzen <garfy@ehinzen.de>
+
+Wed Jul  4 11:24:21 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/options.c, common/events.h, server/unithand.c,
+	server/unittools.c, server/unittools.h:
+
+	Send messages to the client when attacking with a nuclear.
+
+	Fixes (PR#829) reported by Christian Knoke <ChrisK@enter.de>
+
+Wed Jul  4 11:16:26 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* INSTALL:
+
+	Add debian section.
+
+Wed Jul  4 11:12:40 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* INSTALL:
+
+	Add comments about compiling with readline < 4.2
+
+Tue Jul  3 22:24:35 2001  Miguel Lobo <miguell@madrid.com>:
+
+	* po/es.po:
+
+	miguell: Update es.po (again)
+
+Tue Jul  3 08:15:55 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Mon Jul  2 22:44:33 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated Portuguese (pt) translation.
+
+Mon Jul  2 20:41:57 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/packhand.c:
+
+	Mark string for translation.
+
+	Patch by Christian Knoke <ChrisK@enter.de>
+
+Mon Jul  2 19:51:20 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/menu.c:
+
+	Make Local Options, Message Options and Save settings menu items
+	available before game start.
+
+	Fixes (PR#827) reported by Christian Knoke <ChrisK@enter.de>
+
+Mon Jul  2 19:40:03 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Small fixes.
+
+Mon Jul  2 19:27:49 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Daniel Speyer.
+
+Mon Jul  2 19:21:07 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Fix to gtk client supported/present units display. If there were
+	exactly NUM_UNITS_SHOWN units you could scroll the list. Now only
+	make it scrollable if there are more than NUM_UNITS_SHOWN.
+
+	Patch by Daniel Speyer <dspeyer@users.sourceforge.net>
+
+Mon Jul  2 18:47:55 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/helpdlg.c:
+
+	Don't pass "" to gettext.
+
+	Patch by Lino Mastrodomenico <mastro@freeciv.it>
+
+Mon Jul  2 14:28:03 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/game.h:
+
+	Add comments.
+
+Mon Jul  2 13:25:01 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Make the "ok" button in the nation select dialog grab focus.
+
+	Patch by Tuomas Airaksinen <tuomas.airaksinen@pp.inet.fi>
+
+Mon Jul  2 12:44:50 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/report.c:
+
+	Fix crash bugs when creating demographics report for a player with
+	a negative total production surplus.
+
+Mon Jul  2 04:48:02 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Mon Jul  2 02:21:15 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated pt.po
+
+Sun Jul  1 20:59:57 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/dialogs.c:
+
+	If you closed the unit select window via the WMs delete button you
+	were not able to pop a new one up.
+
+Sun Jul  1 20:54:01 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.c, common/map.h, common/unit.c, server/settlers.c:
+
+	Autosettlers were not aware that they sometimes can not transform
+	to ocean.
+
+	-Thue
+
+Sun Jul  1 20:48:03 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Allow the buttons in the city dialog to have different widths. 
+	This is part of a fix to the problems with text that doesn't fit. 
+	(PR#820)
+
+	Patch by Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
+
+Sun Jul  1 17:01:50 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* vms/Makefile.am, vms/Makefile.in, vms/README.txt,
+	vms/config.h_vms, vms/freeciv_h.vms, vms/imlib_config.h_vms,
+	vms/readme.vms:
+
+	Update vms files.
+
+	Patch by Robert Alan Byer <byer@mail.ourservers.net>
+
+Sun Jul  1 09:37:24 2001  freeciv :
+
+	* po/no.po:
+
+	Updated the no.po file by translating a few dozen new entries,
+	also stripped header slightly.
+
+Sun Jul  1 09:05:12 2001  freeciv :
+
+	* po/no.po:
+
+	Updated the no.po file by applying Gaute Strokkenes' patch,
+	removing obsolete translations from end of file, and translating
+	several new entries
+
+Sat Jun 30 19:12:18 2001  freeciv :
+
+	* po/no.po:
+
+	Updated the no.po file by removing most fuzzy entries, fixing
+	non-kosher entries and cheekily updated version to 1.12.0
+
+Sat Jun 30 19:08:48 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1929t+66f+580u+32o.
+
+Sat Jun 30 18:42:19 2001  freeciv :
+
+	* po/no.po:
+
+	Updated the no.po file considerably and removed most fuzzy-entries
+	in the file.
+
+Sat Jun 30 16:49:53 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, configure, configure.in:
+
+	Bump version from 1.11.6 (beta) to 1.11.7-devel (beta).
+
+Sat Jun 30 15:43:56 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ChangeLog, configure, configure.in:
+
+	Run commit again to force CVS to add files *sigh*.
+
+Sat Jun 30 15:41:35 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ja.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ru.po, po/sv.po:
+
+	Begin beta-test period leading to version 1.12.0: - Changed
+	version to 1.11.6 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').  - Updated Changelog
+
 Sat Jun 30 15:19:10 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	* build.debian:
