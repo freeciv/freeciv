@@ -1093,7 +1093,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       /* Show where the unit is going. */
       do_move_unit(punit, packet_unit);
-      if (punit->transported_by != -1) {
+      if (punit->transported_by == -1) {
+	/* Repaint if the unit isn't transported.  do_move_unit erases the
+	 * unit's old position and animates, but doesn't update the unit's
+	 * new position. */
 	repaint_unit = TRUE;
       }
 
