@@ -1598,7 +1598,7 @@ static void load_ruleset_governments(struct section_file *file)
       if (strcmp(sval, "-") == 0) {
         continue;
       }
-      if (hint == G_LAST_FLAG) {
+      if (hint == G_LAST_HINT) {
         freelog(LOG_FATAL, "government %s has unknown hint %s", g->name, sval);
         exit(EXIT_FAILURE);
       } else {
