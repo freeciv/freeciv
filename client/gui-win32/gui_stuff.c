@@ -447,9 +447,10 @@ static void win_text_minsize(HWND hWnd,POINT *rcmin,char *text)
   if ((font=GetWindowFont(hWnd)))
     old=SelectObject(hdc,font);
   textrect.top=0;
-  textrect.right=10000;
+  textrect.right=640;
   textrect.left=0;
-  DrawText(hdc,text,strlen(text),&textrect,DT_CALCRECT);
+  textrect.bottom=480;
+  DrawText(hdc,text,strlen(text),&textrect,DT_CALCRECT | DT_WORDBREAK);
   if (font)
     SelectObject(hdc,old);
   ReleaseDC(hWnd,hdc);
