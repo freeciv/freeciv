@@ -1789,6 +1789,7 @@ void cm_free_state(struct cm_state *state)
   destroy_partial_solution(&state->best);
   destroy_partial_solution(&state->current);
   free(state->choice.stack);
+  free(state);
 }
 
 
