@@ -810,7 +810,7 @@ void city_reduce_size(struct city *pcity)
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		   "Game: Famine feared in %s", pcity->name);
   if (city_got_effect(pcity, B_GRANARY))
-    pcity->food_stock=(pcity->size+1)*(game.foodbox/2);
+    pcity->food_stock=(pcity->size*game.foodbox)/2;
   else
     pcity->food_stock=0;
 
@@ -829,10 +829,11 @@ void city_populate(struct city *pcity)
     unit_list_iterate(pcity->units_supported, punit) {
       if (unit_flag(punit->type, F_SETTLERS)) {
 	wipe_unit(0, punit);
-	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST, "Game: Famine feared in %s, Settlers dies!", 
+	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
+			 "Game: Famine feared in %s, Settlers lost!", 
 			 pcity->name);
 	if (city_got_effect(pcity, B_GRANARY))
-	  pcity->food_stock=(pcity->size+1)*(game.foodbox/2);
+	  pcity->food_stock=(pcity->size*game.foodbox)/2;
 	else
 	  pcity->food_stock=0;
 	return;
