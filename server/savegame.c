@@ -3283,10 +3283,10 @@ void game_load(struct section_file *file)
 	  int settlers = secfile_lookup_int(file, "game.settlers");
 	  int explorer = secfile_lookup_int(file, "game.explorer");
 	  int i;
-	  for (i = 0; settlers>0; i++, settlers--) {
+	  for (i = 0; settlers > 0 && i < (MAX_LEN_STARTUNIT - 1) ; i++, settlers--) {
 	    game.start_units[i] = 'c';
 	  }
-	  for (; explorer>0; i++, explorer--) {
+	  for (; explorer > 0 && i < (MAX_LEN_STARTUNIT - 1) ; i++, explorer--) {
 	    game.start_units[i] = 'x';
 	  }
 	  game.start_units[i] = '\0';

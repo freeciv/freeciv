@@ -31,7 +31,7 @@
 #define MAX_LEN_ALLOW_TAKE 16
 #define MAX_ID_LEN 33
 #define MAX_GRANARY_INIS 24
-#define MAX_LEN_STARTUNIT 16
+#define MAX_LEN_STARTUNIT (20+1)
 
 enum server_states { 
   PRE_GAME_STATE, 
