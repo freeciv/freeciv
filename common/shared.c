@@ -421,11 +421,12 @@ void remove_trailing_char(char *s, char trailing)
 int wordwrap_string(char *s, int len)
 {
   int num_lines = 0;
+  int slen = strlen(s);
   
   /* At top of this loop, s points to the rest of string,
    * either at start or after inserted newline: */
  top:
-  if (s && *s && strlen(s) > len) {
+  if (s && *s && slen > len) {
     char *c;
 
     num_lines++;
@@ -433,6 +434,7 @@ int wordwrap_string(char *s, int len)
     /* check if there is already a newline: */
     for(c=s; c<s+len; c++) {
       if (*c == '\n') {
+	slen -= c+1 - s;
 	s = c+1;
 	goto top;
       }
@@ -442,6 +444,7 @@ int wordwrap_string(char *s, int len)
     for(c=s+len; c>s; c--) {
       if (isspace(*c)) {
 	*c = '\n';
+	slen -= c+1 - s;
 	s = c+1;
 	goto top;
       }
@@ -451,6 +454,7 @@ int wordwrap_string(char *s, int len)
     for(c=s+len+1; *c; c++) {
       if (isspace(*c)) {
 	*c = '\n';
+	slen -= c+1 - s;
 	s = c+1;
 	goto top;
       }
