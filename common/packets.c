@@ -3155,9 +3155,11 @@ static int write_socket_data(struct connection *pc,
     switch (select(pc->sock+1, NULL, &writefs, NULL, &tv)) { /* timeout */
     case 0:
       freelog(LOG_NORMAL, "timeout expired while waiting for write");
+      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
       return -1;
     case -1:
       freelog(LOG_DEBUG, "error while waiting for write: %s",mystrerror(errno));
+      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
       return -1;
     default:
       break;
@@ -3172,7 +3174,8 @@ static int write_socket_data(struct connection *pc,
 	  continue;
 	}
 #endif
-	freelog(LOG_NORMAL, "failed writing to socket");
+	freelog(LOG_NORMAL, "failed writing to socket: %s",mystrerror(errno));
+        freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
 	return -1;
       }
       start += nput;
