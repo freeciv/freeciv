@@ -127,7 +127,7 @@ static void set_title_topic(const struct help_item *pitem)
   if(!strcmp(pitem->topic, "Freeciv")
      || !strcmp(pitem->topic, "About")
      || !strcmp(pitem->topic, _("About"))) {
-    xaw_set_label(help_title, FREECIV_NAME_VERSION);
+    xaw_set_label(help_title, freeciv_name_version());
   } else {
     xaw_set_label(help_title, pitem->topic);
   }

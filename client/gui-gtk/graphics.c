@@ -122,11 +122,11 @@ void load_intro_gfx( void )
 
   y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font->descent)));
 
-  w = gdk_string_width(main_font, WORD_VERSION);
+  w = gdk_string_width(main_font, word_version());
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, WORD_VERSION);
+		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, word_version());
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, tot/2-w/2, y, WORD_VERSION);
+		  toplevel->style->white_gc, tot/2-w/2, y, word_version());
 
   y+=lin;
 

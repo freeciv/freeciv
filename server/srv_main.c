@@ -1316,10 +1316,10 @@ static void introduce_game_to_connection(struct connection *pconn)
   
   if (my_gethostname(hostname, sizeof(hostname))==0) {
     notify_conn(dest, _("Welcome to the %s Server running at %s port %d."), 
-		FREECIV_NAME_VERSION, hostname, srvarg.port);
+		freeciv_name_version(), hostname, srvarg.port);
   } else {
     notify_conn(dest, _("Welcome to the %s Server at port %d."),
-		FREECIV_NAME_VERSION, srvarg.port);
+		freeciv_name_version(), srvarg.port);
   }
 
   /* tell who we're waiting on to end the game turn */

@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 #endif
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
    } else if (is_option("--version",argv[i])) {
-    fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
+    fprintf(stderr, "%s\n", freeciv_name_version());
     exit(0);
    } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */

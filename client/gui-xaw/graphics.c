@@ -120,15 +120,15 @@ void load_intro_gfx(void)
 
   y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font_struct->descent)));
 
-  w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
+  w=XTextWidth(main_font_struct, word_version(), strlen(word_version()));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
 	      (tot/2-w/2)+1, y+1, 
-	      WORD_VERSION, strlen(WORD_VERSION));
+	      word_version(), strlen(word_version()));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
 	      tot/2-w/2, y, 
-	      WORD_VERSION, strlen(WORD_VERSION));
+	      word_version(), strlen(word_version()));
 
   y+=lin;
 

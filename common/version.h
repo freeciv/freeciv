@@ -58,16 +58,11 @@
                        VER_STRINGIFY(PATCH_VERSION) VERSION_LABEL
 #endif
 
-/* below, FREECIV_NAME_VERSION uses pre-processor string concatenation --dwp */
-#if IS_BETA_VERSION
-#define FREECIV_NAME_VERSION "Freeciv version " VERSION_STRING " (beta version)"
-#define WORD_VERSION "betatest version"
-#else
-#define FREECIV_NAME_VERSION "Freeciv version " VERSION_STRING
-#define WORD_VERSION "version"
-#endif
+/* version informational strings */
+char *freeciv_name_version(void);
+char *word_version(void);
 
 /* If returns NULL, not a beta version. */
-char *beta_message (void);
+char *beta_message(void);
 
 #endif  /* FC__VERSION_H */

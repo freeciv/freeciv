@@ -111,10 +111,10 @@ int main(int argc, char *argv[])
   }
 
   if (showvers && !showhelp) {
-    fprintf(stderr, FREECIV_NAME_VERSION "\n");
+    fprintf(stderr, "%s \n", freeciv_name_version());
     exit(0);
   }
-  con_write(C_VERSION, _("This is the server for %s"), FREECIV_NAME_VERSION);
+  con_write(C_VERSION, _("This is the server for %s"), freeciv_name_version());
   con_write(C_COMMENT, _("You can learn a lot about Freeciv at %s"),
 	    WEBSITE_URL);
 

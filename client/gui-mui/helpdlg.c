@@ -117,7 +117,7 @@ static void set_title_topic(char *topic)
       || !strcmp(topic, "About")
       || !strcmp(topic, _("About")))
   {
-    text = FREECIV_NAME_VERSION;
+    text = freeciv_name_version();
   }
   else
   {
