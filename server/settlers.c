@@ -469,7 +469,7 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 
   if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
-     !(ptile->special&S_MINE) && !(ptile->city_id) &&
+     !(ptile->special&S_MINE) && !(ptile->city) &&
      (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
      is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {
     map_set_special(x, y, S_IRRIGATION);
@@ -620,7 +620,7 @@ int in_city_radius(int x, int y)
 {
   int i, j;
   city_map_iterate(i, j) {
-    if (map_get_tile(x+i-2, y+j-2)->city_id) return 1;
+    if (map_get_city(x+i-2, y+j-2)) return 1;
   }
   return 0;
 }

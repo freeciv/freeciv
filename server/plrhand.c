@@ -1053,7 +1053,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     for(x=0; x<B_LAST; x++)
       pcity->improvements[x]=(*p++=='1') ? 1 : 0;
 
-    map_get_tile(pcity->x, pcity->y)->city_id=pcity->id;
+    map_set_city(pcity->x, pcity->y, pcity);
 
     city_incite_cost(pcity);
     

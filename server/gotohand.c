@@ -654,7 +654,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
     }
     return(possible);
   } else if (is_sailing_unit(punit) && (omni || map_get_known(x, y, pplayer)) &&
-       map_get_terrain(x, y) != T_OCEAN && !map_get_tile(x, y)->city_id &&
+       map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
        !is_terrain_near_tile(x, y, T_OCEAN)) {
     return(0);
   } /* end pre-emption subroutine. */

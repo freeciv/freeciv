@@ -403,10 +403,10 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
     tile1 = map_get_tile(xx[i], yy[j]);
     if (tile1->terrain == T_UNKNOWN) c = maxcost;
     else if (tile0->terrain == T_OCEAN) {
-      if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+      if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
       else c = maxcost;
     } else if (tile1->terrain == T_OCEAN) {
-      if (tile0->city_id) c = -3;
+      if (tile0->city) c = -3;
       else c = maxcost;
     }
     else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
@@ -425,10 +425,10 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
     tile0 = map_get_tile(xx[i], yy[j]);
     if (tile1->terrain == T_UNKNOWN) c = maxcost;
     else if (tile0->terrain == T_OCEAN) {
-      if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+      if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
       else c = maxcost;
     } else if (tile1->terrain == T_OCEAN) {
-      if (tile0->city_id) c = -3;
+      if (tile0->city) c = -3;
       else c = maxcost;
     }
     else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
@@ -464,10 +464,10 @@ void initialize_move_costs(void)
         tile1 = map_get_tile(xx[i], yy[j]);
         if (tile1->terrain == T_UNKNOWN) c = maxcost;
         else if (tile0->terrain == T_OCEAN) {
-          if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+          if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
           else c = maxcost;
         } else if (tile1->terrain == T_OCEAN) {
-          if (tile0->city_id) c = -3;
+          if (tile0->city) c = -3;
           else c = maxcost;
         }
         else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
@@ -535,7 +535,7 @@ void tile_init(struct tile *ptile)
   ptile->terrain=T_UNKNOWN;
   ptile->special=S_NONE;
   ptile->known=0;
-  ptile->city_id=0;
+  ptile->city=NULL;
   unit_list_init(&ptile->units);
   ptile->worked = -1; /* indicates player # or -1 if not worked */
   ptile->assigned = 0; /* bitvector */
@@ -632,12 +632,7 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 struct city *map_get_city(int x, int y)
 {
-  int city_id;
-  
-  city_id=(map.tiles+map_adjust_x(x)+map_adjust_y(y)*map.xsize)->city_id;
-  if(city_id)
-    return find_city_by_id(city_id);
-  return 0;
+  return (map.tiles+map_adjust_x(x)+map_adjust_y(y)*map.xsize)->city;
 }
 
 
@@ -646,8 +641,7 @@ struct city *map_get_city(int x, int y)
 ***************************************************************/
 void map_set_city(int x, int y, struct city *pcity)
 {
-  (map.tiles+map_adjust_x(x)+map_adjust_y(y)*map.xsize)->city_id=
-    (pcity) ? pcity->id : 0;
+  (map.tiles+map_adjust_x(x)+map_adjust_y(y)*map.xsize)->city=pcity;
 }
 
 

@@ -313,7 +313,7 @@ void game_remove_city(int city_id)
   
   if((pcity=game_find_city_by_id(city_id))) {
     city_list_unlink(&game.players[pcity->owner].cities, pcity);
-    map_set_city(pcity->x, pcity->y, 0);
+    map_set_city(pcity->x, pcity->y, NULL);
     free(pcity);
     if(used_ids) dealloc_id(city_id);
   }

@@ -146,7 +146,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
         ok = (punit->type == U_TRIREME ? 0 : 1);
         if (map_get_continent(x + i, y + j) == con &&
         !is_enemy_unit_tile(x + i, y + j, punit->owner) &&
-        !map_get_tile(x + i, y + j)->city_id) {
+        !map_get_city(x + i, y + j)) {
           cur = 0;
           for (a = i - 1; a <= i + 1; a++) {
             for (b = j - 1; b <= j + 1; b++) {
@@ -182,7 +182,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       if (map_get_continent(x, y) == con && map_get_known(x, y, pplayer) &&
-         !is_enemy_unit_tile(x, y, punit->owner) && !map_get_tile(x, y)->city_id &&
+         !is_enemy_unit_tile(x, y, punit->owner) && !map_get_city(x, y) &&
          tile_is_accessible(punit, x, y)) {
         cur = 0;
         for (a = -1; a <= 1; a++)

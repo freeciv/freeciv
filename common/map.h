@@ -39,12 +39,12 @@ struct map_position {
 struct tile {
   enum tile_terrain_type terrain;
   enum tile_special_type special;
-  unsigned char continent;
-  unsigned short known;
-  int city_id;
+  struct city *city;
   struct unit_list units;
-  signed char worked; /* who defaults chars to unsigned?  Ugh. */
+  unsigned short known;
   short assigned; /* these can save a lot of CPU usage -- Syela */
+  signed char worked; /* who defaults chars to unsigned?  Ugh. */
+  unsigned char continent;
   signed char move_cost[8]; /* don't know if this helps! */
 };
 
