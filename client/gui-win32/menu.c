@@ -25,6 +25,7 @@
 #include "capability.h"
 #include "fcintl.h"
 #include "log.h"
+#include "government.h"
 #include "map.h"
 #include "mem.h"
 #include "support.h"
@@ -47,6 +48,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "packhand.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
@@ -72,11 +74,13 @@ enum MenuID {
   IDM_GAME_DISCONNECT,
   IDM_GAME_QUIT,
   
-  IDM_KINGDOM_MENU,
-  IDM_KINGDOM_TAX,
-  IDM_KINGDOM_CITY,
-  IDM_KINGDOM_WORK,
-  IDM_KINGDOM_REVOLUTION,
+  IDM_GOVERNMENT_MENU,
+  IDM_GOVERNMENT_TAX,
+  IDM_GOVERNMENT_CITY,
+  IDM_GOVERNMENT_WORK,
+  IDM_GOVERNMENT_REVOLUTION,
+  IDM_GOVERNMENT_CHANGE_FIRST,
+  IDM_GOVERNMENT_CHANGE_LAST = IDM_GOVERNMENT_CHANGE_FIRST + (G_MAGIC - 1),
 
   IDM_VIEW_MENU,
   IDM_VIEW_GRID, 
@@ -291,13 +295,16 @@ static struct my_menu main_menu[]={
   {N_("_Disconnect"),IDM_GAME_DISCONNECT},
   {N_("_Quit") "\tCtl+Q",IDM_GAME_QUIT},
   {NULL,0},
-  {N_("_Kingdom"),IDM_SUBMENU},
-  {N_("Tax Rates") "\tShift+T",IDM_KINGDOM_TAX},
+  {N_("Gov_ernment"), IDM_SUBMENU},
+  {N_("Tax Rates") "\tShift+T", IDM_GOVERNMENT_TAX},
   { "",IDM_SEPARATOR},
-  {N_("_Find City") "\tCtl+F",IDM_KINGDOM_CITY},
-  {N_("Work_lists") "\tShift+L",IDM_KINGDOM_WORK},
+  {N_("_Find City") "\tCtl+F", IDM_GOVERNMENT_CITY},
+  {N_("Work_lists") "\tShift+L", IDM_GOVERNMENT_WORK},
   { "",IDM_SEPARATOR},
-  {N_("_Revolution"),IDM_KINGDOM_REVOLUTION}, 
+  {N_("_Change Government"), IDM_SUBMENU},
+  {N_("_Revolution"), IDM_GOVERNMENT_REVOLUTION},
+  {"", IDM_SEPARATOR},
+  {NULL, 0},
   {NULL,0},
   {N_("_View"),IDM_SUBMENU},
   {N_("Map _Grid") "\tCtl+G",IDM_VIEW_GRID},
@@ -342,9 +349,11 @@ static struct my_menu main_menu[]={
   {N_("Auto Settler") "\tA",IDM_ORDERS_AUTOSETTLER},
   {N_("Auto Attack") "\tShift+A",IDM_ORDERS_AUTOATTACK},
   {N_("Auto E_xplore") "\tX",IDM_ORDERS_AUTOEXPLORE},
-  {N_("Connect/_road") "\tCtl+Shift+R", IDM_ORDERS_CONNECT_ROAD},
-  {N_("Connect/rai_l") "\tCtl+Shift+L", IDM_ORDERS_CONNECT_RAIL},
-  {N_("Connect/_irrigate") "\tCtl+Shift+I", IDM_ORDERS_CONNECT_IRRIGATE},
+  {N_("Connect"), IDM_SUBMENU},
+  {N_("_Road") "\tCtl+Shift+R", IDM_ORDERS_CONNECT_ROAD},
+  {N_("Rai_l") "\tCtl+Shift+L", IDM_ORDERS_CONNECT_RAIL},
+  {N_("_Irrigate") "\tCtl+Shift+I", IDM_ORDERS_CONNECT_IRRIGATE},
+  {NULL, 0},
   {N_("_Go to") "\tG",IDM_ORDERS_GOTO},
   {N_("Go/Airlift to City") "\tL",IDM_ORDERS_AIRLIFT},
   {N_("Return to nearest city") "\tShift+G", IDM_ORDERS_RETURN},
@@ -552,16 +561,16 @@ void handle_menu(int code)
     case IDM_GAME_QUIT:
       exit(EXIT_SUCCESS);
       break;
-    case IDM_KINGDOM_TAX:
+    case IDM_GOVERNMENT_TAX:
       popup_rates_dialog();
       break;
-    case IDM_KINGDOM_CITY:
+    case IDM_GOVERNMENT_CITY:
       popup_find_dialog();
       break;
-    case IDM_KINGDOM_WORK:
+    case IDM_GOVERNMENT_WORK:
       popup_worklists_report(game.player_ptr);
       break;
-    case IDM_KINGDOM_REVOLUTION:
+    case IDM_GOVERNMENT_REVOLUTION:
       popup_revolution_dialog();
       break;
     case IDM_VIEW_GRID:
@@ -847,6 +856,10 @@ void handle_menu(int code)
       handle_chatline();
       break;
     default:
+      if ((enum MenuID)code >= IDM_GOVERNMENT_CHANGE_FIRST
+	   && (enum MenuID)code <= IDM_GOVERNMENT_CHANGE_LAST) {
+	set_government_choice((enum MenuID)code - IDM_GOVERNMENT_CHANGE_FIRST);
+      }
       break;
     }
 }
@@ -879,7 +892,7 @@ update_menus(void)
   HMENU menu;
   menu=GetMenu(root_window);
   if (!can_client_issue_orders()) {
-      for(id=IDM_KINGDOM_MENU+1;id<IDM_HELP_MENU;id++)
+      for(id = IDM_GOVERNMENT_MENU + 1; id < IDM_HELP_MENU; id++)
 	my_enable_menu(menu,id,FALSE);
       
       my_enable_menu(menu,IDM_GAME_LOCAL_OPT,FALSE);
@@ -895,12 +908,32 @@ update_menus(void)
   else
     {
       struct unit *punit;
-      for(id=IDM_KINGDOM_MENU+1;id<IDM_HELP_MENU;id++)
+      HMENU govts;
+      int i;
+
+      for(id = IDM_GOVERNMENT_MENU + 1; id < IDM_HELP_MENU; id++)
 	my_enable_menu(menu,id,TRUE);
+
+      for (i = IDM_GOVERNMENT_CHANGE_FIRST; i <= IDM_GOVERNMENT_CHANGE_LAST;
+	   i++) {
+	DeleteMenu(menu, i, MF_BYCOMMAND);
+      }
+
+      /* WARNING: These numbers are very dependent on the menu layout */
+      govts = GetSubMenu(GetSubMenu(menu, 1), 5); 
+
+      for (i = 0; i < game.government_count; i++) {
+        if (i != game.government_when_anarchy) {
+	  AppendMenu(govts, MF_STRING, IDM_GOVERNMENT_CHANGE_FIRST + i,
+		     governments[i].name);
+          my_enable_menu(menu, IDM_GOVERNMENT_CHANGE_FIRST + i, 
+			 can_change_to_government(game.player_ptr, i));
+	}
+      }
       
-      my_enable_menu(menu, IDM_KINGDOM_TAX, can_client_issue_orders());
-      my_enable_menu(menu, IDM_KINGDOM_WORK, can_client_issue_orders());
-      my_enable_menu(menu, IDM_KINGDOM_REVOLUTION,
+      my_enable_menu(menu, IDM_GOVERNMENT_TAX, can_client_issue_orders());
+      my_enable_menu(menu, IDM_GOVERNMENT_WORK, can_client_issue_orders());
+      my_enable_menu(menu, IDM_GOVERNMENT_REVOLUTION,
 		     can_client_issue_orders());
 
       my_enable_menu(menu,IDM_GAME_LOCAL_OPT,TRUE);
