@@ -208,6 +208,12 @@ void reset_move_costs(int x, int y);
 #define CHECK_INDEX(index) ((void)0)
 #endif
 
+#define native_pos_to_index(nat_x, nat_y)                                   \
+  ((nat_x) + (nat_y) * map.xsize)
+#define index_to_native_pos(pnat_x, pnat_y, index)                          \
+  (*(pnat_x) = (index) % map.xsize,                                         \
+   *(pnat_y) = (index) / map.xsize)
+
 /* Obscure math.  See explanation in doc/HACKING. */
 #define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                     \
   (topo_has_flag(TF_ISO)                                                    \
@@ -226,8 +232,7 @@ static inline int map_pos_to_index(int map_x, int map_y);
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
 #define index_to_map_pos(pmap_x, pmap_y, index) \
   (CHECK_INDEX(index),                          \
-   *(pmap_x) = (index) % map.xsize,             \
-   *(pmap_y) = (index) / map.xsize,             \
+   index_to_native_pos(pmap_x, pmap_y, index),  \
    native_to_map_pos(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
@@ -674,7 +679,7 @@ static inline int map_pos_to_index(int map_x, int map_y)
 
   CHECK_MAP_POS(map_x, map_y);
   map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
-  return nat_x + nat_y * map.xsize;
+  return native_pos_to_index(nat_x, nat_y);
 }
 
 #endif  /* FC__MAP_H */
