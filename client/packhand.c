@@ -435,9 +435,9 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->ppl_unhappy[i] = packet->ppl_unhappy[i];
     pcity->ppl_angry[i] = packet->ppl_angry[i];
   }
-  pcity->specialists[SP_ELVIS] = packet->specialists[SP_ELVIS];
-  pcity->specialists[SP_SCIENTIST] = packet->specialists[SP_SCIENTIST];
-  pcity->specialists[SP_TAXMAN] = packet->specialists[SP_TAXMAN];
+  for (i = 0; i < SP_COUNT; i++) {
+    pcity->specialists[i] = packet->specialists[i];
+  }
 
   pcity->city_options = packet->city_options;
 
@@ -711,9 +711,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     int i;
     int x, y;
 
-    pcity->specialists[SP_ELVIS] = 0;
-    pcity->specialists[SP_SCIENTIST] = 0;
-    pcity->specialists[SP_TAXMAN] = 0;
+    for (i = 0; i < SP_COUNT; i++) {
+      pcity->specialists[i] = 0;
+    }
     for (i = 0; i < NUM_TRADEROUTES; i++) {
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;

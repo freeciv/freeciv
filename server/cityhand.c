@@ -72,37 +72,18 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
     return;
   }
 
-  if ((to == SP_ELVIS && pcity->size < game.rgame.min_size_elvis)
+  if (to < 0 || to >= SP_COUNT
+      || from < 0 || from >= SP_COUNT
+      || (to == SP_ELVIS && pcity->size < game.rgame.min_size_elvis)
       || (to == SP_TAXMAN && pcity->size < game.rgame.min_size_taxman)
       || (to == SP_SCIENTIST && pcity->size < game.rgame.min_size_scientist)
-      || (from == SP_ELVIS && pcity->specialists[SP_ELVIS] == 0)
-      || (from == SP_TAXMAN && pcity->specialists[SP_TAXMAN] == 0)
-      || (from == SP_SCIENTIST && pcity->specialists[SP_SCIENTIST] == 0)
-      || (to != SP_ELVIS && to != SP_TAXMAN && to != SP_SCIENTIST)
-      || (from != SP_ELVIS && from != SP_TAXMAN && from != SP_SCIENTIST)) {
+      || pcity->specialists[from] == 0) {
     freelog(LOG_ERROR, "Error in specialist change request from client.");
     return;
   }
 
-  if (from == SP_ELVIS) {
-    pcity->specialists[SP_ELVIS]--;
-  } else if (from == SP_TAXMAN) {
-    pcity->specialists[SP_TAXMAN]--;
-  } else if (from == SP_SCIENTIST) {
-    pcity->specialists[SP_SCIENTIST]--;
-  }
-  switch (to) {
-  case SP_TAXMAN:
-    pcity->specialists[SP_TAXMAN]++;
-    break;
-  case SP_SCIENTIST:
-    pcity->specialists[SP_SCIENTIST]++;
-    break;
-  case SP_ELVIS:
-  default:
-    pcity->specialists[SP_ELVIS]++;
-    break;
-  }
+  pcity->specialists[from]--;
+  pcity->specialists[to]++;
 
   sanity_check_city(pcity);
   city_refresh(pcity);
@@ -144,6 +125,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 			     int worker_x, int worker_y)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  int i;
 
   if (!is_valid_city_coords(worker_x, worker_y)) {
     freelog(LOG_ERROR, "invalid city coords %d,%d in package",
@@ -167,12 +149,13 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   server_set_worker_city(pcity, worker_x, worker_y);
 
-  if (pcity->specialists[SP_ELVIS] > 0) 
-    pcity->specialists[SP_ELVIS]--;
-  else if (pcity->specialists[SP_SCIENTIST] > 0) 
-    pcity->specialists[SP_SCIENTIST]--;
-  else 
-    pcity->specialists[SP_TAXMAN]--;
+  for (i = 0; i < SP_COUNT; i++) {
+    if (pcity->specialists[i] > 0) {
+      pcity->specialists[i]--;
+      break;
+    }
+  }
+  assert(i < SP_COUNT);
 
   sanity_check_city(pcity);
   city_refresh(pcity);
