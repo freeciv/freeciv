@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-07 11:53+0100\n"
+"POT-Creation-Date: 2005-02-08 10:07+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -28,13 +28,13 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:253 client/cityrepdata.c:484
-#: client/gui-gtk-2.0/repodlgs.c:931 client/gui-gtk/repodlgs.c:843
+#: client/gui-gtk-2.0/repodlgs.c:930 client/gui-gtk/repodlgs.c:843
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
 #: client/gui-win32/repodlgs.c:669
 msgid "Food"
 msgstr "Żywność"
 
-#: common/city.c:255 client/gui-gtk-2.0/repodlgs.c:930
+#: common/city.c:255 client/gui-gtk-2.0/repodlgs.c:929
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1600
 #: client/gui-mui/repodlgs.c:667 client/gui-win32/repodlgs.c:669
 msgid "Shield"
@@ -46,7 +46,7 @@ msgstr "Tarcza"
 msgid "Trade"
 msgstr "Handel"
 
-#: common/city.c:259 client/gui-gtk-2.0/repodlgs.c:932
+#: common/city.c:259 client/gui-gtk-2.0/repodlgs.c:931
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1608
 #: data/default/terrain.ruleset:475 data/civ2/terrain.ruleset:438
 #: data/civ1/terrain.ruleset:427 data/history/terrain.ruleset:467
@@ -60,7 +60,7 @@ msgid "Luxury"
 msgstr "Luksus"
 
 #: common/city.c:263 server/plrhand.c:777 client/gui-gtk-2.0/gamedlgs.c:272
-#: client/gui-gtk-2.0/repodlgs.c:178 client/gui-gtk/gamedlgs.c:281
+#: client/gui-gtk-2.0/repodlgs.c:177 client/gui-gtk/gamedlgs.c:281
 #: client/gui-gtk/repodlgs.c:174 client/gui-mui/citydlg.c:1616
 #: client/gui-mui/repodlgs.c:264 client/gui-win32/ratesdlg.c:321
 #: client/gui-win32/repodlgs.c:89 client/gui-xaw/menu.c:219
@@ -328,8 +328,8 @@ msgstr "(nieznane)"
 msgid "None"
 msgstr "Brak"
 
-#: common/tech.c:590 client/gui-gtk-2.0/repodlgs.c:368
-#: client/gui-gtk-2.0/repodlgs.c:376 client/gui-gtk-2.0/repodlgs.c:489
+#: common/tech.c:590 client/gui-gtk-2.0/repodlgs.c:367
+#: client/gui-gtk-2.0/repodlgs.c:375 client/gui-gtk-2.0/repodlgs.c:488
 #: client/gui-gtk/repodlgs.c:351 client/gui-gtk/repodlgs.c:359
 #: client/gui-gtk/repodlgs.c:460
 #, c-format
@@ -518,6 +518,11 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"Uruchomiłeś Freeciv bez biblioteki iconv.\n"
+"Znaki spoza zestawu latin1 (ISO-8559-1) prawdopodobnie nie będą wyświetalne "
+"poprawnie.\n"
+"Jeśli używasz polskiego tłumaczenia, dotyczy to ciebie.\n"
+"Możesz ściągnąć iconv z http://gnu.org/.\n"
 
 #: utility/fciconv.c:204
 #, c-format
@@ -811,8 +816,7 @@ msgstr "*%s (AI)* Pokój? ... raczej nie teraz"
 #: ai/advdiplomacy.c:1138
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr ""
-"*%s (AI)* Podniesienie ręki na %s było twoim ostatnim błędem!"
+msgstr "*%s (AI)* Podniesienie ręki na %s było twoim ostatnim błędem!"
 
 #: ai/advdiplomacy.c:1162
 #, c-format
@@ -1299,7 +1303,7 @@ msgstr "Gra: %s zostało rozwiązane do %s."
 
 #: server/civserver.c:73
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr ""
+msgstr "Musisz wyśłać sygnał dwa razy w ciągu sekundy, aby zakończyć.\n"
 
 #: server/civserver.c:130
 #, c-format
@@ -4161,8 +4165,9 @@ msgid ""
 "next techs really expensive."
 msgstr ""
 "Na początku gry każdy gracz otrzymuje podaną liczbę technologi za darmo. Są "
-"one losowane osobno dla każdego gracza. W zależności od ustawienia 'tech_cost_style' w zestawie zasad"
-" duża wartość techlevel może spowodować, że następne technologie będą drogie."
+"one losowane osobno dla każdego gracza. W zależności od ustawienia "
+"'tech_cost_style' w zestawie zasad duża wartość techlevel może spowodować, "
+"że następne technologie będą drogie."
 
 #: server/settings.c:483
 msgid "Points required to gain a new tech"
@@ -4387,13 +4392,15 @@ msgstr ""
 
 #: server/settings.c:634
 msgid "Turn on/off server-side autoattack"
-msgstr ""
+msgstr "Włącza i wyłącza autoatak (po stronie serwera)"
 
 #: server/settings.c:635
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
 msgstr ""
+"Jeśli ta opcja jest włączona, to jednostki będą mogły automatycznie rozważać "
+"atakowanie jednostek, które staną na polu obok."
 
 #: server/settings.c:641
 msgid "Reduce city population after attack"
@@ -5219,7 +5226,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr "(dwuznaczne)"
 
-#: server/stdinhand.c:357 client/citydlg_common.c:431 client/packhand.c:1193
+#: server/stdinhand.c:357 client/citydlg_common.c:431 client/packhand.c:1199
 msgid "(unknown)"
 msgstr "(nieznane)"
 
@@ -5648,7 +5655,7 @@ msgstr "Drugorzędne opcje"
 
 #: server/stdinhand.c:1919
 msgid "Rarely used options"
-msgstr "Rzadkie opcje"
+msgstr "Rzadko używane opcje"
 
 #: server/stdinhand.c:1922
 msgid "+ means you may change the option"
@@ -5743,8 +5750,8 @@ msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player>>."
 msgstr ""
-"Nieprawidłowe argumenty. Składnia: debug <diplomacy <gracz> | city <x> <y> | units "
-"<x> <y> | unit <id> | tech <gracz>>."
+"Nieprawidłowe argumenty. Składnia: debug <diplomacy <gracz> | city <x> <y> | "
+"units <x> <y> | unit <id> | tech <gracz>>."
 
 #
 #: server/stdinhand.c:2209
@@ -7032,7 +7039,7 @@ msgstr "%+4d : Mieszkańcy\n"
 #: client/citydlg_common.c:415
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Podatek z handlu\n"
 
 #: client/citydlg_common.c:433
 #, c-format
@@ -7040,14 +7047,14 @@ msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Szlak handlowy z %s\n"
 
 #: client/citydlg_common.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Building tithes\n"
 msgstr ""
 
 #: client/citydlg_common.c:462
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr "%+4d : Bonus od %s (%+d%%)\n"
+msgstr "%+4d : Bonus z %s (%+d%%)\n"
 
 #: client/citydlg_common.c:473
 #, c-format
@@ -7066,12 +7073,12 @@ msgstr "%+4d : Zużywane\n"
 
 #: client/citydlg_common.c:490
 msgid "==== : Adds up to\n"
-msgstr "==== : Sumuje się do\n"
+msgstr "==== W sumie\n"
 
 #: client/citydlg_common.c:492
 #, c-format
 msgid "%4d : Total surplus"
-msgstr "%4d : Całkowita nadwyżka"
+msgstr "%4d : Nadwyżka"
 
 #: client/cityrepdata.c:71
 msgid "?city_state:Rapture"
@@ -7264,7 +7271,7 @@ msgstr "?trade_surplus:H+"
 msgid "Surplus: Trade"
 msgstr "Nadwyżka: Handel"
 
-#: client/cityrepdata.c:472 client/gui-gtk-2.0/repodlgs.c:648
+#: client/cityrepdata.c:472 client/gui-gtk-2.0/repodlgs.c:647
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:312
 #: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
 #: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
@@ -8217,7 +8224,7 @@ msgstr "Gra: Skopiowano '%s' do schowka."
 msgid "Game: Clipboard is empty."
 msgstr "Gra: Schowek jest pusty."
 
-#: client/mapview_common.c:787
+#: client/mapview_common.c:795
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -8254,7 +8261,8 @@ msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
-"To jest domyślny login używany w oknie połączenia lub przy użyciu opcji -a z lini poleceń."
+"To jest domyślny login używany w oknie połączenia lub przy użyciu opcji -a z "
+"lini poleceń."
 
 #: client/options.c:96
 msgid "Server"
@@ -8264,7 +8272,9 @@ msgstr "Serwer"
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
-msgstr "To jest domyślny serwer używany w oknie połączenia lub przy użyciu opcji -a z lini poleceń."
+msgstr ""
+"To jest domyślny serwer używany w oknie połączenia lub przy użyciu opcji -a "
+"z lini poleceń."
 
 #: client/options.c:102
 msgid "Server port"
@@ -8274,7 +8284,9 @@ msgstr "Port serwera"
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
-msgstr "To jest domyślny port serwera używany w oknie połączenia lub przy użyciu opcji -a z lini poleceń."
+msgstr ""
+"To jest domyślny port serwera używany w oknie połączenia lub przy użyciu "
+"opcji -a z lini poleceń."
 
 #: client/options.c:108 client/gui-gtk/connectdlg.c:469
 #: client/gui-mui/connectdlg.c:178 client/gui-win32/connectdlg.c:912
@@ -8287,8 +8299,10 @@ msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
-msgstr "Metaserwer to komputer, z którym klienci się łączą aby odnaleźć gry(serwery) w Internecie."
-"  Tej opcji nie powinieneś zmieniać, chyba że na prawdę wiesz co robisz."
+msgstr ""
+"Metaserwer to komputer, z którym klienci się łączą aby odnaleźć gry(serwery) "
+"w Internecie.  Tej opcji nie powinieneś zmieniać, chyba że na prawdę wiesz "
+"co robisz."
 
 #: client/options.c:115
 msgid "Soundset"
@@ -8311,8 +8325,8 @@ msgid ""
 "same as using the -P command-line option."
 msgstr ""
 "Jeżeli masz problemy z dźwiękiem, możesz spróbować zmienić wtyczkę dźwięku."
-"Niestety efekt będzie widoczny dopiero po ponownym włączeniu Freeciv."
-" Tak samo działa opcja -P z lini poleceń."
+"Niestety efekt będzie widoczny dopiero po ponownym włączeniu Freeciv. Tak "
+"samo działa opcja -P z lini poleceń."
 
 #: client/options.c:127
 msgid "Tileset"
@@ -8322,7 +8336,9 @@ msgstr "Zestaw graficzny"
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
-msgstr "Możesz tutaj zmienić zestaw graficzny. Działa tak samo jak opcja -t z lini poleceń."
+msgstr ""
+"Możesz tutaj zmienić zestaw graficzny. Działa tak samo jak opcja -t z lini "
+"poleceń."
 
 #: client/options.c:135
 msgid "Solid unit background color"
@@ -8332,7 +8348,9 @@ msgstr "Jednolity kolor tła jednostki"
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
-msgstr "Ta opcja sprawia, że pod jednostkami będzie widoczne jednokolorowe tło zamiast flagi."
+msgstr ""
+"Ta opcja sprawia, że pod jednostkami będzie widoczne jednokolorowe tło "
+"zamiast flagi."
 
 #: client/options.c:140
 msgid "Sound bell at new turn"
@@ -8344,8 +8362,8 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
-"Gdy ta opcja jest włączona, będziesz słyszał \"dzwonek\" na początku każdej tury."
-"  Możesz zmienić zachowanie dzwonka w opcjach komunikatów."
+"Gdy ta opcja jest włączona, będziesz słyszał \"dzwonek\" na początku każdej "
+"tury.  Możesz zmienić zachowanie dzwonka w opcjach komunikatów."
 
 #: client/options.c:147
 msgid "Unit movement animation time (milliseconds)"
@@ -8355,8 +8373,9 @@ msgstr "Czas animacji ruchu jednostki (milisekundy)"
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
-msgstr "Wyznacza długość trwania animacji podczas ruchu jednostki po mapie."
-"  0 oznacza brak animacji."
+msgstr ""
+"Wyznacza długość trwania animacji podczas ruchu jednostki po mapie.  0 "
+"oznacza brak animacji."
 
 #: client/options.c:153
 msgid "Mapview recentering time (milliseconds)"
@@ -8367,8 +8386,10 @@ msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
-msgstr "Podczas zmiany widoku, mapa zostanie płynnie przesunięta na nową pozycję. "
-"Możesz tu ustawić czas trwania przesuwania. 0 oznacza brak płynnego przejścia."
+msgstr ""
+"Podczas zmiany widoku, mapa zostanie płynnie przesunięta na nową pozycję. "
+"Możesz tu ustawić czas trwania przesuwania. 0 oznacza brak płynnego "
+"przejścia."
 
 #: client/options.c:159
 msgid "Show combat animation"
@@ -8378,8 +8399,7 @@ msgstr "Animacja walki"
 msgid ""
 "If this option is disabled them combat animation between units on the "
 "mapview will be turned off."
-msgstr ""
-"Możesz tu włączyć i wyłączyć animację bitew."
+msgstr "Możesz tu włączyć i wyłączyć animację bitew."
 
 #: client/options.c:163
 msgid "Manual Turn Done in AI Mode"
@@ -8390,8 +8410,8 @@ msgid ""
 "If this option is disabled, then you will not have to press the turn done "
 "button manually when watching an AI player."
 msgstr ""
-"Jeśli ta opcja jest włączona, nie musisz naciskać [Koniec tury] podczas kontrolowania "
-"gracza komputerowego."
+"Jeśli ta opcja jest włączona, nie musisz naciskać [Koniec tury] podczas "
+"kontrolowania gracza komputerowego."
 
 #: client/options.c:168
 msgid "Auto Center on Units"
@@ -8401,8 +8421,7 @@ msgstr "Automatyczne wyśrodkowanie"
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
-msgstr ""
-"Włącza automatyczne wyśrodkowanie widoku na aktywną jednostkę."
+msgstr "Włącza automatyczne wyśrodkowanie widoku na aktywną jednostkę."
 
 #: client/options.c:172
 msgid "Auto Center on Combat"
@@ -8414,8 +8433,9 @@ msgid ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
-"Włącza automatyczne wyśrodkowanie widoku na każdą bitwę."
-"  Wyłączenie tego może przyspieszyć czas pomiędzy turami, ale może sprawić, że nie zobaczysz niektórych bitew."
+"Włącza automatyczne wyśrodkowanie widoku na każdą bitwę.  Wyłączenie tego "
+"może przyspieszyć czas pomiędzy turami, ale może sprawić, że nie zobaczysz "
+"niektórych bitew."
 
 #: client/options.c:178
 msgid "Focus on Awakened Units"
@@ -8454,6 +8474,8 @@ msgid ""
 "If this option is set then when all your units are done moving the turn will "
 "be ended for you automatically."
 msgstr ""
+"Włączenie tej opcji sprawia, że tura będzie automatycznie kończona, po ruchu "
+"wszystkich twoich jednostek."
 
 #: client/options.c:195
 msgid "Prompt for city names"
@@ -8463,7 +8485,9 @@ msgstr "Zatwierdzanie nazw miast"
 msgid ""
 "If this option is disabled then city names will be chosen for you "
 "automatically by the server."
-msgstr "Włącza automatyczne zatwierdzanie nazw miast. Nie musisz wpisywać nazw dla nowooutworzonych miast."
+msgstr ""
+"Włącza automatyczne zatwierdzanie nazw miast. Nie musisz wpisywać nazw dla "
+"nowooutworzonych miast."
 
 #: client/options.c:199
 msgid "Pop up city dialog for new cities"
@@ -8474,6 +8498,8 @@ msgid ""
 "If this option is set then a newly-founded city will havce its city dialog "
 "popped up automatically."
 msgstr ""
+"Jeśli ta opcja jest włączona, to okna nowoutworzonych miasta będą "
+"automatycznie otwierane."
 
 #: client/options.c:277
 msgid "City: Building Unavailable Item"
@@ -8885,20 +8911,20 @@ msgstr "Napis określający funkcjonalność serwera: %s"
 msgid "Start of turn %d"
 msgstr "Początek %d tury"
 
-#: client/packhand.c:1548
+#: client/packhand.c:1554
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Tryb AI jest teraz %s."
 
-#: client/packhand.c:1549
+#: client/packhand.c:1555
 msgid "ON"
 msgstr "Aktywny"
 
-#: client/packhand.c:1549
+#: client/packhand.c:1555
 msgid "OFF"
 msgstr "Nieaktywny"
 
-#: client/packhand.c:2495
+#: client/packhand.c:2501
 msgid "Other"
 msgstr "Inne"
 
@@ -9414,16 +9440,16 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Cuda: "
 
-#: client/tilespec.c:338
+#: client/tilespec.c:341
 msgid "No usable default tileset found, aborting!"
 msgstr "Nie znalazłem odpowiedniego zestawu graficznego, kończę pracę!"
 
-#: client/tilespec.c:341
+#: client/tilespec.c:344
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "Próbuję zestaw graficzny \"%s\"."
 
-#: client/tilespec.c:358
+#: client/tilespec.c:361
 #, c-format
 msgid ""
 "%s file appears incompatible:\n"
@@ -9436,7 +9462,7 @@ msgstr ""
 "opcje pliku: %s\n"
 "wspierane opcje: %s"
 
-#: client/tilespec.c:366
+#: client/tilespec.c:369
 #, c-format
 msgid ""
 "%s file claims required option(s) which we don't support:\n"
@@ -9449,37 +9475,37 @@ msgstr ""
 "opcje pliku: %s\n"
 "wspierane opcje: %s"
 
-#: client/tilespec.c:583 client/tilespec.c:616 client/tilespec.c:785
+#: client/tilespec.c:586 client/tilespec.c:619 client/tilespec.c:788
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Nie mogę otworzyć \"%s\"."
 
-#: client/tilespec.c:597
+#: client/tilespec.c:600
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Nie mogę wczytać pliku gfx dla pliku specyfikacyjnego %s"
 
-#: client/tilespec.c:759
+#: client/tilespec.c:762
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Nie mogę znaleźć wspieranego rozszerzenia pliku gfx dla %s"
 
-#: client/tilespec.c:815
+#: client/tilespec.c:818
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr "Klient nie obsługuje izometrycznej grafiki. Używam domyślnego zestawu."
 
-#: client/tilespec.c:823
+#: client/tilespec.c:826
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 msgstr "Klient nie obsługuje 'wystającej' grafiki. Używam domyślnego zestawu."
 
-#: client/tilespec.c:878
+#: client/tilespec.c:881
 msgid "Invalid darkness style set in tileset."
 msgstr "Nieprawidłowy styl ciemności (darkness_style) w zestawie graficznym."
 
-#: client/tilespec.c:1027
+#: client/tilespec.c:1030
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
@@ -9488,28 +9514,28 @@ msgstr ""
 "Bład w warstwie %s %d: nie można używać wysokiego terenu lub przesunięcia "
 "sprite'a w  metodzie cell-based."
 
-#: client/tilespec.c:1202
+#: client/tilespec.c:1205
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "Nie ma grafiki dla specjalisty %s."
 
-#: client/tilespec.c:1234
+#: client/tilespec.c:1237
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "Nie ma grafiki dla mieszkańca %s."
 
-#: client/tilespec.c:1565
+#: client/tilespec.c:1588
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Nie ma grafiki %s lub %s dla %s %s"
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:1666
+#: client/tilespec.c:1689
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Brakuje base sprite tag \"%s1\"."
 
-#: client/tilespec.c:3211
+#: client/tilespec.c:3285
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Nie mogę wczytać pliku gfx '%s' dla sprite'a %s"
@@ -9592,25 +9618,25 @@ msgstr ""
 "          Czas wzrostu: %s\n"
 "Zakończenie produkcji: %s"
 
-#: client/agents/cma_fec.c:413
-msgid "?cma:Max food"
-msgstr "?cma:Max żywności"
-
-#: client/agents/cma_fec.c:414
-msgid "?cma:Max production"
-msgstr "?cma:Max produkcji"
-
-#: client/agents/cma_fec.c:415
-msgid "?cma:Max gold"
-msgstr "?cma:Max złota"
-
-#: client/agents/cma_fec.c:416
-msgid "?cma:Max science"
-msgstr "?cma:Max nauki"
-
 #: client/agents/cma_fec.c:417
 msgid "?cma:Very happy"
 msgstr "?cma:Bardzo szczęśliwe"
+
+#: client/agents/cma_fec.c:418
+msgid "?cma:Max food"
+msgstr "?cma:Max żywności"
+
+#: client/agents/cma_fec.c:419
+msgid "?cma:Max production"
+msgstr "?cma:Max produkcji"
+
+#: client/agents/cma_fec.c:420
+msgid "?cma:Max gold"
+msgstr "?cma:Max złota"
+
+#: client/agents/cma_fec.c:421
+msgid "?cma:Max science"
+msgstr "?cma:Max nauki"
 
 #: client/gui-gtk-2.0/chatline.c:144 client/gui-gtk/chatline.c:105
 #: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:120
@@ -9933,7 +9959,7 @@ msgstr "Ule_psz jednostkę"
 msgid "Upgrade Unit!"
 msgstr "Ulepsz jednostkę!"
 
-#: client/gui-gtk-2.0/citydlg.c:2337 client/gui-gtk-2.0/repodlgs.c:1148
+#: client/gui-gtk-2.0/citydlg.c:2337 client/gui-gtk-2.0/repodlgs.c:1150
 #: client/gui-gtk/citydlg.c:2589 client/gui-gtk/repodlgs.c:967
 #: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
 #: client/gui-win32/citydlg.c:1437 client/gui-win32/repodlgs.c:554
@@ -10546,7 +10572,7 @@ msgid "Unit"
 msgstr "Jednostka"
 
 #: client/gui-gtk-2.0/dialogs.c:1440 client/gui-gtk-2.0/pages.c:1547
-#: client/gui-gtk-2.0/repodlgs.c:626 client/gui-gtk-2.0/wldlg.c:990
+#: client/gui-gtk-2.0/repodlgs.c:625 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/plrdlg.c:140 client/gui-mui/plrdlg.c:166
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/plrdlg.c:340
 #: data/Freeciv.in:80
@@ -10782,6 +10808,9 @@ msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
+"Jeżeli ta opcja jest włączona, to okna dialogowe będą znajdować się zawsze "
+"na wierzchu okna głównego. W przypadku trybu pełnoekranowego nie ma ona "
+"znaczenia."
 
 #: client/gui-gtk-2.0/gui_main.c:159
 msgid "Show worklist task icons"
@@ -10812,6 +10841,7 @@ msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
+"Włączenie tej opcji sprawia, że zostanie użyty nowy sposób rysowania mgły wojny(FOW). Metoda ta nie jest wolniejsza, ale zużywa dwukrotnie więcej pamięci."
 
 #: client/gui-gtk-2.0/gui_main.c:514 client/gui-gtk-2.0/gui_main.c:1085
 #: client/gui-gtk/gui_main.c:401 client/gui-gtk/gui_main.c:873
@@ -11522,38 +11552,38 @@ msgstr "_Rozkazy"
 msgid "Orders"
 msgstr "Rozkazy"
 
-#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk-2.0/menu.c:1387
-#: client/gui-gtk-2.0/menu.c:1390 client/gui-gtk/menu.c:691
+#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk-2.0/menu.c:1382
+#: client/gui-gtk-2.0/menu.c:1385 client/gui-gtk/menu.c:691
 #: client/gui-gtk/menu.c:1199 client/gui-gtk/menu.c:1202
 #: client/gui-win32/menu.c:358
 msgid "_Build City"
 msgstr "Z_buduj miasto"
 
-#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:1400
-#: client/gui-gtk-2.0/menu.c:1406 client/gui-gtk/menu.c:693
+#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:1395
+#: client/gui-gtk-2.0/menu.c:1401 client/gui-gtk/menu.c:693
 #: client/gui-gtk/menu.c:1212 client/gui-gtk/menu.c:1217
 #: client/gui-win32/menu.c:359
 msgid "Build _Road"
 msgstr "Zbuduj d_rogę"
 
-#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk-2.0/menu.c:1315
+#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk-2.0/menu.c:1310
 #: client/gui-gtk/menu.c:695 client/gui-gtk/menu.c:1127
 #: client/gui-win32/menu.c:360
 msgid "Build _Irrigation"
 msgstr "Stwórz _nawodnienie"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:1316
+#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:1311
 #: client/gui-gtk/menu.c:697 client/gui-gtk/menu.c:1128
 #: client/gui-win32/menu.c:361
 msgid "Build _Mine"
 msgstr "Zbuduj _kopalnię"
 
-#: client/gui-gtk-2.0/menu.c:780 client/gui-gtk-2.0/menu.c:1317
+#: client/gui-gtk-2.0/menu.c:780 client/gui-gtk-2.0/menu.c:1312
 #: client/gui-gtk/menu.c:699 client/gui-gtk/menu.c:1129
 msgid "Transf_orm Terrain"
 msgstr "Przekształć _teren"
 
-#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:1439
+#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:1434
 #: client/gui-gtk/menu.c:701 client/gui-gtk/menu.c:1249
 #: client/gui-win32/menu.c:363
 msgid "Build _Fortress"
@@ -11564,7 +11594,7 @@ msgstr "Zbuduj _fortecę"
 msgid "Build Airbas_e"
 msgstr "Zbuduj bazę _lotniczą"
 
-#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk-2.0/menu.c:1445
+#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk-2.0/menu.c:1440
 #: client/gui-gtk/menu.c:705 client/gui-gtk/menu.c:1254
 #: client/gui-win32/menu.c:365
 msgid "Clean _Pollution"
@@ -11602,7 +11632,7 @@ msgstr "_Wyładuj"
 msgid "Wake up o_thers"
 msgstr "Obudź innych"
 
-#: client/gui-gtk-2.0/menu.c:810 client/gui-gtk-2.0/menu.c:1451
+#: client/gui-gtk-2.0/menu.c:810 client/gui-gtk-2.0/menu.c:1446
 #: client/gui-gtk/menu.c:729 client/gui-gtk/menu.c:1259
 msgid "_Auto Settler"
 msgstr "_Automatyczny osadnik"
@@ -11782,7 +11812,7 @@ msgstr "Pomo_c"
 #: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
 #: client/gui-gtk-2.0/menu.c:910 client/gui-gtk-2.0/menu.c:912
 #: client/gui-gtk-2.0/menu.c:914 client/gui-gtk-2.0/menu.c:916
-#: client/gui-gtk-2.0/repodlgs.c:208 client/gui-gtk/repodlgs.c:203
+#: client/gui-gtk-2.0/repodlgs.c:207 client/gui-gtk/repodlgs.c:203
 #: client/gui-gtk/wldlg.c:502 client/gui-mui/gui_main.c:288
 #: client/gui-mui/helpdlg.c:284 client/gui-mui/repodlgs.c:277
 #: client/gui-win32/citydlg.c:1061 client/gui-win32/repodlgs.c:267
@@ -11876,55 +11906,55 @@ msgstr "K_opiowanie"
 msgid "_About"
 msgstr "O progr_amie"
 
-#: client/gui-gtk-2.0/menu.c:1237
+#: client/gui-gtk-2.0/menu.c:1233
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:1307 client/gui-gtk/menu.c:1119
+#: client/gui-gtk-2.0/menu.c:1302 client/gui-gtk/menu.c:1119
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Zm_ień na %s"
 
-#: client/gui-gtk-2.0/menu.c:1308 client/gui-gtk/menu.c:1120
+#: client/gui-gtk-2.0/menu.c:1303 client/gui-gtk/menu.c:1120
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Z_mień na %s"
 
-#: client/gui-gtk-2.0/menu.c:1309 client/gui-gtk/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:1304 client/gui-gtk/menu.c:1121
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Przekształć na %s"
 
-#: client/gui-gtk-2.0/menu.c:1382 client/gui-gtk/menu.c:1194
+#: client/gui-gtk-2.0/menu.c:1377 client/gui-gtk/menu.c:1194
 msgid "Help _Build Wonder"
 msgstr "Pomóż _budować cud świata"
 
-#: client/gui-gtk-2.0/menu.c:1385 client/gui-gtk/menu.c:1197
+#: client/gui-gtk-2.0/menu.c:1380 client/gui-gtk/menu.c:1197
 msgid "Add to City (_B)"
 msgstr "Dodaj do miasta (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1393 client/gui-gtk/menu.c:1205
+#: client/gui-gtk-2.0/menu.c:1388 client/gui-gtk/menu.c:1205
 msgid "Make Trade _Route"
 msgstr "Ustanów t_rasę handlową"
 
-#: client/gui-gtk-2.0/menu.c:1396 client/gui-gtk/menu.c:1208
+#: client/gui-gtk-2.0/menu.c:1391 client/gui-gtk/menu.c:1208
 msgid "Build _Railroad"
 msgstr "Zbuduj kolej (_R)"
 
-#: client/gui-gtk-2.0/menu.c:1418 client/gui-gtk/menu.c:1229
+#: client/gui-gtk-2.0/menu.c:1413 client/gui-gtk/menu.c:1229
 msgid "Bu_ild Farmland"
 msgstr "Zbuduj farmę (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1437 client/gui-gtk/menu.c:1247
+#: client/gui-gtk-2.0/menu.c:1432 client/gui-gtk/menu.c:1247
 msgid "_Fortify"
 msgstr "_Fortyfikuj"
 
-#: client/gui-gtk-2.0/menu.c:1443 client/gui-gtk/menu.c:1252
+#: client/gui-gtk-2.0/menu.c:1438 client/gui-gtk/menu.c:1252
 msgid "_Paradrop"
 msgstr "_Przerzuć"
 
-#: client/gui-gtk-2.0/menu.c:1449 client/gui-gtk/menu.c:1257
+#: client/gui-gtk-2.0/menu.c:1444 client/gui-gtk/menu.c:1257
 msgid "_Auto Attack"
 msgstr "Automatyczny atak"
 
@@ -12136,7 +12166,7 @@ msgstr "Wybierz scenariusz"
 msgid "Choose a _Scenario:"
 msgstr "Wybierz _scenariusz:"
 
-#: client/gui-gtk-2.0/pages.c:1555 client/gui-gtk-2.0/repodlgs.c:625
+#: client/gui-gtk-2.0/pages.c:1555 client/gui-gtk-2.0/repodlgs.c:624
 #: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/citydlg.c:2799
 #: client/gui-gtk/wldlg.c:314 client/gui-gtk/wldlg.c:320
 #: client/gui-mui/citydlg.c:633 client/gui-mui/citydlg.c:662
@@ -12170,17 +12200,17 @@ msgstr "Zapisane _gry:"
 msgid "Save _Filename:"
 msgstr "Zapisz w pliku:"
 
-#: client/gui-gtk-2.0/repodlgs.c:190 client/gui-gtk/repodlgs.c:182
+#: client/gui-gtk-2.0/repodlgs.c:189 client/gui-gtk/repodlgs.c:182
 #: client/gui-win32/repodlgs.c:261
 msgid "Researching"
 msgstr "Badania"
 
-#: client/gui-gtk-2.0/repodlgs.c:211 client/gui-gtk/repodlgs.c:206
+#: client/gui-gtk-2.0/repodlgs.c:210 client/gui-gtk/repodlgs.c:206
 #: client/gui-win32/repodlgs.c:271 data/Freeciv.in:1456
 msgid "Goal"
 msgstr "Cel"
 
-#: client/gui-gtk-2.0/repodlgs.c:323 client/gui-gtk-2.0/repodlgs.c:518
+#: client/gui-gtk-2.0/repodlgs.c:322 client/gui-gtk-2.0/repodlgs.c:517
 #: client/gui-gtk/repodlgs.c:305 client/gui-gtk/repodlgs.c:490
 #: client/gui-win32/repodlgs.c:157 client/gui-win32/repodlgs.c:215
 #, c-format
@@ -12190,12 +12220,12 @@ msgstr[0] "(%d krok)"
 msgstr[1] "(%d kroki)"
 msgstr[2] "(%d kroków)"
 
-#: client/gui-gtk-2.0/repodlgs.c:627 client/gui-gtk/repodlgs.c:586
+#: client/gui-gtk-2.0/repodlgs.c:626 client/gui-gtk/repodlgs.c:586
 #: client/gui-mui/repodlgs.c:460 client/gui-win32/repodlgs.c:440
 msgid "Count"
 msgstr "Liczba"
 
-#: client/gui-gtk-2.0/repodlgs.c:628 client/gui-gtk-2.0/wldlg.c:990
+#: client/gui-gtk-2.0/repodlgs.c:627 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2799 client/gui-gtk/repodlgs.c:587
 #: client/gui-gtk/wldlg.c:316 client/gui-gtk/wldlg.c:322
 #: client/gui-mui/citydlg.c:636 client/gui-mui/repodlgs.c:461
@@ -12205,57 +12235,57 @@ msgstr "Liczba"
 msgid "Cost"
 msgstr "Koszt"
 
-#: client/gui-gtk-2.0/repodlgs.c:629 client/gui-gtk/repodlgs.c:587
+#: client/gui-gtk-2.0/repodlgs.c:628 client/gui-gtk/repodlgs.c:587
 #: client/gui-mui/repodlgs.c:462 client/gui-win32/repodlgs.c:446
 msgid "U Total"
 msgstr "Całk. utrzym."
 
-#: client/gui-gtk-2.0/repodlgs.c:702 client/gui-gtk/repodlgs.c:616
+#: client/gui-gtk-2.0/repodlgs.c:701 client/gui-gtk/repodlgs.c:616
 msgid "Total Cost:"
 msgstr "Całkowity koszt:"
 
-#: client/gui-gtk-2.0/repodlgs.c:708 client/gui-mui/repodlgs.c:521
+#: client/gui-gtk-2.0/repodlgs.c:707 client/gui-mui/repodlgs.c:521
 msgid "Sell _Obsolete"
 msgstr "Sprzedaj przestarzałe"
 
-#: client/gui-gtk-2.0/repodlgs.c:713 client/gui-mui/repodlgs.c:522
+#: client/gui-gtk-2.0/repodlgs.c:712 client/gui-mui/repodlgs.c:522
 msgid "Sell _All"
 msgstr "Sprzedaj wszystkie"
 
-#: client/gui-gtk-2.0/repodlgs.c:790
+#: client/gui-gtk-2.0/repodlgs.c:789
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
 msgstr "Czy naprawdę chcesz sprzedać %s?\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:793
+#: client/gui-gtk-2.0/repodlgs.c:792
 msgid "Sell Improvements"
 msgstr "Sprzedaż budynków"
 
-#: client/gui-gtk-2.0/repodlgs.c:819
+#: client/gui-gtk-2.0/repodlgs.c:818
 msgid "Sell-Off: Results"
 msgstr "Wyprzedaż: Wyniki"
 
-#: client/gui-gtk-2.0/repodlgs.c:879
+#: client/gui-gtk-2.0/repodlgs.c:878
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "Przychód:%d  Całkowity koszt: %d"
 
-#: client/gui-gtk-2.0/repodlgs.c:926 client/gui-gtk/repodlgs.c:842
+#: client/gui-gtk-2.0/repodlgs.c:925 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:663 client/gui-win32/repodlgs.c:667
 msgid "Unit Type"
 msgstr "Typ jednostki"
 
-#: client/gui-gtk-2.0/repodlgs.c:927 client/gui-gtk/repodlgs.c:842
+#: client/gui-gtk-2.0/repodlgs.c:926 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:664 client/gui-win32/repodlgs.c:667
 msgid "U"
 msgstr "P"
 
-#: client/gui-gtk-2.0/repodlgs.c:928 client/gui-gtk/repodlgs.c:842
+#: client/gui-gtk-2.0/repodlgs.c:927 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:665 client/gui-win32/repodlgs.c:668
 msgid "In-Prog"
 msgstr "Tworzone"
 
-#: client/gui-gtk-2.0/repodlgs.c:929 client/gui-gtk/repodlgs.c:842
+#: client/gui-gtk-2.0/repodlgs.c:928 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:666 client/gui-win32/repodlgs.c:668
 msgid "Active"
 msgstr "Aktywne"
@@ -12268,7 +12298,7 @@ msgstr "_Znajdź najbliższą"
 msgid "_Upgrade"
 msgstr "Ulepsz"
 
-#: client/gui-gtk-2.0/repodlgs.c:1141 client/gui-gtk/repodlgs.c:960
+#: client/gui-gtk-2.0/repodlgs.c:1143 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:546
 #: client/gui-xaw/repodlgs.c:998
 #, c-format
@@ -12279,23 +12309,23 @@ msgstr ""
 "Ulepszyć tak wiele %s do %s jak to możliwe, płacąc po %d złota?\n"
 "Skarbiec zawiera %d złota."
 
-#: client/gui-gtk-2.0/repodlgs.c:1239
+#: client/gui-gtk-2.0/repodlgs.c:1242
 msgid "Totals:"
 msgstr "Ogółem:"
 
-#: client/gui-gtk-2.0/repodlgs.c:1262 client/gui-gtk/repodlgs.c:1097
+#: client/gui-gtk-2.0/repodlgs.c:1265 client/gui-gtk/repodlgs.c:1097
 msgid "Player\n"
 msgstr "Gracz\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1263 client/gui-gtk/repodlgs.c:1098
+#: client/gui-gtk-2.0/repodlgs.c:1266 client/gui-gtk/repodlgs.c:1098
 msgid "Score\n"
 msgstr "Punkty\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1264 client/gui-gtk/repodlgs.c:1099
+#: client/gui-gtk-2.0/repodlgs.c:1267 client/gui-gtk/repodlgs.c:1099
 msgid "Population\n"
 msgstr "Populacja\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1265 client/gui-gtk/repodlgs.c:1100
+#: client/gui-gtk-2.0/repodlgs.c:1268 client/gui-gtk/repodlgs.c:1100
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -12303,7 +12333,7 @@ msgstr ""
 "Handel\n"
 "(M dóbr)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1266 client/gui-gtk/repodlgs.c:1101
+#: client/gui-gtk-2.0/repodlgs.c:1269 client/gui-gtk/repodlgs.c:1101
 msgid ""
 "Production\n"
 "(M tons)"
@@ -12311,15 +12341,15 @@ msgstr ""
 "Produkcja\n"
 "(M ton)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1267 client/gui-gtk/repodlgs.c:1102
+#: client/gui-gtk-2.0/repodlgs.c:1270 client/gui-gtk/repodlgs.c:1102
 msgid "Cities\n"
 msgstr "Miasta\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1268 client/gui-gtk/repodlgs.c:1103
+#: client/gui-gtk-2.0/repodlgs.c:1271 client/gui-gtk/repodlgs.c:1103
 msgid "Technologies\n"
 msgstr "Technologie\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1269 client/gui-gtk/repodlgs.c:1104
+#: client/gui-gtk-2.0/repodlgs.c:1272 client/gui-gtk/repodlgs.c:1104
 msgid ""
 "Military Service\n"
 "(months)"
@@ -12327,11 +12357,11 @@ msgstr ""
 "Służba Wojskowa\n"
 "(miesiące)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1270 client/gui-gtk/repodlgs.c:1105
+#: client/gui-gtk-2.0/repodlgs.c:1273 client/gui-gtk/repodlgs.c:1105
 msgid "Wonders\n"
 msgstr "Cuda świata\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1271 client/gui-gtk/repodlgs.c:1106
+#: client/gui-gtk-2.0/repodlgs.c:1274 client/gui-gtk/repodlgs.c:1106
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -12339,7 +12369,7 @@ msgstr ""
 "Prędkość badań\n"
 "(%)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1272 client/gui-gtk/repodlgs.c:1107
+#: client/gui-gtk-2.0/repodlgs.c:1275 client/gui-gtk/repodlgs.c:1107
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -12347,7 +12377,7 @@ msgstr ""
 "Obszar\n"
 "(mile kw.)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1273 client/gui-gtk/repodlgs.c:1108
+#: client/gui-gtk-2.0/repodlgs.c:1276 client/gui-gtk/repodlgs.c:1108
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -12355,7 +12385,7 @@ msgstr ""
 "Obszar zamieszkany\n"
 "(mile kw.)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1274 client/gui-gtk/repodlgs.c:1109
+#: client/gui-gtk-2.0/repodlgs.c:1277 client/gui-gtk/repodlgs.c:1109
 msgid ""
 "Literacy\n"
 "(%)"
@@ -12363,15 +12393,15 @@ msgstr ""
 "Potrafiących czytać\n"
 "(%)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1275 client/gui-gtk/repodlgs.c:1110
+#: client/gui-gtk-2.0/repodlgs.c:1278 client/gui-gtk/repodlgs.c:1110
 msgid "Spaceship\n"
 msgstr "Statek kosmiczny\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1298
+#: client/gui-gtk-2.0/repodlgs.c:1301
 msgid "Score"
 msgstr "Punktacja"
 
-#: client/gui-gtk-2.0/repodlgs.c:1432 client/gui-win32/connectdlg.c:1034
+#: client/gui-gtk-2.0/repodlgs.c:1435 client/gui-win32/connectdlg.c:1034
 #: client/gui-win32/repodlgs.c:900
 msgid "Game Options"
 msgstr "Opcje gry"
@@ -21392,7 +21422,8 @@ msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Tylko narody fundamentalne mogą szkolić fanatyków bez konieczności płacenia na ich utrzymanie."
+"Tylko narody fundamentalne mogą szkolić fanatyków bez konieczności płacenia "
+"na ich utrzymanie."
 
 #: data/civ2/units.ruleset:625
 msgid "Elephants"
