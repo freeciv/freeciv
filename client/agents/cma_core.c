@@ -726,6 +726,8 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_sint16(&din, &parameter->happy_factor);
   dio_get_uint8(&din, (int *) &parameter->factor_target);
   dio_get_bool8(&din, &parameter->require_happy);
+  /* This option is only for AI use */
+  parameter->allow_disorder = FALSE;
 
   return TRUE;
 }
