@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <gtk/gtk.h>
 
+#include "combat.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -171,6 +172,23 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
+        struct unit *apunit;
+        
+        /* calculate chance to win */
+        if ((apunit = get_unit_in_focus())) {
+          /* chance to win when active unit is attacking the selected unit */
+          int att_chance = unit_win_chance(apunit, punit) * 100;
+
+          /* chance to win when selected unit is attacking the active unit */
+          int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
+
+          my_snprintf(s, sizeof(s), _("Chance to win: A:%d%% D:%d%%"),
+               att_chance, def_chance);
+          gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+                                         "GtkLabel::label", s, NULL);
+          count++;
+        }
+
         my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, 
