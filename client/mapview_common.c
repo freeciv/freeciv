@@ -59,7 +59,7 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
        * anti-aliased text (since it uses partial transparency).  Thus some
        * clients may turn it off by setting
        * update_city_text_in_refresh_tile. */
-      int iter, canvas_x, canvas_y;
+      int canvas_x, canvas_y;
       struct city *pcity;
 
       if (is_isometric) {
@@ -73,12 +73,12 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 	 *      1
 	 * Tile 1 is the one being updated; we redraw the city description
 	 * for tiles 2-8 (actually we end up drawing 1 as well). */
-	square_iterate(x - 1, y - 1, 1, city_x, city_y) {
+	rectangle_iterate(x - 2, y - 2, 3, 3, city_x, city_y) {
 	  if ((pcity = map_get_city(city_x, city_y))) {
 	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
 	    show_city_desc(pcity, canvas_x, canvas_y);
 	  }
-	} square_iterate_end;
+	} rectangle_iterate_end;
       } else {
 	/* We assume the city description will be held in the three tiles
 	 * right below the city.
@@ -86,15 +86,12 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 	 *        1
 	 * Tile 1 is the one being updated; we redraw the city description
 	 * for tiles 2, 3, and 4. */
-	for (iter = -1; iter <= 1; iter++) {
-	  int city_x = x + iter, city_y = y - 1;
-
-	  if (normalize_map_pos(&city_x, &city_y)
-	      && (pcity = map_get_city(city_x, city_y))) {
+	rectangle_iterate(x - 1, y - 1, 3, 1, city_x, city_y) {
+	  if ((pcity = map_get_city(city_x, city_y))) {
 	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
 	    show_city_desc(pcity, canvas_x, canvas_y);
 	  }
-	}
+	} rectangle_iterate_end;
       }
     }
 
