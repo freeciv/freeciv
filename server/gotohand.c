@@ -603,7 +603,9 @@ static bool find_the_shortest_path(struct unit *punit,
   orig_x = punit->x;
   orig_y = punit->y;
 
-  if ((dest_x == orig_x) && (dest_y == orig_y)) return TRUE; /* [Kero] */
+  if (same_pos(dest_x, dest_y, orig_x, orig_y)) {
+    return TRUE;		/* [Kero] */
+  }
   
   local_vector[orig_x][orig_y] = 0;
 
@@ -675,7 +677,8 @@ static bool find_the_shortest_path(struct unit *punit,
 	    continue; /* Attempting to attack from a ship */
 	  }
 
-	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
+	  if (!same_pos(x1, y1, dest_x, dest_y)) {
+	    /* Allow players to target anything */
 	    if (pplayer->ai.control) {
 	      if ((!is_enemy_unit_tile(pdesttile, unit_owner(punit))
 		   || !is_military_unit(punit))
@@ -698,10 +701,12 @@ static bool find_the_shortest_path(struct unit *punit,
 	  if ((is_non_attack_city_tile(pdesttile, unit_owner(punit))
 	       || !is_military_unit(punit))) {
 	    if (!is_diplomat_unit(punit)
-		&& (x1 != dest_x || y1 != dest_y)) /* Allow players to target anything */
+		&& !same_pos(x1, y1, dest_x, dest_y)) {
+	      /* Allow players to target anything */
 	      continue;
-	    else
+	    } else {
 	      move_cost = SINGLE_MOVE;
+	    }
 	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1, local_vector[x][y])) {
 	  continue;
@@ -719,7 +724,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
 	/* allow ships to target a shore */
 	if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP
-	    && (dest_x != x1 || dest_y != y1)) {
+	    && !same_pos(x1, y1, dest_x, dest_y)) {
 	  continue;
 	}
 	else if (unit_flag(punit, F_TRIREME)
@@ -741,7 +746,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
 	/* We don't allow attacks during GOTOs here; you can almost
 	   always find a way around enemy units on sea */
-	if (x1 != dest_x || y1 != dest_y) {
+	if (!same_pos(x1, y1, dest_x, dest_y)) {
 	  if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
 	      || is_non_allied_city_tile(pdesttile, unit_owner(punit)))
 	    continue;
@@ -776,12 +781,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
-        if (!same_pos(x1, y1, dest_x, dest_y)) {
-          /* If it's not our destination, we check if it's safe */
-          if (!airspace_looks_safe(x1, y1, pplayer)) {
-            continue;
-          }
-        }
+	if (!same_pos(x1, y1, dest_x, dest_y)
+	    && !airspace_looks_safe(x1, y1, pplayer)) {
+	  /* If it's not our destination, we check if it's safe */
+	  continue;
+	}
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
 	  move_cost /= SINGLE_MOVE;
@@ -811,7 +815,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	}
       }
 
-      if (x1 == dest_x && y1 == dest_y && maxcost > total_cost) {
+      if (same_pos(x1, y1, dest_x, dest_y) && maxcost > total_cost) {
 	freelog(LOG_DEBUG, "Found path, cost = %d", total_cost);
 	/* Make sure we stop searching when we have no hope of finding a shorter path */
         maxcost = total_cost + 1;
@@ -1213,7 +1217,10 @@ bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
 {  
   struct player *pplayer = unit_owner(punit);
   int possible = 0;
-  if (same_pos(punit->x, punit->y, x, y)) return TRUE;
+
+  if (same_pos(punit->x, punit->y, x, y)) {
+    return TRUE;
+  }
   if (is_ground_unit(punit) &&
       (omni || map_get_known_and_seen(x, y, pplayer))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
@@ -1363,7 +1370,7 @@ enum goto_result do_unit_goto(struct unit *punit,
  	return GR_FOUGHT;
       }
 
-      if(punit->x!=x || punit->y!=y) {
+      if(!same_pos(x, y, punit->x, punit->y)) {
 	send_unit_info(NULL, punit);
 	return GR_OUT_OF_MOVEPOINTS;
       }
@@ -1376,7 +1383,7 @@ enum goto_result do_unit_goto(struct unit *punit,
       }
 
       freelog(LOG_DEBUG, "Moving on.");
-    } while(!(x==waypoint_x && y==waypoint_y));
+    } while(!same_pos(x, y, waypoint_x, waypoint_y));
   } else {
     freelog(LOG_VERBOSE, "Did not find the shortest path for "
 	    "%s's %s at (%d, %d) -> (%d, %d)",
@@ -1396,7 +1403,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 
   /* normally we would just do this unconditionally, but if we had an
      airplane goto we might not be finished even if the loop exited */
-  if (punit->x == dest_x && punit->y == dest_y) {
+  if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
     if (punit->activity != ACTIVITY_PATROL) {
       punit->activity = ACTIVITY_IDLE;
     }
@@ -1777,7 +1784,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
        * This comes before the airspace_looks_safe check because it's
        * okay to goto into an enemy. 
        */
-      if (x1 == dest_x && y1 == dest_y) {
+      if (same_pos(x1, y1, dest_x, dest_y)) {
 	/* We're there! */
 	freelog(LOG_DEBUG, "air_can_move_between: movecost: %i",
 		warmap.cost[x][y] + MOVE_COST_AIR);
