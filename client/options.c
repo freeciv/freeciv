@@ -214,7 +214,8 @@ void load_options(void)
     /* fail silently */
     return;
   }
-  section_file_load(&sf, name);
+  if (!section_file_load(&sf, name))
+    return;  
 
   for (o=options; o->name; o++) {
     *(o->p_value) =

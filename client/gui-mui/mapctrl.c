@@ -16,6 +16,7 @@
 
 #include <libraries/mui.h>
 
+#include <clib/alib_protos.h>
 #include <proto/exec.h>
 #include <proto/muimaster.h>
 
@@ -75,7 +76,7 @@ static void build_city(size_t unit_id, char *cityname)
 /**************************************************************************
  Callback for the Cancel button in the new city dialog
 **************************************************************************/
-static void newcity_cancel()
+static void newcity_cancel(void)
 {
   set(newcity_wnd, MUIA_Window_Open, FALSE);
   DoMethod(newcity_ok_button, MUIM_KillNotify, MUIA_Pressed);

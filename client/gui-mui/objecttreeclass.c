@@ -52,13 +52,11 @@ STATIC struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
 STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
-  LONG max_depth;
-
-  max_depth = 0;
+  ULONG max_depth = 0;
 
   while(n)
   {
-    LONG new_depth = Tree_Length(n);
+    ULONG new_depth = Tree_Length(n);
     if(new_depth > max_depth) max_depth = new_depth;
     n = (struct ObjectTree_Node *)Node_Next(n);
   }
@@ -105,8 +103,6 @@ VOID ObjectTree_Layout(struct ObjectTree_Node *node, LONG left, LONG top)
 
   while(n)
   {
-    Object *child = n->object;
-    LONG mh = _minheight(child);
     ObjectTree_Layout(n,left+_minwidth(node->object)+30,t);
     t += ObjectTree_CalcHeight(n) + 4;
     n = (struct ObjectTree_Node *)Node_Next(n);
@@ -127,8 +123,6 @@ VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
     while(n)
     {
       Object *child = n->object;
-      LONG child_height = _height(child);
-      LONG child_left = _left(child);
       LONG line_x2 = _left(child)-1;
       LONG line_y2 = (_top(child) + _bottom(child))/2;
 

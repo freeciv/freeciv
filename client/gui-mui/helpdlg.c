@@ -94,7 +94,7 @@ extern char long_buffer[64000];	/* helpdata.c */
 
 static void clear_page_objects(void);
 static void free_help_page(void);
-static void create_help_dialog(void);
+/*static void create_help_dialog(void);*/
 static void help_update_dialog(const struct help_item *pitem);
 static void create_help_page(enum help_page_type type);
 

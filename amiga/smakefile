@@ -3,9 +3,11 @@ DESTDIR = Development:Projects/freeciv
 
 CCFLAGS = ANSI IDLEN=40 NOLINK MATH=IEEE MCCONS COMMENTNEST DATA=far NOSTKCHK IGNORE=51,63
 
-COMMONOBJS = common/astring.o common/capability.o common/capstr.o common/city.o common/diptreaty.o common/fcintl.o \
-             common/game.o common/genlist.o common/government.o common/inputfile.o common/log.o common/map.o common/nation.o common/packets.o common/player.o common/mem.o common/registry.o \
-             common/sbuffer.o common/shared.o common/spaceship.o common/tech.o common/timing.o common/unit.o
+COMMONOBJS = common/astring.o common/capability.o common/capstr.o common/city.o common/diptreaty.o \
+             common/fcintl.o common/game.o common/genlist.o common/government.o common/inputfile.o \
+             common/log.o common/map.o common/nation.o common/packets.o common/player.o \
+             common/mem.o common/rand.o common/registry.o common/sbuffer.o common/shared.o \
+             common/spaceship.o common/support.o common/tech.o common/timing.o common/unit.o
 COMMONDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common
 
 AIOBJS = ai/advattitude.o ai/advdomestic.o ai/advforeign.o \
@@ -21,7 +23,7 @@ SERVERDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}server IDIR=${FREECI
 
 CGP = /client/gui-mui/
 
-CLIENTOBJS = client/gui-mui/gui_main.o client/gui-mui/overviewclass.o client/gui-mui/mapclass.o client/gui-mui/muistuff.o client/civclient.o client/climisc.o client/clinet.o client/control.o client/helpdata.o client/options.o client/packhand.o client/tilespec.o
+CLIENTOBJS = client/gui-mui/gui_main.o client/gui-mui/overviewclass.o client/gui-mui/mapclass.o client/gui-mui/muistuff.o client/cityrepdata.o client/civclient.o client/climisc.o client/clinet.o client/control.o client/helpdata.o client/options.o client/packhand.o client/tilespec.o
 CLIENTDIRS = DEF=HAVE_CONFIG_H IDIR=`cd`  IDIR=${FREECIV_DIR}client IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include
 
 CLIENTGUIOBJS1 = client/gui-mui/chatline.o client/gui-mui/citydlg.o client/gui-mui/cityrep.o \
@@ -137,6 +139,9 @@ common/log.o: ${FREECIV_DIR}common/log.c
 common/map.o: ${FREECIV_DIR}common/map.c
   sc ${FREECIV_DIR}common/map.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
+common/mem.o: ${FREECIV_DIR}common/mem.c
+  sc ${FREECIV_DIR}common/mem.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
 common/nation.o: ${FREECIV_DIR}common/nation.c
   sc ${FREECIV_DIR}common/nation.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
@@ -146,8 +151,8 @@ common/packets.o: ${FREECIV_DIR}common/packets.c
 common/player.o: ${FREECIV_DIR}common/player.c
   sc ${FREECIV_DIR}common/player.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
-common/mem.o: ${FREECIV_DIR}common/mem.c
-  sc ${FREECIV_DIR}common/mem.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+common/rand.o: ${FREECIV_DIR}common/rand.c
+  sc ${FREECIV_DIR}common/rand.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
 common/registry.o: ${FREECIV_DIR}common/registry.c
   sc ${FREECIV_DIR}common/registry.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
@@ -160,6 +165,9 @@ common/shared.o: ${FREECIV_DIR}common/shared.c
 
 common/spaceship.o: ${FREECIV_DIR}common/spaceship.c
   sc ${FREECIV_DIR}common/spaceship.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/support.o: ${FREECIV_DIR}common/support.c
+  sc ${FREECIV_DIR}common/support.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
 common/tech.o: ${FREECIV_DIR}common/tech.c
   sc ${FREECIV_DIR}common/tech.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
@@ -261,6 +269,9 @@ NOICONS
 
 client/amigaclient.o: amigaclient.c
   sc amigaclient.c OBJNAME=$@
+
+client/cityrepdata.o : ${FREECIV_DIR}client/cityrepdata.c
+  sc ${FREECIV_DIR}client/cityrepdata.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
 
 client/civclient.o: ${FREECIV_DIR}client/civclient.c
   sc ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}

@@ -22,7 +22,8 @@
 #endif
 
 #include <stdio.h>
-#include <strings.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "aitools.h"
 
@@ -367,7 +368,7 @@ Q: The empire size is used so there are no uprisings in the beginning of
    Depending on the victim government type is also questionable.
 **************************************************************************/
 
-static void try_summon_barbarians()
+static void try_summon_barbarians(void)
 {
   int x, y, xu, yu;
   int i, boat, cap, dist, unit;
@@ -452,7 +453,7 @@ Summon barbarians out of the blue. Try more times for more difficult levels
 - which means there can be more than one uprising in one year!
 **************************************************************************/
 
-void summon_barbarians()
+void summon_barbarians(void)
 {
   int i, n;
 

@@ -19,8 +19,7 @@
 #include <libraries/mui.h>
 
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <pragmas/exec_sysbase_pragmas.h>
+#include <proto/exec.h>
 #include <proto/muimaster.h>
 #include <proto/intuition.h>
 
