@@ -151,6 +151,7 @@ void send_spaceship_info(struct player *src, struct player *dest)
 void handle_spaceship_launch(struct player *pplayer)
 {
   struct player_spaceship *ship = &pplayer->spaceship;
+  int arrival;
   
   if (ship->state >= SSHIP_LAUNCHED) {
     notify_player(pplayer, "Game: your spaceship is already launched!");
@@ -164,11 +165,12 @@ void handle_spaceship_launch(struct player *pplayer)
   
   ship->state = SSHIP_LAUNCHED;
   ship->launch_year = game.year;
+  arrival = ship->launch_year + (int) ship->travel_time;
   
   notify_player(0, "Game: The %s have launched a spaceship! It is estimated to "
-		"arrive on Alpha Centauri in %d.",
+		"arrive on Alpha Centauri in %s.",
 		races[pplayer->race].name,
-		(int)(ship->launch_year + ship->travel_time));
+		textyear(arrival));
 
   send_spaceship_info(pplayer, 0);
 }

@@ -1030,7 +1030,7 @@ Energy:            100 %\\n\
 Mass:            12345 tons\\n\
 Travel time:      1234 years\\n\
 Success prob.:     100 %\\n\
-Year of arrival:  1234",
+Year of arrival:  1234 AD",
 "Freeciv*spaceshipinfolabel.fromVert:        spaceshipimagecanvas",
 "Freeciv*spaceshipclosecommand.label:       Close",
 "Freeciv*spaceshipclosecommand.fromVert:    spaceshipinfolabel",

@@ -1706,6 +1706,9 @@ recieve_packet_spaceship_info(struct connection *pc)
   cptr=get_int8(cptr, &packet->life_support);
   cptr=get_int8(cptr, &packet->solar_panels);
   cptr=get_int16(cptr, &packet->launch_year);
+  
+  if(packet->launch_year > 32767) packet->launch_year-=65536;
+  
   cptr=get_int8(cptr, &packet->population);
   packet->population *= 1000;
   cptr=get_int32(cptr, &packet->mass);

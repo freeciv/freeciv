@@ -255,12 +255,12 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 *****************************************************************/
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
-  char buf[512], arrival[16] = "    -";
+  char buf[512], arrival[16] = "-   ";
   struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
 
   if (pship->state == SSHIP_LAUNCHED) {
-    sprintf(arrival, " %d", (int) (pship->launch_year
-				   + (int) pship->travel_time));
+    strcpy(arrival, textyear((int) (pship->launch_year
+				    + (int) pship->travel_time)));
   }
   sprintf(buf,
 	  "Population:      %5d\n"
@@ -269,7 +269,7 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 	  "Mass:            %5d tons\n"
 	  "Travel time:     %5.1f years\n"
 	  "Success prob.:   %5d %%\n"
-	  "Year of arrival: %s",
+	  "Year of arrival: %8s",
 	  pship->population,
 	  (int) (pship->support_rate * 100.0),
 	  (int) (pship->energy_rate * 100.0),
