@@ -311,6 +311,25 @@ if test -n "$WITH_EFENCE"; then
   fi])
 fi
 
+dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
+dnl translatable strings.  Since the Gettext supplied Autoconf support
+dnl doesn't seem to have a way to add new keywords to its xgettext call,
+dnl we do the following.
+dnl The Gettext supplied Autoconf support starts with 'po/Makefile.in.in',
+dnl and builds 'po/Makefile.in' then 'po/Makefile'.  In order for the
+dnl commonly used _() and N_() macros to work, there should be somewhere
+dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
+dnl "--keyword=N_" as arguments.  To support Q_(), the following simply
+dnl replaces instances of "--keyword=N_" with "--keyword=N_ --keyword=Q_"
+dnl in the 'po/Makefile' file.
+AC_OUTPUT_COMMANDS(
+  [if test -f po/Makefile; then
+    echo extending po/Makefile
+    mv -f po/Makefile po/Makefile.tmp
+    sed -e "s/--keyword=N_/--keyword=N_ --keyword=Q_/g" po/Makefile.tmp > po/Makefile
+    rm po/Makefile.tmp
+  fi])
+
 AC_OUTPUT(Makefile
           data/Makefile 
 	  data/misc/Makefile 

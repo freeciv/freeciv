@@ -6348,6 +6348,8 @@ fi
 
 fi
 
+
+
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -6842,12 +6844,19 @@ cat >> $CONFIG_STATUS <<EOF
 
 
 
+
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h
 case "$CONFIG_FILES" in *po/Makefile.in*)
         sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
       esac
+if test -f po/Makefile; then
+    echo extending po/Makefile
+    mv -f po/Makefile po/Makefile.tmp
+    sed -e "s/--keyword=N_/--keyword=N_ --keyword=Q_/g" po/Makefile.tmp > po/Makefile
+    rm po/Makefile.tmp
+  fi
  chmod +x undep.sh ; ./undep.sh 
 exit 0
 EOF
