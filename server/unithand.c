@@ -923,6 +923,8 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
   'move_diplomat_city' is another special case which should normally be
   FALSE.  If TRUE, try to move diplomat (or spy) into city (should be
   allied) instead of telling client to popup diplomat/spy dialog.
+
+  FIXME: This function needs a good cleaning.
 **************************************************************************/
 bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 			     bool igzoc, bool move_diplomat_city)
@@ -1011,7 +1013,22 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     }
 
-    if (!can_unit_attack_tile(punit, dest_x , dest_y)) {
+    /* Tile must contain ONLY enemy units. */
+    unit_list_iterate(pdesttile->units, aunit) {
+      if (!pplayers_at_war(unit_owner(aunit), unit_owner(punit))) {
+        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		         _("Game: Can't attack %s's unit since it is "
+			   "stacked with %s's unit(s) and you are not "
+                           "at war with %s."), 
+                         unit_owner(pdefender)->name,
+                         unit_owner(aunit)->name, 
+                         unit_owner(aunit)->name);
+        how_to_declare_war(pplayer);
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+
+    if (!can_unit_attack_unit_at_tile(punit, pdefender, dest_x , dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
   		       _("Game: You can't attack there."));
       return FALSE;

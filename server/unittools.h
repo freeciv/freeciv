@@ -23,8 +23,6 @@ struct player;
 
 /* battle related */
 int find_a_unit_type(int role, int role_tech);
-bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y);
-bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 

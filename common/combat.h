@@ -26,6 +26,11 @@
 struct unit;
 struct player;
 
+bool can_player_attack_tile(struct player *pplayer, int x, int y);
+bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
+                                  int dest_x, int dest_y);
+bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
+
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
 
 void get_modified_firepower(struct unit *attacker, struct unit *defender,

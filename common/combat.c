@@ -26,6 +26,118 @@
 #include "combat.h"
 
 /***********************************************************************
+  Checks if player is restricted diplomatically from attacking the tile.
+  Returns FLASE if
+  1) the tile is empty or
+  2) the tile contains a non-enemy city or
+  3) the tile contains a non-enemy unit
+***********************************************************************/
+bool can_player_attack_tile(struct player *pplayer, int x, int y)
+{
+  struct city *pcity = map_get_city(x, y);
+  struct tile *ptile = map_get_tile(x, y);
+  
+  /* 1. Is there anyone there at all? */
+  if (!pcity && unit_list_size(&(ptile->units)) == 0) {
+    return FALSE;
+  }
+
+  /* 2. If there is a city there, can we attack it? */
+  if (pcity && !pplayers_at_war(city_owner(pcity), pplayer)) {
+    return FALSE;
+  }
+
+  /* 3. Are we allowed to attack _all_ units there? */
+  unit_list_iterate(ptile->units, aunit) {
+    if (!pplayers_at_war(unit_owner(aunit), pplayer)) {
+      /* Enemy hiding behind a human/diplomatic shield */
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  return TRUE;
+}
+
+/***********************************************************************
+  Checks if a unit can physically attack pdefender at the tile
+  (assuming it is adjacent and at war).
+
+  Unit can NOT attack if:
+  1) it does not have any attack power.
+  2) it is not a fighter and defender is a flying unit (except city/airbase).
+  3) it is a ground unit without marine ability and it attacks from ocean.
+  4) it is a ground unit and it attacks a target on an ocean square.
+  5) it is a sailing unit without shore bombardment capability and it
+     attempts to attack land.
+
+  Does NOT check:
+  1) Moves left
+  2) Adjacency
+  3) Diplomatic status
+***********************************************************************/
+bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
+                                  int dest_x, int dest_y)
+{
+  enum tile_terrain_type fromtile;
+  enum tile_terrain_type totile;
+  struct city *pcity = map_get_city(dest_x, dest_y);
+
+  fromtile = map_get_terrain(punit->x, punit->y);
+  totile   = map_get_terrain(dest_x, dest_y);
+
+  /* 1. Can we attack _anything_ ? */
+  if (!is_military_unit(punit) || unit_type(punit)->attack_strength == 0) {
+    return FALSE;
+  }
+
+  /* 2. Only fighters can attack planes, except in city or airbase attacks */
+  if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender)
+      && !(pcity || map_has_special(dest_x, dest_y, S_AIRBASE))) {
+    return FALSE;
+  }
+
+  /* 3. Can't attack with ground unit from ocean, except for marines */
+  if (is_ocean(fromtile)
+      && is_ground_unit(punit)
+      && !unit_flag(punit, F_MARINES)) {
+    return FALSE;
+  }
+
+  /* 4. Ground units cannot attack water units */
+  if (is_ocean(totile) && is_ground_unit(punit)) {
+    return FALSE;
+  }
+
+  /* 5. Shore bombardement can be done by certain units only */
+  if (unit_flag(punit, F_NO_LAND_ATTACK) && !is_ocean(totile)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/***********************************************************************
+  Is unit (1) diplomatically allowed to attack and (2) physically able
+  to do so?
+***********************************************************************/
+bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
+{
+  struct unit *pdefender;
+
+  if (!can_player_attack_tile(unit_owner(punit), dest_x, dest_y)) {
+    return FALSE;
+  }
+
+  pdefender = get_defender(punit, dest_x, dest_y);
+  if (!pdefender) {
+    /* It must be the empty city! */
+    return TRUE;
+  }
+
+  return can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y);
+}
+
+/***********************************************************************
 Returns the chance of the attacker winning, a number between 0 and 1.
 If you want the chance that the defender wins just use 1-chance(...)
 
