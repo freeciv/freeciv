@@ -212,7 +212,6 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 **************************************************************************/
 void handle_game_state(struct packet_generic_integer *packet)
 {
-  
   if(get_client_state()==CLIENT_SELECT_RACE_STATE && 
      packet->value==CLIENT_GAME_RUNNING_STATE &&
      game.player_ptr->nation == MAX_NUM_NATIONS) {
@@ -222,6 +221,8 @@ void handle_game_state(struct packet_generic_integer *packet)
   set_client_state(packet->value);
 
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+    struct city *pcity;
+    struct unit *punit;
     refresh_overview_canvas();
     refresh_overview_viewrect();
     enable_turn_done_button();
@@ -231,8 +232,38 @@ void handle_game_state(struct packet_generic_integer *packet)
     update_unit_focus();
     update_unit_info_label(get_unit_in_focus());
 
-    if(get_unit_in_focus())
-      center_tile_mapcanvas(get_unit_in_focus()->x, get_unit_in_focus()->y);
+    /* Find something sensible to display instead of the intro gfx. */
+    if ((punit = get_unit_in_focus())) {
+      center_tile_mapcanvas(punit->x, punit->y);
+    } else if ((pcity = find_palace(game.player_ptr))) {
+      /* Else focus on the capital. */
+      center_tile_mapcanvas(pcity->x, pcity->y);
+    } else if (city_list_size(&game.player_ptr->cities) > 0) {
+      /* Just focus on any city. */
+      pcity = city_list_get(&game.player_ptr->cities, 0);
+      assert(pcity);
+      center_tile_mapcanvas(pcity->x, pcity->y);
+    } else if (unit_list_size(&game.player_ptr->units) > 0) {
+      /* Just focus on any unit. */
+      punit = unit_list_get(&game.player_ptr->units, 0);
+      assert(punit);
+      center_tile_mapcanvas(punit->x, punit->y);
+    } else {
+      /* Just any known tile will do; search near the middle first. */
+      int x, y;
+      iterate_outward(map.xsize/2, map.ysize/2,
+		      MAX(map.xsize/2, map.ysize/2),
+		      x, y) {
+	if (tile_is_known(x, y)) {
+	  center_tile_mapcanvas(x, y);
+	  goto OUT;
+	}
+      } iterate_outward_end;
+      /* If we get here we didn't find a known tile.
+	 Refresh a random place to clear the intro gfx. */
+      center_tile_mapcanvas(map.xsize/2, map.ysize/2);
+    OUT: /* do nothing */
+    }
     
     free_intro_radar_sprites();
   }
