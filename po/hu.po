@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-09-11 19:48-0400\n"
+"POT-Creation-Date: 2003-10-20 12:57-0400\n"
 "PO-Revision-Date: 2003-09-17 11:54+0200\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -246,80 +246,80 @@ msgstr "A(z) \"%s\" opciónak üres kifejezés a paramétere.\n"
 msgid "Missing argument for \"%s\".\n"
 msgstr "A(z) \"%s\" opciónak hiányzik a paramétere.\n"
 
-#: common/shared.c:423
+#: common/shared.c:425
 #, c-format
 msgid "%d BC"
 msgstr "i.e. %d"
 
-#: common/shared.c:425
+#: common/shared.c:427
 #, c-format
 msgid "%d AD"
 msgstr "i.sz. %d"
 
-#: common/shared.c:770
+#: common/shared.c:772
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr ""
 "A FREECIV_PATH környezeti változó értéke üres sztring; inkább az "
 "alapértelmezett adatelérési útvonalat (path) használom."
 
-#: common/shared.c:874
+#: common/shared.c:876
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nem sikerült beolvasni a(z) %s adatkönyvtárat: %s."
 
-#: common/shared.c:1004
+#: common/shared.c:1006
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "Az adatelérési útvonal a FREECIV_PATH környezeti változóval állítható be."
 
-#: common/shared.c:1006
+#: common/shared.c:1008
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "A jelenlegi adatelérési útvonal: \"%s\""
 
-#: common/shared.c:1008
+#: common/shared.c:1010
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Szükség van a(z) \"%s\" fájlra ... kilépés!"
 
-#: common/shared.c:1125
+#: common/shared.c:1127
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Hiba: root-ként próbálsz futtatni!\n"
 
-#: common/shared.c:1127
+#: common/shared.c:1129
 msgid "Use a non-privileged account instead.\n"
 msgstr "Használj inkább nem privilegizált felhsználót.\n"
 
-#: common/shared.c:1143
+#: common/shared.c:1145
 msgid "exact match"
 msgstr "illeszthetõ"
 
-#: common/shared.c:1144
+#: common/shared.c:1146
 msgid "only match"
 msgstr "csak eggyel illesztehtõ"
 
-#: common/shared.c:1145
+#: common/shared.c:1147
 msgid "ambiguous"
 msgstr "nem egyértelmû"
 
-#: common/shared.c:1146
+#: common/shared.c:1148
 msgid "empty"
 msgstr "üres"
 
-#: common/shared.c:1147
+#: common/shared.c:1149
 msgid "too long"
 msgstr "túl hosszú"
 
-#: common/shared.c:1148
+#: common/shared.c:1150
 msgid "non-match"
 msgstr "nem illeszthetõ"
 
-#: common/shared.c:1211
+#: common/shared.c:1213
 msgid "'Cause civilization should be free!"
 msgstr "A civilization legyen szabad!"
 
-#: common/shared.c:1251
+#: common/shared.c:1253 common/shared.c:1270
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -330,7 +330,7 @@ msgstr ""
 "Kézileg a $FREECIV_LOCAL_ENCODING környezeti változóval állíthatod be\n"
 "a helyi kódolásodat. Folytatás..."
 
-#: common/shared.c:1277
+#: common/shared.c:1292
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
@@ -338,10 +338,11 @@ msgid ""
 "$FREECIV_DATA_ENCODING."
 msgstr ""
 "A(z) '%s' sztring érvénytelen: %s. A szabálykészlet fájloknak\n"
-"%s kódolásban kell lenniük; ezt a $FREECIV_DATA_ENCODING környezeti változóval\n"
+"%s kódolásban kell lenniük; ezt a $FREECIV_DATA_ENCODING környezeti "
+"változóval\n"
 "változtathatod meg."
 
-#: common/shared.c:1343
+#: common/shared.c:1363
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -1534,18 +1535,18 @@ msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr ""
 "Játék: A(z) %2$si lázadás kirobbantásával %1$s diplomáciai incidenst okozott."
 
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Év: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "A körökre vonatkozó idõkorlát elérte a maximumát; rögzítés a maximális "
 "értéknél"
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "A körökre vonatkozó idõkorlát kisebb mint nulla; rögzítés nullánál."
 
@@ -1816,13 +1817,13 @@ msgstr "Játék: Nem állíthatod át a rátákat a játék elkezdõdése elõtt."
 msgid "Tax"
 msgstr "Adó"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luxus"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -2487,90 +2488,95 @@ msgstr ""
 msgid "Please choose a non-blank name."
 msgstr "Nem üres nevet válassz."
 
-#: server/srv_main.c:1030
+#: server/srv_main.c:1012
+#, fuzzy
+msgid "Please choose a legal name."
+msgstr "Nem üres nevet válassz."
+
+#: server/srv_main.c:1036
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Van már '%s' nevû játékos.  Válassz másik nevet."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Játék: %s a(z) %s uralkodó %s néven."
 
-#: server/srv_main.c:1067
+#: server/srv_main.c:1073
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Kifogytak a népek, ezért %s játékost a szerver törölte a játékból."
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1076
 msgid "Game: Sorry, there are no nations left."
 msgstr "Játék: Sajnos nem jutott már neked nép."
 
-#: server/srv_main.c:1120
+#: server/srv_main.c:1126
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s belépett a játékba %s játékosként."
 
-#: server/srv_main.c:1125
+#: server/srv_main.c:1131
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Játék: %s (%s) belépett a játékba %s játékosként."
 
-#: server/srv_main.c:1146
+#: server/srv_main.c:1152
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Üdvözöl a %s Szerver a(z) %s gépen (port: %d)."
 
-#: server/srv_main.c:1149
+#: server/srv_main.c:1155
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Üdvözöl a %s Szerver (port: %d)."
 
-#: server/srv_main.c:1160
+#: server/srv_main.c:1166
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr ""
 "Szigorúan körökre osztott játék: %s játékosra várunk hogy befejezze a "
 "körét..."
 
-#: server/srv_main.c:1203
+#: server/srv_main.c:1209
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "A szerver felvette a játékba %s MI irányította játékost."
 
-#: server/srv_main.c:1206
+#: server/srv_main.c:1212
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Játék: A szerver felvette a játékba %s MI irányította játékost."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1300
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "A(z) '%s' érvénytelen név"
 
-#: server/srv_main.c:1296
+#: server/srv_main.c:1302
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr ""
 "A szerver érvénytelen név miatt visszautasított egy kapcsolódási kísérletet a"
 "(z) %s címrõl."
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1308
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "%s csatlakozni szeretne a(z) %s címrõl"
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1312
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "%s csatlakozni szeretne a(z) %s címrõl (a kapcsolat neve: %s)"
 
-#: server/srv_main.c:1310
+#: server/srv_main.c:1316
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s kliensének verziója: %d.%d.%d%s"
 
-#: server/srv_main.c:1320
+#: server/srv_main.c:1326
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2580,13 +2586,13 @@ msgstr ""
 "A szerver verziója %d.%d.%d%s, a kliens verziója %d.%d.%d%s.  Egy újabb "
 "verzióra való áttérés talán segíthet."
 
-#: server/srv_main.c:1327 server/srv_main.c:1342
+#: server/srv_main.c:1333 server/srv_main.c:1348
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr ""
 "%s visszautasítva: A szerver és a kliens képességei nem kompatibilisek."
 
-#: server/srv_main.c:1335
+#: server/srv_main.c:1341
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2596,167 +2602,167 @@ msgstr ""
 "A szerver verziója %d.%d.%d%s, a kliens verziója: %d.%d.%d%s.  Egy újabb "
 "verzióra való áttérés talán segíthet."
 
-#: server/srv_main.c:1351
+#: server/srv_main.c:1357
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Sajnálom, ebben a játékban tilos a barbárok megfigyelése."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1360
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s visszautasítva: Tilos a barbárok megfigyelése."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1366
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Sajnálom, ebben a játékban tilos a legyõzött játékok megfigyelése."
 
-#: server/srv_main.c:1363
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s visszautasítva: Tilos a legyõzött játékosok megfigyelése"
 
-#: server/srv_main.c:1369
+#: server/srv_main.c:1375
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Sajnálom, ebben a játékban tilos az MI játékosok megfigyelése."
 
-#: server/srv_main.c:1372
+#: server/srv_main.c:1378
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s visszautasítva: Tilos az MI játékosok megfigyelése."
 
-#: server/srv_main.c:1378
+#: server/srv_main.c:1384
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr ""
 "Sajnálom, ebben a játékban az ember játékosok számára tilos az "
 "újrakapcsolódás."
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr ""
 "%s visszautasítva: Az ember játékosok számára tilos az újrakapcsolódás."
 
-#: server/srv_main.c:1399
+#: server/srv_main.c:1405
 msgid "Sorry, someone else already has that name."
 msgstr "Sajnálom, ez már valaki másnak a neve."
 
-#: server/srv_main.c:1401
+#: server/srv_main.c:1407
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s visszautasítva: A(z) %s nevet már valaki más használja."
 
-#: server/srv_main.c:1406
+#: server/srv_main.c:1412
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Sajnálom, %s már kapcsolódott."
 
-#: server/srv_main.c:1409
+#: server/srv_main.c:1415
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s visszautasítva: %s már kapcsolódott."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1448
 msgid "Sorry, the game is already running."
 msgstr "Sajnálom, a játék már fut."
 
-#: server/srv_main.c:1443
+#: server/srv_main.c:1449
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
 
-#: server/srv_main.c:1449
+#: server/srv_main.c:1455
 msgid "Sorry, the game is full."
 msgstr "Sajnálom, a játék megtelt."
 
-#: server/srv_main.c:1450
+#: server/srv_main.c:1456
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s visszautasítva: Már maximális számú játékosunk van."
 
-#: server/srv_main.c:1456
+#: server/srv_main.c:1462
 msgid "Sorry, no new players allowed in this game."
 msgstr "Sajnálom, ebbe a játékba nem léphetnek be új játékosok."
 
-#: server/srv_main.c:1457
+#: server/srv_main.c:1463
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s visszautasítva: Nem csatlakozhatnak új játékosok."
 
-#: server/srv_main.c:1479
+#: server/srv_main.c:1485
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Megszakadt a(z) %s kapcsolat."
 
-#: server/srv_main.c:1488
+#: server/srv_main.c:1494
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Játék: Megszakadt a(z) %s kapcsolat."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1580
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Kifogytam a népekbõl.  %s MI irányította játékost nem hoztam létre."
 
-#: server/srv_main.c:1615
+#: server/srv_main.c:1621
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr ""
 "A népek száma kisebb aifill-nél, ezért aifill-t csökkenteni kellett; aifill "
 "új értéke: %d."
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1628
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr ""
 "Maxplayers értéke kisebb aifill-nél, ezért aifill-t csökkenteni kellett; "
 "aifill új értéke: %d."
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1642
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Hiba történt %s MI irányította játékos létrehozása közben\n"
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1701
 #, c-format
 msgid "Player %d"
 msgstr "%d. Játékos"
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1716
 msgid "Argh! ran out of nations!"
 msgstr "Sajnos elfogytak a népek!"
 
-#: server/srv_main.c:1725
+#: server/srv_main.c:1731
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "MI irányítja a(z) %2$s vezette %1$s népét."
 
-#: server/srv_main.c:1731
+#: server/srv_main.c:1737
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Játék: %s a(z) %s uralkodója."
 
-#: server/srv_main.c:1875
+#: server/srv_main.c:1881
 msgid "Starting new log"
 msgstr "Új napló elkezdése"
 
-#: server/srv_main.c:1904
+#: server/srv_main.c:1910
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Információ küldése a metszervernek [%s]"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1926
 msgid "Now accepting new client connections."
 msgstr "Most fogadom a kliensek kapcsolódását."
 
-#: server/srv_main.c:1981
+#: server/srv_main.c:1987
 msgid "Last player has disconnected: will need to restart."
 msgstr ""
 "Az utolsó játékossal is megszakadt a kapcsolat: a játékot újra kell indítani."
 
-#: server/srv_main.c:2090
+#: server/srv_main.c:2096
 msgid "Game: The game is over..."
 msgstr "Játék: Vége a játéknak..."
 
-#: server/srv_main.c:2091
+#: server/srv_main.c:2097
 msgid "The game is over!"
 msgstr "Vége a játéknak!"
 
@@ -3869,7 +3875,12 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr "Beállítja, hogy egy játékos melyik csapathoz tartozzon.  Ha nem adunk meg csapatot, akkor a játékost csapat nélkülivé tesszük. Használj \"\"-t, ha a nevek whitespace karaktert tartalmaznak. A csapat tagjai szövetségesként kezdenek, közös a térképük és a követségeik, együtt harcolnak a gyõzelemért. A csapat pontszáma a csapattagok pontszámának az átlaga."
+msgstr ""
+"Beállítja, hogy egy játékos melyik csapathoz tartozzon.  Ha nem adunk meg "
+"csapatot, akkor a játékost csapat nélkülivé tesszük. Használj \"\"-t, ha a "
+"nevek whitespace karaktert tartalmaznak. A csapat tagjai szövetségesként "
+"kezdenek, közös a térképük és a követségeik, együtt harcolnak a gyõzelemért. "
+"A csapat pontszáma a csapattagok pontszámának az átlaga."
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -5517,6 +5528,10 @@ msgstr ""
 "Játék: A(z) %s egységed abbahagyta az õrjáratozást, mert idegen egységgel "
 "találkozott."
 
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr ""
+
 #: client/audio.c:132
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
@@ -5791,7 +5806,7 @@ msgstr "?trade_routes:KK"
 msgid "Number of Trade Routes"
 msgstr "Kereskedelmi kapcsolatok száma"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6424,6 +6439,11 @@ msgstr "%s%d boldogtalan"
 msgid "%s%d gold"
 msgstr "%s%d arany"
 
+#: client/messagewin_common.c:109
+#, fuzzy
+msgid "Game: "
+msgstr "Játék: %s"
+
 #: client/options.c:83
 msgid "Default player's username"
 msgstr "Alapértelmezett felhasználónév"
@@ -6988,7 +7008,7 @@ msgstr "Nem sikerült betölteni a grafikai fájlt a(z) %s specifikációs fájlhoz"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "CMA: Elvesztetted az uralmat %s felett. Város eleresztése."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -6996,7 +7016,7 @@ msgstr ""
 "CMA: Az ágens nem képes teljesíteni az elvárásokat %s városában. Irányítás "
 "visszaadása."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -7004,7 +7024,7 @@ msgstr ""
 "CMA: %s megváltozott, ezért a kiszámított eredmény nem felhasználható. "
 "Újrapróbálás."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -7015,20 +7035,20 @@ msgstr ""
 "van kedved, írj egy levelet a <freeciv-dev@freeciv.org> címre! Mostantól a "
 "CMA elereszti a várost."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Pajzs"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Kereskedelem"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -8180,6 +8200,12 @@ msgstr "A tétlenek õrködjenek (_s)"
 msgid "What Nation Will You Be?"
 msgstr "Melyik nemzet leszel?"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "_Szétkapcsolás"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Válassz népet"
@@ -8374,7 +8400,8 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"A Freeciv szabad szoftver, szabadon továbbadható bizonyos feltételek betartása mellett.\n"
+"A Freeciv szabad szoftver, szabadon továbbadható bizonyos feltételek "
+"betartása mellett.\n"
 "(Lásd a \"Másolás\" pontot a Súgó menüben.)\n"
 "És most.. Adj nekik! :)"
 
@@ -8827,26 +8854,26 @@ msgid "Location: (%d, %d)"
 msgstr "Hely: (%d, %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:93 client/gui-gtk/mapctrl.c:89
-#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:136
+#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:137
 #: client/gui-xaw/mapctrl.c:119
 #, c-format
 msgid "Terrain: %s"
 msgstr "Terep: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:99 client/gui-gtk/mapctrl.c:94
-#: client/gui-win32/mapctrl.c:139 client/gui-xaw/mapctrl.c:123
+#: client/gui-win32/mapctrl.c:140 client/gui-xaw/mapctrl.c:123
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Élelem/Term/Keresk: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:108 client/gui-gtk/mapctrl.c:102
-#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:144
+#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:145
 #: client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
 msgstr "Apró törzsi falu"
 
 #: client/gui-gtk-2.0/mapctrl.c:113 client/gui-gtk/mapctrl.c:106
-#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:149
+#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:150
 #, c-format
 msgid "City: %s(%s)"
 msgstr "Város: %s(%s)"
@@ -8857,39 +8884,39 @@ msgid "with City Walls"
 msgstr "Városfalakkal"
 
 #: client/gui-gtk-2.0/mapctrl.c:127 client/gui-gtk/mapctrl.c:118
-#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:158
+#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:159
 #: client/gui-xaw/mapctrl.c:140
 msgid "Infrastructure: "
 msgstr "Infrastruktúra: "
 
 #: client/gui-gtk-2.0/mapctrl.c:134 client/gui-gtk/mapctrl.c:124
-#: client/gui-win32/mapctrl.c:163
+#: client/gui-win32/mapctrl.c:164
 msgid "Activity: "
 msgstr "Tevékenység: "
 
 #: client/gui-gtk-2.0/mapctrl.c:151 client/gui-gtk/mapctrl.c:140
-#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:178
+#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:179
 #: client/gui-xaw/mapctrl.c:155
 #, c-format
 msgid "Unit: %s(%s%s)"
 msgstr "Egység: %s(%s%s)"
 
 #: client/gui-gtk-2.0/mapctrl.c:160 client/gui-gtk/mapctrl.c:148
-#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:185
+#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:186
 #: client/gui-xaw/mapctrl.c:162
 #, c-format
 msgid "  (%d more)"
 msgstr "  (még %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:163 client/gui-gtk/mapctrl.c:151
-#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:188
+#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:189
 #: client/gui-xaw/mapctrl.c:166
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "T:%d V:%d TE:%d ÉP:%d/%d%s%s"
 
 #: client/gui-gtk-2.0/mapctrl.c:166 client/gui-gtk/mapctrl.c:154
-#: client/gui-win32/mapctrl.c:191 client/gui-xaw/mapctrl.c:168
+#: client/gui-win32/mapctrl.c:192 client/gui-xaw/mapctrl.c:168
 msgid " V"
 msgstr " V"
 
@@ -8899,19 +8926,19 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Gyõzelmi esélyek: T:%d%% V:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
-#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
+#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:200
 #: client/gui-xaw/mapctrl.c:177
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "T:%d V:%d TE:%d ÉP:%d0%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:268 client/gui-gtk/mapctrl.c:258
-#: client/gui-win32/mapctrl.c:425 data/Freeciv:516
+#: client/gui-win32/mapctrl.c:436 data/Freeciv:516
 msgid "Build New City"
 msgstr "Új város építése"
 
 #: client/gui-gtk-2.0/mapctrl.c:269 client/gui-gtk/mapctrl.c:259
-#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:426
+#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:437
 #: client/gui-xaw/mapctrl.c:94
 msgid "What should we call our new city?"
 msgstr "Mi legyen az új város neve?"
@@ -8996,11 +9023,6 @@ msgstr "Napló _exportálása"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Napló _törlése"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "_Szétkapcsolás"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9183,38 +9205,38 @@ msgstr "_Parancsok"
 msgid "Orders"
 msgstr "Parancsok"
 
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1088
-#: client/gui-gtk-2.0/menu.c:1091 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "_Várost épít"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1101
-#: client/gui-gtk-2.0/menu.c:1107 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "_Utat épít"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1028
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "_Öntözést épít"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1029
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "_Bányát épít"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1030
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Terepet _átalakít"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1139
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9225,7 +9247,7 @@ msgstr "_Erõdöt épít"
 msgid "Build Airbas_e"
 msgstr "_Légibázist épít"
 
-#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9256,7 +9278,7 @@ msgstr "Ki_rakodik"
 msgid "Wake up o_thers"
 msgstr "Felkelti a _többieket"
 
-#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "_Automata telepes"
@@ -9498,50 +9520,50 @@ msgstr "_Másolás"
 msgid "_About"
 msgstr "_Névjegy"
 
-#: client/gui-gtk-2.0/menu.c:1020 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Cserél %s tereptípusra (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1021 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Cserél %s tereptípusra (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1022 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Átalakít %s tereptípusra"
 
-#: client/gui-gtk-2.0/menu.c:1083 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Segít _csodát építeni"
 
-#: client/gui-gtk-2.0/menu.c:1086 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Városhoz hozzáad (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Kereskedelmi _kapcsolatot létesít"
 
-#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "_Vasutat épít"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Farmot épít"
 
-#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "Megerõsítés (_F)"
 
-#: client/gui-gtk-2.0/menu.c:1142 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "_Ejtõernyõs támadás"
 
-#: client/gui-gtk-2.0/menu.c:1147 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "_Automata támadás"
 
@@ -9850,6 +9872,11 @@ msgstr "Cél_munkaterv"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "Globális munkaterv _hozzáadása"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+#, fuzzy
+msgid "Chan_ge Production"
+msgstr "Termelés átállítása"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15176,7 +15203,7 @@ msgid ""
 msgstr ""
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15184,7 +15211,7 @@ msgstr "Kommunizmus"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Fõtitkár"
@@ -15221,13 +15248,13 @@ msgid ""
 msgstr ""
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Köztársaság"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Konzul"
@@ -15265,7 +15292,7 @@ msgid ""
 msgstr ""
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15273,7 +15300,7 @@ msgstr "Demokrácia"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15438,11 +15465,11 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15466,12 +15493,12 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15500,7 +15527,7 @@ msgid ""
 "will generate 1 unhappy citizen each."
 msgstr ""
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.1-beta1\n"
-"POT-Creation-Date: 2003-09-14 00:47+0300\n"
+"POT-Creation-Date: 2003-10-20 12:57-0400\n"
 "PO-Revision-Date: 2003-09-15 13:18+0200\n"
 "Last-Translator: Roman Festchook <roma@polesye.net>\n"
 "Language-Team: Ukrainian <roma@polesye.net>\n"
@@ -244,80 +244,80 @@ msgstr "Пустий аргумент для '%s'.\n"
 msgid "Missing argument for \"%s\".\n"
 msgstr "В╕дсутн╕й аргумент для '%s'.\n"
 
-#: common/shared.c:423
+#: common/shared.c:425
 #, c-format
 msgid "%d BC"
 msgstr "%d до н.е."
 
-#: common/shared.c:425
+#: common/shared.c:427
 #, c-format
 msgid "%d AD"
 msgstr "%d н.е."
 
-#: common/shared.c:770
+#: common/shared.c:772
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr ""
 "Зм╕нну FREECIV_PATH встановленно, але вона пуста; використову╓мо шлях по "
 "замочуванню."
 
-#: common/shared.c:874
+#: common/shared.c:876
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Не можу прочитати каталог данних %s: %s."
 
-#: common/shared.c:1004
+#: common/shared.c:1006
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Шлях данних може бути встановленно зм╕нною FREECIV_PATH."
 
-#: common/shared.c:1006
+#: common/shared.c:1008
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Поточний шлях данних: \"%s\""
 
-#: common/shared.c:1008
+#: common/shared.c:1010
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Файл \"%s\" ╓ необх╕дним... перериваюсь!"
 
-#: common/shared.c:1125
+#: common/shared.c:1127
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Критична помилка: Ви намага╓тесь запустити мене як адм╕н╕стратор!\n"
 
-#: common/shared.c:1127
+#: common/shared.c:1129
 msgid "Use a non-privileged account instead.\n"
 msgstr "Використовуйте звичайного користувача.\n"
 
-#: common/shared.c:1143
+#: common/shared.c:1145
 msgid "exact match"
 msgstr "точне сп╕впад╕ння"
 
-#: common/shared.c:1144
+#: common/shared.c:1146
 msgid "only match"
 msgstr "╓дине сп╕впад╕ння"
 
-#: common/shared.c:1145
+#: common/shared.c:1147
 msgid "ambiguous"
 msgstr "двозначно"
 
-#: common/shared.c:1146
+#: common/shared.c:1148
 msgid "empty"
 msgstr "пусто"
 
-#: common/shared.c:1147
+#: common/shared.c:1149
 msgid "too long"
 msgstr "занадто довге"
 
-#: common/shared.c:1148
+#: common/shared.c:1150
 msgid "non-match"
 msgstr "не сп╕впада╓"
 
-#: common/shared.c:1211
+#: common/shared.c:1213
 msgid "'Cause civilization should be free!"
 msgstr "Цив╕л╕зац╕я ма╓ бути в╕льною!"
 
-#: common/shared.c:1251
+#: common/shared.c:1253 common/shared.c:1270
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -328,7 +328,7 @@ msgstr ""
 "встановити Вашу мову вручну встановлюючи зм╕нну\n"
 "оточення $FREECIV_LOCAL_ENCODING. Продовжую..."
 
-#: common/shared.c:1277
+#: common/shared.c:1292
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
@@ -339,7 +339,7 @@ msgstr ""
 "%s; Ви можете зм╕нити це встановлюючи\n"
 "$FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1343
+#: common/shared.c:1363
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -1489,16 +1489,16 @@ msgstr "Гра: Ви призвели до ╕нциденту при влаштуванн╕ заколоту у %s."
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Гра: %s призв╕в до ╕нциденту при влаштуванн╕ заколоту у %s."
 
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Р╕к: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr "Таймаут ходу перевищу╓ максимум, виправляю на максимум."
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Таймаут ходу менше нуля, виправляю на нуль."
 
@@ -1766,13 +1766,13 @@ msgstr "Гра: Не можно зм╕нювати ставки до старту гри."
 msgid "Tax"
 msgstr "Податки"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Розк╕ш"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -2424,86 +2424,91 @@ msgstr "Намагання обрати нац╕ю не п╕д час вибору нац╕╖!"
 msgid "Please choose a non-blank name."
 msgstr "Обер╕ть не пусте ╕м'я."
 
-#: server/srv_main.c:1030
+#: server/srv_main.c:1012
+#, fuzzy
+msgid "Please choose a legal name."
+msgstr "Обер╕ть не пусте ╕м'я."
+
+#: server/srv_main.c:1036
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "╤нш╕й гравець вже обрав ╕м'я '%s'. Обер╕ть ╕нше."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Гра: %s ╓ л╕дером нац╕╖ %s - %s."
 
-#: server/srv_main.c:1067
+#: server/srv_main.c:1073
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Нац╕й не лишилося: Видаляю гравця %s."
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1076
 msgid "Game: Sorry, there are no nations left."
 msgstr "Гра: Вибачте, але нац╕й не залишилося."
 
-#: server/srv_main.c:1120
+#: server/srv_main.c:1126
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s при╓днався як гравець %s."
 
-#: server/srv_main.c:1125
+#: server/srv_main.c:1131
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Гра: З'╓днання %s з %s приеднався як гравець %s."
 
-#: server/srv_main.c:1146
+#: server/srv_main.c:1152
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Ради бачити на сервер╕ %s, що запущений на %s порт %d."
 
-#: server/srv_main.c:1149
+#: server/srv_main.c:1155
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Ради бачити на сервер╕ %s, що запущений на порту %d."
 
-#: server/srv_main.c:1160
+#: server/srv_main.c:1166
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Гру заблоковано ходом: очику╓мо коли %s зак╕нчить х╕д..."
 
-#: server/srv_main.c:1203
+#: server/srv_main.c:1209
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s додано як комп'ютерного гравця."
 
-#: server/srv_main.c:1206
+#: server/srv_main.c:1212
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Гра: %s додано як комп'ютерного гравця."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1300
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Нев╕рне ╕м'я '%s'"
 
-#: server/srv_main.c:1296
+#: server/srv_main.c:1302
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "В╕дмовлено у з'╓днанн╕ %s з нев╕рним ╕м'ям."
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1308
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Запит на з'╓днання в╕д %s з %s"
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1312
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "Запит на з'╓днання в╕д %s з %s (назва з'╓днання %s)"
 
-#: server/srv_main.c:1310
+#: server/srv_main.c:1316
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s користу╓ться кл╕╓нтом верс╕╖ %d.%d.%d%s"
 
-#: server/srv_main.c:1320
+#: server/srv_main.c:1326
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2513,12 +2518,12 @@ msgstr ""
 "Сервер верс╕╖: %d.%d.%d%s Кл╕ент верс╕╖: %d.%d.%d%s. Встановлення ново╖ "
 "верс╕╖ ма╓ допомогти!"
 
-#: server/srv_main.c:1327 server/srv_main.c:1342
+#: server/srv_main.c:1333 server/srv_main.c:1348
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
 
-#: server/srv_main.c:1335
+#: server/srv_main.c:1341
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2528,159 +2533,159 @@ msgstr ""
 "Сервер верс╕╖: %d.%d.%d%s Кл╕ент верс╕╖: %d.%d.%d%s. Встановлення ново╖ "
 "верс╕╖ ма╓ допомогти!"
 
-#: server/srv_main.c:1351
+#: server/srv_main.c:1357
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Вибачте, нема╓ нагляду за варварами у ц╕й гр╕."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1360
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s в╕дкинуто: Нема╓ нагляду за варварами."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1366
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Вибачте, нема╓ нагляду за померлими гравцями у ц╕й гр╕."
 
-#: server/srv_main.c:1363
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s в╕дкинуто: Нема╓ нагляду за померлими гравцями."
 
-#: server/srv_main.c:1369
+#: server/srv_main.c:1375
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Вибачте, нема╓ нагляду за комп'ютерними гравцями у ц╕й гр╕."
 
-#: server/srv_main.c:1372
+#: server/srv_main.c:1378
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s в╕дкинуто: Нема╓ нагляду за комп'ютерними гравцями."
 
-#: server/srv_main.c:1378
+#: server/srv_main.c:1384
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr "Вибачте, нема╓ можливост╕ перез'╓днання до гравц╕в людей у ц╕й гр╕."
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s в╕дкинуто: Нема╓ можливост╕ перез'╓днання до гравц╕в людей."
 
-#: server/srv_main.c:1399
+#: server/srv_main.c:1405
 msgid "Sorry, someone else already has that name."
 msgstr "Користувач з таким ╕м'ям вже ╕сну╓."
 
-#: server/srv_main.c:1401
+#: server/srv_main.c:1407
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "В╕дкинуто %s: ╤м'я %s вже використову╓ться."
 
-#: server/srv_main.c:1406
+#: server/srv_main.c:1412
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Вибачте, %s вже на з'╓днанн╕."
 
-#: server/srv_main.c:1409
+#: server/srv_main.c:1415
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s в╕дкинуто: %s вже на з'╓днанн╕."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1448
 msgid "Sorry, the game is already running."
 msgstr "Вибачте, гру вже запущено."
 
-#: server/srv_main.c:1443
+#: server/srv_main.c:1449
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s в╕дкинуто: Гру вже запущено та нев╕доме ╕м'я %s."
 
-#: server/srv_main.c:1449
+#: server/srv_main.c:1455
 msgid "Sorry, the game is full."
 msgstr "Вибачте, та гра вже повна."
 
-#: server/srv_main.c:1450
+#: server/srv_main.c:1456
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s в╕дкинуто: Максимальна к╕льк╕сть гравц╕в."
 
-#: server/srv_main.c:1456
+#: server/srv_main.c:1462
 msgid "Sorry, no new players allowed in this game."
 msgstr "Вибачте, нов╕ гравц╕ заборонен╕ у гр╕."
 
-#: server/srv_main.c:1457
+#: server/srv_main.c:1463
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s в╕дкинуто: Неможу додати Ваше з'╓днання до нового гравця."
 
-#: server/srv_main.c:1479
+#: server/srv_main.c:1485
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Втрачено з'╓днання: %s."
 
-#: server/srv_main.c:1488
+#: server/srv_main.c:1494
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Гра: Втрачено з'╓днання: %s."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1580
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Зак╕нчилися нац╕╖. Комп'ютерного гравця %s не створено."
 
-#: server/srv_main.c:1615
+#: server/srv_main.c:1621
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "К╕льк╕сть нац╕й менша за aifill; aifill зменшено до %d."
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1628
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Максимальна к╕льк╕сть гравц╕в менша за aifill; aifill зменшено до %d."
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1642
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Помилка створення нового комп'ютерного гравця: %s\n"
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1701
 #, c-format
 msgid "Player %d"
 msgstr "Гравець %d"
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1716
 msgid "Argh! ran out of nations!"
 msgstr "Д╕дька! Не вистача╓ нац╕й!"
 
-#: server/srv_main.c:1725
+#: server/srv_main.c:1731
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "Комп'ютер керу╓ народн╕стю %s яких очолю╓ %s."
 
-#: server/srv_main.c:1731
+#: server/srv_main.c:1737
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Гра: %s голову╓ над %s."
 
-#: server/srv_main.c:1875
+#: server/srv_main.c:1881
 msgid "Starting new log"
 msgstr "Стартую новий журнал"
 
-#: server/srv_main.c:1904
+#: server/srv_main.c:1910
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "В╕дправляю ╕нфо на метасервер [%s]"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1926
 msgid "Now accepting new client connections."
 msgstr "Тепер прийма╓мо нов╕ з'╓днання."
 
-#: server/srv_main.c:1981
+#: server/srv_main.c:1987
 msgid "Last player has disconnected: will need to restart."
 msgstr "Останн╕й гравець в╕дключився: Вам потр╕бно рестартуватись."
 
-#: server/srv_main.c:2090
+#: server/srv_main.c:2096
 msgid "Game: The game is over..."
 msgstr "Гра: Гру зак╕нчено..."
 
-#: server/srv_main.c:2091
+#: server/srv_main.c:2097
 msgid "The game is over!"
 msgstr "Гру зак╕нчено!"
 
@@ -5345,6 +5350,10 @@ msgstr ""
 "Гра: В╕ш п╕дрозд╕л %s припинив патрулювання п╕сля виявлення ворожого "
 "п╕дрозд╕лу."
 
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr ""
+
 #: client/audio.c:132
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
@@ -5623,7 +5632,7 @@ msgstr "?торгов╕_шляхи:Т"
 msgid "Number of Trade Routes"
 msgstr "К╕льк╕сть торгових шлях╕в"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6249,6 +6258,11 @@ msgstr "%s%d нещаслив╕"
 msgid "%s%d gold"
 msgstr "%s%d гривень"
 
+#: client/messagewin_common.c:109
+#, fuzzy
+msgid "Game: "
+msgstr "Гра: %s"
+
 #: client/options.c:83
 msgid "Default player's username"
 msgstr "╤м'я гравця по замовчуванню"
@@ -6808,13 +6822,13 @@ msgstr "Не можу завантажити gfx файл для spec файлу %s"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "АКМ: Ви втратили контроль над %s. В╕дключаю в╕д города."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr "АКМ: Агент не може задов╕льнити вимоги для %s. Повертаю керування."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6822,7 +6836,7 @@ msgstr ""
 "АКМ: %s зм╕нено та п╕драхований результат не може бути застосований. Спробую "
 "знову."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6832,20 +6846,20 @@ msgstr ""
 "АКМ: %s зм╕нено дек╕лька раз╕в. Це може бути помилка у Freeciv або невдача. "
 "Про╕нформуйте <freeciv-dev@freeciv.org>. Тепер АКМ в╕д'╓дну╓ться в╕д м╕ста."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Виробництво"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Торг╕вля"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -7996,6 +8010,12 @@ msgstr "Приспати безд╕яльн╕ п╕дрозд╕ли"
 msgid "What Nation Will You Be?"
 msgstr "Якою нац╕╓ю ви будете керувати?"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "В╕д'╓днатись"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Обер╕ть нац╕ю"
@@ -8646,26 +8666,26 @@ msgid "Location: (%d, %d)"
 msgstr "Розм╕щення: (%d, %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:93 client/gui-gtk/mapctrl.c:89
-#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:136
+#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:137
 #: client/gui-xaw/mapctrl.c:119
 #, c-format
 msgid "Terrain: %s"
 msgstr "Територ╕я: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:99 client/gui-gtk/mapctrl.c:94
-#: client/gui-win32/mapctrl.c:139 client/gui-xaw/mapctrl.c:123
+#: client/gui-win32/mapctrl.c:140 client/gui-xaw/mapctrl.c:123
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "╥жа/Виробництво/Прибуток: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:108 client/gui-gtk/mapctrl.c:102
-#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:144
+#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:145
 #: client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
 msgstr "Хут╕р маленького роду"
 
 #: client/gui-gtk-2.0/mapctrl.c:113 client/gui-gtk/mapctrl.c:106
-#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:149
+#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:150
 #, c-format
 msgid "City: %s(%s)"
 msgstr "М╕сто: %s(%s)"
@@ -8676,39 +8696,39 @@ msgid "with City Walls"
 msgstr "з М╕ськ╕ми Ст╕нами"
 
 #: client/gui-gtk-2.0/mapctrl.c:127 client/gui-gtk/mapctrl.c:118
-#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:158
+#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:159
 #: client/gui-xaw/mapctrl.c:140
 msgid "Infrastructure: "
 msgstr "╤фраструктура:"
 
 #: client/gui-gtk-2.0/mapctrl.c:134 client/gui-gtk/mapctrl.c:124
-#: client/gui-win32/mapctrl.c:163
+#: client/gui-win32/mapctrl.c:164
 msgid "Activity: "
 msgstr "Активн╕сть:"
 
 #: client/gui-gtk-2.0/mapctrl.c:151 client/gui-gtk/mapctrl.c:140
-#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:178
+#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:179
 #: client/gui-xaw/mapctrl.c:155
 #, c-format
 msgid "Unit: %s(%s%s)"
 msgstr "П╕дрозд╕л: %s(%s%s)"
 
 #: client/gui-gtk-2.0/mapctrl.c:160 client/gui-gtk/mapctrl.c:148
-#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:185
+#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:186
 #: client/gui-xaw/mapctrl.c:162
 #, c-format
 msgid "  (%d more)"
 msgstr "  (%d б╕льше)"
 
 #: client/gui-gtk-2.0/mapctrl.c:163 client/gui-gtk/mapctrl.c:151
-#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:188
+#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:189
 #: client/gui-xaw/mapctrl.c:166
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "А:%d З:%d СВ:%d З:%d/%d%s%s"
 
 #: client/gui-gtk-2.0/mapctrl.c:166 client/gui-gtk/mapctrl.c:154
-#: client/gui-win32/mapctrl.c:191 client/gui-xaw/mapctrl.c:168
+#: client/gui-win32/mapctrl.c:192 client/gui-xaw/mapctrl.c:168
 msgid " V"
 msgstr " В"
 
@@ -8718,19 +8738,19 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Шанс╕в на виграш: А:%d%% З:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
-#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
+#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:200
 #: client/gui-xaw/mapctrl.c:177
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "А:%d З:%d СВ:%d З:%d0%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:268 client/gui-gtk/mapctrl.c:258
-#: client/gui-win32/mapctrl.c:425 data/Freeciv:516
+#: client/gui-win32/mapctrl.c:436 data/Freeciv:516
 msgid "Build New City"
 msgstr "Будувати нове м╕сто"
 
 #: client/gui-gtk-2.0/mapctrl.c:269 client/gui-gtk/mapctrl.c:259
-#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:426
+#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:437
 #: client/gui-xaw/mapctrl.c:94
 msgid "What should we call our new city?"
 msgstr "Як назвати нове м╕сто?"
@@ -8815,11 +8835,6 @@ msgstr "Експортувати журнал"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Очистити журнал"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "В╕д'╓днатись"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9002,38 +9017,38 @@ msgstr "Наказ"
 msgid "Orders"
 msgstr "Наказ"
 
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1088
-#: client/gui-gtk-2.0/menu.c:1091 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "Будувати м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1101
-#: client/gui-gtk-2.0/menu.c:1107 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Будувати шлях"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1028
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Будувати зрошення"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1029
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Будувати шахту"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1030
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Зм╕нити тер╕тор╕ю"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1139
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9044,7 +9059,7 @@ msgstr "Будувати укр╕плення"
 msgid "Build Airbas_e"
 msgstr "Будувати ав╕абазу"
 
-#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9075,7 +9090,7 @@ msgstr "Вивантажити"
 msgid "Wake up o_thers"
 msgstr "Пробудити вс╕х"
 
-#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "Автоколон╕зувати"
@@ -9317,50 +9332,50 @@ msgstr "Коп╕ювання"
 msgid "_About"
 msgstr "Про програму"
 
-#: client/gui-gtk-2.0/menu.c:1020 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Зм╕нити на %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1021 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Зм╕нити на %s (_М)"
 
-#: client/gui-gtk-2.0/menu.c:1022 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Зм╕нити на %s"
 
-#: client/gui-gtk-2.0/menu.c:1083 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Допомогти будувати диво"
 
-#: client/gui-gtk-2.0/menu.c:1086 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Додати до м╕ста (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Встановити торговий шлях"
 
-#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Будувати зал╕зницю"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Будувати ферму"
 
-#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "Укр╕пити"
 
-#: client/gui-gtk-2.0/menu.c:1142 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "Парашутувати"
 
-#: client/gui-gtk-2.0/menu.c:1147 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "Автоатакувати"
 
@@ -9672,6 +9687,11 @@ msgstr "План буд╕вництва:"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "Додати глобальний план буд╕вництва"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+#, fuzzy
+msgid "Chan_ge Production"
+msgstr "Зм╕нити буд╕вництво"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15395,7 +15415,7 @@ msgstr ""
 "нещасного у м╕ст╕. "
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15403,7 +15423,7 @@ msgstr "Комун╕зм"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Товариш"
@@ -15468,13 +15488,13 @@ msgstr ""
 "нейтрал╕зувати двох нещасних у м╕ст╕. "
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Республ╕ка"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Консул"
@@ -15540,7 +15560,7 @@ msgstr ""
 "загони дають одного нещасного кожен."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15548,7 +15568,7 @@ msgstr "Демократ╕я"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15803,6 +15823,7 @@ msgstr ""
 "повстання.)"
 
 #: data/civ1/governments.ruleset:286
+#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15820,8 +15841,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "За Монарх╕╖, король або королева слугу╓ центральною ф╕гурою у кер╕вництв╕, "
 "та ця посада насл╕ду╓ться.\n"
@@ -15845,7 +15866,8 @@ msgstr ""
 "в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може нейтрал╕зувати одного "
 "нещасного у м╕ст╕. "
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15869,7 +15891,7 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
@@ -15902,7 +15924,7 @@ msgstr ""
 "Комун╕зму: кожен в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може "
 "нейтрал╕зувати двох нещасних у м╕ст╕. "
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15959,7 +15981,7 @@ msgstr ""
 "Громадяни у м╕ст╕ нейтрал╕зують д╕ю одного агресивного загону; наступн╕ "
 "загони дають одного нещасного кожен."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "

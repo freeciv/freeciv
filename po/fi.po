@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-07 19:11+0300\n"
+"POT-Creation-Date: 2003-10-20 12:57-0400\n"
 "PO-Revision-Date: 2003-10-07 19:47+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:263
@@ -252,81 +252,81 @@ msgstr "\"%s\": argumentti puuttuu.\n"
 
 # *** Darn, I forgot 1) if eaa should have a period after it and 2) what jKr
 # is replaced with (question of Christian counting (eKr) vs scientific counting).
-#: common/shared.c:423
+#: common/shared.c:425
 #, c-format
 msgid "%d BC"
 msgstr "%d eKr."
 
-#: common/shared.c:425
+#: common/shared.c:427
 #, c-format
 msgid "%d AD"
 msgstr "%d jKr."
 
-#: common/shared.c:770
+#: common/shared.c:772
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH on asetettu tyhjäksi, käytän oletuspolkua."
 
-#: common/shared.c:874
+#: common/shared.c:876
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Datahakemiston %s lukeminen epäonnistui: %s."
 
-#: common/shared.c:1004
+#: common/shared.c:1006
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Data-hakemistopolun voi asettaa FREECIV_PATH-ympäristömuuttujalla."
 
-#: common/shared.c:1006
+#: common/shared.c:1008
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Tämänhetkinen data-hakemistopolku on: \"%s\""
 
-#: common/shared.c:1008
+#: common/shared.c:1010
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Tiedosto \"%s\" vaaditaan ... keskeytän!"
 
-#: common/shared.c:1125
+#: common/shared.c:1127
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
-#: common/shared.c:1127
+#: common/shared.c:1129
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
 # *** Hmm, where is this used? This ended up sounding more like 'bullseye'. ***
-#: common/shared.c:1143
+#: common/shared.c:1145
 msgid "exact match"
 msgstr "täysosuma"
 
-#: common/shared.c:1144
+#: common/shared.c:1146
 msgid "only match"
 msgstr "ainoa osuma"
 
 # *** 'non-clear' ***
-#: common/shared.c:1145
+#: common/shared.c:1147
 msgid "ambiguous"
 msgstr "epäselvä"
 
-#: common/shared.c:1146
+#: common/shared.c:1148
 msgid "empty"
 msgstr "tyhjä"
 
-#: common/shared.c:1147
+#: common/shared.c:1149
 msgid "too long"
 msgstr "liian pitkä"
 
 # *** Urmh. ***
-#: common/shared.c:1148
+#: common/shared.c:1150
 msgid "non-match"
 msgstr "huti"
 
 # *** free -> liberty ***
-#: common/shared.c:1211
+#: common/shared.c:1213
 msgid "'Cause civilization should be free!"
 msgstr "Koska sivilisaation tulisi olla vapaa!"
 
-#: common/shared.c:1251 common/shared.c:1268
+#: common/shared.c:1253 common/shared.c:1270
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -337,7 +337,7 @@ msgstr ""
 "kannattanee asettaa paikallinen kooditus käsin asettamalla\n"
 "ympäristömuuttuja $FREECIV_LOCAL_ENCODING. Jatkan silti..."
 
-#: common/shared.c:1290
+#: common/shared.c:1292
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
@@ -348,7 +348,7 @@ msgstr ""
 "koodituksen pitää olla %s; voit muuttaa tätä asettamalla\n"
 "ympäristömuuttujan $FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1361
+#: common/shared.c:1363
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -2471,88 +2471,93 @@ msgstr ""
 msgid "Please choose a non-blank name."
 msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
 
-#: server/srv_main.c:1030
+#: server/srv_main.c:1012
+#, fuzzy
+msgid "Please choose a legal name."
+msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
+
+#: server/srv_main.c:1036
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Samanniminen ('%s') pelaaja on jo liittynyt peliin. Ole hyvä ja valitse "
 "toinen nimi."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Peli: %s on %s hallitsija %s."
 
-#: server/srv_main.c:1067
+#: server/srv_main.c:1073
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Kansallisuudet loppuivat kesken: poistan pelaajan %s."
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1076
 msgid "Game: Sorry, there are no nations left."
 msgstr "Peli: Ikävä kyllä vapaita kansallisuuksia ei enää ole."
 
-#: server/srv_main.c:1120
+#: server/srv_main.c:1126
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s on liittynyt pelaajana %s."
 
-#: server/srv_main.c:1125
+#: server/srv_main.c:1131
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Peli: Yhteys %s osoitteesta %s on liittynyt peliin nimellä %s."
 
-#: server/srv_main.c:1146
+#: server/srv_main.c:1152
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Tervetuloa %s -palvelimelle, osoitteessa %s:%d."
 
-#: server/srv_main.c:1149
+#: server/srv_main.c:1155
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Tervetuloa %s-palvelimelle portissa %d."
 
-#: server/srv_main.c:1160
+#: server/srv_main.c:1166
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "%s ei ole valmis vuoronsa kanssa, peli odottaa..."
 
-#: server/srv_main.c:1203
+#: server/srv_main.c:1209
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "AI-pelaaja %s lisätty."
 
-#: server/srv_main.c:1206
+#: server/srv_main.c:1212
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Peli: Lisätty AI-pelaaja %s."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1300
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Kelvoton nimi '%s'"
 
-#: server/srv_main.c:1296
+#: server/srv_main.c:1302
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Yhteydenotto kohteesta %s hylätty sopimattoman nimen takia."
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1308
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "%s osoitteesta %s lähettää yhteyspyynnön"
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1312
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "%s osoitteesta %s lähettää yhteyspyynnön (yhteys nimeltään %s)"
 
-#: server/srv_main.c:1310
+#: server/srv_main.c:1316
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "Pelaajalla %s on client-versio %d.%d.%d%s"
 
-#: server/srv_main.c:1320
+#: server/srv_main.c:1326
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2563,12 +2568,12 @@ msgstr ""
 "Päivittäminen voi auttaa!"
 
 # Unliteral translation.
-#: server/srv_main.c:1327 server/srv_main.c:1342
+#: server/srv_main.c:1333 server/srv_main.c:1348
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s jätetty ulkopuolelle: epäyhteensopivat ohjelmistot."
 
-#: server/srv_main.c:1335
+#: server/srv_main.c:1341
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2578,160 +2583,160 @@ msgstr ""
 "Palvelimen versio: %d.%d.%d%s Client-ohjelman versio: %d.%d.%d%s.\n"
 "Päivittäminen saattaa auttaa!"
 
-#: server/srv_main.c:1351
+#: server/srv_main.c:1357
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Pahoittelen, tässä pelissä ei voi seurata barbaareja."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1360
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "Ei barbaarien seuraamista - %s jätetty ulkopuolelle."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1366
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Tässä pelissä ei seurata kuolleita pelaajia."
 
-#: server/srv_main.c:1363
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s jätetty ulkopuolelle: Ei kuolleiden pelaajien seuraamista."
 
-#: server/srv_main.c:1369
+#: server/srv_main.c:1375
 msgid "Sorry, no observation of AI players in this game."
 msgstr "AI-pelaajia ei seurata tässä pelissä."
 
-#: server/srv_main.c:1372
+#: server/srv_main.c:1378
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s jätetty ulkopuolelle: Ei AI-pelaajien seuraamista."
 
-#: server/srv_main.c:1378
+#: server/srv_main.c:1384
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr "Ei uudelleenyhdistämistä ihmispelaajille tässä pelissä."
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s jätetty ulkopuolelle: Ei uudelleenyhdistämistä ihmispelaajille."
 
-#: server/srv_main.c:1399
+#: server/srv_main.c:1405
 msgid "Sorry, someone else already has that name."
 msgstr "Ikävä kyllä tuo nimi on jo käytössä."
 
-#: server/srv_main.c:1401
+#: server/srv_main.c:1407
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s jätetty ulkopuolelle, nimi %s jo käytössä."
 
-#: server/srv_main.c:1406
+#: server/srv_main.c:1412
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Pahoittelen, %s on jo yhteydessä palvelimeen."
 
-#: server/srv_main.c:1409
+#: server/srv_main.c:1415
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s jätetty ulkopuolelle, %s on jo yhteydessä."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1448
 msgid "Sorry, the game is already running."
 msgstr "Pahoittelen, peli on jo käynnissä."
 
-#: server/srv_main.c:1443
+#: server/srv_main.c:1449
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s jätetty ulkopuolelle: Peli on käynnissä ja nimi %s on tuntematon."
 
-#: server/srv_main.c:1449
+#: server/srv_main.c:1455
 msgid "Sorry, the game is full."
 msgstr "Pahoittelen, peli on täynnä."
 
-#: server/srv_main.c:1450
+#: server/srv_main.c:1456
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s jätetty ulkopuolelle: Pelaajamäärä on suurin sallittu."
 
-#: server/srv_main.c:1456
+#: server/srv_main.c:1462
 msgid "Sorry, no new players allowed in this game."
 msgstr "Ikävä kyllä uusia pelaajia ei sallita tähän peliin."
 
-#: server/srv_main.c:1457
+#: server/srv_main.c:1463
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s jätetty ulkopuolelle: Ei uusien pelaajien yhteydenottoja."
 
-#: server/srv_main.c:1479
+#: server/srv_main.c:1485
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Yhteys katkesi: %s."
 
-#: server/srv_main.c:1488
+#: server/srv_main.c:1494
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Peli: Yhteys katkesi: %s."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1580
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Ei vapaita kansallisuuksia, AI-pelaajaa %s ei luotu."
 
-#: server/srv_main.c:1615
+#: server/srv_main.c:1621
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr ""
 "Kansallisuusmäärä on pienempi kuin 'aifill', 'aifill' pienennetty %d:ksi."
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1628
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Pelaajamaksimi pienempi kuin 'aifill', 'aifill' pienennetty %d:ksi."
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1642
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Virhe AI-pelaajaa luotaessa: %s\n"
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1701
 #, c-format
 msgid "Player %d"
 msgstr "Pelaaja %d"
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1716
 msgid "Argh! ran out of nations!"
 msgstr "Höh, kansallisuudet loppuivat kesken!"
 
-#: server/srv_main.c:1725
+#: server/srv_main.c:1731
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "%s ovat AI:n hallinnassa, johtaja: %s."
 
-#: server/srv_main.c:1731
+#: server/srv_main.c:1737
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Peli: %s sai johtaakseen %s."
 
-#: server/srv_main.c:1875
+#: server/srv_main.c:1881
 msgid "Starting new log"
 msgstr "Aloitan uuden lokin"
 
-#: server/srv_main.c:1904
+#: server/srv_main.c:1910
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Lähetän tietoa metapalvelimelle [%s]"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1926
 msgid "Now accepting new client connections."
 msgstr "Vastaanotan nyt uusia client-yhteydenottoja."
 
-#: server/srv_main.c:1981
+#: server/srv_main.c:1987
 msgid "Last player has disconnected: will need to restart."
 msgstr "Viimeinenkin pelaaja on katkaissut yhteyden: uudelleenkäynnistä."
 
-#: server/srv_main.c:2090
+#: server/srv_main.c:2096
 msgid "Game: The game is over..."
 msgstr "Peli: Peli päättyy..."
 
-#: server/srv_main.c:2091
+#: server/srv_main.c:2097
 msgid "The game is over!"
 msgstr "Peli päättyy..."
 
@@ -3804,7 +3809,12 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr "Asettaa pelaajan joukkueen jäseneksi. Jos joukkuetta ei anneta, pelaaja merkitään joukkueettomaksi. Käytä \"\"-merkkejä jos nimissä on välilyöntejä. Joukkue on ryhmä pelaajia joka aloittaa liittoutuneena, jaetuin näkymin, suurlähetystöin ja taistelee rinta rinnan saavuttaakseen joukkuevoiton. Yksilöiden pistemäärät keskiarvotetaan."
+msgstr ""
+"Asettaa pelaajan joukkueen jäseneksi. Jos joukkuetta ei anneta, pelaaja "
+"merkitään joukkueettomaksi. Käytä \"\"-merkkejä jos nimissä on välilyöntejä. "
+"Joukkue on ryhmä pelaajia joka aloittaa liittoutuneena, jaetuin näkymin, "
+"suurlähetystöin ja taistelee rinta rinnan saavuttaakseen joukkuevoiton. "
+"Yksilöiden pistemäärät keskiarvotetaan."
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -8738,26 +8748,26 @@ msgid "Location: (%d, %d)"
 msgstr "Sijainti: (%d, %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:93 client/gui-gtk/mapctrl.c:89
-#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:136
+#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:137
 #: client/gui-xaw/mapctrl.c:119
 #, c-format
 msgid "Terrain: %s"
 msgstr "Maasto: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:99 client/gui-gtk/mapctrl.c:94
-#: client/gui-win32/mapctrl.c:139 client/gui-xaw/mapctrl.c:123
+#: client/gui-win32/mapctrl.c:140 client/gui-xaw/mapctrl.c:123
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Ruoka/raaka-aineet/kauppa: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:108 client/gui-gtk/mapctrl.c:102
-#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:144
+#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:145
 #: client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
 msgstr "Pieni heimokylä"
 
 #: client/gui-gtk-2.0/mapctrl.c:113 client/gui-gtk/mapctrl.c:106
-#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:149
+#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:150
 #, c-format
 msgid "City: %s(%s)"
 msgstr "Kaupunki: %s(%s)"
@@ -8768,32 +8778,32 @@ msgid "with City Walls"
 msgstr "jota ympäröi muuri"
 
 #: client/gui-gtk-2.0/mapctrl.c:127 client/gui-gtk/mapctrl.c:118
-#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:158
+#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:159
 #: client/gui-xaw/mapctrl.c:140
 msgid "Infrastructure: "
 msgstr "Infrastruktuuri: "
 
 #: client/gui-gtk-2.0/mapctrl.c:134 client/gui-gtk/mapctrl.c:124
-#: client/gui-win32/mapctrl.c:163
+#: client/gui-win32/mapctrl.c:164
 msgid "Activity: "
 msgstr "Toiminta: "
 
 #: client/gui-gtk-2.0/mapctrl.c:151 client/gui-gtk/mapctrl.c:140
-#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:178
+#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:179
 #: client/gui-xaw/mapctrl.c:155
 #, c-format
 msgid "Unit: %s(%s%s)"
 msgstr "Yksikkö: %s(%s%s)"
 
 #: client/gui-gtk-2.0/mapctrl.c:160 client/gui-gtk/mapctrl.c:148
-#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:185
+#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:186
 #: client/gui-xaw/mapctrl.c:162
 #, c-format
 msgid "  (%d more)"
 msgstr "  (%d muuta)"
 
 #: client/gui-gtk-2.0/mapctrl.c:163 client/gui-gtk/mapctrl.c:151
-#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:188
+#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:189
 #: client/gui-xaw/mapctrl.c:166
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
@@ -8801,7 +8811,7 @@ msgstr "H:%d P:%d TV:%d VP:%d/%d%s%s"
 
 # Veteran: This would mean "kokenut" or "konkari"
 #: client/gui-gtk-2.0/mapctrl.c:166 client/gui-gtk/mapctrl.c:154
-#: client/gui-win32/mapctrl.c:191 client/gui-xaw/mapctrl.c:168
+#: client/gui-win32/mapctrl.c:192 client/gui-xaw/mapctrl.c:168
 msgid " V"
 msgstr " ko"
 
@@ -8811,19 +8821,19 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Vaihda ikkunaan: A:%d%% D:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
-#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
+#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:200
 #: client/gui-xaw/mapctrl.c:177
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "H:%d P:%d TV:%d VP:%d0%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:268 client/gui-gtk/mapctrl.c:258
-#: client/gui-win32/mapctrl.c:425 data/Freeciv:516
+#: client/gui-win32/mapctrl.c:436 data/Freeciv:516
 msgid "Build New City"
 msgstr "Perusta uusi kaupunki"
 
 #: client/gui-gtk-2.0/mapctrl.c:269 client/gui-gtk/mapctrl.c:259
-#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:426
+#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:437
 #: client/gui-xaw/mapctrl.c:94
 msgid "What should we call our new city?"
 msgstr "Mikä annetaan uudelle kaupungille nimeksi?"
@@ -9100,38 +9110,38 @@ msgstr "_Komennot"
 msgid "Orders"
 msgstr "Komennot"
 
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1088
-#: client/gui-gtk-2.0/menu.c:1091 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "Perusta kaupunki"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1101
-#: client/gui-gtk-2.0/menu.c:1107 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Rakenna tie"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1028
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Rakenna kasteluverkosto"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1029
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Perusta kaivos"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1030
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Muokkaa maastoa"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1139
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9142,7 +9152,7 @@ msgstr "Rakenna linnoitus"
 msgid "Build Airbas_e"
 msgstr "Rakenna lentokenttä"
 
-#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9173,7 +9183,7 @@ msgstr "Pura lasti"
 msgid "Wake up o_thers"
 msgstr "Herätä toiset"
 
-#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "Automaattinen uudisraivaaja"
@@ -9415,50 +9425,50 @@ msgstr "_Kopiointi"
 msgid "_About"
 msgstr "_Pelistä"
 
-#: client/gui-gtk-2.0/menu.c:1020 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Tee tästä %s"
 
-#: client/gui-gtk-2.0/menu.c:1021 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Tee tästä %s"
 
-#: client/gui-gtk-2.0/menu.c:1022 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Muunna tästä %s"
 
-#: client/gui-gtk-2.0/menu.c:1083 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Auta ihmeen toteuttamisessa"
 
-#: client/gui-gtk-2.0/menu.c:1086 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Lisää tähän kaupunkiin"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Perusta kauppareitti"
 
-#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Rakenna rautatie"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Raivaa peltomaaksi"
 
-#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "Linnoittaudu"
 
-#: client/gui-gtk-2.0/menu.c:1142 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "Pudota laskuvarjolla"
 
-#: client/gui-gtk-2.0/menu.c:1147 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "Autom. hyökkäys"
 
@@ -15562,21 +15572,29 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"Kommunistinen hallinto perustuu ajatukseen tasa-arvosta. Kaikki hyödykkeet omistaa yksityisten ihmisten sijasta valtio. Kommunismi on sotilaallisen ja kaupallisen hallintomuodon välimaastossa.\n"
+"Kommunistinen hallinto perustuu ajatukseen tasa-arvosta. Kaikki hyödykkeet "
+"omistaa yksityisten ihmisten sijasta valtio. Kommunismi on sotilaallisen ja "
+"kaupallisen hallintomuodon välimaastossa.\n"
 "\n"
-"Lahjonnan määrä ei ole riippuvainen kaupungin etäisyydestä pääkaupunkiin. Samoin kaikki yli kymmenen ruudun päässä pääkaupungista olevat kaupungit lasketaan sijaitseviksi tasan kymmenen ruudun päässä, kun lasketaan kapinan kustannuksia (katso yksiköt, diplomaatti).\n"
+"Lahjonnan määrä ei ole riippuvainen kaupungin etäisyydestä pääkaupunkiin. "
+"Samoin kaikki yli kymmenen ruudun päässä pääkaupungista olevat kaupungit "
+"lasketaan sijaitseviksi tasan kymmenen ruudun päässä, kun lasketaan kapinan "
+"kustannuksia (katso yksiköt, diplomaatti).\n"
 "\n"
 "Uudisraivaajat kuluttavat yhden yksikön ruokaa pelivuoroa kohti.\n"
 "\n"
-"Juhliva kommunistikaupunki saa yhden kauppayksikön bonuksen jokaiselta kauppaa käyvältä ruudultaan. Katso yksityiskohtia kohdasta onnellisuus.\n"
+"Juhliva kommunistikaupunki saa yhden kauppayksikön bonuksen jokaiselta "
+"kauppaa käyvältä ruudultaan. Katso yksityiskohtia kohdasta onnellisuus.\n"
 "\n"
 "Tieteen, hallintokulujen tai luksuksen maksimiosuus on 80%.\n"
 "\n"
 "Kaikki kommunistien kouluttamat diplomaatit ja vakoojat ovat konkareita.\n"
 "\n"
-"Kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman kustannuksia (lisäyksiköt kuluttavat yhden yksikön verran tuotantopanoksia kukin).\n"
+"Kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman kustannuksia "
+"(lisäyksiköt kuluttavat yhden yksikön verran tuotantopanoksia kukin).\n"
 "\n"
-"Vahvemman laki on rajoitettu, mutta tehokas: korkeintaan kolme sotilasyksikköä kaupungissa voi pitää rauhallisena kahta asukasta kukin."
+"Vahvemman laki on rajoitettu, mutta tehokas: korkeintaan kolme "
+"sotilasyksikköä kaupungissa voi pitää rauhallisena kahta asukasta kukin."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
 #: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
@@ -15932,11 +15950,16 @@ msgstr ""
 "\n"
 "Uudisraivaajat kuluttavat yhden yksikön ruokaa pelivuoroa kohti.\n"
 "\n"
-"Jos joku kuningaskunnan kaupunki juhlii, se saa yhden ylimääräisen yksikön kauppaa jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
+"Jos joku kuningaskunnan kaupunki juhlii, se saa yhden ylimääräisen yksikön "
+"kauppaa jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön "
+"kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
 "\n"
-"Kaupunkisi voivat ylläpitää kolmea sotilasyksikköä ilman ylläpitokustannuksia; lisäyksiköt kuluttavat kukin yhden raaka-aineyksikön pelivuorossa.\n"
+"Kaupunkisi voivat ylläpitää kolmea sotilasyksikköä ilman "
+"ylläpitokustannuksia; lisäyksiköt kuluttavat kukin yhden raaka-aineyksikön "
+"pelivuorossa.\n"
 "\n"
-"Monarkki voi käyttää vahvemman lakia edukseen: kukin kaupungissa oleva sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena."
+"Monarkki voi käyttää vahvemman lakia edukseen: kukin kaupungissa oleva "
+"sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena."
 
 #: data/civ1/governments.ruleset:353
 msgid ""
@@ -15966,19 +15989,32 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Kommunistinen hallinto perustuu ajatukseen kaikkien ihmisten tasa-arvosta. Kaiken omaisuuden omistaa valtio, eivätkä yksityiset kansalaiset. Kommunismi on eräänlainen sotilaallisen ja taloudellisen hallitusmuodon välimuoto.\n"
+"Kommunistinen hallinto perustuu ajatukseen kaikkien ihmisten tasa-arvosta. "
+"Kaiken omaisuuden omistaa valtio, eivätkä yksityiset kansalaiset. Kommunismi "
+"on eräänlainen sotilaallisen ja taloudellisen hallitusmuodon välimuoto.\n"
 "\n"
-"Kommunistivaltiossa lahjonnan määrä ei ole riippuvainen etäisyydestä pääkaupunkiin; kaikki kaupungit (myös pääkaupunki) kärsivät hieman. Lisäksi kaikki yli kymmenen ruudun päässä pääkaupungista sijaitsevat kaupungit tulkitaan vain kymmenen ruudun päässä sijaitseviksi, kun lasketaan kapinaan yllyttämisen kustannuksia (Katso diplomaatin ohjetta).\n"
+"Kommunistivaltiossa lahjonnan määrä ei ole riippuvainen etäisyydestä "
+"pääkaupunkiin; kaikki kaupungit (myös pääkaupunki) kärsivät hieman. Lisäksi "
+"kaikki yli kymmenen ruudun päässä pääkaupungista sijaitsevat kaupungit "
+"tulkitaan vain kymmenen ruudun päässä sijaitseviksi, kun lasketaan kapinaan "
+"yllyttämisen kustannuksia (Katso diplomaatin ohjetta).\n"
 "\n"
 "Uudisraivaajat kuluttavat yhden yksikön ruokaa.\n"
 "\n"
-"Juhliva kommunistikaupunki saa yhden yksikön verran kauppabonusta jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön verran kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
+"Juhliva kommunistikaupunki saa yhden yksikön verran kauppabonusta jokaiselta "
+"ruudulta, joka ennestään tuottaa vähintään yhden yksikön verran kauppaa. "
+"Katso ohjeen kohtaa onnellisuus.\n"
 "\n"
 "Kaikki kommunistien kouluttamat diplomaatit ja vakoojat ovat konkareita.\n"
 "\n"
-"Kommunistisessa hallinnossa kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman ylläpitokustannuksia. (Lisäyksiköt kuluttavat yhden raaka-aineyksikön kukin.)\n"
+"Kommunistisessa hallinnossa kaupungit voivat ylläpitää kolmea "
+"sotilasyksikköä ilman ylläpitokustannuksia. (Lisäyksiköt kuluttavat yhden "
+"raaka-aineyksikön kukin.)\n"
 "\n"
-"Vahvemman laki toimii kommunistivaltiossa: kukin kaupungissa oleva sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena. (... Tai ainakin tyytymättömät kansalaiset käyttäytyvät rauhallisesti eivätkä mellakoi.)"
+"Vahvemman laki toimii kommunistivaltiossa: kukin kaupungissa oleva "
+"sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena. (... Tai "
+"ainakin tyytymättömät kansalaiset käyttäytyvät rauhallisesti eivätkä "
+"mellakoi.)"
 
 #: data/civ1/governments.ruleset:428
 msgid ""

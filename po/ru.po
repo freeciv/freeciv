@@ -5,14 +5,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
+"POT-Creation-Date: 2003-10-20 12:57-0400\n"
 "PO-Revision-Date: 2003-09-20 01:03-0400\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:263
 msgid "?redundant:*"
@@ -163,8 +164,8 @@ msgstr "Радиация"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr ""
-"Не хватает памяти при совершении операции %s - %lu байтов в строке %d "
-"файла %s"
+"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла %"
+"s"
 
 #: common/packets.c:3059
 msgid ""
@@ -247,80 +248,80 @@ msgstr "Пустой аргумент для \"%s\".\n"
 msgid "Missing argument for \"%s\".\n"
 msgstr "Отсутствует аргумент для \"%s\".\n"
 
-#: common/shared.c:423
+#: common/shared.c:425
 #, c-format
 msgid "%d BC"
 msgstr "%d до н.э."
 
-#: common/shared.c:425
+#: common/shared.c:427
 #, c-format
 msgid "%d AD"
 msgstr "%d н.э."
 
-#: common/shared.c:770
+#: common/shared.c:772
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH установлено, но пусто; используем путь по умолчанию."
 
-#: common/shared.c:874
+#: common/shared.c:876
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Не удалось прочитать каталог данных %s: %s."
 
-#: common/shared.c:1004
+#: common/shared.c:1006
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "Путь для данных может быть установлен в переменной окружения FREECIV_PATH"
 
-#: common/shared.c:1006
+#: common/shared.c:1008
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
-#: common/shared.c:1008
+#: common/shared.c:1010
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Необходим файл \"%s\" ... прерываем исполнение!"
 
-#: common/shared.c:1125
+#: common/shared.c:1127
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Фатальная ошибка: Вы пытаетесь запустить меня будучи "
 "суперпользователем!\n"
 
-#: common/shared.c:1127
+#: common/shared.c:1129
 msgid "Use a non-privileged account instead.\n"
 msgstr "Используйте лучше непривелегированный бюджет.\n"
 
-#: common/shared.c:1143
+#: common/shared.c:1145
 msgid "exact match"
 msgstr "точное совпадение"
 
-#: common/shared.c:1144
+#: common/shared.c:1146
 msgid "only match"
 msgstr "единственное совпадение"
 
-#: common/shared.c:1145
+#: common/shared.c:1147
 msgid "ambiguous"
 msgstr "неоднозначно"
 
-#: common/shared.c:1146
+#: common/shared.c:1148
 msgid "empty"
 msgstr "пусто"
 
-#: common/shared.c:1147
+#: common/shared.c:1149
 msgid "too long"
 msgstr "слишком длинно"
 
-#: common/shared.c:1148
+#: common/shared.c:1150
 msgid "non-match"
 msgstr "не совпадает"
 
-#: common/shared.c:1211
+#: common/shared.c:1213
 msgid "'Cause civilization should be free!"
 msgstr "'Cause civilization should be free!"
 
-#: common/shared.c:1251
+#: common/shared.c:1253 common/shared.c:1270
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -331,17 +332,18 @@ msgstr ""
 "установить Вашу локальную кодировку вручную, установкой\n"
 "переменной окружения $FREECIV_LOCAL_ENCODING. Продолжаем исполнение..."
 
-#: common/shared.c:1277
+#: common/shared.c:1292
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
-msgstr "Строка '%s' недействительна: %s. Файлы набора правил\n"
+msgstr ""
+"Строка '%s' недействительна: %s. Файлы набора правил\n"
 "должны быть кодированы как %s; Вы можете изменить это установкой\n"
 "$FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1343
+#: common/shared.c:1363
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -1107,7 +1109,8 @@ msgstr "%s и %s заключили договор"
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr "Игра: Один из городов, который народ %s отдает, уничтожен! Договор отменен!"
+msgstr ""
+"Игра: Один из городов, который народ %s отдает, уничтожен! Договор отменен!"
 
 #: server/diplhand.c:245 server/diplhand.c:250
 #, c-format
@@ -1491,17 +1494,17 @@ msgstr "Игра: Вы вызвали инцидент при попытке взбунтовать город %s."
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Игра: %s вызвали инцидент при попытке взбунтовать город %s."
 
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Год: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "Тайм-аут хода превысил максимальное значение, устанавливаевам в максимум."
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Тайм-аут хода меньше нуля, устанавливаем в 0."
 
@@ -1765,13 +1768,13 @@ msgstr "Игра: Невозможно изменить скорость до начала игры."
 msgid "Tax"
 msgstr "Налог"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Роскошь"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -1845,7 +1848,8 @@ msgstr "Игра: Ваша репутация сейчас %s."
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
-msgstr "Игра: Сенат решает распуститься, лишь бы не поддерживать ваши действия."
+msgstr ""
+"Игра: Сенат решает распуститься, лишь бы не поддерживать ваши действия."
 
 #: server/plrhand.c:922
 #, c-format
@@ -2434,86 +2438,91 @@ msgstr "Пытаюсь создать новую нацию вне SELECT_RACES_STATE!"
 msgid "Please choose a non-blank name."
 msgstr "Пожалуйста, выберите непустое имя."
 
-#: server/srv_main.c:1030
+#: server/srv_main.c:1012
+#, fuzzy
+msgid "Please choose a legal name."
+msgstr "Пожалуйста, выберите непустое имя."
+
+#: server/srv_main.c:1036
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Другой игрок уже назвал себя '%s'. Пожалуйста, выберите другое имя."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Игра: %s - %s правитель %s."
 
-#: server/srv_main.c:1067
+#: server/srv_main.c:1073
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Не осталось наций: Убираем игрока %s."
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1076
 msgid "Game: Sorry, there are no nations left."
 msgstr "Извините, Вы не можете играть. Не осталось наций."
 
-#: server/srv_main.c:1120
+#: server/srv_main.c:1126
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s вступил в игру как игрок %s."
 
-#: server/srv_main.c:1125
+#: server/srv_main.c:1131
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Игра: Подсоединение %s из %s вступил в игру как игрок %s."
 
-#: server/srv_main.c:1146
+#: server/srv_main.c:1152
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Добро пожаловать на сервер %s работающий на %s, порт %d."
 
-#: server/srv_main.c:1149
+#: server/srv_main.c:1155
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Добро пожаловать на сервер %s, порт %d."
 
-#: server/srv_main.c:1160
+#: server/srv_main.c:1166
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Игра блокирует ходы: ждем пока %s закончит свой ход..."
 
-#: server/srv_main.c:1203
+#: server/srv_main.c:1209
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s был добавлен как управляемый компьютером игрок."
 
-#: server/srv_main.c:1206
+#: server/srv_main.c:1212
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Игра: %s был добавлен как управляемый компьютером игрок."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1300
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Неверное имя '%s'"
 
-#: server/srv_main.c:1296
+#: server/srv_main.c:1302
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Отказано в соединении с %s с неправильным именем."
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1308
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Запрос о подключении от %s из %s"
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1312
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "Запрос о подключении от %s из %s (подсоединение названо %s)"
 
-#: server/srv_main.c:1310
+#: server/srv_main.c:1316
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s имеет версию клиента %d.%d.%d%s"
 
-#: server/srv_main.c:1320
+#: server/srv_main.c:1326
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2523,12 +2532,12 @@ msgstr ""
 "Версия сервера: %d.%d.%d%s Версия клиента: %d.%d.%d%s. Попробуйте обновить "
 "программу!"
 
-#: server/srv_main.c:1327 server/srv_main.c:1342
+#: server/srv_main.c:1333 server/srv_main.c:1348
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s было отказано в подключении: возможности не совпадают."
 
-#: server/srv_main.c:1335
+#: server/srv_main.c:1341
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2538,163 +2547,163 @@ msgstr ""
 "Версия сервера: %d.%d.%d%s Версия клиента: %d.%d.%d%s. Попробуйте обновить "
 "программу!"
 
-#: server/srv_main.c:1351
+#: server/srv_main.c:1357
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за варварами."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1360
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s получил отказ: Запрещено наблюдение за варварами."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1366
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за погибшими игроками."
 
-#: server/srv_main.c:1363
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s получил отказ: Запрещено наблюдение за погибшими игроками."
 
-#: server/srv_main.c:1369
+#: server/srv_main.c:1375
 msgid "Sorry, no observation of AI players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми "
 "компьютером"
 
-#: server/srv_main.c:1372
+#: server/srv_main.c:1378
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr ""
 "%s получил отказ: Запрещено наблюдение за игроками, управляемыми компьютером"
 
-#: server/srv_main.c:1378
+#: server/srv_main.c:1384
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr "Запрещены переподключения к игрокам в человеческом режиме в этой игре."
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr ""
 "%s получил отказ: Запрещены переподключения к игрокам в человеческом режиме"
 
-#: server/srv_main.c:1399
+#: server/srv_main.c:1405
 msgid "Sorry, someone else already has that name."
 msgstr "Извините, кто-то еще уже использует это имя."
 
-#: server/srv_main.c:1401
+#: server/srv_main.c:1407
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s получил отказ, имя %s уже используется."
 
-#: server/srv_main.c:1406
+#: server/srv_main.c:1412
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Извините, %s уже подключен."
 
-#: server/srv_main.c:1409
+#: server/srv_main.c:1415
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s получил отказ, %s уже подключен."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1448
 msgid "Sorry, the game is already running."
 msgstr "Извините, игра уже запущена."
 
-#: server/srv_main.c:1443
+#: server/srv_main.c:1449
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s получил отказ: Игра запущена и неизвестно имя %s."
 
-#: server/srv_main.c:1449
+#: server/srv_main.c:1455
 msgid "Sorry, the game is full."
 msgstr "Извините, игра уже заполнена."
 
-#: server/srv_main.c:1450
+#: server/srv_main.c:1456
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s получил отказ: Максимальное число игроков достигнуто."
 
-#: server/srv_main.c:1456
+#: server/srv_main.c:1462
 msgid "Sorry, no new players allowed in this game."
 msgstr "Извините, больше не принимаем новых игроков."
 
-#: server/srv_main.c:1457
+#: server/srv_main.c:1463
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s получил отказ: Не подключаем новых игроков."
 
-#: server/srv_main.c:1479
+#: server/srv_main.c:1485
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Соединение с %s было потеряно."
 
-#: server/srv_main.c:1488
+#: server/srv_main.c:1494
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Игра: потеряно соединение: %s."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1580
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Не хватает стран. Компьютерный игрок %s не создан."
 
-#: server/srv_main.c:1615
+#: server/srv_main.c:1621
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Количество стран меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1628
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Максимальное число игроков меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1642
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Ошибка при создании нового компьютерного игрока: %s\n"
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1701
 #, c-format
 msgid "Player %d"
 msgstr "Игрок %d"
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1716
 msgid "Argh! ran out of nations!"
 msgstr "Не хватает стран!"
 
-#: server/srv_main.c:1725
+#: server/srv_main.c:1731
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "Компьютер контролирует народ, именуемый %s, их лидер - %s."
 
-#: server/srv_main.c:1731
+#: server/srv_main.c:1737
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Игра: %s правит народом, именуемым %s."
 
-#: server/srv_main.c:1875
+#: server/srv_main.c:1881
 msgid "Starting new log"
 msgstr "Начинаем новый журнал."
 
-#: server/srv_main.c:1904
+#: server/srv_main.c:1910
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Посылаем информацию на метасервер [%s]"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1926
 msgid "Now accepting new client connections."
 msgstr "Принимаются подключения новых клиентов."
 
-#: server/srv_main.c:1981
+#: server/srv_main.c:1987
 msgid "Last player has disconnected: will need to restart."
 msgstr "Последний игрок отключился: необходим перезапуск."
 
-#: server/srv_main.c:2090
+#: server/srv_main.c:2096
 msgid "Game: The game is over..."
 msgstr "Игра: Игра закончена..."
 
-#: server/srv_main.c:2091
+#: server/srv_main.c:2097
 msgid "The game is over!"
 msgstr "Игра закончена!"
 
@@ -4677,8 +4686,8 @@ msgstr "Извините, вы не можете использовать команды сервера."
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
-"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте "
-"'%shelp'."
+"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
+"shelp'."
 
 #: server/stdinhand.c:3120
 #, c-format
@@ -5151,14 +5160,13 @@ msgstr ""
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
-"Игра: Ваши %s посажены на корабль в связи с изменением земли на море в "
-"(%d, %d)."
+"Игра: Ваши %s посажены на корабль в связи с изменением земли на море в (%d, %"
+"d)."
 
 #: server/unittools.c:1099
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
-msgstr ""
-"Игра: Ваши %s распущены в связи с изменением земли в море на (%d, %d)."
+msgstr "Игра: Ваши %s распущены в связи с изменением земли в море на (%d, %d)."
 
 #: server/unittools.c:1123
 #, c-format
@@ -5364,6 +5372,10 @@ msgid ""
 msgstr ""
 "Игра: Ваше соединение \"%s\" перестало патрулировать в связи со встречей с "
 "войсками противника."
+
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr ""
 
 #: client/audio.c:132
 #, c-format
@@ -5644,7 +5656,7 @@ msgstr "Торговые пути:Т"
 msgid "Number of Trade Routes"
 msgstr "Число торговых путей"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6269,6 +6281,10 @@ msgstr "%s%d несчастья"
 msgid "%s%d gold"
 msgstr "%s%d золота"
 
+#: client/messagewin_common.c:109
+msgid "Game: "
+msgstr "Игра: "
+
 #: client/options.c:83
 msgid "Default player's username"
 msgstr "Имя пользователя игрока (по умолчанию)"
@@ -6831,14 +6847,14 @@ msgstr "Невозможно загрузить gfx файл для spec файла %s"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "АУГ: Вы потеряли контроль над %s. Отрываем от города."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
 "АУГ: Агент не может выполнить требования для %s. Возвращаем управление."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6846,7 +6862,7 @@ msgstr ""
 "АУГ: %s изменилось, и вычисленный результат невозможно применить. Попробуем "
 "снова."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6857,20 +6873,20 @@ msgstr ""
 "неудача. Пожалуйста, напишите нам на <freeciv-dev@freeciv.org>. АУГ сейчас "
 "перестанет контролировать город. "
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Щиты"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Торговля"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -8023,6 +8039,12 @@ msgstr "Усыпить бездействующие соед."
 msgid "What Nation Will You Be?"
 msgstr "Каким народом вы будете?"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "Отсоединиться"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Выбрать народ"
@@ -8673,26 +8695,26 @@ msgid "Location: (%d, %d)"
 msgstr "Место: (%d, %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:93 client/gui-gtk/mapctrl.c:89
-#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:136
+#: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:137
 #: client/gui-xaw/mapctrl.c:119
 #, c-format
 msgid "Terrain: %s"
 msgstr "Рельеф: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:99 client/gui-gtk/mapctrl.c:94
-#: client/gui-win32/mapctrl.c:139 client/gui-xaw/mapctrl.c:123
+#: client/gui-win32/mapctrl.c:140 client/gui-xaw/mapctrl.c:123
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Еда/Произв/Торг: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:108 client/gui-gtk/mapctrl.c:102
-#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:144
+#: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:145
 #: client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
 msgstr "Деревня маленького племени"
 
 #: client/gui-gtk-2.0/mapctrl.c:113 client/gui-gtk/mapctrl.c:106
-#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:149
+#: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:150
 #, c-format
 msgid "City: %s(%s)"
 msgstr "Город: %s(%s)"
@@ -8703,39 +8725,39 @@ msgid "with City Walls"
 msgstr "с городскими стенами"
 
 #: client/gui-gtk-2.0/mapctrl.c:127 client/gui-gtk/mapctrl.c:118
-#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:158
+#: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:159
 #: client/gui-xaw/mapctrl.c:140
 msgid "Infrastructure: "
 msgstr "Инфраструктура: "
 
 #: client/gui-gtk-2.0/mapctrl.c:134 client/gui-gtk/mapctrl.c:124
-#: client/gui-win32/mapctrl.c:163
+#: client/gui-win32/mapctrl.c:164
 msgid "Activity: "
 msgstr "Активность: "
 
 #: client/gui-gtk-2.0/mapctrl.c:151 client/gui-gtk/mapctrl.c:140
-#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:178
+#: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:179
 #: client/gui-xaw/mapctrl.c:155
 #, c-format
 msgid "Unit: %s(%s%s)"
 msgstr "Соед: %s(%s%s)"
 
 #: client/gui-gtk-2.0/mapctrl.c:160 client/gui-gtk/mapctrl.c:148
-#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:185
+#: client/gui-mui/mapclass.c:156 client/gui-win32/mapctrl.c:186
 #: client/gui-xaw/mapctrl.c:162
 #, c-format
 msgid "  (%d more)"
 msgstr "  (еще %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:163 client/gui-gtk/mapctrl.c:151
-#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:188
+#: client/gui-mui/mapclass.c:158 client/gui-win32/mapctrl.c:189
 #: client/gui-xaw/mapctrl.c:166
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "А:%d З:%d Ог:%d Зд:%d/%d%s%s"
 
 #: client/gui-gtk-2.0/mapctrl.c:166 client/gui-gtk/mapctrl.c:154
-#: client/gui-win32/mapctrl.c:191 client/gui-xaw/mapctrl.c:168
+#: client/gui-win32/mapctrl.c:192 client/gui-xaw/mapctrl.c:168
 msgid " V"
 msgstr " В"
 
@@ -8745,19 +8767,19 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Шансы победы: А:%d%% З:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
-#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
+#: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:200
 #: client/gui-xaw/mapctrl.c:177
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "А:%d З:%d Ог:%d Зд:%d0%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:268 client/gui-gtk/mapctrl.c:258
-#: client/gui-win32/mapctrl.c:425 data/Freeciv:516
+#: client/gui-win32/mapctrl.c:436 data/Freeciv:516
 msgid "Build New City"
 msgstr "Построить новый город"
 
 #: client/gui-gtk-2.0/mapctrl.c:269 client/gui-gtk/mapctrl.c:259
-#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:426
+#: client/gui-mui/mapctrl.c:82 client/gui-win32/mapctrl.c:437
 #: client/gui-xaw/mapctrl.c:94
 msgid "What should we call our new city?"
 msgstr "Как нам назвать новый город?"
@@ -8842,11 +8864,6 @@ msgstr "Экспортировать журнал"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Очистить журнал"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "Отсоединиться"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9029,38 +9046,38 @@ msgstr "Приказы"
 msgid "Orders"
 msgstr "Приказы"
 
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1088
-#: client/gui-gtk-2.0/menu.c:1091 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "Построить город"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1101
-#: client/gui-gtk-2.0/menu.c:1107 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Построить дорогу"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1028
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Построить орошение"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1029
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Построить шахту"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1030
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Преобразовать рельеф"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1139
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9071,7 +9088,7 @@ msgstr "Построить крепость"
 msgid "Build Airbas_e"
 msgstr "Построить аэродром"
 
-#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:655 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9102,7 +9119,7 @@ msgstr "Разгрузить"
 msgid "Wake up o_thers"
 msgstr "Разбудить других"
 
-#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:675 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "Авто Колонисты"
@@ -9344,50 +9361,50 @@ msgstr "Копирование"
 msgid "_About"
 msgstr "О программе"
 
-#: client/gui-gtk-2.0/menu.c:1020 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Изменить в %s"
 
-#: client/gui-gtk-2.0/menu.c:1021 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Изменить в %s"
 
-#: client/gui-gtk-2.0/menu.c:1022 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Трансформировать в %s"
 
-#: client/gui-gtk-2.0/menu.c:1083 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Помочь построить чудо"
 
-#: client/gui-gtk-2.0/menu.c:1086 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Добавить к городу"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Установить торговый путь"
 
-#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Посроить железную дорогу"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Построить ферму"
 
-#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "Укрепить"
 
-#: client/gui-gtk-2.0/menu.c:1142 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "Сбросить с парашютом"
 
-#: client/gui-gtk-2.0/menu.c:1147 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "Авто атаковать"
 
@@ -9700,6 +9717,11 @@ msgstr "Список работ - цель:"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "Добавить глобальный список работ"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+#, fuzzy
+msgid "Chan_ge Production"
+msgstr "Изменить производство"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -13259,9 +13281,9 @@ msgid ""
 "to reach 0 hit points (or negative hit points) loses. "
 msgstr ""
 "После этих приготовлений происходит сражение, до тех пор пока оба соединения "
-"все еще живы (т.е. имеют здоровье > 0). В каждом раунде генерируется случайное "
-"число между 1 и суммой силы атакующего и защитника. Если это число больше, "
-"чем сила защитника, то защитник теряет здоровье равное огневой мощи "
+"все еще живы (т.е. имеют здоровье > 0). В каждом раунде генерируется "
+"случайное число между 1 и суммой силы атакующего и защитника. Если это число "
+"больше, чем сила защитника, то защитник теряет здоровье равное огневой мощи "
 "атакующего (за исключением случая, когда атакующий - корабль, бомбардирующий "
 "наземное соединение, в этом случае защитник теряет только 1 очко здоровья). "
 "В противном случае атакующий теряет здоровье, равное огневой мощи защитника "
@@ -13343,8 +13365,7 @@ msgstr ""
 
 #: data/helpdata.txt:999
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr ""
-"Оба соединения сохраняют значение огневой мощи, равное 1, неизменным."
+msgstr "Оба соединения сохраняют значение огневой мощи, равное 1, неизменным."
 
 #: data/helpdata.txt:1002
 #, no-c-format
@@ -13422,9 +13443,9 @@ msgid ""
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
 msgstr ""
-"В каждом раунде генерируется случайное число от 1 до 405. Если оно больше чем "
-"225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. "
-"В противном случае, атакующий теряет 1 очко здоровья."
+"В каждом раунде генерируется случайное число от 1 до 405. Если оно больше "
+"чем 225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. В "
+"противном случае, атакующий теряет 1 очко здоровья."
 
 #: data/helpdata.txt:1055
 #, no-c-format
@@ -14575,7 +14596,8 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Космические модули - это самые дорогие части космического корабля. Существуют 3 типа космических модулей:\n"
+"Космические модули - это самые дорогие части космического корабля. "
+"Существуют 3 типа космических модулей:\n"
 "- Жилой модуль: предоставляет место для жизни 10,000 чесловек/\n"
 "\n"
 "- Модуль поддержки: предоставляет еду и воду для населения жилого модуля.\n"
@@ -14583,7 +14605,8 @@ msgstr ""
 "- Солнечная батарея: предоставляет энергию для любых 2 других модулей.\n"
 "\n"
 "Вы можете построить до 4 модулей каждого типа.\n"
-"Прежде, чем вы сможете строить любые части космического корабля, чудо \"Программа Аполлон\" должно быть построено любым игроком."
+"Прежде, чем вы сможете строить любые части космического корабля, чудо "
+"\"Программа Аполлон\" должно быть построено любым игроком."
 
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:989
 #: data/civ1/buildings.ruleset:998 data/history/buildings.ruleset:1009
@@ -15372,8 +15395,7 @@ msgid ""
 "act content, and will not cause disorder.)"
 msgstr ""
 "При Деспотизме Вы - абсолютный монарх. Контроль над жителями \n"
-"поддерживается, в основном, военным положением"
-"\n"
+"поддерживается, в основном, военным положением\n"
 "Уровень коррупции при деспотизме выше, чем при всех прочих формах "
 "правления.\n"
 "\n"
@@ -15386,8 +15408,8 @@ msgstr ""
 "Каждый город может бесплатно поддеживать столько соединений, каков размер "
 "города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"Вы можете использовать военное положение: каждое военное соединение в "
-"городе делает одного несчастного жителя нейтральным."
+"Вы можете использовать военное положение: каждое военное соединение в городе "
+"делает одного несчастного жителя нейтральным."
 
 #: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
 #: data/civ1/governments.ruleset:243 data/history/governments.ruleset:244
@@ -15452,11 +15474,11 @@ msgstr ""
 "соединений.  (Каждая дополнительная единица требует по одному ресурсу.)\n"
 "\n"
 "Вы можете использовать ограниченное военное положение: каждое военное "
-"соединение в городе (до максимума в 3 соединения) делает одного "
-"несчастного жителя нейтральным."
+"соединение в городе (до максимума в 3 соединения) делает одного несчастного "
+"жителя нейтральным."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15464,7 +15486,7 @@ msgstr "Коммунизм"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Товарищ"
@@ -15499,9 +15521,9 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"Коммунизм основывается на той идее, что все люди равны. Собственником "
-"всех товаров является государство, а не частные граждане. Коммунизм "
-"дает баланс между военным и коммерческим стилем управления\n"
+"Коммунизм основывается на той идее, что все люди равны. Собственником всех "
+"товаров является государство, а не частные граждане. Коммунизм дает баланс "
+"между военным и коммерческим стилем управления\n"
 "\n"
 "При Коммунизме коррупция не варьируется в зависимости от расстояния до "
 "столицы; все города (включая столицу) имеют одинаковый уровень коррупции.  "
@@ -15511,9 +15533,9 @@ msgstr ""
 "\n"
 "Колонисты потребляют одну единицу пищи за ход.\n"
 "\n"
-"Если в Коммунистическом городе проходит празднование, то город "
-"получает бонус в 1 единицу торговли на каждый квадрат, который уже "
-"производит по меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
+"Если в Коммунистическом городе проходит празднование, то город получает "
+"бонус в 1 единицу торговли на каждый квадрат, который уже производит по "
+"меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
 "\n"
 "Максимальный уровень налогов, науки или роскоши, который Вы можете "
 "установить, равен 80%.\n"
@@ -15524,17 +15546,17 @@ msgstr ""
 "соединений.  (Каждая дополнительная единица требует по одному ресурсу).\n"
 "\n"
 "Вы можете использовать ограниченное (но эффективное) военное положение: "
-"каждое военное соединение в городе (до максимума в 3 соединения) делает "
-"двух несчастных жителей нейтральными."
+"каждое военное соединение в городе (до максимума в 3 соединения) делает двух "
+"несчастных жителей нейтральными."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Республика"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Консул"
@@ -15570,19 +15592,19 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"При Республиканском правительстве граждане выбирают представителей, "
-"которые будут управлять ими; так как избранный лидер должен сохранять "
-"популярность, чтобы не потерять управление, граждане получают большую "
-"степень свободы.  Жители при Республике легко становятся несчастными, "
-"но самодостаточность Ваших граждан позволяет больший уровень торговли.\n"
+"При Республиканском правительстве граждане выбирают представителей, которые "
+"будут управлять ими; так как избранный лидер должен сохранять популярность, "
+"чтобы не потерять управление, граждане получают большую степень свободы.  "
+"Жители при Республике легко становятся несчастными, но самодостаточность "
+"Ваших граждан позволяет больший уровень торговли.\n"
 "\n"
 "Города при Республике слабо подвержены коррупции.\n"
 "\n"
 "Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
 "крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Республиканском городе проходит празднование, то город "
-"растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Республиканском городе проходит празднование, то город растет со "
+"скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
 "Максимальный уровень налогов, науки или роскоши, который Вы можете "
 "установить, равен 80%.\n"
@@ -15593,14 +15615,14 @@ msgstr ""
 "- Соединения с атакой большей 0, которые находятся вне городов и вне "
 "крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
 "\n"
-"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) "
-"с атакой большей 0, независимо от их местоположения.\n"
+"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) с "
+"атакой большей 0, независимо от их местоположения.\n"
 "\n"
 "Горожане спокойно относятся к одному агрессивному соединению; каждое "
 "последующее агрессивное соединение делает одного горожанина несчастным."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15608,7 +15630,7 @@ msgstr "Демократия"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15656,15 +15678,15 @@ msgid ""
 "Diplomats and Spies."
 msgstr ""
 "При Демократии граждане непосредственно управляют государством прямым "
-"голосованием по вопросам. Демократия дает высочайший уровень торговли, "
-"но также дает и наибольшее потенциальное несчастье.  При Демократии нет "
+"голосованием по вопросам. Демократия дает высочайший уровень торговли, но "
+"также дает и наибольшее потенциальное несчастье.  При Демократии нет "
 "коррупции, но жители очень часто теряют спокойствие во время войн.\n"
 "\n"
 "Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
 "крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Демократическом городе проходит празднование, то город "
-"растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Демократическом городе проходит празднование, то город растет со "
+"скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
 "Максимальный уровень налогов, науки или роскоши, который Вы можете "
 "установить, равен 100%.\n"
@@ -15679,13 +15701,13 @@ msgstr ""
 "- Находящиеся в городе воздушные соединения с атакой большей 0 делают "
 "несчастным только одного жителя.  Истребители не вызывают несчастья.\n"
 "\n"
-"Если беспорядки в городе длятся более 2 ходов, граждане спонтанно бунтуют "
-"и погружают Вашу цивилизацию в Анархию.\n"
+"Если беспорядки в городе длятся более 2 ходов, граждане спонтанно бунтуют и "
+"погружают Вашу цивилизацию в Анархию.\n"
 "\n"
-"Поскольку (счастливые) граждане Демократии сильно доверяют правительству, "
-"их лояльность неизменна.  Военные соединения демократических цивилизаций "
-"не могут быть подкуплены, а демократические города не могут быть склонены "
-"к бунту вражескими Дипломатами и Шпионами."
+"Поскольку (счастливые) граждане Демократии сильно доверяют правительству, их "
+"лояльность неизменна.  Военные соединения демократических цивилизаций не "
+"могут быть подкуплены, а демократические города не могут быть склонены к "
+"бунту вражескими Дипломатами и Шпионами."
 
 #: data/civ2/governments.ruleset:356 data/history/governments.ruleset:357
 msgid ""
@@ -15717,9 +15739,9 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"Коммунизм основывается на той идее, что все люди равны. Собственником "
-"всех товаров является государство, а не частные граждане. Коммунизм "
-"дает баланс между военным и коммерческим стилем управления\n"
+"Коммунизм основывается на той идее, что все люди равны. Собственником всех "
+"товаров является государство, а не частные граждане. Коммунизм дает баланс "
+"между военным и коммерческим стилем управления\n"
 "\n"
 "При Коммунизме коррупция не варьируется в зависимости от расстояния до "
 "столицы; все города (включая столицу) имеют скромный уровень коррупции.  "
@@ -15729,9 +15751,9 @@ msgstr ""
 "\n"
 "Колонисты потребляют две единицы пищи за ход.\n"
 "\n"
-"Если в коммунистическом городе проходит празднование, то город "
-"получает бонус в 1 единицу торговли на каждый квадрат, который уже "
-"производит по меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
+"Если в коммунистическом городе проходит празднование, то город получает "
+"бонус в 1 единицу торговли на каждый квадрат, который уже производит по "
+"меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
 "\n"
 "Максимальный уровень налогов, науки или роскоши, который Вы можете "
 "установить, равен 80%.\n"
@@ -15742,8 +15764,8 @@ msgstr ""
 "соединений.  (Каждая дополнительная единица требует по одному ресурсу.)\n"
 "\n"
 "Вы можете использовать ограниченное (но эффективное) военное положение: "
-"каждое военное соединение в городе (до максимума в 3 соединения) делает "
-"двух несчастных жителей нейтральными."
+"каждое военное соединение в городе (до максимума в 3 соединения) делает двух "
+"несчастных жителей нейтральными."
 
 #: data/civ2/governments.ruleset:390 data/default/techs.ruleset:236
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
@@ -15789,10 +15811,10 @@ msgid ""
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
-"Фундаментализм - форма правления, при которой вся жизнь граждан "
-"организована на основе блока убеждений. Убеждения, чаще всего религиозные, "
-"образуют жесткую руководящую линию для действий и воздействий как "
-"правителей, так и народа.\n"
+"Фундаментализм - форма правления, при которой вся жизнь граждан организована "
+"на основе блока убеждений. Убеждения, чаще всего религиозные, образуют "
+"жесткую руководящую линию для действий и воздействий как правителей, так и "
+"народа.\n"
 "\n"
 "В фундаменталистском обществе народ и правители полностью преданы своим "
 "убеждениям и скорее умрут, нежели изменят им.\n"
@@ -15803,9 +15825,9 @@ msgstr ""
 "\n"
 "Колонисты потребляют две единицы пищи за ход.\n"
 "\n"
-"Если в фундаменталистском городе проходит празднование, то город "
-"получает бонус в 1 единицу торговли на каждый квадрат, который уже "
-"производит по меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
+"Если в фундаменталистском городе проходит празднование, то город получает "
+"бонус в 1 единицу торговли на каждый квадрат, который уже производит по "
+"меньшей мере 1 единицу торговли.  См. раздел Счастье.\n"
 "\n"
 "Максимальный уровень налогов, науки или роскоши, который Вы можете "
 "установить, равен 80%.\n"
@@ -15841,8 +15863,8 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"При Деспотизме Вы - абсолютный монарх. Контроль над жителями "
-"поддерживается, в основном, военным положением.\n"
+"При Деспотизме Вы - абсолютный монарх. Контроль над жителями поддерживается, "
+"в основном, военным положением.\n"
 "\n"
 "Уровень коррупции при деспотизме выше, чем при всех прочих формах "
 "правления.\n"
@@ -15854,10 +15876,11 @@ msgstr ""
 "Каждый город может бесплатно поддеживать столько соединений, каков размер "
 "города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"Вы можете использовать военное положение: каждое военное соединение в "
-"городе делает одного несчастного жителя нейтральным."
+"Вы можете использовать военное положение: каждое военное соединение в городе "
+"делает одного несчастного жителя нейтральным."
 
 #: data/civ1/governments.ruleset:286
+#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15875,8 +15898,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "При Монархии король или королева служит наследственным лидером Вашего "
 "правительства.\n"
@@ -15893,10 +15916,10 @@ msgstr ""
 "соединений.  (Каждая дополнительная единица требует по одному ресурсу.)\n"
 "\n"
 "Вы можете использовать ограниченное военное положение: каждое военное "
-"соединение в городе (до максимума в 3 соединения) делает одного "
-"несчастного жителя нейтральным."
+"соединение в городе (до максимума в 3 соединения) делает одного несчастного "
+"жителя нейтральным."
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15924,9 +15947,9 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Коммунизм основывается на той идее, что все люди равны. Собственником "
-"всех товаров является государство, а не частные граждане. Коммунизм "
-"дает баланс между военным и коммерческим стилем управления\n"
+"Коммунизм основывается на той идее, что все люди равны. Собственником всех "
+"товаров является государство, а не частные граждане. Коммунизм дает баланс "
+"между военным и коммерческим стилем управления\n"
 "\n"
 "При Коммунизме коррупция не варьируется в зависимости от расстояния до "
 "столицы; все города (включая столицу) имеют скромный уровень коррупции.  "
@@ -15951,7 +15974,7 @@ msgstr ""
 "Вы можете использовать военное положение: каждое военное соединение в городе "
 "делает двух несчастных жителей нейтральными."
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15979,19 +16002,19 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"При Республиканском правительстве граждане выбирают представителей, "
-"которые будут управлять ими; так как избранный лидер должен сохранять "
-"популярность, чтобы не потерять управление, граждане получают большую "
-"степень свободы.  Жители при Республике легко становятся несчастными, "
-"но самодостаточность Ваших граждан позволяет больший уровень торговли.\n"
+"При Республиканском правительстве граждане выбирают представителей, которые "
+"будут управлять ими; так как избранный лидер должен сохранять популярность, "
+"чтобы не потерять управление, граждане получают большую степень свободы.  "
+"Жители при Республике легко становятся несчастными, но самодостаточность "
+"Ваших граждан позволяет больший уровень торговли.\n"
 "\n"
 "Города при Республике слабо подвержены коррупции.\n"
 "\n"
 "Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
 "крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Республиканском городе проходит празднование, то город "
-"растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Республиканском городе проходит празднование, то город растет со "
+"скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
 "При Республике каждое военное соединение требует поддержки в один ресурс.  "
 "Вдобавок, следующие соединения считаются агрессивными:\n"
@@ -16005,7 +16028,7 @@ msgstr ""
 "Горожане спокойно относятся к одному агрессивному соединению; каждое "
 "последующее агрессивное соединение делает одного горожанина несчастным."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -16038,15 +16061,15 @@ msgid ""
 "Diplomats and Spies."
 msgstr ""
 "При Демократии граждане непосредственно управляют государством прямым "
-"голосованием по вопросам. Демократия дает высочайший уровень торговли, "
-"но также дает и наибольшее потенциальное несчастье.  При Демократии нет "
+"голосованием по вопросам. Демократия дает высочайший уровень торговли, но "
+"также дает и наибольшее потенциальное несчастье.  При Демократии нет "
 "коррупции, но жители очень часто теряют спокойствие во время войн.\n"
 "\n"
 "Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
 "крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Демократическом городе проходит празднование, то город "
-"растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Демократическом городе проходит празднование, то город растет со "
+"скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
 "При Демократии каждое военное соединение требует поддержки в один ресурс.  "
 "Вдобавок, следующие соединения делают граждан несчастными:\n"
@@ -16058,13 +16081,13 @@ msgstr ""
 "- Находящиеся в городе воздушные соединения с атакой большей 0 делают "
 "несчастным только одного жителя.\n"
 "\n"
-"Если беспорядки в городе длятся более 2 ходов, граждане спонтанно бунтуют "
-"и погружают Вашу цивилизацию в Анархию.\n"
+"Если беспорядки в городе длятся более 2 ходов, граждане спонтанно бунтуют и "
+"погружают Вашу цивилизацию в Анархию.\n"
 "\n"
-"Поскольку (счастливые) граждане Демократии сильно доверяют правительству, "
-"их лояльность неизменна.  Военные соединения демократических цивилизаций "
-"не могут быть подкуплены, а демократические города не могут быть склонены "
-"к бунту вражескими Дипломатами и Шпионами."
+"Поскольку (счастливые) граждане Демократии сильно доверяют правительству, их "
+"лояльность неизменна.  Военные соединения демократических цивилизаций не "
+"могут быть подкуплены, а демократические города не могут быть склонены к "
+"бунту вражескими Дипломатами и Шпионами."
 
 #: data/default/techs.ruleset:56 data/civ2/techs.ruleset:49
 #: data/civ1/techs.ruleset:49 data/history/techs.ruleset:56
@@ -16836,8 +16859,8 @@ msgstr ""
 "Инженеры двигаются и строят вдвое быстрее колонистов, а так же могут "
 "выполнять преобразование ландшафта\n"
 "\n"
-"Совет: Модернизируйте колонистов до инженеров как можно быстрее, т.к. "
-"они потребляют столько же пищи, а работают быстрее.\n"
+"Совет: Модернизируйте колонистов до инженеров как можно быстрее, т.к. они "
+"потребляют столько же пищи, а работают быстрее.\n"
 "\n"
 "Совет: Если Вы построили Мастерскую Леонардо, исследуйте Взрывчатые Вещества "
 "прежде, чем мастерская устареет. Вам модернизируют колонистов бесплатно."
@@ -17181,8 +17204,8 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Вы можете строить ядерные соединения, если Вы открыли требуемую технологию "
-"и любой из игроков построил чудо Проект Манхэттен.\n"
+"Вы можете строить ядерные соединения, если Вы открыли требуемую технологию и "
+"любой из игроков построил чудо Проект Манхэттен.\n"
 "\n"
 "Вкратце, взрыв уничтожит всякое соединение в области размером 3x3 квадрата, "
 "включая дружественные соединения.  При ударе по городу, его размер "
@@ -17193,10 +17216,10 @@ msgstr ""
 "\n"
 "Совет 2:  Вы можете оказаться в ситуации, когда Вы заводнили вражескую "
 "страну своими силами, но вражеские города слишком сильны. Перед "
-"использованием Ядерных соединений соберите партию Колонистов и/или "
-"Инженеров рядом с городом и держите их в готовности устранить выбросы "
-"после взрыва в течение того же хода, когда он и произошел!  Это "
-"минимизирует шансы наступления ядерной зимы.  Взрыв с экологическим лицом!"
+"использованием Ядерных соединений соберите партию Колонистов и/или Инженеров "
+"рядом с городом и держите их в готовности устранить выбросы после взрыва в "
+"течение того же хода, когда он и произошел!  Это минимизирует шансы "
+"наступления ядерной зимы.  Взрыв с экологическим лицом!"
 
 #: data/default/units.ruleset:1534 data/civ2/units.ruleset:1471
 #: data/civ1/units.ruleset:1420 data/history/units.ruleset:1534
@@ -17268,15 +17291,15 @@ msgstr ""
 "Шпион - стопроцентный профессионал, обладающий гораздо большими "
 "возможностями в искусстве шпионажа, нежели его предшественник Дипломат.\n"
 "\n"
-"Самыми безобидными возможностями в репертуаре Шпиона являются его способности "
-"исследовать города (открывая детальную информацию) и основывать посольства. "
-"Однако, если Ваш Шпион получил репутацию тайного деятеля, при попытке "
-"основать посольство он будет казнен.\n"
+"Самыми безобидными возможностями в репертуаре Шпиона являются его "
+"способности исследовать города (открывая детальную информацию) и основывать "
+"посольства. Однако, если Ваш Шпион получил репутацию тайного деятеля, при "
+"попытке основать посольство он будет казнен.\n"
 "\n"
 "Он также может: отравить воду во вражеском городе (уменьшив его население); "
-"украсть указанную технологию; саботировать производство в городе (примечание: "
-"саботирование здания в столице или Городских Стен увеличивает риск захвата). "
-"Шпион также может просочиться в город и вызвать восстание.\n"
+"украсть указанную технологию; саботировать производство в городе "
+"(примечание: саботирование здания в столице или Городских Стен увеличивает "
+"риск захвата). Шпион также может просочиться в город и вызвать восстание.\n"
 "\n"
 "Шпион может быть полезен и на поле боя - в саботировании вражеских юнитов "
 "путем вербовки к смене сюзерена."
@@ -18184,9 +18207,6 @@ msgstr "Зулусы"
 
 #~ msgid " What Nation Will You Be?"
 #~ msgstr "Какой нацией Вы будете?"
-
-#~ msgid "Game: "
-#~ msgstr "Игра: "
 
 #~ msgid "Game: %s is now AI-controlled."
 #~ msgstr "Игра: %s сейчас контролируeтся компьютером."
