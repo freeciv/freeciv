@@ -53,7 +53,7 @@ static void check_specials(void)
     if (contains_special(special, S_IRRIGATION))
       assert(get_tile_type(terrain)->irrigation_result == terrain);
 
-    assert(terrain >= T_ARCTIC && terrain < T_UNKNOWN);
+    assert(terrain >= T_FIRST && terrain < T_COUNT);
   } whole_map_iterate_end;
 }
 

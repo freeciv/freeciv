@@ -1183,7 +1183,7 @@ static void load_ruleset_buildings(struct section_file *file)
     k = 0;
     for (j = 0; j < count; j++) {
       b->terr_gate[k] = get_terrain_by_name(list[j]);
-      if (b->terr_gate[k] >= T_UNKNOWN) {
+      if (b->terr_gate[k] == T_UNKNOWN) {
 	freelog(LOG_ERROR,
 		"for %s terr_gate[%d] couldn't match terrain \"%s\" (%s)",
 		b->name, j, list[j], filename);
@@ -1394,7 +1394,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	  e->aff_terr = T_LAST;
 	} else {
 	  e->aff_terr = get_terrain_by_name(item);
-	  if (e->aff_terr >= T_UNKNOWN) {
+	  if (e->aff_terr == T_UNKNOWN) {
 	    freelog(LOG_ERROR,
 		    "for %s effect[%d].aff_terr couldn't match terrain \"%s\" (%s)",
 		    b->name, j, item, filename);

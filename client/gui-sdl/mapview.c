@@ -99,7 +99,7 @@ SDL_Surface *pDitherMask;
 
 static SDL_Surface *pOcean_Tile;
 static SDL_Surface *pOcean_Foged_Tile;
-static SDL_Surface *pDithers[T_LAST][4];
+static SDL_Surface *pDithers[MAX_NUM_TERRAINS][4];
 
 static enum {
   NORMAL = 0,
@@ -3257,8 +3257,7 @@ static void init_dither_tiles(void)
   SDL_FillRect(pBuf, NULL, color);
   SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, color);
   
-  for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
-  {
+  for (terrain = T_FIRST; terrain < T_COUNT; terrain++) {
     
     if (terrain == T_RIVER || is_ocean(terrain) || terrain == T_UNKNOWN)
     {
@@ -3328,8 +3327,7 @@ static void free_dither_tiles(void)
   Terrain_type_id terrain;
   int i;
     
-  for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
-  {
+  for (terrain = T_FIRST; terrain < T_COUNT; terrain++) {
     for(i = 0; i < 4; i++)
     {
       FREESURFACE(pDithers[terrain][i]);
@@ -3345,8 +3343,8 @@ static void clear_dither_tiles(void)
 {
   Terrain_type_id terrain;
   int i;
-  for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
-  {
+
+  for (terrain = T_FIRST; terrain < T_COUNT; terrain++) {
     for(i = 0; i < 4; i++)
     {
       pDithers[terrain][i] = NULL;

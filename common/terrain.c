@@ -24,7 +24,7 @@
 #include "support.h"
 #include "terrain.h"
 
-struct tile_type tile_types[T_LAST];
+struct tile_type tile_types[MAX_NUM_TERRAINS];
 
 /***************************************************************
 ...
@@ -34,18 +34,20 @@ struct tile_type *get_tile_type(Terrain_type_id type)
   return &tile_types[type];
 }
 
-/***************************************************************
-...
-***************************************************************/
-Terrain_type_id get_terrain_by_name(const char * name)
+/****************************************************************************
+  Return the terrain type matching the name, or T_UNKNOWN if none matches.
+****************************************************************************/
+Terrain_type_id get_terrain_by_name(const char *name)
 {
   Terrain_type_id tt;
+
   for (tt = T_FIRST; tt < T_COUNT; tt++) {
     if (0 == strcmp (tile_types[tt].terrain_name, name)) {
-      break;
+      return tt;
     }
   }
-  return tt;
+
+  return T_UNKNOWN;
 }
 
 /***************************************************************
