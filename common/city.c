@@ -733,6 +733,18 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
   return bonus;
 }
 
+/**************************************************************************
+ Return number of trade route city has
+**************************************************************************/
+int city_num_trade_routes(struct city *pcity)
+{
+  int i,n;
+  for(i=0,n=0; i<4; i++)
+    if(pcity->trade[i]) n++;
+  
+  return n;
+}
+
 /*************************************************************************
 Calculate amount of gold remaining in city after paying for buildings
 *************************************************************************/

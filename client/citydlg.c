@@ -198,6 +198,9 @@ void refresh_city_dialog(struct city *pcity)
     city_dialog_update_building(pdialog);
     city_dialog_update_storage(pdialog);
     city_dialog_update_pollution(pdialog);
+
+    XtSetSensitive(pdialog->trade_command,
+    		   city_num_trade_routes(pcity)?True:False);
   }
   if(pcity->owner == game.player_idx)  {
     city_report_dialog_update_city(pcity);

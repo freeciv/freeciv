@@ -204,6 +204,7 @@ int get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
 /* trade functions */
 int can_establish_trade_route(struct city *pc1, struct city *pc2);
 int trade_between_cities(struct city *pc1, struct city *pc2);
+int city_num_trade_routes(struct city *pcity);
 
 /* list functions */
 struct city *find_city_by_id(int id);
