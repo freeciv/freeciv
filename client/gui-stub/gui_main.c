@@ -19,6 +19,7 @@
 
 #include "fciconv.h"
 
+#include "civclient.h"
 #include "options.h"
 
 #include "gui_main.h"
