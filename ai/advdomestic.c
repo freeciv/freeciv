@@ -246,12 +246,12 @@ void ai_eval_buildings(struct city *pcity)
   bar = j / k;
 
   if (!built_elsewhere(pcity, B_SUNTZU)) { /* yes, I want can, not could! */
-    if (can_build_improvement(pcity, B_BARRACKS))
-      values[B_BARRACKS] = bar;
-    if (can_build_improvement(pcity, B_BARRACKS2))
-      values[B_BARRACKS2] = bar;
     if (can_build_improvement(pcity, B_BARRACKS3))
       values[B_BARRACKS3] = bar;
+    else if (can_build_improvement(pcity, B_BARRACKS2))
+      values[B_BARRACKS2] = bar;
+    else if (can_build_improvement(pcity, B_BARRACKS))
+      values[B_BARRACKS] = bar;
   }
 
   if (could_build_improvement(pcity, B_CAPITAL))
