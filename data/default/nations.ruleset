@@ -41,9 +41,9 @@ options="1.9"
 ;
 ; cities        = city names, of course :-)
 ;
-;
-; section [misc] currently contains cities suggested when
-; you run out of default cities for your nation
+; Section [misc] currently contains cities suggested when you run out of
+; default cities for your nation. See doc/README.rulesets for information
+; on marking up cities with terrain information.
 ;
 
 ; Note: do not change the following order for default nations.ruleset,

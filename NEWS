@@ -1,14 +1,69 @@
 =======================
-Welcome to Freeciv 1.12
+Welcome to Freeciv 1.13
 =======================
 
-This is release 1.12.0.
+This is release 1.13.0.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.12.0
+
+ - Citizen Management Agent (CMA) allows you to automate workers
+   and specialists in cities.
+ - Sound support has been added.
+ - The new "isotrident" tileset has been made the default. The
+   "hires" and "engels" tilesets have been taken out of the
+   distribution but can be downloaded from the web page.
+ - New city dialog in the gtk client.
+ - Windows version of the client. It has improved connection
+   dialog and supports loading and saving from the client.
+ - GTK 2.0 version of the client.
+ - The client will try to suggest names for your cities that 
+   correspond with what they mean.
+ - Server no longer takes the --server command line option,
+   instead you can use the --info option to set the metaserver
+   announcement text to whatever you like. The -a option when given
+   to the client skips the connection dialog entirely.
+ - A "wall" server command added which gives message to all players.
+ - A new flexible timeout set through "timeoutinc" server option.
+ - Leftover research bulbs will carry over to next advance.
+ - Trade routes are more effective.
+ - Units attacking ships in cities double their firepower, while 
+   defenders get only 1 firepower.
+ - Helicopters defending against air units get 50% penalty, and
+   have their firepower reduced to 1 against fighter units.
+ - You can build city walls even though you have Great Wall wonder.
+ - The Communism government's food cost in default ruleset has
+   been changed to 1, while it has been changed to 2 for the Civ2
+   ruleset. 
+ - Civ2 ruleset now has Fundamentalism.
+ - Improved modpack abilities: The caravan ability has been split.
+   New ways to calculate technology costs. Better documentation.
+   Rulesets can specify starting techs. You can have more than one
+   bonus tech. Split settler abilities. Buildings ruleset syntax
+   has been significantly extended, but effects do not work yet.
+ - Server option "tinyisles" allow 1x1 size islands and 
+   "separatepoles" allow continents connected to the poles
+ - "citymindist" specify minimum distance between cities, while 
+   "notradesize" and "fulltradesize" regulate the trade generated 
+   by smaller cities.
+ - You can turn on angry citizens with "angrycitizens" option.
+ - Fortresses may give you extended vision. See watchtower options.
+ - If you lose your palace, you get a new one for free in a 
+   randomly chosen city. This behaviour can be turned off with the
+   server option "savepalace".
+ - Rulesets are now loaded from inside the server through the
+   "rulesetdir" command.
+ - The limit on the number of nations that can be included with 
+   Freeciv has been removed.
+ - The format of the isometric tileset spec-files has changed.
+ - The map and ai code has been cleaned up significantly.
+ - Translations improved. Added better support for plural forms.
+ - Several bugs squished and a lot of work done under the hood.
 
 WHAT'S CHANGED SINCE 1.11.4
 

@@ -129,6 +129,44 @@ self-explanatory.  A few points:
   (This complicated setup is so that the AI calculations don't 
   blow up when using Civ1 rulesets.)
 
+- The cities section of the nations ruleset files deserves some
+  explanation.  At first glance, it simply contains a comma-
+  separated list of quoted city names.  However, this list can
+  also be used to label cities by their preferred terrain type.
+  Cities can be labeled as matching or not matching a particular
+  type of terrain, which will make them more (or less) likely to
+  show up as the "default" name.  The exact format of the list
+  entry is
+
+	"<cityname> (<label>, <label>, ...)"
+
+  where the cityname is just the name for the city (note that it
+  may not contain quotes or parenthesis), and each "label" matches
+  (case-insensitive) a terrain type for the city (or "river"), with a
+  preceeding !, -, or ~ to negate it.  The terrain list is optional, of
+  course, so the entry can just contain the cityname if desired.  A city
+  name labeled as matching a terrain type will match a particular map
+  location if that map location is on or adjacent to a tile of the named
+  terrain type; in the case of the "river" label (which is a special
+  case) only the map location itself is considered.  A complex example:
+
+    "Wilmington (ocean, river, swamp, forest, !hills, !mountains, !desert)"
+
+  will cause the city of Wilmington to match ocean, river, swamp, and
+  forest tiles while rejecting hills, mountains, and deserts.  Although
+  this degree of detail is probably unnecessary to achieve the desired
+  effect, the system is designed to degrade smoothly so it should work
+  just fine.
+
+  (A note on scale: it might be tempting to label London as !ocean, i.e.
+  not adjacent to an ocean.  However, on a reasonably-sized FreeCiv world
+  map, London will be adjacent to the ocean; labeling it !ocean will tend
+  to give bad results.  This is a limitation of the system, and should be
+  taken into account when labelling cities.)
+
+  Also note that a city earlier in the list has a higher chance of being
+  chosen than later cities.
+
 Properties of units and advances are now fairly well generalised.
 Properties of buildings are still rather inflexible.
 

@@ -7,6 +7,7 @@ CONTENTS
 ========
 Introduction
 Contacting the current AI developers
+Long-term AI development goals
 Want calculations
 Amortize
 Estimation of profit from a military operation
@@ -56,6 +57,39 @@ freeciv-ai@freeciv.org, or go to
   http://www.freeciv.org/mailinglists.html
 
 to read the archives or to join up.
+
+
+LONG-TERM AI DEVELOPMENT GOALS
+==============================
+
+The long-term goals for Freeciv AI development are
+ -> to create a challenging and fun AI for human players to defeat
+ -> to create modular AI code that can easily be assembled into new AI
+    clients
+ -> to have multiple different AI clients compete against each other
+
+In order to get to this point, the current AI code will be moved from the
+server and to the client. This requires that the AI code is separated
+completely from the server, and that clients get the (optional) 
+possibility of an omniscience cheat.
+
+An important step is to move the goto code into the client. Also, the
+current CMA agent will split out its core calculations for use in
+client-side AI that do not use agents.
+
+The final directory structure should look like this:
+
+ client/agents      - this is agent territory
+ client/ai          - this is where AI implementations go
+ client/ai/common   - this is where common AI code should go
+ client/ai/XYZ      - AI implementation named XYZ
+
+ server/            - no AI code allowed
+ ai/                - removed
+
+While code is being moved and integrated, we will link the AI in the
+server with client/ai/common/libaicommon.a and client/ai/XYZ/libxyz.a, 
+making a gradual progress of files and features possible.
 
 
 WANT CALCULATIONS
@@ -284,6 +318,28 @@ there.
 * AI autoattack is never activated (probably a good thing too) (PR#1340)
 * AI sometimes believes that wasting a horde of weak military units to
 kill one enemy is profitable (PR#1340)
+* Stop building ships and shore defense in landlocked cities with a
+pond adjacent.
+* Make the AI building evaluation code use the new buildings.ruleset.
+* Create a function that gives a statistically exact value for a units
+chance of winning a battle.  [Now done.  What about expected number
+of hit points remaing, or the variance?  Can we come up with clever
+ways for the ai to use this information?]
+* Make a function that can generate a warmap for airplanes.
+* Convert the ai_manage_diplomat() function to use the warmap.
+* Make the AI respect FoW. (They don't get much bigger than this...)
+* Move goto code to common code
+* Teach the AI to Fortify units in non-city strategic positions. Also, it
+needs to not idle all it's units every turn, breaking 2 turn fortify.
+* Teach the AI to leave units alone in a turn to regain hit points. (it
+seems to have no concept of this at all!)
+* Stop the AI from trying to buy capitalization...
+* Fix the AI valuation of supermarket. (It currently never builds it).
+See farmland_food() and ai_eval_buildings() in advdomestic.c
+* Teach the AI to coordinate the units in an attack (ok, this one is a bit
+big...)
+* Teach the AI to use ferryboats to transport explorers to unexplored land.
+See ai_manage_explorer() and ai_manage_ferryboat().
 
 
 THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)

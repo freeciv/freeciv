@@ -1,5 +1,5 @@
 ====================
-Freeciv Version 1.12
+Freeciv Version 1.13
 ====================
 
 Welcome to Freeciv!
@@ -231,10 +231,8 @@ there, start civserver with the '--meta' option, or just '-m' for short.
 Caveats:
 
  1) Due to the inclusion of new features, different client and server
-    versions are often incompatible.  Not all incompatibilities
-    can be caught and reported properly.  One example is a 1.8.0 (or
-    later) client connecting to a 1.7.2 server: the client appears
-    to connect, but it never gets any messages from the server.
+    versions are often incompatible. The 1.13.0 version is for example
+    incompatible with 1.12.0 or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make civclient
@@ -242,13 +240,9 @@ Caveats:
     if the proxy is proxy.myisp.com port 8888, set $http_proxy
     to http://proxy.myisp.com:8888/ before starting the client.
 
- 3) Sometimes there are no games on the metaserver.  This may be
-    partly because the metaserver has changed hosts, and previous
-    Freeciv versions do not know about the new address.  Also, games
-    no longer show up on the metaserver by default, instead people
-    have to deliberately use '--meta'.  If you want to play a game on
-    the metaserver, are there are none there, try starting one
-    yourself!
+ 3) Sometimes there are no games on the metaserver.  That happens.
+    The number of players there vary with the time of the day. Try 
+    starting one yourself!
 
 
 Playing the game:
@@ -290,8 +284,7 @@ The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will find a player name that matches the part of the
 name you typed.
 
-On newer servers (version 1.8.1 or later, or some development 1.8.0
-versions) you can issue server commands from the client input line:
+You can issue server commands from the client input line:
 
   |  /list
   |  /set settlers 4
@@ -314,7 +307,7 @@ For lots more information about the client, the server, and the
 concepts and rules of the game, see the Freeciv manual, available
 at the web pages at:
 
-  http://www.freeciv.org/manual/manual.html
+  http://www.freeciv.org/manual/
 
 
 Ending the game:
@@ -322,7 +315,7 @@ Ending the game:
 
 There are three ways in which a game can end:
 
-1) Only one race is left.
+1) Only one nation is left.
 2) The final year is reached.
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
@@ -491,6 +484,15 @@ To send an email to the lists, address it to:
   For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
   For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
   For freeciv-ai, mail should be sent to <freeciv-ai@freeciv.org>.
+
+
+Internet Relay Chat (IRC)
+=========================
+
+Several players and developers hang out on #freeciv on the
+Open Projects network. Try connecting to the server
+
+	irc.openprojects.net
 
 
 New Releases:

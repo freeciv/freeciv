@@ -9,11 +9,9 @@ If you're looking for how to get Freeciv running, look in README.
 If you have never played the Civilization games, it's easiest to 
 start by reading the Freeciv Manual, available separately at:
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://www.freeciv.org/manual/
 
 If you're looking for ideas on playing Freeciv, then keep reading!!
-
 
 	Now that you have Freeciv running, you'll want to play your
 first few games.  It is recommended that you try playing solitaire a
@@ -150,7 +148,7 @@ Q. What other strategies are there?
 	There are a number of tutorials and strategy guides available at
 the Freeciv web pages, at:
 
-	 http://www.freeciv.org/tutorials/tutorials.phtml
+	 http://www.freeciv.org/tutorials/
 
 Plus, the Freeciv online help describes another strategy.
 
@@ -256,4 +254,5 @@ Q. What kinds of military units are the most useful?
 
 Remember, the best defense is a strong offense.
 
-<Additions to this document are welcome>
+
+Additions to this document are welcome!

@@ -2,7 +2,7 @@
 BUGS
 ====
 
-Freeciv 1.12.0 is a "stable" release and is considered bug-free enough
+Freeciv 1.13.0 is a "stable" release and is considered bug-free enough
 for everyday use.  However if you do find a bug, we would really like to
 know, so that we can fix it.  This file lists known bugs in this release,
 and gives information about reporting new bugs.
@@ -31,8 +31,6 @@ KNOWN BUGS:
  - Sometimes there may be too many advances in the "goal" menu of
    the science report, such that the menu goes off the bottom of the
    screen and you cannot select some items.
-
- - The server truncates the display of very long hostnames.
 
  - Some effects of wonders and research first take effect the turn
    after. Fx when building the lighthouse some triremes will only get

@@ -10,8 +10,6 @@ desired.  (See also the file BUGS, for some known deficiencies.)
 TODO:
 =====
 
-- Sound support.
-
 - Server-side player scripting.
 
 - Diplomacy:
@@ -27,11 +25,6 @@ TODO:
   more languages).
 
 - Make the rulesets for City Improvements and Wonders more flexible.
-
-- Extend governments ruleset to allow Fundamentalism, and fix up AI
-  handling of variant governments.
-
-- Ports to Win32 and Mac are being worked on.
 
 - Make the code view-agnostic: remove assumptions about which tiles are
   valid. Fx the assumption that the map wraps in the x direction. This
@@ -74,75 +67,7 @@ TODO:
   server/settlers.c documented.
   I will apply patches even if they just rename a single variable.
 
-- Unkluge the worst AI kludges. The ones I know of are:
-  - precalculated amortize() calls mostly in server/settlers.c
-  - on the goto map the move cost of units with F_IGTER is multiplied with 3
-  - the goto map of ships overlap one field onto land
-
-- Replace the use of the value 255 in relation to the warmap with the
-  MAXCOST constant.
-
-- Make the server warmap use short instead of char, and raise MAXCOST from
-  255 to the maxvalue of a signed short. (also see prev. item)
-
-- Make the AI building evaluation code use the new buildings.ruleset.
-
-- Create a function that gives a statistically excact value for a units
-  chance of winning a battle.  [Now done.  What about expected number
-  of hit points remaing, or the variance?  Can we come up with clever
-  ways for the ai to use this information?]
-
-- Make a function that can generate a warmap for airplanes.
-
-- Convert the ai_manage_diplomat() function to use the warmap.
-
-- Make the AI use the new automated ferryboat code. (note that the new
-  ferryboat code is not yet in CVS...)
-
-- Make the AI respect FoW. (They don't get much bigger than this...)
-
-- Make the goto on the server side (optionally?) respect FoW
-
-- Teach the AI to Fortify units in non-city strategic positions. Also, it
-  needs to not idle all it's units every turn, breaking 2 turn fortify.
-
-- Teach the AI to leave units alone in a turn to regain hit points. (it
-  seems to have no concept of this at all!)
-
-- Stop the AI from trying to buy capitalization...
-
-- Fix the AI valuation of supermarked. (It currently never builds it).
-  See farmland_food() and ai_eval_buildings() in advdomestic.c
-
-- Teach the AI to coordinate the units in an attack (ok, this one is a bit
-  big...)
-
-- Teach the AI to use ferryboats to transport explorers to unexplored land.
-  See ai_manage_explorer() and ai_manage_ferryboat().
-
-Client goto related:
-- Make connect command find the connect route in the client and send it
-  to the server. Draw a line when chosing the connect route.
-- Find the goto route of an airplane in the client, and send it to
-  the server. Make the client draw the goto line. Note that you cannot
-  make a client_goto_map for airplanes with fuel. It may be fine to go
-  from p to q, and there may be a valid route from r to s via p, but
-  the route p->s is then not always usable without running out of fuel.
-  This makes the vectors in the client_goto_map unusable.
-  A solution would be a client_goto_map which held a lot more info per
-  tile, but that would not be nice I think. A better solution is
-  calculating the last part of the route dynamically as the mouse moves.
-  (maintain a list of the move costs to the refuel points to quickly
-  know if more than the last part needs recalculating)
-- Store the goto route in the client too. Keep it up to date as the unit
-  moves. Make middle-clicking the unit display the route by drawing the
-  line.
-- Perhaps make a check on all units on goto each turn to see if you could
-  find a better route than the current one. This would require the goto
-  route to be kept up to date in the client.
-  Note that this is not as simple as it seems, because a route A to B
-  with a waypoint C is often chosen not to be the fastest way from A to
-  B, but the route is still as it should be.
+- Implement goto in common code
 
 FURTHER INFORMATION:
 ====================

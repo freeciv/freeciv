@@ -554,8 +554,8 @@ Player-related entities in Freeciv - by rp@win.tue.nl
 Freeciv is confused about the meaning of 'player'.  As a participant in
 Freeciv games, you'll notice that the participants are called 'players'.
 At the same time, players seem to be identified with civilizations.
-On the other hand, civilizations seem to be identified by 'race':
-every player chooses a race at the start of the game.
+On the other hand, civilizations seem to be identified by 'nation':
+every player chooses a nation at the start of the game.
 
 In the data structures, a 'player' identifies a civilization, not a user.
 
@@ -567,9 +567,10 @@ There are four player-related entities:
 + player
   A civilization, with a capital, cities, units, an income, etc.
 
-+ race
++ nation
   A type of civilization (except that very little actually depends on
-  race, and the oddity exists that each player must be of different race)
+  nation, and the oddity exists that each player must be of different 
+  nation)
 
 + user
   Identifies 'someone out there', usually a human user running a civclient
@@ -582,7 +583,7 @@ There are four player-related entities:
 
 Where do these entities exist?
 
-Races aren't actually used for annything that matters; for them,
+Nations aren't actually used for annything that matters; for them,
 so the question isn't very interesting.
 
 Players (more aptly named, 'civilizations'), exist in games.  Except in
