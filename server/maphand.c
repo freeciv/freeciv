@@ -235,8 +235,8 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	  unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
 	    send_unit_info(pplayer, punit);
 	  unit_list_iterate_end;
+
 	  /*discover cities*/
-	  
 	  if((pcity=map_get_city(abs_x, abs_y))) {
 	    send_city_info(pplayer, pcity, 1);
 	  }
@@ -813,7 +813,7 @@ void update_tile_if_seen(int x, int y)
 }
 
 /**************************************************************************
-Shows area even if still fogged, sans units and cities.
+Shows area even if still fogged.
 **************************************************************************/
 void show_area(struct player *pplayer,int x, int y, int len)
 {
@@ -832,6 +832,11 @@ void show_area(struct player *pplayer,int x, int y, int len)
       send_tile_info(pplayer,abs_x,abs_y); 
       if((pcity=map_get_city(abs_x, abs_y))) {
 	send_city_info(pplayer, pcity, 1);
+      }
+      if (map_get_seen(x,y,pplayer)) {
+	unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
+	  send_unit_info(pplayer, punit);
+	unit_list_iterate_end;
       }
     }
   }
