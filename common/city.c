@@ -1628,7 +1628,7 @@ int get_city_tithes_bonus(const struct city *pcity)
   Add the incomes of a city according to the taxrates (ignore # of 
   specialists). trade should be in output[O_TRADE].
 **************************************************************************/
-void add_tax_income(const struct player *pplayer, int *output)
+void add_tax_income(const struct player *pplayer, int trade, int *output)
 {
   const int SCIENCE = 0, TAX = 1, LUXURY = 2;
   int rates[3], result[3];
@@ -1650,7 +1650,7 @@ void add_tax_income(const struct player *pplayer, int *output)
     rates[TAX] = 0;
   }
 
-  distribute(output[O_TRADE], 3, rates, result);
+  distribute(trade, 3, rates, result);
 
   output[O_SCIENCE] += result[SCIENCE];
   output[O_GOLD] += result[TAX];
@@ -2053,6 +2053,19 @@ static inline void set_city_production(struct city *pcity)
 {
   int i;
 
+  /* Calculate city production!
+   *
+   * This is a rather complicated process if we allow rules to become
+   * more generalized.  We can assume that there are no recursive dependency
+   * loops, but there are some dependencies that do not follow strict
+   * ordering.  For instance corruption must be calculated before 
+   * trade taxes can be counted up, which must occur before the science bonus
+   * is added on.  But the calculation of corruption must include the
+   * trade bonus.  To do this without excessive special casing means that in
+   * this case the bonuses are multiplied on twice (but only saved the second
+   * time).
+   */
+
   output_type_iterate(o) {
     pcity->prod[o] = pcity->citizen_base[o];
   } output_type_iterate_end;
@@ -2065,25 +2078,27 @@ static inline void set_city_production(struct city *pcity)
   }
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
 
-  /* Account for waste.  Waste is only calculated for trade and shields.
-   * Note that waste is calculated BEFORE tax incomes and BEFORE effects
-   * bonuses are included.  This means that shield-waste does not include
-   * the shield-bonus from factories, which is surely a bug. */
-  pcity->waste[O_TRADE] = city_waste(pcity, O_TRADE, pcity->prod[O_TRADE]);
-  pcity->prod[O_TRADE] -= pcity->waste[O_TRADE];
-  pcity->waste[O_SHIELD] = city_waste(pcity, O_SHIELD, pcity->prod[O_SHIELD]);
-  pcity->prod[O_SHIELD] -= pcity->waste[O_SHIELD];
+  /* Account for waste.  Note that waste is calculated before tax income is
+   * calculated, so if you had "science waste" it would not include taxed
+   * science.  However waste is calculated after the bonuses are multiplied
+   * on, so shield waste will include shield bonuses. */
+  output_type_iterate(o) {
+    pcity->waste[o] = city_waste(pcity, o,
+				 pcity->prod[o] * pcity->bonus[o] / 100);
+  } output_type_iterate_end;
 
   /* Convert trade into science/luxury/gold, and add this on to whatever
    * science/luxury/gold is already there. */
-  add_tax_income(city_owner(pcity), pcity->prod);
+  add_tax_income(city_owner(pcity),
+		 pcity->prod[O_TRADE] * pcity->bonus[O_TRADE] / 100
+		 - pcity->waste[O_TRADE] - pcity->usage[O_TRADE],
+		 pcity->prod);
 
-  /* Add on effect bonuses.  Note that this means the waste and tax income
-   * above does NOT include the bonuses.  This works for the default
-   * ruleset but won't work if there is shield-waste or if there were
-   * a trade bonus. */
+  /* Add on effect bonuses and waste.  Note that the waste calculation
+   * (above) already includes the bonus multiplier. */
   output_type_iterate(o) {
     pcity->prod[o] = pcity->prod[o] * pcity->bonus[o] / 100;
+    pcity->prod[o] -= pcity->waste[o];
   } output_type_iterate_end;
 }
 
