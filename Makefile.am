@@ -65,20 +65,21 @@ EXTRA_DIST=	acconfig.h			\
 		debian/rules			\
 		debian/watch			\
 		m4/ac_path_lib.m4		\
+		m4/codeset.m4			\
+		m4/debug.m4			\
 		m4/esd.m4			\
 		m4/gettext.m4			\
 		m4/glib-2.0.m4			\
 		m4/glib-gettext.m4		\
 		m4/glib.m4			\
-		m4/glibc.m4			\
+		m4/glibc21.m4			\
 		m4/gtk-2.0.m4			\
 		m4/gtk.m4			\
 		m4/iconv.m4			\
 		m4/imlib.m4			\
-		m4/langinfo.m4			\
+		m4/isc-posix.m4			\
 		m4/lcmessage.m4			\
 		m4/ngettext.m4			\
-		m4/posix.m4			\
 		m4/progtest.m4			\
 		m4/readline.m4			\
 		m4/sdl.m4			\
