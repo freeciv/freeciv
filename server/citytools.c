@@ -493,7 +493,8 @@ int city_corruption(struct city *pcity, int trade)
       city_got_building(pcity, B_PALACE))
     val /= 2;
   if (val >= trade && val)
-    val = pcity->trade_prod - 1;
+    val = trade - 1;
+  return(val); /* how did y'all let me forget this one? -- Syela */
 }
   
 
