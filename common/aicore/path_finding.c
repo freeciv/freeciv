@@ -111,9 +111,10 @@ struct pf_map {
   struct danger_node *d_lattice;	/* Lattice with danger stuff */
 };
 
-static bool pf_danger_iterate_map(struct pf_map *pf_map);
-static struct pf_path* pf_danger_construct_path(const struct pf_map *pf_map,
-                                                int x, int y);
+static bool danger_iterate_map(struct pf_map *pf_map);
+static struct pf_path* danger_construct_path(const struct pf_map *pf_map,
+                                             int x, int y);
+struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y);
 
 
 /* =================== manipulating the cost ===================== */
@@ -244,7 +245,7 @@ bool pf_next(struct pf_map *pf_map)
 
   if (pf_map->params->is_pos_dangerous) {
     /* It's a lot different if is_pos_dangerous is defined */
-    return pf_danger_iterate_map(pf_map);
+    return danger_iterate_map(pf_map);
   }
 
   pf_map->status[pf_map->index] = NS_PROCESSED;
@@ -529,15 +530,11 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
   struct pf_path *path;
 
   /* Debug period only!  Please remove after PF is settled */
+  assert(!pf_map->params->is_pos_dangerous);
   if (pf_map->status[index] != NS_PROCESSED
       && !same_pos(dest_x, dest_y, pf_map->x, pf_map->y)) {
     die("pf_construct_path to an unreached destination");
     return NULL;
-  }
-
-  if (pf_map->params->is_pos_dangerous) {
-    /* If is_pos_dangerous is defined, it's very different */
-    return pf_danger_construct_path(pf_map, dest_x, dest_y);
   }
 
   x = dest_x;
@@ -594,7 +591,12 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
 ************************************************************************/
 struct pf_path *pf_next_get_path(const struct pf_map *pf_map)
 {
-  return pf_construct_path(pf_map, pf_map->x, pf_map->y);
+  if (!pf_map->params->is_pos_dangerous) {
+    return pf_construct_path(pf_map, pf_map->x, pf_map->y);
+  } else {
+    /* It's very different in the presence of danger */
+    return danger_construct_path(pf_map, pf_map->x, pf_map->y);
+  }
 }
 
 /************************************************************************
@@ -605,6 +607,11 @@ struct pf_path *pf_get_path(struct pf_map *pf_map, int x, int y)
 {
   mapindex_t index = map_pos_to_index(x, y);
   utiny_t status = pf_map->status[index];
+
+  if (pf_map->params->is_pos_dangerous) {
+    /* It's very different in the presence of danger */
+    return danger_get_path(pf_map, x, y);
+  }
 
   if (status == NS_PROCESSED || same_pos(x, y, pf_map->x, pf_map->y)) {
     /* We already reached (x,y) */
@@ -736,13 +743,20 @@ static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
   sooner than P, because there might be several copies of it in 
   the queue already.  But that does not seem to present any 
   problems.
-  3. This algorithm cannot guarantee the best safe segments across 
+  3. For some purposes, NS_WAITING is just another flavour of NS_PROCESSED,
+  since the path to a NS_WAITING tile has already been found.
+  4. The code is arranged so that if the turn-mode is TM_WORST_TIME, a 
+  cavalry with non-full MP will get to a safe mountain tile only after 
+  waiting.  This waiting, although realised through NS_WAITING, is 
+  different from waiting before going into the danger area, so it will not 
+  be marked as "waiting" on the resulting paths.
+  5. This algorithm cannot guarantee the best safe segments across 
   dangerous region.  However it will find a safe segment if there 
   is one.  To gurantee the best (in terms of total_CC) safe segments 
   across danger, supply get_EC which returns small extra on 
   dangerous tiles.
 ******************************************************************/
-static bool pf_danger_iterate_map(struct pf_map *pf_map)
+static bool danger_iterate_map(struct pf_map *pf_map)
 {
   mapindex_t index;
   struct pf_node *node = &pf_map->lattice[pf_map->index];
@@ -754,6 +768,11 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
     int loc_cost
 	= (pf_map->status[pf_map->index] != NS_WAITING ? node->cost
 	   : node->cost + get_moves_left(pf_map, node->cost));
+    /* Step number at xy taking into account waiting 
+     * (waiting counts as one step) */
+    int loc_step
+        = (pf_map->status[pf_map->index] != NS_WAITING ? d_node->step
+           : d_node->step + 1);
 
     /* The previous position is contained in {x,y} fields of map */
     adjc_dir_iterate(pf_map->x, pf_map->y, x1, y1, dir) {
@@ -763,8 +782,10 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
       int cost;
       int extra = 0;
 
-      /* Dangerous tiles can be uptaded even after being processed */
-      if (pf_map->status[index1] == NS_PROCESSED && !d_node1->is_dangerous) {
+      /* Dangerous tiles can be updated even after being processed */
+      if ((pf_map->status[index1] == NS_PROCESSED 
+           || pf_map->status[index1] == NS_WAITING) 
+          && !d_node1->is_dangerous) {
 	continue;
       }
 
@@ -795,6 +816,8 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 	  continue;
 	}
 
+        /* FIXME: Separate this into adjust_cost_danger and add 
+         * cost = MIN(cost, move_rate) */
 	if (pf_map->params->turn_mode == TM_BEST_TIME) {
 	  if (d_node1->is_dangerous
 	      && cost >= get_moves_left(pf_map, loc_cost)) {
@@ -818,8 +841,7 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 
       /* Evaluate the extra cost of the destination, if it's relevant */
       if (pf_map->params->get_EC) {
-	extra = node1->extra_tile;
-	extra += node->extra_cost;
+	extra = node1->extra_tile + node->extra_cost;
       }
 
       /* Update costs and add to queue, if this is a better route to xy1 */
@@ -832,7 +854,7 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 	  node1->extra_cost = extra;
 	  node1->cost = cost;
 	  node1->dir_to_here = dir;
-          d_node1->step = d_node->step + 1;
+          d_node1->step = loc_step + 1;
 	  if (d_node->is_dangerous) {
 	    /* Transition from red to blue, need to record the path back */
 	    create_danger_segment(pf_map, dir, d_node1, 
@@ -843,7 +865,9 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 	      free(d_node1->danger_segment);
 	      d_node1->danger_segment = NULL;
 	    }
-	    d_node1->waited = (pf_map->status[pf_map->index] == NS_WAITING);
+            /* We don't consider waiting to get to a safe tile as 
+             * "real" waiting */
+	    d_node1->waited = FALSE;
 	  }
 	  pf_map->status[index1] = NS_NEW;
 	  pq_insert(pf_map->queue, index1, -cost_of_path);
@@ -864,7 +888,7 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 	  node1->extra_cost = extra;
 	  node1->cost = cost;
 	  node1->dir_to_here = dir;
-          d_node1->step = d_node->step + 1;
+          d_node1->step = loc_step + 1;
           if (d_node->is_dangerous) {
             /* Increment the number of steps we are making across danger */
             d_node1->segment_length = d_node->segment_length + 1;
@@ -888,8 +912,6 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
     /* Consider waiting at this node. 
      * To do it, put it back into queue. */
     pf_map->status[pf_map->index] = NS_WAITING;
-    /* Waiting counts as a step */
-    d_node->step++;
     pq_insert(pf_map->queue, pf_map->index,
 	      -get_total_CC(pf_map, get_moves_left(pf_map, node->cost)
 			    + node->cost, node->extra_cost));
@@ -918,12 +940,12 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
     /* We've already returned this node once, skip it */
     freelog(LOG_NORMAL, "Considering waiting at (%d, %d)", pf_map->x,
 	    pf_map->y);
-    return pf_danger_iterate_map(pf_map);
+    return danger_iterate_map(pf_map);
   } else if (pf_map->d_lattice[index].is_dangerous) {
     /* We don't return dangerous tiles */
     freelog(LOG_NORMAL, "Reached dangerous tile (%d, %d)", pf_map->x,
 	    pf_map->y);
-    return pf_danger_iterate_map(pf_map);
+    return danger_iterate_map(pf_map);
   } else {
     /* Just return it */
     return TRUE;
@@ -934,8 +956,8 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
   Read off the path to the node (x, y), but with danger
   NB: will only find paths to safe tiles!
 *******************************************************************/
-static struct pf_path *pf_danger_construct_path(const struct pf_map *pf_map,
-                                                int x, int y)
+static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
+                                             int x, int y)
 {
   struct pf_path *path = fc_malloc(sizeof(*path));
   int i;
@@ -951,13 +973,6 @@ static struct pf_path *pf_danger_construct_path(const struct pf_map *pf_map,
     die("illegal TM in path-finding with danger");
     return NULL;
   }
-
-  if (d_node->is_dangerous) {
-    /* "Best" path to a dangerous tile is undefined */
-    /* TODO: return the "safest" path */
-    return NULL;
-  }
-
 
   path->positions 
     = fc_malloc((d_node->step + 1) * sizeof(struct pf_position));
@@ -1028,7 +1043,7 @@ static struct pf_path *pf_danger_construct_path(const struct pf_map *pf_map,
 
     /* 5: Step further back */
     if (!MAPSTEP(x, y, x, y, DIR_REVERSE(dir_next))) {
-      die("pf_danger_get_path: wrong directions recorded!");
+      die("danger_get_path: wrong directions recorded!");
       return NULL;
     }
     node = &pf_map->lattice[map_pos_to_index(x, y)];
@@ -1036,6 +1051,37 @@ static struct pf_path *pf_danger_construct_path(const struct pf_map *pf_map,
 
   }
 
-  die("pf_danger_get_path: cannot get to the starting point!");
+  die("danger_get_path: cannot get to the starting point!");
+  return NULL;
+}
+
+/************************************************************************
+  Danger version of pf_get_path.
+************************************************************************/
+struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y)
+{
+  mapindex_t index = map_pos_to_index(x, y);
+  utiny_t status = pf_map->status[index];
+  struct danger_node *d_node = &pf_map->d_lattice[index];
+
+  if (d_node->is_dangerous) {
+    /* "Best" path to a dangerous tile is undefined */
+    /* TODO: return the "safest" path */
+    return NULL;
+  }
+
+  if (status == NS_PROCESSED || status == NS_WAITING 
+      || same_pos(x, y, pf_map->x, pf_map->y)) {
+    /* We already reached (x,y) */
+    return danger_construct_path(pf_map, x, y);
+  }
+
+  while (pf_next(pf_map)) {
+    if (same_pos(x, y, pf_map->x, pf_map->y)) {
+      /* That's the one */
+      return danger_construct_path(pf_map, x, y);
+    }
+  }
+
   return NULL;
 }
