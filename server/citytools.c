@@ -147,9 +147,10 @@ int get_colosseum_power(struct city *pcity)
 **************************************************************************/
 int is_worked_here(int x, int y)
 {
-  return (map_get_tile(x, y)->worked >= 0); /* saves at least 10% of runtime CPU usage! */
+  return (map_get_tile(x, y)->worked != NULL); /* saves at least 10% of runtime CPU usage! */
 }
 
+#ifdef CRUFT
 int old_is_worked_here(int x, int y)
 {
   struct player *pplayer;
@@ -171,6 +172,7 @@ int old_is_worked_here(int x, int y)
   }
   return 0;
 }
+#endif
 
 /**************************************************************************
 x and y are city cords in the range [0;4]
