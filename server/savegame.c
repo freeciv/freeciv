@@ -58,8 +58,25 @@ static const char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2 map_editor"
+" diplchance_percent worklists2 map_editor known32fix"
 
+/***************************************************************
+ Note -- as of v1.6.4 you should use savefile_options (instead of
+ game.version) to determine which variables you can expect to 
+ find in a savegame file.  Or even better (IMO --dwp) is to use
+ section_file_lookup(), secfile_lookup_int_default(),
+ secfile_lookup_str_default(), etc.
+***************************************************************/
+static char *get_savefile_options(struct section_file *file)
+{
+  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
+      || (game.version > 10604)) {
+    return secfile_lookup_str(file,"savefile.options");
+  } else {
+    /* else leave savefile_options empty */
+    return " ";
+  }
+}
 
 /***************************************************************
 load starting positions for the players from a savegame file
@@ -188,6 +205,7 @@ load a complete map from a savegame file
 static void map_load(struct section_file *file)
 {
   int x ,y;
+  char *savefile_options = get_savefile_options(file);
 
   /* map_init();
    * This is already called in game_init(), and calling it
@@ -342,7 +360,75 @@ static void map_load(struct section_file *file)
 	}
       }
     }
+
+    if (has_capability("known32fix", savefile_options)) {
+      /* get bits 16-19 of known flags */
+      for(y=0; y<map.ysize; y++) {
+	char *terline=secfile_lookup_str(file, "map.e%03d", y);
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+
+	  if(isxdigit(ch)) {
+	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<16;
+	  } else if(ch!=' ') {
+	    freelog(LOG_FATAL, "unknown known flag (map.e) in map "
+		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	    exit(1);
+	  }
+	}
+      }
+
+      /* get bits 20-23 of known flags */
+      for(y=0; y<map.ysize; y++) {
+	char *terline=secfile_lookup_str(file, "map.g%03d", y);
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+
+	  if(isxdigit(ch)) {
+	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<20;
+	  } else if(ch!=' ') {
+	    freelog(LOG_FATAL, "unknown known flag (map.g) in map "
+		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	    exit(1);
+	  }
+	}
+      }
+
+      /* get bits 24-27 of known flags */
+      for(y=0; y<map.ysize; y++) {
+	char *terline=secfile_lookup_str(file, "map.h%03d", y);
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+
+	  if(isxdigit(ch)) {
+	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<24;
+	  } else if(ch!=' ') {
+	    freelog(LOG_FATAL, "unknown known flag (map.h) in map "
+		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	    exit(1);
+	  }
+	}
+      }
+
+      /* get bits 28-31 of known flags */
+      for(y=0; y<map.ysize; y++) {
+	char *terline=secfile_lookup_str(file, "map.i%03d", y);
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+
+	  if(isxdigit(ch)) {
+	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<28;
+	  } else if(ch!=' ') {
+	    freelog(LOG_FATAL, "unknown known flag (map.i) in map "
+		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	    exit(1);
+	  }
+	}
+      }
+    }
   }
+
+
   map.have_specials = 1;
 
   /* Should be handled as part of send_all_know_tiles,
@@ -460,6 +546,38 @@ static void map_save(struct section_file *file)
       pbuf[x]='\0';
       secfile_insert_str(file, pbuf, "map.d%03d", y);
     }
+
+    /* put bit 16-19 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0000))>>16];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.e%03d", y);
+    }
+
+    /* put bit 20-23 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00000))>>20];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.g%03d", y); /* f already taken! */
+    }
+
+    /* put bit 24-27 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000000))>>24];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.h%03d", y);
+    }
+
+    /* put bit 28-31 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0000000))>>28];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.i%03d", y);
+    }
   }
   
   free(pbuf);
@@ -549,21 +667,9 @@ static void player_load(struct player *plr, int plrno,
 {
   int i, j, x, y, nunits, ncities;
   char *p;
-  char *savefile_options = " ";
+  char *savefile_options = get_savefile_options(file);
 
   player_map_allocate(plr);
-
-  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
-      || (game.version > 10604))
-    savefile_options = secfile_lookup_str(file,"savefile.options");  
-  /* else leave savefile_options empty */
-
-  /* Note -- as of v1.6.4 you should use savefile_options (instead of
-     game.version) to determine which variables you can expect to 
-     find in a savegame file.  Or even better (IMO --dwp) is to use
-     section_file_lookup(), secfile_lookup_int_default(),
-     secfile_lookup_str_default(), etc.
-  */
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
@@ -799,6 +905,14 @@ static void player_load(struct player *plr, int plrno,
     pcity->city_options =
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
 				 "player%d.c%d.options", plrno, i);
+
+    /* Fix for old buggy savegames. */
+    if (!has_capability("known32fix", savefile_options)
+	&& plrno >= 16) {
+      map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
+	map_set_known(x1, y1, plr);
+      } map_city_radius_iterate_end;
+    }
     
     /* adding the cities contribution to fog-of-war */
     map_unfog_pseudo_city_area(&game.players[plrno],pcity->x,pcity->y);
@@ -985,6 +1099,12 @@ static void player_load(struct player *plr, int plrno,
       }
     }
 
+    {
+      int range = get_unit_type(punit->type)->vision_range;
+      square_iterate(punit->x, punit->y, range, x1, y1) {
+	map_set_known(x1, y1, plr);
+      } square_iterate_end;
+    }
     /* allocate the unit's contribution to fog of war */
     unfog_area(&game.players[punit->owner],
 	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
@@ -1670,24 +1790,15 @@ void game_load(struct section_file *file)
 {
   int i, o;
   enum server_states tmp_server_state;
-  char *savefile_options=" ";
+  char *savefile_options;
   char *string;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
-  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
-      || (game.version > 10604)) 
-    savefile_options = secfile_lookup_str(file,"savefile.options");
-  /* else leave savefile_options empty */
-
-  /* Note -- as of v1.6.4 you should use savefile_options (instead of
-     game.version) to determine which variables you can expect to 
-     find in a savegame file.  Or even better (IMO --dwp) is to use
-     section_file_lookup(), secfile_lookup_int_default(),
-     secfile_lookup_str_default(), etc.
-  */
+  /* This one uses game.version! */
+  savefile_options = get_savefile_options(file);
 
   if (game.load_options.load_settings) {
     sz_strlcpy(srvarg.metaserver_info_line,
