@@ -21,6 +21,7 @@
 #include <aiunit.h>
 #include <unittools.h> /* for get_defender, amazingly */
 #include <gotohand.h> /* warmap has been redeployed */
+#include <settlers.h>
 
 extern struct move_cost_map warmap;
 
@@ -122,8 +123,13 @@ int assess_danger(struct city *pcity)
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
 /* Samarkand bug should be obsoleted by re-ordering of events */
         if (dist < 3) dist = 3;
-        if (dist <= m * 3 && v) urgency++;
-        if (dist <= m && v) pcity->ai.grave_danger = punit;
+        if ((is_ground_unit(punit) ||
+           (get_transporter_capacity(punit) &&
+            !unit_flag(punit->type, F_SUBMARINE) &&
+            !unit_flag(punit->type, F_CARRIER)))) {
+          if (dist <= m * 3 && v) urgency++;
+          if (dist <= m && v) pcity->ai.grave_danger = punit;
+        }
 
         if (unit_flag(punit->type, F_HORSE)) {
           if (pikemen) v >>= 1;
@@ -226,8 +232,9 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
   int best= 0;
   int bestid = 0;
   int walls = city_got_citywalls(pcity);
-  int desire[U_LAST]; /* what you get is what you see */
+  int desire[U_LAST]; /* what you get is what you seek */
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  int isdef = has_a_normal_defender(pcity);
 
   memset(desire, 0, sizeof(desire));
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
@@ -235,6 +242,7 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
       k = pplayer->ai.tech_turns[unit_types[i].tech_requirement];
       j = unit_desirability(i, 1);
+      if (!isdef && unit_flag(i, F_FIELDUNIT)) j = 0;
       j /= 15; /* good enough, no rounding errors */
       j *= j;
       if (can_build_unit(pcity, i)) {
@@ -281,7 +289,7 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
                             int vet, int x, int y, int unhap, int movetype)
 {
 /* n is type of defender, vet is vet status, x,y is location of target */
-  int a, c, d, e, i;
+  int a, c, d, e, i, a0, b0, f;
   int j, k, l, m, dist;
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
@@ -317,8 +325,13 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
       d = m;
       if (unhap > 0) c *= 2;
       c += l;
-      e = (b * a - unit_types[i].build_cost * d) * 100 / (a + d) - c * 100;
-      e /= unit_types[i].build_cost;
+      f = unit_types[i].build_cost;
+      if (unit_types[i].move_type != LAND_MOVING && !d) b0 = 0;
+      else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
+      if (b0 > 0) {
+        a0 = amortize(b0, MAX(1, c));
+        e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (f * MORT);
+      } else e = 0;  
       if (e > 0) {
         pplayer->ai.tech_want[j] += e;
 /*      printf("%s wants %s for attack with desire %d\n",
@@ -332,12 +345,14 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
                          struct unit *myunit, struct ai_choice *choice)
 {
   int a, b, c, d, e; /* variables in the attacker-want equation */
-  int m, n, vet, dist, v;
+  int m, n, vet, dist, v, a0, b0;
   int x, y, unhap = 0;
   struct unit *pdef, *aunit;
   struct city *acity;
+  int f;
 
   find_something_to_kill(pplayer, myunit, &x, &y);
+
   acity = map_get_city(x, y);
   if (!acity) aunit = get_defender(pplayer, myunit, x, y);
   else aunit = 0;
@@ -370,9 +385,15 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
       m = get_virtual_defense_power(v, n, x, y);
       m *= unit_types[n].hp * unit_types[n].firepower;
       m /= (do_make_unit_veteran(acity, n) ? 20 : 30);
-      d = m * m;
-      b = unit_types[n].build_cost + 40;
-      vet = do_make_unit_veteran(acity, n);
+      if (c > 1) {
+        d = m * m;
+        b = unit_types[n].build_cost + 40;
+        vet = do_make_unit_veteran(acity, n);
+      } else {
+        d = 0;
+        b = 40;
+        vet = 0;
+      }
       if (pdef) {
         n = pdef->type;
         m = get_virtual_defense_power(v, n, x, y);
@@ -425,22 +446,26 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
       if (city_affected_by_wonder(pcity, B_WOMENS) ||
           city_got_building(pcity, B_POLICE)) unhap--;
     } /* handle other governments later */
-    if (unhap > 0) c *= 2;
 
-    e = (b * a - unit_types[v].build_cost * d) * 100 / (a + d) - c * 100;
-    e /= unit_types[v].build_cost;
+    f = unit_types[v].build_cost;
+    if (unit_types[v].move_type != LAND_MOVING && !d) b0 = 0;
+    else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) -
+        c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING));
+    if (b0 > 0) {
+      a0 = amortize(b0, MAX(1, c));
+      e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (f * MORT);
+    } else e = 0;  
 
     process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap, unit_types[v].move_type);
 
-/* if (acity && e > 0) {
-printf("%s (%d, %d) wants to attack %s (%d, %d) with desire %d [dist = %d, c = %d]\n",
-pcity->name, pcity->x, pcity->y, acity->name, acity->x, acity->y,
-e, dist, c);
-} else if (aunit && e > 0) {
-printf("%s (%d, %d) wants to attack %s (%d, %d) with desire %d [dist = %d, c = %d]\n",
+/*if (acity) {
+printf("%s (%d, %d) wants to attack %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d, F=%d]\n", 
+pcity->name, pcity->x, pcity->y, acity->name, acity->x, acity->y, a, b, c, d, e, f);
+} else if (aunit) {
+printf("%s (%d, %d) wants to attack %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d, F=%d]\n", 
 pcity->name, pcity->x, pcity->y, unit_types[pdef->type].name, pdef->x, pdef->y,
-e, dist, c);
-} */
+a, b, c, d, e, f);
+}*/
     if (e > choice->want) {
       if (get_invention(pplayer, A_GUNPOWDER) == TECH_KNOWN &&
           !city_got_barracks(pcity) && is_ground_unit(myunit)) {
@@ -450,11 +475,13 @@ e, dist, c);
         choice->want = e;
         choice->type = 0;
       } else {
-        if (myunit->id) {
+        if (!myunit->id) {
           choice->choice = v;
+/*printf("%s has chosen attacker, %s\n", pcity->name, unit_types[choice->choice].name);*/
           choice->type = 2; /* type == 2 identifies attackers */
         } else {
           choice->choice = ai_choose_defender(pcity);
+/*printf("%s has chosen defender, %s\n", pcity->name, unit_types[choice->choice].name);*/
           choice->type = 1;
         }
         choice->want = e;
@@ -539,22 +566,27 @@ code was added and walls got built, but now danger -= def would be very bad -- S
   } /* ok, don't need to defend */
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (get_unit_type(punit->type)->attack_strength * 4 >
-        get_unit_type(punit->type)->defense_strength * 5)
+    if ((get_unit_type(punit->type)->attack_strength * 4 >
+        get_unit_type(punit->type)->defense_strength * 5) ||
+        unit_flag(punit->type, F_FIELDUNIT))
      myunit = punit;
   unit_list_iterate_end;
 /* if myunit is non-null, it is an attacker forced to defend */
 /* and we will use its attack values, otherwise we will use virtualunit */
   if (myunit) kill_something_with(pplayer, pcity, myunit, choice);
   else {
+/*printf("Killing with virtual unit in %s\n", pcity->name);*/
     v = ai_choose_attacker_ground(pcity);
     memset(&virtualunit, 0, sizeof(&virtualunit));
+/* this memset appears not to work, since I had to manually zero id
+to avoid horrible bugging.  Remind me not to trust memset with -O2. -- Syela */
     virtualunit.type = v;
     virtualunit.owner = pplayer->player_no;
     virtualunit.x = pcity->x;
     virtualunit.y = pcity->y;
     virtualunit.veteran = do_make_unit_veteran(pcity, v);
     virtualunit.hp = unit_types[v].hp;
+    virtualunit.id = 0;
     kill_something_with(pplayer, pcity, &virtualunit, choice);
     v = ai_choose_attacker_sailing(pcity);
     if (v > 0) {
