@@ -109,6 +109,14 @@ void meta_list_callback(GtkWidget *w, gint row, gint column)
 
 /**************************************************************************
 ...
+***************************************************************************/
+static void meta_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+{
+  if (event->type==GDK_2BUTTON_PRESS) connect_callback(w, data);
+}
+
+/**************************************************************************
+...
 **************************************************************************/
 static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
@@ -216,6 +224,8 @@ void gui_server_connect(void)
 
   gtk_signal_connect(GTK_OBJECT(list), "select_row",
 			GTK_SIGNAL_FUNC(meta_list_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(list), "button_press_event",
+		     GTK_SIGNAL_FUNC(meta_click_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(update), "clicked",
 			GTK_SIGNAL_FUNC(meta_update_callback), (gpointer)list);
 
