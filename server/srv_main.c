@@ -504,13 +504,6 @@ static void end_turn(void)
     flush_packets();
   } shuffled_players_iterate_end;
 
-  /* Unit end of turn activities */
-  shuffled_players_iterate(pplayer) {
-    update_unit_activities(pplayer); /* major network traffic */
-    flush_packets();
-    pplayer->turn_done = FALSE;
-  } shuffled_players_iterate_end;
-
   kill_dying_players();
 
   nocity_send = FALSE;
@@ -559,6 +552,19 @@ static void end_turn(void)
 
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
+}
+
+/**************************************************************************
+  After game advance year stuff.
+**************************************************************************/
+static void after_game_advance_year(void)
+{
+  /* Unit end of turn activities */
+  shuffled_players_iterate(pplayer) {
+    update_unit_activities(pplayer); /* major network traffic */
+    flush_packets();
+    pplayer->turn_done = FALSE;
+  } shuffled_players_iterate_end;
 }
 
 /**************************************************************************
@@ -1405,6 +1411,7 @@ static void main_loop(void)
     end_turn();
     freelog(LOG_DEBUG, "Gamenextyear");
     game_advance_year();
+    after_game_advance_year();
     freelog(LOG_DEBUG, "Updatetimeout");
     update_timeout();
     check_spaceship_arrivals();
