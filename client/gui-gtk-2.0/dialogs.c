@@ -1847,8 +1847,8 @@ static void select_random_leader(void)
   sz_strlcpy(unique_name, 
              gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry)));
  
-  gtk_signal_handler_block_by_func(GTK_OBJECT(GTK_COMBO(races_name)->list), 
-                                   races_name_callback, NULL);
+  g_signal_handlers_block_by_func(GTK_COMBO(races_name)->list,
+	races_name_callback, NULL);
 
   g_list_free(leader_strings);
   leader_strings = NULL;
@@ -1861,8 +1861,9 @@ static void select_random_leader(void)
   gtk_combo_set_value_in_list(GTK_COMBO(races_name), FALSE, FALSE);
   gtk_combo_set_popdown_strings(GTK_COMBO(races_name), leader_strings);
 
-  gtk_signal_handler_unblock_by_func(GTK_OBJECT(GTK_COMBO(races_name)->list), 
-                                     races_name_callback, NULL);
+  g_signal_handlers_unblock_by_func(GTK_COMBO(races_name)->list,
+	races_name_callback, NULL);
+
   if (!is_name_unique) {
     /* initialize leader names */
     selected_leader = myrand(leader_num);
