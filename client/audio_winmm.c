@@ -15,14 +15,18 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
+/************************************************************************* 
+ This two includes are misordered, but it does not compile otherwise
+*************************************************************************/
 #include <windows.h>
 #include <mmsystem.h>
 
-#include "log.h"
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
+
 #include "audio.h"
 
 #include "audio_winmm.h"
@@ -57,6 +61,15 @@ static bool my_play(const char *const tag, const char *const fullpath,
 }
 
 /**************************************************************************
+ 
+**************************************************************************/
+static bool my_init(void)
+{
+  return TRUE;
+}
+
+
+/**************************************************************************
   Initialize. Note that this function is called very early at the
   client startup. So for example logging isn't available.
 **************************************************************************/
@@ -67,6 +80,7 @@ void audio_winmm_init(void)
   sz_strlcpy(self.name, "winmm");
   sz_strlcpy(self.descr, "WinMM plugin");
   self.shutdown = my_stop;
+  self.init = my_init;
   self.stop = my_stop;
   self.wait = my_wait;
   self.play = my_play;
