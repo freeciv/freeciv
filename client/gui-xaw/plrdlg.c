@@ -250,7 +250,7 @@ void update_players_dialog(void)
       if (i == game.player_idx) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = player_get_diplstate(game.player_idx, i);
+	pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
 	if (pds->type == DS_CEASEFIRE) {
 	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);
@@ -310,7 +310,7 @@ void players_list_callback(Widget w, XtPointer client_data,
       XtSetSensitive(players_sship_command, FALSE);
 
     if(pplayer->is_alive) {
-      if (players_at_war(game.player_idx, player_index) ||
+      if (pplayers_at_war(game.player_ptr, get_player(player_index)) ||
 	  game.player_idx == player_index)
 	XtSetSensitive(players_war_command, FALSE);
       else

@@ -1047,15 +1047,13 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   int i, n, do_civil_war = 0;
   int coins;
   struct player *pplayer = unit_owner(punit);
-  struct player *cplayer;
+  struct player *cplayer = city_owner(pcity);
 
   /* if not at war, may peacefully enter city */
-  if (!players_at_war(pplayer->player_no, pcity->owner))
+  if (!pplayers_at_war(pplayer, cplayer))
     return;
 
   /* okay, we're at war - invader captures/destroys city... */
-
-  cplayer = city_owner(pcity);
   
   /* If a capital is captured, then spark off a civil war 
      - Kris Bubendorfer
@@ -1662,7 +1660,7 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return 0;
   ptile = map_get_tile(map_x, map_y);
 
-  if (is_enemy_unit_tile(ptile, pcity->owner)
+  if (is_enemy_unit_tile(ptile, city_owner(pcity))
       && (city_x != CITY_MAP_SIZE/2 || city_y != CITY_MAP_SIZE/2))
     return 0;
 

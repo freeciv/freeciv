@@ -314,7 +314,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  continue; /* No need for all the calculations */
 
         if (map_get_terrain(x1, y1) == T_OCEAN) {
-          if (punit && ground_unit_transporter_capacity(x1, y1, pplayer->player_no) > 0)
+          if (punit && ground_unit_transporter_capacity(x1, y1, pplayer) > 0)
 	    move_cost = SINGLE_MOVE;
           else
 	    continue;
@@ -519,8 +519,8 @@ only relevant for GOTOs (see below).
 static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y)
 {
-  if (can_step_taken_wrt_to_zoc(punit->type, punit->owner, src_x, src_y,
-				dest_x, dest_y))
+  if (can_step_taken_wrt_to_zoc
+      (punit->type, unit_owner(punit), src_x, src_y, dest_x, dest_y))
     return 1;
 
   /* Both positions are currently enemy ZOC. Since the AI depend on it's
@@ -539,13 +539,14 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
   /* If we just started the GOTO the enemy unit blocking ZOC on the tile
      we come from is still alive. */
   if (src_x == punit->x && src_y == punit->y
-      && !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner))
+      && !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
+				  unit_owner(punit)))
     return 0;
 
   {
     int dir;
     int x, y;
-    int owner = punit->owner;
+    struct player *owner = unit_owner(punit);
 
     for (dir = 0; dir < 8; dir++) {
       x = map_adjust_x(src_x + DIR_DX[dir]);
@@ -658,11 +659,11 @@ static int find_the_shortest_path(struct unit *punit,
     if (pcargo)
       if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
 	  !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
-				   pcargo->owner)
+				   unit_owner(pcargo))
 	  || is_allied_city_tile(map_get_tile(dest_x, dest_y),
-				 pcargo->owner)
+				 unit_owner(pcargo))
 	  || unit_flag(pcargo->type, F_MARINES)
-	  || is_my_zoc(pcargo->owner, dest_x, dest_y))
+	  || is_my_zoc(unit_owner(pcargo), dest_x, dest_y))
 	pcargo = NULL;
   } else
     pcargo = NULL;
@@ -694,7 +695,7 @@ static int find_the_shortest_path(struct unit *punit,
 		       RR loops, ie you can't create a cycle with the same move_cost */
 
 	if (pdesttile->terrain == T_OCEAN) {
-	  if (ground_unit_transporter_capacity(x1, y1, punit->owner) <= 0)
+	  if (ground_unit_transporter_capacity(x1, y1, unit_owner(punit)) <= 0)
 	    continue;
 	  else
 	    move_cost = 3;
@@ -709,14 +710,14 @@ static int find_the_shortest_path(struct unit *punit,
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
-	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
 	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
 	    if (pplayer->ai.control) {
-	      if ((!is_enemy_unit_tile(pdesttile, punit->owner)
+	      if ((!is_enemy_unit_tile(pdesttile, unit_owner(punit))
 		   || !is_military_unit(punit))
 		  && !is_diplomat_unit(punit)) {
 		continue; /* unit is non_allied and non_enemy, ie non_attack */
@@ -729,12 +730,12 @@ static int find_the_shortest_path(struct unit *punit,
 	  } else {
 	    move_cost = SINGLE_MOVE;
 	  }
-	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
+	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
-	  if ((is_non_attack_city_tile(pdesttile, punit->owner)
+	  if ((is_non_attack_city_tile(pdesttile, unit_owner(punit))
 	       || !is_military_unit(punit))) {
 	    if (!is_diplomat_unit(punit)
 		&& (x1 != dest_x || y1 != dest_y)) /* Allow players to target anything */
@@ -783,8 +784,9 @@ static int find_the_shortest_path(struct unit *punit,
 	/* See previous comment on pcargo */
 	if (x1 == dest_x && y1 == dest_y && pcargo
 	    && move_cost < 20 * SINGLE_MOVE
-	    && !is_my_zoc(pcargo->owner, x, y)) move_cost =
-	      20 * SINGLE_MOVE;
+	    && !is_my_zoc(unit_owner(pcargo), x, y)) {
+	  move_cost = 20 * SINGLE_MOVE;
+	}
 
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer))
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE; /* arbitrary deterrent. */
@@ -792,8 +794,8 @@ static int find_the_shortest_path(struct unit *punit,
 	/* We don't allow attacks during GOTOs here; you can almost
 	   always find a way around enemy units on sea */
 	if (x1 != dest_x || y1 != dest_y) {
-	  if (is_non_allied_unit_tile(pdesttile, punit->owner)
-	      || is_non_allied_city_tile(pdesttile, punit->owner))
+	  if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
+	      || is_non_allied_city_tile(pdesttile, unit_owner(punit)))
 	    continue;
 	}
 
@@ -843,14 +845,15 @@ static int find_the_shortest_path(struct unit *punit,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
-	if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
+	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (x1 != dest_x || y1 != dest_y) {
 	    continue;
 	  }
 	} else {
-	  struct city *pcity = is_non_allied_city_tile(pdesttile, punit->owner);
+	  struct city *pcity =
+	      is_non_allied_city_tile(pdesttile, unit_owner(punit));
 	  if (pcity
-	      && (players_non_attack(punit->owner, pcity->owner)
+	      && (pplayers_non_attack(unit_owner(punit), city_owner(pcity))
 		  || !is_heli_unit(punit)))
 	    continue;
 	}
@@ -1001,7 +1004,8 @@ static int find_a_direction(struct unit *punit,
       d0 = (d0 * n) / 2;
       h0 = punit->hp; h1 = 0; d1 = 0; u = 1;
       unit_list_iterate(ptile->units, aunit)
-        if (!players_allied(aunit->owner, punit->owner)) d1 = -1; /* MINIMUM priority */
+	if (!pplayers_allied(unit_owner(aunit), unit_owner(punit)))
+	  d1 = -1;		/* MINIMUM priority */
         else {
           u++;
           a = get_simple_defense_power(aunit->type, x, y) * n / 2;
@@ -1028,7 +1032,7 @@ static int find_a_direction(struct unit *punit,
           else d[k]++; /* nice but not important */
         } else { /* NOTE: Not being omniscient here!! -- Syela */
           unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */
-            if (players_at_war(aunit->owner, punit->owner)
+            if (pplayers_at_war(unit_owner(aunit), unit_owner(punit))
 		&& (a = get_attack_power(aunit))) {
               if (punit->moves_left < c + SINGLE_MOVE) { /* can't fight */
                 if (passenger && !is_ground_unit(aunit)) d[k] = -99;
@@ -1085,7 +1089,7 @@ int goto_is_sane(struct unit *punit, int x, int y, int omni)
   if (is_ground_unit(punit) && 
           (omni || map_get_known_and_seen(x, y, pplayer->player_no))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
-      if (ground_unit_transporter_capacity(x, y, pplayer->player_no) > 0) {
+      if (ground_unit_transporter_capacity(x, y, pplayer) > 0) {
         for (k = 0; k < 8; k++) {
           if (map_get_continent(punit->x, punit->y) ==
               map_get_continent(x + DIR_DX[k], y + DIR_DY[k]))
@@ -1193,7 +1197,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       freelog(LOG_DEBUG, "Going %s", dir_get_name(dir));
       x = map_adjust_x(punit->x + DIR_DX[dir]);
       y = punit->y + DIR_DY[dir]; /* no need to adjust this */
-      penemy = is_enemy_unit_tile(map_get_tile(x, y), punit->owner);
+      penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
 
       if (!punit->moves_left)
 	return;
@@ -1293,7 +1297,6 @@ matter.
 static void make_list_of_refuel_points(struct player *pplayer)
 {
   int x, y;
-  int playerid = pplayer->player_no;
   struct refuel *prefuel;
   struct city *pcity;
   struct tile *ptile;
@@ -1303,15 +1306,15 @@ static void make_list_of_refuel_points(struct player *pplayer)
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       ptile = map_get_tile(x,y);
-      if ((pcity = is_allied_city_tile(ptile, playerid))
-	  && !is_non_allied_unit_tile(ptile, playerid)) {
+      if ((pcity = is_allied_city_tile(ptile, pplayer))
+	  && !is_non_allied_unit_tile(ptile, pplayer)) {
 	prefuel = fc_malloc(sizeof(struct refuel));
 	init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT+MAP_MAX_WIDTH, 0);
 	refuels[refuellist_size++] = prefuel;
 	continue;
       }
       if ((ptile = map_get_tile(x,y))->special&S_AIRBASE) {
-	if (is_non_allied_unit_tile(ptile, playerid))
+	if (is_non_allied_unit_tile(ptile, pplayer))
 	  continue;
 	prefuel = fc_malloc(sizeof(struct refuel));
 	init_refuel(prefuel, x, y,
@@ -1445,7 +1448,7 @@ static int find_air_first_destination(
 	for (k=0; k<refuellist_size; k++) {
 	  struct refuel *pto = refuels[k];
 	  moves_left = air_can_move_between(max_moves,
-	      pfrom->x, pfrom->y, pto->x, pto->y, pplayer->player_no);
+	      pfrom->x, pfrom->y, pto->x, pto->y, pplayer);
 	  if (moves_left != -1) {
 	    int unit_moves_left = moves_left + (pfrom->moves_left - max_moves);
 	    freelog(LOG_DEBUG, "moves_left=%d, unit_moves_left=%d, pto->=%d",
@@ -1507,7 +1510,7 @@ Create a movemap to decide with certainty in O(moves2) time.
 Each step should catch the vast majority of tries.
 **************************************************************************/
 int air_can_move_between(int moves, int src_x, int src_y,
-			 int dest_x, int dest_y, int playerid)
+			 int dest_x, int dest_y, struct player *pplayer)
 {
   int x, y, go_x, go_y, i, movescount;
   struct tile *ptile;
@@ -1536,7 +1539,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
       for (i = x-1 ; i <= x+1; i++)
 	if ((ptile = map_get_tile(i, y+go_y))
 	    /* && is_real_tile(i, y+go_y) */
-	    && ! is_non_allied_unit_tile(ptile, playerid)) {
+	    && ! is_non_allied_unit_tile(ptile, pplayer)) {
 	  x = i;
 	  y += go_y;
 	  goto NEXTCYCLE;
@@ -1546,7 +1549,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
       for (i = y-1 ; i <= y+1; i++)
 	if ((ptile = map_get_tile(x+go_x, i))
 	    && is_real_tile(x+go_x, i)
-	    && ! is_non_allied_unit_tile(ptile, playerid)) {
+	    && ! is_non_allied_unit_tile(ptile, pplayer)) {
 	  x += go_x;
 	  y = i;
 	  goto NEXTCYCLE;
@@ -1556,7 +1559,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
     /* (x+go_x, y+go_y) is always real, given (x, y) is real */
     ptile = map_get_tile(x+go_x, y+go_y);
-    if (! is_non_allied_unit_tile(ptile, playerid)) {
+    if (! is_non_allied_unit_tile(ptile, pplayer)) {
       x += go_x;
       y += go_y;
       goto NEXTCYCLE;
@@ -1564,14 +1567,14 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
     /* (x+go_x, y) is always real, given (x, y) is real */
     ptile = map_get_tile(x+go_x, y);
-    if (! is_non_allied_unit_tile(ptile, playerid)) {
+    if (! is_non_allied_unit_tile(ptile, pplayer)) {
       x += go_x;
       goto NEXTCYCLE;
     }
 
     /* (x, y+go_y) is always real, given (x, y) is real */
     ptile = map_get_tile(x, y+go_y);
-    if (! is_non_allied_unit_tile(ptile, playerid)) {
+    if (! is_non_allied_unit_tile(ptile, pplayer)) {
       y += go_y;
       goto NEXTCYCLE;
     }
@@ -1613,7 +1616,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
 	if (warmap.cost[x1][y1] == 255) {
 	  ptile = map_get_tile(x1, y1);
-	  penemy = is_non_allied_unit_tile(ptile, playerid);
+	  penemy = is_non_allied_unit_tile(ptile, pplayer);
 	  if (!penemy
 	      || (x1 == dest_x && y1 == dest_y)) { /* allow attack goto's */
 	    cost = warmap.cost[x1][y1] = warmap.cost[x][y] + 1;

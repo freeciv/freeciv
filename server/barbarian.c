@@ -150,7 +150,7 @@ static struct player *create_barbarian_player(int land)
 /**************************************************************************
 Check if a tile is land and free of enemy units
 **************************************************************************/
-static int is_free_land(int x, int y, int who)
+static int is_free_land(int x, int y, struct player *who)
 {
   if( y < 0 || y >= map.ysize ||
       map_get_terrain(x,y) == T_OCEAN ||
@@ -163,7 +163,7 @@ static int is_free_land(int x, int y, int who)
 /**************************************************************************
 Check if a tile is sea and free of enemy units
 **************************************************************************/
-static int is_free_sea(int x, int y, int who)
+static int is_free_sea(int x, int y, struct player *who)
 {
   if( y < 0 || y >= map.ysize ||
       map_get_terrain(x,y) != T_OCEAN ||
@@ -209,17 +209,19 @@ int unleash_barbarians(struct player* victim, int x, int y)
   }
 
   adjc_iterate(x, y, x1, y1) {
-    land_cnt += is_free_land(x1, y1, me);
-    sea_cnt += is_free_sea(x1, y1, me);
+    land_cnt += is_free_land(x1, y1, barbarians);
+    sea_cnt += is_free_sea(x1, y1, barbarians);
   } adjc_iterate_end;
 
   if( land_cnt >= 3 ) {           /* enough land, scatter guys around */
     unit_list_iterate(map_get_tile(x, y)->units, punit2) {
       if( punit2->owner == me ) {
         send_unit_info( 0, punit2);
-        do { 
-          do rand_neighbour(x, y, &xu, &yu); 
-          while( !is_free_land(xu, yu, me) );
+	do {
+	  do {
+	    rand_neighbour(x, y, &xu, &yu);
+	  }
+	  while (!is_free_land(xu, yu, barbarians));
         } while( !handle_unit_move_request(punit2, xu, yu, TRUE, FALSE) );
         freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", x,y,xu,yu);
       }
@@ -239,7 +241,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
               xu = xb; yu = yb;
               break;
 	    }
-            if( is_free_sea(xu, yu, me) ) {
+	    if (is_free_sea(xu, yu, barbarians)) {
               boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
 	      create_unit( barbarians, xu, yu, boat, 0, 0, -1);
 	      xb = xu; yb = yu;

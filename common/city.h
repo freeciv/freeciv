@@ -365,13 +365,16 @@ int get_city_style(struct city *pcity);
 int get_player_city_style(struct player *plr);
 int get_style_by_name(char *);
 
-struct city *is_enemy_city_tile(struct tile *ptile, int playerid);
-struct city *is_allied_city_tile(struct tile *ptile, int playerid);
-struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
-struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
+struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer);
+struct city *is_allied_city_tile(struct tile *ptile,
+				 struct player *pplayer);
+struct city *is_non_attack_city_tile(struct tile *ptile,
+				     struct player *pplayer);
+struct city *is_non_allied_city_tile(struct tile *ptile,
+				     struct player *pplayer);
 
 int is_unit_near_a_friendly_city(struct unit *punit);
-int is_friendly_city_near(int owner, int x, int y);
+int is_friendly_city_near(struct player *owner, int x, int y);
 int city_exists_within_city_radius(int x, int y, int may_be_on_center);
 
 /* granary size as a function of city size */

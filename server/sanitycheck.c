@@ -147,7 +147,7 @@ static void check_cities(void)
 		      pcity->name, x, y,
 		      map_get_tile(map_x, map_y)->worked->name);
 	    }
-	    if (is_enemy_unit_tile(ptile, pplayer->player_no)) {
+	    if (is_enemy_unit_tile(ptile, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "empty but occupied by an enemy unit!",
 		      pcity->name, x, y);
@@ -159,7 +159,7 @@ static void check_cities(void)
 		      "worked but main map disagrees!",
 		      pcity->name, x, y);
 	    }
-	    if (is_enemy_unit_tile(ptile, pplayer->player_no)) {
+	    if (is_enemy_unit_tile(ptile, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "worked but occupied by an enemy unit!",
 		      pcity->name, x, y);
@@ -167,7 +167,7 @@ static void check_cities(void)
 	    break;
 	  case C_TILE_UNAVAILABLE:
 	    if (map_get_tile(map_x, map_y)->worked == NULL
-		&& !is_enemy_unit_tile(ptile, pplayer->player_no)
+		&& !is_enemy_unit_tile(ptile, pplayer)
 		&& map_get_known(map_x, map_y, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "unavailable but seems to be available!",
@@ -232,7 +232,7 @@ static void check_units(void) {
       }
 
       if (map_get_terrain(x, y) == T_OCEAN)
-	assert(ground_unit_transporter_capacity(x, y, pplayer->player_no) >= 0);
+	assert(ground_unit_transporter_capacity(x, y, pplayer) >= 0);
 
       assert(punit->moves_left >= 0);
       assert(punit->hp > 0);

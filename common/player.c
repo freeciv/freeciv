@@ -466,15 +466,6 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player *pplaye
 }
 
 /***************************************************************
-same as above, using player id's
-***************************************************************/
-const struct player_diplstate *player_get_diplstate(const int player,
-						    const int player2)
-{
-  return pplayer_get_diplstate(&game.players[player], &game.players[player2]);
-}
-
-/***************************************************************
 returns true iff players can attack each other.
 ***************************************************************/
 int pplayers_at_war(const struct player *pplayer,
@@ -485,14 +476,6 @@ int pplayers_at_war(const struct player *pplayer,
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return TRUE;
   return ds == DS_WAR || ds == DS_NO_CONTACT;
-}
-
-/***************************************************************
-same as above, using player id's
-***************************************************************/
-int players_at_war(const int player, const int player2)
-{
-  return pplayers_at_war(&game.players[player], &game.players[player2]);
 }
 
 /***************************************************************
@@ -510,14 +493,6 @@ int pplayers_allied(const struct player *pplayer,
 }
 
 /***************************************************************
-same as above, using player id's
-***************************************************************/
-int players_allied(const int player, const int player2)
-{
-  return pplayers_allied(&game.players[player], &game.players[player2]);
-}
-
-/***************************************************************
 returns true iff players have peace or cease-fire
 ***************************************************************/
 int pplayers_non_attack(const struct player *pplayer,
@@ -529,14 +504,6 @@ int pplayers_non_attack(const struct player *pplayer,
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return FALSE;
   return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_NEUTRAL);
-}
-
-/***************************************************************
-same as above, using player id's
-***************************************************************/
-int players_non_attack(const int player, const int player2)
-{
-  return pplayers_non_attack(&game.players[player], &game.players[player2]);
 }
 
 /**************************************************************************

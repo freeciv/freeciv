@@ -214,32 +214,36 @@ int kills_citizen_after_attack(struct unit *punit);
 
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
-int ground_unit_transporter_capacity(int x, int y, int playerid);
+int ground_unit_transporter_capacity(int x, int y, struct player *pplayer);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
 int is_air_units_transport(struct unit *punit);
-int missile_carrier_capacity(int x, int y, int playerid,
+int missile_carrier_capacity(int x, int y, struct player *pplayer,
 			     int count_units_with_extra_fuel);
-int airunit_carrier_capacity(int x, int y, int playerid,
+int airunit_carrier_capacity(int x, int y, struct player *pplayer,
 			     int count_units_with_extra_fuel);
 
 struct player *unit_owner(struct unit *punit);
 
-struct unit *is_allied_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_allied_unit_tile(struct tile *ptile,
+				 struct player *pplayer);
+struct unit *is_enemy_unit_tile(struct tile *ptile,
+				struct player *pplayer);
+struct unit *is_non_allied_unit_tile(struct tile *ptile,
+				     struct player *pplayer);
+struct unit *is_non_attack_unit_tile(struct tile *ptile,
+				     struct player *pplayer);
 
 int trireme_loss_pct(struct player *pplayer, int x, int y);
 
-int is_my_zoc(int player_id_of_unit_owner, int x0, int y0);
+int is_my_zoc(struct player *unit_owner, int x0, int y0);
 int unit_being_aggressive(struct unit *punit);
-int can_step_taken_wrt_to_zoc(Unit_Type_id type,
-			      int player_id_of_unit_owner, int src_x,
-			      int src_y, int dest_x, int dest_y);
+int can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
+			      int src_x, int src_y, int dest_x,
+			      int dest_y);
 
 int can_unit_move_to_tile_with_reason(Unit_Type_id type,
-				      int player_id_of_unit_owner,
+				      struct player *unit_owner,
 				      enum unit_activity activity,
 				      int connecting, int src_x, int src_y,
 				      int dest_x, int dest_y, int igzoc,

@@ -68,7 +68,7 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 						 int x, int y, int missile);
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
-static int is_airunit_refuel_point(int x, int y, int playerid,
+static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
 				   Unit_Type_id type, int unit_is_on_tile);
 static int maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
@@ -143,7 +143,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return 0;
   }
   
-  if (!players_at_war(punit->owner, pdefender->owner))
+  if (!pplayers_at_war(unit_owner(punit), unit_owner(pdefender)))
     return 0;
 
   /* Shore bombardement */
@@ -491,11 +491,14 @@ void player_restore_units(struct player *pplayer)
 
       if (punit->fuel == 1
 	  && !is_airunit_refuel_point(punit->x, punit->y,
-				      punit->owner, punit->type, 1)) {
+				      unit_owner(punit), punit->type, 1)) {
 	iterate_outward(punit->x, punit->y, punit->moves_left/3, x_itr, y_itr) {
-	  if (is_airunit_refuel_point(x_itr, y_itr, punit->owner, punit->type, 0)
-	      && (air_can_move_between(punit->moves_left/3, punit->x, punit->y,
-				       x_itr, y_itr, punit->owner) >= 0) ) {
+	  if (is_airunit_refuel_point
+	      (x_itr, y_itr, unit_owner(punit), punit->type, 0)
+	      &&
+	      (air_can_move_between
+	       (punit->moves_left / 3, punit->x, punit->y, x_itr, y_itr,
+		unit_owner(punit)) >= 0)) {
 	    punit->goto_dest_x = x_itr;
 	    punit->goto_dest_y = y_itr;
 	    set_unit_activity(punit, ACTIVITY_GOTO);
@@ -993,7 +996,7 @@ static void update_unit_activity(struct unit *punit)
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (ptile2->terrain != T_OCEAN
-	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2))
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
@@ -1014,7 +1017,8 @@ static void update_unit_activity(struct unit *punit)
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (ptile2->terrain == T_OCEAN
-	      && ground_unit_transporter_capacity(x, y, punit2->owner) > 0) {
+	      && ground_unit_transporter_capacity(x, y,
+						  unit_owner(punit2)) > 0) {
 	    if (get_transporter_capacity(punit2))
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
@@ -1052,7 +1056,7 @@ static void update_unit_activity(struct unit *punit)
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (ptile2->terrain == T_OCEAN
-	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2))
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
@@ -1072,8 +1076,8 @@ static void update_unit_activity(struct unit *punit)
 	/* look for nearby port */
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
-	  if (is_allied_city_tile(ptile2, punit2->owner)
-	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	  if (is_allied_city_tile(ptile2, unit_owner(punit2))
+	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2))
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
@@ -1325,9 +1329,10 @@ int enemies_at(struct unit *punit, int x, int y)
   d = unit_vulnerability_virtual(punit) * db;
   adjc_iterate(x, y, x1, y1) {
     if (!pplayer->ai.control && !map_get_known_and_seen(x1, y1, punit->owner)) continue;
-    if (is_enemy_city_tile(map_get_tile(x1, y1), punit->owner)) return 1;
+    if (is_enemy_city_tile(map_get_tile(x1, y1), unit_owner(punit)))
+      return 1;
     unit_list_iterate(map_get_tile(x1, y1)->units, enemy) {
-      if (players_at_war(enemy->owner, punit->owner) &&
+      if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) &&
 	  can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
 	a += unit_belligerence_basic(enemy);
 	if ((a * a * 10) >= d) return 1;
@@ -1417,7 +1422,7 @@ void resolve_unit_stack(int x, int y, int verbose)
     /* If punit is in an enemy city we send it to the closest friendly city
        This is not always caught by the other checks which require that
        there are units from two nations on the tile */
-    if (ptile->city && !is_allied_city_tile(ptile, punit->owner)) {
+    if (ptile->city && !is_allied_city_tile(ptile, unit_owner(punit))) {
       if (pcity)
 	teleport_unit_to_city(punit, pcity, 0, verbose);
       else
@@ -1425,7 +1430,7 @@ void resolve_unit_stack(int x, int y, int verbose)
       continue;
     }
 
-    cunit = is_non_allied_unit_tile(ptile, punit->owner);
+    cunit = is_non_allied_unit_tile(ptile, unit_owner(punit));
     if (!cunit)
       break;
 
@@ -1474,7 +1479,7 @@ void resolve_unit_stack(int x, int y, int verbose)
   if (ptile->terrain == T_OCEAN) {
   START:
     unit_list_iterate(ptile->units, vunit) {
-      if (ground_unit_transporter_capacity(x, y, punit->owner) < 0) {
+      if (ground_unit_transporter_capacity(x, y, unit_owner(punit)) < 0) {
  	unit_list_iterate(ptile->units, wunit) {
  	  if (is_ground_unit(wunit) && wunit->owner == vunit->owner) {
 	    struct city *wcity =
@@ -1494,35 +1499,30 @@ void resolve_unit_stack(int x, int y, int verbose)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_airunit_refuel_point(int x, int y, int playerid,
+static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
 				   Unit_Type_id type, int unit_is_on_tile)
 {
-  struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
+  struct player_tile *plrtile =
+      map_get_player_tile(x, y, pplayer->player_no);
 
-  if ((is_allied_city_tile(map_get_tile(x, y), playerid)
-       && !is_non_allied_unit_tile(map_get_tile(x, y), playerid))
-      || (plrtile->special&S_AIRBASE
-	  && !is_non_allied_unit_tile(map_get_tile(x, y), playerid)))
+  if ((is_allied_city_tile(map_get_tile(x, y), pplayer)
+       && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer))
+      || (plrtile->special & S_AIRBASE
+	  && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer)))
     return 1;
 
   if (unit_flag(type, F_MISSILE)) {
-    int cap = missile_carrier_capacity(x, y, playerid, 0);
+    int cap = missile_carrier_capacity(x, y, pplayer, 0);
     if (unit_is_on_tile)
       cap++;
     return cap>0;
   } else {
-    int cap = airunit_carrier_capacity(x, y, playerid, 0);
+    int cap = airunit_carrier_capacity(x, y, pplayer, 0);
     if (unit_is_on_tile)
       cap++;
     return cap>0;
   }
 }
-
-
-
-
-
-
 
 /**************************************************************************
 ...
@@ -1736,9 +1736,9 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
       && wipe_cargo) {
     int x = punit->x;
     int y = punit->y;
-    int playerid = punit->owner;
 
-    int capacity = ground_unit_transporter_capacity(x, y, playerid);
+    int capacity =
+	ground_unit_transporter_capacity(x, y, unit_owner(punit));
     capacity -= get_transporter_capacity(punit);
 
     unit_list_iterate(map_get_tile(x, y)->units, pcargo) {
@@ -1750,12 +1750,12 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 		  unit_name(pcargo->type));
 	  ITERATOR_NEXT((*iter));
 	}
-	notify_player_ex(get_player(playerid), x, y, E_UNIT_LOST,
+	notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
 			 _("Game: %s lost when %s was lost."),
 			 get_unit_type(pcargo->type)->name,
 			 get_unit_type(punit->type)->name);
 	gamelog(GAMELOG_UNITL, "%s lose %s when %s lost", 
-		get_nation_name_plural(game.players[playerid].nation),
+		get_nation_name_plural(unit_owner(punit)->nation),
 		get_unit_type(pcargo->type)->name,
 		get_unit_type(punit->type)->name);
 	server_remove_unit(pcargo);
@@ -1813,7 +1813,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 
   if (!unitcount) {
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, vunit)
-      if (players_at_war(pkiller->owner, vunit->owner))
+      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit)))
 	unitcount++;
     unit_list_iterate_end;
   }
@@ -1845,7 +1845,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 
     /* count killed units */
     unit_list_iterate((map_get_tile(punit->x ,punit->y)->units), vunit)
-      if (players_at_war(pkiller->owner, vunit->owner))
+      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit)))
 	num_killed[vunit->owner]++;
     unit_list_iterate_end;
 
@@ -1862,7 +1862,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 
     /* remove the units */
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-      if (players_at_war(pkiller->owner, punit2->owner)) {
+      if (pplayers_at_war(unit_owner(pkiller), unit_owner(punit2))) {
 	notify_player_ex(unit_owner(punit2), 
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 _("Game: %s lost to an attack"
@@ -2197,7 +2197,8 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return 1;
   }
 
-  if (is_non_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner)) {
+  if (is_non_allied_unit_tile
+      (map_get_tile(dest_x, dest_y), unit_owner(punit))) {
     int srange = get_unit_type(punit->type)->vision_range;
     show_area(unit_owner(punit), dest_x, dest_y, srange);
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST_ATT,
@@ -2436,7 +2437,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 
   /*** Ground units transports first ***/
   if (is_ground_units_transport(ptrans)) {
-    int available = ground_unit_transporter_capacity(x, y, playerid);
+    int available =
+	ground_unit_transporter_capacity(x, y, unit_owner(ptrans));
 
     /* See how many units are dedicated to this transport, and remove extra units */
     unit_list_iterate(ptile->units, pcargo) {
@@ -2501,9 +2503,11 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
     /*** Allocate air and missile units ***/
   } else if (is_air_units_transport(ptrans)) {
     struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
-    int is_refuel_point = is_allied_city_tile(map_get_tile(x, y), playerid)
-      || (plrtile->special&S_AIRBASE
-	  && !is_non_allied_unit_tile(map_get_tile(x, y), playerid));
+    int is_refuel_point =
+	is_allied_city_tile(map_get_tile(x, y), unit_owner(ptrans))
+	|| (plrtile->special & S_AIRBASE
+	    && !is_non_allied_unit_tile(map_get_tile(x, y),
+					unit_owner(ptrans)));
     int missiles_only = unit_flag(ptrans->type, F_MISSILE_CARRIER)
       && !unit_flag(ptrans->type, F_CARRIER);
 
@@ -2547,8 +2551,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	}
       } unit_list_iterate_end;
     } else { /** We are in the open. All units must have a transport if possible **/
-      int aircap = airunit_carrier_capacity(x, y, playerid, 1);
-      int miscap = missile_carrier_capacity(x, y, playerid, 1);
+      int aircap = airunit_carrier_capacity(x, y, unit_owner(ptrans), 1);
+      int miscap = missile_carrier_capacity(x, y, unit_owner(ptrans), 1);
 
       /* Not enough capacity. Take anything we can */
       if ((aircap < capacity || miscap < capacity)
@@ -2590,7 +2594,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
     /** If any of the transported air units have land units on board take them with us **/
     {
       int totcap = 0;
-      int available = ground_unit_transporter_capacity(x, y, playerid);
+      int available =
+	  ground_unit_transporter_capacity(x, y, unit_owner(ptrans));
       struct unit_list trans2s;
       unit_list_init(&trans2s);
 
@@ -2663,7 +2668,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       enum unit_move_type move_type = get_unit_type(penemy->type)->move_type;
       enum tile_terrain_type terrain = map_get_terrain(x, y);
 
-      if (!players_allied(punit->owner, penemy->owner)
+      if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
 	  && map_get_known_and_seen(punit->x, punit->y, penemy->owner)
 	  && range >= real_map_distance(punit->x, punit->y, x, y)
@@ -2752,17 +2757,17 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
     }
 
     /* entering/leaving a fortress */
-    if (map_get_tile(dest_x, dest_y)->special&S_FORTRESS
+    if (map_get_tile(dest_x, dest_y)->special & S_FORTRESS
 	&& homecity
-	&& is_friendly_city_near(punit->owner, dest_x, dest_y)
+	&& is_friendly_city_near(unit_owner(punit), dest_x, dest_y)
 	&& !senthome) {
       city_refresh(homecity);
       send_city_info(pplayer, homecity);
     }
 
-    if (map_get_tile(src_x, src_y)->special&S_FORTRESS
+    if (map_get_tile(src_x, src_y)->special & S_FORTRESS
 	&& homecity
-	&& is_friendly_city_near(punit->owner, src_x, src_y)
+	&& is_friendly_city_near(unit_owner(punit), src_x, src_y)
 	&& !senthome) {
       city_refresh(homecity);
       send_city_info(pplayer, homecity);
@@ -2939,7 +2944,8 @@ static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   int range = get_unit_type(punit->type)->vision_range;
 
   square_iterate(punit->x, punit->y, range, x, y) {
-    struct unit *penemy = is_non_allied_unit_tile(map_get_tile(x, y), punit->owner);
+    struct unit *penemy =
+	is_non_allied_unit_tile(map_get_tile(x, y), unit_owner(punit));
     if (penemy && player_can_see_unit(unit_owner(punit), penemy)) {
       cancel = 1;
     }
@@ -3049,7 +3055,7 @@ int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
   int src_x = punit->x, src_y = punit->y;
 
   result =
-      can_unit_move_to_tile_with_reason(punit->type, punit->owner,
+      can_unit_move_to_tile_with_reason(punit->type, unit_owner(punit),
 					punit->activity, punit->connecting,
 					punit->x, punit->y, dest_x, dest_y,
 					igzoc, &reason);

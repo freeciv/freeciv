@@ -441,7 +441,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
   int bestvalue = -1, count = 0, best_cost = 0, rating_of_best = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, defender) {
-    if (players_allied(attacker->owner, defender->owner))
+    if (pplayers_allied(unit_owner(attacker), unit_owner(defender)))
       continue;
     count++;
     if (unit_can_defend_here(defender)) {
@@ -493,9 +493,11 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
 {
   struct unit *bestatt = 0;
   int bestvalue = -1, unit_a, best_cost = 0;
+
   unit_list_iterate(map_get_tile(x, y)->units, attacker) {
     int build_cost = get_unit_type(attacker->type)->build_cost;
-    if (players_allied(defender->owner, attacker->owner))
+
+    if (pplayers_allied(unit_owner(defender), unit_owner(attacker)))
       return 0;
     unit_a = (int) (100000 * (unit_win_chance(attacker, defender)));
     if (unit_a > bestvalue ||

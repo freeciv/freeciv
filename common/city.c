@@ -1165,11 +1165,11 @@ int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
-struct city *is_enemy_city_tile(struct tile *ptile, int playerid)
+struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
-  if (pcity && players_at_war(playerid, pcity->owner))
+  if (pcity && pplayers_at_war(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1178,11 +1178,12 @@ struct city *is_enemy_city_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an friendly city on this tile?
 **************************************************************************/
-struct city *is_allied_city_tile(struct tile *ptile, int playerid)
+struct city *is_allied_city_tile(struct tile *ptile,
+				 struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
-  if (pcity && players_allied(playerid, pcity->owner))
+  if (pcity && pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1191,11 +1192,12 @@ struct city *is_allied_city_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
-struct city *is_non_attack_city_tile(struct tile *ptile, int playerid)
+struct city *is_non_attack_city_tile(struct tile *ptile,
+				     struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
-  if (pcity && players_non_attack(playerid, pcity->owner))
+  if (pcity && pplayers_non_attack(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1204,11 +1206,12 @@ struct city *is_non_attack_city_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an non_allied city on this tile?
 **************************************************************************/
-struct city *is_non_allied_city_tile(struct tile *ptile, int playerid)
+struct city *is_non_allied_city_tile(struct tile *ptile,
+				     struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
-  if (pcity && !players_allied(playerid, pcity->owner))
+  if (pcity && !pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1219,17 +1222,17 @@ struct city *is_non_allied_city_tile(struct tile *ptile, int playerid)
 **************************************************************************/
 int is_unit_near_a_friendly_city(struct unit *punit)
 {
-  return is_friendly_city_near(punit->owner, punit->x, punit->y);
+  return is_friendly_city_near(unit_owner(punit), punit->x, punit->y);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int is_friendly_city_near(int player_id, int x, int y)
+int is_friendly_city_near(struct player *owner, int x, int y)
 {
   square_iterate (x, y, 3, x1, y1) {
     struct city * pcity = map_get_city (x1, y1);
-    if (pcity && players_allied(player_id, pcity->owner))
+    if (pcity && pplayers_allied(owner, city_owner(pcity)))
       return 1;
   } square_iterate_end;
 

@@ -83,7 +83,7 @@ static struct unit *search_best_target(struct player *pplayer,
 
     targets = &(map_get_tile(x, y)->units);
     if (unit_list_size(targets) == 0) continue;
-    if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no))
+    if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer))
       continue;
 
     freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);

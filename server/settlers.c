@@ -788,8 +788,9 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap)
   unit_list_iterate(pplayer->units, aunit)
     if (is_ground_units_transport(aunit)) {
       if (warmap.cost[aunit->x][aunit->y] < best &&
-          (warmap.cost[aunit->x][aunit->y] == 0 ||
-          ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer->player_no) >= cap)) {
+	  (warmap.cost[aunit->x][aunit->y] == 0 ||
+	   ground_unit_transporter_capacity(aunit->x, aunit->y,
+					    pplayer) >= cap)) {
         id = aunit->id;
         best = warmap.cost[aunit->x][aunit->y];
         *x = aunit->x;

@@ -246,7 +246,7 @@ void update_players_dialog(void)
       if (i == game.player_idx) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = player_get_diplstate(game.player_idx, i);
+	pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
 	if (pds->type == DS_CEASEFIRE) {
 	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);
@@ -295,7 +295,8 @@ void players_list_callback(GtkWidget *w, gint row, gint column)
   else
     gtk_widget_set_sensitive(players_sship_command, FALSE);
 
-  switch(player_get_diplstate(game.player_idx, player_index)->type) {
+  switch (pplayer_get_diplstate
+	  (game.player_ptr, get_player(player_index))->type) {
   case DS_WAR: case DS_NO_CONTACT:
     gtk_widget_set_sensitive(players_war_command, FALSE);
     break;

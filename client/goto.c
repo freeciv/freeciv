@@ -274,14 +274,14 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 {
   if (unit_flag(punit->type, F_IGZOC))
     return 1;
-  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner))
+  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner(punit)))
     return 1;
   if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
     return 1;
   if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
     return 1;
-  return is_my_zoc(punit->owner, src_x, src_y)
-      || is_my_zoc(punit->owner, dest_x, dest_y);
+  return is_my_zoc(unit_owner(punit), src_x, src_y)
+      || is_my_zoc(unit_owner(punit), dest_x, dest_y);
 }
 
 /********************************************************************** 
@@ -342,7 +342,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 		       RR loops, ie you can't create a cycle with the same move_cost */
 
 	if (pdesttile->terrain == T_OCEAN) {
-	  if (ground_unit_transporter_capacity(x1, y1, punit->owner) <= 0)
+	  if (ground_unit_transporter_capacity(x1, y1, unit_owner(punit))
+	      <= 0)
 	    continue;
 	  else
 	    move_cost = SINGLE_MOVE;
@@ -362,14 +363,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 3 * SINGLE_MOVE;
-	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = 0;
 	    move_cost = SINGLE_MOVE;
 	  }
-	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
+	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
@@ -397,8 +398,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  move_cost = 2*SINGLE_MOVE; /* arbitrary */
-	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)
-		   || is_non_allied_city_tile(pdesttile, punit->owner)) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
+		   || is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  add_to_queue = 0;
 	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
@@ -432,7 +433,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
-	if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
+	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  add_to_queue = 0;
 	}
 

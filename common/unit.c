@@ -101,7 +101,6 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 				 int destx, int desty)
 {
   struct city *pcity=map_get_city(destx, desty);
-  int playerid = pdiplomat->owner;
 
   if (action!=DIPLOMAT_MOVE && map_get_terrain(pdiplomat->x, pdiplomat->y)==T_OCEAN)
     return 0;
@@ -110,26 +109,26 @@ int is_diplomat_action_available(struct unit *pdiplomat,
     if(pcity->owner!=pdiplomat->owner &&
        real_map_distance(pdiplomat->x, pdiplomat->y, pcity->x, pcity->y) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)
-        return players_at_war(playerid, pcity->owner);
+	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
       if(action==DIPLOMAT_MOVE)
-        return players_allied(playerid, pcity->owner);
+        return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
       if (action == DIPLOMAT_EMBASSY && !is_barbarian(city_owner(pcity)) &&
 	  !player_has_embassy(unit_owner(pdiplomat), city_owner(pcity)))
 	return 1;
       if(action==SPY_POISON &&
 	 pcity->size>1 &&
 	 unit_flag(pdiplomat->type, F_SPY))
-        return players_at_war(playerid, pcity->owner);
+	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
       if(action==DIPLOMAT_INVESTIGATE)
         return 1;
       if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity)))
 	return 1;
       if(action==DIPLOMAT_INCITE)
-        return !players_allied(pcity->owner, pdiplomat->owner);
+        return !pplayers_allied(city_owner(pcity), unit_owner(pdiplomat));
       if(action==DIPLOMAT_ANY_ACTION)
         return 1;
       if (action==SPY_GET_SABOTAGE_LIST && unit_flag(pdiplomat->type, F_SPY))
-	return players_at_war(playerid, pcity->owner);
+	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
     }
   } else { /* Action against a unit at a tile */
     /* If it is made possible to do action against allied units
@@ -142,13 +141,13 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 	unit_list_size(&ptile->units)==1 &&
 	unit_flag(pdiplomat->type, F_SPY)) {
       punit = unit_list_get(&ptile->units, 0);
-      return players_at_war(playerid, punit->owner);
+      return pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit));
     }
 
     if ((action==DIPLOMAT_BRIBE || action==DIPLOMAT_ANY_ACTION) &&
 	unit_list_size(&ptile->units)==1) {
       punit = unit_list_get(&ptile->units, 0);
-      return !players_allied(punit->owner, pdiplomat->owner);
+      return !pplayers_allied(unit_owner(punit), unit_owner(pdiplomat));
     }
   }
   return 0;
@@ -233,13 +232,13 @@ int unit_can_defend_here(struct unit *punit)
 /**************************************************************************
 Returns the number of free spaces for ground units. Can be 0 or negative.
 **************************************************************************/
-int ground_unit_transporter_capacity(int x, int y, int playerid)
+int ground_unit_transporter_capacity(int x, int y, struct player *pplayer)
 {
   int availability = 0;
   struct tile *ptile = map_get_tile(x, y);
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->owner == playerid) {
+    if (unit_owner(punit) == pplayer) {
       if (is_ground_units_transport(punit)
 	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
 	availability += get_transporter_capacity(punit);
@@ -333,10 +332,9 @@ int is_diplomat_unit(struct unit *punit)
 **************************************************************************/
 int is_ground_threat(struct player *pplayer, struct unit *punit)
 {
-  return (players_at_war(pplayer->player_no, punit->owner)
+  return (pplayers_at_war(pplayer, unit_owner(punit))
 	  && (unit_flag(punit->type, F_DIPLOMAT)
-	      || (is_ground_unit(punit)
-		  && is_military_unit(punit))));
+	      || (is_ground_unit(punit) && is_military_unit(punit))));
 }
 
 /**************************************************************************
@@ -987,7 +985,7 @@ struct player *unit_owner(struct unit *punit)
 /**************************************************************************
 Returns the number of free spaces for missiles. Can be 0 or negative.
 **************************************************************************/
-int missile_carrier_capacity(int x, int y, int playerid,
+int missile_carrier_capacity(int x, int y, struct player *pplayer,
 			     int count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
@@ -996,7 +994,7 @@ int missile_carrier_capacity(int x, int y, int playerid,
   int totalcap;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->owner == playerid) {
+    if (unit_owner(punit) == pplayer) {
       if (unit_flag(punit->type, F_CARRIER)
 	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	airall += get_transporter_capacity(punit);
@@ -1031,7 +1029,7 @@ int missile_carrier_capacity(int x, int y, int playerid,
 Returns the number of free spaces for airunits (includes missiles).
 Can be 0 or negative.
 **************************************************************************/
-int airunit_carrier_capacity(int x, int y, int playerid,
+int airunit_carrier_capacity(int x, int y, struct player *pplayer,
 			     int count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
@@ -1039,7 +1037,7 @@ int airunit_carrier_capacity(int x, int y, int playerid,
   int airall = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->owner == playerid) {
+    if (unit_owner(punit) == pplayer) {
       if (unit_flag(punit->type, F_CARRIER)
 	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	airall += get_transporter_capacity(punit);
@@ -1073,15 +1071,17 @@ Returns true if the tile contains an allied unit and only allied units.
 (ie, if your nation A is allied with B, and B is allied with C, a tile
 containing units from B and C will return false)
 **************************************************************************/
-struct unit *is_allied_unit_tile(struct tile *ptile, int playerid)
+struct unit *is_allied_unit_tile(struct tile *ptile,
+				 struct player *pplayer)
 {
   struct unit *punit = NULL;
 
-  unit_list_iterate(ptile->units, cunit)
-    if (players_allied(playerid, cunit->owner))
+  unit_list_iterate(ptile->units, cunit) {
+    if (pplayers_allied(pplayer, unit_owner(cunit)))
       punit = cunit;
     else
       return NULL;
+  }
   unit_list_iterate_end;
 
   return punit;
@@ -1090,11 +1090,12 @@ struct unit *is_allied_unit_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an enemy unit on this tile?
 **************************************************************************/
-struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid)
+struct unit *is_enemy_unit_tile(struct tile *ptile, struct player *pplayer)
 {
-  unit_list_iterate(ptile->units, punit)
-    if (players_at_war(punit->owner, playerid))
+  unit_list_iterate(ptile->units, punit) {
+    if (pplayers_at_war(unit_owner(punit), pplayer))
       return punit;
+  }
   unit_list_iterate_end;
 
   return NULL;
@@ -1103,11 +1104,13 @@ struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an non-allied unit on this tile?
 **************************************************************************/
-struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid)
+struct unit *is_non_allied_unit_tile(struct tile *ptile,
+				     struct player *pplayer)
 {
-  unit_list_iterate(ptile->units, punit)
-    if (!players_allied(punit->owner, playerid))
+  unit_list_iterate(ptile->units, punit) {
+    if (!pplayers_allied(unit_owner(punit), pplayer))
       return punit;
+  }
   unit_list_iterate_end;
 
   return NULL;
@@ -1116,11 +1119,13 @@ struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid)
 /**************************************************************************
  is there an unit we have peace or ceasefire with on this tile?
 **************************************************************************/
-struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
+struct unit *is_non_attack_unit_tile(struct tile *ptile,
+				     struct player *pplayer)
 {
-  unit_list_iterate(ptile->units, punit)
-    if (players_non_attack(punit->owner, playerid))
+  unit_list_iterate(ptile->units, punit) {
+    if (pplayers_non_attack(unit_owner(punit), pplayer))
       return punit;
+  }
   unit_list_iterate_end;
 
   return NULL;
@@ -1135,12 +1140,11 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
 
   Note this function only makes sense for ground units.
 **************************************************************************/
-int is_my_zoc(int player_id_of_unit_owner, int x0, int y0)
+int is_my_zoc(struct player *unit_owner, int x0, int y0)
 {
   square_iterate(x0, y0, 1, x1, y1) {
     if ((map_get_terrain(x1, y1) != T_OCEAN)
-	&& is_non_allied_unit_tile(map_get_tile(x1, y1),
-				   player_id_of_unit_owner))
+	&& is_non_allied_unit_tile(map_get_tile(x1, y1), unit_owner))
       return 0;
   } square_iterate_end;
 
@@ -1167,20 +1171,20 @@ int unit_type_really_ignores_zoc(Unit_Type_id type)
   6. The spot you're moving from or to is in your ZOC
 **************************************************************************/
 int can_step_taken_wrt_to_zoc(Unit_Type_id type,
-			      int player_id_of_unit_owner, int src_x,
+			      struct player *unit_owner, int src_x,
 			      int src_y, int dest_x, int dest_y)
 {
   if (unit_type_really_ignores_zoc(type))
     return 1;
-  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), player_id_of_unit_owner))
+  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner))
     return 1;
   if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
     return 1;
   if (map_get_terrain(src_x, src_y) == T_OCEAN ||
       map_get_terrain(dest_x, dest_y) == T_OCEAN)
     return 1;
-  return (is_my_zoc(player_id_of_unit_owner, src_x, src_y) ||
-	  is_my_zoc(player_id_of_unit_owner, dest_x, dest_y));
+  return (is_my_zoc(unit_owner, src_x, src_y) ||
+	  is_my_zoc(unit_owner, dest_x, dest_y));
 }
 
 /**************************************************************************
@@ -1188,8 +1192,8 @@ int can_step_taken_wrt_to_zoc(Unit_Type_id type,
 **************************************************************************/
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
 {
-  return can_step_taken_wrt_to_zoc(punit->type, punit->owner, x1, y1, x2,
-				   y2);
+  return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
+				   x1, y1, x2, y2);
 }
 
 /**************************************************************************
@@ -1216,7 +1220,7 @@ int zoc_ok_move(struct unit *punit, int x, int y)
   10) there is no non-allied unit blocking (zoc) [or igzoc is true]
 **************************************************************************/
 int can_unit_move_to_tile_with_reason(Unit_Type_id type,
-				      int player_id_of_unit_owner,
+				      struct player *unit_owner,
 				      enum unit_activity activity,
 				      int connecting, int src_x, int src_y,
 				      int dest_x, int dest_y, int igzoc,
@@ -1253,15 +1257,14 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
   ptotile = map_get_tile(dest_x, dest_y);
 
   /* 4) */
-  if (is_non_allied_unit_tile(ptotile, player_id_of_unit_owner)) {
+  if (is_non_allied_unit_tile(ptotile, unit_owner)) {
     return 0;
   }
 
   if (unit_types[type].move_type == LAND_MOVING) {
     /* 5) */
     if (ptotile->terrain == T_OCEAN &&
-	ground_unit_transporter_capacity(dest_x, dest_y,
-					 player_id_of_unit_owner) <= 0) {
+	ground_unit_transporter_capacity(dest_x, dest_y, unit_owner) <= 0) {
       return 0;
     }
 
@@ -1269,7 +1272,7 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
     if (pfromtile->terrain == T_OCEAN) {
       /* 6) */
       if (!unit_flag(type, F_MARINES)
-	  && is_enemy_city_tile(ptotile, player_id_of_unit_owner)) {
+	  && is_enemy_city_tile(ptotile, unit_owner)) {
 	*reason = MR_INVALID_TYPE_FOR_CITY_TAKE_OVER;
 	return 0;
       }
@@ -1278,27 +1281,27 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
     /* 7) */
     if (ptotile->terrain != T_OCEAN
 	&& ptotile->terrain != T_UNKNOWN
-	&& !is_allied_city_tile(ptotile, player_id_of_unit_owner)) {
+	&& !is_allied_city_tile(ptotile, unit_owner)) {
 	  return 0;
     }
   }
 
   /* 8) */
-  if (is_non_attack_unit_tile(ptotile, player_id_of_unit_owner)) {
+  if (is_non_attack_unit_tile(ptotile, unit_owner)) {
     *reason = MR_NO_WAR;
     return 0;
   }
 
   /* 9) */
   pcity = ptotile->city;
-  if (pcity && players_non_attack(pcity->owner, player_id_of_unit_owner)) {
+  if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
     *reason = MR_NO_WAR;
     return 0;
   }
 
   /* 10) */
   zoc = igzoc
-      || can_step_taken_wrt_to_zoc(type, player_id_of_unit_owner, src_x,
+      || can_step_taken_wrt_to_zoc(type, unit_owner, src_x,
 				   src_y, dest_x, dest_y);
   if (!zoc) {
     *reason = MR_ZOC;

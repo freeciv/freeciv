@@ -199,20 +199,16 @@ int ai_fuzzy(struct player *pplayer, int normal_decision);
 const char *reputation_text(const int rep);
 const char *diplstate_text(const enum diplstate_type type);
 
-/* we have an int in some contexts, a pointer in others.  Yuk! */
-const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
-						     const struct player *pplayer2);
-const struct player_diplstate *player_get_diplstate(const int player,
-						    const int player2);
-int pplayers_at_war(const struct player *pplayer, 
+const struct player_diplstate *pplayer_get_diplstate(const struct player
+						     *pplayer,
+						     const struct player
+						     *pplayer2);
+int pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
-int players_at_war(const int player, const int player2);
 int pplayers_allied(const struct player *pplayer,
 		    const struct player *pplayer2);
-int players_allied(const int player, const int player2);
 int pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
-int players_non_attack(const int player, const int player2);
 
 int is_barbarian(const struct player *pplayer);
 

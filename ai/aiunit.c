@@ -72,20 +72,19 @@ static int unit_can_defend(Unit_Type_id type);
 **************************************************************************/
 static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 {
-  int owner=myunit->owner;
-
   assert(is_ground_unit(myunit));
   
   if (same_pos(x0, y0, myunit->x, myunit->y))
     return 0; /* can't be my zoc */
   if (is_tiles_adjacent(x0, y0, myunit->x, myunit->y)
-      && !is_non_allied_unit_tile(map_get_tile(x0, y0), owner))
+      && !is_non_allied_unit_tile(map_get_tile(x0, y0),
+				  unit_owner(myunit)))
     return 0;
 
   adjc_iterate(x0, y0, ax, ay) {
     if (map_get_terrain(ax, ay) != T_OCEAN
-	&& is_non_allied_unit_tile(map_get_tile(ax,ay), owner))
-      return 0;
+	&& is_non_allied_unit_tile(map_get_tile(ax, ay),
+				   unit_owner(myunit))) return 0;
   } adjc_iterate_end;
   
   return 1;
@@ -104,7 +103,7 @@ int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
   int result;
 
   result =
-      can_unit_move_to_tile_with_reason(punit->type, punit->owner,
+      can_unit_move_to_tile_with_reason(punit->type, unit_owner(punit),
 					punit->activity, punit->connecting,
 					punit->x, punit->y, dest_x, dest_y,
 					0, &reason);
@@ -167,12 +166,12 @@ static int tile_is_accessible(struct unit *punit, int x, int y)
 {
   if (unit_type_really_ignores_zoc(punit->type))
     return 1;
-  if (is_my_zoc(punit->owner, x, y))
+  if (is_my_zoc(unit_owner(punit), x, y))
     return 1;
 
   adjc_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) != T_OCEAN
-	&& is_my_zoc(punit->owner, x1, y1))
+	&& is_my_zoc(unit_owner(punit), x1, y1))
       return 1;
   } adjc_iterate_end;
 
@@ -304,8 +303,8 @@ int ai_manage_explorer(struct unit *punit)
       struct tile *ptile = map_get_tile(x1, y1);
       unknown = 0;
       if (ptile->continent == con
-	  && !is_non_allied_unit_tile(ptile, punit->owner)
-	  && !is_non_allied_city_tile(ptile, punit->owner)
+	  && !is_non_allied_unit_tile(ptile, pplayer)
+	  && !is_non_allied_city_tile(ptile, pplayer)
 	  && tile_is_accessible(punit, x1, y1)) {
 	square_iterate(x1, y1, range, x2, y2) {
 	  if (!map_get_known(x2, y2, pplayer))
@@ -746,7 +745,8 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
     if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
       for (l = 0; l < 8 && !ok; l++) {
         if (map_get_terrain(x1 + DIR_DX[l], y1 + DIR_DY[l]) == T_OCEAN) {
-          if (is_my_zoc(punit->owner, x1 + DIR_DX[l], y1 + DIR_DY[l])) ok++;
+	  if (is_my_zoc(unit_owner(punit), x1 + DIR_DX[l], y1 + DIR_DY[l]))
+	    ok++;
         }
       }
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
@@ -867,7 +867,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
           punit->goto_dest_x = dest_x;
           punit->goto_dest_y = dest_y;
           set_unit_activity(punit, ACTIVITY_SENTRY); /* anything but GOTO!! */
-          if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer->player_no) <= 0) {
+	  if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
+	      <= 0) {
 	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
             unit_list_iterate(ptile->units, mypass)
@@ -1674,8 +1675,8 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   unit_list_iterate(pplayer->units, aunit)
 /*    if (aunit->ai.ferryboat == punit->id && warmap.seacost[aunit->x][aunit->y] < best) {*/
     if (aunit->ai.ferryboat && warmap.seacost[aunit->x][aunit->y] < best &&
-          ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer->player_no) <= 0 &&
-	  ai_fuzzy(pplayer,1)) {
+	ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer) <= 0
+	&& ai_fuzzy(pplayer, 1)) {
       freelog(LOG_DEBUG, "Found a friend %d@(%d, %d)",
 		    aunit->id, aunit->x, aunit->y);
       x = aunit->x;
@@ -1804,8 +1805,8 @@ static int unit_can_be_retired(struct unit *punit)
     return 0;
   }
 
-  if (is_allied_city_tile(map_get_tile(punit->x, punit->y), punit->owner))
-    return 0;
+  if (is_allied_city_tile
+      (map_get_tile(punit->x, punit->y), unit_owner(punit))) return 0;
 
   /* check if there is enemy nearby */
   for(x = punit->x - 3; x < punit->x + 4; x++)
@@ -1813,8 +1814,8 @@ static int unit_can_be_retired(struct unit *punit)
       if( y < 0 || y > map.ysize )
         continue;
       x1 = map_adjust_x(x);
-      if (is_enemy_city_tile(map_get_tile(x1, y), punit->owner) ||
-          is_enemy_unit_tile(map_get_tile(x1, y), punit->owner))
+      if (is_enemy_city_tile(map_get_tile(x1, y), unit_owner(punit)) ||
+	  is_enemy_unit_tile(map_get_tile(x1, y), unit_owner(punit)))
         return 0;
     }
 
