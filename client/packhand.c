@@ -155,13 +155,13 @@ void handle_login_reply(struct packet_login_reply *packet)
   if (packet->you_can_login) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = TRUE;
-    game.conn_id = packet->conn_id;
+    aconnection.id = packet->conn_id;
     agents_game_joined();
   } else {
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), packet->message);
     append_output_window(msg);
-    game.conn_id = 0;
+    aconnection.id = 0;
     if (auto_connect) {
       freelog(LOG_NORMAL, "%s", msg);
     }
@@ -1402,7 +1402,7 @@ static void choose_government(void)
 			       PACKET_PLAYER_GOVERNMENT);
 
     government_selected = FALSE;
-  } else {
+  } else if (!client_is_observer()) {
     popup_government_dialog();
   }
 }
@@ -1530,7 +1530,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 void handle_conn_info(struct packet_conn_info *pinfo)
 {
   struct connection *pconn = find_conn_by_id(pinfo->id);
-  
+
   freelog(LOG_DEBUG, "conn_info id%d used%d est%d plr%d obs%d acc%d",
 	  pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
 	  pinfo->observer, (int)pinfo->access_level);
@@ -1545,8 +1545,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     }
     client_remove_cli_conn(pconn);
     pconn = NULL;
-  }
-  else {
+  } else {
     /* Add or update the connection */
     struct player *pplayer =
       ((pinfo->player_num >= 0 && pinfo->player_num < game.nplayers)
@@ -1555,6 +1554,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
 	      pinfo->id, pinfo->username);
+
       pconn = fc_calloc(1, sizeof(struct connection));
       pconn->buffer = NULL;
       pconn->send_buffer = NULL;
@@ -1585,6 +1585,13 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->username, pinfo->username);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
+
+    if (pinfo->id == aconnection.id) {
+      aconnection.established = pconn->established;
+      aconnection.observer = pconn->observer;
+      aconnection.access_level = pconn->access_level;
+      aconnection.player = pplayer;
+    }
   }
   update_players_dialog();
   update_conn_list_dialog();
@@ -1923,9 +1930,12 @@ void handle_select_nation(struct packet_nations_used *packet)
     }
   } else if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     set_client_state(CLIENT_SELECT_RACE_STATE);
-    popup_races_dialog();
-    assert(packet != NULL);
-    races_toggles_set_sensitive(packet);
+
+    if (!client_is_observer()) {
+      popup_races_dialog();
+      assert(packet != NULL);
+      races_toggles_set_sensitive(packet);
+    }
   } else {
     freelog(LOG_ERROR,
 	    "got a select nation packet in an incompatible state");

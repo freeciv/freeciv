@@ -3311,6 +3311,9 @@ static void observe_command(struct connection *caller, char *str)
     send_packet_generic_empty(pconn, PACKET_START_TURN);
   }
 
+  /* tell everyone that pconn is observing */
+  send_conn_info(&pconn->self, &game.est_connections);
+
   cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
             pconn->username, pplayer->name);
 
