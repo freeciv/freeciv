@@ -192,9 +192,10 @@ int game_load(struct section_file *file)
     game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
   }
 
-  if (game.version >= 10604) {
-    savefile_options = secfile_lookup_str(file,"savefile.options");    
-  }
+  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
+      || (game.version > 10604)) 
+    savefile_options = secfile_lookup_str(file,"savefile.options");
+  /* else leave savefile_options empty */
 
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
      game.version) to determine which variables you can expect to 
