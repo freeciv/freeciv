@@ -382,7 +382,8 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
   if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
     values[B_SUPERHIGHWAYS] = road_trade(pcity) * t;
 
-  if (could_build_improvement(pcity, B_SUPERMARKET))
+  if (could_build_improvement(pcity, B_SUPERMARKET) &&
+      player_knows_techs_with_flag(pplayer, TF_FARMLAND))
     values[B_SUPERMARKET] = farmland_food(pcity) * food * hunger;
 
   if (could_build_improvement(pcity, B_TEMPLE))

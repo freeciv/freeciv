@@ -960,7 +960,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
 	(!(ptile->special&S_IRRIGATION) ||
 	 (!(ptile->special&S_FARMLAND) &&
-	  player_knows_improvement_tech(pplayer, B_SUPERMARKET))) &&
+	  player_knows_techs_with_flag(pplayer, TF_FARMLAND))) &&
 	( (ptile->terrain==type->irrigation_result && 
 	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
 	  (ptile->terrain!=type->irrigation_result &&

@@ -319,7 +319,8 @@ void eval_buildings(struct city *pcity,int *values)
     if (can_build_improvement(pcity, B_GRANARY)) 
       values[B_GRANARY]=pcity->food_surplus*50;
   }
-  if (can_build_improvement(pcity, B_SUPERMARKET))
+  if (can_build_improvement(pcity, B_SUPERMARKET) &&
+      player_knows_techs_with_flag(plr, TF_FARMLAND))
     values[B_SUPERMARKET]=pcity->size*55;
 
   if (can_build_improvement(pcity, B_AQUEDUCT)

@@ -36,6 +36,7 @@ options="1.9"
 ; "Boat_Fast" = all sea units get one extra move point
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
 ; "Railroad" = "Settler" unit types can build rail roads
+; "Farmland" = "Settler" unit types can build farmland
 ; "Fortress" = "Settler" unit types can build fortress
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              popultaion by one
@@ -456,7 +457,7 @@ flags    = ""
 name     = _("Refrigeration")
 req1     = "Never"
 req2     = "Never"
-flags    = ""
+flags    = "Farmland"
 
 [advance_robotics]
 name     = _("Robotics")

@@ -906,7 +906,7 @@ void update_menus(void)
 		   (get_tile_type(tinfo->irrigation_result))->terrain_name);
 	}
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
-	       improvement_exists(B_SUPERMARKET))
+	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 	{
 	  sz_strlcpy (irrtext, _("Build Farmland"));
 	}

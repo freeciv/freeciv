@@ -686,7 +686,9 @@ int get_food_tile(int x, int y, struct city *pcity)
 
   if ((spec_t & S_IRRIGATION) || city_auto_water) {
     f += type->irrigation_food_incr;
-    if (((spec_t & S_FARMLAND) || city_auto_water) &&
+    if (((spec_t & S_FARMLAND) ||
+	 (city_auto_water &&
+	  player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND))) &&
 	city_got_building(pcity, B_SUPERMARKET)) {
       f += (f * terrain_control.farmland_supermarket_food_bonus) / 100;
     }

@@ -671,9 +671,7 @@ void map_irrigate_tile(int x, int y)
 
   if(now==result) {
     if (map_get_special(x, y)&S_IRRIGATION) {
-      if (improvement_exists(B_SUPERMARKET)) {
-	map_set_special(x, y, S_FARMLAND);
-      }
+      map_set_special(x, y, S_FARMLAND);
     } else {
       map_set_special(x, y, S_IRRIGATION);
     }

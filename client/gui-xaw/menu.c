@@ -347,7 +347,7 @@ void update_menus(void)
 			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
-	       improvement_exists(B_SUPERMARKET)) {
+	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
       } else {

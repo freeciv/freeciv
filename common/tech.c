@@ -27,7 +27,7 @@ struct advance advances[A_LAST];
    client/packhand.c (for the client) */
 
 static char *flag_names[] = {
-  "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
+  "Bonus_Tech","Boat_Fast","Bridge","Railroad","Farmland","Fortress",
   "Population_Pollution_Inc","Trade_Revenue_Reduce","Airbase"
 };
 

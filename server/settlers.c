@@ -538,7 +538,7 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
      (ptile->special&S_IRRIGATION) && !(ptile->special&S_FARMLAND) &&
-     player_knows_improvement_tech(pplayer, B_SUPERMARKET) &&
+     player_knows_techs_with_flag(pplayer, TF_FARMLAND) &&
      !(ptile->special&S_MINE) && !(ptile->city) &&
      (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
      is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {

@@ -1763,7 +1763,8 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		if (can_unit_do_activity(punit, ACTIVITY_IRRIGATE))
 		{
 		  static char irrtext[64];
-		  if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) && improvement_exists(B_SUPERMARKET))
+		  if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
+		      player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 		  {
 		    strcpy(irrtext, "Build Farmland");
 		  }
