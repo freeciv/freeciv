@@ -730,6 +730,7 @@ popup_activeunits_report_dialog(bool make_modal)
       ListView_InsertColumn(lv,0,&lvc);
       for(i=1;i<AU_COL;i++) {
 	lvc.mask=LVCF_TEXT | LVCF_FMT;
+	lvc.fmt=LVCFMT_RIGHT;
 	lvc.pszText=_(headers[i]);
 	ListView_InsertColumn(lv,i,&lvc);
       }
