@@ -537,8 +537,6 @@ static void change_callback(GtkWidget *w, gpointer data)
     packet.is_build_id_unit_id = cid_is_unit(cid);
 
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-  } else {
-    popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
   }
 }
 
@@ -869,7 +867,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   button = gtk_button_new_from_stock(GTK_STOCK_HELP);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-		   G_CALLBACK(help_callback), src_view);
+		   G_CALLBACK(help_callback), ptr);
 
   ptr->src_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view));
   ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
