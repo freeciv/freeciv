@@ -529,4 +529,38 @@ in doubt, just try both to see which one will work.)
 Replace <...> with whatever additional arguments you want to give to
 configure.
 
+
+10. Debian GNU/Linux notes:
+===========================
+
+To compile freeciv on a debian system you need the following packages:
+
+ Common requirements:
+   gcc
+   libc6-dev
+   libreadline4-dev >= 4.2 (optional, see readline section)
+   zlib1g-dev
+   xlib6g-dev
+
+ For the gtk client:
+   gdk-imlib-dev
+   libglib1.2-dev
+   libgtk1.2-dev
+   imlib-progs
+
+ For the xaw client:
+   xaw3dg-dev
+   libxpm4-dev
+
+If you want to compile the xaw client you should give configure the
+argument --with-xaw3d, ie
+
+  % ./configure --with-xaw3d
+
+If you need to run aclocal (if you don't know what aclocal is then you
+don't need it) you also need to install imlib-dev to get the
+AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
+in gdk-imlib-dev, and it will hopefully be fixed in future debian
+releases.
+
 ** END **
