@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-21 23:45-0700\n"
-"PO-Revision-Date: 2002-07-23 12:12+0300\n"
+"PO-Revision-Date: 2002-07-23 14:37+0300\n"
 "Last-Translator: Ahti Akel <akel@stallion.ee>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -971,15 +971,15 @@ msgstr ""
 
 #: server/console.c:178
 msgid "Ok. RFC-style set."
-msgstr ""
+msgstr "Ok. RFC-stiil seatud."
 
 #: server/console.c:180
 msgid "Ok. Standard style set."
-msgstr ""
+msgstr "Ok. Standard stiile seatud."
 
 #: server/console.c:200
 msgid "For introductory help, type 'help'."
-msgstr ""
+msgstr "Sissejuhatavaks abiks trüki 'help'."
 
 #: server/diplhand.c:148
 #, c-format
@@ -1250,11 +1250,11 @@ msgstr ""
 
 #: server/diplomats.c:726
 msgid "Game: You can't subvert a city from this nation."
-msgstr ""
+msgstr "Mäng: Sa ei saa selle rahvuse linna õõnestada."
 
 #: server/diplomats.c:735
 msgid "Game: You can't subvert the capital of a nation."
-msgstr ""
+msgstr "Mäng: Sa ei saa selle rahvuse pealinna õõnestada."
 
 #: server/diplomats.c:754
 #, c-format
@@ -1490,6 +1490,8 @@ msgid ""
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Mäng: Uus lootus sööstab üle maa nagu tuli, kui teatati raudtee avastamisest.\n"
+"      Töötajad kogunevad spontaanselt ja uuendavad kõiki linnu raudteedega."
 
 #: server/maphand.c:190
 msgid ""
@@ -1509,7 +1511,7 @@ msgstr "%s ei anna enam meile jagatud vaatevälja!"
 
 #: server/meta.c:181
 msgid "Not reporting to the metaserver in this game."
-msgstr ""
+msgstr "Selles mängus metaserverile ei raporteerita."
 
 #: server/meta.c:212
 #, c-format
@@ -1613,6 +1615,8 @@ msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
+"Mäng: Suured teadlased üle kogu maa ühinevad Sinu tsivilisatsiooniga ja Sa "
+"areneded kohe edasi."
 
 #: server/plrhand.c:398
 #, c-format
@@ -1890,31 +1894,31 @@ msgstr "Suurepärane"
 
 #: server/report.c:141
 msgid "Glorious"
-msgstr ""
+msgstr "Tore"
 
 #: server/report.c:141
 msgid "Great"
-msgstr ""
+msgstr "Suurepärane"
 
 #: server/report.c:141
 msgid "Decent"
-msgstr ""
+msgstr "Korralik"
 
 #: server/report.c:142
 msgid "Mediocre"
-msgstr ""
+msgstr "Keskpärane"
 
 #: server/report.c:142
 msgid "Hilarious"
-msgstr ""
+msgstr "Rõõmsameelne"
 
 #: server/report.c:142
 msgid "Worthless"
-msgstr ""
+msgstr "Väärtusetu"
 
 #: server/report.c:142
 msgid "Pathetic"
-msgstr ""
+msgstr "Haletsusväärne"
 
 #: server/report.c:143
 msgid "Useless"
@@ -1947,7 +1951,7 @@ msgstr[1] " ilmaime"
 
 #: server/report.c:276 server/report.c:320
 msgid "Traveler's Report:"
-msgstr ""
+msgstr "Ränduri raport:"
 
 #: server/report.c:277
 msgid "The Five Greatest Cities in the World!"
@@ -1975,11 +1979,11 @@ msgstr "Maailma imed"
 
 #: server/report.c:402
 msgid " sq. mi."
-msgstr ""
+msgstr " ruutmiili."
 
 #: server/report.c:412
 msgid " M tons"
-msgstr ""
+msgstr " megatonni"
 
 #: server/report.c:417
 msgid " M goods"
@@ -1988,7 +1992,7 @@ msgstr ""
 #: server/report.c:422
 msgid " month"
 msgid_plural " months"
-msgstr[0] ""
+msgstr[0] " kuu"
 msgstr[1] " kuud"
 
 #: server/report.c:427
@@ -2062,13 +2066,13 @@ msgstr ""
 
 #: server/ruleset.c:172
 msgid "Ruleset datafile appears incompatible:"
-msgstr ""
+msgstr "Reeglite seadistuse andmefail tundub olevat mittesobiv:"
 
 #: server/ruleset.c:173 server/ruleset.c:181 client/audio.c:182
 #: client/audio.c:190 client/tilespec.c:170 client/tilespec.c:178
 #, c-format
 msgid "file: \"%s\""
-msgstr ""
+msgstr "fail: \"%s\""
 
 #: server/ruleset.c:174 server/ruleset.c:182 client/audio.c:183
 #: client/audio.c:191 client/tilespec.c:171 client/tilespec.c:179
@@ -2088,7 +2092,7 @@ msgstr ""
 
 #: server/ruleset.c:2734
 msgid "Loading rulesets"
-msgstr ""
+msgstr "Laen reeglite seadistusi"
 
 #: server/rulesout.c:54
 msgid "+1 tech to 1st"
@@ -2116,7 +2120,7 @@ msgstr ""
 
 #: server/rulesout.c:60
 msgid "trade reduced"
-msgstr ""
+msgstr "kaubandus vähenes"
 
 #: server/rulesout.c:61
 msgid "airbases"
@@ -2140,12 +2144,12 @@ msgstr ""
 
 #: server/savegame.c:131
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Põhjus: rida ei leitud"
 
 #: server/savegame.c:133
 #, c-format
 msgid "Reason: line too short (expected %d got %d"
-msgstr ""
+msgstr "Põhjus: rida on liiga lühike (loodeti %d, saadi %d"
 
 #: server/savegame.c:288
 #, c-format
@@ -2154,11 +2158,11 @@ msgstr ""
 
 #: server/savegame.c:1680
 msgid "Savegame too old, at least version 1.9.0 required."
-msgstr ""
+msgstr "Salvestatud mäng on liiga vana, vähemalt versioon 1.9.0 on vajaka."
 
 #: server/savegame.c:1840
 msgid "The savegame uses the classic terrain ruleset which is no longer supported."
-msgstr ""
+msgstr "Salvestatud mäng kasutab klassikalist maastiku reeglite seadistust, mis ei ole enam toetaud."
 
 #: server/savegame.c:1849
 #, c-format
@@ -2169,19 +2173,19 @@ msgstr ""
 
 #: server/sernet.c:123
 msgid "Server cannot read standard input. Ignoring input."
-msgstr ""
+msgstr "Server ei suuda standard sisendit lugeda. Ignoreerin sisendit."
 
 #: server/spacerace.c:163
 msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Mäng: Sul peab olema pealinn, et saaks kosmoselaeva välja saata."
 
 #: server/spacerace.c:168
 msgid "Game: Your spaceship is already launched!"
-msgstr ""
+msgstr "Mäng: Sinu kosmoselaev on juba välja saadetud!"
 
 #: server/spacerace.c:173
 msgid "Game: Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "Mäng: Sinu kosmoselaeva ei saa veel välja saata!"
 
 #: server/spacerace.c:182
 #, c-format
@@ -2196,7 +2200,7 @@ msgstr ""
 
 #: server/spacerace.c:210
 msgid "Game: You can't modify your spaceship after launch!"
-msgstr ""
+msgstr "Mäng: Sa ei saa oma kosmoselaeva peale väljasaatmist muuta!"
 
 #: server/spacerace.c:219
 msgid "Game: You don't have any unplaced Space Structurals!"
@@ -2269,15 +2273,15 @@ msgstr ""
 #: server/srv_main.c:487
 #, c-format
 msgid "Game saved as %s"
-msgstr ""
+msgstr "Mäng salvestati kui %s."
 
 #: server/srv_main.c:517
 msgid "The game is already running."
-msgstr ""
+msgstr "Mäng juba käib."
 
 #: server/srv_main.c:521
 msgid "Starting game."
-msgstr ""
+msgstr "Käivitan mängu."
 
 #: server/srv_main.c:659
 #, c-format
@@ -2290,12 +2294,12 @@ msgstr ""
 
 #: server/srv_main.c:919
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "Palun vali mittetühi nimi."
 
 #: server/srv_main.c:943
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
-msgstr ""
+msgstr "Nimi '%s' on juba kasutusel. Palun vali mõni teine nimi."
 
 #: server/srv_main.c:951
 #, c-format
@@ -2305,16 +2309,16 @@ msgstr ""
 #: server/srv_main.c:980
 #, c-format
 msgid "No nations left: Removing player %s."
-msgstr ""
+msgstr "Rahvused on otsas. Eemaldan mängija %s."
 
 #: server/srv_main.c:983
 msgid "Game: Sorry, there are no nations left."
-msgstr ""
+msgstr "Mäng: Vabandust, rahvused on otsas."
 
 #: server/srv_main.c:1033
 #, c-format
 msgid "%s has joined as player %s."
-msgstr ""
+msgstr "%s ühines kui mängija %s."
 
 #: server/srv_main.c:1038
 #, c-format
@@ -2349,7 +2353,7 @@ msgstr ""
 #: server/srv_main.c:1207
 #, c-format
 msgid "Invalid name '%s'"
-msgstr ""
+msgstr "Vigane nimi '%s'"
 
 #: server/srv_main.c:1209
 #, c-format
@@ -2475,12 +2479,12 @@ msgstr ""
 #: server/srv_main.c:1390
 #, c-format
 msgid "Lost connection: %s."
-msgstr ""
+msgstr "Kadus ühendus: %s."
 
 #: server/srv_main.c:1399
 #, c-format
 msgid "Game: Lost connection: %s."
-msgstr ""
+msgstr "Mäng: Kadus ühendus: %s."
 
 #: server/srv_main.c:1485
 #, c-format
@@ -2523,7 +2527,7 @@ msgstr ""
 
 #: server/srv_main.c:1761
 msgid "Starting new log"
-msgstr ""
+msgstr "Alustan uut logi."
 
 #: server/srv_main.c:1787
 #, c-format
@@ -2562,15 +2566,15 @@ msgstr ""
 
 #: server/stdinhand.c:212
 msgid "Map width in squares"
-msgstr ""
+msgstr "Kaardi laius ruutudes"
 
 #: server/stdinhand.c:216
 msgid "Map height in squares"
-msgstr ""
+msgstr "Kaardi kõrgus ruutudes"
 
 #: server/stdinhand.c:223
 msgid "Method used to generate map"
-msgstr ""
+msgstr "Kaardi genereerimiseks kasutatud meetod"
 
 #: server/stdinhand.c:224
 msgid ""
@@ -3272,12 +3276,12 @@ msgstr ""
 
 #: server/stdinhand.c:982
 msgid "Quit the game and shutdown the server."
-msgstr ""
+msgstr "Välju mängust ja seiska server."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:986
 msgid "cut <connection-name>"
-msgstr ""
+msgstr "cut <ühenduse nimi>"
 
 #: server/stdinhand.c:987
 msgid "Cut a client's connection to server."
@@ -3341,7 +3345,7 @@ msgstr ""
 
 #: server/stdinhand.c:1020
 msgid "wall <message>"
-msgstr ""
+msgstr "wall <teade>"
 
 #: server/stdinhand.c:1021
 msgid "Send message to all connections."
@@ -3414,7 +3418,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1065
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <mängija nimi>"
 
 #: server/stdinhand.c:1066
 msgid "Create an AI player with a given name."
@@ -3537,16 +3541,16 @@ msgstr ""
 
 #: server/stdinhand.c:1140
 msgid "End the game."
-msgstr ""
+msgstr "Mängu lõpp."
 
 #: server/stdinhand.c:1141
 msgid "This command ends the game immediately."
-msgstr ""
+msgstr "See käsk lõpetab mängu koheselt."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1145
 msgid "remove <player-name>"
-msgstr ""
+msgstr "remove <mängija nimi>"
 
 #: server/stdinhand.c:1146
 msgid "Fully remove player from game."
@@ -3567,7 +3571,7 @@ msgstr ""
 
 #: server/stdinhand.c:1154
 msgid "Save game to file."
-msgstr ""
+msgstr "Salvesta mäng faili."
 
 #: server/stdinhand.c:1155
 msgid ""
@@ -3582,7 +3586,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1164
 msgid "read <file-name>"
-msgstr ""
+msgstr "read <faili nimi>"
 
 #: server/stdinhand.c:1165
 msgid "Process server commands from file."
@@ -3591,7 +3595,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1169
 msgid "write <file-name>"
-msgstr ""
+msgstr "write <faili nimi>"
 
 #: server/stdinhand.c:1170
 msgid "Write current settings as server commands to file."
@@ -3648,11 +3652,11 @@ msgstr ""
 
 #: server/stdinhand.c:1309
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(ebaselge)"
 
 #: server/stdinhand.c:1310 client/packhand.c:999
 msgid "(unknown)"
-msgstr ""
+msgstr "(teadmata)"
 
 #: server/stdinhand.c:1386
 msgid "Name is empty, so cannot be a player."
@@ -3702,7 +3706,7 @@ msgstr ""
 
 #: server/stdinhand.c:1455
 msgid "Metaserver connection opened."
-msgstr ""
+msgstr "Metaserveri ühendus on avatud."
 
 #: server/stdinhand.c:1466
 #, c-format
@@ -3711,7 +3715,7 @@ msgstr ""
 
 #: server/stdinhand.c:1469
 msgid "Metaserver connection closed."
-msgstr ""
+msgstr "Metaserveri ühendus on suletud."
 
 #: server/stdinhand.c:1482
 msgid "Metaserver connection is open."
@@ -3757,7 +3761,7 @@ msgstr ""
 
 #: server/stdinhand.c:1611
 msgid "The game cannot be saved before it is started."
-msgstr ""
+msgstr "Mängu ei saa enne alustamist salvestada."
 
 #: server/stdinhand.c:1625
 msgid "Cannot toggle a barbarian player."
@@ -3789,11 +3793,11 @@ msgstr ""
 
 #: server/stdinhand.c:1695
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "Rohkem mängijaid ei saa lisada, serveril on kuhi peal."
 
 #: server/stdinhand.c:1701
 msgid "Can't use an empty name."
-msgstr ""
+msgstr "Tühja nime ei saa kasutada."
 
 #: server/stdinhand.c:1708
 #, c-format
@@ -3802,7 +3806,7 @@ msgstr ""
 
 #: server/stdinhand.c:1715
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "Sellise nimega mängija on juba olemas."
 
 #: server/stdinhand.c:1724
 #, c-format
@@ -3821,7 +3825,7 @@ msgstr ""
 #: server/stdinhand.c:1762
 #, c-format
 msgid "Removed player %s from the game."
-msgstr ""
+msgstr "Mängija %s eemaldati mängust."
 
 #: server/stdinhand.c:1772
 #, c-format
@@ -4184,23 +4188,23 @@ msgstr ""
 
 #: server/stdinhand.c:2933
 msgid "You are not allowed to use this command."
-msgstr ""
+msgstr "Sul pole lubatud seda käsku kasutada."
 
 #: server/stdinhand.c:3020
 msgid "The game must be running before you can see the score."
-msgstr ""
+msgstr "Enne skoori vaatamist peab mäng käima."
 
 #: server/stdinhand.c:3086
 msgid "Not enough players, game will not start."
-msgstr ""
+msgstr "Pole piisavalt mängijaid, mäng ei alga."
 
 #: server/stdinhand.c:3093
 msgid "Cannot start the game: it is already running."
-msgstr ""
+msgstr "Mängu ei saa alustada, see juba käib."
 
 #: server/stdinhand.c:3102
 msgid "Cannot end the game: no game running."
-msgstr ""
+msgstr "Mängu ei saa lõpetada, mäng ei käi."
 
 #: server/stdinhand.c:3130
 #, c-format
@@ -4238,12 +4242,12 @@ msgstr "Käsk:"
 
 #: server/stdinhand.c:3195
 msgid "Synopsis: "
-msgstr ""
+msgstr "Kokkuvõte:"
 
 #: server/stdinhand.c:3204
 #, c-format
 msgid "Level: %s"
-msgstr ""
+msgstr "Tase: %s"
 
 #: server/stdinhand.c:3229
 msgid "The following server commands are available:"
@@ -4270,7 +4274,7 @@ msgstr "Mängijate nimekiri:"
 
 #: server/stdinhand.c:3403
 msgid "<no players>"
-msgstr ""
+msgstr "<mängijaid ei ole>"
 
 #: server/stdinhand.c:3424
 #, c-format
@@ -4327,7 +4331,7 @@ msgstr ""
 
 #: server/stdinhand.c:3482
 msgid "<no connections>"
-msgstr ""
+msgstr "<ühendusi ei ole>"
 
 #: server/stdinhand.c:3506
 msgid "notradesize must be always smaller than fulltradesize, keeping old value."
@@ -4353,7 +4357,7 @@ msgstr ""
 
 #: server/unithand.c:201
 msgid "Game: Illegal move, unit not in city!"
-msgstr ""
+msgstr "Mäng: Vigane käik, üksus ei ole linnas!"
 
 #: server/unithand.c:206
 #, c-format
@@ -4372,16 +4376,16 @@ msgstr ""
 
 #: server/unithand.c:437
 msgid "Game: Can't place city here."
-msgstr ""
+msgstr "Mäng: Siia ei saa linna rajada."
 
 #: server/unithand.c:444
 #, c-format
 msgid "Game: Only %s can build a city."
-msgstr ""
+msgstr "Mäng: Ainult %s saab rajada linna."
 
 #: server/unithand.c:449
 msgid "Game: Can't build a city."
-msgstr ""
+msgstr "Mäng: Linna ei saa rajada."
 
 #: server/unithand.c:458
 #, c-format
@@ -4424,7 +4428,7 @@ msgstr ""
 
 #: server/unithand.c:538
 msgid "Game: Let's not build a city with such a stupid name."
-msgstr ""
+msgstr "Mäng: Ärme rajame linna sellise lolli nimega."
 
 #: server/unithand.c:658
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
@@ -4457,20 +4461,20 @@ msgstr ""
 #: server/unithand.c:830
 #, c-format
 msgid "Game: Only %s can attack from sea."
-msgstr ""
+msgstr "Mäng: Ainult %s suudab merelt rünnata."
 
 #: server/unithand.c:835
 msgid "Game: Cannot attack from sea."
-msgstr ""
+msgstr "Mäng: Merelt ei saa rünnata."
 
 #: server/unithand.c:840
 msgid "Game: Cannot attack unless you declare war first."
-msgstr ""
+msgstr "Mäng: Rünnata ei saa, kuigi Sa kuulutasid esimesena sõja."
 
 #: server/unithand.c:843
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
-msgstr ""
+msgstr "Mäng: %s võib liikuda ainult oma kontrolltsoonis."
 
 #: server/unithand.c:934
 msgid "Game: Unit must be on land to perform diplomatic action."
@@ -4486,7 +4490,7 @@ msgstr ""
 
 #: server/unithand.c:952
 msgid "Game: This unit has no moves left."
-msgstr ""
+msgstr "Mäng: Üksusel on käigud otsas."
 
 #: server/unithand.c:958
 #, c-format
@@ -4507,7 +4511,7 @@ msgstr ""
 #: server/unithand.c:1002
 #, c-format
 msgid "Game: A %s cannot attack other units."
-msgstr ""
+msgstr "Mäng: %s ei saa rünnata teisi üksuseid."
 
 #: server/unithand.c:1016
 #, c-format
@@ -4526,7 +4530,7 @@ msgstr ""
 
 #: server/unithand.c:1053
 msgid "Game: Only ground troops can take over a city."
-msgstr ""
+msgstr "Mäng: Ainult maavägi saab linna üle võtta."
 
 #: server/unithand.c:1060
 #, c-format
@@ -4776,7 +4780,7 @@ msgstr ""
 #: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %d gold."
-msgstr ""
+msgstr "Mäng: Sa leidsid %d kulda."
 
 #: server/unittools.c:2321
 #, c-format
@@ -4812,7 +4816,7 @@ msgstr ""
 
 #: server/unittools.c:2393
 msgid "Game: You found a friendly city."
-msgstr ""
+msgstr "Mäng: Sa leidsid sõbraliku linna."
 
 #: server/unittools.c:2398
 msgid "Game: Friendly nomads are impressed by you, and join you."
@@ -4930,7 +4934,7 @@ msgid "%3d gold per turn"
 msgstr ""
 
 #: client/citydlg_common.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] ""
@@ -4942,7 +4946,7 @@ msgstr[1] "%3d/%3d %3d käik"
 #: client/gui-mui/citydlg.c:108 client/gui-mui/citydlg.c:143
 #: client/gui-mui/citydlg.c:1910
 msgid "never"
-msgstr ""
+msgstr "mitte iialgi"
 
 #: client/citydlg_common.c:141
 #, c-format
@@ -4988,7 +4992,7 @@ msgstr ""
 
 #: client/cityrepdata.c:69
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "?city_state:Vaimustav"
 
 #: client/cityrepdata.c:70
 msgid "?city_state:Disorder"
@@ -5049,7 +5053,7 @@ msgstr ""
 
 #: client/cityrepdata.c:214
 msgid "Special"
-msgstr ""
+msgstr "Spetsiaal"
 
 #: client/cityrepdata.c:214
 msgid "E/S/T"
@@ -5096,7 +5100,7 @@ msgstr ""
 
 #: client/cityrepdata.c:223
 msgid "Number of Trade Routes"
-msgstr ""
+msgstr "Kaubandusteede arv"
 
 #: client/cityrepdata.c:225 client/agents/cma_core.c:1956
 #: client/gui-gtk-2.0/repodlgs.c:832 client/gui-gtk/repodlgs.c:781
@@ -5137,7 +5141,7 @@ msgstr ""
 
 #: client/cityrepdata.c:233 client/cityrepdata.c:234
 msgid "Currently Building"
-msgstr ""
+msgstr "Hetkel ehitamisel"
 
 #: client/cityrepdata.c:233
 msgid "(Stock,Target,Turns,Buy)"
@@ -5183,7 +5187,7 @@ msgstr ""
 
 #: client/civclient.c:574
 msgid "Game started."
-msgstr ""
+msgstr "Mäng käib."
 
 #: client/civclient.c:597
 msgid "There was an error while auto connecting; aborting."
@@ -5208,7 +5212,7 @@ msgstr ""
 
 #: client/climisc.c:364
 msgid "?vision:Both"
-msgstr ""
+msgstr "?vision:Mõlemal"
 
 #: client/climisc.c:366
 msgid "?vision:To Them"
@@ -5236,12 +5240,12 @@ msgstr ""
 #: client/climisc.c:404
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "%s annab oma maakaardi."
 
 #: client/climisc.c:408
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "%s annab oma merekaardi"
 
 #: client/climisc.c:412
 msgid "The parties agree on a cease-fire"
@@ -5333,7 +5337,7 @@ msgstr "Eksportimine valmis."
 
 #: client/climisc.c:1185
 msgid "Export failed, couldn't write to file."
-msgstr ""
+msgstr "Eksportimine ebaõnnestus, ei suutnud kirjutada faili."
 
 #: client/clinet.c:113
 msgid "Lost connection to server!"
@@ -5379,11 +5383,11 @@ msgstr ""
 
 #: client/control.c:1205
 msgid "Game: Too far for this unit."
-msgstr ""
+msgstr "Mäng Liiga kaugel sellest üksusest."
 
 #: client/control.c:1271 client/control.c:1320
 msgid "Game: Didn't find a route to the destination!"
-msgstr ""
+msgstr "Mäng Sihtkohani ei leidnud teed."
 
 #: client/control.c:1311
 msgid "Game: Sorry, airunit patrol not yet implemented."
@@ -5417,7 +5421,7 @@ msgstr ""
 #: client/helpdata.c:507 client/helpdata.c:518
 #, c-format
 msgid "Allows a city to grow larger than size %d.  "
-msgstr ""
+msgstr "Võimaldab linnal kasvada suuremaks kui %d.  "
 
 #: client/helpdata.c:512
 #, c-format
@@ -5784,7 +5788,7 @@ msgstr ""
 
 #: client/options.c:149
 msgid "City: May Soon Grow"
-msgstr ""
+msgstr "Linn: Võib varsti kasvada"
 
 #: client/options.c:150
 msgid "City: Needs Aqueduct"
@@ -5796,7 +5800,7 @@ msgstr ""
 
 #: client/options.c:152
 msgid "City: Normal"
-msgstr ""
+msgstr "Linn: Normaalne"
 
 #: client/options.c:153
 msgid "City: Nuked"
@@ -5932,11 +5936,11 @@ msgstr ""
 
 #: client/options.c:186
 msgid "Game: Game Ended"
-msgstr ""
+msgstr "Mäng: Mäng lõppes"
 
 #: client/options.c:187
 msgid "Game: Game Started"
-msgstr ""
+msgstr "Mäng: Mäng algas"
 
 #: client/options.c:188
 msgid "Game: Message from Server Operator"
@@ -5944,15 +5948,15 @@ msgstr ""
 
 #: client/options.c:189
 msgid "Game: Nation Selected"
-msgstr ""
+msgstr "Mäng: Rahvus valitud"
 
 #: client/options.c:190
 msgid "Game: Player Destroyed"
-msgstr ""
+msgstr "Mäng: Mängija hävitatud"
 
 #: client/options.c:191
 msgid "Game: Report"
-msgstr ""
+msgstr "Mäng: Raport"
 
 #: client/options.c:192
 msgid "Game: Turn Bell"
@@ -5976,11 +5980,11 @@ msgstr ""
 
 #: client/options.c:197
 msgid "Hut: City Founded from Hut"
-msgstr ""
+msgstr "Onn: Onnist rajati linn"
 
 #: client/options.c:198
 msgid "Hut: Gold Found in Hut"
-msgstr ""
+msgstr "Onn: Onnist leiti kulda"
 
 #: client/options.c:199
 msgid "Hut: Killed by Barbarians in a Hut"
@@ -6052,27 +6056,27 @@ msgstr ""
 
 #: client/options.c:216
 msgid "Unit: Attack Failed"
-msgstr ""
+msgstr "Üksus: Rünnak ebaõnnestus"
 
 #: client/options.c:217
 msgid "Unit: Attack Succeeded"
-msgstr ""
+msgstr "Üksus: Rünnak õnnestus"
 
 #: client/options.c:218
 msgid "Unit: Bought"
-msgstr ""
+msgstr "Üksus: Ostetud"
 
 #: client/options.c:219
 msgid "Unit: Built"
-msgstr ""
+msgstr "Üksus: Valmis"
 
 #: client/options.c:220
 msgid "Unit: Defender Destroyed"
-msgstr ""
+msgstr "Üksus: Kaitsja hävitatud"
 
 #: client/options.c:221
 msgid "Unit: Defender Survived"
-msgstr ""
+msgstr "Üksus: Kaitsja pidas vastu"
 
 #: client/options.c:222
 msgid "Unit: Production Upgraded"
@@ -6084,7 +6088,7 @@ msgstr ""
 
 #: client/options.c:224
 msgid "Wonder: Finished"
-msgstr ""
+msgstr "Ilmaime: Lõpetatud"
 
 #: client/options.c:225
 msgid "Wonder: Made Obsolete"
@@ -6092,23 +6096,23 @@ msgstr ""
 
 #: client/options.c:226
 msgid "Wonder: Started"
-msgstr ""
+msgstr "Ilmaime: Alustatud"
 
 #: client/options.c:227
 msgid "Wonder: Stopped"
-msgstr ""
+msgstr "Ilmaime: Peatatud"
 
 #: client/options.c:228
 msgid "Wonder: Will Finish Next Turn"
-msgstr ""
+msgstr "Ilmaime: Saab valmis järgmisel perioodil"
 
 #: client/options.c:353
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "Sinu kodukataloogi ei suuda leida."
 
 #: client/options.c:474
 msgid "Save failed, cannot find a filename."
-msgstr ""
+msgstr "Salvestamine ebaõnnestus, faili nime ei suuda leida."
 
 #: client/options.c:523
 msgid "If you add a preset by hand, also update \"number_of_presets\""
@@ -6159,11 +6163,11 @@ msgstr "SEES"
 
 #: client/packhand.c:1219
 msgid "OFF"
-msgstr ""
+msgstr "Väljas"
 
 #: client/packhand.c:1229
 msgid "Game: Revolution finished"
-msgstr ""
+msgstr "Mäng: Revolutsioon lõpetatud"
 
 #: client/tilespec.c:148
 msgid "No useable default tileset found, aborting!"
@@ -6266,7 +6270,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1685 client/gui-gtk/citydlg.c:1717
 #: client/gui-mui/citydlg.c:128 client/gui-mui/citydlg.c:172
 #: client/gui-mui/citydlg.c:1914
-#, fuzzy, c-format
+#, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] ""
@@ -6274,7 +6278,7 @@ msgstr[1] "%3d/%3d %3d käik"
 
 #: client/agents/cma_fec.c:362 client/gui-mui/citydlg.c:2271
 msgid " happy"
-msgstr ""
+msgstr " õnnelik"
 
 #: client/agents/cma_fec.c:373
 #, c-format
@@ -6292,7 +6296,7 @@ msgstr ""
 #: client/gui-gtk-2.0/chatline.c:113 client/gui-gtk/chatline.c:95
 #: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
 msgid "Cleared output window."
-msgstr ""
+msgstr "Väljundi aken puhastatud"
 
 #: client/gui-gtk-2.0/citydlg.c:546 client/gui-gtk/citydlg.c:543
 #: client/gui-mui/citydlg.c:1403 client/gui-mui/citydlg.c:1640
@@ -6333,7 +6337,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk/citydlg.c:551
 #: client/gui-mui/citydlg.c:1422
 msgid "Corruption:"
-msgstr ""
+msgstr "Korruptsioon:"
 
 #: client/gui-gtk-2.0/citydlg.c:555 client/gui-gtk/citydlg.c:552
 #: client/gui-mui/citydlg.c:1424
@@ -6351,17 +6355,17 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:604 client/gui-gtk/citydlg.c:601
 msgid "City _Overview"
-msgstr ""
+msgstr "Linna ülevaade"
 
 #: client/gui-gtk-2.0/citydlg.c:628 client/gui-gtk/citydlg.c:625
 #: client/gui-win32/citydlg.c:835
 msgid "City info"
-msgstr ""
+msgstr "Linna info"
 
 #: client/gui-gtk-2.0/citydlg.c:634 client/gui-gtk/citydlg.c:631
 #: client/gui-win32/citydlg.c:854
 msgid "City map"
-msgstr ""
+msgstr "Linna kaart"
 
 #: client/gui-gtk-2.0/citydlg.c:714 client/gui-gtk-2.0/citydlg.c:770
 #: client/gui-gtk-2.0/citydlg.c:982 client/gui-gtk-2.0/citydlg.c:1041
@@ -6390,40 +6394,40 @@ msgstr "Osta"
 
 #: client/gui-gtk-2.0/citydlg.c:817
 msgid "Chang_e"
-msgstr ""
+msgstr "Vah_eta"
 
 #: client/gui-gtk-2.0/citydlg.c:859 client/gui-gtk-2.0/citydlg.c:1948
 #: client/gui-gtk-2.0/citydlg.c:3151 client/gui-gtk/citydlg.c:865
 #: client/gui-gtk/citydlg.c:1983 client/gui-gtk/citydlg.c:3209
 #: client/gui-win32/citydlg.c:859
 msgid "Sell"
-msgstr ""
+msgstr "Müü"
 
 #: client/gui-gtk-2.0/citydlg.c:888 client/gui-gtk-2.0/menu.c:710
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk/citydlg.c:898
 #: client/gui-gtk/menu.c:709 client/gui-gtk/menu.c:752
 #: client/gui-win32/menu.c:355 client/gui-win32/menu.c:374
 msgid "_Units"
-msgstr ""
+msgstr "Üks_used"
 
 #: client/gui-gtk-2.0/citydlg.c:930 client/gui-gtk/citydlg.c:940
 #: client/gui-win32/citydlg.c:888
 msgid "Supported units"
-msgstr ""
+msgstr "Toetatud üksused"
 
 #: client/gui-gtk-2.0/citydlg.c:934 client/gui-gtk/citydlg.c:944
 #: client/gui-mui/citydlg.c:1524 client/gui-mui/citydlg.c:1572
 #: client/gui-win32/citydlg.c:894
 msgid "Units present"
-msgstr ""
+msgstr "Kohalolevad üksused"
 
 #: client/gui-gtk-2.0/citydlg.c:1064 client/gui-gtk/citydlg.c:1074
 msgid "Acti_vate present units"
-msgstr ""
+msgstr "Akti_veeri kohalolevad üksused"
 
 #: client/gui-gtk-2.0/citydlg.c:1070 client/gui-gtk/citydlg.c:1080
 msgid "_Sentry idle units"
-msgstr ""
+msgstr "Jõudeolekus ük_sused vahti pidama"
 
 #: client/gui-gtk-2.0/citydlg.c:1076 client/gui-gtk/citydlg.c:1086
 msgid "_List present units"
@@ -6431,7 +6435,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1101 client/gui-gtk/citydlg.c:1111
 msgid "_Worklist"
-msgstr ""
+msgstr "Tööde nimekiri"
 
 #: client/gui-gtk-2.0/citydlg.c:1124 client/gui-gtk/citydlg.c:1134
 msgid "_Happiness"
@@ -6443,11 +6447,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1195 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
-msgstr ""
+msgstr "Kaubandus_teed"
 
 #: client/gui-gtk-2.0/citydlg.c:1205 client/gui-gtk/citydlg.c:1220
 msgid "Established trade routes"
-msgstr ""
+msgstr "Avatud kaubandusteed"
 
 #: client/gui-gtk-2.0/citydlg.c:1227 client/gui-gtk/citydlg.c:1242
 msgid "_Misc. Settings"
@@ -6472,22 +6476,22 @@ msgstr "Maksukogujad"
 #: client/gui-gtk-2.0/citydlg.c:1236 client/gui-gtk/citydlg.c:1251
 #: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
 msgid "Land units"
-msgstr ""
+msgstr "Maaväed"
 
 #: client/gui-gtk-2.0/citydlg.c:1237 client/gui-gtk/citydlg.c:1252
 #: client/gui-mui/citydlg.c:1728 client/gui-mui/citydlg.c:1729
 msgid "Sea units"
-msgstr ""
+msgstr "Mereväed"
 
 #: client/gui-gtk-2.0/citydlg.c:1238 client/gui-gtk/citydlg.c:1253
 #: client/gui-mui/citydlg.c:1731 client/gui-mui/citydlg.c:1732
 msgid "Helicopters"
-msgstr ""
+msgstr "Helikopterid"
 
 #: client/gui-gtk-2.0/citydlg.c:1239 client/gui-gtk/citydlg.c:1254
 #: client/gui-mui/citydlg.c:1734 client/gui-mui/citydlg.c:1735
 msgid "Air units"
-msgstr ""
+msgstr "Õhuväed"
 
 #: client/gui-gtk-2.0/citydlg.c:1240 client/gui-gtk/citydlg.c:1255
 #: client/gui-win32/citydlg.c:2171
@@ -6550,14 +6554,14 @@ msgstr "Uued linnaelanikud on"
 
 #: client/gui-gtk-2.0/citydlg.c:1335 client/gui-gtk/citydlg.c:1350
 msgid "City name"
-msgstr ""
+msgstr "Linna nimi"
 
 #: client/gui-gtk-2.0/citydlg.c:1341 client/gui-gtk-2.0/wldlg.c:222
 #: client/gui-gtk/citydlg.c:1356 client/gui-gtk/wldlg.c:222
 #: client/gui-win32/citydlg.c:902 client/gui-win32/wldlg.c:308
 #: data/Freeciv:1942 data/Freeciv:2964
 msgid "Rename"
-msgstr ""
+msgstr "Nimeta ümber"
 
 #: client/gui-gtk-2.0/citydlg.c:1351 client/gui-gtk/citydlg.c:1366
 #: client/gui-mui/citydlg.c:1746
@@ -6566,11 +6570,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1501 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
-msgstr ""
+msgstr "Eelmine linn"
 
 #: client/gui-gtk-2.0/citydlg.c:1506 client/gui-gtk/citydlg.c:1535
 msgid "_Next city"
-msgstr ""
+msgstr "Järgmi_ne linn"
 
 #: client/gui-gtk-2.0/citydlg.c:1561 client/gui-gtk/citydlg.c:1595
 #: client/gui-xaw/citydlg.c:1866
@@ -6596,11 +6600,11 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1678 client/gui-gtk/citydlg.c:1710
 #: client/gui-mui/citydlg.c:1908
 msgid "blocked"
-msgstr ""
+msgstr "blokeeritud"
 
 #: client/gui-gtk-2.0/citydlg.c:1879 client/gui-gtk/citydlg.c:1912
 msgid " (worklist)"
-msgstr ""
+msgstr " (tööde nimekiri)"
 
 #: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk/citydlg.c:1978
 #, c-format
@@ -6610,12 +6614,12 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2076
 #, c-format
 msgid "Supported units: %d"
-msgstr ""
+msgstr "Toetatud väed %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2191
 #, c-format
 msgid "Present units: %d"
-msgstr ""
+msgstr "Kohaleolevad väed %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2218 client/gui-gtk/citydlg.c:2289
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1388
@@ -6632,7 +6636,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2227 client/gui-gtk/citydlg.c:2298
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1397
 msgid "No trade routes exist."
-msgstr ""
+msgstr "Kaubandusteid ei ole."
 
 #: client/gui-gtk-2.0/citydlg.c:2230 client/gui-gtk/citydlg.c:2301
 #: client/gui-mui/citydlg.c:2173 client/gui-win32/citydlg.c:1400
@@ -6651,13 +6655,13 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2504
 #: client/gui-win32/citydlg.c:1647 client/gui-win32/citydlg.c:1675
 msgid "_Activate unit"
-msgstr ""
+msgstr "_Aktiveeri üksus"
 
 #: client/gui-gtk-2.0/citydlg.c:2402 client/gui-gtk-2.0/citydlg.c:2432
 #: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2505
 #: client/gui-win32/citydlg.c:1649 client/gui-win32/citydlg.c:1677
 msgid "Activate unit, _close dialog"
-msgstr ""
+msgstr "Aktiveeri üksus, sulge dialoog"
 
 #: client/gui-gtk-2.0/citydlg.c:2404 client/gui-gtk-2.0/citydlg.c:2437
 #: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2510
@@ -6688,12 +6692,12 @@ msgstr "Katkesta"
 #: client/gui-gtk-2.0/citydlg.c:2434 client/gui-gtk/citydlg.c:2507
 #: client/gui-win32/citydlg.c:1679
 msgid "_Sentry unit"
-msgstr ""
+msgstr "Üksus vahiteenistusse"
 
 #: client/gui-gtk-2.0/citydlg.c:2436 client/gui-gtk/citydlg.c:2509
 #: client/gui-win32/citydlg.c:1681
 msgid "_Fortify unit"
-msgstr ""
+msgstr "Kindlusta üksus"
 
 #: client/gui-gtk-2.0/citydlg.c:2439 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1685
@@ -6703,7 +6707,7 @@ msgstr "Tee uus kodulinn"
 #: client/gui-gtk-2.0/citydlg.c:2441 client/gui-gtk/citydlg.c:2514
 #: client/gui-win32/citydlg.c:1687
 msgid "_Upgrade unit"
-msgstr ""
+msgstr "Uuenda üksust"
 
 #: client/gui-gtk-2.0/citydlg.c:2627 client/gui-gtk/citydlg.c:2687
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1597
@@ -6750,7 +6754,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1610 client/gui-win32/repodlgs.c:586
 #: data/Freeciv:2408
 msgid "Upgrade Obsolete Units"
-msgstr ""
+msgstr "Uuenda aegunud üksuseid"
 
 #: client/gui-gtk-2.0/citydlg.c:2642 client/gui-gtk-2.0/citydlg.c:2827
 #: client/gui-gtk-2.0/citydlg.c:3091 client/gui-gtk-2.0/cma_fe.c:580
@@ -6889,15 +6893,15 @@ msgstr "Millise uue nime peaksime linnale panema ?"
 
 #: client/gui-gtk-2.0/cityrep.c:514 client/gui-gtk/cityrep.c:611
 msgid "_Change..."
-msgstr ""
+msgstr "Vaheta..."
 
 #: client/gui-gtk-2.0/cityrep.c:519 client/gui-gtk/cityrep.c:616
 msgid "_Select..."
-msgstr ""
+msgstr "Vali..."
 
 #: client/gui-gtk-2.0/cityrep.c:523
 msgid "S_how..."
-msgstr ""
+msgstr "Näita..."
 
 #: client/gui-gtk-2.0/cityrep.c:600 client/gui-gtk-2.0/diplodlg.c:378
 #: client/gui-gtk-2.0/diplodlg.c:390 client/gui-gtk-2.0/menu.c:626
@@ -6925,7 +6929,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:644 client/gui-mui/cityrep.c:393
 msgid "_Refresh"
-msgstr ""
+msgstr "Vä_rskenda"
 
 #: client/gui-gtk-2.0/cityrep.c:878 client/gui-gtk/cityrep.c:1140
 #: client/gui-mui/cityrep.c:186 client/gui-win32/cityrep.c:379
@@ -7018,12 +7022,12 @@ msgstr "Sama saar"
 #: client/gui-mui/citydlg.c:1531 client/gui-mui/citydlg.c:1570
 #: client/gui-win32/cityrep.c:464
 msgid "Supported Units"
-msgstr ""
+msgstr "Toetatud üksused"
 
 #: client/gui-gtk-2.0/cityrep.c:1215 client/gui-gtk/cityrep.c:877
 #: client/gui-win32/cityrep.c:471
 msgid "Units Present"
-msgstr ""
+msgstr "Kohalolevad väed"
 
 #: client/gui-gtk-2.0/cityrep.c:1219 client/gui-gtk/cityrep.c:880
 #: client/gui-win32/cityrep.c:486
@@ -7032,11 +7036,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1223
 msgid "Wonders in City"
-msgstr ""
+msgstr "Ilmaimed linnas"
 
 #: client/gui-gtk-2.0/cityrep.c:1232 client/gui-gtk/cityrep.c:887
 msgid "Available Units"
-msgstr ""
+msgstr "Saadaolevad väed"
 
 #: client/gui-gtk-2.0/cityrep.c:1235 client/gui-gtk/cityrep.c:883
 msgid "Available Improvements"
@@ -7435,7 +7439,7 @@ msgstr ""
 #: client/gui-mui/dialogs.c:833 client/gui-mui/dialogs.c:900
 #: client/gui-mui/dialogs.c:1068 client/gui-win32/dialogs.c:1024
 msgid "_Keep moving"
-msgstr ""
+msgstr "Jät_ka liikumist"
 
 #: client/gui-gtk-2.0/dialogs.c:1054 client/gui-gtk/dialogs.c:1055
 #: client/gui-mui/dialogs.c:912 client/gui-win32/dialogs.c:1652
@@ -7451,7 +7455,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:1057 client/gui-gtk/dialogs.c:1059
 #: client/gui-win32/dialogs.c:1655
 msgid "_Poison City"
-msgstr ""
+msgstr "Mürgita linn"
 
 #: client/gui-gtk-2.0/dialogs.c:1058 client/gui-gtk/dialogs.c:1060
 #: client/gui-win32/dialogs.c:1656
@@ -7641,7 +7645,7 @@ msgstr "Sa pead valima endale linna stiili"
 #: client/gui-mui/dialogs.c:1637 client/gui-win32/dialogs.c:325
 #: client/gui-xaw/dialogs.c:2366
 msgid "You must type a legal name."
-msgstr ""
+msgstr "Sa pead trükkima legaalse nime."
 
 #: client/gui-gtk-2.0/diplodlg.c:272 client/gui-gtk/diplodlg.c:272
 #: data/Freeciv:268
@@ -7652,7 +7656,7 @@ msgstr ""
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
 #: data/Freeciv:227
 msgid "Diplomacy meeting"
-msgstr ""
+msgstr "Diplomaatiline kohtumine"
 
 #: client/gui-gtk-2.0/diplodlg.c:294 client/gui-gtk-2.0/diplodlg.c:302
 #: client/gui-gtk/diplodlg.c:294 client/gui-gtk/diplodlg.c:302
@@ -7740,7 +7744,7 @@ msgstr "%s vaade:"
 #: client/gui-gtk-2.0/diplodlg.c:518 client/gui-gtk/diplodlg.c:518
 #: client/gui-mui/diplodlg.c:506 data/Freeciv:324
 msgid "Erase clause"
-msgstr ""
+msgstr "Kustuta klausel"
 
 #: client/gui-gtk-2.0/diplodlg.c:522 client/gui-gtk/diplodlg.c:522
 #: client/gui-win32/diplodlg.c:669 data/Freeciv:459
@@ -7968,7 +7972,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:398 client/gui-gtk/happiness.c:398
 #: client/gui-mui/citydlg.c:2445 client/gui-win32/happiness.c:339
 msgid "Wonders: "
-msgstr ""
+msgstr "Ilmaimed: "
 
 #: client/gui-gtk-2.0/helpdlg.c:87 client/gui-gtk-2.0/helpdlg.c:90
 #: client/gui-gtk-2.0/helpdlg.c:94 client/gui-gtk/helpdlg.c:85
@@ -8104,7 +8108,7 @@ msgstr "Kustutatud"
 #: client/gui-xaw/helpdlg.c:827 client/gui-xaw/helpdlg.c:863
 #: client/gui-xaw/helpdlg.c:887
 msgid "(Never)"
-msgstr ""
+msgstr "(mitte iialgi)"
 
 #: client/gui-gtk-2.0/helpdlg.c:288 client/gui-gtk-2.0/helpdlg.c:716
 #: client/gui-gtk-2.0/helpdlg.c:760 client/gui-gtk-2.0/helpdlg.c:786
@@ -8136,7 +8140,7 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:904 client/gui-gtk-2.0/helpdlg.c:913
 #: client/gui-gtk-2.0/helpdlg.c:929
 msgid "Allows"
-msgstr ""
+msgstr "Võimaldab"
 
 #: client/gui-gtk-2.0/helpdlg.c:879
 msgid "Obsoletes"
@@ -8483,7 +8487,7 @@ msgstr "Leia linn"
 #: client/gui-gtk-2.0/menu.c:587 client/gui-gtk/menu.c:586
 #: client/gui-win32/menu.c:294
 msgid "Work_lists"
-msgstr ""
+msgstr "Tööde nimekirjad"
 
 #: client/gui-gtk-2.0/menu.c:591 client/gui-gtk/menu.c:590
 #: client/gui-win32/menu.c:296
@@ -8567,7 +8571,7 @@ msgstr "Kindlus & Lennubaas"
 #: client/gui-mui/gui_main.c:225 client/gui-win32/menu.c:310
 #: client/gui-xaw/menu.c:139
 msgid "Specials"
-msgstr ""
+msgstr "Spetsiaalid"
 
 #: client/gui-gtk-2.0/menu.c:624 client/gui-gtk/menu.c:623
 #: client/gui-mui/gui_main.c:226 client/gui-win32/menu.c:311
@@ -8579,7 +8583,7 @@ msgstr ""
 #: client/gui-mui/gui_main.c:229 client/gui-win32/menu.c:314
 #: client/gui-xaw/menu.c:143
 msgid "Focus Unit"
-msgstr ""
+msgstr "Fokusseeri üksus"
 
 #: client/gui-gtk-2.0/menu.c:632 client/gui-gtk/menu.c:631
 #: client/gui-mui/gui_main.c:230 client/gui-win32/menu.c:315
@@ -8701,7 +8705,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:673 client/gui-gtk/menu.c:672
 #: client/gui-win32/menu.c:336
 msgid "Wake up o_thers"
-msgstr ""
+msgstr "Ärata teised"
 
 #: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1120
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
@@ -8716,11 +8720,11 @@ msgstr "Automaatne avastamin_e"
 #: client/gui-gtk-2.0/menu.c:681 client/gui-gtk/menu.c:680
 #: client/gui-mui/connectdlg.c:224 client/gui-win32/menu.c:341
 msgid "_Connect"
-msgstr ""
+msgstr "Ühenda"
 
 #: client/gui-gtk-2.0/menu.c:683 client/gui-gtk/menu.c:682
 msgid "Patrol (_Q)"
-msgstr ""
+msgstr "Patrulli (_Q)"
 
 #: client/gui-gtk-2.0/menu.c:685 client/gui-gtk/menu.c:684
 #: client/gui-win32/menu.c:342
@@ -8868,7 +8872,7 @@ msgstr "Keeled"
 #: client/gui-gtk-2.0/menu.c:737 client/gui-gtk/menu.c:736
 #: client/gui-win32/menu.c:368
 msgid "Co_nnecting"
-msgstr ""
+msgstr "Ühendumine"
 
 #: client/gui-gtk-2.0/menu.c:739 client/gui-gtk/menu.c:738
 #: client/gui-win32/menu.c:369
@@ -8891,7 +8895,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:747 client/gui-gtk/menu.c:746
 #: client/gui-win32/menu.c:371
 msgid "_Playing"
-msgstr ""
+msgstr "Mängimine"
 
 #: client/gui-gtk-2.0/menu.c:751 client/gui-gtk/menu.c:750
 #: client/gui-win32/menu.c:373
@@ -8906,7 +8910,7 @@ msgstr "Võitle"
 #: client/gui-gtk-2.0/menu.c:757 client/gui-gtk/menu.c:756
 #: client/gui-win32/menu.c:376
 msgid "_ZOC"
-msgstr ""
+msgstr "Kontrolltsoon"
 
 #: client/gui-gtk-2.0/menu.c:759 client/gui-gtk/menu.c:758
 #: client/gui-win32/menu.c:377
@@ -8985,7 +8989,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1108 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
-msgstr ""
+msgstr "Kindlusta"
 
 #: client/gui-gtk-2.0/menu.c:1113 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
@@ -9073,7 +9077,7 @@ msgstr "Vaateväli"
 #: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/plrdlg.c:353
 msgid "Reputation"
-msgstr ""
+msgstr "Reputatsioon"
 
 #: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
 #: client/gui-mui/plrdlg.c:169 client/gui-win32/plrdlg.c:354 data/Freeciv:79
@@ -9120,7 +9124,7 @@ msgstr "valmis"
 #: client/gui-mui/plrdlg.c:117 client/gui-win32/plrdlg.c:163
 #: client/gui-xaw/plrdlg.c:216
 msgid "moving"
-msgstr ""
+msgstr "käib"
 
 #: client/gui-gtk-2.0/plrdlg.c:296 client/gui-gtk/plrdlg.c:296
 #: client/gui-mui/plrdlg.c:123 client/gui-win32/plrdlg.c:169
@@ -9131,7 +9135,7 @@ msgstr "Puhka rahus"
 #: client/gui-gtk-2.0/plrdlg.c:302 client/gui-gtk/plrdlg.c:302
 #: client/gui-mui/plrdlg.c:104 client/gui-win32/plrdlg.c:175
 #: client/gui-xaw/plrdlg.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] ""
@@ -9151,14 +9155,14 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:174 client/gui-gtk/repodlgs.c:171
 #: client/gui-win32/repodlgs.c:281 data/Freeciv:1423
 msgid "Goal"
-msgstr ""
+msgstr "Eesmärk"
 
 #: client/gui-gtk-2.0/repodlgs.c:283 client/gui-gtk-2.0/repodlgs.c:470
 #: client/gui-gtk/repodlgs.c:274 client/gui-gtk/repodlgs.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "(%d step)"
 msgid_plural "(%d steps)"
-msgstr[0] ""
+msgstr[0] "(%d samm)"
 msgstr[1] "(%ld sammu)"
 
 #: client/gui-gtk-2.0/repodlgs.c:361 client/gui-gtk/repodlgs.c:360
@@ -9180,7 +9184,7 @@ msgstr "Ehituse nimi"
 #: client/gui-gtk-2.0/repodlgs.c:544 client/gui-gtk/repodlgs.c:545
 #: client/gui-mui/repodlgs.c:477 client/gui-win32/repodlgs.c:477
 msgid "Count"
-msgstr ""
+msgstr "Loenda"
 
 #: client/gui-gtk-2.0/repodlgs.c:546 client/gui-gtk/repodlgs.c:546
 #: client/gui-mui/repodlgs.c:479 client/gui-win32/repodlgs.c:483
@@ -9194,12 +9198,12 @@ msgstr "Kogu maksumus:"
 #: client/gui-gtk-2.0/repodlgs.c:620 client/gui-gtk/repodlgs.c:585
 #: client/gui-win32/repodlgs.c:469 data/Freeciv:1821
 msgid "Sell Obsolete"
-msgstr ""
+msgstr "Müü aegunud"
 
 #: client/gui-gtk-2.0/repodlgs.c:625 client/gui-gtk/repodlgs.c:591
 #: client/gui-win32/repodlgs.c:471 data/Freeciv:1829
 msgid "Sell All"
-msgstr ""
+msgstr "Müü kõik"
 
 #: client/gui-gtk-2.0/repodlgs.c:717 client/gui-gtk/repodlgs.c:686
 #: client/gui-mui/repodlgs.c:527 client/gui-win32/repodlgs.c:387
@@ -9213,7 +9217,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:749
 #, c-format
 msgid "No %s could be sold"
-msgstr ""
+msgstr "%s ei saa müüa"
 
 #: client/gui-gtk-2.0/repodlgs.c:726
 msgid "Sell-Off: Results"
@@ -9227,7 +9231,7 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:827 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/repodlgs.c:711 client/gui-win32/repodlgs.c:699
 msgid "Unit Type"
-msgstr ""
+msgstr "Üksuse tüüp"
 
 #: client/gui-gtk-2.0/repodlgs.c:828 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/repodlgs.c:712 client/gui-win32/repodlgs.c:699
@@ -9303,12 +9307,12 @@ msgstr ""
 #: client/gui-gtk-2.0/wldlg.c:382 client/gui-gtk/wldlg.c:382
 #: client/gui-win32/wldlg.c:703 data/Freeciv:2099
 msgid "Up"
-msgstr ""
+msgstr "Üleval"
 
 #: client/gui-gtk-2.0/wldlg.c:386 client/gui-gtk/wldlg.c:386
 #: client/gui-win32/wldlg.c:704 data/Freeciv:2105
 msgid "Down"
-msgstr ""
+msgstr "All"
 
 #: client/gui-gtk-2.0/wldlg.c:411 client/gui-gtk/wldlg.c:411
 #: client/gui-win32/wldlg.c:709
@@ -9329,7 +9333,7 @@ msgstr ""
 #: client/gui-gtk-2.0/wldlg.c:599 client/gui-gtk/wldlg.c:599
 #: client/gui-win32/wldlg.c:240
 msgid "Rename Worklist"
-msgstr ""
+msgstr "Nimeta tööde nimekiri ümber"
 
 #: client/gui-gtk-2.0/wldlg.c:600 client/gui-gtk/wldlg.c:600
 #: client/gui-win32/wldlg.c:241 client/gui-xaw/wldlg.c:617
@@ -9340,14 +9344,14 @@ msgstr "Mis peaks saama uueks nimeks ?"
 #: client/gui-mui/wldlg.c:116 client/gui-win32/wldlg.c:203
 #: client/gui-xaw/wldlg.c:670
 msgid "empty worklist"
-msgstr ""
+msgstr "tühi tööde nimekiri"
 
 #: client/gui-gtk-2.0/wldlg.c:1353 client/gui-gtk/wldlg.c:1348
 #: client/gui-mui/citydlg.c:1451 client/gui-mui/worklistclass.c:158
 #: client/gui-win32/citydlg.c:777 client/gui-win32/wldlg.c:949
 #: client/gui-win32/wldlg.c:995 data/Freeciv:2978
 msgid "Worklist"
-msgstr ""
+msgstr "Tööde nimekiri"
 
 #: client/gui-gtk/citydlg.c:823 client/gui-gtk/citydlg.c:2994
 #: client/gui-mui/citydlg.c:1707
@@ -9361,17 +9365,17 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1520
 msgid "Close dialog"
-msgstr ""
+msgstr "Sulge dialoog"
 
 #: client/gui-gtk/citydlg.c:2127
 #, c-format
 msgid "Supported units (%d)"
-msgstr ""
+msgstr "Toetatud üksused (%d)"
 
 #: client/gui-gtk/citydlg.c:2262
 #, c-format
 msgid "Present units (%d)"
-msgstr ""
+msgstr "Kohalolevad väed (%d)"
 
 #: client/gui-gtk/citydlg.c:3002
 msgid "Ca_ncel"
@@ -9391,11 +9395,11 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:533
 msgid "Change All..."
-msgstr ""
+msgstr "Vaheta kõik..."
 
 #: client/gui-gtk/cityrep.c:621
 msgid "Con_figure..."
-msgstr ""
+msgstr "Seadista..."
 
 #: client/gui-gtk/cityrep.c:924 client/gui-win32/cityrep.c:710
 msgid "Game: Select a unit or improvement to change production to."
@@ -9404,12 +9408,12 @@ msgstr ""
 #: client/gui-gtk/cityrep.c:958 client/gui-win32/cityrep.c:759
 #: data/Freeciv:1693
 msgid "From:"
-msgstr ""
+msgstr "Kust:"
 
 #: client/gui-gtk/cityrep.c:959 client/gui-win32/cityrep.c:767
 #: data/Freeciv:1703
 msgid "To:"
-msgstr ""
+msgstr "Kuhu:"
 
 #: client/gui-gtk/cityrep.c:987 client/gui-win32/cityrep.c:751
 #: data/Freeciv:1687
@@ -9585,7 +9589,7 @@ msgstr ""
 #: client/gui-mui/citydlg.c:1060 client/gui-mui/dialogs.c:1866
 #: client/gui-mui/dialogs.c:1890
 msgid "_Darn"
-msgstr ""
+msgstr "Paran_da"
 
 #: client/gui-mui/citydlg.c:1315
 msgid "Freeciv - Cityproduction"
@@ -9783,7 +9787,7 @@ msgstr ""
 
 #: client/gui-mui/dialogs.c:868
 msgid "_Poison city"
-msgstr ""
+msgstr "Mürgita linn"
 
 #: client/gui-mui/dialogs.c:876
 msgid "Industrial _sabotage"
@@ -9815,7 +9819,7 @@ msgstr ""
 
 #: client/gui-mui/dialogs.c:1730
 msgid "Freeciv - Select a Nation"
-msgstr ""
+msgstr "Freeciv - Vali rahvus"
 
 #: client/gui-mui/dialogs.c:1753
 msgid "_Leader Name"
@@ -9897,7 +9901,7 @@ msgstr "Salvesta seadistused"
 
 #: client/gui-mui/gui_main.c:195
 msgid "Players..."
-msgstr ""
+msgstr "Mängijad..."
 
 #: client/gui-mui/gui_main.c:196
 msgid "Message..."
@@ -9921,7 +9925,7 @@ msgstr "Puhasta logi"
 
 #: client/gui-mui/gui_main.c:206
 msgid "Tax Rate..."
-msgstr ""
+msgstr "Maksumäär..."
 
 #: client/gui-mui/gui_main.c:208
 msgid "Find City..."
@@ -9929,7 +9933,7 @@ msgstr "Leia linn..."
 
 #: client/gui-mui/gui_main.c:209
 msgid "Worklists..."
-msgstr ""
+msgstr "Tööde nimekirjad..."
 
 #: client/gui-mui/gui_main.c:211
 msgid "REVOLUTION..."
@@ -10014,7 +10018,7 @@ msgstr ""
 #: client/gui-mui/mapclass.c:3061 client/gui-win32/menu.c:330
 #: client/gui-xaw/menu.c:168
 msgid "Fortify"
-msgstr ""
+msgstr "Kindlusta"
 
 #: client/gui-mui/gui_main.c:250 client/gui-xaw/menu.c:172
 msgid "Make Homecity"
@@ -10117,6 +10121,8 @@ msgid ""
 "Turn\n"
 "Done"
 msgstr ""
+"Käigud\n"
+"tehtud"
 
 #: client/gui-mui/gui_main.c:1228 client/gui-win32/menu.c:896
 #: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:159
@@ -10154,7 +10160,7 @@ msgstr ""
 
 #: client/gui-mui/helpdlg.c:561 data/Freeciv:832
 msgid "Firepower:"
-msgstr ""
+msgstr "Tulejõud:"
 
 #: client/gui-mui/helpdlg.c:671
 #, c-format
@@ -10200,7 +10206,7 @@ msgstr "Linn %s"
 #: client/gui-mui/mapclass.c:1752
 #, c-format
 msgid "Unit %s"
-msgstr ""
+msgstr "Üksus %s"
 
 #: client/gui-mui/mapclass.c:1754
 #, c-format
@@ -10286,7 +10292,7 @@ msgstr ""
 
 #: client/gui-mui/messagewin.c:284
 msgid "Game: "
-msgstr ""
+msgstr "Mäng: "
 
 #: client/gui-mui/repodlgs.c:107 client/gui-win32/repodlgs.c:60
 #: client/gui-xaw/repodlgs.c:133
@@ -10326,7 +10332,7 @@ msgstr[1] ""
 
 #: client/gui-mui/repodlgs.c:343 client/gui-mui/repodlgs.c:344
 msgid "_Goal"
-msgstr ""
+msgstr "Eesmärk"
 
 #: client/gui-mui/repodlgs.c:348 client/gui-mui/repodlgs.c:349
 msgid "_Research"
@@ -10342,7 +10348,7 @@ msgstr ""
 
 #: client/gui-mui/repodlgs.c:564
 msgid "Sell _All"
-msgstr ""
+msgstr "Müü kõik"
 
 #: client/gui-mui/repodlgs.c:571 client/gui-mui/repodlgs.c:599
 msgid "Trade Advisor"
@@ -10514,7 +10520,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:716
 msgid "Game: That's the same thing!"
-msgstr ""
+msgstr "Mäng: See on sama asi!"
 
 #: client/gui-win32/cityrep.c:895 data/Freeciv:1569
 msgid "Popup"
@@ -10526,7 +10532,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:900
 msgid "Select"
-msgstr ""
+msgstr "Vali"
 
 #: client/gui-win32/cityrep.c:901 data/Freeciv:1609
 msgid "Configure"
@@ -10534,7 +10540,7 @@ msgstr "Seadista"
 
 #: client/gui-win32/connectdlg.c:80
 msgid "Start Game"
-msgstr ""
+msgstr "Alusta mängu"
 
 #: client/gui-win32/connectdlg.c:82
 msgid "Save Game"
@@ -10572,27 +10578,27 @@ msgstr ""
 
 #: client/gui-win32/connectdlg.c:926 client/gui-win32/connectdlg.c:1171
 msgid "Start game automatically?"
-msgstr ""
+msgstr "Alustame mängu automaatselt?"
 
 #: client/gui-win32/connectdlg.c:1138
 msgid "Start New Game"
-msgstr ""
+msgstr "Alusta uut mängu"
 
 #: client/gui-win32/connectdlg.c:1146
 msgid "Your name:"
-msgstr ""
+msgstr "Sinu nimi:"
 
 #: client/gui-win32/connectdlg.c:1150
 msgid "Difficulty:"
-msgstr ""
+msgstr "Raskusaste:"
 
 #: client/gui-win32/connectdlg.c:1151
 msgid "easy"
-msgstr ""
+msgstr "kerge"
 
 #: client/gui-win32/connectdlg.c:1152
 msgid "medium"
-msgstr ""
+msgstr "keskmine"
 
 #: client/gui-win32/connectdlg.c:1153
 msgid "hard"
@@ -10604,15 +10610,15 @@ msgstr ""
 
 #: client/gui-win32/connectdlg.c:1175 client/gui-win32/inputdlg.c:130
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: client/gui-win32/connectdlg.c:1211
 msgid "Start a game"
-msgstr ""
+msgstr "Alusta mängu"
 
 #: client/gui-win32/connectdlg.c:1212
 msgid "What do you wish to to?"
-msgstr ""
+msgstr "Mida Sa soovid teha?"
 
 #: client/gui-win32/connectdlg.c:1213
 msgid "New Game"
@@ -10648,7 +10654,7 @@ msgstr ""
 
 #: client/gui-win32/menu.c:291 client/gui-xaw/menu.c:119
 msgid "Tax Rates"
-msgstr ""
+msgstr "Maksumäärad"
 
 #: client/gui-win32/menu.c:324
 msgid "Transf_orm to Hills"
@@ -10669,7 +10675,7 @@ msgstr "Intelligents"
 
 #: client/gui-win32/plrdlg.c:370 data/Freeciv:3137
 msgid "Meet"
-msgstr ""
+msgstr "Kohtu"
 
 #: client/gui-win32/plrdlg.c:371
 msgid "Cancel Treaty"
@@ -10906,7 +10912,7 @@ msgstr "Võitlemine"
 
 #: client/gui-xaw/menu.c:220
 msgid "ZOC"
-msgstr ""
+msgstr "Kontrolltsoon"
 
 #: client/gui-xaw/menu.c:224 data/helpdata.txt:1201
 msgid "Government"
@@ -14011,7 +14017,7 @@ msgstr ""
 #: data/default/techs.ruleset:218 data/civ2/techs.ruleset:211
 #: data/civ1/techs.ruleset:211
 msgid "Explosives"
-msgstr ""
+msgstr "Lõheained"
 
 #: data/default/techs.ruleset:224 data/civ2/techs.ruleset:217
 #: data/civ1/techs.ruleset:217
@@ -15037,11 +15043,11 @@ msgstr ""
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr "Ameeriklane"
+msgstr "ameeriklane"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr "?plural:Ameeriklased"
+msgstr "?plural:ameeriklased"
 
 #: data/nation/american.ruleset:12 data/nation/scottish.ruleset:14
 msgid "Speaker"
@@ -15053,7 +15059,7 @@ msgstr ""
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr "Araablane"
+msgstr "araablane"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
@@ -15065,7 +15071,7 @@ msgstr ""
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr "Argentiinlane"
+msgstr "argentiinlane"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
@@ -15073,7 +15079,7 @@ msgstr "?plural:argentiinlased"
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "Austraallane"
+msgstr "austraallane"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
@@ -15100,11 +15106,11 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr ""
+msgstr "babüloonlane"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr ""
+msgstr "?plural:babüloonlased"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -15128,7 +15134,7 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brasiillane"
+msgstr "brasiillane"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
@@ -15164,11 +15170,11 @@ msgstr ""
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "Kanadalane"
+msgstr "kanadalane"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "?plural:Kanadalsed"
+msgstr "?plural:kanadalsed"
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -15240,11 +15246,11 @@ msgstr ""
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "Hiinlane"
+msgstr "hiinlane"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "?plural:Hiinlased"
+msgstr "?plural:hiinlased"
 
 #: data/nation/chinese.ruleset:13
 msgid "Dowager"
@@ -15260,19 +15266,19 @@ msgstr ""
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "Horvaat"
+msgstr "horvaat"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:Horvaadid"
+msgstr "?plural:horvaadid"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr ""
+msgstr "tshehh"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "?plural:tshehhid"
 
 #: data/nation/czech.ruleset:21
 msgid "Thane"
@@ -15284,11 +15290,11 @@ msgstr ""
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "Taanlane"
+msgstr "taanlane"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "?plural:Taanlased"
+msgstr "?plural:taanlased"
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
 #. TRANS: U+00FA LATIN SMALL LETTER U WITH ACUTE if available in
@@ -15311,11 +15317,11 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "Egiptlane"
+msgstr "egiptlane"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "?plural:Egiptlased"
+msgstr "?plural:egiptlased"
 
 #: data/nation/egyptian.ruleset:12
 msgid "Pharaoh"
@@ -15327,11 +15333,11 @@ msgstr ""
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "Inglane"
+msgstr "inglane"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "?plural:Inglased"
+msgstr "?plural:inglased"
 
 #: data/nation/english.ruleset:14
 msgid "Lord Protector"
@@ -15343,35 +15349,35 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "Eestlane"
+msgstr "eestlane"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:Eestlased"
+msgstr "?plural:eestlased"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Filipiin"
+msgstr "filipiin"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:Filipiinid"
+msgstr "?plural:filipiinid"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "Soomlane"
+msgstr "soomlane"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr "?plural:Soomlased"
+msgstr "?plural:soomlased"
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr "Prantslane"
+msgstr "prantslane"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "?plural:Prantslased"
+msgstr "?plural:prantslased"
 
 #: data/nation/french.ruleset:11
 msgid "Premier"
@@ -15379,11 +15385,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "Sakslane"
+msgstr "sakslane"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "?plural:Sakslased"
+msgstr "?plural:sakslased"
 
 #: data/nation/german.ruleset:13
 msgid "Chancellor"
@@ -15395,27 +15401,27 @@ msgstr ""
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "Kreeklane"
+msgstr "kreeklane"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "?plural:Kreeklased"
+msgstr "?plural:kreeklased"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "Hungarlane"
+msgstr "hungarlane"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "?plural:Hungarlased"
+msgstr "?plural:hungarlased"
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "Inka"
+msgstr "inka"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "?plural:Inkad"
+msgstr "?plural:inkad"
 
 #: data/nation/inca.ruleset:12
 msgid "Warlord"
@@ -15423,47 +15429,47 @@ msgstr ""
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Indialane"
+msgstr "indialane"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:Indialased"
+msgstr "?plural:indialased"
 
 #: data/nation/indian.ruleset:12
 msgid "Maharaja"
-msgstr ""
+msgstr "Maharadza"
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "Iirlane"
+msgstr "iirlane"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:Iirlased"
+msgstr "?plural:iirlased"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "Iisraellane"
+msgstr "iisraellane"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:Israellased"
+msgstr "?plural:israellased"
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "Itaallane"
+msgstr "itaallane"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "?plural:Itaallased"
+msgstr "?plural:itaallased"
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr "Jaapanlane"
+msgstr "jaapanlane"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr "?plural:Jaapanlased"
+msgstr "?plural:jaapanlased"
 
 #: data/nation/japanese.ruleset:12
 msgid "Shogun"
@@ -15471,19 +15477,19 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "Keenialane"
+msgstr "keenialane"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:Keenialased"
+msgstr "?plural:keenialased"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "Korealane"
+msgstr "korealane"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "?plural:Korealased"
+msgstr "?plural:korealased"
 
 #: data/nation/krevi.ruleset:3
 msgid "Krevi"
@@ -15495,19 +15501,19 @@ msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr ""
+msgstr "lätlane"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr ""
+msgstr "?plural:lätlased"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Leedukas"
+msgstr "leedukas"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:Leedukad"
+msgstr "?plural:leedukad"
 
 #: data/nation/lithuanian.ruleset:11
 msgid "Great Duke"
@@ -15519,19 +15525,19 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr "Mongol"
+msgstr "mongol"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "?plural:Mongolid"
+msgstr "?plural:mongolid"
 
 #: data/nation/mongol.ruleset:11
 msgid "Khan"
-msgstr ""
+msgstr "Khaan"
 
 #: data/nation/mongol.ruleset:12
 msgid "Great Khan"
-msgstr ""
+msgstr "Suurkhaan"
 
 #: data/nation/mordor.ruleset:3
 msgid "Mordor"
@@ -15559,11 +15565,11 @@ msgstr ""
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr ""
+msgstr "pärslane"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr ""
+msgstr "?plural:pärslased"
 
 #: data/nation/persian.ruleset:12
 msgid "Shah"
@@ -15571,11 +15577,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Poolakas"
+msgstr "poolakas"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Polish"
-msgstr "?plural:Poolakad"
+msgstr "?plural:poolakad"
 
 #: data/nation/polish.ruleset:15
 msgid "Dyktator"
@@ -15599,27 +15605,27 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "Portugaallane"
+msgstr "portugaallane"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "?plural:Portugaallased"
+msgstr "?plural:portugaallased"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "Roomlane"
+msgstr "roomlane"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "?plural:Roomlased"
+msgstr "?plural:roomlased"
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Venelane"
+msgstr "venelane"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "?plural:Venelased"
+msgstr "?plural:venelased"
 
 #: data/nation/russian.ruleset:12
 msgid "Czar"
@@ -15639,11 +15645,11 @@ msgstr "Matriarh"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr ""
+msgstr "shotlane"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr ""
+msgstr "?plural:shotlased"
 
 #: data/nation/scottish.ruleset:15
 msgid "First Minister"
@@ -15651,11 +15657,11 @@ msgstr ""
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "Serblane"
+msgstr "serblane"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "?plural:Serblased"
+msgstr "?plural:serblased"
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -15675,11 +15681,11 @@ msgstr "Printsess"
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "Singapurlane"
+msgstr "singapurlane"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:Singapurlased"
+msgstr "?plural:singapurlased"
 
 #: data/nation/singaporean.ruleset:26
 msgid "Ah"
@@ -15711,19 +15717,19 @@ msgstr ""
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "Sloveenlane"
+msgstr "sloveenlane"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "?plural:Sloveenlased"
+msgstr "?plural:sloveenlased"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "Hispaanlane"
+msgstr "hispaanlane"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "?plural:Hispaanlased"
+msgstr "?plural:hispaanlased"
 
 #: data/nation/spanish.ruleset:13
 msgid "Caudillo"
@@ -15739,11 +15745,11 @@ msgstr "Kardinal"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "Rootslane"
+msgstr "rootslane"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "?plural:Rootslased"
+msgstr "?plural:rootslased"
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -15755,19 +15761,19 @@ msgstr ""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr ""
+msgstr "türklane"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr ""
+msgstr "?plural:türklased"
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "Ukrainlane"
+msgstr "ukrainlane"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "?plural:Ukrainlased"
+msgstr "?plural:ukrainlased"
 
 #: data/nation/ukrainian.ruleset:11
 msgid "Hetman"
@@ -15775,19 +15781,19 @@ msgstr ""
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "Vietnamlane"
+msgstr "vietnamlane"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "?plural:Vietnamlased"
+msgstr "?plural:vietnamlased"
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr "Viiking"
+msgstr "viiking"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "?plural:Viikingid"
+msgstr "?plural:viikingid"
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
