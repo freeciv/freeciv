@@ -149,6 +149,7 @@ static int adjust_cost(const struct pf_map *pf_map, int cost)
     cost = MIN(cost, pf_map->params->move_rate);
     break;
   case TM_WORST_TIME:
+    cost = MIN(cost, pf_map->params->move_rate);
     {
       int moves_left
 	  = get_moves_left(pf_map, pf_map->lattice[pf_map->index].cost);
@@ -169,7 +170,7 @@ static int adjust_cost(const struct pf_map *pf_map, int cost)
       break;
     }
   default:
-    die("unknown TC");
+    die("unknown TM");
   }
   return cost;
 }
@@ -653,7 +654,7 @@ void pf_print_path(int log_level, const struct pf_path *path)
 
   for (i = 0; i < path->length; i++) {
     freelog(log_level,
-	    "PF:   %2d/%2d: (%2d,%2d) dir=%2s cost=%2d (%2d, %d) EC=%d",
+	    "PF:   %2d/%2d: (%2d,%2d) dir=%-2s cost=%2d (%2d, %d) EC=%d",
 	    i + 1, path->length,
 	    path->positions[i].x, path->positions[i].y,
 	    dir_get_name(path->positions[i].dir_to_next_pos),
@@ -955,12 +956,12 @@ static bool danger_iterate_map(struct pf_map *pf_map)
 
   if (pf_map->status[pf_map->index] == NS_WAITING) {
     /* We've already returned this node once, skip it */
-    freelog(LOG_NORMAL, "Considering waiting at (%d, %d)", pf_map->x,
+    freelog(LOG_DEBUG, "Considering waiting at (%d, %d)", pf_map->x,
 	    pf_map->y);
     return danger_iterate_map(pf_map);
   } else if (pf_map->d_lattice[index].is_dangerous) {
     /* We don't return dangerous tiles */
-    freelog(LOG_NORMAL, "Reached dangerous tile (%d, %d)", pf_map->x,
+    freelog(LOG_DEBUG, "Reached dangerous tile (%d, %d)", pf_map->x,
 	    pf_map->y);
     return danger_iterate_map(pf_map);
   } else {
@@ -996,6 +997,7 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
   path->length = d_node->step + 1;
 
   for (i = d_node->step; i >= 0; i--) {
+    bool old_waited;
 
     /* 1: Deal with waiting */
     if (!d_node->is_dangerous) {
@@ -1008,9 +1010,12 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
         path->positions[i].turn = get_turn(pf_map, node->cost) + 1;
         path->positions[i].moves_left = pf_map->params->move_rate;
         path->positions[i].total_MC 
-          = path->positions[i].turn * pf_map->params->move_rate;
-        /* Staying here! */
-        path->positions[i].dir_to_next_pos = -1;
+          = ((path->positions[i].turn - 1) * pf_map->params->move_rate
+             + pf_map->params->moves_left_initially);
+        path->positions[i].dir_to_next_pos = dir_next;
+        /* Set old_waited so that we record -1 as a direction at the step 
+         * we were going to wait */
+        old_waited = TRUE;
         i--;
       }
       /* Update "waited" (d_node->waited means "waited to get here") */
@@ -1034,7 +1039,7 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
       = get_moves_left(pf_map, path->positions[i].total_MC);
     path->positions[i].total_MC -= pf_map->params->move_rate
       - pf_map->params->moves_left_initially;
-    path->positions[i].dir_to_next_pos = dir_next;
+    path->positions[i].dir_to_next_pos = (old_waited ? -1 : dir_next);
 
     /* 3: Check if we finished */
     if (i == 0) {
