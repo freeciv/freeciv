@@ -1279,8 +1279,8 @@ cities =
 
 name=_("Israeli")
 plural=_("?plural:Israelis")
-leader="David"
-leader_sex="Male"
+leader="Solomon", "David", "David Ben-Gurion", "Ze'ev Zabotinsky"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.israel"
 flag_alt = "-"
 city_style = "European"
@@ -1300,10 +1300,13 @@ wonder="J. S. Bach's Cathedral"
 government="Democracy"
 
 cities =
-  "Jerusalam", "Tel Aviv", "Nazareth", "Netanya", "Rishon LeZiyyon",
-  "Petaq Tiqwa", "Ra'anana", "Rehovot", "Beer-Sheva", "Eilat",
-  "Ramat-Gav", "Herzelia", "Holon", "Haifa"
-
+  "Jerusalam", "Zephath", "Jeriho", "Beersheba", "Gat", "Tiberias",
+  "Shchem", "Beit-El", "Beit-Horon", "Beit-Shemesh", "Beit-Shaan",
+  "Beit-Lechem", "Hevron", "Acre", "Ceisaria", "Jaffo", "Haifa",
+  "Rishon Le-Zion", "Beit-Shemen", "Rehovot", "Hadera", "Tel Aviv",
+  "Petach-Tikva", "Ashdod", "Lod", "Eilat", "Ashqelon", "Herzliah",
+  "Netania", "Afulla", "Metula", "Dimona", "Carmiel", "Nazareth",
+  "Ra'anana", "Rehovot", "Eilat", "Ramat-Gav", "Holon"
 
 [nation36]
 
