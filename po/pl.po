@@ -8275,7 +8275,7 @@ msgid ""
 "Report this bug to bugs@freeciv.org."
 msgstr ""
 "Ścieżki dłuższe niż 99 tur nie są wspierane.\n"
-"Zgłoś ten błąd pod adres bugs@freeciv.freeciv.org."
+"Zgłoś ten błąd pod adres bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
