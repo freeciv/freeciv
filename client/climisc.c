@@ -20,6 +20,7 @@ used throughout the client.
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,6 +30,7 @@ used throughout the client.
 #include <unistd.h>
 #endif
 
+#include "astring.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -125,22 +127,70 @@ void client_remove_city(struct city *pcity)
   refresh_tile_mapcanvas(x, y, 1);
 }
 
-#define NCONT 256		/* should really be (UCHAR_MAX+1)? */
-static char used_continent_val[NCONT];   /* boolean */
+#define MAX_NUM_CONT 32767   /* max portable value in signed short */
+
+/* Static data used to keep track of continent numbers in client:
+ * maximum value used, and array of recycled values which can be used.
+ * (Could used signed short, but int is easier and storage here will
+ * be fairly small.)
+ */
+static int max_cont_used = 0;
+static struct athing recyc_conts;   /* .n is number available */
+static int recyc_init = 0;	    /* for first init of recyc_conts */
+static int *recyc_ptr = NULL;	    /* set to recyc_conts.ptr (void* vs int*) */
 
 /**************************************************************************
-...
+  Initialise above data, or re-initialize (eg, new map).
 **************************************************************************/
 void climap_init_continents(void)
 {
-  int i;
-  for(i=0; i<NCONT; i++) {
-    used_continent_val[i] = 0;
+  if (!recyc_init) {
+    /* initialize with size first time: */
+    ath_init(&recyc_conts, sizeof(int));
+    recyc_init = 1;
   }
+  ath_free(&recyc_conts);
+  recyc_ptr = NULL;
+  max_cont_used = 0;
 }
 
 /**************************************************************************
-...
+  Recycle a continent number.
+  (Ie, number is no longer used, and may be re-used later.)
+**************************************************************************/
+static void recycle_continent_num(int cont)
+{
+  assert(cont>0 && cont<=max_cont_used);          /* sanity */
+  ath_minnum(&recyc_conts, recyc_conts.n+1);
+  recyc_ptr = recyc_conts.ptr;
+  recyc_ptr[recyc_conts.n-1] = cont;
+  freelog(LOG_DEBUG, "clicont: recycling %d (max %d recyc %d)",
+	  cont, max_cont_used, recyc_conts.n);
+}
+
+/**************************************************************************
+  Obtain an unused continent number: a recycled number if available,
+  or increase the maximum.
+**************************************************************************/
+static int new_continent_num(void)
+{
+  int ret;
+  
+  if (recyc_conts.n>0) {
+    ret = recyc_ptr[--recyc_conts.n];
+  } else {
+    assert(max_cont_used<MAX_NUM_CONT);
+    ret = ++max_cont_used;
+  }
+  freelog(LOG_DEBUG, "clicont: new %d (max %d, recyc %d)",
+	  ret, max_cont_used, recyc_conts.n);
+  return ret;
+}
+
+/**************************************************************************
+  Recursively renumber the client continent at (x,y) with continent
+  number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
+  known land tiles with the same previous continent ('old').
 **************************************************************************/
 static void climap_renumber_continent(int x, int y, int new)
 {
@@ -150,6 +200,12 @@ static void climap_renumber_continent(int x, int y, int new)
   x = map_adjust_x(x);
 
   old = map_get_continent(x,y);
+
+  /* some sanity checks: */
+  assert(tile_is_known(x,y) >= TILE_KNOWN);
+  assert(map_get_terrain(x,y) != T_OCEAN);
+  assert(old>0 && old<=max_cont_used);
+  
   map_set_continent(x,y,new);
   for(i=x-1; i<=x+1; i++) {
     for(j=y-1; j<=y+1; j++) {
@@ -164,7 +220,12 @@ static void climap_renumber_continent(int x, int y, int new)
 }
 
 /**************************************************************************
-...
+  Update continent numbers when (x,y) becomes known (if (x,y) land).
+  Check neighbouring known land tiles: the first continent number
+  found becomes the continent value of this tile.  Any other continents
+  found are numbered to this continent (ie, continents are merged)
+  and previous continent values are recycled.  If no neighbours are
+  numbered, use a new number. 
 **************************************************************************/
 void climap_update_continents(int x, int y)
 {
@@ -183,26 +244,18 @@ void climap_update_continents(int x, int y)
 	  ptile->continent = this_con = con;
 	} else if(con != this_con) {
 	  freelog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
-	       con, this_con, x, y);
-	  climap_renumber_continent(i,j,this_con);
-	  used_continent_val[con] = 0;
+		  con, this_con, x, y);
+	  climap_renumber_continent(i, j, this_con);
+	  recycle_continent_num(con);
 	}
       }
     }
   }
   if(this_con==-1) {
-    for(i=2; i<NCONT; i++) {
-      if(!used_continent_val[i]) {
-	freelog(LOG_DEBUG, "new client continent %d at (%d %d)", i, x, y);
-	ptile->continent = this_con = i;
-	used_continent_val[i] = 1;
-	break;
-      }
-    }
-  }
-  if(this_con==-1) {
-    freelog(LOG_NORMAL, "ran out of continent numbers in client");
-    ptile->continent = 0;
+    ptile->continent = new_continent_num();
+    freelog(LOG_DEBUG, "new client continent %d at (%d %d)",
+	    ptile->continent, x, y);
+    return;
   }
 }
 
