@@ -86,7 +86,7 @@ Write to console without line-break, don't print prompt.
 ************************************************************************/
 int con_dump(int i, char *message, ...)
 {
-  static char buf[512];
+  static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
   
   va_start(args, message);
@@ -110,7 +110,7 @@ Write to console and add line-break, and show prompt if required.
 ************************************************************************/
 void con_write(int i, char *message, ...)
 {
-  static char buf[512];
+  static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
   
   va_start(args, message);
@@ -147,7 +147,7 @@ Adds line-break, and shows prompt if required.
 ************************************************************************/
 void con_rfconly(int i, char *message, ...)
 {
-  static char buf[512];
+  static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
   
   va_start(args, message);

@@ -15,6 +15,8 @@
 
 #include "attribute.h"
 
+#define MAX_LEN_CONSOLE_LINE 512
+				/* closing \0 included */
 #define C_IGNORE -1		/* never print RFC-style number prefix */
 #define C_COMMENT 0 		/* for human eyes only */
 #define C_VERSION 1		/* version info */

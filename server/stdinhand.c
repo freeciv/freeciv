@@ -55,9 +55,6 @@
 #include "stdinhand.h"
 
 
-#define MAX_LEN_CMD MAX_LEN_PACKET
-  /* to be used more widely - rp */
-
 static enum cmdlevel_id default_access_level = ALLOW_INFO;
 static enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
@@ -1706,14 +1703,14 @@ static void rename_player(struct connection *caller, char *arg)
 void read_init_script(char *script_filename)
 {
   FILE *script_file;
-  char buffer[512];
+  char buffer[MAX_LEN_CONSOLE_LINE];
 
   script_file = fopen(script_filename,"r");
 
   if (script_file) {
 
-    /* the size 511 is set as to not overflow buffer in handle_stdin_input */
-    while(fgets(buffer,511,script_file))
+    /* the size is set as to not overflow buffer in handle_stdin_input */
+    while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file))
       handle_stdin_input((struct connection *)NULL, buffer);
     fclose(script_file);
 
@@ -1959,8 +1956,8 @@ void notify_if_first_access_level_is_available(void)
 **************************************************************************/
 static void cmdlevel_command(struct connection *caller, char *str)
 {
-  char arg_level[MAX_LEN_CMD+1]; /* info, ctrl etc */
-  char arg_name[MAX_LEN_CMD+1];	 /* a player name, or "new" */
+  char arg_level[MAX_LEN_CONSOLE_LINE]; /* info, ctrl etc */
+  char arg_name[MAX_LEN_CONSOLE_LINE];	 /* a player name, or "new" */
   char *cptr_s, *cptr_d;	 /* used for string ops */
 
   enum m_pre_result match_result;
@@ -2210,7 +2207,7 @@ static void show_help_option_list(struct connection *caller,
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", settings[i].name);
     }
   } else {
-    char buf[MAX_LEN_CMD+1];
+    char buf[MAX_LEN_CONSOLE_LINE];
     buf[0] = '\0';
     for (i=0, j=0; settings[i].name; i++) {
       if (may_view_option(caller, i)) {
@@ -2232,7 +2229,7 @@ static void show_help_option_list(struct connection *caller,
 **************************************************************************/
 static void explain_option(struct connection *caller, char *str)
 {
-  char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
@@ -2374,8 +2371,8 @@ Only show options which the caller can SEE.
 ******************************************************************/
 static void show_command(struct connection *caller, char *str)
 {
-  char buf[MAX_LEN_CMD+1];
-  char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd,i,len1;
   int clen = 0;
 
@@ -2492,7 +2489,7 @@ static int is_ok_opt_name_value_sep_char(char c)
 ******************************************************************/
 static void set_command(struct connection *caller, char *str) 
 {
-  char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int val, cmd;
   struct settings_s *op;
 
@@ -2538,9 +2535,8 @@ static void set_command(struct connection *caller, char *str)
   if (SETTING_IS_INT(op)) {
     val = atoi(arg);
     if (!val && arg[0] != '0') {
-      /* arg doesn't seem to be a number at all */
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-		_("Value must be an integer"));
+		_("Value must be an integer."));
     } else if (val >= op->min_value && val <= op->max_value) {
       char *reject_message = NULL;
       if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {
@@ -2599,7 +2595,7 @@ static void set_command(struct connection *caller, char *str)
 **************************************************************************/
 void handle_stdin_input(struct connection *caller, char *str)
 {
-  char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
 
@@ -2938,7 +2934,7 @@ static void show_help_command_list(struct connection *caller,
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", commands[i].name);
     }
   } else {
-    char buf[MAX_LEN_CMD+1];
+    char buf[MAX_LEN_CONSOLE_LINE];
     int j;
     
     buf[0] = '\0';
@@ -3098,7 +3094,7 @@ static void show_list(struct connection *caller, char *arg)
 **************************************************************************/
 void show_players(struct connection *caller)
 {
-  char buf[512], buf2[512];
+  char buf[MAX_LEN_CONSOLE_LINE], buf2[MAX_LEN_CONSOLE_LINE];
   int i, n;
   
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of players:"));
@@ -3180,7 +3176,7 @@ void show_players(struct connection *caller)
 **************************************************************************/
 static void show_connections(struct connection *caller)
 {
-  char buf[512];
+  char buf[MAX_LEN_CONSOLE_LINE];
   
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of connections to server:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
