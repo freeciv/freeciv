@@ -164,8 +164,7 @@ void gamelog_save(void) {
     if (!is_barbarian(pplayer)) {
       if ((BV_ISSET_ANY(srvarg.draw)
            && BV_ISSET(srvarg.draw, pplayer->player_no))
-          || (pplayer->team != TEAM_NONE
-              && pplayer->team == highest_plr->team)) {
+          || pplayers_in_the_same_team(pplayer, highest_plr)) {
         /* We win a shared victory, so equal the score. */
         rank[count].value = highest;
       }

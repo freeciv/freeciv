@@ -1818,7 +1818,7 @@ main_start_players:
   if (game.is_new_game) {
    players_iterate(pplayer) {
      players_iterate(pdest) {
-      if (pplayer->team == pdest->team && pplayer->team != TEAM_NONE
+      if (pplayers_in_the_same_team(pplayer, pdest)
           && pplayer->player_no != pdest->player_no) {
         pplayer->diplstates[pdest->player_no].type = DS_TEAM;
         give_shared_vision(pplayer, pdest);
