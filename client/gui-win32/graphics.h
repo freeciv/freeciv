@@ -35,6 +35,13 @@ struct Sprite
   int height;
   int cache_id;
 };
+
+struct canvas_store
+{
+  HDC hdc;
+  HBITMAP bitmap;
+};
+
 void draw_sprite(struct Sprite *sprite,HDC hdc,int x, int y);
 void draw_sprite_part(struct Sprite *sprite,HDC hdc,
 		       int x, int y, int w, int h,int xsrc,int ysrc);

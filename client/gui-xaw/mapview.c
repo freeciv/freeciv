@@ -30,6 +30,7 @@
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
+#include "mem.h"
 #include "player.h"
 #include "rand.h"
 #include "support.h"
@@ -594,6 +595,11 @@ void map_canvas_resize(void)
 				 map_canvas_store_twidth*NORMAL_TILE_WIDTH,
 				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
 				 display_depth);
+
+  if (!mapview_canvas.store) {
+    mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
+  }
+  mapview_canvas.store->pixmap = map_canvas_store;
 }
 
 /**************************************************************************
@@ -647,13 +653,12 @@ static void pixmap_put_sprite(Pixmap pixmap,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+void gui_put_sprite(struct canvas_store *pcanvas_store,
+		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  Pixmap pm = pcanvas ? *(Pixmap*)pcanvas : map_canvas_store;
-
-  pixmap_put_sprite(pm, canvas_x, canvas_y,
+  pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
 		    sprite, offset_x, offset_y, width, height);
 }
 

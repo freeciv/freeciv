@@ -113,6 +113,12 @@ void map_resize()
   if (mapstorebitmap) DeleteObject(mapstorebitmap);
   mapstorebitmap=newbmp;
   ReleaseDC(map_window,hdc);
+
+  if (!mapview_canvas.store) {
+    mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
+  }
+  mapview_canvas.store->hdc = NULL;
+  mapview_canvas.store->bitmap = mapstorebitmap;
   
   map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
@@ -1355,7 +1361,8 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+void gui_put_sprite(struct canvas_store *pcanvas_store,
+		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
@@ -1363,9 +1370,8 @@ void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
   HBITMAP old;
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
-  assert(pcanvas == NULL);
-  hdc = CreateCompatibleDC(NULL);
-  old = SelectObject(hdc, mapstorebitmap);
+  hdc = CreateCompatibleDC(pcanvas_store->hdc);
+  old = SelectObject(hdc, panvas_store->bitmap);
 
   pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       sprite, offset_x, offset_y,

@@ -24,6 +24,10 @@ struct Sprite {
   int has_mask;
 };
 
+struct canvas_store {
+  Pixmap pixmap;
+};
+
 Pixmap create_overlay_unit(int i);
 
 extern struct Sprite *intro_gfx_sprite;

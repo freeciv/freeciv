@@ -717,6 +717,7 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
   		    tile_width*NORMAL_TILE_WIDTH,
   		    tile_height*NORMAL_TILE_HEIGHT,
   		    -1 );
+    mapview_canvas.store->pixmap = map_canvas_store;
 
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
@@ -1171,13 +1172,12 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+void gui_put_sprite(struct canvas_store *pcanvas_store,
+		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  GdkPixmap *pm = pcanvas ? pcanvas : map_canvas_store;
-
-  pixmap_put_sprite(pm, canvas_x, canvas_y,
+  pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
 		    sprite, offset_x, offset_y, width, height);
 }
 

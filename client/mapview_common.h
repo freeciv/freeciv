@@ -19,7 +19,19 @@
 #include "colors_g.h"
 
 struct unit;
-typedef void canvas_t;
+
+struct canvas_store;		/* opaque type, real type is gui-dep */
+
+struct canvas {
+#if 0 /* These values are still in the GUI. */
+  int map_x0, map_y0;
+  int width, height;
+  int tile_width, tile_height;
+#endif
+  struct canvas_store *store;
+};
+
+extern struct canvas mapview_canvas;
 
 /*
 The bottom row of the map was sometimes hidden.

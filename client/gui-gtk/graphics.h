@@ -26,6 +26,11 @@ struct Sprite
   int	     height;
 };
 
+struct canvas_store
+{
+  GdkPixmap *pixmap;
+};
+
 typedef struct Sprite SPRITE;
 
 void	create_overlay_unit	(GtkWidget *pixcomm, int i);

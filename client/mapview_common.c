@@ -29,6 +29,8 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
+struct canvas mapview_canvas;
+
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
@@ -504,7 +506,7 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 			   width, height, height_unit,
 			   draw);
     } else {
-      gui_put_sprite(NULL, canvas_x, canvas_y,
+      gui_put_sprite(mapview_canvas.store, canvas_x, canvas_y,
 		     sprites.black_tile, offset_x, offset_y, width, height);
     }
   }
