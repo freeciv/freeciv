@@ -160,8 +160,6 @@ struct packet_player_request
   int tech;                              /* research */
 };
 
-
-
 /*********************************************************
   city request
 *********************************************************/
@@ -340,6 +338,7 @@ struct packet_player_info {
   int is_connected;
   char addr[MAX_LENGTH_ADDRESS];
   int revolution;
+  int ai;
 };
 
 
