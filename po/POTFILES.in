@@ -120,6 +120,8 @@ data/nation/dunedain.ruleset
 data/nation/dutch.ruleset
 data/nation/egyptian.ruleset
 data/nation/english.ruleset
+data/nation/estonian.ruleset
+data/nation/filipino.ruleset
 data/nation/finnish.ruleset
 data/nation/french.ruleset
 data/nation/german.ruleset
@@ -134,6 +136,7 @@ data/nation/japanese.ruleset
 data/nation/kenyan.ruleset
 data/nation/korean.ruleset
 data/nation/krevi.ruleset
+data/nation/latvian.ruleset
 data/nation/lithuanian.ruleset
 data/nation/mongol.ruleset
 data/nation/mordor.ruleset
