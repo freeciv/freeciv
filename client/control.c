@@ -104,16 +104,22 @@ note: punit can be NULL
 We make sure that the previous focus unit is refreshed, if necessary,
 _after_ setting the new focus unit (otherwise if the previous unit is
 in a city, the refresh code draws the previous unit instead of the city).
+
+ This function can be called directly from packhand.c as a result of
+ Wakeup Focus (when a unit goes from Sentried to Idle in the server).
 **************************************************************************/
 void set_unit_focus(struct unit *punit)
 {
-  struct unit *punit_old_focus=punit_focus;
+  struct unit *punit_old_focus = punit_focus;
 
   if (punit != punit_focus) {
     store_focus();
   }
 
-  punit_focus=punit;
+  /*
+   *  This should be the ONLY place we _modify_ punit_focus.
+   */
+  punit_focus = punit;
 
   if(punit) {
     auto_center_on_focus_unit();
@@ -189,41 +195,34 @@ struct unit *get_unit_in_focus(void)
 }
 
 /**************************************************************************
-...
+ This function may be called from packhand.c, via update_unit_focus(),
+ as a result of packets indicating change in activity for a unit. Also
+ called when user press the "Wait" command.
 **************************************************************************/
 void advance_unit_focus(void)
 {
-  struct unit *punit_old_focus=punit_focus;
-
-  store_focus();
-  punit_focus=find_best_focus_candidate();
+  struct unit *punit_old_focus = punit_focus;
+  struct unit *candidate = find_best_focus_candidate();
 
   set_hover_state(NULL, HOVER_NONE);
 
-  if(!punit_focus) {
+  if(!candidate) {
     unit_list_iterate(game.player_ptr->units, punit) {
-      if(punit->focus_status==FOCUS_WAIT)
-	punit->focus_status=FOCUS_AVAIL;
-    }
-    unit_list_iterate_end;
-    punit_focus=find_best_focus_candidate();
-    if (punit_focus == punit_old_focus) {
+      if(punit->focus_status == FOCUS_WAIT)
+    punit->focus_status = FOCUS_AVAIL;
+    } unit_list_iterate_end;
+    candidate = find_best_focus_candidate();
+    if (candidate == punit_focus) {
       /* we don't want to same unit as before if there are any others */
-      punit_focus=find_best_focus_candidate();
-      if(!punit_focus) {
-	/* but if that is the only choice, take it: */
-	punit_focus=find_best_focus_candidate();
+      candidate = find_best_focus_candidate();
+      if(!candidate) {
+    /* but if that is the only choice, take it: */
+    candidate = find_best_focus_candidate();
       }
     }
   }
 
-  /* We have to do this ourselves, and not rely on set_unit_focus(),
-   * because above we change punit_focus directly.
-   */
-  if(punit_old_focus && punit_old_focus!=punit_focus)
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, FALSE);
-
-  set_unit_focus(punit_focus);
+  set_unit_focus(candidate);
 
   /* 
    * Is the unit which just lost focus a non-AI unit? If yes this
