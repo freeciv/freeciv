@@ -743,7 +743,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       n = pdef->type;
       m = get_virtual_defense_power(v, n, x, y);
       if (pdef->veteran) m += m / 2;
-      if (pdef->activity == ACTIVITY_FORTIFY) m += m / 2;
+      if (pdef->activity == ACTIVITY_FORTIFIED) m += m / 2;
 /* attempting to recreate the rounding errors in get_total_defense_power -- Syela */
 
       m *= (myunit->id ? pdef->hp : unit_types[n].hp) * unit_types[n].firepower;

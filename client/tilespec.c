@@ -498,7 +498,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
   SET_SPRITE(unit.auto_settler, "unit.auto_settler");
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
-  SET_SPRITE(unit.fortify,	"unit.fortify");     
+  SET_SPRITE(unit.fortified,	"unit.fortified");     
+  SET_SPRITE(unit.fortifying,	"unit.fortifying");     
   SET_SPRITE(unit.fortress,     "unit.fortress");
   SET_SPRITE(unit.airbase,      "unit.airbase");
   SET_SPRITE(unit.go_to,	"unit.goto");     
@@ -850,8 +851,11 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
     case ACTIVITY_EXPLORE:
       s = sprites.unit.auto_explore;
       break;
-    case ACTIVITY_FORTIFY:
-      s = sprites.unit.fortify;
+    case ACTIVITY_FORTIFIED:
+      s = sprites.unit.fortified;
+      break;
+    case ACTIVITY_FORTIFYING:
+      s = sprites.unit.fortifying;
       break;
     case ACTIVITY_FORTRESS:
       s = sprites.unit.fortress;

@@ -278,7 +278,7 @@ static void orders_menu_callback(gpointer callback_data,
     break;
    case MENU_ORDER_FORTIFY:
     if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTIFY);
+      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTIFYING);
     break;
    case MENU_ORDER_SENTRY:
     if(get_unit_in_focus())
@@ -873,7 +873,7 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));
       menus_set_sensitive("<main>/Orders/Fortify",
-			   can_unit_do_activity(punit, ACTIVITY_FORTIFY));
+			   can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menus_set_sensitive("<main>/Orders/Sentry",
 			   can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menus_set_sensitive("<main>/Orders/Pillage",

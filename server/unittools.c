@@ -314,7 +314,7 @@ int hp_gain_coord(struct unit *punit)
   else if (!is_heli_unit(punit))
     hp++;
 
-  if(punit->activity==ACTIVITY_FORTIFY)
+  if(punit->activity==ACTIVITY_FORTIFIED)
     hp++;
   
   return hp;

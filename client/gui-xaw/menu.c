@@ -303,7 +303,7 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FORTIFY, 
-			   can_unit_do_activity(punit, ACTIVITY_FORTIFY));
+			   can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_SENTRY, 
 			   can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_PILLAGE, 

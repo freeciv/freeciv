@@ -847,21 +847,22 @@ char* get_activity_text (int activity)
   char *text;
 
   switch (activity) {
-  case ACTIVITY_IDLE:      text = _("Idle"); break;
-  case ACTIVITY_POLLUTION: text = _("Pollution"); break;
-  case ACTIVITY_ROAD:      text = _("Road"); break;
-  case ACTIVITY_MINE:      text = _("Mine"); break;
-  case ACTIVITY_IRRIGATE:  text = _("Irrigation"); break;
-  case ACTIVITY_FORTIFY:   text = _("Fortify"); break;
-  case ACTIVITY_FORTRESS:  text = _("Fortress"); break;
-  case ACTIVITY_SENTRY:    text = _("Sentry"); break;
-  case ACTIVITY_RAILROAD:  text = _("Railroad"); break;
-  case ACTIVITY_PILLAGE:   text = _("Pillage"); break;
-  case ACTIVITY_GOTO:      text = _("Goto"); break;
-  case ACTIVITY_EXPLORE:   text = _("Explore"); break;
-  case ACTIVITY_TRANSFORM: text = _("Transform"); break;
-  case ACTIVITY_AIRBASE:   text = _("Airbase"); break;
-  default:                 text = _("Unknown"); break;
+  case ACTIVITY_IDLE:		text = _("Idle"); break;
+  case ACTIVITY_POLLUTION:	text = _("Pollution"); break;
+  case ACTIVITY_ROAD:		text = _("Road"); break;
+  case ACTIVITY_MINE:		text = _("Mine"); break;
+  case ACTIVITY_IRRIGATE:	text = _("Irrigation"); break;
+  case ACTIVITY_FORTIFYING:	text = _("Fortifying"); break;
+  case ACTIVITY_FORTIFIED:	text = _("Fortified"); break;
+  case ACTIVITY_FORTRESS:	text = _("Fortress"); break;
+  case ACTIVITY_SENTRY:		text = _("Sentry"); break;
+  case ACTIVITY_RAILROAD:	text = _("Railroad"); break;
+  case ACTIVITY_PILLAGE:	text = _("Pillage"); break;
+  case ACTIVITY_GOTO:		text = _("Goto"); break;
+  case ACTIVITY_EXPLORE:	text = _("Explore"); break;
+  case ACTIVITY_TRANSFORM:	text = _("Transform"); break;
+  case ACTIVITY_AIRBASE:	text = _("Airbase"); break;
+  default:			text = _("Unknown"); break;
   }
 
   return text;
@@ -931,14 +932,13 @@ int can_unit_do_activity_targeted(struct unit *punit,
   /* can't go directly from non-idle to non-idle activity */
   if(punit->activity!=ACTIVITY_IDLE && punit->activity != activity) return 0;
 
-  switch(activity)  {
+  switch(activity) {
   case ACTIVITY_POLLUTION:
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-           (ptile->special&S_POLLUTION);
+    return unit_flag(punit->type, F_SETTLERS) && (ptile->special&S_POLLUTION);
 
   case ACTIVITY_ROAD:
     return terrain_control.may_road &&
-           unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           unit_flag(punit->type, F_SETTLERS) &&
            !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
 	   ((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER)) || 
 	    player_knows_techs_with_flag(pplayer, TF_BRIDGE));
@@ -947,7 +947,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     /* Don't allow it if someone else is irrigating this tile.
      * *Do* allow it if they're transforming - the mine may survive */
     if (terrain_control.may_mine &&
-	unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+	unit_flag(punit->type, F_SETTLERS) &&
 	type->mining_result!=T_LAST && !(ptile->special&S_MINE)) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_IRRIGATE) return 0;
@@ -960,7 +960,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     /* Don't allow it if someone else is mining this tile.
      * *Do* allow it if they're transforming - the irrigation may survive */
     if (terrain_control.may_irrigate &&
-	unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+	unit_flag(punit->type, F_SETTLERS) &&
 	(!(ptile->special&S_IRRIGATION) ||
 	 (!(ptile->special&S_FARMLAND) &&
 	  player_knows_techs_with_flag(pplayer, TF_FARMLAND))) &&
@@ -975,17 +975,21 @@ int can_unit_do_activity_targeted(struct unit *punit,
       return 1;
     } else return 0;
 
-  case ACTIVITY_FORTIFY:
-    return is_ground_unit(punit) && punit->moves_left &&
+  case ACTIVITY_FORTIFYING:
+    return is_ground_unit(punit) &&
+	   (punit->activity != ACTIVITY_FORTIFIED) &&
            !unit_flag(punit->type, F_SETTLERS);
 
+  case ACTIVITY_FORTIFIED:
+    return 0;
+
   case ACTIVITY_FORTRESS:
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+    return unit_flag(punit->type, F_SETTLERS) &&
            player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
 	   !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN;
 
   case ACTIVITY_AIRBASE:
-    return unit_flag(punit->type, F_AIRBASE) && punit->moves_left &&
+    return unit_flag(punit->type, F_AIRBASE) &&
            player_knows_techs_with_flag(pplayer, TF_AIRBASE) &&
            !(ptile->special&S_AIRBASE) && ptile->terrain!=T_OCEAN;
 
@@ -995,7 +999,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
   case ACTIVITY_RAILROAD:
     /* if the tile has road, the terrain must be ok.. */
     return terrain_control.may_road &&
-           unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           unit_flag(punit->type, F_SETTLERS) &&
            ((ptile->special&S_ROAD) || (punit->connecting
 	    && (ptile->terrain!=T_OCEAN &&
 		((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER))
@@ -1008,7 +1012,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
       int pspresent;
       int psworking;
       pspresent = get_tile_infrastructure_set(ptile);
-      if (pspresent && is_ground_unit(punit) && punit->moves_left) {
+      if (pspresent && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
 	if (target == S_NO_SPECIAL)
 	  return ((pspresent & (~psworking)) != 0);
@@ -1149,7 +1153,8 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_MINE: 
    case ACTIVITY_IRRIGATE:
    case ACTIVITY_TRANSFORM:
-   case ACTIVITY_FORTIFY:
+   case ACTIVITY_FORTIFYING:
+   case ACTIVITY_FORTIFIED:
    case ACTIVITY_AIRBASE:
    case ACTIVITY_FORTRESS:
    case ACTIVITY_SENTRY:

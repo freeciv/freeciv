@@ -93,7 +93,8 @@ struct named_sprites {
       *auto_attack,
       *auto_settler,
       *auto_explore,
-      *fortify,
+      *fortified,
+      *fortifying,
       *fortress,
       *airbase,
       *go_to,			/* goto is a C keyword :-) */

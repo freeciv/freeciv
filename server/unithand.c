@@ -1000,7 +1000,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
 	  freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
 		  unit_types[bodyguard->type].name, src_x, src_y,
 		  dest_x, dest_y, success);
-          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFY);
+          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFYING);
         }
       }
     }

@@ -950,8 +950,8 @@ void key_unit_done(void)
 void key_unit_fortify(void)
 {
   if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFY))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFY);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFYING))
+      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFYING);
 }
 
 /**************************************************************************

@@ -1354,7 +1354,8 @@ void update_player_activities(struct player *pplayer)
   notify_player(pplayer, _("Year: %s"), textyear(game.year));
   great_library(pplayer);
   update_revolution(pplayer);
-  player_restore_units(pplayer);
+  player_restore_units(pplayer); /*note: restoring move point moved
+				   to update_unit_activities*/
   update_city_activities(pplayer);
 #ifdef CITIES_PROVIDE_RESEARCH
   if (city_list_size(&pplayer->cities)) /* has to be below the above for got_tech */ 

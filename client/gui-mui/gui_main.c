@@ -1164,7 +1164,7 @@ void update_menus(void) /* from menu.c */
 	menu_entry_sensitive(MENU_ORDER_POLLUTION, can_unit_do_activity(punit, ACTIVITY_POLLUTION));
       }
 
-      menu_entry_sensitive(MENU_ORDER_FORTIFY, can_unit_do_activity(punit, ACTIVITY_FORTIFY));
+      menu_entry_sensitive(MENU_ORDER_FORTIFY, can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menu_entry_sensitive(MENU_ORDER_AIRBASE, can_unit_do_activity(punit, ACTIVITY_AIRBASE));
       menu_entry_sensitive(MENU_ORDER_SENTRY, can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menu_entry_sensitive(MENU_ORDER_PILLAGE, can_unit_do_activity(punit, ACTIVITY_PILLAGE));

@@ -1013,7 +1013,7 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
       do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
     }
   } else {
-    handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
+    handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFYING);
   }
 }
 
@@ -1642,7 +1642,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
           punit->ai.ferryboat))
         handle_unit_activity_request(pplayer, punit, ACTIVITY_SENTRY);
       else 
-        handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
+        handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFYING);
     } /* better than doing nothing */
   }
 }

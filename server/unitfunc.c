@@ -1225,7 +1225,7 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 }
 
 /***************************************************************************
-Restore unit move points and hitpoints.
+Restore unit hitpoints. (movepoint - restoration moved to update_unit_activities)
 Do Leonardo's Workshop upgrade if applicable.
 Now be careful not to strand units at sea with the Workshop. --dwp
 Adjust air units for fuel: air units lose fuel unless in a city,
@@ -1279,7 +1279,6 @@ void player_restore_units(struct player *pplayer)
 
   unit_list_iterate(pplayer->units, punit) {
     unit_restore_hitpoints(pplayer, punit);
-    unit_restore_movepoints(pplayer, punit);
 
     if(punit->hp<=0) {
       /* This should usually only happen for heli units,
@@ -1576,7 +1575,7 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
   if (unit_on_fortress(defender) && 
       !map_get_city(defender->x, defender->y)) 
     defensepower*=2;
-  if ((defender->activity == ACTIVITY_FORTIFY || 
+  if ((defender->activity == ACTIVITY_FORTIFIED || 
        map_get_city(defender->x, defender->y)) && 
       is_ground_unit(defender))
     defensepower*=1.5;
@@ -1753,6 +1752,7 @@ static int total_activity_targeted (int x, int y,
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
+  restore unit move points (information needed for settler tasks)
 **************************************************************************/
 void update_unit_activity(struct player *pplayer, struct unit *punit)
 {
@@ -1762,15 +1762,24 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 
   int activity = punit->activity;
 
+  /* to allow a settler to begin a task with no moves left
+     without it counting toward the time to finish */
+  if (punit->moves_left){
+    punit->activity_count += mr/3;
+  }
+
+  unit_restore_movepoints(pplayer, punit);
+
   if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
     do_unit_goto (pplayer, punit, get_activity_move_restriction(activity));
   }
 
-  punit->activity_count += mr/3;
+
 
   /* if connecting, automagically build prerequisities first */
-  if (punit->connecting && activity == ACTIVITY_RAILROAD && !(map_get_tile(punit->x, punit->y)->special & S_ROAD)) {
+  if (punit->connecting && activity == ACTIVITY_RAILROAD &&
+      !(map_get_tile(punit->x, punit->y)->special & S_ROAD)) {
     activity = ACTIVITY_ROAD;
   }
 
@@ -1888,6 +1897,11 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     unit_list_iterate_end;
   }
 
+  if (activity==ACTIVITY_FORTIFYING) {
+    if (punit->activity_count >= 1) {
+      set_unit_activity(punit,ACTIVITY_FORTIFIED);
+    }
+  }
 
   if (activity==ACTIVITY_GOTO) {
     if (!punit->ai.control && (!is_military_unit(punit) ||

@@ -670,9 +670,9 @@ static void sentry_unit(struct unit *punit)
 *****************************************************************/
 static void fortify_unit(struct unit *punit)
 {
-  if(punit->activity!=ACTIVITY_FORTIFY &&
-     can_unit_do_activity(punit, ACTIVITY_FORTIFY))
-    request_new_unit_activity(punit, ACTIVITY_FORTIFY);
+  if(punit->activity!=ACTIVITY_FORTIFYING &&
+     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+    request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
 }
 
 /****************************************************************
@@ -862,8 +862,8 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
       message_dialog_button_set_sensitive(wd, "button2", FALSE);
     }
-    if (punit->activity == ACTIVITY_FORTIFY
-	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFY)) {
+    if (punit->activity == ACTIVITY_FORTIFYING
+	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       message_dialog_button_set_sensitive(wd, "button3", FALSE);
     }
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {

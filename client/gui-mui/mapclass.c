@@ -1790,7 +1790,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, "Build Airbase", PACK_USERDATA(punit, MENU_ORDER_AIRBASE));
 		if (can_unit_do_activity(punit, ACTIVITY_POLLUTION))
 		  Map_InsertCommand(&list, "Clean Pollution", PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
-		if (can_unit_do_activity(punit, ACTIVITY_FORTIFY))
+		if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
 		  Map_InsertCommand(&list, "Fortify", PACK_USERDATA(punit, MENU_ORDER_FORTIFY));
 		if (can_unit_do_activity(punit, ACTIVITY_SENTRY))
 		  Map_InsertCommand(&list, "Sentry", PACK_USERDATA(punit, MENU_ORDER_SENTRY));
