@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-04 18:12+0100\n"
+"POT-Creation-Date: 2005-02-06 08:42+0100\n"
 "PO-Revision-Date: 2005-02-04 18:15+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -9465,7 +9465,7 @@ msgstr "Znečištění:"
 
 #: client/gui-gtk-2.0/citydlg.c:552 client/gui-gtk-2.0/inteldlg.c:184
 msgid "_Overview"
-msgstr "_Přehled"
+msgstr "Př_ehled"
 
 #: client/gui-gtk-2.0/citydlg.c:580 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:315
@@ -9508,7 +9508,7 @@ msgstr "_Vylepšení:"
 
 #: client/gui-gtk-2.0/citydlg.c:780
 msgid "Pro_duction"
-msgstr "Pro_dukce"
+msgstr "P_rodukce"
 
 #: client/gui-gtk-2.0/citydlg.c:831 client/gui-gtk/citydlg.c:1156
 msgid "_Happiness"
@@ -9524,7 +9524,7 @@ msgstr "Obchodní _cesty"
 
 #: client/gui-gtk-2.0/citydlg.c:927
 msgid "_Settings"
-msgstr "_Nastavení"
+msgstr "Nasta_vení"
 
 #: client/gui-gtk-2.0/citydlg.c:936 client/gui-gtk/citydlg.c:1273
 #: client/gui-mui/citydlg.c:1647 client/gui-mui/citydlg.c:1648
@@ -9604,11 +9604,11 @@ msgstr "Město"
 
 #: client/gui-gtk-2.0/citydlg.c:1044
 msgid "_Rename..."
-msgstr "_Přejmenovat..."
+msgstr "Přejme_novat..."
 
 #: client/gui-gtk-2.0/citydlg.c:1178
 msgid "_List present units..."
-msgstr "_Seznam přítomných jednotek..."
+msgstr "Seznam přítomných _jednotek..."
 
 #: client/gui-gtk-2.0/citydlg.c:1188 client/gui-gtk/citydlg.c:1551
 msgid "_Prev city"
@@ -11084,7 +11084,7 @@ msgstr "_Konec"
 
 #: client/gui-gtk-2.0/menu.c:666
 msgid "Gover_nment"
-msgstr "Státní zříze_ní"
+msgstr "_Státní zřízení"
 
 #: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:670
 #: client/gui-gtk-2.0/menu.c:672 client/gui-gtk-2.0/menu.c:674
@@ -12162,11 +12162,11 @@ msgstr "Cílový _Seznam prací:"
 
 #: client/gui-gtk-2.0/wldlg.c:1198
 msgid "_Add Global Worklist"
-msgstr "_Přidat do globálního seznamu prací"
+msgstr "Přidat do _globálního seznamu prací"
 
 #: client/gui-gtk-2.0/wldlg.c:1214
 msgid "Chan_ge Production"
-msgstr "Změ_nit produkci"
+msgstr "Změn_it produkci"
 
 #: client/gui-gtk/citydlg.c:619
 msgid "City improvements"
@@ -12523,15 +12523,15 @@ msgstr "Smazat předvolbu"
 
 #: client/gui-gtk/cma_fe.c:293
 msgid "Apply onc_e"
-msgstr "Použít j_ednou"
+msgstr "Použít jedno_u"
 
 #: client/gui-gtk/cma_fe.c:299
 msgid "Control c_ity"
-msgstr "Ovládat _město"
+msgstr "Ovládat měs_to"
 
 #: client/gui-gtk/cma_fe.c:306 client/gui-mui/citydlg.c:1631
 msgid "_Release city"
-msgstr "_Uvolnit město"
+msgstr "Uvo_lnit město"
 
 #: client/gui-gtk/cma_fe.c:395 client/gui-win32/cma_fe.c:308
 #: client/gui-xaw/cma_fe.c:78
@@ -16205,15 +16205,14 @@ msgstr ""
 "Jednotky poškozené v boji regenerují každý tah, pokud se nepohybují. Za "
 "normálních okolností se jednotka, která se nepohne, uzdraví o jeden bod za "
 "kolo.  Pozemní jednotky ve městě s kasárnami nebo námořní jednotky ve městě "
-"s přístavem (port facility) nebo vzdušná jednotka ve městě s letištěm získá "
-"všechny ztracené body zdraví, pokud stráví ve městě tah. Jinak jednotka, "
-"kerá zůstane jeden tah ve městě, získá jednu třetinu zdraví.  Jednotka, "
-"která stráví tah v pevnosti, se uzdraví o jednu čtvrtinu.  Opevněné jednotky "
-"se léčí o jeden bod rychleji.  Div světa Spojené Národy urychlí léčení o "
-"další dva body, bez ohledu na to, zda-li se jednotka pohla nebo ne.  "
-"Vrtulníky musí počítat kromě tohoto ještě se ztrátou dvou bodů zdraví, pokud "
-"neukončí tah ve městě. Poškozené jednotky v režimu střežení se aktivují, "
-"pokud se kompletně uzdraví."
+"s loděnicí nebo vzdušná jednotka ve městě s letištěm získá všechny ztracené "
+"body zdraví, pokud stráví ve městě tah. Jinak jednotka, kerá zůstane jeden "
+"tah ve městě, získá jednu třetinu zdraví.  Jednotka, která stráví tah v "
+"pevnosti, se uzdraví o jednu čtvrtinu.  Opevněné jednotky se léčí o jeden "
+"bod rychleji.  Div světa Spojené Národy urychlí léčení o další dva body, bez "
+"ohledu na to, zda-li se jednotka pohla nebo ne.  Vrtulníky musí počítat "
+"kromě tohoto ještě se ztrátou dvou bodů zdraví, pokud neukončí tah ve městě. "
+"Poškozené jednotky v režimu střežení se aktivují, pokud se kompletně uzdraví."
 
 #: data/helpdata.txt:926
 msgid ""
@@ -17394,7 +17393,7 @@ msgstr ""
 #: data/default/buildings.ruleset:537 data/civ2/buildings.ruleset:482
 #: data/history/buildings.ruleset:486
 msgid "Harbour"
-msgstr "Přístaviště"
+msgstr "Přístav"
 
 #: data/default/buildings.ruleset:558 data/civ2/buildings.ruleset:503
 #: data/history/buildings.ruleset:507
@@ -17561,7 +17560,7 @@ msgstr ""
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:795
 #: data/history/buildings.ruleset:807
 msgid "Port Facility"
-msgstr "Přístav"
+msgstr "Loděnice"
 
 #: data/default/buildings.ruleset:882 data/civ2/buildings.ruleset:817
 #: data/history/buildings.ruleset:829
