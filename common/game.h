@@ -164,6 +164,7 @@ struct civ_game {
 
   char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
+
   struct {
     int cathedral_plus;		/* eg Theology */
     int cathedral_minus;	/* eg Communism */
@@ -222,6 +223,10 @@ struct civ_game {
     bool load_private_map; /* Only makes sense if the players are loaded. */
     bool load_settings;
   } load_options;
+
+  int trireme_loss_chance[MAX_VET_LEVELS];
+  int work_veteran_chance[MAX_VET_LEVELS];
+  int veteran_chance[MAX_VET_LEVELS];
 };
 
 /* Unused? */

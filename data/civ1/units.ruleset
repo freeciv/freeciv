@@ -13,6 +13,32 @@
 description="Civ1-style unit_type data for Freeciv"
 options="1.9"
 
+[veteran_system]
+; How many veteran levels?
+max_veteran_levels = 2
+
+; What are the names of the levels?
+veteran_names = _("green"), _("veteran")
+
+; The percentage chance of increasing level through combat
+veteran_raise_chance = 50, 0
+
+; Power factors are as a percentage.
+; +50% is represented by 150
+veteran_power_fact = 100, 150
+
+; The percentage chance of a settler/engineer increasing level through
+; performing useful work (per turn)
+veteran_work_raise_chance = 0, 0
+
+; The chances of a trireme being lost at sea when not adjacent to a
+; land tile.
+veteran_highseas_loss_pct = 0, 0, 0, 0
+
+; The additional number of movement points granted for different veteran
+; levels.  These are thirds of points, so to increase movement
+; by a whole point 3 must be specified.
+veteran_move_bonus = 0, 0
 
 ; Below: The individual units, one per section.
 ;
@@ -96,7 +122,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "AddToCity", "Cities"
+flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
 roles         = ""
 helptext      = _("\
 Settlers are one of the key units in the game.  They can be used to\
@@ -140,7 +166,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "AddToCity", "Cities"
+flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
 roles         = ""
 
 [unit_militia]
@@ -1439,7 +1465,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil"
+flags         = "Diplomat", "IgZOC", "NonMil", "NoVeteran"
 roles         = "Explorer"
 helptext      = _("\
 - A Diplomat can establish embassies with other civilizations\
@@ -1485,6 +1511,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
+veteran_power_fact = 100, 100
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
 roles         = ""
 

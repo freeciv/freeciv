@@ -46,7 +46,7 @@ static const char *flag_names[] = {
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
-  "Undisbandable", "SuperSpy", "NoHome"
+  "Undisbandable", "SuperSpy", "NoHome", "NoVeteran"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",

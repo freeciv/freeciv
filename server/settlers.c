@@ -1493,7 +1493,7 @@ void contemplate_new_city(struct city *pcity)
   }
 
   /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, FALSE);
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->x = pcity->x;
   virtualunit->y = pcity->y;
   want = evaluate_city_building(virtualunit, &gx, &gy, &ferryboat);
@@ -1533,7 +1533,7 @@ void contemplate_terrain_improvements(struct city *pcity)
   }
 
   /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, FALSE);
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->x = pcity->x;
   virtualunit->y = pcity->y;
   want = evaluate_improvements(virtualunit, &best_act, &gx, &gy);

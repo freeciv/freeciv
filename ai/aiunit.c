@@ -700,7 +700,7 @@ static bool stay_and_defend(struct unit *punit)
 /**************************************************************************
   Attack rating of this kind of unit.
 **************************************************************************/
-int unittype_att_rating(Unit_Type_id type, bool veteran,
+int unittype_att_rating(Unit_Type_id type, int veteran,
                         int moves_left, int hp)
 {
   return base_get_attack_power(type, veteran, moves_left) * hp
@@ -780,7 +780,7 @@ int unit_def_rating_basic_sq(struct unit *punit)
   x, y, fortified and veteran.
 **************************************************************************/
 int unittype_def_rating_sq(Unit_Type_id att_type, Unit_Type_id def_type,
-                           int x, int y, bool fortified, bool veteran)
+                           int x, int y, bool fortified, int veteran)
 {
   int v = get_virtual_defense_power(att_type, def_type, x, y,
                                     fortified, veteran) *
@@ -881,12 +881,12 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
       if (!can_unit_attack_all_at_tile(aunit, pdef->x, pdef->y))
 	continue;
       d = get_virtual_defense_power(aunit->type, pdef->type, pdef->x,
-				    pdef->y, FALSE, FALSE);
+				    pdef->y, FALSE, 0);
       if (d == 0)
 	return TRUE;		/* Thanks, Markus -- Syela */
       cur = unit_att_rating_now(aunit) *
 	  get_virtual_defense_power(punit->type, pdef->type, pdef->x,
-				    pdef->y, FALSE, FALSE) / d;
+				    pdef->y, FALSE, 0) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE))
 	return FALSE;
     }

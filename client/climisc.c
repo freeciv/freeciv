@@ -1108,6 +1108,7 @@ const char *unit_description(struct unit *punit)
   char buffer2[64];
   char buffer3[64];
   char buffer4[64];
+  struct unit_type *ptype = unit_type(punit);
 
   pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
   pcity_near = get_nearest_city(punit, &pcity_near_dist);
@@ -1117,12 +1118,15 @@ const char *unit_description(struct unit *punit)
   } else {
     buffer3[0] = 0;
   }
-  if (punit->veteran) {
-    my_snprintf(buffer4, sizeof(buffer4),
-		_("%s (veteran)"), unit_type(punit)->name);
-  } else {
-    sz_strlcpy(buffer4, unit_type(punit)->name);
+    
+  my_snprintf(buffer4, sizeof(buffer4), _("%s"), ptype->name);
+    
+  if (ptype->veteran[punit->veteran].name != "") {
+    sz_strlcat(buffer4, " (");
+    sz_strlcat(buffer4, ptype->veteran[punit->veteran].name);
+    sz_strlcat(buffer4, ")");
   }
+  
   my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n%s", 
 	      buffer4,
 	      unit_activity_text(punit), 

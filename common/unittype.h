@@ -115,6 +115,7 @@ enum unit_flag_id {
   F_UNDISBANDABLE,    /* Cannot be disbanded, won't easily go away */
   F_SUPERSPY,         /* Always wins diplomatic contests */
   F_NOHOME,           /* Has no homecity */
+  F_NO_VETERAN,       /* Cannot increase veteran level */
   F_LAST
 };
 #define F_MAX 64
@@ -156,6 +157,17 @@ enum unit_role_id {
 
 BV_DEFINE(bv_flags, F_MAX);
 BV_DEFINE(bv_roles, L_MAX);
+
+struct veteran_type {
+    /* client */
+    char name[MAX_LEN_NAME];			/* level/rank name */
+
+    /* server */
+    double power_fact;				/* combat/work speed/diplomatic
+  						   power factor */
+    int move_bonus;
+};
+
 struct unit_type {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
@@ -193,6 +205,9 @@ struct unit_type {
   int paratroopers_mr_req;
   int paratroopers_mr_sub;
 
+  /* Additional values for the expanded veteran system */
+  struct veteran_type veteran[MAX_VET_LEVELS];
+  
   char *helptext;
 };
 

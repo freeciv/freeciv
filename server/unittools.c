@@ -103,18 +103,34 @@ int find_a_unit_type(int role, int role_tech)
 }
 
 /**************************************************************************
-  after a battle this routine is called to decide whether or not the unit
-  should become a veteran, if unit isn't already.
-  there is a 50/50% chance for it to happend, (100% if player got SUNTZU)
+  After a battle, after diplomatic aggression and after surviving trireme
+  loss chance, this routine is called to decide whether or not the unit
+  should become more experienced.
+
+  There is a specified chance for it to happen, (+50% if player got SUNTZU)
+  the chances are specified in the units.ruleset file.
 **************************************************************************/
-void maybe_make_veteran(struct unit *punit)
+bool maybe_make_veteran(struct unit *punit)
 {
-  if (punit->veteran)
-    return;
-  if (player_owns_active_wonder(unit_owner(punit), B_SUNTZU))
-    punit->veteran = TRUE;
-  else
-    punit->veteran = (myrand(2) == 1);
+  if (punit->veteran + 1 >= MAX_VET_LEVELS
+      || unit_type(punit)->veteran[punit->veteran].name[0] == '\0'
+      || unit_flag(punit, F_NO_VETERAN)) {
+    return FALSE;
+  }
+  if (is_ground_unittype(punit->id)
+      && player_owns_active_wonder(get_player(punit->owner), B_SUNTZU)) {
+    if (myrand(100) < 1.5 * game.veteran_chance[punit->veteran]) {
+      punit->veteran++;
+      return TRUE;
+    }
+  } else {
+    if (myrand(100) < game.veteran_chance[punit->veteran]) {
+      punit->veteran++;
+      return TRUE;
+    }
+  }
+
+  return FALSE;  
 }
 
 /**************************************************************************
@@ -196,7 +212,7 @@ static void handle_leonardo(struct player *pplayer)
             unit_type(punit)->name,
             get_unit_type(upgrade_type)->name,
             get_location_str_in(pplayer, punit->x, punit->y));
-      punit->veteran = FALSE;
+      punit->veteran = 0;
       assert(test_unit_upgrade(punit, TRUE) == UR_OK);
       upgrade_unit(punit, upgrade_type, TRUE);
     }
@@ -386,18 +402,28 @@ void player_restore_units(struct player *pplayer)
     }
 
     /* 4) Check that triremes are near coastline, otherwise... */
-    if (unit_flag(punit, F_TRIREME)
-	&& myrand(100) < trireme_loss_pct(pplayer, punit->x, punit->y)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-		       _("Game: Your %s has been lost on the high seas."),
-		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITTRI, _("%s Trireme lost at sea"),
-	      get_nation_name_plural(pplayer->nation));
-      wipe_unit(punit);
-      continue; /* Continue iterating... */
+    if (unit_flag(punit, F_TRIREME)) {
+      int loss_chance = trireme_loss_pct(pplayer, punit->x, punit->y, punit);
+      if (myrand(100) < loss_chance) {
+        notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
+                         _("Game: Your %s has been lost on the high seas."),
+                         unit_name(punit->type));
+        gamelog(GAMELOG_UNITTRI, _("%s's %s lost at sea"),
+	        get_nation_name_plural(pplayer->nation), 
+                unit_name(punit->type));
+        wipe_unit(punit);
+        continue; /* Continue iterating... */
+      } else if (loss_chance > 0) {
+        if (maybe_make_veteran(punit)) {
+	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_BECAME_VET,
+                           _("Game: Your %s survived on the high seas "
+	                   "and became more experienced."), 
+                           unit_name(punit->type));
+        }
+      }
     }
 
-    /* 5) Resque planes if needed */
+    /* 5) Rescue planes if needed */
     if (is_air_unit(punit)) {
       /* Shall we emergency return home on the last vapors? */
 
@@ -496,8 +522,9 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 }
   
 /***************************************************************************
- move points are trivial, only modifiers to the base value is if it's
-  sea units and the player has certain wonders/techs
+  Move points are trivial, only modifiers to the base value is if it's
+  sea units and the player has certain wonders/techs. Then add veteran
+  bonus, if any.
 ***************************************************************************/
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 {
@@ -585,6 +612,31 @@ static int total_activity_targeted(int x, int y, enum unit_activity act,
 }
 
 /**************************************************************************
+  Returns the speed of a settler.
+**************************************************************************/
+int get_settler_speed(struct unit *punit) {
+   return (10 * unit_type(punit)->veteran[punit->veteran].power_fact);
+}
+
+/***************************************************************************
+  Maybe settler/worker gains a veteran level?
+****************************************************************************/
+static bool maybe_settler_become_veteran(struct unit *punit)
+{
+  if (punit->veteran + 1 >= MAX_VET_LEVELS
+      || unit_type(punit)->veteran[punit->veteran].name[0] == '\0'
+      || unit_flag(punit, F_NO_VETERAN)) {
+    return FALSE;
+  }
+  if (unit_flag(punit, F_SETTLERS)
+      && myrand(100) < game.work_veteran_chance[punit->veteran]) {
+    punit->veteran++;
+    return TRUE;
+  }
+  return FALSE;  
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -594,12 +646,12 @@ static void update_unit_activity(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
-  int mr = unit_type(punit)->move_rate;
+  int mr = unit_move_rate(punit);
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = map_get_tile(punit->x, punit->y);
-
+  
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE
       && activity != ACTIVITY_PATROL) {
@@ -609,10 +661,23 @@ static void update_unit_activity(struct unit *punit)
        * To allow a settler to begin a task with no moves left without
        * it counting toward the time to finish 
        */
-      punit->activity_count += mr / SINGLE_MOVE;
+
+      /* update settler activity 
+       * note that all activity costs are multiplied
+       * by a factor of 10. */
+      punit->activity_count +=
+	      (mr * get_settler_speed(punit)) / SINGLE_MOVE;
     } else if (mr == 0) {
-      punit->activity_count += 1;
+      punit->activity_count += get_settler_speed(punit);
     }
+
+    /* settler may become veteran when doing something useful */
+    if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
+       && maybe_settler_become_veteran(punit)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_BECAME_VET,
+	_("Game: Your %s became more experienced."), unit_name(punit->type));
+    }
+    
   }
 
   unit_restore_movepoints(pplayer, punit);
@@ -1100,7 +1165,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
       continue;
     if (unit_list_size(&ptile->units) > 0)
       continue;
-    value = get_virtual_defense_power(U_LAST, u_type, x1, y1, FALSE, FALSE);
+    value = get_virtual_defense_power(U_LAST, u_type, x1, y1, FALSE, 0);
     value *= 10;
 
     if (ptile->continent != map_get_continent(pcity->x, pcity->y)) {
@@ -1129,7 +1194,7 @@ static void place_partisans(struct city *pcity, int count)
 
   while ((count--) > 0 && find_a_good_partisan_spot(pcity, u_type, &x, &y)) {
     struct unit *punit;
-    punit = create_unit(city_owner(pcity), x, y, u_type, FALSE, 0, -1);
+    punit = create_unit(city_owner(pcity), x, y, u_type, 0, 0, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
       send_unit_info(NULL, punit);
@@ -1406,6 +1471,11 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
   punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
 
+  /* decrease veteran level by 1 */
+  if (punit->veteran > 0) {
+    punit->veteran--;
+  }
+
   conn_list_do_buffer(&pplayer->connections);
 
   /* apply new vision range */
@@ -1426,10 +1496,10 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   Wrapper of the below
 *************************************************************************/
 struct unit *create_unit(struct player *pplayer, int x, int y, 
-                         Unit_Type_id type, bool make_veteran, 
+                         Unit_Type_id type, int veteran_level, 
                          int homecity_id, int moves_left)
 {
-  return create_unit_full(pplayer, x, y, type, make_veteran, homecity_id, 
+  return create_unit_full(pplayer, x, y, type, veteran_level, homecity_id, 
                           moves_left, -1);
 }
 
@@ -1438,10 +1508,10 @@ struct unit *create_unit(struct player *pplayer, int x, int y,
   lists.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
-			      Unit_Type_id type, bool veteran, 
+			      Unit_Type_id type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left)
 {
-  struct unit *punit = create_unit_virtual(pplayer, NULL, type, veteran);
+  struct unit *punit = create_unit_virtual(pplayer, NULL, type, veteran_level);
   struct city *pcity;
 
   /* Register unit */
@@ -1798,6 +1868,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->y = punit->y;
   packet->homecity = punit->homecity;
   packet->veteran = punit->veteran;
+  packet->veteran_old = (punit->veteran > 0);
   packet->type = punit->type;
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
@@ -2310,7 +2381,7 @@ static void hut_get_city(struct unit *punit)
 		     _("Game: Friendly nomads are impressed by you,"
 		       " and join you."));
     (void) create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
-		FALSE, punit->homecity, -1);
+		0, punit->homecity, -1);
   }
 }
 

@@ -423,7 +423,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   }
 
   if (unit_flag(punit, F_TRIREME)
-      && base_trireme_loss_pct(unit_owner(punit)) > 0) {
+      && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
     parameter->turn_mode = TM_WORST_TIME;
     parameter->is_pos_dangerous = trireme_is_pos_dangerous;
   } else {
@@ -465,7 +465,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   parameter->get_zoc = NULL;
 
   if (unit_flag(punit, F_TRIREME)
-      && base_trireme_loss_pct(unit_owner(punit)) > 0) {
+      && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
     parameter->is_pos_dangerous = trireme_is_pos_dangerous;
   } else {
     parameter->is_pos_dangerous = NULL;

@@ -383,7 +383,8 @@ struct packet_unit_info {
   int x;
   int y;
   int homecity;
-  bool veteran;
+  int veteran;
+  bool veteran_old;
   bool ai;
   bool paradropped;
   bool connecting;
@@ -411,7 +412,8 @@ struct packet_unit_short_info {
   int x;
   int y;
   Unit_Type_id type;
-  bool veteran;
+  int veteran;
+  bool veteran_old;
   bool occupied;
   bool goes_out_of_sight;
   int hp;
@@ -706,6 +708,9 @@ struct packet_ruleset_unit {
   int paratroopers_range;
   int paratroopers_mr_req;
   int paratroopers_mr_sub;
+  char veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME];
+  float power_fact[MAX_VET_LEVELS];
+  int move_bonus[MAX_VET_LEVELS];
   char helptext[MAX_LEN_PACKET];
   bv_flags flags;
   bv_roles roles;
@@ -725,6 +730,9 @@ struct packet_ruleset_game {
   int tech_cost_style;
   int tech_leakage;
   int global_init_techs[MAX_NUM_TECH_LIST];
+  int trireme_loss_chance[MAX_VET_LEVELS];
+  int work_veteran_chance[MAX_VET_LEVELS];
+  int veteran_chance[MAX_VET_LEVELS];
 };
 
 struct packet_ruleset_government_ruler_title {

@@ -608,7 +608,8 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 {
   struct drawn_sprite drawn_sprites[40];
   bool solid_bg;
-  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg), i;
+  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg, FALSE);
+  int i;
 
   if (!is_isometric && solid_bg) {
     gui_put_rectangle(pcanvas_store, player_color(unit_owner(punit)),

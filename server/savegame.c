@@ -1009,7 +1009,7 @@ static void player_load(struct player *plr, int plrno,
 
     punit = create_unit_virtual(plr, NULL, 
                   secfile_lookup_int(file, "player%d.u%d.type", plrno, i),
-                  secfile_lookup_bool(file, "player%d.u%d.veteran", plrno, i));
+                  secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i));
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
     alloc_id(punit->id);
     idex_register_unit(punit);
@@ -1473,7 +1473,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
     secfile_insert_int(file, punit->x, "player%d.u%d.x", plrno, i);
     secfile_insert_int(file, punit->y, "player%d.u%d.y", plrno, i);
-    secfile_insert_bool(file, punit->veteran, "player%d.u%d.veteran", 
+    secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
 				plrno, i);
     secfile_insert_bool(file, punit->foul, "player%d.u%d.foul", 
 				plrno, i);

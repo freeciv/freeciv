@@ -288,7 +288,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
       && unit_flag(punit, F_SETTLERS)
-      && unit_type(punit)->move_rate==3)
+      && unit_move_rate(punit)==3)
     maxcost /= 2;
   /* (?) was punit->type == U_SETTLERS -- dwp */
 
@@ -312,12 +312,12 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	    continue;
 	} else if (is_ocean(ptile->terrain)) {
 	  int base_cost = get_tile_type(map_get_terrain(x1, y1))->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_type(punit)->move_rate);
+	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_move_rate(punit));
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
 	  move_cost = (ptile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
         else if (punit)
-	  move_cost = MIN(ptile->move_cost[dir], unit_type(punit)->move_rate);
+	  move_cost = MIN(ptile->move_cost[dir], unit_move_rate(punit));
 	/* else c = ptile->move_cost[k]; 
 	   This led to a bad bug where a unit in a swamp was considered too far away */
         else { /* we have a city */
@@ -648,11 +648,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	    move_cost = 3;
 	} else if (is_ocean(psrctile->terrain)) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? 1 : MIN(base_cost, unit_type(punit)->move_rate);
+	  move_cost = igter ? 1 : MIN(base_cost, unit_move_rate(punit));
 	} else if (igter)
 	  move_cost = (psrctile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
 	else
-	  move_cost = MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
+	  move_cost = MIN(psrctile->move_cost[dir], unit_move_rate(punit));
 
 	if (!pplayer->ai.control && !map_is_known(x1, y1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
@@ -712,8 +712,8 @@ static bool find_the_shortest_path(struct unit *punit,
 	    && !same_pos(x1, y1, dest_x, dest_y)) {
 	  continue;
 	}
-	else if (unit_flag(punit, F_TRIREME)
-		 && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {
+	else if (unit_flag(punit, F_TRIREME) &&
+		 trireme_loss_pct(unit_owner(punit), x1, y1, punit) > 0) {
 	  move_cost = 2*SINGLE_MOVE+1;
 	} else {
 	  move_cost = SINGLE_MOVE;
@@ -749,7 +749,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	    && total_cost >= punit->moves_left - (get_transporter_capacity(punit) >
 			      unit_type(punit)->attack_strength ? 3 : 2)
 	    && enemies_at(punit, x1, y1)) {
-	  total_cost += unit_type(punit)->move_rate;
+	  total_cost += unit_move_rate(punit);
 	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 		  unit_type(punit)->name, punit->id,
 		  punit->x, punit->y, x1, y1, dest_x, dest_y);
@@ -874,7 +874,7 @@ static int find_a_direction(struct unit *punit,
 			    const int dest_x, const int dest_y)
 {
 #define UNIT_DEFENSE(punit, x, y, defence_multiplier) \
-  ((get_virtual_defense_power(U_LAST, (punit)->type, (x), (y), FALSE, FALSE) *\
+  ((get_virtual_defense_power(U_LAST, (punit)->type, (x), (y), FALSE, 0) *\
     (defence_multiplier)) / 2)
 
 #define UNIT_RATING(punit, x, y, defence_multiplier) \

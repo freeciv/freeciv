@@ -153,7 +153,7 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
      section_file_load() may call datafilename() for includes. */
 
   sz_strlcpy(sfilename, dfilename);
-  
+
   if (!section_file_load(file,sfilename)) {
     freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), sfilename);
     exit(EXIT_FAILURE);
@@ -672,14 +672,143 @@ static void load_unit_names(struct section_file *file)
 static void load_ruleset_units(struct section_file *file)
 {
   struct unit_type *u;
-  int i, j, ival, nval;
+  int i, j, ival, nval, vet_levels, vet_levels_default;
   char *sval, **slist, **sec;
   const char *filename = secfile_filename(file);
+  char **vnlist, **def_vnlist;
+  int *vblist, *def_vblist;
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
 
+  /*
+   * Load up expanded veteran system values.
+   */
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
 
+#define CHECK_VETERAN_LIMIT                                         \
+if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
+  freelog(LOG_FATAL, "Too many veteran levels, %d is the maximum!", \
+          MAX_VET_LEVELS);                                          \
+  exit(EXIT_FAILURE);                                               \
+}                                                                   \
+
+  /* level names */
+  def_vnlist = secfile_lookup_str_vec(file, &vet_levels_default,
+		  		"veteran_system.veteran_names");
+
+  unit_type_iterate(i) {
+    u = &unit_types[i];
+
+    vnlist = secfile_lookup_str_vec(file, &vet_levels,
+                                    "%s.veteran_names", sec[i]);
+    CHECK_VETERAN_LIMIT
+    if (vnlist) {
+      /* unit has own veterancy settings */
+      for (j = 0; j < vet_levels; j++) {
+        sz_strlcpy(u->veteran[j].name, vnlist[j]);
+      }
+      free(vnlist);
+    } else {
+      /* apply defaults */  
+      for (j = 0; j < vet_levels_default; j++) {
+        sz_strlcpy(u->veteran[j].name, def_vnlist[j]);
+      }
+    }
+    /* We check for this value to determine how many veteran levels
+     * a unit type has */
+    for (; j < MAX_VET_LEVELS; j++) {
+      u->veteran[j].name[0] = '\0';
+    }
+  } unit_type_iterate_end;
+  free(def_vnlist);
+
+  /* power factor */
+  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
+                                      "veteran_system.veteran_power_fact");
+  unit_type_iterate(i) {
+    u = &unit_types[i];
+    vblist = secfile_lookup_int_vec(file, &vet_levels,
+                                    "%s.veteran_power_fact", sec[i]);
+    CHECK_VETERAN_LIMIT
+    if (vblist) {
+      for (j = 0; j < vet_levels; j++) {
+        u->veteran[j].power_fact = ((double)vblist[j]) / 100;
+      }
+      free(vblist);
+    } else {
+      for (j = 0; j < vet_levels_default; j++) {
+        u->veteran[j].power_fact = ((double)def_vblist[j]) / 100;
+      }
+    }
+  } unit_type_iterate_end;
+  if (def_vblist) {
+    free(def_vblist);
+  }
+
+  /* raise chance */
+  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
+                                      "veteran_system.veteran_raise_chance");
+  CHECK_VETERAN_LIMIT
+  for (i = 0; i < vet_levels_default; i++) {
+    game.veteran_chance[i] = def_vblist[i];
+  }
+  for (; i < MAX_VET_LEVELS; i++) {
+    game.veteran_chance[i] = 0;
+  }
+  if (def_vblist) {
+    free(def_vblist);
+  }
+
+  /* work raise chance */
+  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
+                                    "veteran_system.veteran_work_raise_chance");
+  CHECK_VETERAN_LIMIT
+  for (i = 0; i < vet_levels_default; i++) {
+    game.work_veteran_chance[i] = def_vblist[i];
+  }
+  for (; i < MAX_VET_LEVELS; i++) {
+    game.work_veteran_chance[i] = 0;
+  }
+  if (def_vblist) {
+    free(def_vblist);
+  }
+
+  /* highseas loss pct */
+  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
+  		  	"veteran_system.veteran_highseas_loss_pct");
+  for (i = 0; i < vet_levels_default; i++) {
+    game.trireme_loss_chance[i] = def_vblist[i];
+  }
+  for (; i < MAX_VET_LEVELS; i++) {
+    game.trireme_loss_chance[i] = 50; /* default */
+  }
+  if (def_vblist) {
+    free(def_vblist);
+  }
+  
+  /* move bonus */
+  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
+                                      "veteran_system.veteran_move_bonus");
+  unit_type_iterate(i) {
+    u = &unit_types[i];
+    vblist = secfile_lookup_int_vec(file, &vet_levels,
+  		  	"%s.veteran_move_bonus", sec[i]);
+    CHECK_VETERAN_LIMIT
+    if (vblist) {
+      for (j = 0; j < vet_levels; j++) {
+        u->veteran[j].move_bonus = vblist[j];
+      }
+      free(vblist);
+    } else {
+      for (j = 0; j < vet_levels_default; j++) {
+        u->veteran[j].move_bonus = def_vblist[j];
+      }
+    }
+  } unit_type_iterate_end;
+  if (def_vblist) {
+    free(def_vblist);
+  }
+  
   /* Tech requirement is used to flag removed unit_types, which
      we might want to know for other fields.  After this we
      can use unit_type_exists()
@@ -689,7 +818,7 @@ static void load_ruleset_units(struct section_file *file)
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
 				      FALSE, filename, u->name);
   } unit_type_iterate_end;
-
+  
   unit_type_iterate(i) {
     u = &unit_types[i];
     if (unit_type_exists(i)) {
@@ -2502,6 +2631,7 @@ static void load_ruleset_game()
 static void send_ruleset_units(struct conn_list *dest)
 {
   struct packet_ruleset_unit packet;
+  int i;
 
   unit_type_iterate(utype_id) {
     struct unit_type *u = get_unit_type(utype_id);
@@ -2537,6 +2667,11 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_range = u->paratroopers_range;
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
+    for (i = 0; i < MAX_VET_LEVELS; i++) {
+      sz_strlcpy(packet.veteran_name[i], u->veteran[i].name);
+      packet.power_fact[i] = u->veteran[i].power_fact;
+      packet.move_bonus[i] = u->veteran[i].move_bonus;
+    }
     if (u->helptext) {
       sz_strlcpy(packet.helptext, u->helptext);
     } else {
@@ -2875,6 +3010,13 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.tech_cost_style = game.rgame.tech_cost_style;
   misc_p.tech_leakage = game.rgame.tech_leakage;
 
+  memcpy(misc_p.trireme_loss_chance, game.trireme_loss_chance, 
+         sizeof(game.trireme_loss_chance));
+  memcpy(misc_p.work_veteran_chance, game.work_veteran_chance, 
+         sizeof(game.work_veteran_chance));
+  memcpy(misc_p.veteran_chance, game.veteran_chance, 
+         sizeof(game.veteran_chance));
+    
   assert(sizeof(misc_p.global_init_techs) ==
 	 sizeof(game.rgame.global_init_techs));
   assert(ARRAY_SIZE(misc_p.global_init_techs) ==

@@ -23,7 +23,7 @@ struct player;
 
 /* battle related */
 int find_a_unit_type(int role, int role_tech);
-void maybe_make_veteran(struct unit *punit);
+bool maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
 /* move check related */
@@ -33,6 +33,7 @@ bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
+int get_settler_speed(struct unit *punit);
 
 /* various */
 char *get_location_str_in(struct player *pplayer, int x, int y);
@@ -52,9 +53,9 @@ void bounce_unit(struct unit *punit, bool verbose);
 /* creation/deletion/upgrading */
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool has_to_pay);
 struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
-			 bool make_veteran, int homecity_id, int moves_left);
+			 int veteran_level, int homecity_id, int moves_left);
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
-			      Unit_Type_id type, bool make_veteran, int homecity_id,
+			      Unit_Type_id type, int veteran_level, int homecity_id,
 			      int moves_left, int hp_left);
 void wipe_unit(struct unit *punit);
 void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo);

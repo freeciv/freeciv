@@ -38,22 +38,25 @@
 /***************************************************************
 This function calculates the move rate of the unit taking into 
 account the penalty for reduced hitpoints (affects sea and land 
-units only) and the effects of wonders for sea units. 
+units only) and the effects of wonders for sea units
++ veteran bonus.
 
 FIXME: Use generalised improvements code instead of hardcoded
 wonder effects --RK
 ***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
-  int move_rate = unit_type(punit)->move_rate;
+  int move_rate = 0;
+  int base_move_rate = unit_type(punit)->move_rate 
+                       + unit_type(punit)->veteran[punit->veteran].move_bonus;
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
-    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
     break;
  
   case SEA_MOVING:
-    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
 
     if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
       move_rate += SINGLE_MOVE;
@@ -69,20 +72,21 @@ int unit_move_rate(struct unit *punit)
     }
  
     if (move_rate < 2 * SINGLE_MOVE) {
-      move_rate = MIN(2 * SINGLE_MOVE, unit_type(punit)->move_rate);
+      move_rate = MIN(2 * SINGLE_MOVE, base_move_rate);
     }
     break;
 
   case HELI_MOVING:
   case AIR_MOVING:
+    move_rate = base_move_rate;
     break;
 
   default:
     die("In common/unit.c:unit_move_rate: illegal move type %d",
-	unit_type(punit)->move_type);
+  					unit_type(punit)->move_type);
   }
   
-  if (move_rate < SINGLE_MOVE && unit_type(punit)->move_rate > 0) {
+  if (move_rate < SINGLE_MOVE && base_move_rate > 0) {
     move_rate = SINGLE_MOVE;
   }
   return move_rate;
@@ -1370,7 +1374,8 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 /**************************************************************************
   Like base_trireme_loss_pct but take the position into account.
 **************************************************************************/
-int trireme_loss_pct(struct player *pplayer, int x, int y)
+int trireme_loss_pct(struct player *pplayer, int x, int y,
+		     struct unit *punit)
 {
   /*
    * If we are in a city or next to land, we have no chance of losing
@@ -1381,25 +1386,24 @@ int trireme_loss_pct(struct player *pplayer, int x, int y)
   if (map_get_terrain(x, y) != T_OCEAN || is_coastline(x, y)) {
     return 0;
   } else {
-    return base_trireme_loss_pct(pplayer);
+    return base_trireme_loss_pct(pplayer, punit);
   }
 }
 
 /**************************************************************************
- Triremes have a varying loss percentage. based on tech. Seafaring
- reduces this to 25%, Navigation to 12.5%. The Lighthouse wonder
- reduces this to 0.
+  Triremes have a varying loss percentage based on tech and veterancy
+  level.
 **************************************************************************/
-int base_trireme_loss_pct(struct player *pplayer)
+int base_trireme_loss_pct(struct player *pplayer, struct unit *punit)
 {
   if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) {
     return 0;
   } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS2)) {
-    return 12;
+    return game.trireme_loss_chance[punit->veteran] / 4;
   } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS1)) {
-    return 25;
+    return game.trireme_loss_chance[punit->veteran] / 2;
   } else {
-    return 50;
+    return game.trireme_loss_chance[punit->veteran];
   }
 }
 
@@ -1450,7 +1454,7 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   to set x, y and homecity yourself.
 **************************************************************************/
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_Type_id type, bool make_veteran)
+                                 Unit_Type_id type, int veteran_level)
 {
   struct unit *punit = fc_calloc(1, sizeof(struct unit));
 
@@ -1467,7 +1471,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->homecity = 0;
   }
   clear_goto_dest(punit);
-  punit->veteran = make_veteran;
+  punit->veteran = veteran_level;
   punit->upkeep = 0;
   punit->upkeep_food = 0;
   punit->upkeep_gold = 0;

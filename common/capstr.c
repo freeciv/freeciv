@@ -74,7 +74,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.delta +last_turns_shield_surplus"
+#define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *

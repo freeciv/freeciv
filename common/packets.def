@@ -592,7 +592,9 @@ PACKET_UNIT_INFO=49; is-info,sc
   COORD x,y;
   CITY homecity;
 
-  BOOL veteran, ai, paradropped, connecting, carried, done_moving;
+  UINT8 veteran; add-cap(veteran)
+  BOOL veteran_old; remove-cap(veteran)
+  BOOL ai, paradropped, connecting, carried, done_moving;
 
   UNIT_TYPE type;
   UINT8 movesleft, hp, fuel, activity_count;
@@ -608,7 +610,9 @@ PACKET_UNIT_SHORT_INFO=50; is-info,sc
   COORD x,y;
   UNIT_TYPE type;
 
-  BOOL veteran,occupied, goes_out_of_sight;
+  UINT8 veteran; add-cap(veteran)
+  BOOL veteran_old; remove-cap(veteran)
+  BOOL occupied, goes_out_of_sight;
 
   UINT8 hp, activity;
 
@@ -923,6 +927,10 @@ PACKET_RULESET_UNIT=96;sc
   UINT8 paratroopers_mr_req;
   UINT8 paratroopers_mr_sub;
 
+  STRING veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME]; add-cap(veteran)
+  FLOAT power_fact[MAX_VET_LEVELS]; add-cap(veteran)
+  UINT8 move_bonus[MAX_VET_LEVELS]; add-cap(veteran)
+
   STRING helptext[MAX_LEN_PACKET];
 
   bitvector(bv_flags) flags;
@@ -943,6 +951,10 @@ PACKET_RULESET_GAME=97;sc
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
+
+  UINT8 trireme_loss_chance[MAX_VET_LEVELS]; add-cap(veteran)
+  UINT8 work_veteran_chance[MAX_VET_LEVELS]; add-cap(veteran)
+  UINT8 veteran_chance[MAX_VET_LEVELS]; add-cap(veteran)
 end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc

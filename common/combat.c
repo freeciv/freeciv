@@ -384,15 +384,12 @@ int get_attack_power(struct unit *punit)
  status. Set moves_left to SINGLE_MOVE to disable the reduction of
  power caused by tired units.
 **************************************************************************/
-int base_get_attack_power(Unit_Type_id type, bool veteran, int moves_left)
+int base_get_attack_power(Unit_Type_id type, int veteran, int moves_left)
 {
   int power;
 
   power = get_unit_type(type)->attack_strength * POWER_FACTOR;
-  if (veteran) {
-    /* Veterans get +50% bonus. */
-    power = (power * 3) / 2;
-  }
+  power *= get_unit_type(type)->veteran[veteran].power_fact;
 
   if (!unit_type_flag(type, F_IGTIRED) && moves_left < SINGLE_MOVE) {
     power = (power * moves_left) / SINGLE_MOVE;
@@ -405,11 +402,8 @@ int base_get_attack_power(Unit_Type_id type, bool veteran, int moves_left)
 **************************************************************************/
 int base_get_defense_power(struct unit *punit)
 {
-  int power = unit_type(punit)->defense_strength * POWER_FACTOR;
-  if (punit->veteran) {
-    power = (power * 3) / 2;
-  }
-  return power;
+  return unit_type(punit)->defense_strength * POWER_FACTOR
+  	* unit_type(punit)->veteran[punit->veteran].power_fact;
 }
 
 /**************************************************************************
@@ -509,7 +503,7 @@ static int defence_multiplication(Unit_Type_id att_type,
  depend on the attacker.
 **************************************************************************/
 int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
-			      int x, int y, bool fortified, bool veteran)
+			      int x, int y, bool fortified, int veteran)
 {
   int defensepower = unit_types[def_type].defense_strength;
   enum tile_terrain_type t = map_get_terrain(x, y);
@@ -525,10 +519,7 @@ int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
   defensepower *= db;
-
-  if (veteran) {
-    defensepower = (defensepower * 3) / 2;
-  }
+  defensepower *= get_unit_type(def_type)->veteran[veteran].power_fact;
 
   return defence_multiplication(att_type, def_type, x, y, defensepower,
 				fortified);

@@ -208,7 +208,7 @@ bool unleash_barbarians(int x, int y)
 
   for (i = 0; i < unit_cnt; i++) {
     unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-    (void) create_unit(barbarians, x, y, unit, FALSE, 0, -1);
+    (void) create_unit(barbarians, x, y, unit, 0, 0, -1);
     freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
   }
 
@@ -247,7 +247,7 @@ bool unleash_barbarians(int x, int y)
 	    }
 	    if (is_free_sea(xu, yu, barbarians)) {
               boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
-	      (void) create_unit(barbarians, xu, yu, boat, FALSE, 0, -1);
+	      (void) create_unit(barbarians, xu, yu, boat, 0, 0, -1);
 	      xb = xu; yb = yu;
 	      break;
 	    }
@@ -385,26 +385,26 @@ static void try_summon_barbarians(void)
     }
     for (i = 0; i < myrand(3) + uprise * game.barbarianrate; i++) {
       unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-      (void) create_unit(barbarians, xu, yu, unit, FALSE, 0, -1);
+      (void) create_unit(barbarians, xu, yu, unit, 0, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
     }
     (void) create_unit(barbarians, xu, yu,
-		       get_role_unit(L_BARBARIAN_LEADER, 0), FALSE, 0, -1);
+		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
   } else {                   /* sea raiders - their units will be veteran */
     struct unit *punit, *ptrans;
 
     barbarians = create_barbarian_player(FALSE);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
-    ptrans = create_unit(barbarians, xu, yu, boat, TRUE, 0, -1);
+    ptrans = create_unit(barbarians, xu, yu, boat, 0, 0, -1);
     cap = get_transporter_capacity(unit_list_get(&map_get_tile(xu, yu)->units, 0));
     for (i = 0; i < cap-1; i++) {
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
-      punit = create_unit(barbarians, xu, yu, unit, TRUE, 0, -1);
+      punit = create_unit(barbarians, xu, yu, unit, 0, 0, -1);
       punit->transported_by = ptrans->id;
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
     }
     punit = create_unit(barbarians, xu, yu,
-			get_role_unit(L_BARBARIAN_LEADER, 0), FALSE, 0, -1);
+			get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
     punit->transported_by = ptrans->id;
   }
 

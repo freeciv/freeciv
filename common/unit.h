@@ -116,10 +116,10 @@ struct unit {
   int id;
   int owner;
   int x, y;                           
-  bool veteran;
   int homecity;
   int moves_left;
   int hp;
+  int veteran;
   int unhappiness;
   int upkeep;
   int upkeep_food;
@@ -278,8 +278,9 @@ struct unit *is_non_allied_unit_tile(struct tile *ptile,
 struct unit *is_non_attack_unit_tile(struct tile *ptile,
 				     struct player *pplayer);
 
-int trireme_loss_pct(struct player *pplayer, int x, int y);
-int base_trireme_loss_pct(struct player *pplayer);
+int trireme_loss_pct(struct player *pplayer, int x, int y,
+		     struct unit *punit);
+int base_trireme_loss_pct(struct player *pplayer, struct unit *punit);
 
 bool is_my_zoc(struct player *unit_owner, int x0, int y0);
 bool unit_being_aggressive(struct unit *punit);
@@ -300,7 +301,7 @@ bool zoc_ok_move(struct unit *punit, int x, int y);
 bool is_build_or_clean_activity(enum unit_activity activity);
 
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_Type_id type, bool make_veteran);
+                                 Unit_Type_id type, int veteran_level);
 void destroy_unit_virtual(struct unit *punit);
 void free_unit_goto_route(struct unit *punit);
 

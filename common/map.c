@@ -767,7 +767,7 @@ bool is_water_adjacent_to_tile(int x, int y)
 ***************************************************************/
 int map_build_road_time(int x, int y)
 {
-  return tile_types[map_get_terrain(x, y)].road_time;
+  return tile_types[map_get_terrain(x, y)].road_time * 10;
 }
 
 /***************************************************************
@@ -775,7 +775,7 @@ int map_build_road_time(int x, int y)
 ***************************************************************/
 int map_build_irrigation_time(int x, int y)
 {
-  return tile_types[map_get_terrain(x, y)].irrigation_time;
+  return tile_types[map_get_terrain(x, y)].irrigation_time * 10;
 }
 
 /***************************************************************
@@ -783,7 +783,7 @@ int map_build_irrigation_time(int x, int y)
 ***************************************************************/
 int map_build_mine_time(int x, int y)
 {
-  return tile_types[map_get_terrain(x, y)].mining_time;
+  return tile_types[map_get_terrain(x, y)].mining_time * 10;
 }
 
 /***************************************************************
@@ -791,7 +791,7 @@ int map_build_mine_time(int x, int y)
 ***************************************************************/
 int map_transform_time(int x, int y)
 {
-  return tile_types[map_get_terrain(x, y)].transform_time;
+  return tile_types[map_get_terrain(x, y)].transform_time * 10;
 }
 
 /***************************************************************
@@ -799,7 +799,7 @@ int map_transform_time(int x, int y)
 ***************************************************************/
 int map_build_rail_time(int x, int y)
 {
-  return 3;
+  return 30;
 }
 
 /***************************************************************
@@ -807,7 +807,7 @@ int map_build_rail_time(int x, int y)
 ***************************************************************/
 int map_build_airbase_time(int x, int y)
 {
-  return 3;
+  return 30;
 }
 
 /***************************************************************
@@ -815,7 +815,7 @@ int map_build_airbase_time(int x, int y)
 ***************************************************************/
 int map_build_fortress_time(int x, int y)
 {
-  return 3;
+  return 30;
 }
 
 /***************************************************************
@@ -823,7 +823,7 @@ int map_build_fortress_time(int x, int y)
 ***************************************************************/
 int map_clean_pollution_time(int x, int y)
 {
-  return 3;
+  return 30;
 }
 
 /***************************************************************
@@ -831,7 +831,7 @@ int map_clean_pollution_time(int x, int y)
 ***************************************************************/
 int map_clean_fallout_time(int x, int y)
 {
-  return 3;
+  return 30;
 }
 
 /***************************************************************

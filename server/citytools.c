@@ -508,20 +508,31 @@ bool built_elsewhere(struct city *pc, int wonder)
 /**************************************************************************
   Will unit of this type be created as veteran?
 **************************************************************************/
-bool do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
+int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 {
+  /* we current don't have any wonder or building that have influence on 
+     settler/worker units */
+  if (unit_type_flag(id, F_SETTLERS) || unit_type_flag(id, F_CITIES)) {
+    return 0;
+  }
+  
   if (unit_type_flag(id, F_DIPLOMAT)) {
-    return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);
+    return (government_has_flag(get_gov_pcity(pcity), 
+                                G_BUILD_VETERAN_DIPLOMAT) ? 1 : 0);
   }
-
+    
   if (is_ground_unittype(id) || improvement_variant(B_BARRACKS) == 1) {
-    return city_got_barracks(pcity);
-  } else if (is_water_unit(id)) {
-    return (city_affected_by_wonder(pcity, B_LIGHTHOUSE)
-            || city_got_building(pcity, B_PORT));
+    return (city_got_barracks(pcity) ? 1 : 0);
   } else {
-    return city_got_building(pcity, B_AIRPORT);
+    if (is_water_unit(id)) {
+      return ((city_affected_by_wonder(pcity, B_LIGHTHOUSE)
+               || city_got_building(pcity, B_PORT)) ? 1 : 0);
+    } else {
+      return (city_got_building(pcity, B_AIRPORT) ? 1 : 0);
+    }
   }
+  
+  return 0;
 }
 
 /**************************************************************************
@@ -706,12 +717,12 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
   int dist = -1;
   struct city *rcity = NULL;
   city_list_iterate(pplayer->cities, pcity)
-    if ((real_map_distance(x, y, pcity->x, pcity->y) < dist || dist == -1) && 
-	(!sea_required || is_ocean_near_tile(pcity->x, pcity->y)) &&
-	(!pexclcity || (pexclcity != pcity))) {
+    if ((real_map_distance(x, y, pcity->x, pcity->y) < dist || dist == -1) &&
+        (!sea_required || is_ocean_near_tile(pcity->x, pcity->y)) &&
+        (!pexclcity || (pexclcity != pcity))) {
       dist = real_map_distance(x, y, pcity->x, pcity->y);
       rcity = pcity;
-    }      
+    }
   city_list_iterate_end;
 
   return rcity;

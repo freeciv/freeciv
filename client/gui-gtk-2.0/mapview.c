@@ -304,12 +304,17 @@ void update_unit_info_label(struct unit *punit)
 	player_find_city_by_id(game.player_ptr, punit->homecity);
     int infrastructure =
 	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
-
-    my_snprintf(buffer, sizeof(buffer), "%s %s", 
-            unit_type(punit)->name,
-            (punit->veteran) ? _("(veteran)") : "" );
-    gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
-
+    struct unit_type *ptype = unit_type(punit);
+      
+    my_snprintf(buffer, sizeof(buffer), "%s", ptype->name);
+    
+    if (ptype->veteran[punit->veteran].name != "") {
+      sz_strlcat(buffer, " (");
+      sz_strlcat(buffer, ptype->veteran[punit->veteran].name);
+      sz_strlcat(buffer, ")");
+    }
+    
+    gtk_frame_set_label(GTK_FRAME(unit_info_frame), buffer);
 
     my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s%s",
 		(hover_unit == punit->id) ?

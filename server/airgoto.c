@@ -370,7 +370,7 @@ static void refuel_iterate_end(struct pqueue *rp_list)
 bool find_air_first_destination(struct unit *punit,
                                        int *dest_x, int *dest_y)
 { 
-  unsigned int fullmoves = unit_type(punit)->move_rate / SINGLE_MOVE;
+  unsigned int fullmoves = unit_move_rate(punit) / SINGLE_MOVE;
   unsigned int fullfuel = unit_type(punit)->fuel;
   unsigned int moves_and_fuel_left 
     = punit->moves_left / SINGLE_MOVE + fullmoves * (punit->fuel - 1);

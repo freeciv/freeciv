@@ -726,7 +726,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 static void process_attacker_want(struct city *pcity,
                                   int value, Unit_Type_id victim_unit_type,
-                                  bool veteran, int x, int y,
+                                  int veteran, int x, int y,
                                   struct ai_choice *best_choice,
                                   struct unit *boat, Unit_Type_id boattype)
 {
@@ -932,7 +932,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   Unit_Type_id boattype = U_LAST;
   bool go_by_boat;
   /* Is the defender veteran? */
-  bool def_vet;
+  int def_vet;
   struct ai_choice best_choice;
 
   init_choice(&best_choice);
@@ -1015,7 +1015,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     } else {
       vuln = 0;
       benefit = 0;
-      def_vet = FALSE;
+      def_vet = 0;
     }
 
     pdef = get_defender(myunit, x, y);
@@ -1316,7 +1316,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Consider a land attacker */
   unit_type = ai_choose_attacker(pcity, LAND_MOVING);
   if (unit_type >= 0) {
-    virtualunit = create_unit_virtual(pplayer, pcity, unit_type, TRUE);
+    virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 1);
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
   }

@@ -925,6 +925,11 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(unit.hp_bar[i], buffer);
   }
 
+  for(i = 0; i < MAX_VET_LEVELS; i++) {
+    my_snprintf(buffer, sizeof(buffer), "unit.vet_%d", i);
+    SET_SPRITE(unit.vet_lev[i], buffer);
+  }
+
   SET_SPRITE(city.disorder, "city.disorder");
 
   for(i=0; i<NUM_TILES_DIGITS; i++) {
@@ -1414,7 +1419,7 @@ static void build_tile_data(int map_x, int map_y,
   Fill in the sprite array for the unit
 ***********************************************************************/
 int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
-			   bool *solid_bg)
+			   bool *solid_bg, bool stack)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
@@ -1507,6 +1512,12 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
     ADD_SPRITE_SIMPLE(sprites.unit.patrol);
   }
 
+  if (stack) {
+    ADD_SPRITE_SIMPLE(sprites.unit.stack);
+  } else {
+    ADD_SPRITE_SIMPLE(sprites.unit.vet_lev[punit->veteran]);
+  }
+ 
   ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / unit_type(punit)->hp;
   ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
   ADD_SPRITE_SIMPLE(sprites.unit.hp_bar[ihp]);
@@ -2090,12 +2101,13 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   if (solid_color_behind_units) {
     punit = get_drawable_unit(abs_x0, abs_y0, citymode);
     if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
-      sprs += fill_unit_sprite_array(sprs, punit, solid_bg);
-      *pplayer = unit_owner(punit);
       if (unit_list_size(&ptile->units) > 1
 	  || unit_list_get(&ptile->units, 0)->occupy) {
-	ADD_SPRITE_SIMPLE(sprites.unit.stack);
+        sprs += fill_unit_sprite_array(sprs, punit, solid_bg, TRUE);
+      } else {
+        sprs += fill_unit_sprite_array(sprs, punit, solid_bg, FALSE);
       }
+      *pplayer = unit_owner(punit);
       return sprs - save_sprs;
     }
 
@@ -2247,12 +2259,13 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 	bool dummy;
 
 	no_backdrop = (pcity != NULL);
-	sprs += fill_unit_sprite_array(sprs, punit, &dummy);
 	no_backdrop = FALSE;
 	if (unit_list_size(&ptile->units) > 1
 	    || unit_list_get(&ptile->units, 0)->occupy) {
-	  ADD_SPRITE_SIMPLE(sprites.unit.stack);
-	}
+          sprs += fill_unit_sprite_array(sprs, punit, &dummy, TRUE);
+	} else {
+          sprs += fill_unit_sprite_array(sprs, punit, &dummy, FALSE);
+        }
       }
     }
   }

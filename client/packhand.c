@@ -2036,6 +2036,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 void handle_ruleset_unit(struct packet_ruleset_unit *p)
 {
   struct unit_type *u;
+  int i;
 
   if(p->id < 0 || p->id >= game.num_unit_types || p->id >= U_LAST) {
     freelog(LOG_ERROR, "Received bad unit_type id %d in handle_ruleset_unit()",
@@ -2075,6 +2076,12 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->paratroopers_range = p->paratroopers_range;
   u->paratroopers_mr_req = p->paratroopers_mr_req;
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;
+
+  for (i = 0; i < MAX_VET_LEVELS; i++) {
+    sz_strlcpy(u->veteran[i].name, p->veteran_name[i]);
+    u->veteran[i].power_fact = p->power_fact[i];
+    u->veteran[i].move_bonus = p->move_bonus[i];
+  }
 
   u->helptext = mystrdup(p->helptext);
 
@@ -2555,6 +2562,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
 **************************************************************************/
 void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
+  int i;
+
   game.rgame.min_city_center_food = packet->min_city_center_food;
   game.rgame.min_city_center_shield = packet->min_city_center_shield;
   game.rgame.min_city_center_trade = packet->min_city_center_trade;
@@ -2567,6 +2576,12 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.granary_food_inc = packet->granary_food_inc;
   game.rgame.tech_cost_style = packet->tech_cost_style;
   game.rgame.tech_leakage = packet->tech_leakage;
+
+  for (i = 0; i < MAX_VET_LEVELS; i++) {
+    game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];
+    game.work_veteran_chance[i] = packet->work_veteran_chance[i];
+    game.veteran_chance[i] = packet->work_veteran_chance[i];
+  }
 }
 
 /**************************************************************************

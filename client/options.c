@@ -278,6 +278,7 @@ static struct {
   GEN_EV(N_("Unit: Built"),                           E_UNIT_BUILD),
   GEN_EV(N_("Unit: Defender Destroyed"),              E_UNIT_LOST),
   GEN_EV(N_("Unit: Defender Survived"),               E_UNIT_WIN),
+  GEN_EV(N_("Unit: Became More Veteran"),             E_UNIT_BECAME_VET),
   GEN_EV(N_("Unit: Production Upgraded"),             E_UNIT_UPGRADED),
   GEN_EV(N_("Unit: Relocated"),                       E_UNIT_RELOCATED),
   GEN_EV(N_("Wonder: Finished"),                      E_WONDER_BUILD),

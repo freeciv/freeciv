@@ -258,7 +258,7 @@ static void auto_attack_player(struct player *pplayer)
     if(punit->ai.control
        && is_military_unit(punit)
        && punit->activity == ACTIVITY_GOTO
-       && punit->moves_left == unit_type(punit)->move_rate) {
+       && punit->moves_left == unit_move_rate(punit)) {
       (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     }
   }

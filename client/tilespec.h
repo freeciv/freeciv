@@ -63,7 +63,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 			   bool citymode, bool *solid_bg,
 			   struct player **pplayer);
 int fill_unit_sprite_array(struct drawn_sprite *sprs,
-			   struct unit *punit, bool *solid_bg);
+			   struct unit *punit, bool *solid_bg, bool stack);
 int fill_city_sprite_array_iso(struct drawn_sprite *sprs,
 			       struct city *pcity);
 
@@ -143,6 +143,7 @@ struct named_sprites {
   struct {
     struct Sprite
       *hp_bar[NUM_TILES_HP_BAR],
+      *vet_lev[MAX_VET_LEVELS],
       *auto_attack,
       *auto_settler,
       *auto_explore,

@@ -611,6 +611,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   int def_x = pdefender->x, def_y = pdefender->y;
   struct packet_unit_info unit_att_full_packet, unit_def_full_packet;
   struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
+  int old_unit_vet, old_defender_vet, vet;
 
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
@@ -649,6 +650,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
+  old_unit_vet = punit->veteran;
+  old_defender_vet = pdefender->veteran;
   unit_versus_unit(punit, pdefender);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
@@ -682,12 +685,15 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     punit->moves_left = 0;
   pwinner = (punit->hp > 0) ? punit : pdefender;
   plooser = (pdefender->hp > 0) ? punit : pdefender;
-    
+
+  vet = (pwinner->veteran == ((punit->hp > 0) ? old_unit_vet :
+	old_defender_vet)) ? 0 : 1;
+
   combat.attacker_unit_id=punit->id;
   combat.defender_unit_id=pdefender->id;
   combat.attacker_hp=punit->hp;
   combat.defender_hp=pdefender->hp;
-  combat.make_winner_veteran=pwinner->veteran?1:0;
+  combat.make_winner_veteran=vet;
 
   package_unit(punit, &unit_att_full_packet, FALSE);
   package_unit(pdefender, &unit_def_full_packet, FALSE);
@@ -756,11 +762,12 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     notify_player_ex(unit_owner(pwinner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN,
 		     _("Game: Your %s%s survived the pathetic attack"
-		       " from %s's %s."),
+		       " from %s's %s%s"),
 		     unit_name(pwinner->type),
 		     get_location_str_in(unit_owner(pwinner),
 					 pwinner->x, pwinner->y),
-		     unit_owner(plooser)->name, unit_name(plooser->type));
+		     unit_owner(plooser)->name, unit_name(plooser->type),
+		     vet ? " and became more experienced!" : ".");
     
     notify_player_ex(unit_owner(plooser),
 		     def_x, def_y, E_UNIT_LOST_ATT,
@@ -782,10 +789,11 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
 		     E_UNIT_WIN_ATT,
 		     _("Game: Your attacking %s succeeded"
-		       " against %s's %s%s!"), unit_name(pwinner->type),
+		       " against %s's %s%s%s"), unit_name(pwinner->type),
 		     unit_owner(plooser)->name, unit_name(plooser->type),
-		     get_location_str_at(unit_owner(pwinner), plooser->x,
-					 plooser->y));
+		     get_location_str_at(unit_owner(pwinner),
+		     plooser->x, plooser->y),
+		     vet ? " and became more experienced!" : "!");
     kill_unit(pwinner, plooser);
                /* no longer pplayer - want better msgs -- Syela */
   }
