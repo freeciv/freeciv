@@ -44,17 +44,16 @@
 #include "patrol_cursor_mask.xbm"
 
 #include "graphics.h"
-#define CACHE_SIZE 32
+#define CACHE_SIZE 64
 
-struct Sprite_cache {
-  SPRITE *sprite;
-  HBITMAP bmp;
-  HBITMAP mask;
+struct Bitmap_cache {
+  BITMAP *src;
+  HBITMAP hbmp;
 };
 
 extern HINSTANCE freecivhinst;
 
-static struct Sprite_cache sprite_cache[CACHE_SIZE];
+static struct Bitmap_cache bitmap_cache[CACHE_SIZE];
 static int cache_id_count=0;
 static SPRITE *sprcache;
 static HBITMAP bitmapcache;
@@ -245,133 +244,111 @@ static void HBITMAP2BITMAP(HBITMAP hbmp,BITMAP *bmp)
   bmp->bmBits=fc_malloc(bmpsize);
   GetBitmapBits(hbmp,bmpsize,bmp->bmBits);
 }
-/**************************************************************************
 
+/**************************************************************************
+  Retrieve an image from the HBITMAP cache, or if it is not there, place
+  it into the cache and return it.
 **************************************************************************/
-static void sprite2hbitmap(struct Sprite *s,HBITMAP *bmp, HBITMAP *mask)
+static HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
 {
-  struct Sprite_cache *sprc;
-  sprc=&sprite_cache[s->cache_id];
-  if (sprc->sprite==s) {
-    *bmp=sprc->bmp;
-    *mask=sprc->mask;
-  } else {
+  struct Bitmap_cache *bmpc;
+  bmpc = &bitmap_cache[*cache_id];
+  if (bmpc->src != bmp) {
     cache_id_count++;
-    if (cache_id_count>=CACHE_SIZE)
-      cache_id_count=0;
-    sprc=&sprite_cache[cache_id_count];
-    DeleteObject(sprc->bmp);
-    if (sprc->mask)
-      DeleteObject(sprc->mask);
-    sprc->sprite=s;
-    s->cache_id=cache_id_count;
-    sprc->bmp=BITMAP2HBITMAP(&s->bmp);
-    if (s->has_mask) {
-      sprc->mask=BITMAP2HBITMAP(&s->mask);
-    } else {
-      sprc->mask=NULL;
-    }
-    *bmp=sprc->bmp;
-    *mask=sprc->mask;
+    cache_id_count %= CACHE_SIZE;
+    *cache_id = cache_id_count;
+    bmpc = &bitmap_cache[cache_id_count];
+    DeleteObject(bmpc->hbmp);
+    bmpc->src = bmp;
+    bmpc->hbmp = BITMAP2HBITMAP(bmp);
   }
+  return bmpc->hbmp;
 }
 
 /****************************************************************************
   Create a new sprite by cropping and taking only the given portion of
   the image.
 ****************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct Sprite *crop_sprite(struct Sprite *sprsrc,
 			   int x, int y, int width, int height,
-			   struct Sprite *mask,
+			   struct Sprite *sprmask,
 			   int mask_offset_x, int mask_offset_y)
 {
-  SPRITE *mysprite;
+  SPRITE *mysprite = NULL;
   HDC hdc;
-  HDC hdcbig;
-  HDC hdcsmall;
-  HBITMAP smallbitmap;
-  HBITMAP smallmask;
-  HBITMAP bigbitmap;
-  HBITMAP bigmask;
-  HBITMAP bigsave;
-  HBITMAP smallsave;
+  HDC hdcsrc;
+  HDC hdcdst;
+  HBITMAP dstbmp;
+  HBITMAP dstmask = NULL;
+  HBITMAP srcbmp;
+  HBITMAP srcmask;
+  HBITMAP srcsave;
+  HBITMAP dstsave;
 
   hdc = GetDC(root_window);
-  mysprite = NULL;
 
-  hdcbig = CreateCompatibleDC(hdc);
-  hdcsmall = CreateCompatibleDC(hdc);
+  hdcsrc = CreateCompatibleDC(hdc);
+  hdcdst = CreateCompatibleDC(hdc);
 
-  if (sprcache != source) {
+  if (sprcache != sprsrc) {
     if (bitmapcache) {
       DeleteObject(bitmapcache);
     }
-    sprcache = source;
-    bitmapcache = BITMAP2HBITMAP(&(source->bmp));
+    sprcache = sprsrc;
+    bitmapcache = BITMAP2HBITMAP(&(sprsrc->img));
   }
-  bigbitmap = bitmapcache;
-  if (!bigbitmap) {
-    freelog(LOG_FATAL,"BITMAP2HBITMAP failed");
-    return NULL;
-  }
-  if (!(hdcsmall && hdcbig)) {
-    freelog(LOG_FATAL,"CreateCompatibleDC failed");
-  }
-  if (!(smallbitmap = CreateCompatibleBitmap(hdc, width, height))) {
-    freelog(LOG_FATAL,"CreateCompatibleBitmap failed");
-    return NULL;
-  }
+  srcbmp = bitmapcache;
+  dstbmp = CreateCompatibleBitmap(hdc, width, height);
   
-  bigsave = SelectObject(hdcbig, bigbitmap);
-  smallsave = SelectObject(hdcsmall, smallbitmap);
-  BitBlt(hdcsmall, 0, 0, width, height, hdcbig, x, y, SRCCOPY);
-  smallmask = NULL;
+  srcsave = SelectObject(hdcsrc, srcbmp);
+  dstsave = SelectObject(hdcdst, dstbmp);
+  BitBlt(hdcdst, 0, 0, width, height, hdcsrc, x, y, SRCCOPY);
 
-  if (source->has_mask) {
-    bigmask = BITMAP2HBITMAP(&source->mask);
-    SelectObject(hdcbig, bigmask);
-    if ((smallmask = CreateBitmap(width,height, 1, 1, NULL))) {
-      SelectObject(hdcsmall, smallmask);
-      BitBlt(hdcsmall, 0, 0, width, height, hdcbig, x, y, SRCCOPY);
-    }
-    SelectObject(hdcbig, bigbitmap);
-    DeleteObject(bigmask);
+  if (sprsrc->has_mask || (sprmask && sprmask->has_mask)) {
+    dstmask = CreateBitmap(width, height, 1, 1, NULL);
+    SelectObject(hdcdst, dstmask);
   }
 
-  if (mask && mask->has_mask) {
-    bigmask = BITMAP2HBITMAP(&mask->mask);
-    SelectObject(hdcbig, bigmask);
-    if (!smallmask) {
-      smallmask = CreateBitmap(width,height, 1, 1, NULL);
-      SelectObject(hdcsmall, smallmask);
-    }
-    BitBlt(hdcsmall, 0, 0, width, height, hdcbig,
-	   x - mask_offset_x, y - mask_offset_y, SRCPAINT);
-    
-    SelectObject(hdcbig, bigbitmap);
-    DeleteObject(bigmask);
+  if (sprsrc->has_mask) {
+    srcmask = BITMAP2HBITMAP(&sprsrc->mask);
+    SelectObject(hdcsrc, srcmask);
+    BitBlt(hdcdst, 0, 0, width, height, hdcsrc, x, y, SRCCOPY);
+    SelectObject(hdcsrc, srcbmp);
+    DeleteObject(srcmask);
+  }
+
+  if (sprmask && sprmask->has_mask) {
+    srcmask = BITMAP2HBITMAP(&sprmask->mask);
+    SelectObject(hdcsrc, srcmask);
+    BitBlt(hdcdst, 0, 0, width, height, hdcsrc,
+	   x - mask_offset_x, y - mask_offset_y, SRCPAINT);    
+    SelectObject(hdcsrc, srcbmp);
+    DeleteObject(srcmask);
   }
 
   mysprite = fc_malloc(sizeof(struct Sprite));
-  mysprite->cache_id = 0;
+  mysprite->img_cache_id = 0;
+  mysprite->fog_cache_id = 0;
+  mysprite->mask_cache_id = 0;
   mysprite->width = width;
   mysprite->height = height;
-  HBITMAP2BITMAP(smallbitmap, &mysprite->bmp);
+  HBITMAP2BITMAP(dstbmp, &mysprite->img);
   mysprite->has_mask = 0;
-  if (smallmask) {
+  if (dstmask) {
     mysprite->has_mask = 1;
-    HBITMAP2BITMAP(smallmask, &mysprite->mask);
+    HBITMAP2BITMAP(dstmask, &mysprite->mask);
   }
+  mysprite->has_fog = 0;
 
-  SelectObject(hdcbig, bigsave);
-  SelectObject(hdcsmall, smallsave);
+  SelectObject(hdcsrc, srcsave);
+  SelectObject(hdcdst, dstsave);
   ReleaseDC(root_window, hdc);
-  DeleteDC(hdcbig);
-  DeleteDC(hdcsmall);
-  if (smallmask) {
-    DeleteObject(smallmask);
+  DeleteDC(hdcsrc);
+  DeleteDC(hdcdst);
+  if (dstmask) {
+    DeleteObject(dstmask);
   }
-  DeleteObject(smallbitmap);
+  DeleteObject(dstbmp);
 
   return mysprite;
 }
@@ -393,19 +370,24 @@ void init_fog_bmp(void)
   int x,y;
   HBITMAP old;
   HDC hdc;
-  if (!is_isometric)
-    return;
-  hdc=CreateCompatibleDC(NULL);
-  stipple = CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
-  fogmask = CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+  hdc = CreateCompatibleDC(NULL);
+  if (stipple) {
+    DeleteObject(stipple);
+  }
+  if (fogmask) {
+    DeleteObject(fogmask);
+  }
+  stipple = CreateCompatibleBitmap(hdc, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+  fogmask = CreateCompatibleBitmap(hdc, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   old = SelectObject(hdc, stipple);
-  BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,NULL,0,0,BLACKNESS);
-  for(x=0;x<NORMAL_TILE_WIDTH;x++)
-    for(y=0;y<NORMAL_TILE_HEIGHT;y++)
-      {
-	if ((x+y)&1)
-	  SetPixel(hdc, x, y, RGB(255,255,255));
+  BitBlt(hdc, 0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, NULL, 0, 0, BLACKNESS);
+  for(x = 0; x < NORMAL_TILE_WIDTH; x++) {
+    for(y = 0; y < NORMAL_TILE_HEIGHT; y++) {
+      if ((x + y) & 1) {
+	SetPixel(hdc, x, y, RGB(255, 255, 255));
       }
+    }
+  }
   SelectObject(hdc, old);
   DeleteDC(hdc);  
 }
@@ -520,7 +502,7 @@ struct Sprite *load_gfxfile(const char *filename)
 	    buf, &bi, DIB_RGB_COLORS);
   DeleteObject(dib);
   ReleaseDC(root_window, hdc);
-  HBITMAP2BITMAP(bmp,&mysprite->bmp);
+  HBITMAP2BITMAP(bmp, &mysprite->img);
   DeleteObject(bmp);
   if (has_mask) {
     hdc=CreateCompatibleDC(NULL);
@@ -545,10 +527,13 @@ struct Sprite *load_gfxfile(const char *filename)
     DeleteObject(bmp);
   }
 
-  mysprite->has_mask=has_mask;
-  mysprite->cache_id=0;
-  mysprite->width=width;
-  mysprite->height=height;
+  mysprite->has_mask = has_mask;
+  mysprite->has_fog = 0;
+  mysprite->img_cache_id = 0;
+  mysprite->fog_cache_id = 0;
+  mysprite->mask_cache_id = 0;
+  mysprite->width = width;
+  mysprite->height = height;
 
 
   for (row=0; row<height; row++)
@@ -556,70 +541,144 @@ struct Sprite *load_gfxfile(const char *filename)
   free(row_pointers);
   png_destroy_read_struct(&pngp, &infop, NULL);
   return mysprite;
-		     }
-
+}
 
 /**************************************************************************
+  Create a half bright version of this sprite's image.  Doesn't work in
+  paletted video modes.
+**************************************************************************/
+void fog_sprite(struct Sprite *sprite)
+{
+  int bmpsize, i;
 
+  if (sprite->img.bmBitsPixel != 32 && sprite->img.bmBitsPixel != 24
+      && sprite->img.bmBitsPixel != 15 && sprite->img.bmBitsPixel != 16) {
+    return;
+  }
+
+  bmpsize = sprite->img.bmHeight * sprite->img.bmWidthBytes;
+
+  /* Copy over all the bitmap info, and replace the bits pointer */
+  sprite->fog = sprite->img;
+  sprite->fog.bmBits = fc_malloc(bmpsize);
+
+  /* RGBA 8888 */
+  if (sprite->img.bmBitsPixel == 32) {
+    unsigned int *src, *dst;
+
+    src = sprite->img.bmBits;
+    dst = sprite->fog.bmBits;
+
+    for (i = 0; i < bmpsize; i += 4) {
+      *dst++ = ((*src >> 1) & 0x007F7F7F) | (*src & 0xFF000000);
+      src++;
+    }
+  /* RGB 888 */
+  } else if (sprite->img.bmBitsPixel == 24) {
+    unsigned char *src, *dst;
+
+    src = sprite->img.bmBits;
+    dst = sprite->fog.bmBits;
+
+    for (i = 0; i < bmpsize; i++) {
+      *dst++ = *src++ >> 1;
+    }
+  /* RGB 565 */
+  } else if (sprite->img.bmBitsPixel == 16) {
+    unsigned short *src, *dst;
+
+    src = sprite->img.bmBits;
+    dst = sprite->fog.bmBits;
+
+    for (i = 0; i < bmpsize; i += 2) {
+      *dst++ = (*src++ >> 1) & 0x7AEF;
+    }
+  /* RGB 555 */
+  } else if (sprite->img.bmBitsPixel == 15) {
+    unsigned short *src, *dst;
+
+    src = sprite->img.bmBits;
+    dst = sprite->fog.bmBits;
+
+    for (i = 0; i < bmpsize; i += 2) {
+      *dst++ = (*src++ >> 1) & 0x3DEF;
+    }
+  }
+
+  sprite->has_fog = 1;
+}
+
+/**************************************************************************
+  Draw a sprite to the specified device context.
+**************************************************************************/
+static void real_draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y,
+			     bool fog)
+{
+  HDC hdccomp;
+  HBITMAP tempbit;
+  HBITMAP bmpimg;
+  int w, h;
+
+  if (!sprite) return;
+
+  w = sprite->width;
+  h = sprite->height;
+
+  hdccomp = CreateCompatibleDC(hdc);
+  
+  if (fog) {
+    bmpimg = getcachehbitmap(&(sprite->fog), &(sprite->fog_cache_id));
+  } else {
+    bmpimg = getcachehbitmap(&(sprite->img), &(sprite->img_cache_id));
+  }
+
+  tempbit = SelectObject(hdccomp, bmpimg);
+
+  if (sprite->has_mask) {
+    HDC hdcmask;
+    HBITMAP tempmask;
+    HBITMAP bmpmask;
+
+    bmpmask = getcachehbitmap(&(sprite->mask), &(sprite->mask_cache_id));
+
+    hdcmask = CreateCompatibleDC(hdc);
+
+    tempmask = SelectObject(hdcmask, bmpmask);
+
+    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
+    BitBlt(hdc, x, y, w, h, hdcmask, 0, 0, SRCAND);
+    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
+
+    SelectObject(hdcmask, tempmask);
+    DeleteDC(hdcmask);
+  } else {
+    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCCOPY);
+  }
+
+  SelectObject(hdccomp, tempbit);
+  DeleteDC(hdccomp);
+}
+
+/**************************************************************************
+  Wrapper for real_draw_sprite(), for fogged sprites.
+**************************************************************************/
+void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y)
+{
+  real_draw_sprite(sprite, hdc, x, y, TRUE);
+}
+
+/**************************************************************************
+  Wrapper for real_draw_sprite(), for unfogged sprites.
 **************************************************************************/
 void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
 {
-  draw_sprite_part(sprite,hdc,x,y,sprite->width,sprite->height,0,0);
+  real_draw_sprite(sprite, hdc, x, y, FALSE);
 }
 
 /**************************************************************************
-
+  Draw stippled fog, using the mask of the specified sprite.
 **************************************************************************/
-static void draw_sprite_part_with_mask(struct Sprite *sprite,
-				       struct Sprite *sprite_mask,
-				       HDC hdc,
-				       int x, int y,int w, int h,
-				       int xsrc, int ysrc)
-{
-  HDC hdccomp;
-  HDC hdcmask;
-  HBITMAP tempbit;
-  HBITMAP tempmask;
-  HBITMAP bitmap;
-  HBITMAP maskbit;
-  if (!sprite) return;
-  hdccomp=CreateCompatibleDC(NULL);
-  hdcmask=CreateCompatibleDC(NULL);
-  sprite2hbitmap(sprite,&bitmap,&maskbit);
-  if (sprite_mask->has_mask)
-    {
-      HBITMAP dummy;
-      sprite2hbitmap(sprite_mask,&dummy,&maskbit);
-      tempmask=SelectObject(hdcmask,maskbit); 
-      tempbit=SelectObject(hdccomp,bitmap);
-      BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
-      BitBlt(hdc,x,y,w,h,hdcmask,xsrc,ysrc,SRCAND);
-      BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
-      SelectObject(hdcmask,tempmask);
-    }
-  else
-    {
-      tempbit=SelectObject(hdccomp,bitmap);
-      BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCCOPY);
-    }
-  SelectObject(hdccomp,tempbit);
-  DeleteDC(hdccomp);
-  DeleteDC(hdcmask);
-}
-/**************************************************************************
-
-**************************************************************************/
-void draw_sprite_part(struct Sprite *sprite,HDC hdc,
-		      int x,int y,int w,int h,int xsrc,int ysrc)
-{
-  draw_sprite_part_with_mask(sprite,sprite,hdc,x,y,w,h,xsrc,ysrc);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void draw_fog_part(HDC hdc,int x, int y,int w, int h,
-		   int xsrc, int ysrc, struct Sprite *sprite_mask)
+void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
 {
   HDC hdcmask;
   HDC hdcsrc;
@@ -627,57 +686,41 @@ void draw_fog_part(HDC hdc,int x, int y,int w, int h,
   HBITMAP tempmask;
   HBITMAP tempsrc;
 
-  HBITMAP maskbit;
-  HBITMAP dummy;
+  HBITMAP bmpmask;
+
+  int w, h;
 
   if (!is_isometric)
     return;
 
-  if (xsrc < 0) {
-    x -= xsrc;
-    w += xsrc;
-    xsrc = 0;
-  }
-  if (ysrc < 0) {
-    y -= ysrc;
-    h += ysrc;
-    ysrc = 0;
-  }
+  w = sprmask->width;
+  h = sprmask->height;
 
-  sprite2hbitmap(sprite_mask,&dummy,&maskbit);
+  bmpmask = getcachehbitmap(&(sprmask->mask), &(sprmask->mask_cache_id));
 
-  hdcsrc = CreateCompatibleDC(NULL);
-  tempsrc = SelectObject(hdcsrc, maskbit); 
+  hdcsrc = CreateCompatibleDC(hdc);
+  tempsrc = SelectObject(hdcsrc, bmpmask);
 
-  hdcmask = CreateCompatibleDC(NULL);
+  hdcmask = CreateCompatibleDC(hdc);
   tempmask = SelectObject(hdcmask, fogmask); 
 
-  BitBlt(hdcmask,0,0,w,h,hdcsrc,xsrc,ysrc,SRCCOPY);
+  BitBlt(hdcmask, 0, 0, w, h, hdcsrc, 0, 0, SRCCOPY);
   
   SelectObject(hdcsrc, stipple);
 
-  BitBlt(hdcmask,0,0,w,h,hdcsrc,xsrc,ysrc,SRCPAINT);
+  BitBlt(hdcmask, 0, 0, w, h, hdcsrc, 0, 0, SRCPAINT);
 
   SelectObject(hdcsrc, tempsrc);
   DeleteDC(hdcsrc);
 
-  BitBlt(hdc,x,y,w,h,hdcmask,0,0,SRCAND);
+  BitBlt(hdc, x, y, w, h, hdcmask, 0, 0, SRCAND);
 
   SelectObject(hdcmask, tempmask);
   DeleteDC(hdcmask);
 }
-
-#if 0
-/**************************************************************************
-
-**************************************************************************/
-static void crop_sprite_real(struct Sprite *source)
-{
-} 
-#endif
         
 /**************************************************************************
-
+  Free memory used by this sprite.
 **************************************************************************/
 void free_sprite(struct Sprite *s)
 {
@@ -685,7 +728,11 @@ void free_sprite(struct Sprite *s)
     free(s->mask.bmBits);
   }
 
-  free(s->bmp.bmBits);
+  if (s->has_fog) {
+    free(s->fog.bmBits);
+  }
+
+  free(s->img.bmBits);
 
   free(s);
   if (bitmapcache) {

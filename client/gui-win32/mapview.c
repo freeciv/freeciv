@@ -151,7 +151,7 @@ void map_expose(HDC hdc)
       load_intro_gfx();
     }
     if (!intro_gfx) {
-      intro_gfx = BITMAP2HBITMAP(&intro_gfx_sprite->bmp);
+      intro_gfx = BITMAP2HBITMAP(&intro_gfx_sprite->img);
     }
     introgfxdc = CreateCompatibleDC(hdc);
     bmsave = SelectObject(introgfxdc, intro_gfx);
@@ -657,7 +657,7 @@ void overview_expose(HDC hdc)
       bmp=NULL;
       for(i=0;i<4;i++)
 	if (indicator_sprite[i]) {
-	  bmp=BITMAP2HBITMAP(&indicator_sprite[i]->bmp);
+	  bmp=BITMAP2HBITMAP(&indicator_sprite[i]->img);
 	  if (!old)
 	    old=SelectObject(hdctest,bmp);
 	  else
@@ -717,16 +717,25 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
 {
   if (!ssprite)
     return;
-  
-  draw_sprite_part(ssprite, hdc, canvas_x, canvas_y,
-		   ssprite->width, ssprite->height,
-		   0, 0);
+
+  if (fog && better_fog && !ssprite->has_fog) {
+    fog_sprite(ssprite);
+    if (!ssprite->has_fog) {
+      freelog(LOG_NORMAL,
+	      _("Better fog will only work in truecolor.  Disabling it"));
+      better_fog = FALSE;
+    }
+  }
+
+  if (fog && better_fog) {
+    draw_sprite_fog(ssprite, hdc, canvas_x, canvas_y);
+    return;
+  }
+
+  draw_sprite(ssprite, hdc, canvas_x, canvas_y);
 
   if (fog) {
-    draw_fog_part(hdc, canvas_x, canvas_y,
-		  ssprite->width, ssprite->height,
-		  0, 0, ssprite); 
-    
+    draw_fog(ssprite, hdc, canvas_x, canvas_y);
   }
   
 }
@@ -749,8 +758,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
   } else {
     hdc = pcanvas->hdc;
   }
-  draw_sprite_part(sprite, hdc, canvas_x, canvas_y,
-		   sprite->width, sprite->height, 0, 0);
+  draw_sprite(sprite, hdc, canvas_x, canvas_y);
   if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
@@ -937,6 +945,7 @@ void tileset_changed(void)
   indicator_sprite[0] = NULL;
   indicator_sprite[1] = NULL;
   indicator_sprite[2] = NULL;
+  init_fog_bmp();
   map_canvas_resized(mapview_canvas.width, mapview_canvas.height);
   citydlg_tileset_change();
 }

@@ -29,11 +29,15 @@ typedef struct Sprite SPRITE;
 struct Sprite
 {
   int has_mask;
-  BITMAP bmp;
+  int has_fog;
+  BITMAP img;
+  BITMAP fog;
   BITMAP mask;
+  int img_cache_id;
+  int fog_cache_id;
+  int mask_cache_id;
   int width;
   int height;
-  int cache_id;
 };
 
 struct canvas
@@ -42,12 +46,11 @@ struct canvas
   HBITMAP bitmap;
 };
 
-void draw_sprite(struct Sprite *sprite,HDC hdc,int x, int y);
-void draw_sprite_part(struct Sprite *sprite,HDC hdc,
-		       int x, int y, int w, int h,int xsrc,int ysrc);
+void fog_sprite(struct Sprite *sprite);
+void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y);
+void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y);
 void init_fog_bmp(void);
-void draw_fog_part(HDC hdc,int x, int y,int w, int h,
-		   int xsrc, int ysrc, struct Sprite *sprite_mask);
+void draw_fog(struct Sprite *sprite, HDC hdc, int x, int y);
 
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 extern SPRITE *intro_gfx_sprite;

@@ -87,6 +87,7 @@ static int net_input=-1;
 
 extern int seconds_to_turndone;   
 
+bool better_fog = TRUE;
 
 const static RECT textwin_size={0,1,0,100};
 
@@ -97,7 +98,12 @@ const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
 
 client_option gui_options[] = {
-  /* None. */
+  GEN_BOOL_OPTION(better_fog,
+		  N_("Better fog-of-war drawing"),
+		  N_("If this is enabled then a better method is used for "
+		     "drawing fog-of-war.  It is not any slower but will "
+		     "consume about twice as much memory."),
+		  COC_GRAPHICS)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
