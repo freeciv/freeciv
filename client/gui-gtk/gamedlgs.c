@@ -427,10 +427,10 @@ static void create_option_dialog(void)
 			  GTK_WIDGET(box), TRUE, TRUE, 0);
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(label), TRUE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(label), TRUE, TRUE, 5);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
-      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
+      gtk_box_pack_end (GTK_BOX(box), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 5);
       break;
     }
   }
