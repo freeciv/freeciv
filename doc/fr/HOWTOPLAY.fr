@@ -276,6 +276,6 @@ Q : Quelles sont les unités militaires les plus utiles ?
 	Tanks, Infanterie mobile, Obusiers, Cuirassés, 
 	Missiles de croisière, armes nucléaires.
 
-N"oubliez pas : la meilleure défense, c'est une attaque puissante.
+N'oubliez pas : la meilleure défense, c'est une attaque puissante.
 
-<Les ajouts à ce document sont les bienvenus>
+Les ajouts à ce document sont les bienvenus!
