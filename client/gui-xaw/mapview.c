@@ -632,28 +632,8 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 **************************************************************************/
 static void set_overview_tile_foreground_color(int x, int y)
 {
-  struct tile *ptile=map_get_tile(x, y);
-  struct unit *punit;
-  struct city *pcity;
-  
-  if(!ptile->known)
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  else if ((punit=find_visible_unit(ptile))) {
-    if(punit->owner==game.player_idx)
-      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_YELLOW]);
-    else
-      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RED]);
-  }
-  else if((pcity=map_get_city(x, y))) {
-    if(pcity->owner==game.player_idx)
-      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-    else
-      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_CYAN]);
-  }
-  else if(ptile->terrain==T_OCEAN)
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_OCEAN]);
-  else
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_GROUND]);
+  XSetForeground(display, fill_bg_gc,
+		 colors_standard[overview_tile_color(x, y)]);
 }
 
 

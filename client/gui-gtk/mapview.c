@@ -662,30 +662,9 @@ gint overview_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 **************************************************************************/
 static void set_overview_tile_foreground_color(int x, int y)
 {
-  struct tile *ptile=map_get_tile(x, y);
-  struct unit *punit;
-  struct city *pcity;
-  
-  if(!ptile->known)
-    gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  else if ((punit=find_visible_unit(ptile))) {
-    if(punit->owner==game.player_idx)
-      gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_YELLOW]);
-    else
-      gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_RED]);
-  }
-  else if((pcity=map_get_city(x, y))) {
-    if(pcity->owner==game.player_idx)
-      gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-    else
-      gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_CYAN]);
-  }
-  else if(ptile->terrain==T_OCEAN)
-    gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_OCEAN]);
-  else
-    gdk_gc_set_foreground (fill_bg_gc, colors_standard[COLOR_STD_GROUND]);
+  gdk_gc_set_foreground (fill_bg_gc,
+			 colors_standard[overview_tile_color(x, y)]);
 }
-
 
 
 /**************************************************************************

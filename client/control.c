@@ -30,6 +30,7 @@
 
 #include "civclient.h"
 #include "options.h"
+#include "tilespec.h"
 
 #include "control.h"
 
@@ -241,7 +242,10 @@ struct unit *find_visible_unit(struct tile *ptile)
 {
   struct unit *panyowned = NULL, *panyother = NULL, *ptptother = NULL;
 
-  if(unit_list_size(&ptile->units)==0) return NULL;
+  /* If no units here, return nothing. */
+  if (unit_list_size(&ptile->units)==0) {
+    return NULL;
+  }
 
   /* If a unit is attacking we should show that on top */
   if (punit_attacking && map_get_tile(punit_attacking->x,punit_attacking->y) == ptile) {
@@ -262,6 +266,11 @@ struct unit *find_visible_unit(struct tile *ptile)
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_focus) return punit;
     unit_list_iterate_end;
+  }
+
+  /* If a city is here, return nothing (unit hidden by city). */
+  if (ptile->city) {
+    return NULL;
   }
 
   /* Iterate through the units to find the best one we prioritize this way:
@@ -306,21 +315,15 @@ void blink_active_unit(void)
 {
   static int is_shown;
   struct unit *punit;
-  
-  if((punit=get_unit_in_focus())) {
-    struct tile *ptile;
-    ptile=map_get_tile(punit->x, punit->y);
 
+  if((punit=get_unit_in_focus())) {
     if(is_shown) {
-      struct unit_list units;
-      units=ptile->units;
-      unit_list_init(&ptile->units);
+      set_focus_unit_hidden_state(1);
       refresh_tile_mapcanvas(punit->x, punit->y, 1);
-      ptile->units=units;
+      set_focus_unit_hidden_state(0);
     } else {
       refresh_tile_mapcanvas(punit->x, punit->y, 1);
     }
-    
     is_shown=!is_shown;
   }
 }
@@ -1424,4 +1427,3 @@ void key_unit_wakeup_others(void)
   if(get_unit_in_focus())
     request_unit_wakeup(punit_focus);
 }
-

@@ -42,7 +42,6 @@
 #include "support.h"
 #include "unit.h"
 
-#include "colors_g.h"
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
 #include "options.h" /* for fill_xxx */
@@ -95,6 +94,17 @@ static struct sbuffer *sprite_key_sb;
    +spec2          -  basic format, required
 */
 
+
+/*
+  If focus_unit_hidden is true, then no units at
+  the location of the foc unit are ever drawn.
+*/
+static int focus_unit_hidden = 0;
+
+/*
+  If no_backdrop is true, then no color/flag is drawn behind the city/unit.
+*/
+static int no_backdrop = 0;
 
 /**********************************************************************
   Gets full filename for tilespec file, based on input name.
@@ -739,10 +749,12 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
   struct Sprite **save_sprs=sprs;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   
-  if(!use_solid_color_behind_units) {
-    /* will be the first sprite if flags_are_transparent == FALSE */
-    *sprs++ = get_city_nation_flag_sprite(pcity);
-  } else *sprs++ = NULL;
+  if(!no_backdrop) {
+    if(!use_solid_color_behind_units) {
+      /* will be the first sprite if flags_are_transparent == FALSE */
+      *sprs++ = get_city_nation_flag_sprite(pcity);
+    } else *sprs++ = NULL;
+  }
   
   if(genlist_size(&(ptile->units.list)) > 0)
     *sprs++ = get_city_occupied_sprite(pcity);
@@ -780,14 +792,15 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
   struct Sprite **save_sprs=sprs;
   int ihp;
 
-  if(!use_solid_color_behind_units) {
-    /* will be the first sprite if flags_are_transparent == FALSE */
-    *sprs++ = get_unit_nation_flag_sprite(punit);
-  }
-	else {
-    /* Two NULLs means unit */
-	  *sprs++ = NULL;
-    *sprs++ = NULL;
+  if(!no_backdrop) {
+    if(!use_solid_color_behind_units) {
+      /* will be the first sprite if flags_are_transparent == FALSE */
+      *sprs++ = get_unit_nation_flag_sprite(punit);
+    } else {
+      /* Two NULLs means unit */
+      *sprs++ = NULL;
+      *sprs++ = NULL;
+    }
   }
 
   *sprs++ = get_unit_type(punit->type)->sprite;
@@ -876,38 +889,40 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   int tileno;
   struct tile *ptile;
   struct Sprite *mysprite;
-  struct unit *punit;
   struct city *pcity;
+  struct unit *pfocus;
+  struct unit *punit;
   int den_y=map.ysize*.24;
 
   struct Sprite **save_sprs=sprs;
 
   ptile=map_get_tile(abs_x0, abs_y0);
-  punit=get_unit_in_focus();
 
   if(abs_y0>=map.ysize || ptile->known == TILE_UNKNOWN) {
     return 0;
   }
 
-  if(!flags_are_transparent || use_solid_color_behind_units) {
-    /* non-transparent flags -> just draw city or unit. */
-    if((pcity=map_get_city(abs_x0, abs_y0))
-       && (citymode || !(punit=get_unit_in_focus())
-       || punit->x!=abs_x0 || punit->y!=abs_y0
-       || (unit_list_size(&ptile->units)==0))) {
+  pcity=map_get_city(abs_x0, abs_y0);
+  pfocus=get_unit_in_focus();
 
-      /* above, unit_list_size==0 happens when focus unit is blinking --dwp */ 
-      sprs += fill_city_sprite_array(sprs,pcity);
-      return sprs - save_sprs;
+  if(!flags_are_transparent || use_solid_color_behind_units) {
+    /* non-transparent flags -> just draw city or unit */
+
+    if((punit=find_visible_unit(ptile))) {
+      if(!citymode || punit->owner!=game.player_idx) {
+	if(!focus_unit_hidden || !pfocus ||
+	   punit->x!=pfocus->x || punit->y!=pfocus->y) {
+	  sprs+=fill_unit_sprite_array(sprs,punit);
+	  if(unit_list_size(&ptile->units)>1)  
+	    *sprs++ = sprites.unit.stack;
+	  return sprs - save_sprs;
+	}
+      }
     }
 
-    if ((punit=find_visible_unit(ptile))) {
-      if(!citymode || punit->owner!=game.player_idx) {
-        sprs += fill_unit_sprite_array(sprs,punit);
-        if(unit_list_size(&ptile->units)>1)
-          *sprs++ = sprites.unit.stack;
-        return sprs - save_sprs;
-      }
+    if(pcity) {
+      sprs+=fill_city_sprite_array(sprs,pcity);
+      return sprs - save_sprs;
     }
   }
 
@@ -1114,17 +1129,23 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
       *sprs++ = sprites.tx.darkness[tileno];
   }
 
-  if(flags_are_transparent) {  /* transparent flags -> draw city or unit last */
-    if((pcity=map_get_city(abs_x0, abs_y0))) {
+  if(flags_are_transparent) {
+    /* transparent flags -> draw city or unit last */
+
+    if(pcity) {
       sprs+=fill_city_sprite_array(sprs,pcity);
     }
 
-    if ((punit=find_visible_unit(ptile))) {
-      if(pcity && punit!=get_unit_in_focus()) return sprs - save_sprs;
+    if((punit=find_visible_unit(ptile))) {
       if(!citymode || punit->owner!=game.player_idx) {
-        sprs+=fill_unit_sprite_array(sprs,punit);
-        if(unit_list_size(&ptile->units)>1)  
-          *sprs++ = sprites.unit.stack;
+	if(!focus_unit_hidden || !pfocus ||
+	   punit->x!=pfocus->x || punit->y!=pfocus->y) {
+	  no_backdrop=BOOL_VAL(pcity);
+	  sprs+=fill_unit_sprite_array(sprs,punit);
+	  no_backdrop=FALSE;
+	  if(unit_list_size(&ptile->units)>1)  
+	    *sprs++ = sprites.unit.stack;
+	}
       }
     }
   }
@@ -1242,11 +1263,51 @@ void tilespec_free_city_tiles(int count)
   fixed number of nations.  Now base on player number instead,
   since still limited to less than 14.  Could possibly improve
   to allow players to choose their preferred color etc.
-  Return is really "enum color_std".
   A hack added to avoid returning more that COLOR_STD_RACE13.
   But really there should be more colors available -- jk.
 ***********************************************************************/
-int player_color(struct player *pplayer)
+enum color_std player_color(struct player *pplayer)
 {
-  return COLOR_STD_RACE0 + (pplayer->player_no % MAX_NUM_PLAYERS);
+  return COLOR_STD_RACE0 +
+    (pplayer->player_no %
+     (COLOR_STD_RACE13 - COLOR_STD_RACE0 + 1));
+}
+
+/**********************************************************************
+  Return color for overview map tile.
+***********************************************************************/
+enum color_std overview_tile_color(int x, int y)
+{
+  enum color_std color;
+  struct tile *ptile=map_get_tile(x, y);
+  struct unit *punit;
+  struct city *pcity;
+
+  if(!ptile->known) {
+    color=COLOR_STD_BLACK;
+  } else if((pcity=map_get_city(x, y))) {
+    if(pcity->owner==game.player_idx)
+      color=COLOR_STD_WHITE;
+    else
+      color=COLOR_STD_CYAN;
+  } else if ((punit=find_visible_unit(ptile))) {
+    if(punit->owner==game.player_idx)
+      color=COLOR_STD_YELLOW;
+    else
+      color=COLOR_STD_RED;
+  } else if(ptile->terrain==T_OCEAN) {
+    color=COLOR_STD_OCEAN;
+  } else {
+    color=COLOR_STD_GROUND;
+  }
+
+  return color;
+}
+
+/**********************************************************************
+  Set focus_unit_hidden (q.v.) variable to given value.
+***********************************************************************/
+void set_focus_unit_hidden_state(int hide)
+{
+  focus_unit_hidden = hide;
 }
