@@ -333,10 +333,6 @@ static void report_stats(void)
 #if SHOW_TIME_STATS
   int total, per_mill;
 
-  freelog(LOG_NORMAL, "CMA: overall=%fs queries=%d %fms / query",
-	  read_timer_seconds(stats.wall_timer), stats.queries,
-	  (1000.0 * read_timer_seconds(stats.wall_timer)) /
-	  ((double) stats.queries));
   total = stats.apply_result_ignored + stats.apply_result_applied;
   per_mill = (stats.apply_result_ignored * 1000) / (total ? total : 1);
 
