@@ -144,7 +144,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
     /* Check that player who accepts can keep what (s)he promises. */
 
     clause_list_iterate(ptreaty->clauses, pclause) {
-      struct city *pcity;
+      struct city *pcity = NULL;
 
       if (pclause->from == pplayer) {
 	switch(pclause->type) {
@@ -187,7 +187,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			  pcity->name);
 	    return;
 	  }
-	  if (city_got_building(pcity,B_PALACE)) {
+	  if (city_got_building(pcity, B_PALACE)) {
 	    notify_player(pplayer,
 			  _("Game: Your capital (%s) is requested, "
 			    "you can't accept treaty."),
@@ -217,6 +217,13 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			  _("Game: You don't have enough gold, "
 			    "you can't accept treaty."));
 	    return;
+	  }
+	  if (city_got_building(pcity,B_PALACE)) {
+	    notify_player(other,
+			  _("Game: Your capital (%s) is requested, "
+			    "you can't accept treaty."),
+			  pcity->name);
+	    goto cleanup;
 	  }
 	  break;
 	default:
