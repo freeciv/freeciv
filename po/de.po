@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14\n"
-"POT-Creation-Date: 2002-09-19 17:27+0200\n"
+"POT-Creation-Date: 2002-09-24 02:31+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: \n"
@@ -115,33 +115,19 @@ msgstr "Leerer Dateiname in den Angaben zum Loglevel ('%s').\n"
 msgid "Couldn't open logfile: %s for appending.\n"
 msgstr "Logfile %s kann nicht fortgeführt werden.\n"
 
-#: common/log.c:274
+#: common/log.c:274 common/log.c:293
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] "letzte Mitteilung %dmal wiederholt"
 msgstr[1] "letzte Mitteilung %dmal wiederholt"
 
-#: common/log.c:279
+#: common/log.c:279 common/log.c:298
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " (insgesamt 1 Wiederholung)"
 msgstr[1] " (insgesamt %d Wiederholungen)"
-
-#: common/log.c:293
-msgid "last message repeated once"
-msgstr "Letzte Mitteilung einmal wiederholt."
-
-#: common/log.c:296
-#, c-format
-msgid "last message repeated %d times"
-msgstr "Letzte Mitteilung %dmal wiederholt."
-
-#: common/log.c:299
-#, c-format
-msgid " (total %d repeats)"
-msgstr " (insgesamt %d Wiederholungen)"
 
 #: common/map.c:53
 msgid "Special1"
@@ -216,65 +202,65 @@ msgstr ""
 "(1.12.0 oder kleiner). Bitte wählen Sie einen anderen Server aus. Auf "
 "Wiedersehen!"
 
-#: common/player.c:488
+#: common/player.c:501
 msgid "Spotless"
 msgstr "makellos"
 
-#: common/player.c:490
+#: common/player.c:503
 msgid "Excellent"
 msgstr "ausgezeichnet"
 
-#: common/player.c:492
+#: common/player.c:505
 msgid "Honorable"
 msgstr "ehrenwert"
 
-#: common/player.c:494
+#: common/player.c:507
 msgid "Questionable"
 msgstr "fragwürdig"
 
-#: common/player.c:496
+#: common/player.c:509
 msgid "Dishonorable"
 msgstr "unehrenhaft"
 
-#: common/player.c:498
+#: common/player.c:511
 msgid "Poor"
 msgstr "schlecht"
 
-#: common/player.c:500
+#: common/player.c:513
 msgid "Despicable"
 msgstr "verachtenswert"
 
-#: common/player.c:502
+#: common/player.c:515
 msgid "Atrocious"
 msgstr "verbrecherisch"
 
-#: common/player.c:512
+#: common/player.c:525
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutral"
 
-#: common/player.c:513
+#: common/player.c:526
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Krieg"
 
-#: common/player.c:514 client/gui-gtk-2.0/diplodlg.c:444
+#: common/player.c:527 client/gui-gtk-2.0/diplodlg.c:444
 #: client/gui-gtk/diplodlg.c:444 client/gui-mui/diplodlg.c:623
 #: client/gui-win32/diplodlg.c:295 client/gui-xaw/diplodlg.c:512
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Waffenstillstand"
 
-#: common/player.c:515 client/gui-gtk-2.0/diplodlg.c:449
+#: common/player.c:528 client/gui-gtk-2.0/diplodlg.c:449
 #: client/gui-gtk/diplodlg.c:449 client/gui-mui/diplodlg.c:627
 #: client/gui-win32/diplodlg.c:296 client/gui-xaw/diplodlg.c:516
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Frieden"
 
-#: common/player.c:516 client/gui-gtk-2.0/diplodlg.c:454
+#: common/player.c:529 client/gui-gtk-2.0/diplodlg.c:454
 #: client/gui-gtk/diplodlg.c:454 client/gui-mui/diplodlg.c:631
 #: client/gui-win32/diplodlg.c:297 client/gui-xaw/diplodlg.c:520
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Allianz"
 
-#: common/player.c:517
+#: common/player.c:530
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Kein Kontakt"
 
@@ -521,17 +507,17 @@ msgstr ""
 "Freeciv %s wird voraussichtlich im %s\n"
 "auf %s veröffentlicht werden."
 
-#: ai/aicity.c:210 server/citytools.c:1953
+#: ai/aicity.c:210 server/citytools.c:1805
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spiel: Die %s haben aufgehört, %s in %s zu bauen."
 
-#: ai/aicity.c:219 server/citytools.c:1995
+#: ai/aicity.c:219 server/citytools.c:1847
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
 
-#: ai/aicity.c:715
+#: ai/aicity.c:714
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spiel: %s verkauft %s (unnötig) zum Preis von %d."
@@ -629,32 +615,32 @@ msgstr "Stadt Nr. %d"
 msgid "A poorly-named city"
 msgstr "Eine schlecht benannte Stadt"
 
-#: server/citytools.c:715
+#: server/citytools.c:567
 #, c-format
 msgid "Game: Changed homecity of %s to %s."
 msgstr "Spiel: Heimatstadt von %s in %s geändert."
 
-#: server/citytools.c:725
+#: server/citytools.c:577
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
 msgstr "Spiel: %s in %s von %s nach %s transportiert."
 
-#: server/citytools.c:734
+#: server/citytools.c:586
 #, c-format
 msgid "Game: Transfered %s from %s to %s."
 msgstr "Spiel: %s von %s nach %s überführt."
 
-#: server/citytools.c:912
+#: server/citytools.c:764
 #, c-format
 msgid "Game: You lost your capital %s. A new palace was built in %s."
 msgstr "Spiel: Hauptstadt %s verloren! Ein neuer Palast wurde in %s errichtet."
 
-#: server/citytools.c:971
+#: server/citytools.c:823
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Es gab bereits eine Stadt namens %s. Sie wurde in %s umbenannt."
 
-#: server/citytools.c:1068
+#: server/citytools.c:920
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -664,34 +650,34 @@ msgstr ""
 "       begeistert! Die Arbeiter haben die Stadt spontan mit einer\n"
 "       Eisenbahn ausgestattet."
 
-#: server/citytools.c:1080 server/citytools.c:1258
+#: server/citytools.c:932 server/citytools.c:1110
 #, c-format
 msgid "%s lose %s (%i,%i)"
 msgstr "Die %s verlieren %s (%i,%i)"
 
-#: server/citytools.c:1103
+#: server/citytools.c:955
 #, c-format
 msgid "%s (%i, %i) founded by the %s"
 msgstr "%s (%i, %i) von den %s gegründet"
 
-#: server/citytools.c:1237
+#: server/citytools.c:1089
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Spiel: %s gegründet."
 
-#: server/citytools.c:1284
+#: server/citytools.c:1136
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spiel: Heimatstadt von %s in %s geändert."
 
-#: server/citytools.c:1315
+#: server/citytools.c:1167
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 "Spiel: Die %s sind aus der aufgelösten Stadt %s geflohen, um eine Strandung "
 "zu vermeiden."
 
-#: server/citytools.c:1326
+#: server/citytools.c:1178
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -700,61 +686,61 @@ msgstr ""
 "Spiel: Als %s aufgelöst wurde sind die %s gestrandet, da sie nicht fliehen "
 "konnten."
 
-#: server/citytools.c:1429
+#: server/citytools.c:1281
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spiel: %s völlig zerstört."
 
-#: server/citytools.c:1431
+#: server/citytools.c:1283
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spiel: %s wurde von %s zerstört."
 
-#: server/citytools.c:1433
+#: server/citytools.c:1285
 #, c-format
 msgid "%s (%s) (%i,%i) destroyed by %s"
 msgstr "%s (%s) (%i,%i) von den %s zerstört"
 
-#: server/citytools.c:1451
+#: server/citytools.c:1303
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spiel: %s erobert. Beute im Wert von %d Goldstücken gemacht!"
 
-#: server/citytools.c:1455
+#: server/citytools.c:1307
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spiel: %s eroberte %s und machte Beute im Wert von %d Goldstücken."
 
-#: server/citytools.c:1458
+#: server/citytools.c:1310
 #, c-format
 msgid "%s (%s) (%i,%i) conquered by %s"
 msgstr "%s (%s) (%i,%i) von den %s erorbert"
 
-#: server/citytools.c:1463
+#: server/citytools.c:1315
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spiel: %s befreit! Beute im Wert von %d Goldstücken gemacht."
 
-#: server/citytools.c:1468
+#: server/citytools.c:1320
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spiel: %s befreite %s und machte Beute im Wert von %d Goldstücken."
 
-#: server/citytools.c:1471
+#: server/citytools.c:1323
 #, c-format
 msgid "%s (%s) (%i,%i) liberated by %s"
 msgstr "%s (%s) (%i,%i) von den %s befreit"
 
-#: server/citytools.c:1974
+#: server/citytools.c:1826
 msgid " from the worklist"
 msgstr " aus der Arbeitsliste"
 
-#: server/citytools.c:1984
+#: server/citytools.c:1836
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spiel: %s baut %s%s."
 
-#: server/citytools.c:1988
+#: server/citytools.c:1840
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spiel: %s baut %s."
@@ -898,7 +884,7 @@ msgstr ""
 #: server/cityturn.c:992
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
-msgstr "Spiel: Die %s haben %s und %s von den %s übernommen."
+msgstr "Spiel: Die %s haben %s und %s durch %s erhalten."
 
 #: server/cityturn.c:999
 #, c-format
@@ -1065,7 +1051,7 @@ msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
-#: server/civserver.c:148 client/gui-gtk-2.0/gui_main.c:263
+#: server/civserver.c:148 client/gui-gtk-2.0/gui_main.c:264
 #: client/gui-gtk/gui_main.c:166 client/gui-mui/gui_main.c:102
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -1119,17 +1105,19 @@ msgstr ""
 msgid "Game: You don't have enough gold, you can't accept treaty."
 msgstr "Spiel: Nicht genug Gold, um dem Abkommen zustimmen zu können."
 
-#: server/diplhand.c:208 server/diplhand.c:211
+#: server/diplhand.c:210 server/diplhand.c:215
 #, c-format
-msgid "Game: A treaty containing %d clauses was agreed upon."
-msgstr "Spiel: Ein Abkommen mit %d Klauseln wurde vereinbart."
+msgid "Game: A treaty containing %d clause was agreed upon."
+msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgstr[0] "Spiel: Ein Abkommen mit 1 Klausel wurde vereinbart."
+msgstr[1] "Spiel: Ein Abkommen mit %d Klauseln wurde vereinbart."
 
-#: server/diplhand.c:213
+#: server/diplhand.c:219
 #, c-format
 msgid "%s and %s agree to a treaty"
 msgstr "Die %s und die %s schließen ein Abkommen"
 
-#: server/diplhand.c:228 server/diplhand.c:232
+#: server/diplhand.c:234 server/diplhand.c:238
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
@@ -1137,94 +1125,94 @@ msgstr ""
 "Spiel: Eine der Städte, die %s abgeben möchte, wurde zerstört! Das Abkommen "
 "ist gegenstandslos!"
 
-#: server/diplhand.c:239 server/diplhand.c:244
+#: server/diplhand.c:245 server/diplhand.c:250
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Spiel: Die %s regieren %s nicht mehr! Das Abkommen ist gegenstandslos!"
 
-#: server/diplhand.c:254 server/diplhand.c:258
+#: server/diplhand.c:260 server/diplhand.c:264
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 "Spiel: Die %s haben das versprochene Gold nicht! Das Abkommen ist "
 "gegenstandslos!"
 
-#: server/diplhand.c:277
+#: server/diplhand.c:283
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Spiel: Die Kenntnis über %s wurde vermittelt."
 
-#: server/diplhand.c:281
+#: server/diplhand.c:287
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s übernommen."
 
-#: server/diplhand.c:286
+#: server/diplhand.c:292
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "Die %s erhalten %s von den %s (Abkommen)"
 
-#: server/diplhand.c:296
+#: server/diplhand.c:302
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Spiel: %d Goldstücke erhalten."
 
-#: server/diplhand.c:302
+#: server/diplhand.c:308
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Spiel: %ss Weltkarte erhalten."
 
-#: server/diplhand.c:307
+#: server/diplhand.c:313
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Spiel: %ss Seekarte erhalten."
 
-#: server/diplhand.c:322
+#: server/diplhand.c:328
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Spiel: Stadt %s von %s erhalten."
 
-#: server/diplhand.c:326
+#: server/diplhand.c:332
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Spiel: Stadt %s an %s abgegeben."
 
-#: server/diplhand.c:338 server/diplhand.c:341
+#: server/diplhand.c:344 server/diplhand.c:347
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Spiel: Waffenstillstand mit %s."
 
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:356 server/diplhand.c:359
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Spiel: Friedensvertrag mit %s."
 
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:368 server/diplhand.c:371
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Spiel: Allianz mit %s."
 
-#: server/diplhand.c:373
+#: server/diplhand.c:379
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Spiel: %s darf unsere Karte einsehen."
 
-#: server/diplhand.c:376
+#: server/diplhand.c:382
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Spiel: %s läßt uns die Karte einsehen."
 
-#: server/diplhand.c:477
+#: server/diplhand.c:483
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Spiel: %s hat die Konferenz abgesagt!"
 
-#: server/diplhand.c:483
+#: server/diplhand.c:489
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Spiel: Treffen mit %s abgesagt."
 
-#: server/diplhand.c:526
+#: server/diplhand.c:532
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr "KI Spieler können nicht an Konferenzen teilnehmen."
 
@@ -1607,11 +1595,11 @@ msgstr "Kartengenerator 3 hat nicht alle großen Inseln erzeugt."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Kartengenerator 3 hat %li Land nicht plaziert."
 
-#: server/maphand.c:118
+#: server/maphand.c:119
 msgid "Game: Global warming has occurred!"
 msgstr "Spiel: Es ist zu globaler Erwärmung gekommen!"
 
-#: server/maphand.c:119
+#: server/maphand.c:120
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
@@ -1619,18 +1607,18 @@ msgstr ""
 "Spiel: Küstengebiete wurden überflutet und große Teile des Graslands sind zu "
 "Wüsten geworden."
 
-#: server/maphand.c:162
+#: server/maphand.c:163
 msgid "Game: Nuclear winter has occurred!"
 msgstr "Spiel: Es ist zu einem nuklearen Winter gekommen!"
 
-#: server/maphand.c:163
+#: server/maphand.c:164
 msgid ""
 "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 "Spiel: Feuchtgebiete sind ausgetrocknet und große Teile des Graslands sind "
 "zu Tundra geworden."
 
-#: server/maphand.c:184
+#: server/maphand.c:185
 msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
@@ -1639,7 +1627,7 @@ msgstr ""
 "Spiel: Als die Entwicklung der Eisenbahn bekannt gegeben wird, fassen\n"
 "       die Arbeiter neuen Mut. Spontan statten sie alle Städte damit aus."
 
-#: server/maphand.c:190
+#: server/maphand.c:191
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
@@ -1649,7 +1637,7 @@ msgstr ""
 "unsere Wissenschaftler.\n"
 "       Spontan haben sie alle Städte damit ausgestattet."
 
-#: server/maphand.c:1216
+#: server/maphand.c:1233
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s läßt uns nicht mehr in die Karte sehen!"
@@ -1818,13 +1806,13 @@ msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 msgid "Tax"
 msgstr "Steuern"
 
-#: server/plrhand.c:648 client/agents/cma_core.c:1955
+#: server/plrhand.c:648 client/agents/cma_core.c:1998
 #: client/gui-gtk-2.0/gamedlgs.c:265 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luxus"
 
-#: server/plrhand.c:650 client/agents/cma_core.c:1957
+#: server/plrhand.c:650 client/agents/cma_core.c:2000
 #: client/gui-gtk-2.0/gamedlgs.c:285 client/gui-gtk-2.0/repodlgs.c:129
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -4153,7 +4141,7 @@ msgstr "Serverausgabe ändern: 'RFC-Stl' oder 'Standard-Stil'"
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: server/stdinhand.c:1361 client/packhand.c:991
+#: server/stdinhand.c:1361 client/packhand.c:1000
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5272,54 +5260,54 @@ msgstr[1] "Spiel: %d Einheiten bei einem Angriff von %ss %s%s verloren."
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spiel: %s beim Angriff von %ss %s verloren."
 
-#: server/unittools.c:2125
+#: server/unittools.c:2127
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spiel: %s wurde von %s atomar angegriffen."
 
-#: server/unittools.c:2127 server/unittools.c:2143
+#: server/unittools.c:2129 server/unittools.c:2145
 msgid "yourself"
 msgstr "selbst"
 
-#: server/unittools.c:2131
+#: server/unittools.c:2133
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spiel: %s's %s wurde atomar angegriffen."
 
-#: server/unittools.c:2141
+#: server/unittools.c:2143
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spiel: %s wurde von %s atomar angegriffen."
 
-#: server/unittools.c:2148
+#: server/unittools.c:2150
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spiel: %s atomar angegriffen."
 
-#: server/unittools.c:2185
+#: server/unittools.c:2187
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Spiel: %s hat eine Atombombe gezündet."
 
-#: server/unittools.c:2223
+#: server/unittools.c:2225
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spiel: %s transportiert."
 
-#: server/unittools.c:2244
+#: server/unittools.c:2246
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spiel: Diese Einheit kann nicht Fallschirmspringen."
 
-#: server/unittools.c:2253
+#: server/unittools.c:2255
 msgid "Game: The destination location is not known."
 msgstr "Spiel: Der Zielort ist nicht bekannt."
 
-#: server/unittools.c:2259
+#: server/unittools.c:2261
 msgid "Game: Cannot paradrop into ocean."
 msgstr ""
 "Spiel: Über dem Ozean können keine Fallschirmspringer abgesetzt werden."
 
-#: server/unittools.c:2268
+#: server/unittools.c:2270
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5327,71 +5315,71 @@ msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit (%"
 "i)."
 
-#: server/unittools.c:2280
+#: server/unittools.c:2282
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spiel: Die %s landeten im Ozean und ertranken."
 
-#: server/unittools.c:2292
+#: server/unittools.c:2294
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Spiel: Die %s wurden von feindlichen Einheiten bei der Landung vernichtet."
 
-#: server/unittools.c:2315
+#: server/unittools.c:2317
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spiel: %d Goldstücke erhalten."
 
-#: server/unittools.c:2341
+#: server/unittools.c:2343
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spiel: %s aus überlieferten Texten gelernt."
 
-#: server/unittools.c:2343
+#: server/unittools.c:2345
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "Die %s haben %s erforscht."
 
-#: server/unittools.c:2345
+#: server/unittools.c:2347
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr ""
 "Spiel: Die %s haben die Kenntnis über %s in überlieferten wissenschaftlichen "
 "Texten gefunden."
 
-#: server/unittools.c:2365
+#: server/unittools.c:2367
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spiel: Eine Gruppe Söldner stellt sich zur Verfügung."
 
-#: server/unittools.c:2382
+#: server/unittools.c:2384
 msgid "Game: An abandoned village is here."
 msgstr "Spiel: Hier ist eine verlassene Ortschaft."
 
-#: server/unittools.c:2394
+#: server/unittools.c:2396
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spiel: Barbarenhorde freigesetzt."
 
-#: server/unittools.c:2397
+#: server/unittools.c:2399
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spiel: Barbaren haben %s vernichtet."
 
-#: server/unittools.c:2413
+#: server/unittools.c:2415
 msgid "Game: You found a friendly city."
 msgstr "Spiel: Eine unabhängige Stadt schließt sich an."
 
-#: server/unittools.c:2418
+#: server/unittools.c:2420
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Spiel: Eine Gruppe Nomaden stellt sich zur Verfügung."
 
-#: server/unittools.c:2442
+#: server/unittools.c:2444
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spiel: Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       daß sie in alle Himmelsrichtungen flohen."
 
-#: server/unittools.c:3076
+#: server/unittools.c:3083
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5680,7 +5668,7 @@ msgstr "H"
 msgid "Number of Trade Routes"
 msgstr "Anzahl der Handelswege"
 
-#: client/cityrepdata.c:226 client/agents/cma_core.c:1947
+#: client/cityrepdata.c:226 client/agents/cma_core.c:1990
 #: client/gui-gtk-2.0/repodlgs.c:832 client/gui-gtk/repodlgs.c:781
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -5771,102 +5759,102 @@ msgstr "Spiel begonnen."
 msgid "There was an error while auto connecting; aborting."
 msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
 
-#: client/climisc.c:311
+#: client/climisc.c:304
 #, c-format
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spiel: Anstatt %s werden jetzt überall %s (auf)gebaut."
 
-#: client/climisc.c:351
+#: client/climisc.c:344
 msgid "?embassy:Both"
 msgstr "?embassy:beide"
 
-#: client/climisc.c:353
+#: client/climisc.c:346
 msgid "?embassy:Yes"
 msgstr "?embassy:ja"
 
-#: client/climisc.c:355
+#: client/climisc.c:348
 msgid "?embassy:With Us"
 msgstr "?embassy:bei uns"
 
-#: client/climisc.c:367
+#: client/climisc.c:360
 msgid "?vision:Both"
 msgstr "?vision:beide"
 
-#: client/climisc.c:369
+#: client/climisc.c:362
 msgid "?vision:To Them"
 msgstr "?vision:sie"
 
-#: client/climisc.c:371
+#: client/climisc.c:364
 msgid "?vision:To Us"
 msgstr "?vision:wir"
 
-#: client/climisc.c:386 client/climisc.c:393
+#: client/climisc.c:379 client/climisc.c:386
 #, c-format
 msgid "The %s give %s"
 msgstr "Die %s geben %s"
 
-#: client/climisc.c:397
+#: client/climisc.c:390
 #, c-format
 msgid "The %s give unknown city."
 msgstr "Die %s geben eine unbekannte Stadt."
 
-#: client/climisc.c:402
+#: client/climisc.c:395
 #, c-format
 msgid "The %s give %d gold"
 msgstr "Die %s geben %d Goldstücke"
 
-#: client/climisc.c:407
+#: client/climisc.c:400
 #, c-format
 msgid "The %s give their worldmap"
 msgstr "Die %s geben ihre Weltkarte"
 
-#: client/climisc.c:411
+#: client/climisc.c:404
 #, c-format
 msgid "The %s give their seamap"
 msgstr "Die %s geben ihre Seekarte"
 
-#: client/climisc.c:415
+#: client/climisc.c:408
 msgid "The parties agree on a cease-fire"
 msgstr "Die Verhandlungspartner vereinbaren einen Waffenstillstand"
 
-#: client/climisc.c:418
+#: client/climisc.c:411
 msgid "The parties agree on a peace"
 msgstr "Die Verhandlungspartner vereinbaren Frieden"
 
-#: client/climisc.c:421
+#: client/climisc.c:414
 msgid "The parties create an alliance"
 msgstr "Die Verhandlungspartner schließen eine Allianz"
 
-#: client/climisc.c:424
+#: client/climisc.c:417
 #, c-format
 msgid "The %s gives shared vision"
 msgstr "Die %s erlauben uns ihre Karte einzusehen"
 
-#: client/climisc.c:547
+#: client/climisc.c:540
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02dSek"
 
-#: client/climisc.c:550
+#: client/climisc.c:543
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dMin %02dSek"
 
-#: client/climisc.c:553
+#: client/climisc.c:546
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dStd %02dMin"
 
-#: client/climisc.c:556
+#: client/climisc.c:549
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dTge %02dStd"
 
-#: client/climisc.c:559
+#: client/climisc.c:552
 msgid "?duration:overflow"
 msgstr "?duration:überschritten"
 
-#: client/climisc.c:1110
+#: client/climisc.c:1103
 msgid ""
 "Population:       1234\n"
 "Support:           100 %\n"
@@ -5884,23 +5872,23 @@ msgstr ""
 "Erfolgswahrscheinlichkeit:   100 %\n"
 "Ankunftsjahr:               1234 AD"
 
-#: client/climisc.c:1121
+#: client/climisc.c:1114
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisezeit:       %5.1f Jahre"
 
-#: client/climisc.c:1125
+#: client/climisc.c:1118
 msgid "Travel time:        N/A     "
 msgstr "Reisezeit:          ?       "
 
-#: client/climisc.c:1136
+#: client/climisc.c:1129
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Gewicht:         %5d t"
 msgstr[1] "Gewicht:         %5d t"
 
-#: client/climisc.c:1140
+#: client/climisc.c:1133
 #, c-format
 msgid ""
 "Population:      %5d\n"
@@ -5919,15 +5907,15 @@ msgstr ""
 "Erfolgswahrscheinlichkeit:  %5d %%\n"
 "Ankunftsjahr:               %8s"
 
-#: client/climisc.c:1182
+#: client/climisc.c:1175
 msgid "Exporting output window to civgame.log ..."
 msgstr "Speichere Textfenster in 'civgame.log'..."
 
-#: client/climisc.c:1186
+#: client/climisc.c:1179
 msgid "Export complete."
 msgstr "Fertig."
 
-#: client/climisc.c:1188
+#: client/climisc.c:1181
 msgid "Export failed, couldn't write to file."
 msgstr "NICHT GESPEICHERT: Datei konnte nicht geschrieben werden."
 
@@ -6763,46 +6751,46 @@ msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
 
-#: client/packhand.c:129
+#: client/packhand.c:130
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "Verbindungsaufbau abgelehnt: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:140
+#: client/packhand.c:141
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Client capability string: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:143
+#: client/packhand.c:144
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:666
+#: client/packhand.c:673
 #, c-format
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:736
+#: client/packhand.c:743
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1214
+#: client/packhand.c:1223
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1215
+#: client/packhand.c:1224
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1215
+#: client/packhand.c:1224
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:1225
+#: client/packhand.c:1234
 msgid "Game: Revolution finished"
 msgstr "Spiel: Revolution beendet."
 
@@ -6860,13 +6848,13 @@ msgstr ""
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Couldn't load gfx file for the spec file %s"
 
-#: client/agents/cma_core.c:1733
+#: client/agents/cma_core.c:640
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr ""
 "ASV: %s wird nicht mehr von uns verwaltet, da es uns nicht mehr gehört."
 
-#: client/agents/cma_core.c:1752
+#: client/agents/cma_core.c:1789
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -6874,7 +6862,7 @@ msgstr ""
 "ASV: Die Vorgaben für %s können nicht eingehalten werden. Kontrolle "
 "abgegeben."
 
-#: client/agents/cma_core.c:1761
+#: client/agents/cma_core.c:1798
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6882,7 +6870,7 @@ msgstr ""
 "ASV: Da sich %s geändert hat, sind die bisherigen Berechnungen nicht mehr "
 "gültig. Die Neuberechnung erfolgt automatisch."
 
-#: client/agents/cma_core.c:1778 client/agents/cma_core.c:1786
+#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6893,19 +6881,19 @@ msgstr ""
 "liegen: Bitte informieren Sie <freeciv-dev@freeciv.org>. Die ASV für diese "
 "Stadt wird deshalb jetzt abgeschaltet."
 
-#: client/agents/cma_core.c:1949 client/gui-gtk-2.0/repodlgs.c:831
+#: client/agents/cma_core.c:1992 client/gui-gtk-2.0/repodlgs.c:831
 #: client/gui-gtk/repodlgs.c:781 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Schild"
 
-#: client/agents/cma_core.c:1951 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:1994 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 msgid "Trade"
 msgstr "Handel"
 
-#: client/agents/cma_core.c:1953 client/gui-gtk-2.0/citydlg.c:549
+#: client/agents/cma_core.c:1996 client/gui-gtk-2.0/citydlg.c:549
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1687
 #: data/default/terrain.ruleset:376 data/civ2/terrain.ruleset:376
 #: data/civ1/terrain.ruleset:368
@@ -8499,17 +8487,17 @@ msgstr "Bestimmungsort wählen"
 msgid "_Goto"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk-2.0/gui_main.c:495 client/gui-gtk-2.0/gui_main.c:911
+#: client/gui-gtk-2.0/gui_main.c:496 client/gui-gtk-2.0/gui_main.c:912
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:777
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:672 client/gui-gtk/gui_main.c:569
+#: client/gui-gtk-2.0/gui_main.c:673 client/gui-gtk/gui_main.c:569
 #: client/gui-win32/gui_main.c:391 data/Freeciv:2553
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:805 client/gui-gtk/gui_main.c:704
+#: client/gui-gtk-2.0/gui_main.c:806 client/gui-gtk/gui_main.c:704
 #: client/gui-mui/gui_main.c:1026 client/gui-win32/gui_main.c:442
 #: data/Freeciv:2744
 msgid ""
@@ -8521,7 +8509,7 @@ msgstr ""
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
 "und weitergegeben werden."
 
-#: client/gui-gtk-2.0/gui_main.c:1123 client/gui-gtk/gui_main.c:1011
+#: client/gui-gtk-2.0/gui_main.c:1124 client/gui-gtk/gui_main.c:1011
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""
