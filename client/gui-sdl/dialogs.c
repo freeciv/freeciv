@@ -624,6 +624,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   char cBuf[255];  
   int i, w = 0, h, n;
   
+  #define NUM_SEEN	20
+  
   n = unit_list_size(&ptile->units);
   
   if (!n || pUnit_Select_Dlg) {
@@ -708,7 +710,7 @@ void popup_unit_select_dialog(struct tile *ptile)
       set_wstate(pBuf, FC_WS_NORMAL);
     }
     
-    if (i > 14)
+    if (i > NUM_SEEN - 1)
     {
       set_wflag(pBuf , WF_HIDDEN);
     }
@@ -720,14 +722,14 @@ void popup_unit_select_dialog(struct tile *ptile)
   pUnit_Select_Dlg->pActiveWidgetList = pWindow->prev->prev;
   
   w += (DOUBLE_FRAME_WH + 2);
-  if (n > 15)
+  if (n > NUM_SEEN)
   {
-    n = create_vertical_scrollbar(pUnit_Select_Dlg, 1, 15, TRUE, TRUE);
+    n = create_vertical_scrollbar(pUnit_Select_Dlg, 1, NUM_SEEN, TRUE, TRUE);
     w += n;
     
     /* ------- window ------- */
     h = WINDOW_TILE_HIGH + 1 +
-	    10 * pWindow->prev->prev->size.h + FRAME_WH;
+	    NUM_SEEN * pWindow->prev->prev->size.h + FRAME_WH;
   }
   
   put_window_near_map_tile(pWindow, w, h, pUnit->x, pUnit->y);
@@ -1108,6 +1110,42 @@ static int adv_unit_select_callback(struct GUI *pWidget)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static int adv_unit_select_all_callback(struct GUI *pWidget)
+{
+  struct unit *pUnit = pWidget->data.unit;
+
+  popdown_advanced_terrain_dialog();
+  
+  if (pUnit) {
+    activate_all_units(pUnit->x, pUnit->y);
+  }
+  return -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int adv_unit_sentry_idle_callback(struct GUI *pWidget)
+{
+  struct unit *pUnit = pWidget->data.unit;
+
+  popdown_advanced_terrain_dialog();
+  
+  if (pUnit) {
+    struct tile *ptile = map_get_tile(pUnit->x, pUnit->y);
+    unit_list_iterate(ptile->units, punit) {
+      if (game.player_idx == punit->owner && (punit->activity == ACTIVITY_IDLE)
+	 && !punit->ai.control && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+        request_new_unit_activity(punit, ACTIVITY_SENTRY);
+      }
+    } unit_list_iterate_end;
+  }
+  return -1;
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 static int connect_here_callback(struct GUI *pWidget)
@@ -1348,7 +1386,7 @@ void popup_advanced_terrain_dialog(int x , int y)
         
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     /* ----------- */
     
@@ -1405,7 +1443,12 @@ void popup_advanced_terrain_dialog(int x , int y)
     {
       struct unit *pDefender, *pAttacker;
       struct GUI *pLast = pBuf;
-	
+      SDL_Color BLACK = {0, 0, 0, 255};
+      bool reset = FALSE;
+      int my_units = 0;
+      
+      #define ADV_NUM_SEEN  15
+      
       pDefender = (pFocus_Unit ? get_defender(pFocus_Unit, x, y) : NULL);
       pAttacker = (pFocus_Unit ? get_attacker(pFocus_Unit, x, y) : NULL);
       for(i=0; i<n; i++) {
@@ -1415,7 +1458,7 @@ void popup_advanced_terrain_dialog(int x , int y)
 	}
         pUnitType = unit_type(pUnit);
         if(pUnit->owner == game.player_idx) {
-          my_snprintf(cBuf , sizeof(cBuf),
+          my_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -1430,6 +1473,7 @@ void popup_advanced_terrain_dialog(int x , int y)
           pBuf->data.unit = pUnit;
           set_wstate(pBuf, FC_WS_NORMAL);
 	  add_to_gui_list(ID_LABEL, pBuf);
+	  my_units++;
 	} else {
 	  int att_chance, def_chance;
 	  
@@ -1451,23 +1495,30 @@ void popup_advanced_terrain_dialog(int x , int y)
 	  
 	  if (pAttacker && pAttacker == pUnit) {
 	    pStr->fgcol = *(get_game_colorRGB(COLOR_STD_RED));
+	    reset = TRUE;
 	  } else {
 	    if (pDefender && pDefender == pUnit) {
 	      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_GROUND));
+	      reset = TRUE;
 	    }
 	  }
 	  
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
           
+	  if (reset) {
+	    pStr->fgcol = BLACK;
+	    reset = FALSE;
+	  }
+	  
 	  add_to_gui_list(ID_LABEL, pBuf);
 	}
 	    
         w = MAX(w, pBuf->size.w);
         units_h += pBuf->size.h;
 	
-        if (i > 9)
+        if (i > ADV_NUM_SEEN - 1)
         {
-          set_wflag(pBuf , WF_HIDDEN);
+          set_wflag(pBuf, WF_HIDDEN);
         }
         
       }
@@ -1477,15 +1528,42 @@ void popup_advanced_terrain_dialog(int x , int y)
       pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
       pAdvanced_Terrain_Dlg->pBeginActiveWidgetList = pBuf;
             
-      if(n > 10)
+      if(n > ADV_NUM_SEEN)
       {
-        units_h = 10 * pBuf->size.h;
-       
+        units_h = ADV_NUM_SEEN * pBuf->size.h;
 	n = create_vertical_scrollbar(pAdvanced_Terrain_Dlg,
-						  1, 10, TRUE, TRUE);
+					1, ADV_NUM_SEEN, TRUE, TRUE);
 	w += n;
       }
-      
+
+      if (my_units > 1) {
+	
+	my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Ready all"), my_units);
+	create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	       cBuf, adv_unit_select_all_callback);
+        pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
+        set_wstate(pBuf, FC_WS_NORMAL);
+	pBuf->ID = ID_LABEL;
+	DownAdd(pBuf, pLast);
+	h += pBuf->size.h;
+	
+	my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
+	create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	       cBuf, adv_unit_sentry_idle_callback);
+        pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
+        set_wstate(pBuf, FC_WS_NORMAL);
+	pBuf->ID = ID_LABEL;
+	DownAdd(pBuf, pLast->prev);
+	h += pBuf->size.h;
+	
+	/* separator */
+        pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
+        pBuf->ID = ID_SEPARATOR;
+	DownAdd(pBuf, pLast->prev->prev);
+        h += pBuf->next->size.h;
+	  
+      }
+
     }
     else
     { /* n == 1 */
@@ -1539,14 +1617,12 @@ void popup_advanced_terrain_dialog(int x , int y)
               cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                  att_chance, def_chance);
 	    }
-	  
-	    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
-                  
+	    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);          
 	    add_to_gui_list(ID_LABEL, pBuf);
-  
             w = MAX(w, pBuf->size.w);
             units_h += pBuf->size.h;
 	    /* ---------------- */
+	    
 	    /* separator */
             pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
     
