@@ -7,12 +7,14 @@ Here and there, you'll see some comments marked as [...], containing more
 personal thoughts on the design, why it looks like it does, and sometimes what 
 went wrong. I hope developers will find that interesting too.
 
+To read about the AI, see README.AI
+
 ===========================================================================
 Basic
 ===========================================================================
 Freeciv is a client/server civilization style of game, written in C.
 The client is pretty dumb. Almost all calculations is performed on the
-server. 
+server.
 
 [It wasn't like this always. Originally more code was placed in the
 common/ dir, allowing the client to do some of the world updates itself. 
@@ -20,6 +22,15 @@ The end_of_turn city-refresh was for example performed both on the server
 and on the client. However things got quite complex, more and more info
 was needed on the client-side(security problem). Little by little we moved 
 more code to the server, and as of 1.5 the client is quite dumb -PU]
+
+The source code has the following important directories:
+common: data structures and code used by both the client and server.
+server: (duh)
+client: common client code
+client/* (fx gui-gtk): a specific gui implementation of the client.
+data: graphics, rulesets and stuff
+po: translations
+ai: the ai, later linked into the server.
 
 ===========================================================================
 Server
@@ -42,19 +53,48 @@ call waits for packets or input on stdin(server-op commands).
 ===========================================================================
 Data Structures
 ===========================================================================
-If you study the code, you'll soon come upon the genlist constructs.
-The genlist is a simple double-linked list, into which any kind of 
-data can be inserted. The basic genlist is only used in a few places,
-as it's completely type-unsafe(void*).
-However the genlist is used as a "base-class" for some typesafe versions,
-which are used all over the program. unit_list is just one example:
+For variable lenght list of fx units and cities freeciv uses a genlist,
+which is implemented in common/genlist.c. By some macro magic type specific
+macros have been defined, avoiding much trouble.
+For example a tile struct (the pointer to it we call ptile) has a unit
+list, ptile->units; to iterate though all the units on the tile you would
+do the following:
 
-struct unit_list {
-  struct genlist list;
-};
+unit_list_iterate(ptile->units, punit) {
+/* In here we could do something with punit, which is a pointer to a
+    unit struct */
+} unit_list_iterate_end;
 
-Here's an example of how to use an iterator, to scan a genlist:
+Note that the macro itself declares the variable punit.
+Similarly there is a 
 
+city_list_iterate(pplayer->cities, pcity) {
+/* Do something with pcity, the pointer to a city struct */
+} city_list_iterate_end;
+
+There are other operations than iterating that can be performed on a list;
+inserting, deleting, sorting etc. See common/speclist.h
+Note that the way the *_list_iterate macro is implemented means you can use
+"continue" and "break" in the usual manner.
+
+One thing you should keep in the back of your mind: Say you are iterating
+through a unit list, and then somewhere inside the iteration decide to
+disband a unit. In the server you would do this by calling
+wipe_unit(punit), which would then remove the unit node from all the
+relevant unit lists. But by the way unit_list_iterate works, if the removed
+unit was the following node unit_list_iterate will already have saved the
+pointer, and use it in a moment, with a segfault as the result.
+The way to avoid this is to use the function
+void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
+			 int wipe_cargo)
+and as the second argument write "myiter", a variable declared in the macro.
+The unit list will then automatically be kept sane.
+
+You can also define your own lists with operations like iterating; read how
+in common/speclist.h.
+
+[There was a time before the macros were developed, and raw genlists were used.
+Then a unit iteration would look like
 {
   struct unit_list *punit_list;
   struct genlist_iterator myiter;
@@ -63,46 +103,10 @@ Here's an example of how to use an iterator, to scan a genlist:
   genlist_iterator_init(&myiter, &punit_list->list, 0);
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     punit=(struct unit *)ITERATOR_PTR(myiter);
-    if(unit_can_defend_here(punit) && rate_unit(punit, aunit)>bestvalue) {
-      bestvalue=rate_unit(punit, aunit);
-      bestdef=punit;
-    }
+    /* do something with the unit */
   }
 }
-
-First the iterator is initialized with the list.
-
-ITERATOR_PTR(myiter) is a macro, returning a void* to the element
-pointed to by the iterator, NULL if the iterator doesn't point to
-an element.
-ITERATOR_NEXT(myiter) moves the iterator one element forward.
-
-Careful! The above idiom with the for-construct can be pretty lethal!
-If you inside the for-loop removes the element pointed to by myiter,
-then ITERATOR_NEXT(myiter) will probably return garbage.
-
-The following example shows a correct way of removing genlist elements
-while iterating through the list.
-
-  for(; ITERATOR_PTR(myiter);) {
-    struct unit *punit2=(struct unit *)ITERATOR_PTR(myiter);
-    ITERATOR_NEXT(myiter); /* !!! */
-    send_remove_unit(0, punit2->id);
-    game_remove_unit(punit2->id);
-  }
-
-As of 1.5.3 a number of high-level macros for scanning genlists have
-been made. The above loop can now be written as:
-
-  unit_list_iterate(punit_list, punit)
-    send_remove_unit(0, punit->id);
-    game_remove_unit(punit->id);
-  unit_list_iterate_end;
-
-[The genlist was in theory a good idea. However the implementation turned
-out quite crappy. The typecasting shouldn't have been necessary and using
-some more macro-magic, the much-used scan_all_the_list case could have
-been handled much more elegant. Well Claus just did this for 1.5.3 -PU]
+There are still examples of this in the code]
 
 =========================================================================
 Network and Packets
@@ -200,10 +204,66 @@ diplomacy loses link. I'm not sure the server Treaty is removed, making
 it impossible to establish a new Treaty between the two players -PU]
 
 =========================================================================
-Map and Fog of War
+Map structure
 =========================================================================
 The map is maintained in a pretty straightforward C array, containing
-X*Y tiles. However the 'known' field needs a comment.
+X*Y tiles. You can use the function
+struct tile *map_get_tile(x, y)
+to find a pointer to a specific tile.
+A tile has various fields; see the struct in common/map.h
+
+When operating on tiles you normally iterate over x and y and maybe use
+map_get_tile() to get the tile.
+When fx iterating in a square around a map position (x,y) the naive method
+
+for (x1 = x-1; x1 <= x+1; x1++)
+  for (y1 = y-1; y1 <= y+1; y1++)
+    /* do something */
+
+would sometimes, fx if (x,y) = (0,0) , give tiles like (-1,0) or (0,-1)
+Because the map wraps in the x direction the first position should be,
+assuming the map has the size (map.xsize,map.ysize), (map.xsize, 0), while
+the second tile (0,-1) is not a real time at all!
+This could be solved by the following:
+
+for (x1 = x-1; x1 <= x+1; x1++) {
+  for (y1 = y-1; y1 <= y+1; y1++) {
+    int abs_x = x1, abs_y = y1;
+    if (!normalize_map_pos(&abs_x, &abs_y))
+      continue;
+    /* do something with abs_x, abs_y */
+  }
+}
+
+normalize_map_pos() will adjust the values of abs_x, abs_y to fix within
+the map, and if the original pos does not correspond to a tile, as (0, -1),
+it will return 0.
+Alternatively this could have all been done via the macro call
+
+int x1, y1;
+square_iterate(x, y, 1/*radius*/, x1, y1)  {
+/* do something */
+} square_iterate_end;
+
+which automatically adjust the tile values. The defined macros should be
+used whenever possible, the example of a "manual" square iterate was only
+included to give people the knowledge of how things work.
+
+Also available is the function real_map_distance(), which takes wrap and
+such things into account. It does not however take terrain and roads, ect.
+into account. For that you would use a move_cost_map, which is generated
+via the function generate_warmap(), and calculates the distances from a
+tile to all other tiles on the map. See server/gotohand.c.
+
+Note that if all the code that operate on x and y values used macros, it
+would be very simple to convert these, to allow fx a flat world or a map
+structure like in civ2 for isometric view.
+
+=========================================================================
+Unknown tiles and Fog of War
+=========================================================================
+
+in the tile struct there is a field
 
 struct tile {
   ...
@@ -231,6 +291,9 @@ lookup the server has a bitvector sent similar to known. [You could do
 this by seeing if the tile in question already have a known tile adjacent,
 in which case the value would already would have been sent.]
 
+Fog of war is the fact that even when you have seen a tile once you are
+not sent updates unless it is inside the sight range of one of your units
+or cities.
 We keep track of fog of war by counting the number of units and cities
 [and nifty future things like radar outposts] of each client that can
 see the tile. This requires a number per player, per tile, so each tile
@@ -311,7 +374,7 @@ can ask me on <thue@diku.dk>.
 =========================================================================
 Client GUI- Athena 
 =========================================================================
-The client GUI is written using athena-widgets. A few comments on this 
+One client GUI is written using athena-widgets. A few comments on this 
 could prove useful for anyone wishing to write new dialogs or improve
 on the current ones.
 
@@ -363,11 +426,6 @@ current code, the id is also used for comparing, looking up and in general
 referencing entities. This results in a lot of mess and unnecessary duplicate
 functions. Often when programming, one wonders if some function needs
 the id or a pointer when referring to an entity. -PU]
-
-[Currently there's a 1-to-1 mapping between players and connections. Some
-interesting results could be achieved, if more connections could be attached
-to a single player(race). That way 2 persons could play cooperate, splitting 
-the work between them. -PU]
 
 ===========================================================================
 
