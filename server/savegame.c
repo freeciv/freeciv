@@ -1307,6 +1307,16 @@ static void worklist_save(struct section_file *file,
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
     secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
+    if (pwl->wlefs[i] == WEF_END) {
+      break;
+    }
+  }
+
+  /* Fill out remaining worklist entries. */
+  for (i++; i < MAX_LEN_WORKLIST; i++) {
+    /* These values match what worklist_load fills in for unused entries. */
+    secfile_insert_int(file, WEF_END, efpath, plrno, wlinx, i);
+    secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
   }
 }
 
