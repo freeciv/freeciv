@@ -204,17 +204,11 @@ void add_city_to_minimap(int x, int y)
 **************************************************************************/
 void locally_zero_minimap(int x, int y)
 {
-  int i, j, n, xx;
-  for (j = -2; j <= 2; j++) {
-    if (y+j < 0 || y+j >= map.ysize) continue;
-    for (i = -2; i <= 2; i++) {
-      xx = map_adjust_x(x+i);
-      n = i * i + j * j;
-      if (n <= 5) {
-        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
-      }
-    }
-  }
+  int x_itr, y_itr;
+
+  map_city_radius_iterate(x, y, x_itr, y_itr) {
+    if (minimap[x_itr][y_itr] > 0) minimap[x_itr][y_itr] = 0;
+  } map_city_radius_iterate_end;
 }
 #endif
 
