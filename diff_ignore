@@ -1,9 +1,11 @@
 #*#
 *.a
 *.bak
+*.diff
 *.gmo
 *.o
 *.orig
+*.patch
 *.pot
 *.pox
 *.rej
