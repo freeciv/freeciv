@@ -46,6 +46,8 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
+struct sockaddr;
+
 int my_readsocket(int sock, void *buf , size_t size);
 int my_writesocket(int sock, const void *buf, size_t size); 
 void my_closesocket(int sock);
