@@ -66,7 +66,7 @@ extern const char *client_option_class_names[];
 typedef struct client_option {
   const char *name;
   const char *description;
-  enum client_option_class class;
+  enum client_option_class category;
   enum client_option_type type;
   int *p_int_value;
   bool *p_bool_value;
