@@ -913,15 +913,10 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
         }
         break;
       default:
-        /* FIXME? This is never reached? */
-        if (real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE 
-            <= move_rate) {
-          /* It's adjectent. */
-          move_time = 1;
-        } else {
-          move_time = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE
-                      * victim_move_rate / move_rate;
-        }
+        /* This should be never reached. */
+        freelog(LOG_ERROR, "Attempting to deal with non-trivial move_type"
+                "in process_attacker_want");
+        continue;
       }
 
       /* Estimate strength of the enemy. */
@@ -1007,220 +1002,291 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
 }
 
 /************************************************************************** 
-...
+This function 
+1. receives (in myunit) a first estimate of what we would like to build.
+2. finds a potential victim for it.
+3. estimates the want of the attack.
+4. finds the best attacker for this type of victim.
+5. if we still want to attack, records the best attacker in choice.
+TODO: 3 is _completely_ redundant.  All the work is doubled in 
+process_attacker_want, although with very few dopy variations.
 **************************************************************************/
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
 				struct unit *myunit, struct ai_choice *choice)
 {
-  int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
-  Unit_Type_id v, n;
-  int m;
-  bool vet;
-  int dist, b0, fprime;
+  /* Our attack rating (with reinforcements) */
+  int attack;
+  /* Rating of future defender */
+  int vuln;
+  /* Benefit from fighting the target */
+  int benefit;
+  /* Want (amortized) of the operation */
+  int want;
+  /* Build cost of attacker (+adjustments) */
+  int bcost, bcost_bal;
+  /* Number of defenders in the stack */
+  int victim_count;
+  Unit_Type_id att_type;
+  /* Enemy defender type */
+  Unit_Type_id def_type;
+  /* Our move rate */
+  int move_rate;
+  /* Distance to target (in turns) */
+  int move_time;
+  /* Target coordinates */
   int x, y;
   bool unhap = FALSE;
-  struct unit *pdef, *aunit, *ferryboat;
+  /* Our transport */
+  struct unit *ferryboat = NULL;
+  /* Out target */
   struct city *acity;
-  int boatid = 0, bx = 0, by = 0;
-  int needferry = 0, fstk, boatspeed;
-  bool sanity;
+  /* Defender of the target city/tile */
+  struct unit *pdef; 
+  /* Coordinates of the boat */
+  int bx = 0, by = 0;
+  int needferry = 0, boatspeed;
+  bool go_by_boat;
+  /* Is the defender veteran? */
+  bool def_vet;
 
-  if (pcity->ai.danger != 0 && assess_defense(pcity) == 0) return;
+  if (pcity->ai.danger != 0 && assess_defense(pcity) == 0) {
+    /* Defence comes first! */
+    return;
+  }
 
-  if (is_ground_unit(myunit)) boatid = find_boat(pplayer, &bx, &by, 2);
+  if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
+    freelog(LOG_ERROR, "Attempting to deal with non-trivial unit_type"
+            "in kill_something_with");
+    return;
+  }
 
-  ferryboat = player_find_unit_by_id(pplayer, boatid);
+  if (is_ground_unit(myunit)) {
+    int boatid = find_boat(pplayer, &bx, &by, 2);
+    ferryboat = player_find_unit_by_id(pplayer, boatid);
+  }
+
   /* FIXME: hardcoded boat speed */
- if (ferryboat) boatspeed = (unit_flag(ferryboat, F_TRIREME)
-			     ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
-  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
-		    ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
+  if (ferryboat) {
+    boatspeed = (unit_flag(ferryboat, F_TRIREME) 
+                 ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
+  } else { 
+    boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
+                 ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
+  }
 
-  fstk = find_something_to_kill(pplayer, myunit, &x, &y);
+  (void) find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
-  if (!acity) {
-    aunit = get_defender(myunit, x, y);
-  } else {
-    aunit = NULL;
+
+  att_type = myunit->type;
+  if (myunit->id != 0) {
+    freelog(LOG_ERROR, "Non-virtual unit in kill_something_with!");
+    return;
   }
-
-  if (acity && !pplayers_at_war(pplayer, city_owner(acity))) {
-    acity = NULL;
+  
+  move_rate = unit_types[att_type].move_rate;
+  if (unit_type_flag(att_type, F_IGTER)) {
+    /* See comment in unit_move_turns */
+    move_rate *= 3;
   }
+    
+  attack = unit_belligerence_basic(myunit);
+  if (acity) {
+    attack += acity->ai.attack;
+  }
+  attack *= attack;
+  
+  if (acity) {
+ 
+    if (!pplayers_at_war(pplayer, city_owner(acity))) {
+      /* Not a valid target */
+      return;
+    }
 
-/* this code block and the analogous block in f_s_t_k should be calls
-to the same utility function, but I don't want to break anything right
-before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
-
-/* logically we should adjust this for race attack tendencies */
-  if ((acity || aunit)) {
-    v = myunit->type;
-    vet = myunit->veteran;
-
-    a = unit_belligerence_basic(myunit);
-    if (acity) a += acity->ai.attack;
-    a *= a;
-
-    if (acity) {
-      pdef = get_defender(myunit, x, y);
-
-      m = unit_types[v].move_rate;
-      if (unit_type_flag(v, F_IGTER)) m *= 3; /* not quite right */
-
-      sanity = (goto_is_sane(myunit, acity->x, acity->y, TRUE) &&
-              warmap.cost[x][y] <= (MIN(6, m) * THRESHOLD));
-
-      if (is_ground_unit(myunit)) {
-        if (!sanity) {
-          if (boatid != 0) c = (warmap.cost[bx][by] + m - 1) / m + 1 +
-                warmap.seacost[acity->x][acity->y] / boatspeed; /* kluge */
-          else c = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
-          if (unit_flag(myunit, F_MARINES)) c -= 1;
-	  freelog(LOG_DEBUG, "%s attempting to attack via ferryboat"
-			" (boatid = %d, c = %d)", unit_types[v].name, boatid, c);
-        } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
-      } else if (is_sailing_unit(myunit))
-        c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
-      else c = real_map_distance(myunit->x, myunit->y, acity->x, acity->y) * SINGLE_MOVE / m;
-
-      n = ai_choose_defender_versus(acity, v);
-      if (c > 1) {
-	d = unit_vulnerability_virtual2(v, n, x, y, FALSE,
-					do_make_unit_veteran(acity, n),
-					FALSE, 0);
-        b = unit_types[n].build_cost + 40;
-        vet = do_make_unit_veteran(acity, n);
-      } else {
-        d = 0;
-        b = 40;
-        vet = FALSE;
-      }
-      if (pdef) {
-/*        n = pdef->type;    Now, really, I could not possibly have written this.
-Yet, somehow, this line existed, and remained here for months, bugging the AI
-tech progression beyond all description.  Only when adding the override code
-did I realize the magnitude of my transgression.  How despicable. -- Syela */
-	m = unit_vulnerability_virtual2(v, pdef->type, x, y, FALSE,
-					pdef->veteran, myunit->id != 0,
-					pdef->hp);
-        if (d < m) {
-          d = m;
-          b = unit_type(pdef)->build_cost + 40; 
-          vet = pdef->veteran;
-          n = pdef->type; /* and not before, or heinous things occur!! */
+    pdef = get_defender(myunit, x, y);
+    victim_count 
+      = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+    
+    go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
+                  && warmap.cost[x][y] <= (MIN(6, move_rate) * THRESHOLD));
+    
+    if (is_ground_unit(myunit)) {
+      if (go_by_boat) {
+        if (ferryboat) {
+          /* Time to boat and then to destination and then disembark */
+          move_time = (warmap.cost[bx][by] + move_rate - 1) / move_rate
+            + warmap.seacost[acity->x][acity->y] / boatspeed + 1;
+        } else {
+          /* We will build a boat here */
+          move_time = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
         }
-      }
-      if (!is_ground_unit(myunit) && !is_heli_unit(myunit) &&
-         !TEST_BIT(acity->ai.invasion, 0)) b -= 40; /* boats can't conquer cities */
-      if (myunit->id == 0 && (!unit_really_ignores_citywalls(myunit)) &&
-          c > (player_knows_improvement_tech(city_owner(acity),
-					     B_CITY) ? 2 : 4) &&
-          !city_got_citywalls(acity)) d *= 9;
-    } /* end dealing with cities */
-
-    else {
-      pdef = aunit; /* we KNOW this is the get_defender -- Syela */
-
-      m = unit_type(pdef)->build_cost;
-      b = m;
-      sanity = TRUE;
-
-      if (is_ground_unit(myunit)) dist = warmap.cost[x][y];
-      else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
-      else dist = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE;
-      if (dist > m) {
-        dist *= unit_type(pdef)->move_rate;
-        if (unit_flag(pdef, F_IGTER)) dist *= 3;
-      }
-      if (dist == 0) dist = 1;
-
-      m = unit_types[v].move_rate;
-      if (unit_type_flag(v, F_IGTER)) m *= 3; /* not quite right */
-      c = ((dist + m - 1) / m);
-
-      n = pdef->type;
-      d = unit_vulnerability_virtual2(v, n, x, y,
-				      pdef->activity == ACTIVITY_FORTIFIED,
-				      pdef->veteran, myunit->id != 0,
-				      pdef->hp);
-      vet = pdef->veteran;
-    } /* end dealing with units */
-
-    if (pcity->id == myunit->homecity || myunit->id == 0)
-      unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
-
-    if (is_ground_unit(myunit) && !sanity && boatid == 0)
-      needferry = 40; /* cost of ferry */
-    f = unit_types[v].build_cost;
-    fprime = build_cost_balanced(v);
-
-    if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
-    else g = 1;
-    if (unit_types[v].move_type != LAND_MOVING &&
-        unit_types[v].move_type != HELI_MOVING && !pdef) b0 = 0;
-/* !d instead of !pdef was horrible bug that led to yoyo-ing AI warships -- Syela */
-    else if (c > THRESHOLD) b0 = 0;
-    else if ((unit_types[v].move_type == LAND_MOVING ||
-              unit_types[v].move_type == HELI_MOVING) && acity &&
-              acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
-    else {
-      if (!acity) {
-	b0 = kill_desire(b, a, f, d, g);
+        if (unit_flag(myunit, F_MARINES)) {
+          /* No need to lose a turn getting off the boat */
+          move_time -= 1;
+        }
+        freelog(LOG_DEBUG, "%s attempting to attack via ferryboat"
+                " (move_time = %d)", unit_types[att_type].name, move_time);
       } else {
-       int a_squared = acity->ai.attack * acity->ai.attack;
-
-       b0 = kill_desire(b, a, f + acity->ai.bcost, d, g);
-       if (b * a_squared > acity->ai.bcost * d) {
-         b0 -= kill_desire(b, a_squared, acity->ai.bcost, d, g);
-	}
+        /* We are just walking */
+        move_time = (warmap.cost[acity->x][acity->y] + move_rate - 1) 
+          / move_rate;
+      }
+    } else {
+      /* We are a boat */
+      move_time = (warmap.seacost[acity->x][acity->y] + move_rate - 1) 
+        / move_rate;
+    }
+    
+    def_type = ai_choose_defender_versus(acity, att_type);
+    if (move_time > 1) {
+      def_vet = do_make_unit_veteran(acity, def_type);
+      vuln 
+        = unit_vulnerability_virtual2(att_type, def_type, x, y, FALSE,
+                                      def_vet, FALSE, 0);
+      benefit = unit_types[def_type].build_cost;
+    } else {
+      vuln = 0;
+      benefit = 0;
+      def_vet = FALSE;
+    }
+    if (pdef) {
+      int m = unit_vulnerability_virtual2(att_type, pdef->type, x, y, FALSE,
+                                      pdef->veteran, myunit->id != 0,
+                                      pdef->hp);
+      if (vuln < m) {
+        vuln = m;
+        benefit = unit_type(pdef)->build_cost;
+        def_vet = pdef->veteran;
+        def_type = pdef->type; 
       }
     }
-    b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
-    e = military_amortize(b0, MAX(1, c), fprime + needferry);
-
-#ifdef DEBUG
-    if (e != fstk && acity) {
-	freelog(LOG_DEBUG, "%s (%d, %d), %s#%d -> %s[%d] (%d, %d)"
-		" [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]",
-		pcity->name, pcity->x, pcity->y, unit_types[v].name,
-		myunit->id, acity->name, acity->ai.invasion,
-		acity->x, acity->y, a, b, c, d, e, fstk, f);
-    } else if (e != fstk && aunit) {
-	freelog(LOG_DEBUG, "%s (%d, %d), %s#%d -> %s (%d, %d)"
-		" [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]", 
-		pcity->name, pcity->x, pcity->y, unit_types[v].name,
-		myunit->id, unit_type(pdef)->name,
-		pdef->x, pdef->y, a, b, c, d, e, fstk, f);
+    if (is_ground_unit(myunit) || is_heli_unit(myunit) 
+        || TEST_BIT(acity->ai.invasion, 0)) {
+      /* boats can't conquer cities */
+      benefit += 40;
     }
-#endif
-
-    if (myunit->id == 0) {  /* I don't want to know what happens otherwise -- Syela */
-      if (sanity)
-        process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-           &e, &v, 0, 0, 0, needferry);
-      else if (boatid != 0) process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-           &e, &v, bx, by, boatspeed, needferry);
-      else process_attacker_want(pplayer, pcity, b, n, vet, x, y, unhap,
-           &e, &v, myunit->x, myunit->y, boatspeed, needferry);
+    if (!unit_really_ignores_citywalls(myunit) && !city_got_citywalls(acity)
+        && move_time > (player_knows_improvement_tech(city_owner(acity), 
+                                                      B_CITY) ? 2 : 4)) { 
+      /* Might get walls before we get there */
+      vuln *= 9;
     }
 
-    if (e > choice->want) { 
-      if (myunit->id == 0) {
-	choice->choice = v;
-	choice->type = CT_ATTACKER;
-	choice->want = e;
-	if (needferry != 0) ai_choose_ferryboat(pplayer, pcity, choice);
-	freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
-		pcity->name, unit_types[choice->choice].name, choice->want);
-      } else {
-	choice->choice = ai_choose_defender(pcity);
-	freelog(LOG_DEBUG, "%s has chosen defender, %s, want=%d",
-		pcity->name, unit_types[choice->choice].name, choice->want);
-	choice->type = CT_NONMIL;
-	choice->want = e;
+    /* end dealing with cities */
+  } else {
+    /* variable of unknown meaning */
+    int dist;
+
+    pdef = get_defender(myunit, x, y);
+    if (!pdef) {
+      /* Nobody to attack! */
+      return;
+    }
+
+    /* FIXME: what if fortress? */
+    victim_count = 1;    
+
+    benefit = unit_type(pdef)->build_cost;
+    go_by_boat = FALSE;
+    
+    if (is_ground_unit(myunit)) {
+      dist = warmap.cost[x][y];
+    } else {
+      /* We ar a boat */
+      dist = warmap.seacost[x][y];
+    } 
+    
+    /* FIXME: WHATS THIS??? 
+     * Seems like a poor attempt to take into account that 
+     * the victim can run away */
+    if (dist > benefit) {
+      dist *= unit_type(pdef)->move_rate;
+      if (unit_flag(pdef, F_IGTER)) {
+        dist *= 3;
       }
     }
+    if (dist == 0) {
+      dist = 1;
+    }
+
+    move_time = ((dist + move_rate - 1) / move_rate);
+    
+    def_type = pdef->type;
+    vuln = unit_vulnerability_virtual2(att_type, def_type, x, y,
+                                       pdef->activity == ACTIVITY_FORTIFIED,
+                                       pdef->veteran, myunit->id != 0,
+                                       pdef->hp);
+    def_vet = pdef->veteran;
+    /* end dealing with units */
+  }
+  
+  if (pcity->id == myunit->homecity || myunit->id == 0) {
+    unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
+  }  
+
+  if (is_ground_unit(myunit) && go_by_boat && !ferryboat) {
+    needferry = 40; /* cost of ferry */
+  }
+  bcost = unit_types[att_type].build_cost;
+  bcost_bal = build_cost_balanced(att_type);
+  
+  if (unit_types[att_type].move_type != LAND_MOVING &&
+      unit_types[att_type].move_type != HELI_MOVING && !pdef) {
+    /* Nobody there to atack! */
+    want = 0;
+  } else if (move_time > THRESHOLD) {
+    /* Too far */
+    want = 0;
+  } else if ((unit_types[att_type].move_type == LAND_MOVING ||
+            unit_types[att_type].move_type == HELI_MOVING) && acity &&
+           acity->ai.invasion == 2) {
+    want = bcost * SHIELD_WEIGHTING;
+  } else {
+    if (!acity) {
+      want = kill_desire(benefit, attack, bcost, vuln, victim_count);
+    } else {
+      int a_squared = acity->ai.attack * acity->ai.attack;
+      
+      want = kill_desire(benefit, attack, bcost + acity->ai.bcost, 
+                         vuln, victim_count);
+      if (benefit * a_squared > acity->ai.bcost * vuln) {
+        want -= kill_desire(benefit, a_squared, acity->ai.bcost, 
+                            vuln, victim_count);
+      }
+    }
+  }
+  want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
+                     : SHIELD_WEIGHTING);
+  want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
+  
+  if (myunit->id != 0) {
+    freelog(LOG_ERROR, "Non-virtual unit in kill_something_with");
+    return;
+  }
+
+  if (!go_by_boat) {
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
+                          x, y, unhap, &want, &att_type, 0, 0, 0, needferry);
+  } else if (ferryboat) { 
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
+                          x, y, unhap, &want, &att_type, 
+                          bx, by, boatspeed, needferry);
+  } else {
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
+                          x, y, unhap, &want, &att_type, 
+                          myunit->x, myunit->y, boatspeed, needferry);
+  }
+
+  if (want > choice->want) { 
+    /* We want attacker more that what we have selected before */
+    choice->choice = att_type;
+    choice->type = CT_ATTACKER;
+    choice->want = want;
+    if (needferry != 0) {
+      ai_choose_ferryboat(pplayer, pcity, choice);
+    }
+    freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
+            pcity->name, unit_types[choice->choice].name, choice->want);
   } 
 }
 
