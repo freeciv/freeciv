@@ -145,7 +145,7 @@ static void popup_map_menu(struct Diplomacy_dialog *pdialog,int plr)
   iteminfo.fMask = MIIM_DATA;
   iteminfo.cbSize = sizeof(MENUITEMINFO);
   SetMenuItemInfo(menu, ID_MAP_SEA, FALSE, &iteminfo);
-  AppendMenu(menu,MF_STRING,ID_MAP_WORLD,_("Wold-map"));
+  AppendMenu(menu,MF_STRING,ID_MAP_WORLD,_("World-map"));
   iteminfo.dwItemData = plr;
   iteminfo.fMask = MIIM_DATA;
   iteminfo.cbSize = sizeof(MENUITEMINFO);
