@@ -1228,9 +1228,10 @@ static void package_player_info(struct player *plr,
    * This may be an odd time to check these values but we can be sure
    * to have a consistent state here.
    */
-  assert((tech_exists(plr->research.researching)
-	  && plr->research.researching != A_NONE)
-	 || is_future_tech(plr->research.researching));
+  assert(server_state != RUN_GAME_STATE
+	 || ((tech_exists(plr->research.researching)
+	      && plr->research.researching != A_NONE)
+	     || is_future_tech(plr->research.researching)));
   assert((tech_exists(plr->ai.tech_goal) && plr->ai.tech_goal != A_NONE)
 	 || plr->ai.tech_goal == A_UNSET);
 }
