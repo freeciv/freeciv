@@ -4826,7 +4826,7 @@ EOF
 
 else
   echo "$ac_t""no" 1>&6
-{ echo "configure: error: Need X11; perhaps try/adjust --x-libraries" 1>&2; exit 1; }
+{ echo "configure: error: Need X11 libraries and development headers; perhaps try/adjust --x-libraries" 1>&2; exit 1; }
 fi
 
     echo $ac_n "checking for XShapeCombineMask in X library -lXext""... $ac_c" 1>&6
@@ -5011,7 +5011,7 @@ EOF
 
 else
   echo "$ac_t""no" 1>&6
-{ echo "configure: error: Need Xpm library; perhaps try/adjust --with-xpm-lib" 1>&2; exit 1; }
+{ echo "configure: error: Need Xpm library and development headers; perhaps try/adjust --with-xpm-lib" 1>&2; exit 1; }
 fi
 
 

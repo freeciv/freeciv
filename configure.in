@@ -182,7 +182,7 @@ if test x$client = xtrue; then
 
     dnl Checks for X libs:
     FC_CHECK_X_LIB(X11, XOpenDisplay, , 
-        AC_MSG_ERROR(Need X11; perhaps try/adjust --x-libraries))
+        AC_MSG_ERROR(Need X11 libraries and development headers; perhaps try/adjust --x-libraries))
     FC_CHECK_X_LIB(Xext, XShapeCombineMask)
 
     dnl Insert X_PRE_LIBS (eg -lSM -lICE) into X_EXTRA_LIBS here:
@@ -192,7 +192,7 @@ if test x$client = xtrue; then
     FC_CHECK_X_LIB(Xt, main)
     FC_CHECK_X_LIB(Xmu, main)
     FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , 
-        AC_MSG_ERROR(Need Xpm library; perhaps try/adjust --with-xpm-lib))
+        AC_MSG_ERROR(Need Xpm library and development headers; perhaps try/adjust --with-xpm-lib))
 
     dnl Xaw or Xaw3d:
     dnl If we specified Xaw or Xaw3d explicitly, check and require that.
