@@ -18,6 +18,4 @@
 #include "mapclass.h"
 int main_map_click( struct Map_Click **click);
 
-extern struct city *city_workers_display;
-
 #endif  /* FC__MAPCTRL_H */
