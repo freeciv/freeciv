@@ -136,16 +136,16 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
     if (packet_type == PACKET_PROCESSING_STARTED
 	|| packet_type == PACKET_FREEZE_HINT) {
       if (pc->compression.frozen_level == 0) {
-	free_compression_queue(pc);
+	byte_vector_reserve(&pc->compression.queue, 0);
       }
       pc->compression.frozen_level++;
     }
 
     if (pc->compression.frozen_level > 0) {
-      size_t new_size = pc->compression.queue_size + size;
-      pc->compression.queued_packets = fc_realloc(pc->compression.queued_packets, new_size);
-      memcpy(ADD_TO_POINTER(pc->compression.queued_packets, pc->compression.queue_size), data, len);
-      pc->compression.queue_size = new_size;
+      size_t old_size = pc->compression.queue.size;
+
+      byte_vector_reserve(&pc->compression.queue, old_size + len);
+      memcpy(pc->compression.queue.p + old_size, data, len);
       freelog(COMPRESS2_LOG_LEVEL, "COMPRESS: putting %s into the queue",
 	      get_packet_name(packet_type));
     } else {
@@ -159,23 +159,23 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT) {
       pc->compression.frozen_level--;
       if (pc->compression.frozen_level == 0) {
-	long int compressed_size = 12 + pc->compression.queue_size * 1.001;
+	long int compressed_size = 12 + pc->compression.queue.size * 1.001;
 	int error;
 	char compressed[compressed_size];
 
 	error =
 	    compress2(compressed, &compressed_size,
-		      pc->compression.queued_packets,
-		      pc->compression.queue_size, compression_level);
+		      pc->compression.queue.p, pc->compression.queue.size,
+		      compression_level);
 	assert(error == Z_OK);
-	if (compressed_size + 2 < pc->compression.queue_size) {
+	if (compressed_size + 2 < pc->compression.queue.size) {
 	    struct data_out dout;
 
 	  freelog(COMPRESS_LOG_LEVEL,
 		  "COMPRESS: compressed %d bytes to %ld (level %d)",
-		  pc->compression.queue_size, compressed_size,
+		  pc->compression.queue.size, compressed_size,
 		  compression_level);
-	  stat_size_uncompressed += pc->compression.queue_size;
+	  stat_size_uncompressed += pc->compression.queue.size;
 	  stat_size_compressed += compressed_size;
 
 	  if (compressed_size <= JUMBO_BORDER) {
@@ -202,9 +202,10 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	} else {
 	  freelog(COMPRESS_LOG_LEVEL,
 		  "COMPRESS: would enlarging %d bytes to %ld; sending uncompressed",
-		  pc->compression.queue_size, compressed_size);
-	  send_connection_data(pc, pc->compression.queued_packets, pc->compression.queue_size);
-	  stat_size_no_compression += pc->compression.queue_size;
+		  pc->compression.queue.size, compressed_size);
+	  send_connection_data(pc, pc->compression.queue.p,
+			       pc->compression.queue.size);
+	  stat_size_no_compression += pc->compression.queue.size;
 	}
       }
     }

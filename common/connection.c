@@ -539,11 +539,7 @@ int get_next_request_id(int old_request_id)
 void free_compression_queue(struct connection *pc)
 {
 #ifdef USE_COMPRESSION
-  if (pc->compression.queue_size > 0) {
-    free(pc->compression.queued_packets);
-    pc->compression.queued_packets = NULL;
-  }
-  pc->compression.queue_size = 0;
+  byte_vector_free(&pc->compression.queue);
 #endif
 }
 
@@ -607,9 +603,7 @@ void connection_common_init(struct connection *pconn)
   init_packet_hashs(pconn);
 
 #ifdef USE_COMPRESSION
-  pconn->compression.frozen_level = 0;
-  pconn->compression.queued_packets = NULL;
-  pconn->compression.queue_size = 0;
+  byte_vector_init(&pconn->compression.queue);
 #endif
 }
 

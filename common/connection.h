@@ -95,6 +95,10 @@ struct socket_packet_buffer {
   unsigned char *data;
 };
 
+#define SPECVEC_TAG byte
+#define SPECVEC_TYPE unsigned char
+#include "specvec.h"
+
 /***********************************************************
   The connection struct represents a single client or server
   at the other end of a network connection.
@@ -215,8 +219,8 @@ struct connection {
 #ifdef USE_COMPRESSION
   struct {
     int frozen_level;
-    void *queued_packets;
-    size_t queue_size;
+
+    struct byte_vector queue;
   } compression;
 #endif
   struct {
