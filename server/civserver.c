@@ -259,12 +259,20 @@ int main(int argc, char *argv[])
     game.max_players=game.nplayers;
     flood_it(game.scenario);
     choose_start_positions();
-  } else {
-    for (i=0;i<game.nplayers;i++) /* if we don't, the AI gets really confused */
-      civ_score(&game.players[i]);
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
+
+  if (!is_new_game) {
+    for (i=0;i<game.nplayers;i++) {
+      civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
+      if (game.players[i].ai.control) {
+        city_list_iterate(game.players[i].cities, pcity)
+          assess_danger(pcity); /* a slowdown, but a necessary one */
+        city_list_iterate_end;
+      }
+    }
+  }
   
   send_all_info(0);
 
