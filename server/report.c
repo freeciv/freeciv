@@ -988,6 +988,22 @@ static void log_civ_score(void)
     "literacy",
     "spaceship",    /* new 1.8.2 tags end here */
 
+    "gold",
+    "taxrate",
+    "scirate",
+    "luxrate",
+
+    "riots",
+    "happypop",
+    "contentpop",
+    "unhappypop",
+
+    "taxmen",
+    "scientists",
+    "elvis",
+    "gov",
+    "corruption",   /* new 1.11.5 tags end here*/
+
     NULL            /* end of list */
   };
 
@@ -1263,6 +1279,52 @@ static void log_civ_score(void)
 	      break;
 	    case 13:
 	      fom = game.players[n].score.spaceship;
+	      break;
+	    case 14: /* gold */
+	      fom = game.players[n].economic.gold;
+	      break;
+	    case 15: /* taxrate */
+	      fom = game.players[n].economic.tax;
+	      break;
+	    case 16: /* scirate */
+	      fom = game.players[n].economic.science;
+	      break;
+	    case 17: /* luxrate */
+	      fom = game.players[n].economic.luxury;
+	      break;
+	    case 18: /* riots */
+	      fom = 0;
+	      city_list_iterate (game.players[n].cities, pcity)
+                if (pcity->anarchy > 0)
+                  fom++;
+	      city_list_iterate_end;
+	      break;
+	    case 19: /* happypop */
+	      fom = game.players[n].score.happy;
+	      break;
+	    case 20: /* contentpop */
+	      fom = game.players[n].score.content;
+	      break;
+	    case 21: /* unhappypop */
+	      fom = game.players[n].score.unhappy;
+	      break;
+	    case 22: /* taxmen */
+	      fom = game.players[n].score.taxmen;
+	      break;
+	    case 23: /* scientists */
+	      fom = game.players[n].score.scientists;
+	      break;
+	    case 24: /* elvis */
+	      fom = game.players[n].score.elvis;
+	      break;
+	    case 25: /* gov */
+	      fom = game.players[n].government;
+	      break;
+            case 26: /* corruption */
+	      fom = 0;
+	      city_list_iterate (game.players[n].cities, pcity)
+                fom+=pcity->corruption;
+	      city_list_iterate_end;
 	      break;
 	    default:
 	      fom = 0; /* -Wall demands we init this somewhere! */
