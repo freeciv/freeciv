@@ -602,7 +602,7 @@ void pre_send_packet_chat_msg(struct connection *pc,
 {
   if (packet->x == -1 && packet->y == -1) {
     /* since we can currently only send unsigned ints... */
-    assert(MAP_MAX_WIDTH <= 255 && MAP_MAX_HEIGHT <= 255);
+    assert(!is_normal_map_pos(255, 255));
     packet->x = 255;
     packet->y = 255;
   }
