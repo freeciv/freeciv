@@ -864,7 +864,8 @@ void city_report_dialog_update(void)
 		 city_buy_cost(pcity));
               
        sprintf(happytext, "%s(%d/%d/%d)",
-	       city_unhappy(pcity) ? "Disorder" : "Peace",
+               city_celebrating(pcity) ? "Rapture" :
+	         (city_unhappy(pcity) ? "Disorder" : "Peace"),
 	       pcity->ppl_happy[4],
 	       pcity->ppl_content[4],
 	       pcity->ppl_unhappy[4]);
