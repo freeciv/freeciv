@@ -123,7 +123,7 @@ static void close_socket_callback(struct connection *pc)
   Connect to a civserver instance -- or at least try to.  On success,
   return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
-int connect_to_server(char *username, char *hostname, int port,
+int connect_to_server(const char *username, const char *hostname, int port,
 		      char *errbuf, int errbufsize)
 {
   if (get_server_address(hostname, port, errbuf, errbufsize) != 0) {
@@ -173,7 +173,7 @@ int get_server_address(const char *hostname, int port, char *errbuf,
      message in ERRBUF and return the Unix error code (ie., errno, which
      will be non-zero).
 **************************************************************************/
-int try_to_connect(char *username, char *errbuf, int errbufsize)
+int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
   struct packet_server_join_req req;
 
