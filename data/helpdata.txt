@@ -500,6 +500,7 @@ building, then it'll be automatically sold.
 %% Does the player get any money back for it, as when they actually
 %% sell an Improvement, or is it lost forever?  If it's lost, then
 %% "automatically sold" should be "lost".
+%%  --> It's sold for money.  See pay_for_buildings() in cityturn.c.
 ---
 # Airport
 Allows a city to produce veteran air units.  Also, damaged air units
@@ -1038,7 +1039,7 @@ TIP: A very fast unit, which is very useful for hunting down enemy
    an Advance from an enemy city.  (An Advance can only be stolen
    once per city).
 
- - A diplomat can also bribe an enemy unit, if that unit is the only
+ - A Diplomat can also bribe an enemy unit, if that unit is the only
    one on its square.
 
  - Diplomats can even start a revolution in an enemy city and turn
@@ -1140,12 +1141,15 @@ TIP 2: You may be involved in a situation where you've invaded an
 # Partisan
 Treats all terrain as if it had roads and ignores any zone of
 control.  A number of partisans are granted free when an enemy
-conquers your city (but only under special conditions).
-%% Should these conditions be listed here?  From server/unitfunc.c:
-%%  1) Guerilla warfare must be known by atleast 1 player
-%%  2) The owner of the city is the original player.
-%%  3) The player must know about communism and gunpowder
-%%  4) the player must run either a democracy or a communist society.
+conquers your city, but only under these conditions:
+
+ - Guerilla Warfare must be known by at least 1 player.
+
+ - You must be the player who originally built the city.
+
+ - You must know about Communism and Gunpowder.
+
+ - You must run either a Democracy or a Communist society.
 ---
 # Phalanx
 ---
@@ -1199,7 +1203,7 @@ are enough food-producing squares nearby to support your growing
 population.
 
 The net benefit of a square for your city depends on your government
-type as well as city improvements and wonders.
+type as well as City Improvements and Wonders.
 ---
 # Arctic
 Food: 0.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.
@@ -1270,6 +1274,214 @@ which converts them to Forest.
 Food: 1.  Production: 0.  Trade: 0.  Movement: 1.  Defense: 1.
 With Game, Tundra squares will produce 2 extra Food.
 Tundra cannot be irrigated or mined.
+---
+%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-23.
+#Government
+Your government type influences your cities' productivity and
+commerce, your citizens' happiness, and many other game factors.
+
+Your civilization starts out under Despotism.  As your technology
+improves, you can select other forms of government (listed below).
+In order to change your form of government, you must start a
+revolution.  This will cause your civilization to undergo a period
+of Anarchy (lasting 1-5 turns); at the end of this time, you will be
+able to choose your new government.
+
+Corruption is the loss of trade due to inefficiency and greed.
+Under most forms of government, the farther away from the capital a
+city is, the more trade will be lost to corruption.  (If you do not
+have a capital, your cities will suffer extremely high levels of
+corruption.)  A Courthouse will reduce the level of corruption in a
+city.
+
+TIP 1: Offensive military campaigns are difficult under Republican
+       and Democractic governments unless you give your citizens
+       lots of luxuries to keep them happy.  When conquering other
+       civilizations, it may be helpful to switch to one of the more
+       militant styles of government.
+
+TIP 2: Scientific advancement requires high levels of trade, which
+       are much easier to achieve under Republican and Democratic
+       governments.  Consider switching to the Republic as soon as
+       you can; gaining advanced technology early in the game puts
+       you at an advantage.
+---
+# Anarchy (Gov)
+Anarchy is simply the absence of any recognizable government.
+Citizens are disorganized and unproductive, but can be kept in line
+by a strong military force.
+
+Anarchy offers slightly less corruption than Despotism, but slightly
+more unhappiness.
+
+Settlers consume 1 food per turn under Anarchy.  Squares which would
+normally yield more than 2 units of food, production or trade suffer
+a 1-unit penalty (e.g., an irrigated grassland square which would
+normally yield 3 food only yields 2 food while you are in Anarchy).
+
+Under Anarchy, each of your cities can support a number of military
+units equal to its size without paying production for upkeep.
+(Additional units require 1 production shield each.)
+
+You may impose martial law under Anarchy: each military unit inside
+a city will keep one unhappy citizen content.  (Or at least, unhappy
+citizens will act content, and will not cause disorder.)
+---
+# Despotism (Gov)
+Under Despotism, you are the absolute ruler of your people.  Your
+control over your citizens is maintained largely by martial law.
+
+Despotism offers the highest level of corruption of all forms of
+government.
+
+Settlers consume 1 food per turn under Despotism.  Squares which
+would normally yield more than 2 units of food, production or trade
+suffer a 1-unit penalty (e.g., an irrigated grassland square which
+would normally yield 3 food only yields 2 food while you are under
+Despotic rule).
+
+Under Despotism, each of your cities can support a number of
+military units equal to its size without paying production for
+upkeep.  (Additional units require 1 production shield each.)
+
+You may impose martial law under Despotism: each military unit
+inside a city will keep one unhappy citizen content.  (Or at least,
+unhappy citizens will act content, and will not cause disorder.)
+---
+%% If we just use the string "Monarchy" then the help dialog mixes this
+%% text with the technology tree from "Monarchy" the technology. :-(
+# Monarchy (Gov)
+Under Monarchy, a king or queen serves as a hereditary figurehead
+for your government.
+
+Monarchy suffers the same small amount of corruption that the
+Republic does.
+
+Settlers consume 1 food per turn under Monarchy.
+
+Under Monarchy, your cities can support up to 3 military units
+without paying production for upkeep.  (Additional units require 1
+production shield each.)
+
+You may impose limited martial law under Monarchy: each military
+unit in a city, up to a maximum of 3, will keep one unhappy citizen
+content.
+---
+# Communism (Gov)
+A Communist government is based on the ideal that all people are
+equal.  All goods are owned by the state, rather than by private
+citizens.  Communism gives a balance between military and commercial
+styles of government.
+
+Under Communism, corruption does not vary by distance from the
+capital; all cities (including the capital) have a modest amount
+of corruption.  In addition, Communist cities more than 10 squares
+away from the capital are considered to be only 10 squares away when
+computing the cost of inciting a revolt (see Units, Diplomat).
+
+Settlers consume 2 food per turn under Communism.
+
+Diplomats and Spies created under Communism are always veterans.
+
+Under Communism, your cities can support up to 3 military units
+without paying production for upkeep.  (Additional units require 1
+production shield each.)
+
+You impose limited but efficient martial law under Communism.  Each
+military unit inside a city, up to a maximum of 3, will keep 2
+unhappy citizens content.
+---
+# Republic (Gov)
+Under a Republican government, citizens hold an election to select a
+representative who will govern them; since elected leaders must
+remain popular to remain in control, citizens are given a greater
+degree of freedom.  Citizens under the Republic become unhappy
+easily, but the self-sufficiency of your citizens allows high levels
+of trade.
+
+Cities under the Republic suffer a small amount of corruption.
+
+Settlers consume 2 food per turn under the Republic.  Squares which
+produce at least 1 trade get a trade bonus of 1 under the Republic.
+
+Under the Republic, military units require 1 production shield each
+for upkeep.  In addition the following units are considered
+aggressive units:
+
+ - units with an attack strength greater than 0 which are not
+   inside the city
+
+ - air units (including missiles) and sea units with an attack
+   strength greater than 0, regardless of their location
+
+The citizens of a city will tolerate 1 aggressive unit; subsequent
+units will generate 1 unhappy citizen each.
+---
+# Democracy (Gov)
+Under Democracy, citizens govern directly by voting on issues.
+Democracy offers the highest possible level of trade, but also
+offers the most potential for unhappiness.  There is no corruption
+during Democracy, but citizens become very upset during wars.
+
+Settlers consume 2 food per turn under Democracy.  Squares which
+produce at least 1 trade get a trade bonus of 1 under Democracy.
+
+Under Democracy, military units require 1 production shield each for
+upkeep.  In addition the following units generate unhappiness:
+
+ - Units with an attack strength greater than 0 which are not
+   inside the city generate 2 unhappy citizens.
+
+ - Air/sea units with an attack strength greater than 0 which are
+   inside the city generate 1 unhappy citizen.
+
+If a city remains in disorder more than 2 turns under Democratic
+rule, the citizens will spontaneously revolt and plunge your
+civilization into Anarchy.
+
+Because (happy) citizens of Democracy believe strongly in the
+government, their loyalty is unswerving.  Military units of
+Democratic civilizations cannot be bribed, and Democratic cities
+cannot be incited to revolt by enemy Diplomats and Spies.
+---
+%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-24.
+#Happiness
+Keeping your citizens happy (or at least content) is one of the most
+important objectives in Freeciv.  When your citizens become unhappy,
+your cities will fall into disorder (and produce nothing).  Cities
+which are in disorder are easier for enemy Diplomats and Spies to
+incite to revolt.  Prolonged disorder under Democracy can lead to a
+revolution.
+
+Citizens may be either happy, content or unhappy.  If the number of
+unhappy citizens in a city exceeds the number of happy citizens, the
+city falls into disorder.  However, if the number of happy citizens
+in a city is at least as great as the number of content citizens,
+and you have no unhappy citizens, and the city has at least 5
+citizens, then the city celebrates.  A celebrating city increases in
+population by 1 each turn until there is no excess food or until the
+number of happy citizens is no longer sufficient for celebration.
+
+The normal state of a citizen is contentment.  However, as your
+cities grow larger, crowding causes citizens to become unhappy.
+Each citizen in a city after the 4th will be generated unhappy,
+instead of content.  If you have a large number of cities (depending
+on your government), the limit on content citizens is reduced to 3.
+%% See content_citizens() in server/citytools.c.
+
+In order to offset unhappiness, you may build City Improvements and
+Wonders of the World, or convert a fraction of your trade into
+luxuries.  For every 2 luxuries produced in a city, one content
+citizen is made happy.  After converting all content citizens to
+happy citizens, unhappy citizens are converted to happy and/or
+content.  Some City Improvements and Wonders of the World have
+effects on citizens' happiness (see the appropriate sections for
+details).
+
+Under certain forms of government, the presence of military units in
+a city can either create unhappiness or create contentment (see
+Government for details).
+
 ---
 %% This is for XEmacs.  It sets up the indentation.
 %% The paragraph-separate thing isn't working right.  Can someone

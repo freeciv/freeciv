@@ -86,6 +86,8 @@ enum MenuID {
   MENU_HELP_TECH,
   MENU_HELP_TERRAIN,
   MENU_HELP_WONDERS,
+  MENU_HELP_GOVERNMENT,
+  MENU_HELP_HAPPINESS,
   MENU_HELP_COPYING,
   MENU_HELP_ABOUT
 };
@@ -159,6 +161,8 @@ struct MenuEntry help_menu_entries[]={
     { "Help Technology",   MENU_HELP_TECH, 0},
     { "Help Terrain",      MENU_HELP_TERRAIN, 0},
     { "Help Wonders",      MENU_HELP_WONDERS, 0},
+    { "Help Government",   MENU_HELP_GOVERNMENT, 0},
+    { "Help Happiness",    MENU_HELP_HAPPINESS, 0},
     { "Copying",           MENU_HELP_COPYING, 0},
     { "About",             MENU_HELP_ABOUT, 0},
     { 0, MENU_END_OF_LIST, 0},
@@ -458,6 +462,12 @@ void help_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_HELP_WONDERS:
     popup_help_dialog_string(HELP_WONDERS_ITEM);
+    break;
+  case MENU_HELP_GOVERNMENT:
+    popup_help_dialog_string(HELP_GOVERNMENT_ITEM);
+    break;
+  case MENU_HELP_HAPPINESS:
+    popup_help_dialog_string(HELP_HAPPINESS_ITEM);
     break;
   case MENU_HELP_COPYING:
     popup_help_dialog_string(HELP_COPYING_ITEM);
