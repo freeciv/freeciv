@@ -400,6 +400,15 @@ int unit_ignores_citywalls(struct unit *punit)
 }
 
 /**************************************************************************
+  Takes into account unit move_type as well
+**************************************************************************/
+int unit_really_ignores_citywalls(struct unit *punit)
+{
+  return unit_ignores_citywalls(punit)
+    || is_air_unit(punit) || is_sailing_unit(punit);
+}
+
+/**************************************************************************
  a wrapper function that returns whether or not the unit is on a citysquare
  with citywalls
 **************************************************************************/

@@ -235,9 +235,7 @@ want to write a funct that takes nine ints by reference. -- Syela */
           m = get_unit_type(funit->type)->move_rate;
           v = assess_danger_unit(pcity, funit);
           dist = assess_distance(pcity, funit, m, boatid, boatdist, boatspeed);
-          igwall = 0;
-          if (unit_ignores_citywalls(funit) || 
-              (!is_heli_unit(funit) && !is_ground_unit(funit))) igwall++;
+          igwall = unit_really_ignores_citywalls(funit);
           if ((is_ground_unit(funit) && v) ||
               (is_ground_units_transport(funit))) {
             if (dist <= m * 3) urgency++;
@@ -279,9 +277,7 @@ content to let it remain that way for now. -- Syela 980805 */
         m = get_unit_type(punit->type)->move_rate;
         v = assess_danger_unit(pcity, punit);
         dist = assess_distance(pcity, punit, m, boatid, boatdist, boatspeed);
-        igwall = 0;
-        if (unit_ignores_citywalls(punit) || 
-            (!is_heli_unit(punit) && !is_ground_unit(punit))) igwall++;
+	igwall = unit_really_ignores_citywalls(punit);
           
         if ((is_ground_unit(punit) && v) ||
             (is_ground_units_transport(punit))) {

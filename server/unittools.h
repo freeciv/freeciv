@@ -34,6 +34,7 @@ struct unit *get_attacker(struct player *pplayer, struct unit *aunit,
 int get_attack_power(struct unit *punit);
 int get_defense_power(struct unit *punit);
 int unit_ignores_citywalls(struct unit *punit);
+int unit_really_ignores_citywalls(struct unit *punit);
 int unit_behind_walls(struct unit *punit);
 int unit_on_fortress(struct unit *punit);
 int unit_behind_coastal(struct unit *punit);

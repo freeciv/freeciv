@@ -971,9 +971,9 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
   } else if (is_sailing_unit(attacker)) {
     if (unit_behind_coastal(defender))
       defensepower*=2;
-  } else if (!unit_ignores_citywalls(attacker) && 
-	     (is_heli_unit(attacker) || is_ground_unit(attacker)) && 
-	     unit_behind_walls(defender)) 
+  }
+  if (!unit_really_ignores_citywalls(attacker)
+      && unit_behind_walls(defender)) 
     defensepower*=3;
   if (unit_on_fortress(defender) && 
       !map_get_city(defender->x, defender->y)) 
