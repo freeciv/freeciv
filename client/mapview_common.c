@@ -1107,7 +1107,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
   Return the map coordinates of the origin (top-left) corner of the
   overview window.  Currently this is calculated on demand.
 **************************************************************************/
-static int get_overview_x0(void)
+int get_overview_x0(void)
 {
   int screen_width;
 
@@ -1117,7 +1117,8 @@ static int get_overview_x0(void)
     screen_width = mapview_canvas.tile_width;
   }
 
-  return (mapview_canvas.map_x0 + screen_width / 2) - map.xsize / 2;
+  return map_adjust_x((mapview_canvas.map_x0 + screen_width / 2)
+		      - map.xsize / 2);
 }
 
 /**************************************************************************

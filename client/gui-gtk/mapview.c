@@ -467,43 +467,30 @@ void overview_update_tile(int x, int y)
 **************************************************************************/
 void refresh_overview_viewrect(void)
 {
-  int screen_width, delta;
-  if (is_isometric) {
-    screen_width = map_canvas_store_twidth + map_canvas_store_theight;
-  } else {
-    screen_width = map_canvas_store_twidth;
-  }
-  delta = map.xsize/2 - (map_view_x0 + screen_width/2);
+  int map_overview_x0 = get_overview_x0();
+  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
+  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
+  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int gui_x, gui_y;
 
-  if (delta>=0) {
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		0, 0, OVERVIEW_TILE_WIDTH * delta, 0,
-		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta,
-		overview_canvas_store_height );
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta, 0,
-		0, 0,
-		OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
-  } else {
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		-OVERVIEW_TILE_WIDTH * delta, 0,
-		0, 0,
-		overview_canvas_store_width + OVERVIEW_TILE_WIDTH *delta,
-		overview_canvas_store_height );
+  /* Copy the part of the overview to the right of map_overview_x0. */
+  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
+		  x0, 0, 0, 0, x1, dy);
 
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		0, 0,
-		overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0,
-		-OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
-  }
+  /* Copy the part of the overview to the left of map_overview_x0. */
+  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
+		  0, 0, x1, 0, x0, dy);
+
+  /* Find the origin of the mapview, in overview (gui) coordinates. */
+  map_to_overview_pos(&gui_x, &gui_y,
+		      mapview_canvas.map_x0, mapview_canvas.map_y0);
 
   gdk_gc_set_foreground( civ_gc, colors_standard[COLOR_STD_WHITE] );
   
   if (is_isometric) {
     /* The x's and y's are in overview coordinates. */
-    int Wx = overview_canvas_store_width / 2
-	    - OVERVIEW_TILE_WIDTH * screen_width / 2;
-    int Wy = OVERVIEW_TILE_HEIGHT * map_view_y0;
+    int Wx = gui_x;
+    int Wy = gui_y;
     int Nx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_twidth;
     int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_canvas_store_twidth;
     int Sx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
@@ -531,9 +518,7 @@ void refresh_overview_viewrect(void)
 		  Sx, Sy, Wx, Wy);
   } else {
     gdk_draw_rectangle(overview_canvas->window, civ_gc, FALSE,
-		       (overview_canvas_store_width
-			- OVERVIEW_TILE_WIDTH * map_canvas_store_twidth) / 2,
-		       OVERVIEW_TILE_HEIGHT * map_view_y0,
+		       gui_x, gui_y,
 		       OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
 		       OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
   }

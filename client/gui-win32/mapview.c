@@ -907,39 +907,32 @@ refresh_overview_canvas(void)
 void
 refresh_overview_viewrect_real(HDC hdcp)
 {
-  int screen_width=is_isometric?map_view_width+map_view_height:map_view_width;
-  int delta=map.xsize/2-(map_view_x+screen_width/2);   
-  HDC hdc;
+  int map_overview_x0 = get_overview_x0();
+  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
+  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
+  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int gui_x, gui_y;
+  HDC hdc = hdcp;
   HPEN oldpen;
-  hdc=hdcp;
-  if (!hdc)
-    hdc=GetDC(root_window);
-  
-  if (delta>=0) {
-    BitBlt(hdc,
-	   overview_win_x + OVERVIEW_TILE_WIDTH * delta, overview_win_y,
-	   overview_win_width - OVERVIEW_TILE_WIDTH * delta,
-	   overview_win_height,
-	   overviewstoredc, 0, 0, SRCCOPY);
-    BitBlt(hdc, overview_win_x, overview_win_y,
-	   OVERVIEW_TILE_WIDTH * delta, overview_win_height,
-	   overviewstoredc,
-	   overview_win_width - OVERVIEW_TILE_WIDTH * delta, 0, SRCCOPY);
-  } else {
-    BitBlt(hdc, overview_win_x, overview_win_y,
-	   overview_win_width + OVERVIEW_TILE_WIDTH * delta,
-	   overview_win_height,
-	   overviewstoredc, -OVERVIEW_TILE_WIDTH * delta, 0, SRCCOPY);
-    BitBlt(hdc,
-	   overview_win_x + overview_win_width + OVERVIEW_TILE_WIDTH * delta,
-	   overview_win_y,
-	   -OVERVIEW_TILE_WIDTH * delta, overview_win_height,
-	   overviewstoredc, 0, 0, SRCCOPY);
+
+  if (!hdc) {
+    hdc = GetDC(root_window);
   }
-  oldpen=SelectObject(hdc,pen_std[COLOR_STD_WHITE]);
+
+  /* Copy the part of the overview to the right of map_overview_x0. */
+  BitBlt(hdc, overview_win_x, overview_win_y, x1, dy, x0, 0);
+
+  /* Copy the part of the overview to the left of map_overview_x0. */
+  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, dy, 0, 0);
+
+  /* Find the origin of the mapview, in overview (gui) coordinates. */
+  map_to_overview_pos(&gui_x, &gui_y,
+		      mapview_canvas.map_x0, mapview_canvas.map_y0);
+
+  oldpen = SelectObject(hdc, pen_std[COLOR_STD_WHITE]);
   if (is_isometric) {
-    int Wx = overview_win_width / 2 - OVERVIEW_TILE_WIDTH * screen_width / 2;
-    int Wy = OVERVIEW_TILE_HEIGHT * map_view_y;
+    int Wx = gui_x;
+    int Wy = gui_y;
     int Nx = Wx + OVERVIEW_TILE_WIDTH * map_view_width;
     int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_view_width;
     int Sx = Wx + OVERVIEW_TILE_WIDTH * map_view_height;
@@ -955,10 +948,7 @@ refresh_overview_viewrect_real(HDC hdcp)
     LineTo(hdc,Sx+overview_win_x,Sy+overview_win_y);
     LineTo(hdc,Wx+overview_win_x,Wy+overview_win_y);
   } else {
-    mydrawrect(hdc,
-	       (overview_win_width
-		- OVERVIEW_TILE_WIDTH * map_view_width) / 2 + overview_win_x,
-	       OVERVIEW_TILE_HEIGHT * map_view_y + overview_win_y,
+    mydrawrect(hdc, overview_win_x + gui_x, overview_win_y + gui_y,
 	       OVERVIEW_TILE_WIDTH * map_view_width,
 	       OVERVIEW_TILE_HEIGHT * map_view_height);
   }

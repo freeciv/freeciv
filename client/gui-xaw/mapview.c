@@ -29,6 +29,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"
@@ -432,43 +433,61 @@ void overview_update_tile(int x, int y)
 **************************************************************************/
 void refresh_overview_viewrect(void)
 {
-  int delta=map.xsize/2-(map_view_x0+map_canvas_store_twidth/2);
+  int map_overview_x0 = get_overview_x0();
+  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
+  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
+  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int gui_x, gui_y;
 
-  if(delta>=0) {
-    XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
-	      civ_gc, 0, 0, 
-	      overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta,
-	      overview_canvas_store_height, 
-	      OVERVIEW_TILE_WIDTH * delta, 0);
-    XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
-	      civ_gc, 
-	      overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta, 0,
-	      OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height,
-	      0, 0);
-  }
-  else {
-    XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
-	      civ_gc, 
-	      -OVERVIEW_TILE_WIDTH * delta, 0, 
-	      overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta,
-	      overview_canvas_store_height, 
-	      0, 0);
+  /* Copy the part of the overview to the right of map_overview_x0. */
+  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
+	    civ_gc, x0, 0, x1, dy, 0, 0);
 
-    XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
-	      civ_gc, 
-	      0, 0,
-	      -OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height, 
-	      overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0);
-  }
+  /* Copy the part of the overview to the left of map_overview_x0. */
+  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
+	    civ_gc, 0, 0, x0, dy, x1, 0);
+
+  /* Find the origin of the mapview, in overview (gui) coordinates. */
+  map_to_overview_pos(&gui_x, &gui_y,
+		      mapview_canvas.map_x0, mapview_canvas.map_y0);
 
   XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
   
-  XDrawRectangle(display, XtWindow(overview_canvas), civ_gc, 
-		 (overview_canvas_store_width 
-		  - OVERVIEW_TILE_WIDTH * map_canvas_store_twidth) / 2,
-		 OVERVIEW_TILE_HEIGHT * map_view_y0,
-		 OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
-		 OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
+  if (is_isometric) {
+    /* The x's and y's are in overview coordinates. */
+    int Wx = gui_x;
+    int Wy = gui_y;
+    int Nx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_twidth;
+    int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_canvas_store_twidth;
+    int Sx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
+    int Sy = Wy + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
+    int Ex = Nx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
+    int Ey = Ny + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
+    
+    freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
+	    Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
+
+    /* W to N */
+    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
+		  Wx, Wy, Nx, Ny);
+
+    /* N to E */
+    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
+		  Nx, Ny, Ex, Ey);
+
+    /* E to S */
+    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
+		  Ex, Ey, Sx, Sy);
+
+    /* S to W */
+    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
+		  Sx, Sy, Wx, Wy);
+  } else {
+    XDrawRectangle(display, XtWindow(overview_canvas), civ_gc, 
+		   gui_x, gui_y,
+		   OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
+		   OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
+  }
 }
 
 
