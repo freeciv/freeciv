@@ -2868,12 +2868,12 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
       senthome = 1;
     }
 
-    if (fromcity && fromcity->owner == punit->owner) { /* leaving a city */
+    if (fromcity) { /* leaving a city */
       if (!senthome && homecity) {
 	city_refresh(homecity);
 	send_city_info(pplayer, homecity);
       }
-      if (fromcity != homecity) {
+      if (fromcity != homecity && fromcity->owner == punit->owner) {
 	city_refresh(fromcity);
 	send_city_info(pplayer, fromcity);
       }
