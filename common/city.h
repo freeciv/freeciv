@@ -86,12 +86,13 @@ enum city_options {
 #define CITY_MAP_SIZE 5
 
 
+/* Iterate a city map */
 
 #define city_map_iterate(x, y) \
   for (y=0;y<CITY_MAP_SIZE;y++) \
     for (x=0;x<CITY_MAP_SIZE;x++) \
-      if (! ((x == 0 || x == 4) && (y == 0 || y == 4)))
-
+      if (! ((x == 0 || x == (CITY_MAP_SIZE-1)) && \
+	     (y == 0 || y == (CITY_MAP_SIZE-1))) )
 
 /* Iterate a city map, from the center (the city) outwards */
 
@@ -110,6 +111,14 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
     y = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][1];
 
 #define city_map_iterate_outwards_end } }
+
+/* Iterate a city radius: (dx,dy) centered on (0,0) */
+
+#define city_radius_iterate(dx, dy) \
+  for (dy=-(int)(CITY_MAP_SIZE/2);dy<(int)(CITY_MAP_SIZE/2);dy++) \
+    for (dx=-(int)(CITY_MAP_SIZE/2);dx<(int)(CITY_MAP_SIZE/2);dx++) \
+      if (! ((dx == -(int)(CITY_MAP_SIZE/2) || dx == (int)(CITY_MAP_SIZE/2)) && \
+	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
 
 
 

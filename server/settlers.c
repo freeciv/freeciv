@@ -14,6 +14,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "city.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -48,6 +49,8 @@ static void auto_settlers_player(struct player *pplayer);
 
 static int is_already_assigned(struct unit *myunit, struct player *pplayer, 
 			       int x, int y);
+
+static int city_exists_within_city_radius(int x, int y);
 
 /**************************************************************************
 ...
@@ -1044,7 +1047,8 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 	    && map_get_terrain(x, y) != T_OCEAN
 	    && (territory[x][y]&(1<<player_num))
 				/* pretty good, hope it's enough! -- Syela */
-            && (near < 8 || map_get_continent(x, y) != ucont)) {
+            && (near < 8 || map_get_continent(x, y) != ucont)
+	    && !city_exists_within_city_radius(x,y)) {
 
 	  /* potential target, calculate mv_cost: */
           if (ferryboat) {
@@ -1429,4 +1433,23 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
     unit_list_iterate_end;
     pcity->ai.founder_want = want;
   }
+}
+
+/**************************************************************************
+Return true iff a city exists within a city radius of the given location.
+(Not including a city at the given location.  I.e., if only city within
+radius is at (x,y), then returns false.)
+**************************************************************************/
+int city_exists_within_city_radius(int x, int y)
+{
+  int dx, dy;
+
+  city_radius_iterate(dx, dy) {
+    if (!(dx==0 && dy==0)) {
+      if (map_get_city(x+dx, y+dy))
+	return 1;
+    }
+  }
+
+  return 0;
 }
