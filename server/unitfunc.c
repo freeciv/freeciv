@@ -1130,6 +1130,23 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 }
 
 /**************************************************************************
+  Calculate the total amount of activity performed by all units on a tile
+  for a given task.
+**************************************************************************/
+int total_activity (int x, int y, enum unit_activity act)
+{
+  struct tile *ptile;
+  int total = 0;
+
+  ptile = map_get_tile (x, y);
+  unit_list_iterate (ptile->units, punit)
+    if (punit->activity == act)
+      total += punit->activity_count;
+  unit_list_iterate_end;
+  return total;
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -1137,7 +1154,9 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 void update_unit_activity(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
-  punit->activity_count+= (get_unit_type(punit->type)->move_rate)/3;
+  int mr = get_unit_type (punit->type)->move_rate;
+
+  punit->activity_count += mr/3;
 
   if (punit->activity == ACTIVITY_EXPLORE) {
     ai_manage_explorer(pplayer, punit);
@@ -1147,6 +1166,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
   
    if(punit->activity==ACTIVITY_PILLAGE && punit->activity_count>=1) {
+     punit->moves_left = 0; /* one activity per turn */
       if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
 	map_clear_special(punit->x, punit->y, S_IRRIGATION);
       else if(map_get_special(punit->x, punit->y)&S_MINE)
@@ -1159,47 +1179,79 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     set_unit_activity(punit, ACTIVITY_IDLE);
    }
 
-  if(punit->activity==ACTIVITY_POLLUTION && punit->activity_count>=3) {
-    map_clear_special(punit->x, punit->y, S_POLLUTION);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_POLLUTION) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION) >= 3) {
+      map_clear_special(punit->x, punit->y, S_POLLUTION);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_POLLUTION)
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
 
-  if(punit->activity==ACTIVITY_FORTRESS && punit->activity_count>=3) {
-    map_set_special(punit->x, punit->y, S_FORTRESS);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_FORTRESS) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS) >= 3) {
+      map_set_special(punit->x, punit->y, S_FORTRESS);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_FORTRESS)
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
   
-  if(punit->activity==ACTIVITY_IRRIGATE && 
-     punit->activity_count>=map_build_irrigation_time(punit->x, punit->y)) {
-    map_irrigate_tile(punit->x, punit->y);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    punit->activity=ACTIVITY_IDLE;
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_IRRIGATE) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_IRRIGATE) >=
+        map_build_irrigation_time(punit->x, punit->y)) {
+      map_irrigate_tile(punit->x, punit->y);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_IRRIGATE)
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
 
-  if(punit->activity==ACTIVITY_ROAD && 
-     punit->activity_count>map_build_road_time(punit->x, punit->y)) {
-    map_set_special(punit->x, punit->y, S_ROAD);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    punit->activity=ACTIVITY_IDLE;
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_ROAD) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_ROAD) >	/* not >= ? */
+        map_build_road_time(punit->x, punit->y)) {
+      map_set_special(punit->x, punit->y, S_ROAD);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_ROAD) 
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
 
-  if(punit->activity==ACTIVITY_RAILROAD && punit->activity_count>=3) {
-    map_set_special(punit->x, punit->y, S_RAILROAD);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    punit->activity=ACTIVITY_IDLE;
-    handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_RAILROAD) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_RAILROAD) >= 3) {
+      map_set_special(punit->x, punit->y, S_RAILROAD);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_RAILROAD)
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
   
-  if(punit->activity==ACTIVITY_MINE && 
-     punit->activity_count>=map_build_mine_time(punit->x, punit->y)) {
-    map_mine_tile(punit->x, punit->y);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    set_unit_activity(punit, ACTIVITY_IDLE);
+  if(punit->activity==ACTIVITY_MINE) {
+     punit->moves_left = 0; /* one activity per turn */
+    if (total_activity (punit->x, punit->y, ACTIVITY_MINE) >=
+        map_build_mine_time(punit->x, punit->y)) {
+      map_mine_tile(punit->x, punit->y);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_MINE)
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
   }
 
   if(punit->activity==ACTIVITY_GOTO) {
