@@ -929,9 +929,6 @@ int can_unit_do_activity_targeted(struct unit *punit,
   if (activity == ACTIVITY_EXPLORE) /* added 980803 by Syela */
     return (is_ground_unit(punit) || is_sailing_unit(punit));
 
-  /* can't go directly from non-idle to non-idle activity */
-  if(punit->activity!=ACTIVITY_IDLE && punit->activity != activity) return 0;
-
   switch(activity) {
   case ACTIVITY_POLLUTION:
     return unit_flag(punit->type, F_SETTLERS) && (ptile->special&S_POLLUTION);
