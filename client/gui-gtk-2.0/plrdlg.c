@@ -71,9 +71,10 @@ popup the dialog 10% inside the main-window
 **************************************************************************/
 void popup_players_dialog(void)
 {
-  if(!players_dialog_shell){
+  if (!players_dialog_shell){
     create_players_dialog();
-    gtk_window_set_position(GTK_WINDOW(players_dialog_shell),GTK_WIN_POS_MOUSE);
+    gtk_window_set_position(GTK_WINDOW(players_dialog_shell),
+	GTK_WIN_POS_MOUSE);
   }
   gtk_window_present(GTK_WINDOW(players_dialog_shell));
 }
@@ -220,6 +221,7 @@ static void create_store(void)
 static void toggle_view(GtkCheckMenuItem* item, gpointer data)
 {
   struct player_dlg_column* pcol = data;
+
   pcol->show = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
   update_views();
 }
@@ -230,16 +232,17 @@ static void toggle_view(GtkCheckMenuItem* item, gpointer data)
 static GtkWidget* create_show_menu(void)
 {
   int i;
-  GtkWidget* menu = gtk_menu_new();
+  GtkWidget *menu = gtk_menu_new();
+
   for (i = 1; i < num_player_dlg_columns; i++) {
-    GtkWidget* item;    
-    struct player_dlg_column* pcol;
+    GtkWidget *item;    
+    struct player_dlg_column *pcol;
     
     pcol = &player_dlg_columns[i];
     item = gtk_check_menu_item_new_with_label(pcol->title);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), pcol->show);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), (gpointer)pcol);
+    g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), pcol);
   }
   return menu;
 }
@@ -259,6 +262,7 @@ void create_players_dialog(void)
     0,
     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
     NULL);
+
   if (dialogs_on_top) {
     gtk_window_set_transient_for(GTK_WINDOW(players_dialog_shell),
 				 GTK_WINDOW(toplevel));
@@ -478,7 +482,7 @@ static void build_row(GtkTreeIter *it, int i)
   GdkPixbuf *flag;
   GdkColor *state_col;
   int k;
-  gchar* p;
+  gchar *p;
 
   for (k = 0; k < num_player_dlg_columns; k++) {
     struct player_dlg_column* pcol = &player_dlg_columns[k];
@@ -594,14 +598,14 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  gint plrno;
 
   if (!gtk_tree_selection_get_selected(players_selection, &model, &it)) {
-    return;
-  }
-  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+    gint plrno;
 
-  dsend_packet_diplomacy_init_meeting_req(&aconnection, plrno);
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+
+    dsend_packet_diplomacy_init_meeting_req(&aconnection, plrno);
+  }
 }
 
 /**************************************************************************
@@ -647,14 +651,15 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  gint plrno;
 
-  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
-    return;
-  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    gint plrno;
 
-  if (can_intel_with_player(&game.players[plrno])) {
-    popup_intel_dialog(&game.players[plrno]);
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+
+    if (can_intel_with_player(&game.players[plrno])) {
+      popup_intel_dialog(&game.players[plrno]);
+    }
   }
 }
 
@@ -665,13 +670,13 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  gint plrno;
 
-  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
-    return;
-  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    gint plrno;
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
-  popup_spaceship_dialog(&game.players[plrno]);
+    popup_spaceship_dialog(&game.players[plrno]);
+  }
 }
 
 /**************************************************************************
@@ -680,9 +685,12 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
 static void update_views(void)
 {
   int i;
+
   for (i = 0; i < num_player_dlg_columns; i++) {
     GtkTreeViewColumn *col;
+
     col = gtk_tree_view_get_column(GTK_TREE_VIEW(players_list), i);
     gtk_tree_view_column_set_visible(col, player_dlg_columns[i].show);
   }
 };
+
