@@ -744,9 +744,18 @@ void canvas_put_sprite(struct canvas *pcanvas,
       gtk_pixcomm_copyto(pcanvas->v.pixcomm, sprite, canvas_x, canvas_y);
       break;
     case CANVAS_PIXBUF:
-      gdk_pixbuf_composite(sprite_get_pixbuf(sprite), pcanvas->v.pixbuf,
-	  offset_x, offset_y, width, height, canvas_x, canvas_y, 1.0, 1.0,
-	  GDK_INTERP_NEAREST, 255);
+      {
+	GdkPixbuf *src, *dst;
+
+	src = sprite_get_pixbuf(sprite);
+	dst = pcanvas->v.pixbuf;
+	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
+	    MIN(width,
+	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
+	    MIN(height,
+	      MIN(gdk_pixbuf_get_height(dst), gdk_pixbuf_get_height(src))),
+	    -offset_x, -offset_y, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
+      }
       break;
     default:
       break;
