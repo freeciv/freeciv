@@ -1058,8 +1058,6 @@ void create_city(struct player *pplayer, const int x, const int y,
 
   city_refresh(pcity);
 
-  city_incite_cost(pcity);
-
   /* Put vision back to normal, if fortress acted as a watchtower */
   if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)
       && map_has_special(x, y, S_FORTRESS)) {

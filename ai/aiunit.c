@@ -2593,10 +2593,8 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
       city_list_iterate(aplayer->cities, acity)
 	if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
 	if (continent != map_get_continent(acity->x, acity->y)) continue;
-	city_incite_cost(acity);
 	/* figure our incite cost */
-	oic = acity->incite_revolt_cost;
-	if (pplayer->player_no == acity->original) oic = oic / 2;
+	oic = city_incite_cost(pplayer, acity);
 	rmd=real_map_distance(pdiplomat->x, pdiplomat->y, acity->x, acity->y);
 	if (!ctarget || (dist > rmd)) {
 	  if (!has_emb || acity->steal == 0 || (oic < 

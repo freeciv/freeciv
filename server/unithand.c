@@ -235,8 +235,8 @@ void handle_incite_inq(struct connection *pconn,
 		       struct packet_generic_integer *packet)
 {
   struct player *pplayer = pconn->player;
-  struct city *pcity=find_city_by_id(packet->value);
-  struct unit *punit=find_unit_by_id(packet->value);
+  struct city *pcity = find_city_by_id(packet->value);
+  struct unit *punit = find_unit_by_id(packet->value);
   struct packet_generic_values req;
 
   if (!pplayer) {
@@ -244,18 +244,16 @@ void handle_incite_inq(struct connection *pconn,
 	    conn_description(pconn));
     return;
   }
-  if(pcity)  {
-    city_incite_cost(pcity);
-    req.id=packet->value;
-    req.value1=pcity->incite_revolt_cost;
-    if(pplayer->player_no == pcity->original) req.value1/=2;
+  if (pcity) {
+    req.value1 = city_incite_cost(pplayer, pcity);
+    req.id = packet->value;
     send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
     return;
   }
-  if(punit)  {
+  if (punit) {
     punit->bribe_cost = unit_bribe_cost(punit);
-    req.id=packet->value;
-    req.value1=punit->bribe_cost;
+    req.id = packet->value;
+    req.value1 = punit->bribe_cost;
     send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
   }
 }

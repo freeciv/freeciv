@@ -1181,16 +1181,17 @@ static void sanity_check_city(struct city *pcity)
 /**************************************************************************
   Sets the incite_revolt_cost field in the given city.
 **************************************************************************/
-void city_incite_cost(struct city *pcity)
+int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
-  
+  int incite_revolt_cost;
+
   if (city_got_building(pcity, B_PALACE)) {
-    pcity->incite_revolt_cost = INCITE_IMPOSSIBLE_COST;
+    incite_revolt_cost = INCITE_IMPOSSIBLE_COST;
   } else {
-    pcity->incite_revolt_cost = city_owner(pcity)->economic.gold + 1000;
+    incite_revolt_cost = city_owner(pcity)->economic.gold + 1000;
     capital = find_palace(city_owner(pcity));
     if (capital) {
       int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
@@ -1205,15 +1206,16 @@ void city_incite_cost(struct city *pcity)
     if (g->fixed_corruption_distance != 0) {
       dist = MIN(g->fixed_corruption_distance, dist);
     }
-    pcity->incite_revolt_cost /= (dist + 3);
-    pcity->incite_revolt_cost *= pcity->size;
+    incite_revolt_cost /= (dist + 3);
+    incite_revolt_cost *= pcity->size;
     if (city_unhappy(pcity)) {
-      pcity->incite_revolt_cost /= 2;
+      incite_revolt_cost /= 2;
     }
     if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)==0) {
-      pcity->incite_revolt_cost /= 2;
+      incite_revolt_cost /= 2;
     }
   }
+  return incite_revolt_cost;
 }
 
 /**************************************************************************
@@ -1329,7 +1331,6 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       pcity->anarchy=0;
     }
     check_pollution(pcity);
-    city_incite_cost(pcity);
 
     send_city_info(NULL, pcity);
     if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {

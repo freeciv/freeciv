@@ -878,8 +878,6 @@ static void player_load(struct player *plr, int plrno,
 
     map_set_city(pcity->x, pcity->y, pcity);
 
-    pcity->incite_revolt_cost = -1; /* flag value */
-
     city_list_insert_back(&plr->cities, pcity);
   }
 
