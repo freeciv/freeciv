@@ -924,7 +924,13 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igz
     }
     packet.diplomat_id = punit->id;
     packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
-    send_packet_diplomat_action(unit_owner(punit)->conn, &packet);
+    {
+      struct player *pplayer = unit_owner(punit);
+      struct conn_list *dest = (pplayer->current_conn ?
+				&pplayer->current_conn->self :
+				&pplayer->connections);
+      lsend_packet_diplomat_action(dest, &packet);
+    }
     return 0;
   }
 

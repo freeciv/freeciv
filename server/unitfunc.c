@@ -188,19 +188,19 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   unit_list_iterate(pcity->units_supported, punit) {
     package_unit(punit, &unit_packet, FALSE, FALSE,
 		 UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
-    send_packet_unit_info(pplayer->conn, &unit_packet);
+    lsend_packet_unit_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
     package_unit(punit, &unit_packet, FALSE, FALSE,
 		 UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
-    send_packet_unit_info(pplayer->conn, &unit_packet);
+    lsend_packet_unit_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */
   package_city(pcity, &city_packet, TRUE);
-  send_packet_city_info(pplayer->conn, &city_packet);
+  lsend_packet_city_info(&pplayer->connections, &city_packet);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -227,11 +227,14 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   - Always successful; returns list.
 
   - Spies always survive.
+
+  Only send back to the originating connection, if there is one. (?)
 ****************************************************************************/
 void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 			   struct city *pcity)
 {
   struct packet_sabotage_list packet;
+  struct conn_list *dest;
   int i;
   char *p;
 
@@ -242,7 +245,10 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
-  send_packet_sabotage_list(pplayer->conn, &packet);
+  dest = (pplayer->current_conn ?
+	  &pplayer->current_conn->self :
+	  &pplayer->connections);
+  lsend_packet_sabotage_list(dest, &packet);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_GET_SABOTAGE_LIST, pplayer, NULL, pcity);
