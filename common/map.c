@@ -515,6 +515,37 @@ void map_transform_tile(int x, int y)
 }
 
 /***************************************************************
+  (x,y) are map coords, assumed to be already adjusted;
+  we calculate elements of xx[3], yy[3] for adjusted
+  coordinates of adjacent tiles, offsets [0]=-1, [1]=0, [2]=+1
+  Here we adjust yy[] values to stay inside [0,map.ysize-1]
+***************************************************************/
+void map_calc_adjacent_xy(int x, int y, int *xx, int *yy)
+{
+  if((xx[2]=x+1)==map.xsize) xx[2]=0;
+  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
+  xx[1] = x;
+  if ((yy[0]=y-1)==-1) yy[0] = 0;
+  if ((yy[2]=y+1)==map.ysize) yy[2]=y;
+  yy[1] = y;
+}
+
+/***************************************************************
+  Like map_calc_adjacent_xy(), except don't adjust the yy[] values.
+  Note that if y is out of range, then map_get_tile(x,y) returns
+  &void_tile, hence the _void in the name of this function.
+***************************************************************/
+void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy)
+{
+  if((xx[2]=x+1)==map.xsize) xx[2]=0;
+  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
+  xx[1] = x;
+  yy[0] = y - 1;
+  yy[1] = y;
+  yy[2] = y + 1;
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 void reset_move_costs(int x, int y)
@@ -524,14 +555,10 @@ void reset_move_costs(int x, int y)
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
-  
+
+  x = map_adjust_x(x);
   tile0 = map_get_tile(x, y);
-  if((xx[2]=x+1)==map.xsize) xx[2]=0;
-  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-  xx[1] = x;
-  yy[0] = y - 1;
-  yy[1] = y; /* if these are out of range, map_get_tile will complain */
-  yy[2] = y + 1;
+  map_calc_adjacent_xy_void(x, y, xx, yy);
 
   if(0) freelog(LOG_DEBUG,
 		"Resetting move costs for (%d, %d) [%x%x%x%x%x%x%x%x]",
@@ -600,12 +627,7 @@ void initialize_move_costs(void)
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       tile0 = map_get_tile(x, y);
-      if((xx[2]=x+1)==map.xsize) xx[2]=0;
-      if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-      xx[1] = x;
-      yy[0] = y - 1;
-      yy[1] = y; /* if these are out of range, map_get_tile will complain */
-      yy[2] = y + 1;
+      map_calc_adjacent_xy_void(x, y, xx, yy);
       for (k = 0; k < 8; k++) {
         i = ii[k]; j = jj[k]; /* saves CPU cycles? */
         tile1 = map_get_tile(xx[i], yy[j]);

@@ -111,12 +111,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
     get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
-    if((xx[2]=x+1)==map.xsize) xx[2]=0;
-    if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-    xx[1] = x;
-    if ((yy[0]=y-1)==-1) yy[0] = 0;
-    if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-    yy[1] = y;
+    map_calc_adjacent_xy(x, y, xx, yy);
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
       if (which == LAND_MOVING) {
@@ -446,12 +441,7 @@ and independently I can worry about optimizing them. -- Syela */
     get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
-    if((xx[2]=x+1)==map.xsize) xx[2]=0;
-    if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-    xx[1] = x;
-    if ((yy[0]=y-1)==-1) yy[0] = 0;
-    if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-    yy[1] = y;
+    map_calc_adjacent_xy(x, y, xx, yy);
     
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
@@ -543,12 +533,7 @@ and independently I can worry about optimizing them. -- Syela */
     get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
-    if((xx[2]=x+1)==map.xsize) xx[2]=0;
-    if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-    xx[1] = x;
-    if ((yy[0]=y-1)==-1) yy[0] = 0;
-    if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-    yy[1] = y;
+    map_calc_adjacent_xy(x, y, xx, yy);
 
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */

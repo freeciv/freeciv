@@ -442,13 +442,7 @@ int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest
     unit_list_iterate_end;
   } /* ferryboats do not attack.  no. -- Syela */
 
-/* stolen from gotohand.c */
-  if((xx[2]=x+1)==map.xsize) xx[2]=0;
-  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-  xx[1] = x;
-  if ((yy[0]=y-1)==-1) yy[0] = 0;
-  if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-  yy[1] = y;
+  map_calc_adjacent_xy(x, y, xx, yy);
 
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */

@@ -119,6 +119,9 @@ void reset_move_costs(int x, int y);
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
+void map_calc_adjacent_xy(int x, int y, int *xx, int *yy);
+void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy);
+
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
