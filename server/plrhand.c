@@ -167,14 +167,6 @@ void update_revolution(struct player *pplayer)
   }
 }
 
-/**************************************************************************
-Turn info update loop, for each player at beginning of turn.
-**************************************************************************/
-void begin_player_turn(struct player *pplayer)
-{
-  begin_cities_turn(pplayer);
-}
-
 /****************************************************************************
   Check all players to see if they are dying.  Kill them if so.
 

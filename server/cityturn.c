@@ -347,14 +347,6 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void begin_cities_turn(struct player *pplayer)
-{
-  /* Nothing (deprecated)... */
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void update_city_activities(struct player *pplayer)
 {
   int gold;

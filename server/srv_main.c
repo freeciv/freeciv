@@ -461,7 +461,6 @@ static void begin_turn(void)
   players_iterate(pplayer) {
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
 	    pplayer->player_no, pplayer->name);
-    begin_player_turn(pplayer);
     /* human players also need this for building advice */
     ai_data_turn_init(pplayer);
   } players_iterate_end;
