@@ -115,8 +115,6 @@ static void init_queue(void)
   array_count = 0;
   lowest_cost = 0;
   highest_cost = 0;
-  for (i = 0; i < map.xsize; i++)
-    memset(goto_map.returned[i], 0, map.ysize*sizeof(char));
 }
 
 /**************************************************************************
@@ -189,13 +187,8 @@ static int get_from_mapqueue(int *x, int *y)
     *x = our_array->pos[our_array->first_pos].x;
     *y = our_array->pos[our_array->first_pos].y;
     our_array->first_pos++;
-    if (goto_map.returned[*x][*y]) {
-      freelog(LOG_DEBUG, "returned before. getting next");
-      return get_from_mapqueue(x, y);
-    } else {
-      freelog(LOG_DEBUG, "got %i,%i, at cost %i", *x, *y, goto_map.move_cost[*x][*y]);
-      return 1;
-    }
+    freelog(LOG_DEBUG, "got %i,%i, at cost %i", *x, *y, goto_map.move_cost[*x][*y]);
+    return 1;
   }
   return 0;
 }
@@ -218,23 +211,19 @@ void init_client_goto(void)
     for (x_itr = 0; x_itr < old_xsize; x_itr++) {
       free(goto_map.move_cost[x_itr]);
       free(goto_map.vector[x_itr]);
-      free(goto_map.returned[x_itr]);
       free(goto_map.drawn[x_itr]);
     }
     free(goto_map.move_cost);
     free(goto_map.vector);
-    free(goto_map.returned);
     free(goto_map.drawn);
   }
 
   goto_map.move_cost = fc_malloc(map.xsize * sizeof(short *));
   goto_map.vector = fc_malloc(map.xsize * sizeof(char *));
-  goto_map.returned = fc_malloc(map.xsize * sizeof(char *));
   goto_map.drawn = fc_malloc(map.xsize * sizeof(char *));
   for (x_itr = 0; x_itr < map.xsize; x_itr++) {
     goto_map.move_cost[x_itr] = fc_malloc(map.ysize * sizeof(short));
     goto_map.vector[x_itr] = fc_malloc(map.ysize * sizeof(char));
-    goto_map.returned[x_itr] = fc_malloc(map.ysize * sizeof(char));
     goto_map.drawn[x_itr] = fc_malloc(map.ysize * sizeof(char) * 4);
   }
   goto_map.unit_id = -1;

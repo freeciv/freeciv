@@ -18,7 +18,6 @@
 struct client_goto_map {
   short **move_cost;
   char **vector;
-  char **returned;
   unsigned char **drawn; /* Should not be modified directly. */
   int unit_id; /* The unit of the goto map */
   int src_x, src_y;

@@ -104,8 +104,6 @@ static void init_queue(void)
   array_count = 0;
   lowest_cost = 0;
   highest_cost = 0;
-  for (i = 0; i < map.xsize; i++)
-    memset(warmap.returned[i], 0, map.ysize*sizeof(char));
 }
 
 /**************************************************************************
@@ -178,12 +176,7 @@ static int get_from_mapqueue(int *x, int *y)
     *x = our_array->pos[our_array->first_pos].x;
     *y = our_array->pos[our_array->first_pos].y;
     our_array->first_pos++;
-    if (warmap.returned[*x][*y]) {
-      freelog(LOG_DEBUG, "returned before. getting next");
-      return get_from_mapqueue(x, y);
-    } else {
-      return 1;
-    }
+    return 1;
   }
   return 0;
 }
@@ -200,7 +193,6 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
       warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
       warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
       warmap.vector[x]=fc_malloc(map.ysize*sizeof(unsigned char));
-      warmap.returned[x]=fc_malloc(map.ysize*sizeof(char));
     }
   }
 
