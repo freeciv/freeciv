@@ -545,8 +545,12 @@ const char *get_global_warming_tooltip(void)
 {
   INIT;
 
-  add(_("Shows the progress of global warming:\n%d."),
-      client_warming_sprite());
+  /* This mirrors the logic in update_environmental_upset. */
+  add_line(_("Shows the progress of global warming:"));
+  add_line(_("Pollution rate: %d%%"),
+	   DIVIDE(game.heating - game.warminglevel + 1, 2));
+  add_line(_("Chance of catastrophic warming each turn: %d%%"),
+	   CLIP(0, (game.globalwarming + 1) / 2, 100));
   RETURN;
 }
 
@@ -558,8 +562,12 @@ const char *get_nuclear_winter_tooltip(void)
 {
   INIT;
 
-  add(_("Shows the progress of nuclear winter:\n%d."),
-      client_cooling_sprite());
+  /* This mirrors the logic in update_environmental_upset. */
+  add_line(_("Shows the progress of nuclear winter:"));
+  add_line(_("Fallout rate: %d%%"),
+	   DIVIDE(game.heating - game.warminglevel + 1, 2));
+  add_line(_("Chance of catastrophic winter each turn: %d%%"),
+	   CLIP(0, (game.globalwarming + 1) / 2, 100));
   RETURN;
 }
 

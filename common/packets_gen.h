@@ -120,8 +120,10 @@ struct packet_game_info {
   int player_idx;
   int globalwarming;
   int heating;
+  int warminglevel;
   int nuclearwinter;
   int cooling;
+  int coolinglevel;
   int cityfactor;
   int diplcost;
   int freecost;

@@ -3129,8 +3129,10 @@ void game_load(struct section_file *file)
     game.min_players   = secfile_lookup_int(file, "game.min_players");
     game.max_players   = secfile_lookup_int(file, "game.max_players");
     game.nplayers      = secfile_lookup_int(file, "game.nplayers");
+    game.heating = secfile_lookup_int_default(file, 0, "game.heating");
     game.globalwarming = secfile_lookup_int(file, "game.globalwarming");
     game.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
+    game.cooling = secfile_lookup_int_default(file, 0, "game.cooling");
     game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
     game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
     game.notradesize   = secfile_lookup_int_default(file, 0, "game.notradesize");
@@ -3299,9 +3301,6 @@ void game_load(struct section_file *file)
 
     game.auto_ai_toggle = secfile_lookup_bool_default(file, game.auto_ai_toggle,
 						     "game.auto_ai_toggle");
-
-    game.heating=0;
-    game.cooling=0;
 
     load_rulesets();
   }
@@ -3664,9 +3663,11 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.min_players, "game.min_players");
   secfile_insert_int(file, game.max_players, "game.max_players");
   secfile_insert_int(file, game.nplayers, "game.nplayers");
+  secfile_insert_int(file, game.heating, "game.heating");
   secfile_insert_int(file, game.globalwarming, "game.globalwarming");
   secfile_insert_int(file, game.warminglevel, "game.warminglevel");
   secfile_insert_int(file, game.nuclearwinter, "game.nuclearwinter");
+  secfile_insert_int(file, game.cooling, "game.cooling");
   secfile_insert_int(file, game.coolinglevel, "game.coolinglevel");
   secfile_insert_int(file, game.notradesize, "game.notradesize");
   secfile_insert_int(file, game.fulltradesize, "game.fulltradesize");

@@ -1325,8 +1325,11 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nplayers=pinfo->nplayers;
   game.globalwarming=pinfo->globalwarming;
   game.heating=pinfo->heating;
+  game.warminglevel = pinfo->warminglevel;
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
+  game.coolinglevel = pinfo->coolinglevel;
+
   if (!can_client_change_view()) {
     /*
      * Hack to allow code that explicitly checks for Palace or City Walls

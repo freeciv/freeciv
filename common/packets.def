@@ -345,7 +345,8 @@ PACKET_GAME_INFO=15; is-info,sc
 
   PLAYER min_players, max_players, nplayers, player_idx;
 
-  UINT32 globalwarming, heating, nuclearwinter, cooling;
+  UINT32 globalwarming, heating, warminglevel;
+  UINT32 nuclearwinter, cooling, coolinglevel;
 
   UINT8 cityfactor;
   UINT8 diplcost, freecost, conquercost;
