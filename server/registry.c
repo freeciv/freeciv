@@ -39,7 +39,6 @@
     rather than tie hashing closely to section_file...
 **************************************************************************/
 #define DO_HASH 1
-#define HASH_BUCKET_RATIO 5
 #define HASH_DEBUG 1		/* 0,1,2 */
 
 struct hash_entry {
@@ -497,7 +496,8 @@ struct section_entry *section_file_lookup_internal(struct section_file
 
 
 /**************************************************************************
-...
+ The caller should ensure that "fullpath" should not refer to an entry
+ which already exists in "my_section_file".
 **************************************************************************/
 struct section_entry *section_file_insert_internal(struct section_file 
 						   *my_section_file, 
@@ -510,37 +510,30 @@ struct section_entry *section_file_insert_internal(struct section_file
   struct section *psection;
   struct section_entry *pentry;
 
-
   if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
     return 0;
   strncpy(sec_name, fullpath, pdelim-fullpath);
   sec_name[pdelim-fullpath]='\0';
   strcpy(ent_name, pdelim+1);
+  my_section_file->num_entries++;
 
-
-  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(!strcmp(((struct section *)ITERATOR_PTR(myiter))->name, sec_name)) {
-
-      struct genlist_iterator myiter2;
-      genlist_iterator_init(&myiter2, &((struct section *)
-				 ITERATOR_PTR(myiter))->entry_list, 0);
-      for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
-   	if(!strcmp(((struct section_entry *)ITERATOR_PTR(myiter2))->name, 
-		   ent_name))
-	  return (struct section_entry *)ITERATOR_PTR(myiter2);
-      }
-
-      pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
+  /* Do a reverse search of sections, since we're most likely
+   * to be adding to the lastmost section.
+   */
+  for(genlist_iterator_init(&myiter, &my_section_file->section_list, -1);
+      (psection = (struct section *)ITERATOR_PTR(myiter));
+      ITERATOR_PREV(myiter)) {
+    if(strcmp(psection->name, sec_name)==0) {
+      /* This DOES NOT check whether the entry already exists in
+       * the section, to avoid O(N^2) behaviour.
+       */
+      pentry=(struct section_entry *)
+	strbuffermalloc(sizeof(struct section_entry));
       pentry->name=strbufferdup(ent_name);
-      genlist_insert(&((struct section *)
-			    ITERATOR_PTR(myiter))->entry_list, pentry, -1);
-
-      my_section_file->num_entries++;
+      genlist_insert(&psection->entry_list, pentry, -1);
       return pentry;
     }
-
+  }
 
   psection=(struct section *)strbuffermalloc(sizeof(struct section));
   psection->name=strbufferdup(sec_name);
@@ -558,16 +551,17 @@ struct section_entry *section_file_insert_internal(struct section_file
 /**************************************************************************
   Anyone know a good general string->hash function?
 **************************************************************************/
-/* some primes: */
-static unsigned int coeff[] = { 61, 59, 53, 47, 43, 41, 37, 31, 29, 23, 17,
-				13, 11, 7, 3, 1 };
+/* plenty of primes, not too small, in random order: */
+static unsigned int coeff[] = { 113, 59, 23, 73, 31, 79, 97, 103, 67, 109,
+				71, 89, 53, 37, 101, 41, 29, 43, 13, 61,
+				107, 47, 83, 17 };
 #define NCOEFF (sizeof(coeff)/sizeof(coeff[0]))
 static int hashfunc(char *name, int num_buckets)
 {
   unsigned int result=0;
   int i;
 
-  if(name[0]=='p') name+=6;
+  /* if(name[0]=='p') name+=6; */  /* no longer needed --dwp */
   for(i=0; *name; i++, name++) {
     if (i==NCOEFF) {
       i = 0;
@@ -575,7 +569,7 @@ static int hashfunc(char *name, int num_buckets)
     result *= (unsigned int)5;
     result += coeff[i] * (unsigned int)(*name);
   }
-  return (result%num_buckets);
+  return (result % (unsigned int)num_buckets);
 }
 
 /**************************************************************************
@@ -629,7 +623,8 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
     }
     file->hashd->num_collisions++;
     if (HASH_DEBUG>=2) {
-      flog(LOG_DEBUG, "Hash collision for \"%s\", %d", key, hash_val);
+      flog(LOG_DEBUG, "Hash collision for \"%s\", %d\n   with \"%s\", %d",
+	   key, hash_val, hentry->key_val, hentry->hash_val);
     }
     i++;
     if (i==file->hashd->num_buckets) {
@@ -673,10 +668,21 @@ static void secfilehash_build(struct section_file *file)
   struct section_entry *this_entry;
   char buf[256];
   int i;
+  unsigned int uent, pow2;
 
   hashd = file->hashd = malloc(sizeof(struct hash_data));
 
-  hashd->num_buckets = HASH_BUCKET_RATIO * file->num_entries;
+  /* Power of two which is larger than num_entries, then
+     extra factor of 2 for breathing space: */
+  uent = file->num_entries;
+  pow2 = 2;
+  while (uent) {
+    uent >>= 1;
+    pow2 <<= 1;
+  };
+  if (pow2<128) pow2 = 128;
+  
+  hashd->num_buckets = pow2;
   hashd->num_entries_hashbuild = file->num_entries;
   hashd->num_collisions = 0;
   
