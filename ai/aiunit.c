@@ -846,79 +846,41 @@ int military_amortize(int value, int delay, int build_cost)
 }
 
 /**************************************************************************
-  Calculates the values of nearby units to see if we can expect any
-  help in our attack. Note that is includes the units of allied players
+  Calculates the value and cost of nearby allied units to see if we can
+  expect any help in our attack. Base function.
+**************************************************************************/
+static void reinforcements_cost_and_value(struct unit *punit, int x, int y,
+                                          int *value, int *cost)
+{
+  *cost = 0;
+  *value = 0;
+  square_iterate(x, y, 1, i, j) {
+    struct tile *ptile = map_get_tile(i, j);
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit != punit
+	  && pplayers_allied(unit_owner(punit), unit_owner(aunit))) {
+        int val = (unit_belligerence_basic(aunit));
+        if (val != 0) {
+          *value += val;
+          *cost += unit_type(aunit)->build_cost;
+        }
+      }
+    } unit_list_iterate_end;
+  } square_iterate_end;
+}
+
+/**************************************************************************
+  Calculates the value and cost of nearby units to see if we can expect 
+  any help in our attack. Note that is includes the units of allied players
   in this calculation.
 **************************************************************************/
 static int reinforcements_value(struct unit *punit, int x, int y)
 {
-  int val = 0;
-  square_iterate(x, y, 1, i, j) {
-    struct tile *ptile = map_get_tile(i, j);
-    unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit
-	|| !pplayers_allied(unit_owner(punit), unit_owner(aunit))) continue;
-      val += (unit_belligerence_basic(aunit));
-    } unit_list_iterate_end;
-  } square_iterate_end;
+  int val, cost;
 
+  reinforcements_cost_and_value(punit, x, y, &val, &cost);
   return val;
 }
-
-/********************************************************************** 
-  FIXME: Should this function take allied units into considerations?
-  Currently it does not do this. - Per
-***********************************************************************/
-static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
-{ 
-  int val, val2 = 0, val3 = 0;
-  struct tile *ptile;
-
-  if (!pcity) return 0;
-
-  square_iterate(pcity->x, pcity->y, 1, i, j) {
-    ptile = map_get_tile(i, j);
-    unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit || aunit->owner != punit->owner)
-	continue;
-      val = (unit_belligerence_basic(aunit));
-      if (val != 0) {
-	val2 += val;
-	val3 += unit_type(aunit)->build_cost;
-      }
-    }
-    unit_list_iterate_end;
-  } square_iterate_end;
-
-  pcity->ai.attack = val2;
-  pcity->ai.bcost = val3;
-  return(val2);
-}
-
-/********************************************************************** 
-  ...
-***********************************************************************/
-#ifdef UNUSED
-static int reinforcements_cost(struct unit *punit, int x, int y)
-{ /* I might rather have one function which does this and the above -- Syela */
-  int val = 0;
-  struct tile *ptile;
-
-  square_iterate(x, y, 1, i, j) {
-    ptile = map_get_tile(i, j);
-    unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit || aunit->owner != punit->owner)
-	continue;
-      if (unit_belligerence_basic(aunit))
-	val += unit_type(aunit)->build_cost;
-    }
-    unit_list_iterate_end;
-  }
-  square_iterate_end;
-
-  return(val);
-}
-#endif
 
 /*************************************************************************
   TODO: We should maybe include allied units in the calculations - Per
@@ -1650,14 +1612,18 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, i
 p_a_w isn't called, and we end up not wanting ironclads and therefore never
 learning steam engine, even though ironclads would be very useful. -- Syela */
 
-/* this is horrible, but I need to do something like this somewhere. -- Syela */
+  /* this is horrible, but I need to do something like this somewhere. 
+     -- Syela */
   players_iterate(aplayer) {
     /* AI will try to conquer only enemy cities. -- Nb */
-    if (!pplayers_at_war(pplayer, aplayer)) continue;
-    city_list_iterate(aplayer->cities, acity)
-      city_reinforcements_cost_and_value(acity, punit);
+    if (!pplayers_at_war(pplayer, aplayer)) {
+      continue;
+    }
+    city_list_iterate(aplayer->cities, acity) {
+      reinforcements_cost_and_value(punit, acity->x, acity->y,
+                                    &acity->ai.attack, &acity->ai.bcost);
       acity->ai.invasion = 0;
-    city_list_iterate_end;
+    } city_list_iterate_end;
   } players_iterate_end;
 
   unit_list_iterate(pplayer->units, aunit)
