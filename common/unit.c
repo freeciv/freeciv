@@ -1030,7 +1030,8 @@ int missile_carrier_capacity(int x, int y, int playerid)
 	misonly += get_transporter_capacity(punit);
 	continue;
       }
-      if (is_air_unit(punit)) {
+      /* Don't count units which have enough fuel (>1) */
+      if (is_air_unit(punit) && punit->fuel <= 1) {
 	if (unit_flag(punit->type, F_MISSILE))
 	  misonly--;
 	else
@@ -1070,7 +1071,8 @@ int airunit_carrier_capacity(int x, int y, int playerid)
 	misonly += get_transporter_capacity(punit);
 	continue;
       }
-      if (is_air_unit(punit)) {
+      /* Don't count units which have enough fuel (>1) */
+      if (is_air_unit(punit) && punit->fuel <= 1) {
 	if (unit_flag(punit->type, F_MISSILE))
 	  misonly--;
 	else

@@ -62,6 +62,11 @@ static void handle_leonardo(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
 
+static void refuel_air_units_from_carriers(struct player *pplayer);
+static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
+						 int x, int y, int missile);
+static struct unit *choose_more_important_refuel_target(struct unit *punit1,
+							struct unit *punit2);
 
 /**************************************************************************
   used to find the best defensive unit on a square
@@ -812,11 +817,127 @@ static void handle_leonardo(struct player *pplayer)
   } unit_list_iterate_end;
 	
   unit_list_unlink_all(&candidates);
-}	
+}
 
 /***************************************************************************
-Restore unit hitpoints. (movepoint - restoration moved to update_unit_activities)
+Select which unit is more important to refuel:
+It's more important to refuel plane which has less fuel.
+If those are equal then we refuel more valuable unit.
+If those are equal then we refuel veteran unit.
+If those are equal then we refuel unit which has more hp.
+If those are equal then we refuel the first unit.
+****************************************************************************/
+static struct unit *choose_more_important_refuel_target(struct unit *punit1,
+							struct unit *punit2)
+{
+  if (punit1->fuel != punit2->fuel)
+    return punit1->fuel < punit2->fuel? punit1: punit2;
+  
+  if (get_unit_type(punit1->type)->build_cost !=
+      get_unit_type(punit2->type)->build_cost)
+    return get_unit_type(punit1->type)->build_cost > 
+      get_unit_type(punit2->type)->build_cost? punit1: punit2;
+  
+  if (punit1->veteran != punit2->veteran)
+    return punit1->veteran > punit2->veteran? punit1: punit2;
+  
+  if (punit1->hp != punit2->hp)
+    return punit1->hp > punit2->hp? punit1: punit2;
+  return punit1;
+}
+
+/***************************************************************************
+...
+****************************************************************************/
+static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
+						 int x, int y, int missile)
+{
+  struct unit *best_unit=NULL;
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if ((unit_owner(punit) == pplayer) && is_air_unit(punit) && 
+        (!missile || unit_flag(punit->type, F_MISSILE))) {
+      /* We must check that it isn't already refuelled. */ 
+      if (punit->fuel < get_unit_type(punit->type)->fuel) { 
+        if (!best_unit) 
+          best_unit=punit;
+        else 
+          best_unit=choose_more_important_refuel_target(best_unit, punit);
+      }
+    }
+  } unit_list_iterate_end;
+  return best_unit;
+}
+
+/***************************************************************************
+...
+****************************************************************************/
+static void refuel_air_units_from_carriers(struct player *pplayer)
+{
+  struct unit_list carriers;
+  struct unit_list missile_carriers;
+  
+  struct unit *punit_to_refuel;
+  
+  unit_list_init(&carriers);
+  unit_list_init(&missile_carriers);
+  
+  /* Temporarily use 'fuel' on Carriers and Subs to keep track
+     of numbers of supported Air Units:   --dwp */
+
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_flag(punit->type, F_CARRIER)) {
+      unit_list_insert(&carriers, punit);
+      punit->fuel = get_unit_type(punit->type)->transport_capacity;
+    } else if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+      unit_list_insert(&missile_carriers, punit);
+      punit->fuel = get_unit_type(punit->type)->transport_capacity;
+    }
+  } unit_list_iterate_end;
+
+  /* Now iterate through missile_carriers and
+   * refuel as many missiles as possible */
+
+  unit_list_iterate(missile_carriers, punit) {
+    while(punit->fuel) {
+      punit_to_refuel= find_best_air_unit_to_refuel(
+          pplayer, punit->x, punit->y, 1 /*missile */);
+      if (!punit_to_refuel)
+        break; /* Didn't find any */
+      punit_to_refuel->fuel = get_unit_type(punit_to_refuel->type)->fuel;
+      punit->fuel--;
+    }
+  } unit_list_iterate_end;
+
+  /* Now refuel air units from carriers (also not yet refuelled missiles) */
+
+  unit_list_iterate(carriers, punit) {
+    while(punit->fuel) {
+      punit_to_refuel= find_best_air_unit_to_refuel(
+          pplayer, punit->x, punit->y, 0 /* any */);
+      if (!punit_to_refuel) 
+        break;
+      punit_to_refuel->fuel = get_unit_type(punit_to_refuel->type)->fuel;
+      punit->fuel--;
+    }
+  } unit_list_iterate_end;			
+
+  /* Clean up temporary use of 'fuel' on Carriers and Subs: */
+  unit_list_iterate(carriers, punit) {
+    punit->fuel = 0;
+  } unit_list_iterate_end;
+
+  unit_list_unlink_all(&carriers);
+
+  unit_list_iterate(missile_carriers, punit) {
+    punit->fuel = 0;
+  } unit_list_iterate_end;
+
+  unit_list_unlink_all(&missile_carriers);
+}
+
+/***************************************************************************
 Do Leonardo's Workshop upgrade if applicable.
+Restore unit hitpoints. (movepoint-restoration moved to update_unit_activities)
 Adjust air units for fuel: air units lose fuel unless in a city,
 on a Carrier or on a airbase special (or, for Missles, on a Submarine).
 Air units which run out of fuel get wiped.
@@ -829,119 +950,93 @@ land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
-  int done;
-
-  /* get Leonardo out of the way first: */
-	
+  /* 1) get Leonardo out of the way first: */
   if (player_owns_active_wonder(pplayer, B_LEONARDO))
     handle_leonardo(pplayer);
 
-  /* Temporarily use 'fuel' on Carriers and Subs to keep track
-     of numbers of supported Air Units:   --dwp */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit->type, F_CARRIER) || 
-	unit_flag(punit->type, F_MISSILE_CARRIER)) {
-      punit->fuel = get_unit_type(punit->type)->transport_capacity;
-    }
-  }
-  unit_list_iterate_end;
 
-  unit_list_iterate(pplayer->units, punit) {
+    /* 2) Modify unit hitpoints. Helicopters can even lose them. */
     unit_restore_hitpoints(pplayer, punit);
 
-    if(punit->hp<=0) {
+    /* 3) Check that unit has hitpoints */
+    if (punit->hp<=0) {
       /* This should usually only happen for heli units,
 	 but if any other units get 0 hp somehow, catch
 	 them too.  --dwp  */
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-		       _("Game: Your %s has run out of hit points."),
-		       unit_name(punit->type));
+          _("Game: Your %s has run out of hit points."), 
+          unit_name(punit->type));
       gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
       wipe_unit_safe(punit, &myiter);
-    } else if (is_air_unit(punit)) {
+      continue; /* Continue iterating... */
+    }
+
+    /* 4) Check that triremes are near coastline, otherwise... */
+    if (unit_flag(punit->type, F_TRIREME)
+	&& myrand(100) < trireme_loss_pct(pplayer, punit->x, punit->y)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
+		       _("Game: Your %s has been lost on the high seas."),
+		       unit_name(punit->type));
+      gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
+	      get_nation_name_plural(pplayer->nation));
+      wipe_unit_safe(punit, &myiter);
+      continue; /* Continue iterating... */
+    }
+
+    /* 5) Resque planes if needed */
+    if (is_air_unit(punit)) {
       /* Shall we emergency return home on the last vapors? */
+
+      /* I think this is strongly against the spirit of client goto.
+       * The problem is (again) that here we know too much. -- Zamar */
+
       if (punit->fuel == 1
 	  && !is_airunit_refuel_point(punit->x, punit->y,
 				      punit->owner, punit->type, 1)) {
 	iterate_outward(punit->x, punit->y, punit->moves_left/3, x_itr, y_itr) {
 	  if (is_airunit_refuel_point(x_itr, y_itr, punit->owner, punit->type, 0)
 	      && (air_can_move_between(punit->moves_left/3, punit->x, punit->y,
-		    x_itr, y_itr, punit->owner) >= 0) ) {
-	      punit->goto_dest_x = x_itr;
-	      punit->goto_dest_y = y_itr;
-	      set_unit_activity(punit, ACTIVITY_GOTO);
-	      do_unit_goto(punit, GOTO_MOVE_ANY, 0);
-	      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			       _("Game: Your %s has returned to refuel."),
-			       unit_name(punit->type));
-	      goto OUT;
-	    }
+				       x_itr, y_itr, punit->owner) >= 0) ) {
+	    punit->goto_dest_x = x_itr;
+	    punit->goto_dest_y = y_itr;
+	    set_unit_activity(punit, ACTIVITY_GOTO);
+	    do_unit_goto(punit, GOTO_MOVE_ANY, 0);
+	    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+			     _("Game: Your %s has returned to refuel."),
+			     unit_name(punit->type));
+	    goto OUT;
+	  }
 	} iterate_outward_end;
       }
     OUT:
 
+      /* 6) Update fuel */
       punit->fuel--;
-      if(map_get_city(punit->x, punit->y) ||
+
+      /* 7) Automatically refuel air units in cities and airbases */
+      if (map_get_city(punit->x, punit->y) ||
          map_get_special(punit->x, punit->y)&S_AIRBASE)
 	punit->fuel=get_unit_type(punit->type)->fuel;
-      else {
-	done = 0;
-	if (unit_flag(punit->type, F_MISSILE)) {
-	  /* Want to preferentially refuel Missiles from Subs,
-	     to leave space on co-located Carriers for normal air units */
-	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
-	    if (!done && unit_flag(punit2->type, F_MISSILE_CARRIER)
-		&& punit2->fuel
-		&& punit2->owner == punit->owner) {
-	      punit->fuel = get_unit_type(punit->type)->fuel;
-	      punit2->fuel--;
-	      done = 1;
-	    }
-	  unit_list_iterate_end;
-	}
-	if (!done) {
-	  /* Non-Missile or not refueled by Subs: use Carriers: */
-	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
-	    if (!done && unit_flag(punit2->type,F_CARRIER) && punit2->fuel) {
-	      punit->fuel = get_unit_type(punit->type)->fuel;
-	      punit2->fuel--;
-	      done = 1;
-	    }
-	  unit_list_iterate_end;
-	}
-      }
-      if(punit->fuel<=0) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-			 _("Game: Your %s has run out of fuel."),
-			 unit_name(punit->type));
-	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
-		get_nation_name_plural(pplayer->nation),
-		unit_name(punit->type));
-	wipe_unit_safe(punit, &myiter);
-      }
-    } else if (unit_flag(punit->type, F_TRIREME)) {
-      if ((myrand(100) < trireme_loss_pct(pplayer, punit->x, punit->y))) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-			 _("Game: Your %s has been lost on the high seas."),
-			 unit_name(punit->type));
-	gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
-		get_nation_name_plural(pplayer->nation));
-	wipe_unit_safe(punit, &myiter);
-      }
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
+
+  /* 8) Use carriers and submarines to refuel air units */
+  refuel_air_units_from_carriers(pplayer);
   
-  /* Clean up temporary use of 'fuel' on Carriers and Subs: */
+  /* 9) Check if there are air units without fuel */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit->type, F_CARRIER) || 
-	unit_flag(punit->type, F_MISSILE_CARRIER)) {
-      punit->fuel = 0;
-    }
-  }
-  unit_list_iterate_end;
+    if (is_air_unit(punit) && punit->fuel<=0) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
+		       _("Game: Your %s has run out of fuel."),
+		       unit_name(punit->type));
+      gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
+	      get_nation_name_plural(pplayer->nation), unit_name(punit->type));
+      wipe_unit_safe(punit, &myiter);
+    } 
+  } unit_list_iterate_end;
 }
 
 /****************************************************************************
