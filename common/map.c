@@ -611,6 +611,7 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 ***************************************************************/
 void map_set_special(int x, int y, enum tile_special_type spe)
 {
+  x = map_adjust_x(x); y = map_adjust_y(y);
   (map.tiles+x+y*map.xsize)->special|=spe;
   if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
 }
@@ -620,6 +621,7 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 void map_clear_special(int x, int y, enum tile_special_type spe)
 {
+  x = map_adjust_x(x); y = map_adjust_y(y);
   (map.tiles+x+y*map.xsize)->special&=~spe;
   if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
 }
