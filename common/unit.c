@@ -189,7 +189,8 @@ int diplomat_can_do_action(struct unit *pdiplomat,
     }
     else {
       if(action==SPY_SABOTAGE_UNIT && unit_list_size(&ptile->units)>=1 &&
-	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)
+	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
+	 pdiplomat->type==U_SPY)
 	return 1;
       if(action==DIPLOMAT_BRIBE && unit_list_size(&ptile->units)==1 &&
 	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)
