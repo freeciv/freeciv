@@ -14,6 +14,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <game.h>
 #include <gamehand.h>
@@ -342,6 +343,12 @@ void report_server_options(struct player *pplayer)
   
 }
 
+void crash_and_burn(void)
+{
+  printf("Crashing and burning.\n");
+  assert(0);
+}
+
 void show_command(char *str)
 {
   int i;
@@ -426,6 +433,8 @@ void handle_stdin_input(char *str)
     toggle_ai_player(arg);
   else if (!strcmp("create", command))
     create_ai_player(arg);
+  else if (!strcmp("crash", command))
+    crash_and_burn();
   else if(!strcmp("q", command))
     quit_game();
   else if(!strcmp("c", command))
