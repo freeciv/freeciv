@@ -93,7 +93,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 {
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int i;
+  int canvas_x, canvas_y, i;
 
   set_units_in_combat(punit0, punit1);
 
@@ -116,42 +116,41 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
-  for (i = 0; i < num_tiles_explode_unit; i++) {
-    int canvas_x, canvas_y;
-    get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    if (is_isometric) {
-      /* We first draw the explosion onto the unit and draw draw the
-	 complete thing onto the map canvas window. This avoids flickering. */
-      gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-		      canvas_x, canvas_y,
-		      0, 0,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      pixmap_put_overlay_tile(single_tile_pixmap,
-			      NORMAL_TILE_WIDTH/4, 0,
-			      sprites.explode.unit[i]);
-      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    } else { /* is_isometric */
-      /* FIXME: maybe do as described in the above comment. */
-      struct canvas_store store = {single_tile_pixmap};
+  if (map_to_canvas_pos(&canvas_x, &canvas_y,
+			losing_unit->x, losing_unit->y)) {
+    for (i = 0; i < num_tiles_explode_unit; i++) {
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      if (is_isometric) {
+	/* We first draw the explosion onto the unit and draw draw the
+	 * complete thing onto the map canvas window. This avoids
+	 * flickering. */
+	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+			canvas_x, canvas_y, 0, 0,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	pixmap_put_overlay_tile(single_tile_pixmap,
+				NORMAL_TILE_WIDTH / 4, 0,
+				sprites.explode.unit[i]);
+	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+			0, 0, canvas_x, canvas_y,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      } else {
+	/* Not isometric. */
+	/* FIXME: maybe do as described in the above comment. */
+	struct canvas_store store = {single_tile_pixmap};
 
-      put_one_tile(&store, losing_unit->x, losing_unit->y,
-		   0, 0, FALSE);
-      put_unit_full(losing_unit, &store, 0, 0);
-      pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
-			      sprites.explode.unit[i]);
+	put_one_tile(&store, losing_unit->x, losing_unit->y,
+		     0, 0, FALSE);
+	put_unit_full(losing_unit, &store, 0, 0);
+	pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
+				sprites.explode.unit[i]);
 
-      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      UNIT_TILE_WIDTH,
-		      UNIT_TILE_HEIGHT);
+	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+			0, 0, canvas_x, canvas_y,
+			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      }
+      gdk_flush();
+      usleep_since_timer_start(anim_timer, 20000);
     }
-    gdk_flush();
-    usleep_since_timer_start(anim_timer, 20000);
   }
 
   set_units_in_combat(NULL, NULL);
@@ -514,16 +513,16 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
 
   map_resized=FALSE;
-  if(map_canvas_store_twidth !=tile_width ||
-     map_canvas_store_theight!=tile_height) { /* resized? */
+  if (mapview_canvas.tile_width != tile_width
+      || mapview_canvas.tile_height != tile_height) { /* resized? */
     gdk_pixmap_unref(map_canvas_store);
   
-    map_canvas_store_twidth=tile_width;
-    map_canvas_store_theight=tile_height;
+    mapview_canvas.tile_width = tile_width;
+    mapview_canvas.tile_height = tile_height;
 /*
     gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas),
-  		    map_canvas_store_twidth,
-  		    map_canvas_store_theight);
+  		    mapview_canvas.tile_width,
+  		    mapview_canvas.tile_height);
 */
     map_canvas_store= gdk_pixmap_new( map_canvas->window,
   		    tile_width*NORMAL_TILE_WIDTH,
@@ -534,8 +533,8 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
 		       0, 0,
-		       NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-		       NORMAL_TILE_HEIGHT*map_canvas_store_theight);
+		       NORMAL_TILE_WIDTH * mapview_canvas.tile_width,
+		       NORMAL_TILE_HEIGHT * mapview_canvas.tile_height);
     update_map_canvas_scrollbars_size();
     map_resized=TRUE;
   }
@@ -861,7 +860,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
     int canvas_x, canvas_y;
     struct Sprite *mysprite = sprites.explode.iso_nuke;
 
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    (void) map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
     canvas_x += NORMAL_TILE_WIDTH/2 - mysprite->width/2;
     canvas_y += NORMAL_TILE_HEIGHT/2 - mysprite->height/2;
 
@@ -879,7 +878,10 @@ void put_nuke_mushroom_pixmaps(int x, int y)
     for (y_itr=0; y_itr<3; y_itr++) {
       for (x_itr=0; x_itr<3; x_itr++) {
 	struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
-	get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
+	if (!map_to_canvas_pos(&canvas_x, &canvas_y,
+			       x + x_itr - 1, y + y_itr - 1)) {
+	  continue;
+	}
 
 	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
 			canvas_x, canvas_y, 0, 0,
@@ -1094,9 +1096,8 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 void put_cross_overlay_tile(int x, int y)
 {
   int canvas_x, canvas_y;
-  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
-  if (tile_visible_mapcanvas(x, y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
 			    sprites.user.attention);
@@ -1121,7 +1122,9 @@ void put_city_workers(struct city *pcity, int color)
   city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
     enum city_tile_type worked = get_worker_city(pcity, i, j);
 
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    if (!map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+      continue;
+    }
 
     /* stipple the area */
     if (!is_city_center(i, j)) {
@@ -1247,8 +1250,10 @@ static void really_draw_segment(int src_x, int src_y, int dir,
 
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */
-  get_canvas_xy(src_x, src_y, &canvas_start_x, &canvas_start_y);
-  get_canvas_xy(dest_x, dest_y, &canvas_end_x, &canvas_end_y);
+  if (!map_to_canvas_pos(&canvas_start_x, &canvas_start_y, src_x, src_y)
+      && !map_to_canvas_pos(&canvas_end_x, &canvas_end_y, dest_x, dest_y)) {
+    return;
+  }
   canvas_start_x += NORMAL_TILE_WIDTH/2;
   canvas_start_y += NORMAL_TILE_HEIGHT/2-1;
   canvas_end_x += NORMAL_TILE_WIDTH/2;
@@ -1322,7 +1327,7 @@ Not used in isometric view.
 static void put_line(GdkDrawable *pm, int x, int y, int dir)
 {
   int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
-  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
+  (void) map_to_canvas_pos(&canvas_src_x, &canvas_src_y, x, y);
   canvas_src_x += NORMAL_TILE_WIDTH/2;
   canvas_src_y += NORMAL_TILE_HEIGHT/2;
   DIRSTEP(canvas_dest_x, canvas_dest_y, dir);
