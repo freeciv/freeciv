@@ -37,7 +37,7 @@ extern int did_advance_tech_this_turn;
 
 extern char metaserver[256];
 extern char server_host[512];
-extern char name[512];
+extern char player_name[512];
 extern int server_port;
 
 #endif  /* FC__CIVCLIENT_H */

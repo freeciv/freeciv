@@ -50,11 +50,11 @@ static void connect_connect(void)
 {
   char errbuf [512];
 
-  sz_strlcpy(name, getstring(connect_name_string));
+  sz_strlcpy(player_name, getstring(connect_name_string));
   sz_strlcpy(server_host, getstring(connect_host_string));
   server_port = xget(connect_port_string, MUIA_String_Integer);
   
-  if(connect_to_server(name, server_host, server_port,
+  if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1)
   {
     set(connect_wnd,MUIA_Window_Open,FALSE);
@@ -235,7 +235,7 @@ void gui_server_connect(void)
 
   if(connect_wnd)
   {
-    set(connect_name_string, MUIA_String_Contents, name);
+    set(connect_name_string, MUIA_String_Contents, player_name);
     set(connect_host_string, MUIA_String_Contents, server_host);
     set(connect_port_string, MUIA_String_Integer, server_port);
 

@@ -85,7 +85,7 @@ void gui_server_connect(void)
 
   I_L(XtVaCreateManagedWidget("cnamel", labelWidgetClass, form, NULL));
   iname=XtVaCreateManagedWidget("cnamei", asciiTextWidgetClass, form, 
-			  XtNstring, name, NULL);
+				XtNstring, player_name, NULL);
 
   I_L(XtVaCreateManagedWidget("chostl", labelWidgetClass, form, NULL));
   ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
@@ -145,13 +145,13 @@ void connect_callback(Widget w, XtPointer client_data,
   char errbuf[512];
   
   XtVaGetValues(iname, XtNstring, &dp, NULL);
-  sz_strlcpy(name, (char*)dp);
+  sz_strlcpy(player_name, (char*)dp);
   XtVaGetValues(ihost, XtNstring, &dp, NULL);
   sz_strlcpy(server_host, (char*)dp);
   XtVaGetValues(iport, XtNstring, &dp, NULL);
   sscanf((char*)dp, "%d", &server_port);
   
-  if(connect_to_server(name, server_host, server_port,
+  if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     XtDestroyWidget(XtParent(XtParent(w)));
     if(meta_dialog_shell) {

@@ -52,11 +52,11 @@ static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
 
-  sz_strlcpy(name, gtk_entry_get_text(GTK_ENTRY(iname)));
+  sz_strlcpy(player_name, gtk_entry_get_text(GTK_ENTRY(iname)));
   sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
   server_port=atoi(gtk_entry_get_text(GTK_ENTRY(iport)));
   
-  if(connect_to_server(name, server_host, server_port,
+  if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
     gtk_widget_set_sensitive(top_vbox,TRUE);
@@ -161,7 +161,7 @@ void gui_server_connect(void)
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
   iname=gtk_entry_new();
-  gtk_entry_set_text(GTK_ENTRY(iname), name);
+  gtk_entry_set_text(GTK_ENTRY(iname), player_name);
   gtk_table_attach_defaults (GTK_TABLE (table), iname, 1, 2, 0, 1);
 
   label=gtk_label_new(_("Host:"));

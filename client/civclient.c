@@ -67,7 +67,7 @@ int is_server = 0;
 
 char metaserver[256];
 char server_host[512];
-char name[512];
+char player_name[512];
 int server_port;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
   server_port=DEFAULT_SOCK_PORT;
   sz_strlcpy(server_host, "localhost");
   sz_strlcpy(metaserver, METALIST_ADDR);
-  name[0] = '\0';
+  player_name[0] = '\0';
 
   i = 1;
 
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
    } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)) != NULL)
-      sz_strlcpy(name, option);
+     sz_strlcpy(player_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)) != NULL)
       sz_strlcpy(metaserver, option);
    else if ((option = get_option("--port",argv,&i,argc)) != NULL)
@@ -155,8 +155,8 @@ int main(int argc, char *argv[])
   log_init(logfile, loglevel, NULL);
 
   /* after log_init: */
-  if (name[0] == '\0') {
-    sz_strlcpy(name, user_username());
+  if (player_name[0] == '\0') {
+    sz_strlcpy(player_name, user_username());
   }
 
   /* initialization */

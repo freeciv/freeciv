@@ -1102,7 +1102,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* Remove to here */
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
-    sz_strlcpy(name, pplayer->name);
+    sz_strlcpy(player_name, pplayer->name);
     if(poptechup) {
       if(!game.player_ptr->ai.control || ai_popup_windows)
 	popup_science_dialog(1);
