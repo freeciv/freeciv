@@ -1603,10 +1603,12 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
        game_remove_unit(punit->id);
        city_refresh(pcity);
        send_city_info(dest, pcity, 0);
-       } else {
-       freelog(LOG_DEBUG,"Can't find homecity  of unit located at (%d,%d) ",
-       punit->x,punit->y);
-       }
+    } else {
+      /* can this happen? --dwp */
+      freelog(LOG_NORMAL, "Can't find homecity of unit at (%d,%d)",
+	      punit->x, punit->y);
+      game_remove_unit(punit->id);
+    }
   } else {
     game_remove_unit(punit->id);
   }
