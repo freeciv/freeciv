@@ -24,14 +24,17 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include <stdlib.h>
 #include <errno.h>
 #include <time.h>
+
+#include <libraries/usergroup.h>
+#include <workbench/startup.h>
+
 #include <clib/alib_protos.h>
+
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include <proto/icon.h>
 #include <proto/socket.h>
 #include <proto/usergroup.h>
-#include <libraries/usergroup.h>
-#include <workbench/startup.h>
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
