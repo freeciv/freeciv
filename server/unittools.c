@@ -682,7 +682,7 @@ static void disband_stack_conflict_unit(struct unit *punit, int verbose)
 		  _("Game: Disbanded your %s at (%d, %d)."),
 		  unit_name(punit->type), punit->x, punit->y);
   }
-  wipe_unit(get_player(punit->owner), punit);
+  wipe_unit(punit);
 }
 
 /**************************************************************************

@@ -175,7 +175,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat->type, F_SPY)) {
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -248,7 +248,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		      unit_name (pdiplomat->type),
 		      get_nation_name_plural (pplayer->nation),
 		      pcity->name);
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
     return;
   }
 
@@ -258,7 +258,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		      _("Game: Your %s was executed in %s by primitive %s."),
 		      unit_name (pdiplomat->type),
 		      pcity->name, get_nation_name_plural (pplayer->nation));
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
     return;
   }
 
@@ -289,7 +289,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat->type, F_SPY)) {
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -435,7 +435,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Be sure to wipe the converted unit! */
   victim_x = pvictim->x;
   victim_y = pvictim->y;
-  wipe_unit (0, pvictim);
+  wipe_unit (pvictim);
 
   /* Now, try to move the briber onto the victim's square. */
   diplomat_id = pdiplomat->id;
@@ -522,7 +522,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 		      _("Game: %s's %s failed to steal technology from %s."),
 		      pplayer->name, unit_name (pdiplomat->type), pcity->name);
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
     return;
   }
 
@@ -747,7 +747,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		      n_if_vowel (get_nation_name (pplayer->nation)[0]),
 		      get_nation_name (pplayer->nation),
 		      unit_name (pdiplomat->type), pcity->name);
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
     return;
   }
 
@@ -845,7 +845,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		      n_if_vowel (get_nation_name (pplayer->nation)[0]),
 		      get_nation_name (pplayer->nation),
 		      unit_name (pdiplomat->type), pcity->name);
-    wipe_unit (0, pdiplomat);
+    wipe_unit (pdiplomat);
     return;
   }
 
@@ -983,7 +983,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			  get_nation_name (pplayer->nation),
 			  unit_name (pdiplomat->type),
 			  get_improvement_name (improvement), pcity->name);
-	wipe_unit (0, pdiplomat);
+	wipe_unit (pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
 	return;
       }
@@ -1080,7 +1080,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  unit_name (pdiplomat->type),
 			  pcity->name);
 
-	wipe_unit_safe(0, punit, &myiter);
+	wipe_unit_safe(punit, &myiter);
       } else {
 	/* Attacking Spy/Diplomat dies. */
 
@@ -1098,7 +1098,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  unit_name (pdiplomat->type),
 			  pcity->name);
 
-	wipe_unit_safe(0, pdiplomat, &myiter);
+	wipe_unit_safe(pdiplomat, &myiter);
 	return 0;
       }
     }
@@ -1176,7 +1176,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
     }
   }
 
-  wipe_unit (0, pdiplomat);
+  wipe_unit (pdiplomat);
 }
 
 /*****************************************************************
@@ -1318,7 +1318,7 @@ void player_restore_units(struct player *pplayer)
       gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
-      wipe_unit_safe(0, punit, &myiter);
+      wipe_unit_safe(punit, &myiter);
     } else if (is_air_unit(punit)) {
       /* Shall we emergency return home on the last vapors? */
       if (punit->fuel == 1
@@ -1379,7 +1379,7 @@ void player_restore_units(struct player *pplayer)
 	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
 		get_nation_name_plural(pplayer->nation),
 		unit_name(punit->type));
-	wipe_unit_safe(0, punit, &myiter);
+	wipe_unit_safe(punit, &myiter);
       }
     } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
 	       !is_coastline(punit->x, punit->y) &&
@@ -1393,7 +1393,7 @@ void player_restore_units(struct player *pplayer)
 			 unit_name(punit->type));
 	gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
 		get_nation_name_plural(pplayer->nation));
-	wipe_unit_safe(pplayer, punit, &myiter);
+	wipe_unit_safe(punit, &myiter);
       }
     }
   }
@@ -2060,7 +2060,7 @@ void do_nuke_tile(int x, int y)
   
   while(unit_list_size(punit_list)) {
     struct unit *punit=unit_list_get(punit_list, 0);
-    wipe_unit(0, punit);
+    wipe_unit(punit);
   }
 
   if((pcity=map_get_city(x,y))) {
@@ -2357,8 +2357,8 @@ avoid dangling pointers.
 NOTE: iter should not be an iterator for the map units list, but
 city supported, or player units, is ok.
 **************************************************************************/
-void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
-			 struct genlist_iterator *iter, int wipe_cargo)
+void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
+			 int wipe_cargo)
 {
   /* No need to remove air units as they can still fly away */
   if (is_ground_units_transport(punit)
@@ -2405,18 +2405,17 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
 ...
 **************************************************************************/
 
-void wipe_unit_safe(struct player *dest, struct unit *punit,
-		    struct genlist_iterator *iter){
-  wipe_unit_spec_safe(dest, punit, iter, 1);
+void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter){
+  wipe_unit_spec_safe(punit, iter, 1);
 }
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-void wipe_unit(struct player *dest, struct unit *punit)
+void wipe_unit(struct unit *punit)
 {
-  wipe_unit_safe(dest, punit, NULL);
+  wipe_unit_safe(punit, NULL);
 }
 
 

@@ -48,11 +48,10 @@ void create_unit_full(struct player *pplayer, int x, int y,
 		      Unit_Type_id type, int make_veteran, int homecity_id,
 		      int moves_left, int hp_left);
 void send_remove_unit(struct player *pplayer, int unit_id);
-void wipe_unit(struct player *dest, struct unit *punit);
-void wipe_unit_safe(struct player *dest, struct unit *punit,
-		    struct genlist_iterator *iter);
-void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
-			 struct genlist_iterator *iter, int wipe_cargo);
+void wipe_unit(struct unit *punit);
+void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter);
+void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
+			 int wipe_cargo);
 
 void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit);

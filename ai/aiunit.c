@@ -265,7 +265,6 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       }
     }
   }
-/*  if (!is_military_unit(punit)) wipe_unit(pplayer, punit); */
 }
 
 /**************************************************************************
@@ -1533,7 +1532,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   /* check if barbarian boat is empty and so not needed - the crew has landed */
   if( is_barbarian(pplayer) && unit_list_size(&map_get_tile(punit->x, punit->y)->units)<2 ) {
-    wipe_unit(pplayer,punit);
+    wipe_unit(punit);
     return;
   }
 
@@ -1713,7 +1712,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
      function */
   if( is_barbarian(pplayer) ) {
     if( unit_can_be_retired(punit) && myrand(100) > 90 ) {
-      wipe_unit(0, punit);
+      wipe_unit(punit);
       return;
     }
     if( !is_military_unit(punit)
@@ -2099,7 +2098,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   if( is_at_coast(leader->x, leader->y) && !leader->fuel) {
     if(myrand(3) == 0) {
       freelog(LOG_DEBUG, "Barbarian leader disappeared at %d %d", leader->x, leader->y);
-      wipe_unit(pplayer,leader);
+      wipe_unit(leader);
       return;
     }
   }

@@ -323,7 +323,7 @@ void handle_unit_disband_safe(struct player *pplayer,
       pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
       send_city_info(pplayer, pcity);
     }
-    wipe_unit_safe(pplayer, punit, iter);
+    wipe_unit_safe(punit, iter);
   }
 }
 
@@ -374,7 +374,7 @@ void handle_unit_build_city(struct player *pplayer,
       pcity->size++;
       if (!add_adjust_workers(pcity))
 	auto_arrange_workers(pcity);
-      wipe_unit(0, punit);
+      wipe_unit(punit);
       send_city_info(0, pcity);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       _("Game: %s added to aid %s in growing."), 
@@ -508,7 +508,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		       _("Game: The nuclear attack on %s was avoided by"
 			 " your SDI defense."),
 		       pcity->name); 
-      wipe_unit(0, punit);
+      wipe_unit(punit);
       return;
     } 
 
@@ -593,7 +593,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		     unit_name(pwinner->type),
 		     get_location_str_at(get_player(plooser->owner),
 					 pwinner->x, pwinner->y, " "));
-    wipe_unit(pplayer, plooser);
+    wipe_unit(plooser);
   }
   else {
     /* The defender lost, the attacker punit lives! */
@@ -617,7 +617,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
                /* no longer pplayer - want better msgs -- Syela */
   }
   if (pwinner == punit && unit_flag(punit->type, F_MISSILE)) {
-    wipe_unit(pplayer, pwinner);
+    wipe_unit(pwinner);
     return;
   }
 
@@ -1002,7 +1002,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 		   pcity_dest->name, 
 		   build_points_left(pcity_dest));
 
-  wipe_unit(0, punit);
+  wipe_unit(punit);
   send_player_info(pplayer, pplayer);
   send_city_info(pplayer, pcity_dest);
   connection_do_unbuffer(pplayer->conn);
@@ -1070,7 +1070,7 @@ int handle_unit_establish_trade(struct player *pplayer,
 		   " and revenues amount to %d in gold and research."), 
 		   unit_name(punit->type), pcity_homecity->name,
 		   pcity_dest->name, revenue);
-  wipe_unit(0, punit);
+  wipe_unit(punit);
   pplayer->economic.gold+=revenue;
   update_tech(pplayer, revenue);
   send_player_info(pplayer, pplayer);
