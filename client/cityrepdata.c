@@ -212,7 +212,7 @@ struct city_report_spec city_report_specs[] = {
   { 1, 10, 1, N_("Economy"), N_("G/L/S"),
                                       N_("Economy: Gold, Luxuries, Science"),
                                       FUNC_TAG(output) },
-  { 0,  1, 1, "n", "T",               N_("Number of Trade Routes"),
+  { 0,  1, 1, N_("n"), N_("T"),       N_("Number of Trade Routes"),
                                       FUNC_TAG(num_trade) },
   { 1,  7, 1, N_("Food"), N_("Stock"), N_("Food Stock"),
                                       FUNC_TAG(food) },

@@ -1,7 +1,7 @@
 [nation_barbarian]
 
-name="Barbarian"
-plural="Barbarians"
+name=_("Barbarian")
+plural=_("?plural:Barbarians")
 leader="Genseric", "Alaric", "Teodoric", "Herman"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.barbarian"
@@ -20,5 +20,3 @@ government = "Despotism"
 cities = "Nowhere"
 
 ; nothing more needed for barbarians
-
-

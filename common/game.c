@@ -1029,5 +1029,7 @@ void translate_data_names(void)
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
   }
-}
+
 #undef name_strlcpy
+
+}
