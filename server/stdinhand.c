@@ -3130,6 +3130,9 @@ static void send_load_game_info(bool load_successful)
   if (load_successful) {
     int i = 0;
 
+    /* We have to send ruleset info before sending the nations, below. */
+    send_rulesets(game.est_connections);
+
     players_iterate(pplayer) {
       if (game.nation_count && is_barbarian(pplayer)) {
 	continue;
@@ -3138,12 +3141,9 @@ static void send_load_game_info(bool load_successful)
       sz_strlcpy(packet.name[i], pplayer->name);
       sz_strlcpy(packet.username[i], pplayer->username);
       if (game.nation_count) {
-	sz_strlcpy(packet.nation_name[i], get_nation_name(pplayer->nation));
-	sz_strlcpy(packet.nation_flag[i],
-	    get_nation_by_plr(pplayer)->flag_graphic_str);
+	packet.nations[i] = pplayer->nation;
       } else { /* No nations picked */
-	sz_strlcpy(packet.nation_name[i], "");
-	sz_strlcpy(packet.nation_flag[i], "");
+	packet.nations[i] = NO_NATION_SELECTED;
       }
       packet.is_alive[i] = pplayer->is_alive;
       packet.is_ai[i] = pplayer->ai.control;

@@ -179,6 +179,8 @@ struct Sprite *get_citizen_sprite(struct tileset *t,
 				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
+struct Sprite *get_nation_flag_sprite(struct tileset *t,
+				      const struct nation_type *nation);
 struct Sprite *get_sample_city_sprite(struct tileset *t, int city_style);
 struct Sprite *get_arrow_sprite(struct tileset *t);
 struct Sprite *get_tax_sprite(struct tileset *t, Output_type_id otype);

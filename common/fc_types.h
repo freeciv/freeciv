@@ -35,6 +35,7 @@ typedef enum output_type Output_type_id;
 
 struct city;
 struct government;
+struct nation_type;
 struct player;
 struct tile;
 struct unit;

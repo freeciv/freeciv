@@ -962,8 +962,7 @@ struct packet_game_load {
   char load_filename[MAX_LEN_PACKET];
   char name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
   char username[MAX_NUM_PLAYERS][MAX_LEN_NAME];
-  char nation_name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
-  char nation_flag[MAX_NUM_PLAYERS][MAX_LEN_NAME];
+  Nation_Type_id nations[MAX_NUM_PLAYERS];
   bool is_alive[MAX_NUM_PLAYERS];
   bool is_ai[MAX_NUM_PLAYERS];
 };

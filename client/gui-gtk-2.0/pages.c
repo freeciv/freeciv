@@ -1431,13 +1431,13 @@ static void nation_start_callback(void)
  FIXME: this is somewhat duplicated in plrdlg.c, 
         should be somewhere else and non-static
 **************************************************************************/
-static GdkPixbuf *get_flag(char *flag_str)
+static GdkPixbuf *get_flag(const struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;
   struct Sprite *flag;
 
-  flag = load_sprite(tileset, flag_str);
+  flag = get_nation_flag_sprite(tileset, nation);
 
   if (!flag) {
     return NULL;
@@ -1461,7 +1461,6 @@ static GdkPixbuf *get_flag(char *flag_str)
   im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
   im2 = gdk_pixbuf_copy(im);
   g_object_unref(im);
-  unload_sprite(tileset, flag_str);
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
   return im2;
@@ -1480,20 +1479,29 @@ static void update_nation_page(struct packet_game_load *packet)
 
   for (i = 0; i < packet->nplayers; i++) {
     GtkTreeIter iter;
-    GdkPixbuf *flag;
+    const char *nation_name;
+
+    if (packet->nations[i] == NO_NATION_SELECTED) {
+      nation_name = "";
+    } else {
+      nation_name = get_nation_name(packet->nations[i]);
+    }
 
     gtk_list_store_append(nation_store, &iter);
     gtk_list_store_set(nation_store, &iter, 
 	0, packet->name[i],
-	2, packet->nation_name[i],
+	2, nation_name,
 	3, packet->is_alive[i] ? _("Alive") : _("Dead"),
 	4, packet->is_ai[i] ? _("AI") : _("Human"), -1);
 
     /* set flag if we've got one to set. */
-    if (strcmp(packet->nation_flag[i], "") != 0) {
-      flag = get_flag(packet->nation_flag[i]);
-      gtk_list_store_set(nation_store, &iter, 1, flag, -1);
-      g_object_unref(flag);
+    if (packet->nations[i] != NO_NATION_SELECTED) {
+      GdkPixbuf *flag = get_flag(get_nation_by_idx(packet->nations[i]));
+
+      if (flag) {
+	gtk_list_store_set(nation_store, &iter, 1, flag, -1);
+	g_object_unref(flag);
+      }
     }
   }
 

@@ -4111,6 +4111,15 @@ struct Sprite *get_citizen_sprite(struct tileset *t,
 }
 
 /**************************************************************************
+  Return the sprite for the nation.
+**************************************************************************/
+struct Sprite *get_nation_flag_sprite(struct tileset *t,
+				      const struct nation_type *nation)
+{
+  return nation ? nation->flag_sprite : NULL;
+}
+
+/**************************************************************************
   Return a "sample" sprite for this city style.
 **************************************************************************/
 struct Sprite *get_sample_city_sprite(struct tileset *t, int city_style)

@@ -1677,7 +1677,7 @@ static struct packet_nation_unavailable *receive_packet_nation_unavailable_100(s
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->nation = readin;
     }
   }
@@ -1726,7 +1726,7 @@ static int send_packet_nation_unavailable_100(struct connection *pc, const struc
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->nation);
+    dio_put_sint16(&dout, real_packet->nation);
   }
 
 
@@ -1914,7 +1914,7 @@ static struct packet_nation_select_req *receive_packet_nation_select_req_100(str
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->nation_no = readin;
     }
   }
@@ -1987,7 +1987,7 @@ static int send_packet_nation_select_req_100(struct connection *pc, const struct
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->nation_no);
+    dio_put_sint16(&dout, real_packet->nation_no);
   }
   /* field 1 is folded into the header */
   if (BV_ISSET(fields, 2)) {
@@ -9394,7 +9394,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->nation = readin;
     }
   }
@@ -9809,7 +9809,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
     dio_put_uint8(&dout, real_packet->city_style);
   }
   if (BV_ISSET(fields, 8)) {
-    dio_put_uint16(&dout, real_packet->nation);
+    dio_put_sint16(&dout, real_packet->nation);
   }
   if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->team);
@@ -22255,7 +22255,7 @@ static struct packet_ruleset_government_ruler_title *receive_packet_ruleset_gove
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->nation = readin;
     }
   }
@@ -22332,7 +22332,7 @@ static int send_packet_ruleset_government_ruler_title_100(struct connection *pc,
     dio_put_uint8(&dout, real_packet->id);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_uint16(&dout, real_packet->nation);
+    dio_put_sint16(&dout, real_packet->nation);
   }
   if (BV_ISSET(fields, 3)) {
     dio_put_string(&dout, real_packet->male_title);
@@ -24003,7 +24003,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->id = readin;
     }
   }
@@ -24232,7 +24232,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->id);
+    dio_put_sint16(&dout, real_packet->id);
   }
   if (BV_ISSET(fields, 1)) {
     dio_put_string(&dout, real_packet->name);
@@ -26654,7 +26654,7 @@ int send_packet_ruleset_choices(struct connection *pc, const struct packet_rules
 
 #define cmp_packet_game_load_100 cmp_const
 
-BV_DEFINE(packet_game_load_100_fields, 9);
+BV_DEFINE(packet_game_load_100_fields, 8);
 
 static struct packet_game_load *receive_packet_game_load_100(struct connection *pc, enum packet_type type)
 {
@@ -26728,7 +26728,12 @@ static struct packet_game_load *receive_packet_game_load_100(struct connection *
         real_packet->nplayers = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nplayers; i++) {
-        dio_get_string(&din, real_packet->nation_name[i], sizeof(real_packet->nation_name[i]));
+        {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->nations[i] = readin;
+    }
       }
     }
   }
@@ -26742,25 +26747,11 @@ static struct packet_game_load *receive_packet_game_load_100(struct connection *
         real_packet->nplayers = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nplayers; i++) {
-        dio_get_string(&din, real_packet->nation_flag[i], sizeof(real_packet->nation_flag[i]));
-      }
-    }
-  }
-  if (BV_ISSET(fields, 7)) {
-    
-    {
-      int i;
-    
-      if(real_packet->nplayers > MAX_NUM_PLAYERS) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->nplayers = MAX_NUM_PLAYERS;
-      }
-      for (i = 0; i < real_packet->nplayers; i++) {
         dio_get_bool8(&din, &real_packet->is_alive[i]);
       }
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     
     {
       int i;
@@ -26858,7 +26849,7 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       if(!differ) {
         int i;
         for (i = 0; i < real_packet->nplayers; i++) {
-          if (strcmp(old->nation_name[i], real_packet->nation_name[i]) != 0) {
+          if (old->nations[i] != real_packet->nations[i]) {
             differ = TRUE;
             break;
           }
@@ -26874,7 +26865,7 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       if(!differ) {
         int i;
         for (i = 0; i < real_packet->nplayers; i++) {
-          if (strcmp(old->nation_flag[i], real_packet->nation_flag[i]) != 0) {
+          if (old->is_alive[i] != real_packet->is_alive[i]) {
             differ = TRUE;
             break;
           }
@@ -26890,22 +26881,6 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       if(!differ) {
         int i;
         for (i = 0; i < real_packet->nplayers; i++) {
-          if (old->is_alive[i] != real_packet->is_alive[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
-
-
-    {
-      differ = (old->nplayers != real_packet->nplayers);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->nplayers; i++) {
           if (old->is_ai[i] != real_packet->is_ai[i]) {
             differ = TRUE;
             break;
@@ -26914,7 +26889,7 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26955,7 +26930,7 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       int i;
 
       for (i = 0; i < real_packet->nplayers; i++) {
-        dio_put_string(&dout, real_packet->nation_name[i]);
+        dio_put_sint16(&dout, real_packet->nations[i]);
       }
     } 
   }
@@ -26965,21 +26940,11 @@ static int send_packet_game_load_100(struct connection *pc, const struct packet_
       int i;
 
       for (i = 0; i < real_packet->nplayers; i++) {
-        dio_put_string(&dout, real_packet->nation_flag[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 7)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->nplayers; i++) {
         dio_put_bool8(&dout, real_packet->is_alive[i]);
       }
     } 
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
   
     {
       int i;

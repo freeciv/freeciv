@@ -193,7 +193,7 @@ type CITY   		= UINT16
 type UNIT   		= UINT16
 type TECH     		= UINT8
 type UNIT_TYPE		= uint8(Unit_Type_id)
-type NATION		= uint16(Nation_Type_id)
+type NATION		= sint16(Nation_Type_id)
 type GOVERNMENT		= UINT8
 type CONNECTION		= UINT8
 type TEAM		= UINT8
@@ -1253,8 +1253,7 @@ PACKET_GAME_LOAD=111;sc,handle-via-packet,lsend
   STRING load_filename[MAX_LEN_PACKET];
   STRING name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
   STRING username[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
-  STRING nation_name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
-  STRING nation_flag[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
+  NATION nations[MAX_NUM_PLAYERS:nplayers];
   BOOL is_alive[MAX_NUM_PLAYERS:nplayers];
   BOOL is_ai[MAX_NUM_PLAYERS:nplayers];
 end
