@@ -242,18 +242,24 @@ static void draw_mono_bitmap(struct image *image,
   int x, y;
   unsigned char *pbitmap = (unsigned char *) bitmap->buffer;
   unsigned char tmp[4];
+  struct ct_point pos;
 
   set_color(color, tmp);
 
   for (y = 0; y < bitmap->rows; y++) {
+    pos.y = y + position->y;
     for (x = 0; x < bitmap->width; x++) {
-      unsigned char bv = bitmap->buffer[x / 8 + bitmap->pitch * y];
-      if (TEST_BIT(bv, 7 - (x % 8))) {
-	unsigned char *p = 
-            IMAGE_GET_ADDRESS(image, x + position->x, y + position->y);
+      pos.x = x + position->x;
+      if (ct_point_in_rect(&pos, &image->full_rect)) {
 
-	IMAGE_CHECK(image, x + position->x, y + position->y);
-	memcpy(p, tmp, 4);
+	unsigned char bv = bitmap->buffer[x / 8 + bitmap->pitch * y];
+	if (TEST_BIT(bv, 7 - (x % 8))) {
+	  unsigned char *p =
+	      IMAGE_GET_ADDRESS(image, x + position->x, y + position->y);
+
+	  IMAGE_CHECK(image, x + position->x, y + position->y);
+	  memcpy(p, tmp, 4);
+	}
       }
     }
     pbitmap += bitmap->pitch;
@@ -271,19 +277,24 @@ static void draw_alpha_bitmap(struct image *image,
   int x, y;
   unsigned char color[4];
   unsigned char *pbitmap = (unsigned char *) bitmap->buffer;
+  struct ct_point pos;
 
   set_color(color_, color);
 
   for (y = 0; y < bitmap->rows; y++) {
+    pos.y = y + position->y;
     for (x = 0; x < bitmap->width; x++) {
-      unsigned short transparency = pbitmap[x];
-      unsigned char tmp[4];
-      unsigned char *p = 
-               IMAGE_GET_ADDRESS(image, position->x + x, position->y + y);
+      pos.x = x + position->x;
+      if (ct_point_in_rect(&pos, &image->full_rect)) {
+	unsigned short transparency = pbitmap[x];
+	unsigned char tmp[4];
+	unsigned char *p =
+	    IMAGE_GET_ADDRESS(image, position->x + x, position->y + y);
 
-      IMAGE_CHECK(image, x, y);
-      ALPHA_BLEND(tmp, transparency, p);
-      memcpy(p, tmp, 4);
+	IMAGE_CHECK(image, x, y);
+	ALPHA_BLEND(tmp, transparency, p);
+	memcpy(p, tmp, 4);
+      }
     }
     pbitmap += bitmap->pitch;
   }
@@ -461,8 +472,12 @@ static void draw_line(struct image *image, unsigned char *src,
   y = y1;
 
   for (curpixel = 0; curpixel <= numpixels; curpixel++) {
-    IMAGE_CHECK(image, x, y);
-    memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+    struct ct_point pos = { x, y };
+
+    if (ct_point_in_rect(&pos, &image->full_rect)) {
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+    }
     num += numadd;
     if (num >= den) {
       num -= den;
