@@ -15,8 +15,12 @@
 
 struct city;
 
-#define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
+#ifndef NDEBUG
+#  define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
 void real_sanity_check_city(struct city *pcity, const char *file, int line);
+#else /* NDEBUG */
+#  define sanity_check_city(x) (void)0
+#endif /* NDEBUG */
 
 void sanity_check(void);
 
