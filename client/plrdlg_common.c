@@ -23,6 +23,7 @@
 #include "support.h"
 
 #include "climisc.h"
+#include "text.h"
 
 #include "plrdlg_g.h"
 
