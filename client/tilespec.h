@@ -134,10 +134,10 @@ int fill_sprite_array(struct tileset *t,
 enum color_std player_color(const struct player *pplayer);
 enum color_std overview_tile_color(struct tile *ptile);
 
-double get_focus_unit_toggle_timeout(struct tileset *t);
+double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);
 void toggle_focus_unit_state(struct tileset *t);
-struct unit *get_drawable_unit(struct tileset *t,
+struct unit *get_drawable_unit(const struct tileset *t,
 			       struct tile *ptile,
 			       const struct city *citymode);
 
@@ -173,30 +173,33 @@ enum spaceship_part {
   SPACESHIP_COUNT
 };
 
-struct sprite *get_spaceship_sprite(struct tileset *t,
+struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part);
-struct sprite *get_citizen_sprite(struct tileset *t,
+struct sprite *get_citizen_sprite(const struct tileset *t,
 				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
-struct sprite *get_nation_flag_sprite(struct tileset *t,
+struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *nation);
-struct sprite *get_sample_city_sprite(struct tileset *t, int city_style);
-struct sprite *get_arrow_sprite(struct tileset *t);
-struct sprite *get_tax_sprite(struct tileset *t, Output_type_id otype);
-struct sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off);
-struct sprite_vector *get_unit_explode_animation(struct tileset *t);
-struct sprite *get_nuke_explode_sprite(struct tileset *t);
-struct sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
+struct sprite *get_sample_city_sprite(const struct tileset *t,
+				      int city_style);
+struct sprite *get_arrow_sprite(const struct tileset *t);
+struct sprite *get_tax_sprite(const struct tileset *t, Output_type_id otype);
+struct sprite *get_treaty_thumb_sprite(const struct tileset *t, bool on_off);
+const struct sprite_vector *get_unit_explode_animation(const struct
+						       tileset *t);
+struct sprite *get_nuke_explode_sprite(const struct tileset *t);
+struct sprite *get_cursor_sprite(const struct tileset *t,
+				 enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
-struct sprite *get_icon_sprite(struct tileset *t, enum icon_type icon);
-struct sprite *get_attention_crosshair_sprite(struct tileset *t);
-struct sprite *get_indicator_sprite(struct tileset *t,
+struct sprite *get_icon_sprite(const struct tileset *t, enum icon_type icon);
+struct sprite *get_attention_crosshair_sprite(const struct tileset *t);
+struct sprite *get_indicator_sprite(const struct tileset *t,
 				    enum indicator_type indicator,
 				    int index);
-struct sprite *get_unit_unhappy_sprite(struct tileset *t,
+struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 				       const struct unit *punit);
-struct sprite *get_unit_upkeep_sprite(struct tileset *t,
+struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
 
@@ -209,18 +212,18 @@ extern int OVERVIEW_TILE_SIZE;
 #define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
 /* Tileset accessor functions. */
-bool tileset_is_isometric(struct tileset *t);
-int tileset_hex_width(struct tileset *t);
-int tileset_hex_height(struct tileset *t);
-int tileset_tile_width(struct tileset *t);
-int tileset_tile_height(struct tileset *t);
-int tileset_full_tile_width(struct tileset *t);
-int tileset_full_tile_height(struct tileset *t);
-int tileset_small_sprite_width(struct tileset *t);
-int tileset_small_sprite_height(struct tileset *t);
-int tileset_citybar_offset_y(struct tileset *t);
-const char *tileset_main_intro_filename(struct tileset *t);
-const char *tileset_mini_intro_filename(struct tileset *t);
-int tileset_num_city_colors(struct tileset *t);
+bool tileset_is_isometric(const struct tileset *t);
+int tileset_hex_width(const struct tileset *t);
+int tileset_hex_height(const struct tileset *t);
+int tileset_tile_width(const struct tileset *t);
+int tileset_tile_height(const struct tileset *t);
+int tileset_full_tile_width(const struct tileset *t);
+int tileset_full_tile_height(const struct tileset *t);
+int tileset_small_sprite_width(const struct tileset *t);
+int tileset_small_sprite_height(const struct tileset *t);
+int tileset_citybar_offset_y(const struct tileset *t);
+const char *tileset_main_intro_filename(const struct tileset *t);
+const char *tileset_mini_intro_filename(const struct tileset *t);
+int tileset_num_city_colors(const struct tileset *t);
 
 #endif  /* FC__TILESPEC_H */

@@ -408,7 +408,7 @@ static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 /****************************************************************************
   Return whether the current tileset is isometric.
 ****************************************************************************/
-bool tileset_is_isometric(struct tileset *t)
+bool tileset_is_isometric(const struct tileset *t)
 {
   return t->is_isometric;
 }
@@ -417,7 +417,7 @@ bool tileset_is_isometric(struct tileset *t)
   Return the hex_width of the current tileset.  For hex tilesets this value
   will be > 0 and is_isometric will be set.
 ****************************************************************************/
-int tileset_hex_width(struct tileset *t)
+int tileset_hex_width(const struct tileset *t)
 {
   return t->hex_width;
 }
@@ -426,7 +426,7 @@ int tileset_hex_width(struct tileset *t)
   Return the hex_height of the current tileset.  For iso-hex tilesets this
   value will be > 0 and is_isometric will be set.
 ****************************************************************************/
-int tileset_hex_height(struct tileset *t)
+int tileset_hex_height(const struct tileset *t)
 {
   return t->hex_height;
 }
@@ -449,7 +449,7 @@ int tileset_hex_height(struct tileset *t)
   However these requirements are not absolute and callers should not
   depend on them (although some do).
 ****************************************************************************/
-int tileset_tile_width(struct tileset *t)
+int tileset_tile_width(const struct tileset *t)
 {
   return t->normal_tile_width;
 }
@@ -461,7 +461,7 @@ int tileset_tile_width(struct tileset *t)
 
   See also tileset_tile_width.
 ****************************************************************************/
-int tileset_tile_height(struct tileset *t)
+int tileset_tile_height(const struct tileset *t)
 {
   return t->normal_tile_height;
 }
@@ -472,7 +472,7 @@ int tileset_tile_height(struct tileset *t)
 
   Note: currently this is always equal to the tile width.
 ****************************************************************************/
-int tileset_full_tile_width(struct tileset *t)
+int tileset_full_tile_width(const struct tileset *t)
 {
   return t->full_tile_width;
 }
@@ -485,7 +485,7 @@ int tileset_full_tile_width(struct tileset *t)
   Some callers assume the full height is 50% larger than the height in
   iso-view, and equal in non-iso view.
 ****************************************************************************/
-int tileset_full_tile_height(struct tileset *t)
+int tileset_full_tile_height(const struct tileset *t)
 {
   return t->full_tile_height;
 }
@@ -495,7 +495,7 @@ int tileset_full_tile_height(struct tileset *t)
   are used for various theme graphics (e.g., citymap citizens/specialists
   as well as panel indicator icons).
 ****************************************************************************/
-int tileset_small_sprite_width(struct tileset *t)
+int tileset_small_sprite_width(const struct tileset *t)
 {
   return t->small_sprite_width;
 }
@@ -504,7 +504,7 @@ int tileset_small_sprite_width(struct tileset *t)
   Return the offset from the origin of the city tile at which to place the
   citybar text.
 ****************************************************************************/
-int tileset_citybar_offset_y(struct tileset *t)
+int tileset_citybar_offset_y(const struct tileset *t)
 {
   return t->citybar_offset_y;
 }
@@ -514,7 +514,7 @@ int tileset_citybar_offset_y(struct tileset *t)
   are used for various theme graphics (e.g., citymap citizens/specialists
   as well as panel indicator icons).
 ****************************************************************************/
-int tileset_small_sprite_height(struct tileset *t)
+int tileset_small_sprite_height(const struct tileset *t)
 {
   return t->small_sprite_height;
 }
@@ -524,7 +524,7 @@ int tileset_small_sprite_height(struct tileset *t)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *tileset_main_intro_filename(struct tileset *t)
+const char *tileset_main_intro_filename(const struct tileset *t)
 {
   return t->main_intro_filename;
 }
@@ -534,7 +534,7 @@ const char *tileset_main_intro_filename(struct tileset *t)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *tileset_mini_intro_filename(struct tileset *t)
+const char *tileset_mini_intro_filename(const struct tileset *t)
 {
   return t->minimap_intro_filename;
 }
@@ -542,7 +542,7 @@ const char *tileset_mini_intro_filename(struct tileset *t)
 /****************************************************************************
   Return the number of possible colors for city overlays.
 ****************************************************************************/
-int tileset_num_city_colors(struct tileset *t)
+int tileset_num_city_colors(const struct tileset *t)
 {
   return t->sprites.city.worked_tile_overlay.size;
 }
@@ -600,7 +600,8 @@ static const char *dir_get_tileset_name(enum direction8 dir)
 /****************************************************************************
   Return TRUE iff the dir is valid in this tileset.
 ****************************************************************************/
-static bool is_valid_tileset_dir(struct tileset *t, enum direction8 dir)
+static bool is_valid_tileset_dir(const struct tileset *t,
+				 enum direction8 dir)
 {
   if (t->hex_width > 0) {
     return dir != DIR8_NORTHEAST && dir != DIR8_SOUTHWEST;
@@ -617,7 +618,8 @@ static bool is_valid_tileset_dir(struct tileset *t, enum direction8 dir)
   "Cardinal", in this sense, means that a tile will share a border with
   another tile in the direction rather than sharing just a single vertex.
 ****************************************************************************/
-static bool is_cardinal_tileset_dir(struct tileset *t, enum direction8 dir)
+static bool is_cardinal_tileset_dir(const struct tileset *t,
+				    enum direction8 dir)
 {
   if (t->hex_width > 0 || t->hex_height > 0) {
     return is_valid_tileset_dir(t, dir);
@@ -1490,7 +1492,7 @@ static const char *get_citizen_name(struct citizen_type citizen)
   binary value 1000 will be converted into "n1e0s0w0".  This is in a
   clockwise ordering.
 ****************************************************************************/
-static const char *cardinal_index_str(struct tileset *t, int idx)
+static const char *cardinal_index_str(const struct tileset *t, int idx)
 {
   static char c[64];
   int i;
@@ -1510,7 +1512,7 @@ static const char *cardinal_index_str(struct tileset *t, int idx)
   Do the same thing as cardinal_str, except including all valid directions.
   The returned string is a pointer to static memory.
 ****************************************************************************/
-static char *valid_index_str(struct tileset *t, int index)
+static char *valid_index_str(const struct tileset *t, int index)
 {
   static char c[64];
   int i;
@@ -1604,7 +1606,7 @@ static void unload_sprite(struct tileset *t, const char *tag_name)
   Return TRUE iff the specified sprite exists in the tileset (whether
   or not it is currently loaded).
 **************************************************************************/
-static bool sprite_exists(struct tileset *t, const char *tag_name)
+static bool sprite_exists(const struct tileset *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
   struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
@@ -2525,7 +2527,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct unit *punit)
 /**************************************************************************
 Return the sprite needed to draw the city
 **************************************************************************/
-static struct sprite *get_city_sprite(struct tileset *t,
+static struct sprite *get_city_sprite(const struct tileset *t,
 				      const struct city *pcity)
 {
   int size, style;
@@ -2551,7 +2553,7 @@ static struct sprite *get_city_sprite(struct tileset *t,
 Return the sprite needed to draw the city wall
 Not used for isometric view.
 **************************************************************************/
-static struct sprite *get_city_wall_sprite(struct tileset *t,
+static struct sprite *get_city_wall_sprite(const struct tileset *t,
 					   const struct city *pcity)
 {
   int style = get_city_style(pcity);
@@ -2562,7 +2564,7 @@ static struct sprite *get_city_wall_sprite(struct tileset *t,
 /**************************************************************************
 Return the sprite needed to draw the occupied tile
 **************************************************************************/
-static struct sprite *get_city_occupied_sprite(struct tileset *t,
+static struct sprite *get_city_occupied_sprite(const struct tileset *t,
 					       const struct city *pcity)
 {
   int style = get_city_style(pcity);
@@ -2623,7 +2625,7 @@ static void build_tile_data(const struct tile *ptile,
 /**********************************************************************
   Fill in the sprite array for the unit
 ***********************************************************************/
-static int fill_unit_sprite_array(struct tileset *t,
+static int fill_unit_sprite_array(const struct tileset *t,
 				  struct drawn_sprite *sprs,
 				  const struct unit *punit,
 				  bool stack, bool backdrop)
@@ -2752,7 +2754,7 @@ static int fill_unit_sprite_array(struct tileset *t,
 /**************************************************************************
   Add any corner road sprites to the sprite array.
 **************************************************************************/
-static int fill_road_corner_sprites(struct tileset *t,
+static int fill_road_corner_sprites(const struct tileset *t,
 				    struct drawn_sprite *sprs,
 				    bool road, bool *road_near,
 				    bool rail, bool *rail_near)
@@ -2799,7 +2801,7 @@ static int fill_road_corner_sprites(struct tileset *t,
 /**************************************************************************
   Add any corner rail sprites to the sprite array.
 **************************************************************************/
-static int fill_rail_corner_sprites(struct tileset *t,
+static int fill_rail_corner_sprites(const struct tileset *t,
 				    struct drawn_sprite *sprs,
 				    bool rail, bool *rail_near)
 {
@@ -2836,7 +2838,7 @@ static int fill_rail_corner_sprites(struct tileset *t,
 /**************************************************************************
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
-static int fill_road_rail_sprite_array(struct tileset *t,
+static int fill_road_rail_sprite_array(const struct tileset *t,
 				       struct drawn_sprite *sprs,
 				       enum tile_special_type tspecial,
 				       enum tile_special_type *tspecial_near,
@@ -3024,7 +3026,7 @@ static int fill_road_rail_sprite_array(struct tileset *t,
   either farmland or irrigation (the two are considered interchangable for
   this).
 **************************************************************************/
-static int get_irrigation_index(struct tileset *t,
+static int get_irrigation_index(const struct tileset *t,
 				enum tile_special_type *tspecial_near)
 {
   int tileno = 0, i;
@@ -3044,7 +3046,7 @@ static int get_irrigation_index(struct tileset *t,
 /**************************************************************************
   Fill in the farmland/irrigation sprite for the tile.
 **************************************************************************/
-static int fill_irrigation_sprite_array(struct tileset *t,
+static int fill_irrigation_sprite_array(const struct tileset *t,
 					struct drawn_sprite *sprs,
 					enum tile_special_type tspecial,
 					enum tile_special_type *tspecial_near,
@@ -3077,7 +3079,7 @@ static int fill_irrigation_sprite_array(struct tileset *t,
   Fill in the city overlays for the tile.  This includes the citymap
   overlays on the mapview as well as the tile output sprites.
 **************************************************************************/
-static int fill_city_overlays_sprite_array(struct tileset *t,
+static int fill_city_overlays_sprite_array(const struct tileset *t,
 					   struct drawn_sprite *sprs,
 					   const struct tile *ptile,
 					   const struct city *citymode)
@@ -3146,7 +3148,7 @@ static int fill_city_overlays_sprite_array(struct tileset *t,
 /****************************************************************************
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
-static int fill_blending_sprite_array(struct tileset *t,
+static int fill_blending_sprite_array(const struct tileset *t,
 				      struct drawn_sprite *sprs,
 				      const struct tile *ptile,
 				      Terrain_type_id *ttype_near)
@@ -3188,7 +3190,7 @@ static int fill_blending_sprite_array(struct tileset *t,
 /****************************************************************************
   Add sprites for fog (and some forms of darkness).
 ****************************************************************************/
-static int fill_fog_sprite_array(struct tileset *t,
+static int fill_fog_sprite_array(const struct tileset *t,
 				 struct drawn_sprite *sprs,
 				 const struct tile *ptile,
 				 const struct tile_edge *pedge,
@@ -3260,6 +3262,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
   }
 
   /* Skip the normal drawing process. */
+  /* FIXME: this should avoid calling load_sprite since it's slow and
+   * increases the refcount without limit. */
   if (ptile->spec_sprite && (sprite = load_sprite(t, ptile->spec_sprite))) {
     if (layer == 0) {
       ADD_SPRITE_SIMPLE(sprite);
@@ -3436,7 +3440,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 /****************************************************************************
   Fill in the grid sprites for the given tile, city, and unit.
 ****************************************************************************/
-static int fill_grid_sprite_array(struct tileset *t,
+static int fill_grid_sprite_array(const struct tileset *t,
 				  struct drawn_sprite *sprs,
 				  const struct tile *ptile,
 				  const struct tile_edge *pedge,
@@ -3555,7 +3559,7 @@ static int fill_grid_sprite_array(struct tileset *t,
 /****************************************************************************
   Fill in the given sprite array with any needed goto sprites.
 ****************************************************************************/
-static int fill_goto_sprite_array(struct tileset *t,
+static int fill_goto_sprite_array(const struct tileset *t,
 				  struct drawn_sprite *sprs,
 				  const struct tile *ptile,
 				  const struct tile_edge *pedge,
@@ -4071,7 +4075,7 @@ enum color_std overview_tile_color(struct tile *ptile)
   The main loop needs to call toggle_focus_unit_state about this often
   to do the active-unit animation.
 ****************************************************************************/
-double get_focus_unit_toggle_timeout(struct tileset *t)
+double get_focus_unit_toggle_timeout(const struct tileset *t)
 {
   if (t->sprites.unit.select[0]) {
     return 0.1;
@@ -4106,7 +4110,7 @@ void toggle_focus_unit_state(struct tileset *t)
 /**********************************************************************
 ...
 ***********************************************************************/
-struct unit *get_drawable_unit(struct tileset *t,
+struct unit *get_drawable_unit(const struct tileset *t,
 			       struct tile *ptile,
 			       const struct city *citymode)
 {
@@ -4191,7 +4195,7 @@ void tileset_free_tiles(struct tileset *t)
 /**************************************************************************
   Return the sprite for drawing the given spaceship part.
 **************************************************************************/
-struct sprite *get_spaceship_sprite(struct tileset *t,
+struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part)
 {
   return t->sprites.spaceship[part];
@@ -4204,12 +4208,12 @@ struct sprite *get_spaceship_sprite(struct tileset *t,
   value indicates there is no city; i.e., the sprite is just being
   used as a picture).
 **************************************************************************/
-struct sprite *get_citizen_sprite(struct tileset *t,
+struct sprite *get_citizen_sprite(const struct tileset *t,
 				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity)
 {
-  struct citizen_graphic *graphic;
+  const struct citizen_graphic *graphic;
 
   if (type.type == CITIZEN_SPECIALIST) {
     graphic = &t->sprites.specialist[type.spec_type];
@@ -4223,7 +4227,7 @@ struct sprite *get_citizen_sprite(struct tileset *t,
 /**************************************************************************
   Return the sprite for the nation.
 **************************************************************************/
-struct sprite *get_nation_flag_sprite(struct tileset *t,
+struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *nation)
 {
   return nation ? nation->flag_sprite : NULL;
@@ -4232,7 +4236,8 @@ struct sprite *get_nation_flag_sprite(struct tileset *t,
 /**************************************************************************
   Return a "sample" sprite for this city style.
 **************************************************************************/
-struct sprite *get_sample_city_sprite(struct tileset *t, int city_style)
+struct sprite *get_sample_city_sprite(const struct tileset *t,
+				      int city_style)
 {
   int index = city_styles[city_style].tiles_num - 1;
 
@@ -4242,7 +4247,7 @@ struct sprite *get_sample_city_sprite(struct tileset *t, int city_style)
 /**************************************************************************
   Return a sprite with the "right-arrow" theme graphic.
 **************************************************************************/
-struct sprite *get_arrow_sprite(struct tileset *t)
+struct sprite *get_arrow_sprite(const struct tileset *t)
 {
   return t->sprites.right_arrow;
 }
@@ -4250,7 +4255,7 @@ struct sprite *get_arrow_sprite(struct tileset *t)
 /**************************************************************************
   Return a tax sprite for the given output type (usually gold/lux/sci).
 **************************************************************************/
-struct sprite *get_tax_sprite(struct tileset *t, Output_type_id otype)
+struct sprite *get_tax_sprite(const struct tileset *t, Output_type_id otype)
 {
   switch (otype) {
   case O_SCIENCE:
@@ -4272,7 +4277,7 @@ struct sprite *get_tax_sprite(struct tileset *t, Output_type_id otype)
   Return a thumbs-up/thumbs-down sprite to show treaty approval or
   disapproval.
 **************************************************************************/
-struct sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off)
+struct sprite *get_treaty_thumb_sprite(const struct tileset *t, bool on_off)
 {
   return t->sprites.treaty_thumb[on_off ? 1 : 0];
 }
@@ -4281,7 +4286,8 @@ struct sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off)
   Return a sprite_vector containing the animation sprites for a unit
   explosion.
 **************************************************************************/
-struct sprite_vector *get_unit_explode_animation(struct tileset *t)
+const struct sprite_vector *get_unit_explode_animation(const struct
+						       tileset *t)
 {
   return &t->sprites.explode.unit;
 }
@@ -4291,7 +4297,7 @@ struct sprite_vector *get_unit_explode_animation(struct tileset *t)
 
   TODO: This should be an animation like the unit explode animation.
 ****************************************************************************/
-struct sprite *get_nuke_explode_sprite(struct tileset *t)
+struct sprite *get_nuke_explode_sprite(const struct tileset *t)
 {
   return t->sprites.explode.nuke;
 }
@@ -4301,7 +4307,8 @@ struct sprite *get_nuke_explode_sprite(struct tileset *t)
   active coordinates of the mouse relative to the sprite) are placed int
   (*hot_x, *hot_y).
 **************************************************************************/
-struct sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
+struct sprite *get_cursor_sprite(const struct tileset *t,
+				 enum cursor_type cursor,
 				 int *hot_x, int *hot_y)
 {
   *hot_x = t->sprites.cursor[cursor].hot_x;
@@ -4318,7 +4325,7 @@ struct sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
   The GUI code must be sure to call tileset_load_tiles before setting the
   top-level icon.
 ****************************************************************************/
-struct sprite *get_icon_sprite(struct tileset *t, enum icon_type icon)
+struct sprite *get_icon_sprite(const struct tileset *t, enum icon_type icon)
 {
   return t->sprites.icon[icon];
 }
@@ -4329,7 +4336,7 @@ struct sprite *get_icon_sprite(struct tileset *t, enum icon_type icon)
   FIXME: This function shouldn't be needed if the attention graphics are
   drawn natively by the tileset code.
 ****************************************************************************/
-struct sprite *get_attention_crosshair_sprite(struct tileset *t)
+struct sprite *get_attention_crosshair_sprite(const struct tileset *t)
 {
   return t->sprites.user.attention;
 }
@@ -4338,7 +4345,7 @@ struct sprite *get_attention_crosshair_sprite(struct tileset *t)
   Returns a sprite for the given indicator with the given index.  The
   index should be in [0, NUM_TILES_PROGRESS).
 ****************************************************************************/
-struct sprite *get_indicator_sprite(struct tileset *t,
+struct sprite *get_indicator_sprite(const struct tileset *t,
 				    enum indicator_type indicator,
 				    int index)
 {
@@ -4353,7 +4360,7 @@ struct sprite *get_indicator_sprite(struct tileset *t,
 
   May return NULL if there's no unhappiness.
 ****************************************************************************/
-struct sprite *get_unit_unhappy_sprite(struct tileset *t,
+struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 				       const struct unit *punit)
 {
   const int unhappy = CLIP(0, punit->unhappiness, 2);
@@ -4371,7 +4378,7 @@ struct sprite *get_unit_unhappy_sprite(struct tileset *t,
 
   May return NULL if there's no unhappiness.
 ****************************************************************************/
-struct sprite *get_unit_upkeep_sprite(struct tileset *t,
+struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit)
 {

@@ -104,7 +104,8 @@ static inline size_t SPECVEC_FOO(_vector_size) (const SPECVEC_VECTOR *tthis)
   return tthis->size;
 }
 
-static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis,
+static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (const SPECVEC_VECTOR
+						      *tthis,
 						      int index)
 {
   if (index == -1 && tthis->size > 0) {
