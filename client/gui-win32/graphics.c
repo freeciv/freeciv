@@ -690,9 +690,6 @@ void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
 
   int w, h;
 
-  if (!is_isometric)
-    return;
-
   w = sprmask->width;
   h = sprmask->height;
 
