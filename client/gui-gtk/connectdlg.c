@@ -39,6 +39,7 @@ extern int  server_port;
 static GtkWidget *iname, *ihost, *iport;
 static GtkWidget *connw, *quitw;
 
+extern GtkWidget *turn_done_button;
 extern GtkWidget *toplevel;
 
 static GtkWidget *dialog;
@@ -128,7 +129,8 @@ void gui_server_connect(void)
   int i;
 
   if (!titles) titles = intl_slist(6, titles_);
-  
+
+  gtk_widget_set_sensitive(turn_done_button, FALSE);
   gtk_widget_set_sensitive(toplevel, FALSE);
 
   dialog=gtk_dialog_new();

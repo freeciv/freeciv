@@ -40,6 +40,7 @@
 
 /* extern AppResources appResources; */
 extern Widget toplevel;
+extern Widget turn_done_button;
 
 /* in civclient.c; FIXME hardcoded sizes */
 extern char name[];
@@ -77,14 +78,15 @@ void gui_server_connect(void)
 {
   Widget shell, form;
   char buf[512];
-  
+
   XtTranslations textfieldtranslations;
-  
+
+  XtSetSensitive(turn_done_button, FALSE);
   XtSetSensitive(toplevel, FALSE);
-  
+
   I_T(shell=XtCreatePopupShell("connectdialog", transientShellWidgetClass,
 			       toplevel, NULL, 0));
-  
+
   form=XtVaCreateManagedWidget("cform", formWidgetClass, shell, NULL);
 
   I_LW(XtVaCreateManagedWidget("cheadline", labelWidgetClass, form, NULL));
