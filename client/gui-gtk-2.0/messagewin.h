@@ -17,7 +17,6 @@
 
 GtkWidget *create_meswin_area(void);
 
-void raise_meswin_dialog(void);
 void popdown_meswin_dialog(void);
 
 #endif  /* FC__MESSAGEWIN_H */

@@ -157,29 +157,23 @@ static void get_city_table_header(char *text[], int n)
 ****************************************************************/
 
 /****************************************************************
-...
+ Popup the city report dialog, and optionally raise it.
 ****************************************************************/
-void popup_city_report_dialog(bool make_modal)
+void popup_city_report_dialog(bool raise)
 {
   if(!city_dialog_shell) {
-    city_dialog_shell_is_modal = make_modal;
+    city_dialog_shell_is_modal = FALSE;
     
-    create_city_report_dialog(make_modal);
+    create_city_report_dialog(FALSE);
 
     select_menu_cached = FALSE;
   }
 
   gui_dialog_present(city_dialog_shell);
   hilite_cities_from_canvas();
-}
-
-/****************************************************************
- Raises the city report dialog.
-****************************************************************/
-void raise_city_report_dialog(void)
-{
-  popup_city_report_dialog(FALSE);
-  gui_dialog_raise(city_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(city_dialog_shell);
+  }
 }
 
 /****************************************************************

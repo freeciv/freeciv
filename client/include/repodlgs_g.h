@@ -21,11 +21,11 @@
 void update_report_dialogs(void);
 
 void science_dialog_update(void);
-void popup_science_dialog(bool make_modal);
+void popup_science_dialog(bool raise);
 void economy_report_dialog_update(void);
-void popup_economy_report_dialog(bool make_modal);
+void popup_economy_report_dialog(bool raise);
 void activeunits_report_dialog_update(void);
-void popup_activeunits_report_dialog(bool make_modal);
+void popup_activeunits_report_dialog(bool raise);
 void popup_endgame_report_dialog(struct packet_endgame_report *packet);
 void popup_settable_options_dialog(void);
 

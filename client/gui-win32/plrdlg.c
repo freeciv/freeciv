@@ -381,11 +381,14 @@ static void create_players_dialog(void)
 
 *******************************************************************/      
 void
-popup_players_dialog(void)
+popup_players_dialog(bool raise)
 {
   if (!players_dialog)
     create_players_dialog();
   ShowWindow(players_dialog,SW_SHOWNORMAL);
+  if (raise) {
+    SetFocus(players_dialog);
+  }
 }
 
 /**************************************************************************

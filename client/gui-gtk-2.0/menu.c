@@ -495,19 +495,19 @@ static void reports_menu_callback(gpointer callback_data,
 {
   switch(callback_action) {
    case MENU_REPORT_CITIES:
-    raise_city_report_dialog();
+    popup_city_report_dialog(TRUE);
     break;
    case MENU_REPORT_UNITS:
-    raise_activeunits_report_dialog();
+    popup_activeunits_report_dialog(TRUE);
     break;
   case MENU_REPORT_PLAYERS:
-    raise_players_dialog();
+    popup_players_dialog(TRUE);
     break;
    case MENU_REPORT_ECONOMY:
-    raise_economy_report_dialog();
+    popup_economy_report_dialog(TRUE);
     break;
    case MENU_REPORT_SCIENCE:
-    raise_science_dialog();
+    popup_science_dialog(TRUE);
     break;
    case MENU_REPORT_WOW:
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
@@ -516,7 +516,7 @@ static void reports_menu_callback(gpointer callback_data,
     send_report_request(REPORT_TOP_5_CITIES);
     break;
   case MENU_REPORT_MESSAGES:
-    raise_meswin_dialog();
+    popup_meswin_dialog(TRUE);
     break;
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);

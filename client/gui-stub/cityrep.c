@@ -20,10 +20,9 @@
 #include "cityrep.h"
 
 /**************************************************************************
-  Pop up or brings forward the city report dialog.  It may or may not
-  be modal.
+  Display the city report dialog.  Optionally raise it.
 **************************************************************************/
-void popup_city_report_dialog(bool make_modal)
+void popup_city_report_dialog(bool raise)
 {
   /* PORTME */
 }

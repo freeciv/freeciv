@@ -55,11 +55,12 @@ static Widget players_meet_command;
 static Widget players_war_command;
 static Widget players_vision_command;
 static Widget players_sship_command;
+static bool players_dialog_shell_is_raised;
 
 static int list_index_to_player_index[MAX_NUM_PLAYERS];
 
 
-static void create_players_dialog(void);
+static void create_players_dialog(bool raise);
 static void players_close_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data);
 static void players_meet_callback(Widget w, XtPointer client_data, 
@@ -81,10 +82,16 @@ static void players_sship_callback(Widget w, XtPointer client_data,
 /****************************************************************
 popup the dialog somewhat inside the main-window 
 *****************************************************************/
-void popup_players_dialog(void)
+void popup_players_dialog(bool raise)
 {
+  players_dialog_shell_is_raised = raise;
+
   if(!players_dialog_shell)
-    create_players_dialog();
+    create_players_dialog(raise);
+
+  if (raise) {
+    XtSetSensitive(main_form, FALSE);
+  }
 
   xaw_set_relative_position(toplevel, players_dialog_shell, 5, 25);
   XtPopup(players_dialog_shell, XtGrabNone);
@@ -96,6 +103,9 @@ void popup_players_dialog(void)
 void popdown_players_dialog(void)
 {
   if (players_dialog_shell) {
+    if (players_dialog_shell_is_raised) {
+      XtSetSensitive(main_form, TRUE);
+    }
     XtDestroyWidget(players_dialog_shell);
     players_dialog_shell = 0;
   }
@@ -104,11 +114,12 @@ void popdown_players_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void create_players_dialog(void)
+void create_players_dialog(bool raise)
 {
   players_dialog_shell =
     I_IN(I_T(XtCreatePopupShell("playerspopup", 
-				topLevelShellWidgetClass,
+				raise ? transientShellWidgetClass
+				: topLevelShellWidgetClass,
 				toplevel, NULL, 0)));
 
   players_form = XtVaCreateManagedWidget("playersform", 

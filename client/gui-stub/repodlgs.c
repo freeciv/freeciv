@@ -45,9 +45,10 @@ void science_dialog_update(void)
 }
 
 /**************************************************************************
-  Popup (or raise) the science report(F6).  It may or may not be modal.
+  Display the science report.  Optionally raise it.
+  Typically triggered by F6.
 **************************************************************************/
-void popup_science_dialog(bool make_modal)
+void popup_science_dialog(bool raise)
 {
   /* PORTME */
 }
@@ -61,9 +62,10 @@ void economy_report_dialog_update(void)
 }
 
 /**************************************************************************
-  Popup (or raise) the economy report (F5).  It may or may not be modal.
+  Display the economy report.  Optionally raise it.
+  Typically triggered by F5.
 **************************************************************************/
-void popup_economy_report_dialog(bool make_modal)
+void popup_economy_report_dialog(bool raise)
 {
   /* PORTME */
 }
@@ -77,9 +79,10 @@ void activeunits_report_dialog_update(void)
 }
 
 /**************************************************************************
-  Popup (or raise) the units report (F2).  It may or may not be modal.
+  Display the units report.  Optionally raise it.
+  Typically triggered by F2.
 **************************************************************************/
-void popup_activeunits_report_dialog(bool make_modal)
+void popup_activeunits_report_dialog(bool raise)
 {
   /* PORTME */
 }

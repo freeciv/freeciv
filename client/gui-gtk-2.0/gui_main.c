@@ -993,7 +993,7 @@ static void setup_widgets(void)
   gtk_widget_hide(more_arrow_pixmap);
 
   if (enable_tabs) {
-    popup_meswin_dialog();
+    popup_meswin_dialog(FALSE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);

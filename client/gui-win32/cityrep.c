@@ -1060,21 +1060,24 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_city_report_dialog(bool make_modal)
+popup_city_report_dialog(bool raise)
 {
-  if (hCityRep) return;
-  hCityRep=
-    fcwin_create_layouted_window(city_report_proc,_("City Report"),
-				 WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX | 
-				 WS_MAXIMIZEBOX | WS_THICKFRAME,
-				 CW_USEDEFAULT,CW_USEDEFAULT,
-				 root_window,NULL,
-				 JUST_CLEANUP,
-				 NULL);
+  if (!hCityRep) {
+    hCityRep =
+      fcwin_create_layouted_window(city_report_proc,_("City Report"),
+				   WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX
+				    | WS_MAXIMIZEBOX | WS_THICKFRAME,
+				   CW_USEDEFAULT, CW_USEDEFAULT,
+				   root_window, NULL, JUST_CLEANUP, NULL);
   
-  hChangeAll=NULL;
-  city_report_dialog_update();
-  ShowWindow(hCityRep,SW_SHOWNORMAL);
+    hChangeAll = NULL;
+    city_report_dialog_update();
+  }
+
+  ShowWindow(hCityRep, SW_SHOWNORMAL);
+  if (raise) {
+    SetFocus(hCityRep);
+  }
 }
 
 /**************************************************************************

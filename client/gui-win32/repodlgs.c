@@ -231,7 +231,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_science_dialog(bool make_modal)
+popup_science_dialog(bool raise)
 {
   if (!science_dlg)
     {
@@ -273,6 +273,9 @@ popup_science_dialog(bool make_modal)
     }
   science_dialog_update();
   ShowWindow(science_dlg,SW_SHOWNORMAL);
+  if (raise) {
+    SetFocus(science_dlg);
+  }
 }
 /**************************************************************************
 
@@ -392,7 +395,7 @@ static LONG CALLBACK economy_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_economy_report_dialog(bool make_modal)
+popup_economy_report_dialog(bool raise)
 {
   int i;
   struct fcwin_box *hbox;
@@ -441,6 +444,9 @@ popup_economy_report_dialog(bool make_modal)
   economy_report_dialog_update();
   
   ShowWindow(economy_dlg,SW_SHOWNORMAL);
+  if (raise) {
+    SetFocus(economy_dlg);
+  }
 }
 /****************************************************************
 ...
@@ -641,7 +647,7 @@ activeunits_report_dialog_update(void)
 
 **************************************************************************/
 void
-popup_activeunits_report_dialog(bool make_modal)
+popup_activeunits_report_dialog(bool raise)
 {
   if (!activeunits_dlg)
     {
@@ -694,6 +700,9 @@ popup_activeunits_report_dialog(bool make_modal)
     }
   activeunits_report_dialog_update();
   ShowWindow(activeunits_dlg,SW_SHOWNORMAL);
+  if (raise) {
+    SetFocus(activeunits_dlg);
+  }
 }
 
 /****************************************************************

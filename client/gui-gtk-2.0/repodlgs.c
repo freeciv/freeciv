@@ -139,25 +139,19 @@ void update_report_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_science_dialog(bool make_modal)
+void popup_science_dialog(bool raise)
 {
   if(!science_dialog_shell) {
-    science_dialog_shell_is_modal = make_modal;
+    science_dialog_shell_is_modal = FALSE;
     
-    create_science_dialog(make_modal);
+    create_science_dialog(FALSE);
   }
 
   gui_dialog_present(science_dialog_shell);
-}
 
-
-/****************************************************************
- Raises the science dialog.
-****************************************************************/
-void raise_science_dialog(void)
-{
-  popup_science_dialog(FALSE);
-  gui_dialog_raise(science_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(science_dialog_shell);
+  }
 }
 
 
@@ -592,27 +586,19 @@ void science_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_economy_report_dialog(bool make_modal)
+void popup_economy_report_dialog(bool raise)
 {
   if(!economy_dialog_shell) {
-    economy_dialog_shell_is_modal = make_modal;
+    economy_dialog_shell_is_modal = FALSE;
 
-    create_economy_report_dialog(make_modal);
+    create_economy_report_dialog(FALSE);
   }
 
   gui_dialog_present(economy_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(economy_dialog_shell);
+  }
 }
-
-
-/****************************************************************
- Raises the economy report dialog.
-****************************************************************/
-void raise_economy_report_dialog(void)
-{
-  popup_economy_report_dialog(FALSE);
-  gui_dialog_raise(economy_dialog_shell);
-}
-
 
 /****************************************************************
  Close the economy report dialog.
@@ -887,27 +873,19 @@ void economy_report_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_activeunits_report_dialog(bool make_modal)
+void popup_activeunits_report_dialog(bool raise)
 {
   if(!activeunits_dialog_shell) {
-    activeunits_dialog_shell_is_modal = make_modal;
+    activeunits_dialog_shell_is_modal = FALSE;
     
-    create_activeunits_report_dialog(make_modal);
+    create_activeunits_report_dialog(FALSE);
   }
 
   gui_dialog_present(activeunits_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(activeunits_dialog_shell);
+  }
 }
-
-
-/****************************************************************
- Raises the units report dialog.
-****************************************************************/
-void raise_activeunits_report_dialog(void)
-{
-  popup_activeunits_report_dialog(FALSE);
-  gui_dialog_raise(activeunits_dialog_shell);
-}
-
 
 /****************************************************************
  Closes the units report dialog.

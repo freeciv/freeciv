@@ -244,14 +244,14 @@ static void xaw_key_open_messages(Widget w, XEvent *event, String *argv, Cardina
 {
   if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_MESSAGES))
-    popup_meswin_dialog();
+    popup_meswin_dialog(FALSE);
 }
 
 static void xaw_key_open_players(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_PLAYERS))
-    popup_players_dialog();
+    popup_players_dialog(FALSE);
 }
 
 /****************************************************************************

@@ -52,8 +52,9 @@ static Widget meswin_viewport;
 static Widget meswin_close_command;
 static Widget meswin_goto_command;
 static Widget meswin_popcity_command;
+static bool meswin_dialog_shell_is_raised;
 
-static void create_meswin_dialog(void);
+static void create_meswin_dialog(bool raise);
 static void meswin_scroll_down(void);
 static void meswin_close_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data);
@@ -72,13 +73,19 @@ static char *dummy_message_list[] = {
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_meswin_dialog(void)
+void popup_meswin_dialog(bool raise)
 {
   int updated = 0;
   
+  meswin_dialog_shell_is_raised = raise;
+
   if(!meswin_dialog_shell) {
-    create_meswin_dialog();
+    create_meswin_dialog(raise);
     updated = 1;		/* create_ calls update_ */
+  }
+
+  if (raise) {
+    XtSetSensitive(main_form, FALSE);
   }
 
   xaw_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
@@ -102,6 +109,9 @@ void popup_meswin_dialog(void)
 void popdown_meswin_dialog(void)
 {
   if (meswin_dialog_shell) {
+    if (meswin_dialog_shell_is_raised) {
+      XtSetSensitive(main_form, TRUE);
+    }
     XtDestroyWidget(meswin_dialog_shell);
     meswin_dialog_shell = 0;
   }
@@ -122,12 +132,14 @@ static bool creating = FALSE;
 /****************************************************************
 ...
 *****************************************************************/
-static void create_meswin_dialog(void)
+static void create_meswin_dialog(bool raise)
 {
   creating = TRUE;
 
   meswin_dialog_shell =
-    I_IN(I_T(XtCreatePopupShell("meswinpopup", topLevelShellWidgetClass,
+    I_IN(I_T(XtCreatePopupShell("meswinpopup",
+				raise ? transientShellWidgetClass
+				: topLevelShellWidgetClass,
 				toplevel, NULL, 0)));
 
   meswin_form = XtVaCreateManagedWidget("meswinform", 

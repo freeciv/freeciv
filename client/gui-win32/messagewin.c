@@ -159,7 +159,7 @@ static void create_meswin_dialog(void)
 /**************************************************************************
 
 **************************************************************************/
-void popup_meswin_dialog(void)
+void popup_meswin_dialog(bool raise)
 {
   int updated = 0;
  
@@ -167,7 +167,9 @@ void popup_meswin_dialog(void)
     create_meswin_dialog();
     updated = 1;               /* create_ calls update_ */
   }
-  
+  if (raise) {
+    SetFocus(meswin_dlg);
+  }
 }
 
 /****************************************************************
