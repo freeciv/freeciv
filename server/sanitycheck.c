@@ -15,6 +15,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "log.h"
 #include "map.h"
 #include "player.h"
 #include "unit.h"
@@ -141,17 +142,38 @@ static void check_cities(void)
 	  struct tile *ptile = map_get_tile(map_x, map_y);
 	  switch (get_worker_city(pcity, x, y)) {
 	  case C_TILE_EMPTY:
-	    assert(map_get_tile(map_x, map_y)->worked == NULL);
-	    assert(!is_enemy_unit_tile(ptile, pplayer->player_no));
+	    if (map_get_tile(map_x, map_y)->worked != NULL) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "empty but worked by %s!",
+		      pcity->name, x, y,
+		      map_get_tile(map_x, map_y)->worked->name);
+	    }
+	    if (is_enemy_unit_tile(ptile, pplayer->player_no)) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "empty but occupied by an enemy unit!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  case C_TILE_WORKER:
-	    assert(map_get_tile(map_x, map_y)->worked == pcity);
-	    assert(!is_enemy_unit_tile(ptile, pplayer->player_no));
+	    if (map_get_tile(map_x, map_y)->worked != pcity) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "worked but main map disagrees!",
+		      pcity->name, x, y);
+	    }
+	    if (is_enemy_unit_tile(ptile, pplayer->player_no)) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "worked but occupied by an enemy unit!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  case C_TILE_UNAVAILABLE:
-	    assert(map_get_tile(map_x, map_y)->worked != NULL
-		   || is_enemy_unit_tile(ptile, pplayer->player_no)
-		   || !map_get_known(map_x, map_y, pplayer));
+	    if (map_get_tile(map_x, map_y)->worked == NULL
+		&& !is_enemy_unit_tile(ptile, pplayer->player_no)
+		&& map_get_known(map_x, map_y, pplayer)) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "unavailable but seems to be available!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  }
 	} else {
