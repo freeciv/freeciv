@@ -1,5 +1,5 @@
 # Finnish translation
-# Copyright (C) 2002
+# Copyright (C) 2002, 2003
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>, Jarkko Siekkinen 
 # <jarkko.siekkinen@evl.fi>, Juhani Heino <juhani.heino@vtt.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
@@ -7,8 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
-"PO-Revision-Date: 2002-12-9 21:00+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-07 19:11+0300\n"
+"PO-Revision-Date: 2003-10-07 19:47+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -325,29 +326,38 @@ msgstr "huti"
 msgid "'Cause civilization should be free!"
 msgstr "Koska sivilisaation tulisi olla vapaa!"
 
-#: common/shared.c:1251
+#: common/shared.c:1251 common/shared.c:1268
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
 "want to set your local encoding manually by setting\n"
 "the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
 msgstr ""
+"Merkkijonon muuntaminen merkistöstä %s ei onnistu. Sinun\n"
+"kannattanee asettaa paikallinen kooditus käsin asettamalla\n"
+"ympäristömuuttuja $FREECIV_LOCAL_ENCODING. Jatkan silti..."
 
-#: common/shared.c:1277
+#: common/shared.c:1290
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
 msgstr ""
+"Merkkijono '%s' on epäkelpo: %s. Sääntökokoelmatiedostojen\n"
+"koodituksen pitää olla %s; voit muuttaa tätä asettamalla\n"
+"ympäristömuuttujan $FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1343
+#: common/shared.c:1361
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
 msgstr ""
+"Käytät Freeciviä ilman iconv:tä. Ellet käytä latin1-merkistöä,\n"
+"jotkin merkit eivät välttämättä näy oikein. Iconv:n voi \n"
+"ladata osoitteesta http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
@@ -1521,16 +1531,16 @@ msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr ""
 "Peli: %s ovat aiheuttaneet selkkauksen lietsoessaan kapinaa kaupungissa %s."
 
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Vuosi: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
@@ -1549,11 +1559,10 @@ msgstr "Peli: Pelaajanimen alkuliite %s on epäselvä."
 msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Peli: Yhteysnimen alkuliite %s on epäselvä."
 
-# Hallitusmuoto.
 #: server/handchat.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "%s to allies: %s"
-msgstr "%s ovat nyt %s"
+msgstr "%s liittolaisilleen: %s"
 
 #: server/handchat.c:281
 #, c-format
@@ -1797,13 +1806,13 @@ msgstr "Peli: Et voi muuttaa rahoitussuhteita ennen kuin peli on alkanut."
 msgid "Tax"
 msgstr "Vero"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luksus"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -2393,25 +2402,25 @@ msgstr "%s avaruusalus on laskeutunut Alpha Centauriin."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "Peli päättyi tasapeliin, kun lopetusvuosi ylittyi"
 
 #: server/srv_main.c:230 server/srv_main.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "Muokkaa tästä %s"
+msgstr "Joukkuevoitto joukkueelle %s"
 
 #: server/srv_main.c:240 server/srv_main.c:241
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "Peli päättyi, %s voitti"
 
 #: server/srv_main.c:246 server/srv_main.c:247
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "Peli päättyi tasapeliin"
 
 #: server/srv_main.c:269 server/srv_main.c:270
 msgid "Game ended in allied victory"
-msgstr ""
+msgstr "Peli päättyi liittoutuneiden voittoon"
 
 #: server/srv_main.c:390
 #, c-format
@@ -3782,13 +3791,12 @@ msgid "Set server option."
 msgstr "Muuta palvelimen asetuksia."
 
 #: server/stdinhand.c:1077
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <pelaajan nimi>"
+msgstr "team <pelaaja> [joukkue]"
 
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "Muuta pelaajan joukkuetta: liity, vaihda uuteen tai poistu."
 
 #: server/stdinhand.c:1079
 msgid ""
@@ -3796,7 +3804,7 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr ""
+msgstr "Asettaa pelaajan joukkueen jäseneksi. Jos joukkuetta ei anneta, pelaaja merkitään joukkueettomaksi. Käytä \"\"-merkkejä jos nimissä on välilyöntejä. Joukkue on ryhmä pelaajia joka aloittaa liittoutuneena, jaetuin näkymin, suurlähetystöin ja taistelee rinta rinnan saavuttaakseen joukkuevoiton. Yksilöiden pistemäärät keskiarvotetaan."
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -4550,29 +4558,26 @@ msgid "description"
 msgstr "kuvaus"
 
 #: server/stdinhand.c:2682
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "AI:n ohjaamia pelaajia ei voi lisätä pelin alettua."
+msgstr "Peli: Et voi muuttaa rahoitussuhteita ennen kuin peli on alkanut."
 
 #: server/stdinhand.c:2692
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "Argumenttia ei ole määritelty. Käyttö: set <asetus> <arvo>."
+msgstr "Argumenttia ei ole määritelty. Käyttö: team <pelaaja> [joukkue]."
 
 #: server/stdinhand.c:2708
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "Pelaaja %s on nyt joukkueeton."
 
 #: server/stdinhand.c:2714
-#, fuzzy
 msgid "Bad team name."
-msgstr "Lopeta peli."
+msgstr "Epäkelpo joukkueen nimi."
 
 #: server/stdinhand.c:2718
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "%s menettävät yksikkönsä %s - asialla olivat %s"
+msgstr "Pelaaja %s on nyt joukkueessa %s."
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5409,6 +5414,10 @@ msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Peli: Yksikkösi %s kohtasi vieraan yksikön ja lopetti partioinnin."
 
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr "Vanhoja attribuutteja löytyi ja poistettiin."
+
 #: client/audio.c:132
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
@@ -5685,7 +5694,7 @@ msgstr "K"
 msgid "Number of Trade Routes"
 msgstr "Kauppareittien määrä"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6309,6 +6318,10 @@ msgstr "%s%d tyytymätöntä"
 msgid "%s%d gold"
 msgstr "%s%d kultaa"
 
+#: client/messagewin_common.c:109
+msgid "Game: "
+msgstr "Peli: "
+
 #: client/options.c:83
 msgid "Default player's username"
 msgstr "Oletuspelaajan käyttäjänimi"
@@ -6394,18 +6407,16 @@ msgid "End Turn when done moving"
 msgstr "Päätä pelivuoro kun kaikkia yksiköitä on liikutettu"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "Käytä Alt/Meta-näppäimiä kiihdyttimille (vain GTK)"
+msgstr "Käytä Alt/Meta-näppäimiä kiihdyttimille (vain GTK+)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Näytä kartan vierityspalkit (vain GTK)"
+msgstr "Näytä kartan vierityspalkit (vain GTK+)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "Pidä dialogit päällimmäisenä (vain GTK+ 2.0)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -6872,14 +6883,14 @@ msgstr "Grafiikkalaajennuksen lataaminen tiedostolle %s ei onnistunut"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "KA: Menetit kaupungin %s hallinnan."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
 "KA: Vaatimusten täyttäminen kaupungissa %s ei onnistu. Palautan hallinnan."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6887,7 +6898,7 @@ msgstr ""
 "KA: %s on muuttunut ja laskettua tulosta ei voi ottaa käyttöön. Yritän "
 "uudelleen."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6898,13 +6909,13 @@ msgstr ""
 "virheestä freecivissä. Ole hyvä ja lähetä ilmoitus osoitteeseen <freeciv-"
 "dev@freeciv.org>. KA irroittautuu nyt kaupungista."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Kulutus"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
@@ -6912,7 +6923,7 @@ msgid "Trade"
 msgstr "Kauppa"
 
 # Original should have "Gold:" in client/gui-gtk-2.0/citydlg.c:549 and client/gui-gtk/citydlg.c:546, I think. Juhani
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -7023,9 +7034,8 @@ msgid "Pollution:"
 msgstr "Saasteet:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
-msgstr "_Kaupunkikatsaus"
+msgstr "Kaupunkikatsaus"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
 #: client/gui-gtk/citydlg.c:2954 client/gui-gtk/wldlg.c:310
@@ -7042,7 +7052,7 @@ msgstr "Kaupungin kartta"
 
 #: client/gui-gtk-2.0/citydlg.c:648
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Paina ENTER tai tuplaklikkaa myydäksesi rakennuksen."
 
 #: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk-2.0/citydlg.c:753
 #: client/gui-mui/citydlg.c:1646
@@ -7056,12 +7066,10 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d vuoroa"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
-#, fuzzy
 msgid "_Improvements:"
-msgstr "rakennushankkeet"
+msgstr "Rakennushankkeet:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
 msgstr "Tuotanto"
 
@@ -7076,7 +7084,6 @@ msgid "_Happiness"
 msgstr "O_nnellisuus"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
 msgstr "KA"
 
@@ -7085,9 +7092,8 @@ msgid "_Trade Routes"
 msgstr "Kauppa_reitit"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Tallenna asetukset"
+msgstr "Tallenna a_setukset"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7131,14 +7137,12 @@ msgid "Disband if build settler at size 1"
 msgstr "Hylkää kaupunki jos uudisraivaaja rakennetaan kun koko on 1"
 
 #: client/gui-gtk-2.0/citydlg.c:906
-#, fuzzy
 msgid "Overview page"
-msgstr "Kaupunkikatsaus"
+msgstr "Kaupunkikatsaussivu"
 
 #: client/gui-gtk-2.0/citydlg.c:907
-#, fuzzy
 msgid "Production page"
-msgstr "Tuotanto"
+msgstr "Tuotantosivu"
 
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
@@ -7156,7 +7160,6 @@ msgid "Trade Routes page"
 msgstr "Kauppareittisivu"
 
 #: client/gui-gtk-2.0/citydlg.c:911
-#, fuzzy
 msgid "This Settings page"
 msgstr "Tämä asetussivu"
 
@@ -7181,19 +7184,16 @@ msgid "Next time open"
 msgstr "Seuraavalla kerralla avataan"
 
 #: client/gui-gtk-2.0/citydlg.c:999
-#, fuzzy
 msgid "City"
-msgstr "Kaupungin kartta"
+msgstr "Kaupunki"
 
 #: client/gui-gtk-2.0/citydlg.c:1006
-#, fuzzy
 msgid "_Rename..."
-msgstr "Nimeä uudelleen"
+msgstr "Nimeä uudelleen..."
 
 #: client/gui-gtk-2.0/citydlg.c:1140
-#, fuzzy
 msgid "_List present units..."
-msgstr "Luetteloi kaikki yksiköt"
+msgstr "_Luetteloi yksiköt täällä"
 
 #: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
@@ -7230,14 +7230,14 @@ msgid "blocked"
 msgstr "estynyt"
 
 #: client/gui-gtk-2.0/citydlg.c:1683
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units %d"
-msgstr "Ylläpidetyt yksiköt: (%d)"
+msgstr "Ylläpidettyjä yksiköitä %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
-msgstr "Yksiköt paikalla: (%d)"
+msgstr "Paikallaolevia yksiköitä %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
@@ -7257,9 +7257,9 @@ msgid "No trade routes exist."
 msgstr "Ei vakituisia kauppareittejä."
 
 #: client/gui-gtk-2.0/citydlg.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Kauppareittien anti kaikkiaan: %d"
+msgstr "Kauppareitin %d anti kaikkiaan"
 
 #: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
@@ -7409,12 +7409,10 @@ msgid "_Change"
 msgstr "_Vaihda"
 
 #: client/gui-gtk-2.0/cityrep.c:555
-#, fuzzy
 msgid "_Select"
 msgstr "Valitse"
 
 #: client/gui-gtk-2.0/cityrep.c:559
-#, fuzzy
 msgid "S_how"
 msgstr "_Näytä..."
 
@@ -7658,19 +7656,16 @@ msgid "Freeciv Server Selection"
 msgstr "Freeciv-palvelimen valinta"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
-#, fuzzy
 msgid "_Name:"
-msgstr "_Nimi"
+msgstr "_Nimi:"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
-#, fuzzy
 msgid "_Host:"
-msgstr "Palvelin"
+msgstr "Palvelin:"
 
 #: client/gui-gtk-2.0/connectdlg.c:228
-#, fuzzy
 msgid "_Port:"
-msgstr "_Portti"
+msgstr "_Portti:"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:205
 #: client/gui-mui/connectdlg.c:177 client/gui-win32/connectdlg.c:363
@@ -7818,9 +7813,8 @@ msgid "Select Advance to Steal"
 msgstr "Valitse varastettava edistysaskel"
 
 #: client/gui-gtk-2.0/dialogs.c:541
-#, fuzzy
 msgid "_Advances:"
-msgstr "Edistysaskeleet"
+msgstr "Edistys_askeleet:"
 
 #: client/gui-gtk-2.0/dialogs.c:584 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
@@ -8071,31 +8065,33 @@ msgid "Unit selection"
 msgstr "Valitse yksikkö"
 
 #: client/gui-gtk-2.0/dialogs.c:1729
-#, fuzzy
 msgid "_Ready all"
 msgstr "Aktivoi kaikki"
 
 # Sini: We need to decide whether sentry means 'vartioi' or 'leiriydy' 
 # and use one.
 #: client/gui-gtk-2.0/dialogs.c:1737
-#, fuzzy
 msgid "_Sentry idle"
-msgstr "_Leiriydy"
+msgstr "_Leiriydy odotellessa"
 
 #: client/gui-gtk-2.0/dialogs.c:1778 client/gui-gtk/dialogs.c:1919
 #: data/Freeciv:3034
 msgid "What Nation Will You Be?"
 msgstr "Mitä kansakuntaa haluat johtaa?"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "Katkaise yhteys"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
-#, fuzzy
 msgid "Select a nation"
-msgstr "Valitse kohde"
+msgstr "Valitse kansakunta"
 
 #: client/gui-gtk-2.0/dialogs.c:1827
-#, fuzzy
 msgid "_Nations:"
-msgstr "Kansakunta:"
+msgstr "Kansaku_nnat:"
 
 #: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
@@ -8109,24 +8105,20 @@ msgid "Nation"
 msgstr "Kansakunta"
 
 #: client/gui-gtk-2.0/dialogs.c:1890
-#, fuzzy
 msgid "_Leader:"
 msgstr "Johtaja:"
 
 #: client/gui-gtk-2.0/dialogs.c:1897
-#, fuzzy
 msgid "_Female"
 msgstr "Nainen"
 
 #: client/gui-gtk-2.0/dialogs.c:1902
-#, fuzzy
 msgid "_Male"
-msgstr "Mies"
+msgstr "_Mies"
 
 #: client/gui-gtk-2.0/dialogs.c:1929
-#, fuzzy
 msgid "_City Styles:"
-msgstr "Kaupunkien rakennustyyli"
+msgstr "Kaupunkien rakennustyyli:"
 
 #: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
@@ -8162,14 +8154,12 @@ msgid "Sea-map"
 msgstr "Merikartta"
 
 #: client/gui-gtk-2.0/diplodlg.c:214
-#, fuzzy
 msgid "_Maps"
 msgstr "Kartat"
 
 #: client/gui-gtk-2.0/diplodlg.c:242
-#, fuzzy
 msgid "_Advances"
-msgstr "Edistysaskeleet"
+msgstr "Edistys_askeleet"
 
 #: client/gui-gtk-2.0/diplodlg.c:292 client/gui-gtk-2.0/menu.c:706
 #: client/gui-gtk/menu.c:707 client/gui-win32/menu.c:354
@@ -8177,14 +8167,12 @@ msgid "_Cities"
 msgstr "Kaupungit"
 
 #: client/gui-gtk-2.0/diplodlg.c:301
-#, fuzzy
 msgid "_Give shared vision"
-msgstr "Jaa näkymä"
+msgstr "_Jaa näkymä"
 
 #: client/gui-gtk-2.0/diplodlg.c:331
-#, fuzzy
 msgid "_Pacts"
-msgstr "Sopimukset"
+msgstr "So_pimukset"
 
 #: client/gui-gtk-2.0/diplodlg.c:429 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
@@ -8197,23 +8185,20 @@ msgid "_Cancel meeting"
 msgstr "Peruuta tapaaminen"
 
 #: client/gui-gtk-2.0/diplodlg.c:445
-#, fuzzy
 msgid "Accept _treaty"
-msgstr "Hyväksy sopimus"
+msgstr "_Hyväksy sopimus"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
-#, fuzzy
 msgid "C_lauses:"
-msgstr "_Sulje"
+msgstr "_Ehdot:"
 
 #: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
-#, fuzzy
 msgid "_Gold:"
-msgstr "Rahaa:"
+msgstr "_Rahaa:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Lisää ehto..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8228,9 +8213,8 @@ msgid "Find City"
 msgstr "Etsi kaupunki"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "Kaupungit"
+msgstr "Kaupungi_t:"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:238
 #: client/gui-win32/ratesdlg.c:301
@@ -8264,9 +8248,8 @@ msgid "Goto/Airlift Unit"
 msgstr "Mene tai lennätä yksikkö"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
-msgstr "Lennätä"
+msgstr "_Lennätä"
 
 #: client/gui-gtk-2.0/gotodlg.c:145 client/gui-gtk-2.0/mapview.c:440
 #: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:440
@@ -8275,9 +8258,8 @@ msgid "Select destination"
 msgstr "Valitse kohde"
 
 #: client/gui-gtk-2.0/gotodlg.c:188
-#, fuzzy
 msgid "Show _All Cities"
-msgstr "Kaikki kaupungit"
+msgstr "Näytä k_aikki kaupungit"
 
 #: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
@@ -8826,7 +8808,7 @@ msgstr " ko"
 #: client/gui-gtk-2.0/mapctrl.c:184
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Vaihda ikkunaan: A:%d%% D:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
 #: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
@@ -8934,11 +8916,6 @@ msgstr "Vie lokitiedosto"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Tyhjennä lokitiedosto"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "Katkaise yhteys"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9531,9 +9508,8 @@ msgid "Name"
 msgstr "Nimi"
 
 #: client/gui-gtk-2.0/plrdlg.c:161 client/gui-gtk/plrdlg.c:123
-#, fuzzy
 msgid "Team"
-msgstr "Temppeli"
+msgstr "Joukkue"
 
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9561,14 +9537,12 @@ msgid "Host"
 msgstr "Palvelin"
 
 #: client/gui-gtk-2.0/plrdlg.c:169
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Vuoroa"
+msgstr "Vuorot toimetta"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
-#, fuzzy
 msgid "_Player"
-msgstr "Pelaajat"
+msgstr "_Pelaaja"
 
 #: client/gui-gtk-2.0/plrdlg.c:277 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -9755,7 +9729,7 @@ msgstr "_Laukaisu"
 
 #: client/gui-gtk-2.0/wldlg.c:137
 msgid "new"
-msgstr ""
+msgstr "uusi"
 
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/wldlg.c:161
 #: client/gui-win32/wldlg.c:293
@@ -9763,9 +9737,8 @@ msgid "Edit worklists"
 msgstr "Muuta työlistoja"
 
 #: client/gui-gtk-2.0/wldlg.c:257
-#, fuzzy
 msgid "_Worklists:"
-msgstr "Työ_lista"
+msgstr "Työ_listat:"
 
 #: client/gui-gtk-2.0/wldlg.c:822 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:309 client/gui-gtk/wldlg.c:315
@@ -9783,22 +9756,23 @@ msgstr "Vuoroa"
 
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "_Tehtävät lähteestä:"
 
 #: client/gui-gtk-2.0/wldlg.c:902
-#, fuzzy
 msgid "Show _Future Targets"
 msgstr "Näytä tulevaisuuden tavoitteet"
 
 #: client/gui-gtk-2.0/wldlg.c:956
-#, fuzzy
 msgid "Target _Worklist:"
-msgstr "Työ_lista"
+msgstr "Kohdetyölista:"
 
 #: client/gui-gtk-2.0/wldlg.c:974
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "Mahdolliset työlistat"
+msgstr "Lisää m_aailmanlaajuinen työlista"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+msgid "Chan_ge Production"
+msgstr "Vaihda tuotantoa"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15545,7 +15519,7 @@ msgstr ""
 "kaupungissa voi pitää yhden asukkaan kukin rauhallisena."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15553,13 +15527,12 @@ msgstr "Kommunismi"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Toveri"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15589,38 +15562,30 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"Kommunistinen hallinto perustuu ajatukseen tasa-arvosta. Kaikki hyödykkeet "
-"omistaa yksityisten ihmisten sijasta valtio. Kommunismi on sotilaallisen ja "
-"kaupallisen hallintomuodon välimaastossa.\n"
+"Kommunistinen hallinto perustuu ajatukseen tasa-arvosta. Kaikki hyödykkeet omistaa yksityisten ihmisten sijasta valtio. Kommunismi on sotilaallisen ja kaupallisen hallintomuodon välimaastossa.\n"
 "\n"
-"Lahjonnan määrä ei ole riippuvainen kaupungin etäisyydestä pääkaupunkiin. "
-"Samoin kaikki yli kymmenen ruudun päässä pääkaupungista olevat kaupungit "
-"lasketaan sijaitseviksi tasan kymmenen ruudun päässä, kun lasketaan kapinan "
-"kustannuksia (katso yksiköt, diplomaatti).\n"
+"Lahjonnan määrä ei ole riippuvainen kaupungin etäisyydestä pääkaupunkiin. Samoin kaikki yli kymmenen ruudun päässä pääkaupungista olevat kaupungit lasketaan sijaitseviksi tasan kymmenen ruudun päässä, kun lasketaan kapinan kustannuksia (katso yksiköt, diplomaatti).\n"
 "\n"
-"Uudisraivaajat kuluttavat kaksi yksikköä ruokaa pelivuoroa kohti.\n"
+"Uudisraivaajat kuluttavat yhden yksikön ruokaa pelivuoroa kohti.\n"
 "\n"
-"Juhliva kommunistikaupunki saa yhden kauppayksikön bonuksen jokaiselta "
-"kauppaa käyvältä ruudultaan. Katso yksityiskohtia kohdasta onnellisuus.\n"
+"Juhliva kommunistikaupunki saa yhden kauppayksikön bonuksen jokaiselta kauppaa käyvältä ruudultaan. Katso yksityiskohtia kohdasta onnellisuus.\n"
 "\n"
 "Tieteen, hallintokulujen tai luksuksen maksimiosuus on 80%.\n"
 "\n"
 "Kaikki kommunistien kouluttamat diplomaatit ja vakoojat ovat konkareita.\n"
 "\n"
-"Kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman kustannuksia "
-"(lisäyksiköt kuluttavat yhden yksikön verran tuotantopanoksia kukin).\n"
+"Kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman kustannuksia (lisäyksiköt kuluttavat yhden yksikön verran tuotantopanoksia kukin).\n"
 "\n"
-"Vahvemman laki on rajoitettu, mutta tehokas: korkeintaan kolme "
-"sotilasyksikköä kaupungissa voi pitää rauhallisena kahta asukasta kukin."
+"Vahvemman laki on rajoitettu, mutta tehokas: korkeintaan kolme sotilasyksikköä kaupungissa voi pitää rauhallisena kahta asukasta kukin."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Tasavalta"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Konsuli"
@@ -15685,7 +15650,7 @@ msgstr ""
 "yksiköt aiheuttavat yhden asukkaan muuttumisen tyytymättömäksi kukin."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15693,7 +15658,7 @@ msgstr "Demokratia"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15958,8 +15923,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "Kuningas tai kuningatar on hallituksensa kunnioitettu keulakuva.\n"
 "\n"
@@ -15967,19 +15932,13 @@ msgstr ""
 "\n"
 "Uudisraivaajat kuluttavat yhden yksikön ruokaa pelivuoroa kohti.\n"
 "\n"
-"Jos joku kuningaskunnan kaupunki juhlii, se saa yhden ylimääräisen yksikön "
-"kauppaa jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön "
-"kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
+"Jos joku kuningaskunnan kaupunki juhlii, se saa yhden ylimääräisen yksikön kauppaa jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
 "\n"
-"Kaupunkisi voivat ylläpitää kolmea sotilasyksikköä ilman "
-"ylläpitokustannuksia; lisäyksiköt kuluttavat kukin yhden raaka-aineyksikön "
-"pelivuorossa.\n"
+"Kaupunkisi voivat ylläpitää kolmea sotilasyksikköä ilman ylläpitokustannuksia; lisäyksiköt kuluttavat kukin yhden raaka-aineyksikön pelivuorossa.\n"
 "\n"
-"Vahvemman laki toimii rajoitetusti: Kolme kaupungissa olevaa sotilasyksikköä "
-"pystyy rauhoittelemaan yhden tyytymättömän asukkaan kukin."
+"Monarkki voi käyttää vahvemman lakia edukseen: kukin kaupungissa oleva sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena."
 
-#: data/civ1/governments.ruleset:354
-#, fuzzy
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16003,37 +15962,25 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Kommunistinen hallinto perustuu ajatukseen kaikkien ihmisten tasa-arvosta. "
-"Kaiken omaisuuden omistaa valtio, eivätkä yksityiset kansalaiset. Kommunismi "
-"on eräänlainen sotilaallisen ja taloudellisen hallitusmuodon välimuoto.\n"
+"Kommunistinen hallinto perustuu ajatukseen kaikkien ihmisten tasa-arvosta. Kaiken omaisuuden omistaa valtio, eivätkä yksityiset kansalaiset. Kommunismi on eräänlainen sotilaallisen ja taloudellisen hallitusmuodon välimuoto.\n"
 "\n"
-"Kommunistivaltiossa lahjonnan määrä ei ole riippuvainen etäisyydestä "
-"pääkaupunkiin; kaikki kaupungit (myös pääkaupunki) kärsivät hieman. Lisäksi "
-"kaikki yli kymmenen ruudun päässä pääkaupungista sijaitsevat kaupungit "
-"tulkitaan vain kymmenen ruudun päässä sijaitseviksi, kun lasketaan kapinaan "
-"yllyttämisen kustannuksia (Katso diplomaatin ohjetta).\n"
+"Kommunistivaltiossa lahjonnan määrä ei ole riippuvainen etäisyydestä pääkaupunkiin; kaikki kaupungit (myös pääkaupunki) kärsivät hieman. Lisäksi kaikki yli kymmenen ruudun päässä pääkaupungista sijaitsevat kaupungit tulkitaan vain kymmenen ruudun päässä sijaitseviksi, kun lasketaan kapinaan yllyttämisen kustannuksia (Katso diplomaatin ohjetta).\n"
 "\n"
-"Uudisraivaajat kuluttavat kaksi yksikköä ruokaa.\n"
+"Uudisraivaajat kuluttavat yhden yksikön ruokaa.\n"
 "\n"
-"Juhliva kommunistikaupunki saa yhden yksikön verran kauppabonusta jokaiselta "
-"ruudulta, joka ennestään tuottaa vähintään yhden yksikön verran kauppaa. "
-"Katso ohjeen kohtaa onnellisuus.\n"
+"Juhliva kommunistikaupunki saa yhden yksikön verran kauppabonusta jokaiselta ruudulta, joka ennestään tuottaa vähintään yhden yksikön verran kauppaa. Katso ohjeen kohtaa onnellisuus.\n"
 "\n"
 "Kaikki kommunistien kouluttamat diplomaatit ja vakoojat ovat konkareita.\n"
 "\n"
-"Kommunistisessa hallinnossa kaupungit voivat ylläpitää kolmea "
-"sotilasyksikköä ilman ylläpitokustannuksia. (Lisäyksiköt kuluttavat yhden "
-"raaka-aineyksikön kukin.)\n"
+"Kommunistisessa hallinnossa kaupungit voivat ylläpitää kolmea sotilasyksikköä ilman ylläpitokustannuksia. (Lisäyksiköt kuluttavat yhden raaka-aineyksikön kukin.)\n"
 "\n"
-"Vahvemman laki toimii rajoitetusti, mutta tehokkaasti. Jokainen kaupungissa "
-"oleva sotilasyksikkö (kolmeen saakka) pystyy pitämään kaksi tyytymätöntä "
-"asukasta rauhallisena."
+"Vahvemman laki toimii kommunistivaltiossa: kukin kaupungissa oleva sotilasyksikkö pitää yhden tyytymättömän asukkaan rauhallisena. (... Tai ainakin tyytymättömät kansalaiset käyttäytyvät rauhallisesti eivätkä mellakoi.)"
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16090,7 +16037,7 @@ msgstr ""
 "Kaupungin asukkaat suvaitsevat yhden aggressiivisen yksikön; seuraavat "
 "yksiköt aiheuttavat yhden onnettoman asukkaan kukin."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -18293,6 +18240,3 @@ msgstr "?plural:zulut"
 
 #~ msgid " What Nation Will You Be?"
 #~ msgstr " Mitä kansakuntaa haluat johtaa?"
-
-#~ msgid "Game: "
-#~ msgstr "Peli: "
