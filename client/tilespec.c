@@ -157,6 +157,10 @@ static char *tilespec_fullname(const char *tileset_name)
     tileset_name = tileset_default;
   }
 
+  /* Hack: this is the name of the tileset we're about to load.  We copy
+   * it here, since this is the only place where we know it. */
+  sz_strlcpy(current_tile_set_name, tileset_name);
+
   fname = fc_malloc(strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1);
   sprintf(fname, "%s%s", tileset_name, TILESPEC_SUFFIX);
   
@@ -455,8 +459,6 @@ void tilespec_read_toplevel(const char *tileset_name)
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
   free(fname);
-
-  sz_strlcpy(current_tile_set_name, tileset_name);
 }
 
 /**********************************************************************
