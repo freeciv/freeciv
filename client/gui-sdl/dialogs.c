@@ -116,7 +116,7 @@ void put_window_near_map_tile(struct GUI *pWindow,
   int canvas_x, canvas_y;
   
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
-    if (canvas_x + NORMAL_TILE_WIDTH + window_width >= pWindow->dst->w)
+    if (canvas_x + tileset_tile_width(tileset) + window_width >= pWindow->dst->w)
     {
       if (canvas_x - window_width < 0) {
 	pWindow->size.x = (pWindow->dst->w - window_width) / 2;
@@ -124,10 +124,10 @@ void put_window_near_map_tile(struct GUI *pWindow,
 	pWindow->size.x = canvas_x - window_width;
       }
     } else {
-      pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
+      pWindow->size.x = canvas_x + tileset_tile_width(tileset);
     }
     
-    canvas_y += (NORMAL_TILE_HEIGHT - window_height) / 2;
+    canvas_y += (tileset_tile_height(tileset) - window_height) / 2;
     if (canvas_y + window_height >= pWindow->dst->h)
     {
       pWindow->size.y = pWindow->dst->h - window_height - 1;
@@ -991,7 +991,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, WF_FREE_THEME);
   
-  pBuf->size.h += NORMAL_TILE_HEIGHT / 2;
+  pBuf->size.h += tileset_tile_height(tileset) / 2;
   
   add_to_gui_list(ID_LABEL, pBuf);
   

@@ -709,10 +709,10 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
  
   /* wipe the slate clean */
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-  XFillRectangle(display, pm, fill_bg_gc, 0, NORMAL_TILE_WIDTH, 
-		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
+  XFillRectangle(display, pm, fill_bg_gc, 0, tileset_tile_width(tileset), 
+		 tileset_tile_height(tileset), tileset_tile_height(tileset)+tileset_small_sprite_height(tileset));
 
-  put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
+  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset));
 }
 
 /**************************************************************************

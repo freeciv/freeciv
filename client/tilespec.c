@@ -433,7 +433,21 @@ int tileset_hex_height(struct tileset *t)
 
 /****************************************************************************
   Return the tile width of the current tileset.  This is the tesselation
-  width of the tiled plane.
+  width of the tiled plane.  This means it's the width of the bounding box
+  of the basic map tile.
+
+  For best results:
+    - The value should be even (or a multiple of 4 in iso-view).
+    - In iso-view, the width should be twice the height (to give a
+      perspective of 30 degrees above the horizon).
+    - In non-iso-view, width and height should be equal (overhead
+      perspective).
+    - In hex or iso-hex view, remember this is the tesselation vector.
+      hex_width and hex_height then give the size of the side of the
+      hexagon.  Calculating the dimensions of a "regular" hexagon or
+      iso-hexagon may be tricky.
+  However these requirements are not absolute and callers should not
+  depend on them (although some do).
 ****************************************************************************/
 int tileset_tile_width(struct tileset *t)
 {
@@ -442,7 +456,10 @@ int tileset_tile_width(struct tileset *t)
 
 /****************************************************************************
   Return the tile height of the current tileset.  This is the tesselation
-  height of the tiled plane.
+  height of the tiled plane.  This means it's the height of the bounding box
+  of the basic map tile.
+
+  See also tileset_tile_width.
 ****************************************************************************/
 int tileset_tile_height(struct tileset *t)
 {
@@ -464,6 +481,9 @@ int tileset_full_tile_width(struct tileset *t)
   Return the full tile height of the current tileset.  This is the maximum
   height that any mapview sprite will have.  This may be greater than the
   tile width in which case the extra area is above the "normal" tile.
+
+  Some callers assume the full height is 50% larger than the height in
+  iso-view, and equal in non-iso view.
 ****************************************************************************/
 int tileset_full_tile_height(struct tileset *t)
 {
@@ -1198,20 +1218,20 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   t->normal_tile_height
     = secfile_lookup_int(file, "tilespec.normal_tile_height");
   if (t->is_isometric) {
-    t->full_tile_width = NORMAL_TILE_WIDTH;
-    t->full_tile_height = 3 * NORMAL_TILE_HEIGHT / 2;
+    t->full_tile_width = t->normal_tile_width;
+    t->full_tile_height = 3 * t->normal_tile_height / 2;
   } else {
-    t->full_tile_width = NORMAL_TILE_WIDTH;
-    t->full_tile_height = NORMAL_TILE_HEIGHT;
+    t->full_tile_width = t->normal_tile_width;
+    t->full_tile_height = t->normal_tile_height;
   }
   t->small_sprite_width
     = secfile_lookup_int(file, "tilespec.small_tile_width");
   t->small_sprite_height
     = secfile_lookup_int(file, "tilespec.small_tile_height");
   freelog(LOG_VERBOSE, "tile sizes %dx%d, %d%d unit, %d%d small",
-	  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
-	  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+	  t->normal_tile_width, t->normal_tile_height,
+	  t->full_tile_width, t->full_tile_height,
+	  t->small_sprite_width, t->small_sprite_height);
 
   t->roadstyle = secfile_lookup_int_default(file, t->is_isometric ? 0 : 1,
 					    "tilespec.roadstyle");
@@ -1237,7 +1257,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 						"tilespec.unit_offset_y");
 
   t->citybar_offset_y
-    = secfile_lookup_int_default(file, NORMAL_TILE_HEIGHT,
+    = secfile_lookup_int_default(file, t->normal_tile_height,
 				 "tilespec.citybar_offset_y");
 
   t->city_names_font_size
@@ -1604,7 +1624,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 {
   char buffer[512];
   const char dir_char[] = "nsew";
-  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  const int W = t->normal_tile_width, H = t->normal_tile_height;
   int i, j;
   
   assert(t->sprite_hash != NULL);
@@ -1938,7 +1958,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 	for (p = 0; p < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; p++) {
 	  if (t->sprites.colors.player[p] && t->sprites.grid.borders[i][j]) {
 	    s = crop_sprite(t->sprites.colors.player[p],
-			    0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+			    0, 0,
+			    t->normal_tile_width, t->normal_tile_height,
 			    t->sprites.grid.borders[i][j], 0, 0);
 	  } else {
 	    s = t->sprites.grid.borders[i][j];
@@ -1977,7 +1998,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     {
       /* Isometric: take a single tx.darkness tile and split it into 4. */
       struct Sprite *darkness = load_sprite(t, "tx.darkness");
-      const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+      const int W = t->normal_tile_width, H = t->normal_tile_height;
       int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
       if (!darkness) {
@@ -2293,7 +2314,8 @@ void tileset_setup_tile_type(struct tileset *t, Terrain_type_id terrain)
 
 		if (sprite) {
 		  /* Crop the sprite to separate this cell. */
-		  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+		  const int W = t->normal_tile_width;
+		  const int H = t->normal_tile_height;
 		  int x[4] = {W / 4, W / 4, 0, W / 2};
 		  int y[4] = {H / 2, 0, H / 4, H / 4};
 		  int xo[4] = {0, 0, -W / 2, W / 2};
@@ -2322,7 +2344,7 @@ void tileset_setup_tile_type(struct tileset *t, Terrain_type_id terrain)
 
   if (draw->is_blended && t->is_isometric) {
     /* Set up blending sprites. This only works in iso-view! */
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    const int W = t->normal_tile_width, H = t->normal_tile_height;
     const int offsets[4][2] = {
       {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
@@ -2462,8 +2484,8 @@ static struct Sprite *get_city_occupied_sprite(struct tileset *t,
   return t->sprites.city.tile[style][city_styles[style].tiles_num + 1];
 }
 
-#define FULL_TILE_X_OFFSET ((NORMAL_TILE_WIDTH - UNIT_TILE_WIDTH) / 2)
-#define FULL_TILE_Y_OFFSET (NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT)
+#define FULL_TILE_X_OFFSET ((t->normal_tile_width - t->full_tile_width) / 2)
+#define FULL_TILE_Y_OFFSET (t->normal_tile_height - t->full_tile_height)
 
 #define ADD_SPRITE(s, draw_fog, x_offset, y_offset)			    \
   (assert(s != NULL),							    \
@@ -3014,8 +3036,8 @@ static int fill_city_overlays_sprite_array(struct tileset *t,
       int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
       int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
       int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
-      const int ox = t->is_isometric ? NORMAL_TILE_WIDTH / 3 : 0;
-      const int oy = t->is_isometric ? -NORMAL_TILE_HEIGHT / 3 : 0;
+      const int ox = t->is_isometric ? t->normal_tile_width / 3 : 0;
+      const int oy = t->is_isometric ? -t->normal_tile_height / 3 : 0;
 
       food = CLIP(0, food, NUM_TILES_DIGITS - 1);
       shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
@@ -3048,7 +3070,7 @@ static int fill_blending_sprite_array(struct tileset *t,
 
   if (t->is_isometric && t->sprites.terrain[ttype]->is_blended) {
     enum direction4 dir;
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    const int W = t->normal_tile_width, H = t->normal_tile_height;
     const int offsets[4][2] = {
       {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
@@ -3214,7 +3236,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
        * for each of the 4 cells (32 sprites total).
        *
        * These arrays correspond to the direction4 ordering. */
-      const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+      const int W = t->normal_tile_width, H = t->normal_tile_height;
       const int iso_offsets[4][2] = {
 	{W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
       };
@@ -3281,7 +3303,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
       break;
     case DARKNESS_ISORECT:
       for (i = 0; i < 4; i++) {
-	const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+	const int W = t->normal_tile_width, H = t->normal_tile_height;
 	int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
 	if (UNKNOWN(DIR4_TO_DIR8[i])) {

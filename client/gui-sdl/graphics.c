@@ -913,9 +913,9 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   mapview.width = iWidth;
   mapview.height = iHeight;
-  if (NORMAL_TILE_WIDTH > 0) {
-    mapview.tile_width = (iWidth - 1) / NORMAL_TILE_WIDTH + 1;
-    mapview.tile_height = (iHeight - 1) / NORMAL_TILE_HEIGHT + 1;
+  if (tileset_tile_width(tileset) > 0) {
+    mapview.tile_width = (iWidth - 1) / tileset_tile_width(tileset) + 1;
+    mapview.tile_height = (iHeight - 1) / tileset_tile_height(tileset) + 1;
   }
 
   FREESURFACE(Main.map);

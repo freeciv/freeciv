@@ -573,7 +573,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   } unit_type_iterate_end;
     
   pUnitsDlg->pBeginWidgetList = pBuf;
-  w = (UNIT_TILE_WIDTH * 2 + name_w + 15) +
+  w = (tileset_full_tile_width(tileset) * 2 + name_w + 15) +
 		(4 * pText1->w + 46) + (pText2->w + 16) + (pText5->w + 6) + 2;
   if(count) {
     pUnitsDlg->pBeginActiveWidgetList = pBuf;
@@ -618,7 +618,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* totals background and label */
   dst.x = FRAME_WH + 2;
   dst.y = h - ( pText3->h + 2 ) - 2 - FRAME_WH;
-  dst.w = name_w + UNIT_TILE_WIDTH * 2 + 5;
+  dst.w = name_w + tileset_full_tile_width(tileset) * 2 + 5;
   dst.h = pText3->h + 2;
   SDL_FillRectAlpha(pWindow->theme, &dst, &color);
   
@@ -626,14 +626,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
   
   dst.y += 1;
-  dst.x += ((name_w + UNIT_TILE_WIDTH * 2 + 5) - pText3->w) / 2;
+  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + 5) - pText3->w) / 2;
   SDL_BlitSurface(pText3, NULL, pWindow->theme, &dst);
   FREESURFACE(pText3);
   
   /* total active widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + name_w +
-			  UNIT_TILE_WIDTH * 2 + 17;
+			  tileset_full_tile_width(tileset) * 2 + 17;
   pBuf->size.y = pWindow->size.y + dst.y;
   
   /* total shields cost widget */
@@ -659,7 +659,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* units background and labels */
   dst.x = FRAME_WH + 2;
   dst.y = WINDOW_TILE_HIGH + 2;
-  dst.w = name_w + UNIT_TILE_WIDTH * 2 + 5;
+  dst.w = name_w + tileset_full_tile_width(tileset) * 2 + 5;
   dst.h = pText4->h + 2;
   SDL_FillRectAlpha(pWindow->theme, &dst, &color);
   
@@ -667,12 +667,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
   
   dst.y += 1;
-  dst.x += ((name_w + UNIT_TILE_WIDTH * 2 + 5)- pText4->w) / 2;
+  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + 5)- pText4->w) / 2;
   SDL_BlitSurface(pText4, NULL, pWindow->theme, &dst);
   FREESURFACE(pText4);
   
   /* active count background and label */  
-  dst.x = FRAME_WH + 2 + name_w + UNIT_TILE_WIDTH * 2 + 15;
+  dst.x = FRAME_WH + 2 + name_w + tileset_full_tile_width(tileset) * 2 + 15;
   dst.y = WINDOW_TILE_HIGH + 2;
   dst.w = pText1->w + 6;
   dst.h = h - WINDOW_TILE_HIGH - 2 - FRAME_WH - 2;
@@ -769,14 +769,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     pBuf = pBuf->prev;
     while(TRUE)
     {
-      pBuf->size.x = start_x + (mod ? UNIT_TILE_WIDTH : 0);
+      pBuf->size.x = start_x + (mod ? tileset_full_tile_width(tileset) : 0);
       pBuf->size.y = start_y;
       hh = pBuf->size.h;
       mod ^= 1;
       
       pBuf = pBuf->prev;
       pBuf->size.w = name_w;
-      pBuf->size.x = start_x + UNIT_TILE_WIDTH * 2 + 5;
+      pBuf->size.x = start_x + tileset_full_tile_width(tileset) * 2 + 5;
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
       pBuf = pBuf->prev;

@@ -78,7 +78,7 @@ extern SDL_Cursor **pAnimCursor;
 extern bool do_cursor_animation;
 
 static Uint32 Amask;
-static int HALF_NORMAL_TILE_HEIGHT, HALF_NORMAL_TILE_WIDTH;
+static int HALF_tileset_tile_height(tileset), HALF_tileset_tile_width(tileset);
 
 static SDL_Surface *pTmpSurface;
 
@@ -827,8 +827,8 @@ void redraw_unit_info_label(struct unit *pUnit)
 		aunit->hp, pUType->hp,
 		pHome_City ? pHome_City->name : _("None"));
       
-	  pBuf_Surf = create_surf(UNIT_TILE_WIDTH,
-	    				UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
+	    				tileset_full_tile_height(tileset), SDL_SWSURFACE);
 
           put_unit_pixmap_draw(aunit, pBuf_Surf, 0, 0);
 
@@ -1162,7 +1162,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     pText->bgcol = color_bg;
   }
    
-  canvas_y += NORMAL_TILE_HEIGHT;
+  canvas_y += tileset_tile_height(tileset);
 
   if (draw_city_names) {
     if (draw_city_growth && pCity->owner == game.player_idx) {
@@ -1284,7 +1284,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     
     if (clear_area.w)
     {
-      clear_area.x = canvas_x + (NORMAL_TILE_WIDTH - clear_area.w) / 2;
+      clear_area.x = canvas_x + (tileset_tile_width(tileset) - clear_area.w) / 2;
     }
   
     if (pCity_Size)
@@ -1373,7 +1373,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     if (pCity_Name)
     {
       SDL_SetAlpha(pCity_Name, 0x0, 0x0);
-      dst.x = canvas_x + (NORMAL_TILE_WIDTH - pCity_Name->w) / 2;
+      dst.x = canvas_x + (tileset_tile_width(tileset) - pCity_Name->w) / 2;
       dst.y = canvas_y;
       SDL_BlitSurface(pCity_Name, NULL, pDest, &dst);
       canvas_y += pCity_Name->h;
@@ -1382,7 +1382,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     if (pCity_Prod)
     {
       SDL_SetAlpha(pCity_Prod, 0x0, 0x0);
-      dst.x = canvas_x + (NORMAL_TILE_WIDTH - pCity_Prod->w) / 2;
+      dst.x = canvas_x + (tileset_tile_width(tileset) - pCity_Prod->w) / 2;
       dst.y = canvas_y;
       SDL_BlitSurface(pCity_Prod, NULL, pDest, &dst);
     }
@@ -1708,7 +1708,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
   
   if (fog && !full_ocean) {
     des.x = 0;
-    des.y = HALF_NORMAL_TILE_HEIGHT;
+    des.y = HALF_tileset_tile_height(tileset);
     pBufSurface = pTmpSurface;
   } else {
     des.x = map_x;
@@ -1724,11 +1724,11 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
   if (draw_terrain) {
     for (i = 0; i < count; i++) {
       if (pTile_sprs[i].sprite) {
-        if (GET_SURF(pTile_sprs[i].sprite)->w - NORMAL_TILE_WIDTH > 0
-	   || GET_SURF(pTile_sprs[i].sprite)->h - NORMAL_TILE_HEIGHT > 0) {
-	  des.x -= ((GET_SURF(pTile_sprs[i].sprite)->w - NORMAL_TILE_WIDTH) / 2); /* center */
+        if (GET_SURF(pTile_sprs[i].sprite)->w - tileset_tile_width(tileset) > 0
+	   || GET_SURF(pTile_sprs[i].sprite)->h - tileset_tile_height(tileset) > 0) {
+	  des.x -= ((GET_SURF(pTile_sprs[i].sprite)->w - tileset_tile_width(tileset)) / 2); /* center */
           /* this allow drawing of civ3 bigger tiles */
-	  des.y -= (GET_SURF(pTile_sprs[i].sprite)->h - NORMAL_TILE_HEIGHT);
+	  des.y -= (GET_SURF(pTile_sprs[i].sprite)->h - tileset_tile_height(tileset));
 	  SDL_BlitSurface(GET_SURF(pTile_sprs[i].sprite), NULL, pBufSurface, &des);
         } else {
 	  SDL_BlitSurface(GET_SURF(pTile_sprs[i].sprite), NULL, pBufSurface, &des);
@@ -1806,7 +1806,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
     the buttom lines will be drawn by the tiles underneath. */
     SDL_BlitSurface(pMapGrid[color1][0], NULL, pBufSurface, &des);
     des = dst;
-    des.x += HALF_NORMAL_TILE_WIDTH;
+    des.x += HALF_tileset_tile_width(tileset);
     SDL_BlitSurface(pMapGrid[color2][1], NULL, pBufSurface, &des);
     des = dst;
   }
@@ -1860,7 +1860,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
 
   if (pCity && draw_cities) {
     put_city_pixmap_draw(pCity, pBufSurface,
-			 des.x, des.y - HALF_NORMAL_TILE_HEIGHT);
+			 des.x, des.y - HALF_tileset_tile_height(tileset));
   }
 
   if (sdl_contains_special(special, S_AIRBASE) && draw_fortress_airbase) {
@@ -1898,10 +1898,10 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
     /*** Unit ***/
   if (pUnit && (draw_units || (pUnit == pFocus && draw_focus_unit))) {
     put_unit_pixmap_draw(pUnit, pBufSurface, des.x,
-			 des.y - HALF_NORMAL_TILE_HEIGHT);
+			 des.y - HALF_tileset_tile_height(tileset));
 
     if (!pCity && unit_list_size(&(pTile->units)) > 1) {
-      des.y -= HALF_NORMAL_TILE_HEIGHT;
+      des.y -= HALF_tileset_tile_height(tileset);
       SDL_BlitSurface(GET_SURF(sprites.unit.stack), NULL, pBufSurface, &des);
       des = dst;
     }
@@ -1919,7 +1919,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
 			    get_game_colorRGB(COLOR_STD_FOG_OF_WAR));
     
     des.x = map_x;
-    des.y = map_y - HALF_NORMAL_TILE_HEIGHT;
+    des.y = map_y - HALF_tileset_tile_height(tileset);
     SDL_BlitSurface(pBufSurface, NULL, pDest, &des);
       
     /* clear pBufSurface */
@@ -1961,7 +1961,7 @@ void real_blink_active_unit(void)
   if (draw_units && (pUnit = get_unit_in_focus())) {
     if(tile_to_canvas_pos(&canvas_x, &canvas_y, pUnit->x, pUnit->y)) {
       area.x = canvas_x;
-      area.y = canvas_y - HALF_NORMAL_TILE_HEIGHT;
+      area.y = canvas_y - HALF_tileset_tile_height(tileset);
       backup = area;
       if (!reset_anim
 	 && pUnit == pPrevUnit && pUnit->type == pPrevUnit->type
@@ -1970,13 +1970,13 @@ void real_blink_active_unit(void)
         SDL_BlitSurface(pBlinkSurfaceA, NULL, Main.map, &area);
 	area = backup;
         /* blit frame of animation */
-        area.y += HALF_NORMAL_TILE_HEIGHT;
+        area.y += HALF_tileset_tile_height(tileset);
         SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &area);
         area = backup;
         /* blit unit graphic */
         SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.map, &area);
      
-        flush_mapcanvas(area.x, area.y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+        flush_mapcanvas(area.x, area.y, tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
           
       } else {
 	
@@ -1993,8 +1993,8 @@ void real_blink_active_unit(void)
 	}
 	
         /* refresh clear area */
-        area.w = UNIT_TILE_WIDTH;
-        area.h = UNIT_TILE_HEIGHT;
+        area.w = tileset_full_tile_width(tileset);
+        area.h = tileset_full_tile_height(tileset);
         SDL_BlitSurface(Main.map, &area, pBlinkSurfaceA, NULL);
         area = backup;
 	
@@ -2008,11 +2008,11 @@ void real_blink_active_unit(void)
 	if(normalize_map_pos(&next_x, &next_y)) {
 	  if(draw_cities && (pCity = map_get_city(next_x, next_y))) {
 	    put_city_pixmap_draw(pCity, pBlinkSurfaceB,
-			  -HALF_NORMAL_TILE_WIDTH, HALF_NORMAL_TILE_HEIGHT);
+			  -HALF_tileset_tile_width(tileset), HALF_tileset_tile_height(tileset));
 	  } else {
 	    put_unit_pixmap_draw(get_drawable_unit(next_x, next_y, 0),
-				  pBlinkSurfaceB, -HALF_NORMAL_TILE_WIDTH,
-						  HALF_NORMAL_TILE_HEIGHT);
+				  pBlinkSurfaceB, -HALF_tileset_tile_width(tileset),
+						  HALF_tileset_tile_height(tileset));
 	  }
 	}
 	  
@@ -2022,15 +2022,15 @@ void real_blink_active_unit(void)
 	if(normalize_map_pos(&next_x, &next_y)) {
 	  if((pCity = map_get_city(next_x, next_y)) && draw_cities) {
 	    put_city_pixmap_draw(pCity, pBlinkSurfaceB,
-			  HALF_NORMAL_TILE_WIDTH, HALF_NORMAL_TILE_HEIGHT);
+			  HALF_tileset_tile_width(tileset), HALF_tileset_tile_height(tileset));
 	  } else {
 	    put_unit_pixmap_draw(get_drawable_unit(next_x, next_y, 0),
-				  pBlinkSurfaceB, HALF_NORMAL_TILE_WIDTH,
-						  HALF_NORMAL_TILE_HEIGHT);
+				  pBlinkSurfaceB, HALF_tileset_tile_width(tileset),
+						  HALF_tileset_tile_height(tileset));
 	    if(!pCity &&
 	       unit_list_size(&map_get_tile(next_x, next_y)->units) > 1) {
 	       blit_entire_src(GET_SURF(sprites.unit.stack), pBlinkSurfaceB,
-	    		HALF_NORMAL_TILE_WIDTH, HALF_NORMAL_TILE_HEIGHT);
+	    		HALF_tileset_tile_width(tileset), HALF_tileset_tile_height(tileset));
 	    }
 	  }
 	}
@@ -2040,15 +2040,15 @@ void real_blink_active_unit(void)
 	next_y = pUnit->y + 1;
 	if(normalize_map_pos(&next_x, &next_y)) {
 	  if(draw_cities && (pCity = map_get_city(next_x, next_y))) {
-	    put_city_pixmap_draw(pCity, pBlinkSurfaceB, 0, NORMAL_TILE_HEIGHT);
+	    put_city_pixmap_draw(pCity, pBlinkSurfaceB, 0, tileset_tile_height(tileset));
 	  } else {
 	    put_unit_pixmap_draw(get_drawable_unit(next_x, next_y, 0),
-				  pBlinkSurfaceB, 0, NORMAL_TILE_HEIGHT);
+				  pBlinkSurfaceB, 0, tileset_tile_height(tileset));
 	  }
 	}
          
         /* draw focus animation frame */
-        area.y += HALF_NORMAL_TILE_HEIGHT;
+        area.y += HALF_tileset_tile_height(tileset);
         SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &area);
         area = backup;
 		
@@ -2156,12 +2156,12 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
   int draw_map_grid_backup = draw_map_grid;
   int sx, sy, row0, real_col = pCity->x, real_row = pCity->y;
 
-  Sint16 x0 = 3 * NORMAL_TILE_WIDTH / 2;
+  Sint16 x0 = 3 * tileset_tile_width(tileset) / 2;
   Sint16 y0 = 0;
   SDL_Surface *pTile = NULL;
   SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
 				   get_citydlg_canvas_height()
-				  + HALF_NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+				  + HALF_tileset_tile_height(tileset), SDL_SWSURFACE);
   real_col -= 2;
   real_row -= 2;
   correction_map_pos((int *) &real_col, (int *) &real_row);
@@ -2175,19 +2175,19 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
   for (; col < CITY_MAP_SIZE; col++) {
     for (row = 0; row < CITY_MAP_SIZE; row++) {
 #if 1
-       sx = x0 + (col - row) * HALF_NORMAL_TILE_WIDTH;
-       sy = y0 + (row + col) * HALF_NORMAL_TILE_HEIGHT;
+       sx = x0 + (col - row) * HALF_tileset_tile_width(tileset);
+       sy = y0 + (row + col) * HALF_tileset_tile_height(tileset);
         
 #else
       /* ugly hack for speed.  Assumes:
-       *   NORMAL_TILE_WIDTH == 64
-       *   NORMAL_TILE_HEIGHT == 32  */
+       *   tileset_tile_width(tileset) == 64
+       *   tileset_tile_height(tileset) == 32  */
       sx = x0 + ((col - row) << 5);
       sy = y0 + ((row + col) << 4);
 #endif
-      if (sx > -NORMAL_TILE_WIDTH && sx < pDest->w + NORMAL_TILE_WIDTH
-	  && sy > -NORMAL_TILE_HEIGHT
-	  && sy < pDest->h + NORMAL_TILE_HEIGHT) {
+      if (sx > -tileset_tile_width(tileset) && sx < pDest->w + tileset_tile_width(tileset)
+	  && sy > -tileset_tile_height(tileset)
+	  && sy < pDest->h + tileset_tile_height(tileset)) {
 	dest.x = sx;
 	dest.y = sy;
 	if ((!col && !row) ||
@@ -2214,11 +2214,11 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
 			      NULL, pTmpSurface, NULL);
 
 	      SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY,
-			      getpixel(pTmpSurface, HALF_NORMAL_TILE_WIDTH,
-				       HALF_NORMAL_TILE_HEIGHT));
+			      getpixel(pTmpSurface, HALF_tileset_tile_width(tileset),
+				       HALF_tileset_tile_height(tileset)));
 	      /* create pTile */
-	      pTile = create_surf(NORMAL_TILE_WIDTH,
-				  NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+	      pTile = create_surf(tileset_tile_width(tileset),
+				  tileset_tile_height(tileset), SDL_SWSURFACE);
 	      
 	      /* fill pTile with RED */
 	      SDL_FillRect(pTile, NULL,
@@ -2270,7 +2270,7 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
   SDL_Surface *pTile = NULL;
   SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
 		get_citydlg_canvas_height()
-	    + HALF_NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+	    + HALF_tileset_tile_height(tileset), SDL_SWSURFACE);
 
     
   /* turn off drawing units */
@@ -2286,12 +2286,12 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
 	  && tile_get_known(map_x, map_y)
 	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
 	  draw_map_cell(pDest, canvas_x,
-		  canvas_y + HALF_NORMAL_TILE_HEIGHT, map_x, map_y, 1);
+		  canvas_y + HALF_tileset_tile_height(tileset), map_x, map_y, 1);
 	
 	if (get_worker_city(pCity, city_x, city_y) == C_TILE_UNAVAILABLE)
 	{
 	    
-	    SDL_Rect dest = {canvas_x, canvas_y + HALF_NORMAL_TILE_HEIGHT, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT};
+	    SDL_Rect dest = {canvas_x, canvas_y + HALF_tileset_tile_height(tileset), tileset_tile_width(tileset), tileset_tile_height(tileset)};
 	    if (!pTile) {
 	      
 	      /* fill pTile with Mask Color */
@@ -2303,11 +2303,11 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
 			      NULL, pTmpSurface, NULL);
 
 	      SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY,
-			      getpixel(pTmpSurface, HALF_NORMAL_TILE_WIDTH,
-				       HALF_NORMAL_TILE_HEIGHT));
+			      getpixel(pTmpSurface, HALF_tileset_tile_width(tileset),
+				       HALF_tileset_tile_height(tileset)));
 	      /* create pTile */
-	      pTile = create_surf(NORMAL_TILE_WIDTH,
-				  NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+	      pTile = create_surf(tileset_tile_width(tileset),
+				  tileset_tile_height(tileset), SDL_SWSURFACE);
 	      
 	      /* fill pTile with RED */
 	      SDL_FillRect(pTile, NULL,
@@ -2373,7 +2373,7 @@ static SDL_Surface * create_noiso_city_map(struct city *pCity)
 	if (get_worker_city(pCity, city_x, city_y) == C_TILE_UNAVAILABLE)
 	{
 	    SDL_Color used = {255, 0, 0, 96};
-	    SDL_Rect dest = {canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT};
+	    SDL_Rect dest = {canvas_x, canvas_y, tileset_tile_width(tileset), tileset_tile_height(tileset)};
 	    SDL_FillRectAlpha(pDest, &dest, &used);
 	} 
       }
@@ -2402,8 +2402,8 @@ SDL_Surface * create_city_map(struct city *pCity)
 **************************************************************************/
 SDL_Surface * get_terrain_surface(int x , int y)
 {
-  SDL_Surface *pSurf = create_surf(UNIT_TILE_WIDTH,
-			           UNIT_TILE_HEIGHT,
+  SDL_Surface *pSurf = create_surf(tileset_full_tile_width(tileset),
+			           tileset_full_tile_height(tileset),
 			           SDL_SWSURFACE);
   bool fg = draw_fog_of_war,
      ci = draw_cities ,
@@ -2431,7 +2431,7 @@ SDL_Surface * get_terrain_surface(int x , int y)
   
   SDL_Client_Flags &= ~CF_DRAW_MAP_DITHER;
   
-  draw_map_cell(pSurf, 0, NORMAL_TILE_HEIGHT / 2, x , y , 0);
+  draw_map_cell(pSurf, 0, tileset_tile_height(tileset) / 2, x , y , 0);
     
   SDL_SetColorKey(pSurf , SDL_SRCCOLORKEY|SDL_RLEACCEL , 0x0);
   
@@ -2461,28 +2461,28 @@ SDL_Surface * get_terrain_surface(int x , int y)
 **************************************************************************/
 static SDL_Surface * create_ocean_tile(void)
 {
-  SDL_Surface *pOcean = create_surf(NORMAL_TILE_WIDTH ,
-			  	     NORMAL_TILE_HEIGHT ,
+  SDL_Surface *pOcean = create_surf(tileset_tile_width(tileset) ,
+			  	     tileset_tile_height(tileset) ,
 			    	     SDL_SWSURFACE);
   SDL_Rect des = { 0 , 0 , 0, 0 };
   SDL_Surface *pBuf[4];
   
   /* top */
   des.y = 0;
-  des.x = NORMAL_TILE_WIDTH / 4;
+  des.x = tileset_tile_width(tileset) / 4;
   SDL_BlitSurface(pBuf[0], NULL, pOcean, &des);
 
   /* bottom */
-  des.y = NORMAL_TILE_HEIGHT / 2;
+  des.y = tileset_tile_height(tileset) / 2;
   SDL_BlitSurface(pBuf[1], NULL, pOcean, &des);
 
   /* left */
   des.x = 0;
-  des.y = NORMAL_TILE_HEIGHT / 4;
+  des.y = tileset_tile_height(tileset) / 4;
   SDL_BlitSurface(pBuf[2], NULL, pOcean, &des);
 
   /* right */
-  des.x = NORMAL_TILE_WIDTH / 2;
+  des.x = tileset_tile_width(tileset) / 2;
   SDL_BlitSurface(pBuf[3], NULL, pOcean, &des);
   
   SDL_SetColorKey(pOcean, SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
@@ -2532,10 +2532,10 @@ static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
 static void init_dither_tiles(void)
 {
   Terrain_type_id terrain;
-  int i , w = NORMAL_TILE_WIDTH / 2, h = NORMAL_TILE_HEIGHT / 2;
+  int i , w = tileset_tile_width(tileset) / 2, h = tileset_tile_height(tileset) / 2;
   SDL_Rect src = { 0 , 0 , w , h };
-  SDL_Surface *pTerrain_Surface, *pBuf = create_surf(NORMAL_TILE_WIDTH,
-  					NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+  SDL_Surface *pTerrain_Surface, *pBuf = create_surf(tileset_tile_width(tileset),
+  					tileset_tile_height(tileset), SDL_SWSURFACE);
   Uint32 color = SDL_MapRGB(pBuf->format, 255, 0, 255);
   SDL_FillRect(pBuf, NULL, color);
   SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, color);
@@ -2642,8 +2642,8 @@ static void clear_dither_tiles(void)
 void tmp_map_surfaces_init(void)
 {
 
-  HALF_NORMAL_TILE_HEIGHT = NORMAL_TILE_HEIGHT / 2;
-  HALF_NORMAL_TILE_WIDTH = NORMAL_TILE_WIDTH / 2;
+  HALF_tileset_tile_height(tileset) = tileset_tile_height(tileset) / 2;
+  HALF_tileset_tile_width(tileset) = tileset_tile_width(tileset) / 2;
   
   #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     Amask = 0x000000ff;
@@ -2656,8 +2656,8 @@ void tmp_map_surfaces_init(void)
   if(tileset_is_isometric(tileset)) {
     
     /* =========================== */
-    pTmpSurface = create_surf(UNIT_TILE_WIDTH,
-			    UNIT_TILE_HEIGHT,
+    pTmpSurface = create_surf(tileset_full_tile_width(tileset),
+			    tileset_full_tile_height(tileset),
 			    SDL_SWSURFACE);
     SDL_SetAlpha(pTmpSurface, 0x0, 0x0);
 
@@ -2675,8 +2675,8 @@ void tmp_map_surfaces_init(void)
     
     pOcean_Tile = create_ocean_tile();
   
-    pOcean_Foged_Tile = create_surf(NORMAL_TILE_WIDTH ,
-			    NORMAL_TILE_HEIGHT ,
+    pOcean_Foged_Tile = create_surf(tileset_tile_width(tileset) ,
+			    tileset_tile_height(tileset) ,
 			    SDL_SWSURFACE);
   
     SDL_BlitSurface(pOcean_Tile , NULL , pOcean_Foged_Tile, NULL);
@@ -2687,30 +2687,30 @@ void tmp_map_surfaces_init(void)
     
     /* =========================================================== */
     /* create black grid */
-    pMapGrid[0][0] = create_surf(NORMAL_TILE_WIDTH / 2,
-		  		NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
-    pMapGrid[0][1] = create_surf(NORMAL_TILE_WIDTH / 2,
-  				NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
+    pMapGrid[0][0] = create_surf(tileset_tile_width(tileset) / 2,
+		  		tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
+    pMapGrid[0][1] = create_surf(tileset_tile_width(tileset) / 2,
+  				tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
     putline(pMapGrid[0][0], 0, pMapGrid[0][0]->h, pMapGrid[0][0]->w, 0, 64);
     putline(pMapGrid[0][1], 0, 0, pMapGrid[0][1]->w, pMapGrid[0][1]->h, 64);
     SDL_SetColorKey(pMapGrid[0][0] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
     SDL_SetColorKey(pMapGrid[0][1] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
   
     /* create white grid */
-    pMapGrid[1][0] = create_surf(NORMAL_TILE_WIDTH / 2,
-				NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
-    pMapGrid[1][1] = create_surf(NORMAL_TILE_WIDTH / 2,
-  				NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
+    pMapGrid[1][0] = create_surf(tileset_tile_width(tileset) / 2,
+				tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
+    pMapGrid[1][1] = create_surf(tileset_tile_width(tileset) / 2,
+  				tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
     putline(pMapGrid[1][0], 0, pMapGrid[1][0]->h, pMapGrid[1][0]->w, 0, 0xffffffff);
     putline(pMapGrid[1][1], 0, 0, pMapGrid[1][1]->w, pMapGrid[1][1]->h, 0xffffffff);
     SDL_SetColorKey(pMapGrid[1][0] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
     SDL_SetColorKey(pMapGrid[1][1] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
   
     /* create red grid */
-    pMapGrid[2][0] = create_surf(NORMAL_TILE_WIDTH / 2,
-  				NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
-    pMapGrid[2][1] = create_surf(NORMAL_TILE_WIDTH / 2,
-  				NORMAL_TILE_HEIGHT / 2, SDL_SWSURFACE);
+    pMapGrid[2][0] = create_surf(tileset_tile_width(tileset) / 2,
+  				tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
+    pMapGrid[2][1] = create_surf(tileset_tile_width(tileset) / 2,
+  				tileset_tile_height(tileset) / 2, SDL_SWSURFACE);
     putline(pMapGrid[2][0], 0, pMapGrid[2][0]->h, pMapGrid[2][0]->w, 0,
 				SDL_MapRGB(pMapGrid[2][0]->format, 255, 0,0));
     putline(pMapGrid[2][1], 0, 0, pMapGrid[2][1]->w, pMapGrid[2][1]->h,
@@ -2719,10 +2719,10 @@ void tmp_map_surfaces_init(void)
     SDL_SetColorKey(pMapGrid[2][1] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
   
     pBlinkSurfaceA = 
-      create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+      create_surf(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), SDL_SWSURFACE);
   
     pBlinkSurfaceB =
-      create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+      create_surf(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), SDL_SWSURFACE);
       
 #ifdef SDL_CVS
     SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);

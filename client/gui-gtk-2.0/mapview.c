@@ -463,7 +463,7 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 
   gtk_pixcomm_freeze(p);
 
-  put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
+  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset));
 
   gtk_pixcomm_thaw(p);
 }

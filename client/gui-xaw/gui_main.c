@@ -426,7 +426,7 @@ void ui_main(int argc, char *argv[])
   }
   
   /* 135 below is rough value (could be more intelligent) --dwp */
-  num_units_below = 135 / UNIT_TILE_WIDTH;
+  num_units_below = 135 / tileset_full_tile_width(tileset);
   num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
   num_units_below = MAX(num_units_below,1);
   
@@ -478,7 +478,7 @@ void ui_main(int argc, char *argv[])
 
   for(i=0; i<num_units_below; i++)
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 
-				       UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 
+				       tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), 
 				       display_depth);  
 
   set_indicator_icons(client_research_sprite(),
@@ -589,8 +589,8 @@ void setup_widgets(void)
     econ_label[i] = XtVaCreateManagedWidget("econlabels",
 					    commandWidgetClass,
 					    left_column_form,
-					    XtNwidth, SMALL_TILE_WIDTH,
-					    XtNheight, SMALL_TILE_HEIGHT,
+					    XtNwidth, tileset_small_sprite_width(tileset),
+					    XtNheight, tileset_small_sprite_height(tileset),
 					    i?XtNfromHoriz:NULL, 
 					    i?econ_label[i-1]:NULL,
 					    XtNhorizDistance, econ_label_space,
@@ -628,7 +628,7 @@ void setup_widgets(void)
 				 commandWidgetClass,
 				 left_column_form,
 				 XtNwidth, econ_label_count*
-						(SMALL_TILE_WIDTH+econ_label_space),
+						(tileset_small_sprite_width(tileset)+econ_label_space),
 				 NULL));
 
   
@@ -640,8 +640,8 @@ void setup_widgets(void)
   unit_pix_canvas = XtVaCreateManagedWidget("unitpixcanvas", 
 					   pixcommWidgetClass,
 					   left_column_form, 
-					   XtNwidth, UNIT_TILE_WIDTH,
-					   XtNheight, UNIT_TILE_HEIGHT,
+					   XtNwidth, tileset_full_tile_width(tileset),
+					   XtNheight, tileset_full_tile_height(tileset),
 					   NULL);
 
   for(i=0; i<num_units_below; i++) {
@@ -652,9 +652,9 @@ void setup_widgets(void)
 						   pixcommWidgetClass,
 						   left_column_form, 
 						   XtNwidth,
-						   UNIT_TILE_WIDTH,
+						   tileset_full_tile_width(tileset),
 						   XtNheight,
-						   UNIT_TILE_HEIGHT,
+						   tileset_full_tile_height(tileset),
 						   NULL);
     XtAddCallback(unit_below_canvas[i], XtNcallback, unit_icon_callback,
 		  (XtPointer)i);  

@@ -37,7 +37,7 @@
 static void dither_north8(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2, h = 0, w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2, h = 0, w = 0;
   Uint8 *pDither_Pixel = (Uint8 *) pDither->pixels + step;
   Uint8 *pMask_Pixel = (Uint8 *) pMask->pixels + step;
   Uint8 *pDest_Pixel = (Uint8 *) pDest->pixels + step;
@@ -59,7 +59,7 @@ static void dither_north8(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -72,7 +72,7 @@ static void dither_north8(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_north16(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2, h = 0, w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2, h = 0, w = 0;
   Uint16 *pDither_Pixel = (Uint16 *) pDither->pixels + step;
   Uint16 *pMask_Pixel = (Uint16 *) pMask->pixels + step;
   Uint16 *pDest_Pixel = (Uint16 *) pDest->pixels + step;
@@ -95,7 +95,7 @@ static void dither_north16(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -108,7 +108,7 @@ static void dither_north16(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_north24(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
   register Uint32 h = 0, w = 0;
   Uint8 *pDither_Pixel, *pMask_Pixel, *pDest_Pixel;
 
@@ -135,7 +135,7 @@ static void dither_north24(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -145,7 +145,7 @@ static void dither_north24(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_north32(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2, h = 0, w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2, h = 0, w = 0;
   Uint32 *pDither_Pixel = (Uint32 *) pDither->pixels + step;
   Uint32 *pMask_Pixel = (Uint32 *) pMask->pixels + step;
   Uint32 *pDest_Pixel = (Uint32 *) pDest->pixels + step;
@@ -168,7 +168,7 @@ static void dither_north32(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -210,8 +210,8 @@ void dither_north(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint16 step = NORMAL_TILE_WIDTH / 2;
-  register Uint16 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint16 step = tileset_tile_width(tileset) / 2;
+  register Uint16 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint8 *pDither_Pixel = (Uint8 *) pDither->pixels + h;
   Uint8 *pMask_Pixel = (Uint8 *) pMask->pixels + h;
@@ -237,7 +237,7 @@ static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -250,8 +250,8 @@ static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
-  register Uint32 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
+  register Uint32 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint16 *pDither_Pixel = (Uint16 *) pDither->pixels + h;
   Uint16 *pMask_Pixel = (Uint16 *) pMask->pixels + h;
@@ -277,7 +277,7 @@ static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -290,8 +290,8 @@ static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = (NORMAL_TILE_WIDTH / 2);
-  register Uint32 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint32 step = (tileset_tile_width(tileset) / 2);
+  register Uint32 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
   Uint8 *pDither_Pixel, *pMask_Pixel, *pDest_Pixel;
 
   step *= 3;
@@ -321,7 +321,7 @@ static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -334,8 +334,8 @@ static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_south32(SDL_Surface * pDither, SDL_Surface * pMask,
 			   SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
-  register Uint32 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
+  register Uint32 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint32 *pDither_Pixel = (Uint32 *) pDither->pixels + h;
   Uint32 *pMask_Pixel = (Uint32 *) pMask->pixels + h;
@@ -361,7 +361,7 @@ static void dither_south32(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -404,8 +404,8 @@ void dither_south(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
 			 SDL_Surface * pDest)
 {
-  register Uint16 step = NORMAL_TILE_WIDTH / 2;
-  register Uint16 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint16 step = tileset_tile_width(tileset) / 2;
+  register Uint16 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint8 *pDither_Pixel = (Uint8 *) pDither->pixels + h + step;
   Uint8 *pMask_Pixel = (Uint8 *) pMask->pixels + h + step;
@@ -431,7 +431,7 @@ static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h > NORMAL_TILE_HEIGHT / 2) {
+      if (++h > tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -444,8 +444,8 @@ static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint16 step = NORMAL_TILE_WIDTH / 2;
-  register Uint16 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint16 step = tileset_tile_width(tileset) / 2;
+  register Uint16 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint16 *pDither_Pixel = (Uint16 *) pDither->pixels + h + step;
   Uint16 *pMask_Pixel = (Uint16 *) pMask->pixels + h + step;
@@ -471,7 +471,7 @@ static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -484,8 +484,8 @@ static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
-  register Uint32 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
+  register Uint32 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
   Uint8 *pDither_Pixel, *pMask_Pixel, *pDest_Pixel;
 
   step *= 3;
@@ -515,7 +515,7 @@ static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -528,8 +528,8 @@ static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_east32(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
-  register Uint32 h = NORMAL_TILE_WIDTH * (NORMAL_TILE_HEIGHT / 2), w = 0;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
+  register Uint32 h = tileset_tile_width(tileset) * (tileset_tile_height(tileset) / 2), w = 0;
 
   Uint32 *pDither_Pixel = (Uint32 *) pDither->pixels + h + step;
   Uint32 *pMask_Pixel = (Uint32 *) pMask->pixels + h + step;
@@ -555,7 +555,7 @@ static void dither_east32(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -597,7 +597,7 @@ void dither_east(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_west8(SDL_Surface * pDither, SDL_Surface * pMask,
 			 SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
   register Uint32 h = 0, w = 0;
 
   Uint8 *pDither_Pixel = (Uint8 *) pDither->pixels;
@@ -622,7 +622,7 @@ static void dither_west8(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h >= NORMAL_TILE_HEIGHT / 2) {
+      if (++h >= tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -635,7 +635,7 @@ static void dither_west8(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_west16(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
   register Uint32 h = 0, w = 0;
 
   Uint16 *pDither_Pixel = (Uint16 *) pDither->pixels;
@@ -660,7 +660,7 @@ static void dither_west16(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h > NORMAL_TILE_HEIGHT / 2) {
+      if (++h > tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -673,7 +673,7 @@ static void dither_west16(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_west24(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
   register Uint32 h = 0, w = 0;
 
   Uint8 *pDither_Pixel = (Uint8 *) pDither->pixels;
@@ -700,7 +700,7 @@ static void dither_west24(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h > NORMAL_TILE_HEIGHT / 2) {
+      if (++h > tileset_tile_height(tileset) / 2) {
 	break;
       }
     }
@@ -713,7 +713,7 @@ static void dither_west24(SDL_Surface * pDither, SDL_Surface * pMask,
 static void dither_west32(SDL_Surface * pDither, SDL_Surface * pMask,
 			  SDL_Surface * pDest)
 {
-  register Uint32 step = NORMAL_TILE_WIDTH / 2;
+  register Uint32 step = tileset_tile_width(tileset) / 2;
   register Uint32 h = 0, w = 0;
 
   Uint32 *pDither_Pixel = (Uint32 *) pDither->pixels;
@@ -738,7 +738,7 @@ static void dither_west32(SDL_Surface * pDither, SDL_Surface * pMask,
 
       w = 0;
 
-      if (++h > NORMAL_TILE_HEIGHT / 2) {
+      if (++h > tileset_tile_height(tileset) / 2) {
 	break;
       }
     }

@@ -86,15 +86,15 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
     if (x > mapview.width/2) {
       /* right part of the map */
       x += minx;
-      y += miny + (NORMAL_TILE_HEIGHT - alloc->height)/2;
+      y += miny + (tileset_tile_height(tileset) - alloc->height)/2;
 
       y = CLIP(miny, y, maxy - alloc->height);
 
       gtk_window_move(GTK_WINDOW(w), x - alloc->width, y);
     } else {
       /* left part of the map */
-      x += minx + NORMAL_TILE_WIDTH;
-      y += miny + (NORMAL_TILE_HEIGHT - alloc->height)/2;
+      x += minx + tileset_tile_width(tileset);
+      y += miny + (tileset_tile_height(tileset) - alloc->height)/2;
 
       y = CLIP(miny, y, maxy - alloc->height);
 

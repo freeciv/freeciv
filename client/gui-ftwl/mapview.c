@@ -352,13 +352,13 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 #if 0
   /* try to trace that hard-to-find assert that we sometimes get */
   freelog(LOG_NORMAL, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", pcity->name,
-          canvas_x, canvas_x+NORMAL_TILE_WIDTH / 2, all_rect.width,
-          canvas_y, canvas_y+NORMAL_TILE_HEIGHT, all_rect.height);
+          canvas_x, canvas_x+tileset_tile_width(tileset) / 2, all_rect.width,
+          canvas_y, canvas_y+tileset_tile_height(tileset), all_rect.height);
 #endif
 
   /* Put text centered below tile */
-  canvas_x += NORMAL_TILE_WIDTH / 2;
-  canvas_y += NORMAL_TILE_HEIGHT;
+  canvas_x += tileset_tile_width(tileset) / 2;
+  canvas_y += tileset_tile_height(tileset);
 
   get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
 				   buffer2, sizeof(buffer2), &color);
@@ -516,7 +516,7 @@ void tileset_changed(void)
 **************************************************************************/
 static struct osda *unit_to_osda(struct unit *punit)
 {
-  struct osda *result = be_create_osda(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  struct osda *result = be_create_osda(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   struct canvas *store = fc_malloc(sizeof(*store));
 
   store->osda = result;
@@ -533,7 +533,7 @@ static struct osda *unit_to_osda(struct unit *punit)
 **************************************************************************/
 static struct osda *terrain_to_osda(struct tile *ptile)
 {
-  struct osda *result = be_create_osda(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  struct osda *result = be_create_osda(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   struct canvas *store = fc_malloc(sizeof(*store));
 
   store->osda = result;
@@ -550,7 +550,7 @@ static struct osda *terrain_to_osda(struct tile *ptile)
 **************************************************************************/
 static struct osda *city_to_osda(struct city *pcity)
 {
-  struct osda *result = be_create_osda(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  struct osda *result = be_create_osda(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   struct canvas *store = fc_malloc(sizeof(*store));
 
   store->osda = result;
@@ -567,9 +567,9 @@ static struct osda *city_to_osda(struct city *pcity)
 **************************************************************************/
 static struct osda *create_selected_osda(struct osda *osda)
 {
-  struct osda *result = be_create_osda(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  struct ct_rect spec={0,0,UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
-  struct ct_size size={UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
+  struct osda *result = be_create_osda(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+  struct ct_rect spec={0,0,tileset_full_tile_width(tileset), tileset_full_tile_height(tileset)};
+  struct ct_size size={tileset_full_tile_width(tileset), tileset_full_tile_height(tileset)};
 
   be_copy_osda_to_osda(result, osda, &size, NULL, NULL);
 
@@ -813,9 +813,9 @@ static void my_drag_move(struct sw_widget *widget,
   int dy = drag_factor * (current_position->y - start_position->y);
 
   int factorx =
-      drag_granularity == 0 ? 1 : drag_granularity * NORMAL_TILE_WIDTH;
+      drag_granularity == 0 ? 1 : drag_granularity * tileset_tile_width(tileset);
   int factory =
-      drag_granularity == 0 ? 1 : drag_granularity * NORMAL_TILE_HEIGHT;
+      drag_granularity == 0 ? 1 : drag_granularity * tileset_tile_height(tileset);
 
   dx /= factorx;
   dy /= factory;

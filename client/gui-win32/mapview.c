@@ -125,13 +125,13 @@ static void draw_rates(HDC hdc)
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
     draw_sprite(get_tax_sprite(tileset, O_LUXURY), hdc,
-		SMALL_TILE_WIDTH*d,taxinfoline_y);/* elvis tile */
+		tileset_small_sprite_width(tileset)*d,taxinfoline_y);/* elvis tile */
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
     draw_sprite(get_tax_sprite(tileset, O_SCIENCE), hdc,
-		SMALL_TILE_WIDTH*d,taxinfoline_y); /* scientist tile */    
+		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* scientist tile */    
   for(;d<10;d++)
     draw_sprite(get_tax_sprite(tileset, O_GOLD), hdc,
-		SMALL_TILE_WIDTH*d,taxinfoline_y); /* taxman tile */  
+		tileset_small_sprite_width(tileset)*d,taxinfoline_y); /* taxman tile */  
 }
 
 /**************************************************************************
@@ -250,7 +250,7 @@ void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
 
   hdc=GetDC(root_window);
   for(i=0;i<4;i++)
-    draw_sprite(indicator_sprite[i],hdc,i*SMALL_TILE_WIDTH,indicator_y); 
+    draw_sprite(indicator_sprite[i],hdc,i*tileset_small_sprite_width(tileset),indicator_y); 
   ReleaseDC(root_window,hdc);
 }
 
@@ -468,8 +468,8 @@ void overview_expose(HDC hdc)
 	    old=SelectObject(hdctest,bmp);
 	  else
 	    DeleteObject(SelectObject(hdctest,bmp));
-	  BitBlt(hdc,i*SMALL_TILE_WIDTH,indicator_y,
-		 SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,
+	  BitBlt(hdc,i*tileset_small_sprite_width(tileset),indicator_y,
+		 tileset_small_sprite_width(tileset),tileset_small_sprite_height(tileset),
 		 hdctest,0,0,SRCCOPY);
 	}
       SelectObject(hdctest,old);

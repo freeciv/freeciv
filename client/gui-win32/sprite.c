@@ -176,12 +176,12 @@ void init_fog_bmp(void)
   if (fogmask) {
     DeleteObject(fogmask);
   }
-  stipple = CreateCompatibleBitmap(hdc, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  fogmask = CreateCompatibleBitmap(hdc, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+  stipple = CreateCompatibleBitmap(hdc, tileset_tile_width(tileset), tileset_tile_height(tileset));
+  fogmask = CreateCompatibleBitmap(hdc, tileset_tile_width(tileset), tileset_tile_height(tileset));
   old = SelectObject(hdc, stipple);
-  BitBlt(hdc, 0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, NULL, 0, 0, BLACKNESS);
-  for(x = 0; x < NORMAL_TILE_WIDTH; x++) {
-    for(y = 0; y < NORMAL_TILE_HEIGHT; y++) {
+  BitBlt(hdc, 0, 0, tileset_tile_width(tileset), tileset_tile_height(tileset), NULL, 0, 0, BLACKNESS);
+  for(x = 0; x < tileset_tile_width(tileset); x++) {
+    for(y = 0; y < tileset_tile_height(tileset); y++) {
       if ((x + y) & 1) {
 	SetPixel(hdc, x, y, RGB(255, 255, 255));
       }

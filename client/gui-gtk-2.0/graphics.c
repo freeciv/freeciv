@@ -119,15 +119,15 @@ void create_overlay_unit(struct canvas *pcanvas, int i)
     }
 
     /* Guess */
-    width = UNIT_TILE_WIDTH;
-    height = UNIT_TILE_HEIGHT;
+    width = tileset_full_tile_width(tileset);
+    height = tileset_full_tile_height(tileset);
   }
 
   /* Finally, put a picture of the unit in the tile */
   canvas_put_sprite(pcanvas, 0, 0, type->sprite, 
       (x2 + x1 - width) / 2, (y1 + y2 - height) / 2, 
-      UNIT_TILE_WIDTH - (x2 + x1 - width) / 2, 
-      UNIT_TILE_HEIGHT - (y1 + y2 - height) / 2);
+      tileset_full_tile_width(tileset) - (x2 + x1 - width) / 2, 
+      tileset_full_tile_height(tileset) - (y1 + y2 - height) / 2);
 }
 
 /***************************************************************************

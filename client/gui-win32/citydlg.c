@@ -309,9 +309,9 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
     RECT rc;
     pdialog->present_unit_ids[i]=0;      
     rc.top=pdialog->present_y;
-    rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
-    rc.right=rc.left+NORMAL_TILE_WIDTH;
-    rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+    rc.left=pdialog->pop_x+i*(tileset_small_sprite_width(tileset)+tileset_tile_width(tileset));
+    rc.right=rc.left+tileset_tile_width(tileset);
+    rc.bottom=rc.top+tileset_small_sprite_height(tileset)+tileset_tile_height(tileset);
     FillRect(hdc, &rc, 
 	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
@@ -320,7 +320,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
   
   unit_list_iterate(plist, punit) {
     put_unit(punit, &store,
-	     pdialog->pop_x + i * (SMALL_TILE_WIDTH + NORMAL_TILE_WIDTH),
+	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
 	     pdialog->present_y);
     pdialog->present_unit_ids[i] = punit->id;
     i++;
@@ -356,9 +356,9 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
     RECT rc;
     pdialog->support_unit_ids[i]=0;      
     rc.top=pdialog->supported_y;
-    rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
-    rc.right=rc.left+NORMAL_TILE_WIDTH;
-    rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+    rc.left=pdialog->pop_x+i*(tileset_small_sprite_width(tileset)+tileset_tile_width(tileset));
+    rc.right=rc.left+tileset_tile_width(tileset);
+    rc.bottom=rc.top+tileset_small_sprite_height(tileset)+tileset_tile_height(tileset);
     FillRect(hdc, &rc, 
 	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
@@ -367,10 +367,10 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   
   unit_list_iterate(plist, punit) {
     put_unit(punit, &store,
-	     pdialog->pop_x + i * (SMALL_TILE_WIDTH + NORMAL_TILE_WIDTH),
+	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
 	     pdialog->supported_y);
     put_unit_city_overlays(punit, &store,
-	     pdialog->pop_x + i * (SMALL_TILE_WIDTH + NORMAL_TILE_WIDTH),
+	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
 	     pdialog->supported_y);
     pdialog->support_unit_ids[i] = punit->id;
     i++;
@@ -514,14 +514,14 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 
   for (i = 0; i < pcity->size && i < NUM_CITIZENS_SHOWN; i++) {
       draw_sprite(get_citizen_sprite(tileset, citizens[i], i, pcity), hdcsrc,
-		  SMALL_TILE_WIDTH * i, 0);
+		  tileset_small_sprite_width(tileset) * i, 0);
   }
 
   if (i<NUM_CITIZENS_SHOWN) {
-    rc.left=i*SMALL_TILE_WIDTH;
-    rc.right=NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH;
+    rc.left=i*tileset_small_sprite_width(tileset);
+    rc.right=NUM_CITIZENS_SHOWN*tileset_small_sprite_width(tileset);
     rc.top=0;
-    rc.bottom=SMALL_TILE_HEIGHT;
+    rc.bottom=tileset_small_sprite_height(tileset);
     FillRect(hdcsrc,&rc,
 	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
     FrameRect(hdcsrc,&rc,
@@ -529,8 +529,8 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   }
     
   BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
-	 NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH,
-	 SMALL_TILE_HEIGHT,
+	 NUM_CITIZENS_SHOWN*tileset_small_sprite_width(tileset),
+	 tileset_small_sprite_height(tileset),
 	 hdcsrc,0,0,SRCCOPY);
   SelectObject(hdcsrc,oldbit);
   DeleteDC(hdcsrc);
@@ -581,7 +581,7 @@ static void map_setsize(LPRECT setsize,void *data)
 
 static void supported_minsize(LPPOINT minsize,void *data)
 {
-  minsize->y=SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+  minsize->y=tileset_small_sprite_height(tileset)+tileset_tile_height(tileset);
   minsize->x=1;  /* just a dummy value */
 }
 
@@ -604,7 +604,7 @@ static void supported_setsize(LPRECT setsize,void *data)
 
 static void present_minsize(POINT * minsize,void *data)
 {
-  minsize->y=SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+  minsize->y=tileset_small_sprite_height(tileset)+tileset_tile_height(tileset);
   minsize->x=1;  /* just a dummy value */
 }
 
@@ -736,16 +736,16 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   pdialog->pop_y=15;
   pdialog->pop_x=20;
   pdialog->supported_y=pdialog->map.y+pdialog->map_h+12;
-  pdialog->present_y=pdialog->supported_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
-  ybut=pdialog->present_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
+  pdialog->present_y=pdialog->supported_y+tileset_tile_height(tileset)+12+4+tileset_small_sprite_height(tileset);
+  ybut=pdialog->present_y+tileset_tile_height(tileset)+12+4+tileset_small_sprite_height(tileset);
     
   hdc=GetDC(pdialog->mainwindow);
   pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
 					    city_map_height);
   pdialog->citizen_bmp=CreateCompatibleBitmap(hdc,
 					      NUM_CITIZENS_SHOWN*
-					      SMALL_TILE_WIDTH,
-					      SMALL_TILE_HEIGHT);
+					      tileset_small_sprite_width(tileset),
+					      tileset_small_sprite_height(tileset));
   ReleaseDC(pdialog->mainwindow,hdc);
 
   pdialog->full_win=fcwin_vbox_new(hWnd,FALSE);
@@ -1565,12 +1565,12 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
   /* click on citizens */
   
   if ((!is_overview)&&
-      (y>=pdialog->pop_y)&&(y<(pdialog->pop_y+SMALL_TILE_HEIGHT)))
+      (y>=pdialog->pop_y)&&(y<(pdialog->pop_y+tileset_small_sprite_height(tileset))))
     {
       xr=x-pdialog->pop_x;
       if (x>=0)
 	{
-	  xr/=SMALL_TILE_WIDTH;
+	  xr/=tileset_small_sprite_width(tileset);
 	  if (xr<NUM_CITIZENS_SHOWN)
 	    {
 	      city_dlg_click_citizens(pdialog,xr);
@@ -1597,18 +1597,18 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
     }
   xr=x-pdialog->pop_x;
   if (xr<0) return;
-  if (xr%(NORMAL_TILE_WIDTH+SMALL_TILE_WIDTH)>NORMAL_TILE_WIDTH)
+  if (xr%(tileset_tile_width(tileset)+tileset_small_sprite_width(tileset))>tileset_tile_width(tileset))
     return;
-  xr/=(NORMAL_TILE_WIDTH+SMALL_TILE_WIDTH);
+  xr/=(tileset_tile_width(tileset)+tileset_small_sprite_width(tileset));
   
   /* click on present units */
-  if ((y>=pdialog->present_y)&&(y<(pdialog->present_y+NORMAL_TILE_HEIGHT)))
+  if ((y>=pdialog->present_y)&&(y<(pdialog->present_y+tileset_tile_height(tileset))))
     {
       city_dlg_click_present(pdialog,xr);
       return;
     }
   if ((y>=pdialog->supported_y)&&
-      (y<(pdialog->supported_y+NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT)))
+      (y<(pdialog->supported_y+tileset_tile_height(tileset)+tileset_small_sprite_height(tileset))))
     {
       city_dlg_click_supported(pdialog,xr);
       return;
@@ -1733,7 +1733,7 @@ static LONG APIENTRY CitydlgWndProc(HWND hWnd, UINT message,
       hdcsrc = CreateCompatibleDC(NULL);
       old=SelectObject(hdcsrc,pdialog->citizen_bmp);
       BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
-	     SMALL_TILE_WIDTH*NUM_CITIZENS_SHOWN,SMALL_TILE_HEIGHT,
+	     tileset_small_sprite_width(tileset)*NUM_CITIZENS_SHOWN,tileset_small_sprite_height(tileset),
 	     hdcsrc,0,0,SRCCOPY);
       SelectObject(hdcsrc,old);
       DeleteDC(hdcsrc);

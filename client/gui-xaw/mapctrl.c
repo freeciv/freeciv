@@ -138,11 +138,11 @@ static void popit(int xin, int yin, struct tile *ptile)
     *cross_head = ptile;
     cross_head++;
 
-    xin /= NORMAL_TILE_WIDTH;
-    xin *= NORMAL_TILE_WIDTH;
-    yin /= NORMAL_TILE_HEIGHT;
-    yin *= NORMAL_TILE_HEIGHT;
-    xin += (NORMAL_TILE_WIDTH / 2);
+    xin /= tileset_tile_width(tileset);
+    xin *= tileset_tile_width(tileset);
+    yin /= tileset_tile_height(tileset);
+    yin *= tileset_tile_height(tileset);
+    xin += (tileset_tile_width(tileset) / 2);
     XtTranslateCoords(map_canvas, xin, yin, &x, &y);
     dw = XDisplayWidth (display, screen_number);
     dh = XDisplayHeight (display, screen_number);

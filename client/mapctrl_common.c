@@ -84,8 +84,8 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
   struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y);
 
   tile_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, ptile);
-  rec_anchor_x += NORMAL_TILE_WIDTH / 2;
-  rec_anchor_y += NORMAL_TILE_HEIGHT / 2;
+  rec_anchor_x += tileset_tile_width(tileset) / 2;
+  rec_anchor_y += tileset_tile_height(tileset) / 2;
   /* FIXME: This may be off-by-one. */
   rec_canvas_center_tile = get_center_tile_mapcanvas();
   rec_w = rec_h = 0;
@@ -104,8 +104,8 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
 **************************************************************************/
 static void define_tiles_within_rectangle(void)
 {
-  const int W = NORMAL_TILE_WIDTH,   half_W = W / 2;
-  const int H = NORMAL_TILE_HEIGHT,  half_H = H / 2;
+  const int W = tileset_tile_width(tileset),   half_W = W / 2;
+  const int H = tileset_tile_height(tileset),  half_H = H / 2;
   const int segments_x = abs(rec_w / half_W);
   const int segments_y = abs(rec_h / half_H);
 
@@ -161,8 +161,8 @@ static void define_tiles_within_rectangle(void)
 **************************************************************************/
 void update_selection_rectangle(int canvas_x, int canvas_y)
 {
-  const int W = NORMAL_TILE_WIDTH,    half_W = W / 2;
-  const int H = NORMAL_TILE_HEIGHT,   half_H = H / 2;
+  const int W = tileset_tile_width(tileset),    half_W = W / 2;
+  const int H = tileset_tile_height(tileset),   half_H = H / 2;
   static struct tile *rec_tile = NULL;
   int diff_x, diff_y;
   struct tile *center_tile;

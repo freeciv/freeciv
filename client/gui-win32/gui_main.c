@@ -195,9 +195,9 @@ static void HandleLMouse(int x, int y)
   if ((x>overview_win_x)&&(x<overview_win_x+overview_win_width)
 	   &&(y>overview_win_y)&&(y<overview_win_y+overview_win_height))
     overview_handle_rbut(x-overview_win_x,y-overview_win_y);
-  else if ((x<10*SMALL_TILE_WIDTH)&&(y>taxinfoline_y)
-	   &&(y<taxinfoline_y+2*SMALL_TILE_HEIGHT))
-    indicator_handle_but(x/SMALL_TILE_WIDTH);
+  else if ((x<10*tileset_small_sprite_width(tileset))&&(y>taxinfoline_y)
+	   &&(y<taxinfoline_y+2*tileset_small_sprite_height(tileset)))
+    indicator_handle_but(x/tileset_small_sprite_width(tileset));
 }
 
 /**************************************************************************
@@ -284,8 +284,8 @@ static void box_fixedsize(POINT * minsize,void *data)
 **************************************************************************/
 static void taxinfoline_minsize(POINT * minsize,void *data)
 {
-  minsize->x=10*SMALL_TILE_WIDTH;
-  minsize->y=1*SMALL_TILE_HEIGHT;
+  minsize->x=10*tileset_small_sprite_width(tileset);
+  minsize->y=1*tileset_small_sprite_height(tileset);
 }
 
 /**************************************************************************
@@ -293,8 +293,8 @@ static void taxinfoline_minsize(POINT * minsize,void *data)
 **************************************************************************/
 static void indicator_line_minsize(POINT *minsize, void *data)
 {
-  minsize->x=4*SMALL_TILE_WIDTH;
-  minsize->y=1*SMALL_TILE_HEIGHT;
+  minsize->x=4*tileset_small_sprite_width(tileset);
+  minsize->y=1*tileset_small_sprite_height(tileset);
 }
 /**************************************************************************
 
@@ -311,7 +311,7 @@ static void taxinfoline_setsize(LPRECT newsize,void *data)
 {
   RECT rc;
   rc=*newsize;
-  rc.bottom+=SMALL_TILE_HEIGHT;
+  rc.bottom+=tileset_small_sprite_height(tileset);
   InvalidateRect(root_window,newsize,TRUE);
   taxinfoline_y=newsize->top;
 		 
@@ -354,8 +354,8 @@ static void overview_setsize(LPRECT newsize, void *data)
 **************************************************************************/
 static void map_minsize(POINT * minsize, void *data)
 {
-  minsize->x=NORMAL_TILE_WIDTH+15;
-  minsize->y=NORMAL_TILE_HEIGHT+15;
+  minsize->x=tileset_tile_width(tileset)+15;
+  minsize->y=tileset_tile_height(tileset)+15;
 }
 
 /**************************************************************************
@@ -371,7 +371,7 @@ static void map_setsize(LPRECT newsize, void *data)
   if ((mx==map_win_x)&&(map_win_y==my)&&
       (map_win_width==mw)&&(map_win_height==mh))
     return;
-  if ((mw<(2*NORMAL_TILE_WIDTH))||(mh<(2*NORMAL_TILE_HEIGHT))) {
+  if ((mw<(2*tileset_tile_width(tileset)))||(mh<(2*tileset_tile_height(tileset)))) {
     return;
   }
   map_win_x=mx;

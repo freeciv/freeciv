@@ -64,8 +64,8 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
 **************************************************************************/
 static void bmp_row_minsize(POINT *minsize, void *data)
 {
-  minsize->x=HAPPINESS_PIX_WIDTH*SMALL_TILE_WIDTH;
-  minsize->y=SMALL_TILE_HEIGHT;
+  minsize->x=HAPPINESS_PIX_WIDTH*tileset_small_sprite_width(tileset);
+  minsize->y=tileset_small_sprite_height(tileset);
 }
 
 /**************************************************************************
@@ -106,8 +106,8 @@ struct happiness_dlg *create_happiness_box(struct city *pcity,
   for(i=0;i<NUM_HAPPINESS_MODIFIERS;i++) {
     dlg->mod_bmp[i]=
       CreateCompatibleBitmap(hdc,
-			     HAPPINESS_PIX_WIDTH*SMALL_TILE_WIDTH,
-			     SMALL_TILE_HEIGHT);
+			     HAPPINESS_PIX_WIDTH*tileset_small_sprite_width(tileset),
+			     tileset_small_sprite_height(tileset));
   }
   ReleaseDC(win,hdc);
   return dlg;
@@ -137,8 +137,8 @@ void repaint_happiness_box(struct happiness_dlg *dlg, HDC hdc)
   for(i=0;i<NUM_HAPPINESS_MODIFIERS;i++) {
     old=SelectObject(hdcsrc,dlg->mod_bmp[i]);
     BitBlt(hdc,dlg->mod_bmp_pos[i].x,dlg->mod_bmp_pos[i].y,
-	   HAPPINESS_PIX_WIDTH*SMALL_TILE_WIDTH,
-	   SMALL_TILE_HEIGHT,hdcsrc,0,0,SRCCOPY);
+	   HAPPINESS_PIX_WIDTH*tileset_small_sprite_width(tileset),
+	   tileset_small_sprite_height(tileset),hdcsrc,0,0,SRCCOPY);
     SelectObject(hdcsrc,old);
   }
   DeleteDC(hdcsrc);
@@ -295,15 +295,15 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
   int i;
   struct citizen_type citizens[MAX_CITY_SIZE];
   int num_citizens = pcity->size;
-  int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
-  int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);
-  /* int true_pix_width = (num_citizens - 1) * offset + SMALL_TILE_WIDTH; */
+  int pix_width = HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset);
+  int offset = MIN(tileset_small_sprite_width(tileset), pix_width / num_citizens);
+  /* int true_pix_width = (num_citizens - 1) * offset + tileset_small_sprite_width(tileset); */
   hdc=CreateCompatibleDC(NULL);
   old=SelectObject(hdc,bmp);
   rc.left=0;
   rc.top=0;
   rc.right=pix_width;
-  rc.bottom=SMALL_TILE_HEIGHT;
+  rc.bottom=tileset_small_sprite_height(tileset);
   FillRect(hdc,&rc,(HBRUSH)GetClassLong(root_window,GCL_HBRBACKGROUND));
 
   get_city_citizen_types(pcity, index, citizens);

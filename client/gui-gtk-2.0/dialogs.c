@@ -1296,7 +1296,7 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
   struct unit_type *ptype = unit_type(punit);
 
   pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
 
   {
     struct canvas canvas_store;

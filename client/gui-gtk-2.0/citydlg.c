@@ -662,8 +662,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
   gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 0);
   pdialog->citizen_pixmap =
-      gtk_pixcomm_new(SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
-		      SMALL_TILE_HEIGHT);
+      gtk_pixcomm_new(tileset_small_sprite_width(tileset) * NUM_CITIZENS_SHOWN,
+		      tileset_small_sprite_height(tileset));
   gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
   g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
@@ -714,7 +714,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(pdialog->overview.supported_units_frame), sw);
 
   {
-    int unit_height = NORMAL_TILE_HEIGHT * 3 / 2;
+    int unit_height = tileset_tile_height(tileset) * 3 / 2;
 
     align = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
     gtk_widget_set_size_request(align, -1, unit_height);
@@ -743,7 +743,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(pdialog->overview.present_units_frame), sw);
 
   align = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
-  gtk_widget_set_size_request(align, -1, UNIT_TILE_HEIGHT);
+  gtk_widget_set_size_request(align, -1, tileset_full_tile_height(tileset));
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
 
   table = gtk_table_new(0, 0, FALSE);
@@ -1375,14 +1375,14 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
   /* last icon is always drawn in full, and so has reserved                */
-  /* SMALL_TILE_WIDTH pixels.                                              */
+  /* tileset_small_sprite_width(tileset) pixels.                                              */
 
   if (pcity->size > 1) {
-    width = MIN(SMALL_TILE_WIDTH,
-		((NUM_CITIZENS_SHOWN - 1) * SMALL_TILE_WIDTH) /
+    width = MIN(tileset_small_sprite_width(tileset),
+		((NUM_CITIZENS_SHOWN - 1) * tileset_small_sprite_width(tileset)) /
 		(pcity->size - 1));
   } else {
-    width = SMALL_TILE_WIDTH;
+    width = tileset_small_sprite_width(tileset);
   }
   pdialog->cwidth = width;
 
@@ -1676,7 +1676,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       GtkWidget *cmd, *pix;
       struct unit_node node;
 
-      int unit_height = NORMAL_TILE_HEIGHT * 3 / 2;
+      int unit_height = tileset_tile_height(tileset) * 3 / 2;
 
       cmd = gtk_button_new();
       node.cmd = cmd;
@@ -1685,7 +1685,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, unit_height);
+      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset), unit_height);
       node.pix = pix;
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
@@ -1798,7 +1798,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
       node.pix = pix;
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
@@ -2355,7 +2355,7 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
     return FALSE;
   }
 
-  if (ev->x > (pcity->size - 1) * pdialog->cwidth + SMALL_TILE_WIDTH)
+  if (ev->x > (pcity->size - 1) * pdialog->cwidth + tileset_small_sprite_width(tileset))
     return FALSE;		/* no citizen that far to the right */
 
   citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);

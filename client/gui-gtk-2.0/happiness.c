@@ -36,8 +36,8 @@
 /* semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 23
 
-#define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH)
-#define	PIXCOMM_HEIGHT	(SMALL_TILE_HEIGHT)
+#define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
+#define	PIXCOMM_HEIGHT	(tileset_small_sprite_height(tileset))
 
 #define NUM_HAPPINESS_MODIFIERS 5
 
@@ -161,7 +161,7 @@ static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
   int i;
   struct citizen_type citizens[MAX_CITY_SIZE];
   int num_citizens = pcity->size;
-  int offset = MIN(SMALL_TILE_WIDTH, PIXCOMM_WIDTH / num_citizens);
+  int offset = MIN(tileset_small_sprite_width(tileset), PIXCOMM_WIDTH / num_citizens);
 
   get_city_citizen_types(pcity, index, citizens);
 

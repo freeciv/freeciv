@@ -77,7 +77,7 @@ extern bool can_slide;
  * directly to fill_sprite_array.
  *
  * canvas_x, canvas_y: the canvas position of the current element.  Each
- * element is assumed to be NORMAL_TILE_WIDTH * NORMAL_TILE_HEIGHT in
+ * element is assumed to be tileset_tile_width(tileset) * tileset_tile_height(tileset) in
  * size.  If an element is larger the caller needs to use a larger rectangle
  * of iteration.
  *
@@ -102,8 +102,8 @@ extern bool can_slide;
   if (_width > 0 && _height > 0) {					    \
     const int _ratio = (tileset_is_isometric(tileset) ? 2 : 1);		    \
     const int _r = _ratio * 2;						    \
-    const int _Wr = NORMAL_TILE_WIDTH;					    \
-    const int _Hr = NORMAL_TILE_HEIGHT;					    \
+    const int _Wr = tileset_tile_width(tileset);					    \
+    const int _Hr = tileset_tile_height(tileset);					    \
     /* Don't divide by _r yet, to avoid integer rounding errors. */	    \
     const int GRI_x0 = DIVIDE(_gui_x0 * _r, _Wr) - _ratio / 2;		\
     const int GRI_y0 = DIVIDE(_gui_y0 * _r, _Hr) - _ratio / 2;		\
@@ -212,8 +212,8 @@ extern bool can_slide;
 	  }								    \
 	}								    \
       }									    \
-      gui_x = GRI_x_itr * _Wr / _r - NORMAL_TILE_WIDTH / 2;		    \
-      gui_y = GRI_y_itr * _Hr / _r - NORMAL_TILE_HEIGHT / 2;
+      gui_x = GRI_x_itr * _Wr / _r - tileset_tile_width(tileset) / 2;		    \
+      gui_y = GRI_y_itr * _Hr / _r - tileset_tile_height(tileset) / 2;
 
 #define gui_rect_iterate_end						    \
     }									    \

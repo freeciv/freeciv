@@ -466,8 +466,8 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
 
   rp = _rp(o);
 
-  canvas_x += NORMAL_TILE_WIDTH / 2;
-  canvas_y += NORMAL_TILE_HEIGHT;
+  canvas_x += tileset_tile_width(tileset) / 2;
+  canvas_y += tileset_tile_height(tileset);
 
   GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
   SetFont(rp, new_font);
@@ -530,8 +530,8 @@ static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
 
   diff_x = old_canvas_x - new_canvas_x;
   diff_y = old_canvas_y - new_canvas_y;
-  w = UNIT_TILE_WIDTH + abs(diff_x);
-  h = UNIT_TILE_HEIGHT + abs(diff_y);
+  w = tileset_full_tile_width(tileset) + abs(diff_x);
+  h = tileset_full_tile_height(tileset) + abs(diff_y);
   this_x = MIN(old_canvas_x,new_canvas_x);
   this_y = MIN(old_canvas_y,new_canvas_y);
 
@@ -576,8 +576,8 @@ static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
 
     get_canvas_xy(data->explode_unit->x, data->explode_unit->y, &canvas_x, &canvas_y);
 
-    w = MAX(0,MIN(NORMAL_TILE_WIDTH, _mwidth(o)-canvas_x));
-    h = MAX(0,MIN(NORMAL_TILE_HEIGHT, _mheight(o)-canvas_y));
+    w = MAX(0,MIN(tileset_tile_width(tileset), _mwidth(o)-canvas_x));
+    h = MAX(0,MIN(tileset_tile_height(tileset), _mheight(o)-canvas_y));
 
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
@@ -587,7 +587,7 @@ static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
 	 complete thing onto the map canvas window. This avoids flickering. */
 	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
 			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
-	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], NORMAL_TILE_WIDTH/4,0);
+	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], tileset_tile_width(tileset)/4,0);
 	MyBltBitMapRastPort(data->unit_bitmap,0,0,_rp(o),_mleft(o) + canvas_x, _mtop(o) + canvas_y, w, h, 0xc0);
       } else { /* tileset_is_isometric(tileset) */
 	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
@@ -821,12 +821,12 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
     if (data->overview_object)
       set(data->overview_object, MUIA_Overview_RadarPicture, data->radar_gfx_sprite->picture);
 
-    if ((data->unit_bitmap = AllocBitMap(UNIT_TILE_WIDTH * 3, UNIT_TILE_HEIGHT * 3, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
+    if ((data->unit_bitmap = AllocBitMap(tileset_full_tile_width(tileset) * 3, tileset_full_tile_height(tileset) * 3, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
     {
       if ((data->unit_layerinfo = NewLayerInfo()))
       {
 	InstallLayerInfoHook(data->unit_layerinfo, LAYERS_NOBACKFILL);
-	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, UNIT_TILE_WIDTH * 3 - 1, UNIT_TILE_HEIGHT * 3 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
+	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, tileset_full_tile_width(tileset) * 3 - 1, tileset_full_tile_height(tileset) * 3 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
 	{
 	  if (render_sprites(dh))
 	  {
@@ -1050,8 +1050,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  draw_shadowed_string(map_canvas->window, main_font,
 			 toplevel->style->black_gc,
 			 toplevel->style->white_gc,
-			 canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			 canvas_y + NORMAL_TILE_HEIGHT,
+			 canvas_x + tileset_tile_width(tileset) / 2 - w / 2,
+			 canvas_y + tileset_tile_height(tileset),
 			 boom); */
 
 	} else
@@ -1238,7 +1238,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  if (abs(dx) < width && abs(dy) < height && data->map_shown)
 	  {
 	    ScrollRaster(data->map_layer->rp,
-	    		 dx * NORMAL_TILE_WIDTH, dy * NORMAL_TILE_HEIGHT,
+	    		 dx * tileset_tile_width(tileset), dy * tileset_tile_height(tileset),
 			 0, 0, _mwidth(o) - 1, _mheight(o) - 1);
 
 	    if (abs(dx) < width && dx)
@@ -1384,16 +1384,16 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
           get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y); /* top left corner */
           /* top left corner in isometric view */
-          canvas_start_x -= height * NORMAL_TILE_WIDTH/2;
+          canvas_start_x -= height * tileset_tile_width(tileset)/2;
 
           /* because of where get_canvas_xy() sets canvas_x */
-          canvas_start_x += NORMAL_TILE_WIDTH/2;
+          canvas_start_x += tileset_tile_width(tileset)/2;
 
           /* And because units fill a little extra */
-          canvas_start_y -= NORMAL_TILE_HEIGHT/2;
+          canvas_start_y -= tileset_tile_height(tileset)/2;
 
-	  w = (height + width) * NORMAL_TILE_WIDTH/2;
-	  h = (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2;
+	  w = (height + width) * tileset_tile_width(tileset)/2;
+	  h = (height + width) * tileset_tile_height(tileset)/2 + tileset_tile_height(tileset)/2;
 
 	  if (canvas_start_x <0)
 	  {
@@ -1854,18 +1854,18 @@ static ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh
 
   /* Clear old sprite. */
   gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
-		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
+		  old_canvas_y, old_canvas_x, old_canvas_y, tileset_full_tile_width(tileset),
+		  tileset_full_tile_height(tileset));
 
   /* Draw the new sprite. */
   gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
-		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+		  new_canvas_y, 0, 0, tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
 
   /* Write to screen. */
   gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
-		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
+		  new_canvas_x, new_canvas_y, tileset_full_tile_width(tileset),
+		  tileset_full_tile_height(tileset));
 
   /* Flush. */
   gdk_flush();
@@ -2179,24 +2179,24 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 
 	  /* top --> right */
 	  SetAPen(rp, data->red_color);
-	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y);
-	  Draw(rp, canvas_x + NORMAL_TILE_WIDTH - 1,
-	       canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
+	  Move(rp, canvas_x + tileset_tile_width(tileset) / 2 - 1, canvas_y);
+	  Draw(rp, canvas_x + tileset_tile_width(tileset) - 1,
+	       canvas_y + tileset_tile_height(tileset) / 2 - 1);
 
 	  /* top --> left */
-	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y);
-	  Draw(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
+	  Move(rp, canvas_x + tileset_tile_width(tileset) / 2, canvas_y);
+	  Draw(rp, canvas_x, canvas_y + tileset_tile_height(tileset) / 2 - 1);
 
 	  /* bottom --> right */
-	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
-	       canvas_y + NORMAL_TILE_HEIGHT - 1);
-	  Draw(rp, canvas_x + NORMAL_TILE_WIDTH - 1,
-	       canvas_y + NORMAL_TILE_HEIGHT / 2);
+	  Move(rp, canvas_x + tileset_tile_width(tileset) / 2 - 1,
+	       canvas_y + tileset_tile_height(tileset) - 1);
+	  Draw(rp, canvas_x + tileset_tile_width(tileset) - 1,
+	       canvas_y + tileset_tile_height(tileset) / 2);
 
 	  /* bottom --> left */
-	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2,
-	       canvas_y + NORMAL_TILE_HEIGHT - 1);
-	  Draw(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2);
+	  Move(rp, canvas_x + tileset_tile_width(tileset) / 2,
+	       canvas_y + tileset_tile_height(tileset) - 1);
+	  Draw(rp, canvas_x, canvas_y + tileset_tile_height(tileset) / 2);
 	}
       } city_map_checked_iterate_end;
     } else
@@ -2783,8 +2783,8 @@ static ULONG Unit_Cleanup(struct IClass * cl, Object * o, Msg msg)
 static ULONG Unit_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
-  LONG w = UNIT_TILE_WIDTH;
-  LONG h = UNIT_TILE_HEIGHT;
+  LONG w = tileset_full_tile_width(tileset);
+  LONG h = tileset_full_tile_height(tileset);
   DoSuperMethodA(cl, o, (Msg) msg);
 
   if (data->upkeep)

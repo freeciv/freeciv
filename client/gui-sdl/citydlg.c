@@ -636,7 +636,7 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
   int i, step;
   SDL_Rect dest;
   SDL_Surface *pSurf =
-  	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+  	create_surf(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), SDL_SWSURFACE);
 
   put_unit_pixmap_draw(pUnit, pSurf, 0, 3);
 
@@ -1280,12 +1280,12 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   } else {
     if(is_city_report_open()) {
       assert(pSellected_Widget != NULL);
-      if (pSellected_Widget->size.x + NORMAL_TILE_WIDTH +
+      if (pSellected_Widget->size.x + tileset_tile_width(tileset) +
 	 		ww + DOUBLE_FRAME_WH > pWindow->dst->w)
       {
         pWindow->size.x = pSellected_Widget->size.x - ww - DOUBLE_FRAME_WH;
       } else {
-        pWindow->size.x = pSellected_Widget->size.x + NORMAL_TILE_WIDTH;
+        pWindow->size.x = pSellected_Widget->size.x + tileset_tile_width(tileset);
       }
     
       pWindow->size.y = pSellected_Widget->size.y +

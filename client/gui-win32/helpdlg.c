@@ -313,8 +313,8 @@ static void create_wonder_page(struct fcwin_box *vbox)
 **************************************************************************/
 static void unit_minsize(POINT *min,void *data)
 {
-  min->x=UNIT_TILE_WIDTH;
-  min->y=UNIT_TILE_HEIGHT;
+  min->x=tileset_full_tile_width(tileset);
+  min->y=tileset_full_tile_height(tileset);
 }
 
 /*************************************************************************
@@ -651,8 +651,8 @@ static void help_draw_unit(HDC hdc,int i)
   RECT rc;
   rc.top=unitpos.y;
   rc.left=unitpos.x;
-  rc.bottom=unitpos.y+UNIT_TILE_HEIGHT;
-  rc.right=unitpos.x+UNIT_TILE_WIDTH;
+  rc.bottom=unitpos.y+tileset_full_tile_height(tileset);
+  rc.right=unitpos.x+tileset_full_tile_width(tileset);
   
   /* Give tile a background color, based on the type of unit */
   switch (get_unit_type(i)->move_type) {

@@ -200,36 +200,6 @@ struct Sprite *get_unit_upkeep_sprite(struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
 
-/* These variables contain the size of the tiles used within the game.
- *
- * "normal" tiles include most mapview graphics, particularly the basic
- * terrain graphics.
- *
- * "unit" tiles are those used for drawing units.  In iso view these are
- * larger than normal tiles to mimic a 3D effect.
- *
- * "small" tiles are used for extra "theme" graphics, particularly sprites
- * for citizens, governments, and other panel indicator icons.
- *
- * Various parts of the code may make additional assumptions, including:
- *   - in non-iso view:
- *     - NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT
- *     - UNIT_TILE_WIDTH == NORMAL_TILE_WIDTH
- *     - UNIT_TILE_HEIGHT == NORMAL_TILE_HEIGHT
- *   - in iso-view:
- *     - NORMAL_TILE_WIDTH == 2 * NORMAL_TILE_HEIGHT
- *     - UNIT_TILE_WIDTH == NORMAL_TILE_WIDTH
- *     - UNIT_TILE_HEIGHT == NORMAL_TILE_HEIGHT * 3 / 2
- *     - NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT are even
- */
-
-#define NORMAL_TILE_WIDTH tileset_tile_width(tileset)
-#define NORMAL_TILE_HEIGHT tileset_tile_height(tileset)
-#define UNIT_TILE_WIDTH tileset_full_tile_width(tileset)
-#define UNIT_TILE_HEIGHT tileset_full_tile_height(tileset)
-#define SMALL_TILE_WIDTH tileset_small_sprite_width(tileset)
-#define SMALL_TILE_HEIGHT tileset_small_sprite_height(tileset)
-
 /* The overview tile width and height are defined in terms of the base
  * size.  For iso-maps the width is twice the height since "natural"
  * coordinates are used.  For classical maps the width and height are

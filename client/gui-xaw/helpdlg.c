@@ -490,8 +490,8 @@ static void create_help_page(enum help_page_type type)
       XtVaCreateManagedWidget("helpunittile",
 			      labelWidgetClass,
 			      help_right_form,
-			      XtNwidth, UNIT_TILE_WIDTH,
-			      XtNheight, UNIT_TILE_HEIGHT,
+			      XtNwidth, tileset_full_tile_width(tileset),
+			      XtNheight, tileset_full_tile_height(tileset),
 			      NULL);  
     XtAddCallback(help_unit_tile,
                   XtNdestroyCallback,free_bitmap_destroy_callback,

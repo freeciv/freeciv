@@ -493,7 +493,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   struct citizen_type c = {.type = CITIZEN_SPECIALIST,
 			   .spec_type = DEFAULT_SPECIALIST};
 
-  if (NORMAL_TILE_HEIGHT<45) dummy_improvement_list[5]=0;
+  if (tileset_tile_height(tileset)<45) dummy_improvement_list[5]=0;
 
   if (concise_city_production) {
     dummy_improvement_list[0] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
@@ -714,8 +714,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    pixcommWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->support_unit_label,
-			    XtNwidth, UNIT_TILE_WIDTH,
-			    XtNheight, 3 * NORMAL_TILE_HEIGHT / 2,
+			    XtNwidth, tileset_full_tile_width(tileset),
+			    XtNheight, 3 * tileset_tile_height(tileset) / 2,
 			    NULL);
 
   pdialog->present_unit_label=
@@ -731,8 +731,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
     			    pixcommWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->present_unit_label,
-			    XtNwidth, UNIT_TILE_WIDTH,
-			    XtNheight, UNIT_TILE_HEIGHT,
+			    XtNwidth, tileset_full_tile_width(tileset),
+			    XtNheight, tileset_full_tile_height(tileset),
 			    NULL);
 
 
@@ -911,7 +911,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   } else {
     pdialog->num_citizens_shown=DEFAULT_NUM_CITIZENS;
     pdialog->num_units_shown=DEFAULT_NUM_UNITS;
-    if (NORMAL_TILE_HEIGHT<45) {
+    if (tileset_tile_height(tileset)<45) {
       pdialog->num_citizens_shown-=5;
       pdialog->num_units_shown+=3;
     }
@@ -957,8 +957,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			      XtNfromVert, pdialog->support_unit_label,
 			      XtNfromHoriz,
 			        (XtArgVal)pdialog->support_unit_pixcomms[i-1],
-			      XtNwidth, UNIT_TILE_WIDTH,
-			      XtNheight, 3 * NORMAL_TILE_HEIGHT / 2,
+			      XtNwidth, tileset_full_tile_width(tileset),
+			      XtNheight, 3 * tileset_tile_height(tileset) / 2,
 			      NULL);
   }
 
@@ -981,8 +981,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			      XtNfromVert, pdialog->present_unit_label,
 			      XtNfromHoriz, 
 			        (XtArgVal)pdialog->support_unit_pixcomms[i-1],
-			      XtNwidth, UNIT_TILE_WIDTH,
-			      XtNheight, UNIT_TILE_HEIGHT,
+			      XtNwidth, tileset_full_tile_width(tileset),
+			      XtNheight, tileset_full_tile_height(tileset),
 			      NULL);
   }
 

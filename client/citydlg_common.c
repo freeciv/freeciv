@@ -71,8 +71,8 @@ void generate_citydlg_dimensions(void)
     max_y = MAX(canvas_y, max_y);
   } city_map_iterate_end;
 
-  citydlg_width = max_x - min_x + NORMAL_TILE_WIDTH;
-  citydlg_height = max_y - min_y + NORMAL_TILE_HEIGHT;
+  citydlg_width = max_x - min_x + tileset_tile_width(tileset);
+  citydlg_height = max_y - min_y + tileset_tile_height(tileset);
 }
 
 /**************************************************************************
@@ -87,8 +87,8 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 
   /* The citymap is centered over the center of the citydlg canvas. */
   map_to_gui_vector(canvas_x, canvas_y, city_x - x0, city_y - y0);
-  *canvas_x += (width - NORMAL_TILE_WIDTH) / 2;
-  *canvas_y += (height - NORMAL_TILE_HEIGHT) / 2;
+  *canvas_x += (width - tileset_tile_width(tileset)) / 2;
+  *canvas_y += (height - tileset_tile_height(tileset)) / 2;
 
   if (!is_valid_city_coords(city_x, city_y)) {
     assert(FALSE);
@@ -108,11 +108,11 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   const int height = get_citydlg_canvas_height();
 
   /* The citymap is centered over the center of the citydlg canvas. */
-  canvas_x -= (width - NORMAL_TILE_WIDTH) / 2;
-  canvas_y -= (height - NORMAL_TILE_HEIGHT) / 2;
+  canvas_x -= (width - tileset_tile_width(tileset)) / 2;
+  canvas_y -= (height - tileset_tile_height(tileset)) / 2;
 
   if (tileset_is_isometric(tileset)) {
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    const int W = tileset_tile_width(tileset), H = tileset_tile_height(tileset);
 
     /* Shift the tile left so the top corner of the origin tile is at
        canvas position (0,0). */
@@ -123,8 +123,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
     *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
   } else {
-    *city_x = DIVIDE(canvas_x, NORMAL_TILE_WIDTH);
-    *city_y = DIVIDE(canvas_y, NORMAL_TILE_HEIGHT);
+    *city_x = DIVIDE(canvas_x, tileset_tile_width(tileset));
+    *city_y = DIVIDE(canvas_y, tileset_tile_height(tileset));
   }
 
   /* Add on the offset of the top-left corner to get the final
@@ -149,8 +149,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   									    \
   map_to_gui_vector(&_my_gui_x0, &_my_gui_y0,				    \
 		    _pcity->tile->x, _pcity->tile->y);			    \
-  _my_gui_x0 -= (_my_width - NORMAL_TILE_WIDTH) / 2;			    \
-  _my_gui_y0 -= (_my_height - NORMAL_TILE_HEIGHT) / 2;			    \
+  _my_gui_x0 -= (_my_width - tileset_tile_width(tileset)) / 2;			    \
+  _my_gui_y0 -= (_my_height - tileset_tile_height(tileset)) / 2;			    \
   freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				    \
 	  _my_gui_x0, _my_gui_y0, _my_width, _my_height);		    \
 									    \

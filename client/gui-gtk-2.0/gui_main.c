@@ -586,14 +586,14 @@ static void populate_unit_pixmap_table(void)
   GtkWidget *table = unit_pixmap_table;
  
   /* 135 below is rough value (could be more intelligent) --dwp */
-  num_units_below = 135 / (int) NORMAL_TILE_WIDTH;
+  num_units_below = 135 / (int) tileset_tile_width(tileset);
   num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
 
   gtk_table_resize(GTK_TABLE(table), 2, num_units_below);
 
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
-  unit_pixmap = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  unit_pixmap = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   gtk_widget_ref(unit_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
   unit_pixmap_button = gtk_event_box_new();
@@ -605,8 +605,8 @@ static void populate_unit_pixmap_table(void)
 		   GINT_TO_POINTER(-1));
 
   for (i = 0; i < num_units_below; i++) {
-    unit_below_pixmap[i] = gtk_pixcomm_new(UNIT_TILE_WIDTH,
-                                           UNIT_TILE_HEIGHT);
+    unit_below_pixmap[i] = gtk_pixcomm_new(tileset_full_tile_width(tileset),
+                                           tileset_full_tile_height(tileset));
     gtk_widget_ref(unit_below_pixmap[i]);
     unit_below_pixmap_button[i] = gtk_event_box_new();
     gtk_widget_ref(unit_below_pixmap_button[i]);
@@ -620,7 +620,7 @@ static void populate_unit_pixmap_table(void)
     gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
                               i, i + 1, 1, 2);
     gtk_widget_set_size_request(unit_below_pixmap[i],
-				UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+				tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
   }
 
@@ -878,7 +878,7 @@ static void setup_widgets(void)
   timeout_label = gtk_label_new("");
 
   frame = gtk_frame_new(NULL);
-  gtk_widget_set_size_request(frame, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+  gtk_widget_set_size_request(frame, tileset_small_sprite_width(tileset), tileset_small_sprite_height(tileset));
   gtk_table_attach_defaults(GTK_TABLE(table), frame, 4, 10, 1, 2);
   gtk_container_add(GTK_CONTAINER(frame), timeout_label);
 

@@ -886,9 +886,9 @@ void ui_main(int argc, char *argv[])
   draw_intro_gfx();
 
   mapview.tile_width = (mapview.width - 1)
-	  / NORMAL_TILE_WIDTH + 1;
+	  / tileset_tile_width(tileset) + 1;
   mapview.tile_height = (mapview.height - 1)
-	  / NORMAL_TILE_HEIGHT + 1;
+	  / tileset_tile_height(tileset) + 1;
 
   flush_all();
 
