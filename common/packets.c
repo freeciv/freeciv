@@ -1742,7 +1742,7 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->wl_idx);
 
   if (has_capability("attributes", pc->capability)) {
-    cptr = put_bool8(cptr, packet->attribute_block);
+    cptr = put_bool8(cptr, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
   }
 
   (void) put_uint16(buffer, cptr - buffer);
