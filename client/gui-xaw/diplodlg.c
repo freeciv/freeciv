@@ -530,7 +530,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	  get_ruler_title(plr0->government, plr0->is_male, plr0->nation),
 	  plr0->name,
 	  get_nation_name(plr1->nation),
-	  get_ruler_title(plr1->government, plr0->is_male, plr0->nation),
+	  get_ruler_title(plr1->government, plr1->is_male, plr1->nation),
 	  plr1->name);
   
   pheadlinem=create_centered_string(buf);
