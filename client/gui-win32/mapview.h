@@ -25,6 +25,7 @@ void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y);
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 void put_one_tile_full(HDC hdc, int x, int y,
 		       int canvas_x, int canvas_y, int citymode);
+void check_mapstore();
 void map_resize();
 void init_map_win();
 void map_expose(HDC hdc);

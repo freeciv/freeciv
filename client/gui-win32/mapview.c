@@ -381,6 +381,26 @@ void pixmap_put_tile(HDC hdc, int x, int y,
 }
 
 /**************************************************************************
+hack to ensure that mapstorebitmap is usable. 
+On win95/win98 mapstorebitmap becomes somehow invalid. 
+**************************************************************************/
+void check_mapstore()
+{
+  static int n=0;
+  HDC hdc;
+  BITMAP bmp;
+  if (GetObject(mapstorebitmap,sizeof(BITMAP),&bmp)==0) {
+    DeleteObject(mapstorebitmap);
+    hdc=GetDC(map_window);
+    mapstorebitmap=CreateCompatibleBitmap(hdc,map_win_width,map_win_height);
+    update_map_canvas_visible();
+    n++;
+    assert(n<5);
+  }
+}
+
+
+/**************************************************************************
 
 **************************************************************************/
 void put_city_tile_output(HDC hdc, int canvas_x, int canvas_y,
@@ -436,13 +456,25 @@ tile_visible_mapcanvas(int x, int y)
 **************************************************************************/
 bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
-  return ((y>=map_view_y+2 || (y >= map_view_y && map_view_y == 0))
-          && (y<map_view_y+map_view_height-2 ||
-              (y<map_view_y+map_view_height &&
-               map_view_y + map_view_height-EXTRA_BOTTOM_ROW == map.ysize))
-          && ((x>=map_view_x+2 && x<map_view_x+map_view_width-2) ||
-              (x+map.xsize>=map_view_x+2
-               && x+map.xsize<map_view_x+map_view_width-2)));
+  if (is_isometric) {
+    int canvas_x, canvas_y;
+       
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+
+    return canvas_x > NORMAL_TILE_WIDTH/2
+      && canvas_x < (map_win_width - 3*NORMAL_TILE_WIDTH/2)
+      && canvas_y >= NORMAL_TILE_HEIGHT
+      && canvas_y < map_win_height - 3 * NORMAL_TILE_HEIGHT/2;
+
+  } else {
+    return ((y>=map_view_y+2 || (y >= map_view_y && map_view_y == 0))
+	    && (y<map_view_y+map_view_height-2 ||
+		(y<map_view_y+map_view_height &&
+		 map_view_y + map_view_height-EXTRA_BOTTOM_ROW == map.ysize))
+	    && ((x>=map_view_x+2 && x<map_view_x+map_view_width-2) ||
+		(x+map.xsize>=map_view_x+2
+		 && x+map.xsize<map_view_x+map_view_width-2)));
+  }
 }
 
 /**************************************************************************

@@ -466,7 +466,7 @@ static VOID CALLBACK blink_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTime
       if(is_moving==1 && is_waiting)
         update_turn_done_button(0);  /* stress the slow player! */
     }
- 
+    check_mapstore();
     blink_active_unit();
  
     if(flip) {
