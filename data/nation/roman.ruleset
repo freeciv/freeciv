@@ -3,6 +3,9 @@
 name=_("Roman")
 plural=_("?plural:Romans")
 class=_("Historical")
+legend=_("Rome was, in legend, founded by Romulus in 753 BC.  At its\
+ height, Rome controlled nearly all of Europe, northern Africa and\
+ Mesopotamia.")
 leader="Caesar", "Augustus", "Vespasian", "Nero", "Trajan", "Marcus Aurelius",
        "Tiberius", "Constantine",
        "Livia", "Messalina"
