@@ -275,8 +275,9 @@ if test -n "$GCC"; then
 fi
 
 FC_DEBUG
-FC_VARIADIC_MACROS
-FC_VARIABLE_ARRAYS
+AC_C99_VARIADIC_MACROS
+AC_C99_VARIABLE_ARRAYS
+AC_C99_INITIALIZERS
 
 if test "$CVS_DEPS" = "maybe"; then
    dnl Should also check for gmake?

@@ -1,10 +1,12 @@
-# Check for the presense of C99 features.  These may be optional or required.
+# Check for the presence of C99 features.  Generally the check will fail
+# if the feature isn't present (a C99 compiler isn't that much to ask,
+# right?).
 
 # Check C99-style variadic macros (required):
 #
 #  #define PRINTF(msg, ...) (printf(msg, __VA_ARGS__)
 #
-AC_DEFUN([FC_VARIADIC_MACROS],
+AC_DEFUN([AC_C99_VARIADIC_MACROS],
 [
   dnl Check for variadic macros
   AC_CACHE_CHECK([for C99 variadic macros],
@@ -27,7 +29,7 @@ AC_DEFUN([FC_VARIADIC_MACROS],
 #
 #   char concat_str[strlen(s1) + strlen(s2) + 1];
 #
-AC_DEFUN([FC_VARIABLE_ARRAYS],
+AC_DEFUN([AC_C99_VARIABLE_ARRAYS],
 [
   dnl Check for variable arrays
   AC_CACHE_CHECK([for C99 variable arrays],
@@ -41,5 +43,35 @@ AC_DEFUN([FC_VARIABLE_ARRAYS],
         ac_cv_c99_variable_arrays=no)])
   if test "x${ac_cv_c99_variable_arrays}" != "xyes"; then
     AC_MSG_ERROR([A compiler supporting C99 variable arrays is required])
+  fi
+])
+
+# Check C99-style initializers (required):
+#
+# struct timeval tv = {.tv_sec = 0, .tv_usec = 500000};
+# int fibonacci[6] = {[0] = 0, [1] = 1, [2] = 1, [3] = 2, [4] = 3, [5] = 5};
+#
+AC_DEFUN([AC_C99_INITIALIZERS],
+[
+  dnl Check for C99 initializers
+  AC_CACHE_CHECK([for C99 initializers],
+    [ac_cv_c99_initializers],
+    [AC_TRY_COMPILE(
+        [struct foo {
+           int an_integer;
+           char *a_string;
+           int an_array[5];
+           union {int x, y;} a_union;
+         };
+        ],
+        [struct foo bar = {.an_array = {0, [3] = 2, [2] = 1, [4] = 3},
+                           .an_integer = 999,
+                           .an_array[1] = 1,
+                           .a_string = "does it work?",
+                           .a_union = {.y = 243}};],
+        [ac_cv_c99_initializers=yes],
+        [ac_cv_c99_initializers=no])])
+  if test "${ac_cv_c99_initializers}" != "yes"; then
+    AC_MSG_ERROR([A compiler supporting C99 initializers is required])
   fi
 ])
