@@ -209,7 +209,7 @@ to find a pointer to a specific tile.
 A tile has various fields; see the struct in common/map.h
 
 When operating on tiles you normally iterate over x and y and maybe use
-map_get_tile() to get the tile.
+map_get_tile() to get the tile struct.
 When fx iterating in a square around a map position (x,y) the naive method
 
 for (x1 = x-1; x1 <= x+1; x1++)
@@ -217,8 +217,8 @@ for (x1 = x-1; x1 <= x+1; x1++)
     /* do something */
 
 would sometimes, fx if (x,y) = (0,0) , give tiles like (-1,0) or (0,-1)
-Because the map wraps in the x direction the first position should be,
-assuming the map has the size (map.xsize,map.ysize), (map.xsize, 0), while
+Because the map wraps in the x direction the first position should be
+[assuming the map has the size (map.xsize,map.ysize)] (map.xsize-1, 0), while
 the second tile (0,-1) is not a real time at all!
 This could be solved by the following:
 
@@ -236,7 +236,6 @@ the map, and if the original pos does not correspond to a tile, as (0, -1),
 it will return 0.
 Alternatively this could have all been done via the macro call
 
-int x1, y1;
 square_iterate(x, y, 1/*radius*/, x1, y1)  {
 /* do something */
 } square_iterate_end;
