@@ -13,6 +13,8 @@
 #ifndef FC__SETTLERS_H
 #define FC__SETTLERS_H
 
+#include "map.h"
+
 struct player;
 struct unit;
 struct city;

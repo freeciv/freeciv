@@ -13,6 +13,8 @@
 #ifndef FC__ADVMILITARY_H
 #define FC__ADVMILITARY_H
 
+#include "unittype.h"
+
 struct city;
 struct player;
 struct unit;

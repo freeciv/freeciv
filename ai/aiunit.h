@@ -13,6 +13,8 @@
 #ifndef FC__AIUNIT_H
 #define FC__AIUNIT_H
 
+#include "unittype.h"
+
 struct player;
 struct city;
 struct unit;

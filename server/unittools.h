@@ -13,9 +13,11 @@
 #ifndef FC__UNITTOOLS_H
 #define FC__UNITTOOLS_H
 
+#include "unit.h"
+#include "packets.h"		/* enum unit_info_use */
+
 struct city;
 struct player;
-struct unit;
 
 /* battle related */
 int find_a_unit_type(int role, int role_tech);

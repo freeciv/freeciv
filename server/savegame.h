@@ -13,6 +13,8 @@
 #ifndef FC__SAVEGAME_H
 #define FC__SAVEGAME_H
 
+#include "registry.h"
+
 void game_load(struct section_file *file);
 void game_save(struct section_file *file);
 

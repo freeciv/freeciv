@@ -47,6 +47,7 @@ in this Software without prior written authorization from the X Consortium.
 #ifndef _Pixcomm_h
 #define _Pixcomm_h
 
+#include <X11/Intrinsic.h>
 #include <X11/Xaw/Command.h>
 
 /* Resources:

@@ -13,6 +13,8 @@
 #ifndef FC__AIHAND_H
 #define FC__AIHAND_H
 
+#include "city.h"		/* enum choice_type */
+
 struct player;
 
 void ai_do_first_activities(struct player *pplayer);

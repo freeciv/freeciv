@@ -23,6 +23,7 @@
 #ifndef _Canvas_h
 #define _Canvas_h
 
+#include <X11/Intrinsic.h>
 #include <X11/Core.h>
 
 #ifndef XtNexposeProc

@@ -23,6 +23,7 @@
 #ifndef _CanvasP_h
 #define _CanvasP_h
 
+#include <X11/IntrinsicP.h>
 #include <X11/CoreP.h>
 #include <X11/Xaw/SimpleP.h>
 

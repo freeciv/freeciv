@@ -50,6 +50,8 @@ in this Software without prior written authorization from the X Consortium.
 #include <config.h>
 #endif
 
+#include <X11/IntrinsicP.h>
+
 #if defined(HAVE_LIBXAW3D)
 #include <X11/Xaw3d/CommandP.h>
 #else

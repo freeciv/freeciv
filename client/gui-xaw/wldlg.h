@@ -13,6 +13,12 @@
 #ifndef FC__WLDLG_H
 #define FC__WLDLG_H
 
+#include <X11/Intrinsic.h>
+
+struct worklist;
+struct player;
+struct city;
+
 typedef void (*WorklistOkCallback) (struct worklist *pwl, void *data);
 typedef void (*WorklistCancelCallback) (void *data);
 
