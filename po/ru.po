@@ -1834,7 +1834,7 @@ msgstr "Игра: Вы поймали %s %s при попытке саботажа в %s!"
 #: server/diplomats.c:913
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "Игра: Ваш %s не смог найти ни одного об'екта для саботажа в %s."
+msgstr "Игра: Ваш %s не смог найти ни одного объекта для саботажа в %s."
 
 #: server/diplomats.c:955
 #, c-format
@@ -3682,7 +3682,6 @@ msgid "Players that users are allowed to take"
 msgstr "Игроки, место которых может занять пользователь"
 
 #: server/stdinhand.c:703
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization, or \"player\".  Clients will only be permitted to "
@@ -3711,19 +3710,31 @@ msgid ""
 "\"Displacing a connection\" means that you may take over a player that "
 "another user already has control of."
 msgstr ""
-"Это должно быть строкой символов, каждый из которых обозначает тип или статус цивилизации или \"игрока\". Клиенты получают разрешение подключиться только если они соответствуют одной из указанных букв. Это относится толжко к новым подключениям. Символы и их значения:\n"
+"Это должно быть строкой символов, каждый из которых обозначает тип или статус "
+"цивилизации или \"игрока\". Клиентам будет разрешено занять место или "
+"обозревать только тех игроков, которые соответствуют одной из указанных букв. "
+"Это относится только к будущим использованиям команд take и observe. "
+"Символы и их значения:\n"
 "    H,h = Человеческие игроки\n"
 "    A,a = Компьютерные игроки\n"
 "    d   = Мертвые игроки\n"
 "    b   = Варвары\n"
-"Первое описание _снизу_, которое соответствует, действует. Т.е. 'd' не включает варваров, 'a' не включает мертвых игроков, и т.д. Большие буквы действуют до начала игры, маленькие после.\n"
-"За каждым из вышеназванных символов может следовать один из следующих специальных символов для разрешения или запрещения нескольких подключений или наблюдателей:\n"
-"   * = Разрешаются многочисленные контроллирующие подключения;\n"
-"   + = Одно контроллирующее и несколько наблюдателей;\n"
-"   = = Несколько наблюдателей, нет конктролирующего;\n"
-"   - = Один наблюдатель, нет контроллирующего;\n"
-"   (нет) = Один контролирующий.\n"
-"Многочисленные подключения и наблюдатели являются ЭКСПЕРИМЕНТАЛЬНЫМИ."
+"Первое описание _снизу_, которое соответствует игроку, является действующим. "
+"Таким образом, 'd' не включает варваров, 'a' не включает мертвых игроков, и "
+"так далее. Большие буквы действуют до начала игры, маленькие после.\n"
+"За каждым из вышеназванных символов может следовать одно из следующих чисел "
+"для разрешения или запрещения видов подключений:\n"
+"   (нет) = Разрешено управляющее подключение, разрешены наблюдатели,\n"
+"           можно перемещать подключение.\n"
+"   1 = Разрешено управляющее подключение, разрешены наблюдатели,\n"
+"       нельзя перемещать подключение.\n"
+"   2 = Разрешено управляющее подключение, не разрешены наблюдатели,\n"
+"        можно перемещать подключение.\n"
+"   3 = Разрешено управляющее подключение, не разрешены наблюдатели,\n"
+"       нельзя перемещать подключение.\n"
+"   4 = Не разрешено управляющее подключение, разрешены наблюдатели.\n"
+"\"Перемещени подключения\" означает, что Вы можете занять место игрока, "
+"который находится под управлением другого пользователя."
 
 #: server/stdinhand.c:735
 msgid "Whether AI-status toggles with connection"
@@ -4078,17 +4089,19 @@ msgstr "Для каждого подключенного клиента показать сообщение в новом окне."
 
 #: server/stdinhand.c:1133
 msgid "debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>"
-msgstr ""
+msgstr "debug <player <имя-игрока> | city <x> <y> | units <x> <y> | unit <id>>"
 
 #: server/stdinhand.c:1134
 msgid "Turn on or off AI debugging of given entity."
-msgstr ""
+msgstr "Включает или выключает AI отладку заданного предмета."
 
 #: server/stdinhand.c:1135
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
+"Выводит информацию AI отладки заданного предмета и изменяет дальнейший вывод "
+"отладочной информации для заданного предмета на включенный или выключенный."
 
 #: server/stdinhand.c:1139
 msgid "set <option-name> <value>"
@@ -4220,7 +4233,10 @@ msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to observe a player. If you're not one of these, only the "
 "<player-name> argument is allowed"
-msgstr "Только консоль и подключения с уровнем команды (cmdlevel) 'hack' могут заставить чужие подключения наблюдать за игроком. Если к вам это не относится вы можете использовать только аргумент <имя-игрока>."
+msgstr ""
+"Только консоль и подключения с уровнем команд (cmdlevel) 'hack' могут "
+"заставить чужие подключения наблюдать за игроком. Если к Вам это не "
+"относится, Вы можете использовать только аргумент <имя-игрока>."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1211
@@ -4567,7 +4583,7 @@ msgstr "(двусмысленно)"
 
 #: client/packhand.c:1136 server/stdinhand.c:1476
 msgid "(unknown)"
-msgstr "(незивестно)"
+msgstr "(неизвестно)"
 
 #: server/stdinhand.c:1559
 msgid "Name is empty, so cannot be a player."
@@ -7843,7 +7859,6 @@ msgstr "Не найдено ни одного набора рельефа, прерываем выполнение!"
 msgid "Trying \"%s\" tileset."
 msgstr "Пробуем \"%s\" набор квадратов."
 
-# client/tilespec.c:16войска5
 #: client/tilespec.c:245
 #, c-format
 msgid "%s file appears incompatible:"
@@ -7887,7 +7902,7 @@ msgstr ""
 #: client/tilespec.c:1061
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
-msgstr ""
+msgstr "Нет графического тэга %s или %s для %s %s"
 
 #: client/agents/cma_core.c:317
 #, c-format
@@ -9006,7 +9021,7 @@ msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"Ваш караван из %s достиг города%s\n"
+"Ваш караван из %s достиг города %s.\n"
 "Что дальше?"
 
 #: client/gui-gtk-2.0/dialogs.c:1040 client/gui-gtk/dialogs.c:1168
@@ -9088,7 +9103,7 @@ msgstr "Усыпить бездельников."
 #: client/gui-gtk-2.0/dialogs.c:1726 client/gui-gtk/dialogs.c:1956
 #: data/Freeciv:3095
 msgid "What Nation Will You Be?"
-msgstr "Какой страной/народом вы будете?"
+msgstr "Какой страной/народом Вы будете?"
 
 #: client/gui-gtk-2.0/dialogs.c:1729 client/gui-gtk-2.0/menu.c:593
 #: client/gui-gtk/menu.c:594 client/gui-mui/dialogs.c:1715
@@ -10725,7 +10740,7 @@ msgstr "Актив."
 
 #: client/gui-gtk-2.0/repodlgs.c:1039
 msgid "Find _Nearest"
-msgstr ""
+msgstr "Найти ближайший"
 
 #: client/gui-gtk-2.0/repodlgs.c:1045 client/gui-mui/repodlgs.c:810
 msgid "_Upgrade"
@@ -12626,7 +12641,7 @@ msgstr "Имя рабочего списка"
 #: client/gui-sdl/chatline.c:462
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Всего зарегистрировавшихся пользователей : %d"
 
 #: client/gui-sdl/chatline.c:503
 msgid ""
@@ -12647,7 +12662,7 @@ msgstr ""
 #: client/gui-sdl/chatline.c:523
 #, fuzzy
 msgid "Tabs"
-msgstr "Итого"
+msgstr "Вкладки"
 
 #: client/gui-sdl/citydlg.c:460 data/Freeciv:1158 data/Freeciv:1194
 msgid "Activate unit"
@@ -12724,7 +12739,7 @@ msgstr "Панель настроек"
 #: client/gui-sdl/citydlg.c:1961
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr ""
+msgstr "Панель поддержки соединений (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1962 client/gui-sdl/citydlg.c:2023
 msgid "unit"
@@ -12829,7 +12844,7 @@ msgstr "Рост города : никогда"
 #: client/gui-sdl/citydlg.c:3021
 #, c-format
 msgid "City shrinks : %d %s"
-msgstr ""
+msgstr "Уменьшение города : %d %s"
 
 #: client/gui-sdl/citydlg.c:3022 client/gui-sdl/citydlg.c:3026
 #: client/gui-sdl/citydlg.c:3333 client/gui-sdl/cityrep.c:526
@@ -12887,9 +12902,8 @@ msgid "Maintenance panel"
 msgstr "Панель поддержки"
 
 #: client/gui-sdl/citydlg.c:3795 client/gui-sdl/dialogs.c:1371
-#, fuzzy
 msgid "Hurry production"
-msgstr "Городское производство"
+msgstr "Ускорить производство"
 
 #: client/gui-sdl/citydlg.c:3824
 msgid "Prev city"
@@ -12916,9 +12930,8 @@ msgid "Cities Report"
 msgstr "Городской отчет"
 
 #: client/gui-sdl/cityrep.c:196
-#, fuzzy
 msgid "Exit Report"
-msgstr "Городской отчет"
+msgstr "Выйти из отчета"
 
 #: client/gui-sdl/cityrep.c:207
 msgid "Information Report"
@@ -13037,7 +13050,7 @@ msgstr "А теперь... Пусть всем чертям станет тошно!"
 #: client/gui-sdl/dialogs.c:664
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "Контакт %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:665 client/gui-sdl/dialogs.c:677
 #: client/gui-sdl/dialogs.c:1496 client/gui-sdl/dialogs.c:1515
@@ -13052,9 +13065,9 @@ msgstr "%s %s %s (А:%d З:%d Х:%d Ог:%d) Зд:%d%%"
 
 #: client/gui-sdl/dialogs.c:687 client/gui-sdl/dialogs.c:1525
 #: client/gui-sdl/dialogs.c:1650
-#, fuzzy, c-format
+#, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Вероятность победы: А:%d%% З:%d%%"
+msgstr "Вер. победы: А:%d%% З:%d%%"
 
 #: client/gui-sdl/dialogs.c:890 client/gui-sdl/dialogs.c:1316
 msgid "Terrain Info"
@@ -13151,7 +13164,7 @@ msgstr "Расширенное меню"
 #: client/gui-sdl/dialogs.c:1345
 #, c-format
 msgid "Zoom to : %s"
-msgstr ""
+msgstr "Перейти к : %s"
 
 #: client/gui-sdl/dialogs.c:1383
 msgid "Change C.M.A Settings"
@@ -13176,12 +13189,12 @@ msgstr "Сбросить с парашютом сюда"
 #: client/gui-sdl/dialogs.c:1495 client/gui-sdl/dialogs.c:1611
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Активировать %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1513 client/gui-sdl/dialogs.c:1638
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "А:%d З:%d Ог:%d Зд:%d0%%"
+msgstr "%s %s %s (А:%d З:%d Х:%d Ог:%d) Зд:%d%%"
 
 #: client/gui-sdl/dialogs.c:1583
 msgid "Sentry idle"
@@ -13200,12 +13213,12 @@ msgstr "Ваш караван прибыл в %s"
 #: client/gui-sdl/dialogs.c:1880
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Установить торговый путь с %s ( %d нау/зол + %d ед. торговли )"
 
 #: client/gui-sdl/dialogs.c:1886
 #, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr ""
+msgstr "Идти на рынок ( бонус : %d нау/зол )"
 
 #: client/gui-sdl/dialogs.c:1904 data/Freeciv:2254
 msgid "Help build Wonder"
@@ -13250,7 +13263,7 @@ msgstr "РЕВОЛЮЦИЯ!"
 
 #: client/gui-sdl/dialogs.c:4407 client/gui-win32/dialogs.c:491
 msgid "What nation will you be?"
-msgstr "Какой страной вы будете?"
+msgstr "Какой страной Вы будете?"
 
 #: client/gui-sdl/dialogs.c:4621
 msgid "Start"
@@ -13267,7 +13280,7 @@ msgstr "Карта морей"
 #: client/gui-sdl/diplodlg.c:1083
 #, c-format
 msgid "%s incident !"
-msgstr ""
+msgstr "Инцидент с %s !"
 
 #: client/gui-sdl/diplodlg.c:1099
 msgid "Shall we declare WAR on them?"
@@ -13283,6 +13296,8 @@ msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
+"Сир! Прибыл посол от %s.\n"
+"Каковы будут Ваши желания?"
 
 #: client/gui-sdl/diplodlg.c:1245
 msgid "Declare WAR"
@@ -13308,98 +13323,99 @@ msgstr "Отправить его обратно"
 #: client/gui-sdl/graphics.c:186
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
-msgstr ""
+msgstr "load_surf: Сбой загрузки графического файла %s!"
 
 #: client/gui-sdl/graphics.c:194
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
-msgstr ""
+msgstr "load_surf: Не могу конвертировать файл %s в экранный формат!"
 
 #: client/gui-sdl/graphics.c:216
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
-msgstr ""
+msgstr "load_surf_with_flags: Не могу загрузить файл %s."
 
 #: client/gui-sdl/graphics.c:222
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr ""
+msgstr "Не могу конвертировать изображение из файла %s в формат %d."
 
 #: client/gui-sdl/graphics.c:247
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr ""
+msgstr "Не могу создать спрайт (поверхность) размером %d x %d %d Бит в формате %d"
 
 #: client/gui-sdl/graphics.c:847
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Не могу инициализировать SDL библиотеку: %s"
 
 #: client/gui-sdl/graphics.c:856
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Не иогу инициализировать SDL_ttf библиотеку: %s"
 
 #: client/gui-sdl/graphics.c:894
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
-msgstr ""
+msgstr "Нет доступных режимов для такого разрешения: %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:897
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-msgstr ""
+msgstr "Устанавливаем разрешение по умолчанию в: 640 x 480 16 bpp SW"
 
 #: client/gui-sdl/graphics.c:904
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
-msgstr ""
+msgstr "Не могу установить это разрешение: %d x %d %d bpp %s"
 
 #: client/gui-sdl/graphics.c:912
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr ""
+msgstr "Устанавливаем разрешение в: %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:3711
 #, c-format
 msgid "load_surf: Unable to load graphic file %s!"
-msgstr ""
+msgstr "load_surf: Не могу загрузить графический файл %s!"
 
 #: client/gui-sdl/graphics.c:3722
 #, c-format
 msgid "%s load with own %d bpp format !"
-msgstr ""
+msgstr "%s загружен с собственным %d bpp форматом!"
 
 #: client/gui-sdl/graphics.c:3727
 #, c-format
 msgid "%s (%d bpp) load with screen (%d bpp) format !"
-msgstr ""
+msgstr "%s (%d bpp) загружен с экранным (%d bpp) форматом!"
 
 #: client/gui-sdl/gui_main.c:149
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-msgstr ""
+msgstr "  -f,  --fullscreen\tЗапустить клиента в полноэкранном режиме\n"
 
 #: client/gui-sdl/gui_main.c:150
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
+"  -e,  --eventthread\tИнициализировать подсистему событий в другом подпроцессе (только для Линукса и БеОС)\n"
 
 #: client/gui-sdl/gui_main.c:704
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Используем видео-выход: %s"
 
 #: client/gui-sdl/gui_main.c:747
 msgid "Initializing Client"
-msgstr ""
+msgstr "Инициализируем клиента"
 
 #: client/gui-sdl/gui_main.c:758
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Ждем начала игры"
 
 #: client/gui-sdl/gui_string.c:145
 msgid "Error in create_string16: Aborting ..."
-msgstr ""
+msgstr "Ошибка в create_string16: Прерываемся..."
 
 #: client/gui-sdl/gui_string.c:208
 #, fuzzy, c-format
@@ -13534,7 +13550,7 @@ msgstr "Революция (Shift + R)"
 
 #: client/gui-sdl/mapctrl.c:1530
 msgid "End Turn (Enter)"
-msgstr ""
+msgstr "Завершить ход (Enter)"
 
 #: client/gui-sdl/mapctrl.c:1545
 msgid "Players (F3)"
@@ -13546,6 +13562,9 @@ msgid ""
 "or\n"
 "Find City (Shift + F)"
 msgstr ""
+"Городской отчет (F1)\n"
+"или\n"
+"Найти город (Shift + F)"
 
 #: client/gui-sdl/mapctrl.c:1572
 msgid "Units (F2)"
@@ -13553,7 +13572,7 @@ msgstr "Соединения (F2)"
 
 #: client/gui-sdl/mapctrl.c:1594
 msgid "Toggle Minimap Mode (Shift + \\)"
-msgstr ""
+msgstr "Переключить режим миникарты (Shift + \\)"
 
 #: client/gui-sdl/mapctrl.c:2166 client/gui-win32/connectdlg.c:1170
 #: client/gui-win32/inputdlg.c:145
@@ -13573,6 +13592,8 @@ msgid ""
 "Revolution (Shift + R)\n"
 "%s"
 msgstr ""
+"Революция (Shift + R)\n"
+"%s"
 
 #: client/gui-sdl/mapview.c:493
 #, c-format
@@ -13712,9 +13733,8 @@ msgid "Log"
 msgstr "Журнал"
 
 #: client/gui-sdl/optiondlg.c:340
-#, fuzzy
 msgid "Add new worklist"
-msgstr "Переименовать список работ"
+msgstr "Добавить список работ"
 
 #: client/gui-sdl/optiondlg.c:457 client/gui-sdl/optiondlg.c:612
 #, c-format
@@ -13740,7 +13760,7 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:634
 msgid "Fullscreen Mode"
-msgstr ""
+msgstr "Полноэкранный режим"
 
 #: client/gui-sdl/optiondlg.c:1041
 #, fuzzy
@@ -13753,9 +13773,8 @@ msgid "Show cursors animation"
 msgstr "Показывать анимацию битвы"
 
 #: client/gui-sdl/optiondlg.c:1545 client/gui-xaw/menu.c:131
-#, fuzzy
 msgid "National Borders"
-msgstr "Доступные чудеса"
+msgstr "Государственные границы"
 
 #: client/gui-sdl/optiondlg.c:1625
 msgid "Draw city map grid"
@@ -13766,9 +13785,8 @@ msgid "Draw city worker map grid"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1682
-#, fuzzy
 msgid "Special Resources"
-msgstr "Ресурсы"
+msgstr "Специальные ресурсы"
 
 #: client/gui-sdl/optiondlg.c:1816 client/gui-xaw/menu.c:140
 msgid "Roads and Rails"
@@ -13838,18 +13856,20 @@ msgid "active"
 msgstr "активен"
 
 #: client/gui-sdl/repodlgs.c:358
-#, fuzzy
 msgid ""
 "under\n"
 "construction"
-msgstr "Конструирование"
+msgstr ""
+"в процессе\n"
+"создания"
 
 #: client/gui-sdl/repodlgs.c:362
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
-msgstr "Конструирование"
+msgstr ""
+"скорое\n"
+"завершение"
 
 #: client/gui-sdl/repodlgs.c:366
 msgid "Total"
@@ -13889,13 +13909,12 @@ msgid "Total Income: "
 msgstr "Суммарный доход: "
 
 #: client/gui-sdl/repodlgs.c:2032
-#, fuzzy
 msgid "Total Cost: "
 msgstr "Суммарный расход: "
 
 #: client/gui-sdl/repodlgs.c:2037
 msgid "Net Income: "
-msgstr ""
+msgstr "Чистый доход: "
 
 #: client/gui-sdl/repodlgs.c:2124
 #, fuzzy, c-format
@@ -13913,13 +13932,17 @@ msgid ""
 "Research speed : none\n"
 "Next's advance time : never"
 msgstr ""
+"Текущие поступления : 0\n"
+"Скорость исследований : нет\n"
+"Следующее открытие : никогда"
 
 #: client/gui-sdl/repodlgs.c:2489
 #, c-format
 msgid "Next advance in %d turn"
 msgid_plural "Next advance in %d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Следующее открытие - через %d ход"
+msgstr[1] "Следующее открытие - через %d хода"
+msgstr[2] "Следующее открытие - через %d ходов"
 
 #: client/gui-sdl/repodlgs.c:2493
 #, c-format
@@ -13928,48 +13951,55 @@ msgid ""
 "Research speed : %d %s/advance\n"
 "%s"
 msgstr ""
+"Текущие поступления : %d за ход\n"
+"Скорость исследований : %d %s/открытие\n"
+"%s"
 
 #: client/gui-sdl/repodlgs.c:2622 client/gui-sdl/repodlgs.c:3009
-#, fuzzy
 msgid "step"
 msgid_plural "steps"
-msgstr[0] "Растраты"
+msgstr[0] "шаг"
+msgstr[1] "шага"
+msgstr[2] "шагов"
 
 #: client/gui-sdl/repodlgs.c:2766
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "Как нам назвать новый город?"
+msgstr "На чем мы должны сосредоточиться?"
 
 #: client/gui-sdl/repodlgs.c:2947
-#, fuzzy
 msgid "Sellect target :"
-msgstr "Выберите город:"
+msgstr "Выберите цель :"
 
 #: client/gui-sdl/spaceshipdlg.c:166
-#, fuzzy, c-format
 msgid "%s's SpaceShip"
-msgstr "Космический корабль"
+msgstr "Космический корабль %s"
 
 #: client/gui-sdl/wldlg.c:971 client/gui-sdl/wldlg.c:1154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d gold per turn"
-msgstr "%3d золота за ход"
+msgstr ""
+"%s\n"
+"%d золота за ход"
 
 #: client/gui-sdl/wldlg.c:978 client/gui-sdl/wldlg.c:1161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "blocked!"
-msgstr "заблокировано"
+msgstr ""
+"%s\n"
+"заблокировано!"
 
 #: client/gui-sdl/wldlg.c:980 client/gui-sdl/wldlg.c:1163
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d %s"
-msgstr "%s%dщ"
+msgstr ""
+"%s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:984 client/gui-sdl/wldlg.c:1167
 #, c-format
@@ -13977,18 +14007,22 @@ msgid ""
 "%s\n"
 "finished!"
 msgstr ""
+"%s\n"
+"завершен!"
 
 #: client/gui-sdl/wldlg.c:1026 client/gui-sdl/wldlg.c:1136
 #, c-format
 msgid "( %d elements )"
-msgstr ""
+msgstr "( %d элементов )"
 
 #: client/gui-sdl/wldlg.c:1122
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Worklist of\n"
 "%s"
-msgstr "Рабочие списки"
+msgstr ""
+"Рабочие списки\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1415
 #, fuzzy, c-format
@@ -14003,10 +14037,11 @@ msgstr "%3d/%3d %s"
 #: client/gui-sdl/wldlg.c:1447 client/gui-sdl/wldlg.c:1450
 #: client/gui-sdl/wldlg.c:1534 client/gui-sdl/wldlg.c:1541
 #: client/gui-sdl/wldlg.c:1550
-#, fuzzy
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "Щиты"
+msgstr[0] "щит"
+msgstr[1] "щита"
+msgstr[2] "щитов"
 
 #: client/gui-sdl/wldlg.c:1419
 #, fuzzy, c-format
@@ -14016,40 +14051,47 @@ msgid ""
 msgstr "%3d/%3d %s"
 
 #: client/gui-sdl/wldlg.c:1425
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d ходов"
+msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1430
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d ходов"
+msgstr ""
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1438
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold per turn"
-msgstr "%3d золота за ход"
+msgstr "%d золота за ход"
 
 #: client/gui-sdl/wldlg.c:1445
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
-msgstr "%s%dщ"
+msgstr ""
+"(%s)\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1449
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr "%3d/%3d %s"
+msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1453
 msgid "shields into gold"
-msgstr ""
+msgstr "щиты в золото"
 
 #: client/gui-sdl/wldlg.c:1530
 #, c-format
@@ -14058,6 +14100,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"никогда"
 
 #: client/gui-sdl/wldlg.c:1537
 #, c-format
@@ -14066,13 +14111,18 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1546
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%d/%d/%d)\n"
+"%d %s"
 
 #: client/gui-win32/citydlg.c:406
 #, c-format
@@ -14397,9 +14447,8 @@ msgid "%s - %s citizens  CMA: %s"
 msgstr "%s - %s граждан  АУГ: %s"
 
 #: client/gui-xaw/cma_fe.c:434
-#, fuzzy
 msgid "What should we name the new preset?"
-msgstr "Как назвать пре-установку?"
+msgstr "Как мы должны назвать пре-установку?"
 
 #: client/gui-xaw/cma_fe.c:451
 #, c-format
@@ -14407,9 +14456,8 @@ msgid "Do you really want to remove %s?"
 msgstr "Вы действительно хотите удалить %s?"
 
 #: client/gui-xaw/connectdlg.c:148
-#, fuzzy
 msgid "Pass"
-msgstr "Оазис"
+msgstr "Пароль"
 
 #: client/gui-xaw/graphics.c:353
 #, c-format
@@ -14450,7 +14498,7 @@ msgstr "Версия игры: %s - Версия ресурсов: %s"
 #: client/gui-xaw/gui_main.c:317
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
-"Возможно у вас старый файл ресурсов Freeciv в /usr/lib/X11/app-defaults"
+"Возможно, у Вас старый файл ресурсов Freeciv в /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:323
 msgid "Using fallback resources - which is OK"
@@ -15485,7 +15533,6 @@ msgstr ""
 "войти в контакт с другими игроками."
 
 #: data/helpdata.txt:678
-#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -15498,11 +15545,11 @@ msgid ""
 msgstr ""
 " 10. Взаимодействие с другими игроками (Дипломатия).\n"
 "\n"
-"    Если Вы установили посольство с другим человеческим игроком, то Вы "
-"можете устроить дипломатическую встречу. Это делается так: идете в меню "
-"'Игра', выбираете 'Игроки' и щелкаете на игроке, с которым Вы желаете "
-"встретиться. Если Вы действительно установили посольство (обозначаемое "
-"буквой X) и другой игрок подключен, тогда вы увидите меню дипломатии."
+"    Если Вы недавно имели контакт (или установили посольство) с другим игроком, "
+"то Вы можете устроить дипломатическую встречу. Это делается так: идете в меню "
+"'Отчеты', выбираете 'Игроки' и щелкаете на игроке, с которым Вы желаете "
+"встретиться. Если поле под столбцом посольства не пустое, и другой игрок "
+"подключен (или управляется компьютером), тогда Вы увидите меню дипломатии."
 
 #: data/helpdata.txt:688
 msgid ""
@@ -15606,48 +15653,21 @@ msgid ""
 "background information, and some preset examples in the file README.cma, "
 "included with Freeciv.\n"
 msgstr ""
-"Агент Управления Гражданами (АУГ) помогает цам управлять городами. Он "
-"распределяет доступных рабочих на свободных квадратах вокруг города, пытаясь "
-"максимизировать полезность города. Он также превращает рабочих в ученых, "
-"налоговых работников или развлекателей в случае необходимости. Кроме этого, "
-"АУГ делает население ваших городов довольным (если возможно).\n"
+"Агент Управления Гражданами (АУГ) помогает Вам управлять городами. Он распределяет доступных рабочих на свободных квадратах вокруг города, пытаясь максимизировать полезность города. Он также превращает рабочих в ученых, налоговых работников или развлекателей в случае необходимости. Кроме этого, АУГ делает население ваших городов довольным (если возможно).\n"
 "\n"
-"Есть несколько способов сообщить АУГ, что именно вы хотите. Откройте окно "
-"города и нажмите на панель АУГ. Вы видете два типа полос прокрутки: слева вы "
-"можете установить минимальный избыток для каждого типа продукции, например "
-"Золото=3 значит, что город должен зарабатывать на 3 золотых больше, чем он "
-"тратит на поддержку зданий. Справа вы можете выбрать насколько вы "
-"предпочитаете один тип продукции другому. Например, установление науки=3 "
-"означает, что вы предпочитаете одну лампочку трем щитам (золоту, "
-"торговле, ...). Вы можете установить разные факторы для каждого типа "
-"продукции.\n"
+"Есть несколько способов сообщить АУГ, что именно вы хотите. Откройте окно города и нажмите на панель АУГ. Вы видете два типа полос прокрутки: слева вы можете установить минимальный избыток для каждого типа продукции, например Золото=3 значит, что город должен зарабатывать на 3 золотых больше, чем он тратит на поддержку зданий. Справа вы можете выбрать насколько вы предпочитаете один тип продукции другому. Например, установление науки=3 означает, что вы предпочитаете одну лампочку трем щитам (золоту, торговле, ...). Вы можете установить разные факторы для каждого типа продукции.\n"
 "\n"
-"Если вы установите минимальные избытки, которые невозможно выполнить, АУГ не "
-"сможет действовать. Если в какой-либо момент АУГ не может справиться со "
-"своей задачей, он вернет управление вам. Так что не устанавливайте высокие "
-"избытки, используйте факторы для достижения ваших целей.\n"
+"Если вы установите минимальные избытки, которые невозможно выполнить, АУГ не сможет действовать. Если в какой-либо момент АУГ не может справиться со своей задачей, он вернет управление вам. Так что не устанавливайте высокие избытки, используйте факторы для достижения ваших целей.\n"
 "\n"
-"Позиция для отметки \"Праздник\" позволяет вашему городу праздновать. Это "
-"работает только при высоком уровне роскоши. См. справку о \"Счастье\".\n"
+"Позиция для отметки \"Праздник\" позволяет вашему городу праздновать. Это работает только при высоком уровне роскоши. См. справку о \"Счастье\".\n"
 "\n"
-"Нажатие на \"Контролировать город\" отдает город под контроль АУГ, "
-"\"Отпустить город\" возвращает вам контроль.\n"
+"Нажатие на \"Контролировать город\" отдает город под контроль АУГ, \"Отпустить город\" возвращает вам контроль.\n"
 "\n"
-"Для простоты использования вы можете сохраните свои установки как пре-"
-"установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы "
-"можете использовать эту пре-установку во всех городах, просто нажимая на ее "
-"имя. Также вы можете контролировать из городского доклада, в колонке АУГ. Вы "
-"можете и изменить его там (нажмите 'Изменить' - 'АУГ'), если она сохранена "
-"как пре-установка.\n"
+"Для простоты использования вы можете сохраните свои установки как пре-установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы можете использовать эту пре-установку во всех городах, просто нажимая на ее имя. Также вы можете контролировать из городского доклада, в колонке АУГ. Вы можете и изменить его там (нажмите 'Изменить' - 'АУГ'), если она сохранена как пре-установка.\n"
 "\n"
-"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить ваши пре-"
-"установки постоянно.\n"
+"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить ваши пре-установки постоянно.\n"
 "\n"
-"Но будьте осторожны! Если вы используете АУГ для некоторых из ваших городов, "
-"у вас могу быть некоторые сложности с управлением соседними городами. Лучше "
-"всего управлять всеми городами на острове либо с помощью АУГ, либо вручную. "
-"Дополнительная информация и несколько примеров пре-установок доступны в "
-"файле README.cma, распространяемым вместе с Freeciv.\n"
+"Но будьте осторожны! Если вы используете АУГ для некоторых из ваших городов, у вас могу быть некоторые сложности с управлением соседними городами. Лучше всего управлять всеми городами на острове либо с помощью АУГ, либо вручную. Дополнительная информация и несколько примеров пре-установок доступны в файле README.cma, распространяемым вместе с Freeciv.\n"
 
 #: data/helpdata.txt:769
 msgid ""
@@ -18009,7 +18029,7 @@ msgstr "Индустриальный"
 #: data/nation/thai.ruleset:5 data/nation/turk.ruleset:5
 #: data/nation/ukrainian.ruleset:5 data/nation/vietnamese.ruleset:5
 msgid "Modern"
-msgstr "Модернистский"
+msgstr "Современный"
 
 #: data/default/cities.ruleset:91
 msgid "PostModern"
@@ -20588,11 +20608,8 @@ msgid ""
 "AD, reviving the practice of human sacrifice.  They were conquered by the "
 "Spanish under Cortez in 1524."
 msgstr ""
-"Ацтеки, группа варваров из Сонорской пустыни, получили контроль над "
-"цивилизацией толтеков в центральной Мексике в 15 столетии, восстановив "
-"ритуальные\n"
-"человеческие жертвоприношения. Были завоеваны испанцами под руководством "
-"Кортеса в 1524 году."
+"Ацтеки, группа варваров из Сонорской пустыни, получили контроль над цивилизацией толтеков в центральной Мексике в XV столетии, восстановив ритуальные\n"
+"человеческие жертвоприношения. Были завоеваны испанцами под руководством Кортеса в 1524 году."
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -20607,9 +20624,7 @@ msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
 "BC under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
-msgstr ""
-"Вавилон был крупнейшим из городов Месопотамии с 18 по 7 век до н.э. "
-"Вавилоном владели Амориты, Касситы, Ассирийцы и Халдеи."
+msgstr "Вавилон был крупнейшим из городов Месопотамии с 1800 по 700 годы до н.э. Вавилоном владели амориты, касситы, ассирийцы и халдеи."
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -20714,10 +20729,7 @@ msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
 "by Rome in 146BC."
-msgstr ""
-"Карфагеняне, потомки финикийских торговцев, владели морской империей в "
-"средиземноморье с 5 по 2 век до н.э. Карфаген был уничтожен Римом в 146 г. "
-"до н.э."
+msgstr "Карфагеняне, потомки финикийских торговцев, владели морской империей в средиземноморье с 500 по 200 годы до н.э. Карфаген был уничтожен Римом в 146 г. до н.э."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -20836,10 +20848,7 @@ msgid ""
 "Hungarian Empire, rather than coming under Ottoman rule after the collapse "
 "of Byzantium. During most of the 20th century it was part of the Yugoslav "
 "Federation."
-msgstr ""
-"Хорватия - территория южных славян, попавшая под власть Австро-Венгерской "
-"империи, а не Оттоманской империи, после падения Византии. В течение большей "
-"части ХХ века, Хорватия была частью Югославии."
+msgstr "Хорватия - территория южных славян, попавшая под власть Австро-Венгерской империи, а не Османской империи, после падения Византии. В течение большей части ХХ века, Хорватия была частью Югославии."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -20950,10 +20959,7 @@ msgid ""
 "England was unified by Alfred the Great of Wessex in the late 9th century "
 "AD, only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
-msgstr ""
-"Англия была объединена Альфредом Великим из Уэссекса в конце 9го века н.э., "
-"а через век была завоевана Вильгельмом Завоевателем в последнем успешном "
-"вторжении в страну."
+msgstr "Англия была объединена Альфредом Великим из Уэссекса в конце IX века н.э., а через век была завоевана Вильгельмом Завоевателем в последнем успешном вторжении в страну."
 
 #: data/nation/english.ruleset:19
 msgid "Lord Protector"
@@ -21038,11 +21044,7 @@ msgid ""
 "I it became a republic, but fell into Nazism 1933 and started World War II.  "
 "After the war it was split into two states, which reunited in 1990 at the "
 "end of the Cold War."
-msgstr ""
-"Германия была объединена в 1871 прусскими военными силами. После первой "
-"мировой войны она стала республикой, но попала под влияние фавистов в 1933 "
-"году и начала вторую мировую войну. После войны она была разделена на два "
-"государства, которые объединилсь в 1990 году по окончании холодной войны."
+msgstr "Германия была объединена в 1871 году прусскими военными силами. После первой мировой войны она стала республикой, но попала под влияние фашистов в 1933 году и начала вторую мировую войну. После войны она была разделена на два государства, которые объединилсь в 1990 году по окончании холодной войны."
 
 #: data/nation/german.ruleset:24
 msgid "Chancellor"
@@ -21231,10 +21233,7 @@ msgid ""
 "conquered the largest empire in human history, encompassing most of the "
 "continent of Asia.  They became notorious for the utter ruthlessness in "
 "warfare."
-msgstr ""
-"За столетия после их объединения Чингиз-ханом, монголы создали величайшую по "
-"площади имеприю за всю историю человечества, занимавшую большую часть Азии. "
-"Они также известны своей жестокостью в войне."
+msgstr "За столетия после их объединения Чингиз-ханом, монголы создали величайшую по площади империю за всю историю человечества, занимавшую большую часть Азии. Они также известны своей жестокостью в войне."
 
 #: data/nation/mongol.ruleset:16
 msgid "Khan"
@@ -21353,8 +21352,13 @@ msgid ""
 "Russia originated as the Kievan Rus, territory seized during the early "
 "medieval period by Vikings from what is now Sweden."
 msgstr ""
-"Россия началась с Киевской Руси, территории, которую в ранние средние века "
-"захватили варяги."
+"Россия ведет свою историю с Киевской Руси. По легенде, в 862 году славяне "
+"призвали варягов, дабы те управляли ими. С XI-го века Русь распалась на "
+"мелкие княжества, которые были объединены в XV-м веке Иваном III Великим "
+"в одно государство. После победы над Швецией в Северной войне (1700 - 1721) "
+"Петр I Великий объявил Россию империей, которая просуществовала до 1917 г. "
+"После распада Советского Союза в 1991 г. Россия вновь появилась на карте "
+"мира - теперь в качестве федеративной республики."
 
 #: data/nation/russian.ruleset:15
 msgid "Czar"
@@ -21407,9 +21411,7 @@ msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
-msgstr ""
-"Сербия - чассть территории южных славян, захваченная турками после падения "
-"Византии. В течение большей части XX века она была частью Югославии."
+msgstr "Сербия - часть территории южных славян, захваченная турками после падения Византии. В течение большей части XX века она была частью Югославии."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -21564,11 +21566,7 @@ msgid ""
 "and was dismembered by the victors in World War I after backing the Central "
 "Powers.  The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
-msgstr ""
-"Современная Турция - наследница Оттоманской Империи, которая распалась и "
-"была поделена победителями в Первой Мировой войне, после того как она "
-"поддержала центральные державы. Страна была реформирована и секуляризирована "
-"Мустафой Кемалем, героем защиты Галиполи."
+msgstr "Современная Турция - наследница Османской империи, которая распалась и была поделена победителями в Первой Мировой войне, после того как она поддержала центральные державы. Страна была реформирована и секуляризирована Мустафой Кемалем, героем защиты Галиполи."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -21620,8 +21618,7 @@ msgid ""
 "1100AD. Viking raiders eventually became the rulers of Normandy, Russia, and "
 "a short-lived kingdom in Sicily."
 msgstr ""
-"Викинги грабили и торговали вдоль берегов Европы в XIX-XIX веках н.э. Вожди "
-"викингов стали правителями Нормандии, России, и\n"
+"Викинги грабили и торговали вдоль берегов Европы в IX-XI веках н.э. Вожди викингов стали правителями Нормандии, России и\n"
 "(недолго) Сицилии."
 
 #: data/nation/welsh.ruleset:3
