@@ -619,7 +619,7 @@ static void player_load(struct player *plr, int plrno,
 			struct section_file *file)
 {
   int i, j, x, y, nunits, ncities, c_s;
-  char *p;
+  const char *p;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
   enum unit_activity activity;
   struct ai_data *ai;
@@ -658,9 +658,20 @@ static void player_load(struct player *plr, int plrno,
       "filipino", "estonian", "latvian", "boer", "silesian", "singaporean",
       "chilean", "catalan", "croatian", "slovenian", "serbian", "barbarian",
     };
-    p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
+    int index = secfile_lookup_int(file, "player%d.race", plrno);
+
+    if (index >= 0 && index < ARRAY_SIZE(name_order)) {
+      p = name_order[index];
+    } else {
+      p = "";
+    }
   }
   plr->nation = find_nation_by_name_orig(p);
+  if (plr->nation == NO_NATION_SELECTED) {
+    freelog(LOG_FATAL, _("Nation %s (used by %s) isn't available."),
+	    p, plr->name);
+    exit(EXIT_FAILURE);
+  }
 
   /* Add techs from game and nation, but ignore game.tech. */
   init_tech(plr, 0);

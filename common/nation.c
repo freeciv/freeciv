@@ -68,7 +68,7 @@ Nation_Type_id find_nation_by_name(const char *name)
      if(mystrcasecmp(name, get_nation_name (i)) == 0)
 	return i;
 
-  return -1;
+  return NO_NATION_SELECTED;
 }
 
 /***************************************************************
@@ -82,7 +82,7 @@ Nation_Type_id find_nation_by_name_orig(const char *name)
      if(mystrcasecmp(name, get_nation_name_orig (i)) == 0)
 	return i;
 
-  return -1;
+  return NO_NATION_SELECTED;
 }
 
 /***************************************************************

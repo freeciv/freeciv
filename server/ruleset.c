@@ -2324,7 +2324,7 @@ static void load_ruleset_nations(struct section_file *file)
        * find_nation_by_name_orig. */
       pl->civilwar_nations[j] = find_nation_by_name(civilwar_nations[k]);
 
-      if (pl->civilwar_nations[j] == -1) {
+      if (pl->civilwar_nations[j] == NO_NATION_SELECTED) {
 	j--;
 	/* For nation authors this would probably be considered an error.
 	 * But it can happen normally.  The civ1 compatability ruleset only
