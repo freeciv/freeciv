@@ -702,7 +702,7 @@ void update_city_descriptions(void)
   show_city_descriptions();
   
   dirty_all();  
-  flush_dirty();
+
 }
 
 /**************************************************************************
@@ -1309,7 +1309,7 @@ void refresh_overview_viewrect(void)
 static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
 				 Sint16 map_x, Sint16 map_y)
 {
-  struct sprite *pSprites[80];
+  struct Sprite *pSprites[80];
   SDL_Rect src , des = {map_x, map_y, 0, 0};
   int i;
   int count =
@@ -1344,7 +1344,7 @@ static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
 void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
 			  Sint16 map_x, Sint16 map_y)
 {
-  struct sprite *pSprites[10];
+  struct Sprite *pSprites[10];
   SDL_Rect copy, des = { map_x, map_y, 0, 0 };
   static SDL_Rect src_hp = {0,0,0,0};
   static SDL_Rect src_flag = {0,0,0,0};

@@ -15,6 +15,6 @@
 
 #include "finddlg_g.h"
 
-/* nothing to add */
+void popdown_find_dialog(void);
 
 #endif  /* FC__FINDDLG_H */
