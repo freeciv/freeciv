@@ -64,6 +64,8 @@ void request_diplomacy_init_meeting(int plrno0, int plrno1)
 
   pa.plrno0 = plrno0;
   pa.plrno1 = plrno1;
+  pa.plrno_from = pa.plrno0;
+
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
 			     &pa);
 }
@@ -254,11 +256,7 @@ static void players_meet(void)
     if (player_has_embassy(game.player_ptr, &game.players[playerno]))
     {
       request_diplomacy_init_meeting(game.player_idx, playerno);
-    }
-  }
-  else
-  {
-    append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
+    } else append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
   }
 }
 
