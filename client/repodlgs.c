@@ -994,6 +994,8 @@ void city_report_dialog_update_city(struct city *pcity)
 {
   int i;
 
+  if(!city_dialog_shell) return;
+
   for(i=0; cities_in_list[i]; i++)  {
     if(cities_in_list[i]==pcity->id)  {
       int n;
