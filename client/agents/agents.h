@@ -22,6 +22,9 @@
  * every agent is only called once at any time.
  */
 
+/* Don't use the very last level unless you know what you're doing */
+#define LAST_AGENT_LEVEL 99
+
 #define MAX_AGENT_NAME_LEN 10
 
 struct city;
@@ -38,6 +41,7 @@ struct agent {
   void (*turn_start_notify) (void);
   void (*city_callbacks[CB_LAST]) (int);
   void (*unit_callbacks[CB_LAST]) (int);
+  void (*tile_callbacks[CB_LAST]) (int, int);
 };
 
 void agents_init(void);
@@ -64,6 +68,10 @@ void agents_unit_remove(struct unit *punit);
 void agents_city_changed(struct city *pcity);
 void agents_city_new(struct city *pcity);
 void agents_city_remove(struct city *pcity);
+
+void agents_tile_changed(int, int);
+void agents_tile_new(int, int);
+void agents_tile_remove(int, int);
 
 /* called from agents */
 void cause_a_city_changed_for_agent(const char *name_of_calling_agent,

@@ -1916,6 +1916,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = map_get_tile(packet->x, packet->y);
   enum known_type old_known = ptile->known;
   bool tile_changed = FALSE;
+  bool known_changed = FALSE;
 
   if (ptile->terrain != packet->type) { /*terrain*/
     tile_changed = TRUE;
@@ -1937,6 +1938,9 @@ void handle_tile_info(struct packet_tile_info *packet)
       ptile->owner = newowner;
       tile_changed = TRUE;
     }
+  }
+  if (ptile->known != packet->known) {
+    known_changed = TRUE;
   }
   ptile->known = packet->known;
 
@@ -1979,6 +1983,20 @@ void handle_tile_info(struct packet_tile_info *packet)
   if (ptile->continent > map.num_continents) {
     map.num_continents = ptile->continent;
     allot_island_improvs();
+  }
+
+  if (known_changed || tile_changed) {
+    /* 
+     * A tile can only change if it was known before and is still
+     * known. In the other cases the tile is new or removed.
+     */
+    if (known_changed && ptile->known == TILE_KNOWN) {
+      agents_tile_new(packet->x, packet->y);
+    } else if (known_changed && ptile->known == TILE_KNOWN_FOGGED) {
+      agents_tile_remove(packet->x, packet->y);
+    } else {
+      agents_tile_changed(packet->x, packet->y);
+    }
   }
 
   /* refresh tiles */

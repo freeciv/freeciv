@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <string.h>
 
 #include "capability.h"
@@ -29,6 +30,7 @@
 #include "cma_core.h"
 #include "cma_fec.h"
 #include "mapctrl_g.h"
+#include "sha.h"
 
 #include "agents.h"
 
@@ -41,11 +43,16 @@
 
 struct my_agent;
 
+union arguments {
+  int int_arg;
+  struct map_position pos_arg;
+};
+
 struct call {
   struct my_agent *agent;
-  enum oct { OCT_NEW_TURN, OCT_UNIT, OCT_CITY } type;
+  enum oct { OCT_NEW_TURN, OCT_UNIT, OCT_CITY, OCT_TILE } type;
   enum callback_type cb_type;
-  int arg;
+  union arguments arg;
 };
 
 #define SPECLIST_TAG call
@@ -81,26 +88,61 @@ static bool initialized = FALSE;
 static int frozen_level;
 static bool currently_running = FALSE;
 
+static bool calls_are_equal(const struct call *pcall1,
+			    const struct call *pcall2)
+{
+  if (pcall1->type != pcall2->type && pcall1->cb_type != pcall2->cb_type) {
+    return FALSE;
+  }
+
+  switch (pcall1->type) {
+  case OCT_UNIT:
+  case OCT_CITY:
+    return (pcall1->arg.int_arg == pcall2->arg.int_arg);
+  case OCT_TILE:
+    return (pcall1->arg.pos_arg.x == pcall2->arg.pos_arg.x &&
+	    pcall1->arg.pos_arg.y == pcall2->arg.pos_arg.y);
+  case OCT_NEW_TURN:
+    return TRUE;
+  default:
+    assert(0);
+  }
+}
+
 /***********************************************************************
  If the call described by the given arguments isn't contained in
  agents.calls list add the call to this list.
 ***********************************************************************/
 static void enqueue_call(struct my_agent *agent,
 			 enum oct type,
-			 enum callback_type cb_type, int arg)
+			 enum callback_type cb_type, ...)
 {
+  va_list ap;
   struct call *pcall2;
+  union arguments arg;
+
+  va_start(ap, cb_type);
 
   if (client_is_observer()) {
     return;
   }
 
-  call_list_iterate(agents.calls, pcall) {
-    if (pcall->type == type && pcall->cb_type == cb_type
-	&& pcall->arg == arg && pcall->agent == agent) {
-      return;
-    }
-  } call_list_iterate_end;
+  switch (type) {
+  case OCT_UNIT:
+  case OCT_CITY:
+    arg.int_arg = va_arg(ap, int);
+    break;
+  case OCT_TILE:
+    arg.pos_arg.x = va_arg(ap, int);
+    arg.pos_arg.y = va_arg(ap, int);
+    break;
+  case OCT_NEW_TURN:
+    /* nothing */
+    break;
+  default:
+    assert(0);
+  }
+  va_end(ap);
 
   pcall2 = fc_malloc(sizeof(struct call));
 
@@ -108,6 +150,13 @@ static void enqueue_call(struct my_agent *agent,
   pcall2->type = type;
   pcall2->cb_type = cb_type;
   pcall2->arg = arg;
+
+  call_list_iterate(agents.calls, pcall) {
+    if (calls_are_equal(pcall, pcall2)) {
+      free(pcall2);
+      return;
+    }
+  } call_list_iterate_end;
 
   call_list_insert(&agents.calls, pcall2);
 
@@ -161,9 +210,12 @@ static void execute_call(const struct call *call)
   if (call->type == OCT_NEW_TURN) {
     call->agent->agent.turn_start_notify();
   } else if (call->type == OCT_UNIT) {
-    call->agent->agent.unit_callbacks[call->cb_type] (call->arg);
+    call->agent->agent.unit_callbacks[call->cb_type] (call->arg.int_arg);
   } else if (call->type == OCT_CITY) {
-    call->agent->agent.city_callbacks[call->cb_type] (call->arg);
+    call->agent->agent.city_callbacks[call->cb_type] (call->arg.int_arg);
+  } else if (call->type == OCT_TILE) {
+    call->agent->agent.tile_callbacks[call->cb_type]
+	(call->arg.pos_arg.x, call->arg.pos_arg.y);
   } else {
     assert(0);
   }
@@ -300,6 +352,7 @@ void agents_init(void)
   /* Add init calls of agents here */
   cma_init();
   cmafec_init();
+  simple_historian_init(); 
 }
 
 /***********************************************************************
@@ -445,7 +498,7 @@ void agents_new_turn(void)
       continue;
     }
     if (agent->agent.turn_start_notify) {
-      enqueue_call(agent, OCT_NEW_TURN, CB_LAST, 0);
+      enqueue_call(agent, OCT_NEW_TURN, CB_LAST);
     }
   }
   /*
@@ -559,6 +612,7 @@ void agents_city_changed(struct city *pcity)
       enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
     }
   }
+
   call_handle_methods();
 }
 
@@ -610,6 +664,79 @@ void agents_city_remove(struct city *pcity)
     }
     if (agent->agent.city_callbacks[CB_REMOVE]) {
       enqueue_call(agent, OCT_CITY, CB_REMOVE, pcity->id);
+    }
+  }
+
+  call_handle_methods();
+}
+
+/***********************************************************************
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
+ Tiles got removed because of FOW.
+***********************************************************************/
+void agents_tile_remove(int x, int y)
+{
+  int i;
+
+  freelog(LOG_DEBUG, "A: agents_tile_remove(tile=(%d, %d))", x, y);
+
+  for (i = 0; i < agents.entries_used; i++) {
+    struct my_agent *agent = &agents.entries[i];
+
+    if (is_outstanding_request(agent)) {
+      continue;
+    }
+    if (agent->agent.tile_callbacks[CB_REMOVE]) {
+      enqueue_call(agent, OCT_TILE, CB_REMOVE, x, y);
+    }
+  }
+
+  call_handle_methods();
+}
+
+/***********************************************************************
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
+***********************************************************************/
+void agents_tile_changed(int x, int y)
+{
+  int i;
+
+  freelog(LOG_DEBUG, "A: agents_tile_changed(tile=(%d, %d))", x, y);
+
+  for (i = 0; i < agents.entries_used; i++) {
+    struct my_agent *agent = &agents.entries[i];
+
+    if (is_outstanding_request(agent)) {
+      continue;
+    }
+    if (agent->agent.tile_callbacks[CB_CHANGE]) {
+      enqueue_call(agent, OCT_TILE, CB_CHANGE, x, y);
+    }
+  }
+
+  call_handle_methods();
+}
+
+/***********************************************************************
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
+***********************************************************************/
+void agents_tile_new(int x, int y)
+{
+  int i;
+
+  freelog(LOG_DEBUG, "A: agents_tile_new(tile=(%d, %d))", x, y);
+
+  for (i = 0; i < agents.entries_used; i++) {
+    struct my_agent *agent = &agents.entries[i];
+
+    if (is_outstanding_request(agent)) {
+      continue;
+    }
+    if (agent->agent.tile_callbacks[CB_NEW]) {
+      enqueue_call(agent, OCT_TILE, CB_NEW, x, y);
     }
   }
 
