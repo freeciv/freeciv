@@ -1868,7 +1868,7 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[200];
+  char buf[32], buf2[200], *descr;
   int turns;
   struct city *pcity = pdialog->pcity;
   gfloat pct;
@@ -1886,8 +1886,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 		pcity->shield_stock,
 		get_unit_type(pcity->currently_building)->build_cost,
 		turns);
-    my_snprintf(buf2, sizeof(buf2), "%s: %s", _("Currently building"),
-		get_unit_type(pcity->currently_building)->name);
+    descr = get_unit_type(pcity->currently_building)->name;
     pct =
 	(gfloat) pcity->shield_stock /
 	(get_unit_type(pcity->currently_building)->build_cost + 0.1);
@@ -1916,10 +1915,11 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	   0.1);
       pct = CLAMP(pct, 0.0, 1.0);
     }
-    my_snprintf(buf2, sizeof(buf2), "%s: %s", _("Currently building"),
-		get_impr_name_ex(pcity, pcity->currently_building));
+    descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
-
+  
+  my_snprintf(buf2, sizeof(buf2), "%s%s", descr,
+	      worklist_is_empty(pcity->worklist) ? "" : _(" (worklist)"));
   gtk_frame_set_label(GTK_FRAME
 		      (pdialog->overview.currently_building_frame), buf2);
   gtk_progress_set_percentage(GTK_PROGRESS
