@@ -6494,7 +6494,7 @@ msgstr "Flugzeuge"
 
 #: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2135
 msgid "Disband if build settler at size 1"
-msgstr "Auflösen, wenn die Stadt Größe 1 hat und Siedler baut"
+msgstr "Stadt der Größe 1 bei Siedlerbau auflösen"
 
 #: client/gui-gtk/citydlg.c:1269
 msgid "City Overview page"
