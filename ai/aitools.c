@@ -118,7 +118,7 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
       result = ai_unit_attack(punit, x, y);
     } else {
       ai_unit_move(punit, x, y);
-      result = (punit = find_unit_by_id(id));
+      result = (find_unit_by_id(id) != NULL);
     }
     if (!result) {
       /* Died... */
