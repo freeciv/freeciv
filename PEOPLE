@@ -80,12 +80,14 @@ contributions to the Freeciv project.
      Davide Pagnin <nigthmare@freeciv.it> (patch)
      Michael Zinn <michaelz@cse.unsw.edu.au> (patch)
      Robert Alan Byer <byer@chef.ourservers.net> (vms update)
-     Daniel Speyer <dspeyer@users.sourceforge.net>
+     Daniel Speyer <dspeyer@users.sourceforge.net> (patch)
 
   Coders up to 1.11.4 release:
 
      (Version numbers refer to the first non-beta release
-     to contain that patch or bugfix.)
+     to contain that patch or bugfix.
+     Each block corresponds to a release. People are included
+     in the block for the last release they contributed to.)
 
      Jeff Mallatt <jjm@codewell.com>
 	(co-admin, nuclear fallout, readline, patches, bugfixes 1.11.4,
@@ -720,6 +722,7 @@ contributions to the Freeciv project.
      Andreas Kemnade <akemnade@t-online.de> (WinCivGo)
      Daniel Glassey <danglassey@geocities.com> (Windows - Gtk+)
      Justin Hopkins <hop@elwood.pionet.net> (Windows - native)
+     Jennifer Glover <barmaid@email.com> (WinCE port)
 
   Others:
 
