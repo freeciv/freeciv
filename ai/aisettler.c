@@ -482,6 +482,13 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }
+    if (game.borders > 0
+        && ptile->owner != NULL
+        && ptile->owner != pplayer
+        && pplayers_in_peace(ptile->owner, pplayer)) {
+      /* Land theft does not make for good neighbours. */
+      continue;
+    }
 
     /* Calculate worth */
     city_desirability(pplayer, ai, punit, pos.tile, &result);
