@@ -54,7 +54,9 @@ struct ai_data {
   /* Dynamic weights used in addition to Syela's hardcoded weights */
   int shield_priority;
   int food_priority;
-  int trade_priority;
+  int luxury_priority;
+  int gold_priority;
+  int science_priority;
   int happy_priority;
   int unhappy_priority;
   int angry_priority;

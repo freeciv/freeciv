@@ -310,6 +310,7 @@ static void ai_manage_taxes(struct player *pplayer)
 **************************************************************************/
 static void ai_manage_government(struct player *pplayer)
 {
+#undef ANALYSE
   struct ai_data *ai = ai_data_get(pplayer);
   int best_gov = 0;
   int best_val = 0;
@@ -324,10 +325,24 @@ static void ai_manage_government(struct player *pplayer)
     int val = 0;
     int dist;
 
+#ifdef ANALYSE
+    int food_surplus = 0;
+    int shield_surplus = 0;
+    int luxury_total = 0;
+    int tax_total = 0;
+    int science_total = 0;
+    int ppl_happy = 0;
+    int ppl_unhappy = 0;
+    int ppl_angry = 0;
+    int pollution = 0;
+#endif
+
     if (i == game.government_when_anarchy) {
       continue; /* pointless */
     }
     pplayer->government = gov->index;
+    /* Ideally we should change tax rates here, but since
+     * this is a rather big CPU operation, we'd rather not. */
     check_player_government_rates(pplayer);
     update_all_effects();
     city_list_iterate(pplayer->cities, acity) {
@@ -335,10 +350,21 @@ static void ai_manage_government(struct player *pplayer)
       auto_arrange_workers(acity);
       if (ai_fix_unhappy(acity)) {
         ai_scientists_taxmen(acity);
-      } 
+      }
     } city_list_iterate_end;
     city_list_iterate(pplayer->cities, pcity) {
       val += ai_eval_calc_city(pcity, ai);
+#ifdef ANALYSE
+      food_surplus += pcity->food_surplus;
+      shield_surplus += pcity->shield_surplus;
+      luxury_total += pcity->luxury_total;
+      tax_total += pcity->tax_total;
+      science_total += pcity->science_total;
+      ppl_happy += pcity->ppl_happy[4];
+      ppl_unhappy += pcity->ppl_unhappy[4];
+      ppl_angry += pcity->ppl_angry[4];
+      pollution += pcity->pollution;
+#endif
     } city_list_iterate_end;
 
     /* Bonuses for non-economic abilities */
@@ -346,22 +372,19 @@ static void ai_manage_government(struct player *pplayer)
       bonus += 3; /* WAG */
     }
     if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
-      bonus -= 1; /* Not really a problem for us */ /* WAG */
+      bonus -= 3; /* Not really a problem for us */ /* WAG */
     }
     if (government_has_flag(gov, G_UNBRIBABLE)) {
-      bonus += 10; /* WAG */
-    }
-    if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
       bonus += 5; /* WAG */
     }
+    if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
+      bonus += 3; /* WAG */
+    }
     if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
-      bonus += 8; /* WAG */
+      bonus += 5; /* WAG */
     }
     if (government_has_flag(gov, G_FANATIC_TROOPS)) {
       bonus += 3; /* WAG */
-    }
-    if (get_nation_by_idx(pplayer->nation)->goals.government == i) {
-      bonus += 20; /* WAG */
     }
 
     val += (val * bonus) / 100;
@@ -376,8 +399,12 @@ static void ai_manage_government(struct player *pplayer)
       really_best_val = val;
       really_best_req = gov->required_tech;
     }
-    freelog(LOG_DEBUG, "%s govt eval %s (dist %d): %d",
-            pplayer->name, gov->name, dist, val);
+#ifdef ANALYSE
+    freelog(LOG_NORMAL, "%s govt eval %s (dist %d): %d [f%d|sh%d|l%d|g%d|sc%d|h%d|u%d|a%d|p%d]",
+            pplayer->name, gov->name, dist, val, food_surplus,
+            shield_surplus, luxury_total, tax_total, science_total,
+            ppl_happy, ppl_unhappy, ppl_angry, pollution);
+#endif
   }
   if (best_gov != current_gov) {
     ai_government_change(pplayer, best_gov); /* change */
@@ -408,20 +435,12 @@ void ai_do_first_activities(struct player *pplayer)
 **************************************************************************/
 void ai_do_last_activities(struct player *pplayer)
 {
-  ai_manage_cities(pplayer);
-  /* manage cities will establish our tech_wants. */
-  /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
-  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
-  ai_manage_taxes(pplayer); 
-  freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
   ai_manage_government(pplayer);
+  ai_manage_taxes(pplayer); 
+  ai_manage_cities(pplayer);
   ai_manage_tech(pplayer); 
-  freelog(LOG_DEBUG, "Managing %s's spaceship.", pplayer->name);
   ai_manage_spaceship(pplayer);
-  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
-  freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
 }
-
 
 /**************************************************************************
   ...

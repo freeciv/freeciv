@@ -65,13 +65,18 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 {
   int i = (pcity->food_surplus * ai->food_priority
            + pcity->shield_surplus * ai->shield_priority
-           + pcity->luxury_total * ai->trade_priority
-           + pcity->tax_total * ai->trade_priority
-           + pcity->science_total * ai->trade_priority
+           + pcity->luxury_total * ai->luxury_priority
+           + pcity->tax_total * ai->gold_priority
+           + pcity->science_total * ai->science_priority
            + pcity->ppl_happy[4] * ai->happy_priority
            - pcity->ppl_unhappy[4] * ai->unhappy_priority
            - pcity->ppl_angry[4] * ai->angry_priority
            - pcity->pollution * ai->pollution_priority);
+  
+  if (pcity->food_surplus < 0 || pcity->shield_surplus < 0) {
+    /* The city is unmaintainable, it can't be good */
+    i = MIN(i, 0);
+  }
 
   return i;
 }
