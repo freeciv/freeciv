@@ -22,6 +22,7 @@
 /config.log
 /config.status
 /stamp-h
+/undep.sh
 /civclient
 /civserver
 /.deps
