@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-10-25 10:29+0200\n"
+"POT-Creation-Date: 2003-11-01 10:22+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -416,7 +416,7 @@ msgstr "Zmieñ"
 msgid "Patrol"
 msgstr "Patroluj"
 
-#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1801
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
 #: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
@@ -1607,7 +1607,7 @@ msgid ""
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Gra: Ludzie s± zadowolenie z tego, ¿e twoi naukowcy w koñcu poznali kolej.\n"
+"Gra: Ludzie s± zadowoleni z tego, ¿e twoi naukowcy w koñcu poznali kolej.\n"
 "       Robotnicy spontanicznie zbieraj± siê i buduj± koleje w miastach."
 
 #: server/maphand.c:1269
@@ -7231,89 +7231,89 @@ msgstr " - szczê¶cie"
 msgid "blocked"
 msgstr "zablokowany"
 
-#: client/gui-gtk-2.0/citydlg.c:1683
+#: client/gui-gtk-2.0/citydlg.c:1684
 #, c-format
 msgid "Supported units %d"
 msgstr "Jednostki na utrzymaniu %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1777
+#: client/gui-gtk-2.0/citydlg.c:1779
 #, c-format
 msgid "Present units %d"
 msgstr "Obecne jednostki %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:1803 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk-2.0/citydlg.c:1806 client/gui-gtk/citydlg.c:2300
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Handel z miastem %s daje %d handlu.\n"
 
-#: client/gui-gtk-2.0/citydlg.c:1810 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:1812 client/gui-gtk/citydlg.c:2306
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1421
 msgid "No trade routes exist."
 msgstr "Nie ustanowiono ¿adnych szlaków handlowych."
 
-#: client/gui-gtk-2.0/citydlg.c:1813
+#: client/gui-gtk-2.0/citydlg.c:1815
 #, c-format
 msgid "Total trade from trade route %d"
 msgstr "Ca³kowity handel ze szlaków handlowych %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
+#: client/gui-gtk-2.0/citydlg.c:1932 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "_Centruj"
 
-#: client/gui-gtk-2.0/citydlg.c:1936 client/gui-gtk-2.0/citydlg.c:1988
+#: client/gui-gtk-2.0/citydlg.c:1938 client/gui-gtk-2.0/citydlg.c:1990
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
 msgstr "_Aktywuj jednostkê"
 
-#: client/gui-gtk-2.0/citydlg.c:1942 client/gui-gtk-2.0/citydlg.c:1994
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-2.0/citydlg.c:1996
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
 msgstr "Aktywuj jednostkê i _zamknij okno"
 
-#: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-2.0/citydlg.c:2022
+#: client/gui-gtk-2.0/citydlg.c:1950 client/gui-gtk-2.0/citydlg.c:2024
 #: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1675 client/gui-win32/citydlg.c:1707
 msgid "_Disband unit"
 msgstr "_Rozprosz jednostkê"
 
-#: client/gui-gtk-2.0/citydlg.c:2000 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1703
 msgid "_Sentry unit"
 msgstr "_Wartuj jednostkê"
 
-#: client/gui-gtk-2.0/citydlg.c:2011 client/gui-gtk/citydlg.c:2517
+#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1705
 msgid "_Fortify unit"
 msgstr "_Fortyfikuj jednostkê"
 
-#: client/gui-gtk-2.0/citydlg.c:2028 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2520
 #: client/gui-win32/citydlg.c:1709
 msgid "Make new _homecity"
 msgstr "Zmieñ _pochodzenie"
 
-#: client/gui-gtk-2.0/citydlg.c:2038 client/gui-gtk/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2040 client/gui-gtk/citydlg.c:2522
 #: client/gui-win32/citydlg.c:1711
 msgid "_Upgrade unit"
 msgstr "_Ulepsz jednostkê"
 
-#: client/gui-gtk-2.0/citydlg.c:2229 client/gui-gtk/citydlg.c:2695
+#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk/citydlg.c:2695
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1621
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Niestety: nie mo¿na ulepszyæ %s."
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
@@ -7321,7 +7321,7 @@ msgstr "Niestety: nie mo¿na ulepszyæ %s."
 msgid "Upgrade Unit!"
 msgstr "Ulepsz jednostkê!"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
 #: client/gui-xaw/citydlg.c:2120
 #, c-format
@@ -7332,7 +7332,7 @@ msgstr ""
 "Ulepszyæ %s do %s za %d z³ota?\n"
 "Skarbiec zawiera %d z³ota."
 
-#: client/gui-gtk-2.0/citydlg.c:2250 client/gui-gtk-2.0/repodlgs.c:1007
+#: client/gui-gtk-2.0/citydlg.c:2252 client/gui-gtk-2.0/repodlgs.c:1007
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/repodlgs.c:905
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/repodlgs.c:586
@@ -7340,7 +7340,7 @@ msgstr ""
 msgid "Upgrade Obsolete Units"
 msgstr "Ulepsz przestarza³e jednostki"
 
-#: client/gui-gtk-2.0/citydlg.c:2265 client/gui-gtk/citydlg.c:2716
+#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1884 client/gui-win32/citydlg.c:1641
 #: client/gui-xaw/citydlg.c:2130
 #, c-format
@@ -7351,7 +7351,7 @@ msgstr ""
 "Ulepszenie %s do %s kosztuje %d z³ota.\n"
 "Skarbiec zawiera %d z³ota."
 
-#: client/gui-gtk-2.0/citydlg.c:2417 client/gui-gtk/citydlg.c:2900
+#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1046 client/gui-win32/citydlg.c:1034
 #: client/gui-xaw/citydlg.c:2050
 #, c-format
@@ -7362,7 +7362,7 @@ msgstr ""
 "Czy kupiæ %s za %d z³ota?\n"
 "Skarbiec zawiera %d z³ota."
 
-#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk-2.0/citydlg.c:2436
+#: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2438
 #: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/citydlg.c:1059
 #: client/gui-win32/citydlg.c:1037 client/gui-win32/citydlg.c:1046
@@ -7370,7 +7370,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Kup To!"
 
-#: client/gui-gtk-2.0/citydlg.c:2433 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk-2.0/citydlg.c:2435 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1056 client/gui-win32/citydlg.c:1043
 #: client/gui-xaw/citydlg.c:2059
 #, c-format
@@ -7381,25 +7381,25 @@ msgstr ""
 "%s kosztuje %d z³ota.\n"
 "Skarbiec zawiera %d z³ota."
 
-#: client/gui-gtk-2.0/citydlg.c:2466 client/gui-gtk/citydlg.c:3167
+#: client/gui-gtk-2.0/citydlg.c:2468 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1084 client/gui-win32/citydlg.c:1092
 #: client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Sprzedaæ %s za %d z³ota?"
 
-#: client/gui-gtk-2.0/citydlg.c:2470 client/gui-gtk/citydlg.c:3171
+#: client/gui-gtk-2.0/citydlg.c:2472 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1089 client/gui-win32/citydlg.c:1097
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Sprzedaj To!"
 
-#: client/gui-gtk-2.0/citydlg.c:2548 client/gui-gtk/citydlg.c:3329
+#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3329
 #: client/gui-win32/citydlg.c:1356 data/Freeciv:524
 msgid "Rename City"
 msgstr "Zmieñ nazwê miasta"
 
-#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3331
+#: client/gui-gtk-2.0/citydlg.c:2552 client/gui-gtk/citydlg.c:3331
 #: client/gui-win32/citydlg.c:1357 client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "Jaka powinna byæ nowa nazwa miasta?"
