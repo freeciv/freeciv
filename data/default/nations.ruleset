@@ -1186,11 +1186,11 @@ flag="f.wales"
 flag_alt = "f.united_kingdom"
 city_style = "European"
 
-;names = "Yr Ymerodreath Gymreig"           empire            (depotism)
-;      = "Y Twysysogaeth Cymru"             principality      (monarchy)
-;      = "Y Gwerinaeth Pobl Cymru"          people's republic (communism)
-;      = "Yr Ymerodrath Scantaidd Cymreig"  holy welsh empire (fundamentalism)
-;      = "Y Gweriniaeth Cymru"              republic          (republic, democracy)
+;names = "Yr Ymerodreath Gymreig"          "empire"            (depotism)
+;      = "Y Twysysogaeth Cymru"            "principality"      (monarchy)
+;      = "Y Gwerinaeth Pobl Cymru"         "people's republic" (communism)
+;      = "Yr Ymerodrath Scantaidd Cymreig" "holy welsh empire" (fundamentalism)
+;      = "Y Gweriniaeth Cymru"             "republic"          (republic, democracy)
 
 ruler_titles = { "government",      "male_title",      "female_title",
                  "Monarchy",        _("Prince"),         _("Princess")
