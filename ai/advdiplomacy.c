@@ -697,6 +697,10 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     }
   }
 
+  if (ai->diplomacy.countdown > 0) {
+    ai->diplomacy.countdown--;
+  }
+
   /* Ensure that we don't prematurely end an ongoing war */
   if (ai->diplomacy.timer-- > 0) {
     return;
