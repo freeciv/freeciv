@@ -1093,7 +1093,7 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
     /* Tile must contain ONLY enemy units. */
     if ((victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                       _("Game: Can't attack %s's unit"
+                       _("Game: Can't attack %s's unit "
 			 "because you are not at war with %s."),
                        unit_owner(victim)->name,
                        unit_owner(victim)->name);
