@@ -293,7 +293,26 @@ static GHashTable *hash;
 static void commit_worklist(struct worklist_data *ptr);
 
 
+enum {
+  TARGET_GTK_TREE_MODEL_ROW
+};
 
+static GtkTargetEntry wl_dnd_targets[] = {
+  { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, TARGET_GTK_TREE_MODEL_ROW },
+};
+
+
+
+
+/****************************************************************
+...
+*****************************************************************/
+void add_worklist_dnd_target(GtkWidget *w)
+{
+  gtk_drag_dest_set(w, GTK_DEST_DEFAULT_ALL,
+		    wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
+		    GDK_ACTION_COPY);
+}
 
 /****************************************************************
 ...
@@ -355,6 +374,7 @@ static void popup_worklist(struct worklist *pwl)
 					GTK_STOCK_CLOSE,
 					GTK_RESPONSE_CLOSE,
 					NULL);
+    gtk_window_set_role(GTK_WINDOW(shell), "worklist");
     gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
     g_signal_connect(shell, "response", G_CALLBACK(worklist_response), NULL);
     gtk_window_set_default_size(GTK_WINDOW(shell), 500, 400);
@@ -702,8 +722,6 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   g_object_unref(dst_store);
   gtk_size_group_add_widget(group, dst_view);
 
-  gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
-
   for (i = 0; i < ntitles; i++) {
     GtkCellRenderer *rend;
     GtkTreeViewColumn *col;
@@ -731,14 +749,6 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
-  g_signal_connect(src_view, "row_activated",
-	           G_CALLBACK(src_row_callback), ptr);
-  g_signal_connect(dst_view, "row_activated",
-	           G_CALLBACK(dst_row_callback), ptr);
-  g_signal_connect(dst_view, "drag_end",
-		   G_CALLBACK(dst_dnd_callback), ptr);
- 
-
   bbox = gtk_hbox_new(FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(bbox), 6);
   gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
@@ -758,10 +768,33 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(help_callback), src_view);
 
-
+  
   ptr->src_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view));
   ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
   
+  
+  if (!pcity || (can_client_issue_orders() &&
+		 city_owner(pcity) == game.player_ptr)) {
+    gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
+
+    g_signal_connect(src_view, "row_activated",
+		     G_CALLBACK(src_row_callback), ptr);
+    g_signal_connect(dst_view, "row_activated",
+		     G_CALLBACK(dst_row_callback), ptr);
+    g_signal_connect(dst_view, "drag_end",
+		     G_CALLBACK(dst_dnd_callback), ptr);
+
+    if (pcity) {
+      gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(src_view),
+					     GDK_BUTTON1_MASK,
+					     wl_dnd_targets,
+					     G_N_ELEMENTS(wl_dnd_targets),
+					     GDK_ACTION_COPY);
+    }
+  } else {
+    gtk_widget_set_sensitive(menuitem, FALSE);
+  }
+
   
   insert_worklist(pwl, editor);
   refresh_worklist(pwl);

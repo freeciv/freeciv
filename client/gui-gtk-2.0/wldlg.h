@@ -29,4 +29,6 @@ void popup_worklists_report(void);
 GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity);
 void refresh_worklist(struct worklist *pwl);
 
+void add_worklist_dnd_target(GtkWidget *w);
+
 #endif				/* FC__WLDLG_H */
