@@ -35,8 +35,8 @@ the AI.
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
 {
   /* number of rounds a unit can fight without dying */
-  int att_N_lose = ahp/dfp + ahp%dfp;
-  int def_N_lose = dhp/afp + dhp%afp;
+  int att_N_lose = (ahp + dfp - 1) / dfp;
+  int def_N_lose = (dhp + afp - 1) / afp;
   /* Probability of losing one round */
   double att_P_lose1 = (as + ds == 0) ? 0.5 : (double) ds / (as + ds);
   double def_P_lose1 = 1 - att_P_lose1;
