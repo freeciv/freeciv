@@ -276,11 +276,11 @@ void audio_real_init(const char *const spec_name,
     return;
   }
 
-#ifdef ESD
-  if (audio_select_plugin("esd")) return; 
-#endif
 #ifdef SDL
   if (audio_select_plugin("sdl")) return; 
+#endif
+#ifdef ESD
+  if (audio_select_plugin("esd")) return; 
 #endif
 #ifdef ALSA
   if (audio_select_plugin("alsa")) return;
