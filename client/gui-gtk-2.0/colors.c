@@ -104,3 +104,15 @@ void init_color_system(void)
 {
   alloc_standard_colors();
 }
+
+/*************************************************************
+...
+*************************************************************/
+void free_color_system(void)
+{
+  int i;
+
+  for (i = 0; i < COLOR_STD_LAST; i++) {
+    free(colors_standard[i]);
+  }
+}
