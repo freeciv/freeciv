@@ -445,7 +445,7 @@ void request_unit_wait(struct unit *punit)
   punit->focus_status=FOCUS_WAIT;
   if(punit==get_unit_in_focus()) {
     advance_unit_focus();
-    set_unit_focus(punit_focus);
+    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
   }
 }
 
@@ -493,7 +493,7 @@ void request_unit_move_done(void)
   if(get_unit_in_focus()) {
     get_unit_in_focus()->focus_status=FOCUS_DONE;
     advance_unit_focus();
-    set_unit_focus(punit_focus);
+    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
   }
 }
 
@@ -781,10 +781,11 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
                                            punit->activity==ACTIVITY_EXPLORE ||
 					   punit->ai.control==ACTIVITY_GOTO)) {
 	if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-	  struct unit *old_focus=get_unit_in_focus();
+	  /* struct unit *old_focus=get_unit_in_focus(); */
 	  request_new_unit_activity(punit, ACTIVITY_IDLE);
-	  if(old_focus)
-	    refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1);
+	  /* this is now done in set_unit_focus: --dwp */
+	  /* if(old_focus)
+	     refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
 	  set_unit_focus(punit);
 	}
       }
@@ -895,14 +896,19 @@ void focus_to_next_unit(Widget w, XEvent *event, String *argv,
 			Cardinal *argc)
 {
   advance_unit_focus();
-  set_unit_focus(punit_focus);
+  /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
 }
 
 /**************************************************************************
 note: punit can be NULL
+We make sure that the previous focus unit is refreshed, if necessary,
+_after_ setting the new focus unit (otherwise if the previous unit is
+in a city, the refresh code draws the previous unit instead of the city).
 **************************************************************************/
 void set_unit_focus(struct unit *punit)
 {
+  struct unit *punit_old_focus=punit_focus;
+
   punit_focus=punit;
 
   if(punit) {
@@ -915,6 +921,13 @@ void set_unit_focus(struct unit *punit)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
     put_cross_overlay_tile(punit->x, punit->y);
   }
+  
+  /* avoid the old focus unit disappearing: */
+  if (punit_old_focus!=NULL
+      && (punit==NULL || !same_pos(punit_old_focus->x, punit_old_focus->y,
+				   punit->x, punit->y))) {
+    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
+  }
 
   update_unit_info_label(punit);
   update_menus();
@@ -922,6 +935,9 @@ void set_unit_focus(struct unit *punit)
 
 /**************************************************************************
 note: punit can be NULL
+Here we don't bother making sure the old focus unit is
+refreshed, as this is only used in special cases where
+thats not necessary.  (I think...) --dwp
 **************************************************************************/
 void set_unit_focus_no_center(struct unit *punit)
 {
@@ -968,9 +984,7 @@ struct unit *get_unit_in_focus(void)
 **************************************************************************/
 void advance_unit_focus(void)
 {
-  struct unit *punit_old_focus;
-
-  punit_old_focus=punit_focus;
+  struct unit *punit_old_focus=punit_focus;
 
   punit_focus=find_best_focus_candidate();
 
@@ -982,10 +996,13 @@ void advance_unit_focus(void)
     unit_list_iterate_end;
   }
   
-  set_unit_focus(punit_focus);
-
-  if(punit_old_focus)
+  /* We have to do this ourselves, and not rely on set_unit_focus(),
+   * because above we change punit_focus directly.
+   */
+  if(punit_old_focus!=NULL && punit_old_focus!=punit_focus)
     refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
+
+  set_unit_focus(punit_focus);
 }
 
 /**************************************************************************
