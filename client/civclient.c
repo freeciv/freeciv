@@ -69,6 +69,8 @@
 #include "agents.h"
 #include "audio.h"
 
+#include "cma_core.h" /* kludge */
+
 #include "civclient.h"
 
 /* this is used in strange places, and is 'extern'd where
@@ -620,6 +622,14 @@ void set_client_state(enum client_states newstate)
    * the kludge below.
    */
   if (newstate == CLIENT_GAME_OVER_STATE) {
+    /*
+     * Extra kludge for end-game handling of the CMA.
+     */
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      if (cma_is_city_under_agent(pcity, NULL)) {
+        cma_release_city(pcity);
+      }
+    } city_list_iterate_end;
     newstate = CLIENT_GAME_RUNNING_STATE;
   }
 
