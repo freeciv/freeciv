@@ -1503,6 +1503,7 @@ static void load_ruleset_terrain(struct section_file *file)
 	  BV_SET(t->flags, flag);
 	}
       }
+      free(slist);
       
       t->helptext = lookup_helptext(file, sec[i]);
     }
@@ -2207,6 +2208,7 @@ static void load_ruleset_nations(struct section_file *file)
 		civilwar_nations[k], pl->name);
       }
     }
+    free(civilwar_nations);
 
     /* No test for duplicate nations is performed.  If there is a duplicate
      * entry it will just cause that nation to have an increased probability
