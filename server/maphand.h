@@ -102,4 +102,6 @@ void map_calculate_borders(void);
 
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
                                               Terrain_type_id oldter);
+int get_continent_size(Continent_id id);
+int get_ocean_size(Continent_id id);
 #endif  /* FC__MAPHAND_H */

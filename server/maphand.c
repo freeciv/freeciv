@@ -40,6 +40,16 @@
 
 #include "maphand.h"
 
+#define MAXIMUM_CLAIMED_OCEAN_SIZE (20)
+
+/* Continent which is adjacent to a given ocean. -1 if the ocean is surrounded
+   by more than one continent */
+static Continent_id lake_surrounders[MAP_NCONT];
+/* size of a given continent in tiles */
+static int continent_sizes[MAP_NCONT];
+/* size of a given ocean in tiles */
+static int ocean_sizes[MAP_NCONT];
+
 /**************************************************************************
   Number this tile and nearby tiles (recursively) with the specified
   continent number, using a flood-fill algorithm.
@@ -58,6 +68,13 @@ static void assign_continent_flood(int x, int y, bool is_land, int nr)
   }
 
   map_set_continent(x, y, nr);
+  
+  /* count the tile */
+  if (nr < 0) {
+    ocean_sizes[-nr]++;
+  } else {
+    continent_sizes[nr]++;
+  }
 
   adjc_iterate(x, y, x1, y1) {
     assign_continent_flood(x1, y1, is_land, nr);
@@ -65,14 +82,54 @@ static void assign_continent_flood(int x, int y, bool is_land, int nr)
 }
 
 /**************************************************************************
+  Calculate lake_surrounders[] array
+**************************************************************************/
+static void recalculate_lake_surrounders(void)
+{
+  int i;
+
+  for (i = 1; i <= map.num_oceans; i++) {
+    lake_surrounders[i] = 0;
+  }
+  
+  whole_map_iterate(x, y) {
+    Continent_id cont = map_get_continent(x, y);
+    if (!is_ocean(map_get_terrain(x, y))) {
+      adjc_iterate(x, y, x2, y2) {
+        Continent_id cont2 = map_get_continent(x2, y2);
+	if (is_ocean(map_get_terrain(x2, y2))) {
+	  if (lake_surrounders[-cont2] == 0) {
+	    lake_surrounders[-cont2] = cont;
+	  } else if (lake_surrounders[-cont2] != cont) {
+	    lake_surrounders[-cont2] = -1;
+	  }
+	}
+      } adjc_iterate_end;
+    }
+  } whole_map_iterate_end;
+}
+
+/**************************************************************************
   Assign continent and ocean numbers to all tiles, and set
   map.num_continents and map.num_oceans.
+  
+  Recalculate continent and ocean sizes
 
   Continents have numbers 1 to map.num_continents _inclusive_.
   Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
+  
+  Also recalculate lake_surrounders[] arrays
 **************************************************************************/
 void assign_continent_numbers(void)
 {
+  int i;
+  
+  /* reset ocean/continent counters */
+  for (i = 0; i < MAP_NCONT; i++) {
+    ocean_sizes[i] = 0;
+    continent_sizes[i] = 0;
+  }
+  
   /* Initialize */
   map.num_continents = 0;
   map.num_oceans = 0;
@@ -97,6 +154,8 @@ void assign_continent_numbers(void)
       assign_continent_flood(x, y, FALSE, -map.num_oceans);
     }
   } whole_map_iterate_end;
+
+  recalculate_lake_surrounders();
 
   freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
 	  map.num_continents, map.num_oceans);
@@ -1410,37 +1469,47 @@ static struct city *map_get_adjc_city(int x, int y)
 }
 
 /*************************************************************************
-  Returns TRUE if the given ocean tile is surrounded by at least 5 land
-  tiles of the same continent (N.B. will probably need modifications to
-  deal with topologies in which tiles do not have 8 neighbours). If this
-  is the case, the continent number of the land tiles is returned in *contp.
-  If multiple continents border the tile, FALSE is always returned.
-  This enables small seas (usually long inlets or inland lakes) to be
-  claimed by nations, rather than remaining as international waters. This
-  should in the long run perhaps be replaced with more general detection
-  of inland seas.
+  Ocean tile can be claimed iff one of the following conditions stands:
+  a) it is an inland lake not larger than MAXIMUM_OCEAN_SIZE
+  b) it is adjacent to only one continent and not more than two ocean tiles
+  c) It is one tile away from a city (This function doesn't check it)
+  The city, which claims the ocean has to be placed on the correct continent.
+  in case a) The continent which surrounds the inland lake
+  in case b) The only continent which is adjacent to the tile
+  The correct continent is returned in *contp.
 *************************************************************************/
 static bool is_claimed_ocean(int x, int y, Continent_id *contp)
 {
-  Continent_id cont = 0, numland = 0;
-
-  adjc_iterate(x, y, xp, yp) {
-    if (!is_ocean(map_get_terrain(xp, yp))) {
-      Continent_id thiscont = map_get_continent(xp, yp);
-
-      if (cont == 0) {
-	cont = thiscont;
-      }
-      if (cont == thiscont) {
-	numland++;
-      } else {
-	return FALSE;
+  Continent_id cont = map_get_continent(x, y);
+  Continent_id cont2, other;
+  int ocean_tiles;
+  
+  if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE &&
+      lake_surrounders[-cont] > 0) {
+    *contp = lake_surrounders[-cont];
+    return TRUE;
+  }
+  
+  other = 0;
+  ocean_tiles = 0;
+  adjc_iterate(x, y, x2, y2) {
+    cont2 = map_get_continent(x2, y2);
+    if (cont2 == cont) {
+      ocean_tiles++;
+    } else {
+      if (other == 0) {
+        other = cont2;
+      } else if (other != cont2) {
+        return FALSE;
       }
     }
   } adjc_iterate_end;
-
-  *contp = cont;
-  return (numland >= 5);
+  if (ocean_tiles <= 2) {
+    *contp = other;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 /*************************************************************************
@@ -1600,4 +1669,22 @@ void map_calculate_borders(void)
       } map_city_radius_iterate_end;
     } cities_iterate_end;
   }
+}
+
+/*************************************************************************
+  Return size in tiles of the given continent(not ocean)
+*************************************************************************/
+int get_continent_size(Continent_id id) {
+  assert(id > 0);
+  return continent_sizes[id];
+}
+
+/*************************************************************************
+  Return size in tiles of the given ocean. You should use positive ocean
+  number.
+*************************************************************************/
+int get_ocean_size(Continent_id id) 
+{
+  assert(id > 0);
+  return ocean_sizes[id];
 }
