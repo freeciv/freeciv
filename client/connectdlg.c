@@ -35,7 +35,7 @@ Widget meta_dialog_shell=0;
 char *server_list[64]={NULL};
 
 void create_meta_dialog(void);
-void update_meta_dialog(Widget meta_list);
+int  update_meta_dialog(Widget meta_list);
 void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data);
@@ -146,6 +146,7 @@ void connect_callback(Widget w, XtPointer client_data,
 void connect_meta_callback(Widget w, XtPointer client_data,
                            XtPointer call_data)
 {
+  if(meta_dialog_shell) return;  /* Metaserver window already poped up */
   create_meta_dialog();
 }
 
@@ -165,32 +166,39 @@ void create_meta_dialog()
   update=XtVaCreateManagedWidget("update", commandWidgetClass, form, NULL);
   close=XtVaCreateManagedWidget("closecommand", commandWidgetClass, form, NULL);
 
+  if(!update_meta_dialog(list))  {
+    XtDestroyWidget(shell);
+    meta_dialog_shell=0;
+    return;
+  }
+
   XtAddCallback(list, XtNcallback, meta_list_callback, NULL);
   XtAddCallback(list, XtNdestroyCallback, meta_list_destroy, NULL);
   XtAddCallback(update, XtNcallback, meta_update_callback, (XtPointer)list);
   XtAddCallback(close, XtNcallback, meta_close_callback, NULL);
 
   /* XtRealizeWidget(shell); */
-  update_meta_dialog(list);
 
   XtVaGetValues(list, XtNwidth, &width, NULL);
   XtVaSetValues(label, XtNwidth, width, NULL);
 
   XtPopup(shell, XtGrabNone);
-  xaw_set_relative_position(toplevel, shell, 50, 50);
+  xaw_set_relative_position(toplevel, shell, 5, 20);
 
   XtSetKeyboardFocus(toplevel, shell);
 }
 
-void update_meta_dialog(Widget meta_list)
+int update_meta_dialog(Widget meta_list)
 {
   char errbuf[128];
 
   if(get_meta_list("www.daimi.aau.dk",server_list,errbuf)!=-1)  {
     XawListChange(meta_list,server_list,0,0,True);
-    return;
+    return 1;
+  } else {
+    append_output_window(errbuf);
+    return 0;
   }
-  append_output_window(errbuf);
 }
 
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data)
