@@ -442,8 +442,10 @@ int player_knows_improvement_tech(struct player *pplayer,
 **************************************************************************/
 int ai_handicap(struct player *pplayer, enum handicap_type htype)
 {
-  if (!pplayer->ai.control) return -1;
-  return(pplayer->ai.handicap&htype);
+  if (!pplayer->ai.control) {
+    return TRUE;
+  }
+  return BOOL_VAL(pplayer->ai.handicap & htype);
 }
 
 /**************************************************************************
