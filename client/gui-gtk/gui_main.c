@@ -128,10 +128,22 @@ const char * const gui_character_encoding = NULL;
 const bool gui_use_transliteration = TRUE;
 
 client_option gui_options[] = {
+  /* This option is the same as the one in gui-gtk-2.0 */
   GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
+		  N_("Uses the Alt or Meta keys for keyboard accelerators."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"), COC_INTERFACE),
-  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"), COC_INTERFACE),
+  /* This option is the same as the one in gui-gtk-2.0 */
+  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
+		  N_("Disable this option to hide the scrollbars on the "
+		     "map view."),
+		  COC_INTERFACE),
+  /* This option is the same as the one in gui-gtk-2.0 */
+  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"),
+		  N_("If this option is set then a goto may be initiated "
+		     "by left-clicking and then holding down the mouse "
+		     "button while dragging the mouse onto a different "
+		     "tile."),
+		  COC_INTERFACE),
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

@@ -64,8 +64,9 @@ enum client_option_class {
 extern const char *client_option_class_names[];
 
 typedef struct client_option {
-  const char *name;
-  const char *description;
+  const char *name; /* Short name - used as an identifier */
+  const char *description; /* One-line description */
+  const char *helptext; /* Paragraph-length help text */
   enum client_option_class category;
   enum client_option_type type;
   int *p_int_value;
@@ -85,14 +86,15 @@ typedef struct client_option {
 } client_option;
 extern client_option *options;
 
-#define GEN_INT_OPTION(oname, desc, class) { #oname, desc, class, COT_INT, \
-                                             &oname, NULL, NULL, 0, NULL, \
-                                             NULL, NULL }
-#define GEN_BOOL_OPTION(oname, desc, class) \
-  { #oname, desc, class, COT_BOOL, NULL, &oname, NULL, 0, NULL, NULL, NULL }
-#define GEN_STR_OPTION(oname, desc, class, str_defaults, callback) \
-  { #oname, desc, class, COT_STR, NULL, NULL, oname, sizeof(oname), \
-    callback, str_defaults, NULL }
+#define GEN_INT_OPTION(oname, desc, help, category)			    \
+  { #oname, desc, help, category, COT_INT,				    \
+      &oname, NULL, NULL, 0, NULL, NULL, NULL }
+#define GEN_BOOL_OPTION(oname, desc, help, category)	                    \
+  { #oname, desc, help, category, COT_BOOL,				    \
+      NULL, &oname, NULL, 0, NULL, NULL, NULL }
+#define GEN_STR_OPTION(oname, desc, help, category, str_defaults, callback) \
+  { #oname, desc, help, category, COT_STR,			    \
+      NULL, NULL, oname, sizeof(oname), callback, str_defaults, NULL }
 
 extern int num_options;
 
