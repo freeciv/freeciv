@@ -20,7 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
@@ -424,8 +423,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button0), "clicked",
 		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
 		     (gpointer)pdialog);
-  if (plr0->gives_shared_vision & (1<<plr1->player_no)
-      || !has_capability("shared_vision", aconnection.capability))
+  if (plr0->gives_shared_vision & (1<<plr1->player_no))
     gtk_widget_set_sensitive(pdialog->dip_vision_button0, FALSE);
 
   pdialog->dip_vision_button1=gtk_button_new_with_label(_("Give shared vision"));
@@ -434,8 +432,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button1), "clicked",
 		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
 		     (gpointer)pdialog);
-  if (plr1->gives_shared_vision & (1<<plr0->player_no)
-      || !has_capability("shared_vision", aconnection.capability))
+  if (plr1->gives_shared_vision & (1<<plr0->player_no))
     gtk_widget_set_sensitive(pdialog->dip_vision_button1, FALSE);
 
   /* Start of pact button insertion */
@@ -776,14 +773,6 @@ static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
   struct player *pgiver;
-
-  /* This shouldn't happen (button is disabled), but check just in case (?) */
-  /* Don't bother translating below since should not happen... */
-  if (!has_capability("shared_vision", aconnection.capability)) {
-    append_output_window("Clause not added as the server does not"
-			 "have the capability.");
-    return;
-  }
 
   pgiver = (w == pdialog->dip_vision_button0) ? 
     pdialog->treaty.plr0 : pdialog->treaty.plr1;

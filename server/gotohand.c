@@ -15,7 +15,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "capability.h"
 #include "combat.h"
 #include "game.h"
 #include "log.h"

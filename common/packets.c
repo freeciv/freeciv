@@ -1191,11 +1191,9 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
  use separate packets, to avoid this problem (and would also
  reduce amount sent).  --dwp
 **************************************************************************/
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'struct connection *pc' argument (?) */
 static unsigned char *put_worklist(unsigned char *buffer,
                                    const struct worklist *pwl,
-				   struct connection *pc, int real_wl)
+				   int real_wl)
 {
   int i;
 
@@ -1205,20 +1203,8 @@ static unsigned char *put_worklist(unsigned char *buffer,
   else
     buffer = put_string(buffer, "\0");
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-/* when removing "worklist_true_ids" capability,
-   leave only the code from the *else* clause (send untranslated values) */
-if (pc && !has_capability("worklist_true_ids", pc->capability)) {
-  if (pwl->wlefs[i] == WEF_END) {
-    buffer = put_uint16(buffer, 284);
-  } else if (pwl->wlefs[i] == WEF_UNIT) {
-    buffer = put_uint16(buffer, pwl->wlids[i] + 68);
-  } else {
-    buffer = put_uint16(buffer, pwl->wlids[i]);
-  }
-} else {  /* the following is the code to leave when removing "worklist_true_ids" */
     buffer = put_uint8(buffer, pwl->wlefs[i]);
     buffer = put_uint8(buffer, pwl->wlids[i]);
-}
   }
 
   return buffer;
@@ -1227,35 +1213,15 @@ if (pc && !has_capability("worklist_true_ids", pc->capability)) {
 /**************************************************************************
 ...
 **************************************************************************/
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'struct connection *pc' argument (?) */
-static void iget_worklist(struct pack_iter *piter, struct worklist *pwl,
-			  struct connection *pc)
+static void iget_worklist(struct pack_iter *piter, struct worklist *pwl)
 {
   int i;
 
   iget_uint8(piter, &pwl->is_valid);
   iget_string(piter, pwl->name, MAX_LEN_NAME);
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-/* when removing "worklist_true_ids" capability,
-   leave only the code from the *else* clause (receive untranslated values) */
-if (pc && !has_capability("worklist_true_ids", pc->capability)) {
-  int val;
-  iget_uint16(piter, &val);
-  if (val == 284) {
-    pwl->wlefs[i] = WEF_END;
-    pwl->wlids[i] = 0;
-  } else if (val >= 68) {
-    pwl->wlefs[i] = WEF_UNIT;
-    pwl->wlids[i] = val - 68;
-  } else {
-    pwl->wlefs[i] = WEF_IMPR;
-    pwl->wlids[i] = val;
-  }
-} else {  /* the following is the code to leave when removing "worklist_true_ids" */
     iget_uint8(piter, (int*)&pwl->wlefs[i]);
     iget_uint8(piter, &pwl->wlids[i]);
-}
   }
 }
     
@@ -1522,9 +1488,7 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &packet->worklist, pc,
+  cptr=put_worklist(cptr, &packet->worklist,
                     req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
   put_uint16(buffer, cptr-buffer);
@@ -1550,9 +1514,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  iget_worklist(&iter, &preq->worklist, pc);
+  iget_worklist(&iter, &preq->worklist);
   iget_uint8(&iter, &preq->wl_idx);
   
   pack_iter_end(&iter, pc);
@@ -1577,9 +1539,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &packet->worklist, pc, 1);
+  cptr=put_worklist(cptr, &packet->worklist, 1);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1606,9 +1566,7 @@ receive_packet_city_request(struct connection *pc)
   iget_uint8(&iter, &preq->worker_y);
   iget_uint8(&iter, &preq->specialist_from);
   iget_uint8(&iter, &preq->specialist_to);
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  iget_worklist(&iter, &preq->worklist, pc);
+  iget_worklist(&iter, &preq->worklist);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
@@ -1659,33 +1617,17 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint16(cptr, pinfo->future_tech);
   
   cptr=put_uint8(cptr, pinfo->is_connected?1:0);
-
-  /* Remove block when "conn_info" removed: now sent in conn_info packet */
- if (pc && !has_capability("conn_info", pc->capability)) {
-  cptr=put_string(cptr, pinfo->addr);
- }
-  /* Remove to here */
   
   cptr=put_uint8(cptr, pinfo->revolution);
   cptr=put_uint8(cptr, pinfo->tech_goal);
   cptr=put_uint8(cptr, pinfo->ai?1:0);
   cptr=put_uint8(cptr, pinfo->is_barbarian);
-
-  /* Remove block when "conn_info" removed: now sent in conn_info packet */
- if (pc && !has_capability("conn_info", pc->capability)) {
-  cptr=put_string(cptr, pinfo->capability);
- }
-  /* Remove to here */
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-    cptr = put_worklist(cptr, &pinfo->worklists[i], pc, 1);
+    cptr = put_worklist(cptr, &pinfo->worklists[i], 1);
   }
 
-  if (pc && has_capability("shared_vision", pc->capability)) {
-    cptr=put_uint32(cptr, pinfo->gives_shared_vision);
-  }
+  cptr=put_uint32(cptr, pinfo->gives_shared_vision);
 
   put_uint16(buffer, cptr-buffer);
 
@@ -1737,37 +1679,19 @@ receive_packet_player_info(struct connection *pc)
   iget_uint16(&iter, &pinfo->future_tech);
 
   iget_uint8(&iter, &pinfo->is_connected);
-  
-  /* Remove block when "conn_info" removed: now sent in conn_info packet */
- if (pc && !has_capability("conn_info", pc->capability)) {
-  iget_string(&iter, pinfo->addr, sizeof(pinfo->addr));
- }
-  /* Remove to here */
-  
+
   iget_uint8(&iter, &pinfo->revolution);
   iget_uint8(&iter, &pinfo->tech_goal);
   iget_uint8(&iter, &pinfo->ai);
   iget_uint8(&iter, &pinfo->is_barbarian);
-
-  /* Remove block when "conn_info" removed: now sent in conn_info packet */
- if (pc && !has_capability("conn_info", pc->capability)) {
-  iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
- }
-  /* Remove to here */
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-    iget_worklist(&iter, &pinfo->worklists[i], pc);
+    iget_worklist(&iter, &pinfo->worklists[i]);
   }
 
-  if (pc && has_capability("shared_vision", pc->capability)) {
-    /* Unfortunately the second argument to iget_uint32 is int, not uint: */
-    iget_uint32(&iter, &i);
-    pinfo->gives_shared_vision = i;
-  } else {
-    pinfo->gives_shared_vision = 0;
-  }
+  /* Unfortunately the second argument to iget_uint32 is int, not uint: */
+  iget_uint32(&iter, &i);
+  pinfo->gives_shared_vision = i;
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -1784,12 +1708,6 @@ int send_packet_conn_info(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
-
-  /* Remove block when "conn_info" removed: */
-  if (!(pc && has_capability("conn_info", pc->capability))) {
-    return 0;
-  }
-  /* Remove to here */
  
   cptr=put_uint8(buffer+2, PACKET_CONN_INFO);
   
@@ -1868,19 +1786,10 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->max_players);
   cptr=put_uint8(cptr, pinfo->nplayers);
   cptr=put_uint8(cptr, pinfo->player_idx);
-/* when removing "nuclear_fallout" capability,
-   leave only the code from the *else* clause (send unmodified values) */
-if (pc && !has_capability("nuclear_fallout", pc->capability)) {
-  cptr=put_uint32(cptr, pinfo->globalwarming + pinfo->nuclearwinter);
-  cptr=put_uint32(cptr, pinfo->heating + pinfo->cooling);
-} else {  /* the following is the code to leave when removing "nuclear_fallout" */
   cptr=put_uint32(cptr, pinfo->globalwarming);
   cptr=put_uint32(cptr, pinfo->heating);
-}
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   cptr=put_uint32(cptr, pinfo->nuclearwinter);
   cptr=put_uint32(cptr, pinfo->cooling);
-}
   cptr=put_uint8(cptr, pinfo->cityfactor);
   cptr=put_uint8(cptr, pinfo->diplcost);
   cptr=put_uint8(cptr, pinfo->freecost);
@@ -1889,15 +1798,9 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     cptr=put_uint8(cptr, pinfo->global_advances[i]);
-/* when removing "indef_impr_types" capability,
-   leave only the code from the *else* clause (send B_LAST values) */
-if (pc && !has_capability("indef_impr_types", pc->capability)) {
-  for(i=0; i<B_LAST_ENUM; i++)
-    cptr=put_uint16(cptr, pinfo->global_wonders[i]);
-} else {  /* the following is the code to leave when removing "indef_impr_types" */
   for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
     cptr=put_uint16(cptr, pinfo->global_wonders[i]);
-}
+
   cptr=put_uint8(cptr, pinfo->techpenalty);
   cptr=put_uint8(cptr, pinfo->foodbox);
   cptr=put_uint8(cptr, pinfo->civstyle);
@@ -1936,13 +1839,8 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->player_idx);
   iget_uint32(&iter, &pinfo->globalwarming);
   iget_uint32(&iter, &pinfo->heating);
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   iget_uint32(&iter, &pinfo->nuclearwinter);
   iget_uint32(&iter, &pinfo->cooling);
-} else {
-  pinfo->nuclearwinter = 0;
-  pinfo->cooling = 0;
-}
   iget_uint8(&iter, &pinfo->cityfactor);
   iget_uint8(&iter, &pinfo->diplcost);
   iget_uint8(&iter, &pinfo->freecost);
@@ -1951,17 +1849,9 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     iget_uint8(&iter, &pinfo->global_advances[i]);
-/* when removing "indef_impr_types" capability,
-   leave only the code from the *else* clause (receive B_LAST values) */
-if (pc && !has_capability("indef_impr_types", pc->capability)) {
-  for(i=0; i<B_LAST_ENUM; i++)
-    iget_uint16(&iter, &pinfo->global_wonders[i]);
-  for( ; i<B_LAST/*game.num_impr_types*/; i++)
-    pinfo->global_wonders[i] = 0;
-} else {  /* the following is the code to leave when removing "indef_impr_types" */
   for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
     iget_uint16(&iter, &pinfo->global_wonders[i]);
-}
+
   iget_uint8(&iter, &pinfo->techpenalty);
   iget_uint8(&iter, &pinfo->foodbox);
   iget_uint8(&iter, &pinfo->civstyle);
@@ -2065,16 +1955,7 @@ int send_packet_tile_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->x);
   cptr=put_uint8(cptr, pinfo->y);
   cptr=put_uint8(cptr, pinfo->type);
-/* when removing "nuclear_fallout" capability,
-   leave only the code from the *else* clause (send unmodified special) */
-if (pc && !has_capability("nuclear_fallout", pc->capability)) {
-if (pinfo->special & S_FALLOUT)
-cptr=put_uint16(cptr, pinfo->special | S_POLLUTION);
-else
-cptr=put_uint16(cptr, pinfo->special);
-} else {  /* the following is the code to leave when removing "nuclear_fallout" */
   cptr=put_uint16(cptr, pinfo->special);
-}
   cptr=put_uint8(cptr, pinfo->known);
   put_uint16(buffer, cptr-buffer);
 
@@ -2143,15 +2024,6 @@ int send_packet_unit_info(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
 
-/* when removing "diplomat_investigate_fix" capability,
-remove this *entire* piece of code (to REMOVE TO HERE, below) */
-if (pc && !has_capability("diplomat_investigate_fix", pc->capability)) {
-if (req->packet_use != UNIT_INFO_IDENTITY) {
-return 0;
-}
-}
-/* REMOVE TO HERE */
-
   cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
@@ -2172,26 +2044,15 @@ return 0;
   cptr=put_uint8(cptr, req->upkeep_food);
   cptr=put_uint8(cptr, req->upkeep_gold);
   cptr=put_uint8(cptr, req->unhappiness);
-  /* various modifications when playing with clients with other capabilities */
-if (pc && !has_capability("nuclear_fallout", pc->capability)
-&& req->activity == ACTIVITY_FALLOUT) {
-cptr=put_uint8(cptr, ACTIVITY_POLLUTION);
-} else if (pc && !has_capability("activity_patrol", pc->capability)
-&& req->activity == ACTIVITY_PATROL) {
-cptr=put_uint8(cptr, ACTIVITY_GOTO);
-} else {
- /* leave only this when removing capability strings */
   cptr=put_uint8(cptr, req->activity);
-}
   cptr=put_uint8(cptr, req->activity_count);
   cptr=put_uint8(cptr, req->goto_dest_x);
   cptr=put_uint8(cptr, req->goto_dest_y);
   cptr=put_uint16(cptr, req->activity_target);
-if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
   cptr=put_uint8(cptr, req->packet_use);
   cptr=put_uint16(cptr, req->info_city_id);
   cptr=put_uint16(cptr, req->serial_num);
-}
+
   if(req->fuel) cptr=put_uint8(cptr, req->fuel);
 
   put_uint16(buffer, cptr-buffer);
@@ -2214,17 +2075,13 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_string(cptr, req->name);
   
   cptr=put_uint8(cptr, req->size);
-if (pc && has_capability("happiness_display", pc->capability)) {
+
   for(data=0;data<5;data++) {
     cptr=put_uint8(cptr, req->ppl_happy[data]);
     cptr=put_uint8(cptr, req->ppl_content[data]);
     cptr=put_uint8(cptr, req->ppl_unhappy[data]);
   }
-} else {
-  cptr=put_uint8(cptr, req->ppl_happy[4]);
-  cptr=put_uint8(cptr, req->ppl_content[4]);
-  cptr=put_uint8(cptr, req->ppl_unhappy[4]);
-}
+
   cptr=put_uint8(cptr, req->ppl_elvis);
   cptr=put_uint8(cptr, req->ppl_scientist);
   cptr=put_uint8(cptr, req->ppl_taxman);
@@ -2245,21 +2102,15 @@ if (pc && has_capability("happiness_display", pc->capability)) {
   cptr=put_uint16(cptr, req->pollution);
   cptr=put_uint8(cptr, req->currently_building);
 
-if (pc && has_capability("production_change_fix", pc->capability)) {
   cptr=put_sint16(cptr, req->turn_last_built);
   cptr=put_sint16(cptr, req->turn_changed_target);
   cptr=put_uint8(cptr, req->changed_from_id);
   cptr=put_uint16(cptr, req->before_change_shields);
-}
 
-if (pc && has_capability("production_change_fix2", pc->capability)) {
   cptr=put_uint16(cptr, req->disbanded_shields);
   cptr=put_uint16(cptr, req->caravan_shields);
-}
 
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &req->worklist, pc, 1);
+  cptr=put_worklist(cptr, &req->worklist, 1);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
@@ -2267,9 +2118,7 @@ if (pc && has_capability("production_change_fix2", pc->capability)) {
   data|=req->was_happy?8:0;
   data|=req->airlift?16:0;
   data|=req->diplomat_investigate?32:0; /* gentler implementation -- Syela */
-if (pc && has_capability("production_change_fix", pc->capability)) {
   data|=req->changed_from_is_unit?64:0;
-}
   cptr=put_uint8(cptr, data);
 
   cptr=put_city_map(cptr, (char*)req->city_map);
@@ -2310,22 +2159,11 @@ receive_packet_city_info(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   
   iget_uint8(&iter, &packet->size);
-if (pc && has_capability("happiness_display", pc->capability)) {
   for(data=0;data<5;data++) {
     iget_uint8(&iter, &packet->ppl_happy[data]);
     iget_uint8(&iter, &packet->ppl_content[data]);
     iget_uint8(&iter, &packet->ppl_unhappy[data]);
   }
-} else {
-  for(data=0;data<4;data++) {
-    packet->ppl_happy[data]   = 0;
-    packet->ppl_content[data] = packet->size;
-    packet->ppl_unhappy[data] = 0;
-  } 
-  iget_uint8(&iter, &packet->ppl_happy[4]);
-  iget_uint8(&iter, &packet->ppl_content[4]);
-  iget_uint8(&iter, &packet->ppl_unhappy[4]);
-}
   iget_uint8(&iter, &packet->ppl_elvis);
   iget_uint8(&iter, &packet->ppl_scientist);
   iget_uint8(&iter, &packet->ppl_taxman);
@@ -2348,29 +2186,15 @@ if (pc && has_capability("happiness_display", pc->capability)) {
   iget_uint16(&iter, &packet->pollution);
   iget_uint8(&iter, &packet->currently_building);
 
-if (pc && has_capability("production_change_fix", pc->capability)) {
   iget_sint16(&iter, &packet->turn_last_built);
   iget_sint16(&iter, &packet->turn_changed_target);
   iget_uint8(&iter, &packet->changed_from_id);
   iget_uint16(&iter, &packet->before_change_shields);
-} else {
-  packet->turn_last_built = GAME_START_YEAR;
-  packet->turn_changed_target = GAME_START_YEAR;
-  packet->changed_from_id = packet->currently_building;
-  packet->before_change_shields = packet->shield_stock;
-}
 
-if (pc && has_capability("production_change_fix2", pc->capability)) {
   iget_uint16(&iter, &packet->disbanded_shields);
   iget_uint16(&iter, &packet->caravan_shields);
-} else {
-  packet->disbanded_shields = 0;
-  packet->caravan_shields = 0;
-}
 
-/* when removing "worklist_true_ids" capability,
-   may want to remove the 'pc' argument (?) */
-  iget_worklist(&iter, &packet->worklist, pc);
+  iget_worklist(&iter, &packet->worklist);
 
   iget_uint8(&iter, &data);
   packet->is_building_unit = data&1;
@@ -2379,11 +2203,7 @@ if (pc && has_capability("production_change_fix2", pc->capability)) {
   packet->was_happy = (data>>=1)&1;
   packet->airlift = (data>>=1)&1;
   packet->diplomat_investigate = (data>>=1)&1;
-if (pc && has_capability("production_change_fix", pc->capability)) {
   packet->changed_from_is_unit = (data>>=1)&1;
-} else {
-  packet->changed_from_is_unit = packet->is_building_unit;
-}
 
   iget_city_map(&iter, (char*)packet->city_map, sizeof(packet->city_map));
   iget_bit_string(&iter, (char*)packet->improvements,
@@ -2412,77 +2232,6 @@ int send_packet_short_city(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
-
-  if (pc && !has_capability("packet_short_city", pc->capability)) {
-
-    /* Send packet_city_info instead. */
-    struct packet_city_info old;
-    char *p;
-    int x, y;
-
-    old.id                 = req->id;
-    old.owner              = req->owner;
-    old.x                  = req->x;
-    old.y                  = req->y;
-    sz_strlcpy(old.name, req->name);
-    old.size               = req->size;
-    for (i=0;i<5;i++) {
-      old.ppl_happy[i]          = 0;
-      if (req->happy) {
-	old.ppl_content[i]        = req->size;
-	old.ppl_unhappy[i]        = 0;
-      } else {
-	old.ppl_content[i]        = 0;
-	old.ppl_unhappy[i]        = req->size;
-      }
-    }
-    old.ppl_elvis          = req->size;
-    old.ppl_scientist      = 0;
-    old.ppl_taxman         = 0;
-    for (i=0;i<4;i++)  {
-      old.trade[i]=0;
-      old.trade_value[i]     = 0;
-    }
-    old.food_prod          = 0;
-    old.food_surplus       = 0;
-    old.shield_prod        = 0;
-    old.shield_surplus     = 0;
-    old.trade_prod         = 0;
-    old.corruption         = 0;
-    old.luxury_total       = 0;
-    old.tax_total          = 0;
-    old.science_total      = 0;
-    old.food_stock         = 0;
-    old.shield_stock       = 0;
-    old.pollution          = 0;
-    old.city_options       = 0;
-    old.is_building_unit   = 0;
-    old.currently_building = 0;
-    init_worklist(&old.worklist);
-    old.diplomat_investigate = 0;
-    old.airlift            = 0;
-    old.did_buy            = 0;
-    old.did_sell           = 0;
-    old.was_happy          = 0;
-
-    p=old.improvements;
-    for(i=0; i<game.num_impr_types; i++)
-      *p++ = '0';
-    if (req->capital)
-      old.improvements[B_PALACE] = '1';
-    if (req->walls)
-      old.improvements[B_CITY]   = '1';
-    *p='\0';
-
-    p=old.city_map;
-    for(y=0; y<CITY_MAP_SIZE; y++) /* (Mis)use of function parameters */
-      for(x=0; x<CITY_MAP_SIZE; x++)
-        *p++=C_TILE_EMPTY+'0';
-    *p='\0';
-
-    return send_packet_city_info(pc, &old);
-  } /* !has_capability(packet_short_city) */
-
 
   cptr=put_uint8(buffer+2, PACKET_SHORT_CITY);
   cptr=put_uint16(cptr, req->id);
@@ -2566,28 +2315,14 @@ receive_packet_unit_info(struct connection *pc)
   iget_uint8(&iter, &packet->upkeep_gold);
   iget_uint8(&iter, &packet->unhappiness);
   iget_uint8(&iter, &packet->activity);
-/* when removing "nuclear_fallout" capability,
-   remove this *entire* piece of code (to REMOVE TO HERE, below) */
-if (pc && !has_capability("nuclear_fallout", pc->capability)) {
-if ((packet->activity == ACTIVITY_POLLUTION) &&
-    (map_get_special(packet->x, packet->y) & S_FALLOUT)) {
-packet->activity = ACTIVITY_FALLOUT;
-}
-}
-/* REMOVE TO HERE */
   iget_uint8(&iter, &packet->activity_count);
   iget_uint8(&iter, &packet->goto_dest_x);
   iget_uint8(&iter, &packet->goto_dest_y);
   iget_uint16(&iter, &packet->activity_target);
-if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
   iget_uint8(&iter, &packet->packet_use);
   iget_uint16(&iter, &packet->info_city_id);
   iget_uint16(&iter, &packet->serial_num);
-} else {
-  packet->packet_use=UNIT_INFO_IDENTITY;
-  packet->info_city_id=0;
-  packet->serial_num=0;
-}
+
   if (pack_iter_remaining(&iter) >= 1) {
     iget_uint8(&iter, &packet->fuel);
   } else {
@@ -2679,8 +2414,7 @@ int send_packet_req_join_game(struct connection *pc,
 }
 
 /**************************************************************************
-  ...
-  Fills in conn.id automatically, no need to set in packet_join_game_reply.
+Fills in conn.id automatically, no need to set in packet_join_game_reply.
 **************************************************************************/
 int send_packet_join_game_reply(struct connection *pc,
 			        const struct packet_join_game_reply *reply)
@@ -2693,10 +2427,11 @@ int send_packet_join_game_reply(struct connection *pc,
   cptr=put_string(cptr, reply->message);
   cptr=put_string(cptr, reply->capability);
 
-if (pc && has_capability("conn_info", pc->capability)) {
-  cptr=put_uint32(cptr, pc->id);
-}
- 
+  /* This must stay even at new releases! */
+  if (pc && has_capability("conn_info", pc->capability)) {
+    cptr=put_uint32(cptr, pc->id);
+  }
+
   /* so that old clients will understand the reply: */
   if(pc->byte_swap) {
     put_uint16(buffer, swab_uint16(cptr-buffer));
@@ -2716,12 +2451,6 @@ int send_packet_generic_message(struct connection *pc, int type,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
 
-  /* when removing "event00_fix" capability,
-   leave only the code from the *else* clause (send unmodified values) */
-if (packet->y < 0 && pc && !has_capability("event00_fix", pc->capability)) {
-  cptr=put_uint8(cptr, 0);
-  cptr=put_uint8(cptr, 0);
-} else {
   if (packet->x == -1) {
     /* since we can currently only send unsigned ints... */
     assert(MAP_MAX_WIDTH <= 255 && MAP_MAX_HEIGHT <= 255);
@@ -2731,15 +2460,7 @@ if (packet->y < 0 && pc && !has_capability("event00_fix", pc->capability)) {
     cptr=put_uint8(cptr, packet->x);
     cptr=put_uint8(cptr, packet->y);
   }
-}
-  /* when removing "event_wonder_obsolete" capability,
-   leave only the code from the *else* clause (send unmodified value) */
-if (packet->event == E_WONDER_OBSOLETE && pc
-    && !has_capability("event_wonder_obsolete", pc->capability)) {
-  cptr=put_uint32(cptr, E_NOEVENT);
-} else {
   cptr=put_uint32(cptr, packet->event);
-}
 
   cptr=put_string(cptr, packet->message);
   put_uint16(buffer, cptr-buffer);
@@ -2809,12 +2530,13 @@ receive_packet_join_game_reply(struct connection *pc)
   iget_string(&iter, packet->message, sizeof(packet->message));
   iget_string(&iter, packet->capability, sizeof(packet->capability));
 
+  /* This must stay even at new releases! */
   /* NOTE: pc doesn't yet have capability filled in!  Use packet value: */
-if (has_capability("conn_info", packet->capability)) {
-  iget_uint32(&iter, &packet->conn_id);
-} else {
-  packet->conn_id = 0;
-}
+  if (has_capability("conn_info", packet->capability)) {
+    iget_uint32(&iter, &packet->conn_id);
+  } else {
+    packet->conn_id = 0;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2839,15 +2561,7 @@ receive_packet_generic_message(struct connection *pc)
     packet->x = -1;
     packet->y = -1;
   }
-  
-  /* when removing "event00_fix" capability, remove following block */
-  if (packet->x==0 && packet->y==0
-      && !has_capability("event00_fix", pc->capability)) {
-    packet->x = -1;
-    packet->y = -1;
-  }
-  /* remove to here */
- 
+
   iget_uint32(&iter, &packet->event);
   iget_string(&iter, packet->message, sizeof(packet->message));
   
@@ -2986,9 +2700,7 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->government_when_anarchy);
   
   cptr=put_uint8(cptr, packet->num_unit_types);
-if (pc && has_capability("indef_impr_types", pc->capability)) {
   cptr=put_uint8(cptr, packet->num_impr_types);
-}
   cptr=put_uint8(cptr, packet->num_tech_types);
  
   cptr=put_uint8(cptr, packet->nation_count);
@@ -3029,11 +2741,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->government_when_anarchy);
 
   iget_uint8(&iter, &packet->num_unit_types);
-if (pc && has_capability("indef_impr_types", pc->capability)) {
   iget_uint8(&iter, &packet->num_impr_types);
-} else {
-packet->num_impr_types = B_LAST_ENUM;
-}
   iget_uint8(&iter, &packet->num_tech_types);
 
   iget_uint8(&iter, &packet->nation_count);
@@ -3240,9 +2948,7 @@ int send_packet_ruleset_building(struct connection *pc,
     cptr=put_uint8(cptr, eff->type);
     cptr=put_uint8(cptr, eff->range);
     cptr=put_sint16(cptr, eff->amount);
-if (pc && has_capability("gen_impr_oversights", pc->capability)) {
     cptr=put_uint8(cptr, eff->survives);
-}
     cptr=put_uint8(cptr, eff->cond_bldg);
     cptr=put_uint8(cptr, eff->cond_gov);
     cptr=put_uint8(cptr, eff->cond_adv);
@@ -3295,13 +3001,7 @@ receive_packet_ruleset_building(struct connection *pc)
     iget_uint8(&iter, (int *)&(packet->effect[inx].type));
     iget_uint8(&iter, (int *)&(packet->effect[inx].range));
     iget_sint16(&iter, &(packet->effect[inx].amount));
-if (pc && has_capability("gen_impr_oversights", pc->capability)) {
     iget_uint8(&iter, &(packet->effect[inx].survives));
-} else {
-packet->effect[inx].survives =
-  ((packet->effect[inx].type == EFT_ENABLE_NUKE) ||
-   (packet->effect[inx].type == EFT_ENABLE_SPACE));
-}
     iget_uint8(&iter, &(packet->effect[inx].cond_bldg));
     iget_uint8(&iter, &(packet->effect[inx].cond_gov));
     iget_uint8(&iter, &(packet->effect[inx].cond_adv));
@@ -3455,9 +3155,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->may_mine);
   cptr=put_uint8(cptr, packet->may_transform);
   cptr=put_uint8(cptr, packet->ocean_reclaim_requirement);
-if (pc && has_capability("land_channel_requirement", pc->capability)) {
   cptr=put_uint8(cptr, packet->land_channel_requirement);
-}
   cptr=put_uint8(cptr, packet->river_move_mode);
   cptr=put_uint16(cptr, packet->river_defense_bonus);
   cptr=put_uint16(cptr, packet->river_trade_incr);
@@ -3470,11 +3168,10 @@ if (pc && has_capability("land_channel_requirement", pc->capability)) {
   cptr=put_uint16(cptr, packet->pollution_food_penalty);
   cptr=put_uint16(cptr, packet->pollution_shield_penalty);
   cptr=put_uint16(cptr, packet->pollution_trade_penalty);
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   cptr=put_uint16(cptr, packet->fallout_food_penalty);
   cptr=put_uint16(cptr, packet->fallout_shield_penalty);
   cptr=put_uint16(cptr, packet->fallout_trade_penalty);
-}
+
   if (packet->river_help_text) cptr=put_string(cptr, packet->river_help_text);
 
   put_uint16(buffer, cptr-buffer);
@@ -3501,11 +3198,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint8(&iter, &packet->may_mine);
   iget_uint8(&iter, &packet->may_transform);
   iget_uint8(&iter, (int*)&packet->ocean_reclaim_requirement);
-if (pc && has_capability("land_channel_requirement", pc->capability)) {
   iget_uint8(&iter, (int*)&packet->land_channel_requirement);
-} else {
-  packet->land_channel_requirement = 0;
-}
   iget_uint8(&iter, (int*)&packet->river_move_mode);
   iget_uint16(&iter, &packet->river_defense_bonus);
   iget_uint16(&iter, &packet->river_trade_incr);
@@ -3518,11 +3211,9 @@ if (pc && has_capability("land_channel_requirement", pc->capability)) {
   iget_uint16(&iter, &packet->pollution_food_penalty);
   iget_uint16(&iter, &packet->pollution_shield_penalty);
   iget_uint16(&iter, &packet->pollution_trade_penalty);
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   iget_uint16(&iter, &packet->fallout_food_penalty);
   iget_uint16(&iter, &packet->fallout_shield_penalty);
   iget_uint16(&iter, &packet->fallout_trade_penalty);
-}
 
   len = pack_iter_remaining(&iter);
   if (len) {
@@ -3840,12 +3531,7 @@ int send_packet_ruleset_game(struct connection *pc,
                              const struct packet_ruleset_game *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-/* when removing "game_ruleset" capability,
-remove this *entire* piece of code (to REMOVE TO HERE, below) */
-if (pc && !has_capability("game_ruleset", pc->capability)) {
-return 0;
-}
-/* REMOVE TO HERE */
+
   cptr=put_uint8(buffer+2, PACKET_RULESET_GAME);
 
   cptr=put_uint8(cptr, packet->min_city_center_food);
@@ -3855,13 +3541,9 @@ return 0;
   cptr=put_uint8(cptr, packet->init_vis_radius_sq);
   cptr=put_uint8(cptr, packet->hut_overflight);
   cptr=put_uint8(cptr, packet->pillage_select);
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   cptr=put_uint8(cptr, packet->nuke_contamination);
-}
-if (pc && has_capability("gen_granary_size", pc->capability)) {
   cptr=put_uint8(cptr, packet->granary_food_ini);
   cptr=put_uint8(cptr, packet->granary_food_inc);
-}
 
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -3886,18 +3568,9 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->init_vis_radius_sq);
   iget_uint8(&iter, &packet->hut_overflight);
   iget_uint8(&iter, &packet->pillage_select);
-if (pc && has_capability("nuclear_fallout", pc->capability)) {
   iget_uint8(&iter, &packet->nuke_contamination);
-} else {
-  packet->nuke_contamination = CONTAMINATION_POLLUTION;
-}
-if (pc && has_capability("gen_granary_size", pc->capability)) {
   iget_uint8(&iter, &packet->granary_food_ini);
   iget_uint8(&iter, &packet->granary_food_inc);
-} else {
-  packet->granary_food_ini = 1;
-  packet->granary_food_inc = 100;
-}
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

@@ -21,7 +21,6 @@
 #include <gtk/gtk.h>
 
 #include "astring.h"
-#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "map.h"
@@ -1063,8 +1062,7 @@ void update_menus(void)
       menus_set_sensitive("<main>/_Orders/_Connect",
                           can_unit_do_connect(punit, ACTIVITY_IDLE));
       menus_set_sensitive("<main>/_Orders/Patrol (_Q)",
-                          can_unit_do_activity(punit, ACTIVITY_PATROL)
-                          && has_capability("activity_patrol", aconnection.capability));
+                          can_unit_do_activity(punit, ACTIVITY_PATROL));
       menus_set_sensitive("<main>/_Orders/Diplomat|Spy Actions",
                           (is_diplomat_unit(punit)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,

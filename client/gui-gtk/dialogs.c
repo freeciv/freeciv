@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -1074,8 +1073,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
        message_dialog_button_set_sensitive(shl,"button3",FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,"button4",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 || !has_capability("diplo_move_city", aconnection.capability))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,"button5",FALSE);
     }else{
        shl=popup_message_dialog(top_vbox, /*"spydialog"*/
@@ -1102,8 +1100,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
        message_dialog_button_set_sensitive(shl,"button4",FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,"button5",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 || !has_capability("diplo_move_city", aconnection.capability))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,"button6",FALSE);
      }
 

@@ -24,7 +24,6 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "map.h"
 #include "mem.h"
@@ -354,8 +353,7 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
 			   can_unit_do_connect(punit, ACTIVITY_IDLE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_PATROL, 
-			   can_unit_do_activity(punit, ACTIVITY_PATROL)
-			   && has_capability("activity_patrol", aconnection.capability));
+			   can_unit_do_activity(punit, ACTIVITY_PATROL));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,

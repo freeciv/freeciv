@@ -20,7 +20,6 @@
 #include <time.h>
 #include <assert.h>
 
-#include "capability.h"
 #include "capstr.h"
 #include "events.h"
 #include "fcintl.h"
@@ -984,31 +983,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.civstyle=pinfo->civstyle;
   game.unhappysize = pinfo->unhappysize;
   game.cityfactor = pinfo->cityfactor;
-/* when removing "game_ruleset" capability,
-remove this *entire* piece of code (to REMOVE TO HERE, below) */
-if (!has_capability("game_ruleset", aconnection.capability)) {
-if (game.civstyle == 1) {
-game.rgame.min_city_center_food = 0;
-game.rgame.min_city_center_shield = 0;
-game.rgame.min_city_center_trade = 0;
-game.rgame.min_dist_bw_cities = 1;
-game.rgame.init_vis_radius_sq = 2;
-game.rgame.hut_overflight = OVERFLIGHT_NOTHING;
-game.rgame.pillage_select = 0;
-} else {
-game.rgame.min_city_center_food = 1;
-game.rgame.min_city_center_shield = 1;
-game.rgame.min_city_center_trade = 0;
-game.rgame.min_dist_bw_cities = 2;
-game.rgame.init_vis_radius_sq = 5;
-game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
-game.rgame.pillage_select = 1;
-}
-game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
-game.rgame.granary_food_ini = 1;
-game.rgame.granary_food_inc = 100;
-}
-/* REMOVE TO HERE */
 
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
@@ -1071,38 +1045,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->research.researching=pinfo->researching;
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
-
-  /* Remove this when "conn_info" capability removed: */
-  if (!has_capability("conn_info", aconnection.capability)) {
-    /* Fake things for old servers; old server sends blank_addr_str
-     * for non-connected players.
-     */
-    struct connection *pconn;
-    if (strcmp(pinfo->addr, blank_addr_str)==0) {
-      while (conn_list_size(&pplayer->connections)) { /* only expect one */
-	pconn = conn_list_get(&pplayer->connections, 0);
-	client_remove_cli_conn(pconn);
-      }
-    } else {
-      if (conn_list_size(&pplayer->connections)) {
-	pconn = conn_list_get(&pplayer->connections, 0);
-      } else {
-	pconn = fc_calloc(1, sizeof(struct connection));
-	pconn->buffer = NULL;
-	pconn->send_buffer = NULL;
-	conn_list_insert_back(&pplayer->connections, pconn);
-	conn_list_insert_back(&game.all_connections, pconn);
-	conn_list_insert_back(&game.est_connections, pconn);
-	conn_list_insert_back(&game.game_connections, pconn);
-      }
-      sz_strlcpy(pconn->capability, pinfo->capability);
-      sz_strlcpy(pconn->addr, pinfo->addr);
-      sz_strlcpy(pconn->name, pplayer->name);
-      pconn->player = pplayer;
-      pconn->established = 1;
-    }
-  }
-  /* Remove to here */
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     if(poptechup) {

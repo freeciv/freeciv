@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -430,7 +429,6 @@ void handle_diplomacy_create_clause(struct player *pplayer,
 {
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver;
-  int capability;
 
   if (!check_packet(packet, 1))
     return;
@@ -438,24 +436,6 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
-
-  capability = 1;
-  conn_list_iterate(plr0->connections, pconn) {
-    if (!has_capability("shared_vision", pconn->capability))
-      capability = 0;
-  } conn_list_iterate_end;
-  conn_list_iterate(plr1->connections, pconn) {
-    if (!has_capability("shared_vision", pconn->capability))
-      capability = 0;
-  } conn_list_iterate_end;
-  if (packet->clause_type == CLAUSE_VISION
-      && !capability) {
-    notify_player(plr0, "Game: shared vision clause not added as not all "
-		  "connected clients have the capability");
-    notify_player(plr1, "Game: shared vision clause not added as not all "
-		  "connected clients have the capability");
-    return;
-  }
 
   if ((ptreaty=find_treaty(plr0, plr1))) {
     if (add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {

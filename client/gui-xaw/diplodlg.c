@@ -33,7 +33,6 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Viewport.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
@@ -484,8 +483,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				commandWidgetClass, 
 				pdialog->dip_form0,
 				NULL));
-  if (plr0->gives_shared_vision & (1<<plr1->player_no)
-      || !has_capability("shared_vision", aconnection.capability))
+  if (plr0->gives_shared_vision & (1<<plr1->player_no))
     XtSetSensitive(pdialog->dip_vision_button0, FALSE);
 
   pdialog->dip_vision_button1 =
@@ -493,8 +491,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				commandWidgetClass, 
 				pdialog->dip_form1,
 				NULL));
-  if (plr1->gives_shared_vision & (1<<plr0->player_no)
-      || !has_capability("shared_vision", aconnection.capability))
+  if (plr1->gives_shared_vision & (1<<plr0->player_no))
     XtSetSensitive(pdialog->dip_vision_button1, FALSE);
 
   XtAddCallback(pdialog->dip_vision_button0, XtNcallback, 

@@ -20,7 +20,6 @@
 #include <string.h>
 
 #include "barbarian.h"
-#include "capability.h"
 #include "city.h"
 #include "combat.h"
 #include "events.h"
@@ -514,17 +513,10 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
-      int capability = 1;
       if (!check_coords(&pinfo->x, &pinfo->y))
 	return;
 
-      conn_list_iterate(pplayer->connections, pconn) {
-	if (!has_capability("new_airlift", pconn->capability))
-	  capability = 0;
-      } conn_list_iterate_end;
-
-      if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)
-	  || !capability) {
+      if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
 	punit->ai.control = 0;
 	handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
       } else {
@@ -792,11 +784,6 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 
   if (!check_coords(&dest_x, &dest_y))
     return 0;
-
-  /* Remove when removing capability "new_airlift".
-     has_capability (so a grep will show this reference :) ) */
-  if (pcity && do_airline(punit, pcity))
-    return 1;
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */
   if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y))

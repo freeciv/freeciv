@@ -468,10 +468,7 @@ const struct player_diplstate *player_get_diplstate(const int player,
 }
 
 /***************************************************************
-returns true iff players can attack each other.  Note that this
-returns true if either player doesn't have the "dipl_states"
-capability, so anyone can beat on them; this is for backward
-compatibility with non-dipl_states-speaking clients.
+returns true iff players can attack each other.
 ***************************************************************/
 int pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2)

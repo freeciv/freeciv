@@ -31,7 +31,6 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"

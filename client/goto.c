@@ -14,7 +14,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "capability.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -722,9 +721,6 @@ static void undraw_line(void)
   if (!is_active)
     return;
 
-  if (!has_capability("activity_patrol", aconnection.capability))
-    return;
-
   assert(waypoint_list_index);
   pwaypoint = &waypoint_list[waypoint_list_index-1]; /* active source */
 
@@ -816,9 +812,6 @@ void draw_line(int dest_x, int dest_y)
     undraw_line();
     return;
   }
-
-  if (!has_capability("activity_patrol", aconnection.capability))
-    return;
 
   /* puts the route into "route" */
   start_index = find_route(dest_x, dest_y);

@@ -470,11 +470,6 @@ struct packet_player_info {
   int is_barbarian;
   struct worklist worklists[MAX_NUM_WORKLISTS];
   unsigned int gives_shared_vision;
-
-  /* Remove following when "conn_info" capability removed: */
-  char addr[MAX_LEN_ADDR];
-  char capability[MAX_LEN_CAPSTR];
-  /* Remove to here */
 };
 
 /**************************************************************************

@@ -16,7 +16,6 @@
 
 #include <assert.h>
 
-#include "capability.h"
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
@@ -1024,19 +1023,6 @@ static void package_player_common(struct player *plr,
 
   packet->turn_done=plr->turn_done;
   packet->nturns_idle=plr->nturns_idle;
-
-  /* Remove when "conn_info" capability removed: now sent in
-   * conn_info packet.  For old clients (conditional in packets.c)
-   * use player_addr_hack() and capstr of first connection:
-   */
-  sz_strlcpy(packet->addr, player_addr_hack(plr));
-  if (conn_list_size(&plr->connections)) {
-    sz_strlcpy(packet->capability,
-               conn_list_get(&plr->connections, 0)->capability);
-  } else {
-  packet->capability[0] = '\0';
-  }
-  /* Remove to here */
 }
 
 /**************************************************************************

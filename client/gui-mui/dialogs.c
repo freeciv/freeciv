@@ -30,7 +30,6 @@
 
 #include "version.h"
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -832,8 +831,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       	i++;
       }
 
-      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 && has_capability("diplo_move_city", aconnection.capability))
+      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
       {
       	msg_dlg[i].label = _("_Keep moving");
       	msg_dlg[i].function = (APTR)diplomat_move;
@@ -900,8 +898,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       	i++;
       }
 
-      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 && has_capability("diplo_move_city", aconnection.capability))
+      if(diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
       {
       	msg_dlg[i].label = _("_Keep moving");
       	msg_dlg[i].function = (APTR)diplomat_move;

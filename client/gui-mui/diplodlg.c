@@ -26,7 +26,6 @@
 #include <proto/utility.h>
 #include <proto/muimaster.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
@@ -653,12 +652,6 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
              get_nation_name(plr1->nation),
              get_ruler_title(plr1->government,plr1->is_male,plr1->nation),
              plr1->name);
-
-    if(!has_capability("shared_vision", aconnection.capability))
-    {
-      set(pdialog->plr0_vision_button, MUIA_Disabled, TRUE);
-      set(pdialog->plr1_vision_button, MUIA_Disabled, TRUE);
-    }
 
     DoMethod(pdialog->plr0_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr0->player_no);
     DoMethod(pdialog->plr1_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr1->player_no);

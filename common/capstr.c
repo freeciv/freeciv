@@ -70,81 +70,12 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
-" game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
-" event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
-" indef_impr_types worklist_true_ids shared_vision activity_patrol" \
-" gen_granary_size happiness_display production_change_fix2 ping_packet" \
-" new_airlift"
-
-/* "+1.11" is protocol for 1.11.0 stable release.
-
-   "diplomat_investigate_fix" extends the protocol so that diplomat
-   investigation of a city reveals the correct supported and present
-   unit lists.
-
-   "production_change_fix" extends the protocol so that city production
-   changes are correctly accounted for, allowing for recovery of penalty
-   when changing back to original class.
-
-   "game_ruleset" is use of game.ruleset instead of civstyle option.
-
-   "nuclear_fallout" is protocol extension for having nuclear fallout
-   be distinct from industrial pollution.
-
-   "land_channel_requirement" extends the protocol for the requirement
-   of a minimum number of ocean tiles adjacent to a land tile wished to
-   be changed to ocean.
-
-   "event_wonder_obsolete" is a message event type, letting players know
-   when one of their wonders has been made obsolete by a tech advance
-   anywhere in the world.
-   
-   "event00_fix" is that client understands that negative positions for
-   events means no position.  Previous clients expect (0,0), which is
-   also a genuine position.
-
-   "conn_info" is protocol changes to tell clients more information
-   about other connections to the server, including about multiple
-   connections per player.
-
-   "gen_impr_oversights" extends the protocol to include information
-   which addresses a few oversights in the original design.
-
-   "diplo_move_city" means server knows DIPLOMAT_MOVE activity for
-   diplomats to move into (allied) cities.
-
-   "packet_short_city" is smaller packet often sent instead of
-   packet_city_info.
-
-   "indef_impr_types" extends the protocol to allow for an indefinite
-   number of improvement types.
-
-   "worklist_true_ids" changes the worklist internals and extends
-   the protocol so that unit and improvement IDs are communicated as
-   their true values (units are no longer B_LAST + unit_id).  A flag
-   field is added to discriminate between unit and improvement and to
-   specify the end of the list.
-
-   "shared_vision" is the ability to negotiate and display info about
-   shared vision.
-
-   "activity_patrol" is the patrol activity and the ability to send a goto
-   route from the client to the server (for both goto and patrol activities).
-
-   "gen_granary_size" adds the option to change the way the size of the 
-   food storage box is calculated.
-
-   "happiness_display" is the ability of the client to show a detailed
-   breakdown of a city's happiness components.  Previously, only 
-   ppl_happy[4] etc. were sent to the client.  Now all components have 
-   to be sent.
-
-   "production_change_fix2" is various fixes to lost/regained shield when
-   changing production. (and sending disbanded_shields and caravan_shields
-   over the connection.)
-
-   "new_airlift" is using PACKET_UNIT_AIRLIFT.
+#define CAPABILITY "+1.11.6 conn_info"
+  
+/* "+1.11.6" is protocol for 1.11.6 beta release.
+  
+   "conn_info" is sending the conn_id field. To preserve compatability
+   with old clients trying to connect this should persist across releases.
 */
 
 void init_our_capability(void)

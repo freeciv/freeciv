@@ -32,7 +32,6 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/Toggle.h>     
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -1100,8 +1099,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 || !has_capability("diplo_move_city", aconnection.capability))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
     }else{
       shl=popup_message_dialog(toplevel, "spydialog", buf,
@@ -1127,8 +1125,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
-	 || !has_capability("diplo_move_city", aconnection.capability))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button6"), FALSE);
     }
 

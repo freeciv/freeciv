@@ -17,7 +17,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -533,19 +532,11 @@ void request_unit_unload(struct unit *punit)
 **************************************************************************/
 void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
-  if (has_capability("new_airlift", aconnection.capability)) {
-    struct packet_unit_request p;
-    p.unit_id = punit->id;
-    p.x = pcity->x;
-    p.y = pcity->y;
-    send_packet_unit_request(&aconnection, &p, PACKET_UNIT_AIRLIFT);
-  } else {
-    struct unit req_unit;
-    req_unit = *punit;
-    req_unit.x = pcity->x;
-    req_unit.y = pcity->y;
-    send_unit_info(&req_unit);
-  }
+  struct packet_unit_request p;
+  p.unit_id = punit->id;
+  p.x = pcity->x;
+  p.y = pcity->y;
+  send_packet_unit_request(&aconnection, &p, PACKET_UNIT_AIRLIFT);
 }
 
 /**************************************************************************
@@ -834,7 +825,7 @@ void request_unit_patrol(void)
 {
   struct unit *punit = get_unit_in_focus();
 
-  if (!punit || !has_capability("activity_patrol", aconnection.capability))
+  if (!punit)
     return;
 
   if (hover_state != HOVER_PATROL) {
@@ -1234,8 +1225,6 @@ void do_unit_goto(int x, int y)
   if (punit) {
     if (!draw_goto_line) {
       send_goto_unit(punit, x, y);
-    } else if (!has_capability("activity_patrol", aconnection.capability)){
-      send_goto_unit(punit, x, y);
     } else {
       int dest_x, dest_y;
       draw_line(x, y);
@@ -1282,7 +1271,6 @@ Paradrop to a location
 **************************************************************************/
 void do_unit_patrol_to(struct unit *punit, int x, int y)
 {
-if (has_capability("activity_patrol", aconnection.capability)) {
   if (is_air_unit(punit)) {
     append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
     return;
@@ -1298,9 +1286,6 @@ if (has_capability("activity_patrol", aconnection.capability)) {
   }
 
   set_hover_state(NULL, HOVER_NONE);
-} else {
-  /* nothing */
-}
 }
  
 /**************************************************************************

@@ -20,7 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
