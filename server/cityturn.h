@@ -31,6 +31,7 @@ int city_check_workers(struct city *pcity, int send_changed_adjacent_cities);
 /**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 
 void city_auto_remove_worker(struct city *pcity); 
+void send_global_city_turn_notifications(struct conn_list *dest);
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);
 void begin_cities_turn(struct player *pplayer);
 void update_city_activities(struct player *pplayer);

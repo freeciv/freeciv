@@ -754,6 +754,32 @@ void auto_arrange_workers(struct city *pcity)
 }
 
 /**************************************************************************
+Notices about cities that should be sent to all players.
+**************************************************************************/
+void send_global_city_turn_notifications(struct conn_list *dest)
+{
+  if (!dest)
+    dest = &game.all_connections;
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      /* can_player_build_improvement() checks whether wonder is build
+	 elsewhere (or destroyed) */
+      if (!pcity->is_building_unit && is_wonder(pcity->currently_building)
+	  && (city_turns_to_build(pcity, pcity->currently_building, 0) <= 1)
+	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
+	notify_conn_ex(dest, pcity->x, pcity->y,
+		       E_CITY_WONDER_WILL_BE_BUILT,
+		       _("Game: Notice: Wonder %s in %s will be finished"
+			 " next turn."), 
+		       get_improvement_name(pcity->currently_building),
+		       pcity->name);
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+}
+
+/**************************************************************************
   Send turn notifications for specified city to specified connections.
   Neither dest nor pcity may be NULL.
 **************************************************************************/
@@ -761,19 +787,6 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 {
   int turns_growth, turns_granary;
   int can_grow;
-
-  /* can_player_build_improvement() checks whether wonder is build
-     elsewhere (or destroyed) */
-  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)
-      && (city_turns_to_build(pcity, pcity->currently_building, 0) <= 1)
-      && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
-    notify_conn_ex(dest, pcity->x, pcity->y,
-		   E_CITY_WONDER_WILL_BE_BUILT,
-		   _("Game: Notice: Wonder %s in %s will be finished"
-		     " next turn."), 
-		   get_improvement_name(pcity->currently_building),
-		   pcity->name);
-  }
  
   if (pcity->food_surplus > 0) {
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)

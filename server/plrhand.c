@@ -98,6 +98,8 @@ void send_player_turn_notifications(struct conn_list *dest)
       city_list_iterate_end;
     }
   }
+
+  send_global_city_turn_notifications(dest);
 }
 
 /**************************************************************************
