@@ -339,10 +339,13 @@ int main(int argc, char *argv[])
     /* otherwise rulesets were loaded when savegame was loaded */
   }
 
-  send_rulesets(0);
-
   nations_avail = fc_calloc( game.nation_count, sizeof(int));
   nations_used = fc_calloc( game.nation_count, sizeof(int));
+
+main_start_players:
+
+  send_rulesets(0);
+
   num_nations_avail = game.nation_count;
   for(i=0; i<game.nation_count; i++) {
       nations_avail[i]=i;
@@ -360,7 +363,7 @@ int main(int argc, char *argv[])
       server_state = SELECT_RACES_STATE;
     }
   }
-  
+
   while(server_state==SELECT_RACES_STATE) {
     sniff_packets();
     for(i=0; i<game.nplayers; i++) {
@@ -368,8 +371,18 @@ int main(int argc, char *argv[])
 	break;
       }
     }
-    if(i==game.nplayers)
-      server_state=RUN_GAME_STATE;
+    if(i==game.nplayers) {
+      if(i>0) {
+	server_state=RUN_GAME_STATE;
+      } else {
+	con_write(C_COMMENT, "Last player has disconnected: will need to restart.");
+	server_state=PRE_GAME_STATE;
+	while(server_state==PRE_GAME_STATE) {
+	  sniff_packets();
+	}
+	goto main_start_players;
+      }
+    }
   }
 
   if(!game.randseed) {

@@ -648,11 +648,11 @@ void handle_player_info(struct packet_player_info *pinfo)
   int poptechup;
   char msg[MAX_LEN_MSG];
   struct player *pplayer=&game.players[pinfo->playerno];
-  
+
   strcpy(pplayer->name, pinfo->name);
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
-  
+
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;
   pplayer->economic.science=pinfo->science;
@@ -711,7 +711,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(pplayer==game.player_ptr && 
      (pplayer->revolution < 1 || pplayer->revolution > 5) && 
      pplayer->government==game.government_when_anarchy &&
-     (!game.player_ptr->ai.control || ai_popup_windows))
+     (!game.player_ptr->ai.control || ai_popup_windows) &&
+     (get_client_state()==CLIENT_GAME_RUNNING_STATE))
     popup_government_dialog();
   
   update_players_dialog();

@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -34,6 +35,7 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "clinet.h"
 #include "control.h"
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -57,6 +59,8 @@ GtkWidget	*races_dialog_shell=NULL;
 GtkWidget	*races_toggles_form;
 GtkWidget       *races_sex_toggles_form;
 GtkWidget	*races_ok_command;		/* ok button */
+GtkWidget	*races_disc_command=NULL;	/* disc button */
+GtkWidget	*races_quit_command=NULL;	/* quit button */
 GtkWidget	**races_toggles=NULL,		/* toggle race */
                 *races_sex_toggles       [2],   /* Male/Female */
 		*races_name;			/* leader name */
@@ -1638,6 +1642,16 @@ void create_races_dialog(void)
   GTK_WIDGET_SET_FLAGS( races_ok_command, GTK_CAN_DEFAULT );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
 	races_ok_command, TRUE, TRUE, 0 );
+  if(has_capability("dconn_in_sel_nat", aconnection.capability)) {
+    races_disc_command = gtk_button_new_with_label( "Disconnect" );
+    GTK_WIDGET_SET_FLAGS( races_disc_command, GTK_CAN_DEFAULT );
+    gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
+ 			races_disc_command, TRUE, TRUE, 0 );
+    races_quit_command = gtk_button_new_with_label( "Quit" );
+    GTK_WIDGET_SET_FLAGS( races_quit_command, GTK_CAN_DEFAULT );
+    gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
+ 			races_quit_command, TRUE, TRUE, 0 );
+  }
 
   for(i=0; i<game.nation_count; i++)
 	gtk_signal_connect( GTK_OBJECT( races_toggles[i] ), "toggled",
@@ -1657,6 +1671,12 @@ void create_races_dialog(void)
 
   gtk_signal_connect( GTK_OBJECT( races_ok_command ), "clicked",
 			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
+  if(has_capability("dconn_in_sel_nat", aconnection.capability)) {
+    gtk_signal_connect( GTK_OBJECT( races_disc_command ), "clicked",
+			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
+    gtk_signal_connect( GTK_OBJECT( races_quit_command ), "clicked",
+			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
+  }
 
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->action_area );
@@ -1780,6 +1800,14 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   char *s;
 
   struct packet_alloc_nation packet;
+
+  if(w==races_quit_command) {
+    exit(0);
+  } else if(w==races_disc_command) {
+    popdown_races_dialog();
+    disconnect_from_server();
+    return;
+  }
 
   if((selected=races_buttons_get_current())==-1) {
     append_output_window(_("You must select a nation."));

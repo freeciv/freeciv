@@ -90,7 +90,7 @@ char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 
 /***************************************************************
 Returns sex of given leader name. If names is not found,
-return 0 (meaning male).
+return 1 (meaning male).
 ***************************************************************/
 int get_nation_leader_sex(Nation_Type_id nation, char *name)
 {
@@ -106,7 +106,7 @@ int get_nation_leader_sex(Nation_Type_id nation, char *name)
   if( i <  nations[nation].leader_count )
     return nations[nation].leader_is_male[i];
   else
-    return 0;
+    return 1;
 }
 
 /***************************************************************

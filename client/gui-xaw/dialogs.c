@@ -21,15 +21,17 @@
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+#include <X11/Xaw/AsciiText.h>  
+#include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/List.h>
+#include <X11/Xaw/MenuButton.h>
 #include <X11/Xaw/SimpleMenu.h>
-#include <X11/Xaw/Toggle.h>     
-#include <X11/Xaw/Command.h>
-#include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/SmeBSB.h>
+#include <X11/Xaw/Toggle.h>     
 
+#include "capability.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -39,6 +41,7 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "clinet.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"
 #include "gui_stuff.h"
@@ -57,11 +60,14 @@ extern int ai_popup_windows;
 extern GC fill_bg_gc;
 
 /******************************************************************/
-Widget races_dialog_shell=NULL;
-Widget races_form, races_toggles_form, races_label;
-Widget races_ok_command;
-Widget *races_toggles=NULL, races_name;
-Widget races_sex_toggles[2], races_sex_form, races_sex_label;
+static Widget races_dialog_shell=NULL;
+static Widget races_form, races_toggles_form, races_label;
+static Widget *races_toggles=NULL;
+static Widget races_leader_form, races_leader;
+static Widget races_leader_pick_popupmenu, races_leader_pick_menubutton;
+static Widget races_sex_toggles[2], races_sex_form, races_sex_label;
+static Widget races_action_form;
+static Widget races_ok_command, races_disconnect_command, races_quit_command;
 
 /******************************************************************/
 Widget spy_tech_shell;
@@ -106,18 +112,29 @@ void help_button_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data);
 
 void create_rates_dialog(void);
-void create_races_dialog(void);
 void create_about_dialog(void);
 void create_help_dialog(Widget *shell);
 
 
-int races_buttons_get_current(void);
+/******************************************************************/
+static void create_races_dialog(void);
+static void races_leader_set_values(int race, int lead);
+static int races_buttons_get_current(void);
+static int races_sex_buttons_get_current(void);
+static void races_sex_buttons_set_current(int i);
 
-void races_buttons_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
-void races_toggles_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
+static void races_toggles_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data);
+static void races_leader_pick_callback(Widget w, XtPointer client_data,
+				       XtPointer call_data);
+static void races_ok_command_callback(Widget w, XtPointer client_data, 
+				      XtPointer call_data);
+static void races_disconnect_command_callback(Widget w, XtPointer client_data, 
+					      XtPointer call_data);
+static void races_quit_command_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data);
 
+/******************************************************************/
 void unit_select_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
 void unit_select_all_callback(Widget w, XtPointer client_data, 
@@ -1561,19 +1578,20 @@ void popdown_races_dialog(void)
 ...
 *****************************************************************/
 void create_races_dialog(void)
- 
 {
-  int i, j, maxlen;
-  char maxname[MAX_LEN_NAME];
+  int i, j, len, maxracelen;
+  char maxracename[MAX_LEN_NAME];
+  int space;
+  XtWidgetGeometry geom;
   XtTranslations textfieldtranslations;
 
-  maxlen = 0;
+  maxracelen = 0;
   for(i=0; i<game.nation_count; i++) {
-    int len = strlen(get_nation_name(i));
-    maxlen = MAX(maxlen, len);
+    len = strlen(get_nation_name(i));
+    maxracelen = MAX(maxracelen, len);
   }
-  maxlen = MIN(maxlen, MAX_LEN_NAME-1);
-  sprintf(maxname, "%*s", maxlen+2, "W");
+  maxracelen = MIN(maxracelen, MAX_LEN_NAME-1);
+  sprintf(maxracename, "%*s", maxracelen+2, "W");
 
   races_dialog_shell = XtCreatePopupShell("racespopup", 
 					  transientShellWidgetClass,
@@ -1599,7 +1617,7 @@ void create_races_dialog(void)
   races_toggles[0]=XtVaCreateManagedWidget("racestoggle0", 
 					   toggleWidgetClass, 
 					   races_toggles_form,
-					   XtNlabel, maxname,
+					   XtNlabel, maxracename,
 					   NULL);
   if( game.nation_count > 1 )
     races_toggles[1]=XtVaCreateManagedWidget("racestoggle1", 
@@ -1609,7 +1627,7 @@ void create_races_dialog(void)
 					     races_toggles[0],
 					     XtNfromHoriz,
 					     races_toggles[0],
-					     XtNlabel, maxname,
+					     XtNlabel, maxracename,
 					     NULL);
   if( game.nation_count > 2 )
     races_toggles[2]=XtVaCreateManagedWidget("racestoggle2", 
@@ -1619,7 +1637,7 @@ void create_races_dialog(void)
 					     races_toggles[1],
 					     XtNfromHoriz,
 					     races_toggles[1],
-					     XtNlabel, maxname,
+					     XtNlabel, maxracename,
 					     NULL);
 
   for( i = 1; i < (game.nation_count+2)/3; i++) {
@@ -1633,7 +1651,7 @@ void create_races_dialog(void)
 					       races_toggles[idx-1],
 					       XtNfromVert,
 					       races_toggles[idx-3],
-					       XtNlabel, maxname,
+					       XtNlabel, maxracename,
 					       NULL);
     for( j=0,idx=i*3+1; (j<2) && (idx<game.nation_count); idx++,j++) {
       sprintf(buf, "racestoggle%d", idx);
@@ -1646,24 +1664,41 @@ void create_races_dialog(void)
 						 races_toggles[idx-3],
 						 XtNfromHoriz,
 						 races_toggles[idx-1],
-						 XtNlabel, maxname,
+						 XtNlabel, maxracename,
 					         NULL);
     }
   }
 
-  races_name = XtVaCreateManagedWidget("racesname", 
-				       asciiTextWidgetClass, 
-				       races_form,
-				       XtNfromVert, 
-				       (XtArgVal)races_toggles_form,
-				       XtNeditType, XawtextEdit,
-				       XtNstring, "",
-				       NULL);
+  races_leader_form = XtVaCreateManagedWidget("racesleaderform",
+					      formWidgetClass,
+					      races_form,
+					      XtNfromVert, races_toggles_form,
+					      NULL);
+
+  XtVaGetValues(races_leader_form, XtNdefaultDistance, &space, NULL);
+  XtQueryGeometry(races_toggles[0], NULL, &geom);
+  races_leader = XtVaCreateManagedWidget("racesleader",
+					 asciiTextWidgetClass,
+					 races_leader_form,
+					 XtNeditType, XawtextEdit,
+					 XtNwidth,
+					   space + 2*(geom.width + geom.border_width),
+					 XtNstring, "",
+					 NULL);
+
+  races_leader_pick_popupmenu = 0;
+
+  races_leader_pick_menubutton =
+    XtVaCreateManagedWidget("racesleaderpickmenubutton",
+			    menuButtonWidgetClass,
+			    races_leader_form,
+			    XtNfromHoriz, races_leader,
+			    NULL);
 
   races_sex_label = XtVaCreateManagedWidget("racessexlabel", 
 				            labelWidgetClass, 
 				            races_form, 
-					    XtNfromVert, races_name, 
+					    XtNfromVert, races_leader_form, 
 					    NULL);  
 
   races_sex_form = XtVaCreateManagedWidget("racessexform", 
@@ -1686,10 +1721,39 @@ void create_races_dialog(void)
 					       races_sex_toggles[0], 
 					       NULL);
 
-  races_ok_command = XtVaCreateManagedWidget("racesokcommand", 
-					     commandWidgetClass,
-					     races_form,
-					     NULL);
+  races_action_form = XtVaCreateManagedWidget("racesactionform",
+					      formWidgetClass,
+					      races_form,
+					      XtNfromVert, races_sex_form,
+					      NULL);
+
+  races_ok_command =
+    XtVaCreateManagedWidget("racesokcommand",
+			    commandWidgetClass,
+			    races_action_form,
+			    NULL);
+
+  if(has_capability("dconn_in_sel_nat", aconnection.capability)) {
+    races_disconnect_command =
+      XtVaCreateManagedWidget("racesdisconnectcommand",
+			      commandWidgetClass,
+			      races_action_form,
+			      XtNfromHoriz, races_ok_command,
+			      NULL);
+
+    races_quit_command =
+      XtVaCreateManagedWidget("racesquitcommand",
+			      commandWidgetClass,
+			      races_action_form,
+			      XtNfromHoriz, races_disconnect_command,
+			      NULL);
+
+    XtAddCallback(races_disconnect_command, XtNcallback,
+		  races_disconnect_command_callback, NULL);
+    XtAddCallback(races_quit_command, XtNcallback,
+		  races_quit_command_callback, NULL);
+  }
+
 
   for(i=0; i<game.nation_count; i++) {
     XtAddCallback(races_toggles[i], XtNcallback, 
@@ -1697,14 +1761,15 @@ void create_races_dialog(void)
   }
 
 
-  XtAddCallback(races_ok_command, XtNcallback, races_buttons_callback, NULL);
+  XtAddCallback(races_ok_command, XtNcallback,
+		races_ok_command_callback, NULL);
 
   textfieldtranslations = 
     XtParseTranslationTable("<Key>Return: races-dialog-returnkey()");
-  XtOverrideTranslations(races_name, textfieldtranslations);
+  XtOverrideTranslations(races_leader, textfieldtranslations);
 
 
-  XtSetKeyboardFocus(races_form, races_name);
+  XtSetKeyboardFocus(races_form, races_leader);
   
   XtRealizeWidget(races_dialog_shell);
   
@@ -1712,6 +1777,7 @@ void create_races_dialog(void)
     XtVaSetValues(races_toggles[i], XtNlabel, (XtArgVal)get_nation_name(i), NULL);
   }
 
+  x_simulate_button_click(races_toggles[0]);
 }
 
 /****************************************************************
@@ -1766,15 +1832,72 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 void races_toggles_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  int i, dim;
+  int i, j;
+  int leader_count;
   char **leaders;
+  Widget entry;
 
-  for(i=0; i<game.nation_count; i++)
+  for(i=0; i<game.nation_count; i++) {
     if(w==races_toggles[i]) {
-      leaders = get_nation_leader_names(i, &dim);
-      XtVaSetValues(races_name, XtNstring, leaders[0], NULL);
+      leaders = get_nation_leader_names(i, &leader_count);
+
+      if(races_leader_pick_popupmenu)
+	XtDestroyWidget(races_leader_pick_popupmenu);
+
+      races_leader_pick_popupmenu =
+	XtVaCreatePopupShell("menu",
+			     simpleMenuWidgetClass,
+			     races_leader_pick_menubutton,
+			     NULL);
+
+      for(j=0; j<leader_count; j++) {
+	entry =
+	  XtVaCreateManagedWidget(leaders[j],
+				  smeBSBObjectClass,
+				  races_leader_pick_popupmenu,
+				  NULL);
+	XtAddCallback(entry,
+		      XtNcallback,
+		      races_leader_pick_callback,
+		      (XtPointer)((MAX_NUM_NATIONS * i) + j));
+      }
+
+      races_leader_set_values(i, 0);
+
       return;
     }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void races_leader_pick_callback(Widget w, XtPointer client_data,
+				XtPointer call_data)
+{
+  int race, lead;
+
+  race = ((int)client_data) / MAX_NUM_NATIONS;
+  lead = ((int)client_data) - (MAX_NUM_NATIONS * race);
+
+  races_leader_set_values(race, lead);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void races_leader_set_values(int race, int lead)
+{
+  int leader_count;
+  char **leaders;
+  int sex;
+
+  leaders = get_nation_leader_names(race, &leader_count);
+  XtVaSetValues(races_leader, XtNstring, leaders[lead], NULL);
+  XawTextSetInsertionPoint(races_leader, strlen(leaders[lead]));
+
+  sex = !(get_nation_leader_sex(race, leaders[lead]));
+  races_sex_buttons_set_current(sex);
 }
 
 /**************************************************************************
@@ -1784,6 +1907,9 @@ int races_buttons_get_current(void)
 {
   int i;
   XtPointer dp, yadp;
+
+  if(game.nation_count==1)
+    return 0;
 
   if(!(dp=XawToggleGetCurrent(races_toggles[0])))
     return -1;
@@ -1820,8 +1946,20 @@ int races_sex_buttons_get_current(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_buttons_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data)
+void races_sex_buttons_set_current(int i)
+{
+  XtPointer dp;
+
+  XtVaGetValues(races_sex_toggles[i], XtNradioData, &dp, NULL);
+
+  XawToggleSetCurrent(races_sex_toggles[0], dp);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void races_ok_command_callback(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
 {
   int selected, selected_sex;
   XtPointer dp;
@@ -1838,7 +1976,7 @@ void races_buttons_callback(Widget w, XtPointer client_data,
     return;
   }
 
-  XtVaGetValues(races_name, XtNstring, &dp, NULL);
+  XtVaGetValues(races_leader, XtNstring, &dp, NULL);
 
   /* perform a minimum of sanity test on the name */
   packet.nation_no=selected;
@@ -1854,6 +1992,25 @@ void races_buttons_callback(Widget w, XtPointer client_data,
   packet.name[0]=toupper(packet.name[0]);
 
   send_packet_alloc_nation(&aconnection, &packet);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void races_disconnect_command_callback(Widget w, XtPointer client_data, 
+				       XtPointer call_data)
+{
+  popdown_races_dialog();
+  disconnect_from_server();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void races_quit_command_callback(Widget w, XtPointer client_data, 
+				 XtPointer call_data)
+{
+  exit(0);
 }
 
 /**************************************************************************

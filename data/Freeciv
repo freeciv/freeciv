@@ -2821,39 +2821,47 @@ Freeciv*citymapcanvas.translations: \
 !
 ! the race selection dialog
 !
-Freeciv*racespopup.title:              What Nation Will You Be?
-Freeciv*raceslabel.label:              Select nation and name
-Freeciv*raceslabel.borderWidth:        0
-Freeciv*raceslabel.background:         lightblue
+Freeciv*racespopup.title:		What Nation Will You Be?
 
-Freeciv*racesokcommand.label:          Ok
+Freeciv*raceslabel.label:		Select nation and name:
+Freeciv*raceslabel.borderWidth:		0
+Freeciv*raceslabel.background:		lightblue
 
-Freeciv*racestogglesform.borderWidth:  1
+Freeciv*racesform.background:		lightblue
 
-Freeciv*racesname*String:              \ \ \ \ \ \ \ \ \ \ \ \ 
+Freeciv*racestogglesform.borderWidth:	1
+Freeciv*racestogglesform.background:	lightblue
+Freeciv*racestogglesform*background:	blue
+Freeciv*racestogglesform*foreground:	white
 
-Freeciv*racessexlabel.label:           Select your sex
-Freeciv*racessexlabel.background:      lightblue
-Freeciv*racessexlabel.borderWidth:     0
-Freeciv*racessextoggle0.label:         Male\ \ 
-Freeciv*racessextoggle1.label:         Female
-Freeciv*racessexform.background:       lightblue
-Freeciv*racessexform*background:       blue
-Freeciv*racessexform*foreground:       white
+Freeciv*racesleaderform.borderWidth:	0
 
-Freeciv*racesokcommand.fromVert:       racessexform
+Freeciv*racesleaderpickmenubutton.label:	Pick Name
+
+Freeciv*racessexlabel.label:		Select your sex:
+Freeciv*racessexlabel.borderWidth:	0
+Freeciv*racessexlabel.background:	lightblue
+
+Freeciv*racessextoggle0.label:		Male\ \ 
+Freeciv*racessextoggle1.label:		Female
+
+Freeciv*racessexform.background:	lightblue
+Freeciv*racessexform*background:	blue
+Freeciv*racessexform*foreground:	white
+
+Freeciv*racesactionform.borderWidth:	0
+
+Freeciv*racesokcommand.label:		\ Ok\ 
+
+Freeciv*racesdisconnectcommand.label:	Disconnect
+
+Freeciv*racesquitcommand.label:		Quit
 
 Freeciv*racespopup.racesform.racestogglesform.?.translations: #override\n\
 <Btn1Down>,<Btn1Up>:   set() notify()
 
 Freeciv*racespopup.racesform.racessexform.?.translations: #override\n\
 <Btn1Down>,<Btn1Up>:   set() notify()
-
-
-Freeciv*racesform.background: lightblue
-Freeciv*racestogglesform.background:   lightblue
-Freeciv*racestogglesform*background: blue
-Freeciv*racestogglesform*foreground: white
 
 
 !
