@@ -1,0 +1,21 @@
+Welcome to Freeciv 1.6!
+
+Thanks again to all our developers, who continue to work so hard.
+
+For 1.6, a _lot_ of bugs have been fixed, new features added, and thanks
+to John Stonebraker, the AI is ever-increasingly capable.
+
+Those who are interested in seeing the detailed changes should check
+the ChangeLog file.
+
+KNOWN BUGS:
+
+1.6.1 is still not completely bug-free, and there are a couple of
+known bugs in this release:
+ - When compiling with the experimental "configure" script, keyboard
+   input is ignored.
+ - There's possibly a problem with worker placement in the city dialog.
+
+Please report problems to the Freeciv mailing list.  See:
+
+  http://freeciv.ultraviolet.org
