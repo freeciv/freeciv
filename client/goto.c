@@ -376,7 +376,7 @@ static void fill_client_goto_parameter(struct unit *punit,
   assert(parameter->get_EC == NULL);
   parameter->get_EC = get_EC;
   assert(parameter->get_TB == NULL);
-  if (unit_type(punit)->attack_strength > 0 || unit_flag(punit, F_DIPLOMAT)) {
+  if (is_attack_unit(punit) || is_diplomat_unit(punit)) {
     parameter->get_TB = get_TB_aggr;
   } else if (unit_flag(punit, F_TRADE_ROUTE)
 	     || unit_flag(punit, F_HELP_WONDER)) {

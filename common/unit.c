@@ -348,7 +348,17 @@ bool is_ground_unit(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Is the unit capable of attacking?
+**************************************************************************/
+bool is_attack_unit(struct unit *punit)
+{
+  return (unit_type(punit)->attack_strength > 0);
+}
+
+/**************************************************************************
+  Military units are capable of enforcing martial law. Military ground
+  and heli units can occupy empty cities -- see COULD_OCCUPY(punit).
+  Some military units, like the Galleon, have no attack strength.
 **************************************************************************/
 bool is_military_unit(struct unit *punit)
 {
@@ -506,11 +516,13 @@ Return whether the unit can be put in auto-mode.
 **************************************************************************/
 bool can_unit_do_auto(struct unit *punit) 
 {
-  if (unit_flag(punit, F_SETTLERS))
+  if (unit_flag(punit, F_SETTLERS)) {
     return TRUE;
-  if (is_military_unit(punit) && unit_type(punit)->attack_strength > 0
-      && map_get_city(punit->x, punit->y))
+  }
+  if (is_military_unit(punit) && is_attack_unit(punit)
+      && map_get_city(punit->x, punit->y)) {
     return TRUE;
+  }
   return FALSE;
 }
 
@@ -1401,7 +1413,7 @@ A unit is *not* aggressive if one or more of following is true:
 **************************************************************************/
 bool unit_being_aggressive(struct unit *punit)
 {
-  if (unit_type(punit)->attack_strength==0)
+  if (!is_attack_unit(punit))
     return FALSE;
   if (map_get_city(punit->x,punit->y))
     return FALSE;

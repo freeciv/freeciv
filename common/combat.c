@@ -87,7 +87,7 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
   totile   = map_get_terrain(dest_x, dest_y);
 
   /* 1. Can we attack _anything_ ? */
-  if (!is_military_unit(punit) || unit_type(punit)->attack_strength == 0) {
+  if (!is_military_unit(punit) || !is_attack_unit(punit)) {
     return FALSE;
   }
 
