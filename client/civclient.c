@@ -87,8 +87,6 @@ int seconds_to_turndone;
 int last_turn_gold_amount;
 int turn_gold_difference;
 
-int did_advance_tech_this_turn;
-
 static void client_remove_all_cli_conn(void);
 
 /**************************************************************************

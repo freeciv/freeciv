@@ -1214,7 +1214,6 @@ void handle_player_info(struct packet_player_info *pinfo)
     if(poptechup) {
       if(!game.player_ptr->ai.control || ai_popup_windows)
 	popup_science_dialog(TRUE);
-      did_advance_tech_this_turn=game.year;
       science_dialog_update();
 
       /* If we just learned bridge building and focus is on a settler
