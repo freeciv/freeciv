@@ -1004,22 +1004,49 @@ bool caravan_dialog_is_open(void)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(void)
+static void revolution_response(GtkWidget *w, gint response, gpointer data)
 {
-  GtkWidget *shell;
+  int government = GPOINTER_TO_INT(data);
 
-  shell = gtk_message_dialog_new(NULL,
-    GTK_DIALOG_MODAL,
-    GTK_MESSAGE_WARNING,
-    GTK_BUTTONS_YES_NO,
-    _("You say you wanna revolution?"));
-  gtk_window_set_title(GTK_WINDOW(shell), _("Revolution!"));
-  setup_dialog(shell, toplevel);
-
-  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-    start_revolution();
+  if (response == GTK_RESPONSE_YES) {
+    if (government == -1) {
+      start_revolution();
+    } else {
+      set_government_choice(government);
+    }
   }
-  gtk_widget_destroy(shell);
+  if (w) {
+    gtk_widget_destroy(w);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_revolution_dialog(int government)
+{
+  static GtkWidget *shell = NULL;
+
+  if (game.player_ptr->revolution_finishes < game.turn) {
+    if (!shell) {
+      shell = gtk_message_dialog_new(NULL,
+	  0,
+	  GTK_MESSAGE_WARNING,
+	  GTK_BUTTONS_YES_NO,
+	  _("You say you wanna revolution?"));
+      gtk_window_set_title(GTK_WINDOW(shell), _("Revolution!"));
+      setup_dialog(shell, toplevel);
+
+      g_signal_connect(shell, "destroy",
+	  G_CALLBACK(gtk_widget_destroyed), &shell);
+    }
+    g_signal_connect(shell, "response",
+	G_CALLBACK(revolution_response), GINT_TO_POINTER(government));
+
+    gtk_window_present(GTK_WINDOW(shell));
+  } else {
+    revolution_response(shell, GTK_RESPONSE_YES, GINT_TO_POINTER(government));
+  }
 }
 
 
