@@ -201,6 +201,7 @@ void nation_free(Nation_Type_id nation)
   }
 
   nation_city_names_free(p->city_names);
+  p->city_names = NULL;
 }
 
 /***************************************************************

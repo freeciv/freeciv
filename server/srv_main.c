@@ -2029,5 +2029,6 @@ void server_game_free()
   } players_iterate_end;
 
   nation_city_names_free(misc_city_names);
+  misc_city_names = NULL;
   game_free();
 }
