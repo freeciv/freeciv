@@ -239,12 +239,13 @@ static void add_part(void)
     p->start_moves_left = prev->end_moves_left;
   }
   p->path = NULL;
-  p->end_x = p->start_x;
-  p->end_y = p->start_y;
+  p->end_x = -1;
+  p->end_y = -1;
   parameter.start_x = p->start_x;
   parameter.start_y = p->start_y;
   parameter.moves_left_initially = p->start_moves_left;
   p->map = pf_create_map(&parameter);
+  reset_last_part();
 }
 
 /********************************************************************** 
