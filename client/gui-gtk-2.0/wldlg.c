@@ -503,6 +503,7 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 {
   struct player *plr;
   int i;
+  GtkWidget *item;
 
   gtk_container_foreach(GTK_CONTAINER(menu),
 			(GtkCallback) gtk_widget_destroy, NULL);
@@ -510,8 +511,6 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     if (plr->worklists[i].is_valid) {
-      GtkWidget *item;
-
       item = gtk_menu_item_new_with_label(plr->worklists[i].name);
       g_object_set_data(G_OBJECT(item), "pos", GINT_TO_POINTER(i));
       gtk_widget_show(item);
@@ -521,6 +520,18 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 		       G_CALLBACK(menu_item_callback), data);
     }
   }
+
+  item = gtk_separator_menu_item_new();
+  gtk_widget_show(item);
+
+  gtk_container_add(GTK_CONTAINER(menu), item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Edit Global _Worklists"));
+  gtk_widget_show(item);
+
+  gtk_container_add(GTK_CONTAINER(menu), item);
+  g_signal_connect(item, "activate",
+  		   G_CALLBACK(popup_worklists_report), NULL);
 }
 
 /****************************************************************
