@@ -151,7 +151,6 @@ unsigned char *get_int8(unsigned char *buffer, int *val)
 {
   if(val) {
     *val=(*buffer);
-/*  *val=(signed char)(*buffer);   Pernicious. -- Syela */
   }
   return buffer+1;
 }
@@ -171,7 +170,7 @@ unsigned char *put_int8(unsigned char *buffer, int val)
 unsigned char *get_int16(unsigned char *buffer, int *val)
 {
   if(val) {
-    short myval=(*buffer)+((*(buffer+1))<<8);
+    int myval=(*buffer)+((*(buffer+1))<<8);
     *val=myval;
   }
   return buffer+2;
