@@ -421,6 +421,15 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+ propagates a keypress in a tearoff back to the toplevel window.
+**************************************************************************/
+static gboolean propagate_keypress(GtkWidget *w, GdkEventKey *ev)
+{
+  gtk_widget_event(toplevel, (GdkEvent *)ev);
+  return FALSE;
+}
+
+/**************************************************************************
  callback for the toggle button in the detachable widget: causes the
  widget to detach or reattach.
 **************************************************************************/
@@ -436,7 +445,10 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
-    
+    g_signal_connect(w, "key_press_event",
+	G_CALLBACK(propagate_keypress), NULL);
+
+
     g_object_set_data(G_OBJECT(w), "parent", box->parent);
     g_object_set_data(G_OBJECT(w), "toggle", b);
     gtk_widget_reparent(box, w);
