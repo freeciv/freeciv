@@ -45,26 +45,29 @@ static int get_tile_value(struct tile *ptile)
   int value, irrig_bonus, mine_bonus;
 
   /* Give one point for each food / shield / trade produced. */
-  value = (get_food_tile(ptile)
-	   + get_shields_tile(ptile)
-	   + get_trade_tile(ptile));
+  value = 0;
+  output_type_iterate(o) {
+    value += get_output_tile(ptile, o);
+  } output_type_iterate_end;
 
   old_terrain = ptile->terrain;
   old_special = ptile->special;
 
   map_set_special(ptile, S_ROAD);
   map_irrigate_tile(ptile);
-  irrig_bonus = (get_food_tile(ptile)
-		 + get_shields_tile(ptile)
-		 + get_trade_tile(ptile)) - value;
+  irrig_bonus = -value;
+  output_type_iterate(o) {
+    irrig_bonus += get_output_tile(ptile, o);
+  } output_type_iterate_end;
 
   ptile->terrain = old_terrain;
   ptile->special = old_special;
   map_set_special(ptile, S_ROAD);
   map_mine_tile(ptile);
-  mine_bonus = (get_food_tile(ptile)
-		+ get_shields_tile(ptile)
-		+ get_trade_tile(ptile)) - value;
+  mine_bonus = -value;
+  output_type_iterate(o) {
+    mine_bonus += get_output_tile(ptile, o);
+  } output_type_iterate_end;
 
   ptile->terrain = old_terrain;
   ptile->special = old_special;

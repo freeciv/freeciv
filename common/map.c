@@ -158,9 +158,9 @@ const char *map_get_tile_fpt_text(const struct tile *ptile)
   static char s[64];
   
   my_snprintf(s, sizeof(s), "%d/%d/%d",
-	      get_food_tile(ptile),
-	      get_shields_tile(ptile),
-	      get_trade_tile(ptile));
+	      get_output_tile(ptile, O_FOOD),
+	      get_output_tile(ptile, O_SHIELD),
+	      get_output_tile(ptile, O_TRADE));
   return s;
 }
 

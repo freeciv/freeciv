@@ -692,12 +692,13 @@ static int base_get_output_tile(const struct tile *ptile,
 }
 
 /**************************************************************************
-  Calculate the shields produced by the tile.  This obviously won't take
-  into account any city or government bonuses.
+  Calculate the production output produced by the tile.  This obviously
+  won't take into account any city or government bonuses.  The output
+  type is given by 'otype' (generally O_FOOD, O_SHIELD, or O_TRADE).
 **************************************************************************/
-int get_shields_tile(const struct tile *ptile)
+int get_output_tile(const struct tile *ptile, Output_type_id otype)
 {
-  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_SHIELD);
+  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, otype);
 }
 
 /**************************************************************************
@@ -730,16 +731,6 @@ int base_city_get_shields_tile(int city_x, int city_y,
   return base_get_output_tile(ptile, pcity,
 			      city_x, city_y, is_celebrating, O_SHIELD);
 }
-
-/**************************************************************************
-  Calculate the trade produced by the tile.  This obviously won't take
-  into account any city or government bonuses.
-**************************************************************************/
-int get_trade_tile(const struct tile *ptile)
-{
-  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_TRADE);
-}
-
 /**************************************************************************
   Calculate the trade the given tile is capable of producing for the
   city.
@@ -768,15 +759,6 @@ int base_city_get_trade_tile(int city_x, int city_y,
 
   return base_get_output_tile(ptile, pcity, city_x, city_y, is_celebrating,
 			      O_TRADE);
-}
-
-/**************************************************************************
-  Calculate the food produced by the tile.  This obviously won't take
-  into account any city or government bonuses.
-**************************************************************************/
-int get_food_tile(const struct tile *ptile)
-{
-  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_FOOD);
 }
 
 /**************************************************************************

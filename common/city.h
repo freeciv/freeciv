@@ -404,11 +404,7 @@ bool city_can_grow_to(const struct city *pcity, int pop_size);
 
 const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id);
 
-/* tile production functions */
-
-int get_shields_tile(const struct tile *ptile); /* shield on spot */
-int get_trade_tile(const struct tile *ptile); /* trade on spot */
-int get_food_tile(const struct tile *ptile); /* food on spot */
+int get_output_tile(const struct tile *ptile, Output_type_id otype);
 
 /* city map functions */
 
