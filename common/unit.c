@@ -250,7 +250,8 @@ int unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
 {
   return is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y) &&
     punit->owner==pcity->owner && !pcity->is_building_unit  && 
-    is_wonder(pcity->currently_building);
+    is_wonder(pcity->currently_building) &&
+    (pcity->shield_stock < improvement_value(pcity->currently_building));
 }
 
 
