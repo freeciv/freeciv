@@ -1040,10 +1040,19 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
 		   _("Game: You have founded %s"), pcity->name);
   maybe_make_contact(x, y, city_owner(pcity));
 
-  /* Catch fortress building, transforming into ocean, etc. */
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (!can_unit_continue_current_activity(punit))
+    struct city *home = find_city_by_id(punit->homecity);
+
+    /* Catch fortress building, transforming into ocean, etc. */
+    if (!can_unit_continue_current_activity(punit)) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    }
+
+    /* Update happiness (the unit may no longer cause unrest). */
+    if (home) {
+      city_refresh(home);
+      send_city_info(city_owner(home), home);
+    }
   } unit_list_iterate_end;
 }
 
