@@ -52,14 +52,4 @@ void pixmap_put_sprite_full(GdkDrawable *pixmap,
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
-/* These values are stored in the mapview_canvas struct now. */
-#define map_view_x0 mapview_canvas.map_x0
-#define map_view_y0 mapview_canvas.map_y0
-#define map_canvas_store_twidth mapview_canvas.tile_width
-#define map_canvas_store_theight mapview_canvas.tile_height
-
-/* Use of these wrapper functions is deprecated. */
-#define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
-  map_to_canvas_pos(canvas_x, canvas_y, map_x, map_y)
-
 #endif  /* FC__MAPVIEW_H */
