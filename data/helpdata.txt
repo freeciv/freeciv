@@ -626,7 +626,7 @@ in search of opponents and new lands.  If you are on an island, \
 you should spend less on military and more on expansion.  Or if \
 you are located close to an opponent, it is truly a good idea to \
 make a peace treaty and share the advances you have made. \
-Diplomat units are very useful here, and WILL pay off later.\
+Diplomatic units are very useful here, and WILL pay off later.\
 "), _("\
  8. Things to keep in mind.\
 \n\n\
@@ -998,7 +998,7 @@ In the following special cases ZOC does not apply:\n\
 - A unit moving directly into or out of a city.\n\
 - A unit moving onto a square occupied by a friendly unit.\n\
 - A unit moving from an ocean square (disembarking from a boat).\n\
-- A unit type which explicitly ignores ZOC, eg Diplomats.\
+- A unit type which explicitly ignores ZOC, eg Diplomats and Spies.\
 "), _("\
 Notes:\
 \n\n\
