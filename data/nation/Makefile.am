@@ -22,7 +22,9 @@ pkgdata_DATA =          \
 	dunedain.ruleset	\
 	dutch.ruleset		\
 	egyptian.ruleset	\
+	estonian.ruleset       \
 	english.ruleset		\
+	filipino.ruleset        \
 	finnish.ruleset		\
 	french.ruleset		\
 	german.ruleset		\
@@ -37,6 +39,7 @@ pkgdata_DATA =          \
 	kenyan.ruleset		\
 	korean.ruleset		\
 	krevi.ruleset		\
+	latvian.ruleset         \
 	lithuanian.ruleset	\
 	misc_cities.ruleset	\
 	mongol.ruleset		\
