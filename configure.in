@@ -355,4 +355,5 @@ AC_OUTPUT(Makefile
 	  server/Makefile 
 	  intl/Makefile
 	  po/Makefile.in
+	  doc/Makefile
 	  undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
