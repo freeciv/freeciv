@@ -353,7 +353,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
       }
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(x, y, pplayer)
-	       && !map_get_seen(x, y, pplayer)) {
+	       && map_get_seen(x, y, pplayer) == 0) {
       /* Just update the owner */
       struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
       info.known = TILE_KNOWN_FOGGED;

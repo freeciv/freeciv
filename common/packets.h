@@ -350,7 +350,7 @@ struct packet_short_unit {
   bool occupied;
 
   /* in packet only, not in unit struct */
-  int carried;		/* FIXME: should not send carried units at all? */
+  bool carried;		/* FIXME: should not send carried units at all? */
   int packet_use;	/* see enum unit_info_use */
   int info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
   			   and UNIT_INFO_CITY_PRESENT uses */

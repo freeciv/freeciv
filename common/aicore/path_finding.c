@@ -382,7 +382,7 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
   struct pf_map *pf_map = create_map((parameter->is_pos_dangerous != NULL));
 
   /* MC callback must be set */
-  assert(parameter->get_MC);
+  assert(parameter->get_MC != NULL);
 
   /* Copy parameters */
   pf_map->params = fc_malloc(sizeof(struct pf_parameter));
@@ -1040,7 +1040,7 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
       path->positions[i].total_EC = node->extra_cost;
     } else {
       /* When on dangerous tiles, must have a valid danger segment */
-      assert(danger_seg);
+      assert(danger_seg != NULL);
       path->positions[i].total_MC = danger_seg[segment_index].cost;
       path->positions[i].total_EC = danger_seg[segment_index].extra_cost;
     } 

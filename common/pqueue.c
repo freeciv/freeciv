@@ -60,7 +60,7 @@ struct pqueue *pq_create(int initial_size)
 ********************************************************************/
 void pq_destroy(struct pqueue *q)
 {
-  assert(q);
+  assert(q != NULL);
   free(q->cells);
   free(q->priorities);
   free(q);
@@ -73,7 +73,7 @@ void pq_insert(struct pqueue *q, pq_data_t datum, int datum_priority)
 {
   int i;
 
-  assert(q);
+  assert(q != NULL);
 
   /* allocate more memory if necessary */
   if (q->size >= q->avail) {
@@ -110,7 +110,7 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
   pq_data_t top;
   int i = 1;
 
-  assert(q);
+  assert(q != NULL);
 
   if (q->size == 1) {
     return FALSE;
@@ -150,7 +150,7 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
 **********************************************************************/
 bool pq_peek(struct pqueue *q, pq_data_t * dest)
 {
-  assert(q);
+  assert(q != NULL);
   if (q->size == 1) {
     return FALSE;
   }

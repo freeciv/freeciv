@@ -528,7 +528,7 @@ void improvements_update_redundant(struct player *pplayer, struct city *pcity,
   case IR_NONE:
     break;
   case IR_CITY:
-    assert(pcity);
+    assert(pcity != NULL);
     CHECK_CITY_IMPR(pcity);
     break;
   case IR_WORLD:
@@ -539,7 +539,7 @@ void improvements_update_redundant(struct player *pplayer, struct city *pcity,
     } players_iterate_end;
     break;
   case IR_PLAYER:
-    assert(pplayer);
+    assert(pplayer != NULL);
     city_list_iterate(pplayer->cities, pcity2) {
       CHECK_CITY_IMPR(pcity2);
     } city_list_iterate_end;

@@ -568,8 +568,8 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
    * excuses we have to do so. FIXME: We only consider immediate
    * allies, but we might trigger a wider chain reaction. */
   players_iterate(eplayer) {
-    bool cancel_excuse = 
-            pplayer->diplstates[eplayer->player_no].has_reason_to_cancel;
+    bool cancel_excuse =
+	pplayer->diplstates[eplayer->player_no].has_reason_to_cancel != 0;
     enum diplstate_type ds = pplayer_get_diplstate(pplayer, eplayer)->type;
 
     if (eplayer == pplayer || !eplayer->is_alive) {
@@ -655,7 +655,7 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     adip->love -= pplayer->diplstates[a].has_reason_to_cancel;
     if ((pplayers_non_attack(pplayer, aplayer) 
          || pplayers_allied(pplayer, aplayer))
-        && !pplayer->diplstates[a].has_reason_to_cancel
+        && pplayer->diplstates[a].has_reason_to_cancel == 0
         && !adip->is_allied_with_enemy
         && !adip->at_war_with_ally
         && adip->ally_patience >= 0) {
@@ -892,7 +892,8 @@ void ai_diplomacy_actions(struct player *pplayer)
           remove_shared_vision(pplayer, aplayer);
         }
         adip->love = -(BIG_NUMBER); /* Never forgive this */
-      } else if (ship->state == SSHIP_STARTED && !adip->warned_about_space) {
+      } else if (ship->state == SSHIP_STARTED 
+		 && adip->warned_about_space == 0) {
         adip->warned_about_space = 10 + myrand(6);
         notify(aplayer, _("*%s (AI)* Your attempt to unilaterally "
                "dominate outer space is highly offensive."), pplayer->name);

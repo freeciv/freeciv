@@ -1824,7 +1824,7 @@ static void mapgenerator2(void)
   struct gen234_state state;
   struct gen234_state *pstate = &state;
   int i;
-  bool done = 0;
+  bool done = FALSE;
   int spares= 1; 
   /* constant that makes up that an island actually needs additional space */
 

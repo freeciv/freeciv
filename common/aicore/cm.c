@@ -167,10 +167,11 @@ static struct {
   int hits, misses;
 
   struct secondary_stat {
-    short int is_valid, production, surplus;
+    bool is_valid;
+    short int production, surplus;
   } *secondary_stats;
   struct city_status {
-    short int is_valid, disorder, happy;
+    bool is_valid, disorder, happy;
   } *city_status;
 } cache2;
 
@@ -183,7 +184,8 @@ static struct {
 
   struct {
     struct combination {
-      int is_valid, max_scientists, max_taxmen, worker;
+      bool is_valid;
+      int max_scientists, max_taxmen, worker;
       int production2[NUM_PRIMARY_STATS];
       enum city_tile_type worker_positions[CITY_MAP_SIZE][CITY_MAP_SIZE];
       struct cm_result *cache1;

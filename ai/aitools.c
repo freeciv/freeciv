@@ -88,7 +88,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 
   return (pplayers_at_war(pplayer, aplayer)
           || ai->diplomacy.target == aplayer
-          || pplayer->diplstates[aplayer->player_no].has_reason_to_cancel
+          || pplayer->diplstates[aplayer->player_no].has_reason_to_cancel != 0
           || ai->diplomacy.acceptable_reputation > aplayer->reputation
           || adip->is_allied_with_enemy);
 }

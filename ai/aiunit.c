@@ -1048,7 +1048,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   if (max_want > 0) {
     /* We found something */
     path = pf_get_path(tgt_map, x, y);
-    assert(path);
+    assert(path != NULL);
   }
 
   pf_destroy_map(tgt_map);
@@ -2377,7 +2377,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     int id = punit->id;                  /* To check if survived */
     int moves_left = punit->moves_left;  /* Loop prevention */
 
-    assert(boss);
+    assert(boss != NULL);
 
     if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
       /* Temporary hack: settlers all go in the end, forcing them 

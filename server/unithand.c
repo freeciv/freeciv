@@ -1058,7 +1058,7 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
       handle_unit_attack_request(punit, victim);
       return TRUE;
     } else {
-      assert(is_enemy_city_tile(pdesttile, pplayer));
+      assert(is_enemy_city_tile(pdesttile, pplayer) != NULL);
 
       /* If there is an enemy city it is empty.
        * If not it would have been caught in the attack case. 
