@@ -1022,5 +1022,6 @@ void tileset_changed(void)
   indicator_sprite[0] = NULL;
   indicator_sprite[1] = NULL;
   indicator_sprite[2] = NULL;
+  map_canvas_resized(mapview_canvas.width, mapview_canvas.height);
   citydlg_tileset_change();
 }

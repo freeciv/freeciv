@@ -1949,6 +1949,9 @@ void citydlg_tileset_change(void)
     pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
 					      city_map_height);
     ReleaseDC(pdialog->mainwindow, hdc);
+    pdialog->map_w = city_map_width;
+    pdialog->map_h = city_map_height;
+    resize_city_dialog(pdialog);
     refresh_city_dialog(pdialog->pcity);
   }
 }
