@@ -2715,10 +2715,10 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
       ADD_SPRITE(get_city_nation_flag_sprite(pcity),
 		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
     }
+    ADD_SPRITE_FULL(get_city_sprite(pcity));
     if (pcity->client.occupied) {
       ADD_SPRITE_FULL(get_city_occupied_sprite(pcity));
     }
-    ADD_SPRITE_FULL(get_city_sprite(pcity));
     if (!is_isometric && city_got_citywalls(pcity)) {
       /* In iso-view the city wall is a part of the city sprite. */
       ADD_SPRITE_SIMPLE(get_city_wall_sprite(pcity));
