@@ -380,6 +380,50 @@ enum unit_role_id unit_role_from_str(char *s)
   return L_LAST;
 }
 
+/**************************************************************************
+Whether player can build given unit somewhere,
+ignoring whether unit is obsolete and assuming the
+player has a coastal city.
+**************************************************************************/
+int can_player_build_unit_direct(struct player *p, Unit_Type_id id)
+{  
+  if (!unit_type_exists(id))
+    return 0;
+  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
+    return 0;
+  if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
+    return 0;
+  return 1;
+}
+
+/**************************************************************************
+Whether player can build given unit somewhere;
+returns 0 if unit is obsolete.
+**************************************************************************/
+int can_player_build_unit(struct player *p, Unit_Type_id id)
+{  
+  if (!can_player_build_unit_direct(p, id))
+    return 0;
+  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
+    if (can_player_build_unit_direct(p, id))
+	return 0;
+  return 1;
+}
+
+/**************************************************************************
+Whether player can _eventually_ build given unit somewhere -- ie,
+returns 1 if unit is available with current tech OR will be available
+with future tech.  returns 0 if unit is obsolete.
+**************************************************************************/
+int can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
+{
+  if (!unit_type_exists(id))
+    return 0;
+  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
+    if (can_player_build_unit_direct(p, id))
+	return 0;
+  return 1;
+}
 
 /**************************************************************************
 The following functions use static variables so we can quickly look up

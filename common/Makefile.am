@@ -34,6 +34,8 @@ libcivcommon_a_SOURCES = \
 		hash.h		\
 		idex.c		\
 		idex.h		\
+		improvement.c	\
+		improvement.h	\
 		inputfile.c	\
 		inputfile.h	\
 		ioz.c		\

@@ -211,6 +211,10 @@ Unit_Class_id unit_class_from_str(char *s);
 enum unit_flag_id unit_flag_from_str(char *s);
 enum unit_role_id unit_role_from_str(char *s);
 
+int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
+int can_player_build_unit(struct player *p, Unit_Type_id id);
+int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
+
 void role_unit_precalcs(void);
 int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
