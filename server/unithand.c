@@ -63,7 +63,7 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  new_activity,
 						  enum tile_special_type
 						  new_target);
-static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id);
+static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
 static void how_to_declare_war(struct player *pplayer);
 static bool unit_bombard(struct unit *punit, int x, int y);
 
@@ -1020,9 +1020,8 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
   /* Caravans.  If city is allied (inc. ours) we would have a popup
    * asking if we are moving on. */
   if (unit_flag(punit, F_TRADE_ROUTE) && pcity
-      && !pplayers_allied(city_owner(pcity), pplayer)
-      && punit->homecity != 0) {
-    return base_handle_unit_establish_trade(pplayer, punit->id);
+      && !pplayers_allied(city_owner(pcity), pplayer) ) {
+    return base_handle_unit_establish_trade(pplayer, punit->id, pcity);
   }
 
   /* Diplomats. Pop up a diplomat action dialog in the client.  
@@ -1222,11 +1221,11 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id)
+static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
-  struct city *pcity_homecity, *pcity_dest;
+  struct city *pcity_homecity; 
   int revenue, i;
   bool home_full = FALSE, dest_full = FALSE, can_establish;
   
@@ -1234,13 +1233,34 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     return FALSE;
   }
 
-  pcity_dest = map_get_city(punit->x, punit->y);
-  pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
-  if (!pcity_homecity || !pcity_dest) {
+  /* if no destination city is passed in,
+   *  check whether the unit is already in the city */
+  if (!pcity_dest) { 
+    pcity_dest = map_get_city(punit->x, punit->y);
+  }
+
+  if (!pcity_dest) {
     return FALSE;
   }
+
+  pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
+
+  if (!pcity_homecity) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Sorry, your %s cannot establish"
+		       " a trade route because it has no home city"),
+		     unit_name(punit->type));
+    return FALSE;
+   
+  }
+
     
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
+    notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		     _("Game: Sorry, your %s cannot establish"
+		       " a trade route between %s and %s"),
+		     unit_name(punit->type),pcity_homecity->name,
+		     pcity_dest->name);
     return FALSE;
   }
   
@@ -1417,7 +1437,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 **************************************************************************/
 void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 {
-  (void) base_handle_unit_establish_trade(pplayer, unit_id);
+  (void) base_handle_unit_establish_trade(pplayer, unit_id, NULL);
 }
 
 /**************************************************************************
