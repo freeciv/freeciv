@@ -116,10 +116,6 @@ static void establish_new_connection(struct connection *pconn)
   if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
 
-    if (game.auto_ai_toggle && pplayer->ai.control) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
-
     if (server_state == RUN_GAME_STATE) {
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
@@ -131,6 +127,13 @@ static void establish_new_connection(struct connection *pconn)
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
       send_packet_start_turn(pconn);
+    }
+
+    /* This must be done after the above info is sent, because it will
+     * generate a player-packet which can't be sent until (at least)
+     * rulesets are sent. */
+    if (game.auto_ai_toggle && pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
     }
 
     gamelog(GAMELOG_PLAYER, pplayer);
