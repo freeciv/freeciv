@@ -238,27 +238,25 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 
       switch (rop->type) {
       case OP_FILL:
-        gdk_gc_set_foreground(widget->style->black_gc, rop->color);
-        gdk_draw_rectangle(widget->window, widget->style->black_gc, TRUE,
-	    x, y, p->w, p->h);
+        gdk_gc_set_foreground(civ_gc, rop->color);
+        gdk_draw_rectangle(widget->window, civ_gc, TRUE, x, y, p->w, p->h);
         break;
 
       case OP_COPY:
         if (rop->src->has_mask) {
-          gdk_gc_set_clip_mask(widget->style->black_gc, rop->src->mask);
-          gdk_gc_set_clip_origin(widget->style->black_gc,
-	      x + rop->x, y + rop->y);
+          gdk_gc_set_clip_mask(civ_gc, rop->src->mask);
+          gdk_gc_set_clip_origin(civ_gc, x + rop->x, y + rop->y);
 
-          gdk_draw_drawable(widget->window, widget->style->black_gc,
+          gdk_draw_drawable(widget->window, civ_gc,
 	      rop->src->pixmap,
 	      0, 0,
 	      x + rop->x, y + rop->y,
 	      rop->src->width, rop->src->height);
 
-          gdk_gc_set_clip_origin(widget->style->black_gc, 0, 0);
-          gdk_gc_set_clip_mask(widget->style->black_gc, NULL);
+          gdk_gc_set_clip_origin(civ_gc, 0, 0);
+          gdk_gc_set_clip_mask(civ_gc, NULL);
         } else {
-          gdk_draw_drawable(widget->window, widget->style->black_gc,
+          gdk_draw_drawable(widget->window, civ_gc,
 	      rop->src->pixmap,
 	      0, 0,
 	      x + rop->x, y + rop->y,
