@@ -24,6 +24,7 @@ EXTRA_DIST =			\
 	de/README.cma.de	\
 	de/README.de		\
 	de/README.rulesets.de	\
+	de/README.sound.de	\
 	fr/HOWTOPLAY.fr		\
 	fr/INSTALL.fr		\
 	fr/README.fr		\
@@ -35,6 +36,19 @@ EXTRA_DIST =			\
 	ja/HOWTOPLAY.ja		\
 	ja/NEWS.ja		\
 	ja/README.ja		\
+	nl/BUGS.nl		\
+	nl/HOWTOPLAY.nl		\
+	nl/LEESMIJ		\
+	nl/README.cma.nl	\
+	nl/README.nl		\
+	nl/README.rulesets.nl	\
+	nl/TODO.nl		\
 	sv/BUGS.sv		\
+	sv/CodingStyle.sv	\
 	sv/HOWTOPLAY.sv		\
-	sv/README.sv
+	sv/README.sv		\
+	sv/README.agents.sv	\
+	sv/README.attributes.sv	\
+	sv/README.cma.sv	\
+	sv/README.graphics.sv	\
+	sv/README.sound.sv
