@@ -673,6 +673,10 @@ static void calculate_wonder_helpers(struct player *pplayer,
     acity->ai.distance_to_wonder_city = 0; /* unavailable */
   } city_list_iterate_end;
 
+  if (ai->wonder_city == NULL) {
+    return;
+  }
+
   unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
   if (unittype == U_LAST) {
     return;
