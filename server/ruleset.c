@@ -516,9 +516,9 @@ static void load_tech_names(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
-  if(num_techs + A_FIRST > A_LAST) {
+  if(num_techs + A_FIRST > A_LAST_REAL) {
     freelog(LOG_FATAL, "Too many advances (%d, max %d) (%s)",
-	    num_techs, A_LAST-A_FIRST, filename);
+	    num_techs, A_LAST_REAL-A_FIRST, filename);
     exit(EXIT_FAILURE);
   }
 

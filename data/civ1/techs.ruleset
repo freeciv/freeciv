@@ -12,7 +12,7 @@ description="Civ1-style technology data for Freeciv"
 options="1.9"
 
 ; Below: The individual advances, one per section.
-; The number can be variable, up to 199.
+; The number can be variable, up to 196.
 ;
 ; The actual tag used (the * in [advance_*]) does not matter, except 
 ; it must be unique within this file, and it may be used in debug 
