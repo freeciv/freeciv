@@ -689,9 +689,28 @@ void quit_civ(Widget w, XtPointer client_data, XtPointer call_data)
   exit(0);
 }
 
-
 /**************************************************************************
 ...
+**************************************************************************/
+static void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
+{
+  input_from_server(*fid);
+}
+
+/**************************************************************************
+ This function is called after the client succesfully
+ has connected to the server
+**************************************************************************/
+void add_net_input(int sock)
+{
+  x_input_id=XtAppAddInput(app_context, sock, 
+			   (XtPointer) XtInputReadMask,
+			   (XtInputCallbackProc) get_net_input, NULL);
+}
+
+/**************************************************************************
+ This function is called if the client disconnects
+ from the server
 **************************************************************************/
 void remove_net_input(void)
 {

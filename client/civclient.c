@@ -37,7 +37,7 @@
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "climisc.h"
-#include "clinet_g.h"
+#include "clinet.h"
 #include "connectdlg_g.h"
 #include "control.h" 
 #include "dialogs_g.h"

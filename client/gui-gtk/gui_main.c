@@ -716,6 +716,25 @@ void ui_main(int argc, char **argv)
 /**************************************************************************
 ...
 **************************************************************************/
+static void get_net_input(gpointer data, gint fid, GdkInputCondition condition)
+{
+  input_from_server(fid);
+}
+
+/**************************************************************************
+ This function is called after the client succesfully
+ has connected to the server
+**************************************************************************/
+void add_net_input(int sock)
+{
+  gdk_input_id = gdk_input_add(sock,
+	  GDK_INPUT_READ|GDK_INPUT_EXCEPTION, get_net_input, NULL);
+}
+
+/**************************************************************************
+ This function is called if the client disconnects
+ from the server
+**************************************************************************/
 void remove_net_input(void)
 {
   gdk_input_remove(gdk_input_id);

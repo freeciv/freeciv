@@ -12,8 +12,6 @@ libguiclient_a_SOURCES = \
 	citydlg.h	\
 	cityrep.c	\
 	cityrep.h	\
-	clinet.c	\
-	clinet.h	\
 	colors.c	\
 	colors.h	\
 	connectdlg.c	\

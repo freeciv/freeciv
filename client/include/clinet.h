@@ -13,10 +13,16 @@
 #ifndef FC__CLINET_H
 #define FC__CLINET_H
 
-#include <gtk/gtk.h>
+#define DEFAULT_SOCK_PORT 5555
+#define METALIST_ADDR "http://www.daimi.aau.dk/~lancelot/freeciv.html"
 
-#include "clinet_g.h"
+struct connection;
 
-int get_meta_list(GtkWidget *list, char *errbuf);
+int connect_to_server(char *name, char *hostname, int port, char *errbuf);
+void input_from_server(int fd);
+void disconnect_from_server(void);
+
+extern struct connection aconnection;
+/* this is the client's connection to the server */
 
 #endif  /* FC__CLINET_H */

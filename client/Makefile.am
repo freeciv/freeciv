@@ -31,6 +31,7 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl @CLIENT_CFLAGS@
 civclient_SOURCES = \
 	civclient.c	\
 	climisc.c	\
+	clinet.c	\
 	control.c	\
 	helpdata.c	\
 	packhand.c	\

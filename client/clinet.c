@@ -65,20 +65,15 @@
 #include "packets.h"
 #include "version.h"
 
-#include "chatline.h"
+#include "chatline_g.h"
 #include "civclient.h"
-#include "dialogs.h"		/* popdown_races_dialog() */
-#include "gui_main.h"
+#include "dialogs_g.h"		/* popdown_races_dialog() */
+#include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "packhand.h"
 
 #include "clinet.h"
 
-extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
-
 struct connection aconnection;
-
-extern XtInputId x_input_id;
-extern XtAppContext app_context;
 
 extern int errno;		/* See discussion in server/sernet.c  --dwp */
 
@@ -118,9 +113,9 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   }
   
   src.sin_port = htons(port);
-  
-  /* ignore broken pipes */
+
 #ifdef HAVE_SIGPIPE
+  /* ignore broken pipes */
   signal (SIGPIPE, SIG_IGN);
 #endif
   
@@ -137,11 +132,10 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
 
   aconnection.buffer.ndata=0;
 
-  x_input_id=XtAppAddInput(app_context, aconnection.sock, 
-			   (XtPointer) XtInputReadMask,
-			   (XtInputCallbackProc) get_net_input, NULL);
-
+  /* gui-dependent details now in gui_main.c: */
+  add_net_input(aconnection.sock);
   
+
   /* now send join_request package */
 
   strcpy(req.name, name);
@@ -155,6 +149,9 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   return 0;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void disconnect_from_server(void)
 {
   append_output_window("Disconnecting from server.");
@@ -164,11 +161,12 @@ void disconnect_from_server(void)
 }  
 
 /**************************************************************************
-...
+ This function is called when the client received a
+ new input from the server
 **************************************************************************/
-void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
+void input_from_server(int fid)
 {
-  if(read_socket_data(*fid, &aconnection.buffer)>0) {
+  if(read_socket_data(fid, &aconnection.buffer)>0) {
     int type;
     char *packet;
 
@@ -179,141 +177,10 @@ void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
   else {
     append_output_window("Lost connection to server!");
     freelog(LOG_NORMAL, "lost connection to server");
-    close(*fid);
+    close(fid);
     remove_net_input();
     popdown_races_dialog(); 
     set_client_state(CLIENT_PRE_GAME_STATE);
   }
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void close_server_connection(void)
-{
-  close(aconnection.sock);
-}
-
-
-/**************************************************************************
-  Get the list of servers from the metaserver
-**************************************************************************/
-int get_meta_list(char **list, char *errbuf)
-{
-  struct sockaddr_in addr;
-  struct hostent *ph;
-  int s;
-  FILE *f;
-  char *proxy_url = (char *)NULL;
-  char urlbuf[512];
-  char *urlpath;
-  char *server;
-  int port;
-  char str[512];
-
-  if ((proxy_url = getenv("http_proxy"))) {
-    if (strncmp(proxy_url,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid $http_proxy value, must start with 'http://'");
-      return -1;
-    }
-    strncpy(urlbuf,proxy_url,511);
-  } else {
-    if (strncmp(METALIST_ADDR,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
-      return -1;
-    }
-    strncpy(urlbuf,METALIST_ADDR,511);
-  }
-  server = &urlbuf[strlen("http://")];
-
-  {
-    char *s;
-    if ((s = strchr(server,':'))) {
-      port = atoi(&s[1]);
-      if (!port) {
-        port = 80;
-      }
-      s[0] = '\0';
-      ++s;
-      while (isdigit(s[0])) {++s;}
-    } else {
-      port = 80;
-      if (!(s = strchr(server,'/'))) {
-        s = &server[strlen(server)];
-      }
-    }  /* s now points past the host[:port] part */
-
-    if (s[0] == '/') {
-      s[0] = '\0';
-      ++s;
-    } else if (s[0]) {
-      strcpy(errbuf, "Invalid $http_proxy value, cannot find separating '/'");
-      /* which is obligatory if more characters follow */
-      return -1;
-    }
-    urlpath = s;
-  }
-
-  if ((ph = gethostbyname(server)) == NULL) {
-    strcpy(errbuf, "Failed looking up host");
-    return -1;
-  } else {
-    addr.sin_family = ph->h_addrtype;
-    memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
-  }
-  
-  addr.sin_port = htons(port);
-  
-  if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
-    return -1;
-  }
-  
-  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
-    close(s);
-    return -1;
-  }
-
-  f=fdopen(s,"r+");
-  fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
-    proxy_url ? "" : "/",
-    urlpath,
-    proxy_url ? METALIST_ADDR : "");
-  fflush(f);
-
-#define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
-#define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
-#define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
-
-  while( fgets(str,512,f)!=NULL)  {
-    if(!strncmp(str,"<TR BGCOLOR",11))  {
-      char *name,*port,*version,*status,*players,*metastring;
-      char *p;
-      char line[256];
-
-      p=strstr(str,"<a"); if(p==NULL) continue;
-      p=strchr(p,'>');    if(p==NULL) continue;
-      name=++p;
-      p=strstr(p,"</a>"); if(p==NULL) continue;
-      *p++='\0';
-
-      GET_FIELD(port);
-      GET_FIELD(version);
-      GET_FIELD(status);
-      GET_FIELD(players);
-      GET_FIELD(metastring);
-
-      sprintf(line,"%-35s %-5s %-7s %-9s %2s   %s",
-              name,port,version,status,players,metastring);
-      if(*list) free(*list);
-      *list=mystrdup(line);
-      list++;
-    }
-  }
-  fclose(f);
-  *list=NULL;
-
-  return 0;
-}

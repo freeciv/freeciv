@@ -31,7 +31,7 @@
 #include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet_g.h"		/* aconnection */
+#include "clinet.h"		/* aconnection */
 #include "control.h"
 #include "dialogs_g.h"
 #include "graphics_g.h"

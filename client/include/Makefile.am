@@ -10,7 +10,7 @@ noinst_HEADERS = \
 	cityrep_g.h	\
 	civclient.h	\
 	climisc.h	\
-	clinet_g.h	\
+	clinet.h	\
 	connectdlg_g.h	\
 	dialogs_g.h	\
 	diplodlg_g.h	\
