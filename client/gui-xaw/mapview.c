@@ -521,7 +521,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
     scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
   }
 
-  if(map.xsize) { /* do we have a map at all */
+  if (map_exists()) { /* do we have a map at all */
     if(map_canvas_store_twidth !=tile_width ||
        map_canvas_store_theight!=tile_height) { /* resized? */
       map_canvas_resize();

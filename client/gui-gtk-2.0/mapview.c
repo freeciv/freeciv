@@ -632,7 +632,7 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
     update_map_canvas_scrollbars_size();
 
     if (can_client_change_view()) {
-      if (map.xsize) { /* do we have a map at all */
+      if (map_exists()) { /* do we have a map at all */
         update_map_canvas_visible();
         update_map_canvas_scrollbars();
         refresh_overview_viewrect();
@@ -689,7 +689,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
       scaled_intro_sprite = NULL;
     }
 
-    if (map.xsize) { /* do we have a map at all */
+    if (map_exists()) { /* do we have a map at all */
       gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
 			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 			ev->area.width, ev->area.height);

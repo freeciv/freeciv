@@ -17,6 +17,8 @@
 #include "map.h"                /* enum direction8 */
 #include "terrain.h"            /* enum known_type */
 
+#define map_exists() (map.xsize != 0)
+
 enum known_type tile_get_known(int x, int y);
 
 enum direction8 gui_to_map_dir(enum direction8 gui_dir);

@@ -611,7 +611,7 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
       scaled_intro_sprite = NULL;
     }
 
-    if(map.xsize) { /* do we have a map at all */
+    if (map_exists()) { /* do we have a map at all */
       if(map_resized) {
 	update_map_canvas_visible();
 

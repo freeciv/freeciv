@@ -106,7 +106,7 @@ void map_resize()
   map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
   update_map_canvas_scrollbars_size();
-  if (can_client_change_view() && (map.xsize != 0)) {
+  if (can_client_change_view() && map_exists()) {
     update_map_canvas_visible();
     update_map_canvas_scrollbars();
     refresh_overview_viewrect_real(NULL);
