@@ -60,28 +60,28 @@ static void redraw_overview(void);
 static void dirty_overview(void);
 static void flush_dirty_overview(void);
 
+enum update_type {
+  /* Masks */
+  UPDATE_NONE = 0,
+  UPDATE_CITY_DESCRIPTIONS = 1,
+  UPDATE_MAP_CANVAS_VISIBLE = 2
+};
+static void queue_mapview_update(enum update_type update);
+static void queue_mapview_tile_update(struct tile *ptile);
+static void queue_mapview_unit_update(struct unit *punit, struct tile *ptile);
+static void queue_mapview_city_update(struct city *pcity, struct tile *ptile,
+				      bool full_refresh);
+static void unqueue_mapview_updates(bool write_to_screen);
+
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
 void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 {
-  int canvas_x, canvas_y;
-
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-
-    /* We draw an extra NORMAL_TILE_XXX / 2 on each side because with
-     * corner and edge sprites this much extra may need to be drawn.  This
-     * is only applicable when the underlying tile changes however.  There
-     * should probably be a refresh_unit_mapcanvas/refresh_city_mapcanvas
-     * functions that handle updates for those items more elegantly. */
-    update_map_canvas(canvas_x - W / 2, canvas_y - H / 2, 2 * W, 2 * H);
-
-    if (write_to_screen) {
-      flush_dirty();
-    }
+  queue_mapview_tile_update(ptile);
+  if (write_to_screen) {
+    unqueue_mapview_updates(TRUE);
   }
-  overview_update_tile(ptile);
 }
 
 /**************************************************************************
@@ -90,35 +90,10 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool write_to_screen)
 {
-  if (unit_type_flag(punit->type, F_CITIES)) {
-    /* For settlers we (often) have to update the whole citymap area because
-     * of the 't' overlays or the citymap outlines.  The above check could
-     * be more rigorous so that no update is done unless it's needed...
-     *
-     * HACK: The addition below accounts for grid lines that may actually
-     * be on a tile outside of the city radius.  This is similar to what's
-     * done in refresh_tile_mapcanvas. */
-    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
-    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
-    int canvas_x, canvas_y;
-
-    tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
-    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-		      width, height);
-  } else {
-    int canvas_x, canvas_y;
-
-    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-      canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-      update_map_canvas(canvas_x, canvas_y,
-			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    } 
-  }
+  queue_mapview_unit_update(punit, ptile);
   if (write_to_screen) {
-    flush_dirty();
+    unqueue_mapview_updates(TRUE);
   }
-  overview_update_tile(ptile);
 }
 
 /**************************************************************************
@@ -130,37 +105,11 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  if (full_refresh && (draw_map_grid || draw_borders)) {
-    /* We have to make sure we update any workers on the map grid, then
-     * redraw the city descriptions on top of them.  So we calculate the
-     * rectangle covered by the city's map, and update that.  Then we
-     * queue up a city description redraw for later.
-     *
-     * HACK: The addition below accounts for grid lines that may actually
-     * be on a tile outside of the city radius.  This is similar to what's
-     * done in refresh_tile_mapcanvas. */
-    int canvas_x, canvas_y;
-    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
-    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
-
-    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
-
-    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-		      width, height);
-  } else {
-    int canvas_x, canvas_y;
-
-    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-      canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-      update_map_canvas(canvas_x, canvas_y,
-			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    }
-  }
+  queue_mapview_city_update(pcity, ptile,
+			    full_refresh && (draw_map_grid || draw_borders));
   if (write_to_screen) {
-    flush_dirty();
+    unqueue_mapview_updates(TRUE);
   }
-  overview_update_tile(ptile);
 }
 
 /**************************************************************************
@@ -548,7 +497,9 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
 			update_x1 - update_x0, common_y1 - common_y0);
     }
   } else {
-    update_map_canvas_visible();
+    dirty_all();
+    update_map_canvas(0, 0, mapview_canvas.store_width,
+		      mapview_canvas.store_height);
   }
 
   map_center = get_center_tile_mapcanvas();
@@ -1757,9 +1708,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  dirty_all();
-  update_map_canvas(0, 0, mapview_canvas.store_width,
-		    mapview_canvas.store_height);
+  queue_mapview_update(UPDATE_MAP_CANVAS_VISIBLE);
 }
 
 /* The maximum city description width and height.  This gives the dimensions
@@ -1967,7 +1916,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
     }
 
-    flush_dirty();
+    unqueue_mapview_updates(TRUE);
     gui_flush();
 
     usleep_since_timer_start(anim_timer, 10000);
@@ -1977,6 +1926,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       && tile_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->tile)) {
     refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE);
+    unqueue_mapview_updates(FALSE);
     canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -2228,6 +2178,13 @@ void get_city_mapview_production(struct city *pcity,
 
 static enum update_type needed_updates = UPDATE_NONE;
 static bool callback_queued = FALSE;
+
+/* These values hold the tiles that need city, unit, or tile updates.
+ * These different types of updates just tell what area need to be updated,
+ * not necessarily what's sitting on the tile.  A city update covers the
+ * whole citymap area.  A unit update covers just the "full" unit tile
+ * area.  A tile update covers the base tile plus half a tile in each
+ * direction. */
 struct tile_list *city_updates = NULL;
 struct tile_list *unit_updates = NULL;
 struct tile_list *tile_updates = NULL;
@@ -2278,6 +2235,20 @@ void queue_mapview_update(enum update_type update)
 }
 
 /**************************************************************************
+  Appends a tile to the list.  The list is allocated if NULL.  The (new)
+  list is returned.
+**************************************************************************/
+static struct tile_list *append_tile_to_list(struct tile *ptile,
+					     struct tile_list *plist)
+{
+  if (!plist) {
+    plist = tile_list_new();
+  }
+  tile_list_append(plist, ptile);
+  return plist;
+}
+
+/**************************************************************************
   Queue this tile to be refreshed.  The refresh will be done some time
   soon thereafter, and grouped with other needed refreshes.
 
@@ -2286,10 +2257,7 @@ void queue_mapview_update(enum update_type update)
 **************************************************************************/
 void queue_mapview_tile_update(struct tile *ptile)
 {
-  if (!tile_updates) {
-    tile_updates = tile_list_new();
-  }
-  tile_list_prepend(tile_updates, ptile);
+  tile_updates = append_tile_to_list(ptile, tile_updates);
   queue_add_callback();
 }
 
@@ -2297,12 +2265,13 @@ void queue_mapview_tile_update(struct tile *ptile)
   Queue this unit to be refreshed.  The refresh will be done some time
   soon thereafter, and grouped with other needed refreshes.
 **************************************************************************/
-void queue_mapview_unit_update(struct unit *punit)
+void queue_mapview_unit_update(struct unit *punit, struct tile *ptile)
 {
-  if (!unit_updates) {
-    unit_updates = tile_list_new();
+  if (unit_type_flag(punit->type, F_CITIES)) {
+    city_updates = append_tile_to_list(ptile, city_updates);
+  } else {
+    unit_updates = append_tile_to_list(ptile, unit_updates);
   }
-  tile_list_prepend(unit_updates, punit->tile);
   queue_add_callback();
 }
 
@@ -2310,12 +2279,14 @@ void queue_mapview_unit_update(struct unit *punit)
   Queue this city to be refreshed.  The refresh will be done some time
   soon thereafter, and grouped with other needed refreshes.
 **************************************************************************/
-void queue_mapview_city_update(struct city *pcity)
+void queue_mapview_city_update(struct city *pcity, struct tile *ptile,
+			       bool full_refresh)
 {
-  if (!city_updates) {
-    city_updates = tile_list_new();
+  if (full_refresh) {
+    city_updates = append_tile_to_list(ptile, city_updates);
+  } else {
+    unit_updates = append_tile_to_list(ptile, unit_updates);
   }
-  tile_list_prepend(city_updates, pcity->tile);
   queue_add_callback();
 }
 
@@ -2330,7 +2301,9 @@ void unqueue_mapview_updates(bool write_to_screen)
   if (map_exists()) {
     if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
 	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)) {
-      update_map_canvas_visible();
+      dirty_all();
+      update_map_canvas(0, 0, mapview_canvas.store_width,
+			mapview_canvas.store_height);
     } else {
       int min_x = mapview_canvas.width, min_y = mapview_canvas.height;
       int max_x = 0, max_y = 0;
@@ -2379,13 +2352,17 @@ void unqueue_mapview_updates(bool write_to_screen)
       }
 
       if (city_updates) {
+	int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
+	int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
+
 	tile_list_iterate(city_updates, ptile) {
 	  int x0, y0, x1, y1;
 
 	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
-	    y0 += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-	    x1 = x0 + UNIT_TILE_WIDTH;
-	    y1 = y0 + UNIT_TILE_HEIGHT;
+	    x0 -= (width - NORMAL_TILE_WIDTH) / 2;
+	    y0 -= (height - NORMAL_TILE_HEIGHT) / 2;
+	    x1 = x0 + width;
+	    y1 = y0 + height;
 	    min_x = MIN(min_x, x0);
 	    min_y = MIN(min_y, y0);
 	    max_x = MAX(max_x, x1);
@@ -2890,6 +2867,7 @@ bool map_canvas_resized(int width, int height)
     if (tile_size_changed) {
       update_map_canvas_visible();
       center_tile_overviewcanvas(get_center_tile_mapcanvas());
+      unqueue_mapview_updates(TRUE);
       redrawn = TRUE;
     }
 

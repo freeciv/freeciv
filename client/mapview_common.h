@@ -60,13 +60,6 @@ extern bool can_slide;
 #define BORDER_WIDTH 2
 #define GOTO_WIDTH 2
 
-enum update_type {
-  /* Masks */
-  UPDATE_NONE = 0,
-  UPDATE_CITY_DESCRIPTIONS = 1,
-  UPDATE_MAP_CANVAS_VISIBLE = 2
-};
-
 /*
  * Iterate over all map tiles that intersect with the given GUI rectangle.
  * The order of iteration is guaranteed to satisfy the painter's algorithm.
@@ -291,12 +284,6 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      char *growth_buffer,
 				      size_t growth_buffer_len,
 				      enum color_std *grwoth_color);
-
-void queue_mapview_update(enum update_type update);
-void queue_mapview_tile_update(struct tile *ptile);
-void queue_mapview_unit_update(struct unit *punit);
-void queue_mapview_city_update(struct city *pcity);
-void unqueue_mapview_updates(bool write_to_screen);
 
 void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y);

@@ -775,7 +775,7 @@ void handle_new_year(int year, int turn)
   last_turn_gold_amount=game.player_ptr->economic.gold;
 #endif
 
-  queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
+  update_city_descriptions();
 
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
@@ -1950,28 +1950,9 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   /* refresh tiles */
   if (can_client_change_view()) {
-    /* the tile itself */
-    if (tile_changed || old_known!=ptile->known)
-      queue_mapview_tile_update(ptile);
-
-    /* if the terrain or the specials of the tile
-       have changed it affects the adjacent tiles */
-    if (tile_changed) {
-      adjc_iterate(ptile, tile1) {
-	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
-	  queue_mapview_tile_update(tile1);
-      }
-      adjc_iterate_end;
-      return;
-    }
-
-    /* the "furry edges" on tiles adjacent to an TILE_UNKNOWN tile are
-       removed here */
-    if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
-      cardinal_adjc_iterate(ptile, tile1) {
-	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
-	  queue_mapview_tile_update(tile1);
-      } cardinal_adjc_iterate_end;
+    /* the tile itself (including the necessary parts of adjacent tiles) */
+    if (tile_changed || old_known!=ptile->known) {
+      refresh_tile_mapcanvas(ptile, FALSE);
     }
   }
 
