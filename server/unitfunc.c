@@ -1182,7 +1182,7 @@ void do_nuke_tile(int x, int y)
     wipe_unit(0, punit);
   }
 
-  if((pcity=game_find_city_by_coor(x,y))) {
+  if((pcity=map_get_city(x,y))) {
     if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
       pcity->size/=2;
       auto_arrange_workers(pcity);
