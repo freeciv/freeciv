@@ -61,6 +61,7 @@
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "timing.h"
 #include "version.h"
@@ -168,8 +169,8 @@ int main(int argc, char *argv[])
   init_nls();
   dont_run_as_root(argv[0], "freeciv_server");
 
-  strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
-  strcpy(metaserver_addr, DEFAULT_META_SERVER_ADDR);
+  sz_strlcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
+  sz_strlcpy(metaserver_addr, DEFAULT_META_SERVER_ADDR);
   metaserver_port = DEFAULT_META_SERVER_PORT;
 
 #ifdef GENERATING_MAC
@@ -198,7 +199,7 @@ int main(int argc, char *argv[])
         no_meta=0;
     else if ((option = get_option("--Metaserver",argv,&i,argc)) != NULL)
     {
-	strcpy(metaserver_addr,argv[i]);
+	sz_strlcpy(metaserver_addr, argv[i]);
 	meta_addr_split();
 
 	no_meta = 0; /* implies --meta */
@@ -208,7 +209,7 @@ int main(int argc, char *argv[])
     else if ((option = get_option("--read",argv,&i,argc)) != NULL)
 	script_filename=option;
     else if ((option = get_option("--server",argv,&i,argc)) != NULL)
-      	strcpy(metaserver_servername,option);
+      	sz_strlcpy(metaserver_servername, option);
     else if ((option = get_option("--debug",argv,&i,argc)) != NULL)
       {
 	loglevel = log_parse_level_str(option);
@@ -552,41 +553,43 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   /* build description block */
   desc[0]='\0';
   
-  sprintf(desc+strlen(desc), "Freeciv\n");
-  sprintf(desc+strlen(desc), VERSION_STRING"\n");
+  cat_snprintf(desc, sizeof(desc), "Freeciv\n");
+  cat_snprintf(desc, sizeof(desc), VERSION_STRING"\n");
   switch(server_state) {
   case PRE_GAME_STATE:
-    sprintf(desc+strlen(desc), "Pregame\n");
+    cat_snprintf(desc, sizeof(desc), "Pregame\n");
     break;
   case RUN_GAME_STATE:
-    sprintf(desc+strlen(desc), "Running\n");
+    cat_snprintf(desc, sizeof(desc), "Running\n");
     break;
   case GAME_OVER_STATE:
-    sprintf(desc+strlen(desc), "Game over\n");
+    cat_snprintf(desc, sizeof(desc), "Game over\n");
     break;
   default:
-    sprintf(desc+strlen(desc), "Waiting\n");
+    cat_snprintf(desc, sizeof(desc), "Waiting\n");
   }
-  sprintf(desc+strlen(desc), "%s\n",metaserver_servername);
-  sprintf(desc+strlen(desc), "%d\n", port);
-  sprintf(desc+strlen(desc), "%d\n", game.nplayers);
-  sprintf(desc+strlen(desc), "%s", metaserver_info_line);
+  cat_snprintf(desc, sizeof(desc), "%s\n",metaserver_servername);
+  cat_snprintf(desc, sizeof(desc), "%d\n", port);
+  cat_snprintf(desc, sizeof(desc), "%d\n", game.nplayers);
+  cat_snprintf(desc, sizeof(desc), "%s", metaserver_info_line);
     
   /* now build the info block */
   info[0]='\0';
-  sprintf(info+strlen(info), 
+  cat_snprintf(info, sizeof(info),
 	  "Players:%d  Min players:%d  Max players:%d\n",
 	  game.nplayers, game.min_players, game.max_players);
-  sprintf(info+strlen(info), 
+  cat_snprintf(info, sizeof(info),
 	  "Timeout:%d  Year: %s\n",
 	  game.timeout, textyear(game.year));
     
     
-  sprintf(info+strlen(info), "NO:  NAME:               HOST:\n");
-  sprintf(info+strlen(info), "----------------------------------------\n");
+  cat_snprintf(info, sizeof(info),
+	       "NO:  NAME:               HOST:\n");
+  cat_snprintf(info, sizeof(info),
+	       "----------------------------------------\n");
   for(i=0; i<game.nplayers; ++i) {
-    sprintf(info+strlen(info), "%2d   %-20s %s\n", 
-	    i, game.players[i].name, game.players[i].addr);
+    cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", 
+		 i, game.players[i].name, game.players[i].addr);
   }
 
   clear_timer_start(time_since_last_send);
@@ -792,7 +795,8 @@ static void save_game_auto(void)
 
   assert(strlen(game.save_name)<256);
   
-  sprintf(filename, "%s%d.sav", game.save_name, game.year);
+  my_snprintf(filename, sizeof(filename),
+	      "%s%d.sav", game.save_name, game.year);
   save_game(filename);
   gamelog_save();		/* should this be in save_game()? --dwp */
 }
@@ -1138,7 +1142,7 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
                              &select_nation);
 
   game.players[player_no].nation=packet->nation_no;
-  strcpy(game.players[player_no].name, packet->name);
+  sz_strlcpy(game.players[player_no].name, packet->name);
   game.players[player_no].is_male=packet->is_male;
   game.players[player_no].city_style=packet->city_style;
 
@@ -1206,9 +1210,9 @@ static void join_game_accept(struct player *pplayer, int rejoin)
   assert(pplayer);
   assert(pplayer->conn);
   packet.you_can_join = 1;
-  strcpy(packet.capability, our_capability);
-  sprintf(packet.message, "%s %s.", (rejoin?"Welcome back":"Welcome"),
-				     pplayer->name);
+  sz_strlcpy(packet.capability, our_capability);
+  my_snprintf(packet.message, sizeof(packet.message),
+	      "%s %s.", (rejoin?"Welcome back":"Welcome"), pplayer->name);
   send_packet_join_game_reply(pplayer->conn, &packet);
   if (rejoin) {
     freelog(LOG_NORMAL, _("<%s@%s> has rejoined the game."),
@@ -1330,12 +1334,12 @@ void accept_new_player(char *name, struct connection *pconn)
    * inheriting stale AI status etc
    */
   
-  strcpy(pplayer->name, name);
-  strcpy(pplayer->username, name);
+  sz_strlcpy(pplayer->name, name);
+  sz_strlcpy(pplayer->username, name);
   pplayer->conn = pconn;
   pplayer->is_connected = (pconn!=NULL);
   if (pconn) {
-    strcpy(pplayer->addr, pconn->addr); 
+    sz_strlcpy(pplayer->addr, pconn->addr); 
     join_game_accept(pplayer, 0);
   } else {
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
@@ -1360,8 +1364,8 @@ static void reject_new_player(char *msg, struct connection *pconn)
   struct packet_join_game_reply packet;
   
   packet.you_can_join=0;
-  strcpy(packet.capability, our_capability);
-  strcpy(packet.message, msg);
+  sz_strlcpy(packet.capability, our_capability);
+  sz_strlcpy(packet.message, msg);
   send_packet_join_game_reply(pconn, &packet);
 }
   
@@ -1380,11 +1384,12 @@ static void handle_request_join_game(struct connection *pconn,
 	  req->patch_version, req->version_label);
   freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
   freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
-  strcpy(pconn->capability, req->capability);
+  sz_strlcpy(pconn->capability, req->capability);
   
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
-    sprintf(msg, _("The client is missing a capability that this server needs.\n"
+    my_snprintf(msg, sizeof(msg),
+		_("The client is missing a capability that this server needs.\n"
 		   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
 		   "  Upgrading may help!"),
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
@@ -1399,7 +1404,8 @@ static void handle_request_join_game(struct connection *pconn,
 
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(req->capability, our_capability)) {
-    sprintf(msg, _("The server is missing a capability that the client needs.\n"
+    my_snprintf(msg, sizeof(msg),
+		_("The server is missing a capability that the client needs.\n"
 		   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
 		   "  Upgrading may help!"),
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
@@ -1417,7 +1423,7 @@ static void handle_request_join_game(struct connection *pconn,
     if(!pplayer->conn) {
       pplayer->conn=pconn;
       pplayer->is_connected=1;
-      strcpy(pplayer->addr, pconn->addr); 
+      sz_strlcpy(pplayer->addr, pconn->addr); 
       join_game_accept(pplayer, 1);
       introduce_game_to_player(pplayer);
       if(server_state==RUN_GAME_STATE) {
@@ -1451,8 +1457,9 @@ static void handle_request_join_game(struct connection *pconn,
       }
     }
 
-    sprintf(msg, _("You can't join the game.  %s is already connected."), 
-	    pplayer->name);
+    my_snprintf(msg, sizeof(msg),
+		_("You can't join the game.  %s is already connected."), 
+		pplayer->name);
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected."), pplayer->name);
     close_connection(pconn);
@@ -1495,7 +1502,7 @@ void lost_connection_to_player(struct connection *pconn)
     if(game.players[i].conn==pconn) {
       game.players[i].conn=NULL;
       game.players[i].is_connected=0;
-      strcpy(game.players[i].addr, "---.---.---.---");
+      sz_strlcpy(game.players[i].addr, "---.---.---.---");
       freelog(LOG_NORMAL, _("Lost connection to %s."), game.players[i].name);
       send_player_info(&game.players[i], 0);
       notify_player(0, _("Game: Lost connection to %s."), game.players[i].name);
@@ -1607,6 +1614,16 @@ static void generate_ai_players(void)
 }
 
 
+/*************************************************************************
+ Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
+*************************************************************************/
+static int good_name(char *try, char *buf) {
+  if (!find_player_by_name(try)) {
+     mystrlcpy(buf, try, MAX_LEN_NAME);
+     return 1;
+  }
+  return 0;
+}
 
 /*************************************************************************
  pick_ai_player_name() - Returns a random ruler name picked from given nation
@@ -1614,31 +1631,31 @@ static void generate_ai_players(void)
      taken, iterates through all leader names to find unused one. If it fails
      it iterates through "Player 1", "Player 2", ... until an unused name
      is found.
+ newname should point to a buffer of size at least MAX_LEN_NAME.
 *************************************************************************/
-void pick_ai_player_name (Nation_Type_id nation, char *newname) 
+void pick_ai_player_name(Nation_Type_id nation, char *newname) 
 {
-   int i, playernumber=1, names_count;
-   char tempname[50];
+   int i, names_count;
    char **names;
 
    names = get_nation_leader_names(nation, &names_count);
 
-   /* first try random name, then all available */
-   strcpy( tempname, names[myrand(names_count)] );
-
-   if( find_player_by_name(tempname) ) {
-     for(i=0; i<names_count; i++) {
-       sprintf( tempname, names[i] );
-       if( !find_player_by_name(tempname) ) {
-         strcpy(newname,tempname);
-         return;
-       }
-     }
-     while(find_player_by_name(tempname)) {
-       sprintf(tempname, _("Player %d"), playernumber++);
-     }
+   /* Try random names (scattershot), then all available,
+    * then "Player 1" etc:
+    */
+   for(i=0; i<names_count; i++) {
+     if (good_name(names[myrand(names_count)], newname)) return;
    }
-   strcpy(newname,tempname);
+   
+   for(i=0; i<names_count; i++) {
+     if (good_name(names[i], newname)) return;
+   }
+   
+   for(i=1; /**/; i++) {
+     char tempname[50];
+     my_snprintf(tempname, sizeof(tempname), _("Player %d"), i);
+     if (good_name(tempname, newname)) return;
+   }
 }
 
 /*************************************************************************

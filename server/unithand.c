@@ -29,6 +29,7 @@
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
+#include "support.h"
 #include "unit.h"
 
 #include "cityhand.h"
@@ -914,8 +915,9 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
         }
         if (get_unit_type(punit->type)->attack_strength == 0) {
           char message[MAX_LEN_NAME + 64];
-          sprintf(message, _("Game: A %s cannot attack other units."),
-                           unit_name(punit->type));
+          my_snprintf(message, sizeof(message),
+		      _("Game: A %s cannot attack other units."),
+		      unit_name(punit->type));
           notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
                            message);
           return 0;

@@ -32,6 +32,7 @@
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 #include "version.h"
@@ -93,7 +94,6 @@ static void historian_generic(enum historian_type which_news)
 {
   int i,j=0;
   char buffer[4096];
-  char buf2[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
@@ -126,9 +126,9 @@ static void historian_generic(enum historian_type which_news)
   qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<j;i++) {
-    sprintf(buf2, _("%2d: The %s %s\n"), i+1, _(greatness[i]),
-	    get_nation_name_plural(game.players[size[i].idx].nation));
-    strcat(buffer,buf2);
+    cat_snprintf(buffer, sizeof(buffer),
+		 _("%2d: The %s %s\n"), i+1, _(greatness[i]),
+		 get_nation_name_plural(game.players[size[i].idx].nation));
   }
   free(size);
   page_player_generic(0, _("Historian Publishes!"),
@@ -153,7 +153,6 @@ void top_five_cities(struct player *pplayer)
     fc_malloc(sizeof(struct player_score_entry)*5);
   int i;
   char buffer[4096];
-  char buf2[4096];
   struct city *pcity;
   buffer[0]=0;
   for (i=0;i<5;i++) {
@@ -173,10 +172,10 @@ void top_five_cities(struct player *pplayer)
   for (i=0;i<5;i++) {
     pcity=find_city_by_id(size[i].idx);
     if (pcity) { 
-      sprintf(buf2, _("%2d: The %s City of %s of size %d, with %d wonders\n"),
-	      i+1, get_nation_name(city_owner(pcity)->nation),pcity->name, 
-	      pcity->size, nr_wonders(pcity));
-      strcat(buffer, buf2);
+      cat_snprintf(buffer, sizeof(buffer),
+		   _("%2d: The %s City of %s of size %d, with %d wonders\n"),
+		   i+1, get_nation_name(city_owner(pcity)->nation),pcity->name, 
+		   pcity->size, nr_wonders(pcity));
     }
   }
   free(size);
@@ -189,19 +188,17 @@ void wonders_of_the_world(struct player *pplayer)
   int i;
   struct city *pcity;
   char buffer[4096];
-  char buf2[4096];
   buffer[0]=0;
   for (i=0;i<B_LAST;i++) {
     if(is_wonder(i) && game.global_wonders[i]) {
       if((pcity=find_city_by_id(game.global_wonders[i]))) {
-	sprintf(buf2, _("%s in %s (%s)\n"),
-		get_imp_name_ex(pcity, i), pcity->name,
-		get_nation_name(game.players[pcity->owner].nation));
+	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
+		     get_imp_name_ex(pcity, i), pcity->name,
+		     get_nation_name(game.players[pcity->owner].nation));
       } else {
-	sprintf(buf2, _("%s has been DESTROYED\n"),
-		get_improvement_type(i)->name);
+	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
+		     get_improvement_type(i)->name);
       }
-      strcat(buffer, buf2);
     }
   }
   page_player(pplayer, _("Traveler's Report:"),
@@ -478,7 +475,7 @@ static char *value_units(char *val, char *uni)
       return (buf);
     }
 
-  sprintf (buf, "%s%s", val, uni);
+  my_snprintf(buf, sizeof(buf), "%s%s", val, uni);
 
   return (buf);
 }
@@ -493,22 +490,23 @@ static char *number_to_ordinal_string(int num, int parens)
   switch (num)
     {
     case 1:
-      sprintf (buf, fmt, num, _("st"));
+      my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
       break;
     case 2:
-      sprintf (buf, fmt, num, _("nd"));
+      my_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
       break;
     case 3:
-      sprintf (buf, fmt, num, _("rd"));
+      my_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
       break;
     default:
       if (num > 0)
 	{
-	  sprintf (buf, fmt, num, _("th"));
+	  my_snprintf(buf, sizeof(buf), fmt, num, _("th"));
 	}
       else
 	{
-	  sprintf (buf, parens ? "(%s%s)" : "%s%s", "??", _("th"));
+	  my_snprintf(buf, sizeof(buf),
+		      (parens ? "(%s%s)" : "%s%s"), "??", _("th"));
 	}
       break;
     }
@@ -562,8 +560,8 @@ struct dem_key
   enum dem_flag flag;
 };
 
-static void dem_line_item (char *outptr, struct player *pplayer,
-			   char key, enum dem_flag selcols)
+static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
+			  char key, enum dem_flag selcols)
 {
   static char *fmt_quan = " %-18s";
   static char *fmt_rank = " %6s";
@@ -575,201 +573,217 @@ static void dem_line_item (char *outptr, struct player *pplayer,
     case DEM_KEY_ROW_POPULATION:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   int_to_text (pplayer->score.population));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       int_to_text (pplayer->score.population));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_population(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_population(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_population())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   int_to_text(best_player->score.population) );
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       int_to_text(best_player->score.population) );
         }
       break;
     case DEM_KEY_ROW_LAND_AREA:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (pplayer->score.landarea),
-				_(" sq. mi.")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (pplayer->score.landarea),
+				    _(" sq. mi.")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_landarea(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_landarea(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_landarea())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units (int_to_text(best_player->score.landarea),
-				_(" sq. mi.")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units (int_to_text(best_player->score.landarea),
+				    _(" sq. mi.")));
         }
       break;
     case DEM_KEY_ROW_SETTLED_AREA:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (pplayer->score.settledarea),
-				_(" sq. mi.")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (pplayer->score.settledarea),
+				    _(" sq. mi.")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_settledarea(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_settledarea(pplayer),
+						TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_settledarea())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units (int_to_text(best_player->score.settledarea),
-		                _(" sq. mi.")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units (int_to_text(best_player->score.settledarea),
+				    _(" sq. mi.")));
         }
       break;
     case DEM_KEY_ROW_RESEARCH_SPEED:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (rank_calc_research(pplayer)),
-				"%"));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (rank_calc_research(pplayer)),
+				    "%"));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_research(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_research(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_research())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units(int_to_text(rank_calc_research(best_player)),"%"));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units(int_to_text(rank_calc_research(best_player)),
+				   "%"));
         }
       break;
     case DEM_KEY_ROW_LITERACY:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (rank_calc_literacy(pplayer)),
-				"%"));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (rank_calc_literacy(pplayer)),
+				    "%"));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_literacy(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_literacy(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_literacy())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units(int_to_text(rank_calc_literacy(best_player)),"%"));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units(int_to_text(rank_calc_literacy(best_player)),
+				   "%"));
         }
       break;
     case DEM_KEY_ROW_PRODUCTION:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (pplayer->score.mfg),
-				_(" M tons")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (pplayer->score.mfg),
+				    _(" M tons")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_production(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_production(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_production())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units(int_to_text(best_player->score.mfg), _(" M tons")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units(int_to_text(best_player->score.mfg),
+				   _(" M tons")));
         }
       break;
     case DEM_KEY_ROW_ECONOMICS:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (pplayer->score.bnp),
-				_(" M goods")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (pplayer->score.bnp),
+				    _(" M goods")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_economics(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_economics(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_economics())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units(int_to_text(best_player->score.bnp), _(" M goods")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units(int_to_text(best_player->score.bnp),
+				   _(" M goods")));
         }
       break;
     case DEM_KEY_ROW_MILITARY_SERVICE:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (rank_calc_mil_service(pplayer)),
-				_(" months")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (rank_calc_mil_service(pplayer)),
+				    _(" months")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_mil_service(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_mil_service(pplayer),
+						TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_mil_service())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units( int_to_text(rank_calc_mil_service(best_player)),
-                                _(" months")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units(int_to_text(rank_calc_mil_service(best_player)),
+				   _(" months")));
         }
       break;
     case DEM_KEY_ROW_POLLUTION:
       if (selcols & DEM_COL_QUANTITY)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_quan,
-		   value_units (int_to_text (pplayer->score.pollution),
-				_(" tons")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_quan,
+		       value_units (int_to_text (pplayer->score.pollution),
+				    _(" tons")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_rank,
-		   number_to_ordinal_string(rank_pollution(pplayer), TRUE));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_rank,
+		       number_to_ordinal_string(rank_pollution(pplayer), TRUE));
 	}
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_pollution())) )
         {
-          outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
-		   value_units (int_to_text(best_player->score.pollution), _(" tons")));
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_best,
+		       get_nation_name_plural(best_player->nation),
+		       value_units (int_to_text(best_player->score.pollution),
+				    _(" tons")));
         }
       break;
     }
@@ -785,6 +799,7 @@ void demographics_report(struct player *pplayer)
   int anyrows;
   enum dem_flag selcols;
   char *outptr = buffer;
+  int nleft = sizeof(buffer);
   static char *fmt_name = "%-18s";
   static struct dem_key keytable[] =
   {
@@ -828,21 +843,21 @@ void demographics_report(struct player *pplayer)
       return;
     }
 
-  sprintf (civbuf, _("The %s of the %s"),
-	   get_government_name (pplayer->government),
-	   get_nation_name_plural (pplayer->nation));
+  my_snprintf (civbuf, sizeof(civbuf), _("The %s of the %s"),
+	       get_government_name (pplayer->government),
+	       get_nation_name_plural (pplayer->nation));
 
   for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
     {
       if ((strchr (game.demography, keytable[inx].key)) &&
 	  (keytable[inx].flag == DEM_ROW))
 	{
-	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_name, _(keytable[inx].name));
-	  outptr = strchr (outptr, '\0');
-	  dem_line_item (outptr, pplayer, keytable[inx].key, selcols);
-	  outptr = strchr (outptr, '\0');
-	  strcpy (outptr, "\n");
+	  outptr = end_of_strn (outptr, &nleft);
+	  my_snprintf (outptr, nleft, fmt_name, _(keytable[inx].name));
+	  outptr = end_of_strn (outptr, &nleft);
+	  dem_line_item (outptr, nleft, pplayer, keytable[inx].key, selcols);
+	  outptr = end_of_strn (outptr, &nleft);
+	  mystrlcpy (outptr, "\n", nleft);
 	}
     }
 
@@ -1239,7 +1254,6 @@ void show_ending(void)
 {
   int i,j=0;
   char buffer[4096];
-  char buf2[4096];
 
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
@@ -1252,10 +1266,10 @@ void show_ending(void)
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     if( !is_barbarian(&game.players[size[i].idx]) ) {
-      sprintf(buf2, _("%2d: The %s %s scored %d points\n"), j+1, _(greatness[j]),
-	      get_nation_name_plural(game.players[size[i].idx].nation),
-	      size[i].value);
-      strcat(buffer,buf2);
+      cat_snprintf(buffer, sizeof(buffer),
+		   _("%2d: The %s %s scored %d points\n"), j+1, _(greatness[j]),
+		   get_nation_name_plural(game.players[size[i].idx].nation),
+		   size[i].value);
       j++;
     }
   }
@@ -1743,7 +1757,7 @@ void notify_player_ex(struct player *pplayer, int x, int y, int event, char *for
   struct packet_generic_message genmsg;
   va_list args;
   va_start(args, format);
-  vsprintf(genmsg.message, format, args);
+  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
   va_end(args);
   genmsg.event = event;
   for(i=0; i<game.nplayers; i++)
@@ -1771,7 +1785,7 @@ void notify_player(struct player *pplayer, char *format, ...)
   struct packet_generic_message genmsg;
   va_list args;
   va_start(args, format);
-  vsprintf(genmsg.message, format, args);
+  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
   va_end(args);
   genmsg.x = -1;
   genmsg.y = -1;
@@ -1810,13 +1824,9 @@ void page_player_generic(struct player *pplayer, char *caption, char *headline,
     freelog(LOG_NORMAL, _("Message too long in page_player_generic!!"));
     return;
   }
-  strcpy(genmsg.message, caption);
-  strcat(genmsg.message, "\n");
-  strcat(genmsg.message, headline);
-  strcat(genmsg.message, "\n");
-  strcat(genmsg.message, lines);
+  my_snprintf(genmsg.message, sizeof(genmsg.message),
+	      "%s\n%s\n%s", caption, headline, lines);
   genmsg.event = event;
-  
   
   for(i=0; i<game.nplayers; i++)
     if(!pplayer || pplayer==&game.players[i])
@@ -1838,7 +1848,7 @@ void send_player_info(struct player *src, struct player *dest)
            if(!src || &game.players[i]==src) {
              struct packet_player_info info;
              info.playerno=i;
-             strcpy(info.name, game.players[i].name);
+             sz_strlcpy(info.name, game.players[i].name);
              info.nation=game.players[i].nation;
              info.is_male=game.players[i].is_male;
 
@@ -1862,12 +1872,12 @@ void send_player_info(struct player *src, struct player *dest)
              info.nturns_idle=game.players[i].nturns_idle;
              info.is_alive=game.players[i].is_alive;
              info.is_connected=game.players[i].is_connected;
-             strcpy(info.addr, game.players[i].addr);
+             sz_strlcpy(info.addr, game.players[i].addr);
 	     info.revolution=game.players[i].revolution;
 	     info.ai=game.players[i].ai.control;
 	     info.is_barbarian=game.players[i].ai.is_barbarian;
 	     if(game.players[i].conn)
-	       strcpy(info.capability,game.players[i].conn->capability);
+	       sz_strlcpy(info.capability,game.players[i].conn->capability);
 	     
              send_packet_player_info(game.players[o].conn, &info);
 	   }
@@ -1893,16 +1903,16 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
      secfile_lookup_int_default() or secfile_lookup_str_default().
   */
 
-  strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
-  strcpy(plr->username,
-	 secfile_lookup_str_default(file, "", "player%d.username", plrno));
+  sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
+  sz_strlcpy(plr->username,
+	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
   plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
   plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
                                              "player%d.city_style", plrno);
 
-  strcpy(plr->addr, "---.---.---.---");
+  sz_strlcpy(plr->addr, "---.---.---.---");
 
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_int_default(file, 1, "player%d.is_male", plrno);
@@ -1946,7 +1956,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     char prefix[32];
     int arrival_year;
     
-    sprintf(prefix, "player%d.spaceship", plrno);
+    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
     arrival_year = secfile_lookup_int(file, "%s.arrival_year", prefix);
     ship->structurals = secfile_lookup_int(file, "%s.structurals", prefix);
@@ -1972,7 +1982,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     char prefix[32];
     char *st;
     
-    sprintf(prefix, "player%d.spaceship", plrno);
+    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
     ship->state = secfile_lookup_int(file, "%s.state", prefix);
 
@@ -2021,8 +2031,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     pcity->y=secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     
-    strcpy(pcity->name, secfile_lookup_str(file, "player%d.c%d.name",
-					   plrno, i));
+    sz_strlcpy(pcity->name,
+	       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
     if (section_file_lookup(file, "player%d.c%d.original", plrno, i))
       pcity->original = secfile_lookup_int(file, "player%d.c%d.original", 
 					   plrno,i);
@@ -2222,7 +2232,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     char st[NUM_SS_STRUCTURALS+1];
     int i;
     
-    sprintf(prefix, "player%d.spaceship", plrno);
+    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
 
     secfile_insert_int(file, ship->structurals, "%s.structurals", prefix);
     secfile_insert_int(file, ship->components, "%s.components", prefix);

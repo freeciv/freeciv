@@ -24,6 +24,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "support.h"
 
 #include "gamelog.h"
 
@@ -65,7 +66,7 @@ void gamelog(int level, char *message, ...)
   }
   
   va_start(args, message);
-  vsprintf(buf, message, args);
+  my_vsnprintf(buf, sizeof(buf), message, args);
   if (level==GAMELOG_MAP){
     fprintf(fs,"%s\n",buf);
   } else if (level==GAMELOG_EOT){
@@ -108,7 +109,6 @@ void gamelog_save(void){
   /*lifted from historian_largest()*/
   int i, count;
   char buffer[4096];
-  char buf2[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
   for (i=0,count=0;i<game.nplayers;i++) {
@@ -121,12 +121,11 @@ void gamelog_save(void){
   qsort(size, count, sizeof(struct player_score_entry), secompare1);
   buffer[0]=0;
   for (i=0;i<count;i++) {
-    sprintf(buf2,
-	    "%2d: %s(%i)  ",
-	    i+1,
-	    get_nation_name_plural(game.players[size[i].idx].nation),
-	    size[i].value);
-    strcat(buffer,buf2);
+    cat_snprintf(buffer, sizeof(buffer),
+		 "%2d: %s(%i)  ",
+		 i+1,
+		 get_nation_name_plural(game.players[size[i].idx].nation),
+		 size[i].value);
   }
   gamelog(GAMELOG_EOT,buffer);
   free(size);

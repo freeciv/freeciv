@@ -27,6 +27,7 @@
 #include "packets.h"
 #include "rand.h"
 #include "registry.h"
+#include "support.h"
 #include "version.h"
 
 #include "cityturn.h"
@@ -271,17 +272,21 @@ void game_load(struct section_file *file)
   int i;
   enum server_states tmp_server_state;
   char *savefile_options=" ";
-  char name[20],*string;
+  char *string;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
-  strcpy(metaserver_info_line,
-	 secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
-				    "game.metastring"));
-  strcpy(metaserver_addr,
-	 secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
-				    "game.metaserver"));
+
+  /* grr, hardcoded sizes --dwp */
+  mystrlcpy(metaserver_info_line,
+	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
+				       "game.metastring"),
+	    256);
+  mystrlcpy(metaserver_addr,
+	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
+				       "game.metaserver"),
+	    256);
   meta_addr_split();
 
   game.gold          = secfile_lookup_int(file, "game.gold");
@@ -356,7 +361,8 @@ void game_load(struct section_file *file)
     rstate.k = secfile_lookup_int(file,"random.index_K");
     rstate.x = secfile_lookup_int(file,"random.index_X");
     for(i=0;i<8;i++) {
-      sprintf(name,"random.table%d",i);
+      char name[20];
+      my_snprintf(name, sizeof(name), "random.table%d",i);
       string=secfile_lookup_str(file,name);
       sscanf(string,"%8X %8X %8X %8X %8X %8X %8X", &rstate.v[7*i],
 	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
@@ -366,26 +372,28 @@ void game_load(struct section_file *file)
     set_myrand_state(rstate);
   }
 
-  strcpy(game.ruleset.techs,
-	 secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
-  strcpy(game.ruleset.units,
-	 secfile_lookup_str_default(file, "default", "game.ruleset.units"));
-  strcpy(game.ruleset.buildings,
-	 secfile_lookup_str_default(file, "default", "game.ruleset.buildings"));
-  strcpy(game.ruleset.terrain,
-	 secfile_lookup_str_default(file, "classic", "game.ruleset.terrain"));
-  strcpy(game.ruleset.governments,
-	 secfile_lookup_str_default(file, "default",
-				    "game.ruleset.governments"));
-  strcpy(game.ruleset.nations,
-         secfile_lookup_str_default(file, "default", "game.ruleset.nations"));
-  strcpy(game.ruleset.cities,
-         secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
+  sz_strlcpy(game.ruleset.techs,
+	     secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
+  sz_strlcpy(game.ruleset.units,
+	     secfile_lookup_str_default(file, "default", "game.ruleset.units"));
+  sz_strlcpy(game.ruleset.buildings,
+	     secfile_lookup_str_default(file, "default",
+					"game.ruleset.buildings"));
+  sz_strlcpy(game.ruleset.terrain,
+	     secfile_lookup_str_default(file, "classic",
+					"game.ruleset.terrain"));
+  sz_strlcpy(game.ruleset.governments,
+	     secfile_lookup_str_default(file, "default",
+					"game.ruleset.governments"));
+  sz_strlcpy(game.ruleset.nations,
+	     secfile_lookup_str_default(file, "default",
+					"game.ruleset.nations"));
+  sz_strlcpy(game.ruleset.cities,
+	     secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
 
-
-  strcpy(game.demography,
-	 secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
-				    "game.demography"));
+  sz_strlcpy(game.demography,
+	     secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
+					"game.demography"));
 
   game.spacerace = secfile_lookup_int_default(file, game.spacerace,
 					      "game.spacerace");
@@ -488,7 +496,7 @@ void game_save(struct section_file *file)
 {
   int i;
   int version;
-  char name[20],temp[100], temp1[100], *temp2;
+  char temp[100], temp1[100], *temp2;
 
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
@@ -499,22 +507,22 @@ void game_save(struct section_file *file)
   if(server_state!=PRE_GAME_STATE) {
     secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");
   } else { /* cut out unirandom, and insert startpos if necessary */
-    strcpy(temp, SAVEFILE_OPTIONS);
+    sz_strlcpy(temp, SAVEFILE_OPTIONS);
     temp2=strtok(temp," ");
     *temp1='\0';
     while(temp2 != NULL) {
       /* we don't have unirandom in settings and scenarios */
       if(strcmp(temp2,"unirandom")!=0) {
-        strcat(temp1," ");
-        strcat(temp1,temp2);
+        sz_strlcat(temp1, " ");
+        sz_strlcat(temp1, temp2);
       }
       temp2=strtok(NULL," ");
     }
     if(map.num_start_positions>0) {
-      strcat(temp1," startpos");
+      sz_strlcat(temp1, " startpos");
     }
     if(map.have_specials) {
-      strcat(temp1," specials");
+      sz_strlcat(temp1, " specials");
     }
     secfile_insert_str(file, temp1+1, "savefile.options");
   }
@@ -594,11 +602,13 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, rstate.x, "random.index_X");
 
     for(i=0;i<8;i++) {
-      sprintf(name,"random.table%d",i);
-      sprintf(temp,"%8X %8X %8X %8X %8X %8X %8X", rstate.v[7*i],
-              rstate.v[7*i+1], rstate.v[7*i+2], rstate.v[7*i+3],
-              rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
-      secfile_insert_str(file,temp,name);
+      char name[20], vec[100];
+      my_snprintf(name, sizeof(name), "random.table%d", i);
+      my_snprintf(vec, sizeof(vec),
+		  "%8X %8X %8X %8X %8X %8X %8X", rstate.v[7*i],
+		  rstate.v[7*i+1], rstate.v[7*i+2], rstate.v[7*i+3],
+		  rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
+      secfile_insert_str(file, vec, name);
     }
      
   }

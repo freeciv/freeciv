@@ -29,6 +29,7 @@
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "barbarian.h"
@@ -1987,20 +1988,22 @@ static char *get_location_str(struct player *pplayer, int x, int y,
   incity = map_get_city(x, y);
   if (incity) {
     if (use_at) {
-      sprintf(buffer, _("%sat %s"), prefix, incity->name);
+      my_snprintf(buffer, sizeof(buffer), _("%sat %s"), prefix, incity->name);
     } else {
-      sprintf(buffer, _("%sin %s"), prefix, incity->name);
+      my_snprintf(buffer, sizeof(buffer), _("%sin %s"), prefix, incity->name);
     }
   } else {
     nearcity = dist_nearest_city(pplayer, x, y, 0, 0);
     if (nearcity) {
       if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
-	sprintf(buffer, _("%soutside %s"), prefix, nearcity->name);
+	my_snprintf(buffer, sizeof(buffer),
+		   _("%soutside %s"), prefix, nearcity->name);
       } else {
-	sprintf(buffer, _("%snear %s"), prefix, nearcity->name);
+	my_snprintf(buffer, sizeof(buffer),
+		    _("%snear %s"), prefix, nearcity->name);
       }
     } else {
-      strcpy(buffer, "");
+      buffer[0] = '\0';
     }
   }
   return buffer;

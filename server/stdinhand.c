@@ -120,6 +120,7 @@ struct settings_s {
   */
   char *svalue;	
   char *default_svalue;
+  size_t sz_svalue;		/* max size we can write into svalue */
 };
 
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
@@ -282,7 +283,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"techs.ruleset\".  The advances (technologies) present in\n"
     "  the game will be initialized from this file.  See also README.rulesets."),
-    game.ruleset.techs, GAME_DEFAULT_RULESET },
+    game.ruleset.techs, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.techs) },
 
   { "governments", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -291,7 +293,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"governments.ruleset\".  The government types available in\n"
     "  the game will be initialized from this file.  See also README.rulesets."),
-    game.ruleset.governments, GAME_DEFAULT_RULESET },
+    game.ruleset.governments, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.governments) },
 
   { "units", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -300,7 +303,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"units.ruleset\".  The unit types present in the game will\n"
     "  be initialized from this file.  See also README.rulesets."),
-    game.ruleset.units, GAME_DEFAULT_RULESET },
+    game.ruleset.units, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.units) },
 
   { "buildings", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -310,7 +314,8 @@ static struct settings_s settings[] = {
     "  file called \"buildings.ruleset\".  The building types (City Improvements\n"
     "  and Wonders) in the game will be initialized from this file.\n"
     "  See also README.rulesets."),
-    game.ruleset.buildings, GAME_DEFAULT_RULESET },
+    game.ruleset.buildings, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.buildings) },
 
   { "terrain", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -319,7 +324,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"terrain.ruleset\".  The terrain types present in the game\n"
     "  will be initialized from this file.  See also README.rulesets."),
-    game.ruleset.terrain, GAME_DEFAULT_RULESET },
+    game.ruleset.terrain, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.terrain) },
 
   { "nations", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -328,7 +334,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"nations.ruleset\".  The nations present in the game\n"
     "  will be initialized from this file.  See also README.rulesets."),
-    game.ruleset.nations, GAME_DEFAULT_RULESET },
+    game.ruleset.nations, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.nations) },
 
   { "cities", NULL,
     SSET_RULES, SSET_TO_CLIENT,
@@ -337,7 +344,8 @@ static struct settings_s settings[] = {
     N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"cities.ruleset\".  The file is used to initialize\n"
     "  city data (such as city style).  See also README.rulesets."),
-    game.ruleset.cities, GAME_DEFAULT_RULESET },
+    game.ruleset.cities, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.cities) },
 
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
@@ -520,7 +528,8 @@ static struct settings_s settings[] = {
     "      q = display \"quantity\" column    r = display \"rank\" column\n"
     "      b = display \"best nation\" column\n"
     "  (The order of these characters is not significant, but their case is.)"),
-    game.demography, GAME_DEFAULT_DEMOGRAPHY },
+    game.demography, GAME_DEFAULT_DEMOGRAPHY,
+    sizeof(game.demography) },
 
   { "saveturns", &game.save_nturns,
     SSET_META, SSET_SERVER_ONLY,
@@ -812,13 +821,7 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
 			"(?!?)";  /* this case is a bug! */
 
   va_start(ap,format);
-  /* (void)vsnprintf(line,MAX_LEN_CMD-1,format,ap); */
-    /*
-     * no snprintf() in ANSI C and I don't know how to do it otherwise;
-     * then again, there are plenty of other places in which this overflow
-     * exists so I won't solve it here until we have myvsnprintf() - rp
-     */
-  vsprintf(line,format,ap);
+  my_vsnprintf(line, MAX_LEN_CMD, format,ap);
   va_end(ap);
 
   if (caller) {
@@ -935,8 +938,7 @@ static void meta_command(struct player *caller, char *arg)
 **************************************************************************/
 static void metainfo_command(struct player *caller, char *arg)
 {
-  strncpy(metaserver_info_line, arg, 256);
-  metaserver_info_line[256-1]='\0';
+  mystrlcpy(metaserver_info_line, arg, 256);
   if (send_server_info_to_metaserver(1,0) == 0) {
     cmd_reply(CMD_META, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
@@ -955,8 +957,7 @@ static void metaserver_command(struct player *caller, char *arg)
 {
   close_metaserver_connection(caller);
 
-  strncpy(metaserver_addr, arg, 256);
-  metaserver_addr[256-1]='\0';
+  mystrlcpy(metaserver_addr, arg, 256);
   meta_addr_split();
 
   notify_player(0, _("Metaserver is now [%s]."),
@@ -1161,7 +1162,7 @@ static void remove_player(struct player *caller, char *arg)
     return;
   }
 
-  strcpy(name, pplayer->name);
+  sz_strlcpy(name, pplayer->name);
   server_remove_player(pplayer);
   cmd_reply(CMD_REMOVE, caller, C_OK,
 	    _("Removed player %s from the game."), name);
@@ -1536,7 +1537,7 @@ static void explain_option(struct player *caller, char *str)
       char buf[MAX_LEN_CMD+1];
       buf[0] = '\0';
       for (i=0; settings[i].name; i++) {
-	sprintf(&buf[strlen(buf)], "%-19s", settings[i].name);
+	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
 	if(((i+1)%4) == 0) {
 	  cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, buf);
 	  buf[0] = '\0';
@@ -1560,11 +1561,10 @@ void report_server_options(struct player *pplayer, int which)
 {
   int i;
   char buffer[4096];
-  char buf2[4096];
   char title[128];
   char *caption;
   buffer[0]=0;
-  sprintf(title, _("%-20svalue  (min , max)"), _("Option"));
+  my_snprintf(title, sizeof(title), _("%-20svalue  (min , max)"), _("Option"));
   caption = (which == 1) ?
     _("Server Options (initial)") :
     _("Server Options (ongoing)");
@@ -1575,18 +1575,15 @@ void report_server_options(struct player *pplayer, int which)
     if (which==1 && op->sclass > SSET_GAME_INIT) continue;
     if (which==2 && op->sclass <= SSET_GAME_INIT) continue;
     if (SETTING_IS_INT(op)) {
-      sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", op->name,
-	      (*op->value==op->default_value) ? '*' : ' ',
-	      *op->value, op->min_value, op->max_value);
+      cat_snprintf(buffer, sizeof(buffer), "%-20s%c%-6d (%d,%d)\n", op->name,
+		   (*op->value==op->default_value) ? '*' : ' ',
+		   *op->value, op->min_value, op->max_value);
     } else {
-      sprintf(buf2, "%-20s%c\"%s\"\n", op->name,
-	      (strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' ',
-	      op->svalue);
+      cat_snprintf(buffer, sizeof(buffer), "%-20s%c\"%s\"\n", op->name,
+		   (strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' ',
+		   op->svalue);
     }
-    strcat(buffer, buf2);
   }
-  i = strlen(buffer);
-  assert(i<sizeof(buffer));
   freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
   page_player(pplayer, caption, title, buffer);
 }
@@ -1670,7 +1667,7 @@ which we let overflow their columns.  (And endyear may have '-'.)
 ******************************************************************/
 static void show_command(struct player *caller, char *str)
 {
-  char buf[MAX_LEN_CMD+1];  /* length is not checked ... - rp */
+  char buf[MAX_LEN_CMD+1];
   char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int cmd,i,len1;
 
@@ -1703,9 +1700,9 @@ static void show_command(struct player *caller, char *str)
   cmd_reply_show(_("+ means you may change the option"));
   cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
-  len1 = sprintf(buf,
+  len1 = my_snprintf(buf, sizeof(buf),
 	_("%-*s value  (min,max)       "), OPTION_NAME_SPACE, _("Option"));
-  sprintf(&buf[len1], _("description"));
+  sz_strlcat(buf, _("description"));
   cmd_reply_show(buf);
   cmd_reply_show(horiz_line);
 
@@ -1718,13 +1715,13 @@ static void show_command(struct player *caller, char *str)
       int len;
 
       if (SETTING_IS_INT(op)) {
-        len = sprintf(&buf[strlen(buf)],
+        len = my_snprintf(buf, sizeof(buf),
 		      "%-*s %c%c%-4d (%d,%d)", OPTION_NAME_SPACE, op->name,
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((*op->value==op->default_value) ? '=' : ' '),
 		      *op->value, op->min_value, op->max_value);
       } else {
-        len = sprintf(&buf[strlen(buf)],
+        len = my_snprintf(buf, sizeof(buf),
 		      "%-*s %c%c     \"%s\"", OPTION_NAME_SPACE, op->name,
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((strcmp(op->svalue, op->default_svalue)==0) ? '=' : ' '),
@@ -1732,13 +1729,12 @@ static void show_command(struct player *caller, char *str)
       }
       /* Line up the descriptions: */
       if(len < len1) {
-        sprintf(&buf[strlen(buf)], "%*s", (len1-len), " ");
+        cat_snprintf(buf, sizeof(buf), "%*s", (len1-len), " ");
       } else {
-        sprintf(&buf[strlen(buf)], " ");
+        sz_strlcat(buf, " ");
       }
-      sprintf(&buf[strlen(buf)], _(op->short_help));
+      sz_strlcat(buf, _(op->short_help));
       cmd_reply_show(buf);
-      buf[0] = '\0';
     }
   }
   cmd_reply_show(horiz_line);
@@ -1805,14 +1801,14 @@ static void set_command(struct player *caller, char *str)
 	_("Value out of range.  Usage: set <option> <value>."));
     }
   } else {
-    if (strlen(arg)<MAX_LEN_NAME) {
+    if (strlen(arg)<op->sz_svalue) {
       strcpy(op->svalue, arg);
       cmd_reply(CMD_SET, caller, C_OK,
 		_("Option: %s has been set to \"%s\"."),
-		settings[cmd].name, arg);
+		op->name, op->svalue);
       if (sset_is_to_client(cmd)) {
 	notify_player(0, _("Option: %s has been set to \"%s\"."), 
-		      settings[cmd].name, arg);
+		      op->name, op->svalue);
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
@@ -1881,8 +1877,7 @@ void handle_stdin_input(struct player *caller, char *str)
   }
 
   for(; *cptr_s && isspace(*cptr_s); cptr_s++);
-  strncpy(arg, cptr_s, MAX_LEN_CMD);
-  arg[MAX_LEN_CMD]='\0';
+  sz_strlcpy(arg, cptr_s);
 
   i=strlen(arg)-1;
   while(i>0 && isspace(arg[i]))

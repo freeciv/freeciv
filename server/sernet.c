@@ -60,7 +60,7 @@
 #include "log.h"
 #include "packets.h"
 #include "shared.h"
-#include "support.h"		/* mystrerror */
+#include "support.h"
 
 #include "civserver.h"
 #include "console.h"
@@ -259,14 +259,9 @@ int server_accept_connection(int sockfd)
 	connections[i].first_packet=1;
 	connections[i].byte_swap=0;
 	connections[i].access_level=default_access_level;
-
-	if(from) {
-	  strncpy(connections[i].addr, from->h_name, MAX_LEN_ADDR);
-	  connections[i].addr[MAX_LEN_ADDR-1]='\0';
-	}
-	else {
-	   strcpy(connections[i].addr, "unknown");
-	}
+	
+	sz_strlcpy(connections[i].addr, (from ? from->h_name : "unknown"));
+	
 	freelog(LOG_VERBOSE, "connection from %s", connections[i].addr);
 	return 0;
       }

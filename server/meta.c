@@ -63,7 +63,10 @@ The info string should look like this:
 
 #include "fcintl.h"
 #include "packets.h"
+#include "support.h"
+
 #include "console.h"
+
 #include "meta.h"
 
 #ifndef INADDR_NONE
@@ -102,10 +105,12 @@ char *meta_addr_port(void)
 {
   static char retstr[300];
 
-  if (metaserver_port == DEFAULT_META_SERVER_PORT)
-    strcpy(retstr, metaserver_addr);
-  else
-    sprintf(retstr, "%s:%d", metaserver_addr, metaserver_port);
+  if (metaserver_port == DEFAULT_META_SERVER_PORT) {
+    sz_strlcpy(retstr, metaserver_addr);
+  } else {
+    my_snprintf(retstr, sizeof(retstr),
+		"%s:%d", metaserver_addr, metaserver_port);
+  }
 
   return retstr;
 }

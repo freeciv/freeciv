@@ -76,10 +76,10 @@ static char *openload_ruleset_file(struct section_file *file,
 {
   char filename1[512], filename2[512], *dfilename;
 
-  sprintf(filename1, "%s_%s.ruleset", subdir, whichset);
+  my_snprintf(filename1, sizeof(filename1), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename1);
   if (!dfilename) {
-    sprintf(filename2, "%s/%s.ruleset", subdir, whichset);
+    my_snprintf(filename2, sizeof(filename2), "%s/%s.ruleset", subdir, whichset);
     dfilename = datafilename(filename2);
     if (!dfilename) {
       freelog(LOG_FATAL, _("Could not find readable ruleset file \"%s\""),
@@ -386,7 +386,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
   }
 
   /* Initialize dummy tech A_NONE */
-  strcpy(advances[A_NONE].name, "None");
+  sz_strlcpy(advances[A_NONE].name, "None");
   advances[A_NONE].req[0] = A_NONE;
   advances[A_NONE].req[1] = A_NONE;
   advances[A_NONE].flags = 0;
@@ -396,7 +396,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
 
   /* have to read all names first, so can lookup names for reqs! */
   for( i=0; i<num_techs; i++ ) {
-    strcpy(a->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    sz_strlcpy(a->name, secfile_lookup_str(&file, "%s.name", sec[i]));
     a++;
   }
 
@@ -512,7 +512,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   
   for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
-    strcpy(u->name, secfile_lookup_str(file, "%s.name", sec[i]));
+    sz_strlcpy(u->name, secfile_lookup_str(file, "%s.name", sec[i]));
   }
 
   /* Tech requirement is used to flag removed unit_types, which
@@ -548,10 +548,10 @@ static void load_ruleset_units(char *ruleset_subdir)
     }
     u->move_type = ival;
     
-    strncpy(u->graphic_str, secfile_lookup_str(file,"%s.graphic", sec[i]),
-	    sizeof(u->graphic_str)-1);
-    strncpy(u->graphic_alt, secfile_lookup_str(file,"%s.graphic_alt", sec[i]),
-	    sizeof(u->graphic_alt)-1);
+    sz_strlcpy(u->graphic_str,
+	       secfile_lookup_str(file,"%s.graphic", sec[i]));
+    sz_strlcpy(u->graphic_alt,
+	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
     
     u->build_cost =
       secfile_lookup_int(file,"%s.build_cost", sec[i]);
@@ -782,7 +782,7 @@ static void load_ruleset_buildings(char *ruleset_subdir)
   for( i=0, j=0; i<B_LAST; i++ ) {
     b = &improvement_types[i];
     
-    strcpy(b->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    sz_strlcpy(b->name, secfile_lookup_str(&file, "%s.name", sec[i]));
     b->is_wonder = secfile_lookup_int(&file, "%s.is_wonder", sec[i]);
     b->tech_requirement = lookup_tech(&file, sec[i], "tech_req",
 				      0, filename, b->name);
@@ -910,8 +910,8 @@ static void load_ruleset_terrain(char *ruleset_subdir)
     {
       t = &(tile_types[i]);
 
-      strcpy(t->terrain_name,
-	     secfile_lookup_str(&file, "%s.terrain_name", sec[i]));
+      sz_strlcpy(t->terrain_name,
+		 secfile_lookup_str(&file, "%s.terrain_name", sec[i]));
       if (0 == strcmp(t->terrain_name, "unused")) *(t->terrain_name) = '\0';
     }
 
@@ -921,10 +921,10 @@ static void load_ruleset_terrain(char *ruleset_subdir)
     {
       t = &(tile_types[i]);
 
-      strncpy(t->graphic_str, secfile_lookup_str(&file,"%s.graphic", sec[i]),
-	      sizeof(t->graphic_str)-1);
-      strncpy(t->graphic_alt, secfile_lookup_str(&file,"%s.graphic_alt", sec[i]),
-	    sizeof(t->graphic_alt)-1);
+      sz_strlcpy(t->graphic_str,
+		 secfile_lookup_str(&file,"%s.graphic", sec[i]));
+      sz_strlcpy(t->graphic_alt,
+		 secfile_lookup_str(&file,"%s.graphic_alt", sec[i]));
 
       t->movement_cost = secfile_lookup_int(&file, "%s.movement_cost", sec[i]);
       t->defense_bonus = secfile_lookup_int(&file, "%s.defense_bonus", sec[i]);
@@ -933,24 +933,26 @@ static void load_ruleset_terrain(char *ruleset_subdir)
       t->shield = secfile_lookup_int(&file, "%s.shield", sec[i]);
       t->trade = secfile_lookup_int(&file, "%s.trade", sec[i]);
 
-      strcpy(t->special_1_name, secfile_lookup_str(&file, "%s.special_1_name", sec[i]));
+      sz_strlcpy(t->special_1_name,
+		 secfile_lookup_str(&file, "%s.special_1_name", sec[i]));
       if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
       t->food_special_1 = secfile_lookup_int(&file, "%s.food_special_1", sec[i]);
       t->shield_special_1 = secfile_lookup_int(&file, "%s.shield_special_1", sec[i]);
       t->trade_special_1 = secfile_lookup_int(&file, "%s.trade_special_1", sec[i]);
 
-      strcpy(t->special_2_name, secfile_lookup_str(&file, "%s.special_2_name", sec[i]));
+      sz_strlcpy(t->special_2_name,
+		 secfile_lookup_str(&file, "%s.special_2_name", sec[i]));
       if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
       t->food_special_2 = secfile_lookup_int(&file, "%s.food_special_2", sec[i]);
       t->shield_special_2 = secfile_lookup_int(&file, "%s.shield_special_2", sec[i]);
       t->trade_special_2 = secfile_lookup_int(&file, "%s.trade_special_2", sec[i]);
       for(j=0; j<2; j++) {
-	strncpy(t->special[j].graphic_str,
-		secfile_lookup_str(&file,"%s.graphic_special_%d", sec[i], j+1),
-		sizeof(t->special[j].graphic_str)-1);
-	strncpy(t->special[j].graphic_alt,
-		secfile_lookup_str(&file,"%s.graphic_special_%da", sec[i], j+1),
-		sizeof(t->special[j].graphic_alt)-1);
+	sz_strlcpy(t->special[j].graphic_str,
+		   secfile_lookup_str(&file,"%s.graphic_special_%d",
+				      sec[i], j+1));
+	sz_strlcpy(t->special[j].graphic_alt,
+		   secfile_lookup_str(&file,"%s.graphic_special_%da",
+				      sec[i], j+1));
       }
 
       t->road_trade_incr =
@@ -1017,8 +1019,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
   /* first fill in government names so find_government_by_name will work -SKi */
   for(i = 0; i < game.government_count; i++) {
     g = &governments[i];
-    strncpy(g->name, secfile_lookup_str(&file, "%s.name", sec[i]),
-	    sizeof(g->name)-1);
+    sz_strlcpy(g->name, secfile_lookup_str(&file, "%s.name", sec[i]));
     g->index = i;
   }
 
@@ -1052,10 +1053,10 @@ static void load_ruleset_governments(char *ruleset_subdir)
     g->required_tech
       = lookup_tech(&file, sec[i], "tech_req", 0, filename, g->name);
     
-    strncpy(g->graphic_str, secfile_lookup_str(&file, "%s.graphic", sec[i]),
-	    sizeof(g->graphic_str)-1);
-    strncpy(g->graphic_alt, secfile_lookup_str(&file, "%s.graphic_alt", sec[i]),
-	    sizeof(g->graphic_alt)-1);
+    sz_strlcpy(g->graphic_str,
+	       secfile_lookup_str(&file, "%s.graphic", sec[i]));
+    sz_strlcpy(g->graphic_alt,
+	       secfile_lookup_str(&file, "%s.graphic_alt", sec[i]));
     
     g->martial_law_max = secfile_lookup_int(&file, "%s.martial_law_max", sec[i]);
     g->martial_law_per = secfile_lookup_int(&file, "%s.martial_law_per", sec[i]);
@@ -1180,14 +1181,10 @@ static void load_ruleset_governments(char *ruleset_subdir)
     title = &(g->ruler_titles[0]);
 
     title->nation = DEFAULT_TITLE;
-    strncpy(title->male_title,
-	    secfile_lookup_str(&file, "%s.ruler_male_title", sec[i]),
-	    sizeof(title->male_title)-1);
-    title->male_title[sizeof(title->male_title)-1] = '\0';
-    strncpy(title->female_title,
-	    secfile_lookup_str(&file, "%s.ruler_female_title", sec[i]),
-	    sizeof(title->female_title)-1);
-    title->female_title[sizeof(title->female_title)-1] = '\0';
+    sz_strlcpy(title->male_title,
+	       secfile_lookup_str(&file, "%s.ruler_male_title", sec[i]));
+    sz_strlcpy(title->female_title,
+	       secfile_lookup_str(&file, "%s.ruler_female_title", sec[i]));
   }
 
   /* subgoals: */
@@ -1349,8 +1346,8 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* nation name and leaders */
 
-    strcpy( pl->name, secfile_lookup_str(&file, "%s.name", sec[i]));
-    strcpy( pl->name_plural, secfile_lookup_str(&file, "%s.plural", sec[i]));
+    sz_strlcpy(pl->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    sz_strlcpy(pl->name_plural, secfile_lookup_str(&file, "%s.plural", sec[i]));
     leaders = secfile_lookup_str_vec(&file, &dim, "%s.leader", sec[i]);
     if( dim<1 || dim > MAX_NUM_LEADERS ) {
       freelog(LOG_FATAL, "Nation %s: number of leaders must be 1-%d", pl->name, 
@@ -1359,8 +1356,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
     }
     pl->leader_count = dim;
     for( j=0; j<dim; j++) {
-      pl->leader_name[j] = fc_calloc( strlen(leaders[j])+1, sizeof(char));
-      strcpy( pl->leader_name[j], leaders[j]);
+      pl->leader_name[j] = mystrdup(leaders[j]);
     }
     free(leaders);
 
@@ -1401,22 +1397,21 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* Flags */
 
-    strcpy(pl->flag_graphic_str,
-	   secfile_lookup_str(&file, "%s.flag", sec[i]));
-    strcpy(pl->flag_graphic_alt,
-	   secfile_lookup_str(&file, "%s.flag_alt", sec[i]));
+    sz_strlcpy(pl->flag_graphic_str,
+	       secfile_lookup_str(&file, "%s.flag", sec[i]));
+    sz_strlcpy(pl->flag_graphic_alt,
+	       secfile_lookup_str(&file, "%s.flag_alt", sec[i]));
 
     /* Ruler titles */
 
     j = -1;
     while((g = secfile_lookup_str_default(&file, NULL, "%s.ruler_titles%d.government",
 					  sec[i], ++j))) {
-      strncpy(male, secfile_lookup_str(&file, "%s.ruler_titles%d.male_title", sec[i], j),
-              sizeof(male)-1);
-      male[sizeof(male)-1] = '\0';
-      strncpy(female, secfile_lookup_str(&file, "%s.ruler_titles%d.female_title", sec[i], j),
-              sizeof(female)-1); 
-      female[sizeof(female)-1] = '\0';
+      sz_strlcpy(male, secfile_lookup_str(&file, "%s.ruler_titles%d.male_title",
+					  sec[i], j));
+      sz_strlcpy(female, secfile_lookup_str(&file,
+					    "%s.ruler_titles%d.female_title",
+					    sec[i], j));
       if( (gov = find_government_by_name(g)) != NULL ) {
         set_ruler_title(gov, i, male, female);
       }
@@ -1427,7 +1422,8 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* City styles */
 
-    strcpy(temp_name, secfile_lookup_str_default(&file, "-", "%s.city_style", sec[i]));
+    sz_strlcpy(temp_name,
+	       secfile_lookup_str_default(&file, "-", "%s.city_style", sec[i]));
     pl->city_style = get_style_by_name(temp_name);
     if( pl->city_style == -1 ) {
       freelog( LOG_NORMAL, "Nation %d city style %s not known, using default", 
@@ -1489,7 +1485,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* AI wonder & government */
 
-    strcpy( temp_name, secfile_lookup_str(&file, "%s.wonder", sec[i]));
+    sz_strlcpy(temp_name, secfile_lookup_str(&file, "%s.wonder", sec[i]));
     val = find_improvement_by_name(temp_name);
     /* for any problems, leave as B_LAST */
     if(val == B_LAST) {
@@ -1504,7 +1500,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
     pl->goals.wonder = val;
     freelog(LOG_DEBUG, "%s wonder goal %d %s", pl->name, val, temp_name);
 
-    strcpy( temp_name, secfile_lookup_str(&file, "%s.government", sec[i]));
+    sz_strlcpy(temp_name, secfile_lookup_str(&file, "%s.government", sec[i]));
     gov = find_government_by_name(temp_name);
     if(gov == NULL) {
       freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
@@ -1521,8 +1517,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
     pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
     pl->default_city_names[dim] = NULL;
     for ( j=0; j<dim; j++) {
-      pl->default_city_names[j] = fc_calloc( (strlen(cities[j])+1), sizeof(char));
-      strcpy( pl->default_city_names[j], cities[j]);
+      pl->default_city_names[j] = mystrdup(cities[j]);
     }
     if(cities) free(cities);
   }
@@ -1533,8 +1528,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
   cities = secfile_lookup_str_vec(&file, &dim, "misc.cities");
   misc_city_names = fc_calloc(dim+1, sizeof(char*));
   for ( j=0; j<dim; j++) {
-    misc_city_names[j] = fc_calloc((strlen(cities[j])+1), sizeof(char));
-    strcpy( misc_city_names[j], cities[j]);      
+    misc_city_names[j] = mystrdup(cities[j]);
   }
   misc_city_names[dim] = NULL;
   if(cities) free(cities);
@@ -1571,15 +1565,15 @@ static void load_ruleset_cities(char *ruleset_subdir)
 
   /* Get names, so can lookup for replacements: */
   for( i=0; i<game.styles_count; i++) {
-    strcpy( city_styles[i].name, 
-            secfile_lookup_str(&file, "%s.name", styles[i]) );
+    sz_strlcpy(city_styles[i].name, 
+	       secfile_lookup_str(&file, "%s.name", styles[i]));
   }
   /* Get rest: */
   for( i=0; i<game.styles_count; i++) {
-    strcpy( city_styles[i].graphic, 
-            secfile_lookup_str(&file, "%s.graphic", styles[i]) );
-    strcpy( city_styles[i].graphic_alt, 
-            secfile_lookup_str(&file, "%s.graphic_alt", styles[i]) );
+    sz_strlcpy(city_styles[i].graphic, 
+	       secfile_lookup_str(&file, "%s.graphic", styles[i]));
+    sz_strlcpy(city_styles[i].graphic_alt, 
+	       secfile_lookup_str(&file, "%s.graphic_alt", styles[i]));
     city_styles[i].techreq = lookup_tech(&file, styles[i], "tech", 1,
                                          filename, city_styles[i].name);
     
@@ -1612,9 +1606,9 @@ static void send_ruleset_units(struct player *dest)
 
   for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
     packet.id = u-unit_types;
-    strcpy(packet.name, u->name_orig);
-    strcpy(packet.graphic_str, u->graphic_str);
-    strcpy(packet.graphic_alt, u->graphic_alt);
+    sz_strlcpy(packet.name, u->name_orig);
+    sz_strlcpy(packet.graphic_str, u->graphic_str);
+    sz_strlcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
     packet.build_cost = u->build_cost;
     packet.attack_strength = u->attack_strength;
@@ -1657,7 +1651,7 @@ static void send_ruleset_techs(struct player *dest)
 
   for(a=advances; a<advances+game.num_tech_types; a++) {
     packet.id = a-advances;
-    strcpy(packet.name, a->name_orig);
+    sz_strlcpy(packet.name, a->name_orig);
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.flags = a->flags;
@@ -1682,7 +1676,7 @@ static void send_ruleset_buildings(struct player *dest)
 
   for(b=improvement_types; b<improvement_types+B_LAST; b++) {
     packet.id = b-improvement_types;
-    strcpy(packet.name, b->name_orig);
+    sz_strlcpy(packet.name, b->name_orig);
     packet.is_wonder = b->is_wonder;
     packet.tech_requirement = b->tech_requirement;
     packet.build_cost = b->build_cost;
@@ -1722,9 +1716,9 @@ static void send_ruleset_terrain(struct player *dest)
 
       packet.id = i;
 
-      strcpy (packet.terrain_name, t->terrain_name_orig);
-      strcpy(packet.graphic_str, t->graphic_str);
-      strcpy(packet.graphic_alt, t->graphic_alt);
+      sz_strlcpy(packet.terrain_name, t->terrain_name_orig);
+      sz_strlcpy(packet.graphic_str, t->graphic_str);
+      sz_strlcpy(packet.graphic_alt, t->graphic_alt);
 
       packet.movement_cost = t->movement_cost;
       packet.defense_bonus = t->defense_bonus;
@@ -1733,19 +1727,19 @@ static void send_ruleset_terrain(struct player *dest)
       packet.shield = t->shield;
       packet.trade = t->trade;
 
-      strcpy (packet.special_1_name, t->special_1_name_orig);
+      sz_strlcpy(packet.special_1_name, t->special_1_name_orig);
       packet.food_special_1 = t->food_special_1;
       packet.shield_special_1 = t->shield_special_1;
       packet.trade_special_1 = t->trade_special_1;
 
-      strcpy (packet.special_2_name, t->special_2_name_orig);
+      sz_strlcpy(packet.special_2_name, t->special_2_name_orig);
       packet.food_special_2 = t->food_special_2;
       packet.shield_special_2 = t->shield_special_2;
       packet.trade_special_2 = t->trade_special_2;
 
       for(j=0; j<2; j++) {
-	strcpy(packet.special[j].graphic_str, t->special[j].graphic_str);
-	strcpy(packet.special[j].graphic_alt, t->special[j].graphic_alt);
+	sz_strlcpy(packet.special[j].graphic_str, t->special[j].graphic_str);
+	sz_strlcpy(packet.special[j].graphic_alt, t->special[j].graphic_alt);
       }
 
       packet.road_trade_incr = t->road_trade_incr;
@@ -1836,9 +1830,9 @@ static void send_ruleset_governments(struct player *dest)
     gov.hints = g->hints;
     gov.num_ruler_titles = g->num_ruler_titles;
 
-    strcpy(gov.name, g->name_orig);
-    strcpy(gov.graphic_str, g->graphic_str);
-    strcpy(gov.graphic_alt, g->graphic_alt);
+    sz_strlcpy(gov.name, g->name_orig);
+    sz_strlcpy(gov.graphic_str, g->graphic_str);
+    sz_strlcpy(gov.graphic_alt, g->graphic_alt);
     
     gov.helptext = g->helptext;   /* pointer assignment */
       
@@ -1855,8 +1849,8 @@ static void send_ruleset_governments(struct player *dest)
       title.gov = i;
       title.id = j;
       title.nation = p_title->nation;
-      strcpy (title.male_title, p_title->male_title);
-      strcpy (title.female_title, p_title->female_title);
+      sz_strlcpy(title.male_title, p_title->male_title);
+      sz_strlcpy(title.female_title, p_title->female_title);
     
       for(to=0; to<game.nplayers; to++) {           /* dests */
         if(dest==0 || get_player(to)==dest) {
@@ -1879,13 +1873,13 @@ static void send_ruleset_nations(struct player *dest)
   for( k=0; k<game.nation_count; k++) {
     n = get_nation_by_idx(k);
     packet.id = k;
-    strcpy(packet.name, n->name_orig);
-    strcpy(packet.name_plural, n->name_plural_orig);
-    strcpy(packet.graphic_str, n->flag_graphic_str);
-    strcpy(packet.graphic_alt, n->flag_graphic_alt);
+    sz_strlcpy(packet.name, n->name_orig);
+    sz_strlcpy(packet.name_plural, n->name_plural_orig);
+    sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
+    sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;
     for(i=0; i < n->leader_count; i++) {
-      strcpy(packet.leader_name[i], n->leader_name[i]);
+      sz_strlcpy(packet.leader_name[i], n->leader_name[i]);
       packet.leader_sex[i] = n->leader_is_male[i];
     }
     packet.city_style = n->city_style;
@@ -1911,9 +1905,9 @@ static void send_ruleset_cities(struct player *dest)
     city_p.techreq = city_styles[k].techreq;
     city_p.replaced_by = city_styles[k].replaced_by;
 
-    strcpy(city_p.name, city_styles[k].name_orig);
-    strcpy(city_p.graphic, city_styles[k].graphic);
-    strcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
+    sz_strlcpy(city_p.name, city_styles[k].name_orig);
+    sz_strlcpy(city_p.graphic, city_styles[k].graphic);
+    sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {

@@ -20,6 +20,7 @@
 
 #include "fcintl.h"
 #include "log.h"
+#include "support.h"
 
 #include "civserver.h"
 
@@ -73,7 +74,7 @@ int con_dump(int i, char *message, ...)
   va_list args;
   
   va_start(args, message);
-  vsprintf(buf, message, args);
+  my_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
 
   if(console_prompt_is_showing) {
@@ -97,7 +98,7 @@ void con_write(int i, char *message, ...)
   va_list args;
   
   va_start(args, message);
-  vsprintf(buf, message, args);
+  my_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
 
   con_puts(i, buf);
@@ -134,7 +135,7 @@ void con_rfconly(int i, char *message, ...)
   va_list args;
   
   va_start(args, message);
-  vsprintf(buf, message, args);
+  my_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
   
   if ((console_rfcstyle) && (i >= 0))

@@ -23,6 +23,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "stdinhand.h"
 
@@ -83,27 +84,25 @@ void handle_chat_msg(struct player *pplayer,
   if (cp != NULL && (cp != &packet->message[0])) {
     enum m_pre_result match_result;
     struct player *pdest = NULL;
-    int nlen;
     char name[MAX_LEN_NAME];
     char *cpblank;
 
-    nlen=MIN(MAX_LEN_NAME-1, cp-packet->message);
-    strncpy(name, packet->message, nlen);
-    name[nlen]='\0';
+    mystrlcpy(name, packet->message, MIN(sizeof(name), cp-packet->message+1));
 
     pdest = find_player_by_name_prefix(name, &match_result);
     
     if(pdest && match_result < M_PRE_AMBIGUOUS) {
-      sprintf(genmsg.message, "->*%s* %s", pdest->name, cp+1+(*(cp+1)==' '));
+      my_snprintf(genmsg.message, sizeof(genmsg.message),
+		  "->*%s* %s", pdest->name, cp+1+(*(cp+1)==' '));
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
-      sprintf(genmsg.message, "*%s* %s",
-	      pplayer->name, cp+1+(*(cp+1)==' '));
+      my_snprintf(genmsg.message, sizeof(genmsg.message),
+		  "*%s* %s", pplayer->name, cp+1+(*(cp+1)==' '));
       send_packet_generic_message(pdest->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
     if(match_result == M_PRE_AMBIGUOUS) {
-      sprintf(genmsg.message, _("Game: %s is an ambiguous name-prefix."),
-	      name);
+      my_snprintf(genmsg.message, sizeof(genmsg.message),
+		  _("Game: %s is an ambiguous name-prefix."), name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
@@ -112,14 +111,15 @@ void handle_chat_msg(struct player *pplayer,
      */
     cpblank=strchr(packet->message, ' ');
     if (!cpblank || (cp < cpblank)) {
-      sprintf(genmsg.message, _("Game: There's no player by the name %s."),
-	      name);
+      my_snprintf(genmsg.message, sizeof(genmsg.message),
+		  _("Game: There's no player by the name %s."), name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
   }
   /* global message: */
-  sprintf(genmsg.message, "<%s> %s", pplayer->name, packet->message);
+  my_snprintf(genmsg.message, sizeof(genmsg.message),
+	      "<%s> %s", pplayer->name, packet->message);
   for(i=0; i<game.nplayers; i++)
     send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, 
 				&genmsg);

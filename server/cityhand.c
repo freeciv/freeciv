@@ -27,6 +27,7 @@
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 
@@ -111,7 +112,7 @@ char *city_name_suggestion(struct player *pplayer)
   }
 
   for (i = 0; i < 1000;i++ ) {
-    sprintf(tempname, _("city %d"), i);
+    my_snprintf(tempname, sizeof(tempname), _("city %d"), i);
     if (!game_find_city_by_name(tempname)) 
       return tempname;
   }
@@ -136,7 +137,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->owner=pplayer->player_no;
   pcity->x=x;
   pcity->y=y;
-  strcpy(pcity->name, name);
+  sz_strlcpy(pcity->name, name);
   pcity->size=1;
   pcity->ppl_elvis=1;
   pcity->ppl_scientist=pcity->ppl_taxman=0;
@@ -549,7 +550,7 @@ void handle_city_rename(struct player *pplayer,
 
   if((cp=get_sane_name(preq->name))) {
     /* more sanity tests! any existing city with that name? */
-    strcpy(pcity->name, cp);
+    sz_strlcpy(pcity->name, cp);
     city_refresh(pcity);
     send_city_info(pplayer, pcity, 1);
   }
@@ -582,7 +583,7 @@ void handle_city_name_suggest_req(struct player *pplayer,
 {
   struct packet_city_name_suggestion reply;
   reply.id = packet->value;
-  strcpy(reply.name, city_name_suggestion(pplayer));
+  sz_strlcpy(reply.name, city_name_suggestion(pplayer));
   send_packet_city_name_suggestion(pplayer->conn, &reply);
 }
 
@@ -648,7 +649,7 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   packet.owner=pcity->owner;
   packet.x=pcity->x;
   packet.y=pcity->y;
-  strcpy(packet.name, pcity->name);
+  sz_strlcpy(packet.name, pcity->name);
 
   packet.size=pcity->size;
   packet.ppl_happy=pcity->ppl_happy[4];
