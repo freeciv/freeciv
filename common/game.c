@@ -965,11 +965,17 @@ void translate_data_names(void)
   for (i=T_FIRST; i<T_COUNT; i++) {
     struct tile_type *tthis = &tile_types[i];
     sz_strlcpy(tthis->terrain_name_orig, tthis->terrain_name);
-    name_strlcpy(tthis->terrain_name, Q_(tthis->terrain_name_orig));
+    name_strlcpy(tthis->terrain_name,
+		 strcmp(tthis->terrain_name_orig, "") ?
+			Q_(tthis->terrain_name_orig) : "");
     sz_strlcpy(tthis->special_1_name_orig, tthis->special_1_name);
-    name_strlcpy(tthis->special_1_name, Q_(tthis->special_1_name_orig));
+    name_strlcpy(tthis->special_1_name,
+		 strcmp(tthis->special_1_name_orig, "") ?
+			Q_(tthis->special_1_name_orig) : "");
     sz_strlcpy(tthis->special_2_name_orig, tthis->special_2_name);
-    name_strlcpy(tthis->special_2_name, Q_(tthis->special_2_name_orig));
+    name_strlcpy(tthis->special_2_name,
+		 strcmp(tthis->special_2_name_orig, "") ?
+			Q_(tthis->special_2_name_orig) : "");
   }
   for (i=0; i<game.government_count; i++) {
     int j;
