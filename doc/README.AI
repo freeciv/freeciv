@@ -293,43 +293,31 @@ THINGS THAT NEED TO BE FIXED
 wonders become obsolete, and doesn't upgrade units.
 * AI doesn't understand how to favor trade when it needs luxury.
 * AI builds cities without regard to danger at that location.
-* Food tiles should be less wanted if city can't expand.
 * AI won't build cross-country roads outside of city radii.
 [Note: There is patch that permits the AI to build cross country
 roads/rail.  Unfortunately, it makes it too easy for the AI to be
-invaded.]
-* Non-military units need to stop going where they will be killed.
+invaded. Addendum: Can someone actually test this? Defeating an AI 
+that uses roads is more fun, but is it really that much easier?]
 * Locally_zero_minimap is not implemented when wilderness tiles 
 change.
-* Settlers won't treat about-to-be-built ferryboats as ferryboats.
 * If no path to chosen victim is found, new victim should be chosen.
 * AI doesn't know how to make trade routes or when.  It should try to 
 build trade routes for its best cities (most building bonuses and 
 least corruption) by moving caravans there and changing homecity.
-* Boats sometimes sail away from landlocked would-be passengers.
 * Ferryboats crossing at sea might lead to unwanted behavior.
 * Emergencies in two cities at once aren't handled properly.
 * AI sometimes will get locked into a zero science rate and stay 
 there.
 * Explorers will not use ferryboats to get to new lands to explore.
-* AI autoattack is never activated (probably a good thing too) (PR#1340)
 * AI sometimes believes that wasting a horde of weak military units to
 kill one enemy is profitable (PR#1340)
 * Stop building ships and shore defense in landlocked cities with a
 pond adjacent.
 * Make the AI building evaluation code use the new buildings.ruleset.
-* Make the AI respect FoW. (They don't get much bigger than this...)
-* Move goto code to common code
-* Teach the AI to Fortify units in non-city strategic positions. Also, it
-needs to not idle all it's units every turn, breaking 2 turn fortify.
-* Teach the AI to leave units alone in a turn to regain hit points. (it
-seems to have no concept of this at all!)
 * Fix the AI valuation of supermarket. (It currently never builds it).
 See farmland_food() and ai_eval_buildings() in advdomestic.c
 * Teach the AI to coordinate the units in an attack (ok, this one is a bit
 big...)
-* Teach the AI to use ferryboats to transport explorers to unexplored land.
-See ai_manage_explorer() and ai_manage_ferryboat().
 
 
 THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)
@@ -347,7 +335,7 @@ attackers
 * It would be nice for bodyguard and charge to meet en-route more 
 elegantly.
 * It may be correct to starve workers instead of allowing disorder to 
-continue.  Ideal if CMA code or similar is used here.
+continue.  Ideal if CM code or similar is used here.
 * struct choice should have a priority indicator in it.  This will
 reduce the number of "special" want values and remove the necessity to
 have want capped, thus reducing confusion.
