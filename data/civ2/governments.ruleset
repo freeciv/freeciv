@@ -111,8 +111,8 @@ martial_law_per  = 1
 max_single_rate  = 100  ; rates are irrelevant under Anarchy; use 100
 		        ; to avoid unnecessary changes during revolution
 civil_war_chance = 90
-empire_size_mod  = -5
-empire_size_inc  = 0
+empire_size_mod  = -6
+empire_size_inc  = 6
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -126,8 +126,8 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level           = 100
-corruption_modifier        = 40
-corruption_fixed_distance  = 0
+corruption_modifier        = 27
+corruption_fixed_distance  = 5
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
@@ -181,8 +181,8 @@ martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
 max_single_rate  = 60
 civil_war_chance = 80
-empire_size_mod  = -4
-empire_size_inc  = 0
+empire_size_mod  = -6
+empire_size_inc  = 6
 rapture_size     = 3
 
 unit_unhappy_factor = 0 
@@ -196,10 +196,10 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level           = 100
-corruption_modifier        = 27
+corruption_modifier        = 33
 corruption_fixed_distance  = 0
-corruption_distance_factor = 2 
-corruption_extra_distance  = 3 
+corruption_distance_factor = 1 
+corruption_extra_distance  = 5 
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -253,7 +253,7 @@ martial_law_per  = 1
 max_single_rate  = 70
 civil_war_chance = 70
 empire_size_mod  = -3
-empire_size_inc  = 0
+empire_size_inc  = 9
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -267,7 +267,7 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level           = 100
-corruption_modifier        = 67
+corruption_modifier        = 40
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
@@ -322,7 +322,7 @@ martial_law_max  = 3
 martial_law_per  = 2
 max_single_rate  = 80
 civil_war_chance = 50
-empire_size_mod  = -2
+empire_size_mod  = 127 ; unlimited
 empire_size_inc  = 0
 rapture_size     = 3
 
@@ -336,8 +336,8 @@ unit_free_shield  = 3
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level           = 50
-corruption_modifier        = 80
+corruption_level           = 1
+corruption_modifier        = 100
 corruption_fixed_distance  = 10
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
@@ -400,8 +400,8 @@ martial_law_max  = 0
 martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 60
-empire_size_mod  = -1
-empire_size_inc  = 0
+empire_size_mod  = 0
+empire_size_inc  = 12
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -415,7 +415,7 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level           = 100
-corruption_modifier        = 80
+corruption_modifier        = 66
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
@@ -479,8 +479,8 @@ martial_law_max  = 0
 martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 40
-empire_size_mod  = -1
-empire_size_inc  = 0
+empire_size_mod  = 0
+empire_size_inc  = 12
 rapture_size     = 3
 
 unit_unhappy_factor = 1
@@ -494,7 +494,7 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level           = 100
-corruption_modifier        = 67
+corruption_modifier        = 53
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
@@ -560,8 +560,8 @@ martial_law_max  = 0
 martial_law_per  = 0
 max_single_rate  = 100
 civil_war_chance = 30
-empire_size_mod  = 0
-empire_size_inc  = 0
+empire_size_mod  = 3
+empire_size_inc  = 15
 rapture_size     = 3
 
 unit_unhappy_factor = 2
