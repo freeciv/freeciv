@@ -62,7 +62,7 @@ void server_open_udp(void)
       if((hp = gethostbyname(servername)) ==NULL) {
 	perror("Metaserver: address error");
 	printf("Not reporting to the metaserver in this game\n");
-	printf("Use option --nometa to always enforce this\n");
+	/* printf("Use option --nometa to always enforce this\n"); */
 	fflush(stdout);
 	return;
       }
@@ -79,7 +79,7 @@ void server_open_udp(void)
   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
     perror("metaserver: can't open datagram socket");
     printf("Not reporting to the metaserver in this game\n");
-    printf("Use option --nometa to always enforce this\n> ");
+    /* printf("Use option --nometa to always enforce this\n> "); */
     fflush(stdout);
     return;
   }
@@ -94,7 +94,7 @@ void server_open_udp(void)
   if(bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0) {
     perror("metaserver: can't bind local address");
     printf("Not reporting to the metaserver in this game\n");
-    printf("Use option --nometa to always enforce this\n> ");
+    /* printf("Use option --nometa to always enforce this\n> "); */
     fflush(stdout);
     return;
   }
