@@ -88,6 +88,7 @@ struct ai_city {
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST]; /* not sure these will always be < 256 */
   int danger; /* danger to be compared to assess_defense */
+  int urgency; /* how close the danger is; if zero, bodyguards can leave */
   int wallvalue; /* how much it helps for defenders to be ground units */
   int trade_want; /* saves a zillion calculations */
   struct unit *grave_danger; /* time for the panic button */
@@ -98,6 +99,7 @@ struct ai_city {
 /* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
   signed short int tile_value[5][5]; /* caching these will help too. */
   int settler_want; /* so we can contemplate with warmap fresh and decide later */
+  int a, f; /* information on people coming to kill us, for attack co-ordination */
 };
 
 struct city {
