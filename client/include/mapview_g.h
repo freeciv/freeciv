@@ -31,6 +31,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov);
 void map_size_changed(void);
 struct canvas_store *canvas_store_create(int width, int height);
 void canvas_store_free(struct canvas_store *store);
+struct canvas_store *get_overview_window(void);
 
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 void prepare_show_city_descriptions(void);

@@ -107,6 +107,16 @@ void canvas_store_free(struct canvas_store *store)
   free(store);
 }
 
+static struct canvas_store overview_store;
+
+/****************************************************************************
+  Return a canvas that is the overview window.
+****************************************************************************/
+struct canvas_store *get_overview_window(void)
+{
+  return &overview_store;
+}
+
 /***************************************************************************
    ...
 ***************************************************************************/
@@ -197,10 +207,6 @@ void init_map_win()
 					    UNIT_TILE_WIDTH,
 					    UNIT_TILE_HEIGHT);
   ReleaseDC(root_window,hdc);
-  overview.window = fc_malloc(sizeof(*overview.window));
-  /* This combination is a marker for gui_copy_canvas */
-  overview.window->hdc = NULL;
-  overview.window->bitmap = NULL;   
   mapstorebitmap=NULL;
   overviewstorebitmap=NULL;
   map_view_x=0;
@@ -865,7 +871,6 @@ void overview_expose(HDC hdc)
     }
   else
     {
-      HDC oldhdc;
       hdctest=CreateCompatibleDC(NULL);
       old=NULL;
       bmp=NULL;
@@ -885,10 +890,9 @@ void overview_expose(HDC hdc)
 	DeleteObject(bmp);
       DeleteDC(hdctest);
       draw_rates(hdc);
-      oldhdc = overview.window->hdc;
-      overview.window->hdc = hdc;
+      overview_store.hdc = hdc;
       refresh_overview_canvas(/* hdc */);
-      overview.window->hdc = oldhdc;
+      overview_store.hdc = NULL;
     }
 }
 

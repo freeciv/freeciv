@@ -406,6 +406,18 @@ void canvas_store_free(struct canvas_store *store)
   free(store);
 }
 
+/****************************************************************************
+  Return a canvas that is the overview window.
+****************************************************************************/
+struct canvas_store *get_overview_window(void)
+{
+  static struct canvas_store store;
+
+  store.pixmap = overview_canvas->window;
+
+  return &store;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/

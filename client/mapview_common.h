@@ -35,9 +35,6 @@ struct overview {
   int map_x0, map_y0;
   int width, height;		/* Size in pixels. */
   struct canvas_store *store;
-
-  /* The following fields are controlled by gui-.../mapview.c. */
-  struct canvas_store *window;
 };
 
 extern struct canvas mapview_canvas;

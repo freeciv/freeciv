@@ -947,10 +947,6 @@ void ui_main(int argc, char **argv)
 
   init_mapcanvas_and_overview();
 
-  overview.window = fc_malloc(sizeof(*overview.window));
-  overview.window->pixmap = overview_canvas->window;
-  overview.window->pixcomm = NULL;
-
   single_tile_pixmap = gdk_pixmap_new(root_window, 
 				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 

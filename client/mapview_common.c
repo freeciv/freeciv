@@ -1678,7 +1678,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 **************************************************************************/
 static void redraw_overview(void)
 {
-  struct canvas_store *dest = overview.window;
+  struct canvas_store *dest = get_overview_window();
 
   if (!dest || !overview.store) {
     return;

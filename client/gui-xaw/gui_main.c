@@ -445,9 +445,6 @@ void ui_main(int argc, char *argv[])
 
   init_mapcanvas_and_overview();
 
-  overview.window = fc_malloc(sizeof(*overview.window));
-  overview.window->pixmap = XtWindow(overview_canvas);
-
   single_tile_pixmap=XCreatePixmap(display, XtWindow(overview_canvas), 
 				   UNIT_TILE_WIDTH,
 				   UNIT_TILE_HEIGHT,
