@@ -38,6 +38,7 @@
 #endif
 #ifdef WIN32_NATIVE
 #include <windows.h>
+#include <lmcons.h>	/* UNLEN */
 #endif
 
 #include "astring.h"
@@ -732,6 +733,26 @@ char *user_username(void)
       freelog(LOG_VERBOSE, "getpwuid username is %s", username);
       return username;
     }
+  }
+#endif
+
+#ifdef WIN32_NATIVE
+  {
+    DWORD length;
+
+    /* On Win32 use the GetUserName function to find a name. */
+    username = fc_malloc(UNLEN + 1);
+    if (GetUserName(username, &length)) {
+      /* Length includes the NUL terminator. */
+      if (length > MAX_LEN_NAME) {
+	username[MAX_LEN_NAME - 1] = '\0';
+      }
+      if (is_sane_name(username)) {
+	freelog(LOG_VERBOSE, "GetUserName username is %s", username);
+	return username;
+      }
+    }
+    free(username);
   }
 #endif
   username = fc_malloc(MAX_LEN_NAME);
