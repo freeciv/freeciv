@@ -24,6 +24,8 @@ WHAT'S CHANGED SINCE 1.12.0
  - GTK 2.0 version of the client.
  - The client will try to suggest names for your cities that 
    correspond with what they mean.
+ - Improved players dialog shows sortable and colored information,
+   including the players' flags.
  - Server no longer takes the --server command line option,
    instead you can use the --info option to set the metaserver
    announcement text to whatever you like. The -a option when given
