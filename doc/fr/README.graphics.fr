@@ -1,0 +1,140 @@
+----------------------------------------------------------------------
+Fichiers de spécifications des graphiques et tuiles de Freeciv
+----------------------------------------------------------------------
+
+Utilisation des graphiques :
+----------------------------
+
+Pour utiliser des graphiques différents avec Freeciv, appliquez
+l'argument '--tiles' au client Freeciv. Par exemple, pour utiliser les
+graphiques 'engels', lancez le client avec :
+  
+    civclient --tiles engels
+
+Ce que Freeciv fait dans ce cas est de chercher un fichier nommé
+'engels.tilespec' quelque part dans le chemin des données de Freeciv.
+(Voyez le fichier INSTALL pour des informations sur ce chemin des
+données.) Ce fichier tilespec contient des informations indiquant à
+Freeciv quels fichiers graphiques utiliser et ce que contiennent ces
+fichiers graphiques.
+
+Ceci est tout ce que vous devez savoir pour utiliser les jeux de
+tuiles alternatif distribués avec Freeciv ou par des contributions de
+tierces parties. Ce qui suit décrit (quoique pas intégralement) le
+contenu du fichier tilespec et de ses fichiers associés. Ce document
+est à l'attention des développeurs et des personnes qui veulent
+créer/compiler des jeux de tuiles ou des modpacks pour Freeciv.
+
+----------------------------------------------------------------------
+Vue d'ensemble :
+----------------
+
+L'objet du fichier 'tilespec' et des fichiers 'spec' associés est de
+faire en sorte que la disposition précise des graphiques dans les
+fichiers soit flexible et pas 'codée en dur' dans Freeciv ; faire en
+sorte également que les add-on puissent aisément fournir des
+graphiques additionnels.
+
+Il y a deux niveaux pour les fichiers tilespec :
+
+Le fichier de premier niveau est nommé, par exemple,
+'trident.tilespec'.  Le nom de base de ce fichier (ici 'trident')
+correspond au paramètre de l'argument en ligne de commande '--tiles'
+pour le client Freeciv (voir plus haut).
+
+Ce fichier tilespec de premier niveau contient des informations
+générales sur l'ensemble du tileset ainsi qu'une liste de fichiers
+qui spécifient les informations sur chacun des fichiers graphiques.
+Ces noms de fichiers doivent être localisés quelque part dans le
+chemin des données, quoique pas forcément au même endroit que le
+fichier tilespec de premier niveau. Notez qu'avec ce système le
+nombre et le contenu des fichiers référencés est complètement
+flexible à ce niveau.
+
+Une exception est que les graphiques d'introduction doivent être dans des
+fichiers individuels, tels que décrits dans le fichier tilespec,
+parce que Freeciv s'en sert d'une manière spéciale : ils sont
+déchargés après le démarrage du jeu et rechargés par la suite si
+nécessaire.
+
+----------------------------------------------------------------------
+Fichiers spec individuel :
+--------------------------
+
+Chaque fichier spec décrit un fichier graphique (actuellement au
+format xpm seulement). Le fichier graphique doit être localisé dans
+le chemin des données de Freeciv, mais pas nécessairement "près" du
+fichier spec. (Par conséquent, vous pouvez avoir plusieurs fichiers
+spec utilisant un seul fichier graphique de manières différentes.)
+
+Les données principales décrites dans le fichier spec sont dans les
+sections nommées [grid_*], où * est une marque arbitraire (mais
+unique à l'intérieur de chaque fichier). Une grille, correspond à un
+tableau de tuiles rectangulaire. Il est généralement possible d'avoir
+plusieurs grilles dans un fichier mais les jeux de tuiles par défaut
+n'en ont habituellement qu'une seule. (Les grilles multiples
+pourraient être utiles pour avoir des tuiles de tailles différentes
+dans le même fichier.) Chaque grille définit une origine (en haut à
+gauche) et un espacement, tous les deux exprimés en pixels puis
+répertorie individuellement les tuiles de la grille par ligne et par
+colonne. La numérotation de l'origine, ainsi que les lignes et
+colonnes, commence à (0,0) = en haut à gauche.
+
+À chacune des tuiles est attribué une "désignation" consistant en une
+chaîne qui est référencée dans le code et/ou dans depuis les fichiers
+ruleset. Une grille peut être discontinue, avec des éléments
+inutilisés (ne mentionnez simplement pas leur ligne/colonne) et une
+tuile unique peut avoir plusieurs désignations (par exemple pour
+avoir une utilisation multiple du même graphique dans le jeu) :
+spécifiez juste une liste de chaînes séparées par des virgules.
+
+Si une désignation donnée apparaît plusieurs fois dans les fichiers
+spec, seule la *dernière* est prise en compte. (C'est à dire dans
+l'ordre dans lequel les fichiers sont listés dans le fichier tilespec
+puis par l'ordre 'naturel' à l'intérieur de chacun de ces fichiers.)
+Ceci permet que certains graphiques soient "outrepassés" en
+mentionnant un fichier spec de remplacement à la fin de la liste
+'files' dans le fichier tilespec de premier niveau sans avoir à
+modifier les fichiers précédents dans cette liste.
+
+----------------------------------------------------------------------
+Préfixes des désignations :
+---------------------------
+
+Pour conserver une certaine organisation dans les désignations, il
+existe un système de préfixage pour les désignations standard :
+
+  f.	        drapeaux des nations
+  r.	        route/rail
+  s.	        "petit" en général
+  u.	        images des unités
+  t.	        terrains de base (de _n0s0e0w0 à _n1s1e1w1)
+  ts.	        ressources spéciales des terrains
+  tx.	        suppléments relatifs au terrain
+  gov.	      types de gouvernements
+  unit.	      ajouts aux unités : points de vie, pile, activités
+              (aller à, se fortifier etc)
+  upkeep.     entretien et mécontentement dus aux unités
+  city.	      graphiques relatifs aux villes (style, taille, prod. des
+	            cases, désordre civil, occupée)
+  cd.	        graphiques par défaut
+  citizen.    citoyens, y compris les spécialistes
+  explode.    graphiques des explosions (missile nucléaire, unités)
+  spaceship.  composants du vaisseau spatial
+  treaty.     pouces des traités diplomatiques
+  user.	      réticules (en général : interface utilisateur ?)
+
+En général, le désignations de graphiques codées en dur dans Freeciv
+_doivent_ figurer dans les fichiers spec, ou bien le client refuse de
+démarrer. Les désignations graphiques fournies par les fichier
+ruleset (au moins pour les jeux de règles "standards") devraient
+également être fournies, mais en général le client continuera même si
+elles ne le sont pas quoique le résultat peut s'avérer décevant pour
+l'utilisateur. Pour fonctionner correctement, les désignations
+devraient correspondre à des graphiques de la taille appropriée. (La
+taille de base peut varier, en fonction de ce qui est spécifié dans
+le fichier tilespec de premier niveau mais les tuiles en elles-mêmes
+doivent correspondre à ces tailles et/ou à l'usage de ces
+graphiques.)  
+
+----------------------------------------------------------------------
