@@ -42,28 +42,6 @@ EXTRA_DIST=	acconfig.old			\
 		amiga/smakefile			\
 		amiga/vmakefile			\
 		amiga/vsnprintf.c		\
-		debian/INSTALL.debian		\
-		debian/README.debian		\
-		debian/build.debian		\
-		debian/changelog		\
-		debian/civclient.6		\
-		debian/civserver.6		\
-		debian/control			\
-		debian/copyright		\
-		debian/dirs			\
-		debian/docs			\
-		debian/freeciv-gtk.dirs		\
-		debian/freeciv-gtk.menu		\
-		debian/freeciv-gtk.postinst	\
-		debian/freeciv-gtk.postrm	\
-		debian/freeciv-xaw3d.dirs	\
-		debian/freeciv-xaw3d.menu	\
-		debian/freeciv-xaw3d.postinst	\
-		debian/freeciv-xaw3d.postrm	\
-		debian/freeciv.desktop		\
-		debian/menu			\
-		debian/rules			\
-		debian/watch			\
 		m4/ac_path_lib.m4		\
 		m4/locale.m4			\
 		m4/debug.m4			\
