@@ -655,7 +655,7 @@ static void load_ruleset_units(char *ruleset_subdir)
 	freelog(LOG_NORMAL, "for unit_type \"%s\": bad role name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
-      u->roles |= (1<<ival);
+      u->roles |= (1<<(ival-L_FIRST));
     }
     free(slist);
   }
