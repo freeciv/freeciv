@@ -756,7 +756,7 @@ tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
 wonder="Copernicus' Observatory"
 government="Democracy"
 cities =
- "Warszawa", "Lódz", "Kraków", "Wroclaw", "Poznan",
+ "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Lódz",
  "Plock", "Wloclawek", "Torun", "Bydgoszcz", "Radom",
  "Kielce", "Lublin", "Bialystok", "Rzeszów", "Tarnów",
  "Katowice", "Bielsko-Biala", "Czestochowa", "Opole",
