@@ -1086,12 +1086,6 @@ void update_menus(void)
 
     /* Remaining part of this function: Update Orders menu */
 
-    if (client_is_observer()) {
-      return;
-    }
-
-    /* Remaining part of this function: Update Orders menu */
-
     if (!can_client_issue_orders()) {
       return;
     }

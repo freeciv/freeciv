@@ -34,6 +34,7 @@
 #include "support.h"
 
 #include "cityrep.h"
+#include "civclient.h"
 #include "cma_fe.h"
 #include "cma_fec.h" 
 #include "colors.h"
@@ -425,12 +426,17 @@ void refresh_city_dialog(struct city *pcity)
     refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
 
     gtk_widget_set_sensitive(pdialog->unit.activate_command,
+			     can_client_issue_orders() &&
 			     have_present_units);
     gtk_widget_set_sensitive(pdialog->unit.sentry_all_command,
+			     can_client_issue_orders() &&
 			     have_present_units);
     gtk_widget_set_sensitive(pdialog->unit.show_units_command,
+			     can_client_issue_orders() &&
 			     have_present_units);
     gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
+    gtk_widget_set_sensitive(pdialog->overview.change_command,
+			     can_client_issue_orders());
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
@@ -1379,6 +1385,8 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   gtk_signal_connect(GTK_OBJECT(pdialog->misc.rename_command), "clicked",
 		     GTK_SIGNAL_FUNC(rename_callback), pdialog);
 
+  gtk_widget_set_sensitive(pdialog->misc.rename_command,
+			   can_client_issue_orders());
   /* next is the next-time-open radio group in the right column */
 
   frame = gtk_frame_new(_("Next time open"));
@@ -1871,9 +1879,10 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   gdouble pct;
   int cost;
 
-  gtk_widget_set_sensitive(pdialog->overview.buy_command, !pcity->did_buy);
+  gtk_widget_set_sensitive(pdialog->overview.buy_command,
+			   can_client_issue_orders() && !pcity->did_buy);
   gtk_widget_set_sensitive(pdialog->overview.sell_command,
-			   !pcity->did_sell);
+			   can_client_issue_orders() && !pcity->did_sell);
 			
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
@@ -2483,7 +2492,8 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
       (pcity = find_city_by_id(punit->homecity)) &&
       (pdialog = get_city_dialog(pcity))) {
 
-    if (ev->type != GDK_BUTTON_PRESS || ev->button != 1) {
+    if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
+	|| !can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2541,7 +2551,8 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       (pcity = map_get_city(punit->x, punit->y)) &&
       (pdialog = get_city_dialog(pcity))) {
 
-    if (ev->type != GDK_BUTTON_PRESS || ev->button != 1) {
+    if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
+	|| !can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2631,8 +2642,8 @@ static gboolean present_unit_middle_callback(GtkWidget * w,
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
       (pcity = map_get_city(punit->x, punit->y)) &&
-      (pdialog = get_city_dialog(pcity)) && (ev->button == 2
-					     || ev->button == 3)) {
+      (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() && 
+      (ev->button == 2 || ev->button == 3)) {
     set_unit_focus(punit);
     if (ev->button == 2)
       close_city_dialog(pdialog);
@@ -2654,8 +2665,8 @@ static gboolean supported_unit_middle_callback(GtkWidget * w,
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
       (pcity = find_city_by_id(punit->homecity)) &&
-      (pdialog = get_city_dialog(pcity)) && (ev->button == 2
-					     || ev->button == 3)) {
+      (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() && 
+      (ev->button == 2 || ev->button == 3)) {
     set_unit_focus(punit);
     if (ev->button == 2)
       close_city_dialog(pdialog);
@@ -3264,7 +3275,8 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
       my_snprintf(buf, sizeof(buf), _("Sell (worth %d gold)"),
 		  improvement_value(id));
       gtk_button_set_label(GTK_BUTTON(pdialog->overview.sell_command), buf);
-      gtk_widget_set_sensitive(pdialog->overview.sell_command, TRUE);
+      gtk_widget_set_sensitive(pdialog->overview.sell_command,
+			       can_client_issue_orders());
     }
   }
 }

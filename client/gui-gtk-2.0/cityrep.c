@@ -35,6 +35,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
+#include "civclient.h"
 #include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -1329,9 +1330,9 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
     gtk_widget_set_sensitive(city_popup_command, FALSE);
     gtk_widget_set_sensitive(city_buy_command, FALSE);
   } else {
-    gtk_widget_set_sensitive(city_change_command, TRUE);
+    gtk_widget_set_sensitive(city_change_command, can_client_issue_orders());
     gtk_widget_set_sensitive(city_center_command, TRUE);
     gtk_widget_set_sensitive(city_popup_command, TRUE);
-    gtk_widget_set_sensitive(city_buy_command, TRUE);
+    gtk_widget_set_sensitive(city_buy_command, can_client_issue_orders());
   }
 }

@@ -256,6 +256,8 @@ void science_change_callback(GtkWidget *widget, gpointer data)
   } else {
     gdouble pct;
 
+    gtk_widget_set_sensitive(science_change_menu_button,
+			     can_client_issue_orders());
     my_snprintf(text, sizeof(text), "%d/%d",
 		game.player_ptr->research.bulbs_researched,
 		total_bulbs_required(game.player_ptr));
@@ -410,6 +412,8 @@ void science_dialog_update(void)
   popupmenu = gtk_menu_new();
   gtk_option_menu_set_menu(GTK_OPTION_MENU(science_change_menu_button),
 	popupmenu);
+  gtk_widget_set_sensitive(science_change_menu_button,
+			   can_client_issue_orders());
 
   my_snprintf(text, sizeof(text), "%d/%d",
 	      game.player_ptr->research.bulbs_researched,
@@ -474,6 +478,8 @@ void science_dialog_update(void)
   goalmenu = gtk_menu_new();
   gtk_option_menu_set_menu(GTK_OPTION_MENU(science_goal_menu_button),
 	goalmenu);
+  gtk_widget_set_sensitive(science_goal_menu_button,
+			   can_client_issue_orders());
   
   steps = num_unknown_techs_for_goal(game.player_ptr,
 				     game.player_ptr->ai.tech_goal);
@@ -676,8 +682,10 @@ static void economy_selection_callback(GtkTreeSelection *selection,
     bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
 
     gtk_widget_set_sensitive(sellobsolete_command, is_sellable
+			     && can_client_issue_orders()
 			     && improvement_obsolete(game.player_ptr, i));
-    gtk_widget_set_sensitive(sellall_command, is_sellable);
+    gtk_widget_set_sensitive(sellall_command, is_sellable
+			     && can_client_issue_orders());
   } else {
     /* No selection has been made. */
     gtk_widget_set_sensitive(sellobsolete_command, FALSE);
@@ -969,7 +977,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
   if (row < n-2 &&
       unit_type_exists(activeunits_type[row]) &&
       can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
-    gtk_widget_set_sensitive(upgrade_command, TRUE);
+    gtk_widget_set_sensitive(upgrade_command, can_client_issue_orders());
   } else {
     gtk_widget_set_sensitive(upgrade_command, FALSE);
   }

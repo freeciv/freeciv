@@ -155,11 +155,14 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
       gtk_widget_set_sensitive(players_war_command, FALSE);
       break;
     default:
-      gtk_widget_set_sensitive(players_war_command, (game.player_idx != plrno));
+      gtk_widget_set_sensitive(players_war_command,
+			       can_client_issue_orders()
+			       && game.player_idx != plrno);
     }
 
     gtk_widget_set_sensitive(players_vision_command,
-      gives_shared_vision(game.player_ptr, plr));
+			     can_client_issue_orders()
+			     && gives_shared_vision(game.player_ptr, plr));
 
     gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
     gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));

@@ -2317,7 +2317,7 @@ static void nuke_children(gpointer data, gpointer user_data)
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  GList *res, *i;
+  GList *res;
 
   res = gtk_window_list_toplevels();
 
