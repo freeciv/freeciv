@@ -5140,7 +5140,7 @@ msgstr ""
 #: server/stdinhand.c:2641 server/stdinhand.c:2662 server/stdinhand.c:2673
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Le joueur '%s'a maintenant le niveau IA '%s'."
+msgstr "Le joueur '%s' a maintenant le niveau IA '%s'."
 
 #: server/stdinhand.c:2666
 #, c-format
@@ -13446,7 +13446,7 @@ msgstr "Terrain: INCONNU"
 
 #: client/gui-sdl/dialogs.c:1292
 msgid "Advanced Menu"
-msgstr "Menu des avancées"
+msgstr "Menu avancé"
 
 #: client/gui-sdl/dialogs.c:1345
 #, c-format
