@@ -19,6 +19,7 @@
 #include "capability.h"
 #include "game.h"
 #include "genlist.h"
+#include "government.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"

@@ -25,6 +25,7 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "game.h"
+#include "government.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"

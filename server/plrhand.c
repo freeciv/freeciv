@@ -18,6 +18,7 @@
 #include "capability.h"
 #include "events.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"

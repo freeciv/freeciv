@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "game.h"
+#include "government.h"
 #include "packets.h"
 #include "shared.h"
 

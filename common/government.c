@@ -15,6 +15,7 @@
 #include <assert.h>
 
 #include "game.h"
+#include "log.h"
 #include "player.h"
 #include "shared.h"
 #include "tech.h"
@@ -36,7 +37,6 @@
  * o Implement actual cost for unit gold upkeep.
  * o ai_manage_cities() in aicity.c assigns tech_want to A_CODE,
  *   A_REPUBLIC and A_MONARCHY presumably for government purposes...
- * o Move some functions from player.c to here.
  * o Update help system: meaning of Nonmil and FieldUnit unit flags;
  *   dynamic help on governments.
  * o Test the new government evaluation code (AI).
@@ -121,6 +121,79 @@ struct government *get_gov_pcity(struct city *pcity)
   assert(pcity);
   return get_gov_iplayer(pcity->owner);
 }
+
+
+/***************************************************************
+...
+***************************************************************/
+char *get_ruler_title(int gov, int male, int race)
+{
+  struct ruler_title *best_match = NULL;
+  struct ruler_title *title;
+  
+  title = governments[gov].ruler_title;
+  do {
+    if (title->race == DEFAULT_TITLE && best_match == NULL) {
+      best_match = title;
+    } else if (title->race == race) {
+      best_match = title;
+      break;
+    }
+    ++title;
+  } while (title->male_title != NULL);
+
+  if (best_match) {
+    return male ? best_match->male_title : best_match->female_title;
+  } else {
+    freelog (LOG_NORMAL, "get_ruler_title: found no title for government %d", gov);
+    return "Mr.";
+  }
+}
+
+/***************************************************************
+...
+***************************************************************/
+int get_government_max_rate(int type)
+{
+  return governments[type].max_rate;
+}
+
+/***************************************************************
+Added for civil war probability computation - Kris Bubendorfer
+***************************************************************/
+int get_government_civil_war_prob(int type)
+{
+  if(type >= 0 && type < game.government_count)
+    return governments[type].civil_war;
+  return 0;
+}
+
+/***************************************************************
+...
+***************************************************************/
+char *get_government_name(int type)
+{
+  return governments[type].name;
+}
+
+/***************************************************************
+  Can change to government if appropriate tech exists, and one of:
+   - no required tech (required is A_NONE)
+   - player has required tech
+   - we have an appropriate wonder
+***************************************************************/
+int can_change_to_government(struct player *pplayer, int government)
+{
+  int req = governments[government].required_tech;
+  
+  if (!tech_exists(req))
+    return 0;
+  else 
+    return (req == A_NONE
+	    || (get_invention(pplayer, req) == TECH_KNOWN)
+	    || player_owns_active_govchange_wonder(pplayer));
+}
+
 
 /***************************************************************
   Return graphic offset for this government.  This may be

@@ -123,6 +123,13 @@ struct government *get_gov_pcity(struct city *pcity);
 
 struct government *find_government_by_name(char *name);
 
+int get_government_max_rate(int type);
+int get_government_civil_war_prob(int type);
+char *get_government_name(int type);
+char *get_ruler_title(int gov, int male, int race);
+
+int can_change_to_government(struct player *pplayer, int government);
+
 int government_graphic(int gov);
 
 #endif  /* FC__GOVERNMENT_H */
