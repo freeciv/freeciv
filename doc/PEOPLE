@@ -60,7 +60,7 @@ contributions to the Freeciv project.
      Daniel M Church <dchurch@crossbreed.mbhs.edu> (layer view)
      Joona Kiiski <zamar@freenet.hut.fi> (patches, production fixes)
      Arien Malec <arien_malec@yahoo.com> (patches)
-     Andreas Kemnade <akemnade@t-online.de> (patches, win32 server)
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (patches, win32 server)
      Lino Mastrodomenico <l.mastrodomenico@studenti.to.it> (patches)
      Andrew McGuinness <andrew_mcguinness@bigfoot.com> (patch)
      Michael Grundel <michael42@grundel.de> (patch)
@@ -123,7 +123,7 @@ contributions to the Freeciv project.
 	("cmdlevel first" cmd. 1.11.4, info, bugfixes 1.11.0,
 	'read' and 'write' cmds. 1.10.0, bugfixes 1.9.0,
 	patches 1.8.1, server commands from clients, 1.7.x)
-     Andreas Kemnade <akemnade@t-online.de> (bugfix 1.11.4)
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (bugfix 1.11.4)
      Markus Linnala <maage@cs.tut.fi>
 	(zlib 1.11.4, bugfixes 1.10.0, patches 1.9.0, 1.8.1,
 	 logging, 1.7.x, configure)
@@ -696,7 +696,7 @@ contributions to the Freeciv project.
      Stepan Roh <src@srnet.cz> (Slackware)
      Bryan Blackburn <blb@pobox.com> (Solaris)
      Pascal Bleser <guru@linuxbe.org> (Suse)
-     Andreas Kemnade <akemnade@t-online.de> (Windows)
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (Windows)
      Todd Goodman <tsg@bonedaddy.net> (Windows+X)
 
   Monetary donations:
@@ -735,13 +735,13 @@ contributions to the Freeciv project.
      Sam Barnett-Cormack <sambc@users.sourceforge.net> (C++ port)
      Roger Tucker <roger.tucker@wcom.com> (OpenVMS)
      Arnold Krille <arnold@arnoldarts.de> (Star Trek addon)
-     Andreas Kemnade <akemnade@t-online.de> (Windows - Gtk+)
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (Windows - Gtk+)
      Alexandre Beraud <a_beraud@lemel.fr> (Window Maker launcher)
      Heikki Pernu <Heikki.Pernu@hut.fi> (xcivclient)
      David Pfitzner <dwp@mso.anu.edu.au> (TechTree)
      Wong Teck Meng <lookmeow@magix.com.sg> (CivLog)
      Christian Knoke <ChrisK@enter.de> (CivGo)
-     Andreas Kemnade <akemnade@t-online.de> (WinCivGo)
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (WinCivGo)
      Daniel Glassey <danglassey@geocities.com> (Windows - Gtk+)
      Justin Hopkins <hop@elwood.pionet.net> (Windows - native)
      Jennifer Glover <barmaid@email.com> (WinCE port)
