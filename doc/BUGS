@@ -56,9 +56,6 @@ KNOWN BUGS:
  - When planning a goto in the server, fx for an autosettler or an
    airplane, the server will use knowledge not available to the player.
 
- - The science dialog is not updated when you gain a tech. You need to
-   close and open it.
-
  - In the GTK+ client, sometimes the area near the minimap contains
    garbage.
 
