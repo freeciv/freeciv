@@ -1,8 +1,0 @@
-#!/bin/sh
-set -e
-if [ -x /usr/sbin/update-xaw-wrappers ] ; then update-xaw-wrappers ; fi
-if [ -x /usr/bin/update-menus ] ; then update-menus ; fi
-update-alternatives --install /usr/games/civ civ /usr/games/civclient-xaw 10
-#  --slave /usr/share/man/man6/civ.6.gz civ.6.gz /usr/share/man/man6/civclient-xaw.6.gz
-update-alternatives --install /usr/games/civclient-xaw civclient-xaw /usr/games/civclient-xaw.real 10
-

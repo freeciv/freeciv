@@ -1,4 +1,0 @@
-Program: /usr/games/civclient.xaw
-Incompat: /usr/X11R6/lib/Xaw3d /usr/X11R6/lib/Xaw95 /usr/X11R6/lib/neXtaw /usr/lib/libc5-compat/Xaw3d /usr/lib/libc5-compat/Xaw95 /usr/lib/libc5-compat/neXtaw
-Wrapped: /usr/games/civclient.xaw.real
-Link-name: civclient-xaw
