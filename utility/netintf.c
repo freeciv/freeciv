@@ -299,7 +299,6 @@ static bool is_url_safe(unsigned ch)
 const char *my_url_encode(const char *txt)
 {
   static char buf[2048];
-  int  pos;
   unsigned ch;
   char *ptr;
 
@@ -314,14 +313,11 @@ const char *my_url_encode(const char *txt)
 
     if (is_url_safe(ch)) {
       *ptr++ = *txt;
-      pos++;
     } else if (ch == ' ') {
       *ptr++ = '+';
-      pos++;
     } else {
       sprintf(ptr, "%%%2.2X", ch);
       ptr += 3;
-      pos += 3;
     }
   }
   *ptr++ = '\0';
