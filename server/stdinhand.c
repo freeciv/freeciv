@@ -549,6 +549,14 @@ static struct settings_s settings[] = {
  * affect what happens in the game, it just determines when the
  * players stop playing and look at the score.)
  */
+  { "autotoggle", &game.auto_ai_toggle,
+    SSET_META, SSET_TO_CLIENT,
+    GAME_MIN_AUTO_AI_TOGGLE, GAME_MAX_AUTO_AI_TOGGLE,
+    GAME_DEFAULT_AUTO_AI_TOGGLE,
+    N_("Whether AI-status toggles with connection"),
+    N_("If this is set to 1, AI status is turned off when a player "
+       "connects, and on when a player disconnects.") },
+
   { "endyear", &game.end_year,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR,
@@ -1345,19 +1353,10 @@ static void save_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void toggle_ai_player(struct player *caller, char *arg)
+void toggle_ai_player_direct(struct player *caller, struct player *pplayer)
 {
-  enum m_pre_result match_result;
-  struct player *pplayer;
-
-  pplayer = find_player_by_name_prefix(arg, &match_result);
-
-  if (!pplayer) {
-    cmd_reply_no_such_player(CMD_AITOGGLE, caller, arg, match_result);
-    return;
-  }
-
-  if(is_barbarian(pplayer)) {
+  assert(pplayer);
+  if (is_barbarian(pplayer)) {
     cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
 	      _("Cannot toggle a barbarian player."));
     return;
@@ -1387,6 +1386,23 @@ static void toggle_ai_player(struct player *caller, char *arg)
     check_player_government_rates(pplayer);
   }
   send_player_info(pplayer,0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void toggle_ai_player(struct player *caller, char *arg)
+{
+  enum m_pre_result match_result;
+  struct player *pplayer;
+
+  pplayer = find_player_by_name_prefix(arg, &match_result);
+
+  if (!pplayer) {
+    cmd_reply_no_such_player(CMD_AITOGGLE, caller, arg, match_result);
+    return;
+  }
+  toggle_ai_player_direct(caller, pplayer);
 }
 
 /**************************************************************************
@@ -2354,6 +2370,7 @@ static void cut_player_connection(struct player *caller, char *playername)
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	       _("Cutting connection to %s."), pplayer->name);
     close_connection(pplayer->conn);
+    lost_connection_to_player(pplayer->conn);
     pplayer->conn=NULL;
   }
   else {

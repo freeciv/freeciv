@@ -85,6 +85,7 @@ struct civ_game {
   int add_to_size_limit;
   int spacerace;
   int turnblock;
+  int auto_ai_toggle;
   int fogofwar;
   int fogofwar_old;	/* as the fog_of_war bit get changed by setting
 			   the server we need to remember the old setting */
@@ -264,6 +265,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SPACERACE       1
 #define GAME_MIN_SPACERACE           0
 #define GAME_MAX_SPACERACE           1
+
+#define GAME_DEFAULT_AUTO_AI_TOGGLE  0
+#define GAME_MIN_AUTO_AI_TOGGLE      0
+#define GAME_MAX_AUTO_AI_TOGGLE      1
 
 #define GAME_DEFAULT_TIMEOUT          0
 #define GAME_MIN_TIMEOUT              0

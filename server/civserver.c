@@ -355,6 +355,15 @@ main_start_players:
       nations_used[i]=i;
   }
 
+  if (game.auto_ai_toggle) {
+    for (i=0;i<game.nplayers;i++) {
+      struct player *pplayer = get_player(i);
+      if (!pplayer->conn && !pplayer->ai.control) {
+	toggle_ai_player_direct(NULL, pplayer);
+      }
+    }
+  }
+
   /* Allow players to select a nation (case new game).
    * AI players may not yet have a nation; these will be selected
    * in generate_ai_players() later
@@ -1503,6 +1512,9 @@ static void handle_request_join_game(struct connection *pconn,
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
 	send_player_info(NULL,NULL);
       }
+      if (game.auto_ai_toggle && pplayer->ai.control) {
+	toggle_ai_player_direct(NULL, pplayer);
+      }
       return;
     }
 
@@ -1544,7 +1556,6 @@ static void handle_request_join_game(struct connection *pconn,
     reject_new_player(_("Sorry, you can't join.  The game is already running."),
 		      pconn);
     freelog(LOG_NORMAL, _("Game running - %s was rejected."), req->name);
-    lost_connection_to_player(pconn);
     close_connection(pconn);
 
     return;
@@ -1564,28 +1575,41 @@ static void handle_request_join_game(struct connection *pconn,
 /**************************************************************************
 ...
 **************************************************************************/
-
 void lost_connection_to_player(struct connection *pconn)
 {
+  struct player *pplayer = NULL;
   int i;
 
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].conn==pconn) {
-      game.players[i].conn=NULL;
-      game.players[i].is_connected=0;
-      sz_strlcpy(game.players[i].addr, "---.---.---.---");
-      freelog(LOG_NORMAL, _("Lost connection to %s."), game.players[i].name);
-      send_player_info(&game.players[i], 0);
-      notify_player(0, _("Game: Lost connection to %s."), game.players[i].name);
-
-      if(game.is_new_game && (server_state==PRE_GAME_STATE ||
-			 server_state==SELECT_RACES_STATE))
-	 server_remove_player(&game.players[i]);
-      check_for_full_turn_done();
-      return;
+  /* Find the player: */
+  for(i=0; i<game.nplayers; i++) {
+    if (game.players[i].conn == pconn) {
+      pplayer = &game.players[i];
+      break;
     }
+  }
+  if (pplayer == NULL) {
+    /* This happens eg if the player has not yet joined properly. */
+    freelog(LOG_FATAL, _("Lost connection to <unknown>."));
+    return;
+  }
+  
+  freelog(LOG_NORMAL, _("Lost connection to %s."), pplayer->name);
+  
+  pplayer->conn = NULL;
+  pplayer->is_connected = 0;
+  sz_strlcpy(pplayer->addr, "---.---.---.---");
 
-  freelog(LOG_FATAL, _("Lost connection to <unknown>."));
+  send_player_info(&game.players[i], 0);
+  notify_player(0, _("Game: Lost connection to %s."), pplayer->name);
+
+  if (game.is_new_game && (server_state==PRE_GAME_STATE ||
+			   server_state==SELECT_RACES_STATE)) {
+    server_remove_player(&game.players[i]);
+  }
+  else if (game.auto_ai_toggle && !pplayer->ai.control) {
+    toggle_ai_player_direct(NULL, pplayer);
+  }
+  check_for_full_turn_done();
 }
 
 /**************************************************************************

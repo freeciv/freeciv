@@ -418,6 +418,9 @@ void game_load(struct section_file *file)
   game.spacerace = secfile_lookup_int_default(file, game.spacerace,
 					      "game.spacerace");
 
+  game.auto_ai_toggle = secfile_lookup_int_default(file, game.auto_ai_toggle,
+						   "game.auto_ai_toggle");
+
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE 
      || has_capability("startoptions", savefile_options)) {
@@ -574,6 +577,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_int(file, game.scorelog, "game.scorelog");
   secfile_insert_int(file, game.spacerace, "game.spacerace");
+  secfile_insert_int(file, game.auto_ai_toggle, "game.auto_ai_toggle");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.killcitizen, "game.killcitizen");

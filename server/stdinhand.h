@@ -24,6 +24,8 @@ extern void set_ai_level_direct(struct player *pplayer, int level);
 extern void set_ai_level_directer(struct player *pplayer, int level);
 extern void read_init_script(char *script_filename);
 
+void toggle_ai_player_direct(struct player *caller, struct player *subject);
+
 extern enum cmdlevel_id default_access_level;
 
 #endif /* FC__STDINHAND_H */

@@ -743,6 +743,7 @@ void game_init(void)
   game.spacerace   = GAME_DEFAULT_SPACERACE;
   game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
   game.fogofwar_old= game.fogofwar;
+  game.auto_ai_toggle = GAME_DEFAULT_AUTO_AI_TOGGLE;
   game.barbarianrate  = GAME_DEFAULT_BARBARIANRATE;
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
