@@ -1075,6 +1075,10 @@ void handle_unit_info(struct packet_unit_info *packet)
 
     repaint_unit = !packet->carried;
     agents_unit_new(punit);
+
+    if ((pcity = map_get_city(punit->x, punit->y))) {
+      pcity->occupied = TRUE;
+    }
   }
 
   if (punit && punit == get_unit_in_focus()) {
