@@ -431,17 +431,36 @@ void free_sprite(struct Sprite *s)
 Pixmap create_overlay_unit(int i)
 {
   Pixmap pm;
+  int bg_color;
   
-  pm=XCreatePixmap(display, root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
-  if(use_solid_color_behind_units)  {
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+game.player_ptr->race]);
-    XFillRectangle(display, pm, fill_bg_gc, 0,0, NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
-  } else {
-	struct Sprite *flag=get_tile_sprite(game.player_ptr->race + FLAG_TILES);
-	XCopyArea(display, flag->pixmap, pm, civ_gc, 0,0,
-	          flag->width,flag->height, 0,0);
-  };
+  pm=XCreatePixmap(display, root_window, 
+		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
 
+  /* Give tile a background color, based on the type of unit */
+  bg_color = COLOR_STD_RACE0+game.player_ptr->race;
+  switch (get_unit_type(i)->move_type) {
+    case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
+    case SEA_MOVING:  bg_color = COLOR_STD_OCEAN; break;
+    case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
+    case AIR_MOVING:  bg_color = COLOR_STD_CYAN; break;
+    default:          bg_color = COLOR_STD_BLACK; break;
+  }
+  XSetForeground(display, fill_bg_gc, colors_standard[bg_color]);
+  XFillRectangle(display, pm, fill_bg_gc, 0,0, 
+		 NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+
+  /* If we're using flags, put one on the tile */
+  if(!use_solid_color_behind_units)  {
+    struct Sprite *flag=get_tile_sprite(game.player_ptr->race + FLAG_TILES);
+
+    XSetClipOrigin(display, civ_gc, 0,0);
+    XSetClipMask(display, civ_gc, flag->mask);
+    XCopyArea(display, flag->pixmap, pm, civ_gc, 0,0, 
+    	      flag->width,flag->height, 0,0);
+    XSetClipMask(display, civ_gc, None);
+  }
+
+  /* Finally, put a picture of the unit in the tile */
   if(i<U_LAST) {
     struct Sprite *s=get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES);
 
@@ -451,6 +470,6 @@ Pixmap create_overlay_unit(int i)
 	      0,0, s->width,s->height, 0,0 );
     XSetClipMask(display,civ_gc,None);
   }
+
   return(pm);
 }
-
