@@ -50,7 +50,7 @@
   }                                                                         \
 }
 
-/* Wrapper for easy access.  It's a macro so it can be a lvalue. */
+/* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
 #define hmap(x, y) (height_map[map_pos_to_index(x, y)])
 #define hnat(x, y) (height_map[native_pos_to_index((x), (y))])
 #define rmap(x, y) (river_map[map_pos_to_index(x, y)])
@@ -99,11 +99,25 @@ struct isledata {
 };
 static struct isledata *islands;
 
-/* this is the maximal temperature at equators returned by map_latitude */
+/* this is the maximal temperature at equators returned by map_temperature */
 #define MAX_TEMP 1000
 
 /* An estimate of the linear (1-dimensional) size of the map. */
 #define SQSIZE MAX(1, sqrt(map.xsize * map.ysize / 1000))
+
+/* define the 5 region of a Earth like map
+   =========================================================
+    0-COLD_LV                cold region: 
+    COLD_LV-TREOPICAL_LV     temperate wet region: 
+    TROPICAL_LV-MAX_TEMP     tropical wet region:
+
+   and a dry region, this last one can ovelap others 
+   DRY_MIN_LEVEL- DRY_MAX_LEVEL
+ */
+#define COLD_LEVEL (10 * MAX_TEMP / 100)
+#define TROPICAL_LEVEL (70 * MAX_TEMP / 100)
+#define DRY_MIN_LEVEL (65 * MAX_TEMP / 100)
+#define DRY_MAX_LEVEL (80 * MAX_TEMP / 100)
 
 /* used to create the poles and for separating them.  In a
  * mercator projection map we don't want the poles to be too big. */
@@ -111,7 +125,7 @@ static struct isledata *islands;
   ((!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY))	\
    /* 5% for little maps; 2% for big ones */			\
    ? MAX_TEMP * (3 + 2 * SQSIZE) / (100 * SQSIZE)		\
-   : 5 * MAX_TEMP / 100  /* 5% for all maps */)
+   : COLD_LEVEL / 2  /* for all maps */)
 
 /****************************************************************************
   Used to initialize an array 'a' of size 'size' with value 'val' in each
@@ -127,7 +141,8 @@ static struct isledata *islands;
   }
 
 /****************************************************************************
-  It can be used to many things, placed terrains on lands, placed huts, etc
+ Map that contains, according to circumstances, information on whether
+ we have already placed terrain (special, hut) here.
 ****************************************************************************/
 static bool *placed_map;
 
@@ -136,14 +151,15 @@ static bool *placed_map;
 ****************************************************************************/
 static void create_placed_map(void)
 {
- placed_map = fc_malloc (sizeof(bool) * MAX_MAP_INDEX);
- INITIALIZE_ARRAY(placed_map, MAX_MAP_INDEX, FALSE );
+  assert(placed_map == NULL); 
+  placed_map = fc_malloc (sizeof(bool) * MAX_MAP_INDEX);
+  INITIALIZE_ARRAY(placed_map, MAX_MAP_INDEX, FALSE );
 }
 
 /**************************************************************************** 
   Free the pmap
 ****************************************************************************/
-static void remove_placed_map(void)
+static void destroy_placed_map(void)
 {
   free(placed_map);
   placed_map = NULL;
@@ -287,41 +303,150 @@ static int map_temperature(int map_x, int map_y)
 		     + 1.5 * (x * x + y * y));
 }
 
+/****************************************************************************
+ * Conditions used mainly in rand_map_pos_characteristic()
+ ****************************************************************************/
+/* WETNESS */
+
+/* necessary condition of deserts placement */
+#define map_pos_is_dry(x, y) ((map_temperature((x), (y)) <= DRY_MAX_LEVEL) &&\
+                              (map_temperature((x), (y)) > DRY_MIN_LEVEL) && \
+                              (count_ocean_near_tile((x),(y),FALSE) <= 2))
+typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
+
+/* TEMPERATURE */
+
+/* necessary condition of jungle placement */
+#define map_pos_is_tropical(x, y) (map_temperature((x), (y)) > TROPICAL_LEVEL)
+
+
+/* necessary condition of arctic placement */
+#define map_pos_is_frizzed(x, y) \
+             (map_temperature((x), (y)) <= 2 * ICE_BASE_LEVEL)
+
+/* necessary condition of tundra placement */
+#define map_pos_is_cold(x, y) (map_temperature((x), (y)) <= COLD_LEVEL && \
+                               !map_pos_is_frizzed((x), (y)))
+/* used by generator 2-4 */
+#define map_pos_is_cold_or_frizzed(x, y) \
+                              (map_temperature((x), (y)) <= COLD_LEVEL)
+
+typedef enum { TC_ALL = 100, TC_FRIZZED, TC_NFRIZZED, TC_COLD, 
+		   TC_TROPICAL, TC_NTROPICAL} temperature_c;
+
+/* MISCELANEOUS (OTHER CONDITIONS) */
+
+/* necessary condition of swamp placement */
+static int hmap_low_level = 0;
+#define ini_hmap_low_level() \
+{ \
+hmap_low_level = (2 * map.swampsize * \
+     (hmap_max_level - hmap_shore_level)) / 100 + hmap_shore_level; \
+}
+/* should be used after having hmap_low_level initialized */
+#define map_pos_is_low(x, y) ( hmap((x), (y)) < hmap_low_level )
+
+typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
+
+/***************************************************************************
+ These functions test for conditions used in rand_map_pos_characteristic 
+***************************************************************************/
+/***************************************************************************
+  Checks if the given location satisfy some wetness condition
+***************************************************************************/
+static bool test_wetness(int x, int y, wetness_c c)
+{
+    switch(c) {
+	case WC_ALL:
+	    return TRUE;
+	case WC_DRY:
+	    return map_pos_is_dry(x, y);
+	case WC_NDRY:
+	    return !map_pos_is_dry(x, y);
+	default:
+	    assert(0);
+    }
+}
+
+/***************************************************************************
+  Checks if the given location satisfy some temperature condition
+***************************************************************************/
+static bool test_temperature(int x, int y, temperature_c c)
+{
+    switch(c) {
+	case TC_ALL:
+	    return TRUE;
+	case TC_FRIZZED:
+	    return map_pos_is_frizzed(x, y);
+	case TC_NFRIZZED:
+	    return !map_pos_is_cold(x, y);
+	case TC_COLD:
+	    return map_pos_is_cold(x, y);
+	case TC_TROPICAL:
+	    return map_pos_is_tropical(x, y);
+	case TC_NTROPICAL:
+	    return !map_pos_is_tropical(x, y);
+	default:
+	    assert(0);
+    }
+}
+
+/***************************************************************************
+  Checks if the given location satisfy some miscellaneous condition
+***************************************************************************/
+static bool test_miscellaneous(int x, int y, miscellaneous_c c)
+{
+    switch(c) {
+	case MC_NONE:
+	    return TRUE;
+	case MC_LOW:
+	    return map_pos_is_low(x, y);
+	case MC_NLOW:
+	    return !map_pos_is_low(x, y);
+	default:
+	    assert(0);
+    }
+}
+
+/***************************************************************************
+  Passed as data to rand_map_pos_filtered() by rand_map_pos_characteristic()
+***************************************************************************/
 struct DataFilter {
-  int T_min, T_max;
+  wetness_c        wc;
+  temperature_c    tc;
+  miscellaneous_c  mc;
 };
 
 /****************************************************************************
   A filter function to be passed to rand_map_pos_filtered().  See
-  rand_map_pos_temperature for more explanation.
+  rand_map_pos_characteristic for more explanation.
 ****************************************************************************/
-static bool temperature_filter(int map_x, int map_y, void *data)
+static bool condition_filter(int map_x, int map_y, void *data)
 {
   struct DataFilter *filter = data;
-  const int T = map_temperature(map_x, map_y);
 
-  return (T >= filter->T_min) && (T <= filter->T_max) 
-	  && not_placed(map_x, map_y) ;
+  return  not_placed(map_x, map_y) 
+      &&  test_temperature(map_x, map_y, filter->tc) 
+      &&  test_wetness(map_x, map_y, filter->wc) 
+      &&  test_miscellaneous(map_x, map_y, filter->mc) ;
 }
 
 /****************************************************************************
-  Return random map coordinates which have temperature within the selected
-  range and which are not yet placed on pmap. Returns FALSE if there is no 
-  such position.
+  Return random map coordinates which have some conditions and which are
+  not yet placed on pmap.
+  Returns FALSE if there is no such position.
 ****************************************************************************/
-static bool rand_map_pos_temperature(int *map_x, int *map_y,
-				     int T_min, int T_max)
+static bool rand_map_pos_characteristic(int *map_x, int *map_y,
+				   wetness_c        wc,
+				   temperature_c    tc,
+				   miscellaneous_c  mc )
 {
   struct DataFilter filter;
 
-  /* We could short-circuit the logic here (for instance, for non-temperate
-   * requests on a temperate map).  However this is unnecessary and isn't
-   * extensible.  So instead we just go straight to the rand_map_pos_filtered
-   * call. */
-
-  filter.T_min = T_min;
-  filter.T_max = T_max;
-  return rand_map_pos_filtered(map_x, map_y, &filter, temperature_filter);
+  filter.wc = wc;
+  filter.tc = tc;
+  filter.mc = mc;
+  return rand_map_pos_filtered(map_x, map_y, &filter, condition_filter);
 }
 
 /****************************************************************************
@@ -527,8 +652,7 @@ static void make_forests(void)
 
   do {
     /* Place one forest clump anywhere. */
-    if (rand_map_pos_temperature(&x, &y,
-				 MAX_TEMP / 10, MAX_TEMP)) {
+    if (rand_map_pos_characteristic(&x, &y, WC_ALL, TC_NFRIZZED, MC_NONE)) {
       make_forest(x, y, hmap(x, y), 25);
     } else { 
       /* If rand_map_pos_temperature returns FALSE we may as well stop
@@ -537,21 +661,19 @@ static void make_forests(void)
     }
 
     /* Now add another tropical forest clump (70-100% temperature). */
-    if (rand_map_pos_temperature(&x, &y,
-				 7 *MAX_TEMP / 10, MAX_TEMP)) {
+    if (rand_map_pos_characteristic(&x, &y,  WC_ALL, TC_TROPICAL, MC_NONE)) {
       make_forest(x, y, hmap(x, y), 25);
     }
 
     /* And add a cold forest clump (10%-30% temperature). */
-    if (rand_map_pos_temperature(&x, &y,
-	  	 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10)) {
+    if (rand_map_pos_characteristic(&x, &y,  WC_ALL, TC_COLD, MC_NONE)) {
       make_forest(x, y, hmap(x, y), 25);
     }
   } while (forests < forestsize);
 }
 
 /**************************************************************************
-  swamps, is placed on low lying locations, that will typically be close to
+  swamp is placed on low lying locations, that will typically be close to
   the shoreline. They're put at random (where there is grassland)
   and with 50% chance each of it's neighbour squares will be converted to
   swamp aswell
@@ -559,32 +681,23 @@ static void make_forests(void)
 static void make_swamps(void)
 {
   int x, y, swamps;
-  int forever = 0;
   const int swamps_to_be_placed 
       = MAX_MAP_INDEX *  map.swampsize * map.landpercent / 10000;
-  const int hmap_swamp_level = ((hmap_max_level - hmap_shore_level)
-			  * 2 * map.swampsize) / 100 + hmap_shore_level;
 
   for (swamps = 0; swamps < swamps_to_be_placed; ) {
-    forever++;
-    if (forever > 1000) {
+    if (!rand_map_pos_characteristic(&x, &y, WC_NDRY, TC_NFRIZZED, MC_LOW)) {
       return;
     }
-    rand_map_pos(&x, &y);
-    if (not_placed(x, y)
-	&& hmap(x, y) < hmap_swamp_level) {
-      map_set_terrain(x, y, T_SWAMP);
-      map_set_placed(x, y);
-      cardinal_adjc_iterate(x, y, x1, y1) {
- 	if (myrand(10) > 5 && not_placed(x1, y1)) { 
-	  map_set_terrain(x1, y1, T_SWAMP);
-	  map_set_placed(x1, y1);
-	  swamps++;
-	}
-      } cardinal_adjc_iterate_end;
-      swamps++;
-      forever = 0;
-    }
+    map_set_terrain(x, y, T_SWAMP);
+    map_set_placed(x, y);
+    cardinal_adjc_iterate(x, y, x1, y1) {
+      if (myrand(10) > 5 && not_placed(x1, y1) && map_pos_is_low(x1, y1)) { 
+	map_set_terrain(x1, y1, T_SWAMP);
+	map_set_placed(x1, y1);
+	swamps++;
+      }
+    } cardinal_adjc_iterate_end;
+    swamps++;
   }
 }
 
@@ -603,8 +716,7 @@ static void make_deserts(void)
     /* Choose a random coordinate between 20 and 30 degrees north/south
      * (deserts tend to be between 15 and 35; make_desert will expand
      * them). */
-    if (rand_map_pos_temperature(&x, &y,
-	   65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100)){
+    if (rand_map_pos_characteristic(&x, &y, WC_DRY, TC_NFRIZZED, MC_NONE)) {
       make_desert(x, y, hmap(x, y), 50, map_temperature(x, y));
       i--;
     } else {
@@ -975,13 +1087,14 @@ static void make_rivers(void)
      Is needed to stop a potentially infinite loop. */
   int iteration_counter = 0;
 
+  create_placed_map(); /* needed bu rand_map_characteristic but no used */
   river_map = fc_malloc(sizeof(int) * map.xsize * map.ysize);
 
   /* The main loop in this function. */
   while (current_riverlength < desirable_riverlength
 	 && iteration_counter < RIVERS_MAXTRIES) {
 
-    rand_map_pos(&x, &y);
+    rand_map_pos_characteristic(&x, &y, WC_NDRY, TC_NFRIZZED, MC_NLOW);
 
     /* Check if it is suitable to start a river on the current tile.
      */
@@ -1062,6 +1175,7 @@ static void make_rivers(void)
 	    current_riverlength, desirable_riverlength, iteration_counter);
   } /* end while; */
   free(river_map);
+  destroy_placed_map();
   river_map = NULL;
 }
 
@@ -1173,6 +1287,7 @@ static void make_land(void)
   adjust_hmap();
   normalize_hmap_poles();
   hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
+  ini_hmap_low_level();
   whole_map_iterate(x, y) {
     map_set_terrain(x, y, T_UNKNOWN); /* set as oceans count is used */
     if (hmap(x, y) < hmap_shore_level) {
@@ -1191,8 +1306,8 @@ static void make_land(void)
   make_deserts();
   make_plains();
   make_fair();
+  destroy_placed_map();
   make_rivers();
-  remove_placed_map();
   assign_continent_numbers();
 }
 
@@ -1828,8 +1943,7 @@ static void make_huts(int number)
 
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
-    if (rand_map_pos_temperature(&x, &y,
-				 2 * ICE_BASE_LEVEL, MAX_TEMP)) {
+    if (rand_map_pos_characteristic(&x, &y, WC_ALL, TC_NFRIZZED, MC_NONE)) {
       if (is_ocean(map_get_terrain(x, y))) {
 	map_set_placed(x, y); /* not good for a hut */
       } else {
@@ -1842,7 +1956,7 @@ static void make_huts(int number)
       }
     }
   }
-  remove_placed_map();
+  destroy_placed_map();
 }
 
 /****************************************************************************
@@ -1902,11 +2016,6 @@ struct gen234_state {
   int isleindex, n, e, s, w;
   long int totalmass;
 };
-
-static bool map_pos_is_cold(int x, int y)
-{  
-  return map_temperature(x, y) <= 2 * MAX_TEMP/ 10;
-}
 
 /**************************************************************************
 Returns a random position in the rectangle denoted by the given state.
@@ -1975,7 +2084,7 @@ static void fill_island(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
 	   &&( !is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast )) {
-	if (map_pos_is_cold(x, y)) {
+	if (map_pos_is_cold_or_frizzed(x, y)) {
 	  map_set_terrain(x, y, (myrand(cold0_weight
 					+ cold1_weight) < cold0_weight) 
 			  ? cold0 : cold1);
@@ -2444,7 +2553,7 @@ static void mapgenerator2(void)
   }
 
   make_plains();  
-  remove_placed_map();
+  destroy_placed_map();
   free(height_map);
   height_map = NULL;
 
@@ -2532,7 +2641,7 @@ static void mapgenerator3(void)
   }
 
   make_plains();  
-  remove_placed_map();
+  destroy_placed_map();
   free(height_map);
   height_map = NULL;
     
@@ -2600,7 +2709,7 @@ static void mapgenerator4(void)
     make_island(10 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
   make_plains();  
-  remove_placed_map();
+  destroy_placed_map();
   free(height_map);
   height_map = NULL;
 
