@@ -77,7 +77,7 @@ binary-arch: checkroot build
 	install -p -m 644 README.AI ${DOCDIR}
 	install -p -m 644 NEWS ${DOCDIR}
 	gzip -9v ${DOCDIR}/NEWS
-	install -p -m 644 CREDITS ${DOCDIR}
+	install -p -m 644 AUTHORS ${DOCDIR}
 	install -p -m 644 HOWTOPLAY ${DOCDIR}
 	gzip -9v ${DOCDIR}/HOWTOPLAY
 	install -p -m 644 freeciv_hackers_guide.txt ${DOCDIR}
