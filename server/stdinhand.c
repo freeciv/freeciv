@@ -69,8 +69,7 @@
 
 #include "stdinhand.h"
 
-/* Import */
-#include "stdinhand_info.h"
+#define TOKEN_DELIMITERS " \t\n,"
 
 static enum cmdlevel_id default_access_level = ALLOW_INFO;
 static enum cmdlevel_id   first_access_level = ALLOW_CTRL;
@@ -1857,7 +1856,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 #define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, string)
 
 #define OPTION_NAME_SPACE 13
-  /* under SSET_MAX_LEN, so it fits into 80 cols more easily - rp */
+  /* under 16, so it fits into 80 cols more easily - rp */
 
   cmd_reply_show(horiz_line);
   switch(level) {
@@ -4344,38 +4343,4 @@ char **freeciv_completion(char *text, int start, int end)
 }
 
 #endif /* HAVE_LIBREADLINE */
-
-/********************************************************************
-Returns whether the specified server setting (option) can currently
-be changed.  Does not indicate whether it can be changed by clients.
-*********************************************************************/
-bool sset_is_changeable(int idx)
-{
-  struct settings_s *op = &settings[idx];
-
-  switch(op->sclass) {
-  case SSET_MAP_SIZE:
-  case SSET_MAP_GEN:
-    /* Only change map options if we don't yet have a map: */
-    return map_is_empty();
-  case SSET_MAP_ADD:
-  case SSET_PLAYERS:
-  case SSET_GAME_INIT:
-
-  case SSET_RULES:
-    /* Only change start params and most rules if we don't yet have a map,
-     * or if we do have a map but its a scenario one (ie, the game has
-     * never actually been started).
-     */
-    return (map_is_empty() || game.is_new_game);
-  case SSET_RULES_FLEXIBLE:
-  case SSET_META:
-    /* These can always be changed: */
-    return TRUE;
-  default:
-    freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
-            op->sclass, __FILE__, __LINE__);
-    return FALSE;
-  }
-}
 
