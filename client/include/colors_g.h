@@ -13,8 +13,6 @@
 #ifndef FC__COLORS_G_H
 #define FC__COLORS_G_H
 
-#define MAX_COLORS 256
-
 enum color_std { 
   COLOR_STD_BLACK, COLOR_STD_WHITE, COLOR_STD_RED,
   COLOR_STD_YELLOW, COLOR_STD_CYAN,
