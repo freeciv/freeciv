@@ -127,6 +127,10 @@ will need to have the appropriate "development" packages installed.
    it in a standard system directory, then use the --with-xpm-prefix
    option, as described above.
 
+   If you have problems installing libXpm on Solaris, or don't want to
+   install it as root, see Reinier's libXpm Solaris Installation Notes
+   section near the end of this file.
+
 
 1b. Prerequisites for the Gtk+ client:
 ======================================
@@ -323,11 +327,11 @@ a single directory or a list of directories separated by colons.
 
 For example:
 
-setenv FREECIV_PATH "/usr/games/freeciv/data:./data"
-   (for users of csh, tcsh, etc)
+  % setenv FREECIV_PATH "/usr/games/freeciv/data:./data"
+  (for users of csh, tcsh, etc.)
 
-FREECIV_PATH="/usr/games/freeciv/data:./data"; export FREECIV_PATH
-   (for users of sh, bash, ksh, zsh, etc)
+  % FREECIV_PATH="/usr/games/freeciv/data:./data"; export FREECIV_PATH
+  (for users of sh, bash, ksh, zsh, etc.)
 
 Also, note that you generally must install Freeciv if you wish to use
 its Native Language Support.  See the README file for more information.
@@ -338,7 +342,52 @@ file data/Freeciv into your app-defaults directory. (Usually this is
 /usr/lib/X11/app-defaults).
 
 
-5. Native Language Support:
+5. Reinier's libXpm Solaris Installation Notes:
+===============================================
+
+When I was root on my Solaris system, I *still* didn't want to install
+third-party software as root.  It's bad practice.
+
+Unfortunately, the libXpm installation procedure assumes installation
+in /usr/openwin, which is owned by root.  But it's not all that hard to
+get around that.
+
+Caveats:
+
+ - Make sure /usr/ucb/install is in your $PATH before /usr/bin/install,
+   otherwise 'make install' will break with strange error messages.
+
+ - The destination you want to install to can be specified with $DESTDIR;
+   however, installation will actually take place in $DESTDIR/$OPENWINDIR,
+   so the additional $OPENWINDIR subdir must be stripped afterwards
+   (changing the value of $OPENWINHOME doesn't work).
+
+The Procedure:
+
+ - Get the source from somewhere, untar it, cd into the source directory,
+   and issue:
+
+     % setenv MYXPMDEST /usr/local   # or wherever you want to install it
+     % xmkmf; make Makefiles includes depend; make
+     % setenv PATH /usr/local/bin:/usr/ucb:$PATH
+     % make DESTDIR=$MYXPMDEST install
+     % make DESTDIR=$MYXPMDEST install.man
+     % cd $MYXPMDEST; mv ./$OPENWINHOME/* .; rm -rf ./$OPENWINHOME
+
+   (If you use sh, bash, ksh, zsh, etc., the "setenv"s above should be:
+     % MYXPMDEST=/usr/local; export MYXPMDEST
+     % PATH=/usr/local/bin:/usr/ucb:$PATH
+   .)
+
+ - You can now configure Freeciv with
+
+     % ./configure --with-xpm=$MYXPMDEST
+
+   which will add the proper -I/-L/-R options to the compile and link
+   commands.
+
+
+6. Native Language Support:
 ===========================
 
 Freeciv uses the "gettext" system for Native Language Support.
