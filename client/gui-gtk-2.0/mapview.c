@@ -866,46 +866,31 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 static void fog_sprite(struct Sprite *sprite)
 {
   int x, y;
-  GdkImage* ftile;
+  GdkPixbuf *fogged;
+  guchar *pixel;
+  const int bright = 65; /* Brightness percentage */
 
-  if (gdk_drawable_get_visual(sprite->pixmap)->type
-      != GDK_VISUAL_TRUE_COLOR) {
-    /* In this case the below code won't work. */
-    return;
-  }
-
-  ftile = gdk_drawable_get_image(sprite->pixmap,
-				 0, 0, sprite->width, sprite->height);
+  fogged = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+			  sprite->width, sprite->height);
+  gdk_pixbuf_get_from_drawable(fogged, sprite->pixmap, NULL,
+			       0, 0, 0, 0, sprite->width, sprite->height);
 
   /* Iterate over all pixels, reducing brightness by 50%. */
   for (x = 0; x < sprite->width; x++) {
     for (y = 0; y < sprite->height; y++) {
-      guint32 pixel =  gdk_image_get_pixel(ftile, x, y);
+      pixel = gdk_pixbuf_get_pixels(fogged)
+	+ y * gdk_pixbuf_get_rowstride(fogged)
+	+ x * gdk_pixbuf_get_n_channels(fogged);
 
-      guint8 red = ((pixel & ftile->visual->red_mask)
-		    >> ftile->visual->red_shift) * 65 / 100;
-      guint8 green = ((pixel & ftile->visual->green_mask)
-		      >> ftile->visual->green_shift) * 65 / 100;
-      guint8 blue = ((pixel & ftile->visual->blue_mask)
-		     >> ftile->visual->blue_shift) * 65 / 100;
-      guint32 result = red << ftile->visual->red_shift
-	| green << ftile->visual->green_shift          
-	| blue << ftile->visual->blue_shift;
-
-      gdk_image_put_pixel(ftile, x , y, result);
+      pixel[0] = pixel[0] * bright / 100;
+      pixel[1] = pixel[1] * bright / 100;
+      pixel[2] = pixel[2] * bright / 100;
     }
   }
 
-  /* Convert the image back to a pixmap, since pixmaps are much faster
-   * to draw. */
-  sprite->fogged = gdk_pixmap_new(root_window,
-				  sprite->width, sprite->height, -1);
-  gdk_gc_set_clip_origin(fill_tile_gc, 0, 0);
-  gdk_gc_set_clip_mask(fill_tile_gc, sprite->mask);
-  gdk_draw_image(sprite->fogged, fill_tile_gc, ftile,
-		 0, 0, 0, 0, sprite->width, sprite->height);
-  gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-  g_object_unref(ftile);
+  gdk_pixbuf_render_pixmap_and_mask(fogged, &sprite->fogged,
+				    NULL, 0);
+  g_object_unref(fogged);
 }
 
 /**************************************************************************
