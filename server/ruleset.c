@@ -1024,11 +1024,10 @@ static void load_ruleset_buildings(struct section_file *file)
     b->sabotage = secfile_lookup_int(file, "%s.sabotage", sec[i]);
 
     for (count = 0;
-	 secfile_lookup_str_default(file,
-				    NULL,
-				    "%s.effect%d.type",
-				    sec[i], count);
-	 count++) ;
+	 secfile_lookup_str_default(file, NULL, "%s.effect%d.type", sec[i],
+				    count); count++) {
+      /* nothing */
+    }
 
     if (count>MAX_EFFECTS) {
       freelog(LOG_FATAL, "For %s maximum number of effects (%d) exceeded",

@@ -1170,7 +1170,9 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
   }
   
   /* avoid using strlen (or strcpy) on an (unsigned char*)  --dwp */
-  for (c = piter->ptr; *c != '\0' && (c - piter->base) < piter->len; c++);
+  for (c = piter->ptr; *c != '\0' && (c - piter->base) < piter->len; c++) {
+    /* nothing */
+  }
 
   if ((c-piter->base) >= piter->len) {
     ps_len = pack_iter_remaining(piter);
@@ -3273,7 +3275,10 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_uint16(cptr, packet->build_cost);
   cptr=put_uint8(cptr, packet->upkeep);
   cptr=put_uint8(cptr, packet->sabotage);
-  for (count = 0, eff = packet->effect; eff->type != EFT_LAST; count++, eff++) ;
+  for (count = 0, eff = packet->effect; eff->type != EFT_LAST;
+       count++, eff++) {
+    /* nothing */
+  }
   cptr=put_uint8(cptr, count);
   for (eff = packet->effect; eff->type != EFT_LAST; eff++) {
     cptr=put_uint8(cptr, eff->type);

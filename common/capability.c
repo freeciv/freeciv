@@ -26,8 +26,9 @@
       start++;								\
     }									\
     /* skip to end of token */						\
-    for (end = start; *end != '\0' && !isspace(*end) && *end != ','; end++) \
-      ;									\
+    for (end = start; *end != '\0' && !isspace(*end) && *end != ','; end++) { \
+      /* nothing */							\
+    }                                                                   \
   }
 
 /* This routine returns true if the capability in cap appears

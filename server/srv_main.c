@@ -592,7 +592,9 @@ void alloc_id(int id)
 
 int get_next_id_number(void)
 {
-  while(is_id_allocated(++global_id_counter) || global_id_counter == 0) ;
+  while (is_id_allocated(++global_id_counter) || global_id_counter == 0) {
+    /* nothing */
+  }
   return global_id_counter;
 }
 
@@ -1695,7 +1697,9 @@ static void main_loop(void)
     save_counter++;
     
     freelog(LOG_DEBUG, "sniffingpackets");
-    while(sniff_packets()==1);
+    while (sniff_packets() == 1) {
+      /* nothing */
+    }
 
     /* After sniff, re-zero the timer: (read-out above on next loop) */
     clear_timer_start(eot_timer);

@@ -2137,7 +2137,9 @@ static void cmdlevel_command(struct connection *caller, char *str)
   struct connection *ptarget;
 
   /* find the start of the level: */
-  for(cptr_s=str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
 
   /* copy the level into arg_level[] */
   for(cptr_d=arg_level; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++) {
@@ -2180,7 +2182,9 @@ static void cmdlevel_command(struct connection *caller, char *str)
   }
 
   /* find the start of the name: */
-  for(; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
 
   /* copy the name into arg_name[] */
   for(cptr_d=arg_name;
@@ -2406,7 +2410,9 @@ static void explain_option(struct connection *caller, char *str)
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
-  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
   for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
@@ -2556,7 +2562,9 @@ static void show_command(struct connection *caller, char *str)
   int cmd,i,len1;
   int clen = 0;
 
-  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
   for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
@@ -2673,7 +2681,10 @@ static void set_command(struct connection *caller, char *str)
   int val, cmd;
   struct settings_s *op;
 
-  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s);
+       cptr_s++) {
+    /* nothing */
+  }
 
   for(cptr_d=command;
       *cptr_s != '\0' && is_ok_opt_name_char(*cptr_s);
@@ -2682,7 +2693,9 @@ static void set_command(struct connection *caller, char *str)
   }
   *cptr_d='\0';
   
-  for (; *cptr_s != '\0' && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++);
+  for (; *cptr_s != '\0' && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
 
   for (cptr_d = arg; *cptr_s != '\0' && is_ok_opt_value_char(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
@@ -2819,7 +2832,9 @@ void handle_stdin_input(struct connection *caller, char *str)
 
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
-  for (cptr_s = str; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
   if(*cptr_s == 0 || *cptr_s == '#') {
     return;
   }
@@ -2828,7 +2843,9 @@ void handle_stdin_input(struct connection *caller, char *str)
      given on the server command line - rp */
   if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
 
-  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
 
   /*
    * cptr_s points now to the beginning of the real command. It has
@@ -2859,7 +2876,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     return;
   }
 
-  for(; *cptr_s && isspace(*cptr_s); cptr_s++);
+  for (; *cptr_s && isspace(*cptr_s); cptr_s++) {
+    /* nothing */
+  }
   sz_strlcpy(arg, cptr_s);
 
   cut_comment(arg);

@@ -420,13 +420,16 @@ static void ai_new_spend_gold(struct player *pplayer)
     if (bestchoice.want > 100 ||  /* either need defense or building NOW */
         pplayer->research.researching == A_NONE) { /* nothing else to do */
       buycost = city_buy_cost(pcity);
-      if (!pcity->shield_stock) ;
-      else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
-               buycost >= 200) ; /* wait for more vans */
-      else if (bestchoice.type && unit_type_flag(bestchoice.choice, F_CITIES) &&
+      if (!pcity->shield_stock) {
+	/* nothing */
+      } else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
+               buycost >= 200) {
+	/* wait for more vans */
+      } else if (bestchoice.type && unit_type_flag(bestchoice.choice, F_CITIES) &&
           !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
-         pcity->food_stock < city_granary_size(pcity->size-1))) ;
-      else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
+         pcity->food_stock < city_granary_size(pcity->size-1))) {
+	/* nothing */
+      } else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
         if (unit_type_flag(bestchoice.choice, F_CARAVAN) &&
             pplayer->ai.maxbuycost < 100) pplayer->ai.maxbuycost = 100;

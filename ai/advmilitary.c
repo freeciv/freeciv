@@ -52,7 +52,9 @@ int assess_defense_quadratic(struct city *pcity)
   int v, def, l;
   const bool igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
   def = 0;
-  for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) ;
+  for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) {
+    /* nothing */
+  }
 /* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     v = get_defense_power(punit) * punit->hp *

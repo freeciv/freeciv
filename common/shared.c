@@ -283,7 +283,9 @@ char *get_sane_name(char *name)
   }
 
   /* must be composed entirely of printable ISO 8859-1 characters */
-  for (cp = name; is_iso_latin1(*cp); cp++) ;
+  for (cp = name; is_iso_latin1(*cp); cp++) {
+    /* nothing */
+  }
   if (*cp != '\0') {
     return NULL; 
   }
@@ -791,8 +793,10 @@ void init_nls(void)
       grouping = &m;
     } else {
       size_t len;
-      for (len = 0; lc->grouping[len] != '\0' && lc->grouping[len] != CHAR_MAX; len++)
-	;
+      for (len = 0;
+	   lc->grouping[len] != '\0' && lc->grouping[len] != CHAR_MAX; len++) {
+	/* nothing */
+      }
       len++;
       grouping = fc_malloc(len);
       memcpy(grouping, lc->grouping, len);
