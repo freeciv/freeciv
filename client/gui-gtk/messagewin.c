@@ -363,10 +363,7 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
 
   x = xpos[row];
   y = ypos[row];
-  location_ok = (x || y);
-  /* Note: bad luck if tile (x=0,y=0) has a message, but can't
-   * easily fix this without making the protocol incompatibile --dwp
-   */
+  location_ok = (y >= 0 && y < map.ysize);
   city_ok = (location_ok && (pcity=map_get_city(x,y))
 	    && (pcity->owner == game.player_idx));
 

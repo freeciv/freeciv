@@ -121,7 +121,7 @@ void global_warming(int effect)
     }
   }
 
-  notify_player_ex(0, 0,0, E_GLOBAL_ECO,
+  notify_player_ex(0, -1, -1, E_GLOBAL_ECO,
 		   _("Game: Global warming has occurred!"));
   notify_player(0, _("Game: Coastlines have been flooded and vast "
 		     "ranges of grassland have become deserts."));
@@ -169,7 +169,7 @@ void nuclear_winter(int effect)
     }
   }
 
-  notify_player_ex(0, 0,0, E_GLOBAL_ECO,
+  notify_player_ex(0, -1, -1, E_GLOBAL_ECO,
 		   _("Game: Nuclear winter has occurred!"));
   notify_player(0, _("Game: Wetlands have dried up and vast "
 		     "ranges of grassland have become tundra."));

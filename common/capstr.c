@@ -71,7 +71,8 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
-" game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete"
+" game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
+" event00_fix"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -95,6 +96,10 @@ const char * const our_capability = our_capability_internal;
    "event_wonder_obsolete" is a message event type, letting players know
    when one of their wonders has been made obsolete by a tech advance
    anywhere in the world.
+   
+   "event00_fix" is that client understands that negative positions for
+   events means no position.  Previous clients expect (0,0), which is
+   also a genuine position.
 */
 
 void init_our_capability(void)

@@ -374,10 +374,7 @@ void meswin_list_callback(Widget w, XtPointer client_data,
     int x, y;
     x = xpos[ret->list_index];
     y = ypos[ret->list_index];
-    location_ok = (x || y);
-    /* Note: bad luck if tile (x=0,y=0) has a message, but can't
-     * easily fix this without making the protocol incompatibile --dwp
-     */
+    location_ok = (y >= 0 && y < map.ysize);
     city_ok = (location_ok && (pcity=map_get_city(x,y))
 	       && (pcity->owner == game.player_idx));
   }    

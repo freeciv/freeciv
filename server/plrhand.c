@@ -1337,7 +1337,7 @@ static void great_library(struct player *pplayer)
       for (i=0;i<game.num_tech_types;i++) {
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
 	    && game.global_advances[i]>=2) {
-	  notify_player_ex(pplayer,0,0, E_TECH_GAIN,
+	  notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
 			   _("Game: %s acquired from The Great Library!"),
 			   advances[i].name);
 	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",
@@ -1411,7 +1411,7 @@ static void update_player_aliveness(struct player *pplayer)
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
       if( !is_barbarian(pplayer) ) {
-        notify_player_ex(0, 0,0, E_DESTROYED, _("Game: The %s are no more!"), 
+        notify_player_ex(0, -1, -1, E_DESTROYED, _("Game: The %s are no more!"), 
 		         get_nation_name_plural(pplayer->nation));
         gamelog(GAMELOG_GENO, "%s civilization destroyed",
                 get_nation_name(pplayer->nation));
@@ -1452,7 +1452,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
 	pplayer = city_owner(pcity);
 	if (pplayer->conn)
-	  notify_player_ex(pplayer, 0, 0,
+	  notify_player_ex(pplayer, -1, -1,
 	      has_capability("event_wonder_obsolete", pplayer->conn->capability)
 	      ?  E_WONDER_OBSOLETE : E_NOEVENT,
 	      _("Game: Discovery of %s OBSOLETES %s in %s!"), 
@@ -1963,10 +1963,10 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
 		get_nation_name_plural(pplayer->nation),
 		get_nation_name_plural(pplayer2->nation),
 		diplstate_text(new_type));
-  notify_player_ex(pplayer2, 0, 0, E_NOEVENT,
+  notify_player_ex(pplayer2, -1, -1, E_NOEVENT,
 		   _("Game: %s cancelled the diplomatic agreement!"),
 		   pplayer->name);
-  notify_player_ex(pplayer2, 0, 0, E_CANCEL_PACT,
+  notify_player_ex(pplayer2, -1, -1, E_CANCEL_PACT,
 		   _("Game: The diplomatic state between the %s and the %s is now %s."),
 		   get_nation_name_plural(pplayer2->nation),
 		   get_nation_name_plural(pplayer->nation),
@@ -1974,7 +1974,12 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
 }
 
 /**************************************************************************
-...
+  Notify player of an event, specifying event type (from events.h) and
+  (x,y) coords associated with the event.  Coords will only apply if game
+  has started and the player knows that tile.  If coords are not required,
+  caller should specify (x,y) = (-1,-1).  For generic event use E_NOEVENT.
+  (Although current clients do not use (x,y) data for E_NOEVENT events...)
+  (If both coords and event are not required, use notify_player() instead.)
 **************************************************************************/
 void notify_player_ex(const struct player *pplayer, int x, int y,
 		      int event, const char *format, ...) 
@@ -1988,13 +1993,13 @@ void notify_player_ex(const struct player *pplayer, int x, int y,
   genmsg.event = event;
   for(i=0; i<game.nplayers; i++)
     if(!pplayer || pplayer==&game.players[i]) {
-      if (server_state >= RUN_GAME_STATE
+      if (y >= 0 && y < map.ysize && server_state >= RUN_GAME_STATE
 	  && map_get_known(x, y, &game.players[i])) {
 	genmsg.x = x;
 	genmsg.y = y;
       } else {
-	genmsg.x = 0;
-	genmsg.y = 0;
+	genmsg.x = -1;
+	genmsg.y = -1;
       }
       send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
     }
@@ -2034,7 +2039,7 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
   va_end(args);
   genmsg.x = -1;
   genmsg.y = -1;
-  genmsg.event = -1;
+  genmsg.event = E_NOEVENT;
   for(i=0; i<game.nplayers; i++)
     if(player_has_embassy(&game.players[i],pplayer)&&exclude!=&game.players[i])
       send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);

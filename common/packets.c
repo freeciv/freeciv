@@ -2345,8 +2345,16 @@ int send_packet_generic_message(struct connection *pc, int type,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
+
+  /* when removing "event00_fix" capability,
+   leave only the code from the *else* clause (send unmodified values) */
+if (packet->y < 0 && pc && !has_capability("event00_fix", pc->capability)) {
+  cptr=put_uint8(cptr, 0);
+  cptr=put_uint8(cptr, 0);
+} else {
   cptr=put_uint8(cptr, packet->x);
   cptr=put_uint8(cptr, packet->y);
+}
   cptr=put_uint32(cptr, packet->event);
 
   cptr=put_string(cptr, packet->message);
@@ -2436,6 +2444,15 @@ receive_packet_generic_message(struct connection *pc)
 
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
+  
+  /* when removing "event00_fix" capability, remove following block */
+  if (packet->x==0 && packet->y==0
+      && !has_capability("event00_fix", pc->capability)) {
+    packet->x = -1;
+    packet->y = -1;
+  }
+  /* remove to here */
+ 
   iget_uint32(&iter, &packet->event);
   iget_string(&iter, packet->message, sizeof(packet->message));
   

@@ -794,7 +794,7 @@ void update_city_activities(struct player *pplayer)
   city_list_iterate_end;
   pplayer->ai.prev_gold = gold;
   if (gold-(gold-pplayer->economic.gold)*3<0) {
-    notify_player_ex(pplayer, 0, 0, E_LOW_ON_FUNDS,
+    notify_player_ex(pplayer, -1, -1, E_LOW_ON_FUNDS,
 		     _("Game: WARNING, we're LOW on FUNDS sire."));  
   }
     /* uncomment to unbalance the game, like in civ1 (CLG)

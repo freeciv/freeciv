@@ -154,7 +154,7 @@ static void mes_active(void)
     int location_ok;
     int city_ok;
 
-    location_ok = (x || y);
+    location_ok = (y >= 0 && y < map.ysize);
     city_ok = (location_ok && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx));
 
     set(mes_goto_button, MUIA_Disabled, !location_ok);

@@ -325,7 +325,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   Widget notify_headline, notify_label;
   Dimension width, width2, width_1, width_2;
   
-  if (x == 0 && y == 0) {
+  if (y < 0 || y >= map.ysize) {
     popup_notify_dialog("Message:", headline, lines);
     return;
   }

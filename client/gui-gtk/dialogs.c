@@ -314,7 +314,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   GtkWidget *notify_dialog_shell, *notify_command, *notify_goto_command;
   GtkWidget *notify_label;
   
-  if (x == 0 && y == 0) {
+  if (y < 0 || y >= map.ysize) {
     popup_notify_dialog(_("Message:"), headline, lines);
     return;
   }
