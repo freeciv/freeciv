@@ -164,6 +164,7 @@ struct ai_choice {
   int choice;            /* what the advisor wants */
   int want;              /* how bad it wants it (0-100) */
   int type;              /* unit/building or other depending on question */
+  bool need_boat;        /* unit being built wants a boat */
 };
 
 struct ai_city {

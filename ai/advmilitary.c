@@ -1055,6 +1055,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
                           &best_choice, NULL, U_LAST);
   } else { 
+    /* Attract a boat to our city or retain the one that's already here */
+    best_choice.need_boat = TRUE;
     process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
                           &best_choice, ferryboat, boattype);
   }

@@ -745,6 +745,7 @@ void init_choice(struct ai_choice *choice)
   choice->choice = A_UNSET;
   choice->want = 0;
   choice->type = CT_NONE;
+  choice->need_boat = FALSE;
 }
 
 /**************************************************************************
