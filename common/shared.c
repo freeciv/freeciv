@@ -356,7 +356,7 @@ only supply one filename at a time.
 ***************************************************************************/
 char *datafilename(char *filename)
 {
-  static char* datadir=0;
+  static const char* datadir=0;
   static char  realfile[512];
   if(!datadir) {
     if((datadir = getenv("FREECIV_DATADIR"))) {

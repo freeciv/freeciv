@@ -497,6 +497,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   }
 
   city_check_workers(pplayer,pnewcity);
+  update_map_with_city_workers(pnewcity);
   city_refresh(pnewcity);
   initialize_infrastructure_cache(pnewcity);
   send_city_info(0, pnewcity, 0);
