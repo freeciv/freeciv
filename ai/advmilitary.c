@@ -409,7 +409,6 @@ static int assess_danger(struct city *pcity)
 {
   int i;
   int danger[5];
-  Unit_Type_id utype;
   struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
   int urgency = 0;
@@ -452,83 +451,7 @@ static int assess_danger(struct city *pcity)
       boatdist = -1; /* boat wanted */
     }
 
-    /* Look for enemy cities that will complete a unit next turn */
-    city_list_iterate(aplayer->cities, acity) {
-      if (!acity->is_building_unit
-          || build_points_left(acity) > acity->shield_surplus
-	  || ai_fuzzy(pplayer, TRUE)) {
-        /* the enemy city will not complete a unit next turn */
-        continue;
-      }
-      virtualunit.owner = aplayer->player_no;
-      virtualunit.x = acity->x;
-      virtualunit.y = acity->y;
-      utype = acity->currently_building;
-      virtualunit.type = utype;
-      virtualunit.veteran = do_make_unit_veteran(acity, utype);
-      virtualunit.hp = unit_types[utype].hp;
-      /* yes, I know cloning all this code is bad form.  I don't really
-       * want to write a funct that takes nine ints by reference. 
-       * -- Syela 
-       */
-      move_rate = unit_type(funit)->move_rate;
-      vulnerability = assess_danger_unit(pcity, funit);
-      dist = assess_distance(pcity, funit, move_rate, boatid, boatdist, 
-                             boatspeed);
-      igwall = unit_really_ignores_citywalls(funit);
-      if ((is_ground_unit(funit) && vulnerability != 0) ||
-          (is_ground_units_transport(funit))) {
-        if (dist <= move_rate * 3) urgency++;
-        if (dist <= move_rate) pcity->ai.grave_danger++;
-        /* NOTE: This should actually implement grave_danger, which is 
-         * supposed to be a feedback-sensitive formula for immediate 
-         * danger.  I'm having second thoughts about the best 
-         * implementation, and therefore this will have to wait until 
-         * after 1.7.0.  I don't want to do anything I'm not totally 
-         * sure about and can't thoroughly test in the hours before
-         * the release.  The AI is in fact vulnerable to gang-attacks, 
-         * but I'm content to let it remain that way for now. -- Syela 
-         * 980805 */
-      }
-
-      if (unit_flag(funit, F_HORSE)) {
-	if (pikemen) {
-	  vulnerability /= 2;
-	} else {
-	  (void) ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				    (vulnerability * move_rate /
-				     (dist * 2)));
-	}
-      }
-
-      if (unit_flag(funit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
-        pcity->ai.diplomat_threat = TRUE;
-      }
-
-      vulnerability *= vulnerability; /* positive feedback */
-
-      if (!igwall) {
-        danger[1] += vulnerability * move_rate / dist; /* walls */
-      } else if (is_sailing_unit(funit)) {
-        danger[2] += vulnerability * move_rate / dist; /* coastal */
-      } else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) {
-        danger[3] += vulnerability * move_rate / dist; /* SAM */
-      }
-      if (unit_flag(funit, F_MISSILE)) {
-        /* SDI */
-        danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
-      }
-      if (!unit_flag(funit, F_NUCLEAR)) { 
-        /* only SDI helps against NUCLEAR */
-        vulnerability = dangerfunct(vulnerability, move_rate, dist);
-        danger[0] += vulnerability;
-        if (igwall) {
-          igwall_threat += vulnerability;
-        }
-      }
-    } city_list_iterate_end;
-
-    /* Now look for enemy units */
+    /* Look for enemy units */
     unit_list_iterate(aplayer->units, punit) {
       move_rate = unit_type(punit)->move_rate;
       vulnerability = assess_danger_unit(pcity, punit);
