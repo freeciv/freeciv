@@ -28,6 +28,7 @@
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 
@@ -783,6 +784,7 @@ static struct player *split_player(struct player *pplayer)
   free(nations_used);
   pick_ai_player_name(cplayer->nation,cplayer->name);
 
+  sz_strlcpy(cplayer->username, cplayer->name);
   cplayer->is_connected = 0;
   cplayer->conn = NULL;
   cplayer->government = game.government_when_anarchy;  

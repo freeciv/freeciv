@@ -33,6 +33,7 @@
 #include "map.h"
 #include "nation.h"
 #include "rand.h"
+#include "support.h"
 #include "tech.h"
 
 #include "civserver.h"
@@ -146,6 +147,7 @@ static struct player *create_barbarian_player(int land)
   barbarians->nation = game.nation_count-1;
   pick_ai_player_name( game.nation_count-1, barbarians->name);
 
+  sz_strlcpy(barbarians->username, barbarians->name);
   barbarians->is_connected = 0;
   barbarians->conn = NULL;
   barbarians->government = game.government_when_anarchy; 

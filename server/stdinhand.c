@@ -2951,7 +2951,8 @@ static void show_list(struct player *caller, char *arg)
 **************************************************************************/
 static void show_players(struct player *caller)
 {
-  int i;
+  char buf[512], buf2[512];
+  int i, n;
   
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of players:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
@@ -2961,50 +2962,65 @@ static void show_players(struct player *caller)
   else
   {
     for(i=0; i<game.nplayers; i++) {
-      if (is_barbarian(&game.players[i])) {
-	if (caller==NULL || access_level(caller) >= ALLOW_CTRL) {
-	  if (game.players[i].conn) {
-	    cmd_reply(CMD_LIST, caller, C_COMMENT,
-		      _("%s (Barbarian, %s) is being observed from %s"),
-		      game.players[i].name,
-		      name_of_skill_level(game.players[i].ai.skill_level),
-		      game.players[i].addr);
-	  } else {
-	    cmd_reply(CMD_LIST, caller, C_COMMENT,
-		      _("%s (Barbarian, %s)"),
-		      game.players[i].name,
-		      name_of_skill_level(game.players[i].ai.skill_level));
-	  }
-	}
+      struct player *pplayer = &game.players[i];
+
+      /* Low access level callers don't get to see barbarians in list: */
+      if (is_barbarian(pplayer) && (caller!=NULL)
+	  && (access_level(caller) < ALLOW_CTRL)) {
+	continue;
       }
-      else if (game.players[i].ai.control) {
-	if (game.players[i].conn) {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-	       _("%s (AI, difficulty level %s) is being observed from %s"),
-		game.players[i].name,
-		name_of_skill_level(game.players[i].ai.skill_level),
-		game.players[i].addr);
-	} else {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (AI, difficulty level %s) is not being observed"),
-		game.players[i].name,
-		name_of_skill_level(game.players[i].ai.skill_level));
-	}
+
+      /* buf2 contains stuff in brackets after playername:
+       * [username,] AI/Barbarian/Human [,Dead] [, skill level] [, nation]
+       */
+      buf2[0] = '\0';
+      if (strlen(pplayer->username) > 0
+	  && strcmp(pplayer->name, pplayer->username) != 0
+	  && strcmp(pplayer->username, "UserName") != 0) {
+	/* Above: old code didn't update UserName for Barbarians and
+	 * civil war leaders - old savegames may contain "UserName"...
+	 */
+	my_snprintf(buf2, sizeof(buf2), _("username %s, "), pplayer->username);
       }
-      else {
-	if (game.players[i].conn) {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (human %s, command level %s) is connected from %s"),
-		game.players[i].name,
-		game.players[i].username,
-		cmdlevel_name(access_level(&game.players[i])),
-		game.players[i].addr);
-	} else {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s is not connected"),
-		game.players[i].name);
-	}
+      
+      if (is_barbarian(pplayer)) {
+	sz_strlcat(buf2, _("Barbarian"));
+      } else if (pplayer->ai.control) {
+	sz_strlcat(buf2, _("AI"));
+      } else {
+	sz_strlcat(buf2, _("Human"));
       }
+      if (!pplayer->is_alive) {
+	sz_strlcat(buf2, _(", Dead"));
+      }
+      if(pplayer->ai.control) {
+	cat_snprintf(buf2, sizeof(buf2), _(", difficulty level %s"),
+		     name_of_skill_level(pplayer->ai.skill_level));
+      }
+      if (!game.is_new_game) {
+	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
+		     get_nation_name_plural(pplayer->nation));
+      }
+      my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
+      
+      n = conn_list_size(&pplayer->connections);
+      if (n==1) {
+	sz_strlcat(buf, _(" 1 connection:"));
+      } else if (n>1) {
+	cat_snprintf(buf, sizeof(buf), _(" %d connections:"), n);
+      }
+      cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+      
+      conn_list_iterate(pplayer->connections, pconn) {
+	my_snprintf(buf, sizeof(buf), _("  %s from %s (command level %s)"),
+		    pconn->name, pconn->addr, 
+		    cmdlevel_name(pconn->access_level));
+	if (pconn->observer) {
+	  sz_strlcat(buf, _(" (observer mode)"));
+	}
+	cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+      }
+      conn_list_iterate_end;
     }
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
@@ -3015,6 +3031,8 @@ static void show_players(struct player *caller)
 **************************************************************************/
 static void show_connections(struct player *caller)
 {
+  char buf[512];
+  
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of connections to server:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
@@ -3023,8 +3041,12 @@ static void show_connections(struct player *caller)
   }
   else {
     conn_list_iterate(game.all_connections, pconn) {
-      cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s", conn_description(pconn));
+      sz_strlcpy(buf, conn_description(pconn));
+      if (pconn->established) {
+	cat_snprintf(buf, sizeof(buf), " command level %s",
+		     cmdlevel_name(pconn->access_level));
+      }
+      cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
     }
     conn_list_iterate_end;
   }
