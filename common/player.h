@@ -22,8 +22,8 @@
 
 struct tile;
 
-#define PLAYER_DEFAULT_TAX_RATE 50
-#define PLAYER_DEFAULT_SCIENCE_RATE 50
+#define PLAYER_DEFAULT_TAX_RATE 40
+#define PLAYER_DEFAULT_SCIENCE_RATE 60
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 
 
@@ -167,6 +167,8 @@ int player_owns_active_govchange_wonder(struct player *pplayer);
 int player_knows_improvement_tech(struct player *pplayer,
 				   enum improvement_type_id id);
 int player_knows_techs_with_flag(struct player *pplayer, int flag);
+
+void player_limit_to_government_rates(struct player *pplayer);
 
 struct city *find_palace(struct player *pplayer);
 

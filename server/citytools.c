@@ -786,6 +786,8 @@ static struct player *split_player(struct player *pplayer)
   pplayer->turn_done = 1; /* Have other things to think about - paralysis*/
   pplayer->embassy = 0; /* all embassys destroyed */
 
+  player_limit_to_government_rates(pplayer);
+
   /* copy the maps */
 
   give_map_from_player_to_player(pplayer, cplayer);

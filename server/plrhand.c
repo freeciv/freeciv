@@ -1662,9 +1662,16 @@ void handle_player_government(struct player *pplayer,
           get_nation_name_plural(pplayer->nation),
           get_government_name(preq->government));
 
-  if (!pplayer->ai.control)
-     check_player_government_rates(pplayer);
-  
+  if (!pplayer->ai.control) {
+    /* Keep luxuries if we have any.  Try to max out science. -GJW */
+    pplayer->economic.science = MIN (100 - pplayer->economic.luxury,
+				     get_government_max_rate (pplayer->government));
+    pplayer->economic.tax = 100 - (pplayer->economic.luxury +
+				   pplayer->economic.science);
+  }
+
+  check_player_government_rates(pplayer);
+
   send_player_info(pplayer, pplayer);
 }
 
@@ -1685,8 +1692,7 @@ void handle_player_revolution(struct player *pplayer)
   gamelog(GAMELOG_REVOLT,"The %s revolt!",
                 get_nation_name_plural(pplayer->nation));
 
-  if (!pplayer->ai.control)
-     check_player_government_rates(pplayer);
+  check_player_government_rates(pplayer);
 
   send_player_info(pplayer, pplayer);
   if (player_owns_active_govchange_wonder(pplayer))
@@ -1696,55 +1702,39 @@ void handle_player_revolution(struct player *pplayer)
 /**************************************************************************
 The following checks that government rates are acceptable for the present
 form of government. Has to be called when switching governments or when
-toggling from AI to human. If a rate exceeds maxrate for this government,
-it adjusts rates automatically adding the extra to the 2nd highest rate.
-(It assumes that for any government maxrate>=50)
+toggling from AI to human.
 **************************************************************************/
-
 void check_player_government_rates(struct player *pplayer)
 {
-  int maxrate, surplus=0;
+  struct player_economic old_econ = pplayer->economic;
+  int changed = FALSE;
 
-  maxrate = get_government_max_rate(pplayer->government);
-  if (pplayer->economic.tax > maxrate) {
-      surplus = pplayer->economic.tax - maxrate;
-      pplayer->economic.tax = maxrate;
-      if (pplayer->economic.science > pplayer->economic.luxury)
-         pplayer->economic.science += surplus;
-      else
-         pplayer->economic.luxury += surplus;
-      notify_player(pplayer,
-             _("Game: Tax rate exceeded the max rate for %s; adjusted."), 
-                    get_government_name(pplayer->government));
+  player_limit_to_government_rates(pplayer);
+
+  if (pplayer->economic.tax != old_econ.tax) {
+    changed = TRUE;
+    notify_player(pplayer,
+		  _("Game: Tax rate exceeded the max rate for %s; adjusted."), 
+		  get_government_name(pplayer->government));
   }
-  if (pplayer->economic.science > maxrate) {
-      surplus = pplayer->economic.science - maxrate;
-      pplayer->economic.science = maxrate;
-      if (pplayer->economic.tax > pplayer->economic.luxury)
-         pplayer->economic.tax += surplus;
-      else
-         pplayer->economic.luxury += surplus;
-      notify_player(pplayer,
-             _("Game: Science rate exceeded the max rate for %s; adjusted."), 
-                    get_government_name(pplayer->government));
+  if (pplayer->economic.science != old_econ.science) {
+    changed = TRUE;
+    notify_player(pplayer,
+		  _("Game: Science rate exceeded the max rate for %s; adjusted."), 
+		  get_government_name(pplayer->government));
   }
-  if (pplayer->economic.luxury > maxrate) {
-      surplus = pplayer->economic.luxury - maxrate;
-      pplayer->economic.luxury = maxrate;
-      if (pplayer->economic.tax > pplayer->economic.science)
-         pplayer->economic.tax += surplus;
-      else
-         pplayer->economic.science += surplus;
-      notify_player(pplayer,
-             _("Game: Luxury rate exceeded the max rate for %s; adjusted."), 
-                    get_government_name(pplayer->government));
+  if (pplayer->economic.luxury != old_econ.luxury) {
+    changed = TRUE;
+    notify_player(pplayer,
+		  _("Game: Luxury rate exceeded the max rate for %s; adjusted."), 
+		  get_government_name(pplayer->government));
   }
 
-  if (surplus)
-      gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i",
-              get_nation_name_plural(pplayer->nation), pplayer->economic.tax,
-              pplayer->economic.luxury, pplayer->economic.science);
-
+  if (changed) {
+    gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i",
+	    get_nation_name_plural(pplayer->nation), pplayer->economic.tax,
+	    pplayer->economic.luxury, pplayer->economic.science);
+  }
 }
 
 /**************************************************************************
