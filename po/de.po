@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-05-17 16:36+0200\n"
+"POT-Creation-Date: 2002-05-18 00:38+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -984,18 +984,16 @@ msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tZeigt diesen Text\n"
 
 #: server/civserver.c:140
-#, fuzzy
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
-msgstr "  -m, --meta\t\tMetaserver benutzen\n"
+msgstr "  -i, --info INFO\tZusätzliche Infos für den Metaserver\n"
 
 #: client/civclient.c:134 server/civserver.c:141
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
 
 #: server/civserver.c:142
-#, fuzzy
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
-msgstr "  -m, --meta\t\tMetaserver benutzen\n"
+msgstr "  -m, --meta\t\tMetaserver verständigen und Serverinfo senden\n"
 
 #: server/civserver.c:143
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
@@ -5298,12 +5296,12 @@ msgid "?filler:XXX/XXX XXX turns"
 msgstr "XXX/XXX XXX Runden"
 
 #: client/citydlg_common.c:123
-#, c-format
+#, c-format, ycp-format
 msgid "%3d gold per turn"
 msgstr "%3d Goldstücke pro Runde"
 
 #: client/citydlg_common.c:133
-#, c-format
+#, c-format, ycp-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "1 Runde"
@@ -5660,7 +5658,7 @@ msgstr ""
 "Ankunftsjahr:               1234 AD"
 
 #: client/climisc.c:1112
-#, c-format
+#, c-format, ycp-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisezeit:       %5.1f Jahre"
 
@@ -5669,7 +5667,7 @@ msgid "Travel time:        N/A     "
 msgstr "Reisezeit:          ?       "
 
 #: client/climisc.c:1127
-#, c-format
+#, c-format, ycp-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Gewicht:           %5d t"
@@ -5935,7 +5933,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:694
-#, c-format
+#, c-format, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -9388,7 +9386,7 @@ msgstr "Ausverkauf:"
 
 #: client/gui-gtk/repodlgs.c:757 client/gui-mui/repodlgs.c:638
 #: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:815
-#, c-format
+#, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -10383,7 +10381,7 @@ msgid "_Launch"
 msgstr "_Start"
 
 #: client/gui-mui/spaceshipdlg.c:264
-#, c-format
+#, c-format, ycp-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -10452,7 +10450,7 @@ msgid "Name of Worklist"
 msgstr "Name der Arbeitsliste"
 
 #: client/gui-win32/citydlg.c:370
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -10728,7 +10726,7 @@ msgid "Totals"
 msgstr "Kosten gesamt"
 
 #: client/gui-xaw/citydlg.c:195
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -10773,7 +10771,7 @@ msgid "These trade routes have been established with %s:\n"
 msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
-#, c-format
+#, c-format, ycp-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -10983,7 +10981,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1130
-#, c-format
+#, c-format, ycp-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
@@ -17102,31 +17100,3 @@ msgstr "zuluanisch"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
-
-#~ msgid "Could not find readable file \"%s\" in data path."
-#~ msgstr "Die Datei '%s' wurde nicht gefunden."
-
-#~ msgid "  -s, --server HOST\tList this server as host HOST\n"
-#~ msgstr "  -s, --server HOST\tZeige diesen Server als HOST an\n"
-
-#~ msgid "The map has %i starting positions on %i isles."
-#~ msgstr "Die Karte hat %i Startpositionen auf %i Inseln."
-
-#~ msgid "Trying to load file from default ruleset directory instead."
-#~ msgstr "Versuche die Datei aus dem normalen ruleset Verzeichnis zu laden."
-
-#~ msgid ""
-#~ "Reduced maxplayers from %i to %i to fit to the number of start positions."
-#~ msgstr ""
-#~ "Max. Anzahl der Spieler von %i auf %i reduziert, damit es mit der Anzahl "
-#~ "der Startpositionen übereinstimmt."
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid ""
-#~ "Had to cut down the number of players to the number of map start "
-#~ "positions, there must be something wrong with the savegame or you "
-#~ "adjusted the maxplayers value."
-#~ msgstr ""
-#~ "Had to cut down the number of players to the number of map start "
-#~ "positions, there must be something wrong with the savegame or you "
-#~ "adjusted the maxplayers value."
