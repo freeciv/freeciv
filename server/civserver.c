@@ -56,6 +56,7 @@
 
 void show_ending();
 void end_game();
+void before_end_year(); /* main() belongs at the bottom of files!! -- Syela */
 int end_turn();
 void start_new_game(void);
 void init_new_game(void);
@@ -353,6 +354,7 @@ int main(int argc, char *argv[])
 /* printf("Autosettlers\n"); */
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
 /* moved after sniff_packets for even more efficiency.  What a guy I am. -- Syela */
+    before_end_year(); /* resetting David P's message window -- Syela */
 /* and now, we must manage our remaining units BEFORE the cities that are
 empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
@@ -612,7 +614,6 @@ void ai_start_turn()
 int end_turn()
 {
   int i;
-  before_end_year();
   nocity_send = 1;
 
   for(i=0; i<game.nplayers; i++) {
