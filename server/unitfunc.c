@@ -764,8 +764,18 @@ void player_restore_units(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     unit_restore_hitpoints(pplayer, punit);
     unit_restore_movepoints(pplayer, punit);
-    
-    if(is_air_unit(punit)) {
+
+    if(is_heli_unit(punit) && punit->hp<=0) {
+      send_remove_unit(0, punit->id);
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
+		       "Game: Your %s has run out of fuel",
+		       unit_name(punit->type));
+      gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
+	      get_race_name_plural(pplayer->race),
+	      unit_name(punit->type));
+      wipe_unit(0, punit);
+    }
+    else if(is_air_unit(punit)) {
       punit->fuel--;
       if(map_get_city(punit->x, punit->y))
 	punit->fuel=get_unit_type(punit->type)->fuel;
