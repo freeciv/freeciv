@@ -153,7 +153,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
   }
 
-  freelog(LOG_NORMAL, "%s rates: Sci %d Lux%d Tax %d NetIncome %d",
+  freelog(LOG_DEBUG, "%s rates: Sci %d Lux%d Tax %d NetIncome %d",
           pplayer->name, pplayer->economic.science,
           pplayer->economic.luxury, pplayer->economic.tax,
           player_get_expected_income(pplayer));
