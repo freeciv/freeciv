@@ -192,7 +192,7 @@ void reset_move_costs(int x, int y);
 
 #define map_adjust_x(X)            \
   ((X) < 0                         \
-   ? ((X) % map.xsize != 0 ? (X) % map.xsize + map.xsize : 0)
+   ? ((X) % map.xsize != 0 ? (X) % map.xsize + map.xsize : 0) \
    : ((X) >= map.xsize             \
       ? (X) % map.xsize            \
       : (X)))
