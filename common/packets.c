@@ -158,7 +158,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 {
   int len, type;
 
-  if(pc->buffer.ndata<4)
+  if(pc->buffer.ndata<3)
     return NULL;           /* length and type not read */
 
   get_uint16(pc->buffer.data, &len);
@@ -179,12 +179,15 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 
   if(pc->byte_swap) {
     len = swab_uint16(len);
-    /* so the packet gets processed (removed etc) properly: */
-    put_uint16(pc->buffer.data, len);
   }
 
   if(len > pc->buffer.ndata)
     return NULL;           /* not all data has been read */
+
+  /* so the packet gets processed (removed etc) properly: */
+  if(pc->byte_swap) {
+    put_uint16(pc->buffer.data, len);
+  }
 
   freelog(LOG_DEBUG, "packet type %d len %d", type, len);
 
