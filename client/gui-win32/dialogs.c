@@ -511,8 +511,8 @@ void popup_races_dialog(void)
   grp_box=fcwin_vbox_new(races_dlg,FALSE);  
   fcwin_box_add_groupbox(vbox,_("Your leader name"),grp_box,
 			 0,FALSE,FALSE,5);
-  fcwin_box_add_combo(grp_box,10,ID_RACESDLG_LEADER,CBS_DROPDOWN,
-		      FALSE,FALSE,0);
+  fcwin_box_add_combo(grp_box, 10, ID_RACESDLG_LEADER, CBS_DROPDOWN
+		      | WS_VSCROLL, FALSE, FALSE, 0);
   grp_box=fcwin_hbox_new(races_dlg,TRUE);
   fcwin_box_add_groupbox(vbox,_("Select your sex"),grp_box,WS_GROUP,
 			 FALSE,FALSE,5);
