@@ -33,6 +33,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "diplodlg.h"
 #include "gui_stuff.h"
@@ -236,10 +237,10 @@ void update_players_dialog(void)
 
       /* assemble the whole lot */
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-	      "%-16s %-12s    %c     %-15s %-13s %-6s   %-15s%s", 
+	      "%-16s %-12s %-8s   %-15s %-13s %-6s   %-15s%s", 
 	      namebuf,
 	      get_nation_name(game.players[i].nation), 
-	      player_has_embassy(game.player_ptr, &game.players[i]) ? 'X':' ',
+	      get_embassy_status(game.player_ptr, &game.players[i]),
 	      dsbuf,
 	      repbuf,
 	      statebuf,

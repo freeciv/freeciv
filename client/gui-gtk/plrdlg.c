@@ -29,6 +29,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
@@ -235,7 +236,7 @@ void update_players_dialog(void)
       /* assemble the whole lot */
       row[0] = namebuf;
       row[1] = get_nation_name(game.players[i].nation);
-      row[2] = player_has_embassy(game.player_ptr, &game.players[i]) ? "X":" ";
+      row[2] = get_embassy_status(game.player_ptr, &game.players[i]);
       row[3] = dsbuf;
       row[4] = repbuf;
       row[5] = statebuf;

@@ -344,6 +344,22 @@ void format_duration(char *buffer, int buffer_size, int duration)
     my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
 }
 
+/***************************************************************************
+Return a string indicating one nation's embassy status with another
+***************************************************************************/
+char *get_embassy_status(struct player *me, struct player *them)
+{
+  if (player_has_embassy(me, them)) {
+    if (player_has_embassy(them, me))
+      return Q_("?embassy:Both");
+    else
+      return Q_("?embassy:Yes");
+  } else if (player_has_embassy(them, me))
+    return Q_("?embassy:With Us");
+  else
+    return "";
+}
+
 /**************************************************************************
 Copy a string that describes the given clause into the return buffer.
 **************************************************************************/
