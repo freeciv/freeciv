@@ -594,6 +594,10 @@ void be_write_osda_to_file(struct osda *osda, const char *filename)
 
   file = fopen(filename, "w");
 
+  fprintf(file, "P6\n");
+  fprintf(file, "%d %d\n", osda->image->width, osda->image->height);
+  fprintf(file, "255\n");
+
   for (y = 0; y < osda->image->height; y++) {
     pout = line_buffer;
 
