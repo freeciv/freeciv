@@ -14,24 +14,23 @@ Freeciv*borderColor:                         black
 !Freeciv*server:                              localhost
 !Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
 
-
 !
 ! Default colors, by widget type
 !
-Freeciv*Command.foreground: White
-Freeciv*Command.background: Blue
+Freeciv*Command.foreground:Black
+Freeciv*Command.background: gray84
 
 Freeciv*MenuButton.foreground: White
-Freeciv*MenuButton.background: Blue
+Freeciv*MenuButton.background: gray84
 
 Freeciv*Label.foreground: Black
-Freeciv*Label.background: Gray
+Freeciv*Label.background: gray84
 
 Freeciv*Form.foreground: Black
-Freeciv*Form.background: LightBlue
+Freeciv*Form.background: gray84
 
 Freeciv*List.foreground: Black
-Freeciv*List.background: Cyan
+Freeciv*List.background: gray
 
 Freeciv*Text*foreground: Black
 Freeciv*Text*background: White
@@ -51,7 +50,10 @@ Freeciv*Canvas.foreground: White
 Freeciv*Canvas.background: Black
 
 Freeciv*Pixcomm.foreground: Black
-Freeciv*Pixcomm.background: White
+Freeciv*Pixcomm.background: gray84
+
+! menus
+
 
 ! The pixcomm widget does not look good with 3d borders
 Freeciv*Pixcomm.shadowWidth: 0
@@ -155,8 +157,8 @@ Freeciv*metadialog.*.closecommand.fromHoriz:	  update
 !
 Freeciv*intelpopup.title:                    _("Foreign Intelligence Report")
 
-Freeciv*inteltitlelabel.background:          lightblue
-Freeciv*inteltitlelabel.borderColor:         lightblue
+Freeciv*inteltitlelabel.background:          gray84
+Freeciv*inteltitlelabel.borderColor:         gray84
 
 Freeciv*intelnamelabel.fromVert:             inteltitlelabel
 Freeciv*intelnamelabel.background:           grey
@@ -199,7 +201,7 @@ Freeciv*intelclosecommand.fromVert:          inteltechlist
 !
 ! tile info popup dialog
 !
-Freeciv*popupinfo.*.background:                  grey
+Freeciv*popupinfo.*.background:                  gray84
 Freeciv*popupinfo.*.foreground:                  black
 Freeciv*popupinfo.*.borderWidth:                 3
 
@@ -207,7 +209,7 @@ Freeciv*popupinfo.*.borderWidth:                 3
 !
 ! generic message dialog
 !
-Freeciv*dlabel.background: lightblue
+Freeciv*dlabel.background: gray84
 
 
 !
@@ -215,8 +217,8 @@ Freeciv*dlabel.background: lightblue
 !
 Freeciv*iform.borderWidth: 0
 Freeciv*iform.ilabel.borderWidth: 0
-Freeciv*iform.background: lightblue
-Freeciv*iform.ilabel.background: lightblue
+Freeciv*iform.background: gray84
+Freeciv*iform.ilabel.background: gray84
 Freeciv*iinput.translations:	#override \
 		<Key>Return: key-dialog-input-ok()
 
@@ -226,22 +228,22 @@ Freeciv*iinput.translations:	#override \
 !
 Freeciv*dippopupshell.title: _("Diplomacy meeting")
 Freeciv*dippopupshell.allowShellResize: True
-Freeciv*dipform.background:              lightblue
+Freeciv*dipform.background:              gray84
 Freeciv*dipform.resizable:               true
-Freeciv*dipform0.background:             grey
+Freeciv*dipform0.background:             gray
 Freeciv*dipform0.resizable:              true
 Freeciv*dipform0.bottom:                 chainBottom
 Freeciv*dipformm.fromHoriz:              dipform0
-Freeciv*dipformm.background:             grey
+Freeciv*dipformm.background:             gray
 Freeciv*dipformm.foreground:             black
 Freeciv*dipformm.bottom:                 chainBottom
 Freeciv*dipform1.fromHoriz:              dipformm
-Freeciv*dipform1.background:             grey
+Freeciv*dipform1.background:             gray
 Freeciv*dipform1.resizable:              true
 Freeciv*dipform1.bottom:                 chainBottom
 Freeciv*dipform1.right:                  chainRight
 
-Freeciv*dipmainform.background:          lightblue
+Freeciv*dipmainform.background:          gray84
 Freeciv*dipmainform.resizable:           true
 Freeciv*dipmainform.bottom:              chainBottom
 Freeciv*dipmainform.right:               chainRight
@@ -250,16 +252,16 @@ Freeciv*dipheadline0.top:                chainTop
 Freeciv*dipheadline0.bottom:             chainTop
 Freeciv*dipheadline0.left:               chainLeft
 Freeciv*dipheadline0.right:              chainRight
-Freeciv*dipheadline0.background:         grey
+Freeciv*dipheadline0.background:         gray
 
 Freeciv*dipheadline1.top:                chainTop
 Freeciv*dipheadline1.bottom:             chainTop
 Freeciv*dipheadline1.left:               chainLeft
 Freeciv*dipheadline1.right:              chainRight
-Freeciv*dipheadline1.background:         grey
+Freeciv*dipheadline1.background:         gray
 
 Freeciv*dipheadlinem.borderWidth:        0
-Freeciv*dipheadlinem.background:         grey
+Freeciv*dipheadlinem.background:         gray
 Freeciv*dipheadlinem.foreground:         black
 Freeciv*dipheadlinem.justify:            center
 Freeciv*dipheadlinem.top:                chainTop
@@ -268,7 +270,7 @@ Freeciv*dipheadlinem.bottom:             chainTop
 Freeciv*dipclauselabel.label: _("The following clauses have been agreed upon:")
 Freeciv*dipclauselabel.fromVert:         dipheadlinem
 Freeciv*dipclauselabel.borderWidth:      0
-Freeciv*dipclauselabel.background:       lightblue
+Freeciv*dipclauselabel.background:       gray
 Freeciv*dipclauselabel.foreground:       black
 Freeciv*dipclauselabel.top:              chainTop
 Freeciv*dipclauselabel.bottom:           chainTop
@@ -281,7 +283,7 @@ Freeciv*dipview.top:                     chainTop
 Freeciv*dipview.bottom:                  chainBottom
 Freeciv*dipview.right:                   chainRight
 
-Freeciv*dipclauselist.background:        cyan
+Freeciv*dipclauselist.background:        white
 Freeciv*dipclauselist.foreground:        black
 Freeciv*dipclauselist.defaultColumns:    1
 Freeciv*dipclauselist.forceColumns:      true
@@ -289,7 +291,7 @@ Freeciv*dipclauselist.forceColumns:      true
 ! Freeciv*dipacceptlabel0.label:            Babylonian view:
 Freeciv*dipacceptlabel0.fromVert:         dipview
 Freeciv*dipacceptlabel0.borderWidth:      0
-Freeciv*dipacceptlabel0.background:       lightblue
+Freeciv*dipacceptlabel0.background:       gray
 Freeciv*dipacceptlabel0.foreground:       black
 Freeciv*dipacceptlabel0.top:              chainBottom
 Freeciv*dipacceptlabel0.bottom:           chainBottom
@@ -307,7 +309,7 @@ Freeciv*dipacceptthumb0.bottom:           chainBottom
 Freeciv*dipacceptlabel1.fromHoriz:        dipacceptthumb0
 Freeciv*dipacceptlabel1.fromVert:         dipview
 Freeciv*dipacceptlabel1.borderWidth:      0
-Freeciv*dipacceptlabel1.background:       lightblue
+Freeciv*dipacceptlabel1.background:       gray
 Freeciv*dipacceptlabel1.foreground:       black
 Freeciv*dipacceptlabel1.top:              chainBottom
 Freeciv*dipacceptlabel1.bottom:           chainBottom
@@ -324,14 +326,14 @@ Freeciv*dipacceptthumb1.bottom:           chainBottom
 Freeciv*diperaseclausecommand.label:      _("Erase clause")
 Freeciv*diperaseclausecommand.fromVert:   dipformm
 Freeciv*diperaseclausecommand.fromHoriz:  dipform0
-Freeciv*diperaseclausecommand.foreground: white
-Freeciv*diperaseclausecommand.background: blue
+Freeciv*diperaseclausecommand.foreground: black
+Freeciv*diperaseclausecommand.background: gray84
 Freeciv*diperaseclausecommand.top:	  chainBottom
 Freeciv*diperaseclausecommand.bottom:	  chainBottom
 
 Freeciv*dipmapmenubutton0.label:             _("Maps")
-Freeciv*dipmapmenubutton0.foreground:        white
-Freeciv*dipmapmenubutton0.background:        blue
+Freeciv*dipmapmenubutton0.foreground:        black
+Freeciv*dipmapmenubutton0.background:        gray84
 Freeciv*dipmapmenubutton0.fromVert:          dipheadline0
 Freeciv*dipmapmenubutton0.top:               chainTop
 Freeciv*dipmapmenubutton0.bottom:            chainTop
@@ -339,8 +341,8 @@ Freeciv*dipmapmenubutton0.left:              chainLeft
 Freeciv*dipmapmenubutton0.right:             chainLeft
 
 Freeciv*dipmapmenubutton1.label:             _("Maps")
-Freeciv*dipmapmenubutton1.foreground:        white
-Freeciv*dipmapmenubutton1.background:        blue
+Freeciv*dipmapmenubutton1.foreground:        black
+Freeciv*dipmapmenubutton1.background:        gray84
 Freeciv*dipmapmenubutton1.fromVert:          dipheadline1
 Freeciv*dipmapmenubutton1.top:               chainTop
 Freeciv*dipmapmenubutton1.bottom:            chainTop
@@ -349,8 +351,8 @@ Freeciv*dipmapmenubutton1.right:             chainLeft
 
 Freeciv*diptechmenubutton0.label:         _("Advances")
 Freeciv*diptechmenubutton0.fromVert:      dipmapmenubutton0
-Freeciv*diptechmenubutton0.foreground:    white
-Freeciv*diptechmenubutton0.background:    blue
+Freeciv*diptechmenubutton0.foreground:    black
+Freeciv*diptechmenubutton0.background:    gray84
 Freeciv*diptechmenubutton0.top:           chainTop
 Freeciv*diptechmenubutton0.bottom:        chainTop
 Freeciv*diptechmenubutton0.left:          chainLeft
@@ -358,8 +360,8 @@ Freeciv*diptechmenubutton0.right:         chainLeft
 
 Freeciv*diptechmenubutton1.label:         _("Advances")
 Freeciv*diptechmenubutton1.fromVert:      dipmapmenubutton1
-Freeciv*diptechmenubutton1.foreground:    white
-Freeciv*diptechmenubutton1.background:    blue
+Freeciv*diptechmenubutton1.foreground:    black
+Freeciv*diptechmenubutton1.background:    gray84
 Freeciv*diptechmenubutton1.top:           chainTop
 Freeciv*diptechmenubutton1.bottom:        chainTop
 Freeciv*diptechmenubutton1.left:          chainLeft
@@ -367,8 +369,8 @@ Freeciv*diptechmenubutton1.right:         chainLeft
 
 Freeciv*dipcitymenubutton0.label:         _("Cities")
 Freeciv*dipcitymenubutton0.fromVert:      diptechmenubutton0
-Freeciv*dipcitymenubutton0.foreground:    white
-Freeciv*dipcitymenubutton0.background:    blue
+Freeciv*dipcitymenubutton0.foreground:    black
+Freeciv*dipcitymenubutton0.background:    gray84
 Freeciv*dipcitymenubutton0.top:           chainTop
 Freeciv*dipcitymenubutton0.bottom:        chainTop
 Freeciv*dipcitymenubutton0.left:          chainLeft
@@ -376,8 +378,8 @@ Freeciv*dipcitymenubutton0.right:         chainLeft
 
 Freeciv*dipcitymenubutton1.label:         _("Cities")
 Freeciv*dipcitymenubutton1.fromVert:      diptechmenubutton1
-Freeciv*dipcitymenubutton1.foreground:    white
-Freeciv*dipcitymenubutton1.background:    blue
+Freeciv*dipcitymenubutton1.foreground:    black
+Freeciv*dipcitymenubutton1.background:    gray84
 Freeciv*dipcitymenubutton1.top:           chainTop
 Freeciv*dipcitymenubutton1.bottom:        chainTop
 Freeciv*dipcitymenubutton1.left:          chainLeft
@@ -409,7 +411,7 @@ Freeciv*dipgoldinput1.translations:	#override \
 
 ! Freeciv*dipgoldlabel0.label:             Gold(max 100)
 Freeciv*dipgoldlabel0.borderWidth:       0
-Freeciv*dipgoldlabel0.background:        lightblue
+Freeciv*dipgoldlabel0.background:        gray
 Freeciv*dipgoldlabel0.foreground:        black
 Freeciv*dipgoldlabel0.fromHoriz:         dipgoldinput0
 Freeciv*dipgoldlabel0.fromVert:          dipcitymenubutton0
@@ -420,7 +422,7 @@ Freeciv*dipgoldlabel0.right:             chainLeft
 
 ! Freeciv*dipgoldlabel1.label:             Gold(max 9999)
 Freeciv*dipgoldlabel1.borderWidth:       0
-Freeciv*dipgoldlabel1.background:        lightblue
+Freeciv*dipgoldlabel1.background:        gray
 Freeciv*dipgoldlabel1.foreground:        black
 Freeciv*dipgoldlabel1.fromHoriz:         dipgoldinput1
 Freeciv*dipgoldlabel1.fromVert:          dipcitymenubutton1
@@ -431,8 +433,8 @@ Freeciv*dipgoldlabel1.right:             chainLeft
 
 Freeciv*dipvisionbutton0.label:         _("Shared vision")
 Freeciv*dipvisionbutton0.fromVert:      dipgoldlabel0
-Freeciv*dipvisionbutton0.foreground:    white
-Freeciv*dipvisionbutton0.background:    blue
+Freeciv*dipvisionbutton0.foreground:    black
+Freeciv*dipvisionbutton0.background:    gray84
 Freeciv*dipvisionbutton0.top:           chainTop
 Freeciv*dipvisionbutton0.bottom:        chainTop
 Freeciv*dipvisionbutton0.left:          chainLeft
@@ -440,8 +442,8 @@ Freeciv*dipvisionbutton0.right:         chainLeft
 
 Freeciv*dipvisionbutton1.label:         _("Shared vision")
 Freeciv*dipvisionbutton1.fromVert:      dipgoldlabel1
-Freeciv*dipvisionbutton1.foreground:    white
-Freeciv*dipvisionbutton1.background:    blue
+Freeciv*dipvisionbutton1.foreground:    black
+Freeciv*dipvisionbutton1.background:    gray84
 Freeciv*dipvisionbutton1.top:           chainTop
 Freeciv*dipvisionbutton1.bottom:        chainTop
 Freeciv*dipvisionbutton1.left:          chainLeft
@@ -449,8 +451,8 @@ Freeciv*dipvisionbutton1.right:         chainLeft
 
 Freeciv*dippactmenubutton.label:         _("Pacts")
 Freeciv*dippactmenubutton.fromVert:      dipvisionbutton0
-Freeciv*dippactmenubutton.foreground:    white
-Freeciv*dippactmenubutton.background:    blue
+Freeciv*dippactmenubutton.foreground:    black
+Freeciv*dippactmenubutton.background:    gray84
 Freeciv*dippactmenubutton.top:           chainTop
 Freeciv*dippactmenubutton.bottom:        chainTop
 Freeciv*dippactmenubutton.left:          chainLeft
@@ -458,8 +460,8 @@ Freeciv*dippactmenubutton.right:         chainLeft
 
 Freeciv*dipacceptcommand.label:          _("Accept treaty")
 Freeciv*dipacceptcommand.fromVert:       dipmainform
-Freeciv*dipacceptcommand.foreground:     white
-Freeciv*dipacceptcommand.background:     blue
+Freeciv*dipacceptcommand.foreground:     black
+Freeciv*dipacceptcommand.background:     gray84
 Freeciv*dipacceptcommand.top:		 chainBottom
 Freeciv*dipacceptcommand.bottom:	 chainBottom
 Freeciv*dipacceptcommand.left:		 chainLeft
@@ -468,8 +470,8 @@ Freeciv*dipacceptcommand.right:		 chainLeft
 Freeciv*dipclosecommand.label:           _("Cancel meeting")
 Freeciv*dipclosecommand.fromVert:        dipmainform
 Freeciv*dipclosecommand.fromHoriz:       dipacceptcommand
-Freeciv*dipclosecommand.foreground:      white
-Freeciv*dipclosecommand.background:      blue
+Freeciv*dipclosecommand.foreground:      black
+Freeciv*dipclosecommand.background:      gray84
 Freeciv*dipclosecommand.top:		 chainBottom
 Freeciv*dipclosecommand.bottom:		 chainBottom
 Freeciv*dipclosecommand.left:		 chainLeft
@@ -478,7 +480,7 @@ Freeciv*dipclosecommand.right:		 chainLeft
 !
 ! notify dialogs
 !
-Freeciv*notifyform.background:  lightblue
+Freeciv*notifyform.background:  gray84
 
 Freeciv*notifyheadline.background:   grey
 Freeciv*notifyheadline.foreground:   black
@@ -493,7 +495,7 @@ Freeciv*notifylabel.top:          chainTop
 Freeciv*notifylabel.bottom:       chainTop
 Freeciv*notifylabel.left:         chainLeft
 Freeciv*notifylabel.right:        chainLeft
-Freeciv*notifylabel.background:   lightblue
+Freeciv*notifylabel.background:   white
 
 Freeciv*notifycommand.fromVert:   notifylabel
 Freeciv*notifycommand.label:      _("Close")
@@ -511,21 +513,6 @@ Freeciv*notifygotocommand.left:       chainleft
 Freeciv*notifygotocommand.right:      chainLeft
 
 !
-! new city name dialog
-!
-Freeciv*shellnewcityname.title: _("Build New City")
-Freeciv*shellnewcityname*ilable.background: LightBlue
-Freeciv*shellnewcityname*iinput.width: 220
-
-
-!
-! rename city dialog
-!
-Freeciv*shellrenamecity.title: _("Rename City")
-Freeciv*shellrenamecity*ilable.background: LightBlue
-Freeciv*shellrenamecity*iinput.width: 220
-
-!
 ! unit select dialog
 !
 Freeciv*unitselectdialogshell.title: _("Select Unit(s)")
@@ -538,8 +525,8 @@ Freeciv*unitselectform*column.borderWidth: 0
 
 Freeciv*unitselectform*unitselectcommands.internalWidth: 2
 Freeciv*unitselectform*unitselectcommands.internalHeight: 2
-Freeciv*unitselectform*unitselectcommands.background: lightblue
-Freeciv*unitselectform*unitselectlabels.background: lightblue
+Freeciv*unitselectform*unitselectcommands.background: gray84
+Freeciv*unitselectform*unitselectlabels.background: gray84
 Freeciv*unitselectform*unitselectlabels.borderWidth: 0
 
 
@@ -613,7 +600,7 @@ Freeciv*helpdialog.*.helpimprcost.top: chainTop
 Freeciv*helpdialog.*.helpimprcost.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprcostdata.label: 111\ 
-Freeciv*helpdialog.*.helpimprcostdata.background: lightblue
+Freeciv*helpdialog.*.helpimprcostdata.background: gray84
 Freeciv*helpdialog.*.helpimprcostdata.fromVert: helptext
 Freeciv*helpdialog.*.helpimprcostdata.fromHoriz: helpimprcost
 Freeciv*helpdialog.*.helpimprcostdata.borderWidth: 0
@@ -632,7 +619,7 @@ Freeciv*helpdialog.*.helpimprupkeep.top: chainTop
 Freeciv*helpdialog.*.helpimprupkeep.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprupkeepdata.label: 11\ 
-Freeciv*helpdialog.*.helpimprupkeepdata.background: lightblue
+Freeciv*helpdialog.*.helpimprupkeepdata.background: gray84
 Freeciv*helpdialog.*.helpimprupkeepdata.fromVert: helptext
 Freeciv*helpdialog.*.helpimprupkeepdata.fromHoriz: helpimprupkeep
 Freeciv*helpdialog.*.helpimprupkeepdata.borderWidth: 0
@@ -644,7 +631,7 @@ Freeciv*helpdialog.*.helpimprupkeepdata.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprvariant.label: _("Variant:")
 Freeciv*helpdialog.*.helpimprvariant.foreground: black
-Freeciv*helpdialog.*.helpimprvariant.background: grey
+Freeciv*helpdialog.*.helpimprvariant.background: gray84
 Freeciv*helpdialog.*.helpimprvariant.fromVert: helptext
 Freeciv*helpdialog.*.helpimprvariant.fromHoriz: helpimprupkeepdata
 Freeciv*helpdialog.*.helpimprvariant.left: chainLeft
@@ -654,7 +641,7 @@ Freeciv*helpdialog.*.helpimprvariant.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprvariantdata.label: 111\ 
 Freeciv*helpdialog.*.helpimprvariantdata.foreground: black
-Freeciv*helpdialog.*.helpimprvariantdata.background: lightblue
+Freeciv*helpdialog.*.helpimprvariantdata.background: gray84
 Freeciv*helpdialog.*.helpimprvariantdata.fromVert: helptext
 Freeciv*helpdialog.*.helpimprvariantdata.fromHoriz: helpimprvariant
 Freeciv*helpdialog.*.helpimprvariantdata.borderWidth: 0
@@ -672,7 +659,7 @@ Freeciv*helpdialog.*.helpimprreq.top: chainTop
 Freeciv*helpdialog.*.helpimprreq.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprreqdata.label: Genetic Engineering
-Freeciv*helpdialog.*.helpimprreqdata.background: lightblue
+Freeciv*helpdialog.*.helpimprreqdata.background: gray84
 Freeciv*helpdialog.*.helpimprreqdata.fromVert: helpimprcost
 Freeciv*helpdialog.*.helpimprreqdata.fromHoriz: helpimprreq
 Freeciv*helpdialog.*.helpimprreqdata.borderWidth: 0
@@ -694,7 +681,7 @@ Freeciv*helpdialog.*.helptreeviewport.*.background: grey
 
 Freeciv*helpdialog.*.helptree.gravity: east
 Freeciv*helpdialog.*.helptree.foreground: black
-Freeciv*helpdialog.*.helptree.background: lightblue
+Freeciv*helpdialog.*.helptree.background: gray84
 Freeciv*helpdialog.*.helptree.borderWidth: 0
 Freeciv*helpdialog.*.helptree.bottom: chainBottom
 Freeciv*helpdialog.*.helptree.top:    chainTop
@@ -711,7 +698,7 @@ Freeciv*helpdialog.*.helpwonderobsolete.top: chainTop
 Freeciv*helpdialog.*.helpwonderobsolete.bottom: chainTop
 
 Freeciv*helpdialog.*.helpwonderobsoletedata.label: Genetic Engineering
-Freeciv*helpdialog.*.helpwonderobsoletedata.background: lightblue
+Freeciv*helpdialog.*.helpwonderobsoletedata.background: gray84
 Freeciv*helpdialog.*.helpwonderobsoletedata.fromVert: helpimprcost
 Freeciv*helpdialog.*.helpwonderobsoletedata.fromHoriz: helpwonderobsolete
 Freeciv*helpdialog.*.helpwonderobsoletedata.left: chainLeft
@@ -723,7 +710,7 @@ Freeciv*helpdialog.*.helpwonderobsoletedata.justify: Left
 
 Freeciv*helpdialog.*.helpwondervariant.label: _("Variant:")
 Freeciv*helpdialog.*.helpwondervariant.foreground: black
-Freeciv*helpdialog.*.helpwondervariant.background: grey
+Freeciv*helpdialog.*.helpwondervariant.background: gray84
 Freeciv*helpdialog.*.helpwondervariant.fromVert: helptext
 Freeciv*helpdialog.*.helpwondervariant.fromHoriz: helpimprcostdata
 Freeciv*helpdialog.*.helpwondervariant.left: chainLeft
@@ -733,7 +720,7 @@ Freeciv*helpdialog.*.helpwondervariant.bottom: chainTop
 
 Freeciv*helpdialog.*.helpwondervariantdata.label: 111\ 
 Freeciv*helpdialog.*.helpwondervariantdata.foreground: black
-Freeciv*helpdialog.*.helpwondervariantdata.background: lightblue
+Freeciv*helpdialog.*.helpwondervariantdata.background: gray84
 Freeciv*helpdialog.*.helpwondervariantdata.fromVert: helptext
 Freeciv*helpdialog.*.helpwondervariantdata.fromHoriz: helpwondervariant
 Freeciv*helpdialog.*.helpwondervariantdata.borderWidth: 0
@@ -762,7 +749,7 @@ Freeciv*helpdialog.*.helpunitcostdata.left: chainLeft
 Freeciv*helpdialog.*.helpunitcostdata.right: chainLeft
 Freeciv*helpdialog.*.helpunitcostdata.top: chainTop
 Freeciv*helpdialog.*.helpunitcostdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitcostdata.background: lightblue
+Freeciv*helpdialog.*.helpunitcostdata.background: gray84
 Freeciv*helpdialog.*.helpunitcostdata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunitattack.label: _("Attack:")
@@ -780,7 +767,7 @@ Freeciv*helpdialog.*.helpunitattackdata.left: chainLeft
 Freeciv*helpdialog.*.helpunitattackdata.right: chainLeft
 Freeciv*helpdialog.*.helpunitattackdata.top: chainTop
 Freeciv*helpdialog.*.helpunitattackdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitattackdata.background: lightblue
+Freeciv*helpdialog.*.helpunitattackdata.background: gray84
 Freeciv*helpdialog.*.helpunitattackdata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunitdef.label: _("Defense:")
@@ -798,7 +785,7 @@ Freeciv*helpdialog.*.helpunitdefdata.left: chainLeft
 Freeciv*helpdialog.*.helpunitdefdata.right: chainLeft
 Freeciv*helpdialog.*.helpunitdefdata.top: chainTop
 Freeciv*helpdialog.*.helpunitdefdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitdefdata.background: lightblue
+Freeciv*helpdialog.*.helpunitdefdata.background: gray84
 Freeciv*helpdialog.*.helpunitdefdata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunitmove.label: _("Move:")
@@ -816,7 +803,7 @@ Freeciv*helpdialog.*.helpunitmovedata.left: chainLeft
 Freeciv*helpdialog.*.helpunitmovedata.right: chainLeft
 Freeciv*helpdialog.*.helpunitmovedata.top: chainTop
 Freeciv*helpdialog.*.helpunitmovedata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitmovedata.background: lightblue
+Freeciv*helpdialog.*.helpunitmovedata.background: gray84
 Freeciv*helpdialog.*.helpunitmovedata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunittile.internalWidth: 0
@@ -843,7 +830,7 @@ Freeciv*helpdialog.*.helpunitfpdata.left: chainLeft
 Freeciv*helpdialog.*.helpunitfpdata.right: chainLeft
 Freeciv*helpdialog.*.helpunitfpdata.top: chainTop
 Freeciv*helpdialog.*.helpunitfpdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitfpdata.background: lightblue
+Freeciv*helpdialog.*.helpunitfpdata.background: gray84
 Freeciv*helpdialog.*.helpunitfpdata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunithp.label: _("Hitpoints:")
@@ -861,7 +848,7 @@ Freeciv*helpdialog.*.helpunithpdata.left: chainLeft
 Freeciv*helpdialog.*.helpunithpdata.right: chainLeft
 Freeciv*helpdialog.*.helpunithpdata.top: chainTop
 Freeciv*helpdialog.*.helpunithpdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunithpdata.background: lightblue
+Freeciv*helpdialog.*.helpunithpdata.background: gray84
 Freeciv*helpdialog.*.helpunithpdata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunitvisrange.label: _("Vision:")
@@ -879,7 +866,7 @@ Freeciv*helpdialog.*.helpunitvisrangedata.left: chainLeft
 Freeciv*helpdialog.*.helpunitvisrangedata.right: chainLeft
 Freeciv*helpdialog.*.helpunitvisrangedata.top: chainTop
 Freeciv*helpdialog.*.helpunitvisrangedata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitvisrangedata.background: lightblue
+Freeciv*helpdialog.*.helpunitvisrangedata.background: gray84
 Freeciv*helpdialog.*.helpunitvisrangedata.borderWidth: 0
 
 Freeciv*helpdialog.*.helpunitupkeep.label: _("Basic Upkeep:")
@@ -897,7 +884,7 @@ Freeciv*helpdialog.*.helpunitupkeepdata.left: chainLeft
 Freeciv*helpdialog.*.helpunitupkeepdata.right: chainLeft
 Freeciv*helpdialog.*.helpunitupkeepdata.top: chainTop
 Freeciv*helpdialog.*.helpunitupkeepdata.bottom: chainTop
-Freeciv*helpdialog.*.helpunitupkeepdata.background: lightblue
+Freeciv*helpdialog.*.helpunitupkeepdata.background: gray84
 Freeciv*helpdialog.*.helpunitupkeepdata.borderWidth: 0
 Freeciv*helpdialog.*.helpunitupkeepdata.justify: Left
 
@@ -911,7 +898,7 @@ Freeciv*helpdialog.*.help_terrain_movement_defense.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_movement_defense.justify: Right
 
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.label: 1/1.0
-Freeciv*helpdialog.*.help_terrain_movement_defense_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_movement_defense_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.fromVert: helptext
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.fromHoriz: help_terrain_movement_defense
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.left: chainLeft
@@ -931,7 +918,7 @@ Freeciv*helpdialog.*.help_terrain_food_shield_trade.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_food_shield_trade.justify: Right
 
 Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.label: 1/1/1
-Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.fromVert: helptext
 Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.fromHoriz: help_terrain_food_shield_trade
 Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.left: chainLeft
@@ -951,7 +938,7 @@ Freeciv*helpdialog.*.help_terrain_special_1.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_special_1.justify: Right
 
 Freeciv*helpdialog.*.help_terrain_special_1_data.label: 1/1/1
-Freeciv*helpdialog.*.help_terrain_special_1_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_special_1_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_special_1_data.fromVert: help_terrain_movement_defense
 Freeciv*helpdialog.*.help_terrain_special_1_data.fromHoriz: help_terrain_special_1
 Freeciv*helpdialog.*.help_terrain_special_1_data.left: chainLeft
@@ -972,7 +959,7 @@ Freeciv*helpdialog.*.help_terrain_special_2.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_special_2.justify: Right
 
 Freeciv*helpdialog.*.help_terrain_special_2_data.label: 1/1/1
-Freeciv*helpdialog.*.help_terrain_special_2_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_special_2_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_special_2_data.fromVert: help_terrain_movement_defense
 Freeciv*helpdialog.*.help_terrain_special_2_data.fromHoriz: help_terrain_special_2
 Freeciv*helpdialog.*.help_terrain_special_2_data.left: chainLeft
@@ -992,7 +979,7 @@ Freeciv*helpdialog.*.help_terrain_road_result_time.justify: Right
 
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.label: Mountains / 11
-Freeciv*helpdialog.*.help_terrain_road_result_time_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_road_result_time_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.fromVert: help_terrain_special_1
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.fromHoriz: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.left: chainLeft
@@ -1013,7 +1000,7 @@ Freeciv*helpdialog.*.help_terrain_irrigation_result_time.justify: Right
 
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.label: Mountains / 11
-Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.fromVert: help_terrain_special_1
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.fromHoriz: help_terrain_irrigation_result_time
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.left: chainLeft
@@ -1033,7 +1020,7 @@ Freeciv*helpdialog.*.help_terrain_mining_result_time.justify: Right
 
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.label: Mountains / 11
-Freeciv*helpdialog.*.help_terrain_mining_result_time_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_mining_result_time_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.fromVert: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.fromHoriz: help_terrain_mining_result_time
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.left: chainLeft
@@ -1054,7 +1041,7 @@ Freeciv*helpdialog.*.help_terrain_transform_result_time.justify: Right
 
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_transform_result_time_data.label: Mountains / 11
-Freeciv*helpdialog.*.help_terrain_transform_result_time_data.background: lightblue
+Freeciv*helpdialog.*.help_terrain_transform_result_time_data.background: gray84
 Freeciv*helpdialog.*.help_terrain_transform_result_time_data.fromVert: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_transform_result_time_data.fromHoriz: help_terrain_transform_result_time
 Freeciv*helpdialog.*.help_terrain_transform_result_time_data.left: chainLeft
@@ -1071,7 +1058,7 @@ Freeciv*helpdialog.*.help_terrain_transform_result_time_data.justify: Left
 Freeciv*finddialog.title:   _("Find City")
 Freeciv*finddialog.*.findlabel.label:  _("Select a city:")
 Freeciv*finddialog.*.findlabel.borderWidth: 0
-Freeciv*finddialog.*.findlabel.background: lightblue
+Freeciv*finddialog.*.findlabel.background:		gray84
 Freeciv*finddialog.*.findlabel.top:			chainTop
 Freeciv*finddialog.*.findlabel.bottom:			chainTop
 Freeciv*finddialog.*.findlabel.left:			chainLeft
@@ -1083,8 +1070,9 @@ Freeciv*finddialog.*.findviewport.top:			chainTop
 Freeciv*finddialog.*.findviewport.bottom:		chainBottom
 Freeciv*finddialog.*.findviewport.left:			chainLeft
 
-Freeciv*finddialog.*.findlist.defaultColumns: 1
-Freeciv*finddialog.*.findlist.forceColumns: true
+Freeciv*finddialog.*.findlist.defaultColumns: 		1
+Freeciv*finddialog.*.findlist.forceColumns: 		true
+Freeciv*finddialog.*.findlist.background:		gray84
 
 Freeciv*finddialog.*.findcentercommand.label:  _("Center")
 Freeciv*finddialog.*.findcentercommand.fromVert: findviewport
@@ -1108,7 +1096,7 @@ Freeciv*finddialog.*.findcancelcommand.right:		chainLeft
 Freeciv*gotodialog.title:   _("Goto/Airlift Unit")
 Freeciv*gotodialog.*.gotolabel.label:   _("Select destination:")
 Freeciv*gotodialog.*.gotolabel.borderWidth: 0
-Freeciv*gotodialog.*.gotolabel.background: lightblue
+Freeciv*gotodialog.*.gotolabel.background: 		gray84
 Freeciv*gotodialog.*.gotolabel.top:			chainTop
 Freeciv*gotodialog.*.gotolabel.bottom:			chainTop
 Freeciv*gotodialog.*.gotolabel.left:			chainLeft
@@ -1120,8 +1108,9 @@ Freeciv*gotodialog.*.gotoviewport.top:			chainTop
 Freeciv*gotodialog.*.gotoviewport.bottom:		chainBottom
 Freeciv*gotodialog.*.gotoviewport.left:			chainLeft
 
-Freeciv*gotodialog.*.gotolist.defaultColumns: 1
-Freeciv*gotodialog.*.gotolist.forceColumns: true
+Freeciv*gotodialog.*.gotolist.defaultColumns:		1
+Freeciv*gotodialog.*.gotolist.forceColumns:		true
+Freeciv*gotodialog.*.gotolist.background:		white
 
 Freeciv*gotodialog.*.gotocentercommand.label: _("Goto")
 Freeciv*gotodialog.*.gotocentercommand.fromVert: gotoviewport
@@ -1139,10 +1128,10 @@ Freeciv*gotodialog.*.gotoairliftcommand.left:		chainLeft
 Freeciv*gotodialog.*.gotoairliftcommand.right:		chainLeft
 
 Freeciv*gotodialog.*.gotoalltoggle.label:  _("All Cities")
-Freeciv*gotodialog.*.gotoalltoggle.foreground: White
-Freeciv*gotodialog.*.gotoalltoggle.background: Blue
-Freeciv*gotodialog.*.gotoalltoggle.fromVert: gotoviewport
-Freeciv*gotodialog.*.gotoalltoggle.fromHoriz: gotoairliftcommand
+Freeciv*gotodialog.*.gotoalltoggle.foreground:		black
+Freeciv*gotodialog.*.gotoalltoggle.background:		gray84
+Freeciv*gotodialog.*.gotoalltoggle.fromVert:		gotoviewport
+Freeciv*gotodialog.*.gotoalltoggle.fromHoriz: 		gotoairliftcommand
 Freeciv*gotodialog.*.gotoalltoggle.top:			chainBottom
 Freeciv*gotodialog.*.gotoalltoggle.bottom:		chainBottom
 Freeciv*gotodialog.*.gotoalltoggle.left:		chainLeft
@@ -1219,9 +1208,11 @@ Freeciv*supportunitsdialog.*.button3.fromVert:  button2
 !
 Freeciv*optionpopup.title:        _("Options")
 
-Freeciv*optionpopup*Label.background:   lightblue
-Freeciv*optionpopup*Toggle.background:  cyan
+Freeciv*optionpopup*Label.background:   gray84
+Freeciv*optionpopup*MenuButton.background:  white
+Freeciv*optionpopup*MenuButton.foreground:  black
 
+Freeciv*optionpopup*Toggle.background:     white
 Freeciv*optionpopup*Toggle.shapeStyle:     oval
 Freeciv*optionpopup*Toggle.width:          50
 Freeciv*optionpopup*Toggle.internalHeight: 0
@@ -1234,7 +1225,7 @@ Freeciv*optionpopup*label.label:           XXXXXXXXXXXXXXXXXXXXXXXXXXX
 Freeciv*optionpopup*label.borderWidth:     0
 
 Freeciv*optionpopup*input.*.foreground:    black
-Freeciv*optionpopup*input.*.background:    cyan
+Freeciv*optionpopup*input.*.background:    white
 Freeciv*optionpopup*input.width:           50
 Freeciv*optionpopup*input.*.editType:      edit
 
@@ -1249,9 +1240,9 @@ Freeciv*optioncancelcommand.fromHoriz:  optionokcommand
 !
 Freeciv*messageoptpopup.title:	_("Message Options")
 
-Freeciv*messageoptpopup*Label.background:  lightblue
+Freeciv*messageoptpopup*Label.background:  gray84
 Freeciv*messageoptpopup*Label.borderWidth: 0
-Freeciv*messageoptpopup*Toggle.background: cyan
+Freeciv*messageoptpopup*Toggle.background: white
 Freeciv*messageoptpopup*Toggle.shapeStyle: oval
 Freeciv*messageoptpopup*Toggle.internalHeight: 0
 Freeciv*messageoptpopup*Toggle.label: Yes
@@ -1284,12 +1275,12 @@ Freeciv*ratespopup.title:              _("Rates")
 
 Freeciv*rateslabel.label:              _("Select tax, luxury and science rates:")
 Freeciv*rateslabel.borderWidth:        0
-Freeciv*rateslabel.background:         lightblue
+Freeciv*rateslabel.background:         gray84
 
 Freeciv*ratesgovlabel.fromVert:        rateslabel
 Freeciv*ratesgovlabel.borderWidth:     0
 Freeciv*ratesgovlabel.width:           300
-Freeciv*ratesgovlabel.background:      lightblue
+Freeciv*ratesgovlabel.background:      gray84
 Freeciv*ratesgovlabel.justify:         left
 
 ! dummy label:
@@ -1297,56 +1288,56 @@ Freeciv*ratestaxlabel.label:           Tax:               0%
 Freeciv*ratestaxlabel.fromVert:        ratesgovlabel
 Freeciv*ratestaxlabel.borderWidth:     0
 Freeciv*ratestaxlabel.justify:         left
-Freeciv*ratestaxlabel.background:      lightblue
+Freeciv*ratestaxlabel.background:      gray84
 
 Freeciv*ratestaxscroll.width:          300
 Freeciv*ratestaxscroll.orientation:    horizontal
 Freeciv*ratestaxscroll.fromVert:       ratestaxlabel
-Freeciv*ratestaxscroll.background:     cyan
+Freeciv*ratestaxscroll.background:     gray
 
 Freeciv*ratestaxtoggle.label:          _("Lock")
 Freeciv*ratestaxtoggle.fromVert:       ratestaxlabel
 Freeciv*ratestaxtoggle.fromHoriz:      ratestaxscroll
 Freeciv*ratestaxtoggle.internalHeight: 0
-Freeciv*ratestaxtoggle.background:     cyan
+Freeciv*ratestaxtoggle.background:     gray
 
 ! dummy label:
 Freeciv*ratesluxlabel.label:           Luxury:            0%
 Freeciv*ratesluxlabel.fromVert:        ratestaxscroll
 Freeciv*ratesluxlabel.borderWidth:     0
 Freeciv*ratesluxlabel.justify:         left
-Freeciv*ratesluxlabel.background:      lightblue
+Freeciv*ratesluxlabel.background:      gray84
 
 Freeciv*ratesluxscroll.width:          300
 Freeciv*ratesluxscroll.orientation:    horizontal
 Freeciv*ratesluxscroll.fromVert:       ratesluxlabel
-Freeciv*ratesluxscroll.background:     cyan
+Freeciv*ratesluxscroll.background:     gray
 
 Freeciv*ratesluxtoggle.label:          _("Lock")
 Freeciv*ratesluxtoggle.fromVert:       ratesluxlabel
 Freeciv*ratesluxtoggle.fromHoriz:      ratesluxscroll
 Freeciv*ratesluxtoggle.internalHeight: 0
 Freeciv*ratesluxtoggle.radioGroup:     ratestaxtoggle
-Freeciv*ratesluxtoggle.background:     cyan
+Freeciv*ratesluxtoggle.background:     gray
 
 ! dummy label:
 Freeciv*ratesscilabel.label:           Science:           0%
 Freeciv*ratesscilabel.fromVert:        ratesluxscroll
 Freeciv*ratesscilabel.borderWidth:     0
 Freeciv*ratesscilabel.justify:         left
-Freeciv*ratesscilabel.background:      lightblue
+Freeciv*ratesscilabel.background:      gray84
 
 Freeciv*ratessciscroll.width:          300
 Freeciv*ratessciscroll.orientation:    horizontal
 Freeciv*ratessciscroll.fromVert:       ratesscilabel
-Freeciv*ratessciscroll.background:     cyan
+Freeciv*ratessciscroll.background:     gray
 
 Freeciv*ratesscitoggle.label:          _("Lock")
 Freeciv*ratesscitoggle.fromVert:       ratesscilabel
 Freeciv*ratesscitoggle.fromHoriz:      ratessciscroll
 Freeciv*ratesscitoggle.internalHeight: 0
 Freeciv*ratesscitoggle.radioGroup:     ratestaxtoggle
-Freeciv*ratesscitoggle.background:     cyan
+Freeciv*ratesscitoggle.background:     gray
 
 Freeciv*ratesokcommand.label:          _("Ok")
 Freeciv*ratesokcommand.fromVert:       ratessciscroll
@@ -1366,7 +1357,7 @@ Freeciv*scienceform.resizable: True
 Freeciv*sciencelabel.width:              400
 Freeciv*sciencelabel.justify:            center
 Freeciv*sciencelabel.borderWidth:        0
-Freeciv*sciencelabel.background:         lightblue
+Freeciv*sciencelabel.background:         gray84
 Freeciv*sciencelabel.top:                chainTop
 Freeciv*sciencelabel.bottom:             chainTop
 Freeciv*sciencelabel.left:               chainLeft
@@ -1387,14 +1378,16 @@ Freeciv*sciencechangemenubutton.top:         chainTop
 Freeciv*sciencechangemenubutton.bottom:      chainTop
 Freeciv*sciencechangemenubutton.left:        chainLeft
 Freeciv*sciencechangemenubutton.right:       chainLeft
+Freeciv*sciencechangemenubutton.background:  gray
+Freeciv*sciencechangemenubutton.foreground:  black
 
 Freeciv*sciencehelpnote.label:              _("Help:")
 Freeciv*sciencehelpnote.fromVert:           sciencechangemenubutton
 Freeciv*sciencehelpnote.fromHoriz:          sciencegoalmenubutton
 !*sciencehelpnote.internalHeight:     0
 !*sciencehelpnote.borderWidth:        0
-Freeciv*sciencehelpnote.borderColor: 	     LightBlue
-Freeciv*sciencehelpnote.background:         LightBlue
+Freeciv*sciencehelpnote.borderColor: 	    gray84
+Freeciv*sciencehelpnote.background:         gray84
 Freeciv*sciencehelpnote.top:                chainTop
 Freeciv*sciencehelpnote.bottom:             chainTop
 Freeciv*sciencehelpnote.left:               chainLeft
@@ -1407,7 +1400,7 @@ Freeciv*sciencehelptoggle.shapeStyle:     oval
 Freeciv*sciencehelptoggle.fromVert:       sciencechangemenubutton
 Freeciv*sciencehelptoggle.fromHoriz:      sciencehelpnote
 !*sciencehelptoggle.internalHeight: 0
-Freeciv*sciencehelptoggle.background:     cyan
+Freeciv*sciencehelptoggle.background:     gray
 Freeciv*sciencehelptoggle.top:         chainTop
 Freeciv*sciencehelptoggle.bottom:      chainTop
 Freeciv*sciencehelptoggle.left:        chainLeft
@@ -1427,6 +1420,8 @@ Freeciv*sciencegoalmenubutton.top:		chainTop
 Freeciv*sciencegoalmenubutton.bottom:		chainTop
 Freeciv*sciencegoalmenubutton.left:		chainTop
 Freeciv*sciencegoalmenubutton.right:		chainTop
+Freeciv*sciencegoalmenubutton.background:	gray
+Freeciv*sciencegoalmenubutton.foreground:	black
 
 Freeciv*sciencelist.fromVert:            sciencegoallabel
 Freeciv*sciencelist.forceColumns:        true
@@ -1449,10 +1444,10 @@ Freeciv*scienceclosecommand.right:       chainLeft
 ! City Options dialog
 !
 Freeciv*cityoptpopup.title:              _("City Options")
-Freeciv*cityoptpopup*Label.background:   lightblue
+Freeciv*cityoptpopup*Label.background:   gray84
 Freeciv*cityoptpopup*Label.borderWidth:  0
 Freeciv*cityoptpopup*Toggle.label:       Yes
-Freeciv*cityoptpopup*Toggle.background:  cyan
+Freeciv*cityoptpopup*Toggle.background:  white
 Freeciv*cityoptpopup*Toggle.shapeStyle:  oval
 Freeciv*cityoptpopup*Toggle.internalHeight: 0
 
@@ -1514,7 +1509,7 @@ Freeciv*reportcitylabel.width:              600
 Freeciv*reportcitylabel.resizable:          True
 Freeciv*reportcitylabel.justify:            center
 Freeciv*reportcitylabel.borderWidth:        0
-Freeciv*reportcitylabel.background:         lightblue
+Freeciv*reportcitylabel.background:         gray84
 Freeciv*reportcitylabel.top:                chainTop
 Freeciv*reportcitylabel.bottom:             chainTop
 Freeciv*reportcitylabel.left:               chainLeft
@@ -1538,7 +1533,7 @@ Freeciv*reportcityviewport.allowHoriz:          False
 Freeciv*reportcityviewport.forceColumns:        true
 Freeciv*reportcityviewport.defaultColumns:      1
 Freeciv*reportcityviewport.verticalList:        true
-Freeciv*reportcityviewport.background:          cyan
+Freeciv*reportcityviewport.background:          white 
 Freeciv*reportcityviewport.resizable:           True
 Freeciv*reportcityviewport.top:                 chainTop
 Freeciv*reportcityviewport.bottom:              chainBottom
@@ -1550,6 +1545,7 @@ Freeciv*reportcitylist.font:		     6x13
 Freeciv*reportcitylist.forceColumns:        true
 Freeciv*reportcitylist.defaultColumns:      1
 Freeciv*reportcitylist.verticalList:        true
+Freeciv*reportcitylist.background:          white
 
 Freeciv*reportcityclosecommand.label:       _("Close")
 Freeciv*reportcityclosecommand.fromVert:    reportcityviewport
@@ -1590,7 +1586,7 @@ Freeciv*reportcitychangemenubutton.bottom:      chainBottom
 Freeciv*reportcitychangemenubutton.left:        chainLeft
 Freeciv*reportcitychangemenubutton.right:       chainLeft
 
-Freeciv*reportcitychgallcommand.label:       _("Change All")
+Freeciv*reportcitychgallcommand.label:       _("Change All...")
 Freeciv*reportcitychgallcommand.fromVert:    reportcityviewport
 Freeciv*reportcitychgallcommand.fromHoriz:   reportcitychangemenubutton
 Freeciv*reportcitychgallcommand.top:         chainBottom
@@ -1606,7 +1602,7 @@ Freeciv*reportcityrefreshcommand.bottom:      chainBottom
 Freeciv*reportcityrefreshcommand.left:        chainLeft
 Freeciv*reportcityrefreshcommand.right:       chainLeft
 
-Freeciv*reportcityconfigcommand.label:       _("Configure")
+Freeciv*reportcityconfigcommand.label:       _("Configure...")
 Freeciv*reportcityconfigcommand.fromVert:    reportcityviewport
 Freeciv*reportcityconfigcommand.fromHoriz:   reportcityrefreshcommand
 Freeciv*reportcityconfigcommand.top:         chainBottom
@@ -1619,7 +1615,7 @@ Freeciv*spaceshipmainform.*.bottom:                 chainTop
 Freeciv*spaceshipmainform.*.left:                   chainLeft
 Freeciv*spaceshipmainform.*.right:                  chainLeft
 Freeciv*spaceshipmainform.resizable:                True
-Freeciv*spaceshipmainform.background:		White
+Freeciv*spaceshipmainform.background:		gray84
 Freeciv*spaceshipmainform*translations:		#override \
 			<Key>Return: key-dialog-spaceship-close()
 
@@ -1667,8 +1663,8 @@ Freeciv*spaceshiplaunchcommand.right:       chainLeft
 !
 Freeciv*cityconfig.title:        _("Configure Cities Report")
 
-Freeciv*cityconfig*Label.background:   lightblue
-Freeciv*cityconfig*Toggle.background:  cyan
+Freeciv*cityconfig*Label.background:   gray84
+Freeciv*cityconfig*Toggle.background:  gray
 
 Freeciv*cityconfiglabel.label:         _("Set columns shown")
 Freeciv*cityconfiglabel.borderWidth:   0
@@ -1694,7 +1690,7 @@ Freeciv*chgalldialog.*.chgallfrlabel.label:		_("From:")
 Freeciv*chgalldialog.*.chgallfrlabel.justify:		left
 Freeciv*chgalldialog.*.chgallfrlabel.width:		175
 Freeciv*chgalldialog.*.chgallfrlabel.borderWidth:	0
-Freeciv*chgalldialog.*.chgallfrlabel.background:	lightblue
+Freeciv*chgalldialog.*.chgallfrlabel.background:	gray84
 Freeciv*chgalldialog.*.chgallfrlabel.top:		chainTop
 Freeciv*chgalldialog.*.chgallfrlabel.bottom:		chainTop
 Freeciv*chgalldialog.*.chgallfrlabel.left:		chainLeft
@@ -1704,7 +1700,7 @@ Freeciv*chgalldialog.*.chgalltolabel.label:		_("To:")
 Freeciv*chgalldialog.*.chgalltolabel.justify:		left
 Freeciv*chgalldialog.*.chgalltolabel.width:		175
 Freeciv*chgalldialog.*.chgalltolabel.borderWidth:	0
-Freeciv*chgalldialog.*.chgalltolabel.background:	lightblue
+Freeciv*chgalldialog.*.chgalltolabel.background:	gray84
 Freeciv*chgalldialog.*.chgalltolabel.fromHoriz:		chgallfrlabel
 Freeciv*chgalldialog.*.chgalltolabel.top:		chainTop
 Freeciv*chgalldialog.*.chgalltolabel.bottom:		chainTop
@@ -1729,12 +1725,14 @@ Freeciv*chgalldialog.*.chgalltoviewport.right:		chainRight
 Freeciv*chgalldialog.*.chgallfrlist.width:		175
 Freeciv*chgalldialog.*.chgallfrlist.height:		245
 Freeciv*chgalldialog.*.chgallfrlist.defaultColumns:	1
-Freeciv*chgalldialog.*.chgallfrlist.forceColumns:	True
+Freeciv*chgalldialog.*.chgallfrlist.defaultColumns:	1
+Freeciv*chgalldialog.*.chgallfrlist.background:		white
 
 Freeciv*chgalldialog.*.chgalltolist.width:		175
 Freeciv*chgalldialog.*.chgalltolist.height:		245
 Freeciv*chgalldialog.*.chgalltolist.defaultColumns:	1
 Freeciv*chgalldialog.*.chgalltolist.forceColumns:	True
+Freeciv*chgalldialog.*.chgalltolist.background:		white
 
 Freeciv*chgalldialog.*.chgallchangecommand.label:	_("Change")
 Freeciv*chgalldialog.*.chgallchangecommand.fromVert:	chgallfrviewport
@@ -1775,7 +1773,7 @@ Freeciv*reporteconomylabel.resizable:	true
 !*reporteconomylabel.width:		200
 Freeciv*reporteconomylabel.justify:	center
 Freeciv*reporteconomylabel.borderWidth:	0
-Freeciv*reporteconomylabel.background:	lightblue
+Freeciv*reporteconomylabel.background:	gray84
 Freeciv*reporteconomylabel.top:		chainTop
 Freeciv*reporteconomylabel.bottom:	chainTop
 Freeciv*reporteconomylabel.left:	chainLeft
@@ -1799,6 +1797,7 @@ Freeciv*reporteconomylist.top:			chainTop
 Freeciv*reporteconomylist.bottom:		chainBottom
 Freeciv*reporteconomylist.left:			chainLeft
 Freeciv*reporteconomylist.right:		chainRight
+Freeciv*reporteconomylist.background:		white
 
 ! dummy label:
 Freeciv*reporteconomylabel2.label:		Total Cost:
@@ -1850,7 +1849,7 @@ Freeciv*reportactiveunitslabel.resizable:          true
 !*reportactiveunitslabel.width:              200
 Freeciv*reportactiveunitslabel.justify:            center
 Freeciv*reportactiveunitslabel.borderWidth:        0
-Freeciv*reportactiveunitslabel.background:         lightblue
+Freeciv*reportactiveunitslabel.background:         gray84
 Freeciv*reportactiveunitslabel.top:                chainTop
 Freeciv*reportactiveunitslabel.bottom:             chainTop
 Freeciv*reportactiveunitslabel.left:               chainLeft
@@ -1875,6 +1874,7 @@ Freeciv*reportactiveunitslist.top:                 chainTop
 Freeciv*reportactiveunitslist.bottom:              chainBottom
 Freeciv*reportactiveunitslist.left:                chainLeft
 Freeciv*reportactiveunitslist.right:               chainRight
+Freeciv*reportactiveunitslist.background:          white
 
 Freeciv*reportactiveunitslabel2.resizable:          true
 Freeciv*reportactiveunitslabel2.justify:            left
@@ -1920,12 +1920,15 @@ Freeciv*worklistreportdialog.*.dlabel.top:		chainTop
 Freeciv*worklistreportdialog.*.dlabel.bottom:		chainTop
 Freeciv*worklistreportdialog.*.dlabel.left:		chainLeft
 Freeciv*worklistreportdialog.*.dlabel.right:		chainLeft
+Freeciv*worklistreportdialog.*.dlabel.background:	gray84
 
 Freeciv*worklistreportdialog.*.dview.allowVert: 	True
 Freeciv*worklistreportdialog.*.dview.top:		chainTop
 Freeciv*worklistreportdialog.*.dview.bottom:		chainBottom
 Freeciv*worklistreportdialog.*.dview.left:		chainLeft
 Freeciv*worklistreportdialog.*.dview.right:		chainRight
+
+Freeciv*worklistreportdialog.*.dlist.background:	white
 
 Freeciv*worklistreportdialog.*.buttonclose.label: 	_("Close")
 Freeciv*worklistreportdialog.*.buttonclose.top:		chainBottom
@@ -1945,7 +1948,7 @@ Freeciv*worklistreportdialog.*.buttonrename.bottom:	chainTop
 Freeciv*worklistreportdialog.*.buttonrename.left:	chainRight
 Freeciv*worklistreportdialog.*.buttonrename.right:	chainRight
 Freeciv*renameworklist.title: 				_("Rename worklist")
-Freeciv*renameworklist*ilable.background: 		LightBlue
+Freeciv*renameworklist*ilable.background: 		gray84
 Freeciv*renameworklist*iinput.width: 			200
 
 Freeciv*worklistreportdialog.*.buttoninsertwl.label: 	_("Insert")
@@ -1970,18 +1973,18 @@ Freeciv*viewmenu.label:                 _("View")
 Freeciv*ordersmenu.label:               _("Orders")
 Freeciv*reportsmenu.label:              _("Reports")
 Freeciv*helpmenu.label:                 _("Help")
-Freeciv*gamemenu.background:            Blue
-Freeciv*gamemenu.foreground:            White
-Freeciv*kingdommenu.background:         Blue
-Freeciv*kingdommenu.foreground:         White
-Freeciv*viewmenu.background:            Blue
-Freeciv*viewmenu.foreground:            White
-Freeciv*ordersmenu.background:          Blue
-Freeciv*ordersmenu.foreground:          White
-Freeciv*reportsmenu.background:         Blue
-Freeciv*reportsmenu.foreground:         White
-Freeciv*helpmenu.background:            Blue
-Freeciv*helpmenu.foreground:            White
+Freeciv*gamemenu.background:            gray84
+Freeciv*gamemenu.foreground:            black
+Freeciv*kingdommenu.background:         gray84
+Freeciv*kingdommenu.foreground:         black
+Freeciv*viewmenu.background:            gray84
+Freeciv*viewmenu.foreground:            black
+Freeciv*ordersmenu.background:          gray84
+Freeciv*ordersmenu.foreground:          black
+Freeciv*reportsmenu.background:         gray84
+Freeciv*reportsmenu.foreground:         black
+Freeciv*helpmenu.background:            gray84
+Freeciv*helpmenu.foreground:            black
 Freeciv*gamemenu.borderWidth:           0
 Freeciv*kingdommenu.borderWidth:        0
 Freeciv*viewmenu.borderWidth:           0
@@ -2005,7 +2008,7 @@ Freeciv*reportsmenu.right:              chainLeft
 Freeciv*helpmenu.fromHoriz:             reportsmenu
 Freeciv*helpmenu.left:                  chainLeft
 Freeciv*helpmenu.right:                 chainLeft
-Freeciv*menu.background:                Cyan
+Freeciv*menu.background:                gray84
 
 
 !
@@ -2024,6 +2027,8 @@ Freeciv*changedialog.*.dview.allowVert: True
 Freeciv*changedialog.*.dview.top:		chainTop
 Freeciv*changedialog.*.dview.bottom:		chainBottom
 Freeciv*changedialog.*.dview.left:		chainLeft
+
+Freeciv*changedialog.*.dlist.background:	white
 
 Freeciv*changedialog.*.buttonchange.label: _("Change")
 Freeciv*changedialog.*.buttonchange.top:	chainBottom
@@ -2068,10 +2073,14 @@ Freeciv*worklistdialog.*.wview.top:		chainTop
 Freeciv*worklistdialog.*.wview.bottom:		chainBottom
 Freeciv*worklistdialog.*.wview.left:		chainLeft
 
+Freeciv*worklistdialog.*.wlist.background:	white
+
 Freeciv*worklistdialog.*.aview.allowVert: 	True
 Freeciv*worklistdialog.*.aview.top:		chainTop
 Freeciv*worklistdialog.*.aview.bottom:		chainBottom
 Freeciv*worklistdialog.*.aview.right:		chainRight
+
+Freeciv*worklistdialog.*.alist.background:	white
 
 ! The form for the worklist action buttons (insert, delete, etc.).
 Freeciv*worklistdialog.*.dform.top:		chainTop
@@ -2133,7 +2142,7 @@ Freeciv*worklistdialog.*.buttonavailhelp.left:		chainLeft
 Freeciv*worklistdialog.*.buttonavailhelp.right:		chainLeft
 
 Freeciv*worklistdialog.*.showadvancedlabel.label: 	_("Show future targets:")
-Freeciv*worklistdialog.*.showadvancedlabel.background:  lightblue
+Freeciv*worklistdialog.*.showadvancedlabel.background:  gray84
 Freeciv*worklistdialog.*.showadvancedlabel.borderWidth:	0
 Freeciv*worklistdialog.*.showadvancedlabel.top:		chainBottom
 Freeciv*worklistdialog.*.showadvancedlabel.bottom:	chainBottom
@@ -2142,7 +2151,7 @@ Freeciv*worklistdialog.*.showadvancedlabel.right:	chainLeft
 
 Freeciv*worklistdialog.*.buttonshowadvanced.label: 	_("Yes")
 Freeciv*worklistdialog.*.buttonshowadvanced.foreground: Black
-Freeciv*worklistdialog.*.buttonshowadvanced.background: Cyan
+Freeciv*worklistdialog.*.buttonshowadvanced.background: gray84
 Freeciv*worklistdialog.*.buttonshowadvanced.shapeStyle: oval
 Freeciv*worklistdialog.*.buttonshowadvanced.top:	chainBottom
 Freeciv*worklistdialog.*.buttonshowadvanced.bottom:	chainBottom
@@ -2281,7 +2290,7 @@ Freeciv*spystealtechlistlabel.top:                chainTop
 Freeciv*spystealtechlistlabel.bottom:             chainTop
 Freeciv*spystealtechlistlabel.left:               chainLeft
 Freeciv*spystealtechlistlabel.right:              chainRight
-Freeciv*spystealtechlistlabel.background:         lightblue
+Freeciv*spystealtechlistlabel.background:         gray84
 Freeciv*spystealtechlistlabel.label: _("Select Advance to Steal")
 Freeciv*spystealtechlist.fromVert:            spystealtechlistlabel
 Freeciv*spystealtechlist.forceColumns:        true
@@ -2323,7 +2332,7 @@ Freeciv*spysabotageimprovementslistlabel.top:                chainTop
 Freeciv*spysabotageimprovementslistlabel.bottom:             chainTop
 Freeciv*spysabotageimprovementslistlabel.left:               chainLeft
 Freeciv*spysabotageimprovementslistlabel.right:              chainRight
-Freeciv*spysabotageimprovementslistlabel.background:         lightblue
+Freeciv*spysabotageimprovementslistlabel.background:         gray84
 Freeciv*spysabotageimprovementslistlabel.label: _("Select Improvement to Sabotage")
 Freeciv*spysabotageimprovementslist.fromVert:            spysabotageimprovementslistlabel
 Freeciv*spysabotageimprovementslist.forceColumns:        true
@@ -2469,7 +2478,7 @@ Freeciv*overviewcanvas.right:                      chainRight
 Freeciv*overviewcanvas.resizable:                  True
 
 Freeciv*infocommand.label:	\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
-Freeciv*infocommand.background:                    Grey
+Freeciv*infocommand.background:                    gray84
 Freeciv*infocommand.foreground:                    black
 Freeciv*infocommand.justify:                       left
 Freeciv*infocommand.top:                           chainTop
@@ -2490,7 +2499,7 @@ Freeciv*econlabels.internalHeight:                 0
 Freeciv*econlabels.borderWidth:                    0
 Freeciv*econlabels.shadowWidth:			   0
 Freeciv*econlabels.fromVert:                       infocommand
-Freeciv*econlabels.background:                     lightblue
+Freeciv*econlabels.background:                     gray84
 Freeciv*econlabels.top:                            chainTop
 Freeciv*econlabels.bottom:                         chainTop
 Freeciv*econlabels.left:                           chainLeft
@@ -2548,7 +2557,7 @@ Freeciv*timeoutlabel.left:                         chainLeft
 Freeciv*timeoutlabel.right:                        chainLeft
 Freeciv*timeoutlabel.borderWidth:                  1
 Freeciv*timeoutlabel.internalWidth:                1
-Freeciv*timeoutlabel.background:                   lightblue
+Freeciv*timeoutlabel.background:                   gray84
 
 Freeciv*turndonebutton.label:                      _("Turn Done")
 Freeciv*turndonebutton.fromVert:                   bulblabel
@@ -2566,7 +2575,7 @@ Freeciv*unitinfolabel.left:                        chainLeft
 Freeciv*unitinfolabel.right:                       chainRight
 
 Freeciv*unitpixcanvas.label:
-Freeciv*unitpixcanvas.background:                   lightblue
+Freeciv*unitpixcanvas.background:                   gray84
 Freeciv*unitpixcanvas.borderWidth:                  0
 Freeciv*unitpixcanvas.internalWidth:                0
 Freeciv*unitpixcanvas.internalHeight:               0
@@ -2585,7 +2594,7 @@ Freeciv*unitbelowcanvas0.top:                       chainTop
 Freeciv*unitbelowcanvas0.bottom:                    chainTop
 Freeciv*unitbelowcanvas0.left:                      chainLeft
 Freeciv*unitbelowcanvas0.right:                     chainRight
-Freeciv*unitbelowcanvas0.background:                lightblue
+Freeciv*unitbelowcanvas0.background:                gray84
 
 Freeciv*unitbelowcanvas1.label:
 Freeciv*unitbelowcanvas1.internalWidth:             0
@@ -2597,7 +2606,7 @@ Freeciv*unitbelowcanvas1.top:                       chainTop
 Freeciv*unitbelowcanvas1.bottom:                    chainTop
 Freeciv*unitbelowcanvas1.left:                      chainLeft
 Freeciv*unitbelowcanvas1.right:                     chainRight
-Freeciv*unitbelowcanvas1.background:                lightblue
+Freeciv*unitbelowcanvas1.background:                gray84
 
 Freeciv*unitbelowcanvas2.label:
 Freeciv*unitbelowcanvas2.internalWidth:             0
@@ -2609,7 +2618,7 @@ Freeciv*unitbelowcanvas2.top:                       chainTop
 Freeciv*unitbelowcanvas2.bottom:                    chainTop
 Freeciv*unitbelowcanvas2.left:                      chainLeft
 Freeciv*unitbelowcanvas2.right:                     chainRight
-Freeciv*unitbelowcanvas2.background:                lightblue
+Freeciv*unitbelowcanvas2.background:                gray84
 
 Freeciv*unitbelowcanvas3.label:
 Freeciv*unitbelowcanvas3.internalWidth:             0
@@ -2621,7 +2630,7 @@ Freeciv*unitbelowcanvas3.top:                       chainTop
 Freeciv*unitbelowcanvas3.bottom:                    chainTop
 Freeciv*unitbelowcanvas3.left:                      chainLeft
 Freeciv*unitbelowcanvas3.right:                     chainRight
-Freeciv*unitbelowcanvas3.background:                lightblue
+Freeciv*unitbelowcanvas3.background:                gray84
 
 Freeciv*morearrowlabel.label:
 Freeciv*morearrowlabel.width:                      15
@@ -2634,7 +2643,7 @@ Freeciv*morearrowlabel.top:                        chainTop
 Freeciv*morearrowlabel.bottom:                     chainTop
 Freeciv*morearrowlabel.left:                       chainLeft
 Freeciv*morearrowlabel.right:                      chainLeft
-Freeciv*morearrowlabel.background:                 lightblue
+Freeciv*morearrowlabel.background:                 gray84
 
 !
 ! mainform
@@ -2708,7 +2717,7 @@ Freeciv*mapvertiscrbar.left:                       chainLeft
 Freeciv*mapvertiscrbar.right:                      chainLeft
 Freeciv*mapvertiscrbar.top:                        chainTop
 Freeciv*mapvertiscrbar.bottom:                     chainBottom
-Freeciv*mapvertiscrbar.background:                 cyan
+Freeciv*mapvertiscrbar.background:                 gray
 
 Freeciv*mapcanvas.Width:                           510
 Freeciv*mapcanvas.Height:                          300
@@ -2726,7 +2735,7 @@ Freeciv*maphorizscrbar.right:                      chainRight
 Freeciv*maphorizscrbar.top:                        chainBottom
 Freeciv*maphorizscrbar.bottom:                     chainBottom
 Freeciv*maphorizscrbar.orientation:                horizontal
-Freeciv*maphorizscrbar.background:                 cyan
+Freeciv*maphorizscrbar.background:                 gray
 
 Freeciv*outputwindowtext.Width:                    710
 Freeciv*outputwindowtext.Height:                   100
@@ -2738,7 +2747,7 @@ Freeciv*outputwindowtext.bottom:                   chainBottom
 Freeciv*outputwindowtext.displayCaret:		   false
 Freeciv*outputwindowtext.editType:                 read
 Freeciv*outputwindowtext.scrollVertical:           Always
-Freeciv*outputwindowtext.*.background:		   grey
+Freeciv*outputwindowtext.*.background:		   white
 Freeciv*outputwindowtext.*.foreground:		   black
 Freeciv*outputwindowtext*wrap:			   word
 Freeciv*outputwindowtext*String: _("\
@@ -2926,33 +2935,37 @@ Freeciv*citymainform.*.bottom:                 chainTop
 Freeciv*citymainform.*.left:                   chainLeft
 Freeciv*citymainform.*.right:                  chainLeft
 Freeciv*citymainform.resizable:                True
-Freeciv*citymainform.background:		White
+Freeciv*citymainform.background:		gray84
 
 Freeciv*citynamelabel.borderWidth:                0
 Freeciv*citynamelabel.justify:                    left
 Freeciv*citynamelabel.horizDistance:              0
 Freeciv*citynamelabel.internalWidth:              0
 Freeciv*citynamelabel.resizable:                  True
-Freeciv*citynamelabel.background: white
+Freeciv*citynamelabel.background:		 gray84
 
 Freeciv*citizenlabels.internalHeight:             0
 Freeciv*citizenlabels.internalWidth:              0
 Freeciv*citizenlabels.horizDistance:              0
 Freeciv*citizenlabels.borderWidth:                0
 Freeciv*citizenlabels.shadowWidth:		  0
-Freeciv*citizenlabels.background:		  White
+Freeciv*citizenlabels.background:		  gray84
+! this is needed to blank the label.
+Freeciv*citizenlabels.label:
 
 Freeciv*citysubform.borderWidth:    	          0
 Freeciv*citysubform.horizDistance:                0
-Freeciv*citysubform.background:                   White
+Freeciv*citysubform.background:                   gray84
 
 Freeciv*cityleftform.borderWidth:                 0
 Freeciv*cityleftform.horizDistance:               0
-Freeciv*cityleftform.background:                  White
+Freeciv*cityleftform.background:                  gray84
 
 Freeciv*cityprodlabel.vertDistance:               0
 
 Freeciv*cityimprovview.allowVert:		True
+
+Freeciv*cityimprovlist.background:		white
 
 Freeciv*citysellcommand.label:			_(" Sell ")
 
@@ -2961,26 +2974,26 @@ Freeciv*cityclosecommand.translations:		#override \n\
 	<Key>Return:	key-dialog-city-close() \n\
 	<Key>Escape:	key-dialog-city-close()
 
-Freeciv*cityrenamecommand.label:		_("Rename")
+Freeciv*cityrenamecommand.label:		_("Rename...")
 
 Freeciv*citytradecommand.label:			_("Trade")
 
 Freeciv*cityactivatecommand.label:		_("Activate Units")
 
-Freeciv*cityshowunitscommand.label:		_("Unit List")
+Freeciv*cityshowunitscommand.label:		_("Unit List...")
 
-Freeciv*cityoptionscommand.label:		_("City Options")
+Freeciv*cityoptionscommand.label:		_("City Options...")
 
 Freeciv*citybuycommand.label:			_(" Buy ")
 
-Freeciv*citychangecommand.label:		_("Change")
+Freeciv*citychangecommand.label:		_("Change...")
 
-Freeciv*cityworklistcommand.label:		_("Worklist")
+Freeciv*cityworklistcommand.label:		_("Worklist...")
 
 Freeciv*supportunitlabel.label:			_("Supported units:")
 Freeciv*supportunitlabel.internalWidth:               0
 Freeciv*supportunitlabel.borderWidth:                 0
-Freeciv*supportunitlabel.background:              white
+Freeciv*supportunitlabel.background:              gray84
 
 Freeciv*supportunitcanvas.label:
 Freeciv*supportunitcanvas.borderWidth:                0
@@ -2993,17 +3006,17 @@ Freeciv*supportunitcanvas.translations:		#override \n\
   <Btn3Up>:	notify() unset()
 
 Freeciv*supportunitnextcommand.label:		>
-Freeciv*supportunitnextcommand.foreground:	white
-Freeciv*supportunitnextcommand.background:	blue
+Freeciv*supportunitnextcommand.foreground:	black
+Freeciv*supportunitnextcommand.background:	gray
 
 Freeciv*supportunitprevcommand.label:		<
-Freeciv*supportunitprevcommand.foreground:	white
-Freeciv*supportunitprevcommand.background:	blue
+Freeciv*supportunitprevcommand.foreground:	black
+Freeciv*supportunitprevcommand.background:	gray
 
 Freeciv*presentunitlabel.label:			_("Units present:")
 Freeciv*presentunitlabel.internalWidth:               0
 Freeciv*presentunitlabel.borderWidth:                 0
-Freeciv*presentunitlabel.background:              white
+Freeciv*presentunitlabel.background:              gray84
 
 Freeciv*presentunitcanvas.label:
 Freeciv*presentunitcanvas.borderWidth:              0
@@ -3016,12 +3029,12 @@ Freeciv*presentunitcanvas.translations:		#override \n\
   <Btn3Up>:	notify() unset()
 
 Freeciv*presentunitnextcommand.label:		>
-Freeciv*presentunitnextcommand.foreground:	white
-Freeciv*presentunitnextcommand.background:	blue
+Freeciv*presentunitnextcommand.foreground:	black
+Freeciv*presentunitnextcommand.background:	gray
 
 Freeciv*presentunitprevcommand.label:		<
-Freeciv*presentunitprevcommand.foreground:	white
-Freeciv*presentunitprevcommand.background:	blue
+Freeciv*presentunitprevcommand.foreground:	black
+Freeciv*presentunitprevcommand.background:	gray
 
 Freeciv*citymapcanvas.horizDistance:	0
 Freeciv*citymapcanvas.translations: \
@@ -3038,38 +3051,40 @@ Freeciv*racespopup*translations:	#override \
 
 Freeciv*raceslabel.label:		_("Select nation and name:")
 Freeciv*raceslabel.borderWidth:		0
-Freeciv*raceslabel.background:		lightblue
+Freeciv*raceslabel.background:		gray84
 
-Freeciv*racesform.background:		lightblue
+Freeciv*racesform.background:		gray84
 
 Freeciv*racestogglesform.borderWidth:	1
-Freeciv*racestogglesform.background:	lightblue
-Freeciv*racestogglesform*background:	blue
-Freeciv*racestogglesform*foreground:	white
+Freeciv*racestogglesform.background:	gray84
+Freeciv*racestogglesform*background:	gray
+Freeciv*racestogglesform*foreground:	black
 
 Freeciv*racesleaderform.borderWidth:	0
 
 Freeciv*racesleaderpickmenubutton.label:	_("Pick Name")
+Freeciv*racesleaderpickmenubutton.background:	gray
+Freeciv*racesleaderpickmenubutton.foreground:	black
 
 Freeciv*racessexlabel.label:		_("Select your sex:")
 Freeciv*racessexlabel.borderWidth:	0
-Freeciv*racessexlabel.background:	lightblue
+Freeciv*racessexlabel.background:	gray84
 
 Freeciv*racessextoggle0.label:		_("Male  ")
 Freeciv*racessextoggle1.label:		_("Female")
 
-Freeciv*racessexform.background:	lightblue
-Freeciv*racessexform*background:	blue
-Freeciv*racessexform*foreground:	white
+Freeciv*racessexform.background:	gray84
+Freeciv*racessexform*background:	gray
+Freeciv*racessexform*foreground:	black
 
 Freeciv*racesstylelabel.label:		_("Select city style:")
 Freeciv*racesstylelabel.borderWidth:	0
-Freeciv*racesstylelabel.background:	lightblue
+Freeciv*racesstylelabel.background:	gray84
 
 Freeciv*racesstyleform.borderWidth:	1
-Freeciv*racesstyleform.background:	lightblue
-Freeciv*racesstyleform*background:	blue
-Freeciv*racesstyleform*foreground:	white
+Freeciv*racesstyleform.background:	gray84
+Freeciv*racesstyleform*background:	gray
+Freeciv*racesstyleform*foreground:	black
 
 Freeciv*racesactionform.borderWidth:	0
 
@@ -3118,6 +3133,7 @@ Freeciv*playerslist.top:                 chainTop
 Freeciv*playerslist.bottom:              chainBottom
 Freeciv*playerslist.left:                chainLeft
 Freeciv*playerslist.right:               chainRight
+Freeciv*playerslist.background:          white
 
 Freeciv*playersclosecommand.label:         _("Close")
 Freeciv*playersclosecommand.fromVert:      playerslist
@@ -3201,6 +3217,7 @@ Freeciv*meswinviewport.fromVert:            meswinlabel
 Freeciv*meswinlist.forceColumns:        true
 Freeciv*meswinlist.defaultColumns:      1
 Freeciv*meswinlist.verticalList:        true
+Freeciv*meswinlist.background:		white
 
 Freeciv*meswinclosecommand.label:         _("Close")
 Freeciv*meswinclosecommand.fromVert:      meswinviewport
