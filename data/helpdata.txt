@@ -344,7 +344,7 @@ Mouse:
   Center-click or
      Control-right-click:  Show tile info
   Right-click:             Center tile in view
-  Shift-click:             Wake up sentried units on tile
+  Shift-click:             Adjust city workers from main map
 
 Keyboard:
 =========
@@ -368,7 +368,7 @@ Keyboard:
   u: (U)nload boat
   w: (W)ait until later in turn
   W: (W)akeup sentried units on tile
-  t: Show (T)iles city is using (mouse over city or worked tile)
+  t: Show (T)iles city is using (mouse over or near city)
   x: auto-e(X)plore
 ---
 #Strategy and tactics
