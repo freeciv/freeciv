@@ -675,7 +675,7 @@ bool pplayers_in_peace(const struct player *pplayer,
   if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
   }
-  return (ds == DS_PEACE || ds == DS_ALLIANCE);
+  return (ds == DS_PEACE || ds == DS_ALLIANCE || ds == DS_TEAM);
 }
 
 /***************************************************************
