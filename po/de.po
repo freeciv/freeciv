@@ -3,8 +3,8 @@
 #
 # ###########################################################
 # # German translations for Freeciv                         #
-# # Copyright (C)1999-2000 Free Software Foundation, Inc.   #
-# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2000             #
+# # Copyright (C)1999-2001 Free Software Foundation, Inc.   #
+# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2001             #
 # ###########################################################
 #
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -21,10 +21,6 @@
 # + Sollten Ihnen "bessere" Übersetzungen einfallen, senden Sie      +
 # + bitte KEINEN PATCH, sondern stellen Sie Ihre Vorschläge als TEXT +
 # + zur Diskussion.                                                  +
-# + Die Mailingliste zur deutschen Übersetzung von Freeciv können    +
-# + Sie mit einer Email an <freeciv.de-subscribe@listbot.com>        +
-# + jederzeit abonnieren.                                            +
-# + Wir würden uns über Ihre Mitarbeit sehr freuen!                  + 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # ###################################
@@ -35,7 +31,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2001-01-05 14:02+0100\n"
+"POT-Creation-Date: 2001-01-08 05:26+0100\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -370,55 +366,77 @@ msgstr "Züge"
 msgid " and "
 msgstr " und "
 
-#: common/version.c:34
+#: common/version.c:32
+#, c-format
+msgid "Freeciv version %s %s"
+msgstr "Freeciv Version %s %s"
+
+#: common/version.c:33
+msgid "(beta version)"
+msgstr "(Beta Version)"
+
+#: common/version.c:35
+#, c-format
+msgid "Freeciv version %s"
+msgstr "Freeciv Version %s"
+
+#: common/version.c:48
+msgid "betatest version "
+msgstr "Betatest Version"
+
+#: common/version.c:50
+msgid "version "
+msgstr "Version "
+
+#: common/version.c:65
 msgid "January"
 msgstr "Januar"
 
-#: common/version.c:35
+#: common/version.c:66
 msgid "February"
 msgstr "Februar"
 
-#: common/version.c:36
+#: common/version.c:67
 msgid "March"
 msgstr "März"
 
-#: common/version.c:37
+#: common/version.c:68
 msgid "April"
 msgstr "April"
 
-#: common/version.c:38
+#: common/version.c:69
 msgid "May"
 msgstr "Mai"
 
-#: common/version.c:39
+#: common/version.c:70
 msgid "June"
 msgstr "Juni"
 
-#: common/version.c:40
+#: common/version.c:71
 msgid "July"
 msgstr "Juli"
 
-#: common/version.c:41
+#: common/version.c:72
 msgid "August"
 msgstr "August"
 
-#: common/version.c:42
+#: common/version.c:73
 msgid "September"
 msgstr "September"
 
-#: common/version.c:43
+#: common/version.c:74
 msgid "October"
 msgstr "Oktober"
 
-#: common/version.c:44
+#: common/version.c:75
 msgid "November"
 msgstr "November"
 
-#: common/version.c:45
+#: common/version.c:76
 msgid "December"
 msgstr "Dezember"
 
-#: common/version.c:48
+#: common/version.c:79
 #, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -9370,11 +9388,7 @@ msgstr ""
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
 "möglichkeiten der deutschen Übersetzung, indem Sie eine Email an den "
-"Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken.\n"
-"\n"
-"Sie können mit einer Email an <freeciv.de-subscribe@listbot.com> gerne "
-"unsere Mailingliste abonnieren. Wir würden uns über Ihre Mitarbeit sehr "
-"freuen!"
+"Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken."
 
 #: data/helpdata.txt:401
 msgid ""
