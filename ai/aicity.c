@@ -481,7 +481,7 @@ int unit_attack_desirability(int i)
   return(unit_desirability(i, 0));
 } 
 
-int ai_choose_attacker(struct city *pcity, int which)
+int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
 { /* don't ask me why this is in aicity, I can't even remember -- Syela */
   int i;
   int best = 0;
@@ -489,8 +489,7 @@ int ai_choose_attacker(struct city *pcity, int which)
   int cur;
   for (i = U_WARRIORS; i <= U_BATTLESHIP ; i++) { /* not dealing with planes yet */
     cur = unit_attack_desirability(i);
-    if ((which == 1 && unit_types[i].move_type == LAND_MOVING) ||
-        (which == 2 && unit_types[i].move_type == SEA_MOVING)) {
+    if (which == unit_types[i].move_type) {
       if (can_build_unit(pcity, i) && (cur > best || (cur == best &&
  get_unit_type(i)->build_cost <= get_unit_type(bestid)->build_cost))) {
         best = cur;
@@ -503,12 +502,12 @@ int ai_choose_attacker(struct city *pcity, int which)
 
 int ai_choose_attacker_ground(struct city *pcity)
 {
-  return(ai_choose_attacker(pcity, 1));
+  return(ai_choose_attacker(pcity, LAND_MOVING));
 }
 
 int ai_choose_attacker_sailing(struct city *pcity)
 {
-  return(ai_choose_attacker(pcity, 2));
+  return(ai_choose_attacker(pcity, SEA_MOVING));
 }
 
 int ai_choose_defender_versus(struct city *pcity, int v)
