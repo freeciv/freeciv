@@ -73,7 +73,16 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+Freeciv.Devel.2004.Sep.25"
+/* +2.0 is the capability string for the 2.0.x release(s).
+ *
+ *   - No new manditory capabilities can be added to the release branch; doing
+ *     so would break network capability of supposedly "compatible" releases.
+ *
+ *   - Avoid adding a new manditory capbility to the development branch for
+ *     as long as possible.  We want to maintain network compatibility with
+ *     the stable branch for as long as possible.
+ */
+#define CAPABILITY "+2.0"
 
 void init_our_capability(void)
 {
