@@ -524,9 +524,10 @@ int get_defense_power(struct unit *punit)
       || punit->type>=game.num_unit_types)
     abort();
   power=get_unit_type(punit->type)->defense_strength*10;
-  if (punit->veteran)
-    power*=1.5;
-  
+  if (punit->veteran) {
+    power *= 3;
+    power /= 2;
+  }
   terra=map_get_terrain(punit->x, punit->y);
   db = get_tile_type(terra)->defense_bonus;
   if (map_get_special(punit->x, punit->y) & S_RIVER)
