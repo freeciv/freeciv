@@ -22,12 +22,6 @@ void get_mapview_dimensions(int *map_view_topleft_map_x,
   *map_view_pixel_height = canvas_height;
 }
 
-bool tile_visible_mapcanvas(int x, int y)
-{
-	/* PORTME */
-	return FALSE;
-}
-
 bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
 	/* PORTME */

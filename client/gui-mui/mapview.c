@@ -365,27 +365,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 /**************************************************************************
  GUI Independ (with new access functions)
 **************************************************************************/
-bool tile_visible_mapcanvas(int x, int y)
-{
-  if (is_isometric) {
-    int dummy_x, dummy_y; /* well, it needs two pointers... */
-    return get_canvas_xy(x, y, &dummy_x, &dummy_y);
-  } else {
-    int map_view_x0 = get_map_x_start();
-    int map_view_y0 = get_map_y_start();
-    int map_canvas_store_twidth = get_map_x_visible();
-    int map_canvas_store_theight = get_map_y_visible();
-
-    return (y>=map_view_y0 && y<map_view_y0+map_canvas_store_theight &&
-	    ((x>=map_view_x0 && x<map_view_x0+map_canvas_store_twidth) ||
-	     (x+map.xsize>=map_view_x0 && 
-	      x+map.xsize<map_view_x0+map_canvas_store_twidth)));
-  }
-}
-
-/**************************************************************************
- GUI Independ (with new access functions)
-**************************************************************************/
 bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   if (is_isometric) {

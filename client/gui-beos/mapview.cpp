@@ -11,14 +11,6 @@
 #include "Defs.hpp"
 #include "mapview.h"
 
-bool tile_visible_mapcanvas(int x, int y)	// HOOK
-{
-	// @@@@ will probably require some direct accesses
-	NOT_FINISHED( "tile_visible_mapcanvas(int" );
-	return FALSE;
-}
-
-
 bool tile_visible_and_not_on_border_mapcanvas(int x, int y)	// HOOK
 {
 	// @@@@ will probably require some direct accesses

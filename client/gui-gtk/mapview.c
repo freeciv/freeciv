@@ -515,23 +515,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   gtk_pixmap_set(GTK_PIXMAP(government_label), gov_sprite->pixmap, NULL);
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-bool tile_visible_mapcanvas(int x, int y)
-{
-  if (is_isometric) {
-    int dummy_x, dummy_y; /* well, it needs two pointers... */
-    return get_canvas_xy(x, y, &dummy_x, &dummy_y);
-  } else {
-    return (y>=map_view_y0 && y<map_view_y0+map_canvas_store_theight &&
-	    ((x>=map_view_x0 && x<map_view_x0+map_canvas_store_twidth) ||
-	     (x+map.xsize>=map_view_x0 && 
-	      x+map.xsize<map_view_x0+map_canvas_store_twidth)));
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

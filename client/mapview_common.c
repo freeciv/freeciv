@@ -316,6 +316,17 @@ void base_center_tile_mapcanvas(int map_x, int map_y,
 }
 
 /**************************************************************************
+  Return TRUE iff the given map position has a tile visible on the
+  map canvas.
+**************************************************************************/
+bool tile_visible_mapcanvas(int map_x, int map_y)
+{
+  int dummy_x, dummy_y;		/* well, it needs two pointers... */
+
+  return get_canvas_xy(map_x, map_y, &dummy_x, &dummy_y);
+}
+
+/**************************************************************************
  Update (only) the visible part of the map
 **************************************************************************/
 void update_map_canvas_visible(void)

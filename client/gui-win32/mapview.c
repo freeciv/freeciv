@@ -454,28 +454,6 @@ SPRITE *get_citizen_sprite(int frame)
   return sprites.citizen[frame];
 }           
 
-
-/**************************************************************************
-
-**************************************************************************/
-bool
-tile_visible_mapcanvas(int x, int y)
-{
-  if (is_isometric)
-    {
-      int dummy_x, dummy_y;
-      return get_canvas_xy(x,y,&dummy_x,&dummy_y);
-    }
-  else
-    {
-      return (y>=map_view_y && y<map_view_y+map_view_height &&
-	      ((x>=map_view_x && x<map_view_x+map_view_width) ||
-	       (x+map.xsize>=map_view_x &&
-		x+map.xsize<map_view_x+map_view_width)));   
-    }    
-  
-}
-
 /**************************************************************************
 
 **************************************************************************/
