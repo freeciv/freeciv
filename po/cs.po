@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-26 20:39+0100\n"
+"PO-Revision-Date: 2005-01-27 07:30+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5855,7 +5855,7 @@ msgstr "Hra: Nelze zaútočit na %s jednotku, dokud nevyhlásíme válku %s."
 
 #: server/unithand.c:1069
 msgid "Game: This unit is being transported, and so cannot bombard."
-msgstr ""
+msgstr "Hra: Tato jednotka je transportována, takže nemůže bombardovat."
 
 #: server/unithand.c:1084
 msgid "Game: You can't attack there."
@@ -6020,7 +6020,7 @@ msgstr "Hra: Rozpuštěn náš %s."
 #: server/unittools.c:1538
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr ""
+msgstr "Nelze bránit %s, %s prohrál hru."
 
 #: server/unittools.c:1540
 #, c-format
@@ -8086,7 +8086,7 @@ msgstr "Ukládání selhalo, nelze nalézt název souboru."
 
 #: client/options.c:610
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr ""
+msgstr "Pokud přidáte přednastavení ručně, aktualizujte také \"number_of_presets\""
 
 #: client/options.c:621
 #, c-format
@@ -8709,7 +8709,7 @@ msgstr "Klient nepodporuje izometrickou sadu dlaždic. Použije se namísto toho
 
 #: client/tilespec.c:803
 msgid "Client does not support overhead view tilesets. Using default tileset instead."
-msgstr ""
+msgstr "Klient nepodporuje dlaždice z horního pohledu. Použijí se místo toho výchozí."
 
 #: client/tilespec.c:857
 msgid "Invalid darkness style set in tileset."
@@ -10905,7 +10905,7 @@ msgstr ""
 #: client/gui-gtk-2.0/mapview.c:960
 #: client/gui-win32/mapview.c:725
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "Lepší clona funguje pouze v truecolor. Vypíná se"
 
 #: client/gui-gtk-2.0/menu.c:231
 msgid "Leaving a local game will end it!"
