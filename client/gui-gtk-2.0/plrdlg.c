@@ -280,7 +280,7 @@ void create_players_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), menubar,
 		     FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), sw,
-		     TRUE, TRUE, 0);
+		     TRUE, TRUE, 5);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Player"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
