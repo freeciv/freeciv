@@ -264,7 +264,7 @@ PACKET_THAW_HINT:
 
 The Xaw client uses XtAppAddInput() to tell Xt to call the callback
 functions, when something happens on the client socket.
-The Gtk+ client uses a similar gdk_input_add() call.
+The GTK+ client uses a similar gdk_input_add() call.
 
 [The packet system started out as a pain and it stayed that way all the time. 
 After using Java's object serialize system, this handcoded serialize
@@ -321,11 +321,11 @@ Each terrain tile is drawn in 16 versions, all the combinations with
 with a green border in one of the main directions. Hills, mountains,
 forests and rivers are treated in special cases.
 
-The XAW client requires that the graphics be stored in "paletted" PNGs,
+The Xaw client requires that the graphics be stored in "paletted" PNGs,
 which for graphics with few colors is probably a good idea anyway. It also
 has a limited number of colors available, although it will try to match
 similar-looking colors after the existing supply has been exhausted.  Of
-course, not every tileset has to be usable by the XAW client.
+course, not every tileset has to be usable by the Xaw client.
 
 Isometric tilesets are drawn in a similar way to how civ2 draws (that's
 why civ2 graphics are compatible).  For each base terrain type there

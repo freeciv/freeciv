@@ -49,7 +49,7 @@ KNOWN BUGS:
    after. Fx when building the lighthouse some triremes will only get
    the movement bonus the next turn.
 
- - The XAW client can only display 25 citizens in the city dialog.
+ - The Xaw client can only display 25 citizens in the city dialog.
 
  - The autoattack generally doesn't work very well.
 
@@ -59,7 +59,7 @@ KNOWN BUGS:
  - The science dialog is not updated when you gain a tech. You need to
    close and open it.
 
- - In the gtk client, sometimes the area near the minimap contains
+ - In the GTK+ client, sometimes the area near the minimap contains
    garbage.
 
  - Automate routines like auto explore don't handle triremes very well.
@@ -76,8 +76,8 @@ KNOWN BUGS:
    and after the human player each turn. This will sometimes give the
    impression that the AI moves twice.
 
- - The xaw client does not work well with the KDE window manager.
-   Try using the gtk client or another window manager.
+ - The Xaw client does not work well with the KDE window manager.
+   Try using the GTK+ client or another window manager.
 
 REPORTING A BUG:
 ================
@@ -121,7 +121,7 @@ Here's what to do:
 
    - Describe the problem, including any messages that were displayed.
 
-   - Indicate which client(s) you are using (Gtk+ or Xaw).
+   - Indicate which client(s) you are using (GTK+ or Xaw).
 
    - Tell us the name and version of:
 
@@ -130,8 +130,8 @@ Here's what to do:
 
        - The version number of Freeciv.
 
-       - If you are using the Gtk+ client, the version numbers
-         (if you know them) of your Gtk+, glib, and imlib libraries.
+       - If you are using the GTK+ client, the version numbers
+         (if you know them) of your GTK+, GLib, and imlib libraries.
 
        - If you are using the Xaw client, the version numbers (if you
          know them) of the X libraries, the PNG library, the Z library,

@@ -167,12 +167,12 @@ Client:
   different graphics for the map terrain, units, and so on).  The
   distribution comes with 2 main tilesets:
   - isotrident: An isometric tileset similar in shape to the one in civ 2. 
-    (not yet supported by the xaw client.)
+    (not yet supported by the Xaw client.)
   - trident: a civ1-style tileset with 30x30 tiles.
     The trident tileset has a variant called "trident_shields".
 
-  In this release the isotrident tileset is the default in the gtk, amiga,
-  and win32 clients, while the xaw client has trident as default. 
+  In this release the isotrident tileset is the default in the GTK+,
+  amiga, and win32 clients, while the Xaw client has trident as default. 
   The "_shields" variants use a shield-shaped flag, which is smaller and 
   may be less obscured. 
   try them both and decide for yourself -- to use the trident tileset
