@@ -1051,9 +1051,24 @@ static struct packet_server_join_req *receive_packet_server_join_req_100(struct 
   dio_get_string(&din, real_packet->username, sizeof(real_packet->username));
   dio_get_string(&din, real_packet->capability, sizeof(real_packet->capability));
   dio_get_string(&din, real_packet->version_label, sizeof(real_packet->version_label));
-  dio_get_uint32(&din, (int *) &real_packet->major_version);
-  dio_get_uint32(&din, (int *) &real_packet->minor_version);
-  dio_get_uint32(&din, (int *) &real_packet->patch_version);
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->major_version = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->minor_version = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint32(&din, &readin);
+    real_packet->patch_version = readin;
+  }
 
   RECEIVE_PACKET_END(real_packet);
 }
@@ -1151,7 +1166,12 @@ static struct packet_server_join_reply *receive_packet_server_join_reply_100(str
   dio_get_string(&din, real_packet->message, sizeof(real_packet->message));
   dio_get_string(&din, real_packet->capability, sizeof(real_packet->capability));
   dio_get_string(&din, real_packet->challenge_file, sizeof(real_packet->challenge_file));
-  dio_get_uint8(&din, (int *) &real_packet->conn_id);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->conn_id = readin;
+  }
 
   RECEIVE_PACKET_END(real_packet);
 }
@@ -1256,7 +1276,12 @@ static struct packet_authentication_req *receive_packet_authentication_req_100(s
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->message, sizeof(real_packet->message));
@@ -1649,7 +1674,12 @@ static struct packet_nation_unavailable *receive_packet_nation_unavailable_100(s
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->nation);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -1881,14 +1911,24 @@ static struct packet_nation_select_req *receive_packet_nation_select_req_100(str
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->nation_no);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation_no = readin;
+    }
   }
   real_packet->is_male = BV_ISSET(fields, 1);
   if (BV_ISSET(fields, 2)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->city_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_style = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -2144,7 +2184,12 @@ static struct packet_game_state *receive_packet_game_state_100(struct connection
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint32(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -2319,7 +2364,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->nscores);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nscores = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     
@@ -2331,7 +2381,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->id[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id[i] = readin;
+    }
       }
     }
   }
@@ -2345,7 +2400,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->score[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->score[i] = readin;
+    }
       }
     }
   }
@@ -2359,7 +2419,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint32(&din, (int *) &real_packet->pop[i]);
+        {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->pop[i] = readin;
+    }
       }
     }
   }
@@ -2373,7 +2438,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->bnp[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->bnp[i] = readin;
+    }
       }
     }
   }
@@ -2387,7 +2457,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->mfg[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->mfg[i] = readin;
+    }
       }
     }
   }
@@ -2401,7 +2476,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->cities[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->cities[i] = readin;
+    }
       }
     }
   }
@@ -2415,7 +2495,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->techs[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->techs[i] = readin;
+    }
       }
     }
   }
@@ -2429,7 +2514,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->mil_service[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->mil_service[i] = readin;
+    }
       }
     }
   }
@@ -2443,7 +2533,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->wonders[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->wonders[i] = readin;
+    }
       }
     }
   }
@@ -2457,7 +2552,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->research[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->research[i] = readin;
+    }
       }
     }
   }
@@ -2471,7 +2571,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint32(&din, (int *) &real_packet->landarea[i]);
+        {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->landarea[i] = readin;
+    }
       }
     }
   }
@@ -2485,7 +2590,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint32(&din, (int *) &real_packet->settledarea[i]);
+        {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->settledarea[i] = readin;
+    }
       }
     }
   }
@@ -2499,7 +2609,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->literacy[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->literacy[i] = readin;
+    }
       }
     }
   }
@@ -2513,7 +2628,12 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
         real_packet->nscores = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->nscores; i++) {
-        dio_get_uint32(&din, (int *) &real_packet->spaceship[i]);
+        {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->spaceship[i] = readin;
+    }
       }
     }
   }
@@ -3042,8 +3162,18 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
   RECEIVE_PACKET_START(packet_tile_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint8(&din, (int *) &real_packet->x);
-  dio_get_uint8(&din, (int *) &real_packet->y);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->x = readin;
+  }
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->y = readin;
+  }
 
 
   if (!*hash) {
@@ -3064,19 +3194,44 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->known);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->known = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint16(&din, (int *) &real_packet->special);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->special = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_sint16(&din, (int *) &real_packet->continent);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->continent = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
     dio_get_string(&din, real_packet->spec_sprite, sizeof(real_packet->spec_sprite));
@@ -3271,85 +3426,220 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint32(&din, (int *) &real_packet->gold);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gold = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint32(&din, (int *) &real_packet->tech);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->tech = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->researchcost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->researchcost = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->skill_level);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->skill_level = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint32(&din, (int *) &real_packet->seconds_to_turndone);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->seconds_to_turndone = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint32(&din, (int *) &real_packet->timeout);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->timeout = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_sint16(&din, (int *) &real_packet->turn);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->turn = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_sint16(&din, (int *) &real_packet->year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->year = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_sint16(&din, (int *) &real_packet->end_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->end_year = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_players);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_players = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->max_players);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->max_players = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->nplayers);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nplayers = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->player_idx);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->player_idx = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint32(&din, (int *) &real_packet->globalwarming);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->globalwarming = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint32(&din, (int *) &real_packet->heating);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->heating = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint32(&din, (int *) &real_packet->nuclearwinter);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->nuclearwinter = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint32(&din, (int *) &real_packet->cooling);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->cooling = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->cityfactor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->cityfactor = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->diplcost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->diplcost = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->freecost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->freecost = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->conquercost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->conquercost = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->unhappysize);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unhappysize = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->angrycitizen);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->angrycitizen = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->techpenalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->techpenalty = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->foodbox);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->foodbox = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->civstyle);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->civstyle = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->diplomacy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->diplomacy = readin;
+    }
   }
   real_packet->spacerace = BV_ISSET(fields, 27);
   if (BV_ISSET(fields, 28)) {
@@ -3364,7 +3654,12 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       if(i > A_LAST) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
       } else {
-        dio_get_uint8(&din, (int *) &real_packet->global_advances[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->global_advances[i] = readin;
+    }
       }
     }
   }
@@ -3380,7 +3675,12 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       if(i > B_LAST) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
       } else {
-        dio_get_uint16(&din, (int *) &real_packet->global_wonders[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->global_wonders[i] = readin;
+    }
       }
     }
   }
@@ -3781,13 +4081,28 @@ static struct packet_map_info *receive_packet_map_info_100(struct connection *pc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->xsize);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->xsize = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->ysize);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->ysize = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->topology_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->topology_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -3956,10 +4271,20 @@ static struct packet_nuke_tile_info *receive_packet_nuke_tile_info_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -4144,16 +4469,36 @@ static struct packet_chat_msg *receive_packet_chat_msg_100(struct connection *pc
     dio_get_string(&din, real_packet->message, sizeof(real_packet->message));
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_sint16(&din, (int *) &real_packet->event);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->event = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->conn_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->conn_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -4536,7 +4881,12 @@ static struct packet_city_remove *receive_packet_city_remove_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -4712,7 +5062,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   RECEIVE_PACKET_START(packet_city_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -4731,19 +5086,39 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->size = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
     
@@ -4751,7 +5126,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < 5; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->ppl_happy[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ppl_happy[i] = readin;
+    }
       }
     }
   }
@@ -4761,7 +5141,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < 5; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->ppl_content[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ppl_content[i] = readin;
+    }
       }
     }
   }
@@ -4771,7 +5156,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < 5; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->ppl_unhappy[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ppl_unhappy[i] = readin;
+    }
       }
     }
   }
@@ -4781,7 +5171,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < 5; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->ppl_angry[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ppl_angry[i] = readin;
+    }
       }
     }
   }
@@ -4791,36 +5186,86 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialists[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialists[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint16(&din, (int *) &real_packet->food_prod);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->food_prod = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint16(&din, (int *) &real_packet->shield_prod);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->shield_prod = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint16(&din, (int *) &real_packet->trade_prod);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->trade_prod = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_sint16(&din, (int *) &real_packet->food_surplus);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->food_surplus = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_sint16(&din, (int *) &real_packet->shield_surplus);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->shield_surplus = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_sint16(&din, (int *) &real_packet->tile_trade);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->tile_trade = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint16(&din, (int *) &real_packet->food_stock);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->food_stock = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint16(&din, (int *) &real_packet->shield_stock);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->shield_stock = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint16(&din, (int *) &real_packet->corruption);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->corruption = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
     
@@ -4828,7 +5273,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < NUM_TRADEROUTES; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->trade[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->trade[i] = readin;
+    }
       }
     }
   }
@@ -4838,47 +5288,112 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < NUM_TRADEROUTES; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->trade_value[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade_value[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint16(&din, (int *) &real_packet->luxury_total);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->luxury_total = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint16(&din, (int *) &real_packet->tax_total);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->tax_total = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint16(&din, (int *) &real_packet->science_total);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->science_total = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint16(&din, (int *) &real_packet->pollution);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->pollution = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint16(&din, (int *) &real_packet->shield_waste);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->shield_waste = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->currently_building);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->currently_building = readin;
+    }
   }
   real_packet->is_building_unit = BV_ISSET(fields, 27);
   if (BV_ISSET(fields, 28)) {
-    dio_get_sint16(&din, (int *) &real_packet->turn_last_built);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->turn_last_built = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->changed_from_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->changed_from_id = readin;
+    }
   }
   real_packet->changed_from_is_unit = BV_ISSET(fields, 30);
   if (BV_ISSET(fields, 31)) {
-    dio_get_uint16(&din, (int *) &real_packet->before_change_shields);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->before_change_shields = readin;
+    }
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_uint16(&din, (int *) &real_packet->disbanded_shields);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->disbanded_shields = readin;
+    }
   }
   if (BV_ISSET(fields, 33)) {
-    dio_get_uint16(&din, (int *) &real_packet->caravan_shields);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->caravan_shields = readin;
+    }
   }
   if (BV_ISSET(fields, 34)) {
-    dio_get_uint16(&din, (int *) &real_packet->last_turns_shield_surplus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->last_turns_shield_surplus = readin;
+    }
   }
   if (BV_ISSET(fields, 35)) {
     dio_get_worklist(&din, &real_packet->worklist);
@@ -4892,7 +5407,12 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       int i;
     
       for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->city_map[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_map[i] = readin;
+    }
       }
     }
   }
@@ -4902,10 +5422,20 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   real_packet->airlift = BV_ISSET(fields, 41);
   real_packet->diplomat_investigate = BV_ISSET(fields, 42);
   if (BV_ISSET(fields, 43)) {
-    dio_get_uint8(&din, (int *) &real_packet->city_options);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_options = readin;
+    }
   }
   if (BV_ISSET(fields, 44)) {
-    dio_get_sint16(&din, (int *) &real_packet->turn_founded);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->turn_founded = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -5510,7 +6040,12 @@ static struct packet_city_short_info *receive_packet_city_short_info_100(struct 
   RECEIVE_PACKET_START(packet_city_short_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -5529,19 +6064,39 @@ static struct packet_city_short_info *receive_packet_city_short_info_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->size = readin;
+    }
   }
   real_packet->happy = BV_ISSET(fields, 5);
   real_packet->unhappy = BV_ISSET(fields, 6);
@@ -5549,7 +6104,12 @@ static struct packet_city_short_info *receive_packet_city_short_info_100(struct 
   real_packet->walls = BV_ISSET(fields, 8);
   real_packet->occupied = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint16(&din, (int *) &real_packet->tile_trade);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->tile_trade = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -5765,10 +6325,20 @@ static struct packet_city_sell *receive_packet_city_sell_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->build_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->build_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -5933,7 +6503,12 @@ static struct packet_city_buy *receive_packet_city_buy_100(struct connection *pc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -6090,10 +6665,20 @@ static struct packet_city_change *receive_packet_city_change_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->build_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->build_id = readin;
+    }
   }
   real_packet->is_build_id_unit_id = BV_ISSET(fields, 2);
 
@@ -6265,7 +6850,12 @@ static struct packet_city_worklist *receive_packet_city_worklist_100(struct conn
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_worklist(&din, &real_packet->worklist);
@@ -6433,13 +7023,28 @@ static struct packet_city_make_specialist *receive_packet_city_make_specialist_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->worker_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->worker_x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->worker_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->worker_y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -6612,13 +7217,28 @@ static struct packet_city_make_worker *receive_packet_city_make_worker_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->worker_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->worker_x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->worker_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->worker_y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -6791,13 +7411,28 @@ static struct packet_city_change_specialist *receive_packet_city_change_speciali
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->from);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->from = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->to);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->to = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -6970,7 +7605,12 @@ static struct packet_city_rename *receive_packet_city_rename_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -7138,10 +7778,20 @@ static struct packet_city_options_req *receive_packet_city_options_req_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -7306,7 +7956,12 @@ static struct packet_city_refresh *receive_packet_city_refresh_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -7463,7 +8118,12 @@ static struct packet_city_incite_inq *receive_packet_city_incite_inq_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -7620,10 +8280,20 @@ static struct packet_city_incite_info *receive_packet_city_incite_info_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint32(&din, (int *) &real_packet->cost);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->cost = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -7788,7 +8458,12 @@ static struct packet_city_name_suggestion_req *receive_packet_city_name_suggesti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -7945,7 +8620,12 @@ static struct packet_city_name_suggestion_info *receive_packet_city_name_suggest
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -8130,10 +8810,20 @@ static struct packet_city_sabotage_list *receive_packet_city_sabotage_list_100(s
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->diplomat_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->diplomat_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
     dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
@@ -8305,7 +8995,12 @@ static struct packet_player_remove *receive_packet_player_remove_100(struct conn
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->player_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->player_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -8481,7 +9176,12 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   RECEIVE_PACKET_START(packet_player_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint8(&din, (int *) &real_packet->playerno);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->playerno = readin;
+  }
 
 
   if (!*hash) {
@@ -8504,27 +9204,62 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   }
   real_packet->is_male = BV_ISSET(fields, 1);
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->government);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->embassy);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->embassy = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->city_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_style = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint16(&din, (int *) &real_packet->nation);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->team);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->team = readin;
+    }
   }
   real_packet->turn_done = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_sint16(&din, (int *) &real_packet->nturns_idle);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->nturns_idle = readin;
+    }
   }
   real_packet->is_alive = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint32(&din, (int *) &real_packet->reputation);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->reputation = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
     
@@ -8537,45 +9272,110 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
     }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint32(&din, (int *) &real_packet->gold);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gold = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->tax);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tax = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->science);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->science = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->luxury);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->luxury = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint16(&din, (int *) &real_packet->bulbs_last_turn);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->bulbs_last_turn = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint32(&din, (int *) &real_packet->bulbs_researched);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->bulbs_researched = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint32(&din, (int *) &real_packet->techs_researched);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->techs_researched = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->researching);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->researching = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint16(&din, (int *) &real_packet->future_tech);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->future_tech = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_goal);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_goal = readin;
+    }
   }
   real_packet->is_connected = BV_ISSET(fields, 22);
   if (BV_ISSET(fields, 23)) {
-    dio_get_sint16(&din, (int *) &real_packet->revolution_finishes);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->revolution_finishes = readin;
+    }
   }
   real_packet->ai = BV_ISSET(fields, 24);
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->barbarian_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->barbarian_type = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint32(&din, (int *) &real_packet->gives_shared_vision);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gives_shared_vision = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
@@ -8586,7 +9386,12 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       int i;
     
       for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-        dio_get_sint16(&din, (int *) &real_packet->love[i]);
+        {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->love[i] = readin;
+    }
       }
     }
   }
@@ -8907,7 +9712,12 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
   RECEIVE_PACKET_START(packet_player_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint8(&din, (int *) &real_packet->playerno);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->playerno = readin;
+  }
 
 
   if (!*hash) {
@@ -8930,27 +9740,62 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
   }
   real_packet->is_male = BV_ISSET(fields, 1);
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->government);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->embassy);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->embassy = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->city_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_style = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint16(&din, (int *) &real_packet->nation);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->team);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->team = readin;
+    }
   }
   real_packet->turn_done = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_sint16(&din, (int *) &real_packet->nturns_idle);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->nturns_idle = readin;
+    }
   }
   real_packet->is_alive = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint32(&din, (int *) &real_packet->reputation);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->reputation = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
     
@@ -8963,42 +9808,102 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
     }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint32(&din, (int *) &real_packet->gold);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gold = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->tax);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tax = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->science);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->science = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->luxury);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->luxury = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint32(&din, (int *) &real_packet->bulbs_researched);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->bulbs_researched = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint32(&din, (int *) &real_packet->techs_researched);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->techs_researched = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->researching);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->researching = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint16(&din, (int *) &real_packet->future_tech);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->future_tech = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_goal);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_goal = readin;
+    }
   }
   real_packet->is_connected = BV_ISSET(fields, 21);
   if (BV_ISSET(fields, 22)) {
-    dio_get_sint16(&din, (int *) &real_packet->revolution_finishes);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->revolution_finishes = readin;
+    }
   }
   real_packet->ai = BV_ISSET(fields, 23);
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->barbarian_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->barbarian_type = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint32(&din, (int *) &real_packet->gives_shared_vision);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gives_shared_vision = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
@@ -9009,7 +9914,12 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
       int i;
     
       for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-        dio_get_sint16(&din, (int *) &real_packet->love[i]);
+        {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->love[i] = readin;
+    }
       }
     }
   }
@@ -9451,13 +10361,28 @@ static struct packet_player_rates *receive_packet_player_rates_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->tax);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tax = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->luxury);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->luxury = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->science);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->science = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -9700,7 +10625,12 @@ static struct packet_player_government *receive_packet_player_government_100(str
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->government);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -9857,7 +10787,12 @@ static struct packet_player_research *receive_packet_player_research_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -10014,7 +10949,12 @@ static struct packet_player_tech_goal *receive_packet_player_tech_goal_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -10241,13 +11181,28 @@ static struct packet_player_attribute_chunk *receive_packet_player_attribute_chu
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint32(&din, (int *) &real_packet->offset);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->offset = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint32(&din, (int *) &real_packet->total_length);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->total_length = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint32(&din, (int *) &real_packet->chunk_length);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->chunk_length = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
     dio_get_memory(&din, real_packet->data, real_packet->chunk_length);
@@ -10430,7 +11385,12 @@ static struct packet_unit_remove *receive_packet_unit_remove_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -10606,7 +11566,12 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
   RECEIVE_PACKET_START(packet_unit_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -10625,19 +11590,44 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint16(&din, (int *) &real_packet->homecity);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->homecity = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->veteran);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->veteran = readin;
+    }
   }
   real_packet->ai = BV_ISSET(fields, 5);
   real_packet->paradropped = BV_ISSET(fields, 6);
@@ -10645,56 +11635,141 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
   real_packet->transported = BV_ISSET(fields, 8);
   real_packet->done_moving = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint16(&din, (int *) &real_packet->transported_by);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transported_by = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->movesleft);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->movesleft = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity_count = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->unhappiness);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unhappiness = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_food = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep_gold);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_gold = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->occupy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->occupy = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->goto_dest_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_x = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->goto_dest_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_y = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint16(&din, (int *) &real_packet->activity_target);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->activity_target = readin;
+    }
   }
   real_packet->has_orders = BV_ISSET(fields, 25);
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint16(&din, (int *) &real_packet->orders_length);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_length = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint16(&din, (int *) &real_packet->orders_index);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_index = readin;
+    }
   }
   real_packet->orders_repeat = BV_ISSET(fields, 28);
   real_packet->orders_vigilant = BV_ISSET(fields, 29);
@@ -10708,7 +11783,12 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders[i] = readin;
+    }
       }
     }
   }
@@ -10722,7 +11802,12 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_dirs[i] = readin;
+    }
       }
     }
   }
@@ -10736,7 +11821,12 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders_activities[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_activities[i] = readin;
+    }
       }
     }
   }
@@ -11098,7 +12188,12 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
   RECEIVE_PACKET_START(packet_unit_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -11117,16 +12212,36 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint16(&din, (int *) &real_packet->homecity);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->homecity = readin;
+    }
   }
   real_packet->veteran_old = BV_ISSET(fields, 4);
   real_packet->ai = BV_ISSET(fields, 5);
@@ -11135,56 +12250,141 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
   real_packet->transported = BV_ISSET(fields, 8);
   real_packet->done_moving = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint16(&din, (int *) &real_packet->transported_by);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transported_by = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->movesleft);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->movesleft = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity_count = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->unhappiness);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unhappiness = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_food = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep_gold);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_gold = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->occupy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->occupy = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->goto_dest_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_x = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->goto_dest_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_y = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint16(&din, (int *) &real_packet->activity_target);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->activity_target = readin;
+    }
   }
   real_packet->has_orders = BV_ISSET(fields, 25);
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint16(&din, (int *) &real_packet->orders_length);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_length = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint16(&din, (int *) &real_packet->orders_index);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_index = readin;
+    }
   }
   real_packet->orders_repeat = BV_ISSET(fields, 28);
   real_packet->orders_vigilant = BV_ISSET(fields, 29);
@@ -11198,7 +12398,12 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders[i] = readin;
+    }
       }
     }
   }
@@ -11212,7 +12417,12 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_dirs[i] = readin;
+    }
       }
     }
   }
@@ -11226,7 +12436,12 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
         real_packet->orders_length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->orders_length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders_activities[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_activities[i] = readin;
+    }
       }
     }
   }
@@ -11654,7 +12869,12 @@ static struct packet_unit_short_info *receive_packet_unit_short_info_100(struct 
   RECEIVE_PACKET_START(packet_unit_short_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -11673,40 +12893,95 @@ static struct packet_unit_short_info *receive_packet_unit_short_info_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->veteran);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->veteran = readin;
+    }
   }
   real_packet->occupied = BV_ISSET(fields, 5);
   real_packet->goes_out_of_sight = BV_ISSET(fields, 6);
   real_packet->transported = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint16(&din, (int *) &real_packet->transported_by);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transported_by = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->packet_use);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->packet_use = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint16(&din, (int *) &real_packet->info_city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->info_city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint16(&din, (int *) &real_packet->serial_num);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->serial_num = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -11886,7 +13161,12 @@ static struct packet_unit_short_info *receive_packet_unit_short_info_101(struct 
   RECEIVE_PACKET_START(packet_unit_short_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint16(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -11905,38 +13185,88 @@ static struct packet_unit_short_info *receive_packet_unit_short_info_101(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->owner);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   real_packet->veteran_old = BV_ISSET(fields, 4);
   real_packet->occupied = BV_ISSET(fields, 5);
   real_packet->goes_out_of_sight = BV_ISSET(fields, 6);
   real_packet->transported = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint16(&din, (int *) &real_packet->transported_by);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transported_by = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->packet_use);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->packet_use = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint16(&din, (int *) &real_packet->info_city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->info_city_id = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint16(&din, (int *) &real_packet->serial_num);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->serial_num = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -12179,16 +13509,36 @@ static struct packet_unit_combat_info *receive_packet_unit_combat_info_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->attacker_unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->attacker_unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->defender_unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->defender_unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->attacker_hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->attacker_hp = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->defender_hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defender_hp = readin;
+    }
   }
   real_packet->make_winner_veteran = BV_ISSET(fields, 4);
 
@@ -12370,13 +13720,28 @@ static struct packet_unit_move *receive_packet_unit_move_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -12549,7 +13914,12 @@ static struct packet_unit_build_city *receive_packet_unit_build_city_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -12717,7 +14087,12 @@ static struct packet_unit_disband *receive_packet_unit_disband_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -12874,10 +14249,20 @@ static struct packet_unit_change_homecity *receive_packet_unit_change_homecity_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13042,7 +14427,12 @@ static struct packet_unit_establish_trade *receive_packet_unit_establish_trade_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13199,7 +14589,12 @@ static struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wond
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13356,13 +14751,28 @@ static struct packet_unit_goto *receive_packet_unit_goto_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13535,10 +14945,20 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->length);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->length = readin;
+    }
   }
   real_packet->repeat = BV_ISSET(fields, 2);
   real_packet->vigilant = BV_ISSET(fields, 3);
@@ -13552,7 +14972,12 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
         real_packet->length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->orders[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders[i] = readin;
+    }
       }
     }
   }
@@ -13566,7 +14991,12 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
         real_packet->length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->dir[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->dir[i] = readin;
+    }
       }
     }
   }
@@ -13580,15 +15010,30 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
         real_packet->length = MAX_LEN_ROUTE;
       }
       for (i = 0; i < real_packet->length; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->activity[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->dest_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->dest_x = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->dest_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->dest_y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13845,7 +15290,12 @@ static struct packet_unit_auto *receive_packet_unit_auto_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14002,10 +15452,20 @@ static struct packet_unit_load *receive_packet_unit_load_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->cargo_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->cargo_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->transporter_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transporter_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14170,10 +15630,20 @@ static struct packet_unit_unload *receive_packet_unit_unload_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->cargo_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->cargo_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->transporter_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transporter_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14338,7 +15808,12 @@ static struct packet_unit_upgrade *receive_packet_unit_upgrade_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14495,7 +15970,12 @@ static struct packet_unit_nuke *receive_packet_unit_nuke_100(struct connection *
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14652,13 +16132,28 @@ static struct packet_unit_paradrop_to *receive_packet_unit_paradrop_to_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14831,10 +16326,20 @@ static struct packet_unit_airlift *receive_packet_unit_airlift_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->city_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->city_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -14999,16 +16504,36 @@ static struct packet_unit_connect *receive_packet_unit_connect_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity_type = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->dest_x);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->dest_x = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->dest_y);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->dest_y = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -15177,7 +16702,12 @@ static struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -15334,10 +16864,20 @@ static struct packet_unit_bribe_info *receive_packet_unit_bribe_info_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint32(&din, (int *) &real_packet->cost);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->cost = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -15502,7 +17042,12 @@ static struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade_100(str
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -15659,16 +17204,36 @@ static struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->diplomat_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->diplomat_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->action_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->action_type = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint16(&din, (int *) &real_packet->target_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->target_id = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint16(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -15849,10 +17414,20 @@ static struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_po
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->diplomat_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->diplomat_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint32(&din, (int *) &real_packet->target_id);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->target_id = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16034,13 +17609,28 @@ static struct packet_unit_change_activity *receive_packet_unit_change_activity_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->activity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint16(&din, (int *) &real_packet->activity_target);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->activity_target = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16213,7 +17803,12 @@ static struct packet_diplomacy_init_meeting_req *receive_packet_diplomacy_init_m
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16370,10 +17965,20 @@ static struct packet_diplomacy_init_meeting *receive_packet_diplomacy_init_meeti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->initiated_from);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->initiated_from = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16555,7 +18160,12 @@ static struct packet_diplomacy_cancel_meeting_req *receive_packet_diplomacy_canc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16712,10 +18322,20 @@ static struct packet_diplomacy_cancel_meeting *receive_packet_diplomacy_cancel_m
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->initiated_from);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->initiated_from = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -16897,16 +18517,36 @@ static struct packet_diplomacy_create_clause_req *receive_packet_diplomacy_creat
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->giver);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->giver = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -17087,16 +18727,36 @@ static struct packet_diplomacy_create_clause *receive_packet_diplomacy_create_cl
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->giver);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->giver = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -17296,16 +18956,36 @@ static struct packet_diplomacy_remove_clause_req *receive_packet_diplomacy_remov
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->giver);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->giver = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -17486,16 +19166,36 @@ static struct packet_diplomacy_remove_clause *receive_packet_diplomacy_remove_cl
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->giver);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->giver = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->value);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->value = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -17695,7 +19395,12 @@ static struct packet_diplomacy_accept_treaty_req *receive_packet_diplomacy_accep
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -17852,7 +19557,12 @@ static struct packet_diplomacy_accept_treaty *receive_packet_diplomacy_accept_tr
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->counterpart);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->counterpart = readin;
+    }
   }
   real_packet->I_accepted = BV_ISSET(fields, 1);
   real_packet->other_accepted = BV_ISSET(fields, 2);
@@ -18041,10 +19751,20 @@ static struct packet_diplomacy_cancel_pact *receive_packet_diplomacy_cancel_pact
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->other_player_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->other_player_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->clause);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->clause = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -18212,7 +19932,12 @@ static struct packet_page_msg *receive_packet_page_msg_100(struct connection *pc
     dio_get_string(&din, real_packet->message, sizeof(real_packet->message));
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_sint16(&din, (int *) &real_packet->event);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->event = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -18374,7 +20099,12 @@ static struct packet_report_req *receive_packet_report_req_100(struct connection
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -18534,7 +20264,12 @@ static struct packet_conn_info *receive_packet_conn_info_100(struct connection *
   RECEIVE_PACKET_START(packet_conn_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint8(&din, (int *) &real_packet->id);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -18556,10 +20291,20 @@ static struct packet_conn_info *receive_packet_conn_info_100(struct connection *
   real_packet->established = BV_ISSET(fields, 1);
   real_packet->observer = BV_ISSET(fields, 2);
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->player_num);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->player_num = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->access_level);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->access_level = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
     dio_get_string(&din, real_packet->username, sizeof(real_packet->username));
@@ -18767,7 +20512,12 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->connections);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->connections = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     
@@ -18779,7 +20529,12 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
         real_packet->connections = MAX_NUM_PLAYERS;
       }
       for (i = 0; i < real_packet->connections; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->conn_id[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->conn_id[i] = readin;
+    }
       }
     }
   }
@@ -19299,10 +21054,20 @@ static struct packet_new_year *receive_packet_new_year_100(struct connection *pc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_sint16(&din, (int *) &real_packet->year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->year = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_sint16(&din, (int *) &real_packet->turn);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->turn = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -19534,10 +21299,20 @@ static struct packet_spaceship_place *receive_packet_spaceship_place_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->num);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -19705,7 +21480,12 @@ static struct packet_spaceship_info *receive_packet_spaceship_info_100(struct co
   RECEIVE_PACKET_START(packet_spaceship_info, real_packet);
 
   DIO_BV_GET(&din, fields);
-  dio_get_uint8(&din, (int *) &real_packet->player_num);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->player_num = readin;
+  }
 
 
   if (!*hash) {
@@ -19724,40 +21504,100 @@ static struct packet_spaceship_info *receive_packet_spaceship_info_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->sship_state);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->sship_state = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->structurals);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->structurals = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->components);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->components = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->modules);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->modules = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->propulsion);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->propulsion = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->habitation);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->habitation = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->life_support);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->life_support = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->solar_panels);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->solar_panels = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_sint16(&din, (int *) &real_packet->launch_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->launch_year = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint32(&din, (int *) &real_packet->population);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->population = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint32(&din, (int *) &real_packet->mass);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->mass = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
     dio_get_bit_string(&din, real_packet->structure, sizeof(real_packet->structure));
@@ -20060,7 +21900,12 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -20084,67 +21929,172 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
     dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_type = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->pop_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->attack_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defense_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->impr_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->vision_range = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transport_capacity = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->firepower = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->obsoleted_by = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->happy_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->gold_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_range = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_req = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_sub = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
     
@@ -20175,12 +22125,22 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->move_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_bonus[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->bombard_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 33)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
@@ -20582,7 +22542,12 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -20606,70 +22571,180 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connec
     dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_type = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->pop_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->attack_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defense_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->impr_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->vision_range = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transport_capacity = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->firepower = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->obsoleted_by = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->happy_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->gold_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_range = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_req = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_sub = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->bombard_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 30)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
@@ -20993,7 +23068,12 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -21017,67 +23097,172 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connec
     dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_type = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->pop_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->attack_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defense_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->impr_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->vision_range = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transport_capacity = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->firepower = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->obsoleted_by = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->happy_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->gold_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_range = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_req = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_sub = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
     
@@ -21108,7 +23293,12 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->move_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_bonus[i] = readin;
+    }
       }
     }
   }
@@ -21505,7 +23695,12 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_103(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -21529,67 +23724,172 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_103(struct connec
     dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_type = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->pop_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->attack_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defense_strength = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->move_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->impr_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->vision_range = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transport_capacity = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->firepower = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->obsoleted_by = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->happy_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->gold_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_range = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_req = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->paratroopers_mr_sub = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
@@ -21997,7 +24297,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_min_size[i] = readin;
+    }
       }
     }
   }
@@ -22007,41 +24312,96 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_bonus[i] = readin;
+    }
       }
     }
   }
   real_packet->changable_tax = BV_ISSET(fields, 3);
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_science);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_science = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_luxury);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_luxury = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_gold);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_gold = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_food = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_shield = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_trade = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_dist_bw_cities = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->init_vis_radius_sq = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hut_overflight = readin;
+    }
   }
   real_packet->pillage_select = BV_ISSET(fields, 13);
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nuke_contamination = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
     
@@ -22049,24 +24409,54 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < MAX_GRANARY_INIS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->granary_food_ini[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_ini[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_num_inis = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_inc = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_cost_style = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_sint16(&din, (int *) &real_packet->tech_cost_double_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->tech_cost_double_year = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_leakage = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
@@ -22078,7 +24468,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->trireme_loss_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trireme_loss_chance[i] = readin;
+    }
       }
     }
   }
@@ -22088,7 +24483,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->work_veteran_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->work_veteran_chance[i] = readin;
+    }
       }
     }
   }
@@ -22098,7 +24498,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->veteran_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->veteran_chance[i] = readin;
+    }
       }
     }
   }
@@ -22520,7 +24925,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_min_size[i] = readin;
+    }
       }
     }
   }
@@ -22530,31 +24940,71 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_bonus[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_food = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_shield = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_trade = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_dist_bw_cities = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->init_vis_radius_sq = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hut_overflight = readin;
+    }
   }
   real_packet->pillage_select = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nuke_contamination = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
     
@@ -22562,24 +25012,54 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < MAX_GRANARY_INIS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->granary_food_ini[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_ini[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_num_inis = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_inc = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_cost_style = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_sint16(&din, (int *) &real_packet->tech_cost_double_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->tech_cost_double_year = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_leakage = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
@@ -22591,7 +25071,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->trireme_loss_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trireme_loss_chance[i] = readin;
+    }
       }
     }
   }
@@ -22601,7 +25086,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->work_veteran_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->work_veteran_chance[i] = readin;
+    }
       }
     }
   }
@@ -22611,7 +25101,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       int i;
     
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->veteran_chance[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->veteran_chance[i] = readin;
+    }
       }
     }
   }
@@ -23007,7 +25502,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_min_size[i] = readin;
+    }
       }
     }
   }
@@ -23017,41 +25517,96 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_bonus[i] = readin;
+    }
       }
     }
   }
   real_packet->changable_tax = BV_ISSET(fields, 3);
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_science);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_science = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_luxury);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_luxury = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->forced_gold);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->forced_gold = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_food = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_shield = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_trade = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_dist_bw_cities = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->init_vis_radius_sq = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hut_overflight = readin;
+    }
   }
   real_packet->pillage_select = BV_ISSET(fields, 13);
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nuke_contamination = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
     
@@ -23059,24 +25614,54 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
       int i;
     
       for (i = 0; i < MAX_GRANARY_INIS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->granary_food_ini[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_ini[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_num_inis = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_inc = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_cost_style = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_sint16(&din, (int *) &real_packet->tech_cost_double_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->tech_cost_double_year = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_leakage = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
@@ -23422,7 +26007,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_min_size[i] = readin;
+    }
       }
     }
   }
@@ -23432,31 +26022,71 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
       int i;
     
       for (i = 0; i < SP_COUNT; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->specialist_bonus[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_food = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_shield = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_city_center_trade = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->min_dist_bw_cities = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->init_vis_radius_sq = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hut_overflight = readin;
+    }
   }
   real_packet->pillage_select = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nuke_contamination = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
     
@@ -23464,24 +26094,54 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
       int i;
     
       for (i = 0; i < MAX_GRANARY_INIS; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->granary_food_ini[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_ini[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_num_inis = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->granary_food_inc = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_cost_style = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_sint16(&din, (int *) &real_packet->tech_cost_double_year);
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->tech_cost_double_year = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_leakage = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
@@ -23862,13 +26522,28 @@ static struct packet_ruleset_government_ruler_title *receive_packet_ruleset_gove
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->gov);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->gov = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint16(&din, (int *) &real_packet->nation);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
     dio_get_string(&din, real_packet->male_title, sizeof(real_packet->male_title));
@@ -24057,7 +26732,12 @@ static struct packet_ruleset_tech *receive_packet_ruleset_tech_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     
@@ -24065,21 +26745,46 @@ static struct packet_ruleset_tech *receive_packet_ruleset_tech_100(struct connec
       int i;
     
       for (i = 0; i < 2; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->req[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->req[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->root_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->root_req = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint32(&din, (int *) &real_packet->flags);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->flags = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint32(&din, (int *) &real_packet->preset_cost);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->preset_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint32(&din, (int *) &real_packet->num_reqs);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->num_reqs = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -24328,127 +27033,332 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->required_tech);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->required_tech = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->max_rate);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->max_rate = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->civil_war);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->civil_war = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->martial_law_max);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->martial_law_max = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->martial_law_per);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->martial_law_per = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_sint8(&din, (int *) &real_packet->empire_size_mod);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->empire_size_mod = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->empire_size_inc);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->empire_size_inc = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->rapture_size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rapture_size = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->unit_happy_cost_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unit_happy_cost_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->unit_shield_cost_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unit_shield_cost_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->unit_food_cost_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unit_food_cost_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->unit_gold_cost_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unit_gold_cost_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->free_happy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->free_happy = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->free_shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->free_shield = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->free_food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->free_food = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->free_gold);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->free_gold = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->trade_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->shields_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shields_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_trade_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_trade_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_shields_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_shields_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_food_before_penalty);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_food_before_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->trade_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_trade_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_trade_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_shield_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_shield_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->celeb_food_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->celeb_food_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
-    dio_get_uint16(&din, (int *) &real_packet->corruption_level);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->corruption_level = readin;
+    }
   }
   if (BV_ISSET(fields, 30)) {
-    dio_get_uint8(&din, (int *) &real_packet->fixed_corruption_distance);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fixed_corruption_distance = readin;
+    }
   }
   if (BV_ISSET(fields, 31)) {
-    dio_get_uint8(&din, (int *) &real_packet->corruption_distance_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->corruption_distance_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_uint8(&din, (int *) &real_packet->extra_corruption_distance);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->extra_corruption_distance = readin;
+    }
   }
   if (BV_ISSET(fields, 33)) {
-    dio_get_uint8(&din, (int *) &real_packet->corruption_max_distance_cap);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->corruption_max_distance_cap = readin;
+    }
   }
   if (BV_ISSET(fields, 34)) {
-    dio_get_uint16(&din, (int *) &real_packet->waste_level);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->waste_level = readin;
+    }
   }
   if (BV_ISSET(fields, 35)) {
-    dio_get_uint8(&din, (int *) &real_packet->fixed_waste_distance);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fixed_waste_distance = readin;
+    }
   }
   if (BV_ISSET(fields, 36)) {
-    dio_get_uint8(&din, (int *) &real_packet->waste_distance_factor);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->waste_distance_factor = readin;
+    }
   }
   if (BV_ISSET(fields, 37)) {
-    dio_get_uint8(&din, (int *) &real_packet->extra_waste_distance);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->extra_waste_distance = readin;
+    }
   }
   if (BV_ISSET(fields, 38)) {
-    dio_get_uint8(&din, (int *) &real_packet->waste_max_distance_cap);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->waste_max_distance_cap = readin;
+    }
   }
   if (BV_ISSET(fields, 39)) {
-    dio_get_uint16(&din, (int *) &real_packet->flags);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->flags = readin;
+    }
   }
   if (BV_ISSET(fields, 40)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_ruler_titles);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_ruler_titles = readin;
+    }
   }
   if (BV_ISSET(fields, 41)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -24927,58 +27837,143 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
   real_packet->may_mine = BV_ISSET(fields, 2);
   real_packet->may_transform = BV_ISSET(fields, 3);
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->ocean_reclaim_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ocean_reclaim_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->land_channel_requirement);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->land_channel_requirement = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->river_move_mode);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->river_move_mode = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint16(&din, (int *) &real_packet->river_defense_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->river_defense_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint16(&din, (int *) &real_packet->river_trade_incr);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->river_trade_incr = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
     dio_get_string(&din, real_packet->river_help_text, sizeof(real_packet->river_help_text));
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint16(&din, (int *) &real_packet->fortress_defense_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->fortress_defense_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint16(&din, (int *) &real_packet->road_superhighway_trade_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->road_superhighway_trade_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint16(&din, (int *) &real_packet->rail_food_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->rail_food_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint16(&din, (int *) &real_packet->rail_shield_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->rail_shield_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint16(&din, (int *) &real_packet->rail_trade_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->rail_trade_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint16(&din, (int *) &real_packet->farmland_supermarket_food_bonus);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->farmland_supermarket_food_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint16(&din, (int *) &real_packet->pollution_food_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->pollution_food_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint16(&din, (int *) &real_packet->pollution_shield_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->pollution_shield_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint16(&din, (int *) &real_packet->pollution_trade_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->pollution_trade_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint16(&din, (int *) &real_packet->fallout_food_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->fallout_food_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint16(&din, (int *) &real_packet->fallout_shield_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->fallout_shield_penalty = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
-    dio_get_uint16(&din, (int *) &real_packet->fallout_trade_penalty);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->fallout_trade_penalty = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -25272,7 +28267,12 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -25293,13 +28293,23 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     dio_get_string(&din, real_packet->legend, sizeof(real_packet->legend));
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->city_style);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_style = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
     dio_get_tech_list(&din, real_packet->init_techs);
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->leader_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->leader_count = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
     
@@ -25609,10 +28619,20 @@ static struct packet_ruleset_city *receive_packet_ruleset_city_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->style_id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->style_id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->techreq);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->techreq = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -25630,7 +28650,12 @@ static struct packet_ruleset_city *receive_packet_ruleset_city_100(struct connec
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_sint8(&din, (int *) &real_packet->replaced_by);
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->replaced_by = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -25834,7 +28859,12 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -25846,29 +28876,69 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_req = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->obsolete_by);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->obsolete_by = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->bldg_req);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->bldg_req = readin;
+    }
   }
   real_packet->is_wonder = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->equiv_range);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->equiv_range = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->upkeep);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->sabotage);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->sabotage = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->variant);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->variant = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
     dio_get_string(&din, real_packet->soundtag, sizeof(real_packet->soundtag));
@@ -25880,7 +28950,12 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->terr_gate_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->terr_gate_count = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
     
@@ -25892,12 +28967,22 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         real_packet->terr_gate_count = 255;
       }
       for (i = 0; i < real_packet->terr_gate_count; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->terr_gate[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->terr_gate[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->spec_gate_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->spec_gate_count = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
     
@@ -25909,12 +28994,22 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         real_packet->spec_gate_count = 255;
       }
       for (i = 0; i < real_packet->spec_gate_count; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->spec_gate[i]);
+        {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->spec_gate[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 20)) {
-    dio_get_uint8(&din, (int *) &real_packet->equiv_dupl_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->equiv_dupl_count = readin;
+    }
   }
   if (BV_ISSET(fields, 21)) {
     
@@ -25926,12 +29021,22 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         real_packet->equiv_dupl_count = 255;
       }
       for (i = 0; i < real_packet->equiv_dupl_count; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->equiv_dupl[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->equiv_dupl[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->equiv_repl_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->equiv_repl_count = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
     
@@ -25943,12 +29048,22 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         real_packet->equiv_repl_count = 255;
       }
       for (i = 0; i < real_packet->equiv_repl_count; i++) {
-        dio_get_uint8(&din, (int *) &real_packet->equiv_repl[i]);
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->equiv_repl[i] = readin;
+    }
       }
     }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->effect_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->effect_count = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
     
@@ -26385,7 +29500,12 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     DIO_BV_GET(&din, real_packet->flags);
@@ -26400,31 +29520,71 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->movement_cost);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->movement_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_bonus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->defense_bonus = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->food);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->trade);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
     dio_get_string(&din, real_packet->special_1_name, sizeof(real_packet->special_1_name));
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_special_1);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_special_1 = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_special_1);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_special_1 = readin;
+    }
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->trade_special_1);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade_special_1 = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
     dio_get_string(&din, real_packet->graphic_str_special_1, sizeof(real_packet->graphic_str_special_1));
@@ -26436,13 +29596,28 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     dio_get_string(&din, real_packet->special_2_name, sizeof(real_packet->special_2_name));
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_special_2);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_special_2 = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_special_2);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->shield_special_2 = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->trade_special_2);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->trade_special_2 = readin;
+    }
   }
   if (BV_ISSET(fields, 20)) {
     dio_get_string(&din, real_packet->graphic_str_special_2, sizeof(real_packet->graphic_str_special_2));
@@ -26451,49 +29626,124 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     dio_get_string(&din, real_packet->graphic_alt_special_2, sizeof(real_packet->graphic_alt_special_2));
   }
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->road_trade_incr);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->road_trade_incr = readin;
+    }
   }
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->road_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->road_time = readin;
+    }
   }
   if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->irrigation_result);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->irrigation_result = readin;
+    }
   }
   if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->irrigation_food_incr);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->irrigation_food_incr = readin;
+    }
   }
   if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->irrigation_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->irrigation_time = readin;
+    }
   }
   if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->mining_result);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->mining_result = readin;
+    }
   }
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->mining_shield_incr);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->mining_shield_incr = readin;
+    }
   }
   if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->mining_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->mining_time = readin;
+    }
   }
   if (BV_ISSET(fields, 30)) {
-    dio_get_uint8(&din, (int *) &real_packet->transform_result);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transform_result = readin;
+    }
   }
   if (BV_ISSET(fields, 31)) {
-    dio_get_uint8(&din, (int *) &real_packet->transform_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->transform_time = readin;
+    }
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_uint8(&din, (int *) &real_packet->rail_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rail_time = readin;
+    }
   }
   if (BV_ISSET(fields, 33)) {
-    dio_get_uint8(&din, (int *) &real_packet->airbase_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->airbase_time = readin;
+    }
   }
   if (BV_ISSET(fields, 34)) {
-    dio_get_uint8(&din, (int *) &real_packet->fortress_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fortress_time = readin;
+    }
   }
   if (BV_ISSET(fields, 35)) {
-    dio_get_uint8(&din, (int *) &real_packet->clean_pollution_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->clean_pollution_time = readin;
+    }
   }
   if (BV_ISSET(fields, 36)) {
-    dio_get_uint8(&din, (int *) &real_packet->clean_fallout_time);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->clean_fallout_time = readin;
+    }
   }
   if (BV_ISSET(fields, 37)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
@@ -26910,64 +30160,159 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->aqueduct_size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->aqueduct_size = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->sewer_size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->sewer_size = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->add_to_size_limit);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->add_to_size_limit = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->notradesize);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->notradesize = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->fulltradesize);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fulltradesize = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_unit_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_unit_types = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_impr_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_impr_types = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_tech_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_tech_types = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_cathedral_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_minus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_cathedral_minus = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_colosseum_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_colosseum_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_temple_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_temple_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
     dio_get_tech_list(&din, real_packet->rtech_partisan_req);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->government_when_anarchy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government_when_anarchy = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->default_government);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->default_government = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->government_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government_count = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->nation_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nation_count = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->playable_nation_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->playable_nation_count = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->style_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->style_count = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->borders);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->borders = readin;
+    }
   }
   real_packet->happyborders = BV_ISSET(fields, 20);
   real_packet->slow_invasions = BV_ISSET(fields, 21);
@@ -27251,64 +30596,159 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_101(struct 
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->aqueduct_size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->aqueduct_size = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->sewer_size);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->sewer_size = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->add_to_size_limit);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->add_to_size_limit = readin;
+    }
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->notradesize);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->notradesize = readin;
+    }
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->fulltradesize);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fulltradesize = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_unit_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_unit_types = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_impr_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_impr_types = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_tech_types);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_tech_types = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_cathedral_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_minus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_cathedral_minus = readin;
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_colosseum_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_colosseum_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->rtech_temple_plus);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->rtech_temple_plus = readin;
+    }
   }
   if (BV_ISSET(fields, 12)) {
     dio_get_tech_list(&din, real_packet->rtech_partisan_req);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->government_when_anarchy);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government_when_anarchy = readin;
+    }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->default_government);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->default_government = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->government_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government_count = readin;
+    }
   }
   if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->nation_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nation_count = readin;
+    }
   }
   if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->playable_nation_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->playable_nation_count = readin;
+    }
   }
   if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->style_count);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->style_count = readin;
+    }
   }
   if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->borders);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->borders = readin;
+    }
   }
   real_packet->happyborders = BV_ISSET(fields, 20);
   if (BV_ISSET(fields, 21)) {
@@ -27654,7 +31094,12 @@ static struct packet_single_want_hack_req *receive_packet_single_want_hack_req_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint32(&din, (int *) &real_packet->challenge);
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->challenge = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -28034,7 +31479,12 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->nplayers);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nplayers = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->load_filename, sizeof(real_packet->load_filename));
@@ -28432,10 +31882,20 @@ static struct packet_options_settable_control *receive_packet_options_settable_c
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->nids);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nids = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->ncategories);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ncategories = readin;
+    }
   }
   if (BV_ISSET(fields, 2)) {
     
@@ -28630,7 +32090,12 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->id);
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->id = readin;
+    }
   }
   if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
@@ -28642,19 +32107,44 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
     dio_get_string(&din, real_packet->extra_help, sizeof(real_packet->extra_help));
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->type);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_sint32(&din, (int *) &real_packet->val);
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->val = readin;
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_sint32(&din, (int *) &real_packet->default_val);
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->default_val = readin;
+    }
   }
   if (BV_ISSET(fields, 7)) {
-    dio_get_sint32(&din, (int *) &real_packet->min);
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->min = readin;
+    }
   }
   if (BV_ISSET(fields, 8)) {
-    dio_get_sint32(&din, (int *) &real_packet->max);
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->max = readin;
+    }
   }
   if (BV_ISSET(fields, 9)) {
     dio_get_string(&din, real_packet->strval, sizeof(real_packet->strval));
@@ -28663,7 +32153,12 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
     dio_get_string(&din, real_packet->default_strval, sizeof(real_packet->default_strval));
   }
   if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->category);
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->category = readin;
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));

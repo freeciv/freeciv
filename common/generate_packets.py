@@ -432,7 +432,12 @@ class Field:
         if not self.is_array:
             if self.struct_type=="bool":
                 return "dio_get_%(dataio_type)s(&din, &real_packet->%(name)s);"%self.__dict__
-            return "dio_get_%(dataio_type)s(&din, (int *) &real_packet->%(name)s);"%self.__dict__
+            return '''{
+  int readin;
+
+  dio_get_%(dataio_type)s(&din, &readin);
+  real_packet->%(name)s = readin;
+}'''%self.__dict__
 
         if self.is_struct:
             c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
@@ -446,7 +451,12 @@ class Field:
         elif self.struct_type=="bool":
             c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
         else:
-            c="dio_get_%(dataio_type)s(&din, (int *) &real_packet->%(name)s[i]);"%self.__dict__
+            c='''{
+  int readin;
+
+  dio_get_%(dataio_type)s(&din, &readin);
+  real_packet->%(name)s[i] = readin;
+}'''%self.__dict__
         if self.is_array==2:
             array_size_u=self.array_size1_u
             array_size_d=self.array_size1_d
