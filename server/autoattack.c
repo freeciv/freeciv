@@ -29,16 +29,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef CHRONO
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
 #include "events.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
 #include "player.h"
+#include "timing.h"
 #include "unit.h"
 
 #include "civserver.h"
@@ -239,13 +235,10 @@ static void auto_attack_player(struct player *pplayer)
 
 void auto_attack(void)
 {
+  static struct timer *t = NULL;      /* alloc once, never free */
   int i;
-#if CHRONO
-  int sec, usec;
-  struct timeval tv;
-  gettimeofday(&tv, 0);
-  sec = tv.tv_sec; usec = tv.tv_usec;
-#endif 
+
+  t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
   /* re-use shuffle order from civserver.c */
   for (i = 0; i < game.nplayers; i++) {
@@ -253,10 +246,8 @@ void auto_attack(void)
       auto_attack_player(shuffled[i]);
     }
   }
-
-#if CHRONO
-  gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "autoattack consumed %ld microseconds.", 
-	  (long)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
-#endif
+  if (timer_in_use(t)) {
+    freelog(LOG_VERBOSE, "autoattack consumed %g milliseconds.",
+	    1000.0*read_timer_seconds(t));
+  }
 }

@@ -47,6 +47,7 @@
 #include "registry.h"
 #include "shared.h"
 #include "tech.h"
+#include "timing.h"
 #include "version.h"
 
 #include "autoattack.h"
@@ -73,14 +74,6 @@
 #include "aihand.h"
 
 #include "civserver.h"
-
-#ifndef CLOCKS_PER_SEC
-#ifdef CLOCKS_PER_SECOND
-#define CLOCKS_PER_SEC CLOCKS_PER_SECOND
-#else
-#define CLOCKS_PER_SEC 1000000	/* wild guess!! */
-#endif
-#endif
 
 /* main() belongs at the bottom of files!! -- Syela */
 static void before_end_year(void);
@@ -394,10 +387,12 @@ int main(int argc, char *argv[])
   /* load a saved game */
   
   if(load_filename) {
-    clock_t loadtime;
+    struct timer *loadtimer, *uloadtimer;
     struct section_file file;
+    
     freelog(LOG_NORMAL,"Loading saved game: %s", load_filename);
-    loadtime = clock();
+    loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+    uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     if(!section_file_load(&file, load_filename)) { 
       freelog(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
       exit(1);
@@ -418,9 +413,9 @@ int main(int argc, char *argv[])
       }
       while(is_id_allocated(global_id_counter++));
     }
-    loadtime = clock() - loadtime;
-    freelog(LOG_VERBOSE, "Load time: %g seconds",
-	    (float)loadtime/CLOCKS_PER_SEC);
+    freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
+	    read_timer_seconds_free(loadtimer),
+	    read_timer_seconds_free(uloadtimer));
   }
   
   /* init network */  
@@ -646,16 +641,18 @@ static void read_init_script(char *script_filename)
 
 int send_server_info_to_metaserver(int do_send)
 {
-  static int time_last_send;
-  int time_now;
+  static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];
   int i;
-  
-  
-  time_now=time(NULL);
-  
-  if(!do_send && time_now-time_last_send<METASERVER_UPDATE_INTERVAL)
+
+  if(!do_send && (time_since_last_send!=NULL)
+     && (read_timer_seconds(time_since_last_send)
+	 < METASERVER_UPDATE_INTERVAL)) {
     return 0;
+  }
+  if (time_since_last_send == NULL) {
+    time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
+  }
 
   /* build description block */
   desc[0]='\0';
@@ -697,7 +694,7 @@ int send_server_info_to_metaserver(int do_send)
 	    i, game.players[i].name, game.players[i].addr);
   }
 
-  time_last_send=time_now;
+  clear_timer_start(time_since_last_send);
   return send_to_metaserver(desc, info);
 }
 

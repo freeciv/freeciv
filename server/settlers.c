@@ -14,15 +14,11 @@
 #include <string.h>
 #include <assert.h>
 
-#ifdef CHRONO
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
 #include "game.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
+#include "timing.h"
 
 #include "cityhand.h"
 #include "citytools.h"
@@ -1226,12 +1222,10 @@ as punits arrive at adjacent tiles and start laying road -- Syela */
 **************************************************************************/
 void auto_settlers_player(struct player *pplayer) 
 {
-#ifdef CHRONO
-  int sec, usec;
-  struct timeval tv;
-  gettimeofday(&tv, 0);
-  sec = tv.tv_sec; usec = tv.tv_usec; 
-#endif
+  static struct timer *t = NULL;      /* alloc once, never free */
+
+  t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
+
   city_list_iterate(pplayer->cities, pcity)
     initialize_infrastructure_cache(pcity); /* saves oodles of time -- Syela */
   city_list_iterate_end;
@@ -1255,12 +1249,10 @@ void auto_settlers_player(struct player *pplayer)
     }
   }
   unit_list_iterate_end;
-#ifdef CHRONO
-  gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "%s's autosettlers consumed %ld microseconds.",
-	  pplayer->name, (long)((tv.tv_sec - sec) * 1000000
-				+ (tv.tv_usec - usec)));
-#endif
+  if (timer_in_use(t)) {
+    freelog(LOG_VERBOSE, "%s's autosettlers consumed %g milliseconds.",
+ 	    pplayer->name, 1000.0*read_timer_seconds(t));
+  }
 }
 
 static void assign_settlers_player(struct player *pplayer)

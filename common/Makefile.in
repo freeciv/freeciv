@@ -84,7 +84,7 @@ noinst_LIBRARIES = libcivcommon.a
 
 INCLUDES = 
 
-libcivcommon_a_SOURCES =  		attribute.h			capability.c			capability.h			capstr.c			capstr.h			city.c				city.h				diptreaty.c			diptreaty.h			events.h			game.c				game.h				genlist.c			genlist.h			log.c				log.h				map.c				map.h				packets.c			packets.h			player.c			player.h			mem.c           		mem.h				registry.c			registry.h			sbuffer.c			sbuffer.h			shared.c			shared.h			spaceship.c			spaceship.h			tech.c				tech.h				unit.c				unit.h				version.h
+libcivcommon_a_SOURCES =  		attribute.h			capability.c			capability.h			capstr.c			capstr.h			city.c				city.h				diptreaty.c			diptreaty.h			events.h			game.c				game.h				genlist.c			genlist.h			log.c				log.h				map.c				map.h				packets.c			packets.h			player.c			player.h			mem.c           		mem.h				registry.c			registry.h			sbuffer.c			sbuffer.h			shared.c			shared.h			spaceship.c			spaceship.h			tech.c				tech.h				timing.c			timing.h			unit.c				unit.h				version.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -103,7 +103,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libcivcommon_a_LIBADD = 
 libcivcommon_a_OBJECTS =  capability.o capstr.o city.o diptreaty.o \
 game.o genlist.o log.o map.o packets.o player.o mem.o registry.o \
-sbuffer.o shared.o spaceship.o tech.o unit.o
+sbuffer.o shared.o spaceship.o tech.o timing.o unit.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -120,7 +120,7 @@ DEP_FILES =  .deps/capability.P .deps/capstr.P .deps/city.P \
 .deps/diptreaty.P .deps/game.P .deps/genlist.P .deps/log.P .deps/map.P \
 .deps/mem.P .deps/packets.P .deps/player.P .deps/registry.P \
 .deps/sbuffer.P .deps/shared.P .deps/spaceship.P .deps/tech.P \
-.deps/unit.P
+.deps/timing.P .deps/unit.P
 SOURCES = $(libcivcommon_a_SOURCES)
 OBJECTS = $(libcivcommon_a_OBJECTS)
 

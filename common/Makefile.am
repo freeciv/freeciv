@@ -39,6 +39,8 @@ libcivcommon_a_SOURCES = \
 		spaceship.h	\
 		tech.c		\
 		tech.h		\
+		timing.c	\
+		timing.h	\
 		unit.c		\
 		unit.h		\
 		version.h

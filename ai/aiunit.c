@@ -16,11 +16,6 @@
 #include <string.h>
 #include <assert.h>
 
-#ifdef CHRONO
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
 #include "city.h"
 #include "game.h"
 #include "log.h"
@@ -28,6 +23,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "timing.h"
 #include "unit.h"
 
 #include "cityhand.h"
@@ -1522,12 +1518,10 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
 void ai_manage_units(struct player *pplayer) 
 {
-#ifdef CHRONO
-  int sec, usec;
-  struct timeval tv;
-  gettimeofday(&tv, 0);
-  sec = tv.tv_sec; usec = tv.tv_usec;
-#endif
+  static struct timer *t = NULL;      /* alloc once, never free */
+
+  t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
+
   freelog(LOG_DEBUG, "Managing units for %s", pplayer->name);
   unit_list_iterate(pplayer->units, punit) {
     freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
@@ -1538,11 +1532,10 @@ void ai_manage_units(struct player *pplayer)
   }
   unit_list_iterate_end;
   freelog(LOG_DEBUG, "Managed units successfully.");
-#ifdef CHRONO
-  gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "%s's units consumed %ld microseconds.", pplayer->name,
-	  (long)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
-#endif
+  if (timer_in_use(t)) {
+    freelog(LOG_VERBOSE, "%s's units consumed %g milliseconds.",
+	    pplayer->name, 1000.0*read_timer_seconds(t));
+  }
 }
 
 /**************************************************************************
