@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2004-01-12 22:20-0800\n"
-"PO-Revision-Date: 2004-01-14 14:15+0900\n"
+"PO-Revision-Date: 2004-03-31 14:15+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -620,7 +620,7 @@ msgstr "Game: %sで(不必要な)%sを金%dで売ります。"
 msgid ""
 "*%s (AI)* %s leads our alliance. You must contact and make peace with him "
 "first."
-msgstr ""
+msgstr "*%s(AI)* %sが我が同盟を率いている。貴国はまず彼らと和平を結ぶべきだ。"
 
 #: ai/advdiplomacy.c:225
 #, c-format
@@ -661,7 +661,7 @@ msgstr ""
 #: ai/advdiplomacy.c:450
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr ""
+msgstr "*%s (AI)* %sよ、我が同盟にようこそ!"
 
 #: ai/advdiplomacy.c:453
 #, c-format
@@ -695,14 +695,14 @@ msgstr ""
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr ""
+msgstr "*%s(AI)* 貴国の一方的に宇宙空間を支配しようとする試みは大変攻撃的なものである。"
 
 #: ai/advdiplomacy.c:884
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
-msgstr ""
+msgstr "*%s (AI)* もし貴国が宇宙船の建設を中止しないならば、我が国は何らかの行動にでることも辞さない!"
 
 #: ai/advdiplomacy.c:908
 #, c-format
@@ -1830,9 +1830,9 @@ msgstr "Game: %sは買えません!"
 
 # yasu, ama
 #: server/diplomats.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr "Game: %sは、%sの%sの買収に成功しました。"
+msgstr "Game: %sは、%sの%sの買収に成功し、ベテランになりました。"
 
 # yasu, ama
 #: server/diplomats.c:469
@@ -2041,11 +2041,11 @@ msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 
 #: server/diplomats.c:1254
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s  and has become more experienced."
-msgstr "Game: %sは任務を完了し、無事%sへ戻りました。"
+msgstr "Game: %sは任務を完了して無事%sへ戻り、ベテランになりました。"
 
 #: server/diplomats.c:1260
 #, c-format
@@ -5854,11 +5854,11 @@ msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Game: %s への核攻撃は SDI 防衛システムによって避けられました。"
 
 #: server/unithand.c:765
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
-msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜けました。"
+msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜け、ベテランになりました。"
 
 #: server/unithand.c:774
 #, c-format
@@ -6006,9 +6006,9 @@ msgid "%s's %s lost at sea"
 msgstr "%sのトライリームを海で消失"
 
 #: server/unittools.c:419
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s survived on the high seas and became more experienced."
-msgstr "Game: %sを外洋で失いました。"
+msgstr "Game: %sは外洋でも耐え、ベテランになりました。"
 
 #: server/unittools.c:447
 #, c-format
@@ -13907,28 +13907,24 @@ msgid "Scale Unit Info"
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1435
-#, fuzzy
 msgid "Economy (F5)"
-msgstr "経済"
+msgstr "経済(F5)"
 
 #: client/gui-sdl/mapctrl.c:1449
-#, fuzzy
 msgid "Research (F6)"
-msgstr "研究(_R)"
+msgstr "研究(F6)"
 
 #: client/gui-sdl/mapctrl.c:1465
-#, fuzzy
 msgid "Revolution (Shift + R)"
-msgstr "革命"
+msgstr "革命(Shift + R)"
 
 #: client/gui-sdl/mapctrl.c:1530
 msgid "End Turn (Enter)"
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1545
-#, fuzzy
 msgid "Players (F3)"
-msgstr "プレイヤー"
+msgstr "プレイヤー(F3)"
 
 #: client/gui-sdl/mapctrl.c:1557
 msgid ""
@@ -13938,9 +13934,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1572
-#, fuzzy
 msgid "Units (F2)"
-msgstr "部隊: "
+msgstr "部隊(F2)"
 
 #: client/gui-sdl/mapctrl.c:1594
 msgid "Toggle Minimap Mode (Shift + \\)"
