@@ -38,8 +38,11 @@
 
 static GtkWidget *iname, *ihost, *iport;
 static GtkWidget *connw, *quitw;
+static GtkWidget *server_clist;	/* sorted list of servers */
 
 static GtkWidget *dialog;
+static int sort_column;
+
 
 /* meta Server */
 static bool update_meta_dialog(GtkWidget *meta_list);
@@ -47,6 +50,8 @@ static void meta_list_callback(GtkWidget *w, gint row, gint column);
 static void meta_update_callback(GtkWidget *w, gpointer data);
 
 static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf);
+
+#define DEFAULT_SORT_COLUMN 0	/* default sort column  (server)  */
 
 /**************************************************************************
 ...
@@ -66,6 +71,21 @@ static void connect_callback(GtkWidget *w, gpointer data)
   }
   else
     append_output_window(errbuf);
+}
+
+/**************************************************************************
+ Sort the list of metaservers
+**************************************************************************/
+static void sort_servers_callback(GtkButton * button, gpointer * data)
+{
+  sort_column = GPOINTER_TO_INT(data);
+  if (GTK_CLIST(server_clist)->sort_type == GTK_SORT_ASCENDING) {
+    gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_DESCENDING);
+  } else {
+    gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_ASCENDING);
+  }
+  gtk_clist_set_sort_column(GTK_CLIST(server_clist), sort_column);
+  gtk_clist_sort(GTK_CLIST(server_clist));
 }
 
 /**************************************************************************
@@ -126,7 +146,7 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 **************************************************************************/
 void gui_server_connect(void)
 {
-  GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update;
+  GtkWidget *label, *table, *book, *scrolled, *vbox, *update;
   static const char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
 				  N_("Status"), N_("Players"), N_("Comment")};
   static char **titles;
@@ -208,14 +228,14 @@ void gui_server_connect(void)
   vbox=gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
 
-  list=gtk_clist_new_with_titles(6, titles);
-  gtk_clist_column_titles_passive(GTK_CLIST(list));
+  server_clist = gtk_clist_new_with_titles(6, titles);
 
-  for(i=0; i<6; i++)
-    gtk_clist_set_column_auto_resize(GTK_CLIST(list), i, TRUE);
+  for (i = 0; i < 6; i++) {
+    gtk_clist_set_column_auto_resize(GTK_CLIST(server_clist), i, TRUE);
+  }
 
   scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), list);
+  gtk_container_add(GTK_CONTAINER(scrolled), server_clist);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
@@ -223,12 +243,13 @@ void gui_server_connect(void)
   update=gtk_button_new_with_label(_("Update"));
   gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
 
-  gtk_signal_connect(GTK_OBJECT(list), "select_row",
-			GTK_SIGNAL_FUNC(meta_list_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(list), "button_press_event",
+  gtk_signal_connect(GTK_OBJECT(server_clist), "select_row",
+		     GTK_SIGNAL_FUNC(meta_list_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(server_clist), "button_press_event",
 		     GTK_SIGNAL_FUNC(meta_click_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(update), "clicked",
-			GTK_SIGNAL_FUNC(meta_update_callback), (gpointer)list);
+		     GTK_SIGNAL_FUNC(meta_update_callback),
+		     (gpointer) server_clist);
 
   connw=gtk_button_new_with_label(_("Connect"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), connw,
@@ -253,7 +274,16 @@ void gui_server_connect(void)
         	      GTK_SIGNAL_FUNC(connect_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(quitw), "clicked",
         	      GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+  /*  default sort column  */
+  gtk_clist_set_sort_column(GTK_CLIST(server_clist), DEFAULT_SORT_COLUMN);
 
+  /*  all columns are clickable  */
+  for (i = 0; i <6 ; i++) {
+    gtk_signal_connect(GTK_OBJECT(GTK_CLIST(server_clist)->column[i].button),
+		       "clicked", GTK_SIGNAL_FUNC(sort_servers_callback),
+		       GINT_TO_POINTER(i));
+  }
+    
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
   gtk_widget_show_all(GTK_DIALOG(dialog)->action_area);
 
@@ -273,8 +303,8 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
   if(!server_list) return -1;
 
-  gtk_clist_freeze(GTK_CLIST(list));
-  gtk_clist_clear(GTK_CLIST(list));
+  gtk_clist_freeze(GTK_CLIST(server_clist));
+  gtk_clist_clear(GTK_CLIST(server_clist));
 
   for (i=0; i<6; i++)
     row[i]=buf[i];
@@ -287,13 +317,18 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
     sz_strlcpy(buf[4], pserver->players);
     sz_strlcpy(buf[5], pserver->metastring);
 
-    gtk_clist_append(GTK_CLIST(list), row);
+    gtk_clist_append(GTK_CLIST(server_clist), row);
   }
   server_list_iterate_end;
 
   delete_server_list(server_list);
-  gtk_clist_thaw(GTK_CLIST(list));
+  gtk_clist_thaw(GTK_CLIST(server_clist));
 
+  /* sort the list */
+  gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_ASCENDING);
+  gtk_clist_set_sort_column(GTK_CLIST(server_clist), sort_column);
+  gtk_clist_sort(GTK_CLIST(server_clist));
+     
   return 0;
 }
 
