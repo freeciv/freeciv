@@ -42,7 +42,7 @@
 #include "gotodlg.h"
 #include "graphics.h"
 #include "gui_stuff.h"
-#include "helpdlg.h"
+#include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"

@@ -41,7 +41,7 @@
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
 #include "gui_main_g.h"
-#include "helpdlg_g.h"
+#include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"

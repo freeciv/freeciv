@@ -54,6 +54,7 @@
 #include "diplodlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
+#include "helpdata.h"		/* boot_help_texts() */
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapctrl.h"

@@ -40,9 +40,6 @@ extern struct connection aconnection;
 /******************************************************************/
 
 
-void select_help_item_string( char *item );
-
-
 void create_science_dialog(int make_modal);
 void science_close_callback(GtkWidget *widget, gpointer data);
 void science_help_callback(GtkWidget *w, gint row, gint column);

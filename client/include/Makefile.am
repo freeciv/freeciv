@@ -18,6 +18,7 @@ noinst_HEADERS = \
 	gotodlg_g.h	\
 	graphics_g.h	\
 	gui_main_g.h	\
+	helpdata.h	\
 	helpdlg_g.h	\
 	inteldlg.h	\
 	mapctrl_g.h	\

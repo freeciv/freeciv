@@ -32,6 +32,7 @@ civclient_SOURCES = \
 	civclient.c	\
 	climisc.c	\
 	control.c	\
+	helpdata.c	\
 	packhand.c	\
 	options.c
 

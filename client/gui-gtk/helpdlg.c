@@ -24,7 +24,6 @@
 #include "city.h"
 #include "game.h"
 #include "genlist.h"
-#include "log.h"
 #include "mem.h"
 #include "shared.h"
 #include "tech.h"
@@ -36,6 +35,7 @@
 #include "colors.h"
 #include "graphics.h"
 #include "gui_stuff.h"
+#include "helpdata.h"
 
 #include "helpdlg.h"
 
@@ -43,33 +43,9 @@
 #define	HELP_TEXT_FONT		"-*-fixed-medium-r-*-*-14-*-*-*-*-*-iso8859-*"
 
 
-char *help_type_names[] = { "", "TEXT", "UNIT", "IMPROVEMENT",
-                           "WONDER", "TECH", "TERRAIN", 0 };
-#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),T_COUNT))
-
-void select_help_item_string(char *item, enum help_page_type htype);
-
-
 extern GtkWidget *toplevel;
 
-
-struct help_item {
-  char *topic, *text;
-  enum help_page_type type;
-};
-static struct genlist help_nodes;
-
-#define help_list_iterate(helplist, pitem) { \
-  struct genlist_iterator myiter; \
-  struct help_item *pitem; \
-  for( genlist_iterator_init(&myiter, &helplist, 0); \
-       (pitem=ITERATOR_PTR(myiter)); \
-       ITERATOR_NEXT(myiter) ) {
-#define help_list_iterate_end }}
-
-char *topic_list[1024];
-
-char long_buffer[64000];
+extern char long_buffer[64000];	      /* helpdata.c */
 
 /*
  * Globals.
@@ -117,61 +93,13 @@ char *help_tlabel_name[4][5] =
 };
 
 
-void create_help_dialog(void);
-void help_update_dialog(struct help_item *pitem);
-void create_help_page(enum help_page_type type);
+static void create_help_dialog(void);
+static void help_update_dialog(const struct help_item *pitem);
+static void create_help_page(enum help_page_type type);
 
-/****************************************************************
-...
-*****************************************************************/
-static void insert_generated_table(char* name, char* outbuf)
-{
-  if (0 == strcmp (name, "TerrainAlterations"))
-    {
-      int i;
-      strcat (outbuf, "Terrain     Road   Irrigation     Mining         Transform\n");
-      strcat (outbuf, "---------------------------------------------------------------\n");
-      for (i = T_FIRST; i < T_COUNT; i++)
-	{
-	  if (*(tile_types[i].terrain_name))
-	    {
-	      outbuf = strchr (outbuf, '\0');
-	      sprintf
-		(
-		 outbuf,
-		 "%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		 tile_types[i].terrain_name,
-		 tile_types[i].road_time,
-		 tile_types[i].irrigation_time,
-		 ((tile_types[i].irrigation_result == i) ||
-		  (tile_types[i].irrigation_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].irrigation_result].terrain_name,
-		 tile_types[i].mining_time,
-		 ((tile_types[i].mining_result == i) ||
-		  (tile_types[i].mining_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].mining_result].terrain_name,
-		 tile_types[i].transform_time,
-		 ((tile_types[i].transform_result == i) ||
-		  (tile_types[i].transform_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].transform_result].terrain_name
-                );
-	    }
-	}
-      strcat (outbuf, "\n");
-      strcat (outbuf, "(Railroads and fortresses require 3 turns, regardless of terrain.)\n");
-    }
-  return;
-}
-
-#ifdef UNUSED
-/****************************************************************
-...
-*****************************************************************/
-static struct help_item *find_help_item_position(int pos)
-{
-  return genlist_get(&help_nodes, pos);
-}
-#endif /* UNUSED */
+static void select_help_item(int item);
+static void select_help_item_string(const char *item,
+				    enum help_page_type htype);
 
 /****************************************************************
 ...
@@ -188,281 +116,12 @@ static void set_title_topic(char *topic)
 /****************************************************************
 ...
 *****************************************************************/
-static struct help_item *new_help_item(int type)
+void popdown_help_dialog(void)
 {
-  struct help_item *pitem;
-  
-  pitem = fc_malloc(sizeof(struct help_item));
-  pitem->topic = NULL;
-  pitem->text = NULL;
-  pitem->type = type;
-  return pitem;
-}
-
-/* for genlist_sort(); sort by topic via strcmp */
-static int help_item_compar(const void *a, const void *b)
-{
-  const struct help_item *ha, *hb;
-  ha = (const struct help_item*) *(const void**)a;
-  hb = (const struct help_item*) *(const void**)b;
-  return strcmp(ha->topic, hb->topic);
-}
-
-void boot_help_texts(void)
-{
-  static int booted=0;
-  
-  FILE *fs;
-  char *dfname;
-  char buf[512], *p;
-  char expect[32], name[MAX_LEN_NAME+2];
-  char seen[MAX_LAST], *pname;
-  int len;
-  struct help_item *pitem = NULL;
-  enum help_page_type current_type = HELP_TEXT;
-  struct genlist category_nodes;
-  int i, filter_this;
-
   if(help_dialog_shell) {
-    /* need to do something like this or bad things happen */
     gtk_widget_destroy(help_dialog_shell);
     help_dialog_shell=0;
   }
-  
-  if(!booted) {
-    freelog(LOG_VERBOSE, "Booting help texts");
-    genlist_init(&help_nodes);
-  } else {
-    /* free memory allocated last time booted */
-    help_list_iterate(help_nodes, ptmp) {
-      free(ptmp->topic);
-      free(ptmp->text);
-      free(ptmp);
-    }
-    help_list_iterate_end;
-    genlist_unlink_all(&help_nodes);
-    freelog(LOG_VERBOSE, "Rebooting help texts");
-  }    
-  
-  dfname = datafilename("helpdata.txt");
-  if (dfname == NULL) {
-    freelog(LOG_NORMAL, "Could not find readable helpdata.txt in data path");
-    freelog(LOG_NORMAL, "The data path may be set via"
-	                " the environment variable FREECIV_PATH");
-    freelog(LOG_NORMAL, "Current data path is: \"%s\"", datafilename(NULL));
-    freelog(LOG_NORMAL, "Did not read help texts");
-    return;
-  }
-  fs = fopen(dfname, "r");
-  if (fs == NULL) {
-    /* this is now unlikely to happen */
-    freelog(LOG_NORMAL, "failed reading help-texts");
-    return;
-  }
-
-  while(1) {
-    fgets(buf, 512, fs);
-    buf[strlen(buf)-1]='\0';
-    if(!strncmp(buf, "%%", 2))
-      continue;
-    len=strlen(buf);
-
-    if (len>0 && buf[0] == '@') {
-      if(current_type==HELP_TEXT) {
-	current_type = -1;
-	for(i=2; help_type_names[i]; i++) {
-	  sprintf(expect, "START_%sS", help_type_names[i]);
-	  if(strcmp(expect,buf+1)==0) {
-	    current_type = i;
-	    break;
-	  }
-	}
-	if (current_type==-1) {
-	  freelog(LOG_NORMAL, "bad help category \"%s\"", buf+1);
-	  current_type = HELP_TEXT;
-	} else {
-	  genlist_init(&category_nodes);
-	  for(i=0; i<MAX_LAST; i++) {
-	    seen[i] = (booted?0:1); /* on initial boot data tables are empty */
-	  }
-	  freelog(LOG_DEBUG, "Help category %s",
-		  help_type_names[current_type]);
-	}
-      } else {
-	sprintf(expect, "END_%sS", help_type_names[current_type]);
-	if(strcmp(expect,buf+1)!=0) {
-	  freelog(LOG_FATAL, "bad end to help category \"%s\"", buf+1);
-	  exit(1);
-	}
-	/* add defaults for those not seen: */
-	if(current_type==HELP_UNIT) {
-	  for(i=0; i<U_LAST; i++) {
-	    if(!seen[i] && unit_type_exists(i)) {
-	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", unit_name(i));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	    }
-	  }
-	} else if(current_type==HELP_TECH) {
-	  for(i=1; i<A_LAST; i++) {                 /* skip A_NONE */
-	    if(!seen[i] && tech_exists(i)) {
-	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", advances[i].name);
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	    }
-	  }
-	} else if(current_type==HELP_TERRAIN) {
-	  for(i=T_FIRST; i<T_COUNT; i++) {
-	    if(!seen[i] && *(tile_types[i].terrain_name)) {
-	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", tile_types[i].terrain_name);
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	    }
-	  }
-	} else if(current_type==HELP_IMPROVEMENT) {
-	  for(i=0; i<B_LAST; i++) {
-	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
-	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", improvement_types[i].name);
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	    }
-	  }
-	} else if(current_type==HELP_WONDER) {
-	  for(i=0; i<B_LAST; i++) {
-	    if(!seen[i] && improvement_exists(i) && is_wonder(i)) {
-	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", improvement_types[i].name);
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	    }
-	  }
-	} else {
-	  freelog(LOG_FATAL, "Bad current_type %d", current_type);
-	  exit(1);
-	}
-	genlist_sort(&category_nodes, help_item_compar);
-	help_list_iterate(category_nodes, ptmp) {
-	  genlist_insert(&help_nodes, ptmp, -1);
-	}
-	help_list_iterate_end;
-	genlist_unlink_all(&category_nodes);
-	current_type = HELP_TEXT;
-      }
-      continue;
-    }
-    
-    p=strchr(buf, '#');
-    if(!p) {
-      break;
-    }
-    pname = p;
-    while(*(++pname)==' ')
-      ;
-
-    /* i==-1 is text; filter_this==1 is to be left out, but we have to
-     * read in the help text so we're at the right place
-     */
-    i = -1;
-    filter_this = 0;
-    switch(current_type) {
-    case HELP_UNIT:
-      i = find_unit_type_by_name(pname);
-      if(!unit_type_exists(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering unit type %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_TECH:
-      i = find_tech_by_name(pname);
-      if(!tech_exists(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering tech %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_TERRAIN:
-      i = get_terrain_by_name(pname);
-      if(i >= T_COUNT) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering terrain %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_IMPROVEMENT:
-      i = find_improvement_by_name(pname);
-      if(!improvement_exists(i) || is_wonder(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering city improvement %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_WONDER:
-      i = find_improvement_by_name(pname);
-      if(!improvement_exists(i) || !is_wonder(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering wonder %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    default:
-      /* nothing */
-      {} /* placate Solaris cc/xmkmf/makedepend */
-    }
-    if(i>=0) {
-      seen[i] = 1;
-    }
-
-    if(!filter_this) {
-      pitem = new_help_item(current_type);
-      pitem->topic = mystrdup(p+1);
-    }
-
-    long_buffer[0]='\0';
-    while(1) {
-      fgets(buf, 512, fs);
-      buf[strlen(buf)-1]='\0';
-      if(!strncmp(buf, "%%", 2))
-	continue;
-      if(!strncmp(buf, "$", 1)) {
-	insert_generated_table (buf+1, long_buffer);
-	continue;
-      }
-      if(!strcmp(buf, "---"))
-	break;
-      if(!filter_this) {
-	strcat(long_buffer, buf);
-	strcat(long_buffer, "\n");
-      }
-    } 
-
-    if(!filter_this) {
-      pitem->text=mystrdup(long_buffer);
-      if(current_type == HELP_TEXT) {
-	genlist_insert(&help_nodes, pitem, -1);
-      } else {
-	genlist_insert(&category_nodes, pitem, -1);
-      }
-    }
-  }
-
-  if(current_type != HELP_TEXT) {
-    freelog(LOG_FATAL, "Didn't finish help category %s",
-	 help_type_names[current_type]);
-    exit(1);
-  }
-  
-  fclose(fs);
-  booted = 1;
 }
 
 /****************************************************************
@@ -590,15 +249,16 @@ static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
 static void selected_topic(GtkCList *clist, gint row, gint column,
 			   GdkEventButton *event)
 {
-  struct help_item *p = NULL;
+  const struct help_item *p = NULL;
 
-  help_list_iterate(help_nodes, pitem) 
+  help_items_iterate(pitem) {
     if ((row--)==0)
     {
       p=pitem;
       break;
     }
-  help_list_iterate_end;
+  }
+  help_items_iterate_end;
 
   if (!p)
       return;
@@ -610,7 +270,7 @@ static void selected_topic(GtkCList *clist, gint row, gint column,
 /**************************************************************************
 ...
 **************************************************************************/
-void create_help_dialog(void)
+static void create_help_dialog(void)
 {
   GtkWidget *hbox;
   GtkWidget *button;
@@ -643,10 +303,10 @@ void create_help_dialog(void)
   gtk_signal_connect(GTK_OBJECT(help_clist), "select_row",
   		      GTK_SIGNAL_FUNC(selected_topic), NULL);
 
-  help_list_iterate(help_nodes, pitem) 
+  help_items_iterate(pitem) 
     row[0]=pitem->topic;
     i = gtk_clist_append (GTK_CLIST (help_clist), row);
-  help_list_iterate_end;
+  help_items_iterate_end;
 
   help_frame = gtk_frame_new( "" );
   gtk_box_pack_start( GTK_BOX( hbox ), help_frame, TRUE, TRUE, 0 );
@@ -790,36 +450,17 @@ void create_help_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_help_page(enum help_page_type type)
+static void create_help_page(enum help_page_type type)
 {
-}
-
-
-
-static void help_cathedral_techs_append(char *buf)
-{
-  int t;
-  
-  t=game.rtech.cathedral_minus;
-  if(tech_exists(t)) 
-    sprintf(buf+strlen(buf),
-	   "The discovery of %s will reduce this by 1.\n",
-	   advances[t].name);
-  t=game.rtech.cathedral_plus;
-  if(tech_exists(t)) 
-    sprintf(buf+strlen(buf),
-	   "The discovery of %s will increase this by 1.\n",
-	   advances[t].name);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_improvement(struct help_item *pitem, char *title,
-				    int which)
+static void help_update_improvement(const struct help_item *pitem,
+				    char *title, int which)
 {
   char *buf = &long_buffer[0];
-  int t;
   
   create_help_page(HELP_IMPROVEMENT);
   
@@ -844,52 +485,8 @@ static void help_update_improvement(struct help_item *pitem, char *title,
   }
   gtk_widget_show_all(help_itable);
 
-  buf[0] = '\0';
-  if(which==B_AQUEDUCT) {
-    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.",
-	   game.aqueduct_size);
-    if(improvement_exists(B_SEWER)) {
-      char *s = improvement_types[B_SEWER].name;
-      sprintf(buf+strlen(buf), "  (A%s %s is also\n"
-	     "required for a city to grow larger than size %d.)",
-	     n_if_vowel(*s), s, game.sewer_size);
-    }
-    strcat(buf,"\n");
-  }
-  if(which==B_SEWER) {
-    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.\n",
-	   game.sewer_size);
-  }
-  strcat(buf, pitem->text);
-  if(which==B_CATHEDRAL) {
-    help_cathedral_techs_append(buf);
-  }
-  if(which==B_COLOSSEUM) {
-    t=game.rtech.colosseum_plus;
-    if(tech_exists(t)) {
-      int n = strlen(buf);
-      if(n && buf[n-1] == '\n') buf[n-1] = ' ';
-      sprintf(buf+n, "The discovery of %s will increase this by 1.\n",
-	     advances[t].name);
-    }
-  }
-  if(which==B_BARRACKS
-     && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
-     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
-    sprintf(buf+strlen(buf),
-	   "\nNote that discovering %s or %s will obsolete\n"
-	   "any existing %s.\n",
-	   advances[improvement_types[B_BARRACKS].obsolete_by].name,
-	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
-	   improvement_types[B_BARRACKS].name);
-  }
-  if(which==B_BARRACKS2
-     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
-    sprintf(buf+strlen(buf),
-	   "\nThe discovery of %s will make %s obsolete.\n",
-	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
-	   improvement_types[B_BARRACKS2].name);
-  }
+  helptext_improvement(buf, which, pitem->text);
+  
   gtk_text_freeze(GTK_TEXT(help_text));
   gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
   gtk_text_thaw(GTK_TEXT(help_text));
@@ -900,7 +497,8 @@ static void help_update_improvement(struct help_item *pitem, char *title,
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_wonder(struct help_item *pitem, char *title, int which)
+static void help_update_wonder(const struct help_item *pitem,
+			       char *title, int which)
 {
   char *buf = &long_buffer[0];
   
@@ -927,21 +525,7 @@ static void help_update_wonder(struct help_item *pitem, char *title, int which)
   }
   gtk_widget_show_all(help_wtable);
 
-  buf[0] = '\0';
-  if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
-    int u, t;
-    u = get_role_unit(F_NUCLEAR, 0);
-    assert(u<U_LAST);
-    t = get_unit_type(u)->tech_requirement;
-    assert(t<A_LAST);
-    sprintf(buf+strlen(buf),
-	   "Allows all players with knowledge of %s to build %s units.\n",
-	   advances[t].name, get_unit_type(u)->name);
-  }
-  strcat(buf, pitem->text);
-  if(which==B_MICHELANGELO) {
-    help_cathedral_techs_append(buf);
-  }
+  helptext_wonder(buf, which, pitem->text);
   gtk_text_freeze(GTK_TEXT(help_text));
   gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
   gtk_text_thaw(GTK_TEXT(help_text));
@@ -952,7 +536,8 @@ static void help_update_wonder(struct help_item *pitem, char *title, int which)
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_unit_type(struct help_item *pitem, char *title, int i)
+static void help_update_unit_type(const struct help_item *pitem,
+				  char *title, int i)
 {
   char *buf = &long_buffer[0];
   
@@ -985,93 +570,12 @@ static void help_update_unit_type(struct help_item *pitem, char *title, int i)
     } else {
       gtk_set_label(help_ulabel[3][4], get_unit_type(utype->obsoleted_by)->name);
     }
-    /* add text for transport_capacity, fuel, and flags: */
-    buf[0] = '\0';
-    sprintf(buf+strlen(buf), "* Vision range of %d square%s.\n",
+
+    /* No separate Vision widget for Gtk+ client (yet?) */
+    sprintf(buf, "* Vision range of %d square%s.\n",
 	utype->vision_range, (utype->vision_range==1)?"":"s"); /* -- REMOVE ME */
-    if (utype->transport_capacity>0) {
-      if (unit_flag(i, F_SUBMARINE)) {
-	sprintf(buf+strlen(buf), "* Can carry and refuel %d missile units.\n",
-		utype->transport_capacity);
-      } else if (unit_flag(i, F_CARRIER)) {
-	sprintf(buf+strlen(buf), "* Can carry and refuel %d air units.\n",
-		utype->transport_capacity);
-      } else {
-	sprintf(buf+strlen(buf), "* Can carry %d ground units across water.\n",
-		utype->transport_capacity);
-      }
-    }
-    if (unit_flag(i, F_CARAVAN)) {
-      sprintf(buf+strlen(buf), "* Can establish trade routes and help build wonders.\n");
-    }
-    if (unit_flag(i, F_SETTLERS)) {
-      sprintf(buf+strlen(buf), "* Can perform settler actions.\n");
-    }
-    if (unit_flag(i, F_DIPLOMAT)) {
-      if (unit_flag(i, F_SPY)) 
-	sprintf(buf+strlen(buf), "* Can perform diplomatic actions, plus special spy abilities.\n");
-      else 
-	sprintf(buf+strlen(buf), "* Can perform diplomatic actions.\n");
-    }
-    if (unit_flag(i, F_FIGHTER)) {
-      sprintf(buf+strlen(buf), "* Can attack enemy air units.\n");
-    }
-    if (unit_flag(i, F_MARINES)) {
-      sprintf(buf+strlen(buf), "* Can attack from aboard sea units: against enemy cities and\n  onto land squares.");
-    }
-    if (unit_flag(i, F_PIKEMEN)) {
-      sprintf(buf+strlen(buf), "* Gets double defense against units specified as 'mounted'.\n");
-    }
-    if (unit_flag(i, F_HORSE)) {
-      sprintf(buf+strlen(buf), "* Counts as 'mounted' against certain defenders.\n");
-    }
-    if (unit_flag(i, F_MISSILE)) {
-      sprintf(buf+strlen(buf), "* A missile unit: gets used up in making an attack.\n");
-    } else if(unit_flag(i, F_ONEATTACK)) {
-      sprintf(buf+strlen(buf), "* Making an attack ends this unit's turn.\n");
-    }
-    if (unit_flag(i, F_NUCLEAR)) {
-      sprintf(buf+strlen(buf), "* This unit's attack causes a nuclear explosion!\n");
-    }
-    if (unit_flag(i, F_IGWALL)) {
-      sprintf(buf+strlen(buf), "* Ignores the effects of city walls.\n");
-    }
-    if (unit_flag(i, F_AEGIS)) {
-      sprintf(buf+strlen(buf), "* Gets quintuple defence against missiles and aircraft.\n");
-    }
-    if (unit_flag(i, F_IGTER)) {
-      sprintf(buf+strlen(buf), "* Ignores terrain effects (treats all squares as roads).\n");
-    }
-    if (unit_flag(i, F_IGZOC)) {
-      sprintf(buf+strlen(buf), "* Ignores zones of control.\n");
-    }
-    if (unit_flag(i, F_NONMIL)) {
-      sprintf(buf+strlen(buf), "* A non-military unit (no shield upkeep).\n");
-    }
-    if (unit_flag(i, F_TRIREME)) {
-      sprintf(buf+strlen(buf), "* Must end turn in a city or next to land, or has a 50%% risk of\n  being lost at sea.");
-    }
-    if (utype->fuel>0) {
-      sprintf(buf+strlen(buf), "* Must end ");
-      if (utype->fuel==2) {
-	sprintf(buf+strlen(buf), "second ");
-      } else if (utype->fuel==3) {
-	sprintf(buf+strlen(buf), "third ");
-      } else if (utype->fuel>=4) {
-	sprintf(buf+strlen(buf), "%dth ", utype->fuel);
-      }
-      sprintf(buf+strlen(buf), "turn in a city, or on a Carrier");
-      if (unit_flag(i, F_MISSILE) &&
-	  num_role_units(F_SUBMARINE)>0 &&
-	  get_unit_type(get_role_unit(F_SUBMARINE,0))->transport_capacity) {
-	sprintf(buf+strlen(buf), " or Submarine");
-      }
-      sprintf(buf+strlen(buf), ",\n  or will run out of fuel and be lost.\n");
-    }
-    if (strlen(buf)) {
-      sprintf(buf+strlen(buf), "\n");
-    } 
-    strcpy(buf+strlen(buf), pitem->text);
+
+    helptext_unit(buf+strlen(buf), i, pitem->text);
 
     gtk_text_freeze(GTK_TEXT(help_text));
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
@@ -1107,7 +611,7 @@ static void help_update_unit_type(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_tech(struct help_item *pitem, char *title, int i)
+static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
   int j;
   GtkWidget *w, *hbox;
@@ -1124,21 +628,7 @@ static void help_update_tech(struct help_item *pitem, char *title, int i)
     gtk_clist_thaw(GTK_CLIST(help_tree));
     gtk_widget_show_all(help_tree_scrolled);
 
-    strcpy(buf, pitem->text);
-
-    if(game.rtech.get_bonus_tech == i) {
-      sprintf(buf+strlen(buf),
-	     "The first player to research %s gets an immediate advance.\n",
-	     advances[i].name);
-    }
-    if(game.rtech.boat_fast == i) 
-      sprintf(buf+strlen(buf), "Gives sea units one extra move.\n");
-    if(game.rtech.cathedral_plus == i) 
-      sprintf(buf+strlen(buf), "Improves the effect of Cathedrals.\n");
-    if(game.rtech.cathedral_minus == i) 
-      sprintf(buf+strlen(buf), "Reduces the effect of Cathedrals.\n");
-    if(game.rtech.colosseum_plus == i) 
-      sprintf(buf+strlen(buf), "Improves the effect of Colosseums.\n");
+    helptext_tech(buf, i, pitem->text);
 
     w = gtk_label_new(buf);
     gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
@@ -1218,7 +708,8 @@ static void help_update_tech(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_terrain(struct help_item *pitem, char *title, int i)
+static void help_update_terrain(const struct help_item *pitem,
+				char *title, int i)
 {
   char buf[1024];
 
@@ -1343,7 +834,7 @@ static void help_update_terrain(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_dialog(struct help_item *pitem)
+static void help_update_dialog(const struct help_item *pitem)
 {
   int i;
   char *top;
@@ -1395,7 +886,6 @@ void help_update_dialog(struct help_item *pitem)
 }
 
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1405,44 +895,17 @@ static void select_help_item(int item)
   gtk_clist_select_row(GTK_CLIST (help_clist), item, 0);
 }
 
-void select_help_item_string(char *item, enum help_page_type htype)
+/****************************************************************
+...
+*****************************************************************/
+static void select_help_item_string(const char *item,
+				    enum help_page_type htype)
 {
+  const struct help_item *pitem;
   int idx;
-  struct help_item *pitem = NULL;
-  static struct help_item vitem; /* v = virtual */
-  static char vtopic[128];
-  static char vtext[256];
 
-  idx = 0;
-  help_list_iterate(help_nodes, ptmp) {
-    char *p=ptmp->topic;
-    while(*p==' ')
-      ++p;
-    if(strcmp(item, p)==0 && (htype==HELP_ANY || htype==ptmp->type)) {
-      pitem = ptmp;
-      break;
-    }
-    ++idx;
-  }
-  help_list_iterate_end;
-  
-  if(!pitem) {
-    idx=0;
-    vitem.topic = vtopic;
-    strncpy(vtopic, item, sizeof(vtopic));
-    vitem.text = vtext;
-    if(htype==HELP_ANY || htype==HELP_TEXT) {
-      sprintf(vtext, "Sorry, no help topic for %s.\n", vitem.topic);
-      vitem.type = HELP_TEXT;
-    } else {
-      sprintf(vtext, "Sorry, no help topic for %s.\n"
-	      "This page was auto-generated.\n\n",
-	      vitem.topic);
-      vitem.type = htype;
-    }
-    pitem = &vitem;
-  }
-
+  pitem = get_help_item_spec(item, htype, &idx);
+  if(idx==-1) idx = 0;
   select_help_item(idx);
   help_update_dialog(pitem);
 }
