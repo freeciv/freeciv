@@ -1,5 +1,5 @@
-このファイルは CVS-1.10 に基づいています。
-This file based on cvs-1.10's HOWTOPLAY.
+Original: CVS-1.2
+Translator: SAWADA Katsuya <ama@petmail.net>
 
 Freeciv の遊び方 HOWTO
 
@@ -12,8 +12,7 @@ Freeciv の遊び方 HOWTO
 Civilization ゲームを一度も遊んだことがないなら、マニュアルを読むこと
 から始めるのが簡単です。マニュアルは以下から入手できます。
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://www.freeciv.org/manual/
 
 Freeciv の遊び方のアイディアを探しているなら、このまま読み進めて下さい。
 
@@ -134,7 +133,7 @@ Q. ほかにどんな戦略がありますか?
 
 多くのチュートリアルと戦略ガイドが Freeciv ウェブ・ページにあります:
 
-         http://www.freeciv.org/tutorials/tutorials.phtml
+         http://www.freeciv.org/tutorials/
 
 
 加えて、Freeciv オンライン・ヘルプには別の戦略があります。
@@ -237,4 +236,5 @@ Q. 一番役に立つ軍事部隊は何ですか?
 
 攻撃は最大の防御だということを忘れないで下さい。
 
-<この文章への追加を歓迎します>
+
+この文章への追加を歓迎します!
