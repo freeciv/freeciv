@@ -57,7 +57,7 @@ int string_ptr_compare(const void *first, const void *second);
 char *mystrerror(int errnum);
 void myusleep(unsigned long usec);
 
-RANDOM_TYPE myrand(int size);
+RANDOM_TYPE myrand(RANDOM_TYPE size);
 void mysrand(RANDOM_TYPE seed);
 void save_restore_random(void);
 

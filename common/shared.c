@@ -311,9 +311,8 @@ void myusleep(unsigned long usec)
    work well enough for our purposes.
 *************************************************************************/
 
-RANDOM_TYPE myrand(int size) 
-{ 
-
+RANDOM_TYPE myrand(RANDOM_TYPE size) 
+{
     RANDOM_TYPE newRand;
 
     newRand = (RandomState[iRandJ] + RandomState[iRandK]) & MAX_UINT32;
