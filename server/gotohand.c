@@ -855,7 +855,8 @@ contain a loop repeated calls of this function may result in the unit going
 in cycles forever.
 **************************************************************************/
 static int find_a_direction(struct unit *punit,
-			    enum goto_move_restriction restriction)
+			    enum goto_move_restriction restriction,
+			    const int dest_x, const int dest_y)
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
   char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
@@ -870,6 +871,18 @@ static int find_a_direction(struct unit *punit,
   if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
     passenger = other_passengers(punit);
   else passenger = NULL;
+
+  /* If we can get to the destination rigth away there is nothing to be gained
+     from going round in little circles to move across desirable squares */
+  for (k = 0; k < 8; k++) {
+    if (warmap.vector[punit->x][punit->y]&(1<<k)
+	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY && dir[k][1])) {
+      x = map_adjust_x(punit->x + ii[k]);
+      y = map_adjust_y(punit->y + jj[k]);
+      if (x == dest_x && y == dest_y)
+	return k;
+    }
+  }
 
   for (k = 0; k < 8; k++) {
     if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && dir[k][1]) continue;
@@ -1068,7 +1081,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
       if (!punit->moves_left)
 	return;
 
-      dir = find_a_direction(punit, restriction);
+      dir = find_a_direction(punit, restriction, waypoint_x, waypoint_y);
       if (dir < 0) {
 	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
 		unit_types[punit->type].name, punit->id,
