@@ -1002,7 +1002,7 @@ static int compar_unit_ord_city(const void *a, const void *b)
 **************************************************************************/
 void unit_list_sort_ord_map(struct unit_list *This)
 {
-  if(unit_list_size(This) > 1) {
+  if (unit_list_size(This) > 1) {
     genlist_sort(&This->list, compar_unit_ord_map);
   }
 }
@@ -1012,7 +1012,7 @@ void unit_list_sort_ord_map(struct unit_list *This)
 **************************************************************************/
 void unit_list_sort_ord_city(struct unit_list *This)
 {
-  if(unit_list_size(This) > 1) {
+  if (unit_list_size(This) > 1) {
     genlist_sort(&This->list, compar_unit_ord_city);
   }
 }

@@ -184,7 +184,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat, F_SPY)) {
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -263,7 +263,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		       " an embassy in %s for being untrustworthy"),
 		     unit_name(pdiplomat->type),
 		     get_nation_name_plural(pplayer->nation), pcity->name);
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
     return;
   }
 
@@ -273,7 +273,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		     _("Game: Your %s was executed in %s by primitive %s."),
 		     unit_name(pdiplomat->type),
 		     pcity->name, get_nation_name_plural(cplayer->nation));
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
     return;
   }
 
@@ -303,7 +303,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat, F_SPY)) {
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -482,7 +482,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Be sure to wipe the converted unit! */
   victim_x = pvictim->x;
   victim_y = pvictim->y;
-  wipe_unit (pvictim);
+  wipe_unit(pvictim);
 
   /* Now, try to move the briber onto the victim's square. */
   diplomat_id = pdiplomat->id;
@@ -576,7 +576,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		     pplayer->name, unit_name(pdiplomat->type), pcity->name);
     /* this may cause a diplomatic incident */
     maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
     return;
   }
 
@@ -797,7 +797,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		       " to incite a revolt in %s!"),
 		     get_nation_name(pplayer->nation),
 		     unit_name(pdiplomat->type), pcity->name);
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
     return;
   }
 
@@ -906,7 +906,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       " sabotage in %s!"),
 		     get_nation_name(pplayer->nation),
 		     unit_name(pdiplomat->type), pcity->name);
-    wipe_unit (pdiplomat);
+    wipe_unit(pdiplomat);
     return;
   }
 
@@ -1043,7 +1043,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			 get_nation_name(pplayer->nation),
 			 unit_name(pdiplomat->type),
 			 get_improvement_name(improvement), pcity->name);
-	wipe_unit (pdiplomat);
+	wipe_unit(pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
 	return;
       }

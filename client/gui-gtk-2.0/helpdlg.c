@@ -26,7 +26,6 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
-#include "genlist.h"
 #include "government.h"
 #include "mem.h"
 #include "shared.h"
