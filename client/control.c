@@ -844,6 +844,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
   if (can_client_issue_orders()
       && can_unit_load(pcargo, ptrans)) {
     dsend_packet_unit_load(&aconnection, pcargo->id, ptrans->id);
+    request_unit_sentry(pcargo);
   }
 }
 
