@@ -649,6 +649,11 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 
   f = my_querysocket(s, str, strlen(str));
 
+  if (f == NULL) {
+    (void) mystrlcpy(errbuf, _("Failed querying socket"), n_errbuf);
+    return NULL;
+  }
+
   /* skip HTTP headers */
   while (fz_fgets(str, sizeof(str), f) && strcmp(str, "\r\n") != 0) {
     /* nothing */
