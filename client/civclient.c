@@ -552,7 +552,6 @@ void set_client_state(enum client_states newstate)
     if (client_state==CLIENT_PRE_GAME_STATE
 	&& (newstate==CLIENT_SELECT_RACE_STATE
 	    || newstate==CLIENT_GAME_RUNNING_STATE)) {
-      create_event(-1, -1, E_GAME_START, _("Game started."));
       translate_data_names();
       audio_stop();		/* stop intro sound loop */
     }
@@ -561,6 +560,7 @@ void set_client_state(enum client_states newstate)
 
     if(client_state==CLIENT_GAME_RUNNING_STATE) {
       load_options();
+      create_event(-1, -1, E_GAME_START, _("Game started."));
       update_research(game.player_ptr);
       role_unit_precalcs();
       boot_help_texts();	/* reboot */
