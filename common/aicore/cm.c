@@ -369,9 +369,8 @@ static void print_city(struct city *pcity)
   freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
 	  pcity->food_prod, pcity->food_surplus);
   freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
-	  pcity->shield_prod + pcity->shield_waste, pcity->shield_prod);
-  freelog(LOG_NORMAL, "  trade   = %3d (%+3d)",
-	  pcity->trade_prod + pcity->corruption, pcity->trade_prod);
+	  pcity->shield_prod, pcity->shield_surplus);
+  freelog(LOG_NORMAL, "  trade   = %3d", pcity->trade_prod);
 
   freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
 	  city_gold_surplus(pcity));
@@ -464,8 +463,8 @@ static void print_combination(struct city *pcity,
 static void copy_stats(struct city *pcity, struct cm_result *result)
 {
   result->production[FOOD] = pcity->food_prod;
-  result->production[SHIELD] = pcity->shield_prod + pcity->shield_waste;
-  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
+  result->production[SHIELD] = pcity->shield_prod;
+  result->production[TRADE] = pcity->trade_prod;
 
   result->surplus[FOOD] = pcity->food_surplus;
   result->surplus[SHIELD] = pcity->shield_surplus;
