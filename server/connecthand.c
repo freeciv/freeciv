@@ -196,7 +196,6 @@ static void reject_new_connection(const char *msg, struct connection *pconn)
   send_packet_server_join_reply(pconn, &packet);
   freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
-  close_connection(pconn);
 }
 
 /**************************************************************************
@@ -365,6 +364,7 @@ void unfail_authentication(struct connection *pconn)
   if (pconn->server.authentication_tries >= MAX_AUTHENTICATION_TRIES) {
     pconn->server.status = AS_NOT_ESTABLISHED;
     reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
+    close_connection(pconn);
   } else {
     struct packet_authentication_req request;
 
@@ -389,10 +389,11 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
     if (!is_good_password(password, msg)) {
       if (pconn->server.authentication_tries++ >= MAX_AUTHENTICATION_TRIES) {
         reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
+	return FALSE;
       } else {
         dsend_packet_authentication_req(pconn, AUTH_NEWUSER_RETRY,msg);
+	return TRUE;
       }
-      return TRUE;
     }
 
     /* the new password is good, create a database entry for
@@ -426,6 +427,7 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
   } else {
     freelog(LOG_VERBOSE, "%s is sending unrequested auth packets", 
             pconn->username);
+    return FALSE;
   }
 
   return TRUE;
