@@ -272,11 +272,13 @@ void generator_init_topology(bool autosize)
    * exept if separate poles is set
    */
   if (!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY)) {
+    int sqsize = get_sqsize();
+
     if (map.separatepoles) {
       /* with separatepoles option strip poles are useless */
       ice_base_colatitude =
 	  (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE) 
-	   + 1 *  MAX_COLATITUDE * SQSIZE) / (100 * SQSIZE);
+	   + 1 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
       /* correction for single pole 
        * TODO uncomment it when generator 5 was well tuned 
        *      sometime it can put too many land near pole 
@@ -290,9 +292,19 @@ void generator_init_topology(bool autosize)
       /* any way strip poles are not so playable has isle poles */
       ice_base_colatitude =
 	  (MAX(0, 100 * COLD_LEVEL / 3 - 2 *  MAX_COLATITUDE) 
-	   + 2 *  MAX_COLATITUDE * SQSIZE) / (100 * SQSIZE);
-    }	
-  }	
+	   + 2 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
+    }
+  }
  
   map_init_topology(TRUE);
+}
+
+/*************************************************************************** 
+  An estimate of the linear (1-dimensional) size of the map.
+***************************************************************************/
+int get_sqsize(void)
+{
+  int sqsize = sqrt(MAP_INDEX_SIZE / 1000);
+
+  return MAX(1, sqsize);
 }

@@ -1036,7 +1036,7 @@ void map_fractal_generate(bool autosize)
     }
 
     if (map.generator == 1) {
-      make_random_hmap(MAX(1, 1 + SQSIZE 
+      make_random_hmap(MAX(1, 1 + get_sqsize() 
 			   - (map.startpos ? game.nplayers / 4 : 0)));
     }
 

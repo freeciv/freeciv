@@ -554,10 +554,11 @@ void precalc_tech_data()
   } tech_type_iterate_end;
 
   tech_type_iterate(tech) {
-    techcoststyle1[tech] = MAX((advances[tech].num_reqs + 1)
-                               * sqrt(advances[tech].num_reqs + 1)
-                               * (game.researchcost / 2),
-                               game.researchcost);
+    const int style1_cost = ((advances[tech].num_reqs + 1)
+			     * sqrt(advances[tech].num_reqs + 1)
+			     * (game.researchcost / 2));
+
+    techcoststyle1[tech] = MAX(style1_cost, game.researchcost);
   } tech_type_iterate_end;
 }
 

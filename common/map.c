@@ -593,6 +593,8 @@ static int map_vector_to_distance(int dx, int dy)
 ****************************************************************************/
 int map_vector_to_real_distance(int dx, int dy)
 {
+  const int absdx = abs(dx), absdy = abs(dy);
+
   if (topo_has_flag(TF_HEX)) {
     if (topo_has_flag(TF_ISO)) {
       /* Iso-hex: you can't move NE or SW. */
@@ -600,10 +602,10 @@ int map_vector_to_real_distance(int dx, int dy)
 	  || (dx > 0 && dy < 0)) {
 	/* Diagonal moves in this direction aren't allowed, so it will take
 	 * the full number of moves. */
-	return abs(dx) + abs(dy);
+        return absdx + absdy;
       } else {
 	/* Diagonal moves in this direction *are* allowed. */
-	return MAX(abs(dx), abs(dy));
+        return MAX(absdx, absdy);
       }
     } else {
       /* Hex: you can't move SE or NW. */
@@ -611,14 +613,14 @@ int map_vector_to_real_distance(int dx, int dy)
 	  || (dx < 0 && dy < 0)) {
 	/* Diagonal moves in this direction aren't allowed, so it will take
 	 * the full number of moves. */
-	return abs(dx) + abs(dy);
+	return absdx + absdy;
       } else {
 	/* Diagonal moves in this direction *are* allowed. */
-	return MAX(abs(dx), abs(dy));
+        return MAX(absdx, absdy);
       }
     }
   } else {
-    return MAX(abs(dx), abs(dy));
+    return MAX(absdx, absdy);
   }
 }
 
