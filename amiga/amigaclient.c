@@ -1,8 +1,8 @@
 /* This is a preparse main function for freeciv client.
-The file client/civclient.c must be compiler with main defined to civ_main,
+The file client/civclient.c must be compiled with main defined to civ_main,
 or this will not work.
 
-This method is hopefully a lot better protable than the previous method, which
+This method is hopefully a lot better portable than the previous method, which
 depended on init, exit, cleanup and destructor methods of compiler.
 
 The main() functions either gets

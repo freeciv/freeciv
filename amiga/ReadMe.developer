@@ -1,17 +1,20 @@
 Requirements to compile Freeciv
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Currently the native version of freeciv can only be compiled with
-SAS C.
-Further you need the AmiTCP SDK or Miami SDK,
-MUI, NList and Guigfx includes to be on your machine.
+Currently the native version of freeciv is tested with SAS C only.
+Anyway the code should be much more portable than previous versions.
+
+Furthermore you need the AmiTCP SDK or Miami SDK, MUI, NList and Guigfx
+includes to be on your machine.
 
 How to compile?
 ~~~~~~~~~~~~~~~
 If all is ready, simply cd into this directory and enter
+
  'smake'
-But note that I can't guarante if it is possible to compile on another
-machine yet, especially I expect that 'smake install' doesn't work
-(because there are currently no icons in the cvs).
+
+Maybe modify below settings before. 'smake install' will probably not work.
+This is because there are currently no icons in the cvs. And the ilbm
+pictures aren't there as well.
 
 There are some settings you may change in the smakefile:
  DESTDIR     set to the directory, where install should copy files to
@@ -22,22 +25,35 @@ There are some settings you may change in the smakefile:
  INCDIRS     Allows to include additional include directories. Normally
              this will be the Miami or AmiTCP SDK directory or empty.
 
-How compiling works in general?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The files server/civserver.c and client/civclient.c contain the main
-functions for civserver and civclient. As we need to do special stuff on
-Amiga (e.g. library opening) before these main's are called a special
-handling is needed:
+What to know about compiling prcoess?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The files server/civserver.c and client/civclient.c contain the main()
+functions for civserver and civclient. On the Amiga we need to do some
+special stuff (e.g. library opening) before these main()'s are called. So
+a special handling is needed:
 
 The two files need to be compiled with DEFINE main=civ_main (redefine the
 name main to civ_main). The files amigaserver.c and amigaclient.c contain
-the real main functions, which call civ_main.
+the real main() functions, which call civ_main() afterwards.
 The main() in amigaserver.c and amigaclient.c expect normal C style
-arguments argc and argv. If aclled from workbench, argc is 0 and argv the
+arguments argc and argv. If called from Workbench, argc is 0 and argv the
 pointer to WBStartup message. If your compiler does not support that
 behaviour, add another preparser and call the main function from it.
-Maybe use same redefine method like done for the real main functions.
+
+Example:
+
+Add following before main() in amigaserver.c and amigaclient.c.
+
+#ifdef __MY_COMPILER_NAME__
+int main(int argc, char *argv)
+{
+  if(WBenchMsg) /* the hell knows, how your compiler handles this :-) */
+    return main2(0, (char **) WBenchMsg);
+  else
+    return main2(argc, argv);
+}
+#define main main2 /* redefine main to avoid conflicts */
+#endif
 
 The free process is handled with atexit(), so the libraries are freed on
 abnormal program abortion also.
