@@ -33,13 +33,13 @@ XCOMM XPM_LIB_DIR=-L/users/pjunold/xpm-3.4i/lib
 PROGRAMS = civclient civserver
 INCLUDES = -Iserver -Iclient -Icommon -Iai -I$(XPM_INCLUDE_DIR) 
 
-SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \ 
+SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
 	     server/unitfunc.o server/unittools.o \
              server/maphand.o server/stdinhand.o server/cityhand.o \
 	     server/plrhand.o server/handchat.o server/gamehand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \
 	     server/registry.o server/mapgen.o server/cityturn.o \
-	     server/citytools.o \
+	     server/citytools.o server/settlers.o \
 	     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
 	     ai/advleader.o ai/advmilitary.o ai/advtrade.o ai/advscience.o \
 	     ai/advdomestic.o ai/advforeign.o ai/advattitude.o ai/advisland.o
