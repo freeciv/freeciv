@@ -713,7 +713,8 @@ void city_report_dialog_update(void)
     if(n_alloc == 0 || n > n_alloc) {
       int j, n_prev = n_alloc;
       
-      if(!n_alloc) n_alloc=n+1; else n_alloc *= 2;
+      n_alloc *= 2;
+      if (!n_alloc || n_alloc < n) n_alloc = n + 1;
       freelog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
       cities_in_list = realloc(cities_in_list, n_alloc*sizeof(*cities_in_list));
       city_list_text = realloc(city_list_text, n_alloc*sizeof(char*));
