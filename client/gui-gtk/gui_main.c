@@ -243,6 +243,38 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
   }
 
   if (!client_is_observer()) {
+    if ((ev->state & GDK_SHIFT_MASK)) {
+      switch (ev->keyval) {
+	case GDK_Left:
+	  scroll_mapview(DIR8_WEST);
+	  break;
+
+	case GDK_Right:
+	  scroll_mapview(DIR8_EAST);
+	  break;
+
+	case GDK_Up:
+	  scroll_mapview(DIR8_NORTH);
+	  break;
+
+	case GDK_Down:
+	  scroll_mapview(DIR8_SOUTH);
+	  break;
+
+	case GDK_Home:
+	  key_center_capital();
+	  break;
+
+	case GDK_Return:
+	case GDK_KP_Enter:
+	  key_end_turn();
+	  break;
+    
+	default:
+	  break;
+      }
+    }
+
     switch (ev->keyval) {
       case GDK_KP_Up:
       case GDK_8:
@@ -250,7 +282,6 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 	key_unit_move(DIR8_NORTH);
 	break;
 
-      case GDK_Page_Up:
       case GDK_KP_Page_Up:
       case GDK_9:
       case GDK_KP_9:
@@ -263,7 +294,6 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 	key_unit_move(DIR8_EAST);
 	break;
 
-      case GDK_Page_Down:
       case GDK_KP_Page_Down:
       case GDK_3:
       case GDK_KP_3:
@@ -276,7 +306,6 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 	key_unit_move(DIR8_SOUTH);
 	break;
 
-      case GDK_End:
       case GDK_KP_End:
       case GDK_1:
       case GDK_KP_1:
@@ -295,55 +324,30 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 	key_unit_move(DIR8_NORTHWEST);
 	break;
 
-      case GDK_Left:
-        scroll_mapview(DIR8_WEST);
-        break;
-
-      case GDK_Right:
-        scroll_mapview(DIR8_EAST);
-        break;
-
-      case GDK_Up:
-        scroll_mapview(DIR8_NORTH);
-        break;
-
-      case GDK_Down:
-        scroll_mapview(DIR8_SOUTH);
-        break;
-
-      case GDK_Return:
-      case GDK_KP_Enter:
-        key_end_turn();
-        break;
-  
       case GDK_5:
       case GDK_KP_5: 
       case GDK_KP_Begin:
-        key_recall_previous_focus_unit();
-        break;
+	key_recall_previous_focus_unit();
+	break;
   
       case GDK_Escape:
-        key_cancel_action();
-        break;
+	key_cancel_action();
+	break;
   
       case GDK_t:
-        key_city_workers(w, ev);
-        break;
-
-      case GDK_Home:
-        key_center_capital();
-        break;
+	key_city_workers(w, ev);
+	break;
 
       case GDK_KP_Divide:
-        key_quickselect(SELECT_SEA);
-        break;
+	key_quickselect(SELECT_SEA);
+	break;
 
       case GDK_KP_Multiply:
-        key_quickselect(SELECT_LAND);
-        break;
+	key_quickselect(SELECT_LAND);
+	break;
 
       default:
-        return FALSE;
+	return FALSE;
     }
   }
 
