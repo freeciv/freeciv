@@ -338,7 +338,7 @@ static void create_option_dialog(void)
       {
 	Object *check, *label;
 	check = MakeCheck(_(o->description), FALSE);
-	label = MakeLabel(_(o->description));
+	label = MakeLabelLeft(_(o->description));
 
 	if (check && label)
 	{

@@ -103,7 +103,7 @@ void popup_messageopt_dialog(void)
       }
       for(i=0; i < E_LAST && !err; i++)
       {
-        if((o = MakeLabel(_(message_text[sorted_events[i]]))))
+        if((o = MakeLabelLeft(_(message_text[sorted_events[i]]))))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, o);
         else
           ++err;

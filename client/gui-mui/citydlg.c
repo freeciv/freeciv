@@ -474,14 +474,14 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
     {
       if (which == 20000)
       {
-	strcpy(name, "\33u\338Units\33n");
+	strcpy(name, _("\33u\338Units\33n"));
 	info[0] = cost[0] = rounds[0] = 0;
       }
       else
       {
 	if (which == 20001)
 	{
-	  strcpy(name, "\33u\338Improvements\33n");
+	  strcpy(name, _("\33u\338Improvements\33n"));
 	  info[0] = cost[0] = rounds[0] = 0;
 	}
 	else
@@ -525,11 +525,11 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 	{
 	  if (is_wonder(which))
 	  {
-	    strcpy(info, "Wonder");
+	    strcpy(info, _("Wonder"));
 	    if (game.global_wonders[which])
-	      strcpy(info, "Built");
+	      strcpy(info, _("Built"));
 	    if (wonder_obsolete(which))
-	      strcpy(info, "Obsolete");
+	      strcpy(info, _("Obsolete"));
 	  }
 	}
       }
@@ -553,10 +553,10 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
   }
   else
   {
-    *array++ = "Type";
-    *array++ = "Info";
-    *array++ = "Rounds";
-    *array++ = "Cost";
+    *array++ = _("Type");
+    *array++ = _("Info");
+    *array++ = _("Rounds");
+    *array++ = _("Cost");
     *array = NULL;
   }
   return 0;
@@ -582,8 +582,8 @@ HOOKPROTO(city_imprv_display, int, char **array, APTR msg)
   }
   else
   {
-    *array++ = "Type";
-    *array = "Upkeep";
+    *array++ = _("Type");
+    *array = _("Upkeep");
   }
   return 0;
 }
@@ -693,7 +693,7 @@ static void city_trade(struct city_dialog **ppdialog)
   int nleft = sizeof(buf);
 
   my_snprintf(buf, sizeof(buf),
-	     "These trade routes have been established with %s:\n",
+	     _("These trade routes have been established with %s:\n"),
 	     pdialog->pcity->name);
   bptr = end_of_strn(bptr, &nleft);
 
@@ -706,24 +706,24 @@ static void city_trade(struct city_dialog **ppdialog)
       total += pdialog->pcity->trade_value[i];
       if ((pcity = find_city_by_id(pdialog->pcity->trade[i])))
       {
-	my_snprintf(bptr, nleft, "%s: %2d Trade/Turn\n", pcity->name, pdialog->pcity->trade_value[i]);
+	my_snprintf(bptr, nleft, _("%s: %2d Trade/Turn\n"), pcity->name, pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       }
       else
       {
-	my_snprintf(bptr, nleft, "%s: %2d Trade/Turn\n", "Unknown", pdialog->pcity->trade_value[i]);
+	my_snprintf(bptr, nleft, _("%s: %2d Trade/Turn\n"), _("Unknown"), pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       }
     }
   }
 
   if (!x)
-    mystrlcpy(bptr, "No trade routes exist.\n",nleft);
+    mystrlcpy(bptr, _("No trade routes exist.\n"), nleft);
   else
-    my_snprintf(bptr, nleft, "\nTotal trade %d Trade/Turn\n", total);
+    my_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Turn\n"), total);
 
-  popup_message_dialog(pdialog->wnd, "Trade Routes", buf,
-		       "_Done", message_close, 0,
+  popup_message_dialog(pdialog->wnd, _("Trade Routes"), buf,
+		       _("_Done"), message_close, 0,
 		       0);
 }
 
@@ -942,21 +942,21 @@ static void city_buy(struct city_dialog **ppdialog)
 
   if (game.player_ptr->economic.gold >= value)
   {
-    sprintf(buf, "Buy %s for %d gold?\nTreasury contains %d gold.",
+    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."),
 	    name, value, game.player_ptr->economic.gold);
 
-    popup_message_dialog(pdialog->wnd, "Buy It!", buf,
-			 "_Yes", city_buy_yes, pdialog->pcity,
-			 "_No", message_close, 0,
+    popup_message_dialog(pdialog->wnd, _("Buy It!"), buf,
+			 _("_Yes"), city_buy_yes, pdialog->pcity,
+			 _("_No"), message_close, 0,
 			 NULL);
   }
   else
   {
-    sprintf(buf, "%s costs %d gold.\nTreasury contains %d gold.",
+    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."),
 	    name, value, game.player_ptr->economic.gold);
 
-    popup_message_dialog(pdialog->wnd, "Buy It!", buf,
-			 "_Darn", message_close, 0,
+    popup_message_dialog(pdialog->wnd, _("Buy It!"), buf,
+			 _("_Darn"), message_close, 0,
 			 NULL);
   }
 }
@@ -980,14 +980,14 @@ static void city_sell(struct city_dialog **ppdialog)
     if (is_wonder(i))
       return;
 
-    my_snprintf(buf, sizeof(buf), "Sell %s for %d gold?", get_impr_name_ex(pdialog->pcity, i),
+    my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), get_impr_name_ex(pdialog->pcity, i),
 	    improvement_value(i));
 
     pdialog->sell_id = i;
     pdialog->sell_wnd = popup_message_dialog(pdialog->wnd,
-			"Sell It!", buf,
-			"_Yes", city_sell_yes, pdialog,
-			"_No", city_sell_no, pdialog,
+			_("Sell It!"), buf,
+			_("_Yes"), city_sell_yes, pdialog,
+			_("_No"), city_sell_no, pdialog,
 			NULL);
     set(pdialog->sell_button, MUIA_Disabled, TRUE);
   }
@@ -1136,7 +1136,7 @@ void popup_city_production_dialog(struct city *pcity)
   pcprod->available_disphook.h_Data = pcity;
 
   pcprod->wnd = WindowObject,
-    MUIA_Window_Title, "Freeciv - Cityproduction",
+    MUIA_Window_Title, _("Freeciv - Cityproduction"),
     MUIA_Window_ID, MAKE_ID('P','R','O','D'),
     WindowContents, VGroup,
 	Child, pcprod->available_listview = NListviewObject,
@@ -1149,9 +1149,9 @@ void popup_city_production_dialog(struct city *pcity)
 		End,
 	    End,
 	Child, HGroup,
-	    Child, change_button = MakeButton("Chan_ge"),
-	    Child, help_button = MakeButton("_Help"),
-	    Child, cancel_button = MakeButton("_Cancel"),
+	    Child, change_button = MakeButton(_("Chan_ge")),
+	    Child, help_button = MakeButton(_("_Help")),
+	    Child, cancel_button = MakeButton(_("_Cancel")),
 	    End,
 	End,
     End;
@@ -1226,11 +1226,14 @@ void popup_city_production_dialog(struct city *pcity)
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
-  static char *newcitizen_labels[] =
-  {"Workers", "Scientists", "Taxmen", NULL};
-
+  static char *newcitizen_labels[4];
   Object *cityopt_ok_button;
   Object *cityopt_cancel_button, *next_button, *prev_button;
+
+  newcitizen_labels[0] = _("Workers");
+  newcitizen_labels[1] = _("Scientists");
+  newcitizen_labels[2] = _("Taxmen");
+  newcitizen_labels[3] = NULL;
 
   pdialog = AllocVec(sizeof(struct city_dialog), 0x10000);
   if (!pdialog)
@@ -1252,7 +1255,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   } else prev_button = next_button = pdialog->name_string = NULL;
 
   pdialog->wnd = WindowObject,
-    MUIA_Window_Title, "Freeciv - Cityview",
+    MUIA_Window_Title, _("Freeciv - Cityview"),
     MUIA_Window_ID, MAKE_ID('C','I','T','Y'),
     WindowContents, VGroup,
  	Child, HGroup,
@@ -1279,35 +1282,35 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	    	Child, HGroup,
 		    Child, VGroup,
 		        MUIA_HorizWeight,0,
-			Child, HorizLineTextObject("City Output"),
+			Child, HorizLineTextObject(_("City Output")),
 			Child, ColGroup(2),
-			    Child, MakeLabel("Food:"),
+			    Child, MakeLabel(_("Food:")),
 			    Child, pdialog->food_text = TextObject, End,
-			    Child, MakeLabel("Shields:"),
+			    Child, MakeLabel(_("Shields:")),
 			    Child, pdialog->shield_text = TextObject, End,
-			    Child, MakeLabel("Trade:"),
+			    Child, MakeLabel(_("Trade:")),
 			    Child, pdialog->trade_text = TextObject, End,
-			    Child, MakeLabel("Gold:"),
+			    Child, MakeLabel(_("Gold:")),
 			    Child, pdialog->gold_text = TextObject, End,
-			    Child, MakeLabel("Luxury:"),
+			    Child, MakeLabel(_("Luxury:")),
 			    Child, pdialog->luxury_text = TextObject, End,
-			    Child, MakeLabel("Science:"),
+			    Child, MakeLabel(_("Science:")),
 			    Child, pdialog->science_text = TextObject, End,
-			    Child, MakeLabel("Granary:"),
+			    Child, MakeLabel(_("Granary:")),
 			    Child, pdialog->granary_text = TextObject, End,
-			    Child, MakeLabel("Pollution:"),
+			    Child, MakeLabel(_("Pollution:")),
 			    Child, pdialog->pollution_text = TextObject, End,
 			    End,
 			Child, VSpace(0),
 			End,
 		    Child, VGroup,
-			Child, HorizLineTextObject("Citymap"),
+			Child, HorizLineTextObject(_("Citymap")),
 			Child, pdialog->map_area = MakeCityMap(pcity),
 			Child, VSpace(0),
 			End,
 
 		    Child, VGroup,
-			Child, HorizLineTextObject("City Improvements"),
+			Child, HorizLineTextObject(_("City Improvements")),
 			Child, pdialog->imprv_listview = NListviewObject,
 		            MUIA_CycleChain, 1,
 		            MUIA_NListview_NList, NListObject,
@@ -1316,17 +1319,17 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 			       MUIA_NList_Title, TRUE,
 			       End,
 		            End,
-		        Child, pdialog->sell_button = MakeButton("_Sell"),
+		        Child, pdialog->sell_button = MakeButton(_("_Sell")),
 
-		        Child, HorizLineTextObject("Production"),
+		        Child, HorizLineTextObject(_("Production")),
 		        Child, pdialog->prod_gauge = MyGaugeObject,
 			    GaugeFrame,
 			    MUIA_Gauge_Horiz, TRUE,
 			    End,
 		        Child, HGroup,
-			    Child, pdialog->buy_button = MakeButton("_Buy"),
-			    Child, pdialog->worklist_button = MakeButton("_Worklist"),
-			    Child, pdialog->change_button = MakeButton("Chan_ge"),
+			    Child, pdialog->buy_button = MakeButton(_("_Buy")),
+			    Child, pdialog->worklist_button = MakeButton(_("_Worklist")),
+			    Child, pdialog->change_button = MakeButton(_("Chan_ge")),
 			    End,
 			End,
 		    End,
@@ -1335,7 +1338,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	Child, HGroup,
 	    MUIA_VertWeight, 300,
             Child, VGroup,
-	        Child, HorizLineTextObject("Present Units"),
+	        Child, HorizLineTextObject(_("Units present")),
 		Child, HGroup,
 		    Child, pdialog->present_group = AutoGroup,
 			End,
@@ -1343,15 +1346,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 		Child, HGroup,
 		    MUIA_HorizWeight, 0,
 		    Child, HVSpace,
-		    Child, pdialog->activateunits_button = MakeButton("_Activate all"),
+		    Child, pdialog->activateunits_button = MakeButton(_("_Activate Units")),
 		    Child, HVSpace,
-		    Child, pdialog->unitlist_button = MakeButton("_List"),
+		    Child, pdialog->unitlist_button = MakeButton(_("_Unit List")),
 		    Child, HVSpace,
 		    End,
 		End,
 	    Child, BalanceObject, End,
 	    Child, VGroup,
-	        Child, HorizLineTextObject("Supported Units"),
+	        Child, HorizLineTextObject(_("Supported Units")),
 		Child, pdialog->supported_group = AutoGroup,
 		    End,
 		End,
@@ -1360,46 +1363,46 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	    MUIA_VertWeight,0,
 	    Child, HorizLineObject,
 	    Child, HGroup,
-		Child, pdialog->close_button = MakeButton("_Close"),
+		Child, pdialog->close_button = MakeButton(_("_Close")),
 		Child, HSpace(0),
-		Child, pdialog->trade_button = MakeButton("_Trade"),
+		Child, pdialog->trade_button = MakeButton(_("_Trade")),
 		Child, HSpace(0),
-		Child, pdialog->configure_button = MakeButton("Con_figure"),
+		Child, pdialog->configure_button = MakeButton(_("Con_figure")),
 		End,
 	    End,
 	End,
     End;
 
   pdialog->cityopt_wnd = WindowObject,
-    MUIA_Window_Title, "Freeciv - Cityoptions",
+    MUIA_Window_Title, _("Freeciv - Cityoptions"),
     MUIA_Window_ID, MAKE_ID('C','I','T','O'),
     WindowContents, VGroup,
 	Child, HGroup,
 	    Child, HSpace(0),
 	    Child, ColGroup(2),
-		Child, MakeLabel("_New specialists are"),
-		Child, pdialog->cityopt_cycle = MakeCycle("_New specialists are", newcitizen_labels),
+		Child, MakeLabelLeft(_("_New specialists are")),
+		Child, pdialog->cityopt_cycle = MakeCycle(_("_New specialists are"), newcitizen_labels),
 
-		Child, MakeLabel("_Disband if build settler at size 1"),
-		Child, pdialog->cityopt_checks[4] = MakeCheck("_Disband if build settler at size 1", FALSE),
+		Child, MakeLabelLeft(_("_Disband if build settler at size 1")),
+		Child, pdialog->cityopt_checks[4] = MakeCheck(_("_Disband if build settler at size 1"), FALSE),
 
-		Child, MakeLabel("Auto-attack vs _land units"),
-		Child, pdialog->cityopt_checks[0] = MakeCheck("Auto-attack vs _land units", FALSE),
+		Child, MakeLabelLeft(_("Auto-attack vs _land units")),
+		Child, pdialog->cityopt_checks[0] = MakeCheck(_("Auto-attack vs _land units"), FALSE),
 
-		Child, MakeLabel("Auto-attack vs _sea units"),
-		Child, pdialog->cityopt_checks[1] = MakeCheck("Auto-attack vs _sea units", FALSE),
+		Child, MakeLabelLeft(_("Auto-attack vs _sea units")),
+		Child, pdialog->cityopt_checks[1] = MakeCheck(_("Auto-attack vs _sea units"), FALSE),
 
-		Child, MakeLabel("Auto-attack vs _air units"),
-		Child, pdialog->cityopt_checks[3] = MakeCheck("Auto-attack vs _air units", FALSE),
+		Child, MakeLabelLeft(_("Auto-attack vs _air units")),
+		Child, pdialog->cityopt_checks[3] = MakeCheck(_("Auto-attack vs _air units"), FALSE),
 
-		Child, MakeLabel("Auto-attack vs _helicopters"),
-		Child, pdialog->cityopt_checks[2] = MakeCheck("Auto-attack vs _helicopters", FALSE),
+		Child, MakeLabelLeft(_("Auto-attack vs _helicopters")),
+		Child, pdialog->cityopt_checks[2] = MakeCheck(_("Auto-attack vs _helicopters"), FALSE),
 		End,
 	    Child, HSpace(0),
 	    End,
 	Child, HGroup,
-	    Child, cityopt_ok_button = MakeButton("_Ok"),
-	    Child, cityopt_cancel_button = MakeButton("_Cancel"),
+	    Child, cityopt_ok_button = MakeButton(_("_Ok")),
+	    Child, cityopt_cancel_button = MakeButton(_("_Cancel")),
 	    End,
 	End,
     End;
@@ -1528,7 +1531,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   if (!worklist_is_empty(pcity->worklist))
   {
-    my_snprintf(buf3, sizeof(buf3), "%s (%s) (worklist)", buf, buf2);
+    my_snprintf(buf3, sizeof(buf3), _("%s (%s) (worklist)"), buf, buf2);
   } else
   {
     my_snprintf(buf3, sizeof(buf3), "%s (%s)", buf, buf2);
@@ -1733,10 +1736,10 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   if (pdialog->name_string)
   {
     set(pdialog->name_string,MUIA_String_Contents, pdialog->pcity->name);
-    settextf(pdialog->title_text, "%s citizens", int_to_text(city_population(pdialog->pcity)));
+    settextf(pdialog->title_text, _("%s citizens"), int_to_text(city_population(pdialog->pcity)));
   } else
   {
-    settextf(pdialog->title_text, "%s - %s citizens", pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+    settextf(pdialog->title_text, _("%s - %s citizens"), pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
   }
 }
 

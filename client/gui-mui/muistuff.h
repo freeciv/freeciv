@@ -37,6 +37,7 @@ ULONG DoSuperNew(struct IClass *cl,Object *obj,ULONG tag1,...);
 
 Object *MakeMenu(struct NewMenu *menu);
 Object *MakeLabel(STRPTR str);
+Object *MakeLabelLeft(STRPTR str);
 Object *MakeString(STRPTR label, LONG maxlen);
 Object *MakeButton(STRPTR str);
 Object *MakeInteger(STRPTR label);

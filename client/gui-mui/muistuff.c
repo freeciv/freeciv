@@ -184,6 +184,11 @@ Object *MakeLabel(STRPTR str)
   return (MUI_MakeObject(MUIO_Label, str, 0));
 }
 
+Object *MakeLabelLeft(STRPTR str)
+{
+  return (MUI_MakeObject(MUIO_Label, str, MUIO_Label_LeftAligned));
+}
+
 Object *MakeString(STRPTR label, LONG maxlen)
 {
   Object *obj = MUI_MakeObject(MUIO_String, label, maxlen);
