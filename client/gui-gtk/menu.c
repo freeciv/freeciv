@@ -302,11 +302,16 @@ static void orders_menu_callback(gpointer callback_data,
   switch(callback_action) {
    case MENU_ORDER_BUILD_CITY:
     if (get_unit_in_focus()) {
-      if (can_unit_build_city(get_unit_in_focus()) ||
-	  can_unit_add_to_city(get_unit_in_focus()))
+      struct unit *punit = get_unit_in_focus();
+      /* Enable the button for adding to a city in all cases, so we
+	 get an eventual error message from the server if we try. */
+      if (can_unit_build_city(punit)
+	  || (unit_flag(punit->type, F_CITIES)
+	      && map_get_city(punit->x, punit->y))) {
 	key_unit_build_city();
-      else
+      } else {
 	key_unit_build_wonder();
+      }
     }
     break;
    case MENU_ORDER_ROAD:
@@ -997,9 +1002,12 @@ void update_menus(void)
       sz_strlcpy(mintext, _("Build _Mine"));
       sz_strlcpy(transtext, _("Transf_orm Terrain"));
       
+      /* Enable the button for adding to a city in all cases, so we
+	 get an eventual error message from the server if we try. */
       menus_set_sensitive("<main>/Orders/Build City",
 			  (can_unit_build_city(punit) ||
-                           can_unit_add_to_city(punit) ||
+                           (unit_flag(punit->type, F_CITIES)
+			    && map_get_city(punit->x, punit->y)) ||
                            unit_can_help_build_wonder_here(punit)));
       menus_set_sensitive("<main>/Orders/Build Road",
                           (can_unit_do_activity(punit, ACTIVITY_ROAD) ||
