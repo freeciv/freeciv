@@ -118,7 +118,7 @@ struct civ_game {
   int killcitizen;
   int techpenalty;
   int razechance;
-  int scorelog;
+  bool scorelog;
   int randseed;
   int aqueduct_size;
   int sewer_size;
