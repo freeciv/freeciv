@@ -817,9 +817,10 @@ void handle_player_revolution(struct player *pplayer)
 
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
+  if (player_owns_active_govchange_wonder(pplayer)) {
+    pplayer->revolution = 0;
+  }
   send_player_info(pplayer, pplayer);
-  if (player_owns_active_govchange_wonder(pplayer))
-    pplayer->revolution=1;
 }
 
 /**************************************************************************
