@@ -31,6 +31,11 @@
 
 #include "mapview_common.h"
 
+/* We need to be able to scroll a little bit down past the end of the map,
+ * since the bottom row of tiles may not fit completely on the mapview.
+ * In iso-view we have to scroll even further past. */
+#define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
+
 struct canvas mapview_canvas;
 
 /* Coordinates of the upper left corner of the map overview. */
@@ -295,6 +300,21 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
   *map_y += mapview_canvas.map_y0;
 
   return normalize_map_pos(map_x, map_y);
+}
+
+/**************************************************************************
+  Return the range of values that the mapview origin can take.  Useful
+  for scrollbars or when manually clipping the window.
+**************************************************************************/
+void get_mapview_clipping_window(int *xmin, int *ymin,
+				 int *xmax, int *ymax,
+				 int *xsize, int *ysize)
+{
+  *xmin = *ymin = 0;
+  *xmax = map.xsize;
+  *ymax = map.ysize + EXTRA_BOTTOM_ROW;
+  *xsize = mapview_canvas.tile_width;
+  *ysize = mapview_canvas.tile_height;
 }
 
 /**************************************************************************

@@ -1167,10 +1167,13 @@ void update_map_canvas_scrollbars(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  map_hadj=gtk_adjustment_new(-1, 0, map.xsize, 1,
-	   map_canvas_store_twidth, map_canvas_store_twidth);
-  map_vadj=gtk_adjustment_new(-1, 0, map.ysize+EXTRA_BOTTOM_ROW, 1,
-	   map_canvas_store_theight, map_canvas_store_theight);
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+
+  map_hadj = gtk_adjustment_new(-1, xmin, xmax, 1, xsize, xsize);
+  map_vadj = gtk_adjustment_new(-1, ymin, ymax, 1, ysize, ysize);
+
   gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
 	GTK_ADJUSTMENT(map_hadj));
   gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
@@ -1205,11 +1208,6 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
     map_view_x0=percent;
   else {
     map_view_y0=percent;
-    map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
-    map_view_y0=
-      (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
-      map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
-      map_view_y0;
   }
 
   if (last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {

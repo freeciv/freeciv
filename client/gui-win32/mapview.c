@@ -587,8 +587,12 @@ void flush_dirty(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  ScrollBar_SetRange(map_scroll_h,0,map.xsize,TRUE);
-  ScrollBar_SetRange(map_scroll_v,0,map.ysize+EXTRA_BOTTOM_ROW,TRUE);
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+
+  ScrollBar_SetRange(map_scroll_h, xmin, xmax, TRUE);
+  ScrollBar_SetRange(map_scroll_v, ymin, ymax, TRUE);
 }
 
 /**************************************************************************
@@ -1027,10 +1031,15 @@ void overview_expose(HDC hdc)
 **************************************************************************/
 void map_handle_hscroll(int pos)
 {
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
   if (!can_client_change_view()) {
     return;
   }
-  map_view_x=pos;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  map_view_x = CLIP(xmin, pos, xmax - xsize);
+
   update_map_canvas_visible();
   refresh_overview_viewrect();                                                
 }
@@ -1040,14 +1049,15 @@ void map_handle_hscroll(int pos)
 **************************************************************************/
 void map_handle_vscroll(int pos)
 {
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
   if (!can_client_change_view()) {
     return;
   }
-  map_view_y=pos;
-  map_view_y=(map_view_y<0)?0:map_view_y;
-  map_view_y= (map_view_y>map.ysize+EXTRA_BOTTOM_ROW-map_view_height) ?
-        map.ysize+EXTRA_BOTTOM_ROW-map_view_height :
-        map_view_y;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  map_view_y = CLIP(ymin, pos, ymax - ysize);
+
   update_map_canvas_visible();
   refresh_overview_viewrect();
 }

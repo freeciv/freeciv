@@ -748,10 +748,16 @@ void flush_dirty(void)
 **************************************************************************/
 void update_map_canvas_scrollbars(void)
 {
-  float shown_h=(float)map_canvas_store_twidth/(float)map.xsize;
-  float top_h=(float)map_view_x0/(float)map.xsize;
-  float shown_v=(float)map_canvas_store_theight/((float)map.ysize+EXTRA_BOTTOM_ROW);
-  float top_v=(float)map_view_y0/((float)map.ysize+EXTRA_BOTTOM_ROW);
+  float shown_h, top_h, shown_v, top_v;
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+
+  top_h = (float)(map_view_x0 - xmin) / (float)(xmax - xmin);
+  top_v = (float)(map_view_y0 - ymin) / (float)(ymax - ymin);
+
+  shown_h = (float)xsize / (float)(xmax - xmin);
+  shown_v = (float)ysize / (float)(ymax - ymin);
 
   XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
   XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
@@ -1026,20 +1032,20 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 			     XtPointer percent_ptr)
 {
   float percent=*(float*)percent_ptr;
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
   if (!can_client_change_view()) {
     return;
   }
 
-  if(w==map_horizontal_scrollbar)
-    map_view_x0=percent*map.xsize;
-  else {
-    map_view_y0=percent*(map.ysize+EXTRA_BOTTOM_ROW);
-    map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
-    map_view_y0=
-      (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
-	map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
-	map_view_y0;
+  if(w==map_horizontal_scrollbar) {
+    map_view_x0 = xmin + (percent * (xmax - xmin));
+    map_view_x0 = CLIP(xmin, map_view_x0, xmax - xsize);
+  } else {
+    map_view_y0 = ymin + (percent * (ymax - ymin));
+    map_view_y0 = CLIP(ymin, map_view_y0, ymax - ysize);
   }
 
   update_map_canvas_visible();
@@ -1055,27 +1061,31 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_val)
 {
-  int position = XTPOINTER_TO_INT(position_val), is_real;
+  int position = XTPOINTER_TO_INT(position_val);
+  int xmin, ymin, xmax, ymax, xsize, ysize;
+
+  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
   if (!can_client_change_view()) {
     return;
   }
 
   if(w==map_horizontal_scrollbar) {
-    if(position>0) 
+    if (position > 0) {
       map_view_x0++;
-    else
+    } else {
       map_view_x0--;
+    }
+    map_view_x0 = CLIP(xmin, map_view_x0, xmax - xsize);
   }
   else {
-    if(position>0 && map_view_y0<map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
+    if (position > 0) {
       map_view_y0++;
-    else if(position<0 && map_view_y0>0)
+    } else {
       map_view_y0--;
+    }
+    map_view_y0 = CLIP(ymin, map_view_y0, ymax - ysize);
   }
-
-  is_real = normalize_map_pos(&map_view_x0, &map_view_y0);
-  assert(is_real);
 
   update_map_canvas_visible();
   update_map_canvas_scrollbars();

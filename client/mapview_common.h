@@ -48,12 +48,6 @@ constant).
 -Thue
 */
 
-/* If we have isometric view we need to be able to scroll a little
- *  extra down.  The places that needs to be adjusted are the same as
- *  above. 
-*/
-#define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
-
 /* 
  * When drawing a tile (currently only in isometric mode), there are
  * six relevant parts we can draw.  Each of these is a rectangle of
@@ -139,6 +133,10 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
 bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y);
 bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y);
+
+void get_mapview_clipping_window(int *xmin, int *ymin,
+				 int *xmax, int *ymax,
+				 int *xsize, int *ysize);
 
 void get_center_tile_mapcanvas(int *map_x, int *map_y);
 void center_tile_mapcanvas(int map_x, int map_y);
