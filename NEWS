@@ -12,7 +12,6 @@ ChangeLog file.
 
 WHAT'S CHANGED SINCE 1.9.0:
 
- - Ported to Amiga.
  - Internationalization extended.  Still needs improvement.
    New ./doc directory for localized versions of README and INSTALL.
    Current localizations: de en_GB es fr hu no pl pt pt_BR ru.
@@ -67,6 +66,9 @@ WHAT'S CHANGED SINCE 1.9.0:
  - Changed Fighters and Stealth Fighters to not cause unhappiness (Civ2).
  - Cities on mountains will produce an extra food (Civ2).
  - Fixed bug where Lighthouse was not producing veteran sea units.
+ - Ported to Amiga.  (This is not included with a "distribution"; get it
+   directly from the CVS <http://www.freeciv.org/contribute.html#SetupCVS>,
+   or from a CVS Snapshot <http://www.freeciv.org/latest.html>.)
  - Lots of bug fixes, code cleanups, and help-text improvements.
 
 WHAT'S CHANGED SINCE 1.8.1:
