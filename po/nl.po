@@ -1194,8 +1194,9 @@ msgstr "Spel: %s is klaar met het bouwen van %s."
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang.Spel: %s "
-"versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
+"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang."
+msgstr[1] ""
+"Spel: %s versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
 
 #: server/cityturn.c:980
 #, c-format
@@ -4712,7 +4713,7 @@ msgstr ""
 "2 = stadsnamen moeten spelsgewijs uniek zijn: alle steden in het spel moeten "
 "verschillende namen hebben.\n"
 "3 = dan wordt het een speler niet toegestaan de standaard stadsnamen van "
-"andere naties te gebruiken. (tenzij die ook voor deze natie standaard is) \n"
+"andere naties te gebruiken. (tenzij die ook voor deze natie standaard is)."
 
 #: server/settings.c:753
 msgid "Barbarian appearance frequency"
@@ -9140,6 +9141,7 @@ msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
 msgstr[0] ""
 "Voortgang: %d beurt/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
+msgstr[1] ""
 "Voortgang: %d beurten/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
