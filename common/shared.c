@@ -1328,25 +1328,9 @@ char *convert_data_string_malloc(const char *text)
     data_encoding = "ISO-8859-1";
   }
 
-  local_encoding = getenv("FREECIV_LOCAL_ENCODING");
-  if (!local_encoding) {
-#ifdef HAVE_LIBCHARSET
-    local_encoding = locale_charset();
-#else
-#ifdef HAVE_LANGINFO_CODESET
-    local_encoding = nl_langinfo(CODESET);
-#else
-    local_encoding = "";
-#endif
-#endif
-    if (strcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
-	|| strcasecmp(local_encoding, "ASCII") == 0) {
-      /* HACK: Use latin1 instead of ascii. */
-      local_encoding = "ISO-8859-1";
-    }
-    my_snprintf(target, sizeof(target), "%s//TRANSLIT", local_encoding);
-    local_encoding = target;
-  }
+  local_encoding = get_local_charset();
+  my_snprintf(target, sizeof(target), "%s//TRANSLIT", local_encoding);
+  local_encoding = target;
 
   return convert_string_malloc(text, data_encoding, local_encoding);
 #else
@@ -1366,5 +1350,38 @@ char *convert_data_string_malloc(const char *text)
    }
 #endif
   return mystrdup(text);
+#endif
+}
+
+/***************************************************************************
+  Return the charset encoding of the local charset.
+***************************************************************************/
+char *get_local_charset(void)
+{
+#ifdef HAVE_ICONV
+  char *local_encoding;
+
+  local_encoding = getenv("FREECIV_LOCAL_ENCODING");
+  if (!local_encoding) {
+#ifdef HAVE_LIBCHARSET
+    local_encoding = locale_charset();
+#else
+#ifdef HAVE_LANGINFO_CODESET
+    local_encoding = nl_langinfo(CODESET);
+#else
+    local_encoding = "";
+#endif
+#endif
+    if (mystrcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
+	|| mystrcasecmp(local_encoding, "ASCII") == 0) {
+      /* HACK: Use latin1 instead of ascii. */
+      local_encoding = "ISO-8859-1";
+    }
+  }
+
+  return local_encoding;
+#else
+  /* Assume we're using latin1. */
+  return "ISO-8859-1";
 #endif
 }

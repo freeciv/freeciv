@@ -2151,6 +2151,8 @@ void game_save(struct section_file *file)
   }
   secfile_insert_str(file, options, "savefile.options");
 
+  secfile_insert_str(file, get_local_charset(), "savefile.charset");
+
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");
