@@ -3249,7 +3249,8 @@ void flush_connection_send_buffer(struct connection *pc)
 /********************************************************************
 ...
 ********************************************************************/
-int add_connection_data(struct connection *pc, unsigned char *data, int len)
+static int add_connection_data(struct connection *pc, unsigned char *data,
+			       int len)
 {
   if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
     memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
