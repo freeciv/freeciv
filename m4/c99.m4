@@ -18,7 +18,6 @@ AC_DEFUN(FC_VARIADIC_MACROS,
            MSG("%s%d", "foo", 1);],
           ac_cv_c99_variadic_macros=yes,
           ac_cv_c99_variadic_macros=no)])
-  echo "${CFLAGS_save}"
   if test "x${ac_cv_c99_variadic_macros}" != "xyes"; then
     AC_MSG_ERROR([A compiler supporting C99 variadic macros is required])
   fi
