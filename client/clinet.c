@@ -336,7 +336,7 @@ void input_from_server(int fd)
     close_socket_callback(&aconnection);
   }
 
-  unqueue_mapview_update();
+  unqueue_mapview_updates();
 }
 
 /**************************************************************************
@@ -388,7 +388,7 @@ void input_from_server_till_request_got_processed(int fd,
   }
 
 out:
-  unqueue_mapview_update();
+  unqueue_mapview_updates();
 }
 
 #ifdef WIN32_NATIVE

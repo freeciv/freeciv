@@ -874,7 +874,7 @@ void get_city_mapview_production(struct city *pcity,
   }
 }
 
-static bool need_mapview_update = FALSE;
+static enum update_type needed_updates = UPDATE_NONE;
 
 /**************************************************************************
   This function, along with unqueue_mapview_update(), helps in updating
@@ -893,23 +893,25 @@ static bool need_mapview_update = FALSE;
   faster too.  But it's a bit of a hack to insert this code into the
   packet-handling code.
 **************************************************************************/
-void queue_mapview_update(void)
+void queue_mapview_update(enum update_type update)
 {
-  need_mapview_update = TRUE;
+  needed_updates |= update;
 }
 
 /**************************************************************************
   See comment for queue_mapview_update().
 **************************************************************************/
-void unqueue_mapview_update(void)
+void unqueue_mapview_updates(void)
 {
-  freelog(LOG_DEBUG, "unqueue_mapview_update: need_update=%d",
-	  need_mapview_update ? 1 : 0);
+  freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
+	  needed_updates);
 
-  if (need_mapview_update) {
+  if (needed_updates & UPDATE_MAP_CANVAS_VISIBLE) {
     update_map_canvas_visible();
-    need_mapview_update = FALSE;
+  } else if (needed_updates & UPDATE_CITY_DESCRIPTIONS) {
+    update_city_descriptions();
   }
+  needed_updates = UPDATE_NONE;
 }
 
 /**************************************************************************

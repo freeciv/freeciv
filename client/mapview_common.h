@@ -116,6 +116,13 @@ enum draw_type {
   D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
 };
 
+enum update_type {
+  /* Masks */
+  UPDATE_NONE = 0,
+  UPDATE_CITY_DESCRIPTIONS = 1,
+  UPDATE_MAP_CANVAS_VISIBLE = 2
+};
+
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
@@ -154,7 +161,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      size_t growth_buffer_len,
 				      enum color_std *grwoth_color);
 
-void queue_mapview_update(void);
-void unqueue_mapview_update(void);
+void queue_mapview_update(enum update_type update);
+void unqueue_mapview_updates(void);
 
 #endif /* FC__MAPVIEW_COMMON_H */

@@ -358,7 +358,7 @@ void handle_city_info(struct packet_city_info *packet)
 
     /* update the descriptions if necessary */
     if (update_descriptions && tile_visible_mapcanvas(packet->x, packet->y)) {
-      queue_mapview_update();
+      queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
     }
 
     assert(pcity->id == packet->id);
@@ -495,7 +495,12 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   if (draw_map_grid && can_client_change_view()) {
-    queue_mapview_update();
+    /* We have to make sure we update any workers on the map grid, then
+     * redraw the city descriptions on top of them. */
+    update_map_canvas(pcity->x - CITY_MAP_SIZE / 2,
+		      pcity->y - CITY_MAP_SIZE / 2,
+		      CITY_MAP_SIZE, CITY_MAP_SIZE, FALSE);
+    queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
   } else {
     refresh_tile_mapcanvas(pcity->x, pcity->y, TRUE);
   }
