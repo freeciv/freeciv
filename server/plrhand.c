@@ -130,24 +130,40 @@ void send_player_turn_notifications(struct conn_list *dest)
 void do_tech_parasite_effect(struct player *pplayer)
 {
   int mod;
+  struct effect_source_vector sources;
 
   /* Note that two EFT_TECH_PARASITE effects will combine into a single,
    * much worse effect. */
-  if ((mod = get_player_bonus(pplayer, EFT_TECH_PARASITE)) > 0) {
+  if ((mod = get_player_bonus_sources(&sources, pplayer,
+				      EFT_TECH_PARASITE)) > 0) {
+    char buf[512];
+
+    buf[0] = '\0';
+    effect_source_vector_iterate(&sources, src) {
+      if (buf[0] != '\0') {
+	sz_strlcat(buf, ", ");
+      }
+      sz_strlcat(buf, get_improvement_name(src->building));
+    } effect_source_vector_iterate_end;
+
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) != TECH_KNOWN
 	  && tech_is_available(pplayer, i)
 	  && game.global_advances[i] >= mod) {
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
-	    _("Game: %s acquired from a building!"),
-	    advances[i].name);
-	gamelog(GAMELOG_TECH, _("%s discover %s (building)"),
-	    get_nation_name_plural(pplayer->nation), advances[i].name);
+	    _("Game: %s acquired from %s!"),
+	    advances[i].name,
+	    buf);
+	gamelog(GAMELOG_TECH, _("%s discover %s (%s)"),
+	    get_nation_name_plural(pplayer->nation),
+	    advances[i].name,
+	    buf);
 	notify_embassies(pplayer, NULL,
 	    _("Game: The %s have acquired %s"
-	      " from a building."),
+	      " from %s."),
 	    get_nation_name_plural(pplayer->nation),
-	    advances[i].name);
+	    advances[i].name,
+	    buf);
 
 	do_free_cost(pplayer);
 	found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
@@ -155,6 +171,7 @@ void do_tech_parasite_effect(struct player *pplayer)
       }
     } tech_type_iterate_end;
   }
+  effect_source_vector_free(&sources);
 }
 
 /****************************************************************************

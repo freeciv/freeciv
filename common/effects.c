@@ -1183,22 +1183,46 @@ static int get_effect_value(enum target_type target,
   target gives the type of the target
   (player,city,building,tile) give the exact target
   effect_type gives the effect type to be considered
+
+  Returns the effect sources of this type _currently active_.
+
+  The returned vector must be freed (building_vector_free) when the caller
+  is done with it.
 **************************************************************************/
-static int get_target_bonus(enum target_type target,
-			    const struct player *target_player,
-			    const struct city *target_city,
-			    Impr_Type_id target_building,
-			    const struct tile *target_tile,
-			    enum effect_type effect_type)
+static int get_target_bonus_sources(struct effect_source_vector *sources,
+    				    enum target_type target,
+			  	    const struct player *target_player,
+				    const struct city *target_city,
+				    Impr_Type_id target_building,
+				    const struct tile *target_tile,
+				    enum effect_type effect_type)
 {
   int bonus = 0;
 
+  if (sources) {
+    effect_source_vector_init(sources);
+  }
+
   /* Loop over all sources that may provide this effect. */
   building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
+    int value;
+
     /* And for each source, add on the amount of effect provided by it. */
-    bonus += get_effect_value(target, target_player, target_city,
-			      target_building, target_tile,
-			      *pbldg, effect_type);
+    value = get_effect_value(target, target_player, target_city,
+			     target_building, target_tile,
+			     *pbldg, effect_type);
+    bonus += value;
+
+    if (sources) {
+      struct effect_source e;
+
+      e.building = *pbldg;
+      e.effect_value = value;
+
+      if (value != 0) {
+	effect_source_vector_append(sources, &e);
+      }
+    }
   } building_vector_iterate_end;
 
   return bonus;
@@ -1210,9 +1234,9 @@ static int get_target_bonus(enum target_type target,
 int get_player_bonus(const struct player *pplayer,
 		     enum effect_type effect_type)
 {
-  return get_target_bonus(TARGET_PLAYER,
-			  pplayer, NULL, B_LAST, NULL,
-			  effect_type);
+  return get_target_bonus_sources(NULL, TARGET_PLAYER,
+				  pplayer, NULL, B_LAST, NULL,
+				  effect_type);
 }
 
 /**************************************************************************
@@ -1220,9 +1244,9 @@ int get_player_bonus(const struct player *pplayer,
 **************************************************************************/
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 {
-  return get_target_bonus(TARGET_CITY,
-			  city_owner(pcity), pcity, B_LAST, NULL,
-			  effect_type);
+  return get_target_bonus_sources(NULL, TARGET_CITY,
+			 	  city_owner(pcity), pcity, B_LAST, NULL,
+				  effect_type);
 }
 
 /**************************************************************************
@@ -1231,9 +1255,9 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 			enum effect_type effect_type)
 {
-  return get_target_bonus(TARGET_CITY,
-			  city_owner(pcity), pcity, B_LAST, ptile,
-			  effect_type);
+  return get_target_bonus_sources(NULL, TARGET_CITY,
+				  city_owner(pcity), pcity, B_LAST, ptile,
+				  effect_type);
 }
 
 /**************************************************************************
@@ -1242,9 +1266,23 @@ int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 int get_building_bonus(const struct city *pcity, Impr_Type_id id,
 		       enum effect_type effect_type)
 {
-  return get_target_bonus(TARGET_BUILDING,
-			  city_owner(pcity), pcity, id, NULL,
-			  effect_type);
+  return get_target_bonus_sources(NULL, TARGET_BUILDING,
+				  city_owner(pcity), pcity, id, NULL,
+				  effect_type);
+}
+
+/**************************************************************************
+  Returns the effect sources of this type _currently active_ at the player.
+
+  The returned vector must be freed (building_vector_free) when the caller
+  is done with it.
+**************************************************************************/
+int get_player_bonus_sources(struct effect_source_vector *sources,
+    const struct player *pplayer, enum effect_type effect_type)
+{
+  return get_target_bonus_sources(sources, TARGET_PLAYER,
+			  	  pplayer, NULL, B_LAST, NULL,
+				  effect_type);
 }
 
 /**************************************************************************
@@ -1253,26 +1291,12 @@ int get_building_bonus(const struct city *pcity, Impr_Type_id id,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-struct effect_source_vector get_city_bonus_sources(const struct city *pcity,
-						 enum effect_type effect_type)
+int get_city_bonus_sources(struct effect_source_vector *sources,
+    const struct city *pcity, enum effect_type effect_type)
 {
-  struct player *pplayer = city_owner(pcity);
-  struct effect_source_vector sources;
-
-  effect_source_vector_init(&sources);
-
-  building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
-    struct effect_source e;
-
-    e.building = *pbldg;
-    e.effect_value = get_effect_value(TARGET_CITY, pplayer, pcity,
-				      B_LAST, NULL, *pbldg, effect_type);
-    if (e.effect_value != 0) {
-      effect_source_vector_append(&sources, &e);
-    }
-  } effect_source_vector_iterate_end;
-
-  return sources;
+  return get_target_bonus_sources(sources, TARGET_CITY,
+			 	  city_owner(pcity), pcity, B_LAST, NULL,
+				  effect_type);
 }
 
 /**************************************************************************
@@ -1300,3 +1324,4 @@ int get_current_construction_bonus(const struct city *pcity,
 
   return 0;
 }
+

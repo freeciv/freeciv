@@ -268,8 +268,10 @@ struct effect_list *get_building_effects(Impr_Type_id building,
 					 enum effect_type effect_type);
 struct effect_type_vector *get_building_effect_types(Impr_Type_id building);
 
-struct effect_source_vector get_city_bonus_sources(const struct city *pcity,
-					enum effect_type effect_type);
+int get_player_bonus_sources(struct effect_source_vector *sources,
+    const struct player *pplayer, enum effect_type effect_type);
+int get_city_bonus_sources(struct effect_source_vector *sources,
+    const struct city *pcity, enum effect_type effect_type);
 
 bool building_has_effect(Impr_Type_id building,
 			 enum effect_type effect_type);

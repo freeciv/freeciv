@@ -520,7 +520,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     } while (mytime < timing_sec);
 
     mytime = read_timer_seconds(anim_timer);
-    freelog(LOG_DEBUG, "Got %d frames in %f seconds: %f FPS.",
+    freelog(LOG_NORMAL, "Got %d frames in %f seconds: %f FPS.",
 	    frames, mytime, (double)frames / mytime);
   } else {
     base_set_mapview_origin(gui_x0, gui_y0);
