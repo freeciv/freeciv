@@ -90,6 +90,7 @@ cities =
   "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
 
+
 [nation1]
 
 name=_("Babylonian")
@@ -159,6 +160,7 @@ cities =
   "Oldenburg", "Weimar", "Freiburg", "Baden-Baden", "Mannheim", "Kiel",
   "Solingen", "Elberfeld", "Barmen", "Essen", "Dortmund", "Duisburg",
   "Düsseldorf", "Gelsenkirchen", "Bochum", "Saarbrücken", "Ludwigshafen"
+
 
 [nation3]
 
@@ -233,6 +235,7 @@ cities =
   "Erie", "Flint", "Trenton", "Newark", "Arlington", "Richmond", "Reno",
   "Santa Fe", "Tulsa", "Anapolis", "Dover", "Akron", "Urbana-Champaign"
 
+
 [nation5]
 
 name=_("Greek")
@@ -270,6 +273,7 @@ cities =
   "Pydna", "Philadelphea", "Therme", "Amphipolis", "Corcyra",
   "Ithaca", "Thera", "Delos", "Panormos", "Ortygia",
   "Melos", "Lykosoura", "Amyclae", "Clazomenae", "Kynos Kephalae"
+
 
 [nation6]
 
@@ -365,6 +369,7 @@ cities =
  "Nongoma", "Ixopo", "Isipingo", "Amanzimtoti", "Mtubatuba",
  "Ubombo", "Ngobeni", "Ngutu", "Nkande", "Empangeni"
 
+
 [nation9]
 
 name=_("French")
@@ -396,6 +401,7 @@ cities =
   "Chartres", "Avignon", "Grenoble", "Dijon", "Amiens",
   "Cherbourg", "Caen", "Calais", "Limoges", "Clermont-Ferrand",
   "Nancy", "Besançon", "St. Etienne", "Brest", "Perpignan"
+
 
 [nation10]
 
@@ -468,6 +474,7 @@ cities =
   "Tianshui", "Jiuquan", "Xiangtan", "Baoji", "Dengfeng",
   "Baiyin", "Changshu", "Gaoyou", "Heihe", "Dunhuang"
 
+
 [nation12]
 
 name=_("English")
@@ -508,6 +515,7 @@ cities =
   "Wolverhampton", "Weymouth", "Winchester", "Yeovil", "Halifax", "Oldham",
   "Rochdale", "Blackburn", "Burnley", "Lancaster"
 
+
 [nation13]
 
 name=_("Mongol")
@@ -539,6 +547,7 @@ cities =
   "Karakorum", "Hami", "Dunhuang", "Lhasa", "Tali",
   "Tabriz", "Mosul", "Baghdad", "Basra", "Shiraz",
   "Esfahan", "Rayy", "Kerman", "Hormuz", "Daybul"
+
 
 [nation14]
 
@@ -770,6 +779,7 @@ cities =
  "Sortland", "Moss", "Honningsvåg", "Hammerfest", "Ås", "Os", "Tynset",
  "Longyearbyen"
 
+
 [nation21]
 
 name=_("Polish")
@@ -799,6 +809,7 @@ cities =
  "Konin", "Kalisz", "Krosno", "Przemysl", "Tarnobrzeg",
  "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane"
 
+
 [nation22]
 
 name=_("Hungarian")
@@ -825,6 +836,7 @@ cities =
  "Kecskemét", "Eger", "Szolnok", "Békécsaba", "Szekszárd",
  "Esztergom", "Nagykanizsa", "Varazdin", "Zalaegerszeg",
  "Dunaujváros", "Paks", "Szentes", "Bonyhád", "Siklós", "Tokaj"
+
 
 [nation23]
 
@@ -858,6 +870,7 @@ cities =
   "Struer", "Herning", "Silkeborg", "Yding", "Skovhøj", "Give", "Tarm",
   "Varde", "Assens", "Nyborg", "Fåborg", "Korsør", "Næstved", "Vordingborg",
   "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø"
+
 
 [nation24]
 
@@ -902,6 +915,7 @@ cities =
  "Alphen a/d Rijn", "Zoetermeer", "Woerden", "Capelle a/d IJssel",
  "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
 
+
 [nation25]
 
 name=_("Swedish")
@@ -934,6 +948,7 @@ cities =
  "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
  "Vyborg", "Holmgard", "Västerås"
 
+
 [nation26]
 
 name=_("Japanese")
@@ -965,6 +980,7 @@ cities =
   "Kagoshima", "Shimonoseki", "Okayama", "Gifu", "Kamazawa",
   "Shizuoka", "Sendai", "Yokosuka", "Chiba", "Kochi",
   "Iwaki", "Fukuyama", "Wakayama", "Niigata", "Matsuyama"
+
 
 [nation27]
 
@@ -1002,6 +1018,7 @@ cities =
  "Funchal", "Ponta Delgada", "Torres Vedras", "Torres Novas",
  "Amadora", "Queluz", "Maia", "Figueira da Foz", "Matosinhos",
  "Vila Nova de Gaia"
+
 
 [nation28]
 
@@ -1051,6 +1068,7 @@ cities =
  "Alajärvi", "Orivesi", "Laitila", "Kauhava", "Orimattila", "Jämsänkoski",
  "Ähtäri", "Nivala", "Kannus", "Kitee", "Kiuruvesi", "Närpiö", "Somero",
  "Pyhäjärvi", "Haapavesi", "Viitasaari", "Paimio", "Nilsiä", "Juankoski"
+
 
 [nation29]
 
@@ -1142,6 +1160,7 @@ cities =
         "Zatec", "Kladsko", "Horazdovice", "Caslav", "Pirkstejn",
         "Krnov", "Rozmital", "Loket", "Kladno",
         "Jablonec nad Nisou", "Breclav", "Blansko", "Karvina"
+
 
 [nation31]
 
@@ -1308,6 +1327,7 @@ cities =
   "Netania", "Afulla", "Metula", "Dimona", "Carmiel", "Nazareth",
   "Ra'anana", "Rehovot", "Eilat", "Ramat-Gav", "Holon"
 
+
 [nation36]
 
 name=_("Argentine")
@@ -1331,6 +1351,41 @@ government="Democracy"
 cities =
   "Buenos Airies", "Cordoba", "Rosario", "Mendoza", "Tucuman",
   "Mar del Plata", "Santa Fe"
+
+
+[nation37]
+
+name=_("Canadian")
+plural=_("Canadians")
+leader="Pierre Trudeau", "Sir John A. MacDonald", "John Diefenbaker"
+leader_sex="Male", "Male", "Male"
+flag="f.canada"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Democracy",       _("Prime Minister"),  _("Prime Minister")
+               }
+
+attack=0
+expand=1
+civilized=0
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Trade", "Engineering", "Democracy",
+             "Railroad", "Explosives", "Automobile"
+wonder="Cure For Cancer"
+government="Democracy"
+
+cities =
+  "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",
+  "Calgary", "Edmonton", "Victoria", "Yellowknife", "Fredericton",
+  "Charlottetown", "Regina", "Saskatoon", "Whitehorse", "Iqaluit",
+  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", " Sudbury", "St. John",
+  "St. John's", "Sault Ste. Marie", "Thunder Bay", "Red Deer", "Jasper",
+  "Prince Rupert", "Windsor", "Prince George", "Kamloops", "Lethbridge",
+  "Medicine Hat", "Prince Albert", "Thompson", "Timmins", "Sarnia",
+  "Guelph", "St. Catharines", "Barrie", "North Bay", "Belleville",
+  "Kingston", "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski",
+  "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
 
 
 ;[nation??]
