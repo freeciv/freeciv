@@ -1308,14 +1308,14 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   value=city_buy_cost(pdialog->pcity);
  
   if(game.player_ptr->economic.gold>=value) {
-    sprintf(buf, "Buy %s for %d gold?\nTreasure %d gold.", 
+    sprintf(buf, "Buy %s for %d gold?\nTreasury contains %d gold.", 
 	    name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
 			 buy_callback_yes, pdialog,
 			 buy_callback_no, 0, 0);
   }
   else {
-    sprintf(buf, "%s costs %d gold.\nTreasure %d gold.", 
+    sprintf(buf, "%s costs %d gold.\nTreasury contains %d gold.", 
 	    name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
 			 buy_callback_no, 0, 0);

@@ -662,7 +662,7 @@ void handle_unit_establish_trade(struct player *pplayer,
 
       revenue=establish_trade_route(pcity_homecity, pcity_dest);
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       "Game: Your %s has arrived in %s, and revenues account to %d in gold.", 
+		       "Game: Your %s has arrived in %s, and revenues amount to %d in gold.", 
 		       unit_name(punit->type), pcity_dest->name, revenue);
       wipe_unit(0, punit);
       pplayer->economic.gold+=revenue;

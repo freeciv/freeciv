@@ -1301,7 +1301,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     
     ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]);
     
-    sprintf(buf, "upgrade as many %s to %s as possible for %d gold each?\nTreasure %d gold.", unit_types[ut1].name, unit_types[ut2].name, unit_upgrade_price(game.player_ptr, ut1, ut2), game.player_ptr->economic.gold);
+    sprintf(buf, "upgrade as many %s to %s as possible for %d gold each?\nTreasury contains %d gold.", unit_types[ut1].name, unit_types[ut2].name, unit_upgrade_price(game.player_ptr, ut1, ut2), game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 upgrade_callback_yes, (XtPointer)(activeunits_type[ret->list_index]),
 			 upgrade_callback_no, 0, 0);

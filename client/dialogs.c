@@ -337,7 +337,7 @@ void diplomat_bribe_callback(Widget w, XtPointer client_data,
      (ptarget=find_unit_by_id(diplomat_target_id))) { 
     
     if(game.player_ptr->economic.gold>=ptarget->bribe_cost) {
-      sprintf(buf, "Bribe unit for %d gold?\nTreasure %d gold.", 
+      sprintf(buf, "Bribe unit for %d gold?\nTreasury contains %d gold.", 
 	      ptarget->bribe_cost,
 	      game.player_ptr->economic.gold);
       popup_message_dialog(toplevel, "diplomatbribedialog", buf,
@@ -345,7 +345,7 @@ void diplomat_bribe_callback(Widget w, XtPointer client_data,
 			   diplomat_bribe_no_callback, 0, 0);
     }
     else {
-      sprintf(buf, "Bribing the unit costs %d gold.\nTreasure %d gold.", 
+      sprintf(buf, "Bribing the unit costs %d gold.\nTreasury contains %d gold.", 
 	      ptarget->bribe_cost,
 	      game.player_ptr->economic.gold);
       popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
@@ -465,7 +465,7 @@ void diplomat_incite_callback(Widget w, XtPointer client_data,
      (pcity=find_city_by_id(diplomat_target_id))) { 
       
       if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
-	 sprintf(buf, "Incite a revolt for %d gold?\nTreasure %d gold.", 
+	 sprintf(buf, "Incite a revolt for %d gold?\nTreasury contains %d gold.", 
 		 pcity->incite_revolt_cost,
 		 game.player_ptr->economic.gold);
 	 popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
@@ -473,7 +473,7 @@ void diplomat_incite_callback(Widget w, XtPointer client_data,
 			      diplomat_incite_no_callback, 0, 0);
       }
     else {
-      sprintf(buf, "Inciting a revolt costs %d gold.\nTreasure %d gold.", 
+      sprintf(buf, "Inciting a revolt costs %d gold.\nTreasury contains %d gold.", 
 	      pcity->incite_revolt_cost,
 	      game.player_ptr->economic.gold);
       popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
