@@ -1,8 +1,8 @@
                            =========================
-      		           Freeciv 1.5 documentation
+      		           Freeciv 1.6 documentation
                            =========================
 		       
-This archive contains Freeciv version 1.5, a free Civilization clone for 
+This archive contains Freeciv version 1.6, a free Civilization clone for 
 Unix and X. This version only allows multiplayer games, and limited support
 for AI players.
 
@@ -191,12 +191,18 @@ new releases/bugs/fixes/competitions, etc.
 New Releases:
 =============
 New releases will first be made available at:
-  ftp://ftp.daimi.aau.dk/pub/stud/pjunold/freeciv
+  ftp://freeciv.ultraviolet.org/pub/freeciv
 
 Have fun and now go give'em hell!
 
-  The Freeciv Team:
+
+  Original authors:
   
      Allan Ove Kjeldbjerg - allan@daimi.aau.dk
      Claus Leth Gregersen - leth@daimi.aau.dk
      Peter Joachim Unold  - pjunold@daimi.aau.dk
+
+  Present administrators:
+
+     James Blackwell      - innocent@mercury.merconline.com
+     Mitch Davis          - mjd@alphalink.com.au

@@ -28,3 +28,6 @@ passes all of its options to
      Allan Ove Kjeldbjerg - allan@daimi.aau.dk
      Claus Leth Gregersen - leth@daimi.aau.dk
      Peter Joachim Unold  - pjunold@daimi.aau.dk
+.SH ADMINISTRATORS
+     Mitch Davis          - mjd@alphalink.com.au
+     James Blackwell      - innocent@mercury.merconline.com

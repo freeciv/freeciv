@@ -82,7 +82,7 @@ map, higher "deserts" means more deserts, etc.
 
 How do I get _____ tech?
 
-	As there is not yet a pretty GIF map of all the techs for 1.5,
+	As there is not yet a pretty GIF map of all the techs for 1.6,
 it is sometimes hard to figure out what techs are necessary for other
 techs.  Look in common/tech.c.  It shows a list of all the techs, and
 what techs are necessary to get them.
@@ -105,7 +105,7 @@ Ok, I know how to start a game, but how do I play it?  I'm tired of
 getting whomped by ______.  What kind of strategy should I use?
 
 
-	First of all, we haven't been playing 1.5 long enough to
+	First of all, we haven't been playing 1.6 long enough to
 develop a *perfect* strategy, so this one isn't. :) This one is just
 adapted form the strategies commonly used in 1.0k.  It could probably
 be improved upon.  That's your job. ;)
