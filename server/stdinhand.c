@@ -861,9 +861,12 @@ void set_command(char *str)
   val=atoi(arg);
   if (val>=settings[cmd].min_value && val<=settings[cmd].max_value) {
     *(settings[cmd].value)=val;
-    notify_player(0, "Option: %s has been set to %d.", command, val);
-  } else
+    if (sset_is_to_client(cmd)) {
+      notify_player(0, "Option: %s has been set to %d.", command, val);
+    }
+  } else {
     puts("Value out of range. Usage: set <option> <value>.");
+  }
 }
 
 /**************************************************************************
