@@ -928,6 +928,7 @@ void ui_main(int argc, char **argv)
   PangoLanguage *lang;
   const gchar *home;
   guint sig;
+  GtkStyle *style;
 
   parse_options(argc, argv);
 
@@ -976,8 +977,23 @@ void ui_main(int argc, char **argv)
   civ_gc = gdk_gc_new(root_window);
 
   /* font names shouldn't be in spec files! */
-  main_font = pango_font_description_from_string("Sans Bold 10");
-  city_productions_font = pango_font_description_from_string("Serif 10");
+  style = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
+				    "Freeciv*.city names",
+				    NULL, G_TYPE_NONE);
+  if (!style) {
+    style = gtk_style_new();
+  }
+  g_object_ref(style);
+  main_font = style->font_desc;
+
+  style = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
+				    "Freeciv*.city productions",
+				    NULL, G_TYPE_NONE);
+  if (!style) {
+    style = gtk_style_new();
+  }
+  g_object_ref(style);
+  city_productions_font = style->font_desc;
 
   fill_bg_gc = gdk_gc_new(root_window);
 
