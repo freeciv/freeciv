@@ -284,7 +284,7 @@ bool pplayers_in_peace(const struct player *pplayer,
                     const struct player *pplayer2);
 bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
-bool players_in_same_team(const struct player *pplayer1,
+bool players_on_same_team(const struct player *pplayer1,
                           const struct player *pplayer2);
 int player_in_territory(struct player *pplayer, struct player *pplayer2);
 

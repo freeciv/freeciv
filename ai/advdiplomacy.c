@@ -212,7 +212,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     if (pplayers_allied(pplayer, aplayer)) {
       worth /= 2;
     }
-    if (players_in_same_team(pplayer, aplayer)) {
+    if (players_on_same_team(pplayer, aplayer)) {
       worth = 0;
       break;
     }
@@ -800,7 +800,7 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     if (aplayer == pplayer
         || !aplayer->is_alive
         || ds == DS_NO_CONTACT
-        || players_in_same_team(pplayer, aplayer)
+        || players_on_same_team(pplayer, aplayer)
         || (pplayer != ai->diplomacy.alliance_leader && 
 	    aplayer != ai->diplomacy.alliance_leader &&
             adip->is_allied_with_ally)
@@ -866,7 +866,7 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   int index;
 
   /* Only share techs with team mates */
-  if (players_in_same_team(pplayer, aplayer)) {
+  if (players_on_same_team(pplayer, aplayer)) {
     for (index = A_FIRST; index < game.num_tech_types; index++) {
       if ((get_invention(pplayer, index) != TECH_KNOWN)
           && (get_invention(aplayer, index) == TECH_KNOWN)) {
@@ -957,7 +957,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       struct player_spaceship *ship = &aplayer->spaceship;
 
       if (!aplayer->is_alive || aplayer == pplayer
-          || players_in_same_team(pplayer, aplayer)
+          || players_on_same_team(pplayer, aplayer)
           || ship->state == SSHIP_NONE) {
         continue;
       }
@@ -1094,7 +1094,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       ai_share(pplayer, aplayer);
       break;
     case DS_ALLIANCE:
-      if (players_in_same_team(pplayer, aplayer)
+      if (players_on_same_team(pplayer, aplayer)
           || (target && (!pplayers_at_war(pplayer, target)
               || pplayers_at_war(aplayer, target)))) {
         /* Share techs only with team mates and _reliable_ allies.

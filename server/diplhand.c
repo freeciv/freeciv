@@ -283,7 +283,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  break;
 	case CLAUSE_TEAM:
           /* Limitation: Only for teams */
-          if (!players_in_same_team(pother, pplayer)) {
+          if (!players_on_same_team(pother, pplayer)) {
             freelog(LOG_ERROR, "Attempted to make team in-game!");
             goto cleanup;
           }

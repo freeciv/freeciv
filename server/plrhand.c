@@ -1012,7 +1012,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   /* Can't break alliance with a team member, but can reduce a team
    * research to an alliance for stand-alone research. */
-  if (players_in_same_team(pplayer, pplayer2) && old_type != DS_TEAM) {
+  if (players_on_same_team(pplayer, pplayer2) && old_type != DS_TEAM) {
     return;
   }
 
@@ -1150,7 +1150,7 @@ repeat_break_treaty:
     if (other->is_alive && other != pplayer && other != pplayer2
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && pplayers_allied(pplayer, other)) {
-      if (!players_in_same_team(pplayer, other)) {
+      if (!players_on_same_team(pplayer, other)) {
         /* If an ally declares war on another ally, break off your alliance
          * to the aggressor. This prevents in-alliance wars, which are not
          * permitted. */
