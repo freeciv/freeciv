@@ -29,24 +29,35 @@ SRCS=	gui_main.c	\
 	repodlgs.cpp	\
 	spaceshipdlg.cpp	\
 	wldlg.cpp	\
-	App.cpp
+	App.cpp		\
+	Backend.cpp		\
+	Defs.cpp	\
+	MainWindow.cpp	\
+	RadarView.cpp	\
+	SummaryView.cpp	\
+	StatusView.cpp	\
+	UnitInfoView.cpp	\
+	UnitsBelowView.cpp	\
+	MapCanvas.cpp	\
+	InputView.cpp	\
+	OutputView.cpp
 
 #	specify the resource files to use
 RSRCS= 
 
 #	specify additional libraries to link against
-LIBS= translation be 
+LIBS= BdhGame BdhDialog Bdh translation be 
 
 #	specify additional paths to directories following the standard
 #	libXXX.so or libXXX.a naming scheme
-LIBPATHS= 
+LIBPATHS= lib
 
 #	additional paths to look for system headers
 topsrc = $(shell cd ../.. ; pwd)
 SYSTEM_INCLUDE_PATHS = $(topsrc)/intl
 
 #	additional paths to look for local headers
-LOCAL_INCLUDE_PATHS = .. ../include $(topsrc) $(topsrc)/common 
+LOCAL_INCLUDE_PATHS = lib/include .. ../include $(topsrc) $(topsrc)/common 
 
 #	specify the level of optimization that you desire
 #	NONE, SOME, FULL
@@ -78,30 +89,30 @@ LINKER_FLAGS =
 include $(BUILDHOME)/etc/makefile-engine
 
 BEOS_DOCS = README.BeOS ../../COPYING ../../HOWTOPLAY
-BEOS_LIBS = 
-BEOS_EXES = FreeCiv
+BEOS_LIBS = lib/libBdh.so lib/libBdhGame.so
+BEOS_EXES = Freeciv
 BEOS_DATA =	data/
 
 
 all : $(BEOS_LIBS) $(TARGET)
 	if [ ! -h $(NAME) ]; then ln -s $(OBJ_DIR)/$(NAME) . ; fi
 
-# $(BEOS_LIBS) :
-# 	cd lib ; make
+$(BEOS_LIBS) :
+	cd lib ; make
 
 data :
 	if [ ! -d data/. ]; then ln -s ../../data . ; fi
 
 clean ::
-	rm -f FreeCiv $(NAME)
+	rm -f Freeciv $(NAME)
 
-FreeCiv : $(BEOS_LIBS) ../civclient
+Freeciv : $(BEOS_LIBS) ../civclient
 	cp ../civclient $@
-	xres -o $@ FreeCiv.rsrc
+	xres -o $@ Freeciv.rsrc
 	mimeset -f $@
 
-PKGDIR = FreeCiv-0.1-x86
-TMPZIP = /tmp/tmp,FreeCiv.x86.zip
+PKGDIR = Freeciv-0.1-x86
+TMPZIP = /tmp/tmp,Freeciv.x86.zip
 pkg : $(BEOS_DOCS) $(BEOS_LIBS) $(BEOS_EXES) $(BEOS_DATA)
 	rm -rf $(PKGDIR) $(TMPZIP)
 	mkdir $(PKGDIR)

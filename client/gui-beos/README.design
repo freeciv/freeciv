@@ -1,0 +1,45 @@
+=========
+Threading
+=========
+
+Multiple threads are used, aside from the UI-enforced multi-threading.
+Three Loopers of interest:  App app, Backend backend, and MainWindow mainWin.
+Each passes messages intended for the others to those others, with app acting
+as a proxy for mainWin's incoming messages.
+
+The guarding of common data is not well-formed yet.  This will be addressed
+as the content gets fleshed out.
+
+
+===========
+Message Use
+===========
+
+Freeciv hook functions are defined in [a-z]*.c{,pp}.  Most of them are
+declared in various *_g.h functions, for internal use within the clients.
+These are labelled by comment of "HOOK".  There are a few "CONVENIENCE HOOK"
+functions, also for internal use, and a few "EXTERNAL HOOK" functions.
+
+EXTERNAL HOOK functions *must* exist in order for the client to link cleanly.
+CONVENIENCE HOOK functions can be absorbed into code at whim.
+Plain HOOK functions can be absorbed as needed, but be aware that later changes
+to generic client code could expose them again.  If a HOOK's functionality is
+absorbed, leave a stub which either triggers the absorbed functionality, or
+which freelog's a LOG_WARNING or LOG_FATAL.  This is especially important
+with hooks with out-paramaters or non-void return values.
+
+These hook functions could conceivably be called from an unintended thread,
+so where possible they should simply convert to BMessages and get sent to
+the proper thread for handling.  Many of these messages will then be handled
+using a private work function within the managing thread, to be defined either
+in an object (if absorbed into some class) or the file with the hook (if kept
+outside a class).  The work functions should be commented to note which of the
+threads trigger it.
+
+Note a special trick for those which trigger dialogs built by BdhDialog.
+Those triggering messages are set up to specify the dialog, so the message is
+repeatedly detached with DetachCurrentMessage(), its 'what' member modified,
+and then posted or passed to the next function.  This is used to preserve data
+across rejections and retries (eg connectdlg.cpp).  Successful completion
+or (usually) cancellation of the dialog stops the chain of reposts.
+

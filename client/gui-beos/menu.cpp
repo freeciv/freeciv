@@ -1,12 +1,13 @@
 /* menu.cpp */
 
-#include <Alert.h>
 #include "Defs.hpp"
 #include "menu.hpp"
 
+#include "MainWindow.hpp"
+
 void
-update_menus(void)
+update_menus(void)	// HOOK
 {
-	NOT_FINISHED( "update_menus" );
+	ui->PostMessage( UI_UPDATE_MENUS );
 }
 

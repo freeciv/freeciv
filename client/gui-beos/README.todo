@@ -1,0 +1,15 @@
+* hook messages triggers in threads' MessageReceived() to call work functions
+	** create work functions as work_function( BMessage *msg ) if appropriate
+	** initial content is NOT_FINISHED
+	** absorb all CONVENIENCE HOOK functions, leaving no trace
+	** absorb plain HOOK functions' functionality into classes where practical
+	** rewrite plain HOOK functions to act as wrappers around class f'nality
+* common data-area protection
+	** what's needed?
+	** create and use
+* split off server connectivity into Connection thread
+	** created by PLEASE_CONNECT_TO responder
+	** set up separate message subset enum in Defs.hpp
+	** if not globaled like Backend, hides behind Backend to receive messages
+	** can send directly to other work threads
+* fill in rest of functionality

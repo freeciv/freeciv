@@ -1,9 +1,18 @@
 /* messagedlg.cpp */
-#include <Alert.h>
-#include "Defs.hpp"
 
-void popup_messageopt_dialog( void )
+#include "Defs.hpp"
+#include "MainWindow.hpp"
+
+void popup_messageopt_dialog( void )	// HOOK
 {
-	NOT_FINISHED( "popup_messageopt_dialog" );
+	ui->PostMessage( UI_POPUP_MESSAGEOPT_DIALOG );
 }
 
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_MESSAGEOPT_DIALOG,

@@ -10,10 +10,11 @@
 #include <Message.h>
 #include <String.h>
 
+#include "BdhApp.h"
 class MainWindow;
+class Backend;
 
-#include <Application.h>
-class App : public BApplication {
+class App : public BdhApp {
 public:
 			App();
 			~App();
@@ -21,14 +22,10 @@ public:
 	void	MessageReceived(BMessage *msg);
 	void	AboutRequested(void);
 	bool	QuitRequested(void);
-	MainWindow*	mainWindow(void) { return mainWin; }
-
-private:
-	MainWindow* mainWin;
 };
 
 extern "C" {
-	void app_main( int argc, char *argv[] );
+	void app_main( int argc, char** argv );
 }
 
 #endif // APP_HPP

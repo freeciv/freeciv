@@ -1,20 +1,27 @@
 /* plrdlg.cpp */
 
-#include <Alert.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "plrdlg.h"
 
 void
-popup_players_dialog(void)
+popup_players_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "popup_players_dialog" );
+	ui->PostMessage( UI_POPUP_PLAYERS_DIALOG );
 }
 
 
 void
-update_players_dialog(void)
+update_players_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "update_players_dialog" );
+	ui->PostMessage( UI_UPDATE_PLAYERS_DIALOG );
 }
 
 
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+
+// UI_POPUP_PLAYERS_DIALOG,
+// UI_UPDATE_PLAYERS_DIALOG,

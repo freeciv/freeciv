@@ -1,27 +1,30 @@
 /* chatline.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "chatline.h"
 
 void
-append_output_window(char *astring)
+append_output_window(char *astring)		// HOOK
 {
-	NOT_FINISHED("append_output_window");
+	BMessage *msg = new BMessage( UI_APPEND_OUTPUT_WINDOW );
+	msg->AddString( "string", astring );
+	ui->PostMessage(msg);
 }
 
 
 void
-log_output_window(void)
+log_output_window(void)		// HOOK
 {
-	NOT_FINISHED("log_output_window(void)");
+	ui->PostMessage( UI_LOG_OUTPUT_WINDOW );
 }
 
 
 void
-clear_output_window(void)
+clear_output_window(void)		// HOOK
 {
-	NOT_FINISHED("clear_output_window(void)");
+	ui->PostMessage( UI_CLEAR_OUTPUT_WINDOW );
 }
 
 

@@ -1,27 +1,41 @@
 /* cityrep.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "cityrep.h"
 
 void
-popup_city_report_dialog(int make_modal)
+popup_city_report_dialog(int make_modal)	// HOOK
 {
-	NOT_FINISHED( "popup_city_report_dialog(int" );
+    BMessage *msg = new BMessage( UI_POPUP_CITY_REPORT_DIALOG );
+    msg->AddBool( "modal", !!make_modal );
+    ui->PostMessage( msg );
 }
 
 
 void
-city_report_dialog_update(void)
+city_report_dialog_update(void)	// HOOK
 {
-	NOT_FINISHED( "city_report_dialog_update(void)" );
+    BMessage *msg = new BMessage( UI_UPDATE_CITY_REPORT_DIALOG );
+    msg->AddString( "all", "all" );
+    ui->PostMessage( msg );
 }
 
 
 void
-city_report_dialog_update_city(struct city *pcity)
+city_report_dialog_update_city(struct city *pcity)	// HOOK
 {
-	NOT_FINISHED( "city_report_dialog_update_city(struct" );
+    BMessage *msg = new BMessage( UI_UPDATE_CITY_REPORT_DIALOG );
+    msg->AddPointer( "city", pcity );
+    ui->PostMessage( msg );
 }
 
 
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_CITY_REPORT_DIALOG,
+// UI_UPDATE_CITY_REPORT_DIALOG,

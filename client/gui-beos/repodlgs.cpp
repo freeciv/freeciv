@@ -1,77 +1,103 @@
 /* repodlgs.cpp */
+#include <Alert.h>	// temporary
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "repodlgs.h"
 
 void
-report_update_delay_on(void)
+report_update_delay_on(void)	// HOOK
 {
-	NOT_FINISHED( "report_update_delay_on(void)" );
+    BMessage *msg = new BMessage( UI_REPORT_UPDATE_DELAY );
+    msg->AddBool( "delay", false );
+    ui->PostMessage( msg );
 }
 
 
 void
-report_update_delay_off(void)
+report_update_delay_off(void)	// HOOK
 {
-	NOT_FINISHED( "report_update_delay_off(void)" );
+    BMessage *msg = new BMessage( UI_REPORT_UPDATE_DELAY );
+    msg->AddBool( "delay", false );
+    ui->PostMessage( msg );
 }
 
 
 char *
-get_report_title(char *report_name)
+get_report_title(char *report_name)	// HOOK
 {
+	// @@@@ needs special attention
 	NOT_FINISHED( "get_report_title(char" );
 	return "";
 }
 
 
 void
-update_report_dialogs(void)
+update_report_dialogs(void)	// HOOK
 {
-	NOT_FINISHED( "update_report_dialogs(void)" );
+	ui->PostMessage( UI_UPDATE_REPORT_DIALOGS );
 }
 
 
 void
-science_dialog_update(void)
+science_dialog_update(void)	// HOOK
 {
-	NOT_FINISHED( "science_dialog_update(void)" );
+	ui->PostMessage( UI_UPDATE_SCIENCE_DIALOG );
 }
 
 
 void
-popup_science_dialog(int make_modal)
+popup_science_dialog(int make_modal)	// HOOK
 {
-	NOT_FINISHED( "popup_science_dialog(int" );
+    BMessage *msg = new BMessage( UI_POPUP_SCIENCE_DIALOG );
+    msg->AddBool( "modal", !!make_modal );
+    ui->PostMessage( msg );
 }
 
 
 void
-trade_report_dialog_update(void)
+trade_report_dialog_update(void)	// HOOK
 {
-	NOT_FINISHED( "trade_report_dialog_update(void)" );
+	ui->PostMessage( UI_UPDATE_TRADE_REPORT_DIALOG );
 }
 
 
 void
-popup_trade_report_dialog(int make_modal)
+popup_trade_report_dialog(int make_modal)	// HOOK
 {
-	NOT_FINISHED( "popup_trade_report_dialog(int" );
+    BMessage *msg = new BMessage( UI_POPUP_TRADE_REPORT_DIALOG );
+    msg->AddBool( "modal", !!make_modal );
+    ui->PostMessage( msg );
 }
 
 
 void
-activeunits_report_dialog_update(void)
+activeunits_report_dialog_update(void)	// HOOK
 {
-	NOT_FINISHED( "activeunits_report_dialog_update(void)" );
+	ui->PostMessage( UI_UPDATE_ACTIVEUNITS_REPORT_DIALOG );
 }
 
 
 void
-popup_activeunits_report_dialog(int make_modal)
+popup_activeunits_report_dialog(int make_modal)	// HOOK
 {
-	NOT_FINISHED( "popup_activeunits_report_dialog(int" );
+    BMessage *msg = new BMessage( UI_POPUP_ACTIVEUNITS_REPORT_DIALOG );
+    msg->AddBool( "modal", !!make_modal );
+    ui->PostMessage( msg );
 }
 
 
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+
+// UI_REPORT_UPDATE_DELAY,
+// UI_UPDATE_REPORT_DIALOGS,
+// UI_UPDATE_SCIENCE_DIALOG,
+// UI_POPUP_SCIENCE_DIALOG,
+// UI_UPDATE_TRADE_REPORT_DIALOG,
+// UI_POPUP_TRADE_REPORT_DIALOG,
+// UI_UPDATE_ACTIVEUNITS_REPORT_DIALOG,
+// UI_POPUP_ACTIVEUNITS_REPORT_DIALOG,

@@ -1,11 +1,17 @@
 /* ratesdlg.cpp */
 
-#include <Alert.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "ratesdlg.hpp"
 
-void popup_rates_dialog( void )
+void popup_rates_dialog( void )	// HOOK
 {
-	NOT_FINISHED( "popup_rates_dialog" );
+	ui->PostMessage( UI_POPUP_RATES_DIALOG );
 }
 
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+
+// UI_POPUP_RATES_DIALOG,

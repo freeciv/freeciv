@@ -1,10 +1,15 @@
 /* optiondlg.cpp */
 #include "Defs.hpp"
-#include <Alert.h>
+#include "MainWindow.hpp"
 
 void
-popup_option_dialog(void)
+popup_option_dialog(void)	// CONVENIENCE HOOK
 {
-	NOT_FINISHED( "option_dialog" );
+	ui->PostMessage( UI_POPUP_OPTION_DIALOG );
 }
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
 

@@ -1,7 +1,12 @@
+#!/bin/sh
 ## Fetch binary into place
-make FreeCiv data
+sync
+make Freeciv data
+sync
 
 ## Trigger
 log=BEOS.civ
 echo > $log
-./FreeCiv --log=$log --debug=2
+# bdb=/boot/develop/tools/experimental/debugger/bdb
+bdb=exec
+$bdb ./Freeciv --log=$log --debug=2

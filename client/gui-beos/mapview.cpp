@@ -1,20 +1,24 @@
 /* mapview.cpp */
+#include <Alert.h>	// temporary
 
-#include <Alert.h>
+#include <Message.h>
+#include "MainWindow.hpp"
 #include "Defs.hpp"
 #include "mapview.h"
 
 int
-map_canvas_adjust_x(int x)
+map_canvas_adjust_x(int x)	// HOOK
 {
+	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "map_canvas_adjust_x(int" );
 	return 0;
 }
 
 
 int
-map_canvas_adjust_y(int y)
+map_canvas_adjust_y(int y)	// HOOK
 {
+	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "map_canvas_adjust_y(int" );
 	return 0;
 }
@@ -22,16 +26,18 @@ map_canvas_adjust_y(int y)
 
 
 int
-tile_visible_mapcanvas(int x, int y)
+tile_visible_mapcanvas(int x, int y)	// HOOK
 {
+	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "tile_visible_mapcanvas(int" );
 	return 0;
 }
 
 
 int
-tile_visible_and_not_on_border_mapcanvas(int x, int y)
+tile_visible_and_not_on_border_mapcanvas(int x, int y)	// HOOK
 {
+	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "tile_visible_and_not_on_border_mapcanvas(int" );
 	return 0;
 }
@@ -39,73 +45,93 @@ tile_visible_and_not_on_border_mapcanvas(int x, int y)
 
 
 void
-update_info_label(void)
+update_info_label(void)	// HOOK
 {
-	NOT_FINISHED( "update_info_label(void)" );
+	ui->PostMessage( UI_UPDATE_INFO_LABEL );
 }
 
 
 void
-update_unit_info_label(struct unit *punit)
+update_unit_info_label(struct unit *punit)	// HOOK
 {
-	NOT_FINISHED( "update_unit_info_label(struct" );
+    BMessage *msg = new BMessage( UI_UPDATE_UNIT_INFO_LABEL );
+    msg->AddPointer( "unit", punit );
+    ui->PostMessage( msg );
 }
 
 
 void
-update_timeout_label(void)
+update_timeout_label(void)	// HOOK
 {
-	NOT_FINISHED( "update_unit_info_label(struct" );
+	ui->PostMessage( UI_UPDATE_TIMEOUT_LABEL );
 }
 
 
 void
-update_unit_pix_label(struct unit *punit)
+update_unit_pix_label(struct unit *punit)	// HOOK
 {
-	NOT_FINISHED( "update_unit_pix_label(struct" );
+    BMessage *msg = new BMessage( UI_UPDATE_UNIT_PIX_LABEL );
+    msg->AddPointer( "unit", punit );
+    ui->PostMessage( msg );
 }
 
 
 void
-update_turn_done_button(int do_restore)
+update_turn_done_button(int do_restore)	// HOOK
 {
-	NOT_FINISHED( "update_turn_done_button(int" );
+    BMessage *msg = new BMessage( UI_UPDATE_TURN_DONE_BUTTON );
+    msg->AddBool( "restore", !!do_restore );
+    ui->PostMessage( msg );
 }
 
 
 void
-set_bulb_sol_government(int bulb, int sol, int government)
+set_bulb_sol_government(int bulb, int sol, int government)	// HOOK
 {
-	NOT_FINISHED( "set_bulb_sol_government(int" );
-}
-
-
-
-void
-set_overview_dimensions(int x, int y)
-{
-	NOT_FINISHED( "set_overview_dimensions(int" );
-}
-
-
-void
-overview_update_tile(int x, int y)
-{
-	NOT_FINISHED( "overview_update_tile(int" );
+    BMessage *msg = new BMessage( UI_SET_BULB_SOL_GOV );
+    msg->AddInt32( "bulb", bulb );
+    msg->AddInt32( "sol",  sol );
+    msg->AddInt32( "gov",  government );
+    ui->PostMessage( msg );
 }
 
 
 
 void
-center_tile_mapcanvas(int x, int y)
+set_overview_dimensions(int x, int y)	// HOOK
 {
-	NOT_FINISHED( "center_tile_mapcanvas(int" );
+    BMessage *msg = new BMessage( UI_SET_OVERVIEW_DIMENSIONS );
+    msg->AddInt32( "x", x );
+    msg->AddInt32( "y", y );
+    ui->PostMessage( msg );
 }
 
 
 void
-get_center_tile_mapcanvas(int *x, int *y)
+overview_update_tile(int x, int y)	// HOOK
 {
+    BMessage *msg = new BMessage( UI_OVERVIEW_UPDATE_TILE );
+    msg->AddInt32( "x", x );
+    msg->AddInt32( "y", y );
+    ui->PostMessage( msg );
+}
+
+
+
+void
+center_tile_mapcanvas(int x, int y)	// HOOK
+{
+    BMessage *msg = new BMessage( UI_CENTER_TILE_MAPCANVAS );
+    msg->AddInt32( "x", x );
+    msg->AddInt32( "y", y );
+    ui->PostMessage( msg );
+}
+
+
+void
+get_center_tile_mapcanvas(int *x, int *y)	// HOOK
+{
+	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "get_center_tile_mapcanvas(int" );
 }
 
@@ -113,97 +139,147 @@ get_center_tile_mapcanvas(int *x, int *y)
 
 void
 update_map_canvas(int tile_x, int tile_y, int width, int height,
-                       int write_to_screen)
+                       int write_to_screen)	// HOOK
 {
-	NOT_FINISHED( "update_map_canvas(int" );
+    BMessage *msg = new BMessage( UI_UPDATE_MAP_CANVAS );
+    msg->AddInt32( "x", tile_x );
+    msg->AddInt32( "y", tile_y );
+    msg->AddInt32( "width", width );
+    msg->AddInt32( "height", height );
+	msg->AddBool( "to_screen", !!write_to_screen );
+    ui->PostMessage( msg );
 }
 
 
 void
-update_map_canvas_visible(void)
+update_map_canvas_visible(void)	// HOOK
 {
-	NOT_FINISHED( "update_map_canvas_visible(void)" );
+	ui->PostMessage( UI_UPDATE_MAP_CANVAS_VISIBLE );
 }
 
 
 void
-update_map_canvas_scrollbars(void)
+update_map_canvas_scrollbars(void)	// HOOK
 {
-	NOT_FINISHED( "update_map_canvas_scrollbars(void)" );
+	ui->PostMessage( UI_UPDATE_MAP_CANVAS_SCROLLBARS );
 }
 
 
 void
-update_city_descriptions(void)
+update_city_descriptions(void)	// HOOK
 {
-	NOT_FINISHED( "update_city_descriptions(void)" );
+	ui->PostMessage( UI_UPDATE_CITY_DESCRIPTIONS );
 }
 
 
 void
-put_cross_overlay_tile(int x,int y)
+put_cross_overlay_tile(int x,int y)	// HOOK
 {
-	NOT_FINISHED( "put_cross_overlay_tile(int" );
+    BMessage *msg = new BMessage( UI_PUT_CROSS_OVERLAY_TILE );
+    msg->AddInt32( "x", x );
+    msg->AddInt32( "y", y );
+    ui->PostMessage( msg );
 }
 
 
 void
-put_city_workers(struct city *pcity, int color)
+put_city_workers(struct city *pcity, int color)	// HOOK
 {
-	NOT_FINISHED( "put_city_workers(struct" );
+    BMessage *msg = new BMessage( UI_PUT_CITY_WORKERS );
+    msg->AddPointer( "city", pcity );
+    msg->AddInt32( "color", color );
+    ui->PostMessage( msg );
 }
 
 
 
 void
-blink_active_unit(void)
+move_unit_map_canvas(struct unit *punit, int x0, int y0, int x1, int y1)	// HOOK
 {
-	NOT_FINISHED( "blink_active_unit(void)" );
-}
-
-
-void
-move_unit_map_canvas(struct unit *punit, int x0, int y0, int x1, int y1)
-{
-	NOT_FINISHED( "move_unit_map_canvas(struct" );
+    BMessage *msg = new BMessage( UI_MOVE_UNIT_MAP_CANVAS );
+    msg->AddInt32( "x0", x0 );
+    msg->AddInt32( "y0", y0 );
+    msg->AddInt32( "x1", x1 );
+    msg->AddInt32( "y1", y1 );
+    ui->PostMessage( msg );
 }
 
 
 void
 decrease_unit_hp_smooth(struct unit *punit0, int hp0,
-                             struct unit *punit1, int hp1)
+                             struct unit *punit1, int hp1)	// HOOK
 {
-	NOT_FINISHED( "decrease_unit_hp_smooth(struct" );
+    BMessage *msg = new BMessage( UI_DECREASE_UNIT_HP );
+	msg->AddPointer( "unit0", punit0 );
+    msg->AddInt32( "hp0", hp0 );
+	msg->AddPointer( "unit1", punit1 );
+    msg->AddInt32( "hp1", hp1 );
+    ui->PostMessage( msg );
 }
 
 
 void
-put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
+put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)	// HOOK
 {
-	NOT_FINISHED( "put_nuke_mushroom_pixmaps(int" );
+    BMessage *msg = new BMessage( UI_PUT_NUKE_MUSHROOM_PIXMAPS );
+    msg->AddInt32( "x", abs_x0 );
+    msg->AddInt32( "y", abs_y0 );
+    ui->PostMessage( msg );
 }
 
 
 
 void
-refresh_overview_canvas(void)
+refresh_overview_canvas(void)	// HOOK
 {
-	NOT_FINISHED( "refresh_overview_canvas(void)" );
+	ui->PostMessage( UI_REFRESH_OVERVIEW_CANVAS );
 }
 
 
 void
-refresh_overview_viewrect(void)
+refresh_overview_viewrect(void)	// HOOK
 {
-	NOT_FINISHED( "refresh_overview_viewrect(void)" );
+	ui->PostMessage( UI_REFRESH_OVERVIEW_VIEWRECT );
 }
 
 
 void
-refresh_tile_mapcanvas(int x, int y, int write_to_screen)
+refresh_tile_mapcanvas(int x, int y, int write_to_screen)	// HOOK
 {
-	NOT_FINISHED( "refresh_tile_mapcanvas(int" );
+    BMessage *msg = new BMessage( UI_REFRESH_TILE_MAPCANVAS );
+    msg->AddInt32( "x", x );
+    msg->AddInt32( "y", y );
+	msg->AddBool( "to_screen", !!write_to_screen );
+    ui->PostMessage( msg );
 }
 
 
 
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+
+//  UI_UPDATE_INFO_LABEL,
+//	UI_UPDATE_UNIT_INFO_LABEL,
+//	UI_UPDATE_TIMEOUT_LABEL,
+//	UI_UPDATE_UNIT_PIX_LABEL,
+//	UI_UPDATE_TURN_DONE_BUTTON,
+//	UI_SET_BULB_SOL_GOV,
+//	UI_SET_OVERVIEW_DIMENSIONS,
+//	UI_OVERVIEW_UPDATE_TILE,
+//	UI_CENTER_TILE_MAPCANVAS,
+//	UI_UPDATE_MAP_CANVAS,
+//	UI_UPDATE_MAP_CANVAS_VISIBLE,
+//	UI_UPDATE_MAP_CANVAS_SCROLLBARS,
+//	UI_UPDATE_CITY_DESCRIPTIONS,
+//	UI_PUT_CROSS_OVERLAY_TILE,
+//	UI_PUT_NUKE_MUSHROOM_PIXMAPS,
+//	UI_BLINK_ACTIVE_UNIT,
+//	UI_MOVE_UNIT_MAP_CANVAS,
+//	UI_DECREASE_UNIT_HP,
+//	UI_PUT_NUKE_MUSHROOM_PIXMAPS,
+//	UI_REFRESH_OVERVIEW_CANVAS,
+//	UI_REFRESH_OVERVIEW_VIEWRECT,
+//  UI_REFRESH_TILE_MAPCANVAS,

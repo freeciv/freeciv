@@ -1,9 +1,9 @@
 ================
 Freeciv for BeOS
 ================
-Last updated:  2000-06-19
+Last updated:  2000-06-20
 
-Just a quick note for all you BeOS folks looking forward to your own FreeCiv.
+Just a quick note for all you BeOS folks looking forward to your own Freeciv.
 
 
 ------
@@ -20,8 +20,12 @@ Client
 ------
 
 The initial client groundwork is being laid.  At least at first, it will be 
-painfully apparent that this is a work in progress -- missing files,
-unresponsive UI elements, and other subtle ;-) clues.
+painfully apparent that this is a work in progress -- not launching on
+double-click, unresponsive UI elements, and other subtle ;-) clues.
+Start from a Terminal command line (see 'civ' for example).
+
+You will need to download and install the following software separately:
+http://bebits.bebits.com/app/1326 -- XPM Translator
 
 For those who want to live dangerously, compile it straight.
 You will need the latest R4.5 GeekGadgets.  Note that if you use 'autoconf'
@@ -32,21 +36,22 @@ is supposed to be, and compiles will bomb out.
 ========
 ./configure --enable-client=beos
 make 
-## delete client/Makefile refs to "-Lgui-beos/lib -lBdh -lBdhGame"
 cd client/gui-beos ; make all
 cd .. ; make
-cd gui-beos ; make FreeCiv
+cd gui-beos ; make Freeciv
 ========
 Note the extra fiddling required.  The first will bomb out in client/ needing
 gui-beos/libguiclient.a.  The second creates it.  The third completes building.
 This will be folded back into the configuration and make-structure later.
+You can use "civ" in place of "make Freeciv" to finish the construction and
+invoke the client for testing.
 
 For the rest of you, hang around for a zipfile from a developer, or someone
 else who lives dangerously. :-)
 
 Keep that upper lip stiff, though.  Testers are needed to try out even the
 most rudimentary progress, and to catch the inevitable slipups in gameplay.
-The first client release will not occur before 1.10.0.
+The first client release will not occur before 1.11.0.
 
 
 ------------
@@ -55,11 +60,15 @@ Contributing
 
 At present the coordinator is Joseph Beckenbach <jrb3@bdhsw.com>.
 Contact him with questions, offers of assistance or testing, ideas, or
-whatever else is supportive of FreeCiv work.
+whatever else is supportive of Freeciv work.
 
 Once the initial groundwork is laid, a call will be made for other developers
 to dive in and help speed up the work of creating and polishing the client and
-server.
+server.  Be aware that this is of necessity an interesting mix of C and C++.
+There's a whole lotta message-passing going on between Backend and the other
+threads, so that all the backend stuff happens in the Backend thread, and all
+the frontend stuff happens in frontend threads.  See connectdlg.* for an
+example of how the client bridges the gap between C triggers and C++ functions.
 
 Testers are welcome at any stage.
 

@@ -1,13 +1,24 @@
 /* inteldlg.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 extern "C" {
 #include "inteldlg.h"
 }
 
-void popup_intel_dialog(struct player *p)
+void popup_intel_dialog(struct player *p)	// HOOK
 {
-	NOT_FINISHED( "popup_intel_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_INTEL_DIALOG );
+    msg->AddPointer( "player", p );
+    ui->PostMessage( msg );
 }
 
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_INTEL_DIALOG,

@@ -1,155 +1,212 @@
-/* dialogs.c -- PLACEHOLDER */
+/* dialogs.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "dialogs.h"
+#include "BdhDialog.h"
 
 
 // ----------------------------------------------
 
 void
-popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
+popup_notify_goto_dialog(char *headline, char *lines, int x, int y)	// HOOK
 {
-	NOT_FINISHED( "popup_notify_goto_dialog(char" );
+    BMessage *msg = new BMessage( UI_POPUP_NOTIFY_GOTO_DIALOG );
+    msg->AddString( "headline", headline );
+    msg->AddString( "lines", lines );
+	msg->AddInt32( "x", x );
+	msg->AddInt32( "y", y );
+    ui->PostMessage( msg );
 }
 
 
 // ----------------------------------------------
 
 void
-popup_notify_dialog(char *caption, char *headline, char *lines)
+popup_notify_dialog(char *caption, char *headline, char *lines)	// HOOK
 {
-	NOT_FINISHED( "popup_notify_dialog(char" );
+    BMessage *msg = new BMessage( UI_POPUP_NOTIFY_DIALOG );
+    msg->AddString( "caption", caption );
+    msg->AddString( "headline", headline );
+    msg->AddString( "lines", lines );
+    ui->PostMessage( msg );
 }
 
 
 // ----------------------------------------------
 
-BAlert *races_dialog = NULL;
+BdhDialog *races_dialog = NULL;
 
 void
-popup_races_dialog(void)
+popup_races_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "popup_races_dialog(void)" );
+	ui->PostMessage( UI_POPUP_RACES_DIALOG );
 }
 
 
 void
-popdown_races_dialog(void)
+popdown_races_dialog(void)	// HOOK
 {
 	if (!races_dialog) return;
-	NOT_FINISHED( "popdown_races_dialog(void)" );
+	ui->PostMessage( UI_POPDOWN_RACES_DIALOG );
 }
 
 
 // ----------------------------------------------
 
 void
-popup_unit_select_dialog(struct tile *ptile)
+popup_unit_select_dialog(struct tile *ptile)	// HOOK
 {
-	NOT_FINISHED( "popup_unit_select_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_UNIT_SELECT_DIALOG );
+    msg->AddPointer( "tile", ptile );
+    ui->PostMessage( msg );
 }
 
 
 void
-races_toggles_set_sensitive(int bits1, int bits2)
+races_toggles_set_sensitive(int bits1, int bits2)	// HOOK
 {
-	NOT_FINISHED( "races_toggles_set_sensitive(int" );
-}
-
-
-// ----------------------------------------------
-
-void
-popup_revolution_dialog(void)
-{
-	NOT_FINISHED( "popup_revolution_dialog(void)" );
+    BMessage *msg = new BMessage( UI_RACES_TOGGLES_SET_SENSITIVE_DIALOG );
+    msg->AddInt32( "bits", bits1 );
+    msg->AddInt32( "morebits", bits2 );
+    ui->PostMessage( msg );
 }
 
 
 // ----------------------------------------------
 
 void
-popup_government_dialog(void)
+popup_revolution_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "popup_government_dialog(void)" );
+	ui->PostMessage( UI_POPUP_REVOLUTION_DIALOG );
 }
 
 
 // ----------------------------------------------
 
 void
-popup_caravan_dialog(struct unit *punit,
-                          struct city *phomecity, struct city *pdestcity)
+popup_government_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "popup_caravan_dialog(struct" );
+	ui->PostMessage( UI_POPUP_GOVERNMENT_DIALOG );
+}
+
+
+// ----------------------------------------------
+
+BdhDialog *caravan_dialog = NULL;
+
+// Caravan has reached destination.  Query on what to do now.
+void
+popup_caravan_dialog(struct unit *punit,	// EXTERNAL HOOK
+                     struct city *phomecity, struct city *pdestcity)
+{
+    BMessage *msg = new BMessage( UI_POPUP_CARAVAN_DIALOG );
+    msg->AddPointer( "unit", punit );
+    msg->AddPointer( "home", phomecity );
+    msg->AddPointer( "dest", pdestcity );
+    ui->PostMessage( msg );
 }
 
 
 int
-caravan_dialog_is_open(void)
+caravan_dialog_is_open(void)	// EXTERNAL HOOK
 {
-	NOT_FINISHED( "caravan_dialog_is_open" );
-	return 0;
+	return !!caravan_dialog;
 }
 
 
 // ----------------------------------------------
 
+BdhDialog *diplomat_dialog = NULL;
+
 void
-popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)	// HOOK
 {
-	NOT_FINISHED( "popup_diplomat_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_DIPLOMAT_DIALOG );
+    msg->AddPointer( "unit", punit );
+	msg->AddInt32( "x", dest_x );
+    msg->AddInt32( "y", dest_y );
+    ui->PostMessage( msg );
 }
 
 
 int
-diplomat_dialog_is_open(void)
+diplomat_dialog_is_open(void)	// HOOK
 {
-	NOT_FINISHED( "caravan_dialog_is_open" );
-	return 0;
+	return !!diplomat_dialog;
 }
 
 
 void
-popup_incite_dialog(struct city *pcity)
+popup_incite_dialog(struct city *pcity)	// HOOK
 {
-	NOT_FINISHED( "popup_incite_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_INCITE_DIALOG );
+    msg->AddPointer( "city", pcity );
+    ui->PostMessage( msg );
 }
 
 
 void
-popup_bribe_dialog(struct unit *punit)
+popup_bribe_dialog(struct unit *punit)	// HOOK
 {
-	NOT_FINISHED( "popup_bribe_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_BRIBE_DIALOG );
+    msg->AddPointer( "unit", punit );
+    ui->PostMessage( msg );
 }
 
 
 void
-popup_pillage_dialog(struct unit *punit, int may_pillage)
+popup_pillage_dialog(struct unit *punit, int may_pillage)	// HOOK
 {
-	NOT_FINISHED( "popup_pillage_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_PILLAGE_DIALOG );
+    msg->AddPointer( "unit", punit );
+    msg->AddBool( "allowed", !!may_pillage );
+    ui->PostMessage( msg );
 }
 
 
 void
-process_caravan_arrival(struct unit *punit)
+popup_sabotage_dialog(struct city *pcity)	// HOOK
 {
-	NOT_FINISHED( "process_caravan_arrival(struct" );
-}
-
-
-void
-popup_sabotage_dialog(struct city *pcity)
-{
-	NOT_FINISHED( "popup_sabotage_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_SABOTAGE_DIALOG );
+    msg->AddPointer( "city", pcity );
+    ui->PostMessage( msg );
 }
 
 
 // ----------------------------------------------
 
 void
-popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
+popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)	// HOOK
 {
-	NOT_FINISHED( "popup_unit_connect_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_UNIT_CONNECT_DIALOG );
+    msg->AddPointer( "unit", punit );
+	msg->AddInt32( "x", dest_x );
+    msg->AddInt32( "y", dest_y );
+    ui->PostMessage( msg );
 }
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_NOTIFY_GOTO_DIALOG,
+// UI_POPUP_NOTIFY_DIALOG,
+// UI_POPUP_RACES_DIALOG,
+// UI_POPDOWN_RACES_DIALOG,
+// UI_POPUP_UNIT_SELECT_DIALOG,
+// UI_RACES_TOGGLES_SET_SENSITIVE_DIALOG,
+// UI_POPUP_REVOLUTION_DIALOG,
+// UI_POPUP_GOVERNMENT_DIALOG,
+// UI_POPUP_CARAVAN_DIALOG,
+// UI_POPUP_DIPLOMAT_DIALOG,
+// UI_POPUP_INCITE_DIALOG,
+// UI_POPUP_BRIBE_DIALOG,
+// UI_POPUP_PILLAGE_DIALOG,
+// BACKEND_PROCESS_CARAVAN_ARRIVAL,
+// UI_POPUP_SABOTAGE_DIALOG,
+// UI_POPUP_UNIT_CONNECT_DIALOG,
+

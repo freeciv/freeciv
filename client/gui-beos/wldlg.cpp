@@ -14,8 +14,9 @@
 #include <config.h>
 #endif
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 
 extern "C" {
 /* @@@@ walk this for correct inclusions*/
@@ -31,14 +32,24 @@ extern "C" {
 extern struct connection aconnection;
 
 void
-popup_worklists_dialog(struct player *pplay)
+popup_worklists_dialog(struct player *pplay)	// CONVENIENCE HOOK
 {
-	NOT_FINISHED( "popup_worklists_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_WORKLISTS_DIALOG );
+    msg->AddPointer( "player", pplay );
+    ui->PostMessage( msg );
 }
 
 void
-update_worklist_report_dialog(void)
+update_worklist_report_dialog(void)	// HOOK
 {
-	NOT_FINISHED( "update_worklist_report_dialog(void)" );
+    ui->PostMessage( UI_UPDATE_WORKLIST_REPORT_DIALOG );
 }
 
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_WORKLISTS_DIALOG,
+// UI_UPDATE_WORKLIST_REPORT_DIALOG, 

@@ -41,7 +41,7 @@ rgb_color colors_standard[COLOR_STD_LAST] = {
 /*************************************************************
 ...
 *************************************************************/
-enum Display_color_type get_visual(void)
+enum Display_color_type get_visual(void)	// HOOK
 {
   return COLOR_DISPLAY;
 }
@@ -49,6 +49,6 @@ enum Display_color_type get_visual(void)
 /*************************************************************
 ...
 *************************************************************/
-void init_color_system(void)
+void init_color_system(void)	// HOOK
 {
 }

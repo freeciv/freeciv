@@ -1,30 +1,47 @@
 /* spaceshipdlg.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "spaceshipdlg.h"
+#include "BdhDialog.h"
 
-BAlert *spaceship_dialog = NULL;
+BdhDialog *spaceship_dialog = NULL;
 
 void
-popup_spaceship_dialog(struct player *pplayer)
+popup_spaceship_dialog(struct player *pplayer)	// HOOK
 {
-	NOT_FINISHED( "popup_spaceship_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_SPACESHIP_DIALOG );
+    msg->AddPointer( "player", pplayer );
+    ui->PostMessage( msg );
 }
 
 
 void
-popdown_spaceship_dialog(struct player *pplayer)
+popdown_spaceship_dialog(struct player *pplayer)	// HOOK
 {
 	if (!spaceship_dialog) return;
-	NOT_FINISHED( "popdown_spaceship_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPDOWN_SPACESHIP_DIALOG );
+    msg->AddPointer( "player", pplayer );
+    ui->PostMessage( msg );
 }
 
 
 void
 refresh_spaceship_dialog(struct player *pplayer)
 {
-	NOT_FINISHED( "refresh_spaceship_dialog(struct" );
+    BMessage *msg = new BMessage( UI_REFRESH_SPACESHIP_DIALOG );
+    msg->AddPointer( "player", pplayer );
+    ui->PostMessage( msg );
 }
 
 
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_SPACESHIP_DIALOG,
+// UI_POPDOWN_SPACESHIP_DIALOG,
+// UI_REFRESH_SPACESHIP_DIALOG, 

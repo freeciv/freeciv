@@ -34,9 +34,9 @@ extern char     logfile      [];
 
 #include "App.hpp"
 #include "Defs.hpp"
-// #include "MainWindow.hpp"
+#include "MainWindow.hpp"
 #include "graphics.hpp"
-// #include "Backend.hpp"
+#include "Backend.hpp"
 
 // SIGH -- globals 
 App *app;
@@ -45,8 +45,10 @@ App *app;
 //--------------------------------------------------------------
 
 App::App()
-	: BApplication( APP_SIGNATURE ), mainWin(0)
+	: BdhApp( APP_SIGNATURE )
 {
+	backend = NULL;
+	ui = NULL;
 }
 
 
@@ -58,9 +60,20 @@ App::~App()
 void
 App::MessageReceived( BMessage *msg )
 {
+	// redirect if necessary
+	if ( msg->what >= UI_WHATS_first && msg->what <= UI_WHATS_last ) {
+		ui->PostMessage(msg);
+		return;
+	}
+	if ( msg->what >= BACKEND_WHATS_first && msg->what <= BACKEND_WHATS_last ) {
+		backend->PostMessage(msg);
+		return;
+	}
+
+	// handle own stuff
 	switch (msg->what) {
 	default:
-		BApplication::MessageReceived(msg);
+		BdhApp::MessageReceived(msg);
 		break;
 	} // switch
 }
@@ -69,17 +82,27 @@ App::MessageReceived( BMessage *msg )
 void
 App::ReadyToRun( void )
 {
-	BApplication::ReadyToRun();
+	BdhApp::ReadyToRun();
 
 	// finish setup required before main window
 	tilespec_load_tiles();
 	load_intro_gfx();
 	load_cursors();
 	load_options();
-	set_client_state(CLIENT_PRE_GAME_STATE);
 
-	AboutRequested();
-	app->PostMessage( B_QUIT_REQUESTED );
+	// set up main window and show it
+	ui = new MainWindow();
+	if ( ! ui ) {
+		BAlert *a = new BAlert( APP_NAME,
+					"Could not construct main window!!", "ARGH!" );
+		a->Go();
+		PostMessage( B_QUIT_REQUESTED );
+		return;
+	}
+	ui->Show();
+
+	// complete initializations and trigger connect dialog
+	backend->PostMessage(PREGAME_STATE);
 }
 
 
@@ -99,22 +122,28 @@ App::AboutRequested( void )
 bool
 App::QuitRequested( void )
 {
-	return true;
+	return BdhApp::QuitRequested();
 }
 
 
 //============================================================================
 
 // -- Start the visible application.
-//	NOTE:  args get delivered via other mechanism, to App::ArgvReceived()
+//	NOTE:  args get handled by generic client code
 void
-app_main( int argc, char *argv[] )
+app_main( int argc, char** argv )
 {
-	// Start the UI itself
+	// Set up all threads, then trigger
 	app = new App();
+	backend = new Backend();
     app->Run();
 
+	// Clean up
+	if ( backend && backend->Lock() ) {
+		backend->Quit();
+	}
+	delete backend;
+	backend = NULL;
     delete app;
-	fprintf( stderr, "FreeCiv rules!\n" );
 }
 

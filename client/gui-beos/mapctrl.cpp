@@ -1,28 +1,44 @@
 /* mapctrl.cpp */
 
-#include <Alert.h>
+#include <Message.h>
 #include "Defs.hpp"
+#include "MainWindow.hpp"
 #include "mapctrl.h"
 
 struct city *city_workers_display = 0;
 
 void
-popup_newcity_dialog(struct unit *punit, char *suggestname)
+popup_newcity_dialog(struct unit *punit, char *suggestname)	// HOOK
 {
-	NOT_FINISHED( "popup_newcity_dialog(struct" );
+    BMessage *msg = new BMessage( UI_POPUP_NEWCITY_DIALOG );
+    msg->AddPointer( "unit", punit );
+	msg->AddString( "suggest", suggestname );
+    ui->PostMessage( msg );
 }
 
 
 void
-set_turn_done_button_state( int state )
+set_turn_done_button_state( int state )	// HOOK
 {
-	NOT_FINISHED( "set_turn_done_button_state(" );
+    BMessage *msg = new BMessage( UI_SET_TURN_DONE_BUTTON_STATE );
+    msg->AddInt32( "state", state );
+    ui->PostMessage( msg );
 }
 
 
 void
-center_on_unit(void)
+center_on_unit(void)	// CONVENIENCE HOOK
 {
-	NOT_FINISHED( "center_on_unit(void)" );
+	ui->PostMessage( UI_CENTER_ON_UNIT );
 }
 
+
+
+//---------------------------------------------------------------------
+// Work functions
+// @@@@
+#include <Alert.h>
+
+// UI_POPUP_NEWCITY_DIALOG,
+// UI_SET_TURN_DONE_BUTTON_STATE,
+// UI_CENTER_ON_UNIT,
