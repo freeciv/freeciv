@@ -95,6 +95,9 @@ struct player_ai {
   struct ai_player_island island_data[100];
   int tech_goal;
   int prev_gold;
+  int maxbuycost;
+  int tech_want[A_LAST];
+  int tech_turns[A_LAST]; /* saves zillions of calculations! */
 };
 
 
