@@ -64,8 +64,9 @@ struct Goto_heap_entry *goto_heap_top(void);
 int find_the_shortest_path(struct player *pplayer, struct unit *punit, 
 			   int dest_x, int dest_y);
 
-int could_unit_move_to_tile(struct unit *punit, int x, int y)
-{ /* this is can_unit_move_to_tile with the notifys removed -- Syela */
+int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
+{ /* this WAS can_unit_move_to_tile with the notifys removed -- Syela */
+/* but is now a little more complicated to allow non-adjacent tiles */
   struct tile *ptile,*ptile2;
   struct unit_list *punit_list;
   struct unit *punit2;
@@ -78,14 +79,14 @@ int could_unit_move_to_tile(struct unit *punit, int x, int y)
   if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
     return 0;
   
-  if(!is_tiles_adjacent(punit->x, punit->y, x, y))
-    return 0;
+  if(!is_tiles_adjacent(x0, y0, x, y))
+    return 0; 
 
   if(is_enemy_unit_tile(x,y,punit->owner))
     return 0;
 
   ptile=map_get_tile(x, y);
-  ptile2=map_get_tile(punit->x, punit->y);
+  ptile2=map_get_tile(x0, y0);
   if(is_ground_unit(punit)) {
     /* Check condition 4 */
     if(ptile->terrain==T_OCEAN &&
@@ -112,8 +113,15 @@ int could_unit_move_to_tile(struct unit *punit, int x, int y)
     }
   }
 
-  zoc = zoc_ok_move(punit, x, y);
-  return zoc;
+/*  zoc = zoc_ok_move(punit, x, y);      can't use this, so reproducing ... */
+  /* if you have units there, you can move */
+  if (is_friendly_unit_tile(x,y,punit->owner))
+    return 1;
+  if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC))
+    return 1;
+  if (map_get_city(x,y) || map_get_city(x0, y0))
+    return 1;
+  return (is_my_zoc(punit, x0, y0) || is_my_zoc(punit, x, y));
 }
 
 /**************************************************************************
@@ -136,15 +144,29 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit,
     if(ptile->terrain!=T_OCEAN && !ptile->city_id)  return -1;
   }
 
+#ifdef OLDCODE
 /* If this is our starting square, zoc should be valid, and we should check it! */
   if (same_pos(punit->x, punit->y, x0, y0)) {
     if (get_defender(pplayer, punit, x1, y1)) {
-      if (pplayer->ai.control) return -1; /* if we wanted to attack, we wouldn't GOTO */
       if (!can_unit_attack_tile(punit, x1, y1)) return -1;
+      if (pplayer->ai.control) return 255; /* if we wanted to attack, we wouldn't GOTO */
     } else {
-      if (!could_unit_move_to_tile(punit, x1, y1)) return -1;
+      if (!could_unit_move_to_tile(punit, x0, y0, x1, y1)) return -1;
     }
   } /* added by Syela to make his AI units a little less stupid */
+#else
+/* AI units were still unspeakably stupid with the OLDCODE.  A total rewrite
+of this entire module is required because it is marginally functional, but
+until then, the following will have to suffice.  Probably ought not bother unless
+we're within moves_left, but today is not the day for a partial rewrite. -- Syela */
+  if (get_defender(pplayer, punit, x1, y1)) {
+     if (!can_unit_attack_tile(punit, x1, y1)) return -1;
+     if (!same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1) &&
+         pplayer->ai.control) return 255; /* if we wanted to attack, we wouldn't GOTO */
+  } else {
+    if (!could_unit_move_to_tile(punit, x0, y0, x1, y1)) return -1;
+  }
+#endif  
   
   if(map_get_known(x1, y1, pplayer)) {
     c = tile_move_cost(punit,x0,y0,x1,y1);
@@ -204,6 +226,9 @@ void do_unit_goto(struct player *pplayer, struct unit *punit)
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
 
   }
+else printf("Did not find the shortest path for %s's %s at (%d, %d) -> (%d, %d)\n",
+pplayer->name, unit_types[punit->type].name, punit->x, punit->y, 
+punit->goto_dest_x, punit->goto_dest_y);
 
   punit->activity=ACTIVITY_IDLE;
   send_unit_info(0, punit, 0);
