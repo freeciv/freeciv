@@ -1029,7 +1029,6 @@ void create_city(struct player *pplayer, const int x, const int y,
     update_all_effects();
   }
   pcity->turn_last_built = game.year;
-  pcity->turn_changed_target = game.year;
   pcity->changed_from_id = 0;
   pcity->changed_from_is_unit = FALSE;
   pcity->before_change_shields = 0;
@@ -1636,7 +1635,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->currently_building=pcity->currently_building;
 
   packet->turn_last_built=pcity->turn_last_built;
-  packet->turn_changed_target=pcity->turn_changed_target;
   packet->turn_founded = pcity->turn_founded;
   packet->changed_from_id=pcity->changed_from_id;
   packet->changed_from_is_unit=pcity->changed_from_is_unit;

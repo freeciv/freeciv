@@ -787,9 +787,6 @@ static void player_load(struct player *plr, int plrno,
     pcity->turn_last_built=
       secfile_lookup_int_default(file, GAME_START_YEAR,
 				 "player%d.c%d.turn_last_built", plrno, i);
-    pcity->turn_changed_target=
-      secfile_lookup_int_default(file, GAME_START_YEAR,
-				 "player%d.c%d.turn_changed_target", plrno, i);
     pcity->changed_from_id=
       secfile_lookup_int_default(file, pcity->currently_building,
 				 "player%d.c%d.changed_from_id", plrno, i);
@@ -1466,8 +1463,6 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->turn_last_built,
 		       "player%d.c%d.turn_last_built", plrno, i);
-    secfile_insert_int(file, pcity->turn_changed_target,
-		       "player%d.c%d.turn_changed_target", plrno, i);
     secfile_insert_int(file, pcity->changed_from_id,
 		       "player%d.c%d.changed_from_id", plrno, i);
     secfile_insert_bool(file, pcity->changed_from_is_unit,

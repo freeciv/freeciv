@@ -419,7 +419,6 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->airlift=packet->airlift;
 
   pcity->turn_last_built=packet->turn_last_built;
-  pcity->turn_changed_target=packet->turn_changed_target;
   pcity->turn_founded = packet->turn_founded;
   pcity->changed_from_id=packet->changed_from_id;
   pcity->changed_from_is_unit=packet->changed_from_is_unit;

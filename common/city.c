@@ -1238,14 +1238,6 @@ int city_change_production_penalty(struct city *pcity,
 
   if (apply_it) {
     pcity->shield_stock = shield_stock_after_adjustment;
-
-    if (new_class != orig_class) {
-      /* This is buggy; the interval between turns is not constant. */
-      pcity->turn_changed_target = game.year; 
-    } else {
-      /* Pretend we have changed nothing */
-      pcity->turn_changed_target = GAME_START_YEAR;
-    }
   }
 
   return shield_stock_after_adjustment;

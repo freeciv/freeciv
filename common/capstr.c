@@ -74,7 +74,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx"
+#define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
+                   "city_struct_minor_cleanup"
   
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -88,6 +89,9 @@ const char * const our_capability = our_capability_internal;
  *
  * "tech_impr_gfx" is support for loading of ruleset-specified
  * technology and city improvement icons.
+ *
+ * "city_struct_minor_cleanup" just removes one unused variable from the
+ * city struct, which no longer needs to be sent to the client.
  */
 
 void init_our_capability(void)

@@ -265,7 +265,6 @@ struct city {
   bool did_buy;
   bool did_sell, is_updated;
   int turn_last_built;	      /* The last year in which something was built */
-  int turn_changed_target;    /* Suffer shield loss at most once per turn */
   int changed_from_id;	      /* If changed this turn, what changed from (id) */
   bool changed_from_is_unit;   /* If changed this turn, what changed from (unit?) */
   int disbanded_shields;      /* If you disband unit in a city. Count them */

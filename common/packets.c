@@ -1324,7 +1324,13 @@ int send_packet_city_info(struct connection *pc,
   dio_put_uint8(&dout, req->currently_building);
 
   dio_put_sint16(&dout, req->turn_last_built);
-  dio_put_sint16(&dout, req->turn_changed_target);
+  /* After new release, just remove this block! */
+  if (has_capability("city_struct_minor_cleanup", pc->capability)) {
+    /* nothing */
+  } else {
+    int dummy = 0;
+    dio_put_sint16(&dout, dummy);
+  }
   dio_put_uint8(&dout, req->changed_from_id);
   dio_put_uint16(&dout, req->before_change_shields);
 
@@ -1406,7 +1412,13 @@ struct packet_city_info *receive_packet_city_info(struct connection *pc)
   dio_get_uint8(&din, &packet->currently_building);
 
   dio_get_sint16(&din, &packet->turn_last_built);
-  dio_get_sint16(&din, &packet->turn_changed_target);
+  /* After new release, just remove this block! */
+  if (has_capability("city_struct_minor_cleanup", pc->capability)) {
+    /* nothing */
+  } else {
+    int dummy;
+    dio_get_sint16(&din, &dummy);
+  }
   dio_get_uint8(&din, &packet->changed_from_id);
   dio_get_uint16(&din, &packet->before_change_shields);
 

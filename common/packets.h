@@ -352,7 +352,6 @@ struct packet_city_info {
   int currently_building;
 
   int turn_last_built;
-  int turn_changed_target;
   int changed_from_id;
   bool changed_from_is_unit;
   int before_change_shields;
