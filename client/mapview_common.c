@@ -403,7 +403,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
    * code but speeds up the mapview by a large factor. */
   if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
     int map_center_x, map_center_y, old_gui_x0, old_gui_y0, dx, dy;
-    const int width = mapview_canvas.width, height = mapview_canvas.height;
+    const int width = mapview_canvas.store_width;
+    const int height = mapview_canvas.store_height;
     int common_x0, common_x1, common_y0, common_y1;
     int update_x0, update_x1, update_y0, update_y1;
 
