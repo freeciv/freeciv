@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-28 14:52+0100\n"
+"PO-Revision-Date: 2005-01-28 15:27+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -759,7 +759,7 @@ msgstr "Hra: %s prodal %s (nepotřebuje) za %d."
 #: ai/advdiplomacy.c:244
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
-msgstr ""
+msgstr "*%s (PO)* V pryč módu nemůže podepsat smlouvu"
 
 #: ai/advdiplomacy.c:254
 #, c-format
@@ -5619,9 +5619,9 @@ msgid "Level: %s"
 msgstr "Úroveň: %s"
 
 #: server/stdinhand.c:3726
-#, fuzzy, c-format
+#, c-format
 msgid "Pregame level: %s"
-msgstr "Úroveň: %s"
+msgstr "Předherní úroveň: %s"
 
 #: server/stdinhand.c:3752
 msgid "The following server commands are available:"
@@ -5830,7 +5830,7 @@ msgstr "Hra: Nelze útočit dokud nevyhlásíte válku."
 #: server/unithand.c:932
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
-msgstr ""
+msgstr "Hra: %s se může pohybovat jen v našich zónach kontroly."
 
 #: server/unithand.c:969
 msgid "Game: This unit has no moves left."
@@ -6189,12 +6189,12 @@ msgstr "Hra: Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 #: server/unittools.c:2956
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
-msgstr ""
+msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou činnost."
 
 #: server/unittools.c:2970
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou polohu."
 
 #: server/unittools.c:2980
 #, c-format
@@ -6481,9 +6481,8 @@ msgid "Workers"
 msgstr "Pracovníci"
 
 #: client/cityrepdata.c:420
-#, fuzzy
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr "Pracovníci: Šťastní, Spokojení, Nešťastní, Rozlobení"
+msgstr "?happy/content/unhappy/angry:Š/S/N/R"
 
 #: client/cityrepdata.c:421
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -8040,9 +8039,8 @@ msgid "Unit: Relocated"
 msgstr "Jednotka: Relokována"
 
 #: client/options.c:268
-#, fuzzy
 msgid "Unit: Orders / goto events"
-msgstr "Chyba uložení hry: neplatné rozkazy jednotky."
+msgstr "Jednotka: rozkazy / přesuny"
 
 #: client/options.c:269
 msgid "Wonder: Finished"
@@ -8350,12 +8348,12 @@ msgstr "Naše území"
 
 #. TRANS: "Polish territory (5 turn ceasefire)"
 #: client/text.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn ceasefire)"
 msgid_plural "%s territory (%d turn ceasefire)"
 msgstr[0] "%s území (%d tah příměří)"
-msgstr[1] "%s území (%d tah příměří)"
-msgstr[2] "%s území (%d tah příměří)"
+msgstr[1] "%s území (%d tahy příměří)"
+msgstr[2] "%s území (%d tahů příměří)"
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #: client/text.c:176
@@ -8375,12 +8373,12 @@ msgstr "Město: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)"
 #: client/text.c:200
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
 msgid_plural "City: %s (%s, %d turn ceasefire)"
 msgstr[0] "Město: %s (%s, %d tah příměří)"
-msgstr[1] "Město: %s (%s, %d tah příměří)"
-msgstr[2] "Město: %s (%s, %d tah příměří)"
+msgstr[1] "Město: %s (%s, %d tahy příměří)"
+msgstr[2] "Město: %s (%s, %d tahů příměří)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -8417,12 +8415,12 @@ msgstr "Jednotka: %s(%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)"
 #: client/text.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
 msgid_plural "Unit: %s (%s, %d turn ceasefire)"
 msgstr[0] "Jednotka: %s (%s, %d tah příměří)"
-msgstr[1] "Jednotka: %s (%s, %d tah příměří)"
-msgstr[2] "Jednotka: %s (%s, %d tah příměří)"
+msgstr[1] "Jednotka: %s (%s, %d tahy příměří)"
+msgstr[2] "Jednotka: %s (%s, %d tahů příměří)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
@@ -8576,11 +8574,11 @@ msgstr "Energie:        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
-msgstr[0] "Hmotnost:      %5d tun"
-msgstr[1] "Hmotnost:      %5d tun"
+msgstr[0] "Hmotnost:      %5d tuna"
+msgstr[1] "Hmotnost:      %5d tuny"
 msgstr[2] "Hmotnost:      %5d tun"
 
 #. TRANS: spaceship text; should have constant width.
@@ -12106,7 +12104,7 @@ msgstr "Inteligence:"
 #: client/gui-gtk/plrdlg.c:194
 #: client/gui-mui/plrdlg.c:333
 msgid "_Meet"
-msgstr ""
+msgstr "_Setkat se"
 
 #: client/gui-gtk-2.0/plrdlg.c:407
 #: client/gui-gtk/plrdlg.c:200
@@ -13201,15 +13199,13 @@ msgstr "Zlato(max %d)"
 #: client/gui-mui/diplodlg.c:529
 #: client/gui-win32/diplodlg.c:616
 #: client/gui-win32/diplodlg.c:664
-#, fuzzy
 msgid "Give shared vision"
-msgstr "_Poskytnout svoje mapy"
+msgstr "Poskytnout svoje mapy"
 
 #: client/gui-gtk/diplodlg.c:459
 #: client/gui-gtk/diplodlg.c:470
-#, fuzzy
 msgid "Give embassy"
-msgstr "Dát _ambasádu"
+msgstr "Dát ambasádu"
 
 #: client/gui-gtk/diplodlg.c:502
 #: client/gui-mui/diplodlg.c:495
@@ -14929,7 +14925,7 @@ msgstr "Inteligence:"
 #: client/gui-win32/plrdlg.c:358
 #: data/Freeciv.in:3245
 msgid "Meet"
-msgstr ""
+msgstr "Setkat se"
 
 #: client/gui-win32/plrdlg.c:359
 msgid "Cancel Treaty"
@@ -15374,12 +15370,12 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:206
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"level\">Pregame level: %s</p>\n"
 "\n"
 msgstr ""
-"<p class=\"level\">Úroveň: %s</p>\n"
+"<p class=\"level\">Předherní úroveň: %s</p>\n"
 "\n"
 
 #: manual/civmanual.c:216
@@ -20758,9 +20754,8 @@ msgid "Chairperson"
 msgstr "Předsedkyně"
 
 #: data/nation/brazilian.ruleset:21
-#, fuzzy
 msgid "Director-President"
-msgstr "Distribuovaný správce"
+msgstr "Ředitel-prezident"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -20998,9 +20993,8 @@ msgid "?plural:Elves"
 msgstr "?plural:Elfové"
 
 #: data/nation/elvish.ruleset:21
-#, fuzzy
 msgid "High King of the Noldor"
-msgstr "Bli&kající tečky"
+msgstr "Nejvyšší král Noldoru"
 
 #: data/nation/elvish.ruleset:21
 #, fuzzy
@@ -21122,9 +21116,8 @@ msgid "Gran Bardo"
 msgstr "Gran Bardo"
 
 #: data/nation/galician.ruleset:18
-#, fuzzy
 msgid "Grande Bardesa"
-msgstr "Amerika/Campo Grande"
+msgstr "Grande Bardesa"
 
 #: data/nation/german.ruleset:3
 msgid "German"
