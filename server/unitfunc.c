@@ -697,9 +697,9 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
   if (tile_ncargo <= tile_cap - old_cap + new_cap)
     return 0;
 
-  freelog(LOG_DEBUG, "Can't upgrade %s at (%d,%d)"
-       " because would strand passenger(s)",
-       get_unit_type(punit->type)->name, punit->x, punit->y);
+  freelog(LOG_VERBOSE, "Can't upgrade %s at (%d,%d)"
+	  " because would strand passenger(s)",
+	  get_unit_type(punit->type)->name, punit->x, punit->y);
   return 1;
 }
 
@@ -910,7 +910,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
   int attackpower=get_total_attack_power(attacker,defender);
   int defensepower=get_total_defense_power(attacker,defender);
 
-  freelog(LOG_DEBUG, "attack:%d, defense:%d", attackpower, defensepower);
+  freelog(LOG_VERBOSE, "attack:%d, defense:%d", attackpower, defensepower);
   if (!attackpower) {
       attacker->hp=0; 
   } else if (!defensepower) {
@@ -1587,8 +1587,8 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
     
     unit_list_iterate(list, punit2) {
       if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2) {
-	freelog(LOG_DEBUG, "iterating over %s in wipe_unit_safe",
-	     unit_name(punit2->type));
+	freelog(LOG_VERBOSE, "iterating over %s in wipe_unit_safe",
+		unit_name(punit2->type));
 	ITERATOR_NEXT((*iter));
       }
       notify_player_ex(get_player(punit2->owner), 

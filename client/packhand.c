@@ -51,10 +51,6 @@ extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
 extern struct city *city_workers_display;
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -66,7 +62,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   strcpy(s_capability, packet->capability);
 
   if (packet->you_can_join) {
-    freelog(LOG_DEBUG, "join game accept:%s", packet->message);
+    freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
   } else {
     sprintf(msg, "You were rejected from the game: %s", packet->message);
     append_output_window(msg);
@@ -259,7 +255,7 @@ void handle_city_info(struct packet_city_info *packet)
     refresh_city_dialog(pcity);
   }
 
-  if(DEBUG && city_is_new) {
+  if(city_is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
 	 get_race_name(city_owner(pcity)->race),
 	 pcity->name, pcity->id, pcity->x, pcity->y);
@@ -518,12 +514,10 @@ void handle_unit_info(struct packet_unit_info *packet)
     if((pcity=find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
 
-    if (DEBUG) {
-      freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
+    freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	   get_race_name(get_player(punit->owner)->race),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : "(unknown)"));
-    }
     
     /* this is ugly - prevent unit from being drawn if it's moved into
      * screen by a transporter - only works for ground_units.. yak */
@@ -978,7 +972,7 @@ void handle_select_race(struct packet_generic_integer *packet)
     races_toggles_set_sensitive(packet->value);
   }
   else
-    freelog(LOG_DEBUG, "got a select race packet in an incompatible state");
+    freelog(LOG_VERBOSE, "got a select race packet in an incompatible state");
 }
 
 /**************************************************************************

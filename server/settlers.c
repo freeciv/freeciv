@@ -114,7 +114,7 @@ void remove_city_from_minimap(int x, int y)
 {
   int i, j, n, xx;
 
-  if(0) freelog(LOG_DEBUG, "Removing (%d, %d) from minimap.", x, y);
+  freelog(LOG_DEBUG, "Removing (%d, %d) from minimap.", x, y);
   for (j = -4; j <= 4; j++) {
     if (y+j < 0 || y+j >= map.ysize) continue;
     for (i = -4; i <= 4; i++) {
@@ -134,7 +134,7 @@ void add_city_to_minimap(int x, int y)
 {
   int i, j, n, xx;
   
-  if(0) freelog(LOG_DEBUG, "Adding (%d, %d) to minimap.", x, y);
+  freelog(LOG_DEBUG, "Adding (%d, %d) to minimap.", x, y);
   for (j = -4; j <= 4; j++) {
     if (y+j < 0 || y+j >= map.ysize) continue;
     for (i = -4; i <= 4; i++) {
@@ -268,7 +268,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
     val -= amortize(40 * SHIELD_WEIGHTING + (50 - 20 * g) * FOOD_WEIGHTING, 12);
     /* 12 is arbitrary; need deterrent to represent loss
        of a settlers -- Syela */
-    if(0) freelog(LOG_DEBUG, "Desire to immigrate to %s = %d -> %d",
+    freelog(LOG_DEBUG, "Desire to immigrate to %s = %d -> %d",
 		  pcity->name, val, (val * 100) / MORT / 70);
     return(val);
   }
@@ -818,9 +818,9 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
         } else newv = 0;
         if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	    && ai_fuzzy(pplayer, 1)) {
-	  if(0) freelog(LOG_DEBUG,
-			"Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
-			gx, gy, best_newv, x, y, newv, d, b);
+	  freelog(LOG_DEBUG,
+		  "Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
+		  gx, gy, best_newv, x, y, newv, d, b);
 	  best_act = ACTIVITY_IRRIGATE;
 	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
@@ -835,9 +835,9 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
         } else newv = 0;
 	if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	    && ai_fuzzy(pplayer, 1)) {
-	  if(0) freelog(LOG_DEBUG,
-			"Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d",
-			gx, gy, best_newv, x, y, newv, d, b);
+	  freelog(LOG_DEBUG,
+		  "Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d",
+		  gx, gy, best_newv, x, y, newv, d, b);
 	  best_act = ACTIVITY_MINE;
 	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
@@ -856,9 +856,9 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
           } else newv = 0;
           if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	      && ai_fuzzy(pplayer, 1)) {
-	    if(0) freelog(LOG_DEBUG, "Replacing (%d, %d) = %d"
-			  " with (%d, %d) R=%d d=%d, b=%d",
-			  gx, gy, best_newv, x, y, newv, d, b);
+	    freelog(LOG_DEBUG, "Replacing (%d, %d) = %d"
+		    " with (%d, %d) R=%d d=%d, b=%d",
+		    gx, gy, best_newv, x, y, newv, d, b);
 	    best_act = ACTIVITY_ROAD;
 	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
           }
@@ -916,7 +916,7 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
   if (best_newv < 0)
     best_newv = 0; /* Bad Things happen without this line! :( -- Syela */
 
-  if (0 && best_newv > 0) {
+  if (best_newv > 0) {
     freelog(LOG_DEBUG,
 	    "Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
 	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
@@ -1011,19 +1011,17 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
  	    newv = (newv * pplayer->ai.expand) / 100;
  	  }
  
-	  if (0 && w_virtual) {
+	  if (w_virtual) {
 	    freelog(LOG_DEBUG, "%s: best_newv = %d, w_virtual = 1, newv = %d",
 		    mycity->name, best_newv, newv);
 	  }
 	  
           if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
             if (newv > choice.want && !punit->id) choice.want = newv;
-	    if(0) {
-	      freelog(LOG_DEBUG,
-		      "%s@(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
-		      (punit->id ? unit_types[punit->type].name : mycity->name), 
-		      punit->x, punit->y, x, y, b, newv, d);
-	    }
+	    freelog(LOG_DEBUG,
+		    "%s@(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
+		    (punit->id ? unit_types[punit->type].name : mycity->name), 
+		    punit->x, punit->y, x, y, b, newv, d);
           } else if (newv > best_newv) {
 	    best_act = ACTIVITY_UNKNOWN; /* flag value */
 	    best_newv = newv;
@@ -1041,16 +1039,17 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
   choice.want -= best_newv;
   if (choice.want > 0) ai_choose_ferryboat(pplayer, mycity, &choice);
 
-  if (0 && best_newv != save_newv) {
+#ifdef DEBUG
+  if (best_newv != save_newv) {
     freelog(LOG_DEBUG,
 	    "Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
 	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
   }
-
-  if (0 && map_get_terrain(punit->x, punit->y) == T_OCEAN) {
+  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
     freelog(LOG_DEBUG, "Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
 	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
   }
+#endif
   
   /* I had the return here, but it led to stupidity where several engineers
      would be built to solve one problem.  Moving the return down will solve
@@ -1067,10 +1066,10 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
   /** If this is a virtual unit for assessing settler want: **/
   if (!punit->id) {
     /* has to be before we try to send_unit_info()! -- Syela */
-    if(0) freelog(LOG_DEBUG,
-		  "%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)",
-		  mycity->name, mycity->x, mycity->y, best_newv,
-		  best_act, gx, gy);
+    freelog(LOG_DEBUG,
+	    "%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)",
+	    mycity->name, mycity->x, mycity->y, best_newv,
+	    best_act, gx, gy);
     if (gx < 0 && gy < 0) {
       return(0 - best_newv);
     } else {
@@ -1094,7 +1093,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
 		 || !could_unit_move_to_tile(punit, punit->x, punit->y,
 					     gx, gy)))) {
         punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
-	if(0) freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
+	freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
 		      punit->id, punit->x, punit->y);
         if (!same_pos(x, y, punit->x, punit->y)) {
           auto_settler_do_goto(pplayer, punit, x, y);
@@ -1106,9 +1105,9 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
         punit->goto_dest_y = gy;
         if (ferryboat && (!ferryboat->ai.passenger
 			  || ferryboat->ai.passenger == punit->id)) {
-	  if(0) freelog(LOG_DEBUG,
-			"We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
-			punit->id, ferryboat->id, punit->x, punit->y, gx, gy);
+	  freelog(LOG_DEBUG,
+		  "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
+		  punit->id, ferryboat->id, punit->x, punit->y, gx, gy);
           set_unit_activity(punit, ACTIVITY_SENTRY);
 				/* kinda cheating -- Syela */
           ferryboat->ai.passenger = punit->id;
@@ -1180,28 +1179,27 @@ void auto_settlers_player(struct player *pplayer)
   pplayer->ai.warmth = WARMING_FACTOR * total_player_citizens(pplayer) * 10 *
                        (game.globalwarming + game.heating) / (map.xsize *
                         map.ysize * map.landpercent * 2); /* threat of warming */
-  if(0) freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
-		pplayer->ai.warmth, game.globalwarming);
+  freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
+	  pplayer->ai.warmth, game.globalwarming);
   unit_list_iterate(pplayer->units, punit) {
-    if(0) freelog(LOG_DEBUG, "%s's settler at (%d, %d)",
-		  pplayer->name, punit->x, punit->y); 
+    freelog(LOG_DEBUG, "%s's settler at (%d, %d)",
+	    pplayer->name, punit->x, punit->y); 
     if (punit->ai.control && unit_flag(punit->type, F_SETTLERS)) {
-      if(0) freelog(LOG_DEBUG, "Is ai controlled.");
+      freelog(LOG_DEBUG, "Is ai controlled.");
       if(punit->activity == ACTIVITY_SENTRY)
 	set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
         set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_IDLE)
 	auto_settler_findwork(pplayer, punit);
-      if(0) freelog(LOG_DEBUG, "Has been processed.");
+      freelog(LOG_DEBUG, "Has been processed.");
     }
   }
   unit_list_iterate_end;
 #ifdef CHRONO
   gettimeofday(&tv, 0);
-  if(0) freelog(LOG_DEBUG, "%s's autosettlers consumed %d microseconds.",
-		pplayer->name,
-		(tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+  freelog(LOG_VERBOSE, "%s's autosettlers consumed %d microseconds.",
+	  pplayer->name, (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 #endif
 }
 

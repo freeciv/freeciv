@@ -71,8 +71,8 @@ int building_value(int max, struct city *pcity, int val)
 
   i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
   sad += i; /* if units are making us unhappy, count that too. */
-  if(0) freelog(LOG_DEBUG, "In %s, unh[0] = %d, unh[4] = %d, sad = %d",
-		pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
+  freelog(LOG_DEBUG, "In %s, unh[0] = %d, unh[4] = %d, sad = %d",
+	  pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
 
   i = max;
   while (i && elvis) { i--; elvis--; j += val; }
@@ -82,7 +82,7 @@ int building_value(int max, struct city *pcity, int val)
   while (i) { i--; j += 16; } /* 16 is debatable value */
   /* using (i && bored) led to a lack of foresight,
      especially re: Chapel -- Syela */
-  if(0) freelog(LOG_DEBUG, "%s: %d elvis %d sad %d bored %d size %d max %d val",
+  freelog(LOG_DEBUG, "%s: %d elvis %d sad %d bored %d size %d max %d val",
 		pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
 		pcity->ppl_content[4], pcity->size, max, j);
 
@@ -163,8 +163,8 @@ int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_
   if (pcity->pollution > 0) {
     a = amortize(b, 100 / pcity->pollution);
     c = ((a * b) / (MAX(1, b - a)))>>6;
-    if(0) freelog(LOG_DEBUG, "City: %s, Pollu: %d, cost: %d, Id: %d, P: %d",
-		  pcity->name, pcity->pollution, c, id, p);
+    freelog(LOG_DEBUG, "City: %s, Pollu: %d, cost: %d, Id: %d, P: %d",
+	    pcity->name, pcity->pollution, c, id, p);
   } else c = 0;
   if (p) {
     a = amortize(b, 100 / p);
@@ -456,7 +456,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
   }
 
   for (i=0;i<B_LAST;i++) {
-    if (0 && values[i]) {
+    if (values[i]) {
       freelog(LOG_DEBUG, "%s wants %s with desire %d.",
 	      pcity->name, get_improvement_name(i), values[i]);
     }
@@ -496,8 +496,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     want = pcity->ai.settler_want;
 
     if (want > 0) {
-      if(0) freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
-		    pcity->name, pcity->x, pcity->y, want);
+      freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
+	      pcity->name, pcity->x, pcity->y, want);
       choice->want = want;
       choice->type = 1;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);

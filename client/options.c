@@ -158,7 +158,7 @@ FILE *open_option_file(char *mode)
     name = name_buffer;
   }
   
-  freelog(LOG_DEBUG, "settings file is %s", name);
+  freelog(LOG_VERBOSE, "settings file is %s", name);
 
   f = fopen(name, mode);
 

@@ -117,14 +117,14 @@ instead of right before it.  Managing units before end-turn reset now. -- Syela 
   ai_manage_cities(pplayer);
   /* manage cities will establish our tech_wants. */
   /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
-  if(0) freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
+  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
   ai_manage_taxes(pplayer); 
-  if(0) freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
+  freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
   ai_manage_government(pplayer); 
   ai_manage_diplomacy(pplayer);
   ai_manage_tech(pplayer); 
   ai_after_work(pplayer);
-  if(0) freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
+  freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
 }
 
 /**************************************************************************
@@ -244,7 +244,7 @@ void ai_manage_taxes(struct player *pplayer)
     city_refresh(pcity);
     sad += pcity->ppl_unhappy[4];
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
-    if(0) freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
+    freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
     for (i = 0; i < B_LAST; i++)
       if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
   city_list_iterate_end;
@@ -262,25 +262,25 @@ void ai_manage_taxes(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
 
     /* this code must be ABOVE the elvises[] if SIMPLISTIC is off */
-    if(0) freelog(LOG_DEBUG, "Does %s want to be bigger? %d",
+    freelog(LOG_DEBUG, "Does %s want to be bigger? %d",
 		  pcity->name, wants_to_be_bigger(pcity));
     if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
         pcity->food_surplus > 0 &&
         !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
 	ai_fuzzy(pplayer,1)) {
-      if(0) freelog(LOG_DEBUG, "%d happy people in %s",
+      freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);
       n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
       m = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
 	     (pcity->size+1) * game.foodbox)>>1) -
            pcity->food_stock) * food_weighting(pcity->size);
-      if(0) freelog(LOG_DEBUG, "Checking HHJJ for %s, m = %d", pcity->name, m);
+      freelog(LOG_DEBUG, "Checking HHJJ for %s, m = %d", pcity->name, m);
       tot = 0;
       for (i = 0; i <= 10; i++) {
         if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100) {
-	  if (0 && !tot) freelog(LOG_DEBUG, "%s celebrates at %d.",
-				 pcity->name, i * 10);
+	  if (!tot) freelog(LOG_DEBUG, "%s celebrates at %d.",
+			    pcity->name, i * 10);
           hhjj[i] += (pcity->was_happy ? m : m>>1);
           tot++;
         }
@@ -323,7 +323,7 @@ void ai_manage_taxes(struct player *pplayer)
   /* two thousand zero zero party over it's out of time */
   for (i = 0; i <= 10; i++) {
     hhjj[i] -= (trade * i) / 10 * TRADE_WEIGHTING; /* hhjj is now our bonus */
-    if(0) freelog(LOG_DEBUG, "hhjj[%d] = %d for %s.", i, hhjj[i], pplayer->name);
+    freelog(LOG_DEBUG, "hhjj[%d] = %d for %s.", i, hhjj[i], pplayer->name);
   }
 
   m = n; /* storing the lux we really need */
@@ -335,8 +335,8 @@ void ai_manage_taxes(struct player *pplayer)
   while (n > maxrate) n--; /* Better to cheat on lux than on tax -- Syela */
   if (m > 10 - n) m = 10 - n;
 
-  if(0) freelog(LOG_DEBUG, "%s has %d trade and %d expense."
-		"  Min lux = %d, tax = %d", pplayer->name, trade, expense, m, n);
+  freelog(LOG_DEBUG, "%s has %d trade and %d expense."
+	  "  Min lux = %d, tax = %d", pplayer->name, trade, expense, m, n);
 
 /* Peter Schaefer points out (among other things) that in pathological cases
 (like expense == 468) the AI will try to celebrate with m = 10 and then abort */
@@ -393,14 +393,14 @@ void ai_manage_taxes(struct player *pplayer)
             if (defender) {
               if (unit_vulnerability_virtual(punit) <
                   unit_vulnerability_virtual(defender)) {
-		freelog(LOG_DEBUG, "Disbanding %s in %s",
-		     unit_types[punit->type].name, pcity->name);
+		freelog(LOG_VERBOSE, "Disbanding %s in %s",
+			unit_types[punit->type].name, pcity->name);
                 pack.unit_id = punit->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
               } else {
-		freelog(LOG_DEBUG, "Disbanding %s in %s",
-		     unit_types[defender->type].name, pcity->name);
+		freelog(LOG_VERBOSE, "Disbanding %s in %s",
+			unit_types[defender->type].name, pcity->name);
                 pack.unit_id = defender->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
@@ -412,8 +412,8 @@ void ai_manage_taxes(struct player *pplayer)
             pack.city_id = incity->id;
             handle_unit_change_homecity(pplayer, &pack);
             city_refresh(pcity);
-	    freelog(LOG_DEBUG, "Reassigning %s from %s to %s",
-		 unit_types[punit->type].name, pcity->name, incity->name);
+	    freelog(LOG_VERBOSE, "Reassigning %s from %s to %s",
+		    unit_types[punit->type].name, pcity->name, incity->name);
           }
         } /* end if */
       unit_list_iterate_end;
@@ -421,8 +421,8 @@ void ai_manage_taxes(struct player *pplayer)
         unit_list_iterate(pcity->units_supported, punit)
           if (punit != defender && pcity->shield_surplus < 0) {
 	    /* the defender MUST NOT be disbanded! -- Syela */
-	    freelog(LOG_DEBUG, "Disbanding %s's %s",
-		 pcity->name, unit_types[punit->type].name);
+	    freelog(LOG_VERBOSE, "Disbanding %s's %s",
+		    pcity->name, unit_types[punit->type].name);
             pack.unit_id = punit->id;
             handle_unit_disband_safe(pplayer, &pack, &myiter);
             city_refresh(pcity);

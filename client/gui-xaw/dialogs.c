@@ -1055,11 +1055,11 @@ void caravan_help_build_wonder_callback(Widget w, XtPointer client_data,
 void caravan_keep_moving_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data)
 {
+#if 0   /* Now don't want to move at all in this case --dwp */
   struct unit *punit;
   struct city *pcity;
 
-  /* Now don't want to move at all in this case --dwp */
-  if(0 && (punit=find_unit_by_id(caravan_unit_id)) && 
+  if((punit=find_unit_by_id(caravan_unit_id)) && 
      (pcity=find_city_by_id(caravan_city_id))) {
     struct unit req_unit;
 
@@ -1068,6 +1068,8 @@ void caravan_keep_moving_callback(Widget w, XtPointer client_data,
     req_unit.y=pcity->y;
     send_unit_info(&req_unit);
   }
+#endif
+  
   destroy_message_dialog(w);
   caravan_dialog = 0;
   process_caravan_arrival(NULL);

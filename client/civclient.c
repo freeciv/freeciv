@@ -127,7 +127,7 @@ void handle_packet_input(char *packet, int type)
     break;
 
   case PACKET_SERVER_SHUTDOWN:
-    freelog(LOG_DEBUG, "server shutdown");
+    freelog(LOG_VERBOSE, "server shutdown");
     break;
 
   case PACKET_BEFORE_NEW_YEAR:

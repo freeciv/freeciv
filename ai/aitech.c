@@ -187,7 +187,7 @@ setting goal to Republic and learning Monarchy, but that's what it's supposed
 to be doing; it just looks strange. -- Syela */
       
       goal_values[i] /= pplayer->ai.tech_turns[i];
-      if (0 && pplayer->ai.tech_turns[i]<6) {
+      if (pplayer->ai.tech_turns[i]<6) {
 	freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
 		advances[i].name, pplayer->ai.tech_want[i],
 		values[i], goal_values[i]);
@@ -200,7 +200,7 @@ to be doing; it just looks strange. -- Syela */
     if (values[i] > values[j] && get_invention(pplayer, i) == TECH_REACHABLE) j = i;
     if (goal_values[i] > goal_values[k]) k = i;
   }
-  if(0) freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
+  freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
 		advances[j].name, values[j], pplayer->ai.tech_want[j]);
   if (choice) {
     choice->choice = j;
@@ -213,9 +213,9 @@ to be doing; it just looks strange. -- Syela */
     gol->choice = k;
     gol->want = goal_values[k] / c;
     gol->type = goal_values[pplayer->ai.tech_goal] / c;
-    if(0) freelog(LOG_DEBUG,
-		  "Gol->choice = %s, gol->want = %d, goal_value = %d, c = %d",
-		  advances[gol->choice].name, gol->want, goal_values[k], c);
+    freelog(LOG_DEBUG,
+	    "Gol->choice = %s, gol->want = %d, goal_value = %d, c = %d",
+	    advances[gol->choice].name, gol->want, goal_values[k], c);
   }
   return;
 }
@@ -278,18 +278,17 @@ void ai_manage_tech(struct player *pplayer)
   if (choice.choice != pplayer->research.researching) {
     if ((choice.want - choice.type) > penalty &&             /* changing */
    penalty + pplayer->research.researched <= research_time(pplayer)) {
-      if(0) freelog(LOG_DEBUG, "%s switching from %s to %s with penalty of %d.",
-		    pplayer->name, advances[pplayer->research.researching].name,
-		    advances[choice.choice].name, penalty);
+      freelog(LOG_DEBUG, "%s switching from %s to %s with penalty of %d.",
+	      pplayer->name, advances[pplayer->research.researching].name,
+	      advances[choice.choice].name, penalty);
       choose_tech(pplayer, choice.choice);
     }
   }
   /* crossing my fingers on this one! -- Syela (seems to have worked!) */
   if (gol.choice != pplayer->ai.tech_goal) {
-    if(0) freelog(LOG_DEBUG,
-		  "%s changing goal from %s (want = %d) to %s (want = %d)",
-		  pplayer->name, advances[pplayer->ai.tech_goal].name, gol.type,
-		  advances[gol.choice].name, gol.want);
+    freelog(LOG_DEBUG, "%s changing goal from %s (want = %d) to %s (want = %d)",
+	    pplayer->name, advances[pplayer->ai.tech_goal].name, gol.type,
+	    advances[gol.choice].name, gol.want);
     choose_tech_goal(pplayer, gol.choice);
   }
 }

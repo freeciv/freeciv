@@ -33,10 +33,6 @@ used throughout the client.
 
 char *tile_set_dir=NULL;
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif 
-
 /**************************************************************************
   Search for the requested xpm file
 **************************************************************************/
@@ -99,18 +95,16 @@ void client_remove_unit(int unit_id)
   struct unit *punit;
   struct city *pcity;
 
-  if (DEBUG) freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
+  freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
   
   if((punit=game_find_unit_by_id(unit_id))) {
     int x=punit->x;
     int y=punit->y;
     int hc=punit->homecity;
 
-    if (DEBUG) {
-      freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+    freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	   unit_id, get_race_name(get_player(punit->owner)->race),
 	   unit_name(punit->type), punit->x, punit->y, hc);
-    }
     
     if(punit==get_unit_in_focus()) {
       set_unit_focus_no_center(0);
@@ -123,7 +117,7 @@ void client_remove_unit(int unit_id)
     if((pcity=map_get_city(x, y)))
       refresh_city_dialog(pcity);
 
-    if (pcity && DEBUG) {
+    if (pcity) {
       freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
@@ -131,7 +125,7 @@ void client_remove_unit(int unit_id)
     if((pcity=city_list_find_id(&game.player_ptr->cities, hc)))
       refresh_city_dialog(pcity);
 
-    if (pcity && DEBUG) {
+    if (pcity) {
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
@@ -150,10 +144,8 @@ void client_remove_city(struct city *pcity)
   int x=pcity->x;
   int y=pcity->y;
 
-  if (DEBUG) {
-    freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	    get_race_name(city_owner(pcity)->race), x, y);
-  }
+  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+	  get_race_name(city_owner(pcity)->race), x, y);
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();

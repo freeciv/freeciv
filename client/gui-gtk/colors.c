@@ -84,17 +84,17 @@ enum Display_color_type get_visual(void)
 
   if (visual->type == GDK_VISUAL_STATIC_GRAY) { 
     /* StaticGray, use black and white */
-    freelog(LOG_DEBUG, "found B/W display.");
+    freelog(LOG_VERBOSE, "found B/W display.");
     return BW_DISPLAY;
   }
 
   if(visual->type < GDK_VISUAL_STATIC_COLOR) {
     /* No color visual available at default depth */
-    freelog(LOG_DEBUG, "found grayscale(?) display.");
+    freelog(LOG_VERBOSE, "found grayscale(?) display.");
     return GRAYSCALE_DISPLAY;
   }
 
-  freelog(LOG_DEBUG, "color system booted ok.");
+  freelog(LOG_VERBOSE, "color system booted ok.");
 
   return COLOR_DISPLAY;
 }

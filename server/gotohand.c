@@ -146,21 +146,19 @@ This led to a bad bug where a unit in a swamp was considered too far away */
     } /* end for */
   } while (warstacksize > warnodes);
   if (warnodes > WARSTACK_DIM) {
-    freelog(LOG_DEBUG, "Warning: %u nodes in map #%d for (%d, %d)",
+    freelog(LOG_VERBOSE, "Warning: %u nodes in map #%d for (%d, %d)",
 	 warnodes, which, orig_x, orig_y);
   }
-  if(0) freelog(LOG_DEBUG,
-		"Generated warmap for (%d,%d) with %u nodes checked.",
-		orig_x, orig_y, warnodes); 
+  freelog(LOG_DEBUG, "Generated warmap for (%d,%d) with %u nodes checked.",
+	  orig_x, orig_y, warnodes); 
   /* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
-  if(0) freelog(LOG_DEBUG,
-		"Generating warmap, pcity = %s, punit = %s",
-		(pcity ? pcity->name : "NULL"),
-		(punit ? unit_types[punit->type].name : "NULL"));
+  freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
+	  (pcity ? pcity->name : "NULL"),
+	  (punit ? unit_types[punit->type].name : "NULL"));
 
   if (punit) {
     if (pcity && pcity == warmap.warcity) return; /* time-saving shortcut */
@@ -346,8 +344,7 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
 {
   int i;
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
-    if(0) freelog(LOG_DEBUG, "Venturing into the unknown at (%d, %d).",
-		  x1, y1);
+    freelog(LOG_DEBUG, "Venturing into the unknown at (%d, %d).", x1, y1);
     /* return(3);   People seemed not to like this. -- Syela */
     return(15); /* arbitrary deterrent. */
   }
@@ -460,8 +457,7 @@ and independently I can worry about optimizing them. -- Syela */
         if (warmap.cost[x][y] < punit->moves_left && tm < maxcost &&
             tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, x1, y1)) {
           tm += unit_types[punit->type].move_rate;
-	  if(0) freelog(LOG_DEBUG,
-			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
+	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 			unit_types[punit->type].name, punit->id,
 			punit->x, punit->y, x1, y1,
 			punit->goto_dest_x, punit->goto_dest_y);
@@ -472,14 +468,14 @@ and independently I can worry about optimizing them. -- Syela */
             warmap.cost[x1][y1] = tm;
             add_to_stack(x1, y1);
             local_vector[x1][y1] = 128>>k;
-	    if(0) freelog(LOG_DEBUG,
-			  "Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-			  d[k], x, y, x1, y1, c, tm);
+	    freelog(LOG_DEBUG,
+		    "Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
+		    d[k], x, y, x1, y1, c, tm);
           } else if (warmap.cost[x1][y1] == tm) {
             local_vector[x1][y1] |= 128>>k;
-	    if(0) freelog(LOG_DEBUG,
-			  "Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-			  d[k], x, y, x1, y1, c, tm);
+	    freelog(LOG_DEBUG,
+		    "Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
+		    d[k], x, y, x1, y1, c, tm);
           }
         }
       } else {
@@ -498,11 +494,10 @@ and independently I can worry about optimizing them. -- Syela */
             unit_types[punit->type].attack_strength ? 3 : 2) &&
             enemies_at(punit, x1, y1)) {
           tm += unit_types[punit->type].move_rate;
-	  if(0) freelog(LOG_DEBUG,
-			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
-			unit_types[punit->type].name, punit->id,
-			punit->x, punit->y, x1, y1,
-			punit->goto_dest_x, punit->goto_dest_y);
+	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
+		  unit_types[punit->type].name, punit->id,
+		  punit->x, punit->y, x1, y1,
+		  punit->goto_dest_x, punit->goto_dest_y);
         }
         if (tm < maxcost) {
           if (warmap.seacost[x1][y1] > tm) {
@@ -515,13 +510,13 @@ and independently I can worry about optimizing them. -- Syela */
         }
       }
       if (x1 == dest_x && y1 == dest_y && maxcost > tm) {
-	if(0) freelog(LOG_DEBUG, "Found path, cost = %d", tm);
+	freelog(LOG_DEBUG, "Found path, cost = %d", tm);
         maxcost = tm + 1; /* NOT = tm.  Duh! -- Syela */
       }
     } /* end for */
   } while (warstacksize > warnodes);
   
-  if(0) freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d", 
+  freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d", 
 		orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
   if (maxcost == 255) return(0);
   /* succeeded.  the vector at the destination indicates which
@@ -546,12 +541,12 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
         add_to_stack(x1, y1);
         warmap.vector[x1][y1] |= 128>>k;
         local_vector[x][y] -= 1<<k; /* avoid repetition */
-	if(0) freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
-		      d[7-k], x1, y1, x, y);
+	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
+		d[7-k], x1, y1, x, y);
       }
     }
   } while (warstacksize > warnodes);
-  if(0) freelog(LOG_DEBUG, "BACKTRACE: %u nodes", warnodes);
+  freelog(LOG_DEBUG, "BACKTRACE: %u nodes", warnodes);
   return(1);
   /* DONE! */
 }
@@ -579,7 +574,7 @@ int find_a_direction(struct unit *punit)
       else c = 3;
       if (unit_flag(punit->type, F_IGTER) && c) c = 1;
       x = map_adjust_x(punit->x + ii[k]); y = map_adjust_y(punit->y + jj[k]);
-      if (0 && passenger) {
+      if (passenger) {
 	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
 		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
       }
@@ -649,8 +644,8 @@ int find_a_direction(struct unit *punit)
          !punit->ai.passenger || punit->moves_left >= 6)) d[k] = 1;
       if (d[k] > best) { 
         best = d[k];
-	if(0) freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
-		      best, punit->x, punit->y, x, y);
+	freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
+		best, punit->x, punit->y, x, y);
       }
     } /* end is-a-valid-vector */
   } /* end for */
@@ -741,39 +736,41 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       if(!punit->moves_left) return;
       k = find_a_direction(punit);
       if (k < 0) {
-	if(0) freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
-		      unit_types[punit->type].name, punit->id,
-		      punit->x, punit->y);
+	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
+		unit_types[punit->type].name, punit->id,
+		punit->x, punit->y);
 	/* punit->activity=ACTIVITY_IDLE;*/
 	send_unit_info(0, punit, 0);
 	return;
       }
-      if(0) freelog(LOG_DEBUG, "Going %s", d[k]);
+      freelog(LOG_DEBUG, "Going %s", d[k]);
       x = map_adjust_x(punit->x + ii[k]);
       y = punit->y + jj[k]; /* no need to adjust this */
 
       if(!punit->moves_left) return;
       if(!handle_unit_move_request(pplayer, punit, x, y)) {
-	if(0) freelog(LOG_DEBUG, "Couldn't handle it.");
+	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if(punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
 	  send_unit_info(0, punit, 0);
 	  return;
 	};
-      } else if(0) freelog(LOG_DEBUG, "Handled.");
+      } else {
+	freelog(LOG_DEBUG, "Handled.");
+      }
       if(!unit_list_find(&pplayer->units, id))
 	return; /* unit died during goto! */
 
       if(punit->x!=x || punit->y!=y) {
-	if(0) freelog(LOG_DEBUG, "Aborting, out of movepoints.");
+	freelog(LOG_DEBUG, "Aborting, out of movepoints.");
 	send_unit_info(0, punit, 0);
 	return; /* out of movepoints */
       }
-      if(0) freelog(LOG_DEBUG, "Moving on.");
+      freelog(LOG_DEBUG, "Moving on.");
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
   }
   else {
-    freelog(LOG_DEBUG, "Did not find the shortest path for "
+    freelog(LOG_VERBOSE, "Did not find the shortest path for "
 	 "%s's %s at (%d, %d) -> (%d, %d)",
 	 pplayer->name, unit_types[punit->type].name,
 	 punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y);
@@ -781,9 +778,6 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 
   punit->activity=ACTIVITY_IDLE;
   send_unit_info(0, punit, 0);
-  
-
-    
 }
 
 

@@ -399,7 +399,7 @@ char *user_home_dir(void)
     char *env = getenv("HOME");
     if (env) {
       home_dir = mystrdup(env);	        /* never free()d */
-      freelog(LOG_DEBUG, "HOME is %s", home_dir);
+      freelog(LOG_VERBOSE, "HOME is %s", home_dir);
     } else {
       freelog(LOG_NORMAL, "Could not find home directory (HOME is not set)");
       home_dir = NULL;
@@ -471,7 +471,8 @@ char *datafilename(char *filename)
 	} else {
 	  char *home = user_home_dir();
 	  if (!home) {
-	    freelog(LOG_DEBUG, "No HOME, skipping data path component %s", tok);
+	    freelog(LOG_VERBOSE,
+		    "No HOME, skipping data path component %s", tok);
 	    i = 0;
 	  } else {
 	    char *tmp = fc_malloc(strlen(home) + i);    /* +1 -1 */
@@ -487,7 +488,7 @@ char *datafilename(char *filename)
 	num_dirs++;
 	dirs = fc_realloc(dirs, num_dirs*sizeof(char*));
 	dirs[num_dirs-1] = mystrdup(tok);
-	freelog(LOG_DEBUG, "Data path component (%d): %s", num_dirs-1, tok);
+	freelog(LOG_VERBOSE, "Data path component (%d): %s", num_dirs-1, tok);
 	if (i == -1) {
 	  free(tok);
 	}

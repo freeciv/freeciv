@@ -209,7 +209,7 @@ void auto_attack_city(struct player *pplayer, struct city *pcity)
 
 void auto_attack_player(struct player *pplayer)
 {
-  if(0) freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
+  freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
 
   city_list_iterate(pplayer->cities, pcity) {
     /* fasten things up -- fisch */
@@ -256,8 +256,8 @@ void auto_attack(void)
 
 #if CHRONO
   gettimeofday(&tv, 0);
-  freelog(LOG_DEBUG, "autoattack consumed %d microseconds.", 
-       (int)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
+  freelog(LOG_VERBOSE, "autoattack consumed %d microseconds.", 
+	  (int)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
 #endif
 
 }

@@ -600,7 +600,7 @@ int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
 /***************************************************************
  ...
 ***************************************************************/
-void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
+static void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
 {
   /* the %x don't work so well for oceans, where
      move_cost[]==-3 ,.. --dwp
@@ -628,7 +628,7 @@ void reset_move_costs(int x, int y)
   x = map_adjust_x(x);
   tile0 = map_get_tile(x, y);
   map_calc_adjacent_xy_void(x, y, xx, yy);
-  if(0) debug_log_move_costs("Resetting move costs for", x, y, tile0);
+  debug_log_move_costs("Resetting move costs for", x, y, tile0);
 
   for (k = 0; k < 8; k++) {
     x1 = xx[ii[k]];
@@ -641,7 +641,7 @@ void reset_move_costs(int x, int y)
     tile1->move_cost[7 - k] = tile_move_cost_ai(tile1, tile0, x1, y1,
 						x, y, maxcost);
   }
-  if(0) debug_log_move_costs("Reset move costs for", x, y, tile0);
+  debug_log_move_costs("Reset move costs for", x, y, tile0);
 }
 
 /***************************************************************

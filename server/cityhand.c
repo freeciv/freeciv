@@ -81,7 +81,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   struct city *pcity, *othercity;
   int i;
   
-  if(0) freelog(LOG_DEBUG, "Creating city %s", name);
+  freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
 	  x,y, get_race_name_plural(pplayer->race));
   pcity=fc_malloc(sizeof(struct city));

@@ -572,8 +572,8 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *foodneed -= 2 * (*workers - 1 - e);
   *prodneed -= (*workers - 1 - e);
 
-  if(0) freelog(LOG_DEBUG, "%s, %d workers, %d luxneed, %d e",
-		pcity->name, *workers, luxneed, e);
+  freelog(LOG_DEBUG, "%s, %d workers, %d luxneed, %d e",
+	  pcity->name, *workers, luxneed, e);
 
   if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4) *foodneed += 1;
 
@@ -605,7 +605,7 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *foodneed += 2 * (*workers - 1 - e);
   *prodneed += (*workers - 1 - e);
   if (*prodneed > 0) {
-    freelog(LOG_DEBUG, "Ignored prodneed? in %s (%d)",
+    freelog(LOG_VERBOSE, "Ignored prodneed? in %s (%d)",
 	 pcity->name, *prodneed);
   }
 }
@@ -874,9 +874,9 @@ int advisor_choose_build(struct city *pcity)
   if (!game.players[pcity->owner].ai.control)
     ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
-  if(0) freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
-		" from ai_advisor_choose_building.",
-		choice.choice, choice.want);
+  freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
+	  " from ai_advisor_choose_building.",
+	  choice.choice, choice.want);
   id = choice.choice;
   want = choice.want;
 
@@ -1043,9 +1043,9 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	send_spaceship_info(pplayer, 0);
       } else {
 	city_refresh(pcity);
-	if(0) freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+	freelog(LOG_DEBUG, "Trying advisor_choose_build.");
 	advisor_choose_build(pcity);
-	if(0) freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
+	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
 			 "Game: %s is now building %s", pcity->name, 
 			 improvement_types[pcity->currently_building].name);

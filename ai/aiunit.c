@@ -218,8 +218,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   }
 /* END PART THREE */
 
-  if(0) freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
-		pplayer->name, unit_types[punit->type].name, punit->x, punit->y);
+  freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
+	  pplayer->name, unit_types[punit->type].name, punit->x, punit->y);
   handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
   if (pplayer->ai.control && is_military_unit(punit)) {
     pcity = find_city_by_id(punit->homecity);
@@ -266,8 +266,7 @@ int should_unit_change_homecity(struct player *pplayer, struct unit *punit)
          is_military_unit(pdef) && pdef != punit) val = 0;
     unit_list_iterate_end;
  
-    if(0) freelog(LOG_DEBUG, "Incity at (%d,%d).  Val = %d.",
-		 punit->x, punit->y, val);
+    freelog(LOG_DEBUG, "Incity at (%d,%d).  Val = %d.", punit->x, punit->y, val);
     if (val) { /* Guess I better stay / you can live at home now */
       punit->ai.ai_role=AIUNIT_DEFEND_HOME;
 
@@ -460,7 +459,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
               get_total_attack_power(punit, pdef) &&
               unit_list_size(&(map_get_tile(punit->x, punit->y)->units)) < 2 &&
 	      get_total_attack_power(patt, punit)) { 
-	  if(0) freelog(LOG_DEBUG, "%s defending %s from %s's %s",
+	  freelog(LOG_DEBUG, "%s defending %s from %s's %s",
 			get_unit_type(punit->type)->name,
 			map_get_city(x, y)->name,
 			game.players[pdef->owner].name,
@@ -478,11 +477,11 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
             e = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
 /* no need to amortize! */
             if (e > best && ai_fuzzy(pplayer,1)) {
-	      if(0) freelog(LOG_DEBUG, "Better than %d is %d (%s)",
+	      freelog(LOG_DEBUG, "Better than %d is %d (%s)",
 			    best, e, unit_types[pdef->type].name);
               best = e; *dest_y = y1; *dest_x = x1;
             } else {
-	      if(0) freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
+	      freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
 			    best, e, unit_types[pdef->type].name);
 	    }
           } /* end if we have non-zero belligerence */
@@ -522,7 +521,7 @@ void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     return;
   }
   
-  if (0 && aunit) {
+  if (aunit) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d) -> %s#%d@(%d,%d) [body=%d]",
 	    unit_types[punit->type].name, punit->id, punit->x, punit->y,
 	    unit_types[aunit->type].name, aunit->id, aunit->x, aunit->y,
@@ -537,9 +536,9 @@ void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     } else punit->ai.charge = 0; /* can't possibly get there to help */
   } else { /* I had these guys set to just fortify, which is so dumb. -- Syela */
     i = ai_military_findvictim(pplayer, punit, &x, &y);
-    if(0) freelog(LOG_DEBUG,
-		  "Stationary escort @(%d,%d) received %d best @(%d,%d)",
-		  punit->x, punit->y, i, x, y);
+    freelog(LOG_DEBUG,
+	    "Stationary escort @(%d,%d) received %d best @(%d,%d)",
+	    punit->x, punit->y, i, x, y);
     if (i >= 40 * SHIELD_WEIGHTING)
       handle_unit_move_request(pplayer, punit, x, y);
 /* otherwise don't bother, but free cities are free cities and must be snarfed. -- Syela */
@@ -604,11 +603,11 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
     }
     d_val /= (unit_types[punit->type].move_rate / 3);
     if (unit_flag(punit->type, F_IGTER)) d_val /= 1.5;
-    if(0) freelog(LOG_DEBUG,
-		  "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
-		  unit_types[punit->type].name, punit->x, punit->y, d_val,
-		  (punit->hp * (punit->veteran ? 15 : 10)
-		   * unit_types[punit->type].defense_strength));
+    freelog(LOG_DEBUG,
+	    "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
+	    unit_types[punit->type].name, punit->x, punit->y, d_val,
+	    (punit->hp * (punit->veteran ? 15 : 10)
+	     * unit_types[punit->type].defense_strength));
     ptile = map_get_tile(punit->x, punit->y);
     if (d_val >= punit->hp * (punit->veteran ? 15 : 10) *
                 unit_types[punit->type].defense_strength) {
@@ -622,7 +621,7 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
     if (!goto_is_sane(pplayer, punit, dest_x, dest_y, 1) ||
        (ferryboat && goto_is_sane(pplayer, ferryboat, dest_x, dest_y, 1))) { /* Important!! */
       punit->ai.ferryboat = boatid;
-      if(0) freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
+      freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
 		    pplayer->name, punit->id, punit->x, punit->y, boatid);
       if (!same_pos(x, y, bx, by)) {
         punit->goto_dest_x = bx;
@@ -635,10 +634,9 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
       ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
       if (ferryboat && (!ferryboat->ai.passenger ||
           ferryboat->ai.passenger == punit->id)) {
-	if(0) freelog(LOG_DEBUG,
-		      "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
-		      punit->id, ferryboat->id, punit->x, punit->y,
-		      dest_x, dest_y);
+	freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
+		punit->id, ferryboat->id, punit->x, punit->y,
+		dest_x, dest_y);
         set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */ 
         ferryboat->ai.passenger = punit->id;
 /* the code that worked for settlers wasn't good for piles of cannons */
@@ -649,7 +647,7 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
           punit->goto_dest_y = dest_y;
           set_unit_activity(punit, ACTIVITY_SENTRY); /* anything but GOTO!! */
           if (!is_transporter_with_free_space(pplayer, punit->x, punit->y)) {
-	    if(0) freelog(LOG_DEBUG, "All aboard!");
+	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
             unit_list_iterate(ptile->units, mypass)
               if (mypass->ai.ferryboat == ferryboat->id) {
@@ -688,9 +686,9 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
             if (i == punit->x && j == punit->y) continue; /* I'm being lazy -- Syela */
             unit_list_iterate(map_get_tile(i, j)->units, aunit)
               if (aunit->ai.charge == punit->id) {
-		if(0) freelog(LOG_DEBUG,
-			      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
-			      i, j, punit->x, punit->y);
+		freelog(LOG_DEBUG,
+			"Bodyguard at (%d, %d) is adjacent to (%d, %d)",
+			i, j, punit->x, punit->y);
                 if (aunit->moves_left) return(0);
                 else return(handle_unit_move_request(pplayer, punit, i, j));
               }
@@ -700,7 +698,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
       } /* end if */
 /* end 'short leash' subroutine */
 
-      if(0 && ferryboat) {
+      if (ferryboat) {
 	freelog(LOG_DEBUG, "GOTHERE: %s#%d@(%d,%d)->(%d,%d)", 
 		unit_types[punit->type].name, punit->id,
 		punit->x, punit->y, dest_x, dest_y);
@@ -709,7 +707,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
       do_unit_goto(pplayer,punit);
       /* liable to bump into someone that will kill us.  Should avoid? */
     } else {
-      if(0) freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
+      freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
 		    unit_types[punit->type].name, punit->id,
 		    punit->x, punit->y, dest_x, dest_y);
     }
@@ -757,8 +755,8 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
     if (unit_types[buddy->type].move_type != unit_types[punit->type].move_type) continue;
     d = unit_move_turns(punit, buddy->x, buddy->y);
     def = (u - unit_vulnerability_virtual(buddy))>>d;
-    if(0) freelog(LOG_DEBUG, "(%d,%d)->(%d,%d), %d turns, def=%d",
-		  punit->x, punit->y, buddy->x, buddy->y, d, def);
+    freelog(LOG_DEBUG, "(%d,%d)->(%d,%d), %d turns, def=%d",
+	    punit->x, punit->y, buddy->x, buddy->y, d, def);
     unit_list_iterate(pplayer->units, body)
       if (body->ai.charge == buddy->id) def = 0;
     unit_list_iterate_end;
@@ -771,9 +769,9 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
     def = (mycity->ai.danger - assess_defense_quadratic(mycity))>>d;
     if (def > val && ai_fuzzy(pplayer,1)) { *acity = mycity; val = def; }
   city_list_iterate_end;
-  if(0) freelog(LOG_DEBUG, "%s@(%d,%d) looking for charge; %d/%d",
-		unit_types[punit->type].name,
-		punit->x, punit->y, val, val * 100 / u);
+  freelog(LOG_DEBUG, "%s@(%d,%d) looking for charge; %d/%d",
+	  unit_types[punit->type].name,
+	  punit->x, punit->y, val, val * 100 / u);
   return((val * 100) / u);
 }
 
@@ -867,13 +865,13 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
   if (acity) {
     punit->ai.ai_role = AIUNIT_ESCORT;
     punit->ai.charge = acity->id;
-    if(0) freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
+    freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
 		  unit_types[punit->type].name, punit->x, punit->y,
 		  acity->name, acity->x, acity->y);
   } else if (aunit) {
     punit->ai.ai_role = AIUNIT_ESCORT;
     punit->ai.charge = aunit->id;
-    if(0) freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
+    freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
 		  unit_types[punit->type].name, punit->x, punit->y,
 		  unit_types[aunit->type].name, aunit->x, aunit->y);
   } else if (unit_attack_desirability(punit->type) ||
@@ -888,17 +886,17 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
   int dest_x, dest_y;
   if (punit->homecity){
     pcity=find_city_by_id(punit->homecity);
-    if(0) freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
+    freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
 		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
     if ((punit->x == pcity->x)&&(punit->y == pcity->y)) {
-      if(0) freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
+      freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
       /* aggro defense goes here -- Syela */
       ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);
       punit->ai.ai_role=AIUNIT_NONE;
       handle_unit_move_request(pplayer, punit, dest_x, dest_y);
                                        /* might bash someone */
     } else {
-      if(0) freelog(LOG_DEBUG, "GOHOME(%d,%d)",
+      freelog(LOG_DEBUG, "GOHOME(%d,%d)",
 		   punit->goto_dest_x, punit->goto_dest_y);
       punit->goto_dest_x=pcity->x;
       punit->goto_dest_y=pcity->y;
@@ -983,7 +981,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 
   generate_warmap(map_get_city(*x, *y), punit);
                              /* most flexible but costs milliseconds */
-  if(0) freelog(LOG_DEBUG, "%s's %s at (%d, %d) has belligerence %d.",
+  freelog(LOG_DEBUG, "%s's %s at (%d, %d) has belligerence %d.",
 		pplayer->name, unit_types[punit->type].name,
 		punit->x, punit->y, a);
 
@@ -1091,7 +1089,7 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
             e = 0; /* END STEAM-ENGINES KLUGE */
           } else e = 0;
 
-	  if(0 && is_ground_unit(punit) && punit->id && ferryboat) {
+	  if (punit->id && ferryboat && is_ground_unit(punit)) {
 	    freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
 		    " (sanity=%d, c=%d, e=%d, best=%d)",
 		    unit_types[punit->type].name, punit->x, punit->y,
@@ -1168,8 +1166,9 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
       unit_list_iterate_end;
     } /* end if enemy */
   } /* end for all players */
-  
-  if (0 && best && map_get_city(*x, *y) && !punit->id) {
+
+#ifdef DEBUG
+  if (best && map_get_city(*x, *y) && !punit->id) {
     freelog(LOG_DEBUG,
 	    "%s's %s#%d at (%d, %d) targeting (%d, %d) [desire = %d/%d]",
 	    pplayer->name, unit_types[punit->type].name, punit->id,
@@ -1177,18 +1176,19 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
     freelog(LOG_DEBUG, "A = %d, B = %d, C = %d, D = %d, F = %d, E = %d",
 	    aa, bb, cc, dd, f, best);
   }
-  if (0 && punit->id && (pcity = map_get_city(*x, *y)) &&
+  if (punit->id && (pcity = map_get_city(*x, *y)) &&
       pcity->owner != punit->owner && pcity->ai.invasion == 2 &&
       (is_ground_unit(punit) || is_heli_unit(punit))) {
     freelog(LOG_DEBUG, "%s's %s#%d@(%d,%d) invading %s@(%d,%d)",
 	    pplayer->name, unit_name(punit->type), punit->id,
 	    punit->x, punit->y, pcity->name, *x, *y);
   }
-  if (0 && !best && bk) {
+  if (!best && bk) {
     freelog(LOG_DEBUG, "%s's %s@(%d,%d) faking target %s@(%d,%d)",
 	    pplayer->name, unit_name(punit->type), punit->x, punit->y, 
 	    map_get_city(*x, *y)->name, *x, *y);
   }
+#endif
   return(best);
 }
 
@@ -1207,7 +1207,7 @@ int find_nearest_friendly_port(struct unit *punit)
     }
   city_list_iterate_end;
   if (best > 6 * THRESHOLD) return 0;
-  if(0) freelog(LOG_DEBUG, "Friendly port nearest to (%d,%d) is %s@(%d,%d) [%d]",
+  freelog(LOG_DEBUG, "Friendly port nearest to (%d,%d) is %s@(%d,%d) [%d]",
 		punit->x, punit->y,
 		map_get_city(punit->goto_dest_x, punit->goto_dest_y)->name,
 		punit->goto_dest_x, punit->goto_dest_y, best);
@@ -1241,7 +1241,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
           } /* else we're having ZOC hell and need to break out of the loop */
         } /* else nothing to kill */
       } else { /* goto does NOT work for fast units */
-	if(0) freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
+	freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
 		      pplayer->name, unit_types[punit->type].name,
 		      punit->x, punit->y, dest_x, dest_y); 
         handle_unit_move_request(pplayer, punit, dest_x, dest_y);
@@ -1326,7 +1326,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y);
       if (!aunit->ai.bodyguard || bodyguard ||
          (pcity && pcity->ai.invasion >= 2)) {
-	if (0 && pcity) {
+	if (pcity) {
 	  freelog(LOG_DEBUG, "Ferrying to %s to %s, invasion = %d, body = %d",
 		  unit_name(aunit->type), pcity->name,
 		  pcity->ai.invasion, aunit->ai.bodyguard);
@@ -1338,7 +1338,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     }
   unit_list_iterate_end;
   if (p) {
-    if(0) freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
+    freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
     if (punit->moves_left && n) do_unit_goto(pplayer, punit);
     else if (!n && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
@@ -1348,14 +1348,14 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit, 0); /* to get the crosshairs right -- Syela */
     } else {
-      if(0) freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
+      freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
     }
     return;
   }
 /* ok, not carrying anyone, even the ferryman */
   punit->ai.passenger = 0;
-  if(0) freelog(LOG_DEBUG, "Ferryboat %d@(%d, %d) is lonely.",
+  freelog(LOG_DEBUG, "Ferryboat %d@(%d, %d) is lonely.",
 		punit->id, punit->x, punit->y);
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->goto_dest_x = punit->x;
@@ -1374,7 +1374,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     if (aunit->ai.ferryboat && warmap.seacost[aunit->x][aunit->y] < best &&
           !is_transporter_with_free_space(pplayer, aunit->x, aunit->y) &&
 	  ai_fuzzy(pplayer,1)) {
-      if(0) freelog(LOG_DEBUG, "Found a friend %d@(%d, %d)",
+      freelog(LOG_DEBUG, "Found a friend %d@(%d, %d)",
 		    aunit->id, aunit->x, aunit->y);
       x = aunit->x;
       y = aunit->y;
@@ -1399,7 +1399,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (pcity) {
     if (!ai_handicap(pplayer, H_TARGETS) ||
         unit_move_turns(punit, pcity->x, pcity->y) < p) {
-      if(0) freelog(LOG_DEBUG, "No friends.  Going home.");
+      freelog(LOG_DEBUG, "No friends.  Going home.");
       punit->goto_dest_x = pcity->x;
       punit->goto_dest_y = pcity->y;
       punit->activity = ACTIVITY_GOTO;
@@ -1419,7 +1419,6 @@ decides what to do with a military unit.
 void ai_manage_military(struct player *pplayer,struct unit *punit)
 {
   int id;
-  struct city *pcity;
 
   id = punit->id;
 
@@ -1430,11 +1429,18 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
-  if (0 && unit_flag(punit->type, F_FIELDUNIT)
-      && (pcity = map_get_city(punit->x, punit->y))) {
-    freelog(LOG_DEBUG, "%s in %s is going to %d", unit_name(punit->type),
-	    pcity->name, punit->ai.ai_role);
-  } 
+  
+#ifdef DEBUG
+  {
+    struct city *pcity;
+    if (unit_flag(punit->type, F_FIELDUNIT)
+	&& (pcity = map_get_city(punit->x, punit->y))) {
+      freelog(LOG_DEBUG, "%s in %s is going to %d", unit_name(punit->type),
+	      pcity->name, punit->ai.ai_role);
+    }
+  }
+#endif
+  
   switch (punit->ai.ai_role) {
     case AIUNIT_AUTO_SETTLER:
       punit->ai.ai_role = AIUNIT_NONE; 
@@ -1515,19 +1521,19 @@ void ai_manage_units(struct player *pplayer)
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec;
 #endif
-  if(0) freelog(LOG_DEBUG, "Managing units for %s", pplayer->name);
+  freelog(LOG_DEBUG, "Managing units for %s", pplayer->name);
   unit_list_iterate(pplayer->units, punit) {
-    if(0) freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
+    freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
 		  unit_types[punit->type].name, punit->id, punit->x, punit->y);
-    ai_manage_unit(pplayer, punit); 
-    if(0) freelog(LOG_DEBUG, "Managed %s's %s %d@(%d,%d)\n", pplayer->name,
-		  unit_types[punit->type].name, punit->id, punit->x, punit->y);
+    ai_manage_unit(pplayer, punit);
+    /* Note punit might be gone!! */
+    freelog(LOG_DEBUG, "Finished managing %s's unit", pplayer->name);
   }
   unit_list_iterate_end;
-  if(0) freelog(LOG_DEBUG, "Managed units successfully.");
+  freelog(LOG_DEBUG, "Managed units successfully.");
 #ifdef CHRONO
   gettimeofday(&tv, 0);
-  freelog(LOG_DEBUG, "%s's units consumed %d microseconds.", pplayer->name,
+  freelog(LOG_VERBOSE, "%s's units consumed %d microseconds.", pplayer->name,
 	  (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 #endif
 }

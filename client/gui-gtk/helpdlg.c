@@ -178,7 +178,7 @@ void boot_help_texts(void)
   }
   
   if(!booted) {
-    freelog(LOG_DEBUG, "Booting help texts");
+    freelog(LOG_VERBOSE, "Booting help texts");
     genlist_init(&help_nodes);
   } else {
     /* free memory allocated last time booted */
@@ -189,7 +189,7 @@ void boot_help_texts(void)
     }
     help_list_iterate_end;
     genlist_unlink_all(&help_nodes);
-    freelog(LOG_DEBUG, "Rebooting help texts");
+    freelog(LOG_VERBOSE, "Rebooting help texts");
   }    
   
   dfname = datafilename("helpdata.txt");
@@ -233,8 +233,8 @@ void boot_help_texts(void)
 	  for(i=0; i<MAX_LAST; i++) {
 	    seen[i] = (booted?0:1); /* on initial boot data tables are empty */
 	  }
-	  /* freelog(LOG_DEBUG, "Help category %s",
-	     help_type_names[current_type]); */
+	  freelog(LOG_DEBUG, "Help category %s",
+		  help_type_names[current_type]);
 	}
       } else {
 	sprintf(expect, "END_%sS", help_type_names[current_type]);
@@ -316,7 +316,7 @@ void boot_help_texts(void)
       i = find_unit_type_by_name(pname);
       if(!unit_type_exists(i)) {
 	if(booted)
-	  freelog(LOG_DEBUG, "Filtering unit type %s from help", pname);
+	  freelog(LOG_VERBOSE, "Filtering unit type %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -324,7 +324,7 @@ void boot_help_texts(void)
       i = find_tech_by_name(pname);
       if(!tech_exists(i)) {
 	if(booted)
-	  freelog(LOG_DEBUG, "Filtering tech %s from help", pname);
+	  freelog(LOG_VERBOSE, "Filtering tech %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -332,7 +332,7 @@ void boot_help_texts(void)
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || is_wonder(i)) {
 	if(booted)
-	  freelog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
+	  freelog(LOG_VERBOSE, "Filtering city improvement %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -340,7 +340,7 @@ void boot_help_texts(void)
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || !is_wonder(i)) {
 	if(booted)
-	  freelog(LOG_DEBUG, "Filtering wonder %s from help", pname);
+	  freelog(LOG_VERBOSE, "Filtering wonder %s from help", pname);
 	filter_this = 1;
       }
       break;

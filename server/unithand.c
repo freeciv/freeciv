@@ -828,7 +828,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
                   punit->ai.ferryboat);
       if (ferryboat) {
-	if(0) freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
+	freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
 		      punit->id, punit->ai.ferryboat);
         ferryboat->ai.passenger = 0;
         punit->ai.ferryboat = 0;
@@ -891,17 +891,14 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
         bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
                     punit->ai.bodyguard);
         if (bodyguard) {
+	  int success;
           handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_IDLE);
 	  /* may be fortifying, have to FIX this eventually -- Syela */
-	  if(0) {
-	    freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
-		    unit_types[bodyguard->type].name, src_x, src_y,
-		    dest_x, dest_y,
-		    handle_unit_move_request(pplayer, bodyguard,
-					     dest_x, dest_y));
-	  } else {
-	    handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y);
-	  }
+	  success = handle_unit_move_request(pplayer, bodyguard,
+					     dest_x, dest_y);
+	  freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
+		  unit_types[bodyguard->type].name, src_x, src_y,
+		  dest_x, dest_y, success);
           handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFY);
         }
       }

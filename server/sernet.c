@@ -136,7 +136,7 @@ int sniff_packets(void)
     }
   
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
-      freelog(LOG_DEBUG, "got new connection");
+      freelog(LOG_VERBOSE, "got new connection");
       if(server_accept_connection(sock)==-1)
 	freelog(LOG_NORMAL, "failed accepting connection");
     }
@@ -215,7 +215,7 @@ int server_accept_connection(int sockfd)
 	else {
 	   strcpy(connections[i].addr, "unknown");
 	}
-	freelog(LOG_DEBUG, "connection from %s", connections[i].addr);
+	freelog(LOG_VERBOSE, "connection from %s", connections[i].addr);
 	return 0;
       }
     }

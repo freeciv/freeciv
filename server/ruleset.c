@@ -469,7 +469,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     j = get_role_unit(L_FERRYBOAT,i);
     if (!unit_flag(j, F_TRIREME)) {
       j = get_unit_type(j)->tech_requirement;
-      if(0) freelog(LOG_DEBUG, "nav tech is %s", advances[j].name);
+      freelog(LOG_DEBUG, "nav tech is %s", advances[j].name);
       game.rtech.nav = j;
       break;
     }

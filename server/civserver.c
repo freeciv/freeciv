@@ -309,14 +309,16 @@ int main(int argc, char *argv[])
       while(is_id_allocated(global_id_counter++));
     }
     loadtime = clock() - loadtime;
-    freelog(LOG_DEBUG,"Load time: %g seconds", (float)loadtime/CLOCKS_PER_SEC);
+    freelog(LOG_VERBOSE, "Load time: %g seconds",
+	    (float)loadtime/CLOCKS_PER_SEC);
   }
   
   /* init network */  
   init_connections(); 
   server_open_socket();
   if(n==0) {
-    freelog(LOG_NORMAL, "Sending info to metaserver[%s %d]", METASERVER_ADDR, METASERVER_PORT);
+    freelog(LOG_NORMAL, "Sending info to metaserver[%s %d]",
+	    METASERVER_ADDR, METASERVER_PORT);
     server_open_udp(); /* open socket for meta server */ 
   }
 
@@ -437,17 +439,17 @@ int main(int argc, char *argv[])
   
   while(server_state==RUN_GAME_STATE) {
     force_end_of_sniff=0;
-    if(0) freelog(LOG_DEBUG, "Shuffleplayers");
+    freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
-    if(0) freelog(LOG_DEBUG, "Aistartturn");
+    freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
 
-    if(0) freelog(LOG_DEBUG, "sniffingpackets");
+    freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
     
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
-    if(0) freelog(LOG_DEBUG, "Autosettlers");
+    freelog(LOG_DEBUG, "Autosettlers");
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
     /* moved after sniff_packets for even more efficiency.
        What a guy I am. -- Syela */
@@ -455,20 +457,20 @@ int main(int argc, char *argv[])
     /* and now, we must manage our remaining units BEFORE the cities that are
        empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
-    if(0) freelog(LOG_DEBUG, "Auto-Attack phase");
+    freelog(LOG_DEBUG, "Auto-Attack phase");
     auto_attack();
-    if(0) freelog(LOG_DEBUG, "Endturn");
+    freelog(LOG_DEBUG, "Endturn");
     end_turn();
-    if(0) freelog(LOG_DEBUG, "Gamenextyear");
+    freelog(LOG_DEBUG, "Gamenextyear");
     game_next_year();
     check_spaceship_arrivals();
-    if(0) freelog(LOG_DEBUG, "Sendplayerinfo");
+    freelog(LOG_DEBUG, "Sendplayerinfo");
     send_player_info(0, 0);
-    if(0) freelog(LOG_DEBUG, "Sendgameinfo");
+    freelog(LOG_DEBUG, "Sendgameinfo");
     send_game_info(0);
-    if(0) freelog(LOG_DEBUG, "Sendyeartoclients");
+    freelog(LOG_DEBUG, "Sendyeartoclients");
     send_year_to_clients(game.year);
-    if(0) freelog(LOG_DEBUG, "Sendinfotometaserver");
+    freelog(LOG_DEBUG, "Sendinfotometaserver");
     send_server_info_to_metaserver(0);
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
@@ -733,7 +735,7 @@ int end_turn()
     */
     struct player *pplayer = shuffled[i];
     if (pplayer==NULL) pplayer = &game.players[i];
-    if(0) freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
+    freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
 		  i, pplayer->name);
     update_player_activities(pplayer);
          /* ai unit activity has been moved UP -- Syela */
@@ -746,7 +748,7 @@ int end_turn()
   update_pollution();
   do_apollo_program();
   make_history_report();
-  if(0) freelog(LOG_DEBUG, "Turn ended.");
+  freelog(LOG_DEBUG, "Turn ended.");
   return 1;
 }
 
@@ -861,7 +863,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     }
 
   if(i==game.nplayers) {
-    freelog(LOG_DEBUG, "got game packet from unaccepted connection");
+    freelog(LOG_VERBOSE, "got game packet from unaccepted connection");
     free(packet);
     return;
   }
@@ -1294,7 +1296,7 @@ void handle_request_join_game(struct connection *pconn,
   
   freelog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
        req->name, req->major_version, req->minor_version, req->patch_version);
-  freelog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
+  freelog(LOG_VERBOSE, "Client caps: %s Server Caps: %s", req->capability,
        our_capability);
   strcpy(pconn->capability, req->capability);
   

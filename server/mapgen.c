@@ -538,7 +538,7 @@ void flood_it(int loaded)
 
   starters= 100; oldisles= isles+1; goodisles= isles;
   while( starters>game.nplayers && oldisles>goodisles ){
-    freelog(LOG_DEBUG,"goodisles=%i",goodisles);
+    freelog(LOG_VERBOSE, "goodisles=%i", goodisles);
     oldisles= goodisles;
     maxgood= 1;
     mingood= riches;
@@ -582,50 +582,47 @@ void flood_it(int loaded)
       /* starters are loosers */
       for (x=3;x<isles;x++) {
 	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
-	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
-	    )
-	  { freelog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
+	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)) {
+	  freelog(LOG_VERBOSE, "islands[x].goodies=%i",islands[x].goodies);
 	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
-	  if(!islands[x].starters)
+	  if(!islands[x].starters) {
 	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
-	  starters+= islands[x].starters;
 	  }
+	  starters+= islands[x].starters;
+	}
       }
     }
 
     /* starters are winners */
     for (x=3;x<isles;x++) {
-      if ( islands[x].goodies > (riches+oldisles-1)/oldisles 
-	&&(assert(!islands[x].starters),!islands[x].starters)
-	   )
-	{ freelog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
-	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
-	  if(!islands[x].starters)
-	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
-	  starters+= islands[x].starters;
+      if (islands[x].goodies > (riches+oldisles-1)/oldisles) {
+	assert(!islands[x].starters);
+	freelog(LOG_VERBOSE, "islands[x].goodies=%i", islands[x].goodies);
+	islands[x].starters = (islands[x].goodies+guard1)/mingood; 
+	if(!islands[x].starters) {
+	  islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
 	}
+	starters+= islands[x].starters;
+      }
     }
-
 
     riches= good;
     if(starters<game.nplayers){
-      { 
-	starters= game.nplayers+1;
-	goodisles=oldisles; 
-	oldisles= goodisles+1;
-	riches= (4*riches+3)/3;
-	if(mingood/game.nplayers>5)
-	  guard1+= mingood/game.nplayers;
-	else
-	  guard1+=5;
-
-	freelog(LOG_NORMAL,
-	     "mapgen.c#flood_it, not enough start positions, fixing.");
+      starters= game.nplayers+1;
+      goodisles=oldisles; 
+      oldisles= goodisles+1;
+      riches= (4*riches+3)/3;
+      if(mingood/game.nplayers>5) {
+	guard1+= mingood/game.nplayers;
+      } else {
+	guard1+=5;
       }
+      freelog(LOG_NORMAL,
+	      "mapgen.c#flood_it, not enough start positions, fixing.");
     }
   }
-  freelog(LOG_NORMAL,"The map has %i starting positions on %i isles."
-       ,starters, goodisles);
+  freelog(LOG_NORMAL, "The map has %i starting positions on %i isles.",
+	  starters, goodisles);
 }
 /**************************************************************************
   where do the different races start on the map? well this function tries
@@ -643,14 +640,16 @@ void create_start_positions(void)
   if(dist>= map.ysize/2)
     dist= map.ysize/2;
 
-  { int sum,k;
-  sum=0;
-  for(k=0;k<99;k++){
-    sum+= islands[k].starters;
-    if(islands[k].starters!=0) 
-      freelog(LOG_DEBUG,"starters on isle %i", k);
-  }
-  assert(game.nplayers<=nr+sum);
+  {
+    int sum,k;
+    sum=0;
+    for(k=0;k<99;k++){
+      sum+= islands[k].starters;
+      if(islands[k].starters!=0) {
+	freelog(LOG_VERBOSE, "starters on isle %i", k);
+      }
+    }
+    assert(game.nplayers<=nr+sum);
   }
 
   while (nr<game.nplayers) {
@@ -1179,7 +1178,7 @@ static void makeisland(int islemass, int starters)
     if (i <= 0) return;
     islands[isleindex].starters = starters;
 
-    freelog(LOG_DEBUG,"island %i",isleindex);
+    freelog(LOG_VERBOSE, "island %i",isleindex);
 
     while (!createisland(i--) && i*10>islemass );
     i++;
@@ -1190,7 +1189,7 @@ static void makeisland(int islemass, int starters)
       balance = 0;
     }
 
-    freelog(LOG_DEBUG, "ini=%d, plc=%d, bal=%ld, tot=%ld",
+    freelog(LOG_VERBOSE, "ini=%d, plc=%d, bal=%ld, tot=%ld",
 	    islemass, i, balance, checkmass);
 
     i *= tilefactor;
@@ -1288,8 +1287,9 @@ void mapgenerator2()
   make_plains();  
   free(height_map);
 
-  if(checkmass>map.xsize+map.ysize+totalweight)
-    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+  if(checkmass>map.xsize+map.ysize+totalweight) {
+    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+  }
 }
 
 
@@ -1365,10 +1365,11 @@ void mapgenerator3()
   make_plains();  
   free(height_map);
     
-  if(j==1500)
-    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",checkmass);
-  else if(checkmass>map.xsize+map.ysize+totalweight)
-    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+  if(j==1500) {
+    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.", checkmass);
+  } else if(checkmass>map.xsize+map.ysize+totalweight) {
+    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+  }
 
 }
 
@@ -1427,6 +1428,7 @@ void mapgenerator4()
   make_plains();  
   free(height_map);
 
-  if(checkmass>map.xsize+map.ysize+totalweight)
-    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+  if(checkmass>map.xsize+map.ysize+totalweight) {
+    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+  }
 }

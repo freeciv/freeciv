@@ -139,7 +139,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
         if (can_build_improvement(pcity, i)) {
           want=pcity->ai.building_want[i];
           id=i;
-        } else if(0) {
+        } else {
 	  freelog(LOG_DEBUG, "%s can't build %s", pcity->name,
 		  get_improvement_name(i));
 	}
@@ -147,10 +147,11 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
     }
   }
 
-  if(0) {
-    if (!want) freelog(LOG_DEBUG, "AI_Chosen: None for %s", pcity->name);
-    else freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",
-		 get_improvement_name(id), want, pcity->name);
+  if (want) {
+    freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",
+	    get_improvement_name(id), want, pcity->name);
+  } else {
+    freelog(LOG_DEBUG, "AI_Chosen: None for %s", pcity->name);
   }
   choice->want = want;
   choice->choice = id;

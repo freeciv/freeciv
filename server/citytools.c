@@ -578,7 +578,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
   /* Transfer units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-    freelog(LOG_DEBUG,"Transfered %s in %s from %s to %s", unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
+    freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
+	    unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
     if (verbose) {
       notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
 		    unit_name(vunit->type), vcity->name,
@@ -597,14 +598,14 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* unit is in another city: make that the new homecity */
       
       if (pvictim == city_owner(new_home_city)) {
-	freelog(LOG_DEBUG, "Changed homecity of %s's %s in %s",
+	freelog(LOG_VERBOSE, "Changed homecity of %s's %s in %s",
 	     pvictim->name, unit_name(vunit->type), new_home_city->name);
 	if(verbose) {
 	  notify_player(pvictim, "Game: Changed homecity of %s in %s",
 			unit_name(vunit->type), new_home_city->name);
 	}
       } else {
-	freelog(LOG_DEBUG,"Transfered %s in %s from %s to %s",
+	freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	     unit_name(vunit->type), new_home_city->name,
 	     pvictim->name, city_owner(new_home_city)->name);
 	if (verbose) {
@@ -619,7 +620,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
     }else if(!kill_outside){
       
-      freelog(LOG_DEBUG,"Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
+      freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
+	      unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
       if (verbose) {
 	notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s",
 		      unit_name(vunit->type), x, y,
@@ -806,7 +808,7 @@ int civil_war_triggered(struct player *pplayer)
     prob += city_unhappy(pcity) * 5 - city_celebrating(pcity) * 5;
   city_list_iterate_end;
 
-  freelog(LOG_DEBUG, "Civil war chance for %s: prob %d, dice %d",
+  freelog(LOG_VERBOSE, "Civil war chance for %s: prob %d, dice %d",
 	  pplayer->name, prob, dice);
   
   return(dice < prob);
@@ -862,7 +864,9 @@ void civil_war(struct player *pplayer)
   
   /* Now split the empire */
 
-  freelog(LOG_DEBUG,"%s's nation is thrust into civil war, created AI player %s", pplayer->name, cplayer->name);
+  freelog(LOG_VERBOSE,
+	  "%s's nation is thrust into civil war, created AI player %s",
+	  pplayer->name, cplayer->name);
   notify_player(pplayer, "Game: Your nation is thrust into civil war, %s is declared the leader of the rebel states.", cplayer->name);
 
   i = city_list_size(&pplayer->cities)/2;   /* number to flip */
@@ -874,12 +878,15 @@ void civil_war(struct player *pplayer)
 	/* Transfer city and units supported by this city to the new owner */
       
 	if(!(pnewcity = transfer_city(cplayer,pplayer,pcity))){
-	   freelog(LOG_DEBUG,"Transfer city returned no city - aborting civil war.");
+	   freelog(LOG_VERBOSE,
+		   "Transfer city returned no city - aborting civil war.");
 	   return;
 	}
 	
-	freelog(LOG_DEBUG,"%s declares allegiance to %s",pnewcity->name,cplayer->name);
-	notify_player(pplayer, "Game: %s declares allegiance to %s",pnewcity->name,cplayer->name);
+	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
+		pnewcity->name, cplayer->name);
+	notify_player(pplayer, "Game: %s declares allegiance to %s",
+		      pnewcity->name,cplayer->name);
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
 	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0, 0);
 	remove_city(pcity); /* don't forget this! */

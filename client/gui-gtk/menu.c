@@ -630,7 +630,8 @@ void menus_set_sensitive(char *path, int sensitive)
   GtkWidget *item;
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_DEBUG, "Can't set sensitivity for non existant menu %s.", path);
+    freelog(LOG_VERBOSE,
+	    "Can't set sensitivity for non existant menu %s.", path);
     return;
   }
 
@@ -647,7 +648,7 @@ void menus_set_shown(char *path, int shown)
   GtkWidget *item;
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_DEBUG, "Can't show non existant menu %s.", path);
+    freelog(LOG_VERBOSE, "Can't show non existant menu %s.", path);
     return;
   }
 
@@ -668,7 +669,7 @@ void menus_rename(char *path, char *s)
   GtkWidget *item;
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_DEBUG, "Can't rename non existant menu %s.", path);
+    freelog(LOG_VERBOSE, "Can't rename non existant menu %s.", path);
     return;
   }
 

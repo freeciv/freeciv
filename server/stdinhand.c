@@ -1268,7 +1268,7 @@ void report_server_options(struct player *pplayer, int which)
   }
   i = strlen(buffer);
   assert(i<sizeof(buffer));
-  if(0) freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
+  freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
   page_player(pplayer, title, buffer);
 }
 

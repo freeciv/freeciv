@@ -76,7 +76,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 
   if(pc->first_packet) {
     /* the first packet better be short: */
-    if(0) freelog(LOG_DEBUG, "first packet type %d len %d", type, len);
+    freelog(LOG_DEBUG, "first packet type %d len %d", type, len);
     if(len > 1024) {
       freelog(LOG_NORMAL, "connection from %s detected as old byte order",
 	      pc->addr);
@@ -96,7 +96,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   if(len > pc->buffer.ndata)
     return NULL;           /* not all data has been read */
 
-  if(0) freelog(LOG_DEBUG, "packet type %d len %d", type, len);
+  freelog(LOG_DEBUG, "packet type %d len %d", type, len);
 
   *ptype=type;
 
@@ -1939,7 +1939,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
  
   buffer->ndata+=didget;
   
-  if(0) freelog(LOG_DEBUG, "didget:%d", didget); 
+  freelog(LOG_DEBUG, "didget:%d", didget); 
 
   return didget;
 }
