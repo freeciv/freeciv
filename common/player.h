@@ -250,6 +250,8 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer,
 						     const struct player
 						     *pplayer2);
+bool pplayers_no_contact(const struct player *pplayer,
+                        const struct player *pplayer2);
 bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
 bool pplayers_allied(const struct player *pplayer,
