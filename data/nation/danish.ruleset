@@ -2,8 +2,16 @@
 
 name=_("Danish")
 plural=_("?plural:Danes")
-leader="Valdemar", "Knut", "Margaret"
-leader_sex="Male", "Male", "Female"
+leader=
+  "Gudfred", "Gorm den Gamle", "Harald Blåtand", "Svend Tveskæg",
+  "Knud den Store", "Hardeknud", "Svend", "Knud", "Valdemar",
+  "Valdemar den Store", "Valdemar Sejr", "Erik Klipping",
+  "Valdemar Atterdag", "Margrethe I", "Christian IV"
+leader_sex=
+  "Male", "Male", "Male", "Male",
+  "Male", "Male", "Male", "Male", "Male",
+  "Male", "Male", "Male",
+  "Male", "Female", "Male"
 flag="f.denmark"
 flag_alt = "-"
 city_style = "European"
@@ -22,13 +30,12 @@ wonder="Magellan's Expedition"
 government="Democracy"
 
 cities =
-   "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
+  "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
   "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
   "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
   "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
   "Løgstør", "Thyborøn", "Skive", "Hadsund", "Ålestrup", "Grenå",
   "Struer", "Herning", "Silkeborg", "Yding", "Skovhøj", "Give", "Tarm",
   "Varde", "Assens", "Nyborg", "Fåborg", "Korsør", "Næstved", "Vordingborg",
-  "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø"
-
-
+  "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø",
+  "Fredericia", "Godthåb", "Julianehåb", "Daneborg"
