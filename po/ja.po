@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.5-devel\n"
 "POT-Creation-Date: 2000-10-13 03:14+0900\n"
-"PO-Revision-Date: 2000-08-16 07:57+09:00\n"
+"PO-Revision-Date: 2000-10-21 03:19+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -1315,11 +1315,11 @@ msgstr "00ËüÉÊ"
 
 #: server/report.c:827 server/report.c:843
 msgid " months"
-msgstr ""
+msgstr "·î"
 
 #: server/report.c:852 server/report.c:867
 msgid " tons"
-msgstr ""
+msgstr "¥È¥ó"
 
 #: server/report.c:890
 msgid "Population"
@@ -1604,7 +1604,7 @@ msgstr ""
 
 #: server/srv_main.c:1225
 msgid "Game: Sorry, there are no nations left."
-msgstr "»ÄÇ°¤Ç¤¹¤¬Í·¤Ù¤Ş¤»¤ó¡£¤â¤¦¹ñ¤¬»Ä¤Ã¤Æ¤¤¤Ş¤»¤ó¡£"
+msgstr "»ÄÇ°¤Ç¤¹¤¬Í·¤Ù¤Ş¤»¤ó¡£¤â¤¦¹ñ¤¬¤¢¤ê¤Ş¤»¤ó¡£"
 
 #: server/srv_main.c:1280
 #, c-format
@@ -2640,15 +2640,14 @@ msgstr ""
 "¥³¥Ş¥ó¥É¥ì¥Ù¥ë¤Ï¡¢¥¯¥é¥¤¥¢¥ó¥È¤¬ÀÚÃÇ¤·¤¿»ş¤Ë¤ÏÊİ¤¿¤ì¤Ş¤»¤ó¡£¿®ÍÑ¤Ç¤­¤Ê¤¤¿Í¤¬Æ±¤¸Ì¾Á°¤ÇºÆÀÜÂ³¤Ç¤­¤ë¤«¤é¤Ç¤¹¡£ºÇ½é¤ËÀÜÂ³¤·¤¿¥¯¥é¥¤¥¢¥ó¥È¤¬ÀÚÃÇ¤·¤¿¤é¡¢¼¡¤ËÀÜÂ³¤·¤¿¥¯¥é¥¤¥¢¥ó¥È¤¬ 'first' ¾õÂÖ¤òÍ¿¤¨¤é¤ì¤Ş¤¹¡£¤³¤Î¥³¥Ş¥ó¥É¤Ïº£¤Ç¤Ï°ú¿ô¤È¤·¤Æ¥×¥ì¥¤¥ä¡¼Ì¾¤Ç¤Ï¤Ê¤¯ÀÜÂ³Ì¾¤ò¼è¤ë¤³¤È¤ËÃí°Õ¤·¤Æ²¼¤µ¤¤¡£"
 
 #: server/stdinhand.c:1033
-#, fuzzy
 msgid "Grab the 'first come' command access level."
-msgstr "½é²óÀÜÂ³¤Î¥³¥Ş¥ó¥É¥ì¥Ù¥ë¤ò '%s' ¤ËÀßÄê¤·¤Ş¤·¤¿¡£"
+msgstr "'first come' ¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë¤òÆÀ¤ë¡£"
 
 #: server/stdinhand.c:1034
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
-msgstr ""
+msgstr "ÆÃÊÌ¤Ê 'first come' ¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë¤ÎÀßÄê¤Î¤¿¤á 'cmdlevel first come' ¤ò»È¤Ã¤Æ¤¤¤¿¤é¡¢¤³¤Î¥³¥Ş¥ó¥É¤Ç¤½¤Î¸¢Íø¤òÆÀ¤Ş¤¹¡£ "
 
 #: server/stdinhand.c:1041
 msgid "End the game."
@@ -2975,7 +2974,7 @@ msgstr "ÀÜÂ³ %2$s ¤Î¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë¤ò '%1$s' ¤ËÀßÄê¤·¤Ş¤·¤¿¡£"
 #: server/stdinhand.c:1880
 #, c-format
 msgid "Game: You now have access level '%s'."
-msgstr "Game: ¤¢¤Ê¤¿¤ÎÍøÍÑ¸¢¤Ï '%s' ¤Ë¤Ê¤ê¤Ş¤·¤¿¡£"
+msgstr "Game: ¤¢¤Ê¤¿¤ÎÍøÍÑ¥ì¥Ù¥ë¤Ï '%s' ¤Ë¤Ê¤ê¤Ş¤·¤¿¡£"
 
 #: server/stdinhand.c:1928
 #, c-format
@@ -2983,9 +2982,8 @@ msgid "Game: Anyone can assume command access level '%s' now by issuing the 'fir
 msgstr ""
 
 #: server/stdinhand.c:1959
-#, fuzzy
 msgid "Command access levels in effect:"
-msgstr "¸½ºß¤Î¥³¥Ş¥ó¥É¥ì¥Ù¥ë:"
+msgstr "¸½ºß¤Î¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë:"
 
 #: server/stdinhand.c:1967
 #, fuzzy, c-format
@@ -3057,9 +3055,9 @@ msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "¥µ¡¼¥Ğ¤Î¥³¥Ş¥ó¥É¹Ô¤Ç¤Ï 'firstlevel' ¥³¥Ş¥ó¥É¤òÍøÍÑ¤¹¤ë°ÕÌ£¤¬¤¢¤ê¤Ş¤»¤ó¡£"
 
 #: server/stdinhand.c:2087
-#, fuzzy, c-format
+#, c-format
 msgid "You already have command access level '%s' or better."
-msgstr "Game: ¤¢¤Ê¤¿¤ÎÍøÍÑ¸¢¤Ï '%s' ¤Ë¤Ê¤ê¤Ş¤·¤¿¡£"
+msgstr "´û¤Ë¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë¤Ï '%s' °Ê¾å¤Ç¤¹¡£"
 
 #: server/stdinhand.c:2091
 #, c-format
@@ -3257,7 +3255,7 @@ msgid "Cannot end the game: no game running."
 msgstr "¥²¡¼¥à¤ò½ªÎ»¤Ç¤­¤Ş¤»¤ó: ¥²¡¼¥à¤Ï»Ï¤Ş¤Ã¤Æ¤¤¤Ş¤»¤ó¡£"
 
 #: server/stdinhand.c:2776
-#, fuzzy, c-format
+#, c-format
 msgid "Cutting connection %s."
 msgstr "%s¤È¤ÎÀÜÂ³¤òÀÚ¤ê¤Ş¤·¤¿¡£"
 
@@ -3372,7 +3370,7 @@ msgstr ", Æñ°×ÅÙ¥ì¥Ù¥ë %s"
 #: server/stdinhand.c:3094
 #, c-format
 msgid ", nation %s"
-msgstr ", ¹ñ %s"
+msgstr ", Ì±Â² %s"
 
 #: server/stdinhand.c:3101
 msgid " 1 connection:"
@@ -3384,9 +3382,9 @@ msgid " %d connections:"
 msgstr " %dÀÜÂ³:"
 
 #: server/stdinhand.c:3109
-#, fuzzy, c-format
+#, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr " %2$s¤«¤é¤Î%1$s (¥³¥Ş¥ó¥É¥ì¥Ù¥ë %3$s)"
+msgstr "  %s (%s ¤«¤é, ¥³¥Ş¥ó¥ÉÍøÍÑ¥ì¥Ù¥ë %s), bufsize=%dkb"
 
 #: server/stdinhand.c:3114
 msgid " (observer mode)"
@@ -3779,14 +3777,14 @@ msgid "Game: %s discovered %s in the city."
 msgstr ""
 
 #: server/unitfunc.c:2800
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost when %s was lost."
-msgstr "Game: %3$s¤ò¼º¤Ã¤¿»ş¤Ë%2$s¤ò¼º¤Ê¤¤¤Ş¤·¤¿¡£%1$s"
+msgstr "Game: %2$s¤ò¼º¤Ã¤¿»ş¤Ë%1$s¤ò¼º¤Ê¤¤¤Ş¤·¤¿¡£"
 
 #: server/unitfunc.c:2852
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
-msgstr ""
+msgstr "Game: ¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤Î»ØÆ³¼Ô¤¬Âª¤¨¤é¤ì¡¢¶â%d¤¬»ÙÊ§¤ï¤ì¤Ş¤·¤¿¡£"
 
 #: server/unitfunc.c:2872
 #, fuzzy, c-format
@@ -3809,9 +3807,9 @@ msgid " at %s"
 msgstr "%2$s¤ÎÃæ¤Ë¤¤¤ë%1$s"
 
 #: server/unitfunc.c:3005
-#, fuzzy, c-format
+#, c-format
 msgid " in %s"
-msgstr "%2$s¤Î%1$s"
+msgstr "%s¤Î"
 
 #: server/unitfunc.c:3012
 #, fuzzy, c-format
@@ -3862,9 +3860,9 @@ msgid "Game: %s unit has no moves left to add to %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ç¼£¤á¤ë¤è¤¦¤Ë¤Ê¤ê¤Ş¤·¤¿¡£"
 
 #: server/unithand.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s unit has no moves left to build city."
-msgstr "Game: %s¤Ç%s¤ò·ú¤Æ½ª¤ï¤ê¤Ş¤·¤¿¡£"
+msgstr "Game: %s ÉôÂâ¤ÏÅÔ»Ô¤ò·ú¤Æ¤ë¤Î¤Ë½½Ê¬¤Ê°ÜÆ°ÎÏ¤¬»Ä¤Ã¤Æ¤¤¤Ş¤»¤ó¡£"
 
 #: server/unithand.c:404
 #, c-format
@@ -4420,9 +4418,9 @@ msgid "Allows a city to grow larger than size %d.  "
 msgstr "ÅÔ»Ô¤ò %d ¤è¤êÂç¤­¤¯¤Ç¤­¤ë¤è¤¦¤Ë¤·¤Ş¤¹¡£"
 
 #: client/helpdata.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "(The %s improvement is also required for a city to grow larger than size %d.)  "
-msgstr "ÅÔ»Ô¤ò %d ¤è¤êÂç¤­¤¯¤Ç¤­¤ë¤è¤¦¤Ë¤·¤Ş¤¹¡£"
+msgstr "(ÅÔ»Ô¤ò %2$d ¤è¤êÂç¤­¤¯¤¹¤ë¤Ë¤Ï¡¢¤µ¤é¤Ë %1$s ·úÂ¤Êª¤¬É¬Í×¤Ç¤¹¡£)"
 
 #: client/helpdata.c:530
 #, c-format
@@ -4667,68 +4665,56 @@ msgid "Solid unit background color"
 msgstr "Ã±°ì¤ÎÉôÂâÇØ·Ê¿§           "
 
 #: client/options.c:57
-#, fuzzy
 msgid "Sound bell at new turn"
-msgstr "¿·¤·¤¤¥¿¡¼¥ó¤Ë¥Ù¥ë¤òÌÄ¤é¤¹ "
+msgstr "¿·¤·¤¤¥¿¡¼¥ó¤Ë¥Ù¥ë¤òÌÄ¤é¤¹"
 
 #: client/options.c:58
-#, fuzzy
 msgid "Smooth unit moves"
-msgstr "¤Ê¤á¤é¤«¤ÊÉôÂâ°ÜÆ°         "
+msgstr "¤Ê¤á¤é¤«¤ÊÉôÂâ°ÜÆ°"
 
 #: client/options.c:59
-#, fuzzy
 msgid "Smooth unit move steps"
-msgstr "¤Ê¤á¤é¤«¤ÊÉôÂâ°ÜÆ°¤ÎÄøÅÙ   "
+msgstr "¤Ê¤á¤é¤«¤ÊÉôÂâ°ÜÆ°¤ÎÄøÅÙ"
 
 #: client/options.c:60
-#, fuzzy
 msgid "Show combat animation"
-msgstr "ÀïÆ®¥¢¥Ë¥á¤òÉ½¼¨           "
+msgstr "ÀïÆ®¥¢¥Ë¥á¤òÉ½¼¨"
 
 #: client/options.c:61
-#, fuzzy
 msgid "Popup dialogs in AI Mode"
 msgstr "AI ¥â¡¼¥É¤Ç¥À¥¤¥¢¥í¥°¤ò¥İ¥Ã¥×¥¢¥Ã¥×"
 
 #: client/options.c:62
 msgid "Manual Turn Done in AI Mode"
-msgstr "AI¥â¡¼¥É¤Ç¤Î¼êÆ°¥¿¡¼¥ó½ªÎ» "
+msgstr "AI ¥â¡¼¥É¤Ç¤Î¼êÆ°¥¿¡¼¥ó½ªÎ»"
 
 #: client/options.c:63
-#, fuzzy
 msgid "Auto Center on Units"
-msgstr "ÉôÂâ¤ò¼«Æ°Åª¤ËÃæ¿´¤Ø       "
+msgstr "ÉôÂâ¤ò¼«Æ°Åª¤ËÃæ¿´¤Ø"
 
 #: client/options.c:64
-#, fuzzy
 msgid "Auto Center on Combat"
-msgstr "ÀïÆ®¤ò¼«Æ°Åª¤ËÃæ¿´¤Ø       "
+msgstr "ÀïÆ®¤ò¼«Æ°Åª¤ËÃæ¿´¤Ø"
 
 #: client/options.c:65
-#, fuzzy
 msgid "Focus on Awakened Units"
-msgstr "µ¯¤³¤µ¤ì¤¿ÉôÂâ¤Ë¥Õ¥©¡¼¥«¥¹ "
+msgstr "µ¯¤³¤µ¤ì¤¿ÉôÂâ¤Ë¥Õ¥©¡¼¥«¥¹"
 
 #: client/options.c:66
-#, fuzzy
 msgid "Draw Diagonal Roads/Rails"
-msgstr "ÂĞ³ÑÀş¤ÎÆ»Ï©/Å´Æ»¤òÉÁ¤¯    "
+msgstr "ÂĞ³ÑÀş¤ÎÆ»Ï©/Å´Æ»¤òÉÁ¤¯"
 
 #: client/options.c:67
-#, fuzzy
 msgid "Center map when Popup city"
-msgstr "ÅÔ»Ô¤ò³«¤¯»şÃÏ¿Ş¤ÎÃæ¿´¤Ø   "
+msgstr "ÅÔ»Ô¤ò³«¤¯»şÃÏ¿Ş¤ÎÃæ¿´¤Ø"
 
 #: client/options.c:68
-#, fuzzy
 msgid "Concise City Production"
-msgstr "´Ê·é¤ÊÅÔ»Ô¤ÎÀ½ºîÊª         "
+msgstr "´Ê·é¤ÊÅÔ»ÔÀ½ºîÊª"
 
 #: client/options.c:69
-#, fuzzy
 msgid "End Turn when done moving"
-msgstr "°ÜÆ°¤ò½ª¤¨¤¿»ş¥¿¡¼¥ó¤ò½ªÎ» "
+msgstr "°ÜÆ°¤ò½ª¤¨¤¿»ş¥¿¡¼¥ó¤ò½ªÎ»"
 
 #: client/options.c:95
 msgid "Low Funds"
@@ -4912,31 +4898,30 @@ msgid "City May Soon Grow"
 msgstr "ÅÔ»Ô¤Î³ÈÂç´Ö¶á           "
 
 #: client/options.c:135
-#, fuzzy
 msgid "Wonder Made Obsolete"
-msgstr "¸Å¤¤¤â¤Î¤òÇä¤ë"
+msgstr "¸Å¤¯¤Ê¤Ã¤¿ÉÔ»×µÄ"
 
 #: client/options.c:199
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "¥Û¡¼¥à¥Ç¥£¥ì¥¯¥È¥ê¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¡£"
 
 #: client/options.c:230
 #, c-format
 msgid "Settings file is %s"
-msgstr ""
+msgstr "ÀßÄê¥Õ¥¡¥¤¥ë¤Ï %s ¤Ç¤¹"
 
 #: client/options.c:233
 #, c-format
 msgid "Cannot write to file %s"
-msgstr ""
+msgstr "¥Õ¥¡¥¤¥ë %s ¤Ø½ñ¤­¹ş¤á¤Ş¤»¤ó"
 
 #: client/options.c:298
 msgid "Cannot save settings."
-msgstr ""
+msgstr "ÀßÄê¤òÊİÂ¸¤Ç¤­¤Ş¤»¤ó¡£"
 
 #: client/options.c:324
 msgid "Saved settings."
-msgstr ""
+msgstr "ÀßÄê¤òÊİÂ¸¤·¤Ş¤·¤¿¡£"
 
 #: client/packhand.c:126
 #, c-format
@@ -5058,7 +5043,7 @@ msgstr "ÀßÄê(_F)"
 
 #: client/gui-gtk/citydlg.c:907 client/gui-gtk/citydlg.c:1316 data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
-msgstr ""
+msgstr "ÉôÂâ¥³¥Ş¥ó¥É"
 
 #: client/gui-gtk/citydlg.c:909 client/gui-gtk/citydlg.c:1318
 msgid "_Activate unit"
@@ -5353,19 +5338,19 @@ msgstr "¼è¤ê¾Ã¤·"
 
 #: client/gui-gtk/cityrep.c:347
 msgid "No Buildings Available"
-msgstr ""
+msgstr "·úÊª¤Ê¤·"
 
 #: client/gui-gtk/cityrep.c:356
 msgid "No Wonders Available"
-msgstr ""
+msgstr "ÉÔ»×µÄ¤Ê¤·"
 
 #: client/gui-gtk/cityrep.c:369
 msgid "No Units Available"
-msgstr ""
+msgstr "ÉôÂâ¤Ê¤·"
 
 #: client/gui-gtk/cityrep.c:429 client/gui-gtk/cityrep.c:431 client/gui-gtk/cityrep.c:1135 client/gui-gtk/diplodlg.c:378 client/gui-gtk/diplodlg.c:390 client/gui-mui/diplodlg.c:488 client/gui-mui/diplodlg.c:523 client/gui-mui/diplodlg.c:604 client/gui-mui/diplodlg.c:614 client/gui-xaw/cityrep.c:218 client/gui-xaw/cityrep.c:575 client/gui-xaw/menu.c:187 data/Freeciv:368 data/Freeciv:377 data/Freeciv:1508
 msgid "Cities"
-msgstr ""
+msgstr "ÅÔ»Ô"
 
 #: client/gui-gtk/cityrep.c:467 client/gui-mui/cityrep.c:400
 msgid "Cen_ter"
@@ -5433,28 +5418,28 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:816
 msgid "Game: That's the same thing!"
-msgstr ""
+msgstr "Game: Æ±¤¸À¸»ºÊª¤Ç¤¹¡£"
 
 #: client/gui-gtk/cityrep.c:820 client/gui-xaw/cityrep.c:1085
 #, c-format
 msgid "Game: Changing production of every %s into %s."
-msgstr ""
+msgstr "Game: Á´ %s ¤ò %s ¤ØÊÑ¹¹¤·¤Ş¤¹¡£"
 
 #: client/gui-gtk/cityrep.c:844 data/Freeciv:1691
 msgid "From:"
-msgstr ""
+msgstr "ÊÑ¹¹Á°:"
 
 #: client/gui-gtk/cityrep.c:845 data/Freeciv:1701
 msgid "To:"
-msgstr ""
+msgstr "ÊÑ¹¹¸å:"
 
 #: client/gui-gtk/cityrep.c:869 data/Freeciv:1685
 msgid "Change Production Everywhere"
-msgstr ""
+msgstr "À¸»º¤ÎÊÑ¹¹"
 
 #: client/gui-gtk/cityrep.c:985 data/Freeciv:1381 data/Freeciv:1583 data/Freeciv:1737 data/Freeciv:2026 data/Freeciv:2969
 msgid "Change"
-msgstr ""
+msgstr "ÊÑ¹¹"
 
 #: client/gui-gtk/cityrep.c:1038 client/gui-mui/cityrep.c:197 client/gui-xaw/cityrep.c:445
 #, c-format
@@ -5463,7 +5448,7 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:1268 data/Freeciv:1666
 msgid "Configure Cities Report"
-msgstr ""
+msgstr "ÅÔ»ÔÊó¹ğ¤ÎÀßÄê"
 
 #: client/gui-gtk/cityrep.c:1271 client/gui-mui/cityrep.c:306 data/Freeciv:1671
 msgid "Set columns shown"
@@ -5741,19 +5726,19 @@ msgstr "ÉôÂâ¤Î¹ÔÆ°¤òÁªÂò"
 
 #: client/gui-gtk/dialogs.c:1720
 msgid "Unit selection"
-msgstr ""
+msgstr "ÉôÂâ¤ÎÁªÂò"
 
 #: client/gui-gtk/dialogs.c:1781 data/Freeciv:534
 msgid "Ready all"
-msgstr ""
+msgstr "Á´½àÈ÷"
 
 #: client/gui-gtk/dialogs.c:1910
 msgid " What Nation Will You Be?"
-msgstr " ¤¢¤Ê¤¿¤Î¹ñ¤Ï?"
+msgstr " ¤¢¤Ê¤¿¤ÎÌ±Â²¤Ï?"
 
 #: client/gui-gtk/dialogs.c:1912
 msgid "Select nation and name"
-msgstr "¹ñ²È¤ÈÌ¾Á°¤ÎÁªÂò"
+msgstr "Ì±Â²¤ÈÌ¾Á°¤ÎÁªÂò"
 
 #: client/gui-gtk/dialogs.c:1950
 msgid "Select your sex"
@@ -5777,7 +5762,7 @@ msgstr "ÀÚÃÇ"
 
 #: client/gui-gtk/dialogs.c:2198 client/gui-xaw/dialogs.c:2323
 msgid "You must select a nation."
-msgstr "¹ñ²È¤òÁªÂò¤·¤Æ²¼¤µ¤¤¡£"
+msgstr "Ì±Â²¤òÁªÂò¤·¤Æ²¼¤µ¤¤¡£"
 
 #: client/gui-gtk/dialogs.c:2203 client/gui-xaw/dialogs.c:2328
 msgid "You must select your sex."
@@ -5874,11 +5859,11 @@ msgstr "ÅÔ»Ô¤òÁªÂò:"
 
 #: client/gui-gtk/finddlg.c:94 data/Freeciv:1089 data/Freeciv:1559
 msgid "Center"
-msgstr ""
+msgstr "Ãæ¿´¤Ø"
 
 #: client/gui-gtk/gamedlgs.c:241
 msgid "Select tax, luxury and science rates"
-msgstr ""
+msgstr "ÀÇ¡¢ìÔÂô¡¢²Ê³Ø¤Î³ä¹ç"
 
 #: client/gui-gtk/gamedlgs.c:263 client/gui-gtk/gamedlgs.c:283 client/gui-gtk/gamedlgs.c:303 data/Freeciv:1305 data/Freeciv:1323 data/Freeciv:1342
 msgid "Lock"
@@ -5890,7 +5875,7 @@ msgstr "%s ºÇÂç: %d%%"
 
 #: client/gui-gtk/gamedlgs.c:418 client/gui-mui/gamedlgs.c:321 data/Freeciv:1229
 msgid "Set local options"
-msgstr ""
+msgstr "¥í¡¼¥«¥ë¡¦¥ª¥×¥·¥ç¥óÀßÄê"
 
 #: client/gui-gtk/gotodlg.c:91 client/gui-mui/gotodlg.c:167 data/Freeciv:1108
 msgid "Goto/Airlift Unit"
@@ -6628,9 +6613,8 @@ msgid "Game: "
 msgstr "Game: "
 
 #: client/gui-gtk/plrdlg.c:106 client/gui-mui/plrdlg.c:181
-#, fuzzy
 msgid "Nation"
-msgstr "¹Ò³¤½Ñ"
+msgstr "Ì±Â²"
 
 #: client/gui-gtk/plrdlg.c:106 client/gui-mui/plrdlg.c:182
 msgid "Embassy"
@@ -6641,9 +6625,8 @@ msgid "Dipl.State"
 msgstr "³°¸ò¾õÂÖ"
 
 #: client/gui-gtk/plrdlg.c:107 client/gui-mui/plrdlg.c:184
-#, fuzzy
 msgid "Vision"
-msgstr "»ë³¦:"
+msgstr "»ë³¦"
 
 #: client/gui-gtk/plrdlg.c:108 client/gui-mui/plrdlg.c:185
 msgid "Reputation"
@@ -6797,7 +6780,7 @@ msgstr ""
 
 #: client/gui-gtk/repodlgs.c:836 client/gui-mui/repodlgs.c:766
 msgid "Shield"
-msgstr ""
+msgstr "¥·¡¼¥ë¥É"
 
 #: client/gui-gtk/repodlgs.c:848 client/gui-gtk/repodlgs.c:850 client/gui-gtk/repodlgs.c:1020 client/gui-xaw/menu.c:188 client/gui-xaw/menu.c:207 client/gui-xaw/repodlgs.c:910 client/gui-xaw/repodlgs.c:1103 data/Freeciv:1838 data/helpdata.txt:727
 msgid "Units"
@@ -6931,15 +6914,13 @@ msgstr ""
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:468 client/gui-mui/worklistclass.c:193
-#, fuzzy
 msgid "u8Unitsn"
-msgstr "ÉôÂâ"
+msgstr "u8ÉôÂân"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:475 client/gui-mui/worklistclass.c:201
-#, fuzzy
 msgid "u8Improvementsn"
-msgstr "·úÂ¤Êª"
+msgstr "u8·úÂ¤Êªn"
 
 #: client/gui-mui/citydlg.c:549
 #, fuzzy
@@ -6947,9 +6928,8 @@ msgid "Rounds"
 msgstr "ÉÔ»×µÄ"
 
 #: client/gui-mui/citydlg.c:577
-#, fuzzy
 msgid "Upkeep"
-msgstr "°İ»ı:"
+msgstr "°İ»ı"
 
 #: client/gui-mui/citydlg.c:700 client/gui-mui/citydlg.c:705
 #, fuzzy, c-format
@@ -6966,28 +6946,24 @@ msgstr ""
 "¹ç·×   %d ¸ò°×/Ç¯\n"
 
 #: client/gui-mui/citydlg.c:717
-#, fuzzy
 msgid "_Done"
-msgstr "½ªÎ»"
+msgstr "½ªÎ»(_D)"
 
 #: client/gui-mui/citydlg.c:951 client/gui-mui/dialogs.c:1896 client/gui-mui/dialogs.c:1920
-#, fuzzy
 msgid "_Darn"
-msgstr "¤¬¤Ã¤«¤ê"
+msgstr "¤¬¤Ã¤«¤ê(_D)"
 
 #: client/gui-mui/citydlg.c:1131
-#, fuzzy
 msgid "Freeciv - Cityproduction"
-msgstr "ÅÔ»Ô¤ÎÀ½ºîÊª"
+msgstr "Freeciv - ÅÔ»Ô¤ÎÀ½ºîÊª"
 
 #: client/gui-mui/citydlg.c:1144 client/gui-mui/citydlg.c:1318 client/gui-mui/cityrep.c:403
-#, fuzzy
 msgid "Chan_ge"
-msgstr "ÊÑ¹¹(_C)"
+msgstr "ÊÑ¹¹(_G)"
 
 #: client/gui-mui/citydlg.c:1249
 msgid "Freeciv - Cityview"
-msgstr ""
+msgstr "Freeciv - ÅÔ»Ô¥Ó¥å¡¼"
 
 #: client/gui-mui/citydlg.c:1273
 #, fuzzy
@@ -6995,57 +6971,48 @@ msgid "City Output"
 msgstr "ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
 
 #: client/gui-mui/citydlg.c:1275
-#, fuzzy
 msgid "Food:"
-msgstr "¿©ÎÁ"
+msgstr "¿©ÎÁ:"
 
 #: client/gui-mui/citydlg.c:1277
 msgid "Shields:"
-msgstr ""
+msgstr "¥·¡¼¥ë¥É:"
 
 #: client/gui-mui/citydlg.c:1279
-#, fuzzy
 msgid "Trade:"
-msgstr "¸ò°×"
+msgstr "¸ò°×:"
 
 #: client/gui-mui/citydlg.c:1281
-#, fuzzy
 msgid "Gold:"
-msgstr "¶â"
+msgstr "¶â:"
 
 #: client/gui-mui/citydlg.c:1283 client/gui-mui/gamedlgs.c:224
-#, fuzzy
 msgid "Luxury:"
-msgstr "ìÔÂô"
+msgstr "ìÔÂô:"
 
 #: client/gui-mui/citydlg.c:1285 client/gui-mui/gamedlgs.c:231
-#, fuzzy
 msgid "Science:"
-msgstr "²Ê³Ø"
+msgstr "²Ê³Ø:"
 
 #: client/gui-mui/citydlg.c:1287
-#, fuzzy
 msgid "Granary:"
-msgstr "¹òÊª¸Ë"
+msgstr "¹òÊª¸Ë:"
 
 #: client/gui-mui/citydlg.c:1289
-#, fuzzy
 msgid "Pollution:"
-msgstr "¸ø³²"
+msgstr "¸ø³²:"
 
 #: client/gui-mui/citydlg.c:1295
-#, fuzzy
 msgid "Citymap"
-msgstr "ÅÔ»ÔÌ¾"
+msgstr "ÅÔ»ÔÃÏ¿Ş"
 
 #: client/gui-mui/citydlg.c:1300 data/helpdata.txt:688
 msgid "City Improvements"
 msgstr "ÅÔ»Ô·úÂ¤Êª"
 
 #: client/gui-mui/citydlg.c:1363
-#, fuzzy
 msgid "Freeciv - Cityoptions"
-msgstr "ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
+msgstr "Freeciv - ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
 
 #: client/gui-mui/citydlg.c:1369 client/gui-mui/citydlg.c:1370
 #, fuzzy
@@ -7053,34 +7020,28 @@ msgid "_New specialists are"
 msgstr "¿·¤·¤¤»ÔÌ±¤Ï"
 
 #: client/gui-mui/citydlg.c:1372 client/gui-mui/citydlg.c:1373
-#, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr "Âç¤­¤µ1¤Î»şºî¤Ã¤¿³«Âó¼Ô¤Ï²ò»¶"
+msgstr "Âç¤­¤µ1¤Î»şºî¤Ã¤¿³«Âó¼Ô¤Ï²ò»¶(_D)"
 
 #: client/gui-mui/citydlg.c:1375 client/gui-mui/citydlg.c:1376
-#, fuzzy
 msgid "Auto-attack vs _land units"
-msgstr "ÃÏ¾åÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â"
+msgstr "ÃÏ¾åÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â(_L)"
 
 #: client/gui-mui/citydlg.c:1378 client/gui-mui/citydlg.c:1379
-#, fuzzy
 msgid "Auto-attack vs _sea units"
-msgstr "³¤¾åÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â"
+msgstr "³¤¾åÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â(_S)"
 
 #: client/gui-mui/citydlg.c:1381 client/gui-mui/citydlg.c:1382
-#, fuzzy
 msgid "Auto-attack vs _air units"
-msgstr "¶õ·³ÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â"
+msgstr "¶õ·³ÉôÂâ¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â(_A)"
 
 #: client/gui-mui/citydlg.c:1384 client/gui-mui/citydlg.c:1385
-#, fuzzy
 msgid "Auto-attack vs _helicopters"
-msgstr "¥Ø¥ê¥³¥×¥¿¡¼¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â"
+msgstr "¥Ø¥ê¥³¥×¥¿¡¼¤ËÂĞ¤·¤Æ¼«Æ°¹¶·â(_H)"
 
 #: client/gui-mui/citydlg.c:1390 client/gui-mui/cityrep.c:315 client/gui-mui/dialogs.c:1788 client/gui-mui/finddlg.c:112 client/gui-mui/gamedlgs.c:240 client/gui-mui/gamedlgs.c:329 client/gui-mui/gotodlg.c:177 client/gui-mui/inputdlg.c:83 client/gui-mui/messagedlg.c:89 client/gui-mui/wldlg.c:259 client/gui-mui/worklistclass.c:672
-#, fuzzy
 msgid "_Ok"
-msgstr "Î»²ò"
+msgstr "Î»²ò(_O)"
 
 #: client/gui-mui/citydlg.c:1520
 #, fuzzy, c-format
@@ -7094,7 +7055,7 @@ msgstr "%s - %s »ÔÌ±"
 
 #: client/gui-mui/cityrep.c:303
 msgid "Configure City Report"
-msgstr ""
+msgstr "ÅÔ»ÔÊó¹ğ¤ÎÀßÄê"
 
 #: client/gui-mui/cityrep.c:384 client/gui-mui/cityrep.c:412
 msgid "City Report"
@@ -7214,19 +7175,17 @@ msgid "Freeciv - Select an unit"
 msgstr "Freeciv ¥µ¡¼¥ĞÁªÂò"
 
 #: client/gui-mui/dialogs.c:1494
-#, fuzzy
 msgid "_Ready All"
-msgstr "Á´¤Æ¹­¤²¤ë"
+msgstr "Á´½àÈ÷(_R)"
 
 #: client/gui-mui/dialogs.c:1743
-#, fuzzy
 msgid "Freeciv - Select a Nation"
-msgstr "Freeciv ¥µ¡¼¥ĞÁªÂò"
+msgstr "Freeciv - Ì±Â²ÁªÂò"
 
 #: client/gui-mui/dialogs.c:1766
 #, fuzzy
 msgid "_Leader Name"
-msgstr "¥µ¡¼¥ĞÌ¾"
+msgstr "_»ØÆ³¼ÔÌ¾"
 
 #: client/gui-mui/dialogs.c:1781 client/gui-mui/dialogs.c:1782
 #, fuzzy
@@ -7564,43 +7523,42 @@ msgid "Defense: %ld.%ld"
 msgstr "ËÉ¸æÎÏ:"
 
 #: client/gui-mui/helpdlg.c:870 client/gui-mui/helpdlg.c:884 client/gui-mui/helpdlg.c:900
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
 "Trade:  %d"
 msgstr ""
-"¿©ÎÁ:  %3d (%+-4d)\n"
-"À¸»º:  %3d (%+-4d)\n"
-"¾¦¶È:  %3d (%+-4d)"
+"¿©ÎÁ:     %3d\n"
+"¥·¡¼¥ë¥É: %3d\n"
+"¸ò°×:     %3d"
 
 #: client/gui-mui/mapclass.c:194
 msgid "Could not get the mask although there must be one! Graphics may look corrupt.\n"
 msgstr ""
 
 #: client/gui-mui/mapclass.c:2140
-#, fuzzy, c-format
+#, c-format
 msgid "City %s"
-msgstr "ÅÔ»Ô: %s(%s)"
+msgstr "ÅÔ»Ô %s"
 
 #: client/gui-mui/mapclass.c:2142
-#, fuzzy, c-format
+#, c-format
 msgid "Unit %s"
-msgstr "ÉôÂâ"
+msgstr "ÉôÂâ %s"
 
 #: client/gui-mui/mapclass.c:2144
-#, fuzzy, c-format
+#, c-format
 msgid "Tile %s"
-msgstr "¥Õ¥¡¥¤¥ë: \"%s\""
+msgstr "¥¿¥¤¥ë %s"
 
 #: client/gui-mui/mapclass.c:2157 data/Freeciv:3213
 msgid "Popup City"
 msgstr "ÅÔ»Ô¤ò¥İ¥Ã¥×¥¢¥Ã¥×"
 
 #: client/gui-mui/mapclass.c:2203
-#, fuzzy
 msgid "Wake up"
-msgstr "Â¾¤òµ¯¤³¤¹"
+msgstr "µ¯¤³¤¹"
 
 #: client/gui-mui/mapclass.c:2205 client/gui-mui/mapclass.c:3339 client/gui-mui/mapclass.c:3488
 #, fuzzy
@@ -8246,9 +8204,8 @@ msgid "Investigate City"
 msgstr ""
 
 #: data/Freeciv:2216
-#, fuzzy
 msgid "Sabotage City"
-msgstr "ÅÔ»Ô¤òÇË²õ¤¹¤ë(_S)"
+msgstr "ÅÔ»Ô¤òÇË²õ¤¹¤ë"
 
 #: data/Freeciv:2221 data/Freeciv:2254
 msgid "Incite a Revolt"
@@ -8332,12 +8289,11 @@ msgstr ""
 
 #: data/Freeciv:3069
 msgid " Ok "
-msgstr ""
+msgstr "Î»²ò"
 
 #: data/Freeciv:3102
-#, fuzzy
 msgid "Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host"
-msgstr "Ì¾Á°             ¿Í¼ï         Âç»È´Û   ³°¸ò¾õÂÖ        É¾È½          ¾õÂÖ     ¥Û¥¹¥È"
+msgstr "Ì¾Á°             ¿Í¼ï         Âç»È´Û   ³°¸ò¾õÂÖ        »ë³¦     É¾È½          ¾õÂÖ     ¥Û¥¹¥È"
 
 #: data/Freeciv:3122
 msgid "Intelligence"
@@ -8929,13 +8885,12 @@ msgid "Zones of Control"
 msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë"
 
 #: data/helpdata.txt:969
-#, fuzzy
 msgid "Zones of Control, abbreviated as ZOC, is a game concept which prevents you moving freely in zones controlled (or partially controlled) by enemy forces."
-msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë(Zones of Control Î¬¤·¤Æ ZOC)¤È¤Ï¡¢»ÙÇÛ¤µ¤ì¤¿ÎÎ°è(¤â¤·¤¯¤ÏÉôÊ¬Åª¤Ë»ÙÇÛ¤µ¤ì¤¿)¤Ç¤Î°ÜÆ°¤òÀ©¸Â¤¹¤ë¥²¡¼¥à¤Î³µÇ°¤Ç¤¹¡£"
+msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë(Zones of Control Î¬¤·¤Æ ZOC)¤È¤Ï¡¢Å¨¤Î(ÉôÊ¬Åª¤Ë)»ÙÇÛ¤·¤Æ¤¤¤ëÎÎ°è¤Ç¤Î°ÜÆ°¤òÀ©¸Â¤¹¤ë¥²¡¼¥à¤Î³µÇ°¤Ç¤¹¡£"
 
 #: data/helpdata.txt:973
 msgid "The general rule is that a land unit which is adjacent to an enemy occupied square cannot move directly to another square which is also adjacent to an enemy occupied square.  Here an enemy occupied square means a land square with an enemy unit on it.  Adjacency means any of the eight squares surrounding a unit."
-msgstr ""
+msgstr "¸¶Â§¤Ï¡¢¡ÖÅ¨¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¤ËÎÙÀÜ¤¹¤ëÃÏ¾åÉôÂâ¤Ï¡¢Å¨¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¤ËÎÙÀÜ¤¹¤ëÂ¾¤ÎÅÚÃÏ¤Ø¡¢Ä¾ÀÜ°ÜÆ°¤Ç¤­¤Ê¤¤¡×¤È¤¤¤¦¤³¤È¤Ç¤¹¡£¤³¤³¤Ç¸À¤¦¡ÖÅ¨¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¡×¤È¤ÏÃÏ¾å¤ÎÅ¨ÉôÂâ¤Î¤¤¤ëÅÚÃÏ¤Î¤³¤È¤Ç¡¢¡ÖÎÙÀÜ¡×¤È¤ÏÉôÂâ¤ò°Ï¤¦8Êı¤ÎÅÚÃÏ¤Î¤³¤È¤Ç¤¹¡£"
 
 #: data/helpdata.txt:979
 msgid ""
@@ -8945,6 +8900,11 @@ msgid ""
 "- A unit moving from an ocean square (disembarking from a boat).\n"
 "- A unit type which explicitly ignores ZOC, eg Diplomats."
 msgstr ""
+"°Ê²¼¤ÎÆÃÊÌ¤Ê¾ì¹ç¤Ï, ZOC ¤ÏÅ¬ÍÑ¤µ¤ì¤Ş¤»¤ó:\n"
+"- ÅÔ»Ô¤ÎÃæ¤Ø(³°¤Ø)Ä¾ÀÜ¤ÎÉôÂâ°ÜÆ°\n"
+"- Í§¹¥Åª¤ÊÉôÂâ¤Ë¤è¤Ã¤ÆÀêÎÎ¤µ¤ì¤Æ¤¤¤ëÅÚÃÏ¤Ø¤ÎÉôÂâ°ÜÆ°\n"
+"- ³¤¾å¤«¤é¤ÎÉôÂâ°ÜÆ°(¥Ü¡¼¥È¤«¤é¤Î¾åÎ¦)\n"
+"- ÉôÂâ¥¿¥¤¥×¤¬ ZOC Ìµ»ë(Îã¤¨¤Ğ³°¸ò´±)"
 
 #: data/helpdata.txt:985
 msgid ""
@@ -8960,10 +8920,21 @@ msgid ""
 "\n"
 "- Moving from an ocean square is a special case; moving _to_ an ocean square (moving back onto a boat) is also permitted, by the special case of moving onto a friendly unit (the boat)."
 msgstr ""
+"Ãí°Õ:\n"
+"\n"
+"- ÃÏ¾åÉôÂâ¤À¤±¤¬ ZOC ¤Î±Æ¶Á¤ò¼õ¤±¤Ş¤¹¡£\n"
+"\n"
+"- ÈóÃÏ¾åÉôÂâ¤â ZOC ¤ò²İ¤¹¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£Å¨¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¤È¤·¤Æ°·¤«¤¦¤«¤é¤Ç¤¹¡£¤·¤«¤·¡¢ ZOC ¤ò²İ¤¹¤³¤È¤¬¤Ç¤­¤ë¤Î¤Ï¡¢ÈóÃÏ¾åÉôÂâ¤¬ÃÏ¾å¤Ë¤¤¤ë»ş¤À¤±¤Ç¤¹¡£½¾¤Ã¤Æ¡¢»ö¼Â¾å(ÅÔ»Ô¤Ë¤¤¤ë¾ì¹ç°Ê³°¤Ç¤Ï)³¤¾åÉôÂâ¤Ï ZOC ¤ò²İ¤¹¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡£¤Ş¤¿³¤¾å¤òÅÏ¤Ã¤Æ¤¤¤ë¹Ò¶õÉôÂâ(¥Ø¥ê¥³¥×¥¿¡¼¤ò´Ş¤à)¤Ï ZOC ¤ò²İ¤·¤Ş¤»¤ó¡£\n"
+"\n"
+"- ZOC ¤ÏÉôÂâ¤Î¹¶·â¤òË¸¤²¤Ş¤»¤ó¡£°ÜÆ°¤Î¤ß¤òË¸¤²¤Ş¤¹¡£\n"
+"\n"
+"- Ãæ¤ËÉôÂâ¤¬¤¤¤ëÅ¨ÅÔ»Ô¤Ï¡¢Å¨¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¤È¤·¤Æ°·¤ï¤ì¤Ş¤¹¡£(¤³¤ì¤ÏÂ¾¤ÎÅÚÃÏ¤ÈÆ±¤¸¥ë¡¼¥ë¤Ç¤¹¡£)\n"
+"\n"
+"- ³¤¾å¤«¤é¤Î°ÜÆ°¤ÏÆÃÊÌ¤Ê¾ì¹ç¤Ç¤¹¡£³¤¾å¤Ø¤Î°ÜÆ°(¥Ü¡¼¥È¤ØÌá¤ë)¤â¡¢Í§¹¥Åª¤Ê(¥Ü¡¼¥È)ÉôÂâ¤Ø¤Î°ÜÆ°¤Î¾ì¹ç¤Ïµö²Ä¤µ¤ì¤Ş¤¹¡£"
 
 #: data/helpdata.txt:1005
 msgid "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some other unit which ignores ZOC), and then moving regular units onto the square now occupied by the Diplomat. By repeating this process (and optionally leaving some units behind to keep squares occupied), you can make a path through enemy territory."
-msgstr ""
+msgstr "¥Ò¥ó¥È: Å¨¤ÎÎÎ°è¤ØÀøÆş¤¹¤ë¤Ë¤Ï¡¢¤Ş¤º³°¸ò´±(¤â¤·¤¯¤ÏÂ¾¤Î ZOC ¤òÌµ»ë¤¹¤ëÉôÂâ)¤ò°ÜÆ°¤·¡¢¤½¤ì¤«¤éÉáÄÌ¤ÎÉôÂâ¤ò³°¸ò´±¤ÎÀêÎÎ¤·¤Æ¤¤¤ëÅÚÃÏ¤Ø°ÜÆ°¤µ¤»¤ë¤Ş¤¹¡£¤³¤ì¤ÈÀêÎÎ¤·¤¿ÅÚÃÏ¤ò¼é¤ë¤¿¤á¤ÎÉôÂâ¤ò»Ä¤·¤Æ¤ª¤¯¤³¤È¤ò·«¤êÊÖ¤·¹Ô¤Ê¤¦¤³¤È¤Ç¡¢Å¨¤ÎÎÎ°è¤òÄÌ¤ëÆ»¤òºî¤ì¤Ş¤¹¡£"
 
 #: data/helpdata.txt:1012
 msgid ""
@@ -8971,6 +8942,9 @@ msgid ""
 "- Enemy cities with no units in them no longer impose ZOC.\n"
 "- The special case for land units disembarking is new."
 msgstr ""
+"¤³¤ì¤é¤Î¥ë¡¼¥ë¤Ï¡¢Freeciv ¤Î°ÊÁ°¤Î¥Ğ¡¼¥¸¥ç¥ó(¥ê¥ê¡¼¥¹ 1.8.0 ¤è¤êÁ°)¤È¤Ï¡¢°Ê²¼¤ÎÅÀ¤¬¶Ï¤«¤Ë°Û¤Ê¤Ã¤Æ¤¤¤Ş¤¹¡£\n"
+"- ÉôÂâ¤Î¤¤¤Ê¤¤Å¨ÅÔ»Ô¤Ï¤â¤¦ ZOC ¤ò²İ¤µ¤Ê¤¤¡£\n"
+"- º£¤Ç¤ÏÃÏ¾åÉôÂâ¤Î¾åÎ¦¤È¤¤¤¦ÆÃÊÌ¤Ê¾ì¹ç¤òÇ§¤á¤ë"
 
 #: data/helpdata.txt:1021
 msgid "The different types of terrain each have different strengths and drawbacks.  When choosing a place for a new city, make sure there are enough food-producing squares nearby to support your growing population."
@@ -9079,7 +9053,7 @@ msgstr " ÆâÀï"
 
 #: data/helpdata.txt:1147
 msgid "Civil war is devastating to any empire, and is triggered by the loss of your capital (palace).  Up to half of your cities will rebel and declare allegiance to a new (AI) leader, who will loot half of your treasury and retain all of your scientific advances."
-msgstr "ÆâÀï¤Ï¹ñ¤ò¹ÓÇÑ¤µ¤»¡¢¼óÅÔ(µÜÅÂ)¤ò¼º¤Ê¤¦¤­¤Ã¤«¤±¤Ë¤Ê¤ê¤Ş¤¹¡£ÅÔ»Ô¤ÎÈ¾¿ô°Ê¾å¤¬È¿ÂĞ¤¹¤ë¤È¡¢¿·¤·¤¤(¿Í¹©ÃÎÇ½¤Î)¥ê¡¼¥À¡¼¤Ø¤ÎÃéÀ¿¤òÀÀ¤¤¤Ş¤¹¡£¿·¤·¤¤¥ê¡¼¥À¡¼¤Ï¹ñ¸Ë¤ÎÈ¾Ê¬¤òÎ¬Ã¥¤·¡¢Á´¤Æ¤Î²Ê³Ø¤ÎÈ¯Å¸¤ò¤½¤Î¤Ş¤ŞÊİ»ı¤·¤Ş¤¹¡£"
+msgstr "ÆâÀï¤Ï¹ñ¤ò¹ÓÇÑ¤µ¤»¡¢¼óÅÔ(µÜÅÂ)¤ò¼º¤Ê¤¦¤­¤Ã¤«¤±¤Ë¤Ê¤ê¤Ş¤¹¡£ÅÔ»Ô¤ÎÈ¾¿ô°Ê¾å¤¬È¿ÂĞ¤¹¤ë¤È¡¢¿·¤·¤¤(¿Í¹©ÃÎÇ½¤Î)»ØÆ³¼Ô¤Ø¤ÎÃéÀ¿¤òÀÀ¤¤¤Ş¤¹¡£¿·¤·¤¤»ØÆ³¼Ô¤Ï¹ñ¸Ë¤ÎÈ¾Ê¬¤òÎ¬Ã¥¤·¡¢Á´¤Æ¤Î²Ê³Ø¤ÎÈ¯Å¸¤ò¤½¤Î¤Ş¤ŞÊİ»ı¤·¤Ş¤¹¡£"
 
 #: data/helpdata.txt:1153
 msgid "Players remain in the civil war state for just one turn, after which the empire enters a state of anarchy."
@@ -9183,7 +9157,7 @@ msgstr "¶ä¹Ô"
 #: data/civ1/buildings.ruleset:102 data/civ2/buildings.ruleset:103 data/default/buildings.ruleset:287
 #, c-format
 msgid "Together with the Marketplace improvement, a Bank increases the luxury and tax production within a city by 100%."
-msgstr ""
+msgstr "¶ä¹Ô¤Ï»Ô¾ì¤ÈÏ¢·È¤·¤Æ¡¢ÅÔ»ÔÆâ¤ÎìÔÂô¤ÈÀÇ¤ÎÀ¸»º¤ò 100% Áı¤ä¤·¤Ş¤¹¡£"
 
 #: data/civ1/buildings.ruleset:108 data/civ2/buildings.ruleset:109 data/default/buildings.ruleset:293
 msgid "Barracks"
@@ -9206,9 +9180,8 @@ msgid "Cathedral"
 msgstr "ÂçÀ»Æ²"
 
 #: data/civ2/buildings.ruleset:209 data/default/buildings.ruleset:393
-#, fuzzy
 msgid "A Cathedral makes 3 unhappy citizens content in a city, making it easier to maintain order in that city.  The discovery of Theology increases the effect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the effect of a Cathedral, reducing by one the number of unhappy citizens made content."
-msgstr "ÂçÀ»Æ²¤ÏÅÔ»Ô¤ÎÉÔ¹¬¤Ê¿Í¡¹3¤ò¼ıÍÆ¤·¡¢ÅÔ»Ô¤Î¾õÂÖ¤ò°İ»ı¤·°×¤¯¤·¤Ş¤¹¡£¿À³Ø¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤¬Áı¤·¡¢ÉÔ¹¬»ÔÌ±1¤ò¤µ¤é¤Ë¼ıÍÆ¤·¤Ş¤¹¡£¶¦»º¼çµÁ¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤Ï¿ê¤¨¡¢ÉÔ¹¬»ÔÌ±1¤¬ÄÉ¤¤½Ğ¤µ¤ì¤Ş¤¹¡£"
+msgstr "ÂçÀ»Æ²¤ÏÅÔ»Ô¤ÎÉÔ¹¬¤Ê¿Í¡¹3¤òËşÂ­¤µ¤»¡¢ÅÔ»Ô¤Î¾õÂÖ¤ò°İ»ı¤·°×¤¯¤·¤Ş¤¹¡£¿À³Ø¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤¬Áı¤·¡¢ÉÔ¹¬»ÔÌ±1¤ò¤µ¤é¤ËËşÂ­¤µ¤»¤Ş¤¹¡£¶¦»º¼çµÁ¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤Ï¿ê¤¨¡¢ÉÔ¹¬»ÔÌ±1¤¬ÉÔËş¤ËÌá¤ê¤Ş¤¹¡£"
 
 #: data/civ1/buildings.ruleset:237 data/civ2/buildings.ruleset:219 data/default/buildings.ruleset:403
 msgid "City Walls"
@@ -9501,7 +9474,7 @@ msgstr "»û±¡"
 
 #: data/civ1/buildings.ruleset:1041 data/civ2/buildings.ruleset:1032 data/default/buildings.ruleset:1237
 msgid "Makes one unhappy citizen content.  Both the Mysticism advance and the Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 citizens are made content."
-msgstr ""
+msgstr "1ÉÔ¹¬»ÔÌ±¤òËşÂ­¤Ë¤·¤Ş¤¹¡£¿ÀÈë¼çµÁ(²Ê³Ø)¤È¿®Â÷½ê(ÉÔ»×µÄ)¤ÎÎ¾Êı¤È¤â¡¢¤³¤Î¹»²Î¤òÇÜ¤Ë¤·¤Ş¤¹¡£¿ÀÈë¼çµÁ¤È¿®Â÷½ê¤ÎÎ¾Êı¤¬¤¢¤ë¤È¡¢4»ÔÌ±¤¬ËşÂ­¤·¤Ş¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1048 data/civ1/techs.ruleset:559 data/civ2/buildings.ruleset:1039 data/civ2/techs.ruleset:559 data/default/buildings.ruleset:1244 data/default/techs.ruleset:559
 msgid "University"
@@ -9591,7 +9564,6 @@ msgid "Hanging Gardens"
 msgstr "¶õÃæÄí±à"
 
 #: data/civ1/buildings.ruleset:1303 data/civ2/buildings.ruleset:1294 data/default/buildings.ruleset:1501
-#, fuzzy
 msgid "Makes one content citizen happy in every city. Makes two extra content citizens happy in the city containing the Hanging Gardens (that is, a total of 3).  In the unlikely event where there are no content citizens to get the effect of Hanging Gardens, the wonder applies to unhappy citizens (making them content instead)."
 msgstr "³ÆÅÔ»Ô¤Î»ÔÌ±1¤ò¹¬Ê¡¤Ë¤·¤Ş¤¹¡£¤³¤ì¤ò·ú¤Æ¤¿ÅÔ»Ô¤Ç¤Ï¤µ¤é¤Ë»ÔÌ±2¤ò¹¬Ê¡¤Ë¤·¤Ş¤¹(¹ç·×3)¡£¤¢¤ê¤½¤¦¤â¤Ê¤¤¤³¤È¤Ç¤¹¤¬¡¢¶õÃæÄí±à¤Î±Æ¶Á¤ò¼õ¤±¤ë»ÔÌ±¤¬¤¤¤Ê¤¤¾ì¹ç¡¢ÉÔ¹¬»ÔÌ±¤ò¹¬Ê¡¤Ë¤·¤Ş¤¹¡£"
 
@@ -10997,7 +10969,7 @@ msgstr "¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤Î»ØÆ³¼Ô"
 
 #: data/civ2/units.ruleset:1416 data/default/units.ruleset:1416
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
-msgstr "²¿¤é¤«¤ÎËÉ¸æÉôÂâ¤Ê¤·¤Ç¥¿¥¤¥ë¾å¤ÇÌîÈÚ¿Í¤Î¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤¬»¦¤µ¤ì¤¿»ş¡¢¶â100¤Î¿ÈÂå¶â¤¬¤¬Ê§¤ï¤ì¤Ş¤¹¡£¤³¤ì¤ÏÃÏ¾åÉôÂâ¤È¥Ø¥ê¥³¥×¥¿¡¼¤À¤±¤Çµ¯¤³¤ê¤Ş¤¹¡£"
+msgstr "²¿¤é¤«¤ÎËÉ¸æÉôÂâ¤Ê¤·¤Ç¥¿¥¤¥ë¾å¤Ç¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤Î»ØÆ³¼Ô¤¬»¦¤µ¤ì¤¿»ş¡¢¶â100¤Î¿ÈÂå¶â¤¬¤¬Ê§¤ï¤ì¤Ş¤¹¡£¤³¤ì¤ÏÃÏ¾åÉôÂâ¤È¥Ø¥ê¥³¥×¥¿¡¼¤À¤±¤Çµ¯¤³¤ê¤Ş¤¹¡£"
 
 #: data/civ1/units.ruleset:94
 msgid ""
@@ -11257,14 +11229,12 @@ msgid "?plural:Cornish"
 msgstr "¥³¡¼¥ó¥¦¥©¡¼¥ëÌ±Â²"
 
 #: data/nation/croatian.ruleset:3
-#, fuzzy
 msgid "Croatian"
-msgstr "¥­¥ã¥é¥Ğ¥ó"
+msgstr "¥¯¥í¥¢¥Á¥¢¿Í"
 
 #: data/nation/croatian.ruleset:4
-#, fuzzy
 msgid "?plural:Croatians"
-msgstr "¥«¥¿¥í¥Ë¥¢Ì±Â²"
+msgstr "¥¯¥í¥¢¥Á¥¢Ì±Â²"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -11629,19 +11599,16 @@ msgid "Scottish"
 msgstr "¥¹¥³¥Ã¥È¥é¥ó¥É¿Í"
 
 #: data/nation/scottish.ruleset:4
-#, fuzzy
 msgid "?plural:Scots"
 msgstr "¥¹¥³¥Ã¥È¥é¥ó¥ÉÌ±Â²"
 
 #: data/nation/serbian.ruleset:3
-#, fuzzy
 msgid "Serbian"
-msgstr "¥Ú¥ë¥·¥ã¿Í"
+msgstr "¥»¥ë¥Ó¥¢¿Í"
 
 #: data/nation/serbian.ruleset:4
-#, fuzzy
 msgid "?plural:Serbians"
-msgstr "¥Ú¥ë¥·¥ãÌ±Â²"
+msgstr "¥»¥ë¥Ó¥¢Ì±Â²"
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -11696,14 +11663,12 @@ msgid "Great Chief"
 msgstr "¥°¥ì¡¼¥È¥Á¡¼¥Õ"
 
 #: data/nation/slovenian.ruleset:3
-#, fuzzy
 msgid "Slovenian"
-msgstr "¥·¥ì¥·¥¢¿Í"
+msgstr "¥¹¥í¥Ù¥Ë¥¢¿Í"
 
 #: data/nation/slovenian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovenians"
-msgstr "¥·¥ì¥·¥¢Ì±Â²"
+msgstr "¥¹¥í¥Ù¥Ë¥¢Ì±Â²"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
