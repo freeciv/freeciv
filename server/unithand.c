@@ -862,7 +862,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     pplayer->economic.gold+=coins;
     cplayer->economic.gold-=coins;
     send_player_info(cplayer, cplayer);
-    if (pcity->owner != pplayer->player_no) {
+    if (pcity->original != pplayer->player_no) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: You conquer %s, your lootings accumulate to %d gold", 
 		       pcity->name, coins);
