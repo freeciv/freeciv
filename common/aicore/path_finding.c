@@ -396,6 +396,7 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
    * need to subtract this value before we return cost to the user */
   pf_map->lattice[pf_map->index].cost = pf_map->params->move_rate
       - pf_map->params->moves_left_initially;
+  assert(pf_map->lattice[pf_map->index].cost >= 0);
   pf_map->lattice[pf_map->index].extra_cost = 0;
   if (pf_map->params->is_pos_dangerous) {
     /* The starting point is safe */
