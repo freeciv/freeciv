@@ -44,8 +44,8 @@ static bool diplomat_success_vs_defender(struct unit *patt, struct unit *pdef,
   						struct tile *pdefender_tile);
 static bool diplomat_infiltrate_tile(struct player *pplayer, struct player *cplayer,
 				     struct unit *pdiplomat, struct tile *ptile);
-static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
-			     struct city *pcity);
+static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
+			    const struct city *pcity);
 static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
 				 struct unit *victim_unit, struct city *victim_city);
 
@@ -118,7 +118,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(SPY_POISON, pplayer, NULL, pcity);
 
   /* Now lets see if the spy survives. */
-  diplomat_escape (pplayer, pdiplomat, pcity);
+  diplomat_escape(pplayer, pdiplomat, pcity);
 }
 
 /******************************************************************************
@@ -378,7 +378,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(SPY_SABOTAGE_UNIT, pplayer, pvictim, NULL);
 
   /* Now lets see if the spy survives. */
-  diplomat_escape (pplayer, pdiplomat, NULL);
+  diplomat_escape(pplayer, pdiplomat, NULL);
 }
 
 /******************************************************************************
@@ -713,7 +713,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
 
   /* Check if a spy survives her mission. Diplomats never do. */
-  diplomat_escape (pplayer, pdiplomat, pcity);
+  diplomat_escape(pplayer, pdiplomat, pcity);
 }
 
 /**************************************************************************
@@ -839,7 +839,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
    * _After_ transferring the city, or the city area is first fogged
    * when the diplomat is removed, and then unfogged when the city
    * is transferred. */
-  diplomat_escape (pplayer, pdiplomat, pcity);
+  diplomat_escape(pplayer, pdiplomat, pcity);
 
   /* Update the players gold in the client */
   send_player_info(pplayer, pplayer);
@@ -1073,7 +1073,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_SABOTAGE, pplayer, NULL, pcity);
 
   /* Check if a spy survives her mission. Diplomats never do. */
-  diplomat_escape (pplayer, pdiplomat, pcity);
+  diplomat_escape(pplayer, pdiplomat, pcity);
 }
 
 /**************************************************************************
@@ -1235,13 +1235,14 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   This determines if a diplomat/spy survives and escapes.
   If "pcity" is NULL, assume action was in the field.
 
-  - Spies and Diplomats have a game.diplchance specified chance of 
-    survival (better if veteran):
+  Spies have a game.diplchance specified chance of survival (better 
+  if veteran):
+    - Diplomats always die.
     - Escapes to home city.
     - Escapee may become a veteran.
 **************************************************************************/
-static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
-		      struct city *pcity)
+static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
+                            const struct city *pcity)
 {
   struct tile *ptile;
   int escapechance;
@@ -1258,8 +1259,9 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
   
   /* find closest city for escape target */
   spyhome = find_closest_owned_city(unit_owner(pdiplomat), ptile, FALSE, NULL);
-      
-  if (spyhome 
+
+  if (spyhome
+      && unit_flag(pdiplomat, F_SPY)
       && (myrand (100) < escapechance || unit_flag(pdiplomat, F_SUPERSPY))) {
     /* Attacking Spy/Diplomat survives. */
 
