@@ -2402,6 +2402,21 @@ void game_load(struct section_file *file)
     game.nplayers = 0;
   }
 
+  if (secfile_lookup_int_default(file, -1,
+				 "game.shuffled_player_%d", 0) >= 0) {
+    int shuffled_players[game.nplayers];
+
+    for (i = 0; i < game.nplayers; i++) {
+      shuffled_players[i]
+	= secfile_lookup_int(file, "game.shuffled_player_%d", i);
+    }
+    set_shuffled_players(shuffled_players);
+  } else {
+    /* No shuffled players included, so shuffle them (this may include
+     * scenarios). */
+    shuffle_players();
+  }
+
   if (!game.is_new_game) {
     /* Set active city improvements/wonders and their effects */
     improvements_update_obsolete();
@@ -2601,5 +2616,10 @@ void game_save(struct section_file *file)
     players_iterate(pplayer) {
       player_save(pplayer, pplayer->player_no, file);
     } players_iterate_end;
+
+    for (i = 0; i < game.nplayers; i++) {
+      secfile_insert_int(file, shuffled_player(i)->player_no,
+			 "game.shuffled_player_%d", i);
+    }
   }
 }

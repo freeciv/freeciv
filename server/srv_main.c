@@ -457,9 +457,10 @@ static void begin_turn(bool is_new_turn)
     }
   }
 
-  /* FIXME: player shuffling shouldn't be repeated unless is_new_turn. */
-  freelog(LOG_DEBUG, "Shuffleplayers");
-  shuffle_players();
+  if (is_new_turn) {
+    freelog(LOG_DEBUG, "Shuffleplayers");
+    shuffle_players();
+  }
 
   sanity_check();
 }

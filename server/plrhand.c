@@ -1628,7 +1628,31 @@ void shuffle_players(void)
     shuffled_plr[pos] = tmp_plr;
   }
 
+#ifdef DEBUG
+  for (i = 0; i < game.nplayers; i++) {
+    freelog(LOG_DEBUG, "Shuffling player %d as %d.",
+	    i, shuffled_plr[i]->player_no);
+  }
+#endif
+
   /* Record how many players there were when shuffled: */
+  shuffled_nplayers = game.nplayers;
+}
+
+/**************************************************************************
+  Initialize the shuffled players list (as from a loaded savegame).
+**************************************************************************/
+void set_shuffled_players(int *shuffled_players)
+{
+  int i;
+
+  for (i = 0; i < game.nplayers; i++) {
+    shuffled_plr[i] = get_player(shuffled_players[i]);
+
+    freelog(LOG_DEBUG, "Set shuffled player %d as %d.",
+	    i, shuffled_plr[i]->player_no);
+  }
+
   shuffled_nplayers = game.nplayers;
 }
 
