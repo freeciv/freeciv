@@ -177,50 +177,6 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
 }
 
 /**************************************************************************
-  The value of excees food is dependent on the amount of food it takes for 
-  a city to increase in size. This amount is in turn dependent on the 
-  citysize, hence this function.
-
-  The value returned from this function does not take into account whether
-  increasing a city's size is attractive, but only how effective the food
-  will be.
-
-  The return value is simply 
-    4*FOOD_WEIGHTING / (num_of_columns_in_foodbox).
-**************************************************************************/
-int food_weighting(int city_size)
-{
-  static int cache[MAX_CITY_SIZE];
-  static bool cache_valid = FALSE;
-
-  if (!cache_valid) {
-    /* FIXME: this cache is only rebuilt once per server process.  That
-     * means if you run two games in the same server with different
-     * options, this function may be broken for the second one. */
-    int size;
-
-    for (size = 1; size < MAX_CITY_SIZE; size++) {
-      int food_weighting_is_for = 4;	/* FOOD_WEIGHTING applies to city with
-					   foodbox width of 4 */
-      int weighting = (food_weighting_is_for * FOOD_WEIGHTING) /
-                      (city_granary_size(size) / game.foodbox);
-
-      /* If the citysize is 1 we assume it will not be so for long, and
-         so adjust the value a little downwards. */
-      if (size == 1) {
-	weighting = (weighting * 3) / 4;
-      }
-      cache[size] = weighting;
-    }
-    cache_valid = TRUE;
-  }
-
-  assert(city_size > 0 && city_size < MAX_CITY_SIZE);
-
-  return cache[city_size];
-}
-
-/**************************************************************************
   Returns a measure of goodness of a tile to pcity.
 
   FIXME: foodneed and prodneed are always 0.
@@ -228,30 +184,28 @@ int food_weighting(int city_size)
 int city_tile_value(struct city *pcity, int x, int y, 
 		    int foodneed, int prodneed)
 {
-  int food_value, shield_value, trade_value;
-  struct player *plr;
+ int food = city_get_food_tile(x, y, pcity);
+ int shield = city_get_shields_tile(x, y, pcity);
+ int trade = city_get_trade_tile(x, y, pcity);
+ int value = 0;
 
-  plr = city_owner(pcity);
+ /* Each food, trade, and shield gets a certain weighting.  We also benefit
+  * tiles that have at least one of an item - this promotes balance and 
+  * also accounts for INC_TILE effects. */
+ value += food * FOOD_WEIGHTING;
+ if (food > 0) {
+   value += FOOD_WEIGHTING / 2;
+ }
+ value += shield * SHIELD_WEIGHTING;
+ if (shield > 0) {
+   value += SHIELD_WEIGHTING / 2;
+ }
+ value += trade * TRADE_WEIGHTING;
+ if (trade > 0) {
+   value += TRADE_WEIGHTING / 2;
+ }
 
-  food_value = city_get_food_tile(x, y, pcity);
-  if (foodneed > 0) {
-    food_value += 9 * MIN(food_value, foodneed);
-  }
-  food_value *= food_weighting(MAX(2, pcity->size));
-  
-  shield_value = city_get_shields_tile(x, y, pcity);
-  if (prodneed > 0) {
-    shield_value += 9 * (MIN(shield_value, prodneed));
-  }
-  shield_value *= SHIELD_WEIGHTING * city_shield_bonus(pcity);
-  shield_value /= 100;
-
-  trade_value = (city_get_trade_tile(x, y, pcity) * pcity->ai.trade_want
-       * (city_tax_bonus(pcity) * plr->economic.tax
-	  + city_luxury_bonus(pcity) * plr->economic.luxury
-	  + city_science_bonus(pcity) * plr->economic.science)) / 10000;
-
-  return food_value + shield_value + trade_value;
+ return value;
 }  
 
 /**************************************************************************
