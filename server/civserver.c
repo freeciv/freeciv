@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 
 #ifdef ENABLE_NLS
   setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, GNULOCALEDIR);
+  bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 #endif
 
