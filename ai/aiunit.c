@@ -1868,30 +1868,34 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
       req.name[0]='\0';
       handle_unit_change_homecity(pplayer, &req);
     }
-    /*
-     * We may want this to be a city_map_iterate, or a warmap distance
-     * check, but this will suffice for now.  -AJS
-     */
-    for (x=-1; x<= 1; x++) {
-      for (y=-1; y<= 1; y++) {
-	if (x == 0 && y == 0) continue;
-	if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
-				pcity->x+x, pcity->y+y)) {
-	  /* A lone trespasser! Seize him! -AJS */
-	  ptile=map_get_tile(pcity->x+x, pcity->y+y);
-	  ptres = unit_list_get(&ptile->units, 0);
-	  ptres->bribe_cost=unit_bribe_cost (ptres);
-	  if ( ptres->bribe_cost <
-	       (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
-	    dact.diplomat_id=pdiplomat->id;
-	    dact.target_id=ptres->id;
-	    dact.action_type=DIPLOMAT_BRIBE;
-	    handle_diplomat_action(pplayer, &dact);
+  } else {
+    if (pcity) {
+      /*
+       * More than one diplomat in a city: may try to bribe trespassers.
+       * We may want this to be a city_map_iterate, or a warmap distance
+       * check, but this will suffice for now.  -AJS
+       */
+      for (x=-1; x<= 1; x++) {
+	for (y=-1; y<= 1; y++) {
+	  if (x == 0 && y == 0) continue;
+	  if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
+				     pcity->x+x, pcity->y+y)) {
+	    /* A lone trespasser! Seize him! -AJS */
+	    ptile=map_get_tile(pcity->x+x, pcity->y+y);
+	    ptres = unit_list_get(&ptile->units, 0);
+	    ptres->bribe_cost=unit_bribe_cost (ptres);
+	    if ( ptres->bribe_cost <
+		 (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
+	      dact.diplomat_id=pdiplomat->id;
+	      dact.target_id=ptres->id;
+	      dact.action_type=DIPLOMAT_BRIBE;
+	      handle_diplomat_action(pplayer, &dact);
+	      return;
+	    }
 	  }
 	}
       }
     }
-  } else {
     /*
      *  We're wandering in the desert, or there is more than one diplomat
      *  here.  Go elsewhere.
