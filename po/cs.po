@@ -12,14 +12,13 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2004-12-12 16:38+0100\n"
+"PO-Revision-Date: 2005-01-05 17:07+0100\n"
 "Last-Translator: Dušan Hokův <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -2111,9 +2110,8 @@ msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Přepne výstup serveru mezi 'RFC-stylem' a normálním stylem."
 
 #: server/commands.c:361
-#, fuzzy
 msgid "serverid"
-msgstr "Pozorovatel"
+msgstr "serverid"
 
 #: server/commands.c:362
 msgid "Simply returns the id of the server."
@@ -2368,10 +2366,7 @@ msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: server/diplhand.c:251 server/diplhand.c:255
 #, c-format
@@ -3415,10 +3410,7 @@ msgstr ""
 #: server/report.c:1094
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
-msgid_plural "%2d: The %s %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: server/report.c:1102
 msgid "Progress Scores:"
@@ -5343,9 +5335,9 @@ msgid "Metaserver is now [%s]."
 msgstr "Metaserver je nyní [%s]."
 
 #: server/stdinhand.c:662
-#, fuzzy, c-format
+#, c-format
 msgid "Server id: %s"
-msgstr "Operátor serveru: %s"
+msgstr "Server id: %s"
 
 #: server/stdinhand.c:757
 msgid "The game cannot be saved before it is started."
@@ -6594,10 +6586,7 @@ msgstr "Hra: %s ztracena při útoku %s %s%s."
 #: server/unittools.c:1738
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: server/unittools.c:1753
 #, c-format
@@ -8746,9 +8735,9 @@ msgid "You cannot sell improvements."
 msgstr "Prodej Vylepšení"
 
 #: client/repodlgs_common.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Sold %d %s for %d gold."
-msgstr "Prodat %s za %d zlatých?"
+msgstr "Prodáno %d %s za %d zlatých."
 
 #: client/repodlgs_common.c:335
 #, fuzzy, c-format
@@ -8851,10 +8840,7 @@ msgstr "Naše území"
 #: client/text.c:169
 #, c-format
 msgid "%s territory (%d turn ceasefire)"
-msgid_plural "%s territory (%d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #. * ?nation adjectives.
@@ -8877,10 +8863,7 @@ msgstr "Město: %s (%s)"
 #: client/text.c:200
 #, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
-msgid_plural "City: %s (%s, %d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -8919,10 +8902,7 @@ msgstr "Jednotka: %s(%s%s)"
 #: client/text.c:260
 #, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
-msgid_plural "Unit: %s (%s, %d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
@@ -8990,10 +8970,7 @@ msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
 #: client/text.c:439
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
-msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
 #, c-format
@@ -9075,10 +9052,7 @@ msgstr ""
 #: client/text.c:605
 #, c-format
 msgid "Mass:            %5d ton"
-msgid_plural "Mass:            %5d tons"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:610
@@ -10522,9 +10496,8 @@ msgid "Enable status report tabs"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:145
-#, fuzzy
 msgid "Solid unit icon background color in city dialog"
-msgstr "Neprůhledná barva pozadí jednotky"
+msgstr "Neprůhledná barva pozadí jednotky v dialogu města"
 
 #: client/gui-gtk-2.0/gui_main.c:147 client/gui-win32/gui_main.c:99
 msgid "Better fog-of-war drawing"
@@ -10660,10 +10633,7 @@ msgstr "žádné maximum, "
 #: client/gui-mui/citydlg.c:2254 client/gui-win32/happiness.c:258
 #, c-format
 msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:303 client/gui-gtk/happiness.c:309
 #: client/gui-mui/citydlg.c:2258 client/gui-win32/happiness.c:262
@@ -13844,11 +13814,9 @@ msgstr ""
 msgid ""
 "%s\n"
 "(%d turn/advance)"
-msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
@@ -13875,10 +13843,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:1144
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
-msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:728
 #: client/gui-xaw/repodlgs.c:1152
@@ -14033,21 +13998,18 @@ msgid "Configure"
 msgstr "Konfigurovat"
 
 #: client/gui-win32/cma_fe.c:467
-#, fuzzy
 msgid "New"
-msgstr "_Nový"
+msgstr "Nový"
 
 #: client/gui-win32/cma_fe.c:488 data/Freeciv.in:1497
 msgid "Apply once"
 msgstr "Použít jednou"
 
 #: client/gui-win32/cma_fe.c:490
-#, fuzzy
 msgid "Control city"
-msgstr "Ovládat _město"
+msgstr "Ovládat město"
 
 #: client/gui-win32/cma_fe.c:492
-#, fuzzy
 msgid "Release city"
 msgstr "Uvolnit město"
 
@@ -14298,9 +14260,9 @@ msgid "Only color displays are supported for now..."
 msgstr "Jsou podporovány pouze barevné obrazovky..."
 
 #: client/gui-xaw/gui_main.c:363 client/gui-xaw/gui_main.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open fontset: %s"
-msgstr "Selhalo načtení fontu: %s"
+msgstr "Nelze otevřít sadu fontů: %s"
 
 #: client/gui-xaw/gui_main.c:368 client/gui-xaw/gui_main.c:387
 #, c-format
@@ -14461,9 +14423,9 @@ msgid ""
 msgstr "Freeciv výběr serveru"
 
 #: manual/civmanual.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Level: %s.<br>"
-msgstr "Úroveň: %s"
+msgstr "Úroveň: %s.<br>"
 
 #: manual/civmanual.c:146
 #, c-format
@@ -14486,11 +14448,13 @@ msgid "Can <b>not</b> be changed during a game. "
 msgstr ""
 
 #: manual/civmanual.c:159
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr "Hodnota: %d, Minimum: 0, Výchozí: %d, Maximum: 1"
+msgstr ""
+"<p class=\"bounds\">Minimum: 0, Výchozí: %d, Maximum: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:163 manual/civmanual.c:173
 #, c-format
@@ -14500,11 +14464,13 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:168
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
-msgstr "Hodnota: %d, Minimum: %d, Výchozí: %d, Maximum: %d"
+msgstr ""
+"<p class=\"bounds\">Minimum: %d, Výchozí: %d, Maximum: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:178
 #, c-format
@@ -14551,11 +14517,13 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:212
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Popis:"
+msgstr ""
+"<p>Popis:</p>\n"
+"\n"
 
 #: manual/civmanual.c:219
 #, c-format
@@ -14595,9 +14563,9 @@ msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
 msgstr ""
 
 #: manual/civmanual.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Transform to</th>"
-msgstr "Transformovat na %s"
+msgstr "<th>Transformovat na</th>"
 
 #: manual/civmanual.c:265
 #, c-format
@@ -14690,9 +14658,8 @@ msgstr ""
 "Komentář"
 
 #: data/Freeciv.in:215
-#, fuzzy
 msgid "Diplomacy"
-msgstr "_Diplomacie"
+msgstr "Diplomacie"
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
@@ -15356,14 +15323,12 @@ msgstr ""
 "všem hráčům, kromě:"
 
 #: data/helpdata.txt:546
-#, fuzzy
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr ""
-"  - Zprávy začínající '/' jsou interpretovány jako serverové příkazy (pokud "
-"je server podporuje; 1.8.0 servery ne) a spouštějí se, pokud máte příslušná "
-"přístupová práva."
+"  - Zprávy začínající '/' jsou interpretovány jako serverové příkazy a "
+"spouštějí se, pokud máte příslušná přístupová práva."
 
 #: data/helpdata.txt:549
 msgid ""
@@ -15378,7 +15343,7 @@ msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
-"  - Zprávy začínající 'foo:' jsou soukromé zprávy hráči s přezdívkou 'foo'; "
+"  - Zprávy začínající 'John::' jsou soukromé zprávy hráči s přezdívkou 'foo'; "
 "jména hráčů mohou být zkrácená."
 
 #: data/helpdata.txt:558
@@ -17924,9 +17889,8 @@ msgid "Oracle"
 msgstr "Věštírna"
 
 #: data/default/buildings.ruleset:1937 data/history/buildings.ruleset:1877
-#, fuzzy
 msgid "Makes two of your unhappy citizens content in every city with a temple."
-msgstr "Učiní dva nespokojené lidi spokojenými v každém městě."
+msgstr "Učiní dva nespokojené lidi spokojenými v každém městě s chrámem."
 
 #: data/default/buildings.ruleset:1942 data/civ2/buildings.ruleset:1860
 #: data/civ1/buildings.ruleset:1438 data/history/buildings.ruleset:1882
