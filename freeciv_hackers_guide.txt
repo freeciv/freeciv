@@ -246,7 +246,7 @@ used whenever possible, the example of a "manual" square iterate was only
 included to give people the knowledge of how things work.
 
 Also available is the function real_map_distance(), which takes wrap and
-such things into account. It does not however take terrain and roads, ect.
+such things into account. It does not however take terrain and roads, etc.
 into account. For that you would use a move_cost_map, which is generated
 via the function generate_warmap(), and calculates the distances from a
 tile to all other tiles on the map. See server/gotohand.c.
@@ -304,7 +304,7 @@ functions. "int len" is the radius of the area that should be
 fogged/unfogged, i.e. a len of 1 is a normal unit. In addition to keeping
 track of fog of war, these functions also make sure to reveal TILE_UNKNOWN
 tiles you get near, and send info about TILE_UNKNOWN tiles near that the
-client needs for te drawing. They then send the tiles to
+client needs for drawing. They then send the tiles to
 void send_tile_info(struct player *dest, int x, int y)
 which then sets the correct known_type and sends the tile to the client.
 
