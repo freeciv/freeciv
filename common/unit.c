@@ -257,18 +257,6 @@ bool is_ground_units_transport(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return TRUE iff the unit is a transporter of air (including missile)
-  units.
-**************************************************************************/
-bool is_air_units_transport(const struct unit *punit)
-{
-  return (get_transporter_capacity(punit) > 0
-	  && (unit_flag(punit, F_MISSILE_CARRIER)
-	      || unit_flag(punit, F_CARRIER)));
-}
-
-
-/**************************************************************************
   Is the unit capable of attacking?
 **************************************************************************/
 bool is_attack_unit(const struct unit *punit)
@@ -594,19 +582,7 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Make sure this transporter can carry this type of unit. */
-  if (is_ground_unit(pcargo)) {
-    if (!is_ground_units_transport(ptrans)) {
-      return FALSE;
-    }
-  } else if (unit_flag(pcargo, F_MISSILE)) {
-    if (!is_air_units_transport(ptrans)) {
-      return FALSE;
-    }
-  } else if (is_air_unit(pcargo) || is_heli_unit(pcargo)) {
-    if (!unit_flag(ptrans, F_CARRIER)) {
-      return FALSE;
-    }
-  } else {
+  if(!can_unit_transport(ptrans, pcargo)) {
     return FALSE;
   }
 

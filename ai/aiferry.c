@@ -269,11 +269,11 @@ static int sea_move(const struct tile *ptile, enum known_type known,
 
 /****************************************************************************
   Runs a few checks to determine if "boat" is a free boat that can carry
-  "cap" units of the same type as "punit" (the last one isn't implemented).
+  "cap" units of the same type as "punit".
 ****************************************************************************/
 static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 {
-  /* - Only ground-unit transporters are consider.
+  /* - Only transporters capable of transporting this unit are eligible.
    * - Units with orders are skipped (the AI doesn't control units with
    *   orders).
    * - Only boats that we own are eligible.
@@ -281,7 +281,7 @@ static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
    *   are eligible.
    * - Only boats with enough remaining capacity are eligible.
    */
-  return (is_ground_units_transport(boat)
+  return (can_unit_transport(boat, punit)
 	  && !unit_has_orders(boat)
 	  && boat->owner == punit->owner
 	  && (boat->ai.passenger == FERRY_AVAILABLE

@@ -48,5 +48,6 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     const struct tile *src_tile,
 					     const struct tile *dst_tile,
 					     bool igzoc);
+bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 
 #endif  /* FC__MOVEMENT_H */

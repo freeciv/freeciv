@@ -34,6 +34,9 @@ static const char *move_type_names[] = {
 };
 
 
+static bool can_unit_type_transport(Unit_Type_id transporter,
+                                    Unit_Type_id transported);
+
 /****************************************************************************
   This function calculates the move rate of the unit, taking into 
   account the penalty for reduced hitpoints (affects sea and land 
@@ -445,4 +448,55 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
   }
 
   return MR_OK;
+}
+
+/**************************************************************************
+  Return true iff transporter has ability to transport transported.
+**************************************************************************/
+bool can_unit_transport(const struct unit *transporter,
+                        const struct unit *transported)
+{
+  return can_unit_type_transport(transporter->type, transported->type);
+}
+
+/**************************************************************************
+  Return TRUE iff transporter type has ability to transport transported type.
+**************************************************************************/
+static bool can_unit_type_transport(Unit_Type_id transporter,
+                                    Unit_Type_id transported)
+{
+  if (get_unit_type(transporter)->transport_capacity <= 0) {
+    return FALSE;
+  }
+
+  if (get_unit_type(transported)->move_type == LAND_MOVING) {
+    if ((unit_type_flag(transporter, F_CARRIER)
+         || unit_type_flag(transporter, F_MISSILE_CARRIER))) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+
+  if (!unit_type_flag(transported, F_MISSILE)
+     && unit_type_flag(transporter, F_MISSILE_CARRIER)) {
+    return FALSE;
+  }
+
+  if (unit_type_flag(transported, F_MISSILE)) {
+    if (!unit_type_flag(transporter, F_MISSILE_CARRIER)
+        && !unit_type_flag(transporter, F_CARRIER)) {
+      return FALSE;
+    }
+  } else if ((get_unit_type(transported)->move_type == AIR_MOVING
+              || get_unit_type(transported)->move_type == HELI_MOVING)
+             && !unit_type_flag(transporter, F_CARRIER)) {
+    return FALSE;
+  }
+
+  if (get_unit_type(transported)->move_type == SEA_MOVING) {
+    /* No unit can transport sea units at the moment */
+    return FALSE;
+  }
+
+  return TRUE;
 }

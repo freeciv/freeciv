@@ -375,18 +375,9 @@ static void check_units(void) {
       }
 
       /* Check for ground units in the ocean. */
-      if (!pcity
-	  && is_ocean(map_get_terrain(ptile))
-	  && is_ground_unit(punit)) {
+      if (!can_unit_exist_at_tile(punit, ptile)) {
         SANITY_CHECK(punit->transported_by != -1);
-        SANITY_CHECK(!is_ground_unit(transporter));
-        SANITY_CHECK(is_ground_units_transport(transporter));
-      } else if (!pcity
-                 && !is_ocean(map_get_terrain(ptile))
-	         && is_sailing_unit(punit)) {
-        SANITY_CHECK(punit->transported_by != -1);
-        SANITY_CHECK(!is_sailing_unit(transporter));
-        SANITY_CHECK(FALSE); /* SANITY_CHECK(is_sailing_units_transport(transporter)); */
+        SANITY_CHECK(can_unit_transport(transporter, punit));
       }
 
       /* Check for over-full transports. */
