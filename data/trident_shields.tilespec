@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3"
+options = "+tilespec3 +duplicates_ok"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident w/Shields"
