@@ -1004,6 +1004,11 @@ static void package_player_info(struct player *plr,
     for(i=0; i<game.num_tech_types; i++)
       packet->inventions[i] = '0';
     packet->inventions[i]   = '\0';
+
+    /* Ideally, we should check whether receiver really sees any cities owned
+       by player before this. */
+    packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
+
     packet->government      = G_MAGIC;
   }
 

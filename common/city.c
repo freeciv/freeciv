@@ -1004,14 +1004,23 @@ Evaluate which style should be used to draw a city.
 **************************************************************************/
 int get_city_style(struct city *pcity)
 {
-  int replac, style;
+  return get_player_city_style(city_owner(pcity));
+}
 
-  struct player *plr = &game.players[pcity->owner];
+/**************************************************************************
+...
+**************************************************************************/
+int get_player_city_style(struct player *plr)
+{
+  int replace, style, prev;
+
   style = plr->city_style;
+  prev = style;
 
-  while( ((replac = city_styles[style].replaced_by) != -1) &&
-         (get_invention( plr, city_styles[replac].techreq) == TECH_KNOWN) ) {
-    style = replac;
+  while ( (replace = city_styles[prev].replaced_by) != -1) {
+    prev = replace;
+    if (get_invention( plr, city_styles[replace].techreq) == TECH_KNOWN)
+      style = replace;
   }
   return style;
 }
