@@ -13,6 +13,12 @@
 #ifndef FC__FCINTL_H
 #define FC__FCINTL_H
 
+#ifdef HAVE_CONFIG_H
+#ifndef FC_CONFIG_H		/* this should be defined in config.h */
+#error Files including fcintl.h should also include config.h directly
+#endif
+#endif
+
 #ifdef ENABLE_NLS
 #include <libintl.h>
 
