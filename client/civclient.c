@@ -243,7 +243,10 @@ int main(int argc, char *argv[])
       free(option);
     } else if ((option = get_option_malloc("--port",argv,&i,argc))) {
       if (sscanf(option, "%d", &server_port) != 1) {
-	/* FIXME: error message */
+	fc_fprintf(stderr,
+		   _("Invalid port \"%s\" specified with --port option.\n"),
+		   option);
+	fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
       free(option);
@@ -255,6 +258,10 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--debug", argv, &i, argc))) {
       loglevel = log_parse_level_str(option);
       if (loglevel == -1) {
+	fc_fprintf(stderr,
+		   _("Invalid debug level \"%s\" specified with --debug "
+		     "option.\n"), option);
+	fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
       free(option);
