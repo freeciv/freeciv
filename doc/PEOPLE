@@ -14,6 +14,7 @@ contributions to the Freeciv project.
      Raimar Falke <rf13@mail.inf.tu-dresden.de> (since Aug 2001 [from 1.12.0])
      Mike Kaufman <kaufman@orion.physics.wisc.edu> (since Dec 2001 
        [from 1.12.0])
+     Per I. Mathisen <per@leftist.net> (since April 17 2002 [from 1.12.0])
 
   Past administrators:
 
@@ -181,9 +182,8 @@ contributions to the Freeciv project.
      Corin Anderson <corin@the4cs.com> (worklists 1.10.0, bugfix 1.9.0)
      Daniel Burrows <Daniel_Burrows@brown.edu>
 	(Gtk+ patch 1.10.0, hp regeneration patches 1.8.0)
-     Per I. Mathisen <Per.Inge.Mathisen@idi.ntnu.no>
-	(cmd-line parse cleanup 1.10.0, patches 1.8.x,
-	server console, 1.7.2, 1.7.1)
+     Per I. Mathisen <per@lefist.net> (cmd-line parse cleanup 1.10.0, 
+	patches 1.8.x, server console, 1.7.2, 1.7.1)
      Egbert Hinzen <egbert@hinzen-koeln.de> (bugfixes 1.10.0)
      John-Marc Chandonia <jmc@cmpharm.ucsf.edu>
 	(bugfix 1.10.0, Gtk+ "Change All" dialog 1.9.0)
@@ -376,8 +376,7 @@ contributions to the Freeciv project.
      Tobias Brox <tobix@irctos.org> (nations 1.10.0)
      Mike Jing <miky40@hotmail.com> (nations 1.10.0)
 
-     Per I. Mathisen <Per.Inge.Mathisen@idi.ntnu.no>
-	(buildings, techs, units 1.9.0)
+     Per I. Mathisen <per@leftist.net> (buildings, techs, units 1.9.0)
      Sune Kirkeby <sune@interspace.dk> (governments, units 1.9.0)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (nations 1.9.0)
      Jarda Benkovsky <pvt.benkovsk@pvtnet.cz> (nations 1.9.0)
@@ -667,7 +666,7 @@ contributions to the Freeciv project.
      Eric Brunet <ebrunet@clipper.ens.fr> (fr.po 1.10.0)
      Stig Erik Sandoe <stig@ii.uib.no> (no.po 1.10.0)
      Paul Zastoupil <paulz@dunedain.net> (es.po 1.10.0)
-     Per I. Mathisen <Per.Inge.Mathisen@idi.ntnu.no> (no.po 1.10.0)
+     Per I. Mathisen <per@leftist.net> (no.po 1.10.0)
      Jorgen Skjaanes <jorgen@gulesider.no> (no.po 1.10.0)
      Robert Brady <rwb197@ecs.soton.ac.uk> (en_GB.po 1.10.0)
      Valek Filippov <frob@df.ru> (ru.po 1.10.0)
