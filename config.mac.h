@@ -86,14 +86,16 @@
 #undef HAVE_STPCPY
 #undef LOCALEDIR
 #undef DEFAULT_DATA_PATH
-#define HAVE_SIGPIPE 1		/* ? dwp */
+#undef HAVE_SIGPIPE
 #undef XPM_H_NO_X11
 
-#define ALWAYS_ROOT 1
+#define ALWAYS_ROOT 1 /*may not be needed.  Metroworks provides dummy functions*/
 
 /* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #undef STRICT_WINDOWS
 #define STRICT_WINDOWS 1 /* seq used to enable strict windows */
+#undef STRICT_CONTROLS
+#define STRICT_CONTROLS 1 /* seq used to enable strict controls */
 
 #define GENERATING_MAC
 #define HAVE_OPENTRANSPORT
