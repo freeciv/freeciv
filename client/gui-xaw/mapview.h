@@ -37,7 +37,6 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 			    void *client_data);
 void map_canvas_expose(Widget w, XEvent *event, Region exposed, 
 		       void *client_data);
-void map_canvas_resize(void);
 
 void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y);
 void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y);

@@ -71,8 +71,6 @@ const char *client_string = "gui-gtk";
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
 GtkWidget *map_vertical_scrollbar;
-GdkPixmap *map_canvas_store;            /* this pixmap acts as a backing store 
-                                         * for the map_canvas widget */
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 
@@ -947,17 +945,8 @@ void ui_main(int argc, char **argv)
 
   timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
-  /* Start with a 1x1 window (GTK doesn't like 0x0). */
-  mapview_canvas.tile_width = 1;
-  mapview_canvas.tile_height = 1;
-  mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
-  mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
+  init_mapcanvas_and_overview();
 
-  mapview_canvas.store =
-      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
-  map_canvas_store = mapview_canvas.store->pixmap;
-
-  overview.store = NULL;
   overview.window = fc_malloc(sizeof(*overview.window));
   overview.window->pixmap = overview_canvas->window;
   overview.window->pixcomm = NULL;

@@ -33,7 +33,6 @@ extern GC           prod_font_gc;
 extern Pixmap       gray50;
 extern Pixmap       gray25;
 extern Pixmap       single_tile_pixmap;
-extern Pixmap       map_canvas_store;
 extern Widget       map_vertical_scrollbar;
 extern Widget       map_horizontal_scrollbar;
 extern Widget       left_column_form;

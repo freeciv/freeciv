@@ -22,6 +22,7 @@
 #include "support.h"
 #include "timing.h"
 
+#include "civclient.h"
 #include "climap.h"
 #include "control.h"
 #include "goto.h"
@@ -1807,7 +1808,70 @@ void set_overview_dimensions(int width, int height)
   overview.store = canvas_store_create(overview.width, overview.height);
   gui_put_rectangle(overview.store, COLOR_STD_BLACK, 0, 0, overview.width,
 		    overview.height);
+  update_map_canvas_scrollbars_size();
 
   /* Call gui specific function. */
   map_size_changed();
+}
+
+/**************************************************************************
+  Called if the map in the GUI is resized.
+**************************************************************************/
+bool map_canvas_resized(int width, int height)
+{
+  int tile_width = (width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
+  int tile_height = (height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
+
+  if (mapview_canvas.tile_width == tile_width
+       && mapview_canvas.tile_height == tile_height) {
+      return FALSE;
+  }
+
+  /* Resized */
+
+  /* Since a resize is only triggered when the tile_*** changes, the canvas
+   * width and height must include the entire backing store - otherwise
+   * small resizings may lead to undrawn tiles. */
+  mapview_canvas.tile_width = tile_width;
+  mapview_canvas.tile_height = tile_height;
+
+  mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
+  mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
+
+  if (mapview_canvas.store) {
+    canvas_store_free(mapview_canvas.store);
+  }
+  
+  mapview_canvas.store =
+      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
+  gui_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
+		    mapview_canvas.width, mapview_canvas.height);
+
+  if (map_exists() && can_client_change_view()) {
+    update_map_canvas_visible();
+
+    update_map_canvas_scrollbars_size();
+    update_map_canvas_scrollbars();
+    refresh_overview_canvas();
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Sets up the mapview_canvas and overview struts.
+**************************************************************************/
+void init_mapcanvas_and_overview(void)
+{
+  mapview_canvas.tile_width = 0;
+  mapview_canvas.tile_height = 0;
+  mapview_canvas.width = 0;
+  mapview_canvas.height = 0;
+  mapview_canvas.store = canvas_store_create(1, 1);
+
+  overview.map_x0 = 0;
+  overview.map_y0 = 0;
+  overview.width = 0;
+  overview.height = 0;
+  overview.store = NULL;
 }

@@ -198,9 +198,6 @@ Pixmap unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 Widget more_arrow_label;
 Window root_window;
 
-/* this pixmap acts as a backing store for the map_canvas widget */
-Pixmap map_canvas_store = 0;
-
 /* this pixmap is used when moving units etc */
 Pixmap single_tile_pixmap;
 
@@ -446,9 +443,8 @@ void ui_main(int argc, char *argv[])
   x_interval_id = XtAppAddTimeOut(app_context, TIMER_INTERVAL,
 				  timer_callback, NULL);
 
-  map_canvas_resize();
+  init_mapcanvas_and_overview();
 
-  overview.store = NULL;
   overview.window = fc_malloc(sizeof(*overview.window));
   overview.window->pixmap = XtWindow(overview_canvas);
 

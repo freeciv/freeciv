@@ -50,6 +50,8 @@
 
 #include "mapview.h"
 
+#define map_canvas_store (mapview_canvas.store->pixmap)
+
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
@@ -383,7 +385,6 @@ void draw_unit_animation_frame(struct unit *punit,
 void map_size_changed(void)
 {
   gtk_widget_set_usize(overview_canvas, overview.width, overview.height);
-  update_map_canvas_scrollbars_size();
 }
 
 /**************************************************************************
@@ -442,47 +443,12 @@ void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
 gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   gint height, width;
-  int tile_width, tile_height;
   gboolean map_resized;
   static int exposed_once = 0;
 
   gdk_window_get_size(w->window, &width, &height);
 
-  tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-  tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
-
-  /* Since a resize is only triggered when the tile_*** changes, the canvas
-   * width and height must include the entire backing store - otherwise
-   * small resizings may lead to undrawn tiles. */
-  mapview_canvas.width = tile_width * NORMAL_TILE_WIDTH;
-  mapview_canvas.height = tile_height * NORMAL_TILE_HEIGHT;
-
-  map_resized=FALSE;
-  if (mapview_canvas.tile_width != tile_width
-      || mapview_canvas.tile_height != tile_height) { /* resized? */
-    gdk_pixmap_unref(map_canvas_store);
-  
-    mapview_canvas.tile_width = tile_width;
-    mapview_canvas.tile_height = tile_height;
-/*
-    gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas),
-  		    mapview_canvas.tile_width,
-  		    mapview_canvas.tile_height);
-*/
-    map_canvas_store= gdk_pixmap_new( map_canvas->window,
-  		    tile_width*NORMAL_TILE_WIDTH,
-  		    tile_height*NORMAL_TILE_HEIGHT,
-  		    -1 );
-    mapview_canvas.store->pixmap = map_canvas_store;
-
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
-		       0, 0,
-		       NORMAL_TILE_WIDTH * mapview_canvas.tile_width,
-		       NORMAL_TILE_HEIGHT * mapview_canvas.tile_height);
-    update_map_canvas_scrollbars_size();
-    map_resized=TRUE;
-  }
+  map_resized = map_canvas_resized(width, height);
 
   if (!can_client_change_view()) {
     if (!intro_gfx_sprite) {
@@ -511,17 +477,10 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
       scaled_intro_sprite = NULL;
     }
 
-    if (map_exists()) { /* do we have a map at all */
-      if(map_resized) {
-	update_map_canvas_visible();
-
-	update_map_canvas_scrollbars();
-      }
-      else {
-	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
-		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-		ev->area.width, ev->area.height );
-      }
+    if (map_exists() && !map_resized) {
+      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		      ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+		      ev->area.width, ev->area.height);
     }
     refresh_overview_canvas();
   }

@@ -51,6 +51,8 @@
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
+#define map_canvas_store (mapview_canvas.store->pixmap)
+
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
@@ -478,54 +480,10 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 static bool map_center = TRUE;
 static bool map_configure = FALSE;
 
-gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
+gboolean map_canvas_configure(GtkWidget * w, GdkEventConfigure * ev,
 			      gpointer data)
 {
-  int tile_width, tile_height;
-
-  tile_width = (ev->width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
-  tile_height = (ev->height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
-
-  /* Since a resize is only triggered when the tile_*** changes, the canvas
-   * width and height must include the entire backing store - otherwise
-   * small resizings may lead to undrawn tiles. */
-  mapview_canvas.width = tile_width * NORMAL_TILE_WIDTH;
-  mapview_canvas.height = tile_height * NORMAL_TILE_HEIGHT;
-
-  /* Check if we resized the mapview. */
-  if (mapview_canvas.tile_width != tile_width
-      || mapview_canvas.tile_height != tile_height) {
-
-    if (map_canvas_store) {
-      g_object_unref(map_canvas_store);
-    }
-
-    mapview_canvas.tile_width = tile_width;
-    mapview_canvas.tile_height = tile_height;
-
-    map_canvas_store = gdk_pixmap_new(ev->window,
-				      tile_width  * NORMAL_TILE_WIDTH,
-				      tile_height * NORMAL_TILE_HEIGHT,
-				      -1);
-
-    if (!mapview_canvas.store) {
-      mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
-    }
-    mapview_canvas.store->pixmap = map_canvas_store;
-    mapview_canvas.store->pixcomm = NULL;
-
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE, 0, 0, -1, -1);
-    update_map_canvas_scrollbars_size();
-
-    if (can_client_change_view()) {
-      if (map_exists()) { /* do we have a map at all */
-        update_map_canvas_visible();
-        update_map_canvas_scrollbars();
-	refresh_overview_canvas();
-      }
-    }
-    
+  if (map_canvas_resized(ev->width, ev->height)) {
     map_configure = TRUE;
   }
 

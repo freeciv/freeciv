@@ -208,4 +208,7 @@ void refresh_overview_canvas(void);
 void overview_update_tile(int x, int y);
 void set_overview_dimensions(int width, int height);
 
+bool map_canvas_resized(int width, int height);
+void init_mapcanvas_and_overview(void);
+
 #endif /* FC__MAPVIEW_COMMON_H */

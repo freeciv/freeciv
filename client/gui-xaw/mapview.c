@@ -52,6 +52,8 @@
 
 #include "mapview.h"
 
+#define map_canvas_store (mapview_canvas.store->pixmap)
+
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
 static void put_line(Pixmap pm, int x, int y, int dir);
@@ -411,11 +413,11 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		       void *client_data)
 {
   Dimension width, height;
-  int tile_width, tile_height;
+  bool map_resized;
 
   XtVaGetValues(w, XtNwidth, &width, XtNheight, &height, NULL);
-  tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-  tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
+
+  map_resized = map_canvas_resized(width, height);
 
   if (!can_client_change_view()) {
     if (!intro_gfx_sprite) {
@@ -441,12 +443,6 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		 event->xexpose.x, event->xexpose.y,
 		 event->xexpose.width, event->xexpose.height,
 		 event->xexpose.x, event->xexpose.y);
-
-    /* resized? */
-    if (mapview_canvas.tile_width != tile_width
-	|| mapview_canvas.tile_height != tile_height) {
-      map_canvas_resize();
-    }
     return;
   }
   if(scaled_intro_pixmap) {
@@ -454,54 +450,14 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
     scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
   }
 
-  if (map_exists()) { /* do we have a map at all */
-    /* resized? */
-    if (mapview_canvas.tile_width != tile_width
-	|| mapview_canvas.tile_height!=tile_height) {
-      map_canvas_resize();
-
-      XFillRectangle(display, map_canvas_store, fill_bg_gc, 0, 0, 
-		     NORMAL_TILE_WIDTH * mapview_canvas.tile_width,
-		     NORMAL_TILE_HEIGHT * mapview_canvas.tile_height);
-
-      update_map_canvas_visible();
-
-      update_map_canvas_scrollbars();
-    } else {
-      XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-		civ_gc,
-		event->xexpose.x, event->xexpose.y,
-		event->xexpose.width, event->xexpose.height,
-		event->xexpose.x, event->xexpose.y);
-    }
+  if (map_exists() && !map_resized) {
+    XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
+	      civ_gc,
+	      event->xexpose.x, event->xexpose.y,
+	      event->xexpose.width, event->xexpose.height,
+	      event->xexpose.x, event->xexpose.y);
   }
   refresh_overview_canvas();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void map_canvas_resize(void)
-{
-  Dimension width, height;
-
-  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
-
-  mapview_canvas.tile_width = ((width - 1) / NORMAL_TILE_WIDTH) + 1;
-  mapview_canvas.tile_height = ((height - 1) / NORMAL_TILE_HEIGHT) + 1;
-  
-  /* Since a resize is only triggered when the tile_*** changes, the canvas
-   * width and height must include the entire backing store - otherwise
-   * small resizings may lead to undrawn tiles. */
-  mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
-  mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
-
-  if (mapview_canvas.store) {
-    canvas_store_free(mapview_canvas.store);
-  }
-  mapview_canvas.store =
-      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
-  map_canvas_store = mapview_canvas.store->pixmap;
 }
 
 /**************************************************************************
@@ -702,6 +658,14 @@ void update_map_canvas_scrollbars(void)
 
   XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
   XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void update_map_canvas_scrollbars_size(void)
+{
+  /* Nothing */
 }
 
 /**************************************************************************
