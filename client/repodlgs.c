@@ -1498,8 +1498,8 @@ void trade_report_dialog_update(void)
   if(trade_dialog_shell) {
     int j, k, count, tax, cost, total;
     Dimension width; 
-    static char *trade_list_names_ptrs[B_APOLLO+1];
-    static char trade_list_names[B_APOLLO][200];
+    static char *trade_list_names_ptrs[B_LAST+1];
+    static char trade_list_names[B_LAST][200];
     char *report_title;
     char trade_total[48];
     struct city *pcity;
@@ -1512,7 +1512,8 @@ void trade_report_dialog_update(void)
     k = 0;
     pcity = city_list_get(&game.player_ptr->cities,0);
     if(pcity)  {
-      for (j=0;j<B_APOLLO;j++) {
+      for (j=0;j<B_LAST;j++)
+      if(!is_wonder(j)) {
 	count = 0; 
 	city_list_iterate(game.player_ptr->cities,pcity)
 	  if (city_got_building(pcity, j)) count++;
