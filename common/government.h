@@ -81,6 +81,9 @@ struct government
   int   empire_size_mod;	/* (signed) offset to game.cityfactor to
 				   give city count when number of naturally
 				   content citizens is decreased */
+  int   empire_size_inc;	/* if non-zero, reduce one content citizen for
+				   every empire_size_inc cities once #cities
+				   exceeds game.cityfactor + empire_size_mod */
   int   rapture_size;		/* minimum city size for rapture; if 255,
 				   rapture is (practically) impossible */
 

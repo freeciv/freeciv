@@ -2560,6 +2560,8 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_uint8(cptr, packet->martial_law_max);
   cptr=put_uint8(cptr, packet->martial_law_per);
   cptr=put_uint8(cptr, packet->empire_size_mod);
+  if(pc && has_capability("lesshappy", pc->capability))
+    cptr=put_uint8(cptr, packet->empire_size_inc);
   cptr=put_uint8(cptr, packet->rapture_size);
   
   cptr=put_uint8(cptr, packet->unit_happy_cost_factor);
@@ -2652,6 +2654,8 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_uint8(&iter, &packet->martial_law_per);
   iget_uint8(&iter, &packet->empire_size_mod);
   if(packet->empire_size_mod > 127) packet->empire_size_mod-=256;
+  if(has_capability("lesshappy", pc->capability))
+    iget_uint8(&iter, &packet->empire_size_inc);
   iget_uint8(&iter, &packet->rapture_size);
   
   iget_uint8(&iter, &packet->unit_happy_cost_factor);

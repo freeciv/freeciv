@@ -57,6 +57,9 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		     taxation/luxuries/science
 ; empire_size_mod  = signed modifier added to cityfactor to determine
 ;		     empire size when base unhappiness is increased
+; empire_size_inc  = if non-zero, reduce one content citizen for
+;		     every empire_size_inc cities once #cities
+;		     exceeds (cityfactor + empire_size_mod)
 ; civil_war_chance = percentage change of civil war when capital is captured
 ;		     (and player has enough cities etc)
 ; rapture_size     = a happy city will celebrate when its size is
@@ -109,6 +112,7 @@ max_single_rate  = 100  ; rates are irrelevant under Anarchy; use 100
 		        ; to avoid unnecessary changes during revolution
 civil_war_chance = 90
 empire_size_mod  = -5
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -178,6 +182,7 @@ martial_law_per  = 1
 max_single_rate  = 60
 civil_war_chance = 80
 empire_size_mod  = -4
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 0 
@@ -246,6 +251,7 @@ martial_law_per  = 1
 max_single_rate  = 70
 civil_war_chance = 70
 empire_size_mod  = -3
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -313,6 +319,7 @@ martial_law_per  = 2
 max_single_rate  = 80
 civil_war_chance = 50
 empire_size_mod  = -2
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -387,6 +394,7 @@ martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 60
 empire_size_mod  = -1
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -437,6 +445,7 @@ martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 40
 empire_size_mod  = -1
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 1
@@ -515,6 +524,7 @@ martial_law_per  = 0
 max_single_rate  = 100
 civil_war_chance = 30
 empire_size_mod  = 0
+empire_size_inc  = 0
 rapture_size     = 3
 
 unit_unhappy_factor = 2

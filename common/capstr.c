@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9 river_help_text +barbarians founders"
+#define CAPABILITY "+1.9 river_help_text +barbarians founders lesshappy"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
@@ -78,6 +78,8 @@ const char * const our_capability = our_capability_internal;
 
    "founders" means that city founders are specified by an extra unit type
    flag (F_CITIES) in addition to the standard settlers (F_SETTLERS) flag.
+
+   "lesshappy" is protocol extension for empire_size_inc happiness modifier.
 */
 
 void init_our_capability(void)

@@ -93,9 +93,13 @@ int content_citizens(struct player *pplayer)
   int cities =  city_list_size(&pplayer->cities);
   int content = game.unhappysize;
   int basis   = game.cityfactor + get_gov_pplayer(pplayer)->empire_size_mod;
+  int step    = get_gov_pplayer(pplayer)->empire_size_inc;
 
-  if (cities > basis) 
+  if (cities > basis) {
     content--;
+    if (step)
+      content -= (cities - basis) / step;
+  }
   return content;
 }
 

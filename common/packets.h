@@ -584,6 +584,7 @@ struct packet_ruleset_government {
   int martial_law_max;
   int martial_law_per;
   int empire_size_mod;
+  int empire_size_inc;
   int rapture_size;
       
   int unit_happy_cost_factor;

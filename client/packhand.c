@@ -1188,6 +1188,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->martial_law_max   = p->martial_law_max;
   gov->martial_law_per   = p->martial_law_per;
   gov->empire_size_mod   = p->empire_size_mod;
+  gov->empire_size_inc   = p->empire_size_inc;
   gov->rapture_size      = p->rapture_size;
   
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;

@@ -1061,6 +1061,8 @@ static void load_ruleset_governments(char *ruleset_subdir)
     g->max_rate = secfile_lookup_int(&file, "%s.max_single_rate", sec[i]);
     g->civil_war = secfile_lookup_int(&file, "%s.civil_war_chance", sec[i]);
     g->empire_size_mod = secfile_lookup_int(&file, "%s.empire_size_mod", sec[i]);
+    g->empire_size_inc =
+      secfile_lookup_int_default(&file, 0, "%s.empire_size_inc", sec[i]);
     g->rapture_size = secfile_lookup_int(&file, "%s.rapture_size", sec[i]);
     
     g->free_happy
@@ -1787,6 +1789,7 @@ static void send_ruleset_governments(struct player *dest)
     gov.martial_law_max  = g->martial_law_max;
     gov.martial_law_per  = g->martial_law_per;
     gov.empire_size_mod  = g->empire_size_mod;
+    gov.empire_size_inc  = g->empire_size_inc;
     gov.rapture_size     = g->rapture_size;
     
     gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
