@@ -70,11 +70,14 @@ static int *river_map;
 
 #define HAS_POLES (map.temperature < 70 && !map.alltemperate  )
 
-/* these are the old parameters of terrains types do in %
-   TODO: this deppend of the hardcoded terrains
-   this has to work from a terrains rules-set */
-static int forest_pct = 0, desert_pct = 0, swamp_pct = 0, mountain_pct = 0,
-    jungle_pct = 0, river_pct = 0;
+/* These are the old parameters of terrains types in %
+   TODO: they depend on the hardcoded terrains */
+static int forest_pct = 0;
+static int desert_pct = 0;
+static int swamp_pct = 0;
+static int mountain_pct = 0;
+static int jungle_pct = 0;
+static int river_pct = 0;
  
 /****************************************************************************
  * Conditions used mainly in rand_map_pos_characteristic()
@@ -287,8 +290,8 @@ static bool ok_for_separate_poles(int x, int y)
     return TRUE;
   }
   adjc_iterate(x, y, x1, y1) {
-    if(!is_ocean(map_get_terrain(x1, y1))
-       && map_get_continent(x1, y1 ) != 0) {
+    if (!is_ocean(map_get_terrain(x1, y1)) && 
+        map_get_continent(x1, y1 ) != 0) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -417,7 +420,7 @@ static void make_terrains(void)
   int swamps_count = 0;
 
   whole_map_iterate(x, y) {
-    if(not_placed(x,y)) {
+    if (not_placed(x,y)) {
      total++;
     }
   } whole_map_iterate_end;
@@ -1057,33 +1060,40 @@ void map_fractal_generate(bool autosize)
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
-    if (map.generator == 5 )
+    if (map.generator == 5) {
       mapgenerator5();
-    if (map.generator == 4 )
+    }
+    if (map.generator == 4) {
       mapgenerator4();
-    if (map.generator == 3 )
+    }
+    if (map.generator == 3) {
       mapgenerator3();
-    if( map.generator == 2 )
+    }
+    if (map.generator == 2) {
       mapgenerator2();
-    if( map.generator == 1 )
+    }
+    if (map.generator == 1) {
       mapgenerator1();
+    }
     if (!map.tinyisles) {
       remove_tiny_islands();
     }
   } else {
-      assign_continent_numbers();
+    assign_continent_numbers();
   }
 
-  if(!temperature_is_initialized()) {
+  if (!temperature_is_initialized()) {
     create_tmap(FALSE);
   }
+  
+  /* some scenarios already provide specials */
+  if (!map.have_specials) {
+    add_specials(map.riches);
+  }
 
-  if(!map.have_specials) /* some scenarios already provide specials */
-    add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
-
-  if (!map.have_huts)
-    make_huts(map.huts); /* Vi vil have store promiller; man kan aldrig faa
-			    for meget oel! */
+  if (!map.have_huts) {
+    make_huts(map.huts); 
+  }
 
   /* restore previous random state: */
   set_myrand_state(rstate);
@@ -1097,21 +1107,23 @@ void map_fractal_generate(bool autosize)
 static void adjust_terrain_param(void)
 {
   int polar = 2 * ICE_BASE_LEVEL * map.landpercent / MAX_COLATITUDE ;
-  float factor =(100.0 - polar - map.steepness * 0.8 ) / 10000;
+  float factor = (100.0 - polar - map.steepness * 0.8 ) / 10000;
 
 
   mountain_pct = factor * map.steepness * 90;
+
   /* 40 % if wetness == 50 & */
   forest_pct = factor * (map.wetness * 60 + 1000) ; 
-  jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL)
-     /  (MAX_COLATITUDE * 2);
+  jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL) /
+               (MAX_COLATITUDE * 2);
   forest_pct -= jungle_pct;
+
   /* 3 - 11 % */
   river_pct = (100 - polar) * (3 + map.wetness / 12) / 100;
+
   /* 6 %  if wetness == 50 && temperature == 50 */
   swamp_pct = factor * (map.wetness * 6 + map.temperature * 6);
   desert_pct = factor * (map.temperature * 10 + (100 - map.wetness) * 10) ;
-  
 }
 
 /**************************************************************************
@@ -1339,9 +1351,11 @@ static void fill_island(int coast, long int *bucket,
 
   k= i;
   failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
-  if(failsafe<0){ failsafe= -failsafe; }
+  if (failsafe<0) {
+    failsafe= -failsafe;
+  }
 
-  if(warm0_weight+warm1_weight+cold0_weight+cold1_weight<=0)
+  if (warm0_weight + warm1_weight + cold0_weight + cold1_weight <= 0)
     i= 0;
 
   while (i > 0 && (failsafe--) > 0) {
@@ -1500,7 +1514,7 @@ static bool place_island(struct gen234_state *pstate)
 	assert(is_real);
 
 	checkmass--; 
-	if(checkmass<=0) {
+	if (checkmass <= 0) {
 	  freelog(LOG_ERROR, "mapgen.c: mass doesn't sum up.");
 	  return i != 0;
 	}
@@ -1587,7 +1601,7 @@ static bool create_island(int islemass, struct gen234_state *pstate)
       }
     }
   }
-  if(tries<=0) {
+  if (tries<=0) {
     freelog(LOG_ERROR, "create_island ended early with %d/%d.",
 	    islemass-i, islemass);
   }
@@ -1629,9 +1643,8 @@ static bool make_island(int islemass, int starters,
     if (pstate->totalmass > 3000)
       freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
-    i = river_pct + mountain_pct
-		+ desert_pct + forest_pct + swamp_pct;
-    i = i <= 90 ? 100 : i * 11 / 10;
+    i = river_pct + mountain_pct + desert_pct + forest_pct + swamp_pct;
+    i = (i <= 90) ? 100 : i * 11 / 10;
     tilefactor = pstate->totalmass / i;
     riverbuck = -(long int) myrand(pstate->totalmass);
     mountbuck = -(long int) myrand(pstate->totalmass);
@@ -1668,7 +1681,7 @@ static bool make_island(int islemass, int starters,
       return FALSE;
     }
     islands[pstate->isleindex].starters = starters;
-    assert(starters>=0);
+    assert(starters >= 0);
     freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
 
     /* keep trying to place an island, and decrease the size of
@@ -1681,10 +1694,10 @@ static bool make_island(int islemass, int starters,
       i--;
     }
     i++;
-    lastplaced= i;
-    if(i*10>islemass){
+    lastplaced = i;
+    if (i * 10 > islemass) {
       balance = i - islemass;
-    }else{
+    } else{
       balance = 0;
     }
 
@@ -1698,7 +1711,7 @@ static bool make_island(int islemass, int starters,
 
     mountbuck += mountain_pct * i;
     fill_island(20, &mountbuck,
-		3,1, 3,1,
+		3, 1, 3,1,
 		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS,
 		pstate);
     desertbuck += desert_pct * i;
@@ -1733,6 +1746,7 @@ static void initworld(struct gen234_state *pstate)
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
   create_placed_map(); /* land tiles which aren't placed yet */
   create_tmap(FALSE);
+  
   whole_map_iterate(x, y) {
     map_set_terrain(x, y, T_OCEAN);
     map_set_continent(x, y, 0);
@@ -1740,6 +1754,7 @@ static void initworld(struct gen234_state *pstate)
     map_clear_all_specials(x, y);
     map_set_owner(x, y, NULL);
   } whole_map_iterate_end;
+  
   if (HAS_POLES) {
     make_polar();
   }
@@ -1848,7 +1863,7 @@ static void mapgenerator2(void)
   free(height_map);
   height_map = NULL;
 
-  if(checkmass>map.xsize+map.ysize+totalweight) {
+  if (checkmass > map.xsize + map.ysize + totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
 }
@@ -1878,54 +1893,61 @@ static void mapgenerator3(void)
 
   bigislands= game.nplayers;
 
-  landmass= ( map.xsize * (map.ysize-6) * map.landpercent )/100;
+  landmass = (map.xsize * (map.ysize - 6) * map.landpercent)/100;
   /* subtracting the arctics */
-  if( landmass>3*map.ysize+game.nplayers*3 ){
-    landmass-= 3*map.ysize;
+  if (landmass > 3 * map.ysize + game.nplayers * 3){
+    landmass -= 3 * map.ysize;
   }
 
 
-  islandmass= (landmass)/(3*bigislands);
-  if(islandmass<4*maxmassdiv6 )
-    islandmass= (landmass)/(2*bigislands);
-  if(islandmass<3*maxmassdiv6 && game.nplayers*2<landmass )
+  islandmass= (landmass)/(3 * bigislands);
+  if (islandmass < 4 * maxmassdiv6) {
+    islandmass = (landmass)/(2 * bigislands);
+  }
+  if (islandmass < 3 * maxmassdiv6 && game.nplayers * 2 < landmass) {
     islandmass= (landmass)/(bigislands);
+  }
 
   if (map.xsize < 40 || map.ysize < 40 || map.landpercent > 80) { 
-      freelog(LOG_NORMAL, _("Falling back to generator %d."), 2); 
-      map.generator = 2;
-      return; 
-    }
+    freelog(LOG_NORMAL, _("Falling back to generator %d."), 2); 
+    map.generator = 2;
+    return; 
+  }
 
-  if(islandmass<2)
-    islandmass= 2;
-  if(islandmass>maxmassdiv6*6)
-    islandmass= maxmassdiv6*6;/* !PS: let's try this */
+  if (islandmass < 2) {
+    islandmass = 2;
+  }
+  if(islandmass > maxmassdiv6 * 6) {
+    islandmass = maxmassdiv6 * 6;/* !PS: let's try this */
+  }
 
   initworld(pstate);
 
-  while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass
-	 && ++j < 500) {
+  while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass &&
+         ++j < 500) {
     make_island(islandmass, 1, pstate, DMSIS);
   }
 
-  if(j==500){
+  if (j == 500){
     freelog(LOG_NORMAL, _("Generator 3 didn't place all big islands."));
   }
   
-  islandmass= (islandmass*11)/8;
+  islandmass= (islandmass * 11)/8;
   /*!PS: I'd like to mult by 3/2, but starters might make trouble then*/
-  if(islandmass<2)
+  if (islandmass < 2) {
     islandmass= 2;
+  }
 
-
-  while (pstate->isleindex <= MAP_NCONT - 20 && checkmass > islandmass
-	 && ++j < 1500) {
-      if(j<1000)
+  while (pstate->isleindex <= MAP_NCONT - 20 && checkmass > islandmass &&
+         ++j < 1500) {
+      if (j < 1000) {
 	size = myrand((islandmass+1)/2+1)+islandmass/2;
-      else
+      } else {
 	size = myrand((islandmass+1)/2+1);
-      if(size<2) size=2;
+      }
+      if (size < 2) {
+        size=2;
+      }
 
       make_island(size, (pstate->isleindex - 2 <= game.nplayers) ? 1 : 0,
 		  pstate, DMSIS);
@@ -1936,12 +1958,11 @@ static void mapgenerator3(void)
   free(height_map);
   height_map = NULL;
     
-  if(j==1500) {
+  if (j == 1500) {
     freelog(LOG_NORMAL, _("Generator 3 left %li landmass unplaced."), checkmass);
   } else if (checkmass > map.xsize + map.ysize) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
-
 }
 
 /**************************************************************************
@@ -1959,19 +1980,20 @@ static void mapgenerator4(void)
 
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
-  if ( game.nplayers<2 || map.landpercent > 80) {
+  if (game.nplayers < 2 || map.landpercent > 80) {
     map.generator = 3;
     return;
   }
 
-  if(map.landpercent>60)
+  if (map.landpercent > 60) {
     bigweight=30;
-  else if(map.landpercent>40)
+  } else if (map.landpercent > 40) {
     bigweight=50;
-  else
+  } else {
     bigweight=70;
+  }
 
-  spares= (map.landpercent-5)/30;
+  spares = (map.landpercent - 5) / 30;
 
   pstate->totalmass =
       ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
@@ -2004,7 +2026,7 @@ static void mapgenerator4(void)
   free(height_map);
   height_map = NULL;
 
-  if(checkmass>map.xsize+map.ysize+totalweight) {
+  if (checkmass > map.xsize + map.ysize + totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
 }
@@ -2029,10 +2051,12 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
     return;
   }
 
-  if (x1 == map.xsize)
+  if (x1 == map.xsize) {
     x1wrap = 0;
-  if (y1 == map.ysize)
+  }
+  if (y1 == map.ysize) {
     y1wrap = 0;
+  }
 
   val[0][0] = hnat(x0, y0);
   val[0][1] = hnat(x0, y1wrap);
@@ -2124,7 +2148,7 @@ static void mapgenerator5(void)
 	  hmap(x, y) -= avoidedge;
 	}
 
-	if (map_colatitude(x, y) <= ICE_BASE_LEVEL / 2 ) {
+	if (map_colatitude(x, y) <= ICE_BASE_LEVEL / 2) {
 	  /* separate poles and avoid too much land at poles */
 	  hmap(x, y) -= myrand(avoidedge);
 	}

@@ -75,12 +75,12 @@ void create_tmap(bool real)
 
   /* if map is defined this is not changed */
   /* TO DO load if from scenario game with tmap */
-  assert( temperature_map == NULL ); /* to debug, never load a this time */
-  if ( temperature_map != NULL ) {
+  assert(temperature_map == NULL); /* to debug, never load a this time */
+  if (temperature_map != NULL) {
     return;
   }
 
-  temperature_map = fc_malloc (sizeof(int) * MAX_MAP_INDEX);
+  temperature_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
   whole_map_iterate(x, y) {
   
      /* the base temperature is equal to base map_colatitude */
@@ -108,7 +108,7 @@ void create_tmap(bool real)
   for (i = 0; i < MAX_MAP_INDEX; i++) {
     int t = temperature_map[i];
 
-    if (t >= TROPICAL_LEVEL ) {
+    if (t >= TROPICAL_LEVEL) {
       temperature_map[i] = TT_TROPICAL;
     } else if (t >= COLD_LEVEL) {
       temperature_map[i] = TT_TEMPERATE;
