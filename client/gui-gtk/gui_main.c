@@ -152,7 +152,8 @@ extern int	num_units_below;
 
 gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
 gint timer_callback(gpointer data);
-gint child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
+void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
+void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
 
 
 
@@ -428,7 +429,7 @@ void setup_widgets(void)
   gtk_box_pack_start( GTK_BOX( vbox ), paned, TRUE, TRUE, 0 );
 
   hbox = gtk_hbox_new( FALSE, 0 );
-  gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, TRUE);
+  gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, FALSE);
 
   vbox1 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
@@ -638,7 +639,7 @@ void setup_widgets(void)
       handle_box = gtk_handle_box_new();
       gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
       gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
-			  GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
+			  GTK_SIGNAL_FUNC( output_detached ), (gpointer)paned );
       gtk_paned_pack2(GTK_PANED(paned), handle_box, TRUE, TRUE);
 
       vbox3 = gtk_vbox_new(FALSE, 5);
@@ -690,10 +691,18 @@ void setup_widgets(void)
  * but I don't think it makes the whole thing slowlier if it's
  * done each time.
  */
-gint child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
+void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
 {
   gtk_widget_queue_resize(GTK_WIDGET(user_data));
-  return TRUE;
+}
+
+/*
+ * so the gutter of the paned is correctly positionned when the
+ * output/chat window is detached
+ */
+void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
+{
+  gtk_paned_set_position(GTK_PANED(user_data), -1);
 }
 
 /**************************************************************************
