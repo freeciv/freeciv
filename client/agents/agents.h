@@ -14,6 +14,8 @@
 #ifndef FC__CLIENT_AGENTS_AGENTS_H
 #define FC__CLIENT_AGENTS_AGENTS_H
 
+#include "shared.h"		/* bool type */
+
 /*
  * Besides callback for convenience client/agents/agents also
  * implements a "flattening" of the call stack i.e. to ensure that
