@@ -58,7 +58,7 @@ SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index)
 {
   assert(index>=0 && index<tthis->vector.n);
 
-  return (((SPECVEC_TYPE *)tthis->vector.ptr)+index);
+  return ((SPECVEC_TYPE *)ath_get(&tthis->vector, index));
 }
 
 void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)

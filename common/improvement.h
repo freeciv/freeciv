@@ -208,7 +208,8 @@ struct eff_city {
 struct eff_global {
   struct eff_city eff; /* Should be updated whenever the corresponding
 			  structure in the improvement's home city is
-			  modified. */
+			  modified. N.B. Keep this first in the structure
+                          so that a (struct eff_city) cast works */
   int cityid;	       /* ID of the city that owns the improvment (if -1,
 			  then the effect has survived the city destruction,
 			  and should therefore be placed in the savefile) */
@@ -291,5 +292,9 @@ int can_player_build_improvement(struct player *p, Impr_Type_id id);
 /* city related improvement functions */
 
 void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
+struct geff_vector *get_eff_world(void);
+struct geff_vector *get_eff_player(struct player *plr);
+struct geff_vector *get_eff_island(int cont, struct player *plr);
+struct ceff_vector *get_eff_city(struct city *pcity);
 
 #endif  /* FC__IMPROVEMENT_H */

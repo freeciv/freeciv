@@ -486,7 +486,7 @@ void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct geff_vector *get_eff_world(void)
+struct geff_vector *get_eff_world(void)
 {
   return (&game.effects);
 }
@@ -494,7 +494,7 @@ static struct geff_vector *get_eff_world(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct geff_vector *get_eff_player(struct player *plr)
+struct geff_vector *get_eff_player(struct player *plr)
 {
   return (&plr->effects);
 }
@@ -502,19 +502,31 @@ static struct geff_vector *get_eff_player(struct player *plr)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct geff_vector *get_eff_island(struct city *pcity)
+struct geff_vector *get_eff_island(int cont, struct player *plr)
 {
-  int i=map_get_continent(pcity->x, pcity->y);
-  return (&city_owner(pcity)->island_effects[i]);
+  return (&plr->island_effects[cont]);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static struct ceff_vector *get_eff_city(struct city *pcity)
+struct ceff_vector *get_eff_city(struct city *pcity)
 {
   return (&pcity->effects);
 }
+
+/**************************************************************************
+  Converts the given geff_vector into a ceff_vector (struct eff_global is
+  a derived class of struct eff_city, and by the same token geff_vector
+  is derived from ceff_vector). The returned vector functions exactly as
+  the orginal geff_vector, but returns eff_city structures.
+**************************************************************************/
+#ifdef UNUSED
+static struct ceff_vector *get_geff_parent(struct geff_vector *geff)
+{
+  return (struct ceff_vector *)geff;
+}
+#endif
 
 /**************************************************************************
   Fills in the efflist pointer array with the eff_global lists that could
@@ -526,8 +538,9 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
 			Impr_Type_id impr, struct city *pcity)
 {
   struct impr_effect *ie;
-  int j, i;
+  int j, i, cont;
   int effects[EFR_LAST];
+  struct player *plr;
 
   assert(pcity && impr>=0 && impr<game.num_impr_types);
 
@@ -540,14 +553,17 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
     }
   }
 
+  cont = map_get_continent(pcity->x, pcity->y);
+  plr = city_owner(pcity);
+
   i=0;
   for (j=0; j<EFR_LAST; j++) {
     if (effects[j]) {
       switch (j) {
-      case EFR_ISLAND: geffs[i++]=get_eff_island(pcity);	      break;
-      case EFR_PLAYER: geffs[i++]=get_eff_player(city_owner(pcity));  break;
-      case EFR_WORLD:  geffs[i++]=get_eff_world();		      break;
-      default:  						      break;
+      case EFR_ISLAND: geffs[i++]=get_eff_island(cont, plr);	break;
+      case EFR_PLAYER: geffs[i++]=get_eff_player(plr);		break;
+      case EFR_WORLD:  geffs[i++]=get_eff_world();		break;
+      default:  						break;
       }
     }
   }
@@ -564,13 +580,18 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
 **************************************************************************/
 void update_global_effect(struct city *pcity, struct eff_city *effect)
 {
-  struct geff_vector *effs[2];
-  int i, j;
+  struct geff_vector *effs[3];
+  int i, j, cont;
+  struct player *plr;
 
-  effs[0]=get_eff_player(city_owner(pcity));
-  effs[1]=get_eff_world();
+  cont = map_get_continent(pcity->x, pcity->y);
+  plr = city_owner(pcity);
 
-  for (j=0; j<2; j++) {
+  effs[0] = get_eff_island(cont, plr);
+  effs[1] = get_eff_player(plr);
+  effs[2] = get_eff_world();
+
+  for (j=0; j<3; j++) {
     for (i=0; i<geff_vector_size(effs[j]); i++) {
       struct eff_global *eff=geff_vector_get(effs[j], i);
 

@@ -46,4 +46,8 @@ void ath_init(struct athing *ath, int size);
 void ath_minnum(struct athing *ath, int n);
 void ath_free(struct athing *ath);
 
+/* Returns a pointer to the nth (0-based) element in the given athing. Does
+   no boundary or pointer checking */
+#define ath_get(ath,n) ((char *)((ath)->ptr)+(ath)->size*(n))
+
 #endif  /* FC__ASTRING_H */

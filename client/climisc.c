@@ -1011,7 +1011,7 @@ int num_present_units_in_city(struct city *pcity)
 **************************************************************************/
 void renumber_island_impr_effect(int old, int newnumber)
 {
-  int i, j, changed;
+  int i, changed;
 
   changed=FALSE;
   players_iterate(plr) {
@@ -1027,21 +1027,12 @@ void renumber_island_impr_effect(int old, int newnumber)
     newv=&plr->island_effects[newnumber];
 
     /* First move any island-range effects to the new vector. */
-    for (i=0, j=0; i<geff_vector_size(oldv); i++) {
+    for (i=0; i<geff_vector_size(oldv); i++) {
       olde=geff_vector_get(oldv, i);
 
       if (olde->eff.impr!=B_LAST) {
 	changed=TRUE;
-	for (; j<geff_vector_size(newv); j++) {
-	  newe=geff_vector_get(newv, j);
-	  if (newe->eff.impr==B_LAST)
-	    break;
-	}
-	/* Add a new entry to the new vector. */
-	if (j==geff_vector_size(newv)) {
-	  geff_vector_reserve(newv, j+1);
-	}
-	newe=geff_vector_get(newv, j);
+	newe = append_geff(newv);
 	newe->eff	 = olde->eff;
 	newe->cityid	 = olde->cityid;
 	olde->eff.impr	 = B_LAST;   /* Mark the old entry as unused. */
