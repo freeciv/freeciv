@@ -384,7 +384,8 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   gtk_container_add(GTK_CONTAINER(button), label);
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
-  	  GTK_SIGNAL_FUNC(help_hyperlink_callback), (gpointer)type);
+		     GTK_SIGNAL_FUNC(help_hyperlink_callback),
+		     GINT_TO_POINTER(type));
 
   return button;
 }
@@ -395,7 +396,8 @@ static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
 
   button = gtk_button_new_with_label(txt);
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
-  	  GTK_SIGNAL_FUNC(help_hyperlink_callback), (gpointer)type);
+		     GTK_SIGNAL_FUNC(help_hyperlink_callback),
+		     GINT_TO_POINTER(type));
 
   return button;
 }

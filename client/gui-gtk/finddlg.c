@@ -169,7 +169,7 @@ static void find_center_command_callback(GtkWidget *w, gpointer data)
   if ((selection=GTK_CLIST(find_list)->selection))
   {
     gchar *string;
-    gint row=(gint)selection->data;
+    gint row = GPOINTER_TO_INT(selection->data);
 
     gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
 

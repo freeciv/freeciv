@@ -917,17 +917,17 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 			     " to change production to."));
       return;
     } else {
-      row = (gint)selection_to->data;
-      to = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_to_list),
-				       row);
+      row = GPOINTER_TO_INT(selection_to->data);
+      to = GPOINTER_TO_INT(gtk_clist_get_row_data
+			   (GTK_CLIST(city_change_all_to_list), row));
     }
 
     /* Iterate over the items we change from */
     selection_from = GTK_CLIST(city_change_all_from_list)->selection;
     for (; selection_from; selection_from = g_list_next(selection_from)) {
-      row = (gint)selection_from->data;
-      from = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_from_list),
-					 row);
+      row = GPOINTER_TO_INT(selection_from->data);
+      from = GPOINTER_TO_INT(gtk_clist_get_row_data
+			     (GTK_CLIST(city_change_all_from_list), row));
       if (from == to) {
 	continue;
       }
@@ -998,7 +998,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
        hilight that item so user doesn't have to click it */
     selected_cid = -1;
     if ((selection = GTK_CLIST(city_list)->selection)) {
-      row = (gint) selection->data;
+      row = GPOINTER_TO_INT(selection->data);
       if ((pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), row))) {
 	selected_cid = cid_encode_from_city(pcity);
       }
@@ -1014,7 +1014,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
 
       j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
       gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
-			     j, (gpointer) items[i].cid);
+			     j, GINT_TO_POINTER(items[i].cid));
       if (selected_cid == items[i].cid) {
 	gtk_clist_select_row(GTK_CLIST(city_change_all_from_list), j, 0);
       }
@@ -1057,7 +1057,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
 
       j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
       gtk_clist_set_row_data(GTK_CLIST(city_change_all_to_list), j,
-			     (gpointer) (items[i].cid));
+			     GINT_TO_POINTER(items[i].cid));
     }
 
     gtk_box_pack_start(GTK_BOX(box), scrollpane, TRUE, TRUE, 10);
@@ -1297,7 +1297,7 @@ void city_report_dialog_update_city(struct city *pcity)
     /* Old method, see above. */
     char *text;
     gboolean selected = (gboolean) g_list_find(GTK_CLIST(city_list)->selection,
-					       (gpointer)i);
+					       GINT_TO_POINTER(i));
 
     gtk_clist_get_text(GTK_CLIST(city_list),i,0,&text);
 

@@ -210,9 +210,10 @@ static int fill_diplomacy_tech_menu(GtkWidget *popupmenu,
 	  GtkWidget *item=gtk_menu_item_new_with_label(advances[i].name);
 
 	  gtk_menu_append(GTK_MENU(popupmenu),item);
-	  gtk_signal_connect(GTK_OBJECT(item),"activate",
-	    GTK_SIGNAL_FUNC(diplomacy_dialog_tech_callback),
-	    (gpointer)(plr0->player_no*10000+plr1->player_no*100+i));
+	  gtk_signal_connect(GTK_OBJECT(item), "activate",
+			     GTK_SIGNAL_FUNC(diplomacy_dialog_tech_callback),
+			     GINT_TO_POINTER(plr0->player_no * 10000 +
+					     plr1->player_no * 100 + i));
       flag=1;
     }
   }
@@ -251,9 +252,11 @@ static int fill_diplomacy_city_menu(GtkWidget *popupmenu,
       GtkWidget *item=gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
 
       gtk_menu_append(GTK_MENU(popupmenu),item);
-      gtk_signal_connect(GTK_OBJECT(item),"activate",
-        GTK_SIGNAL_FUNC(diplomacy_dialog_city_callback),
-        (gpointer)(city_list_ptrs[j]->id*1024 + plr0->player_no*32 + plr1->player_no));
+      gtk_signal_connect(GTK_OBJECT(item), "activate",
+			 GTK_SIGNAL_FUNC(diplomacy_dialog_city_callback),
+			 GINT_TO_POINTER(city_list_ptrs[j]->id * 1024 +
+					 plr0->player_no * 32 +
+					 plr1->player_no));
   }
   free(city_list_ptrs);
   return i;
@@ -634,7 +637,7 @@ static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data)
   if ( (selection=GTK_CLIST(pdialog->dip_clauselist)->selection) ) {
     int i = 0, row;
     
-    row = (int)selection->data;
+    row = GPOINTER_TO_INT(selection->data);
   
     clause_list_iterate(pdialog->treaty.clauses, pclause) {
       if(i == row) {
