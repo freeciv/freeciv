@@ -365,18 +365,18 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (!pcity->is_building_unit) {
-    total=improvement_value(pcity->currently_building);
-    name=get_improvement_name(pcity->currently_building);
-    
-  } else {
+  if (pcity->is_building_unit && pcity->anarchy) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     "Game: Can't buy units when city is in disorder.");
+    return;
+  }
+
+  if (pcity->is_building_unit) {
     name=unit_types[pcity->currently_building].name;
     total=unit_value(pcity->currently_building);
-    if (pcity->anarchy) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		    "Game: Can't buy units when city is in disorder.");
-      return;
-    }
+  } else {
+    name=get_improvement_name(pcity->currently_building);
+    total=improvement_value(pcity->currently_building);
   }
   cost=city_buy_cost(pcity);
   if ((!cost) || (cost>pplayer->economic.gold))
