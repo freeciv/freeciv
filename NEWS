@@ -66,6 +66,7 @@ WHAT'S CHANGED SINCE 1.14.0
  - New metaserver.
  - New ALSA sound plugin.
  - The name of new nations created by civil war depends on original nation.
+ - Researchcost doubled and science buildings are twice as good.
  - Many more (smaller) changes, and massive changes under the hood.
 
 WHAT'S CHANGED SINCE 1.13.0
