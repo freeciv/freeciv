@@ -19,11 +19,12 @@
 # + 'diff -u' erstellten PATCH an den Koordinator,                      +
 # + Egbert Hinzen <garfy@ehinzen.de>.                                   +
 # + Sollten Ihnen "bessere" Übersetzungen einfallen, senden Sie         +
-# + bitte KEINEN PATCH, sondern stellen Sie Ihre Vorschläge als TEXT    +
-# + zur Diskussion.                                                     +
+# + bitte KEINEN PATCH, sondern mailen Sie Ihre Vorschläge als TEXT     +
+# + an die Adresse <freeciv.de@freelists.org>.                          +
 # + Wenn Sie an der Verbesserung der deutschen Übersetzung              +
-# + mitarbeiten möchten, abonnieren Sie doch <freeciv.de@coollist.com>  +
-# + mit einem Besuch auf www.coollist.com. Listenname: freeciv.de       +
+# + mitarbeiten möchten, abonnieren Sie doch unsere Mailingliste mit    +
+# + einer Email mit dem Subject: subscribe an:                          +
+# + <freeciv.de-request@freelists.org>.                                  +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # ###################################
@@ -10547,8 +10548,9 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Freeciv ist ein ursprünglich englisches Programm. Inzwischen werden auch "
-"andere Sprachen (mehr oder weniger gut) unterstützt.\n"
+"Freeciv ist ein ursprünglich englisches Programm; die erste vollständige "
+"Übersetzung ins Deutsche stammt von Egbert Hinzen <garfy@ehinzen.de>. "
+"Seit 1999 wird sie ständig aktualisiert und verbessert.\n"
 "\n"
 "Grundsätzlich erkennt Freeciv die für den Benutzer sinnvollste Sprache "
 "selbständig anhand der Systemeinstellungen. Diese Voreinstellung läßt sich "
@@ -10556,12 +10558,12 @@ msgstr ""
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
-"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an den "
-"Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken.\n"
+"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an "
+"<freeciv.de@freelists.org> schicken.\n"
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
-"deutschen Übersetzung beschäftigt. Sie können sie mit einem Besuch von www."
-"coollist.com, Listenname: freeciv.de, abonnieren."
+"deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an "
+"<freeciv.de-request@freelists.org>, Subject: subscribe, abonnieren."
 
 #: data/helpdata.txt:401
 msgid ""
