@@ -515,13 +515,27 @@ void remove_obsolete_buildings(struct player *pplayer)
 void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
 {
   int x, y, bx, by, best, cur;
+  int conflict[5][5];
+  *foodneed -= 2 * (*workers - 1);
+  *prodneed -= (*workers - 1);
+
+  city_map_iterate(x, y) {
+    conflict[x][y] = -1;
+    city_list_iterate(game.players[pcity->owner].cities, acity)
+      bx = make_dx(pcity->x + x - 2, acity->x);
+      by = make_dy(pcity->y + y - 2, acity->y);
+      if ((bx <= 2 && by < 2) || (bx < 2 && by <= 2)) conflict[x][y]++;
+    city_list_iterate_end;
+  } /* better than nothing, not as good as a global worker allocation -- Syela */
+
   do {
     bx=0;
     by=0;
     best = 0;
     city_map_iterate(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
-        if ((cur = city_tile_value(pcity, x, y, *foodneed, *prodneed)) > best) {
+        cur = city_tile_value(pcity, x, y, *foodneed, *prodneed) - conflict[x][y];
+        if (cur > best) {
           bx=x;
           by=y;
           best = cur;
@@ -531,10 +545,12 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
     if(bx || by) {
       set_worker_city(pcity, bx, by, C_TILE_WORKER);
       (*workers)--; /* amazing what this did with no parens! -- Syela */
-      *foodneed -= get_food_tile(bx,by,pcity);
-      *prodneed -= get_shields_tile(bx,by,pcity);
+      *foodneed -= get_food_tile(bx,by,pcity) - 2;
+      *prodneed -= get_shields_tile(bx,by,pcity) - 1;
     }
   } while(*workers && (bx || by));
+  *foodneed += 2 * (*workers - 1);
+  *prodneed += (*workers - 1);
   if (*prodneed > 0) printf("Ignored prodneed? in %s (%d)\n", pcity->name, *prodneed);
 }
 
