@@ -502,6 +502,23 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int victim_count)
 }
 
 /**************************************************************************
+  Compute how much we want to kill certain victim we've chosen, counted in
+  SHIELDs.  See comment to kill_desire.
+
+  chance -- the probability the action will succeed, 
+  benefit -- the benefit (in shields) that we are getting in the case of 
+             success
+  loss -- the loss (in shields) that we suffer in the case of failure
+
+  Essentially returns the probabilistic average win amount:
+      benefit * chance - loss * (1 - chance)
+**************************************************************************/
+static int avg_benefit(int benefit, int loss, double chance)
+{
+  return (int)(((benefit + loss) * chance - loss) * SHIELD_WEIGHTING);
+}
+
+/**************************************************************************
   Calculates the value and cost of nearby allied units to see if we can
   expect any help in our attack. Base function.
 **************************************************************************/
@@ -592,17 +609,8 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
     {
       /* See description of kill_desire() about these variables. */
       int attack = unit_att_rating_now(punit);
-      int vuln = unit_def_rating_sq(punit, pdef);
       int benefit = stack_cost(pdef);
       int loss = unit_build_shield_cost(punit->type);
-      double chance = unit_win_chance(punit, pdef);
-
-      if (chance < 0.005) {
-        /* Forget it! At least a tiny chance is needed here... */
-        UNIT_LOG(LOG_DEBUG, punit, "Rampage: No chance against %s(%d,%d)!",
-                 unit_name(pdef->type), pdef->x, pdef->y);
-        return 0;
-      }
 
       attack *= attack;
       
@@ -618,8 +626,14 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
       
       /* If we have non-zero attack rating... */
       if (attack > 0 && is_my_turn(punit, pdef)) {
+	double chance = unit_win_chance(punit, pdef);
+	int desire = avg_benefit(benefit, loss, chance);
+
         /* No need to amortize, our operation takes one turn. */
-        return kill_desire(benefit, attack, loss, vuln, 1);
+	UNIT_LOG(LOG_NORMAL, punit, "Rampage: Desire %d to kill %s(%d,%d)",
+		 desire, unit_name(pdef->type), pdef->x, pdef->y);
+
+        return MAX(0, desire);
       }
     }
     
