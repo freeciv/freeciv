@@ -308,82 +308,11 @@ static void generate_map_indices(void)
 }
 
 /****************************************************************************
-  Set the map xsize and ysize based on a base size and ratio (in natural
-  coordinates).
-
-  xsize and ysize are even numbers.  For iso-maps ysize%4 == 0.  This avoids
-  problems in current and future topologies.
-****************************************************************************/
-static void set_ratio(double base_size, int Xratio, int Yratio)
-{
-  /* In TF_ISO we need to double the map.ysize factor, since xsize is
-   * in native coordinates which are compressed 2x in the X direction. */ 
-  const int iso = (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) ? 2 : 1;
-
-  /* We have:
-   *
-   *   size = xsize * ysize
-   *
-   * And to satisfy the ratios and other constraints we set
-   *
-   *   xsize = 2 * isize * xratio
-   *   ysize = 2 * isize * yratio * iso
-   *
-   * For any value of "isize".  The factor of 2 is to ensure even dimensions
-   * (which are important for some topologies).  So with some substitution
-   *
-   *   size = 4 * isize * xratio * isize * yratio * iso
-   *   isize = sqrt(size / (4 * xratio * yratio * iso))
-   *
-   * Remember that size = base_size * 1000.  So this gives us
-   *
-   *   isize = sqrt(base_size * 250 / (xratio * yratio * iso))
-   */
-  int i_size = sqrt(250.0 * base_size / (Xratio * Yratio * iso)) + 0.49;
-
-  /* Make sure the linear size is large enough. */
-  while (MIN(Xratio, iso * Yratio) * 2 * i_size < MAP_MIN_LINEAR_SIZE) {
-    i_size++;
-  }
-
-  /* Now build xsize and ysize value as described above.  This gives and
-   * even xsize and ysize.  For iso maps ysize % 4 == 0. */
-  map.xsize =       2 * Xratio * i_size;
-  map.ysize = iso * 2 * Yratio * i_size;
-
-  /* Now make sure the linear size isn't too large.  If it is, the best thing
-   * we can do is decrease the base_size and try again. */
-  if (MAX(MAP_WIDTH, MAP_HEIGHT) - 1 > MAP_MAX_LINEAR_SIZE ) {
-      /* make a more litle map if possible */
-    assert(base_size > 0.1);
-    set_ratio(base_size - 0.1, Xratio, Yratio);
-    return;
-  }
-
-  if (map.size > base_size + 0.9) {
-    /* Warning when size is set uselessly big */ 
-    freelog(LOG_NORMAL,
-	    _("Requested size of %d is too big for this topology."),
-	    map.size);
-  }
-  freelog(LOG_VERBOSE, "Creating a map of size of %2.1fk tiles.", base_size);
-  freelog(LOG_VERBOSE, "xsize and ysize are set to %d and %d.",
-	  map.xsize, map.ysize);
-}
-
-/*
- * The auto ratios for known topologies
- */
-#define AUTO_RATIO_FLAT           {1, 1}
-#define AUTO_RATIO_CLASSIC        {8, 5} 
-#define AUTO_RATIO_URANUS         {5, 8} 
-#define AUTO_RATIO_TORUS          {1, 1}
-
-/****************************************************************************
   map_init_topology needs to be called after map.topology_id is changed.
 
-  If map.size is changed, call map_init_topology(TRUE) to calculate map.xsize
-  and map.ysize based on the default ratio.
+  If map.size is changed, map.xsize and map.ysize must be set before
+  calling map_init_topology(TRUE).  This is done by the mapgen code
+  (server) and packhand code (client).
 
   If map.xsize and map.ysize are changed, call map_init_topology(FALSE) to
   calculate map.size.  This should be done in the client or when loading
@@ -393,21 +322,21 @@ void map_init_topology(bool set_sizes)
 {
   enum direction8 dir;
 
-  /* Changing or reordering the topo_flag enum will break this code. */
-  const int default_ratios[4][2] =
-      {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
-       AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
-  const int id = 0x3 & map.topology_id;
-  
-  assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
-
-  if (set_sizes) {
-    /* Set map.xsize and map.ysize based on map.size. */
-    set_ratio(map.size, default_ratios[id][0], default_ratios[id][1]);  
-  } else {
+  if (!set_sizes) {
     /* Set map.size based on map.xsize and map.ysize. */
     map.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
   }
+  
+  /* sanity check for iso topologies*/
+  assert(!(topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
+	 || (map.ysize % 2) == 0);
+
+  /* The size and ratio must satisfy the minimum and maximum *linear*
+   * restrictions on width */
+  assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
+  assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
+  assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
+  assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
   for (dir = 0; dir < 8; dir++) {

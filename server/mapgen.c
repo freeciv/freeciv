@@ -1504,6 +1504,98 @@ void create_start_positions(void)
   islands = NULL;
 }
 
+/****************************************************************************
+  Set the map xsize and ysize based on a base size and ratio (in natural
+  coordinates).
+****************************************************************************/
+static void set_sizes(double size, int Xratio, int Yratio)
+{
+  /* Some code in generator assumes even dimension, so this is set to 2.
+   * Future topologies may also require even dimensions. */
+  const int even = 2;
+
+  /* In iso-maps we need to double the map.ysize factor, since xsize is
+   * in native coordinates which are compressed 2x in the X direction. */ 
+  const int iso = (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) ? 2 : 1;
+
+  /* We have:
+   *
+   *   1000 * size = xsize * ysize
+   *
+   * And to satisfy the ratios and other constraints we set
+   *
+   *   xsize = i_size * xratio * even
+   *   ysize = i_size * yratio * even * iso
+   *
+   * For any value of "i_size".  So with some substitution
+   *
+   *   1000 * size = i_size * i_size * xratio * yratio * even * even * iso
+   *   i_size = sqrt(1000 * size / (xratio * yratio * even * even * iso))
+   * 
+   * Make sure to round off i_size to preserve exact wanted ratios,
+   * that may be importante for some topologies.
+   */
+  const int i_size
+    = sqrt((float)(1000 * size)
+	   / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
+
+  /* Now build xsize and ysize value as described above. */
+  map.xsize = Xratio * i_size * even;
+  map.ysize = Yratio * i_size * even * iso;
+
+  /* Now make sure the size isn't too large for this ratio.  If it is
+   * then decrease the size and try again. */
+  if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE ) {
+    assert(size > 0.1);
+    set_sizes(size - 0.1, Xratio, Yratio);
+    return;
+  }
+
+  /* If the ratio is too big for some topology the simplest way to avoid
+   * this error is to set the maximum size smaller for all topologies! */
+  if (map.size > size + 0.9) {
+    /* Warning when size is set uselessly big */ 
+    freelog(LOG_ERROR,
+	    "Requested size of %d is too big for this topology.",
+	    map.size);
+  }
+  freelog(LOG_VERBOSE,
+	  "Creating a map of size %d x %d = %d tiles (%d requested).",
+	  map.xsize, map.ysize, map.xsize * map.ysize, map.size * 1000);
+}
+
+/*
+ * The default ratios for known topologies
+ *
+ * The factor Xratio * Yratio determines the accuracy of the size.
+ * Small ratios work better than large ones; 3:2 is not the same as 6:4
+ */
+#define AUTO_RATIO_FLAT           {1, 1}
+#define AUTO_RATIO_CLASSIC        {3, 2} 
+#define AUTO_RATIO_URANUS         {2, 3} 
+#define AUTO_RATIO_TORUS          {1, 1}
+
+/*************************************************************************** 
+  This function sets sizes in a topology-specific way then calls
+  map_init_topology.
+***************************************************************************/
+static void generator_init_topology(void)
+{
+  /* Changing or reordering the topo_flag enum will break this code. */
+  const int default_ratios[4][2] =
+      {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
+       AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
+  const int id = 0x3 & map.topology_id;
+  
+  assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
+
+  /* Set map.xsize and map.ysize based on map.size. */
+  set_sizes(map.size, default_ratios[id][0], default_ratios[id][1]);
+
+  /* Then initialise all topoloicals parameters */
+  map_init_topology(TRUE);
+}
+
 /**************************************************************************
   See stdinhand.c for information on map generation methods.
 
@@ -1526,7 +1618,7 @@ void map_fractal_generate(void)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
-    map_init_topology(TRUE);  /* initialize map.xsize and map.ysize, etc */
+    generator_init_topology();  /* initialize map.xsize and map.ysize, etc */
     map_allocate();
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
