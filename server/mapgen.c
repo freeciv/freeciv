@@ -896,16 +896,13 @@ static int is_tiny_island(int x, int y)
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
-  int x,y;
-  
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      if (is_tiny_island(x,y)) {
-	map_set_terrain(x,y, T_OCEAN);
-	map_clear_special(x, y, S_RIVER);
-      }
+  whole_map_iterate(x, y) {
+    if (is_tiny_island(x,y)) {
+      map_set_terrain(x,y, T_OCEAN);
+      map_clear_special(x, y, S_RIVER);
+      map_set_continent(x, y, 0);
     }
-  }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
@@ -1211,6 +1208,12 @@ void create_start_positions(void)
 
 /**************************************************************************
   See stdinhand.c for information on map generation methods.
+
+FIXME: Some continent numbers are unused at the end of this function, fx
+       removed completely by remove_tiny_islands.
+       When this function is finished various data is written to "islands",
+       indexed by continent numbers, so a simple renumbering would not
+       work...
 **************************************************************************/
 void map_fractal_generate(void)
 {
