@@ -60,6 +60,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/diplodlg.c               \
 		gui-mui/diplodlg.h               \
 		gui-mui/finddlg.c                \
+		gui-mui/finddlg.h                \
 		gui-mui/gamedlgs.c               \
 		gui-mui/gotodlg.c                \
 		gui-mui/gotodlg.h                \
@@ -74,6 +75,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/inputdlg.c               \
 		gui-mui/inputdlg.h               \
 		gui-mui/inteldlg.c               \
+		gui-mui/inteldlg.h               \
 		gui-mui/mapclass.c               \
 		gui-mui/mapclass.h               \
 		gui-mui/mapctrl.c                \
@@ -81,6 +83,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/mapview.c                \
 		gui-mui/mapview.h                \
 		gui-mui/messagedlg.c             \
+		gui-mui/messagedlg.h             \
 		gui-mui/messagewin.c             \
 		gui-mui/messagewin.h             \
 		gui-mui/muistuff.c               \
@@ -92,6 +95,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/overviewclass.h          \
 		gui-mui/plrdlg.c                 \
 		gui-mui/plrdlg.h                 \
+		gui-mui/ratesdlg.h               \
 		gui-mui/repodlgs.c               \
 		gui-mui/repodlgs.h               \
 		gui-mui/scrollbuttonclass.c      \

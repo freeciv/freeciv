@@ -22,6 +22,7 @@ libguiclient_a_SOURCES = \
 	diplodlg.c	\
 	diplodlg.h	\
 	finddlg.c	\
+	finddlg.h	\
 	gotodlg.c	\
 	gotodlg.h	\
 	graphics.c	\
@@ -37,6 +38,7 @@ libguiclient_a_SOURCES = \
 	inputdlg.c	\
 	inputdlg.h	\
 	inteldlg.c	\
+	inteldlg.h	\
 	mapctrl.c	\
 	mapctrl.h	\
 	mapview.c	\
@@ -44,6 +46,7 @@ libguiclient_a_SOURCES = \
 	menu.c		\
 	menu.h		\
 	messagedlg.c	\
+	messagedlg.h	\
 	messagewin.c	\
 	messagewin.h	\
 	optiondlg.h	\
@@ -51,6 +54,7 @@ libguiclient_a_SOURCES = \
 	plrdlg.c	\
 	plrdlg.h	\
 	ratesdlg.c	\
+	ratesdlg.h	\
 	repodlgs.c	\
 	repodlgs.h	\
 	spaceshipdlg.c	\

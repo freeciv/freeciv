@@ -18,19 +18,19 @@ noinst_HEADERS = \
 	connectdlg_g.h	\
 	dialogs_g.h	\
 	diplodlg_g.h	\
-	finddlg.h	\
+	finddlg_g.h	\
 	gotodlg_g.h	\
 	graphics_g.h	\
 	gui_main_g.h	\
 	helpdlg_g.h	\
-	inteldlg.h	\
+	inteldlg_g.h	\
 	mapctrl_g.h	\
 	mapview_g.h	\
 	menu_g.h	\
-	messagedlg.h	\
+	messagedlg_g.h	\
 	messagewin_g.h	\
 	plrdlg_g.h	\
-	ratesdlg.h	\
+	ratesdlg_g.h	\
 	repodlgs_g.h	\
 	spaceshipdlg_g.h	\
 	wldlg_g.h

@@ -1,5 +1,5 @@
 /********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+ Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,9 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__FINDDLG__H
-#define FC__FINDDLG__H
+#ifndef FC__FINDDLG_H
+#define FC__FINDDLG_H
 
-void popup_find_dialog(void);
+#include "finddlg_g.h"
 
-#endif
+/* nothing to add */
+
+#endif  /* FC__FINDDLG_H */

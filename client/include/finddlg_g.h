@@ -1,5 +1,5 @@
 /********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+ Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,11 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__INTELDLG_H
-#define FC__INTELDLG_H
+#ifndef FC__FINDDLG_G_H
+#define FC__FINDDLG_G_H
 
-struct player;
+void popup_find_dialog(void);
 
-void popup_intel_dialog(struct player *p);
-
-#endif
+#endif				/* FC__FINDDLG_G_H */
