@@ -5536,13 +5536,14 @@ msgstr "%3d/%3d %s"
 #: client/citydlg_common.c:164
 #, c-format
 msgid "%s (XX) %d/turn"
-msgstr "%s (XX) %d Runden"
+msgstr "%s (XX) %d/Runde"
 
 #: client/citydlg_common.c:181
 #, c-format
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
-msgstr[0] "%s (%d) %d Runden"
+msgstr[0] "%s (%d) %d Runde"
+msgstr[1] "%s (%d) %d Runden"
 
 #: client/citydlg_common.c:229 client/gui-mui/citydlg.c:670
 #: client/gui-mui/worklistclass.c:113
@@ -5562,7 +5563,7 @@ msgstr "Veraltet"
 #: client/citydlg_common.c:248
 #, c-format
 msgid "%d/turn"
-msgstr "%d/Runden"
+msgstr "%d/Runde"
 
 #: client/cityrepdata.c:69
 msgid "?city_state:Rapture"
@@ -7148,9 +7149,7 @@ msgstr "Flugzeuge"
 #: client/gui-gtk-2.0/citydlg.c:1240 client/gui-gtk/citydlg.c:1255
 #: client/gui-win32/citydlg.c:2196
 msgid "Disband if build settler at size 1"
-msgstr ""
-"Stadt der Größe 1\n"
-"bei Siedlerbau auflösen"
+msgstr "Stadt der Größe 1 bei Siedlerbau auflösen"
 
 #: client/gui-gtk-2.0/citydlg.c:1244 client/gui-gtk/citydlg.c:1259
 #: client/gui-mui/citydlg.c:1457
