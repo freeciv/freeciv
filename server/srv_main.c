@@ -1993,7 +1993,9 @@ main_start_players:
     } players_iterate_end;
   }
   
+  lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
   send_all_info(&game.game_connections);
+  lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
   
   if(game.is_new_game)
     init_new_game();
