@@ -1498,21 +1498,11 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   int i;
-  for (i=0;i<game.num_impr_types;i++) 
+  for (i=0; i<game.num_impr_types; i++) {
     if (city_got_building(pcity, i)) {
-      if (is_wonder(i)) {
-	if (wonder_obsolete(i)) {
-	  switch (improvement_types[i].upkeep) {
-	  case 1:
-	    pplayer->economic.gold+=3;
-	    break;
-	  case 2:
-	    update_tech(pplayer, 3);
-	    break;
-	  }
-	}
-      } else if( pplayer->government != game.government_when_anarchy ){
-	if (pplayer->economic.gold-improvement_upkeep(pcity, i)<0) {
+      if (!is_wonder(i)
+	  && pplayer->government != game.government_when_anarchy) {
+	if (pplayer->economic.gold-improvement_upkeep(pcity, i) < 0) {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
 			   _("Game: Can't afford to maintain %s in %s, "
 			     "building sold!"), 
@@ -1520,9 +1510,10 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	  do_sell_building(pplayer, pcity, i);
 	  city_refresh(pcity);
 	} else
-	  pplayer->economic.gold-=improvement_upkeep(pcity, i);
+	  pplayer->economic.gold -= improvement_upkeep(pcity, i);
       }
     }
+  }
 }
 
 /**************************************************************************
