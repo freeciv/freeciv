@@ -50,8 +50,8 @@
 #include "packhand.h"
 
 #include "colors.h"
+#include "cma_fe.h"
 
-#include "citydlg_g.h"
 #include "citydlg.h"
 #include "graphics.h"
 #include "unistring.h"
@@ -129,12 +129,14 @@ void popdown_all_game_dialogs(void)
   popdown_intel_dialog();
   popdown_players_nations_dialog();
   popdown_players_dialog();
-  
-  /* clear city text buffer */
-  SDL_FillRect(Main.text, NULL, 0x0);
-  
+    
   /* clear gui buffer */
-  SDL_FillRect(Main.gui, NULL, 0x0);
+  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+    draw_city_names = FALSE;
+    draw_city_productions = FALSE;
+    SDL_FillRect(Main.text, NULL, 0x0);
+    SDL_FillRect(Main.gui, NULL, 0x0);
+  }
 }
 
 /* ======================================================================= */
@@ -857,10 +859,9 @@ static int hurry_production_callback(struct GUI *pWidget)
 **************************************************************************/
 static int cma_callback(struct GUI *pWidget)
 {
-  /* struct city *pCity = pWidget->data.city; */ 
-    
+  struct city *pCity = pWidget->data.city;
   popdown_advanced_terrain_dialog();
-
+  popup_city_cma_dialog(pCity);
   return -1;
 }
 
@@ -1079,9 +1080,7 @@ void popup_advanced_terrain_dialog(int x , int y)
 	    _("Change C.M.A Settings"), cma_callback);
 	    
     pBuf->data.city = pCity;
-    pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_DISABLED));
-    
-    /* set_wstate( pBuf , FC_WS_NORMAL ); */
+    set_wstate(pBuf, FC_WS_NORMAL);
   
     add_to_gui_list(ID_LABEL , pBuf);
     

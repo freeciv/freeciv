@@ -15,22 +15,16 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
-
 #include <SDL/SDL.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "game.h"
 #include "government.h"
-#include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
 
-#include "clinet.h"
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -164,6 +158,7 @@ void popup_intel_dialog(struct player *pPlayer)
   n = 0;
   for(i = A_FIRST; i<game.num_tech_types; i++) {
     if(get_invention(pPlayer, i) == TECH_KNOWN &&
+      tech_is_available(game.player_ptr, i) &&
       get_invention(game.player_ptr, i) != TECH_KNOWN) {
       
       pBuf = create_icon2(GET_SURF(advances[i].sprite), pWindow->dst,

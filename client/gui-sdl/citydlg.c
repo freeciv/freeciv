@@ -45,8 +45,7 @@
 #include "support.h"
 
 #include "cityrep.h"
-/*#include "cma_fe.h"
-#include "cma_fec.h"*/
+#include "cma_fe.h"
 #include "colors.h"
 #include "control.h"
 #include "clinet.h"
@@ -125,14 +124,10 @@ static struct city_dialog {
 static struct SMALL_DLG *pHurry_Prod_Dlg = NULL;
 
 static void popdown_hurry_production_dialog(void);
-static void refresh_city_resource_map(struct GUI *pMap,
-				      struct city *pCity);
-
 static void disable_city_dlg_widgets(void);
 static void redraw_city_dialog(struct city *pCity);
 static void rebuild_imprm_list(struct city *pCity);
-static void rebuild_citydlg_title_str(struct GUI *pWindow,
-				      struct city *pCity);
+static void rebuild_citydlg_title_str(struct GUI *pWindow, struct city *pCity);
 
 /* ======================================================================= */
 
@@ -1309,10 +1304,12 @@ static int options_city_dlg_callback(struct GUI *pButton)
 /* ======================================================================= */
 
 /**************************************************************************
-  PORTME
+  ...
 **************************************************************************/
 static int cma_city_dlg_callback(struct GUI *pButton)
 {
+  disable_city_dlg_widgets();
+  popup_city_cma_dialog(pCityDlg->pCity);
   return -1;
 }
 
@@ -1921,7 +1918,7 @@ static bool get_citymap_cr(Sint16 map_x, Sint16 map_y, int *pCol, int *pRow)
   return is_valid_city_coords(*pCol, *pRow);
 }
 
-static SDL_Surface * get_scaled_city_map(struct city *pCity)
+SDL_Surface * get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
   float zoom = 192.0 / pBuf->w;
@@ -1993,16 +1990,14 @@ static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
 /**************************************************************************
   Refresh (update) the city resource map
 **************************************************************************/
-static void refresh_city_resource_map(struct GUI *pMap, struct city *pCity)
+void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
+		struct city *pCity, bool (*worker_check) (struct city *, int, int))
 {
-  register Uint16 col = 0, row;
+  register int col, row;
   SDL_Rect dest;
   int sx, sy, row0, real_col = pCity->x, real_row = pCity->y;
-
-  Sint16 x0 =
-      pMap->size.x + SCALLED_TILE_WIDTH + SCALLED_TILE_WIDTH / 2;
-
-  Sint16 y0 = pMap->size.y;
+  int x0 = x + SCALLED_TILE_WIDTH + SCALLED_TILE_WIDTH / 2;
+  int y0 = y;
   
   SDL_Surface *pTile = create_surf(SCALLED_TILE_WIDTH,
 				   SCALLED_TILE_HEIGHT, SDL_SWSURFACE);
@@ -2015,7 +2010,7 @@ static void refresh_city_resource_map(struct GUI *pMap, struct city *pCity)
   row0 = real_row;
 
   /* draw loop */
-  for (; col < CITY_MAP_SIZE; col++) {
+  for (col = 0; col < CITY_MAP_SIZE; col++) {
     for (row = 0; row < CITY_MAP_SIZE; row++) {
       /* calculate start pixel position and check if it belong to 'pDest' */
       sx = x0 + (col - row) * (SCALLED_TILE_WIDTH / 2);
@@ -2029,13 +2024,13 @@ static void refresh_city_resource_map(struct GUI *pMap, struct city *pCity)
 	  ) {
 	dest.x = sx;
 	dest.y = sy;
-	if (is_worker_here(pCity, col, row)) {
+	if (worker_check(pCity, col, row)) {
 	  fill_tile_resorce_surf(pTile, pCity, col, row);
 
-	  SDL_BlitSurface(pTile, NULL, pMap->dst, &dest);
+	  SDL_BlitSurface(pTile, NULL, pDest, &dest);
 
 	  /* clear pTile */
-	  SDL_FillRect(pTile, NULL, 0);
+	  SDL_FillRect(pTile, NULL, 0x0);
 	}
       }
 
@@ -2872,10 +2867,13 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* redraw city dlg */
   redraw_group(pCityDlg->pBeginCityWidgetList,
-	       pCityDlg->pEndCityWidgetList, 0);
+	       			pCityDlg->pEndCityWidgetList, 0);
   
-  refresh_city_resource_map(get_widget_pointer_form_main_list
-			    (ID_CITY_DLG_RESOURCE_MAP), pCity);
+  /* is_worker_here(struct city *, int, int) - is function pointer */
+  refresh_city_resource_map(pCityDlg->pResource_Map->dst,
+			    pCityDlg->pResource_Map->size.x,
+			    pCityDlg->pResource_Map->size.y,
+  			    pCity, is_worker_here);
 
   /* ================================================================= */
   my_snprintf(cBuf, sizeof(cBuf), _("City map"));
@@ -4225,9 +4223,9 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   pBuf->key = SDLK_a;
   pBuf->size.x = pWindow->size.x + 10 + (pBuf->size.w + 2) * 2;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 9;
-/*	
-	set_wstate( pBuf , FC_WS_NORMAL );
-*/
+	
+  set_wstate(pBuf, FC_WS_NORMAL);
+
   add_to_gui_list(ID_CITY_DLG_CMA_BUTTON, pBuf);
   
   pCityDlg->pBeginCityWidgetList = pBuf;
@@ -4303,6 +4301,9 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   flush_dirty();
 }
 
+/**************************************************************************
+  Close the dialog for the given city.
+**************************************************************************/
 void popdown_city_dialog(struct city *pCity)
 {
   if (city_dialog_is_open(pCity)) {
@@ -4327,7 +4328,7 @@ void popdown_city_dialog(struct city *pCity)
 }
 
 /**************************************************************************
-  Close the dialog for the given city.
+  Close all cities dialogs.
 **************************************************************************/
 void popdown_all_city_dialogs(void)
 {

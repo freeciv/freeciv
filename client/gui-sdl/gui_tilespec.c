@@ -394,7 +394,7 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.pact_ok")) {
+  if(!sprite_exists("theme.SAVE_button")) {
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
@@ -440,6 +440,10 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, UNLOCK_Icon, "theme.UNLOCK_button");
   load_theme_surface(pBuf, PLAYERS_Icon, "theme.PLAYERS_button");
   load_theme_surface(pBuf, UNITS2_Icon, "theme.UNITS_button");
+  load_theme_surface(pBuf, SAVE_Icon, "theme.SAVE_button");
+  load_theme_surface(pBuf, LOAD_Icon, "theme.LOAD_button");
+  load_theme_surface(pBuf, DELETE_Icon, "theme.DELETE_button");
+
   /* ------------------------------ */
   
   load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
@@ -571,6 +575,9 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->UNLOCK_Icon);
   FREESURFACE(pTheme->OK_PACT_Icon);
   FREESURFACE(pTheme->CANCEL_PACT_Icon);
+  FREESURFACE(pTheme->SAVE_Icon);
+  FREESURFACE(pTheme->LOAD_Icon);
+  FREESURFACE(pTheme->DELETE_Icon);
   /* ------------------------------ */
   
   FREESURFACE(pTheme->UP_Icon);

@@ -15,22 +15,14 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
-
 #include <SDL/SDL.h>
 
 #include "fcintl.h"
-#include "log.h"
+
 #include "game.h"
-#include "genlist.h"
-#include "government.h"
-#include "map.h"
 
 #include "gui_mem.h"
-
-#include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
@@ -54,7 +46,7 @@
 #define MAX_NUM_CLAUSES 64
 
 static struct ADVANCED_DLG *pWants = NULL;
-static struct ADVANCED_DLG *pOfers = NULL;
+static struct ADVANCED_DLG *pOffers = NULL;
 static struct ADVANCED_DLG *pClauses_Dlg = NULL;
 
 static void popdown_diplomacy_dialog(void);
@@ -645,9 +637,10 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     int i;
     
     for (i = 1; i < game.num_tech_types; i++) {
-      if (get_invention(pPlayer0, i) == TECH_KNOWN && 
-	  (get_invention(pPlayer1, i) == TECH_UNKNOWN || 
-	   get_invention(pPlayer1, i) == TECH_REACHABLE)) {
+      if (get_invention(pPlayer0, i) == TECH_KNOWN &&
+         tech_is_available(pPlayer1, i) &&
+	(get_invention(pPlayer1, i) == TECH_UNKNOWN || 
+	 get_invention(pPlayer1, i) == TECH_REACHABLE)) {
 	     
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Advances"), 12, WF_DRAW_THEME_TRANSPARENT);
@@ -679,7 +672,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     if(flag) {
       for (; i < game.num_tech_types; i++) {
-	if (get_invention(pPlayer0, i) == TECH_KNOWN && 
+	if (get_invention(pPlayer0, i) == TECH_KNOWN &&
+	   tech_is_available(pPlayer1, i) &&
 	  (get_invention(pPlayer1, i) == TECH_UNKNOWN || 
 	   get_invention(pPlayer1, i) == TECH_REACHABLE)) {
 	     
@@ -827,7 +821,6 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     char cBuf[128];
     struct GUI *pBuf = NULL, *pWindow;
     SDL_String16 *pStr;
-    //SDL_Surface *pText;
     SDL_Rect dst;
     SDL_Color color = {255,255,255,255};
     
@@ -962,7 +955,7 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     	pWindow->size.y + dst.y,
     	dst.h, TRUE);
     /* ============================================================= */
-    pOfers = popup_diplomatic_objects(pPlayer0,	pPlayer1, pWindow, FALSE);
+    pOffers = popup_diplomatic_objects(pPlayer0, pPlayer1, pWindow, FALSE);
     
     pWants = popup_diplomatic_objects(pPlayer1, pPlayer0, pWindow, TRUE);
     /* ============================================================= */
@@ -970,8 +963,8 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     redraw_group(pClauses_Dlg->pBeginWidgetList, pWindow, 0);
     sdl_dirty_rect(pWindow->size);
     
-    redraw_group(pOfers->pBeginWidgetList, pOfers->pEndWidgetList, 0);
-    sdl_dirty_rect(pOfers->pEndWidgetList->size);
+    redraw_group(pOffers->pBeginWidgetList, pOffers->pEndWidgetList, 0);
+    sdl_dirty_rect(pOffers->pEndWidgetList->size);
     
     redraw_group(pWants->pBeginWidgetList, pWants->pEndWidgetList, 0);
     sdl_dirty_rect(pWants->pEndWidgetList->size);
@@ -988,10 +981,10 @@ static void popdown_diplomacy_dialog(void)
 {
   if(pClauses_Dlg) {
     lock_buffer(pClauses_Dlg->pEndWidgetList->dst);
-    popdown_window_group_dialog(pOfers->pBeginWidgetList,
-			      pOfers->pEndWidgetList);
-    FREE(pOfers->pScroll);
-    FREE(pOfers);
+    popdown_window_group_dialog(pOffers->pBeginWidgetList,
+			      pOffers->pEndWidgetList);
+    FREE(pOffers->pScroll);
+    FREE(pOffers);
     
     popdown_window_group_dialog(pWants->pBeginWidgetList,
 			      pWants->pEndWidgetList);

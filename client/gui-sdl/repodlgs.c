@@ -64,6 +64,7 @@
 
 
 static SDL_Surface *pNone_Tech_Icon;
+static SDL_Surface *pFuture_Tech_Icon;
 
 /**************************************************************************
   ...
@@ -107,6 +108,8 @@ static void get_units_report_data(struct units_entry *entries,
       total->upkeep_shield += pUnit->upkeep;
       entries[pUnit->type].upkeep_food += pUnit->upkeep_food;
       total->upkeep_food += pUnit->upkeep_food;
+/*    entries[pUnit->type].upkeep_gold += pUnit->upkeep_gold;
+      total->upkeep_gold += pUnit->upkeep_gold; */
     }
   } unit_list_iterate_end;
     
@@ -989,6 +992,14 @@ void popdown_activeunits_report_dialog(void)
 /* ===================================================================== */
 static struct ADVANCED_DLG *pEconomyDlg = NULL;
 static struct SMALL_DLG *pEconomy_Sell_Dlg = NULL;
+  
+struct rates_move {
+  int min, max, tax, x;
+  int *src_rate, *dst_rate;
+  struct GUI *pHoriz_Src, *pHoriz_Dst;
+  struct GUI *pLabel_Src, *pLabel_Dst;
+};
+
 #define TARGETS_ROW	2
 #define TARGETS_COL	4
 
@@ -1041,181 +1052,193 @@ static int toggle_block_callback(struct GUI *pCheckBox)
 /**************************************************************************
   ...
 **************************************************************************/
-static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
+static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
+						void *pData)
 {
-  struct GUI *pLabel_Src = pHoriz_Src->prev;
-  struct GUI *pLabel_Dst, *pHoriz_Dst;
+  return (Uint16)ID_SCROLLBAR;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static Uint16 report_scroll_mouse_motion_handler(
+			SDL_MouseMotionEvent *pMotionEvent, void *pData)
+{
+  struct rates_move *pMotion = (struct rates_move *)pData;
   struct GUI *pTax_Label = pEconomyDlg->pEndWidgetList->prev->prev;
   struct GUI *pBuf = NULL;
-  char cBuf[5];
-  int dir, inc , x, min, ret = 1;
-  int tax, max = get_gov_pplayer(game.player_ptr)->max_rate;
-  int *src_rate, *dst_rate, *buf_rate = NULL;
+  char cBuf[8];
+  int dir, inc, x, *buf_rate = NULL;
   
-  switch (pHoriz_Src->ID) {
-  case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
-    if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-      goto END;
-    }
-    src_rate = (int *)pHoriz_Src->data.ptr;
-    pHoriz_Dst = pHoriz_Src->prev->prev->prev;	/* sci */
-    dst_rate = (int *)pHoriz_Dst->data.ptr;
-    inc = *dst_rate;
-    tax = 100 - *src_rate - inc;
-    if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-      if (tax < max) {
-	pHoriz_Dst = NULL;	/* tax */
-	dst_rate = &tax;
-      } else {
-	goto END;	/* all blocked */
-      }
-    }
-
-    break;
-
-  case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
-    if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-      goto END;
-    }
-    src_rate = (int *)pHoriz_Src->data.ptr;
-    pHoriz_Dst = pHoriz_Src->next->next->next;	/* lux */
-    dst_rate = (int *)pHoriz_Dst->data.ptr;
-    inc = *dst_rate;
-    tax = 100 - *src_rate - inc;
-    if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-      if (tax < max) {
-	/* tax */
-	pHoriz_Dst = NULL;
-	dst_rate = &tax;
-      } else {
-	goto END;	/* all blocked */
-      }
-    }
-
-    break;
-
-  default:
-    return -1;
-  }
-
-  if(pHoriz_Dst) {
-    pLabel_Dst = pHoriz_Dst->prev;
-  } else {
-    pLabel_Dst = pTax_Label;
-  }
-
-  min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
-  max = min + max * 1.5;
-  x = pHoriz_Src->size.x;
-
-  while (ret) {
-    SDL_WaitEvent(&Main.event);
-    switch (Main.event.type) {
-    case SDL_MOUSEBUTTONUP:
-      ret = 0;
-      break;
-    case SDL_MOUSEMOTION:
-
-      if ((abs(Main.event.motion.x - x) > 7) &&
-	  (pHoriz_Src->size.x >= min) &&
-	  (pHoriz_Src->size.x <= max) &&
-	  (Main.event.motion.x >= min) && (Main.event.motion.x <= max)) {
+  if ((abs(pMotionEvent->x - pMotion->x) > 7) &&
+     (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
 	
 	/* set up directions */
-	if (Main.event.motion.xrel > 0) {
-	  dir = 15;
-	  inc = 10;
-	} else {
-	  dir = -15;
-	  inc = -10;
-	}
+    if (pMotionEvent->xrel > 0) {
+      dir = 15;
+      inc = 10;
+    } else {
+      dir = -15;
+      inc = -10;
+    }
 	
-	/* make checks */
-	x = pHoriz_Src->size.x;
-	if (((x + dir) <= max) && ((x + dir) >= min)) {
-	/* src in range */  
-	  if(pHoriz_Dst) {
-	    x = pHoriz_Dst->size.x;
-	    if (((x + (-1 * dir)) > max) || ((x + (-1 * dir)) < min)) {
-	      /* dst out of range */
-		if(tax + (-1 * inc) <= max && tax + (-1 * inc) >= 0) {
-		  /* tax in range */
-		  pBuf = pHoriz_Dst;
-	          pHoriz_Dst = NULL;
-		  buf_rate = dst_rate;
-		  dst_rate = &tax;
-		  pLabel_Dst = pTax_Label;
-		} else {
-		  x = pHoriz_Src->size.x;
-		  continue;
-		}		  
-	    }
+    /* make checks */
+    x = pMotion->pHoriz_Src->size.x;
+    if (((x + dir) <= pMotion->max) && ((x + dir) >= pMotion->min)) {
+      /* src in range */  
+      if(pMotion->pHoriz_Dst) {
+        x = pMotion->pHoriz_Dst->size.x;
+	if (((x + (-1 * dir)) > pMotion->max) || ((x + (-1 * dir)) < pMotion->min)) {
+	  /* dst out of range */
+	  if(pMotion->tax + (-1 * inc) <= pMotion->max &&
+	    pMotion->tax + (-1 * inc) >= 0) {
+	    /* tax in range */
+	    pBuf = pMotion->pHoriz_Dst;
+	    pMotion->pHoriz_Dst = NULL;
+	    buf_rate = pMotion->dst_rate;
+	    pMotion->dst_rate = &pMotion->tax;
+	    pMotion->pLabel_Dst = pTax_Label;
 	  } else {
-	    if(tax + (-1 * inc) > max || tax + (-1 * inc) < 0) {
-	      x = pHoriz_Src->size.x;
-	      continue;
-	    }
-	  }
-
-          /* undraw scrollbars */    
-	  blit_entire_src(pHoriz_Src->gfx, pHoriz_Src->dst,
-			    pHoriz_Src->size.x, pHoriz_Src->size.y);
-	  sdl_dirty_rect(pHoriz_Src->size);
-	    
-	  if(pHoriz_Dst) {
-	    blit_entire_src(pHoriz_Dst->gfx, pHoriz_Dst->dst,
-			    pHoriz_Dst->size.x, pHoriz_Dst->size.y);
-	    sdl_dirty_rect(pHoriz_Dst->size);
-	  }
-	  
-	  pHoriz_Src->size.x += dir;
-	  if(pHoriz_Dst) {
-	    pHoriz_Dst->size.x -= dir;
-	  }
-
-	  *src_rate += inc;
-	  *dst_rate -= inc;
-	  	  
-	  my_snprintf(cBuf, sizeof(cBuf), "%d%%", *src_rate);
-	  convertcopy_to_utf16(pLabel_Src->string16->text, cBuf);
-	  my_snprintf(cBuf, sizeof(cBuf), "%d%%", *dst_rate);
-	  convertcopy_to_utf16(pLabel_Dst->string16->text, cBuf);
-		      
-	  /* redraw label */
-	  redraw_label(pLabel_Src);
-	  sdl_dirty_rect(pLabel_Src->size);
-
-	  redraw_label(pLabel_Dst);
-	  sdl_dirty_rect(pLabel_Dst->size);
-
-	  /* redraw scroolbar */
-	  refresh_widget_background(pHoriz_Src);
-	  redraw_horiz(pHoriz_Src);
-	  sdl_dirty_rect(pHoriz_Src->size);
-	  
-	  if(pHoriz_Dst) {
-	    refresh_widget_background(pHoriz_Dst);
-	    redraw_horiz(pHoriz_Dst);
-	    sdl_dirty_rect(pHoriz_Dst->size);
-	  }
-
-	  flush_dirty();
-
-	  if (pBuf) {
-	    pHoriz_Dst = pBuf;
-	    pLabel_Dst = pHoriz_Dst->prev;
-	    dst_rate = buf_rate;
-	    pBuf = NULL;
-	  }
-
-	  x = pHoriz_Src->size.x;
+	    pMotion->x = pMotion->pHoriz_Src->size.x;
+	    return ID_ERROR;
+	  }		  
 	}
-      }				/* if */
-      break;
+      } else {
+        if(pMotion->tax + (-1 * inc) > pMotion->max ||
+	  pMotion->tax + (-1 * inc) < 0) {
+	  pMotion->x = pMotion->pHoriz_Src->size.x;
+	  return ID_ERROR;
+	}
+      }
+
+      /* undraw scrollbars */    
+      blit_entire_src(pMotion->pHoriz_Src->gfx, pMotion->pHoriz_Src->dst,
+		pMotion->pHoriz_Src->size.x, pMotion->pHoriz_Src->size.y);
+      sdl_dirty_rect(pMotion->pHoriz_Src->size);
+	    
+      if(pMotion->pHoriz_Dst) {
+        blit_entire_src(pMotion->pHoriz_Dst->gfx, pMotion->pHoriz_Dst->dst,
+		pMotion->pHoriz_Dst->size.x, pMotion->pHoriz_Dst->size.y);
+        sdl_dirty_rect(pMotion->pHoriz_Dst->size);
+      }
+	  
+      pMotion->pHoriz_Src->size.x += dir;
+      if(pMotion->pHoriz_Dst) {
+        pMotion->pHoriz_Dst->size.x -= dir;
+      }
+
+      *pMotion->src_rate += inc;
+      *pMotion->dst_rate -= inc;
+	  	  
+      my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->src_rate);
+      convertcopy_to_utf16(pMotion->pLabel_Src->string16->text, cBuf);
+      my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->dst_rate);
+      convertcopy_to_utf16(pMotion->pLabel_Dst->string16->text, cBuf);
+		      
+      /* redraw label */
+      redraw_label(pMotion->pLabel_Src);
+      sdl_dirty_rect(pMotion->pLabel_Src->size);
+
+      redraw_label(pMotion->pLabel_Dst);
+      sdl_dirty_rect(pMotion->pLabel_Dst->size);
+
+      /* redraw scroolbar */
+      refresh_widget_background(pMotion->pHoriz_Src);
+      redraw_horiz(pMotion->pHoriz_Src);
+      sdl_dirty_rect(pMotion->pHoriz_Src->size);
+	  
+      if(pMotion->pHoriz_Dst) {
+        refresh_widget_background(pMotion->pHoriz_Dst);
+        redraw_horiz(pMotion->pHoriz_Dst);
+        sdl_dirty_rect(pMotion->pHoriz_Dst->size);
+      }
+
+      flush_dirty();
+
+      if (pBuf) {
+        pMotion->pHoriz_Dst = pBuf;
+        pMotion->pLabel_Dst = pMotion->pHoriz_Dst->prev;
+        pMotion->dst_rate = buf_rate;
+        pBuf = NULL;
+      }
+
+      pMotion->x = pMotion->pHoriz_Src->size.x;
+    }
+  }				/* if */
+  
+  return ID_ERROR;
+}
+
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
+{
+  struct rates_move pMotion;
+  
+  pMotion.pHoriz_Src = pHoriz_Src;
+  pMotion.pLabel_Src = pHoriz_Src->prev;
+  
+  switch (pHoriz_Src->ID) {
+    case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
+      if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        goto END;
+      }
+      pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
+      pMotion.pHoriz_Dst = pHoriz_Src->prev->prev->prev;	/* sci */
+      pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
+      pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+      if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        if (pMotion.tax < get_gov_pplayer(game.player_ptr)->max_rate) {
+	  pMotion.pHoriz_Dst = NULL;	/* tax */
+	  pMotion.dst_rate = &pMotion.tax;
+        } else {
+	  goto END;	/* all blocked */
+        }
+      }
+
+    break;
+
+    case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
+      if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        goto END;
+      }
+      pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
+      pMotion.pHoriz_Dst = pHoriz_Src->next->next->next;	/* lux */
+      pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
+      pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+      if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        if (pMotion.tax < get_gov_pplayer(game.player_ptr)->max_rate) {
+	  /* tax */
+	  pMotion.pHoriz_Dst = NULL;
+	  pMotion.dst_rate = &pMotion.tax;
+        } else {
+	  goto END;	/* all blocked */
+        }
+      }
+
+    break;
+
     default:
-      break;
-    }				/* switch */
-  }				/* while */
+      return -1;
+  }
+
+  if(pMotion.pHoriz_Dst) {
+    pMotion.pLabel_Dst = pMotion.pHoriz_Dst->prev;
+  } else {
+    /* tax label */
+    pMotion.pLabel_Dst = pEconomyDlg->pEndWidgetList->prev->prev;
+  }
+
+  pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
+  pMotion.max = pMotion.min + get_gov_pplayer(game.player_ptr)->max_rate * 1.5;
+  pMotion.x = pHoriz_Src->size.x;
+
+  gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
+		  report_scroll_mouse_button_up,
+  			report_scroll_mouse_motion_handler);
+  
 END:
   unsellect_widget_action();
   pSellected_Widget = pHoriz_Src;
@@ -2225,11 +2248,12 @@ void setup_auxiliary_tech_icons(void)
   SDL_String16 *pStr = create_str16_from_char(_("None"), 10);
   
   /* create "None" icon */
-  pNone_Tech_Icon = create_surf( 50 , 50 , SDL_SWSURFACE );
+  pNone_Tech_Icon = create_surf(50, 50, SDL_SWSURFACE);
   SDL_FillRect(pNone_Tech_Icon, NULL,
 	  SDL_MapRGB(pNone_Tech_Icon->format, 255 , 255 , 255));
   putframe(pNone_Tech_Icon, 0 , 0,
 	  pNone_Tech_Icon->w - 1, pNone_Tech_Icon->h - 1 , 0x0);
+  pFuture_Tech_Icon = SDL_DisplayFormat(pNone_Tech_Icon);
   
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
   
@@ -2237,14 +2261,24 @@ void setup_auxiliary_tech_icons(void)
     
   blit_entire_src(pSurf, pNone_Tech_Icon ,
 	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2);
-    
+  
+  FREESURFACE(pSurf);
+  FREE(pStr->text);
+  pStr->text = convert_to_utf16(_("FT"));
+  pSurf = create_text_surf_from_str16(pStr);
+  blit_entire_src(pSurf, pFuture_Tech_Icon,
+	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2);
+  
+  
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
+    
 }
 
 void free_auxiliary_tech_icons(void)
 {
   FREESURFACE(pNone_Tech_Icon);
+  FREESURFACE(pFuture_Tech_Icon);
 }
 
 SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
@@ -2439,10 +2473,13 @@ void science_dialog_update(void)
     pWindow = pScienceDlg->pEndWidgetList;
     color = *get_game_colorRGB(COLOR_STD_WHITE);
       
-    /* Fix ME : Add Future tech icon support */
-    pWindow->prev->theme =
-      GET_SURF(advances[game.player_ptr->research.researching].sprite);
-  
+    if(game.player_ptr->research.researching != A_FUTURE) {
+      pWindow->prev->theme =
+        GET_SURF(advances[game.player_ptr->research.researching].sprite);
+    } else {
+      pWindow->prev->theme = pFuture_Tech_Icon;
+    }
+    
     if (game.player_ptr->ai.tech_goal != A_UNSET)
     {
       pWindow->prev->prev->theme =
@@ -3096,7 +3133,8 @@ void popup_science_dialog(bool make_modal)
   struct GUI *pBuf = get_research_widget(), *pWindow = NULL;
   SDL_String16 *pStr;
   SDL_Surface *pLogo;
-
+  int count, i;
+  
   if (pScienceDlg) {
     return;
   }
@@ -3130,32 +3168,48 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
   /* ------ */
 
-  pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
-					research.researching].sprite),
-		      pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+  count = 0;
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (tech_is_available(game.player_ptr, i)
+        && get_invention(game.player_ptr, i) != TECH_KNOWN
+        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST) {
+	count++;	  
+    }
+  }
+
+  if(game.player_ptr->research.researching != A_FUTURE) {
+    pLogo = GET_SURF(advances[game.player_ptr->research.researching].sprite);
+  } else {
+    /* "Future Tech" icon */
+    pLogo = pFuture_Tech_Icon;
+  }
+
+  pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->action = change_research;
-  set_wstate(pBuf, FC_WS_NORMAL);
-
+  if(count) {
+    set_wstate(pBuf, FC_WS_NORMAL);
+  }
+  
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 60;
 
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-  if ( game.player_ptr->ai.tech_goal != A_UNSET )
+  if (game.player_ptr->ai.tech_goal != A_UNSET)
   {
-    pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
-					ai.tech_goal].sprite),
-		      pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+    pLogo = GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
   } else {
     /* "None" icon */
-    pBuf = create_icon2(pNone_Tech_Icon,
-    				pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+    pLogo = pNone_Tech_Icon;
   }
   
+  pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = change_research_goal;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  if(count) {
+    set_wstate(pBuf, FC_WS_NORMAL);
+  }
 
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y =

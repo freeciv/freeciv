@@ -429,8 +429,9 @@ static int popup_join_game_callback(struct GUI *pWidget)
   SDL_Color color = {255, 255, 255, 255};
   SDL_Surface *pLogo, *pTmp, *pDest;
   SDL_Rect *area = MALLOC(sizeof(SDL_Rect));
-  
+
   int start_x, start_y;
+  int dialog_w, dialog_h;
 
   int start_button_y;
   int start_button_connect_x;
@@ -499,7 +500,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   add_to_gui_list(ID_PLAYER_NAME_EDIT, pUser );
 
   /* ------------------------------ */
-  
+
   pServer = create_edit_from_chars(NULL, pDest, server_host, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
 
@@ -511,33 +512,35 @@ static int popup_join_game_callback(struct GUI *pWidget)
 
   pPort = create_edit_from_chars(NULL, pDest, pCharPort, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
-					 
+
   pPort->action = convert_portnr_callback;
   set_wstate(pPort, FC_WS_NORMAL);
   add_to_gui_list(ID_PORT_EDIT, pPort);
-  
+
 
   /* ==================== Draw first time ===================== */
-  
+  dialog_w = 20*4 + pConnect->size.w + pMeta->size.w + pCancel->size.w;
+  dialog_h = 250;
+
   pLogo = get_logo_gfx();
-  pTmp = ResizeSurface(pLogo, 400, 250, 1);
+  pTmp = ResizeSurface(pLogo, dialog_w, dialog_h, 1);
   FREESURFACE(pLogo);
-  
-  area->x = (pUser->dst->w - 400)/ 2;
-  area->y = (pUser->dst->h - 250)/ 2 + 40;
+
+  area->x = (pUser->dst->w - dialog_w)/ 2;
+  area->y = (pUser->dst->h - dialog_h)/ 2 + 40;
   SDL_SetAlpha(pTmp, 0x0, 0x0);
   SDL_BlitSurface(pTmp, NULL, pUser->dst, area);
   FREESURFACE(pTmp);
 
-  putframe(pUser->dst, area->x, area->y, area->x + 399, area->y + 249, 0xffffffff);
+  putframe(pUser->dst, area->x, area->y, area->x + dialog_w - 1, area->y + dialog_h - 1, 0xffffffff);
 
-  area->w = 400;
-  area->h = 250;
+  area->w = dialog_w;
+  area->h = dialog_h;
   /* ---------------------------------------- */
-  
+
   start_x = area->x + (area->w - pUser->size.w) / 2;
   start_y = area->y + 35;
-  
+
   write_text16(pUser->dst, start_x + 5, start_y - 13, pPlayer_name);
   draw_edit(pUser, start_x, start_y);
   write_text16(pUser->dst, start_x + 5, start_y - 13 + 15 +
@@ -547,13 +550,13 @@ static int popup_join_game_callback(struct GUI *pWidget)
 	       pUser->size.h + pServer->size.h, pPort_nr);
   draw_edit(pPort, start_x,
 	    start_y + 30 + pUser->size.h + pServer->size.h);
-	    
+
   /* --------------------------------- */
   start_button_y = pPort->size.y + pPort->size.h + 80;
-  
-  start_button_meta_x = area->x + (area->w - pMeta->size.w) / 2;
 
-  start_button_connect_x = start_button_meta_x - pConnect->size.w - 20;
+  start_button_connect_x = area->x + 20;
+
+  start_button_meta_x = start_button_connect_x + pConnect->size.w + 20;
 
   start_button_cancel_x = start_button_meta_x + pMeta->size.w + 20;
 

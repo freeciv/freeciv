@@ -53,24 +53,18 @@
 #include "climisc.h"
 
 #include "cityrep.h"
-#include "cma_core.h"
-/*#include "cma_fec.h"*/
-
-#if 0
-#define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
-#define CMA_NONE	(-1)
-#define CMA_CUSTOM	(-2)
-#endif
+#include "cma_fe.h"
 
 static struct ADVANCED_DLG *pCityRep = NULL;
 
 static void real_info_city_report_dialog_update(void);
 
+/* ==================================================================== */
+
 static int city_report_windows_callback(struct GUI *pWindow)
 {
   return -1;
 }
-
 
 static int exit_city_report_callback(struct GUI *pWidget)
 {
@@ -110,7 +104,16 @@ static int popup_buy_production_from_city_report_callback(struct GUI *pWidget)
 
 static int popup_cma_from_city_report_callback(struct GUI *pWidget)
 {
-  freelog(LOG_NORMAL, "change cma city status : PORT ME");
+  struct city *pCity = find_city_by_id(MAX_ID - pWidget->ID);
+    
+  /* state is changed before enter this function */  
+  if(!get_checkbox_state(pWidget)) {
+    cma_release_city(pCity);
+    city_report_dialog_update_city(pCity);
+  } else {
+    popup_city_cma_dialog(pCity);
+  }
+  
   return -1;
 }
 
@@ -298,6 +301,7 @@ static void real_info_city_report_dialog_update(void)
       set_wflag(pBuf, WF_HIDDEN);
     }
     hh = MAX(hh, pBuf->size.h);
+    assert(MAX_ID > pCity->id);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_cma_from_city_report_callback;
@@ -646,7 +650,6 @@ static void real_info_city_report_dialog_update(void)
   dst.x += (ww + 1);
   dst.y = WINDOW_TILE_HIGH + 2;
   w = dst.x + 2;
-  //dst.w = ww;
   dst.w = (pIcons->pBIG_Food->w + 6) + 10 +
 	  (pIcons->pBIG_Food_Surplus->w + 6) + 10 +
 	  			pText2->w + 6 + 2;
@@ -916,7 +919,10 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
       
   /* cma check box */
   pWidget = pWidget->prev;
-            
+  if (cma_is_city_under_agent(pCity, NULL) != get_checkbox_state(pWidget)) {
+    togle_checkbox(pWidget);
+  }
+  
   /* food consumptions */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->food_prod - pCity->food_surplus);

@@ -308,7 +308,7 @@ int draw_ibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y);
 struct GUI *create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
 			SDL_String16 *pString16, Uint16 lenght,
 			Uint32 flags);
-void edit_field(struct GUI *pEdit_Widget);
+bool edit_field(struct GUI *pEdit_Widget);
 int redraw_edit(struct GUI *pEdit_Widget);
 
 int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y);

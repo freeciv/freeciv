@@ -149,10 +149,13 @@ void gui_put_sprite(struct canvas_store *pCanvas_store,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  /* if you make partial-sprite draws, then you must do decommpres
-     procedure on surface (commpresed with RLE) and this slow down
-     drawing */
-  SDL_Rect src = {offset_x,offset_y,width,height};
+  /* 
+   *  
+   *
+   *
+   *
+   */
+  SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
   SDL_BlitSurface(GET_SURF(sprite), &src, pCanvas_store->map, &dst);
 }
@@ -342,7 +345,7 @@ void flush_dirty(void)
     }
     j = 0;
     /* flush main buffer to framebuffer */    
-    SDL_Flip(Main.screen);
+    SDL_Flip(Main.screen);/* == SDL_UpdateRect(Main.screen, 0, 0 , 0, 0); */
   } else {
     static int i;
     static SDL_Rect dst;
@@ -1110,9 +1113,15 @@ void set_overview_dimensions(int w, int h)
   if (pMMap) {
     del_widget_from_gui_list(pMMap);
   }
-  
-  free_dither_tiles();
-  init_dither_tiles();
+
+  /* this is here becouse I need function that is call after game start */
+  if(is_isometric) {  
+    free_dither_tiles();
+    init_dither_tiles();
+
+
+
+  }
   
   draw_city_names = TRUE;
   
@@ -1554,6 +1563,7 @@ static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
 /**************************************************************************
   This function draw 1x1 [map_col]x[map_row] map cell to 'pDest' surface
   on map_x , map_y position.
+  Main Draw Map Function... speed of this function is critical !
 **************************************************************************/
 static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 			  Uint16 map_col, Uint16 map_row, int citymode)
@@ -1568,6 +1578,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static struct city *pCity = NULL;
   static struct unit *pUnit = NULL, *pFocus = NULL;
   static enum tile_special_type special;
+  static enum tile_terrain_type terrain;
   static int count, i, solid_bg;
   static bool fog, full_ocean;
   
@@ -1586,14 +1597,15 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   pTile = map_get_tile(map_col, map_row);
   pCity = pTile->city;  
   special = pTile->special;
-  fog = (pTile->known == TILE_KNOWN_FOGGED && draw_fog_of_war);
+  terrain = pTile->terrain;
+  fog = (draw_fog_of_war && (enum known_type)pTile->known == TILE_KNOWN_FOGGED);
   pUnit = get_drawable_unit(map_col, map_row, citymode);
   pFocus = get_unit_in_focus();
-  full_ocean = is_full_ocean(pTile->terrain, map_col, map_row);
+  full_ocean = is_full_ocean(terrain, map_col, map_row);
 
-  if (!full_ocean && !is_ocean(pTile->terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
+  if (!full_ocean && !is_ocean(terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
   { 
-    fill_dither_buffers(pDitherBufs, map_col, map_row, pTile->terrain);
+    fill_dither_buffers(pDitherBufs, map_col, map_row, terrain);
   }
   
   if (fog && !full_ocean) {
@@ -1609,7 +1621,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   dst = des;
   
   if (draw_terrain) {
-    if (is_ocean(pTile->terrain)) {
+    if (is_ocean(terrain)) {
       if (full_ocean) 
       {
 	if (fog)
@@ -1652,7 +1664,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     des = dst;
     /*** Dither base terrain ***/
 
-    if (!full_ocean && !is_ocean(pTile->terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
+    if (!full_ocean && !is_ocean(terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
     {
       /* north */
       if (pDitherBufs[0]) {
@@ -1687,7 +1699,8 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     if (pTile_sprs[i]) {
       if (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH > 0
 	  || GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT > 0) {
-	des.x -= ((GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH) >> 1);
+	des.x -= ((GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH) / 2); /* center */
+        /* this allow drawing of civ3 bigger tiles */
 	des.y -= (GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT);
 	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
       } else {
@@ -1720,7 +1733,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
         normalize_map_pos(&x, &y);
         /*assert(is_tiles_adjacent(map_col, map_row, x, y));*/
 
-        if (map_get_tile(x, y)->known != TILE_UNKNOWN) {
+        if ((enum known_type)(map_get_tile(x, y))->known != TILE_UNKNOWN) {
           pos1_is_in_city_radius = player_in_city_radius(game.player_ptr, x, y);
 	  if((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID) {
             get_worker_on_map_position(x, y, &city_tile_type1, &dummy_pcity);
@@ -1736,7 +1749,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
         normalize_map_pos(&x, &y);
         /*assert(is_tiles_adjacent(map_col, map_row, x, y));*/
 
-        if (map_get_tile(x, y)->known != TILE_UNKNOWN) {
+        if ((enum known_type)(map_get_tile(x, y))->known != TILE_UNKNOWN) {
           pos2_is_in_city_radius = player_in_city_radius(game.player_ptr, x, y);
 	  if((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID) {
             get_worker_on_map_position(x, y, &city_tile_type2, &dummy_pcity);
@@ -1797,7 +1810,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
       }
     }
   }
-
+  
   /*** City and various terrain improvements ***/
   if (sdl_contains_special(special, S_FORTRESS) && draw_fortress_airbase) {
     SDL_BlitSurface(GET_SURF(sprites.tx.fortress_back),
@@ -2362,7 +2375,9 @@ SDL_Surface * create_city_map(struct city *pCity)
   return pDest;
 }
 
-
+/**************************************************************************
+  ...
+**************************************************************************/
 SDL_Surface * get_terrain_surface(int x , int y)
 {
   SDL_Surface *pSurf = create_surf(UNIT_TILE_WIDTH,
@@ -2416,6 +2431,9 @@ SDL_Surface * get_terrain_surface(int x , int y)
 				Init Functions
    ===================================================================== */
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static SDL_Surface * create_ocean_tile(void)
 {
   SDL_Surface *pOcean = create_surf(NORMAL_TILE_WIDTH ,
@@ -2452,7 +2470,9 @@ static SDL_Surface * create_ocean_tile(void)
   return pOcean;
 }
 
-
+/**************************************************************************
+  ...
+**************************************************************************/
 static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
 					enum tile_terrain_type terrain)
 {
@@ -2491,13 +2511,16 @@ static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
   pDitherBufs[3] = pDithers[__ter[DIR8_WEST]][3];
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void init_dither_tiles(void)
 {
   enum tile_terrain_type terrain;
   int i , w = NORMAL_TILE_WIDTH / 2, h = NORMAL_TILE_HEIGHT / 2;
   SDL_Rect src = { 0 , 0 , w , h };
-  SDL_Surface *pTerrain_Surface , *pBuf = create_surf( NORMAL_TILE_WIDTH,
-  					NORMAL_TILE_HEIGHT , SDL_SWSURFACE);
+  SDL_Surface *pTerrain_Surface, *pBuf = create_surf(NORMAL_TILE_WIDTH,
+  					NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
   
   SDL_SetColorKey(pBuf , SDL_SRCCOLORKEY , 0x0);
   
@@ -2563,6 +2586,9 @@ static void init_dither_tiles(void)
   FREESURFACE(pBuf);
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void free_dither_tiles(void)
 {
   enum tile_terrain_type terrain;
@@ -2578,6 +2604,9 @@ static void free_dither_tiles(void)
   
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void clear_dither_tiles(void)
 {
   enum tile_terrain_type terrain;
@@ -2684,7 +2713,7 @@ void tmp_map_surfaces_init(void)
 #else  
     SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY, 0x0);
 #endif
-    
+  
   } else {
     pTmpSurface = NULL;
     pOcean_Tile = NULL;

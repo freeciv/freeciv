@@ -53,8 +53,6 @@
 #include "chatline.h"
 
 #define PTSIZE_LOG_FONT 10
-
-static struct GUI *pInput_Edit = NULL;
   
 /**************************************************************************
   Sent msg/command from imput dlg to server
@@ -78,71 +76,40 @@ static int inputline_return_callback(struct GUI *pWidget)
     real_append_output_window(theinput);
     FREE(theinput);
   }
-
-  pWidget->string16->text = NULL;
-
+  
   return -1;
 }
 
-
 /**************************************************************************
-  Create imput line dlg.
+  This function is main chat/command client input.
 **************************************************************************/
-void Init_Input_Edit(void)
+void popup_input_line(void)
 {
   int w = 400;
   int h = 30;
+  struct GUI *pInput_Edit;
+    
+  pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 18, w, 0);
+  lock_buffer(pInput_Edit->dst);/* always on top */
   
-  pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 18, w, 0);
   pInput_Edit->size.x = (Main.screen->w - w) / 2;
-
+  
   if (h > pInput_Edit->size.h) {
     pInput_Edit->size.h = h;
   }
 
   pInput_Edit->size.y = Main.screen->h - 2 * pInput_Edit->size.h;
   
-  pInput_Edit->action = inputline_return_callback;
-
-  add_to_gui_list(ID_CHATLINE_INPUT_EDIT, pInput_Edit);
-}
-
- /* ======================================================= */
-
-
-/**************************************************************************
-  This function is main chat/command client input.
-  Current this code have One big problem:
-  When you start type msg/command you block main event loop.
-  you block net event, animation event , etc.
-  Fix this problem is my next todo.
-**************************************************************************/
-void popup_input_line(void)
-{
-  SDL_Rect dst = {pInput_Edit->size.x, pInput_Edit->size.y, 0, 0};
   
-  refresh_widget_background(pInput_Edit);
-  
-  edit(pInput_Edit);
-  
-  SDL_BlitSurface(pInput_Edit->gfx, NULL, pInput_Edit->dst, &dst);
-  
-  flush_rect(pInput_Edit->size);
-    
-
-  if (pInput_Edit->action) {
-    pInput_Edit->action(pInput_Edit);
+  if(edit(pInput_Edit)) {
+    inputline_return_callback(pInput_Edit);
   }
-}
-
-/**************************************************************************
-  This function is call after resize main screen to new size
-**************************************************************************/
-void new_input_line_position(void)
-{
-  pInput_Edit->dst = Main.gui;
-  pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
-  pInput_Edit->size.y = Main.screen->h - 2 * pInput_Edit->size.h;
+  
+  sdl_dirty_rect(pInput_Edit->size);
+  FREEWIDGET(pInput_Edit);
+  remove_locked_buffer();
+  
+  flush_dirty();
 }
 
 /**************************************************************************

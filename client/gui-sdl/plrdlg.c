@@ -24,7 +24,7 @@
 #include <SDL/SDL.h>
 
 #include "fcintl.h"
-#include "log.h"
+
 #include "game.h"
 #include "packets.h"
 #include "nation.h"

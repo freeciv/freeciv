@@ -136,7 +136,8 @@ static SDL_Surface * create_vertical_surface(SDL_Surface *pVert_theme,
 
 static void remove_buffer_layer(SDL_Surface *pBuffer);
 static int redraw_iconlabel(struct GUI *pLabel);
-  
+SDL_Surface * get_buffer_layer(bool transparent);
+
 /**************************************************************************
   Correct backgroud size ( set min size ). Used in create widget
   functions.
@@ -448,17 +449,19 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_EDIT:
-    edit_field(pWidget);
+  {
+    bool change = edit_field(pWidget);
     redraw_edit(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    if (pWidget->action) {
+    if (change && pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
       }
     }
     ID = 0;
-    break;
+  }
+  break;
   case WT_VSCROLLBAR:
     set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
@@ -1635,7 +1638,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
 **************************************************************************/
 static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  return ID_SCROLLBAR;
+  return (Uint16)ID_SCROLLBAR;
 }
 
 /**************************************************************************
@@ -3256,7 +3259,11 @@ struct GUI * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
   set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
-  pEdit->dst = pDest;
+  if(pDest) {
+    pEdit->dst = pDest;
+  } else {
+    pEdit->dst = get_buffer_layer(flags & WF_DRAW_THEME_TRANSPARENT);
+  }
   
   if (pString16) {
     pEdit->string16->style |= SF_CENTER;
@@ -3446,6 +3453,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     
   /* find which key is pressed */
   switch (Key.sym) {
+    case SDLK_ESCAPE:
+      /* exit from loop without changes */
+      return MAX_ID;
+    break;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
       /* exit from loop */
@@ -3619,12 +3630,13 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
   return ID_ERROR;
 }
 
-void edit_field(struct GUI *pEdit_Widget)
+bool edit_field(struct GUI *pEdit_Widget)
 {
   struct EDIT *pEdt;
   struct UniChar ___last;
   struct UniChar *pInputChain_TMP = NULL;
-
+  bool ret;
+  
   pEdt = MALLOC(sizeof(struct EDIT));
   pEdt->pWidget = pEdit_Widget;
   pEdt->ChainLen = 0;
@@ -3698,8 +3710,8 @@ void edit_field(struct GUI *pEdit_Widget)
   redraw_edit_chain(pEdt);
   
   /* local loop */  
-  gui_event_loop((void *)pEdt, NULL,
-  	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL);
+  ret = (gui_event_loop((void *)pEdt, NULL,
+  	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL) == ID_EDIT);
   
   /* reset font settings */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
@@ -3712,9 +3724,11 @@ void edit_field(struct GUI *pEdit_Widget)
 
   FREESURFACE(pEdt->pEndTextChain->pTsurf);
 
-  FREE(pEdit_Widget->string16->text);
-  pEdit_Widget->string16->text =
-		  chain2text(pEdt->pBeginTextChain, pEdt->ChainLen);
+  if(ret) {
+    FREE(pEdit_Widget->string16->text);
+    pEdit_Widget->string16->text =
+  	  chain2text(pEdt->pBeginTextChain, pEdt->ChainLen);
+  }
 
   del_chain(pEdt->pBeginTextChain);
   
@@ -3726,6 +3740,8 @@ void edit_field(struct GUI *pEdit_Widget)
 
   /* disable Unicode */
   SDL_EnableUNICODE(0);
+  
+  return ret;
 }
 
 /* =================================================== */
@@ -4018,10 +4034,11 @@ int draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y)
   Pointer for this buffer is put in buffer array on last position that 
   flush functions will draw this layer last.
 **************************************************************************/
-static SDL_Surface * get_buffer_layer(bool transparent)
+SDL_Surface * get_buffer_layer(bool transparent)
 {
   SDL_Surface *pBuffer;
   Uint32 colorkey;
+  
   /* create buffer */
   if(transparent) {
     pBuffer = SDL_DisplayFormatAlpha(Main.screen);
@@ -4041,13 +4058,23 @@ static SDL_Surface * get_buffer_layer(bool transparent)
     /* find NULL element */
     for(i = 0; i < Main.guis_count; i++) {
       if(!Main.guis[i]) {
-	Main.guis[i] = pBuffer;
+	if(i && Main.guis[i-1] == pLocked_buffer) {
+	  Main.guis[i] = Main.guis[i-1];
+	  Main.guis[i-1] = pBuffer;
+	} else {
+	  Main.guis[i] = pBuffer;
+	}
 	return pBuffer;
       }
     }
     Main.guis_count++;
     Main.guis = REALLOC(Main.guis, Main.guis_count * sizeof(SDL_Surface *));
-    Main.guis[Main.guis_count - 1] = pBuffer;
+    if(Main.guis[Main.guis_count - 2] == pLocked_buffer) {
+      Main.guis[Main.guis_count - 1] = Main.guis[Main.guis_count - 2];
+      Main.guis[Main.guis_count - 2] = pBuffer;
+    } else {
+      Main.guis[Main.guis_count - 1] = pBuffer;
+    }
   } else {
     Main.guis = MALLOC(sizeof(SDL_Surface *));
     Main.guis[0] = pBuffer;

@@ -24,9 +24,7 @@
 
 #include "chatline_g.h"
 
-void Init_Input_Edit(void);
 void popup_input_line(void);
-void new_input_line_position(void);
 
 #define set_output_window_text( pString )	\
 	real_append_output_window( pString )

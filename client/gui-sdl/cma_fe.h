@@ -18,10 +18,8 @@
 
 struct city;
 
-enum cma_refresh {
-  REFRESH_ALL,
-  DONT_REFRESH_SELECT,
-  DONT_REFRESH_HSCALES
-};
+void update_city_cma_dialog(void);
+void popup_city_cma_dialog(struct city *pCity);
+void popdown_city_cma_dialog(void);
 
 #endif

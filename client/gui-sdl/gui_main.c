@@ -391,7 +391,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
     t2 = SDL_GetTicks();
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
       if(widget_info_counter || autoconnect) {
-        if(widget_info_counter > 10) {
+        if(widget_info_counter > 8) {
           SDL_PushEvent(pInfo_User_Event);
           widget_info_counter = 0;
         } else {
@@ -437,7 +437,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
 	  break;
 	  default:
 	    if(key_up_handler) {
-	      key_up_handler(Main.event.key.keysym, pData);
+	      ID = key_up_handler(Main.event.key.keysym, pData);
 	    }
 	  break;
 	}
@@ -711,9 +711,7 @@ void ui_main(int argc, char *argv[])
   flush_all();
 
   /* this need correct Main.screen size */
-  Init_Input_Edit();
   Init_MapView();
-
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 

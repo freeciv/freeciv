@@ -57,6 +57,9 @@ struct Theme {
 	SDL_Surface *UNITS2_Icon;
 	SDL_Surface *FindCity_Icon;
 	SDL_Surface *NEW_TURN_Icon;
+	SDL_Surface *SAVE_Icon;
+	SDL_Surface *LOAD_Icon;
+	SDL_Surface *DELETE_Icon;
 	
 	/* city icons */
 	SDL_Surface *Army_Icon;

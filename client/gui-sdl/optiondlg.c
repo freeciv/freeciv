@@ -30,7 +30,6 @@
 
 #include "fcintl.h"
 #include "support.h"
-#include "log.h"
 
 #include "gui_mem.h"
 
@@ -70,7 +69,8 @@ static struct OPT_DLG {
 
 static struct GUI *pOptions_Button = NULL;
 static struct GUI *pEdited_WorkList_Name = NULL;
-  
+extern SDL_Surface * get_buffer_layer(bool transparent);
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -78,8 +78,10 @@ static void center_optiondlg(void)
 {
   Sint16 newX, newY;
   struct GUI *pBuf = pOption_Dlg->pEndOptionsWidgetList;
+  SDL_Surface *pNew_Buffer = get_buffer_layer(FALSE);
+  
   while(pBuf) {
-    pBuf->dst = Main.gui;
+    pBuf->dst = pNew_Buffer;
     if(pBuf == pOption_Dlg->pBeginOptionsWidgetList) {
       break;
     }
@@ -431,14 +433,22 @@ static int change_mode_callback(struct GUI *pWidget)
   }
 
   mode = MAX_ID - pWidget->ID;
-  
+
+  if(Main.guis_count) {
+    int i;
+    for(i=0; i<Main.guis_count; i++) {
+      if(Main.guis[i]) {
+	FREESURFACE(Main.guis[i]);
+      }
+    }
+  }
+ 
   if (pModes_Rect[mode])
   {
     set_video_mode(pModes_Rect[mode]->w, pModes_Rect[mode]->h, tmp_flags);
   } else {
     set_video_mode(640, 480, tmp_flags);
   }
-
 
   /* change setting label */
   if (Main.screen->flags & SDL_FULLSCREEN) {
@@ -472,9 +482,9 @@ static int change_mode_callback(struct GUI *pWidget)
   pWindow->dst = Main.gui;
   pWindow->size.x = pWindow->dst->w - 10 - pWindow->size.w;
 
-  center_optiondlg();
-  new_input_line_position();
+  center_optiondlg();/* alloc new dest buffers */
   set_new_order_widgets_dest_buffers();
+  reset_main_widget_dest_buffer();
   
   /* Options Dlg Window */
   pWindow = pOption_Dlg->pEndOptionsWidgetList;
@@ -497,7 +507,7 @@ static int change_mode_callback(struct GUI *pWidget)
     /* with redrawing full map */
     center_on_something();
     
-    refresh_widget_background(pWindow);
+    /*refresh_widget_background(pWindow);*/
 
     redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
 			    pOption_Dlg->pEndOptionsWidgetList, 0);
@@ -1910,6 +1920,7 @@ static int back_callback(struct GUI *pWidget)
     FREE(pOption_Dlg->pADlg->pScroll);
     FREE(pOption_Dlg->pADlg);
   }
+  
   if (SDL_Client_Flags & CF_OPTION_MAIN) {
     popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,
 				pOption_Dlg->pEndOptionsWidgetList);
@@ -1984,14 +1995,12 @@ void init_options_button(void)
 **************************************************************************/
 void popup_optiondlg(void)
 {
-  struct GUI *pTmp_GUI = NULL;
-  Uint16 longest = 0;
-  Uint16 w = 350;
-  Uint16 h = 300;
-  Sint16 start_x = (Main.screen->w - w) / 2;
-  Sint16 start_y = (Main.screen->h - h) / 2;
+  struct GUI *pTmp_GUI, *pWindow;
+  struct GUI *pQuit, *pDisconnect = NULL, *pBack;
+  SDL_String16 *pStr;
   SDL_Surface *pLogo;
-
+  int longest = 0, w, h, start_x, start_y;
+  
   if(pOption_Dlg) {
     return;
   }
@@ -1999,72 +2008,86 @@ void popup_optiondlg(void)
   popdown_all_game_dialogs();
   flush_dirty();
   
-  if(Main.guis_count) {
-    int i;
-    for(i=0; i<Main.guis_count; i++) {
-      if(Main.guis[i]) {
-	freelog(LOG_ERROR, "Buffer nr. not free = %d", i);
-      }
-    }
-  }
-  
   pOption_Dlg = MALLOC(sizeof(struct OPT_DLG));
   pOption_Dlg->pADlg = NULL;
   pLogo = get_logo_gfx();
   
   /* create window widget */
-  pTmp_GUI =
-      create_window(Main.gui, create_str16_from_char(_("Options"), 12), w, h, 0);
-  pTmp_GUI->string16->style |= TTF_STYLE_BOLD;
-  pTmp_GUI->size.x = start_x;
-  pTmp_GUI->size.y = start_y;
-  pTmp_GUI->action = main_optiondlg_callback;
+  pStr = create_str16_from_char(_("Options"), 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window(NULL, pStr, 10, 10, 0);
+  pWindow->action = main_optiondlg_callback;
+  
+  set_wstate(pWindow, FC_WS_NORMAL);
+  add_to_gui_list(ID_OPTIONS_WINDOW, pWindow);
+  pOption_Dlg->pEndOptionsWidgetList = pWindow;
 
-  if (resize_window(pTmp_GUI, pLogo, NULL, w, h)) {
-    FREESURFACE(pLogo);
-  }
-  SDL_SetAlpha(pTmp_GUI->theme, 0x0, 0x0);
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_WINDOW, pTmp_GUI);
-  pOption_Dlg->pEndOptionsWidgetList = pTmp_GUI;
-
+  w = 0;
   /* create exit button */
-  pTmp_GUI = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-				pTmp_GUI->dst, _("Quit"), 12, 0);
-  pTmp_GUI->size.x = start_x + w - pTmp_GUI->size.w - 10;
-  pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
+  pQuit = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+				pWindow->dst, _("Quit"), 12, 0);
+  w += 10 + pQuit->size.w;
   /* pTmp_GUI->action = exit_callback; */
-  pTmp_GUI->key = SDLK_q;
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pTmp_GUI);
+  pQuit->key = SDLK_q;
+  set_wstate(pQuit, FC_WS_NORMAL);
+  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pQuit);
 
   /* create disconnection button */
   if(aconnection.established) {
-    pTmp_GUI = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-				pTmp_GUI->dst, _("Disconnect"), 12, 0);
-    pTmp_GUI->size.x = start_x + (w - pTmp_GUI->size.w) / 2;
-    pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
-    pTmp_GUI->action = disconnect_callback;
-    set_wstate(pTmp_GUI, FC_WS_NORMAL);
-    add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pTmp_GUI);
+    pDisconnect = create_themeicon_button_from_chars(pTheme->BACK_Icon,
+				pWindow->dst, _("Disconnect"), 12, 0);
+    w += 10 + pDisconnect->size.w + 10;
+    pDisconnect->action = disconnect_callback;
+    set_wstate(pDisconnect, FC_WS_NORMAL);
+    add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pDisconnect);
   }
   
   /* create back button */
-  pTmp_GUI = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-				pTmp_GUI->dst, _("Back"), 12, 0);
-  pTmp_GUI->size.x = start_x + 10;
-  pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
-  pTmp_GUI->action = back_callback;
-  pTmp_GUI->key = SDLK_ESCAPE;
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pTmp_GUI);
-  pOption_Dlg->pBeginCoreOptionsWidgetList = pTmp_GUI;
-
+  pBack = create_themeicon_button_from_chars(pTheme->BACK_Icon,
+				pWindow->dst, _("Back"), 12, 0);
+  w += pBack->size.w + 10;
+  pBack->action = back_callback;
+  pBack->key = SDLK_ESCAPE;
+  set_wstate(pBack, FC_WS_NORMAL);
+  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pBack);
+  pOption_Dlg->pBeginCoreOptionsWidgetList = pBack;
+  /* ------------------------------------------------------ */
+  
+  w = MAX(w, 360);
+  h = 300;
+  
+  start_x = (Main.screen->w - w) / 2;
+  start_y = (Main.screen->h - h) / 2;
+  pWindow->size.x = start_x;
+  pWindow->size.y = start_y;
+  
+  if (resize_window(pWindow, pLogo, NULL, w, h)) {
+    FREESURFACE(pLogo);
+  }
+      
+  if(aconnection.established) {
+    pDisconnect->size.x = start_x + (w - pDisconnect->size.w) / 2;
+    pDisconnect->size.y = start_y + h - pDisconnect->size.h - 10;
+    
+    pBack->size.x = pDisconnect->size.x - 10 - pBack->size.w;
+    pBack->size.y = start_y + h - pBack->size.h - 10;
+    
+    pQuit->size.x = pDisconnect->size.x + pDisconnect->size.w + 10;
+    pQuit->size.y = start_y + h - pQuit->size.h - 10;
+  } else {
+    pBack->size.x = start_x + 10;
+    pBack->size.y = start_y + h - pBack->size.h - 10;
+    
+    pQuit->size.x = start_x + w - pQuit->size.w - 10;
+    pQuit->size.y = start_y + h - pQuit->size.h - 10;
+  }
+      
   /* ============================================================= */
 
   /* create video button widget */
   pTmp_GUI = create_icon_button_from_chars(NULL,
-			pTmp_GUI->dst, _("Video options"), 12, 0);
+			pWindow->dst, _("Video options"), 12, 0);
   pTmp_GUI->size.y = start_y + 60;
   pTmp_GUI->action = video_callback;
   set_wstate(pTmp_GUI, FC_WS_NORMAL);
@@ -2076,7 +2099,7 @@ void popup_optiondlg(void)
 
   /* create sound button widget */
   pTmp_GUI = create_icon_button_from_chars(NULL,
-				pTmp_GUI->dst, _("Sound options"), 12, 0);
+				pWindow->dst, _("Sound options"), 12, 0);
   pTmp_GUI->size.y = start_y + 90;
   pTmp_GUI->action = sound_callback;
   /* set_wstate( pTmp_GUI, FC_WS_NORMAL ); */
@@ -2088,7 +2111,7 @@ void popup_optiondlg(void)
 
   /* create local button widget */
   pTmp_GUI =
-      create_icon_button_from_chars(NULL, pTmp_GUI->dst,
+      create_icon_button_from_chars(NULL, pWindow->dst,
 				      _("Game options"), 12, 0);
   pTmp_GUI->size.y = start_y + 120;
   pTmp_GUI->action = local_setting_callback;
@@ -2100,7 +2123,7 @@ void popup_optiondlg(void)
 
   /* create map button widget */
   pTmp_GUI = create_icon_button_from_chars(NULL,
-				  pTmp_GUI->dst, _("Map options"), 12, 0);
+				  pWindow->dst, _("Map options"), 12, 0);
   pTmp_GUI->size.y = start_y + 150;
   pTmp_GUI->action = map_setting_callback;
   set_wstate(pTmp_GUI, FC_WS_NORMAL);
@@ -2112,7 +2135,7 @@ void popup_optiondlg(void)
 
   /* create work lists widget */
   pTmp_GUI = create_icon_button_from_chars(NULL, 
-  				pTmp_GUI->dst, _("Worklists"), 12, 0);
+  				pWindow->dst, _("Worklists"), 12, 0);
   pTmp_GUI->size.y = start_y + 180;
   pTmp_GUI->action = work_lists_callback;
   
@@ -2137,10 +2160,9 @@ void popup_optiondlg(void)
   } while (pTmp_GUI != pOption_Dlg->pBeginCoreOptionsWidgetList);
 
   /* draw window group */
-  redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-  			pOption_Dlg->pEndOptionsWidgetList, 0);
+  redraw_group(pOption_Dlg->pBeginOptionsWidgetList, pWindow, 0);
 
-  flush_rect(pOption_Dlg->pEndOptionsWidgetList->size);
+  flush_rect(pWindow->size);
 
   SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
   SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;

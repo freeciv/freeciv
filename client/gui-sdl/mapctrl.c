@@ -1128,8 +1128,6 @@ void Init_MapView(void)
   SDL_BlitSurface(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL);
   SDL_SetColorKey(pIcon_theme, SDL_SRCCOLORKEY, 0x0);
 
-  SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL);
-
   pBuf = create_themeicon(pIcon_theme, Main.gui,
 			  WF_FREE_GFX | WF_FREE_THEME |
 		WF_DRAW_THEME_TRANSPARENT | WF_WIDGET_HAS_INFO_LABEL);
@@ -1281,6 +1279,74 @@ void Init_MapView(void)
   SDL_Client_Flags |= (CF_MAP_UNIT_W_CREATED | CF_UNIT_INFO_SHOW |
 							  CF_MINI_MAP_SHOW);
 }
+
+void reset_main_widget_dest_buffer(void)
+{
+  		    
+  /* =================== Units Window ======================= */
+  struct GUI *pBuf = pUnits_Info_Window;
+  pBuf->dst = Main.gui;
+  
+  /* economy button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+    
+  /* research button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+  
+  /* revolution button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+  
+  /* show/hide unit's window button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* ========================= Mini map ========================== */
+
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* new turn button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+  
+  /* players button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+  
+  /* find city button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+  
+  /* units button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* show/hide log window button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* show/hide minimap button */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* ========================= Cooling/Warming ========================== */
+
+  /* cooling icon */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* warming icon */
+  pBuf = pBuf->prev;
+  pBuf->dst = Main.gui;
+
+  /* ================================ */
+    
+}
+
+
 
 struct GUI * get_unit_info_window_widget(void)
 {
