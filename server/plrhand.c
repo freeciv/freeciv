@@ -2801,12 +2801,3 @@ void server_remove_player(struct player *pplayer)
       }
   }
 }
-
-/********************************************************************** 
-...
-***********************************************************************/
-void server_player_init(struct player *pplayer)
-{
-  player_map_allocate(pplayer);
-  player_init(pplayer);
-}

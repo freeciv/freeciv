@@ -433,9 +433,11 @@ main_start_players:
 
   if(game.is_new_game) {
     for(i=0; i<game.nplayers; i++) {
-      init_tech(&game.players[i], game.tech);
-      player_limit_to_government_rates(&game.players[i]);
-      game.players[i].economic.gold=game.gold;
+      struct player *pplayer = &game.players[i];
+      player_map_allocate(pplayer);
+      init_tech(pplayer, game.tech);
+      player_limit_to_government_rates(pplayer);
+      pplayer->economic.gold=game.gold;
     }
     game.max_players=game.nplayers;
 
@@ -1424,7 +1426,7 @@ void accept_new_player(char *name, struct connection *pconn)
 {
   struct player *pplayer = &game.players[game.nplayers];
 
-  server_player_init(pplayer);
+  server_player_init(pplayer, 0);
   /* sometimes needed if players connect/disconnect to avoid
    * inheriting stale AI status etc
    */
@@ -1593,7 +1595,7 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  accept_new_player(req->name, pconn);    
+  accept_new_player(req->name, pconn);
 }
 
 /**************************************************************************
@@ -1872,6 +1874,18 @@ static void disable_fog_of_war(void)
   int o;
   for (o = 0; o < game.nplayers; o++)
     disable_fog_of_war_player(&game.players[o]);
+}
+
+
+/********************************************************************** 
+The initmap option is used because we don't want to initialize the map
+before the x and y sizes have been determined
+***********************************************************************/
+void server_player_init(struct player *pplayer, int initmap)
+{
+  if (initmap)
+    player_map_allocate(pplayer);
+  player_init(pplayer);
 }
 
 #ifdef GENERATING_MAC

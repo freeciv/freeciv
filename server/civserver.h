@@ -27,6 +27,7 @@ int send_server_info_to_metaserver(int do_send,int reset_timer);
 void start_game(void);
 void save_game(char *filename);
 void pick_ai_player_name(Nation_Type_id nation, char *newname);
+void server_player_init(struct player *pplayer, int initmap);
 
 void dealloc_id(int id);
 int is_id_allocated(int id);

@@ -721,7 +721,7 @@ static struct player *split_player(struct player *pplayer)
   
   /* make a new player */
 
-  server_player_init(cplayer);
+  server_player_init(cplayer, 1);
   
   /* select a new name and nation for the copied player. */
 
