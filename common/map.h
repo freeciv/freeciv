@@ -244,7 +244,7 @@ void reset_move_costs(int x, int y);
 #endif
 
 #define native_pos_to_index(nat_x, nat_y)                                   \
-  (CHECK_NATIVE_POS((nat_x,), (nat_y)),					    \
+  (CHECK_NATIVE_POS((nat_x), (nat_y)),					    \
    (nat_x) + (nat_y) * map.xsize)
 #define index_to_native_pos(pnat_x, pnat_y, index)                          \
   (*(pnat_x) = (index) % map.xsize,                                         \
