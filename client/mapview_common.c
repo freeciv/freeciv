@@ -491,22 +491,16 @@ void get_center_tile_mapcanvas(int *map_x, int *map_y)
 **************************************************************************/
 void center_tile_mapcanvas(int map_center_x, int map_center_y)
 {
-  int map_x = map_center_x, map_y = map_center_y, gui_x, gui_y;
+  int gui_x, gui_y;
 
   CHECK_MAP_POS(map_center_x, map_center_y);
 
-  /* Find top-left corner. */
-  if (is_isometric) {
-    map_x -= mapview_canvas.tile_width / 2;
-    map_y += mapview_canvas.tile_width / 2;
-    map_x -= mapview_canvas.tile_height / 2;
-    map_y -= mapview_canvas.tile_height / 2;
-  } else {
-    map_x -= mapview_canvas.tile_width / 2;
-    map_y -= mapview_canvas.tile_height / 2;
-  }
+  map_to_gui_pos(&gui_x, &gui_y, map_center_x, map_center_y);
 
-  map_to_gui_pos(&gui_x, &gui_y, map_x, map_y);
+  /* Put the center pixel of the tile at the exact center of the mapview. */
+  gui_x -= (mapview_canvas.width - NORMAL_TILE_WIDTH) / 2;
+  gui_y -= (mapview_canvas.height - NORMAL_TILE_HEIGHT) / 2;
+
   set_mapview_origin(gui_x, gui_y);
 }
 
