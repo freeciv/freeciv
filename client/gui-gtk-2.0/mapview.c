@@ -414,6 +414,35 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 		    pixel_width, pixel_height);
 }
 
+#define MAX_DIRTY_RECTS 20
+static int num_dirty_rects = 0;
+static GdkRectangle dirty_rects[MAX_DIRTY_RECTS];
+static bool is_flush_queued = FALSE;
+
+/**************************************************************************
+  A callback invoked as a result of gtk_idle_add, this function simply
+  flushes the mapview canvas.
+**************************************************************************/
+static gint unqueue_flush(gpointer data)
+{
+  flush_dirty();
+  is_flush_queued = FALSE;
+  return 0;
+}
+
+/**************************************************************************
+  Called when a region is marked dirty, this function queues a flush event
+  to be handled later by GTK.  The flush may end up being done
+  by freeciv before then, in which case it will be a wasted call.
+**************************************************************************/
+static void queue_flush(void)
+{
+  if (!is_flush_queued) {
+    gtk_idle_add(unqueue_flush, NULL);
+    is_flush_queued = TRUE;
+  }
+}
+
 /**************************************************************************
   Mark the rectangular region as "dirty" so that we know to flush it
   later.
@@ -421,15 +450,14 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 void dirty_rect(int canvas_x, int canvas_y,
 		int pixel_width, int pixel_height)
 {
-  /* GDK gives an error if we invalidate out-of-bounds parts of the
-     window. */
-  GdkRectangle rect = {MAX(canvas_x, 0), MAX(canvas_y, 0),
-		       MIN(pixel_width,
-			   map_canvas->allocation.width - canvas_x),
-		       MIN(pixel_height,
-			   map_canvas->allocation.height - canvas_y)};
-
-  gdk_window_invalidate_rect(map_canvas->window, &rect, FALSE);
+  if (num_dirty_rects < MAX_DIRTY_RECTS) {
+    dirty_rects[num_dirty_rects].x = canvas_x;
+    dirty_rects[num_dirty_rects].y = canvas_y;
+    dirty_rects[num_dirty_rects].width = pixel_width;
+    dirty_rects[num_dirty_rects].height = pixel_height;
+    num_dirty_rects++;
+    queue_flush();
+  }
 }
 
 /**************************************************************************
@@ -437,10 +465,8 @@ void dirty_rect(int canvas_x, int canvas_y,
 **************************************************************************/
 void dirty_all(void)
 {
-  GdkRectangle rect = {0, 0, map_canvas->allocation.width,
-		       map_canvas->allocation.height};
-
-  gdk_window_invalidate_rect(map_canvas->window, &rect, FALSE);
+  num_dirty_rects = MAX_DIRTY_RECTS;
+  queue_flush();
 }
 
 /**************************************************************************
@@ -450,7 +476,18 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
-  gdk_window_process_updates(map_canvas->window, FALSE);
+  if (num_dirty_rects == MAX_DIRTY_RECTS) {
+    flush_mapcanvas(0, 0, map_canvas->allocation.width,
+		    map_canvas->allocation.height);
+  } else {
+    int i;
+
+    for (i = 0; i < num_dirty_rects; i++) {
+      flush_mapcanvas(dirty_rects[i].x, dirty_rects[i].y,
+		      dirty_rects[i].width, dirty_rects[i].height);
+    }
+  }
+  num_dirty_rects = 0;
 }
 
 /****************************************************************************
