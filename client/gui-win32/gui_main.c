@@ -30,6 +30,7 @@
 #include "shared.h"
 #include "support.h"
 #include "version.h"
+#include "timing.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -108,6 +109,7 @@ client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
+bool process_net_input(void);
 
 struct callback {
   void (*callback)(void *data);
@@ -510,45 +512,31 @@ static void create_main_window(void)
 }
 
 /**************************************************************************
-
+   Check the network input for messages, and process them.  Returns true
+   if a message was received.
 **************************************************************************/
-static VOID CALLBACK blink_timer(HWND hwnd, UINT uMsg, UINT idEvent,
-				 DWORD dwTime)
+bool process_net_input()
 {
-  if (can_client_change_view()) {
-    check_mapstore();
+  struct timeval tv;
+  fd_set civfdset;
+  bool processed = FALSE;
+
+  while (net_input>=0) {
+    FD_ZERO(&civfdset);
+    FD_SET(net_input, &civfdset);
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+    if (select(1, &civfdset, NULL, NULL, &tv)) {
+      if (FD_ISSET(net_input, &civfdset)) {
+	input_from_server(net_input);
+	processed = TRUE;
+      }
+    } else {
+      break;
+    }
   }
 
-  real_timer_callback();
-  freelog(LOG_ERROR, "FIXME: Need to update timer.");
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTime)  
-{
-    struct timeval tv;
-  fd_set civfdset;
-  while (net_input>=0)
-    {
- 
-      FD_ZERO(&civfdset);
-      FD_SET(net_input,&civfdset);
-      tv.tv_sec=0;
-      tv.tv_usec=0;
-      if (select(1,&civfdset,NULL,NULL,&tv))
-        {
-          if (FD_ISSET(net_input,&civfdset))
-            {
-              input_from_server(net_input);
-            }
-        }
-      else
-        {
-          break;
-        }
-    }           
+  return processed;
 } 
 
 /**************************************************************************
@@ -582,9 +570,13 @@ ui_main(int argc, char *argv[])
   MSG msg;
   HINSTANCE hmsimg32;
   HDC hdc;
-
-  freecivhinst=GetModuleHandle(NULL); /* There is no WinMain! */
   bool quit = FALSE;
+  bool idle;
+  struct timer *callback_timer;
+  float callback_seconds = 0;
+
+  freecivhinst = GetModuleHandle(NULL); /* There is no WinMain! */
+
   init_layoutwindow();
   InitCommonControls();
 
@@ -627,11 +619,28 @@ ui_main(int argc, char *argv[])
 
   callbacks = callback_list_new();
 
-  SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
+  callback_timer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
   while (!quit) {
-    socket_timer(NULL, 0, 0, 0);
+
+    /* Network input */
+    idle = !process_net_input();
+
+    /* real_timer_callback() */
+    if (callback_seconds < read_timer_seconds(callback_timer)) {
+      idle = FALSE;
+
+      if (can_client_change_view()) {
+	check_mapstore();
+      }
+
+      callback_seconds = real_timer_callback();
+      clear_timer_start(callback_timer);
+    }
+
+    /* Win32 message queue */
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+      idle = FALSE;
       if (msg.message == WM_QUIT) {
 	quit = TRUE;
       }
@@ -641,14 +650,18 @@ ui_main(int argc, char *argv[])
 	DispatchMessage(&msg);   
       }
     }
-    if (callbacks && callback_list_size(callbacks) > 0) {
+
+    /* If nothing happened in the three blocks above, call an idle function */
+    if (idle && callbacks && callback_list_size(callbacks) > 0) {
       struct callback *cb = callback_list_get(callbacks, 0);
       callback_list_unlink(callbacks, cb);
       (cb->callback)(cb->data);
       free(cb);
     }
+
   }
 
+  free_timer(callback_timer);
   callback_list_unlink_all(callbacks);
   free(callbacks);
 
