@@ -918,20 +918,18 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod):", pcity->name,
 pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
-  city_list_iterate(pplayer->cities, acity)
-    if (acity == pcity) continue;
-    city_map_iterate(i, j) {
-      if (get_worker_city(acity, i, j) != C_TILE_WORKER) continue;
-/* am I nearby? */
-      if (make_dx(acity->x+i-2, pcity->x) <= 2 &&
-          make_dy(acity->y+j-2, pcity->y) <= 2) {
+  city_map_iterate(i, j) {
+    int x=map_adjust_x(pcity->x+i-2), y=map_adjust_y(pcity->y+j-2);
+    struct city *acity=map_get_tile(x,y)->worked;
+    if(acity!=NULL && acity!=pcity)  {
+      if(acity->x==x && acity->y==y) continue;  /* can't stop working city center */
 /*printf("Availing square in %s\n", acity->name);*/
-        set_worker_city(acity, i, j, C_TILE_EMPTY);
-        if (!city_list_find_id(&minilist, acity->id))
-          city_list_insert(&minilist, acity);
-      }
+      set_worker_city(acity, map_to_city_x(acity, x), 
+                      map_to_city_y(acity, y), C_TILE_EMPTY);
+      if (!city_list_find_id(&minilist, acity->id))
+	city_list_insert(&minilist, acity);
     }
-  city_list_iterate_end;
+  }
   city_check_workers(pplayer, pcity);
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity))
