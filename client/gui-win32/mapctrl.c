@@ -272,7 +272,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     }
     if (wParam&MK_SHIFT) {
       adjust_workers(xtile,ytile);
-      wakeup_sentried_units(xtile,ytile);
+      wakeup_button_pressed(LOWORD(lParam), HIWORD(lParam));
     } else if (wParam&MK_CONTROL){
       popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
     } else {

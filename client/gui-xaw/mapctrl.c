@@ -237,19 +237,7 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void mapctrl_btn_wakeup(XEvent *event)
 {
-  int map_x, map_y, is_real;
-  XButtonEvent *ev=&event->xbutton;
-
-  if (!can_client_change_view()) {
-    return;
-  }
-
-  map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
-  map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
-  is_real = normalize_map_pos(&map_x, &map_y);
-  assert(is_real);
-
-  wakeup_sentried_units(map_x, map_y);
+  wakeup_button_pressed(event->xbutton.x, event->xbutton.y);
 }
 
 /**************************************************************************

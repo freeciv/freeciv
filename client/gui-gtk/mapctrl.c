@@ -297,15 +297,9 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
 {
-  int xtile, ytile;
-
   /* when you get a <SHIFT>+<LMB> pow! */
-  if (!can_client_issue_orders() || !(ev->state & GDK_SHIFT_MASK)) {
-    return TRUE;
-  }
-
-  if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)) {
-    wakeup_sentried_units(xtile, ytile);
+  if (ev->state & GDK_SHIFT_MASK) {
+    wakeup_button_pressed(ev->x, ev->y);
   }
 
   return TRUE;

@@ -66,6 +66,21 @@ void scroll_mapview(enum direction8 gui_dir)
 }
 
 /**************************************************************************
+  Wakeup sentried units on the tile of the specified location.  Usually
+  this is done with SHIFT+left-click.
+**************************************************************************/
+void wakeup_button_pressed(int canvas_x, int canvas_y)
+{
+  int map_x, map_y;
+
+  if (can_client_issue_orders()) {
+    if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+      wakeup_sentried_units(map_x, map_y);
+    }
+  }
+}
+
+/**************************************************************************
  Update the turn done button state.
 **************************************************************************/
 void update_turn_done_button_state()
