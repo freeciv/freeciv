@@ -171,6 +171,9 @@
 /* Define if you have the strlcpy function.  */
 #undef HAVE_STRLCPY
 
+/* Define if you have the strncasecmp function.  */
+#undef HAVE_STRNCASECMP
+
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
 

@@ -84,11 +84,16 @@
 ***************************************************************/
 int mystrcasecmp(const char *str0, const char *str1)
 {
+#ifdef HAVE_STRCASECMP
+  return strcasecmp (str0, str1);
+#else
   for(; tolower(*str0)==tolower(*str1); str0++, str1++)
     if(*str0=='\0')
       return 0;
 
-  return tolower(*str0)-tolower(*str1);
+  return ((int) (unsigned char) tolower(*str0))
+    - ((int) (unsigned char) tolower(*str1));
+#endif
 }
 
 /***************************************************************
@@ -97,18 +102,26 @@ int mystrcasecmp(const char *str0, const char *str1)
 ***************************************************************/
 int mystrncasecmp(const char *str0, const char *str1, size_t n)
 {
+#ifdef HAVE_STRNCASECMP
+  return strncasecmp (str0, str1, n);
+#else
   size_t i;
   
   for(i=0; i<n && tolower(*str0)==tolower(*str1); i++, str0++, str1++)
     if(*str0=='\0')
       return 0;
 
-  return (i==n) ? 0 : (tolower(*str0)-tolower(*str1));
+  if (i == n)
+    return 0;
+  else
+    return ((int) (unsigned char) tolower(*str0))
+      - ((int) (unsigned char) tolower(*str1));
+#endif
 }
 
 
 /***************************************************************
-...
+  Return a string which describes a given error (errno-style.)
 ***************************************************************/
 char *mystrerror(int errnum)
 {
@@ -124,7 +137,7 @@ char *mystrerror(int errnum)
 
 
 /***************************************************************
-...
+  Suspend execution for the specified number of milliseconds.
 ***************************************************************/
 void myusleep(unsigned long usec)
 {
@@ -155,7 +168,7 @@ void myusleep(unsigned long usec)
  mystrlcpy() and mystrlcat() provide (non-standard) functions
  strlcpy() and strlcat(), with semantics following OpenBSD (and
  maybe others).  They are intended as more user-friendly
- versions of stncpy and strncat, in particular easier to
+ versions of strncpy and strncat, in particular easier to
  use safely and correctly, and ensuring nul-terminated results
  while being able to detect truncation.
 
@@ -306,6 +319,15 @@ static int check_native_vsnprintf(void)
  (Linux man page says returns -1 on truncation, but glibc seems to
  do as above nevertheless; check_native_vsnprintf() above tests this.)
 
+ [glibc is correct.  Viz.
+
+ PRINTF(3)           Linux Programmer's Manual           PRINTF(3)
+ 
+ (Thus until glibc 2.0.6.  Since glibc 2.1 these functions follow the
+ C99 standard and return the number of characters (excluding the
+ trailing '\0') which would have been written to the final string if
+ enough space had been available.)]
+ 
  The method is simply to malloc (first time called) a big internal
  buffer, longer than any result is likely to be (for non-malicious
  usage), then vsprintf to that buffer, and copy the appropriate
