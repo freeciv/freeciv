@@ -2617,6 +2617,21 @@ void player_map_load(struct player *plr, int plrno, struct section_file *file)
 	alloc_id(pdcity->id);
       }
     }
+
+    /* This shouldn't be neccesary if the savegame was consistent, but there
+       is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
+    for (x=0; x<map.xsize; x++) {
+      for (y=0; y<map.ysize; y++) {
+	if (map_get_known_and_seen(x, y, plrno)) {
+	  update_tile_knowledge(plr, x, y);
+	  reality_check_city(plr, x, y);
+	  if (map_get_city(x, y)) {
+	    update_dumb_city(plr, map_get_city(x, y));
+	  }
+	}
+      }
+    }
+
   } else {
     /* We have an old savegame or fog of war was turned off; the players private
        knowledge is set to be what he could see without fog of war */
