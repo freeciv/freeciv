@@ -262,7 +262,7 @@ static void government_menu_callback(gpointer callback_data,
     popup_worklists_report();
     break;
   case MENU_GOVERNMENT_REVOLUTION:
-    popup_revolution_dialog();
+    popup_revolution_dialog(-1);
     break;
   }
 }
@@ -679,7 +679,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Government") "/" N_("_Change Government"),           NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Government") "/" N_("_Change Government") "/" N_("_Revolution"),
+  { "/" N_("Government") "/" N_("_Change Government") "/" N_("_Revolution..."),
                                                         "<shift>r",
 	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
   { "/" N_("_Government") "/" N_("_Change Government") "/sep1", NULL,
@@ -1094,7 +1094,7 @@ static void menus_rename(const char *path, const char *s)
 *****************************************************************/
 static void government_callback(GtkMenuItem *item, gpointer data)
 {
-  set_government_choice(GPOINTER_TO_INT(data));
+  popup_revolution_dialog(GPOINTER_TO_INT(data));
 }
 
 /****************************************************************************
@@ -1198,8 +1198,10 @@ void update_menus(void)
         if (i != game.government_when_anarchy) {
           GtkWidget *item, *image;
           struct Sprite *gsprite;
+	  char buf[256];
 
-          item = gtk_image_menu_item_new_with_label(g->name);
+	  my_snprintf(buf, sizeof(buf), _("%s..."), g->name);
+          item = gtk_image_menu_item_new_with_label(buf);
 
           gsprite = get_government(g->index)->sprite;
           image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
