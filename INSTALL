@@ -582,4 +582,59 @@ AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
 in gdk-imlib-dev, and it will hopefully be fixed in future debian
 releases.
 
+
+11. Building freeciv for win32 
+("native" build)
+============================================================================
+Requirements: a unix environment with gcc and binutils for windows (mingw32)
+              for the native win32 client: libz and libpng
+              (from ftp://ftp.freeciv.org/pub/freeciv/requirements)
+You can use the standard gcc makefiles for them, but set CC and RANLIB to the
+right thing.
+
+Autoconf and co:
+If you build from cvs, you will have to replace ./configure with ./autogen.sh 
+in the following lines.
+You will have trouble with the paths (especially with the localedir) if you 
+use autoconf2.52.
+So autoconf 2.13 is the preferred version. 
+
+Configuring the source:
+-----------------------
+1. with the cygwin utils:
+You need the mingw and the w32api package. 
+
+export CC="gcc -mno-cygwin"
+./configure --with-included-gettext --prefix=.
+
+2. cross compiling from a real unix.
+replace X with a number which you have choosen when you have configured your 
+cross compiler.
+
+export CC=iX86-mingw32-gcc
+export AR=iX86-mingw32-ar
+export RANLIB=i386-mingw32-ranlib
+./configure --host=iX86-mingw32 --build=$(./config.guess) --with-included-gettext --enable-client=win32 --prefix=.
+
+
+Buld and install:
+--------------------
+make
+make DESTDIR=absolute_install_path bindir=./ install
+
+absolute_install_path must be  the path where you want to install freeciv.
+It must be absolute and must end with a slash.
+
+Now it is time to cleanup the stuff a bit.
+cd into your install dir. Then check if the executables have the .exe suffix and if you want, strip them.
+I suggest to move the data dir:
+
+mv share/freeciv data
+
+The final step is to convert the gfx to png. Use your favorite gfx program in
+order to do that. You can use a combination of ImageMagick and pngquant for
+that.  But it is really important that you check the result. Check every file.
+The alpha channel (transparency)  often magically disappears. There is no 
+reliable script for that.
+
 ** END **
