@@ -393,6 +393,16 @@ int sniff_packets(void)
       game.last_ping = time(NULL);
     }
 
+    /* Don't wait if timeout == -1 (i.e. on auto games) */
+    if (server_state != PRE_GAME_STATE && game.timeout == -1) {
+      send_server_info_to_metaserver(0, 0);
+
+      /* kick out of the srv_main loop */
+      if (server_state == GAME_OVER_STATE) {
+	server_state = PRE_GAME_STATE;
+      }
+      return 0;
+    }
 
     tv.tv_sec=1;
     tv.tv_usec=0;

@@ -1970,9 +1970,10 @@ main_start_players:
   report_scores(1);
   show_map_to_all();
   notify_player(0, _("Game: The game is over..."));
+  save_game_auto();
 
-  while(server_state==GAME_OVER_STATE) {
-    force_end_of_sniff=0;
+  while (server_state == GAME_OVER_STATE) {
+    force_end_of_sniff = 0;
     sniff_packets();
   }
 

@@ -665,8 +665,14 @@ static struct settings_s settings[] = {
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
     N_("Maximum seconds per turn"),
+#ifndef NDEBUG
     N_("If all players have not hit \"Turn Done\" before this time is up, "
-       "then the turn ends automatically.  Zero means there is no timeout.") },
+       "then the turn ends automatically. Zero means there is no timeout. "
+       "In DEBUG servers, a timeout of -1 sets the autogame test mode.") },
+#else
+    N_("If all players have not hit \"Turn Done\" before this time is up, "
+       "then the turn ends automatically. Zero means there is no timeout.") },
+#endif
 
   { "tcptimeout", &game.tcptimeout, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,

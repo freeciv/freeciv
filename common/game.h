@@ -346,7 +346,11 @@ extern struct civ_game game;
 #define GAME_MAX_AUTO_AI_TOGGLE      1
 
 #define GAME_DEFAULT_TIMEOUT         0
+#ifndef NDEBUG
+#define GAME_MIN_TIMEOUT             -1
+#else
 #define GAME_MIN_TIMEOUT             0
+#endif
 #define GAME_MAX_TIMEOUT             8639999
 
 #define GAME_DEFAULT_TCPTIMEOUT      10
