@@ -107,7 +107,8 @@ void init_new_game(void)
     for (j = 0; j < (game.settlers + game.explorer); j++) {
       /* Determine a place to put the unit within the dispersion area.
          (Always put first unit on start position.) */
-      if ((game.dispersion <= 0) || (j == 0)) {
+      if (((game.dispersion <= 0) || (j == 0))
+	  && !is_non_allied_unit_tile(map_get_tile(x, y), get_player(i))) {
 	dx = x;
 	dy = y;
       } else {
