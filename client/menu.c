@@ -49,6 +49,7 @@ enum MenuID {
   MENU_GAME_MESSAGES,
   MENU_GAME_SERVER_OPTIONS,
   MENU_GAME_OUTPUT_LOG,
+  MENU_GAME_DISCONNECT,
   MENU_GAME_QUIT,
   
   MENU_ORDER_AUTO,
@@ -111,6 +112,7 @@ struct MenuEntry game_menu_entries[]={
     { "Messages",       MENU_GAME_MESSAGES, 0 },
     { "Server options", MENU_GAME_SERVER_OPTIONS, 0 },
     { "Export log",     MENU_GAME_OUTPUT_LOG, 0 }, /* added by Syela */
+    { "Disconnect",     MENU_GAME_DISCONNECT, 0 }, /* added by Syela */
     { "Quit",           MENU_GAME_QUIT, 0 },
     { 0, MENU_END_OF_LIST, 0 },
 };
@@ -200,6 +202,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
   
 
@@ -300,6 +303,9 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();
+    break;
+  case MENU_GAME_DISCONNECT:
+    disconnect_from_server();
     break;
   case MENU_GAME_QUIT:
     exit(0);

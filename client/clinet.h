@@ -20,6 +20,7 @@
 struct connection;
 
 int connect_to_server(char *name, char *hostname, int port, char *errbuf);
+void disconnect_from_server(void);
 void get_net_input(XtPointer client_data, int *fid, XtInputId *id);
 void close_server_connection(void);
 int client_open_connection(char *host, int port);

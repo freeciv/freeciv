@@ -119,7 +119,13 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   return 0;
 }
 
-
+void disconnect_from_server(void)
+{
+  append_output_window("Disconnecting from server.");
+  close(aconnection.sock);
+  remove_net_input();
+  set_client_state(CLIENT_PRE_GAME_STATE);
+}  
 
 /**************************************************************************
 ...
