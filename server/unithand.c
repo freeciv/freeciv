@@ -587,12 +587,14 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 
 /**************************************************************************
 ...
+Return 1 if unit is alive, and 0 if it was killed
 **************************************************************************/
-void handle_unit_enter_hut(struct unit *punit)
+int handle_unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer=&game.players[punit->owner];
+  int ok = 1;
   if (is_air_unit(punit))
-    return;
+    return ok;
   map_get_tile(punit->x, punit->y)->special^=S_HUT;
   
   send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
@@ -670,6 +672,7 @@ void handle_unit_enter_hut(struct unit *punit)
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       "Game: Your unit has been cowardly slaughtered by a band of barbarians");
       wipe_unit(pplayer, punit);
+      ok = 0;
     }
     break;
   case 11:
@@ -687,6 +690,7 @@ void handle_unit_enter_hut(struct unit *punit)
     break;
   }
   send_player_info(pplayer, pplayer);
+  return ok;
 }
 
 
@@ -721,7 +725,7 @@ void wakeup_neighbor_sentries(struct player *pplayer,int cent_x,int cent_y)
 int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y)
 {
-  int unit_id, transport_units = 1;
+  int unit_id, transport_units = 1, ok;
   struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
   struct city *pcity;
@@ -880,14 +884,19 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     if(pcity)
       handle_unit_enter_city(pplayer, pcity);
 
-    if((map_get_tile(dest_x, dest_y)->special&S_HUT))
-      handle_unit_enter_hut(punit);
-
+    ok = 1;
+    if((map_get_tile(dest_x, dest_y)->special&S_HUT)) {
+      /* punit might get killed by horde of barbarians */
+      ok = handle_unit_enter_hut(punit);
+    }
+     
     wakeup_neighbor_sentries(pplayer,dest_x,dest_y);
     
     connection_do_unbuffer(pplayer->conn);
 
-/* bodyguard code */
+    if (!ok) return 1;
+    
+    /* bodyguard code */
     if(unit_list_find(&pplayer->units, unit_id)) {
       if (punit->ai.bodyguard > 0) {
         bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
