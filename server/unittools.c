@@ -247,7 +247,8 @@ static bool upgrade_would_strand(struct unit *punit, int upgrade_type)
   tile_cap = 0;
   tile_ncargo = 0;
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-    if (punit2->owner == punit->owner) {
+    if (punit2->owner == punit->owner
+        || pplayers_allied(unit_owner(punit2), unit_owner(punit))) {
       if (is_sailing_unit(punit2) && is_ground_units_transport(punit2)) { 
 	tile_cap += get_transporter_capacity(punit2);
       } else if (is_ground_unit(punit2)) {
@@ -1157,12 +1158,6 @@ static void update_unit_activity(struct unit *punit)
     break;
   }
 }
-
-
-
-
-
-
 
 
 /**************************************************************************
@@ -2514,10 +2509,11 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	if (is_ground_unit(pcargo)
 	    && capacity > 0
 	    && (ptile->terrain == T_OCEAN || pcargo->activity == ACTIVITY_SENTRY)
-	    && pcargo->owner == playerid
+	    && (pcargo->owner == playerid
+                || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))
 	    && pcargo->id != ptrans->id
-	    && !(is_ground_unit(ptrans) && (ptile->terrain == T_OCEAN
-					    || is_ground_units_transport(pcargo))))
+	    && !(is_ground_unit(ptrans)
+            && (ptile->terrain == T_OCEAN || is_ground_units_transport(pcargo))))
 	  capacity--;
 	else
 	  pcargo->transported_by = -1;
@@ -2534,7 +2530,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	    break;
 	  if (is_ground_unit(pcargo)
 	      && pcargo->transported_by != ptrans->id
-	      && pcargo->owner == playerid) {
+	      && (pcargo->owner == playerid
+                  || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
 	    capacity--;
 	    pcargo->transported_by = ptrans->id;
 	  }
@@ -2552,8 +2549,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	      && pcargo->activity == ACTIVITY_SENTRY
 	      && pcargo->id != ptrans->id
 	      && pcargo->owner == playerid
-	      && !(is_ground_unit(ptrans) && (ptile->terrain == T_OCEAN
-					      || is_ground_units_transport(pcargo)))) {
+	      && !(is_ground_unit(ptrans)
+      	      && (ptile->terrain == T_OCEAN || is_ground_units_transport(pcargo)))) {
 	    bool has_trans = FALSE;
 
 	    unit_list_iterate(ptile->units, ptrans2) {
@@ -2584,7 +2581,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
     /* Make sure we can transport the units marked as being transported by ptrans */
     unit_list_iterate(ptile->units, pcargo) {
       if (ptrans->id == pcargo->transported_by) {
-	if (pcargo->owner == playerid
+	if ((pcargo->owner == playerid
+             || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))
 	    && pcargo->id != ptrans->id
 	    && (!is_sailing_unit(pcargo))
 	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
@@ -2608,7 +2606,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	    && pcargo->transported_by != ptrans->id
 	    && pcargo->activity == ACTIVITY_SENTRY
 	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
-	    && pcargo->owner == playerid) {
+	    && (pcargo->owner == playerid
+                || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
 	  bool has_trans = FALSE;
 
 	  unit_list_iterate(ptile->units, ptrans2) {
@@ -2638,7 +2637,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 		&& pcargo->id != ptrans->id
 		&& pcargo->transported_by != ptrans->id
 		&& !unit_flag(pcargo, F_MISSILE)
-		&& pcargo->owner == playerid) {
+		&& (pcargo->owner == playerid
+                    || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
 	      capacity--;
 	      pcargo->transported_by = ptrans->id;
 	    }
@@ -2654,7 +2654,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	      && pcargo->id != ptrans->id
 	      && pcargo->transported_by != ptrans->id
 	      && (!missiles_only || unit_flag(pcargo, F_MISSILE))
-	      && pcargo->owner == playerid) {
+	      && (pcargo->owner == playerid
+                  || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
 	    capacity--;
 	    pcargo->transported_by = ptrans->id;
 	  }
@@ -2693,7 +2694,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	    && is_ground_unit(pcargo2)) {
 	  if (totcap > 0
 	      && (ptile->terrain == T_OCEAN || pcargo2->activity == ACTIVITY_SENTRY)
-	      && pcargo2->owner == playerid
+	      && (pcargo2->owner == playerid
+                  || pplayers_allied(unit_owner(pcargo2), unit_owner(ptrans)))
 	      && pcargo2 != ptrans) {
 	    pcargo2->transported_by = ptrans->id;
 	    totcap--;
@@ -2708,7 +2710,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	unit_list_iterate(ptile->units, pcargo2) {
 	  if (is_ground_unit(pcargo2)
 	      && totcap > 0
-	      && pcargo2->owner == playerid
+	      && (pcargo2->owner == playerid
+                  || pplayers_allied(unit_owner(pcargo2), unit_owner(ptrans)))
 	      && pcargo2->transported_by != ptrans->id) {
 	    pcargo2->transported_by = ptrans->id;
 	    totcap--;
@@ -2957,13 +2960,13 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
-      unfog_area(pplayer, dest_x, dest_y, unit_type(pcargo)->vision_range);
+      unfog_area(unit_owner(pcargo), dest_x, dest_y, unit_type(pcargo)->vision_range);
       pcargo->x = dest_x;
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, TRUE, FALSE);
-      fog_area(pplayer, src_x, src_y, unit_type(pcargo)->vision_range);
+      fog_area(unit_owner(pcargo), src_x, src_y, unit_type(pcargo)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
     unit_list_unlink_all(&cargo_units);

@@ -91,7 +91,7 @@ Center on the focus unit, if off-screen and auto_center_on_unit is true.
 void auto_center_on_focus_unit(void)
 {
   if (punit_focus &&
-      auto_center_on_unit &&
+      auto_center_on_unit && punit_focus->activity!=ACTIVITY_SENTRY &&
       !tile_visible_and_not_on_border_mapcanvas(punit_focus->x, punit_focus->y))
     center_tile_mapcanvas(punit_focus->x, punit_focus->y);
 }
@@ -1142,7 +1142,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     refresh_tile_mapcanvas(x, y, was_teleported);
   
   if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
-     auto_center_on_unit &&
+     auto_center_on_unit && punit->activity!=ACTIVITY_SENTRY &&
      !tile_visible_and_not_on_border_mapcanvas(pinfo->x, pinfo->y))
     center_tile_mapcanvas(pinfo->x, pinfo->y);
 

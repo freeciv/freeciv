@@ -266,7 +266,8 @@ int ground_unit_transporter_capacity(int x, int y, struct player *pplayer)
   struct tile *ptile = map_get_tile(x, y);
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (unit_owner(punit) == pplayer) {
+    if (unit_owner(punit) == pplayer
+        || pplayers_allied(unit_owner(punit), pplayer)) {
       if (is_ground_units_transport(punit)
 	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
 	availability += get_transporter_capacity(punit);
