@@ -603,15 +603,16 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 }
 
 /**********************************************************************
-The following evaluates the unhappiness caused by military units
-in the field (or aggressive) at a city when at Republic or Democracy
+  "The following evaluates the unhappiness caused by military units
+  in the field (or aggressive) at a city when at Republic or 
+  Democracy.
 
-Now generalised somewhat for government rulesets, though I'm not sure
-whether it is fully general for all possible parameters/combinations.
- --dwp
+  Now generalised somewhat for government rulesets, though I'm not 
+  sure whether it is fully general for all possible parameters/
+  combinations." --dwp
 **********************************************************************/
 bool ai_assess_military_unhappiness(struct city *pcity,
-				   struct government *g)
+                                    struct government *g)
 {
   int free_happy;
   bool have_police;
@@ -627,7 +628,7 @@ bool ai_assess_military_unhappiness(struct city *pcity,
   have_police = city_got_effect(pcity, B_POLICE);
   variant = improvement_variant(B_WOMENS);
 
-  if (variant==0 && have_police) {
+  if (variant == 0 && have_police) {
     /* ??  This does the right thing for normal Republic and Democ -- dwp */
     free_happy += g->unit_happy_cost_factor;
   }
@@ -635,10 +636,11 @@ bool ai_assess_military_unhappiness(struct city *pcity,
   unit_list_iterate(pcity->units_supported, punit) {
     int happy_cost = utype_happy_cost(unit_type(punit), g);
 
-    if (happy_cost<=0)
+    if (happy_cost <= 0) {
       continue;
+    }
 
-    /* See discussion/rules in cityturn.c:city_support() --dwp */
+    /* See discussion/rules in common/city.c:city_support() */
     if (!unit_being_aggressive(punit)) {
       if (is_field_unit(punit)) {
 	happy_cost = 1;
@@ -646,21 +648,24 @@ bool ai_assess_military_unhappiness(struct city *pcity,
 	happy_cost = 0;
       }
     }
-    if (happy_cost<=0)
+    if (happy_cost <= 0) {
       continue;
+    }
 
-    if (variant==1 && have_police) {
+    if (variant == 1 && have_police) {
       happy_cost--;
     }
     adjust_city_free_cost(&free_happy, &happy_cost);
     
-    if (happy_cost>0)
+    if (happy_cost > 0) {
       unhap += happy_cost;
-  }
-  unit_list_iterate_end;
+    }
+  } unit_list_iterate_end;
  
-  if (unhap < 0) unhap = 0;
-  return unhap > 0;
+  if (unhap < 0) {
+    unhap = 0;
+  }
+  return (unhap > 0);
 }
 
 /**************************************************************************
