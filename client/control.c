@@ -592,13 +592,13 @@ void request_unit_build_city(struct unit *punit)
   a dialog. (the server code has to be there anyway as goto's are entirely
   in the server)
 **************************************************************************/
-void request_move_unit_direction(struct unit *punit, int dx, int dy)
+void request_move_unit_direction(struct unit *punit, int dir)
 {
-  int dest_x = punit->x + dx, dest_y = punit->y + dy;
+  int dest_x, dest_y;
   struct unit req_unit;
 
   /* Catches attempts to move off map */
-  if (!normalize_map_pos(&dest_x, &dest_y)) {
+  if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, dir)) {
     return;
   }
 
@@ -1477,7 +1477,7 @@ void key_map_grid_toggle(void)
 void key_move_north(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 0, -1);
+    request_move_unit_direction(punit_focus, DIR8_NORTH);
 }
 
 /**************************************************************************
@@ -1486,7 +1486,7 @@ void key_move_north(void)
 void key_move_north_east(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, -1);
+    request_move_unit_direction(punit_focus, DIR8_NORTHEAST);
 }
 
 /**************************************************************************
@@ -1495,7 +1495,7 @@ void key_move_north_east(void)
 void key_move_east(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, 0);
+    request_move_unit_direction(punit_focus, DIR8_EAST);
 }
 
 /**************************************************************************
@@ -1504,7 +1504,7 @@ void key_move_east(void)
 void key_move_south_east(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 1, 1);
+     request_move_unit_direction(punit_focus, DIR8_SOUTHEAST);
 }
 
 /**************************************************************************
@@ -1513,7 +1513,7 @@ void key_move_south_east(void)
 void key_move_south(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 0, 1);
+     request_move_unit_direction(punit_focus, DIR8_SOUTH);
 }
 
 /**************************************************************************
@@ -1522,7 +1522,7 @@ void key_move_south(void)
 void key_move_south_west(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, 1);
+     request_move_unit_direction(punit_focus, DIR8_SOUTHWEST);
 }
 
 /**************************************************************************
@@ -1531,7 +1531,7 @@ void key_move_south_west(void)
 void key_move_west(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, -1, 0);
+    request_move_unit_direction(punit_focus, DIR8_WEST);
 }
 
 /**************************************************************************
@@ -1540,7 +1540,7 @@ void key_move_west(void)
 void key_move_north_west(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, -1);
+     request_move_unit_direction(punit_focus, DIR8_NORTHWEST);
 }
 
 /**************************************************************************

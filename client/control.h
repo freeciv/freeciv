@@ -39,7 +39,7 @@ void do_map_click(int xtile, int ytile);
 void set_hover_state(struct unit *punit, enum cursor_hover_state state);
 void handle_advance_focus(struct packet_generic_integer *packet);
 void request_center_focus_unit(void);
-void request_move_unit_direction(struct unit *punit, int dx, int dy); /* used by key_xxx */
+void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
 					int tgt);
