@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-09 13:49+0100\n"
+"PO-Revision-Date: 2005-01-10 20:37+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4884,7 +4884,7 @@ msgstr "Nelze zapisovat do souboru skriptu '%s'."
 #: server/stdinhand.c:1104
 #, c-format
 msgid "Cannot decrease command access level '%s' for connection '%s'; you only have '%s'."
-msgstr ""
+msgstr "Nelze snížit příkazovou přístupovou úroveň '%s' pro spojení '%s'; máte pouze '%s'."
 
 #: server/stdinhand.c:1158
 #, c-format
@@ -4924,21 +4924,21 @@ msgstr "Úroveň oprávnění pro spojení %2$s nastavena na '%1$s'"
 #: server/stdinhand.c:1295
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
-msgstr ""
+msgstr "Příkazová přístupová úroveň nemůže být nastavena na '%s' pro spojení %s."
 
 #: server/stdinhand.c:1257
 #: server/stdinhand.c:1267
 #: server/stdinhand.c:1284
 #, c-format
 msgid "Command access level set to '%s' for new players."
-msgstr ""
+msgstr "Příkazová přístupová úroveň je nastavena na '%s' pro nové hráče."
 
 #: server/stdinhand.c:1261
 #: server/stdinhand.c:1272
 #: server/stdinhand.c:1279
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr ""
+msgstr "Příkazová přístupová úroveň nastavena na '%s' pro prvního hráče pro převzetí."
 
 #: server/stdinhand.c:1317
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -4952,12 +4952,12 @@ msgstr "Máte již úroveň oprávnění '%s' nebo lepší."
 #: server/stdinhand.c:1326
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
-msgstr ""
+msgstr "Někdo další má příkazovou přístupovou úroveň '%s' nebo lepší."
 
 #: server/stdinhand.c:1332
 #, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
-msgstr ""
+msgstr "Příkazová přístupová úroveň '%s' byla převzata spojením %s."
 
 #: server/stdinhand.c:1384
 #, c-format
@@ -6239,7 +6239,7 @@ msgstr ""
 
 #: client/attribute.c:241
 msgid "There has been a CMA error.  Your CMA settings may be broken."
-msgstr ""
+msgstr "Vyskytla se chyba ASM.  Vaše ASM nastavení je nejspíše poškozené."
 
 #: client/attribute.c:287
 msgid "Old attributes detected and removed."
@@ -12762,7 +12762,7 @@ msgstr "Kon_figurovat..."
 #: client/gui-gtk/cityrep.c:966
 #: client/gui-win32/cityrep.c:693
 msgid "Game: Select a unit or improvement to change production to."
-msgstr ""
+msgstr "Hra: Vyberte jednotku nebo vylepšení, aby se mohla změnit produkce."
 
 #: client/gui-gtk/cityrep.c:1000
 #: client/gui-win32/cityrep.c:742
