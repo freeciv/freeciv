@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.0\n"
-"POT-Creation-Date: 2001-09-03 10:22+0200\n"
-"PO-Revision-Date: 2001-09-03 10:36+0200\n"
+"POT-Creation-Date: 2001-09-07 13:17+0200\n"
+"PO-Revision-Date: 2001-09-07 13:18+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,23 +89,23 @@ msgstr "laatste bericht éénmaal herhaald"
 msgid "Special1"
 msgstr "Speciaal1"
 
-#: common/map.c:62 common/map.c:631 common/unit.c:522
+#: common/map.c:62 common/map.c:627 common/unit.c:522
 msgid "Road"
 msgstr "Weg"
 
 #: client/gui-gtk/menu.c:609 client/gui-mui/gui_main.c:258
-#: client/gui-xaw/menu.c:136 common/map.c:63 common/map.c:637
+#: client/gui-xaw/menu.c:136 common/map.c:63 common/map.c:633
 #: common/unit.c:524
 msgid "Irrigation"
 msgstr "Irrigatie"
 
-#: common/map.c:64 common/map.c:629 common/unit.c:529
+#: common/map.c:64 common/map.c:625 common/unit.c:529
 #: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
-#: data/default/techs.ruleset:440
+#: data/default/techs.ruleset:439
 msgid "Railroad"
 msgstr "Spoorlijn"
 
-#: common/map.c:65 common/map.c:640 common/unit.c:523
+#: common/map.c:65 common/map.c:636 common/unit.c:523
 msgid "Mine"
 msgstr "Mijn"
 
@@ -118,7 +118,7 @@ msgstr "Verontreiniging"
 msgid "Hut"
 msgstr "Hut"
 
-#: common/map.c:68 common/map.c:643 common/unit.c:527
+#: common/map.c:68 common/map.c:639 common/unit.c:527
 msgid "Fortress"
 msgstr "Fort"
 
@@ -131,11 +131,11 @@ msgstr "Speciaal2"
 msgid "River"
 msgstr "Rivier"
 
-#: common/map.c:71 common/map.c:635
+#: common/map.c:71 common/map.c:631
 msgid "Farmland"
 msgstr "Landbouwgrond"
 
-#: common/map.c:72 common/map.c:646 common/unit.c:534
+#: common/map.c:72 common/map.c:642 common/unit.c:534
 msgid "Airbase"
 msgstr "Luchthaven"
 
@@ -340,7 +340,7 @@ msgstr " (vereraan)"
 msgid "Moves"
 msgstr "Beurten"
 
-#: common/unittype.c:259
+#: common/unittype.c:260
 msgid " and "
 msgstr " en "
 
@@ -425,27 +425,27 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:250 server/citytools.c:1608
+#: ai/aicity.c:253 server/citytools.c:1608
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:259 server/citytools.c:1650
+#: ai/aicity.c:262 server/citytools.c:1650
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 
-#: ai/aicity.c:373 ai/aicity.c:504
+#: ai/aicity.c:376 ai/aicity.c:507
 #, c-format
 msgid "Game: %s upgraded to %s in %s for %d gold."
 msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d goud."
 
-#: ai/aicity.c:397
+#: ai/aicity.c:400
 #, c-format
 msgid "Game: %s disbanded in %s."
 msgstr "Spel: %s ontbonden in %s."
 
-#: ai/aicity.c:799
+#: ai/aicity.c:802
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
@@ -1140,7 +1140,7 @@ msgstr "Spel: Uw %s stal %s van %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spel: %s's %s stal %s van %s."
 
-#: server/diplomats.c:664 server/plrhand.c:529
+#: server/diplomats.c:664 server/plrhand.c:530
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spel: De %s hebben %s gestolen van de %s."
@@ -1479,97 +1479,97 @@ msgstr ""
 "Spel: Ontdekking van %s maakt de bestuursvorm %s beschikbaar. U wilt "
 "misschien een revolutie beginnen."
 
-#: server/plrhand.c:285
+#: server/plrhand.c:286
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Spel: %s geleerd. Onze wetenschappers onderzoeken nu %s, doel is %s."
 
-#: server/plrhand.c:294
+#: server/plrhand.c:295
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Spel: %s geleerd. Wetenschappers kiezen %s voor verder onderzoek."
 
-#: server/plrhand.c:299
+#: server/plrhand.c:300
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
 msgstr ""
 "Spel: %s geleerd. Wetenschappers kiezen Toekomst Tech. 1. voor verder "
 "onderzoek."
 
-#: server/plrhand.c:305
+#: server/plrhand.c:306
 #, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
 msgstr ""
 "Spel: Toekomst Tech. %d geleerd. Wetenschappers kiezen Toekomst Tech. %d "
 "voor verder onderzoek."
 
-#: server/plrhand.c:315
+#: server/plrhand.c:316
 msgid ""
-"Game: Great philosophers from all the world join your civilization; you get "
-"an immediate advance."
+"Game: Great scientists from all the world join your civilization: you get an "
+"immediate advance."
 msgstr ""
-"Spel: Grote filosofen van de hele wereld zoeken uw beschaving op; u krijgt "
+"Spel: Grote wetenschappers vanuit de hele wereld zoeken uw beschaving op; u krijgt "
 "een onmiddelijke voorsprong."
 
-#: server/plrhand.c:330
+#: server/plrhand.c:331
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spel: De %s hebben %s onderzocht."
 
-#: server/plrhand.c:334
+#: server/plrhand.c:335
 #, c-format
 msgid "%s discover %s"
 msgstr "%s ontdekken %s"
 
-#: server/plrhand.c:340
+#: server/plrhand.c:341
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spel: De %s hebben Toekomst Tech. %d onderzocht."
 
-#: server/plrhand.c:344
+#: server/plrhand.c:345
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "%s ontdekken Toekomst Tech. %d"
 
-#: server/plrhand.c:454
+#: server/plrhand.c:455
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spel: Technologisch doel is %s."
 
-#: server/plrhand.c:498
+#: server/plrhand.c:499
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spel: U verwierf Toekomst Tech %d van %s."
 
-#: server/plrhand.c:501
+#: server/plrhand.c:502
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spel: %s ontdekte Toekomst Tech. %d in de stad."
 
-#: server/plrhand.c:504
+#: server/plrhand.c:505
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spel: De %s ontdekten Toekomst Tech %d van de %s (veroverd)."
 
-#: server/plrhand.c:525
+#: server/plrhand.c:526
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spel: U verwierf %s van %s."
 
-#: server/plrhand.c:527
+#: server/plrhand.c:528
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spel: %s ontdekten %s in de stad."
 
-#: server/plrhand.c:549
+#: server/plrhand.c:550
 msgid "Game: Cannot change rates before game start."
 msgstr "Spel: Kan waarden niet aanpassen voordat het spel is begonnen."
 
-#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:562
+#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:563
 msgid "Tax"
 msgstr "Belasting"
 
-#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:564
+#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:565
 msgid "Luxury"
 msgstr "Luxe"
 
@@ -1577,41 +1577,41 @@ msgstr "Luxe"
 #: client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:402
 #: client/gui-mui/repodlgs.c:298 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:270 client/gui-xaw/repodlgs.c:506
-#: data/Freeciv:1360 server/plrhand.c:566
+#: data/Freeciv:1360 server/plrhand.c:567
 msgid "Science"
 msgstr "Wetenschap"
 
-#: server/plrhand.c:567
+#: server/plrhand.c:568
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spel: %s waarde overschreidt het maximum voor %s."
 
-#: server/plrhand.c:634
+#: server/plrhand.c:635
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spel: %s regeert de %s nu als een %s."
 
-#: server/plrhand.c:669
+#: server/plrhand.c:670
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spel: De %s zijn in opstand gekomen!"
 
-#: server/plrhand.c:696
+#: server/plrhand.c:697
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Belastingswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:702
+#: server/plrhand.c:703
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Wetenschapswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:708
+#: server/plrhand.c:709
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:763
+#: server/plrhand.c:764
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1619,12 +1619,12 @@ msgstr ""
 "De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de "
 "%s."
 
-#: server/plrhand.c:773
+#: server/plrhand.c:774
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spel: Uw reputatie is nu %s."
 
-#: server/plrhand.c:777
+#: server/plrhand.c:778
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1632,36 +1632,36 @@ msgstr ""
 "Spel: De senaat besluit tot oplossing in plaats van uw akties nog langer te "
 "ondersteunen."
 
-#: server/plrhand.c:834 server/plrhand.c:842
+#: server/plrhand.c:835 server/plrhand.c:843
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spel: De diplomatieke toestand tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:839
+#: server/plrhand.c:840
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spel: %s heeft de diplomatieke overeenkomst verbroken!"
 
-#: server/plrhand.c:1252
+#: server/plrhand.c:1253
 #, c-format
 msgid "Removing player %s."
 msgstr "Verwijder speler %s."
 
-#: server/plrhand.c:1253
+#: server/plrhand.c:1254
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd!"
 
-#: server/plrhand.c:1263
+#: server/plrhand.c:1264
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:1294 server/plrhand.c:1298
+#: server/plrhand.c:1295 server/plrhand.c:1299
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
-#: server/plrhand.c:1681
+#: server/plrhand.c:1682
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1670,12 +1670,12 @@ msgstr ""
 "Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van "
 "de rebellerende staten."
 
-#: server/plrhand.c:1700
+#: server/plrhand.c:1701
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s verklaart alliantie aan %s."
 
-#: server/plrhand.c:1723
+#: server/plrhand.c:1724
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -1878,7 +1878,7 @@ msgid "Research Speed"
 msgstr "Onderzoekssnelheid"
 
 #: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:302 server/report.c:892
+#: data/default/techs.ruleset:301 server/report.c:892
 msgid "Literacy"
 msgstr "Literatuur"
 
@@ -1887,7 +1887,7 @@ msgid "Production"
 msgstr "Produktie"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:176 server/report.c:894
+#: data/default/techs.ruleset:175 server/report.c:894
 msgid "Economics"
 msgstr "Economie"
 
@@ -1895,33 +1895,33 @@ msgstr "Economie"
 msgid "Military Service"
 msgstr "Militaire Dienst"
 
-#: server/report.c:921 server/report.c:945
+#: server/report.c:916 server/report.c:940
 msgid "Demographics Report:"
 msgstr "Volkenkundig Rapport:"
 
-#: server/report.c:922
+#: server/report.c:917
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Sorry, het Volkenkundig rapport is niet beschikbaar."
 
-#: server/report.c:927
+#: server/report.c:922
 #, c-format
 msgid "The %s of the %s"
 msgstr "De %s van de %s"
 
-#: server/report.c:1400
+#: server/report.c:1395
 #, c-format
 msgid "%2d: The %s %s scored %d points\n"
 msgstr "%2d: De %s %s behaalden %d punten\n"
 
-#: server/report.c:1408
+#: server/report.c:1403
 msgid "Final Report:"
 msgstr "Eindrapport:"
 
-#: server/report.c:1408
+#: server/report.c:1403
 msgid "Progress Scores:"
 msgstr "Tussenscores:"
 
-#: server/report.c:1409
+#: server/report.c:1404
 msgid "The Greatest Civilizations in the world."
 msgstr "De Grootste Beschavingen ter wereld."
 
@@ -1965,7 +1965,7 @@ msgstr "ondersteunde opties: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Spelregelbestand bevat vereiste optie(s) die wij niet ondersteunen:"
 
-#: server/ruleset.c:2508
+#: server/ruleset.c:2506
 msgid "Loading rulesets"
 msgstr "Laad spelregels"
 
@@ -4710,151 +4710,151 @@ msgstr "Spel: Uw %s is teruggekeerd om te tanken."
 msgid "Game: Your %s has run out of fuel."
 msgstr "Spel: Uw %s heeft geen brandstof meer."
 
-#: server/unittools.c:702
+#: server/unittools.c:700
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spel: U verkoopt %s in %s (nu ingesloten door land) voor %d goud."
 
-#: server/unittools.c:1050
+#: server/unittools.c:1048
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Verplaatste uw %s in verband met het veranderen van land naar zee bij "
 "(%d, %d)."
 
-#: server/unittools.c:1072
+#: server/unittools.c:1070
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Uw %s aan boord gestuurd vanwege de verandering van land naar zee bij "
 "(%d, %d)."
 
-#: server/unittools.c:1087
+#: server/unittools.c:1085
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Uw %s ontbonden vanwege de verandering van land naar zee bij (%d, %d)."
 
-#: server/unittools.c:1110
+#: server/unittools.c:1108
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Verplaatste uw %s vanwege de verandering van zee naar land bij (%d, "
 "%d)."
 
-#: server/unittools.c:1131
+#: server/unittools.c:1129
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Uw %s afgemeerd vanwege de verandering van zee naar land bij (%d, %d)."
 
-#: server/unittools.c:1146
+#: server/unittools.c:1144
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Uw %s ontbonden vanwege de verandering van zee naar land bij (%d, %d)."
 
-#: server/unittools.c:1198
+#: server/unittools.c:1196
 #, c-format
 msgid " at %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1200
+#: server/unittools.c:1198
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: server/unittools.c:1207
+#: server/unittools.c:1205
 #, c-format
 msgid " outside %s"
 msgstr " buiten %s"
 
-#: server/unittools.c:1210
+#: server/unittools.c:1208
 #, c-format
 msgid " near %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1400
+#: server/unittools.c:1398
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 
-#: server/unittools.c:1424
+#: server/unittools.c:1422
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
-#: server/unittools.c:1818
+#: server/unittools.c:1816
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: %s verloren toen %s verloren ging."
 
-#: server/unittools.c:1870
+#: server/unittools.c:1868
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 
-#: server/unittools.c:1890
+#: server/unittools.c:1888
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1920
+#: server/unittools.c:1918
 #, c-format
 msgid "Game: You lost %d units to an attack from %s's %s%s."
 msgstr "Spel: U verloor %d eenheden onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1932
+#: server/unittools.c:1930
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s."
 
-#: server/unittools.c:2102
+#: server/unittools.c:2100
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spel: Uw %s is geatomiseerd door %s."
 
-#: server/unittools.c:2104 server/unittools.c:2120
+#: server/unittools.c:2102 server/unittools.c:2118
 msgid "yourself"
 msgstr "uzelf"
 
-#: server/unittools.c:2108
+#: server/unittools.c:2106
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spel: %s's %s is geatomiseerd."
 
-#: server/unittools.c:2118
+#: server/unittools.c:2116
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spel: %s is geatomiseerd door %s."
 
-#: server/unittools.c:2125
+#: server/unittools.c:2123
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spel: U atomiseerde %s."
 
-#: server/unittools.c:2162
+#: server/unittools.c:2160
 msgid "Game: You detonated a nuke."
 msgstr "Spel: U hebt een kernraket tot ontploffing gebracht."
 
-#: server/unittools.c:2200
+#: server/unittools.c:2198
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s succesvol overgeplaatst."
 
-#: server/unittools.c:2221
+#: server/unittools.c:2219
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2230
+#: server/unittools.c:2228
 msgid "Game: The destination location is not known."
 msgstr "Spel: De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2236
+#: server/unittools.c:2234
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2245
+#: server/unittools.c:2243
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -4862,69 +4862,69 @@ msgstr ""
 "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
 "(%i)."
 
-#: server/unittools.c:2257
+#: server/unittools.c:2255
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Uw %s is in de oceaan geland en ging verloren."
 
-#: server/unittools.c:2269
+#: server/unittools.c:2267
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2292
+#: server/unittools.c:2290
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: U vond %d goud."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2303
 msgid "Game: You found ancient scrolls of wisdom."
 msgstr "Spel: U hebt oude boekrollen met wijsheid gevonden."
 
-#: server/unittools.c:2320
+#: server/unittools.c:2318
 #, c-format
 msgid "Game: You gain knowledge about %s."
 msgstr "Spel: U krijgt kennis over %s."
 
-#: server/unittools.c:2326
+#: server/unittools.c:2324
 #, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom."
 msgstr "Spel: De %s hebben %s verkregen van oude boekrollen met wijsheid."
 
-#: server/unittools.c:2335
+#: server/unittools.c:2333
 #, c-format
 msgid "Game: You gain knowledge about Future Tech. %d."
 msgstr "Spel: U verkrijgt kennis over Toekomst Tech. %d."
 
-#: server/unittools.c:2350
+#: server/unittools.c:2348
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 
-#: server/unittools.c:2366
+#: server/unittools.c:2364
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unittools.c:2378
+#: server/unittools.c:2376
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U hebt een horde barbaren ontketend!"
 
-#: server/unittools.c:2381
+#: server/unittools.c:2379
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Uw %s is vermoord door barbaren!"
 
-#: server/unittools.c:2399
+#: server/unittools.c:2397
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vriendelijke nomaden zijn door u geïmponeerd en sluiten zich bij u aan."
 
-#: server/unittools.c:2423
+#: server/unittools.c:2421
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:3048
+#: server/unittools.c:3046
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -4932,20 +4932,20 @@ msgstr ""
 "Spel: Uw %s brak zijn patrouille af omdat hij een buitenlandse eenheid "
 "ontmoette."
 
-#: server/unittools.c:3158
+#: server/unittools.c:3156
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Spel: Alleen %s kunnen aanvallen vanuit zee."
 
-#: server/unittools.c:3163
+#: server/unittools.c:3161
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
-#: server/unittools.c:3168
+#: server/unittools.c:3166
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
-#: server/unittools.c:3171
+#: server/unittools.c:3169
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Spel: %s kan alleen binnen uw eigen invloedssfeer bewegen."
@@ -8148,7 +8148,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: client/gui-gtk/repodlgs.c:1081
+#: client/gui-gtk/repodlgs.c:1082
 #, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d"
 msgstr "Totalen:                    %s%9d%s%9d%s%9d%s%9d"
@@ -9608,7 +9608,7 @@ msgid " Sell "
 msgstr " Verkoop "
 
 #: data/Freeciv:2964 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
-#: data/default/techs.ruleset:554
+#: data/default/techs.ruleset:553
 msgid "Trade"
 msgstr "Handel"
 
@@ -10234,12 +10234,12 @@ msgstr ""
 "\n"
 "    Begin nadat u uw steden gefortificeerd hebt met troepen met het bouwen "
 "van Triremen in de steden aan zee. Gebruik deze Triremen om de wereld in "
-"kaart te brengen op zoek naar tegenstanders en nieuw land. Als u "
-"op een eiland bent, zou u minder aan militairen en meer aan uitbreiding "
-"moeten besteden. Als u zich dicht bij een tegenstander bevindt is het een "
-"heel goed idee om een vredesaccoord te sluiten en alle vooruitgangen die u "
-"maakt te delen. Diplomatieke eenheden zijn hier erg bruikbaar en ZULLEN zich "
-"later terugverdienen."
+"kaart te brengen op zoek naar tegenstanders en nieuw land. Als u op een "
+"eiland bent, zou u minder aan militairen en meer aan uitbreiding moeten "
+"besteden. Als u zich dicht bij een tegenstander bevindt is het een heel goed "
+"idee om een vredesaccoord te sluiten en alle vooruitgangen die u maakt te "
+"delen. Diplomatieke eenheden zijn hier erg bruikbaar en ZULLEN zich later "
+"terugverdienen."
 
 #: data/helpdata.txt:630
 msgid ""
@@ -10928,7 +10928,8 @@ msgstr ""
 "- Een eenheid die zich rechtstreeks in of uit een stad verplaatst.\n"
 "- Een eenheid die zich verplaatst naar een vlak met een bevriende eenheid.\n"
 "- Een eenheid die zich verplaatst vanaf een oceaanvlak (van boord gaan).\n"
-"- Een type eenheid dat uitdrukkelijk IS'en negeert, bv. Diplomaten en Spionnen."
+"- Een type eenheid dat uitdrukkelijk IS'en negeert, bv. Diplomaten en "
+"Spionnen."
 
 #: data/helpdata.txt:1002
 msgid ""
@@ -12136,7 +12137,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:1058 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1049 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:560
+#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:559
 msgid "University"
 msgstr "Universiteit"
 
@@ -12865,7 +12866,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
-#: data/default/governments.ruleset:244 data/default/techs.ruleset:368
+#: data/default/governments.ruleset:244 data/default/techs.ruleset:367
 msgid "Monarchy"
 msgstr "Monarchie"
 
@@ -12929,7 +12930,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
-#: data/default/governments.ruleset:314 data/default/techs.ruleset:140
+#: data/default/governments.ruleset:314 data/default/techs.ruleset:139
 msgid "Communism"
 msgstr "Communisme"
 
@@ -13073,7 +13074,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:521 data/civ2/techs.ruleset:169
-#: data/default/governments.ruleset:471 data/default/techs.ruleset:170
+#: data/default/governments.ruleset:471 data/default/techs.ruleset:169
 msgid "Democracy"
 msgstr "Democratie"
 
@@ -13156,7 +13157,7 @@ msgstr ""
 "verleid door Diplomaten of Spionnen."
 
 #: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
-#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:230
+#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:229
 msgid "Fundamentalism"
 msgstr "Fundamentalisme"
 
@@ -13427,396 +13428,396 @@ msgstr ""
 "verleid door Diplomaten of Spionnen."
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
-#: data/default/techs.ruleset:50
+#: data/default/techs.ruleset:49
 msgid "Advanced Flight"
 msgstr "Moderne Luchtvaart"
 
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
-#: data/default/techs.ruleset:56
+#: data/default/techs.ruleset:55
 msgid "Alphabet"
 msgstr "Alfabet"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
-#: data/default/techs.ruleset:62
+#: data/default/techs.ruleset:61
 msgid "Amphibious Warfare"
 msgstr "Amfibische Oorlogvoering"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
-#: data/default/techs.ruleset:68
+#: data/default/techs.ruleset:67
 msgid "Astronomy"
 msgstr "Astronomie"
 
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
-#: data/default/techs.ruleset:74
+#: data/default/techs.ruleset:73
 msgid "Atomic Theory"
 msgstr "Atoom Theorie"
 
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
-#: data/default/techs.ruleset:80
+#: data/default/techs.ruleset:79
 msgid "Automobile"
 msgstr "Automobielen"
 
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
-#: data/default/techs.ruleset:86
+#: data/default/techs.ruleset:85
 msgid "Banking"
 msgstr "Bankieren"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
-#: data/default/techs.ruleset:92
+#: data/default/techs.ruleset:91
 msgid "Bridge Building"
 msgstr "Bruggenbouw"
 
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
-#: data/default/techs.ruleset:98
+#: data/default/techs.ruleset:97
 msgid "Bronze Working"
 msgstr "Brons Bewerking"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
-#: data/default/techs.ruleset:104
+#: data/default/techs.ruleset:103
 msgid "Ceremonial Burial"
 msgstr "Ceremoniële Begrafenis"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
-#: data/default/techs.ruleset:110
+#: data/default/techs.ruleset:109
 msgid "Chemistry"
 msgstr "Chemie"
 
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
-#: data/default/techs.ruleset:116
+#: data/default/techs.ruleset:115
 msgid "Chivalry"
 msgstr "Ridderschap"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
-#: data/default/techs.ruleset:122
+#: data/default/techs.ruleset:121
 msgid "Code of Laws"
 msgstr "Wetboek"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
-#: data/default/techs.ruleset:128
+#: data/default/techs.ruleset:127
 msgid "Combined Arms"
 msgstr "Gecombineerde Wapens"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
-#: data/default/techs.ruleset:134
+#: data/default/techs.ruleset:133
 msgid "Combustion"
 msgstr "Verbranding"
 
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
-#: data/default/techs.ruleset:146
+#: data/default/techs.ruleset:145
 msgid "Computers"
 msgstr "Computers"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
-#: data/default/techs.ruleset:152
+#: data/default/techs.ruleset:151
 msgid "Conscription"
 msgstr "Dienstplicht"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
-#: data/default/techs.ruleset:158
+#: data/default/techs.ruleset:157
 msgid "Construction"
 msgstr "Constructie"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
-#: data/default/techs.ruleset:164
+#: data/default/techs.ruleset:163
 msgid "Currency"
 msgstr "Geld"
 
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
-#: data/default/techs.ruleset:182
+#: data/default/techs.ruleset:181
 msgid "Electricity"
 msgstr "Electriciteit"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:188
+#: data/default/techs.ruleset:187
 msgid "Electronics"
 msgstr "Electronica"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
-#: data/default/techs.ruleset:194
+#: data/default/techs.ruleset:193
 msgid "Engineering"
 msgstr "Werktuigbouw"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
-#: data/default/techs.ruleset:200
+#: data/default/techs.ruleset:199
 msgid "Environmentalism"
 msgstr "Milieutechniek"
 
 #: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
-#: data/default/techs.ruleset:206
+#: data/default/techs.ruleset:205
 msgid "Espionage"
 msgstr "Spionage"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
-#: data/default/techs.ruleset:212
+#: data/default/techs.ruleset:211
 msgid "Explosives"
 msgstr "Explosieven"
 
 #: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
-#: data/default/techs.ruleset:218
+#: data/default/techs.ruleset:217
 msgid "Feudalism"
 msgstr "Feodalisme"
 
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
-#: data/default/techs.ruleset:224
+#: data/default/techs.ruleset:223
 msgid "Flight"
 msgstr "Luchtvaart"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
-#: data/default/techs.ruleset:236
+#: data/default/techs.ruleset:235
 msgid "Fusion Power"
 msgstr "Kernfusie"
 
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
-#: data/default/techs.ruleset:242
+#: data/default/techs.ruleset:241
 msgid "Genetic Engineering"
 msgstr "Genetische Manipulatie"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/default/techs.ruleset:248
+#: data/default/techs.ruleset:247
 msgid "Guerilla Warfare"
 msgstr "Guerilla Oorlogvoering"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
-#: data/default/techs.ruleset:254
+#: data/default/techs.ruleset:253
 msgid "Gunpowder"
 msgstr "Buskruit"
 
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
-#: data/default/techs.ruleset:260
+#: data/default/techs.ruleset:259
 msgid "Horseback Riding"
 msgstr "Paardrijden"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
-#: data/default/techs.ruleset:266
+#: data/default/techs.ruleset:265
 msgid "Industrialization"
 msgstr "Industrialisatie"
 
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
-#: data/default/techs.ruleset:272
+#: data/default/techs.ruleset:271
 msgid "Invention"
 msgstr "Uitvinding"
 
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:278
+#: data/default/techs.ruleset:277
 msgid "Iron Working"
 msgstr "IJzer Bewerking"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
-#: data/default/techs.ruleset:284
+#: data/default/techs.ruleset:283
 msgid "Labor Union"
 msgstr "Vakbond"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
-#: data/default/techs.ruleset:290
+#: data/default/techs.ruleset:289
 msgid "Laser"
 msgstr "Laser"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
-#: data/default/techs.ruleset:296
+#: data/default/techs.ruleset:295
 msgid "Leadership"
 msgstr "Leiderschap"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
-#: data/default/techs.ruleset:308
+#: data/default/techs.ruleset:307
 msgid "Machine Tools"
 msgstr "Machinale Werktuigen"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
-#: data/default/techs.ruleset:314
+#: data/default/techs.ruleset:313
 msgid "Magnetism"
 msgstr "Magnetisme"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
-#: data/default/techs.ruleset:320
+#: data/default/techs.ruleset:319
 msgid "Map Making"
 msgstr "Landkaarten Maken"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
-#: data/default/techs.ruleset:326
+#: data/default/techs.ruleset:325
 msgid "Masonry"
 msgstr "Bouwkunst"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
-#: data/default/techs.ruleset:332
+#: data/default/techs.ruleset:331
 msgid "Mass Production"
 msgstr "Massaproduktie"
 
 #: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
-#: data/default/techs.ruleset:338
+#: data/default/techs.ruleset:337
 msgid "Mathematics"
 msgstr "Wiskunde"
 
 #: data/civ1/techs.ruleset:343 data/civ2/techs.ruleset:343
-#: data/default/techs.ruleset:344
+#: data/default/techs.ruleset:343
 msgid "Medicine"
 msgstr "Medicijnen"
 
 #: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
-#: data/default/techs.ruleset:350
+#: data/default/techs.ruleset:349
 msgid "Metallurgy"
 msgstr "Metallurgie"
 
 #: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
-#: data/default/techs.ruleset:356
+#: data/default/techs.ruleset:355
 msgid "Miniaturization"
 msgstr "Miniaturisering"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
-#: data/default/techs.ruleset:362
+#: data/default/techs.ruleset:361
 msgid "Mobile Warfare"
 msgstr "Mobiele Oorlogvoering"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
-#: data/default/techs.ruleset:374
+#: data/default/techs.ruleset:373
 msgid "Monotheism"
 msgstr "Monotheïsme"
 
 #: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
-#: data/default/techs.ruleset:380
+#: data/default/techs.ruleset:379
 msgid "Mysticism"
 msgstr "Mystiek"
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
-#: data/default/techs.ruleset:386
+#: data/default/techs.ruleset:385
 msgid "Navigation"
 msgstr "Navigatie"
 
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
-#: data/default/techs.ruleset:392
+#: data/default/techs.ruleset:391
 msgid "Nuclear Fission"
 msgstr "Kernsplitsing"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
-#: data/default/techs.ruleset:398
+#: data/default/techs.ruleset:397
 msgid "Nuclear Power"
 msgstr "Kernenergie"
 
 #: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
-#: data/default/techs.ruleset:404
+#: data/default/techs.ruleset:403
 msgid "Philosophy"
 msgstr "Filosofie"
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
-#: data/default/techs.ruleset:410
+#: data/default/techs.ruleset:409
 msgid "Physics"
 msgstr "Natuurkunde"
 
 #: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
-#: data/default/techs.ruleset:416
+#: data/default/techs.ruleset:415
 msgid "Plastics"
 msgstr "Plastic"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
-#: data/default/techs.ruleset:422
+#: data/default/techs.ruleset:421
 msgid "Polytheism"
 msgstr "Polytheïsme"
 
 #: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
-#: data/default/techs.ruleset:428
+#: data/default/techs.ruleset:427
 msgid "Pottery"
 msgstr "Pottenbakken"
 
 #: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
-#: data/default/techs.ruleset:434
+#: data/default/techs.ruleset:433
 msgid "Radio"
 msgstr "Radio"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:445
-#: data/default/techs.ruleset:446
+#: data/default/techs.ruleset:445
 msgid "Recycling"
 msgstr "Hergebruik"
 
 #: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
-#: data/default/techs.ruleset:452
+#: data/default/techs.ruleset:451
 msgid "Refining"
 msgstr "Raffinage"
 
 #: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
-#: data/default/techs.ruleset:458
+#: data/default/techs.ruleset:457
 msgid "Refrigeration"
 msgstr "Koeling"
 
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
-#: data/default/techs.ruleset:464
+#: data/default/techs.ruleset:463
 msgid "Robotics"
 msgstr "Robots"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
-#: data/default/techs.ruleset:470
+#: data/default/techs.ruleset:469
 msgid "Rocketry"
 msgstr "Raketten"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
-#: data/default/techs.ruleset:476
+#: data/default/techs.ruleset:475
 msgid "Sanitation"
 msgstr "Reiniging"
 
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
-#: data/default/techs.ruleset:482
+#: data/default/techs.ruleset:481
 msgid "Seafaring"
 msgstr "Zeevaart"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
-#: data/default/techs.ruleset:488
+#: data/default/techs.ruleset:487
 msgid "Space Flight"
 msgstr "Ruimtevaart"
 
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
-#: data/default/techs.ruleset:494
+#: data/default/techs.ruleset:493
 msgid "Stealth"
 msgstr "Stealth"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
-#: data/default/techs.ruleset:500
+#: data/default/techs.ruleset:499
 msgid "Steam Engine"
 msgstr "Stoommachine"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
-#: data/default/techs.ruleset:506
+#: data/default/techs.ruleset:505
 msgid "Steel"
 msgstr "Staal"
 
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:512
+#: data/default/techs.ruleset:511
 msgid "Superconductors"
 msgstr "Supergeleiders"
 
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
-#: data/default/techs.ruleset:518
+#: data/default/techs.ruleset:517
 msgid "Tactics"
 msgstr "Taktiek"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
-#: data/default/techs.ruleset:524
+#: data/default/techs.ruleset:523
 msgid "The Corporation"
 msgstr "De Corporatie"
 
 #: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
-#: data/default/techs.ruleset:530
+#: data/default/techs.ruleset:529
 msgid "The Republic"
 msgstr "De Republiek"
 
 #: data/civ1/techs.ruleset:535 data/civ2/techs.ruleset:535
-#: data/default/techs.ruleset:536
+#: data/default/techs.ruleset:535
 msgid "The Wheel"
 msgstr "Het Wiel"
 
-#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:542
+#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:541
 msgid "Theology"
 msgstr "Theologie"
 
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
-#: data/default/techs.ruleset:548
+#: data/default/techs.ruleset:547
 msgid "Theory of Gravity"
 msgstr "Zwaartekracht Theorie"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
-#: data/default/techs.ruleset:566
+#: data/default/techs.ruleset:565
 msgid "Warrior Code"
 msgstr "Strijders Code"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
-#: data/default/techs.ruleset:572
+#: data/default/techs.ruleset:571
 msgid "Writing"
 msgstr "Schrijven"
 
