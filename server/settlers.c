@@ -903,12 +903,138 @@ static void consider_settler_action(struct player *pplayer, enum unit_activity a
 }
 
 /**************************************************************************
+Evaluates all squares within 11 squares of the settler for city building.
+
+best_newv is the current best activity value for the settler.
+best_act is the activity of the best value. gx, gy is where the activity
+takes place.
+If this function finds a better alternative it will modify these values.
+
+ferryboat is a ferryboat the unit can use. boatid is it's id. bx, by is
+where ferryboat and punit will rendevous.
+**************************************************************************/
+static void evaluate_city_building(struct unit *punit,
+				   int *best_act, int *best_newv, int *gx, int *gy,
+				   struct unit *ferryboat,
+				   int boatid, int bx, int by,
+				   struct city *mycity, int food_cost, 
+				   struct ai_choice *choice)
+{
+  int newv, b, d;
+  struct player *pplayer = unit_owner(punit);
+  int nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
+  int ucont              = map_get_continent(punit->x, punit->y);
+  int mv_rate            = unit_types[punit->type].move_rate;
+  int food_upkeep        = utype_food_cost(get_unit_type(punit->type),
+					   get_gov_pplayer(pplayer));
+
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+    remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+  }
+  punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
+ /* hope 11 is far enough -- Syela */
+  square_iterate(punit->x, punit->y, 11, x, y) {
+    int near = real_map_distance(punit->x, punit->y, x, y);
+    int w_virtual = 0;	/* I'm no entirely sure what this is --dwp */
+    int mv_cost;
+    if (!is_already_assigned(punit, pplayer, x, y)
+	&& map_get_terrain(x, y) != T_OCEAN
+	&& (territory[x][y]&(1<<pplayer->player_no))
+	/* pretty good, hope it's enough! -- Syela */
+	&& (near < 8 || map_get_continent(x, y) != ucont)
+	&& city_can_be_built_here(x,y)
+	&& !city_exists_within_city_radius(x, y, 0)) {
+
+      /* potential target, calculate mv_cost: */
+      if (ferryboat) {
+	/* already aboard ship, can use real warmap */
+	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	  mv_cost = 9999;
+	} else {
+	  mv_cost = warmap.seacost[x][y] * mv_rate /
+	    unit_types[ferryboat->type].move_rate;
+	}
+      } else if (!goto_is_sane(punit, x, y, 1) ||
+		 warmap.cost[x][y] > THRESHOLD * mv_rate) {
+	/* for Rome->Carthage */
+	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	  mv_cost = 9999;
+	} else if (boatid) {
+	  if (!punit->id && mycity->id == boatid) w_virtual = 1;
+	  mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
+	    + mv_rate; 
+	} else if (punit->id ||
+		   !is_terrain_near_tile(mycity->x, mycity->y, T_OCEAN)) {
+	  mv_cost = 9999;
+	} else {
+	  mv_cost = warmap.seacost[x][y] * mv_rate / 9;
+	  /* this should be fresh; the only thing that could have
+	     munged the seacost is the ferryboat code in
+	     k_s_w/f_s_t_k, but only if find_boat succeeded */
+	  w_virtual = 1;
+	}
+      } else {
+	mv_cost = warmap.cost[x][y];
+      }
+      d = mv_cost / mv_rate;
+      /* without this, the computer will go 6-7 tiles from X to
+	 build a city at Y */
+      d *= 2;
+      /* and then build its NEXT city halfway between X and Y. -- Syela */
+      b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
+      newv = amortize(b, d);
+
+      b = (food_upkeep * FOOD_WEIGHTING) * MORT;
+      if (map_get_continent(x, y) != ucont) b += SHIELD_WEIGHTING * MORT;
+      newv -= (b - amortize(b, d));
+      /* deal with danger Real Soon Now! -- Syela */
+      /* newv is now the value over mort turns */
+      newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
+
+      if (best_newv && map_get_city(x, y)) newv = 0;
+	  
+      /* I added a line to discourage settling in existing cities, but it was
+	 inadequate.  It may be true that in the short-term building infrastructure
+	 on tiles that won't be worked for ages is not as useful as helping other
+	 cities grow and then building engineers later, but this is short-sighted.
+	 There was also a problem with workers suddenly coming onto unimproved tiles,
+	 either through city growth or de-elvisization, settlers being built and
+	 improving those tiles, and then immigrating shortly thereafter. -- Syela
+      */
+      if (newv>0 && pplayer->ai.expand!=100) {
+	newv = (newv * pplayer->ai.expand) / 100;
+      }
+
+      if (w_virtual) {
+	freelog(LOG_DEBUG, "%s: best_newv = %d, w_virtual = 1, newv = %d",
+		mycity->name, *best_newv, newv);
+      }
+
+      if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
+	if (newv > choice->want && !punit->id) choice->want = newv;
+	freelog(LOG_DEBUG,
+		"%s @(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
+		(punit->id ? unit_types[punit->type].name : mycity->name), 
+		punit->x, punit->y, x, y, b, newv, d);
+      } else if (newv > *best_newv) {
+	*best_act = ACTIVITY_UNKNOWN; /* flag value */
+	*best_newv = newv;
+	if (w_virtual) {
+	  *gx = -1; *gy = -1;
+	} else {
+	  *gx = x; *gy = y;
+	}
+      }
+    }
+  } square_iterate_end;
+}
+
+/**************************************************************************
   find some work for the settler
 **************************************************************************/
 static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
-  int nav_known       = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont           = map_get_continent(punit->x, punit->y);
   int mv_rate         = unit_types[punit->type].move_rate;
   int player_num      = pplayer->player_no;
@@ -917,7 +1043,6 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int gx,gy;			/* x,y of target (goto) square */
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */
-  int newv;			/* upgraded value of consideration tile */
   int best_newv = 0;		/* newv of best target so far, all cities */
   int best_oldv = 9999;		/* oldv of best target so far; compared if
 				   newv==best_newv; not initialized to zero,
@@ -925,14 +1050,16 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int in_use;			/* true if the target square is being used
 				   by one of our cities */
   int best_act = 0;		/* ACTIVITY_ of best target so far */
-  int food_upkeep;		/* upkeep food value for single settler  */
+  /* upkeep food value for single settler  */
+  int food_upkeep = utype_food_cost(get_unit_type(punit->type),
+				    get_gov_pplayer(pplayer));
   int food_cost;		/* estimated food cost to produce settler */
   
   int boatid, bx = 0, by = 0;	/* as returned by find_boat */
   struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
   
   int x, y;
-  int b, d;
+  int d;
 
   struct ai_choice choice;	/* for nav want only */
 
@@ -953,8 +1080,6 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
     else food_cost = 40 * (mycity->size - 1) / mycity->size;
     if (city_got_effect(mycity, B_GRANARY)) food_cost -= 20;
   }
-  food_upkeep = utype_food_cost(get_unit_type(punit->type),
-				get_gov_pplayer(pplayer));
   if (punit->id && !punit->homecity) food_upkeep = 0; /* thanks, Peter */
 
   /** First find the best square to upgrade,
@@ -1082,7 +1207,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 #endif
 
   if (pplayer->ai.control)
-    boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
+    boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for bodyguard */
   else
     boatid = 0;
   ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid);
@@ -1095,110 +1220,11 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   if (unit_flag(punit->type, F_CITIES) &&
       pplayer->ai.control &&
       ai_fuzzy(pplayer,1)) {    /* don't want to make cities otherwise */
-    int i, j;
-    if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-      remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
-    }
-    punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
-    for (j = -11; j <= 11; j++) { /* hope this is far enough -- Syela */
-      y = punit->y + j;
-      if (y < 0 || y >= map.ysize) continue;
-      for (i = -11; i <= 11; i++) {
-        int near = (MAX((MAX(i, -i)),(MAX(j, -j))));
-        int w_virtual = 0;	/* I'm no entirely sure what this is --dwp */
-	int mv_cost;
-        x = map_adjust_x(punit->x + i);
-        if (!is_already_assigned(punit, pplayer, x, y)
-	    && map_get_terrain(x, y) != T_OCEAN
-	    && (territory[x][y]&(1<<player_num))
-				/* pretty good, hope it's enough! -- Syela */
-            && (near < 8 || map_get_continent(x, y) != ucont)
-	    && city_can_be_built_here(x,y)
-	    && !city_exists_within_city_radius(x, y, 0)) {
-
-	  /* potential target, calculate mv_cost: */
-          if (ferryboat) {
-	    /* already aboard ship, can use real warmap */
-            if (!is_terrain_near_tile(x, y, T_OCEAN)) {
-	      mv_cost = 9999;
-	    } else {
-	      mv_cost = warmap.seacost[x][y] * mv_rate /
-		    unit_types[ferryboat->type].move_rate;
-	    }
-          } else if (!goto_is_sane(punit, x, y, 1) ||
-		     warmap.cost[x][y] > THRESHOLD * mv_rate) {
-				/* for Rome->Carthage */
-	    if (!is_terrain_near_tile(x, y, T_OCEAN)) {
-	      mv_cost = 9999;
-	    } else if (boatid) {
-              if (!punit->id && mycity->id == boatid) w_virtual = 1;
-              mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
-		   + mv_rate; 
-            } else if (punit->id ||
-		       !is_terrain_near_tile(mycity->x, mycity->y, T_OCEAN)) {
-	      mv_cost = 9999;
-	    } else {
-              mv_cost = warmap.seacost[x][y] * mv_rate / 9;
-	      /* this should be fresh; the only thing that could have
-		 munged the seacost is the ferryboat code in
-		 k_s_w/f_s_t_k, but only if find_boat succeeded */
-              w_virtual = 1;
-            }
-          } else {
-	    mv_cost = warmap.cost[x][y];
-	  }
-          d = mv_cost / mv_rate;
-	  /* without this, the computer will go 6-7 tiles from X to
-	     build a city at Y */
-          d *= 2;
-	  /* and then build its NEXT city halfway between X and Y. -- Syela */
-          b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
-          newv = amortize(b, d);
-          
-          b = (food_upkeep * FOOD_WEIGHTING) * MORT;
-          if (map_get_continent(x, y) != ucont) b += SHIELD_WEIGHTING * MORT;
-          newv -= (b - amortize(b, d));
-	  /* deal with danger Real Soon Now! -- Syela */
-	  /* newv is now the value over mort turns */
-          newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
-
-          if (best_newv && map_get_city(x, y)) newv = 0;
-	  
-/* I added a line to discourage settling in existing cities, but it was
-inadequate.  It may be true that in the short-term building infrastructure
-on tiles that won't be worked for ages is not as useful as helping other
-cities grow and then building engineers later, but this is short-sighted.
-There was also a problem with workers suddenly coming onto unimproved tiles,
-either through city growth or de-elvisization, settlers being built and
-improving those tiles, and then immigrating shortly thereafter. -- Syela
-*/
- 	  if (newv>0 && pplayer->ai.expand!=100) {
- 	    newv = (newv * pplayer->ai.expand) / 100;
- 	  }
- 
-	  if (w_virtual) {
-	    freelog(LOG_DEBUG, "%s: best_newv = %d, w_virtual = 1, newv = %d",
-		    mycity->name, best_newv, newv);
-	  }
-	  
-          if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
-            if (newv > choice.want && !punit->id) choice.want = newv;
-	    freelog(LOG_DEBUG,
-		    "%s @(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
-		    (punit->id ? unit_types[punit->type].name : mycity->name), 
-		    punit->x, punit->y, x, y, b, newv, d);
-          } else if (newv > best_newv) {
-	    best_act = ACTIVITY_UNKNOWN; /* flag value */
-	    best_newv = newv;
-            if (w_virtual) {
-              gx = -1; gy = -1;
-            } else {
-	      gx = x; gy = y;
-            }
-          }
-        }
-      }
-    }
+    evaluate_city_building(punit,
+			   &best_act, &best_newv, &gx, &gy,
+			   ferryboat,
+			   boatid, bx, by,
+			   mycity, food_cost, &choice);
   }
 
   choice.want -= best_newv;
