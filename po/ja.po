@@ -1,8 +1,8 @@
 # Japanese translations for Freeciv
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 # Copyright (C) 2001 SUENAGA Yasuo
 # This translation is covered by the GNU General Public License Version 2.
-# SAWADA Katsuya <ama@petmail.net>, 2000, 2001.
+# SAWADA Katsuya <ama@petmail.net>, 2000, 2001, 2002
 # SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001.
 #
 # For Japanese users:
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
 "POT-Creation-Date: 2001-12-29 06:20+0900\n"
-"PO-Revision-Date: 2001-08-05 04:21+09:00\n"
+"PO-Revision-Date: 2002-01-03 20:23+0900\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -325,13 +325,15 @@ msgstr "エラー %d (stderror 無しでコンパイルされました)"
 msgid "Idle"
 msgstr "アイドル"
 
+# yasu
 #: common/unit.c:525
 msgid "Fortifying"
-msgstr "防御強化"
+msgstr "防御姿勢"
 
+# yasu
 #: common/unit.c:526
 msgid "Fortified"
-msgstr "防御されている"
+msgstr "防御姿勢をとった"
 
 #: client/gui-mui/gui_main.c:283 client/gui-mui/mapclass.c:1812
 #: client/gui-mui/mapclass.c:3097 client/gui-xaw/menu.c:169 common/unit.c:528
@@ -483,7 +485,7 @@ msgstr "Game: %sは%sで解散しました。"
 #: ai/aicity.c:807
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
-msgstr "Game: %s で %s を金 %d で売ります。(不必要)"
+msgstr "Game: %sで(不必要な)%sを金%dで売ります。"
 
 #: server/autoattack.c:132
 #, c-format
@@ -500,18 +502,21 @@ msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、成功しました。"
 msgid "Native unrest near %s led by %s."
 msgstr ""
 
+# yasu
 #: server/barbarian.c:402
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "海賊が%sのそばに見えます"
 
+# yasu
 #: server/cityhand.c:139
 msgid "Game: you don't have a worker here."
-msgstr ""
+msgstr "Game: ここには労働者はいません。"
 
+# yasu
 #: server/cityhand.c:191
 msgid "Game: You have already sold something here this turn."
-msgstr ""
+msgstr "Game: このターンですでに売却しています。"
 
 #: server/cityhand.c:200
 #, c-format
@@ -522,18 +527,21 @@ msgstr "Game: %2$sの%1$sを金%3$dで売りました。"
 msgid "Game: You have already bought this turn."
 msgstr "Game: 既にこのターンに買っています。"
 
+# yasu
 #: server/cityhand.c:240
 msgid "Game: Cannot buy in city created this turn."
-msgstr ""
+msgstr "Game: このターンに作られた都市では買えません。"
 
+# yasu
 #: server/cityhand.c:246
 #, c-format
 msgid "Game: You don't buy %s!"
-msgstr ""
+msgstr "Game: %sは買えません!"
 
+# yasu
 #: server/cityhand.c:253
 msgid "Game: Can't buy units when city is in disorder."
-msgstr ""
+msgstr "Game: 都市が混乱してる時は部隊は買えません。"
 
 #: server/cityhand.c:290
 #, c-format
@@ -566,12 +574,13 @@ msgstr "Game: %sの所属を%sへ変更します。"
 #: server/citytools.c:542
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "Game: %2$sにある%1$sを%3$sから%4$sへ輸送しました。"
 
+# yasu
 #: server/citytools.c:551
 #, c-format
 msgid "Game: Transfered %s from %s to %s."
-msgstr ""
+msgstr "Game: %sを%sから%sへ輸送しました。"
 
 #: server/citytools.c:729
 #, c-format
@@ -587,10 +596,11 @@ msgstr ""
 "Game: %s の市民は、あなたの技術を垣間見、驚愕ました。\n"
 "      労働者は自発的に集まり、都市に鉄道を引きました。"
 
+# yasu
 #: server/citytools.c:1061
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
-msgstr ""
+msgstr "Game: %sの帰属を%sに変えました。"
 
 #: server/citytools.c:1092
 #, c-format
@@ -648,22 +658,24 @@ msgstr "Game: %sで%sを%s作り始めました。"
 msgid "Game: %s is building %s."
 msgstr "Game: %2$sを%1$sで作り始めました。"
 
+# yasu
 #: server/cityturn.c:120
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
-msgstr "Game: %s で %s を金 %d で売ります。(古い)"
+msgstr "Game: %sで(古い)%sを金%dで売ります。"
 
 #: server/cityturn.c:331
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Game: 予告: 次のターン、%2$sの不思議%1$sが完成します。"
 
+# yasu
 #: server/cityturn.c:363
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
-msgstr ""
+msgstr "%sの成長を絞った方がいいです。%s(建設中)をより効果的に利用できます。"
 
 #: server/cityturn.c:377
 #, c-format
@@ -675,9 +687,10 @@ msgstr "Game: %sはまもなく大きさ%iに増えます。"
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Game: 警告: %sは飢饉の恐れがあります。"
 
+# yasu
 #: server/cityturn.c:415
 msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr ""
+msgstr "Game: 警告、資金が足りません。"
 
 #: server/cityturn.c:472 server/cityturn.c:491
 #, c-format
@@ -724,18 +737,20 @@ msgstr ""
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Game: %3$sで%1$sの作成を%2$sへアップグレードされました。"
 
+# yasu
 #: server/cityturn.c:735
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
-msgstr ""
+msgstr "Game: %sで作業リストから%sを建てることができません。まず、%sが必要です。延期しています..."
 
+# yasu
 #: server/cityturn.c:744
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr ""
+msgstr "Game: %sで作業リストから%sを建てることができません。理由はわかりません! 延期しています..."
 
 #: server/cityturn.c:778
 #, c-format
@@ -782,10 +797,11 @@ msgstr "Game: %sではまだ%sを作ることができません。"
 msgid "Game: %s is finished building %s."
 msgstr "Game: %sで%sを作り終えました。"
 
+# yasu, ama
 #: server/cityturn.c:1086
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
-msgstr ""
+msgstr "Game: %2$sで%1$sを維持できません。建物を売りました。"
 
 #: server/cityturn.c:1123
 #, c-format
@@ -817,32 +833,33 @@ msgstr "Game: %sで市民の混乱が続いています。"
 msgid "Game: Order restored in %s."
 msgstr "Game: %sの秩序が復活しました。"
 
+# yasu
 #: server/cityturn.c:1308
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr ""
+msgstr "Game: 人々はあなたの%sを投げ捨てました。国は騒乱に陥ってます。"
 
+# yasu
 #: server/cityturn.c:1333
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr ""
+msgstr "Game: %sはまだ%sを建設できません。唯一の都市を解散できません。"
 
+# yasu
 #: server/cityturn.c:1350
 #, c-format
 msgid "Game: %s is disbanded into %s."
-msgstr ""
+msgstr "Game: %sは%sへ解散されました。"
 
 #: server/civserver.c:81
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr ""
-"Warning: %s オプションは時代遅れです。メタサーバを有効にするには -m を使って"
-"下さい。\n"
+msgstr "警告: %s オプションは時代遅れです。メタサーバを有効にするには -m を使って下さい。\n"
 
 #: server/civserver.c:108
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr "Error: 未知のオプション '%s'\n"
+msgstr "エラー: 未知のオプション '%s'\n"
 
 #: server/civserver.c:119
 #, c-format
@@ -936,146 +953,171 @@ msgstr "了解。通常の形式に設定します。"
 msgid "For introductory help, type 'help'."
 msgstr "初歩的なヘルプが欲しければ、 'help' と打って下さい。"
 
+# yasu
 #: server/diplhand.c:147
 #, c-format
 msgid "Game: You don't have tech %s, you can't accept treaty."
-msgstr ""
+msgstr "Game: 技術%sはありません。条約は承認できません。"
 
+# yasu
 #: server/diplhand.c:156
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
+msgstr "提供しようとしている都市はもうありません。条約は承認できません。"
 
+# yasu
 #: server/diplhand.c:162
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
-msgstr ""
+msgstr "%sの所有者ではないので、条約は承認できません。"
 
+# yasu
 #: server/diplhand.c:168
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
-msgstr ""
+msgstr "Game: 首都(%s)が要求されましたので条約を承認できません。"
 
+# yasu
 #: server/diplhand.c:177
-#, fuzzy
 msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "Game: このターンに買ったので変更できません。"
+msgstr "Game: お金がないので、条約を承認できません。"
 
+# yasu
 #: server/diplhand.c:207 server/diplhand.c:210
 #, c-format
 msgid "Game: A treaty containing %d clauses was agreed upon."
-msgstr ""
+msgstr "Game: %d 条項を含む条約が合意されました。"
 
+# yasu
 #: server/diplhand.c:227 server/diplhand.c:231
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr ""
+msgstr "Game: %s が提供しようとした都市の一つが破壊されました! 条約は破棄されました。"
 
+# yasu
 #: server/diplhand.c:238 server/diplhand.c:243
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "Game: %s はもう %s を所有してません! 条約は破棄されました。"
 
 #: server/diplhand.c:253 server/diplhand.c:257
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 
+# yasu
 #: server/diplhand.c:275
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
-msgstr ""
+msgstr "Game: %sの知識を得ました。"
 
 #: server/diplhand.c:279
 #, c-format
 msgid "Game: The %s have aquired %s from the %s."
 msgstr "Game: %1$sは%3$sから%2$sを得ました。"
 
+# yasu
 #: server/diplhand.c:294
 #, c-format
 msgid "Game: You get %d gold."
-msgstr ""
+msgstr "Game: 金 %d を得ました。"
 
+# yasu
 #: server/diplhand.c:300
 #, c-format
 msgid "Game: You receive %s's worldmap."
-msgstr ""
+msgstr "Game: %s の世界地図を得ました。"
 
+# yasu
 #: server/diplhand.c:305
 #, c-format
 msgid "Game: You receive %s's seamap."
-msgstr ""
+msgstr "Game: %s の海図を得ました。"
 
+# yasu
 #: server/diplhand.c:320
 #, c-format
 msgid "Game: You receive city of %s from %s."
-msgstr ""
+msgstr "Game: 都市 %s を %s から得ました。"
 
+# yasu
 #: server/diplhand.c:323
 #, c-format
 msgid "Game: You give city of %s to %s."
-msgstr ""
+msgstr "Game: 都市 %s を %s に与えました。"
 
+# yasu
 #: server/diplhand.c:338 server/diplhand.c:340
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
-msgstr ""
+msgstr "Game: %s との停戦に合意しました。"
 
+# yasu
 #: server/diplhand.c:348 server/diplhand.c:350
 #, c-format
 msgid "Game: You agree on peace with %s."
-msgstr ""
+msgstr "Game: %s との和平に合意しました。"
 
+# yasu
 #: server/diplhand.c:358 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on an alliance with %s."
-msgstr ""
+msgstr "Game: %s との同盟に合意しました。"
 
+# yasu
 #: server/diplhand.c:367
 #, c-format
 msgid "Game: You give shared vision to %s."
-msgstr ""
+msgstr "Gme: %s と視界の共有を許可しました。"
 
+# yasu
 #: server/diplhand.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "Game: %s は人間が操作します。"
+msgstr "Game: %s の視界の共有を許可されました。"
 
+# yasu
 #: server/diplhand.c:470
 #, c-format
 msgid "Game: %s canceled the meeting!"
-msgstr ""
+msgstr "Game: %s は会合を中止しました。"
 
+# yasu
 #: server/diplhand.c:476
 #, c-format
 msgid "Game: Meeting with %s canceled."
-msgstr ""
+msgstr "Game: %s との会合は中止されました。"
 
+# yasu
 #: server/diplhand.c:519
 msgid "AI controlled players cannot participate in diplomatic meetings."
-msgstr ""
+msgstr "AI が支配しているプレイヤーは外交会合に参加できません。"
 
+# yasu
 #: server/diplomats.c:88
 #, c-format
 msgid "Game: Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "Game: %sは%sの水道を汚染できません。"
 
+# yasu
 #: server/diplomats.c:102
 #, c-format
 msgid "Game: Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "Game: %sが%sの水道を汚染しました。"
 
+# yasu
 #: server/diplomats.c:105
 #, c-format
 msgid "Game: %s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "Game: %sは%sの水道を汚染した疑いがあります。"
 
+# yasu
 #: server/diplomats.c:251
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
-msgstr ""
+msgstr "Game: あなたの%sは%sでのスパイ容疑で死刑にされました。"
 
 #: server/diplomats.c:257
 #, c-format
@@ -1092,137 +1134,161 @@ msgstr ""
 msgid "Game: You have established an embassy in %s."
 msgstr "Game: %sに大使館を開設しました。"
 
+# yasu
 #: server/diplomats.c:289
 #, c-format
 msgid "Game: The %s have established an embassy in %s."
-msgstr ""
+msgstr "Game: %sは%sに大使館を開設しました。"
 
+# yasu
 #: server/diplomats.c:349
 #, c-format
 msgid "Game: Your %s could not sabotage %s's %s."
-msgstr ""
+msgstr "Game: %sは%sの%sをサボタージュさせることがてきませんでした。"
 
+# yasu
 #: server/diplomats.c:364
 #, c-format
 msgid "Game: Your %s succeeded in sabotaging %s's %s."
-msgstr ""
+msgstr "Game: %sが%sの%sのサボタージュに成功しました。"
 
+# yasu
 #: server/diplomats.c:368
 #, c-format
 msgid "Game: Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "Game: あなたの%sが%sにサボタージュされました!"
 
+# yasu
 #: server/diplomats.c:420
 msgid "Game: You can't bribe a unit from this nation."
-msgstr ""
+msgstr "Game: この国の部隊は買収できません。"
 
+# yasu
 #: server/diplomats.c:428
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr ""
+msgstr "Game: %sの%sを買収するお金がありません。"
 
+# yasu, ama
 #: server/diplomats.c:444
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
-msgstr ""
+msgstr "Game: %sは、%sの%sの買収に成功しました。"
 
+# yasu
 #: server/diplomats.c:448
 #, c-format
 msgid "Game: Your %s was bribed by %s."
-msgstr ""
+msgstr "Game: あなたの%sは%sにより買収されました。"
 
+# yasu
 #: server/diplomats.c:544
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
-msgstr ""
+msgstr "Game: あなたの%sは%sから科学を盗もうとして捕まりました。"
 
+# yasu
 #: server/diplomats.c:548
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
-msgstr ""
+msgstr "Game: %sの%sは%sの科学を盗もうとして失敗しました。"
 
 #: server/diplomats.c:578
 #, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Game: %sに目新しい技術はありませんでした。"
 
+# yasu
 #: server/diplomats.c:614
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr ""
+msgstr "Game: あなたの %s は盗もうとした %s 科学を %s で発見できませんでした。"
 
+# yasu
 #: server/diplomats.c:636
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
-msgstr ""
+msgstr "Game: あなたの %s は科学 %d を%sから盗みました。"
 
 #: server/diplomats.c:640
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr ""
 
+# yasu, ama
 #: server/diplomats.c:657
 #, c-format
 msgid "Game: Your %s stole %s from %s."
-msgstr ""
+msgstr "Game: あなたの%1$sは%3$sから%2$sを盗みました。"
 
+# yasu, ama
 #: server/diplomats.c:661
 #, c-format
 msgid "Game: %s's %s stole %s from %s."
-msgstr ""
+msgstr "Game: %1$sの%2$sは%4$sから%3$sを盗みました。"
 
+# yasu, ama
 #: server/diplomats.c:665 server/plrhand.c:571
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
-msgstr ""
+msgstr "Game: %1$sは%3$sから%2$sを盗みました。"
 
+# yasu
 #: server/diplomats.c:727
 msgid "Game: You can't subvert a city from this nation."
-msgstr ""
+msgstr "Game: この国から都市は陥落できません。"
 
+# yasu
 #: server/diplomats.c:736
 msgid "Game: You can't subvert the capital of a nation."
-msgstr ""
+msgstr "Game: 首都は陥落できません。"
 
+# yasu
 #: server/diplomats.c:755
 #, c-format
 msgid "Game: You don't have enough gold to subvert %s."
-msgstr ""
+msgstr "Game: %sを陥落するのに十分なお金がありません。"
 
+# yasu
 #: server/diplomats.c:771
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
-msgstr ""
+msgstr "Game: あなたの%sは革命煽動のため捕まりました。"
 
+# yasu
 #: server/diplomats.c:775
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Game: %sは革命を促されました。"
+msgstr "Game: %s %s を %s の革命煽動の容疑で逮捕しました。"
 
+# yasu
 #: server/diplomats.c:797
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
-msgstr ""
+msgstr "Game: %sで革命が煽動されました。今その都市を支配しました。"
 
+# yasu
 #: server/diplomats.c:800
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
-msgstr ""
+msgstr "Game: %sが反逆しました。%sの関与が疑われます。"
 
+# yasu
 #: server/diplomats.c:878
 #, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
-msgstr ""
+msgstr "Game: あなたの%sは工業サボタージュ工作で逮捕されました。"
 
 #: server/diplomats.c:882
 #, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr ""
 
+# yasu
 #: server/diplomats.c:917
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr ""
+msgstr "Game: あなたの %s は %s でサボタージュ工作するものを見つけられませんでした。"
 
 #: server/diplomats.c:958
 #, c-format
@@ -1387,24 +1453,27 @@ msgstr ""
 msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
 
+# yasu
 #: server/maphand.c:118
 msgid "Game: Global warming has occurred!"
-msgstr ""
+msgstr "Game: 地球温暖化が起こりました!"
 
+# yasu
 #: server/maphand.c:119
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr ""
+msgstr "Game: 海岸が洪水になり、多くの草原が砂漠に変わりました。"
 
 #: server/maphand.c:162
 msgid "Game: Nuclear winter has occurred!"
 msgstr "Game: 核の冬が起こりました!"
 
+# yasu
 #: server/maphand.c:163
 msgid ""
 "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
+msgstr "Game: 湿潤な土地は乾燥し、草原の多くがツンドラになりました。"
 
 #: server/maphand.c:184
 msgid ""
@@ -1422,10 +1491,11 @@ msgstr ""
 "Game: 科学者が鉄道についての知識を得たことを国民は喜んでいます。\n"
 "      労働者は自発的に集まり、全ての都市に鉄道を引きました。"
 
+# yasu
 #: server/maphand.c:1219
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr ""
+msgstr "%s はもう視野を提供してくれません。"
 
 #: server/meta.c:185
 msgid "Not reporting to the metaserver in this game."
@@ -1457,10 +1527,11 @@ msgstr "ゲーム終了"
 msgid "Waiting"
 msgstr "待機中"
 
+# yasu
 #: server/plrhand.c:123
 #, c-format
 msgid "Game: %s acquired from The Great Library!"
-msgstr ""
+msgstr "Game: 王立図書館から%sを得ました!"
 
 #: server/plrhand.c:128
 #, c-format
@@ -1472,10 +1543,11 @@ msgstr "Game: %1$sは王立図書館から%2$sを得ました。"
 msgid "Game: The %s are no more!"
 msgstr "Game: %sは絶滅しました"
 
+# yasu
 #: server/plrhand.c:228
 #, c-format
 msgid "%s are first to learn %s"
-msgstr ""
+msgstr "%sは%sを初めて学びました。"
 
 #: server/plrhand.c:238
 #, c-format
@@ -1500,20 +1572,22 @@ msgstr "Game: %sを覚えました。科学の興味は%sに向かいます。目標は%sです。"
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
 
+# yasu
 #: server/plrhand.c:303
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
-msgstr ""
+msgstr "Game: %sを覚えました。科学者は Future Tech. 1.の研究を選択しました。"
 
+# yasu
 #: server/plrhand.c:309
 #, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
-msgstr ""
+msgstr "Game: Future Tech. %d. を覚えました。Future Tech. %d.を研究中。"
 
 #: server/plrhand.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s"
-msgstr "Game: "
+msgstr "Game: %s"
 
 #: server/plrhand.c:324
 #, fuzzy
@@ -1532,27 +1606,30 @@ msgstr "Game: %sは%sを発見しました。"
 #: server/plrhand.c:345
 #, c-format
 msgid "%s discover %s"
-msgstr ""
+msgstr "%sは%sを発見しました"
 
+# yasu
 #: server/plrhand.c:351
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
-msgstr ""
+msgstr "Game: %s は Future Tech. %d.を発見しました。"
 
+# yasu
 #: server/plrhand.c:355
 #, c-format
 msgid "%s discover Future Tech %d"
-msgstr ""
+msgstr "%sは Future Tech %dを発見しました。"
 
 #: server/plrhand.c:473
 #, c-format
 msgid "Game: Technology goal is %s."
-msgstr "Game: 技術の目標は%sです。"
+msgstr "Game: 科学の目標は%sです。"
 
+# ama, yasu
 #: server/plrhand.c:540
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
-msgstr ""
+msgstr "Game: %2$sから Future Tech %1$d を得ました。"
 
 #: server/plrhand.c:543
 #, c-format
@@ -1574,9 +1651,10 @@ msgstr "Game: %2$s から %1$s を習得しました。"
 msgid "Game: %s discovered %s in the city."
 msgstr "Game: %s は都市で%sを発見しました。"
 
+# yasu
 #: server/plrhand.c:591
 msgid "Game: Cannot change rates before game start."
-msgstr ""
+msgstr "Game: ゲーム開始前に比率は変えられません。"
 
 #: client/gui-gtk/gamedlgs.c:244 client/gui-win32/ratesdlg.c:313
 #: server/plrhand.c:604
@@ -1611,78 +1689,90 @@ msgstr "Game: %sは%sを%sで治めるようになりました。"
 msgid "Game: The %s have incited a revolt!"
 msgstr "Game: %sは革命を促されました。"
 
+# yasu
 #: server/plrhand.c:738
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Game: 税金の割合が %s の最大値を超えました。修正しました。"
 
+# yasu
 #: server/plrhand.c:744
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Game: 科学の割合が %s の最大値を超えました。修正しました。"
 
+# yasu
 #: server/plrhand.c:750
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Game: 贅沢の割合が %s の最大値を超えました。修正しました。"
 
+# yasu
 #: server/plrhand.c:805
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
-msgstr ""
+msgstr "%s の絶え間ない挑発のため、上院はあなたの予算を通過させました。"
 
 #: server/plrhand.c:815
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Game: あなたの評判は%sになりました。"
 
+# yasu
 #: server/plrhand.c:819
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
-msgstr ""
+msgstr "Game:上院はあなたの行動をこれ以上支援するのをやめて、解散することにしました。"
 
+# yasu
 #: server/plrhand.c:876 server/plrhand.c:884
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
-msgstr ""
+msgstr "Game: %sと%sの外交状態はいま%sです。"
 
+# yasu
 #: server/plrhand.c:881
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
-msgstr ""
+msgstr "Game: %sは外交的同意を破棄した。"
 
+# yasu
 #: server/plrhand.c:1294
 #, c-format
 msgid "Removing player %s."
-msgstr "プレイヤー %s をやめさせます。"
+msgstr "プレイヤー %s を中止させます。"
 
+# yasu
 #: server/plrhand.c:1295
 msgid "Game: You've been removed from the game!"
-msgstr "Game: あなたはゲームやめさせられました。"
+msgstr "Game: あなたはゲームを中止させられました。"
 
+# yasu
 #: server/plrhand.c:1305
 #, c-format
 msgid "Game: %s has been removed from the game."
-msgstr "Game: %sはゲームをやめさせられました。"
+msgstr "Game: %sはゲームを中止させられました。"
 
 #: server/plrhand.c:1336 server/plrhand.c:1340
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
+# yasu
 #: server/plrhand.c:1723
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
-msgstr ""
+msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
+# yasu
 #: server/plrhand.c:1742
 #, c-format
 msgid "Game: %s declares allegiance to %s."
-msgstr ""
+msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
 #: server/plrhand.c:1765
 #, c-format
@@ -1923,9 +2013,10 @@ msgstr "%2d: %s%s %d点\n"
 msgid "Final Report:"
 msgstr "最終報告:"
 
+# yasu
 #: server/report.c:1403
 msgid "Progress Scores:"
-msgstr ""
+msgstr "発展スコア:"
 
 #: server/report.c:1404
 msgid "The Greatest Civilizations in the world."
@@ -1999,9 +2090,10 @@ msgstr "要塞"
 msgid "pop. pollution"
 msgstr ""
 
+# yasu
 #: server/rulesout.c:60
 msgid "trade reduced"
-msgstr ""
+msgstr "交易減少"
 
 #: server/rulesout.c:61
 msgid "airbases"
@@ -2011,15 +2103,17 @@ msgstr "飛行場"
 msgid "farmland"
 msgstr "農地"
 
+# yasu
 #: server/savegame.c:290
 #, c-format
 msgid ""
 "Number of starts (%d) are lower than max_players (%d), lowering max_players."
-msgstr ""
+msgstr "スタートの人数(%d)が最大プレーヤー(%d)より少ないです、最大プレーヤーを削減中。"
 
+# yasu
 #: server/spacerace.c:161
 msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Game: 宇宙船を発射するには首都が必要です。"
 
 #: server/spacerace.c:166
 msgid "Game: Your spaceship is already launched!"
@@ -2029,16 +2123,18 @@ msgstr "Game: 宇宙船は既に打ち上げられました!"
 msgid "Game: Your spaceship can't be launched yet!"
 msgstr "Game: 宇宙船はまだ打ち上げできません!"
 
+# yasu
 #: server/spacerace.c:180
 #, c-format
 msgid ""
 "Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
-msgstr ""
+msgstr "Game: %sは宇宙船を発射しました! %sにアルファケンタウリに着くと推測されます。"
 
+# yasu
 #: server/spacerace.c:199
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
-msgstr ""
+msgstr "Game: 宇宙船の行動を受け取りましたが、宇宙船がありません。"
 
 #: server/spacerace.c:208
 msgid "Game: You can't modify your spaceship after launch!"
@@ -2048,64 +2144,74 @@ msgstr "Game: 打ち上げ後に宇宙船を変更できません!"
 msgid "Game: You don't have any unplaced Space Structurals!"
 msgstr ""
 
+# yasu
 #: server/spacerace.c:222
 msgid "Game: That Space Structural would not be connected!"
-msgstr ""
+msgstr "Game: その宇宙構造物は接続できません。"
 
 #: server/spacerace.c:236 server/spacerace.c:255
 msgid "Game: You don't have any unplaced Space Components!"
 msgstr ""
 
+# yasu
 #: server/spacerace.c:241
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
-msgstr ""
+msgstr "Game: 宇宙船にはすでに最大限の燃料コンポーネントがあります。"
 
+# yasu
 #: server/spacerace.c:260
 msgid ""
 "Game: Your spaceship already has the maximum number of Propulsion Components!"
-msgstr ""
+msgstr "Game: 宇宙船にはすでに最大限の推進コンポーネントがあります。"
 
 #: server/spacerace.c:275 server/spacerace.c:295 server/spacerace.c:315
 msgid "Game: You don't have any unplaced Space Modules!"
 msgstr ""
 
+# yasu
 #: server/spacerace.c:280
 msgid ""
 "Game: Your spaceship already has the maximum number of Habitation Modules!"
-msgstr ""
+msgstr "Game: 宇宙船にはすでに最大限の居住モジュールがあります。"
 
+# yasu
 #: server/spacerace.c:300
 msgid ""
 "Game: Your spaceship already has the maximum number of Life Support Modules!"
-msgstr ""
+msgstr "Game: 宇宙船にはすでに最大限の生命維持モジュールがあります。"
 
+# yasu
 #: server/spacerace.c:320
 msgid ""
 "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr ""
+msgstr "Game: 宇宙船にはすでに最大限の太陽電池モジュールがあります。"
 
+# yasu
 #: server/spacerace.c:339
 #, c-format
 msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "Game: 首都からの誘導がないため、%sの宇宙船は失われました。"
 
+# yasu
 #: server/spacerace.c:373
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "Game: %sの宇宙船がアルファケンタウリに着きました。"
 
+# yasu
 #: server/srv_main.c:323
 #, c-format
 msgid ""
 "Game: Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
-msgstr ""
+msgstr "Game: 心配した市民が、%sとの停戦はまもなく終了すると指摘している。"
 
+# yasu
 #: server/srv_main.c:329
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-msgstr ""
+msgstr "Game: %sとの停戦は終了しました。以後、%sに対しては中立になります。"
 
 #: server/srv_main.c:485
 #, c-format
@@ -2125,33 +2231,37 @@ msgstr "ゲームは既に始まっています。"
 msgid "Starting game."
 msgstr "ゲームを開始しています。"
 
+# yasu
 #: server/srv_main.c:657
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
-msgstr ""
+msgstr "%d タイプのパケットを全滅または観戦中のプレーヤーから受け取りました。"
 
 #: server/srv_main.c:918
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr ""
 
+# yasu
 #: server/srv_main.c:926
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "空白ではない名前を選んで下さい。"
 
+# yasu, ama
 #: server/srv_main.c:948
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
-msgstr ""
+msgstr "他のプレイヤーが既に'%s'という名前を選んでいます。他の名前を選んでください。"
 
 #: server/srv_main.c:954
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%sは%sの支配者%sです。"
 
+# yasu, ama
 #: server/srv_main.c:981
 #, c-format
 msgid "No nations left: Removing player %s."
-msgstr ""
+msgstr "国が残ってません。プレイヤー %s を排除中。"
 
 #: server/srv_main.c:984
 msgid "Game: Sorry, there are no nations left."
@@ -2177,10 +2287,11 @@ msgstr "ようこそ %s サーバへ。このサーバは %s(ポート %d)で実行されています。"
 msgid "Welcome to the %s Server at port %d."
 msgstr "ようこそ %s サーバ(ポート %d)へ。"
 
+# yasu
 #: server/srv_main.c:1082
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr ""
+msgstr "ターン処理でゲームが止まってます。%sがターン終了するのを待っています。"
 
 #: server/srv_main.c:1125
 #, c-format
@@ -2197,10 +2308,11 @@ msgstr "Game: %s は AI プレイヤーとして加わりました。"
 msgid "Invalid name '%s'"
 msgstr "無効な名前 '%s'"
 
+# yasu
 #: server/srv_main.c:1217
 #, c-format
 msgid "Rejected connection from %s with invalid name."
-msgstr ""
+msgstr "%s からの接続は無効な名前のため拒否されました。"
 
 #: server/srv_main.c:1223
 #, c-format
@@ -2278,9 +2390,10 @@ msgstr "残念ながらこのゲームでは人間モードプレイヤーへの再接続はできません。"
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s は拒絶されました。人間プレイヤーへの再接続はできません。"
 
+# yasu
 #: server/srv_main.c:1320
 msgid "Sorry, someone else already has that name."
-msgstr ""
+msgstr "残念ながら、誰か他の人がその名前を使っています。"
 
 #: server/srv_main.c:1322
 #, c-format
@@ -2767,14 +2880,13 @@ msgstr "都市拡大に必要な食料"
 msgid "Percentage food lost when need aqueduct"
 msgstr "水道が必要な時に失なう食料の割合"
 
+# ama, yasu
 #: server/stdinhand.c:503
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
-msgstr ""
-"都市が拡張しようとしたのに水道(または下水道)が必要で拡張できなかった時、ここ"
-"で指定した割合だけ(穀物庫がある場合はその半分)食料備蓄から失います。"
+msgstr "都市が拡張しようとしたのに水道(または下水道)が必要で拡張できなかった場合、ここで指定した割合だけ(穀物庫がある場合はその半分)食料備蓄から失います。"
 
 #: server/stdinhand.c:510
 msgid "Maximum size of a city without trade"
@@ -2803,23 +2915,26 @@ msgstr ""
 msgid "City size before people become unhappy"
 msgstr "市民が不幸にならない都市規模"
 
+# yasu
 #: server/stdinhand.c:530
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
 msgstr ""
+"他の修正がない時、この規模になった時の最初の市民は普通状態で、それ以後の市民"
+"が不幸状態になります。cityfactor も参照。"
 
 #: server/stdinhand.c:538
-#, fuzzy
 msgid "Whether angry citizens are enabled"
-msgstr "どの接続を認めるか"
+msgstr "怒り市民の有効/無効"
 
 #: server/stdinhand.c:539
+#, fuzzy
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
-msgstr ""
+msgstr "civilization II のような怒り市民を導入します。怒り市民は"
 
 #: server/stdinhand.c:546
 msgid "Number of cities for higher unhappiness"
@@ -2845,15 +2960,17 @@ msgid ""
 "(default), it is overwritten by the current ruleset when the game starts."
 msgstr ""
 
+# yasu
 #: server/stdinhand.c:566
 msgid "Chance for conquered building destruction"
-msgstr ""
+msgstr "占領した建物が壊れる確率"
 
+# yasu
 #: server/stdinhand.c:567
 msgid ""
 "When a player conquers a city, each City Improvement has this percentage "
 "chance to be destroyed."
-msgstr ""
+msgstr "都市を占領した場合、その都市毎に破壊される確率が決まっています。"
 
 #: server/stdinhand.c:573
 msgid "Style of Civ rules"
@@ -2975,10 +3092,12 @@ msgstr ""
 "1 に設定したら、自国の部隊や都市の視野範囲内だけ見ることができます。監視され"
 "ていない場所の新しい都市や地形の変更をあなたは見ることができません。"
 
+# yasu
 #: server/stdinhand.c:661
 msgid "Chance in diplomat/spy contests"
-msgstr ""
+msgstr "外交官/スパイ競争の確率"
 
+# yasu, ama
 #: server/stdinhand.c:663
 #, no-c-format
 msgid ""
@@ -2989,6 +3108,12 @@ msgid ""
 "success for Diplomats and Spies.  Defending Spys are generally twice as "
 "capable as Diplomats, veteran units 50% more capable than non-veteran ones."
 msgstr ""
+"1人以上の外交官かスパイがいる都市に対して行動する外交官かスパイには、その様な"
+"防御者各々を打ち負かす外交確率というのを持っています。また、ミッションが成功"
+"した時にスパイが帰ってくるかどうか(外交官は帰還しません)の外交確率も持ってい"
+"ますし、外交官とスパイが成功するかどうかという基本的な確率も持っています。防"
+"御側のスパイは一般的に外交官の2倍、ベテランはそうでない部隊の1.5倍の能力があ"
+"ります。"
 
 #: server/stdinhand.c:674
 msgid "Whether to allow space race"
@@ -4990,14 +5115,12 @@ msgid "Workers"
 msgstr "労働者"
 
 #: client/cityrepdata.c:204
-#, fuzzy
 msgid "H/C/U/A"
-msgstr "幸/普/不"
+msgstr "幸/普/不/怒"
 
 #: client/cityrepdata.c:205
-#, fuzzy
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr "労働者: 幸福, 普通, 不幸"
+msgstr "労働者: 幸福, 普通, 不幸, 怒り"
 
 #: client/cityrepdata.c:207
 msgid "Special"
@@ -5430,7 +5553,7 @@ msgstr "* ゾーンコントロールを無視します。\n"
 
 #: client/helpdata.c:675
 msgid "* A non-military unit (cannot attack; no martial law).\n"
-msgstr "* 非戦闘部隊です。(攻撃できません。戦闘しない決まりです。)\n"
+msgstr "* 非戦闘部隊です。(攻撃できません。戦時法は適用されません。)\n"
 
 #: client/helpdata.c:679
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
@@ -5946,14 +6069,12 @@ msgid "Granary:"
 msgstr "穀物庫:"
 
 #: client/gui-gtk/citydlg.c:547
-#, fuzzy
 msgid "Change in:"
-msgstr "変更"
+msgstr "増減"
 
 #: client/gui-gtk/citydlg.c:548
-#, fuzzy
 msgid "Corruption:"
-msgstr "汚職"
+msgstr "汚職:"
 
 #: client/gui-gtk/citydlg.c:549 client/gui-mui/citydlg.c:1298
 msgid "Pollution:"
@@ -6025,19 +6146,16 @@ msgid "Units present"
 msgstr "都市にいる部隊"
 
 #: client/gui-gtk/citydlg.c:1071
-#, fuzzy
 msgid "_Activate present units"
-msgstr "部隊を起こす(_A)"
+msgstr "都市の部隊を起こす(_A)"
 
 #: client/gui-gtk/citydlg.c:1077
-#, fuzzy
 msgid "_Sentry idle units"
-msgstr "見張り番(_S)"
+msgstr "手空き部隊を見張り番へ(_S)"
 
 #: client/gui-gtk/citydlg.c:1083
-#, fuzzy
 msgid "_List present units"
-msgstr "都市にいる部隊"
+msgstr "都市にいる部隊をリスト(_L)"
 
 #: client/gui-gtk/citydlg.c:1108 client/gui-mui/citydlg.c:1326
 msgid "_Worklist"
@@ -6147,9 +6265,9 @@ msgid "Next time open"
 msgstr "次回表示"
 
 #: client/gui-gtk/citydlg.c:1439 client/gui-gtk/citydlg.c:1447
-#, fuzzy, c-format
+#, c-format
 msgid "City of %s"
-msgstr "都市 %s"
+msgstr ""
 
 #: client/gui-gtk/citydlg.c:1506
 msgid "Close dialog"
@@ -6280,9 +6398,10 @@ msgstr "取り消し(_C)"
 msgid "_Sentry unit"
 msgstr "見張り番(_S)"
 
+# yasu
 #: client/gui-gtk/citydlg.c:2519 client/gui-win32/citydlg.c:1683
 msgid "_Fortify unit"
-msgstr "防御強化部隊(_F)"
+msgstr "防御姿勢(_F)"
 
 #: client/gui-gtk/citydlg.c:2522 client/gui-win32/citydlg.c:1687
 msgid "Make new _homecity"
@@ -6445,9 +6564,9 @@ msgid "Sell It!"
 msgstr "売る"
 
 #: client/gui-gtk/citydlg.c:3301
-#, fuzzy, c-format
+#, c-format
 msgid "Sell (worth %d gold)"
-msgstr "金%2$dで%1$sを売りますか?"
+msgstr "売る(金%d)"
 
 #: client/gui-gtk/citydlg.c:3410 client/gui-win32/citydlg.c:1349
 #: data/Freeciv:524
@@ -7296,27 +7415,26 @@ msgid "None. "
 msgstr "なし"
 
 #: client/gui-gtk/happiness.c:354
-#, fuzzy
 msgid "Units: "
-msgstr "部隊"
+msgstr "部隊: "
 
 #: client/gui-gtk/happiness.c:358
 msgid "Martial law in effect ("
-msgstr ""
+msgstr "戦時法が有効("
 
 #: client/gui-gtk/happiness.c:362
 msgid "no maximum, "
-msgstr ""
+msgstr "限度なし,"
 
 #: client/gui-gtk/happiness.c:364
 #, c-format
 msgid "%d units maximum, "
-msgstr ""
+msgstr "最大 %d部隊,"
 
 #: client/gui-gtk/happiness.c:367
 #, c-format
 msgid "%d per unit). "
-msgstr ""
+msgstr "部隊につき%d)"
 
 #: client/gui-gtk/happiness.c:370
 msgid "Military units in the field may cause unhappiness. "
@@ -8197,9 +8315,10 @@ msgstr "鉄道を作る(_R)"
 msgid "Bu_ild Farmland"
 msgstr "農地を作る(_I)"
 
+# yasu
 #: client/gui-gtk/menu.c:1109
 msgid "_Fortify"
-msgstr "防御強化(_F)"
+msgstr "防御姿勢(_F)"
 
 #: client/gui-gtk/menu.c:1114
 msgid "_Paradrop"
@@ -9092,7 +9211,7 @@ msgstr "死の灰をきれいにする"
 #: client/gui-mui/mapclass.c:3076 client/gui-win32/menu.c:329
 #: client/gui-xaw/menu.c:168
 msgid "Fortify"
-msgstr "防御強化"
+msgstr "防御姿勢"
 
 #: client/gui-mui/gui_main.c:286 client/gui-xaw/menu.c:172
 msgid "Make Homecity"
@@ -9978,7 +10097,7 @@ msgstr "部隊を起こす"
 
 #: data/Freeciv:1169 data/Freeciv:1205
 msgid "Activate unit, close dialog"
-msgstr ""
+msgstr "部隊を起こし、ダイアログを閉じる"
 
 #: data/Freeciv:1173
 msgid "Sentry unit"
@@ -9986,7 +10105,7 @@ msgstr "見張り番"
 
 #: data/Freeciv:1177
 msgid "Fortify unit"
-msgstr "防御強化部隊"
+msgstr "防御姿勢"
 
 #: data/Freeciv:1181 data/Freeciv:1209
 msgid "Disband unit"
@@ -10513,22 +10632,28 @@ msgstr ""
 "ら作業リストへアイテムを挿入する, Delete = 作業リストから選択されているアイテ"
 "ムを削除する"
 
+# yasu
 #: data/helpdata.txt:530
 msgid "Strategy and tactics"
-msgstr ""
+msgstr "戦略と戦術"
 
+# yasu
 #: data/helpdata.txt:531
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
 msgstr ""
+"各々のゲームは違いますが、ほとんどのプレーヤーが従う基礎的な戦略があります。"
+"(特にゲーム初期)"
 
+# yasu
 #: data/helpdata.txt:534
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
-msgstr ""
+msgstr "これらのステップはサーバーオプションにより違いますが、一般に: "
 
+# yasu
 #: data/helpdata.txt:537
 msgid ""
 " 0. Choosing the first city site.\n"
@@ -10543,7 +10668,19 @@ msgid ""
 " 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
+" 0. 最初の都市の場所の選択\n"
+" 1. 自国の地形確認\n"
+" 2. 都市防御\n"
+" 3. 初めに作る部隊の決定\n"
+" 4. 農地改良\n"
+" 5. 都市建設地の決定\n"
+" 6. 都市管理\n"
+" 7. 世界の探索\n"
+" 8. いつも気をつけていなくてはいけない事\n"
+" 9. 自分自身のゲーム戦術を作る\n"
+"10. 他の人間との交渉(外交)\n"
 
+# yasu
 #: data/helpdata.txt:549
 msgid ""
 " 0. Choosing the first city site.\n"
@@ -10556,7 +10693,15 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
+" 0. 最初の都市の場所の選択\n"
+"\n"
+"    ゲームの初めにはまず、最初の都市を立てるのに適した場所を探し回りましょ"
+"う。まだ黄色い屋根の村を調べようとはしてはいけません。そこにはバーバリアンが"
+"いるかもしれません。資源に近いところか、海岸に近いところに都市を建てましょ"
+"う。最初に建てた都市が首都になることを忘れないで下さい! 立地条件とできるだけ"
+"早く作ることのバランスを取ることが大事です。"
 
+# yasu
 #: data/helpdata.txt:560
 msgid ""
 " 1. Mapping the countryside.\n"
@@ -10568,7 +10713,14 @@ msgid ""
 "If you started the game with an explorer unit, use that to explore, "
 "obviously!"
 msgstr ""
+" 1. 自国の地形確認\n"
+"\n"
+"    首都建設後、戦士部隊を作り始めます。これらの部隊は自国を探索しながら動き"
+"回るために使用できます。都市を無防備状態に置くのは非常に危険です。初めの戦士"
+"は都市内において、次の戦士に探索させるほうがいいでしょう。初めから探索者部隊"
+"がある場合は探索者に探索させるのがいいでしょう。"
 
+# yasu
 #: data/helpdata.txt:569
 msgid ""
 " 2. Defending the cities.\n"
@@ -10579,7 +10731,15 @@ msgid ""
 "defense.  The units most often used for defense are (in order of strength):  "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
+" 2. 都市防衛\n"
+"\n"
+"    この点において、いつも戦士部隊を都市内において都市を防御しましょう。より"
+"防御力の強い部隊を作れるようになるにつれて、古くなった部隊、新しい部隊に置き"
+"換えて、都市の防衛力が最大になるようにしましょう。防衛によく使われる部隊は下"
+"記のとおりです。(弱いものから順に)戦士、密集軍、槍隊、マスケット銃士、ライフ"
+"ル銃兵。"
 
+# yasu
 #: data/helpdata.txt:579
 #, no-c-format
 msgid ""
@@ -10589,7 +10749,12 @@ msgid ""
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
 msgstr ""
+"    ある政治体制では、都市内外にいる軍隊が不幸を減じたり、生じたりすることに"
+"注意してください。また、部隊が都市にいる場合、防御姿勢をとると同様に、50% 防"
+"御力が増えることにも注意してください。新しい都市ができた場合、上記リストから"
+"作成可能なもので最上の防御用部隊を作成し始めます。"
 
+# yasu
 #: data/helpdata.txt:586
 msgid ""
 " 3. Deciding which units to build first.\n"
@@ -10602,7 +10767,15 @@ msgid ""
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
 msgstr ""
+" 3. 初めに作る部隊の決定\n"
+"\n"
+"    1つか2つの戦士部隊を作成したら、開拓者を作り始めます。2番目の開拓者は道路"
+"を作ったり都市近くの農地を灌漑したりするのに使います。3番目の開拓者は新しい都"
+"市を作るのに使います。または、2番目の開拓者を新しい都市の建設に使い、3番目の"
+"開拓者を都市周囲の農地改善に使用してもいいでしょう。人口が多いと、生産性があ"
+"がり、かつ、研究のスピードも上がるということを覚えておいてください。"
 
+# yasu
 #: data/helpdata.txt:597
 msgid ""
 " 4. Building agriculture improvements.\n"
@@ -10612,7 +10785,13 @@ msgid ""
 "Settlers to improve the farmland. The land can be improved with roads, "
 "irrigation, mines, and others."
 msgstr ""
+" 4. 農地改良\n"
+"\n"
+"    各都市には食料を作ったり、工業生産や商業生産をもたらすために使われる農地"
+"があります。開拓者は農地の土地改良をしてその生産を増やすことができます。土地"
+"は道路や灌漑や資源化などで改良されます。"
 
+# yasu
 #: data/helpdata.txt:605
 msgid ""
 " 5. Deciding where to build cities.\n"
@@ -10624,7 +10803,15 @@ msgid ""
 "your opponents will find it harder to locate your city if you don't build it "
 "by the sea."
 msgstr ""
+" 5. 都市建設地の決定\n"
+"\n"
+"    都市建設に最も適している場所は好みの問題です。海に近い都市は敵に見つかり"
+"易いですが、海軍の港として機能します。(また、一般には海軍にはいずれ沿岸防御が"
+"必要になります。) 最高の戦術は両方にいくつか作ることでしょう。しかし、海のそ"
+"ばに都市を作らないでいると、敵はあなたの都市を見つけにくいということは覚えて"
+"おいて下さい。"
 
+# yasu
 #: data/helpdata.txt:614
 msgid ""
 " 6. Taking care of the cities.\n"
@@ -10636,21 +10823,36 @@ msgid ""
 "the start of the game, care should be taken to ensure that the citizens are "
 "employed so that they maximise growth, trade and production."
 msgstr ""
+" 6. 都市管理\n"
+"\n"
+"    各都市ウインドウには市民が並んでいる行があります。市民の数はその都市の人"
+"口によって決められています。都市をクリックすると、都市周囲の農地がどのように"
+"利用されているかがわかります。市民を農地に配分したり、科学者や芸人や徴税者に"
+"変えたりできます。特に、ゲーム序盤は都市成長や(工業)生産・交易が最大なるよう"
+"に配置するように気をつけてください。"
 
+# yasu
 #: data/helpdata.txt:624
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
 "be transferred to the other duties mentioned previously."
 msgstr ""
+"    もし食料を作りすぎているようなら、市民のいる農地をクリックすることで市民"
+"を農地から解放することができます。その場合、市民は既に述べた他の仕事に就くこ"
+"とになります。"
 
+# yasu
 #: data/helpdata.txt:629
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
 msgstr ""
+"    すべての市民を都市に集め農地の中心を右クリックすると、市民は食料を最大限"
+"に作るように再配置されます。"
 
+# yasu
 #: data/helpdata.txt:635
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
@@ -10658,7 +10860,12 @@ msgid ""
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
+"    都市管理の最も重要なルールは、不幸な市民より幸福な市民が少なくならないよ"
+"うにすることです。そのようにできていない都市には稲妻が表示されます。このよう"
+"なことが起こらないように気をつけてください。不幸な市民は何も生産しませんし、"
+"やがて反乱を起こします。"
 
+# yasu
 #: data/helpdata.txt:641
 msgid ""
 " 7. Exploring the world.\n"
@@ -10670,7 +10877,15 @@ msgid ""
 "it is truly a good idea to make a peace treaty and share the advances you "
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
+" 7. 世界の探索\n"
+"\n"
+"    軍で都市防衛を強くした後は、海のそばの都市でトライリームを作ります。トラ"
+"イリームを使って、敵や新しい土地を探して世界地図を作ります。孤島にいる場合"
+"は、軍にはあまり力をいれず、視野の拡大に力を入れましょう。敵の近くにいる場合"
+"は、和平条約を結び成し遂げた科学を分け合うのが実際にはよい方法でしょう。この"
+"ような場合、外交官は非常に有用で、後に十分に報われるでしょう。"
 
+# yasu
 #: data/helpdata.txt:651
 msgid ""
 " 8. Things to keep in mind.\n"
@@ -10683,7 +10898,17 @@ msgid ""
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
+" 8. いつも気をつけていなくてはいけない事\n"
+"\n"
+"  - 必要となる次の科学は何か\n"
+"\n"
+"  - 現在の税、贅沢、科学比は何か\n"
+"\n"
+"  - 条約はしばしば破られるので、防御をおろそかにしない\n"
+"\n"
+"  - いくつかの不思議は、ある科学の発展により古くなる"
 
+# yasu
 #: data/helpdata.txt:662
 msgid ""
 " 9. Making your own strategy for the game.\n"
@@ -10696,7 +10921,16 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
+" 9. 自分自身のゲーム戦術を作る\n"
+"\n"
+"    特にゲーム開始時に、ゲームをうまくプレイするのには、このような基本的な概"
+"念が役立ちます。しかし、改善していくには、いろいろな部隊や科学を勉強しなくて"
+"はいけません。練習、練習、練習です。Freeciv には多くのコツがあります。ですか"
+"ら、今まで同様のゲームをしたことがない方は、 Freeciv WWW pages (http://www."
+"freeciv.org/) で相談してみて下さい。\n"
+"ゲームのより多くの要領や、他のプレイヤーとの交流の詳しい方法があります。"
 
+# yasu
 #: data/helpdata.txt:673
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
@@ -10705,7 +10939,13 @@ msgid ""
 "additional diplomacy that you can take part in with other humans - and no, "
 "we are not talking about using spies and diplomats to incite and steal."
 msgstr ""
+" 10. 他の人間との交渉(外交)\n"
+"\n"
+"    人間と AI は様々な点で違いますが、もっとも決定的な違いは他の人間達と参加"
+"できる更なる外交です。- スパイや外交官に煽動や盗みをさせることを言っているの"
+"ではありません。"
 
+# yasu
 #: data/helpdata.txt:680
 msgid ""
 "    If you have established an embassy with another human player, then you "
@@ -10714,7 +10954,12 @@ msgid ""
 "you actually have an embassy (denoted by an X) and the other player is "
 "connected then a diplomacy menu will pop up."
 msgstr ""
+"    他の人間プレイヤーへ大使館を作っている場合、外交会談を行なうことができま"
+"す。ゲームメニューから、プレイヤーを選び、会談したいプレイヤーをクリックしま"
+"す。実際に大使館(X の印)があり相手プレーヤーが接続すれば、外交メニューが開き"
+"ます。"
 
+# yasu
 #: data/helpdata.txt:687
 msgid ""
 "    In this menu you can choose to:\n"
@@ -10727,6 +10972,15 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
+"    このメニューでは以下の項目が選べます。\n"
+"\n"
+"   - 地図の取引 (海図または全体の地図)\n"
+"\n"
+"   - 科学の取引\n"
+"\n"
+"   - 都市の取引\n"
+"\n"
+"   - 金銭の贈与"
 
 #: data/helpdata.txt:697
 msgid ""
@@ -10734,6 +10988,7 @@ msgid ""
 "city for gold - you can can consider this buying and selling."
 msgstr ""
 
+# yasu
 #: data/helpdata.txt:701
 msgid ""
 "    A couple of notes:\n"
@@ -10742,7 +10997,13 @@ msgid ""
 "\n"
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
+"    2つの注意事項:\n"
+"\n"
+"   - 首都は贈与できません\n"
+"\n"
+"   - 自分の地図で見えない都市を要求することはできません"
 
+# yasu
 #: data/helpdata.txt:707
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
@@ -10751,6 +11012,11 @@ msgid ""
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
 msgstr ""
+"     もちろん、その都市の所有者は都市をあなたへ贈与することができます。その場"
+"合、もらった都市周囲があなたの地図に表示されます。1つ大事なことは、その都市に"
+"属し都市外にいる全ての部隊も贈与されることです(ただし、他の都市にいる部隊を除"
+"く)。 ですから、自分が思っているよりも相手が有利にならないか気をつけて下さ"
+"い。"
 
 #: data/helpdata.txt:718
 msgid ""
@@ -10811,16 +11077,7 @@ msgid ""
 "Land units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
-msgstr ""
-"地上部隊は地上を移動します。地形の影響を受けて行動が阻まれてしまいますが、道"
-"路や鉄道があるなら逆に有利です。海を移動する方法は、適当な海上部隊で運搬する"
-"ことだけです。海上では、自分で攻撃、防御することはできません。運搬している海"
-"上部隊だけが頼りです。また、四種の部隊のうち、地上部隊だけがゾーンコントロー"
-"ルの影響を受けます。地上において防御強化を行なうことで 50%の防御ボーナスを得"
-"ます。都市内にいる地上部隊は防御強化をしているかどうかによらず、自動的にこの"
-"ボーナスを得ます。地上部隊が城壁なしの都市を攻撃して成功した時、都市の人口は "
-"1減ります。攻撃力がゼロの地上部隊は、非戦闘部隊です。非戦闘部隊には維持費がか"
-"からず、不幸への影響を持たず、敵部隊や敵都市へ攻撃できません。"
+msgstr "地上部隊は地上を移動します。地形の影響を受けて行動が阻まれてしまいますが、道路や鉄道があるなら逆に有利です。海を移動する方法は、適当な海上部隊で運搬することだけです。海上では、自分で攻撃、防御することはできません。運搬している海上部隊だけが頼りです。また、四種の部隊のうち、地上部隊だけがゾーンコントロール(ZOC)の影響を受けます。地上において防御姿勢をとることで 50%の防御ボーナスを得ます。都市内にいる地上部隊は防御姿勢をとっているかによらず、自動的にこのボーナスを得ます。地上部隊が城壁なしの都市を攻撃して成功した時、都市の人口は 1減ります。攻撃力が 0の地上部隊は非戦闘部隊です。非戦闘部隊には維持費がかからず、不幸への影響を持たず、敵部隊や敵都市へ攻撃できません。"
 
 #: data/helpdata.txt:780
 msgid ""
@@ -10890,17 +11147,7 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr ""
-"戦闘でダメージを受けた部隊は、移動しなかったターンに回復を計ります。通常、移"
-"動しなかった部隊はターンごとに体力1回復します。兵舍のある都市にいる地上部隊、"
-"港施設のある都市にいる海上(中)部隊、空港のある都市にいる空中部隊は、その都市"
-"で移動せずに過ごすことで失なった体力を完全に回復できます。それ以外の都市で過"
-"ごしたら、部隊の基本体力の1/3回復します。要塞の上で過ごしたら、通常の回復に加"
-"え、基礎体力の1/4回復します。防御強化を行なった部隊は、余分に体力を回復しま"
-"す。国際連合の不思議を持っていたら、毎ターンさらに体力2多く回復します。これは"
-"移動した部隊でも起こります。他には、都市でターンを終えなかったヘリコプター"
-"は、体力2を失ないます。ダメージを受けている見張り番部隊は、体力が全快すると起"
-"こされます。"
+msgstr "戦闘でダメージを受けた部隊は、移動しなかったターンに回復を計ります。通常、移動しなかった部隊はターンごとに体力1回復します。兵舍のある都市にいる地上部隊、港施設のある都市にいる海上(中)部隊、空港のある都市にいる空中部隊は、その都市で移動せずに過ごすことで失なった体力を完全に回復できます。それ以外の都市で過ごしたら、部隊の基本体力の1/3回復します。要塞の上で過ごしたら、通常の回復に加え、基礎体力の1/4回復します。防御姿勢をとっている部隊は、余分に体力を回復します。国際連合の不思議を持っていたら、毎ターンさらに体力2多く回復します。これは移動した部隊でも起こります。他には、都市でターンを終えなかったヘリコプターは、体力2を失ないます。ダメージを受けている見張り番部隊は、体力が全快すると起こされます。"
 
 #: data/helpdata.txt:823
 msgid ""
@@ -11009,11 +11256,12 @@ msgid ""
 "doubled."
 msgstr "- 防御側が要塞にいたら、その部隊の強さを二倍にします。"
 
+# yasu
 #: data/helpdata.txt:881
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - 最後に、防御側が陸上部隊で防御姿勢をとっているか都市にいる場合、強さが 1.5倍になります。"
 
 #: data/helpdata.txt:884
 msgid ""
@@ -11672,15 +11920,14 @@ msgid ""
 "Cathedrals, depending on ruleset), or converting part of your trade into "
 "luxuries."
 msgstr ""
-"多くの政治体制で、都市に軍ユニットがいることにより戦時法を適用して普通状態を"
-"創ることができます。しかし、共和制や民主制では軍ユニットは不幸の原因になりま"
-"す(詳細は政治体制参照)。このような場合、上記のような都市建造物は市民の不幸状"
-"態になんの効果もないということに注意して下さい。この場合の不幸は警察署や、関"
-"連した世界の不思議(J.S.バッハの大聖堂、癌の治療、シェイクスピアの劇場、そして"
-"もちろん婦人参政権。注：しかし、ミケランジェロの教会はこの場合には効果はあり"
-"ません。大聖堂の効果を２倍にする大聖堂としてみなされるからです。ただし、ルー"
-"ルセットによります。)の建設、または交易をより贅沢に使うことにより解消されま"
-"す。"
+"多くの政治体制で、都市に軍隊がいることにより戦時法を適用して普通状態を創るこ"
+"とができます。しかし、共和制や民主制では軍隊は不幸の原因になります(詳細は政治"
+"体制参照)。このような場合、上記のような都市建造物は市民の不幸状態になんの効果"
+"もないということに注意して下さい。この場合の不幸は警察署や、関連した世界の不"
+"思議(J.S.バッハの大聖堂、癌の治療、シェイクスピアの劇場、そしてもちろん婦人参"
+"政権。注: しかし、ミケランジェロの教会はこの場合には効果はありません。大聖堂"
+"の効果を2倍にする大聖堂としてみなされるからです。ただし、ルールセットによりま"
+"す。)の建設、または交易をより贅沢に使うことにより解消されます。"
 
 # yasu
 #: data/helpdata.txt:1289
@@ -11748,7 +11995,7 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
 msgstr ""
-"ヒント：敵が宇宙船を発射したら、すぐに多くの推進装置を付けたもっと早く着く軽"
+"ヒント: 敵が宇宙船を発射したら、すぐに多くの推進装置を付けたもっと早く着く軽"
 "い宇宙船を作りましょう。それ以外の唯一のオプションは敵の首都を略奪することで"
 "す。"
 
@@ -12888,6 +13135,7 @@ msgstr "Mr."
 msgid "Ms."
 msgstr "Ms."
 
+# yasu
 #: data/civ1/governments.ruleset:147 data/civ2/governments.ruleset:145
 #: data/default/governments.ruleset:146
 msgid ""
@@ -12912,6 +13160,25 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
+"無政府状態は認識できる政府がない状態です。市民は組織化されず非生産的で、税を"
+"払ったり研究するよりもできるだけ早く自分の収入を使ってしまいます。\n"
+"\n"
+"無政府状態は独裁政治よりやや汚職は少ないですが、やや不幸な状態をもたらしま"
+"す。\n"
+"\n"
+"開拓者は1ターン毎に1食物ポイントを消費します。地形や土地改良により3ポイント以"
+"上の食料または(工業)生産または交易をもたらす土地は、そのポイントが1ポイント減"
+"ります。(例えば、普通は食料を3ポイント生産する灌漑された草原は、無政府状態で"
+"は2ポイントしか生産しません。)(このペナルティーは都市が祝典しているとなくなり"
+"ます: 幸福参照)\n"
+"\n"
+"無政府状態では、都市の大きさと同じ数の軍隊が、維持のための工業生産ポイントを"
+"支払うことなく支援を受けることができます。残りの部隊は1ターン毎に1工業生産ポ"
+"イントが必要です。\n"
+"\n"
+"無政府状態下で戦時法を課することもできます。都市内にいる軍隊各々につき1人の市"
+"民が不幸な状態から満足な状態になります。(または、少なくとも、満足な状態のふり"
+"をするようになり、混乱を起こさないようになります。)"
 
 #: data/civ1/governments.ruleset:174 data/civ2/governments.ruleset:172
 #: data/default/governments.ruleset:173
@@ -13705,13 +13972,11 @@ msgid "Philosophy"
 msgstr "哲学"
 
 #: data/default/techs.ruleset:409
-#, fuzzy
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Game: 世界中の偉大な哲学者があなたの文明に加わりました。即座に科学を一つ得ま"
-"した。"
+"世界中の偉大な哲学者があなたの文明に加わりました。即座に科学を一つ得ました。"
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
 #: data/default/techs.ruleset:413
@@ -14176,7 +14441,7 @@ msgstr "この部隊はゲームの開始時から作ることができます。もっとも弱い部隊です。"
 #: data/civ1/units.ruleset:165 data/civ2/units.ruleset:169
 #: data/default/units.ruleset:169
 msgid "Phalanx"
-msgstr "方陣"
+msgstr "密集軍"
 
 #: data/civ1/units.ruleset:189 data/civ2/units.ruleset:193
 #: data/default/units.ruleset:193
@@ -14448,8 +14713,8 @@ msgstr "ヒント: 少しの巡航ミサイルで敵の船から自国を守ることができます。"
 msgid "Nuclear"
 msgstr "核兵器"
 
+# ama, yasu
 #: data/civ2/units.ruleset:1260 data/default/units.ruleset:1254
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -14467,20 +14732,13 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"あなたが必要な科学を持っていて、何れかのプレイヤーによってマンハッタン計画の"
-"不思議が建てられていたら、核兵器を製造できます。\n"
+"必要な科学を所有しており、何れかのプレイヤーがマンハッタン計画の不思議を建てていたら、核兵器を製造できます。\n"
 "\n"
-"衝突時、爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部"
-"隊も含まれます。都市に当たった時には大きさは半分になり、まわりの土地には死の"
-"灰が降ります。\n"
+"衝突時、爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部隊も含まれます。都市に当たった時には大きさは半分になり、まわりの土地には死の灰が降ります。\n"
 "\n"
-"ヒント 1: 海への核攻撃は死の灰を起こしません。これは敵の船を排除する最も効果"
-"のある(しかし高価な)方法です。\n"
+"ヒント 1: 海への核攻撃は死の灰を起こしません。これは敵の船を排除する最も効果のある(しかし高価な)方法です。\n"
 "\n"
-"ヒント 2: あなたは…だが、敵都市があまりにも強いというような状況で必要とする"
-"かもしれまん。核兵器を使う前に開拓者かエンジニアを集め、核爆発と同じターンに"
-"死の灰の後始末します。？？ これにより核の冬の危険を最小にできます。これでエコ"
-"核兵器!"
+"ヒント 2: 敵国に一斉に侵攻したが敵都市があまりにも強いというような状況があるかもしれません。核兵器を使う前に開拓者またはエンジニアで都市の傍に群れを作り、核爆発と同じターンに死の灰の後始末する準備をさせます。これにより核の冬の危険を最小限に食い止めます。地球にやさしい核攻撃！"
 
 #: data/civ1/units.ruleset:1232 data/civ2/units.ruleset:1281
 #: data/default/units.ruleset:1275
@@ -15305,9 +15563,10 @@ msgstr "スコットランド人"
 msgid "?plural:Scots"
 msgstr "スコットランド民族"
 
+# yasu
 #: data/nation/scottish.ruleset:15
 msgid "First Minister"
-msgstr ""
+msgstr "最初の首相"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
