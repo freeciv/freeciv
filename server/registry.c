@@ -25,6 +25,7 @@
   
   - Whitespace lines are ignored, as are lines where the first
   non-whitespace character is ";" (comment lines).
+  Optionally '#' can also be used for comments. (new)
   
   - A line with "[name]" labels the start of a section with
   that name; one of these must be the first non-comment line in the file.
@@ -40,9 +41,8 @@
     referenced in the following functions as "sectionname.subname".
     The section name should not contain any dots ('.'); the subname
     can, but they have no particular significance.
-    Spaces before the equals sign ('=') are included in the subname,
-    which again is probably not a good idea.  There can be whitespace
-    after the equals sign.
+    There can be optional whitespace before and/or after the equals
+    sign (partly new: previously only after).
 
   The above is the basic savefile format as originally implemented.
   The following modifications/extensions are by dwp:
@@ -311,7 +311,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       
       /* skip optional trailing whitespace and check for end or comma: */
       for(; *cptr && isspace(*cptr); cptr++);
-      if(*cptr=='\0' || *cptr==';') {
+      if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
 	end=1;
       } else if (*cptr!=',') {
 	flog(LOG_FATAL, "junk after integer in %s - line %d",
@@ -338,7 +338,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       
       /* skip optional trailing whitespace and check for end or comma: */
       for(; *cptr && isspace(*cptr); cptr++);
-      if(*cptr=='\0' || *cptr==';') {
+      if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
 	end=1;
       } else if (*cptr!=',') {
 	flog(LOG_FATAL, "junk after string in %s - line %d",
@@ -393,7 +393,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
     for(cptr=buffer; *cptr && isspace(*cptr); cptr++);
 
-    if(!*cptr || *cptr==';') {
+    if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
       continue;			/* blank line or comment line */
 
     } else if(*cptr=='[') {
@@ -456,12 +456,25 @@ int section_file_load(struct section_file *my_section_file, char *filename)
     } else {
       char *pname=cptr;
 
-      for(; *cptr && *cptr!='='; cptr++);
+      /* Name is ended by a space or equals sign: */
+      for(; *cptr && (*cptr!='=' && !isspace(*cptr)); cptr++);
       if(!*cptr) {
 	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	exit(1);
       }
-      *cptr++='\0';
+      if (*cptr=='=') {
+	*cptr++='\0';
+      } else {
+	*cptr++='\0';
+	/* find the equals sign: */
+	for(; *cptr && *cptr!='='; cptr++);
+	if(!*cptr) {
+	  flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
+	  exit(1);
+	}
+	cptr++;
+      }
+      /* skip any space after the equals: */
       for(; *cptr && isspace(*cptr); cptr++);
       
       if(isdigit(*cptr) || *cptr=='-' || *cptr=='\"') {
