@@ -228,8 +228,8 @@ int improvement_variant(enum improvement_type_id id);
 
 int could_player_build_improvement(struct player *p, enum improvement_type_id id);
 int can_player_build_improvement(struct player *p, enum improvement_type_id id);
-int can_player_build_unit_direct(struct player *p, enum unit_type_id id);
-int can_player_build_unit(struct player *p, enum unit_type_id id);
+int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
+int can_player_build_unit(struct player *p, Unit_Type_id id);
 
 
 /* city related improvement and unit functions */
@@ -237,8 +237,8 @@ int can_player_build_unit(struct player *p, enum unit_type_id id);
 int improvement_upkeep(struct city *pcity, int i); 
 int could_build_improvement(struct city *pcity, enum improvement_type_id id);
 int can_build_improvement(struct city *pcity, enum improvement_type_id id);
-int can_build_unit(struct city *pcity, enum unit_type_id id);
-int can_build_unit_direct(struct city *pcity, enum unit_type_id id);
+int can_build_unit(struct city *pcity, Unit_Type_id id);
+int can_build_unit_direct(struct city *pcity, Unit_Type_id id);
 int city_got_building(struct city *pcity,  enum improvement_type_id id); 
 int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id);
 int city_got_effect(struct city *pcity, enum improvement_type_id id);

@@ -41,7 +41,7 @@ int settler_eats(struct city *pcity);
 int is_building_other_wonder(struct city *pc);
 int built_elsewhere(struct city *pc, int wonder);
 void eval_buildings(struct city *pcity,int *values);
-int do_make_unit_veteran(struct city *pcity, enum unit_type_id id);
+int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_corruption(struct city *pcity, int trade);
 int set_city_shield_bonus(struct city *pcity);
 int city_shield_bonus(struct city *pcity);

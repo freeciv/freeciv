@@ -942,7 +942,7 @@ int can_player_build_improvement(struct player *p, enum improvement_type_id id)
 Whether given city can build given unit,
 ignoring whether unit is obsolete.
 *****************************************************************/
-int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
+int can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 {  
   struct player *p=city_owner(pcity);
   if (!unit_type_exists(id))
@@ -961,7 +961,7 @@ Whether player can build given unit somewhere,
 ignoring whether unit is obsolete and assuming the
 player has a coastal city.
 *****************************************************************/
-int can_player_build_unit_direct(struct player *p, enum unit_type_id id)
+int can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 {  
   if (!unit_type_exists(id))
     return 0;
@@ -976,7 +976,7 @@ int can_player_build_unit_direct(struct player *p, enum unit_type_id id)
 Whether given city can build given unit;
 returns 0 if unit is obsolete.
 *****************************************************************/
-int can_build_unit(struct city *pcity, enum unit_type_id id)
+int can_build_unit(struct city *pcity, Unit_Type_id id)
 {  
   if (!can_build_unit_direct(pcity, id))
     return 0;
@@ -989,7 +989,7 @@ int can_build_unit(struct city *pcity, enum unit_type_id id)
 Whether player can build given unit somewhere;
 returns 0 if unit is obsolete.
 *****************************************************************/
-int can_player_build_unit(struct player *p, enum unit_type_id id)
+int can_player_build_unit(struct player *p, Unit_Type_id id)
 {  
   if (!can_player_build_unit_direct(p, id))
     return 0;

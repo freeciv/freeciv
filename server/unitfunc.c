@@ -1069,14 +1069,14 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
 
 /* This is a wrapper */
 
-void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type, int make_veteran, int homecity_id, int moves_left){
+void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type, int make_veteran, int homecity_id, int moves_left){
   create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
 }
 
 /* This is the full call.  We don't want to have to change all other calls to
    this function to ensure the hp are set */
 
-void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id type, int make_veteran, int homecity_id, int moves_left, int hp_left)
+void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id type, int make_veteran, int homecity_id, int moves_left, int hp_left)
 {
   struct unit *punit;
   struct city *pcity;

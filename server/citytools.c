@@ -423,7 +423,7 @@ void eval_buildings(struct city *pcity,int *values)
 /**************************************************************************
 ...
 **************************************************************************/
-int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
+int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 {
   if (unit_flag(id,F_DIPLOMAT))
     return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);

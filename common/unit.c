@@ -54,7 +54,7 @@ static char *role_names[] = {
 /***************************************************************
 ...
 ***************************************************************/
-char *get_unit_name(enum unit_type_id id)
+char *get_unit_name(Unit_Type_id id)
 {
   struct unit_type *ptype;
   static char buffer[256];
@@ -455,7 +455,7 @@ int is_ground_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_ground_unittype(enum unit_type_id id)
+int is_ground_unittype(Unit_Type_id id)
 {
   return (unit_types[id].move_type == LAND_MOVING);
 }
@@ -463,7 +463,7 @@ int is_ground_unittype(enum unit_type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_air_unittype(enum unit_type_id id)
+int is_air_unittype(Unit_Type_id id)
 {
   return (unit_types[id].move_type == AIR_MOVING);
 }
@@ -471,7 +471,7 @@ int is_air_unittype(enum unit_type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_heli_unittype(enum unit_type_id id)
+int is_heli_unittype(Unit_Type_id id)
 {
   return (unit_types[id].move_type == HELI_MOVING);
 }
@@ -479,7 +479,7 @@ int is_heli_unittype(enum unit_type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_water_unit(enum unit_type_id id)
+int is_water_unit(Unit_Type_id id)
 {
   return (unit_types[id].move_type == SEA_MOVING);
 }
@@ -585,7 +585,7 @@ int is_hiding_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_flag(enum unit_type_id id, int flag)
+int unit_flag(Unit_Type_id id, int flag)
 {
   assert(flag>=0 && flag<F_LAST);
   return unit_types[id].flags & (1<<flag);
@@ -594,7 +594,7 @@ int unit_flag(enum unit_type_id id, int flag)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_has_role(enum unit_type_id id, int role)
+int unit_has_role(Unit_Type_id id, int role)
 {
   assert(role>=L_FIRST && role<L_LAST);
   return unit_types[id].roles & (1<<(role-L_FIRST));
@@ -603,7 +603,7 @@ int unit_has_role(enum unit_type_id id, int role)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_value(enum unit_type_id id)
+int unit_value(Unit_Type_id id)
 {
   return (unit_types[id].build_cost);
 }
@@ -612,12 +612,12 @@ int unit_value(enum unit_type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-char *unit_name(enum unit_type_id id)
+char *unit_name(Unit_Type_id id)
 {
   return (unit_types[id].name);
 }
 
-struct unit_type *get_unit_type(enum unit_type_id id)
+struct unit_type *get_unit_type(Unit_Type_id id)
 {
   return &unit_types[id];
 }
@@ -702,7 +702,7 @@ int can_unit_change_homecity(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id)
+int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
 {
   if (get_invention(pplayer, 
 		    unit_types[id].tech_requirement)!=TECH_KNOWN)
@@ -719,7 +719,7 @@ int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id)
   return id;
 }
 
-int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit_type_id to)
+int unit_upgrade_price(struct player *pplayer, Unit_Type_id from, Unit_Type_id to)
 {
   int total, build;
   build = unit_value(from)/2;
@@ -1075,7 +1075,7 @@ A unit_type doesn't exist if one of:
 - the unit_type has been flagged as removed by setting its
   tech_requirement to A_LAST.
 **************************************************************************/
-int unit_type_exists(enum unit_type_id id)
+int unit_type_exists(Unit_Type_id id)
 {
   if (id<0 || id>=U_LAST || id>=game.num_unit_types)
     return 0;
@@ -1087,7 +1087,7 @@ int unit_type_exists(enum unit_type_id id)
 Does a linear search of unit_types[].name
 Returns U_LAST if none match.
 **************************************************************************/
-enum unit_type_id find_unit_type_by_name(char *s)
+Unit_Type_id find_unit_type_by_name(char *s)
 {
   int i;
 
@@ -1105,18 +1105,18 @@ which unit types have given flag or role.
 For these functions flags and roles are considered to be in the same "space",
 and any "role" argument can also be a "flag".
 Only units which pass unit_type_exists are counted.
-Unit order is in terms of the order in enum unit_type_id.
+Unit order is in terms of the order in the units ruleset.
 **************************************************************************/
 static int first_init = 1;
 static int n_with_role[L_LAST];
-static enum unit_type_id *with_role[L_LAST];
+static Unit_Type_id *with_role[L_LAST];
 
 /**************************************************************************
 Do the real work for role_unit_precalcs, for one role (or flag), given by i.
 **************************************************************************/
-static void precalc_one(int i, int (*func_has)(enum unit_type_id, int))
+static void precalc_one(int i, int (*func_has)(Unit_Type_id, int))
 {
-  enum unit_type_id u;
+  Unit_Type_id u;
   int j;
 
   /* Count: */
@@ -1126,7 +1126,7 @@ static void precalc_one(int i, int (*func_has)(enum unit_type_id, int))
     }
   }
   if(n_with_role[i] > 0) {
-    with_role[i] = fc_malloc(n_with_role[i]*sizeof(enum unit_type_id));
+    with_role[i] = fc_malloc(n_with_role[i]*sizeof(Unit_Type_id));
     for(j=0, u=0; u<game.num_unit_types; u++) {
       if(unit_type_exists(u) && func_has(u, i)) {
 	with_role[i][j++] = u;
@@ -1176,7 +1176,7 @@ int num_role_units(int role)
 Return index-th unit with specified role/flag.
 Index -1 means (n-1), ie last one.
 **************************************************************************/
-enum unit_type_id get_role_unit(int role, int index)
+Unit_Type_id get_role_unit(int role, int index)
 {
   assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
   if (index==-1) index = n_with_role[role]-1;
@@ -1188,9 +1188,9 @@ enum unit_type_id get_role_unit(int role, int index)
 Return "best" unit this city can build, with given role/flag.
 Returns U_LAST if none match.
 **************************************************************************/
-enum unit_type_id best_role_unit(struct city *pcity, int role)
+Unit_Type_id best_role_unit(struct city *pcity, int role)
 {
-  enum unit_type_id u;
+  Unit_Type_id u;
   int j;
   
   assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));

@@ -21,16 +21,34 @@ struct city;
 struct government;
 struct Sprite;			/* opaque; client-gui specific */
 
-enum unit_type_id {
-  U_FIRST=0,
-  U_LAST=MAX_NUM_ITEMS
-  /*
-     U_LAST is a value which is guaranteed to be larger than all
-     actual unit_type values.  It is used as a flag value; it can
-     also be used for fixed allocations to ensure able to hold
-     full number of unit types.
-  */
-};
+typedef int Unit_Type_id;
+/*
+  Above typedef replaces old "enum unit_type_id" (since no longer
+  enumerate the unit types); keep as typedef to help code be
+  self-documenting.
+
+  It could potentially be some other type; "unsigned char" would be
+  natural, since there are already built-in assumptions that values
+  are not too large (less than U_LAST = MAX_NUM_ITEMS) since they must
+  fit in 8-bit unsigned int for packets; and normal values are always
+  non-negative.  But note sometimes use (-1) for obsoleted_by and some
+  related uses, though these use already plain int rather than
+  Unit_Type_id?  (Ideally, these should probably have used U_LAST as
+  the flag value instead of (-1).)
+  
+  Decided to just use 'int' for several reasons:
+  - "natural integer type" may be faster on some platforms
+    (size advantage of using smaller type probably negligible);
+  - avoids any potential problems with (-1) values as mentioned above;
+  - avoids imposing any more limitations that there are already.  */
+  
+#define U_LAST MAX_NUM_ITEMS
+/*
+  U_LAST is a value which is guaranteed to be larger than all
+  actual Unit_Type_id values.  It is used as a flag value;
+  it can also be used for fixed allocations to ensure able
+  to hold full number of unit types.
+*/
 
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE, 
@@ -64,7 +82,7 @@ struct unit_ai {
 };
 
 struct unit {
-  enum unit_type_id type;
+  Unit_Type_id type;
   int id;
   int owner;
   int x, y;                           
@@ -185,7 +203,7 @@ struct unit_type {
 
 extern struct unit_type unit_types[U_LAST];
 
-char *unit_name(enum unit_type_id id);
+char *unit_name(Unit_Type_id id);
 
 struct unit *unit_list_find(struct unit_list *This, int id);
 
@@ -201,7 +219,7 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 
 struct unit *find_unit_by_id(int id);
 
-char *get_unit_name(enum unit_type_id id);
+char *get_unit_name(Unit_Type_id id);
 
 int unit_move_rate(struct unit *punit);
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity);
@@ -220,25 +238,25 @@ void set_unit_activity_targeted(struct unit *punit,
 int can_unit_do_auto(struct unit *punit); 
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
-int unit_value(enum unit_type_id id);
+int unit_value(Unit_Type_id id);
 int is_military_unit(struct unit *this_unit);           /* !set !dip !cara */
 int is_ground_threat(struct player *pplayer, struct unit *punit);
 int is_square_threatened(struct player *pplayer, int x, int y);
 int is_field_unit(struct unit *this_unit);              /* ships+aero */
 int is_hiding_unit(struct unit *punit);
 void raise_unit_top(struct unit *punit);
-int is_water_unit(enum unit_type_id id);
+int is_water_unit(Unit_Type_id id);
 int is_sailing_unit(struct unit *punit);
 int is_air_unit(struct unit *punit);
-int is_air_unittype(enum unit_type_id id);
+int is_air_unittype(Unit_Type_id id);
 int is_heli_unit(struct unit *punit);
-int is_heli_unittype(enum unit_type_id id);
+int is_heli_unittype(Unit_Type_id id);
 int is_ground_unit(struct unit *punit);
-int is_ground_unittype(enum unit_type_id id);
+int is_ground_unittype(Unit_Type_id id);
 int can_unit_build_city(struct unit *punit);
 int can_unit_add_to_city(struct unit *punit);
 
-struct unit_type *get_unit_type(enum unit_type_id id);
+struct unit_type *get_unit_type(Unit_Type_id id);
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int is_transporter_with_free_space(struct player *pplayer, int x, int y);
@@ -255,13 +273,13 @@ void move_unit_list_to_tile(struct unit_list *units, int x, int y);
 void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);
 void transporter_min_cargo_to_unitlist(struct unit *ptran,
 				       struct unit_list *list);
-int unit_flag(enum unit_type_id id, int flag);
-int unit_has_role(enum unit_type_id id, int role);
-int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id);
-int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit_type_id to);
+int unit_flag(Unit_Type_id id, int flag);
+int unit_has_role(Unit_Type_id id, int role);
+int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
+int unit_upgrade_price(struct player *pplayer, Unit_Type_id from, Unit_Type_id to);
 
-int unit_type_exists(enum unit_type_id id);
-enum unit_type_id find_unit_type_by_name(char *s);
+int unit_type_exists(Unit_Type_id id);
+Unit_Type_id find_unit_type_by_name(char *s);
 
 enum unit_move_type unit_move_type_from_str(char *s);
 enum unit_flag_id unit_flag_from_str(char *s);
@@ -269,7 +287,7 @@ enum unit_role_id unit_role_from_str(char *s);
 
 void role_unit_precalcs(void);
 int num_role_units(int role);
-enum unit_type_id get_role_unit(int role, int index);
-enum unit_type_id best_role_unit(struct city *pcity, int role);
+Unit_Type_id get_role_unit(int role, int index);
+Unit_Type_id best_role_unit(struct city *pcity, int role);
 
 #endif  /* FC__UNIT_H */

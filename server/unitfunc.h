@@ -39,9 +39,9 @@ void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 void update_unit_activities(struct player *pplayer);
 void update_unit_activity(struct player *pplayer, struct unit *punit);
 
-void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
+void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
 		 int make_veteran, int homecity_id, int moves_left);
-void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id 
+void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id 
 		      type, int make_veteran, int homecity_id, int moves_left
 		      , int hp);
 void send_remove_unit(struct player *pplayer, int unit_id);
