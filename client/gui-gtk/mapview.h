@@ -35,8 +35,6 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);
 void put_one_tile_full(GdkDrawable *pm, int x, int y,
 		       int canvas_x, int canvas_y, int citymode);
-void pixmap_put_black_tile(GdkDrawable *pm,
-			   int canvas_x, int canvas_y);
 
 void pixmap_put_sprite_full(GdkDrawable *pixmap,
 			    int pixmap_x, int pixmap_y,

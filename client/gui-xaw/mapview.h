@@ -35,8 +35,6 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 void map_canvas_expose(Widget w, XEvent *event, Region exposed, 
 		       void *client_data);
 
-void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y);
-
 void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,
 			     XtPointer percent_ptr);
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,

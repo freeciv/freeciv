@@ -461,18 +461,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void pixmap_put_black_tile(GdkDrawable *pm,
-			   int canvas_x, int canvas_y)
-{
-  gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
-  gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-		     canvas_x, canvas_y,
-		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-}
-
-/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 void put_one_tile_full(GdkDrawable *pm, int x, int y,

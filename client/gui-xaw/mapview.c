@@ -716,18 +716,6 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y)
-{
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-
-  XFillRectangle(display, pm, fill_bg_gc,  
-		 canvas_x, canvas_y,
-		 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-}
-		     
-/**************************************************************************
-...
-**************************************************************************/
 static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
  				    struct Sprite *ssprite)
 {
