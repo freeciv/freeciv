@@ -63,8 +63,6 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 static bool update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y);
 
-struct city_name *misc_city_names;
-
 /****************************************************************
 Returns the priority of the city name at the given position,
 using its own internal algorithm.  Lower priority values are
@@ -277,33 +275,107 @@ by caller.
 *****************************************************************/
 char *city_name_suggestion(struct player *pplayer, int x, int y)
 {
-  char *name;
-  int i;
-  struct nation_type *nation = get_nation_by_plr(pplayer);
-  /* tempname must be static because it's returned below. */
-  static char tempname[MAX_LEN_NAME];
+  int i = 0, j;
+  bool nations_selected[game.nation_count];
+  Nation_Type_id nation_list[game.nation_count], n;
+  int queue_size;
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
+
+  /* This function follows a straightforward algorithm to look through
+   * nations to find a city name.
+   *
+   * We start by adding the player's nation to the queue.  Then we proceed:
+   * - Pick a random nation from the queue.
+   * - If it has a valid city name, use that.
+   * - Otherwise, add all parent and child nations to the queue.
+   * - If the queue is empty, add all remaining nations to it and continue.
+   *
+   * Variables used:
+   * - nation_list is a queue of nations to look through.
+   * - nations_selected tells whether each nation is in the queue already
+   * - queue_size gives the size of the queue (number of nations in it).
+   * - i is the current position in the queue.
+   * Note that nations aren't removed from the queue after they're processed.
+   * New nations are just added onto the end.
+   */
 
   freelog(LOG_VERBOSE, "Suggesting city name for %s at (%d,%d)",
 	  pplayer->name, x, y);
   
   CHECK_MAP_POS(x,y);
 
-  name = search_for_city_name(x, y, nation->city_names, pplayer);
-  if (name) {
-    return name;
-  }
+  memset(nations_selected, 0, sizeof(nations_selected));
 
-  name = search_for_city_name(x, y, misc_city_names, pplayer);
-  if (name) {
-    return name;
+  queue_size = 1;
+  nation_list[0] = pplayer->nation;
+  nations_selected[pplayer->nation] = TRUE;
+
+  while (i < game.nation_count) {
+    for (; i < queue_size; i++) {
+      struct nation_type *nation;
+      char *name;
+
+      {
+	/* Pick a random nation from the queue. */
+	const int which = i + myrand(queue_size - i);
+	const Nation_Type_id tmp = nation_list[i];
+
+	nation_list[i] = nation_list[which];
+	nation_list[which] = tmp;
+      }
+
+      nation = get_nation_by_idx(nation_list[i]);
+      name = search_for_city_name(x, y, nation->city_names, pplayer);
+
+      freelog(LOG_DEBUG, "Looking through %s.", nation->name);
+
+      if (name) {
+	return name;
+      }
+
+      /* Append the nation's parent nations into the search tree. */
+      for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
+	n = nation->parent_nations[j];
+	if (!nations_selected[n]) {
+	  nation_list[queue_size] = n;
+	  nations_selected[n] = TRUE;
+	  queue_size++;
+	  freelog(LOG_DEBUG, "Parent %s.", get_nation_by_idx(n)->name);
+	}
+      }
+
+      /* Append the nation's civil war nations into the search tree. */
+      for (j = 0; nation->civilwar_nations[j] != NO_NATION_SELECTED; j++) {
+	n = nation->civilwar_nations[j];
+	if (!nations_selected[n]) {
+	  nation_list[queue_size] = n;
+	  nations_selected[n] = TRUE;
+	  queue_size++;
+	  freelog(LOG_DEBUG, "Child %s.", get_nation_by_idx(n)->name);
+	}
+      }
+    }
+
+    /* Append all remaining nations. */
+    for (n = 0; n < game.nation_count; n++) {
+      if (!nations_selected[n]) {
+	nation_list[queue_size] = n;
+	nations_selected[n] = TRUE;
+	queue_size++;
+	freelog(LOG_DEBUG, "Misc nation %s.", get_nation_by_idx(n)->name);
+      }
+    }
   }
 
   for (i = 1; i <= num_tiles; i++ ) {
+    /* tempname must be static because it's returned below. */
+    static char tempname[MAX_LEN_NAME];
+
     my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
-    if (!game_find_city_by_name(tempname)) 
+    if (!game_find_city_by_name(tempname)) {
       return tempname;
+    }
   }
   
   /* This had better be impossible! */

@@ -2427,8 +2427,28 @@ static void load_ruleset_nations(struct section_file *file)
     }
   }
 
-  /* read miscellaneous city names */
-  misc_city_names = load_city_name_list(file, "misc.cities", "");
+  /* Calculate parent nations.  O(n^2) algorithm. */
+  for (i = 0; i < game.nation_count; i++) {
+    Nation_Type_id parents[game.nation_count];
+    int count = 0;
+
+    pl = get_nation_by_idx(i);
+    for (j = 0; j < game.nation_count; j++) {
+      struct nation_type *p2 = get_nation_by_idx(j);
+
+      for (k = 0; p2->civilwar_nations[k] != NO_NATION_SELECTED; k++) {
+	if (p2->civilwar_nations[k] == i) {
+	  parents[count] = j;
+	  count++;
+	}
+      }
+    }
+
+    assert(sizeof(parents[0]) == sizeof(*pl->parent_nations));
+    pl->parent_nations = fc_malloc((count + 1) * sizeof(parents[0]));
+    memcpy(pl->parent_nations, parents, count * sizeof(parents[0]));
+    pl->parent_nations[count] = NO_NATION_SELECTED;
+  }
 
   free(sec);
   section_file_check_unused(file, filename);

@@ -77,9 +77,11 @@ struct nation_type {
   char *class;				/* may be empty */
   char *legend;				/* may be empty */
 
-  /* NO_NATION_SELECTED-terminated list of index of the nations that can fork
-   * from this one.  Server only. */
-  Nation_Type_id *civilwar_nations;                
+  /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of
+   * the nations that can fork from this one.  parent_nations is the inverse
+   * of this array.  Server only. */
+  Nation_Type_id *civilwar_nations;
+  Nation_Type_id *parent_nations;
 
   /* untranslated copies: */
   char name_orig[MAX_LEN_NAME];

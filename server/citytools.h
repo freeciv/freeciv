@@ -86,7 +86,6 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 			  int x, int y, bool notify_player);
 char *city_name_suggestion(struct player *pplayer, int x, int y);
-extern struct city_name *misc_city_names;
 
 
 bool city_can_work_tile(struct city *pcity, int city_x, int city_y);

@@ -65,5 +65,3 @@ options="1.9"
 ; barbarians MUST go last
 ;
 *include "nation/barbarian.ruleset"
-
-*include "nation/misc_cities.ruleset"
