@@ -397,8 +397,8 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
 
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
-  # Make sure to set all fields here (even the unused ones)
-  UINT8 specialists[SP_MAX];
+  UINT8 specialists_size;
+  UINT8 specialists[SP_MAX:specialists_size];
 
   SINT16 surplus[O_MAX];
   UINT16 waste[O_MAX];

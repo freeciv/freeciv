@@ -1524,7 +1524,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
     packet->ppl_angry[i]=pcity->ppl_angry[i];
   }
-  memset(packet->specialists, 0, sizeof(*(packet->specialists)) * SP_MAX);
+  /* The number of data in specilists[] array */
+  packet->specialists_size = SP_COUNT;
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];
   } specialist_type_iterate_end;
