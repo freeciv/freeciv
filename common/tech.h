@@ -45,12 +45,12 @@ enum tech_flag_id {
   TF_BOAT_FAST,  /* all see units get one extra move point */
   TF_BRIDGE,    /* "Settler" unit types can build bridges over rivers */
   TF_RAILROAD,  /* "Settler" unit types can build rail roads */
-  TF_FARMLAND,  /* "Settler" unit types can build farmland */
   TF_FORTRESS,  /* "Settler" unit types can build fortress */
   TF_POPULATION_POLLUTION_INC,  /* Increase the pollution factor created by popultaion by one */
   TF_TRADE_REVENUE_REDUCE, /* When known by the player establishing a trade route 
                               reduces the initial revenue by cumulative factors of 2/3 */
   TF_AIRBASE,   /* "Airbase" unit types can build Airbases */
+  TF_FARMLAND,  /* "Settler" unit types can build farmland */
   TF_LAST
 };
 
