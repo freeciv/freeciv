@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2000-02-10 17:44-0500\n"
+"POT-Creation-Date: 2000-02-14 18:54+0000\n"
 "PO-Revision-Date: 2000-01-26 14:00+0000\n"
 "Last-Translator: Vasco Costa <vasc@camoes.rnl.ist.utl.pt>\n"
 "Language-Team: \n"
@@ -339,17 +339,16 @@ msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Jogo: Os %s pararam de construir %s em %s."
 
 #: server/cityhand.c:550
-#, fuzzy
 msgid " from the worklist"
-msgstr "da lista de tarefas"
+msgstr " da lista de tarefas"
 
 #: server/cityhand.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Jogo: %s está a construir %s %s."
+msgstr "Jogo: %s está a construir %s%s."
 
 #: server/cityhand.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s."
 msgstr "Jogo: %s está a construir %s"
 
@@ -445,19 +444,17 @@ msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Jogo: Fome receada em %s, perderam-se %s!"
 
 #: server/cityturn.c:988 server/cityturn.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr ""
-"Jogo: %s não pode contruir %s da lista de tarefas; %s já não se encontra "
-"dísponivel.  Item eliminado..."
+msgstr "Jogo: %s não pode contruir %s da lista de tarefas.  Item eliminado..."
 
 #: server/cityturn.c:1007 server/cityturn.c:1047
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
-"Jogo: %s não pode contruir %s da lista de tarefas; %s já não se encontra "
+"Jogo: %s não pode contruir %s da lista de tarefas; tecn. já não se encontra "
 "dísponivel.  Item eliminado..."
 
 #: server/cityturn.c:1015 server/cityturn.c:1055 server/cityturn.c:1156
@@ -608,39 +605,32 @@ msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr ""
 
 #: server/civserver.c:245
-#, fuzzy
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
-msgstr "  -f, --file F\t\tLer jogo gravado F\n"
+msgstr "  -f, --file FICHEIRO\t\tLer jogo gravado FICHEIRO\n"
 
 #: server/civserver.c:246
-#, fuzzy
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-msgstr "  -p, --port N\tliga ao porto N\n"
+msgstr "  -p, --port PORTO\tliga ao porto PORTO\n"
 
 #: server/civserver.c:247
-#, fuzzy
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
-msgstr "  -g --gamelog F\tUsa F como ficheiro de registo\n"
+msgstr "  -g --gamelog FICHEIRO\tUsa FICHEIRO como para o registo do jogo\n"
 
 #: client/civclient.c:106 server/civserver.c:248
-#, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr "  -l, --log F\t\tUsa F como ficheiro de registo\n"
+msgstr "  -l, --log FICHEIRO\t\tUsa FICHEIRO como para o registo\n"
 
 #: server/civserver.c:249
-#, fuzzy
 msgid "  -m, --meta\t\tSend info to metaserver\n"
-msgstr "  -m, --meta\t\tManda informação para o metaservidor\n"
+msgstr "  -m, --meta\t\tEnvia informação para o metaservidor\n"
 
 #: server/civserver.c:250
-#, fuzzy
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr "  -M, --Metaserver\tMuda morada do Metaservidor.\n"
+msgstr "  -M, --Metaserver MORADA\tMuda morada do Metaservidor para MORADA.\n"
 
 #: server/civserver.c:251
-#, fuzzy
 msgid "  -s, --server HOST\tList this server as host HOST\n"
-msgstr "  -s, --server H\tLista este servidor como H\n"
+msgstr "  -s, --server SERVIDOR\tLista este servidor como SERVIDOR\n"
 
 #: client/civclient.c:116 server/civserver.c:253
 msgid ""
@@ -3203,7 +3193,7 @@ msgstr ""
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr ""
 
-#: server/unitfunc.c:767 server/unithand.c:1246
+#: server/unitfunc.c:767 server/unithand.c:1253
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -3400,12 +3390,12 @@ msgid "Game: You lost a%s %s under an attack from %s's %s."
 msgstr ""
 
 #: server/unitfunc.c:2467
-#, fuzzy, c-format
+#, c-format
 msgid "%sat %s"
 msgstr "%sem %s"
 
 #: server/unitfunc.c:2469
-#, fuzzy, c-format
+#, c-format
 msgid "%sin %s"
 msgstr "%sem %s"
 
@@ -3623,32 +3613,32 @@ msgid ""
 "and research."
 msgstr ""
 
-#: server/unithand.c:1166
+#: server/unithand.c:1173
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr ""
 
-#: server/unithand.c:1168
+#: server/unithand.c:1175
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr ""
 
-#: server/unithand.c:1188
+#: server/unithand.c:1195
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr ""
 
-#: server/unithand.c:1192
+#: server/unithand.c:1199
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr ""
 
-#: server/unithand.c:1203
+#: server/unithand.c:1210
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr ""
 
-#: server/unithand.c:1208
+#: server/unithand.c:1215
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr ""
@@ -3824,19 +3814,16 @@ msgid "(Stock,Target,Turns,Buy)"
 msgstr ""
 
 #: client/civclient.c:107
-#, fuzzy
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr "  -name N\tUsa N como nome\n"
+msgstr "  -n, --name NOME\tUsa NOME como nome\n"
 
 #: client/civclient.c:108
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr "  -p, --port N\tliga ao porto N\n"
+msgstr "  -p, --port PORTO\tLiga ao porto PORTO\n"
 
 #: client/civclient.c:109
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr "  -server S\tLiga ao servidor em S\n"
+msgstr "  -s, --server SERVIDOR\tLiga ao servidor em SERVIDOR\n"
 
 #: client/civclient.c:110
 msgid "  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"
@@ -3847,14 +3834,13 @@ msgid "  -s, --sound FILE\tRead sound information from FILE\n"
 msgstr ""
 
 #: client/civclient.c:114
-#, fuzzy
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -metaserver A\tLiga ao metaservidor em A\n"
+msgstr "  -m, --metaserver SERVIDOR\tLiga ao metaservidor em SERVIDOR\n"
 
 #: client/civclient.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "opções de ficheiro: %s"
+msgstr "Opção não reconhecida: \"%s\"\n"
 
 #: client/civclient.c:335
 msgid "Received unknown packet from server!"
@@ -4427,9 +4413,8 @@ msgstr ""
 
 #. E_UPRISING
 #: client/options.c:105
-#, fuzzy
 msgid "Worklist Events          "
-msgstr "Eventos Espaciais"
+msgstr "Eventos da Lista de Tarefas"
 
 #: client/options.c:167
 msgid "Cannot find your home directory"
@@ -4684,9 +4669,9 @@ msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d vezes"
 
 #: client/gui-gtk/citydlg.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/XXX XXX turns"
-msgstr "%3d/%3d %3d vezes"
+msgstr "%3d/XXX XXX vezes"
 
 #: client/gui-gtk/citydlg.c:1000
 msgid "(list empty)"
@@ -5870,9 +5855,8 @@ msgid "_Find City"
 msgstr "Encontra _Cidade"
 
 #: client/gui-gtk/menu.c:506
-#, fuzzy
 msgid "Work_lists"
-msgstr "Desprezáveis"
+msgstr "Listas de Tarefas"
 
 #: client/gui-gtk/menu.c:510 client/gui-xaw/menu.c:129
 msgid "Revolution"
@@ -6449,9 +6433,8 @@ msgid "Available targets"
 msgstr ""
 
 #: client/gui-gtk/wldlg.c:317
-#, fuzzy
 msgid "Production worklist"
-msgstr "Produção"
+msgstr "Lista de tarefas de produção"
 
 #: client/gui-gtk/wldlg.c:368 data/Freeciv:2057
 #, fuzzy
@@ -6514,19 +6497,19 @@ msgid ""
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:316
-#, fuzzy, c-format
+#, c-format
 msgid " %3d/XXX XXX turns "
-msgstr "%3d/%3d %3d vezes"
+msgstr " %3d/XXX XXX vezes "
 
 #: client/gui-xaw/citydlg.c:321
-#, fuzzy, c-format
+#, c-format
 msgid " %3d/%3d %3d turn "
-msgstr "%3d/%3d %3d vezes"
+msgstr " %3d/%3d %3d vezes "
 
 #: client/gui-xaw/citydlg.c:322
-#, fuzzy, c-format
+#, c-format
 msgid " %3d/%3d %3d turns "
-msgstr "%3d/%3d %3d vezes"
+msgstr " %3d/%3d %3d vezes "
 
 #: client/gui-xaw/citydlg.c:336
 msgid "(is empty)"
@@ -6647,9 +6630,8 @@ msgid "Find City"
 msgstr ""
 
 #: client/gui-xaw/menu.c:127 data/Freeciv:1891
-#, fuzzy
 msgid "Worklists"
-msgstr "Desprezáveis"
+msgstr "Listas de tarefas"
 
 #: client/gui-xaw/menu.c:169
 msgid "Go/Airlift to City"
@@ -6815,13 +6797,12 @@ msgid "Rename worklist"
 msgstr ""
 
 #: data/Freeciv:2026
-#, fuzzy
 msgid "Production Worklist"
-msgstr "Produção"
+msgstr "Lista de tarefas de produção"
 
 #: data/Freeciv:2093
 msgid "  Ok  "
-msgstr ""
+msgstr "  Ok  "
 
 #: data/Freeciv:2111
 msgid "Show future targets:"
@@ -6857,9 +6838,8 @@ msgid " Buy "
 msgstr ""
 
 #: data/Freeciv:2929
-#, fuzzy
 msgid "Worklist"
-msgstr "_Lista de Tarefas"
+msgstr "Lista de Tarefas"
 
 #: data/Freeciv:2931
 msgid "Supported units:"
@@ -7241,7 +7221,7 @@ msgstr ""
 "    Tenha em mente que com certos tipos de governo, as unidades militares "
 "dentro ou fora de cidades podem criar ou reduzir o descontentamento. "
 "Recorde-se também que quando uma unidade se encontra dentro de uma cidade "
-"ela recebe um bónus defensivo de 50% como se estivesse fortificada.  Quando "
+"ela recebe um bónus defensivo de 50% como se estivesse fortificada. Quando "
 "uma nova cidade é contruída, a cidade começa por produzir a melhor unidade "
 "defensiva disponível de acordo com a lista anteriormente mencionada."
 
@@ -8052,9 +8032,8 @@ msgstr ""
 "governo bem como dos melhoramentos da cidade e das maravilhas."
 
 #: data/helpdata.txt:1028
-#, fuzzy
 msgid " Terrain Alterations"
-msgstr "Refrigeração"
+msgstr " Alterações no Terreno"
 
 #: data/helpdata.txt:1029
 msgid ""
@@ -9249,12 +9228,11 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:802
 msgid "Gives all sea units 1 additional movement point."
-msgstr ""
+msgstr "Dá a todas as unidades marítimas 1 ponto de movimento adicional."
 
 #: data/civ1/buildings.ruleset:834
-#, fuzzy
 msgid "Double effects of Cathedrals."
-msgstr "Reduz o efeito das Catedrais.\n"
+msgstr "Duplica o efeito das Catedrais."
 
 #: data/civ1/buildings.ruleset:877
 #, c-format
@@ -10083,24 +10061,20 @@ msgid "?plural:Argentines"
 msgstr "?plural:Argentinos"
 
 #: data/default/nations.ruleset:1363
-#, fuzzy
 msgid "Canadian"
-msgstr "Indiano"
+msgstr "Canadiano"
 
 #: data/default/nations.ruleset:1364
-#, fuzzy
 msgid "?plural:Canadians"
-msgstr "?plural:Indianos"
+msgstr "?plural:Canadianos"
 
 #: data/default/nations.ruleset:1398
-#, fuzzy
 msgid "Ukrainian"
-msgstr "Cartaginês"
+msgstr "Ucraniano"
 
 #: data/default/nations.ruleset:1399
-#, fuzzy
 msgid "?plural:Ukrainians"
-msgstr "?plural:Cartagineses"
+msgstr "?plural:Ucranianos"
 
 #: data/default/nations.ruleset:1406
 #, fuzzy
@@ -10108,24 +10082,20 @@ msgid "Hetman"
 msgstr "Alemão"
 
 #: data/default/nations.ruleset:1429
-#, fuzzy
 msgid "Lithuanian"
-msgstr "Cartaginês"
+msgstr "Lituano"
 
 #: data/default/nations.ruleset:1430
-#, fuzzy
 msgid "?plural:Lithuanians"
-msgstr "?plural:Cartagineses"
+msgstr "?plural:Lituanos"
 
 #: data/default/nations.ruleset:1437
-#, fuzzy
 msgid "Great Duke"
-msgstr "Grandiosos"
+msgstr "Grão Duque"
 
 #: data/default/nations.ruleset:1437
-#, fuzzy
 msgid "Great Duchess"
-msgstr "Grande Chefe"
+msgstr "Grã Duquesa"
 
 #: data/default/nations.ruleset:1462
 msgid "Olympic"
@@ -10837,6 +10807,17 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
+"Os Engenheiros são semelhantes aos Colonos, mas eles trabalham e movem-se ao "
+"dobro da velocidade.  Os Engenheiros também podem executar transformações "
+"radicais no terreno (por exemplo converter Tundra em Deserto) que estão para "
+"além das capacidades dos Colonos.\n"
+"\n"
+"DICA 1:  Converta os Colonos em Engenheiros quando possível, pois os "
+"Engenheiros requerem os mesmos recursos que os Colonos.\n"
+"\n"
+"DICA 2:  Se conseguir construir a Oficina do Leonardo, pesquise Explosivos "
+"antes de a Oficina se tornar obsoleta.  Deste modo, os seus Colonos serão "
+"convertidos gratuitamente."
 
 #: data/civ2/units.ruleset:139 data/default/units.ruleset:139
 msgid "Warriors"
@@ -10847,6 +10828,8 @@ msgstr "Guerreiros"
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
+"Esta unidade pode ser construída desde o ínicio do jogo.  É a unidade mais "
+"fraca."
 
 #: data/civ1/units.ruleset:161 data/civ2/units.ruleset:166
 #: data/default/units.ruleset:166
@@ -10896,6 +10879,16 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"Alguns Guerrilheiros são-lhe providenciados gratuitamente quando um inimigo "
+"lhe conquista uma cidade, mas apenas sob as seguintes condições:\n"
+"\n"
+" - Pelo menos 1 jogador conhece a Guerra de Guerrilha.\n"
+"\n"
+" - Você é o jogador que construíu originalmente a cidade.\n"
+"\n"
+" - Você conhece o Comunismo e a Pólvora.\n"
+"\n"
+" - Você tem um governo Democrático ou Comunista."
 
 #: data/civ1/units.ruleset:323 data/civ2/units.ruleset:340
 #: data/default/units.ruleset:340
