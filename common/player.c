@@ -759,3 +759,32 @@ bool are_diplstates_equal(const struct player_diplstate *pds1,
   return (pds1->type == pds2->type && pds1->turns_left == pds2->turns_left
 	  && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel);
 }
+
+/***************************************************************************
+  Return the number of pplayer2's visible units in pplayer's territory,
+  from the point of view of pplayer.  Units that cannot be seen by pplayer
+  will not be found (this function doesn't cheat).
+***************************************************************************/
+int player_in_territory(struct player *pplayer, struct player *pplayer2)
+{
+  int in_territory = 0;
+
+  /* This algorithm should work at server or client.  It only returns the
+   * number of visible units (a unit can potentially hide inside the
+   * transport of a different player).
+   *
+   * Note this may be quite slow.  An even slower alternative is to iterate
+   * over the entire map, checking all units inside the player's territory
+   * to see if they're owned by the enemy. */
+  unit_list_iterate(pplayer2->units, punit) {
+    /* Get the owner of the tile/territory. */
+    struct player *owner = map_get_owner(punit->x, punit->y);
+
+    if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
+      /* Found one! */
+      in_territory += 1;
+    }
+  } unit_list_iterate_end;
+
+  return in_territory;
+}
