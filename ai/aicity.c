@@ -117,11 +117,13 @@ void ai_manage_buildings(struct player *pplayer)
   city_list_iterate_end;
 
 /* this is a weird place to put tech advice */
-  for (i = 0; i < B_LAST; i++) {
-    j = improvement_types[i].tech_requirement;
-    if (get_invention(pplayer, j) != TECH_KNOWN)
-      pplayer->ai.tech_want[j] += values[i];
-  }
+  if (pplayer->government > G_DESPOTISM) {
+    for (i = 0; i < B_LAST; i++) {
+      j = improvement_types[i].tech_requirement;
+      if (get_invention(pplayer, j) != TECH_KNOWN)
+        pplayer->ai.tech_want[j] += values[i];
+    }
+  } /* tired of researching pottery when we need to learn Republic!! -- Syela */
 
   if (!game.global_advances[A_PHILOSOPHY])
     pplayer->ai.tech_want[A_PHILOSOPHY] *= 2; /* this probably isn't right -- Syela */
@@ -538,6 +540,7 @@ int ai_choose_defender_limited(struct city *pcity, int n)
   int best= 0;
   int bestid = 0;
   int walls = 1; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
+  int isdef = assess_defense(pcity);
 
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
     m = unit_types[i].move_type;
@@ -545,7 +548,7 @@ int ai_choose_defender_limited(struct city *pcity, int n)
         (m == LAND_MOVING || m == SEA_MOVING)) {
       j = unit_desirability(i, 1);
       j *= j;
-      if (unit_flag(i, F_FIELDUNIT)) j >>= 1; /* WAG, but I need something -- Syela */
+      if (unit_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* Experimenting. -- Syela */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
       if (j > best || (j == best && get_unit_type(i)->build_cost <=
                                get_unit_type(bestid)->build_cost)) {
