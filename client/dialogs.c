@@ -24,7 +24,6 @@
 #include <X11/Xaw/Toggle.h>     
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
-#include <X11/Xaw/Dialog.h>
 #include <X11/Xaw/SmeBSB.h>
 
 #include <dialogs.h>
@@ -55,7 +54,6 @@ Widget races_toggles[14], races_name;
 
 /******************************************************************/
 Widget spy_tech_shell;
-Widget spy_tech_label;
 Widget spy_advances_list, spy_advances_list_label;
 Widget spy_steal_command;
 
@@ -65,7 +63,6 @@ int steal_advance = 0;
 
 /******************************************************************/
 Widget spy_sabotage_shell;
-Widget spy_sabotage_label;
 Widget spy_improvements_list, spy_improvements_list_label;
 Widget spy_sabotage_command;
 
@@ -87,7 +84,6 @@ Widget unit_select_dialog_shell;
 Widget unit_select_form;
 Widget unit_select_commands[100];
 Widget unit_select_labels[100];
-Widget unit_select_close_command;
 Pixmap unit_select_pixmaps[100];
 int unit_select_ids[100];
 int unit_select_no;
@@ -1242,15 +1238,39 @@ void destroy_message_dialog(Widget button)
   XtDestroyWidget(XtParent(XtParent(button)));
 }
 
+static int number_of_columns(int n)
+{
+#if 0
+  /* This would require libm, which isn't worth it for this one little
+   * function.  Since the number of units is limited to 100 already, the ifs
+   * work fine.  */
+  double sqrt(); double ceil();
+  return ceil(sqrt((double)n/5.0));
+#else
+  if(n<=5) return 1;
+  else if(n<=20) return 2;
+  else if(n<=45) return 3;
+  else if(n<=80) return 4;
+  else return 5;
+#endif
+}
+static int number_of_rows(int n)
+{
+  int c=number_of_columns(n);
+  return (n+c-1)/c;
+}
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
 {
-  int i;
+  int i,n,r;
   char buffer[512];
-  Widget unit_select_all_command;
+  Arg args[4];
+  int nargs;
+  Widget unit_select_all_command, unit_select_close_command;
+  Widget firstcolumn,column=0;
 
   XtSetSensitive(main_form, FALSE);
 
@@ -1268,11 +1288,23 @@ void popup_unit_select_dialog(struct tile *ptile)
     XSetForeground(display, fill_bg_gc, bg);
   }
 
-  for(i=0; i<unit_list_size(&ptile->units); i++) {
+  n=unit_list_size(&ptile->units);
+  r=number_of_rows(n);
+
+  for(i=0; i<n; i++) {
     struct unit *punit=unit_list_get(&ptile->units, i);
     struct unit_type *punittemp=get_unit_type(punit->type);
     struct city *pcity;
     
+    if(!(i%r))  {
+      nargs=0;
+      if(i)  { XtSetArg(args[nargs], XtNfromHoriz, column); nargs++;}
+      column = XtCreateManagedWidget("column", formWidgetClass,
+				     unit_select_form,
+				     args, nargs);
+      if(!i) firstcolumn=column;
+    }
+
     unit_select_ids[i]=punit->id;
 
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
@@ -1283,7 +1315,8 @@ void popup_unit_select_dialog(struct tile *ptile)
 	    unit_activity_text(punit));
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
+					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+					 display_depth);
 
     if (flags_are_transparent) {
       XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
@@ -1292,52 +1325,31 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     put_unit_pixmap(punit, unit_select_pixmaps[i], 0, 0);
 
-    if(i==0) {
-      unit_select_commands[0]=XtVaCreateManagedWidget("unitselectcommands0", 
-						      commandWidgetClass,
-						      unit_select_form,
-						      XtNbitmap,
-						      (XtArgVal)unit_select_pixmaps[i],
-						      XtNsensitive,
-						      can_unit_do_activity(punit, ACTIVITY_IDLE),
-						      NULL);
-      XtAddCallback(unit_select_commands[0],
-		    XtNdestroyCallback,free_bitmap_destroy_callback,
-		    NULL);
-
-      unit_select_labels[0]=XtVaCreateManagedWidget("unitselectlabels0", 
-						    labelWidgetClass, 
-						    unit_select_form, 
-						    XtNfromHoriz, unit_select_commands[0],
-						    XtNlabel, (XtArgVal)buffer,
-						    XtNborderWidth, 0,
-						    NULL);   
+    nargs=0;
+    XtSetArg(args[nargs], XtNbitmap, (XtArgVal)unit_select_pixmaps[i]);nargs++;
+    XtSetArg(args[nargs], XtNsensitive, 
+             can_unit_do_activity(punit, ACTIVITY_IDLE));nargs++;
+    if(i%r)  {
+      XtSetArg(args[nargs], XtNfromVert, unit_select_commands[i-1]); nargs++;
     }
-    else {
-      unit_select_commands[i]=XtVaCreateManagedWidget("unitselectcommands1", 
-						      commandWidgetClass,
-						      unit_select_form,
-						      XtNbitmap,
-						      (XtArgVal)unit_select_pixmaps[i],
-						      XtNfromVert, unit_select_commands[i-1],
-						      XtNsensitive,
-						      can_unit_do_activity(punit, ACTIVITY_IDLE),
-						      NULL);
-      XtAddCallback(unit_select_commands[i],
-		    XtNdestroyCallback,free_bitmap_destroy_callback,
-		    NULL);
+    unit_select_commands[i]=XtCreateManagedWidget("unitselectcommands", 
+						  commandWidgetClass,
+						  column, args, nargs);
 
-      unit_select_labels[i]=XtVaCreateManagedWidget("unitselectlabels1", 
-						    labelWidgetClass, 
-						    unit_select_form, 
-						    XtNfromVert, unit_select_commands[i-1],
-						    XtNfromHoriz, unit_select_commands[i],
-						    XtNlabel, (XtArgVal)buffer,
-						    XtNborderWidth, 0,
-						    NULL);   
+    nargs=0;
+    XtSetArg(args[nargs], XtNlabel, (XtArgVal)buffer); nargs++;
+    XtSetArg(args[nargs], XtNfromHoriz, unit_select_commands[i]); nargs++;
+    if(i%r) {
+      XtSetArg(args[nargs], XtNfromVert, unit_select_commands[i-1]); nargs++;
     }
+    unit_select_labels[i]=XtCreateManagedWidget("unitselectlabels", 
+						labelWidgetClass, 
+						column, args, nargs);
 
-    XtAddCallback(unit_select_commands[i], XtNcallback, unit_select_callback, NULL);
+    XtAddCallback(unit_select_commands[i],
+		  XtNdestroyCallback,free_bitmap_destroy_callback, NULL);
+    XtAddCallback(unit_select_commands[i],
+                  XtNcallback, unit_select_callback, NULL);
   }
 
   unit_select_no=i;
@@ -1346,19 +1358,19 @@ void popup_unit_select_dialog(struct tile *ptile)
   unit_select_close_command=XtVaCreateManagedWidget("unitselectclosecommand", 
 						    commandWidgetClass,
 						    unit_select_form,
-						    XtNfromVert, unit_select_commands[i-1],
+						    XtNfromVert, firstcolumn,
 						    NULL);
 
   unit_select_all_command=XtVaCreateManagedWidget("unitselectallcommand", 
 						  commandWidgetClass,
 						  unit_select_form,
-						  XtNfromVert, unit_select_commands[i-1],
+						  XtNfromVert, firstcolumn,
 						  NULL);
 
   XtAddCallback(unit_select_close_command, XtNcallback, unit_select_callback, NULL);
   XtAddCallback(unit_select_all_command, XtNcallback, unit_select_all_callback, NULL);
 
-  xaw_set_relative_position(toplevel, unit_select_dialog_shell, 25, 25);
+  xaw_set_relative_position(toplevel, unit_select_dialog_shell, 15, 10);
   XtPopup(unit_select_dialog_shell, XtGrabNone);
 }
 
@@ -1463,7 +1475,7 @@ void create_races_dialog(void)
   races_label = XtVaCreateManagedWidget("raceslabel", 
 				       labelWidgetClass, 
 				       races_form, NULL);  
-  
+
   races_toggles_form = XtVaCreateManagedWidget("racestogglesform", 
 					       formWidgetClass, 
 					       races_form, 
