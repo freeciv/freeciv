@@ -565,19 +565,19 @@ msgstr ""
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spiel: Heimatstadt von %s in %s geändert."
 
-# ?
 #: server/citytools.c:1137
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Spiel: Die %s sind aus der aufgelösten Stadt %s geflohen, um eine "
+"Strandung zu vermeiden."
 
-# ?
 #: server/citytools.c:1148
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
-msgstr ""
+msgstr "Spiel: Als %s aufgelöst wurde sind die %s gestrandet, da sie "
+"nicht fliehen konnten."
 
 #: server/citytools.c:1692
 msgid " from the worklist"
@@ -4393,11 +4393,11 @@ msgstr "Spiel: %s durch %s ersetzt (Kosten: %d Goldstücke)."
 msgid "Game: Only %s can build or add to a city."
 msgstr "Spiel: Nur %s können eine Stadt erbauen oder erweitern."
 
-# ?
 #: server/unithand.c:407
 #, c-format
 msgid "Game: %s unit has no moves left to add to %s."
-msgstr ""
+msgstr "Spiel: Die %s können %s nicht erweitern, da sie keine "
+"Bewegungspunkte mehr haben."
 
 #: server/unithand.c:411
 #, c-format
@@ -4511,10 +4511,10 @@ msgstr ""
 "Spiel: Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       daß sie in alle Himmelsrichtungen flohen."
 
-# ?
 #: server/unithand.c:887
 msgid "Game: Cancel treaty in the players dialog first (F3)."
-msgstr ""
+msgstr "Spiel: Zuerst muß im Spieler-Dialog (F3) das Abkommen "
+"aufgekündigt werden."
 
 #: server/unithand.c:977
 msgid "Game: You can't attack there."
@@ -6997,10 +6997,9 @@ msgstr "Veraltet "
 msgid " (with "
 msgstr " (mit "
 
-# ?
 #: client/gui-gtk/helpdlg.c:883 client/gui-gtk/helpdlg.c:898
 msgid "?techhelp:)."
-msgstr ""
+msgstr "?techhelp:)."
 
 #: client/gui-gtk/helpdlg.c:931 client/gui-gtk/helpdlg.c:946
 #: client/gui-xaw/helpdlg.c:981 client/gui-xaw/helpdlg.c:996
