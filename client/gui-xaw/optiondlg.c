@@ -88,8 +88,8 @@ void create_option_dialog(void)
 {
   Widget option_form, option_label;
   Widget option_ok_command, option_cancel_command;
+  Widget option_name, option_toggle=0;
   client_option *o;
-  char res_name[255];  /* is this big enough? */
   
   option_dialog_shell =
     I_T(XtCreatePopupShell("optionpopup", transientShellWidgetClass,
@@ -104,22 +104,30 @@ void create_option_dialog(void)
 				option_form, NULL));
   
   for (o=options; o->name; ++o) {
-    my_snprintf(res_name, sizeof(res_name), "option_%s_label", o->name);
-    I_L(XtVaCreateManagedWidget(res_name, labelWidgetClass, option_form, NULL));
-
-    my_snprintf(res_name, sizeof(res_name), "option_%s_toggle", o->name);
-    o->p_gui_data = (void *)XtVaCreateManagedWidget(res_name, toggleWidgetClass, option_form, NULL);
-
+    Widget vert = (o==options) ? option_label : option_toggle;
+    option_name = 
+      XtVaCreateManagedWidget("label", labelWidgetClass, option_form,
+			      XtNlabel, _(o->description),
+			      XtNfromVert, vert,
+			      NULL);
+    option_toggle =
+      XtVaCreateManagedWidget("toggle", toggleWidgetClass, option_form,
+			      XtNfromHoriz, option_name,
+			      XtNfromVert, vert,
+			      NULL);
+    o->p_gui_data = (void*) option_toggle;
     XtAddCallback((Widget) o->p_gui_data, XtNcallback, toggle_callback, NULL);
   }
 
   option_ok_command =
     I_L(XtVaCreateManagedWidget("optionokcommand", commandWidgetClass,
-				option_form, NULL));
+				option_form, XtNfromVert, option_toggle,
+				NULL));
   
   option_cancel_command =
     I_L(XtVaCreateManagedWidget("optioncancelcommand", commandWidgetClass,
-				option_form, NULL));
+				option_form, XtNfromVert, option_toggle,
+				NULL));
 	
   XtAddCallback(option_ok_command, XtNcallback, 
 		option_ok_command_callback, NULL);
