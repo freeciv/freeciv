@@ -175,6 +175,30 @@ When the maximum number of players have connected, the server auto-starts.
 The maximum number of players can be set with the 'maxplayers' variable.
 
 
+Log messages:
+=============
+Both the client and server print some messages as "log messages".
+There are three categories of log messages: fatal, normal, and 
+debug.  By default, fatal and normal messages are printed to 
+standard output where the client or server was started.  You can 
+direct log messages to a file instead of standard output with 
+the command line option "--log filename", or "-l filename".  
+You can change the level of log messages displayed with 
+"--debug level" or "-d level" (server) or "-de level" (client), 
+where "level" is 0, 1, or 2:
+  0 = fatal messages only,
+  1 = fatal and normal messages (default),
+  2 = fatal, normal, and debug messages.
+
+Example: 
+	 % civserver -l my.log -d 2
+sends server log messages to file "my.log", including debug messages.
+
+Example: 
+	 % civclient --debug 0
+suppresses all client log messages except fatal messages.
+
+
 Bugs:
 =====
 Should you find any bugs then please send us an email specifying what's
