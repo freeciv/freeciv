@@ -537,48 +537,6 @@ void put_city_workers(struct city *pcity, int color)
 }
 
 /**************************************************************************
-Put a line on a pixmap. This line goes from the center of a tile
-(canvas_src_x, canvas_src_y) to the border of the tile.
-Note that this means that if you want to draw a line from x1,y1->x2,y2 you
-must call this function twice; once to draw from the center of x1,y1 to the
-border of the tile, with a dir argument. And once from x2,y2 with a dir
-argument for the opposite direction. This is necessary to enable the
-refreshing of a single tile
-
-Since the line_gc that is used to draw the line has function GDK_INVERT,
-drawing a line once and then again will leave the map unchanged. Therefore
-this function is used both to draw and undraw lines.
-
-There are two issues that make this function somewhat complex:
-1) The center pixel should only be drawn once (or it could be inverted
-   twice). This is done by adjusting the line starting point depending on
-   if the line we are drawing is the first line to be drawn. (not strictly
-   correct; read on to 2))
-(in the following I am assuming a tile width of 30 (as trident); replace as
-neccesary This point is not a problem with tilesets with odd height/width,
-fx engels with height 45)
-2) Since the tile has width 30 we cannot put the center excactly "at the
-   center" of the tile (that would require the width to be an odd number).
-   So we put it at 15,15, with the effect that there is 15 pixels above and
-   14 underneath (and likewise horizontally). This has an unfortunent
-   consequence for the drawing in dirs 2 and 5 (as used in the DIR_DX and
-   DIR_DY arrays); since we want to draw the line to the very corner of the
-   tile the line vector will be (14,-15) and (-15,14) respectively, which
-   would look wrong when drawn. To make the lines look nice the starting
-   point of dir 2 is moved one pixel up, and the starting point of dir 5 is
-   moved one pixel left, so the vectors will be (14,-14) and (-14,14).
-   Also, because they are off-center the starting pixel is not drawn when
-   drawing one of these directions.
-**************************************************************************/
-/* Implemented in mapclass.c */
-/*
-static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y,
-		     int map_src_x, int map_src_y, int dir, int first_draw)
-{
-}
-*/
-
-/**************************************************************************
 draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
 map_canvas_store
 **************************************************************************/

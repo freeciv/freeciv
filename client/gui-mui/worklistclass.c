@@ -25,7 +25,6 @@
 
 #include <clib/alib_protos.h>
 
-#define USE_SYSBASE
 #include <proto/exec.h>
 #include <proto/muimaster.h>
 #include <proto/utility.h>

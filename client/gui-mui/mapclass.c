@@ -27,7 +27,6 @@
 
 #include <clib/alib_protos.h>
 
-#define USE_SYSBASE
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/muimaster.h>
@@ -39,7 +38,6 @@
 #include <proto/datatypes.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "map.h"
 #include "game.h"
 #include "spaceship.h"
@@ -1312,15 +1310,6 @@ STATIC VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
       canvas_src_y += DIR_DY[dir];
     }
   }
-
-/*
-  freelog(LOG_DEBUG, "%i->%i; x0: %i; twidth %i\n",
-	  map_src_x, map_canvas_adjust_x(map_src_x),
-	  data->horiz_first, -1/*width*/);
-  freelog(LOG_DEBUG, "%i,%i-> %i,%i : %i,%i -> %i,%i\n",
-	  map_src_x, map_src_y, map_src_x + DIR_DX[dir], map_src_y + DIR_DY[dir],
-	  canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
-*/
 
   /* draw it (at last!!) */
   Move(rp, canvas_src_x, canvas_src_y);
