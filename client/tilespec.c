@@ -292,6 +292,9 @@ static void tilespec_free_toplevel(void)
     draw = hash_value_by_number(terrain_hash, 0);
     hash_delete_entry(terrain_hash, draw->name);
     free(draw->name);
+    if (draw->mine_tag) {
+      free(draw->mine_tag);
+    }
     free((void *) draw);
   }
   hash_free(terrain_hash);
@@ -697,6 +700,9 @@ void tilespec_read_toplevel(const char *tileset_name)
 					  terrains[i]);
     terr->mine_tag = secfile_lookup_str_default(file, NULL, "%s.mine_sprite",
 						terrains[i]);
+    if (terr->mine_tag) {
+      terr->mine_tag = mystrdup(terr->mine_tag);
+    }
 
     if (terr->is_layered && terr->match_type == 0) {
       freelog(LOG_FATAL, "%s is layered but has no matching type set.",
