@@ -109,6 +109,7 @@ struct player_ai {
   int tech_turns[A_LAST]; /* saves zillions of calculations! */
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
+  int fuzzy;			/* chance in 1000 to mis-decide */
   int warmth; /* threat of global warming */
 };
 
@@ -157,6 +158,7 @@ int player_owns_active_wonder(struct player *pplayer,
 			      enum improvement_type_id id);
 
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
+int ai_fuzzy(struct player *pplayer, int normal_decision);
 
 extern struct player_race races[];
 extern char *default_race_leader_names[];

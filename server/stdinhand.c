@@ -269,6 +269,18 @@ int handicap_of_skill_level(int level)
 }
 
 /**************************************************************************
+Return the AI fuzziness (0 to 1000) corresponding to a given skill
+level (0 to 10).  See ai_fuzzy() in common/player.c
+**************************************************************************/
+int fuzzy_of_skill_level(int level)
+{
+  int f[11] = { 0, 0, 0, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
+  
+  assert(level>=0 && level<=10);
+  return f[level];
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void save_command(char *arg)
@@ -460,6 +472,7 @@ void set_ai_level(char *name, int level)
   if (pplayer) {
     if (pplayer->ai.control) {
       pplayer->ai.handicap = handicap_of_skill_level(level);
+      pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
       pplayer->ai.skill_level = level;
       printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
     } else {
@@ -470,6 +483,7 @@ void set_ai_level(char *name, int level)
       pplayer = get_player(i);
       if (pplayer->ai.control) {
         pplayer->ai.handicap = handicap_of_skill_level(level);
+	pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
 	pplayer->ai.skill_level = level;
         printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
       }
@@ -583,8 +597,8 @@ void handle_stdin_input(char *str)
     crash_and_burn();
   else if (!strcmp("log", command)) /* undocumented */
     flog(LOG_NORMAL, "%s", arg);
-/*  else if (!strcmp("easy", command))
-    set_ai_level(arg, 3);               not fair to tease people like this -- Syela */
+  else if (!strcmp("easy", command))
+    set_ai_level(arg, 3);
   else if (!strcmp("normal", command))
     set_ai_level(arg, 5);
   else if (!strcmp("hard", command))
@@ -686,8 +700,8 @@ void show_help(void)
   puts("meta T   - Set meta-server infoline to T");
   puts("ai P     - toggles AI on player");
   puts("create P - creates an AI player");
-/*  puts("easy P   - AI player will be easy");
-  puts("easy     - All AI players will be easy"); */
+  puts("easy P   - AI player will be easy");
+  puts("easy     - All AI players will be easy");
   puts("normal P - AI player will be normal");
   puts("normal   - All AI players will be normal");
   puts("hard P   - AI player will be hard");

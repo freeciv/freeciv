@@ -259,6 +259,8 @@ void player_init(struct player *plr)
   plr->ai.control=0;
   plr->ai.tech_goal = A_NONE;
   plr->ai.handicap = 0;
+  plr->ai.skill_level = 0;
+  plr->ai.fuzzy = 0;
   plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
@@ -360,9 +362,35 @@ int player_owns_active_wonder(struct player *pplayer,
 }
 
 
+/**************************************************************************
+...
+**************************************************************************/
 int ai_handicap(struct player *pplayer, enum handicap_type htype)
 {
   if (!pplayer->ai.control) return -1;
   return(pplayer->ai.handicap&htype);
+}
+
+/**************************************************************************
+Return the value normal_decision (a boolean), except if the AI is fuzzy,
+then sometimes flip the value.  The intention of this is that instead of
+    if (condition) { action }
+you can use
+    if (ai_fuzzy(pplayer, condition)) { action }
+to sometimes flip a decision, to simulate an AI with some confusion,
+indecisiveness, forgetfulness etc. In practice its often safer to use
+    if (condition && ai_fuzzy(pplayer,1)) { action }
+for an action which only makes sense if condition holds, but which a
+fuzzy AI can safely "forget".  Note that for a non-fuzzy AI, or for a
+human player being helped by the AI (eg, autosettlers), you can ignore
+the "ai_fuzzy(pplayer," part, and read the previous example as:
+    if (condition && 1) { action }
+--dwp
+**************************************************************************/
+int ai_fuzzy(struct player *pplayer, int normal_decision)
+{
+  if (!pplayer->ai.control || !pplayer->ai.fuzzy) return normal_decision;
+  if (myrand(1000) >= pplayer->ai.fuzzy) return normal_decision;
+  return !normal_decision;
 }
 
