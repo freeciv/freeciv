@@ -14,41 +14,10 @@
 #define FC__UNIT_H
 
 #include "genlist.h"
-#include "shared.h"
+#include "unittype.h"
 
 struct player;
 struct city;
-struct government;
-struct Sprite;			/* opaque; client-gui specific */
-
-typedef int Unit_Type_id;
-/*
-  Above typedef replaces old "enum unit_type_id" (since no longer
-  enumerate the unit types); keep as typedef to help code be
-  self-documenting.
-
-  It could potentially be some other type; "unsigned char" would be
-  natural, since there are already built-in assumptions that values
-  are not too large (less than U_LAST = MAX_NUM_ITEMS) since they must
-  fit in 8-bit unsigned int for packets; and normal values are always
-  non-negative.  But note sometimes use (-1) for obsoleted_by and some
-  related uses, though these use already plain int rather than
-  Unit_Type_id?  (Ideally, these should probably have used U_LAST as
-  the flag value instead of (-1).)
-  
-  Decided to just use 'int' for several reasons:
-  - "natural integer type" may be faster on some platforms
-    (size advantage of using smaller type probably negligible);
-  - avoids any potential problems with (-1) values as mentioned above;
-  - avoids imposing any more limitations that there are already.  */
-  
-#define U_LAST MAX_NUM_ITEMS
-/*
-  U_LAST is a value which is guaranteed to be larger than all
-  actual Unit_Type_id values.  It is used as a flag value;
-  it can also be used for fixed allocations to ensure able
-  to hold full number of unit types.
-*/
 
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
@@ -58,25 +27,6 @@ enum unit_activity {
   ACTIVITY_FALLOUT,
   ACTIVITY_LAST   /* leave this one last */
 };
-
-enum unit_move_type {
-  LAND_MOVING = 1, SEA_MOVING, HELI_MOVING, AIR_MOVING
-};
-
-/* Classes for unit types.
- * (These must correspond to unit_class_names[] in unit.c.)
- */
-enum unit_class_id {
-  UCL_AIR,
-  UCL_HELICOPTER,
-  UCL_LAND,
-  UCL_MISSILE,
-  UCL_NUCLEAR,
-  UCL_SEA,
-  UCL_LAST	/* keep this last */
-};
-
-typedef enum unit_class_id Unit_Class_id;
 
 enum unit_focus_status {
   FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
@@ -134,110 +84,6 @@ struct unit {
   int transported_by;
 };
 
-/* Unit "special effects" flags:
-   Note this is now an enumerated type, and not power-of-two integers
-   for bits, though unit_type.flags is still a bitfield, and code
-   which uses unit_flag() without twiddling bits is unchanged.
-   (It is easier to go from i to (1<<i) than the reverse.)
-*/
-enum unit_flag_id { 
-  F_CARAVAN=0,
-  F_MISSILE,   
-  F_IGZOC,     
-  F_NONMIL,      
-  F_IGTER,       
-  F_CARRIER,     
-  F_ONEATTACK,   
-  F_PIKEMEN,     
-  F_HORSE,       
-  F_IGWALL,      
-  F_FIELDUNIT,   
-  F_AEGIS,       
-  F_FIGHTER,     
-  F_MARINES,     
-  F_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
-  F_SETTLERS,         /* Does not include ability to found cities */
-  F_DIPLOMAT,    
-  F_TRIREME,          /* Trireme sinking effect */
-  F_NUCLEAR,          /* Nuclear attack effect */
-  F_SPY,              /* Enhanced spy abilities */
-  F_TRANSFORM,        /* Can transform terrain types (Engineers) */
-  F_PARATROOPERS,
-  F_AIRBASE,          /* Can build Airbases */
-  F_CITIES,           /* Can build cities */
-  F_IGTIRED,          /* Ignore tired negative bonus when attacking */
-  F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
-  F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
-  F_LAST
-};
-
-/* Unit "roles": these are similar to unit flags but differ in that
-   they don't represent intrinsic properties or abilities of units,
-   but determine which units are used (mainly by the server or AI)
-   in various circumstances, or "roles".
-   Note that in some cases flags can act as roles, eg, we don't need
-   a role for "settlers", because we can just use F_SETTLERS.
-   (Now have to consider F_CITIES too)
-   So we make sure flag values and role values are distinct,
-   so some functions can use them interchangably.
-*/
-#define L_FIRST 64		/* should be >= F_LAST */
-enum unit_role_id {
-  L_FIRSTBUILD=L_FIRST, /* is built first when city established */
-  L_EXPLORER,           /* initial explorer unit */
-  L_HUT,                /* can be found in hut */
-  L_HUT_TECH,           /* can be found in hut, global tech required */
-  L_PARTISAN,           /* is created in Partisan circumstances */
-  L_DEFEND_OK,          /* ok on defense (AI) */
-  L_DEFEND_GOOD,        /* primary purpose is defense (AI) */
-  L_ATTACK_FAST,        /* quick attacking unit (Horse..Armor) (unused)*/
-  L_ATTACK_STRONG,      /* powerful attacking unit (Catapult..) (unused) */
-  L_FERRYBOAT,	        /* is useful for ferrying (AI) */
-  L_BARBARIAN,          /* barbarians unit, land only */
-  L_BARBARIAN_TECH,     /* barbarians unit, global tech required */
-  L_BARBARIAN_BOAT,     /* barbarian boat */
-  L_BARBARIAN_BUILD,    /* what barbarians should build */
-  L_BARBARIAN_BUILD_TECH, /* barbarians build when global tech */
-  L_BARBARIAN_LEADER,   /* barbarian leader */
-  L_BARBARIAN_SEA,      /* sea raider unit */
-  L_BARBARIAN_SEA_TECH, /* sea raider unit, global tech required */
-  L_LAST
-};
-
-struct unit_type {
-  char name[MAX_LEN_NAME];
-  char name_orig[MAX_LEN_NAME];	      /* untranslated */
-  char graphic_str[MAX_LEN_NAME];
-  char graphic_alt[MAX_LEN_NAME];
-  struct Sprite *sprite;
-  enum unit_move_type move_type;
-  int build_cost;
-  int attack_strength;
-  int defense_strength;
-  int move_rate;
-  int tech_requirement;
-  int vision_range;
-  int transport_capacity;
-  int hp;
-  int firepower;
-  int obsoleted_by;
-  int fuel;
-
-  unsigned int flags;
-  unsigned int roles;
-
-  int happy_cost;  /* unhappy people in home city */
-  int shield_cost; /* normal upkeep cost */
-  int food_cost;   /* settler food cost */
-  int gold_cost;   /* gold upkeep (n/a now, maybe later) */
-
-  int paratroopers_range; /* only valid for F_PARATROOPERS */
-  int paratroopers_mr_req;
-  int paratroopers_mr_sub;
-
-  char *helptext;
-};
-
 
 /* get 'struct unit_list' and related functions: */
 #define SPECLIST_TAG unit
@@ -248,10 +94,6 @@ struct unit_type {
     TYPED_LIST_ITERATE(struct unit, unitlist, punit)
 #define unit_list_iterate_end  LIST_ITERATE_END
 
-extern struct unit_type unit_types[U_LAST];
-
-char *unit_name(Unit_Type_id id);
-char *unit_class_name(Unit_Class_id id);
 
 struct unit *unit_list_find(struct unit_list *This, int id);
 
@@ -264,9 +106,6 @@ int diplomat_can_do_action(struct unit *pdiplomat,
 int is_diplomat_action_available(struct unit *pdiplomat,
                                  enum diplomat_actions action,
                                  int destx, int desty);
-
-char *get_unit_name(Unit_Type_id id);
-char *get_units_with_flag_string(int flag);
 
 int unit_move_rate(struct unit *punit);
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity);
@@ -288,27 +127,21 @@ void set_unit_activity_targeted(struct unit *punit,
 int can_unit_do_auto(struct unit *punit); 
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
-int unit_value(Unit_Type_id id);
 int is_military_unit(struct unit *punit);           /* !set !dip !cara */
 int is_diplomat_unit(struct unit *punit);
 int is_ground_threat(struct player *pplayer, struct unit *punit);
 int is_square_threatened(struct player *pplayer, int x, int y);
 int is_field_unit(struct unit *this_unit);              /* ships+aero */
 int is_hiding_unit(struct unit *punit);
-int is_water_unit(Unit_Type_id id);
 int is_sailing_unit(struct unit *punit);
 int is_air_unit(struct unit *punit);
-int is_air_unittype(Unit_Type_id id);
 int is_heli_unit(struct unit *punit);
-int is_heli_unittype(Unit_Type_id id);
 int is_ground_unit(struct unit *punit);
-int is_ground_unittype(Unit_Type_id id);
 int can_unit_build_city(struct unit *punit);
 int can_unit_add_to_city(struct unit *punit);
 int is_unit_near_a_friendly_city(struct unit *punit);
 int kills_citizen_after_attack(struct unit *punit);
 
-struct unit_type *get_unit_type(Unit_Type_id id);
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int ground_unit_transporter_capacity(int x, int y, int playerid);
@@ -318,28 +151,6 @@ int is_air_units_transport(struct unit *punit);
 int missile_carrier_capacity(int x, int y, int playerid);
 int airunit_carrier_capacity(int x, int y, int playerid);
 
-int utype_shield_cost(struct unit_type *ut, struct government *g);
-int utype_food_cost(struct unit_type *ut, struct government *g);
-int utype_happy_cost(struct unit_type *ut, struct government *g);
-int utype_gold_cost(struct unit_type *ut, struct government *g);
-
-int unit_flag(Unit_Type_id id, int flag);
-int unit_has_role(Unit_Type_id id, int role);
-int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
-int unit_upgrade_price(struct player *pplayer, Unit_Type_id from, Unit_Type_id to);
-
-int unit_type_exists(Unit_Type_id id);
-Unit_Type_id find_unit_type_by_name(char *s);
-
-enum unit_move_type unit_move_type_from_str(char *s);
-Unit_Class_id unit_class_from_str(char *s);
-enum unit_flag_id unit_flag_from_str(char *s);
-enum unit_role_id unit_role_from_str(char *s);
-
-void role_unit_precalcs(void);
-int num_role_units(int role);
-Unit_Type_id get_role_unit(int role, int index);
-Unit_Type_id best_role_unit(struct city *pcity, int role);
 struct player *unit_owner(struct unit *punit);
 
 #endif  /* FC__UNIT_H */

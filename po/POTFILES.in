@@ -9,6 +9,7 @@ common/player.c
 common/shared.c
 common/support.c
 common/unit.c
+common/unittype.c
 common/version.c
 ai/aicity.c
 server/barbarian.c
