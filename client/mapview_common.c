@@ -317,6 +317,49 @@ static void normalize_gui_pos(int *gui_x, int *gui_y)
 }
 
 /****************************************************************************
+  Find the vector with minimum "real" distance between two GUI positions.
+  This corresponds to map_to_distance_vector but works for GUI coordinates.
+****************************************************************************/
+static void gui_distance_vector(int *gui_dx, int *gui_dy,
+				int gui_x0, int gui_y0,
+				int gui_x1, int gui_y1)
+{
+  int map_x0, map_y0, map_x1, map_y1;
+  int gui_x0_base, gui_y0_base, gui_x1_base, gui_y1_base;
+  int gui_x0_diff, gui_y0_diff, gui_x1_diff, gui_y1_diff;
+  int map_dx, map_dy;
+
+  /* Make sure positions are canonical.  Yes, this is the only way. */
+  normalize_gui_pos(&gui_x0, &gui_y0);
+  normalize_gui_pos(&gui_x1, &gui_y1);
+
+  /* Now we have to find the offset of each GUI position from its tile
+   * origin.  This is complicated: it means converting to a map position and
+   * then back to the GUI position to find the tile origin, then subtracting
+   * to get the offset. */
+  gui_to_map_pos(&map_x0, &map_y0, gui_x0, gui_y0);
+  gui_to_map_pos(&map_x1, &map_y1, gui_x1, gui_y1);
+
+  map_to_gui_pos(&gui_x0_base, &gui_y0_base, map_x0, map_y0);
+  map_to_gui_pos(&gui_x1_base, &gui_y1_base, map_x1, map_y1);
+
+  gui_x0_diff = gui_x0 - gui_x0_base;
+  gui_y0_diff = gui_y0 - gui_y0_base;
+  gui_x1_diff = gui_x1 - gui_x1_base;
+  gui_y1_diff = gui_y1 - gui_y1_base;
+
+  /* Next we find the map distance vector and convert this into a GUI
+   * vector. */
+  map_distance_vector(&map_dx, &map_dy, map_x0, map_y0, map_x1, map_y1);
+  map_to_gui_pos(gui_dx, gui_dy, map_dx, map_dy);
+
+  /* Finally we add on the difference in offsets to retain pixel
+   * resolution. */
+  *gui_dx += gui_x1_diff - gui_x0_diff;
+  *gui_dy += gui_y1_diff - gui_y0_diff;
+}
+
+/****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
 void set_mapview_origin(int gui_x0, int gui_y0)
@@ -338,14 +381,25 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     gui_y0 = CLIP(ymin, gui_y0, ymax - ysize);
   }
 
-  /* Then update everything. */
+  /* Then update everything.  This does some tricky math to avoid having
+   * to do unnecessary redraws in update_map_canvas.  This makes for ugly
+   * code but speeds up the mapview by a large factor. */
   if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
-    int map_center_x, map_center_y;
-    int old_gui_x0 = mapview_canvas.gui_x0;
-    int old_gui_y0 = mapview_canvas.gui_y0;
+    int map_center_x, map_center_y, old_gui_x0, old_gui_y0, dx, dy;
     const int width = mapview_canvas.width, height = mapview_canvas.height;
     int common_x0, common_x1, common_y0, common_y1;
     int update_x0, update_x1, update_y0, update_y1;
+
+    /* We need to calculate the vector of movement of the mapview.  So
+     * we find the GUI distance vector and then use this to calculate
+     * the original mapview origin relative to the current position.  Thus
+     * if we move one tile to the left, even if this causes GUI positions
+     * to wrap the distance vector is only one tile. */
+    gui_distance_vector(&dx, &dy,
+			mapview_canvas.gui_x0, mapview_canvas.gui_y0,
+			gui_x0, gui_y0);
+    old_gui_x0 = gui_x0 - dx;
+    old_gui_y0 = gui_y0 - dy;
 
     mapview_canvas.gui_x0 = gui_x0;
     mapview_canvas.gui_y0 = gui_y0;
