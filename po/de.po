@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
-"POT-Creation-Date: 2002-11-25 02:14+0100\n"
+"POT-Creation-Date: 2002-11-26 04:10+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: <freeciv.de@freelists.org>\n"
@@ -361,8 +361,7 @@ msgstr "error %d (compiled without strerror)"
 msgid "Future Tech. %d"
 msgstr "Zukunftstechnologie %d"
 
-#: common/unit.c:541 client/gui-gtk-2.0/plrdlg.c:126
-#: client/gui-gtk/plrdlg.c:126 client/gui-mui/plrdlg.c:173
+#: common/unit.c:541 client/gui-gtk/plrdlg.c:126 client/gui-mui/plrdlg.c:173
 #: client/gui-win32/plrdlg.c:357
 msgid "Idle"
 msgstr "untätig"
@@ -774,46 +773,46 @@ msgstr "Spiel: %s wächst vermutlich bald zu Größe %i."
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Spiel: VORSICHT, in %s ist eine Hungersnot zu befürchten!"
 
-#: server/cityturn.c:419
+#: server/cityturn.c:420
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 
-#: server/cityturn.c:483 server/cityturn.c:502
+#: server/cityturn.c:484 server/cityturn.c:503
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s fertig bauen, um weiter wachsen zu können."
 
-#: server/cityturn.c:488 server/cityturn.c:507
+#: server/cityturn.c:489 server/cityturn.c:508
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
 
-#: server/cityturn.c:559
+#: server/cityturn.c:560
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spiel: %s wächst zu Größe %d."
 
-#: server/cityturn.c:588
+#: server/cityturn.c:589
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 
-#: server/cityturn.c:590
+#: server/cityturn.c:591
 #, c-format
 msgid "%s lose %s (famine)"
 msgstr "%s verlieren %s (Hungersnot)"
 
-#: server/cityturn.c:601
+#: server/cityturn.c:602
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spiel: In %s sind Teile der Bevölkerung verhungert."
 
-#: server/cityturn.c:682 server/cityturn.c:722
+#: server/cityturn.c:683 server/cityturn.c:723
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag gelöscht."
 
-#: server/cityturn.c:701 server/cityturn.c:742
+#: server/cityturn.c:702 server/cityturn.c:743
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -822,12 +821,12 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:709 server/cityturn.c:766 server/cityturn.c:869
+#: server/cityturn.c:710 server/cityturn.c:767 server/cityturn.c:870
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spiel: Anstatt %s wird %s produziert (in %s)."
 
-#: server/cityturn.c:748
+#: server/cityturn.c:749
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -836,7 +835,7 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da Kenntnisse über %s "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:757
+#: server/cityturn.c:758
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -844,124 +843,124 @@ msgstr ""
 "Spiel: Aus unbekannten Gründen kann %s %s aus der Arbeitsliste nicht bauen. "
 "Auftrag zurück gestellt."
 
-#: server/cityturn.c:791
+#: server/cityturn.c:792
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spiel: %ss Arbeitsliste ist jetzt leer."
 
-#: server/cityturn.c:888
+#: server/cityturn.c:889
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spiel: %s kann %s nicht mehr versorgen, Einheit aufgelöst."
 
-#: server/cityturn.c:918
+#: server/cityturn.c:919
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spiel: %s baut %s, obwohl das nicht mehr erhältlich ist."
 
-#: server/cityturn.c:955
+#: server/cityturn.c:956
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spiel: Die %s haben %s in %s fertiggestellt."
 
-#: server/cityturn.c:959 server/cityturn.c:965
+#: server/cityturn.c:960 server/cityturn.c:966
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s bauen %s in %s"
 
-#: server/cityturn.c:971
+#: server/cityturn.c:972
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:978
+#: server/cityturn.c:979
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Spiel: %s beschleunigt die Forschung;\n"
 "       2 Fortschritte werden sofort erzielt."
 
-#: server/cityturn.c:994
+#: server/cityturn.c:995
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spiel: Die %s haben %s und %s durch %s erhalten."
 
-#: server/cityturn.c:1001
+#: server/cityturn.c:1002
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spiel: Die %s haben mit dem Bau eines Raumschiffs begonnen!"
 
-#: server/cityturn.c:1044
+#: server/cityturn.c:1045
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spiel: %s kann zur Zeit %s nicht bauen."
 
-#: server/cityturn.c:1071
+#: server/cityturn.c:1072
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:1075
+#: server/cityturn.c:1076
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s bauen %s in %s (%i,%i)"
 
-#: server/cityturn.c:1114
+#: server/cityturn.c:1115
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Spiel: %s in %s verkauft, da die laufenden Kosten nicht erbracht werden "
 "konnten!"
 
-#: server/cityturn.c:1150
+#: server/cityturn.c:1151
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spiel: Umweltverschmutzung bei %s."
 
-#: server/cityturn.c:1282
+#: server/cityturn.c:1283
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spiel: %ss Ehrentag wird in %s gefeiert."
 
-#: server/cityturn.c:1290
+#: server/cityturn.c:1291
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spiel: %ss Ehrentag wurde in %s abgeschafft."
 
-#: server/cityturn.c:1322
+#: server/cityturn.c:1323
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spiel: Aufruhr in %s."
 
-#: server/cityturn.c:1325
+#: server/cityturn.c:1326
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spiel: IMMER NOCH AUFRUHR in %s."
 
-#: server/cityturn.c:1331
+#: server/cityturn.c:1332
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 
-#: server/cityturn.c:1339
+#: server/cityturn.c:1340
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr."
 
-#: server/cityturn.c:1363
+#: server/cityturn.c:1364
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spiel: %s kann zur Zeit keine %s bauen und wir können nicht unsere einzige "
 "Stadt aufgeben."
 
-#: server/cityturn.c:1380
+#: server/cityturn.c:1381
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spiel: %s wurde aufgegeben, um %s zu bekommen."
 
-#: server/cityturn.c:1382
+#: server/cityturn.c:1383
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) in %s verwandelt von den %s"
@@ -4879,7 +4878,7 @@ msgid "Barbarian"
 msgstr "barbarisch"
 
 # dwp: KI?
-#: server/stdinhand.c:3653
+#: server/stdinhand.c:3653 client/gui-gtk-2.0/plrdlg.c:176
 msgid "AI"
 msgstr "KI"
 
@@ -5640,7 +5639,7 @@ msgstr "?size:Gr"
 msgid "Size"
 msgstr "Größe"
 
-#: client/cityrepdata.c:417 client/gui-gtk-2.0/plrdlg.c:126
+#: client/cityrepdata.c:417 client/gui-gtk-2.0/plrdlg.c:181
 #: client/gui-gtk/plrdlg.c:126 client/gui-mui/plrdlg.c:171
 #: client/gui-win32/plrdlg.c:357
 msgid "State"
@@ -8066,7 +8065,7 @@ msgstr "Version"
 msgid "Status"
 msgstr "Status"
 
-#: client/gui-gtk-2.0/connectdlg.c:246 client/gui-gtk-2.0/plrdlg.c:148
+#: client/gui-gtk-2.0/connectdlg.c:246 client/gui-gtk-2.0/plrdlg.c:228
 #: client/gui-gtk/connectdlg.c:131 client/gui-gtk/plrdlg.c:148
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:318
 #: client/gui-win32/connectdlg.c:366 client/gui-win32/plrdlg.c:361
@@ -9980,112 +9979,98 @@ msgstr "_Gehe nach"
 msgid "_Popup City"
 msgstr "Stadtschirm _anzeigen"
 
-#: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
+#: client/gui-gtk-2.0/plrdlg.c:172 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:165 client/gui-win32/plrdlg.c:355 data/Freeciv:71
 msgid "Name"
 msgstr "Name"
 
-#: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
+#: client/gui-gtk-2.0/plrdlg.c:173 client/gui-gtk/plrdlg.c:124
 msgid "Flag"
 msgstr "Flagge"
 
-#: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
+#: client/gui-gtk-2.0/plrdlg.c:174 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
 msgid "Nation"
 msgstr "Nation"
 
-#: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
+#: client/gui-gtk-2.0/plrdlg.c:175 client/gui-gtk/plrdlg.c:124
 msgid "Team"
 msgstr "Team"
 
-#: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
-#: client/gui-win32/plrdlg.c:355
-msgid "Ai"
-msgstr "KI"
-
-#: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
+#: client/gui-gtk-2.0/plrdlg.c:177 client/gui-gtk/plrdlg.c:125
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/plrdlg.c:356
 msgid "Embassy"
 msgstr "Botschaft"
 
-#: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
+#: client/gui-gtk-2.0/plrdlg.c:178 client/gui-gtk/plrdlg.c:125
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/plrdlg.c:356
 msgid "Dipl.State"
 msgstr "Dipl. Status"
 
-#: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
+#: client/gui-gtk-2.0/plrdlg.c:179 client/gui-gtk/plrdlg.c:125
 #: client/gui-mui/plrdlg.c:169 client/gui-win32/plrdlg.c:356
 msgid "Vision"
 msgstr "Karteneinsicht"
 
-#: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
+#: client/gui-gtk-2.0/plrdlg.c:180 client/gui-gtk/plrdlg.c:125
 #: client/gui-mui/plrdlg.c:170 client/gui-win32/plrdlg.c:356
 msgid "Reputation"
 msgstr "Reputation"
 
-#: client/gui-gtk-2.0/plrdlg.c:126 client/gui-gtk/plrdlg.c:126
+#: client/gui-gtk-2.0/plrdlg.c:182 client/gui-gtk/plrdlg.c:126
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:357 data/Freeciv:79
 msgid "Host"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/plrdlg.c:158 client/gui-gtk/cityrep.c:600
-#: client/gui-gtk/plrdlg.c:158
-msgid "C_lose"
-msgstr "_Schließen"
+# ?
+#: client/gui-gtk-2.0/plrdlg.c:183
+msgid "Idle Turns"
+msgstr ""
 
-#: client/gui-gtk-2.0/plrdlg.c:164 client/gui-gtk/plrdlg.c:164
+#: client/gui-gtk-2.0/plrdlg.c:292 client/gui-gtk/plrdlg.c:164
 #: client/gui-mui/plrdlg.c:329
 msgid "_Intelligence"
 msgstr "Geheimdienst"
 
-#: client/gui-gtk-2.0/plrdlg.c:170 client/gui-gtk/plrdlg.c:170
+#: client/gui-gtk-2.0/plrdlg.c:299 client/gui-gtk/plrdlg.c:170
 #: client/gui-mui/plrdlg.c:330
 msgid "_Meet"
 msgstr "Konferenz"
 
-#: client/gui-gtk-2.0/plrdlg.c:176 client/gui-gtk/plrdlg.c:176
+#: client/gui-gtk-2.0/plrdlg.c:303 client/gui-gtk/plrdlg.c:176
 #: client/gui-mui/plrdlg.c:331
 msgid "_Cancel Treaty"
 msgstr "Abkommen aufkündigen"
 
-#: client/gui-gtk-2.0/plrdlg.c:182 client/gui-gtk/plrdlg.c:182
+#: client/gui-gtk-2.0/plrdlg.c:307 client/gui-gtk/plrdlg.c:182
 #: client/gui-mui/plrdlg.c:332
 msgid "_Withdraw vision"
 msgstr "Karteneinsicht verbieten"
 
-#: client/gui-gtk-2.0/plrdlg.c:188 client/gui-gtk/plrdlg.c:188
+#: client/gui-gtk-2.0/plrdlg.c:314 client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:333
 msgid "_Spaceship"
 msgstr "Raumschiff"
 
-#: client/gui-gtk-2.0/plrdlg.c:296 client/gui-gtk/plrdlg.c:296
+#: client/gui-gtk-2.0/plrdlg.c:450 client/gui-gtk/plrdlg.c:296
 #: client/gui-mui/plrdlg.c:118 client/gui-win32/plrdlg.c:162
 #: client/gui-xaw/plrdlg.c:215
 msgid "done"
 msgstr "fertig"
 
-#: client/gui-gtk-2.0/plrdlg.c:298 client/gui-gtk/plrdlg.c:298
+#: client/gui-gtk-2.0/plrdlg.c:452 client/gui-gtk/plrdlg.c:298
 #: client/gui-mui/plrdlg.c:120 client/gui-win32/plrdlg.c:164
 #: client/gui-xaw/plrdlg.c:217
 msgid "moving"
 msgstr "am Zug"
 
-#: client/gui-gtk-2.0/plrdlg.c:304 client/gui-gtk/plrdlg.c:304
+#: client/gui-gtk-2.0/plrdlg.c:458 client/gui-gtk/plrdlg.c:304
 #: client/gui-mui/plrdlg.c:126 client/gui-win32/plrdlg.c:170
 #: client/gui-xaw/plrdlg.c:223
 msgid "R.I.P"
 msgstr "R.I.P"
 
-#: client/gui-gtk-2.0/plrdlg.c:310 client/gui-gtk/plrdlg.c:310
-#: client/gui-mui/plrdlg.c:107 client/gui-win32/plrdlg.c:176
-#: client/gui-xaw/plrdlg.c:204
-#, c-format
-msgid "(idle %d turn)"
-msgid_plural "(idle %d turns)"
-msgstr[0] "(unverändert seit 1 Runde)"
-msgstr[1] "(unverändert seit %d Runden)"
-
-#: client/gui-gtk-2.0/plrdlg.c:542 client/gui-gtk/plrdlg.c:543
+#: client/gui-gtk-2.0/plrdlg.c:587 client/gui-gtk/plrdlg.c:543
 #: client/gui-mui/plrdlg.c:260 client/gui-win32/plrdlg.c:75
 #: client/gui-xaw/plrdlg.c:359
 msgid "Game: You need an embassy to establish a diplomatic meeting."
@@ -10353,6 +10338,10 @@ msgstr "Keine Weltwunder erhältlich"
 msgid "Change All..."
 msgstr "Alles ändern..."
 
+#: client/gui-gtk/cityrep.c:600 client/gui-gtk/plrdlg.c:158
+msgid "C_lose"
+msgstr "_Schließen"
+
 #: client/gui-gtk/cityrep.c:631
 msgid "Con_figure..."
 msgstr "Einstellungen..."
@@ -10485,9 +10474,21 @@ msgstr ""
 msgid "_Close"
 msgstr "_Schließen"
 
+#: client/gui-gtk/plrdlg.c:124 client/gui-win32/plrdlg.c:355
+msgid "Ai"
+msgstr "KI"
+
 #: client/gui-gtk/plrdlg.c:126
 msgid "Ping"
 msgstr "Ping"
+
+#: client/gui-gtk/plrdlg.c:310 client/gui-mui/plrdlg.c:107
+#: client/gui-win32/plrdlg.c:176 client/gui-xaw/plrdlg.c:204
+#, c-format
+msgid "(idle %d turn)"
+msgid_plural "(idle %d turns)"
+msgstr[0] "(unverändert seit 1 Runde)"
+msgstr[1] "(unverändert seit %d Runden)"
 
 #: client/gui-gtk/repodlgs.c:690 client/gui-mui/repodlgs.c:534
 #: client/gui-win32/repodlgs.c:393 client/gui-xaw/repodlgs.c:751
