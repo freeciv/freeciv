@@ -141,7 +141,7 @@ static bool shared_vision_is_safe(struct player* pplayer,
     return TRUE;
   }
   players_iterate(eplayer) {
-    if (eplayer == pplayer || eplayer == aplayer) {
+    if (eplayer == pplayer || eplayer == aplayer || !eplayer->is_alive) {
       continue;
     }
     if (gives_shared_vision(aplayer, eplayer)) {
