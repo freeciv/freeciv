@@ -1306,8 +1306,8 @@ Freeciv*reporttradesellallcommand.right:       chainLeft
 ! Active units report dialog
 !
 !
-Freeciv*reportactiveunitspopup.title: Active units Report
-Freeciv*reportactiveunitspopup.allowShellResize: True
+Freeciv*reportactiveunitspopup.title:              Active Units Report
+Freeciv*reportactiveunitspopup.allowShellResize:   True
 
 Freeciv*reportactiveunitsform.resizable:           true
 Freeciv*reportactiveunitsform.top:                 chainTop
