@@ -1364,7 +1364,11 @@ void make_partisans(struct city *pcity)
 }
 
 /**************************************************************************
-...
+Are there dangerous enemies at or adjacent to (x, y)?
+
+N.B. This function should only be used by (cheating) AI, as it iterates 
+through all units stacked on the tiles, an info not normally available 
+to the human player.
 **************************************************************************/
 bool enemies_at(struct unit *punit, int x, int y)
 {
@@ -1374,23 +1378,30 @@ bool enemies_at(struct unit *punit, int x, int y)
 
   if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
       && !is_non_allied_unit_tile(map_get_tile(x,y), pplayer)) {
+    /* We will be safe in a friendly city */
     return FALSE;
   }
 
+  /* Calculate how well we can defend at (x,y) */
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
   if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_vulnerability_virtual(punit) * db;
+
   adjc_iterate(x, y, x1, y1) {
-    if (!pplayer->ai.control
-	&& !map_get_known_and_seen(x1, y1, unit_owner(punit))) continue;
-    if (is_enemy_city_tile(map_get_tile(x1, y1), unit_owner(punit)))
-      return TRUE;
+    if (ai_handicap(pplayer, H_FOG)
+	&& !map_get_known_and_seen(x1, y1, unit_owner(punit))) {
+      /* We cannot see danger at (x1, y1) => assume there is none */
+      continue;
+    }
     unit_list_iterate(map_get_tile(x1, y1)->units, enemy) {
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) &&
 	  can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
 	a += unit_belligerence_basic(enemy);
-	if ((a * a * 10) >= d) return TRUE;
+	if ((a * a * 10) >= d) {
+          /* The enemies combined strength is too big! */
+          return TRUE;
+        }
       }
     } unit_list_iterate_end;
   } adjc_iterate_end;
