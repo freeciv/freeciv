@@ -72,28 +72,31 @@ static SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 ***************************************************************************/
 void load_intro_gfx( void )
 {
-  int  w;
+  int tot, lin, y, w;
   char s[64];
-  int y = 44;
 
   intro_gfx_sprite = load_gfxfile(main_intro_filename);
   radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
 
+  tot=radar_gfx_sprite->width;
+  lin=main_font->ascent+main_font->descent;
+  y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font->descent)));
+
   w = gdk_string_width(main_font, WORD_VERSION);
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (160/2-w/2)+1, y+1, WORD_VERSION);
+		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, WORD_VERSION);
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, 160/2-w/2, y, WORD_VERSION);
+		  toplevel->style->white_gc, tot/2-w/2, y, WORD_VERSION);
 
-  y+=(main_font->ascent + main_font->descent);
+  y+=lin;
 
   sprintf(s, "%d.%d.%d%s", MAJOR_VERSION, MINOR_VERSION,
 	  PATCH_VERSION, VERSION_LABEL);
   w = gdk_string_width( main_font, s );
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (160/2-w/2)+1, y+1, s);
+		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, s);
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, 160/2-w/2, y, s);
+		  toplevel->style->white_gc, tot/2-w/2, y, s);
 
   return;
 }
