@@ -25,6 +25,9 @@ struct canvas {
   struct sw_widget *widget;
 };
 
+void popup_mapcanvas(void);
+void popdown_mapcanvas(void);
+
 extern struct sw_widget *root_window;
 
 be_color enum_color_to_be_color(int color);
