@@ -2308,8 +2308,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	freelog(LOG_DEBUG, "    %2d/%s",
 		b->spec_gate[inx], get_special_name(b->spec_gate[inx]));
       }
-      freelog(LOG_DEBUG, "  equiv_range %2d/%s",
-	      b->equiv_range, effect_range_name(b->equiv_range));
+      freelog(LOG_DEBUG, "  equiv_range %2d/%d",
+	      b->equiv_range, b->equiv_range);
       freelog(LOG_DEBUG, "  equiv_dupl...");
       for (inx = 0; b->equiv_dupl[inx] != B_LAST; inx++) {
 	freelog(LOG_DEBUG, "    %2d/%s",
