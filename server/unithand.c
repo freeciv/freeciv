@@ -1093,6 +1093,22 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
 
   /*** Phase 4: OK now move the unit ***/
 
+  /* We cannot move a transport into a tile that holds
+   * units or cities not allied with all of our cargo. */
+  if (get_transporter_capacity(punit) > 0) {
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, pcargo) {
+      if (pcargo->transported_by == punit->id
+          && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
+              || is_non_allied_city_tile(pdesttile, unit_owner(pcargo)))) {
+         notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                          _("Game: A transported unit is not allied to all "
+                            "units or city on target tile."));
+         return FALSE;
+      }
+    } unit_list_iterate_end;
+  }
+
+
   if (can_unit_move_to_tile_with_notify(punit, x, y, igzoc)
       && try_move_unit(punit, x, y)) {
     int move_cost = map_move_cost(punit, x, y);
