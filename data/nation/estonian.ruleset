@@ -1,0 +1,25 @@
+[nation_estonian]
+
+name=_("Estonian")
+plural=_("?plural:Estonians")
+leader="Tunne Kelam", "Kelavipoeg", "Lembitu"
+leader_sex="Male", "Male", "Male"
+flag="f.estonia"
+flag_alt = "-"
+city_style = "European"
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy","Chivalry","The Republic","Democracy","Conscription"
+wonder="United Nations"
+government = "Democracy"
+
+cities =
+  "Tallinn", "Tartu", "Paarnu", "Tapa", "Tamsalu", "Rakvere",
+  "Kilingi-Noomme", "Kohtla-Jaarve", "Sillamaae", "Kuressaare",
+  "Kehra", "Maardu", "Loksa", "Kohila", "Paldiski", "Keila",
+  "Rapla", "Lihula", "Paide", "Vaandra", "Vohma", "Paide",
+  "Tuuri", "Maarjarnaa", "Kaardla", "Vosu", "Kunda", "Kivioli",
+  "Viivikonna", "Kallaste", "Rappina", "Voru", "Haapsalu"

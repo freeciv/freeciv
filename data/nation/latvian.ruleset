@@ -1,0 +1,23 @@
+[nation_latvian]
+
+name=_("Latvian")
+plural=_("?plural:Latvians")
+leader="Guntars Krasts"
+leader_sex="Male"
+flag="f.latvia"
+flag_alt = "-"
+city_style = "European"
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy","Chivalry","Gunpowder","Industrialization"
+wonder="Cure for Cancer"
+government = "Democracy"
+
+cities =
+  "Riga", "Liepaja", "Jurmala", "Kuldiga", "Daugavpils", "Ogre", "Limbazi",
+  "Valmiera", "Ventspils", "Talsi", "Livani", "Rezenke", "Aizpute", "Valga",
+  "Balvi", "Sigulda", "Vecaki", "Olaine", "Saulkratsi", "Cesis", "Rujiena",
+  "Smiltene", "Balyi", "Gulbene", "Madona", "Ludza"

@@ -101,4 +101,7 @@ tiles = { "row", "column", "tag"
   4, 12, "f.bavarian"
   4, 13, "f.rome"         ; Roman republic flag
   5,  0, "f.cornwall"
+  5,  1, "f.philippines"
+  5,  2, "f.estonia"
+  5,  3, "f.latvia"
 }
