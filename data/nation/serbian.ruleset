@@ -23,7 +23,7 @@ expand=0
 civilized=2
 advisors=100,100,100,100,100,100,100
 
-tech_goals="The Republic", "The Weel", "Iron Working", "Construction",
+tech_goals="The Republic", "The Wheel", "Iron Working", "Construction",
            "Railroad", "Automobile"
 wonder="Sun Tzu's War Academy"
 government="Monarchy"
