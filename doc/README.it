@@ -370,19 +370,17 @@ Supporto per lingue locali:
 ===========================
 
 Freeciv supporta diverse lingue.
-(Per il momento l'Italiano non e' pronto. Appena tradotto pubblicheremo il
-locale sul sito www.freeciv.org e su freeciv.siena.linux.it Ndt)
 
 Potete scegliere quale linguaggio usare specificando un "locale".
-Ogni locale ha un nome standard (es: 'de' per il Tedesco). Se avete installato
+Ogni locale ha un nome standard (es: 'it' per l'Italiano). Se avete installato
 Freeciv, potete scegliere un locale impostando, prima di eseguire civserver e
 civclient, la variabile di ambiente LANG con il nome standard di quel locale.
 
-Per esempio, presumendo di voler installare la localizzazione Tedesca, fareste:
+Per esempio, presumendo di voler installare la localizzazione Italiana, fareste:
 
-  export LANG; LANG=de   (nella shell Bourne (sh) e simili),
+  export LANG; LANG=it   (nella shell Bourne (sh) e simili),
 or
-  setenv LANG de         (nella shell C (csh) e simili).
+  setenv LANG it         (nella shell C (csh) e simili).
 
 Per comodita' potreste inserire queste righe nel vostro file .profile (bash) o
 .login (csh).
