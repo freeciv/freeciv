@@ -1360,7 +1360,7 @@ cities =
 [nation37]
 
 name=_("Canadian")
-plural=_("Canadians")
+plural=_("?plural:Canadians")
 leader="Pierre Trudeau", "Sir John A. MacDonald", "John Diefenbaker"
 leader_sex="Male", "Male", "Male"
 flag="f.canada"
