@@ -67,7 +67,8 @@ void free_sprite(struct Sprite *s);
 void dtor_sprite(struct Sprite *mysprite);
 
 struct Sprite *get_tile_sprite(int tileno);
-void load_tile_gfx(void);
+void load_tile_gfx_first(void);
+void load_tile_gfx_rest(void);
 void load_intro_gfx(void);
 void load_cursors(void);
 

@@ -400,14 +400,20 @@ void ui_main(int argc, char *argv[])
     gray25=XCreateBitmapFromData(display,root_window,d2,4,4);
   }
 
-  load_tile_gfx();
+  /* get NORMAL_TILE_WIDTH etc, small.xpm, required for setup_widgets: */
+  load_tile_gfx_first();
 
   /* 135 below is rough value (could be more intelligent) --dwp */
   num_units_below = 135/(int)NORMAL_TILE_WIDTH;
   num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
   num_units_below = MAX(num_units_below,1);
   
+  /* do setup_widgets before loading the rest of graphics to ensure that
+     setup_widgets() has enough colors available:  (on 256-colour systems)
+  */
   setup_widgets();
+
+  load_tile_gfx_rest();
   load_intro_gfx();
   load_cursors();
 

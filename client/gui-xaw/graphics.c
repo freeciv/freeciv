@@ -118,25 +118,30 @@ struct Sprite *crop_sprite(struct Sprite *source,
   return ctor_sprite_mask(mypixmap, mask, width, height);
 }
 
+/* This stores the index so far in global tile_sprites
+   between the end of load_tile_gfx_first() and the start
+   of load_tile_gfx_rest():
+*/
+static int tiles_i;
 
 /***************************************************************************
-...
+  Load tiles.xpm and small.xpm; these are necessary before we can
+  call setup_widgets.  Note that these two files must _not_ exhaust
+  the colormap (on 256 color systems) or setup_widgets will likely
+  dump core.
+  Initialises globals:
+     tile_sprites, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT.
+  Fills in tile_sprites for tiles.xpm and small.xpm graphics.   
 ***************************************************************************/
-void load_tile_gfx(void)
+void load_tile_gfx_first(void)
 {
   int i, x, y, ntiles, a;
-  struct Sprite *big_sprite, *small_sprite, *unit_sprite, *treaty_sprite;
-  struct Sprite *roads_sprite, *space_sprite, *flags_sprite;
-  int row;
+  struct Sprite *big_sprite, *small_sprite;
 
   big_sprite   = load_xpmfile(tilefilename("tiles.xpm"));
-  unit_sprite  = load_xpmfile(tilefilename("units.xpm"));
   small_sprite = load_xpmfile(tilefilename("small.xpm"));
-  treaty_sprite= load_xpmfile(tilefilename("treaty.xpm"));
-  roads_sprite = load_xpmfile(tilefilename("roads.xpm"));
-  space_sprite = load_xpmfile(tilefilename("space.xpm"));
-  flags_sprite = load_xpmfile(tilefilename("flags.xpm"));
 
+  /* tiles + units + small + treaty + roads + space + flags: */
   ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6 + (14*2);
 
   tile_sprites=fc_malloc(ntiles*sizeof(struct Sprite *));
@@ -173,6 +178,28 @@ void load_tile_gfx(void)
     tile_sprites[i++]=ctor_sprite(mypixmap, 
 				  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
   }
+  free_sprite(big_sprite);
+  free_sprite(small_sprite);
+  tiles_i = i;
+}
+
+/***************************************************************************
+  Load the rest of the xpm files: those which are not required
+  for setup_widgets().
+***************************************************************************/
+void load_tile_gfx_rest(void)
+{
+  int i = tiles_i;
+  int x, y;
+  struct Sprite *unit_sprite, *treaty_sprite;
+  struct Sprite *roads_sprite, *space_sprite, *flags_sprite;
+  int row;
+
+  unit_sprite  = load_xpmfile(tilefilename("units.xpm"));
+  treaty_sprite= load_xpmfile(tilefilename("treaty.xpm"));
+  roads_sprite = load_xpmfile(tilefilename("roads.xpm"));
+  space_sprite = load_xpmfile(tilefilename("space.xpm"));
+  flags_sprite = load_xpmfile(tilefilename("flags.xpm"));
 
   {
     Pixmap mypixmap;
@@ -256,8 +283,6 @@ void load_tile_gfx(void)
   }
   
   free_sprite(unit_sprite);
-  free_sprite(big_sprite);
-  free_sprite(small_sprite);
   free_sprite(treaty_sprite);
   free_sprite(roads_sprite);
   free_sprite(space_sprite);
