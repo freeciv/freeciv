@@ -2,13 +2,22 @@
 
 name=_("Polish")
 plural=_("?plural:Polish")
-leader="Mieszko", "Jadwiga", "Jan Sobieski", "Kosciuszko", "Pilsudski", "Walesa"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
+leader="Mieszko I", "Wladyslaw Lokietek", "Kazimierz Wielki", "Jadwiga",
+       "Wladyslaw Jagiello", "Stefan Batory", "Jan III Sobieski",
+       "Stanislaw Poniatowski", "Kosciuszko", "Pilsudski"
+leader_sex="Male", "Male", "Male", "Female",
+           "Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.poland"
 flag_alt = "-"
 city_style = "European"
+
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Dyktator"),     _("Dyktatorka")
                  "Fundamentalism",  _("Prymas"),       _("Prymas")
+                 "Monarchy",        _("Krol"),         _("Krolowa")
+      	"Communism",       _("Pierwszy Sekretarz"),      _("Pierwszy Sekretarz")
+                 "Republic",        _("Prezydent"),    _("Prezydent")
+                 "Democracy",       _("Prezydent"),    _("Prezydent")
                }
 
 attack=2
@@ -21,12 +30,12 @@ wonder="Copernicus' Observatory"
 government="Democracy"
 
 cities =
- "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
- "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
- "Olsztyn", "Wloclawek", "Radom", "Kielce", "Bialystok", "Opole",
- "Plock", "Rzeszów", "Tarnów", "Katowice", "Bielsko-Biala",
+ "Gniezno", "Krakow", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
+ "Szczecin", "Lodz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
+ "Olsztyn", "Wloclawek", "Radom", "Kolobrzeg", "Kielce", "Bialystok",
+ "Plock", "Rzeszow", "Tarnow", "Katowice", "Bielsko-Biala",
  "Sandomierz", "Legnica", "Walbrzych", "Gdynia", "Koszalin",
- "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", "Przemysl",
+ "Slupsk", "Piotrkow", "Konin", "Kalisz", "Krosno", "Przemysl",
  "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane",
- "Oswiecim", "Glogów", "Jawor", "Zielona Góra", "Jelenia Góra",
- "Boleslawiec", "Gorzów", "Hel", "Puck"
+ "Oswiecim", "Glogow", "Jawor", "Zielona Gora", "Jelenia Gora",
+ "Boleslawiec", "Gorzow", "Hel", "Puck","Opole", "Kolo"
