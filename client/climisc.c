@@ -87,18 +87,16 @@ void client_remove_unit(int unit_id)
       }
     }
 
-    if((pcity=map_get_city(x, y)))
+    pcity = map_get_city(x, y);
+    if (pcity != NULL) {
       refresh_city_dialog(pcity);
-
-    if (pcity) {
       freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
-    
-    if((pcity=player_find_city_by_id(game.player_ptr, hc)))
-      refresh_city_dialog(pcity);
 
-    if (pcity) {
+    pcity = player_find_city_by_id(game.player_ptr, hc);
+    if (pcity != NULL) {
+      refresh_city_dialog(pcity);
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
