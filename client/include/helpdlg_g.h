@@ -17,7 +17,6 @@ enum help_page_type { HELP_ANY, HELP_TEXT, HELP_UNIT, HELP_IMPROVEMENT,
 		      HELP_WONDER, HELP_TECH, HELP_TERRAIN,
                       HELP_GOVERNMENT };
 
-void popup_help_dialog(int item);
 void popup_help_dialog_string(const char *item);
 void popup_help_dialog_typed(const char *item, enum help_page_type);
 void popdown_help_dialog(void);

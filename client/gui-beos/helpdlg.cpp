@@ -13,15 +13,6 @@
 BdhDialog *help_dialog = NULL;
 
 void
-popup_help_dialog(int item)	// HOOK
-{
-    BMessage *msg = new BMessage( UI_POPUP_HELP_DIALOG );
-    msg->AddInt32( "item", item );
-    ui->PostMessage( msg );
-}
-
-
-void
 popup_help_dialog_string(char *item)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_HELP_DIALOG_STRING );
@@ -55,7 +46,6 @@ popdown_help_dialog(void)	// HOOK
 // @@@@
 #include <Alert.h>
 
-// UI_POPUP_HELP_DIALOG,
 // UI_POPUP_HELP_DIALOG_STRING,
 // UI_POPUP_HELP_DIALOG_TYPED,
 // UI_POPDOWN_HELP_DIALOG,
