@@ -277,11 +277,11 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
     if (wParam&MK_SHIFT) {
       adjust_workers(xtile,ytile);
+      wakeup_sentried_units(xtile,ytile);
     } else if (wParam&MK_CONTROL){
       popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
     } else {
       do_map_click(xtile,ytile);
-      wakeup_sentried_units(xtile,ytile);
     }
     break;
   case WM_RBUTTONDOWN:
