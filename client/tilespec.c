@@ -471,9 +471,18 @@ static void scan_specfile(struct specfile *sf)
   for (i = 0; i < num_grids; i++) {
     int j, k;
     int x_top_left, y_top_left, dx, dy;
-    bool is_pixel_border =
-      secfile_lookup_bool_default(file, FALSE,
-				  "%s.is_pixel_border", gridnames[i]);
+    int pixel_border;
+
+    pixel_border =
+      secfile_lookup_int_default(file, -1, "%s.pixel_border", gridnames[i]);
+    if (pixel_border < 0) {
+      /* is_pixel_border is used in old tilesets. */
+      pixel_border =
+	(secfile_lookup_bool_default(file, FALSE,
+				     "%s.is_pixel_border", gridnames[i])
+	 ? 1 : 0);
+    }
+
     x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
     y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
     dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);
@@ -495,8 +504,8 @@ static void scan_specfile(struct specfile *sf)
       /* there must be at least 1 because of the while(): */
       assert(num_tags > 0);
 
-      x1 = x_top_left + column * dx + (is_pixel_border ? column : 0);
-      y1 = y_top_left + row * dy + (is_pixel_border ? row : 0);
+      x1 = x_top_left + (dx + pixel_border) * column;
+      y1 = y_top_left + (dy + pixel_border) * row;
 
       ss->ref_count = 0;
       ss->x = x1;
