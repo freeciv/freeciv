@@ -154,6 +154,7 @@ static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
 SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
 			       Uint8 state, Uint16 Width, Uint16 High)
 {
+  bool zoom;
   int iTile_width_len_end, iTile_width_len_mid, iTile_count_len_mid;
   int iTile_width_high_end, iTile_width_high_mid, iTile_count_high_mid;
   int i, j;
@@ -186,11 +187,12 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     iTile_count_high_mid++;
   }
 
-  Width = MAX(iTile_width_len_end * 2, Width);
-  High = MAX(iTile_width_high_end * 2, High);
-
+  i = MAX(iTile_width_len_end * 2, Width);
+  j = MAX(iTile_width_high_end * 2, High);
+  zoom = ((i != Width) ||  (j != High));
+  
   /* now allocate memory */
-  pBackground = create_surf(Width, High, SDL_SWSURFACE);
+  pBackground = create_surf(i, j, SDL_SWSURFACE);
 
   /* copy left end */
 
@@ -272,11 +274,18 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   des.y = pBackground->h - iTile_width_high_end;
   SDL_BlitSurface(pTheme, &src, pBackground, &des);
   
+  if (zoom)
+  {
+    SDL_Surface *pZoom = ResizeSurface(pBackground, Width, High, 1);
+    FREESURFACE(pBackground);
+    pBackground = pZoom;
+  }
+  
   /* set transparency 50% */
   if (transp) {
     SDL_SetAlpha(pBackground, SDL_SRCALPHA, 128);
   }
-
+  
   return pBackground;
 }
 
@@ -2362,18 +2371,20 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 /**************************************************************************
   ...
 **************************************************************************/
-void setup_vertical_widgets_position(int step,
+int setup_vertical_widgets_position(int step,
 	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
 				struct GUI *pBegin, struct GUI *pEnd)
 {
   struct GUI *pBuf = pEnd;
   register int count = 0;
   register int real_start_x = start_x;
-    
-  while(pBuf) {
+  int ret = 0;
+  
+  while(pBuf)
+  {
     pBuf->size.x = real_start_x;
     pBuf->size.y = start_y;
-   
+     
     if(w) {
       pBuf->size.w = w;
     }
@@ -2385,16 +2396,23 @@ void setup_vertical_widgets_position(int step,
     if(!((count + 1) % step)) {
       real_start_x = start_x;
       start_y += pBuf->size.h;
+      if (((get_wflags(pBuf) & WF_HIDDEN) != WF_HIDDEN))
+      {
+        ret += pBuf->size.h;
+      }
     } else {
       real_start_x += pBuf->size.w;
     }
     
     if(pBuf == pBegin) {
+      
       break;
     }
     count++;
     pBuf = pBuf->prev;
   }
+  
+  return ret;
 }
 
 
@@ -5498,8 +5516,22 @@ void remake_label_size(struct GUI *pLabel)
   }
 
   if (pText) {
+    bool without_box = ((get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) == WF_SELLECT_WITHOUT_BAR);
+    bool bold = TRUE;
+    
+    if (without_box)
+    {
+      bold = ((pText->style & TTF_STYLE_BOLD) == TTF_STYLE_BOLD);
+      pText->style |= TTF_STYLE_BOLD;
+    }
+    
     buf = str16size(pText);
 
+    if (without_box && !bold)
+    {
+      pText->style &= ~TTF_STYLE_BOLD;
+    }
+    
     w = MAX(w, buf.w + space);
     h = MAX(h, buf.h);
   }

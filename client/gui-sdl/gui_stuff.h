@@ -257,7 +257,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 	Sint16 start_x, Sint16 start_y, Uint16 hight, bool swap_start_x);
 void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll);
   
-void setup_vertical_widgets_position(int step,
+int setup_vertical_widgets_position(int step,
 	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
 				struct GUI *pBegin, struct GUI *pEnd);
 

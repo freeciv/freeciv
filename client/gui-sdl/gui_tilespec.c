@@ -396,12 +396,12 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.BORDERS_button")) {
-    freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
-    "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
+  if(!sprite_exists("theme.tech_tree")) {
+    freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
+    "Please use other tileset with ""full"" GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE6"
-    "(again:) tileset theme");
+    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download current DELUXE"
+    "tileset theme");
   }
   
   load_theme_surface(pBuf, Button, "theme.button");
@@ -450,7 +450,8 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, DELETE_Icon, "theme.DELETE_button");
   load_theme_surface(pBuf, BORDERS_Icon, "theme.BORDERS_button");
   /* ------------------------------ */
-  
+  load_theme_surface(pBuf, Tech_Tree_Icon, "theme.tech_tree");
+  /* ------------------------------ */
   load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
   load_theme_surface(pBuf, DOWN_Icon, "theme.DOWN_scroll");
 #if 0
@@ -501,19 +502,20 @@ void tilespec_setup_theme(void)
     
   /* Map Dithering */
   
-  pBuf = sprites.dither_tile;
-  pDitherMask = GET_SURF(pBuf);
-  pBuf->psurface = NULL;
-  unload_sprite("t.dither_tile");
-  assert(pDitherMask != NULL);	  
+    if (is_isometric)
+    {
+      pBuf = sprites.dither_tile;
+      pDitherMask = GET_SURF(pBuf);
+      pBuf->psurface = NULL;
+      unload_sprite("t.dither_tile");
+      assert(pDitherMask != NULL);	  
   /* ------------------------------ */
-
   /* Map Borders */
-  load_theme_surface(pBuf, NWEST_BORDER_Icon, "theme.normal_border_iso_west");
-  load_theme_surface(pBuf, NNORTH_BORDER_Icon, "theme.normal_border_iso_north");
-  load_theme_surface(pBuf, NSOUTH_BORDER_Icon, "theme.normal_border_iso_south");
-  load_theme_surface(pBuf, NEAST_BORDER_Icon, "theme.normal_border_iso_east");
-
+      load_theme_surface(pBuf, NWEST_BORDER_Icon, "theme.normal_border_iso_west");
+      load_theme_surface(pBuf, NNORTH_BORDER_Icon, "theme.normal_border_iso_north");
+      load_theme_surface(pBuf, NSOUTH_BORDER_Icon, "theme.normal_border_iso_south");
+      load_theme_surface(pBuf, NEAST_BORDER_Icon, "theme.normal_border_iso_east");
+    }
   return;
 }
 
@@ -710,7 +712,8 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->DELETE_Icon);
   FREESURFACE(pTheme->BORDERS_Icon);
   /* ------------------------------ */
-  
+  FREESURFACE(pTheme->Tech_Tree_Icon);
+  /* ------------------------------ */
   FREESURFACE(pTheme->UP_Icon);
   FREESURFACE(pTheme->DOWN_Icon);
 #if 0
@@ -804,7 +807,10 @@ void unload_unused_graphics(void)
   unload_sprite("citizen.angry_0");
   unload_sprite("citizen.angry_1");
   unload_sprite("s.right_arrow");
-  unload_sprite("t.coast_color");
+  if (sprite_exists("t.coast_color"))
+  {
+    unload_sprite("t.coast_color");
+  }
   unload_sprite("upkeep.gold");
   unload_sprite("upkeep.gold2");
   unload_sprite("upkeep.food");
@@ -812,5 +818,8 @@ void unload_unused_graphics(void)
   unload_sprite("upkeep.unhappy");
   unload_sprite("upkeep.unhappy2");
   unload_sprite("upkeep.shield");
-  unload_sprite("explode.iso_nuke");
+  if (is_isometric && sprite_exists("explode.iso_nuke"))
+  {
+    unload_sprite("explode.iso_nuke");
+  }
 }

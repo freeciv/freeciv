@@ -314,7 +314,7 @@ void *get_packet_from_connection(struct connection *pc,
 {
   int len_read;
   int whole_packet_len;
-  enum packet_type type;
+  int type;
   struct data_in din;
 #ifdef USE_COMPRESSION
   bool compressed_packet = FALSE;
@@ -412,12 +412,12 @@ void *get_packet_from_connection(struct connection *pc,
   }
 #endif
 
-  dio_get_uint8(&din, (int *) &type);
+  dio_get_uint8(&din, (int *) (&type));
 
   freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d",
 	  get_packet_name(type), type, whole_packet_len);
 
-  *ptype=type;
+  *ptype= (enum packet_type)type;
   *presult = TRUE;
 
   if (pc->incoming_packet_notify) {

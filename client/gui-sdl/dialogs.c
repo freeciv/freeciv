@@ -70,6 +70,7 @@
 #include "inteldlg.h"
 #include "plrdlg.h"
 #include "gotodlg.h"
+#include "helpdlg.h"
 
 #include "mapview.h"
 #include "mapctrl.h"
@@ -175,6 +176,7 @@ void popdown_all_game_dialogs(void)
   popdown_players_dialog();
   popdown_goto_airlift_dialog();
   popdown_unit_upgrade_dlg();
+  popdown_help_dialog();
   
   /* clear gui buffer */
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
@@ -1250,6 +1252,19 @@ static int paradrop_here_callback(struct GUI *pWidget)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static int unit_help_callback(struct GUI *pWidget)
+{
+  Unit_Type_id unit_id = MAX_ID - pWidget->ID;
+    
+  popdown_advanced_terrain_dialog();
+  popup_unit_info(unit_id);
+  return -1;
+}
+
+
+/**************************************************************************
   Popup a generic dialog to display some generic information about
   terrain : tile, units , cities, etc.
 **************************************************************************/
@@ -1596,7 +1611,7 @@ void popup_advanced_terrain_dialog(int x , int y)
         h += pBuf->next->size.h;
 	  
       }
-
+      #undef ADV_NUM_SEEN
     }
     else
     { /* n == 1 */
@@ -1667,14 +1682,10 @@ void popup_advanced_terrain_dialog(int x , int y)
       /* ---------------- */
       my_snprintf(cBuf, sizeof(cBuf),
             _("View Civiliopedia entry for %s"), pUnitType->name);
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,	cBuf, NULL);
-      pBuf->data.ptr = (void *)pUnitType;
-      pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
-      
-      /* set_wstate( pBuf , FC_WS_NORMAL ); */
-      
-      add_to_gui_list(ID_LABEL, pBuf);
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	    cBuf, unit_help_callback);
+      set_wstate(pBuf , FC_WS_NORMAL);
+      add_to_gui_list(MAX_ID - pUnit->type, pBuf);
     
       w = MAX(w, pBuf->size.w);
       units_h += pBuf->size.h;
@@ -2201,7 +2212,7 @@ static int spy_steal_popup(struct GUI *pWidget)
     
       count++;  
       copy_chars_to_string16(pStr, advances[i].name);
-      pSurf = create_sellect_tech_icon(pStr, i);
+      pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
@@ -2220,7 +2231,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   /* get spy tech */
   i = unit_type(find_unit_by_id(id))->tech_requirement;
   copy_chars_to_string16(pStr, _("At Spy's Discretion"));
-  pSurf = create_sellect_tech_icon(pStr, i);
+  pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
 	
   pBuf = create_icon2(pSurf, pWindow->dst,
     	(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT| WF_FREE_DATA));
@@ -2258,8 +2269,10 @@ static int spy_steal_popup(struct GUI *pWidget)
   
   /* alloca window theme and win background buffer */
   pSurf = get_logo_gfx();
-  resize_window(pWindow, pSurf, NULL, w, h);
-  FREESURFACE(pSurf);
+  if (resize_window(pWindow, pSurf, NULL, w, h))
+  {
+    FREESURFACE(pSurf);
+  }
 
     /* exit button */
   pBuf = pWindow->prev;

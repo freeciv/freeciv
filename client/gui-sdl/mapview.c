@@ -47,6 +47,7 @@
 
 #include "civclient.h"
 #include "climisc.h"
+#include "climap.h"
 #include "colors.h"
 #include "control.h"
 #include "goto.h"
@@ -379,37 +380,6 @@ void flush_dirty(void)
   }
   Main.rects_count = 0;
 
-}
-
-/* ======================================================== */
-
-/**************************************************************************
-  normalize_map_pos + (y) corrections.  This function must go to drink!
-**************************************************************************/
-int correction_map_pos(int *pCol, int *pRow)
-{
-  int iRet = 0;
-
-  /* correction ... pCol and pRow must be in map :) */
-  if (*pCol < 0) {
-    *pCol += map.xsize;
-    iRet = 1;
-  } else {
-    if (*pCol >= map.xsize) {
-      *pCol -= map.xsize;
-      iRet = 1;
-    }
-  }
-
-  if (*pRow < 0) {
-    *pRow += map.ysize;
-    iRet = 1;
-  } else if (*pRow >= map.ysize) {
-    *pRow -= map.ysize;
-    iRet = 1;
-  }
-
-  return iRet;
 }
 
 /* ===================================================================== */
@@ -1061,7 +1031,11 @@ void set_unit_icons_more_arrow(bool onoff)
 void update_unit_info_label(struct unit *pUnit)
 {
   static bool mutant = FALSE;
- 
+   
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
+  
   /* draw unit info window */
   redraw_unit_info_label(pUnit);
   
@@ -2910,11 +2884,41 @@ void tileset_changed(void)
    ===================================================================== */
 
 /**************************************************************************
+  normalize_map_pos + (y) corrections.  This function must go to drink!
+**************************************************************************/
+int correction_map_pos(int *pCol, int *pRow)
+{
+  int iRet = 0;
+
+  /* correction ... pCol and pRow must be in map :) */
+  if (*pCol < 0) {
+    *pCol += map.xsize;
+    iRet = 1;
+  } else {
+    if (*pCol >= map.xsize) {
+      *pCol -= map.xsize;
+      iRet = 1;
+    }
+  }
+
+  if (*pRow < 0) {
+    *pRow += map.ysize;
+    iRet = 1;
+  } else if (*pRow >= map.ysize) {
+    *pRow -= map.ysize;
+    iRet = 1;
+  }
+
+  return iRet;
+}
+
+
+/**************************************************************************
   ...
 **************************************************************************/
-SDL_Surface * create_city_map(struct city *pCity)
+static SDL_Surface * create_iso_city_map(struct city *pCity)
 {
-
+#if 0
   register Uint16 col = 0, row;
   SDL_Rect dest;
   int draw_units_backup = draw_units;
@@ -2940,8 +2944,9 @@ SDL_Surface * create_city_map(struct city *pCity)
   for (; col < CITY_MAP_SIZE; col++) {
     for (row = 0; row < CITY_MAP_SIZE; row++) {
 #if 1
-      sx = x0 + (col - row) * HALF_NORMAL_TILE_WIDTH;
-      sy = y0 + (row + col) * HALF_NORMAL_TILE_HEIGHT;
+       sx = x0 + (col - row) * HALF_NORMAL_TILE_WIDTH;
+       sy = y0 + (row + col) * HALF_NORMAL_TILE_HEIGHT;
+        
 #else
       /* ugly hack for speed.  Assumes:
        *   NORMAL_TILE_WIDTH == 64
@@ -3026,7 +3031,139 @@ SDL_Surface * create_city_map(struct city *pCity)
 
   FREESURFACE(pTile);
 
+#endif  
+  
+  int city_x, city_y;
+  int map_x, map_y, canvas_x, canvas_y;
+  int draw_units_backup = draw_units;
+  SDL_Surface *pTile = NULL;
+  SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
+		get_citydlg_canvas_height()
+	    + HALF_NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+
+    
+  /* turn off drawing units */
+  draw_units = 0;
+  
+  /* We have to draw the tiles in a particular order, so its best
+     to avoid using any iterator macro. */
+  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
+  {
+    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
+        if (is_valid_city_coords(city_x, city_y)
+	  && city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
+	  && tile_get_known(map_x, map_y)
+	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
+	  draw_map_cell(pDest, canvas_x,
+		  canvas_y + HALF_NORMAL_TILE_HEIGHT, map_x, map_y, 1);
+	
+	if (get_worker_city(pCity, city_x, city_y) == C_TILE_UNAVAILABLE)
+	{
+	    
+	    SDL_Rect dest = {canvas_x, canvas_y + HALF_NORMAL_TILE_HEIGHT, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT};
+	    if (!pTile) {
+	      
+	      /* fill pTile with Mask Color */
+	      SDL_FillRect(pTmpSurface, NULL,
+			   SDL_MapRGB(pTmpSurface->format, 255, 0, 255));
+	      
+	      /* make mask */
+	      SDL_BlitSurface(GET_SURF(sprites.black_tile),
+			      NULL, pTmpSurface, NULL);
+
+	      SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY,
+			      getpixel(pTmpSurface, HALF_NORMAL_TILE_WIDTH,
+				       HALF_NORMAL_TILE_HEIGHT));
+	      /* create pTile */
+	      pTile = create_surf(NORMAL_TILE_WIDTH,
+				  NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+	      
+	      /* fill pTile with RED */
+	      SDL_FillRect(pTile, NULL,
+			   SDL_MapRGBA(pTile->format, 255, 0, 0, 96));
+
+	      /* blit mask */
+	      SDL_BlitSurface(pTmpSurface, NULL, pTile, NULL);
+
+	      SDL_SetColorKey(pTile, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+			      get_first_pixel(pTile));
+
+	      SDL_SetAlpha(pTile, SDL_SRCALPHA, 96);
+
+	      /* clear pTmpSurface */
+	      if (pTmpSurface->format->BytesPerPixel == 4 &&
+		  !pTmpSurface->format->Amask) {
+		SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, Amask);
+		SDL_FillRect(pTmpSurface, NULL, Amask);
+	      } else {
+		SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0x0);
+		SDL_FillRect(pTmpSurface, NULL, 0);
+	      }
+	    }
+	    SDL_BlitSurface(pTile, NULL, pDest, &dest);
+	} 
+      }
+    }
+  }
+  draw_units = draw_units_backup;
+  FREESURFACE(pTile);
+  
   return pDest;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static SDL_Surface * create_noiso_city_map(struct city *pCity)
+{
+  
+  int city_x, city_y;
+  int map_x, map_y, canvas_x, canvas_y;
+  int draw_units_backup = draw_units;
+  struct canvas_store store;
+  SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
+				   get_citydlg_canvas_height(), SDL_SWSURFACE);
+
+  store.map = pDest;
+  
+  /* turn off drawing units */
+  draw_units = 0;
+  
+  /* We have to draw the tiles in a particular order, so its best
+     to avoid using any iterator macro. */
+  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
+  {
+    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
+        if (is_valid_city_coords(city_x, city_y)
+	  && city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
+	  && tile_get_known(map_x, map_y)
+	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
+	put_one_tile(&store, map_x, map_y,  canvas_x, canvas_y, 1);
+	if (get_worker_city(pCity, city_x, city_y) == C_TILE_UNAVAILABLE)
+	{
+	    SDL_Color used = {255, 0, 0, 96};
+	    SDL_Rect dest = {canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT};
+	    SDL_FillRectAlpha(pDest, &dest, &used);
+	} 
+      }
+    }
+  }
+  draw_units = draw_units_backup;
+  
+  return pDest;
+}
+
+
+
+SDL_Surface * create_city_map(struct city *pCity)
+{
+  
+    if (is_isometric)
+    {
+      return create_iso_city_map(pCity);
+    }
+    
+    return create_noiso_city_map(pCity);
 }
 
 /**************************************************************************

@@ -63,6 +63,9 @@ struct Theme {
 	SDL_Surface *LOAD_Icon;
 	SDL_Surface *DELETE_Icon;
 	SDL_Surface *BORDERS_Icon;
+
+        /* help icons */
+	SDL_Surface *Tech_Tree_Icon;
 	
 	/* city icons */
 	SDL_Surface *Army_Icon;

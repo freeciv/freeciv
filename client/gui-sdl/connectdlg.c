@@ -95,19 +95,38 @@ static int connect_callback(struct GUI *pWidget)
 }
 /* ======================================================== */
 
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int meta_severs_window_callback(struct GUI *pWindow)
 {
   return -1;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
 {
   queue_flush();
+  if (pMeta_Severs->pEndWidgetList->ID == ID_META_SERVERS_WINDOW)
+  {
+    delete_server_list(pServer_list);
+  } else {
+    /* lan list */
+    finish_lanserver_scan();
+  }
+  pServer_list = NULL;
   popup_join_game_callback(NULL);
   popup_meswin_dialog();
   return -1;
 }
 
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int sellect_meta_severs_callback(struct GUI *pWidget)
 {
   struct server *pServer = (struct server *)pWidget->data.ptr;
@@ -120,9 +139,43 @@ static int sellect_meta_severs_callback(struct GUI *pWidget)
 }
 
 /**************************************************************************
+  SDL wraper on create_server_list(...) function witch add
+  same functionality for LAN server dettection.
+  WARING !: for LAN scan use "finish_lanserver_scan()" to free server list.
+**************************************************************************/
+static struct server_list *sdl_create_server_list(char *errbuf, int n_errbuf, bool lan)
+{
+  if (lan)
+  {
+    struct server_list *pList = NULL;
+    if (begin_lanserver_scan())
+    {
+      int scan_count = 0;
+      /* 5 sec scan on LAN network */
+      while (scan_count++ < 50)
+      {
+        pList = get_lan_server_list();
+        SDL_Delay(100);
+      }
+      if(!pList || (pList && !server_list_size(pList)))
+      {
+        my_snprintf(errbuf, n_errbuf, "No LAN Server Found");
+        finish_lanserver_scan();
+        pList = NULL;
+      }
+    } else {
+      my_snprintf(errbuf, n_errbuf, "LAN network scan error");
+    }
+    return pList;
+  }
+  return create_server_list(errbuf, n_errbuf);
+}
+
+
+/**************************************************************************
   ...
 **************************************************************************/
-static int meta_severs_callback(struct GUI *pWidget)
+static int severs_callback(struct GUI *pWidget)
 {
   char errbuf[128];
   char cBuf[512];
@@ -132,6 +185,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   SDL_Surface *pLogo , *pDest = pWidget->dst;
   SDL_Color col = {255, 255, 255, 128};
   SDL_Rect area;
+  bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
   
   queue_flush();
   close_connection_dialog();
@@ -165,7 +219,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   FREESURFACE(pLogo);
   FREESTRING16(pStr);
   
-  pServer_list = create_server_list(errbuf, sizeof(errbuf));
+  pServer_list = sdl_create_server_list(errbuf, sizeof(errbuf), lan_scan);
   
   if(!pServer_list) {
     popup_join_game_callback(NULL);
@@ -179,18 +233,13 @@ static int meta_severs_callback(struct GUI *pWidget)
   pWindow->action = meta_severs_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
-  
-  add_to_gui_list(ID_WINDOW, pWindow);
+  if (lan_scan)
+  {
+    add_to_gui_list(ID_LAN_SERVERS_WINDOW, pWindow);
+  } else {
+    add_to_gui_list(ID_META_SERVERS_WINDOW, pWindow);
+  }
   pMeta_Severs->pEndWidgetList = pWindow;
-  /* ---------------------- */
-  pBuf = create_themeicon_button_from_chars(pTheme->META_Icon, pWindow->dst,
-					_("Refresh"), 14, 0);
-					
-  /*pBuf->action = refresh_meta_severs_callback;*/
-  
-  /*set_wstate(pMeta, FC_WS_NORMAL);*/
-  
-  add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------------ */
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), 14, 0);
@@ -228,12 +277,12 @@ static int meta_severs_callback(struct GUI *pWidget)
       set_wflag(pBuf, WF_HIDDEN);
     }
     
-  }
-  server_list_iterate_end;
+  } server_list_iterate_end;
+  
   pMeta_Severs->pBeginWidgetList = pBuf;
   pMeta_Severs->pBeginActiveWidgetList = pBuf;
-  pMeta_Severs->pEndActiveWidgetList = pWindow->prev->prev->prev;
-  pMeta_Severs->pActiveWidgetList = pWindow->prev->prev->prev;
+  pMeta_Severs->pEndActiveWidgetList = pWindow->prev->prev;
+  pMeta_Severs->pActiveWidgetList = pWindow->prev->prev;
     
   if (count > 10) {
     meta_h = 10 * h;
@@ -265,13 +314,8 @@ static int meta_severs_callback(struct GUI *pWidget)
     w -= count;
   }
   
-  /* refresh button */
-  pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + 10;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 10;
-  
   /* exit button */
-  pBuf = pBuf->prev;
+  pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 10;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 10;
   
@@ -1002,10 +1046,20 @@ void gui_server_connect(void)
   h = MAX(h, pBuf->size.h);
   count++;
   add_to_gui_list(ID_JOIN_GAME, pBuf);
-  
+    
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Join Pubserver"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
-  pBuf->action = meta_severs_callback;
+  pBuf->action = severs_callback;
+  pBuf->string16->style |= SF_CENTER;  
+  set_wstate(pBuf, FC_WS_NORMAL);
+  w = MAX(w, pBuf->size.w);
+  h = MAX(h, pBuf->size.h);
+  count++;
+  add_to_gui_list(ID_JOIN_META_GAME, pBuf);
+  
+  pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Join LAN Server"), 14,
+			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
+  pBuf->action = severs_callback;
   pBuf->string16->style |= SF_CENTER;  
   set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w, pBuf->size.w);

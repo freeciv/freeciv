@@ -798,7 +798,7 @@ struct server_list *get_lan_server_list(void) {
   }
 
   if (!FD_ISSET(socklan, &readfs)) {
-    return FALSE;
+    return lan_servers;
   }
 
   dio_input_init(&din, msgbuf, sizeof(msgbuf));
@@ -807,12 +807,11 @@ struct server_list *get_lan_server_list(void) {
   /* Try to receive a packet from a server. */ 
   if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
                    (struct sockaddr *) &fromend, &fromlen)) {
-    struct server *pserver =
-                (struct server*)fc_malloc(sizeof(struct server));
+    struct server *pserver;
 
     dio_get_uint8(&din, &type);
     if (type != SERVER_LAN_VERSION) {
-      return FALSE;
+      return lan_servers;
     }
     dio_get_string(&din, servername, sizeof(servername));
     dio_get_string(&din, port, sizeof(port));
@@ -831,13 +830,14 @@ struct server_list *get_lan_server_list(void) {
     server_list_iterate(*lan_servers, aserver) {
       if (!mystrcasecmp(aserver->name, servername) 
           && !mystrcasecmp(aserver->port, port)) {
-        return FALSE;
+        return lan_servers;
       } 
     } server_list_iterate_end;
 
     freelog(LOG_DEBUG,
             ("Received a valid announcement from a server on the LAN."));
-
+    
+    pserver =  (struct server*)fc_malloc(sizeof(struct server));
     pserver->name = mystrdup(servername);
     pserver->port = mystrdup(port);
     pserver->version = mystrdup(version);
@@ -847,7 +847,7 @@ struct server_list *get_lan_server_list(void) {
                                                                                 
     server_list_insert(lan_servers, pserver);
   } else {
-    return FALSE;
+    return lan_servers;
   }                                       
 
   return lan_servers;

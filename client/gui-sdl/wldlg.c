@@ -412,7 +412,30 @@ static void add_target_to_production(struct GUI *pTarget)
 /* Get Help Info about target */
 static void get_target_help_data(struct GUI *pTarget)
 {
-  /* Port Me */
+  bool is_unit = FALSE;
+  int target;
+  assert(pTarget != NULL);
+  
+  /* redraw Target Icon */
+  set_wstate(pTarget, FC_WS_SELLECTED);
+  redraw_widget(pTarget);
+  /*flush_rect(pTarget->size);*/
+  
+  /* decode target */
+  target = MAX_ID - pTarget->ID;
+  if(target < 1000) {
+    is_unit = TRUE;
+  } else {
+    target -= 1000;
+  }
+
+  if (is_unit)
+  {
+    popup_unit_info(target);
+  } else {
+    popup_impr_info(target);
+  }
+  
 }
 
 

@@ -36,6 +36,7 @@
 #include "game.h"
 #include "map.h"
 #include "improvement.h"
+#include "log.h"
 
 #include "gui_mem.h"
 
@@ -66,6 +67,7 @@
 #include "repodlgs.h"
 #include "tilespec.h"
 #include "climisc.h"
+#include "climap.h"
 #include "wldlg.h"
 #include "gui_tilespec.h"
 
@@ -79,6 +81,7 @@
 /* ============================================================= */
 #define SCALLED_TILE_WIDTH	48
 #define SCALLED_TILE_HEIGHT	24
+
 #define NUM_UNITS_SHOWN		 3
 
 static struct city_dialog {
@@ -1603,6 +1606,74 @@ static void disable_city_dlg_widgets(void)
 }
 /* ======================================================================== */
 
+//#define NO_ISO
+
+#ifdef NO_ISO
+/**************************************************************************
+This converts a city coordinate position to citymap canvas coordinates
+(either isometric or overhead).  It should be in cityview.c instead.
+**************************************************************************/
+static bool sdl_city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
+{
+  if (is_isometric) {
+    /*
+     * The top-left corner is in the center of tile (-2, 2).  However,
+     * we're looking for the top-left corner of the tile, so we
+     * subtract off half a tile in each direction.  For a more
+     * rigorous example, see map_pos_to_canvas_pos().
+     */
+    int iso_x = (city_x - city_y) - (-4);
+    int iso_y = (city_x + city_y) - (0);
+
+    *canvas_x = (iso_x - 1) * SCALLED_TILE_WIDTH / 2;
+    *canvas_y = (iso_y - 1) * SCALLED_TILE_HEIGHT / 2;
+  } else {
+    *canvas_x = city_x * SCALLED_TILE_WIDTH;
+    *canvas_y = city_y * SCALLED_TILE_HEIGHT;
+  }
+
+  if (!is_valid_city_coords(city_x, city_y)) {
+    assert(FALSE);
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
+This converts a citymap canvas position to a city coordinate position
+(either isometric or overhead).  It should be in cityview.c instead.
+**************************************************************************/
+static bool sdl_canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
+{
+  int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
+
+  if (is_isometric) {
+    const int W = SCALLED_TILE_WIDTH, H = SCALLED_TILE_HEIGHT;
+
+    /* Shift the tile right so the top corner of tile (-2,2) is at
+       canvas position (0,0). */
+    canvas_y += H / 2;
+
+    /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
+       for a full explanation. */
+    *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
+    *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
+
+    /* Add on the offset of the top-left corner to get the final
+     * coordinates (like in canvas_to_map_pos). */
+    *city_x -= 2;
+    *city_y += 2;
+  } else {
+    *city_x = canvas_x / SCALLED_TILE_WIDTH;
+    *city_y = canvas_y / SCALLED_TILE_HEIGHT;
+  }
+  freelog(LOG_DEBUG, "canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
+	  orig_canvas_x, orig_canvas_y, *city_x, *city_y);
+
+  return is_valid_city_coords(*city_x, *city_y);
+}
+#else
+
 /**************************************************************************
   city resource map: calculate screen position to city map position.
 
@@ -1638,17 +1709,24 @@ static bool get_citymap_cr(Sint16 map_x, Sint16 map_y, int *pCol, int *pRow)
     *pRow = result;
   }
   
+  freelog(LOG_DEBUG, "get_citymap_cr(pos=(%d,%d))=(%d,%d)",
+	  map_x, map_y, *pCol, *pRow);
+  
   return is_valid_city_coords(*pCol, *pRow);
 }
+#endif
 
 SDL_Surface * get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
-  float zoom = 192.0 / pBuf->w;
-  SDL_Surface *pRet = ZoomSurface(pBuf, zoom, zoom, 1);
-  
-  FREESURFACE(pBuf);
-  return pRet;
+  if (pBuf->w > 192 || pBuf->h > 134)
+  {
+    float zoom = (pBuf->w > 192 ? 192.0 / pBuf->w : 134.0 / pBuf->h);
+    SDL_Surface *pRet = ZoomSurface(pBuf, zoom, zoom, 1);
+    FREESURFACE(pBuf);
+    return pRet;
+  } 
+  return pBuf;
 }
 
 /**************************************************************************
@@ -1657,12 +1735,18 @@ SDL_Surface * get_scaled_city_map(struct city *pCity)
 static int resource_map_city_dlg_callback(struct GUI *pMap)
 {
   int col, row;
-
+#ifndef NO_ISO
   if (get_citymap_cr(Main.event.motion.x - pMap->size.x,
 		     Main.event.motion.y - pMap->size.y, &col, &row)) {
     city_toggle_worker(pCityDlg->pCity, col, row);
   }
-
+#else
+  if (sdl_canvas_to_city_pos(&col, &row, Main.event.motion.x - pMap->size.x,
+		     Main.event.motion.y - pMap->size.y)) {
+		       
+    city_toggle_worker(pCityDlg->pCity, col, row);
+  }
+#endif
   return -1;
 }
 
@@ -1712,6 +1796,7 @@ static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
 void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
 		struct city *pCity, bool (*worker_check) (struct city *, int, int))
 {
+#ifndef NO_ISO
   register int col, row;
   SDL_Rect dest;
   int sx, sy, row0, real_col = pCity->x, real_row = pCity->y;
@@ -1766,6 +1851,40 @@ void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
   }
 
   FREESURFACE(pTile);
+#else
+  
+  int city_x, city_y;
+  int map_x, map_y, canvas_x, canvas_y;
+  SDL_Rect dest;  
+  SDL_Surface *pTile = create_surf(SCALLED_TILE_WIDTH,
+				   SCALLED_TILE_HEIGHT, SDL_SWSURFACE);
+
+  /* We have to draw the tiles in a particular order, so its best
+     to avoid using any iterator macro. */
+  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
+  {
+    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++)
+    {
+      if (is_valid_city_coords(city_x, city_y)
+	&& city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
+	&& tile_get_known(map_x, map_y)
+	&& sdl_city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y))
+      {
+        dest.x = canvas_x;
+	dest.y = canvas_y;
+	if (worker_check(pCity, map_x, map_y))
+	{
+	  fill_tile_resorce_surf(pTile, pCity, map_x, map_y);
+	  SDL_BlitSurface(pTile, NULL, pDest, &dest);
+	  /* clear pTile */
+	  SDL_FillRect(pTile, NULL, 0x0);
+	}
+      }
+    }
+  }
+  
+  FREESURFACE(pTile);
+#endif    
 }
 
 /* ====================================================================== */
