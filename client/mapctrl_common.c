@@ -251,6 +251,27 @@ bool get_chance_to_win(int *att_chance, int *def_chance,
   return TRUE;
 }
 
+static void add_line(char* buf, size_t bufsz, char *format, ...)
+                     fc__attribute((format(printf, 3, 4)));
+
+/****************************************************************************
+  Add a full line of text to the buffer.
+****************************************************************************/
+static void add_line(char* buf, size_t bufsz, char *format, ...)
+{
+  va_list args;
+
+  if (buf[0] != '\0') {
+    mystrlcat(buf, "\n", bufsz);
+  }
+
+  va_start(args, format);
+  my_vsnprintf(buf + strlen(buf), bufsz - strlen(buf), format, args);
+  va_end(args);
+
+  assert(strlen(buf) + 1 < bufsz);
+}
+
 /************************************************************************
 Text to popup on middle-click
 ************************************************************************/
@@ -261,72 +282,89 @@ char* popup_info_text(int xtile, int ytile)
   struct city *pcity = map_get_city(xtile, ytile);
   struct tile *ptile = map_get_tile(xtile, ytile);
   struct unit *punit = find_visible_unit(ptile);
-  char *diplo_adjectives[DS_LAST] = {_("Neutral"), _("Hostile"), _("Ceasefire"),
-				     _("Peaceful"), _("Friendly"), _("Mysterious")};
-  out[0]='\0';
+  const char *diplo_nation_plural_adjectives[DS_LAST] =
+    {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
+     "" /* unused, DS_CEASEFIRE*/,
+     Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
+     Q_("?nation:Mysterious")};
+  const char *diplo_city_adjectives[DS_LAST] =
+    {Q_("?city:Neutral"), Q_("?city:Hostile"),
+     "" /*unused, DS_CEASEFIRE */,
+     Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious")};
 
+  out[0] = '\0';
 #ifdef DEBUG
-  my_snprintf(out, sizeof(out), _("Location: (%d, %d) [%d]\n"), 
-	      xtile, ytile, ptile->continent); 
+  add_line(out, sizeof(out), _("Location: (%d, %d) [%d]"), 
+	   xtile, ytile, ptile->continent); 
 #endif /*DEBUG*/
-  my_snprintf(buf, sizeof(buf), _("Terrain: %s"),
-	      map_get_tile_info_text(xtile, ytile));
-  sz_strlcat(out, buf);
-  my_snprintf(buf, sizeof(buf), _("\nFood/Prod/Trade: %s"),
-	      map_get_tile_fpt_text(xtile, ytile));
-  sz_strlcat(out, buf);
+  add_line(out, sizeof(out), _("Terrain: %s"),
+	   map_get_tile_info_text(xtile, ytile));
+  add_line(out, sizeof(out), _("Food/Prod/Trade: %s"),
+	   map_get_tile_fpt_text(xtile, ytile));
   if (tile_has_special(ptile, S_HUT)) {
-    sz_strlcat(out, _("\nMinor Tribe Village"));
+    add_line(out, sizeof(out), _("Minor Tribe Village"));
   }
   if (game.borders > 0 && !pcity) {
     struct player *owner = map_get_owner(xtile, ytile);
+    struct player_diplstate *ds = game.player_ptr->diplstates;
+
     if (owner == game.player_ptr){
-      sz_strlcat(out, _("\nOur Territory"));
+      add_line(out, sizeof(out), _("Our Territory"));
     } else if (owner) {
-      if (game.player_ptr->diplstates[owner->player_no].type==DS_CEASEFIRE){
-	my_snprintf(buf, sizeof(buf), _("\n%s territory (%d turn ceasefire)"),
-		    get_nation_name(owner->nation),
-		    game.player_ptr->diplstates[owner->player_no].turns_left);
-      }else{
-	my_snprintf(buf, sizeof(buf), _("\nTerritory of the %s %s"),
-		    diplo_adjectives[game.player_ptr->diplstates[owner->player_no].type],
-		    get_nation_name_plural(owner->nation));
+      if (ds[owner->player_no].type == DS_CEASEFIRE) {
+	int turns = ds[owner->player_no].turns_left;
+
+	add_line(out, sizeof(out), PL_("%s territory (%d turn ceasefire)",
+				       "%s territory (%d turn ceasefire)",
+				       turns),
+		 get_nation_name(owner->nation), turns);
+      } else {
+	add_line(out, sizeof(out), _("Territory of the %s %s"),
+		 diplo_nation_plural_adjectives[ds[owner->player_no].type],
+		 get_nation_name_plural(owner->nation));
       }
-      sz_strlcat(out, buf);
     } else {
-      sz_strlcat(out, _("\nUnclaimed territory"));
+      add_line(out, sizeof(out), _("Unclaimed territory"));
     }
   }
   if (pcity) {
     /* Look at city owner, not tile owner (the two should be the same, if
      * borders are in use). */
     struct player *owner = city_owner(pcity);
+    struct player_diplstate *ds = game.player_ptr->diplstates;
 
     if (owner == game.player_ptr){
-      /* TRANS: "\nCity: <name> (<nation>)" */
-      my_snprintf(buf, sizeof(buf), _("\nCity: %s (%s)"), pcity->name,
-		  get_nation_name(owner->nation));
-      sz_strlcat(out, buf);
+      /* TRANS: "City: <name> (<nation>)" */
+      add_line(out, sizeof(out), _("City: %s (%s)"), pcity->name,
+	       get_nation_name(owner->nation));
     } else if (owner) {
-      /* TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)" */
-      my_snprintf(buf, sizeof(buf), _("\nCity: %s (%s,%s)"), pcity->name,
-		  get_nation_name(owner->nation),
-		  diplo_adjectives[game.player_ptr->
-				   diplstates[owner->player_no].type]);
-      sz_strlcat(out, buf);
+      if (ds[owner->player_no].type == DS_CEASEFIRE) {
+	int turns = ds[owner->player_no].turns_left;
+
+        add_line(out, sizeof(out), PL_("City: %s (%s, %d turn ceasefire)",
+				       "City: %s (%s, %d turn ceasefire)",
+				       turns),
+		 get_nation_name(owner->nation),
+		 diplo_city_adjectives[ds[owner->player_no].type],
+		 turns);
+      } else {
+        /* TRANS: "City: <name> (<nation>,<diplomatic_state>)" */
+        add_line(out, sizeof(out), _("City: %s (%s,%s)"), pcity->name,
+		 get_nation_name(owner->nation),
+		 diplo_city_adjectives[ds[owner->player_no].type]);
+      }
     }
     if (city_got_citywalls(pcity)) {
       sz_strlcat(out, _(" with City Walls"));
     }
   } 
   if (get_tile_infrastructure_set(ptile)) {
-    my_snprintf(buf, sizeof(buf), _("\nInfrastructure: %s"),
-		map_get_infrastructure_text(ptile->special));
-    sz_strlcat(out, buf);
+    add_line(out, sizeof(out), _("Infrastructure: %s"),
+	     map_get_infrastructure_text(ptile->special));
   }
-  sz_strlcpy(buf, _("\nActivity: "));
+  buf[0] = '\0';
   if (concat_tile_activity_text(buf, sizeof(buf), xtile, ytile)) {
-    sz_strlcat(out, buf);
+    add_line(out, sizeof(out), _("Activity: %s"), buf);
   }
   if (punit && !pcity) {
     char tmp[64] = {0};
@@ -337,9 +375,8 @@ char* popup_info_text(int xtile, int ytile)
 	if (pcity)
 	  my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
       }
-    my_snprintf(buf, sizeof(buf), _("\nUnit: %s(%s%s)"), ptype->name,
-		get_nation_name(unit_owner(punit)->nation), tmp);
-    sz_strlcat(out, buf);
+    add_line(out, sizeof(out), _("Unit: %s(%s%s)"), ptype->name,
+	     get_nation_name(unit_owner(punit)->nation), tmp);
     if (punit->owner != game.player_idx){
       struct unit *apunit;
       if ((apunit = get_unit_in_focus())) {
@@ -349,16 +386,14 @@ char* popup_info_text(int xtile, int ytile)
 	/* chance to win when selected unit is attacking the active unit */
 	int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
 	
-	my_snprintf(buf, sizeof(buf), _("\nChance to win: A:%d%% D:%d%%"),
-		    att_chance, def_chance);
-	sz_strlcat(out, buf);
+	add_line(out, sizeof(out), _("Chance to win: A:%d%% D:%d%%"),
+		 att_chance, def_chance);
       }
     }
-    my_snprintf(buf, sizeof(buf), _("\nA:%d D:%d FP:%d HP:%d/%d%s"),
-		    ptype->attack_strength, 
-		    ptype->defense_strength, ptype->firepower, punit->hp, 
-		    ptype->hp, punit->veteran ? _(" V") : "");
-    sz_strlcat(out, buf);
+    add_line(out, sizeof(out), _("A:%d D:%d FP:%d HP:%d/%d%s"),
+	     ptype->attack_strength, 
+	     ptype->defense_strength, ptype->firepower, punit->hp, 
+	     ptype->hp, punit->veteran ? _(" V") : "");
     if (punit->owner == game.player_idx && unit_list_size(&ptile->units) >= 2){
       my_snprintf(buf, sizeof(buf), _("  (%d more)"),
 		  unit_list_size(&ptile->units) - 1);
