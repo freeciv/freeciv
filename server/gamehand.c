@@ -389,9 +389,13 @@ const char *create_challenge_filename(void)
 
   /* find a suitable file to place the challenge in, we'll remove the file
    * once the challenge is  */
+#ifndef CHALLENGE_PATH
   sz_strlcpy(challenge_filename, user_home_dir());
   sz_strlcat(challenge_filename, "/");
   sz_strlcat(challenge_filename, CHALLENGE_ROOT);
+#else
+  sz_strlcpy(challenge_filename, CHALLENGE_PATH);
+#endif
 
   for (i = 0; i < NUMBER_OF_TRIES; i++) {
     char test_str[MAX_LEN_PATH];

@@ -678,6 +678,9 @@ void real_die(const char *file, int line, const char *format, ...)
 ***************************************************************************/
 char *user_home_dir(void)
 {
+#ifdef AMIGA
+  return "PROGDIR:";
+#else
   static bool init = FALSE;
   static char *home_dir = NULL;
   
@@ -702,6 +705,7 @@ char *user_home_dir(void)
     init = TRUE;
   }
   return home_dir;
+#endif
 }
 
 /***************************************************************************
