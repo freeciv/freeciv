@@ -50,12 +50,6 @@
 
 #include "savegame.h"
 
-
-#define DEC2HEX(int_value, halfbyte_wanted) \
-  dec2hex[((int_value) >> ((halfbyte_wanted) * 4)) & 0xf]
-static const char dec2hex[] = "0123456789abcdef";
-static const char terrain_chars[] = "adfghjm prstu";
-
 /* 
  * This loops over the entire map to save data. It collects all the
  * data of a line using get_xy_char and then executes the
@@ -76,6 +70,12 @@ static const char terrain_chars[] = "adfghjm prstu";
     for (x = 0; x < map.xsize; x++) {                   \
       if (is_normal_map_pos(x, y)) {                    \
 	line[x] = get_xy_char;                          \
+        if(!isprint(line[x] & 0x7f)) {                  \
+          freelog(LOG_FATAL, "Trying to write invalid"  \
+		  " map data: '%c' %d",                 \
+		  line[x], line[x]);                    \
+          exit(1);                                      \
+        }                                               \
       } else {                                          \
         /* skipped over in loading */                   \
 	line[x] = '#';                                  \
@@ -96,6 +96,46 @@ static const char terrain_chars[] = "adfghjm prstu";
 		      secfile_insert_str(secfile, line, secfile_name,     \
 					 plrno, y))
 
+/*
+ * This loops over the entire map to load data. It loads all the data
+ * of a line using secfile_lookup_line and then executes the
+ * set_xy_char code for every position in that line. The macro
+ * provides the variables x and y and ch (ch is the current character
+ * of the line). Parameters:
+ * - set_xy_char: code that sets the character for each (x, y)
+ * coordinate.
+ *  - secfile_lookup_line: code which is executed every time a line is
+ *  processed; it returns a char* for the line
+ */
+/* Note: some of the code this is replacing used to skip over lines
+   that did not exist.  It is unknown whether this was for backwards-
+   compatibility or just because the loops were written differently.
+   This macro will fail if any line does not exist.  Hopefully this
+   will never happen, but if so we at least show an informative
+   message. */
+#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)       \
+{                                                             \
+  int y;                                                      \
+  for (y = 0; y < map.ysize; y++) {                           \
+    char *line = secfile_lookup_line;                         \
+    int x;                                                    \
+    if (!line || strlen(line) != map.xsize) {                 \
+      freelog(LOG_FATAL, "Invalid map line for y=%d.  "       \
+	      "This may be a bug in FreeCiv; see "            \
+	      "http://www.freeciv.org/ if you think so.", y); \
+      exit(1);                                                \
+    }                                                         \
+    for(x = 0; x < map.xsize; x++) {                          \
+      char ch = line[x];                                      \
+      if (is_normal_map_pos(x, y)) {                          \
+	set_xy_char;                                          \
+      } else {                                                \
+	assert(ch == '#');                                    \
+      }                                                       \
+    }                                                         \
+  }                                                           \
+}
+
 /* Following does not include "unirandom", used previously; add it if
  * appropriate.  (Code no longer looks at "unirandom", but should still
  * include it when appropriate for maximum savegame compatibility.)
@@ -103,6 +143,61 @@ static const char terrain_chars[] = "adfghjm prstu";
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
 "attributes watchtower"
+
+static const char hex_chars[] = "0123456789abcdef";
+static const char terrain_chars[] = "adfghjm prstu";
+
+/***************************************************************
+This returns an ascii hex value of the given half-byte of the binary
+integer. See ascii_hex2bin().
+  example: bin2ascii_hex(0xa00, 2) == 'a'
+***************************************************************/
+#define bin2ascii_hex(value, halfbyte_wanted) \
+  hex_chars[((value) >> ((halfbyte_wanted) * 4)) & 0xf]
+
+/***************************************************************
+This returns a binary integer value of the ascii hex char, offset by
+the given number of half-bytes. See bin2ascii_hex().
+  example: ascii_hex2bin('a', 2) == 0xa00
+This is only used in loading games, and it requires some error
+checking so it's done as a function.
+***************************************************************/
+static int ascii_hex2bin(char ch, int halfbyte)
+{
+  char *pch;
+
+  if (ch == ' ') {
+    /* 
+     * Sane value. It is unknow if there are savegames out there which
+     * need this fix. Savegame.c doesn't write such savegames
+     * (anymore) since the inclusion into CVS (2000-08-25).
+     */
+    return 0;
+  }
+  
+  pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    freelog(LOG_FATAL, "Unknown hex value: '%c' %d", ch, ch);
+    exit(1);
+  }
+  return (pch - hex_chars) << (halfbyte * 4);
+}
+
+/***************************************************************
+Dereferences the terrain character.  See terrain_chars[].
+  example: char2terrain('a') == 0
+***************************************************************/
+static int char2terrain(char ch)
+{
+  char *pch = strchr(terrain_chars, ch);
+
+  if (!pch || ch == '\0') {
+    freelog(LOG_FATAL, "Unknown terrain type: '%c' %d", ch, ch);
+    exit(1);
+  }
+  return pch - terrain_chars;
+}
 
 /***************************************************************
 Quote the memory block denoted by data and length so it consists only
@@ -206,8 +301,6 @@ load the tile map from a savegame file
 ***************************************************************/
 static void map_tiles_load(struct section_file *file)
 {
-  int x, y;
-
   map.is_earth=secfile_lookup_int(file, "map.is_earth");
 
   /* In some cases we read these before, but not always, and
@@ -219,18 +312,8 @@ static void map_tiles_load(struct section_file *file)
   map_allocate();
 
   /* get the terrain type */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.t%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char *pch;
-      if(!(pch=strchr(terrain_chars, terline[x]))) {
- 	freelog(LOG_FATAL, "unknown terrain type (map.t) in map "
-		"at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
-	exit(1);
-      }
-      map_get_tile(x, y)->terrain=pch-terrain_chars;
-    }
-  }
+  LOAD_MAP_DATA(secfile_lookup_str(file, "map.t%03d", y),
+		map_get_tile(x, y)->terrain = char2terrain(ch));
 
   assign_continent_numbers();
 }
@@ -246,28 +329,11 @@ load the rivers overlay map from a savegame file
 ***************************************************************/
 static void map_rivers_overlay_load(struct section_file *file)
 {
-  int x, y;
-
-  /* get "next" 4 bits of special flags;
-     extract the rivers overlay from them */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special |=
-	    ((ch-(isdigit(ch) ? '0' : 'a'-10))<<8) & S_RIVER;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown rivers overlay flag (map.n) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
+  /* Get the bits of the special flags which contain the river special
+     and extract the rivers overlay from them. */
+  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.n%03d", y),
+		map_get_tile(x, y)->special |=
+		(ascii_hex2bin(ch, 2) & S_RIVER));
   map.have_rivers_overlay = 1;
 }
 
@@ -276,7 +342,6 @@ load a complete map from a savegame file
 ***************************************************************/
 static void map_load(struct section_file *file)
 {
-  int x ,y;
   char *savefile_options = get_savefile_options(file);
 
   /* map_init();
@@ -293,210 +358,39 @@ static void map_load(struct section_file *file)
     map.fixed_start_positions = 0;
   }
 
-  /* get lower 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.l%03d", y);
-
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
- 	    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-      else
-	map_get_tile(x, y)->special=S_NO_SPECIAL;
-    }
-  }
-
-  /* get upper 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.u%03d", y);
-
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-    }
-  }
-
-  /* get "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
-
-  /* get "final" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.f%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(final) (map.f) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
+  /* get 4-bit segments of 16-bit "special" field. */
+  LOAD_MAP_DATA(secfile_lookup_str(file, "map.l%03d", y),
+		map_get_tile(x, y)->special = ascii_hex2bin(ch, 0));
+  LOAD_MAP_DATA(secfile_lookup_str(file, "map.u%03d", y),
+		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 1));
+  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.n%03d", y),
+		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 2));
+  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.f%03d", y),
+		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 3));
 
   if (secfile_lookup_int_default(file, 1, "game.save_known")
       && game.load_options.load_known) {
-    /* get bits 0-3 of known flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "map.a%03d", y);
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	map_get_tile(x,y)->sent=0;
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown known flag (map.a) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-	else
-	  map_get_tile(x, y)->known=0;
-      }
-    }
 
-    /* get bits 4-7 of known flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "map.b%03d", y);
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown known flag (map.b) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-
-    /* get bits 8-11 of known flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "map.c%03d", y);
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown known flag (map.c) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-
-    /* get bits 12-15 of known flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "map.d%03d", y);
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown known flag (map.d) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
+    /* get 4-bit segments of the first half of the 32-bit "known" field */
+    LOAD_MAP_DATA(secfile_lookup_str(file, "map.a%03d", y),
+		  map_get_tile(x, y)->known = ascii_hex2bin(ch, 0));
+    LOAD_MAP_DATA(secfile_lookup_str(file, "map.b%03d", y),
+		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 1));
+    LOAD_MAP_DATA(secfile_lookup_str(file, "map.c%03d", y),
+		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 2));
+    LOAD_MAP_DATA(secfile_lookup_str(file, "map.d%03d", y),
+		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 3));
 
     if (has_capability("known32fix", savefile_options)) {
-      /* get bits 16-19 of known flags */
-      for(y=0; y<map.ysize; y++) {
-	char *terline=secfile_lookup_str(file, "map.e%03d", y);
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-
-	  if(isxdigit(ch)) {
-	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<16;
-	  } else if(ch!=' ') {
-	    freelog(LOG_FATAL, "unknown known flag (map.e) in map "
-		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	    exit(1);
-	  }
-	}
-      }
-
-      /* get bits 20-23 of known flags */
-      for(y=0; y<map.ysize; y++) {
-	char *terline=secfile_lookup_str(file, "map.g%03d", y);
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-
-	  if(isxdigit(ch)) {
-	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<20;
-	  } else if(ch!=' ') {
-	    freelog(LOG_FATAL, "unknown known flag (map.g) in map "
-		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	    exit(1);
-	  }
-	}
-      }
-
-      /* get bits 24-27 of known flags */
-      for(y=0; y<map.ysize; y++) {
-	char *terline=secfile_lookup_str(file, "map.h%03d", y);
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-
-	  if(isxdigit(ch)) {
-	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<24;
-	  } else if(ch!=' ') {
-	    freelog(LOG_FATAL, "unknown known flag (map.h) in map "
-		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	    exit(1);
-	  }
-	}
-      }
-
-      /* get bits 28-31 of known flags */
-      for(y=0; y<map.ysize; y++) {
-	char *terline=secfile_lookup_str(file, "map.i%03d", y);
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-
-	  if(isxdigit(ch)) {
-	    map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<28;
-	  } else if(ch!=' ') {
-	    freelog(LOG_FATAL, "unknown known flag (map.i) in map "
-		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	    exit(1);
-	  }
-	}
-      }
+      /* get 4-bit segments of the second half of the 32-bit "known" field */
+      LOAD_MAP_DATA(secfile_lookup_str(file, "map.e%03d", y),
+		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 4));
+      LOAD_MAP_DATA(secfile_lookup_str(file, "map.g%03d", y),
+		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 5));
+      LOAD_MAP_DATA(secfile_lookup_str(file, "map.h%03d", y),
+		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 6));
+      LOAD_MAP_DATA(secfile_lookup_str(file, "map.i%03d", y),
+		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 7));
     }
   }
 
@@ -544,42 +438,44 @@ static void map_save(struct section_file *file)
        */
 
       /* bits 8-11 of special flags field */
-      SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 2),
+      SAVE_NORMAL_MAP_DATA(file,
+			   bin2ascii_hex(map_get_tile(x, y)->special, 2),
 			   "map.n%03d");
     }
     return;
   }
 
   /* put 4-bit segments of 12-bit "special flags" field */
-  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 0),
+  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 0),
 		       "map.l%03d");
-  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 1),
+  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 1),
 		       "map.u%03d");
-  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 2),
+  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 2),
 		       "map.n%03d");
 
   secfile_insert_int(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
     /* put the top 4 bits (bits 12-15) of special flags */
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 3),
+    SAVE_NORMAL_MAP_DATA(file,
+			 bin2ascii_hex(map_get_tile(x, y)->special, 3),
 			 "map.f%03d");
 
     /* put 4-bit segments of the 32-bit "known" field */
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 0),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 0),
 			 "map.a%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 1),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 1),
 			 "map.b%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 2),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 2),
 			 "map.c%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 3),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 3),
 			 "map.d%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 4),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 4),
 			 "map.e%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 5),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 5),
 			 "map.g%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 6),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 6),
 			 "map.h%03d");
-    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 7),
+    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 7),
 			 "map.i%03d");
   }
 }
@@ -1219,120 +1115,40 @@ static void player_map_load(struct player *plr, int plrno,
       && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
       && secfile_lookup_int_default(file, 1, "game.save_private_map")
       && game.load_options.load_private_map) {
-    /* get the terrain type */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_t%03d", plrno, y);
-      for(x=0; x<map.xsize; x++) {
-	char *pch;
-	if(!(pch=strchr(terrain_chars, terline[x]))) {
-	  freelog(LOG_FATAL, "unknown terrain type (map.t) in map "
-		  "at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
-	  exit(1);
-	}
-	map_get_player_tile(x, y, plr)->terrain=pch-terrain_chars;
-      }
-    }
-    
-    /* get lower 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_l%03d",plrno, y);
-      
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	
-	if(isxdigit(ch)) {
-	  map_get_player_tile(x, y, plr)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-	else
-	  map_get_player_tile(x, y, plr)->special=S_NO_SPECIAL;
-      }
-    }
-    
-    /* get upper 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_u%03d", plrno, y);
-      
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	
-	if(isxdigit(ch)) {
-	  map_get_player_tile(x, y, plr)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-    
-    /* get "next" 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str_default(file, NULL, "player%d.map_n%03d", plrno, y);
-      
-      if (terline) {
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-	  
-	  if(isxdigit(ch)) {
-	    map_get_player_tile(x, y, plr)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-	  } else if(ch!=' ') {
-	    freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
-		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	    exit(1);
-	  }
-	}
-      }
-    }
-    
-    
-    /* get lower 4 bits of updated flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_ua%03d",plrno, y);
-      
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	map_get_player_tile(x, y, plr)->last_updated = ch-(isdigit(ch) ? '0' : ('a'-10));
-      }
-    }
-    
-    /* get upper 4 bits of updated flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_ub%03d", plrno, y);
-      
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-	map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      }
-    }
-    
-    /* get "next" 4 bits of updated flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_uc%03d", plrno, y);
-      
-      if (terline) {
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-	  map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-	}
-      }
-    }
-    
-    /* get "last" 4 bits of updated flags */
-    for(y=0; y<map.ysize; y++) {
-      char *terline=secfile_lookup_str(file, "player%d.map_ud%03d", plrno, y);
-      
-      if (terline) {
-	for(x=0; x<map.xsize; x++) {
-	  char ch=terline[x];
-	  map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-	}
-      }
-    }
-    
+    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_t%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->terrain =
+		  char2terrain(ch));
+
+    /* get 4-bit segments of 12-bit "special" field. */
+    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_l%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->special =
+		  ascii_hex2bin(ch, 0));
+    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_u%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->special |=
+		  ascii_hex2bin(ch, 1));
+    LOAD_MAP_DATA(secfile_lookup_str_default
+		  (file, NULL, "player%d.map_n%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->special |=
+		  ascii_hex2bin(ch, 2));
+
+    /* get 4-bit segments of 16-bit "updated" field */
+    LOAD_MAP_DATA(secfile_lookup_str
+		  (file, "player%d.map_ua%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->last_updated =
+		  ascii_hex2bin(ch, 0));
+    LOAD_MAP_DATA(secfile_lookup_str
+		  (file, "player%d.map_ub%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->last_updated |=
+		  ascii_hex2bin(ch, 1));
+    LOAD_MAP_DATA(secfile_lookup_str
+		  (file, "player%d.map_uc%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->last_updated |=
+		  ascii_hex2bin(ch, 2));
+    LOAD_MAP_DATA(secfile_lookup_str
+		  (file, "player%d.map_ud%03d", plrno, y),
+		  map_get_player_tile(x, y, plr)->last_updated |=
+		  ascii_hex2bin(ch, 3));
+
     {
       int j;
       struct dumb_city *pdcity;
@@ -1681,33 +1497,36 @@ static void player_save(struct player *plr, int plrno,
 
     /* put 4-bit segments of 12-bit "special flags" field */
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
-				 0), "player%d.map_l%03d", plrno);
+			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+				       special, 0), "player%d.map_l%03d",
+			 plrno);
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
-				 1), "player%d.map_u%03d", plrno);
+			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+				       special, 1), "player%d.map_u%03d",
+			 plrno);
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
-				 2), "player%d.map_n%03d", plrno);
+			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+				       special, 2), "player%d.map_n%03d",
+			 plrno);
 
     /* put 4-bit segments of 16-bit "updated" field */
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->
-				 last_updated, 0), "player%d.map_ua%03d",
-			 plrno);
+			 bin2ascii_hex(map_get_player_tile
+				       (x, y, plr)->last_updated, 0),
+			 "player%d.map_ua%03d", plrno);
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->
-				 last_updated, 1), "player%d.map_ub%03d",
-			 plrno);
+			 bin2ascii_hex(map_get_player_tile
+				       (x, y, plr)->last_updated, 1),
+			 "player%d.map_ub%03d", plrno);
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->
-				 last_updated, 2), "player%d.map_uc%03d",
-			 plrno);
+			 bin2ascii_hex(map_get_player_tile
+				       (x, y, plr)->last_updated, 2),
+			 "player%d.map_uc%03d", plrno);
     SAVE_PLAYER_MAP_DATA(file,
-			 DEC2HEX(map_get_player_tile(x, y, plr)->
-				 last_updated, 3), "player%d.map_ud%03d",
-			 plrno);
-    
+			 bin2ascii_hex(map_get_player_tile
+				       (x, y, plr)->last_updated, 3),
+			 "player%d.map_ud%03d", plrno);
+
     if (1) {
       struct dumb_city *pdcity;
       i = 0;
