@@ -376,8 +376,10 @@ int section_file_load(struct section_file *my_section_file, char *filename)
   struct flat_entry_list entries = {NULL, 0, 0};
   int i;
 
-  if(!(fs=fopen(filename, "r")))
+  if(!(fs=fopen(filename, "r"))) {
+    flog(LOG_NORMAL, "Could not open file \"%s\"", filename);
     return 0;
+  }
 
   section_file_init(my_section_file);
   lineno=0;
