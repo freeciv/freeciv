@@ -56,7 +56,7 @@ static void city_populate(struct city *pcity);
 static bool worklist_change_build_target(struct player *pplayer,
 					 struct city *pcity);
 
-static void city_distribute_surplus_shields(struct player *pplayer,
+static bool city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity);
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
@@ -427,14 +427,15 @@ void update_city_activities(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  Reduce the city size.  Return TRUE if the city survives the population
+  loss.
 **************************************************************************/
-void city_reduce_size(struct city *pcity, int pop_loss)
+bool city_reduce_size(struct city *pcity, int pop_loss)
 {
   if (pcity->size <= pop_loss) {
     remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
-    return;
+    return FALSE;
   }
   pcity->size -= pop_loss;
 
@@ -465,6 +466,8 @@ void city_reduce_size(struct city *pcity, int pop_loss)
     auto_arrange_workers(pcity);
     sync_cities();
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -890,9 +893,10 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-  Disband units if we don't have enough shields to support them.
+  Disband units if we don't have enough shields to support them.  Returns
+  FALSE if the _city_ is disbanded as a result.
 **************************************************************************/
-static void city_distribute_surplus_shields(struct player *pplayer,
+static bool city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity)
 {
   struct government *g = get_gov_pplayer(pplayer);
@@ -918,7 +922,9 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: Citizens in %s perish for their failure to "
 			 "upkeep %s!"), pcity->name, unit_type(punit)->name);
-        city_reduce_size(pcity, 1);
+	if (!city_reduce_size(pcity, 1)) {
+	  return FALSE;
+	}
 	break;
       }
     }
@@ -928,6 +934,8 @@ static void city_distribute_surplus_shields(struct player *pplayer,
   /* Now we confirm changes made last turn. */
   pcity->shield_stock += pcity->shield_surplus;
   pcity->before_change_shields = pcity->shield_stock;
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1138,7 +1146,9 @@ return 1 otherwise
 **************************************************************************/
 static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 {
-  city_distribute_surplus_shields(pplayer, pcity);
+  if (!city_distribute_surplus_shields(pplayer, pcity)) {
+    return FALSE;
+  }
   nullify_caravan_and_disband_plus(pcity);
 
   if (!pcity->is_building_unit) {
