@@ -23,6 +23,7 @@
 #include <readline/readline.h>
 #endif
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -98,13 +99,13 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
   my_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
 
-  if(console_prompt_is_showing) {
-    printf("\n");
+  if (console_prompt_is_showing) {
+    fc_printf("\n");
   }
   if ((console_rfcstyle) && (rfc_status >= 0)) {
-    printf("%.3d %s", rfc_status, buf);
+    fc_printf("%.3d %s", rfc_status, buf);
   } else {
-    printf("%s", buf);
+    fc_printf("%s", buf);
   }
   console_prompt_is_showing = FALSE;
   return (int) strlen(buf);
@@ -135,13 +136,13 @@ this allows con_puts(C_COMMENT,"");
 ************************************************************************/
 void con_puts(enum rfc_status rfc_status, const char *str)
 {
-  if(console_prompt_is_showing) {
-    printf("\n");
+  if (console_prompt_is_showing) {
+    fc_printf("\n");
   }
   if ((console_rfcstyle) && (rfc_status >= 0)) {
-    printf("%.3d %s\n", rfc_status, str);
+    fc_printf("%.3d %s\n", rfc_status, str);
   } else {
-    printf("%s\n", str);
+    fc_printf("%s\n", str);
   }
   console_prompt_is_showing = FALSE;
   con_update_prompt();

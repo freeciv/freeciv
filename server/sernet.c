@@ -60,6 +60,8 @@
 #include <winsock.h>
 #endif
 
+#include "fciconv.h"
+
 #include "capability.h"
 #include "dataio.h"
 #include "events.h"
@@ -158,6 +160,8 @@ static bool readline_initialized = FALSE;
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
+  char *line_internal;
+
   if (no_input)
     return;
 
@@ -170,7 +174,9 @@ static void handle_readline_input_callback(char *line)
     add_history(line);
 
   con_prompt_enter();		/* just got an 'Enter' hit */
-  (void) handle_stdin_input((struct connection*)NULL, line, FALSE);
+  line_internal = local_to_internal_string_malloc(line);
+  (void) handle_stdin_input(NULL, line_internal, FALSE);
+  free(line_internal);
 
   readline_handled_input = TRUE;
 }
@@ -557,8 +563,11 @@ int sniff_packets(void)
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (!no_input && (bufptr = my_read_console())) {
+      char bufptr_internal = local_to_internal_string_malloc(bufptr);
+
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input((struct connection *)NULL, bufptr, FALSE);
+      handle_stdin_input(NULL, bufptr_internal, FALSE);
+      free(bufptr_internal);
     }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
     if(!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
@@ -572,6 +581,7 @@ int sniff_packets(void)
 #else  /* !HAVE_LIBREADLINE */
       ssize_t didget;
       char buf[BUF_SIZE+1];
+      char *buf_internal;
       
       if((didget=read(0, buf, BUF_SIZE))==-1) {
 	die("read from stdin failed");
@@ -583,7 +593,9 @@ int sniff_packets(void)
 
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input((struct connection *)NULL, buf, FALSE);
+      buf_internal = local_to_internal_string_malloc(buf);
+      handle_stdin_input(NULL, buf_internal, FALSE);
+      free(buf_internal);
 #endif /* !HAVE_LIBREADLINE */
     }
     else
