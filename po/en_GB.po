@@ -2,6 +2,7 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Robert Brady <rwb197@ecs.soton.ac.uk>, 1999.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
