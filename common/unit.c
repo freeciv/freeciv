@@ -1122,47 +1122,62 @@ struct player *unit_owner(struct unit *punit)
   return (&game.players[punit->owner]);
 }
 
+/****************************************************************************
+  Measure the carrier (missile + airplane) capacity of the given tile for
+  a player.
+
+  In the future this should probably look at the actual occupancy of the
+  transporters.  However for now we only look at the potential capacity and
+  leave loading up to the caller.
+****************************************************************************/
+static void count_carrier_capacity(int *airall, int *misonly,
+				   int x, int y, struct player *pplayer,
+				   bool count_units_with_extra_fuel)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  *airall = *misonly = 0;
+
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (unit_owner(punit) == pplayer) {
+      if (unit_flag(punit, F_CARRIER)
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
+	*airall += get_transporter_capacity(punit);
+	continue;
+      }
+      if (unit_flag(punit, F_MISSILE_CARRIER)
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
+	*misonly += get_transporter_capacity(punit);
+	continue;
+      }
+
+      /* Don't count units which have enough fuel (>1) */
+      if (is_air_unit(punit)
+	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
+	if (unit_flag(punit, F_MISSILE)) {
+	  (*misonly)--;
+	} else {
+	  (*airall)--;
+	}
+      }
+    }
+  } unit_list_iterate_end;
+}
+
 /**************************************************************************
 Returns the number of free spaces for missiles. Can be 0 or negative.
 **************************************************************************/
 int missile_carrier_capacity(int x, int y, struct player *pplayer,
 			     bool count_units_with_extra_fuel)
 {
-  struct tile *ptile = map_get_tile(x, y);
-  int misonly = 0;
-  int airall = 0;
-  int totalcap;
+  int airall, misonly;
 
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (unit_owner(punit) == pplayer) {
-      if (unit_flag(punit, F_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
-	airall += get_transporter_capacity(punit);
-	continue;
-      }
-      if (unit_flag(punit, F_MISSILE_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
-	misonly += get_transporter_capacity(punit);
-	continue;
-      }
-      /* Don't count units which have enough fuel (>1) */
-      if (is_air_unit(punit)
-	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
-	if (unit_flag(punit, F_MISSILE))
-	  misonly--;
-	else
-	  airall--;
-      }
-    }
-  }
-  unit_list_iterate_end;
+  count_carrier_capacity(&airall, &misonly, x, y, pplayer,
+			 count_units_with_extra_fuel);
 
-  if (airall < 0)
-    airall = 0;
-
-  totalcap = airall + misonly;
-
-  return totalcap;
+  /* Any extra air spaces can be used by missles, but if there aren't enough
+   * air spaces this doesn't bother missiles. */
+  return MAX(airall, 0) + misonly;
 }
 
 /**************************************************************************
@@ -1172,38 +1187,14 @@ Can be 0 or negative.
 int airunit_carrier_capacity(int x, int y, struct player *pplayer,
 			     bool count_units_with_extra_fuel)
 {
-  struct tile *ptile = map_get_tile(x, y);
-  int misonly = 0;
-  int airall = 0;
+  int airall, misonly;
 
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (unit_owner(punit) == pplayer) {
-      if (unit_flag(punit, F_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
-	airall += get_transporter_capacity(punit);
-	continue;
-      }
-      if (unit_flag(punit, F_MISSILE_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
-	misonly += get_transporter_capacity(punit);
-	continue;
-      }
-      /* Don't count units which have enough fuel (>1) */
-      if (is_air_unit(punit)
-	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
-	if (unit_flag(punit, F_MISSILE))
-	  misonly--;
-	else
-	  airall--;
-      }
-    }
-  }
-  unit_list_iterate_end;
+  count_carrier_capacity(&airall, &misonly, x, y, pplayer,
+			 count_units_with_extra_fuel);
 
-  if (misonly < 0)
-    airall += misonly;
-
-  return airall;
+  /* Any extra missile spaces are useless to air units, but if there aren't
+   * enough missile spaces the missles must take up airunit capacity. */
+  return airall + MIN(misonly, 0);
 }
 
 /**************************************************************************
