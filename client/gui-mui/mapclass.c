@@ -39,6 +39,7 @@
 #include <proto/datatypes.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "map.h"
 #include "game.h"
 #include "spaceship.h"
@@ -52,6 +53,7 @@
 #include "control.h"
 #include "dialogs.h"
 #include "mapview.h"
+#include "goto.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "options.h"
@@ -67,6 +69,7 @@
 APTR pen_shared_map;
 
 extern int draw_diagonal_roads;
+extern struct client_goto_map goto_map;
 
 /****************************************************************
 ...
@@ -960,6 +963,10 @@ struct Map_Data
   LONG worker_iteratecolor; /* City Workers(7) */
   LONG worker_colors[3];
   LONG worker_colornum;
+  LONG segment_src_x; /* (Un)DrawSegment (8 and 9) */
+  LONG segment_src_y; /* (Un)DrawSegment (8 and 9) */
+  LONG segment_dest_x; /* (Un)DrawSegment (8 and 9) */
+  LONG segment_dest_y; /* (Un)DrawSegment (8 and 9) */
 
   /* True if map has been showed at least once, so the scrolling can be optimized */
   LONG map_shown;
@@ -1210,6 +1217,117 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
   }
 }
 
+STATIC VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
+                             int canvas_src_x, int canvas_src_y,
+                             int map_src_x, int map_src_y, int dir, int first_draw)
+{
+  int dir2;
+  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * NORMAL_TILE_WIDTH/2;
+  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * NORMAL_TILE_WIDTH/2;
+  int start_pixel = 1;
+  int has_only25 = 1;
+  int num_other = 0;
+  /* if they are not equal we cannot draw nicely */
+  int equal = NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT;
+
+  if (map_src_y == map.ysize)
+  {
+    printf("Error in Map_Priv_PutLine\n");
+    return;
+  }
+
+  if (!first_draw) {
+    /* only draw the pixel at the src one time. */
+    for (dir2 = 0; dir2 < 8; dir2++) {
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
+	start_pixel = 0;
+	break;
+      }
+    }
+  }
+
+  if (equal) { /* bit of a mess but neccesary */
+    for (dir2 = 0; dir2 < 8; dir2++) {
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
+	if (dir2 != 2 && dir2 != 5) {
+	  has_only25 = 0;
+	  num_other++;
+	}
+      }
+    }
+    if (has_only25) {
+      if (dir == 2 || dir == 5)
+	start_pixel = 0;
+      else
+	start_pixel = 1;
+    } else if (dir == 2 || dir == 5)
+      start_pixel = first_draw && !(num_other == 1);
+
+    switch (dir) {
+    case 0:
+    case 1:
+    case 3:
+      break;
+    case 2:
+    case 4:
+      canvas_dest_x -= DIR_DX[dir];
+      break;
+    case 5:
+    case 6:
+      canvas_dest_y -= DIR_DY[dir];
+      break;
+    case 7:
+      canvas_dest_x -= DIR_DX[dir];
+      canvas_dest_y -= DIR_DY[dir];
+      break;
+    default:
+      abort();
+    }
+
+    if (dir == 2) {
+      if (start_pixel)
+	WritePixel(rp, canvas_src_x, canvas_src_y);
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<1) && !first_draw)
+	WritePixel(rp, canvas_src_x+1, canvas_src_y);
+      canvas_src_y -= 1;
+    } else if (dir == 5) {
+      if (start_pixel)
+	WritePixel(rp, canvas_src_x, canvas_src_y);
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<3) && !first_draw)
+	WritePixel(rp, canvas_src_x+1, canvas_src_y);
+      canvas_src_x -= 1;
+    } else {
+      if (!start_pixel) {
+	canvas_src_x += DIR_DX[dir];
+	canvas_src_y += DIR_DY[dir];
+      }
+      if (dir == 1 && goto_map.drawn[map_src_x][map_src_y] & (1<<2) && !first_draw)
+	WritePixel(rp, canvas_src_x, canvas_src_y-1);
+      if (dir == 3 && goto_map.drawn[map_src_x][map_src_y] & (1<<5) && !first_draw)
+	WritePixel(rp, canvas_src_x-1, canvas_src_y);
+    }
+  } else { /* !equal */
+    if (!start_pixel) {
+      canvas_src_x += DIR_DX[dir];
+      canvas_src_y += DIR_DY[dir];
+    }
+  }
+
+/*
+  freelog(LOG_DEBUG, "%i->%i; x0: %i; twidth %i\n",
+	  map_src_x, map_canvas_adjust_x(map_src_x),
+	  data->horiz_first, -1/*width*/);
+  freelog(LOG_DEBUG, "%i,%i-> %i,%i : %i,%i -> %i,%i\n",
+	  map_src_x, map_src_y, map_src_x + DIR_DX[dir], map_src_y + DIR_DY[dir],
+	  canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
+*/
+
+  /* draw it (at last!!) */
+  Move(rp, canvas_src_x, canvas_src_y);
+  Draw(rp, canvas_dest_x, canvas_dest_y);
+}
+
+
 STATIC ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
@@ -1366,6 +1484,28 @@ STATIC ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
     *msg->opg_Storage = data->vert_first;
     break;
 
+    case  MUIA_Map_MouseX:
+    	  {
+    	    struct Window *wnd = (struct Window *)xget(_win(o),MUIA_Window_Window);
+    	    if (wnd)
+    	    {
+    	      *msg->opg_Storage = data->horiz_first + (wnd->MouseX - _mleft(o))/get_normal_tile_width();
+	      *msg->opg_Storage = map_adjust_x(*msg->opg_Storage);
+    	    }
+    	  }
+	  break;
+
+    case  MUIA_Map_MouseY:
+    	  {
+    	    struct Window *wnd = (struct Window *)xget(_win(o),MUIA_Window_Window);
+    	    if (wnd)
+    	    {
+    	      *msg->opg_Storage = data->vert_first + (wnd->MouseY - _mtop(o))/get_normal_tile_height();
+	      *msg->opg_Storage = map_adjust_y(*msg->opg_Storage);
+	    }
+    	  }
+	  break;
+
   default:
     return DoSuperMethodA(cl, o, (Msg) msg);
   }
@@ -1407,7 +1547,7 @@ STATIC ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
 	{
 	  if (render_sprites( /*_screen(o),*/ dh))
 	  {
-	    MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS);
+	    MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS|IDCMP_MOUSEMOVE);
 	    return TRUE;
 	  }
 	}
@@ -1424,7 +1564,7 @@ STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
 
-  MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS);
+  MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS|IDCMP_MOUSEMOVE);
 
   if (data->overview_object)
     set(data->overview_object, MUIA_Overview_RadarPicture, NULL);
@@ -1571,6 +1711,7 @@ STATIC ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
 STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  ULONG drmd = GetDrMd(_rp(o));
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -1728,6 +1869,93 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
 
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	return 0;
+      }
+
+      if (data->update == 8)
+      {
+      	/* Draw Segment */
+	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+	int src_x = data->segment_src_x;
+	int src_y = data->segment_src_y;
+	int dest_x = data->segment_dest_x;
+	int dest_y = data->segment_dest_y;
+
+	int map_start_x, map_start_y;
+	int dir, x, y;
+
+	SetDrMd(_rp(o),COMPLEMENT);
+	SetDrMd(data->map_layer->rp,COMPLEMENT);
+
+	for (dir = 0; dir < 8; dir++) {
+	  x = map_adjust_x(src_x + DIR_DX[dir]);
+	  y = src_y + DIR_DY[dir];
+	  if (x == dest_x && y == dest_y) {
+	    if (!(goto_map.drawn[src_x][src_y] & (1<<dir))) {
+	      map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+	      map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	      if (tile_visible_mapcanvas(src_x, src_y))
+		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), src_x, src_y, dir, 0);
+	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, src_x, src_y, dir, 0);
+	      goto_map.drawn[src_x][src_y] |= (1<<dir);
+
+	      map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
+	      map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	      if (tile_visible_mapcanvas(dest_x, dest_y))
+		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), dest_x, dest_y, 7-dir, 0);
+	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+	      goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
+            }
+            break;
+          }
+        }
+        SetDrMd(_rp(o),drmd);
+        SetDrMd(data->map_layer->rp,JAM1);
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	return 0;
+      }
+
+      if (data->update == 9)
+      {
+      	/* Undraw Segment */
+	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+	int src_x = data->segment_src_x;
+	int src_y = data->segment_src_y;
+	int dest_x = data->segment_dest_x;
+	int dest_y = data->segment_dest_y;
+
+	int map_start_x, map_start_y;
+	int dir, x, y;
+
+	SetDrMd(_rp(o),COMPLEMENT);
+	SetDrMd(data->map_layer->rp,COMPLEMENT);
+
+	for (dir = 0; dir < 8; dir++) {
+	  x = map_adjust_x(src_x + DIR_DX[dir]);
+	  y = src_y + DIR_DY[dir];
+	  if (x == dest_x && y == dest_y) {
+	    if (goto_map.drawn[src_x][src_y] & (1<<dir)) {
+	      map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+	      map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	      if (tile_visible_mapcanvas(src_x, src_y))
+		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), src_x, src_y, dir, 0);
+	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, src_x, src_y, dir, 0);
+	      goto_map.drawn[src_x][src_y] &= ~(1<<dir);
+
+	      map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
+	      map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	      if (tile_visible_mapcanvas(dest_x, dest_y))
+		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), dest_x, dest_y, 7-dir, 0);
+	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+
+	      goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
+            }
+            break;
+          }
+        }
+        SetDrMd(_rp(o),drmd);
+        SetDrMd(data->map_layer->rp,JAM1);
 	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
 	return 0;
       }
@@ -2030,6 +2258,9 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
 
     switch (msg->imsg->Class)
     {
+    case IDCMP_MOUSEMOVE:
+      set(o,MUIA_Map_MouseMoved,TRUE);
+      break;
     case IDCMP_MOUSEBUTTONS:
       if (msg->imsg->Code == SELECTDOWN)
       {
@@ -2424,6 +2655,31 @@ STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_Exp
   return 0;
 }
 
+STATIC ULONG Map_DrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
+{
+  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  data->update = 8;
+  data->segment_src_x = msg->src_x;
+  data->segment_src_y = msg->src_y;
+  data->segment_dest_x = msg->dest_x;
+  data->segment_dest_y = msg->dest_y;
+  MUI_Redraw(o, MADF_DRAWUPDATE);
+  return 0;
+}
+
+STATIC ULONG Map_UndrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
+{
+  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  data->update = 9;
+  data->segment_src_x = msg->src_x;
+  data->segment_src_y = msg->src_y;
+  data->segment_dest_x = msg->dest_x;
+  data->segment_dest_y = msg->dest_y;
+  MUI_Redraw(o, MADF_DRAWUPDATE);
+  return 0;
+}
+
+
 DISPATCHERPROTO(Map_Dispatcher)
 {
   switch (msg->MethodID)
@@ -2470,6 +2726,10 @@ DISPATCHERPROTO(Map_Dispatcher)
     return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
   case MUIM_Map_DrawMushroom:
     return Map_DrawMushroom(cl, obj, (struct MUIP_Map_DrawMushroom *)msg);
+  case MUIM_Map_DrawSegment:
+    return Map_DrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
+  case MUIM_Map_UndrawSegment:
+    return Map_UndrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
   }
 
   return (DoSuperMethodA(cl, obj, msg));

@@ -991,6 +991,7 @@ static int init_gui(void)
     set(main_wnd,MUIA_Window_DefaultObject, main_map_area);
 
     DoMethod(main_map_area, MUIM_Notify, MUIA_Map_Click, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, main_map_click, MUIV_TriggerValue);
+    DoMethod(main_map_area, MUIM_Notify, MUIA_Map_MouseMoved, TRUE, app, 3, MUIM_CallHook, &civstandard_hook, create_line_at_mouse_pos);
     DoMethod(main_chatline_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, inputline_return);
     DoMethod(main_turndone_button, MUIM_Notify, MUIA_Pressed, FALSE, main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, END_TURN);
 

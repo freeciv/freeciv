@@ -570,143 +570,21 @@ fx engels with height 45)
    Also, because they are off-center the starting pixel is not drawn when
    drawing one of these directions.
 **************************************************************************/
-#ifdef NOTYET
+/* Implemented in mapclass.c */
+/*
 static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y,
 		     int map_src_x, int map_src_y, int dir, int first_draw)
 {
-  int dir2;
-  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * NORMAL_TILE_WIDTH/2;
-  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * NORMAL_TILE_WIDTH/2;
-  int start_pixel = 1;
-  int has_only25 = 1;
-  int num_other = 0;
-  /* if they are not equal we cannot draw nicely */
-  int equal = NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT;
-
-  if (map_src_y == map.ysize)
-    abort();
-
-  if (!first_draw) {
-    /* only draw the pixel at the src one time. */
-    for (dir2 = 0; dir2 < 8; dir2++) {
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
-	start_pixel = 0;
-	break;
-      }
-    }
-  }
-
-  if (equal) { /* bit of a mess but neccesary */
-    for (dir2 = 0; dir2 < 8; dir2++) {
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
-	if (dir2 != 2 && dir2 != 5) {
-	  has_only25 = 0;
-	  num_other++;
-	}
-      }
-    }
-    if (has_only25) {
-      if (dir == 2 || dir == 5)
-	start_pixel = 0;
-      else
-	start_pixel = 1;
-    } else if (dir == 2 || dir == 5)
-      start_pixel = first_draw && !(num_other == 1);
-
-    switch (dir) {
-    case 0:
-    case 1:
-    case 3:
-      break;
-    case 2:
-    case 4:
-      canvas_dest_x -= DIR_DX[dir];
-      break;
-    case 5:
-    case 6:
-      canvas_dest_y -= DIR_DY[dir];
-      break;
-    case 7:
-      canvas_dest_x -= DIR_DX[dir];
-      canvas_dest_y -= DIR_DY[dir];
-      break;
-    default:
-      abort();
-    }
-
-    if (dir == 2) {
-      if (start_pixel)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y);
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<1) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x+1, canvas_src_y);
-      canvas_src_y -= 1;
-    } else if (dir == 5) {
-      if (start_pixel)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y);
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<3) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x+1, canvas_src_y);
-      canvas_src_x -= 1;
-    } else {
-      if (!start_pixel) {
-	canvas_src_x += DIR_DX[dir];
-	canvas_src_y += DIR_DY[dir];
-      }
-      if (dir == 1 && goto_map.drawn[map_src_x][map_src_y] & (1<<2) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y-1);
-      if (dir == 3 && goto_map.drawn[map_src_x][map_src_y] & (1<<5) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x-1, canvas_src_y);
-    }
-  } else { /* !equal */
-    if (!start_pixel) {
-      canvas_src_x += DIR_DX[dir];
-      canvas_src_y += DIR_DY[dir];
-    }
-  }
-
-  freelog(LOG_DEBUG, "%i->%i; x0: %i; twidth %i\n",
-	  map_src_x, map_canvas_adjust_x(map_src_x),
-	  map_view_x0, map_canvas_store_twidth);
-  freelog(LOG_DEBUG, "%i,%i-> %i,%i : %i,%i -> %i,%i\n",
-	  map_src_x, map_src_y, map_src_x + DIR_DX[dir], map_src_y + DIR_DY[dir],
-	  canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
-
-  /* draw it (at last!!) */
-  gdk_draw_line(pm, line_gc, canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
 }
-#endif
+*/
+
 /**************************************************************************
 draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
 map_canvas_store
 **************************************************************************/
 void draw_segment(int src_x, int src_y, int dest_x, int dest_y)
 {
-#ifdef NOTYET
-  int map_start_x, map_start_y;
-  int dir, x, y;
-
-  for (dir = 0; dir < 8; dir++) {
-    x = map_adjust_x(src_x + DIR_DX[dir]);
-    y = src_y + DIR_DY[dir];
-    if (x == dest_x && y == dest_y) {
-      if (!(goto_map.drawn[src_x][src_y] & (1<<dir))) {
-	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-	if (tile_visible_mapcanvas(src_x, src_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	goto_map.drawn[src_x][src_y] |= (1<<dir);
-
-	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
-	if (tile_visible_mapcanvas(dest_x, dest_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
-      }
-      return;
-    }
-  }
-#endif
+  DoMethod(main_map_area, MUIM_Map_DrawSegment, src_x, src_y, dest_x, dest_y);
 }
 
 /**************************************************************************
@@ -715,64 +593,19 @@ map_canvas_store
 **************************************************************************/
 void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
 {
-#ifdef NOTYET
-  int map_start_x, map_start_y;
-  int dir, x, y;
-
-  for (dir = 0; dir < 8; dir++) {
-    x = map_adjust_x(src_x + DIR_DX[dir]);
-    y = src_y + DIR_DY[dir];
-    if (x == dest_x && y == dest_y) {
-      if (goto_map.drawn[src_x][src_y] & (1<<dir)) {
-	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-	if (tile_visible_mapcanvas(src_x, src_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	goto_map.drawn[src_x][src_y] &= ~(1<<dir);
-
-	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
-	if (tile_visible_mapcanvas(dest_x, dest_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	goto_map.drawn[dest_x][dest_y] &= ~(1<<(7-dir));
-      }
-      return;
-    }
-  }
-#endif
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void create_line_at_mouse_pos(void)
-{
-#ifdef NOTYET
-  int x, y;
-
-  gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
-
-  update_line(x, y);
-#endif
+  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dest_x, dest_y);
 }
 
 extern int line_dest_x; /* from goto.c */
 extern int line_dest_y;
+
 /**************************************************************************
 ...
 **************************************************************************/
-void update_line(int window_x, int window_y)
+static void update_line(int x, int y)
 {
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_view_y0 = get_map_y_start();
-  int x, y;
-
   if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
-    x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
-    y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
 
     if (line_dest_x != x || line_dest_y != y) {
       undraw_line();
@@ -781,4 +614,11 @@ void update_line(int window_x, int window_y)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void create_line_at_mouse_pos(void)
+{
+  update_line(xget(main_map_area,MUIA_Map_MouseX),xget(main_map_area,MUIA_Map_MouseY));
+}
 

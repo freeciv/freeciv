@@ -17,6 +17,6 @@
 
 #include "graphics.h"
 
-/* nothing to add */
+void create_line_at_mouse_pos(void);
 
 #endif  /* FC__MAPVIEW_H */
