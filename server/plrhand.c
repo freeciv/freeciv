@@ -1846,7 +1846,6 @@ void check_player_government_rates(struct player *pplayer)
 
 /**************************************************************************
 Handles a player cancelling a "pact" with another player.
-(It is a fatal error to call this when in a non-pact diplstate.)
 **************************************************************************/
 void handle_player_cancel_pact(struct player *pplayer, int other_player)
 {
@@ -1881,8 +1880,8 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
     reppenalty = GAME_MAX_REPUTATION/4;
     break;
   default:
-    freelog(LOG_FATAL, "non-pact diplstate in handle_player_cancel_pact");
-    abort();
+    freelog(LOG_VERBOSE, "non-pact diplstate in handle_player_cancel_pact");
+    return;
   }
 
   /* if there's a reason to cancel the pact, do it without penalty */
