@@ -1097,39 +1097,6 @@ An improved Bomber, with improved attack and a higher movement\
  radius.\
 ")
 
-[unit_awacs]
-name          = _("AWACS")
-move_type     = "Air"
-tech_req      = "Advanced Flight"
-obsolete_by   = "None"
-graphic       = "u.awacs"
-graphic_alt   = "u.bomber"  ; backwards compatibility
-sound_move    = "m_awacs"
-sound_move_alt = "m_generic"
-sound_fight   = "f_awacs"
-sound_fight_alt = "f_generic"
-build_cost    = 140
-pop_cost      = 0
-attack        = 0
-defense       = 1
-hitpoints     = 20
-firepower     = 1
-move_rate     = 16
-vision_range  = 5
-transport_cap = 0
-fuel          = 2
-uk_happy      = 1
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 0
-flags         = ""
-roles         = ""
-helptext      = _("\
-The AWACS (Airborne Warning and Control System) is an airplane with an \
-advanced radar that can determine the location of enemy units over a \
-wide area.\
-")
-
 [unit_trireme]
 name          = _("Trireme")
 move_type     = "Sea"
@@ -1780,6 +1747,39 @@ roles         = "BarbarianLeader"
 helptext      = _("\
 When barbarian leader is killed on a tile without any defending units, \
 the 100 gold ransom is paid, but only to land units and helicopters.\
+")
+
+[unit_awacs]
+name          = _("AWACS")
+move_type     = "Air"
+tech_req      = "Advanced Flight"
+obsolete_by   = "None"
+graphic       = "u.awacs"
+graphic_alt   = "u.bomber"  ; backwards compatibility
+sound_move    = "m_awacs"
+sound_move_alt = "m_generic"
+sound_fight   = "f_awacs"
+sound_fight_alt = "f_generic"
+build_cost    = 140
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 20
+firepower     = 1
+move_rate     = 16
+vision_range  = 5
+transport_cap = 0
+fuel          = 2
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = ""
+roles         = ""
+helptext      = _("\
+The AWACS (Airborne Warning and Control System) is an airplane with an \
+advanced radar that can determine the location of enemy units over a \
+wide area.\
 ")
 
 [u_specials]
