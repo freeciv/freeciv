@@ -54,11 +54,6 @@ POTFILES = \
 
 CATALOGS = @CATALOGS@
 
-nb.po: no.po
-	cp $(srcdir)/no.po nb.po
-
-BUILT_SOURCES = nb.po
-
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo
 
@@ -190,6 +185,11 @@ update-po: Makefile
 
 update-gmo: Makefile $(GMOFILES)
 	@:
+
+nb.po: no.po
+	cp $(srcdir)/no.po nb.po
+
+BUILT_SOURCES = nb.po
 
 Makefile: Makefile.in.in $(top_builddir)/config.status POTFILES.in
 	cd $(top_builddir) \
