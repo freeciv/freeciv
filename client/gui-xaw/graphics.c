@@ -307,22 +307,6 @@ const char **gfx_fileextensions(void)
 }
 
 /***************************************************************************
-  Return true iff the given pixel is transparent.  The 'trans' and
-  'ntrans' parameters provide an array of transparent colors.
-***************************************************************************/
-static bool is_transparent(png_byte index, png_bytep trans, int ntrans)
-{
-  int i;
-
-  for (i = 0; i < ntrans; i++) {
-    if (index == trans[i]) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-
-/***************************************************************************
   Converts an image to a pixmap...
 ***************************************************************************/
 static Pixmap image2pixmap(XImage *xi)
@@ -331,8 +315,7 @@ static Pixmap image2pixmap(XImage *xi)
   XGCValues values;
   GC gc;
   
-  ret = XCreatePixmap(display, root_window,
-		      xi->width, xi->height, xi->depth);
+  ret = XCreatePixmap(display, root_window, xi->width, xi->height, xi->depth);
 
   values.foreground = 1;
   values.background = 0;
@@ -350,15 +333,15 @@ struct Sprite *load_gfxfile(const char *filename)
 {
   png_structp pngp;
   png_infop infop;
-  png_uint_32 sig_read = 0;
-  png_int_32 width, height, row, col;
-  int bit_depth, color_type, interlace_type;
+  png_int_32 width, height, x, y;
   FILE *fp;
   int npalette, ntrans;
   png_colorp palette;
   png_bytep trans;
+  png_bytep buf, pb;
+  png_uint_32 stride;
   unsigned long *pcolorarray;
-  png_bytep *row_pointers;
+  bool *ptransarray = NULL;
   struct Sprite *mysprite;
   XImage *xi;
   int has_mask;
@@ -387,19 +370,18 @@ struct Sprite *load_gfxfile(const char *filename)
   }
 
   png_init_io(pngp, fp);
-  png_set_sig_bytes(pngp, sig_read);
-
-  png_read_info(pngp, infop);
-  png_get_IHDR(pngp, infop, &width, &height, &bit_depth, &color_type,
-	       &interlace_type, NULL, NULL);
 
   png_set_strip_16(pngp);
   png_set_packing(pngp);
 
+  png_read_info(pngp, infop);
+  width = png_get_image_width(pngp, infop);
+  height = png_get_image_height(pngp, infop);
+
   if (png_get_PLTE(pngp, infop, &palette, &npalette)) {
     int i;
 
-    pcolorarray = fc_malloc(npalette * sizeof(unsigned long));
+    pcolorarray = fc_malloc(npalette * sizeof(*pcolorarray));
 
     for (i = 0; i < npalette; i++) {
       XColor mycolor;
@@ -422,6 +404,9 @@ struct Sprite *load_gfxfile(const char *filename)
 	for (j = 0; j < ncols; j++) {
 	  cols[j].pixel = j;
 	}
+
+    	XGrabServer(display);
+
 	XQueryColors(display, cmap, cols, ncols);
 
 	for (; i < npalette; i++) {
@@ -441,8 +426,12 @@ struct Sprite *load_gfxfile(const char *filename)
 	      pixel = j;
 	    }
 	  }
+
+    	  XAllocColor(display, cmap, &cols[pixel]);
 	  pcolorarray[i] = pixel;
 	}
+
+    	XUngrabServer(display);
 	free(cols);
 	break;
       }
@@ -452,31 +441,53 @@ struct Sprite *load_gfxfile(const char *filename)
     exit(EXIT_FAILURE);
   }
 
-  png_read_update_info(pngp, infop);
   has_mask = png_get_tRNS(pngp, infop, &trans, &ntrans, NULL);
 
-  row_pointers = fc_malloc(sizeof(png_bytep) * height);
+  if (has_mask) {
+    int i;
 
-  for (row = 0; row < height; row++) {
-    row_pointers[row] = fc_malloc(png_get_rowbytes(pngp, infop));
+    ptransarray = fc_calloc(npalette, sizeof(*ptransarray));
+
+    for (i = 0; i < ntrans; i++) {
+      ptransarray[trans[i]] = TRUE;
+    }
   }
 
-  png_read_image(pngp, row_pointers);
-  png_read_end(pngp, infop);
-  fclose(fp);
+  png_read_update_info(pngp, infop);
 
-  mysprite=fc_malloc(sizeof(struct Sprite));
-  mysprite->pixmap = 0;
-  mysprite->mask = 0;
-  
+  {
+    png_bytep *row_pointers;
+
+    stride = png_get_rowbytes(pngp, infop);
+    buf = fc_malloc(stride * height);
+
+    row_pointers = fc_malloc(height * sizeof(png_bytep));
+
+    for (y = 0, pb = buf; y < height; y++, pb += stride) {
+      row_pointers[y] = pb;
+    }
+
+    png_read_image(pngp, row_pointers);
+    png_read_end(pngp, infop);
+    fclose(fp);
+
+    free(row_pointers);
+    png_destroy_read_struct(&pngp, &infop, NULL);
+  }
+
+  mysprite = fc_malloc(sizeof(*mysprite));
+
+
   xi = XCreateImage(display, DefaultVisual(display, screen_number),
 		    display_depth, ZPixmap, 0, NULL, width, height, 32, 0);
   xi->data = fc_calloc(xi->bytes_per_line * xi->height, 1);
 
-  for (row = 0; row < height; row++) {
-    for (col = 0; col < width; col++) {
-      XPutPixel(xi, col, row, pcolorarray[row_pointers[row][col]]);
+  pb = buf;
+  for (y = 0; y < height; y++) {
+    for (x = 0; x < width; x++) {
+      XPutPixel(xi, x, y, pcolorarray[pb[x]]);
     }
+    pb += stride;
   }
   mysprite->pixmap = image2pixmap(xi);
   XDestroyImage(xi);
@@ -488,11 +499,12 @@ struct Sprite *load_gfxfile(const char *filename)
 		      1, XYBitmap, 0, NULL, width, height, 8, 0);
     xm->data = fc_calloc(xm->bytes_per_line * xm->height, 1);
 
-    for (row = 0; row < height; row++) {
-      for (col = 0; col < width; col++) {
-	XPutPixel(xm, col, row,
-		  !is_transparent(row_pointers[row][col], trans, ntrans));
+    pb = buf;
+    for (y = 0; y < height; y++) {
+      for (x = 0; x < width; x++) {
+	XPutPixel(xm, x, y, !ptransarray[pb[x]]);
       }
+      pb += stride;
     }
     mysprite->mask = image2pixmap(xm);
     XDestroyImage(xm);
@@ -504,11 +516,10 @@ struct Sprite *load_gfxfile(const char *filename)
   mysprite->pcolorarray = pcolorarray;
   mysprite->ncols = npalette;
 
-  for (row = 0; row < height; row++) {
-    free(row_pointers[row]);
+  if (has_mask) {
+    free(ptransarray);
   }
-  free(row_pointers);
-  png_destroy_read_struct(&pngp, &infop, NULL);
+  free(buf);
   return mysprite;
 }
 
@@ -521,9 +532,7 @@ void free_sprite(struct Sprite *s)
   if (s->has_mask) {
     XFreePixmap(display, s->mask);
   }
-#if 0
-  free_colors(s->pcolorarray, s->ncols);
-#endif
+  XFreeColors(display, cmap, s->pcolorarray, s->ncols, 0);
   free(s->pcolorarray);
   free(s);
 }
