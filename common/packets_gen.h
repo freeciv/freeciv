@@ -491,8 +491,14 @@ struct packet_unit_auto {
   int unit_id;
 };
 
+struct packet_unit_load {
+  int cargo_id;
+  int transporter_id;
+};
+
 struct packet_unit_unload {
-  int unit_id;
+  int cargo_id;
+  int transporter_id;
 };
 
 struct packet_unit_upgrade {
@@ -1069,6 +1075,7 @@ enum packet_type {
   PACKET_RULESET_BUILDING,
   PACKET_RULESET_TERRAIN,
   PACKET_RULESET_CONTROL,
+  PACKET_UNIT_LOAD,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1317,9 +1324,13 @@ struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum pa
 int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *packet);
 int dsend_packet_unit_auto(struct connection *pc, int unit_id);
 
+struct packet_unit_load *receive_packet_unit_load(struct connection *pc, enum packet_type type);
+int send_packet_unit_load(struct connection *pc, const struct packet_unit_load *packet);
+int dsend_packet_unit_load(struct connection *pc, int cargo_id, int transporter_id);
+
 struct packet_unit_unload *receive_packet_unit_unload(struct connection *pc, enum packet_type type);
 int send_packet_unit_unload(struct connection *pc, const struct packet_unit_unload *packet);
-int dsend_packet_unit_unload(struct connection *pc, int unit_id);
+int dsend_packet_unit_unload(struct connection *pc, int cargo_id, int transporter_id);
 
 struct packet_unit_upgrade *receive_packet_unit_upgrade(struct connection *pc, enum packet_type type);
 int send_packet_unit_upgrade(struct connection *pc, const struct packet_unit_upgrade *packet);

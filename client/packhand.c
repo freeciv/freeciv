@@ -1019,13 +1019,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         refresh_unit_city_dialogs(punit);
       }
 
-      /* These two lines force the menus to be updated as appropriate when
-	 the unit activity changes. */
-      if (punit == get_unit_in_focus()) {
-         update_menus();
-      }
     } /*** End of Change in activity or activity's target. ***/
     
+    /* These two lines force the menus to be updated as appropriate when
+     * the focus unit changes. */
+    if (punit == get_unit_in_focus()) {
+      update_menus();
+    }
+
     if (punit->homecity != packet_unit->homecity) {
       /* change homecity */
       struct city *pcity;

@@ -217,6 +217,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_AUTO:
     return receive_packet_unit_auto(pc, type);
 
+  case PACKET_UNIT_LOAD:
+    return receive_packet_unit_load(pc, type);
+
   case PACKET_UNIT_UNLOAD:
     return receive_packet_unit_unload(pc, type);
 
@@ -549,6 +552,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_UNIT_AUTO:
     return "PACKET_UNIT_AUTO";
+
+  case PACKET_UNIT_LOAD:
+    return "PACKET_UNIT_LOAD";
 
   case PACKET_UNIT_UNLOAD:
     return "PACKET_UNIT_UNLOAD";
@@ -13058,6 +13064,168 @@ int dsend_packet_unit_auto(struct connection *pc, int unit_id)
   return send_packet_unit_auto(pc, real_packet);
 }
 
+static unsigned int hash_packet_unit_load_100(const void *vkey, unsigned int num_buckets)
+{
+  return 0;
+}
+
+static int cmp_packet_unit_load_100(const void *vkey1, const void *vkey2)
+{
+  return 0;
+}
+
+BV_DEFINE(packet_unit_load_100_fields, 2);
+
+static struct packet_unit_load *receive_packet_unit_load_100(struct connection *pc, enum packet_type type)
+{
+  packet_unit_load_100_fields fields;
+  struct packet_unit_load *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_unit_load *clone;
+  RECEIVE_PACKET_START(packet_unit_load, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_load_100, cmp_packet_unit_load_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    dio_get_uint16(&din, (int *) &real_packet->cargo_id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_uint16(&din, (int *) &real_packet->transporter_id);
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_unit_load_100(struct connection *pc, const struct packet_unit_load *packet)
+{
+  const struct packet_unit_load *real_packet = packet;
+  packet_unit_load_100_fields fields;
+  struct packet_unit_load *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_LOAD];
+  int different = 0;
+  SEND_PACKET_START(PACKET_UNIT_LOAD);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_load_100, cmp_packet_unit_load_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->cargo_id != real_packet->cargo_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->transporter_id != real_packet->transporter_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint16(&dout, real_packet->cargo_id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_uint16(&dout, real_packet->transporter_id);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_unit_load(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_UNIT_LOAD] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_UNIT_LOAD] = variant;
+}
+
+struct packet_unit_load *receive_packet_unit_load(struct connection *pc, enum packet_type type)
+{
+  assert(pc->phs.variant);
+  if(!is_server) {
+    freelog(LOG_ERROR, "Receiving packet_unit_load at the client.");
+  }
+  ensure_valid_variant_packet_unit_load(pc);
+
+  switch(pc->phs.variant[PACKET_UNIT_LOAD]) {
+    case 100: return receive_packet_unit_load_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_unit_load(struct connection *pc, const struct packet_unit_load *packet)
+{
+  assert(pc->phs.variant);
+  if(is_server) {
+    freelog(LOG_ERROR, "Sending packet_unit_load from the server.");
+  }
+  ensure_valid_variant_packet_unit_load(pc);
+
+  switch(pc->phs.variant[PACKET_UNIT_LOAD]) {
+    case 100: return send_packet_unit_load_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+int dsend_packet_unit_load(struct connection *pc, int cargo_id, int transporter_id)
+{
+  struct packet_unit_load packet, *real_packet = &packet;
+
+  real_packet->cargo_id = cargo_id;
+  real_packet->transporter_id = transporter_id;
+  
+  return send_packet_unit_load(pc, real_packet);
+}
+
 static unsigned int hash_packet_unit_unload_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -13068,7 +13236,7 @@ static int cmp_packet_unit_unload_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_unload_100_fields, 1);
+BV_DEFINE(packet_unit_unload_100_fields, 2);
 
 static struct packet_unit_unload *receive_packet_unit_unload_100(struct connection *pc, enum packet_type type)
 {
@@ -13093,7 +13261,10 @@ static struct packet_unit_unload *receive_packet_unit_unload_100(struct connecti
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint16(&din, (int *) &real_packet->unit_id);
+    dio_get_uint16(&din, (int *) &real_packet->cargo_id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_uint16(&din, (int *) &real_packet->transporter_id);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -13129,9 +13300,13 @@ static int send_packet_unit_unload_100(struct connection *pc, const struct packe
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->unit_id != real_packet->unit_id);
+  differ = (old->cargo_id != real_packet->cargo_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->transporter_id != real_packet->transporter_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -13140,7 +13315,10 @@ static int send_packet_unit_unload_100(struct connection *pc, const struct packe
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->unit_id);
+    dio_put_uint16(&dout, real_packet->cargo_id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_uint16(&dout, real_packet->transporter_id);
   }
 
 
@@ -13200,11 +13378,12 @@ int send_packet_unit_unload(struct connection *pc, const struct packet_unit_unlo
   }
 }
 
-int dsend_packet_unit_unload(struct connection *pc, int unit_id)
+int dsend_packet_unit_unload(struct connection *pc, int cargo_id, int transporter_id)
 {
   struct packet_unit_unload packet, *real_packet = &packet;
 
-  real_packet->unit_id = unit_id;
+  real_packet->cargo_id = cargo_id;
+  real_packet->transporter_id = transporter_id;
   
   return send_packet_unit_unload(pc, real_packet);
 }

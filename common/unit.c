@@ -593,6 +593,85 @@ char* get_activity_text (int activity)
   return text;
 }
 
+/****************************************************************************
+  Return TRUE iff the given unit can be loaded into the transporter.
+****************************************************************************/
+bool can_unit_load(struct unit *pcargo, struct unit *ptrans)
+{
+  /* This function needs to check EVERYTHING. */
+
+  if (!pcargo || !ptrans) {
+    return FALSE;
+  }
+
+  /* Check positions of the units.  Of course you can't load a unit onto
+   * a transporter on a different tile... */
+  if (!same_pos(pcargo->x, pcargo->y, ptrans->x, ptrans->y)) {
+    return FALSE;
+  }
+
+  /* Double-check ownership of the units: you can load into an allied unit
+   * (of course only allied units can be on the same tile). */
+  if (!pplayers_allied(unit_owner(pcargo), unit_owner(ptrans))) {
+    return FALSE;
+  }
+
+  /* Only top-level transporters may be loaded or loaded into. */
+  if (pcargo->transported_by != -1 || ptrans->transported_by != -1) {
+    return FALSE;
+  }
+
+  /* Make sure this transporter can carry this type of unit. */
+  if (is_ground_unit(pcargo)) {
+    if (!is_ground_units_transport(ptrans)) {
+      return FALSE;
+    }
+  } else if (unit_flag(pcargo, F_MISSILE)) {
+    if (!is_air_units_transport(ptrans)) {
+      return FALSE;
+    }
+  } else if (is_air_unit(pcargo) || is_heli_unit(pcargo)) {
+    if (!unit_flag(ptrans, F_CARRIER)) {
+      return FALSE;
+    }
+  } else {
+    return FALSE;
+  }
+
+  /* Make sure there's room in the transporter. */
+  return (get_transporter_occupancy(ptrans)
+	  < get_transporter_capacity(ptrans));
+}
+
+/****************************************************************************
+  Return TRUE iff the given unit can be unloaded from its current
+  transporter.
+
+  This function checks everything *except* the legality of the position
+  after the unloading.  The caller may also want to call
+  can_unit_exist_at_tile() to check this, unless the unit is unloading and
+  moving at the same time.
+****************************************************************************/
+bool can_unit_unload(struct unit *pcargo, struct unit *ptrans)
+{
+  if (!pcargo || !ptrans) {
+    return FALSE;
+  }
+
+  /* Make sure the unit's transporter exists and is known. */
+  if (pcargo->transported_by != ptrans->id) {
+    return FALSE;
+  }
+
+  /* Only top-level transporters may be unloaded.  However the unit being
+   * unloaded may be transporting other units. */
+  if (ptrans->transported_by != -1) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 /**************************************************************************
 Return whether the unit can be paradropped.
 That is if the unit is in a friendly city or on an Airbase
@@ -1610,6 +1689,22 @@ int get_transporter_occupancy(struct unit *ptrans)
   } unit_list_iterate_end;
 
   return occupied;
+}
+
+/****************************************************************************
+  Find a transporter at the given location for the unit.
+****************************************************************************/
+struct unit *find_transporter_for_unit(struct unit *pcargo, int x, int y)
+{ 
+  struct tile *ptile = map_get_tile(x, y);
+
+  unit_list_iterate(ptile->units, ptrans) {
+    if (can_unit_load(pcargo, ptrans)) {
+      return ptrans;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
 }
 
 /***************************************************************************

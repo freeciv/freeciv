@@ -193,9 +193,16 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_auto *)packet)->unit_id);
     return TRUE;
 
+  case PACKET_UNIT_LOAD:
+    handle_unit_load(pplayer,
+      ((struct packet_unit_load *)packet)->cargo_id,
+      ((struct packet_unit_load *)packet)->transporter_id);
+    return TRUE;
+
   case PACKET_UNIT_UNLOAD:
     handle_unit_unload(pplayer,
-      ((struct packet_unit_unload *)packet)->unit_id);
+      ((struct packet_unit_unload *)packet)->cargo_id,
+      ((struct packet_unit_unload *)packet)->transporter_id);
     return TRUE;
 
   case PACKET_UNIT_UPGRADE:

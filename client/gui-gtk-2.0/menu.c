@@ -113,6 +113,8 @@ enum MenuID {
   MENU_ORDER_SENTRY,
   MENU_ORDER_PILLAGE,
   MENU_ORDER_HOMECITY,
+  MENU_ORDER_UNLOAD_TRANSPORTER,
+  MENU_ORDER_LOAD,
   MENU_ORDER_UNLOAD,
   MENU_ORDER_WAKEUP_OTHERS,
   MENU_ORDER_AUTO_SETTLER,   /* shared with AUTO_ATTACK */
@@ -378,8 +380,14 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_HOMECITY:
     key_unit_homecity();
     break;
-   case MENU_ORDER_UNLOAD:
-    key_unit_unload();
+   case MENU_ORDER_UNLOAD_TRANSPORTER:
+    key_unit_unload_all();
+    break;
+  case MENU_ORDER_LOAD:
+    request_unit_load(get_unit_in_focus(), NULL);
+    break;
+  case MENU_ORDER_UNLOAD:
+    request_unit_unload(get_unit_in_focus());
     break;
    case MENU_ORDER_WAKEUP_OTHERS:
     key_unit_wakeup_others();
@@ -605,7 +613,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Kingdom") "/" N_("_Find City"),		"<shift>f",
 	kingdom_menu_callback,	MENU_KINGDOM_FIND_CITY					},
-  { "/" N_("Kingdom") "/" N_("Work_lists"),		"<shift>l",
+  { "/" N_("Kingdom") "/" N_("_Worklists"),		"<shift>w",
 	kingdom_menu_callback,	MENU_KINGDOM_WORKLISTS					},
   { "/" N_("Kingdom") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
@@ -699,8 +707,12 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("Make _Homecity"),		"h",
 	orders_menu_callback,	MENU_ORDER_HOMECITY					},
-  { "/" N_("Orders") "/" N_("_Unload"),			"u",
-	orders_menu_callback,	MENU_ORDER_UNLOAD					},
+  { "/" N_("Orders") "/" N_("_Load"), "<shift>L",
+    orders_menu_callback, MENU_ORDER_LOAD},
+  { "/" N_("Orders") "/" N_("_Unload Transporter"),	"u",
+	orders_menu_callback,	MENU_ORDER_UNLOAD_TRANSPORTER					},
+  { "/" N_("Orders") "/" N_("_Unload"), "<shift>U",
+    orders_menu_callback, MENU_ORDER_UNLOAD},
   { "/" N_("Orders") "/" N_("Wake up o_thers"),		"<shift>w",
 	orders_menu_callback,	MENU_ORDER_WAKEUP_OTHERS				},
   { "/" N_("Orders") "/sep3",				NULL,
@@ -1082,7 +1094,7 @@ void update_menus(void)
 
     menus_set_sensitive("<main>/_Kingdom/_Tax Rates",
 			can_client_issue_orders());
-    menus_set_sensitive("<main>/_Kingdom/Work_lists",
+    menus_set_sensitive("<main>/_Kingdom/_Worklists",
 			can_client_issue_orders());
     menus_set_sensitive("<main>/_Kingdom/_Government",
 			can_client_issue_orders());
@@ -1164,8 +1176,14 @@ void update_menus(void)
 			  !unit_flag(punit, F_UNDISBANDABLE));
       menus_set_sensitive("<main>/_Orders/Make _Homecity",
 			  can_unit_change_homecity(punit));
-      menus_set_sensitive("<main>/_Orders/_Unload",
+      menus_set_sensitive("<main>/_Orders/_Unload Transporter",
 			  get_transporter_capacity(punit)>0);
+      menus_set_sensitive("<main>/_Orders/_Load",
+	can_unit_load(punit, find_transporter_for_unit(punit,
+						       punit->x, punit->y)));
+      menus_set_sensitive("<main>/_Orders/_Unload",
+	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	 && can_unit_exist_at_tile(punit, punit->x, punit->y)));
       menus_set_sensitive("<main>/_Orders/Wake up o_thers", 
 			  is_unit_activity_on_tile(ACTIVITY_SENTRY,
                                                    punit->x, punit->y));

@@ -631,16 +631,35 @@ void request_unit_connect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void request_unit_unload(struct unit *punit)
+void request_unit_unload_all(struct unit *punit)
 {
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  struct unit *plast = NULL;
+
   if(get_transporter_capacity(punit) == 0) {
     append_output_window(_("Game: Only transporter units can be unloaded."));
     return;
   }
 
   request_unit_wait(punit);    /* RP: unfocus the ship */
-  
-  dsend_packet_unit_unload(&aconnection, punit->id);
+
+  unit_list_iterate(ptile->units, pcargo) {
+    if (pcargo->transported_by == punit->id) {
+      request_unit_unload(pcargo);
+
+      if (pcargo->activity == ACTIVITY_SENTRY) {
+	request_new_unit_activity(punit, ACTIVITY_IDLE);
+      }
+
+      plast = pcargo;
+    }
+  } unit_list_iterate_end;
+
+  if (plast) {
+    /* If the above unloading failed this focus will still happen.  That's
+     * probably a feature. */
+    set_unit_focus(plast);
+  }
 }
 
 /**************************************************************************
@@ -808,6 +827,39 @@ void request_unit_auto(struct unit *punit)
   } else {
     append_output_window(_("Game: Only settler units and military units"
 			   " in cities can be put in auto-mode."));
+  }
+}
+
+/****************************************************************************
+  Send a request to the server that the cargo be loaded into the transporter.
+
+  If ptransporter is NULL a transporter will be picked at random.
+****************************************************************************/
+void request_unit_load(struct unit *pcargo, struct unit *ptrans)
+{
+  if (!ptrans) {
+    ptrans = find_transporter_for_unit(pcargo, pcargo->x, pcargo->y);
+  }
+
+  if (can_client_issue_orders()
+      && can_unit_load(pcargo, ptrans)) {
+    dsend_packet_unit_load(&aconnection, pcargo->id, ptrans->id);
+  }
+}
+
+/****************************************************************************
+  Send a request to the server that the cargo be unloaded from its current
+  transporter.
+****************************************************************************/
+void request_unit_unload(struct unit *pcargo)
+{
+  struct unit *ptrans = find_unit_by_id(pcargo->transported_by);
+
+  if (can_client_issue_orders()
+      && ptrans
+      && can_unit_unload(pcargo, ptrans)
+      && can_unit_survive_at_tile(pcargo, pcargo->x, pcargo->y)) {
+    dsend_packet_unit_unload(&aconnection, pcargo->id, ptrans->id);
   }
 }
 
@@ -1717,10 +1769,10 @@ void key_unit_traderoute(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_unload(void)
+void key_unit_unload_all(void)
 {
   if (punit_focus) {
-    request_unit_unload(punit_focus);
+    request_unit_unload_all(punit_focus);
   }
 }
 

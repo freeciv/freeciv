@@ -211,7 +211,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 106.
+The last used packet number is 107.
 ****************************************************/
 
 
@@ -687,8 +687,14 @@ PACKET_UNIT_AUTO=60;cs,dsend
   UNIT unit_id;
 end
 
+# Load the given cargo into the transporter.
+PACKET_UNIT_LOAD=107;cs,dsend
+  UNIT cargo_id, transporter_id;
+end
+
+# Unload the given cargo from the transporter.
 PACKET_UNIT_UNLOAD=61;cs,dsend
-  UNIT unit_id;
+  UNIT cargo_id, transporter_id;
 end
 
 PACKET_UNIT_UPGRADE=62;cs,dsend

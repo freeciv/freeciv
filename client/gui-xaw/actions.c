@@ -531,10 +531,10 @@ static void xaw_key_unit_transform(Widget w, XEvent *event, String *argv, Cardin
     key_unit_transform();
 }
 
-static void xaw_key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_unit_unload_all(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_UNLOAD))
-    key_unit_unload();
+    key_unit_unload_all();
 }
 
 static void xaw_key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -679,7 +679,7 @@ static XtActionsRec Actions[] = {
   { "key-unit-traderoute", xaw_key_unit_traderoute },
   { "key-unit-sentry", xaw_key_unit_sentry },
   { "key-unit-transform", xaw_key_unit_transform },
-  { "key-unit-unload", xaw_key_unit_unload },
+  { "key-unit-unload-all", xaw_key_unit_unload_all },
   { "key-unit-wait", xaw_key_unit_wait },
   { "key-unit-wakeup-others", xaw_key_unit_wakeup_others },
   { "msg-close-city", xaw_msg_close_city },

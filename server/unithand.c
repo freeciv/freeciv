@@ -1420,42 +1420,49 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_unit_unload(struct player *pplayer, int unit_id)
+/****************************************************************************
+  Handle a client request to load the given unit into the given transporter.
+****************************************************************************/
+void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
+  struct unit *ptrans = player_find_unit_by_id(pplayer, trans_id);
 
-  if (!punit) {
+  if (!pcargo || !ptrans) {
     return;
   }
 
-  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-    if (punit != punit2 && punit2->activity == ACTIVITY_SENTRY) {
-      bool wakeup = FALSE;
+  if (!can_unit_load(pcargo, ptrans)) {
+    return;
+  }
 
-      if (is_ground_units_transport(punit)) {
-	if (is_ground_unit(punit2))
-	  wakeup = TRUE;
-      }
+  /* Load the unit and send out info to clients. */
+  load_unit_onto_transporter(pcargo, ptrans);
+}
 
-      if (unit_flag(punit, F_MISSILE_CARRIER)) {
-	if (unit_flag(punit2, F_MISSILE))
-	  wakeup = TRUE;
-      }
+/****************************************************************************
+  Handle a client request to unload the given unit from the given
+  transporter.
+****************************************************************************/
+void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
+{
+  struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
+  struct unit *ptrans = player_find_unit_by_id(pplayer, trans_id);
 
-      if (unit_flag(punit, F_CARRIER)) {
-	if (is_air_unit(punit2))
-	  wakeup = TRUE;
-      }
+  if (!pcargo || !ptrans) {
+    return;
+  }
 
-      if (wakeup) {
-	set_unit_activity(punit2, ACTIVITY_IDLE);
-	send_unit_info(NULL, punit2);
-      }
-    }
-  } unit_list_iterate_end;
+  if (!can_unit_unload(pcargo, ptrans)) {
+    return;
+  }
+
+  if (!can_unit_survive_at_tile(pcargo, pcargo->x, pcargo->y)) {
+    return;
+  }
+
+  /* Unload the unit and send out info to clients. */
+  unload_unit_from_transporter(pcargo);
 }
 
 /**************************************************************************

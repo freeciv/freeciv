@@ -141,7 +141,7 @@ static int unit_order_callback(struct GUI *pOrder_Widget)
     key_unit_homecity();
     break;
   case ID_UNIT_ORDER_UNLOAD:
-    key_unit_unload();
+    key_unit_unload_all();
     break;
   case ID_UNIT_ORDER_WAKEUP_OTHERS:
     key_unit_wakeup_others();

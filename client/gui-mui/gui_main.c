@@ -590,7 +590,7 @@ static void control_callback(ULONG * value)
       key_unit_wait();
       break;
     case MENU_ORDER_UNLOAD:
-      key_unit_unload();
+      key_unit_unload_all();
       break;
     case MENU_ORDER_WAKEUP_OTHERS:
       key_unit_wakeup_others();

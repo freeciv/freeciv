@@ -378,7 +378,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_homecity();
     break;
    case MENU_ORDER_UNLOAD:
-    key_unit_unload();
+    key_unit_unload_all();
     break;
    case MENU_ORDER_WAKEUP_OTHERS:
     key_unit_wakeup_others();

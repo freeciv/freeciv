@@ -705,7 +705,7 @@ void handle_menu(int code)
       break;
     case IDM_ORDERS_UNLOAD:
       if(get_unit_in_focus())
-	request_unit_unload(get_unit_in_focus());
+	request_unit_unload_all(get_unit_in_focus());
       break;
     case IDM_ORDERS_WAKEUP:
       if(get_unit_in_focus())

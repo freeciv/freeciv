@@ -2514,54 +2514,6 @@ static bool unit_enter_hut(struct unit *punit)
 }
 
 /****************************************************************************
-  Return TRUE iff the given transporter can carry the given unit.
-****************************************************************************/
-static bool can_unit_transport_unit(struct unit *ptrans, struct unit *punit)
-{
-  if (ptrans->transported_by != -1) {
-    /* Only top-level transporters allowed. */
-    return FALSE;
-  }
-
-  /* First check unit types. */
-  if (is_ground_unit(punit)) {
-    if (!is_ground_units_transport(ptrans)) {
-      return FALSE;
-    }
-  } else if (unit_flag(punit, F_MISSILE)) {
-    if (!is_air_units_transport(ptrans)) {
-      return FALSE;
-    }
-  } else if (is_air_unit(punit) || is_heli_unit(punit)) {
-    if (!unit_flag(ptrans, F_CARRIER)) {
-      return FALSE;
-    }
-  } else {
-    return FALSE;
-  }
-
-  /* Then check capacity. */
-  return (get_transporter_occupancy(ptrans)
-	  < get_transporter_capacity(ptrans));
-}
-
-/****************************************************************************
-  Find a transporter at the given location for the unit.
-****************************************************************************/
-struct unit *find_transporter_for_unit(struct unit *punit, int x, int y)
-{ 
-  struct tile *ptile = map_get_tile(x, y);
-
-  unit_list_iterate(ptile->units, ptrans) {
-    if (can_unit_transport_unit(ptrans, punit)) {
-      return ptrans;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
   Put the unit onto the transporter.  Don't do any other work.
 ****************************************************************************/
 static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans)

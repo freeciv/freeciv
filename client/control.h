@@ -48,6 +48,8 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					enum tile_special_type tgt);
+void request_unit_load(struct unit *pcargo, struct unit *ptransporter);
+void request_unit_unload(struct unit *pcargo);
 void request_unit_auto(struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
@@ -62,7 +64,7 @@ void request_unit_paradrop(struct unit *punit);
 void request_unit_patrol(void);
 void request_unit_pillage(struct unit *punit);
 void request_unit_sentry(struct unit *punit);
-void request_unit_unload(struct unit *punit);
+void request_unit_unload_all(struct unit *punit);
 void request_unit_airlift(struct unit *punit, struct city *pcity);
 void request_unit_return(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
@@ -153,7 +155,7 @@ void key_unit_road(void);
 void key_unit_sentry(void);
 void key_unit_traderoute(void);
 void key_unit_transform(void);
-void key_unit_unload(void);
+void key_unit_unload_all(void);
 void key_unit_wait(void);
 void key_unit_wakeup_others(void);
 
