@@ -54,6 +54,10 @@ extern Widget toplevel, main_form;
 extern int display_depth;
 extern struct connection aconnection;
 
+/* These are the order of the tiles in space.xpm: */
+enum spaceship_pix { SSHIP_SOLAR_PANELS, SSHIP_LIFE_SUPPORT, SSHIP_HABITATION,
+		     SSHIP_STRUCTURAL, SSHIP_FUEL, SSHIP_PROPULSION };
+
 struct spaceship_dialog {
   struct player *pplayer;
   Widget shell;
@@ -307,7 +311,10 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES + 2 - i % 3);
+    sprite = get_tile_sprite(SPACE_TILES +
+			     (k==0?SSHIP_HABITATION:
+			      k==1?SSHIP_LIFE_SUPPORT:
+			      SSHIP_SOLAR_PANELS));
     XSetClipOrigin(display, civ_gc, x, y);
     XSetClipMask(display, civ_gc, sprite->mask);
     XCopyArea(display, sprite->pixmap, XtWindow(pdialog->image_canvas), 
@@ -327,7 +334,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES + 4 + i % 2);
+    sprite = get_tile_sprite(SPACE_TILES + (k==0?SSHIP_FUEL:SSHIP_PROPULSION));
 
     XSetClipOrigin(display, civ_gc, x, y);
     XSetClipMask(display, civ_gc, sprite->mask);
@@ -338,7 +345,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     XSetClipMask(display,civ_gc,None);
   }
 
-  sprite = get_tile_sprite(SPACE_TILES + 3);
+  sprite = get_tile_sprite(SPACE_TILES + SSHIP_STRUCTURAL);
 
   for (i=0; i < NUM_SS_STRUCTURALS; i++) {
     if (!ship->structure[i])
