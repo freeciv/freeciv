@@ -231,6 +231,7 @@ void tile_init(struct tile *ptile);
 enum known_type tile_is_known(int x, int y);
 int check_coords(int *x, int *y);
 int is_real_tile(int x, int y);
+int is_normal_map_pos(int x, int y);
 int normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
 

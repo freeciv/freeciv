@@ -1314,6 +1314,19 @@ int is_real_tile(int x, int y)
 }
 
 /**************************************************************************
+Returns TRUE iff the map position is normal. "Normal" here means that
+it is both a real/valid coordinate set and that the coordinates are in
+their canonical/proper form. In plain English: the coordinates must be
+on the map.
+**************************************************************************/
+int is_normal_map_pos(int x, int y)
+{
+  int x1 = x, y1 = y;
+
+  return (normalize_map_pos(&x1, &y1) && (x1 == x) && (y1 == y));
+}
+
+/**************************************************************************
 Normalizes the map position. Returns TRUE if it is real, FALSE otherwise.
 **************************************************************************/
 int normalize_map_pos(int *x, int *y)
