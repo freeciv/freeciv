@@ -180,10 +180,14 @@ tags:   */*.c
 	ctags -a client/*.c server/*.c ai/*.c common/*.c
 
 depend:
-	$(CPP) -M $(COM_INCLUDE) common/*.c > .depend
-	$(CPP) -M $(CLI_INCLUDE) client/*.c >> .depend
-	$(CPP) -M $(SER_INCLUDE) server/*.c >> .depend
-	$(CPP) -M $(AI_INCLUDE) ai/*.c >> .depend
+	makedepend -f .depend $(COM_INCLUDE) common/*.c
+	makedepend -f .depend -a $(CLI_INCLUDE) client/*.c 
+	makedepend -f .depend -a $(SER_INCLUDE) server/*.c 
+	makedepend -f .depend -a $(AI_INCLUDE) ai/*.c 
+#	$(CPP) -M $(COM_INCLUDE) common/*.c > .depend
+#	$(CPP) -M $(CLI_INCLUDE) client/*.c >> .depend
+#	$(CPP) -M $(SER_INCLUDE) server/*.c >> .depend
+#	$(CPP) -M $(AI_INCLUDE) ai/*.c >> .depend
 
 # Some stupid makes, like the solaris one, can't handle the ifeq and endif
 # lines of this next bit.  You have to comment this out or get GNU make.
