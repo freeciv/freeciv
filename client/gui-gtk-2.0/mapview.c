@@ -724,6 +724,17 @@ void canvas_put_sprite(struct canvas *pcanvas,
       {
 	GdkPixbuf *src, *dst;
 
+	/* FIXME: is this right??? */
+	if (canvas_x < 0) {
+	  offset_x -= canvas_x;
+	  canvas_x = 0;
+	}
+	if (canvas_y < 0) {
+	  offset_y -= canvas_y;
+	  canvas_y = 0;
+	}
+
+
 	src = sprite_get_pixbuf(sprite);
 	dst = pcanvas->v.pixbuf;
 	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
