@@ -17,6 +17,10 @@
 
 int can_unit_move_to_tile(struct unit *punit, int x, int y);
 int is_sailing_unit_tile(int x, int y);
+int is_enemy_city_tile(int x, int y, int owner);
+int is_friendly_city_tile(int x, int y, int owner);
+int is_enemy_unit_tile(int x, int y, int owner);
+int is_friendly_unit_tile(int x, int y, int owner);
 int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
 int unit_bribe_cost(struct unit *punit);
@@ -56,15 +60,4 @@ int dist_mod(int dist, int val);
 int make_dy(int y1, int y2);
 int make_dx(int x1, int x2);
 
-
-
-
-
-
-
 #endif
-
-
-
-
-
