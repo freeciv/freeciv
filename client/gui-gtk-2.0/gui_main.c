@@ -525,15 +525,11 @@ static GtkWidget *detached_widget_new(void)
 **************************************************************************/
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 {
-  GtkWidget *b, *sep, *avbox;
+  GtkWidget *b, *avbox;
 
   b = gtk_toggle_button_new();
   gtk_box_pack_start(GTK_BOX(ahbox), b, FALSE, FALSE, 0);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), ahbox);
-
-  /* cosmetic effects */
-  sep = gtk_vseparator_new();
-  gtk_container_add(GTK_CONTAINER(b), sep);
 
   avbox = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(ahbox), avbox, TRUE, TRUE, 0);
@@ -868,10 +864,14 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), ahbox, TRUE, TRUE);
   avbox = detached_widget_fill(ahbox);
 
+  frame = gtk_frame_new(NULL);
+  gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_OUT);
+  gtk_box_pack_start(GTK_BOX(avbox), frame, TRUE, TRUE, 0);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), sw);
   gtk_widget_set_size_request(sw, 600, 100);
 
   text = gtk_text_view_new();
@@ -893,7 +893,7 @@ static void setup_widgets(void)
 
   /* the chat line */
   inputline = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 3);
 
   g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
 
@@ -1007,8 +1007,8 @@ void ui_main(int argc, char **argv)
   civ_gc = gdk_gc_new(root_window);
 
   /* font names shouldn't be in spec files! */
-  main_font = pango_font_description_from_string("Sans Bold 13");
-  city_productions_font = pango_font_description_from_string("Serif 11");
+  main_font = pango_font_description_from_string("Sans Bold 10");
+  city_productions_font = pango_font_description_from_string("Serif 10");
 
   fill_bg_gc = gdk_gc_new(root_window);
 
