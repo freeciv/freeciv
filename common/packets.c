@@ -3160,6 +3160,8 @@ static int write_socket_data(struct connection *pc,
     case -1:
       freelog(LOG_DEBUG, "error while waiting for write: %s",mystrerror(errno));
       return -1;
+    default:
+      break;
     }
 #endif
 
