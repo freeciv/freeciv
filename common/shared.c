@@ -122,9 +122,11 @@ char *create_centered_string(char *s)
 
 /**************************************************************************
   return a char * to the parameter of the option or NULL.
-  *i can be increased to get next string in the array argv[]. 
- **************************************************************************/
-char * get_option(const char *option_name,char **argv,int *i,int argc)
+  *i can be increased to get next string in the array argv[].
+  It is an error for the option to exist but be an empty string.
+  This doesn't use freelog() because it is used before logging is set up.
+**************************************************************************/
+char *get_option(const char *option_name, char **argv, int *i, int argc)
 {
   int len = strlen(option_name);
 
@@ -139,6 +141,10 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
       if (*i < argc - 1) {
 	(*i)++;
 	opt = argv[*i];
+	if (strlen(opt)==0) {
+	  fprintf(stderr, _("Empty argument for \"%s\".\n"), option_name);
+	  exit(1);
+	}
       }	else {
 	fprintf(stderr, _("Missing argument for \"%s\".\n"), option_name);
 	exit(1);
