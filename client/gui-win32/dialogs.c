@@ -877,7 +877,11 @@ void races_toggles_set_sensitive(bool *nations_used)
 *****************************************************************/
 static void revolution_callback_yes(HWND w, void * data)
 {
-  start_revolution();
+  if ((int)data == -1) {
+    start_revolution();
+  } else {
+    set_government_choice((int)data);
+  }
   destroy_message_dialog(w);
 }
  
@@ -894,13 +898,21 @@ static void revolution_callback_no(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(void)
+void popup_revolution_dialog(int government)
 {
-  popup_message_dialog(NULL, /*"revolutiondialog"*/_("Revolution!"),
-                       _("You say you wanna revolution?"),
-                       _("_Yes"),revolution_callback_yes, 0,
-                       _("_No"),revolution_callback_no, 0,
-                       0);
+  if (game.player_ptr->revolution_finishes < game.turn) {
+    popup_message_dialog(NULL, _("Revolution!"),
+			 _("You say you wanna revolution?"),
+			 _("_Yes"),revolution_callback_yes, government,
+			 _("_No"),revolution_callback_no, 0,
+			 0);
+  } else {
+    if (government == -1) {
+      start_revolution();
+    } else {
+      set_government_choice(government);
+    }
+  }
 }
  
 /****************************************************************

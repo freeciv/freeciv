@@ -604,7 +604,7 @@ void handle_menu(int code)
       popup_worklists_report(game.player_ptr);
       break;
     case IDM_GOVERNMENT_REVOLUTION:
-      popup_revolution_dialog();
+      popup_revolution_dialog(-1);
       break;
 
 
@@ -915,7 +915,7 @@ void handle_menu(int code)
     default:
       if ((enum MenuID)code >= IDM_GOVERNMENT_CHANGE_FIRST
 	   && (enum MenuID)code <= IDM_GOVERNMENT_CHANGE_LAST) {
-	set_government_choice((enum MenuID)code - IDM_GOVERNMENT_CHANGE_FIRST);
+	popup_revolution_dialog(code - IDM_GOVERNMENT_CHANGE_FIRST);
       }
       break;
     }
