@@ -170,70 +170,43 @@ void put_one_tile( int map_x , int map_y , int canvas_x , int canvas_y )
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in isometric
-  view use with unification of update_mapcanvas(...).
+  Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
-void put_one_tile_iso(int x, int y, int canvas_x, int canvas_y,
-		      enum draw_type draw)
+void gui_map_put_tile_iso(int map_x, int map_y,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y, int offset_y_unit,
+			  int width, int height, int height_unit,
+			  enum draw_type draw)
 {
-  SDL_Rect dest;	
-  int height, width;
-  int offset_x, offset_y;
-
-/*
-  if (!tile_visible_mapcanvas(x, y)) {
-    freelog(LOG_DEBUG, "dropping %d,%d", x, y);
-    return;
-  }
-*/
-	
-  if (!normalize_map_pos(&x, &y)) {
-    blit_entire_src( (SDL_Surface *)sprites.black_tile ,
-                       Main.screen , canvas_x , canvas_y );
-    return;  
-  }
-  
-  freelog(LOG_DEBUG, "putting %d,%d draw %x", x, y, draw);
-
-  if ( draw == D_MB_LR || draw == D_FULL )
-  {
+  if (draw == D_MB_LR || draw == D_FULL) {
     draw_map_cell(Main.screen, canvas_x, canvas_y,
-			  (Uint16)x, (Uint16)y, 0);
-    
-    return;
-  }
-  
-  width = (draw & D_TMB_L) && (draw & D_TMB_R)
-        ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH>>1;
-  
-  if (!(draw & D_TMB_L))
-    offset_x = NORMAL_TILE_WIDTH>>1;
-  else
-    offset_x = 0;
+		  (Uint16)map_x, (Uint16)map_y, 0);
+  } else {
+    SDL_Rect dest;
 
-  height = 0;
-  if (draw & D_M_LR) height += (NORMAL_TILE_HEIGHT>>1);
-  if (draw & D_B_LR) height += (NORMAL_TILE_HEIGHT>>1);
-  if (draw & D_T_LR) height += (NORMAL_TILE_HEIGHT>>1);
-	  
-  if ((draw & D_T_LR))
-    offset_y = - (NORMAL_TILE_HEIGHT>>1);
-  else
-    offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT>>1;
+    dest.x = canvas_x + offset_x;
+    dest.y = canvas_y + offset_y;
+    dest.w = width;
+    dest.h = height;
+    SDL_SetClipRect(Main.screen, &dest);
   
-  dest.x = canvas_x + offset_x;
-  dest.y = canvas_y + offset_y;
-  dest.w = width;
-  dest.h = height;
-  SDL_SetClipRect(Main.screen, &dest);
+    draw_map_cell(Main.screen, canvas_x, canvas_y,
+		  (Uint16)map_x, (Uint16)map_y, 0);
   
-  draw_map_cell(Main.screen, canvas_x, canvas_y,
-			  (Uint16)x, (Uint16)y, 0 );
-  
-  /* clear ClipRect */
-  SDL_SetClipRect(Main.screen, NULL);
- 
-  return;
+    /* clear ClipRect */
+    SDL_SetClipRect(Main.screen, NULL);
+  }
+}
+
+/**************************************************************************
+  Draw some or all of a black tile onto the mapview canvas.
+**************************************************************************/
+void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
+				int offset_x, int offset_y,
+				int width, int height)
+{
+  blit_entire_src((SDL_Surface *)sprites.black_tile,
+		  Main.screen, canvas_x, canvas_y);
 }
 
 void flush_mapcanvas( int canvas_x , int canvas_y ,

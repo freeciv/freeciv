@@ -39,8 +39,14 @@ void center_tile_mapcanvas(int x, int y);
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 
 void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y);
-void put_one_tile_iso(int map_x, int map_y, int canvas_x, int canvas_y,
-		      enum draw_type draw);
+void gui_map_put_tile_iso(int map_x, int map_y,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y, int offset_y_unit,
+			  int width, int height, int height_unit,
+			  enum draw_type draw);
+void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
+				int offset_x, int offset_y,
+				int width, int height);
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
 

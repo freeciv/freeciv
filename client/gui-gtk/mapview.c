@@ -887,45 +887,31 @@ void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in isometric
-  view.
+  Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
-void put_one_tile_iso(int x, int y, int canvas_x, int canvas_y,
-		      enum draw_type draw)
+void gui_map_put_tile_iso(int map_x, int map_y,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y, int offset_y_unit,
+			  int width, int height, int height_unit,
+			  enum draw_type draw)
 {
-  int height, width, height_unit;
-  int offset_x, offset_y, offset_y_unit;
+  pixmap_put_tile_iso(map_canvas_store,
+		      map_x, map_y, canvas_x, canvas_y,
+		      FALSE,
+		      offset_x, offset_y, offset_y_unit,
+		      width, height, height_unit, draw);
+}
 
-  width = (draw & D_TMB_L) && (draw & D_TMB_R) ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2;
-  if (!(draw & D_TMB_L))
-    offset_x = NORMAL_TILE_WIDTH/2;
-  else
-    offset_x = 0;
-
-  height = 0;
-  if (draw & D_M_LR) height += NORMAL_TILE_HEIGHT/2;
-  if (draw & D_B_LR) height += NORMAL_TILE_HEIGHT/2;
-  if (draw & D_T_LR)
-    height_unit = height + NORMAL_TILE_HEIGHT/2;
-  else
-    height_unit = height;
-
-  offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT/2;
-  if (!(draw & D_T_LR))
-    offset_y_unit = (draw & D_M_LR) ? NORMAL_TILE_HEIGHT/2 : NORMAL_TILE_HEIGHT;
-  else
-    offset_y_unit = 0;
-
-  if (normalize_map_pos(&x, &y)) {
-    pixmap_put_tile_iso(map_canvas_store, x, y, canvas_x, canvas_y, 0,
-			offset_x, offset_y, offset_y_unit,
-			width, height, height_unit,
-			draw);
-  } else {
-    pixmap_put_black_tile_iso(map_canvas_store, canvas_x, canvas_y,
-			      offset_x, offset_y,
-			      width, height);
-  }
+/**************************************************************************
+  Draw some or all of a black tile onto the mapview canvas.
+**************************************************************************/
+void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
+				int offset_x, int offset_y,
+				int width, int height)
+{
+  pixmap_put_black_tile_iso(map_canvas_store, canvas_x, canvas_y,
+			    offset_x, offset_y,
+			    width, height);	
 }
 
 /**************************************************************************

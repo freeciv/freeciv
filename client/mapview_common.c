@@ -403,9 +403,57 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
   int canvas_x, canvas_y;
 
   if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+    int height, width, height_unit;
+    int offset_x, offset_y, offset_y_unit;
+
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d), draw %x",
 	    map_x, map_y, canvas_x, canvas_y, draw);
-    put_one_tile_iso(map_x, map_y, canvas_x, canvas_y, draw);
+
+    if ((draw & D_TMB_L) && (draw & D_TMB_R)) {
+      width = NORMAL_TILE_WIDTH;
+    } else {
+      width = NORMAL_TILE_WIDTH / 2;
+    }
+
+    if (draw & D_TMB_L) {
+      offset_x = 0;
+    } else {
+      offset_x = NORMAL_TILE_WIDTH / 2;
+    }
+
+    height = 0;
+    if (draw & D_M_LR) {
+      height += NORMAL_TILE_HEIGHT / 2;
+    }
+    if (draw & D_B_LR) {
+      height += NORMAL_TILE_HEIGHT / 2;
+    }
+
+    height_unit = height;
+    if (draw & D_T_LR) {
+      height_unit += NORMAL_TILE_HEIGHT / 2;
+    }
+
+    offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT / 2;
+
+    if (draw & D_T_LR) {
+      offset_y_unit = 0;
+    } else if (draw & D_M_LR) {
+      offset_y_unit = NORMAL_TILE_HEIGHT / 2;
+    } else {
+      offset_y_unit = NORMAL_TILE_HEIGHT;
+    }
+
+    if (normalize_map_pos(&map_x, &map_y)) {
+      gui_map_put_tile_iso(map_x, map_y, canvas_x, canvas_y,
+			   offset_x, offset_y, offset_y_unit,
+			   width, height, height_unit,
+			   draw);
+    } else {
+      gui_map_put_black_tile_iso(canvas_x, canvas_y,
+				 offset_x, offset_y,
+				 width, height);
+    }
   }
 }
 

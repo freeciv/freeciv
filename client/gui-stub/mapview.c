@@ -193,11 +193,23 @@ void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in isometric
-  view.
+  Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
-void put_one_tile_iso(int map_x, int map_y, int canvas_x, int canvas_y,
-                     enum draw_type draw)
+void gui_map_put_tile_iso(int map_x, int map_y,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y, int offset_y_unit,
+			  int width, int height, int height_unit,
+			  enum draw_type draw)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Draw some or all of a black tile onto the mapview canvas.
+**************************************************************************/
+void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
+				int offset_x, int offset_y,
+				int width, int height)
 {
   /* PORTME */
 }
