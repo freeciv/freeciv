@@ -945,6 +945,9 @@ void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile)
 			    pcity->size/10);
   pixmap_put_overlay_tile(pm, xtile, ytile, NUMBER_TILES+pcity->size%10);
 
+  if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
+    pixmap_put_overlay_tile(pm, xtile, ytile, POLLUTION_TILE);
+
   if(city_unhappy(pcity))
     pixmap_put_overlay_tile(pm, xtile, ytile, CITY_FLASH_TILE);
   

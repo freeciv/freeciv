@@ -1179,20 +1179,23 @@ static void check_pollution(struct city *pcity)
   int k=100;
   if (pcity->pollution && myrand(100)<=pcity->pollution) {
     while (k) {
-      x=pcity->x+myrand(5)-2;
-      y=pcity->y+myrand(5)-2;
-      x=map_adjust_x(x); y=map_adjust_y(y);
-      if ( (x!=pcity->x || y!=pcity->x) && 
-	   (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
-	   (!(map_get_special(x,y)&S_POLLUTION)) ) { 
-	map_set_special(x,y, S_POLLUTION);
-	send_tile_info(0, x, y, TILE_KNOWN);
-	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_POLLUTION,
-			 "Game: Pollution near %s", pcity->name);
-	return;
+      /* place pollution somewhere in city radius */
+      x=myrand(5)-2;
+      y=myrand(5)-2;
+      if ( ( x != -2 && x != 2 ) || ( y != -2 && y != 2 ) ) {
+	x=map_adjust_x(pcity->x+x); y=map_adjust_y(pcity->y+y);
+	if ( (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
+	     (!(map_get_special(x,y)&S_POLLUTION)) ) { 
+	  map_set_special(x,y, S_POLLUTION);
+	  send_tile_info(0, x, y, TILE_KNOWN);
+	  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_POLLUTION,
+			   "Game: Pollution near %s", pcity->name);
+	  return;
+	}
       }
       k--;
     }
+    freelog(LOG_DEBUG, "pollution not placed: city: %s", pcity->name);
   }
 }
 
