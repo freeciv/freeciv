@@ -46,6 +46,9 @@
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
+#ifdef WIN32_NATIVE
+#include <windows.h>	/* GetTempPath */
+#endif
 
 #include "log.h"
 #include "shared.h"		/* TRUE, FALSE */
@@ -211,7 +214,27 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
     char tmp[4096];
     int n;
 
+#ifdef WIN32_NATIVE
+    /* tmpfile() in mingw attempts to make a temp file in the root directory of
+     * the current drive, which we may not have write access to. */
+    {
+      char filename[512];
+
+      GetTempPath(sizeof(filename), filename);
+      sz_strlcat(filename, "fctmp");
+
+      fp = fopen(filename, "w+b");
+    }
+#else
+
     fp = tmpfile();
+
+#endif
+
+    if (fp == NULL) {
+      return NULL;
+    }
+
     my_writesocket(sock, buf, size);
 
     while ((n = my_readsocket(sock, tmp, sizeof(tmp))) > 0) {
