@@ -321,7 +321,7 @@ void client_change_all(int x, int y)
 /**************************************************************************
 Format a duration, in seconds, so it comes up in minutes or hours if
 that would be more meaningful.
-(Eleven characters, maximum.  Enough for, e.g., "99h 59m 59s".)
+(7 characters, maximum.  Enough for, e.g., "99h 59m".)
 **************************************************************************/
 void format_duration(char *buffer, int buffer_size, int duration)
 {
@@ -334,11 +334,11 @@ void format_duration(char *buffer, int buffer_size, int duration)
     my_snprintf(buffer, buffer_size, Q_("?mins/secs:%02dm %02ds"),
 		duration/60, duration%60);
   else if (duration < 360000)	/* < 100 hours */
-    my_snprintf(buffer, buffer_size, Q_("?hrs/mns/scs:%02dh %02dm %02ds"),
-		duration/3600, (duration/60)%60, duration%60);
+    my_snprintf(buffer, buffer_size, Q_("?hrs/mns:%02dh %02dm"),
+		duration/3600, (duration/60)%60);
   else if (duration < 8640000)	/* < 100 days */
-    my_snprintf(buffer, buffer_size, Q_("?dys/hrs/mns:%02dd %02dh %02dm"),
-		duration/86400, (duration/3600)%24, (duration/60)%60);
+    my_snprintf(buffer, buffer_size, Q_("?dys/hrs:%02dd %02dh"),
+		duration/86400, (duration/3600)%24);
   else
     my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
 }
