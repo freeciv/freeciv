@@ -1372,7 +1372,8 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
 }
 
 #define ADD_SPRITE(s, x_offset, y_offset) \
-  (sprs->sprite = s,                      \
+  (assert(s != NULL),                     \
+   sprs->sprite = s,                      \
    sprs->offset_x = x_offset,             \
    sprs->offset_y = y_offset,             \
    sprs++)
@@ -1907,9 +1908,9 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 				      enum tile_terrain_type *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
+  enum tile_terrain_type ttype = map_get_terrain(map_x, map_y);
 
-  if (is_isometric) {
-    enum tile_terrain_type ttype = map_get_terrain(map_x, map_y);
+  if (is_isometric && sprites.terrain[ttype]->is_blended) {
     enum direction4 dir;
     const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
     const int offsets[4][2] = {
@@ -1927,7 +1928,8 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 
       if (!MAPSTEP(x1, y1, map_x, map_y, DIR4_TO_DIR8[dir])
 	  || tile_get_known(x1, y1) == TILE_UNKNOWN
-	  || other == ttype) {
+	  || other == ttype
+	  || !sprites.terrain[other]->is_blended) {
 	continue;
       }
 
