@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-07-08 17:44+0200\n"
+"POT-Creation-Date: 2002-07-09 07:47+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -2263,14 +2263,16 @@ msgstr ""
 "daß es sich um eine ältere Sicherung handelt oder daß die Sicherungsdatei "
 "beschädigt ist. Wenn Sie weitermachen wollen: Auf eigene Gefahr!"
 
+# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/savegame.c:131
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Reason: line not found"
 
+# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/savegame.c:133
 #, c-format
 msgid "Reason: line too short (expected %d got %d"
-msgstr ""
+msgstr "Reason: line too short (expected %d got %d"
 
 #: server/savegame.c:288
 #, c-format
@@ -5419,12 +5421,12 @@ msgid "?filler:XXX/XXX XXX turns"
 msgstr "?filler:XXX/XXX XXX Runden"
 
 #: client/citydlg_common.c:123
-#, c-format
+#, c-format, ycp-format
 msgid "%3d gold per turn"
 msgstr "%3d Goldstücke pro Runde"
 
 #: client/citydlg_common.c:133
-#, c-format
+#, c-format, ycp-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "1 Runde"
@@ -5786,7 +5788,7 @@ msgstr ""
 "Ankunftsjahr:               1234 AD"
 
 #: client/climisc.c:1118
-#, c-format
+#, c-format, ycp-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisezeit:       %5.1f Jahre"
 
@@ -5795,7 +5797,7 @@ msgid "Travel time:        N/A     "
 msgstr "Reisezeit:          ?       "
 
 #: client/climisc.c:1133
-#, c-format
+#, c-format, ycp-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Gewicht:           %5d t"
@@ -6073,7 +6075,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:694
-#, c-format
+#, c-format, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -6934,7 +6936,6 @@ msgid "_Buy"
 msgstr "Kaufen"
 
 #: client/gui-gtk-2.0/citydlg.c:817
-#, fuzzy
 msgid "Chang_e"
 msgstr "Ändern"
 
@@ -7156,14 +7157,14 @@ msgid "Upkeep (Total: %d)"
 msgstr "Kosten (Gesamt: %d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2076
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "unterstützte Einheiten (%d)"
+msgstr "unterstützte Einheiten: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2191
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "Stationierte Einheiten (%d)"
+msgstr "Stationierte Einheiten: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2218 client/gui-gtk/citydlg.c:2289
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1388
@@ -9863,9 +9864,8 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #: client/gui-gtk-2.0/repodlgs.c:1106
-#, fuzzy
 msgid "Totals:"
-msgstr "Kosten gesamt"
+msgstr "Gesamt:"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:208 client/gui-gtk/spaceshipdlg.c:208
 #: client/gui-win32/spaceshipdlg.c:233 data/Freeciv:1657
@@ -10129,7 +10129,7 @@ msgstr "Ausverkauf:"
 
 #: client/gui-gtk/repodlgs.c:738 client/gui-mui/repodlgs.c:617
 #: client/gui-win32/repodlgs.c:341 client/gui-xaw/repodlgs.c:796
-#, c-format
+#, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -11004,7 +11004,7 @@ msgid "_Launch"
 msgstr "_Start"
 
 #: client/gui-mui/spaceshipdlg.c:263
-#, c-format
+#, c-format, ycp-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -11057,9 +11057,8 @@ msgid "u8Worklistsn"
 msgstr "u8Arbeitslistenn"
 
 #: client/gui-mui/worklistclass.c:710
-#, fuzzy
 msgid "Accept"
-msgstr "Abkommen unterzeichnen"
+msgstr "Zustimmen"
 
 #: client/gui-mui/worklistclass.c:730
 msgid "Current Targets"
@@ -11078,7 +11077,7 @@ msgid "Name of Worklist"
 msgstr "Name der Arbeitsliste"
 
 #: client/gui-win32/citydlg.c:371
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -11356,7 +11355,7 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: client/gui-xaw/citydlg.c:194
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -11401,7 +11400,7 @@ msgid "These trade routes have been established with %s:\n"
 msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-xaw/citydlg.c:1430 client/gui-xaw/citydlg.c:1434
-#, c-format
+#, c-format, ycp-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -11611,7 +11610,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1110
-#, c-format
+#, c-format, ycp-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
@@ -17730,21 +17729,3 @@ msgstr "zuluanisch"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
-
-#~ msgid "Freeciv - Cityoptions"
-#~ msgstr "Freeciv - Stadteinstellungen"
-
-#~ msgid "_New specialists are"
-#~ msgstr "_Neue Bürger werden"
-
-#~ msgid "Auto-attack vs _land units"
-#~ msgstr "_Landeinheiten automatisch angreifen"
-
-#~ msgid "Auto-attack vs _sea units"
-#~ msgstr "_Marineeinheiten automatisch angreifen"
-
-#~ msgid "Auto-attack vs _air units"
-#~ msgstr "L_uftwaffeneinheiten automatisch angreifen"
-
-#~ msgid "Auto-attack vs _helicopters"
-#~ msgstr "_Helikopter automatisch angreifen"
