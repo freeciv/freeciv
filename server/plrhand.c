@@ -216,14 +216,33 @@ void wonders_of_the_world(struct player *pplayer)
   char buffer[4096];
   buffer[0]=0;
   for (i=0;i<B_LAST;i++) {
-    if(is_wonder(i) && game.global_wonders[i]) {
-      if((pcity=find_city_by_id(game.global_wonders[i]))) {
-	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		     get_impr_name_ex(pcity, i), pcity->name,
-		     get_nation_name(game.players[pcity->owner].nation));
-      } else {
-	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
-		     get_improvement_type(i)->name);
+    if (is_wonder(i)) {
+      if (game.global_wonders[i]) {
+	if ((pcity=find_city_by_id(game.global_wonders[i]))) {
+	  cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
+		       get_impr_name_ex(pcity, i), pcity->name,
+		       get_nation_name(game.players[pcity->owner].nation));
+	} else {
+	  cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
+		       get_improvement_type(i)->name);
+	}
+      }
+    }
+  }
+  for (i=0;i<B_LAST;i++) {
+    if (is_wonder(i)) {
+      if (!game.global_wonders[i]) {
+	struct player *pplayer;
+	players_iterate(pplayer) {
+	  city_list_iterate(pplayer->cities, pcity2) {
+	    if (pcity2->currently_building == i && !pcity2->is_building_unit) {
+	      cat_snprintf(buffer, sizeof(buffer),
+			   _("(building %s in %s (%s))\n"),
+			   get_improvement_type(i)->name, pcity2->name,
+			   get_nation_name(pplayer->nation));
+	    }
+	  } city_list_iterate_end;
+	} players_iterate_end;
       }
     }
   }
