@@ -112,6 +112,12 @@ static inline int city_want(struct player *pplayer, struct city *acity,
   trade -= city_corruption(acity, trade);
   shields -= city_waste(acity, shields);
   get_tax_income(pplayer, trade, &sci, &lux, &tax);
+  sci += (acity->specialists[SP_SCIENTIST]
+	  * game.rgame.specialists[SP_SCIENTIST].bonus);
+  lux += (acity->specialists[SP_ELVIS]
+	  * game.rgame.specialists[SP_ELVIS].bonus);
+  tax += (acity->specialists[SP_TAXMAN]
+	  * game.rgame.specialists[SP_TAXMAN].bonus);
 
   built_impr_iterate(acity, i) {
     tax -= improvement_upkeep(acity, i);
