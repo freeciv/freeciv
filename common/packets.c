@@ -560,7 +560,7 @@ int send_packet_diplomat_action(struct connection *pc,
   dio_put_uint8(&dout, packet->action_type);
   dio_put_uint16(&dout, packet->diplomat_id);
   dio_put_uint16(&dout, packet->target_id);
-  dio_put_uint16(&dout, packet->value);
+  dio_put_sint16(&dout, packet->value);
 
   SEND_PACKET_END;
 }
@@ -576,7 +576,7 @@ struct packet_diplomat_action *receive_packet_diplomat_action(struct
   dio_get_uint8(&din, &preq->action_type);
   dio_get_uint16(&din, &preq->diplomat_id);
   dio_get_uint16(&din, &preq->target_id);
-  dio_get_uint16(&din, &preq->value);
+  dio_get_sint16(&din, &preq->value);
 
   RECEIVE_PACKET_END(preq);
 }
