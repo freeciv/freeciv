@@ -866,14 +866,12 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), ahbox, TRUE, TRUE);
   avbox = detached_widget_fill(ahbox);
 
-  frame = gtk_frame_new(NULL);
-  gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_OUT);
-  gtk_box_pack_start(GTK_BOX(avbox), frame, TRUE, TRUE, 0);
-
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(frame), sw);
+  gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
   gtk_widget_set_size_request(sw, 600, 100);
 
   text = gtk_text_view_new();
@@ -1027,18 +1025,17 @@ void ui_main(int argc, char **argv)
 
   fill_bg_gc = gdk_gc_new(root_window);
 
-  if (is_isometric) {
-    thin_line_gc = gdk_gc_new(root_window);
-    thick_line_gc = gdk_gc_new(root_window);
-    gdk_gc_set_line_attributes(thin_line_gc, 1,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-    gdk_gc_set_line_attributes(thick_line_gc, 2,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-  }
+  /* for isometric view. always create. the tileset can change at run time. */
+  thin_line_gc = gdk_gc_new(root_window);
+  thick_line_gc = gdk_gc_new(root_window);
+  gdk_gc_set_line_attributes(thin_line_gc, 1,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes(thick_line_gc, 2,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
 
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
