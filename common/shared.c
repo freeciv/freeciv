@@ -646,6 +646,11 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   return (int) (ret + len);
 }
 
+/***************************************************************************
+  Exit because of a fatal error after printing a message about it.  This
+  should only be called for code errors - user errors (like not being able
+  to find a tileset) should just exit rather than dumping core.
+***************************************************************************/
 void die(const char *format, ...)
 {
   va_list ap;
