@@ -1741,45 +1741,6 @@ static inline void set_city_bonuses(struct city *pcity)
 }
 
 /**************************************************************************
-  Modify the incomes according to the taxrates and # of specialists.
-**************************************************************************/
-static inline void set_tax_income(struct city *pcity)
-{
-  int output[O_COUNT];
-
-  memset(output, 0, O_COUNT * sizeof(*output));
-  pcity->prod[O_LUXURY] = 0;
-  pcity->prod[O_SCIENCE] = 0;
-  pcity->prod[O_GOLD] = 0;
-  output[O_TRADE] = pcity->prod[O_TRADE];
-  add_tax_income(city_owner(pcity), output);
-  add_specialist_output(pcity, output);
-  pcity->prod[O_LUXURY] += output[O_LUXURY];
-  pcity->prod[O_SCIENCE] += output[O_SCIENCE];
-  pcity->prod[O_GOLD] += output[O_GOLD];
-
-  pcity->citizen_base[O_LUXURY] = output[O_LUXURY];
-  pcity->citizen_base[O_SCIENCE] = output[O_SCIENCE];
-  pcity->citizen_base[O_GOLD] = output[O_GOLD];
-
-  pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
-}
-
-/**************************************************************************
-  Modify the incomes according to various buildings.
-
-  Note this does not set trade.  That's been done already.
-**************************************************************************/
-static void add_buildings_effect(struct city *pcity)
-{
-  pcity->prod[O_SHIELD] = (pcity->prod[O_SHIELD] * pcity->bonus[O_SHIELD]) / 100;
-  pcity->prod[O_LUXURY] = (pcity->prod[O_LUXURY] * pcity->bonus[O_LUXURY]) / 100;
-  pcity->prod[O_GOLD] = (pcity->prod[O_GOLD] * pcity->bonus[O_GOLD]) / 100;
-  pcity->prod[O_SCIENCE] = (pcity->prod[O_SCIENCE]
-			  * pcity->bonus[O_SCIENCE]) / 100;
-}
-
-/**************************************************************************
   Set the final surplus[] array from the prod[] and usage[] values.
 **************************************************************************/
 static void set_surpluses(struct city *pcity)
@@ -2026,31 +1987,46 @@ int city_pollution(struct city *pcity, int shield_total)
 
 /**************************************************************************
    Set food, trade and shields production in a city.
+
+   This initializes the prod[] and waste[] arrays.  It assumes that
+   the bonus[] and citizen_base[] arrays are alread built.
 **************************************************************************/
-static inline void set_food_trade_shields(struct city *pcity)
+static inline void set_city_production(struct city *pcity)
 {
   int i;
-  int output[O_COUNT];
 
-  get_worked_tile_output(pcity, output);
-  pcity->prod[O_FOOD] = output[O_FOOD];
-  pcity->prod[O_SHIELD] = output[O_SHIELD];
-  pcity->prod[O_TRADE] = output[O_TRADE];
+  output_type_iterate(o) {
+    pcity->prod[o] = pcity->citizen_base[o];
+  } output_type_iterate_end;
 
-  pcity->citizen_base[O_FOOD] = pcity->prod[O_FOOD];
-  pcity->citizen_base[O_SHIELD] = pcity->prod[O_SHIELD];
-  pcity->citizen_base[O_TRADE] = pcity->prod[O_TRADE];
-
+  /* Add on special extra incomes: trade routes and tithes. */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
 	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];
   }
+  pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
+
+  /* Account for waste.  Waste is only calculated for trade and shields.
+   * Note that waste is calculated BEFORE tax incomes and BEFORE effects
+   * bonuses are included.  This means that shield-waste does not include
+   * the shield-bonus from factories, which is surely a bug. */
   pcity->waste[O_TRADE] = city_waste(pcity, O_TRADE, pcity->prod[O_TRADE]);
   pcity->prod[O_TRADE] -= pcity->waste[O_TRADE];
-
   pcity->waste[O_SHIELD] = city_waste(pcity, O_SHIELD, pcity->prod[O_SHIELD]);
   pcity->prod[O_SHIELD] -= pcity->waste[O_SHIELD];
+
+  /* Convert trade into science/luxury/gold, and add this on to whatever
+   * science/luxury/gold is already there. */
+  add_tax_income(city_owner(pcity), pcity->prod);
+
+  /* Add on effect bonuses.  Note that this means the waste and tax income
+   * above does NOT include the bonuses.  This works for the default
+   * ruleset but won't work if there is shield-waste or if there were
+   * a trade bonus. */
+  output_type_iterate(o) {
+    pcity->prod[o] = pcity->prod[o] * pcity->bonus[o] / 100;
+  } output_type_iterate_end;
 }
 
 /**************************************************************************
@@ -2201,10 +2177,9 @@ void generic_city_refresh(struct city *pcity,
   int prev_tile_trade = pcity->citizen_base[O_TRADE];
 
   set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
-  set_food_trade_shields(pcity);
+  get_citizen_output(pcity, pcity->citizen_base); /* Calculate output from citizens. */
+  set_city_production(pcity);
   citizen_happy_size(pcity);
-  set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
-  add_buildings_effect(pcity);	/* marketplace, library wonders.. */
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
