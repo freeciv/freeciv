@@ -4,168 +4,168 @@ This file based on cvs-1.1's doc/README.cma.
   Gestione Automatica Cittadini (GAC)
 =======================================
 
-La GAC Ë una funzionalit‡ piuttosto nuova inserita nel client GTK+
+La GAC √® una funzionalit√† piuttosto nuova inserita nel client GTK+
 di Freeciv, dalla versione 1.12.1. E\ stata progettata per aiutare
-a gestire le vostre citt‡, ad esempio per distribuire i lavoratori
+a gestire le vostre citt√†, ad esempio per distribuire i lavoratori
 nei quadranti disponibili (o farne degli scienziati, esattori o
-anche animatori), con l'obiettivo di ottenere il massimo dalla citt‡.
-Puoi attivare o disattivare la GAC in ogni momento e per ogni citt‡,
-ma ci sono degli inconvenienti (spiegatri pi˘ in basso), nel caso
-citt‡ gestite manualmente e gestite dalla GAC siano vicine.
-In ogni caso, Ë necessario un server 1.12.1 o superior. La GAC
-non entrer‡ in funzione nel caso il server sia una versione 1.12.0.
+anche animatori), con l'obiettivo di ottenere il massimo dalla citt√†.
+Puoi attivare o disattivare la GAC in ogni momento e per ogni citt√†,
+ma ci sono degli inconvenienti (spiegatri pi√π in basso), nel caso
+citt√† gestite manualmente e gestite dalla GAC siano vicine.
+In ogni caso, √® necessario un server 1.12.1 o superior. La GAC
+non entrer√† in funzione nel caso il server sia una versione 1.12.0.
 
-Il cuore della GAC Ë un algoritmo di ottimizzazione, che cerca di
+Il cuore della GAC √® un algoritmo di ottimizzazione, che cerca di
 impiegare i cittadini in modo tale da soddisfare al meglio gli
-obiettivi definiti dall'utente. Esiste gi‡ una specie di 
-ottimizzazione, quando apri una citt‡ e fai click sul quadrante
-del centro citt‡ (Il simbolo della citt‡) nella mini mappa.
+obiettivi definiti dall'utente. Esiste gi√† una specie di 
+ottimizzazione, quando apri una citt√† e fai click sul quadrante
+del centro citt√† (Il simbolo della citt√†) nella mini mappa.
 Questa ottimizzazione cerca di massimizzare principalmente la
 produzione di scienza, ma non si preoccupa degli eventuali disordini.
 
 La nuova Gestione Automatica dei Cittadini, va ben oltre a questa
 forma di ottimizzazione. In primo luogo, l'ottimizzazione viene
 ricalcolata ogniqualvolta vengono riscontrate dei cambiamenti nella
-citt‡. Se la popolazione in citt‡ aumenta o diminuisce, se entrano
-o escono truppe dalla citt‡, se nei quadranti vengono completate
+citt√†. Se la popolazione in citt√† aumenta o diminuisce, se entrano
+o escono truppe dalla citt√†, se nei quadranti vengono completate
 irrigazioni o miniere, o se vengono occupati da truppe nemiche, la
 GAC si attiva e ricalcola la distribuzione ottimale.
-In secondo luogo, ogni tipo di ottimizzazione Ë supportato:
+In secondo luogo, ogni tipo di ottimizzazione √® supportato:
 produzione (risorse), auri, scienza o lusso.
 In terzo luogo, consente al giocatore un controllo raffinato su
-queste scelte, con la possibilit‡ di definire limiti per ogni
-genere di produzione della citt‡. Quest'ultima opportunit‡ include
+queste scelte, con la possibilit√† di definire limiti per ogni
+genere di produzione della citt√†. Quest'ultima opportunit√† include
 le celebrazioni, che rendono estremamente facile lasciar crescere
-una citt‡, anche di notevoli dimensioni. L'ultima e forse pi˘
-interessante capacit‡ si evidenzia durante le guerre, occupandosi
-di tenere le citt‡ soddisfatte, prevenendo le rivolte.
+una citt√†, anche di notevoli dimensioni. L'ultima e forse pi√π
+interessante capacit√† si evidenzia durante le guerre, occupandosi
+di tenere le citt√† soddisfatte, prevenendo le rivolte.
 
   Utilizzo
 ============
 
-Puoi attivare la GAC aprendo il dialogo citt‡ e clicca su men˘ GAC.
+Puoi attivare la GAC aprendo il dialogo citt√† e clicca su men√π GAC.
 Sul lato sinistro puoi scegliere tra le preselezioni per specifici
-obiettivi, sul lato destro puoi specificare obiettivi pi˘ complessi
+obiettivi, sul lato destro puoi specificare obiettivi pi√π complessi
 muovendo i cursori. Puoi scegliere in prima battuta una preselezione,
 e quindi modificarla. Una volta che hai creato delle nuove 
 impostazioni, puoi salvarle come preselezione dandogli un nome. 
-CiÚ non Ë necessario, ma puÚ essere molto utile, dato che puoi 
-guardare e persino cambiare le tue impostazioni dal rapporto citt‡,
+Ci√≤ non √® necessario, ma pu√≤ essere molto utile, dato che puoi 
+guardare e persino cambiare le tue impostazioni dal rapporto citt√†,
 se queste hanno un nome. Non dimenticare di salvare le impostazioni
-(nel men˘ Gioco), ogniqualvolta hai creato nuove preselezioni.
+(nel men√π Gioco), ogniqualvolta hai creato nuove preselezioni.
 
-I cursori sono di due tipi: quelli pi˘ a destra sono fattori che
+I cursori sono di due tipi: quelli pi√π a destra sono fattori che
 determinano quanto un tipo di produzione vale rispetto agli altri
 (p.e. quante le risorse di produzione valgono rispetto al resto).
-Quelli pi˘ a sinistra sono dei limiti: puoi imporre alla citt‡ di
+Quelli pi√π a sinistra sono dei limiti: puoi imporre alla citt√† di
 non avere produzione di cibo negativa, p. e. scegliendo come limite
-un surplus di cibo pari a zero; puoi anche permettere alla citt‡ di 
+un surplus di cibo pari a zero; puoi anche permettere alla citt√† di 
 perdere auri impostando il surplus di auri p.e. a -3, e imponendo
 di avere un surplus di 5 risorse di produzione impostando il cursore
-relativo. Il limite dal pontenziale pi˘ elevato, tuttavia, Ë la
-possibilit‡ di celebrare, che permette alla citt‡, se questo Ë
+relativo. Il limite dal pontenziale pi√π elevato, tuttavia, √® la
+possibilit√† di celebrare, che permette alla citt√†, se questo √®
 possibile di andare subito in celebrazione (il che normalmente
 significa che ne potrai vedere gli effetti positivi dal turno
 successivo).
 
-Ovviamente la GAC non puÚ rispettare tutti i limiti imposti in ogni
-caso. Ogniqualvolta un limite non puÚ essere rispettato, la GAC 
-rilascia il controllo della citt‡ dando un messaggio: "Il meccanismo
-automatico non Ë in grado di garantire il rispetto dei parametri
+Ovviamente la GAC non pu√≤ rispettare tutti i limiti imposti in ogni
+caso. Ogniqualvolta un limite non pu√≤ essere rispettato, la GAC 
+rilascia il controllo della citt√† dando un messaggio: "Il meccanismo
+automatico non √® in grado di garantire il rispetto dei parametri
 richiesti per Roma. Il controllo viene rilasciato."
-Hai quindi la possibilit‡ di controllare la citt‡ manualmente
-(con delle controindicazioni riportate pi˘ sotto) oppure puoi aprire
-il dialogo citt‡ e cambiare i parametri richiesti in modotale che sia
+Hai quindi la possibilit√† di controllare la citt√† manualmente
+(con delle controindicazioni riportate pi√π sotto) oppure puoi aprire
+il dialogo citt√† e cambiare i parametri richiesti in modotale che sia
 possibile rispettarli
 
-Quando hai scelto le impostazioni per una citt‡, devi solo cliccare
-su "Controlla citt‡" per passare il controllo alla GAC. Se il testo
-del pulsante Ë grigio, o la GAC Ë gi‡ attiva oppure l'obiettivo
-impostato non Ë realizzabile. In quest'ultimo caso vedrai delle linee
+Quando hai scelto le impostazioni per una citt√†, devi solo cliccare
+su "Controlla citt√†" per passare il controllo alla GAC. Se il testo
+del pulsante √® grigio, o la GAC √® gi√† attiva oppure l'obiettivo
+impostato non √® realizzabile. In quest'ultimo caso vedrai delle linee
 al posto dei numeri nel riquadro dove ci sono i risultati. Per 
-disabilitare la GAC per una citt‡ basta premere "Rilascia citt‡".
+disabilitare la GAC per una citt√† basta premere "Rilascia citt√†".
 
   Utilizzo avanzato
 =====================
 
-Non c'Ë molta esperienza nell'uso della GAC, per il momento, ma
+Non c'√® molta esperienza nell'uso della GAC, per il momento, ma
 alcune osservazioni possono essere d'aiuto. Normalmente gli
-obiettivi delle vostre citt‡ dipendono dal quale fase del gioco
+obiettivi delle vostre citt√† dipendono dal quale fase del gioco
 in cui siete, se volete espandervi oppure crescere rapidamente,
 ricercare tecnologie avanzate oppure far guerra. Potresti voler
-scegliere un alto fattore per la scienza se l'obiettivo Ë la
+scegliere un alto fattore per la scienza se l'obiettivo √® la
 ricerca, oppure un altro fattor di produzione se vuoi produrre
-truppe. Il massimo fattore disponibile Ë 25, questo significa che:
-se il fattore di produzione vale 25 e un altro 1, la GAC preferir‡
+truppe. Il massimo fattore disponibile √® 25, questo significa che:
+se il fattore di produzione vale 25 e un altro 1, la GAC preferir√†
 una singola risorsa di produzione a 25 di commercio, quindi anche
-di auri. Questo Ë davvero molto, poichÈ i soldi permettono di
-comprare truppe. Questo significa anche che la GAC Ë indifferente
+di auri. Questo √® davvero molto, poich√© i soldi permettono di
+comprare truppe. Questo significa anche che la GAC √® indifferente
 rispetto alla produzione di auri, sciena, lusso o cibo; ma quando
 entri in guerra, normalmente sono preferibile gli auri o il lusso.
-Quindi Ë probabilment una buona idea quella di impostare una
-seconda (e persino una terza) preferenza negli obiettivi della citt‡,
+Quindi √® probabilment una buona idea quella di impostare una
+seconda (e persino una terza) preferenza negli obiettivi della citt√†,
 ad esempio fattore auri a 5. In questo modo 1 risorsa di produzione
-Ë comunque preferita a 5 auri (e un auro Ë preferito a 5 di cibo
+√® comunque preferita a 5 auri (e un auro √® preferito a 5 di cibo
 o altro ancora).
 
 I limiti non sono utili in ogni caso. Se vuoi incamerare un alto
-guadagno, probabilmente Ë meglio impostare il fattore auri a 25,
-piuttosto che impostare un surplus minimo di 5. Infatti le citt‡
-maggiori possono produrre ben pi˘ delle citt‡ minori, e cosÏ
-finiresti per dover impostare differenti surplus per ogni citt‡.
+guadagno, probabilmente √® meglio impostare il fattore auri a 25,
+piuttosto che impostare un surplus minimo di 5. Infatti le citt√†
+maggiori possono produrre ben pi√π delle citt√† minori, e cos√¨
+finiresti per dover impostare differenti surplus per ogni citt√†.
 
-In ogni caso, se il surplus di risorse di produizone di una citt‡
-scende sotto lo zero, non puÚ mantenere pi˘ tutte le sue truppe.
-Puoi quindi perdere alcune delle unit‡ che la citt‡ mantiene.
-Se il surplus di cibo Ë negativo, la citt‡ patisce e al limite
-(quando il granaio Ë vuoto) diminuisce di popolazione. Questo puÚ
-essere voluto, ma se la citt‡ mantiene dei coloni, saranno questi
-ad andare perduti prima che la citt‡ diminuisca di dimensione.
+In ogni caso, se il surplus di risorse di produizone di una citt√†
+scende sotto lo zero, non pu√≤ mantenere pi√π tutte le sue truppe.
+Puoi quindi perdere alcune delle unit√† che la citt√† mantiene.
+Se il surplus di cibo √® negativo, la citt√† patisce e al limite
+(quando il granaio √® vuoto) diminuisce di popolazione. Questo pu√≤
+essere voluto, ma se la citt√† mantiene dei coloni, saranno questi
+ad andare perduti prima che la citt√† diminuisca di dimensione.
 I limiti possono anche avere funzione di avvertimento.
 
 Quali limiti possono essere rispettati dipende considerevolemente
 dai tassi globali di scienza, imposte e lusso. Ad esempio un surplus
-di auri >= 0 Ë pi˘ facile da rispettare con un tasso di imposte alto
+di auri >= 0 √® pi√π facile da rispettare con un tasso di imposte alto
 piuttosto che con uno basso. Dovresti sempre riflettere 
-sull'opportunit‡ di cambiare i tassi globali, quando stai per cambiare
-le impostazioni per la maggior parte delle citt‡ sotto il controllo
+sull'opportunit√† di cambiare i tassi globali, quando stai per cambiare
+le impostazioni per la maggior parte delle citt√† sotto il controllo
 della GAC.
 
-Suggerimento: Per evitare il rilascio delle vostre citt‡ da parte
-della GAC, quando cambiate i tassi, Ë meglio farlo dal dialogo che
+Suggerimento: Per evitare il rilascio delle vostre citt√† da parte
+della GAC, quando cambiate i tassi, √® meglio farlo dal dialogo che
 consente di impostare i tassi piuttosto che farlo dalla finestra
 principale.
 
   Controindicazioni
 =====================
 
-La GAC Ë un estremamente potente, ti permette non solo di liberarti
-dalla microgestione delle citt‡, ma oltretutto permette di ottenere
+La GAC √® un estremamente potente, ti permette non solo di liberarti
+dalla microgestione delle citt√†, ma oltretutto permette di ottenere
 migliori risultati (per la maggior parte dei giocatori).
 
 Ci sono delle controindicazioni, tuttavia. Una volta che hai passato
-il controllo di una citt‡ alla GAC, essa utilizzer‡ ogni quadrante
-utile a cui avr‡ accesso, sar‡ quindi difficoltoso cercare di gestire
-una citt‡ vicina a una controllata dalla GAC. Questo vale sia per
-la finestra della citt‡, sia per l'interfaccia che consente di
-assegnare i lavoratori ai quadranti. Se vuoi avere citt‡ gestite
-automaticamente dalla GAC e citt‡ gestite manualmente, probabilmente
+il controllo di una citt√† alla GAC, essa utilizzer√† ogni quadrante
+utile a cui avr√† accesso, sar√† quindi difficoltoso cercare di gestire
+una citt√† vicina a una controllata dalla GAC. Questo vale sia per
+la finestra della citt√†, sia per l'interfaccia che consente di
+assegnare i lavoratori ai quadranti. Se vuoi avere citt√† gestite
+automaticamente dalla GAC e citt√† gestite manualmente, probabilmente
 quest'ultime dovrebbe essere situate su isole differenti.
 
-Ci sono diverse situazioni nelle quali la GAC non puÚ soddisfare
+Ci sono diverse situazioni nelle quali la GAC non pu√≤ soddisfare
 i parametri richiesti temporaneamente, per esempio quando muovi una
-nave da una citt‡ ad un altra o quando unit‡ nemiche attraversano
-i vostri territori. La GAC rilascia il controllo delle vitt‡ in 
-questi casi ed Ë necessario intervenire manualmente per ripristinarlo.
+nave da una citt√† ad un altra o quando unit√† nemiche attraversano
+i vostri territori. La GAC rilascia il controllo delle vitt√† in 
+questi casi ed √® necessario intervenire manualmente per ripristinarlo.
 Un approccio razionale per prevenire che questo accada potrebbe
 essere di segliere dei surplus minimi abbastanza bassi (-20).
-Ovviamente Ë necessario prestare attenzione ai surplus di cibo e
+Ovviamente √® necessario prestare attenzione ai surplus di cibo e
 risorse di produzione.  
 
-Mentre la GAC si comporta in modo eccellente per una singola citt‡,
-nessun quadrante sar‡ mai rilasciato per il bene di un'altra citt‡.
-Inoltre le citt‡ sotto il controllo della GAC sono gestite secondo
-un ordine casuale, il risultato quindi puÚ dipendere dall'ordine
+Mentre la GAC si comporta in modo eccellente per una singola citt√†,
+nessun quadrante sar√† mai rilasciato per il bene di un'altra citt√†.
+Inoltre le citt√† sotto il controllo della GAC sono gestite secondo
+un ordine casuale, il risultato quindi pu√≤ dipendere dall'ordine
 e cambiare, quando viene ricalcolato (ad esempio al varie del tasso
 di imposte). Non ci sono quindi garanzia che il risultato complessivo
 sia ottimale.
@@ -175,21 +175,21 @@ sia ottimale.
 
 I client permettono all'utente di caricare e salvare le preselezioni
 dei parametri per il meccanismo di gestione automatica. Scegliendo
-"Salva impostazioni" dal men˘ "Gioco" non solo salverai le opzioni
+"Salva impostazioni" dal men√π "Gioco" non solo salverai le opzioni
 generali e per i messaggi, ma salverai anche ogni cambiamento fatto
 alle preselezioni per la GAC.
 
 Il formato per il file delle impostazioni (di norma ~/.civclientrc)
-Ë come segue (nel caso tu voglia cambiare a meno le preselezioni,
+√® come segue (nel caso tu voglia cambiare a meno le preselezioni,
 ad esempio con un editor testuale).
 
-Sotto l'intestazione [cma] c'Ë la scritta "number_of_presets". Questo 
+Sotto l'intestazione [cma] c'√® la scritta "number_of_presets". Questo 
 numero deve corrispondere al numero di preselezioni presenti nel file
 delle impostazioni. Se aggiungi o togli una preselezione, devi anche
 cambiare il numero in modo appropriato.
 
-Dopo di questo, c'Ë un vettore che contiene le preselezioni.
-Qui c'Ë l'intestazione:
+Dopo di questo, c'√® un vettore che contiene le preselezioni.
+Qui c'√® l'intestazione:
 preset={ "name","minsurp0","factor0","minsurp1","factor1","minsurp2",
 "factor2","minsurp3","factor3","minsurp4","factor4","minsurp5",
 "factor5","reqhappy","factortarget","happyfactor"
@@ -197,14 +197,14 @@ preset={ "name","minsurp0","factor0","minsurp1","factor1","minsurp2",
 quindi, l'ordine delle preselezione deve essere come segue:
 
 nome della preselezione, surplus minimo 0, fattore 0, ... ,
-richiedi che la citt‡ sia felice, quale dovrebbe essere l'obiettivo
+richiedi che la citt√† sia felice, quale dovrebbe essere l'obiettivo
 [0,1], il fattore benessere
 
 Al momento ci sono 6 surplus e fattori. Essi sono:
 0 = cibo, 1 = produzione, 2 = commercio, 3 = auri, 4 = lusso,
 5 = scienza
 
-Inoltre al momento, "factortarget" non Ë modificabile dal client,
+Inoltre al momento, "factortarget" non √® modificabile dal client,
 guarda "client/agents/citizen_management.h" per ulteriori 
 informazioni.
 

@@ -11,7 +11,7 @@ Snelstart:
  vooruitgangen, terrein, verbeteringen, wonderen, naties, steden,
  regeringsvormen en diverse andere spelregels toe zonder de noodzaak tot
  hercompileren op een wijze die consistent is over een netwerk en over
- opgeslagen spelen. (In de toekomst kunnen er andere categorieën spelregels
+ opgeslagen spelen. (In de toekomst kunnen er andere categorieÃ«n spelregels
  komen.)
 
 - Om Freeciv normaal te spelen: doe niets speciaals; de nieuwe voorzieningen
@@ -20,7 +20,7 @@ Snelstart:
 - Om een spel te spelen met regels meer als Civ1, start de server met:
        ./ser -r data/civ1.serv
   (en met de andere argument die u verder normaliter gebruikt; afhankelijk van
-  hoe Freeciv geïnstalleerd is kunt u het pad naar de map moeten opgeven in
+  hoe Freeciv geÃ¯nstalleerd is kunt u het pad naar de map moeten opgeven in
   plaats van "data").
 
   Start de client normaal. De client moet netwerk-uitwisselbaar zijn (wat
@@ -94,7 +94,7 @@ De spelregelbestanden in de data map zijn gebruiker-wijzigbaar, dus u kunt ze
 wijzigen om andere- en maatwerk spelregels te maken (zonder hiervoor Freeciv
 te moeten hercompileren). Het wordt u aangeraden om _niet_ de bestanden in de
 bestaande "default", "classic", "civ1" en "civ2" Freeciv-mappen te wijzigen,
-maar om ze naar een andere map te kopieëren en ze daar te wijzigen. Dit is
+maar om ze naar een andere map te kopieÃ«ren en ze daar te wijzigen. Dit is
 omdat het dan duidelijk is dat u gewijzigde spelregels gebruikt in plaats van
 de standaard-.
 
@@ -106,9 +106,9 @@ spreken. Een aantal punten:
 
 - Wonderen en stadsverbeteringen hebben een nieuw veld, "variant". Dit staat
   beperkte wijzigingen toe in het effect van specifieke wonderen en
-  stadsverbeteringen waar zulke wijzigingen geïmplementeerd zijn. Zie de
+  stadsverbeteringen waar zulke wijzigingen geÃ¯mplementeerd zijn. Zie de
   "TEDOEN Variants" sectie verderop voor waar deze variant tot dusverre
-  geïmplementeerd is.
+  geÃ¯mplementeerd is.
 
 - Eenheden hebben een nieuw veld, "roles" analoog aan "flags", maar die
   bepaalt welke eenheden in de diverse omstandigheden van het spel gebruikt
@@ -147,10 +147,10 @@ spreken. Een aantal punten:
   een !, - of ~ er aan voorafgaand in het geval van een ontkenning. De
   terrein-lijst is optioneel uiteraard, dus de regel kan gewoon de stadsnaam
   bevatten indien gewenst. Een stad die gemarkeerd is voor een bepaald
-  terreintype zal passend worden geacht voor een kaartcoördinaat indien de
+  terreintype zal passend worden geacht voor een kaartcoÃ¶rdinaat indien de
   omringende vlakken of het vlak zelf het terreintype bevat als gemarkeerd.
   In het geval van het "river" label (wat een speciaal geval is) wordt alleen
-  het vlak op de coördinaat zélf in ogenschouw genomen. Een complex voorbeeld:
+  het vlak op de coÃ¶rdinaat zÃ©lf in ogenschouw genomen. Een complex voorbeeld:
 
     "Wilmington (ocean, river, swamp, forest, !hills, !mountains, !desert)"
 
@@ -175,7 +175,7 @@ Eigenschappen van gebouwen en stadsverbeteringen zijn nog steeds behoorlijk
 beperkt.
 
 OPMERKING: Er is veel in de spelregels dat nog niet volledig is
-geïmplementeerd. Verzeker u ervan dat u Beperkingen en Limieten leest
+geÃ¯mplementeerd. Verzeker u ervan dat u Beperkingen en Limieten leest
 verderop.
 
 ----------------------------------------------------------------------
@@ -205,7 +205,7 @@ zeer nadrukkelijk wordt meegenomen in die niet-standaard).
 
 Voorbeelden van problemen die nog niet verholpen zijn:
 - Eenheden zonder hitpoints in Civ1 kunnen een groot verschil uitmaken in
-  toepasselijke gevechtsstrategieën.
+  toepasselijke gevechtsstrategieÃ«n.
 - Stadswallen zijn voldoende verschillend (verhoogde bouw- en onderhoudskosten
   en effect aan de kust) om afwijkende omgang te rechtvaardigen?
 - Zonder de Haven en Booreiland verbeteringen zijn steden met veel
@@ -228,10 +228,10 @@ units.ruleset:
 
   Beperkingen:
 
-    - Tenminste één eenheid met de rol "FirstBuild" moet beschikbaar zijn in
+    - Tenminste Ã©Ã©n eenheid met de rol "FirstBuild" moet beschikbaar zijn in
       het begin (dwz., tech_req = "None").
 
-    - Er móeten eenheden zijn voor deze rollen:
+    - Er mÃ³eten eenheden zijn voor deze rollen:
       - "Explorer"
       - "FerryBoat"
       - "Hut"
@@ -241,7 +241,7 @@ units.ruleset:
       - "BarbarianBoat"  (move_type moet "Sea" zijn)
       - "BarbarianSea"
 
-    - Er moet tenminste één eenheid zijn met vlag "Cities".
+    - Er moet tenminste Ã©Ã©n eenheid zijn met vlag "Cities".
 
   Limieten:
 
@@ -276,7 +276,7 @@ Implementatiedetails:
 Deze sectie en de volgende zijn voornamelijk van belang voor ontwikkelaars die
 bekend zijn met de sourcecode van Freeciv.
 
-Spelregels zijn voornamelijk in de server geïmplementeers. De server leest de
+Spelregels zijn voornamelijk in de server geÃ¯mplementeers. De server leest de
 bestanden en zend dan de informatie naar de clients. Meestal worden spelregels
 gebruikt om de basis data-tabellen voor eenheden e.d. te vullen, maar in
 sommige gevallen is enige extra informatie noodzakelijk.
@@ -309,7 +309,7 @@ TEDOEN:
 TEDOEN Variants: 
 --------------
 
-Eerst de varianten die geïmplementeerd zijn:
+Eerst de varianten die geÃ¯mplementeerd zijn:
 (Let op dat Variant=0 altijd "standard Freeciv" effect zou moeten zijn.)
 
 Barrakken:       Variant=0: alleen voor grondeenheden (Civ2)
@@ -337,13 +337,13 @@ Vrouwen Kiesr.:  Variant=0: -1 eenheid-ontevreden per Stad (-2 onder
 Magellan's Exp.: Variant=0: geeft zee-eenheden 2 extra bewegingspunten
 		 Variant=1: geeft zee-eenheden slechts 1 extra bewegingspunt
 Grote Muur:	 Gebruikt zelfde variant en effect als Stadswallen.
-Leo's Werkpl.:   Variant=0: Waardeert één verouderde eenheid per beurt op.
+Leo's Werkpl.:   Variant=0: Waardeert Ã©Ã©n verouderde eenheid per beurt op.
 		 Variant=1: Waardeert alle verouderde eenheden per beurt op.
 Michelangelo's:  Variant=0: zelfde als Kathedraal in elke stad
 		 Variant=1: Verdubbelt effect van kathedralen
 
 Andere verschillen tussen Civ1 en Civ2/Freeciv die nog niet als variant
-geïmplementeerd zijn:
+geÃ¯mplementeerd zijn:
 
 Copernicus' Obs.: Freeciv: wetenschapswaarde +50% in een stad
 		  Civ1:    verdubbelt wetenschapswaarde in stad, na alle

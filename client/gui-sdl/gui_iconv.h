@@ -15,8 +15,8 @@
                           gui_iconv.h  -  description
                              -------------------
     begin                : Thu May 30 2002
-    copyright            : (C) 2002 by Rafa≥ Bursig
-    email                : Rafa≥ Bursig <bursig@poczta.fm>
+    copyright            : (C) 2002 by Rafa≈Ç Bursig
+    email                : Rafa≈Ç Bursig <bursig@poczta.fm>
 	
     Based on "iconv_string(...)" function Copyright (C) 1999-2001 Bruno Haible.
     This function is put into the public domain.

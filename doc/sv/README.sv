@@ -2,314 +2,314 @@
 Freeciv Version 1.13
 ====================
 
-Välkommen till Freeciv!
+VÃ¤lkommen till Freeciv!
 
-Detta arkiv innehåller Freeciv, en fri Civilizationklon, huvudsakligen
-för X under Unix. Den har stöd för flerspelarspel lokalt eller över
-nätverk, samt utmanande datorstyrda spelare.
+Detta arkiv innehÃ¥ller Freeciv, en fri Civilizationklon, huvudsakligen
+fÃ¶r X under Unix. Den har stÃ¶d fÃ¶r flerspelarspel lokalt eller Ã¶ver
+nÃ¤tverk, samt utmanande datorstyrda spelare.
 
-Freeciv siktar på att ha regler som huvudsakligen stämmer överens med
+Freeciv siktar pÃ¥ att ha regler som huvudsakligen stÃ¤mmer Ã¶verens med
 Civilisation II [tm] utgivet av Sid Meier och Microprose [tm]. Vissa
-regler är annorlunda för att vi tycker att det är bättre så. Det finns
-många inställbara parametrar för att anpassa sina spel.
+regler Ã¤r annorlunda fÃ¶r att vi tycker att det Ã¤r bÃ¤ttre sÃ¥. Det finns
+mÃ¥nga instÃ¤llbara parametrar fÃ¶r att anpassa sina spel.
 
-Freeciv har skapats helt oberoende av Civilization; man behöver inte
-äga Civilization för att spela Freeciv.
+Freeciv har skapats helt oberoende av Civilization; man behÃ¶ver inte
+Ã¤ga Civilization fÃ¶r att spela Freeciv.
 
-Fastän datorspelarna ännu inte kan förhandla är reglerna i det
-närmaste fullständiga och vårt flerspelarstöd är utmärkt.
+FastÃ¤n datorspelarna Ã¤nnu inte kan fÃ¶rhandla Ã¤r reglerna i det
+nÃ¤rmaste fullstÃ¤ndiga och vÃ¥rt flerspelarstÃ¶d Ã¤r utmÃ¤rkt.
 
-Detta är den svenska översättningen av filen "../README". Eftersom
-denna översättning har färre läsare än originalet är det större risk
-att den innehåller felaktigheter. Det kan finnas oupptäckta
-felöversättningar, rester av gammal information som tagits bort i
-originalet men ej i översättningen, samt tillägg i originalfilen
-som ännu inte kommit med i översättningen. Jämför därför med
-originalet om tveksamhet uppstår. Vid felaktigheter, kontakta
-översättaren: Erik Sigra <sigra@home.se>.
+Detta Ã¤r den svenska Ã¶versÃ¤ttningen av filen "../README". Eftersom
+denna Ã¶versÃ¤ttning har fÃ¤rre lÃ¤sare Ã¤n originalet Ã¤r det stÃ¶rre risk
+att den innehÃ¥ller felaktigheter. Det kan finnas oupptÃ¤ckta
+felÃ¶versÃ¤ttningar, rester av gammal information som tagits bort i
+originalet men ej i Ã¶versÃ¤ttningen, samt tillÃ¤gg i originalfilen
+som Ã¤nnu inte kommit med i Ã¶versÃ¤ttningen. JÃ¤mfÃ¶r dÃ¤rfÃ¶r med
+originalet om tveksamhet uppstÃ¥r. Vid felaktigheter, kontakta
+Ã¶versÃ¤ttaren: Erik Sigra <sigra@home.se>.
 
 
-Nätplats:
+NÃ¤tplats:
 =========
 
-Freecivs nätplats är:
+Freecivs nÃ¤tplats Ã¤r:
 
   http://www.freeciv.org/
 
-Där kan man hämta de senaste freecivnyheterna, -utgåvorna och
--uppdateringarna, hitta information om Freecivs sändlistor samt se
+DÃ¤r kan man hÃ¤mta de senaste freecivnyheterna, -utgÃ¥vorna och
+-uppdateringarna, hitta information om Freecivs sÃ¤ndlistor samt se
 metaservern som visar information om spel som spelas runt om i
-världen.
+vÃ¤rlden.
 
 Licens:
 =======
 
 Freeciv ges ut under GNU General Public License. Det betyder i korthet
-att man får kopiera detta program (även källkoden) fritt, men se filen
-"../COPYING" för fullständiga villkor.
+att man fÃ¥r kopiera detta program (Ã¤ven kÃ¤llkoden) fritt, men se filen
+"../COPYING" fÃ¶r fullstÃ¤ndiga villkor.
 
 Kompilera och installera:
 =========================
 
-Var god läs filen INSTALL.sv noga för anvisningar kompilering och
+Var god lÃ¤s filen INSTALL.sv noga fÃ¶r anvisningar kompilering och
 installering av Freeciv.
 
 
-Påbörja ett nytt spel:
+PÃ¥bÃ¶rja ett nytt spel:
 ======================
 
-Freeciv är 2 program, en server och en klient. När ett spel är i gång
-körs ett serverprogram och så många klientprogram som det finns
-mänskliga spelare. Serverprogrammet behöver inte X, men det gör
+Freeciv Ã¤r 2 program, en server och en klient. NÃ¤r ett spel Ã¤r i gÃ¥ng
+kÃ¶rs ett serverprogram och sÃ¥ mÃ¥nga klientprogram som det finns
+mÃ¤nskliga spelare. Serverprogrammet behÃ¶ver inte X, men det gÃ¶r
 klientprogrammen.
 
-  ANMÄRKNING:
-  Följande exempel antar att Freeciv har installerats på systemet och
-  att katalogen som innehåller programmen "civclient" och "civserver"
-  finns i variabeln PATH. Om Freeciv inte är installerat kan man
-  använda programmen "civ" och "ser" som finns i freecivkatalogen. De
-  används på samma sätt som "civclient" och "civserver".
+  ANMÃ„RKNING:
+  FÃ¶ljande exempel antar att Freeciv har installerats pÃ¥ systemet och
+  att katalogen som innehÃ¥ller programmen "civclient" och "civserver"
+  finns i variabeln PATH. Om Freeciv inte Ã¤r installerat kan man
+  anvÃ¤nda programmen "civ" och "ser" som finns i freecivkatalogen. De
+  anvÃ¤nds pÃ¥ samma sÃ¤tt som "civclient" och "civserver".
 
-För att kunna spela Freeciv behöver man starta servern, klienterna och
-datorspelarna, samt ge servern startkommandot. Här är stegen:
+FÃ¶r att kunna spela Freeciv behÃ¶ver man starta servern, klienterna och
+datorspelarna, samt ge servern startkommandot. HÃ¤r Ã¤r stegen:
 
 Server:
 
-  För att starta servern:
+  FÃ¶r att starta servern:
 
   |  % civserver
 
-  Eller för en lista över kommandoradsargument:
+  Eller fÃ¶r en lista Ã¶ver kommandoradsargument:
 
   |  % civserver --help
 
-  När servern har startats visas en prompt:
+  NÃ¤r servern har startats visas en prompt:
 
-  |  För inledande hjälp, skriv 'help'.
+  |  FÃ¶r inledande hjÃ¤lp, skriv 'help'.
   |  >
 
-  och man kan se denna information genom att använda hjälpkommandot:
+  och man kan se denna information genom att anvÃ¤nda hjÃ¤lpkommandot:
 
   | > help
-  |  Välkommen - detta är den inledande hjälptexten för
+  |  VÃ¤lkommen - detta Ã¤r den inledande hjÃ¤lptexten fÃ¶r
   |  freecivservern.
   |
-  |  2 Viktiga serverbegrepp är kommandon och valmöjligheter.
-  |  Kommandon, såsom "help", används för att växelverka med servern.
-  |  Vissa kommandon tar ett eller flera argument, åtskilda av
-  |  blanksteg.  I många fall kan kommandon och kommandoargument
-  |  förkortas. Valmöjligheter är inställningar som styr servern medan
-  |  den är i gång. 
+  |  2 Viktiga serverbegrepp Ã¤r kommandon och valmÃ¶jligheter.
+  |  Kommandon, sÃ¥som "help", anvÃ¤nds fÃ¶r att vÃ¤xelverka med servern.
+  |  Vissa kommandon tar ett eller flera argument, Ã¥tskilda av
+  |  blanksteg.  I mÃ¥nga fall kan kommandon och kommandoargument
+  |  fÃ¶rkortas. ValmÃ¶jligheter Ã¤r instÃ¤llningar som styr servern medan
+  |  den Ã¤r i gÃ¥ng. 
   |
-  |  För att ta reda på hur man får mer information om kommandon och
-  |  valmöjligheter, använd "help help".
+  |  FÃ¶r att ta reda pÃ¥ hur man fÃ¥r mer information om kommandon och
+  |  valmÃ¶jligheter, anvÃ¤nd "help help".
   |
-  |  För den otåliga är kommandona för att komma i gång:
-  |    show   -  se nuvarande valmöjligheter
-  |    set    -  sätt valmöjligheter
-  |    start  -  sätt i gång spelet när spelare har anslutit sig
+  |  FÃ¶r den otÃ¥liga Ã¤r kommandona fÃ¶r att komma i gÃ¥ng:
+  |    show   -  se nuvarande valmÃ¶jligheter
+  |    set    -  sÃ¤tt valmÃ¶jligheter
+  |    start  -  sÃ¤tt i gÃ¥ng spelet nÃ¤r spelare har anslutit sig
   |    save   -  spara nuvarande spel
   |    quit   -  avsluta
   |  >
 
-  Man kan använda kommandot "set" för att ändra någon av
-  servervalmöjligheterna. Man kan få en lista med alla
-  servervalmöjligheter med kommandot "show" och utförliga
-  beskrivningar av varje servervalmöjlighet med kommandot "help
-  <servervalmöjlighetsnamn>".
+  Man kan anvÃ¤nda kommandot "set" fÃ¶r att Ã¤ndra nÃ¥gon av
+  servervalmÃ¶jligheterna. Man kan fÃ¥ en lista med alla
+  servervalmÃ¶jligheter med kommandot "show" och utfÃ¶rliga
+  beskrivningar av varje servervalmÃ¶jlighet med kommandot "help
+  <servervalmÃ¶jlighetsnamn>".
 
   Till exempel:
 
   |  > help xsize
-  |  Valmöjlighet: xsize  -  Kartbredd i rutor
-  |  Status: ändringsbar
-  |  Värde: 80, Minsta möjliga: 40, Standard: 80, Högsta möjliga: 200
+  |  ValmÃ¶jlighet: xsize  -  Kartbredd i rutor
+  |  Status: Ã¤ndringsbar
+  |  VÃ¤rde: 80, Minsta mÃ¶jliga: 40, Standard: 80, HÃ¶gsta mÃ¶jliga: 200
 
   Och:
 
   |  > set xsize 100
   |  > set ysize 80
 
-  Detta gör kartan dubbelt så stor som standardstorleken 80x50.
+  Detta gÃ¶r kartan dubbelt sÃ¥ stor som standardstorleken 80x50.
 
 Klient:
 
-  Nu ska alla mänskliga spelare ansluta genom att köra
+  Nu ska alla mÃ¤nskliga spelare ansluta genom att kÃ¶ra
   freecivklienten:
 
   |  % civclient
 
-  Detta antar att servern kör på samma maskin. Om inte kan man
-  antingen ange det på kommandoraden med parametern "--server" eller
-  skriva in det i den första dialogrutan som visas i klientprogrammet.
+  Detta antar att servern kÃ¶r pÃ¥ samma maskin. Om inte kan man
+  antingen ange det pÃ¥ kommandoraden med parametern "--server" eller
+  skriva in det i den fÃ¶rsta dialogrutan som visas i klientprogrammet.
 
-  Antag till exempel att servern körs på en annan maskin kallad
-  "baldur". Då ansluter spelare med kommandot:
+  Antag till exempel att servern kÃ¶rs pÃ¥ en annan maskin kallad
+  "baldur". DÃ¥ ansluter spelare med kommandot:
 
   |  % civclient --server baldur
 
-  Om man är den enda mänskliga spelaren behöver endast en klient
-  användas. På vanligt Unixvis kan man köra klienten i bakgrunden
-  genom att lägga till en ampersand:
+  Om man Ã¤r den enda mÃ¤nskliga spelaren behÃ¶ver endast en klient
+  anvÃ¤ndas. PÃ¥ vanligt Unixvis kan man kÃ¶ra klienten i bakgrunden
+  genom att lÃ¤gga till en ampersand:
 
   |  % civclient &
 
-  En annan valmöjlighet är "--tiles" som används för att köra klienten
-  med en annan uppsättning rutbilder för landskap, enheter med mera.
-  Utgåvan innehåller 2 uppsättningar rutbilder:
-  - isotrident: Isometrisk, liknar Civilization 2. (Stöds ännu inte av
+  En annan valmÃ¶jlighet Ã¤r "--tiles" som anvÃ¤nds fÃ¶r att kÃ¶ra klienten
+  med en annan uppsÃ¤ttning rutbilder fÃ¶r landskap, enheter med mera.
+  UtgÃ¥van innehÃ¥ller 2 uppsÃ¤ttningar rutbilder:
+  - isotrident: Isometrisk, liknar Civilization 2. (StÃ¶ds Ã¤nnu inte av
     xaw-klienten.)
   - trident: Liknar Civilization 1, rutstorlek 30x30 bildpunkter.
   Trident har en variant som heter "trident_shields".
 
-  I denna utgåva är isotrident förval i GTK- och Amiga- och
-  win32klienterna emedan trident är förval i XAW-klienten.
-  "_shields"-varianterna använder sköldformade flaggor, vilka är
-  mindre och diskretare. Prova dem båda och bestäm dig vilken du vill
-  använda.Kör klienten med följande kommando för att använda trident:
+  I denna utgÃ¥va Ã¤r isotrident fÃ¶rval i GTK- och Amiga- och
+  win32klienterna emedan trident Ã¤r fÃ¶rval i XAW-klienten.
+  "_shields"-varianterna anvÃ¤nder skÃ¶ldformade flaggor, vilka Ã¤r
+  mindre och diskretare. Prova dem bÃ¥da och bestÃ¤m dig vilken du vill
+  anvÃ¤nda.KÃ¶r klienten med fÃ¶ljande kommando fÃ¶r att anvÃ¤nda trident:
 
   |  % civclient --tiles trident
 
-  Andra uppsättningar kan finnas på Freecivs FTP- och webserver.
+  Andra uppsÃ¤ttningar kan finnas pÃ¥ Freecivs FTP- och webserver.
 
 
-  Klienter kan ges tillåtelse att utföra serverkommandon. Skriv
-  följande vid serverprompten för att endast ge dem tillåtelse att
+  Klienter kan ges tillÃ¥telse att utfÃ¶ra serverkommandon. Skriv
+  fÃ¶ljande vid serverprompten fÃ¶r att endast ge dem tillÃ¥telse att
   endast ge informationskommandon:
 
   |  > cmdlevel info
 
-  Klienter kan nu använda "/help", "/list", "/show settlers" med mera.
+  Klienter kan nu anvÃ¤nda "/help", "/list", "/show settlers" med mera.
 
 Datorstyrda spelare:
 
-  Det finns 2 sätt att skapa datorstyrda spelare. Det först är att
-  ange antalet spelare med servervalmöjligheten "aifill":
+  Det finns 2 sÃ¤tt att skapa datorstyrda spelare. Det fÃ¶rst Ã¤r att
+  ange antalet spelare med servervalmÃ¶jligheten "aifill":
 
   |  > set aifill 7
 
-  Efter att ha använt serverkommandot "start" för att sätta i gång
-  spelet, kommer de spelare som inte är mänskliga att bli datorstyrda.
+  Efter att ha anvÃ¤nt serverkommandot "start" fÃ¶r att sÃ¤tta i gÃ¥ng
+  spelet, kommer de spelare som inte Ã¤r mÃ¤nskliga att bli datorstyrda.
   I exempelt ovan skulle 5 datorstyrda spelare ha skapats om det hade
-  funnits 2 mänskliga spelare.
+  funnits 2 mÃ¤nskliga spelare.
 
-  Det andra sättet är att skapa en datorspelare med serverkommandot
+  Det andra sÃ¤ttet Ã¤r att skapa en datorspelare med serverkommandot
   "create":
 
   |  > create Widukind
 
   Detta skapar den datorstyrda spelaren Widukind.
 
-  Datorstyrda spelare tilldelas folkstammar efter att alla mänskliga
-  spelare har valt folkstammar, men man kan välja en särskild folkstam
-  för en datorstyrd spelare genom att använda ett namn som är namnet
-  på en ledare för den folkstammen. Man kan till exempel spela mot
-  ryssarna med följande kommando:
+  Datorstyrda spelare tilldelas folkstammar efter att alla mÃ¤nskliga
+  spelare har valt folkstammar, men man kan vÃ¤lja en sÃ¤rskild folkstam
+  fÃ¶r en datorstyrd spelare genom att anvÃ¤nda ett namn som Ã¤r namnet
+  pÃ¥ en ledare fÃ¶r den folkstammen. Man kan till exempel spela mot
+  ryssarna med fÃ¶ljande kommando:
 
   |  > create Stalin
 
-  Om ingen av de mänskliga spelarna väljer att spela med ryssarna
-  kommer denna datorstyrda spelare att göra det.
+  Om ingen av de mÃ¤nskliga spelarna vÃ¤ljer att spela med ryssarna
+  kommer denna datorstyrda spelare att gÃ¶ra det.
 
 Server:
 
-  När alla har anslutit (använd kommandot "list" för att se vilka som
-  är anslutna), sätt i gång spelet med kommandot "start":
+  NÃ¤r alla har anslutit (anvÃ¤nd kommandot "list" fÃ¶r att se vilka som
+  Ã¤r anslutna), sÃ¤tt i gÃ¥ng spelet med kommandot "start":
 
   |  > start
 
-  Sedan är spelet i gång!
+  Sedan Ã¤r spelet i gÃ¥ng!
 
 
-Tillkännage spelet:
+TillkÃ¤nnage spelet:
 ===================
 
-Om man vill ha andra motståndare än lokala vänner och datorstyrda
-spelare kan man besöka Freecivs metaserver:
+Om man vill ha andra motstÃ¥ndare Ã¤n lokala vÃ¤nner och datorstyrda
+spelare kan man besÃ¶ka Freecivs metaserver:
 
   http://meta.freeciv.org/metaserver/
 
-Det är en lista över freecivservrar. För att få sin server att anmäla
-sig där kör man civserver med kommandoradsargumentet "--meta" eller
+Det Ã¤r en lista Ã¶ver freecivservrar. FÃ¶r att fÃ¥ sin server att anmÃ¤la
+sig dÃ¤r kÃ¶r man civserver med kommandoradsargumentet "--meta" eller
 "-m".
 
 Varningar:
 
- 1) På grund av nya funktioner är olika versioner av server och klient
-    ofta oförenliga. Versionen 1.14.0 är till exempel oförenlig med
+ 1) PÃ¥ grund av nya funktioner Ã¤r olika versioner av server och klient
+    ofta ofÃ¶renliga. Versionen 1.14.0 Ã¤r till exempel ofÃ¶renlig med
     1.13.0 och tidigare versioner.
 
- 2) Om metaserverknappen i anslutningsdialogen inte fungerar, undersök
-    om internetanslutningen kräver en WWW-proxy, och se till att
-    Freeciv använder den genom att ställa in variabeln $http_proxy. Om
-    proxyn till exempel är proxy.minanslutning.se port 8888, sätt
+ 2) Om metaserverknappen i anslutningsdialogen inte fungerar, undersÃ¶k
+    om internetanslutningen krÃ¤ver en WWW-proxy, och se till att
+    Freeciv anvÃ¤nder den genom att stÃ¤lla in variabeln $http_proxy. Om
+    proxyn till exempel Ã¤r proxy.minanslutning.se port 8888, sÃ¤tt
     $http_proxy till http://proxy.minanslutning.se:8888/ innan
     klienten startas.
 
- 3) Ibland finns det inga spel på metaservern. Antalet spelare där
-    växlar under dygnets tider. Försök att skapa ett spel där själv!
+ 3) Ibland finns det inga spel pÃ¥ metaservern. Antalet spelare dÃ¤r
+    vÃ¤xlar under dygnets tider. FÃ¶rsÃ¶k att skapa ett spel dÃ¤r sjÃ¤lv!
 
 
-Under spelets gång:
+Under spelets gÃ¥ng:
 ===================
 
 Spelet kan sparas med serverkommandot "save":
 
   |  > save mittspel.sav
 
-(Om servern är kompilerad med packningsstöd och servervalmöjligheten
-"compress" är satt till någnting annat än 0 packas filen och kallas
+(Om servern Ã¤r kompilerad med packningsstÃ¶d och servervalmÃ¶jligheten
+"compress" Ã¤r satt till nÃ¥gnting annat Ã¤n 0 packas filen och kallas
 mittspel.sav.gz.)
 
-Freecivklienten fungerar i stort sett så som man kan förvänta sig av
-ett civilizationspel med flerspelarstöd. De mänskliga spelarna gör
-sina drag samtidigt. De datorstyrda spelarna gör sina drag när de
-mänskliga spelarna har avslutat sina omgångar. Det finns en tidsgräns
-som är satt till 0 sekunder (ingen tidsgräns) som standard. Detta
-värde kan ändras med serverkommandot "set".
+Freecivklienten fungerar i stort sett sÃ¥ som man kan fÃ¶rvÃ¤nta sig av
+ett civilizationspel med flerspelarstÃ¶d. De mÃ¤nskliga spelarna gÃ¶r
+sina drag samtidigt. De datorstyrda spelarna gÃ¶r sina drag nÃ¤r de
+mÃ¤nskliga spelarna har avslutat sina omgÃ¥ngar. Det finns en tidsgrÃ¤ns
+som Ã¤r satt till 0 sekunder (ingen tidsgrÃ¤ns) som standard. Detta
+vÃ¤rde kan Ã¤ndras med serverkommandot "set".
 
-Titta på hjälpen i klientprogrammet. Alla 3 musknapparna används och
-är dokumenterade i hjälpen.
+Titta pÃ¥ hjÃ¤lpen i klientprogrammet. Alla 3 musknapparna anvÃ¤nds och
+Ã¤r dokumenterade i hjÃ¤lpen.
 
-Spelare kan trycka på returnknappen eller klicka på "Avsluta
-omgång"-knappen för att avsluta sin omgång.
+Spelare kan trycka pÃ¥ returnknappen eller klicka pÃ¥ "Avsluta
+omgÃ¥ng"-knappen fÃ¶r att avsluta sin omgÃ¥ng.
 
-Använd spelardialogen för att se vilka som har avslutat sin omgång och
-vilka man väntar på.
+AnvÃ¤nd spelardialogen fÃ¶r att se vilka som har avslutat sin omgÃ¥ng och
+vilka man vÃ¤ntar pÃ¥.
 
-Använd inmatningsraden vid fönstrets underkant för att skicka
+AnvÃ¤nd inmatningsraden vid fÃ¶nstrets underkant fÃ¶r att skicka
 meddelanden till andra spelare.
 
 Man kan skicka ett meddelande till en enskild spelare (till exempel
 "einar"):
 
-  |  einar: flytta på pansarvagnen NU!
+  |  einar: flytta pÃ¥ pansarvagnen NU!
 
-Servern kan gissa sig till namn om man skriver dem ofullständigt. Om
+Servern kan gissa sig till namn om man skriver dem ofullstÃ¤ndigt. Om
 man till exempel skriver "ein:" hittar den spelaren med namn som
-stämmer delvis med namnet man skrev.
+stÃ¤mmer delvis med namnet man skrev.
 
-På nyare servrar (version 1.8.1 eller vissa utvecklingsversioner av
-1.8.0) eller nyare kan man ge serverkommandon på klientens
+PÃ¥ nyare servrar (version 1.8.1 eller vissa utvecklingsversioner av
+1.8.0) eller nyare kan man ge serverkommandon pÃ¥ klientens
 inmatningsrad:
 
   |  /list
   |  /set settlers 4
   |  /save mittspel.sav
 
-Serverhandhavaren tillåter kanske bara informationskommandon eftersom
-det är en säkerhetsrisk att låta spelare använda alla serverkommandon,
+Serverhandhavaren tillÃ¥ter kanske bara informationskommandon eftersom
+det Ã¤r en sÃ¤kerhetsrisk att lÃ¥ta spelare anvÃ¤nda alla serverkommandon,
 till exempel:
 
   |  /save /etc/passwd
 
-Naturligtvis ska freecivservern inte köras med fullständiga
-rättigheter på grund av denna risk.
+Naturligtvis ska freecivservern inte kÃ¶ras med fullstÃ¤ndiga
+rÃ¤ttigheter pÃ¥ grund av denna risk.
 
-Om man just har börjat spela Freeicv och vill ha hjälp med strategin
+Om man just har bÃ¶rjat spela Freeicv och vill ha hjÃ¤lp med strategin
 kan man titta i filen "HOWTOPLAY.sv".
 
-Se freecivhandboken på följande adress för mycket mer information om
+Se freecivhandboken pÃ¥ fÃ¶ljande adress fÃ¶r mycket mer information om
 klienten, servern och spelet:
 
   http://www.freeciv.org/manual/manual.html
@@ -318,54 +318,54 @@ klienten, servern och spelet:
 Avsluta spelet:
 ===============
 
-Det finns 3 sätt att avsluta spelet:
+Det finns 3 sÃ¤tt att avsluta spelet:
 
-1) Vara den enda återstående spelaren.
-2) Nå slutåret.
-3) Bygga ett rymdskepp och sända i väg det så att det når Alfa
+1) Vara den enda Ã¥terstÃ¥ende spelaren.
+2) NÃ¥ slutÃ¥ret.
+3) Bygga ett rymdskepp och sÃ¤nda i vÃ¤g det sÃ¥ att det nÃ¥r Alfa
    Kentauri.
 
-En utvärderingstabell visas i samtliga fall. Anmärkning:
-Serverhandhavaren kan sätta slutåret när spelet är i gång genom att
-ändra servervalmöjligheten "end-year". Detta är användbart när det är
+En utvÃ¤rderingstabell visas i samtliga fall. AnmÃ¤rkning:
+Serverhandhavaren kan sÃ¤tta slutÃ¥ret nÃ¤r spelet Ã¤r i gÃ¥ng genom att
+Ã¤ndra servervalmÃ¶jligheten "end-year". Detta Ã¤r anvÃ¤ndbart nÃ¤r det Ã¤r
 uppenbart vem som kommer att segra men man inte vill spela sig igenom
-uppstädningen.
+uppstÃ¤dningen.
 
 
-Öppna spel:
+Ã–ppna spel:
 ===========
 
-Man kan öppna ett sparat spel genom att köra servern med
+Man kan Ã¶ppna ett sparat spel genom att kÃ¶ra servern med
 kommandoradsargumentet "-f":
 
   |  % civserver -f mittspel2001.sav
 
-eller om filen är pacakd:
+eller om filen Ã¤r pacakd:
 
   |  % civserver -f mittspel2001.sav.gz
 
-Sedan kan spelarna återansluta:
+Sedan kan spelarna Ã¥teransluta:
 
   |  % civclient -n Bismarck
 
-Lägg märke till att spelarnamnet anges med kommandoradsargumentet
-"-n". Det är viktigt att spelaren använder sama namn som den använde
-förrut, annars släpps de inte in.
+LÃ¤gg mÃ¤rke till att spelarnamnet anges med kommandoradsargumentet
+"-n". Det Ã¤r viktigt att spelaren anvÃ¤nder sama namn som den anvÃ¤nde
+fÃ¶rrut, annars slÃ¤pps de inte in.
 
-Spelet kan sättas i gång igen med serverkommandot "start".
+Spelet kan sÃ¤ttas i gÃ¥ng igen med serverkommandot "start".
 
 
-Lokalt språkstöd:
+Lokalt sprÃ¥kstÃ¶d:
 =================
 
-Freeciv stöder flera lokala språk.
+Freeciv stÃ¶der flera lokala sprÃ¥k.
 
-Man kan välja vilket lokalt språk man vill använda genom att ange en
-"locale". Varje locale har ett standardnamn (till exempel "de" för
-tyska). Om man har installerat Freeciv kan man välja locale genom att
-sätta variablen LANG till denna locales standardnamn innan man kör
-civserver och civclient. För att till exempel köra Freeciv på tyska
-gör man så här:
+Man kan vÃ¤lja vilket lokalt sprÃ¥k man vill anvÃ¤nda genom att ange en
+"locale". Varje locale har ett standardnamn (till exempel "de" fÃ¶r
+tyska). Om man har installerat Freeciv kan man vÃ¤lja locale genom att
+sÃ¤tta variablen LANG till denna locales standardnamn innan man kÃ¶r
+civserver och civclient. FÃ¶r att till exempel kÃ¶ra Freeciv pÃ¥ tyska
+gÃ¶r man sÃ¥ hÃ¤r:
 
   export LANG; LANG=de    (i Bourneskalet (sh))
 
@@ -373,59 +373,59 @@ eller
 
   setenv LANG de          (i C-skalet (csh))
 
-(Man kan göra detta i sin "~/.profile" eller "~/.login".)
+(Man kan gÃ¶ra detta i sin "~/.profile" eller "~/.login".)
 
 Loggmeddelanden:
 ================
 
-Både klienten och servern skriver loggmeddelanden. Dessa är av 5 olika
-slag, dödliga, fel-, normala, mångordiga och avlusningsmeddelanden.
+BÃ¥de klienten och servern skriver loggmeddelanden. Dessa Ã¤r av 5 olika
+slag, dÃ¶dliga, fel-, normala, mÃ¥ngordiga och avlusningsmeddelanden.
 
-Som standard skrivs dödliga, fel- och normala meddelanden till
-standard output. Man man skicka loggmeddelanden till en fil i stället
+Som standard skrivs dÃ¶dliga, fel- och normala meddelanden till
+standard output. Man man skicka loggmeddelanden till en fil i stÃ¤llet
 med kommandoradsargumentet "--log <filnamn>" eller "-l filnamn".
 
-Man kan ändra loggläget med kommandoradsargumentet "--debug <läge>"
-eller "-d <läge>" (eller "-de <läge>" för Xawklienten eftersom "-d" är
-flertydigt mellan "-debug" och "-display"), där <läge> är 0, 1, 2
-eller 3. 0 betyder att endast dödligameddelanden visas, 1 betyder att
-dödliga och felmeddelanden visas, 2 betyder att dödliga, fel- och
-normala meddelanden visas (standard). 3 betyder att dödliga, fel-,
-normala och mångordiga meddellanden visas.
+Man kan Ã¤ndra logglÃ¤get med kommandoradsargumentet "--debug <lÃ¤ge>"
+eller "-d <lÃ¤ge>" (eller "-de <lÃ¤ge>" fÃ¶r Xawklienten eftersom "-d" Ã¤r
+flertydigt mellan "-debug" och "-display"), dÃ¤r <lÃ¤ge> Ã¤r 0, 1, 2
+eller 3. 0 betyder att endast dÃ¶dligameddelanden visas, 1 betyder att
+dÃ¶dliga och felmeddelanden visas, 2 betyder att dÃ¶dliga, fel- och
+normala meddelanden visas (standard). 3 betyder att dÃ¶dliga, fel-,
+normala och mÃ¥ngordiga meddellanden visas.
 
-Om man kompilerar med DEBUG definierad (ett enkelt sätt att göra detta
-är att konfigurera med "--enable-debug") , kan man få
-avlusningsmeddelanden genom att sätta loggläget till 4. Det är
-dessutom möjligt att styra avlusningsmeddelanden (men inte andra
-meddelanden) med avseende på fil. Använd då "--debug 4:str1:str2" (så
-många strängar man vill) och alla filnamn som överensstämmer med dessa
-strängar som understräng har avlusningsloggning påslaget. Alla andra
-avlusningsmeddelanden stängs av. Använd "--debug 4:str1,undre,övre"
-för att styra rader. Endast meddelanden mellan undre raden och övre
-raden kommer att visas. Endast 1 uppsättning gränser kan anges för en
+Om man kompilerar med DEBUG definierad (ett enkelt sÃ¤tt att gÃ¶ra detta
+Ã¤r att konfigurera med "--enable-debug") , kan man fÃ¥
+avlusningsmeddelanden genom att sÃ¤tta logglÃ¤get till 4. Det Ã¤r
+dessutom mÃ¶jligt att styra avlusningsmeddelanden (men inte andra
+meddelanden) med avseende pÃ¥ fil. AnvÃ¤nd dÃ¥ "--debug 4:str1:str2" (sÃ¥
+mÃ¥nga strÃ¤ngar man vill) och alla filnamn som Ã¶verensstÃ¤mmer med dessa
+strÃ¤ngar som understrÃ¤ng har avlusningsloggning pÃ¥slaget. Alla andra
+avlusningsmeddelanden stÃ¤ngs av. AnvÃ¤nd "--debug 4:str1,undre,Ã¶vre"
+fÃ¶r att styra rader. Endast meddelanden mellan undre raden och Ã¶vre
+raden kommer att visas. Endast 1 uppsÃ¤ttning grÃ¤nser kan anges fÃ¶r en
 fil.
 
 Exempel:
 
   |  % civserver -l mitt.log -d 3
 
-Detta skickar alla loggmeddelanden, innefattande mångordiga
-meddelanden, från servern till filen "mitt.log".
+Detta skickar alla loggmeddelanden, innefattande mÃ¥ngordiga
+meddelanden, frÃ¥n servern till filen "mitt.log".
 
 Exempel:
 
   |  % civclient --debug 0
 
-Detta döljer alla loggmeddelanden utom dödliga meddelanden.
+Detta dÃ¶ljer alla loggmeddelanden utom dÃ¶dliga meddelanden.
 
 Exempel:
 
   | % civserver -d 4:log:civserver,120,500:autoattack
 
-Detta visar alla dödliga, fel-, normala och mångordiga meddelanden för
-servern, samt avlusningsmeddelanden för vissa angivna delar. Lägg
-märke till att "log" stämmer överens med både "gamelog.c" och "log.c".
-För "civserver.c" visas endast avlusningsmeddelanden mellan raderna
+Detta visar alla dÃ¶dliga, fel-, normala och mÃ¥ngordiga meddelanden fÃ¶r
+servern, samt avlusningsmeddelanden fÃ¶r vissa angivna delar. LÃ¤gg
+mÃ¤rke till att "log" stÃ¤mmer Ã¶verens med bÃ¥de "gamelog.c" och "log.c".
+FÃ¶r "civserver.c" visas endast avlusningsmeddelanden mellan raderna
 120 och 500. Detta exempel fungerar endast om servern har kompilerats
 med DEBUG.
 
@@ -433,47 +433,47 @@ med DEBUG.
 Programfel:
 ===========
 
-Vi vill gärna bli underrättade om programfel så att vi kan åtgärda dem. Se
-filen BUGS.sv för en lista över kända programfel i denna utgåva samt
-information om att anmäla programfel.
+Vi vill gÃ¤rna bli underrÃ¤ttade om programfel sÃ¥ att vi kan Ã¥tgÃ¤rda dem. Se
+filen BUGS.sv fÃ¶r en lista Ã¶ver kÃ¤nda programfel i denna utgÃ¥va samt
+information om att anmÃ¤la programfel.
 
 
-Sändlistor:
+SÃ¤ndlistor:
 ===========
 
-Vi har 8 sändlistor:
+Vi har 8 sÃ¤ndlistor:
 
-  freeciv          Allmänt samtal.
-  freeciv-announce Kungörelser av allmänt intresse.
-                   Denna lista kan endast läsas och sprider mycket få
-                   meddelanden. Man kan alltså inte skicka brev till
-                   listan utan bara ta emot. Kungörelser som skickas
-                   hit skickas även till sändlistan freeciv.
-  freeciv-i18n     Översättning av Freeciv.
-                   Samtal om översättning av Freecivkoden,
-                   dokumentation och websida till andra språk än 
+  freeciv          AllmÃ¤nt samtal.
+  freeciv-announce KungÃ¶relser av allmÃ¤nt intresse.
+                   Denna lista kan endast lÃ¤sas och sprider mycket fÃ¥
+                   meddelanden. Man kan alltsÃ¥ inte skicka brev till
+                   listan utan bara ta emot. KungÃ¶relser som skickas
+                   hit skickas Ã¤ven till sÃ¤ndlistan freeciv.
+  freeciv-i18n     Ã–versÃ¤ttning av Freeciv.
+                   Samtal om Ã¶versÃ¤ttning av Freecivkoden,
+                   dokumentation och websida till andra sprÃ¥k Ã¤n 
                    engelska.
   freeciv-dev      Freecivutveckling.
-  freeciv-data     Utveckling av innehåll i "data"-katalogen
-                   (regeluppsättningar, rutbildsuppsättningar med
+  freeciv-data     Utveckling av innehÃ¥ll i "data"-katalogen
+                   (regeluppsÃ¤ttningar, rutbildsuppsÃ¤ttningar med
                    mera).
-  freeciv-java     Utveckling av en javaklient (Java är ett annat
-                   programmeringsspråk än det som Freeciv är skrivet
+  freeciv-java     Utveckling av en javaklient (Java Ã¤r ett annat
+                   programmeringssprÃ¥k Ã¤n det som Freeciv Ã¤r skrivet
                    i).
   freeciv-ai       Utvecklign av datorstyrning av spelare.
-  freeciv-cvs      Kungörelser om ändringar i CVS-förvaret.
-                   Denna lista kan endast läsas och sprider
-                   automatiska meddelanden. Man kan alltså inte skicka
+  freeciv-cvs      KungÃ¶relser om Ã¤ndringar i CVS-fÃ¶rvaret.
+                   Denna lista kan endast lÃ¤sas och sprider
+                   automatiska meddelanden. Man kan alltsÃ¥ inte skicka
                    brev till listan utan endast ta emot.
 
-Alla listor är öppna för allmänheten och alla är välkomna att anmäla sig.
+Alla listor Ã¤r Ã¶ppna fÃ¶r allmÃ¤nheten och alla Ã¤r vÃ¤lkomna att anmÃ¤la sig.
 
-Man följer dessa anvisningar för att anmäla sig eller avanmäla sig:
+Man fÃ¶ljer dessa anvisningar fÃ¶r att anmÃ¤la sig eller avanmÃ¤la sig:
 
   1. E-posta till <listar@freeciv.org>.
-  2. Lämna ämnesraden tom.
-  3. Skriv några av följande rader i brevet:
-      För att anmäla:
+  2. LÃ¤mna Ã¤mnesraden tom.
+  3. Skriv nÃ¥gra av fÃ¶ljande rader i brevet:
+      FÃ¶r att anmÃ¤la:
         subscribe freeciv
         subscribe freeciv-announce
         subscribe freeciv-i18n
@@ -482,7 +482,7 @@ Man följer dessa anvisningar för att anmäla sig eller avanmäla sig:
         subscribe freeciv-java
         subscribe freeciv-ai
         subscribe freeciv-cvs
-      För att avanmäla:
+      FÃ¶r att avanmÃ¤la:
         unsubscribe freeciv
         unsubscribe freeciv-announce
         unsubscribe freeciv-i18n
@@ -492,7 +492,7 @@ Man följer dessa anvisningar för att anmäla sig eller avanmäla sig:
         unsubscribe freeciv-ai
         unsubscribe freeciv-cvs
 
-Använd följande adresser för att skicka brev till sändlistorna:
+AnvÃ¤nd fÃ¶ljande adresser fÃ¶r att skicka brev till sÃ¤ndlistorna:
   <freeciv@freeciv.org>.
   <freeciv-i18n@freeciv.org>.
   <freeciv-dev@freeciv.org>.
@@ -504,16 +504,16 @@ Använd följande adresser för att skicka brev till sändlistorna:
 Internet Relay Chat (IRC)
 =========================
 
-Flera spelare och utvecklare håller till på #freeciv på Open Projects
-network. Försök ansluta till servern
+Flera spelare och utvecklare hÃ¥ller till pÃ¥ #freeciv pÃ¥ Open Projects
+network. FÃ¶rsÃ¶k ansluta till servern
 
 	irc.openprojects.net
 
 
-Nya utgåvor:
+Nya utgÃ¥vor:
 ============
 
-Se emellanåt efter på Freecivs nätplats om det finns en ny utgåva.
+Se emellanÃ¥t efter pÃ¥ Freecivs nÃ¤tplats om det finns en ny utgÃ¥va.
 
 
 Slutligen:

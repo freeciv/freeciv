@@ -1,4 +1,4 @@
-Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
+Hinweis:	Dies ist *KEINE* Ãœbersetzung der Datei README!
 Stand: 		05.06.02
 
 			==============================
@@ -7,19 +7,19 @@ Stand: 		05.06.02
 
 Willkommen bei Freeciv!
 
-Dieses Archiv enthält die aktuelle Freeciv Version (soweit sinnvoll)
+Dieses Archiv enthÃ¤lt die aktuelle Freeciv Version (soweit sinnvoll)
 auch in deutscher Sprache.
 
-Hinweis:	Die deutsche Online-Hilfe ist vollständig übersetzt und
-		erkärt unter den entsprenden Stichworten vieles besser als
+Hinweis:	Die deutsche Online-Hilfe ist vollstÃ¤ndig Ã¼bersetzt und
+		erkÃ¤rt unter den entsprenden Stichworten vieles besser als
 		dieser Text.
 
-Freeciv ist ein Civilization-Abkömmling für X11, vorzugsweise unter Unix. Es
-unterstützt alle Arten von Multiplayer-Spielen und die KI ist für fast alle
+Freeciv ist ein Civilization-AbkÃ¶mmling fÃ¼r X11, vorzugsweise unter Unix. Es
+unterstÃ¼tzt alle Arten von Multiplayer-Spielen und die KI ist fÃ¼r fast alle
 Spieler eine wirkliche Herausforderung.
 
-Freeciv ist ein absolut eigenständiges Programm; Sie müssen kein
-Civilization besitzen, um es spielen zu können.
+Freeciv ist ein absolut eigenstÃ¤ndiges Programm; Sie mÃ¼ssen kein
+Civilization besitzen, um es spielen zu kÃ¶nnen.
 
 
 
@@ -27,33 +27,33 @@ WWW:
 ====
 Freeciv hat eine eigene Webseite:	http://www.freeciv.org
 
-Hier können Sie neben Neuigkeiten, neuen Versionen und Patchen auch näheres
-über unsere Mailinglisten erfahren. Außerdem können Sie unseren Metaserver
+Hier kÃ¶nnen Sie neben Neuigkeiten, neuen Versionen und Patchen auch nÃ¤heres
+Ã¼ber unsere Mailinglisten erfahren. AuÃŸerdem kÃ¶nnen Sie unseren Metaserver
 einsehen, der Spiele auf der ganzen Welt anzeigt.
 
 
 Lizenz:
 =======
-Freeciv wird auf Grundlage der GNU General Public Licence veröffentlicht.
-Kurzgesagt, Sie dürfen das Programm einschließlich der Quelltexte unter
-bestimmten Voraussetzungen frei kopieren. Näheres erfahren Sie in der Datei
+Freeciv wird auf Grundlage der GNU General Public Licence verÃ¶ffentlicht.
+Kurzgesagt, Sie dÃ¼rfen das Programm einschlieÃŸlich der Quelltexte unter
+bestimmten Voraussetzungen frei kopieren. NÃ¤heres erfahren Sie in der Datei
 COPYING.
 
 
 Kompilieren und Installieren
 ============================
-Bitte lesen Sie sorgfältig die Datei ../doc/de/INSTALL.de.
+Bitte lesen Sie sorgfÃ¤ltig die Datei ../doc/de/INSTALL.de.
 
 
 Ein neues Spiel beginnen
 ========================
 Freeciv besteht aus einem Server- und einem Clientprogramm. An einem Spiel
 sind ein Serverprogramm und eine der Anzahl der menschlichen Spieler
-entsprechende Zahl an Clientprogrammen beteiligt. X wird nur für die
-Clientprogramme benötigt.
+entsprechende Zahl an Clientprogrammen beteiligt. X wird nur fÃ¼r die
+Clientprogramme benÃ¶tigt.
 
-Um Freeciv spielen zu können, muß zunächst der Server, gefolgt von zumindest
-einem Client, gestartet werden. Dann müssen auf dem Server KIs generiert
+Um Freeciv spielen zu kÃ¶nnen, muÃŸ zunÃ¤chst der Server, gefolgt von zumindest
+einem Client, gestartet werden. Dann mÃ¼ssen auf dem Server KIs generiert
 und der Startbefehl erteilt werden.
 
 Server:
@@ -61,7 +61,7 @@ Server:
 	
 	> civserver
 	
-	Mögliche Startoptionen erhalten Sie mit:
+	MÃ¶gliche Startoptionen erhalten Sie mit:
 	
 	> civserver --help
 
@@ -71,10 +71,10 @@ Server:
 		Weitere Informationen zu Freeciv finden Sie auf ...
 		1: Warte auf Spieler...
 
-		'help' gibt Erläuterungen zur Verwendung der Online-Hilfe.
+		'help' gibt ErlÃ¤uterungen zur Verwendung der Online-Hilfe.
 		>
 
-	Lassen Sie sich mögliche Befehle und Optionen mit
+	Lassen Sie sich mÃ¶gliche Befehle und Optionen mit
 
 	> help commands
 
@@ -89,20 +89,20 @@ Client:
 
 	> civclient
 
-	Wählen Sie den Server durch entsprechende Eingaben in der
+	WÃ¤hlen Sie den Server durch entsprechende Eingaben in der
 	erscheinenden Dialogbox aus. Vorgabe ist der lokale Server.
 
 KI Spieler:
-	Es gibt zwei Möglichkeiten, KI Spieler zu generieren. Die erste ist,
+	Es gibt zwei MÃ¶glichkeiten, KI Spieler zu generieren. Die erste ist,
 	die Gesamtanzahl der Spieler festzulegen. Beispiel:
 
 	> set aifill 7
 
-	Nachdem "start" eingeben wurde, übernimmt die KI alle Spieler, die
+	Nachdem "start" eingeben wurde, Ã¼bernimmt die KI alle Spieler, die
 	nicht von Menschen gespielt werden. Sollten in unserem Beispiel zwei
-	menschliche Spieler anwesend sein, werden fünf KI-Spieler generiert.
+	menschliche Spieler anwesend sein, werden fÃ¼nf KI-Spieler generiert.
 
-	Der andere Weg ist, über den Serverbefehl "create" einen KI-Spieler
+	Der andere Weg ist, Ã¼ber den Serverbefehl "create" einen KI-Spieler
 	zu erzeugen:
 
 	> create Killer
@@ -118,21 +118,21 @@ Server:
 	begonnen.
 
 
-Spiel ankündigen
+Spiel ankÃ¼ndigen
 ================
-Wenn man auch unbekannte Teilnehmer als Mitspieler zulassen möchte, kann man
-den Server mit der Option "-m" starten. Er "veröffentlicht" seine Existenz
-auf dem Metaserver, über den sich nun Spieler durch Auswahl der Metaserver-
-Registerkarte im Eröffnungsdialog einloggen können.
+Wenn man auch unbekannte Teilnehmer als Mitspieler zulassen mÃ¶chte, kann man
+den Server mit der Option "-m" starten. Er "verÃ¶ffentlicht" seine Existenz
+auf dem Metaserver, Ã¼ber den sich nun Spieler durch Auswahl der Metaserver-
+Registerkarte im ErÃ¶ffnungsdialog einloggen kÃ¶nnen.
 
-HINWEIS:	Firewalls machen es unmöglich, als Server für
+HINWEIS:	Firewalls machen es unmÃ¶glich, als Server fÃ¼r
 		Dritte zu fungieren.
 
 
 Hinweise zum Spiel
 ==================
-- Das Spiel kann jeder Zeit über den Serverbefehl "save" gespeichert werden.
-- Die Spieler ziehen zur gleichen Zeit. Die maximal zulässige Zeit kann
+- Das Spiel kann jeder Zeit Ã¼ber den Serverbefehl "save" gespeichert werden.
+- Die Spieler ziehen zur gleichen Zeit. Die maximal zulÃ¤ssige Zeit kann
   vorgegeben werden.
 - Benutzen Sie die Online-Hilfe!
 
@@ -151,8 +151,8 @@ Ein gespeichertes Spiel kann fortgesetzt werden, in dem man den Server mit
 
 > civserver -f DATEINAME
 
-startet. Die Spieler müssen sich jetzt unter ihrem Herrschernamen wieder
-anmelden um teilnehmen zu können. Danach wird das Spiel wie üblich mit dem
+startet. Die Spieler mÃ¼ssen sich jetzt unter ihrem Herrschernamen wieder
+anmelden um teilnehmen zu kÃ¶nnen. Danach wird das Spiel wie Ã¼blich mit dem
 Serverbefehl "start" wieder aufgenommen.
 
 
@@ -160,37 +160,37 @@ Fehler
 ======
 Bitte teilen Sie uns mit, wenn Sie Programmfehler finden!
 In der Datei BUGS finden Sie eine Liste der uns bekannten Fehler und
-Informationen darüber, wie Sie neue Fehler melden können.
+Informationen darÃ¼ber, wie Sie neue Fehler melden kÃ¶nnen.
 
 
 Mailinglisten
 ==============
-Es gibt mehrere englischsprachige, öffentliche Mailinglisten zu Freeciv.
+Es gibt mehrere englischsprachige, Ã¶ffentliche Mailinglisten zu Freeciv.
 Die interessantesten sind:
 
-	<freeciv@freeciv.org>		für Spieler
-	<freeciv-dev@freeciv.org>	für Fehlerberichte und Entwickler
-	<freeciv-announce@freeciv.org>	zur Ankündigung *WICHTIGER*
+	<freeciv@freeciv.org>		fÃ¼r Spieler
+	<freeciv-dev@freeciv.org>	fÃ¼r Fehlerberichte und Entwickler
+	<freeciv-announce@freeciv.org>	zur AnkÃ¼ndigung *WICHTIGER*
 					Neuigkeiten
 	
-Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
+Sie kÃ¶nnen Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
 Sie die Betreff-Zeile freilassen und in den Text nur "subscribe LISTE"
 schreiben. Beispiel:
 
-	Wenn Sie z.B. die Liste <freeciv@freeciv.org> abonnieren möchten,
+	Wenn Sie z.B. die Liste <freeciv@freeciv.org> abonnieren mÃ¶chten,
 	schreiben Sie einfach "subscribe freeciv".
 
-Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich  mit der
-deutschen Übersetzung beschäftigt <freeciv.de@freelists.org>.
-Sie können diese Liste über www.freelists.org abonnieren.
+Es gibt auch eine Ã¶ffentliche Mailingliste, die sich ausschlieÃŸlich  mit der
+deutschen Ãœbersetzung beschÃ¤ftigt <freeciv.de@freelists.org>.
+Sie kÃ¶nnen diese Liste Ã¼ber www.freelists.org abonnieren.
 
 
 Neue Versionen
 ==============
-Sie können etwa einmal im Jahr mit einer neuen Version rechnen.
+Sie kÃ¶nnen etwa einmal im Jahr mit einer neuen Version rechnen.
 Kontrollieren Sie ab und zu unsere Webseite.
 
 
-Zum Schluß
+Zum SchluÃŸ
 ==========
-Viel Spaß!
+Viel SpaÃŸ!

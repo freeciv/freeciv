@@ -15,7 +15,7 @@
 
 #include "gui_main_g.h"
 
-#define COPYRIGHTSTRING "©1999-2000 by Sebastian Bauer"
+#define COPYRIGHTSTRING "Â©1999-2000 by Sebastian Bauer"
 #define AUTHORSTRING    "Sebastian Bauer"
 #ifdef __SASC
 #define VERSIONSTRING   "$VER: civclient 1.13 " __AMIGADATE__ " " VERSION_STRING

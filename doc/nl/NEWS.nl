@@ -6,7 +6,7 @@ Dit is versie 1.13.0.
 
 Opnieuw dank aan alle ontwikkelaars, die doorgaan met zo hard te werken.
 
-Deze versie bevat vele wijzigingen. Degenen die geïnteresseerd zijn in de
+Deze versie bevat vele wijzigingen. Degenen die geÃ¯nteresseerd zijn in de
 detail-wijzigingen kunnen in het ChangeLog bestand kijken (Engels).
 
 WAT IS ANDERS SINDS 1.12.0
@@ -44,12 +44,12 @@ WAT IS ANDERS SINDS 1.12.0
    spelregels verminderd tot 1, terwijl het in de Civ2 regels veranderd is in
    2.
  - Stealth jachtvliegtuigen en bommenwerpers zijn nu echt stealthy/slecht
-   zichtbaar en zijn gedeeltelijk onzichtbaar analoog aan onderzeeërs. Ook is
+   zichtbaar en zijn gedeeltelijk onzichtbaar analoog aan onderzeeÃ«rs. Ook is
    de aanvalskracht van de stealth bommenwerper verhoogd van 14 naar 18.
  - De Civ2 spelregels bevatten nu Fundamentalisme.
  - Verbeterde modpack mogelijkheden: de karavaan-eigenschap is nu gesplitst.
    Nieuwe manieren om de technologiekosten te berekenen. Betere documentatie.
-   Spelregels kunnen nu starttechnoligieën aangeven. U kunt meer dan één
+   Spelregels kunnen nu starttechnoligieÃ«n aangeven. U kunt meer dan Ã©Ã©n
    bonustech hebben. Kolonist-eigenschap gesplitst. De spelregelsyntax voor 
    gebouwen is aanzienlijk uitgebreid, maar de effecten werken nog niet alle.
  - Server optie 'tinyisles' staat 1x1 eilanden toe en 'separatepoles' staat

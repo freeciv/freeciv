@@ -1,228 +1,228 @@
-Stadsförvaltning
+StadsfÃ¶rvaltning
 ================
 
-Stadsförvaltningen är ett ganska nytt verktyg som byggts in i
-gtk-klienten i version 1.12.1 av Freeciv. Den är till för att hjälpa
-till att hantera städer, det vill säga fördela arbetarna på de olika
-arbetsuppgifterna så att städerna blir så lönsamma som möjligt. Man
-kan sätta på och stänga av stadsförvaltningen när som helst för vilken
-stad som helst, men det uppstår problem om man blandar
-stadsförvaltning med eget styre i grupper av städer som överlappar
-varandra (se nedan). Stadsförvaltningen kräver serverversion 1.12.1
+StadsfÃ¶rvaltningen Ã¤r ett ganska nytt verktyg som byggts in i
+gtk-klienten i version 1.12.1 av Freeciv. Den Ã¤r till fÃ¶r att hjÃ¤lpa
+till att hantera stÃ¤der, det vill sÃ¤ga fÃ¶rdela arbetarna pÃ¥ de olika
+arbetsuppgifterna sÃ¥ att stÃ¤derna blir sÃ¥ lÃ¶nsamma som mÃ¶jligt. Man
+kan sÃ¤tta pÃ¥ och stÃ¤nga av stadsfÃ¶rvaltningen nÃ¤r som helst fÃ¶r vilken
+stad som helst, men det uppstÃ¥r problem om man blandar
+stadsfÃ¶rvaltning med eget styre i grupper av stÃ¤der som Ã¶verlappar
+varandra (se nedan). StadsfÃ¶rvaltningen krÃ¤ver serverversion 1.12.1
 eller nyare.
 
-Stadsförvaltningen hjärta är en optimerande algoritm som försöker
-använda stadens arbetare på ett sätt som uppfyller användarens mål så
-mycket som möjligt. Det fanns redan före stadsförvaltningen ett slags
-optimering; när man öppnde en stadsdialog och klickade på mittrutan i
-kartan (stadskärnan) så sattes arbetarna ut på ett sätt som
+StadsfÃ¶rvaltningen hjÃ¤rta Ã¤r en optimerande algoritm som fÃ¶rsÃ¶ker
+anvÃ¤nda stadens arbetare pÃ¥ ett sÃ¤tt som uppfyller anvÃ¤ndarens mÃ¥l sÃ¥
+mycket som mÃ¶jligt. Det fanns redan fÃ¶re stadsfÃ¶rvaltningen ett slags
+optimering; nÃ¤r man Ã¶ppnde en stadsdialog och klickade pÃ¥ mittrutan i
+kartan (stadskÃ¤rnan) sÃ¥ sattes arbetarna ut pÃ¥ ett sÃ¤tt som
 huvudsakligen maximerade forskningen, men struntar i ordning/upplopp.
 
-Stadsförvaltningen gör mycket mer än denna enkla optimering. För det
-första så utför den beräkningen på nytt varje gång något förändras i
-staden, till expempel: staden växer eller krymper, krigsenheter går in
-eller ut, rutor får bevattning eller gruva eller besätts av fiender.
-För det andra så kan stadsförvaltningen göra alla slags optimeringar,
-till exempel tillverkning (sköldar), guld, forskning eller överflöd.
-För det tredje så ger den spelaren utförligt inflytande över detta,
-med möjlighet att sätta begränsningar för varje slag av utbyte från
-staden. Det senare innefattar firande, vilket gör det mycket enkelt
-att låta sina städer växa, även i svåra tider. För det fjärde och
-antagligen viktigaste i krigstider så håller den stadsborna nöjda så
+StadsfÃ¶rvaltningen gÃ¶r mycket mer Ã¤n denna enkla optimering. FÃ¶r det
+fÃ¶rsta sÃ¥ utfÃ¶r den berÃ¤kningen pÃ¥ nytt varje gÃ¥ng nÃ¥got fÃ¶rÃ¤ndras i
+staden, till expempel: staden vÃ¤xer eller krymper, krigsenheter gÃ¥r in
+eller ut, rutor fÃ¥r bevattning eller gruva eller besÃ¤tts av fiender.
+FÃ¶r det andra sÃ¥ kan stadsfÃ¶rvaltningen gÃ¶ra alla slags optimeringar,
+till exempel tillverkning (skÃ¶ldar), guld, forskning eller Ã¶verflÃ¶d.
+FÃ¶r det tredje sÃ¥ ger den spelaren utfÃ¶rligt inflytande Ã¶ver detta,
+med mÃ¶jlighet att sÃ¤tta begrÃ¤nsningar fÃ¶r varje slag av utbyte frÃ¥n
+staden. Det senare innefattar firande, vilket gÃ¶r det mycket enkelt
+att lÃ¥ta sina stÃ¤der vÃ¤xa, Ã¤ven i svÃ¥ra tider. FÃ¶r det fjÃ¤rde och
+antagligen viktigaste i krigstider sÃ¥ hÃ¥ller den stadsborna nÃ¶jda sÃ¥
 att det inte blir upplopp.
 
 
-  Användning
+  AnvÃ¤ndning
 ==============
 
-Man kan ställa in stadsförvaltningen för en stad genom att öppna
-stadsfönstret och klicka på stadsförvaltningsfliken. På vänster sida
-kan man välja en förinställning för ett visst mål. På höger sida kan
-man ange mer invecklade mål genom att använda rullningslisterna. Man
-kan välja en förinställning först och sedan ändra det. När man har
-skapat en ny inställning kan man lägga till det som en förinställning
-med ett namn. Detta är inte nödvändigt men mycket användbart eftersom
-man kan se och till och med ändra en stads inställning från
-stadsredogörelsen om inställningen har ett namn.
-Man ska komma i håg att spara inställningarna (i "Spel"-menyn) när man
-har skapat en ny förinställning.
+Man kan stÃ¤lla in stadsfÃ¶rvaltningen fÃ¶r en stad genom att Ã¶ppna
+stadsfÃ¶nstret och klicka pÃ¥ stadsfÃ¶rvaltningsfliken. PÃ¥ vÃ¤nster sida
+kan man vÃ¤lja en fÃ¶rinstÃ¤llning fÃ¶r ett visst mÃ¥l. PÃ¥ hÃ¶ger sida kan
+man ange mer invecklade mÃ¥l genom att anvÃ¤nda rullningslisterna. Man
+kan vÃ¤lja en fÃ¶rinstÃ¤llning fÃ¶rst och sedan Ã¤ndra det. NÃ¤r man har
+skapat en ny instÃ¤llning kan man lÃ¤gga till det som en fÃ¶rinstÃ¤llning
+med ett namn. Detta Ã¤r inte nÃ¶dvÃ¤ndigt men mycket anvÃ¤ndbart eftersom
+man kan se och till och med Ã¤ndra en stads instÃ¤llning frÃ¥n
+stadsredogÃ¶relsen om instÃ¤llningen har ett namn.
+Man ska komma i hÃ¥g att spara instÃ¤llningarna (i "Spel"-menyn) nÃ¤r man
+har skapat en ny fÃ¶rinstÃ¤llning.
 
-Rullningslisterna är av 2 slag: de högra rullningslisterna är
-faktorer varmed man kan värdera olika enheter jämfört med varandra,
-till exempel hur mycket sköldar är värda jämfört med allt annat. De
-vänstra rullningslisterna är begränsningar. Man kan beordra staden att
-inte förlora man genom att sätta överskottsbegränsningen för mat till
-0, man kan tillåta staden att förlora guld genom att sätta
-överskottsbegränsningen för guld till -3, och man kan beordra staden
-att tillverka minst 5 sköldar genom att sätta överskottsbegränsningen
-för sköldar till 5. Den kraftfullaste begränsningen är dock
-firarbegränsningen, vilken gör att staden genast firar (det har
-vanligtvis sin verkan omgången efter man ändrar det).
+Rullningslisterna Ã¤r av 2 slag: de hÃ¶gra rullningslisterna Ã¤r
+faktorer varmed man kan vÃ¤rdera olika enheter jÃ¤mfÃ¶rt med varandra,
+till exempel hur mycket skÃ¶ldar Ã¤r vÃ¤rda jÃ¤mfÃ¶rt med allt annat. De
+vÃ¤nstra rullningslisterna Ã¤r begrÃ¤nsningar. Man kan beordra staden att
+inte fÃ¶rlora man genom att sÃ¤tta Ã¶verskottsbegrÃ¤nsningen fÃ¶r mat till
+0, man kan tillÃ¥ta staden att fÃ¶rlora guld genom att sÃ¤tta
+Ã¶verskottsbegrÃ¤nsningen fÃ¶r guld till -3, och man kan beordra staden
+att tillverka minst 5 skÃ¶ldar genom att sÃ¤tta Ã¶verskottsbegrÃ¤nsningen
+fÃ¶r skÃ¶ldar till 5. Den kraftfullaste begrÃ¤nsningen Ã¤r dock
+firarbegrÃ¤nsningen, vilken gÃ¶r att staden genast firar (det har
+vanligtvis sin verkan omgÃ¥ngen efter man Ã¤ndrar det).
 
-Det är uppenbart att stadsförvaltningen inte kan uppfylla alla dessa
-begränsningar i alla lägen. När den inte kan det avgår den med
-meddelandet "Kan inte utföra uppdraget i Stockholm. Lämnar uppdraget."
-Då kan man välja mellan at sköta staden själv (vilket har vissa
-nackdelar, se nedan) eller öppna staden och ändra
-överskottsbegränsningarna så att de kan uppfyllas.
+Det Ã¤r uppenbart att stadsfÃ¶rvaltningen inte kan uppfylla alla dessa
+begrÃ¤nsningar i alla lÃ¤gen. NÃ¤r den inte kan det avgÃ¥r den med
+meddelandet "Kan inte utfÃ¶ra uppdraget i Stockholm. LÃ¤mnar uppdraget."
+DÃ¥ kan man vÃ¤lja mellan at skÃ¶ta staden sjÃ¤lv (vilket har vissa
+nackdelar, se nedan) eller Ã¶ppna staden och Ã¤ndra
+Ã¶verskottsbegrÃ¤nsningarna sÃ¥ att de kan uppfyllas.
 
-När man har gjort inställningarna för en stad måste man klicka på
-"Styr stad" för att lämna över staden till stadsförvaltningen. Om
-knappen inte är klickbar så styrs staden redan av stadsförvaltningen
-eller så är målen ouppnåeliga. I det senare fallet ser man streck i
-stället för tal i vinstblocket. Om man någonsin vill stänga av
-stadsförvaltningen avsiktligt så trycker på på Släpp stad.
+NÃ¤r man har gjort instÃ¤llningarna fÃ¶r en stad mÃ¥ste man klicka pÃ¥
+"Styr stad" fÃ¶r att lÃ¤mna Ã¶ver staden till stadsfÃ¶rvaltningen. Om
+knappen inte Ã¤r klickbar sÃ¥ styrs staden redan av stadsfÃ¶rvaltningen
+eller sÃ¥ Ã¤r mÃ¥len ouppnÃ¥eliga. I det senare fallet ser man streck i
+stÃ¤llet fÃ¶r tal i vinstblocket. Om man nÃ¥gonsin vill stÃ¤nga av
+stadsfÃ¶rvaltningen avsiktligt sÃ¥ trycker pÃ¥ pÃ¥ SlÃ¤pp stad.
 
 
-  Fortskridet användande
+  Fortskridet anvÃ¤ndande
 ==========================
 
-Det finns ännu inte mycket erfarenhet av att använda stadsförvaltning,
-men några vanliga påpekanden kan vara hjälpsamma. Vanligtvis beror
-städernas mål på vilket skede i spelet man befinner sig, om man vill
-sprida sig vitt, växa snabbt, forska eller kriga. Man bör sätta en hög
-faktor för forskning när man ska forska och en hög faktor för sköldar när
-man ska bygga enheter. Den högsta tillgängliga faktorn är 25. Det
-innebär att om sköldfaktor är 25 och de andra är 1, så föredrar
-stadsförfaltningen en enda sköld över 25 guld (eller handel). Detta är
-ganska mycket eftersom man även kan köpa enheter för guld. Det innebär
-även att stadsförvaltningen är likgiltig om tillverkning av guld,
-forskning, överflöd och mat; men när man krigar föredrar man
-vanligtvis guld eller överflöd. Så det är antagligen bra att sätta en
-andra (eller till och med tredje) faktor för stadens vinst, alltså
-guldfaktor 5. Det gör fortfarande att 1 sköld föredras framför 5 guld
-(och 1 guld över 5 mat eller någonting annat).
+Det finns Ã¤nnu inte mycket erfarenhet av att anvÃ¤nda stadsfÃ¶rvaltning,
+men nÃ¥gra vanliga pÃ¥pekanden kan vara hjÃ¤lpsamma. Vanligtvis beror
+stÃ¤dernas mÃ¥l pÃ¥ vilket skede i spelet man befinner sig, om man vill
+sprida sig vitt, vÃ¤xa snabbt, forska eller kriga. Man bÃ¶r sÃ¤tta en hÃ¶g
+faktor fÃ¶r forskning nÃ¤r man ska forska och en hÃ¶g faktor fÃ¶r skÃ¶ldar nÃ¤r
+man ska bygga enheter. Den hÃ¶gsta tillgÃ¤ngliga faktorn Ã¤r 25. Det
+innebÃ¤r att om skÃ¶ldfaktor Ã¤r 25 och de andra Ã¤r 1, sÃ¥ fÃ¶redrar
+stadsfÃ¶rfaltningen en enda skÃ¶ld Ã¶ver 25 guld (eller handel). Detta Ã¤r
+ganska mycket eftersom man Ã¤ven kan kÃ¶pa enheter fÃ¶r guld. Det innebÃ¤r
+Ã¤ven att stadsfÃ¶rvaltningen Ã¤r likgiltig om tillverkning av guld,
+forskning, Ã¶verflÃ¶d och mat; men nÃ¤r man krigar fÃ¶redrar man
+vanligtvis guld eller Ã¶verflÃ¶d. SÃ¥ det Ã¤r antagligen bra att sÃ¤tta en
+andra (eller till och med tredje) faktor fÃ¶r stadens vinst, alltsÃ¥
+guldfaktor 5. Det gÃ¶r fortfarande att 1 skÃ¶ld fÃ¶redras framfÃ¶r 5 guld
+(och 1 guld Ã¶ver 5 mat eller nÃ¥gonting annat).
 
-Begränsningar är inte användbara i alla lägen. Om man vill ha en hög
-guldvinst är det antagligen bättre att sätta guldfaktorn till 25 än
-att sätta en överskottsgräns på 5 guld eller liknande ty en stor stad
-kan ge mer guld än en liten och man skulle därmed behöva sätta olika
-överskottsgränser för guld i olika städer.
+BegrÃ¤nsningar Ã¤r inte anvÃ¤ndbara i alla lÃ¤gen. Om man vill ha en hÃ¶g
+guldvinst Ã¤r det antagligen bÃ¤ttre att sÃ¤tta guldfaktorn till 25 Ã¤n
+att sÃ¤tta en Ã¶verskottsgrÃ¤ns pÃ¥ 5 guld eller liknande ty en stor stad
+kan ge mer guld Ã¤n en liten och man skulle dÃ¤rmed behÃ¶va sÃ¤tta olika
+Ã¶verskottsgrÃ¤nser fÃ¶r guld i olika stÃ¤der.
 
-Om en stads sköldöverskott är under 0 så kan den inte
-underhålla alla sina enheter längre. Man förlorar då vissa av
-enheterna. Om matöverskottet är under 0 så svälter staden så småningom
-och krymper (när sädeslagret är tomt). Detta må vara avsiktligt, men
-om staden underhåller bosättare så förloras de innan staden krymper.
-Begränsningar kan även varna.
+Om en stads skÃ¶ldÃ¶verskott Ã¤r under 0 sÃ¥ kan den inte
+underhÃ¥lla alla sina enheter lÃ¤ngre. Man fÃ¶rlorar dÃ¥ vissa av
+enheterna. Om matÃ¶verskottet Ã¤r under 0 sÃ¥ svÃ¤lter staden sÃ¥ smÃ¥ningom
+och krymper (nÃ¤r sÃ¤deslagret Ã¤r tomt). Detta mÃ¥ vara avsiktligt, men
+om staden underhÃ¥ller bosÃ¤ttare sÃ¥ fÃ¶rloras de innan staden krymper.
+BegrÃ¤nsningar kan Ã¤ven varna.
 
-Vilka begränsningar som kan uppfyllas beror mycket på rikets
-forsknings-, skatte- och överflödssatser. Ett guldöverskott på >= 0 är
-alltså lättare att uppfylla med en högre skattesats än med en lägre.
-Man ska alltid överväga att ändra dessa satser när man tänker ändra
-stadsförvaltningsdirektiven för de flesta av sina städer.
+Vilka begrÃ¤nsningar som kan uppfyllas beror mycket pÃ¥ rikets
+forsknings-, skatte- och Ã¶verflÃ¶dssatser. Ett guldÃ¶verskott pÃ¥ >= 0 Ã¤r
+alltsÃ¥ lÃ¤ttare att uppfylla med en hÃ¶gre skattesats Ã¤n med en lÃ¤gre.
+Man ska alltid Ã¶vervÃ¤ga att Ã¤ndra dessa satser nÃ¤r man tÃ¤nker Ã¤ndra
+stadsfÃ¶rvaltningsdirektiven fÃ¶r de flesta av sina stÃ¤der.
 
-Råd: För att undivka att oavsiktligt avsätta stadsförvaltningar när
-man ändrar satser är det bäst att göra det från skattedialogen i
-stället för från satsvisaren i huvudfönstret.
+RÃ¥d: FÃ¶r att undivka att oavsiktligt avsÃ¤tta stadsfÃ¶rvaltningar nÃ¤r
+man Ã¤ndrar satser Ã¤r det bÃ¤st att gÃ¶ra det frÃ¥n skattedialogen i
+stÃ¤llet fÃ¶r frÃ¥n satsvisaren i huvudfÃ¶nstret.
 
 
   Nackdelar
 ============
 
-Stadsförvaltningen är ett kraftfullt verktyg som inte bara avlastar
-spelaren från finstyrnignen av städerna utan även ger bättre lönsamhet
-än vad de flesta spelarna brukar åstadkomma själva.
+StadsfÃ¶rvaltningen Ã¤r ett kraftfullt verktyg som inte bara avlastar
+spelaren frÃ¥n finstyrnignen av stÃ¤derna utan Ã¤ven ger bÃ¤ttre lÃ¶nsamhet
+Ã¤n vad de flesta spelarna brukar Ã¥stadkomma sjÃ¤lva.
 
-Det finns dock några nackdelar. När man har tillsatt
-stadsförvaltningen så lägger den beslag på varje bra ruta som den kan
-komma åt. Så det blir väldigt svårt att styra överlappande stader
-själv. Om man vill ha både städer med stadsförvaltning och städer som
-man förvaltar själv så bör de inte överlappa varandra.
+Det finns dock nÃ¥gra nackdelar. NÃ¤r man har tillsatt
+stadsfÃ¶rvaltningen sÃ¥ lÃ¤gger den beslag pÃ¥ varje bra ruta som den kan
+komma Ã¥t. SÃ¥ det blir vÃ¤ldigt svÃ¥rt att styra Ã¶verlappande stader
+sjÃ¤lv. Om man vill ha bÃ¥de stÃ¤der med stadsfÃ¶rvaltning och stÃ¤der som
+man fÃ¶rvaltar sjÃ¤lv sÃ¥ bÃ¶r de inte Ã¶verlappa varandra.
 
-Det finns flera lägen då stadsförvaltningen tillfälligt inte kan uppnå
-sina mål, till exempel när man förflyttar ett skepp från en stad till
-en annan eller när ie fientlig enhet går genom ens land.
-Stadsförvaltningen avgår då och man måste återtillsätta den för hand.
-Ett allmänt förfarande för att förhindra detta är att sätta
-begränsningarna så lågt som möjligt (-20). Naturligtvis måste man vara
-försiktig med mat- och sköldöverskotten.
+Det finns flera lÃ¤gen dÃ¥ stadsfÃ¶rvaltningen tillfÃ¤lligt inte kan uppnÃ¥
+sina mÃ¥l, till exempel nÃ¤r man fÃ¶rflyttar ett skepp frÃ¥n en stad till
+en annan eller nÃ¤r ie fientlig enhet gÃ¥r genom ens land.
+StadsfÃ¶rvaltningen avgÃ¥r dÃ¥ och man mÃ¥ste Ã¥tertillsÃ¤tta den fÃ¶r hand.
+Ett allmÃ¤nt fÃ¶rfarande fÃ¶r att fÃ¶rhindra detta Ã¤r att sÃ¤tta
+begrÃ¤nsningarna sÃ¥ lÃ¥gt som mÃ¶jligt (-20). Naturligtvis mÃ¥ste man vara
+fÃ¶rsiktig med mat- och skÃ¶ldÃ¶verskotten.
 
-Emedan stadsförvaltningen arbetar utmärkt för enskilda städer så
-släpper den aldrig en ruta till förmån för någon annan stad.
-Stadsförvaltningarna för de olika städerna kommer på tur i en
-slumpmässig ordning. Därför blir den sammanlagda vinsten för en grupp
-överlappande städer inte alltid optimal.
+Emedan stadsfÃ¶rvaltningen arbetar utmÃ¤rkt fÃ¶r enskilda stÃ¤der sÃ¥
+slÃ¤pper den aldrig en ruta till fÃ¶rmÃ¥n fÃ¶r nÃ¥gon annan stad.
+StadsfÃ¶rvaltningarna fÃ¶r de olika stÃ¤derna kommer pÃ¥ tur i en
+slumpmÃ¤ssig ordning. DÃ¤rfÃ¶r blir den sammanlagda vinsten fÃ¶r en grupp
+Ã¶verlappande stÃ¤der inte alltid optimal.
 
 
-  Inställningsfil
+  InstÃ¤llningsfil
 ===================
 
-Klienten låter användaren ladda och spara förinställningar för
-stadsförvaltningen. Välj "Spara inställningar" från "Spel"-menyn för
-att spara allmänna inställningar, meddelandeinställningar och även
-stadsförvaltningsinställningar.
+Klienten lÃ¥ter anvÃ¤ndaren ladda och spara fÃ¶rinstÃ¤llningar fÃ¶r
+stadsfÃ¶rvaltningen. VÃ¤lj "Spara instÃ¤llningar" frÃ¥n "Spel"-menyn fÃ¶r
+att spara allmÃ¤nna instÃ¤llningar, meddelandeinstÃ¤llningar och Ã¤ven
+stadsfÃ¶rvaltningsinstÃ¤llningar.
 
-Formatet för inställningsfilen (vanligtvis ~/.civclientrc) är följande
-(i fall att man vill ändra förinställningarna för hand, till exempel
+Formatet fÃ¶r instÃ¤llningsfilen (vanligtvis ~/.civclientrc) Ã¤r fÃ¶ljande
+(i fall att man vill Ã¤ndra fÃ¶rinstÃ¤llningarna fÃ¶r hand, till exempel
 med en textredigerare).
 
-Under överskriften [cma] fins en "number_of_presets". Detta ska sättas
-till det antal förinställningar som finns i inställningsfilen. Om man
-lägger till eller tar bort förinställningar så måste man ändra detta
-tal till rätt värde.
+Under Ã¶verskriften [cma] fins en "number_of_presets". Detta ska sÃ¤ttas
+till det antal fÃ¶rinstÃ¤llningar som finns i instÃ¤llningsfilen. Om man
+lÃ¤gger till eller tar bort fÃ¶rinstÃ¤llningar sÃ¥ mÃ¥ste man Ã¤ndra detta
+tal till rÃ¤tt vÃ¤rde.
 
-Därefter kommer en tabell med förinställningarna. Här är huvudet:
+DÃ¤refter kommer en tabell med fÃ¶rinstÃ¤llningarna. HÃ¤r Ã¤r huvudet:
 
 preset={ "name","minsurp0","factor0","minsurp1","factor1","minsurp2",
 "factor2","minsurp3","factor3","minsurp4","factor4","minsurp5",
 "factor5","reqhappy","factortarget","happyfactor"
 
-så förinställningarnas ordning ska vara följande:
+sÃ¥ fÃ¶rinstÃ¤llningarnas ordning ska vara fÃ¶ljande:
 
-förinställningens namn, minsta överskott 0, faktor 0, ... , kräv att
-stad ska vara lycklig, vad målet ska vara [0, 1], lycklighetsfaktor.
+fÃ¶rinstÃ¤llningens namn, minsta Ã¶verskott 0, faktor 0, ... , krÃ¤v att
+stad ska vara lycklig, vad mÃ¥let ska vara [0, 1], lycklighetsfaktor.
 
-För närvarande finns det 6 överskott och faktorer. De är:
-0 = mat, 1 = sköldar, 2 = handel, 3 = guld, 4 = överflöd,
+FÃ¶r nÃ¤rvarande finns det 6 Ã¶verskott och faktorer. De Ã¤r:
+0 = mat, 1 = skÃ¶ldar, 2 = handel, 3 = guld, 4 = Ã¶verflÃ¶d,
 5 = forskning
 
-För tillfället är inte "factortarget" ändringsbar med klienten, se
-"client/agents/cma_core.h" för mer information.
+FÃ¶r tillfÃ¤llet Ã¤r inte "factortarget" Ã¤ndringsbar med klienten, se
+"client/agents/cma_core.h" fÃ¶r mer information.
 
-Tabellen ska avslutas med '}'. Här är 21 förinställningar om för de
-som inte kan komma på sina själva:
+Tabellen ska avslutas med '}'. HÃ¤r Ã¤r 21 fÃ¶rinstÃ¤llningar om fÃ¶r de
+som inte kan komma pÃ¥ sina sjÃ¤lva:
 
 "max mat",0,10,0,1,0,1,0,1,0,1,0,1,0,0,1
-"max sköldar",0,1,0,10,0,1,0,1,0,1,0,1,0,0,1
+"max skÃ¶ldar",0,1,0,10,0,1,0,1,0,1,0,1,0,0,1
 "max handel",0,1,0,1,0,10,0,1,0,1,0,1,0,0,1
 "max skatt",0,1,0,1,0,1,0,10,0,1,0,1,0,0,1
-"max överflöd",0,1,0,1,0,1,0,1,0,10,0,1,0,0,1
+"max Ã¶verflÃ¶d",0,1,0,1,0,1,0,1,0,10,0,1,0,0,1
 "max forskning",0,1,0,1,0,1,0,1,0,1,0,10,0,0,1
 "+2 mat",2,1,0,1,0,1,0,1,0,1,0,1,0,0,1
-"+2 sköldar",0,1,2,1,0,1,0,1,0,1,0,1,0,0,1
+"+2 skÃ¶ldar",0,1,2,1,0,1,0,1,0,1,0,1,0,0,1
 "+2 handel",0,1,0,1,2,1,0,1,0,1,0,1,0,0,1
 "+2 guld",0,1,0,1,0,1,2,1,0,1,0,1,0,0,1
-"+2 överflöd",0,1,0,1,0,1,0,1,2,1,0,1,0,0,1
+"+2 Ã¶verflÃ¶d",0,1,0,1,0,1,0,1,2,1,0,1,0,0,1
 "+2 forskning",0,1,0,1,0,1,0,1,0,1,2,1,0,0,1
-"max mat ingen guldbegränsning",0,10,0,1,0,1,-20,1,0,1,0,1,0,0,1
-"max sköldar ingen guldbegränsning",0,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"max handel ingen guldbegränsning",0,1,0,1,0,10,-20,1,0,1,0,1,0,0,1
-"max guld ingen guldbegränsning",0,1,0,1,0,1,-20,10,0,1,0,1,0,0,1
-"max överflöd ingen guldbegränsning",0,1,0,1,0,1,-20,1,0,10,0,1,0,0,1
-"max science ingen guldbegränsning",0,1,0,1,0,1,-20,1,0,1,0,10,0,0,1
-"max mat+sköldar ingen guldbegränsning",0,10,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"max mat+sköldar+handel",0,10,0,10,0,10,0,1,0,1,0,1,0,0,1
+"max mat ingen guldbegrÃ¤nsning",0,10,0,1,0,1,-20,1,0,1,0,1,0,0,1
+"max skÃ¶ldar ingen guldbegrÃ¤nsning",0,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"max handel ingen guldbegrÃ¤nsning",0,1,0,1,0,10,-20,1,0,1,0,1,0,0,1
+"max guld ingen guldbegrÃ¤nsning",0,1,0,1,0,1,-20,10,0,1,0,1,0,0,1
+"max Ã¶verflÃ¶d ingen guldbegrÃ¤nsning",0,1,0,1,0,1,-20,1,0,10,0,1,0,0,1
+"max science ingen guldbegrÃ¤nsning",0,1,0,1,0,1,-20,1,0,1,0,10,0,0,1
+"max mat+skÃ¶ldar ingen guldbegrÃ¤nsning",0,10,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"max mat+skÃ¶ldar+handel",0,10,0,10,0,10,0,1,0,1,0,1,0,0,1
 "max allt",0,1,0,1,0,1,0,1,0,1,0,1,0,0,1
 
-här är 6 till som har lagt till i efterhand:
+hÃ¤r Ã¤r 6 till som har lagt till i efterhand:
 
-"+1 mat, max sköldar ingen guldbegränsning",1,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+2 mat, max sköldar ingen guldbegränsning",2,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+3 mat, max sköldar ingen guldbegränsning",3,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+4 mat, max sköldar ingen guldbegränsning",4,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+5 mat, max sköldar ingen guldbegränsning",5,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+6 mat, max sköldar ingen guldbegränsning",6,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+1 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",1,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+2 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",2,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+3 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",3,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+4 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",4,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+5 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",5,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+6 mat, max skÃ¶ldar ingen guldbegrÃ¤nsning",6,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
 
 and even more, some with multiple goals:
 
 "forskning till varje pris",0,1,0,5,-20,1,-20,1,-20,1,-20,25,0,0,1
-"firande och tillväxt",1,1,0,25,-20,1,-20,12,-20,1,-20,1,1,0,1
-"tillväxt till varje pris",1,25,0,5,-20,1,-20,1,-20,1,-20,5,0,0,1
-"forskning och några sköldar",0,1,0,8,0,1,-3,1,0,1,0,25,0,0,1
-"sköldar och lite guld",0,1,0,25,0,1,-3,3,0,1,0,1,0,0,1
-"många sköldar och lite guld",0,1,0,25,0,1,0,9,0,1,0,1,0,0,1
-"sköldar och lite forskning",0,1,0,25,0,1,-2,1,0,1,0,8,0,0,1
-"fira och väx genast",1,1,0,25,-20,1,-20,1,-20,1,-20,8,1,0,1
+"firande och tillvÃ¤xt",1,1,0,25,-20,1,-20,12,-20,1,-20,1,1,0,1
+"tillvÃ¤xt till varje pris",1,25,0,5,-20,1,-20,1,-20,1,-20,5,0,0,1
+"forskning och nÃ¥gra skÃ¶ldar",0,1,0,8,0,1,-3,1,0,1,0,25,0,0,1
+"skÃ¶ldar och lite guld",0,1,0,25,0,1,-3,3,0,1,0,1,0,0,1
+"mÃ¥nga skÃ¶ldar och lite guld",0,1,0,25,0,1,0,9,0,1,0,1,0,0,1
+"skÃ¶ldar och lite forskning",0,1,0,25,0,1,-2,1,0,1,0,8,0,0,1
+"fira och vÃ¤x genast",1,1,0,25,-20,1,-20,1,-20,1,-20,8,1,0,1
 
-senast uppdaterad 2002-01-09, översatt 2002-07-04
+senast uppdaterad 2002-01-09, Ã¶versatt 2002-07-04

@@ -1,49 +1,49 @@
-Översikt
+Ã–versikt
 ========
 
-Ett ombud är ett kodstycke som ansvarar för ett visst område. Ett
-ombud får ett uppdrag av sin användare, samt en uppsättning objekt som
+Ett ombud Ã¤r ett kodstycke som ansvarar fÃ¶r ett visst omrÃ¥de. Ett
+ombud fÃ¥r ett uppdrag av sin anvÃ¤ndare, samt en uppsÃ¤ttning objekt som
 ombudet kan styra over (till exempel tillverkningen i en stad, en stad
-i helhet, en enhet, en uppsättning enheter eller alla rikets enheter).
-Användare kan vara en mänskig spelare eller en annan del av
+i helhet, en enhet, en uppsÃ¤ttning enheter eller alla rikets enheter).
+AnvÃ¤ndare kan vara en mÃ¤nskig spelare eller en annan del av
 programkoden, till exempel ett annat ombud. Det sker inget ytterligare
-samspel mellan användare och ombud efter att ombudet fått sin
+samspel mellan anvÃ¤ndare och ombud efter att ombudet fÃ¥tt sin
 uppdragsbeskrivning.
 
-Exempel på ombud:
- - ett ombud som ansvarar för att förflytta en enhet från A till B
- - ett ombud som ansvarar för att ge största möjliga mattillverkning i
+Exempel pÃ¥ ombud:
+ - ett ombud som ansvarar fÃ¶r att fÃ¶rflytta en enhet frÃ¥n A till B
+ - ett ombud som ansvarar fÃ¶r att ge stÃ¶rsta mÃ¶jliga mattillverkning i
    en stad
- - ett ombud som ansvarar för tillverkningen i en stad
- - ett ombud som ansvarar för försvaret av en stad
- - ett ombud som ansvarar för en stad
- - ett ombud som ansvarar för alla städer
+ - ett ombud som ansvarar fÃ¶r tillverkningen i en stad
+ - ett ombud som ansvarar fÃ¶r fÃ¶rsvaret av en stad
+ - ett ombud som ansvarar fÃ¶r en stad
+ - ett ombud som ansvarar fÃ¶r alla stÃ¤der
 
-Ett ombud kan använda andra ombud för att uppnå sina mål. Sådana
+Ett ombud kan anvÃ¤nda andra ombud fÃ¶r att uppnÃ¥ sina mÃ¥l. SÃ¥dana
 beroenden bildar en rangordning av ombud. Ombud har en rang i denna
-rangordning. Ombud med högre rang är mer invecklade. Ett ombud av rang
-n kan endast använda ombud av rang (n - 1) eller lägre. Rang 0
-innebär handlingar som utförs av servern och är odelbara (inte kan
+rangordning. Ombud med hÃ¶gre rang Ã¤r mer invecklade. Ett ombud av rang
+n kan endast anvÃ¤nda ombud av rang (n - 1) eller lÃ¤gre. Rang 0
+innebÃ¤r handlingar som utfÃ¶rs av servern och Ã¤r odelbara (inte kan
 simuleras av klienten).
 
-Genom en sådan definition behöver ett ombut inte vara implementerad i C
-och behöver inte heller använda client/agents/agents.[ch].
+Genom en sÃ¥dan definition behÃ¶ver ett ombut inte vara implementerad i C
+och behÃ¶ver inte heller anvÃ¤nda client/agents/agents.[ch].
 
-Kärnan i ett ombud utgörs av 2 delar: en del som fattar beslut och en
-del som verkställer beslut. Den första delens beslut ska göras
-tillgängliga. Ett ombud som saknar den verkställande delen kallas
-rådgivare.
+KÃ¤rnan i ett ombud utgÃ¶rs av 2 delar: en del som fattar beslut och en
+del som verkstÃ¤ller beslut. Den fÃ¶rsta delens beslut ska gÃ¶ras
+tillgÃ¤ngliga. Ett ombud som saknar den verkstÃ¤llande delen kallas
+rÃ¥dgivare.
 
-Ett ombud ska förutom kärnan tillhandahålla ett grafiskt gränssnitt.
+Ett ombud ska fÃ¶rutom kÃ¤rnan tillhandahÃ¥lla ett grafiskt grÃ¤nssnitt.
 
 Implementering
 ==============
 
 Den mottagna uppdragsbeskrivningen och alla beslut som har fattats kan
-sparas i attribut. Ett ombud ska inte göra några antaganden. Detta
-innebär: INGA MAGISKA TAL. Allt ska vara inställbart av användaren.
+sparas i attribut. Ett ombud ska inte gÃ¶ra nÃ¥gra antaganden. Detta
+innebÃ¤r: INGA MAGISKA TAL. Allt ska vara instÃ¤llbart av anvÃ¤ndaren.
 
-Använd clients/agents/agents.[ch] för att informeras om vissa
-händelser. Tveka inte att lägga till fler återrop. Använd
-client/agents/agents:wait_for_requests i stället för
+AnvÃ¤nd clients/agents/agents.[ch] fÃ¶r att informeras om vissa
+hÃ¤ndelser. Tveka inte att lÃ¤gga till fler Ã¥terrop. AnvÃ¤nd
+client/agents/agents:wait_for_requests i stÃ¤llet fÃ¶r
 client/civclient:wait_till_request_got_processed.

@@ -15,8 +15,8 @@
                           gui_stuff.h  -  description
                              -------------------
     begin                : June 30 2002
-    copyright            : (C) 2002 by Rafa≥ Bursig
-    email                : Rafa≥ Bursig <bursig@poczta.fm>
+    copyright            : (C) 2002 by Rafa≈Ç Bursig
+    email                : Rafa≈Ç Bursig <bursig@poczta.fm>
  **********************************************************************/
 
 #ifndef FC__GUI_STUFF_H

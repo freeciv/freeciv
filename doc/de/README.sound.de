@@ -1,63 +1,63 @@
 Stand: 11.06.02
 
 ==============================================================================
- Sound-Unterstützung
+ Sound-UnterstÃ¼tzung
 ==============================================================================
 
-Der Server schickt dem Client eine Liste von primären und sekundären Tags für
-bestimmte Ereignise. Die "primären" werden vom aktuellen Modpack bevorzugt;
-die zugehörigen Sounds brauchen im Client nicht notwendigerweise vorhanden zu
-sein. Die "sekundären" Tags sollten sich auf auf Standardsounds beziehen, die
+Der Server schickt dem Client eine Liste von primÃ¤ren und sekundÃ¤ren Tags fÃ¼r
+bestimmte Ereignise. Die "primÃ¤ren" werden vom aktuellen Modpack bevorzugt;
+die zugehÃ¶rigen Sounds brauchen im Client nicht notwendigerweise vorhanden zu
+sein. Die "sekundÃ¤ren" Tags sollten sich auf auf Standardsounds beziehen, die
 in jeder Installation von Freeciv gleich sein sollten.
 
 Tags werden benutzt, um das Wechseln der Sounds zu erleichtern. Dabei wird ein
 sog. specfile benutzt, in dem festgelegt wird, welcher Sound zu welchem Tag
-gehört. Ändert man das specfile, z.B. als Parameter beim Start des Clients, so
-ändern sich auch die Sounds. Der Aufruf
+gehÃ¶rt. Ã„ndert man das specfile, z.B. als Parameter beim Start des Clients, so
+Ã¤ndern sich auch die Sounds. Der Aufruf
 
 		civclient --Sound mysounds.spec
 
-führt dazu, das der Client die Sounddateien aus der datei "mysounds.spec"
-liest. Die Sounds müssen dazu in das in der Datei zuerst genannte Verzeichnis
+fÃ¼hrt dazu, das der Client die Sounddateien aus der datei "mysounds.spec"
+liest. Die Sounds mÃ¼ssen dazu in das in der Datei zuerst genannte Verzeichnis
 kopiert werden, oder die specdatei muss angepasst werden. Alle Pfade sind
-dabei relativ zum Verzeichnis data/. Soundpakete können von der
-Freeciv-Webseite im tar-Format heruntergeladen werden. Diese müssen dann
+dabei relativ zum Verzeichnis data/. Soundpakete kÃ¶nnen von der
+Freeciv-Webseite im tar-Format heruntergeladen werden. Diese mÃ¼ssen dann
 entweder mit z.B. "tar -xzvf stdsoundsX.tar.gz" (Unix) oder mit WinZip
 (Windows) in das Verzeichnis data/ entpackt  werden.
 
 In CVS-Versionen sind weder Sounds noch ein specfile enthalten. Soundsets
-(Sounds und ein specfile) können von 
+(Sounds und ein specfile) kÃ¶nnen von 
 	
 	<ftp://ftp.freeciv.org/freeciv/contrib/sounds/> 
 
 herunter geladen werden. Hier gibt es auch weitere Soundateien, um
-existierende Soundsets zu verändern oder neue zu erstellen.
+existierende Soundsets zu verÃ¤ndern oder neue zu erstellen.
 
 ================================
  Plugins
 ================================
 
 Die Sound-Ausgabe wird vom Client mit Plugins erledigt. Welche Plugins
-vorhandene sind, hängt davon ab, welche Libraries auf dem Rechner installiert
+vorhandene sind, hÃ¤ngt davon ab, welche Libraries auf dem Rechner installiert
 sind. Das Plugin, das der Client zur Soundausgabe benutzen soll, kann via
-Kommandozeile gewählt werden:
+Kommandozeile gewÃ¤hlt werden:
 		
 		civclient --Plugin sdl
 
-Mit "none" wird die Soundausgabe abgeschaltet. Freeciv unterstützt zur Zeit
+Mit "none" wird die Soundausgabe abgeschaltet. Freeciv unterstÃ¼tzt zur Zeit
 die folgenden Plugins:
 	- keine Ausgabe (--Plugin none)
 	- Esound (--Plugin esd)
 	- SDL mit der SDL_mixer-Library (--Plugin sdl)
 
-Um Unterstützung für ein neues Plugin zu Freeciv hinzuzufügen, müssen
-folgende Dateien verändert werden ("plugin" bezeichnet dabei den Namen des
+Um UnterstÃ¼tzung fÃ¼r ein neues Plugin zu Freeciv hinzuzufÃ¼gen, mÃ¼ssen
+folgende Dateien verÃ¤ndert werden ("plugin" bezeichnet dabei den Namen des
 des neuen Plugins):
 
-		confgiure.in				/* Hinzufügen eines neuen Tests */
-		acconfig.h					/* Hinzufügen einer neuen config metavariablen */
-		client/audio.c				/* das neue Plugin einfügen */
-		client/Makefile.am			/* die folgenden Dateien einfügen */
+		confgiure.in				/* HinzufÃ¼gen eines neuen Tests */
+		acconfig.h					/* HinzufÃ¼gen einer neuen config metavariablen */
+		client/audio.c				/* das neue Plugin einfÃ¼gen */
+		client/Makefile.am			/* die folgenden Dateien einfÃ¼gen */
 		client/audio_plugin.c		/* das neue Plugin */
 		client/audio_plugin.h		/* die Headerdatei des neuen Plugins */
 
@@ -70,38 +70,38 @@ Es gibt zwei Arten von Soundtags:
  - Tags, die im Programm definiert sind
 
 
-Während die ersten frei gewählt werden können, können die letzteren nicht
-verändert werden.
+WÃ¤hrend die ersten frei gewÃ¤hlt werden kÃ¶nnen, kÃ¶nnen die letzteren nicht
+verÃ¤ndert werden.
 
-Die Soundtags, die zu Erweiterungen (Weltwundern und normale Gebäuden),
-Bewegungen von Einheiten und Kämpfen zwischen Einheiten gehören, müssen im
+Die Soundtags, die zu Erweiterungen (Weltwundern und normale GebÃ¤uden),
+Bewegungen von Einheiten und KÃ¤mpfen zwischen Einheiten gehÃ¶ren, mÃ¼ssen im
 Ruleset festgelegt werden. Freeciv gibt diese Tags weiter an den Client, der
-sie mit Hilfe der soundspec Datei in Dateinamen übersetzt. Jede
-soundspec-datei sollte allgemeine Soundtags für Weltwunder ("w_generic"),
-normale Gebäude ("b_generic"), Bewegung von Einheiten ("m_generic") und Kämpfe
+sie mit Hilfe der soundspec Datei in Dateinamen Ã¼bersetzt. Jede
+soundspec-datei sollte allgemeine Soundtags fÃ¼r Weltwunder ("w_generic"),
+normale GebÃ¤ude ("b_generic"), Bewegung von Einheiten ("m_generic") und KÃ¤mpfe
 zwischen Einheiten ("f_generic") definieren.
 
 Zu bestimmten Ereignissen gibt es Soundtags, die im Code von Freeciv verankert
-sind und nicht von außen konfiguriert werden können. In der soundspec Datei
-müssen belegungen für diese Tags vorhanden sein. Eine komplette Liste dieser
+sind und nicht von auÃŸen konfiguriert werden kÃ¶nnen. In der soundspec Datei
+mÃ¼ssen belegungen fÃ¼r diese Tags vorhanden sein. Eine komplette Liste dieser
 Tags findet sich in data/stdsounds.spec. Der Name des Tags ist der Name des
 enums (siehe common/events.h) in Kleinbuchstaben. Z.B. wird aus E_POLLUTION
 das Tag "e_pollution". Es gibt kein allgemeines Tag und es wird kein
 alternatives tag benutzt.
 
 Im Spiel gibt es im Moment nur eine Hintergrundmelodie: das Intro. Das Intro
-läuft bis das Spiel beginnt. Das Tag für diese Musik ist "music_start".
+lÃ¤uft bis das Spiel beginnt. Das Tag fÃ¼r diese Musik ist "music_start".
 
 ================================
  TODO
 ================================
 
-Es gibt ein paar Dinge, die noch getun werden müssen, um die
-Soundunterstützung in Freeciv noch zu verbessen:
-  * Hinzufügen von weitere Plugins (gstreamer, arts, windows, usw.)
-  * Hinzufügen von tags für jedes Forschungsergebnis, wie für
-  	Gebäude/Einheiten
-  * Unterstützung von Sounddateien im .ogg-Format
+Es gibt ein paar Dinge, die noch getun werden mÃ¼ssen, um die
+SoundunterstÃ¼tzung in Freeciv noch zu verbessen:
+  * HinzufÃ¼gen von weitere Plugins (gstreamer, arts, windows, usw.)
+  * HinzufÃ¼gen von tags fÃ¼r jedes Forschungsergebnis, wie fÃ¼r
+  	GebÃ¤ude/Einheiten
+  * UnterstÃ¼tzung von Sounddateien im .ogg-Format
   * mehr Ereignistags
   * neue/bessere Sound-Samples und bessere spec-Datei
 
@@ -109,10 +109,10 @@ Soundunterstützung in Freeciv noch zu verbessen:
  Sonstiges
 ================================
 
-Ersteller von Sounds: Die Dateien sollten bitte klar benamst sein. Außerdem
-sollte eine README vorhanden sein, in der die verwendete Lizenz für die
-Sounds aufgeführt wird (falls Publich Domain, bitte erwähnen)
+Ersteller von Sounds: Die Dateien sollten bitte klar benamst sein. AuÃŸerdem
+sollte eine README vorhanden sein, in der die verwendete Lizenz fÃ¼r die
+Sounds aufgefÃ¼hrt wird (falls Publich Domain, bitte erwÃ¤hnen)
 
-Ersteller von Modpacks: Die sekundären Tags sollten sich auf Standardtags
-beziehen, sodaß die, die nicht das neueste und beste Soundpacket haben, das
-Spiel immer noch genießen können.
+Ersteller von Modpacks: Die sekundÃ¤ren Tags sollten sich auf Standardtags
+beziehen, sodaÃŸ die, die nicht das neueste und beste Soundpacket haben, das
+Spiel immer noch genieÃŸen kÃ¶nnen.

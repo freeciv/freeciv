@@ -8,7 +8,7 @@ options = "+spec3"
 
 artists = "
     Tim F. Smith <yoohootim@hotmail.com>
-    Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
+    Andreas RÃ¸sdal <andrearo@pvv.ntnu.no> (hex mode)
     Daniel Speyer <dspeyer@users.sf.net> 
 "
 

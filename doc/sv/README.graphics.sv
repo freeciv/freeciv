@@ -2,129 +2,129 @@
 Freecivs bilder och bildbeskrivningsfiler
 ----------------------------------------------------------------------
 
-Att använda bilder:
+Att anvÃ¤nda bilder:
 -------------------
 
-För att använda andra bilder än standardbilderna med Freeciv ger man
-"--tiles" som kommandoradsargument till freecivklienten. För att till
-exempel andänva "Engels"-bilderna kör man ageten med:
+FÃ¶r att anvÃ¤nda andra bilder Ã¤n standardbilderna med Freeciv ger man
+"--tiles" som kommandoradsargument till freecivklienten. FÃ¶r att till
+exempel andÃ¤nva "Engels"-bilderna kÃ¶r man ageten med:
 
   civclient --tiles engels
 
-Vad Freeciv gör då är att leta efter en fil med namnet
-"engels.tilespec" någonstans i Freecivs datasökväg. (Se filen INSTALL
-för information om Freecivs datasökväg.) Denna beskrivningsfil
-innehåller information om vilka bildfiler som ska användas och vad de
-innehåller.
+Vad Freeciv gÃ¶r dÃ¥ Ã¤r att leta efter en fil med namnet
+"engels.tilespec" nÃ¥gonstans i Freecivs datasÃ¶kvÃ¤g. (Se filen INSTALL
+fÃ¶r information om Freecivs datasÃ¶kvÃ¤g.) Denna beskrivningsfil
+innehÃ¥ller information om vilka bildfiler som ska anvÃ¤ndas och vad de
+innehÃ¥ller.
 
-Det är allt som man behöver veta för att använda andra
-bilduppsättningar som följer med Freeciv eller sprids för sig av
-tredje part. Resten av denna fil beskriver (dock inte fullständigt)
-innehållet i beskrivningsfilen och andra filer i sammanhanget. Detta
-är tänkt som utvecklarhandledning och för folk som vill
-skapa/sammanställa alternativa bilduppsättningar och
-ändringsuppsättningar för Freeciv.
+Det Ã¤r allt som man behÃ¶ver veta fÃ¶r att anvÃ¤nda andra
+bilduppsÃ¤ttningar som fÃ¶ljer med Freeciv eller sprids fÃ¶r sig av
+tredje part. Resten av denna fil beskriver (dock inte fullstÃ¤ndigt)
+innehÃ¥llet i beskrivningsfilen och andra filer i sammanhanget. Detta
+Ã¤r tÃ¤nkt som utvecklarhandledning och fÃ¶r folk som vill
+skapa/sammanstÃ¤lla alternativa bilduppsÃ¤ttningar och
+Ã¤ndringsuppsÃ¤ttningar fÃ¶r Freeciv.
 
 ----------------------------------------------------------------------
-Översikt:
+Ã–versikt:
 ---------
 
 Syftet med beskrivningsfilen "tilespec" och andra beskrivningsfiler i
-sammanhanget är att beskriva hur de olika bilderna är lagrade i
-bildfilerna så att denna information inte behöver vara hårdkodad i
-Freeciv. Därför är det enkelt att erbjuda ytterligare bilder som
-tillägg.
+sammanhanget Ã¤r att beskriva hur de olika bilderna Ã¤r lagrade i
+bildfilerna sÃ¥ att denna information inte behÃ¶ver vara hÃ¥rdkodad i
+Freeciv. DÃ¤rfÃ¶r Ã¤r det enkelt att erbjuda ytterligare bilder som
+tillÃ¤gg.
 
-Det är två lager i beskrivningsfilerna:
+Det Ã¤r tvÃ¥ lager i beskrivningsfilerna:
 
-Filen med det övre lagret har till exempel namnet "trident.tilespec".
+Filen med det Ã¶vre lagret har till exempel namnet "trident.tilespec".
 Filens grundnamn, i detta fall "trident", motsvarar det
-kommandoradsargument som skrivs efter "--tiles" på freecivklientens
-kommandorad, såsom beskrivet ovan.
+kommandoradsargument som skrivs efter "--tiles" pÃ¥ freecivklientens
+kommandorad, sÃ¥som beskrivet ovan.
 
-Den filen innehåller allmän information om hela bilduppsättningen och
-en lista över filer som ger information om de ensilda bildfilerna.
-Dessa filer måste finnas någonstans i datasökvägen, men inte
-nödvändigtvis på samma ställe som det övre lagrets beskrivningsfil.
-Lägg märke till att de hänvisade filernas antal och innehåll är helt
+Den filen innehÃ¥ller allmÃ¤n information om hela bilduppsÃ¤ttningen och
+en lista Ã¶ver filer som ger information om de ensilda bildfilerna.
+Dessa filer mÃ¥ste finnas nÃ¥gonstans i datasÃ¶kvÃ¤gen, men inte
+nÃ¶dvÃ¤ndigtvis pÃ¥ samma stÃ¤lle som det Ã¶vre lagrets beskrivningsfil.
+LÃ¤gg mÃ¤rke till att de hÃ¤nvisade filernas antal och innehÃ¥ll Ã¤r helt
 anpasningsbart.
 
-Ett undantag är att inledningsbilderna måste vara i enskilda filer,
-såsom det beskrivs i beskrivningsfilen, ty Freeciv särbehandlar dessa:
-de tas bort ur arbetsminnet när spelet börjar och läses in igen om det
-behövs.
+Ett undantag Ã¤r att inledningsbilderna mÃ¥ste vara i enskilda filer,
+sÃ¥som det beskrivs i beskrivningsfilen, ty Freeciv sÃ¤rbehandlar dessa:
+de tas bort ur arbetsminnet nÃ¤r spelet bÃ¶rjar och lÃ¤ses in igen om det
+behÃ¶vs.
 
 ----------------------------------------------------------------------
 Enskilda beskrivningsfiler:
 ---------------------------
 
-Varje beskrivningsfil beskriver en bildfil (för närvarande endast i
-xpm-format) såsom det anges i beskrivningsfilen. Bildfilen måste
-finnas i Freecivs datasökväg, men inte nödvändigtvis nära
-beskrivningsfilen. (Därför man man ha flera beskrivningsfiler som
-använder samma bildfil på olika sätt.)
+Varje beskrivningsfil beskriver en bildfil (fÃ¶r nÃ¤rvarande endast i
+xpm-format) sÃ¥som det anges i beskrivningsfilen. Bildfilen mÃ¥ste
+finnas i Freecivs datasÃ¶kvÃ¤g, men inte nÃ¶dvÃ¤ndigtvis nÃ¤ra
+beskrivningsfilen. (DÃ¤rfÃ¶r man man ha flera beskrivningsfiler som
+anvÃ¤nder samma bildfil pÃ¥ olika sÃ¤tt.)
 
-Huvudinformationen som beskrivs i beskrivningsfilen står i stycken som
-heter [grid_*], där * är något godtyckligt märke (men entydigt inom
-varje fil). Ett rutnät motsvarar en vanlig tabell av rutor. I
-allmänhet kan man ha flera rutnät i varje fil, men
-standardbilduppsättningarna har vanligtvis bara ett i varje fil.
-(Flera rutnät i samma fil vore användbart för att ha olika
-rutstorlekar i samma fil.) Varje rutnät anger ett utgångsläge (övre
-vänstra) och rutavstånd, båda i bildpunkter, och hänvisar sedan till
-ensilda rutor i rutnätet med hjälp av rad och kolumn. Rader och
-kolumner räknas med (0, 0) som övre vänstra.
+Huvudinformationen som beskrivs i beskrivningsfilen stÃ¥r i stycken som
+heter [grid_*], dÃ¤r * Ã¤r nÃ¥got godtyckligt mÃ¤rke (men entydigt inom
+varje fil). Ett rutnÃ¤t motsvarar en vanlig tabell av rutor. I
+allmÃ¤nhet kan man ha flera rutnÃ¤t i varje fil, men
+standardbilduppsÃ¤ttningarna har vanligtvis bara ett i varje fil.
+(Flera rutnÃ¤t i samma fil vore anvÃ¤ndbart fÃ¶r att ha olika
+rutstorlekar i samma fil.) Varje rutnÃ¤t anger ett utgÃ¥ngslÃ¤ge (Ã¶vre
+vÃ¤nstra) och rutavstÃ¥nd, bÃ¥da i bildpunkter, och hÃ¤nvisar sedan till
+ensilda rutor i rutnÃ¤tet med hjÃ¤lp av rad och kolumn. Rader och
+kolumner rÃ¤knas med (0, 0) som Ã¶vre vÃ¤nstra.
 
-Enskilda rutor ges ett märke som är en sträng som det hänvisas
-till i koden eller från regeluppsättningsfilerna. Ett rutnät kan vara
-glest, med tomma rutor (deras koordinater nämns helt enkelt inte), och
-en enda ruta kan ha flera märken (för att använda samma bild för flera
+Enskilda rutor ges ett mÃ¤rke som Ã¤r en strÃ¤ng som det hÃ¤nvisas
+till i koden eller frÃ¥n regeluppsÃ¤ttningsfilerna. Ett rutnÃ¤t kan vara
+glest, med tomma rutor (deras koordinater nÃ¤mns helt enkelt inte), och
+en enda ruta kan ha flera mÃ¤rken (fÃ¶r att anvÃ¤nda samma bild fÃ¶r flera
 syften i spelet), ange helt enkelt en lista med kommateckenskilda
-strängar.
+strÃ¤ngar.
 
-Om ett givet märke förekommer flera gånger i en beskrivningsfil så
-används den sista förekomsten. (Alltså i den ordning som filerna är
-nämnda i det övre lagrets beskrivningsfil och ordningen i varje
-ensild fil.) Detta tillåter att valda bilder ersätts genom att ange en
-ersättningsbeskrivningsfil nära slutet av fillistan i det övre lagrets
-beskrivningsfil lagret utan att ändra tidigare filer i listan.
+Om ett givet mÃ¤rke fÃ¶rekommer flera gÃ¥nger i en beskrivningsfil sÃ¥
+anvÃ¤nds den sista fÃ¶rekomsten. (AlltsÃ¥ i den ordning som filerna Ã¤r
+nÃ¤mnda i det Ã¶vre lagrets beskrivningsfil och ordningen i varje
+ensild fil.) Detta tillÃ¥ter att valda bilder ersÃ¤tts genom att ange en
+ersÃ¤ttningsbeskrivningsfil nÃ¤ra slutet av fillistan i det Ã¶vre lagrets
+beskrivningsfil lagret utan att Ã¤ndra tidigare filer i listan.
 
 ----------------------------------------------------------------------
-Märkesförstavelser:
+MÃ¤rkesfÃ¶rstavelser:
 -------------------
 
-För att hålla ordning på märkena finns det ett grovt förstavelsesystem
-som används för vanliga märken:
+FÃ¶r att hÃ¥lla ordning pÃ¥ mÃ¤rkena finns det ett grovt fÃ¶rstavelsesystem
+som anvÃ¤nds fÃ¶r vanliga mÃ¤rken:
 
   f.	        nationsflaggor
-  r.	        väg/järnväg
-  s.	        allmänt liten
+  r.	        vÃ¤g/jÃ¤rnvÃ¤g
+  s.	        allmÃ¤nt liten
   u.	        enhetsbilder
   t.	        grundlandskapsslag (med _n0s0e0w0 to _n1s1e1w1)
-  ts.	        särskilda tillgångar i landskapet
+  ts.	        sÃ¤rskilda tillgÃ¥ngar i landskapet
   tx.	        ytterligare landskapsegenskaper
   gov.	      regeringsformer
-  unit.	      ytterligare enhetsinformation: träffpunkter, stack,
-              sysslor (gå till, befäst med mera)
-  upkeep.     enhetsunderhåll och lycklighet
+  unit.	      ytterligare enhetsinformation: trÃ¤ffpunkter, stack,
+              sysslor (gÃ¥ till, befÃ¤st med mera)
+  upkeep.     enhetsunderhÃ¥ll och lycklighet
   city.	      stadsinformation (stad, storlek, tillverkning i ruta,
               upplopp, upptagen)
-  cd.	        standardvärden för stad
-  citizen.    stadsinvånare, även fackmän
-  explode.    explosionsbilder (kärnvapen, enheter)
+  cd.	        standardvÃ¤rden fÃ¶r stad
+  citizen.    stadsinvÃ¥nare, Ã¤ven fackmÃ¤n
+  explode.    explosionsbilder (kÃ¤rnvapen, enheter)
   spaceship.  rymdskeppsdelar
   treaty.     avtalstummar
-  user.	      hårkors (i allmänhet: användargränssnitt?)
+  user.	      hÃ¥rkors (i allmÃ¤nhet: anvÃ¤ndargrÃ¤nssnitt?)
 
-I allmänhet måste bildmärken som är hårdkodade i Freeciv
-tillhandahållas i beskrivningsfilerna, annars vägrar klienten att gå
-igång. Bildmärken som ges av regeluppsättningarna (åtminstone
-standardregeluppsättningarna) ska också tillhandahållas, men i
-allmänhet går klienten igång ändå, men då kan klientens bildvisning
-bli alltför bristfällig för användaren. För att fungera ordentligt ska
-märkena hänvisa till bilder med lämplig storlek. (Grundstorleken kan
-variera, såsom anges i det övre lagrets beskrivningsfil, men de
-ensilda rutbilderna ska stämma överens med dessa storlekar eller
-användningen av dessa bilder.)
+I allmÃ¤nhet mÃ¥ste bildmÃ¤rken som Ã¤r hÃ¥rdkodade i Freeciv
+tillhandahÃ¥llas i beskrivningsfilerna, annars vÃ¤grar klienten att gÃ¥
+igÃ¥ng. BildmÃ¤rken som ges av regeluppsÃ¤ttningarna (Ã¥tminstone
+standardregeluppsÃ¤ttningarna) ska ocksÃ¥ tillhandahÃ¥llas, men i
+allmÃ¤nhet gÃ¥r klienten igÃ¥ng Ã¤ndÃ¥, men dÃ¥ kan klientens bildvisning
+bli alltfÃ¶r bristfÃ¤llig fÃ¶r anvÃ¤ndaren. FÃ¶r att fungera ordentligt ska
+mÃ¤rkena hÃ¤nvisa till bilder med lÃ¤mplig storlek. (Grundstorleken kan
+variera, sÃ¥som anges i det Ã¶vre lagrets beskrivningsfil, men de
+ensilda rutbilderna ska stÃ¤mma Ã¶verens med dessa storlekar eller
+anvÃ¤ndningen av dessa bilder.)
 
 ----------------------------------------------------------------------

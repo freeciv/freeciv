@@ -8,48 +8,48 @@ Stand: 25.09.02
 0. Voraussetzungen:
 ===================
 
-Freeciv hat einige (aber wenige) Ansprüche an das System, auf dem
+Freeciv hat einige (aber wenige) AnsprÃ¼che an das System, auf dem
 installiert werden soll. Freecivs Konfigurationsskript (./configure)
 ist "intelligent" genug um festzustellen, ob ein System die Anforderungen
-erfüllt. Falls Zweifel bestehen, ob das System wirklich geeignet ist,
+erfÃ¼llt. Falls Zweifel bestehen, ob das System wirklich geeignet ist,
 sollte man es einfach ausprobieren.
 
  - Unix (oder etwas vergleichbares)
  
-   Unix, ein Unix-ähnliches System wie Linux oder FreeBSD oder ein
-   Betriebssystem, daß eine Unix-artige Umgebung bereitstellt, wie z.B.
-   EMX unter OS/2 oder das Cygwin-Toolkit von Cygnus für Windows
-   (http://sourceware.cygnus.com/cygwin/). Des weiteren müssen sog.
+   Unix, ein Unix-Ã¤hnliches System wie Linux oder FreeBSD oder ein
+   Betriebssystem, daÃŸ eine Unix-artige Umgebung bereitstellt, wie z.B.
+   EMX unter OS/2 oder das Cygwin-Toolkit von Cygnus fÃ¼r Windows
+   (http://sourceware.cygnus.com/cygwin/). Des weiteren mÃ¼ssen sog.
    BSD-TCP/IP-Sockets vorhanden sein, sowie eine Bourne-Shell kompatible
    Shell,  wie z.B. die GNU "bash". (Die meisten Unixe sollten diese
-   Anforderungen erfüllen)
+   Anforderungen erfÃ¼llen)
 
  - Ein ANSI-kompatibler C Compiler
    
-   Freeciv wurde (größtenteils) in sehr portablem ANSI-C geschrieben. Sowohl
-   32 als auch 64-Bit-Rechner werden unterstützt. Ein sog. "K&R" sowie ein 
-   reiner C++ Compiler können nicht benutzt werden.
+   Freeciv wurde (grÃ¶ÃŸtenteils) in sehr portablem ANSI-C geschrieben. Sowohl
+   32 als auch 64-Bit-Rechner werden unterstÃ¼tzt. Ein sog. "K&R" sowie ein 
+   reiner C++ Compiler kÃ¶nnen nicht benutzt werden.
    
-   Freeciv wird hauptsächlich mit dem "gcc", dem C-Compiler des GNU-Projektes
-   entwickelt. Release-Versionen können sowohl mit dem gcc als auch mit den
-   meisten anderen Compilern übersetzt werden (z.B. dem Solaris C Compiler).
-   Developer-Versionen sowie CVS-Abzüge hingegen können nur mit dem "gcc"
-   übersetzt werden, es sei denn, configure wird mit der Option
-   "--disable-cvs-deps" option aufgerufen (siehe auch den nächsten Abschnitt).
+   Freeciv wird hauptsÃ¤chlich mit dem "gcc", dem C-Compiler des GNU-Projektes
+   entwickelt. Release-Versionen kÃ¶nnen sowohl mit dem gcc als auch mit den
+   meisten anderen Compilern Ã¼bersetzt werden (z.B. dem Solaris C Compiler).
+   Developer-Versionen sowie CVS-AbzÃ¼ge hingegen kÃ¶nnen nur mit dem "gcc"
+   Ã¼bersetzt werden, es sei denn, configure wird mit der Option
+   "--disable-cvs-deps" option aufgerufen (siehe auch den nÃ¤chsten Abschnitt).
 
-   Es ist vor gekommen, daß gcc mit der Option -O3 Freeciv falsch kompiliert
-   hat. Dagegen gab es über Kompilationen mit -O2 keine negativen Berichte.
+   Es ist vor gekommen, daÃŸ gcc mit der Option -O3 Freeciv falsch kompiliert
+   hat. Dagegen gab es Ã¼ber Kompilationen mit -O2 keine negativen Berichte.
 
  - Ein "make"
  
-   Wie auch beim Compiler wird hier hauptsächlich die GNU-Version eingesetzt,
+   Wie auch beim Compiler wird hier hauptsÃ¤chlich die GNU-Version eingesetzt,
    "gmake".
    
    Die Makefiles der offiziellen Release-Versionen von Freeciv arbeiten auch
    mit den meisten anderen "makes" zusammen. Bei Developer-Versionen und
-   CVS-Abzügen gilt das gleiche wie beim Compiler: "gmake" wird
+   CVS-AbzÃ¼gen gilt das gleiche wie beim Compiler: "gmake" wird
    vorausgesetzt, solange man configure nicht mit "--disable-cvs-deps"
-   aufruft (siehe auch den nächsten Abschnitt).
+   aufruft (siehe auch den nÃ¤chsten Abschnitt).
    
    Um festzustellen, ob GNU make installiert ist, gibt man folgendes an
    der Befehlszeile ein:
@@ -59,40 +59,40 @@ sollte man es einfach ausprobieren.
    Die Ausgabe von make sollte dann irgendwo die Zeichenkette "GNU Make"
    enthalten.
 
-Ein CVS-Abzug hat zusätzliche Vorraussetzungen; Release-Versionen beinhalten
+Ein CVS-Abzug hat zusÃ¤tzliche Vorraussetzungen; Release-Versionen beinhalten
 die generierten Dateien bereits.
 
  - Die Programme aus dem Packet GNU gettext mit der Versionsnummer >= 0.10.36
 
-   Speziell das Programm xgettext wird benötigt, um die *.gmo-Dateien für
-   die Übersetzungen zu erzeugen, die im CVS-Baum nicht enthalten sind.
+   Speziell das Programm xgettext wird benÃ¶tigt, um die *.gmo-Dateien fÃ¼r
+   die Ãœbersetzungen zu erzeugen, die im CVS-Baum nicht enthalten sind.
 
  - GNU autoconf in der Version >= 2.13
 
-   Dies wird benötigt, um das Konfigurationsskipt "configure" aus 
+   Dies wird benÃ¶tigt, um das Konfigurationsskipt "configure" aus 
    "configure.in" zu erzeugen.
 
  - GNU automake in der Version >= 1.4
 
-   Automake wird benötigt, um die verschiedenen  "Makefile.in's aus den
+   Automake wird benÃ¶tigt, um die verschiedenen  "Makefile.in's aus den
    "Makefile.am"'s zu erzeugen.
 
 1. Voraussetzungen der Clients:
 ===============================
 
-Clients für Freeciv gibt es in zwei Versionen: einen für die "Athena
-Widget Library" ("Xaw") und einen für Gtk+ (das Widget Set von/für 
+Clients fÃ¼r Freeciv gibt es in zwei Versionen: einen fÃ¼r die "Athena
+Widget Library" ("Xaw") und einen fÃ¼r Gtk+ (das Widget Set von/fÃ¼r 
 "The Gimp"). Beide Clients haben unterschiedliche Anforderungen, auf
 die weiter unten eingegangen wird. Das System sollte mindestens eine
-der beiden Listen erfüllen (es sei denn, man will auf dem Rechner nur
-einen Server für ein Freeciv-Spiel bereitstellen).
+der beiden Listen erfÃ¼llen (es sei denn, man will auf dem Rechner nur
+einen Server fÃ¼r ein Freeciv-Spiel bereitstellen).
 
-Außerdem existiert ein nativer Client für den Amiga.
+AuÃŸerdem existiert ein nativer Client fÃ¼r den Amiga.
 
-ACHTUNG: Einige Distributionen/Systeme besitzen getrennte Pakete für
-die eigentlichen Libraries und die zur Programmentwicklung nötigen
-Dateien. D.h., daß man auf diesen Distributionen die entsprechenden
-"development"-Pakete installieren muß (gilt z.B. für Debian GNU/Linux,
+ACHTUNG: Einige Distributionen/Systeme besitzen getrennte Pakete fÃ¼r
+die eigentlichen Libraries und die zur Programmentwicklung nÃ¶tigen
+Dateien. D.h., daÃŸ man auf diesen Distributionen die entsprechenden
+"development"-Pakete installieren muÃŸ (gilt z.B. fÃ¼r Debian GNU/Linux,
 RedHat Linux und SuSE Linux).
 
 1a. Anforderungen des Xaw-Clients:
@@ -100,44 +100,44 @@ RedHat Linux und SuSE Linux).
 
  - X-Window
  
-   Der Xaw-Client von Freeciv ist ein Programm für X-Window, also
-   benötigt man irgend etwas, um X-Window Programme ablaufen zu lassen
-   (Auch hier gilt: die meisten Unixe können das...)
+   Der Xaw-Client von Freeciv ist ein Programm fÃ¼r X-Window, also
+   benÃ¶tigt man irgend etwas, um X-Window Programme ablaufen zu lassen
+   (Auch hier gilt: die meisten Unixe kÃ¶nnen das...)
    
    Falls Freecivs Konfigurationsskript (./configure) ein installiertes 
-   X nicht finden sollte, muß man die Optionen "--x-includes=DIR" und
+   X nicht finden sollte, muÃŸ man die Optionen "--x-includes=DIR" und
    "--x-libraries=DIR" von configure benutzen um die Pfade explizit
    mitzuteilen.
 
  - Die "Athena" Widget Library
  
-   Athena (aka "Xaw") gehört normalerweise zum Lieferumfang von
+   Athena (aka "Xaw") gehÃ¶rt normalerweise zum Lieferumfang von
    X-Window, allerdings ist es auf einigen Plattformen (z.B. HP-UX 10) 
-   nur mit eingeschränkter Funktionalität zu finden.
+   nur mit eingeschrÃ¤nkter FunktionalitÃ¤t zu finden.
    
    Um den "Xaw"-Client zu erzeugen, ruft man configure mit 
-   "--enable-client=xaw" auf. Im nächsten Abschnitt gibt es weitere
-   Informationen über das configure Skript.
+   "--enable-client=xaw" auf. Im nÃ¤chsten Abschnitt gibt es weitere
+   Informationen Ã¼ber das configure Skript.
    
    Viele moderne unixoide Systeme (wie z.B. Linux) kommen mit einer
    Variante der "Xaw"-Library, "Xaw3d", die einen moderneren 3D-Look
-   besitzt. Um Freeciv mit "Xaw3d" zu übersetzen, ruft man configure
+   besitzt. Um Freeciv mit "Xaw3d" zu Ã¼bersetzen, ruft man configure
    mit "--with-xaw3d" auf.
    
    Es gibt noch andere Varianten von Xaw, z.B. Nextaw. Freeciv arbeitet
-   nicht mit diesen zusammen, aber es sollte möglich sein, Freeciv für
-   diese Bibliotheken wie für Xaw3d zu verändern. Eine andere
-   Möglichkeit wäre die Verwendung von "xaw_wrappers"; Eine Anleitung dafür
-   würde aber den Rahmen dieser Datei bei weitem sprengen.
+   nicht mit diesen zusammen, aber es sollte mÃ¶glich sein, Freeciv fÃ¼r
+   diese Bibliotheken wie fÃ¼r Xaw3d zu verÃ¤ndern. Eine andere
+   MÃ¶glichkeit wÃ¤re die Verwendung von "xaw_wrappers"; Eine Anleitung dafÃ¼r
+   wÃ¼rde aber den Rahmen dieser Datei bei weitem sprengen.
    
  - Die "Xpm" Library
  
-   Diese Library ist grundlegend für den Umgang mit Icons und
-   Bitmaps. Sie ist weit verbreitet und standardmäßig auf den meisten
-   modernen Unix-Rechnern vorhanden. Jedoch kann es sein, daß sie auf
-   älteren Unixen nicht vorhanden ist.
+   Diese Library ist grundlegend fÃ¼r den Umgang mit Icons und
+   Bitmaps. Sie ist weit verbreitet und standardmÃ¤ÃŸig auf den meisten
+   modernen Unix-Rechnern vorhanden. Jedoch kann es sein, daÃŸ sie auf
+   Ã¤lteren Unixen nicht vorhanden ist.
    
-   Es könnte nötig sein, configure explizit mit "--with-xpm-prefix=DIR"
+   Es kÃ¶nnte nÃ¶tig sein, configure explizit mit "--with-xpm-prefix=DIR"
    mitzuteilen, wo sich die "lib" und "include"-Verzeichnisse von Xpm
    befinden.
   
@@ -147,8 +147,8 @@ RedHat Linux und SuSE Linux).
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
  
    Dieses Packet kann wie jedes andere auch installiert werden. Falls es
-   nicht in ein Standardverzeichnis (wie /usr/lib oder /usr/local/lib o.ä.)
-   installiert werden kann, muß beim Aufruf von configure die option
+   nicht in ein Standardverzeichnis (wie /usr/lib oder /usr/local/lib o.Ã¤.)
+   installiert werden kann, muÃŸ beim Aufruf von configure die option
    --with-xpm-prefix benutzt werden.
  
    Hinweise zu Problemen mit der libXpm unter Solaris bzw. dem
@@ -161,27 +161,27 @@ RedHat Linux und SuSE Linux).
 
  - Die "Glib" Library
  
-   "Glib" stellt nocht-grafische Funktionen für Gdk und Gtk+, wie z.B. 
-   hash-Tabellen, verkettete Listen usw. zur Verfügung.
+   "Glib" stellt nocht-grafische Funktionen fÃ¼r Gdk und Gtk+, wie z.B. 
+   hash-Tabellen, verkettete Listen usw. zur VerfÃ¼gung.
    
-   Freeciv benötigt die Glib mit der Version >=1.2.1
+   Freeciv benÃ¶tigt die Glib mit der Version >=1.2.1
    
    Sollte Glib nicht vorhanden sein, bekommt man es hier:
 
      ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
 
    (Hinweis: Wenn glib schon nicht vorhanden ist, ist es auch sehr
-   wahrscheinlich, daß gtk+ auch nicht vorhanden ist. gtk+ liegt an
+   wahrscheinlich, daÃŸ gtk+ auch nicht vorhanden ist. gtk+ liegt an
    gleicher Stelle auf oben genanntem Server)
    
  - Die "Gtk+" Widget Library
    
-   Gtk+ wurde für The Gimp entworfen und entwickelt. Seitdem hat es
-   sich Popularität als ein einfach zu programmierendes, freies
-   Toolkit erworben. Zu Gtk+ gehört auch Gdk, das grundlegende
-   Zeichen-Funktionen, Fenster, Clipping usw. zur Verfügung stellt.
+   Gtk+ wurde fÃ¼r The Gimp entworfen und entwickelt. Seitdem hat es
+   sich PopularitÃ¤t als ein einfach zu programmierendes, freies
+   Toolkit erworben. Zu Gtk+ gehÃ¶rt auch Gdk, das grundlegende
+   Zeichen-Funktionen, Fenster, Clipping usw. zur VerfÃ¼gung stellt.
    
-   Freeciv benötigt Gtk+ mit der Version >=1.2.5
+   Freeciv benÃ¶tigt Gtk+ mit der Version >=1.2.5
    
    Sollte Gtk+ nicht vorhanden sein, bekommt man es hier:
    	
@@ -189,30 +189,30 @@ RedHat Linux und SuSE Linux).
      
  - Die "Imlib" Library
  
-   Imlib ist eine Library für den Umgang mit Bitmaps. Sie wird
-   außerdem beim GNOME Projekt benutzt.
+   Imlib ist eine Library fÃ¼r den Umgang mit Bitmaps. Sie wird
+   auÃŸerdem beim GNOME Projekt benutzt.
    
-   Freeciv benötigt die "Imlib" in einer Version >=1.9.2
+   Freeciv benÃ¶tigt die "Imlib" in einer Version >=1.9.2
    
-   Falls configure sagt, daß Imlib nicht vorhanden ist, bekommt man es
+   Falls configure sagt, daÃŸ Imlib nicht vorhanden ist, bekommt man es
    hier:
 
      ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.10.tar.gz
 
-   (Laut Dokumentation benötigt Imlib für bestimmte Features (z.B. für
-   die Unterstützung von PNG-Grafiken) weitere Libraries - diese sind
-   für Freeciv allerdings nicht nötig).
+   (Laut Dokumentation benÃ¶tigt Imlib fÃ¼r bestimmte Features (z.B. fÃ¼r
+   die UnterstÃ¼tzung von PNG-Grafiken) weitere Libraries - diese sind
+   fÃ¼r Freeciv allerdings nicht nÃ¶tig).
    
-Compiliert man selbst, sollte (oder muß) folgende Reihenfolge
+Compiliert man selbst, sollte (oder muÃŸ) folgende Reihenfolge
 eingehalten werden: Glib, Gtk+, Imlib
 
 2. Generierung des Makefiles:
 =============================
 
-2a. Generierung für CVS-Versionen:
+2a. Generierung fÃ¼r CVS-Versionen:
 ==================================
 
-Dieser Schritt wird nur bei CVS-Versionen benötigt:
+Dieser Schritt wird nur bei CVS-Versionen benÃ¶tigt:
 
 Um das Makefile zu erzeugen, einfach
 
@@ -220,44 +220,44 @@ Um das Makefile zu erzeugen, einfach
 
 tippen. Dieser Befehl erzeugt "configure" und ruft startet es. Alle Parameter
 von autogen.sh werden an configure weitergereicht. Welche Parameter an
-configure übergeben werden können, findet sich im nächsten Abschnitt.
+configure Ã¼bergeben werden kÃ¶nnen, findet sich im nÃ¤chsten Abschnitt.
 
-2b. Generierung für Release-Versionen:
+2b. Generierung fÃ¼r Release-Versionen:
 ======================================
 
-Bevor Freeciv compiliert werden kann, muß ein sog. Makefile erstellt
+Bevor Freeciv compiliert werden kann, muÃŸ ein sog. Makefile erstellt
 werden. Dieses wird automatisch erzeugt und geht auf die auf dem System
 vorhandenen Features ein.
 
-Dafür wird das GNU "configure" Skript eingesetzt. configure befindet sich
+DafÃ¼r wird das GNU "configure" Skript eingesetzt. configure befindet sich
 im obersten Verzeichnis von Freeciv. Aufgerufen wird configure mit
  
  % ./configure
 
-Dieses Skript versucht herauszufinden, welche der benötigten
-zusätzlichen Libraries auf dem System vorhanden sind (und welche
+Dieses Skript versucht herauszufinden, welche der benÃ¶tigten
+zusÃ¤tzlichen Libraries auf dem System vorhanden sind (und welche
 nicht). configure sollte ein oder zwei Bildschirmseiten voll mit
-Diagnosemeldungen über das System ausgeben und sich dann beenden.
+Diagnosemeldungen Ã¼ber das System ausgeben und sich dann beenden.
 
 Hilfe zu den verschiedenen Optionen von configure gibt es mit --help:
   
  % ./configure --help
   
-Beim Compilieren von Entwicklerversionen oder CVS-Abzügen ohne GNU
-make oder gcc muß configure mit der Option "--disable-cvs-deps"
+Beim Compilieren von Entwicklerversionen oder CVS-AbzÃ¼gen ohne GNU
+make oder gcc muÃŸ configure mit der Option "--disable-cvs-deps"
 aufgerufen werden, besonders wenn man cc und make unter Solaris
 benutzt.
    
-Dadurch wird die automatische Überprüfung der Abhängigkeiten der
-Quelldateien untereinander außer Kraft gesetzt. Wenn danach eine
-Headerdatei (*.h) verändert wurde, sollte vor dem nächsten Aufruf
-von "make" auch noch ein "make clean" durchgeführt werden, um sicher
-zu gehen, daß alle Dateien korrekt übersetzt werden.
+Dadurch wird die automatische ÃœberprÃ¼fung der AbhÃ¤ngigkeiten der
+Quelldateien untereinander auÃŸer Kraft gesetzt. Wenn danach eine
+Headerdatei (*.h) verÃ¤ndert wurde, sollte vor dem nÃ¤chsten Aufruf
+von "make" auch noch ein "make clean" durchgefÃ¼hrt werden, um sicher
+zu gehen, daÃŸ alle Dateien korrekt Ã¼bersetzt werden.
    
 Bei Stable-Release-Versionen hat die Option "--disable-cvs-deps"
 keine Wirkung.
    
-Standardmäßig erstellt das Makefile den Gtk+-Client, wenn auf dem
+StandardmÃ¤ÃŸig erstellt das Makefile den Gtk+-Client, wenn auf dem
 System Gtk+ vorhanden ist, andernfalls den Xaw-Client.
 Um dies zu umgehen, kann man configure mit der Option
 "--enable-client=xaw" aufrufen.
@@ -265,26 +265,26 @@ Um dies zu umgehen, kann man configure mit der Option
 Um die Compileroptionen zu beeinflussen, kann man die Umgebungsvariable
 CFLAGS setzen, bevor man "./configure" aufruft, z.B.:
 
- % CFLAGS="-O -g -pipe" ./configure  [für die Bourne shell oder die Bash]
+ % CFLAGS="-O -g -pipe" ./configure  [fÃ¼r die Bourne shell oder die Bash]
  
 oder
 
  % setenv CFLAGS "-O -g -pipe"
- % ./configure                       [für die C-Shell oder tcsh]
+ % ./configure                       [fÃ¼r die C-Shell oder tcsh]
 
-Falls man einen "core dump" verfolgen möchte, sollte man "-g" in seine
+Falls man einen "core dump" verfolgen mÃ¶chte, sollte man "-g" in seine
 CFLAGS mit aufnehmen.
 
-Bei der (späteren) Installation von Freeciv werden die Dateien nach
+Bei der (spÃ¤teren) Installation von Freeciv werden die Dateien nach
 /usr/local installiert. Sollten Sie einen anderen Ort als /usr/local
-vorziehen, so können sie diesen mit übergeben:
+vorziehen, so kÃ¶nnen sie diesen mit Ã¼bergeben:
   
  % ./configure --prefix=/opt/freeciv
 
 Sollte configure nicht durchlaufen und abbrechen, sollten folgende Schritte
-durchgeführt werden:
+durchgefÃ¼hrt werden:
 
-  - Erfüllt das System die im Abschnitt 1 gestellten Anforderungen?
+  - ErfÃ¼llt das System die im Abschnitt 1 gestellten Anforderungen?
   
   - Beim Gtk+-Client: Sind Gtk+, Gdk, Glib und Imlib installiert?
     Kann configure diese auch finden? Die Libraries sollten in den
@@ -298,16 +298,16 @@ durchgeführt werden:
     configure der Installationsort mit den passenden Optionen
     mitgeteilt werden. (siehe auch ./configure --help)
 
-  - Für Probleme, die mit "gettext" zusammenhängen, gibt es im
-    Abschnitt über "NLS" ("Unterstützung der Landessprache", weiter unten)
+  - FÃ¼r Probleme, die mit "gettext" zusammenhÃ¤ngen, gibt es im
+    Abschnitt Ã¼ber "NLS" ("UnterstÃ¼tzung der Landessprache", weiter unten)
     evtl. Work-Arounds.
     
-  - Fehler den Entwicklern mitteilen, damit diese zum nächsten Release
-    beseitigt werden können (die Fehler ;-) !!
+  - Fehler den Entwicklern mitteilen, damit diese zum nÃ¤chsten Release
+    beseitigt werden kÃ¶nnen (die Fehler ;-) !!
     
     Dazu schickt man eine Mail an die Mailingliste freeciv-dev, in der
     man beschreibt, was man getan hat und wie/welcher Fehler auftrat.
-    Hilfreich wäre auch, wenn die Ausgabe des configure-Skripts, sowie
+    Hilfreich wÃ¤re auch, wenn die Ausgabe des configure-Skripts, sowie
     der Inhalt der Dateien "config.status", "config.cache" und
     "config.log" mitgeschickt werden. Diese Dateien werden von configure
     erstellt.
@@ -316,7 +316,7 @@ durchgeführt werden:
     http://www.freeciv.org
 
 Achtung: Seit der Freeciv Version 1.7.2 wird Imake nicht mehr
-unterstützt, und seit Version 1.8.1 gehört die Datei Makefile.noimake
+unterstÃ¼tzt, und seit Version 1.8.1 gehÃ¶rt die Datei Makefile.noimake
 nicht mehr zur Freeciv-Distribution.
     
     
@@ -328,33 +328,33 @@ die Eingabe von "make" (oder vorzugsweise "gmake") geschehen.
 
 Sollte trotzdem ein Problem auftreten, sollte man die Hinweise in der
 Datei BUGS zu rate ziehen. Sollte das Problem mit "gettext"
-zusammenhängen, lesen Sie bitte den Abschnitt über NLS ("Unterstützung
-der Landessprache", weiter unten) für evtl. Work-Arounds
+zusammenhÃ¤ngen, lesen Sie bitte den Abschnitt Ã¼ber NLS ("UnterstÃ¼tzung
+der Landessprache", weiter unten) fÃ¼r evtl. Work-Arounds
 
-Nach dem Compiliervorgang erhält man die folgenden wichtigen
+Nach dem Compiliervorgang erhÃ¤lt man die folgenden wichtigen
 "Ergebnisse":
   - Die zwei Programme "client/civclient" und "server/civserver".
   - Das Verzeichnis "data/", welches die Szenarien und Grafiken
-    enthält.
-  - Das Verzeichnis "po/", welches die Lokalisierungsdateien enthält
+    enthÃ¤lt.
+  - Das Verzeichnis "po/", welches die Lokalisierungsdateien enthÃ¤lt
   - Die beiden Skripte "civ" und "ser"
   
 Es ist ziemlich einfach, Freeciv aus diesem Verzeichnis heraus zu
-spielen, ohne es zu installieren. Dabei können die Skripte "civ" und
-"ser" hilfreich sein, man benötigt diese jedoch nicht unbedingt.
+spielen, ohne es zu installieren. Dabei kÃ¶nnen die Skripte "civ" und
+"ser" hilfreich sein, man benÃ¶tigt diese jedoch nicht unbedingt.
 
 Weitere Informationen dazu befinden sich in der Datei README bzw.
 README.de
 
 (Allerdings kann man so die Lokalisierung nicht benutzten. Um in der
-jeweiligen Landessprache (also Deutsch) zu spielen, muß man Freeciv
+jeweiligen Landessprache (also Deutsch) zu spielen, muÃŸ man Freeciv
 installieren.)
 
 4. Installation:
 ================
 
 Bei der Installation von Freeciv werden die in Abschnitt "Freeciv
-compilieren" erwähnten Dateien in Verzeichnisse wie /usr/local
+compilieren" erwÃ¤hnten Dateien in Verzeichnisse wie /usr/local
 (Standard-Installationspfad), /usr/games, /usr/games/freeciv,
 /usr/local/freeciv oder ein anderes passendes Verzeichnis kopiert.
 
@@ -363,131 +363,131 @@ Installationspfad kann man durch die Option "--prefix=DIR" (siehe:
 "Generierung des Makefiles") von configure an das eigene System
 anpassen.
 
-Sowohl der Client als auch der Server benötigen einige Dateien aus dem
+Sowohl der Client als auch der Server benÃ¶tigen einige Dateien aus dem
 Verzeichnis "data". Freeciv sucht danach an folgenden Orten: das aktuelle
 Verzeichnis; das Unterverzeichnis "data" des aktuellen Verzeichnisses;
 das Verzeichnis ".freeciv" im Heimatverzeichnis des Benutzers;
-schließlich und letztlich in dem Verzeichnis, in das "make install" die
-Dateien kopiert hat. Zusätzlich kann durch die Umgebungsvariable
+schlieÃŸlich und letztlich in dem Verzeichnis, in das "make install" die
+Dateien kopiert hat. ZusÃ¤tzlich kann durch die Umgebungsvariable
 FREECIV_PATH ein Verzeichnis oder eine durch Doppelpunkte getrennte
 Liste von Verzeichnissen angegeben werden.
 
 Beispiele:
 
  % setenv FREECIV_PATH "/usr/game/freeciv/data:./data"
- (für die csh, tcsh etc.)
+ (fÃ¼r die csh, tcsh etc.)
     
  % FREECIV_PATH="/usr/game/freeciv/data:./data"; export FREECIV_PATH
- (für die sh, bash, ksh, zsh etc.)
+ (fÃ¼r die sh, bash, ksh, zsh etc.)
 
-Wie oben schon erwähnt muß Freeciv installiert sein, um andere Sprachen
-als Englisch benutzen zu können. Näheres in README und README.de
+Wie oben schon erwÃ¤hnt muÃŸ Freeciv installiert sein, um andere Sprachen
+als Englisch benutzen zu kÃ¶nnen. NÃ¤heres in README und README.de
 
 Wenn man den Xaw-Client benutzt und root-rechte besitzt, sollte man die Datei
 data/Freeciv in das app-defaults Verzeichnis kopieren. (Normalerweise in
 /usr/lib/X11/app-defaults)
 
-5. NLS (Unterstützung der Landessprache)
+5. NLS (UnterstÃ¼tzung der Landessprache)
 =======================================================
 
 Freeciv benutzt "gettext", um die (alternativ zur Standardsprache,
-bei Freeciv ist das Englisch) lokale Sprache zu unterstützten. Die
-lokale Sprache wird über die Variable "LANG" gesetzt. Für ein
+bei Freeciv ist das Englisch) lokale Sprache zu unterstÃ¼tzten. Die
+lokale Sprache wird Ã¼ber die Variable "LANG" gesetzt. FÃ¼r ein
 deutsches Freeciv (oder auch andere Programme) sollte LANG auf
 "de_DE" gesetzt werden:
 
- % setenv LANG "de_DE"    [ für die C-Shell oder die tcsh ]
+ % setenv LANG "de_DE"    [ fÃ¼r die C-Shell oder die tcsh ]
 
 oder:
 
- % export LANG="de_DE"    [ für die Bourne-Shell oder die bash ]
+ % export LANG="de_DE"    [ fÃ¼r die Bourne-Shell oder die bash ]
 
-Falls während des Durchlaufs von "configure" oder beim Compilieren
-Probleme mit "gettext" auftreten, können Sie folgende Work-Arounds
+Falls wÃ¤hrend des Durchlaufs von "configure" oder beim Compilieren
+Probleme mit "gettext" auftreten, kÃ¶nnen Sie folgende Work-Arounds
 ausprobieren:
 
-1. Falls Sie nur englische Programmeldungen wünschen oder brauchen,
-   können Sie NLS mittels "--disable-nls" beim Aufruf von "configure"
+1. Falls Sie nur englische Programmeldungen wÃ¼nschen oder brauchen,
+   kÃ¶nnen Sie NLS mittels "--disable-nls" beim Aufruf von "configure"
    abschalten:
 
      % ./configure --disable-nls
      % make
 
-2. Falls sie ein eingedeutschtes Freeciv möchten, können sie es mit dem
+2. Falls sie ein eingedeutschtes Freeciv mÃ¶chten, kÃ¶nnen sie es mit dem
    von Freeciv mitgelieferten "gettext" versuchen, mittels
    "--with-included-gettext" beim Aufruf von configure:
 
      % ./configure --with-included-gettext
      % make
 
-3. Schließlich können sie noch versuchen, die neueste Version von GNU
-   gettext zu installieren. Sie können diese Version hier downloaden:
+3. SchlieÃŸlich kÃ¶nnen sie noch versuchen, die neueste Version von GNU
+   gettext zu installieren. Sie kÃ¶nnen diese Version hier downloaden:
 
      ftp://ftp.gnu.org/gnu/gettext/gettext-0.11.4.tar.gz
 
-6. Unterstützung von Readline
+6. UnterstÃ¼tzung von Readline
 =============================
 
-Freeciv unterstützt optional die Unterstützung der Readline-Library
+Freeciv unterstÃ¼tzt optional die UnterstÃ¼tzung der Readline-Library
 
-Mit der Unterstützung der Readline-Library wird es im Server möglich
+Mit der UnterstÃ¼tzung der Readline-Library wird es im Server mÃ¶glich
  - die Backspace-Taste zu benutzen
  - sich mit den Cursortasten in der Eingabezeile hin- und herzubewegen
  - mit TAB Befehle und Befehlsargumente wie auf der Shell automatisch zu
-   vervollständigen, z.B. wenn Tab gedrückt wird, dann vervollständigt der
-   Server das Wort, falls es nur eine mögliche Auswahl gibt.
+   vervollstÃ¤ndigen, z.B. wenn Tab gedrÃ¼ckt wird, dann vervollstÃ¤ndigt der
+   Server das Wort, falls es nur eine mÃ¶gliche Auswahl gibt.
  - sich mit den Cursortasten durch eine History der eingegebenen Kommandos zu
    bewegen
  - usw.
 
-Das configure-skript prüft automatisch, ob readline installiert ist. Wenn ja,
+Das configure-skript prÃ¼ft automatisch, ob readline installiert ist. Wenn ja,
 wird readline automatisch in den Server eincompiliert, wenn nicht, wird der
 Server ohne weitere Kommentare ohne readline compiliert.
-Sie können configure dazu "zwingen", readline zu benutzen, indem sie configure
+Sie kÃ¶nnen configure dazu "zwingen", readline zu benutzen, indem sie configure
 die Option "--with-readline" mitgeben:
 
  % ./configure --with-readline
 
 Bei einigen Linux-Distributionen (und evtl. auch andere Betriebssystemen) ist
-readline in der Version 4 nicht korrekt installiert, und zwar so, daß
-readline nicht konfiguriert ist, seine dynamischen Abhängigkeiten zu
+readline in der Version 4 nicht korrekt installiert, und zwar so, daÃŸ
+readline nicht konfiguriert ist, seine dynamischen AbhÃ¤ngigkeiten zu
 deklarieren. In diesem Fall versucht configure zu "raten", gegen welche
-zusätzlichen Libraries noch gelinkt werden soll und fügt diese hinzu.
-Das configure Skript wird eine Warnung ausgeben, wenn es zusätzliche Libraries
+zusÃ¤tzlichen Libraries noch gelinkt werden soll und fÃ¼gt diese hinzu.
+Das configure Skript wird eine Warnung ausgeben, wenn es zusÃ¤tzliche Libraries
 benutzen musste, damit readline funktioniert. Diese Warnung sollte harmlos sein,
-sie ist nur als Erinnerung für die Leute gedacht, die für die Installation von
+sie ist nur als Erinnerung fÃ¼r die Leute gedacht, die fÃ¼r die Installation von
 readline verantwortlich sind, sprich Admins oder Paketersteller der
 Distributionen.
 
 7. Reiniers Hinweise zur Installation unter Solaris
 ===================================================
 
-Von Hause aus kommt Solaris (Version 2.5 und höher) mit einem eigenen X
+Von Hause aus kommt Solaris (Version 2.5 und hÃ¶her) mit einem eigenen X
 (in /usr/openwin), einem eigenen make (in /usr/ccs/bin/make) und einem
 eigenen Compiler (separat zu erwerben), der, falls vorhanden, unter
 /opt/SUNWspro/bin liegt.
-Solaris stellt von sich aus keine libXpm zur Verfügung, die für den
-Xaw-Client benötigt wird; des weiteren auch nichts, was für die Imlib,
-Gdk und Gtk, den Vorraussetzungen für den GTK+-Client, benötigt wird.
+Solaris stellt von sich aus keine libXpm zur VerfÃ¼gung, die fÃ¼r den
+Xaw-Client benÃ¶tigt wird; des weiteren auch nichts, was fÃ¼r die Imlib,
+Gdk und Gtk, den Vorraussetzungen fÃ¼r den GTK+-Client, benÃ¶tigt wird.
 Mit ein wenig Geduld kann aber alles problemlos compiliert werden.
 
 Informationen zur Installation der libXpm unter Solaris gibts im
-nächsten Abschnitt.
+nÃ¤chsten Abschnitt.
 
-Viele Installationen von Solaris haben außerdem MIT X (normalerweise
+Viele Installationen von Solaris haben auÃŸerdem MIT X (normalerweise
 unter /usr/X11), GNU make, den gcc und XPM installiert (der Ort der
 Installation ist im Allgemeinen von der jeweiligen Systeminstallation
-abhängig). Beim normalen Aufruf von "./configure && make" könnte es
-passieren, daß "configure" die XPM-Library nicht findet oder
+abhÃ¤ngig). Beim normalen Aufruf von "./configure && make" kÃ¶nnte es
+passieren, daÃŸ "configure" die XPM-Library nicht findet oder
 verschiedene installierte Versionen durcheinander wirft.
 
-Man sollte sicherstellen, daß die Umgebungsvariablen, im Besonderen
+Man sollte sicherstellen, daÃŸ die Umgebungsvariablen, im Besonderen
 $PATH und $LD_LIBRARY_PATH, sowie die Optionen von ./configure sich
-nicht auf widersprüchliche Software beziehen. Dann sollte die
+nicht auf widersprÃ¼chliche Software beziehen. Dann sollte die
 Compilierung ohne Probleme verlaufen.
 
 Ein einfaches Rezept zum Compilieren mit Sun X, Sun make und Sun cc
-(unter der Annahme, daß die Xpm-Library in /pfad/zu/xpm installiert
+(unter der Annahme, daÃŸ die Xpm-Library in /pfad/zu/xpm installiert
 ist):
 
  % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
@@ -496,18 +496,18 @@ ist):
                --disable-cvs-deps --with-included-gettext
  % make
 
-Die Option "--disable-cvs-deps" verhindert, daß ./configure Makefiles
-erstellt, die nur von GNU make verstanden werden. Anzeichen dafür, daß
+Die Option "--disable-cvs-deps" verhindert, daÃŸ ./configure Makefiles
+erstellt, die nur von GNU make verstanden werden. Anzeichen dafÃ¼r, daÃŸ
 das passiert ist:
   
   make: Fatal error in reader:
         Makefile, line 214: = missing from replacement macro reference
   make: Fatal error: Command failed for target `all-recursive'
 
-Alternativ können $PATH und ./confiure auch so konfiguriert werden, daß
+Alternativ kÃ¶nnen $PATH und ./confiure auch so konfiguriert werden, daÃŸ
 nur GNU Tools benutzt werden. Des weiteren compiliert Freeciv auch unter
 MIT X und bestimmten Kombinationen aus GNU und Sun-Tools, wobei das
-genaue Vorgehen von der lokalen Installation abhängt.
+genaue Vorgehen von der lokalen Installation abhÃ¤ngt.
 
 8. Reinier's Installationshinweise zur libXpm unter Solaris:
 =============================================================
@@ -516,8 +516,8 @@ Als ich root auf meinem Solarissystem war, wollte ich trotzdem keine
 Third-party Software als root installieren. Das ist eine schlechte
 Angewohnheit.
 
-Unglücklicherweise möchte die Installationsroutine nach /usr/openwin
-installieren, welches aber root gehört. Aber es ist nich allzu schwer,
+UnglÃ¼cklicherweise mÃ¶chte die Installationsroutine nach /usr/openwin
+installieren, welches aber root gehÃ¶rt. Aber es ist nich allzu schwer,
 dies zu umgehen.
 
 Vorraussetzungen:
@@ -528,8 +528,8 @@ Vorraussetzungen:
 
  - Das Zielverzeichnis der Installation kann mit $DESTDIR angegeben
    werden; installiert wird aber nach $DESTDIR/$OPENWINDIR, d.h. das
-   Unterverzeichnis $OPENWINDIR muß hinterher entfernt werden (ein
-   Ändern von $OPENWINHOME funktioniert nicht)
+   Unterverzeichnis $OPENWINDIR muÃŸ hinterher entfernt werden (ein
+   Ã„ndern von $OPENWINHOME funktioniert nicht)
 
 Der Ablauf:
 
@@ -553,41 +553,41 @@ Der Ablauf:
 
     % ./configure --with-xpm-prefix=$MYXPMDES
 
-  Dies bewirkt, daß bei den Aufrufen von Compiler und Linker die
+  Dies bewirkt, daÃŸ bei den Aufrufen von Compiler und Linker die
   Optionen -I/-L/-R entsprechend gesetzt werden.
 
 9. Hinweise zu Mac OS X/Darwin:
 ===============================
 
 Apples Version des GCC benutzt sog. "precompiled headers" die das 
-vararg-Macro (eine GCC-Erweiterung) nicht unterstützen. Dies führt
-dazu, das GCC während des Kompiliervorgangs von Freeciv scheitert,
-da der Compiler sonst (größtenteils) nicht vom "normalen" GCC zu
+vararg-Macro (eine GCC-Erweiterung) nicht unterstÃ¼tzen. Dies fÃ¼hrt
+dazu, das GCC wÃ¤hrend des Kompiliervorgangs von Freeciv scheitert,
+da der Compiler sonst (grÃ¶ÃŸtenteils) nicht vom "normalen" GCC zu
 unterscheiden ist. Anstatt des normalen
 
  % ./configure <...>
  
 sollte entweder
 
- für die Bourne Shell:
+ fÃ¼r die Bourne Shell:
    $ CC="gcc -no-cpp-precomp" ./configure <...>
 
 oder
 
- für die C shell:
+ fÃ¼r die C shell:
    % env CC="gcc -no-cpp-precomp" ./configure <...>
 
-benutzt werden, abhängig davon, ob die benutzte Shell eine Bourne- oder
+benutzt werden, abhÃ¤ngig davon, ob die benutzte Shell eine Bourne- oder
 eine C-Shell Variante ist (Falls Zweifel bestehen, einfach beide Varianten
 ausprobieren, und sehen, welche funktioniert).
 
-<...> steht dabei für welche zusätzlichen Parameter sie auch immer
-an configure übergeben wollen.
+<...> steht dabei fÃ¼r welche zusÃ¤tzlichen Parameter sie auch immer
+an configure Ã¼bergeben wollen.
 
 10. Hinweise zu Debian GNU/Linux:
 =================================
 
-Um Freeciv auf deinem Debian-System zu kompilieren benötigt man folgende
+Um Freeciv auf deinem Debian-System zu kompilieren benÃ¶tigt man folgende
 Pakete:
 
   Allgemein:
@@ -613,21 +613,21 @@ Falls der xaw-Client kompiliert werden soll, sollte configure mit der Option
    % ./configure --with-xaw3d
 
 Falls ein Aufruf von aclocal notwendig werden sollte (wenn nicht bekannt ist,
-was aclocal macht, benötigt man es auch nicht), wird auch imlib-dev benötigt,
+was aclocal macht, benÃ¶tigt man es auch nicht), wird auch imlib-dev benÃ¶tigt,
 um das Makro AM_PATH_GDK_IMLIB zu bekommen. Dies ist ein Fehler in Debian,
 das dieses Makro nicht in gdk-imlib-dev definiert ist und wird hoffentlich in
-zukünftigen Debian-Releases korrigiert.
+zukÃ¼nftigen Debian-Releases korrigiert.
 
-11. Freeciv für win32 (nativ, d.h. ohne GTK+ und X-Server) kompilieren
+11. Freeciv fÃ¼r win32 (nativ, d.h. ohne GTK+ und X-Server) kompilieren
 ===============================================================================
 
-Benötigt werden:
-	- eine Unix-Umgebung mit gcc und den binutils für Windows (mingw32)
+BenÃ¶tigt werden:
+	- eine Unix-Umgebung mit gcc und den binutils fÃ¼r Windows (mingw32)
 	- libz und libpng (unter ftp://ftp.freeciv.org/pub/freeciv/requirements)
 
-Diese funktionieren mit den Standard-Makefiles des gcc, allerdings müssen CC
+Diese funktionieren mit den Standard-Makefiles des gcc, allerdings mÃ¼ssen CC
 und RANLIB entsprechend gesetzt werden. Werden libpng/libz benutzt, die bei
-cygwin dabei sind, ist Ärger so gut wie garantiert.
+cygwin dabei sind, ist Ã„rger so gut wie garantiert.
 
 Kompilieren von zlib mit
 
@@ -648,7 +648,7 @@ b) mingw32 cross compiler
 
 Autoconf und co:
 
-Beim Übersetzen von CVS-Abzügen muss in den folgenden Zeilen ./configure durch
+Beim Ãœbersetzen von CVS-AbzÃ¼gen muss in den folgenden Zeilen ./configure durch
 ./autogen.sh ersetzt werden.
 
 Wird autoconf2.52 verwendet, werden Probleme bei den Pfaden auftreten,
@@ -662,7 +662,7 @@ Die Konfiguration der Sourcen:
 
 1. Mit den cygwin-Umgebung
 
-Benötigt wird mingw und das win32api-Paket.
+BenÃ¶tigt wird mingw und das win32api-Paket.
 
 Aufruf:
    % export CC="gcc -mno-cygwin"
@@ -670,7 +670,7 @@ Aufruf:
 
 2. Cross-Compilation von einem Unix
 
-X sollte durch die Zahl ersetzt werden, die gewählt wurde, als der
+X sollte durch die Zahl ersetzt werden, die gewÃ¤hlt wurde, als der
 Cross-Compiler konfiguriert wurde.
 
    % export CC=iX86-mingw32-gcc
@@ -679,7 +679,7 @@ Cross-Compiler konfiguriert wurde.
    % ./configure --host=iX86-mingw32 --build=$(./config.guess) \
    >  --with-included-gettext --enable-client=win32 --prefix=.
 
-Übersetzen und Installieren:
+Ãœbersetzen und Installieren:
 ----------------------------
 
    % make
@@ -688,8 +688,8 @@ Cross-Compiler konfiguriert wurde.
 /absoluter/installations/pfad/ ist der Pfad, in den Freeciv installiert werden
 soll. Er muss absolut sein und mit einem "/" enden.
 
-Die ausführbaren Dateien (civserver, civlcient) sollten die Endung .exe
-besitzen. Es können jetzt noch die Debug-Informationen entfernt werden
+Die ausfÃ¼hrbaren Dateien (civserver, civlcient) sollten die Endung .exe
+besitzen. Es kÃ¶nnen jetzt noch die Debug-Informationen entfernt werden
 (strippen). 
 
 Danach das Datenverzeichnis verschieben
@@ -699,5 +699,5 @@ Danach das Datenverzeichnis verschieben
 Der letzte Schritt ist das Konvertieren der Grakfiken in png. Dazu kann ein
 bevorzugtes Grafikprogramm oder eine Kombination aus ImageMagick oder pngquant
 verwendet werden. Es ist sehr wichtig, das das Ergnis kontrolliert wird; jede
-Datei sollte überprüft werden. Der Alpha-Kanel (Transparenz) verschwindet des
-Öfteren. Es gibt kein verlässliches Skript dafür.
+Datei sollte Ã¼berprÃ¼ft werden. Der Alpha-Kanel (Transparenz) verschwindet des
+Ã–fteren. Es gibt kein verlÃ¤ssliches Skript dafÃ¼r.

@@ -2,255 +2,255 @@ Hur man spelar Freeciv
 
   Ursprungligen av Michael Hohensee (aka Zarchon)
 
-För upplysningar om hur man installerar Freeciv, se INSTALL.sv
-För upplysningar om hur man kör Freeciv, se README.sv
+FÃ¶r upplysningar om hur man installerar Freeciv, se INSTALL.sv
+FÃ¶r upplysningar om hur man kÃ¶r Freeciv, se README.sv
 
-Om man aldrig har spelat civilisationsspel är det enklast om man börjar
-med att läsa Freecivs handbok som är tillgänglig vid:
+Om man aldrig har spelat civilisationsspel Ã¤r det enklast om man bÃ¶rjar
+med att lÃ¤sa Freecivs handbok som Ã¤r tillgÃ¤nglig vid:
 
      http://www.freeciv.org/manual/manual.html
 
-För upplysningar om hur man spelar Freeciv, fortsätt läsa!
+FÃ¶r upplysningar om hur man spelar Freeciv, fortsÃ¤tt lÃ¤sa!
 
-	När man har fått i gång Freeciv vill man antagligen spela sina
-första spel. Man råds att spela ensam några gånger för att få en
-känsla för hur saker fungerar, men det är inte nödvändigt. Man kan
-lära sig genom att spela mot andra människor eller mot datorn.
+	NÃ¤r man har fÃ¥tt i gÃ¥ng Freeciv vill man antagligen spela sina
+fÃ¶rsta spel. Man rÃ¥ds att spela ensam nÃ¥gra gÃ¥nger fÃ¶r att fÃ¥ en
+kÃ¤nsla fÃ¶r hur saker fungerar, men det Ã¤r inte nÃ¶dvÃ¤ndigt. Man kan
+lÃ¤ra sig genom att spela mot andra mÃ¤nniskor eller mot datorn.
 
-Fråga: Vilken är den grundläggande strategin?
+FrÃ¥ga: Vilken Ã¤r den grundlÃ¤ggande strategin?
 
-	För det första är detta inte en *perfekt* strategi; det är
-inte ens en mycket bra strategi. Men låt oss först sätta i gång med att
-spela Freeciv. En del av lockelsen hos Freeciv är att utveckla nya
+	FÃ¶r det fÃ¶rsta Ã¤r detta inte en *perfekt* strategi; det Ã¤r
+inte ens en mycket bra strategi. Men lÃ¥t oss fÃ¶rst sÃ¤tta i gÃ¥ng med att
+spela Freeciv. En del av lockelsen hos Freeciv Ã¤r att utveckla nya
 strategier.
 
-	Strategin är indelat i flera steg:
+	Strategin Ã¤r indelat i flera steg:
 
 		Det inledande utvidgningsskedet
 		Teknologiskt underskede
 		Det andra utvidgningsskedet
 		Uppbyggnadsskedet
-		Den slutgiltiga förintelsen av dina fiender-skedet
+		Den slutgiltiga fÃ¶rintelsen av dina fiender-skedet
 
 Det inledande utvidgningsskedet:
 
-	Detta skede är viktigast. Det första man bör göra är att
-grunda städer och utforska sin ö. Man bör ha många städer, mist 7
+	Detta skede Ã¤r viktigast. Det fÃ¶rsta man bÃ¶r gÃ¶ra Ã¤r att
+grunda stÃ¤der och utforska sin Ã¶. Man bÃ¶r ha mÃ¥nga stÃ¤der, mist 7
 eller 8.
 
-	Spelets mål är att behärska så många landrutor som möjligt.
-När man grundar en stad bör man se till att att dess område inte
-kommer att överlappa för mycket med andra städers områden. Man kan se
-vilka rutor som används av en stad genom att klicka på den. Kartan
-över staden och dess omgivning visar stadens område. Ta hänsyn till
-detta och försök samtidigt att hålla dina städer nära varandra. Ju
-längre från varandra de är, desto svårare är det att försvara och
-förvalta dem i detta skede. (Hänvisning: Försök att grunda städer på
-hästar eller nära fisk.)
+	Spelets mÃ¥l Ã¤r att behÃ¤rska sÃ¥ mÃ¥nga landrutor som mÃ¶jligt.
+NÃ¤r man grundar en stad bÃ¶r man se till att att dess omrÃ¥de inte
+kommer att Ã¶verlappa fÃ¶r mycket med andra stÃ¤ders omrÃ¥den. Man kan se
+vilka rutor som anvÃ¤nds av en stad genom att klicka pÃ¥ den. Kartan
+Ã¶ver staden och dess omgivning visar stadens omrÃ¥de. Ta hÃ¤nsyn till
+detta och fÃ¶rsÃ¶k samtidigt att hÃ¥lla dina stÃ¤der nÃ¤ra varandra. Ju
+lÃ¤ngre frÃ¥n varandra de Ã¤r, desto svÃ¥rare Ã¤r det att fÃ¶rsvara och
+fÃ¶rvalta dem i detta skede. (HÃ¤nvisning: FÃ¶rsÃ¶k att grunda stÃ¤der pÃ¥
+hÃ¤star eller nÃ¤ra fisk.)
 
-	När man har 1 eller 2 städer bör man sätta forskningssatsen så
-högt som regeringsformen tillåter. Man ska strunta i skattesatsen
-eftersom man inte kommer att färdigställa några stadsförbättringar som
-kostar underhåll regelbundet. Man bygger i stället bosättare. Varje
-stad bör bygga bosättare. Ju fler bosättare man färdigställer, desto
-fler städer kan man grunda; ju fler städer man har, desto fortare kan
+	NÃ¤r man har 1 eller 2 stÃ¤der bÃ¶r man sÃ¤tta forskningssatsen sÃ¥
+hÃ¶gt som regeringsformen tillÃ¥ter. Man ska strunta i skattesatsen
+eftersom man inte kommer att fÃ¤rdigstÃ¤lla nÃ¥gra stadsfÃ¶rbÃ¤ttringar som
+kostar underhÃ¥ll regelbundet. Man bygger i stÃ¤llet bosÃ¤ttare. Varje
+stad bÃ¶r bygga bosÃ¤ttare. Ju fler bosÃ¤ttare man fÃ¤rdigstÃ¤ller, desto
+fler stÃ¤der kan man grunda; ju fler stÃ¤der man har, desto fortare kan
 man forska; ju fortare man kan forska, desto fortare kan man vinna.
-När man har fyllt det tillgängliga utrymmet med städer befaller man
-sina bosättare att bygga bevattningsanläggningar och vägar.
+NÃ¤r man har fyllt det tillgÃ¤ngliga utrymmet med stÃ¤der befaller man
+sina bosÃ¤ttare att bygga bevattningsanlÃ¤ggningar och vÃ¤gar.
 
-(Anmärkning: Om matöverskottet i en stad sjunker till +1 på grund
-av understöd av för många bosättare och man inte kan flytta om
-arbetare så att överskottet blir större låter man staden bygga ett
-tempel i stället för bosättare. Om man inte har känner sig hotad av
-någon annan spelare än kan man strunta i att bygga krigsenheter ett
+(AnmÃ¤rkning: Om matÃ¶verskottet i en stad sjunker till +1 pÃ¥ grund
+av understÃ¶d av fÃ¶r mÃ¥nga bosÃ¤ttare och man inte kan flytta om
+arbetare sÃ¥ att Ã¶verskottet blir stÃ¶rre lÃ¥ter man staden bygga ett
+tempel i stÃ¤llet fÃ¶r bosÃ¤ttare. Om man inte har kÃ¤nner sig hotad av
+nÃ¥gon annan spelare Ã¤n kan man strunta i att bygga krigsenheter ett
 tag till.)
 
-	Under denna tid lär man sig teknologier så fort som möjligt.
-Det man bör sikta på först är "republik", sedan "folkstyre", sedan
-"järnväg", sedan "industrialisering". (Vissa siktar på "monarki" före
-"republik".) Så snart som man forskat fram en regeringsform som man
-vill använda sätter man i gång en revolution och byter till den nya
-regeringsformen när revolutionen är över. Sedan ser man till att
-satserna är som man vill ha dem, ty den högsta tillåtna satsen skiljer
-sig mellan olika regeringsformer (forskningssatsen sätts så högt som
-möjligt av sig själv).
+	Under denna tid lÃ¤r man sig teknologier sÃ¥ fort som mÃ¶jligt.
+Det man bÃ¶r sikta pÃ¥ fÃ¶rst Ã¤r "republik", sedan "folkstyre", sedan
+"jÃ¤rnvÃ¤g", sedan "industrialisering". (Vissa siktar pÃ¥ "monarki" fÃ¶re
+"republik".) SÃ¥ snart som man forskat fram en regeringsform som man
+vill anvÃ¤nda sÃ¤tter man i gÃ¥ng en revolution och byter till den nya
+regeringsformen nÃ¤r revolutionen Ã¤r Ã¶ver. Sedan ser man till att
+satserna Ã¤r som man vill ha dem, ty den hÃ¶gsta tillÃ¥tna satsen skiljer
+sig mellan olika regeringsformer (forskningssatsen sÃ¤tts sÃ¥ hÃ¶gt som
+mÃ¶jligt av sig sjÃ¤lv).
 
-	När man har fått kunskap om folkstyre är man rustad att gå in
-i det andra utvidgningsskedet. Det gör man genom att ändra
-regeringsform till folkstyre, befalla alla städer att bygga tempel och
-sätta överflödssatsen till 100%. När man gör detta börjar alla städer
-genast att fira och växer 1 steg varje omgång så länge det finns
-matöverskott. När de har blivit tillräckligt stora sätt
-överflödssatsen till rimliga 20-40%. Detta försätter dig i det andra
+	NÃ¤r man har fÃ¥tt kunskap om folkstyre Ã¤r man rustad att gÃ¥ in
+i det andra utvidgningsskedet. Det gÃ¶r man genom att Ã¤ndra
+regeringsform till folkstyre, befalla alla stÃ¤der att bygga tempel och
+sÃ¤tta Ã¶verflÃ¶dssatsen till 100%. NÃ¤r man gÃ¶r detta bÃ¶rjar alla stÃ¤der
+genast att fira och vÃ¤xer 1 steg varje omgÃ¥ng sÃ¥ lÃ¤nge det finns
+matÃ¶verskott. NÃ¤r de har blivit tillrÃ¤ckligt stora sÃ¤tt
+Ã¶verflÃ¶dssatsen till rimliga 20-40%. Detta fÃ¶rsÃ¤tter dig i det andra
 utvidgningsskedet.
 
-	Nackdelen med att sätta överflödssatsen till 100% är att
-forskningen avstannar fullständigt. Efter att städerna har vuxit och
-forskningssatsen har höjts till ungefär 50% får man åter nya
-teknologier, men något saktare. Om man har utforskat ganska mycket
-utan att ha hittat någon hotfull motspelare kan det vara bra att
-forska så mycket som möjligt tills teknologierna tar för lång tid att
+	Nackdelen med att sÃ¤tta Ã¶verflÃ¶dssatsen till 100% Ã¤r att
+forskningen avstannar fullstÃ¤ndigt. Efter att stÃ¤derna har vuxit och
+forskningssatsen har hÃ¶jts till ungefÃ¤r 50% fÃ¥r man Ã¥ter nya
+teknologier, men nÃ¥got saktare. Om man har utforskat ganska mycket
+utan att ha hittat nÃ¥gon hotfull motspelare kan det vara bra att
+forska sÃ¥ mycket som mÃ¶jligt tills teknologierna tar fÃ¶r lÃ¥ng tid att
 forska fram.
 
 Det andra utvidgningsskedet:
 
-	När städerna har fått en lämplig storlek avvänjer man dem med
-överflöd och ökar skattesatsen. När de är nere på ungefär 30% överflöd
-ökar man forskningssatsen så mycket man kan utan att skatteinkomsten
-blir lägre än utgifterna. När man får järnväg bygger man om alla vägar
-till järnvägar, åtminstone alla som är på rutor som används av någon
-stads arbetare eller ingår i fjärrvägnätet. (Hänvisning: Utrusta varje
-ruta som används av en stad med väg/järnväg. Då gör staden mer nytta.
-Det finns ingen anledning att uppgradera mittrutan, den med staden på.
-Det görs av sig själv.)
+	NÃ¤r stÃ¤derna har fÃ¥tt en lÃ¤mplig storlek avvÃ¤njer man dem med
+Ã¶verflÃ¶d och Ã¶kar skattesatsen. NÃ¤r de Ã¤r nere pÃ¥ ungefÃ¤r 30% Ã¶verflÃ¶d
+Ã¶kar man forskningssatsen sÃ¥ mycket man kan utan att skatteinkomsten
+blir lÃ¤gre Ã¤n utgifterna. NÃ¤r man fÃ¥r jÃ¤rnvÃ¤g bygger man om alla vÃ¤gar
+till jÃ¤rnvÃ¤gar, Ã¥tminstone alla som Ã¤r pÃ¥ rutor som anvÃ¤nds av nÃ¥gon
+stads arbetare eller ingÃ¥r i fjÃ¤rrvÃ¤gnÃ¤tet. (HÃ¤nvisning: Utrusta varje
+ruta som anvÃ¤nds av en stad med vÃ¤g/jÃ¤rnvÃ¤g. DÃ¥ gÃ¶r staden mer nytta.
+Det finns ingen anledning att uppgradera mittrutan, den med staden pÃ¥.
+Det gÃ¶rs av sig sjÃ¤lv.)
 
-	Nu är det dags att utveckla industrialisering och
-krigsteknologier. Man bör börja grunda städer på andra öar och
-utforska ordentligt om man inte redan har gjort det. Man bör ta reda
-på var fienderna är. Sikta på teknologier som är bra för båtar och
-försök färdigställa Magellans Världsomsegling. När man känner dig
-beredd går man in i:
+	Nu Ã¤r det dags att utveckla industrialisering och
+krigsteknologier. Man bÃ¶r bÃ¶rja grunda stÃ¤der pÃ¥ andra Ã¶ar och
+utforska ordentligt om man inte redan har gjort det. Man bÃ¶r ta reda
+pÃ¥ var fienderna Ã¤r. Sikta pÃ¥ teknologier som Ã¤r bra fÃ¶r bÃ¥tar och
+fÃ¶rsÃ¶k fÃ¤rdigstÃ¤lla Magellans VÃ¤rldsomsegling. NÃ¤r man kÃ¤nner dig
+beredd gÃ¥r man in i:
 
 Uppbyggnadsskedet:
 
-	Nu bygger man fabriker och kraftverk i städerna. Man försöker
-få så hög tillverkningsförmåga som möjligt. Förorening blir ett
-problem. Så snart man kan försöker man forska fram masstillverkning
-för kollektivtrafik och återvinning för återvinningsanläggning. När
-man har gjort alla sina städer till goda tillverkningsanläggningar
-bygger man krigsenheter. (Anmärkning: Om man får förbindelse med någon
-annan spelare ska man genast bygga några angreppsenheter och minst 1
-försvarsenhet för varje stad.)
+	Nu bygger man fabriker och kraftverk i stÃ¤derna. Man fÃ¶rsÃ¶ker
+fÃ¥ sÃ¥ hÃ¶g tillverkningsfÃ¶rmÃ¥ga som mÃ¶jligt. FÃ¶rorening blir ett
+problem. SÃ¥ snart man kan fÃ¶rsÃ¶ker man forska fram masstillverkning
+fÃ¶r kollektivtrafik och Ã¥tervinning fÃ¶r Ã¥tervinningsanlÃ¤ggning. NÃ¤r
+man har gjort alla sina stÃ¤der till goda tillverkningsanlÃ¤ggningar
+bygger man krigsenheter. (AnmÃ¤rkning: Om man fÃ¥r fÃ¶rbindelse med nÃ¥gon
+annan spelare ska man genast bygga nÃ¥gra angreppsenheter och minst 1
+fÃ¶rsvarsenhet fÃ¶r varje stad.)
 
-	När man vill börja angripa någon sätter man forskningssatsen
-till 0% och höjer skattesatsen så mycket man kan utan att få upplopp.
-Kom ihåg att enheter kan köpas för guld!
+	NÃ¤r man vill bÃ¶rja angripa nÃ¥gon sÃ¤tter man forskningssatsen
+till 0% och hÃ¶jer skattesatsen sÃ¥ mycket man kan utan att fÃ¥ upplopp.
+Kom ihÃ¥g att enheter kan kÃ¶pas fÃ¶r guld!
 
-Den slutgiltiga förintelsen av dina fiender-skedet:
+Den slutgiltiga fÃ¶rintelsen av dina fiender-skedet:
 
-	Detta kan ske när som helst men det är skojigare med de
+	Detta kan ske nÃ¤r som helst men det Ã¤r skojigare med de
 framskridna vapnen.
 
-	Välj en förhållandevis svag fiende och skicka över några
-båtlaster trupper. Ta över fiendens städer och låt dem bygga fler
-enheter för att utplåna resten av fienden. Visa ingen medkänsla!
-Intill döden!
+	VÃ¤lj en fÃ¶rhÃ¥llandevis svag fiende och skicka Ã¶ver nÃ¥gra
+bÃ¥tlaster trupper. Ta Ã¶ver fiendens stÃ¤der och lÃ¥t dem bygga fler
+enheter fÃ¶r att utplÃ¥na resten av fienden. Visa ingen medkÃ¤nsla!
+Intill dÃ¶den!
 
-Upprepa så ofta som det behövs! ;-)
+Upprepa sÃ¥ ofta som det behÃ¶vs! ;-)
 
-[Anmärkning för fredliga: Freeciv låter även en spelare vinna genom
-att färdigställa och sända iväg ett rymdskepp som anländer till Alfa
-Kentauri före alla andra spelares eventuella rymdskepp.]
+[AnmÃ¤rkning fÃ¶r fredliga: Freeciv lÃ¥ter Ã¤ven en spelare vinna genom
+att fÃ¤rdigstÃ¤lla och sÃ¤nda ivÃ¤g ett rymdskepp som anlÃ¤nder till Alfa
+Kentauri fÃ¶re alla andra spelares eventuella rymdskepp.]
 
 
-Ytterligare frågor:
+Ytterligare frÃ¥gor:
 
-Fråga: Vilka andra strategier finns det?
+FrÃ¥ga: Vilka andra strategier finns det?
 
 	Det finns ett antal handledningar och strategianvisningar
-tillgängliga vid Freecivs webplats vid:
+tillgÃ¤ngliga vid Freecivs webplats vid:
 
 	 http://www.freeciv.org/tutorials/
 
-Dessutom beskriver Freecivs inbyggda hjälp en annan strategi.
+Dessutom beskriver Freecivs inbyggda hjÃ¤lp en annan strategi.
 
 
-Fråga: Vilken tidsgräns skall man sätta i flerspelarspel?
+FrÃ¥ga: Vilken tidsgrÃ¤ns skall man sÃ¤tta i flerspelarspel?
 
-	Det beror på antalet spelare. Om man bara är 2 som spelar
-klarar man sig vanligtvis med tidsgränsen 0. Om man är > 2 eller en av
-de 2 kommer att vara borta från spelet under slumpmässliga tillfällen
-och den andre inte vill vänta kan en tidsgräns på 1 minut (när man
-sätter tidsgränsen anger man dock tiden i sekunder) vara tillräckligt.
-Senare i spelet när det är mer att göra vill man antagligen öka
-tidsgränsen till 4 minuter. I allmänhet behövs det längre tid ju fler
-spelare man är. Sätt den tidsgräns som passar men kom i håg att det brukar
-störa folk om man går över 5 minuter.
+	Det beror pÃ¥ antalet spelare. Om man bara Ã¤r 2 som spelar
+klarar man sig vanligtvis med tidsgrÃ¤nsen 0. Om man Ã¤r > 2 eller en av
+de 2 kommer att vara borta frÃ¥n spelet under slumpmÃ¤ssliga tillfÃ¤llen
+och den andre inte vill vÃ¤nta kan en tidsgrÃ¤ns pÃ¥ 1 minut (nÃ¤r man
+sÃ¤tter tidsgrÃ¤nsen anger man dock tiden i sekunder) vara tillrÃ¤ckligt.
+Senare i spelet nÃ¤r det Ã¤r mer att gÃ¶ra vill man antagligen Ã¶ka
+tidsgrÃ¤nsen till 4 minuter. I allmÃ¤nhet behÃ¶vs det lÃ¤ngre tid ju fler
+spelare man Ã¤r. SÃ¤tt den tidsgrÃ¤ns som passar men kom i hÃ¥g att det brukar
+stÃ¶ra folk om man gÃ¥r Ã¶ver 5 minuter.
 
-Fråga: Vilken kartstorlek ska man använda?
+FrÃ¥ga: Vilken kartstorlek ska man anvÃ¤nda?
 
-	Kartstorleken beror på hur många spelare man är och hur snart
-man vill att spelet ska ta slut. Standardkartstorleken (80x50) är
-tillräckligt stor för ett ganska snabbt 2-spelarspel men ger ett 
+	Kartstorleken beror pÃ¥ hur mÃ¥nga spelare man Ã¤r och hur snart
+man vill att spelet ska ta slut. Standardkartstorleken (80x50) Ã¤r
+tillrÃ¤ckligt stor fÃ¶r ett ganska snabbt 2-spelarspel men ger ett 
 *mycket* snabbt spel om > 3 spelare deltar.
 
-	Snabba spel brukar vara otillfredställande för alla utom
-vinnaren eftersom ingen har haft tid att utveckla något försvar. Om
-man har > 3 spelare bör man använda en 80x80-karta. Om man är > 5
-spelare bör man ha en 100x100-karta.
+	Snabba spel brukar vara otillfredstÃ¤llande fÃ¶r alla utom
+vinnaren eftersom ingen har haft tid att utveckla nÃ¥got fÃ¶rsvar. Om
+man har > 3 spelare bÃ¶r man anvÃ¤nda en 80x80-karta. Om man Ã¤r > 5
+spelare bÃ¶r man ha en 100x100-karta.
 
 
-Fråga: Vad innebär servervalmöjligheten "generator"?
+FrÃ¥ga: Vad innebÃ¤r servervalmÃ¶jligheten "generator"?
 
-	Den påverkar det sätt på vilket kartan skapas. Om man spelat
-Freeciv några gånger utan att ändra på denna servervalmöjlighet har
-man säkerligen hört talas om (och/eller upplevt) problemen med en
-alldeles för liten ö. Att behöva börja på en alldeles för liten ö kan
-göra folk vansinniga. För att åtgärda detta har våra godhjärtade
-hjältar till programmerare byggt in servervalmöjligheten "generator".
-När det är satt till 1 ger det en vanlig karta med öar av olika
-(orättvisa) storlekar. När den är satt till 2, 3 eller 4 ger den öar
-med lika storlek (ibland även några ytterligare småöar). Genom att
-spela med likvärdiga öar kan man se till att ingen kan beklaga sig
-över att förlora på grund av "den där förbannade lilla ön".
+	Den pÃ¥verkar det sÃ¤tt pÃ¥ vilket kartan skapas. Om man spelat
+Freeciv nÃ¥gra gÃ¥nger utan att Ã¤ndra pÃ¥ denna servervalmÃ¶jlighet har
+man sÃ¤kerligen hÃ¶rt talas om (och/eller upplevt) problemen med en
+alldeles fÃ¶r liten Ã¶. Att behÃ¶va bÃ¶rja pÃ¥ en alldeles fÃ¶r liten Ã¶ kan
+gÃ¶ra folk vansinniga. FÃ¶r att Ã¥tgÃ¤rda detta har vÃ¥ra godhjÃ¤rtade
+hjÃ¤ltar till programmerare byggt in servervalmÃ¶jligheten "generator".
+NÃ¤r det Ã¤r satt till 1 ger det en vanlig karta med Ã¶ar av olika
+(orÃ¤ttvisa) storlekar. NÃ¤r den Ã¤r satt till 2, 3 eller 4 ger den Ã¶ar
+med lika storlek (ibland Ã¤ven nÃ¥gra ytterligare smÃ¥Ã¶ar). Genom att
+spela med likvÃ¤rdiga Ã¶ar kan man se till att ingen kan beklaga sig
+Ã¶ver att fÃ¶rlora pÃ¥ grund av "den dÃ¤r fÃ¶rbannade lilla Ã¶n".
 
-Fråga: Ska man förenkla spelet genom att öka mängden guld som spelarna
-       får att börja med?
+FrÃ¥ga: Ska man fÃ¶renkla spelet genom att Ã¶ka mÃ¤ngden guld som spelarna
+       fÃ¥r att bÃ¶rja med?
 
-	Om en oerfaren spelare som spelar mot erfarna spelare föreslår
-en ökning av guldmängden kommer antagligen ingen att beklaga sig.
-Detta är dock inget bra sätt att lära sig att spela. Att börja med
-massor av guld gör spelet mycket enklare och gör det svårare att lära
-sig att hanskas med standardguldmängden. De flesta erfarna spelare
-ökar inte mängden, och de vet hur de ska få mest nytta av en ökning.
-Det vet inte oerfarna spelare. Därför går de i så fall samma öde till
-mötes som Atlantis.
+	Om en oerfaren spelare som spelar mot erfarna spelare fÃ¶reslÃ¥r
+en Ã¶kning av guldmÃ¤ngden kommer antagligen ingen att beklaga sig.
+Detta Ã¤r dock inget bra sÃ¤tt att lÃ¤ra sig att spela. Att bÃ¶rja med
+massor av guld gÃ¶r spelet mycket enklare och gÃ¶r det svÃ¥rare att lÃ¤ra
+sig att hanskas med standardguldmÃ¤ngden. De flesta erfarna spelare
+Ã¶kar inte mÃ¤ngden, och de vet hur de ska fÃ¥ mest nytta av en Ã¶kning.
+Det vet inte oerfarna spelare. DÃ¤rfÃ¶r gÃ¥r de i sÃ¥ fall samma Ã¶de till
+mÃ¶tes som Atlantis.
 
-Anmärkning: Samma sak gäller inställningarna "techlevel" och
+AnmÃ¤rkning: Samma sak gÃ¤ller instÃ¤llningarna "techlevel" och
 "researchspeed"
 
-Fråga: Hur är det med de andra inställningarna?
+FrÃ¥ga: Hur Ã¤r det med de andra instÃ¤llningarna?
 
-	Resten av dem har mest att göra med vilken sorts karta som
-kommer att skapas inför spelet. Att öka "specials" ger större
-sannolikhet att få många tillgångar/ruta och "huts" avgör hur många
-mindre stambyar det ska finnas. Att öka antalet bosättare och
-utforskare gör att spelet går fortare och ökar sannolikheten att
-spelare överlever barbarstammarna som i bland finns i de mindre
+	Resten av dem har mest att gÃ¶ra med vilken sorts karta som
+kommer att skapas infÃ¶r spelet. Att Ã¶ka "specials" ger stÃ¶rre
+sannolikhet att fÃ¥ mÃ¥nga tillgÃ¥ngar/ruta och "huts" avgÃ¶r hur mÃ¥nga
+mindre stambyar det ska finnas. Att Ã¶ka antalet bosÃ¤ttare och
+utforskare gÃ¶r att spelet gÃ¥r fortare och Ã¶kar sannolikheten att
+spelare Ã¶verlever barbarstammarna som i bland finns i de mindre
 stambyarna.
 
-	Inställningarna som har med järnväg att göra avgör hur mycket
-en ruta ger i form av mat/sköldar/handel med järnväg och "foodbox"
-bestämmer hur mycket mat varje medborgare i en stad måste ha innan en
-ny person kan läggas till.
+	InstÃ¤llningarna som har med jÃ¤rnvÃ¤g att gÃ¶ra avgÃ¶r hur mycket
+en ruta ger i form av mat/skÃ¶ldar/handel med jÃ¤rnvÃ¤g och "foodbox"
+bestÃ¤mmer hur mycket mat varje medborgare i en stad mÃ¥ste ha innan en
+ny person kan lÃ¤ggas till.
 
-	För övrigt ger högre "mountains" mer berg, högre "deserts" ger
-mer öken och så vidare.
+	FÃ¶r Ã¶vrigt ger hÃ¶gre "mountains" mer berg, hÃ¶gre "deserts" ger
+mer Ã¶ken och sÃ¥ vidare.
 
-Fråga: Hur får man en viss teknologi?
+FrÃ¥ga: Hur fÃ¥r man en viss teknologi?
 
-	Titta i den inbyggda hjälpen. Den visar vilka teknologier man
-måste ha först.
+	Titta i den inbyggda hjÃ¤lpen. Den visar vilka teknologier man
+mÃ¥ste ha fÃ¶rst.
 
-Det går även att se detta i David Pfitzners "techtree"-karta som kan
-laddas ned från <http://msowww.anu.edu.au/~dwp/freeciv/>.
+Det gÃ¥r Ã¤ven att se detta i David Pfitzners "techtree"-karta som kan
+laddas ned frÃ¥n <http://msowww.anu.edu.au/~dwp/freeciv/>.
 
-Om det inte går man kan läsa i "data/default/techs.ruleset". Där står
-vilka teknologier som man måste ha innan man kan få en given
+Om det inte gÃ¥r man kan lÃ¤sa i "data/default/techs.ruleset". DÃ¤r stÃ¥r
+vilka teknologier som man mÃ¥ste ha innan man kan fÃ¥ en given
 teknologi.
 
-Fråga: Vilka krigsenheter är bäst?
+FrÃ¥ga: Vilka krigsenheter Ã¤r bÃ¤st?
 
-   För angrepp:
+   FÃ¶r angrepp:
 
 	pansar, helikopter, kryssningsmissil, slagskepp, fraktskepp,
-	kärnvapen, haubits, bombflygplan.
+	kÃ¤rnvapen, haubits, bombflygplan.
 
-   För försvar:
+   FÃ¶r fÃ¶rsvar:
 
 	pansar, mekaniserat infanteri, haubits, slagskepp,
-	kryssningsmissil, kärnvapen.
+	kryssningsmissil, kÃ¤rnvapen.
 
-Kom i håg att det bästa försvaret är ett kraftfullt angrepp.
+Kom i hÃ¥g att det bÃ¤sta fÃ¶rsvaret Ã¤r ett kraftfullt angrepp.
 
-Tillägg till detta dokument är välkomna!
+TillÃ¤gg till detta dokument Ã¤r vÃ¤lkomna!

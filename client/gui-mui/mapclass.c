@@ -223,7 +223,7 @@ Object *MakeMap(void)
 
 struct Map_Data
 {
-  /* Über Tags (2 Sprites) */
+  /* Ãœber Tags (2 Sprites) */
   struct Sprite *intro_gfx_sprite;
   struct Sprite *radar_gfx_sprite;
 

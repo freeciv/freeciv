@@ -6,230 +6,230 @@ Dies ist Version 1.14.0.
 
 Dank geht an alle unsere Entwickler, die daran gearbeitet haben.
 
-Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
-Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
+Diese Version enthÃ¤lt eine Menge Ã„nderungen, die unten skizziert sind. 
+Diejenigen, die an den Einzelheiten der Ã„nderungen interessiert sind,
 sollten einen Blick in die ChangeLog Datei werfen.
 
-ÄNDERUNGEN SEIT VERSION 1.13.0
+Ã„NDERUNGEN SEIT VERSION 1.13.0
 
- - Städtenamen können nur noch einmal vergeben werden. Optional sind
-   Städtenamen auch weltweit eindeutig.
+ - StÃ¤dtenamen kÃ¶nnen nur noch einmal vergeben werden. Optional sind
+   StÃ¤dtenamen auch weltweit eindeutig.
  - Ein neuer Kartengenerator (generator 5), der sehr interessante 
    fraktale Karten produziert.
- - Spielstände können vom Server eingelesen werden (load Kommando).
- - Kommandozeilenoptionen für den Client können gespeichert werden.
- - Spezialisten werden zuerst von den zufriedenen Bürgern genommen,
-   nicht von den unzufriedenen. Dadurch ist es schwieriger, Aufstände
-   zurückzudrängen, indem man Steuereintreiber und Wissenschaftler
+ - SpielstÃ¤nde kÃ¶nnen vom Server eingelesen werden (load Kommando).
+ - Kommandozeilenoptionen fÃ¼r den Client kÃ¶nnen gespeichert werden.
+ - Spezialisten werden zuerst von den zufriedenen BÃ¼rgern genommen,
+   nicht von den unzufriedenen. Dadurch ist es schwieriger, AufstÃ¤nde
+   zurÃ¼ckzudrÃ¤ngen, indem man Steuereintreiber und Wissenschaftler
    einstellt.
- - Standardmäßig startet man jetzt ohne vorgegebene Technologien;
-   auch wütende Bürger sind möglich, auch wenn sie selten auftreten.
- - Die Berechnung des Effekts von Steuerraten wurde geändert. Es ist 
-   nicht länger möglich, aus einer 60%-Rate 100% Effekt zu erhalten.
+ - StandardmÃ¤ÃŸig startet man jetzt ohne vorgegebene Technologien;
+   auch wÃ¼tende BÃ¼rger sind mÃ¶glich, auch wenn sie selten auftreten.
+ - Die Berechnung des Effekts von Steuerraten wurde geÃ¤ndert. Es ist 
+   nicht lÃ¤nger mÃ¶glich, aus einer 60%-Rate 100% Effekt zu erhalten.
  - Es gibt einen neuen, historisch genaueren Regelsatz.
- - Eine Option verzögert die Wirkung von Stadtfesten um einige Runden
+ - Eine Option verzÃ¶gert die Wirkung von Stadtfesten um einige Runden
    (show rapturedelay).
- - Die Reihenfolge der Serveraktivitäten beim Rundenwechsel wurde
-   geändert.
- - Einige KI-Verbesserungen. Die KI sollte nun Einheiten und Gebäude
+ - Die Reihenfolge der ServeraktivitÃ¤ten beim Rundenwechsel wurde
+   geÃ¤ndert.
+ - Einige KI-Verbesserungen. Die KI sollte nun Einheiten und GebÃ¤ude
    etwas intelligenter bauen und kaufen.
- - Einige Arbeiten am Code, zur Vorbereitung künfiger Features.
- - /fix und /unfix Kommandos, um Änderungen der Spielregeln nach dem
+ - Einige Arbeiten am Code, zur Vorbereitung kÃ¼nfiger Features.
+ - /fix und /unfix Kommandos, um Ã„nderungen der Spielregeln nach dem
    Spielstart zu verhindern.
  - Die Serverkommandos "rulesout", "log", "freestyle" und "crash" sind
    entfernt worden; "rfcstyle" schaltet jetzt um zwischen rfcstyle und
    freestyle.
  - Der Civ2-Regelsatz entspricht jetzt genauer den Civ2 "Gottheit" 
    Vorgaben.
- - Eine große Menge von Fehlerkorrekturen.
+ - Eine groÃŸe Menge von Fehlerkorrekturen.
 
-ÄNDERUNGEN SEIT VERSION 1.12.0
+Ã„NDERUNGEN SEIT VERSION 1.12.0
 
- - Die Automatische Stadtverwaltung (ASV) verteilt selbständig die
-   Arbeiter und Spezialisten in den Städten.
- - Soundunterstützung.
+ - Die Automatische Stadtverwaltung (ASV) verteilt selbstÃ¤ndig die
+   Arbeiter und Spezialisten in den StÃ¤dten.
+ - SoundunterstÃ¼tzung.
  - Das neue 'isotrident' Grafikset ist jetzt Standard. Die Grafiksets
-   'hires' und 'engels' wurden aus der Distribution herausgenommen, können
+   'hires' und 'engels' wurden aus der Distribution herausgenommen, kÃ¶nnen
    aber von der Website heruntergeladen werden.
  - Ein neuer Stadtdialog im GTK Client.
  - Eine Windows-Version des Clients. Er hat einen verbesserten Verbindungs-
-   dialog und ermöglicht das Laden und Speichern vom Client aus.
+   dialog und ermÃ¶glicht das Laden und Speichern vom Client aus.
  - Eine GTK 2.0 Version des Clients.
- - Bei einer Stadtgründung werden Namen vorgeschlagen, die zum Terrain
+ - Bei einer StadtgrÃ¼ndung werden Namen vorgeschlagen, die zum Terrain
    passen.
- - Der Spieler-Dialog präsentiert seine Informationen jetzt farbig und
+ - Der Spieler-Dialog prÃ¤sentiert seine Informationen jetzt farbig und
    sortierbar. Auch die Spielerflaggen werden angezeigt.
- - Der Server unterstützt nicht mehr die '--server' Kommandozeilenoption,
-   stattdessen können Sie mit der '--info' Option den Ankündigungstext für
-   den Metaserver angeben. Die '-a' Option des Clients überspringt den Ver-
+ - Der Server unterstÃ¼tzt nicht mehr die '--server' Kommandozeilenoption,
+   stattdessen kÃ¶nnen Sie mit der '--info' Option den AnkÃ¼ndigungstext fÃ¼r
+   den Metaserver angeben. Die '-a' Option des Clients Ã¼berspringt den Ver-
    bindungsdialog.
  - Das Serverkommando 'wall' sendet eine Nachricht an alle Spieler.
  - Eine neue, flexible Rundenzeitvorgabe kann mit der 'timeoutinc' Server-
    option eingestellt werden.
- - Übriggebliebene Forschungspunkte werden für den nächsten Fortschritt
+ - Ãœbriggebliebene Forschungspunkte werden fÃ¼r den nÃ¤chsten Fortschritt
    angerechnet.
  - Handelswege bringen mehr ein.
- - Einheiten erhalten doppelte Feuerkraft, wenn sie in Städten liegende
+ - Einheiten erhalten doppelte Feuerkraft, wenn sie in StÃ¤dten liegende
    Schiffe angreifen; der Verteidiger hat nur Feuerkraft 1.
  - Hubschrauber, die von Lufteinheiten angegriffen werden, erhalten 50 %
-   Abzug und haben gegen Jäger nur die Feuerkraft 1.
- - Stadtmauern können auch gebaut werden, wenn man das Weltwunder "Die
-   große Mauer" besitzt.
+   Abzug und haben gegen JÃ¤ger nur die Feuerkraft 1.
+ - Stadtmauern kÃ¶nnen auch gebaut werden, wenn man das Weltwunder "Die
+   groÃŸe Mauer" besitzt.
  - Im Kommunismus wurden die Nahrungskosten von Siedlern in den Standard-
-   regeln auf 1 geändert, unter den Civ2-Regeln betragen sie 2.
- - Tarnkappenjäger und -bomber sind nun wirklich getarnt, und sind teil-
-   weise unsichtbar (so wie U-Boote). Außerdem wurde die Angriffsstärke
-   von Tarnkappenbombern von 14 auf 18 erhöht.
+   regeln auf 1 geÃ¤ndert, unter den Civ2-Regeln betragen sie 2.
+ - TarnkappenjÃ¤ger und -bomber sind nun wirklich getarnt, und sind teil-
+   weise unsichtbar (so wie U-Boote). AuÃŸerdem wurde die AngriffsstÃ¤rke
+   von Tarnkappenbombern von 14 auf 18 erhÃ¶ht.
  - In den Civ2-Regeln gibt es nun Fundamentalismus.
- - Verbesserte Fähigkeiten von Modpacks: Die Karavaneigenschaft wurde
+ - Verbesserte FÃ¤higkeiten von Modpacks: Die Karavaneigenschaft wurde
    geteilt. Neue Wege zur Bestimmung der Forschungskosten. Bessere Doku-
-   mentation. Die Regeln können Starttechnologien festlegen. Es ist mehr
-   als eine Bonustechnologie möglich. Siedlerfähigkeiten wurden geteilt.
-   Die Regelsyntax für Gebäude wurde deutlich erweitert, aber die Effekte
+   mentation. Die Regeln kÃ¶nnen Starttechnologien festlegen. Es ist mehr
+   als eine Bonustechnologie mÃ¶glich. SiedlerfÃ¤higkeiten wurden geteilt.
+   Die Regelsyntax fÃ¼r GebÃ¤ude wurde deutlich erweitert, aber die Effekte
    funktionieren noch nicht.
- - Die Serveroption 'tiyisles' erlaubt 1x1 große Inseln; 'seperatepoles' 
+ - Die Serveroption 'tiyisles' erlaubt 1x1 groÃŸe Inseln; 'seperatepoles' 
    erlaubt Polkontinente.
- - 'citymindist' legt einen Minimalabstand zwischen Städten fest; mit 
+ - 'citymindist' legt einen Minimalabstand zwischen StÃ¤dten fest; mit 
    'notradesize' und 'fulltradesize' kann der Handelsertrag von kleinen
-   Städten verringert werden.
- - Mit der 'angrycitizens' Option können Bürger auch 'wütend' werden.
- - Von 'Wachtürmen' (Befestigungen) aus kann man weiter sehen. Siehe 
+   StÃ¤dten verringert werden.
+ - Mit der 'angrycitizens' Option kÃ¶nnen BÃ¼rger auch 'wÃ¼tend' werden.
+ - Von 'WachtÃ¼rmen' (Befestigungen) aus kann man weiter sehen. Siehe 
    'watchtower' Optionen.
- - Wenn der Palast verlorengeht, erhalten Sie in einer zufällig ausge-
-   wählten Stadt einen neuen. Dieses Verhalten kann mit der Serveroption
+ - Wenn der Palast verlorengeht, erhalten Sie in einer zufÃ¤llig ausge-
+   wÃ¤hlten Stadt einen neuen. Dieses Verhalten kann mit der Serveroption
    'savepalace' ausgeschaltet werden.
- - Regelsätze können nun mit dem Kommando "rulesetdir" in den Server
+ - RegelsÃ¤tze kÃ¶nnen nun mit dem Kommando "rulesetdir" in den Server
    geladen werden. 
- - Die Grenze für die mögliche Anzahl von Nationen in Freeciv wurde
+ - Die Grenze fÃ¼r die mÃ¶gliche Anzahl von Nationen in Freeciv wurde
    entfernt.
- - Das Format für die isometrische Grafik wurde geändert (spec-Datei).
- - Der Code für die Karte und die KI wurde wesentlich bereinigt.
- - Übersetzungen verbessert. Bessere Unterstützung für Pluralformen
-   möglich.
- - Einige Fehler wurden beseitigt, und unter der Oberfläche eine
+ - Das Format fÃ¼r die isometrische Grafik wurde geÃ¤ndert (spec-Datei).
+ - Der Code fÃ¼r die Karte und die KI wurde wesentlich bereinigt.
+ - Ãœbersetzungen verbessert. Bessere UnterstÃ¼tzung fÃ¼r Pluralformen
+   mÃ¶glich.
+ - Einige Fehler wurden beseitigt, und unter der OberflÃ¤che eine
    Menge Arbeit getan.
- - Eine Übersicht über die verbliebenen Fehler steht in doc/de/BUGS.de .
+ - Eine Ãœbersicht Ã¼ber die verbliebenen Fehler steht in doc/de/BUGS.de .
 
-ÄNDERUNGEN SEIT VERSION 1.11.4
+Ã„NDERUNGEN SEIT VERSION 1.11.4
 
- - Mehrsprachigkeit erweitert. Weitere Verbesserungen sind nötig.
-   Gegenwärtige Übersetzungen: de en_GB es fr hu it ja nl no pl pt 
+ - Mehrsprachigkeit erweitert. Weitere Verbesserungen sind nÃ¶tig.
+   GegenwÃ¤rtige Ãœbersetzungen: de en_GB es fr hu it ja nl no pl pt 
    pt_BR ro ru sv.
  - Isometrische Ansicht im GTK- und Amiga-Client mit dem weitgehend
-   Civ 2-kompatiblen HiRes Tileset. Dies ist standardmäßig eingeschal-
+   Civ 2-kompatiblen HiRes Tileset. Dies ist standardmÃ¤ÃŸig eingeschal-
    tet, aber die alte nichtisometrische Darstellung ist weiterhin ver-
-   fügbar, mit der --tiles Option des Client, z.B. 
+   fÃ¼gbar, mit der --tiles Option des Client, z.B. 
    "civclient --tiles trident".
  - Bei Eingabe des Goto-Befehls (Taste "g") zeigt eine Linie die Route
    von der Einheit bis zum Mauszeiger an. Die Taste "g" setzt einen
    Wegpunkt an der Stelle des Mauszeigers.
- - Der Server vervollständigt nun die Eingaben. Dies funktioniert auf
+ - Der Server vervollstÃ¤ndigt nun die Eingaben. Dies funktioniert auf
    allen Ebenen. z.B. "cu<TAB>" wird zu "cut", und wenn ein Spieler
    namens "paulz" existiert, wird "cut pau<TAB>" zu "cut paulz" kom-
    plettiert.
- - Spieler können sich gegenseitig Karteneinsicht geben, dann sieht man
+ - Spieler kÃ¶nnen sich gegenseitig Karteneinsicht geben, dann sieht man
    automatisch alles, was der andere Spieler sieht.
- - Im Menü lassen sich die Details einstellen, die auf der Karte ange-
-   zeigt werden. Z.B. kann man wählen, das Straßen nicht angezeigt 
+ - Im MenÃ¼ lassen sich die Details einstellen, die auf der Karte ange-
+   zeigt werden. Z.B. kann man wÃ¤hlen, das StraÃŸen nicht angezeigt 
    werden.
- - Der Server prüft die verbundenen Clients, und trennt die Verbindung
+ - Der Server prÃ¼ft die verbundenen Clients, und trennt die Verbindung
    zu denen, die nicht rechtzeitig antworten.
  - Geschicktere Plazierung der Partisanen.
- - Der Server startet nicht mehr automatisch, wenn die Höchstzahl der
+ - Der Server startet nicht mehr automatisch, wenn die HÃ¶chstzahl der
    Spieler erreicht ist.
  - Wenn Zugriffsebenen verwendet werden und der kontrollierende Spieler
    ausscheidet, kann ein anderer Spieler mit dem "/firstlevel" Befehl
    die erste Zugriffsebene erhalten.
- - Die Datei README.ruleset enthält nun einen Abschnitt über
-   "Einschränkungen und Grenzen".
- - Karawanen, Diplomaten und Spione können nun in verbündete Städte 
+ - Die Datei README.ruleset enthÃ¤lt nun einen Abschnitt Ã¼ber
+   "EinschrÃ¤nkungen und Grenzen".
+ - Karawanen, Diplomaten und Spione kÃ¶nnen nun in verbÃ¼ndete StÃ¤dte 
    ziehen.
  - Elephanten, Kreuzritter, und Fanatiker sind nun in den Civ 2 Regeln
    enthalten (civ2 ruleset).
- - Dei Größe der städtischen Kornkammer wird nun über die ruleset-
+ - Dei GrÃ¶ÃŸe der stÃ¤dtischen Kornkammer wird nun Ã¼ber die ruleset-
    Variablen "granary_food_ini" und "granary_food_inc" eingestellt.
  - Die Anzahl der im ruleset einstellbaren Stadterweiterungen ist nun 
    unbegrenzt.
- - Kapitalisierung ist nun von Spielbeginn an verfügbar, in den 
+ - Kapitalisierung ist nun von Spielbeginn an verfÃ¼gbar, in den 
    Standardregeln.
- - Städte können 0 Handelspunkte abwerfen (bisher mindestens 1).
- - Siedler können nur zu einer Stadt hinzugefügt werden, die kleiner 
-   als Größe 8 ist, wie in Civ 2.
- - Wenn ein Fallschirmspringer über unbekanntem Gebiet abspringt, und 
+ - StÃ¤dte kÃ¶nnen 0 Handelspunkte abwerfen (bisher mindestens 1).
+ - Siedler kÃ¶nnen nur zu einer Stadt hinzugefÃ¼gt werden, die kleiner 
+   als GrÃ¶ÃŸe 8 ist, wie in Civ 2.
+ - Wenn ein Fallschirmspringer Ã¼ber unbekanntem Gebiet abspringt, und 
    das Zielfeld von einer feindlichen Einheit besetzt ist, ist der 
-   Fallschirmspringer verloren. Springt er (aus Versehen) über dem Meer
+   Fallschirmspringer verloren. Springt er (aus Versehen) Ã¼ber dem Meer
    ab, ist er ebenfalls verloren.
- - Diplomaten und Spione können nicht vom Schiff aus arbeiten.
- - Das Auftanken der Lufteinheiten wird so durchgeführt, das Einheiten
+ - Diplomaten und Spione kÃ¶nnen nicht vom Schiff aus arbeiten.
+ - Das Auftanken der Lufteinheiten wird so durchgefÃ¼hrt, das Einheiten
    mit leerem Tank bevorzugt werden; in zweiter Linie werden die teu-
    ersten Einheiten bevorzugt.
- - Die Gefahr, Triremen zu verlieren, hängt davon ab, welche Techno-
+ - Die Gefahr, Triremen zu verlieren, hÃ¤ngt davon ab, welche Techno-
    logien bekannt sind.
- - Leonardos Werkstatt modernisiert die Einheiten jetzt in zufälliger
+ - Leonardos Werkstatt modernisiert die Einheiten jetzt in zufÃ¤lliger
    Reihenfolge.
- - Truppen in verbündeten Städten erzeugen keine zusätzliche Unzufrie-
+ - Truppen in verbÃ¼ndeten StÃ¤dten erzeugen keine zusÃ¤tzliche Unzufrie-
    denheit.
- - Wüsten werden vorzugsweise zwischen dem 15. und 35. Breitengrad 
+ - WÃ¼sten werden vorzugsweise zwischen dem 15. und 35. Breitengrad 
    erzeugt.
- - An den Polen befinden sich nun ausschließlich Gletscher.
- - Der Server weist darauf hin, wenn eine neue Regierungsform verfügbar
+ - An den Polen befinden sich nun ausschlieÃŸlich Gletscher.
+ - Der Server weist darauf hin, wenn eine neue Regierungsform verfÃ¼gbar
    wird.
- - Vor Hungersnöten wird nun rechtzeitig gewarnt.
+ - Vor HungersnÃ¶ten wird nun rechtzeitig gewarnt.
  - Es wird mitgeteilt, wenn ein Weltwunder kurz vor der Vollendung 
    steht.
  - Die Spieler werden darauf hingewiesen, wenn eines ihrer Wunder 
    ausgelaufen (veraltet) ist.
- - Im Spieler-Dialog wird nun aufgeführt, welche Spieler bei Dir eine 
-   Botschaft gegründet haben. Deine eigenen Botschaften werden eben-
+ - Im Spieler-Dialog wird nun aufgefÃ¼hrt, welche Spieler bei Dir eine 
+   Botschaft gegrÃ¼ndet haben. Deine eigenen Botschaften werden eben-
    falls angezeigt.
  - Im Weltwunder-Bericht werden auch die im Bau befindlichen Wunder 
    gelistet.
  - Der "save" Befehl speichert den Spielstand unter
-   <auto-save Namenspräfix><jahr>m.sav[.gz] wenn kein Argument
+   <auto-save NamensprÃ¤fix><jahr>m.sav[.gz] wenn kein Argument
    angegeben wird.
  - Die Serveroption "quitidle" beendet den Server, wenn kein Spieler 
    mehr verbunden ist.
  - Mit der Option "autotoggle" werden menschliche Nationen von der KI 
-   übernommen, wenn kein Spieler mehr mit der Nation verbunden ist.
+   Ã¼bernommen, wenn kein Spieler mehr mit der Nation verbunden ist.
  - Der Server blockiert nicht mehr, wenn er einem langsamen Host
-   Daten sendet, einstellbar über die Optionen "tcptimeout" und
+   Daten sendet, einstellbar Ã¼ber die Optionen "tcptimeout" und
    "netwait".
- - Die Servervariable "savename" stellt den Präfix für automatisches 
+ - Die Servervariable "savename" stellt den PrÃ¤fix fÃ¼r automatisches 
    Speichern ein.
  - Die Servervariable "allowconnect" gibt die Kontrolle, welche Typen
    von Spielern (neue Spieler, menschliche Spieler, KI-Spieler, tote 
-   Spieler, Barbaren) von einem Client übernommen werden können.
- - Weitere Nationen hinzugefügt.
+   Spieler, Barbaren) von einem Client Ã¼bernommen werden kÃ¶nnen.
+ - Weitere Nationen hinzugefÃ¼gt.
  - Neue Landkarten im Verzeichnis data/scenario: 
    Britische Inseln (british-isles-80x76-v2.51.sav), 
    Iberische Halbinsel (iberian-peninsula-136x100-v0.9.sav), 
    Die Erde (hagworld-120x60-v1.2.sav).
- - Mehrsprachigkeit und Übersetzungen für Amiga.
- - Amiga-Client: History-Funktion für Chat.
- - Jede Menge Korrekturen und Aufräumarbeiten.
+ - Mehrsprachigkeit und Ãœbersetzungen fÃ¼r Amiga.
+ - Amiga-Client: History-Funktion fÃ¼r Chat.
+ - Jede Menge Korrekturen und AufrÃ¤umarbeiten.
 
-ÄNDERUNGEN SEIT VERSION 1.11.0
+Ã„NDERUNGEN SEIT VERSION 1.11.0
 
  - Die Eingabezeile am Server kann nun editiert werden.
- - Die Einheiten zu Spielbeginn können nun über eine gewisse
-   Fläche verteilt werden. Siehe Serveroption "dispersion".
+ - Die Einheiten zu Spielbeginn kÃ¶nnen nun Ã¼ber eine gewisse
+   FlÃ¤che verteilt werden. Siehe Serveroption "dispersion".
  - Der erste Client, der sich mit einem Server verbindet, kann
-   nun eine höhere Zugriffsebene erhalten. Siehe Serveroption
+   nun eine hÃ¶here Zugriffsebene erhalten. Siehe Serveroption
    "cmdlevel".
- - Spielstände werden nun automatisch komprimiert gespeichert
+ - SpielstÃ¤nde werden nun automatisch komprimiert gespeichert
    und beim Laden entpackt.
  - Minimale Anzahl von angrenzenden Ozeanfeldern ist erforder-
    lich, um Land in Meer zu transformieren (Standard ist 1).
- - Nuklearer Fallout. Industrie und Bevölkerung erzeugen weiter
+ - Nuklearer Fallout. Industrie und BevÃ¶lkerung erzeugen weiter
    Verschmutzung. Eine Atombombe erzeugt Fallout, der sich von
    Verschmutzung unterscheidet. Es gibt einen neuen Befehl, um
-   Fallout zu beseitigen. Fallout trägt zum Nuklearen Winter bei,
-   der ebenfalls die Landschaft verändert, aber zu Wüsten,
+   Fallout zu beseitigen. Fallout trÃ¤gt zum Nuklearen Winter bei,
+   der ebenfalls die Landschaft verÃ¤ndert, aber zu WÃ¼sten,
    Tundra, und Gletscher. Ein neues Symbol im Infofeld zeigt an,
    wie weit fortgeschritten der Nukleare Winter ist, und auf der
-   Karte gibt es ein neues Symbol für Fallout. Die KI bemüht sich
+   Karte gibt es ein neues Symbol fÃ¼r Fallout. Die KI bemÃ¼ht sich
    nun mehr, Verschmutzung zu beseitigen, jedoch nicht Fallout.
- - Freeciv läuft nun unter OpenVMS.
+ - Freeciv lÃ¤uft nun unter OpenVMS.
  - Dei meisten Dinge, die bisher mit der "civstyle" Serveroption
    eingestellt wurden, werden nun durch das ruleset eingestellt.
  - Fehler in der Anzeige des Baufortschritts wurde beseitigt.
@@ -237,82 +237,82 @@ sollten einen Blick in die ChangeLog Datei werfen.
    sucht, werden die Einheiten nun richtig angezeigt.
  - Mehrere Fehler des Goto-Befehls wurden beseitigt.
  - Fehler beseitigt: Durch speichern und Neustart des Spieles
-   während einer Revolution konnte man die Anarchieperiode um-
+   wÃ¤hrend einer Revolution konnte man die Anarchieperiode um-
    gehen.
- - Fehler beseitigt: Es war möglich, einen Fallschirmspringer in
+ - Fehler beseitigt: Es war mÃ¶glich, einen Fallschirmspringer in
    einer Stadt abzusetzen, auch wenn dort feindliche Einheiten
    standen.
 
-ÄNDERUNGEN SEIT VERSION 1.10.0
+Ã„NDERUNGEN SEIT VERSION 1.10.0
 
  - Die Mehrsprachigkeit wurde erweitert. Weitere Verbesserung
-   nötig. Gegenwärtige Übersetzungen: de en_GB es fr hu ja nl no
+   nÃ¶tig. GegenwÃ¤rtige Ãœbersetzungen: de en_GB es fr hu ja nl no
    pl pt pt_BR ru.
- - Nebel des Krieges eingeführt. Kontrolliert von der Server-
+ - Nebel des Krieges eingefÃ¼hrt. Kontrolliert von der Server-
    option "fogofwar".
- - Diplomatischer Status zwischen Nationen eingeführt: Krieg,
-   Neutralität, kein Kontakt, Waffenstillstand, Frieden und
-   Bündnis.
- - Landschaftstransformation Land/Ozean. Ingenieure können Sumpf
+ - Diplomatischer Status zwischen Nationen eingefÃ¼hrt: Krieg,
+   NeutralitÃ¤t, kein Kontakt, Waffenstillstand, Frieden und
+   BÃ¼ndnis.
+ - Landschaftstransformation Land/Ozean. Ingenieure kÃ¶nnen Sumpf
    in Meer und Meer in Sumpf verwandeln. Wald kann in Sumpf ver-
    wandelt werden.
- - Es sind nun bis zu 30 Spieler möglich.
+ - Es sind nun bis zu 30 Spieler mÃ¶glich.
  - Eingraben (von Einheiten) dauert nun 1 Runde (wie in Civ1/2).
  - Das Apollo-Wunder ist nun wie in Civ2 (zeigt die ganze Karte
-   und nicht nur die Städte). Einstellbar über die "civstyle"
+   und nicht nur die StÃ¤dte). Einstellbar Ã¼ber die "civstyle"
    Serveroption.
  - Agressive See-Einheiten verursachen keine Unzufriedenheit,
    wenn sie sich in einer Stadt befinden.
  - Wenn ein Schiff eine Landeinheit angreift, wird nun beider
    Feuerkraft auf 1 reduziert (entspricht Civ2).
- - Wenn das gegenwärtige Forschungsziel geändert wird, und dann
-   wieder zurückgewechselt wird, bleiben die Forschungspunkte
+ - Wenn das gegenwÃ¤rtige Forschungsziel geÃ¤ndert wird, und dann
+   wieder zurÃ¼ckgewechselt wird, bleiben die Forschungspunkte
    erhalten.
  - Beim Klick auf das Infofeld werden mehr Informationen ange-
    zeigt.
- - Die Anzeige der Globalen Erwärmung wurde verbessert.
+ - Die Anzeige der Globalen ErwÃ¤rmung wurde verbessert.
  - Hinweis auf bevorstehendes Stadtwachstum.
- - Der Serverbefehl "remove <Spieler>" ist nicht mehr verfügbar,
+ - Der Serverbefehl "remove <Spieler>" ist nicht mehr verfÃ¼gbar,
    wenn das Spiel begonnen hat.
- - Über die Serveroptionen "fixedlength" und "timeout" kann ein
+ - Ãœber die Serveroptionen "fixedlength" und "timeout" kann ein
    Rundenzeitlimit vorgegeben werden.
- - Als Rundendauer kann länger sein (bis zu 1 Tag).
- - Goto-Befehl für Lufteinheiten. Wenn das Ziel außer Reichweite
-   ist, werden Zwischenstops in Städten und auf Luftbasen einge-
+ - Als Rundendauer kann lÃ¤nger sein (bis zu 1 Tag).
+ - Goto-Befehl fÃ¼r Lufteinheiten. Wenn das Ziel auÃŸer Reichweite
+   ist, werden Zwischenstops in StÃ¤dten und auf Luftbasen einge-
    legt.
- - Einheiten können nun durch Klicken auf den Einheitenstapel in
-   der Anzeige links ausgewählt werden.
- - Diplomaten und Spione können mit dem Goto-Befehl nun auch in
-   gegnerische Städte bewegt werden. Das Befehlsfenster öffnet 
+ - Einheiten kÃ¶nnen nun durch Klicken auf den Einheitenstapel in
+   der Anzeige links ausgewÃ¤hlt werden.
+ - Diplomaten und Spione kÃ¶nnen mit dem Goto-Befehl nun auch in
+   gegnerische StÃ¤dte bewegt werden. Das Befehlsfenster Ã¶ffnet 
    sich, wenn sie die Stadt erreichen.
  - Verbesserte Umsetzung des Goto-Befehls.
- - Die Hilfe zeigt an, ob durch einen Fortschritt ein Gebäude
+ - Die Hilfe zeigt an, ob durch einen Fortschritt ein GebÃ¤ude
    veraltet.
  - Die Stadtproduktion kann auf der Karte angezeigt werden.
  - Die Serveroption "autotoggle" schaltet den KI-Status eines
    Spielers ein und aus, wenn ein Spieler die Verbindung auf-
    nimmt oder trennt.
- - Der Hoover-Staudamm kann nun überall gebaut werden (wie in
+ - Der Hoover-Staudamm kann nun Ã¼berall gebaut werden (wie in
    Civ2).
  - Im Forschungsbericht werden nun die Runden pro Fortschritt
    angezeigt.
  - Verbesserte Darstellung der Karte und der Einheitenbewegung.
  - Clientoption "Automatisches Rundenende".
- - Die Strafen für Änderung der Stadtproduktion werden nun kor-
+ - Die Strafen fÃ¼r Ã„nderung der Stadtproduktion werden nun kor-
    rekter angewendet.
  - "Bewachen" und "Eingraben" Befehle auch im Stadtfenser ver-
-   fügbar.
+   fÃ¼gbar.
  - Mehr Nationen.
- - Der GTK+ Client kann nun über eine Ressourcendatei angepasst
+ - Der GTK+ Client kann nun Ã¼ber eine Ressourcendatei angepasst
    werden.
- - Verbesserter Netzwerkcode für zuverlässigere Verbindungen.
- - Für jede Nation gibt es nun eine eigene ruleset Datei.
- - Das Format für Registrierungsdateien wurde erweitert.
- - Weitere Optionen für das ./configure Script: --with-xaw und
+ - Verbesserter Netzwerkcode fÃ¼r zuverlÃ¤ssigere Verbindungen.
+ - FÃ¼r jede Nation gibt es nun eine eigene ruleset Datei.
+ - Das Format fÃ¼r Registrierungsdateien wurde erweitert.
+ - Weitere Optionen fÃ¼r das ./configure Script: --with-xaw und
    --enable-client=xaw3d .
  - Viele Fehler beseitigt und Code bereinigt.
 
-Die ÄNDERUNGEN für die VERSIONEN 1.9.0 bis 1.6.3 finden Sie auf Englisch
+Die Ã„NDERUNGEN fÃ¼r die VERSIONEN 1.9.0 bis 1.6.3 finden Sie auf Englisch
 in der Datei NEWS.
 
 

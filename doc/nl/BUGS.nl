@@ -104,7 +104,7 @@ mensen.)
 
 Dit is wat u moet doen:
 
- - Controleer of het niet één van de bovenstaande fouten is! :-)
+ - Controleer of het niet Ã©Ã©n van de bovenstaande fouten is! :-)
 
  - Controleer het Freeciv website om er zeker van te zijn dat u de laatste
    versie van Freeciv hebt. (We zouden het al opgelost kunnen hebben.)

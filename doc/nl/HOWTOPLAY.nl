@@ -12,7 +12,7 @@ beschikbaar op:
 
      http://www.freeciv.org/manual/
 
-Als u zoekt naar ideëen om Freeciv te spelen, blijf dan lezen!!
+Als u zoekt naar ideÃ«en om Freeciv te spelen, blijf dan lezen!!
 
         Nu u Freeciv opgestart hebt, zult u uw eerste paar spellen willen
 spelen. Het wordt u aangeraden om eerst een paar keer alleen te spelen,
@@ -25,7 +25,7 @@ V: Kunt u mij een basisstrategie geven?
         Ten eerste, dit is niet een *perfecte* strategie; het is zelfs
 geen goede. Maar het helpt u aan de gang met het spelen van Freeciv.
 Onderdeel van de aantrekkingskracht van Freeciv is het ontwikkelen van
-nieuwe strategieën.
+nieuwe strategieÃ«n.
 
         Het spel is onderverdeeld in verschillende fasen:
 
@@ -104,7 +104,7 @@ bouw spoorwegen op elk vlak die een stad inneemt. Het verhoogt die stads'
 inkomen. Er is geen reden om het centrale vlak op te waarderen, dat gebeurt
 automagisch.)
 
-        Nu is het de tijd om industrialisatie en militaire technologieën te
+        Nu is het de tijd om industrialisatie en militaire technologieÃ«n te
 ontwikkelen. U zou nu ook moeten beginnen met het bouwen van steden op andere
 eilanden en om u serieus met verkenningen bezig te houden indien u dat nog
 niet hebt gedaan. U moet uitzoeken waar uw vijanden zijn. Ga voor scheepvaart
@@ -119,7 +119,7 @@ een probleem. Probeer zo snel als u kunt massaproduktie te onderzoeken voor
 massavervoer en hergebruik zodat u kringloopcentra kunt bouwen. Zodra alle
 steden op volle sterkte draaien, begint u aan militaire eenheden. (Opmerking:
 Als u in contact komt met andere spelers dient u onmiddelijk enkele aanvals-
-eenheden te bouwen en tenminste één verdedigingseenheid per stad.)
+eenheden te bouwen en tenminste Ã©Ã©n verdedigingseenheid per stad.)
 
         Wanneer u erover begint te denken om iemand aan te vallen, zet dan de
 onderzoekswaarde op 0% en de belastingswaarde zo hoog mogelijk zonder onlusten
@@ -144,7 +144,7 @@ Centauri aankomt.]
 
 Extra vragen:
 
-V. Welke strategieën zijn er nog meer?
+V. Welke strategieÃ«n zijn er nog meer?
 
         Er zijn een aantal (Engelstalige) instructie- en strategie-documenten
 beschikbaar op de Freeciv web pagina's op:
@@ -158,7 +158,7 @@ V. Welke tijdslimiet moet ik gebruiken in multispeler-spellen?
 
         Dat hangt van het aantal spelers af. Als er slechts twee van u spelen,
 komt u meestal wel weg met een tijdslimiet van 0 (=geen). Als er meer dan twee
-zijn of als één van de twee op willekeurige tijden wegloopt van zijn werkplek
+zijn of als Ã©Ã©n van de twee op willekeurige tijden wegloopt van zijn werkplek
 en u wilt niet stoppen met spelen dan is een tijdslimiet van 60 seconden
 doorgaans voldoende. Later in het spel echter, als de zaken complexer gaan
 worden, dan is het beter deze op te hogen naar 240 seconden. In het algemeen:
@@ -170,7 +170,7 @@ waarden boven de 300 mensen doorgaans irriteert.
 V. Welke kaartgrootte zal ik gebruiken?
 
         De kaartgrootte hangt af van het aantal spelers en hoe snel u het spel
-wilt beëindigen. De standaard grootte (80x50) is groot genoeg voor een
+wilt beÃ«indigen. De standaard grootte (80x50) is groot genoeg voor een
 redelijk snel twee-speler spel, maar resulteert in een *erg* snel spel als er
 meer dan drie mensen meedoen.
 
@@ -229,15 +229,15 @@ landschap, hogere "deserts" meer woestijn, enz.
 
 V. Hoe krijg ik _____ technologie?
 
-Zoek de technologie op in de online help. Het zal u de technologieën tonen die
+Zoek de technologie op in de online help. Het zal u de technologieÃ«n tonen die
 u eerst dient te ontwikkelen.
 
 Alternatief: u kunt David Pfitzner's "techtree" kaart van 
 http://msowww.anu.edu.au/~dwp/freeciv/ downloaden.
 
 Als dat allemaal niet lukt, dan kunt u de technologie spelregels in
-'data/default/techs.ruleset' lezen. Het toont de lijst van alle technologieën
-en welke technologieën nodig zijn om ze te kunnen ontwikkelen.
+'data/default/techs.ruleset' lezen. Het toont de lijst van alle technologieÃ«n
+en welke technologieÃ«n nodig zijn om ze te kunnen ontwikkelen.
 
 
 V. Welke militaire eenheden zijn het beste bruikbaar?

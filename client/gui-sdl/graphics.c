@@ -16,9 +16,9 @@
                              -------------------
     begin                : Mon Jul 1 2002
     copyright            : (C) 2000 by Michael Speck
-			 : (C) 2002 by Rafa≥ Bursig
+			 : (C) 2002 by Rafa≈Ç Bursig
     email                : Michael Speck <kulkanie@gmx.net>
-			 : Rafa≥ Bursig <bursig@poczta.fm>
+			 : Rafa≈Ç Bursig <bursig@poczta.fm>
  **********************************************************************/
 
 #ifdef HAVE_CONFIG_H
