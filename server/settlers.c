@@ -483,13 +483,19 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
 }
 #endif
 
+/*************************************************************************/
+
 /* all of the benefit and ai_calc routines rewritten by Syela */
 /* to conform with city_tile_value and related calculations elsewhere */
 /* all of these functions are VERY CPU-inefficient and are being cached */
 /* I don't really want to rewrite them and possibly screw them up. */
 /* The cache should keep the CPU increase linear instead of quadratic. -- Syela */
 
-int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_pollution(struct city *pcity, struct player *pplayer,
+			     int i, int j)
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
@@ -500,6 +506,9 @@ int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
   return(m);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int is_wet(struct player *pplayer, int x, int y)
 {
   enum tile_terrain_type t;
@@ -514,7 +523,11 @@ static int is_wet(struct player *pplayer, int x, int y)
   return 0;
 }
 
-int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
+			    int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
@@ -552,7 +565,11 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
-int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_mine(struct city *pcity, struct player *pplayer,
+			int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
@@ -581,7 +598,11 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
-int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_transform(struct city *pcity, struct player *pplayer,
+			     int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
@@ -610,6 +631,9 @@ int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int road_bonus(int x, int y, int spc)
 {
   int m = 0, k;
@@ -645,7 +669,11 @@ static int road_bonus(int x, int y, int spc)
   return(m);
 }
 
-int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_road(struct city *pcity, struct player *pplayer,
+			int i, int j)
 {
   int x, y, m;
   struct tile *ptile;
@@ -662,7 +690,11 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
-int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
+/**************************************************************************
+...
+**************************************************************************/
+static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
+			    int i, int j)
 {
   int x, y, m;
   struct tile *ptile;
@@ -800,9 +832,50 @@ struct unit *other_passengers(struct unit *punit)
   return 0;
 }
 
-/********************************************************************
+/**************************************************************************
+...
+**************************************************************************/
+static void consider_settler_action(struct player *pplayer, enum unit_activity act,
+				    int extra, int newv, int oldv, int in_use,
+				    int d, int *best_newv, int *best_oldv,
+				    int *best_act, int *gx, int *gy, int x, int y)
+{
+  int a, b=0;
+  int consider;
+
+  if (extra >= 0) {
+    consider = (newv >= 0);
+  } else {
+    consider = (newv >= oldv);
+  }
+
+  if (consider) {
+    if (extra >= 0) {
+      newv = MAX(newv, oldv) + extra;
+    }
+    /* give squares which can be improved and are currently in use a bonus */
+    b = MAX((newv - oldv)*((in_use) ? 64:32), MORT);
+    a = amortize(b, d);
+    newv = ((a * b) / (MAX(1, b - a)))/64;
+  } else {
+    newv = 0;
+  }
+
+  if (newv > *best_newv || (newv == *best_newv && oldv > *best_oldv)) {
+    freelog(LOG_DEBUG,
+	    "Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
+	    *gx, *gy, *best_newv, get_activity_text(act), x, y, newv, d, b);
+    *best_newv = newv;
+    *best_oldv = oldv;
+    *best_act = act;
+    *gx = x;
+    *gy = y;
+  }
+}
+
+/**************************************************************************
   find some work for the settler
-*********************************************************************/
+**************************************************************************/
 static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
@@ -820,6 +893,8 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int best_oldv = 9999;		/* oldv of best target so far; compared if
 				   newv==best_newv; not initialized to zero,
 				   so that newv=0 activities are not chosen */
+  int in_use;			/* true if the target square is being used
+				   by one of our cities */
   int best_act = 0;		/* ACTIVITY_ of best target so far */
   int food_upkeep;		/* upkeep food value for single settler  */
   int food_cost;		/* estimated food cost to produce settler */
@@ -828,8 +903,8 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
   
   int x, y, i, j;
-  int a, b=0, d=0;
-  int worst;
+  int b=0, d=0;
+
   int save_newv;		/* for debugging only */
   
   struct ai_choice choice;	/* for nav want only */
@@ -860,10 +935,10 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
      AI settlers improving enemy cities.  arguably should include city_spot  */
   generate_warmap(mycity, punit);
   city_list_iterate(pplayer->cities, pcity)
-    worst = worst_worker_tile_value(pcity);
     /* try to work near the city */
     city_map_iterate_outwards(i, j)
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
+      in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       x = map_adjust_x(pcity->x + i - 2);
       y = pcity->y + j - 2;	/* No adjust! */
       if ((y >= 0 && y < map.ysize)
@@ -877,130 +952,64 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 	   was but subroutines are not -- Syela	*/
 	mv_turns = (warmap.cost[x][y]) / mv_rate;
         oldv = city_tile_value(pcity, i, j, 0, 0);
-        if (worst > oldv && (i != 2 || j != 2)) oldv = worst;
-	/* perhaps I should just subtract worst rather than oldv but
-	   I prefer this -- Syela */
 
-/* Christopher Neufeld provided a rather crufty patch to make settlers
-needlessly idle less often.  I didn't want to apply it, but the ideas
-for the -1 return values in ai_calc_*, the !irrigation in calc_mine,
-and the prioritization of useless (b <= 0) activities are his. -- Syela
-*/
+	/* now, consider various activities... */
 
-	newv = pcity->ai.irrigate[i][j];
-        if (newv >= oldv) { /* worth evaluating */
-          b = MAX((newv - oldv)*64, MORT);
-          d = (map_build_irrigation_time(x, y) * 3 + mv_rate - 1) / mv_rate
-	    + mv_turns;
-          a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))/64;
-        } else newv = 0;
-        if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	    && ai_fuzzy(pplayer, 1)) {
-	  freelog(LOG_DEBUG,
-		  "Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
-		  gx, gy, best_newv, x, y, newv, d, b);
-	  best_act = ACTIVITY_IRRIGATE;
-	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-        }
+	d = (map_build_irrigation_time(x, y)*3 + mv_rate - 1)/mv_rate +
+	  mv_turns;
+	consider_settler_action(pplayer, ACTIVITY_IRRIGATE, -1,
+				pcity->ai.irrigate[i][j], oldv, in_use, d,
+				&best_newv, &best_oldv, &best_act, &gx, &gy,
+				x, y);
 
-	newv = pcity->ai.transform[i][j];
-        if (newv >= oldv) { /* worth evaluating */
-          b = MAX((newv - oldv)*64, MORT);
-          d = (map_transform_time(x, y) * 3 + mv_rate - 1) / mv_rate
-	    + mv_turns;
-          a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))/64;
-        } else newv = 0;
-        if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	    && ai_fuzzy(pplayer, 1)) {
-	  freelog(LOG_DEBUG,
-		  "Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
-		  gx, gy, best_newv, x, y, newv, d, b);
-	  best_act = ACTIVITY_TRANSFORM;
-	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-        }
+	d = (map_transform_time(x, y)*3 + mv_rate - 1)/mv_rate +
+	  mv_turns;
+	consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
+				pcity->ai.transform[i][j], oldv, in_use, d,
+				&best_newv, &best_oldv, &best_act, &gx, &gy,
+				x, y);
 
-	newv = pcity->ai.mine[i][j];
-        if (newv >= oldv) {
-          b = MAX((newv - oldv)*64, MORT);
-          d = (map_build_mine_time(x, y) * 3 + mv_rate - 1) / mv_rate
-	    + mv_turns;
-          a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))/64;
-        } else newv = 0;
-	if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	    && ai_fuzzy(pplayer, 1)) {
-	  freelog(LOG_DEBUG,
-		  "Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d",
-		  gx, gy, best_newv, x, y, newv, d, b);
-	  best_act = ACTIVITY_MINE;
-	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-        }
+	d = (map_build_mine_time(x, y)*3 + mv_rate - 1)/mv_rate +
+	  mv_turns;
+	consider_settler_action(pplayer, ACTIVITY_MINE, -1,
+				pcity->ai.mine[i][j], oldv, in_use, d,
+				&best_newv, &best_oldv, &best_act, &gx, &gy,
+				x, y);
 
         if (!(map_get_tile(x,y)->special&S_ROAD)) {
-  	  newv = pcity->ai.road[i][j];
-          if (newv >= 0) {    
-            newv = MAX(newv, oldv) + road_bonus(x, y, S_ROAD) * 8;
-	    /* guessing about the weighting based on unit upkeeps;
-	       (* 11) was too high! -- Syela */
-            b = MAX((newv - oldv)*64, MORT);
-            d = (map_build_road_time(x, y) * 3 + 3 + mv_rate - 1) / mv_rate
-	      + mv_turns; /* uniquely weird! */
-            a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))/64;
-          } else newv = 0;
-          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	      && ai_fuzzy(pplayer, 1)) {
-	    freelog(LOG_DEBUG, "Replacing (%d, %d) = %d"
-		    " with (%d, %d) R=%d d=%d, b=%d",
-		    gx, gy, best_newv, x, y, newv, d, b);
-	    best_act = ACTIVITY_ROAD;
-	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-          }
+	  d = (map_build_road_time(x, y)*3 + 3 + mv_rate - 1)/mv_rate +
+	    mv_turns;
+	  consider_settler_action(pplayer, ACTIVITY_ROAD,
+				  road_bonus(x, y, S_ROAD) * 8,
+				  pcity->ai.road[i][j], oldv, in_use, d,
+				  &best_newv, &best_oldv, &best_act, &gx, &gy,
+				  x, y);
 
-	  newv = pcity->ai.railroad[i][j];
-          if (newv >= 0) {    
-            newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((newv - oldv)*64, MORT);
-            d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + mv_rate - 1)
-	         / mv_rate + mv_turns;
-            a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))/64;
-          } else newv = 0;
-          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	      && ai_fuzzy(pplayer, 1)) {
-  	    best_act = ACTIVITY_ROAD;
-	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-          }
+	  d = (3*3 + 3*map_build_road_time(x,y) + 3 + mv_rate - 1)/mv_rate +
+	    mv_turns;
+	  consider_settler_action(pplayer, ACTIVITY_ROAD,
+				  road_bonus(x, y, S_RAILROAD) * 4,
+				  pcity->ai.railroad[i][j], oldv, in_use, d,
+				  &best_newv, &best_oldv, &best_act, &gx, &gy,
+				  x, y);
         } else {
-	  newv = pcity->ai.railroad[i][j];
-          if (newv >= 0) {    
-            newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((newv - oldv)*64, MORT);
-            d = (3 * 3 + mv_rate - 1) / mv_rate + mv_turns;
-            a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))/64;
-          } else newv = 0;
-          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
-	      && ai_fuzzy(pplayer, 1)) {
-  	    best_act = ACTIVITY_RAILROAD;
-	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-          }
+	  d = (3*3 + mv_rate - 1)/mv_rate +
+	    mv_turns;
+	  consider_settler_action(pplayer, ACTIVITY_RAILROAD,
+				  road_bonus(x, y, S_RAILROAD) * 4,
+				  pcity->ai.railroad[i][j], oldv, in_use, d,
+				  &best_newv, &best_oldv, &best_act, &gx, &gy,
+				  x, y);
         } /* end S_ROAD else */
 
-	newv = pcity->ai.detox[i][j];
-        if (newv >= 0) {
-          newv = MAX(newv, oldv) + pplayer->ai.warmth;
-          b = MAX((newv - oldv)*64, MORT);
-          d = (3 * 3 + mv_turns + mv_rate - 1) / mv_rate + mv_turns;
-          a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))/64;
-        } else newv = 0;
-        if (newv > best_newv || (newv == best_newv && oldv > best_oldv)) {
-	  best_act = ACTIVITY_POLLUTION;
-	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
-        }
+	d = (3*3 + mv_rate - 1)/mv_rate +
+	  mv_turns;
+	consider_settler_action(pplayer, ACTIVITY_POLLUTION,
+				pplayer->ai.warmth,
+				pcity->ai.detox[i][j], oldv, in_use, d,
+				&best_newv, &best_oldv, &best_act, &gx, &gy,
+				x, y);
+
       } /* end if we are a legal destination */
     city_map_iterate_outwards_end;
   city_list_iterate_end;
@@ -1014,8 +1023,9 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 
   if (best_newv > 0) {
     freelog(LOG_DEBUG,
-	    "Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
-	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
+	    "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+	    punit->id, punit->x, punit->y, get_activity_text(best_act),
+	    gx, gy, best_newv);
   }
   save_newv = best_newv;
   
@@ -1117,7 +1127,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
           if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
             if (newv > choice.want && !punit->id) choice.want = newv;
 	    freelog(LOG_DEBUG,
-		    "%s@(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
+		    "%s @(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
 		    (punit->id ? unit_types[punit->type].name : mycity->name), 
 		    punit->x, punit->y, x, y, b, newv, d);
           } else if (newv > best_newv) {
@@ -1138,14 +1148,12 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
   if (choice.want > 0) ai_choose_ferryboat(pplayer, mycity, &choice);
 
 #ifdef DEBUG
-  if (best_newv != save_newv) {
+  if ((best_newv != save_newv) ||
+      (map_get_terrain(punit->x, punit->y) == T_OCEAN)) {
     freelog(LOG_DEBUG,
-	    "Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
-	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
-  }
-  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
-    freelog(LOG_DEBUG, "Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d",
-	    punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
+	    "%s %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+	    unit_name(punit->type), punit->id, punit->x, punit->y,
+	    get_activity_text(best_act), gx, gy, best_newv);
   }
 #endif
   
@@ -1165,9 +1173,9 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
   if (!punit->id) {
     /* has to be before we try to send_unit_info()! -- Syela */
     freelog(LOG_DEBUG,
-	    "%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)",
+	    "%s (%d, %d) settler-want = %d, task = %s, target = (%d, %d)",
 	    mycity->name, mycity->x, mycity->y, best_newv,
-	    best_act, gx, gy);
+	    get_activity_text(best_act), gx, gy);
     if (gx < 0 && gy < 0) {
       return(0 - best_newv);
     } else {
@@ -1247,6 +1255,9 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
   return(0);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void initialize_infrastructure_cache(struct city *pcity)
 {
   int i, j;
@@ -1333,13 +1344,13 @@ static void assign_settlers(void)
   }
 }
 
-static void assign_region(int x, int y, int n, int d, int s)
+static void assign_region(int x, int y, int player_no, int distance, int s)
 {
   int i, j;
-  for (j = MAX(0, y - d); j <= MIN(map.ysize - 1, y + d); j++) {
-    for (i = x - d; i <= x + d; i++) {
+  for (j = MAX(0, y - distance); j <= MIN(map.ysize - 1, y + distance); j++) {
+    for (i = x - distance; i <= x + distance; i++) {
       if (!s || is_terrain_near_tile(i, j, T_OCEAN))
-        territory[map_adjust_x(i)][j] &= (1<<n);
+        territory[map_adjust_x(i)][j] &= (1<<player_no);
     }
   }
 }
