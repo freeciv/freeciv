@@ -29,7 +29,6 @@
 #include FT_FREETYPE_H
 
 #define DISABLE_TRANSPARENCY 0
-#define P IMAGE_GET_ADDRESS
 
 /*************************************************************************
   Combine RGB colour values into a 24bpp colour value.
@@ -86,10 +85,10 @@ static void image_blit_masked(const struct ct_size *size,
 
   for (y = 0; y < size->height; y++) {
     int src_y = y + src_pos->y;
-    unsigned char *psrc = P(src, src_pos->x, src_y);
+    unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_pos->x, src_y);
 
     int dest_y = y + dest_pos->y;
-    unsigned char *pdest = P(dest, dest_pos->x, dest_y);
+    unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_pos->x, dest_y);
 
     int x;
 
@@ -149,10 +148,10 @@ static void image_blit_masked(const struct ct_size *size,
 
   for (y = 0; y < size->height; y++) {
     int src_y = y + src_pos->y;
-    unsigned char *psrc = P(src, src_pos->x, src_y);
+    unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_pos->x, src_y);
 
     int dest_y = y + dest_pos->y;
-    unsigned char *pdest = P(dest, dest_pos->x, dest_y);
+    unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_pos->x, dest_y);
 
     /*
     PREFETCH(psrc);
@@ -249,7 +248,7 @@ static void image_blit_masked_trans(const struct ct_size *size,
     for (x = 0; x < size->width; x++) {
       int src_x = x + src_pos->x;
       int src_y = y + src_pos->y;
-      unsigned char *psrc = P(src, src_x, src_y);
+      unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_x, src_y);
       unsigned char mask_value = psrc[3];
 
       IMAGE_CHECK(src, src_x, src_y);
@@ -258,7 +257,7 @@ static void image_blit_masked_trans(const struct ct_size *size,
 	int dest_x = x + dest_pos->x;
 	int dest_y = y + dest_pos->y;
 
-	unsigned char *pdest = P(dest, dest_x, dest_y);
+	unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_x, dest_y);
 
 	IMAGE_CHECK(dest, dest_x, dest_y);
 
@@ -300,10 +299,10 @@ static void update_masks(const struct ct_size *size,
     for (x = 0; x < size->width; x++) {
       int src_x = x + src_pos->x;
       int src_y = y + src_pos->y;
-      unsigned char *psrc = P(src, src_x, src_y);
+      unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_x, src_y);
       int dest_x = x + dest_pos->x;
       int dest_y = y + dest_pos->y;
-      unsigned char *pdest = P(dest, dest_x, dest_y);
+      unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_x, dest_y);
 
       pdest[3] = psrc[3];
     }
@@ -328,15 +327,6 @@ static void clip_two_regions(const struct image *dest,
       { src_pos->x, src_pos->y, size->width, size->height };
   struct ct_rect dest_use =
       { dest_pos->x, dest_pos->y, size->width, size->height };
-
-  /*
-    printf("be_copy_osda_to_osda()\n");
-    printf("    size=(%dx%d)\n", size->width, size->height);
-    printf("     src=(%d,%d) (%dx%d)\n", src_pos->x, src_pos->y,
-	   src->width, src->height);
-    printf("    dest=(%d,%d) (%dx%d)\n", dest_pos->x, dest_pos->y,
-	   dest->width, dest->height);
-  */
 
   real_src_pos = *src_pos;
   real_dest_pos = *dest_pos;
@@ -387,8 +377,10 @@ static void set_mask_masked(const struct ct_size *size,
   clip_two_regions(dest, src, &real_size, &real_dest_pos, &real_src_pos);
 
   for (y = 0; y < real_size.height; y++) {
-    unsigned char *psrc = P(src, real_src_pos.x, y + real_src_pos.y);
-    unsigned char *pdest = P(dest, real_dest_pos.x, y + real_dest_pos.y);
+    unsigned char *psrc = IMAGE_GET_ADDRESS(src, real_src_pos.x, 
+                                            y + real_src_pos.y);
+    unsigned char *pdest = IMAGE_GET_ADDRESS(dest, real_dest_pos.x, 
+                                             y + real_dest_pos.y);
 
     IMAGE_CHECK(src, real_src_pos.x, y + real_src_pos.y);
     IMAGE_CHECK(dest, real_dest_pos.x, y + real_dest_pos.y);
@@ -474,7 +466,8 @@ static void draw_mono_bitmap(struct image *image,
     for (x = 0; x < bitmap->width; x++) {
       unsigned char bv = bitmap->buffer[x / 8 + bitmap->pitch * y];
       if (TEST_BIT(bv, 7 - (x % 8))) {
-	unsigned char *p = P(image, x + position->x, y + position->y);
+	unsigned char *p = 
+            IMAGE_GET_ADDRESS(image, x + position->x, y + position->y);
 
 	IMAGE_CHECK(image, x + position->x, y + position->y);
 	memcpy(p, tmp, 4);
@@ -505,7 +498,8 @@ static void draw_alpha_bitmap(struct image *image,
       unsigned short transparency = pbitmap[x];
       unsigned short inv_transparency = 256 - transparency;
       unsigned char tmp[4];
-      unsigned char *p = P(image, position->x + x, position->y + y);
+      unsigned char *p = 
+               IMAGE_GET_ADDRESS(image, position->x + x, position->y + y);
 
       IMAGE_CHECK(image, x, y);
 
@@ -579,7 +573,7 @@ void image_set_mask(const struct image *image, const struct ct_rect *rect,
   for (y = rect->y; y < rect->y + rect->height; y++) {
     for (x = rect->x; x < rect->x + rect->width; x++) {
       IMAGE_CHECK(image, x, y);
-      P(image, x, y)[3] = mask;      
+      IMAGE_GET_ADDRESS(image, x, y)[3] = mask;      
     }
   }
 }
@@ -634,14 +628,14 @@ static void draw_vline(struct image *image, unsigned char *src,
   if (dashed) {
     for (y = y0; y < y1; y++) {
       if (y & (1 << 3)) {
-	  IMAGE_CHECK(image, x, y);
-	memcpy(P(image, x, y), src, 4);
+	IMAGE_CHECK(image, x, y);
+	memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
       }
     }
   } else {
     for (y = y0; y < y1; y++) {
-	  IMAGE_CHECK(image, x, y);
-      memcpy(P(image, x, y), src, 4);
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
     }
   }
 }
@@ -657,14 +651,14 @@ static void draw_hline(struct image *image, unsigned char *src,
   if (dashed) {
     for (x = x0; x < x1; x++) {
       if (x & (1 << 3)) {
-	  IMAGE_CHECK(image, x, y);
-	memcpy(P(image, x, y), src, 4);
+	IMAGE_CHECK(image, x, y);
+	memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
       }
     }
   } else {
     for (x = x0; x < x1; x++) {
-	  IMAGE_CHECK(image, x, y);
-      memcpy(P(image, x, y), src, 4);
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
     }
   }
 }
@@ -706,8 +700,8 @@ static void draw_line(struct image *image, unsigned char *src,
   y = y1;
 
   for (curpixel = 0; curpixel <= numpixels; curpixel++) {
-      IMAGE_CHECK(image, x, y);
-    memcpy(P(image, x, y), src, 4);
+    IMAGE_CHECK(image, x, y);
+    memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
     num += numadd;
     if (num >= den) {
       num -= den;
@@ -785,7 +779,7 @@ void be_draw_region(struct osda *target, enum be_draw_type draw_type,
 
   width = actual.width;
   for (y = actual.y; y < actual.y + actual.height; y++) {
-    unsigned char *pdest = P(target->image, actual.x, y);
+    unsigned char *pdest = IMAGE_GET_ADDRESS(target->image, actual.x, y);
     IMAGE_CHECK(target->image, actual.x, y);
 
     for (x = 0; x < width; x++) {
@@ -806,7 +800,7 @@ bool be_is_transparent_pixel(struct osda *osda, const struct ct_point *pos)
   }
 
   IMAGE_CHECK(osda->image, pos->x, pos->y);
-  return P(osda->image, pos->x, pos->y)[3] == 0;
+  return IMAGE_GET_ADDRESS(osda->image, pos->x, pos->y)[3] == 0;
 }
 
 /*************************************************************************
@@ -862,8 +856,8 @@ void be_write_osda_to_file(struct osda *osda, const char *filename)
       pout = line_buffer;
 
       for (x = 0; x < osda->image->width; x++) {
-	  IMAGE_CHECK(osda->image, x, y);
-	memcpy(pout, P(osda->image, x, y), 3);
+	IMAGE_CHECK(osda->image, x, y);
+	memcpy(pout, IMAGE_GET_ADDRESS(osda->image, x, y), 3);
 	pout += 3;
       }
       fwrite(line_buffer, 3 * osda->image->width, 1, file);
@@ -883,8 +877,9 @@ void image_copy_full(struct image *src, struct image *dest,
 
   for (y = 0; y < region->height; y++) {
     for (x = 0; x < region->width; x++) {
-      unsigned char *psrc = P(src, x + region->x, y + region->y);
-      unsigned char *pdest = P(dest, x, y);
+      unsigned char *psrc = IMAGE_GET_ADDRESS(src, x + region->x, 
+                                              y + region->y);
+      unsigned char *pdest = IMAGE_GET_ADDRESS(dest, x, y);
 
       IMAGE_CHECK(src, x + region->x, y + region->y);
       IMAGE_CHECK(dest, x, y);
@@ -904,10 +899,10 @@ struct image *image_create(int width, int height)
   result->data = fc_malloc(result->pitch * height);
   result->width = width;
   result->height = height;
-  result->full_rect.x=0;
-  result->full_rect.y=0;
-  result->full_rect.width=width;
-  result->full_rect.height=height;
+  result->full_rect.x = 0;
+  result->full_rect.y = 0;
+  result->full_rect.width = width;
+  result->full_rect.height = height;
 
   return result;
 }
