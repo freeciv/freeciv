@@ -204,6 +204,7 @@ static void create_cma_sliders(struct cma_dialog *pdialog,
 {
   struct fcwin_box *hbox = fcwin_hbox_new(win, FALSE);
   struct fcwin_box *vbox[3];
+  int i;
 
   fcwin_box_add_box(box, hbox, FALSE,FALSE, 0);
   for (i = 0; i < 3; i++) {
@@ -235,7 +236,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
   } output_type_iterate_end;
   Button_SetCheck(pdialog->happy,
 		  parameter->require_happy ? BST_CHECKED : BST_UNCHECKED);
-  handle_hscroll(pdialog->mainwin, pdialog->factor[i],
+  handle_hscroll(pdialog->mainwin, pdialog->factor[O_COUNT],
 		 SB_THUMBTRACK, parameter->happy_factor);
   allow_refreshes = 1;
 }
