@@ -54,6 +54,7 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
   }
 
   tb=(map_distance(pc1->x, pc1->y, pc2->x, pc2->y)+10);
+/* should this be real_map_distance?  Leaving for now -- Syela */
   tb=(tb*(pc1->trade_prod+pc2->trade_prod))/24;
   if (map_get_continent(pc1->x, pc1->y) == map_get_continent(pc2->x, pc2->y))
     tb*=0.5;
@@ -73,7 +74,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
 {
   struct city *pcity;
   int i;
-  
+/* printf("Creating city %s\n", name);   */
   pcity=(struct city *)malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
@@ -96,7 +97,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->trade_prod=0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit=1;
-  pcity->did_buy=1;
+  pcity->did_buy=-1; /* code so we get a different message */
   pcity->airlift=0;
   if (can_build_unit(pcity, U_RIFLEMEN))
       pcity->currently_building=U_RIFLEMEN;
@@ -291,22 +292,24 @@ void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
   send_player_info(pplayer, pplayer);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
+void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
-  struct city *pcity;
   char *name;
   int cost, total;
-  pcity=find_city_by_id(preq->city_id);
   if (!pcity || !player_owns_city(pplayer, pcity)) return;
  
-  if (pcity->did_buy) {
+  if (pcity->did_buy > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		  "Game: You have already bought this turn.");
     return;
   }
+
+  if (pcity->did_buy < 0) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		  "Game: Cannot buy in city created this turn.");
+    return;
+  }
+
   if (!pcity->is_building_unit) {
     total=improvement_value(pcity->currently_building);
     name=get_improvement_name(pcity->currently_building);
@@ -325,13 +328,23 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
     return;
   pcity->did_buy=1;
   pplayer->economic.gold-=cost;
-  pcity->shield_stock=total;
+  if (pcity->shield_stock < total) pcity->shield_stock=total; /* AI wants this -- Syela */
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		   "Game: %s bought for %d", name, cost); 
   
   city_refresh(pcity);
   send_city_info(pplayer, pcity, 1);
   send_player_info(pplayer,pplayer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
+{
+  struct city *pcity;
+  pcity=find_city_by_id(preq->city_id);
+  really_handle_city_buy(pplayer, pcity);
 }
 
 /**************************************************************************
@@ -348,7 +361,7 @@ void handle_city_change(struct player *pplayer,
      return;
    if (!preq->is_build_id_unit_id && !can_build_improvement(pcity, preq->build_id))
      return;
-  if (pcity->did_buy && pcity->shield_stock) {
+  if (pcity->did_buy && pcity->shield_stock) { /* did_buy > 0 should be same -- Syela */
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     "Game: You have bought this turn, can't change.");
     return;

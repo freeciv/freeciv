@@ -31,6 +31,7 @@ void handle_city_make_worker(struct player *pplayer,
 void handle_city_sell(struct player *pplayer, 
 		      struct packet_city_request *preq);
 void handle_city_buy(struct player *pplayer, struct packet_city_request *preq);
+void really_handle_city_buy(struct player *pplayer, struct city *pcity);
 void handle_city_change(struct player *pplayer, 
 			struct packet_city_request *preq);
 void handle_city_rename(struct player *pplayer, 
