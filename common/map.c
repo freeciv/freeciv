@@ -1285,6 +1285,14 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 }
 
 /***************************************************************
+  Remove any specials which may exist at these map co-ordinates.
+***************************************************************/
+void map_clear_all_specials(int x, int y)
+{
+  MAP_TILE(x, y)->special = S_NO_SPECIAL;
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 struct city *map_get_city(int x, int y)

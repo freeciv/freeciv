@@ -1632,16 +1632,22 @@ static bool create_island(int islemass, struct gen234_state *pstate)
 /**************************************************************************
   make an island, fill every tile type except plains
   note: you have to create big islands first.
-**************************************************************************/
-static void make_island(int islemass, int starters,
-			struct gen234_state *pstate)
+  Return TRUE if successful.
+  min_specific_island_size is a percent value.
+***************************************************************************/
+static bool make_island(int islemass, int starters,
+			struct gen234_state *pstate,
+			int min_specific_island_size)
 {
-  static long int tilefactor, balance, lastplaced;/* int may be only 2 byte ! */
+  /* int may be only 2 byte ! */
+  static long int tilefactor, balance, lastplaced;
   static long int riverbuck, mountbuck, desertbuck, forestbuck, swampbuck;
 
   int i;
 
   if (islemass == 0) {
+    /* this only runs to initialise static things, not to actually
+     * create an island. */
     balance = 0;
     pstate->isleindex = 3;	/* 0= none, 1= arctic, 2= antarctic */
 
@@ -1663,31 +1669,44 @@ static void make_island(int islemass, int starters,
     lastplaced = pstate->totalmass;
   } else {
 
-   /* makes the islands here */
+    /* makes the islands this big */
     islemass = islemass - balance;
 
     /* don't create continents without a number */
-    if (pstate->isleindex >= MAP_NCONT)
-      return;
+    if (pstate->isleindex >= MAP_NCONT) {
+      return FALSE;
+    }
 
-    if(islemass>lastplaced+1+lastplaced/50)/*don't create big isles we can't place*/
-      islemass= lastplaced+1+lastplaced/50;
+    if (islemass > lastplaced + 1 + lastplaced / 50) {
+      /* don't create big isles we can't place */
+      islemass = lastplaced + 1 + lastplaced / 50;
+    }
 
     /* isle creation does not perform well for nonsquare islands */
-    if(islemass>(map.ysize-6)*(map.ysize-6))
-      islemass= (map.ysize-6)*(map.ysize-6);
+    if (islemass > (map.ysize - 6) * (map.ysize - 6)) {
+      islemass = (map.ysize - 6) * (map.ysize - 6);
+    }
 
-    if(islemass>(map.xsize-2)*(map.xsize-2))
-      islemass= (map.xsize-2)*(map.xsize-2);
+    if (islemass > (map.xsize - 2) * (map.xsize - 2)) {
+      islemass = (map.xsize - 2) * (map.xsize - 2);
+    }
 
     i = islemass;
-    if (i <= 0) return;
+    if (i <= 0) {
+      return FALSE;
+    }
     islands[pstate->isleindex].starters = starters;
 
     freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
 
-    while (!create_island(i--, pstate) && i * 10 > islemass) {
-      /* nothing */
+    /* keep trying to place an island, and decrease the size of
+     * the island we're trying to create until we succeed.
+     * If we get too small, return an error. */
+    while (!create_island(i, pstate)) {
+      if (i < islemass * min_specific_island_size / 100) {
+	return FALSE;
+      }
+      i--;
     }
     i++;
     lastplaced= i;
@@ -1736,6 +1755,7 @@ static void make_island(int islemass, int starters,
     pstate->isleindex++;
     map.num_continents++;
   }
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1752,6 +1772,7 @@ static void initworld(struct gen234_state *pstate)
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x, y, T_OCEAN);
       map_set_continent(x, y, 0);
+      map_clear_all_specials(x, y);
       map_set_owner(x, y, NULL);
     }
   for (x = 0 ; x < map.xsize; x++) {
@@ -1769,11 +1790,18 @@ static void initworld(struct gen234_state *pstate)
     }
   }
   map.num_continents = 2;
-  make_island(0, 0, pstate);
+  make_island(0, 0, pstate, 0);
   islands[2].starters = 0;
   islands[1].starters = 0;
   islands[0].starters = 0;
 }  
+
+/* This variable is the Default Minimum Specific Island Size, 
+ * ie the smallest size we'll typically permit our island, as a % of
+ * the size we wanted. So if we ask for an island of size x, the island 
+ * creation will return if it would create an island smaller than
+ *  x * DMSIS / 100 */
+#define DMSIS 10
 
 /**************************************************************************
   island base map generators
@@ -1784,33 +1812,67 @@ static void mapgenerator2(void)
   struct gen234_state state;
   struct gen234_state *pstate = &state;
   int i;
+  bool done = 0;
   int spares= 1; 
   /* constant that makes up that an island actually needs additional space */
+
+  /* put 70% of land in big continents, 
+   *     20% in medium, and 
+   *     10% in small. */ 
+  int bigfrac = 70, midfrac = 20, smallfrac = 10;
 
   if (map.landpercent > 85) {
     map.generator = 1;
     return;
   }
 
-  pstate->totalmass =
-      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
-      100;
-
-  /*!PS: The weights NEED to sum up to totalweight (dammit) */
-  /* copying the flow of the make_island loops is the safest way */
+  pstate->totalmass = ((map.ysize - 6 - spares) * map.landpercent 
+                       * (map.xsize - spares)) / 100;
   totalweight = 100 * game.nplayers;
 
-  initworld(pstate);
+  while (!done && bigfrac > midfrac) {
+    done = TRUE;
+    initworld(pstate);
+    
+    /* Create one big island for each player. */
+    for (i = game.nplayers; i > 0; i--) {
+      if (!make_island(bigfrac * pstate->totalmass / totalweight,
+                      1, pstate, 95)) {
+	/* we couldn't make an island at least 95% as big as we wanted,
+	 * and since we're trying hard to be fair, we need to start again,
+	 * with all big islands reduced slightly in size.
+	 * Take the size reduction from the big islands and add it to the 
+	 * small islands to keep overall landmass unchanged.
+	 * Note that the big islands can get very small if necessary, and
+	 * the smaller islands will not exist if we can't place them 
+         * easily. */
+	freelog(LOG_VERBOSE,
+		"Island too small, trying again with all smaller islands.\n");
+	midfrac += bigfrac * 0.01;
+	smallfrac += bigfrac * 0.04;
+	bigfrac *= 0.95;
+	done = FALSE;	
+	break;
+      }
+    }
+  }
 
+  if (bigfrac <= midfrac) {
+    /* We could never make adequately big islands. */
+    freelog(LOG_NORMAL, _("Falling back to generator %d."), 1);
+    map.generator = 1;
+    return;
+  }
+
+  /* Now place smaller islands, but don't worry if they're small,
+   * or even non-existent. One medium and one small per player. */
   for (i = game.nplayers; i > 0; i--) {
-    make_island(70 * pstate->totalmass / totalweight, 1, pstate);
+    make_island(midfrac * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
   for (i = game.nplayers; i > 0; i--) {
-    make_island(20 * pstate->totalmass / totalweight, 0, pstate);
+    make_island(smallfrac * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
-  for (i = game.nplayers; i > 0; i--) {
-    make_island(10 * pstate->totalmass / totalweight, 0, pstate);
-  }
+
   make_plains();  
   free(height_map);
   height_map = NULL;
@@ -1858,8 +1920,11 @@ static void mapgenerator3(void)
   if(islandmass<3*maxmassdiv6 && game.nplayers*2<landmass )
     islandmass= (landmass)/(bigislands);
 
-  if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
-    { freelog(LOG_NORMAL,_("Falling back to generator 2.")); mapgenerator2(); return; }
+  if (map.xsize < 40 || map.ysize < 40 || map.landpercent > 80) { 
+      freelog(LOG_NORMAL, _("Falling back to generator %d."), 2); 
+      map.generator = 2;
+      return; 
+    }
 
   if(islandmass<2)
     islandmass= 2;
@@ -1870,7 +1935,7 @@ static void mapgenerator3(void)
 
   while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass
 	 && ++j < 500) {
-    make_island(islandmass, 1, pstate);
+    make_island(islandmass, 1, pstate, DMSIS);
   }
 
   if(j==500){
@@ -1892,7 +1957,7 @@ static void mapgenerator3(void)
       if(size<2) size=2;
 
       make_island(size, (pstate->isleindex - 2 <= game.nplayers) ? 1 : 0,
-		  pstate);
+		  pstate, DMSIS);
   }
 
   make_plains();  
@@ -1947,18 +2012,20 @@ static void mapgenerator4(void)
 
   i = game.nplayers / 2;
   if ((game.nplayers % 2) == 1) {
-    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, pstate);
+    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, 
+		pstate, DMSIS);
   } else {
     i++;
   }
   while ((--i) > 0) {
     make_island(bigweight * 2 * pstate->totalmass / totalweight, 2,
-		pstate);}
-  for (i = game.nplayers; i > 0; i--) {
-    make_island(20 * pstate->totalmass / totalweight, 0, pstate);
+		pstate, DMSIS);
   }
   for (i = game.nplayers; i > 0; i--) {
-    make_island(10 * pstate->totalmass / totalweight, 0, pstate);
+    make_island(20 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
+  }
+  for (i = game.nplayers; i > 0; i--) {
+    make_island(10 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
   make_plains();  
   free(height_map);
@@ -1968,6 +2035,8 @@ static void mapgenerator4(void)
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
 }
+
+#undef DMSIS
 
 /**************************************************************************
 Recursive function which does the work for generator 5
