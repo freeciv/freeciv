@@ -148,19 +148,6 @@ int is_friendly_city_tile(int x, int y, int owner)
 }
 
 /**************************************************************************
- is there a sailing unit on this square
-**************************************************************************/
-int is_sailing_unit_tile(int x, int y)
-{
-  if (map_get_terrain(x, y) != T_OCEAN) return 0;
-  unit_list_iterate(map_get_tile(x,y)->units, punit) 
-    if (is_sailing_unit(punit)) 
-      return 1;
-  unit_list_iterate_end;
-  return 0;
-}
-
-/**************************************************************************
   is this square controlled by the units owner
 **************************************************************************/
 int is_my_zoc(struct unit *myunit, int x0, int y0)
@@ -171,10 +158,12 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
 
   for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
     ax=map_adjust_x(x); ay=map_adjust_y(y);
+    if (is_enemy_city_tile(ax,ay,owner))
+      return 0;
     if (is_enemy_unit_tile(ax,ay,owner))
-      if ((is_sailing_unit(myunit) && is_sailing_unit_tile(ax,ay)) ||
-	  (!is_sailing_unit(myunit) && !is_sailing_unit_tile(ax,ay)) )
-	    return 0;
+      if((is_sailing_unit(myunit) && (map_get_terrain(ax,ay)==T_OCEAN)) ||
+	 (!is_sailing_unit(myunit) && (map_get_terrain(ax,ay)!=T_OCEAN)) )
+        return 0;
   }
   return 1;
 }
