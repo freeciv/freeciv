@@ -2058,7 +2058,8 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
   }
   
   /* draw current occupy status */
-  if (pUnit->owner == game.player_idx && get_transporter_capacity(pUnit) > 0) {
+  if (pUnit->owner == game.player_idx
+      && get_transporter_occupancy(pUnit) > 0) {
     
     des.y += NORMAL_TILE_HEIGHT / 2;
     copy = des;

@@ -1690,7 +1690,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, _("Paradrop"), PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
 		if (unit_flag(punit, F_NUCLEAR))
 		  Map_InsertCommand(&list, _("Explode Nuclear"), PACK_USERDATA(punit, MENU_ORDER_NUKE));
-		if (get_transporter_capacity(punit) > 0)
+		if (get_transporter_occupancy(punit) > 0)
 		  Map_InsertCommand(&list, _("Unload"), PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
 		if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile))
 		  Map_InsertCommand(&list, _("Wake up"), PACK_USERDATA(punit, MENU_ORDER_WAKEUP_OTHERS));
