@@ -176,8 +176,7 @@ on land, if not enough land but some sea free, load some of them on boats,
 otherwise (not much land and no sea) kill enemy unit and stay in a village.
 The return value indicates if the explorer survived entering the vilage.
 **************************************************************************/
-
-bool unleash_barbarians(struct player* victim, int x, int y)
+bool unleash_barbarians(int x, int y)
 {
   struct player *barbarians;
   int unit, unit_cnt, land_cnt=0, sea_cnt=0;

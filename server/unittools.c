@@ -2411,7 +2411,7 @@ static bool hut_get_barbarians(struct unit *punit)
     int punit_y = punit->y;
     Unit_Type_id type = punit->type;
 
-    ok = unleash_barbarians(pplayer, punit_x, punit_y);
+    ok = unleash_barbarians(punit_x, punit_y);
 
     if (ok) {
       notify_player_ex(pplayer, punit_x, punit_y, E_HUT_BARB,
