@@ -653,10 +653,10 @@ void setup_widgets(void)
 					    NULL);  
   }
 
-  turn_done_button = XtVaCreateManagedWidget("turndonebutton", 
-					     commandWidgetClass,
-					     left_column_form,
-					     NULL);
+  turn_done_button = I_L(XtVaCreateManagedWidget("turndonebutton", 
+						 commandWidgetClass,
+						 left_column_form,
+						 NULL));
   
   bulb_label = XtVaCreateManagedWidget("bulblabel", 
 				       labelWidgetClass,
