@@ -101,14 +101,15 @@ static void canvas_release_hdc(struct canvas *pcanvas)
       case CANVAS_BITMAP:
 	SelectObject(pcanvas->hdc, pcanvas->tmp);
 	DeleteDC(pcanvas->hdc);
+	pcanvas->hdc = NULL;
 	break;
       case CANVAS_WINDOW:
 	ReleaseDC(pcanvas->wnd, pcanvas->hdc);
+	pcanvas->hdc = NULL;
 	break;
       default:
 	break;
     }
-    pcanvas->hdc = NULL;
     pcanvas->tmp = NULL;
   }
 }
@@ -801,6 +802,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   canvas_release_hdc(pcanvas);
 }
 
+#if 0
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
@@ -833,6 +835,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 
   canvas_release_hdc(pcanvas);
 }
+#endif
 
 /****************************************************************************
   Fill the area covered by the sprite with the given color.

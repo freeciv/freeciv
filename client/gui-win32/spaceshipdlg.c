@@ -198,8 +198,10 @@ static LONG CALLBACK spaceship_proc(HWND dlg,UINT message,
 *****************************************************************/
 static void image_minsize(POINT *minsize,void *data)
 {
-  minsize->x=sprites.spaceship.habitation->width*7;
-  minsize->y=sprites.spaceship.habitation->height*7;
+  int width, height;
+  get_spaceship_dimensions(&width, &height);
+  minsize->x = width;
+  minsize->y = height;
 }
 
 /****************************************************************
@@ -262,58 +264,12 @@ parts differently.
 *****************************************************************/
 void spaceship_dialog_update_image(HDC hdc,struct spaceship_dialog *pdialog)
 {
-  RECT rc;
-  int i, j, k, x, y;  
-  struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
-  struct player_spaceship *ship = &pdialog->pplayer->spaceship;
-  rc.left=0;
-  rc.top=0;
-  rc.right=sprite->width*7;
-  rc.bottom=sprite->height*7;
-  FillRect(hdc,&rc,brush_std[COLOR_STD_BLACK]);
-  
-  for (i=0; i < NUM_SS_MODULES; i++) {
-    j = i/3;
-    k = i%3;
-    if ((k==0 && j >= ship->habitation)
-        || (k==1 && j >= ship->life_support)
-        || (k==2 && j >= ship->solar_panels)) {
-      continue;
-    }
-    x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
+  struct canvas dialog_canvas;
+  dialog_canvas.type = CANVAS_DC;
+  dialog_canvas.hdc = hdc;
+  dialog_canvas.tmp = 0;
 
-    sprite = (k==0 ? sprites.spaceship.habitation :
-              k==1 ? sprites.spaceship.life_support :
-                     sprites.spaceship.solar_panels);
-    draw_sprite(sprite,hdc,x,y);
-  
-  }
-
-  for (i=0; i < NUM_SS_COMPONENTS; i++) {
-    j = i/2;
-    k = i%2;
-    if ((k==0 && j >= ship->fuel)
-        || (k==1 && j >= ship->propulsion)) {
-      continue;
-    }
-    x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    sprite = (k==0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
-    draw_sprite(sprite,hdc,x,y);
-  }
-
-  sprite = sprites.spaceship.structural;
-
-  for (i=0; i < NUM_SS_STRUCTURALS; i++) {
-    if (!ship->structure[i])
-      continue;
-    x = structurals_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = structurals_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    draw_sprite(sprite,hdc,x,y);
-  }
+  put_spaceship(&dialog_canvas, 0, 0, pdialog->pplayer);
 }
 
 /****************************************************************
