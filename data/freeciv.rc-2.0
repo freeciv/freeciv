@@ -73,6 +73,11 @@ style "city_productions_font"
   font_name = "Serif 10"
 }
 
+style "tooltips"
+{
+  font_name = "LucidaTypewrite,Monospace 8"
+}
+
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
 widget	"Freeciv*.spaceship label"	style	"spaceship_label"
@@ -84,4 +89,4 @@ widget	"Freeciv*.beta label"		style	"beta_label"
 widget	"Freeciv*.comment label"	style	"comment_label"
 widget	"Freeciv*.city names"		style	"city_names_font"
 widget	"Freeciv*.city productions"	style	"city_productions_font"
-
+widget	"gtk-tooltips*.*"		style	"tooltips"
