@@ -1972,7 +1972,7 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
 	    do_sell_building(pplayer, pcity, coastal_improvements[k]);
 	    notify_player_ex(pplayer, x+i, y+j, E_IMP_SOLD,
 			     _("Game: You sell %s in %s (now landlocked)"
-			       " for %d credits."),
+			       " for %d gold."),
 			     get_improvement_name(coastal_improvements[k]),
 			     pcity->name,
 			     improvement_value(coastal_improvements[k]));

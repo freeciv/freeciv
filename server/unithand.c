@@ -135,7 +135,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   unit_list_iterate_end;
   connection_do_unbuffer(pplayer->conn);
   if (upgraded > 0) {
-    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d credits."), 
+    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d gold."), 
 		  upgraded, unit_types[packet->type].name, 
 		  unit_types[to_unit].name, cost * upgraded);
     send_player_info(pplayer, pplayer);
@@ -177,7 +177,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
   pplayer->economic.gold -= cost;
   upgrade_unit(punit, to_unit);
   send_player_info(pplayer, pplayer);
-  notify_player(pplayer, _("Game: %s upgraded to %s for %d credits."), 
+  notify_player(pplayer, _("Game: %s upgraded to %s for %d gold."), 
 		unit_name(from_unit), unit_name(to_unit), cost);
 }
 
@@ -702,7 +702,7 @@ int handle_unit_enter_hut(struct unit *punit)
   case 0:
     cred = 25;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		     _("Game: You found %d credits."), cred);
+		     _("Game: You found %d gold."), cred);
     pplayer->economic.gold += cred;
     break;
   case 1:
@@ -710,13 +710,13 @@ int handle_unit_enter_hut(struct unit *punit)
   case 3:
     cred = 50;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You found %d credits."), cred);
+		     _("Game: You found %d gold."), cred);
     pplayer->economic.gold+=50;
     break;
   case 4:
     cred = 100;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You found %d credits."), cred); 
+		     _("Game: You found %d gold."), cred); 
     pplayer->economic.gold += cred;
     break;
   case 5:

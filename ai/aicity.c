@@ -354,7 +354,7 @@ static void ai_new_spend_gold(struct player *pplayer)
             if (cost < pplayer->economic.gold) { /* let's just upgrade */
               pplayer->economic.gold -= cost;
               notify_player(pplayer,
-			    _("Game: %s upgraded to %s in %s for %d credits."),
+			    _("Game: %s upgraded to %s in %s for %d gold."),
 			    unit_types[punit->type].name, unit_types[id].name,
 			    pcity->name, cost);
 	      upgrade_unit(punit, id);
@@ -482,7 +482,7 @@ static void ai_new_spend_gold(struct player *pplayer)
         pplayer->economic.gold -= cost;
 	upgrade_unit(punit, id);
         notify_player(pplayer,
-		      _("Game: %s upgraded to %s in %s for %d credits."),
+		      _("Game: %s upgraded to %s in %s for %d gold."),
 		      unit_types[punit->type].name, unit_types[id].name,
 		      pcity->name, cost);
         send_player_info(pplayer, pplayer);
