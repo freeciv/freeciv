@@ -64,12 +64,12 @@ choice of either managing the city on your own (which has some
 drawbacks, see below), or open that city and change the surplus
 requirements so that they can be fulfilled.
 
-When you have made a setup for a city, you need to click on "change
-permanently" to switch on the CMA. If this button's text is greyed,
+When you have made a setup for a city, you need to click on 
+"Control city" to switch on the CMA. If this button's text is greyed,
 either the CMA is already active, or the task is impossible. In the
 latter case you see dashes instead of numbers in the results block.
 If you ever want to switch off the CMA deliberately, click "Release
-City".
+city".
 
 
   Advanced Usage
