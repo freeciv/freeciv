@@ -224,14 +224,13 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 static void auto_attack_city(struct player *pplayer, struct city *pcity)
 {
-  unit_list_iterate(pcity->tile->units, punit) {
+  unit_list_iterate_safe(pcity->tile->units, punit) {
     if (punit->ai.control
 	&& punit->activity == ACTIVITY_IDLE
 	&& is_military_unit(punit)) {
       auto_attack_with_unit(pplayer, pcity, punit);
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
