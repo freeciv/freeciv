@@ -117,7 +117,7 @@ max_single_rate  = 100  ; rates are irrelevant under Anarchy; use 100
 		        ; to avoid unnecessary changes during revolution
 civil_war_chance = 90
 empire_size_mod  = -5
-empire_size_inc  = 0
+empire_size_inc  = 6
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -191,7 +191,7 @@ martial_law_per  = 1
 max_single_rate  = 60
 civil_war_chance = 80
 empire_size_mod  = -4
-empire_size_inc  = 0
+empire_size_inc  = 10
 rapture_size     = 3
 
 unit_unhappy_factor = 0 
@@ -266,7 +266,7 @@ martial_law_per  = 1
 max_single_rate  = 70
 civil_war_chance = 70
 empire_size_mod  = -3
-empire_size_inc  = 0
+empire_size_inc  = 12
 rapture_size     = 3
 
 unit_unhappy_factor = 0
@@ -422,7 +422,7 @@ martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 40
 empire_size_mod  = -1
-empire_size_inc  = 0
+empire_size_inc  = 14
 rapture_size     = 3
 
 unit_unhappy_factor = 1
@@ -507,7 +507,7 @@ martial_law_per  = 0
 max_single_rate  = 100
 civil_war_chance = 30
 empire_size_mod  = 0
-empire_size_inc  = 0
+empire_size_inc  = 16
 rapture_size     = 3
 
 unit_unhappy_factor = 2
