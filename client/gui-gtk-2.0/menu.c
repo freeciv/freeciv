@@ -555,8 +555,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Game") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Game") "/sep1",				NULL,
-	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Local Options"),		NULL,
 	game_menu_callback,	MENU_GAME_OPTIONS					},
   { "/" N_("Game") "/" N_("Messa_ge Options"),		NULL,
@@ -908,14 +906,12 @@ static void menus_set_sensitive(const char *path, int sensitive)
 
   path = translate_menu_path(path, 1);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
 	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
   }
 
-  if(GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
   gtk_widget_set_sensitive(item, sensitive);
 }
 
@@ -928,14 +924,12 @@ static void menus_set_active(const char *path, int active)
 
   path = translate_menu_path(path, 1);
 
-  if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
+  if (!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
 	    "Can't set active for non-existent menu %s.", path);
     return;
   }
 
-  if (GTK_IS_MENU(item))
-    item = gtk_menu_get_attach_widget(GTK_MENU(item));
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), active);
 }
 
@@ -949,13 +943,10 @@ static void menus_set_shown(const char *path, int shown)
   
   path = translate_menu_path(path, 1);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
     return;
   }
-
-  if(GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
 
   if(shown)
     gtk_widget_show(item);
@@ -973,13 +964,10 @@ static void menus_rename(const char *path, char *s)
   
   path = translate_menu_path(path, 1);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
     return;
   }
-
-  if (GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
 
   gtk_label_set_text_with_mnemonic(GTK_LABEL(GTK_BIN(item)->child), s);
 }
