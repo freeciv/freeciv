@@ -76,6 +76,10 @@ void popup_option_dialog(void)
       my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       XtVaSetValues((Widget) o->p_gui_data, XtNstring, valstr, NULL);
       break;
+    case COT_STR:
+      XtVaSetValues((Widget) o->p_gui_data, XtNstring,
+		    o->p_string_value, NULL);
+      break;
     }
   }
 
@@ -148,6 +152,7 @@ void create_option_dialog(void)
       XtAddCallback(prev_widget, XtNcallback, toggle_callback, NULL);
       break;
     case COT_INT:
+    case COT_STR:
       prev_widget =
 	XtVaCreateManagedWidget("input", asciiTextWidgetClass, option_form,
 				XtNfromHoriz, longest_label,
@@ -212,6 +217,10 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
     case COT_INT:
       XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
       sscanf(dp, "%d", o->p_int_value);
+      break;
+    case COT_STR:
+      XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
+      mystrlcpy(o->p_string_value,dp,o->string_length);
       break;
     }
   }

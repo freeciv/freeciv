@@ -54,6 +54,10 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
 	  sscanf(dp, "%d", o->p_int_value);
 	  break;
+	case COT_STR:
+	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
+	  mystrlcpy(o->p_string_value, dp, o->string_length);
+	  break;
 	}
       }
       DestroyWindow(dlg);
@@ -102,6 +106,12 @@ static void create_option_dialog(void)
       o->p_gui_data=(void *)
 	fcwin_box_add_edit(vbox,"",6,0,0,TRUE,TRUE,0);
       break;
+    case COT_STR:
+      fcwin_box_add_static(vbox_labels,_(o->description),
+			   0,SS_LEFT,TRUE,TRUE,0);
+      o->p_gui_data=(void *)
+	fcwin_box_add_edit(vbox,"",40,0,0,TRUE,TRUE,0);
+      break;
     } 
   }
   fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,0);
@@ -132,6 +142,9 @@ void popup_option_dialog(void)
     case COT_INT:
       my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       SetWindowText((HWND)(o->p_gui_data), valstr);
+      break;
+    case COT_STR:
+      SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
       break;
     }
   }

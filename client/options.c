@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "clinet.h"
 #include "events.h"
 #include "fcintl.h"
 #include "log.h"
@@ -35,13 +36,23 @@
 #include "cityrepdata.h"
 
 #include "options.h"
+ 
+/** Defaults for options normally on command line **/
+
+char default_player_name[512] = "\0";
+char default_server_host[512] = "localhost";
+int  default_server_port = DEFAULT_SOCK_PORT;
+char default_metaserver[512] = METALIST_ADDR;
+char default_tile_set_name[512] = "\0";
+char default_sound_set_name[512] = "stdsounds.spec";
+char default_sound_plugin_name[512] = "\0";
 
 /** Local Options: **/
 
 bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
 bool smooth_move_units = TRUE;
-int smooth_move_unit_steps = 3;
+int  smooth_move_unit_steps = 3;
 bool do_combat_animation = TRUE;
 bool ai_popup_windows = FALSE;
 bool ai_manual_turn_done = TRUE;
@@ -54,11 +65,24 @@ bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
 bool meta_accelerators = TRUE;
 
-#define GEN_INT_OPTION(name, desc) { #name, desc, COT_INT, &name, NULL, NULL }
-#define GEN_BOOL_OPTION(name, desc) { #name, desc, COT_BOOL, NULL, &name, NULL }
-#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL, NULL }
+#define GEN_INT_OPTION(name, desc) { #name, desc, COT_INT, \
+                                     &name, NULL, NULL, 0, NULL }
+#define GEN_BOOL_OPTION(name, desc) { #name, desc, COT_BOOL, \
+                                      NULL, &name, NULL, 0, NULL }
+#define GEN_STR_OPTION(name, desc) { #name, desc, COT_STR, \
+                                     NULL, NULL, name, sizeof(name), NULL }
+#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, \
+                                NULL, NULL, NULL, 0, NULL }
 
 client_option options[] = {
+  GEN_STR_OPTION(default_player_name,       N_("Default player's username")), 
+  GEN_STR_OPTION(default_server_host,       N_("Default server")),
+  GEN_INT_OPTION(default_server_port,       N_("Default server's port")),
+  GEN_STR_OPTION(default_metaserver,        N_("Default metaserver")),
+  GEN_STR_OPTION(default_tile_set_name,     N_("Default tileset")),
+  GEN_STR_OPTION(default_sound_set_name,    N_("Default name of sound set")),
+  GEN_STR_OPTION(default_sound_plugin_name, N_("Default sound plugin")),
+
   GEN_BOOL_OPTION(solid_color_behind_units, N_("Solid unit background color")),
   GEN_BOOL_OPTION(sound_bell_at_new_turn,   N_("Sound bell at new turn")),
   GEN_BOOL_OPTION(smooth_move_units,        N_("Smooth unit moves")),
@@ -78,6 +102,7 @@ client_option options[] = {
 };
 #undef GEN_INT_OPTION
 #undef GEN_BOOL_OPTION
+#undef GEN_STR_OPTION
 #undef GEN_OPTION_TERMINATOR
 
 /** View Options: **/
@@ -396,6 +421,11 @@ void load_general_options(void)
 	  secfile_lookup_int_default(&sf, *(o->p_int_value), "%s.%s",
 				      prefix, o->name);
       break;
+    case COT_STR:
+      mystrlcpy(o->p_string_value,
+                     secfile_lookup_str_default(&sf, o->p_string_value, "%s.%s",
+                     prefix, o->name), o->string_length);
+      break;
     }
   }
   for (v = view_options; v->name; v++) {
@@ -485,6 +515,9 @@ void save_options(void)
       break;
     case COT_INT:
       secfile_insert_int(&sf, *(o->p_int_value), "client.%s", o->name);
+      break;
+    case COT_STR:
+      secfile_insert_str(&sf, o->p_string_value, "client.%s", o->name);
       break;
     }
   }

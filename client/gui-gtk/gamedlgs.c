@@ -386,6 +386,11 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
       dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
       sscanf(dp, "%d", o->p_int_value);
       break;
+    case COT_STR:
+      mystrlcpy(o->p_string_value, 
+                gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)), 
+                o->string_length);
+      break;
     }
   }
 
@@ -432,10 +437,18 @@ static void create_option_dialog(void)
       break;
     case COT_INT:
       label = gtk_label_new(_(o->description));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
+      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      break;
+    case COT_STR:
+      label = gtk_label_new(_(o->description));
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      o->p_gui_data = gtk_entry_new();
+      gtk_widget_set_usize(o->p_gui_data, 150, 0);
       gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
       break;
     }
@@ -474,6 +487,9 @@ void popup_option_dialog(void)
     case COT_INT:
       my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), valstr);
+      break;
+    case COT_STR:
+      gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), o->p_string_value);
       break;
     }
   }

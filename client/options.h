@@ -18,6 +18,14 @@
 
 #include "events.h"
 
+extern char default_player_name[512];
+extern char default_server_host[512];
+extern int default_server_port; 
+extern char default_metaserver[512];
+extern char default_tile_set_name[512];
+extern char default_sound_set_name[512];
+extern char default_sound_plugin_name[512];
+
 /** Local Options: **/
 
 extern bool solid_color_behind_units;
@@ -38,7 +46,8 @@ extern bool meta_accelerators;
 
 enum client_option_type {
   COT_BOOL,
-  COT_INT
+  COT_INT,
+  COT_STR
 };
 
 typedef struct {
@@ -47,6 +56,8 @@ typedef struct {
   enum client_option_type type;
   int *p_int_value;
   bool *p_bool_value;
+  char *p_string_value;
+  size_t string_length;
 
   /* volatile */
   void *p_gui_data;

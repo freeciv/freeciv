@@ -73,21 +73,16 @@
    needed (hence, it is not 'extern'd in civclient.h) */
 bool is_server = FALSE;
 
-char metaserver[256];
-char server_host[512];
-char player_name[512];
-int server_port;
-
-/*
- * Non-zero = skip "Connect to Freeciv Server" dialog
- */
-bool auto_connect = FALSE;
+char tile_set_name[512] = "\0";
+char sound_plugin_name[512] = "\0";
+char sound_set_name[512] = "\0";
+char server_host[512] = "\0";
+char player_name[512] = "\0";
+char metaserver[512] = "\0";
+int  server_port = -1;
+bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
 
 static enum client_states client_state = CLIENT_BOOT_STATE;
-
-static char *tile_set_name = NULL;
-static char sound_set_name[256] = "stdsounds.spec";
-static char *sound_plugin_name = NULL;
 
 int seconds_to_turndone;
 
@@ -113,12 +108,8 @@ int main(int argc, char *argv[])
   dont_run_as_root(argv[0], "freeciv_client");
   audio_init();
 
-  /* set default argument values */
+  /* default argument values are set in options.c */
   loglevel=LOG_NORMAL;
-  server_port=DEFAULT_SOCK_PORT;
-  sz_strlcpy(server_host, "localhost");
-  sz_strlcpy(metaserver, METALIST_ADDR);
-  player_name[0] = '\0';
 
   i = 1;
 
@@ -153,13 +144,13 @@ int main(int argc, char *argv[])
    } else if ((option = get_option("--log",argv,&i,argc)))
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)))
-     sz_strlcpy(player_name, option);
+      sz_strlcpy(player_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)))
       sz_strlcpy(metaserver, option);
    else if ((option = get_option("--Sound", argv, &i, argc)))
       sz_strlcpy(sound_set_name, option);
    else if ((option = get_option("--Plugin", argv, &i, argc)))
-      sound_plugin_name = option;
+      sz_strlcpy(sound_plugin_name, option);
    else if ((option = get_option("--port",argv,&i,argc))) {
      if(sscanf(option, "%d", &server_port) != 1) {
         exit(EXIT_FAILURE);
@@ -173,9 +164,9 @@ int main(int argc, char *argv[])
       if (loglevel==-1) {
         exit(EXIT_FAILURE);
       }
-   } else if ((option = get_option("--tiles",argv,&i,argc))) {
-      tile_set_name=option;
-   } else { 
+   } else if ((option = get_option("--tiles", argv, &i, argc)))
+      sz_strlcpy(tile_set_name, option);
+   else { 
       fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);
    }
@@ -185,9 +176,8 @@ int main(int argc, char *argv[])
   log_init(logfile, loglevel, NULL);
 
   /* after log_init: */
-  if (player_name[0] == '\0') {
-    sz_strlcpy(player_name, user_username());
-  }
+
+  sz_strlcpy(default_player_name, user_username());
 
   /* initialization */
 
@@ -199,6 +189,21 @@ int main(int argc, char *argv[])
   attribute_init();
   agents_init();
   load_general_options();
+
+  if (tile_set_name[0] == '\0') 
+    sz_strlcpy(tile_set_name, default_tile_set_name); 
+  if (sound_set_name[0] == '\0') 
+    sz_strlcpy(sound_set_name, default_sound_set_name); 
+  if (sound_plugin_name[0] == '\0')
+    sz_strlcpy(sound_plugin_name, default_sound_plugin_name); 
+  if (server_host[0] == '\0')
+    sz_strlcpy(server_host, default_server_host); 
+  if (player_name[0] == '\0')
+    sz_strlcpy(player_name, default_player_name); 
+  if (metaserver[0] == '\0')
+    sz_strlcpy(metaserver, default_metaserver); 
+  if (server_port == -1) server_port = default_server_port;
+
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */

@@ -137,7 +137,7 @@ void audio_real_init(const char *const spec_name,
   char *filename, *file_capstr;
   char us_capstr[] = "+soundspec";
 
-  if (prefered_plugin_name && !strcmp(prefered_plugin_name, "none")) {
+  if (!strcmp(prefered_plugin_name, "none")) {
     /* We explicitly choose none plugin, silently skip the code below */
     freelog(LOG_VERBOSE, _("Proceeding with sound support disabled"));
     tagfile = NULL;
@@ -195,7 +195,7 @@ void audio_real_init(const char *const spec_name,
 
   atexit(audio_shutdown);
 
-  if (prefered_plugin_name) {
+  if (prefered_plugin_name[0] != '\0') {
     if (!audio_select_plugin(prefered_plugin_name))
       freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
     return;

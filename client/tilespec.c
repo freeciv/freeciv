@@ -132,7 +132,7 @@ static char *tilespec_fullname(const char *tileset_name)
     tileset_default = "trident";    /* Do not i18n! --dwp */
   }
 
-  if (!tileset_name) {
+  if (tileset_name[0] == '\0') {
     tileset_name = tileset_default;
   }
   fname = fc_malloc(strlen(tileset_name)+16);
