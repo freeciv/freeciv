@@ -112,7 +112,8 @@ enum MenuID {
   MENU_HELP_SPACE_RACE,
   MENU_HELP_COPYING,
   MENU_HELP_ABOUT,
-  MENU_HELP_CONNECTING
+  MENU_HELP_CONNECTING,
+  MENU_HELP_CHATLINE
 };
 
 struct MenuEntry {
@@ -195,6 +196,7 @@ struct MenuEntry reports_menu_entries[]={
 
 struct MenuEntry help_menu_entries[]={
     { "Help Connecting",   MENU_HELP_CONNECTING, 0},
+    { "Help Chatline",     MENU_HELP_CHATLINE, 0},
     { "Help Controls",     MENU_HELP_CONTROLS, 0},
     { "Help Playing",      MENU_HELP_PLAYING, 0},
     { "Help Improvements", MENU_HELP_IMPROVEMENTS, 0},
@@ -616,6 +618,9 @@ void help_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
   switch(pane_num) {
   case MENU_HELP_CONNECTING:
     popup_help_dialog_string(HELP_CONNECTING_ITEM);
+    break;
+  case MENU_HELP_CHATLINE:
+    popup_help_dialog_string(HELP_CHATLINE_ITEM);
     break;
   case MENU_HELP_CONTROLS:
     popup_help_dialog_string(HELP_CONTROLS_ITEM);

@@ -119,6 +119,28 @@ struct player_ai {
   int warmth; /* threat of global warming */
 };
 
+/**************************************************************************
+  command access levels for client-side use; at present, they are
+  only used for server commands typed at the client chatline
+ **************************************************************************/
+enum cmdlevel_id {    /* access levels for users to issue commands        */
+  ALLOW_NONE = 0,     /* user may issue no commands at all                */
+  ALLOW_INFO,         /* user may issue informational commands            */
+  ALLOW_CTRL,         /* user may issue commands that affect game & users */
+  ALLOW_HACK,         /* user may issue *all* commands - dangerous!       */
+
+  ALLOW_NUM,          /* the number of levels                             */
+  ALLOW_UNRECOGNIZED  /* used as a failure return code                    */
+};
+/*  the set command is a special case:                                    */
+/*    - ALLOW_CTRL is required for SSET_TO_CLIENT options                 */
+/*    - ALLOW_HACK is required for SSET_TO_SERVER options                 */
+
+/***************************************************************************
+  On the distinction between races, players, and users,
+  see freeciv_hackers_guide.txt
+***************************************************************************/
+
 struct player {
   int player_no;
   char name[MAX_LENGTH_NAME];
@@ -176,4 +198,8 @@ int ai_fuzzy(struct player *pplayer, int normal_decision);
 
 extern struct player_race races[];
 extern char *default_race_leader_names[];
+
+char *cmdlevel_name(enum cmdlevel_id lvl);
+enum cmdlevel_id cmdlevel_named (char *token);
+
 #endif

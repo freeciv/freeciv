@@ -173,7 +173,7 @@ void con_prompt_on(void)
   static int first = 1;
   if (first) {
     con_puts(C_COMMENT, "");
-    con_puts(C_COMMENT, "Get a list of the available commands with 'h'.");
+    con_puts(C_COMMENT, "Get a list of the available commands with 'help'.");
     first = 0;
   }
   console_show_prompt=1;

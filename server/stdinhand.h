@@ -10,14 +10,18 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __STDINHAND_H
-#define __STDINHAND_H
+#ifndef FC__STDINHAND_H
+#define FC__STDINHAND_H
+
+#define SERVER_COMMAND_PREFIX '/'
+  /* the character to mark chatlines as server commands */
 
 struct player;
 
-void handle_stdin_input(char *str);
+void handle_stdin_input(struct player *caller, char *str);
 void report_server_options(struct player *pplayer, int which);
-void set_ai_level(char *name, int level);
 void set_ai_level_direct(struct player *pplayer, int level);
 
-#endif
+extern enum cmdlevel_id default_access_level;
+
+#endif /* FC__STDINHAND_H */

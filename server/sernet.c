@@ -53,12 +53,12 @@ extern int force_end_of_sniff;
 extern enum server_states server_state;
 
 
-
 /*****************************************************************************/
 void close_connection(struct connection *pconn)
 {
   close(pconn->sock);
   pconn->used=0;
+  pconn->access_level=ALLOW_NONE;
 }
 
 /*****************************************************************************/
@@ -150,7 +150,7 @@ int sniff_packets(void)
       }
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input(buf);
+      handle_stdin_input((struct player *)NULL, buf);
     }
     else {                             /* input from a player */
       for(i=0; i<MAX_CONNECTIONS; i++)
@@ -206,6 +206,7 @@ int server_accept_connection(int sockfd)
 	connections[i].buffer.ndata=0;
 	connections[i].first_packet=1;
 	connections[i].byte_swap=0;
+	connections[i].access_level=default_access_level;
 
 	if(from) {
 	  strncpy(connections[i].addr, from->h_name, ADDR_LENGTH);

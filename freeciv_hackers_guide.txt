@@ -291,3 +291,106 @@ the id or a pointer when referring to an entity. -PU]
 interesting results could be achieved, if more connections could be attached
 to a single player(race). That way 2 persons could play cooperate, splitting 
 the work between them. -PU]
+
+===========================================================================
+
+Player-related entities in Freeciv - by rp@win.tue.nl 
++ by dwp@mso.anu.edu.au
+
+Freeciv is confused about the meaning of 'player'.  As a participant in
+Freeciv games, you'll notice that the participants are called 'players'.
+At the same time, players seem to be identified with civilizations.
+On the other hand, civilizations seem to be identified by 'race':
+every player chooses a race at the start of the game.
+
+In the data structures, a 'player' identifies a civilization, not a user.
+
+----
+  THE PLAN:
+
+There are four player-related entities:
+
++ player
+  A civilization, with a capital, cities, units, an income, etc.
+
++ race
+  A type of civilization (except that very little actually depends on
+  race, and the oddity exists that each player must be of different race)
+
++ user
+  Identifies 'someone out there', usually a human user running a civclient
+  (this is the plan; it is not yet implemented).
+
++ connection
+  Records a client connection; like a user, but disappears when the user 
+  disconnects, whereas for real users we may want to remember them between 
+  connections.
+
+Where do these entities exist?
+
+Races aren't actually used for annything that matters; for them,
+so the question isn't very interesting.
+
+Players (more aptly named, 'civilizations'), exist in games.  Except in
+the context of a running game, the entity makes no sense.  Players and
+their status are part of savefiles.  A game can be saved and restarted
+on a different server; the players will be the same.  A new game will
+have new players.  Players exist in common/ (even games do) but a
+client only has one instantiated player.
+
+The reason to introduce users is client-side server commands.  It must
+be possible to assign different levels of access to commands to different
+users.  Attaching it to players is not good enough: the information must
+survive the addition and removal of other players, the start or restart
+of a game, reconnections by the same user even from different computers,
+or transferral of the game to a different server.  However, a user
+may have different levels of access in different games.
+
+While they last, connections are sufficient identification for users.
+The user entity will allow users to be identified when they reconnect.
+
+Ideally, users would be identified with unique global ids, handed out
+by a 'registry service' similar to the metaserver, but this would be
+too cumbersome in practice.  So the plan is to make users persist in
+a server session (even whan a game is started, or restarted when that
+option is added) and make them persist across games (when a saved
+game is loaded in a different server session).
+
+Users will be created when they first connect to a server, remembered by
+the running server and in savefiles.  Upon connecting, the client will
+be sent a unique session id, generated when the server started, plus a
+fresh user id; it will store them in a ~/.civcookie file, and send it
+back when trying to reconnect.  This will allow the identity of users
+to be protected.  'Protected' players will only allow the same user to
+reconnect; 'unprotected' ones allow anyone to connect; server commands
+and probably client options will be available to control this.
+
+Player names will be assigned to users, not players.
+
+The server maintains a default access level, which is used for new
+users and unprotected ones.
+
+----
+  THE PRESENT IMPLEMENTATION:
+
+Currently access levels are stored in the connection struct.  This allows 
+access levels to be assigned to each individual connected player, which 
+would not be the case if they were directly assigned to the player struct 
+(due to the fact that the players array changes when players are added or 
+removed).
+
+But that's it.
+
+Players are still created before the game is started, and player names
+still belong to players.  Access levels exist in client and server, 
+but only the server uses them.  User ids are not yet implemented;
+Server ids do not exist at all.
+
+Commands to protect/unprotect users do not yet exist; they would serve 
+no useful purpose.
+
+Access levels can set for individual users, including AI players with 
+a connected observer, but only while someone is connected; they will not 
+be remembered when the user disconnects.
+
+===========================================================================

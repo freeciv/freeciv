@@ -116,7 +116,8 @@ enum MenuID {
   MENU_HELP_SPACE_RACE,
   MENU_HELP_COPYING,
   MENU_HELP_ABOUT,
-  MENU_HELP_CONNECTING
+  MENU_HELP_CONNECTING,
+  MENU_HELP_CHATLINE
 };
 
 
@@ -352,6 +353,9 @@ void help_menu_callback(gpointer callback_data, guint callback_action,
   switch(callback_action) {
   case MENU_HELP_CONNECTING:
     popup_help_dialog_string(HELP_CONNECTING_ITEM);
+    break;
+  case MENU_HELP_CHATLINE:
+    popup_help_dialog_string(HELP_CHATLINE_ITEM);
     break;
   case MENU_HELP_CONTROLS:
     popup_help_dialog_string(HELP_CONTROLS_ITEM);

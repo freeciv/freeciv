@@ -41,10 +41,10 @@
 /* Capabilities: Author: Mitch Davis (mjd@alphalink.com.au)
  *
  * Here's the string a client and server trade to find out if they can talk
- * to each other, and using which protocol version.  The string is a comma-
- * separated list of words, where each word indicates a capability that
- * this version of Freeciv understands.  If a capability word is mandatory,
- * it should start with a "+".
+ * to each other, and using which protocol version.  The string is a list
+ * of words, separated by whitespace and/or commas, where each word
+ * indicates a capability that this version of Freeciv understands.
+ * If a capability word is mandatory, it should start with a "+".
  *
  * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
  *
@@ -72,8 +72,7 @@
  * always executed.
  */
 
-/* The default string is really simple */
-#define CAPABILITY "+1.8 caravan1 nuke"
+#define CAPABILITY "+1.8 caravan1 nuke clientcommands"
 /* caravan1 means to server automatically established a traderoute
    when a caravan type unit moves into an enemy city.  For older
    servers the client has to explicitly ask for a trade route.
@@ -81,6 +80,9 @@
    "nuke" means that it is possible to explode nuclear
    at a tile without enemy units. Maybe it should be mandatory
    because it improves player's fighting capabilities.
+
+   "clientcommands" indicates that the server supports server commands
+   sent by clients.
 */
   
 #define CITY_NAMES_FONT "10x20"

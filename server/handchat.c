@@ -19,6 +19,8 @@
 #include <player.h>
 #include <shared.h>
 
+#include <stdinhand.h>
+
 #include "handchat.h"
 
 /**************************************************************************
@@ -41,6 +43,18 @@ void handle_chat_msg(struct player *pplayer,
       *cp='\0';
       break;
     }
+
+  /* Server commands are prefixed with '/', which is an obvious
+     but confusing choice: even before this feature existed,
+     novice players were trying /who, /nick etc.
+     So consider this an incentive for IRC support,
+     or change it in stdinhand.h - rp
+  */
+  if (packet->message[0] == SERVER_COMMAND_PREFIX) {
+    /* pass it to the command parser, which will chop the prefix off */
+    handle_stdin_input(pplayer, packet->message);
+    return;
+  }
 
   /* Want to allow private messages with "player_name: message",
      including unambiguously abbreviated player name, but also want

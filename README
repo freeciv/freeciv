@@ -28,7 +28,7 @@ Web site:
 
 Freeciv's web site is here:
 
-  http://www.freeciv.org.
+  http://www.freeciv.org/
 
 We invite you to visit.  You can get the latest Freeciv news, releases
 and patches, find out about the Freeciv mailing lists, and see the
@@ -83,33 +83,38 @@ Server:
 
   Once the server is started, a prompt will appear:
 
-  Get a list of the available commands with 'h'.
-  > h
-
-  Available commands: (P=player, M=message, F=file, T=topic)
-  ---------------------------------------------------------------------------
-  h         - this help
-  explain   - help on server options
-  explain T - help on a particular server option
-  l         - list players
-  q         - quit game and shutdown server
-  c P       - cut connection to player
-  remove P  - fully remove player from game
-  score     - show current score
-  save F    - save game as file F
-  show      - list server options
-  meta M    - Set meta-server infoline to M
-  ai P      - toggles AI on player
-  create P  - creates an AI player
-  easy P    - AI player will be easy
-  easy      - All AI players will be easy
-  normal P  - AI player will be normal
-  normal    - All AI players will be normal
-  hard P    - AI player will be hard
-  hard      - All AI players will be hard
-  set       - set options
-  s         - start game
-  > 
+Get a list of the available commands with 'help'.
+> he 
+Available commands: (P=player, M=message, F=file, L=level, T=topic, O=option)
+------------------------------------------------------------------------------
+ai P            - toggles AI on player
+cmdlevel        - see current command levels
+cmdlevel L      - sets command access level to L for all players
+cmdlevel L new  - sets command access level to L for new connections
+cmdlevel L P    - sets command access level to L for player P
+create P        - creates an AI player
+cut P           - cut connection to player
+easy            - All AI players will be easy
+easy P          - AI player will be easy
+explain         - help on server options
+explain T       - help on a particular server option
+hard            - All AI players will be hard
+hard P          - AI player will be hard
+help            - this help text
+list            - list players
+meta M          - Set meta-server infoline to M
+normal          - All AI players will be normal
+normal P        - AI player will be normal
+quit            - quit game and shutdown server
+remove P        - fully remove player from game
+save F          - save game as file F
+score           - show current score
+set             - set options
+show            - list current server options
+show O          - list current value of server option O
+start           - start game
+Abbreviations are allowed.
+>
 
   If you like, you can use the 'set' command to set any of the various
   server options for the game.  You can get a list of the options
@@ -158,6 +163,13 @@ Client:
   by starting the client with:
 
   % civclient -tiles classic
+
+  Clients can be authorised to issue server commands.  To allow them
+  to use informational commands only, type at the server prompt
+
+  > cmdlevel info
+
+  Clients can now use '/help', '/list', '/show settlers', etc.
 
 Computer Players:
 
@@ -267,6 +279,21 @@ You can send a message to an individual player (say, 'peter') like so:
 The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will pick find a player name that matches the part of
 the name you typed.
+
+On newer servers (not standard 1.8.0) you can issue server commands:
+
+  /list
+  /set settlers 4
+  /save mygame.sav
+
+The server operator will probably let you issue informational commands only.
+This is partly because allowing clients to use all server commands has
+security implications; consider if a player tried:
+
+  /save /etc/passwd
+
+Of course the server should not be running with superuser privileges in
+any case, to reduce this sort of risk.
 
 If you're just starting, and would like to get an idea of a strategy,
 have a look in the Freeciv playing HOWTO, contained in the HOWTOPLAY

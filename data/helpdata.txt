@@ -359,8 +359,18 @@ to an AI player doesn't make it human controlled; this is a
 independent server setting.  If you lose connection early in
 the game and reconnect, use the name you chose for your ruler,
 not your original nickname!  If the server is reporting on the
-metserver, the player names can be found there.
+metaserver, the player names can be found there.
+---
+#Chatline
+The client has a primitive chat interface.  The lines you type
+are sent to all players, except:
 
+  + Messages starting with 'foo:' are private messages to the
+    player named 'foo'; player names can be abbreviated.
+
+  + Messages starting with '/' are interpreted as server commands
+    (if the server is recent enough; regular 1.8.0 servers are not)
+    and executed, if you have the required access rights.
 ---
 #Controls
 Mouse:

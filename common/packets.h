@@ -527,6 +527,10 @@ struct connection {
   /* "capability" gives the capability string of the executable (be it
    * a client or server) at the other end of the connection.
    */
+  enum cmdlevel_id access_level;
+  /* Used in the server, "access_level" stores the access granted
+   * to the client corresponding to this connection.
+   */
 };
 
 

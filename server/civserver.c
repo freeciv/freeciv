@@ -511,7 +511,7 @@ void read_init_script(char *script_filename)
     {
       /* the size 511 is set as to not overflow buffer in handle_stdin_input */
       while(fgets(buffer,511,script_file))
-	handle_stdin_input(buffer);
+	handle_stdin_input((struct player *)NULL, buffer);
       fclose(script_file);
     }
   else
@@ -1332,12 +1332,21 @@ void handle_request_join_game(struct connection *pconn,
 	reject_new_player("Sorry you can't join. The game is full.", pconn);
 	freelog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
 	close_connection(pconn);
+        return;
+      }
+      else {
+	/* Used to have here: accept_new_player(req->name, pconn); 
+	 * but duplicate names cause problems even in PRE_GAME_STATE
+	 * because they are used to identify players for various
+	 * server commands. --dwp
+	 */
+	reject_new_player("Sorry, someone else already has that name.",
+			  pconn);
+	freelog(LOG_NORMAL, "%s was rejected, name already used.", req->name);
+	close_connection(pconn);
 
         return;
       }
-      accept_new_player(req->name, pconn);
-
-      return;
     }
 
     sprintf(msg, "You can't join the game. %s is already connected.", 
