@@ -235,8 +235,11 @@ void load_cursors(void)
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     sprite = get_cursor_sprite(cursor, &hot_x, &hot_y);
 
+    /* FIXME: this is entirely wrong.  It should be rewritten using
+     * XcursorImageLoadCursor.  See gdkcursor-x11.c in the GTK sources for
+     * examples. */
     cursors[cursor] = XCreatePixmapCursor(display,
-					  sprite->pixmap, sprite->mask,
+					  sprite->mask, sprite->mask,
 					  &white, &black, hot_x, hot_y);
   }
 }
