@@ -100,8 +100,8 @@ static struct player *create_barbarian_player(bool land)
   } players_iterate_end;
 
   if( newplayer >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ) {
-    freelog( LOG_FATAL, "Too many players?");
-    abort();
+    freelog(LOG_ERROR, "Too many players for barbarian.c (%d)", newplayer);
+    return NULL;
   }
 
   barbarians = &game.players[newplayer];
@@ -195,6 +195,9 @@ bool unleash_barbarians(struct player* victim, int x, int y)
   unit_cnt = 3 + myrand(4);
 
   barbarians = create_barbarian_player(TRUE);
+  if (barbarians == NULL) {
+    return FALSE;
+  }
   me = barbarians->player_no;
 
   for( i=0; i<unit_cnt; i++) {
@@ -358,6 +361,9 @@ static void try_summon_barbarians(void)
 
   if( map_get_terrain(xu,yu) != T_OCEAN ) {        /* land barbarians */
     barbarians = create_barbarian_player(TRUE);
+    if (barbarians == NULL) {
+      return;
+    }
     if( city_list_size(&victim->cities) > UPRISE_CIV_MOST )
       uprise = 3;
     for( i=0; i < myrand(3) + uprise*(game.barbarianrate); i++) {
@@ -371,6 +377,9 @@ static void try_summon_barbarians(void)
   else {                   /* sea raiders - their units will be veteran */
 
     barbarians = create_barbarian_player(FALSE);
+    if (barbarians == NULL) {
+      return;
+    }
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
     (void) create_unit(barbarians, xu, yu, boat, TRUE, 0, -1);
     cap = get_transporter_capacity(unit_list_get(&map_get_tile(xu, yu)->units, 0));
