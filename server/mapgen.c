@@ -34,20 +34,37 @@ int *height_map;
 int maxval=0;
 int forests=0;
 
+/**************************************************************************
+ Just a wrapper function off the height_map, returns the height at x,y
+**************************************************************************/
+
 int full_map(int x, int y)
 {
   return height_map[y*map.xsize+x];
 }
 
+/**************************************************************************
+ is this y coordinate in the arctic zone?
+**************************************************************************/
 int arctic_y(int y)
 {
   return (y < map.ysize*0.1 || y > map.ysize*0.9);
 }
 
+/**************************************************************************
+ Is this y coordinate in the desert zone?
+**************************************************************************/
 int desert_y(int y)
 {
   return (y > map.ysize*0.4  &&  y < map.ysize*0.6);
 }
+
+/**************************************************************************
+  make_mountains will convert all squares that is heigher than thill to
+  mountains and hills, notice that thill will be adjusted according to
+  the map.mountains value, so increase map.mountains and you'll get more 
+  hills and mountains, and vice versa  
+**************************************************************************/
 
 void make_mountains(int thill)
 {
@@ -76,6 +93,10 @@ void make_mountains(int thill)
       }
 }
 
+/**************************************************************************
+ add arctic and tundra squares in the arctic zone. 
+ (that is the top 10%, and low 10% of the map)
+**************************************************************************/
 void make_polar()
 {
   int y,x;
@@ -103,6 +124,12 @@ void make_polar()
   }
 }
 
+/**************************************************************************
+  recursively generate deserts, i use the heights of the map, to make the
+  desert unregulary shaped, diff is the recursion stopper, and will be reduced
+  more if desert wants to grow in the y direction, so we end up with 
+  "wide" deserts. 
+**************************************************************************/
 void make_desert(int x, int y, int height, int diff) 
 {
   if (abs(full_map(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
@@ -114,6 +141,12 @@ void make_desert(int x, int y, int height, int diff)
   }
 }
 
+/**************************************************************************
+  a recursive function that adds forest to the current location and try
+  to spread out to the neighbours, it's called from make_forests until
+  enough forest has been planted. diff is again the block function.
+  if we're close to equator it will with 50% chance generate jungle instead
+**************************************************************************/
 void make_forest(int x, int y, int height, int diff)
 {
   if (x==0 || x==map.xsize-1 ||y==0 || y==map.ysize-1)
@@ -134,6 +167,10 @@ void make_forest(int x, int y, int height, int diff)
   }
 }
 
+/**************************************************************************
+  makeforest calls make_forest with random grassland locations until there
+  has been made enough forests. (the map.forestsize value controls this) 
+**************************************************************************/
 void make_forests()
 {
   int x,y;
@@ -155,6 +192,12 @@ void make_forests()
   } while (forests<forestsize);
 }
 
+/**************************************************************************
+  swamps, is placed on low lying locations, that will typically be close to
+  the shoreline. They're put at random (where there is grassland)
+  and with 50% chance each of it's neighbour squares will be converted to
+  swamp aswell
+**************************************************************************/
 void make_swamps()
 {
   int x,y,i;
@@ -179,6 +222,12 @@ void make_swamps()
   }
 }
 
+/*************************************************************************
+  make_deserts calls make_desert until we have enough deserts actually
+  there is no map setting for how many we want, what happends is that
+  we choose a random coordinate in the equator zone and if it's a grassland
+  square we call make_desert with this coordinate, we try this 1000 times
+**************************************************************************/
 void make_deserts()
 {
   int x,y,i,j;
@@ -194,6 +243,11 @@ void make_deserts()
     }
   }
 }
+/*************************************************************************
+ this recursive function try to make some decent rivers, that run towards
+ the ocean, it does this by following a descending path on the map spiced
+ with a bit of chance, if it fails to reach the ocean it rolls back.
+**************************************************************************/
 
 int make_river(int x,int y) 
 {
@@ -256,6 +310,11 @@ int make_river(int x,int y)
   return res;
 }
 
+/**************************************************************************
+  calls make_river until we have enough river tiles (map.riverlength), 
+  to stop this potentially never ending loop a miss counts as a river of 
+  length one 
+**************************************************************************/
 void make_rivers()
 {
   int x,y,i;
@@ -271,6 +330,10 @@ void make_rivers()
   }
 }
 
+/**************************************************************************
+  make_plains converts 50% of the remaining grassland to plains, this should
+  maybe be lowered to 30% or done in batches, like the swamps?
+**************************************************************************/
 void make_plains()
 {
   int x,y;
@@ -279,8 +342,13 @@ void make_plains()
       if (map_get_terrain(x, y)==T_GRASSLAND && myrand(100)>50)
 	map_set_terrain(x, y, T_PLAINS);
 }
-/* we want the map to be sailable east-west atleast at north and south pole */
-/* make it a bit jagged aswell */
+
+/**************************************************************************
+  we want the map to be sailable east-west atleast at north and south pole 
+  and make it a bit jagged at the edge aswell.
+  So this procedure converts the second line and the second last line to
+  ocean, and 50% of the 3 and 3 last line to ocean. 
+**************************************************************************/
 void make_passable()
 {
   int x;
@@ -296,10 +364,10 @@ void make_passable()
   
 }
 
-/* we don't want huge areas of grass/plains, 
- * so we put in a hill here and there 
- * where it gets too 'clean' 
- */
+/**************************************************************************
+  we don't want huge areas of grass/plains, 
+ so we put in a hill here and there, where it gets too 'clean' 
+**************************************************************************/
 
 void make_fair()
 {
@@ -320,6 +388,11 @@ void make_fair()
     }
 }
 
+/**************************************************************************
+  make land simply does it all based on a generated heightmap
+  1) with map.landpercent it generates a ocean/grassland map 
+  2) it then calls the above functions to generate the different terrains
+**************************************************************************/
 void make_land()
 {
   int x, y;
@@ -356,6 +429,9 @@ void make_land()
   make_fair();
 }
 
+/**************************************************************************
+ returns if this is a 1x1 island (which we removes)
+**************************************************************************/
 int tiny_island(int x, int y) 
 {
   if (map_get_terrain(x,y)==T_OCEAN) return 0;
@@ -366,6 +442,9 @@ int tiny_island(int x, int y)
   return 1;
 }
 
+/**************************************************************************
+  removes all 1x1 islands
+**************************************************************************/
 void filter_land()
 {
   int x,y;
@@ -379,6 +458,10 @@ void filter_land()
     }
 }
 
+/**************************************************************************
+ a basic floodfill used to give every square a continent number, so we later
+ on can ask which continent a given square belongs to.
+**************************************************************************/
 void flood_fill(int x, int y, int nr)
 {
   if (x==-1) x=map.xsize-1;
@@ -401,6 +484,9 @@ void flood_fill(int x, int y, int nr)
   flood_fill(x+1,y+1,nr);
 }
 
+/**************************************************************************
+ find start points for continents and call flood_fill for all of them 
+**************************************************************************/
 void flood_it(int loaded)
 {
   int x,y;
@@ -439,6 +525,11 @@ void flood_it(int loaded)
     } 
   }
 }
+/**************************************************************************
+  where do the different races start on the map? well this function tries
+  to spread them out on the different islands.
+**************************************************************************/
+
 void choose_start_positions(void)
 {
   int nr=0;
@@ -464,6 +555,11 @@ void choose_start_positions(void)
   } 
 }
 
+/**************************************************************************
+  we have 2 ways of generation a map, 
+  1) generates normal maps like in civ
+  2) generates 7 equally sized and with equally number of specials islands
+**************************************************************************/
 void map_fractal_generate(void)
 {
   if (map.seed==0)
@@ -486,7 +582,12 @@ void map_fractal_generate(void)
   /* print_map(); */
   make_huts(map.huts);
 }
+
+/**************************************************************************
+  this next block is only for debug purposes and could be removed
+**************************************************************************/
 char terrai_chars[] = {'a','D', 'F', 'g', 'h', 'j', 'M', '*', 'p', 'R', '%','T', 'U' };
+
 void print_map(void)
 {
   int x,y;
@@ -509,6 +610,11 @@ void print_hmap(void)
   }
 }
 
+/**************************************************************************
+  since the generated map will always have a positive number as minimum height
+  i reduce the height so the lowest height is zero, this makes calculations
+  easier
+**************************************************************************/
 void adjust_map(int minval)
 {
   int x,y;
@@ -519,6 +625,9 @@ void adjust_map(int minval)
   }
 }
 
+/**************************************************************************
+  this function will create a map.
+**************************************************************************/
 void init_workmap(void)
 {
   int x,y;
@@ -533,7 +642,8 @@ void init_workmap(void)
 }
 
 /*****************************************************************************
-... mapgenerator 2 functions
+  The rest of this file is only used in  mapgenerator 2, and should not be 
+  confused with the previous stuff.
 *****************************************************************************/
 int ymax = 20;
 int xmax = 20;
@@ -542,11 +652,18 @@ int xs;
 int ys;
 int dx;
 int dy;
+
+/**************************************************************************
+  a wrapper
+**************************************************************************/
 int mini_map(int x, int y)
 {
   return height_map[y*xmax + x];
 }
 
+/**************************************************************************
+  fill an island with different types of terrain,
+**************************************************************************/
 void fillisland(int xp, int yp)
 {
   int mountains = 3;
@@ -676,6 +793,10 @@ void fillisland(int xp, int yp)
     }
 }
 
+/**************************************************************************
+  copy the newly created island to the real map, notice that T_OCEAN is
+  used as mask so other island won't get destroyed.
+**************************************************************************/
 void placeisland(int xp, int yp)
 {
   int x,y;
@@ -685,6 +806,9 @@ void placeisland(int xp, int yp)
 	map_set_terrain(xp + x, yp + y, mini_map(xs+x, ys+y));
     }
 }
+/**************************************************************************
+  is there a neighbour square in the 4 basic directions?
+**************************************************************************/
 
 int neighbour(int x, int y)
 {
@@ -692,12 +816,18 @@ int neighbour(int x, int y)
   return (mini_map(x+1, y) + mini_map(x-1, y) + mini_map(x, y+1) + mini_map(x, y-1));
 }
 
+/**************************************************************************
+  is there a neighbour square in any of the 8 directions?
+**************************************************************************/
 int neighbour8(int x, int y)
 {
   if ( x == 0 || x == xmax - 1 || y==0 || y == ymax -1) return 0;
   return(neighbour(x,y) + mini_map(x+1, y-1) + mini_map(x-1, y-1) + mini_map(x+1, y+1) + mini_map(x-1, y+1));
 }
 
+/**************************************************************************
+  we need this to convert tbe 0 based ocean representation to 2 
+**************************************************************************/
 void floodocean(int x, int y)
 {
   if (x < 0 || x == xmax) return;
@@ -711,7 +841,9 @@ void floodocean(int x, int y)
   }
 }
 
-
+/**************************************************************************
+  this procedure will generate 1 island
+**************************************************************************/
 void makeisland(void)
 {
   int x,y;
@@ -764,6 +896,10 @@ void makeisland(void)
 	height_map[y*xmax + x] = T_OCEAN;
     }
 }
+
+/**************************************************************************
+  this procedure finds a place to drop the current island
+**************************************************************************/
 void findislandspot(int *xplace, int *yplace)
 {
   int x, y;
@@ -786,6 +922,10 @@ void findislandspot(int *xplace, int *yplace)
     }
   }
 }
+
+/**************************************************************************
+  this is mapgenerators2. The highlevel routine that ties the knots together
+**************************************************************************/
 
 void mapgenerator2(void)
 {
@@ -818,6 +958,9 @@ void mapgenerator2(void)
   free(height_map);
 }
 
+/**************************************************************************
+  mapgenerator1, highlevel function, that calls all the previous functions
+**************************************************************************/
 void mapgenerator1(void)
 {
   int x,y, i;
@@ -855,6 +998,11 @@ void mapgenerator1(void)
   free(height_map);
 }
 
+/**************************************************************************
+  smooth_map should be viewed  as a  corrosion function on the map, it levels
+  out the differences in the heightmap.
+**************************************************************************/
+
 void smooth_map()
 {
   int x,y;
@@ -888,6 +1036,10 @@ void smooth_map()
   }
 }
 
+/**************************************************************************
+  this function spreads out huts on the map, a position can be used for a
+  hut if there isn't another hut close and if it's not on the ocean.
+**************************************************************************/
 void make_huts(int number)
 {
   int x,y;
@@ -903,3 +1055,4 @@ void make_huts(int number)
     }
   }
 }
+

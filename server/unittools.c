@@ -34,7 +34,17 @@
 #include <unittools.h>
 
 /**************************************************************************
-... 
+  unit can be moved if:
+  1) the unit is idle or on goto
+  2) the target location is on the map
+  3) the target location is next to the unit
+  4) ground unit can only move to ocean squares if there is a transporter
+     with free capacity
+  5) marines are the only units that can attack from a ocean square
+  6) naval units can only be moved to ocean squares or city squares
+  7) if there is no enemy units blocking (zoc)
+TODO: units without marine flag that tries to attack from ocean
+      should generate a better error message.
 **************************************************************************/
 int can_unit_move_to_tile(struct unit *punit, int x, int y)
 {
@@ -79,7 +89,7 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
 }
 
 /**************************************************************************
-... 
+ is there a sailing unit on this square
 **************************************************************************/
 int is_sailing_unit_tile(int x, int y)
 {
@@ -91,7 +101,7 @@ int is_sailing_unit_tile(int x, int y)
 }
 
 /**************************************************************************
-... 
+  is this square controlled by the units owner
 **************************************************************************/
 int is_my_zoc(struct unit *myunit, int x0, int y0)
 {
@@ -115,7 +125,8 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
 }
 
 /**************************************************************************
-... 
+  return whether or not the square, the unit wants to enter is blocked by
+  enemy units? 
 **************************************************************************/
 int zoc_ok_move(struct unit *punit,int x, int y)
 {
@@ -133,7 +144,9 @@ int zoc_ok_move(struct unit *punit,int x, int y)
 }
 
 /**************************************************************************
-...
+ calculate how expensive it is to bribe the unit
+ depends on distance to the capital, and goverment form
+ settlers are half price
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
 {  
@@ -156,7 +169,7 @@ int unit_bribe_cost(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ return whether or not there is a diplomat on this square
 **************************************************************************/
 int diplomat_on_tile(int x, int y)
 {
@@ -167,9 +180,14 @@ int diplomat_on_tile(int x, int y)
   return 0;
 }
 
-/***************************************************************
-...
-***************************************************************/
+/**************************************************************************
+  returns how many hp's a unit will gain on this square
+  depends on whether or not it's inside city or fortress.
+  barracks will regen landunits completely
+  airports will regen airunits  completely
+  ports    will regen navalunits completely
+  fortify will add a little extra.
+***************************************************************************/
 int hp_gain_coord(struct unit *punit)
 {
   int hp=1;
@@ -199,7 +217,8 @@ int hp_gain_coord(struct unit *punit)
 }
 
 /**************************************************************************
-... this is a crude function!!!! 
+  this is a crude function!!!! 
+  used to find the best defensive unit on a square
 **************************************************************************/
 int rate_unit(struct unit *punit, struct unit *against)
 {
@@ -239,7 +258,7 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
 }
 
 /**************************************************************************
-...
+ returns the attack power, modified by moves left, and veteran status.
 **************************************************************************/
 int get_attack_power(struct unit *punit)
 {
@@ -255,7 +274,7 @@ int get_attack_power(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  returns the defense power, modified by terrain and veteran status
 **************************************************************************/
 int get_defense_power(struct unit *punit)
 {
@@ -273,7 +292,7 @@ int get_defense_power(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  a wrapper that returns whether or not a unit ignores citywalls
 **************************************************************************/
 int unit_ignores_citywalls(struct unit *punit)
 {
@@ -281,7 +300,8 @@ int unit_ignores_citywalls(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ a wrapper function that returns whether or not the unit is on a citysquare
+ with citywalls
 **************************************************************************/
 int unit_behind_walls(struct unit *punit)
 {
@@ -294,7 +314,7 @@ int unit_behind_walls(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ a wrapper function returns 1 if the unit is on a square with fortress
 **************************************************************************/
 int unit_on_fortress(struct unit *punit)
 {
@@ -302,7 +322,7 @@ int unit_on_fortress(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ a wrapper function returns 1 if the unit is on a square with coastal defense
 **************************************************************************/
 int unit_behind_coastal(struct unit *punit)
 {
@@ -311,7 +331,7 @@ int unit_behind_coastal(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ a wrapper function returns 1 if the unit is on a square with sam site
 **************************************************************************/
 int unit_behind_sam(struct unit *punit)
 {
@@ -320,7 +340,7 @@ int unit_behind_sam(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ a wrapper function returns 1 if the unit is on a square with sdi defense
 **************************************************************************/
 int unit_behind_sdi(struct unit *punit)
 {
@@ -329,7 +349,7 @@ int unit_behind_sdi(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  a wrapper function returns 1 if there is a sdi-defense close to the square
 **************************************************************************/
 struct city *sdi_defense_close(int owner, int x, int y)
 {
@@ -342,11 +362,10 @@ struct city *sdi_defense_close(int owner, int x, int y)
 	return pcity;
     }
   return NULL;
-
 }
 
 /**************************************************************************
-...
+  returns a unit type for the goodie huts
 **************************************************************************/
 int find_a_unit_type()
 {
@@ -375,7 +394,11 @@ int find_a_unit_type()
 }
 
 /**************************************************************************
-...
+  unit can't attack if :
+ 1) it don't have any attack power
+ 2) it's not a fighter and the defender is a flying unit
+ 3) if it's not a marine (and ground unit) and it attacks from ocean
+ 4) a ground unit can't make attack an attack on a oceans square
 **************************************************************************/
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
@@ -407,7 +430,7 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 }
 
 /**************************************************************************
-...
+  calculate the remaining build points 
 **************************************************************************/
 int build_points_left(struct city *pcity)
 {
@@ -415,7 +438,11 @@ int build_points_left(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  return if it's possible to place a partisan on this square 
+  possible if:
+  1) square isn't a city square
+  2) there is no units on this square
+  3) it's not an ocean square 
 **************************************************************************/
 int can_place_partisan(int x, int y) 
 {
@@ -425,7 +452,8 @@ int can_place_partisan(int x, int y)
 }
 
 /**************************************************************************
-...
+ return 1 if there is already a unit on this square or one destined for it 
+ (via goto)
 **************************************************************************/
 int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 {
@@ -455,7 +483,11 @@ int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int 
 }
 
 /**************************************************************************
-...
+  how much is it worth for the ai to clean pollution on this square:
+  1) there is pollution value is 80
+  2) there is no pollution value is 0
+  TODO: can't tell whether or not this is OUR pollution, or it's closer
+  to an enemy.
 **************************************************************************/
 int benefit_pollution(struct player *pplayer, int x, int y)
 {
@@ -465,7 +497,10 @@ int benefit_pollution(struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-...
+  1) if there is railroad or road then return 0
+  2) if there is already work on this square return 0
+  3) return a value based on the terrain, note that some of the
+     terrains won't return anything before the invention of railroad.   
 **************************************************************************/
 int benefit_road(struct player *pplayer, int x, int y)
 {
@@ -518,7 +553,10 @@ int benefit_road(struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-...
+  1) return 0 if there is already a mine on the square
+  2) return 0 if there is already assigned a settler to mining this square
+  3) return 0 if it's not hills or mountains.
+  4) return ALOT if there is specials on this square.
 **************************************************************************/
 int benefit_mine(struct player *pplayer, int x, int y)
 {
@@ -547,7 +585,11 @@ int benefit_mine(struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-...
+  return 0 if:
+  1) there is already irrigated on the square
+  2) there is not water around the square
+  3) the square can't be irrigated
+  otherwise return a value weighted on how much it'll help if it's irrigated
 ***************************************************************************/
 int benefit_irrigate(struct player *pplayer, int x, int y)
 {
@@ -576,8 +618,9 @@ int benefit_irrigate(struct player *pplayer, int x, int y)
   }
 }
 
-/**************************************************************************
-...
+/************************************************************************** 
+  checks if there is already a settler destined for this location 
+  otherwise it'll return the benefit of cleaning the pollution here 
 **************************************************************************/
 int ai_calc_pollution(struct unit *punit, struct player *pplayer, int x, int y)
 {
@@ -587,7 +630,10 @@ int ai_calc_pollution(struct unit *punit, struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-...
+ 1) checks if there is already a settler destined for this location 
+ 2) checks if this is in city range
+ return the benefit of mining
+ if there is a worker on the square multiply the value with 1.33
 **************************************************************************/
 int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y)
 {
@@ -602,7 +648,9 @@ int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-...
+  1) checks if there is alread a settler destined for this location
+  2) checks if it's in range of a city (higher multiplier)
+  3) checks if there is worked here (higher multiplier)
 **************************************************************************/
 int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
 {
@@ -622,7 +670,7 @@ int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
 }
 
 /*************************************************************************
-...
+  returns the food production of a square without taking concern of goverment
 **************************************************************************/
 int get_food_tile_bc(int xp, int yp)
 {
@@ -637,7 +685,7 @@ int get_food_tile_bc(int xp, int yp)
 }
 
 /*************************************************************************
-...
+  return how good this square is for a new city.
 **************************************************************************/
 int is_ok_city_spot(int x, int y)
 {
@@ -680,7 +728,7 @@ int is_ok_city_spot(int x, int y)
 }
 
 /*************************************************************************
-...
+  return the city if any that is in range of this square.
 **************************************************************************/
 int in_city_radius(struct player *pplayer, int x, int y)
 {
@@ -700,7 +748,12 @@ int in_city_radius(struct player *pplayer, int x, int y)
 }
 
 /*************************************************************************
-...
+  returns the value of irrigating this square
+  1) 0 if it's a city square
+  2) 0 if there is already a settler working here
+  3) 0 if the goverment form is despotism or anarchy
+  4) 0 if it's not in the range of a city
+  multiplied with 133% if there is actually worked on the square
 **************************************************************************/
 int ai_calc_irrigate(struct unit *punit, struct player *pplayer, int x, int y)
 {
@@ -719,7 +772,8 @@ int ai_calc_irrigate(struct unit *punit, struct player *pplayer, int x, int y)
 }
 
 /*************************************************************************
-...
+  distance modifier, so task where settler have to move alot is ranked 
+  low.
 **************************************************************************/
 int dist_mod(int dist, int val)
 {
@@ -732,7 +786,7 @@ int dist_mod(int dist, int val)
 }
 
 /*************************************************************************
-...
+  returns dy according to the wrap rules
 **************************************************************************/
 int make_dy(int y1, int y2)
 {
@@ -742,7 +796,7 @@ int make_dy(int y1, int y2)
 }
 
 /*************************************************************************
-...
+  returns dx according to the wrap rules
 **************************************************************************/
 int make_dx(int x1, int x2)
 {
@@ -754,5 +808,3 @@ int make_dx(int x1, int x2)
 
   return MIN(x2-x1, map.xsize-x2+x1);
 }
-
-

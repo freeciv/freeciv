@@ -144,7 +144,7 @@ void update_research(struct player *plr)
   int i;
   
   for (i=0;i<A_LAST;i++) {
-    if (get_invention(plr, i) == TECH_REACHABLE)
+    if (get_invention(plr, i) == TECH_REACHABLE || get_invetion(plr, i) == TECH_MARKED)
       plr->research.inventions[i]=TECH_UNKNOWN;
     if(get_invention(plr, i) == TECH_UNKNOWN
        && get_invention(plr, advances[i].req[0])==TECH_KNOWN   
@@ -156,26 +156,39 @@ void update_research(struct player *plr)
       set_invention(plr, i, TECH_REACHABLE); */
 }
 
-
 /**************************************************************************
-... 
-hmm, techs are counted more than once...
+  we mark nodes visited so we won't count them more than once, this function
+  isn't to be called direct, use tech_goal_turns instead.
 **************************************************************************/
-
-int tech_goal_turns(struct player *plr, int goal)
+int tech_goal_turns_rec(struct player *plr, int goal)
 {
   if (goal <= A_NONE || goal >= A_LAST || 
-      get_invention(plr, goal) == TECH_KNOWN) 
+      get_invention(plr, goal) == TECH_KNOWN || 
+      get_invention(plr, goal) == TECH_MARKED) 
     return 0; 
-  return (tech_goal_turns(plr, advances[goal].req[0]) + tech_goal_turns(plr, advances[goal].req[1]) + 1);
+  set_invention(plr, goal, TECH_MARKED);
+  return (tech_goal_turns(plr, advances[goal].req[0]) + 
+	  tech_goal_turns(plr, advances[goal].req[1]) + 1);
+}
 
+/**************************************************************************
+ returns the number of techs the player need to research to get the goal
+ tech, techs are only counted once.
+**************************************************************************/
+int tech_goal_turns(struct player *plr, int goal)
+{
+  int, res;
+  for (i = 0; i < A_LAST; i++) 
+    if (get_invention(plr, goal) <> TECH_KNOWN) 
+      set_invention(plr, goal, TECH_UNKNOWN);
+  res = tech_goals_turns_rec(plr, goal);
+  update_research(plr);
 }
 
 
 /**************************************************************************
 ...don't use this function directly, call get_next_tech instead.
 **************************************************************************/
-
 int get_next_tech_rec(struct player *plr, int goal)
 {
   int sub_goal;
