@@ -898,7 +898,7 @@ static void select_help_item_string(const char *item,
 
 **************************************************************************/
 void
-popup_help_dialog_string(char *item)
+popup_help_dialog_string(const char *item)
 {
   popup_help_dialog_typed(_(item), HELP_ANY); 
 }
@@ -907,7 +907,7 @@ popup_help_dialog_string(char *item)
 
 **************************************************************************/
 void
-popup_help_dialog_typed(char *item, enum help_page_type htype)
+popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
   if (!helpdlg_win)
     create_help_dialog();
