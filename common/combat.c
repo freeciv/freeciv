@@ -151,7 +151,7 @@ double unit_win_chance(struct unit *attacker, struct unit *defender)
 /**************************************************************************
   a wrapper that returns whether or not a unit ignores citywalls
 **************************************************************************/
-int unit_ignores_citywalls(struct unit *punit)
+bool unit_ignores_citywalls(struct unit *punit)
 {
   return (unit_flag(punit, F_IGWALL));
 }
@@ -159,7 +159,7 @@ int unit_ignores_citywalls(struct unit *punit)
 /**************************************************************************
   Takes into account unit move_type as well, and Walls variant.
 **************************************************************************/
-int unit_really_ignores_citywalls(struct unit *punit)
+bool unit_really_ignores_citywalls(struct unit *punit)
 {
   return unit_ignores_citywalls(punit)
     || is_air_unit(punit)
@@ -170,7 +170,7 @@ int unit_really_ignores_citywalls(struct unit *punit)
  a wrapper function that returns whether or not the unit is on a citysquare
  with citywalls
 **************************************************************************/
-int unit_behind_walls(struct unit *punit)
+bool unit_behind_walls(struct unit *punit)
 {
   struct city *pcity;
   
@@ -183,7 +183,7 @@ int unit_behind_walls(struct unit *punit)
 /**************************************************************************
  a wrapper function returns 1 if the unit is on a square with fortress
 **************************************************************************/
-int unit_on_fortress(struct unit *punit)
+bool unit_on_fortress(struct unit *punit)
 {
   return map_has_special(punit->x, punit->y, S_FORTRESS);
 }
@@ -191,7 +191,7 @@ int unit_on_fortress(struct unit *punit)
 /**************************************************************************
  a wrapper function returns 1 if the unit is on a square with coastal defense
 **************************************************************************/
-int unit_behind_coastal(struct unit *punit)
+bool unit_behind_coastal(struct unit *punit)
 {
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)))
@@ -202,7 +202,7 @@ int unit_behind_coastal(struct unit *punit)
 /**************************************************************************
  a wrapper function returns 1 if the unit is on a square with sam site
 **************************************************************************/
-int unit_behind_sam(struct unit *punit)
+bool unit_behind_sam(struct unit *punit)
 {
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)))
@@ -213,7 +213,7 @@ int unit_behind_sam(struct unit *punit)
 /**************************************************************************
  a wrapper function returns 1 if the unit is on a square with sdi defense
 **************************************************************************/
-int unit_behind_sdi(struct unit *punit)
+bool unit_behind_sdi(struct unit *punit)
 {
   struct city *pcity;
   if((pcity=map_get_city(punit->x, punit->y)))
@@ -446,7 +446,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
       continue;
     count++;
     if (unit_can_defend_here(defender)) {
-      int change = FALSE;
+      bool change = FALSE;
       int build_cost = unit_type(defender)->build_cost;
 
       /* This will make units roughly evenly good defenders look alike. */

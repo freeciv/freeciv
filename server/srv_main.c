@@ -109,29 +109,29 @@ static void reject_new_player(char *msg, struct connection *pconn);
 
 static void handle_alloc_nation(struct player *pplayer,
 				struct packet_alloc_nation *packet);
-static int handle_request_join_game(struct connection *pconn, 
+static bool handle_request_join_game(struct connection *pconn, 
 				    struct packet_req_join_game *req);
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
-static int check_for_full_turn_done(void);
+static bool check_for_full_turn_done(void);
 
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in srv_main.h) */
-int is_server = TRUE;
+bool is_server = TRUE;
 
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
 /* server state information */
 enum server_states server_state = PRE_GAME_STATE;
-int nocity_send = FALSE;
+bool nocity_send = FALSE;
 
 /* this global is checked deep down the netcode. 
    packets handling functions can set it to none-zero, to
    force end-of-tick asap
 */
-int force_end_of_sniff;
+bool force_end_of_sniff;
 
 
 /* The next three variables make selecting nations for AI players cleaner */
@@ -145,7 +145,7 @@ static unsigned short global_id_counter=100;
 static unsigned char used_ids[8192]={0};
 
 /* server initialized flag */
-static int has_been_srv_init = FALSE;
+static bool has_been_srv_init = FALSE;
 
 /**************************************************************************
 ...
@@ -185,7 +185,7 @@ void srv_init(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_game_over(void)
+static bool is_game_over(void)
 {
   int barbs = 0;
   int alive = 0;
@@ -408,7 +408,7 @@ static void begin_turn(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static int end_turn(void)
+static bool end_turn(void)
 {
   int i;
 
@@ -599,7 +599,7 @@ int get_next_id_number(void)
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/
-int handle_packet_input(struct connection *pconn, char *packet, int type)
+bool handle_packet_input(struct connection *pconn, char *packet, int type)
 {
   struct player *pplayer;
 
@@ -608,7 +608,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type)
     return TRUE;
 
   if (type == PACKET_REQUEST_JOIN_GAME) {
-    int result = handle_request_join_game(pconn,
+    bool result = handle_request_join_game(pconn,
 					  (struct packet_req_join_game *) packet);
     free(packet);
     return result;
@@ -868,7 +868,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type)
 /**************************************************************************
 ...
 **************************************************************************/
-static int check_for_full_turn_done(void)
+static bool check_for_full_turn_done(void)
 {
   int i;
 
@@ -1017,7 +1017,7 @@ static void send_select_nation(struct player *pplayer)
  'rejoin' is whether this is a new player, or re-connection.
  Prints a log message, and notifies other players.
 **************************************************************************/
-static void join_game_accept(struct connection *pconn, int rejoin)
+static void join_game_accept(struct connection *pconn, bool rejoin)
 {
   struct packet_join_game_reply packet;
   struct player *pplayer = pconn->player;
@@ -1150,7 +1150,7 @@ static void reject_new_player(char *msg, struct connection *pconn)
   Try a single name as new connection name for set_unique_conn_name().
   If name is ok, copy to pconn->name and return 1, else return 0.
 **************************************************************************/
-static int try_conn_name(struct connection *pconn, const char *name)
+static bool try_conn_name(struct connection *pconn, const char *name)
 {
   char save_name[MAX_LEN_NAME];
 
@@ -1173,7 +1173,7 @@ static int try_conn_name(struct connection *pconn, const char *name)
   req_name (req_name prefixed by digit and dash).
   Returns 0 if req_name used unchanged, else 1.
 **************************************************************************/
-static int set_unique_conn_name(struct connection *pconn, const char *req_name)
+static bool set_unique_conn_name(struct connection *pconn, const char *req_name)
 {
   char adjusted_name[MAX_LEN_NAME];
   int i;
@@ -1198,7 +1198,7 @@ static int set_unique_conn_name(struct connection *pconn, const char *req_name)
 Returns 0 if the clients gets rejected and the connection should be
 closed. Returns 1 if the client get accepted.
 **************************************************************************/
-static int handle_request_join_game(struct connection *pconn, 
+static bool handle_request_join_game(struct connection *pconn, 
 				    struct packet_req_join_game *req)
 {
   struct player *pplayer;
@@ -1574,7 +1574,7 @@ static void generate_ai_players(void)
 /*************************************************************************
  Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
 *************************************************************************/
-static int good_name(char *ptry, char *buf) {
+static bool good_name(char *ptry, char *buf) {
   if (!find_player_by_name(ptry)) {
      mystrlcpy(buf, ptry, MAX_LEN_NAME);
      return TRUE;

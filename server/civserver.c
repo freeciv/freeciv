@@ -49,8 +49,8 @@ static void Mac_options(int argc);  /* don't need argv */
 int main(int argc, char *argv[])
 {
   int inx;
-  int showhelp = FALSE;
-  int showvers = FALSE;
+  bool showhelp = FALSE;
+  bool showvers = FALSE;
   char *option = NULL;
 
   /* initialize server */

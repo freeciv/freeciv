@@ -102,7 +102,7 @@ struct timer {
 ***********************************************************************/
 static void report_clock_failed(struct timer *t)
 {
-  static int first = TRUE;
+  static bool first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "clock() returned -1, ignoring timer");
@@ -118,7 +118,7 @@ static void report_clock_failed(struct timer *t)
 ***********************************************************************/
 static void report_gettimeofday_failed(struct timer *t)
 {
-  static int first = TRUE;
+  static bool first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "gettimeofday() returned -1, ignoring timer");
@@ -133,7 +133,7 @@ static void report_gettimeofday_failed(struct timer *t)
 ***********************************************************************/
 static void report_time_failed(struct timer *t)
 {
-  static int first = TRUE;
+  static bool first = TRUE;
 
   if (first) {
     freelog(LOG_NORMAL, "time() returned -1, ignoring timer");
@@ -214,7 +214,7 @@ void free_timer(struct timer *t)
   Return whether timer is in use.
   t may be NULL, in which case returns 0
 ***********************************************************************/
-int timer_in_use(struct timer *t)
+bool timer_in_use(struct timer *t)
 {
   return (t && t->use != TIMER_IGNORE);
 }

@@ -171,18 +171,18 @@ struct government *get_gov_pcity(struct city *pcity);
 struct government *find_government_by_name(char *name);
 
 enum government_flag_id government_flag_from_str(const char *s);
-int government_has_flag(const struct government *gov,
+bool government_has_flag(const struct government *gov,
 			enum government_flag_id flag);
 enum government_hint_id government_hint_from_str(const char *s);
-int government_has_hint(const struct government *gov,
+bool government_has_hint(const struct government *gov,
 			enum government_hint_id hint);
 
 int get_government_max_rate(int type);
 int get_government_civil_war_prob(int type);
 char *get_government_name(int type);
-char *get_ruler_title(int gov, int male, int nation);
+char *get_ruler_title(int gov, bool male, int nation);
 
-int can_change_to_government(struct player *pplayer, int government);
+bool can_change_to_government(struct player *pplayer, int government);
 
 void set_ruler_title(struct government *gov, int nation, 
                      char *male, char *female);

@@ -39,7 +39,7 @@
 /***************************************************************
 ...
 ***************************************************************/
-int player_has_embassy(struct player *pplayer, struct player *pplayer2)
+bool player_has_embassy(struct player *pplayer, struct player *pplayer2)
 {
   return (pplayer->embassy & (1<<pplayer2->player_no)) ||
          (player_owns_active_wonder(pplayer, B_MARCO) &&
@@ -49,8 +49,7 @@ int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 /****************************************************************
 ...
 *****************************************************************/
-
-int player_owns_city(struct player *pplayer, struct city *pcity)
+bool player_owns_city(struct player *pplayer, struct city *pcity)
 {
   if (!pcity || !pplayer)
     return FALSE;			/* better safe than sorry */
@@ -307,7 +306,7 @@ int player_in_city_radius(struct player *pplayer, int x, int y)
  Return 1 if one of the player's cities has the specified wonder,
  and it is not obsolete.
 **************************************************************************/
-int player_owns_active_wonder(struct player *pplayer,
+bool player_owns_active_wonder(struct player *pplayer,
 			      Impr_Type_id id)
 {
   return (improvement_exists(id)
@@ -319,7 +318,7 @@ int player_owns_active_wonder(struct player *pplayer,
 /**************************************************************************
  ...
 **************************************************************************/
-int player_owns_active_govchange_wonder(struct player *pplayer)
+bool player_owns_active_govchange_wonder(struct player *pplayer)
 {
   return ( player_owns_active_wonder(pplayer, B_LIBERTY) ||
 	   ( (improvement_variant(B_PYRAMIDS)==1) &&
@@ -437,7 +436,7 @@ struct city *find_palace(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-int player_knows_improvement_tech(struct player *pplayer,
+bool player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id)
 {
   int t;
@@ -449,7 +448,7 @@ int player_knows_improvement_tech(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-int ai_handicap(struct player *pplayer, enum handicap_type htype)
+bool ai_handicap(struct player *pplayer, enum handicap_type htype)
 {
   if (!pplayer->ai.control) {
     return TRUE;
@@ -473,7 +472,7 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
     if (condition && 1) { action }
 --dwp
 **************************************************************************/
-int ai_fuzzy(struct player *pplayer, int normal_decision)
+bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 {
   if (!pplayer->ai.control || !pplayer->ai.fuzzy) return normal_decision;
   if (myrand(1000) >= pplayer->ai.fuzzy) return normal_decision;
@@ -538,7 +537,7 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player *pplaye
 /***************************************************************
 returns true iff players can attack each other.
 ***************************************************************/
-int pplayers_at_war(const struct player *pplayer,
+bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
@@ -551,7 +550,7 @@ int pplayers_at_war(const struct player *pplayer,
 /***************************************************************
 returns true iff players are allied
 ***************************************************************/
-int pplayers_allied(const struct player *pplayer,
+bool pplayers_allied(const struct player *pplayer,
 		    const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
@@ -565,7 +564,7 @@ int pplayers_allied(const struct player *pplayer,
 /***************************************************************
 returns true iff players have peace or cease-fire
 ***************************************************************/
-int pplayers_non_attack(const struct player *pplayer,
+bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
@@ -579,7 +578,7 @@ int pplayers_non_attack(const struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-int is_barbarian(const struct player *pplayer)
+bool is_barbarian(const struct player *pplayer)
 {
   return (pplayer->ai.is_barbarian > 0);
 }

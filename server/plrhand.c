@@ -212,12 +212,12 @@ Player has a new technology (from somewhere)
 was_discovery is passed on to upgrade_city_rails
 Logging & notification is not done here as it depends on how the tech came.
 **************************************************************************/
-void found_new_tech(struct player *plr, int tech_found, char was_discovery,
-		    char saving_bulbs)
+void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
+		    bool saving_bulbs)
 {
   int i;
-  int bonus_tech_hack = FALSE;
-  int was_first = FALSE;
+  bool bonus_tech_hack = FALSE;
+  bool was_first = FALSE;
   int saved_bulbs;
   int wonder;
   struct city *pcity;
@@ -747,7 +747,7 @@ toggling from AI to human.
 void check_player_government_rates(struct player *pplayer)
 {
   struct player_economic old_econ = pplayer->economic;
-  int changed = FALSE;
+  bool changed = FALSE;
   player_limit_to_government_rates(pplayer);
   if (pplayer->economic.tax != old_econ.tax) {
     changed = TRUE;
@@ -784,7 +784,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   enum diplstate_type new_type;
   struct player *pplayer2 = &game.players[other_player];
   int reppenalty = 0;
-  int has_senate =
+  bool has_senate =
     government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
 
   /* can't break a pact with yourself */
@@ -1239,7 +1239,7 @@ static void package_conn_info(struct connection *pconn,
   off 'used' if 'remove' is specified.
 **************************************************************************/
 static void send_conn_info_arg(struct conn_list *src,
-			       struct conn_list *dest, int remove)
+			       struct conn_list *dest, bool remove)
 {
   struct packet_conn_info packet;
   
@@ -1286,7 +1286,7 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 The initmap option is used because we don't want to initialize the map
 before the x and y sizes have been determined
 ***********************************************************************/
-void server_player_init(struct player *pplayer, int initmap)
+void server_player_init(struct player *pplayer, bool initmap)
 {
   if (initmap)
     player_map_allocate(pplayer);
@@ -1668,7 +1668,7 @@ guarantees a civil war.
 if a civil war is triggered.
                                    - Kris Bubendorfer 
 ***********************************************************************/
-int civil_war_triggered(struct player *pplayer)
+bool civil_war_triggered(struct player *pplayer)
 {
   /* Get base probabilities */
 

@@ -18,6 +18,8 @@
    See comments in hash.c.
 ***************************************************************************/
 
+#include "shared.h"		/* bool type */
+
 struct hash_table;		/* opaque */
 
 /* Function typedefs: */
@@ -45,10 +47,10 @@ struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,
 
 void hash_free(struct hash_table *h);
 
-int hash_insert(struct hash_table *h, const void *key, const void *data);
+bool hash_insert(struct hash_table *h, const void *key, const void *data);
 void *hash_replace(struct hash_table *h, const void *key, const void *data);
 
-int hash_key_exists(const struct hash_table *h, const void *key);
+bool hash_key_exists(const struct hash_table *h, const void *key);
 void *hash_lookup_data(const struct hash_table *h, const void *key);
 
 void *hash_delete_entry(struct hash_table *h, const void *key);

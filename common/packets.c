@@ -72,10 +72,10 @@ struct pack_iter {
   int type;			/* packet type (only here for log output) */
   unsigned char *base;		/* start of packet */
   unsigned char *ptr;		/* address of next data to pull off */
-  int swap_bytes;		/* to deal (minimally) with old versions */
-  int short_packet;		/* set to 1 if try to read past end */
-  int bad_string;		/* set to 1 if received too-long string */
-  int bad_bit_string;		/* set to 1 if received bad bit-string */
+  bool swap_bytes;		/* to deal (minimally) with old versions */
+  bool short_packet;		/* set to 1 if try to read past end */
+  bool bad_string;		/* set to 1 if received too-long string */
+  bool bad_bit_string;		/* set to 1 if received bad bit-string */
 };
 
 static void pack_iter_init(struct pack_iter *piter, struct connection *pc);
@@ -237,7 +237,7 @@ presult indicates if there is more packets in the cache. We return result
 instead of just testing if the returning package is NULL as we sometimes
 return a NULL packet even if everything is OK (receive_packet_goto_route).
 **************************************************************************/
-void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult)
+void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presult)
 {
   int len, type;
   *presult = FALSE;
@@ -1332,10 +1332,10 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
 **************************************************************************/
 static unsigned char *put_worklist(struct connection *pc,
 				   unsigned char *buffer,
-				   const struct worklist *pwl, int real_wl)
+				   const struct worklist *pwl, bool real_wl)
 {
-  int i, length, short_wls =
-      has_capability("short_worklists", pc->capability);
+  int i, length;
+  bool short_wls = has_capability("short_worklists", pc->capability);
 
   buffer = put_uint8(buffer, pwl->is_valid);
 
@@ -1366,8 +1366,8 @@ static unsigned char *put_worklist(struct connection *pc,
 static void iget_worklist(struct connection *pc, struct pack_iter *piter,
 			  struct worklist *pwl)
 {
-  int i, length, short_wls =
-      has_capability("short_worklists", pc->capability);
+  int i, length;
+  bool short_wls = has_capability("short_worklists", pc->capability);
 
   iget_uint8(piter, &pwl->is_valid);
 

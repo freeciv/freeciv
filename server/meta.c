@@ -192,7 +192,7 @@ static void metaserver_failed(void)
 void server_open_udp(void)
 {
   char *servername=srvarg.metaserver_addr;
-  int bad;
+  bool bad;
 #ifdef GENERATING_MAC  /* mac networking */
   OSStatus err1;
   OSErr err2;
@@ -270,7 +270,7 @@ void server_open_udp(void)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_server_info_to_metaserver(int do_send,int reset_timer)
+int send_server_info_to_metaserver(bool do_send, bool reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];

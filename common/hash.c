@@ -120,7 +120,7 @@ struct hash_table {
   unsigned int num_buckets;
   unsigned int num_entries;	/* does not included deleted entries */
   unsigned int num_deleted;
-  int frozen;			/* do not auto-resize when set */
+  bool frozen;			/* do not auto-resize when set */
 };
 
 /* Calculate hash value given hash_table ptr and key: */
@@ -380,7 +380,7 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
 **************************************************************************/
 #define hash_maybe_expand(htab) hash_maybe_resize((htab), TRUE)
 #define hash_maybe_shrink(htab) hash_maybe_resize((htab), FALSE)
-static void hash_maybe_resize(struct hash_table *h, int expandingp)
+static void hash_maybe_resize(struct hash_table *h, bool expandingp)
 {
   unsigned int num_used, limit, new_nbuckets;
 
@@ -469,7 +469,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
   Insert entry: returns 1 if inserted, or 0 if there was already an entry
   with the same key, in which case the entry was not inserted.
 **************************************************************************/
-int hash_insert(struct hash_table *h, const void *key, const void *data)
+bool hash_insert(struct hash_table *h, const void *key, const void *data)
 {
   struct hash_bucket *bucket;
   int hash_val;
@@ -558,7 +558,7 @@ void hash_delete_all_entries(struct hash_table *h)
 /**************************************************************************
   Lookup: return existence:
 **************************************************************************/
-int hash_key_exists(const struct hash_table *h, const void *key)
+bool hash_key_exists(const struct hash_table *h, const void *key)
 {
   struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
   return (bucket->used == BUCKET_USED);

@@ -38,6 +38,8 @@
 #include <netinet/in.h>
 #endif
 
+#include "shared.h"		/* bool type */
+
 #ifdef FD_ZERO
 #define MY_FD_ZERO FD_ZERO
 #else
@@ -51,6 +53,6 @@ void my_init_network(void);
 void my_shutdown_network(void);
 
 void my_nonblock(int sockfd);
-int fc_lookup_host(const char *hostname, struct sockaddr_in *sock);
+bool fc_lookup_host(const char *hostname, struct sockaddr_in *sock);
 
 #endif  /* FC__NETINTF_H */

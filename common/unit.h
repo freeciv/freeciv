@@ -94,7 +94,7 @@ enum add_build_city_result {
 };
 
 struct unit_ai {
-  int control; /* 0: not automated    1: automated */
+  bool control; /* 0: not automated    1: automated */
   enum ai_unit_task ai_role;
   /* The following are all unit ids */
   int ferryboat; /* the ferryboat assigned to us */
@@ -108,7 +108,7 @@ struct unit {
   int id;
   int owner;
   int x, y;                           
-  int veteran;
+  bool veteran;
   int homecity;
   int moves_left;
   int hp;
@@ -116,7 +116,7 @@ struct unit {
   int upkeep;
   int upkeep_food;
   int upkeep_gold;
-  int foul;
+  bool foul;
   int fuel;
   int bribe_cost;
   struct unit_ai ai;
@@ -128,9 +128,9 @@ struct unit {
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
      and city.units_supported; they are only used for save/reload */
-  int moved;
-  int paradropped;
-  int connecting;
+  bool moved;
+  bool paradropped;
+  bool connecting;
   int transported_by;
   struct goto_route *pgr;
 };
@@ -175,60 +175,60 @@ struct unit *unit_list_find(struct unit_list *This, int id);
 void unit_list_sort_ord_map(struct unit_list *This);
 void unit_list_sort_ord_city(struct unit_list *This);
 
-int diplomat_can_do_action(struct unit *pdiplomat,
+bool diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
 			   int destx, int desty);
-int is_diplomat_action_available(struct unit *pdiplomat,
+bool is_diplomat_action_available(struct unit *pdiplomat,
                                  enum diplomat_actions action,
                                  int destx, int desty);
 
 int unit_move_rate(struct unit *punit);
-int unit_can_help_build_wonder(struct unit *punit, struct city *pcity);
-int unit_can_help_build_wonder_here(struct unit *punit);
-int unit_can_est_traderoute_here(struct unit *punit);
-int unit_can_defend_here(struct unit *punit);
-int unit_can_airlift_to(struct unit *punit, struct city *pcity);
+bool unit_can_help_build_wonder(struct unit *punit, struct city *pcity);
+bool unit_can_help_build_wonder_here(struct unit *punit);
+bool unit_can_est_traderoute_here(struct unit *punit);
+bool unit_can_defend_here(struct unit *punit);
+bool unit_can_airlift_to(struct unit *punit, struct city *pcity);
 
-int can_unit_paradrop(struct unit *punit);
-int can_unit_change_homecity(struct unit *punit);
-int can_unit_do_connect(struct unit *punit, enum unit_activity activity);
+bool can_unit_paradrop(struct unit *punit);
+bool can_unit_change_homecity(struct unit *punit);
+bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 char* get_activity_text (int activity);
-int can_unit_continue_current_activity(struct unit *punit);
-int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
-int can_unit_do_activity_targeted(struct unit *punit,
+bool can_unit_continue_current_activity(struct unit *punit);
+bool can_unit_do_activity(struct unit *punit, enum unit_activity activity);
+bool can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity, int new_target);
-int can_unit_do_auto(struct unit *punit); 
+bool can_unit_do_auto(struct unit *punit); 
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
-int is_military_unit(struct unit *punit);           /* !set !dip !cara */
-int is_diplomat_unit(struct unit *punit);
-int is_ground_threat(struct player *pplayer, struct unit *punit);
-int is_square_threatened(struct player *pplayer, int x, int y);
-int is_field_unit(struct unit *punit);              /* ships+aero */
-int is_hiding_unit(struct unit *punit);
-int is_sailing_unit(struct unit *punit);
-int is_air_unit(struct unit *punit);
-int is_heli_unit(struct unit *punit);
-int is_ground_unit(struct unit *punit);
-int can_unit_add_to_city (struct unit *punit);
-int can_unit_build_city (struct unit *punit);
-int can_unit_add_or_build_city (struct unit *punit);
+bool is_military_unit(struct unit *punit);           /* !set !dip !cara */
+bool is_diplomat_unit(struct unit *punit);
+bool is_ground_threat(struct player *pplayer, struct unit *punit);
+bool is_square_threatened(struct player *pplayer, int x, int y);
+bool is_field_unit(struct unit *punit);              /* ships+aero */
+bool is_hiding_unit(struct unit *punit);
+bool is_sailing_unit(struct unit *punit);
+bool is_air_unit(struct unit *punit);
+bool is_heli_unit(struct unit *punit);
+bool is_ground_unit(struct unit *punit);
+bool can_unit_add_to_city (struct unit *punit);
+bool can_unit_build_city (struct unit *punit);
+bool can_unit_add_or_build_city (struct unit *punit);
 enum add_build_city_result test_unit_add_or_build_city(struct unit *punit);
-int kills_citizen_after_attack(struct unit *punit);
+bool kills_citizen_after_attack(struct unit *punit);
 
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int ground_unit_transporter_capacity(int x, int y, struct player *pplayer);
 int get_transporter_capacity(struct unit *punit);
-int is_ground_units_transport(struct unit *punit);
-int is_air_units_transport(struct unit *punit);
+bool is_ground_units_transport(struct unit *punit);
+bool is_air_units_transport(struct unit *punit);
 int missile_carrier_capacity(int x, int y, struct player *pplayer,
-			     int count_units_with_extra_fuel);
+			     bool count_units_with_extra_fuel);
 int airunit_carrier_capacity(int x, int y, struct player *pplayer,
-			     int count_units_with_extra_fuel);
+			     bool count_units_with_extra_fuel);
 
 struct player *unit_owner(struct unit *punit);
 
@@ -243,26 +243,26 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile,
 
 int trireme_loss_pct(struct player *pplayer, int x, int y);
 
-int is_my_zoc(struct player *unit_owner, int x0, int y0);
-int unit_being_aggressive(struct unit *punit);
-int can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
+bool is_my_zoc(struct player *unit_owner, int x0, int y0);
+bool unit_being_aggressive(struct unit *punit);
+bool can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
 			      int src_x, int src_y, int dest_x,
 			      int dest_y);
-int can_unit_move_to_tile(Unit_Type_id type,
+bool can_unit_move_to_tile(Unit_Type_id type,
 			  struct player *unit_owner,
 			  enum unit_activity activity,
-			  int connecting, int src_x,
-			  int src_y, int dest_x, int dest_y, int igzoc);
+			  bool connecting, int src_x,
+			  int src_y, int dest_x, int dest_y, bool igzoc);
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     struct player *unit_owner,
 					     enum unit_activity activity,
-					     int connecting, int src_x,
+					     bool connecting, int src_x,
 					     int src_y, int dest_x,
-					     int dest_y, int igzoc);
-int unit_type_really_ignores_zoc(Unit_Type_id type);
-int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
-int zoc_ok_move(struct unit *punit, int x, int y);
+					     int dest_y, bool igzoc);
+bool unit_type_really_ignores_zoc(Unit_Type_id type);
+bool zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
+bool zoc_ok_move(struct unit *punit, int x, int y);
 
-int is_build_or_clean_activity(enum unit_activity activity);
+bool is_build_or_clean_activity(enum unit_activity activity);
 
 #endif  /* FC__UNIT_H */

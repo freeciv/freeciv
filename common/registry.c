@@ -214,7 +214,7 @@ struct section {
 struct hash_data {
   struct hash_table *htbl;
   int num_entries_hashbuild;
-  int allow_duplicates;
+  bool allow_duplicates;
   int num_duplicates;
 };
 
@@ -351,14 +351,14 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
 /**************************************************************************
 ...
 **************************************************************************/
-static int section_file_load_dup(struct section_file *sf,
+static bool section_file_load_dup(struct section_file *sf,
 				 const char *filename,
-				 int allow_duplicates)
+				 bool allow_duplicates)
 {
   struct inputfile *inf;
   struct section *psection = NULL;
   struct entry *pentry;
-  int table_state = FALSE;	/* 1 when within tabular format */
+  bool table_state = FALSE;	/* 1 when within tabular format */
   int table_lineno = 0;		/* row number in tabular, 0=top data row */
   struct sbuffer *sb;
   const char *tok;
@@ -530,7 +530,7 @@ static int section_file_load_dup(struct section_file *sf,
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_load(struct section_file *my_section_file,
+bool section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
   return section_file_load_dup(my_section_file, filename, TRUE);
@@ -539,7 +539,7 @@ int section_file_load(struct section_file *my_section_file,
 /**************************************************************************
   Load a section_file, but disallow (die on) duplicate entries.
 **************************************************************************/
-int section_file_load_nodup(struct section_file *my_section_file,
+bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename)
 {
   return section_file_load_dup(my_section_file, filename, FALSE);
@@ -564,7 +564,7 @@ int section_file_load_nodup(struct section_file *my_section_file,
  Below simply specifies FZ_ZLIB method, since fz_fopen() automatically
  changes to FZ_PLAIN method when level==0.
 **************************************************************************/
-int section_file_save(struct section_file *my_section_file, const char *filename,
+bool section_file_save(struct section_file *my_section_file, const char *filename,
 		      int compression_level)
 {
   fz_FILE *fs = fz_fopen(filename, "w", FZ_ZLIB, compression_level);
@@ -938,7 +938,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_lookup(struct section_file *my_section_file, 
+bool section_file_lookup(struct section_file *my_section_file, 
 			char *path, ...)
 {
   char buf[MAX_LEN_BUFFER];
@@ -1079,7 +1079,7 @@ section_file_insert_internal(struct section_file *my_section_file,
 /**************************************************************************
  Return 0 if the section_file has not been setup for hashing.
 **************************************************************************/
-int secfilehash_hashash(struct section_file *file)
+bool secfilehash_hashash(struct section_file *file)
 {
   return (file->hashd && hash_num_buckets(file->hashd->htbl) != 0);
 }
@@ -1137,7 +1137,7 @@ static void secfilehash_insert(struct section_file *file,
  all entries must have unique names; in this case for duplicates
  the hash ref will be to the _last_ entry.
 **************************************************************************/
-void secfilehash_build(struct section_file *file, int allow_duplicates)
+void secfilehash_build(struct section_file *file, bool allow_duplicates)
 {
   struct hash_data *hashd;
   char buf[256];

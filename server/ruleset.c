@@ -50,15 +50,15 @@ static char *check_ruleset_capabilities(struct section_file *file,
 					const char *filename);
 
 static int lookup_tech(struct section_file *file, char *prefix,
-		       char *entry, int required, const char *filename,
+		       char *entry, bool required, const char *filename,
 		       char *description);
 static void lookup_tech_list(struct section_file *file, char *prefix,
 			     char *entry, int *output, const char *filename);
 static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, int required, const char *filename,
+			    char *entry, bool required, const char *filename,
 			    char *description);
 static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
-				     char *entry, int required,
+				     char *entry, bool required,
 				     const char *filename, char *description);
 static int lookup_government(struct section_file *file, char *entry,
 			     const char *filename);
@@ -190,7 +190,7 @@ static char *check_ruleset_capabilities(struct section_file *file,
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
 static int lookup_tech(struct section_file *file, char *prefix,
-		       char *entry, int required, const char *filename,
+		       char *entry, bool required, const char *filename,
 		       char *description)
 {
   char *sval;
@@ -276,7 +276,7 @@ static void lookup_tech_list(struct section_file *file, char *prefix,
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
 static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, int required, const char *filename,
+			    char *entry, bool required, const char *filename,
 			    char *description)
 {
   char *sval;
@@ -309,7 +309,7 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
  instead of prefix (eg pass impr->name instead of prefix="imprs2.b27")
 **************************************************************************/
 static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
-				     char *entry, int required,
+				     char *entry, bool required,
 				     const char *filename, char *description)
 {
   char *sval;
@@ -919,7 +919,8 @@ static void load_ruleset_buildings(struct section_file *file)
 {
   char *datafile_options;
   char **sec, *item, **list;
-  int i, j, k, nval, count, problem;
+  int i, j, k, nval, count;
+  bool problem;
   struct impr_type *b;
   struct impr_effect *e;
   const char *filename = secfile_filename(file);

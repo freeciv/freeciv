@@ -52,7 +52,7 @@ void send_all_known_tiles(struct conn_list *dest);
 void send_tile_info(struct conn_list *dest, int x, int y);
 void unfog_area(struct player *pplayer, int x, int y, int len);
 void fog_area(struct player *pplayer, int x, int y, int len);
-void upgrade_city_rails(struct player *pplayer, int discovery);
+void upgrade_city_rails(struct player *pplayer, bool discovery);
 void send_map_info(struct conn_list *dest);
 void map_fog_city_area(struct city *pcity);
 void map_unfog_city_area(struct city *pcity);
@@ -61,11 +61,11 @@ void show_area(struct player *pplayer,int x, int y, int len);
 void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y);
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
 
-int map_get_known_and_seen(int x, int y, struct player *pplayer);
+bool map_get_known_and_seen(int x, int y, struct player *pplayer);
 void map_change_seen(int x, int y, struct player *pplayer, int change);
 int map_get_own_seen(int x, int y, struct player *pplayer);
 void map_change_own_seen(int x, int y, struct player *pplayer, int change);
-int map_get_known(int x, int y, struct player *pplayer);
+bool map_get_known(int x, int y, struct player *pplayer);
 void map_set_known(int x, int y, struct player *pplayer);
 void map_clear_known(int x, int y, struct player *pplayer);
 void map_know_all(struct player *pplayer);
@@ -84,5 +84,5 @@ void handle_player_remove_vision(struct player *pplayer,
 
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);
-int is_coast_seen(int x, int y, struct player *pplayer);
+bool is_coast_seen(int x, int y, struct player *pplayer);
 #endif  /* FC__MAPHAND_H */

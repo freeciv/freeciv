@@ -205,7 +205,7 @@ An improvement_type doesn't exist if one of:
 - it is a space part, and the spacerace is not enabled.
 Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
-int improvement_exists(Impr_Type_id id)
+bool improvement_exists(Impr_Type_id id)
 {
   if (id<0 || id>=B_LAST || id>=game.num_impr_types)
     return FALSE;
@@ -244,7 +244,7 @@ int improvement_value(Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_wonder(Impr_Type_id id)
+bool is_wonder(Impr_Type_id id)
 {
   return (improvement_types[id].is_wonder);
 }
@@ -275,7 +275,7 @@ int improvement_variant(Impr_Type_id id)
 /**************************************************************************
  Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
-int improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
+bool improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
 {
   if (improvement_types[id].obsolete_by==A_NONE) 
     return FALSE;
@@ -321,8 +321,8 @@ static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
  Checks whether the building is within the equiv_range of a building that
  replaces it
 **************************************************************************/
-int improvement_redundant(struct player *pplayer,struct city *pcity,
-                          Impr_Type_id id,int want_to_build) 
+bool improvement_redundant(struct player *pplayer,struct city *pcity,
+                          Impr_Type_id id, bool want_to_build) 
 {
   int i;
   Impr_Status *equiv_list[EFR_LAST];
@@ -361,7 +361,7 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-int wonder_obsolete(Impr_Type_id id)
+bool wonder_obsolete(Impr_Type_id id)
 { 
   if (improvement_types[id].obsolete_by==A_NONE)
     return FALSE;
@@ -371,7 +371,7 @@ int wonder_obsolete(Impr_Type_id id)
 /**************************************************************************
 Barbarians don't get enough knowledges to be counted as normal players.
 **************************************************************************/
-int is_wonder_useful(Impr_Type_id id)
+bool is_wonder_useful(Impr_Type_id id)
 {
   if ((id == B_GREAT) && (get_num_human_and_ai_players () < 3)) return FALSE;
   return TRUE;
@@ -390,7 +390,7 @@ void improvement_status_init(Impr_Status *improvements)
   Whether player could build this improvement, assuming they had
   the tech req, and assuming a city with the right pre-reqs etc.
 **************************************************************************/
-int could_player_eventually_build_improvement(struct player *p,
+bool could_player_eventually_build_improvement(struct player *p,
 					      Impr_Type_id id)
 {
   struct impr_type *impr;
@@ -539,7 +539,7 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
 {
   struct impr_effect *ie;
   int j, i, cont;
-  int effects[EFR_LAST];
+  bool effects[EFR_LAST];
   struct player *plr;
 
   assert(pcity && impr>=0 && impr<game.num_impr_types);

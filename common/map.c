@@ -90,7 +90,7 @@ char *map_get_tile_info_text(int x, int y)
 {
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
-  int first;
+  bool first;
 
   sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
   if (BOOL_VAL(ptile->special & S_RIVER)) {
@@ -167,7 +167,7 @@ char *map_get_tile_fpt_text(int x, int y)
   (To be precise, returns 1 if map_allocate() has not yet been
   called.)
 ***************************************************************/
-int map_is_empty(void)
+bool map_is_empty(void)
 {
   return !map.tiles;
 }
@@ -511,7 +511,7 @@ int is_good_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int is_hut_close(int x, int y)
+bool is_hut_close(int x, int y)
 {
   square_iterate(x, y, 3, x1, y1) {
     if (map_has_special(x1, y1, S_HUT))
@@ -525,7 +525,7 @@ int is_hut_close(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int is_special_close(int x, int y)
+bool is_special_close(int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
     if (map_has_special(x1, y1, (S_SPECIAL_1 | S_SPECIAL_2)))
@@ -539,7 +539,7 @@ int is_special_close(int x, int y)
 Returns whether you can put a city on land near enough to use
 the tile.
 ***************************************************************/
-int is_sea_usable(int x, int y)
+bool is_sea_usable(int x, int y)
 {
   map_city_radius_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) != T_OCEAN)
@@ -963,7 +963,7 @@ int can_channel_land(int x, int y)
 static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 			       struct tile *t2, int x1, int y1, int x2, int y2)
 {
-  int cardinal_move;
+  bool cardinal_move;
 
   if (punit && !is_ground_unit(punit))
     return SINGLE_MOVE;
@@ -1123,7 +1123,7 @@ int map_move_cost(struct unit *punit, int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int is_tiles_adjacent(int x0, int y0, int x1, int y1)
+bool is_tiles_adjacent(int x0, int y0, int x1, int y1)
 {
   return real_map_distance(x0, y0, x1, y1) == 1;
 }
@@ -1243,14 +1243,14 @@ void map_set_city(int x, int y, struct city *pcity)
   Are (x1,y1) and (x2,y2) really the same when adjusted?
   This function might be necessary ALOT of places...
 ***************************************************************/
-int same_pos(int x1, int y1, int x2, int y2)
+bool same_pos(int x1, int y1, int x2, int y2)
 {
   CHECK_MAP_POS(x1, y1);
   CHECK_MAP_POS(x2, y2);
   return (x1 == x2 && y1 == y2);
 }
 
-int is_real_tile(int x, int y)
+bool is_real_tile(int x, int y)
 {
   return normalize_map_pos(&x, &y);
 }
@@ -1261,7 +1261,7 @@ it is both a real/valid coordinate set and that the coordinates are in
 their canonical/proper form. In plain English: the coordinates must be
 on the map.
 **************************************************************************/
-int is_normal_map_pos(int x, int y)
+bool is_normal_map_pos(int x, int y)
 {
   int x1 = x, y1 = y;
 
@@ -1271,7 +1271,7 @@ int is_normal_map_pos(int x, int y)
 /**************************************************************************
 Normalizes the map position. Returns TRUE if it is real, FALSE otherwise.
 **************************************************************************/
-int normalize_map_pos(int *x, int *y)
+bool normalize_map_pos(int *x, int *y)
 {
   while (*x < 0)
     *x += map.xsize;
@@ -1417,7 +1417,7 @@ Return true and sets dir to the direction of the step if (end_x,
 end_y) can be reached from (start_x, start_y) in one step. Return
 false otherwise (value of dir is unchanged in this case).
 **************************************************************************/
-int base_get_direction_for_step(int start_x, int start_y, int end_x,
+bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir)
 {
   adjc_dir_iterate(start_x, start_y, x1, y1, dir2) {
@@ -1450,7 +1450,7 @@ int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
 Returns 1 if the move from the position (start_x,start_y) to
 (end_x,end_y) is a cardinal move. Else returns 0.
 **************************************************************************/
-int is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
+bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 {
   int diff_x, diff_y;
 

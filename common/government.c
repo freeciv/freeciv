@@ -169,7 +169,7 @@ struct government *get_gov_pcity(struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_ruler_title(int gov, int male, int nation)
+char *get_ruler_title(int gov, bool male, int nation)
 {
   struct government *g = get_government(gov);
   struct ruler_title *best_match = NULL;
@@ -233,7 +233,7 @@ char *get_government_name(int type)
    - player has required tech
    - we have an appropriate wonder
 ***************************************************************/
-int can_change_to_government(struct player *pplayer, int government)
+bool can_change_to_government(struct player *pplayer, int government)
 {
   int req;
 

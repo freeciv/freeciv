@@ -181,18 +181,18 @@ struct unit_type {
 
 extern struct unit_type unit_types[U_LAST];
 
-int unit_type_exists(Unit_Type_id id);
+bool unit_type_exists(Unit_Type_id id);
 struct unit_type *get_unit_type(Unit_Type_id id);
 struct unit_type *unit_type(struct unit *punit);
 
-int unit_type_flag(Unit_Type_id id, int flag);
-int unit_flag(struct unit *punit, enum unit_flag_id flag);
-int unit_has_role(Unit_Type_id id, int role);
+bool unit_type_flag(Unit_Type_id id, int flag);
+bool unit_flag(struct unit *punit, enum unit_flag_id flag);
+bool unit_has_role(Unit_Type_id id, int role);
 
-int is_water_unit(Unit_Type_id id);
-int is_air_unittype(Unit_Type_id id);
-int is_heli_unittype(Unit_Type_id id);
-int is_ground_unittype(Unit_Type_id id);
+bool is_water_unit(Unit_Type_id id);
+bool is_air_unittype(Unit_Type_id id);
+bool is_heli_unittype(Unit_Type_id id);
+bool is_ground_unittype(Unit_Type_id id);
 
 int unit_value(Unit_Type_id id);
 int unit_pop_value(Unit_Type_id id);
@@ -219,9 +219,9 @@ Unit_Class_id unit_class_from_str(char *s);
 enum unit_flag_id unit_flag_from_str(char *s);
 enum unit_role_id unit_role_from_str(char *s);
 
-int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
-int can_player_build_unit(struct player *p, Unit_Type_id id);
-int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
+bool can_player_build_unit_direct(struct player *p, Unit_Type_id id);
+bool can_player_build_unit(struct player *p, Unit_Type_id id);
+bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
 
 void role_unit_precalcs(void);
 int num_role_units(int role);

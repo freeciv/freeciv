@@ -231,7 +231,7 @@ struct impr_type {
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_NONE = never obsolete */
-  int is_wonder;
+  bool is_wonder;
   int build_cost;
   int upkeep;
   int sabotage;
@@ -270,24 +270,24 @@ struct eff_global *append_geff(struct geff_vector *x);
 /* improvement functions */
 
 struct impr_type *get_improvement_type(Impr_Type_id id);
-int improvement_exists(Impr_Type_id id);
+bool improvement_exists(Impr_Type_id id);
 int improvement_value(Impr_Type_id id);
-int is_wonder(Impr_Type_id id);
+bool is_wonder(Impr_Type_id id);
 char *get_improvement_name(Impr_Type_id id);
 int improvement_variant(Impr_Type_id id);	/* FIXME: remove when gen-impr obsoletes */
-int improvement_obsolete(struct player *pplayer, Impr_Type_id id);
-int improvement_redundant(struct player *pplayer,struct city *pcity,
-                          Impr_Type_id id,int want_to_build);
-int wonder_obsolete(Impr_Type_id id);
-int is_wonder_useful(Impr_Type_id id);
+bool improvement_obsolete(struct player *pplayer, Impr_Type_id id);
+bool improvement_redundant(struct player *pplayer,struct city *pcity,
+                          Impr_Type_id id, bool want_to_build);
+bool wonder_obsolete(Impr_Type_id id);
+bool is_wonder_useful(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(char *s);
 void improvement_status_init(Impr_Status *improvements);
 
 /* player related improvement and unit functions */
 
-int could_player_eventually_build_improvement(struct player *p, Impr_Type_id id);
-int could_player_build_improvement(struct player *p, Impr_Type_id id);
-int can_player_build_improvement(struct player *p, Impr_Type_id id);
+bool could_player_eventually_build_improvement(struct player *p, Impr_Type_id id);
+bool could_player_build_improvement(struct player *p, Impr_Type_id id);
+bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 
 /* city related improvement functions */
 

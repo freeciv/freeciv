@@ -588,7 +588,7 @@ static char *value_units(char *val, char *uni)
 /**************************************************************************
 ...
 **************************************************************************/
-static char *number_to_ordinal_string(int num, int parens)
+static char *number_to_ordinal_string(int num, bool parens)
 {
   static char buf[16];
   char *fmt;
@@ -905,7 +905,7 @@ void report_demographics(struct connection *pconn)
   char civbuf[1024];
   char buffer[4096];
   int inx;
-  int anyrows;
+  bool anyrows;
   enum dem_flag selcols;
   char *outptr = buffer;
   int nleft = sizeof(buffer);
@@ -987,7 +987,7 @@ static void log_civ_score(void)
   static char *logname = "civscore.log";
   static char *endmark = "end";
   static FILE *fp = NULL;
-  static int disabled = FALSE;
+  static bool disabled = FALSE;
 
   /* add new tags only at end of this list;
      maintaining the order of old tags is critical */
@@ -1403,7 +1403,7 @@ void make_history_report(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void report_scores(int final)
+void report_scores(bool final)
 {
   int i,j=0;
   char buffer[4096];

@@ -21,7 +21,7 @@ struct unit;
 
 struct server_arguments {
   /* metaserver information */
-  int metaserver_no_send;
+  bool metaserver_no_send;
   char metaserver_info_line[256];
   char metaserver_addr[256];
   unsigned short int metaserver_port;
@@ -43,7 +43,7 @@ struct server_arguments {
 void srv_init(void);
 void srv_main(void);
 
-int handle_packet_input(struct connection *pconn, char *packet, int type);
+bool handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 void start_game(void);
@@ -58,8 +58,8 @@ int get_next_id_number(void);
 extern struct server_arguments srvarg;
 
 extern enum server_states server_state;
-extern int nocity_send;
+extern bool nocity_send;
 
-extern int force_end_of_sniff;
+extern bool force_end_of_sniff;
 
 #endif /* FC__SRV_MAIN_H */

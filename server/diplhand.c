@@ -38,13 +38,13 @@
 #include "diplhand.h"
 
 static struct genlist treaties;
-static int did_init_treaties;
+static bool did_init_treaties;
 
 
 /**************************************************************************
 Checks if the player numbers in the packet are sane.
 **************************************************************************/
-static int check_packet(struct packet_diplomacy_info *packet, int check_other)
+static bool check_packet(struct packet_diplomacy_info *packet, bool check_other)
 {
   if (packet->plrno0 >= game.nplayers) {
     freelog(LOG_ERROR, "plrno0 is %d >= game.nplayers (%d).",
@@ -105,7 +105,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 {
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver, *pdest, *other;
-  int *giver_accept;
+  bool *giver_accept;
 
   if (!check_packet(packet, TRUE))
     return;

@@ -25,7 +25,7 @@ void make_history_report(void);
 void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);
 void report_demographics(struct connection *pconn);
-void report_scores(int final);
+void report_scores(bool final);
 
 /* See also report_server_options() in stdinhand.h */
 

@@ -34,7 +34,7 @@
  * in the capability list in capstr.  The capabilities in capstr
  * are allowed to start with a "+", but the capability in cap must not.
  */
-static int my_has_capability(const char *cap, const char *capstr,
+static bool my_has_capability(const char *cap, const char *capstr,
 			     const size_t cap_len)
 {
   const char *next;
@@ -58,7 +58,7 @@ static int my_has_capability(const char *cap, const char *capstr,
 
 /* Wrapper for my_has_capability() for NUL terminated strings.
  */
-int has_capability(const char *cap, const char *capstr)
+bool has_capability(const char *cap, const char *capstr)
 {
   return my_has_capability(cap, capstr, strlen(cap));
 }
@@ -66,7 +66,7 @@ int has_capability(const char *cap, const char *capstr)
 /* This routine returns true if all the mandatory capabilities in
  * us appear in them.
  */
-int has_capabilities(const char *us, const char *them)
+bool has_capabilities(const char *us, const char *them)
 {
   const char *next;
 

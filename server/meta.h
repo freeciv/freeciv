@@ -32,7 +32,7 @@ char *meta_addr_port(void);
 void server_close_udp(void);
 void server_open_udp(void);
 
-int send_server_info_to_metaserver(int do_send, int reset_timer);
+int send_server_info_to_metaserver(bool do_send, bool reset_timer);
 
 extern int server_is_open;
 

@@ -51,7 +51,7 @@ static void city_support(struct city *pcity);
 /* end helper functions for generic_city_refresh */
 
 static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
-				      int asmiths);
+				      bool asmiths);
 
 /* Iterate a city map, from the center (the city) outwards */
 
@@ -80,7 +80,7 @@ extern int is_server;
 /**************************************************************************
 ...
 **************************************************************************/
-int is_valid_city_coords(const int city_x, const int city_y)
+bool is_valid_city_coords(const int city_x, const int city_y)
 {
   if ((city_x == 0 || city_x == CITY_MAP_SIZE-1)
       && (city_y == 0 || city_y == CITY_MAP_SIZE-1))
@@ -96,7 +96,7 @@ int is_valid_city_coords(const int city_x, const int city_y)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_city_center(int city_x, int city_y)
+bool is_city_center(int city_x, int city_y)
 {
   return (city_x == (CITY_MAP_SIZE / 2))
       && (city_y == (CITY_MAP_SIZE / 2));
@@ -106,7 +106,7 @@ int is_city_center(int city_x, int city_y)
 Finds the city map coordinate for a given map position and a city
 center. Returns whether the map position is inside of the city map.
 **************************************************************************/
-int base_map_to_city_map(int *city_map_x, int *city_map_y,
+bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 			 int city_center_x, int city_center_y,
 			 int map_x, int map_y)
 {
@@ -125,7 +125,7 @@ int base_map_to_city_map(int *city_map_x, int *city_map_y,
 Finds the city map coordinate for a given map position and a
 city. Returns whether the map position is inside of the city map.
 **************************************************************************/
-int map_to_city_map(int *city_map_x, int *city_map_y,
+bool map_to_city_map(int *city_map_x, int *city_map_y,
 		    const struct city *const pcity, int map_x, int map_y)
 {
   return base_map_to_city_map(city_map_x,
@@ -137,7 +137,7 @@ int map_to_city_map(int *city_map_x, int *city_map_y,
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-int base_city_map_to_map(int *map_x, int *map_y,
+bool base_city_map_to_map(int *map_x, int *map_y,
 			 int city_center_x, int city_center_y,
 			 int city_map_x, int city_map_y)
 {
@@ -151,7 +151,7 @@ int base_city_map_to_map(int *map_x, int *map_y,
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-int city_map_to_map(int *map_x, int *map_y,
+bool city_map_to_map(int *map_x, int *map_y,
 		    const struct city *const pcity,
 		    int city_map_x, int city_map_y)
 {
@@ -195,7 +195,7 @@ enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_worker_here(struct city *pcity, int city_x, int city_y) 
+bool is_worker_here(struct city *pcity, int city_x, int city_y) 
 {
   if (!is_valid_city_coords(city_x, city_y)) {
     return FALSE;
@@ -208,7 +208,7 @@ int is_worker_here(struct city *pcity, int city_x, int city_y)
  FIXME: This should be replaced in the near future with
  improvment_redundant()
 **************************************************************************/
-int wonder_replacement(struct city *pcity, Impr_Type_id id)
+bool wonder_replacement(struct city *pcity, Impr_Type_id id)
 {
   if(is_wonder(id)) return FALSE;
   switch (id) {
@@ -322,7 +322,7 @@ struct player *city_owner(struct city *pcity)
  terr_gate (terrain) or spec_gate (specials), or if the building has no
  terrain/special requirements.
 **************************************************************************/
-static int city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
+static bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
   enum tile_terrain_type *terr_gate;
@@ -351,7 +351,7 @@ static int city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
  Will this city ever be able to build this improvement?
  Doesn't check for building prereqs
 **************************************************************************/
-int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
+bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   /* also does an improvement_exists() */
   if (!could_player_eventually_build_improvement(city_owner(pcity),id))
@@ -371,7 +371,7 @@ int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
  owner has the required tech, but if all other pre reqs are fulfiled? 
  modularized so the AI can choose the tech it wants -- Syela 
 **************************************************************************/
-int could_build_improvement(struct city *pcity, Impr_Type_id id)
+bool could_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
 
@@ -392,7 +392,7 @@ int could_build_improvement(struct city *pcity, Impr_Type_id id)
 Can this improvement get built in this city, by the player
 who owns the city?
 **************************************************************************/
-int can_build_improvement(struct city *pcity, Impr_Type_id id)
+bool can_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   struct player *p=city_owner(pcity);
   if (!improvement_exists(id))
@@ -407,7 +407,7 @@ int can_build_improvement(struct city *pcity, Impr_Type_id id)
 Whether given city can build given unit,
 ignoring whether unit is obsolete.
 **************************************************************************/
-int can_build_unit_direct(struct city *pcity, Unit_Type_id id)
+bool can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 {
   if (!can_player_build_unit_direct(city_owner(pcity), id))
     return FALSE;
@@ -420,7 +420,7 @@ int can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 Whether given city can build given unit;
 returns 0 if unit is obsolete.
 **************************************************************************/
-int can_build_unit(struct city *pcity, Unit_Type_id id)
+bool can_build_unit(struct city *pcity, Unit_Type_id id)
 {  
   if (!can_build_unit_direct(pcity, id))
     return FALSE;
@@ -461,7 +461,7 @@ int city_population(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int city_got_building(struct city *pcity,  Impr_Type_id id) 
+bool city_got_building(struct city *pcity,  Impr_Type_id id) 
 {
   if (!improvement_exists(id))
     return FALSE;
@@ -493,7 +493,7 @@ int improvement_upkeep(struct city *pcity, Impr_Type_id i)
   Caller to pass asmiths = city_affected_by_wonder(pcity, B_ASMITHS)
 **************************************************************************/
 static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
-				      int asmiths)
+				      bool asmiths)
 {
   if (!improvement_exists(i))
     return 0;
@@ -547,9 +547,10 @@ int city_get_shields_tile(int x, int y, struct city *pcity)
 ...
 **************************************************************************/
 int base_city_get_shields_tile(int x, int y, struct city *pcity,
-			       int is_celebrating)
+			       bool is_celebrating)
 {
-  int is_real, map_x, map_y, s = 0;
+  bool is_real;
+  int map_x, map_y, s = 0;
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
@@ -640,12 +641,13 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
 ...
 **************************************************************************/
 int base_city_get_trade_tile(int x, int y, struct city *pcity,
-			     int is_celebrating)
+			     bool is_celebrating)
 {
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
-  int is_real, map_x, map_y, t;
+  bool is_real;
+  int map_x, map_y, t;
 
   is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
   assert(is_real);
@@ -745,16 +747,17 @@ including ALL modifiers.
 Center tile acts as irrigated...
 **************************************************************************/
 int base_city_get_food_tile(int x, int y, struct city *pcity,
-			    int is_celebrating)
+			    bool is_celebrating)
 {
-  int is_real, map_x, map_y, f;
+  bool is_real;
+  int map_x, map_y, f;
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct tile_type *type;
   struct government *g = get_gov_pcity(pcity);
   int before_penalty = (is_celebrating ? g->celeb_food_before_penalty
 			: g->food_before_penalty);
-  int city_auto_water;
+  bool city_auto_water;
 
   is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
   assert(is_real);
@@ -809,7 +812,7 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-int city_can_be_built_here(int x, int y)
+bool city_can_be_built_here(int x, int y)
 {
   if (map_get_terrain(x, y) == T_OCEAN)
     return FALSE;
@@ -892,7 +895,7 @@ Calculate amount of gold remaining in city after paying for buildings
 *************************************************************************/
 int city_gold_surplus(struct city *pcity)
 {
-  int asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
+  bool asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
   int cost=0;
   int i;
   for (i=0;i<game.num_impr_types;i++) 
@@ -906,7 +909,7 @@ int city_gold_surplus(struct city *pcity)
  (The Impr_Type_id should be an improvement, not a wonder.)
  Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
 **************************************************************************/
-int city_got_effect(struct city *pcity, Impr_Type_id id)
+bool city_got_effect(struct city *pcity, Impr_Type_id id)
 {
   return city_got_building(pcity, id) || wonder_replacement(pcity, id);
 }
@@ -914,7 +917,7 @@ int city_got_effect(struct city *pcity, Impr_Type_id id)
 /**************************************************************************
  Whether a city has its own City Walls, or the same effect via a wonder.
 **************************************************************************/
-int city_got_citywalls(struct city *pcity)
+bool city_got_citywalls(struct city *pcity)
 {
   if (city_got_building(pcity, B_CITY))
     return TRUE;
@@ -924,7 +927,7 @@ int city_got_citywalls(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
+bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
 {
   struct city *tmp;
   if (!improvement_exists(id))
@@ -994,7 +997,7 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int city_happy(struct city *pcity)
+bool city_happy(struct city *pcity)
 {
   return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2 &&
 	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0);
@@ -1003,7 +1006,7 @@ int city_happy(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int city_unhappy(struct city *pcity)
+bool city_unhappy(struct city *pcity)
 {
   return (pcity->ppl_happy[4] <
 	  pcity->ppl_unhappy[4] + 2 * pcity->ppl_angry[4]);
@@ -1012,7 +1015,7 @@ int city_unhappy(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int base_city_celebrating(struct city *pcity)
+bool base_city_celebrating(struct city *pcity)
 {
   return (pcity->size >= get_gov_pcity(pcity)->rapture_size
 	  && pcity->was_happy);
@@ -1021,7 +1024,7 @@ int base_city_celebrating(struct city *pcity)
 /**************************************************************************
 cities celebrate only after consecutive happy turns
 **************************************************************************/
-int city_celebrating(struct city *pcity)
+bool city_celebrating(struct city *pcity)
 {
   return base_city_celebrating(pcity) && city_happy(pcity);
 }
@@ -1030,7 +1033,7 @@ int city_celebrating(struct city *pcity)
 .rapture is checked instead of city_celebrating() because this function is
 called after .was_happy was updated.
 **************************************************************************/
-int city_rapture_grow(struct city *pcity)
+bool city_rapture_grow(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   return (pcity->rapture>0 && pcity->food_surplus>0 &&
@@ -1184,12 +1187,12 @@ int get_style_by_name(char *style_name)
  original improvement class of this turn, restore lost production.
 **************************************************************************/
 int city_change_production_penalty(struct city *pcity,
-				   int target, int is_unit, int apply_it)
+				   int target, bool is_unit, bool apply_it)
 {
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
   enum production_class_type new_class;
-  int put_penalty; /* boolean */
+  bool put_penalty;
 
   if (pcity->changed_from_is_unit)
     orig_class=TYPE_UNIT;
@@ -1241,8 +1244,8 @@ int city_change_production_penalty(struct city *pcity,
  Calculates the turns which are needed to build the requested
  improvement in the city.  GUI Independent.
 **************************************************************************/
-int city_turns_to_build(struct city *pcity, int id, int id_is_unit,
-                        int include_shield_stock )
+int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
+			bool include_shield_stock)
 {
   int city_shield_surplus = pcity->shield_surplus;
   int city_shield_stock = include_shield_stock ?
@@ -1319,7 +1322,7 @@ struct city *is_non_allied_city_tile(struct tile *ptile,
 /**************************************************************************
 ...
 **************************************************************************/
-int is_unit_near_a_friendly_city(struct unit *punit)
+bool is_unit_near_a_friendly_city(struct unit *punit)
 {
   return is_friendly_city_near(unit_owner(punit), punit->x, punit->y);
 }
@@ -1327,7 +1330,7 @@ int is_unit_near_a_friendly_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_friendly_city_near(struct player *owner, int x, int y)
+bool is_friendly_city_near(struct player *owner, int x, int y)
 {
   square_iterate (x, y, 3, x1, y1) {
     struct city * pcity = map_get_city (x1, y1);
@@ -1342,7 +1345,7 @@ int is_friendly_city_near(struct player *owner, int x, int y)
 Return true iff a city exists within a city radius of the given location.
 may_be_on_center determines if a city at x,y counts
 **************************************************************************/
-int city_exists_within_city_radius(int x, int y, int may_be_on_center)
+bool city_exists_within_city_radius(int x, int y, bool may_be_on_center)
 {
   map_city_radius_iterate(x, y, x1, y1) {
     if (may_be_on_center || x != x1 || y != y1) {
@@ -1372,7 +1375,7 @@ int city_granary_size(int city_size)
  cost, turns to build). The columns must each have a size of
  column_size bytes.
 *****************************************************************/
-void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
+void id_to_info_row(char *buf[], int column_size, int id, bool is_unit,
 		    struct city *pcity)
 {
   if (is_unit) {
@@ -1850,7 +1853,7 @@ static void set_pollution(struct city *pcity)
 static void set_food_trade_shields(struct city *pcity)
 {
   int i;
-  int is_celebrating = base_city_celebrating(pcity);
+  bool is_celebrating = base_city_celebrating(pcity);
 
   pcity->food_prod = 0;
   pcity->shield_prod = 0;
@@ -1891,7 +1894,7 @@ static void city_support(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
 
-  int have_police = city_got_effect(pcity, B_POLICE);
+  bool have_police = city_got_effect(pcity, B_POLICE);
   int variant = improvement_variant(B_WOMENS);
 
   int free_happy = citygov_free_happy(pcity, g);

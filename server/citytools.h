@@ -28,33 +28,34 @@
 #define POLLUTION_WEIGHTING 14 /* tentative */
 #define WARMING_FACTOR 50
 
-int city_got_barracks(struct city *pcity);
-int can_sell_building(struct city *pcity, int id);
+bool city_got_barracks(struct city *pcity);
+bool can_sell_building(struct city *pcity, int id);
 struct city *find_city_wonder(Impr_Type_id id);
 int build_points_left(struct city *pcity);
-int is_worked_here(int x, int y);
+bool is_worked_here(int x, int y);
 int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int settler_eats(struct city *pcity);
 int is_building_other_wonder(struct city *pc);
-int built_elsewhere(struct city *pc, int wonder);
-int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
+bool built_elsewhere(struct city *pc, int wonder);
+bool do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_shield_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 
-int wants_to_be_bigger(struct city *pcity);
+bool wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
 int best_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
-			 int kill_outside, int verbose);
+			 int kill_outside, bool verbose);
 struct city *transfer_city(struct player *ptaker,
 			   struct city *pcity, int kill_outside,
-			   int transfer_unit_verbose, int resolve_stack, int raze);
+			   bool transfer_unit_verbose, bool resolve_stack,
+			   bool raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
-				     int sea_required, struct city *pexclcity);
+				     bool sea_required, struct city *pexclcity);
 void handle_unit_enter_city(struct unit *punit, struct city *pcity);
 
 void send_city_info(struct player *dest, struct city *pcity);
@@ -63,7 +64,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 void send_all_known_cities(struct conn_list *dest);
 void send_player_cities(struct player *pplayer);
 void package_city(struct city *pcity, struct packet_city_info *packet,
-		  int dipl_invest);
+		  bool dipl_invest);
 
 void reality_check_city(struct player *pplayer,int x, int y);
 void update_dumb_city(struct player *pplayer, struct city *pcity);
@@ -77,20 +78,20 @@ void remove_trade_route(struct city *pc1, struct city *pc2);
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 void building_lost(struct city *pcity, int id);
 void change_build_target(struct player *pplayer, struct city *pcity, 
-			 int target, int is_unit, int event);
+			 int target, bool is_unit, int event);
 
 char *city_name_suggestion(struct player *pplayer, int x, int y);
 extern char **misc_city_names; 
 extern int num_misc_city_names;
 
 
-int city_can_work_tile(struct city *pcity, int city_x, int city_y);
+bool city_can_work_tile(struct city *pcity, int city_x, int city_y);
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y);
 void server_set_worker_city(struct city *pcity, int city_x, int city_y);
 void update_city_tile_status_map(struct city *pcity, int map_x, int map_y);
 void update_city_tile_status(struct city *pcity, int city_x, int city_y);
 void sync_cities(void);
-int can_place_worker_here(struct city *pcity, int city_x, int city_y);
+bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
 void check_city_workers(struct player *pplayer);
 
 #endif  /* FC__CITYTOOLS_H */

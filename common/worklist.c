@@ -75,7 +75,7 @@ int worklist_length(const struct worklist *pwl)
 /****************************************************************
 ...
 ****************************************************************/
-int worklist_is_empty(const struct worklist *pwl)
+bool worklist_is_empty(const struct worklist *pwl)
 {
   return !pwl || pwl->wlefs[0] == WEF_END;
 }
@@ -85,7 +85,7 @@ int worklist_is_empty(const struct worklist *pwl)
   if the worklist is non-empty.  Return 1 iff id and is_unit
   are valid.
 ****************************************************************/
-int worklist_peek(const struct worklist *pwl, int *id, int *is_unit)
+bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit)
 {
   if (worklist_is_empty(pwl))
     return FALSE;
@@ -97,7 +97,7 @@ int worklist_peek(const struct worklist *pwl, int *id, int *is_unit)
   Fill in the id and is_unit values for the ith element in the
   worklist.  If the worklist has fewer than i elements, return 0.
 ****************************************************************/
-int worklist_peek_ith(const struct worklist *pwl, int *id, int *is_unit,
+bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
 		      int idx)
 {
   int i;

@@ -16,6 +16,7 @@
 #include <stdarg.h>
 
 #include "attribute.h"
+#include "shared.h"		/* bool type */
 
 #define LOG_FATAL   0
 #define LOG_ERROR   1		/* non-fatal errors */
@@ -104,7 +105,7 @@ static int logdebug_check(const char *file, int line)
 /* non-GCC: */
 static void freelog(int level, const char *message, ...)
 {
-  int log_this; 
+  bool log_this; 
 #ifdef DEBUG
   log_this = (level != LOG_DEBUG || logdebug_check(__FILE__, __LINE__));
 #else

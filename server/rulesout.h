@@ -13,6 +13,6 @@
 #ifndef FC__RULESOUT_H
 #define FC__RULESOUT_H
 
-int rulesout_techs(const char *filename);
+bool rulesout_techs(const char *filename);
 
 #endif /* FC__RULESOUT_H */

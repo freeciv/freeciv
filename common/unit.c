@@ -73,7 +73,7 @@ sabotage city
 Whether a diplomat can move to a particular tile and perform a
 particular action there.
 **************************************************************************/
-int diplomat_can_do_action(struct unit *pdiplomat,
+bool diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
 			   int destx, int desty)
 {
@@ -96,7 +96,7 @@ tile.  This does _not_ check whether the diplomat can move there.
 If the action is DIPLOMAT_ANY_ACTION, checks whether there is any
 action the diplomat can perform at the tile.
 **************************************************************************/
-int is_diplomat_action_available(struct unit *pdiplomat,
+bool is_diplomat_action_available(struct unit *pdiplomat,
 				 enum diplomat_actions action, 
 				 int destx, int desty)
 {
@@ -156,7 +156,7 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 /**************************************************************************
 FIXME: Maybe we should allow airlifts between allies
 **************************************************************************/
-int unit_can_airlift_to(struct unit *punit, struct city *pcity)
+bool unit_can_airlift_to(struct unit *punit, struct city *pcity)
 {
   struct city *city1;
 
@@ -179,7 +179,7 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
+bool unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
 {
   if (!is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y))
@@ -196,7 +196,7 @@ int unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_can_help_build_wonder_here(struct unit *punit)
+bool unit_can_help_build_wonder_here(struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
   return pcity && unit_can_help_build_wonder(punit, pcity);
@@ -206,7 +206,7 @@ int unit_can_help_build_wonder_here(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_can_est_traderoute_here(struct unit *punit)
+bool unit_can_est_traderoute_here(struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 
@@ -221,7 +221,7 @@ int unit_can_est_traderoute_here(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_can_defend_here(struct unit *punit)
+bool unit_can_defend_here(struct unit *punit)
 {
   if(is_ground_unit(punit) && map_get_terrain(punit->x, punit->y)==T_OCEAN)
     return FALSE;
@@ -262,7 +262,7 @@ int get_transporter_capacity(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_ground_units_transport(struct unit *punit)
+bool is_ground_units_transport(struct unit *punit)
 {
   return (get_transporter_capacity(punit)
 	  && !unit_flag(punit, F_MISSILE_CARRIER)
@@ -272,7 +272,7 @@ int is_ground_units_transport(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_air_units_transport(struct unit *punit)
+bool is_air_units_transport(struct unit *punit)
 {
   return (get_transporter_capacity(punit)
 	  && (unit_flag(punit, F_MISSILE_CARRIER)
@@ -282,7 +282,7 @@ int is_air_units_transport(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_sailing_unit(struct unit *punit)
+bool is_sailing_unit(struct unit *punit)
 {
   return (unit_type(punit)->move_type == SEA_MOVING);
 }
@@ -290,7 +290,7 @@ int is_sailing_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_air_unit(struct unit *punit)
+bool is_air_unit(struct unit *punit)
 {
   return (unit_type(punit)->move_type == AIR_MOVING);
 }
@@ -298,7 +298,7 @@ int is_air_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_heli_unit(struct unit *punit)
+bool is_heli_unit(struct unit *punit)
 {
   return (unit_type(punit)->move_type == HELI_MOVING);
 }
@@ -306,7 +306,7 @@ int is_heli_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_ground_unit(struct unit *punit)
+bool is_ground_unit(struct unit *punit)
 {
   return (unit_type(punit)->move_type == LAND_MOVING);
 }
@@ -314,7 +314,7 @@ int is_ground_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_military_unit(struct unit *punit)
+bool is_military_unit(struct unit *punit)
 {
   return !unit_flag(punit, F_NONMIL);
 }
@@ -322,7 +322,7 @@ int is_military_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_diplomat_unit(struct unit *punit)
+bool is_diplomat_unit(struct unit *punit)
 {
   return (unit_flag(punit, F_DIPLOMAT));
 }
@@ -330,7 +330,7 @@ int is_diplomat_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_ground_threat(struct player *pplayer, struct unit *punit)
+bool is_ground_threat(struct player *pplayer, struct unit *punit)
 {
   return (pplayers_at_war(pplayer, unit_owner(punit))
 	  && (unit_flag(punit, F_DIPLOMAT)
@@ -368,7 +368,7 @@ int is_field_unit(struct unit *punit)
   FIXME: this should be made more general: does not handle cargo units
   on an invisible transport, or planes on invisible carrier.
 **************************************************************************/
-int is_hiding_unit(struct unit *punit)
+bool is_hiding_unit(struct unit *punit)
 {
   if(unit_flag(punit, F_PARTIAL_INVIS)) return TRUE;
   if(unit_flag(punit, F_MISSILE)) {
@@ -387,14 +387,14 @@ int is_hiding_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int kills_citizen_after_attack(struct unit *punit) {
+bool kills_citizen_after_attack(struct unit *punit) {
   return (game.killcitizen >> ((int)unit_type(punit)->move_type-1)) & 1;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_add_to_city(struct unit *punit)
+bool can_unit_add_to_city(struct unit *punit)
 {
   return (test_unit_add_or_build_city(punit) == AB_ADD_OK);
 }
@@ -402,7 +402,7 @@ int can_unit_add_to_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_build_city(struct unit *punit)
+bool can_unit_build_city(struct unit *punit)
 {
   return (test_unit_add_or_build_city(punit) == AB_BUILD_OK);
 }
@@ -410,7 +410,7 @@ int can_unit_build_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_add_or_build_city(struct unit *punit)
+bool can_unit_add_or_build_city(struct unit *punit)
 {
   enum add_build_city_result r = test_unit_add_or_build_city(punit);
   return (r == AB_BUILD_OK || r == AB_ADD_OK);
@@ -422,8 +422,8 @@ int can_unit_add_or_build_city(struct unit *punit)
 enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
-  int is_build = unit_flag(punit, F_CITIES);
-  int is_add = unit_flag(punit, F_ADD_TO_CITY);
+  bool is_build = unit_flag(punit, F_CITIES);
+  bool is_add = unit_flag(punit, F_ADD_TO_CITY);
   int new_pop;
 
   /* See if we can build */
@@ -465,7 +465,7 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_change_homecity(struct unit *punit)
+bool can_unit_change_homecity(struct unit *punit)
 {
   struct city *pcity=map_get_city(punit->x, punit->y);
   return pcity && pcity->owner==punit->owner;
@@ -475,7 +475,7 @@ int can_unit_change_homecity(struct unit *punit)
 Return whether the unit can be put in auto-mode.
 (Auto-settler for settlers, auto-attack for military units.)
 **************************************************************************/
-int can_unit_do_auto(struct unit *punit) 
+bool can_unit_do_auto(struct unit *punit) 
 {
   if (unit_flag(punit, F_SETTLERS))
     return TRUE;
@@ -488,7 +488,7 @@ int can_unit_do_auto(struct unit *punit)
 Return whether the unit can connect with given activity (or with
 any activity if activity arg is set to ACTIVITY_IDLE)
 **************************************************************************/
-int can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
+bool can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
 
@@ -546,7 +546,7 @@ That is if the unit is in a friendly city or on an Airbase
 special, have enough movepoints left and have not paradropped
 before in this turn.
 **************************************************************************/
-int can_unit_paradrop(struct unit *punit)
+bool can_unit_paradrop(struct unit *punit)
 {
   struct city *pcity;
   struct unit_type *utype;
@@ -576,12 +576,12 @@ int can_unit_paradrop(struct unit *punit)
 /**************************************************************************
 Check if the unit's current activity is actually legal.
 **************************************************************************/
-int can_unit_continue_current_activity(struct unit *punit)
+bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
   int target = punit->activity_target;
   int current2 = current == ACTIVITY_FORTIFIED ? ACTIVITY_FORTIFYING : current;
-  int result;
+  bool result;
 
   if (punit->connecting)
     return can_unit_do_connect(punit, current);
@@ -600,7 +600,7 @@ int can_unit_continue_current_activity(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
+bool can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 {
   return can_unit_do_activity_targeted(punit, activity, 0);
 }
@@ -610,7 +610,7 @@ Note that if you make changes here you should also change the code for
 autosettlers in server/settler.c. The code there does not use this function
 as it would be a ajor CPU hog.
 **************************************************************************/
-int can_unit_do_activity_targeted(struct unit *punit,
+bool can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target)
 {
   struct player *pplayer;
@@ -795,7 +795,7 @@ void set_unit_activity_targeted(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-int is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
+bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
 {
   unit_list_iterate(map_get_tile(x, y)->units, punit) 
     if(punit->activity==activity)
@@ -991,7 +991,7 @@ struct player *unit_owner(struct unit *punit)
 Returns the number of free spaces for missiles. Can be 0 or negative.
 **************************************************************************/
 int missile_carrier_capacity(int x, int y, struct player *pplayer,
-			     int count_units_with_extra_fuel)
+			     bool count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
@@ -1035,7 +1035,7 @@ Returns the number of free spaces for airunits (includes missiles).
 Can be 0 or negative.
 **************************************************************************/
 int airunit_carrier_capacity(int x, int y, struct player *pplayer,
-			     int count_units_with_extra_fuel)
+			     bool count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
@@ -1145,7 +1145,7 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile,
 
   Note this function only makes sense for ground units.
 **************************************************************************/
-int is_my_zoc(struct player *unit_owner, int x0, int y0)
+bool is_my_zoc(struct player *unit_owner, int x0, int y0)
 {
   square_iterate(x0, y0, 1, x1, y1) {
     if ((map_get_terrain(x1, y1) != T_OCEAN)
@@ -1159,7 +1159,7 @@ int is_my_zoc(struct player *unit_owner, int x0, int y0)
 /**************************************************************************
   Takes into account unit move_type as well as IGZOC
 **************************************************************************/
-int unit_type_really_ignores_zoc(Unit_Type_id type)
+bool unit_type_really_ignores_zoc(Unit_Type_id type)
 {
   return (!is_ground_unittype(type)) || (unit_type_flag(type, F_IGZOC));
 }
@@ -1175,7 +1175,7 @@ int unit_type_really_ignores_zoc(Unit_Type_id type)
   5. You're moving from an ocean square (from a boat)
   6. The spot you're moving from or to is in your ZOC
 **************************************************************************/
-int can_step_taken_wrt_to_zoc(Unit_Type_id type,
+bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
 			      struct player *unit_owner, int src_x,
 			      int src_y, int dest_x, int dest_y)
 {
@@ -1195,7 +1195,7 @@ int can_step_taken_wrt_to_zoc(Unit_Type_id type,
 /**************************************************************************
 ...
 **************************************************************************/
-int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
+bool zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
 {
   return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
 				   x1, y1, x2, y2);
@@ -1205,16 +1205,16 @@ int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
   Convenience wrapper for zoc_ok_move_gen(), using the unit's (x,y)
   as the starting point.
 **************************************************************************/
-int zoc_ok_move(struct unit *punit, int x, int y)
+bool zoc_ok_move(struct unit *punit, int x, int y)
 {
   return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
 }
 
-int can_unit_move_to_tile(Unit_Type_id type,
+bool can_unit_move_to_tile(Unit_Type_id type,
 			  struct player *unit_owner,
 			  enum unit_activity activity,
-			  int connecting, int src_x,
-			  int src_y, int dest_x, int dest_y, int igzoc)
+			  bool connecting, int src_x,
+			  int src_y, int dest_x, int dest_y, bool igzoc)
 {
   return MR_OK == test_unit_move_to_tile(type, unit_owner, activity,
 					 connecting, src_x,
@@ -1238,12 +1238,12 @@ int can_unit_move_to_tile(Unit_Type_id type,
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     struct player *unit_owner,
 					     enum unit_activity activity,
-					     int connecting, int src_x,
+					     bool connecting, int src_x,
 					     int src_y, int dest_x,
-					     int dest_y, int igzoc)
+					     int dest_y, bool igzoc)
 {
   struct tile *pfromtile, *ptotile;
-  int zoc;
+  bool zoc;
   struct city *pcity;
 
   /* 1) */
@@ -1349,7 +1349,7 @@ A unit is *not* aggressive if one or more of following is true:
 - inside a city
 - ground unit inside a fortress within 3 squares of a friendly city
 **************************************************************************/
-int unit_being_aggressive(struct unit *punit)
+bool unit_being_aggressive(struct unit *punit)
 {
   if (unit_type(punit)->attack_strength==0)
     return FALSE;
@@ -1365,7 +1365,7 @@ int unit_being_aggressive(struct unit *punit)
 /*
  * Returns true if given activity is some kind of building/cleaning.
  */
-int is_build_or_clean_activity(enum unit_activity activity)
+bool is_build_or_clean_activity(enum unit_activity activity)
 {
   switch (activity) {
   case ACTIVITY_POLLUTION:

@@ -35,7 +35,7 @@ struct nation_type {
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
   char *leader_name[MAX_NUM_LEADERS];
-  int  leader_is_male[MAX_NUM_LEADERS];
+  bool  leader_is_male[MAX_NUM_LEADERS];
   int city_style;
   char **default_city_names;
   char **default_rcity_names;		/* river city names */
@@ -76,10 +76,10 @@ Nation_Type_id find_nation_by_name(char *name);
 char *get_nation_name(Nation_Type_id nation);
 char *get_nation_name_plural(Nation_Type_id nation);
 char **get_nation_leader_names(Nation_Type_id nation, int *dim);
-int get_nation_leader_sex(Nation_Type_id nation, const char *name);
+bool get_nation_leader_sex(Nation_Type_id nation, const char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);
-int check_nation_leader_name(Nation_Type_id nation, const char *name);
+bool check_nation_leader_name(Nation_Type_id nation, const char *name);
 void alloc_nations(int num);
 void free_nations(int num);
 int get_nation_city_style(Nation_Type_id nation);

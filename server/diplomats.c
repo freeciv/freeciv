@@ -38,7 +38,7 @@
 
 static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y);
 static int diplomat_success_vs_defender (struct unit *pdefender);
-static int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
+static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
 				     struct unit *pdiplomat, struct city *pcity);
 static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 			     struct city *pcity);
@@ -132,7 +132,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity)
 {
   struct player *cplayer;
-  int first_packet;
+  bool first_packet;
   struct packet_unit_info unit_packet;
   struct packet_city_info city_packet;
 
@@ -1077,7 +1077,7 @@ static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y)
 
   - Return TRUE if the "attacker" succeeds.
 **************************************************************************/
-static int diplomat_success_vs_defender (struct unit *pdefender)
+static bool diplomat_success_vs_defender (struct unit *pdefender)
 {
   int success = game.diplchance;
 
@@ -1108,7 +1108,7 @@ static int diplomat_success_vs_defender (struct unit *pdefender)
 
   - Return TRUE if the infiltrator succeeds.
 **************************************************************************/
-static int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
+static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
 			      struct unit *pdiplomat, struct city *pcity)
 {
   unit_list_iterate ((map_get_tile (pcity->x, pcity->y))->units, punit)

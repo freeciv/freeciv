@@ -163,7 +163,7 @@ void my_nonblock(int sockfd)
   Look up the given host and fill in *sock.  Note that the caller
   should fill in the port number (sock->sin_port).
 ***************************************************************************/
-int fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
+bool fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
 {
   struct hostent *hp;
 

@@ -112,7 +112,7 @@ static void start_processing_request(struct connection *pconn,
 				     int request_id);
 static void finish_processing_request(struct connection *pconn);
 
-static int no_input = FALSE;
+static bool no_input = FALSE;
 
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
@@ -544,12 +544,12 @@ int sniff_packets(void)
 	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
 	    char *packet;
 	    int type;
-	    int result;
+	    bool result;
 
 	    while (TRUE) {
 	      packet = get_packet_from_connection(pconn, &type, &result);
 	      if (result) {
-		int command_ok;
+		bool command_ok;
 
 		pconn->server.last_request_id_seen =
 		    get_next_request_id(pconn->server.

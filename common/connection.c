@@ -59,7 +59,7 @@ const char blank_addr_str[] = "---.---.---.---";
    If it is set the disconnection of conns is posponed. This is sometimes
    neccesary as removing a random connection while we are iterating through
    a connection list might corrupt the list. */
-int delayed_disconnect = FALSE;
+bool delayed_disconnect = FALSE;
   
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -262,7 +262,7 @@ void flush_connection_send_buffer_packets(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-static int add_connection_data(struct connection *pc, unsigned char *data,
+static bool add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
   if (pc && pc->delayed_disconnect) {

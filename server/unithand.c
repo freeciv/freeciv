@@ -850,8 +850,8 @@ static void how_to_declare_war(struct player *pplayer)
   FALSE.  If TRUE, try to move diplomat (or spy) into city (should be
   allied) instead of telling client to popup diplomat/spy dialog.
 **************************************************************************/
-int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
-			     int igzoc, int move_diplomat_city)
+bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
+			     bool igzoc, bool move_diplomat_city)
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
@@ -1069,8 +1069,8 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     int src_y = punit->y;
     int move_cost = map_move_cost(punit, dest_x, dest_y);
     /* The ai should assign the relevant units itself, but for now leave this */
-    int take_from_land = punit->activity == ACTIVITY_IDLE;
-    int survived;
+    bool take_from_land = punit->activity == ACTIVITY_IDLE;
+    bool survived;
 
     survived = move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
     if (!survived)
@@ -1080,7 +1080,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     if(pplayer->ai.control && punit->ai.bodyguard > 0) {
       struct unit *bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard);
       if (bodyguard) {
-	int success;
+	bool success;
 
 	/* FIXME: it is stupid to set to ACTIVITY_IDLE if the unit is
 	   ACTIVITY_FORTIFIED and the unit has no chance of moving anyway */
@@ -1145,7 +1145,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-int handle_unit_establish_trade(struct player *pplayer, 
+bool handle_unit_establish_trade(struct player *pplayer, 
 				 struct packet_unit_request *req)
 {
   struct unit *punit;
@@ -1257,7 +1257,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
   case ACTIVITY_EXPLORE:
     if (punit->moves_left > 0) {
       int id = punit->id;
-      int more_to_explore = ai_manage_explorer(punit);
+      bool more_to_explore = ai_manage_explorer(punit);
       /* ai_manage_explorer sets the activity to idle, so we reset it */
       if (more_to_explore && (punit = find_unit_by_id(id))) {
 	set_unit_activity(punit, ACTIVITY_EXPLORE);
@@ -1296,7 +1296,7 @@ void handle_unit_activity_request(struct unit *punit,
 **************************************************************************/
 void handle_unit_activity_request_targeted(struct unit *punit, 
 					   enum unit_activity new_activity,
-					   int new_target, int select_unit)
+					   int new_target, bool select_unit)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
@@ -1326,7 +1326,7 @@ void handle_unit_unload_request(struct player *pplayer,
   if (punit) {
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit != punit2 && punit2->activity == ACTIVITY_SENTRY) {
-	int wakeup = FALSE;
+	bool wakeup = FALSE;
 
 	if (is_ground_units_transport(punit)) {
 	  if (is_ground_unit(punit2))
@@ -1389,7 +1389,7 @@ void handle_unit_paradrop_to(struct player *pplayer,
 /**************************************************************************
 Sanity checks on the goto route.
 **************************************************************************/
-static int check_route(struct player *pplayer, struct packet_goto_route *packet)
+static bool check_route(struct player *pplayer, struct packet_goto_route *packet)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
 

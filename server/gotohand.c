@@ -67,7 +67,7 @@ static unsigned int refuellist_size;
 
 static void make_list_of_refuel_points(struct player *pplayer);
 static void dealloc_refuel_stack(void);
-static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
+static bool find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
 static int airspace_looks_safe(int x, int y, struct player *pplayer);
 
 /* These are used for all GOTO's */
@@ -102,7 +102,8 @@ static int highest_cost;
 static void init_queue(void)
 {
   int i;
-  static int is_initialized = FALSE;
+  static bool is_initialized = FALSE;
+
   if (!is_initialized) {
     for (i = 0; i < MAXARRAYS; i++) {
       mappos_arrays[i] = NULL;
@@ -164,7 +165,7 @@ static void add_to_mapqueue(int cost, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static int get_from_mapqueue(int *x, int *y)
+static bool get_from_mapqueue(int *x, int *y)
 {
   struct mappos_array *our_array;
   freelog(LOG_DEBUG, "trying get");
@@ -284,7 +285,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 {
   int x, y, move_cost;
   int orig_x, orig_y;
-  int igter;
+  bool igter;
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   struct tile *ptile;
   struct player *pplayer;
@@ -467,7 +468,7 @@ Can we move between for ZOC? (only for land units). Includes a special
 case only relevant for GOTOs (see below). came_from is a bit-vector
 containing the directions we could have come from.
 **************************************************************************/
-static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
+static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y, unsigned char came_from)
 {
   if (can_step_taken_wrt_to_zoc
@@ -575,12 +576,13 @@ be _very_ expensive in CPU).
 FIXME: this is a bit of a mess in not respecting FoW, and only sometimes
 respecting if a square is known. (not introduced by me though) -Thue
 **************************************************************************/
-static int find_the_shortest_path(struct unit *punit,
+static bool find_the_shortest_path(struct unit *punit,
 				  int dest_x, int dest_y,
 				  enum goto_move_restriction restriction)
 {
   struct player *pplayer = unit_owner(punit);
-  int igter, x, y;
+  bool igter;
+  int x, y;
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_type(punit)->move_type;
@@ -907,13 +909,13 @@ static int find_a_direction(struct unit *punit,
   int fitness[8], best_fitness = DONT_SELECT_ME_FITNESS;
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
-  int afraid_of_sinking = (unit_flag(punit, F_TRIREME) && 
+  bool afraid_of_sinking = (unit_flag(punit, F_TRIREME) && 
                            !player_owns_active_wonder(pplayer, B_LIGHTHOUSE));
   /* 
    * If the destination is one step away, look around first or just go
    * there?
    */ 
-  int do_full_check = afraid_of_sinking; 
+  bool do_full_check = afraid_of_sinking; 
 
   if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
     passenger = other_passengers(punit);
@@ -1207,7 +1209,7 @@ static int find_a_direction(struct unit *punit,
 /**************************************************************************
 Basic checks as to whether a GOTO is possible.
 **************************************************************************/
-int goto_is_sane(struct unit *punit, int x, int y, int omni)
+bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
 {  
   struct player *pplayer = unit_owner(punit);
   int possible = 0;
@@ -1256,7 +1258,7 @@ find_the_shortest_path(pplayer, punit, waypoint_x, waypoint_y, restriction)
 **************************************************************************/
 enum goto_result do_unit_goto(struct unit *punit,
 			      enum goto_move_restriction restriction,
-			      int trigger_special_ability)
+			      bool trigger_special_ability)
 {
   struct player *pplayer = unit_owner(punit);
   int x, y, dir;
@@ -1312,7 +1314,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   /* This has the side effect of marking the warmap with the possible paths */
   if (find_the_shortest_path(punit, waypoint_x, waypoint_y, restriction)) {
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
-      int last_tile, is_real;
+      bool last_tile, is_real;
 
       if (punit->moves_left == 0) {
 	return GR_OUT_OF_MOVEPOINTS;
@@ -1518,7 +1520,7 @@ extra goal are so smart that you should implement them! :)
       -Thue
       [Kero]
 **************************************************************************/
-static int find_air_first_destination(
+static bool find_air_first_destination(
   struct unit *punit, /* input param */
   int *dest_x, int *dest_y) /* output param */
 {
@@ -1529,7 +1531,7 @@ static int find_air_first_destination(
   unsigned int fullmoves = unit_type(punit)->move_rate/SINGLE_MOVE;
   unsigned int fullfuel = unit_type(punit)->fuel;
 
-  int reached_goal;
+  bool reached_goal;
   int turns, start_turn;
   int max_moves, moves_left;
   int new_nodes, no_new_nodes;
@@ -1646,7 +1648,7 @@ static int find_air_first_destination(
  there is an enemy unit on it. This is tricky, since we have to
  consider what the player knows/doesn't know about the tile.
 **************************************************************************/
-static int airspace_looks_safe(int x, int y, struct player *pplayer)
+static bool airspace_looks_safe(int x, int y, struct player *pplayer)
 {
   struct tile * ptile = map_get_tile(x, y);
 

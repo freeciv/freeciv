@@ -30,7 +30,7 @@ enum goto_result {
 
 enum goto_result do_unit_goto(struct unit *punit,
 			      enum goto_move_restriction restriction,
-			      int trigger_special_ability);
+			      bool trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type move_type);
@@ -43,7 +43,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 #define THRESHOLD 12
 
 
-int goto_is_sane(struct unit *punit, int x, int y, int omni);
+bool goto_is_sane(struct unit *punit, int x, int y, bool omni);
 
 struct move_cost_map {
   unsigned char *cost[MAP_MAX_WIDTH];

@@ -24,6 +24,7 @@
 ***************************************************************************/
 
 #include "shared.h"		/* MAX_LEN_ADDR */
+#include "shared.h"		/* bool type */
 
 struct player;
 
@@ -82,19 +83,20 @@ struct socket_packet_buffer {
 ***********************************************************/
 struct connection {
   int id;			/* used for server/client communication */
-  int sock, used;
-  int established;		/* have negotiated initial packets */
-  int first_packet;		/* check byte order on first packet */
-  int byte_swap;		/* connection uses non-network byte order */
+  int sock;
+  bool used;
+  bool established;		/* have negotiated initial packets */
+  bool first_packet;		/* check byte order on first packet */
+  bool byte_swap;		/* connection uses non-network byte order */
   struct player *player;	/* NULL for connections not yet associated
 				   with a specific player */
-  int observer;			/* connection is "observer", not controller;
+  bool observer;		/* connection is "observer", not controller;
  				   may be observing specific player, or all
  				   (implementation incomplete) */
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   time_t last_write;
-  int ponged;		        /* have received a PACKET_CONN_PONG? */
+  bool ponged;		        /* have received a PACKET_CONN_PONG? */
 
   struct conn_list self;	/* list with this connection as single element */
   char name[MAX_LEN_NAME];
@@ -112,12 +114,12 @@ struct connection {
   /* These are used when recieving goto routes; they are send split, and in
      the time where the route is partially recieved it is stored here. */
 
-  int delayed_disconnect;
+  bool delayed_disconnect;
   /* Something has occured that means the connection should be closed, but
      the closing has been postponed. */
 
   void (*notify_of_writable_data) (struct connection * pc,
-				   int data_available_and_socket_full);
+				   bool data_available_and_socket_full);
   struct {
     /* 
      * Increases for every packet send to the server.

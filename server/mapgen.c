@@ -405,7 +405,7 @@ static void river_blockmark(int x, int y)
 
 struct test_func {
   int (*func)(int, int);
-  int fatal;
+  bool fatal;
 };
 
 #define NUM_TEST_FUNCTIONS 9
@@ -514,14 +514,14 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
  If these rules haven't decided the direction, the random number
  generator gets the desicion.                              -Erik Sigra
 *********************************************************************/
-static int make_river(int x, int y)
+static bool make_river(int x, int y)
 {
   /* The comparison values of the 4 tiles surrounding the current
      tile. It is the suitability to continue a river to that tile that
      is being compared. Lower is better.                  -Erik Sigra */
   static int rd_comparison_val[4];
 
-  int rd_direction_is_valid[4];
+  bool rd_direction_is_valid[4];
   int num_valid_directions, dir, func_num, direction;
 
   while (TRUE) {
@@ -859,7 +859,7 @@ static void make_land(void)
 /**************************************************************************
   Returns if this is a 1x1 island
 **************************************************************************/
-static int is_tiny_island(int x, int y) 
+static bool is_tiny_island(int x, int y) 
 {
   if (map_get_terrain(x,y) == T_OCEAN) return FALSE;
 
@@ -889,7 +889,7 @@ static void remove_tiny_islands(void)
  continent number, by flood-fill algorithm.
  Returns 1 if tile successfully assigned this number.
 **************************************************************************/
-static int assign_continent_flood(int x, int y, int nr)
+static bool assign_continent_flood(int x, int y, int nr)
 {
   if (y<0 || y>=map.ysize)              return FALSE;
   if (map_get_continent(x, y) != 0)     return FALSE;

@@ -60,12 +60,12 @@
 Is player a sea or land barbarian
 **************************************************************************/
 
-int is_land_barbarian(struct player *pplayer)
+bool is_land_barbarian(struct player *pplayer)
 {
   return (pplayer->ai.is_barbarian == LAND_BARBARIAN);
 }
 
-int is_sea_barbarian(struct player *pplayer)
+bool is_sea_barbarian(struct player *pplayer)
 {
   return (pplayer->ai.is_barbarian == SEA_BARBARIAN);
 }
@@ -77,7 +77,7 @@ If barbarians are dead, revive them with a new leader :-)
 Dead barbarians forget the map and lose the money.
 **************************************************************************/
 
-static struct player *create_barbarian_player(int land)
+static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.nplayers;
   struct player *barbarians;
@@ -150,7 +150,7 @@ static struct player *create_barbarian_player(int land)
 /**************************************************************************
 Check if a tile is land and free of enemy units
 **************************************************************************/
-static int is_free_land(int x, int y, struct player *who)
+static bool is_free_land(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) == T_OCEAN
       || is_non_allied_unit_tile(map_get_tile(x, y), who))
@@ -162,7 +162,7 @@ static int is_free_land(int x, int y, struct player *who)
 /**************************************************************************
 Check if a tile is sea and free of enemy units
 **************************************************************************/
-static int is_free_sea(int x, int y, struct player *who)
+static bool is_free_sea(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) != T_OCEAN
       || is_non_allied_unit_tile(map_get_tile(x, y), who))
@@ -180,13 +180,13 @@ otherwise (not much land and no sea) kill enemy unit and stay in a village.
 The return value indicates if the explorer survived entering the vilage.
 **************************************************************************/
 
-int unleash_barbarians(struct player* victim, int x, int y)
+bool unleash_barbarians(struct player* victim, int x, int y)
 {
   struct player *barbarians;
   int unit, unit_cnt, land_cnt=0, sea_cnt=0;
   int boat;
   int i, xu, yu, me;
-  int alive = TRUE;     /* explorer survived */
+  bool alive = TRUE;     /* explorer survived */
 
   if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
@@ -272,7 +272,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
 /**************************************************************************
 Is sea not further than a couple of tiles away from land
 **************************************************************************/
-static int is_near_land(int x0, int y0)
+static bool is_near_land(int x0, int y0)
 {
   square_iterate(x0, y0, 4, x, y) {
     if (map_get_terrain(x,y) != T_OCEAN)
@@ -285,7 +285,7 @@ static int is_near_land(int x0, int y0)
 /**************************************************************************
 return this or a neighbouring tile that is free of any units
 **************************************************************************/
-static int find_empty_tile_nearby(int x0, int y0, int *x, int *y)
+static bool find_empty_tile_nearby(int x0, int y0, int *x, int *y)
 {
   square_iterate(x0, y0, 1, x1, y1) {
     if (unit_list_size(&map_get_tile(x1, y1)->units) == 0) {

@@ -29,7 +29,7 @@ enum worklist_elem_flag {
 
 /* a worklist */
 struct worklist {
-  int is_valid;
+  bool is_valid;
   char name[MAX_LEN_NAME];
   enum worklist_elem_flag wlefs[MAX_LEN_WORKLIST];
   int wlids[MAX_LEN_WORKLIST];
@@ -40,9 +40,9 @@ void init_worklist(struct worklist *pwl);
 void destroy_worklist(struct worklist *pwl);
 
 int worklist_length(const struct worklist *pwl);
-int worklist_is_empty(const struct worklist *pwl);
-int worklist_peek(const struct worklist *pwl, int *id, int *is_unit);
-int worklist_peek_ith(const struct worklist *pwl, int *id, int *is_unit,
+bool worklist_is_empty(const struct worklist *pwl);
+bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit);
+bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
 		      int idx);
 void worklist_advance(struct worklist *pwl);
 

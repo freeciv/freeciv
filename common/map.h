@@ -73,10 +73,10 @@ struct terrain_misc
 {
   /* options */
   enum terrain_river_type river_style;
-  int may_road;       /* boolean: may build roads/railroads */
-  int may_irrigate;   /* boolean: may build irrigation/farmland */
-  int may_mine;       /* boolean: may build mines */
-  int may_transform;  /* boolean: may transform terrain */
+  bool may_road;       /* may build roads/railroads */
+  bool may_irrigate;   /* may build irrigation/farmland */
+  bool may_mine;       /* may build mines */
+  bool may_transform;  /* may transform terrain */
   /* parameters */
   int ocean_reclaim_requirement;       /* # adjacent land tiles for reclaim */
   int land_channel_requirement;        /* # adjacent ocean tiles for channel */
@@ -158,7 +158,7 @@ struct civ_map {
   int xsize, ysize;
   int seed;
   int riches;
-  int is_earth;
+  bool is_earth;
   int huts;
   int landpercent;
   int grasssize;
@@ -172,15 +172,15 @@ struct civ_map {
   int separatepoles;
   int num_start_positions;
   int fixed_start_positions;
-  int have_specials;
-  int have_huts;
-  int have_rivers_overlay;	/* only applies if !have_specials */
+  bool have_specials;
+  bool have_huts;
+  bool have_rivers_overlay;	/* only applies if !have_specials */
   int num_continents;
   struct tile *tiles;
   struct map_position start_positions[MAX_NUM_NATIONS];
 };
 
-int map_is_empty(void);
+bool map_is_empty(void);
 void map_init(void);
 void map_allocate(void);
 
@@ -191,8 +191,8 @@ struct tile *map_get_tile(int x, int y);
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
-int same_pos(int x1, int y1, int x2, int y2);
-int base_get_direction_for_step(int start_x, int start_y, int end_x,
+bool same_pos(int x1, int y1, int x2, int y2);
+bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir);
 int get_direction_for_step(int start_x, int start_y, int end_x, int end_y);
 
@@ -268,15 +268,15 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void tile_init(struct tile *ptile);
-int is_real_tile(int x, int y);
-int is_normal_map_pos(int x, int y);
+bool is_real_tile(int x, int y);
+bool is_normal_map_pos(int x, int y);
 
 /* 
  * Determines whether the position is normal given that it's in the
  * range 0<=x<map.xsize and 0<=y<map.ysize.  It's primarily a faster
  * version of is_normal_map_pos since such checks are pretty common.
  */
-#define regular_map_pos_is_normal(x, y) (1)
+#define regular_map_pos_is_normal(x, y) (TRUE)
 
 /*
  * A "border position" is any one that has adjacent positions that are
@@ -286,7 +286,7 @@ int is_normal_map_pos(int x, int y);
   ((y) == 0 || (x) == 0 ||                   \
    (y) == map.ysize-1 || (x) == map.xsize-1)
 
-int normalize_map_pos(int *x, int *y);
+bool normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
 void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1);
 int map_num_tiles(void);
@@ -294,27 +294,27 @@ int map_num_tiles(void);
 void rand_neighbour(int x0, int y0, int *x, int *y);
 void rand_map_pos(int *x, int *y);
 
-int is_water_adjacent_to_tile(int x, int y);
-int is_tiles_adjacent(int x0, int y0, int x1, int y1);
-int is_move_cardinal(int start_x, int start_y, int end_x, int end_y);
+bool is_water_adjacent_to_tile(int x, int y);
+bool is_tiles_adjacent(int x0, int y0, int x1, int y1);
+bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y);
 int map_move_cost(struct unit *punit, int x, int y);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);
 char *get_terrain_name(enum tile_terrain_type type);
 enum tile_special_type get_special_by_name(char * name);
 const char *get_special_name(enum tile_special_type type);
-int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
+bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
-int is_special_near_tile(int x, int y, enum tile_special_type spe);
+bool is_special_near_tile(int x, int y, enum tile_special_type spe);
 int count_special_near_tile(int x, int y, enum tile_special_type spe);
-int is_coastline(int x,int y);
-int terrain_is_clean(int x, int y);
-int is_at_coast(int x, int y);
-int is_hut_close(int x, int y);
-int is_starter_close(int x, int y, int nr, int dist); 
-int is_good_tile(int x, int y);
-int is_special_close(int x, int y);
-int is_sea_usable(int x, int y);
+bool is_coastline(int x,int y);
+bool terrain_is_clean(int x, int y);
+bool is_at_coast(int x, int y);
+bool is_hut_close(int x, int y);
+bool is_starter_close(int x, int y, int nr, int dist); 
+bool is_good_tile(int x, int y);
+bool is_special_close(int x, int y);
+bool is_sea_usable(int x, int y);
 int get_tile_food_base(struct tile * ptile);
 int get_tile_shield_base(struct tile * ptile);
 int get_tile_trade_base(struct tile * ptile);
@@ -339,8 +339,8 @@ int map_clean_pollution_time(int x, int y);
 int map_clean_fallout_time(int x, int y);
 int map_activity_time(enum unit_activity activity, int x, int y);
 
-int can_channel_land(int x, int y);
-int can_reclaim_ocean(int x, int y);
+bool can_channel_land(int x, int y);
+bool can_reclaim_ocean(int x, int y);
 
 extern struct civ_map map;
 
@@ -370,8 +370,8 @@ extern struct tile_type tile_types[T_LAST];
   int ARG_x_itr, ARG_y_itr;                                                   \
   int MACRO_max_dx = map.xsize/2;                                             \
   int MACRO_min_dx = -MACRO_max_dx - 1 + (map.xsize % 2);                     \
-  int MACRO_xcycle = TRUE;                                                    \
-  int MACRO_positive = FALSE;                                                 \
+  bool MACRO_xcycle = TRUE;                                                   \
+  bool MACRO_positive = FALSE;                                                \
   int MACRO_dxy = 0, MACRO_do_xy;                                             \
   CHECK_MAP_POS(ARG_start_x, ARG_start_y);                                    \
   while(MACRO_dxy <= (ARG_max_dist)) {                                        \
@@ -491,7 +491,8 @@ extern struct tile_type tile_types[T_LAST];
    center_y are normalized. --JDS */
 #define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)           \
 {                                                                             \
-  int x_itr, y_itr, dir_itr, MACRO_border;                                    \
+  int x_itr, y_itr, dir_itr;                                                  \
+  bool MACRO_border;                                                          \
   int MACRO_center_x = (center_x);                                            \
   int MACRO_center_y = (center_y);                                            \
   CHECK_MAP_POS(MACRO_center_x, MACRO_center_y);                              \

@@ -73,8 +73,8 @@ void set_invention(struct player *pplayer, Tech_Type_id tech,
   Returns if the given tech has to be researched to reach the
   goal. The goal itself isn't a requirement of itself.
 **************************************************************************/
-int is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
-			   Tech_Type_id goal)
+bool is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
+			    Tech_Type_id goal)
 {
   if (tech == goal) {
     return FALSE;
@@ -228,7 +228,7 @@ A tech doesn't exist if one of:
   to A_LAST (this function returns 0 if either req is A_LAST, rather
   than both, to be on the safe side)
 **************************************************************************/
-int tech_exists(Tech_Type_id id)
+bool tech_exists(Tech_Type_id id)
 {
   if (id<0 || id>=game.num_tech_types)
     return FALSE;
@@ -254,7 +254,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-int tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
+bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
 {
   assert(flag>=0 && flag<TF_LAST);
   return BOOL_VAL(advances[tech].flags & (1<<flag));
@@ -512,7 +512,7 @@ void precalc_tech_data()
 /**************************************************************************
  Is the given tech a future tech.
 **************************************************************************/
-int is_future_tech(Tech_Type_id tech)
+bool is_future_tech(Tech_Type_id tech)
 {
   /*
    * Future techs can be identify in two ways: the "tech >=
@@ -543,7 +543,7 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
  Returns true if the costs for the given technology will stay constant
  during the game. False otherwise.
 **************************************************************************/
-int techs_have_fixed_costs()
+bool techs_have_fixed_costs()
 {
   return ((game.rgame.tech_cost_style == 1
 	   || game.rgame.tech_cost_style == 2)

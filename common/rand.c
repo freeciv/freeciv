@@ -148,7 +148,7 @@ void mysrand(RANDOM_TYPE seed)
 /*************************************************************************
   Return whether the current state has been initialized.
 *************************************************************************/
-int myrand_is_init(void)
+bool myrand_is_init(void)
 {
   return rand_state.is_init;
 }
@@ -181,7 +181,7 @@ void test_random1(int n)
 {
   RANDOM_STATE saved_state;
   int i, old = 0, new;
-  int didchange, olddidchange = FALSE;
+  bool didchange, olddidchange = FALSE;
   int behaviourchange = 0, behavioursame = 0;
 
   saved_state = get_myrand_state();

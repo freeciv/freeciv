@@ -52,7 +52,7 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_do_build_city(struct player *pplayer, struct unit *punit)
+static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
   int x, y;
   struct packet_unit_request req;
@@ -171,11 +171,12 @@ static int city_desirability(struct player *pplayer, int x, int y)
   int d = 0;
   int a, i0, j0; /* need some temp variables */
   int temp=0, tmp=0;
-  int debug = FALSE;
+  bool debug = FALSE;
   int g = 1;
   struct tile *ptile;
   int con, con2;
-  int har, t, sh;
+  bool har;
+  int t, sh;
   struct tile_type *ptype;
   struct city *pcity;
   int db;
@@ -403,7 +404,7 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
  return 1 if there is already a unit on this square or one destined for it 
  (via goto)
 **************************************************************************/
-static int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+static bool is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 {
   if (same_pos(myunit->x, myunit->y, x, y) ||
       same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y)) {
@@ -467,7 +468,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_wet(struct player *pplayer, int x, int y)
+static bool is_wet(struct player *pplayer, int x, int y)
 {
   enum tile_terrain_type t;
   enum tile_special_type s;
@@ -484,7 +485,7 @@ static int is_wet(struct player *pplayer, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
+static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
 					    int y)
 {
   if (is_wet(pplayer, x, y))
@@ -733,7 +734,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 /*************************************************************************
   return how good this square is for a new city.
 **************************************************************************/
-int is_ok_city_spot(int x, int y)
+bool is_ok_city_spot(int x, int y)
 {
   int dx, dy, i;
 
@@ -783,7 +784,7 @@ int is_ok_city_spot(int x, int y)
 /**************************************************************************
   simply puts the settler unit into goto
 **************************************************************************/
-int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
+bool auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
 {
   nearest_real_pos(&x, &y);
   punit->goto_dest_x = x;
@@ -1208,7 +1209,7 @@ static int evaluate_improvements(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat)
+static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat)
 {
   struct player *pplayer = unit_owner(punit);
   int save_id         = punit->id;              /* in case unit dies */
@@ -1334,7 +1335,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 
   /* We've now worked out what to do; go to it! */
   if (gx != -1 && gy != -1) {
-    int survived = ai_gothere(punit, gx, gy, ferryboat);
+    bool survived = ai_gothere(punit, gx, gy, ferryboat);
     if (!survived)
       return;
   } else {

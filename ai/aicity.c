@@ -989,7 +989,7 @@ void ai_scientists_taxmen(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int ai_fix_unhappy(struct city *pcity)
+bool ai_fix_unhappy(struct city *pcity)
 {
   if (!city_unhappy(pcity))
     return 1;

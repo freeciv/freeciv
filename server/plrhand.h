@@ -24,7 +24,7 @@ struct conn_list;
 
 enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
-void server_player_init(struct player *pplayer, int initmap);
+void server_player_init(struct player *pplayer, bool initmap);
 void server_remove_player(struct player *pplayer);
 void begin_player_turn(struct player *pplayer);
 void update_player_activities(struct player *pplayer);
@@ -71,8 +71,8 @@ void handle_player_worklist(struct player *pplayer,
 void handle_player_attribute_chunk(struct player *pplayer,
 				   struct packet_attribute_chunk *chunk);
 void handle_player_attribute_block(struct player *pplayer);
-void found_new_tech(struct player *plr, int tech_found, char was_discovery, 
-		    char saving_bulbs);
+void found_new_tech(struct player *plr, int tech_found, bool was_discovery, 
+		    bool saving_bulbs);
 void found_new_future_tech(struct player *pplayer);
 void tech_researched(struct player* plr);
 void update_tech(struct player *plr, int bulbs);
@@ -97,7 +97,7 @@ void unassociate_player_connection(struct player *pplayer,
 void shuffle_players(void);
 struct player *shuffled_player(int i);
 
-int civil_war_triggered(struct player *pplayer);
+bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 struct player *split_player(struct player *pplayer);
 

@@ -36,7 +36,7 @@ static struct nation_type *nations = NULL;
   If returning 0, prints log message with given loglevel
   quoting given func name, explaining problem.
 ***************************************************************/
-static int bounds_check_nation_id(Nation_Type_id nid, int loglevel,
+static bool bounds_check_nation_id(Nation_Type_id nid, int loglevel,
 				  const char *func_name)
 {
   if (game.nation_count==0) {
@@ -93,7 +93,7 @@ char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 Returns sex of given leader name. If names is not found,
 return 1 (meaning male).
 ***************************************************************/
-int get_nation_leader_sex(Nation_Type_id nation, const char *name)
+bool get_nation_leader_sex(Nation_Type_id nation, const char *name)
 {
   int i;
   
@@ -113,9 +113,10 @@ int get_nation_leader_sex(Nation_Type_id nation, const char *name)
 /***************************************************************
 checks if given leader name exist for given nation.
 ***************************************************************/
-int check_nation_leader_name(Nation_Type_id nation, const char *name)
+bool check_nation_leader_name(Nation_Type_id nation, const char *name)
 {
-  int i, found = FALSE;
+  int i;
+  bool found = FALSE;
   
   if (!bounds_check_nation_id(nation, LOG_ERROR, "check_nation_leader_name")) {
     return TRUE;			/* ? */

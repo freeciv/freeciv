@@ -24,13 +24,13 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
 			    int *att_fp, int *def_fp);
 double unit_win_chance(struct unit *attacker, struct unit *defender);
 
-int unit_ignores_citywalls(struct unit *punit);
-int unit_really_ignores_citywalls(struct unit *punit);
-int unit_behind_walls(struct unit *punit);
-int unit_on_fortress(struct unit *punit);
-int unit_behind_coastal(struct unit *punit);
-int unit_behind_sam(struct unit *punit);
-int unit_behind_sdi(struct unit *punit);
+bool unit_ignores_citywalls(struct unit *punit);
+bool unit_really_ignores_citywalls(struct unit *punit);
+bool unit_behind_walls(struct unit *punit);
+bool unit_on_fortress(struct unit *punit);
+bool unit_behind_coastal(struct unit *punit);
+bool unit_behind_sam(struct unit *punit);
+bool unit_behind_sdi(struct unit *punit);
 struct city *sdi_defense_close(struct player *owner, int x, int y);
 
 int get_attack_power(struct unit *punit);

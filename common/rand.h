@@ -21,13 +21,13 @@ typedef unsigned int RANDOM_TYPE;
 typedef struct {
   RANDOM_TYPE v[56];
   int j, k, x;
-  int is_init;			/* initially 0 for static storage */
+  bool is_init;			/* initially 0 for static storage */
 } RANDOM_STATE;
 
 RANDOM_TYPE myrand(RANDOM_TYPE size);
 void mysrand(RANDOM_TYPE seed);
 
-int myrand_is_init(void);
+bool myrand_is_init(void);
 RANDOM_STATE get_myrand_state(void);
 void set_myrand_state(RANDOM_STATE state);
 

@@ -143,7 +143,7 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
 /****************************************************************
 ...
 *****************************************************************/
-int city_got_barracks(struct city *pcity)
+bool city_got_barracks(struct city *pcity)
 {
   return (city_affected_by_wonder(pcity, B_SUNTZU) ||
 	  city_got_building(pcity, B_BARRACKS) || 
@@ -154,7 +154,7 @@ int city_got_barracks(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_sell_building(struct city *pcity, int id)
+bool can_sell_building(struct city *pcity, int id)
 {
   return (city_got_building(pcity, id) ? !is_wonder(id) : FALSE);
 }
@@ -178,7 +178,7 @@ int build_points_left(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_worked_here(int x, int y)
+bool is_worked_here(int x, int y)
 {
   return (map_get_tile(x, y)->worked != NULL); /* saves at least 10% of runtime CPU usage! */
 }
@@ -302,7 +302,7 @@ int is_building_other_wonder(struct city *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int built_elsewhere(struct city *pc, int wonder)
+bool built_elsewhere(struct city *pc, int wonder)
 {
   struct player *pplayer = city_owner(pc);
   city_list_iterate(pplayer->cities, pcity) 
@@ -463,7 +463,7 @@ void eval_buildings(struct city *pcity,int *values)
 /**************************************************************************
 ...
 **************************************************************************/
-int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
+bool do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 {
   if (unit_type_flag(id, F_DIPLOMAT))
     return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);
@@ -503,7 +503,7 @@ int city_science_bonus(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int wants_to_be_bigger(struct city *pcity)
+bool wants_to_be_bigger(struct city *pcity)
 {
   if (pcity->size < game.aqueduct_size) return TRUE;
   if (city_got_building(pcity, B_SEWER)) return TRUE;
@@ -520,7 +520,7 @@ int wants_to_be_bigger(struct city *pcity)
 Note: the old unit is not wiped here.
 ***********************************************************************/
 static void transfer_unit(struct unit *punit, struct city *tocity,
-			  int verbose)
+			  bool verbose)
 {
   struct player *from_player = unit_owner(punit);
   struct player *to_player = city_owner(tocity);
@@ -581,7 +581,7 @@ verbose: Messages are sent to the involved parties.
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
-			 int kill_outside, int verbose)
+			 int kill_outside, bool verbose)
 {
   int x = pcity->x;
   int y = pcity->y;
@@ -633,7 +633,7 @@ If pexclcity, do not return it as the closest city.
 Returns NULL if no satisfactory city can be found.
 ***********************************************************************/
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
-				     int sea_required, struct city *pexclcity)
+				     bool sea_required, struct city *pexclcity)
 {
   int dist = -1;
   struct city *rcity = NULL;
@@ -739,14 +739,15 @@ transfer_city_units(), which is called in the middle of the function.
 ***********************************************************************/
 struct city *transfer_city(struct player *ptaker,
 			   struct city *pcity, int kill_outside,
-			   int transfer_unit_verbose, int resolve_stack, int raze)
+			   bool transfer_unit_verbose, bool resolve_stack,
+			   bool raze)
 {
   struct map_position *resolve_list = NULL;
   int i, no_units = 0;
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[4];
-  int had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  bool had_palace = pcity->improvements[B_PALACE] != I_NONE;
 
   assert(pgiver != ptaker);
 
@@ -1044,8 +1045,8 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-  int i, effect_update;
-  int had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  int i;
+  bool effect_update, had_palace = pcity->improvements[B_PALACE] != I_NONE;
   char *city_name = strdup(pcity->name);
 
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
@@ -1090,7 +1091,7 @@ void remove_city(struct city *pcity)
   /* make sure ships are not left on land when city is removed. */
  MOVE_SEA_UNITS:
   unit_list_iterate(ptile->units, punit) {
-    int moved;
+    bool moved;
     if (!punit
 	|| !same_pos(punit->x, punit->y, x, y)
 	|| !is_sailing_unit(punit)) {
@@ -1180,7 +1181,8 @@ void remove_city(struct city *pcity)
 **************************************************************************/
 void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 {
-  int i, n, do_civil_war = FALSE;
+  int i, n;
+  bool do_civil_war = FALSE;
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
@@ -1280,7 +1282,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   Returns true if the player owns a city which has a traderoute with
   the given city.
 **************************************************************************/
-static int player_has_traderoute_with_city(struct player *pplayer,
+static bool player_has_traderoute_with_city(struct player *pplayer,
 					   struct city *pcity)
 {
   int i;
@@ -1512,7 +1514,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 ...
 **************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
-		  int dipl_invest)
+		  bool dipl_invest)
 {
   int i, x, y;
   char *p;
@@ -1722,7 +1724,7 @@ void building_lost(struct city *pcity, int id)
   Change the build target.
 **************************************************************************/
 void change_build_target(struct player *pplayer, struct city *pcity, 
-			 int target, int is_unit, int event)
+			 int target, bool is_unit, int event)
 {
   char *name;
   char *source;
@@ -1796,7 +1798,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-int can_place_worker_here(struct city *pcity, int city_x, int city_y)
+bool can_place_worker_here(struct city *pcity, int city_x, int city_y)
 {
   return get_worker_city(pcity, city_x, city_y) == C_TILE_EMPTY;
 }
@@ -1807,7 +1809,7 @@ Return true if the city itself is currently working the tile (and can
 continue.)
 city_x, city_y is in city map coords.
 **************************************************************************/
-int city_can_work_tile(struct city *pcity, int city_x, int city_y)
+bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
 {
   int map_x, map_y;
   struct tile *ptile;
@@ -1854,7 +1856,8 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 
   /* Update adjacent cities. */
   {
-    int map_x, map_y, is_real;
+    int map_x, map_y;
+    bool is_real;
 
     is_real = city_map_to_map(&map_x, &map_y, pcity, city_x, city_y);
     assert(is_real);
@@ -1862,7 +1865,8 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
     map_city_radius_iterate(map_x, map_y, x1, y1) {
       struct city *pcity2 = map_get_city(x1, y1);
       if (pcity2 && pcity2 != pcity) {
-	int city_x2, city_y2, is_valid;
+	int city_x2, city_y2;
+	bool is_valid;
 
 	is_valid = map_to_city_map(&city_x2, &city_y2, pcity2, map_x,
 					 map_y);
@@ -1904,7 +1908,8 @@ client.
 **************************************************************************/
 void update_city_tile_status_map(struct city *pcity, int map_x, int map_y)
 {
-  int city_x, city_y, is_valid;
+  int city_x, city_y;
+  bool is_valid;
 
   is_valid = map_to_city_map(&city_x, &city_y, pcity, map_x, map_y);
   assert(is_valid);
@@ -1920,7 +1925,7 @@ client.
 void update_city_tile_status(struct city *pcity, int city_x, int city_y)
 {
   enum city_tile_type current;
-  int is_available;
+  bool is_available;
 
   assert(is_valid_city_coords(city_x, city_y));
 

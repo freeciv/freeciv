@@ -26,7 +26,7 @@ typedef char *(*datafilename_fn_t)(const char *filename);
 struct inputfile *inf_open(const char *filename,
 			   datafilename_fn_t datafn);
 void inf_close(struct inputfile *inf);
-int inf_at_eof(struct inputfile *inf);
+bool inf_at_eof(struct inputfile *inf);
 
 enum inf_token_type {
   INF_TOK_SECTION_NAME,

@@ -30,9 +30,9 @@
 
 #include "console.h"
 
-static int console_show_prompt = FALSE;
-static int console_prompt_is_showing = FALSE;
-static int console_rfcstyle = FALSE;
+static bool console_show_prompt = FALSE;
+static bool console_prompt_is_showing = FALSE;
+static bool console_rfcstyle = FALSE;
 #ifdef HAVE_LIBREADLINE
 static int readline_received_enter = 1;
 #endif
@@ -171,7 +171,7 @@ void con_flush(void)
 /************************************************************************
 Set style.
 ************************************************************************/
-void con_set_style( int i )
+void con_set_style(bool i)
 {
   console_rfcstyle = i;
   if (console_rfcstyle) 
@@ -183,7 +183,7 @@ void con_set_style( int i )
 /************************************************************************
 Returns rfc-style.
 ************************************************************************/
-int con_get_style(void)
+bool con_get_style(void)
 {
   return console_rfcstyle;
 }
@@ -193,7 +193,8 @@ Initialize prompt; display initial message.
 ************************************************************************/
 void con_prompt_init(void)
 {
-  static int first = TRUE;
+  static bool first = TRUE;
+
   if (first) {
     con_puts(C_COMMENT, "");
     con_puts(C_COMMENT, _("For introductory help, type 'help'."));

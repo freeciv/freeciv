@@ -156,7 +156,7 @@ void handle_chat_msg(struct connection *pconn,
   struct packet_generic_message genmsg;
   char sender_name[MAX_LEN_CHAT_NAME];
   char *cp;
-  int double_colon;
+  bool double_colon;
 
   /* this loop to prevent players from sending multiple lines
    * which can be abused */

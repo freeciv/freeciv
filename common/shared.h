@@ -43,6 +43,8 @@
 #define FALSE (0)
 #endif
 
+typedef int bool;
+
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))
@@ -66,7 +68,7 @@
 char *create_centered_string(char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);
-int is_option(const char *option_name,char *option);
+bool is_option(const char *option_name,char *option);
 char *general_int_to_text(int nr, int decade_exponent);
 char *int_to_text(int nr);
 char *population_to_text(int thousand_citizen);
@@ -83,7 +85,7 @@ void remove_leading_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
 
-int check_strlen(const char *str, size_t len, const char *errmsg);
+bool check_strlen(const char *str, size_t len, const char *errmsg);
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 		   const char *errmsg);
 /* Convenience macro. */

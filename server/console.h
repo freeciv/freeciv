@@ -68,10 +68,10 @@ void con_prompt_enter(void);
 void con_prompt_enter_clear(void);
 
 /* set rfc-style */
-void con_set_style(int i);
+void con_set_style(bool i);
 
 /* return rfc-style */
-int con_get_style(void);
+bool con_get_style(void);
 
 /* for rfc-specific information only */
 void con_rfconly(int i, char *message, ...)

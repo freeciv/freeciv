@@ -159,7 +159,7 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
 /***************************************************************
 ...
 ***************************************************************/
-int is_option(const char *option_name,char *option)
+bool is_option(const char *option_name,char *option)
 {
   if (!strcmp(option_name,option) || 
       strncmp(option_name+1,option,2) == 0) return TRUE;
@@ -248,7 +248,7 @@ char *population_to_text(int thousand_citizen)
   Check whether or not the given char is a valid,
   printable ISO 8859-1 character.
 ***************************************************************/
-static int is_iso_latin1(char ch)
+static bool is_iso_latin1(char ch)
 {
    int i=ch;
    
@@ -490,7 +490,7 @@ char *end_of_strn(char *str, int *nleft)
   log errmsg, which should be a string in printf-format taking up to
   two arguments: the string and the length.
 **********************************************************************/ 
-int check_strlen(const char *str, size_t len, const char *errmsg)
+bool check_strlen(const char *str, size_t len, const char *errmsg)
 {
   if (strlen(str) >= len) {
     freelog(LOG_ERROR, errmsg, str, len);
@@ -547,7 +547,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
 ***************************************************************************/
 char *user_home_dir(void)
 {
-  static int init = FALSE;
+  static bool init = FALSE;
   static char *home_dir = NULL;
   
   if (!init) {

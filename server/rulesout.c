@@ -194,11 +194,11 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   Ruleset info must have been loaded.
   Returns 1 for success, 0 for failure.
 **********************************************************************/
-int rulesout_techs(const char *filename)
+bool rulesout_techs(const char *filename)
 {
   struct section_file file;
   Tech_Type_id itech;
-  int retval;
+  bool retval;
   
   if (game.num_tech_types==0) {
     return FALSE;

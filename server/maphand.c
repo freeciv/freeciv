@@ -45,7 +45,7 @@ static void send_tile_info_always(struct player *pplayer,
 				  struct conn_list *dest, int x, int y);
 static void send_NODRAW_tiles(struct player *pplayer,
 			      struct conn_list *dest, int x, int y, int len);
-static int map_get_sent(int x, int y, struct player *pplayer);
+static bool map_get_sent(int x, int y, struct player *pplayer);
 static void map_set_sent(int x, int y, struct player *pplayer);
 static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
@@ -55,7 +55,7 @@ static int map_get_seen(int x, int y, struct player *pplayer);
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
 **************************************************************************/
-static int is_terrain_ecologically_wet(int x, int y)
+static bool is_terrain_ecologically_wet(int x, int y)
 {
   return (map_get_terrain(x, y) == T_RIVER
 	  || map_has_special(x, y, S_RIVER)
@@ -171,7 +171,7 @@ railroads.  "discovery" just affects the message: set to
    1 if the tech is a "discovery",
    0 if otherwise aquired (conquer/trade/GLib).        --dwp
 ***************************************************************/
-void upgrade_city_rails(struct player *pplayer, int discovery)
+void upgrade_city_rails(struct player *pplayer, bool discovery)
 {
   if (!(terrain_control.may_road)) {
     return;
@@ -451,7 +451,7 @@ static void reveal_pending_seen(struct player *pplayer, int x, int y, int len)
 static void really_unfog_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
-  int old_known = map_get_known(x, y, pplayer);
+  bool old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "really unfogging %d,%d\n", x, y);
   send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, 0);
@@ -695,7 +695,7 @@ shown
 static void really_show_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
-  int old_known = map_get_known(x, y, pplayer);
+  bool old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "Showing %i,%i", x, y);
 
@@ -763,7 +763,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_known(int x, int y, struct player *pplayer)
+bool map_get_known(int x, int y, struct player *pplayer)
 {
   return map_get_tile(x, y)->known & (1u<<pplayer->player_no);
 }
@@ -771,7 +771,7 @@ int map_get_known(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_known_and_seen(int x, int y, struct player *pplayer)
+bool map_get_known_and_seen(int x, int y, struct player *pplayer)
 {
   int offset = map_inx(x, y);
 
@@ -882,7 +882,7 @@ static void map_clear_sent(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-static int map_get_sent(int x, int y, struct player *pplayer)
+static bool map_get_sent(int x, int y, struct player *pplayer)
 {
   return map_get_tile(x, y)->sent & (1u<<pplayer->player_no);
 }
@@ -1265,9 +1265,9 @@ Can pplayer conclude (at least by circumstantial evidence) that
 small stripe of land in them, even if the actual continent is 
 not seen.
 ***************************************************************/
-int is_coast_seen(int x, int y, struct player *pplayer)
+bool is_coast_seen(int x, int y, struct player *pplayer)
 {
-  int ai_always_see_map = !ai_handicap(pplayer, H_MAP);
+  bool ai_always_see_map = !ai_handicap(pplayer, H_MAP);
 
   square_iterate(x, y, 1, x1, y1) {
     if (map_get_terrain(x1, y1) == T_OCEAN) {

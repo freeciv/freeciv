@@ -41,7 +41,7 @@ void init_treaty(struct Treaty *ptreaty,
 /****************************************************************
 ...
 *****************************************************************/
-int remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
+bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		  enum clause_type type, int val)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
@@ -64,7 +64,7 @@ int remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 /****************************************************************
 ...
 *****************************************************************/
-int add_clause(struct Treaty *ptreaty, struct player *pfrom, 
+bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		enum clause_type type, int val)
 {
   struct Clause *pclause;

@@ -65,11 +65,11 @@ static void sentry_transported_idle_units(struct unit *ptrans);
 
 static void refuel_air_units_from_carriers(struct player *pplayer);
 static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
-						 int x, int y, int missile);
+						 int x, int y, bool missile);
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
-static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
-				   Unit_Type_id type, int unit_is_on_tile);
+static bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
+				   Unit_Type_id type, bool unit_is_on_tile);
 static int maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
 /**************************************************************************
@@ -113,7 +113,7 @@ int find_a_unit_type(int role, int role_tech)
  4) a ground unit can't attack a ship on an ocean square (except marines).
  5) the players are not at war.
 **************************************************************************/
-int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
+bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 				 int dest_x, int dest_y)
 {
   enum tile_terrain_type fromtile;
@@ -156,7 +156,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
+bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
   struct unit *pdefender;
   pdefender=get_defender(punit, dest_x, dest_y);
@@ -223,7 +223,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
  caused by the upgrade.
  Return 0 if ok to upgrade (as far as stranding goes).
 ***************************************************************************/
-static int upgrade_would_strand(struct unit *punit, int upgrade_type)
+static bool upgrade_would_strand(struct unit *punit, int upgrade_type)
 {
   int old_cap, new_cap, tile_cap, tile_ncargo;
   
@@ -345,7 +345,7 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 ...
 ****************************************************************************/
 static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
-						 int x, int y, int missile)
+						 int x, int y, bool missile)
 {
   struct unit *best_unit=NULL;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
@@ -546,7 +546,7 @@ void player_restore_units(struct player *pplayer)
 *****************************************************************************/
 static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
-  int was_lower;
+  bool was_lower;
 
   was_lower=(punit->hp < unit_type(punit)->hp);
 
@@ -774,7 +774,7 @@ static void update_unit_activity(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
   int mr = unit_type(punit)->move_rate;
-  int unit_activity_done = FALSE;
+  bool unit_activity_done = FALSE;
   int activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = map_get_tile(punit->x, punit->y);
@@ -803,7 +803,7 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity == ACTIVITY_EXPLORE) {
-    int more_to_explore = ai_manage_explorer(punit);
+    bool more_to_explore = ai_manage_explorer(punit);
     if (more_to_explore && player_find_unit_by_id(pplayer, id))
       handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
     else
@@ -1184,7 +1184,7 @@ void advance_unit_focus(struct unit *punit)
   not "in" the city (since the attacker never made it in).
   Don't call this function directly; use the wrappers below.
 **************************************************************************/
-static char *get_location_str(struct player *pplayer, int x, int y, int use_at)
+static char *get_location_str(struct player *pplayer, int x, int y, bool use_at)
 {
   static char buffer[MAX_LEN_NAME+64];
   struct city *incity, *nearcity;
@@ -1262,7 +1262,7 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 /**************************************************************************
 ...
 **************************************************************************/
-static int find_a_good_partisan_spot(struct city *pcity, int u_type,
+static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
 				     int *x, int *y)
 {
   int bestvalue = 0;
@@ -1354,7 +1354,7 @@ void make_partisans(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int enemies_at(struct unit *punit, int x, int y)
+bool enemies_at(struct unit *punit, int x, int y)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
@@ -1387,7 +1387,7 @@ int enemies_at(struct unit *punit, int x, int y)
 /**************************************************************************
 Disband given unit because of a stack conflict.
 **************************************************************************/
-static void disband_stack_conflict_unit(struct unit *punit, int verbose)
+static void disband_stack_conflict_unit(struct unit *punit, bool verbose)
 {
   freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
 	  unit_owner(punit)->name, unit_name(punit->type),
@@ -1405,8 +1405,8 @@ Teleport punit to city at cost specified.  Returns success.
 (If specified cost is -1, then teleportation costs all movement.)
                          - Kris Bubendorfer
 **************************************************************************/
-int teleport_unit_to_city(struct unit *punit, struct city *pcity,
-			  int move_cost, int verbose)
+bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
+			  int move_cost, bool verbose)
 {
   int src_x = punit->x;
   int src_y = punit->y;
@@ -1444,7 +1444,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity,
   If verbose is true, the unit owner gets messages about where each
   units goes.  --dwp
 **************************************************************************/
-void resolve_unit_stack(int x, int y, int verbose)
+void resolve_unit_stack(int x, int y, bool verbose)
 {
   struct unit *punit, *cunit;
   struct tile *ptile = map_get_tile(x,y);
@@ -1540,8 +1540,8 @@ void resolve_unit_stack(int x, int y, int verbose)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
-				   Unit_Type_id type, int unit_is_on_tile)
+static bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
+				   Unit_Type_id type, bool unit_is_on_tile)
 {
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
 
@@ -1608,7 +1608,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 /* This is a wrapper */
 
 struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
-			 int make_veteran, int homecity_id, int moves_left)
+			 bool make_veteran, int homecity_id, int moves_left)
 {
   return create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
 }
@@ -1616,7 +1616,7 @@ struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type
 /* This is the full call.  We don't want to have to change all other calls to
    this function to ensure the hp are set */
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
-			      Unit_Type_id type, int make_veteran, int homecity_id,
+			      Unit_Type_id type, bool make_veteran, int homecity_id,
 			      int moves_left, int hp_left)
 {
   struct unit *punit;
@@ -1788,7 +1788,7 @@ NOTE: iter should not be an iterator for the map units list, but
 city supported, or player units, is ok.
 **************************************************************************/
 void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
-			 int wipe_cargo)
+			 bool wipe_cargo)
 {
   /* No need to remove air units as they can still fly away */
   if (is_ground_units_transport(punit)
@@ -1947,8 +1947,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 ...
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  int carried, int select_it, enum unit_info_use packet_use,
-		  int info_city_id, int new_serial_num)
+		  bool carried, bool select_it, enum unit_info_use packet_use,
+		  int info_city_id, bool new_serial_num)
 {
   static unsigned int serial_num = 0;
 
@@ -1996,7 +1996,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   dest = NULL means all connections (game.game_connections)
 **************************************************************************/
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
-				 int x, int y, int carried, int select_it)
+				 int x, int y, bool carried, bool select_it)
 {
   struct packet_unit_info info;
 
@@ -2168,7 +2168,7 @@ Move the unit if possible
   2) or have it's moves set to 0
   a unit can always move atleast once
 **************************************************************************/
-int try_move_unit(struct unit *punit, int dest_x, int dest_y) 
+bool try_move_unit(struct unit *punit, int dest_x, int dest_y) 
 {
   if (myrand(1+map_move_cost(punit, dest_x, dest_y))>punit->moves_left &&
       punit->moves_left<unit_move_rate(punit)) {
@@ -2182,7 +2182,7 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y)
   go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have it's moves set to 0
 **************************************************************************/
-int do_airline(struct unit *punit, struct city *city2)
+bool do_airline(struct unit *punit, struct city *city2)
 {
   struct city *city1;
   int src_x = punit->x;
@@ -2213,7 +2213,7 @@ Returns whether the drop was made or not. Note that it also returns 1 in
 the case where the drop was succesfull, but the unit was killed by
 barbarians in a hut
 **************************************************************************/
-int do_paradrop(struct unit *punit, int dest_x, int dest_y)
+bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
 {
   if (!unit_flag(punit, F_PARATROOPERS)) {
     notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
@@ -2353,10 +2353,10 @@ static void hut_get_mercenaries(struct unit *punit)
   Get barbarians from hut, unless close to a city.
   Unit may die: returns 1 if unit is alive after, or 0 if it was killed.
 **************************************************************************/
-static int hut_get_barbarians(struct unit *punit)
+static bool hut_get_barbarians(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int ok = TRUE;
+  bool ok = TRUE;
 
   if (city_exists_within_city_radius(punit->x, punit->y, TRUE)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -2404,10 +2404,10 @@ static void hut_get_city(struct unit *punit)
 /**************************************************************************
 Return 1 if unit is alive, and 0 if it was killed
 **************************************************************************/
-static int unit_enter_hut(struct unit *punit)
+static bool unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int ok = TRUE;
+  bool ok = TRUE;
 
   if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
     return ok;
@@ -2467,7 +2467,7 @@ FIXME: If in the open (not city), and leaving with only those units that are
        Groundunit ground unit transports moving to and from ships never take
        units with them. This is ok, but not always practical.
 **************************************************************************/
-void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
+void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 {
   int x = ptrans->x;
   int y = ptrans->y;
@@ -2548,7 +2548,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	      && pcargo->owner == playerid
 	      && !(is_ground_unit(ptrans) && (ptile->terrain == T_OCEAN
 					      || is_ground_units_transport(pcargo)))) {
-	    int has_trans = FALSE;
+	    bool has_trans = FALSE;
+
 	    unit_list_iterate(ptile->units, ptrans2) {
 	      if (ptrans2->id == pcargo->transported_by)
 		has_trans = TRUE;
@@ -2566,12 +2567,12 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
   } else if (is_air_units_transport(ptrans)) {
     struct player_tile *plrtile =
 	map_get_player_tile(x, y, unit_owner(ptrans));
-    int is_refuel_point =
+    bool is_refuel_point =
 	is_allied_city_tile(map_get_tile(x, y), unit_owner(ptrans))
 	|| (BOOL_VAL(plrtile->special & S_AIRBASE)
 	    && !is_non_allied_unit_tile(map_get_tile(x, y),
 					unit_owner(ptrans)));
-    int missiles_only = unit_flag(ptrans, F_MISSILE_CARRIER)
+    bool missiles_only = unit_flag(ptrans, F_MISSILE_CARRIER)
       && !unit_flag(ptrans, F_CARRIER);
 
     /* Make sure we can transport the units marked as being transported by ptrans */
@@ -2602,7 +2603,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	    && pcargo->activity == ACTIVITY_SENTRY
 	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
 	    && pcargo->owner == playerid) {
-	  int has_trans = FALSE;
+	  bool has_trans = FALSE;
+
 	  unit_list_iterate(ptile->units, ptrans2) {
 	    if (ptrans2->id == pcargo->transported_by)
 	      has_trans = TRUE;
@@ -2672,7 +2674,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
       } unit_list_iterate_end;
 
       unit_list_iterate(ptile->units, pcargo2) {
-	int has_trans = FALSE;
+	bool has_trans = FALSE;
+
 	unit_list_iterate(trans2s, ptrans2) {
 	  if (pcargo2->transported_by == ptrans2->id)
 	    has_trans = TRUE;
@@ -2781,7 +2784,8 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
   /*  struct government *g = get_gov_pplayer(pplayer);*/
-  int senthome = FALSE;
+  bool senthome = FALSE;
+
   if (punit->homecity)
     homecity = find_city_by_id(punit->homecity);
 
@@ -2886,8 +2890,8 @@ transported_by unit field correctly.
 take_from_land is only relevant if you have set transport_units.
 Note that the src and dest need not be adjacent.
 **************************************************************************/
-int move_unit(struct unit *punit, int dest_x, int dest_y,
-	      int transport_units, int take_from_land, int move_cost)
+bool move_unit(struct unit *punit, int dest_x, int dest_y,
+	      bool transport_units, bool take_from_land, int move_cost)
 {
   int src_x = punit->x;
   int src_y = punit->y;
@@ -3018,9 +3022,9 @@ Maybe cancel the patrol as there is an enemy near.
 If you modify the wakeup range you should change it in
 wakeup_neighbor_sentries() too.
 **************************************************************************/
-static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
+static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
-  int cancel = FALSE;
+  bool cancel = FALSE;
   int range;
 
   if (map_has_special(punit->x, punit->y, S_FORTRESS)
@@ -3063,8 +3067,8 @@ unit. Currently the unit continues if it can, or if it is blocked it stops.
 enum goto_result goto_route_execute(struct unit *punit)
 {
   struct goto_route *pgr = punit->pgr;
-  int index, x, y, res;
-  int last_tile;
+  int index, x, y;
+  bool res, last_tile;
   int patrol_stop_index = pgr->last_index;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -3143,8 +3147,8 @@ enum goto_result goto_route_execute(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
-				      int dest_y, int igzoc)
+bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
+				      int dest_y, bool igzoc)
 {
   enum unit_move_result reason;
   int src_x = punit->x, src_y = punit->y;
@@ -3198,7 +3202,7 @@ int get_watchtower_vision(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_profits_of_watchtower(struct unit *punit)
+bool unit_profits_of_watchtower(struct unit *punit)
 {
   return (is_ground_unit(punit)
 	  && player_knows_techs_with_flag(unit_owner(punit),

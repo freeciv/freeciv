@@ -251,7 +251,7 @@ struct packet_city_request
 {
   int city_id;                           /* all */
   int build_id;                          /* change, sell */
-  int is_build_id_unit_id;               /* change */
+  bool is_build_id_unit_id;               /* change */
   int worker_x, worker_y;                /* make_worker, make_specialist */
   int specialist_from, specialist_to;    /* change_specialist */
   char name[MAX_LEN_NAME];            /* rename */
@@ -295,7 +295,7 @@ struct packet_unit_info {
   int id;
   int owner;
   int x, y;
-  int veteran;
+  bool veteran;
   int homecity;
   int type;
   int movesleft;
@@ -306,15 +306,15 @@ struct packet_unit_info {
   int upkeep;
   int upkeep_food;
   int upkeep_gold;
-  int ai;
+  bool ai;
   int fuel;
   int goto_dest_x, goto_dest_y;
   int activity_target;
-  int paradropped;
-  int connecting;
+  bool paradropped;
+  bool connecting;
   /* in packet only, not in unit struct */
-  int carried;
-  int select_it;
+  bool carried;
+  bool select_it;
   int packet_use;	/* see enum unit_info_use */
   int info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
 			   and UNIT_INFO_CITY_PRESENT uses */
@@ -346,13 +346,13 @@ struct packet_city_info {
   int shield_stock;
   int pollution;
 
-  int is_building_unit;
+  bool is_building_unit;
   int currently_building;
 
   int turn_last_built;
   int turn_changed_target;
   int changed_from_id;
-  int changed_from_is_unit;
+  bool changed_from_is_unit;
   int before_change_shields;
   int disbanded_shields;
   int caravan_shields;
@@ -362,10 +362,10 @@ struct packet_city_info {
   char improvements[B_LAST+1];
   char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
 
-  int did_buy, did_sell;
-  int was_happy;
-  int airlift;
-  int diplomat_investigate;
+  bool did_buy, did_sell;
+  bool was_happy;
+  bool airlift;
+  bool diplomat_investigate;
   int city_options;
 };
 
@@ -376,9 +376,9 @@ struct packet_short_city {
   int x, y;			/* uint8 */
   char name[MAX_LEN_NAME];
   int size;			/* uint8 */
-  int happy;			/* boolean */
-  int capital;			/* boolean */
-  int walls;			/* boolean */
+  bool happy;			/* boolean */
+  bool capital;			/* boolean */
+  bool walls;			/* boolean */
   int tile_trade;		/* same as in packet_city_info */
 };
 
@@ -405,7 +405,7 @@ struct packet_req_join_game {
  ... and the server replies.
 *********************************************************/
 struct packet_join_game_reply {
-  int you_can_join;             /* true/false */
+  bool you_can_join;             /* true/false */
   char message[MAX_LEN_MSG];
   char capability[MAX_LEN_CAPSTR];
   int conn_id;			/* clients conn id as known in server */
@@ -418,7 +418,7 @@ struct packet_join_game_reply {
 struct packet_alloc_nation {
   Nation_Type_id nation_no;
   char name[MAX_LEN_NAME];
-  int is_male;
+  bool is_male;
   int city_style;
 };
 
@@ -457,13 +457,14 @@ struct packet_generic_empty {
 struct packet_player_info {
   int playerno;
   char name[MAX_LEN_NAME];
-  int is_male;
+  bool is_male;
   int government;
   int embassy;
   int city_style;
   int nation;
-  int turn_done, nturns_idle;
-  int is_alive;
+  bool turn_done;
+  int nturns_idle;
+  bool is_alive;
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int gold, tax, science, luxury;
@@ -473,10 +474,10 @@ struct packet_player_info {
   int future_tech;
   int tech_goal;
   unsigned char inventions[A_LAST+1];
-  int is_connected;
+  bool is_connected;
   int revolution;
-  int ai;
-  int is_barbarian;
+  bool ai;
+  bool is_barbarian;
   struct worklist worklists[MAX_NUM_WORKLISTS];
   unsigned int gives_shared_vision;
 };
@@ -488,11 +489,11 @@ struct packet_player_info {
 **************************************************************************/
 struct packet_conn_info {
   int id;
-  int used;			/* boolean; 0 means client should forget its
+  bool used;			/* 0 means client should forget its
 				   info about this connection */
-  int established;		/* boolean */
+  bool established;
   int player_num;		/* range uchar; index in game.players, or 255 */
-  int observer;			/* boolean (?) */
+  bool observer;
   
   enum cmdlevel_id access_level;   /* range uchar */
   
@@ -636,7 +637,7 @@ struct packet_ruleset_building {
   Impr_Type_id *equiv_dupl;
   Impr_Type_id *equiv_repl;
   Tech_Type_id obsolete_by;
-  int is_wonder;
+  bool is_wonder;
   int build_cost;
   int upkeep;
   int sabotage;
@@ -822,7 +823,7 @@ struct packet_game_info {
   int global_wonders[B_LAST];
   int foodbox;
   int techpenalty;
-  int spacerace;
+  bool spacerace;
   /* the following values are computed each time packet_game_info is sent */
   int seconds_to_turndone;
 };
@@ -832,7 +833,7 @@ struct packet_game_info {
 *********************************************************/
 struct packet_map_info {
   int xsize, ysize;
-  int is_earth;
+  bool is_earth;
 };
 
 /*********************************************************
@@ -1082,7 +1083,7 @@ int send_packet_sabotage_list(struct connection *pc,
 struct packet_sabotage_list *
 receive_packet_sabotage_list(struct connection *pc);
 
-void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult);
+void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presult);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 int send_packet_goto_route(struct connection *pc,

@@ -67,7 +67,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
 static void sanity_check_city(struct city *pcity);
 
-static int disband_city(struct city *pcity);
+static bool disband_city(struct city *pcity);
 
 static void define_orig_production_values(struct city *pcity);
 static void update_city_activity(struct player *pplayer, struct city *pcity);
@@ -107,10 +107,12 @@ void global_city_refresh(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void remove_obsolete_buildings_city(struct city *pcity, int refresh)
+void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 {
   struct player *pplayer = city_owner(pcity);
-  int i, sold = FALSE;
+  int i;
+  bool sold = FALSE;
+
   for (i=0;i<game.num_impr_types;i++) {
     if (city_got_building(pcity, i) 
 	&& !is_wonder(i) 
@@ -222,7 +224,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
 You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
-int add_adjust_workers(struct city *pcity)
+bool add_adjust_workers(struct city *pcity)
 {
   int workers=pcity->size;
   int iswork=0;
@@ -344,7 +346,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 {
   int turns_growth, turns_granary;
-  int can_grow;
+  bool can_grow;
  
   if (pcity->food_surplus > 0) {
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
@@ -467,9 +469,9 @@ Note: We do not send info about the city to the clients as part of this function
 void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
-  int have_square;
-  int has_granary = city_got_effect(pcity, B_GRANARY);
-  int rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
+  bool have_square;
+  bool has_granary = city_got_effect(pcity, B_GRANARY);
+  bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
   int new_food;
 
   if (!city_got_building(pcity, B_AQUEDUCT)
@@ -608,7 +610,7 @@ static void city_populate(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static int advisor_choose_build(struct player *pplayer, struct city *pcity)
+static bool advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
   int i;
@@ -644,9 +646,10 @@ static int advisor_choose_build(struct player *pplayer, struct city *pcity)
   the side-effect of removing from the worklist any no-longer-available
   targets as well as the target actually selected, if any.
 **************************************************************************/
-static int worklist_change_build_target(struct player *pplayer, struct city *pcity)
+static bool worklist_change_build_target(struct player *pplayer,
+					 struct city *pcity)
 {
-  int success = FALSE;
+  bool success = FALSE;
   int i;
 
   if (worklist_is_empty(pcity->worklist))
@@ -655,7 +658,8 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
 
   i = 0;
   while (TRUE) {
-    int target, is_unit;
+    int target;
+    bool is_unit;
 
     /* What's the next item in the worklist? */
     if (!worklist_peek_ith(pcity->worklist, &target, &is_unit, i))
@@ -896,9 +900,9 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int city_build_building(struct player *pplayer, struct city *pcity)
+static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
-  int space_part;
+  bool space_part;
 
   if (pcity->currently_building == B_CAPITAL) {
     pplayer->economic.gold += pcity->shield_surplus;
@@ -1003,7 +1007,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static int city_build_unit(struct player *pplayer, struct city *pcity)
+static bool city_build_unit(struct player *pplayer, struct city *pcity)
 {
   upgrade_unit_prod(pcity);
 
@@ -1066,7 +1070,7 @@ static int city_build_unit(struct player *pplayer, struct city *pcity)
 return 0 if the city is removed
 return 1 otherwise
 **************************************************************************/
-static int city_build_stuff(struct player *pplayer, struct city *pcity)
+static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 {
   city_distribute_surplus_shields(pplayer, pcity);
   nullify_caravan_and_disband_plus(pcity);
@@ -1322,7 +1326,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 /**************************************************************************
  Disband a city into the built unit, supported by the closest city.
 **************************************************************************/
-static int disband_city(struct city *pcity)
+static bool disband_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int x = pcity->x, y = pcity->y;

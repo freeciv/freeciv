@@ -51,7 +51,7 @@ struct city;
 #define CONTAMINATION_FALLOUT   2
 
 struct civ_game {
-  int is_new_game;		/* 1 for games never started */
+  bool is_new_game;		/* 1 for games never started */
   int version;
   int civstyle;
   int gold;
@@ -123,13 +123,13 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int add_to_size_limit;
-  int savepalace;
-  int spacerace;
-  int turnblock;
-  int fixedlength;
-  int auto_ai_toggle;
-  int fogofwar;
-  int fogofwar_old;	/* as the fog_of_war bit get changed by setting
+  bool savepalace;
+  bool spacerace;
+  bool turnblock;
+  bool fixedlength;
+  bool auto_ai_toggle;
+  bool fogofwar;
+  bool fogofwar_old;	/* as the fog_of_war bit get changed by setting
 			   the server we need to remember the old setting */
 
   int num_unit_types;
@@ -202,20 +202,20 @@ struct civ_game {
 
   /* used by the map editor to control game_save; could be used by the server too */
   struct {
-    int save_random;
-    int save_players;
-    int save_known; /* loading will just reveal the squares around cities and units */
-    int save_starts; /* start positions will be auto generated */
-    int save_private_map; /* FoW map; will be created if not saved */
+    bool save_random;
+    bool save_players;
+    bool save_known; /* loading will just reveal the squares around cities and units */
+    bool save_starts; /* start positions will be auto generated */
+    bool save_private_map; /* FoW map; will be created if not saved */
   } save_options;
   /* Used by mapeditor to load only the map */
   struct {
-    int load_random;
-    int load_players;
-    int load_known; /* Only makes sense if the players are loaded. */
-    int load_starts; /* Should be done if the players are loaded. */
-    int load_private_map; /* Only makes sense if the players are loaded. */
-    int load_settings;
+    bool load_random;
+    bool load_players;
+    bool load_known; /* Only makes sense if the players are loaded. */
+    bool load_starts; /* Should be done if the players are loaded. */
+    bool load_private_map; /* Only makes sense if the players are loaded. */
+    bool load_settings;
   } load_options;
 };
 
@@ -253,7 +253,7 @@ void update_island_impr_effect(int oldmax, int maxcont);
 void update_all_effects(void);
 
 extern struct civ_game game;
-extern int is_server;
+extern bool is_server;
 
 #define GAME_DEFAULT_RANDSEED        0
 #define GAME_MIN_RANDSEED            0

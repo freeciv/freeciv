@@ -239,7 +239,7 @@ struct city {
   /* city can't be incited if INCITE_IMPOSSIBLE_COST */
   int incite_revolt_cost;      
    
-  int is_building_unit;    /* boolean unit/improvement */
+  bool is_building_unit;    /* boolean unit/improvement */
   int currently_building;
   
   Impr_Status improvements[B_LAST];
@@ -252,23 +252,24 @@ struct city {
   struct unit_list units_supported;
   int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */
-  int did_buy, did_sell, is_updated;
+  int did_buy;
+  bool did_sell, is_updated;
   int turn_last_built;	      /* The last year in which something was built */
   int turn_changed_target;    /* Suffer shield loss at most once per turn */
   int changed_from_id;	      /* If changed this turn, what changed from (id) */
-  int changed_from_is_unit;   /* If changed this turn, what changed from (unit?) */
+  bool changed_from_is_unit;   /* If changed this turn, what changed from (unit?) */
   int disbanded_shields;      /* If you disband unit in a city. Count them */
   int caravan_shields;        /* If caravan has helped city to build wonder. */
   int before_change_shields;  /* If changed this turn, shields before penalty */
   int anarchy;		      /* anarchy rounds count */ 
   int rapture;                /* rapture rounds count */ 
-  int was_happy;
-  int airlift;
+  bool was_happy;
+  bool airlift;
   int original;			/* original owner */
   int city_options;		/* bitfield; positions as enum city_options */
 
   /* server variable. indicates if the city map is synced with the client. */
-  int synced;
+  bool synced;
 
   /* info for dipl/spy investigation -- used only in client */
   struct unit_list info_units_supported;
@@ -310,29 +311,29 @@ struct player *city_owner(struct city *pcity);
 int city_population(struct city *pcity);
 int city_gold_surplus(struct city *pcity);
 int city_buy_cost(struct city *pcity);
-int city_happy(struct city *pcity);  /* generally use celebrating instead */
-int city_unhappy(struct city *pcity);                /* anarchy??? */
-int base_city_celebrating(struct city *pcity);
-int city_celebrating(struct city *pcity);            /* love the king ??? */
-int city_rapture_grow(struct city *pcity);
+bool city_happy(struct city *pcity);  /* generally use celebrating instead */
+bool city_unhappy(struct city *pcity);                /* anarchy??? */
+bool base_city_celebrating(struct city *pcity);
+bool city_celebrating(struct city *pcity);            /* love the king ??? */
+bool city_rapture_grow(struct city *pcity);
 
 /* city related improvement and unit functions */
 
 int improvement_upkeep(struct city *pcity, Impr_Type_id i); 
-int could_build_improvement(struct city *pcity, Impr_Type_id id);
-int can_build_improvement(struct city *pcity, Impr_Type_id id);
-int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
-int can_build_unit(struct city *pcity, Unit_Type_id id);
-int can_build_unit_direct(struct city *pcity, Unit_Type_id id);
-int can_eventually_build_unit(struct city *pcity, Unit_Type_id id);
-int city_got_building(struct city *pcity,  Impr_Type_id id); 
-int city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
-int city_got_effect(struct city *pcity, Impr_Type_id id);
-int city_got_citywalls(struct city *pcity);
-int wonder_replacement(struct city *pcity, Impr_Type_id id);
+bool could_build_improvement(struct city *pcity, Impr_Type_id id);
+bool can_build_improvement(struct city *pcity, Impr_Type_id id);
+bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
+bool can_build_unit(struct city *pcity, Unit_Type_id id);
+bool can_build_unit_direct(struct city *pcity, Unit_Type_id id);
+bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id);
+bool city_got_building(struct city *pcity,  Impr_Type_id id); 
+bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
+bool city_got_effect(struct city *pcity, Impr_Type_id id);
+bool city_got_citywalls(struct city *pcity);
+bool wonder_replacement(struct city *pcity, Impr_Type_id id);
 int city_change_production_penalty(struct city *pcity,
-				   int target, int is_unit, int apply_it);
-int city_turns_to_build(struct city *pcity, int id, int id_is_unit,
+				   int target, bool is_unit, int apply_it);
+int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
                         int include_shield_stock );
 
 /* textual representation of buildings */
@@ -347,32 +348,32 @@ int get_food_tile(int x, int y);    /* food   on spot */
 
 /* city map functions */
 
-int is_valid_city_coords(const int city_x, const int city_y);
-int is_city_center(int city_x, int city_y);
-int base_map_to_city_map(int *city_map_x, int *city_map_y,
+bool is_valid_city_coords(const int city_x, const int city_y);
+bool is_city_center(int city_x, int city_y);
+bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 			 int city_center_x, int city_center_y, int map_x,
 			 int map_y);
-int map_to_city_map(int *city_map_x, int *city_map_y,
+bool map_to_city_map(int *city_map_x, int *city_map_y,
 		    const struct city *const pcity, int map_x, int map_y);
 
-int base_city_map_to_map(int *map_x, int *map_y, int city_center_x,
+bool base_city_map_to_map(int *map_x, int *map_y, int city_center_x,
 			 int city_center_y, int city_map_x,
 			 int city_map_y);
-int city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
+bool city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
 		    int city_map_x, int city_map_y);
 
 /* shield on spot */
 int city_get_shields_tile(int x, int y, struct city *pcity);
 int base_city_get_shields_tile(int x, int y, struct city *pcity,
-			       int is_celebrating);
+			       bool is_celebrating);
 /* trade  on spot */
 int city_get_trade_tile(int x, int y, struct city *pcity);
 int base_city_get_trade_tile(int x, int y, struct city *pcity,
-			     int is_celebrating);
+			     bool is_celebrating);
 /* food   on spot */
 int city_get_food_tile(int x, int y, struct city *pcity);
 int base_city_get_food_tile(int x, int y, struct city *pcity,
-			    int is_celebrating);
+			    bool is_celebrating);
 
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type); 
@@ -381,12 +382,12 @@ enum city_tile_type get_worker_city(struct city *pcity, int city_x,
 void get_worker_on_map_position(int map_x, int map_y,
 				enum city_tile_type *result_city_tile_type,
 				struct city **result_pcity);
-int is_worker_here(struct city *pcity, int city_x, int city_y);
+bool is_worker_here(struct city *pcity, int city_x, int city_y);
 
-int city_can_be_built_here(int x, int y);
+bool city_can_be_built_here(int x, int y);
 
 /* trade functions */
-int can_establish_trade_route(struct city *pc1, struct city *pc2);
+bool can_establish_trade_route(struct city *pc1, struct city *pc2);
 int trade_between_cities(struct city *pc1, struct city *pc2);
 int city_num_trade_routes(struct city *pcity);
 
@@ -415,14 +416,14 @@ struct city *is_non_attack_city_tile(struct tile *ptile,
 struct city *is_non_allied_city_tile(struct tile *ptile,
 				     struct player *pplayer);
 
-int is_unit_near_a_friendly_city(struct unit *punit);
-int is_friendly_city_near(struct player *owner, int x, int y);
-int city_exists_within_city_radius(int x, int y, int may_be_on_center);
+bool is_unit_near_a_friendly_city(struct unit *punit);
+bool is_friendly_city_near(struct player *owner, int x, int y);
+bool city_exists_within_city_radius(int x, int y, bool may_be_on_center);
 
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
 
-void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
+void id_to_info_row(char *buf[], int column_size, int id, bool is_unit,
 		    struct city *pcity);
 
 void city_add_improvement(struct city *pcity,Impr_Type_id impr);

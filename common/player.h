@@ -100,7 +100,7 @@ struct player_score {
 };
 
 struct player_ai {
-  int control;
+  bool control;
   int tech_goal;
   int prev_gold;
   int maxbuycost;
@@ -143,15 +143,15 @@ struct player {
   int player_no;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
-  int is_male;
+  bool is_male;
   int government;
   Nation_Type_id nation;
-  int turn_done;
+  bool turn_done;
   int nturns_idle;
-  int is_alive;
-  int got_tech;
+  bool is_alive;
+  bool got_tech;
   int revolution;
-  int capital; /* bool used to give player capital in first city. */
+  bool capital; /* used to give player capital in first city. */
   int embassy;
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
@@ -164,7 +164,7 @@ struct player {
   struct player_spaceship spaceship;
   int future_tech;
   struct player_ai ai;
-  int is_connected;		       /* observers don't count */
+  bool is_connected;		       /* observers don't count */
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list connections;	       /* will replace conn */
   struct worklist worklists[MAX_NUM_WORKLISTS];
@@ -191,19 +191,19 @@ struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
 struct player *find_player_by_user(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
-int player_has_embassy(struct player *pplayer, struct player *pplayer2);
+bool player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
-int player_can_see_unit(struct player *pplayer, struct unit *punit);
-int player_owns_city(struct player *pplayer, struct city *pcity);
+bool player_can_see_unit(struct player *pplayer, struct unit *punit);
+bool player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);
 struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id);
 
 int player_in_city_radius(struct player *pplayer, int x, int y);
-int player_owns_active_wonder(struct player *pplayer,
+bool player_owns_active_wonder(struct player *pplayer,
 			      Impr_Type_id id);
-int player_owns_active_govchange_wonder(struct player *pplayer);
-int player_knows_improvement_tech(struct player *pplayer,
+bool player_owns_active_govchange_wonder(struct player *pplayer);
+bool player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id);
 int player_knows_techs_with_flag(struct player *pplayer,
 				 enum tech_flag_id flag);
@@ -215,8 +215,8 @@ const char *player_addr_hack(struct player *pplayer);
 
 struct city *find_palace(struct player *pplayer);
 
-int ai_handicap(struct player *pplayer, enum handicap_type htype);
-int ai_fuzzy(struct player *pplayer, int normal_decision);
+bool ai_handicap(struct player *pplayer, enum handicap_type htype);
+bool ai_fuzzy(struct player *pplayer, bool normal_decision);
 
 const char *reputation_text(const int rep);
 const char *diplstate_text(const enum diplstate_type type);
@@ -225,14 +225,14 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer,
 						     const struct player
 						     *pplayer2);
-int pplayers_at_war(const struct player *pplayer,
+bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
-int pplayers_allied(const struct player *pplayer,
+bool pplayers_allied(const struct player *pplayer,
 		    const struct player *pplayer2);
-int pplayers_non_attack(const struct player *pplayer,
+bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
 
-int is_barbarian(const struct player *pplayer);
+bool is_barbarian(const struct player *pplayer);
 
 #define players_iterate(PI_player)                                            \
 {                                                                             \

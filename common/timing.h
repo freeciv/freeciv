@@ -50,7 +50,7 @@ struct timer *renew_timer_start(struct timer *t, enum timer_timetype type,
 				enum timer_use use);
 
 void free_timer(struct timer *t);
-int timer_in_use(struct timer *t);
+bool timer_in_use(struct timer *t);
 
 void clear_timer(struct timer *t);
 void start_timer(struct timer *t);

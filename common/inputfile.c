@@ -86,7 +86,7 @@ struct inputfile {
   unsigned int magic;		/* memory check */
   char *filename;		/* filename as passed to fopen */
   fz_FILE *fp;			/* read from this */
-  int at_eof;			/* flag for end-of-file */
+  bool at_eof;			/* flag for end-of-file */
   struct astring cur_line;	/* data from current line, or .n==0 if
 				   have not yet read in the current line */
   struct astring copy_line;	/* original cur_line (sometimes insert nulls
@@ -100,7 +100,7 @@ struct inputfile {
   datafilename_fn_t datafn;	/* function like datafilename(); use a
 				   function pointer just to keep this
 				   inputfile module "generic" */
-  int in_string;		/* set when reading multi-line strings,
+  bool in_string;		/* set when reading multi-line strings,
 				   to know not to handle *include at start
 				   of line as include mechanism */
   int string_start_line;	/* when in_string is true, this is the
@@ -141,7 +141,7 @@ static int read_a_line(struct inputfile *inf);
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'
 ***********************************************************************/
-static int my_is_comment(int c)
+static bool my_is_comment(int c)
 {
   return (c == '#' || c == ';');
 }
@@ -279,7 +279,7 @@ void inf_close(struct inputfile *inf)
 /********************************************************************** 
   Return 1 if have data for current line.
 ***********************************************************************/
-static int have_line(struct inputfile *inf)
+static bool have_line(struct inputfile *inf)
 {
   assert_sanity(inf);
   return (inf->cur_line.n > 0);
@@ -288,7 +288,7 @@ static int have_line(struct inputfile *inf)
 /********************************************************************** 
   Return 1 if current pos is at end of current line.
 ***********************************************************************/
-static int at_eol(struct inputfile *inf)
+static bool at_eol(struct inputfile *inf)
 {
   assert_sanity(inf);
   assert(inf->cur_line_pos <= inf->cur_line.n);
@@ -298,7 +298,7 @@ static int at_eol(struct inputfile *inf)
 /********************************************************************** 
   ...
 ***********************************************************************/
-int inf_at_eof(struct inputfile *inf)
+bool inf_at_eof(struct inputfile *inf)
 {
   assert_sanity(inf);
   return inf->at_eof;
@@ -312,7 +312,7 @@ int inf_at_eof(struct inputfile *inf)
   which is opened but no data read, and inf->included_from is set
   to newly malloced memory which corresponds to the old file.
 ***********************************************************************/
-static int check_include(struct inputfile *inf)
+static bool check_include(struct inputfile *inf)
 {
   const char *include_prefix = "*include";
   static int len = 0;
@@ -397,7 +397,7 @@ static int check_include(struct inputfile *inf)
   Returns 0 if didn't read or other problem: treat as EOF.
   Strips newline from input.
 ***********************************************************************/
-static int read_a_line(struct inputfile *inf)
+static bool read_a_line(struct inputfile *inf)
 {
   struct astring *line;
   char *ret;
@@ -541,7 +541,7 @@ void inf_warn(struct inputfile *inf, const char *message)
 ***********************************************************************/
 static const char *get_token(struct inputfile *inf,
 			     enum inf_token_type type,
-			     int required)
+			     bool required)
 {
   const char *c;
   const char *name;
@@ -746,7 +746,7 @@ static const char *get_token_value(struct inputfile *inf)
   struct astring *partial;
   char *c, *start;
   char trailing;
-  int has_i18n_marking = FALSE;
+  bool has_i18n_marking = FALSE;
   
   assert(have_line(inf));
 

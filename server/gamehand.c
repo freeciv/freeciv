@@ -64,7 +64,7 @@ void init_new_game(void)
      positions by nation etc, but this will do for now. --dwp)
   */
     const int npos = map.num_start_positions;
-    int *pos_used = fc_calloc(npos, sizeof(int));
+    bool *pos_used = fc_calloc(npos, sizeof(bool));
     int nrem = npos;		/* remaining unused starts */
     
     for(i=0; i<game.nplayers; i++) {
