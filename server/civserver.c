@@ -60,6 +60,8 @@ enum server_states server_state;
 */
 int force_end_of_sniff;
 char metaserver_info_line[256];
+/* server name for metaserver to use for us */
+char metaserver_servername[64]="";
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -125,6 +127,15 @@ int main(int argc, char *argv[])
 	break;
       }
     }
+    else if(!strcmp("-s", argv[i]) || !strcmp("--server", argv[i])) { 
+      if(++i<argc) 
+      	strcpy(metaserver_servername,argv[i]);
+      else {
+	fprintf(stderr, "Error: no name specified.\n");
+	h=1;
+	break;
+      }
+    }
     else if(!strcmp("-v", argv[i]) || !strcmp("--version", argv[i])) { 
       v=1;
     }
@@ -143,6 +154,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -l, --log F\t\t\tUse F as logfile\n");
     fprintf(stderr, "  -n, --nometa\t\t\tDon't send info to Metaserver\n");
     fprintf(stderr, "  -p, --port N\t\t\tconnect to port N\n");
+    fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
     fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
     exit(0);
   }
@@ -325,7 +337,7 @@ void send_server_info_to_metaserver(int do_send)
    default:
       sprintf(desc+strlen(desc), "Waiting\n");
     }
-    sprintf(desc+strlen(desc), "\n"); /* the host address - default */
+    sprintf(desc+strlen(desc), "%s\n",metaserver_servername);
     sprintf(desc+strlen(desc), "%d\n", port);
     sprintf(desc+strlen(desc), "%d\n", game.nplayers);
     sprintf(desc+strlen(desc), "%s", metaserver_info_line);
