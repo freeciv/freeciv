@@ -64,7 +64,7 @@ void popup_messageopt_dialog(void)
     Object *ok_button, *cancel_button;
 
     option_wnd = WindowObject,
-      MUIA_Window_ID, 'OPTM',
+      MUIA_Window_ID, MAKE_ID('O','P','T','M'),
       MUIA_Window_Title, "Message Options",
       WindowContents, VGroup,
         Child, TextObject,

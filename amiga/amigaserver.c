@@ -21,6 +21,9 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include <errno.h>
 #include <time.h>
 
+#undef HAVE_CONFIG_H /* little trick to remove error message */
+#include "version.h"
+
 #include <exec/memory.h>
 #include <libraries/usergroup.h>
 #include <workbench/startup.h>
@@ -66,6 +69,11 @@ static int stdin_buffer_copy_len;
 static struct DosPacket *pkt = 0;
 static int pkt_sent = 0;
 static struct FileHandle *stdin_handle;
+#ifdef __SASC
+const char *version = "$VER: civserver " VERSION_STRING " " __AMIGADATE__;
+#else
+const char *version = "$VER: civserver " VERSION_STRING " (" __DATE__ ")";
+#endif
 
 #ifdef __SASC
 /* Stack for the server */

@@ -1368,7 +1368,7 @@ STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
   }
   if (data->unit_layer)
   {
-    DeleteLayer(NULL, data->unit_layer);
+    DeleteLayer(0, data->unit_layer);
     data->unit_layer = NULL;
     WaitBlit();
   }
@@ -1419,7 +1419,7 @@ STATIC ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
   DoSuperMethodA(cl, o, msg);
   data->shown = TRUE;
 
-  flags = (GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_FLAGS) & BMF_STANDARD) ? NULL : BMF_MINPLANES;
+  flags = (GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_FLAGS) & BMF_STANDARD) ? 0 : BMF_MINPLANES;
   depth = GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH);
 
   if (data->map_bitmap = AllocBitMap(_mwidth(o), _mheight(o), depth, flags, _screen(o)->RastPort.BitMap))
@@ -1468,7 +1468,7 @@ STATIC ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   if (data->map_layer)
   {
-    DeleteLayer(NULL, data->map_layer);
+    DeleteLayer(0, data->map_layer);
     data->map_layer = NULL;
     WaitBlit();			/* DeleteLayer() may use the blitter */
   }
@@ -1543,7 +1543,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
 
-      	return NULL;
+      	return 0;
       }
 
       if (data->update == 6)
@@ -2352,7 +2352,7 @@ DISPATCHERPROTO(Map_Dispatcher)
     return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
   case MUIM_Map_PutCrossTile:
 /*    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);*/
-    return NULL;
+    return 0;
   case MUIM_Map_ExplodeUnit:
     return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
   case MUIM_Map_DrawMushroom:
@@ -3196,13 +3196,13 @@ DISPATCHERPROTO(MyGauge_Dispatcher)
 *****************************************************************/
 BOOL create_map_class(void)
 {
-  if ((CL_TilePopWindow = MUI_CreateCustomClass(NULL, MUIC_Window, NULL, 4, TilePopWindow_Dispatcher)))
-    if ((CL_Map = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Map_Data), Map_Dispatcher)))
-      if ((CL_CityMap = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct CityMap_Data), CityMap_Dispatcher)))
-	if ((CL_SpaceShip = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct SpaceShip_Data), SpaceShip_Dispatcher)))
-	  if ((CL_Sprite = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Sprite_Data), Sprite_Dispatcher)))
-	    if ((CL_Unit = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Unit_Data), Unit_Dispatcher)))
-	      if ((CL_MyGauge = MUI_CreateCustomClass(NULL, MUIC_Gauge, NULL, sizeof(struct MyGauge_Data), MyGauge_Dispatcher)))
+  if ((CL_TilePopWindow = MUI_CreateCustomClass(NULL, MUIC_Window, NULL, 4, (APTR) TilePopWindow_Dispatcher)))
+    if ((CL_Map = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Map_Data), (APTR) Map_Dispatcher)))
+      if ((CL_CityMap = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct CityMap_Data), (APTR) CityMap_Dispatcher)))
+	if ((CL_SpaceShip = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct SpaceShip_Data), (APTR) SpaceShip_Dispatcher)))
+	  if ((CL_Sprite = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Sprite_Data), (APTR) Sprite_Dispatcher)))
+	    if ((CL_Unit = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Unit_Data), (APTR) Unit_Dispatcher)))
+	      if ((CL_MyGauge = MUI_CreateCustomClass(NULL, MUIC_Gauge, NULL, sizeof(struct MyGauge_Data), (APTR) MyGauge_Dispatcher)))
 		  return TRUE;
   return FALSE;
 }

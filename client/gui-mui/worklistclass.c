@@ -618,7 +618,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
   if ((o = (Object *) DoSuperNew(cl, o,
         MUIA_Window_Title, "Freeciv - Edit Worklist",
-        MUIA_Window_ID, 'WRKL',
+        MUIA_Window_ID, MAKE_ID('W','R','K','L'),
   	WindowContents, VGroup,
   	    Child, HGroup,
   	        Child, name_label = MakeLabel(""),
@@ -731,7 +731,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     CoerceMethod(cl, o, OM_DISPOSE);
   }
-  return NULL;
+  return 0;
 }
 
 STATIC VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
@@ -749,7 +749,7 @@ DISPATCHERPROTO(Worklist_Dispatcher)
 
     case OM_DISPOSE:
          Worklist_Dispose(cl, obj, msg);
-         return NULL;
+         return 0;
   }
   return (DoSuperMethodA(cl, obj, msg));
 }
@@ -758,8 +758,8 @@ struct MUI_CustomClass *CL_Worklist;
 
 BOOL create_worklist_class(void)
 {
-  if ((CL_Worklist = MUI_CreateCustomClass(NULL, MUIC_Window, NULL, sizeof(struct Worklist_Data), Worklist_Dispatcher)))
-    if ((CL_Worklistview = MUI_CreateCustomClass(NULL, MUIC_NList, NULL, sizeof(struct Worklistview_Data), Worklistview_Dispatcher)))
+  if ((CL_Worklist = MUI_CreateCustomClass(NULL, MUIC_Window, NULL, sizeof(struct Worklist_Data), (APTR) Worklist_Dispatcher)))
+    if ((CL_Worklistview = MUI_CreateCustomClass(NULL, MUIC_NList, NULL, sizeof(struct Worklistview_Data), (APTR) Worklistview_Dispatcher)))
       return TRUE;
   return FALSE;
 }

@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <assert.h>
@@ -291,7 +291,7 @@ void popup_science_dialog(int make_modal)
   {
     science_wnd = WindowObject,
       MUIA_Window_Title, "Science",
-      MUIA_Window_ID, 'SCNC',
+      MUIA_Window_ID, MAKE_ID('S','C','N','C'),
 
       WindowContents, VGroup,
 	  Child, science_title_text = TextObject,
@@ -542,7 +542,7 @@ static void create_trade_report_dialog(void/*int make_modal*/)
 
   trade_wnd = WindowObject,
     MUIA_Window_Title, "Trade Report",
-    MUIA_Window_ID, 'TRAD',
+    MUIA_Window_ID, MAKE_ID('T','R','A','D'),
     WindowContents, VGroup,
 	Child, trade_title_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	Child, trade_imprv_listview = NListviewObject,
@@ -819,7 +819,7 @@ void create_activeunits_report_dialog(int make_modal)
 
   actunit_wnd = WindowObject,
     MUIA_Window_Title, "Military Report",
-    MUIA_Window_ID, 'MILI',
+    MUIA_Window_ID, MAKE_ID('M','I','L','I'),
 	WindowContents, VGroup,
 	Child, actunit_title_text = TextObject,
 	    MUIA_Text_PreParse, "\33c",

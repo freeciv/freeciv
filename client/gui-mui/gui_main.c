@@ -19,7 +19,9 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include <exec/memory.h>
 #include <devices/timer.h>
@@ -51,6 +53,7 @@
 #include "capability.h"
 #include "fcintl.h"
 #include "mem.h"
+#include "netintf.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -850,15 +853,15 @@ static int init_gui(void)
 
   app = ApplicationObject,
     MUIA_Application_Title, "Freeciv Client",
-    MUIA_Application_Version, "$VER: civclient 1.13" __AMIGADATE__,
-    MUIA_Application_Copyright, "©1999,2000 by Sebastian Bauer",
-    MUIA_Application_Author, "Sebastian Bauer",
+    MUIA_Application_Version, VERSIONSTRING,
+    MUIA_Application_Copyright, COPYRIGHTSTRING,
+    MUIA_Application_Author, AUTHORSTRING,
     MUIA_Application_Description, "Client for Freeciv",
     MUIA_Application_Base, "CIVCLIENT",
 
     SubWindow, main_wnd = WindowObject,
         MUIA_Window_Title, "Freeciv",
-        MUIA_Window_ID, 'MAIN',
+        MUIA_Window_ID, MAKE_ID('M','A','I','N'),
         MUIA_Window_Menustrip, main_menu = MakeMenu(MenuData),
 
         WindowContents, VGroup,
@@ -1001,7 +1004,7 @@ static void loop(void)
   ULONG secs, mics;
   CurrentTime(&secs, &mics);
 
-  while (DoMethod(app, MUIM_Application_NewInput, &sigs) != MUIV_Application_ReturnID_Quit)
+  while (DoMethod(app, MUIM_Application_NewInput, &sigs) != (ULONG) MUIV_Application_ReturnID_Quit)
   {
     ULONG timer_sig = (1L << timer_port->mp_SigBit);
 
@@ -1015,7 +1018,7 @@ static void loop(void)
 	fd_set readfs;
 	int sel;
 
-	FD_ZERO(&readfs);
+	MY_FD_ZERO(&readfs);
 	FD_SET(aconnection.sock, &readfs);
 
 	sel = WaitSelect(connected_sock + 1, &readfs, NULL, NULL, NULL, &mask);

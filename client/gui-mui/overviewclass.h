@@ -1,3 +1,6 @@
+#ifndef FC__OVERVIEWCLASS_H
+#define FC__OVERVIEWCLASS_H
+
 #define OverviewObject NewObject(CL_Overview->mcc_Class, NULL
 
 #ifndef LIBRARIES_MUI_H
@@ -27,3 +30,6 @@ BOOL create_overview_class(void);
 VOID delete_overview_class(void);
 
 Object *MakeOverview(LONG width, LONG height);
+
+#endif /* FC__OVERVIEWCLASS_H */
+

@@ -72,8 +72,10 @@ static void populate_worklist_report_list(struct worklist_report_dialog *pdialog
 /****************************************************************
   Display function for the worklist listview
 *****************************************************************/
-HOOKPROTONH(worklist_report_display, void, char **array, int num)
+HOOKPROTONH(worklist_report_display, void, char **array, APTR msg)
 {
+  LONG num = (LONG) msg;
+
   if (num)
   {
     num--;

@@ -123,8 +123,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   Object *close_button;
 
   wnd = WindowObject,
-    MUIA_Window_Title, strdup(caption),	/* Never freed! */
-    MUIA_Window_ID, 'POPU',
+    MUIA_Window_Title, mystrdup(caption),	/* Never freed! */
+    MUIA_Window_ID, MAKE_ID('P','O','P','U'),
     WindowContents, VGroup,
       Child, TextObject,
         MUIA_Text_Contents, headline,
@@ -181,7 +181,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 
   wnd = WindowObject,
     MUIA_Window_Title, headline,
-    MUIA_Window_ID, 'POGO',
+    MUIA_Window_ID, MAKE_ID('P','O','G','O'),
     WindowContents, VGroup,
       Child, TextObject,
         MUIA_Text_Contents, lines,
@@ -306,8 +306,10 @@ static void advance_steal(struct spy_data *data)
 /****************************************************************
  Display function for the technology listview
 *****************************************************************/
-HOOKPROTONH(advance_display, void, char **array, LONG which)
+HOOKPROTONH(advance_display, void, char **array, APTR msg)
 {
+  LONG which = (ULONG) msg;
+
   if(which)
   {
     int tech = which-100;
@@ -332,7 +334,7 @@ static void create_advances_list(struct player *pplayer,
 
   wnd = WindowObject,
     MUIA_Window_Title,"Steal Technology",
-    MUIA_Window_ID, 'SPST',
+    MUIA_Window_ID, MAKE_ID('S','P','S','T'),
     WindowContents, VGroup,
       Child, TextObject,
         MUIA_Text_Contents,"Select Advance to Steal",
@@ -408,9 +410,9 @@ static void imprv_sabotage(struct spy_data *data)
 /****************************************************************
  Display function for the sabotage listview
 *****************************************************************/
-HOOKPROTONH(imprv_display, void, char **array, LONG which)
+HOOKPROTONH(imprv_display, void, char **array, APTR which)
 {
-  int imprv = which-100;
+  int imprv = ((LONG) which)-100;
   if (imprv == -1) *array = _("City Production");
   else if (imprv == B_LAST) *array = _("At Spy's Discretion");
   else *array = get_improvement_name(imprv);
@@ -430,7 +432,7 @@ static void create_improvements_list(/*struct player *pplayer,*/
 
   wnd = WindowObject,
     MUIA_Window_Title,"Sabotage Improvements",
-    MUIA_Window_ID, 'SPIP',
+    MUIA_Window_ID, MAKE_ID('S','P','I','P'),
     WindowContents, VGroup,
       Child, TextObject,
         MUIA_Text_Contents,"Select Improvement to Sabotage",
@@ -1182,7 +1184,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 	{
 	  int what = get_preferred_pillage (may_pillage);
 	
-          msg_dlg[i].label = strdup(map_get_infrastructure_text(what));
+          msg_dlg[i].label = mystrdup(map_get_infrastructure_text(what));
           msg_dlg[i].function = (APTR)pillage_button;
           msg_dlg[i].data = (APTR)what;
 	
@@ -1273,7 +1275,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
 	for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++)
 	{
 	  if ( !can_unit_do_connect (punit, activity)) continue;
-          msg_dlg[i].label = strdup(get_activity_text(activity));
+          msg_dlg[i].label = mystrdup(get_activity_text(activity));
           msg_dlg[i].function = (APTR)connect_button;
           msg_dlg[i].data = (APTR)activity;
           i++;
@@ -1808,7 +1810,7 @@ void popup_races_dialog(void)
 
     nations_wnd = WindowObject,
         MUIA_Window_Title,  "Freeciv - Select a Nation",
-        MUIA_Window_ID, 'SNAT',
+        MUIA_Window_ID, MAKE_ID('S','N','A','T'),
         WindowContents, VGroup,
             Child, HGroup,
 		Child, nations_nation_listview = ListviewObject,

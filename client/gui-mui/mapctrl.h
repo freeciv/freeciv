@@ -15,6 +15,7 @@
 
 #include "mapctrl_g.h"
 
+#include "mapclass.h"
 int main_map_click( struct Map_Click **click);
 
 #endif  /* FC__MAPCTRL_H */

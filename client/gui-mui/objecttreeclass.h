@@ -1,5 +1,5 @@
-#ifndef OBJECTTREECLASS_H
-#define OBJECTTREECLASS_H
+#ifndef FC__OBJECTTREECLASS_H
+#define FC__OBJECTTREECLASS_H
 
 #define ObjectTreeObject NewObject(CL_ObjectTree->mcc_Class, NULL
 
@@ -19,4 +19,5 @@ struct MUIP_ObjectTree_HasSubNodes{ULONG MethodID; APTR parent;};
 BOOL create_objecttree_class(void);
 VOID delete_objecttree_class(void);
 
-#endif
+#endif  /* FC__OBJECTTREECLASS_H */
+

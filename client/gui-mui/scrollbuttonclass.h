@@ -1,5 +1,5 @@
-#ifndef SCROLLBUTTONCLASS_H
-#define SCROLLBUTTONCLASS_H
+#ifndef FC__SCROLLBUTTONCLASS_H
+#define FC__SCROLLBUTTONCLASS_H
 
 #define ScrollButtonObject NewObject(CL_ScrollButton->mcc_Class, NULL
 
@@ -12,4 +12,5 @@ IMPORT struct MUI_CustomClass *CL_ScrollButton;
 int create_scrollbutton_class(void);
 void delete_scrollbutton_class(void);
 
-#endif
+#endif  /* FC__SCROLLBUTTONCLASS_H */
+

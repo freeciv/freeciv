@@ -159,7 +159,7 @@ void popup_goto_dialog(void)
 
     goto_wnd = WindowObject,
         MUIA_Window_Title, "Goto/Airlift Unit",
-        MUIA_Window_ID, 'GOTO',
+        MUIA_Window_ID, MAKE_ID('G','O','T','O'),
         WindowContents, VGroup,
             Child, goto_cities_listview = NListviewObject,
                 MUIA_CycleChain, 1,

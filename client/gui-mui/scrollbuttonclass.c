@@ -177,7 +177,7 @@ struct MUI_CustomClass *CL_ScrollButton;
 
 int create_scrollbutton_class(void)
 {
-  if ((CL_ScrollButton = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct ScrollButton_Data), ScrollButton_Dispatcher)))
+  if ((CL_ScrollButton = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct ScrollButton_Data), (APTR) ScrollButton_Dispatcher)))
       return TRUE;
   return FALSE;
 }

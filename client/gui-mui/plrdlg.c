@@ -102,8 +102,10 @@ void popup_players_dialog(void)
 /****************************************************************
  Display function for the players listview
 *****************************************************************/
-HOOKPROTONH(players_render, void, char **array, ULONG playerno)
+HOOKPROTONH(players_render, void, char **array, APTR msg)
 {
+  ULONG playerno = (ULONG) msg;
+
   if (playerno)
   {
     int i = playerno - 100;

@@ -72,7 +72,7 @@ void *ok_callback, APTR ok_data, void *cancel_callback, APTR cancel_data)
 
   wnd = WindowObject,
     MUIA_Window_Title,title,
-    MUIA_Window_ID, 'INPD',
+    MUIA_Window_ID, MAKE_ID('I','N','P','D'),
     WindowContents, VGroup,
       Child, HGroup,
 	Child, MakeLabel(text),

@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <libraries/mui.h>
+#include <libraries/gadtools.h>
 #include <mui/NListview_MCC.h>
 
 #include <clib/alib_protos.h>

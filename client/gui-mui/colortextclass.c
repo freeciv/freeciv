@@ -297,7 +297,7 @@ struct MUI_CustomClass *CL_ColorText;
 
 BOOL create_colortext_class(void)
 {
-  if ((CL_ColorText = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct ColorText_Data), ColorText_Dispatcher)))
+  if ((CL_ColorText = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct ColorText_Data), (APTR) ColorText_Dispatcher)))
       return TRUE;
   return FALSE;
 }

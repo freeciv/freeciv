@@ -22,6 +22,10 @@ int ioctl(int fd, unsigned int request, char *argp);
 #undef close
 #endif
 
+#ifdef __VBCC__
+#define bzero(a,l) memset(a, 0, l);
+#endif
+
 /* And now the real defines come */
 
 /* Define if using alloca.c.  */
@@ -246,7 +250,9 @@ int ioctl(int fd, unsigned int request, char *argp);
 /*#undef HAVE_TERMIOS_H*/
 
 /* Define if you have the <unistd.h> header file.  */
+#if !defined(__VBCC__) || !defined(MIAMI_SDK)
 #define HAVE_UNISTD_H 1
+#endif
 
 /* Define if you have the i library (-li).  */
 /*#undef HAVE_LIBI*/

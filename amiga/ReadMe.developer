@@ -58,3 +58,19 @@ int main(int argc, char *argv)
 The free process is handled with atexit(), so the libraries are freed on
 abnormal program abortion also.
 
+How to make with VBCC?
+~~~~~~~~~~~~~~~~~~~~~~
+- Get a make program.
+- Get FD2Pragma (Aminet/dev/misc/FD2Pragma.lha) and create prototype files
+  as well as socket.lib, usergroup.lib, muimaster.lib and guigfx.lib.
+- Modify -pp and -ppv lines in vc.config that -Ivincludem68k: is behind
+  first %s (this is necessary to include the AmiTCP/Miami includes before
+  vbcc includes (because of errno.h)).
+- Start make and fix all the other problems, which may have been added in
+  between releases (example: make -f vmakefile). Ignore warnings.
+
+Problems:
+- Starting server from WB is nearly useless as it misses the input and
+  output dialog.
+- Starting client from WB misses the output dialog (client uses no input).
+- Stacksizes are not changed to 150000 automatically.

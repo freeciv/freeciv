@@ -117,12 +117,12 @@ HOOKPROTONHNO(connect_meta_construct, struct server *, struct server *entry)
   struct server *newentry = (struct server*)AllocVec(sizeof(*newentry),0);
   if(newentry)
   {
-    newentry->name = strdup(entry->name);
-    newentry->port = strdup(entry->port);
-    newentry->version = strdup(entry->version);
-    newentry->status = strdup(entry->status);
-    newentry->players = strdup(entry->players);
-    newentry->metastring = strdup(entry->metastring);
+    newentry->name = mystrdup(entry->name);
+    newentry->port = mystrdup(entry->port);
+    newentry->version = mystrdup(entry->version);
+    newentry->status = mystrdup(entry->status);
+    newentry->players = mystrdup(entry->players);
+    newentry->metastring = mystrdup(entry->metastring);
   }
   return newentry;
 }
@@ -185,7 +185,7 @@ void gui_server_connect(void)
 
     connect_wnd = WindowObject,
 	MUIA_Window_Title, "Connect to Freeciv Server",
-	MUIA_Window_ID, 'CONN',
+	MUIA_Window_ID, MAKE_ID('C','O','N','N'),
 
 	WindowContents, VGroup,
 	    Child, page_group =RegisterGroup(pages),

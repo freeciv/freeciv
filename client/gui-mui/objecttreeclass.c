@@ -194,10 +194,10 @@ HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *l
 
       /* find out biggest widths & heights of our children */
       while ((child = (Object*)NextObject(&cstate)))
-      {
-        if (maxminwidth <MUI_MAXMAX && _minwidth (child) > maxminwidth ) maxminwidth  = _minwidth (child);
+      {
+        if (maxminwidth <MUI_MAXMAX && _minwidth (child) > maxminwidth ) maxminwidth  = _minwidth (child);
         if (maxminheight<MUI_MAXMAX && _minheight(child) > maxminheight) maxminheight = _minheight(child);
-      }
+      }
 
       /* set the result fields in the message */
       lm->lm_MinMax.MinWidth  = 2*maxminwidth+horiz_spacing;
@@ -210,7 +210,7 @@ HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *l
     ret = 0;
     break;
   case  MUILM_LAYOUT:
-    {
+    {
       LONG max_right=0;
       LONG max_bottom=0;
 
@@ -218,17 +218,17 @@ HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *l
 
        ObjectTree_Layout(root_node, 0,0);
 
-       while ((child = (Object*)NextObject(&cstate)))
-       {
-         if (_right(child) > max_right) max_right = _right(child);
+       while ((child = (Object*)NextObject(&cstate)))
+       {
+         if (_right(child) > max_right) max_right = _right(child);
          if (_bottom(child) > max_bottom) max_bottom = _bottom(child);
-       }
+       }
 
        max_right -= _mleft(obj) - 1;
        max_bottom -= _mtop(obj) - 1;
 
        if(lm->lm_Layout.Width < max_right) lm->lm_Layout.Width = max_right;
-       if(lm->lm_Layout.Height < max_bottom) lm->lm_Layout.Height = max_bottom;
+       if(lm->lm_Layout.Height < max_bottom) lm->lm_Layout.Height = max_bottom;
     }
     ret = TRUE;
     break;
@@ -256,7 +256,7 @@ STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     CoerceMethod(cl, o, OM_DISPOSE);
   }
-  return NULL;
+  return 0;
 }
 
 STATIC ULONG ObjectTree_Dispose(struct IClass * cl, Object * o, Msg msg)
@@ -322,7 +322,7 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
   }
 }
 
-STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
+STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_HasSubNodes *msg)
 {
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
 
@@ -355,10 +355,10 @@ DISPATCHERPROTO(ObjectTree_Dispatcher)
     return (ULONG)ObjectTree_AddNode(cl,obj, (struct MUIP_ObjectTree_AddNode*)msg);
   case MUIM_ObjectTree_Clear:
     ObjectTree_Clear(cl,obj,msg);
-    return NULL;
+    return 0;
   case MUIM_ObjectTree_ClearSubNodes:
     ObjectTree_ClearSubNodes(cl,obj,(struct MUIP_ObjectTree_ClearSubNodes*)msg);
-    return NULL;
+    return 0;
   case MUIM_ObjectTree_FindObject:
     return (ULONG)ObjectTree_FindObject(cl,obj,(struct MUIP_ObjectTree_FindObject*)msg);
   case MUIM_ObjectTree_HasSubNodes:
@@ -371,8 +371,8 @@ struct MUI_CustomClass *CL_ObjectTree;
 
 BOOL create_objecttree_class(void)
 {
-  if ((CL_ObjectTree = MUI_CreateCustomClass(NULL, MUIC_Virtgroup, NULL, sizeof(struct ObjectTree_Data), ObjectTree_Dispatcher)))
-      return TRUE;
+  if((CL_ObjectTree =  MUI_CreateCustomClass(NULL, MUIC_Virtgroup, NULL, sizeof(struct ObjectTree_Data), (APTR) ObjectTree_Dispatcher)))
+    return TRUE;
   return FALSE;
 }
 

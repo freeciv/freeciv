@@ -1,52 +1,52 @@
-# Makefile to use with the SAS/C compiler
+# What to do to use this:
+# Get a make program
+# Get FD2Pragma (Aminet/dev/misc/FD2Pragma.lha) and create prototype files
+#  as well as socket.lib, usergroup.lib, muimaster.lib and guigfx.lib
+# PRAY and start make.
+
+# Makefile to use with the VBCC compiler
 
 #### these lines may be changed according to your system setup
 #### set a # mark AFTER the = to ignore that settings
 
-# Where to put the whole installation (prepared for the
-# distribution archive)
-DESTDIR = Development:Projects/freeciv
-
 # the destination CPU and math type
-CPU_MATH = MATH=IEEE LIB LIB:scmieee.lib
-#CPU_MATH = CPU=68060 LIB LIB:scm.lib
+CPU_MATH = -cpu=68060
 
 # comment out, if using AmiTCP
 TCPSDK = #AmiTCP SDK (no define for this one!) 
-#TCPSDK = DEFINE=MIAMI_SDK # the miami SDK
+#TCPSDK = -DMIAMI_SDK # the miami SDK
 
 # comment, if not debugging, disabled by default
-DEBFLAGS = #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG
+DEBFLAGS = #-debug=2
 
 # The optimize flags, set the comment mark, where you want. The options at the end
 # need much more time. Disabled by default.
-OPTFLAGS = #OPT OPTTIME IGNORE=306 OPTINLOCAL OPTPEEP OPTGO OPTLOOP OPTSCHED
+OPTFLAGS = #-O=8191
 
 # Additional include directory (e.g. TCP includes)
 INCDIRS = #use this, if you have none
-#INCDIRS = IDIR=Sprachen:Include/include_h_AmiTCP # SDI's directories
+#INCDIRS = -ISprachen:Include/include_h_AmiTCP # SDI's directories
 
 ####
 ####
 
 # The name of the compiler
-CC = sc
+CC = vc
 
 # Where to find the source files
 FREECIV_DIR = /
 
 # In which subdirectory should the object files be placed (without /)
-OBJDIR1 = sas_68k
+OBJDIR1 = vbcc_68k
 
 # Additional flags
-CCFLAGS = RESOPT ANSI IDLEN=40 NOLINK DATA=FAR NOSTKCHK IGNORE=63\
-NOVERSION DEF=HAVE_CONFIG_H $(DEBFLAGS) $(OPTFLAGS) $(CPU_MATH) $(TCPSDK)
+CCFLAGS = -c -DHAVE_CONFIG_H $(DEBFLAGS) $(OPTFLAGS) $(CPU_MATH) $(TCPSDK)
 
 # Additional linker flags
-LNFLAGS = RESOPT STRIPDEBUG $(DEBFLAGS) $(CPU_MATH) LINK NOICONS NOVERSION
+LNFLAGS = -lsocket -lusergroup -lmieee -lmuimaster -lguigfx
 
 # How to tell the compiler the destination of object files
-TO = OBJNAME=
+TO = -o=
 
 #####
 
@@ -60,13 +60,13 @@ COMMONOBJS = $(OBJDIR)common/astring.o $(OBJDIR)common/capability.o $(OBJDIR)com
  $(OBJDIR)common/netintf.o $(OBJDIR)common/rand.o $(OBJDIR)common/registry.o $(OBJDIR)common/sbuffer.o \
  $(OBJDIR)common/shared.o $(OBJDIR)common/spaceship.o $(OBJDIR)common/support.o $(OBJDIR)common/tech.o \
  $(OBJDIR)common/timing.o $(OBJDIR)common/unit.o $(OBJDIR)common/version.o $(OBJDIR)common/worklist.o
-COMMONDIRS = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}common
+COMMONDIRS = -I`cd` $(INCDIRS) -I${FREECIV_DIR}common
 
 AIOBJS = $(OBJDIR)ai/advattitude.o $(OBJDIR)ai/advdomestic.o $(OBJDIR)ai/advforeign.o \
  $(OBJDIR)ai/advisland.o $(OBJDIR)ai/advleader.o $(OBJDIR)ai/advmilitary.o $(OBJDIR)ai/advscience.o \
  $(OBJDIR)ai/advspace.o $(OBJDIR)ai/advtrade.o $(OBJDIR)ai/aicity.o $(OBJDIR)ai/aihand.o \
  $(OBJDIR)ai/aitech.o $(OBJDIR)ai/aitools.o $(OBJDIR)ai/aiunit.o
-AIDIRS = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}server
+AIDIRS = -I`cd` $(INCDIRS) -I${FREECIV_DIR}common -I${FREECIV_DIR}server
 
 SERVEROBJS = $(OBJDIR)server/autoattack.o $(OBJDIR)server/barbarian.o $(OBJDIR)server/cityhand.o \
  $(OBJDIR)server/citytools.o $(OBJDIR)server/cityturn.o $(OBJDIR)server/civserver.o \
@@ -76,14 +76,14 @@ SERVEROBJS = $(OBJDIR)server/autoattack.o $(OBJDIR)server/barbarian.o $(OBJDIR)s
  $(OBJDIR)server/ruleset.o $(OBJDIR)server/rulesout.o $(OBJDIR)server/sernet.o \
  $(OBJDIR)server/settlers.o $(OBJDIR)server/spacerace.o $(OBJDIR)server/stdinhand.o \
  $(OBJDIR)server/unitfunc.o $(OBJDIR)server/unithand.o $(OBJDIR)server/unittools.o
-SERVERDIRS = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}server IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}ai
+SERVERDIRS = -I`cd` $(INCDIRS) -I${FREECIV_DIR}server -I${FREECIV_DIR}common -I${FREECIV_DIR}ai
 
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
 CLIENTOBJS = $(OBJDIR)client/cityrepdata.o $(OBJDIR)client/civclient.o $(OBJDIR)client/climisc.o \
  $(OBJDIR)client/clinet.o $(OBJDIR)client/control.o $(OBJDIR)client/helpdata.o $(OBJDIR)client/options.o \
  $(OBJDIR)client/packhand.o $(OBJDIR)client/tilespec.o
-CLIENTDIRS = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}client IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include
+CLIENTDIRS = -I`cd` $(INCDIRS) -I${FREECIV_DIR}client -I${FREECIV_DIR}common -I${FREECIV_DIR}client/include
 
 CGP = ${FREECIV_DIR}client/gui-mui/
 CLIENTGUIOBJS = $(OBJDIR)client/gui-mui/chatline.o $(OBJDIR)client/gui-mui/citydlg.o \
@@ -101,7 +101,7 @@ CLIENTGUIOBJS = $(OBJDIR)client/gui-mui/chatline.o $(OBJDIR)client/gui-mui/cityd
  $(OBJDIR)client/gui-mui/overviewclass.o $(OBJDIR)client/gui-mui/mapclass.o \
  ${OBJDIR}client/gui-mui/scrollbuttonclass.o $(OBJDIR)client/gui-mui/historystringclass.o \
  ${OBJDIR}client/gui-mui/colortextclass.o $(OBJDIR)client/gui-mui/muistuff.o
-CLIENTGUIDIRS  = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include IDIR=${FREECIV_DIR}client
+CLIENTGUIDIRS  = -I`cd` $(INCDIRS) -I${FREECIV_DIR}common -I${FREECIV_DIR}client/include -I${FREECIV_DIR}client
 
 AMIGACLIENTOBJS = ${OBJDIR}amigaclient.o
 
@@ -141,15 +141,11 @@ endif
 
 
 # Amiga server creation
-
 civserver: ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
-  ${CC} $(LNFLAGS) WITH <<
-FROM ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
-TO civserver
-<
+  ${CC} ${LNFLAGS} ${AMIGASERVEROBJS) ${OBJDIR}ai/\#?.o ${OBJDIR}common/\#?.o ${OBJDIR}server/\#?.o ${TO}$@
 
 ${OBJDIR}amigaserver.o: amigaserver.c
-  ${CC} ${CCFLAGS} amigaserver.c $(INCDIRS) IDIR=${FREECIV_DIR}common ${TO}$@
+  ${CC} ${CCFLAGS} amigaserver.c $(INCDIRS) -I${FREECIV_DIR}common ${TO}$@
 
 
 # AI Files
@@ -314,7 +310,7 @@ $(OBJDIR)server/cityturn.o: ${FREECIV_DIR}server/cityturn.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/cityturn.c ${SERVERDIRS} ${TO}$@
 
 $(OBJDIR)server/civserver.o: ${FREECIV_DIR}server/civserver.c
-  ${CC} ${CCFLAGS} DEFINE main=civ_main ${FREECIV_DIR}server/civserver.c ${SERVERDIRS} ${TO}$@
+  ${CC} ${CCFLAGS} -Dmain=civ_main ${FREECIV_DIR}server/civserver.c ${SERVERDIRS} ${TO}$@
 
 $(OBJDIR)server/console.o: ${FREECIV_DIR}server/console.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/console.c ${SERVERDIRS} ${TO}$@
@@ -375,12 +371,8 @@ $(OBJDIR)server/unittools.o: ${FREECIV_DIR}server/unittools.c
 
 
 # Amiga client creation
-
 civclient: ${AMIGACLIENTOBJS) ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS}
-  ${CC} $(LNFLAGS) WITH <<
-FROM ${AMIGACLIENTOBJS) ${CLIENTOBJS} ${COMMONOBJS} ${CLIENTGUIOBJS}
-TO civclient
-<
+  ${CC} ${LNFLAGS} ${AMIGACLIENTOBJS) ${OBJDIR}common/\#?.o ${OBJDIR}client/\#?.o ${OBJDIR}client/gui-mui/\#?.o ${TO}$@
 
 ${OBJDIR}amigaclient.o: amigaclient.c
   ${CC} ${CCFLAGS} amigaclient.c $(INCDIRS) ${TO}$@
@@ -392,7 +384,7 @@ ${OBJDIR}client/cityrepdata.o : ${FREECIV_DIR}client/cityrepdata.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/cityrepdata.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/civclient.o: ${FREECIV_DIR}client/civclient.c
-  ${CC} ${CCFLAGS} DEFINE main=civ_main ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} ${TO}$@
+  ${CC} ${CCFLAGS} -Dmain=civ_main ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/climisc.o: ${FREECIV_DIR}client/climisc.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/climisc.c ${CLIENTDIRS} ${TO}$@
@@ -487,9 +479,6 @@ ${OBJDIR}client/gui-mui/wldlg.o: ${CGP}wldlg.c
 ${OBJDIR}client/gui-mui/muistuff.o: ${CGP}muistuff.c
   ${CC} ${CCFLAGS} ${CGP}muistuff.c ${CLIENTGUIDIRS} ${TO}$@
 
-${OBJDIR}client/gui-mui/colortextclass.o: ${CGP}colortextclass.c
-  ${CC} ${CCFLAGS} ${CGP}colortextclass.c ${CLIENTGUIDIRS} ${TO}$@
-
 ${OBJDIR}client/gui-mui/overviewclass.o: ${CGP}overviewclass.c
   ${CC} ${CCFLAGS} ${CGP}overviewclass.c ${CLIENTGUIDIRS} ${TO}$@
 
@@ -508,38 +497,8 @@ ${OBJDIR}client/gui-mui/worklistclass.o: ${CGP}worklistclass.c
 ${OBJDIR}client/gui-mui/historystringclass.o: ${CGP}historystringclass.c
   ${CC} ${CCFLAGS} ${CGP}historystringclass.c ${CLIENTGUIDIRS} ${TO}$@
 
-# The installation process
-
-install: civserver civclient
-  delete ${DESTDIR}/\#? ALL
-  copy ReadMe ${DESTDIR}
-  copy ReadMe.info ${DESTDIR}
-  copy ReadMe.2Amigas ${DESTDIR}
-  copy ReadMe.2Amigas.info ${DESTDIR}
-  slink civserver nd noicons
-  slink civclient nd noicons
-  copy civserver.exe ${DESTDIR}/civserver
-  copy civserver.exe.info ${DESTDIR}/civserver.info
-  copy civclient.exe ${DESTDIR}/civclient
-  copy civclient.exe.info ${DESTDIR}/civclient.info
-  copy Freeciv.start ${DESTDIR}
-  copy Freeciv.start.info ${DESTDIR}
-  copy Icons ${DESTDIR}/Icons all
-  copy Icons.info ${DESTDIR}
-  copy ${FREECIV_DIR}data/\#?.(ilbm|txt|sav|serv) ${DESTDIR}/data
-  copy ${FREECIV_DIR}data/trident.tilespec $(DESTDIR}/data
-  copy ${FREECIV_DIR}data/trident_shields.tilespec $(DESTDIR}/data
-  copy ${FREECIV_DIR}data/civ1/\#?.ruleset ${DESTDIR}/data/civ1
-  copy ${FREECIV_DIR}data/civ2/\#?.ruleset ${DESTDIR}/data/civ2
-  copy ${FREECIV_DIR}data/classic/\#?.ruleset ${DESTDIR}/data/classic
-  copy ${FREECIV_DIR}data/default/\#?.ruleset ${DESTDIR}/data/default
-  copy ${FREECIV_DIR}data/nation/\#?.ruleset ${DESTDIR}/data/nation
-  copy ${FREECIV_DIR}data/misc/\#?.(ilbm|spec) ${DESTDIR}/data/misc
-  copy ${FREECIV_DIR}data/scenario/\#?.sav ${DESTDIR}/data/scenario
-  copy ${FREECIV_DIR}data/trident/\#?.(ilbm|ruleset|spec) ${DESTDIR}/data/trident
-
-  copy ${FREECIV_DIR}README ${DESTDIR}/README.org
-  copy ${FREECIV_DIR}*(README.~(bak\#?)|BUGS|TODO|HOWTO\#?|NEWS|AUTHORS|PEOPLE|HOWTOPLAY|COPYING|INSTALL) ${DESTDIR}
+${OBJDIR}client/gui-mui/colortextclass.o: ${CGP}colortextclass.c
+  ${CC} ${CCFLAGS} ${CGP}colortextclass.c ${CLIENTGUIDIRS} ${TO}$@
 
 clean:
   delete ${OBJDIR} all

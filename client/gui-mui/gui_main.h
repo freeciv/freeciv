@@ -15,6 +15,14 @@
 
 #include "gui_main_g.h"
 
+#define COPYRIGHTSTRING "©1999-2000 by Sebastian Bauer"
+#define AUTHORSTRING    "Sebastian Bauer"
+#ifdef __SASC
+#define VERSIONSTRING   "$VER: civclient 1.13 " __AMIGADATE__ " " VERSION_STRING
+#else
+#define VERSIONSTRING   "$VER: civclient 1.13 (" __DATE__ ") " VERSION_STRING
+#endif
+
 enum{
   MENU_GAME=1,
   MENU_GAME_OPTIONS,

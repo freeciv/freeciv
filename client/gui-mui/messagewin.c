@@ -220,7 +220,7 @@ void create_meswin_dialog(void)
 
   mes_wnd = WindowObject,
     MUIA_Window_Title, "Messages",
-    MUIA_Window_ID, 'MESS',
+    MUIA_Window_ID, MAKE_ID('M','E','S','S'),
     WindowContents, VGroup,
         Child, mes_listview = NListviewObject,
 	    MUIA_NListview_NList, NListObject,

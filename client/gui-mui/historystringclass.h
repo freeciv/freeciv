@@ -1,3 +1,6 @@
+#ifndef FC__HISTORYSTRINGCLASS_H
+#define FC__HISTORYSTRINGCLASS_H
+
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
@@ -17,4 +20,6 @@ IMPORT struct MUI_CustomClass *CL_HistoryString;
 
 BOOL create_historystring_class(void);
 VOID delete_historystring_class(void);
+
+#endif  /* FC__HISTORYSTRINGCLASS_H */
 

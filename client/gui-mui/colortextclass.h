@@ -1,3 +1,6 @@
+#ifndef FC__COLORTEXTCLASS_H
+#define FC__COLORTEXTCLASS_H
+
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
@@ -26,3 +29,4 @@ IMPORT struct MUI_CustomClass *CL_ColorText;
 BOOL create_colortext_class(void);
 VOID delete_colortext_class(void);
 
+#endif  /* FC__COLORTEXTCLASS_H */

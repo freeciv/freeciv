@@ -120,7 +120,7 @@ struct MUI_CustomClass *CL_HistoryString;
 
 BOOL create_historystring_class(void)
 {
-  if ((CL_HistoryString = MUI_CreateCustomClass(NULL, MUIC_String, NULL, sizeof(struct HistoryString_Data), HistoryString_Dispatcher)))
+  if ((CL_HistoryString = MUI_CreateCustomClass(NULL, MUIC_String, NULL, sizeof(struct HistoryString_Data), (APTR) HistoryString_Dispatcher)))
       return TRUE;
   return FALSE;
 }

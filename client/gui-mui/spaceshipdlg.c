@@ -197,7 +197,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, pplayer->name,
-    MUIA_Window_ID, 'SPA\0' | (pplayer->player_no & 0xff),
+    MUIA_Window_ID, MAKE_ID('S','P','A',(pplayer->player_no & 0xff)),
     WindowContents, VGroup,
 	Child, HGroup,
 	    Child, ScrollgroupObject,

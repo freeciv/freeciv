@@ -287,7 +287,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
   {
     help_wnd = WindowObject,
       MUIA_Window_Title, "Help",
-      MUIA_Window_ID, 'HELP',
+      MUIA_Window_ID, MAKE_ID('H','E','L','P'),
 
       WindowContents, HGroup,
           Child, help_topic_listview = NListviewObject,

@@ -1,5 +1,5 @@
-#ifndef WORKLISTCLASS_H
-#define WORKLISTCLASS_H
+#ifndef FC__WORKLISTCLASS_H
+#define FC__WORKLISTCLASS_H
 
 #define WorklistObject NewObject(CL_Worklist->mcc_Class, NULL
 
@@ -14,4 +14,5 @@ IMPORT struct MUI_CustomClass *CL_Worklist;
 BOOL create_worklist_class(void);
 VOID delete_worklist_class(void);
 
-#endif
+#endif  /* FC__WORKLISTCLASS_H */
+

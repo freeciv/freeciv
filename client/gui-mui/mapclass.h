@@ -1,3 +1,6 @@
+#ifndef FC__MAPCLASS_H
+#define FC__MAPCLASS_H
+
 #ifndef FC__UNIT_H
 #include "unit.h"
 #endif
@@ -98,3 +101,5 @@ struct Sprite *get_thumb_sprite(int onoff);
 
 int load_all_sprites(void);
 void free_all_sprites(void);
+
+#endif  /* FC__MAPCLASS_H */

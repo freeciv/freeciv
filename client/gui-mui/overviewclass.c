@@ -34,7 +34,7 @@ VOID myWritePixelArray8(struct RastPort *rp, unsigned long xstart,
   {
     struct RastPort temprp;
     InitRastPort(&temprp);
-    if ((temprp.BitMap = AllocBitMap(xstop - xstart + 1, 1, GetBitMapAttr(rp->BitMap, BMA_DEPTH), NULL, rp->BitMap)))
+    if ((temprp.BitMap = AllocBitMap(xstop - xstart + 1, 1, GetBitMapAttr(rp->BitMap, BMA_DEPTH), 0, rp->BitMap)))
     {
       WritePixelArray8(rp, xstart, ystart, xstop, ystop, array, &temprp);
       FreeBitMap(temprp.BitMap);
@@ -262,7 +262,7 @@ STATIC ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
     {
       set(o,MUIA_FillArea, FALSE);
       CoerceMethod(cl, o, OM_DISPOSE);
-      return NULL;
+      return 0;
     }
   }
   return (ULONG) o;
@@ -369,9 +369,9 @@ STATIC ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
     data->pen_ground = ObtainBestPenA(cm, 0, MAKECOLOR32(200), 0, NULL);
     data->pen_ocean = ObtainBestPenA(cm, 0, 0, MAKECOLOR32(200), NULL);
     data->pen_mecity = ObtainBestPenA(cm, -1, -1, -1, NULL);
-    data->pen_meunit = ObtainBestPenA(cm, -1, -1, NULL, NULL);
+    data->pen_meunit = ObtainBestPenA(cm, -1, -1, 0, NULL);
     data->pen_city = ObtainBestPenA(cm, 0, -1, MAKECOLOR32(200), NULL);
-    data->pen_unit = ObtainBestPenA(cm, -1, NULL, NULL, NULL);
+    data->pen_unit = ObtainBestPenA(cm, -1, 0, 0, NULL);
 
     MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS);
 
@@ -571,7 +571,7 @@ STATIC ULONG Overview_RefreshSingle(struct IClass * cl, Object * o, struct MUIP_
   data->color = color;
 
   MUI_Redraw(o, MADF_DRAWUPDATE);
-  return NULL;
+  return 0;
 }
 
 DISPATCHERPROTO(Overview_Dispatcher)
@@ -606,7 +606,7 @@ DISPATCHERPROTO(Overview_Dispatcher)
 
 BOOL create_overview_class(void)
 {
-  if ((CL_Overview = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Overview_Data), Overview_Dispatcher)))
+  if ((CL_Overview = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Overview_Data), (APTR) Overview_Dispatcher)))
       return TRUE;
   return FALSE;
 }

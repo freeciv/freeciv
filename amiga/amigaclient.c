@@ -14,9 +14,8 @@ produces that results. Maybe rename main() to main2() and name your preparse
 function main() and call main2() afterwards. This depends on your compiler.
 */
 
-#ifdef __SASC /* remove usage of strerror prototype */
+/* remove usage of strerror prototype */
 #define strerror strerror_unuse
-#endif
 
 #include <ctype.h>
 #include <stdio.h>
@@ -58,6 +57,10 @@ struct Library *UserGroupBase = 0;
 struct Library *GuiGFXBase = 0;
 struct Library *MUIMasterBase = 0;
 struct Library *DataTypesBase = 0;
+struct UtilityBase *UtilityBase = 0;
+struct IntuitionBase *IntuitionBase = 0;
+struct GfxBase *GfxBase = 0;
+struct Library *LayersBase = 0;
 struct Library *IconBase;
 static char *stdargv[1] = {"civclient"}; /* standard arg, if WB parsing failed */
 
@@ -75,6 +78,10 @@ static void civ_exitfunc(void)
   if(SocketBase) CloseLibrary(SocketBase);
   if(GuiGFXBase) CloseLibrary(GuiGFXBase);
   if(DataTypesBase) CloseLibrary(DataTypesBase);
+  if(UtilityBase) CloseLibrary((struct Library *) UtilityBase);
+  if(IntuitionBase) CloseLibrary((struct Library *) IntuitionBase);
+  if(GfxBase) CloseLibrary((struct Library *) GfxBase);
+  if(LayersBase) CloseLibrary(LayersBase);
 }
 
 int main(int argc, char **argv)
@@ -177,15 +184,26 @@ int main(int argc, char **argv)
 
           if((MUIMasterBase = OpenLibrary(MUIMASTER_NAME,MUIMASTER_VMIN)))
           {
-            /* Reserve 0 for stdin */
-            Dup2Socket(-1,0);
+            if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
+            {
+              if((UtilityBase = (struct UtilityBase *) OpenLibrary("utility.library", 37)))
+              {
+                if((GfxBase = (struct GfxBase *) OpenLibrary("graphics.library", 37)))
+                {
+                  if((LayersBase = OpenLibrary("layers.library", 37)))
+                  {
+                    /* Reserve 0 for stdin */
+                    Dup2Socket(-1,0);
 
-            /* all went well, call main function */
-            if(!argc)
-              ret = civ_main(1, stdargv);
-            else
-              ret = civ_main(argc, argv);
-
+                    /* all went well, call main function */
+                    if(!argc)
+                      ret = civ_main(1, stdargv);
+                    else
+                      ret = civ_main(argc, argv);
+                  }
+                }
+              }
+            }
           }
           else
             printf("Couldn't open " MUIMASTER_NAME "!\n");
@@ -218,9 +236,7 @@ void usleep(unsigned long usec)
  strerror() which also understand the non ANSI C errors. Complete.
  Note. SAS uses another prototype definition.
 **************************************************************************/
-#ifdef __SASC /* remove usage of strerror prototype */
-#undef strerror
-#endif
+#undef strerror /* remove usage of strerror prototype */
 
 const char *strerror(unsigned int error)
 {
@@ -282,4 +298,18 @@ int ioctl(int fd, unsigned int request, char *argp)
 {
   return IoctlSocket(fd, request, argp);
 }
+
+/**************************************************************************
+ stricmp() - a case insensitive string compare function
+**************************************************************************/
+#ifndef __SASC
+int stricmp(const char *a, const char *b)
+{
+  while(*a && tolower(*a) == tolower(*b))
+  {
+    ++a; ++b;
+  }
+  return (tolower(*a) - tolower(*b));
+}
+#endif
 
