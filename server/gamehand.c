@@ -345,7 +345,9 @@ void send_game_info(struct conn_list *dest)
     ginfo.great_wonders[i] = game.great_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.timeout > 0) {
+  if (game.timeout > 0 && game.phase_timer) {
+    /* Sometimes this function is called before the phase_timer is
+     * initialized.  In that case we want to send the dummy value. */
     ginfo.seconds_to_phasedone
       = game.seconds_to_phase_done - read_timer_seconds(game.phase_timer);
   } else {
