@@ -76,7 +76,7 @@ static void grow_printf(char **buffer, size_t *buffer_size,
   static char buf[GROW_TMP_SIZE];
 
   if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
-    die("Formatted string bigger than %lu", sizeof(buf));
+    die("Formatted string bigger than %lu", (unsigned long)sizeof(buf));
   }
 
   new_len = strlen(*buffer) + strlen(buf) + 1;
@@ -87,7 +87,7 @@ static void grow_printf(char **buffer, size_t *buffer_size,
     size_t new_size = MAX(new_len, *buffer_size * 2);
 
     freelog(LOG_VERBOSE, "expand from %lu to %lu to add '%s'",
-	    *buffer_size, new_size, buf);
+	    (unsigned long)*buffer_size, (unsigned long)new_size, buf);
 
     *buffer_size = new_size;
     *buffer = fc_realloc(*buffer, *buffer_size);
