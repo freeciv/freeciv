@@ -8,6 +8,7 @@
 #include <errno.h>
 
 #include <exec/memory.h>
+#include <graphics/gfxmacros.h>
 #include <graphics/rpattr.h>
 #include <libraries/mui.h>
 #include <guigfx/guigfx.h>
@@ -83,6 +84,39 @@ void request_unit_goto_location(struct unit *punit, int x, int y)
   req.x = x;
   req.y = y;
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+}
+
+/**************************************************************************
+  Find the "best" city to associate with the selected tile.  
+    a.  A city working the tile is the best
+    b.  If no city is working the tile, choose a city that could work the tile
+    c.  If multiple cities could work it, choose the most recently "looked at"
+    d.  If none of the cities were looked at last, choose "randomly"
+    e.  If another player is working the tile, or no cities can work it,
+	return NULL
+**************************************************************************/
+static struct city *find_city_near_tile(int x, int y)
+{
+  struct tile *ptile=map_get_tile(x, y);
+  struct city *pcity, *pcity2;
+  int i,j;
+  static struct city *last_pcity=NULL;
+
+  if((pcity=ptile->worked))  {
+    if(pcity->owner==game.player_idx)  return last_pcity=pcity;   /* rule a */
+    else return NULL;	 /* rule e */
+  }
+
+  pcity2 = NULL;
+  city_map_iterate(i, j)  {
+    pcity = map_get_city(x+i-2, y+j-2);
+    if(pcity && pcity->owner==game.player_idx && 
+       get_worker_city(pcity,4-i,4-j)==C_TILE_EMPTY)  {  /* rule b */
+      if(pcity==last_pcity) return pcity;  /* rule c */
+      pcity2 = pcity;
+    }
+  }
+  return last_pcity = pcity2;
 }
 
 /* Own sprite list - used so we can reload the sprites if needed */
@@ -477,7 +511,9 @@ static void put_sprite_overlay(struct RastPort *rp, struct Sprite *sprite, LONG 
 /****************************************************************
 ...
 *****************************************************************/
-void put_city_output_tile(struct RastPort *rp, int food, int shield, int trade, int offx, int offy, int x_tile, int y_tile)
+void put_city_output_tile(struct RastPort *rp,
+                          int food, int shield, int trade,
+                          int offx, int offy, int x_tile, int y_tile)
 {
   int destx = x_tile * get_normal_tile_width() + offx;
   int desty = y_tile * get_normal_tile_height() + offy;
@@ -802,7 +838,11 @@ struct Map_Data
   struct Sprite *intro_gfx_sprite;
   struct Sprite *radar_gfx_sprite;
 
-  LONG m_black;
+  LONG black_pen;
+  LONG white_pen;
+  LONG yellow_pen;
+  LONG cyan_pen;
+  LONG red_pen;
 
   /* Connected Objects */
   Object *overview_object;
@@ -839,6 +879,10 @@ struct Map_Data
   struct unit *explode_unit; /* Drawing (5) */
   LONG mushroom_x0; /* Mushroom(6) */
   LONG mushroom_y0; /* Mushroom(6) */
+  struct city *worker_pcity; /* City Workers(7) */
+  LONG worker_iteratecolor; /* City Workers(7) */
+  LONG worker_colors[3];
+  LONG worker_colornum;
 };
 
 struct NewPosData
@@ -1035,10 +1079,10 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 	    w = TextLength(rp, pcity->name, strlen(pcity->name));
 	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
 
-	    SetAPen(rp, 1);	/* black */
+	    SetAPen(rp, data->black_pen);
 	    Move(rp, pix_x, pix_y);
 	    Text(rp, pcity->name, strlen(pcity->name));
-	    SetAPen(rp, 2);	/* white */
+	    SetAPen(rp, data->white_pen);
 	    Move(rp, pix_x - 1, pix_y - 1);
 	    Text(rp, pcity->name, strlen(pcity->name));
 	    pix_y += rp->TxHeight;
@@ -1070,10 +1114,10 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 	    w = TextLength(rp, buffer, strlen(buffer));
 	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
 
-	    SetAPen(rp, 1);	/* black */
+	    SetAPen(rp, data->black_pen);
 	    Move(rp, pix_x, pix_y);
 	    Text(rp, buffer, strlen(buffer));
-	    SetAPen(rp, 2);	/* white */
+	    SetAPen(rp, data->white_pen);
 	    Move(rp, pix_x - 1, pix_y - 1);
 	    Text(rp, buffer, strlen(buffer));
 	  }
@@ -1258,7 +1302,11 @@ STATIC ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
     return FALSE;
 
   cm = _screen(o)->ViewPort.ColorMap;
-  data->m_black = ObtainBestPenA(cm, 0, 0, 0, NULL);
+  data->black_pen = ObtainBestPenA(cm, 0, 0, 0, NULL);
+  data->white_pen = ObtainBestPenA(cm, 0xffffffff, 0xffffffff, 0xffffffff, NULL);
+  data->worker_colors[0] = data->yellow_pen = ObtainBestPenA(cm, 0xffffffff, 0xffffffff, 0, NULL);
+  data->worker_colors[1] = data->cyan_pen = ObtainBestPenA(cm, 0, 0xffffffff, 0xc8c8c8c8, NULL);
+  data->worker_colors[2] = data->red_pen = ObtainBestPenA(cm, 0xffffffff, 0, 0, NULL);
 
   data->intro_gfx_sprite = load_sprite(main_intro_filename, FALSE);
   data->radar_gfx_sprite = load_sprite(minimap_intro_filename, FALSE);
@@ -1336,7 +1384,12 @@ STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
   }
 
   cm = _screen(o)->ViewPort.ColorMap;
-  ReleasePen(cm, data->m_black);
+
+  ReleasePen(cm, data->black_pen);
+  ReleasePen(cm, data->white_pen);
+  ReleasePen(cm, data->yellow_pen);
+  ReleasePen(cm, data->cyan_pen);
+  ReleasePen(cm, data->red_pen);
 
   return DoSuperMethodA(cl, o, msg);
 }
@@ -1533,12 +1586,75 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 			  w, h, 0xc0);
 
 	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
-      	return NULL;
+      	return 0;
+      }
+
+      if (data->update == 7)
+      {
+      	/* Draw City Workers */
+	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+	int color;
+	int i,j,x,y;
+	struct city *pcity = data->worker_pcity;
+
+	color = data->worker_colors[data->worker_colornum];
+
+	if (data->worker_iteratecolor)
+	{
+	  data->worker_colornum++;
+	  if (data->worker_colornum == 3) data->worker_colornum = 0;
+	}
+
+	x = map_canvas_adjust_x(pcity->x);
+	y = map_canvas_adjust_y(pcity->y);
+
+	SetAPen(_rp(o),color);
+
+	city_map_iterate(i, j)
+	{
+	  enum city_tile_type t = get_worker_city(pcity, i, j);
+
+	  if (!(i==2 && j==2))
+	  {
+	    int pix_x = (x + i - 2) * NORMAL_TILE_WIDTH + _mleft(o);
+	    int pix_y = (y + j - 2) * NORMAL_TILE_HEIGHT + _mtop(o);
+
+	    if (t == C_TILE_EMPTY)
+	    {
+	      static unsigned short pattern[] = {0x4444,0x1111};
+	      SetAfPt( _rp(o), pattern, 1);
+	    } else
+	    if (t == C_TILE_WORKER)
+	    {
+	      static unsigned short pattern[] = {0xaaaa,0x5555};
+	      SetAfPt( _rp(o), pattern, 1);
+	    } else continue;
+
+	    RectFill(_rp(o),pix_x, pix_y,
+	             pix_x + NORMAL_TILE_WIDTH - 1,
+	             pix_y + NORMAL_TILE_HEIGHT - 1);
+
+	    SetAfPt( _rp(o), NULL, 0);
+
+	  }
+
+	  if (t == C_TILE_WORKER)
+	  {
+	    put_city_output_tile(_rp(o),
+				 get_food_tile(i, j, pcity),
+				 get_shields_tile(i, j, pcity),
+				 get_trade_tile(i, j, pcity),
+				 _mleft(o), _mtop(o), x + i - 2, y + j - 2);
+	  }
+	}
+
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	return 0;
       }
 
       if (data->update == 2)
       {
-/*	Move the Unit Smoothly (from mapview.c) */
+	/* Move the Unit Smoothly (from mapview.c) */
 	int map_view_x0 = data->horiz_first;
 	int map_view_y0 = data->vert_first;
 	int i, x, y, x0 = data->x0, y0 = data->y0, dx = data->dx, dy = data->dy;
@@ -1816,6 +1932,9 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
 	  x += data->horiz_first;
 	  y += data->vert_first;
 
+	  x = map_adjust_x(x);
+	  y = map_adjust_x(y);
+
 	  if ((qual & IEQUALIFIER_LSHIFT) || (qual & IEQUALIFIER_RSHIFT))
 	  {
 	    if (!data->pop_wnd)
@@ -1832,10 +1951,19 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
 	      }
 	    }
 	  }
+	  else if ((qual & IEQUALIFIER_CONTROL))
+	  {
+	    struct city *pcity;
+
+	    if ((pcity = find_city_near_tile(x,y)))
+	    {
+	      DoMethod(o,MUIM_Map_PutCityWorkers,pcity,0);
+	    }
+	  }
 	  else
 	  {
-	    data->click.x = map_adjust_x(x);
-	    data->click.y = map_adjust_y(y);
+	    data->click.x = x;
+	    data->click.y = y;
 
 	    set(o, MUIA_Map_Click, &data->click);
 	  }
@@ -2141,12 +2269,23 @@ STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*
   return 0;
 }
 
-/*
 STATIC ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_PutCityWorkers * msg)
 {
-  return NULL;
-}
+  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  extern struct city *city_workers_display; /* inside mapctrl.c */
 
+  data->update = 7;
+  data->worker_pcity = msg->pcity;
+  if (msg->color == -1 && msg->pcity == city_workers_display) {
+    data->worker_iteratecolor = 0;
+  } else data->worker_iteratecolor = 1;
+  MUI_Redraw(o, MADF_DRAWUPDATE);
+
+/*  city_workers_display = msg->pcity;*/
+/*  extern struct city *city_workers_display;*/ /* inside mapctrl.c */
+  return 0;
+}
+/*
 STATIC ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_PutCrossTile * msg)
 {
   return NULL;
@@ -2210,7 +2349,7 @@ DISPATCHERPROTO(Map_Dispatcher)
   case MUIM_Map_ShowCityDescriptions:
     return Map_ShowCityDescriptions(cl, obj/*, msg*/);
   case MUIM_Map_PutCityWorkers:
-/*    return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);*/
+    return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
   case MUIM_Map_PutCrossTile:
 /*    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);*/
     return NULL;
