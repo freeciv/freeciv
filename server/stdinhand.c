@@ -2940,7 +2940,7 @@ static void show_players(struct player *caller)
 /**************************************************************************
 The valid commands at the root of the prompt.
 **************************************************************************/
-char *command_generator(char *text, int state)
+static char *command_generator(char *text, int state)
 {
   static int list_index, len;
   const char *name;
@@ -2969,7 +2969,7 @@ char *command_generator(char *text, int state)
 /**************************************************************************
 The valid arguments to "set" and "explain"
 **************************************************************************/
-char *option_generator(char *text, int state)
+static char *option_generator(char *text, int state)
 {
   static int list_index, len;
   const char *name;
@@ -2997,7 +2997,7 @@ char *option_generator(char *text, int state)
 /**************************************************************************
 The player names.
 **************************************************************************/
-char *player_generator(char *text, int state)
+static char *player_generator(char *text, int state)
 {
   static int list_index, len;
   const char *name;
@@ -3026,7 +3026,7 @@ char *player_generator(char *text, int state)
 /**************************************************************************
 ...
 **************************************************************************/
-char *rulesout_generator(char *text, int state)
+static char *rulesout_generator(char *text, int state)
 {
   static int list_index, len;
   const char *name;
@@ -3055,7 +3055,7 @@ char *rulesout_generator(char *text, int state)
 /**************************************************************************
 ...
 **************************************************************************/
-char *cmdlevel_generator(char *text, int state)
+static char *cmdlevel_generator(char *text, int state)
 {
   static int list_index, len;
   const char *name;
