@@ -1010,10 +1010,25 @@ static ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
       InstallLayerInfoHook(data->map_layerinfo, LAYERS_NOBACKFILL);
       if ((data->map_layer = CreateBehindHookLayer(data->map_layerinfo, data->map_bitmap, 0, 0, _mwidth(o) - 1, _mheight(o) - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
       {
+      	int xsize;
+      	int ysize;
+
+	/* determine sizes. The usually way was to use map.xsize (or map.ysize) but
+	 * this won't work anymore */
+	if (data->overview_object)
+	{
+	    xsize = xget(data->overview_object, MUIA_Overview_Width);
+	    ysize = xget(data->overview_object, MUIA_Overview_Height);
+	} else
+	{
+	    xsize = map.xsize;
+	    ysize = map.ysize;
+	}
+
 	if (data->hscroller_object)
 	{
 	  SetAttrs(data->hscroller_object,
-		   MUIA_Prop_Entries, map.xsize + xget(o, MUIA_Map_HorizVisible) - 1,
+		   MUIA_Prop_Entries, xsize + xget(o, MUIA_Map_HorizVisible) - 1,
 		   MUIA_Prop_Visible, xget(o, MUIA_Map_HorizVisible),
 		   MUIA_NoNotify, TRUE,
 		   TAG_DONE);
@@ -1022,7 +1037,7 @@ static ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
 	if (data->vscroller_object)
 	{
 	  SetAttrs(data->vscroller_object,
-		   MUIA_Prop_Entries, map.ysize,
+		   MUIA_Prop_Entries, ysize,
 		   MUIA_Prop_Visible, xget(o, MUIA_Map_VertVisible),
 		   MUIA_NoNotify, TRUE,
 		   TAG_DONE);
@@ -1565,7 +1580,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
         if (blit_all) {
           BltBitMapRastPort(data->map_bitmap,0,0,_rp(o),_mleft(o),_mtop(o),_mwidth(o),_mheight(o),0xc0);
-	  Map_Priv_ShowCityDescriptions(o, data);
+//	  Map_Priv_ShowCityDescriptions(o, data);
         } else
 	if (write_to_screen) {
 	  LONG pix_width = width * get_normal_tile_width();
@@ -1592,6 +1607,9 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
       }
+
+      if  (!(msg->flags & MADF_DRAWUPDATE) || blit_all)
+	Map_Priv_ShowCityDescriptions(o, data);
     }
 
     data->update = 0;

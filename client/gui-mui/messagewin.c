@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -84,8 +85,7 @@ bool is_meswin_open(void)
 struct message_entry
 {
   char *message;
-  int x, y;
-  int event;
+  int row;
 };
 
 /****************************************************************
@@ -140,17 +140,9 @@ static void mes_active(void)
   DoMethod(mes_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
   if (entry)
   {
-    struct city *pcity;
-    int x = entry->x, y = entry->y;
-
-    int location_ok;
-    int city_ok;
-
-    location_ok = (x != -1 && y != -1);
-    city_ok = (location_ok && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx));
-
-    set(mes_goto_button, MUIA_Disabled, !location_ok);
-    set(mes_popcity_button, MUIA_Disabled, !city_ok);
+    struct message *message = get_message(entry->row);
+    set(mes_goto_button, MUIA_Disabled, !message->location_ok);
+    set(mes_popcity_button, MUIA_Disabled, !message->city_ok);
   }
   else
   {
@@ -166,10 +158,7 @@ static void mes_goto(void)
 {
   struct message_entry *entry;
   DoMethod(mes_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
-  if (entry && entry->x != -1 && entry->y != -1)
-  {
-    center_tile_mapcanvas(entry->x, entry->y);
-  }
+  if (entry) meswin_goto(entry->row);
 }
 
 /**************************************************************************
@@ -179,23 +168,7 @@ static void mes_popcity(void)
 {
   struct message_entry *entry;
   DoMethod(mes_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
-  if (entry)
-  {
-    struct city *pcity;
-    int x, y;
-
-    x = entry->x;
-    y = entry->y;
-
-    if ((x!=-1 || y!=-1) && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx))
-    {
-      if (center_when_popup_city)
-      {
-	center_tile_mapcanvas(x, y);
-      }
-      popup_city_dialog(pcity, 0);
-    }
-  }
+  if (entry) meswin_popup_city(entry->row);
 }
 
 /**************************************************************************
@@ -203,10 +176,9 @@ static void mes_popcity(void)
 **************************************************************************/
 static void mes_doubleclick(void)
 {
-  if (!xget(mes_popcity_button,MUIA_Disabled))
-    mes_popcity();
-  else
-    mes_goto();
+  struct message_entry *entry;
+  DoMethod(mes_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
+  if (entry) meswin_double_click(entry->row);
 }
 
 /**************************************************************************
@@ -259,51 +231,18 @@ static void create_meswin_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void real_clear_notify_window(void)
-{
-  if (mes_wnd)
-  {
-    DoMethod(mes_listview, MUIM_NList_Clear);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_add_notify_window(struct packet_generic_message *packet)
-{
-  struct message_entry entry;
-
-  if (!mes_wnd)
-  {
-    create_meswin_dialog();
-    if (!mes_wnd)
-      return;
-  }
-
-  if (strncmp(packet->message, _("Game: "), 6) == 0)
-    entry.message = packet->message + 6;
-  else
-    entry.message = packet->message;
-
-  entry.x = packet->x;
-  entry.y = packet->y;
-  entry.event = packet->event;
-
-  DoMethod(mes_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void real_update_meswin_dialog(void)
 {
-  if (xget(mes_listview, MUIA_NList_Entries))
+  int i, num = get_num_messages();
+
+  DoMethod(mes_listview, MUIM_NList_Clear);
+
+  for (i = 0; i < num; i++)
   {
-    if (!xget(mes_wnd, MUIA_Window_Open))
-    {
-      if (!game.player_ptr->ai.control || ai_popup_windows)
-	set(mes_wnd, MUIA_Window_Open, TRUE);
-    }
+    struct message_entry entry;
+    entry.message = get_message(i)->descr;
+    entry.row = i;
+    DoMethod(mes_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
+//    meswin_not_visited_item(i);
   }
 }

@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -28,7 +29,6 @@
 #include <proto/graphics.h>
 
 #include "city.h"
-#include "colors.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
@@ -276,7 +276,7 @@ static void UpdateTechButton(Object *o, int tech)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_help_dialog_typed(char *item, enum help_page_type htype)
+void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
   if (!help_wnd)
   {
@@ -341,7 +341,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_help_dialog_string(char *item)
+void popup_help_dialog_string(const char *item)
 {
   popup_help_dialog_typed(_(item), HELP_ANY);
 }
