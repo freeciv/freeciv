@@ -182,8 +182,8 @@ contributions to the Freeciv project.
      Ralph Engels <rengels@hydra.informatik.uni-ulm.de> ("engels" tileset)
      Marco Saupe <msaupe@saale-net.de> (intro graphics, trident city styles)
      Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (shields/chiefs)
-     Joe Rumsey <ogre@atomic.com>, Mike McGrath <mcgrath@epx.cis.umn.edu>
-	(unit explosion animation (from xgalaga))
+     Joe Rumsey <ogre@atomic.com> (explosion animation from xgalaga)
+     Mike McGrath <mcgrath@epx.cis.umn.edu> (explosion animation from xgalaga)
      Paul Zastoupil <paulz@adnc.com> (flags)
      Robert Brady <rwb197@ecs.soton.ac.uk> (flags)
      Tomasz Wegrzanowski <maniek@beer.com> (flags)
@@ -409,8 +409,8 @@ contributions to the Freeciv project.
 
   Monetary donations:
 
-     Ian Rees (Domain name)
-     Paul Zastoupil (Domain name)
+     Ian Rees <irees@sat.net> (Domain name)
+     Paul Zastoupil <paulz@adnc.com> (Domain name)
      Martin Willemoes Hansen <mwh@stampede.org> (Domain name)
      Mitch Davis <mjd@aus.hp.com> (Domain name)
      James Blackwell <innocent@mercury.merconline.com> (Domain name)
