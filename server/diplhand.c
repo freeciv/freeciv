@@ -197,6 +197,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			      packet);
 
   if (ptreaty->accept0 && ptreaty->accept1) {
+    int nclauses = clause_list_size(&ptreaty->clauses);
+
     lsend_packet_diplomacy_info(&plr0->connections,
 				PACKET_DIPLOMACY_CANCEL_MEETING, 
 				packet);
@@ -205,11 +207,15 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 				packet);
 
     notify_player(plr0,
-		  _("Game: A treaty containing %d clauses was agreed upon."),
-		  clause_list_size(&ptreaty->clauses));
+		  PL_("Game: A treaty containing %d clause was agreed upon.",
+		      "Game: A treaty containing %d clauses was agreed upon.",
+		      nclauses),
+		  nclauses);
     notify_player(plr1,
-		  _("Game: A treaty containing %d clauses was agreed upon."),
-		  clause_list_size(&ptreaty->clauses));
+		  PL_("Game: A treaty containing %d clause was agreed upon.",
+		      "Game: A treaty containing %d clauses was agreed upon.",
+		      nclauses),
+		  nclauses);
     gamelog(GAMELOG_TREATY, _("%s and %s agree to a treaty"),
 	    get_nation_name_plural(plr0->nation),
 	    get_nation_name_plural(plr1->nation));
