@@ -328,8 +328,7 @@ void city_list_callback(Widget w, XtPointer client_data,
     XtSetSensitive(city_change_command, TRUE);
     XtSetSensitive(city_center_command, TRUE);
     XtSetSensitive(city_popup_command, TRUE);
-    XtSetSensitive(city_buy_command, !pcity->did_buy && 
-         !(!pcity->is_building_unit && pcity->currently_building==B_CAPITAL));
+    XtSetSensitive(city_buy_command, city_can_buy(pcity));
     if (city_popupmenu)
       XtDestroyWidget(city_popupmenu);
 
