@@ -63,6 +63,7 @@ files =
   "misc/treaty.spec",
   "isotrident/fog.spec",
   "isotrident/nuke.spec",
+  "trident/explosions.spec",
   "isotrident/cities.spec",
   "isotrident/morecities.spec"
 
