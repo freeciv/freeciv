@@ -1080,7 +1080,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  unit_name (pdiplomat->type),
 			  pcity->name);
 
-	wipe_unit (0, punit);
+	wipe_unit_safe(0, punit, &myiter);
       } else {
 	/* Attacking Spy/Diplomat dies. */
 
@@ -1098,7 +1098,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  unit_name (pdiplomat->type),
 			  pcity->name);
 
-	wipe_unit (0, pdiplomat);
+	wipe_unit_safe(0, pdiplomat, &myiter);
 	return 0;
       }
     }
@@ -1318,7 +1318,7 @@ void player_restore_units(struct player *pplayer)
       gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
-      wipe_unit(0, punit);
+      wipe_unit_safe(0, punit, &myiter);
     }
     else if(is_air_unit(punit)) {
       punit->fuel--;
@@ -1358,7 +1358,7 @@ void player_restore_units(struct player *pplayer)
 	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
 		get_nation_name_plural(pplayer->nation),
 		unit_name(punit->type));
-	wipe_unit(0, punit);
+	wipe_unit_safe(0, punit, &myiter);
       }
     } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
 	       !is_coastline(punit->x, punit->y) &&

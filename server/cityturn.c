@@ -909,7 +909,7 @@ static void city_populate(struct city *pcity)
     unit_list_iterate(pcity->units_supported, punit) {
       if (get_unit_type(punit->type)->food_cost > 0) {
 	char *utname = get_unit_type(punit->type)->name;
-	wipe_unit(0, punit);
+	wipe_unit_safe(0, punit, &myiter);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 
 			 pcity->name, utname);
@@ -1189,7 +1189,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, get_unit_type(punit->type)->name);
-	wipe_unit(pplayer, punit);
+	wipe_unit_safe(pplayer, punit, &myiter);
 	break;
       }
     }

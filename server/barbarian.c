@@ -223,7 +223,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
 
   if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      wipe_unit(0, punit);
+      wipe_unit_safe(0, punit, &myiter);
     } unit_list_iterate_end;
     return 0;
   }
@@ -284,7 +284,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
     else {               /* The village is surrounded! Kill the explorer. */
       unit_list_iterate(map_get_tile(x, y)->units, punit2)
         if( punit2->owner != me ) {
-          wipe_unit(barbarians, punit2);
+          wipe_unit_safe(barbarians, punit2, &myiter);
           alive = 0;
         }
         else

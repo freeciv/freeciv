@@ -383,7 +383,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 	      /* FIXME: should be handled in server... */
               pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
               send_city_info(pplayer, pcity);
-              wipe_unit(pplayer, punit);
+              wipe_unit_safe(pplayer, punit, &myiter);
             }
           }
         }
