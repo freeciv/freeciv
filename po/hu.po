@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "POT-Creation-Date: 2003-10-20 12:57-0400\n"
-"PO-Revision-Date: 2003-09-17 11:54+0200\n"
+"PO-Revision-Date: 2003-11-20 22:20+0100\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2486,12 +2486,11 @@ msgstr ""
 
 #: server/srv_main.c:1006
 msgid "Please choose a non-blank name."
-msgstr "Nem üres nevet válassz."
+msgstr "Nem üres nevet válassz!"
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Nem üres nevet válassz."
+msgstr "Érvényes nevet válassz!"
 
 #: server/srv_main.c:1036
 #, c-format
@@ -5530,7 +5529,7 @@ msgstr ""
 
 #: client/attribute.c:277
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Régi attribútumokat találtam. Töröltem õket."
 
 #: client/audio.c:132
 #, c-format
@@ -6440,9 +6439,8 @@ msgid "%s%d gold"
 msgstr "%s%d arany"
 
 #: client/messagewin_common.c:109
-#, fuzzy
 msgid "Game: "
-msgstr "Játék: %s"
+msgstr "Játék: "
 
 #: client/options.c:83
 msgid "Default player's username"
@@ -9859,7 +9857,7 @@ msgstr "Körök"
 
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "Forrás_feladatok"
 
 #: client/gui-gtk-2.0/wldlg.c:902
 msgid "Show _Future Targets"
@@ -9874,9 +9872,8 @@ msgid "_Add Global Worklist"
 msgstr "Globális munkaterv _hozzáadása"
 
 #: client/gui-gtk-2.0/wldlg.c:988
-#, fuzzy
 msgid "Chan_ge Production"
-msgstr "Termelés átállítása"
+msgstr "Termelés _átállítása"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
