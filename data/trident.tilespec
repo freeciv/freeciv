@@ -66,6 +66,10 @@ files =
 match_style = "BOOL"
 match_types = "arctic", "desert", "forest", "grassland", "hills", "jungle", "mountains", "ocean", "plains", "swamp", "tundra"
 
+[layer1]
+match_style = "BOOL"
+match_types = "ocean"
+
 [terrain_arctic]
 is_blended = 0
 num_layers = 1
@@ -114,9 +118,12 @@ mine_sprite = "tx.mine"
 
 [terrain_ocean]
 is_blended = 0
-num_layers = 1
+num_layers = 2
 layer0_match_style = "bool"
 layer0_match_type = "ocean"
+layer1_match_style = "bool"
+layer1_match_type = "ocean"
+layer1_cell_type = "rect"
 
 [terrain_plains]
 is_blended = 0

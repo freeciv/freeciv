@@ -1446,13 +1446,6 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
   }
 
-  if (!is_isometric) {
-    for(i=1; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%s", nsew_str(i));
-      SET_SPRITE(tx.coast_cape[i], buffer);
-    }
-  }
-
   switch (darkness_style) {
   case DARKNESS0:
     /* Nothing. */
@@ -2461,7 +2454,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
       int match_type = draw->layer[l].match_type;
 
 #define MATCH(dir)                                               \
-      (sprites.terrain[ttype_near[(dir)]]->layer[l].match_type)
+      (sprites.terrain[ttype_near[(dir)]]->num_layers > l	 \
+       ? sprites.terrain[ttype_near[(dir)]]->layer[l].match_type : -1)
 
       if (draw->layer[l].cell_type == CELL_SINGLE) {
 	int tileno = 0, i;
@@ -2517,6 +2511,9 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	   array_index = array_index * count + (m[0] != match_type);
 	   break;
 	 case MATCH_FULL:
+	   if (m[0] == -1 || m[1] == -1 || m[2] == -1) {
+	     break;
+	   }
 	   array_index = array_index * count + m[2];
 	   array_index = array_index * count + m[1];
 	   array_index = array_index * count + m[0];
@@ -2583,25 +2580,6 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	break;
       }
 #undef UNKNOWN
-    }
-  }
-
-  /* Extra "capes" added on in non-iso view. */
-  if (is_ocean(ttype) && !is_isometric) {
-    int tileno = INDEX_NSEW((is_ocean(ttype_near[DIR8_NORTH])
-			     && is_ocean(ttype_near[DIR8_EAST])
-			     && !is_ocean(ttype_near[DIR8_NORTHEAST])),
-			    (is_ocean(ttype_near[DIR8_SOUTH])
-			     && is_ocean(ttype_near[DIR8_WEST])
-			     && !is_ocean(ttype_near[DIR8_SOUTHWEST])),
-			    (is_ocean(ttype_near[DIR8_EAST])
-			     && is_ocean(ttype_near[DIR8_SOUTH])
-			     && !is_ocean(ttype_near[DIR8_SOUTHEAST])),
-			    (is_ocean(ttype_near[DIR8_NORTH])
-			     && is_ocean(ttype_near[DIR8_WEST])
-			     && !is_ocean(ttype_near[DIR8_NORTHWEST])));
-    if (tileno != 0) {
-      ADD_SPRITE_SIMPLE(sprites.tx.coast_cape[tileno]);
     }
   }
 

@@ -272,9 +272,7 @@ struct named_sprites {
       *fog,
       *spec_river[MAX_INDEX_CARDINAL],
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
-      *river_outlet[4],		/* indexed by enum direction4 */
-      /* for non-isometric */
-      *coast_cape[NUM_DIRECTION_NSEW];	      /* first unused */
+      *river_outlet[4];		/* indexed by enum direction4 */
   } tx;				/* terrain extra */
 
   struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];

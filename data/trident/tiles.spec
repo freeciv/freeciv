@@ -23,25 +23,6 @@ dy = 30
 
 tiles = { "row", "column", "tag"
 
-; "Shoreline" "corner" tiles, designate shores north, south, east, 
-; west, actually that direction rotated 45 degrees clockwise:
-
-  0,  0, "tx.coast_cape_n1s0e0w0"
-  0,  1, "tx.coast_cape_n0s0e1w0"
-  0,  2, "tx.coast_cape_n1s0e1w0"
-  0,  3, "tx.coast_cape_n0s1e0w0"
-  0,  4, "tx.coast_cape_n1s1e0w0"
-  0,  5, "tx.coast_cape_n0s1e1w0"
-  0,  6, "tx.coast_cape_n1s1e1w0"
-  0,  7, "tx.coast_cape_n0s0e0w1"
-  0,  8, "tx.coast_cape_n1s0e0w1"
-  0,  9, "tx.coast_cape_n0s0e1w1"
-  0, 10, "tx.coast_cape_n1s0e1w1"
-  0, 11, "tx.coast_cape_n0s1e0w1"
-  0, 12, "tx.coast_cape_n1s1e0w1"
-  0, 13, "tx.coast_cape_n0s1e1w1"
-  0, 14, "tx.coast_cape_n1s1e1w1"
-
 ; Grassland, and whether terrain to north, south, east, west 
 ; is more grassland:
 
@@ -517,4 +498,49 @@ dy = 90
 
 tiles = { "row", "column", "tag"
   0, 0, "explode.nuke"
+}
+
+[grid_ocean]
+x_top_left = 420
+y_top_left = 0
+dx = 15
+dy = 15
+
+tiles = {"row", "column", "tag"
+  0,  0, "t.ocean_cell_u010"
+  0,  1, "t.ocean_cell_r010"
+  1,  0, "t.ocean_cell_l010"
+  1,  1, "t.ocean_cell_d010"
+
+  0,  2, "t.ocean_cell_u000"
+  0,  2, "t.ocean_cell_u001"
+  0,  2, "t.ocean_cell_u011"
+  0,  2, "t.ocean_cell_u100"
+  0,  2, "t.ocean_cell_u101"
+  0,  2, "t.ocean_cell_u110"
+  0,  2, "t.ocean_cell_u111"
+
+  0,  2, "t.ocean_cell_l000"
+  0,  2, "t.ocean_cell_l001"
+  0,  2, "t.ocean_cell_l011"
+  0,  2, "t.ocean_cell_l100"
+  0,  2, "t.ocean_cell_l101"
+  0,  2, "t.ocean_cell_l110"
+  0,  2, "t.ocean_cell_l111"
+
+  0,  2, "t.ocean_cell_r000"
+  0,  2, "t.ocean_cell_r001"
+  0,  2, "t.ocean_cell_r011"
+  0,  2, "t.ocean_cell_r100"
+  0,  2, "t.ocean_cell_r101"
+  0,  2, "t.ocean_cell_r110"
+  0,  2, "t.ocean_cell_r111"
+
+  0,  2, "t.ocean_cell_d000"
+  0,  2, "t.ocean_cell_d001"
+  0,  2, "t.ocean_cell_d011"
+  0,  2, "t.ocean_cell_d100"
+  0,  2, "t.ocean_cell_d101"
+  0,  2, "t.ocean_cell_d110"
+  0,  2, "t.ocean_cell_d111"
 }
