@@ -399,7 +399,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
 	  continue;
-	} else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) {
+	} else if (unit_flag(punit->type, F_TRIREME) 
+		   && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {
 	  move_cost = 2*SINGLE_MOVE+1;
 	} else {
 	  move_cost = SINGLE_MOVE;

@@ -250,21 +250,18 @@ int ai_manage_explorer(struct unit *punit)
   while (punit->moves_left) {
     int most_unknown = 0;
     int unknown;
-    int landnear;
 
     /* evaluate all adjacent tiles */
     square_iterate(x, y, 1, x1, y1) {
-      landnear = 0;
       unknown = 0;
       square_iterate(x1, y1, range, x2, y2) {
 	if (!map_get_known(x2, y2, pplayer))
 	  unknown++;
-	if (map_get_terrain(x2, y2) != T_OCEAN)
-	  landnear = 1;
       } square_iterate_end;
 
-      if (unknown > most_unknown
-	  && (landnear || !unit_flag(punit->type, F_TRIREME))
+      if (unknown > most_unknown && (!unit_flag(punit->type, F_TRIREME)
+				     || trireme_loss_pct(pplayer, x1,
+							 y1) == 0)
 	  && map_get_continent(x1, y1) == con
 	  && can_unit_move_to_tile_with_notify(punit, x1, y1, 0)
 	  && !((pcity = map_get_city(x1,y1))
