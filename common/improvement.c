@@ -14,7 +14,6 @@
 #include <string.h>
 
 #include "game.h"
-#include "log.h"
 #include "map.h"
 #include "support.h"
 #include "tech.h"

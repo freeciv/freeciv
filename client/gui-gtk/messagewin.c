@@ -23,7 +23,6 @@
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
