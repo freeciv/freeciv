@@ -2796,6 +2796,22 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y, int move_cost)
       unit_goes_out_of_sight(pplayer, punit);
     }
   } players_iterate_end;
+  
+  /* Remove hidden units (like submarines) which aren't seen anymore. */
+  square_iterate(src_x, src_y, 1, n_x, n_y) {
+    players_iterate(pplayer) {
+      /* We're only concerned with known, unfogged tiles which may contain
+       * hidden units that are no longer visible.  These units will not
+       * have been handled by the fog code, above. */
+      if (map_get_known(n_x, n_y, pplayer) == TILE_KNOWN) {
+        unit_list_iterate(map_get_tile(n_x, n_y)->units, punit2) {
+          if (punit2 != punit && !can_player_see_unit(pplayer, punit2)) {
+	    unit_goes_out_of_sight(pplayer, punit2);
+	  }
+        } unit_list_iterate_end;
+      }
+    } players_iterate_end;
+  } square_iterate_end;
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
   wakeup_neighbor_sentries(punit);
