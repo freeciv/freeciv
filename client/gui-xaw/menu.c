@@ -569,7 +569,12 @@ static void government_menu_callback(Widget w, XtPointer client_data,
 static void revolution_menu_callback(Widget w, XtPointer client_data,
 				     XtPointer garbage)
 {
-  set_government_choice((int)client_data);
+  if (game.player_ptr->revolution_finishes == -1) {
+    popup_revolution_dialog(XTPOINTER_TO_INT(client_data));
+  } else {
+    /* Player already has a revolution and should just choose a government */
+    set_government_choice(XTPOINTER_TO_INT(client_data));
+  }
 }
 
 /****************************************************************
