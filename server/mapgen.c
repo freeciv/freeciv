@@ -678,7 +678,7 @@ void fillisland(int xp, int yp)
   int forest = 10;
   int mixed  = 5;
   int x,y;
-  int dir;
+  int dir=-1;
 
 
   rivers   = (startsize*rivers   +20)/40;
@@ -975,7 +975,7 @@ int findislandspot(int *xplace, int *yplace)
 
 void mapgenerator2()
 {
-  int i,j;
+  int i,j=0;
   int xp,yp;
   int x,y;
   long int landmass;
@@ -1031,7 +1031,7 @@ void mapgenerator2()
 **************************************************************************/
 void mapgenerator3()
 {
-  int i,j;
+  int i,j=0;
   int xp,yp;
   int x,y;
   long int landmass;
