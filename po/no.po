@@ -2908,7 +2908,7 @@ msgstr ""
 
 #: server/stdinhand.c:450
 msgid "Whether angry citizens are enabled"
-msgstr "Om sinte borgere er mulig"
+msgstr "Om sinte innbyggere er mulig"
 
 #: server/stdinhand.c:451
 msgid ""
@@ -6901,7 +6901,7 @@ msgstr "Autoangrep mot"
 #: client/gui-gtk-2.0/citydlg.c:1323 client/gui-gtk/citydlg.c:1330
 #: client/gui-win32/citydlg.c:2161
 msgid "New citizens are"
-msgstr "Nye borgere er"
+msgstr "Nye innbyggere er"
 
 #: client/gui-gtk-2.0/citydlg.c:1343 client/gui-gtk/citydlg.c:1350
 msgid "City name"
@@ -6940,7 +6940,7 @@ msgstr "_Neste by"
 #: client/gui-xaw/citydlg.c:1866
 #, c-format
 msgid "%s - %s citizens"
-msgstr "%s - %s borgere"
+msgstr "%s - %s innbyggere"
 
 #: client/gui-gtk-2.0/citydlg.c:1593 client/gui-gtk/citydlg.c:1600
 #: client/gui-mui/citydlg.c:2151
@@ -6969,7 +6969,7 @@ msgstr " (arbeidsliste)"
 #: client/gui-gtk-2.0/citydlg.c:1969 client/gui-gtk/citydlg.c:1978
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr "Driftskostnader(Totalt: %d)"
+msgstr "Utgifter(Totalt: %d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2114 client/gui-gtk/citydlg.c:2127
 # c-format
@@ -6979,7 +6979,7 @@ msgstr "Støttede enheter (%d)"
 #: client/gui-gtk-2.0/citydlg.c:2247 client/gui-gtk/citydlg.c:2262
 #, c-format
 msgid "Present units (%d)"
-msgstr "Nåværende enhenter(%d)"
+msgstr "Enheter tilstede(%d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2274 client/gui-gtk/citydlg.c:2289
 #: client/gui-mui/citydlg.c:2126 client/gui-win32/citydlg.c:1387
@@ -16478,232 +16478,4 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
-
-#, fuzzy
-#~ msgid "C_hange"
-#~ msgstr "Endre"
-
-#~ msgid "  -s, --server HOST\tList this server as host HOST\n"
-#~ msgstr "  -s, --server H\tList denne serveren som H\n"
-
-#~ msgid "The map has %i starting positions on %i isles."
-#~ msgstr "Kartet har %i startposisjoner på %i øyer."
-
-#~ msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
-#~ msgstr "Spill: Lærte %s.  Forskerne valgte å forske på Framtidsteknologi 1."
-
-#~ msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
-#~ msgstr ""
-#~ "Spill: Lærte Framtidsteknologi %d.  Forsker på Framtidsteknologi %d."
-
-#~ msgid "Game: You acquire Future Tech %d from %s."
-#~ msgstr "Spill: Du får Framtidsteknologi %d fra %s."
-
-#~ msgid "Game: %s discovered Future Tech. %d in the city."
-#~ msgstr "Spill: %s har oppdaget Framtidsteknologi %d i byen."
-
-#~ msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
-#~ msgstr "Spill: %s har skaffet Framtidsteknologi %d fra %s (erobr)"
-
-#~ msgid "Game: %s discovered %s in the city."
-#~ msgstr "Spill: %s oppdaget %s i byen."
-
-#~ msgid "Game: %s cancelled the diplomatic agreement!"
-#~ msgstr "Spill: %s brøt den diploatisk inngåtte avtalen!"
-
-#~ msgid "Could not find readable ruleset file \"%s\" or \"%s\" in data path."
-#~ msgstr ""
-#~ "Klarte ikke å finne en lesbar regelsett-fil \"%s\" eller \"%s\" i "
-#~ "datastien."
-
-#~ msgid ""
-#~ "For new games, the game will start automatically if/when this number of "
-#~ "players are connected or (for AI's) created."
-#~ msgstr ""
-#~ "For nye spill så vil spillet starte automagisk hvis/når dette antallet\n"
-#~ "spillere er tilkoblet eller AIer laget."
-
-#~ msgid "Data subdir containing techs.ruleset"
-#~ msgstr "Data-underkatalog som inneholder techs.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"techs.ruleset\".  The advances (technologies) present in "
-#~ "the game will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing governments.ruleset"
-#~ msgstr "Data underkatalog som inneholder governments.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"governments.ruleset\".  The government types available in "
-#~ "the game will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing units.ruleset"
-#~ msgstr "Data underkatalog som inneholder units.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"units.ruleset\".  The unit types present in the game will "
-#~ "be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder "
-#~ "en \n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i \n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing buildings.ruleset"
-#~ msgstr "Data underkatalog som inneholder buildings ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"buildings.ruleset\".  The building types (City Improvements "
-#~ "and Wonders) in the game will be initialized from this file.  See also "
-#~ "README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing terrain.ruleset"
-#~ msgstr "Data underkatalog som inneholder terrian ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"terrain.ruleset\".  The terrain types present in the game "
-#~ "will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing nations.ruleset"
-#~ msgstr "Data underkatalog som inneholder nations.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"nations.ruleset\".  The nations present in the game will be "
-#~ "initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing cities.ruleset"
-#~ msgstr "Data underkatalog som inneholder cities.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"cities.ruleset\".  The file is used to initialize city data "
-#~ "(such as city style).  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-#~ "fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-#~ "spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
-
-#~ msgid "Data subdir containing game.ruleset"
-#~ msgstr "Data underkatalog som inneholder game.ruleset"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"game.ruleset\".  The file is used to initialize some "
-#~ "miscellanous game rules.  See also README.rulesets."
-#~ msgstr ""
-#~ "Denne skal spesifisere en underkatalog i datakatalogen som inneholder en "
-#~ "fil kalt \"game.ruleset\".  Filen brukes til å initiere ulike regler for "
-#~ "spillet.  Se også i README.rulesets."
-
-#, fuzzy
-#~ msgid "Game: Diplomats cannot act from sea."
-#~ msgstr "Spill: Kan ikke angripe fra sjøen."
-
-#~ msgid "Game: You gain knowledge about %s."
-#~ msgstr "Spill: Du får kunnskap om %s."
-
-#~ msgid "Game: You gain knowledge about Future Tech. %d."
-#~ msgstr "Spill: Du får kunnskap om Framtidsteknologi %d."
-
-#~ msgid "* Can establish trade routes and help build wonders.\n"
-#~ msgstr "* Kan etablere handelsruter og hjelpe med å bygger underverk.\n"
-
-#~ msgid "Forced Improvement Sale"
-#~ msgstr "Tvungent forbedringssalg"
-
-#~ msgid "Pact Cancelled"
-#~ msgstr "Pakt kansellert"
-
-#~ msgid "Cannot save settings."
-#~ msgstr "Klarer ikke å lagre oppsett."
-
-#~ msgid "Saved settings."
-#~ msgstr "Lagret oppsett."
-
-#~ msgid "_Rename"
-#~ msgstr "_Omdøp"
-
-#~ msgid "_Trade"
-#~ msgstr "_Handel"
-
-#~ msgid "_Activate Units"
-#~ msgstr "_Aktiver enheter"
-
-#~ msgid "_Unit List"
-#~ msgstr "_Enhetsliste"
-
-#~ msgid "(list empty)"
-#~ msgstr "(liste tom)"
-
-#~ msgid "(in progress)"
-#~ msgstr "(i gang)"
-
-#~ msgid "Change _All"
-#~ msgstr "Endre _Alle"
-
-#~ msgid "Researching Future Tech. %d: %d/%d"
-#~ msgstr "Forsker på Framtidsteknologi %d: %d/%d"
-
-#~ msgid "%s: %2d Trade/Turn\n"
-#~ msgstr "%s: %2d Handel/År\n"
-
-#~ msgid "_Done"
-#~ msgstr "Fullført"
-
-#~ msgid "entries"
-#~ msgstr "felt"
-
-#~ msgid " %3d/XXX XXX turns "
-#~ msgstr " %3d/XXX XXX runder "
-
-#~ msgid " %3d/%3d %3d turn "
-#~ msgstr " %3d/%3d %3d runde "
-
-#~ msgid " %3d/%3d %3d turns "
-#~ msgstr " %3d/%3d %3d runder "
-
-#~ msgid "%s (%d) %d turns"
-#~ msgstr "%s (%d) %d runder"
-
-#~ msgid ""
-#~ "Allows all players with knowledge of Rocketry to build Nuclear units."
-#~ msgstr "Tillater alle spillere med rakett-kunnskap å bygget atomenhter."
-
-#~ msgid "(Sorry, no helptext available.)"
-#~ msgstr "(Beklager, ingen hjelpetekst tilgjengelig)"
-
-#~ msgid "got a packet of type %d outside RUN_GAME_STATE"
-#~ msgstr "fikk en nettpakke av type %d utenom RUN_GAME_STATE"
-
-#~ msgid "Król"
-#~ msgstr "Król"
-
-#~ msgid "Królowa"
-#~ msgstr "Królowa"
 
