@@ -192,6 +192,10 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->shield_bonus = 100;
   pcity->tax_bonus = 100;
   pcity->science_bonus = 100;
+
+  /* Before arranging workers to show unknown land */
+  map_unfog_pseudo_city_area(pplayer, pcity->x, pcity->y);
+
   map_set_city(pcity->x, pcity->y, pcity);
 
   unit_list_init(&pcity->units_supported);
@@ -225,8 +229,6 @@ the city_id isn't set when S_ROAD is set, so reset_move_costs doesn't allow
 sea movement at the point it's called.  This led to a problem with the
 warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
 to use ferryboats.  I really should have identified this sooner. -- Syela */
-
-  map_unfog_city_area(pcity);
 
   send_adjacent_cities(pcity);
   send_city_info(0, pcity);
