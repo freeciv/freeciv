@@ -172,6 +172,8 @@ struct MenuEntry help_menu_entries[]={
     { 0, MENU_END_OF_LIST, 0},
 };
 
+enum unit_activity road_activity;
+
 struct Menu *create_menu(char *name, struct MenuEntry entries[], 
 			 void (*menucallback)(Widget, XtPointer, XtPointer),
 			 Widget parent);
@@ -218,7 +220,7 @@ void update_menus()
   
 
     if((punit=get_unit_in_focus())) {
-      char *irrtext, *mintext;
+      char *irrtext, *mintext, *roadtext;
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO, 
 			   unit_flag(punit->type, F_SETTLERS));
@@ -228,7 +230,8 @@ void update_menus()
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTRESS, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
       menu_entry_sensitive(orders_menu, MENU_ORDER_ROAD, 
-			   can_unit_do_activity(punit, ACTIVITY_ROAD));
+			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
+			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
       menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, 
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION));
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTIFY, 
@@ -275,6 +278,15 @@ void update_menus()
       menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE, irrtext);
       menu_entry_rename(orders_menu, MENU_ORDER_MINE, mintext);
     
+      if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
+	roadtext="Build Railroad      r";
+	road_activity=ACTIVITY_RAILROAD;  
+      } else {
+	roadtext="Build Road          r";
+	road_activity=ACTIVITY_ROAD;  
+      }
+      menu_entry_rename(orders_menu, MENU_ORDER_ROAD, roadtext);
+
       XtVaSetValues(orders_menu->button, XtNsensitive, True, NULL);
     }
     else
@@ -356,7 +368,7 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
    case MENU_ORDER_ROAD:
     if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_ROAD);
+      request_new_unit_activity(get_unit_in_focus(), road_activity);
     break;
    case MENU_ORDER_POLLUTION:
     if(get_unit_in_focus())

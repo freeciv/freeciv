@@ -305,6 +305,11 @@ void handle_unit_info(struct packet_unit_info *packet)
       update_unit_pix_label(punit);
       refresh_unit_city_dialogs(punit);
       update_unit_focus(); */
+
+      /* These two lines force the menus to be updated as appropriate when
+	 the unit focus changes. */
+      if(punit == punit_focus)
+         update_menus();
     }
     
     if(punit->homecity!=packet->homecity) { /* change homecity */
