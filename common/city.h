@@ -130,10 +130,10 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
     for (MCMI_y=0; MCMI_y<CITY_MAP_SIZE; MCMI_y++) { \
       if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1)) \
 	     && (MCMI_y == 0 || MCMI_y == (CITY_MAP_SIZE-1))) ) { \
+	x_itr = city_x + MCMI_x - CITY_MAP_SIZE/2; \
         y_itr = city_y + MCMI_y - CITY_MAP_SIZE/2; \
-        if (y_itr < 0 || y_itr >= map.ysize) \
-	  continue; \
-	x_itr = map_adjust_x(city_x + MCMI_x - CITY_MAP_SIZE/2);
+        if (!normalize_map_pos(&x_itr, &y_itr)) \
+	  continue;
 
 #define map_city_radius_iterate_end \
       } \

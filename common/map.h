@@ -220,6 +220,7 @@ void rand_neighbour(int x0, int y0, int *x, int *y);
 
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
+int is_move_cardinal(int x0, int y0, int x1, int y1);
 int map_move_cost(struct unit *punit, int x, int y);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);
@@ -312,17 +313,13 @@ extern struct tile_type tile_types[T_LAST];
 	else                                                                  \
 	  ARG_x_itr = (ARG_start_x) - MACRO_dxy;                              \
       }                                                                       \
-      if (ARG_y_itr<0 || ARG_y_itr >= map.ysize)                              \
-	continue;                                                             \
       {                                                                       \
 	int MACRO_dx = (ARG_start_x) - ARG_x_itr;                             \
 	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
 	  continue;                                                           \
       }                                                                       \
-      if (ARG_x_itr >= map.xsize)                                             \
-	ARG_x_itr -= map.xsize;                                               \
-      else if (ARG_x_itr < 0)                                                 \
-	ARG_x_itr += map.xsize;
+      if (!normalize_map_pos(&ARG_x_itr, &ARG_y_itr))                         \
+	continue;
 
 #define iterate_outward_end                                                   \
     }                                                                         \
@@ -342,14 +339,14 @@ extern struct tile_type tile_types[T_LAST];
 #define square_iterate(SI_center_x, SI_center_y, radius, SI_x_itr, SI_y_itr)  \
 {                                                                             \
   int SI_x_itr, SI_y_itr;                                                     \
-  int SI_x_itr1;                                                              \
-  for (SI_y_itr = (SI_center_y) - (radius);                                   \
-       SI_y_itr <= (SI_center_y) + (radius); SI_y_itr++) {                    \
-    if (SI_y_itr < 0 || SI_y_itr >= map.ysize)                                \
-      continue;                                                               \
+  int SI_x_itr1, SI_y_itr1;                                                   \
+  for (SI_y_itr1 = (SI_center_y) - (radius);                                  \
+       SI_y_itr1 <= (SI_center_y) + (radius); SI_y_itr1++) {                  \
     for (SI_x_itr1 = (SI_center_x) - (radius);                                \
 	 SI_x_itr1 <= (SI_center_x) + (radius); SI_x_itr1++) {                \
-      SI_x_itr = map_adjust_x(SI_x_itr1);
+      SI_x_itr = SI_x_itr1;                                                   \
+      SI_y_itr = SI_y_itr1;                                                   \
+      if (!normalize_map_pos(&SI_x_itr, &SI_y_itr)) continue;
 
 #define square_iterate_end                                                    \
     }                                                                         \
@@ -360,14 +357,15 @@ extern struct tile_type tile_types[T_LAST];
 #define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \
 {                                                                             \
   int RI_x_itr, RI_y_itr;                                                     \
-  int RI_x_itr1;                                                              \
-  for (RI_y_itr = RI_center_y - 1;                                            \
-       RI_y_itr <= RI_center_y + 1; RI_y_itr++) {                             \
-    if (RI_y_itr < 0 || RI_y_itr >= map.ysize)                                \
-      continue;                                                               \
+  int RI_x_itr1, RI_y_itr1;                                                   \
+  for (RI_y_itr1 = RI_center_y - 1;                                           \
+       RI_y_itr1 <= RI_center_y + 1; RI_y_itr1++) {                           \
     for (RI_x_itr1 = RI_center_x - 1;                                         \
 	 RI_x_itr1 <= RI_center_x + 1; RI_x_itr1++) {                         \
-      RI_x_itr = map_adjust_x(RI_x_itr1);                                     \
+      RI_x_itr = RI_x_itr1;                                                   \
+      RI_y_itr = RI_y_itr1;                                                   \
+      if (!normalize_map_pos(&RI_x_itr, &RI_y_itr))                           \
+        continue;                                                             \
       if (RI_x_itr == RI_center_x && RI_y_itr == RI_center_y)                 \
         continue; 
 
@@ -394,12 +392,8 @@ extern struct tile_type tile_types[T_LAST];
     y_itr = MACRO_center_y + DIR_DY[dir_itr];                                 \
     x_itr = MACRO_center_x + DIR_DX[dir_itr];                                 \
     if (MACRO_border) {                                                       \
-      if (y_itr < 0 || y_itr >= map.ysize)                                    \
-        continue;                                                             \
-      if (x_itr < 0)                                                          \
-        x_itr += map.xsize;                                                   \
-      else if (x_itr >= map.xsize)                                            \
-        x_itr -= map.xsize;                                                   \
+      if (!normalize_map_pos(&x_itr, &y_itr))                                 \
+	continue;                                                             \
     }
 
 #define adjc_dir_iterate_end                                                  \
