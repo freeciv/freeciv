@@ -405,21 +405,29 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
                                bool everywhere, bool enemy)
 { 
   struct city *pc=NULL;
-  int dist = MAX(map.xsize / 2, map.ysize);
+  int best_dist = -1;
   int con = map_get_continent(x, y, NULL);
 
   players_iterate(pplay) {
-    if ((enemy) && (pplayer) && (!pplayers_at_war(pplayer,pplay))) continue;
+    /* If "enemy" is set, only consider cities whose owner we're at
+     * war with. */
+    if (enemy && pplayer && !pplayers_at_war(pplayer, pplay)) {
+      continue;
+    }
 
-    city_list_iterate(pplay->cities, pcity)
-      if (real_map_distance(x, y, pcity->x, pcity->y) < dist &&
-         (everywhere || con == 0 || con == 
-          map_get_continent(pcity->x, pcity->y, NULL)) &&
-         (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
-        dist = real_map_distance(x, y, pcity->x, pcity->y);
+    city_list_iterate(pplay->cities, pcity) {
+      int city_dist = real_map_distance(x, y, pcity->x, pcity->y);
+
+      /* Find the closest city known to the player with a matching
+       * continent. */
+      if ((best_dist == -1 || city_dist < best_dist)
+	  && (everywhere || con == 0
+	      || con == map_get_continent(pcity->x, pcity->y, NULL))
+	  && (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
+	best_dist = city_dist;
         pc = pcity;
       }
-    city_list_iterate_end;
+    } city_list_iterate_end;
   } players_iterate_end;
 
   return(pc);
