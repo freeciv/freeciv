@@ -1150,7 +1150,7 @@ static void city_cma_changed(struct city_dialog **ppdialog)
   int i;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     param.minimal_surplus[i] = (int)xget(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value);
     param.factor[i] = (int)xget(pdialog->factor_slider[i],MUIA_Numeric_Value);
   }
@@ -2154,7 +2154,7 @@ static void refresh_cma_dialog(struct city_dialog *pdialog)
 
   
   /* if called from a hscale, we _don't_ want to do this */
-  for (i = 0; i < NUM_STATS; i++)
+  for (i = 0; i < O_COUNT; i++)
   {
     nnset(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value,param.minimal_surplus[i]);
     nnset(pdialog->factor_slider[i],MUIA_Numeric_Value,param.factor[i]);

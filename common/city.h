@@ -30,6 +30,12 @@ enum city_tile_type {
   C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
 };
 
+enum output_type {
+  O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
+};
+#define O_COUNT num_output_types
+#define O_MAX O_LAST
+
 enum city_options {
   /* The first 4 are whether to auto-attack versus each unit move_type
    * from with auto-attack units within this city.  Note that these
@@ -335,6 +341,7 @@ struct citystyle {
 };                              /* not incl. wall and occupied tiles */
 
 extern struct citystyle *city_styles;
+extern Output_type_id num_output_types;
 
 /* get 'struct city_list' and related functions: */
 #define SPECLIST_TAG city

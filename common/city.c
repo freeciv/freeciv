@@ -40,6 +40,7 @@ struct iter_index *city_map_iterate_outwards_indices;
 struct citystyle *city_styles = NULL;
 
 int city_tiles;
+Output_type_id num_output_types = O_LAST;
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it

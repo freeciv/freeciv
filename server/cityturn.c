@@ -213,35 +213,35 @@ void auto_arrange_workers(struct city *pcity)
    * priorities - this should be done via a separate set of variables. */
   if (pcity->size > 1) {
     if (pcity->size <= game.notradesize) {
-      cmp.factor[FOOD] = 15;
+      cmp.factor[O_FOOD] = 15;
     } else {
-      cmp.factor[FOOD] = 10;
+      cmp.factor[O_FOOD] = 10;
     }
   } else {
     /* Growing to size 2 is the highest priority. */
-    cmp.factor[FOOD] = 20;
+    cmp.factor[O_FOOD] = 20;
   }
-  cmp.factor[SHIELD] = 5;
-  cmp.factor[TRADE] = 0; /* Trade only provides gold/science. */
-  cmp.factor[GOLD] = 2;
-  cmp.factor[LUXURY] = 0; /* Luxury only influences happiness. */
-  cmp.factor[SCIENCE] = 2;
+  cmp.factor[O_SHIELD] = 5;
+  cmp.factor[O_TRADE] = 0; /* Trade only provides gold/science. */
+  cmp.factor[O_GOLD] = 2;
+  cmp.factor[O_LUXURY] = 0; /* Luxury only influences happiness. */
+  cmp.factor[O_SCIENCE] = 2;
   cmp.happy_factor = 0;
 
-  cmp.minimal_surplus[FOOD] = 1;
-  cmp.minimal_surplus[SHIELD] = 1;
-  cmp.minimal_surplus[TRADE] = 0;
-  cmp.minimal_surplus[GOLD] = -FC_INFINITY;
-  cmp.minimal_surplus[LUXURY] = 0;
-  cmp.minimal_surplus[SCIENCE] = 0;
+  cmp.minimal_surplus[O_FOOD] = 1;
+  cmp.minimal_surplus[O_SHIELD] = 1;
+  cmp.minimal_surplus[O_TRADE] = 0;
+  cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
+  cmp.minimal_surplus[O_LUXURY] = 0;
+  cmp.minimal_surplus[O_SCIENCE] = 0;
 
   cm_query_result(pcity, &cmp, &cmr);
 
   if (!cmr.found_a_valid) {
     if (!pplayer->ai.control) {
       /* Drop surpluses and try again. */
-      cmp.minimal_surplus[FOOD] = 0;
-      cmp.minimal_surplus[SHIELD] = 0;
+      cmp.minimal_surplus[O_FOOD] = 0;
+      cmp.minimal_surplus[O_SHIELD] = 0;
       cm_query_result(pcity, &cmp, &cmr);
 
       if (!cmr.found_a_valid) {
@@ -250,14 +250,14 @@ void auto_arrange_workers(struct city *pcity)
 	cm_query_result(pcity, &cmp, &cmr);
       }
     } else {
-      cmp.minimal_surplus[FOOD] = 0;
-      cmp.minimal_surplus[SHIELD] = 0;
-      cmp.minimal_surplus[GOLD] = -FC_INFINITY;
+      cmp.minimal_surplus[O_FOOD] = 0;
+      cmp.minimal_surplus[O_SHIELD] = 0;
+      cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
       cm_query_result(pcity, &cmp, &cmr);
 
       if (!cmr.found_a_valid) {
-	cmp.minimal_surplus[FOOD] = -(pcity->food_stock);
-	cmp.minimal_surplus[TRADE] = -FC_INFINITY;
+	cmp.minimal_surplus[O_FOOD] = -(pcity->food_stock);
+	cmp.minimal_surplus[O_TRADE] = -FC_INFINITY;
 	cm_query_result(pcity, &cmp, &cmr);
       }
 

@@ -70,9 +70,9 @@
 Widget *stat_surplus_label, *stat_factor_label;
 Widget control_button, change_button, preset_list, cma_dialog;
 Widget celebrate_toggle, result_label, release_button;
-Widget surplus_slider[NUM_STATS], factor_slider[NUM_STATS + 1];
+Widget surplus_slider[O_COUNT], factor_slider[O_COUNT + 1];
 
-int minimal_surplus[NUM_STATS], factors[NUM_STATS + 1];
+int minimal_surplus[O_COUNT], factors[O_COUNT + 1];
 struct city *current_city;
 char *initial_preset_list[] = {
       N_("For information on:"),
@@ -133,8 +133,8 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   int i;
 
   current_city = pcity;
-  stat_surplus_label = fc_malloc((NUM_STATS + 1) * sizeof(Widget));
-  stat_factor_label = fc_malloc((NUM_STATS + 1) * sizeof(Widget));
+  stat_surplus_label = fc_malloc((O_COUNT + 1) * sizeof(Widget));
+  stat_factor_label = fc_malloc((O_COUNT + 1) * sizeof(Widget));
 
   cma_dialog = 
     I_T(XtCreatePopupShell("cmapopup",
@@ -172,14 +172,14 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 
   /* Create labels in the minimal surplus column. */
   prev = surplus_header;
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     I_L(stat_surplus_label[i] = 
         XtVaCreateManagedWidget("cmastatlabel",
                                 labelWidgetClass, form,
                                 XtNfromHoriz, preset_viewport,
                                 XtNfromVert, prev,
                                 XtNvertDistance, 1,
-                                XtNlabel, (i == NUM_STATS) ? 
+                                XtNlabel, (i == O_COUNT) ? 
                                   _("Celebrate") : cm_get_stat_name(i),
                                 NULL));
     prev = stat_surplus_label[i];
@@ -187,7 +187,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 
   /* Create scrollbars in the minimal surplus column. */
   prev = surplus_header;
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     surplus_slider[i] = 
       XtVaCreateManagedWidget("cmapresetscroll",
                                   scrollbarWidgetClass, form,
@@ -201,7 +201,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
     I_L(XtVaCreateManagedWidget("cmapresettoggle",
                                 toggleWidgetClass,form,
                                 XtNfromHoriz, stat_surplus_label[0],
-                                XtNfromVert, stat_surplus_label[NUM_STATS - 1],
+                                XtNfromVert, stat_surplus_label[O_COUNT - 1],
                                 NULL));
 
   /* Create header label in the factor column. */
@@ -214,14 +214,14 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 
   /* Create stat labels in the factor column. */
   prev = factor_header;
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     I_L(stat_factor_label[i] =
         XtVaCreateManagedWidget("cmastatlabel",
                                 labelWidgetClass, form,
                                 XtNfromHoriz, surplus_slider[0],
                                 XtNfromVert, prev,
                                 XtNvertDistance, 1,
-                                XtNlabel, (i == NUM_STATS) ?
+                                XtNlabel, (i == O_COUNT) ?
                                   _("Celebrate") : cm_get_stat_name(i),
                                 NULL));
     prev = stat_factor_label[i];
@@ -229,7 +229,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 
   /* Create scrollbars in the factor column. */
   prev = factor_header;
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     factor_slider[i] =
       XtVaCreateManagedWidget("cmapresetscroll",
                                   scrollbarWidgetClass, form,
@@ -306,14 +306,14 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   XtAddCallback(close_button, XtNcallback,
                 close_callback, NULL);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     XtAddCallback(surplus_slider[i], XtNscrollProc,
                   sliders_scroll_callback, NULL);
     XtAddCallback(surplus_slider[i], XtNjumpProc,
                   sliders_jump_callback, NULL);
   }
 
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     XtAddCallback(factor_slider[i], XtNscrollProc,
                   sliders_scroll_callback, NULL);
     XtAddCallback(factor_slider[i], XtNjumpProc,
@@ -323,7 +323,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   /* Update dialog with CMA parameters from city.  */
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     minimal_surplus[i] = parameter.minimal_surplus[i];
   }
 
@@ -332,12 +332,12 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
          XtNstate, parameter.require_happy, NULL);
 
   if (parameter.happy_factor > 0) {
-    factors[NUM_STATS] = parameter.happy_factor;
+    factors[O_COUNT] = parameter.happy_factor;
   } else {
-    factors[NUM_STATS] = 1;
+    factors[O_COUNT] = 1;
   }
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     factors[i] = parameter.factor[i];
   }
 
@@ -350,7 +350,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   XtVaSetValues(result_label, XtNwidth, 360, NULL);
   XtVaSetValues(result_label, XtNheight, 110, NULL);
 
-  for(i = 0; i < NUM_STATS; i++) {
+  for(i = 0; i < O_COUNT; i++) {
     XtVaSetValues(stat_surplus_label[i], XtNwidth, 90, NULL);
     XtVaSetValues(stat_factor_label[i], XtNwidth, 90, NULL);
   }
@@ -507,7 +507,7 @@ static void select_preset(Widget w, XtPointer list,
     xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
-    for (i = 0; i < NUM_STATS; i++) {
+    for (i = 0; i < O_COUNT; i++) {
       minimal_surplus[i] = param->minimal_surplus[i];
     }
 
@@ -515,9 +515,9 @@ static void select_preset(Widget w, XtPointer list,
             param->require_happy ? _("Yes") : _("No"),
             XtNstate, parameter.require_happy, NULL);
 
-    factors[NUM_STATS] = param->happy_factor;
+    factors[O_COUNT] = param->happy_factor;
 
-    for (i = 0; i < NUM_STATS; i++) {
+    for (i = 0; i < O_COUNT; i++) {
       factors[i] = param->factor[i];
     }
   }
@@ -541,12 +541,12 @@ static void set_slider_values(void)
 {
   int i;
   
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     XawScrollbarSetThumb(surplus_slider[i],
                      (((20 + minimal_surplus[i])))*1/41.0f, 1/41.0f);
   }
 
-  for (i = 0; i < (NUM_STATS + 1); i++) { 
+  for (i = 0; i < (O_COUNT + 1); i++) { 
     XawScrollbarSetThumb(factor_slider[i],
                      (((factors[i])))*1/25.0f, 1/25.0f);
   }
@@ -563,7 +563,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   struct cm_result result;
   int i, preset_index;
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     if (w == surplus_slider[i]) {
       if (pos > 0 ) {
         minimal_surplus[i]++;
@@ -579,7 +579,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
     }
   }
 
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     if (w == factor_slider[i]) {
       if (pos > 0 ) {
         factors[i]++;
@@ -597,13 +597,13 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
 
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     parameter.minimal_surplus[i] = minimal_surplus[i];
     parameter.factor[i] = factors[i];
   }
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
-  parameter.happy_factor = factors[NUM_STATS];
+  parameter.happy_factor = factors[O_COUNT];
 
   cmafec_set_fe_parameter(current_city, &parameter);
 
@@ -639,14 +639,14 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
   int i, preset_index;
 
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     if (w == surplus_slider[i]) {
       /* convert from percent to [-20..20] */
       minimal_surplus[i] = (int)(percent * 41) - 20;
     }
   }
 
-  for (i = 0; i < (NUM_STATS + 1); i++) {
+  for (i = 0; i < (O_COUNT + 1); i++) {
     if (w == factor_slider[i]) {
       /* convert from percent to [1..25] */
       factors[i] = (int)(percent * 25) + 1;  
@@ -655,13 +655,13 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     parameter.minimal_surplus[i] = minimal_surplus[i];
     parameter.factor[i] = factors[i];
   }
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
-  parameter.happy_factor = factors[NUM_STATS];
+  parameter.happy_factor = factors[O_COUNT];
 
   cmafec_set_fe_parameter(current_city, &parameter);
 
@@ -693,14 +693,14 @@ static void update_stat_labels(bool is_valid)
   char buf[256]; 
   int i;
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     my_snprintf(buf, sizeof(buf), "%-9s%3d",
                 cm_get_stat_name(i),
                 minimal_surplus[i]);
     xaw_set_label(stat_surplus_label[i], buf);
   }
 
-  for (i = 0; i < NUM_STATS; i++) { 
+  for (i = 0; i < O_COUNT; i++) { 
     my_snprintf(buf, sizeof(buf), "%-9s%3d",
                 cm_get_stat_name(i),
                 factors[i]);
@@ -708,8 +708,8 @@ static void update_stat_labels(bool is_valid)
   }
   my_snprintf(buf, sizeof(buf), "%-9s%3d",
               "Celebrate",
-              factors[NUM_STATS]);
-  xaw_set_label(stat_factor_label[NUM_STATS], buf);
+              factors[O_COUNT]);
+  xaw_set_label(stat_factor_label[O_COUNT], buf);
 
   XtSetSensitive(release_button, 
        (cma_is_city_under_agent(current_city, NULL)
@@ -743,14 +743,14 @@ static void new_preset_callback(Widget w, XtPointer save_preset,
     XtVaGetValues(celebrate_toggle, XtNstate, &celebrate_setting, NULL);
     cmafec_get_fe_parameter(current_city, &parameter);
 
-    for (i = 0; i < NUM_STATS; i++) {
+    for (i = 0; i < O_COUNT; i++) {
       parameter.minimal_surplus[i] = minimal_surplus[i];
     }
-    for (i = 0; i < NUM_STATS; i++) {
+    for (i = 0; i < O_COUNT; i++) {
       parameter.factor[i] = factors[i];
     }
 
-    parameter.happy_factor = factors[NUM_STATS];
+    parameter.happy_factor = factors[O_COUNT];
     parameter.require_happy = celebrate_setting;
 
     cmafec_preset_add(input_dialog_get_input(w), &parameter);
@@ -776,13 +776,13 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   /* Update parameters with new celebrate setting. */
   cmafec_get_fe_parameter(current_city, &parameter);
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     parameter.minimal_surplus[i] = minimal_surplus[i];
     parameter.factor[i] = factors[i];
   }
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
-  parameter.happy_factor = factors[NUM_STATS];
+  parameter.happy_factor = factors[O_COUNT];
 
   cmafec_set_fe_parameter(current_city, &parameter);
 

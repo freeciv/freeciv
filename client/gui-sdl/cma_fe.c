@@ -599,7 +599,7 @@ static void set_cma_hscrollbars(void)
   
   /* exit button */
   pBuf = pCma->pDlg->pEndWidgetList->prev;
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     
     /* min label */
     pBuf = pBuf->prev;
@@ -796,7 +796,7 @@ void update_city_cma_dialog(void)
 void popup_city_cma_dialog(struct city *pCity)
 {
   struct GUI *pWindow, *pBuf;
-  SDL_Surface *pLogo, *pText[NUM_STATS + 1], *pMinimal, *pFactor;
+  SDL_Surface *pLogo, *pText[O_COUNT + 1], *pMinimal, *pFactor;
   SDL_Surface *pCity_Map;
   SDL_String16 *pStr;
   char cBuf[128];
@@ -857,7 +857,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pFactor = create_text_surf_from_str16(pStr);
     
   /* ---------- */
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     
     copy_chars_to_string16(pStr, cm_get_stat_name(i));
     pText[i] = create_text_surf_from_str16(pStr);
@@ -902,7 +902,7 @@ void popup_city_cma_dialog(struct city *pCity)
   }
   
   copy_chars_to_string16(pStr, _("Celebrate"));
-  pText[NUM_STATS] = create_text_surf_from_str16(pStr);
+  pText[O_COUNT] = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   
   /* happy factor label */
@@ -1021,7 +1021,7 @@ void popup_city_cma_dialog(struct city *pCity)
   area.y = dst.y - 20;
   w = area.w = 10 + text_w + 10 + pWindow->prev->prev->size.w + 5 + 70 + 5 +
 		pWindow->prev->prev->size.w + 5 + 55 + 10;
-  area.h = (NUM_STATS + 1) * (pText[0]->h + 6) + 20;
+  area.h = (O_COUNT + 1) * (pText[0]->h + 6) + 20;
   SDL_FillRectAlpha(pWindow->theme, &area, &color);
   putframe(pWindow->theme, area.x, area.y,
   	area.x + area.w - 1, area.y + area.h - 1, 0xff000000);
@@ -1040,7 +1040,7 @@ void popup_city_cma_dialog(struct city *pCity)
   FREESURFACE(pCity_Map);
   
   
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
             
     /* min label */
     pBuf = pBuf->prev;
@@ -1087,12 +1087,12 @@ void popup_city_cma_dialog(struct city *pCity)
   /* happy factor label */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->next->size.x;
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[NUM_STATS]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_COUNT]->h - pBuf->size.h) / 2;
   
   /* happy factor sb */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 5;
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[NUM_STATS]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_COUNT]->h - pBuf->size.h) / 2;
   
   area.x = pBuf->size.x - pWindow->size.x - 2;
   area.y = pBuf->size.y - pWindow->size.y;
@@ -1109,9 +1109,9 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* celebrate static text */
   dst.x += (10 + pBuf->size.w + 5);
-  dst.y += (pBuf->size.h - pText[NUM_STATS]->h) / 2;
-  SDL_BlitSurface(pText[NUM_STATS], NULL, pWindow->theme, &dst);
-  FREESURFACE(pText[NUM_STATS]);
+  dst.y += (pBuf->size.h - pText[O_COUNT]->h) / 2;
+  SDL_BlitSurface(pText[O_COUNT], NULL, pWindow->theme, &dst);
+  FREESURFACE(pText[O_COUNT]);
   /* ------------------------ */
   
   /* save as */

@@ -642,7 +642,7 @@ static void load_cma_preset(struct section_file *file, int inx)
 
   name = secfile_lookup_str_default(file, "preset", 
 				    "cma.preset%d.name", inx);
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     parameter.minimal_surplus[i] =
 	secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", inx, i);
     parameter.factor[i] =
@@ -668,7 +668,7 @@ static void save_cma_preset(struct section_file *file, char *name,
   int i;
 
   secfile_insert_str(file, name, "cma.preset%d.name", inx);
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     secfile_insert_int(file, pparam->minimal_surplus[i],
 		       "cma.preset%d.minsurp%d", inx, i);
     secfile_insert_int(file, pparam->factor[i],

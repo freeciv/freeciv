@@ -100,7 +100,7 @@ static bool results_are_equal(struct city *pcity,
 			     const struct cm_result *const result1,
 			     const struct cm_result *const result2)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
   T(disorder);
   T(happy);
@@ -109,7 +109,7 @@ static bool results_are_equal(struct city *pcity,
     T(specialists[sp]);
   } specialist_type_iterate_end;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     T(surplus[stat]);
   }
 
@@ -587,7 +587,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_uint8(&din, &version);
   assert(version == 2);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     dio_get_sint16(&din, &parameter->minimal_surplus[i]);
     dio_get_sint16(&din, &parameter->factor[i]);
   }
@@ -619,7 +619,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 
   dio_put_uint8(&dout, 2);
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     dio_put_sint16(&dout, parameter->minimal_surplus[i]);
     dio_put_sint16(&dout, parameter->factor[i]);
   }

@@ -171,7 +171,7 @@ static inline void tile_type_vector_add(struct tile_type_vector *tthis,
  * vector is empty.  We can never run out of specialists.
        */
 struct cm_tile_type {
-  int production[NUM_STATS];
+  int production[O_MAX];
   double estimated_fitness; /* weighted sum of production */
   bool is_specialist;
   enum specialist_type spec; /* valid only if is_specialist */
@@ -193,7 +193,7 @@ struct partial_solution {
   int *worker_counts;   /* number of workers on each type */
   int *prereqs_filled;  /* number of better types filled up */
 
-  int production[NUM_STATS]; /* raw production, cached for the heuristic */
+  int production[O_MAX]; /* raw production, cached for the heuristic */
   int idle;             /* number of idle workers */
 };
 
@@ -209,7 +209,7 @@ struct cm_state {
 
   /* the tile lattice */
   struct tile_type_vector lattice;
-  struct tile_type_vector lattice_by_prod[NUM_STATS];
+  struct tile_type_vector lattice_by_prod[O_MAX];
 
   /* the best known solution, and its fitness */
   struct partial_solution best;
@@ -219,7 +219,7 @@ struct cm_state {
    * this fails to satisfy the constraints, so we can stop investigating
    * this branch.  A solution with more production than this may still
    * fail (for being unhappy, for instance). */
-  int min_production[NUM_STATS];
+  int min_production[O_MAX];
 
   /* the current solution we're examining. */
   struct partial_solution current;
@@ -383,9 +383,9 @@ static void tile_type_vector_free_all(struct tile_type_vector *vec)
 static bool tile_type_equal(const struct cm_tile_type *a,
 			    const struct cm_tile_type *b)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     if (a->production[stat] != b->production[stat])  {
       return FALSE;
     }
@@ -407,9 +407,9 @@ static bool tile_type_equal(const struct cm_tile_type *a,
 static bool tile_type_better(const struct cm_tile_type *a,
 			     const struct cm_tile_type *b)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     if (a->production[stat] < b->production[stat])  {
       return FALSE;
     }
@@ -534,17 +534,17 @@ static struct cm_fitness worst_fitness(void)
   Compute the fitness of the given surplus (and disorder/happy status)
   according to the weights and minimums given in the parameter.
 ****************************************************************************/
-static struct cm_fitness compute_fitness(const int surplus[NUM_STATS],
+static struct cm_fitness compute_fitness(const int surplus[],
 					 bool disorder, bool happy,
 					const struct cm_parameter *parameter)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
   struct cm_fitness fitness;
 
   fitness.sufficient = TRUE;
   fitness.weighted = 0;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     fitness.weighted += surplus[stat] * parameter->factor[stat];
     if (surplus[stat] < parameter->minimal_surplus[stat]) {
       fitness.sufficient = FALSE;
@@ -686,15 +686,15 @@ static void apply_solution(struct cm_state *state,
   values based on the city's data.
 ****************************************************************************/
 static void get_city_surplus(const struct city *pcity,
-			     int surplus[NUM_STATS],
+			     int surplus[],
 			     bool *disorder, bool *happy)
 {
-  surplus[FOOD] = pcity->food_surplus;
-  surplus[SHIELD] = pcity->shield_surplus;
-  surplus[TRADE] = pcity->trade_prod;
-  surplus[GOLD] = city_gold_surplus(pcity, pcity->tax_total);
-  surplus[LUXURY] = pcity->luxury_total;
-  surplus[SCIENCE] = pcity->science_total;
+  surplus[O_FOOD] = pcity->food_surplus;
+  surplus[O_SHIELD] = pcity->shield_surplus;
+  surplus[O_TRADE] = pcity->trade_prod;
+  surplus[O_GOLD] = city_gold_surplus(pcity, pcity->tax_total);
+  surplus[O_LUXURY] = pcity->luxury_total;
+  surplus[O_SCIENCE] = pcity->science_total;
 
   *disorder = city_unhappy(pcity);
   *happy = city_happy(pcity);
@@ -708,7 +708,7 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
 {
   struct city *pcity = state->pcity;
   struct city backup;
-  int surplus[NUM_STATS];
+  int surplus[O_COUNT];
   bool disorder, happy;
 
   /* make a backup, apply and evaluate the solution, and restore.  This costs
@@ -766,7 +766,7 @@ static void convert_solution_to_result(struct cm_state *state,
 static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
 					      const struct cm_tile_type *b)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
   if (a == b) {
     return 0;
@@ -778,7 +778,7 @@ static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
   }
 
   /* With equal depth, break ties arbitrarily, more production first. */
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     if (a->production[stat] != b->production[stat]) {
       return b->production[stat] - a->production[stat];
     }
@@ -818,7 +818,7 @@ static int compare_tile_type_by_fitness(const void *va, const void *vb)
   return compare_tile_type_by_lattice_order(*a, *b);
 }
 
-static enum cm_stat compare_key;
+static Output_type_id compare_key;
 
 /****************************************************************************
   Compare by the production of type compare_key.
@@ -857,14 +857,14 @@ static void compute_tile_production(const struct city *pcity, int x, int y,
 {
   bool is_celebrating = base_city_celebrating(pcity);
 
-  out->production[FOOD]
+  out->production[O_FOOD]
     = base_city_get_food_tile(x, y, pcity, is_celebrating);
-  out->production[SHIELD]
+  out->production[O_SHIELD]
     = base_city_get_shields_tile(x, y, pcity, is_celebrating);
-  out->production[TRADE]
+  out->production[O_TRADE]
     = base_city_get_trade_tile(x, y, pcity, is_celebrating);
-  out->production[GOLD] = out->production[SCIENCE]
-    = out->production[LUXURY] = 0;
+  out->production[O_GOLD] = out->production[O_SCIENCE]
+    = out->production[O_LUXURY] = 0;
 }
 
 /****************************************************************************
@@ -924,12 +924,12 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
  */
 struct spec_stat_pair {
   enum specialist_type spec;
-  enum cm_stat stat;
+  Output_type_id stat;
 };
 const static struct spec_stat_pair pairs[SP_COUNT] =  {
-  { SP_ELVIS, LUXURY },
-  { SP_SCIENTIST, SCIENCE },
-  { SP_TAXMAN, GOLD }
+  { SP_ELVIS, O_LUXURY },
+  { SP_SCIENTIST, O_SCIENCE },
+  { SP_TAXMAN, O_GOLD }
 };
 
 /****************************************************************************
@@ -1101,7 +1101,7 @@ static void clean_lattice(struct tile_type_vector *lattice,
   much of the domain-specific knowledge.
 ****************************************************************************/
 static double estimate_fitness(const struct cm_state *state,
-			       const int production[NUM_STATS]);
+			       const int production[]);
 
 static void sort_lattice_by_fitness(const struct cm_state *state,
 				    struct tile_type_vector *lattice)
@@ -1202,7 +1202,7 @@ static void add_workers(struct partial_solution *soln,
 			int itype, int number,
 			const struct cm_state *state)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
   const struct cm_tile_type *ptype = tile_type_get(state, itype);
   int newcount;
   int old_worker_count = soln->worker_counts[itype];
@@ -1241,7 +1241,7 @@ static void add_workers(struct partial_solution *soln,
   }
 
   /* update production */
-  for (stat = 0 ; stat < NUM_STATS; stat++) {
+  for (stat = 0 ; stat < O_COUNT; stat++) {
     newcount = soln->production[stat] + number * ptype->production[stat];
     assert(newcount >= 0);
     soln->production[stat] = newcount;
@@ -1461,10 +1461,10 @@ static void complete_solution(struct partial_solution *soln,
 ****************************************************************************/
 static void compute_max_stats_heuristic(const struct cm_state *state,
 					const struct partial_solution *soln,
-					int production[NUM_STATS],
+					int production[],
 					int check_choice)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
   struct partial_solution solnplus; /* will be soln, plus some tiles */
 
   /* Production is whatever the solution produces, plus the
@@ -1474,11 +1474,11 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   if (soln->idle == 1) {
     /* Then the total solution is soln + this new worker.  So we know the
        production exactly, and can shortcut the later code. */
-    enum cm_stat stat;
+    Output_type_id stat;
     const struct cm_tile_type *ptype = tile_type_get(state, check_choice);
 
     memcpy(production, soln->production, sizeof(soln->production));
-    for (stat = 0; stat < NUM_STATS; stat++) {
+    for (stat = 0; stat < O_COUNT; stat++) {
       production[stat] += ptype->production[stat];
     }
     return;
@@ -1487,7 +1487,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   /* initialize solnplus here, after the shortcut check */
   init_partial_solution(&solnplus, num_types(state), state->pcity->size);
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     /* compute the solution that has soln, then the check_choice,
        then complete it with the best available tiles for the stat. */
     copy_partial_solution(&solnplus, soln, state);
@@ -1508,13 +1508,13 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 ****************************************************************************/
 static bool choice_is_promising(struct cm_state *state, int newchoice)
 {
-  int production[NUM_STATS];
-  enum cm_stat stat;
+  int production[O_COUNT];
+  Output_type_id stat;
   bool beats_best = FALSE;
 
   compute_max_stats_heuristic(state, &state->current, production, newchoice);
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     if (production[stat] < state->min_production[stat]) {
       freelog(LOG_PRUNE_BRANCH, "--- pruning: insufficient %s (%d < %d)",
 	      cm_get_stat_name(stat), production[stat],
@@ -1541,7 +1541,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
 static void init_min_production(struct cm_state *state)
 {
   int x = CITY_MAP_RADIUS, y = CITY_MAP_RADIUS;
-  int usage[NUM_STATS];
+  int usage[O_COUNT];
   struct city *pcity = state->pcity;
   bool is_celebrating = base_city_celebrating(pcity);
   struct city backup;
@@ -1557,12 +1557,12 @@ static void init_min_production(struct cm_state *state)
    * prod-surplus; otherwise, we know it's at least 2*size but we
    * can't easily compute the settlers. */
   if (!city_unhappy(pcity)) {
-    usage[FOOD] = pcity->food_prod - pcity->food_surplus;
+    usage[O_FOOD] = pcity->food_prod - pcity->food_surplus;
   } else {
-    usage[FOOD] = pcity->size * 2;
+    usage[O_FOOD] = pcity->size * 2;
   }
-  state->min_production[FOOD] = usage[FOOD]
-    + state->parameter.minimal_surplus[FOOD]
+  state->min_production[O_FOOD] = usage[O_FOOD]
+    + state->parameter.minimal_surplus[O_FOOD]
     - base_city_get_food_tile(x, y, pcity, is_celebrating);
 
   /* surplus = (factories-waste) * production - shield_usage, so:
@@ -1580,19 +1580,20 @@ static void init_min_production(struct cm_state *state)
   if (!city_unhappy(pcity)) {
     double sbonus;
 
-    usage[SHIELD] = pcity->shield_prod - pcity->shield_surplus;
+    usage[O_SHIELD] = pcity->shield_prod - pcity->shield_surplus;
 
     sbonus = ((double)pcity->shield_bonus) / 100.0;
     sbonus += .1;
-    state->min_production[SHIELD]
-      = (usage[SHIELD] + state->parameter.minimal_surplus[SHIELD]) / sbonus;
-    state->min_production[SHIELD]
+    state->min_production[O_SHIELD]
+      = ((usage[O_SHIELD] + state->parameter.minimal_surplus[O_SHIELD])
+	 / sbonus);
+    state->min_production[O_SHIELD]
       -= base_city_get_shields_tile(x, y, pcity, is_celebrating);
   } else {
     /* Dunno what the usage is, so it's pointless to set the
      * min_production */
-    usage[SHIELD] = 0;
-    state->min_production[SHIELD] = 0;
+    usage[O_SHIELD] = 0;
+    state->min_production[O_SHIELD] = 0;
   }
 
   /* we should be able to get a min_production on gold and trade, too;
@@ -1611,34 +1612,37 @@ static void init_min_production(struct cm_state *state)
   The only fields of the state used are the city and parameter.
 ****************************************************************************/
 static double estimate_fitness(const struct cm_state *state,
-			       const int production[NUM_STATS]) {
+			       const int production[]) {
   const struct city *pcity = state->pcity;
   const struct player *pplayer = get_player(pcity->owner);
-  enum cm_stat stat;
-  double estimates[NUM_STATS];
+  Output_type_id stat;
+  double estimates[O_COUNT];
   double sum = 0;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     estimates[stat] = production[stat];
   }
 
   /* sci/lux/gold get benefit from the tax rates (in percentage) */
-  estimates[SCIENCE] += pplayer->economic.science * estimates[TRADE] / 100.0;
-  estimates[LUXURY] += pplayer->economic.luxury  * estimates[TRADE] / 100.0;
-  estimates[GOLD] += pplayer->economic.tax     * estimates[TRADE] / 100.0;
+  estimates[O_SCIENCE]
+    += pplayer->economic.science * estimates[O_TRADE] / 100.0;
+  estimates[O_LUXURY]
+    += pplayer->economic.luxury * estimates[O_TRADE] / 100.0;
+  estimates[O_GOLD]
+    += pplayer->economic.tax * estimates[O_TRADE] / 100.0;
 
   /* now add in the bonuses (none for food or trade) (in percentage) */
-  estimates[SHIELD] *= pcity->shield_bonus / 100.0;
-  estimates[LUXURY] *= pcity->luxury_bonus / 100.0;
-  estimates[GOLD] *= pcity->tax_bonus / 100.0;
-  estimates[SCIENCE] *= pcity->science_bonus / 100.0;
+  estimates[O_SHIELD] *= pcity->shield_bonus / 100.0;
+  estimates[O_LUXURY] *= pcity->luxury_bonus / 100.0;
+  estimates[O_GOLD] *= pcity->tax_bonus / 100.0;
+  estimates[O_SCIENCE] *= pcity->science_bonus / 100.0;
 
   /* finally, sum it all up, weighted by the parameter, but give additional
    * weight to luxuries to take account of disorder/happy constraints */
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     sum += estimates[stat] * state->parameter.factor[stat];
   }
-  sum += estimates[LUXURY];
+  sum += estimates[O_LUXURY];
   return sum;
 }
 
@@ -1695,7 +1699,7 @@ static bool bb_next(struct cm_state *state)
 struct cm_state *cm_init_state(struct city *pcity)
 {
   int numtypes;
-  enum cm_stat stat;
+  Output_type_id stat;
   struct cm_state *state = fc_malloc(sizeof(*state));
 
   freelog(LOG_CM_STATE, "creating cm_state for %s (size %d)",
@@ -1710,7 +1714,7 @@ struct cm_state *cm_init_state(struct city *pcity)
   numtypes = tile_type_vector_size(&state->lattice);
 
   /* For the heuristic, make sorted copies of the lattice */
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     tile_type_vector_init(&state->lattice_by_prod[stat]);
     tile_type_vector_copy(&state->lattice_by_prod[stat], &state->lattice);
     compare_key = stat;
@@ -1780,10 +1784,10 @@ static void end_search(struct cm_state *state)
 ****************************************************************************/
 void cm_free_state(struct cm_state *state)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
   tile_type_vector_free_all(&state->lattice);
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     tile_type_vector_free(&state->lattice_by_prod[stat]);
   }
   destroy_partial_solution(&state->best);
@@ -1833,22 +1837,22 @@ void cm_query_result(struct city *pcity,
 /****************************************************************************
   Return a translated name for the stat type.
 *****************************************************************************/
-const char *cm_get_stat_name(enum cm_stat stat)
+const char *cm_get_stat_name(Output_type_id stat)
 {
   switch (stat) {
-  case FOOD:
+  case O_FOOD:
     return _("Food");
-  case SHIELD:
+  case O_SHIELD:
     return _("Shield");
-  case TRADE:
+  case O_TRADE:
     return _("Trade");
-  case GOLD:
+  case O_GOLD:
     return _("Gold");
-  case LUXURY:
+  case O_LUXURY:
     return _("Luxury");
-  case SCIENCE:
+  case O_SCIENCE:
     return _("Science");
-  case NUM_STATS:
+  case O_LAST:
     break;
   }
   die("Unknown stat value in cm_get_stat_name: %d", stat);
@@ -1863,7 +1867,7 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 {
   int i;
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     if (p1->minimal_surplus[i] != p2->minimal_surplus[i]) {
       return FALSE;
     }
@@ -1901,9 +1905,9 @@ void cm_copy_parameter(struct cm_parameter *dest,
 **************************************************************************/
 void cm_init_parameter(struct cm_parameter *dest)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     dest->minimal_surplus[stat] = 0;
     dest->factor[stat] = 1;
   }
@@ -1920,9 +1924,9 @@ void cm_init_parameter(struct cm_parameter *dest)
 ***************************************************************************/
 void cm_init_emergency_parameter(struct cm_parameter *dest)
 {
-  enum cm_stat stat;
+  Output_type_id stat;
 
-  for (stat = 0; stat < NUM_STATS; stat++) {
+  for (stat = 0; stat < O_COUNT; stat++) {
     dest->minimal_surplus[stat] = -FC_INFINITY;
     dest->factor[stat] = 1;
   }
@@ -1994,14 +1998,14 @@ void cm_copy_result_from_city(const struct city *pcity,
 ****************************************************************************/
 #ifdef CM_DEBUG
 static void snprint_production(char *buffer, size_t bufsz,
-			      const int production[NUM_STATS])
+			      const int production[])
 {
   int nout;
 
   nout = snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
-		  production[FOOD], production[SHIELD],
-		  production[TRADE], production[GOLD],
-		  production[LUXURY], production[SCIENCE]);
+		  production[O_FOOD], production[O_SHIELD],
+		  production[O_TRADE], production[O_GOLD],
+		  production[O_LUXURY], production[O_SCIENCE]);
 
   assert(nout >= 0 && nout <= bufsz);
 }
@@ -2178,7 +2182,7 @@ void cm_print_result(const struct city *pcity,
       "print_result:  people: (workers/specialists) %d/%s",
       worker, specialists_string(result->specialists));
 
-  for (i = 0; i < NUM_STATS; i++) {
+  for (i = 0; i < O_COUNT; i++) {
     freelog(LOG_NORMAL, "print_result:  %10s surplus=%d",
         cm_get_stat_name(i), result->surplus[i]);
   }

@@ -22,6 +22,7 @@ typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef enum specialist_type Specialist_type_id;
 typedef int Impr_Type_id;
+typedef enum output_type Output_type_id;
 
 struct city;
 struct government;
