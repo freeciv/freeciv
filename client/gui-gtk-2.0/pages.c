@@ -1322,7 +1322,7 @@ GtkWidget *create_scenario_page(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
 
-  button = gtk_button_new_with_mnemonic("_Browse...");
+  button = gtk_button_new_with_mnemonic(_("_Browse..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
