@@ -28,6 +28,7 @@
 #include "log.h"
 #include "game.h"
 #include "map.h"
+#include "shared.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -48,7 +49,6 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
-#include "shared.h"
 
 #include "gui_main.h"
 
