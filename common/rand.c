@@ -180,7 +180,7 @@ void set_myrand_state(RANDOM_STATE state)
 void test_random1(int n)
 {
   RANDOM_STATE saved_state;
-  int i, old = 0, new;
+  int i, old_value = 0, new_value;
   bool didchange, olddidchange = FALSE;
   int behaviourchange = 0, behavioursame = 0;
 
@@ -188,9 +188,9 @@ void test_random1(int n)
   /* mysrand(time(NULL)); */  /* use current state */
 
   for (i = 0; i < n+2; i++) {
-    new = myrand(2);
+    new_value = myrand(2);
     if (i > 0) {		/* have old */
-      didchange = (new != old);
+      didchange = (new_value != old_value);
       if (i > 1) {		/* have olddidchange */
 	if (didchange != olddidchange) {
 	  ++behaviourchange;
@@ -200,7 +200,7 @@ void test_random1(int n)
       }
       olddidchange = didchange;
     }
-    old = new;
+    old_value = new_value;
   }
   freelog(LOG_NORMAL, "test_random1(%d) same: %d, change: %d",
 	  n, behavioursame, behaviourchange);
