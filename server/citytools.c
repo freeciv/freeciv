@@ -753,7 +753,8 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
     if (cities[i] != 0) {
       oldtradecity = find_city_by_id(cities[i]);
       assert(oldtradecity != NULL);
-      if (can_establish_trade_route(pcity, oldtradecity)) {   
+      if (can_cities_trade(pcity, oldtradecity)
+          && can_establish_trade_route(pcity, oldtradecity)) {   
 	establish_trade_route(pcity, oldtradecity);
       }
       /* refresh regardless; either it lost a trade route or
