@@ -487,33 +487,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
-{
-  if (is_isometric) {
-    int canvas_x, canvas_y;
-    int width, height;
-    gdk_window_get_size(map_canvas->window, &width, &height);
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-
-    return canvas_x > NORMAL_TILE_WIDTH/2
-      && canvas_x < (width - 3*NORMAL_TILE_WIDTH/2)
-      && canvas_y >= NORMAL_TILE_HEIGHT
-      && canvas_y < height - 3 * NORMAL_TILE_HEIGHT/2;
-  } else {
-    return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
-	    && (y<map_view_y0+map_canvas_store_theight-2 ||
-		(y<map_view_y0+map_canvas_store_theight &&
-		 map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
-	    && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
-		(x+map.xsize>=map_view_x0+2
-		 && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
-  }
-}
-
-
-/**************************************************************************
 Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
 Note: Works only for adjacent-square moves.
 (Tiles need not be square.)

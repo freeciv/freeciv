@@ -363,39 +363,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
- GUI Independ (with new access functions)
-**************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
-{
-  if (is_isometric) {
-    int canvas_x, canvas_y;
-    int width, height;
-    width = _mwidth(main_map_area);
-    height = _mheight(main_map_area);
-
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-
-    return canvas_x > NORMAL_TILE_WIDTH/2
-      && canvas_x < (width - 3*NORMAL_TILE_WIDTH/2)
-      && canvas_y >= NORMAL_TILE_HEIGHT
-      && canvas_y < height - 3 * NORMAL_TILE_HEIGHT/2;
-  } else {
-    int map_view_x0 = get_map_x_start();
-    int map_view_y0 = get_map_y_start();
-    int map_canvas_store_twidth = get_map_x_visible();
-    int map_canvas_store_theight = get_map_y_visible();
-
-    return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
-	    && (y<map_view_y0+map_canvas_store_theight-2 ||
-		(y<map_view_y0+map_canvas_store_theight &&
-		 map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
-	    && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
-		(x+map.xsize>=map_view_x0+2
-		 && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)

@@ -434,32 +434,6 @@ SPRITE *get_citizen_sprite(int frame)
 /**************************************************************************
 
 **************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
-{
-  if (is_isometric) {
-    int canvas_x, canvas_y;
-       
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-
-    return canvas_x > NORMAL_TILE_WIDTH/2
-      && canvas_x < (map_win_width - 3*NORMAL_TILE_WIDTH/2)
-      && canvas_y >= NORMAL_TILE_HEIGHT
-      && canvas_y < map_win_height - 3 * NORMAL_TILE_HEIGHT/2;
-
-  } else {
-    return ((y>=map_view_y+2 || (y >= map_view_y && map_view_y == 0))
-	    && (y<map_view_y+map_view_height-2 ||
-		(y<map_view_y+map_view_height &&
-		 map_view_y + map_view_height-EXTRA_BOTTOM_ROW == map.ysize))
-	    && ((x>=map_view_x+2 && x<map_view_x+map_view_width-2) ||
-		(x+map.xsize>=map_view_x+2
-		 && x+map.xsize<map_view_x+map_view_width-2)));
-  }
-}
-
-/**************************************************************************
-
-**************************************************************************/
 static void draw_rates(HDC hdc)
 {
   int d;

@@ -343,20 +343,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
-{
-  return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
-	  && (y<map_view_y0+map_canvas_store_theight-2 ||
-	      (y<map_view_y0+map_canvas_store_theight &&
-	       map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
-	  && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
-	      (x+map.xsize>=map_view_x0+2
-	       && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
-}
-
-/**************************************************************************
 Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
 Note: Works only for adjacent-square moves.
 (Tiles need not be square.)

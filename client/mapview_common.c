@@ -327,6 +327,54 @@ bool tile_visible_mapcanvas(int map_x, int map_y)
 }
 
 /**************************************************************************
+  Return TRUE iff the given map position has a tile visible within the
+  interior of the map canvas. This information is used to determine
+  when we need to recenter the map canvas.
+
+  The logic of this function is simple: if a tile is within 1.5 tiles
+  of a border of the canvas and that border is not aligned with the
+  edge of the map, then the tile is on the "border" of the map canvas.
+
+  This function is only correct for the current topology.
+**************************************************************************/
+bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
+{
+  int map_view_x0, map_view_y0, map_win_width, map_win_height;
+  int map_tile_width, map_tile_height;
+
+  get_mapview_dimensions(&map_view_x0, &map_view_y0,
+			 &map_win_width, &map_win_height);
+  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
+  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
+
+  if (is_isometric) {
+    int canvas_x, canvas_y;
+
+    /* The border consists of the half-tile on the left and top of the
+     * screen, and the 1.5-tiles on the right and bottom. */
+    return (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)
+	    && canvas_x > NORMAL_TILE_WIDTH / 2
+	    && canvas_x < map_win_width - 3 * NORMAL_TILE_WIDTH / 2
+	    && canvas_y >= NORMAL_TILE_HEIGHT
+	    && canvas_y < map_win_height - 3 * NORMAL_TILE_HEIGHT / 2);
+  } else {
+    /* The border consists of the two tiles on the edge of the
+     * mapview.  But we take into account the border of the map. */
+    return ((map_y >= map_view_y0 + 2 || (map_y >= map_view_y0
+					  && map_view_y0 == 0))
+	    && (map_y < map_view_y0 + map_tile_height - 2
+		|| (map_y < map_view_y0 + map_tile_height
+		    && (map_view_y0 + map_tile_height
+			- EXTRA_BOTTOM_ROW == map.ysize)))
+	    && ((map_x >= map_view_x0 + 2
+		 && map_x < map_view_x0 + map_tile_width - 2)
+		|| (map_x + map.xsize >= map_view_x0 + 2
+		    && (map_x + map.xsize
+			< map_view_x0 + map_tile_width - 2))));
+  }
+}
+
+/**************************************************************************
  Update (only) the visible part of the map
 **************************************************************************/
 void update_map_canvas_visible(void)

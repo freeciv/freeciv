@@ -128,6 +128,7 @@ void base_center_tile_mapcanvas(int map_x, int map_y,
 				int map_view_map_height);
 
 bool tile_visible_mapcanvas(int map_x, int map_y);
+bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
 void update_map_canvas_visible(void);
 
