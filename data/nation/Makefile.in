@@ -92,6 +92,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,72 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/nation
 
-pkgdata_DATA =  	american.ruleset		arab.ruleset			argentine.ruleset		australian.ruleset		aztec.ruleset			babylonian.ruleset		barbarian.ruleset		bavarian.ruleset		boer.ruleset			brazilian.ruleset		canadian.ruleset		carthaginian.ruleset		catalan.ruleset			chilean.ruleset			chinese.ruleset			cornish.ruleset			croatian.ruleset		czech.ruleset			danish.ruleset			dunedain.ruleset		dutch.ruleset			egyptian.ruleset		estonian.ruleset		english.ruleset			filipino.ruleset		finnish.ruleset			french.ruleset			german.ruleset			greek.ruleset			hungarian.ruleset		inca.ruleset			indian.ruleset			irish.ruleset			israeli.ruleset			italian.ruleset			japanese.ruleset		kenyan.ruleset			korean.ruleset			krevi.ruleset			latvian.ruleset			lithuanian.ruleset		misc_cities.ruleset		mongol.ruleset			mordor.ruleset			olympic.ruleset			persian.ruleset			polish.ruleset			portuguese.ruleset		roman.ruleset			russian.ruleset			scottish.ruleset		serbian.ruleset			silesian.ruleset		singaporean.ruleset		sioux.ruleset			slovenian.ruleset		spanish.ruleset			swedish.ruleset			thai.ruleset			turk.ruleset			ukrainian.ruleset		vietnamese.ruleset		viking.ruleset			welsh.ruleset			zulu.ruleset
+pkgdata_DATA = \
+	american.ruleset	\
+	arab.ruleset		\
+	argentine.ruleset	\
+	australian.ruleset	\
+	aztec.ruleset		\
+	babylonian.ruleset	\
+	barbarian.ruleset	\
+	bavarian.ruleset	\
+	boer.ruleset		\
+	brazilian.ruleset	\
+	canadian.ruleset	\
+	carthaginian.ruleset	\
+	catalan.ruleset		\
+	chilean.ruleset		\
+	chinese.ruleset		\
+	cornish.ruleset		\
+	croatian.ruleset	\
+	czech.ruleset		\
+	danish.ruleset		\
+	dunedain.ruleset	\
+	dutch.ruleset		\
+	egyptian.ruleset	\
+	estonian.ruleset	\
+	english.ruleset		\
+	filipino.ruleset	\
+	finnish.ruleset		\
+	french.ruleset		\
+	german.ruleset		\
+	greek.ruleset		\
+	hungarian.ruleset	\
+	inca.ruleset		\
+	indian.ruleset		\
+	irish.ruleset		\
+	israeli.ruleset		\
+	italian.ruleset		\
+	japanese.ruleset	\
+	kenyan.ruleset		\
+	korean.ruleset		\
+	krevi.ruleset		\
+	latvian.ruleset		\
+	lithuanian.ruleset	\
+	misc_cities.ruleset	\
+	mongol.ruleset		\
+	mordor.ruleset		\
+	olympic.ruleset		\
+	persian.ruleset		\
+	polish.ruleset		\
+	portuguese.ruleset	\
+	roman.ruleset		\
+	russian.ruleset		\
+	scottish.ruleset	\
+	serbian.ruleset		\
+	silesian.ruleset	\
+	singaporean.ruleset	\
+	sioux.ruleset		\
+	slovenian.ruleset	\
+	spanish.ruleset		\
+	swedish.ruleset		\
+	thai.ruleset		\
+	turk.ruleset		\
+	ukrainian.ruleset	\
+	vietnamese.ruleset	\
+	viking.ruleset		\
+	welsh.ruleset		\
+	zulu.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -118,7 +184,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

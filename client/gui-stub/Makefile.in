@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -107,7 +108,49 @@ gui_sources = @gui_sources@
 noinst_LIBRARIES = libguiclient.a
 INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
 
-libguiclient_a_SOURCES =  	chatline.c		chatline.h		citydlg.c		citydlg.h		cityrep.c		cityrep.h		colors.c		colors.h		connectdlg.c		connectdlg.h		dialogs.c		dialogs.h		diplodlg.c		diplodlg.h		finddlg.c		gotodlg.c		gotodlg.h		graphics.c		graphics.h		gui_main.c		gui_main.h		helpdlg.c		helpdlg.h		inteldlg.c		mapctrl.c		mapctrl.h		mapview.c		mapview.h		menu.c			menu.h			messagedlg.c		messagewin.c		messagewin.h		plrdlg.c		plrdlg.h		ratesdlg.c		repodlgs.c		repodlgs.h		spaceshipdlg.c		spaceshipdlg.h		wldlg.c			wldlg.h
+libguiclient_a_SOURCES = \
+	chatline.c	\
+	chatline.h	\
+	citydlg.c	\
+	citydlg.h	\
+	cityrep.c	\
+	cityrep.h	\
+	colors.c	\
+	colors.h	\
+	connectdlg.c	\
+	connectdlg.h	\
+	dialogs.c	\
+	dialogs.h	\
+	diplodlg.c	\
+	diplodlg.h	\
+	finddlg.c	\
+	gotodlg.c	\
+	gotodlg.h	\
+	graphics.c	\
+	graphics.h	\
+	gui_main.c	\
+	gui_main.h	\
+	helpdlg.c	\
+	helpdlg.h	\
+	inteldlg.c	\
+	mapctrl.c	\
+	mapctrl.h	\
+	mapview.c	\
+	mapview.h	\
+	menu.c		\
+	menu.h		\
+	messagedlg.c	\
+	messagewin.c	\
+	messagewin.h	\
+	plrdlg.c	\
+	plrdlg.h	\
+	ratesdlg.c	\
+	repodlgs.c	\
+	repodlgs.h	\
+	spaceshipdlg.c	\
+	spaceshipdlg.h	\
+	wldlg.c		\
+	wldlg.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
@@ -138,7 +181,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/chatline.P .deps/citydlg.P .deps/cityrep.P \
 .deps/colors.P .deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P \

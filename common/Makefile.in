@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -108,7 +109,87 @@ noinst_LIBRARIES = libcivcommon.a
 
 INCLUDES = -I../intl
 
-libcivcommon_a_SOURCES =  		astring.c       		astring.h       		attribute.h			capability.c			capability.h			capstr.c			capstr.h			city.c				city.h				combat.c			combat.h			connection.c			connection.h			create_lsend.pl			diptreaty.c			diptreaty.h			events.h			fcintl.c			fcintl.h			game.c				game.h				genlist.c			genlist.h			government.c			government.h			hash.c				hash.h				idex.c				idex.h				improvement.c			improvement.h			inputfile.c			inputfile.h			ioz.c				ioz.h				log.c				log.h				map.c				map.h				nation.c        		nation.h        		netintf.c			netintf.h			packets.c			packets.h			packets_lsend.c			packets_lsend.h			player.c			player.h			mem.c           		mem.h				rand.c				rand.h				registry.c			registry.h			sbuffer.c			sbuffer.h			shared.c			shared.h			spaceship.c			spaceship.h			speclist.h			speclist_c.h			specvec.h			specvec_c.h			support.c			support.h			tech.c				tech.h				terrain.h			timing.c			timing.h			unit.c				unit.h				unittype.c			unittype.h			worklist.c			worklist.h			version.c			version.h
+libcivcommon_a_SOURCES = \
+		astring.c       \
+		astring.h       \
+		attribute.h	\
+		capability.c	\
+		capability.h	\
+		capstr.c	\
+		capstr.h	\
+		city.c		\
+		city.h		\
+		combat.c	\
+		combat.h	\
+		connection.c	\
+		connection.h	\
+		create_lsend.pl	\
+		diptreaty.c	\
+		diptreaty.h	\
+		events.h	\
+		fcintl.c	\
+		fcintl.h	\
+		game.c		\
+		game.h		\
+		genlist.c	\
+		genlist.h	\
+		government.c	\
+		government.h	\
+		hash.c		\
+		hash.h		\
+		idex.c		\
+		idex.h		\
+		improvement.c	\
+		improvement.h	\
+		inputfile.c	\
+		inputfile.h	\
+		ioz.c		\
+		ioz.h		\
+		log.c		\
+		log.h		\
+		map.c		\
+		map.h		\
+		nation.c        \
+		nation.h        \
+		netintf.c	\
+		netintf.h	\
+		packets.c	\
+		packets.h	\
+		packets_lsend.c	\
+		packets_lsend.h	\
+		player.c	\
+		player.h	\
+		mem.c           \
+		mem.h		\
+		rand.c		\
+		rand.h		\
+		registry.c	\
+		registry.h	\
+		sbuffer.c	\
+		sbuffer.h	\
+		shared.c	\
+		shared.h	\
+		spaceship.c	\
+		spaceship.h	\
+		speclist.h	\
+		speclist_c.h	\
+		specvec.h	\
+		specvec_c.h	\
+		support.c	\
+		support.h	\
+		tech.c		\
+		tech.h		\
+		terrain.h	\
+		timing.c	\
+		timing.h	\
+		unit.c		\
+		unit.h		\
+		unittype.c	\
+		unittype.h	\
+		worklist.c	\
+		worklist.h	\
+		version.c	\
+		version.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -141,7 +222,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/astring.P .deps/capability.P .deps/capstr.P \
 .deps/city.P .deps/combat.P .deps/connection.P .deps/diptreaty.P \

@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -108,10 +109,68 @@ bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl
 
-civserver_SOURCES =  		civserver.c			civserver.h
+civserver_SOURCES = \
+		civserver.c	\
+		civserver.h
 
 
-libcivserver_a_SOURCES =  		autoattack.c			autoattack.h			barbarian.c			barbarian.h			cityhand.c			cityhand.h			citytools.c			citytools.h			cityturn.c			cityturn.h			console.c			console.h			diplhand.c			diplhand.h			diplomats.c			diplomats.h			gamehand.c			gamehand.h			gamelog.c			gamelog.h			gotohand.c			gotohand.h			handchat.c			handchat.h			mapgen.c			mapgen.h			maphand.c			maphand.h			meta.c				meta.h				plrhand.c			plrhand.h			report.c			report.h			ruleset.c			ruleset.h			rulesout.c			rulesout.h			sanitycheck.c			sanitycheck.h			savegame.c			savegame.h			sernet.c			sernet.h			settlers.c			settlers.h			spacerace.c			spacerace.h			srv_main.c			srv_main.h			stdinhand.c			stdinhand.h			unithand.c			unithand.h			unittools.c			unittools.h
+libcivserver_a_SOURCES = \
+		autoattack.c	\
+		autoattack.h	\
+		barbarian.c	\
+		barbarian.h	\
+		cityhand.c	\
+		cityhand.h	\
+		citytools.c	\
+		citytools.h	\
+		cityturn.c	\
+		cityturn.h	\
+		console.c	\
+		console.h	\
+		diplhand.c	\
+		diplhand.h	\
+		diplomats.c	\
+		diplomats.h	\
+		gamehand.c	\
+		gamehand.h	\
+		gamelog.c	\
+		gamelog.h	\
+		gotohand.c	\
+		gotohand.h	\
+		handchat.c	\
+		handchat.h	\
+		mapgen.c	\
+		mapgen.h	\
+		maphand.c	\
+		maphand.h	\
+		meta.c		\
+		meta.h		\
+		plrhand.c	\
+		plrhand.h	\
+		report.c	\
+		report.h	\
+		ruleset.c	\
+		ruleset.h	\
+		rulesout.c	\
+		rulesout.h	\
+		sanitycheck.c	\
+		sanitycheck.h	\
+		savegame.c	\
+		savegame.h	\
+		sernet.c	\
+		sernet.h	\
+		settlers.c	\
+		settlers.h	\
+		spacerace.c	\
+		spacerace.h	\
+		srv_main.c	\
+		srv_main.h	\
+		stdinhand.c	\
+		stdinhand.h	\
+		unithand.c	\
+		unithand.h	\
+		unittools.c	\
+		unittools.h
 
 
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a
@@ -150,7 +209,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/autoattack.P .deps/barbarian.P .deps/cityhand.P \
 .deps/citytools.P .deps/cityturn.P .deps/civserver.P .deps/console.P \

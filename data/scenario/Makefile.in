@@ -92,6 +92,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,16 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/scenario
 
-pkgdata_DATA =  	british-isles-85x80-v2.77.sav 	earth-160x90-v1.sav 	earth-160x90-v2.sav 	earth-80x50-v1.sav 	earth-80x50-v2.sav 	europe-200x100-v1.sav 	europe-200x100-v2.sav 	hagworld-120x60-v1.2.sav 	iberian-peninsula-136x100-v1.0.sav
+pkgdata_DATA = \
+	british-isles-85x80-v2.77.sav \
+	earth-160x90-v1.sav \
+	earth-160x90-v2.sav \
+	earth-80x50-v1.sav \
+	earth-80x50-v2.sav \
+	europe-200x100-v1.sav \
+	europe-200x100-v2.sav \
+	hagworld-120x60-v1.2.sav \
+	iberian-peninsula-136x100-v1.0.sav
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -118,7 +128,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

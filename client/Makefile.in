@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -103,14 +104,77 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
-@CLIENT_GUI_GTK_TRUE@GUI_SUBDIR = gui-gtk
-@CLIENT_GUI_XAW_TRUE@GUI_SUBDIR = gui-xaw
-@CLIENT_GUI_STUB_TRUE@GUI_SUBDIR = gui-stub
-@CLIENT_GUI_WIN32_TRUE@GUI_SUBDIR = gui-win32
+@CLIENT_GUI_GTK_TRUE@GUI_SUBDIR = @CLIENT_GUI_GTK_TRUE@gui-gtk
+@CLIENT_GUI_GTK_2_0_TRUE@GUI_SUBDIR = @CLIENT_GUI_GTK_2_0_TRUE@gui-gtk-2.0
+@CLIENT_GUI_XAW_TRUE@GUI_SUBDIR = @CLIENT_GUI_XAW_TRUE@gui-xaw
+@CLIENT_GUI_STUB_TRUE@GUI_SUBDIR = @CLIENT_GUI_STUB_TRUE@gui-stub
+@CLIENT_GUI_WIN32_TRUE@GUI_SUBDIR = @CLIENT_GUI_WIN32_TRUE@gui-win32
 
-EXTRA_DIST = gui-mui/autogroupclass.c         		gui-mui/autogroupclass.h         		gui-mui/chatline.c               		gui-mui/chatline.h               		gui-mui/citydlg.c                		gui-mui/citydlg.h                		gui-mui/cityrep.c                		gui-mui/cityrep.h                		gui-mui/colors.c                 		gui-mui/colors.h                 		gui-mui/colortextclass.c         		gui-mui/colortextclass.h         		gui-mui/connectdlg.c             		gui-mui/connectdlg.h             		gui-mui/dialogs.c                		gui-mui/dialogs.h                		gui-mui/diplodlg.c               		gui-mui/diplodlg.h               		gui-mui/finddlg.c                		gui-mui/gamedlgs.c               		gui-mui/gotodlg.c                		gui-mui/gotodlg.h                		gui-mui/graphics.c               		gui-mui/graphics.h               		gui-mui/gui_main.c               		gui-mui/gui_main.h               		gui-mui/helpdlg.c                		gui-mui/helpdlg.h                		gui-mui/historystringclass.c     		gui-mui/historystringclass.h     		gui-mui/inputdlg.c               		gui-mui/inputdlg.h               		gui-mui/inteldlg.c               		gui-mui/mapclass.c               		gui-mui/mapclass.h               		gui-mui/mapctrl.c                		gui-mui/mapctrl.h                		gui-mui/mapview.c                		gui-mui/mapview.h                		gui-mui/messagedlg.c             		gui-mui/messagewin.c             		gui-mui/messagewin.h             		gui-mui/muistuff.c               		gui-mui/muistuff.h               		gui-mui/objecttreeclass.c        		gui-mui/objecttreeclass.h        		gui-mui/optiondlg.h              		gui-mui/overviewclass.c          		gui-mui/overviewclass.h          		gui-mui/plrdlg.c                 		gui-mui/plrdlg.h                 		gui-mui/repodlgs.c               		gui-mui/repodlgs.h               		gui-mui/scrollbuttonclass.c      		gui-mui/scrollbuttonclass.h      		gui-mui/spaceshipdlg.c           		gui-mui/spaceshipdlg.h           		gui-mui/transparentstringclass.c 		gui-mui/transparentstringclass.h 		gui-mui/wldlg.c                  		gui-mui/wldlg.h                  		gui-mui/worklistclass.c          		gui-mui/worklistclass.h
+EXTRA_DIST = gui-mui/autogroupclass.c         \
+		gui-mui/autogroupclass.h         \
+		gui-mui/chatline.c               \
+		gui-mui/chatline.h               \
+		gui-mui/citydlg.c                \
+		gui-mui/citydlg.h                \
+		gui-mui/cityrep.c                \
+		gui-mui/cityrep.h                \
+		gui-mui/colors.c                 \
+		gui-mui/colors.h                 \
+		gui-mui/colortextclass.c         \
+		gui-mui/colortextclass.h         \
+		gui-mui/connectdlg.c             \
+		gui-mui/connectdlg.h             \
+		gui-mui/dialogs.c                \
+		gui-mui/dialogs.h                \
+		gui-mui/diplodlg.c               \
+		gui-mui/diplodlg.h               \
+		gui-mui/finddlg.c                \
+		gui-mui/gamedlgs.c               \
+		gui-mui/gotodlg.c                \
+		gui-mui/gotodlg.h                \
+		gui-mui/graphics.c               \
+		gui-mui/graphics.h               \
+		gui-mui/gui_main.c               \
+		gui-mui/gui_main.h               \
+		gui-mui/helpdlg.c                \
+		gui-mui/helpdlg.h                \
+		gui-mui/historystringclass.c     \
+		gui-mui/historystringclass.h     \
+		gui-mui/inputdlg.c               \
+		gui-mui/inputdlg.h               \
+		gui-mui/inteldlg.c               \
+		gui-mui/mapclass.c               \
+		gui-mui/mapclass.h               \
+		gui-mui/mapctrl.c                \
+		gui-mui/mapctrl.h                \
+		gui-mui/mapview.c                \
+		gui-mui/mapview.h                \
+		gui-mui/messagedlg.c             \
+		gui-mui/messagewin.c             \
+		gui-mui/messagewin.h             \
+		gui-mui/muistuff.c               \
+		gui-mui/muistuff.h               \
+		gui-mui/objecttreeclass.c        \
+		gui-mui/objecttreeclass.h        \
+		gui-mui/optiondlg.h              \
+		gui-mui/overviewclass.c          \
+		gui-mui/overviewclass.h          \
+		gui-mui/plrdlg.c                 \
+		gui-mui/plrdlg.h                 \
+		gui-mui/repodlgs.c               \
+		gui-mui/repodlgs.h               \
+		gui-mui/scrollbuttonclass.c      \
+		gui-mui/scrollbuttonclass.h      \
+		gui-mui/spaceshipdlg.c           \
+		gui-mui/spaceshipdlg.h           \
+		gui-mui/transparentstringclass.c \
+		gui-mui/transparentstringclass.h \
+		gui-mui/wldlg.c                  \
+		gui-mui/wldlg.h                  \
+		gui-mui/worklistclass.c          \
+		gui-mui/worklistclass.h
 
-@MAKE_CLIENT_INCLUDE_TRUE@CLI_INCLUDE = include
+@MAKE_CLIENT_INCLUDE_TRUE@CLI_INCLUDE = @MAKE_CLIENT_INCLUDE_TRUE@include
 @MAKE_CLIENT_INCLUDE_FALSE@CLI_INCLUDE = 
 
 SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
@@ -119,12 +183,43 @@ bin_PROGRAMS = civclient
 
 INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl -I$(srcdir)/agents
 
-civclient_SOURCES =  	attribute.h		attribute.c		citydlg_common.c 	citydlg_common.h 	cityrepdata.c		cityrepdata.h		civclient.c		civclient.h		climisc.c		climisc.h		clinet.c		clinet.h		control.c		control.h		goto.c			goto.h			helpdata.c		helpdata.h		mapview_common.c 	mapview_common.h 	packhand.c		packhand.h		options.c		options.h		repodlgs_common.c 	repodlgs_common.h 	tilespec.c		tilespec.h
+civclient_SOURCES = \
+	attribute.h	\
+	attribute.c	\
+	citydlg_common.c \
+	citydlg_common.h \
+	cityrepdata.c	\
+	cityrepdata.h	\
+	civclient.c	\
+	civclient.h	\
+	climisc.c	\
+	climisc.h	\
+	clinet.c	\
+	clinet.h	\
+	control.c	\
+	control.h	\
+	goto.c		\
+	goto.h		\
+	helpdata.c	\
+	helpdata.h	\
+	mapview_common.c \
+	mapview_common.h \
+	packhand.c	\
+	packhand.h	\
+	options.c	\
+	options.h	\
+	repodlgs_common.c \
+	repodlgs_common.h \
+	tilespec.c	\
+	tilespec.h
 
 
-civclient_DEPENDENCIES = @gui_sources@/libguiclient.a 	../common/libcivcommon.a agents/libagents.a
+civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
+	../common/libcivcommon.a agents/libagents.a
 
-civclient_LDADD = @gui_sources@/libguiclient.a 	../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a 	../common/libcivcommon.a @CLIENT_LIBS@ agents/libagents.a
+civclient_LDADD = @gui_sources@/libguiclient.a \
+	../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a \
+	../common/libcivcommon.a @CLIENT_LIBS@ agents/libagents.a
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -153,9 +248,10 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
-DIST_SUBDIRS =  gui-gtk gui-xaw gui-stub gui-win32 include agents
+DIST_SUBDIRS =  gui-gtk gui-gtk-2.0 gui-xaw gui-stub gui-win32 include \
+agents
 DEP_FILES =  .deps/attribute.P .deps/citydlg_common.P \
 .deps/cityrepdata.P .deps/civclient.P .deps/climisc.P .deps/clinet.P \
 .deps/control.P .deps/goto.P .deps/helpdata.P .deps/mapview_common.P \

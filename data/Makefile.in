@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,18 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-pkgdata_DATA =  	Freeciv		freeciv.rc		engels.tilespec		engels_shields.tilespec		trident.tilespec		trident_shields.tilespec		hires.tilespec 	helpdata.txt		civ1.serv		civ2.serv
+pkgdata_DATA = \
+	Freeciv	\
+	freeciv.rc	\
+	freeciv.rc-2.0	\
+	engels.tilespec	\
+	engels_shields.tilespec	\
+	trident.tilespec	\
+	trident_shields.tilespec	\
+	hires.tilespec \
+	helpdata.txt	\
+	civ1.serv	\
+	civ2.serv
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -120,7 +132,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

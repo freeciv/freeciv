@@ -3,6 +3,7 @@
 pkgdata_DATA = \
 	Freeciv	\
 	freeciv.rc	\
+	freeciv.rc-2.0	\
 	engels.tilespec	\
 	engels_shields.tilespec	\
 	trident.tilespec	\

@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,25 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-EXTRA_DIST =  	BUGS.sv			HOWTOPLAY.de		HOWTOPLAY.fr		HOWTOPLAY.it		HOWTOPLAY.ja		HOWTOPLAY.sv		INSTALL.de		INSTALL.debian.de 	INSTALL.fr		INSTALL.it		NEWS.de			NEWS.ja			README.de		README.fr		README.it		README.ja		README.rulesets.de 	README.sv
+EXTRA_DIST = \
+	BUGS.sv		\
+	HOWTOPLAY.de	\
+	HOWTOPLAY.fr	\
+	HOWTOPLAY.it	\
+	HOWTOPLAY.ja	\
+	HOWTOPLAY.sv	\
+	INSTALL.de	\
+	INSTALL.debian.de \
+	INSTALL.fr	\
+	INSTALL.it	\
+	NEWS.de		\
+	NEWS.ja		\
+	README.de	\
+	README.fr	\
+	README.it	\
+	README.ja	\
+	README.rulesets.de \
+	README.sv
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -114,7 +133,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

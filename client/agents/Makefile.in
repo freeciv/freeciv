@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -108,7 +109,13 @@ noinst_LIBRARIES = libagents.a
 
 INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl -I$(srcdir)/../gui-gtk @CLIENT_CFLAGS@
 
-libagents_a_SOURCES =  	agents.c			agents.h			cma_core.c 			cma_core.h 			cma_fec.c			cma_fec.h 
+libagents_a_SOURCES = \
+	agents.c		\
+	agents.h		\
+	cma_core.c 		\
+	cma_core.h 		\
+	cma_fec.c		\
+	cma_fec.h 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
@@ -136,7 +143,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/agents.P .deps/cma_core.P .deps/cma_fec.P
 SOURCES = $(libagents_a_SOURCES)

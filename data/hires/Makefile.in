@@ -92,6 +92,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,20 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/hires
 
-pkgdata_DATA =  	cities.xpm		cities.spec		icons.xpm		icons.spec		nuke.xpm		nuke.spec		terrain1.xpm		terrain1.spec		terrain2.xpm		terrain2.spec		tiles.spec		units.xpm		units.spec
+pkgdata_DATA = \
+	cities.xpm	\
+	cities.spec	\
+	icons.xpm	\
+	icons.spec	\
+	nuke.xpm	\
+	nuke.spec	\
+	terrain1.xpm	\
+	terrain1.spec	\
+	terrain2.xpm	\
+	terrain2.spec	\
+	tiles.spec	\
+	units.xpm	\
+	units.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -118,7 +132,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

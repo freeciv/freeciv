@@ -293,6 +293,9 @@ student.uni-tuebingen.de>
 /* Define if you have the <sys/socket.h> header file.  */
 #undef HAVE_SYS_SOCKET_H
 
+/* Define if you have the <sys/stat.h> header file.  */
+#undef HAVE_SYS_STAT_H
+
 /* Define if you have the <sys/termio.h> header file.  */
 #undef HAVE_SYS_TERMIO_H
 

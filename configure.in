@@ -335,6 +335,22 @@ if test x$client != xno; then
     fi
   fi
 
+  dnl Gtk-2.0-specific overrides
+  if test "$client" = "gtk-2.0" || test "$client" = yes ; then
+    AM_PATH_GTK_2_0(2.0.0, gtk_2_0_found="yes", gtk2_0_found="")
+    if test "x$gtk_2_0_found" = "xyes"; then
+      CLIENT_CFLAGS="$GTK_CFLAGS"
+      CLIENT_LIBS="$GTK_LIBS"
+      found_client=yes
+    fi
+
+    if test "x$found_client" = "xyes"; then
+      client="gtk-2.0"
+    elif test "$client" = "gtk-2.0"; then
+      AC_MSG_ERROR(specified client 'gtk-2.0' not configurable)
+    fi
+  fi
+
   dnl Xaw-specific overrides
   if test "$client" = xaw || test "$client" = yes ; then
     dnl Checks for X:
@@ -470,6 +486,7 @@ AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
+AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "$gui_sources" = "gui-stub")
@@ -773,6 +790,7 @@ AC_OUTPUT(Makefile
 	  client/agents/Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
+	  client/gui-gtk-2.0/Makefile
 	  client/gui-xaw/Makefile 
 	  client/gui-win32/Makefile 
 	  client/gui-stub/Makefile 

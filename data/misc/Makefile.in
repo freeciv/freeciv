@@ -92,6 +92,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,19 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/misc
 
-pkgdata_DATA =  	chiefs.xpm		chiefs.spec		intro.xpm		radar.xpm		shields.xpm		shields.spec		small.xpm		small.spec		space.xpm		space.spec		treaty.xpm		treaty.spec
+pkgdata_DATA = \
+	chiefs.xpm	\
+	chiefs.spec	\
+	intro.xpm	\
+	radar.xpm	\
+	shields.xpm	\
+	shields.spec	\
+	small.xpm	\
+	small.spec	\
+	space.xpm	\
+	space.spec	\
+	treaty.xpm	\
+	treaty.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -118,7 +131,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

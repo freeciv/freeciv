@@ -92,6 +92,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,13 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/civ2
 
-pkgdata_DATA =  	buildings.ruleset 	game.ruleset		governments.ruleset 	techs.ruleset		terrain.ruleset		units.ruleset
+pkgdata_DATA = \
+	buildings.ruleset \
+	game.ruleset	\
+	governments.ruleset \
+	techs.ruleset	\
+	terrain.ruleset	\
+	units.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -118,7 +125,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

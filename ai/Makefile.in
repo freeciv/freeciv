@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -108,7 +109,35 @@ noinst_LIBRARIES = libcivai.a
 
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../server -I../intl
 
-libcivai_a_SOURCES =  		advattitude.c			advattitude.h			advdomestic.c			advdomestic.h			advforeign.c			advforeign.h			advisland.c			advisland.h			advleader.c			advleader.h			advmilitary.c			advmilitary.h			advscience.c			advscience.h			advspace.c			advspace.h			advtrade.c			advtrade.h			aicity.c			aicity.h			aihand.c			aihand.h			aitech.c			aitech.h			aitools.c			aitools.h			aiunit.c			aiunit.h
+libcivai_a_SOURCES = \
+		advattitude.c	\
+		advattitude.h	\
+		advdomestic.c	\
+		advdomestic.h	\
+		advforeign.c	\
+		advforeign.h	\
+		advisland.c	\
+		advisland.h	\
+		advleader.c	\
+		advleader.h	\
+		advmilitary.c	\
+		advmilitary.h	\
+		advscience.c	\
+		advscience.h	\
+		advspace.c	\
+		advspace.h	\
+		advtrade.c	\
+		advtrade.h	\
+		aicity.c	\
+		aicity.h	\
+		aihand.c	\
+		aihand.h	\
+		aitech.c	\
+		aitech.h	\
+		aitools.c	\
+		aitools.h	\
+		aiunit.c	\
+		aiunit.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -138,7 +167,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/advattitude.P .deps/advdomestic.P .deps/advforeign.P \
 .deps/advisland.P .deps/advleader.P .deps/advmilitary.P \

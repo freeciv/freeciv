@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -104,7 +105,40 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-noinst_HEADERS =  	cityicon.ico		freeciv.ico		drop_cursor.xbm		drop_cursor_mask.xbm		goto_cursor.xbm		goto_cursor_mask.xbm		nuke_cursor.xbm		nuke_cursor_mask.xbm		patrol_cursor.xbm		patrol_cursor_mask.xbm		chatline_g.h		citydlg_g.h		cityrep_g.h		colors_g.h		connectdlg_g.h		dialogs_g.h		diplodlg_g.h		finddlg.h		gotodlg_g.h		graphics_g.h		gui_main_g.h		helpdlg_g.h		inteldlg.h		mapctrl_g.h		mapview_g.h		menu_g.h		messagedlg.h		messagewin_g.h		plrdlg_g.h		ratesdlg.h		repodlgs_g.h		spaceshipdlg_g.h		wldlg_g.h
+noinst_HEADERS = \
+	cityicon.ico	\
+	freeciv.ico	\
+	drop_cursor.xbm	\
+	drop_cursor_mask.xbm	\
+	goto_cursor.xbm	\
+	goto_cursor_mask.xbm	\
+	nuke_cursor.xbm	\
+	nuke_cursor_mask.xbm	\
+	patrol_cursor.xbm	\
+	patrol_cursor_mask.xbm	\
+	chatline_g.h	\
+	citydlg_g.h	\
+	cityrep_g.h	\
+	colors_g.h	\
+	connectdlg_g.h	\
+	dialogs_g.h	\
+	diplodlg_g.h	\
+	finddlg.h	\
+	gotodlg_g.h	\
+	graphics_g.h	\
+	gui_main_g.h	\
+	helpdlg_g.h	\
+	inteldlg.h	\
+	mapctrl_g.h	\
+	mapview_g.h	\
+	menu_g.h	\
+	messagedlg.h	\
+	messagewin_g.h	\
+	plrdlg_g.h	\
+	ratesdlg.h	\
+	repodlgs_g.h	\
+	spaceshipdlg_g.h	\
+	wldlg_g.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
@@ -116,7 +150,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:

@@ -94,6 +94,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -103,16 +104,35 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
-@CLIENT_TRUE@CSUBDIRS = client
+@CLIENT_TRUE@CSUBDIRS = @CLIENT_TRUE@client
 @CLIENT_FALSE@CSUBDIRS = 
-@SERVER_TRUE@SSUBDIRS = ai server
+@SERVER_TRUE@SSUBDIRS = @SERVER_TRUE@ai server
 @SERVER_FALSE@SSUBDIRS = 
-@MAKE_DATA_TRUE@DSUBDIRS = data
+@MAKE_DATA_TRUE@DSUBDIRS = @MAKE_DATA_TRUE@data
 @MAKE_DATA_FALSE@DSUBDIRS = 
 
 SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
 
-EXTRA_DIST = PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt 		README.AI README.rulesets README.graphics 		civ ser config.mac.h diff_ignore 		amiga/amigaclient.c    		amiga/amigaserver.c    		amiga/config.h         		amiga/gettext.c        		amiga/libintl.h        		amiga/ReadMe           		amiga/ReadMe.2Amigas   		amiga/ReadMe.developer 		amiga/SDI_compiler.h   		amiga/smakefile        		amiga/vmakefile        		amiga/vsnprintf.c      		vms/config.h_vms       		vms/freeciv_h.vms      		vms/imlib_config.h_vms 		vms/readme.vms         		vms/vms_build.com
+EXTRA_DIST = PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
+		README.AI README.rulesets README.graphics \
+		civ ser config.mac.h diff_ignore \
+		amiga/amigaclient.c    \
+		amiga/amigaserver.c    \
+		amiga/config.h         \
+		amiga/gettext.c        \
+		amiga/libintl.h        \
+		amiga/ReadMe           \
+		amiga/ReadMe.2Amigas   \
+		amiga/ReadMe.developer \
+		amiga/SDI_compiler.h   \
+		amiga/smakefile        \
+		amiga/vmakefile        \
+		amiga/vsnprintf.c      \
+		vms/config.h_vms       \
+		vms/freeciv_h.vms      \
+		vms/imlib_config.h_vms \
+		vms/readme.vms         \
+		vms/vms_build.com
 
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
