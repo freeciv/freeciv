@@ -166,12 +166,20 @@ char *default_american_city_names[] = {
 
 /* Latinized names */
 char *default_greek_city_names[] = {
-  "Athenae", "Sparta", "Thebae", "Corinthus", "Byzanthium",
-  "Miletus", "Ephesus", "Nichopolis", "Argos", "Megalopolis",
-  "Megara", "Plateae", "Chalcis", "Heraclea", "Thessalonica", 
-  "Lysimachia", "Perinthus", "Gortyna", "Apollonia", "Didyma", 
-  "Rhodus", "Doriscus", "Halicarnassus", "Chius", "Mytilene",
-  "Phocaea", "Messene", "Olympia", "Delphi", "Delos", (char *)0
+  "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
+  "Miletus", "Ephesus", "Piraeus", "Argos", "Megalopolis",
+  "Megara", "Eleusis", "Chalcis", "Eretria", "Thessalonica",
+  "Pella", "Edessa", "Dodona", "Nikopolis", "Naupactus",
+  "Patrae", "Olympia", "Pylos", "Mantinea", "Tegea",
+  "Nauplion", "Mycenae", "Nemea", "Epidauros", "Aulis",
+  "Orchomenos", "Marathon", "Delphi", "Thermopylae", "Phaleron",
+  "Nicaea", "Heraclea", "Potidaea", "Stagira", "Olynthus", 
+  "Colophon", "Phocaea", "Amphissa", "Elateia", "Hyampolis",
+  "Atalante", "Oropos", "Lebadeia", "Larissa", "Iolkus",
+  "Amphiclaea", "Mesembria", "Cyzicus", "Halicarnassus", "Pergamos",
+  "Pydna", "Philadelphea", "Therme", "Amphipolis", "Corcyra",
+  "Ithaca", "Thera", "Delos", "Panormos", "Ortygia",
+  "Melos", "Lykosoura", "Amyclae", "Clazomenae", "Kynos Kephalae", (char *)0
 };
 
 char *default_indian_city_names[] = {
