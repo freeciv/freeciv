@@ -323,22 +323,6 @@ int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 }
 
 /***************************************************************
- is no terrain close diagonally or gridwise ?
-***************************************************************/
-int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t)
-{
-  if (map_get_terrain(x-1, y+1)==t) return 0;
-  if (map_get_terrain(x+1, y-1)==t) return 0;
-  if (map_get_terrain(x-1, y-1)==t) return 0;
-  if (map_get_terrain(x+1, y+1)==t) return 0;
-  if (map_get_terrain(x, y+1)==t)   return 0;
-  if (map_get_terrain(x-1, y)==t)   return 0;
-  if (map_get_terrain(x+1, y)==t)   return 0;
-  if (map_get_terrain(x, y-1)==t)   return 0;
-  return 1;
-}
-
-/***************************************************************
   counts tiles close to x,y having terrain t
 ***************************************************************/
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
@@ -516,23 +500,6 @@ int is_good_tile(int x, int y)
     if (map_get_tile(x,y)->special) return 1;
     break;
   }
-  return 0;
-}
-
-
-/***************************************************************
-...
-***************************************************************/
-int is_water_adjacent(int x, int y)
-{
-  int x1,y1;
-  for (y1=y-1;y1<y+2;y1++) 
-    for (x1=x-1;x1<x+2;x1++) {
-      if (map_get_terrain(x1,y1)==T_OCEAN
-	  || map_get_terrain(x1, y1)==T_RIVER
-	  || map_get_special(x1, y1)&S_RIVER)
-	return 1;
-    } 
   return 0;
 }
 

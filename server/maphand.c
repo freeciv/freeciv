@@ -53,6 +53,18 @@ static struct player_tile *player_tiles[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
 static char terrain_chars[] = "adfghjm prst";
 
 /**************************************************************************
+Used only in global_warming() and nuclear_winter() below.
+**************************************************************************/
+static int is_terrain_ecologically_wet(int x, int y)
+{
+  return (map_get_terrain(x, y) == T_RIVER
+	  || map_get_special(x, y) & S_RIVER
+	  || is_terrain_near_tile(x, y, T_OCEAN)
+	  || is_terrain_near_tile(x, y, T_RIVER)
+	  || is_special_near_tile(x, y, S_RIVER));
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void global_warming(int effect)
@@ -61,18 +73,18 @@ void global_warming(int effect)
 
   freelog(LOG_NORMAL, "Global warming: %d", game.heating);
 
-  k=map.xsize*map.ysize;
+  k = map.xsize * map.ysize;
   while(effect && k--) {
-    x=myrand(map.xsize);
-    y=myrand(map.ysize);
-    if (map_get_terrain(x, y)!=T_OCEAN) {
-      if(is_water_adjacent(x, y)) {
+    x = myrand(map.xsize);
+    y = myrand(map.ysize);
+    if (map_get_terrain(x, y) != T_OCEAN) {
+      if (is_terrain_ecologically_wet(x, y)) {
 	switch (map_get_terrain(x, y)) {
 	case T_FOREST:
 	  effect--;
 	  map_set_terrain(x, y, T_JUNGLE);
-          reset_move_costs(x, y);
-          send_tile_info(0, x, y);
+	  reset_move_costs(x, y);
+	  send_tile_info(0, x, y);
 	  break;
 	case T_DESERT:
 	case T_PLAINS:
@@ -81,8 +93,8 @@ void global_warming(int effect)
 	  map_set_terrain(x, y, T_SWAMP);
 	  map_clear_special(x, y, S_FARMLAND);
 	  map_clear_special(x, y, S_IRRIGATION);
-          reset_move_costs(x, y);
-          send_tile_info(0, x, y);
+	  reset_move_costs(x, y);
+	  send_tile_info(0, x, y);
 	  break;
 	default:
 	  break;
@@ -94,8 +106,8 @@ void global_warming(int effect)
 	case T_FOREST:
 	  effect--;
 	  map_set_terrain(x, y, T_DESERT);
-          reset_move_costs(x, y);
-          send_tile_info(0, x, y);
+	  reset_move_costs(x, y);
+	  send_tile_info(0, x, y);
 	  break;
 	default:
 	  break;
@@ -124,18 +136,19 @@ void nuclear_winter(int effect)
 
   freelog(LOG_NORMAL, "Nuclear winter: %d", game.cooling);
 
-  k=map.xsize*map.ysize;
+  k =map.xsize * map.ysize;
   while(effect && k--) {
-    x=myrand(map.xsize);
-    y=myrand(map.ysize);
-    if (map_get_terrain(x, y)!=T_OCEAN) {
+    x = myrand(map.xsize);
+    y = myrand(map.ysize);
+    if (map_get_terrain(x, y) != T_OCEAN) {
       switch (map_get_terrain(x, y)) {
       case T_JUNGLE:
       case T_SWAMP:
       case T_PLAINS:
       case T_GRASSLAND:
 	effect--;
-	map_set_terrain(x, y, is_water_adjacent(x, y) ? T_DESERT : T_TUNDRA);
+	map_set_terrain(x, y,
+			is_terrain_ecologically_wet(x, y) ? T_DESERT : T_TUNDRA);
 	reset_move_costs(x, y);
 	send_tile_info(0, x, y);
 	break;
