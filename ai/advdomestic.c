@@ -22,7 +22,6 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "settlers.h"
-#include "unitfunc.h"
 #include "unittools.h"
 
 #include "advmilitary.h"

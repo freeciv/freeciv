@@ -37,7 +37,6 @@
 #include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
-#include "unitfunc.h" 
 #include "unittools.h"
 
 #include "aihand.h"
@@ -442,6 +441,67 @@ void init_tech(struct player *plr, int tech)
   }
   choose_goal_tech(plr);
   update_research(plr);	
+}
+
+/**************************************************************************
+  if target has more techs than pplayer, pplayer will get a random of these
+  the clients will both be notified.
+  I have notified only those with embassies in pplayer's country - adm4
+  FIXME: this should be in plrhand
+**************************************************************************/
+void get_a_tech(struct player *pplayer, struct player *target)
+{
+  int i;
+  int j=0;
+  for (i=0;i<game.num_tech_types;i++) {
+    if (get_invention(pplayer, i)!=TECH_KNOWN && 
+	get_invention(target, i)== TECH_KNOWN) {
+      j++;
+    }
+  }
+  if (!j)  {
+    if (target->future_tech > pplayer->future_tech) {
+      pplayer->future_tech++;
+      pplayer->research.researchpoints++;
+
+      notify_player(pplayer, _("Game: You acquire Future Tech %d from %s."),
+		    pplayer->future_tech, target->name);
+      notify_player(target,
+		    _("Game: %s discovered Future Tech. %d in the city."), 
+		    pplayer->name, pplayer->future_tech);
+      notify_embassies(pplayer, target,
+		       _("Game: The %s discovered Future Tech %d from the %s (conq)"),
+		       get_nation_name_plural(pplayer->nation),
+		       pplayer->future_tech, get_nation_name_plural(target->nation));
+    }
+    return;
+  }
+  j=myrand(j)+1;
+  for (i=0;i<game.num_tech_types;i++) {
+    if (get_invention(pplayer, i)!=TECH_KNOWN && 
+	get_invention(target, i)== TECH_KNOWN) 
+      j--;
+    if (!j) break;
+  }
+  if (i==game.num_tech_types) {
+    freelog(LOG_ERROR, "Bug in get_a_tech");
+  }
+  gamelog(GAMELOG_TECH,"%s acquire %s from %s",
+          get_nation_name_plural(pplayer->nation),
+          advances[i].name,
+          get_nation_name_plural(target->nation));
+
+  notify_player(pplayer, _("Game: You acquired %s from %s."),
+		advances[i].name, target->name); 
+  notify_player(target, _("Game: %s discovered %s in the city."), pplayer->name, 
+		advances[i].name); 
+  notify_embassies(pplayer, target, _("Game: The %s have stolen %s from the %s."),
+		   get_nation_name_plural(pplayer->nation),
+		   advances[i].name,
+		   get_nation_name_plural(target->nation));
+
+  do_conquer_cost(pplayer);
+  found_new_tech(pplayer,i,0,1);
 }
 
 /**************************************************************************

@@ -80,8 +80,8 @@
 #include "settlers.h"
 #include "spacerace.h"
 #include "stdinhand.h"
-#include "unitfunc.h"
 #include "unithand.h"
+#include "unittools.h"
 
 #include "advmilitary.h"
 #include "aihand.h"

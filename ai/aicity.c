@@ -36,7 +36,6 @@
 #include "gotohand.h"
 #include "plrhand.h"
 #include "settlers.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -75,6 +75,7 @@ void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);
 int choose_goal_tech(struct player *plr);
+void get_a_tech(struct player *pplayer, struct player *target);
 
 void send_player_turn_notifications(struct conn_list *dest);
 

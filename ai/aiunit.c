@@ -33,10 +33,10 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplomats.h"
 #include "gotohand.h"
 #include "maphand.h"
 #include "settlers.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -24,7 +24,6 @@
 
 #include "maphand.h"
 #include "plrhand.h"
-#include "unitfunc.h"
 #include "unittools.h"
 
 #include "gamehand.h"

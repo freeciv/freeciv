@@ -31,7 +31,7 @@
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
-#include "unitfunc.h"
+#include "unittools.h"
 #include "unithand.h"
 
 #include "maphand.h"

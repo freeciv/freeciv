@@ -40,7 +40,6 @@
 #include "gotohand.h"
 #include "plrhand.h"
 #include "srv_main.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -40,7 +40,6 @@
 #include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
-#include "unitfunc.h"
 #include "unittools.h"
 
 #include "advdomestic.h"

@@ -19,6 +19,7 @@ server/cityturn.c
 server/civserver.c
 server/console.c
 server/diplhand.c
+server/diplomats.c
 server/gamehand.c
 server/gamelog.c
 server/handchat.c
@@ -33,7 +34,6 @@ server/savegame.c
 server/spacerace.c
 server/srv_main.c
 server/stdinhand.c
-server/unitfunc.c
 server/unithand.c
 server/unittools.c
 client/cityrepdata.c

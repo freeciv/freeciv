@@ -32,6 +32,7 @@
 #include "tech.h"
 #include "unit.h"
 
+#include "barbarian.h"
 #include "cityhand.h"
 #include "cityturn.h"
 #include "gamehand.h"		/* send_game_info */
@@ -41,7 +42,6 @@
 #include "settlers.h"
 #include "srv_main.h"
 #include "stdinhand.h"		/* set_ai_level_direct */
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 
@@ -1043,6 +1043,30 @@ void civil_war(struct player *pplayer)
 		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
 }  
 
+/**************************************************************************
+  called when a player conquers a city, remove buildings (not wonders and 
+  always palace) with game.razechance% chance, barbarians destroy more
+  set the city's shield stock to 0
+  FIXME: this should be in citytools
+**************************************************************************/
+static void raze_city(struct city *pcity)
+{
+  int i, razechance = game.razechance;
+  pcity->improvements[B_PALACE]=0;
+
+  /* land barbarians are more likely to destroy city improvements */
+  if( is_land_barbarian(&game.players[pcity->owner]) )
+    razechance += 30;
+
+  for (i=0;i<game.num_impr_types;i++) {
+    if (city_got_building(pcity, i) && !is_wonder(i) 
+	&& (myrand(100) < razechance)) {
+      pcity->improvements[i]=0;
+    }
+  }
+  pcity->before_change_shields = 0;
+  pcity->shield_stock = 0;
+}
 
 /**********************************************************************
 Handles all transactions in relation to transferring a city.

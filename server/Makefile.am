@@ -25,6 +25,8 @@ libcivserver_a_SOURCES = \
 		console.h	\
 		diplhand.c	\
 		diplhand.h	\
+		diplomats.c	\
+		diplomats.h	\
 		gamehand.c	\
 		gamehand.h	\
 		gamelog.c	\
@@ -59,8 +61,6 @@ libcivserver_a_SOURCES = \
 		srv_main.h	\
 		stdinhand.c	\
 		stdinhand.h	\
-		unitfunc.c	\
-		unitfunc.h	\
 		unithand.c	\
 		unithand.h	\
 		unittools.c	\

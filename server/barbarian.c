@@ -41,7 +41,6 @@
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

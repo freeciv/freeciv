@@ -22,7 +22,6 @@
 #include "cityturn.h"
 #include "gotohand.h"		/* warmap has been redeployed */
 #include "settlers.h"
-#include "unitfunc.h"
 #include "unittools.h"		/* for get_defender, amazingly */
 
 #include "aicity.h"

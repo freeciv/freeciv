@@ -28,7 +28,6 @@
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -24,7 +24,6 @@
 
 #include "maphand.h"
 #include "settlers.h"
-#include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -17,19 +17,13 @@ struct city;
 struct player;
 struct unit;
 
-int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
-int zoc_ok_move(struct unit *punit,int x, int y);
-int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
-int unit_bribe_cost(struct unit *punit);
-int count_diplomats_on_tile(int x, int y);
-int hp_gain_coord(struct unit *punit);
+/* battle related */
 struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
 			  int x, int y);
 struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
 			  int x, int y);
 int get_attack_power(struct unit *punit);
 int get_defense_power(struct unit *punit);
-int unit_really_ignores_zoc(struct unit *punit);
 int unit_ignores_citywalls(struct unit *punit);
 int unit_really_ignores_citywalls(struct unit *punit);
 int unit_behind_walls(struct unit *punit);
@@ -41,6 +35,33 @@ struct city *sdi_defense_close(int owner, int x, int y);
 int find_a_unit_type(int role, int role_tech);
 int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y);
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
+void maybe_make_veteran(struct unit *punit);
+int get_total_defense_power(struct unit *attacker, struct unit *defender);
+int get_simple_defense_power(int d_type, int x, int y);
+int get_virtual_defense_power(int a_type, int d_type, int x, int y);
+int get_total_attack_power(struct unit *attacker, struct unit *defender);
+void unit_versus_unit(struct unit *attacker, struct unit *defender);
+
+
+/* move check related */
+int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
+int zoc_ok_move(struct unit *punit,int x, int y);
+int unit_really_ignores_zoc(struct unit *punit);
+int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
+
+
+/* turn update related */
+void player_restore_units(struct player *pplayer);
+void update_unit_activities(struct player *pplayer);
+int hp_gain_coord(struct unit *punit);
+
+
+/* various */
+void advance_unit_focus(struct unit *punit);
+char *get_location_str_in(struct player *pplayer, int x, int y);
+char *get_location_str_at(struct player *pplayer, int x, int y);
+enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
+void make_partisans(struct city *pcity);
 int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
@@ -48,5 +69,37 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
 void resolve_unit_stack(int x, int y, int verbose);
 int is_airunit_refuel_point(int x, int y, int playerid,
 			    Unit_Type_id type, int unit_is_on_tile);
+
+
+/* creation/deletion/upgrading */
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
+void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
+		 int make_veteran, int homecity_id, int moves_left);
+void create_unit_full(struct player *pplayer, int x, int y,
+		      Unit_Type_id type, int make_veteran, int homecity_id,
+		      int moves_left, int hp_left);
+void wipe_unit(struct unit *punit);
+void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter);
+void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
+			 int wipe_cargo);
+void kill_unit(struct unit *pkiller, struct unit *punit);
+
+
+/* sending to client */
+void send_unit_info(struct player *dest, struct unit *punit);
+void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit, 
+				 int x, int y, int carried, int select_it);
+void send_all_known_units(struct conn_list *dest);
+
+
+/* doing a unit activity */
+void do_nuclear_explosion(int x, int y);
+int try_move_unit(struct unit *punit, int dest_x, int dest_y); 
+int do_airline(struct unit *punit, int dest_x, int dest_y);
+int do_paradrop(struct unit *punit, int dest_x, int dest_y);
+void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
+int move_unit(struct unit *punit, const int dest_x, const int dest_y,
+	      int transport_units, int take_from_land, int move_cost);
+void goto_route_execute(struct unit *punit);
 
 #endif  /* FC__UNITTOOLS_H */
