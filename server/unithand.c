@@ -612,7 +612,6 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   struct city *pcity;
   int moves_used, def_moves_used; 
   int def_x = pdefender->x, def_y = pdefender->y;
-  struct packet_unit_info unit_att_full_packet, unit_def_full_packet;
   struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
   int old_unit_vet, old_defender_vet, vet;
 
@@ -652,6 +651,38 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
+
+  /* 
+   * Special case for attacking/defending:
+   * 
+   * Normally the player doesn't get the information about the units inside a
+   * city. However for attacking/defending the player has to know the unit of
+   * the other side.  After the combat a remove_unit packet will be sent
+   * to the client to tidy up.
+   *
+   * Note these packets must be sent out before unit_versus_unit is called,
+   * so that the original unit stats (HP) will be sent.
+   */
+  package_short_unit(punit, &unit_att_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
+  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
+  players_iterate(other_player) {
+    if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
+	map_is_known_and_seen(def_x, def_y, other_player)) {
+      if (!can_player_see_unit(other_player, punit)) {
+	assert(other_player->player_no != punit->owner);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_att_short_packet);
+      }
+
+      if (!can_player_see_unit(other_player, pdefender)) {
+	assert(other_player->player_no != pdefender->owner);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_def_short_packet);
+      }
+    }
+  } players_iterate_end;
 
   old_unit_vet = punit->veteran;
   old_defender_vet = pdefender->veteran;
@@ -698,60 +729,28 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   combat.defender_hp=pdefender->hp;
   combat.make_winner_veteran=vet;
 
-  package_unit(punit, &unit_att_full_packet, FALSE);
-  package_unit(pdefender, &unit_def_full_packet, FALSE);
-  package_short_unit(punit, &unit_att_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
-  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
-  
   players_iterate(other_player) {
     if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
 	map_is_known_and_seen(def_x, def_y, other_player)) {
-
-      /* 
-       * Special case for attacking/defending:
-       * 
-       * Normally the player doesn't get the information about the
-       * units inside a city. However for attacking/defending the
-       * player has to know the unit of the other side.
-       */
-
-      if (other_player->player_no == punit->owner) {
-	lsend_packet_unit_info(&other_player->connections,
-			       &unit_att_full_packet);
-      } else {
-	lsend_packet_unit_short_info(&other_player->connections,
-				     &unit_att_short_packet);
-      }
-
-      if (other_player->player_no == pdefender->owner) {
-	lsend_packet_unit_info(&other_player->connections,
-			       &unit_def_full_packet);
-      } else {
-	lsend_packet_unit_short_info(&other_player->connections,
-				     &unit_def_short_packet);
-      }
-
       lsend_packet_unit_combat_info(&other_player->connections, &combat);
 
       /* 
-       * Remove the client knowledge of the units. 
+       * Remove the client knowledge of the units.  This corresponds to the
+       * send_packet_unit_short_info calls up above.
        */
-      if (!can_player_see_unit_at(other_player, punit, punit->x, punit->y)) {
+      if (!can_player_see_unit(other_player, punit)) {
 	unit_goes_out_of_sight(other_player, punit);
       }
-      if (!can_player_see_unit_at
-	  (other_player, pdefender, pdefender->x, pdefender->y)) {
+      if (!can_player_see_unit(other_player, pdefender)) {
 	unit_goes_out_of_sight(other_player, pdefender);
       }
     }
   } players_iterate_end;
 
+  /* Send combat info to non-player observers as well.  They already know
+   * about the unit so no unit_info is needed. */
   conn_list_iterate(game.game_connections, pconn) {
     if (!pconn->player && pconn->observer) {
-      send_packet_unit_info(pconn, &unit_att_full_packet);
-      send_packet_unit_info(pconn, &unit_def_full_packet);
       send_packet_unit_combat_info(pconn, &combat);
     }
   } conn_list_iterate_end;
