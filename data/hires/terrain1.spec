@@ -88,7 +88,6 @@ tiles = { "row", "column","tag"
 
 
 ;roads - we follow the the numbering of the DIR_D[XY] arrays
- 11, 0, "r.road_isolated"
  11, 1, "r.road0"
  11, 2, "r.road1"
  11, 3, "r.road2"
@@ -99,7 +98,6 @@ tiles = { "row", "column","tag"
  11, 8, "r.road7"
 
 ;rails - we follow the the numbering of the DIR_D[XY] arrays
- 12, 0, "r.rail_isolated"
  12, 1, "r.rail0"
  12, 2, "r.rail1"
  12, 3, "r.rail2"
@@ -134,4 +132,18 @@ tiles = { "row", "column","tag"
   0, 3, "t.coast_color"
 
   0, 4, "user.attention"
+}
+
+
+[grid_isolated]
+
+x_top_left = 380
+y_top_left = 1
+dx = 64
+dy = 32
+is_pixel_border = 1
+
+tiles = { "row", "column","tag"
+  0, 0, "r.road_isolated"
+  1, 0, "r.rail_isolated"
 }

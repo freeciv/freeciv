@@ -78,14 +78,14 @@ tiles = { "row", "column", "tag"
   5,  2, "u.spy"
   5,  3, "u.caravan"
   5,  4, "u.freight"
-  5,  5, "u.explorer"
+;  5,  5,
 ;  5,  6,
 ;  5,  7,
 ;  5,  8,
 
-  6,  0, "u.barbarian_leader"
-;  6,  1,
-;  6,  2,
+;  6,  0,
+  6,  1, "u.explorer"
+  6,  2, "u.barbarian_leader"
 ;  6,  3,
 ;  6,  4,
 ;  6,  5,
