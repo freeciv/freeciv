@@ -38,6 +38,8 @@ libcivcommon_a_SOURCES = \
 		shared.h	\
 		spaceship.c	\
 		spaceship.h	\
+		speclist.h	\
+		speclist_c.h	\
 		tech.c		\
 		tech.h		\
 		timing.c	\

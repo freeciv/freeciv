@@ -24,6 +24,12 @@
 
 #include "unit.h"
 
+/* get 'struct unit_list' functions: */
+#define SPECLIST_TAG unit
+#define SPECLIST_TYPE struct unit
+#include "speclist_c.h"
+
+
 struct unit_type unit_types[U_LAST];
 /* the unit_types array is now setup in:
    server/ruleset.c (for the server)
@@ -888,22 +894,6 @@ char *unit_activity_text(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-void unit_list_init(struct unit_list *This)
-{
-  genlist_init(&This->list);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct unit *unit_list_get(struct unit_list *This, int index)
-{
-  return (struct unit *)genlist_get(&This->list, index);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 struct unit *unit_list_find(struct unit_list *This, int id)
 {
   struct genlist_iterator myiter;
@@ -915,47 +905,6 @@ struct unit *unit_list_find(struct unit_list *This, int id)
       return ITERATOR_PTR(myiter);
 
   return 0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_insert(struct unit_list *This, struct unit *punit)
-{
-  genlist_insert(&This->list, punit, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_insert_back(struct unit_list *This, struct unit *punit)
-{
-  genlist_insert(&This->list, punit, -1);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-int unit_list_size(struct unit_list *This)
-{
-  return genlist_size(&This->list);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_unlink(struct unit_list *This, struct unit *punit)
-{
-  genlist_unlink(&This->list, punit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_unlink_all(struct unit_list *This)
-{
-  genlist_unlink_all(&This->list);
 }
 
 /**************************************************************************

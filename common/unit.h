@@ -205,30 +205,20 @@ struct unit_type {
 };
 
 
-struct unit_list {
-  struct genlist list;
-};
+/* get 'struct unit_list' and related functions: */
+#define SPECLIST_TAG unit
+#define SPECLIST_TYPE struct unit
+#include "speclist.h"
 
-#define unit_list_iterate(unitlist, punit) { \
-  struct genlist_iterator myiter; \
-  struct unit *punit; \
-  genlist_iterator_init(&myiter, &unitlist.list, 0); \
-  for(; ITERATOR_PTR(myiter);) { \
-    punit=(struct unit *)ITERATOR_PTR(myiter); \
-    ITERATOR_NEXT(myiter); 
-#define unit_list_iterate_end }}
+#define unit_list_iterate(unitlist, punit) \
+    TYPED_LIST_ITERATE(struct unit, unitlist, punit)
+#define unit_list_iterate_end  LIST_ITERATE_END
 
 extern struct unit_type unit_types[U_LAST];
 
-void unit_list_init(struct unit_list *This);
-struct unit *unit_list_get(struct unit_list *This, int index);
-struct unit *unit_list_find(struct unit_list *This, int id);
-void unit_list_insert(struct unit_list *This, struct unit *punit);
-void unit_list_insert_back(struct unit_list *This, struct unit *punit);
-int unit_list_size(struct unit_list *This);
-void unit_list_unlink(struct unit_list *This, struct unit *punit);
-void unit_list_unlink_all(struct unit_list *This);
 char *unit_name(enum unit_type_id id);
+
+struct unit *unit_list_find(struct unit_list *This, int id);
 
 void unit_list_sort_ord_map(struct unit_list *This);
 void unit_list_sort_ord_city(struct unit_list *This);

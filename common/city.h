@@ -88,15 +88,8 @@ enum city_options {
 #define city_map_iterate(x, y) \
   for (y=0;y<CITY_MAP_SIZE;y++) \
     for (x=0;x<CITY_MAP_SIZE;x++) \
-      if (! ((x == 0 || x == 4) && (y == 0 || y == 4))) 				      
-#define city_list_iterate(citylist, pcity) { \
-  struct genlist_iterator myiter; \
-  struct city *pcity; \
-  genlist_iterator_init(&myiter, &citylist.list, 0); \
-  for(; ITERATOR_PTR(myiter);) { \
-    pcity=(struct city *)ITERATOR_PTR(myiter); \
-    ITERATOR_NEXT(myiter); 
-#define city_list_iterate_end }}
+      if (! ((x == 0 || x == 4) && (y == 0 || y == 4)))
+
 
 struct ai_choice {
   int choice;            /* what the advisor wants */
@@ -175,9 +168,15 @@ struct city {
   struct ai_city ai;
 };
 
-struct city_list {
-  struct genlist list;
-};
+/* get 'struct city_list' and related functions: */
+#define SPECLIST_TAG city
+#define SPECLIST_TYPE struct city
+#include "speclist.h"
+
+#define city_list_iterate(citylist, pcity) \
+    TYPED_LIST_ITERATE(struct city, citylist, pcity)
+#define city_list_iterate_end  LIST_ITERATE_END
+
 
 extern struct improvement_type improvement_types[B_LAST];
 
@@ -241,15 +240,8 @@ int trade_between_cities(struct city *pc1, struct city *pc2);
 int city_num_trade_routes(struct city *pcity);
 
 /* list functions */
-void city_list_init(struct city_list *This);
-struct city *city_list_get(struct city_list *This, int index);
 struct city *city_list_find_id(struct city_list *This, int id);
 struct city *city_list_find_name(struct city_list *This, char *name);
-
-void city_list_insert(struct city_list *This, struct city *pcity);
-int city_list_size(struct city_list *This);
-void city_list_unlink(struct city_list *This, struct city *pcity);
-void city_list_insert_back(struct city_list *This, struct city *pcity);
 
 int city_name_compare(const void *p1, const void *p2);
 

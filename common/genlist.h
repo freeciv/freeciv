@@ -53,4 +53,21 @@ void genlist_iterator_init(struct genlist_iterator *iter,
 #define ITERATOR_PREV(X) ((X).link=(X).link->prev)
 
 
+/* This is to iterate for a type defined like:
+     struct unit_list { struct genlist list; };
+   where the pointers in the list are really pointers to "atype".
+   Eg, see speclist.h, which is what this is really for.
+*/
+#define TYPED_LIST_ITERATE(atype, typed_list, var) {       \
+  struct genlist_iterator myiter;                          \
+  atype *var;                                              \
+  genlist_iterator_init(&myiter, &(typed_list).list, 0);   \
+  for(; ITERATOR_PTR(myiter);) {                           \
+    var=(atype *)ITERATOR_PTR(myiter);                     \
+    ITERATOR_NEXT(myiter);
+
+/* Balance for above: */ 
+#define LIST_ITERATE_END  }}
+
+
 #endif  /* FC__GENLIST_H */

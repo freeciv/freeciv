@@ -22,6 +22,11 @@
 
 #include "city.h"
 
+/* get 'struct city_list' functions: */
+#define SPECLIST_TAG city
+#define SPECLIST_TYPE struct city
+#include "speclist_c.h"
+
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
 /****************************************************************
@@ -1375,23 +1380,6 @@ struct city *find_city_by_id(int id)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_list_init(struct city_list *This)
-{
-  genlist_init(&This->list);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct city *city_list_get(struct city_list *This, int index)
-{
-  return (struct city *)genlist_get(&This->list, index);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
 struct city *city_list_find_id(struct city_list *This, int id)
 {
   if(id) {
@@ -1422,39 +1410,6 @@ struct city *city_list_find_name(struct city_list *This, char *name)
   return 0;
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void city_list_insert(struct city_list *This, struct city *pcity)
-{
-  genlist_insert(&This->list, pcity, 0);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-int city_list_size(struct city_list *This)
-{
-  return genlist_size(&This->list);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void city_list_unlink(struct city_list *This, struct city *pcity)
-{
-  genlist_unlink(&This->list, pcity);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void city_list_insert_back(struct city_list *This, struct city *pcity)
-{
-  genlist_insert(&This->list, pcity, -1);
-}
 
 /**************************************************************************
 Comparison function for qsort for city _pointers_, sorting by city name.
