@@ -169,25 +169,31 @@ unit_types[punit->type].name, punit->x, punit->y, dist);  */
   pcity->ai.danger = danger;
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
     i = assess_defense(pcity);
-    if (danger2 > i * 1 / 2) pcity->ai.building_want[B_CITY] = 100 + urgency;
+    if (!i) pcity->ai.building_want[B_CITY] = 100 + urgency;
+    else if (danger2 > i * 3 / 2) pcity->ai.building_want[B_CITY] = 200 + urgency;
     else pcity->ai.building_want[B_CITY] += danger2 * 100 / i;
   }
-/* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
-/* was * 3 / 2 and 200 + but that leads to stupidity in cities with
-no defenders and danger = 0 but danger2 > 0 -- Syela */
+/* My first attempt to allow ng_wa >= 200 led to stupidity in cities with
+no defenders and danger = 0 but danger > 0.  Capping ng_wa at 100 + urgency
+led to a failure to buy walls as required.  This is the latest attempt,
+not thoroughly tested. -- Syela */
   if (pcity->ai.building_want[B_COASTAL] > 0 && danger3) {
     i = assess_defense_igwall(pcity);
-    if (danger3 > i * 1 / 2) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
+    if (!i) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
+    else if (danger3 > i * 3 / 2) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
     else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
   }
+/* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
   if (pcity->ai.building_want[B_SAM] > 0 && danger4) {
     i = assess_defense_igwall(pcity);
-    if (danger4 > i * 1 / 2) pcity->ai.building_want[B_SAM] = 100 + urgency;
+    if (!i) pcity->ai.building_want[B_SAM] = 100 + urgency;
+    else if (danger4 > i * 3 / 2) pcity->ai.building_want[B_SAM] = 200 + urgency;
     else pcity->ai.building_want[B_SAM] += danger4 * 100 / i;
   }
   if (pcity->ai.building_want[B_SDI] > 0 && danger5) {
     i = assess_defense_igwall(pcity);
-    if (danger5 > i * 1 / 2) pcity->ai.building_want[B_SDI] = 100 + urgency;
+    if (!i) pcity->ai.building_want[B_SDI] = 100 + urgency;
+    else if (danger5 > i * 3 / 2) pcity->ai.building_want[B_SDI] = 200 + urgency;
     else pcity->ai.building_want[B_SDI] += danger5 * 100 / i;
   }
   return(urgency);
