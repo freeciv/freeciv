@@ -201,13 +201,13 @@ static Tech_Type_id get_next_tech_rec(struct player *pplayer,
   Tech_Type_id sub_goal;
 
   if (!tech_exists(goal) || get_invention(pplayer, goal) == TECH_KNOWN) {
-    return A_NONE;
+    return A_UNSET;
   }
   if (get_invention(pplayer, goal) == TECH_REACHABLE) {
     return goal;
   }
   sub_goal = get_next_tech_rec(pplayer, advances[goal].req[0]);
-  if (sub_goal != A_NONE) {
+  if (sub_goal != A_UNSET) {
     return sub_goal;
   } else {
     return get_next_tech_rec(pplayer, advances[goal].req[1]);
@@ -223,7 +223,7 @@ static Tech_Type_id get_next_tech_rec(struct player *pplayer,
 Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal)
 {
   if (!tech_exists(goal) || get_invention(pplayer, goal) == TECH_KNOWN) {
-    return A_NONE;
+    return A_UNSET;
   }
   return (get_next_tech_rec(pplayer, goal));
 }
@@ -518,12 +518,7 @@ void precalc_tech_data()
 **************************************************************************/
 bool is_future_tech(Tech_Type_id tech)
 {
-  /*
-   * Future techs can be identify in two ways: the "tech >=
-   * game.num_tech_types" condition and the "tech == A_NONE"
-   * condition. FIXME: clean this up.
-   */
-  return (tech >= game.num_tech_types) || (tech == A_NONE);
+  return tech == A_FUTURE;
 }
 
 /**************************************************************************
@@ -535,6 +530,7 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
   static char buffer[200];
 
   if (!is_future_tech(tech)) {
+    assert(tech_exists(tech));
     my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
   } else {
     my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),

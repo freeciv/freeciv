@@ -478,7 +478,7 @@ int ai_gold_reserve(struct player *pplayer)
 **************************************************************************/
 void init_choice(struct ai_choice *choice)
 {
-  choice->choice = A_NONE;
+  choice->choice = A_UNSET;
   choice->want = 0;
   choice->type = CT_NONE;
 }
@@ -621,4 +621,12 @@ bool ai_assess_military_unhappiness(struct city *pcity,
  
   if (unhap < 0) unhap = 0;
   return unhap > 0;
+}
+
+/**************************************************************************
+  AI doesn't want the score for future techs.
+**************************************************************************/
+bool ai_wants_no_science(struct player *pplayer)
+{
+  return is_future_tech(pplayer->research.researching);
 }

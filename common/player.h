@@ -66,7 +66,13 @@ struct player_economic {
 struct player_research {
   int bulbs_researched;   /* # bulbs reseached for the current tech */    
   int techs_researched;   /* # techs the player has researched/acquired */
-  int researching;        /* invention being researched in */
+  /* 
+   * Invention being researched in. Valid values for researching are:
+   *  - any existing tech but not A_NONE or
+   *  - A_FUTURE.
+   * In addition A_UNSET is allowed at the client for enemies.
+   */
+  int researching;        
   int changed_from;       /* if the player changed techs, which one
 			     changed from */
   int bulbs_researched_before;  /* if the player changed techs, how
@@ -116,6 +122,12 @@ struct player_score {
 
 struct player_ai {
   bool control;
+
+  /* 
+   * Valid values for tech_goal are:
+   *  - any existing tech but not A_NONE or
+   *  - A_UNSET.
+   */
   int tech_goal;
   int prev_gold;
   int maxbuycost;

@@ -39,7 +39,7 @@
 /**************************************************************************
   Returns tech corresponding to players wonder goal from nations[],
   if it makes sense, and wonder is not already built and not obsolete.
-  Otherwise returns A_NONE.
+  Otherwise returns A_UNSET.
 **************************************************************************/
 static Tech_Type_id get_wonder_tech(struct player *plr)
 {
@@ -53,7 +53,7 @@ static Tech_Type_id get_wonder_tech(struct player *plr)
     if (tech_exists(tech) && get_invention(plr, tech) != TECH_KNOWN)
       return tech;
   }
-  return A_NONE;
+  return A_UNSET;
 }
 
 /**************************************************************************
@@ -65,7 +65,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   struct nation_type *prace = get_nation_by_plr(pplayer);
   int bestdist = A_LAST + 1;
   int dist, i;
-  Tech_Type_id goal = A_NONE;
+  Tech_Type_id goal = A_UNSET;
   Tech_Type_id tech;
 
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
@@ -80,14 +80,14 @@ static void ai_next_tech_goal_default(struct player *pplayer,
     }
   } 
   tech = get_wonder_tech(pplayer);
-  if (tech != A_NONE) {
+  if (tech != A_UNSET) {
     dist = num_unknown_techs_for_goal(pplayer, tech);
     if (dist < bestdist) { 
 /*    bestdist = dist; */ /* useless, reinclude when adding a new if statement */
       goal = tech;
     }
   }
-  if (goal != A_NONE) {
+  if (goal != A_UNSET) {
     choice->choice = goal;
     choice->want = 1;
   }
@@ -154,7 +154,8 @@ to be doing; it just looks strange. -- Syela */
     } else goal_values[i] = 0;
   }
 
-  l = A_NONE; k = A_NONE;
+  l = A_UNSET;
+  k = A_UNSET;
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     if (values[i] > values[l] && get_invention(pplayer, i) == TECH_REACHABLE) l = i;
     if (goal_values[i] > goal_values[k]) k = i;

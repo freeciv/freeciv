@@ -88,7 +88,7 @@ void player_init(struct player *plr)
   }
   plr->city_style=0;            /* should be first basic style */
   plr->ai.control=FALSE;
-  plr->ai.tech_goal = A_NONE;
+  plr->ai.tech_goal = A_UNSET;
   plr->ai.handicap = 0;
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;

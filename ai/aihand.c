@@ -215,7 +215,7 @@ static void ai_manage_taxes(struct player *pplayer)
 /* if the lux rate necessary to celebrate cannot be maintained, don't bother */
   pplayer->economic.luxury = 10 * m;
 
-  if (pplayer->research.researching==A_NONE) {
+  if (ai_wants_no_science(pplayer)) {
     pplayer->economic.tax = 100 - pplayer->economic.luxury;
     while (pplayer->economic.tax > maxrate * 10) {
       pplayer->economic.tax -= 10;
@@ -315,7 +315,7 @@ static void ai_manage_government(struct player *pplayer)
   int best_gov = 0;
   int best_val = 0;
   int really_best_val = 0;
-  int really_best_req = A_NONE;
+  int really_best_req = A_UNSET;
   int i;
   int bonus = 0; /* in percentage */
   int current_gov = pplayer->government;

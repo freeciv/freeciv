@@ -417,7 +417,7 @@ static int change_research(struct GUI *pWidget)
   pStr = create_string16(NULL, 10);
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-  if (game.player_ptr->research.researching != A_NONE) {
+  if (!is_future_tech(game.player_ptr->research.researching)) {
     for (i = A_FIRST; i < game.num_tech_types; i++) {
       if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
 	continue;

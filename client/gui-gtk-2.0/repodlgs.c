@@ -425,7 +425,7 @@ void science_dialog_update(void)
    * hist will hold afterwards the techid of the current choice
    */
   hist=0;
-  if (game.player_ptr->research.researching!=A_NONE) {
+  if (!is_future_tech(game.player_ptr->research.researching)) {
     for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
@@ -481,7 +481,7 @@ void science_dialog_update(void)
 	      steps);
   gtk_set_label(science_goal_label,text);
 
-  if (game.player_ptr->ai.tech_goal==A_NONE) {
+  if (game.player_ptr->ai.tech_goal == A_UNSET) {
     item = gtk_menu_item_new_with_label(advances[A_NONE].name);
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
   }

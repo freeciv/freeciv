@@ -2150,7 +2150,7 @@ static void load_ruleset_nations(struct section_file *file)
       freelog(LOG_VERBOSE, "No valid goal techs for %s", pl->name);
     }
     while( j < MAX_NUM_TECH_GOALS )
-      pl->goals.tech[j++] = A_NONE;
+      pl->goals.tech[j++] = A_UNSET;
     if (techs) free(techs);
 
     /* AI wonder & government */

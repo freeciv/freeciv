@@ -654,9 +654,8 @@ Unit_Type_id ai_choose_defender(struct city *pcity)
 **************************************************************************/
 static bool building_unwanted(struct player *plr, Impr_Type_id i)
 {
-  if (plr->research.researching != A_NONE)
-    return FALSE;
-  return (i == B_LIBRARY || i == B_UNIVERSITY || i == B_RESEARCH);
+  return (ai_wants_no_science(plr)
+	  && (i == B_LIBRARY || i == B_UNIVERSITY || i == B_RESEARCH));
 }
 
 /**************************************************************************
@@ -844,10 +843,11 @@ void ai_scientists_taxmen(struct city *pcity)
   tax_bonus = city_tax_bonus(pcity);
   science_bonus = city_science_bonus(pcity);
   
-  if (tax_bonus > science_bonus || (city_owner(pcity)->research.researching == A_NONE)) 
+  if (tax_bonus > science_bonus || ai_wants_no_science(city_owner(pcity))) {
     make_taxmen(pcity);
-  else
+  } else {
     make_scientists(pcity);
+  }
 
   sync_cities();
 }

@@ -25,7 +25,7 @@
 /********************************************************************** 
 ... this function should assign a value to choice and want, where 
     want is a value between 1 and 100.
-    if choice is A_NONE this advisor doesn't want any tech researched at
+    if choice is A_UNSET this advisor doesn't want any tech researched at
     the moment
 ***********************************************************************/
 void attitude_advisor_choose_tech(struct player *pplayer, 

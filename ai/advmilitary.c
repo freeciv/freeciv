@@ -45,8 +45,8 @@ static int assess_danger(struct city *pcity);
 This function should assign a value to choice and want, where want is a value
 between 1 and 100.
 
-If choice is A_NONE, this advisor doesn't want any particular tech researched
-at the moment.
+If choice is A_UNSET, this advisor doesn't want any particular tech
+researched at the moment.
 ***********************************************************************/
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice)

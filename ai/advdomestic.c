@@ -421,7 +421,9 @@ void ai_eval_buildings(struct city *pcity)
   sci = ((sci + pcity->trade_prod) * t)/2;
   tax = ((tax + pcity->trade_prod) * t)/2;
   /* don't need libraries!! */
-  if (pplayer->research.researching == A_NONE) sci = 0;
+  if (ai_wants_no_science(pplayer)) {
+    sci = 0;
+  }
 
   est_food = 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman
            + pcity->food_surplus; 

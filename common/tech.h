@@ -27,11 +27,20 @@ typedef int Tech_Type_id;
 #define A_NONE 0
 #define A_FIRST 1
 #define A_LAST MAX_NUM_ITEMS
+#define A_UNSET (A_LAST-1)
+#define A_FUTURE (A_LAST-2)
+
 /*
-   A_NONE is a special tech value, used as a flag in various
-   cases where no tech is required.
+   A_NONE is the root tech. All players always know this tech. It is
+   used as a flag in various cases where there is no tech-requirement.
 
    A_FIRST is the first real tech id value
+
+   A_UNSET is a value which indicates that no tech is selected (for
+   research).
+
+   A_FUTURE is a value which indicates that the player is researching
+   a future tech.
 
    A_LAST is a value which is guaranteed to be larger than all
    actual tech id values.  It is used as a flag value; it can
