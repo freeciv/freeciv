@@ -2837,8 +2837,10 @@ Freeciv*mapcanvas.translations:\
    Shift Ctrl<Key>l:  key-unit-connect-rail()          \n\
    Shift Ctrl<Key>i:  key-unit-connect-irrigate()      \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>l:       key-unit-load()                  \n\
+   Shift<Key>u:       key-unit-unload()                \n\
    Shift<Key>f:       key-open-find-city()             \n\
-   Shift<Key>l:       key-open-worklists()             \n\
+   Ctrl<Key>w:        key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
@@ -2862,7 +2864,7 @@ Freeciv*mapcanvas.translations:\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
-   <Key>u:            key-unit-unload()                \n\
+   <Key>u:            key-unit-unload-all()            \n\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\
@@ -2916,8 +2918,10 @@ Freeciv*overviewcanvas.translations:\
    Ctrl<Key>l:        key-unit-connect-rail()          \n\
    Ctrl<Key>i:        key-unit-connect-irrigate()      \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>l:       key-unit-load()                  \n\
+   Shift<Key>u:       key-unit-unload()                \n\
    Shift<Key>f:       key-open-find-city()             \n\
-   Shift<Key>l:       key-open-worklists()             \n\
+   Ctrl<Key>w:        key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
@@ -2941,7 +2945,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
-   <Key>u:            key-unit-unload()                \n\
+   <Key>u:            key-unit-unload-all()            \n\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\

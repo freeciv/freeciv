@@ -570,40 +570,93 @@ static void xaw_key_unit_road_or_traderoute(Widget w, XEvent *event, String *arg
   }
 }
 
-static void xaw_key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->sentry is pressed.
+****************************************************************************/
+static void xaw_key_unit_sentry(Widget w, XEvent *event,
+				String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_SENTRY))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_SENTRY)) {
     key_unit_sentry();
+  }
 }
 
-static void xaw_key_unit_traderoute(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->make_traderout is pressed.
+****************************************************************************/
+static void xaw_key_unit_traderoute(Widget w, XEvent *event,
+				    String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_TRADEROUTE))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_TRADEROUTE)) {
     key_unit_traderoute();
+  }
 }
 
-static void xaw_key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->transform is pressed.
+****************************************************************************/
+static void xaw_key_unit_transform(Widget w, XEvent *event,
+				   String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_TRANSFORM))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_TRANSFORM)) {
     key_unit_transform();
+  }
 }
 
-static void xaw_key_unit_unload_all(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->unload_transporter is pressed.
+****************************************************************************/
+static void xaw_key_unit_unload_all(Widget w, XEvent *event,
+				    String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_UNLOAD))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_UNLOAD_TRANSPORTER)) {
     key_unit_unload_all();
+  }
 }
 
-static void xaw_key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->load is pressed.
+****************************************************************************/
+static void xaw_key_unit_load(Widget w, XEvent *event,
+			      String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_WAIT))
+  if (can_client_issue_orders()
+      && is_menu_item_active(MENU_ORDER, MENU_ORDER_LOAD)) {
+    request_unit_load(get_unit_in_focus(), NULL);
+  }
+}
+
+/****************************************************************************
+  Invoked when the key binding for orders->unload is pressed.
+****************************************************************************/
+static void xaw_key_unit_unload(Widget w, XEvent *event,
+				String *argv, Cardinal *argc)
+{
+  if (can_client_issue_orders()
+      && is_menu_item_active(MENU_ORDER, MENU_ORDER_UNLOAD)) {
+    request_unit_unload(get_unit_in_focus());
+  }
+}
+/****************************************************************************
+  Invoked when the key binding for orders->wait is pressed.
+****************************************************************************/
+static void xaw_key_unit_wait(Widget w, XEvent *event,
+			      String *argv, Cardinal *argc)
+{
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_WAIT)) {
     key_unit_wait();
+  }
 }
 
-static void xaw_key_unit_wakeup_others(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->wakeup_others is pressed.
+****************************************************************************/
+static void xaw_key_unit_wakeup_others(Widget w, XEvent *event,
+				       String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS)) {
     key_unit_wakeup_others();
+  }
 }
 
 static void xaw_msg_close_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -739,6 +792,8 @@ static XtActionsRec Actions[] = {
   { "key-unit-sentry", xaw_key_unit_sentry },
   { "key-unit-transform", xaw_key_unit_transform },
   { "key-unit-unload-all", xaw_key_unit_unload_all },
+  { "key-unit-load", xaw_key_unit_load },
+  { "key-unit-unload", xaw_key_unit_unload },
   { "key-unit-wait", xaw_key_unit_wait },
   { "key-unit-wakeup-others", xaw_key_unit_wakeup_others },
   { "msg-close-city", xaw_msg_close_city },
