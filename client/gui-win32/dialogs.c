@@ -278,10 +278,21 @@ static void update_radio_buttons(int id)
 **************************************************************************/
 static void update_nation_info()
 {
-  SetWindowText(races_class, 
-		get_nation_by_idx(selected_nation)->category);
-  SetWindowText(races_legend,
-		get_nation_by_idx(selected_nation)->legend);
+  int i;
+  char buf[255];
+  struct nation_type *nation= get_nation_by_idx(selected_nation);
+ 
+  buf[0] = '\0';
+
+  for (i = 0; i < nation->num_groups; i++) {
+    sz_strlcat(buf, nation->groups[i]->name);
+    if (i != nation->num_groups - 1) {
+      sz_strlcat(buf, ", ");
+    }
+  }
+
+  SetWindowText(races_class, buf);
+  SetWindowText(races_legend, nation->legend);
 }
 
 
@@ -526,7 +537,7 @@ void popup_races_dialog(void)
 			 FALSE,FALSE,5);
   hbox=fcwin_hbox_new(races_dlg,TRUE);
   for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
-    if(city_styles[i].techreq == A_NONE) {
+    if (!city_style_has_requirements(&city_styles[i])) {
       city_style_idx[b_s_num] = i;
       city_style_ridx[i] = b_s_num;
       b_s_num++;

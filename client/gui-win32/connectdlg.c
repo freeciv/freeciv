@@ -182,8 +182,16 @@ void handle_game_load(struct packet_game_load *packet)
   ListView_DeleteAllItems(players_listview);
 
   for (i = 0; i < packet->nplayers; i++) {
+    const char *nation_name;
+
+    if (packet->nations[i] == NO_NATION_SELECTED) {
+      nation_name = "";
+    } else {
+      nation_name = get_nation_name(packet->nations[i]);
+    }
+
     row[0] = packet->name[i];
-    row[1] = packet->nation_name[i];
+    row[1] = (char *)nation_name;
     row[2] = packet->is_alive[i] ? _("Alive") : _("Dead");
     row[3] = packet->is_ai[i] ? _("AI") : _("Human");
     fcwin_listview_add_row(players_listview, 0, 4, row);
