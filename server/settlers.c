@@ -39,7 +39,10 @@
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
 signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
-static unsigned int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+nearness territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 static void auto_settlers_player(struct player *pplayer); 
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
@@ -633,6 +636,7 @@ static int road_bonus(int x, int y, int spc)
     int x1 = x + ii[k], y1 = y + jj[k];
     if (is_border && !normalize_map_pos(&x1, &y1)) {
       rd[k] = FALSE;
+      te[k] = FALSE;
     } else {
       ptile = map_get_tile(x1, y1);
       rd[k] = tile_has_special(ptile, spc);
@@ -879,7 +883,7 @@ static int evaluate_city_building(struct unit *punit,
 				  struct unit **ferryboat)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
-  int newv, b, moves;
+  int newv, b, moves = 0;
   struct player *pplayer = unit_owner(punit);
   bool nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont              = map_get_continent(punit->x, punit->y);
@@ -889,6 +893,7 @@ static int evaluate_city_building(struct unit *punit,
 
   int boatid, bx = 0, by = 0;	/* as returned by find_boat */
   int best_newv = 0;
+  enemy_mask my_enemies = enemies[pplayer->player_no]; /* optimalization */
 
   if (pplayer->ai.control)
     boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for bodyguard */
@@ -911,7 +916,7 @@ static int evaluate_city_building(struct unit *punit,
     int mv_cost;
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& map_get_terrain(x, y) != T_OCEAN
-	&& TEST_BIT(territory[x][y], pplayer->player_no)
+	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y) != ucont)
 	&& city_can_be_built_here(x,y)
@@ -1036,6 +1041,7 @@ static int evaluate_improvements(struct unit *punit,
   bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   int best_newv = 0;
+  enemy_mask my_enemies = enemies[pplayer->player_no]; /* optimalization */
 
   generate_warmap(mycity, punit);
 
@@ -1050,7 +1056,7 @@ static int evaluate_improvements(struct unit *punit,
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       if (map_get_continent(x, y) == ucont
 	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
-	  && TEST_BIT(territory[x][y], pplayer->player_no)
+	  && !BV_CHECK_MASK(territory[x][y], my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */
 	  && !is_already_assigned(punit, pplayer, x, y)) {
 	/* calling is_already_assigned once instead of four times
@@ -1442,7 +1448,7 @@ static void assign_region(int x, int y, int player_no, int distance, int s)
 {
   square_iterate(x, y, distance, x1, y1) {
     if (s == 0 || is_terrain_near_tile(x1, y1, T_OCEAN))
-      territory[x1][y1] &= (1<<player_no);
+      BV_SET(territory[x1][y1], player_no);
   } square_iterate_end;
 }
 
@@ -1451,8 +1457,7 @@ static void assign_region(int x, int y, int player_no, int distance, int s)
   territory to the enemy based on the location of his units and their
   movement.
 
-  FIXME 1: We currently see even allies as enemies here.
-  FIXME 2: We totally ignore the possibility of enemies getting to us
+  FIXME: We totally ignore the possibility of enemies getting to us
   by road or rail. Whatever Syela says, this is just so broken.
 
   NOTE: Having units with extremely high movement in the game will
@@ -1490,20 +1495,33 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
 **************************************************************************/
 static void assign_territory(void)
 {
-  int i;
-
   whole_map_iterate(x, y) {
-    territory[x][y] = 0xFFFFFFFF;
+    BV_CLR_ALL(territory[x][y]);
   } whole_map_iterate_end;
 
-  for (i = 0; i < game.nplayers; i++) {
-    assign_territory_player(shuffled_player(i));
-  }
+  players_iterate(pplayer) {
+    assign_territory_player(pplayer);
+  } players_iterate_end;
   /* An actual territorial assessment a la AI algorithms for go might be
    * appropriate here.  I'm not sure it's necessary, so it's not here yet.
    *  -- Syela
    */
 }  
+
+
+/**************************************************************************
+  Recalculate enemies[] table
+**************************************************************************/
+static void recount_enemy_masks(void)
+{
+  players_iterate(player1) {
+    BV_CLR_ALL(enemies[player1->player_no]);
+    players_iterate(player2) {
+      if (!pplayers_allied(player1, player2))
+        BV_SET(enemies[player1->player_no], player2->player_no);
+    } players_iterate_end;
+  } players_iterate_end;
+}
 
 /**************************************************************************
   Do the auto_settler stuff for all the players. 
@@ -1513,6 +1531,7 @@ void auto_settlers(void)
   int i;
   assign_settlers();
   assign_territory();
+  recount_enemy_masks();
   for (i = 0; i < game.nplayers; i++) {
     auto_settlers_player(shuffled_player(i));
   }
