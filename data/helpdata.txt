@@ -25,14 +25,20 @@ The extinction of all other civilizations.
             Peter Joachim Unold  - pjunold@daimi.aau.dk
 
   Present administrators:
-             Nicolas Brunel      - brunel@ham.esil.univ-mrs.fr
+%%             Nicolas Brunel      - brunel@ham.esil.univ-mrs.fr
              David Pfitzner      - dwp@mso.anu.edu.au
+             Anthony J. Stuckey  - stuckey@jaka.ece.uiuc.edu
 
-If you find any bugs, then please send us a bug report.  You can
-either email the present administrators (listed above), or the
-Freeciv developers mailing list.  Details about Freeciv mailing
-lists, as well as helpful details on submitting bug reports, the
-Freeciv FAQ, and more, can be found on the Freeciv website, at:
+If you find any bugs, then please send us a bug report.  This is
+best done by visiting the Freeciv Bug Tracking System, at:
+
+  http://www.freeciv.org/cgi-bin/bugs
+
+or by sending email to:  bugs@cvs.freeciv.org
+
+For more information about submitting bug reports see the file BUGS
+in the Freeciv distribution.  For more information in general,
+visit the Freeciv website, at:
 
   http://www.freeciv.org
 ---
