@@ -22,6 +22,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "log.h"
+#include "registry.h"
 #include "shared.h"
 #include "version.h"
 
@@ -140,18 +141,20 @@ void init_messages_where(void)
 *****************************************************************/
 
 /****************************************************************
-...								
+ Returns pointer to static memory containing name of option file.
+ Ie, based on FREECIV_OPT env var, and home dir.
+ Or NULL if problem.
 *****************************************************************/
-static FILE *open_option_file(char *mode)
+static char *option_file_name(void)
 {
-  char name_buffer[256];
-  char output_buffer[256];
+  static char name_buffer[256];
   char *name;
-  FILE *f;
 
   name = getenv("FREECIV_OPT");
 
-  if (!name) {
+  if (name) {
+    strncpy(name_buffer, name, sizeof(name_buffer)-1);
+  } else {
     name = user_home_dir();
     if (!name) {
       append_output_window(_("Cannot find your home directory"));
@@ -160,11 +163,24 @@ static FILE *open_option_file(char *mode)
     strncpy(name_buffer, name, 230);
     name_buffer[230] = '\0';
     strcat(name_buffer, "/.civclientrc");
-    name = name_buffer;
   }
+  freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
+  return name_buffer;
+}
   
-  freelog(LOG_VERBOSE, "settings file is %s", name);
+/****************************************************************
+...								
+*****************************************************************/
+static FILE *open_option_file(char *mode)
+{
+  char output_buffer[256];
+  char *name;
+  FILE *f;
 
+  name = option_file_name();
+  if (name==NULL) {
+    return NULL;
+  }
   f = fopen(name, mode);
 
   if(mode[0]=='w') {
@@ -187,76 +203,35 @@ static FILE *open_option_file(char *mode)
 *****************************************************************/
 void load_options(void)
 {
-  char buffer[256];
-  char orig_buffer[256];
-  char *s;
-  FILE *option_file;
+  struct section_file sf;
+  const char * const prefix = "client";
+  char *name;
+  int i;
   client_option *o;
-  int val, ind;
 
-  option_file = open_option_file("r");
-  if (option_file==NULL) {
+  name = option_file_name();
+  if (name==NULL) {
     /* fail silently */
     return;
   }
+  section_file_load(&sf, name);
 
-  while (fgets(buffer,255,option_file)) {
-    buffer[255] = '\0';
-    strcpy(orig_buffer, buffer);    /* save original for error messages */
-    
-    /* handle comments */
-    if ((s = strstr(buffer, "#"))) {
-      *s = '\0';
-    }
-
-    /* skip blank lines */
-    for (s=buffer; *s && isspace(*s); s++) ;
-    if(!*s) continue;
-
-    /* ignore [client] header */
-    if (*s == '[') continue;
-
-    /* parse value */
-    s = strstr(buffer, "=");
-    if (s == NULL || sscanf(s+1, "%d", &val) != 1) {
-      append_output_window(_("Parse error while loading option file: input is:"));
-      append_output_window(orig_buffer);
-      continue;
-    }
-
-    /* parse variable names */
-    if ((s = strstr(buffer, "message_where_"))) {
-      if (sscanf(s+14, "%d", &ind) == 1 && (0 <= ind && ind < E_LAST)) {
-       messages_where[ind] = val;
-       goto next_line;
-      }
-    }
-
-    for (o=options; o->name; o++) {
-      if (strstr(buffer, o->name)) {
-       *(o->p_value) = val;
-       goto next_line;
-      }
-    }
-    
-    if ((s = strstr(buffer, "city_report_"))) {
-      s += 12;
-      for (ind=1; ind<num_city_report_spec(); ind++) {
-       if (strstr(s, city_report_spec_tagname(ind))) {
-	 *(city_report_spec_show_ptr(ind)) = val;
-	 goto next_line;
-       }
-      }
-    }
-    
-    append_output_window(_("Unknown variable found in option file: input is:"));
-    append_output_window(orig_buffer);
-
-  next_line:
-    {} /* placate Solaris cc/xmkmf/makedepend */
+  for (o=options; o->name; o++) {
+    *(o->p_value) =
+      secfile_lookup_int_default(&sf, *(o->p_value), "%s.%s", prefix, o->name);
   }
-
-  fclose(option_file);
+  for (i=0; i<E_LAST; i++) {
+    messages_where[i] =
+      secfile_lookup_int_default(&sf, messages_where[i],
+				 "%s.message_where_%2.2d", prefix, i);
+  }
+  for (i=1; i<num_city_report_spec(); i++) {
+    int *ip = city_report_spec_show_ptr(i);
+    *ip = secfile_lookup_int_default(&sf, *ip, "%s.city_report_%s", prefix,
+				     city_report_spec_tagname(i));
+  }
+  section_file_check_unused(&sf, name);
+  section_file_free(&sf);
 }
 
 /****************************************************************
