@@ -990,7 +990,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
     }
 
     cids_used = collect_cids2(cids);
-    name_and_sort_items(cids, cids_used, items, 0, NULL);
+    name_and_sort_items(cids, cids_used, items, FALSE, NULL);
 
     for (i = 0; i < cids_used; i++) {
       char *buf[1];
@@ -1033,7 +1033,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
     gtk_widget_set_usize(city_change_all_to_list, -2, 300);
 
     cids_used = collect_cids3(cids);
-    name_and_sort_items(cids, cids_used, items, 1, NULL);
+    name_and_sort_items(cids, cids_used, items, TRUE, NULL);
 
     for (i = 0; i < cids_used; i++) {
       char *buf[1];

@@ -1295,7 +1295,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
 			src_x == dest_x ? 1 : 2,
 			src_y == dest_y ? 1 : 2,
-			1);
+			TRUE);
 	  }
 	} else {
 	  int drawn = get_drawn(src_x, src_y, dir);
@@ -1306,8 +1306,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    decrement_drawn(src_x, src_y, dir);
 	  } else {
 	    decrement_drawn(src_x, src_y, dir);
-	    refresh_tile_mapcanvas(src_x, src_y, 1); /* !! */
-	    refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
+	    refresh_tile_mapcanvas(src_x, src_y, TRUE); /* !! */
+	    refresh_tile_mapcanvas(dest_x, dest_y, TRUE); /* !! */
 	    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
 	      int is_real;
 
@@ -1318,13 +1318,13 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 		dest_y = src_y;
 		is_real = normalize_map_pos(&dest_x, &dest_y);
 		assert(is_real);
-		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
+		refresh_tile_mapcanvas(dest_x, dest_y, TRUE);	/* !! */
 	      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
 		dest_x = src_x;
 		dest_y = src_y + 1;
 		is_real = normalize_map_pos(&dest_x, &dest_y);
 		assert(is_real);
-		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
+		refresh_tile_mapcanvas(dest_x, dest_y, TRUE);	/* !! */
 	      }
 	    }
 	  }

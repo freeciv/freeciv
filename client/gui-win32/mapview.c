@@ -818,14 +818,14 @@ update_map_canvas_visible(void)
       width=height=map_view_width+map_view_height;
       update_map_canvas(map_view_x,
 			map_view_y-map_view_width,
-			width,height,1); 
+			width,height, TRUE); 
       /*
 	update_map_canvas(0,0,map.xsize,map.ysize,1); */
     }
   else
     {
       update_map_canvas(map_view_x,map_view_y,
-			map_view_width,map_view_height, 1);
+			map_view_width,map_view_height, TRUE);
     }
 }
 
@@ -1144,8 +1144,8 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     else
       punit0->hp--;
     
-    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
     GdiFlush();
     
     usleep_since_timer_start(anim_timer, 10000);
@@ -1189,8 +1189,8 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   SelectObject(mapstoredc,old_mapbmp);
   DeleteDC(mapstoredc);
   set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
   
 }
 
@@ -1228,7 +1228,7 @@ put_nuke_mushroom_pixmaps(int x, int y)
     GdiFlush();
     ReleaseDC(map_window,hdc);
     Sleep(1000); 
-    update_map_canvas(x-1, y-1, 3, 3, 1);
+    update_map_canvas(x-1, y-1, 3, 3, TRUE);
   }
 }
 
@@ -2035,7 +2035,7 @@ void undraw_segment(int src_x, int src_y, int dir)
       update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
                         src_x == dest_x ? 1 : 2,
                         src_y == dest_y ? 1 : 2,
-                        1);
+                        TRUE);
     }
   } else {
     int drawn = get_drawn(src_x, src_y, dir);
@@ -2048,8 +2048,8 @@ void undraw_segment(int src_x, int src_y, int dir)
     }
 
     decrement_drawn(src_x, src_y, dir);
-    refresh_tile_mapcanvas(src_x, src_y, 1);
-    refresh_tile_mapcanvas(dest_x, dest_y, 1);
+    refresh_tile_mapcanvas(src_x, src_y, TRUE);
+    refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
     
     if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
       if (dir == DIR8_NORTHEAST) { /* Since the tle doesn't have a middle we draw an extra pi
@@ -2059,13 +2059,13 @@ xel
         dest_y = src_y;
         is_real = normalize_map_pos(&dest_x, &dest_y);
 	assert(is_real);
-        refresh_tile_mapcanvas(dest_x, dest_y, 1);
+        refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
       } else if (dir == DIR8_SOUTHWEST) { /* the same */
         dest_x = src_x;
         dest_y = src_y + 1;
         is_real = normalize_map_pos(&dest_x, &dest_y);
 	assert(is_real);
-        refresh_tile_mapcanvas(dest_x, dest_y, 1);
+        refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
       }
     }
   }

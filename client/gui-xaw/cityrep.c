@@ -327,19 +327,19 @@ void city_list_callback(Widget w, XtPointer client_data,
 
     for (i = 0; i < game.num_impr_types; i++) {
       if (can_build_improvement(pcity, i)) {
-	cids[cids_used] = cid_encode(0, i);
+	cids[cids_used] = cid_encode(FALSE, i);
 	cids_used++;
       }
     }
 
     for (i = 0; i < game.num_unit_types; i++) {
       if (can_build_unit(pcity, i)) {
-	cids[cids_used] = cid_encode(1, i);
+	cids[cids_used] = cid_encode(TRUE, i);
 	cids_used++;
       }
     }
 
-    name_and_sort_items(cids, cids_used, items, 1, NULL);
+    name_and_sort_items(cids, cids_used, items, TRUE, NULL);
     
     for (i = 0; i < cids_used; i++) {
       Widget entry =
@@ -1084,7 +1084,7 @@ static void chgall_refresh_command_callback(Widget w,
   int i;
 
   state->fr_count = collect_cids2(cids);
-  name_and_sort_items(cids, state->fr_count, items, 0, NULL);
+  name_and_sort_items(cids, state->fr_count, items, FALSE, NULL);
   for (i = 0; i < state->fr_count; i++) {
     state->fr_list[i] = strdup(items[i].descr);
     state->fr_cids[i] = items[i].cid;
@@ -1092,7 +1092,7 @@ static void chgall_refresh_command_callback(Widget w,
   XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
 
   state->to_count = collect_cids3(cids);
-  name_and_sort_items(cids, state->to_count, items, 1, NULL);
+  name_and_sort_items(cids, state->to_count, items, TRUE, NULL);
   for (i = 0; i < state->to_count; i++) {
     state->to_list[i] = strdup(items[i].descr);
     state->to_cids[i] = items[i].cid;

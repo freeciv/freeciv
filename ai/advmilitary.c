@@ -50,7 +50,7 @@ Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
 int assess_defense_quadratic(struct city *pcity)
 {
   int v, def, l;
-  int igwall = 0; /* this can be an arg if needed, but seems unneeded */
+  int igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
   def = 0;
   for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) ;
 /* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
@@ -111,7 +111,7 @@ static int assess_defense_backend(struct city *pcity, int igwall)
 **************************************************************************/
 int assess_defense(struct city *pcity)
 {
-  return(assess_defense_backend(pcity, 0));
+  return assess_defense_backend(pcity, FALSE);
 }
 
 /************************************************************************** 
@@ -119,7 +119,7 @@ int assess_defense(struct city *pcity)
 **************************************************************************/
 static int assess_defense_igwall(struct city *pcity)
 {
-  return(assess_defense_backend(pcity, 1));
+  return assess_defense_backend(pcity, TRUE);
 }
 
 /************************************************************************** 
@@ -235,8 +235,8 @@ int assess_danger(struct city *pcity)
   int danger4 = 0; /* linear for SAM */
   int danger5 = 0; /* linear for SDI */
   struct player *aplayer, *pplayer;
-  int pikemen = 0;
-  int diplomat = 0; /* > 0 mean that this town can defend
+  int pikemen = FALSE;
+  int diplomat = FALSE; /* TRUE mean that this town can defend
 		     * against diplomats or spies */
   int urgency = 0;
   int igwall;
@@ -253,11 +253,11 @@ int assess_danger(struct city *pcity)
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
 
   pcity->ai.grave_danger = 0;
-  pcity->ai.diplomat_threat = 0;
+  pcity->ai.diplomat_threat = FALSE;
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (unit_flag(punit, F_PIKEMEN)) pikemen++;
-    if (unit_flag(punit, F_DIPLOMAT)) diplomat++;
+    if (unit_flag(punit, F_PIKEMEN)) pikemen = TRUE;
+    if (unit_flag(punit, F_DIPLOMAT)) diplomat = TRUE;
   unit_list_iterate_end;
 
   for(i=0; i<game.nplayers; i++) {
@@ -273,7 +273,7 @@ int assess_danger(struct city *pcity)
       city_list_iterate(aplayer->cities, acity)
         if (acity->is_building_unit &&
             build_points_left(acity) <= acity->shield_surplus &&
-	    ai_fuzzy(pplayer,1)) {
+	    ai_fuzzy(pplayer, TRUE)) {
           virtualunit.owner = i;
           virtualunit.x = acity->x;
           virtualunit.y = acity->y;
@@ -462,7 +462,7 @@ int unit_desirability(Unit_Type_id i, int def)
 **************************************************************************/
 int unit_attack_desirability(Unit_Type_id i)
 {
-  return(unit_desirability(i, 0));
+  return unit_desirability(i, FALSE);
 } 
 
 static void process_defender_want(struct player *pplayer, struct city *pcity,
@@ -484,7 +484,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     m = unit_types[i].move_type;
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
       k = num_unknown_techs_for_goal(pplayer,unit_types[i].tech_requirement);
-      j = unit_desirability(i, 1);
+      j = unit_desirability(i, TRUE);
       if (!isdef && unit_type_flag(i, F_FIELDUNIT)) j = 0;
       j /= 15; /* good enough, no rounding errors */
       j *= j;
@@ -740,7 +740,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       } else {
         d = 0;
         b = 40;
-        vet = 0;
+        vet = FALSE;
       }
       if (pdef) {
 /*        n = pdef->type;    Now, really, I could not possibly have written this.
@@ -773,7 +773,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
 
       m = unit_type(pdef)->build_cost;
       b = m;
-      sanity = 1;
+      sanity = TRUE;
 
       if (is_ground_unit(myunit)) dist = warmap.cost[x][y];
       else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
@@ -904,22 +904,22 @@ static int port_is_within(struct player *pplayer, int d)
   city_list_iterate(pplayer->cities, pcity)
     if (warmap.seacost[pcity->x][pcity->y] <= d) {
       if (city_got_building(pcity, B_PORT))
-	return 1;
+	return TRUE;
 
       if (!pcity->is_building_unit && pcity->currently_building == B_PORT
 	  && pcity->shield_stock >= improvement_value(B_PORT))
-	return 1;
+	return TRUE;
 
       if (!player_knows_improvement_tech(pplayer, B_PORT)
 	  && pcity->is_building_unit
 	  && is_water_unit(pcity->currently_building)
 	  && unit_types[pcity->currently_building].attack_strength >
 	  unit_types[pcity->currently_building].transport_capacity)
-	return 1;
+	return TRUE;
     }
   city_list_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /********************************************************************** 
@@ -950,7 +950,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
 	  pcity->name, danger, def);
 
-  if ((pcity->ai.diplomat_threat) && (def)){
+  if (pcity->ai.diplomat_threat && def){
   /* It's useless to build a diplomat as the last defender of a town. --nb */ 
 
     Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
@@ -986,7 +986,7 @@ creating any other problems that are worse. -- Syela */
 /* walls before a second defender, unless we need it RIGHT NOW */
          (!pcity->ai.grave_danger && /* I'm not sure this is optimal */
          pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) &&
-	ai_fuzzy(pplayer,1)) {
+	ai_fuzzy(pplayer, TRUE)) {
 /* or we can afford just to buy walls.  Added 980805 -- Syela */
       choice->choice = B_CITY; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
@@ -995,7 +995,7 @@ creating any other problems that are worse. -- Syela */
     } else if (pcity->ai.building_want[B_COASTAL] && def &&
         can_build_improvement(pcity, B_COASTAL) &&
         (danger < 101 || unit_list_size(&ptile->units) > 1) &&
-	ai_fuzzy(pplayer,1)) {
+	ai_fuzzy(pplayer, TRUE)) {
       choice->choice = B_COASTAL; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_COASTAL]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
@@ -1003,7 +1003,7 @@ creating any other problems that are worse. -- Syela */
     } else if (pcity->ai.building_want[B_SAM] && def &&
         can_build_improvement(pcity, B_SAM) &&
         (danger < 101 || unit_list_size(&ptile->units) > 1) &&
-	ai_fuzzy(pplayer,1)) {
+	ai_fuzzy(pplayer, TRUE)) {
       choice->choice = B_SAM; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_SAM]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
@@ -1070,7 +1070,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
     v = ai_choose_attacker_ground(pcity);
     virtualunit.type = v;
 /*    virtualunit.veteran = do_make_unit_veteran(pcity, v);*/
-    virtualunit.veteran = 1;
+    virtualunit.veteran = TRUE;
     virtualunit.hp = unit_types[v].hp;
     kill_something_with(pplayer, pcity, &virtualunit, choice);
   }

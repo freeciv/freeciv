@@ -66,7 +66,7 @@
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in civclient.h) */
-int is_server = 0;
+int is_server = FALSE;
 
 char metaserver[256];
 char server_host[512];
@@ -76,7 +76,7 @@ int server_port;
 /*
  * Non-zero = skip "Connect to Freeciv Server" dialog
  */
-int auto_connect = 0;
+int auto_connect = FALSE;
 
 static enum client_states client_state = CLIENT_BOOT_STATE;
 
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
    else if ((option = get_option("--server",argv,&i,argc)))
       sz_strlcpy(server_host, option);
    else if (is_option("--autoconnect",argv[i]))
-      auto_connect = 1;
+      auto_connect = TRUE;
    else if ((option = get_option("--debug",argv,&i,argc))) {
       loglevel=log_parse_level_str(option);
       if (loglevel==-1) {
@@ -455,7 +455,7 @@ void send_unit_info(struct unit *punit)
   info.movesleft=punit->moves_left;
   info.activity=punit->activity;
   info.activity_target=punit->activity_target;
-  info.select_it=0;
+  info.select_it = FALSE;
   info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);

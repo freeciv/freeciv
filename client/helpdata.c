@@ -59,7 +59,7 @@ static const char * const help_type_names[] = {
 
 static struct genlist help_nodes;
 static struct genlist_iterator help_nodes_iterator;
-static int help_nodes_init = 0;
+static int help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
    latter can be 0 even after call, eg if couldn't find helpdata.txt.
 */
@@ -76,7 +76,7 @@ static void check_help_nodes_init(void)
 {
   if (!help_nodes_init) {
     genlist_init(&help_nodes);
-    help_nodes_init = 1;    /* before help_iter_start to avoid recursion! */
+    help_nodes_init = TRUE;    /* before help_iter_start to avoid recursion! */
     help_iter_start();
   }
 }
@@ -179,7 +179,7 @@ static int help_item_compar(const void *a, const void *b)
 *****************************************************************/
 void boot_help_texts(void)
 {
-  static int booted = 0;
+  static int booted = FALSE;
 
   struct section_file file, *sf = &file;
   char *filename;
@@ -352,7 +352,7 @@ void boot_help_texts(void)
   free(sec);
   section_file_check_unused(sf, sf->filename);
   section_file_free(sf);
-  booted = 1;
+  booted = TRUE;
   freelog(LOG_VERBOSE, "Booted help texts ok");
 }
 

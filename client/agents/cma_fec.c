@@ -55,7 +55,7 @@ struct cma_preset {
 #define preset_list_iterate_end  LIST_ITERATE_END
 
 static struct preset_list preset_list;
-static int preset_list_has_been_initialized = 0;
+static int preset_list_has_been_initialized = FALSE;
 
 /****************************************************************************
  Is called if the game removes a city. It will clear the 
@@ -124,7 +124,7 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cma_parameter *dest)
       }
 
       dest->happy_factor = 1;
-      dest->require_happy = 0;
+      dest->require_happy = FALSE;
       dest->factor_target = FT_SURPLUS;
 
       cmafec_set_fe_parameter(pcity, dest);
@@ -141,7 +141,7 @@ void cmafec_preset_add(char *descr_name, struct cma_parameter *pparam)
 
   if (!preset_list_has_been_initialized) {
     preset_list_init(&preset_list);
-    preset_list_has_been_initialized = 1;
+    preset_list_has_been_initialized = TRUE;
   }
 
   cma_copy_parameter(&ppreset->parameter, pparam);

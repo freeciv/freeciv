@@ -136,10 +136,10 @@ static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
   /* not in packet, only in unit struct */
   punit->focus_status = FOCUS_AVAIL;
   punit->bribe_cost = 0;	/* done by handle_incite_cost() */
-  punit->foul = 0;		/* never used in client/ */
+  punit->foul = FALSE;		/* never used in client/ */
   punit->ord_map = 0;		/* never used in client/ */
   punit->ord_city = 0;		/* never used in client/ */
-  punit->moved = 0;		/* never used in client/ */
+  punit->moved = FALSE;		/* never used in client/ */
   punit->transported_by = 0;	/* never used in client/ */
 }
 
@@ -155,7 +155,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
 
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
-    aconnection.established = 1;
+    aconnection.established = TRUE;
     game.conn_id = packet->conn_id;
   } else {
     my_snprintf(msg, sizeof(msg),
@@ -252,8 +252,8 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-	refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+	refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+	refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
       }
     }
   }
@@ -331,36 +331,36 @@ void handle_game_state(struct packet_generic_integer *packet)
 void handle_city_info(struct packet_city_info *packet)
 {
   int i, x, y;
-  int city_is_new, city_has_changed_owner = 0, need_effect_update = FALSE;
+  int city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
   int popup;
-  int update_descriptions = 0;
+  int update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
   if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
-    city_has_changed_owner = 1;
+    city_has_changed_owner = TRUE;
   }
 
   if(!pcity) {
-    city_is_new=1;
+    city_is_new = TRUE;
     pcity=fc_malloc(sizeof(struct city));
     pcity->id=packet->id;
     idex_register_city(pcity);
   }
   else {
-    city_is_new=0;
+    city_is_new = FALSE;
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
-      update_descriptions = 1;
+      update_descriptions = TRUE;
     }
     if (draw_city_productions &&
         ((pcity->is_building_unit != packet->is_building_unit) ||
          (pcity->currently_building != packet->currently_building))) {
-      update_descriptions = 1;
+      update_descriptions = TRUE;
     }
 
     assert(pcity->id == packet->id);
@@ -467,7 +467,7 @@ void handle_city_info(struct packet_city_info *packet)
        a perfect solution at all! */
     static int timer_initialized;
     static time_t timer;
-    int really_update = 1;
+    int really_update = TRUE;
     time_t new_timer = time(NULL);
 
     if (timer_initialized) {
@@ -475,14 +475,14 @@ void handle_city_info(struct packet_city_info *packet)
       timer = time(NULL);
       diff = difftime(new_timer,timer);
       if (diff < 1.0) {
-	really_update = 0;
+	really_update = FALSE;
       }
     }
 
     if (really_update) {
       update_city_descriptions();
       timer = new_timer;
-      timer_initialized = 1;
+      timer_initialized = TRUE;
     }
   }
 
@@ -520,9 +520,9 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     int x = pcity->x - r;
     int y = pcity->y - r;
     normalize_map_pos(&x, &y);
-    update_map_canvas(x, y, d, d, 1);
+    update_map_canvas(x, y, d, d, TRUE);
   } else {
-    refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
+    refresh_tile_mapcanvas(pcity->x, pcity->y, TRUE);
   }
 
   if (city_workers_display==pcity)  {
@@ -534,7 +534,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
       (!game.player_ptr->ai.control || ai_popup_windows)) {
     update_menus();
     if (!city_dialog_is_open(pcity)) {
-      popup_city_dialog(pcity, 0);
+      popup_city_dialog(pcity, FALSE);
     }
   }
 
@@ -566,29 +566,29 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
 void handle_short_city(struct packet_short_city *packet)
 {
   struct city *pcity;
-  int city_is_new, city_has_changed_owner = 0, need_effect_update = FALSE;
-  int update_descriptions = 0;
+  int city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  int update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
   if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
-    city_has_changed_owner = 1;
+    city_has_changed_owner = TRUE;
   }
 
   if(!pcity) {
-    city_is_new=1;
+    city_is_new = TRUE;
     pcity=fc_malloc(sizeof(struct city));
     pcity->id=packet->id;
     idex_register_city(pcity);
   }
   else {
-    city_is_new=0;
+    city_is_new = FALSE;
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
-      update_descriptions = 1;
+      update_descriptions = TRUE;
     }
     
     assert(pcity->id == packet->id);
@@ -654,13 +654,13 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;
     pcity->city_options       = 0;
-    pcity->is_building_unit    = 0;
+    pcity->is_building_unit   = FALSE;
     pcity->currently_building = 0;
     init_worklist(pcity->worklist);
-    pcity->airlift            = 0;
+    pcity->airlift            = FALSE;
     pcity->did_buy            = 0;
-    pcity->did_sell           = 0;
-    pcity->was_happy          = 0;
+    pcity->did_sell           = FALSE;
+    pcity->was_happy          = FALSE;
 
     for(y=0; y<CITY_MAP_SIZE; y++)
       for(x=0; x<CITY_MAP_SIZE; x++)
@@ -673,7 +673,7 @@ void handle_short_city(struct packet_short_city *packet)
     agents_city_changed(pcity);
   }
 
-  handle_city_packet_common(pcity, city_is_new, 0, 0);
+  handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);
 
   /* update the descriptions if necessary */
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
@@ -870,8 +870,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     return;
   }
 
-  repaint_unit = 0;
-  repaint_city = 0;
+  repaint_unit = FALSE;
+  repaint_city = FALSE;
   punit = player_find_unit_by_id(get_player(packet->owner), packet->id);
 
 #if TEST_ATTRIBUTES
@@ -883,7 +883,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->activity_count = packet->activity_count;
     if((punit->activity!=packet->activity)         /* change activity */
        || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
-      repaint_unit=1;
+      repaint_unit = TRUE;
       if(wakeup_focus && (punit->owner==game.player_idx)
                       && (punit->activity==ACTIVITY_SENTRY)) {
         set_unit_focus(punit);
@@ -895,7 +895,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
       if(punit->owner==game.player_idx) 
         refresh_unit_city_dialogs(punit);
-      /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
+      /*      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
        *      update_unit_pix_label(punit);
        *      update_unit_focus();
        */
@@ -916,27 +916,27 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->homecity=packet->homecity;
       if((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_insert(&pcity->units_supported, punit);
-	repaint_city=1;
+	repaint_city = TRUE;
       }
     }
 
     if(punit->hp!=packet->hp) {                      /* hp changed */
       punit->hp=packet->hp;
-      repaint_unit=1;
+      repaint_unit = TRUE;
     }
     if (punit->type!=packet->type) {
       struct city *pcity = map_get_city(punit->x, punit->y);
       
       punit->type=packet->type;
-      repaint_unit=1;
-      repaint_city=1;
+      repaint_unit = TRUE;
+      repaint_city = TRUE;
       if (pcity && (pcity->id != punit->homecity)) {
 	refresh_city_dialog(pcity);
       }
     }
     if (punit->ai.control!=packet->ai) {
       punit->ai.control=packet->ai;
-      repaint_unit = 1;
+      repaint_unit = TRUE;
     }
 
     if(punit->x!=packet->x || punit->y!=packet->y) { /* change position */
@@ -950,19 +950,19 @@ void handle_unit_info(struct packet_unit_info *packet)
       else {
 	do_move_unit(punit, packet); /* nice to see where a unit is going */
 	client_remove_unit(punit->id);
-	refresh_tile_mapcanvas(packet->x, packet->y, 1);
+	refresh_tile_mapcanvas(packet->x, packet->y, TRUE);
         return;
       }
       if(pcity)  {
         if(pcity->id==punit->homecity)
-	  repaint_city=1;
+	  repaint_city = TRUE;
 	else
 	  refresh_city_dialog(pcity);
       }
       
       if((pcity=map_get_city(punit->x, punit->y)))  {
         if(pcity->id == punit->homecity)
-	  repaint_city=1;
+	  repaint_city = TRUE;
 	else
 	  refresh_city_dialog(pcity);
 	
@@ -978,23 +978,23 @@ void handle_unit_info(struct packet_unit_info *packet)
 	}
       }
       
-      repaint_unit=0;
+      repaint_unit = FALSE;
     }
     if (punit->unhappiness!=packet->unhappiness) {
       punit->unhappiness=packet->unhappiness;
-      repaint_city=1;
+      repaint_city = TRUE;
     }
     if (punit->upkeep!=packet->upkeep) {
       punit->upkeep=packet->upkeep;
-      repaint_city=1;
+      repaint_city = TRUE;
     }
     if (punit->upkeep_food!=packet->upkeep_food) {
       punit->upkeep_food=packet->upkeep_food;
-      repaint_city=1;
+      repaint_city = TRUE;
     }
     if (punit->upkeep_gold!=packet->upkeep_gold) {
       punit->upkeep_gold=packet->upkeep_gold;
-      repaint_city=1;
+      repaint_city = TRUE;
     }
     if (repaint_city) {
       if((pcity=find_city_by_id(punit->homecity))) {
@@ -1016,7 +1016,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     /*fog of war*/
     if (!(tile_get_known(punit->x,punit->y) == TILE_KNOWN)) {
       client_remove_unit(packet->id);
-      refresh_tile_mapcanvas(dest_x, dest_y, 1);
+      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
     }
     agents_unit_changed(punit);
   }
@@ -1037,10 +1037,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 
-    if (packet->carried)
-      repaint_unit=0;
-    else
-      repaint_unit=1;
+    repaint_unit = !packet->carried;
     agents_unit_new(punit);
   }
 
@@ -1052,7 +1049,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   }
 
   if(repaint_unit)
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
 
   if(packet->select_it && (punit->owner==game.player_idx)) {
     set_unit_focus_and_select(punit);
@@ -1213,7 +1210,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     if(poptechup) {
       if(!game.player_ptr->ai.control || ai_popup_windows)
-	popup_science_dialog(1);
+	popup_science_dialog(TRUE);
       did_advance_tech_this_turn=game.year;
       science_dialog_update();
 
@@ -1387,7 +1384,7 @@ static int spaceship_autoplace(struct player *pplayer,
     assert(packet.num<=NUM_SS_MODULES/3);
 
     send_packet_spaceship_action(&aconnection, &packet);
-    return 1;
+    return TRUE;
   }
   if (ship->components > ship->fuel + ship->propulsion) {
     if (ship->fuel <= ship->propulsion) {
@@ -1398,7 +1395,7 @@ static int spaceship_autoplace(struct player *pplayer,
       packet.num = ship->propulsion + 1;
     }
     send_packet_spaceship_action(&aconnection, &packet);
-    return 1;
+    return TRUE;
   }
   if (ship->structurals > num_spaceship_structurals_placed(ship)) {
     /* Want to choose which structurals are most important.
@@ -1413,7 +1410,7 @@ static int spaceship_autoplace(struct player *pplayer,
       packet.action = SSHIP_ACT_PLACE_STRUCTURAL;
       packet.num = 0;
       send_packet_spaceship_action(&aconnection, &packet);
-      return 1;
+      return TRUE;
     }
     
     if (ship->habitation >= 1
@@ -1471,9 +1468,9 @@ static int spaceship_autoplace(struct player *pplayer,
     packet.action = SSHIP_ACT_PLACE_STRUCTURAL;
     packet.num = req;
     send_packet_spaceship_action(&aconnection, &packet);
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1526,14 +1523,14 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = map_get_tile(packet->x, packet->y);
   enum tile_terrain_type old_terrain = ptile->terrain;
   enum known_type old_known = ptile->known;
-  int tile_changed = 0;
+  int tile_changed = FALSE;
 
   if (ptile->terrain != packet->type) { /*terrain*/
-    tile_changed = 1;
+    tile_changed = TRUE;
     ptile->terrain = packet->type;
   }
   if (ptile->special != packet->special) { /*add-on*/
-    tile_changed = 1;
+    tile_changed = TRUE;
     ptile->special = packet->special;
   }
   ptile->known = packet->known;
@@ -1576,14 +1573,14 @@ void handle_tile_info(struct packet_tile_info *packet)
 
     /* the tile itself */
     if (tile_changed || old_known!=ptile->known)
-      refresh_tile_mapcanvas(x, y, 1);
+      refresh_tile_mapcanvas(x, y, TRUE);
 
     /* if the terrain or the specials of the tile
        have changed it affects the adjacent tiles */
     if (tile_changed) {
       adjc_iterate(x, y, x1, y1) {
 	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, 1);
+	  refresh_tile_mapcanvas(x1, y1, TRUE);
       }
       adjc_iterate_end;
       return;
@@ -1594,7 +1591,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
       cartesian_adjacent_iterate(x, y, x1, y1) {
 	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, 1);
+	  refresh_tile_mapcanvas(x1, y1, TRUE);
       }
       cartesian_adjacent_iterate_end;
     }

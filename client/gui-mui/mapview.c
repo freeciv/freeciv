@@ -101,8 +101,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     else
       punit0->hp--;
 
-    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
 
     usleep_since_timer_start(anim_timer, 10000);
 
@@ -112,8 +112,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   set_units_in_combat(NULL, NULL);
 
-  refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
 }
 
 /**************************************************************************
@@ -576,10 +576,10 @@ void update_map_canvas_visible(void)
     width = height = map_canvas_store_twidth + map_canvas_store_theight;
     update_map_canvas(map_view_x0,
 		      map_view_y0 - map_canvas_store_twidth,
-		      width, height, 1);
+		      width, height, TRUE);
   } else {
     update_map_canvas(map_view_x0, map_view_y0,
-		      map_canvas_store_twidth,map_canvas_store_theight, 1);
+		      map_canvas_store_twidth,map_canvas_store_theight, TRUE);
   }
 
   show_city_descriptions();

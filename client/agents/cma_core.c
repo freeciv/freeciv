@@ -89,12 +89,12 @@
 #define CALC_FITNESS_LOG_LEVEL2				LOG_DEBUG
 #define EXPAND_CACHE3_LOG_LEVEL				LOG_DEBUG
 
-#define SHOW_EXPAND_CACHE3_RESULT			0
-#define SHOW_CACHE_STATS				0
-#define SHOW_TIME_STATS					0
-#define SHOW_APPLY_RESULT_ON_SERVER_ERRORS		0
-#define DISABLE_CACHE3					0
-#define ALWAYS_APPLY_AT_SERVER				0
+#define SHOW_EXPAND_CACHE3_RESULT                       FALSE
+#define SHOW_CACHE_STATS                                FALSE
+#define SHOW_TIME_STATS                                 FALSE
+#define SHOW_APPLY_RESULT_ON_SERVER_ERRORS              FALSE
+#define DISABLE_CACHE3                                  FALSE
+#define ALWAYS_APPLY_AT_SERVER                          FALSE
 
 #define MAX_CITY_SIZE					50
 #define MAX_TRADE					200
@@ -316,7 +316,7 @@ static void print_parameter(const struct cma_parameter *const parameter)
 
 #define T(x) if (result1->x != result2->x) { \
 	freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, #x); \
-	return 0; }
+	return FALSE; }
 
 /****************************************************************************
 ...
@@ -349,12 +349,12 @@ static int results_are_equal(struct city *pcity,
     if (result1->worker_positions_used[x][y] !=
 	result2->worker_positions_used[x][y]) {
       freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, "worker_positions_used");
-      return 0;
+      return FALSE;
     }
   }
   my_city_map_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 #undef T
@@ -431,11 +431,11 @@ static int can_field_be_used_for_worker(struct city *pcity, int x, int y)
   assert(is_valid_city_coords(x, y));
 
   if (pcity->city_map[x][y] == C_TILE_WORKER) {
-    return 1;
+    return TRUE;
   }
 
   if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-    return 0;
+    return FALSE;
   }
 
   is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
@@ -444,7 +444,7 @@ static int can_field_be_used_for_worker(struct city *pcity, int x, int y)
   known = tile_get_known(map_x, map_y);
   assert(known == TILE_KNOWN);
 
-  return 1;
+  return TRUE;
 }
 
 /****************************************************************************
@@ -454,12 +454,12 @@ static int can_use_specialist(struct city *pcity,
 			      enum specialist_type specialist_type)
 {
   if (specialist_type == SP_ELVIS) {
-    return 1;
+    return TRUE;
   }
   if (pcity->size >= 5) {
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /****************************************************************************
@@ -472,18 +472,18 @@ static int is_valid_result(const struct cma_parameter *const parameter,
   int i;
 
   if (result->disorder) {
-    return 0;
+    return FALSE;
   }
   if (parameter->require_happy && !result->happy) {
-    return 0;
+    return FALSE;
   }
 
   for (i = 0; i < NUM_STATS; i++) {
     if (result->surplus[i] < parameter->minimal_surplus[i]) {
-      return 0;
+      return FALSE;
     }
   }
-  return 1;
+  return TRUE;
 }
 
 /****************************************************************************
@@ -502,7 +502,7 @@ static int apply_result_on_server(struct city *pcity,
   if (results_are_equal(pcity, result, &current_state)
       && !ALWAYS_APPLY_AT_SERVER) {
     stats.apply_result_ignored++;
-    return 1;
+    return TRUE;
   }
 
   stats.apply_result_applied++;
@@ -530,7 +530,7 @@ static int apply_result_on_server(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     if ((pcity->city_map[x][y] == C_TILE_WORKER) &&
 	!result->worker_positions_used[x][y]) {
-      last_request_id = set_worker(pcity, x, y, 0);
+      last_request_id = set_worker(pcity, x, y, FALSE);
       if (!first_request_id) {
 	first_request_id = last_request_id;
       }
@@ -566,7 +566,7 @@ static int apply_result_on_server(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
-      last_request_id = set_worker(pcity, x, y, 1);
+      last_request_id = set_worker(pcity, x, y, TRUE);
       if (!first_request_id) {
 	first_request_id = last_request_id;
       }
@@ -652,7 +652,7 @@ static void get_current_as_result(struct city *pcity,
   assert(worker + result->entertainers + result->scientists +
 	 result->taxmen == pcity->size);
 
-  result->found_a_valid = 1;
+  result->found_a_valid = TRUE;
 
   copy_stats(pcity, result);
 }
@@ -681,7 +681,7 @@ static void update_cache2(struct city *pcity,
     if (!p->is_valid) {
       p->production = result->production[SCIENCE];
       p->surplus = result->surplus[SCIENCE];
-      p->is_valid = 1;
+      p->is_valid = TRUE;
     } else {
       assert(p->production == result->production[SCIENCE] &&
 	     p->surplus == result->surplus[SCIENCE]);
@@ -698,7 +698,7 @@ static void update_cache2(struct city *pcity,
     if (!p->is_valid && !result->disorder) {
       p->production = result->production[GOLD];
       p->surplus = result->surplus[GOLD];
-      p->is_valid = 1;
+      p->is_valid = TRUE;
     } else {
       assert(p->production == result->production[GOLD] &&
 	     p->surplus == result->surplus[GOLD]);
@@ -712,7 +712,7 @@ static void update_cache2(struct city *pcity,
   if (!p->is_valid) {
     p->production = result->production[LUXURY];
     p->surplus = result->surplus[LUXURY];
-    p->is_valid = 1;
+    p->is_valid = TRUE;
   } else {
     if (!result->disorder) {
       assert(p->production == result->production[LUXURY] &&
@@ -726,7 +726,7 @@ static void update_cache2(struct city *pcity,
   if (!q->is_valid) {
     q->disorder = result->disorder;
     q->happy = result->happy;
-    q->is_valid = 1;
+    q->is_valid = TRUE;
   } else {
     assert(q->disorder == result->disorder && q->happy == result->happy);
   }
@@ -1043,13 +1043,13 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 
   /* try to fill result from cache2 */
   if (!base_combination->all_entertainer.found_a_valid) {
-    got_all = 0;
+    got_all = FALSE;
   } else {
     struct secondary_stat *p;
     struct city_status *q;
     int i;
 
-    got_all = 1;
+    got_all = TRUE;
 
     /*
      * fill out the primary stats that are known from the
@@ -1066,7 +1066,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 							   scientists]
 	[SP_SCIENTIST];
     if (!p->is_valid) {
-      got_all = 0;
+      got_all = FALSE;
     } else {
       result->production[SCIENCE] = p->production;
       result->surplus[SCIENCE] = p->surplus;
@@ -1076,7 +1076,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 	[SP_TAXMAN];
 
     if (!p->is_valid) {
-      got_all = 0;
+      got_all = FALSE;
     } else {
       result->production[GOLD] = p->production;
       result->surplus[GOLD] = p->surplus;
@@ -1088,7 +1088,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 	[SP_ELVIS];
 
     if (!p->is_valid) {
-      got_all = 0;
+      got_all = FALSE;
     } else {
       result->production[LUXURY] = p->production;
       result->surplus[LUXURY] = p->surplus;
@@ -1098,7 +1098,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 	&cache2.city_status[result->
 			    production[LUXURY]][base_combination->worker];
     if (!q->is_valid) {
-      got_all = 0;
+      got_all = FALSE;
     } else {
       result->disorder = q->disorder;
       result->happy = q->happy;
@@ -1113,7 +1113,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 
     cache2.hits++;
     memcpy(slot, result, sizeof(struct cma_result));
-    slot->found_a_valid = 1;
+    slot->found_a_valid = TRUE;
     return;
   }
 
@@ -1127,7 +1127,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 
   /* Update cache1 */
   memcpy(slot, result, sizeof(struct cma_result));
-  slot->found_a_valid = 1;
+  slot->found_a_valid = TRUE;
 }
 
 
@@ -1191,7 +1191,7 @@ static void add_combination(int fields_used,
          freelog(LOG_NORMAL, "the following is now obsolete:");
          print_combination(current);
        */
-      current->is_valid = 0;
+      current->is_valid = FALSE;
     }
   }
 
@@ -1199,7 +1199,7 @@ static void add_combination(int fields_used,
   assert(invalid_slot_for_insert != NULL);
 
   memcpy(invalid_slot_for_insert, combination, sizeof(struct combination));
-  invalid_slot_for_insert->all_entertainer.found_a_valid = 0;
+  invalid_slot_for_insert->all_entertainer.found_a_valid = FALSE;
   invalid_slot_for_insert->cache1 = NULL;
 
   freelog(LOG_DEBUG, "there are now %d combination which use %d tiles",
@@ -1222,7 +1222,7 @@ static void expand_cache3(struct city *pcity, int fields_to_use,
 	  count_valid_combinations(fields_to_use - 1));
 
   for (i = 0; i < MAX_COMBINATIONS; i++) {
-    cache3.results[fields_to_use].combinations[i].is_valid = 0;
+    cache3.results[fields_to_use].combinations[i].is_valid = FALSE;
   }
 
   for (i = 0; i < MAX_COMBINATIONS; i++) {
@@ -1295,7 +1295,7 @@ static void build_cache3(struct city *pcity)
   /* Make cache3 invalid */
   for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
     for (j = 0; j < MAX_COMBINATIONS; j++) {
-      cache3.results[i].combinations[j].is_valid = 0;
+      cache3.results[i].combinations[j].is_valid = FALSE;
     }
   }
 
@@ -1323,7 +1323,7 @@ static void build_cache3(struct city *pcity)
       root_combination.worker_positions[x][y] = C_TILE_UNAVAILABLE;
     }
 
-    tile_stats.tiles[x][y].is_valid = 1;
+    tile_stats.tiles[x][y].is_valid = TRUE;
     tile_stats.tiles[x][y].stats[FOOD] =
 	base_city_get_food_tile(x, y, pcity, is_celebrating);
     tile_stats.tiles[x][y].stats[SHIELD] =
@@ -1334,7 +1334,7 @@ static void build_cache3(struct city *pcity)
   my_city_map_iterate_end;
 
   /* Add root combination. */
-  root_combination.is_valid = 1;
+  root_combination.is_valid = TRUE;
   add_combination(0, &root_combination);
 
   for (i = 1; i <= MIN(cache3.fields_available_total, pcity->size); i++) {
@@ -1382,11 +1382,11 @@ static void find_best_specialist_arrangement(struct city *pcity, const struct cm
     base_combination->cache1 =
 	fc_malloc(sizeof(struct cma_result) * items);
     for (i = 0; i < items; i++) {
-      base_combination->cache1[i].found_a_valid = 0;
+      base_combination->cache1[i].found_a_valid = FALSE;
     }
   }
 
-  best_result->found_a_valid = 0;
+  best_result->found_a_valid = FALSE;
 
   for (scientists = 0;
        scientists <= base_combination->max_scientists; scientists++) {
@@ -1425,7 +1425,7 @@ static void find_best_specialist_arrangement(struct city *pcity, const struct cm
 	      "  optimize_people: fitness=(%d,%d)", major_fitness,
 	      minor_fitness);
 
-      result.found_a_valid = 1;
+      result.found_a_valid = TRUE;
       if (!best_result->found_a_valid
 	  || ((major_fitness > *best_major_fitness)
 	      || (major_fitness == *best_major_fitness
@@ -1455,7 +1455,7 @@ static void optimize_final(struct city *pcity,
 
   build_cache3(pcity);
 
-  best_result->found_a_valid = 0;
+  best_result->found_a_valid = FALSE;
 
   /* Loop over all combinations */
   for (fields_used = 0;
@@ -1586,7 +1586,7 @@ static void handle_city(struct city *pcity)
   freelog(HANDLE_CITY_LOG_LEVEL2, "START handle city='%s'(%d)",
 	  pcity->name, pcity->id);
 
-  handled = 0;
+  handled = FALSE;
   for (i = 0; i < 5; i++) {
     freelog(HANDLE_CITY_LOG_LEVEL2, "  try %d", i);
 
@@ -1606,7 +1606,7 @@ static void handle_city(struct city *pcity)
       packet.event = E_CITY_CMA_RELEASE;
 
       handle_chat_msg(&packet);
-      handled = 1;
+      handled = TRUE;
       break;
     } else {
       if (!apply_result_on_server(pcity, &result)) {
@@ -1628,7 +1628,7 @@ static void handle_city(struct city *pcity)
       } else {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  ok");
 	/* Everything ok */
-	handled = 1;
+	handled = TRUE;
 	break;
       }
     }

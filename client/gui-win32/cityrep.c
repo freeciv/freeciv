@@ -780,7 +780,7 @@ static void cityrep_changeall(HWND hWnd)
   }
 
   cids_used = collect_cids2(cids);
-  name_and_sort_items(cids, cids_used, items, 0, NULL);
+  name_and_sort_items(cids, cids_used, items, FALSE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
   for (i = 0; i < cids_used; i++) {
@@ -791,7 +791,7 @@ static void cityrep_changeall(HWND hWnd)
   }
 
   cids_used = collect_cids3(cids);
-  name_and_sort_items(cids, cids_used, items, 1, NULL);
+  name_and_sort_items(cids, cids_used, items, TRUE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_TO);
   for (i = 0; i < cids_used; i++) {

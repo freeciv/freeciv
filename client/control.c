@@ -50,7 +50,7 @@ int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
 /* This may only be here until client goto is fully implemented.
    It is reset each time the hower_state is reset. */
-int draw_goto_line = 1;
+int draw_goto_line = TRUE;
 
 /* units involved in current combat */
 static struct unit *punit_attacking;
@@ -66,7 +66,7 @@ static struct unit *find_best_focus_candidate(void);
 void set_hover_state(struct unit *punit, enum cursor_hover_state state)
 {
   assert(punit || state==HOVER_NONE);
-  draw_goto_line = 1;
+  draw_goto_line = TRUE;
   if (punit)
     hover_unit = punit->id;
   else
@@ -112,14 +112,14 @@ void set_unit_focus(struct unit *punit)
     auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
   }
   
   /* avoid the old focus unit disappearing: */
   if (punit_old_focus
       && (!punit || !same_pos(punit_old_focus->x, punit_old_focus->y,
 				   punit->x, punit->y))) {
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
+    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, TRUE);
   }
 
   update_unit_info_label(punit);
@@ -137,7 +137,7 @@ void set_unit_focus_no_center(struct unit *punit)
   punit_focus=punit;
 
   if(punit) {
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
     punit->focus_status=FOCUS_AVAIL;
   }
 }
@@ -210,7 +210,7 @@ void advance_unit_focus(void)
    * because above we change punit_focus directly.
    */
   if(punit_old_focus && punit_old_focus!=punit_focus)
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
+    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, TRUE);
 
   set_unit_focus(punit_focus);
 
@@ -339,11 +339,11 @@ void blink_active_unit(void)
 
   if((punit=get_unit_in_focus())) {
     if(is_shown) {
-      set_focus_unit_hidden_state(1);
-      refresh_tile_mapcanvas(punit->x, punit->y, 1);
-      set_focus_unit_hidden_state(0);
+      set_focus_unit_hidden_state(TRUE);
+      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+      set_focus_unit_hidden_state(FALSE);
     } else {
-      refresh_tile_mapcanvas(punit->x, punit->y, 1);
+      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
     }
     is_shown=!is_shown;
   }
@@ -358,7 +358,7 @@ void blink_active_unit(void)
 void process_caravan_arrival(struct unit *punit)
 {
   static struct genlist arrival_queue;
-  static int is_init_arrival_queue = 0;
+  static int is_init_arrival_queue = FALSE;
   int *p_id;
 
   /* arrival_queue is a list of individually malloc-ed ints with
@@ -366,7 +366,7 @@ void process_caravan_arrival(struct unit *punit)
 
   if (!is_init_arrival_queue) {
     genlist_init(&arrival_queue);
-    is_init_arrival_queue = 1;
+    is_init_arrival_queue = TRUE;
   }
 
   if (punit) {
@@ -411,7 +411,7 @@ void process_caravan_arrival(struct unit *punit)
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 {
   static struct genlist arrival_queue;
-  static int is_init_arrival_queue = 0;
+  static int is_init_arrival_queue = FALSE;
   int *p_ids;
 
   /* arrival_queue is a list of individually malloc-ed int[2]s with
@@ -419,7 +419,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 
   if (!is_init_arrival_queue) {
     genlist_init(&arrival_queue);
-    is_init_arrival_queue = 1;
+    is_init_arrival_queue = TRUE;
   }
 
   if (pdiplomat && victim_id) {
@@ -484,7 +484,7 @@ void request_unit_goto(void)
     update_unit_info_label(punit);
     /* Not yet implemented for air units */
     if (is_air_unit(punit)) {
-      draw_goto_line = 0;
+      draw_goto_line = FALSE;
     } else {
       enter_goto_state(punit);
       create_line_at_mouse_pos();
@@ -651,7 +651,7 @@ void request_unit_selected(struct unit *punit)
   info.movesleft=punit->moves_left;
   info.activity=ACTIVITY_IDLE;
   info.activity_target=0;
-  info.select_it=1;
+  info.select_it = TRUE;
   info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);
@@ -831,7 +831,7 @@ void request_unit_patrol(void)
     update_unit_info_label(punit);
     /* Not yet implemented for air units */
     if (is_air_unit(punit)) {
-      draw_goto_line = 0;
+      draw_goto_line = FALSE;
     } else {
       enter_goto_state(punit);
       create_line_at_mouse_pos();
@@ -1049,7 +1049,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
       dx=1;
     if(smooth_move_units)
       move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
-    refresh_tile_mapcanvas(x, y, 1);
+    refresh_tile_mapcanvas(x, y, TRUE);
   }
     
   punit->x=pinfo->x;
@@ -1059,21 +1059,21 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
   square_iterate(punit->x, punit->y, 2, x, y) {
-    int refresh = 0;
+    int refresh = FALSE;
     unit_list_iterate(map_get_tile(x, y)->units, pu) {
       if (unit_flag(pu, F_PARTIAL_INVIS)) {
-	refresh = 1;
+	refresh = TRUE;
 	goto out;
       }
     } unit_list_iterate_end;
   out:
     if (refresh) {
-      refresh_tile_mapcanvas(x, y, 1);
+      refresh_tile_mapcanvas(x, y, TRUE);
     }
   } square_iterate_end;
   
   if(!pinfo->carried && tile_get_known(punit->x,punit->y) == TILE_KNOWN)
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
 
   if(get_unit_in_focus()==punit) update_menus();
 }
@@ -1121,7 +1121,7 @@ void do_map_click(int xtile, int ytile)
   }
   
   if (pcity && game.player_idx==pcity->owner) {
-    popup_city_dialog(pcity, 0);
+    popup_city_dialog(pcity, FALSE);
     return;
   }
   
@@ -1188,9 +1188,9 @@ void update_unit_pix_label(struct unit *punit)
     unit_list_iterate_end;
     
     if (i > num_units_below) {
-      set_unit_icons_more_arrow(1);
+      set_unit_icons_more_arrow(TRUE);
     } else {
-      set_unit_icons_more_arrow(0);
+      set_unit_icons_more_arrow(FALSE);
       for(; i < num_units_below; i++) {
 	set_unit_icon(i, NULL);
       }
@@ -1203,7 +1203,7 @@ void update_unit_pix_label(struct unit *punit)
     for(i=-1; i<num_units_below; i++) {
       set_unit_icon(i, NULL);
     }
-    set_unit_icons_more_arrow(0);
+    set_unit_icons_more_arrow(FALSE);
   }
 }
 
@@ -1325,7 +1325,7 @@ void request_center_focus_unit(void)
 **************************************************************************/
 void key_cancel_action(void)
 {
-  int popped = 0;
+  int popped = FALSE;
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
     if (draw_goto_line)
       popped = goto_pop_waypoint();

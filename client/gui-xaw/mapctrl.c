@@ -226,7 +226,7 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data,
   struct map_position *cross_list=(struct map_position *)client_data;
 
   while (cross_list->x >= 0) {
-    refresh_tile_mapcanvas(cross_list->x,cross_list->y,1);
+    refresh_tile_mapcanvas(cross_list->x, cross_list->y, TRUE);
     cross_list++;
   }
 

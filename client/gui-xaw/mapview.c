@@ -118,8 +118,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     else
       punit0->hp--;
 
-    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
 
     XSync(display, 0);
     usleep_since_timer_start(anim_timer, 10000);
@@ -145,8 +145,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
+  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
 }
 
 /**************************************************************************
@@ -939,7 +939,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
   XSync(display, 0);
   sleep(1);
 
-  update_map_canvas(x-1, y-1, 3, 3, 1);
+  update_map_canvas(x-1, y-1, 3, 3, TRUE);
 }
 
 /**************************************************************************
@@ -1288,8 +1288,8 @@ void undraw_segment(int src_x, int src_y, int dir)
   }
 
   decrement_drawn(src_x, src_y, dir);
-  refresh_tile_mapcanvas(src_x, src_y, 1);
-  refresh_tile_mapcanvas(dest_x, dest_y, 1);
+  refresh_tile_mapcanvas(src_x, src_y, TRUE);
+  refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
   if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
     int is_real;
 
@@ -1300,13 +1300,13 @@ void undraw_segment(int src_x, int src_y, int dir)
       dest_y = src_y;
       is_real = normalize_map_pos(&dest_x, &dest_y);
       assert(is_real);
-      refresh_tile_mapcanvas(dest_x, dest_y, 1);
+      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
     } else if (dir == DIR8_SOUTHWEST) {	/* the same */
       dest_x = src_x;
       dest_y = src_y + 1;
       is_real = normalize_map_pos(&dest_x, &dest_y);
       assert(is_real);
-      refresh_tile_mapcanvas(dest_x, dest_y, 1);
+      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
     }
   }
 }

@@ -35,21 +35,21 @@
 
 /** Local Options: **/
 
-int solid_color_behind_units=0;
-int sound_bell_at_new_turn=0;
-int smooth_move_units=1;
-int smooth_move_unit_steps=3;
-int do_combat_animation=1;
-int ai_popup_windows=0;
-int ai_manual_turn_done=1;
-int auto_center_on_unit=1;
-int auto_center_on_combat=0;
-int wakeup_focus=1;
-int draw_diagonal_roads=1;
-int center_when_popup_city=1;
-int concise_city_production=0;
-int auto_turn_done=0;
-int meta_accelerators = 1;
+int solid_color_behind_units = FALSE;
+int sound_bell_at_new_turn = FALSE;
+int smooth_move_units = TRUE;
+int smooth_move_unit_steps = 3;
+int do_combat_animation = TRUE;
+int ai_popup_windows = FALSE;
+int ai_manual_turn_done = TRUE;
+int auto_center_on_unit = TRUE;
+int auto_center_on_combat = FALSE;
+int wakeup_focus = TRUE;
+int draw_diagonal_roads = TRUE;
+int center_when_popup_city = TRUE;
+int concise_city_production = FALSE;
+int auto_turn_done = FALSE;
+int meta_accelerators = TRUE;
 
 #define GEN_OPTION(name, desc, type) { #name, desc, type, &name, NULL }
 #define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL }
@@ -75,21 +75,21 @@ client_option options[] = {
 
 /** View Options: **/
 
-int draw_map_grid=0;
-int draw_city_names=1;
-int draw_city_productions=0;
-int draw_terrain=1;
-int draw_coastline=0;
-int draw_roads_rails=1;
-int draw_irrigation=1;
-int draw_mines=1;
-int draw_fortress_airbase=1;
-int draw_specials=1;
-int draw_pollution=1;
-int draw_cities=1;
-int draw_units=1;
-int draw_focus_unit=0;
-int draw_fog_of_war=1;
+int draw_map_grid = FALSE;
+int draw_city_names = TRUE;
+int draw_city_productions = FALSE;
+int draw_terrain = TRUE;
+int draw_coastline = FALSE;
+int draw_roads_rails = TRUE;
+int draw_irrigation = TRUE;
+int draw_mines = TRUE;
+int draw_fortress_airbase = TRUE;
+int draw_specials = TRUE;
+int draw_pollution = TRUE;
+int draw_cities = TRUE;
+int draw_units = TRUE;
+int draw_focus_unit = FALSE;
+int draw_fog_of_war = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }

@@ -296,7 +296,7 @@ int is_building_other_wonder(struct city *pc)
     if ((pc != pcity) && !(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == map_get_continent(pc->x, pc->y))
       return pcity->currently_building; /* why return 1? -- Syela */
   city_list_iterate_end;
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************

@@ -791,7 +791,7 @@ bool auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int
   punit->goto_dest_y = y;
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(NULL, punit);
-  do_unit_goto(punit, GOTO_MOVE_ANY, 0);
+  do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
   return TRUE;
 }
 
@@ -1013,7 +1013,7 @@ static int evaluate_city_building(struct unit *punit,
 	 build a city at Y */
       d *= 2;
       /* and then build its NEXT city halfway between X and Y. -- Syela */
-      b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
+      b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer, TRUE);
       newv = amortize(b, d);
 
       b = (food_upkeep * FOOD_WEIGHTING) * MORT;
@@ -1292,7 +1292,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
    */
   if (unit_flag(punit, F_CITIES) &&
       pplayer->ai.control &&
-      ai_fuzzy(pplayer,1)) {    /* don't want to make cities otherwise */
+      ai_fuzzy(pplayer, TRUE)) {    /* don't want to make cities otherwise */
     int nx, ny;
     int want = evaluate_city_building(punit, &nx, &ny, &ferryboat);
 

@@ -260,7 +260,7 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
   int trade_prod       = 0;
   int shield_need      = 0;
   int food_need        = 0;
-  int gov_overthrown   = 0;
+  int gov_overthrown   = FALSE;
   int score;
 
   pplayer->government = g->index;
@@ -288,7 +288,7 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
       /* the following is essential to prevent falling into anarchy */
       if (pcity->anarchy > 0
 	  && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) 
-        gov_overthrown = 1;
+        gov_overthrown = TRUE;
     }
   } city_list_iterate_end;
 

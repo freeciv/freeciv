@@ -178,7 +178,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
   if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
-      if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
+      if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
         ai_scientists_taxmen(pcity);
     city_list_iterate_end;
     return; /* damn division by zero! */
@@ -194,7 +194,7 @@ static void ai_manage_taxes(struct player *pplayer)
     if (government_has_flag(g, G_RAPTURE_CITY_GROWTH)
 	&& pcity->size >= g->rapture_size && pcity->food_surplus > 0
 	&& pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0
-	&& wants_to_be_bigger(pcity) && ai_fuzzy(pplayer, 1)) {
+	&& wants_to_be_bigger(pcity) && ai_fuzzy(pplayer, TRUE)) {
       freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);
       n = ((pcity->size/2) - pcity->ppl_happy[4]) * 20;
@@ -304,7 +304,7 @@ static void ai_manage_taxes(struct player *pplayer)
     city_refresh(pcity);
     add_adjust_workers(pcity);
     city_refresh(pcity);
-    if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
+    if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
       ai_scientists_taxmen(pcity);
     if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
         pcity->food_stock + pcity->food_surplus < 0) 

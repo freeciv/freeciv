@@ -85,8 +85,8 @@ static struct sockaddr_in server_addr;
 **************************************************************************/
 static void close_socket_nomessage(struct connection *pc)
 {
-  pc->used = 0;
-  pc->established = 0;
+  pc->used = FALSE;
+  pc->established = FALSE;
   my_closesocket(pc->sock);
 
   /* make sure not to use these accidently: */
@@ -204,7 +204,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   aconnection.client.request_id_of_currently_handled_packet = 0;
   aconnection.incoming_packet_notify = notify_about_incoming_packet;
   aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
-  aconnection.used = 1;
+  aconnection.used = TRUE;
 
   /* call gui-dependent stuff in gui_main.c */
   add_net_input(aconnection.sock);
@@ -313,7 +313,7 @@ void input_from_server(int fd)
 {
   assert(fd == aconnection.sock);
 
-  if (read_from_connection(&aconnection, 0) >= 0) {
+  if (read_from_connection(&aconnection, FALSE) >= 0) {
     int type, result;
     char *packet;
 
@@ -347,11 +347,11 @@ void input_from_server_till_request_got_processed(int fd,
 	  "expected_request_id=%d)", expected_request_id);
 
   while (TRUE) {
-    if (read_from_connection(&aconnection, 1) >= 0) {
+    if (read_from_connection(&aconnection, TRUE) >= 0) {
       int type, result;
       char *packet;
 
-      while (1) {
+      while (TRUE) {
 	packet = get_packet_from_connection(&aconnection, &type, &result);
 	if (!result) {
 	  break;

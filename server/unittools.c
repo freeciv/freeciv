@@ -1197,7 +1197,7 @@ static char *get_location_str(struct player *pplayer, int x, int y, bool use_at)
       my_snprintf(buffer, sizeof(buffer), _(" in %s"), incity->name);
     }
   } else {
-    nearcity = dist_nearest_city(pplayer, x, y, 0, 0);
+    nearcity = dist_nearest_city(pplayer, x, y, FALSE, FALSE);
     if (nearcity) {
       if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
 	my_snprintf(buffer, sizeof(buffer),

@@ -161,9 +161,8 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
 ***************************************************************/
 bool is_option(const char *option_name,char *option)
 {
-  if (!strcmp(option_name,option) || 
-      strncmp(option_name+1,option,2) == 0) return TRUE;
-  return FALSE;
+  return (strcmp(option_name, option) == 0 ||
+	  strncmp(option_name + 1, option, 2) == 0);
 }
 
 /***************************************************************

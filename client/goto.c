@@ -55,7 +55,7 @@ static int waypoint_list_length = INITIAL_WAYPOINT_LENGTH;
 /* points to where the next element should be inserted */
 static int waypoint_list_index = 0; 
 
-static int is_active = 0;
+static int is_active = FALSE;
 
 struct client_goto_map goto_map;
 
@@ -107,12 +107,12 @@ Called once per use of the queue.
 static void init_queue(void)
 {
   int i;
-  static int is_allocated = 0;
+  static int is_allocated = FALSE;
   if (!is_allocated) {
     for (i = 0; i < MAXARRAYS; i++) {
       mappos_arrays[i] = NULL;
     }
-    is_allocated = 1;
+    is_allocated = TRUE;
   }
 
   for (i = 0; i < MAXCOST; i++) {
@@ -175,7 +175,7 @@ static int get_from_mapqueue(int *x, int *y)
   freelog(LOG_DEBUG, "trying get");
   while (lowest_cost < MAXCOST) {
     if (lowest_cost > highest_cost)
-      return 0;
+      return FALSE;
     our_array = cost_lookup[lowest_cost].first_array;
     if (!our_array) {
       lowest_cost++;
@@ -195,9 +195,9 @@ static int get_from_mapqueue(int *x, int *y)
     *y = our_array->pos[our_array->first_pos].y;
     our_array->first_pos++;
     freelog(LOG_DEBUG, "got %i,%i, at cost %i", *x, *y, goto_map.move_cost[*x][*y]);
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /********************************************************************** 
@@ -206,7 +206,7 @@ Called once per game.
 void init_client_goto(void)
 {
   int x_itr;
-  static int is_init = 0, old_xsize;
+  static int is_init = FALSE, old_xsize;
 
   if (!goto_array) {
     goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
@@ -243,7 +243,7 @@ void init_client_goto(void)
   } whole_map_iterate_end;
   initialize_move_costs();
 
-  is_init = 1;
+  is_init = TRUE;
   old_xsize = map.xsize;
 }
 
@@ -269,13 +269,13 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y)
 {
   if (unit_flag(punit, F_IGZOC))
-    return 1;
+    return TRUE;
   if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner(punit)))
-    return 1;
+    return TRUE;
   if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
-    return 1;
+    return TRUE;
   if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
-    return 1;
+    return TRUE;
   return is_my_zoc(unit_owner(punit), src_x, src_y)
       || is_my_zoc(unit_owner(punit), dest_x, dest_y);
 }
@@ -325,7 +325,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	continue;
 
       pdesttile = map_get_tile(x1, y1);
-      add_to_queue = 1;
+      add_to_queue = TRUE;
 
       if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y]) {
 	/* No need for all the calculations. Note that this also excludes
@@ -365,14 +365,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
-	    add_to_queue = 0;
+	    add_to_queue = FALSE;
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
-	    add_to_queue = 0;
+	    add_to_queue = FALSE;
 	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
 	  continue;
@@ -384,7 +384,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = 2*SINGLE_MOVE; /* arbitrary */
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
 		   || is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
-	  add_to_queue = 0;
+	  add_to_queue = FALSE;
 	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP) {
 	  continue;
@@ -404,7 +404,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	   is unknown. Also, don't attack except at the destination. */
 
 	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  add_to_queue = 0;
+	  add_to_queue = FALSE;
 	}
 	break;
 
@@ -545,7 +545,7 @@ void enter_goto_state(struct unit *punit)
   goto_array_index = 0;
   waypoint_list_index = 0;
   insert_waypoint(punit->x, punit->y);
-  is_active = 1;
+  is_active = TRUE;
 }
 
 /********************************************************************** 
@@ -562,7 +562,7 @@ void exit_goto_state(void)
       waypoint_list_index--;
   }
 
-  is_active = 0;
+  is_active = FALSE;
 }
 
 /********************************************************************** 

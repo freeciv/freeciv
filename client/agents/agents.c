@@ -27,11 +27,11 @@
 
 #include "agents.h"
 
-#define DEBUG_REQUEST_IDS		0
-#define DEBUG_TODO_LISTS		0
+#define DEBUG_REQUEST_IDS		FALSE
+#define DEBUG_TODO_LISTS		FALSE
 #define META_CALLBACKS_LOGLEVEL		LOG_DEBUG
 #define PRINT_STATS_LOGLEVEL		LOG_DEBUG
-#define DEBUG_FREEZE			0
+#define DEBUG_FREEZE			FALSE
 #define MAX_AGENTS			10
 
 struct my_agent;
@@ -68,7 +68,7 @@ static struct {
   struct call_list calls;
 } agents;
 
-static int initialized = 0;
+static int initialized = FALSE;
 static int frozen_level;
 
 /***********************************************************************
@@ -193,7 +193,7 @@ static void execute_call(struct call *call)
 ***********************************************************************/
 static void call_handle_methods(void)
 {
-  static int currently_running = 0;
+  static int currently_running = FALSE;
 
   if (currently_running) {
     return;
@@ -201,7 +201,7 @@ static void call_handle_methods(void)
   if (frozen_level > 0) {
     return;
   }
-  currently_running = 1;
+  currently_running = TRUE;
 
   /*
    * The following should ensure that the methods of agents which have
@@ -219,7 +219,7 @@ static void call_handle_methods(void)
     free(pcall);
   }
 
-  currently_running = 0;
+  currently_running = FALSE;
 }
 
 /***********************************************************************
@@ -229,7 +229,7 @@ static void freeze(void)
 {
   if (!initialized) {
     frozen_level = 0;
-    initialized = 1;
+    initialized = TRUE;
   }
   if (DEBUG_FREEZE) {
     freelog(LOG_NORMAL, "A: freeze() current level=%d", frozen_level);
@@ -285,9 +285,9 @@ static int is_outstanding_request(struct my_agent *agent)
 	    agent->first_outstanding_request_id,
 	    agent->last_outstanding_request_id,
 	    aconnection.client.request_id_of_currently_handled_packet);
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 /***********************************************************************
@@ -310,7 +310,7 @@ static void print_stats(struct my_agent *agent)
 void agents_disconnect(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_disconnect()");
-  initialized = 0;
+  initialized = FALSE;
 }
 
 /***********************************************************************

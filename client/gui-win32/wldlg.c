@@ -809,7 +809,7 @@ static void copy_worklist_to_editor(struct worklist *pwl,
     }
 
     worklist_really_insert_item(peditor, where,
-                                wid_encode(is_unit, 0, target));
+                                wid_encode(is_unit, FALSE, target));
     if (where < MAX_LEN_WORKLIST)
       where++;
   }
@@ -827,7 +827,7 @@ static void worklist_prep(struct worklist_editor *peditor)
 {
   if (peditor->pcity) {
     peditor->worklist_wids[0] =
-        wid_encode(peditor->pcity->is_building_unit, 0,
+        wid_encode(peditor->pcity->is_building_unit, FALSE,
                    peditor->pcity->currently_building);
     peditor->worklist_wids[1] = WORKLIST_END;
     copy_worklist_to_editor(peditor->pcity->worklist, peditor,

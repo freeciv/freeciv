@@ -323,7 +323,7 @@ static void try_summon_barbarians(void)
     rand_map_pos(&x, &y);
   } while (y == 0 || y == map.ysize - 1);
 
-  if( !(pc = dist_nearest_city(NULL, x, y, 1, 0)) )       /* any city */
+  if( !(pc = dist_nearest_city(NULL, x, y, TRUE, FALSE)) )       /* any city */
     return;
 
   victim = city_owner(pc);

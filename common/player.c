@@ -297,9 +297,9 @@ int player_in_city_radius(struct player *pplayer, int x, int y)
   map_city_radius_iterate(x, y, x1, y1) {
     pcity = map_get_city(x1, y1);
     if (pcity && (pcity->owner == pplayer->player_no))
-      return 1;
+      return TRUE;
   } map_city_radius_iterate_end;
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************

@@ -69,7 +69,7 @@ int is_isometric;
 char *city_names_font;
 char *city_productions_font_name;
 
-int flags_are_transparent=1;
+int flags_are_transparent = TRUE;
 
 int num_tiles_explode_unit=0;
 
@@ -77,7 +77,7 @@ int num_tiles_explode_unit=0;
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
 
-static struct hash_table *sprite_hash = 0;
+static struct hash_table *sprite_hash = NULL;
 /*
    This hash table sprite_hash maps tilespec tags to tile Sprite pointers.
    This is kept permanently after setup, for doing lookups on ruleset
@@ -107,12 +107,12 @@ static struct sbuffer *sprite_key_sb;
   If focus_unit_hidden is true, then no units at
   the location of the foc unit are ever drawn.
 */
-static int focus_unit_hidden = 0;
+static int focus_unit_hidden = FALSE;
 
 /*
   If no_backdrop is true, then no color/flag is drawn behind the city/unit.
 */
-static int no_backdrop = 0;
+static int no_backdrop = FALSE;
 
 /**********************************************************************
   Gets full filename for tilespec file, based on input name.
@@ -749,7 +749,7 @@ void tilespec_setup_tile_type(int id)
   if (is_isometric) {
     my_snprintf(buffer1, sizeof(buffer1), "%s1", tt->graphic_str);
     if (id != T_RIVER) {
-      tt->sprite[0] = lookup_sprite_tag_alt(buffer1, NULL, 1, "tile_type",
+      tt->sprite[0] = lookup_sprite_tag_alt(buffer1, NULL, TRUE, "tile_type",
 					    tt->terrain_name);
     } else {
       tt->sprite[0] = NULL;
@@ -760,7 +760,7 @@ void tilespec_setup_tile_type(int id)
       my_snprintf(buffer1, sizeof(buffer1), "%s_%s", tt->graphic_str, nsew);
       my_snprintf(buffer2, sizeof(buffer2), "%s_%s", tt->graphic_alt, nsew);
 
-      tt->sprite[i] = lookup_sprite_tag_alt(buffer1, buffer2, 1, "tile_type",
+      tt->sprite[i] = lookup_sprite_tag_alt(buffer1, buffer2, TRUE, "tile_type",
 					    tt->terrain_name);
 
       assert(tt->sprite[i] != NULL);
@@ -792,7 +792,7 @@ void tilespec_setup_government(int id)
   struct government *gov = get_government(id);
   
   gov->sprite = lookup_sprite_tag_alt(gov->graphic_str, gov->graphic_alt,
-				      1, "government", gov->name);
+				      TRUE, "government", gov->name);
   
   /* should probably do something if NULL, eg generic default? */
 }
@@ -807,7 +807,7 @@ void tilespec_setup_nation_flag(int id)
 
   this_nation->flag_sprite = lookup_sprite_tag_alt(this_nation->flag_graphic_str, 
 					    this_nation->flag_graphic_alt,
-					    1, "nation", this_nation->name);
+					    TRUE, "nation", this_nation->name);
 
   /* should probably do something if NULL, eg generic default? */
 }
@@ -1234,15 +1234,15 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   } else {
     if (draw_roads_rails) {
       if (BOOL_VAL(tspecial & S_RAILROAD)) {
-      	int found = 0;
+      	int found = FALSE;
 
 	for (dir = 0; dir < 8; dir++) {
 	  if (BOOL_VAL(tspecial_near[dir] & S_RAILROAD)) {
 	    *sprs++ = sprites.rail.dir[dir];
-	    found = 1;
+	    found = TRUE;
 	  } else if (BOOL_VAL(tspecial_near[dir] & S_ROAD)) {
 	    *sprs++ = sprites.road.dir[dir];
-	    found = 1;
+	    found = TRUE;
 	  }
 	}
 
@@ -1250,12 +1250,12 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 	  *sprs++ = sprites.rail.isolated;
 
       } else if (BOOL_VAL(tspecial & S_ROAD)) {
-	int found = 0;
+	int found = FALSE;
 
 	for (dir = 0; dir < 8; dir++) {
 	  if (BOOL_VAL(tspecial_near[dir] & S_ROAD)) {
 	    *sprs++ = sprites.road.dir[dir];
-	    found = 1;
+	    found = TRUE;
 	  }
 	}
 

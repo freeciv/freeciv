@@ -101,7 +101,7 @@ void client_remove_unit(int unit_id)
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
     
-    refresh_tile_mapcanvas(x, y, 1);
+    refresh_tile_mapcanvas(x, y, TRUE);
   }
   
 }
@@ -134,7 +134,7 @@ void client_remove_city(struct city *pcity)
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();
-  refresh_tile_mapcanvas(x, y, 1);
+  refresh_tile_mapcanvas(x, y, TRUE);
 }
 
 #define MAX_NUM_CONT 32767   /* max portable value in signed short */
@@ -146,7 +146,7 @@ void client_remove_city(struct city *pcity)
  */
 static int max_cont_used = 0;
 static struct athing recyc_conts;   /* .n is number available */
-static int recyc_init = 0;	    /* for first init of recyc_conts */
+static int recyc_init = FALSE;	    /* for first init of recyc_conts */
 static int *recyc_ptr = NULL;	    /* set to recyc_conts.ptr (void* vs int*) */
 
 /**************************************************************************
@@ -157,7 +157,7 @@ void climap_init_continents(void)
   if (!recyc_init) {
     /* initialize with size first time: */
     ath_init(&recyc_conts, sizeof(int));
-    recyc_init = 1;
+    recyc_init = TRUE;
   }
   update_island_impr_effect(-1, 0);
   ath_free(&recyc_conts);
@@ -680,11 +680,11 @@ int city_unit_supported(struct city *pcity, cid cid)
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->type == unit_type)
-	return 1;
+	return TRUE;
     }
     unit_list_iterate_end;
   }
-  return 0;
+  return FALSE;
 }
 
 /****************************************************************
@@ -697,11 +697,11 @@ int city_unit_present(struct city *pcity, cid cid)
 
     unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
       if (punit->type == unit_type)
-	return 1;
+	return TRUE;
     }
     unit_list_iterate_end;
   }
-  return 0;
+  return FALSE;
 }
 
 /*
@@ -846,14 +846,14 @@ int collect_cids3(cid * dest_cids)
 
   for (id = 0; id < B_LAST; id++) {
     if (can_player_build_improvement(game.player_ptr, id)) {
-      dest_cids[cids_used] = cid_encode(0, id);
+      dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
   }
 
   for (id = 0; id < U_LAST; id++) {
     if (can_player_build_unit(game.player_ptr, id)) {
-      dest_cids[cids_used] = cid_encode(1, id);
+      dest_cids[cids_used] = cid_encode(TRUE, id);
       cids_used++;
     }
   }
@@ -882,7 +882,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode(0, id);
+      dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
   }
@@ -901,7 +901,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode(1, id);
+      dest_cids[cids_used] = cid_encode(TRUE, id);
       cids_used++;
     }
   }
@@ -919,7 +919,7 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
 
   for (id = 0; id < game.num_impr_types; id++) {
     if (pcity->improvements[id]) {
-      dest_cids[cids_used] = cid_encode(0, id);
+      dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
   }
@@ -943,7 +943,7 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
     int i;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       if (game.player_ptr->worklists[i].is_valid) {
-	dest_wids[wids_used] = wid_encode(0, 1, i);
+	dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
 	wids_used++;
       }
     }
@@ -951,11 +951,11 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
 
   /* Fill in improvements and units */
   cids_used = collect_cids4(cids, pcity, advanced_tech);
-  name_and_sort_items(cids, cids_used, items, 0, pcity);
+  name_and_sort_items(cids, cids_used, items, FALSE, pcity);
 
   for (item = 0; item < cids_used; item++) {
     cid cid = items[item].cid;
-    dest_wids[wids_used] = wid_encode(cid_is_unit(cid), 0, cid_id(cid));
+    dest_wids[wids_used] = wid_encode(cid_is_unit(cid), FALSE, cid_id(cid));
     wids_used++;
   }
 
@@ -964,7 +964,7 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
     int i;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       if (game.player_ptr->worklists[i].is_valid) {
-        dest_wids[wids_used] = wid_encode(0, 1, i);
+        dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
         wids_used++;
       }
     }

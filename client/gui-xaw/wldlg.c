@@ -961,11 +961,11 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
   } else if (retAvail->list_index >= 
 	     pdialog->worklist_avail_num_improvements) {
     /* target is an improvement or wonder */
-    insert_into_worklist(pdialog, where, cid_encode(1, target));
+    insert_into_worklist(pdialog, where, cid_encode(TRUE, target));
     where++;
   } else {
     /* target is a unit */
-    insert_into_worklist(pdialog, where, cid_encode(0, target));
+    insert_into_worklist(pdialog, where, cid_encode(FALSE, target));
     where++;
   }
 

@@ -49,7 +49,7 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
   struct city *dummy_pcity;
   int pos1_is_in_city_radius =
       player_in_city_radius(game.player_ptr, x1, y1);
-  int pos2_is_in_city_radius = 0;
+  int pos2_is_in_city_radius = FALSE;
 
   assert(is_real_tile(x1, y1));
 

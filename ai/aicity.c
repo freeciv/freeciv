@@ -59,7 +59,7 @@ static void ai_manage_city(struct player *pplayer, struct city *pcity);
 **************************************************************************/
 void ai_do_build_unit(struct city *pcity, Unit_Type_id unit_type)
 {
-  pcity->is_building_unit = 1;
+  pcity->is_building_unit = TRUE;
   pcity->currently_building = unit_type;
 }
 
@@ -92,7 +92,7 @@ int ai_city_build_peaceful_unit(struct city *pcity)
   } else {
     if (can_build_improvement(pcity, B_CAPITAL)) {
       pcity->currently_building=B_CAPITAL;
-      pcity->is_building_unit=0;
+      pcity->is_building_unit = FALSE;
       return 1;
     }
   }
@@ -108,11 +108,11 @@ static void ai_manage_buildings(struct player *pplayer)
   struct government *g = get_gov_pplayer(pplayer);
   Impr_Type_id i;
   Tech_Type_id j;
-  int values[B_LAST], leon = 0, palace = 0, corr = 0;
+  int values[B_LAST], leon = 0, palace = FALSE, corr = 0;
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
 
-  if (find_palace(pplayer) || g->corruption_level == 0) palace = 1;
+  if (find_palace(pplayer) || g->corruption_level == 0) palace = TRUE;
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
     if (!palace) corr += pcity->corruption * 8;
@@ -285,10 +285,10 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
                        " or buildings", pcity->name);
   if (can_build_improvement(pcity, B_BARRACKS)) {
     pcity->currently_building = B_BARRACKS;
-    pcity->is_building_unit = 0;
+    pcity->is_building_unit = FALSE;
   } else {
     pcity->currently_building = best_role_unit(pcity, F_SETTLERS); /* yes, this could be truly bad */
-    pcity->is_building_unit = 1;
+    pcity->is_building_unit = TRUE;
   }
 /* I think fallbacks only happen with techlevel 0, and even then are rare.
 I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
@@ -331,7 +331,7 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 static void ai_new_spend_gold(struct player *pplayer)
 {
   Unit_Type_id id;
-  int buycost, cost, frugal = 0, trireme=0;
+  int buycost, cost, frugal = FALSE, trireme=0;
   int total, build, did_upgrade, reserve;
   struct ai_choice bestchoice;
   struct city *pcity = NULL;
@@ -347,7 +347,7 @@ static void ai_new_spend_gold(struct player *pplayer)
     bestchoice.choice = 0;
     city_list_iterate(pplayer->cities, acity)
       if (acity->anarchy) continue;
-      if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer,1)) {
+      if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer, TRUE)) {
         bestchoice.choice = acity->ai.choice.choice;
         bestchoice.want = acity->ai.choice.want;
         bestchoice.type = acity->ai.choice.type;
@@ -370,7 +370,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 		unit_types[bestchoice.choice].name, 
 		unit_type(punit)->name,
 		(id>=0 ? unit_types[id].name : "-1"));
-        if (id == bestchoice.choice && ai_fuzzy(pplayer,1)) {
+        if (id == bestchoice.choice && ai_fuzzy(pplayer, TRUE)) {
 	  /* and I can simply upgrade a unit I already have */
 	  freelog(LOG_DEBUG, "Trying to upgrade in %s.", pcity->name);
           cost = unit_upgrade_price(pplayer, punit->type, id);
@@ -392,7 +392,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 	if ((id == bestchoice.choice
 	     || (unit_has_role(bestchoice.choice, L_DEFEND_GOOD)
 		 && is_on_unit_upgrade_path(bestchoice.choice, punit->type)))
-	    && ai_fuzzy(pplayer, 1)) {
+	    && ai_fuzzy(pplayer, TRUE)) {
           if (!did_upgrade) { /* might want to disband */
 	    build =
 		pcity->shield_stock + (unit_type(punit)->build_cost / 2);
@@ -440,7 +440,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 #endif
       else if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost
 	      && (!frugal || bestchoice.want > 200)) {
-	if (ai_fuzzy(pplayer,1) || (pcity->ai.grave_danger
+	if (ai_fuzzy(pplayer, TRUE) || (pcity->ai.grave_danger
 				    && !assess_defense(pcity))) {
 	  really_handle_city_buy(pplayer, pcity); /* adequately tested now */
 	}
@@ -487,7 +487,7 @@ static void ai_new_spend_gold(struct player *pplayer)
         }
 /* I just saw Alexander save up for walls then buy a granary.  Never again! -- Syela */
 /*        if (bestchoice.want > 200 && pplayer->ai.maxbuycost) frugal++; */
-        if (pplayer->ai.maxbuycost) frugal++; /* much more frugal -- Syela */
+        if (pplayer->ai.maxbuycost) frugal = TRUE; /* much more frugal -- Syela */
       } /* end can't-afford else */
     } /* end if want > 100 */
     pcity->ai.choice.want = 0; /* not dealing with this city a second time */
@@ -505,7 +505,7 @@ static void ai_new_spend_gold(struct player *pplayer)
       pcity = map_get_city(punit->x, punit->y);
       if (!pcity) continue;
       cost = unit_upgrade_price(pplayer, punit->type, id);
-      if (cost < pplayer->economic.gold && ai_fuzzy(pplayer,1)) {
+      if (cost < pplayer->economic.gold && ai_fuzzy(pplayer, TRUE)) {
 	/* let's just upgrade */
         pplayer->economic.gold -= cost;
 	upgrade_unit(punit, id);
@@ -711,7 +711,7 @@ int has_a_normal_defender(struct city *pcity)
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit) && is_ground_unit(punit) &&
         unit_type(punit)->hp > 10 && /* for when we don't get Feudalism */
-        can_build_unit(pcity, punit->type)) return 1;
+        can_build_unit(pcity, punit->type)) return TRUE;
   unit_list_iterate_end;
 #else
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
@@ -720,11 +720,11 @@ int has_a_normal_defender(struct city *pcity)
 	&& (unit_type(punit)->attack_strength
 	    + 2*unit_type(punit)->defense_strength) >= 9
 	&& can_build_unit(pcity, punit->type)) {
-      return 1;
+      return TRUE;
     }
   unit_list_iterate_end;
 #endif
-  return 0;
+  return FALSE;
 }
 
 Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
@@ -734,7 +734,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;
   int best= 0;
-  int walls = 1; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
+  int walls = TRUE; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
   int isdef = has_a_normal_defender(pcity);
 
   for (i = 0; i < game.num_unit_types; i++) {
@@ -743,7 +743,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&
         (m == LAND_MOVING || m == SEA_MOVING) &&
         (m == which || !which)) {
-      j = unit_desirability(i, 1);
+      j = unit_desirability(i, TRUE);
       j *= j;
       if (unit_type_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* This is now confirmed */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
@@ -788,7 +788,7 @@ void adjust_build_choice(struct player *pplayer, struct ai_choice *cur,
 static int building_unwanted(struct player *plr, Impr_Type_id i)
 {
   if (plr->research.researching != A_NONE)
-    return 0;
+    return FALSE;
   return (i == B_LIBRARY || i == B_UNIVERSITY || i == B_RESEARCH);
 }
 
@@ -822,7 +822,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
+  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
     ai_scientists_taxmen(pcity);
   ai_sell_obsolete_buildings(pcity);
   sync_cities();
@@ -992,7 +992,7 @@ void ai_scientists_taxmen(struct city *pcity)
 bool ai_fix_unhappy(struct city *pcity)
 {
   if (!city_unhappy(pcity))
-    return 1;
+    return TRUE;
   while (city_unhappy(pcity)) {
     if(!ai_make_elvis(pcity)) break;
 /*     city_refresh(pcity);         moved into ai_make_elvis for utility -- Syela */
@@ -1031,7 +1031,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     }
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
+  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
     ai_scientists_taxmen(pcity);
   if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
       pcity->food_stock + pcity->food_surplus < 0) {
@@ -1057,7 +1057,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   city_list_iterate(minilist, acity) {
     city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
     auto_arrange_workers(pcity);
-    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))
+    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer, TRUE))
       ai_scientists_taxmen(acity);
     freelog(LOG_DEBUG, "Readjusting workers in %s", acity->name);
   } city_list_iterate_end;
