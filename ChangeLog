@@ -1,3 +1,70 @@
+Fri Apr  2 05:26:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.h: Changed capability string to "+1.8".
+
+Fri Apr  2 05:18:09 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS: Some NEWS additions for 1.8.0: explained leadership
+	changeover; added note of new website since previous release;
+	added bug about goto-ing ships attacking cities.  Moved some parts
+	around.
+
+Fri Apr  2 05:06:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, server/civserver.c: Only call generate_ai_players() at
+	the start of a game if is_new_game is true, since can cause
+	problems otherwise (eg if aifill is set and any players have been
+	removed).  Fixes bug reported by Anders Wegge Jakobsen
+	<wegge@wegge.dk>.
+
+Mon Mar 29 12:45:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS: Added a "Past administrator" section to credit Mitch.
+
+Mon Mar 29 11:26:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/diplodlg.c: Fixed a possible problem when trading cities
+	in a game with more than 10 players.  (With help from Kris
+	Bubendorfer.)
+
+Mon Mar 29 11:09:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/diplodlg.c: Fixed bug where if a player only has 1 city
+	(the capital), either player clicking on the trade cities button
+	in the diplomacy dialog would crash their client.  Patch submitted
+	by Kris Bubendorfer.
+
+Sun Mar 28 04:22:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: This fixes the help text for the celebration
+	("We Love the __ Day") effect, as well as a couple other little
+	changes in the help text.  Patch submitted by Greg Wooledge.
+
+Sun Mar 28 04:15:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, ChangeLog: Updated ChangeLog provided by Mitch Davis.
+
+Sun Mar 28 04:06:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c: In remove_city(), wipe all supported units
+	_before_ sending the PACKET_REMOVE_CITY.  If we do this after,
+	then since we now refresh the home city when a unit is lost (to
+	update the upkeep etc) the refresh makes the client recreate its
+	copy of the destroyed city!
+
+Sat Mar 27 11:43:17 1999  Trent Piepho <xyzzy@u.washington.edu>:
+
+	* common/player.c, common/player.h, common/unit.c, common/unit.h,
+	client/mapctrl.c, client/mapview.c: Finally fixed the submarine
+	visibility bugs.  Subs can't be see (old), nor can missiles in
+	subs (new), unless there is an adjacent unit/city.  They can also
+	no longer be found by clicking the middle mouse button on them. 
+	However, a ship on the same tile as a hiding sub _can_ be seen. 
+	New function in unit.c, is_hiding_unit(), returns true for subs or
+	missiles in subs.  New function in player.c,
+	player_find_visible_unit(), which returns a pointer to the first
+	visible unit in a tile, or NULL if there are none.
+
 Thu Mar 25 11:19:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* AUTHORS, client/xmain.c, server/unithand.c: Fixed some warning
