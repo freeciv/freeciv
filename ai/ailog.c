@@ -39,7 +39,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
   va_list ap;
   int minlevel = MIN(LOGLEVEL_CITY, level);
 
-  if (minlevel > log_level) {
+  if (minlevel > fc_log_level) {
     return;
   }
 
@@ -68,7 +68,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   va_list ap;
   int minlevel = MIN(LOGLEVEL_UNIT, level);
 
-  if (minlevel > log_level) {
+  if (minlevel > fc_log_level) {
     return;
   }
 
@@ -95,7 +95,7 @@ void GOTO_LOG(int level, struct unit *punit, enum goto_result result,
 {
   int minlevel = MIN(LOGLEVEL_GOTO, level);
 
-  if (minlevel <= log_level && (result == GR_FAILED || result == GR_FOUGHT)) {
+  if (minlevel <= fc_log_level && (result == GR_FAILED || result == GR_FOUGHT)) {
     char buffer[500];
     char buffer2[500];
     va_list ap;
@@ -130,7 +130,7 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   int x = -1, y = -1, id = -1;
   char *s = "none";
 
-  if (minlevel > log_level) {
+  if (minlevel > fc_log_level) {
     return;
   }
 
