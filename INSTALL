@@ -151,8 +151,8 @@ will need to have the appropriate "development" packages installed.
 
    The "Gtk+" widget library was designed for the GIMP graphics program.
    Since then it has gained popularity as an easy to program, free toolkit.
-   The "Gtk+" library comes with a companion library "Gdk" which provides an
-   abstraction layer over X Windows to implement basic drawing functions,
+   The "Gtk+" library comes with a companion library "Gdk" which provides
+   an abstraction layer over X Windows to implement basic drawing functions,
    windows, clipping, etc.
 
    Freeciv requires a version of "Gtk+" greater or equal to 1.2.1.
@@ -307,14 +307,14 @@ the source directory; you must install Freeciv for that.)
 4. Installation:
 ================
 
-Installing Freeciv involves installing the components mentioned in
-Section 3.  These need to be copied to a directory such as /usr/local
-(the default), /usr/games, /usr/games/freeciv, /usr/local/freeciv,
-or some other suitable directory.
+Installing Freeciv involves installing the components mentioned in the
+Compiling Freeciv section.  These need to be copied to a directory such
+as /usr/local (the default), /usr/games, /usr/games/freeciv,
+/usr/local/freeciv, or some other suitable directory.
 
 Typing "make install" should install everything correctly on your machine.
-You may like to use the --prefix=DIR configure option (see Section 2) to
-ensure the files get placed where you want.
+You may like to use the --prefix=DIR configure option (see the Generating
+the Makefile section) to ensure the files get placed where you want.
 
 When the Freeciv client and Freeciv server are run they both need to 
 find some files from the "data" directory.  By default freeciv looks
@@ -342,7 +342,51 @@ file data/Freeciv into your app-defaults directory. (Usually this is
 /usr/lib/X11/app-defaults).
 
 
-5. Reinier's libXpm Solaris Installation Notes:
+5. Reinier's Solaris Installation Notes:
+========================================
+
+Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
+version of make in /usr/ccs/bin/make, and its own compiler (to be purchased
+separately) which, if you have it, is available in /opt/SUNWspro/bin.
+Solaris does not provide the XPM library, which is required for the Xaw
+client; it doesn't provide any of the stuff required for imlib, gdk and gtk,
+either, which is required to build the GTK+ client.  However, with some
+patience, everything can be compiled without problems.
+
+For information on how to install XPM on Solaris, see the next section.
+
+Many Solaris installations also have MIT X (usually, in /usr/X11), GNU make,
+the gcc compiler, and the XPM library installed somewhere.  The standard
+command "./configure && make" may not be able to find your XPM library and
+it is likely to confuse the different versions.
+
+Make sure your environment variables, especially $PATH and $LD_LIBRARY_PATH,
+and the ./configure options do not point to an inconsistent set of software,
+and compiling will be fine.
+
+A simple recipe to compile with Sun X, Sun make and Sun cc, assuming the xpm
+libraries are on their own in the nonstandard location /path/to/xpm:
+
+  % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
+  % unsetenv LD_LIBRARY_PATH
+  % ./configure --with-xpm-prefix=/path/to/xpm
+                --disable-cvs-deps --with-included-gettext
+  % make
+
+The "--disable-cvs-deps" prevents ./configure from creating Makefiles
+specific to GNU make.  The symptoms of this happening are:
+
+  make: Fatal error in reader:
+        Makefile, line 214: = missing from replacement macro reference
+  make: Fatal error: Command failed for target `all-recursive'
+
+Alternatively, you can set up your $PATH and ./configure to use only GNU
+tools.  Furthermore, Freeciv is known to compile with MIT X, and with
+certain combinations of GNU and Sun tools.  The exact recipes depend on your
+local installation.
+
+
+6. Reinier's libXpm Solaris Installation Notes:
 ===============================================
 
 When I was root on my Solaris system, I *still* didn't want to install
@@ -387,7 +431,7 @@ The Procedure:
    commands.
 
 
-6. Native Language Support:
+7. Native Language Support:
 ===========================
 
 Freeciv uses the "gettext" system for Native Language Support.
