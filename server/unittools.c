@@ -616,21 +616,22 @@ static void update_unit_activity(struct unit *punit)
 	}
 
 	/* If a watchtower has been pillaged, reduce sight to normal */
-	if (what == S_FORTRESS
-	    && player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
-	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
-	  unit_list_iterate(punit->tile->units,
-			    punit2) {
-	    if (is_ground_unit(punit2)) {
-              /* Unfog (increase seen counter) first, fog (decrease counter)
-               * later, so tiles that are within vision range both before and
-               * after are not even temporarily marked fogged. */
-	      unfog_area(pplayer, punit2->tile,
-			 unit_type(punit2)->vision_range);
-	      fog_area(pplayer, punit2->tile,
-		       get_watchtower_vision(punit2));
-	    }
-	  }
+	if (what == S_FORTRESS) {
+	  unit_list_iterate(punit->tile->units, punit2) {
+            struct player *owner = unit_owner(punit2);
+            freelog(LOG_VERBOSE, "Watchtower pillaged!");
+            if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+              if (is_ground_unit(punit2)) {
+                /* Unfog (increase seen counter) first, fog (decrease counter)
+                 * later, so tiles that are within vision range both before and
+                 * after are not even temporarily marked fogged. */
+                unfog_area(owner, punit2->tile,
+                           unit_type(punit2)->vision_range);
+                fog_area(owner, punit2->tile,
+                         get_watchtower_vision(punit2));
+              }
+            }
+          }
 	  unit_list_iterate_end;
 	}
       }
@@ -650,23 +651,25 @@ static void update_unit_activity(struct unit *punit)
       update_tile_knowledge(punit->tile);
       
       /* If a watchtower has been pillaged, reduce sight to normal */
-      if (what_pillaged == S_FORTRESS
-	  && player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
+      if (what_pillaged == S_FORTRESS) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
 	unit_list_iterate(punit->tile->units, punit2) {
-	  if (is_ground_unit(punit2)) {
-            /* Unfog (increase seen counter) first, fog (decrease counter)
-             * later, so tiles that are within vision range both before and
-             * after are not even temporarily marked fogged. */
-	    unfog_area(pplayer, punit2->tile,
-		       unit_type(punit2)->vision_range);
-	    fog_area(pplayer, punit2->tile,
-		     get_watchtower_vision(punit2));
-	  }
-	}
+          struct player *owner = unit_owner(punit2);
+          if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+            if (is_ground_unit(punit2)) {
+              /* Unfog (increase seen counter) first, fog (decrease counter)
+               * later, so tiles that are within vision range both before and
+               * after are not even temporarily marked fogged. */
+              unfog_area(owner, punit2->tile,
+                         unit_type(punit2)->vision_range);
+              fog_area(owner, punit2->tile,
+                       get_watchtower_vision(punit2));
+            }
+          }
+        }
 	unit_list_iterate_end;
       }
-    }    
+    }  
   }
 
   if (activity==ACTIVITY_POLLUTION) {
@@ -691,20 +694,21 @@ static void update_unit_activity(struct unit *punit)
       map_set_special(punit->tile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
-      if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
-	unit_list_iterate(ptile->units, punit) {
+      unit_list_iterate(ptile->units, punit) {
+        struct player *owner = unit_owner(punit);
+        if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
 	  if (is_ground_unit(punit)) {
             /* Unfog (increase seen counter) first, fog (decrease counter)
              * later, so tiles that are within vision range both before and
              * after are not even temporarily marked fogged. */
-	    unfog_area(pplayer, punit->tile,
+	    unfog_area(owner, punit->tile,
 		       get_watchtower_vision(punit));
-	    fog_area(pplayer, punit->tile,
+	    fog_area(owner, punit->tile,
 		     unit_type(punit)->vision_range);
 	  }
 	}
-	unit_list_iterate_end;
       }
+      unit_list_iterate_end;
     }
   }
 
