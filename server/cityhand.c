@@ -196,6 +196,12 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   city_refresh(pcity);
   city_incite_cost(pcity);
   initialize_infrastructure_cache(pcity);
+  reset_move_costs(pcity->x, pcity->y);
+/* I stupidly thought that setting S_ROAD took care of this, but of course
+the city_id isn't set when S_ROAD is set, so reset_move_costs doesn't allow
+sea movement at the point it's called.  This led to a problem with the
+warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
+to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   send_adjacent_cities(pcity);
   send_city_info(0, pcity, 0);
@@ -673,6 +679,8 @@ void remove_city(struct city *pcity)
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }
   remove_city_from_cache(pcity->id);
-  remove_city_from_minimap(x, y);
+  x = pcity->x; y = pcity->y;
+/* DO NOT remove city from minimap here. -- Syela */
   game_remove_city(pcity->id);
+  reset_move_costs(x, y);
 }
