@@ -2002,7 +2002,7 @@ bool cma_is_city_under_agent(struct city *pcity,
 /****************************************************************************
 ...
 *****************************************************************************/
-const char *const cma_get_stat_name(enum stat stat)
+const char *const cma_get_stat_name(enum cma_stat stat)
 {
   switch (stat) {
   case FOOD:
