@@ -14,8 +14,6 @@ description="Civ2 unit_type data for Freeciv (incomplete)"
 options="1.9"
 
 [units_adjust]
-max_hitpoints=0                 ; 0 means no max
-max_firepower=0                 ; 0 means no max
 firepower_factor=1              ; convenient for Civ1
 
 ; Below: The individual units, one per section.

@@ -114,12 +114,10 @@ self-explanatory.  A few points:
   See comments in common/unit.h
 
 - The [units_adjust] section of the units file deserves some
-  explanation.  It contains the entries:
+  explanation.  It contains the entry
 
-	max_hitpoints, max_firepower, firepower_factor.
+	firepower_factor.
 
-  The first two entries (unless zero) override the hitpoints and 
-  firepower entries for individual units, as a convenience.  
   The value of firepower_factor is used when combat is resolved:
   All combat firepower values are multiplied by firepower_factor,
   which means that the effective hitpoints of any unit is really 

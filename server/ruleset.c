@@ -614,17 +614,12 @@ static void load_ruleset_units(struct section_file *file)
   char *datafile_options;
   struct unit_type *u;
   int i, j, ival, nval;
-  int max_hp, max_firepower;
   char *sval, **slist, **sec;
   const char *filename = secfile_filename(file);
 
   datafile_options =
     check_ruleset_capabilities(file, "+1.9", filename);
 
-  max_hp =
-    secfile_lookup_int_default(file, 0, "units_adjust.max_hitpoints");
-  max_firepower =
-    secfile_lookup_int_default(file, 0, "units_adjust.max_firepower");
   game.firepower_factor =
     secfile_lookup_int_default(file, 1, "units_adjust.firepower_factor");
 
@@ -698,13 +693,7 @@ static void load_ruleset_units(struct section_file *file)
     u->transport_capacity =
       secfile_lookup_int(file,"%s.transport_cap", sec[i]);
     u->hp = secfile_lookup_int(file,"%s.hitpoints", sec[i]);
-    if (max_hp != 0 && u->hp > max_hp) {
-      u->hp = max_hp;
-    }
     u->firepower = secfile_lookup_int(file,"%s.firepower", sec[i]);
-    if (max_firepower != 0 && u->firepower > max_firepower) {
-      u->firepower = max_firepower;
-    }
     if (u->firepower <= 0) {
       freelog(LOG_FATAL, "for unit_type \"%s\": firepower is %d but "
 	      "must be at least 1.\nSet the unit's attack strength to 0 "
