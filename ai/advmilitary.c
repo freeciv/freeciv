@@ -99,7 +99,7 @@ void generate_warmap(struct city *pcity)
 /* printf("Generated warmap for %s with %d nodes checked.\n", pcity->name, warnodes); */
 }
 
-int assess_danger(struct player *pplayer, struct city *pcity)
+int assess_danger(struct city *pcity)
 {
   struct unit *punit;
   int i, danger = 0, v, dist, con, m;
@@ -110,8 +110,8 @@ int assess_danger(struct player *pplayer, struct city *pcity)
   generate_warmap(pcity);  
 
   for(i=0; i<game.nplayers; i++) {
-    aplayer = &game.players[i];
-    if (aplayer != pplayer) {
+    if (i != pcity->owner) {
+      aplayer = &game.players[i];
       unit_list_iterate(aplayer->units, punit)
         v = get_unit_type(punit->type)->attack_strength * 10;
         if (punit->veteran) v *= 1.5;
@@ -170,7 +170,7 @@ void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   def = assess_defense(pcity);
 /* logically we should adjust this for race attack tendencies */
-  danger = assess_danger(pplayer, pcity);
+  danger = assess_danger(pcity);
 /* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
   danger -= def;
 

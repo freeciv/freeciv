@@ -15,6 +15,8 @@
 #include <game.h>
 #include <unit.h>
 #include <citytools.h>
+#include <advmilitary.h>
+
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 
     want is a value between 1 and 100.
