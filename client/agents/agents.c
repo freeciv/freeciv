@@ -225,7 +225,7 @@ static void call_handle_methods(void)
 /***********************************************************************
 ...
 ***********************************************************************/
-static void freeze()
+static void freeze(void)
 {
   if (!initialized) {
     frozen_level = 0;
@@ -240,7 +240,7 @@ static void freeze()
 /***********************************************************************
 ...
 ***********************************************************************/
-static void thaw()
+static void thaw(void)
 {
   if (DEBUG_FREEZE) {
     freelog(LOG_NORMAL, "A: thaw() current level=%d", frozen_level);
