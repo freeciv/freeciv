@@ -4,6 +4,9 @@
 ##    SUBDIRS = @gui_sources@
 ## but that doesn't work properly for "make dist"
 
+if CLIENT_GUI_SDL
+GUI_SUBDIR = gui-sdl
+endif
 if CLIENT_GUI_GTK
 GUI_SUBDIR = gui-gtk
 endif

@@ -346,6 +346,9 @@ if test x$client != xno; then
     fi
   fi
 
+  dnl SDL-specific overrides
+  FC_SDL_CLIENT
+
   dnl Xaw-specific overrides
   if test "$client" = xaw || test "$client" = yes ; then
     dnl Checks for X:
@@ -498,6 +501,7 @@ AC_SUBST(SOUND_LIBS)
 AM_CONDITIONAL(ESD, test "x$ESD" = "xyes")
 AM_CONDITIONAL(SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(WINMM, test "x$WINMM" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_SDL, test "$gui_sources" = "gui-sdl")
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
@@ -717,6 +721,7 @@ AC_CONFIG_FILES([Makefile
 	  client/Makefile 
 	  client/agents/Makefile
 	  client/include/Makefile 
+	  client/gui-sdl/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-xaw/Makefile 
