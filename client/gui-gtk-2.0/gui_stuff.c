@@ -445,7 +445,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook)
       g_signal_connect_swapped(button, "clicked",
 	  G_CALLBACK(gui_dialog_destroy), dlg);
 
-      my_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), "Ctrl+W");
+      my_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), _("Ctrl+W"));
       gtk_tooltips_set_tip(main_tips, button, buf, "");
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
