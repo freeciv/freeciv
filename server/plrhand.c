@@ -1168,7 +1168,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
 
     punit->veteran=secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i);
-    punit->foul=secfile_lookup_int(file, "player%d.u%d.foul", plrno, i);
+    punit->foul=secfile_lookup_int_default(file, 0, "player%d.u%d.foul",
+					   plrno, i);
     punit->homecity=secfile_lookup_int(file, "player%d.u%d.homecity",
 				       plrno, i);
 

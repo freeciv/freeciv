@@ -58,6 +58,12 @@ int secfile_lookup_int(struct section_file *my_section_file,
 char *secfile_lookup_str(struct section_file *my_section_file, 
 			 char *path, ...);
 
+int secfile_lookup_int_default(struct section_file *my_section_file,
+                               int def, char *path, ...);
+
+char *secfile_lookup_str_default(struct section_file *my_section_file, 
+                                 char *def, char *path, ...);
+
 int section_file_lookup(struct section_file *my_section_file, 
 			char *path, ...);
 

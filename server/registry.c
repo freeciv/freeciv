@@ -383,6 +383,57 @@ int secfile_lookup_int(struct section_file *my_section_file,
 }
 
 
+/**************************************************************************
+  As secfile_lookup_int(), but return a specified default value if the
+  entry does not exist.  If the entry exists as a string, then die.
+**************************************************************************/
+int secfile_lookup_int_default(struct section_file *my_section_file,
+			       int def, char *path, ...)
+{
+  struct section_entry *entry;
+  char buf[512];
+  va_list ap;
+
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+    return def;
+  }
+  if(entry->svalue) {
+    log(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
+    exit(1);
+  }
+  return entry->ivalue;
+}
+
+/**************************************************************************
+  As secfile_lookup_str(), but return a specified default (char*) if the
+  entry does not exist.  If the entry exists as an int, then die.
+**************************************************************************/
+char *secfile_lookup_str_default(struct section_file *my_section_file, 
+				 char *def, char *path, ...)
+{
+  struct section_entry *entry;
+  char buf[512];
+  va_list ap;
+
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+    return def;
+  }
+
+  if(!entry->svalue) {
+    log(LOG_FATAL, "sectionfile contains a '%s', but integer not string ", buf);
+    exit(1);
+  }
+  
+  return entry->svalue;
+}
 
 /**************************************************************************
 ...
