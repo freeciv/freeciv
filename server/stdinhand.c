@@ -388,7 +388,7 @@ void report_server_options(struct player *pplayer)
 void set_ai_level(char *name, int level)
 {
   struct player *pplayer;
-  char *nm[11] = { "NONE", "NONE", "NONE", "easy", "NONE",
+  char *nm[11] = { "default", "NONE", "NONE", "easy", "NONE",
                  "normal", "NONE", "hard", "NONE", "NONE", "NONE" };
   int h[11] = { 0, 0, 0, H_RATES+H_TARGETS+H_HUTS, 0,
                 H_RATES+H_TARGETS+H_HUTS, 0, 0, 0, 0, 0 };
@@ -418,6 +418,8 @@ void set_ai_level(char *name, int level)
         printf("%s is now %s.\n", pplayer->name, nm[level]);
       }
     }
+    printf("Setting game.skill_level to %d.\n", level);
+    game.skill_level = level;
   }
 }
 

@@ -322,6 +322,7 @@ int main(int argc, char *argv[])
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!is_new_game) {
+    set_ai_level("", game.skill_level);
     for (i=0;i<game.nplayers;i++) {
       civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
       if (game.players[i].ai.control) {
