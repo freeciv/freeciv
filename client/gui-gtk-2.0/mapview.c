@@ -1070,7 +1070,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
 			    mysprite);
 
     gdk_flush();
-    sleep(1);
+    myusleep(1000000);
 
     update_map_canvas_visible();
   } else {
