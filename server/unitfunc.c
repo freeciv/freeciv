@@ -36,6 +36,7 @@
 #include <sys/time.h>
 #include <gotohand.h>
 #include <settlers.h>
+#include <aiunit.h>
 
 extern struct move_cost_map warmap;
 
@@ -630,8 +631,13 @@ int get_virtual_defense_power(int a_type, int d_type, int x, int y)
   int defensepower=unit_types[d_type].defense_strength;
   int m_type = unit_types[a_type].move_type;
   struct city *pcity = map_get_city(x, y);
+  enum tile_terrain_type t = map_get_terrain(x, y);
 
-  defensepower *= get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
+/* I had this dorky bug where transports with mech inf aboard would go next
+to enemy ships thinking the mech inf would defend them adequately. -- Syela */
+
+  defensepower *= get_tile_type(t)->defense_bonus;
 
   if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
     defensepower*=2;
@@ -784,7 +790,15 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 **************************************************************************/
 void update_unit_activity(struct player *pplayer, struct unit *punit)
 {
+  int id = punit->id;
   punit->activity_count+= (get_unit_type(punit->type)->move_rate)/3;
+
+  if (punit->activity == ACTIVITY_EXPLORE) {
+    ai_manage_explorer(pplayer, punit);
+    if (unit_list_find(&pplayer->units, id))
+      handle_unit_activity_request(pplayer, punit, ACTIVITY_EXPLORE);
+    else return;
+  }
   
    if(punit->activity==ACTIVITY_PILLAGE && punit->activity_count>=1) {
       if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
@@ -1102,7 +1116,7 @@ tile dies unless ...
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
   int klaf;
-  struct city *nearcity = dist_nearest_enemy_city(0, punit->x, punit->y);
+  struct city *nearcity = dist_nearest_enemy_city(get_player(punit->owner), punit->x, punit->y);
   struct city *incity = map_get_city(punit->x, punit->y);
   struct player *dest = &game.players[pkiller->owner];
   klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
@@ -1116,7 +1130,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		       n_if_vowel(get_unit_type(punit->type)->name[0]),
 		       get_unit_type(punit->type)->name, dest->name,
                        unit_name(pkiller->type), incity->name);
-    else if (nearcity) 
+    else if (nearcity && is_tiles_adjacent(punit->x, punit->y, nearcity->x, nearcity->y))
+      notify_player_ex(&game.players[punit->owner], 
+		       punit->x, punit->y, E_UNIT_LOST,
+		       "Game: You lost a%s %s under an attack from %s's %s, outside %s",
+		       n_if_vowel(get_unit_type(punit->type)->name[0]),
+		       get_unit_type(punit->type)->name, dest->name,
+                       unit_name(pkiller->type), nearcity->name);
+    else if (nearcity)
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
 		       "Game: You lost a%s %s under an attack from %s's %s, near %s",
@@ -1133,7 +1154,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
   }  else {
-      if (nearcity) notify_player_ex(&game.players[punit->owner], 
+      if (nearcity && is_tiles_adjacent(punit->x, punit->y, nearcity->x,
+        nearcity->y)) notify_player_ex(&game.players[punit->owner], 
+		       punit->x, punit->y, E_UNIT_LOST,
+		       "Game: You lost %d units under an attack from %s's %s, outside %s",
+		       klaf, dest->name, unit_name(pkiller->type), nearcity->name);
+      else if (nearcity) notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
 		       "Game: You lost %d units under an attack from %s's %s, near %s",
 		       klaf, dest->name, unit_name(pkiller->type), nearcity->name);
