@@ -449,7 +449,7 @@ sabotage	= 100
 effect		=
     { "name", "value", "equiv"
       "Prod_Bonus", 50, "Generators"
-      "Pollu_Prod_Pct", 2, "Janitors"
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
@@ -539,7 +539,7 @@ upkeep		= 4
 sabotage	= 100
 effect		=
     { "name", "value"
-      "Pollu_Pop_Pct", 100
+      "Pollu_Pop_Pct", -100
     }
 sound		= "b_mass_transit"
 sound_alt	= "b_generic"
@@ -596,7 +596,7 @@ sabotage	= 100
 effect		=
     { "name", "value", "equiv"
       "Prod_Bonus", 50, "Generators"
-      "Pollu_Prod_Pct", 2, "Janitors"
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
@@ -706,7 +706,7 @@ upkeep		= 2
 sabotage	= 100
 effect		=
     { "name", "value", "equiv"
-      "Pollu_Prod_Pct", 3, "Janitors"
+      "Pollu_Prod_Pct", -66, "Janitors"
     }
 sound		= "b_recycling_center"
 sound_alt	= "b_generic"
@@ -1231,7 +1231,7 @@ sabotage	= 0
 effect		=
     { "name", "range", "value", "equiv"
       "Prod_Bonus", "Continent", 50, "Generators"
-      "Pollu_Prod_Pct", "Continent", 2, "Janitors"
+      "Pollu_Prod_Pct", "Continent", -50, "Janitors"
     }
 variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_hoover_dam"

@@ -1923,16 +1923,21 @@ static inline void unhappy_city_check(struct city *pcity)
 int city_pollution(struct city *pcity, int shield_total)
 {
   struct player *pplayer = city_owner(pcity);
-  int mod, pollution = shield_total;
+  int mod, pollution;
 
-  mod = get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
-  if (mod > 0) {
-    pollution /= mod;
-  }
-  mod = (pcity->size *
-      num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)) / 4;
-  mod -= mod * get_city_bonus(pcity, EFT_POLLU_POP_PCT) / 100;
-  pollution += MAX(mod, 0);
+  /* Add one one pollution per shield, multipled by the bonus. */
+  mod = 100 + get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
+  mod = MAX(0, mod);
+  pollution = shield_total * mod / 100;
+
+  /* Add one 1/4 pollution per citizen per tech, multiplied by the bonus. */
+  mod = 100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT);
+  mod = MAX(0, mod);
+  pollution += (pcity->size
+		* num_known_tech_with_flag(pplayer,
+					   TF_POPULATION_POLLUTION_INC)
+		* mod) / (4 * 100);
+
   pollution = MAX(0, pollution - 20);
 
   return pollution;

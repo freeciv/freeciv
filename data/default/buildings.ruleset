@@ -588,7 +588,7 @@ effect		=
     { "name", "value", "equiv", "req_type", "req"
       "Prod_Bonus", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", 2, "Janitors"
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
@@ -683,7 +683,7 @@ upkeep		= 4
 sabotage	= 100
 effect		=
     { "name", "value"
-      "Pollu_Pop_Pct", 100
+      "Pollu_Pop_Pct", -100
     }
 sound		= "b_mass_transit"
 sound_alt	= "b_generic"
@@ -741,7 +741,7 @@ effect		=
     { "name", "value", "equiv", "req_type", "req"
       "Prod_Bonus", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", 2, "Janitors"
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
@@ -947,7 +947,7 @@ upkeep		= 2
 sabotage	= 100
 effect		=
     { "name", "value", "equiv"
-      "Pollu_Prod_Pct", 3, "Janitors"
+      "Pollu_Prod_Pct", -66, "Janitors"
     }
 sound		= "b_recycling_center"
 sound_alt	= "b_generic"
@@ -1659,7 +1659,7 @@ effect		=
     { "name", "range", "value", "equiv", "req_type", "req"
       "Prod_Bonus", "Player", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", "Player", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", "Player", 2, "Janitors"
+      "Pollu_Prod_Pct", "Player", -50, "Janitors"
     }
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"

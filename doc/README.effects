@@ -69,11 +69,9 @@ cumulative.  For many effects this is undesirable.
 
 "Nuke_Proof"	- nuclear attacks will fail within AMOUNT distance
 
-"Pollu_Pop_Pct"	- decreases pollution caused by population by AMOUNT percent
+"Pollu_Pop_Pct"	- increases pollution caused by population by AMOUNT percent
 
-"Pollu_Prod_Pct"- multiplies pollution caused by shield production by
-		  AMOUNT percent (applied after Pollu_Prod_Adj;
-		  multiple effects are multiplicative)
+"Pollu_Prod_Pct"- increases pollution caused by shields by AMOUNT percent
 
 "Prod_Add_Tile"	- each worked tile produces AMOUNT additional shield
 		  production
