@@ -97,6 +97,17 @@ void popup_meswin_dialog(void)
 }
 
 /****************************************************************
+  Closes the message window dialog.
+*****************************************************************/
+void popdown_meswin_dialog(void)
+{
+  if (meswin_dialog_shell) {
+    XtDestroyWidget(meswin_dialog_shell);
+    meswin_dialog_shell = 0;
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 bool is_meswin_open(void)
@@ -277,8 +288,7 @@ static void meswin_list_callback(Widget w, XtPointer client_data,
 static void meswin_close_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data)
 {
-  XtDestroyWidget(meswin_dialog_shell);
-  meswin_dialog_shell=0;
+  popdown_meswin_dialog();
 }
 
 /****************************************************************

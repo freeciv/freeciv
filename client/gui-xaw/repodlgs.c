@@ -190,6 +190,19 @@ void popup_science_dialog(bool make_modal)
 
 }
 
+/****************************************************************
+  Closes the science dialog.
+*****************************************************************/
+void popdown_science_dialog(void)
+{
+  if (science_dialog_shell) {
+    if (science_dialog_shell_is_modal) {
+      XtSetSensitive(main_form, TRUE);
+    }
+    XtDestroyWidget(science_dialog_shell);
+    science_dialog_shell = 0;
+  }
+}
 
 /****************************************************************
 ...
@@ -426,11 +439,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
 void science_close_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-
-  if(science_dialog_shell_is_modal)
-    XtSetSensitive(main_form, TRUE);
-  XtDestroyWidget(science_dialog_shell);
-  science_dialog_shell=0;
+  popdown_science_dialog();
 }
 
 
@@ -593,6 +602,19 @@ void popup_economy_report_dialog(bool make_modal)
    }
 }
 
+/****************************************************************
+  Closes the economy report.
+****************************************************************/
+void popdown_economy_report_dialog(void)
+{
+  if (economy_dialog_shell) {
+    if (economy_dialog_shell_is_modal) {
+      XtSetSensitive(main_form, TRUE);
+    }
+    XtDestroyWidget(economy_dialog_shell);
+    economy_dialog_shell = 0;
+  }
+}
 
 /****************************************************************
 ...
@@ -699,11 +721,7 @@ void economy_list_callback(Widget w, XtPointer client_data,
 void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-
-  if(economy_dialog_shell_is_modal)
-     XtSetSensitive(main_form, TRUE);
-  XtDestroyWidget(economy_dialog_shell);
-  economy_dialog_shell=0;
+  popdown_economy_report_dialog();
 }
 
 /****************************************************************
@@ -840,6 +858,19 @@ void popup_activeunits_report_dialog(bool make_modal)
    }
 }
 
+/****************************************************************
+  Closes the active units report.
+*****************************************************************/
+void popdown_activeunits_report_dialog(void)
+{
+  if (activeunits_dialog_shell) {
+    if (activeunits_dialog_shell_is_modal) {
+      XtSetSensitive(main_form, TRUE);
+    }
+    XtDestroyWidget(activeunits_dialog_shell);
+    activeunits_dialog_shell = 0;
+  }
+}
 
 /****************************************************************
 ...
@@ -1006,11 +1037,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 void activeunits_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-
-  if(activeunits_dialog_shell_is_modal)
-     XtSetSensitive(main_form, TRUE);
-   XtDestroyWidget(activeunits_dialog_shell);
-   activeunits_dialog_shell=0;
+  popdown_activeunits_report_dialog();
 }
 
 /****************************************************************

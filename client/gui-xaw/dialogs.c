@@ -44,6 +44,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h" /* request_xxx and set_unit_focus */
@@ -52,10 +53,17 @@
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "messagewin.h"	/* for popdown_meswin_dialog */
 #include "options.h"
+#include "plrdlg.h"	/* for popdown_players_dialog */
+#include "repodlgs.h"	/* for popdown_xxx_dialog */
 #include "tilespec.h"
 
 #include "dialogs.h"
+
+/******************************************************************/
+void popdown_notify_dialog(void);
+static Widget notify_dialog_shell;
 
 /******************************************************************/
 static Widget races_dialog_shell=NULL;
@@ -175,8 +183,7 @@ static int connect_unit_y;
 static void notify_command_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  XtDestroyWidget(XtParent(XtParent(w)));
-  XtSetSensitive(toplevel, TRUE);
+  popdown_notify_dialog();
 }
 
 /****************************************************************
@@ -200,7 +207,7 @@ static void select_random_race(void)
 *****************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  Widget notify_dialog_shell, notify_form, notify_command;
+  Widget notify_form, notify_command;
   Widget notify_headline, notify_label;
   Dimension width, width2;
   
@@ -239,6 +246,18 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 5);
   XtPopup(notify_dialog_shell, XtGrabNone);
   XtSetSensitive(toplevel, FALSE);
+}
+
+/****************************************************************
+  Closes the notification dialog.
+*****************************************************************/
+void popdown_notify_dialog(void)
+{
+  if (notify_dialog_shell) {
+    XtDestroyWidget(notify_dialog_shell);
+    XtSetSensitive(toplevel, TRUE);
+    notify_dialog_shell = 0;
+  }
 }
 
 /****************************************************************
@@ -2455,5 +2474,11 @@ void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  /* TODO */
+  popdown_city_report_dialog();
+  popdown_meswin_dialog();
+  popdown_science_dialog();
+  popdown_economy_report_dialog();
+  popdown_activeunits_report_dialog();
+  popdown_players_dialog();
+  popdown_notify_dialog();
 }

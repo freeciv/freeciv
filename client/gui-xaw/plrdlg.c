@@ -88,6 +88,16 @@ void popup_players_dialog(void)
   XtPopup(players_dialog_shell, XtGrabNone);
 }
 
+/****************************************************************
+  Closes the player list dialog.
+*****************************************************************/
+void popdown_players_dialog(void)
+{
+  if (players_dialog_shell) {
+    XtDestroyWidget(players_dialog_shell);
+    players_dialog_shell = 0;
+  }
+}
 
 /****************************************************************
 ...
@@ -322,8 +332,7 @@ void players_list_callback(Widget w, XtPointer client_data,
 void players_close_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data)
 {
-  XtDestroyWidget(players_dialog_shell);
-  players_dialog_shell=0;
+  popdown_players_dialog();
 }
 
 /****************************************************************
