@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-09-16 07:18+0200\n"
+"POT-Creation-Date: 2003-09-22 13:29+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -329,7 +329,7 @@ msgstr "nie-pasuje"
 msgid "'Cause civilization should be free!"
 msgstr "Bo cywilizacja powinna byæ wolna!"
 
-#: common/shared.c:1251
+#: common/shared.c:1251 common/shared.c:1268
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -340,7 +340,7 @@ msgstr ""
 "ustawiæ twoje kodowanie rêcznie poprzez ustawienie\n"
 "zmiennej ¶rodowiskowej $FREECIV_LOCAL_ENCODING. Kontynuujê mimo to..."
 
-#: common/shared.c:1277
+#: common/shared.c:1290
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
@@ -351,7 +351,7 @@ msgstr ""
 "zakodowane jako %s; Mo¿esz to zmieniæ przez ustawienie zmiennej\n"
 "¶rodowiskowej $FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1343
+#: common/shared.c:1361
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -1500,16 +1500,16 @@ msgstr "Gra: wszczynaj±c bunt w m. %s wywo³a³e¶ skandal dyplomatyczny."
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Gra: %s wywo³ali skandal dyplomatyczny wszczynaj±c bunt w m. %s."
 
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Rok: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr "Czas tury przekroczy³ swoj± maksymaln± warto¶æ, zmieniam na maksimum"
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Czas tury jest mniejszy od zera, zmieniam na zero."
 
@@ -1776,13 +1776,13 @@ msgstr "Gra: Nie mo¿esz zmieniaæ podzia³u przed rozpoczêciem gry."
 msgid "Tax"
 msgstr "Podatek"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luksus"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -5682,7 +5682,7 @@ msgstr "?trade_routes:t.h."
 msgid "Number of Trade Routes"
 msgstr "Liczba szlaków handlowych"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6881,7 +6881,7 @@ msgstr "Nie mogê wczytaæ pliku gfx dla pliku specyfikacyjnego %s"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "CMA: Utraci³e¶ kontrolê nad miastem %s. Zwalniam miasto."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -6889,7 +6889,7 @@ msgstr ""
 "CMA: Agent nie potrafi spe³niæ postawionych mu wymagañ w mie¶cie %s. "
 "Przejmujesz kontrolê nad miastem."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6897,7 +6897,7 @@ msgstr ""
 "CMA: Miasto %s zmieni³o siê. Nie uda³o siê ustawiæ obliczonego rezultatu. "
 "Spróbujê jeszcze raz."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6908,20 +6908,20 @@ msgstr ""
 "zwyk³y pech. Skontaktuj siê z <freeciv-dev@freeciv.org>. CMA opu¶ci teraz "
 "miasto."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Tarcza"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -8074,6 +8074,12 @@ msgstr "W_artuj bezczynne jednostki"
 msgid "What Nation Will You Be?"
 msgstr "Wybór narodu"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "Roz³±cz"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Wybierz naród"
@@ -8898,11 +8904,6 @@ msgstr "Zapisz dziennik"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Wyczy¶æ dziennik"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "Roz³±cz"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9757,6 +9758,10 @@ msgstr "_Wykonywane zadania"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "Dodaj _globalny schemat"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+msgid "Chan_ge Production"
+msgstr "_Zmieñ produkcjê"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
