@@ -34,7 +34,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
-#define DRAW_TIMING
+/* #define DRAW_TIMING */
 
 #include "gui_mem.h"
 
@@ -90,10 +90,8 @@ static Uint32 Amask;
 static SDL_Surface *pFogSurface;
 static SDL_Surface *pTmpSurface;
 
-#if 0
 static SDL_Surface *pBlinkSurfaceA;
 static SDL_Surface *pBlinkSurfaceB;
-#endif
 
 SDL_Surface *pDitherMask;
 
@@ -112,11 +110,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 			  
 static int real_get_mcell_xy(SDL_Surface * pDest, int x0, int y0,
 			     Uint16 col, Uint16 row, int *pX, int *pY);
-
-
-static void redraw_map_widgets(void);
-
-
 
 /* ================================================================ */
 
@@ -180,7 +173,7 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 			  enum draw_type draw)
 {
   if (draw == D_MB_LR || draw == D_FULL) {
-    draw_map_cell(Main.screen, canvas_x, canvas_y,
+    draw_map_cell(Main.map, canvas_x, canvas_y,
 		  (Uint16)map_x, (Uint16)map_y, 0);
   } else {
     SDL_Rect dest;
@@ -189,37 +182,121 @@ void gui_map_put_tile_iso(int map_x, int map_y,
     dest.y = canvas_y + offset_y;
     dest.w = width;
     dest.h = height;
-    SDL_SetClipRect(Main.screen, &dest);
+    SDL_SetClipRect(Main.map, &dest);
   
-    draw_map_cell(Main.screen, canvas_x, canvas_y,
+    draw_map_cell(Main.map, canvas_x, canvas_y,
 		  (Uint16)map_x, (Uint16)map_y, 0);
   
     /* clear ClipRect */
-    SDL_SetClipRect(Main.screen, NULL);
+    SDL_SetClipRect(Main.map, NULL);
   }
 }
 
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+void gui_put_sprite(canvas_t *pCanvas, int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  SDL_Surface *surf = pcanvas ? pcanvas : Main.screen;
+  SDL_Surface *pSurf = pCanvas ? pCanvas : Main.map;
 
   /* FIXME: handle partial-sprite draws. */
-  assert(pcanvas == NULL);
-  blit_entire_src((SDL_Surface *)sprite, surf, canvas_x, canvas_y);
+  assert(pCanvas == NULL);
+  blit_entire_src(GET_SURF(sprite), pSurf, canvas_x, canvas_y);
 }
 
+/**************************************************************************
+  Flush the given part of the buffer(s) to the screen.
+**************************************************************************/
 void flush_mapcanvas( int canvas_x , int canvas_y ,
 		     int pixel_width , int pixel_height )
 {
-   refresh_screen( canvas_x, canvas_y,
-      (Uint16)pixel_width, (Uint16)pixel_height );	
+  SDL_Rect src, dst = {canvas_x, canvas_y, pixel_width, pixel_height};
+  
+  src = dst;
+  
+  SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
+  
+  dst = src;
+  SDL_BlitSurface(Main.text, &src, Main.screen, &dst);
+  
+  dst = src;
+  SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
+  
+  /* flush main buffer to framebuffer */
+  refresh_screen( canvas_x, canvas_y,
+      (Uint16)pixel_width, (Uint16)pixel_height );
 }
 
+void flush_rect( SDL_Rect rect )
+{
+  SDL_Rect dst = rect;
+    
+  SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
+  
+  dst = rect;
+  SDL_BlitSurface(Main.text, &rect, Main.screen, &dst);
+  
+  dst = rect;
+  SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
+  
+  /* flush main buffer to framebuffer */
+  refresh_rect( rect );
+
+}
+
+/**************************************************************************
+  Save Flush area used by "end" flush.
+**************************************************************************/
+void dirty_rect( int canvas_x , int canvas_y ,
+		     int pixel_width , int pixel_height )
+{
+  add_refresh_region( canvas_x , canvas_y , pixel_width , pixel_height );
+}
+
+/**************************************************************************
+  Sellect entire screen area to "end" flush and block "save" new areas.
+**************************************************************************/
+void dirty_all(void)
+{
+  Main.rects_count = RECT_LIMIT;
+}
+
+/**************************************************************************
+  Make "end" Flush "saved" parts/areas of the buffer(s) to the screen.
+  Function is called in handle_procesing_finished and handle_thaw_hint
+**************************************************************************/
+void flush_dirty(void)
+{
+  static int i;
+      
+  if( !Main.rects_count ) return;
+    
+  if(Main.rects_count >= RECT_LIMIT) {
+    struct timer *ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
+    SDL_BlitSurface(Main.map, NULL, Main.screen, NULL);
+    SDL_BlitSurface(Main.text, NULL, Main.screen, NULL);
+    SDL_BlitSurface(Main.gui, NULL, Main.screen, NULL);
+    refresh_fullscreen();
+    freelog(LOG_NORMAL, "flush_dirty_all = %fms\n",
+	  1000.0 * read_timer_seconds_free(ttt));
+  } else {
+    static SDL_Rect dst;
+    
+    for(i = 0; i<Main.rects_count; i++) {
+      dst = Main.rects[i];
+      SDL_BlitSurface(Main.map, &Main.rects[i], Main.screen, &dst);
+      dst = Main.rects[i];
+      SDL_BlitSurface(Main.text, &Main.rects[i], Main.screen, &dst);
+      dst = Main.rects[i];
+      SDL_BlitSurface(Main.gui, &Main.rects[i], Main.screen, &dst);
+    }
+    
+    refresh_rects();
+
+  }
+}
 
 /* ======================================================== */
 
@@ -251,7 +328,6 @@ int correction_map_pos(int *pCol, int *pRow)
 
   return iRet;
 }
-
 
 /**************************************************************************
   Finds the pixel coordinates of a tile. Save setting of the results in
@@ -293,26 +369,22 @@ void center_tile_mapcanvas(int col, int row)
     int hh = ( Main.screen->h - 1 ) / NORMAL_TILE_HEIGHT + 1;
   
 #ifdef DRAW_TIMING
-  struct timer *ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
+  /*struct timer *ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);*/
 #endif	  
 	
-    base_center_tile_mapcanvas( col , row, &map_view_x0 , &map_view_y0 ,
-					ww , hh );
+    base_center_tile_mapcanvas(col, row, &map_view_x0, &map_view_y0, ww, hh);
   
     update_map_canvas_visible();
+    refresh_overview_viewrect();
   
-    redraw_map_widgets();
-  
-    refresh_fullscreen();
-    
 #ifdef DRAW_TIMING
-  freelog(LOG_NORMAL, "redraw all = %fms\n======================",
-	  1000.0 * read_timer_seconds_free(ttt));
+  /*freelog(LOG_NORMAL, "redraw all = %fms\n======================",
+	  1000.0 * read_timer_seconds_free(ttt));*/
 #endif
   
     
   /*update_map_canvas_scrollbars(); */
-  /*refresh_overview_viewrect(); */
+  
 
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
     create_line_at_mouse_pos();
@@ -336,19 +408,19 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pBuf->theme = GET_SURF(sprites.warming[sol]);
-  redraw_label(pBuf);
+  redraw_label(pBuf, Main.gui);
   add_refresh_rect(pBuf->size);
-
+  
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   pBuf->theme = GET_SURF(sprites.cooling[flake]);
-  redraw_label(pBuf);
+  redraw_label(pBuf, Main.gui);
   add_refresh_rect(pBuf->size);
-
-  putframe(Main.screen, pBuf->size.x - pBuf->size.w - 1,
+  
+  putframe(Main.gui, pBuf->size.x - pBuf->size.w - 1,
 	   pBuf->size.y - 1,
 	   pBuf->size.x + pBuf->size.w,
 	   pBuf->size.y + pBuf->size.h,
-	   SDL_MapRGB(Main.screen->format, 255, 255, 255));
+	   SDL_MapRGB(Main.gui->format, 255, 255, 255));
 
   if (SDL_Client_Flags & CF_REVOLUTION) {
     struct Sprite *sprite = NULL;
@@ -418,36 +490,40 @@ void update_info_label(void)
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);
-
+  
+  pText->render = 3;
+  pText->backcol = col;
+  
   /* convert to unistr and create text surface */
   pText->text = convert_to_utf16(buffer);
   pTmp = create_text_surf_from_str16(pText);
 
-  area.x = (Main.screen->w - pTmp->w) / 2 - 5;
+  area.x = (Main.gui->w - pTmp->w) / 2 - 5;
   area.w = pTmp->w + 8;
   area.h = pTmp->h + 4;
+
+  color = SDL_MapRGBA(Main.gui->format, col.r, col.g, col.b, col.unused);
+  SDL_FillRect( Main.gui , &area , color );
   
-#if 1  
-    
-  SDL_FillRectAlpha( Main.screen , &area , &col );
+  color = SDL_MapRGB(Main.gui->format, col.r, col.g, col.b);
   
   /* Horizontal lines */
-  putline( Main.screen , area.x + 1, area.y,
+  putline( Main.gui , area.x + 1, area.y,
 		  area.x + area.w - 2, area.y , color );
-  putline( Main.screen , area.x + 1, area.y + area.h - 1,
+  putline( Main.gui , area.x + 1, area.y + area.h - 1,
 		  area.x + area.w - 2, area.y + area.h - 1, color );
 
   /* vertical lines */
-  putline( Main.screen , area.x + area.w - 1, area.y + 1 ,
+  putline( Main.gui , area.x + area.w - 1, area.y + 1 ,
   	area.x + area.w - 1, area.y + area.h - 2 , color );
-  putline( Main.screen , area.x, area.y + 1, area.x,
+  putline( Main.gui , area.x, area.y + 1, area.x,
 	  area.y + area.h - 2, color );
-			  
-#endif
-  
+
+  /* turn off alpha calculate */
+  SDL_SetAlpha(pTmp, 0x0, 0x0);
+
   /* blit text to screen */  
-  blit_entire_src(pTmp, Main.screen , area.x + 5, area.y + 2);
-  
+  blit_entire_src(pTmp, Main.gui , area.x + 5, area.y + 2);
   
   add_refresh_rect(area);
   
@@ -462,6 +538,7 @@ void update_info_label(void)
 
   FREESTRING16(pText);
   
+  flush_dirty();
 }
 
 /**************************************************************************
@@ -470,28 +547,17 @@ void update_info_label(void)
 void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
 {
   SDL_Rect area = { pInfo_Window->size.x, pInfo_Window->size.y, 0, 0 };
-  SDL_Surface *pBuf_Surf = ResizeSurface(pTheme->Block, 30,
-					 pInfo_Window->size.h -
-					 DOUBLE_FRAME_WH, 1);
-
-  Uint16 sy, len = pBuf_Surf->w;
+  SDL_Surface *pBuf_Surf = NULL;
+  Uint16 sy, len;
+  
+  len = 30;
 
   if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {
     /* Unit Window is Show */
 
     /* blit theme surface */
-    SDL_BlitSurface(pInfo_Window->theme, NULL, Main.screen, &area);
-
-    draw_frame(Main.screen, pInfo_Window->size.x, pInfo_Window->size.y,
-	       pInfo_Window->size.w, pInfo_Window->size.h);
-
-    /* blit block surface */
-    area.x += FRAME_WH;
-    area.y += FRAME_WH;
-    SDL_BlitSurface(pBuf_Surf, NULL, Main.screen, &area);
-
-    FREESURFACE(pBuf_Surf);
-
+    SDL_BlitSurface(pInfo_Window->theme, NULL, Main.gui , &area);
+    
     if (pUnit) {
       char buffer[512];
       struct city *pCity = player_find_city_by_id(game.player_ptr,
@@ -515,8 +581,10 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
 	  + (pInfo_Window->size.w - pBuf_Surf->w + len) / 2;
       area.y = pInfo_Window->size.y + DOUBLE_FRAME_WH;
 
-      SDL_BlitSurface(pBuf_Surf, NULL, Main.screen, &area);
-
+    
+      SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
+      SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+      
       sy = pInfo_Window->size.y + DOUBLE_FRAME_WH + pBuf_Surf->h;
       FREESURFACE(pBuf_Surf);
 
@@ -533,8 +601,10 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
       area.y = pInfo_Window->size.y - DOUBLE_FRAME_WH
 	  + (pInfo_Window->size.h - pBuf_Surf->h) / 2;
 
-      SDL_BlitSurface(pBuf_Surf, NULL, Main.screen, &area);
-
+      
+      
+      SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+      
       /* get and draw other info (MP, terran, city, etc.) */
       change_ptsize16(pInfo_Window->string16, 10);
 
@@ -557,62 +627,62 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
       area.y = pInfo_Window->size.y
 	  + (pInfo_Window->size.h - pBuf_Surf->h) / 2;
 
-      SDL_BlitSurface(pBuf_Surf, NULL, Main.screen, &area);
+      SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
+      
+      
+      /* blit unit info text */
+      SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+    } /* pUnit */
+ 
+
+    /* ID_ECONOMY */
+    pInfo_Window = pInfo_Window->prev;
+
+    if (!pInfo_Window->gfx && pInfo_Window->theme) {
+      pInfo_Window->gfx = crop_rect_from_surface(Main.gui, &pInfo_Window->size);
     }
 
+    real_redraw_icon2(pInfo_Window, Main.gui);
+
+    /* ===== */
+    /* ID_RESEARCH */
+    pInfo_Window = pInfo_Window->prev;
+
+    if (!pInfo_Window->gfx && pInfo_Window->theme)
+    {
+      pInfo_Window->gfx = crop_rect_from_surface(Main.gui, &pInfo_Window->size);
+    }
+
+    real_redraw_icon(pInfo_Window, Main.gui);
+    /* ===== */
+    /* ID_REVOLUTION */
+    pInfo_Window = pInfo_Window->prev;
+
+    if (!pInfo_Window->gfx && pInfo_Window->theme) {
+      pInfo_Window->gfx = crop_rect_from_surface(Main.gui, &pInfo_Window->size);
+    }
+
+    real_redraw_icon(pInfo_Window, Main.gui);
+
+    /* ===== */
+    /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
+    pInfo_Window = pInfo_Window->prev;
+
+    if (!pInfo_Window->gfx && pInfo_Window->theme) {
+      pInfo_Window->gfx = crop_rect_from_surface(Main.gui, &pInfo_Window->size);
+    }
+
+    real_redraw_icon(pInfo_Window, Main.gui);
+    
   } else {
+#if 0    
     /* draw hidden */
     area.x = Main.screen->w - pBuf_Surf->w - FRAME_WH;
     area.y = Main.screen->h - pBuf_Surf->h - FRAME_WH;
-
-    SDL_BlitSurface(pBuf_Surf, NULL, Main.screen, &area);
-
-    draw_frame(Main.screen,
-	       Main.screen->w - pBuf_Surf->w - DOUBLE_FRAME_WH,
-	       Main.screen->h - pBuf_Surf->h - DOUBLE_FRAME_WH,
-	       pBuf_Surf->w + DOUBLE_FRAME_WH,
-	       pBuf_Surf->h + DOUBLE_FRAME_WH);
-
-
-    FREESURFACE(pBuf_Surf);
+    
+    SDL_BlitSurface(pInfo_Window->theme, NULL, Main.gui , &area);
+#endif    
   }
-
-  /* ID_ECONOMY */
-  pInfo_Window = pInfo_Window->prev;
-
-  if (!pInfo_Window->gfx && pInfo_Window->theme) {
-    pInfo_Window->gfx = crop_rect_from_screen(pInfo_Window->size);
-  }
-
-  redraw_icon2(pInfo_Window);
-
-  /* ===== */
-  /* ID_RESEARCH */
-  pInfo_Window = pInfo_Window->prev;
-
-  if (!pInfo_Window->gfx && pInfo_Window->theme)
-    pInfo_Window->gfx = crop_rect_from_screen(pInfo_Window->size);
-
-  redraw_icon(pInfo_Window);
-  /* ===== */
-  /* ID_REVOLUTION */
-  pInfo_Window = pInfo_Window->prev;
-
-  if (!pInfo_Window->gfx && pInfo_Window->theme) {
-    pInfo_Window->gfx = crop_rect_from_screen(pInfo_Window->size);
-  }
-
-  redraw_icon(pInfo_Window);
-
-  /* ===== */
-  /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
-  pInfo_Window = pInfo_Window->prev;
-
-  if (!pInfo_Window->gfx && pInfo_Window->theme) {
-    pInfo_Window->gfx = crop_rect_from_screen(pInfo_Window->size);
-  }
-
-  redraw_icon(pInfo_Window);
 }
 
 /**************************************************************************
@@ -638,17 +708,18 @@ void update_unit_info_label(struct unit *pUnit)
   }
 
   pBuf = get_widget_pointer_form_main_list(ID_UNITS_WINDOW);
+  
+  /*if ( pUnit )
+  {*/
+      
+    /* draw unit info window */
+    redraw_unit_info_label(pUnit, pBuf);
 
-  /* draw units if window background */
-  if (pBuf->gfx) {
-    blit_entire_src(pBuf->gfx, Main.screen, pBuf->size.x, pBuf->size.y);
-  }
-
-  /* draw unit info window */
-  redraw_unit_info_label(pUnit, pBuf);
-
-  add_refresh_rect(pBuf->size);
-
+    add_refresh_rect(pBuf->size);
+  /*} else {
+    toggle_unit_info_window_callback(pBuf);
+  }*/
+  
   if (pUnit) {
     if (hover_unit != pUnit->id)
       set_hover_state(NULL, HOVER_NONE);
@@ -680,7 +751,7 @@ void update_unit_info_label(struct unit *pUnit)
     }
 
   } else {
-    refresh_rects();
+    /*refresh_rects();*/
   }
 
   update_unit_pix_label(pUnit);
@@ -701,7 +772,47 @@ void update_turn_done_button(bool do_restore)
 **************************************************************************/
 void update_city_descriptions(void)
 {
-  freelog(LOG_NORMAL, "MAPVIEW: update_city_descriptions : PORT ME");
+  
+#ifdef DRAW_TIMING
+  Uint32 t1 , t2;
+  struct timer *ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
+#endif
+  
+#ifdef DRAW_TIMING
+  t1 = SDL_GetTicks();
+#endif  
+  
+  /* clear buffer */  
+  SDL_FillRect( Main.text , NULL , 0x0 );
+
+#ifdef DRAW_TIMING
+  t2 = SDL_GetTicks();
+  printf(" Clear Text Buffer = %d\n" , t2 - t1 );
+#endif  
+  
+  /* redraw buffer */
+  show_city_descriptions();
+  
+#ifdef DRAW_TIMING
+  t1 = SDL_GetTicks();
+  printf(" Redraw Text Buffer = %d\n" , t1 - t2 );
+#endif  
+  
+  flush_mapcanvas( 0 , 0 , Main.screen->w , Main.screen->h );
+  
+#ifdef DRAW_TIMING
+  freelog(LOG_NORMAL, "update_city_descriptions = %fms\n",
+	  1000.0 * read_timer_seconds_free(ttt));
+#endif
+
+}
+
+/**************************************************************************
+  Clear city description Drawed on screen/buffer.
+**************************************************************************/
+void clear_city_descriptions(void)
+{
+  SDL_FillRect( Main.text , NULL , 0x0 );
 }
 
 /**************************************************************************
@@ -715,10 +826,13 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   SDL_Surface *pCity_Size = NULL, *pCity_Name = NULL, *pCity_Prod = NULL;
   int togrow;
   SDL_String16 *pText = NULL;
-  SDL_Rect dst, clear_area = { 0 , 0 , 0 , 0 };	
-  SDL_Color color = *( get_game_colorRGB(
-			  player_color(get_player(pCity->owner))));	
+  SDL_Rect dst, clear_area = {0, 0, 0, 0};	
+  SDL_Color color_size = *(get_game_colorRGB(
+			  player_color(get_player(pCity->owner))));
+  SDL_Color color_bg = {0, 0, 0, 80};
   Uint32 frame_color;
+  
+  color_size.unused = 128;
   
   pText = create_string16(NULL, 10);
   pText->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -726,6 +840,13 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   pText->forecol.g = 255;
   pText->forecol.b = 255;
 
+  if (SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE)
+  {
+    pText->render = 3;
+    pText->backcol = color_bg;
+  }
+  
+  
   canvas_y += NORMAL_TILE_HEIGHT;
 
   if (draw_city_names) {
@@ -808,27 +929,28 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   }
   
   
-  if ( SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE )
+  if (SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE)
   {
   
     /* city size */
-    if ( pCity_Name || pCity_Prod ) {
-      my_snprintf(buffer , sizeof(buffer) , "%d" , pCity->size);
-      pText->text = convert_to_utf16( buffer );
+    if (pCity_Name || pCity_Prod) {
+      my_snprintf(buffer , sizeof(buffer), "%d", pCity->size);
+      pText->text = convert_to_utf16(buffer);
       pText->style |= TTF_STYLE_BOLD;
       change_ptsize16(pText, 10);
+      pText->backcol = color_size;
       pCity_Size = create_text_surf_from_str16(pText);
 	    
       clear_area.y = canvas_y;    
     }
                 
-    if ( pCity_Name )
+    if (pCity_Name)
     {
       clear_area.w = pCity_Name->w + 6;
       clear_area.h = pCity_Name->h;
     }
   
-    if ( pCity_Prod )
+    if (pCity_Prod)
     {
       clear_area.h += pCity_Prod->h;
       clear_area.w = MAX(clear_area.w , pCity_Prod->w + 6);
@@ -836,59 +958,37 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
     clear_area.h += 2;
     
-    if ( pCity_Size )
+    if (pCity_Size)
     {
       /* this isn't a error */	    
       clear_area.w += pCity_Size->h + 1;
       clear_area.h = MAX(clear_area.h , pCity_Size->h + 2);
     }
     
-    if ( clear_area.w )
+    if (clear_area.w)
     {
       clear_area.x = canvas_x + (NORMAL_TILE_WIDTH - clear_area.w) / 2;
     }
   
     if (pCity_Size)
     {
-  
-#if 0
-      
-      
-      frame_color = SDL_MapRGBA(pDest->format, color.r ,color.g,
-						      color.b , color.unused);
+        
+      frame_color = SDL_MapRGB(pDest->format, color_size.r ,color_size.g,
+						      color_size.b);
   
       /* solid citi size background */
       dst = clear_area;	    
-      SDL_FillRect(pDest, &dst , SDL_MapRGBA(pDest->format, 0, 0, 0, 80));
-      
+      SDL_FillRect(pDest, &dst ,
+      		SDL_MapRGBA(pDest->format, color_bg.r, color_bg.g,
+					color_bg.b, color_bg.unused));
       /* solid text background */
       dst.w = pCity_Size->h + 1;	    
       SDL_FillRect( pDest, &dst ,
-	      SDL_MapRGBA(pDest->format, color.r ,color.g, color.b , 128));
-#else
-     
-      frame_color = SDL_MapRGB(pDest->format, color.r ,color.g, color.b);
-  
-      color.unused = 128;
-      
-      dst = clear_area;
-      dst.w = pCity_Size->h + 1;
-      /* city size background */
-      SDL_FillRectAlpha( pDest , &dst , &color );
-    
-    
-      dst.x = clear_area.x + pCity_Size->h + 2; 
-      dst.w = clear_area.w - pCity_Size->h - 2;
-
-      color.r = 0;
-      color.g = 0;
-      color.b = 0;
-      color.unused = 80;
-      
-      /* text background */
-      SDL_FillRectAlpha(pDest, &dst , &color);
-#endif
+	      SDL_MapRGBA(pDest->format, color_size.r, color_size.g,
+					color_size.b, color_size.unused));
+					
       /* blit city size number */
+      SDL_SetAlpha(pCity_Size, 0x0, 0x0);
       /* this isn't error */
       dst.x = clear_area.x + ( pCity_Size->h - pCity_Size->w) / 2;
       dst.y = canvas_y + ( clear_area.h - pCity_Size->h ) / 2;
@@ -897,28 +997,28 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       /* Draw Frame */
       
       /* Horizontal lines */
-      putline( pDest , clear_area.x , clear_area.y - 1 ,
-			  clear_area.x + clear_area.w ,
-                          clear_area.y - 1 , frame_color );
-      putline( pDest , clear_area.x  , clear_area.y + clear_area.h,
-			  clear_area.x + clear_area.w ,
-                          clear_area.y + clear_area.h , frame_color );
+      putline(pDest, clear_area.x , clear_area.y - 1,
+			  clear_area.x + clear_area.w,
+                          clear_area.y - 1, frame_color);
+      putline(pDest, clear_area.x  , clear_area.y + clear_area.h,
+			  clear_area.x + clear_area.w,
+                          clear_area.y + clear_area.h, frame_color);
 
       /* vertical lines */
-      putline( pDest , clear_area.x + clear_area.w, clear_area.y ,
-			  clear_area.x + clear_area.w ,
-                          clear_area.y + clear_area.h  , frame_color );
-      putline( pDest , clear_area.x - 1, clear_area.y  ,
-			  clear_area.x - 1,
-                          clear_area.y + clear_area.h  , frame_color );
+      putline(pDest, clear_area.x + clear_area.w, clear_area.y,
+			  clear_area.x + clear_area.w,
+                          clear_area.y + clear_area.h, frame_color);
+      putline(pDest, clear_area.x - 1, clear_area.y, clear_area.x - 1,
+                          clear_area.y + clear_area.h, frame_color);
 			  
-      putline( pDest , clear_area.x + 1 + pCity_Size->h, clear_area.y  ,
+      putline(pDest, clear_area.x + 1 + pCity_Size->h, clear_area.y,
 			  clear_area.x + 1 + pCity_Size->h,
-                          clear_area.y + clear_area.h  , frame_color );
+                          clear_area.y + clear_area.h, frame_color);
     }
     
-    if ( pCity_Name )
+    if (pCity_Name)
     {
+      SDL_SetAlpha(pCity_Name, 0x0, 0x0);
       dst.x = clear_area.x + pCity_Size->h + 2 +
 		(clear_area.w - (pCity_Size->h + 2) - pCity_Name->w) / 2;
       dst.y = canvas_y;
@@ -926,8 +1026,9 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       canvas_y += pCity_Name->h;
     }
   
-    if ( pCity_Prod )
+    if (pCity_Prod)
     {
+      SDL_SetAlpha(pCity_Prod, 0x0, 0x0);
       dst.x = clear_area.x + pCity_Size->h + 2 +
 		(clear_area.w - (pCity_Size->h + 2) - pCity_Prod->w) / 2;
       dst.y = canvas_y;
@@ -938,6 +1039,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   {
     if ( pCity_Name )
     {
+      SDL_SetAlpha(pCity_Name, 0x0, 0x0);
       dst.x = canvas_x + ( NORMAL_TILE_WIDTH - pCity_Name->w) / 2;
       dst.y = canvas_y;
       SDL_BlitSurface(pCity_Name, NULL, pDest, &dst);
@@ -946,6 +1048,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
     if ( pCity_Prod )
     {
+      SDL_SetAlpha(pCity_Prod, 0x0, 0x0);
       dst.x = canvas_x + ( NORMAL_TILE_WIDTH - pCity_Prod->w) / 2;
       dst.y = canvas_y;
       SDL_BlitSurface(pCity_Prod, NULL, pDest, &dst);
@@ -965,10 +1068,9 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 **************************************************************************/
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
-  put_city_desc_on_surface(Main.screen, pcity,
+  put_city_desc_on_surface(Main.text, pcity,
                      canvas_x, canvas_y - NORMAL_TILE_HEIGHT / 6 );
 }
-
 
 /* ===================================================================== */
 /* =============================== Mini Map ============================ */
@@ -981,8 +1083,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 void set_overview_dimensions(int w, int h)
 {
 
-  struct GUI *pMMap =
-      get_widget_pointer_form_main_list(ID_MINI_MAP_WINDOW);
+  struct GUI *pMMap = NULL;
 
   freelog(LOG_DEBUG,
     "MAPVIEW: 'set_overview_dimensions' call with x = %d  y = %d", w, h);
@@ -1045,9 +1146,8 @@ void overview_update_tile(int x, int y)
 void refresh_overview_canvas(void)
 {
 
-  SDL_Rect map_area = { FRAME_WH, FRAME_WH, 160 , 100 }; 
-  SDL_Rect cell_size = { FRAME_WH, FRAME_WH,
-				    Mini_map_cell_w, Mini_map_cell_h };
+  SDL_Rect map_area = {FRAME_WH, FRAME_WH, 160, 100}; 
+  SDL_Rect cell_size = {FRAME_WH, FRAME_WH, Mini_map_cell_w, Mini_map_cell_h };
 
   SDL_Color std_color;
   Uint16 col = 0, row = 0;
@@ -1055,14 +1155,12 @@ void refresh_overview_canvas(void)
   struct GUI *pMMap =
       get_widget_pointer_form_main_list(ID_MINI_MAP_WINDOW);
 
-
-
-  /* pMMap->theme == overview_canvas_store */
-  SDL_FillRect(pMMap->theme, &map_area , 0x0);
-
+  /* clear map area */
+  SDL_FillRect(pMMap->theme, &map_area, 
+  	SDL_MapRGB(pMMap->theme->format, 0x0, 0x0, 0x0));
+  
   while (TRUE) { /* mini map draw loop */
-    
-    std_color = *(get_game_colorRGB(overview_tile_color( col, row))); 
+    std_color = *(get_game_colorRGB(overview_tile_color(col, row))); 
     SDL_FillRect(pMMap->theme, &cell_size,
 	    SDL_MapRGBA(pMMap->theme->format, std_color.r,std_color.g,
     					std_color.b,std_color.unused));
@@ -1153,20 +1251,23 @@ void refresh_overview_viewrect(void)
 {
 
   int Nx, Ny, Ex, Ey, Wx, Wy, Sx, Sy, map_w, map_h;
-
   Uint32 color;
+  struct GUI *pMMap, *pBuf;
+  SDL_Rect map_area;
 
-  struct GUI *pMMap =
-      get_widget_pointer_form_main_list(ID_MINI_MAP_WINDOW);
-  struct GUI *pBuf = pMMap->prev;
-
-
-  SDL_Rect src,map_area =
-      { 0 , Main.screen->h - pMMap->theme->h, 160 , 100 };
-    
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE ) return;
+  
+  pMMap = get_widget_pointer_form_main_list(ID_MINI_MAP_WINDOW);
+  pBuf = pMMap->prev;
+  
+  map_area.x = 0;
+  map_area.y = Main.gui->h - pMMap->theme->h;
+  map_area.w = 160;
+  map_area.h = 100;
+  
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
 
-    SDL_BlitSurface(pMMap->theme, NULL, Main.screen, &map_area);
+    SDL_BlitSurface(pMMap->theme, NULL, Main.gui, &map_area);
     
     map_area.x += FRAME_WH;
     map_area.y += FRAME_WH;
@@ -1174,13 +1275,13 @@ void refresh_overview_viewrect(void)
     map_area.h = 100;
     /* The x's and y's are in overview coordinates. */
 
-    map_w = (Main.screen->w + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
-    map_h = (Main.screen->h + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
-
+    map_w = (Main.gui->w + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
+    map_h = (Main.gui->h + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
+    
 #if 0
     get_map_xy(0, 0, &Wx, &Wy);	/* take from Main Map */
 #endif
-	  
+    
     Wx = map_view_x0 * Mini_map_cell_w + FRAME_WH;
     Wy = map_view_y0 * Mini_map_cell_h + FRAME_WH;
 
@@ -1193,47 +1294,47 @@ void refresh_overview_viewrect(void)
 
     color = SDL_MapRGBA(pMMap->theme->format, 255, 255, 255, 255);
 
-    putline_on_mini_map(&map_area, Nx, Ny, Ex, Ey, color, Main.screen);
+    putline_on_mini_map(&map_area, Nx, Ny, Ex, Ey, color, Main.gui);
 
-    putline_on_mini_map(&map_area, Sx, Sy, Ex, Ey, color, Main.screen);
+    putline_on_mini_map(&map_area, Sx, Sy, Ex, Ey, color, Main.gui);
 
-    putline_on_mini_map(&map_area, Wx, Wy, Sx, Sy, color, Main.screen);
+    putline_on_mini_map(&map_area, Wx, Wy, Sx, Sy, color, Main.gui);
 
-    putline_on_mini_map(&map_area, Wx, Wy, Nx, Ny, color, Main.screen);
+    putline_on_mini_map(&map_area, Wx, Wy, Nx, Ny, color, Main.gui);
 
     freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
 	    Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
-	    
-    /* ==================== */
+    /* ===== */
+
 
     /* redraw widgets */
 
     /* ID_NEW_TURN */
     if (!pBuf->gfx) {
-      pBuf->gfx = crop_rect_from_surface(Main.screen , &pBuf->size);
+      pBuf->gfx = crop_rect_from_surface(Main.gui , &pBuf->size);
     }
 
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
     /* ===== */
     /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
     pBuf = pBuf->prev;
 
     if (!pBuf->gfx) {
-      pBuf->gfx = crop_rect_from_surface(Main.screen, &pBuf->size);
+      pBuf->gfx = crop_rect_from_surface(Main.gui, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
     /* ===== */
     /* ID_FIND_CITY */
     pBuf = pBuf->prev;
 
     if (!pBuf->gfx) {
-      pBuf->gfx = crop_rect_from_surface(Main.screen, &pBuf->size);
+      pBuf->gfx = crop_rect_from_surface(Main.gui, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
 
     /* ===== */
@@ -1241,53 +1342,58 @@ void refresh_overview_viewrect(void)
     pBuf = pBuf->prev;
 
     if (!pBuf->gfx && pBuf->theme) {
-      pBuf->gfx = crop_rect_from_surface(Main.screen, &pBuf->size);
+      pBuf->gfx = crop_rect_from_surface(Main.gui, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
 
-    add_refresh_rect(pMMap->size);
+    /*add_refresh_rect(pMMap->size);*/
 
   } else {/* map hiden */
-    SDL_Surface *pBuf_Surf;
 
-    src.x = pMMap->theme->w - pMMap->size.w;    
+#if 0
     src.y = 0;
-    src.w = pMMap->size.w;
     src.h = pMMap->theme->h;
-
-    map_area.x = 0;
-    map_area.y = Main.screen->h - pMMap->size.h;
-    SDL_BlitSurface(pMMap->theme, &src, Main.screen, &map_area);
+    src.x = pMMap->theme->w - pMMap->size.w;
+    src.w = pMMap->size.w;
+    map_area.w = pMMap->theme->w;
+    map_area.h = pMMap->theme->h;
     
-    /* blit frame */
-    pBuf_Surf = 
+    /* clear area under old map window */
+    SDL_FillRect(Main.gui, &map_area , 0x0 );
+    
+    /*map_area.x = 0;
+    map_area.y = Main.gui->h - pMMap->size.h;*/
+    SDL_BlitSurface(pMMap->theme, &src, Main.gui, &map_area);
+    
+    
+    SDL_Surface *pBuf_Surf = 
     	ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w,
 				pMMap->size.h - DOUBLE_FRAME_WH + 2, 1);
 
     map_area.y += 2;
-    SDL_BlitSurface(pBuf_Surf, NULL , Main.screen, &map_area);
+    SDL_BlitSurface(pBuf_Surf, NULL , Main.gui, &map_area);
     FREESURFACE(pBuf_Surf);
-    
+
     /* ID_NEW_TURN */
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
     /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
     pBuf = pBuf->prev;
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
     /* ID_FIND_CITY */
     pBuf = pBuf->prev;
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
     /* ID_TOGGLE_MAP_WINDOW_BUTTON */
     pBuf = pBuf->prev;
-    real_redraw_icon(pBuf, Main.screen);
+    real_redraw_icon(pBuf, Main.gui);
 
 
     /*add_refresh_rect(pMMap->size);*/
-    
+#endif
   }
   
 }
@@ -1429,14 +1535,14 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
   if (count == -1) { /* tile is unknown */
     SDL_BlitSurface(GET_SURF(sprites.black_tile),
-		    NULL, Main.screen, &des);
+		    NULL, pDest, &des);
   
     return;
   }
   
 #if 0
   /* Replace with check for is_normal_tile later */
-  assert(is_real_map_pos(map_col, map_row));
+  assert(is_real_tile(map_col, map_row));
 #endif
   
   /* normalize_map_pos(&map_col, &map_wier); */
@@ -1687,105 +1793,67 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   
 }
 
+static int frame = 0;
 
 /**************************************************************************
 ...
 **************************************************************************/
-/* not used jet */
-#if 0
 void real_blink_active_unit(void)
 {
-  static bool is_shown, oldCol, oldRow;
+  static int oldCol = 0, oldRow = 0;
   static struct unit *pPrevUnit = NULL;
-  struct unit *pUnit;
-  SDL_Rect area = { 0, 0, NORMAL_TILE_WIDTH, 1.5 * NORMAL_TILE_HEIGHT };
-
+  
+  struct unit *pUnit = NULL;
+  static SDL_Rect area;
+  
   if ((pUnit = get_unit_in_focus())) {
     get_canvas_xy(pUnit->x, pUnit->y, (int *) &area.x, (int *) &area.y);
-    area.y -= NORMAL_TILE_HEIGHT / 2;
+    area.y -= (NORMAL_TILE_HEIGHT >> 1);
     if (pUnit == pPrevUnit && pUnit->x == oldCol && pUnit->y == oldRow) {
-      if (is_shown) {
-	SDL_BlitSurface(pBlinkSurfaceA, NULL, Main.screen, &area);
-	refresh_rect(area);
-      } else {
-	SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.screen, &area);
-	refresh_rect(area);
-      }
-      is_shown = !is_shown;
+      /* blit clear area */    
+      SDL_BlitSurface(pBlinkSurfaceA, NULL, Main.map, &area);
+      /* blit frame of animation */
+      area.y += (NORMAL_TILE_HEIGHT >> 1);
+      SDL_BlitSurface(pTheme->ActiveUnit[frame++], NULL, Main.map, &area);
+      area.y -= (NORMAL_TILE_HEIGHT >> 1);
+      /* blit unit graphic */
+      SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.map, &area);
+     
+      flush_mapcanvas(area.x, area.y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+          
     } else {
-      set_focus_unit_hidden_state(TRUE);
-      refresh_tile_mapcanvas(pUnit->x, pUnit->y, FALSE);
-      SDL_BlitSurface(Main.screen, &area, pBlinkSurfaceA, NULL);
-      /*     
-         refresh_rects();
-         is_shown = 0;
-       */
-      set_focus_unit_hidden_state(FALSE);
-      refresh_tile_mapcanvas(pUnit->x, pUnit->y, FALSE);
-      SDL_BlitSurface(Main.screen, &area, pBlinkSurfaceB, NULL);
-
+      /* refresh clear area */
+      area.w = UNIT_TILE_WIDTH;
+      area.h = UNIT_TILE_HEIGHT;
+      SDL_BlitSurface(Main.map, &area, pBlinkSurfaceA, NULL);
+      
+      /* create unit graphic */
+      if ( pPrevUnit != pUnit ) {
+        SDL_FillRect(pBlinkSurfaceB,NULL, 0x0);
+        put_unit_pixmap_draw(pUnit, pBlinkSurfaceB, 0, 0);
+      }
+      
+      /* draw animation frame */
+      area.y += (NORMAL_TILE_HEIGHT >> 1);
+      SDL_BlitSurface(pTheme->ActiveUnit[frame++], NULL, Main.map, &area);
+      area.y -= (NORMAL_TILE_HEIGHT >> 1);
+      
+      /* draw unit graphic */
+      SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.map, &area);
+      
+      flush_rect(area);
+      
       pPrevUnit = pUnit;
       oldCol = pUnit->x;
       oldRow = pUnit->y;
     }
 
   }
-}
-#endif
-
-/**************************************************************************
-  Redraw ALL screen widgets.
-  All seen widgets are draw above map (then must be redraw after map redrawing).
-**************************************************************************/
-static void redraw_map_widgets(void)
-{
-  struct GUI *pBuf = NULL;
-#ifdef DRAW_TIMING
-  struct timer *tttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
-#endif	  
-
-  /* redraw minimap */
-  refresh_ID_background(ID_MINI_MAP_WINDOW);
-  refresh_overview_viewrect();
-
-  /* redraw units window */
-  pBuf = get_widget_pointer_form_main_list(ID_UNITS_WINDOW);
-
-  refresh_widget_background(pBuf);
-
-  redraw_unit_info_label(get_unit_in_focus(), pBuf);
-
-  /* redraw info label */
-  update_info_label();
-
-
-  if (get_unit_in_focus()) {
-    update_order_widget();
+  
+  if(frame > 3) {
+    frame = 0;
   }
-
-
-  /* redraw Options Icon */
-  pBuf = get_widget_pointer_form_main_list(ID_CLIENT_OPTIONS);
-  refresh_widget_background(pBuf);
-  redraw_icon(pBuf);
-
-  /* redraw Log window */
-  Redraw_Log_Window(2);
-  
-#ifdef DRAW_TIMING
-  freelog(LOG_NORMAL, "redraw_map_widgets = %fms",
-	  1000.0 * read_timer_seconds_free(tttt));
-#endif
-  
-}
-
-/**************************************************************************
-  Update (refresh) the locations of the mapview scrollbars (if it uses
-  them).
-**************************************************************************/
-void update_map_canvas_scrollbars(void)
-{
-  /* No scrollbars. */
+    
 }
 
 /**************************************************************************
@@ -1809,24 +1877,37 @@ void draw_unit_animation_frame(struct unit *punit,
 	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
     pUnit_Surf =
 	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
-    SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY, 0x0);
+    SDL_FillRect(pUnit_Surf, NULL, SDL_MapRGB(pUnit_Surf->format, 255, 0, 255));
+    SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+			    SDL_MapRGB(pUnit_Surf->format, 255, 0, 255));
     put_unit_pixmap_draw(punit, pUnit_Surf, 0, 0);
   }
   else
   {
     /* Clear old sprite. */
-    SDL_BlitSurface(pMap_Copy, NULL, Main.screen, &src);
+    SDL_BlitSurface(pMap_Copy, NULL, Main.map, &src);
     add_refresh_rect(src);
   }
   
   /* Draw the new sprite. */
-  SDL_BlitSurface(Main.screen, &dest, pMap_Copy, NULL);
-  SDL_BlitSurface(pUnit_Surf, NULL, Main.screen, &dest);
+  SDL_BlitSurface(Main.map, &dest, pMap_Copy, NULL);
+  
+  /* draw animation frame */
+  dest.y += (NORMAL_TILE_HEIGHT >> 1);
+  SDL_BlitSurface(pTheme->ActiveUnit[frame++], NULL, Main.map, &dest);
+  dest.y -= (NORMAL_TILE_HEIGHT >> 1);
+  
+  SDL_BlitSurface(pUnit_Surf, NULL, Main.map, &dest);
   add_refresh_rect(dest);
 
   /* Write to screen. */
-  refresh_rects();
-
+  
+  flush_dirty();
+  
+  if(frame > 3) {
+    frame = 0;
+  }
+  
   if (last_frame) {
     FREESURFACE(pMap_Copy);
     FREESURFACE(pUnit_Surf);
@@ -1864,10 +1945,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       }
     }
 
-    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
+    refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
     
-    refresh_rects();
+    flush_dirty();
 
     usleep_since_timer_start(anim_timer, 10000);
 
@@ -1889,19 +1970,20 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       /* blit explosion */
       dest.x = canvas_x + NORMAL_TILE_WIDTH / 4;
 
-      SDL_BlitSurface(GET_SURF(sprites.explode.unit[i]),
-		      NULL, Main.screen, &dest);
-      refresh_rect(dest);
+      SDL_BlitSurface(GET_SURF(sprites.explode.unit[i]), 
+      						NULL, Main.map, &dest);
+      
+      flush_rect(dest);
 
       usleep_since_timer_start(anim_timer, 20000);
 
       /* clear explosion */
       dest.x = canvas_x;
-      SDL_BlitSurface(pTmpSurface, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pTmpSurface, NULL, Main.map, &dest);
     }
   }
 
-  refresh_rect(dest);
+  flush_rect(dest);
 
   /* clear pTmpSurface */
   if ((pTmpSurface->format->BytesPerPixel == 4) &&
@@ -1916,6 +1998,15 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
      refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
      refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
    */
+}
+
+/**************************************************************************
+  Update (refresh) the locations of the mapview scrollbars (if it uses
+  them).
+**************************************************************************/
+void update_map_canvas_scrollbars(void)
+{
+  /* No scrollbars. */
 }
 
 /**************************************************************************
@@ -2037,7 +2128,7 @@ SDL_Surface *create_city_map(struct city *pCity)
 	      SDL_BlitSurface(pTmpSurface, NULL, pTile, NULL);
 
 	      SDL_SetColorKey(pTile, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-			      getpixel(pTile, 0, 0));
+			      get_first_pixel(pTile));
 
 	      SDL_SetAlpha(pTile, SDL_SRCALPHA, 96);
 
@@ -2366,17 +2457,18 @@ void tmp_map_surfaces_init(void)
   SDL_BlitSurface(pOcean_Tile , NULL , pOcean_Foged_Tile, NULL);
   SDL_BlitSurface(pFogSurface , NULL , pOcean_Foged_Tile, NULL);
   SDL_SetColorKey(pOcean_Foged_Tile , SDL_SRCCOLORKEY|SDL_RLEACCEL,
-			  getpixel( pOcean_Foged_Tile , 0 , 0 ) );
+			  get_first_pixel(pOcean_Foged_Tile));
   
-#if 0
   pBlinkSurfaceA =
-      create_surf(NORMAL_TILE_WIDTH, 1.5 * NORMAL_TILE_HEIGHT,
+      create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 		  SDL_SWSURFACE);
+  
   pBlinkSurfaceB =
-      create_surf(NORMAL_TILE_WIDTH, 1.5 * NORMAL_TILE_HEIGHT,
+      create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 		  SDL_SWSURFACE);
-#endif
-
+/*  SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
+   SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY, 0x0);
+   
   get_new_view_rectsize();
 
 

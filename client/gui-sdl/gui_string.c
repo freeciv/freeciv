@@ -169,6 +169,11 @@ int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
   SDL_Rect dst_rect = { x, y, 0, 0 };
   SDL_Surface *pText = create_text_surf_from_str16(pString);
 
+  if(pDest->format->Amask && pString->render == 3)
+  {
+    SDL_SetAlpha(pText, 0x0, 0x0);
+  }
+  
   if (SDL_BlitSurface(pText, NULL, pDest, &dst_rect) < 0) {
     freelog(LOG_ERROR, _("Couldn't blit text to display: %s"),
 	    SDL_GetError());
@@ -232,8 +237,12 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 				      pString->text, pString->forecol);
     SDL_SetAlpha(pText, SDL_SRCALPHA, 255);
     break;
+  
+  case 3:
+    pText = TTF_RenderUNICODE_Blended_Shaded(pString->font,
+			pString->text, pString->forecol, pString->backcol);
+    break;
   }
-
 
   freelog(LOG_DEBUG,
 	  _("SDL_create_str16_surf: Font is generally %d big, and "
@@ -301,10 +310,20 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
       FREESURFACE(pNew);
 
       SDL_FillRect(pText, NULL, color);
-      /*SDL_SetColorKey( pText , COLORKEYFLAG , color ); */
-      SDL_SetAlpha(pText, SDL_SRCALPHA, 255);
     }
     break;
+  case 3:
+    {
+      pNew = pText;
+      pText = SDL_ConvertSurface(pNew, pTmp[0]->format, pTmp[0]->flags);
+      FREESURFACE(pNew);
+
+      SDL_FillRect(pText, NULL,
+      	SDL_MapRGBA(pText->format,
+	      pString->backcol.r,pString->backcol.g,
+      		pString->backcol.b,pString->backcol.unused));
+    }
+    break;  
   default:
     SDL_FillRect(pText, NULL, color);
     break;

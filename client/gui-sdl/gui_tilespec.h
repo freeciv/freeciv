@@ -85,6 +85,13 @@ struct Theme {
 	SDL_Surface *OSentry_Icon;
 	SDL_Surface *OIrigation_Icon;
 	SDL_Surface *ORoad_Icon;
+	SDL_Surface *ORailRoad_Icon;
+	SDL_Surface *OPillage_Icon;
+	SDL_Surface *OParaDrop_Icon;
+	SDL_Surface *ONuke_Icon;
+	
+	SDL_Surface *ActiveUnit[4];
+	
 } *pTheme;
 
 void tilespec_setup_theme(void);
@@ -104,7 +111,9 @@ struct City_Icon {
   /*SDL_Surface *pBIG_Face;*/
   SDL_Surface *pBIG_Coin_Corr;
   SDL_Surface *pBIG_Coin_UpKeep;
-	
+  SDL_Surface *pBIG_Shield_Surplus;
+  SDL_Surface *pBIG_Food_Surplus;
+  
   SDL_Surface *pFood;
   SDL_Surface *pShield;
   SDL_Surface *pTrade;
@@ -134,6 +143,6 @@ struct City_Icon {
 } *pIcons;
 
 void tilespec_setup_city_icons(void);
-void reload_citizens_icons( int style , struct city *pCity );
+void reload_citizens_icons(int style, struct city *pCity);
 
 #endif  /* FC__GUI_TILESPEC_H */

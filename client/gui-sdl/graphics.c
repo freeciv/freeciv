@@ -58,6 +58,9 @@
 #include "gui_zoom.h"
 #include "gui_main.h"
 
+
+/* ------------------------------ */
+
 #include "goto_cursor.xbm"
 #include "goto_cursor_mask.xbm"
 #include "drop_cursor.xbm"
@@ -69,10 +72,12 @@
 
 struct Sdl Main;
 
-/* SDL_Surface	*pIntro_gfx; */
-static char *pIntro_gfx_path;
-static char *pLogo_gfx_path;
-static char *pCity_gfx_path;
+static SDL_Surface *pIntro_gfx = NULL;
+/*static SDL_Surface *pLogo_gfx = NULL;*/
+/*static SDL_Surface *pCity_gfx = NULL;*/
+static char *pIntro_gfx_path = NULL;
+static char *pLogo_gfx_path = NULL;
+static char *pCity_gfx_path = NULL;
 
 SDL_Cursor *pStd_Cursor;
 SDL_Cursor *pGoto_Cursor;
@@ -315,6 +320,42 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
     return 0;			/* shouldn't happen, but avoids warnings */
   }
 }
+
+/**************************************************************************
+  get first pixel
+  Return the pixel value at (0, 0)
+  NOTE: The surface must be locked before calling this!
+**************************************************************************/
+Uint32 get_first_pixel(SDL_Surface *pSurface)
+{
+  if (!pSurface) return 0;
+  switch (pSurface->format->BytesPerPixel) {
+  case 1:
+    return *((Uint8 *)pSurface->pixels);
+
+  case 2:
+    return *((Uint16 *)pSurface->pixels);
+
+  case 3:
+    {
+      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	return (((Uint8 *)pSurface->pixels)[0] << 16)|
+		(((Uint8 *)pSurface->pixels)[1] << 8)|
+			((Uint8 *)pSurface->pixels)[2];
+      } else {
+	return ((Uint8 *)pSurface->pixels)[0]|
+		(((Uint8 *)pSurface->pixels)[1] << 8)|
+			(((Uint8 *)pSurface->pixels)[2] << 16);
+      }
+    }
+  case 4:
+    return *((Uint32 *)pSurface->pixels);
+
+  default:
+    return 0;			/* shouldn't happen, but avoids warnings */
+  }
+}
+
 
 /**************************************************************************
   Idea of "putline" code came from SDL_gfx lib. 
@@ -706,9 +747,10 @@ void init_sdl(int iFlags)
 {
   bool error;
   Main.screen = NULL;
+  Main.gui = NULL;
+  Main.map = NULL;
+  Main.text = NULL;
   Main.rects_count = 0;
-
-  iFlags |= SDL_INIT_NOPARACHUTE;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
@@ -736,11 +778,13 @@ void init_sdl(int iFlags)
 }
 
 /**************************************************************************
-  free screen
+  free screen buffers
 **************************************************************************/
 void quit_sdl(void)
 {
-  
+  FREESURFACE(Main.gui);
+  FREESURFACE(Main.map);
+  FREESURFACE(Main.text);
 }
 
 /**************************************************************************
@@ -791,6 +835,19 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   freelog(LOG_DEBUG, _("(File %s %d): "
 			"Setting resolution to: %d x %d %d bpp"),
 	  __FILE__, __LINE__, iWidth, iHeight, iDepth);
+
+  FREESURFACE(Main.map);
+  Main.map = SDL_DisplayFormat(Main.screen);
+  
+  FREESURFACE(Main.text);
+  Main.text = SDL_DisplayFormatAlpha(Main.screen);
+  SDL_FillRect(Main.text, NULL, 0x0);
+  /*SDL_SetColorKey(Main.text , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
+  
+  FREESURFACE(Main.gui);
+  Main.gui = SDL_DisplayFormatAlpha(Main.screen);
+  SDL_FillRect(Main.gui, NULL, 0x0);
+  /*SDL_SetColorKey(Main.gui , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
 
 #ifdef DEBUG_SDL
   if (iFlags & SDL_HWSURFACE && !(Main.screen->flags & SDL_HWSURFACE))
@@ -1376,6 +1433,8 @@ void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
   return;
 }
 
+
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -1404,7 +1463,7 @@ void refresh_rects(void)
   if (Main.rects_count == RECT_LIMIT) {
     refresh_fullscreen();
   } else {
-    SDL_UpdateRects(Main.screen, Main.rects_count , Main.rects );
+    SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
     Main.rects_count = 0;
   }
 }
@@ -1657,7 +1716,10 @@ static int alpha_used(SDL_Surface * pSurf)
 **************************************************************************/
 SDL_Surface *get_intro_gfx(void)
 {
-  return load_surf(pIntro_gfx_path);
+  if(!pIntro_gfx) {
+   pIntro_gfx = load_surf(pIntro_gfx_path);
+  }
+  return pIntro_gfx;
 }
 
 /**************************************************************************
@@ -1665,7 +1727,12 @@ SDL_Surface *get_intro_gfx(void)
 **************************************************************************/
 SDL_Surface *get_logo_gfx(void)
 {
-  /*return        load_surf( pLogo_gfx_path ); */
+/*
+  if(!pLogo_gfx) {
+   pLogo_gfx = IMG_Load(pLogo_gfx_path);
+  }
+  return pLogo_gfx;
+*/
   return IMG_Load(pLogo_gfx_path);
 }
 
@@ -1674,7 +1741,12 @@ SDL_Surface *get_logo_gfx(void)
 **************************************************************************/
 SDL_Surface *get_city_gfx(void)
 {
-  /*return        load_surf( pLogo_gfx_patch ); */
+/*
+  if(!pCity_gfx) {
+   pCity_gfx = IMG_Load(pCity_gfx_path);
+  }
+  return pCity_gfx;
+*/
   return IMG_Load(pCity_gfx_path);
 }
 
@@ -1690,13 +1762,11 @@ void draw_intro_gfx(void)
     SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
     FREESURFACE(pIntro);
     pIntro = pTmp;
+    pIntro_gfx = pTmp;
   }
-  /* draw intro gfx center in screen *
-  blit_entire_src(pIntro, Main.screen,
-		  ((Main.screen->w - pIntro->w) >> 1),
-		  ((Main.screen->h - pIntro->h) >> 1));*/
-  SDL_BlitSurface(pIntro, NULL, Main.screen , NULL );
-  FREESURFACE(pIntro);
+  
+  /* draw intro gfx center in screen */
+  SDL_BlitSurface(pIntro, NULL, Main.map , NULL );
 }
 
 /* ============ FreeCiv game graphics function =========== */
@@ -1722,41 +1792,43 @@ bool overhead_view_supported(void)
  **************************************************************************/
 void load_intro_gfx(void)
 {
-  char *buf = datafilename("theme/default/intro3.png");
-  freelog(LOG_NORMAL, _("intro : %s"),
-	  buf ? buf : "n/a");	
-  if ( buf )
-  {
-    pIntro_gfx_path = mystrdup(buf);	
-  }
-  else
-  {
-    pIntro_gfx_path = NULL;
-  }
+  if(!pIntro_gfx_path) {
+    char *buf = datafilename("theme/default/intro3.png");
+    freelog(LOG_NORMAL, _("intro : %s"), buf ? buf : "n/a");	
+    if ( buf )
+    {
+      pIntro_gfx_path = mystrdup(buf);	
+    }
+    else
+    {
+      pIntro_gfx_path = NULL;
+    }
   
-  buf = datafilename("theme/default/logo.png");
-  freelog(LOG_NORMAL, _("intro : %s"),
-	  buf ? buf : "n/a");
-  if ( buf )
-  {
-    pLogo_gfx_path = mystrdup(buf);	
-  }
-  else
-  {
-    pLogo_gfx_path = NULL;
-  }
+    buf = datafilename("theme/default/logo.png");
+    freelog(LOG_NORMAL, _("logo : %s"), buf ? buf : "n/a");
+    if ( buf )
+    {
+      pLogo_gfx_path = mystrdup(buf);	
+    }
+    else
+    {
+      pLogo_gfx_path = NULL;
+    }
   
-  buf = datafilename("theme/default/city.png");
-  freelog(LOG_NORMAL, _("city : %s"),
-	  buf ? buf : "n/a");
-  if ( buf )
-  {
-    pCity_gfx_path = mystrdup(buf);	
+    buf = datafilename("theme/default/city.png");
+    freelog(LOG_NORMAL, _("city : %s"), buf ? buf : "n/a");
+    if ( buf )
+    {
+      pCity_gfx_path = mystrdup(buf);	
+    }
+    else
+    {
+      pCity_gfx_path = NULL;
+    }
+  } else {
+    freelog(LOG_NORMAL, "load_intro_gfx");
   }
-  else
-  {
-    pCity_gfx_path = NULL;
-  }}
+}
 
 /**************************************************************************
   Create a new sprite by cropping and taking only the given portion of
@@ -1915,5 +1987,6 @@ void free_sprite(struct Sprite *s)
 **************************************************************************/
 void free_intro_radar_sprites(void)
 {
-  freelog(LOG_DEBUG, "free_intro_radar_sprites");
+  freelog(LOG_NORMAL, "free_intro_radar_sprites");
+  FREESURFACE(pIntro_gfx);
 }

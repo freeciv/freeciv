@@ -24,21 +24,11 @@
 
 #include "chatline_g.h"
 
-#define	MAX_CHATLINE_HISTORY 20
-
-
-void Init_Input_Edit(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h);
-void Init_Log_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h);
-void Resize_Log_Window(Uint16 w, Uint16 h);
-
-void Redraw_Log_Window(int bcgd);
-
-
-void set_output_window_unitext(Uint16 * pUnistring);
-
-void unicode_append_output_window(Uint16 * unistring);
+void Init_Input_Edit(void);
+void popup_input_line(void);
+void new_input_line_position(void);
 
 #define set_output_window_text( pString )	\
-		set_output_window_unitext( convert_to_utf16( pString ) )
+	real_append_output_window( pString )
 
-#endif				/* FC__CHATLINE_H */
+#endif	/* FC__CHATLINE_H */

@@ -39,7 +39,10 @@ struct Sprite {
 struct Sdl {
   int rects_count;		/* update rect. list counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
-  SDL_Surface *screen;		/* main screen surface */
+  SDL_Surface *screen;		/* main screen buffer */
+  SDL_Surface *map;		/* map buffer */
+  SDL_Surface *text;		/* city descriptions buffer */
+  SDL_Surface *gui;		/* gui buffer */
   SDL_Event event;		/* main event struct */
 };
 
@@ -59,6 +62,8 @@ int blit_entire_src(SDL_Surface *pSrc,
 		    SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
 
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
+Uint32 get_first_pixel(SDL_Surface *pSurface);
+
 void putline(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,
 	     Sint16 y1, Uint32 color);
 void putframe(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,

@@ -23,7 +23,6 @@
 #include <config.h>
 #endif
 
-/*#include <stdio.h>*/
 #include <stdlib.h>
 #include <string.h>
 
@@ -42,18 +41,18 @@
 #include "gui_zoom.h"
 #include "gui_tilespec.h"
 #include "gui_main.h"
+#include "mapview.h"
 
 #include "gui_id.h"
 #include "gui_stuff.h"
-
-#define INFO_TIMER_INTERVAL	1500
 
 struct GUI *pSellected_Widget;
 
 extern char *pDataPath;
 
-static SDL_TimerID info_timer_id;
-static SDL_Surface *pScreen_Info_Backup = NULL;
+extern Uint32 widget_info_cunter;
+
+/*static SDL_Surface *pScreen_Info_Backup = NULL;*/
 static SDL_Rect *pInfo_Area = NULL;
 
 
@@ -107,7 +106,7 @@ do {									\
 struct UniChar {
   struct UniChar *next;
   struct UniChar *prev;
-  Uint16 chr;
+  Uint16 chr[2];
   SDL_Surface *pTsurf;
 };
 
@@ -123,8 +122,7 @@ static int write_chain(SDL_Surface * destination,
 		       size_t chainlength, TTF_Font * pFont,
 		       int iStyle, SDL_Color * pForecol);
 #endif
-
-static Uint32 info_timer_callback(Uint32 interval, void *pWidget);
+		       
 static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
 				    Uint16 * pWidth, Uint16 * pHigh);
 #if 0
@@ -136,10 +134,9 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 					    Uint8 state, Uint16 High);
 
 static int draw_frame_of_widget_from_array(struct GUI *pWidget,
-					   Uint32 * pPixelArray);
+		Uint32 * pPixelArray , SDL_Surface *pDest);
 static int make_copy_of_pixel_and_draw_frame_widget(struct GUI *pWidget,
-						    Uint32 color,
-						    Uint32 * pPixelArray);
+		Uint32 color, Uint32 * pPixelArray, SDL_Surface *pDest);
 
 /**************************************************************************
   Correct backgroud size ( set min size ). Used in create widget
@@ -152,8 +149,6 @@ static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
   *pHigh = MAX(*pHigh, 2 * (pTheme->h / 16));
 }
 
-/*
- */
 /**************************************************************************
   Create background image for buttons, iconbuttons and edit fields
   then return  pointer to this image.
@@ -188,40 +183,22 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   iTile_count_len_mid =
       (Width - (iTile_width_len_end * 2)) / iTile_width_len_mid;
 
-#ifdef DEBUG_SDL
-  fprintf(stderr, " TILE WIDTH_len = %d \n TILE COUNT_len = %d ",
-	  iTile_width_len_mid, iTile_count_len_mid);
-#endif
-
   /* corrections I */
   if (((iTile_count_len_mid *
 	iTile_width_len_mid) + (iTile_width_len_end * 2)) < Width) {
     iTile_count_len_mid++;
   }
-#ifdef DEBUG_SDL
-  fprintf(stderr, "corected TILE COUNT_len = %d \n", iTile_count_len_mid);
-#endif
 
   iTile_width_high_end = pTheme->h / 16;	/* pTheme->h/16 */
   iTile_width_high_mid = (pTheme->h / 4) - (iTile_width_high_end * 2);
   iTile_count_high_mid =
       (High - (iTile_width_high_end * 2)) / iTile_width_high_mid;
 
-#ifdef DEBUG_SDL
-  fprintf(stderr, " TILE WIDTH_HIGH = %d \n TILE COUNT_HIGH = %d ",
-	  iTile_width_high_mid, iTile_count_high_mid);
-#endif
-
-
   /* corrections II */
   if (((iTile_count_high_mid *
 	iTile_width_high_mid) + (iTile_width_high_end * 2)) < High) {
     iTile_count_high_mid++;
   }
-#ifdef DEBUG_SDL
-  fprintf(stderr, "corected TILE COUNT_high = %d \n",
-	  iTile_count_high_mid);
-#endif
 
   Width = MAX(iTile_width_len_end * 2, Width);
   High = MAX(iTile_width_high_end * 2, High);
@@ -230,9 +207,6 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   pBackground = create_surf(Width, High, SDL_SWSURFACE);
 
   /* copy left end */
-#ifdef DEBUG_SDL
-  fprintf(stderr, "Blit Left END\n");
-#endif
 
   /* copy left top end */
   src.x = 0;
@@ -267,11 +241,6 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
 
   for (i = 0; i < iTile_count_len_mid; i++) {
 
-#ifdef DEBUG_SDL
-    fprintf(stderr,
-	    "Blit Middle parts ( TILE COUNT_len/MAX = %d / %d ) \n", i,
-	    iTile_count_len_mid - 2);
-#endif
     /* top */
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
@@ -292,10 +261,6 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     des.y = pBackground->h - iTile_width_high_end;
     SDL_BlitSurface(pTheme, &src, pBackground, &des);
   }
-
-#ifdef DEBUG_SDL
-  fprintf(stderr, "Blit Left END.\n");
-#endif
 
   /* copy right end */
   src.x = pTheme->w - iTile_width_len_end;
@@ -362,8 +327,7 @@ struct GUI *WidgetListScaner(const struct GUI *pGUI_List,
   return ( not Disabled and not Hiden ) widget with 'Key' allias.
   NOTE: This fuction ignore CapsLock and NumLock Keys.
 **************************************************************************/
-struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List,
-				SDL_keysym Key)
+struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List, SDL_keysym Key)
 {
   Key.mod &= ~(KMOD_NUM | KMOD_CAPS);
   while (pGUI_List) {
@@ -423,13 +387,15 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   if (!pWidget) {
     return 0;
   }
-
+  
+  widget_info_cunter = 0;
+  
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_tibutton(pWidget);
-    refresh_rect(pWidget->size);
+    real_redraw_tibutton(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -441,8 +407,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_I_BUTTON:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_ibutton(pWidget);
-    refresh_rect(pWidget->size);
+    real_redraw_ibutton(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -454,8 +420,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_ICON:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_icon(pWidget);
-    refresh_rect(pWidget->size);
+    real_redraw_icon(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -467,8 +433,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_ICON2:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_icon2(pWidget);
-    refresh_rect(pWidget->size);
+    real_redraw_icon2(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -478,9 +444,9 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_EDIT:
-    edit_field(pWidget);
-    redraw_edit(pWidget);
-    refresh_rect(pWidget->size);
+    edit_field(pWidget , Main.gui);
+    redraw_edit(pWidget , Main.gui);
+    flush_rect(pWidget->size);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -491,8 +457,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_VSCROLLBAR:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_vert(pWidget);
-    refresh_rect(pWidget->size);
+    redraw_vert(pWidget , Main.gui);
+    flush_rect(pWidget->size);
     /*set_wstate( pWidget , WS_SELLECTED ); */
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -503,8 +469,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_HSCROLLBAR:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_horiz(pWidget);
-    refresh_rect(pWidget->size);
+    redraw_horiz(pWidget , Main.gui);
+    flush_rect(pWidget->size);
     /*set_wstate( pWidget , WS_SELLECTED ); */
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -515,8 +481,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_CHECKBOX:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_icon(pWidget);
-    refresh_rect(pWidget->size);
+    real_redraw_icon(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
@@ -529,8 +495,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_TCHECKBOX:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
-    redraw_textcheckbox(pWidget);
-    refresh_rect(pWidget->size);
+    redraw_textcheckbox(pWidget, Main.gui);
+    flush_rect(pWidget->size);
     set_wstate(pWidget, WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
@@ -544,7 +510,10 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
+	break;
       }
+      ID = pWidget->ID;
+      break;
     }
     ID = 0;
     break;
@@ -571,49 +540,46 @@ void unsellect_widget_action(void)
 
     switch (get_wtype(pSellected_Widget)) {
     case WT_TI_BUTTON:
-      redraw_tibutton(pSellected_Widget);
+      real_redraw_tibutton(pSellected_Widget, Main.gui);
       break;
     case WT_I_BUTTON:
-      redraw_ibutton(pSellected_Widget);
+      real_redraw_ibutton(pSellected_Widget, Main.gui);
       break;
     case WT_ICON:
     case WT_CHECKBOX:
-      redraw_icon(pSellected_Widget);
+      real_redraw_icon(pSellected_Widget, Main.gui);
       break;
     case WT_ICON2:
-      redraw_icon2(pSellected_Widget);
+      real_redraw_icon2(pSellected_Widget, Main.gui);
       break;
     case WT_TCHECKBOX:
-      redraw_textcheckbox(pSellected_Widget);
+      redraw_textcheckbox(pSellected_Widget , Main.gui);
       break;
     case WT_I_LABEL:
-      redraw_label(pSellected_Widget);
+      redraw_label(pSellected_Widget, Main.gui);
       break;
     case WT_VSCROLLBAR:
-      redraw_vert(pSellected_Widget);
+      redraw_vert(pSellected_Widget , Main.gui);
       break;
     case WT_HSCROLLBAR:
-      redraw_horiz(pSellected_Widget);
+      redraw_horiz(pSellected_Widget, Main.gui);
       break;
     default:
       break;
     }
 
-    refresh_rect(pSellected_Widget->size);
+    flush_rect(pSellected_Widget->size);
 
-    if (get_wflags(pSellected_Widget) & WF_WIDGET_HAS_INFO_LABEL) {
-      SDL_RemoveTimer(info_timer_id);
-    }
+    /* NOTE: this is checket in other thread, should I use mutex here ?*/ 
+    widget_info_cunter = 0;
 
   }
 
 End:
 
-  if (pScreen_Info_Backup) {
-    SDL_BlitSurface(pScreen_Info_Backup, NULL, Main.screen, pInfo_Area);
-    refresh_rect(*pInfo_Area);
+  if (pInfo_Area) {
+    flush_rect(*pInfo_Area);
     FREE(pInfo_Area);
-    FREESURFACE(pScreen_Info_Backup);
   }
 
   pSellected_Widget = NULL;
@@ -635,48 +601,46 @@ void widget_sellected_action(struct GUI *pWidget)
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_tibutton(pWidget);
+    real_redraw_tibutton(pWidget, Main.gui);
     break;
   case WT_I_BUTTON:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_ibutton(pWidget);
+    real_redraw_ibutton(pWidget, Main.gui);
     break;
   case WT_ICON:
   case WT_CHECKBOX:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_icon(pWidget);
+    real_redraw_icon(pWidget, Main.gui);
     break;
   case WT_ICON2:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_icon2(pWidget);
+    real_redraw_icon2(pWidget, Main.gui);
     break;
   case WT_TCHECKBOX:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_textcheckbox(pWidget);
+    redraw_textcheckbox(pWidget, Main.gui);
     break;
   case WT_I_LABEL:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_label(pWidget);
+    redraw_label(pWidget, Main.gui);
     break;
   case WT_VSCROLLBAR:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_vert(pWidget);
+    redraw_vert(pWidget, Main.gui);
     break;
   case WT_HSCROLLBAR:
     set_wstate(pWidget, WS_SELLECTED);
-    redraw_horiz(pWidget);
+    redraw_horiz(pWidget , Main.gui);
     break;
   default:
     break;
   }
 
   if (get_wstate(pWidget) == WS_SELLECTED) {
-    refresh_rect(pWidget->size);
+    flush_rect(pWidget->size);
     pSellected_Widget = pWidget;
     if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
-      info_timer_id = SDL_AddTimer(INFO_TIMER_INTERVAL,
-				   info_timer_callback,
-				   (void *) pSellected_Widget);
+      widget_info_cunter = 1;
     }
   }
 }
@@ -684,30 +648,33 @@ void widget_sellected_action(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static Uint32 info_timer_callback(Uint32 interval, void *pW)
+void draw_widget_info_label(void)
 {
   SDL_Surface *pText, *pBcgd;
   SDL_Rect dest;
-  /*SDL_Color color; */
+  SDL_Color color;
 
-  struct GUI *pWidget = pW;
-
+  struct GUI *pWidget = pSellected_Widget;
+/*
   if (pWidget != pSellected_Widget) {
     return 0;
   }
-
+*/
   pInfo_Area = MALLOC(sizeof(SDL_Rect));
 
+  /*pWidget->string16->render = 3;*/
+  
   /* create string and bcgd theme */
   pText = create_text_surf_from_str16(pWidget->string16);
+  /*SDL_SetAlpha(pText, 0x0, 0x0);*/
 
-#if 0
   color = *get_game_colorRGB(QUICK_INFO);
   color.unused = 150;
-#endif
+
 
   pBcgd = create_filled_surface(pText->w + 10, pText->h + 6, SDL_SWSURFACE,
 				get_game_colorRGB(QUICK_INFO));
+
 
   /* callculate start position */
   if (pWidget->size.y - pBcgd->h - 6 < 0) {
@@ -725,41 +692,49 @@ static Uint32 info_timer_callback(Uint32 interval, void *pW)
   pInfo_Area->w = pBcgd->w + 2;
   pInfo_Area->h = pBcgd->h + 2;
 
-  /* create backup of screen */
-  pScreen_Info_Backup = crop_rect_from_screen(*pInfo_Area);
-
+  /* create backup of screen 
+  pScreen_Info_Backup = crop_rect_from_surface(Main.gui, pInfo_Area);
+  SDL_SetAlpha(pScreen_Info_Backup, 0x0, 0x0);
+  */
   /* draw theme and text */
   dest = *pInfo_Area;
   dest.x += 1;
   dest.y += 1;
   SDL_BlitSurface(pBcgd, NULL, Main.screen, &dest);
+  /*
+  SDL_FillRect(Main.gui, &dest , 
+     SDL_MapRGBA(Main.gui->format, color.r, color.g, color.b, color.unused));
+  */
   dest.x += 5;
   dest.y += 3;
   SDL_BlitSurface(pText, NULL, Main.screen, &dest);
 
   /* draw frame */
-  putline(Main.screen, pInfo_Area->x, pInfo_Area->y,
-	  pInfo_Area->x + pInfo_Area->w, pInfo_Area->y, 0);
+  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y,
+	  pInfo_Area->x + pInfo_Area->w - 2, pInfo_Area->y, 0x0);
 
-  putline(Main.screen, pInfo_Area->x, pInfo_Area->y,
-	  pInfo_Area->x, pInfo_Area->y + pInfo_Area->h, 0);
+  putline(Main.screen, pInfo_Area->x, pInfo_Area->y + 1,
+	  pInfo_Area->x, pInfo_Area->y + pInfo_Area->h - 2, 0x0);
 
-  putline(Main.screen, pInfo_Area->x, pInfo_Area->y + pInfo_Area->h - 1,
-	  pInfo_Area->x + pInfo_Area->w,
-	  pInfo_Area->y + pInfo_Area->h - 1, 0);
+  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y + pInfo_Area->h - 2,
+	  pInfo_Area->x + pInfo_Area->w - 2,
+	  pInfo_Area->y + pInfo_Area->h - 2, 0x0);
 
-  putline(Main.screen, pInfo_Area->x + pInfo_Area->w - 1, pInfo_Area->y,
+  putline(Main.screen, pInfo_Area->x + pInfo_Area->w - 1, pInfo_Area->y + 1,
 	  pInfo_Area->x + pInfo_Area->w - 1,
-	  pInfo_Area->y + pInfo_Area->h - 1, 0);
+	  pInfo_Area->y + pInfo_Area->h - 2, 0x0);
 
 
+  /*flush_rect(*pInfo_Area);*/
   refresh_rect(*pInfo_Area);
 
   FREESURFACE(pText);
   FREESURFACE(pBcgd);
 
-  return 0;
+  return;
 }
+
+
 
 /**************************************************************************
   Find ID in Widget's List ('pGUI_List') and return pointer to this
@@ -924,24 +899,28 @@ void del_gui_list(struct GUI *pGUI_List)
 **************************************************************************/
 Uint16 redraw_group(const struct GUI *pBeginGroupWidgetList,
 		    const struct GUI *pEndGroupWidgetList,
-		    int add_to_update)
+		      SDL_Surface *pDest, int add_to_update)
 {
   Uint16 count = 0;
   struct GUI *pTmpWidget = (struct GUI *) pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
 
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
 
       if (!(pTmpWidget->gfx) &&
 	  (get_wflags(pTmpWidget) & WF_DRAW_THEME_TRANSPARENT)) {
-	refresh_widget_background(pTmpWidget);
+	refresh_widget_background(pTmpWidget, pDest);
       }
 
-      redraw_widget(pTmpWidget);
+      redraw_widget(pTmpWidget , pDest);
 
       if (get_wflags(pTmpWidget) & WF_DRAW_FRAME_AROUND_WIDGET) {
-	draw_frame_around_widget(pTmpWidget);
+	if( get_wtype(pTmpWidget) & WT_WINDOW ) {
+	  draw_frame_inside_widget_on_surface(pTmpWidget, pDest);
+	} else {
+	  draw_frame_around_widget_on_surface(pTmpWidget, pDest);
+	}
       }
 
       if (add_to_update) {
@@ -1021,7 +1000,7 @@ void del_group_of_widgets_from_gui_list(struct GUI *pBeginGroupWidgetList,
 
   pTmpWidget = pTmpWidget->prev;
 
-  while (TRUE) {
+  while (pTmpWidget) {
 
     pBufWidget = pTmpWidget->next;
     del_widget_from_gui_list(pBufWidget);
@@ -1045,7 +1024,7 @@ void set_group_state(struct GUI *pBeginGroupWidgetList,
 {
   struct GUI *pTmpWidget = pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
     set_wstate(pTmpWidget, state);
 
     if (pTmpWidget == pBeginGroupWidgetList) {
@@ -1064,7 +1043,7 @@ void hide_group(struct GUI *pBeginGroupWidgetList,
 {
   struct GUI *pTmpWidget = pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
     set_wflag(pTmpWidget, WF_HIDDEN);
 
     if (pTmpWidget == pBeginGroupWidgetList) {
@@ -1083,7 +1062,7 @@ void show_group(struct GUI *pBeginGroupWidgetList,
 {
   struct GUI *pTmpWidget = pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
     clear_wflag(pTmpWidget, WF_HIDDEN);
 
     if (pTmpWidget == pBeginGroupWidgetList) {
@@ -1097,7 +1076,7 @@ void show_group(struct GUI *pBeginGroupWidgetList,
 /**************************************************************************
   Universal redraw Widget function.
 **************************************************************************/
-int redraw_widget(struct GUI *pWidget)
+int redraw_widget(struct GUI *pWidget , SDL_Surface *pDest)
 {
   if (!pWidget) {
     return -1;
@@ -1105,28 +1084,28 @@ int redraw_widget(struct GUI *pWidget)
 
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
-    return redraw_tibutton(pWidget);
+    return real_redraw_tibutton(pWidget , pDest);
   case WT_I_BUTTON:
-    return redraw_ibutton(pWidget);
+    return real_redraw_ibutton(pWidget , pDest);
   case WT_ICON:
   case WT_CHECKBOX:
-    return redraw_icon(pWidget);
+    return real_redraw_icon(pWidget , pDest);
   case WT_ICON2:
-    return redraw_icon2(pWidget);
+    return real_redraw_icon2(pWidget , pDest);
   case WT_TCHECKBOX:
-    return redraw_textcheckbox(pWidget);
+    return redraw_textcheckbox(pWidget , pDest);
   case WT_I_LABEL:
   case WT_T_LABEL:
   case WT_TI_LABEL:
-    return redraw_label(pWidget);
+    return redraw_label(pWidget, pDest);
   case WT_WINDOW:
-    return redraw_window(pWidget);
+    return redraw_window(pWidget , pDest);
   case WT_EDIT:
-    return redraw_edit(pWidget);
+    return redraw_edit(pWidget , pDest);
   case WT_VSCROLLBAR:
-    return redraw_vert(pWidget);
+    return redraw_vert(pWidget , pDest);
   case WT_HSCROLLBAR:
-    return redraw_horiz(pWidget);
+    return redraw_horiz(pWidget , pDest);
   default:
     return 0;
   }
@@ -1147,15 +1126,16 @@ int redraw_widget(struct GUI *pWidget)
   last member of group: the window.
 **************************************************************************/
 void popdown_window_group_dialog(struct GUI *pBeginGroupWidgetList,
-				 struct GUI *pEndGroupWidgetList)
+				 struct GUI *pEndGroupWidgetList,
+				   SDL_Surface *pDest)
 {
   if ((pBeginGroupWidgetList) && (pEndGroupWidgetList)) {
     /* undraw window */
-    blit_entire_src(pEndGroupWidgetList->gfx, Main.screen,
+    blit_entire_src(pEndGroupWidgetList->gfx, pDest,
 		    pEndGroupWidgetList->size.x,
 		    pEndGroupWidgetList->size.y);
 
-    refresh_rect(pEndGroupWidgetList->size);
+    add_refresh_rect(pEndGroupWidgetList->size);
 
     del_group(pBeginGroupWidgetList, pEndGroupWidgetList);
   }
@@ -1170,7 +1150,8 @@ void popdown_window_group_dialog(struct GUI *pBeginGroupWidgetList,
   Function return 1 when group was moved.
 **************************************************************************/
 int move_window_group_dialog(struct GUI *pBeginGroupWidgetList,
-			     struct GUI *pEndGroupWidgetList)
+			     struct GUI *pEndGroupWidgetList,
+			       SDL_Surface *pDest)
 {
   int ret = 0;
   Sint16 oldX = pEndGroupWidgetList->size.x,
@@ -1181,16 +1162,15 @@ int move_window_group_dialog(struct GUI *pBeginGroupWidgetList,
 				    pEndGroupWidgetList);
   }
 
-  if (move_window(pEndGroupWidgetList)) {
+  if (move_window(pEndGroupWidgetList, pDest)) {
     set_new_group_start_pos(pBeginGroupWidgetList,
 			    pEndGroupWidgetList->prev,
 			    pEndGroupWidgetList->size.x - oldX,
 			    pEndGroupWidgetList->size.y - oldY);
 
-    redraw_group(pBeginGroupWidgetList, pEndGroupWidgetList, 0);
+    redraw_group(pBeginGroupWidgetList, pEndGroupWidgetList, pDest,0);
 
     ret = 1;
-    /* refresh_rect(pWindow->size); */
   }
 
   return ret;
@@ -1262,7 +1242,7 @@ static void redraw_scrolled_widget_list(struct GUI *pBeginActiveWidgetLIST,
   struct GUI *pBuf = pBeginActiveWidgetLIST;
 
   while (count) {
-    redraw_label(pBuf);
+    redraw_label(pBuf, Main.gui);
     add_refresh_rect(pBuf->size);
     pBuf = pBuf->prev;
     count--;
@@ -1300,7 +1280,7 @@ struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	  pVscroll->max - pVscrollBarWidget->size.h) {
 
 	/* draw bcgd */
-	blit_entire_src(pVscrollBarWidget->gfx, Main.screen,
+	blit_entire_src(pVscrollBarWidget->gfx, Main.gui,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
 
@@ -1326,12 +1306,12 @@ struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
 
       if (pVscrollBarWidget) {
 	/* redraw scroolbar */
-	refresh_widget_background(pVscrollBarWidget);
-	redraw_vert(pVscrollBarWidget);
+	refresh_widget_background(pVscrollBarWidget, Main.gui);
+	redraw_vert(pVscrollBarWidget , Main.gui );
 	add_refresh_rect(pVscrollBarWidget->size);
       }
 
-      refresh_rects();
+      flush_dirty();
 
     }
     SDL_PollEvent(&Main.event);
@@ -1351,10 +1331,8 @@ struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
 {
   struct GUI *pBegin = pBeginActiveWidgetLIST;
   int step = (float) ((float) (pVscroll->max - pVscroll->min) *
-		      (float) (1.0 -
-			       (float) (pVscroll->active) /
-			       pVscroll->count))
-      / (pVscroll->count - pVscroll->active);
+		(float) (1.0 - (float) (pVscroll->active) / pVscroll->count))
+      				/ (pVscroll->count - pVscroll->active);
   step++;
 
   while (1) {
@@ -1363,13 +1341,12 @@ struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
       if (pVscrollBarWidget && (pVscrollBarWidget->size.y > pVscroll->min)) {
 
 	/* draw bcgd */
-	blit_entire_src(pVscrollBarWidget->gfx, Main.screen,
+	blit_entire_src(pVscrollBarWidget->gfx, Main.gui,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
 	add_refresh_rect(pVscrollBarWidget->size);
 
-	if (((pVscrollBarWidget->size.y - step) < pVscroll->min)
-	    ) {
+        if (((pVscrollBarWidget->size.y - step) < pVscroll->min)) {
 	  pVscrollBarWidget->size.y = pVscroll->min;
 	} else {
 	  pVscrollBarWidget->size.y -= step;
@@ -1385,12 +1362,12 @@ struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
 
       if (pVscrollBarWidget) {
 	/* redraw scroolbar */
-	refresh_widget_background(pVscrollBarWidget);
-	redraw_vert(pVscrollBarWidget);
+	refresh_widget_background(pVscrollBarWidget, Main.gui);
+	redraw_vert(pVscrollBarWidget , Main.gui);
 	add_refresh_rect(pVscrollBarWidget->size);
       }
 
-      refresh_rects();
+      flush_dirty();
     }
 
     SDL_PollEvent(&Main.event);
@@ -1417,17 +1394,15 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
   int count, old_y;
 
   int step = (float) ((float) (pVscroll->max - pVscroll->min) *
-		      (float) (1 -
-			       (float) (pVscroll->active) /
-			       pVscroll->count))
-      / (pVscroll->count - pVscroll->active);
+		  (float) (1 - (float) (pVscroll->active) / pVscroll->count))
+      				/ (pVscroll->count - pVscroll->active);
 
   step++;
 
   old_y = pVscrollBarWidget->size.y;
 
   while (ret) {
-    WaitEvent(&Main.event);
+    SDL_WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;
@@ -1440,7 +1415,7 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	  (Main.event.motion.y <= pVscroll->max)) {
 
 	/* draw bcgd */
-	blit_entire_src(pVscrollBarWidget->gfx, Main.screen,
+	blit_entire_src(pVscrollBarWidget->gfx, Main.gui,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
 	add_refresh_rect(pVscrollBarWidget->size);
@@ -1493,11 +1468,11 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	}
 
 	/* redraw scroolbar */
-	refresh_widget_background(pVscrollBarWidget);
-	redraw_vert(pVscrollBarWidget);
+	refresh_widget_background(pVscrollBarWidget, Main.gui);
+	redraw_vert(pVscrollBarWidget, Main.gui);
 	add_refresh_rect(pVscrollBarWidget->size);
 
-	refresh_rects();
+	flush_dirty();
       }				/* if (count) */
       break;
     default:
@@ -1507,6 +1482,59 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 
   return pBegin;
 }
+
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void up_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar)
+{
+  struct GUI *pBegin = up_scroll_widget_list(pScrollBar,
+			pDlg->pScroll,
+			pDlg->pActiveWidgetList,
+			pDlg->pBeginActiveWidgetList,
+			pDlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pDlg->pActiveWidgetList = pBegin;
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void down_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar)
+{
+  struct GUI *pBegin = down_scroll_widget_list(pScrollBar,
+			pDlg->pScroll,
+			pDlg->pActiveWidgetList,
+			pDlg->pBeginActiveWidgetList,
+			pDlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pDlg->pActiveWidgetList = pBegin;
+  }
+
+}
+
+/**************************************************************************
+  FIXME : fix main funct : vertic_scroll_widget_list(...)
+**************************************************************************/
+void vscroll_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar)
+{
+
+  struct GUI *pBegin = vertic_scroll_widget_list(pScrollBar,
+			pDlg->pScroll,
+			pDlg->pActiveWidgetList,
+			pDlg->pBeginActiveWidgetList,
+			pDlg->pEndActiveWidgetList);
+
+  if (pBegin) {
+    pDlg->pActiveWidgetList = pBegin;
+  }
+  
+}
+
 
 /* =================================================== */
 /* ===================== ICON ======================== */
@@ -1606,10 +1634,10 @@ int draw_icon(struct GUI *pIcon, Sint16 start_x, Sint16 start_y)
   pIcon->size.y = start_y;
 
   if (get_wflags(pIcon) & WF_DRAW_THEME_TRANSPARENT) {
-    refresh_widget_background(pIcon);
+    refresh_widget_background(pIcon, Main.gui);
   }
 
-  return draw_icon_from_theme(pIcon->theme, get_wstate(pIcon), Main.screen,
+  return draw_icon_from_theme(pIcon->theme, get_wstate(pIcon), Main.gui,
 			      pIcon->size.x, pIcon->size.y);
 }
 
@@ -1660,8 +1688,7 @@ int real_redraw_icon(struct GUI *pIcon, SDL_Surface * pDest)
   std return of SDL_BlitSurface(...) function.
 **************************************************************************/
 int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
-			 SDL_Surface * pDest, Sint16 start_x,
-			 Sint16 start_y)
+			 SDL_Surface * pDest, Sint16 start_x, Sint16 start_y)
 {
   SDL_Rect src, des = { start_x, start_y, 0, 0 };
 
@@ -1749,7 +1776,7 @@ int real_redraw_icon2(struct GUI *pIcon, SDL_Surface * pDest)
   int ret;
   SDL_Rect dest = { pIcon->size.x, pIcon->size.y, 0, 0 };
   Uint32 state = get_wstate(pIcon);
-    
+
   if (pIcon->gfx) {
     ret = SDL_BlitSurface(pIcon->gfx, NULL, pDest, &dest);
     if (ret) {
@@ -1825,8 +1852,7 @@ struct GUI *create_icon_button(SDL_Surface * pIcon, SDL_String16 * pStr,
   pButton->theme = pTheme->Button;
   pButton->gfx = pIcon;
   pButton->string16 = pStr;
-  set_wflag(pButton,
-	    (WF_FREE_STRING | WF_DRAW_FRAME_AROUND_WIDGET | flags));
+  set_wflag(pButton, (WF_FREE_STRING | WF_DRAW_FRAME_AROUND_WIDGET | flags));
   set_wstate(pButton, WS_DISABLED);
   set_wtype(pButton, WT_I_BUTTON);
   pButton->mod = KMOD_NONE;
@@ -1916,7 +1942,7 @@ int draw_tibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y)
 {
   pButton->size.x = start_x;
   pButton->size.y = start_y;
-  return real_redraw_tibutton(pButton, Main.screen);
+  return real_redraw_tibutton(pButton, Main.gui);
 }
 
 /**************************************************************************
@@ -1938,7 +1964,7 @@ int draw_ibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y)
 {
   pButton->size.x = start_x;
   pButton->size.y = start_y;
-  return real_redraw_ibutton(pButton, Main.screen);
+  return real_redraw_ibutton(pButton, Main.gui);
 }
 
 /**************************************************************************
@@ -2001,7 +2027,7 @@ int real_redraw_ibutton(struct GUI *pIButton, SDL_Surface * pDest)
 
   dest.x = pIButton->size.x;
   dest.y = pIButton->size.y;
-  SDL_BlitSurface(pButton, NULL, Main.screen, &dest);
+  SDL_BlitSurface(pButton, NULL, pDest, &dest);
   FREESURFACE(pButton);
 
   if (pIcon) {			/* Icon */
@@ -2092,7 +2118,8 @@ int real_redraw_ibutton(struct GUI *pIButton, SDL_Surface * pDest)
     } else {
       /* !pIcon */
       y = (pIButton->size.h - pText->h) / 2;
-    Alone:if (pIButton->string16->style & SF_CENTER) {
+    Alone:
+      if (pIButton->string16->style & SF_CENTER) {
 	x = (pIButton->size.w - pText->w) / 2;
       } else {
 	if (pIButton->string16->style & SF_CENTER_RIGHT) {
@@ -2219,12 +2246,14 @@ static struct UniChar *text2chain(const Uint16 * pInText)
   }
 
   pOutChain = MALLOC(sizeof(struct UniChar));
-  pOutChain->chr = pInText[0];
+  pOutChain->chr[0] = pInText[0];
+  pOutChain->chr[1] = 0;
   chr_tmp = pOutChain;
 
   for (i = 1; i < len; i++) {
     chr_tmp->next = MALLOC(sizeof(struct UniChar));
-    chr_tmp->next->chr = pInText[i];
+    chr_tmp->next->chr[0] = pInText[i];
+    chr_tmp->next->chr[1] = 0;
     chr_tmp->next->prev = chr_tmp;
     chr_tmp = chr_tmp->next;
   }
@@ -2248,7 +2277,7 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
 
   pOutText = CALLOC(len + 1, sizeof(Uint16));
   for (i = 0; i < len; i++) {
-    pOutText[i] = pInChain->chr;
+    pOutText[i] = pInChain->chr[0];
     pInChain = pInChain->next;
   }
 
@@ -2311,10 +2340,10 @@ int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y)
   pEdit->size.y = start_y;
 
   if (get_wflags(pEdit) & WF_DRAW_THEME_TRANSPARENT) {
-    refresh_widget_background(pEdit);
+    refresh_widget_background(pEdit, Main.gui);
   }
 
-  return redraw_edit(pEdit);
+  return redraw_edit(pEdit , Main.gui);
 }
 
 /*
@@ -2332,7 +2361,7 @@ int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y)
   function return Hight of created surfaces or (-1) if theme surface can't
   be created.
 **************************************************************************/
-int redraw_edit(struct GUI *pEdit_Widget)
+int redraw_edit(struct GUI *pEdit_Widget , SDL_Surface *pDest)
 {
   int iRet = 0;
   SDL_Rect rDest = { pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0 };
@@ -2350,7 +2379,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
     }
 
     /* blit background */
-    SDL_BlitSurface(pEdit_Widget->gfx, NULL, Main.screen, &rDest);
+    SDL_BlitSurface(pEdit_Widget->gfx, NULL, pDest , &rDest);
   } else {
     pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
 			      get_wstate(pEdit_Widget),
@@ -2362,7 +2391,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
   }
 
   /* blit theme */
-  SDL_BlitSurface(pEdit, NULL, Main.screen, &rDest);
+  SDL_BlitSurface(pEdit, NULL, pDest , &rDest);
 
   /* set position and blit text */
   if (pText) {
@@ -2378,7 +2407,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
       }
     }
 
-    SDL_BlitSurface(pText, NULL, Main.screen, &rDest);
+    SDL_BlitSurface(pText, NULL, pDest , &rDest);
   }
   /* pText */
   iRet = pEdit->h;
@@ -2409,7 +2438,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
   NOTE: This function can return NULL in 'pEdit_Widget->sting16->text' but
         never free 'pEdit_Widget->sting16' struct.
 **************************************************************************/
-void edit_field(struct GUI *pEdit_Widget)
+void edit_field(struct GUI *pEdit_Widget , SDL_Surface *pDest)
 {
   Uint8 chr;
   SDL_Rect rDest;
@@ -2429,17 +2458,14 @@ void edit_field(struct GUI *pEdit_Widget)
 
   SDL_EnableUNICODE(1);
 
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
-		      SDL_DEFAULT_REPEAT_INTERVAL);
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
     pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
-			      2, pEdit_Widget->size.w,
-			      pEdit_Widget->size.h);
+			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   } else {
     pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
-			      2, pEdit_Widget->size.w,
-			      pEdit_Widget->size.h);
+			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   }
 
   /* Creating Chain */
@@ -2449,9 +2475,10 @@ void edit_field(struct GUI *pEdit_Widget)
   /* Creating Empty (Last) pice of Chain */
   pInputChain = &___last;
   pEndTextChain = pInputChain;
-  pEndTextChain->chr = 32;	/*spacebar */
+  pEndTextChain->chr[0] = 32;	/*spacebar */
+  pEndTextChain->chr[1] = 0;	/*spacebar */
   pEndTextChain->next = NULL;
-  
+
   /* set font style (if any ) */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pEdit_Widget->string16->font,
@@ -2460,11 +2487,10 @@ void edit_field(struct GUI *pEdit_Widget)
 
 
   pEndTextChain->pTsurf =
-      TTF_RenderGlyph_Blended(pEdit_Widget->string16->font,
+      TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
 			      pEndTextChain->chr,
 			      pEdit_Widget->string16->forecol);
-
-
+  
   /* create surface for each font in chain and find chain length */
   if (pBeginTextChain) {
     pInputChain_TMP = pBeginTextChain;
@@ -2473,7 +2499,7 @@ void edit_field(struct GUI *pEdit_Widget)
 
       pInputChain_TMP->pTsurf =
 	  TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-				    &pInputChain_TMP->chr,
+				    pInputChain_TMP->chr,
 				    pEdit_Widget->string16->forecol);
 
       iTruelength += pInputChain_TMP->pTsurf->w;
@@ -2501,11 +2527,11 @@ void edit_field(struct GUI *pEdit_Widget)
 
       /* blit backgroud ( if any ) */
       if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
-	SDL_BlitSurface(pEdit_Widget->gfx, NULL, Main.screen, &rDest);
+	SDL_BlitSurface(pEdit_Widget->gfx, NULL, pDest , &rDest);
       }
 
       /* blit theme */
-      SDL_BlitSurface(pEdit, NULL, Main.screen, &rDest);
+      SDL_BlitSurface(pEdit, NULL, pDest , &rDest);
 
       /* set start parametrs */
       pInputChain_TMP = pBeginTextChain;
@@ -2524,28 +2550,28 @@ void edit_field(struct GUI *pEdit_Widget)
 
 	if (rDest.x > pEdit_Widget->size.x) {
 	  SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
-			  Main.screen, &rDest);
+			  pDest , &rDest);
 	}
 
 	iStart_Mod_X = pInputChain_TMP->pTsurf->w;
 
 	/* draw cursor */
 	if (pInputChain_TMP == pInputChain) {
-	  putline(Main.screen, rDest.x - 1,
+	  putline(pDest, rDest.x - 1,
 		  rDest.y + (pEdit->h / 8),
-		  rDest.x - 1, rDest.y + pEdit->h - (pEdit->h / 4), 1000);
+		  rDest.x - 1, rDest.y + pEdit->h - (pEdit->h / 4), 0xff0088ff);
 	  /* save active element position */
 	  iInputChain_X = rDest.x;
 	}
-
+	
 	pInputChain_TMP = pInputChain_TMP->next;
       }				/* while - draw loop */
 
-      refresh_rect(pEdit_Widget->size);
+      flush_rect(pEdit_Widget->size);
       iRedraw = 0;
     }
     /* iRedraw */
-    WaitEvent(&Main.event);
+    SDL_WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_QUIT:
       /* just in case */
@@ -2691,14 +2717,15 @@ void edit_field(struct GUI *pEdit_Widget)
 	  /* ugly fix */
 	  chr = (Uint8) (Main.event.key.keysym.unicode);
 	  pUniChar = convert_to_utf16(&chr);
-	  pInputChain->prev->chr = *pUniChar;
+	  pInputChain->prev->chr[0] = *pUniChar;
+	  pInputChain->prev->chr[1] = 0;
 	  FREE(pUniChar);
 
 
 	  if (pInputChain->prev->chr) {
 	    pInputChain->prev->pTsurf =
 		TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-					  &pInputChain->prev->chr,
+					  pInputChain->prev->chr,
 					  pEdit_Widget->string16->forecol);
 
 	    iTruelength += pInputChain->prev->pTsurf->w;
@@ -2799,8 +2826,7 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
     tile_count_midd++;
 
   if (!tile_count_midd) {
-    pVerSurf =
-	create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
+    pVerSurf = create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
   } else {
     pVerSurf = create_surf(pVert_theme->w, High, SDL_SWSURFACE);
   }
@@ -2861,15 +2887,14 @@ struct GUI *create_vertical(SDL_Surface * pVert_theme, Uint16 high,
 /**************************************************************************
   ...
 **************************************************************************/
-int redraw_vert(struct GUI *pVert)
+int redraw_vert(struct GUI *pVert, SDL_Surface *pDest)
 {
   int ret;
   SDL_Surface *pVert_Surf = create_vertical_surface(pVert->theme,
 						    get_wstate(pVert),
 						    pVert->size.h);
   ret =
-      blit_entire_src(pVert_Surf, Main.screen, pVert->size.x,
-		      pVert->size.y);
+      blit_entire_src(pVert_Surf, pDest , pVert->size.x, pVert->size.y);
   FREESURFACE(pVert_Surf);
 
   return ret;
@@ -2882,8 +2907,8 @@ void draw_vert(struct GUI *pVert, Sint16 x, Sint16 y)
 {
   pVert->size.x = x;
   pVert->size.y = y;
-  pVert->gfx = crop_rect_from_screen(pVert->size);
-  redraw_vert(pVert);
+  pVert->gfx = crop_rect_from_surface(Main.gui, &pVert->size);
+  redraw_vert(pVert, Main.gui);
 }
 
 /* =================================================== */
@@ -2931,8 +2956,7 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
   }
 
   if (!tile_count_midd) {
-    pHorSurf =
-	create_surf(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
+    pHorSurf = create_surf(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
   } else {
     pHorSurf = create_surf(Width, pHoriz_theme->h, SDL_SWSURFACE);
   }
@@ -2993,12 +3017,12 @@ struct GUI *create_horizontal(SDL_Surface * pHoriz_theme, Uint16 width,
 /**************************************************************************
   ...
 **************************************************************************/
-int redraw_horiz(struct GUI *pHoriz)
+int redraw_horiz(struct GUI *pHoriz, SDL_Surface *pDest)
 {
   SDL_Surface *pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
 						       get_wstate(pHoriz),
 						       pHoriz->size.w);
-  int ret = blit_entire_src(pHoriz_Surf, Main.screen, pHoriz->size.x,
+  int ret = blit_entire_src(pHoriz_Surf, Main.gui, pHoriz->size.x,
 			    pHoriz->size.y);
   FREESURFACE(pHoriz_Surf);
 
@@ -3012,8 +3036,8 @@ void draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y)
 {
   pHoriz->size.x = x;
   pHoriz->size.y = y;
-  pHoriz->gfx = crop_rect_from_screen(pHoriz->size);
-  redraw_horiz(pHoriz);
+  pHoriz->gfx = crop_rect_from_surface(Main.gui, &pHoriz->size);
+  redraw_horiz(pHoriz, Main.gui);
 }
 
 /* =================================================== */
@@ -3048,23 +3072,23 @@ struct GUI *create_window(SDL_String16 * pTitle, Uint16 w, Uint16 h,
 			  Uint32 flags)
 {
   struct GUI *pWindow = MALLOC(sizeof(struct GUI));
-    
+
   pWindow->string16 = pTitle;
-  set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME | flags);
+  set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
+				  WF_DRAW_FRAME_AROUND_WIDGET| flags);
   set_wstate(pWindow, WS_DISABLED);
   set_wtype(pWindow, WT_WINDOW);
   pWindow->mod = KMOD_NONE;
 
-  if ( pTitle )
-  {
+  if (pTitle) {
     SDL_Rect size = str16size(pTitle);
-    w = MAX( w , size.w + 10 );
-    h = MAX( h , WINDOW_TILE_HIGH + 1 );
+    w = MAX(w, size.w + 10);
+    h = MAX(h, WINDOW_TILE_HIGH + 1);
   }
-  
+
   pWindow->size.w = w;
   pWindow->size.h = h;
-  
+
   return pWindow;
 }
 
@@ -3089,7 +3113,7 @@ int resize_window(struct GUI *pWindow,
   pWindow->size.w = new_w;
   pWindow->size.h = new_h;
 
-  refresh_widget_background(pWindow);
+  refresh_widget_background(pWindow, Main.gui);
 
   if (pWindow->theme != pBcgd) {
     FREESURFACE(pWindow->theme);
@@ -3111,13 +3135,25 @@ int resize_window(struct GUI *pWindow,
     }
   }
 
-
-  pWindow->theme =
-      create_filled_surface(new_w, new_h, SDL_SWSURFACE, pColor);
-
-  if (!(get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT)) {
-    SDL_SetAlpha(pWindow->theme, 0, 0);
+  pBcgd = create_surf(new_w, new_h, SDL_SWSURFACE);
+  
+  if ((get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT)) {
+    pWindow->theme = SDL_DisplayFormatAlpha(pBcgd);
+    SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
+    FREESURFACE(pBcgd);
+  } else {
+    pWindow->theme = pBcgd;
   }
+  
+  if (!pColor) {
+    SDL_Color color = { 255, 255, 255, 128 };
+    pColor = &color;
+  }
+
+  SDL_FillRect(pWindow->theme, NULL,
+	       SDL_MapRGBA(pWindow->theme->format, pColor->r,
+			pColor->g, pColor->b, pColor->unused));
+  
 
   return 1;
 }
@@ -3127,29 +3163,28 @@ int resize_window(struct GUI *pWindow,
   save old pixels in 'pPixelArray'
 **************************************************************************/
 static int make_copy_of_pixel_and_draw_frame_widget(struct GUI *pWidget,
-						    Uint32 color,
-						    Uint32 * pPixelArray)
+		Uint32 color, Uint32 * pPixelArray , SDL_Surface *pDest)
 {
   register int x, y;
   Uint16 w, h;
   int x0, y0;
   int i = 0;
 
-  if (pWidget->size.x > Main.screen->w - 1 ||
-      pWidget->size.y > Main.screen->h - 1) {
+  if (pWidget->size.x > pDest->w - 1 ||
+      pWidget->size.y > pDest->h - 1) {
     return 0;
   }
 
   x0 = x = MAX(pWidget->size.x, 0);
   y0 = y = MAX(pWidget->size.y, 0);
-  w = MIN(pWidget->size.w, Main.screen->w);
-  h = MIN(pWidget->size.h, Main.screen->h);
+  w = MIN(pWidget->size.w, pDest->w);
+  h = MIN(pWidget->size.h, pDest->h);
 
   /*left */
   y++;
   if (x == pWidget->size.x) {
     for (; y < h; y++) {
-      putpixel_and_save_bcg(Main.screen, x, y, color, pPixelArray[i++]);
+      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
     }
     y--;
   } else {
@@ -3158,9 +3193,9 @@ static int make_copy_of_pixel_and_draw_frame_widget(struct GUI *pWidget,
 
   /* botton */
   x++;
-  if (pWidget->size.y + pWidget->size.h < Main.screen->h) {
+  if (pWidget->size.y + pWidget->size.h < pDest->h) {
     for (; x < w; x++) {
-      putpixel_and_save_bcg(Main.screen, x, y, color, pPixelArray[i++]);
+      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
     }
     x--;
   } else {
@@ -3169,9 +3204,9 @@ static int make_copy_of_pixel_and_draw_frame_widget(struct GUI *pWidget,
 
   /*right */
   y--;
-  if (pWidget->size.x + pWidget->size.w < Main.screen->w) {
+  if (pWidget->size.x + pWidget->size.w < pDest->w) {
     for (; y >= y0; y--) {
-      putpixel_and_save_bcg(Main.screen, x, y, color, pPixelArray[i++]);
+      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
     }
     y++;
   } else {
@@ -3182,27 +3217,28 @@ static int make_copy_of_pixel_and_draw_frame_widget(struct GUI *pWidget,
   x--;
   if (y >= 0) {
     for (; x >= x0; x--) {
-      putpixel_and_save_bcg(Main.screen, x, y, color, pPixelArray[i++]);
+      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
     }
   }
 
   return i;
 }
 
+
 /**************************************************************************
   Restore old pixel from 'pPixelArray'.
   ( Undraw Widget Frame )
 **************************************************************************/
 static int draw_frame_of_widget_from_array(struct GUI *pWidget,
-					   Uint32 * pPixelArray)
+				Uint32 * pPixelArray, SDL_Surface *pDest)
 {
   register int x, y;
   int i = 0;
   Uint16 w, h;
   int x0, y0;
 
-  if (pWidget->size.x > Main.screen->w - 1 ||
-      pWidget->size.y > Main.screen->h - 1) {
+  if (pWidget->size.x > pDest->w - 1 ||
+      pWidget->size.y > pDest->h - 1) {
     return 0;
   }
 
@@ -3213,14 +3249,14 @@ static int draw_frame_of_widget_from_array(struct GUI *pWidget,
 
   x0 = x = MAX(pWidget->size.x, 0);
   y0 = y = MAX(pWidget->size.y, 0);
-  w = MIN(pWidget->size.w, Main.screen->w);
-  h = MIN(pWidget->size.h, Main.screen->h);
+  w = MIN(pWidget->size.w, pDest->w);
+  h = MIN(pWidget->size.h, pDest->h);
 
   /*left */
   y++;
   if (x == pWidget->size.x) {
     for (; y < h; y++) {
-      putpixel(Main.screen, x, y, pPixelArray[i++]);
+      putpixel(pDest, x, y, pPixelArray[i++]);
     }
     y--;
   } else {
@@ -3229,9 +3265,9 @@ static int draw_frame_of_widget_from_array(struct GUI *pWidget,
 
   /* botton */
   x++;
-  if (pWidget->size.y + pWidget->size.h < Main.screen->h) {
+  if (pWidget->size.y + pWidget->size.h < Main.gui->h) {
     for (; x < w; x++) {
-      putpixel(Main.screen, x, y, pPixelArray[i++]);
+      putpixel(pDest, x, y, pPixelArray[i++]);
     }
     x--;
   } else {
@@ -3240,9 +3276,9 @@ static int draw_frame_of_widget_from_array(struct GUI *pWidget,
 
   /*right */
   y--;
-  if (pWidget->size.x + pWidget->size.w < Main.screen->w) {
+  if (pWidget->size.x + pWidget->size.w < Main.gui->w) {
     for (; y >= y0; y--) {
-      putpixel(Main.screen, x, y, pPixelArray[i++]);
+      putpixel(pDest, x, y, pPixelArray[i++]);
     }
     y++;
   } else {
@@ -3253,7 +3289,7 @@ static int draw_frame_of_widget_from_array(struct GUI *pWidget,
   x--;
   if (y >= 0) {
     for (; x >= x0; x--) {
-      putpixel(Main.screen, x, y, pPixelArray[i++]);
+      putpixel(pDest, x, y, pPixelArray[i++]);
     }
   }
 
@@ -3265,22 +3301,20 @@ static int draw_frame_of_widget_from_array(struct GUI *pWidget,
   save old pixels in 'pPixelArray'
 **************************************************************************/
 static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
-						     Uint32 color,
-						     Uint32 * pPixelArray)
+		Uint32 color, Uint32 * pPixelArray , SDL_Surface *pDest)
 {
 
   int x, y = (pWindow->size.y + WINDOW_TILE_HIGH);
   int x0 = pWindow->size.x, w = pWindow->size.x + pWindow->size.w;
-  int i =
-      make_copy_of_pixel_and_draw_frame_widget(pWindow, color,
-					       pPixelArray);
+  int i = make_copy_of_pixel_and_draw_frame_widget(pWindow, color,
+						   pPixelArray , pDest);
 
   x0 = MAX(x0, 0);
-  w = MIN(w, Main.screen->w);
+  w = MIN(w, pDest->w);
 
-  if (y >= 0 && y < Main.screen->h) {
+  if (y >= 0 && y < pDest->h) {
     for (x = x0 + 1; x < w - 1; x++) {
-      putpixel_and_save_bcg(Main.screen, x, y, color, pPixelArray[i++]);
+      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
     }
   }
 }
@@ -3290,18 +3324,18 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
   ( Undraw Window Frame )
 **************************************************************************/
 static void draw_frame_of_window_from_array(struct GUI *pWindow,
-					    Uint32 * pPixelArray)
+				Uint32 * pPixelArray , SDL_Surface *pDest)
 {
   int x, y = pWindow->size.y + WINDOW_TILE_HIGH;
   int x0 = pWindow->size.x, w = pWindow->size.x + pWindow->size.w;
-  int i = draw_frame_of_widget_from_array(pWindow, pPixelArray);
+  int i = draw_frame_of_widget_from_array(pWindow, pPixelArray , pDest);
 
   x0 = MAX(x0, 0);
-  w = MIN(w, Main.screen->w);
+  w = MIN(w, pDest->w);
 
-  if (y >= 0 && y < Main.screen->h) {
+  if (y >= 0 && y < pDest->h) {
     for (x = x0 + 1; x < w - 1; x++) {
-      putpixel(Main.screen, x, y, pPixelArray[i++]);
+      putpixel(pDest, x, y, pPixelArray[i++]);
     }
   }
 }
@@ -3309,7 +3343,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 /**************************************************************************
   ...
 **************************************************************************/
-int move_window(struct GUI *pWindow)
+int move_window(struct GUI *pWindow , SDL_Surface *pDest)
 {
   int ret = 1, create = 0;
 
@@ -3318,7 +3352,7 @@ int move_window(struct GUI *pWindow)
   SDL_Rect *pRect_tab = NULL;
 
   while (ret) {
-    WaitEvent(&Main.event);
+    SDL_WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;
@@ -3332,33 +3366,37 @@ int move_window(struct GUI *pWindow)
 	pRect_tab = CALLOC(2, sizeof(SDL_Rect));
 
 	/* undraw window */
-	blit_entire_src(pWindow->gfx, Main.screen,
+	blit_entire_src(pWindow->gfx, pDest ,
 			pWindow->size.x, pWindow->size.y);
 
-	make_copy_of_pixel_and_draw_frame_window(pWindow, 0, pPixelArray);
+	make_copy_of_pixel_and_draw_frame_window(pWindow, 0,
+							pPixelArray , pDest);
 
-	refresh_rect(pWindow->size);
-
+	/*refresh_rect(pWindow->size);*/
+        flush_rect(pWindow->size);
+	
 	create = 1;
+      } else {
+        draw_frame_of_window_from_array(pWindow, pPixelArray , Main.screen);
       }
-      /* create */
-      draw_frame_of_window_from_array(pWindow, pPixelArray);
 
 
       pRect_tab[0] = pWindow->size;
       correct_rect_region(&pRect_tab[0]);
-
+      /*add_refresh_rect(pWindow->size);*/
+      
       pWindow->size.x += Main.event.motion.xrel;
       pWindow->size.y += Main.event.motion.yrel;
 
-      make_copy_of_pixel_and_draw_frame_window(pWindow, 0, pPixelArray);
+      make_copy_of_pixel_and_draw_frame_window(pWindow, 0, pPixelArray, Main.screen);
 
 
       pRect_tab[1] = pWindow->size;
       correct_rect_region(&pRect_tab[1]);
-
+      /*add_refresh_rect(pWindow->size);*/
+      
       SDL_UpdateRects(Main.screen, 2, pRect_tab);
-
+      /*flush_dirty();*/
 
       break;
     }				/* switch */
@@ -3366,9 +3404,9 @@ int move_window(struct GUI *pWindow)
 
   if (create) {
     /* undraw frame */
-    draw_frame_of_window_from_array(pWindow, pPixelArray);
+    draw_frame_of_window_from_array(pWindow, pPixelArray, Main.screen);
 
-    refresh_widget_background(pWindow);
+    refresh_widget_background(pWindow, pDest);
   }
 
   FREE(pRect_tab);
@@ -3380,40 +3418,38 @@ int move_window(struct GUI *pWindow)
 /**************************************************************************
   Redraw Window Graphic ( without other Widgets )
 **************************************************************************/
-int redraw_window(struct GUI *pWindow)
+int redraw_window(struct GUI *pWindow, SDL_Surface *pDest)
 {
   SDL_Surface *pTmp = NULL;
-  SDL_Rect dst = { pWindow->size.x, pWindow->size.y, 0, 0 };
+  SDL_Rect dst = pWindow->size;
 
   /* Draw theme */
-  SDL_BlitSurface(pWindow->theme, NULL, Main.screen, &dst);
+  SDL_BlitSurface(pWindow->theme, NULL, pDest, &dst);
 
-  /* Draw Window's TitelBar */
-  pTmp = create_filled_surface(pWindow->size.w,
-			       WINDOW_TILE_HIGH, SDL_SWSURFACE, NULL);
-
-  SDL_BlitSurface(pTmp, NULL, Main.screen, &dst);
-  FREESURFACE(pTmp);
-
-  /* Draw Text on Window's TitelBar */
+  /* window has title string == has title bar */
   if (pWindow->string16) {
+    /* Draw Window's TitelBar */
+    SDL_Color color = {255, 255, 255, 128};
+    dst = pWindow->size;
+    dst.h = WINDOW_TILE_HIGH;
+    SDL_FillRectAlpha(pDest, &dst, &color);
+    
+    /* Draw Text on Window's TitelBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
     dst.x += 10;
-    dst.y += ((WINDOW_TILE_HIGH - pTmp->h) / 2);
-    SDL_BlitSurface(pTmp, NULL, Main.screen, &dst);
-    FREESURFACE(pTmp);
-  }
-
-  /* draw frame */
-  draw_frame(Main.screen, pWindow->size.x, pWindow->size.y,
-	     pWindow->size.w, pWindow->size.h);
-
-
-  putline(Main.screen, pWindow->size.x + FRAME_WH,
+    if(pTmp) {
+      dst.y += ((WINDOW_TILE_HIGH - pTmp->h) / 2);
+      SDL_BlitSurface(pTmp, NULL, pDest, &dst);
+      FREESURFACE(pTmp);
+    }
+  
+    putline(pDest, pWindow->size.x + FRAME_WH,
 	  pWindow->size.y + WINDOW_TILE_HIGH,
 	  pWindow->size.x + pWindow->size.w - FRAME_WH,
-	  pWindow->size.y + WINDOW_TILE_HIGH, 0);
-
+	  pWindow->size.y + WINDOW_TILE_HIGH, 
+    		SDL_MapRGB(pDest->format, 0, 0, 0));    
+  }
+  
   return 0;
 }
 
@@ -3451,42 +3487,25 @@ void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 /**************************************************************************
   ...
 **************************************************************************/
-void refresh_widget_background(struct GUI *pWidget)
+void refresh_widget_background(struct GUI *pWidget, SDL_Surface *pSrc)
 {
   if (pWidget) {
     if (pWidget->gfx) {
-      SDL_BlitSurface(Main.screen, &pWidget->size, pWidget->gfx, NULL);
+      if(pSrc->format->Amask) {
+       SDL_SetAlpha(pSrc, 0x0, 0x0);
+      }
+      SDL_BlitSurface(pSrc, &pWidget->size, pWidget->gfx, NULL);
+      if(pSrc->format->Amask) {
+       SDL_SetAlpha(pSrc, SDL_SRCALPHA, 255);
+      }
     } else {
-      pWidget->gfx = crop_rect_from_screen(pWidget->size);
+      pWidget->gfx = crop_rect_from_surface(pSrc , &pWidget->size);
+      if(pWidget->gfx->format->Amask) {
+       SDL_SetAlpha(pWidget->gfx, 0x0, 0x0);
+      }
     }
   }
 }
-
-#if 0
-/**************************************************************************
-  This is very simple implementations of "Button Menu"
-  Buttons are taken from "private" button list 'pFirstButtonOnList'
-**************************************************************************/
-void draw_menubuttons(struct GUI *pFirstButtonOnList)
-{
-  struct GUI *pTmp = pFirstButtonOnList;
-  Uint16 h = 0;
-
-  if (!pFirstButtonOnList) {
-    return;
-  }
-
-  while (pTmp) {
-    redraw_widget(pTmp);
-    h += pTmp->size.h;
-    pTmp = pTmp->next;
-  }
-
-  draw_frame(Main.screen, pFirstButtonOnList->size.x - 3,
-	     pFirstButtonOnList->size.y - 3,
-	     pFirstButtonOnList->size.w + 6, h + 6);
-}
-#endif
 
 /* =================================================== */
 /* ======================= LABELs ==================== */
@@ -3501,17 +3520,14 @@ void remake_label_size(struct GUI *pLabel)
   SDL_String16 *pText = pLabel->string16;
   Uint32 flags = get_wflags(pLabel);
   SDL_Rect buf = { 0, 0, 0, 0 };
-  Uint16 w = 0, h = 0 , space;
-  
-  if ( flags & WF_DRAW_TEXT_LABEL_WITH_SPACE )
-  {
+  Uint16 w = 0, h = 0, space;
+
+  if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
     space = 10;
-  }
-  else
-  {
+  } else {
     space = 0;
   }
-  
+
   if (pText) {
     pLabel->string16->style |= SF_CENTER;
     buf = str16size(pText);
@@ -3632,14 +3648,14 @@ static int redraw_themelabel(struct GUI *pLabel)
 
   /* redraw theme */
   if (pLabel->theme) {
-    ret = blit_entire_src(pLabel->theme, Main.screen,
+    ret = blit_entire_src(pLabel->theme, Main.gui,
 			  pLabel->size.x, pLabel->size.y);
     if (ret) {
       return ret;
     }
   }
 
-  ret = blit_entire_src(pText, Main.screen, pLabel->size.x + x,
+  ret = blit_entire_src(pText, Main.gui, pLabel->size.x + x,
 			pLabel->size.y + y);
 
   FREESURFACE(pText);
@@ -3651,31 +3667,35 @@ static int redraw_themelabel(struct GUI *pLabel)
 /**************************************************************************
   ...
 **************************************************************************/
-static int redraw_iconlabel(struct GUI *pLabel)
+static int redraw_iconlabel(struct GUI *pLabel , SDL_Surface *pDest)
 {
-  int space , ret = 0; /* FIXME: possibly uninitialized */
+  int space, ret = 0; /* FIXME: possibly uninitialized */
   Sint16 x, xI, yI;
   Sint16 y = 0; /* FIXME: possibly uninitialized */
-  SDL_Surface *pText = NULL;
+  SDL_Surface *pText;
   Uint32 flags;
-  
+
   if (!pLabel) {
     return -3;
   }
 
   flags = get_wflags(pLabel);
-  
-  if ( flags & WF_DRAW_TEXT_LABEL_WITH_SPACE )
-  {
+
+  if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
     space = 5;
-  }
-  else
-  {
+  } else {
     space = 0;
   }
-  
+
   pText = create_text_surf_from_str16(pLabel->string16);
 
+  if(pText && (pLabel->string16->render == 3) &&
+    (flags & WF_DRAW_THEME_TRANSPARENT) &&
+    ((pDest->format->BitsPerPixel == 32) && pDest->format->Amask))
+  {
+    SDL_SetAlpha(pText, 0x0, 0x0);
+  }
+  
   if (pLabel->theme) {		/* Icon */
     if (pText) {
       if (flags & WF_ICON_CENTER_RIGHT) {
@@ -3711,7 +3731,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
       xI = space;
     }
 
-    ret = blit_entire_src(pLabel->theme, Main.screen, pLabel->size.x + xI,
+    ret = blit_entire_src(pLabel->theme, pDest, pLabel->size.x + xI,
 			  pLabel->size.y + yI);
     if (ret) {
       return ret - 10;
@@ -3720,11 +3740,11 @@ static int redraw_iconlabel(struct GUI *pLabel)
 
   if (pText) {
     if (pLabel->theme) { /* Icon */
-      if (!(flags & WF_ICON_ABOVE_TEXT) &&
-	  !(flags & WF_ICON_UNDER_TEXT)) {
+      if (!(flags & WF_ICON_ABOVE_TEXT) && !(flags & WF_ICON_UNDER_TEXT)) {
 	if (flags & WF_ICON_CENTER_RIGHT) {
 	  if (pLabel->string16->style & SF_CENTER) {
-	    x = (pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w)/2;
+	    x = (pLabel->size.w - (pLabel->theme->w + 5 + space) -
+		 pText->w) / 2;
 	  } else {
 	    if (pLabel->string16->style & SF_CENTER_RIGHT) {
 	      x = pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w;
@@ -3740,8 +3760,9 @@ static int redraw_iconlabel(struct GUI *pLabel)
 	  } else {		/* WF_ICON_CENTER_LEFT */
 	    if (pLabel->string16->style & SF_CENTER) {
 	      x = space + pLabel->theme->w + 5 + ((pLabel->size.w -
-					   (space + pLabel->theme->w + 5) -
-					   pText->w) / 2);
+						   (space +
+						    pLabel->theme->w + 5) -
+						   pText->w) / 2);
 	    } else {
 	      if (pLabel->string16->style & SF_CENTER_RIGHT) {
 		x = pLabel->size.w - pText->w - space;
@@ -3770,7 +3791,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
       }
     }
 
-    ret = blit_entire_src(pText, Main.screen, pLabel->size.x + x,
+    ret = blit_entire_src(pText, pDest , pLabel->size.x + x,
 			  pLabel->size.y + y);
     FREESURFACE(pText);
 
@@ -3782,37 +3803,62 @@ static int redraw_iconlabel(struct GUI *pLabel)
 /**************************************************************************
   ...
 **************************************************************************/
-int redraw_label(struct GUI *pLabel)
+int redraw_label(struct GUI *pLabel , SDL_Surface *pDest)
 {
+  int ret;
   SDL_Rect area = pLabel->size;
+  SDL_Color bar_color = {0, 0, 255, 128};
+  SDL_Color backup_color = {0, 0, 0, 0};
+  
   /* if label transparen then clear background under widget
    * or save this background */
   if (get_wflags(pLabel) & WF_DRAW_THEME_TRANSPARENT) {
     if (pLabel->gfx) {
-      SDL_BlitSurface(pLabel->gfx, NULL, Main.screen, &area);
+      SDL_BlitSurface(pLabel->gfx, NULL, pDest , &area);
     } else {
-      pLabel->gfx = crop_rect_from_screen(pLabel->size);
+      pLabel->gfx = crop_rect_from_surface( pDest , &pLabel->size);
+      if (pDest->format->Amask) {
+	SDL_SetAlpha(pLabel->gfx, 0x0, 0x0);
+      }
     }
   }
 
   /* redraw sellect bar */
   if (get_wstate(pLabel) == WS_SELLECTED) {
-    SDL_Color bar_color;
-
-    if (pLabel->string16) {
-      bar_color = pLabel->string16->backcol;
+    
+    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+      if (pLabel->string16) {
+        backup_color = pLabel->string16->forecol;
+        pLabel->string16->forecol = bar_color;
+	pLabel->string16->style |= TTF_STYLE_BOLD;
+      }
     } else {
-      bar_color.r = 255;
-      bar_color.g = 255;
-      bar_color.b = 255;
-      bar_color.unused = 128;	/* alpha */
+      SDL_FillRectAlpha(pDest, &area, &bar_color);
+    
+      if (pLabel->string16 && (pLabel->string16->render == 3)) {
+        backup_color = pLabel->string16->backcol;
+        SDL_GetRGBA(getpixel(pDest, area.x , area.y), pDest->format,
+	      &pLabel->string16->backcol.r, &pLabel->string16->backcol.g,
+      		&pLabel->string16->backcol.b, &pLabel->string16->backcol.unused);
+      }
     }
-
-    SDL_FillRectAlpha(Main.screen, &area, &bar_color);
   }
 
   /* redraw icon label */
-  return redraw_iconlabel(pLabel);
+  ret = redraw_iconlabel(pLabel , pDest);
+  
+  if ((get_wstate(pLabel) == WS_SELLECTED) && (pLabel->string16)) {
+    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+      pLabel->string16->forecol = backup_color;
+      pLabel->string16->style &= ~TTF_STYLE_BOLD;
+    } else {
+      if(pLabel->string16->render == 3) {
+	pLabel->string16->backcol = backup_color;
+      }
+    } 
+  }
+  
+  return ret;
 }
 
 /**************************************************************************
@@ -3822,7 +3868,7 @@ int draw_label(struct GUI *pLabel, Sint16 start_x, Sint16 start_y)
 {
   pLabel->size.x = start_x;
   pLabel->size.y = start_y;
-  return redraw_label(pLabel);
+  return redraw_label(pLabel, Main.gui);
 }
 
 /* =================================================== */
@@ -3903,7 +3949,7 @@ bool get_checkbox_state(struct GUI *pCBox)
   return FALSE; 
 }
 
-int redraw_textcheckbox(struct GUI *pCBox)
+int redraw_textcheckbox(struct GUI *pCBox, SDL_Surface *pDest)
 {
   int ret;
   SDL_Surface *pTheme_Surface = pCBox->theme;
@@ -3919,15 +3965,14 @@ int redraw_textcheckbox(struct GUI *pCBox)
   /* if label transparen then clear background under widget or save this background */
   if (get_wflags(pCBox) & WF_DRAW_THEME_TRANSPARENT) {
     if (pCBox->gfx) {
-      blit_entire_src(pCBox->gfx, Main.screen, pCBox->size.x,
-		      pCBox->size.y);
+      blit_entire_src(pCBox->gfx, pDest, pCBox->size.x, pCBox->size.y);
     } else {
-      pCBox->gfx = crop_rect_from_screen(pCBox->size);
+      pCBox->gfx = crop_rect_from_surface(pDest , &pCBox->size);
     }
   }
 
   /* redraw icon label */
-  ret = redraw_iconlabel(pCBox);
+  ret = redraw_iconlabel(pCBox, pDest);
 
   FREESURFACE(pIcon);
   pCBox->theme = pTheme_Surface;

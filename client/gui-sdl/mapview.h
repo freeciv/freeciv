@@ -37,5 +37,5 @@ SDL_Surface * get_terrain_surface(int x , int y);
 int correction_map_pos(int *pCol, int *pRow);
 void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
 			  Sint16 map_x, Sint16 map_y);
-
+void flush_rect( SDL_Rect rect );
 #endif	/* FC__MAPVIEW_H */

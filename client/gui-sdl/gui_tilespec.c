@@ -67,67 +67,67 @@ static void reload_small_citizens_icons( int style , struct city *pCity )
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_HAPPY, 0, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pMale_Happy , 0 ,0 ) );
+			    get_first_pixel(pIcons->pMale_Happy));
     
   pIcons->pFemale_Happy =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_HAPPY, 1, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pFemale_Happy , 0 ,0 ) );
+			    get_first_pixel(pIcons->pFemale_Happy));
     
   pIcons->pMale_Content =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_CONTENT, 0, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pMale_Content , 0 ,0 ) );
+			    get_first_pixel(pIcons->pMale_Content ));
     
   pIcons->pFemale_Content =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_CONTENT, 1, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pFemale_Content , 0 ,0 ) );
+			    get_first_pixel(pIcons->pFemale_Content));
     
   pIcons->pMale_Unhappy =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_UNHAPPY, 0, pCity)),
 			   15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pMale_Unhappy , 0 ,0 ) );
+			    get_first_pixel(pIcons->pMale_Unhappy));
     
   pIcons->pFemale_Unhappy =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_UNHAPPY, 1, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pFemale_Unhappy , 0 ,0 ) );
+			    get_first_pixel(pIcons->pFemale_Unhappy));
     
   pIcons->pMale_Angry =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ANGRY, 0, pCity)),
 		  15, 26, 1);
-  SDL_SetColorKey( pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pMale_Angry , 0 ,0 ) );
+  SDL_SetColorKey(pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
+			    get_first_pixel(pIcons->pMale_Angry));
     
   pIcons->pFemale_Angry =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ANGRY, 1, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pFemale_Angry , 0 ,0 ) );
+			    get_first_pixel(pIcons->pFemale_Angry));
     
   pIcons->pSpec_Lux =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Lux , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pSpec_Lux , 0 ,0 ) );
+			    get_first_pixel(pIcons->pSpec_Lux));
     
   pIcons->pSpec_Tax =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_TAXMAN, 0, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Tax , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pSpec_Tax , 0 ,0 ) );
+			    get_first_pixel(pIcons->pSpec_Tax));
     
   pIcons->pSpec_Sci =
     ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCity)),
 		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Sci , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    getpixel( pIcons->pSpec_Sci , 0 ,0 ) );
+			    get_first_pixel(pIcons->pSpec_Sci));
     
 }
 /* ================================================================================= */
@@ -153,7 +153,7 @@ void tilespec_setup_city_icons(void)
   char cBuf[80]; /* I hope this is enought :) */
   SDL_Rect crop_rect = { 0, 0, 14, 14 };
   SDL_Surface *pBuf = NULL;
-
+  
   pIcons = ( struct City_Icon *)MALLOC( sizeof( struct City_Icon ));
 	  
   my_snprintf(cBuf, sizeof(cBuf) ,"%s%s", pDataPath, "theme/default/city_icons.png");
@@ -173,13 +173,13 @@ void tilespec_setup_city_icons(void)
   pIcons->pBIG_Shield_Corr = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Shield_Corr,
 		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Shield_Corr, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Shield_Corr));
 
   crop_rect.x += 15;
   pIcons->pBIG_Trade_Corr = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Trade_Corr,
 		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Trade_Corr, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Trade_Corr));
 
   crop_rect.x = 1;
   crop_rect.y += 15;
@@ -187,41 +187,51 @@ void tilespec_setup_city_icons(void)
   SDL_SetColorKey(pIcons->pBIG_Food, SDL_SRCCOLORKEY | SDL_RLEACCEL,
 		  getpixel(pIcons->pBIG_Food, 13, 0));
 
+  pIcons->pBIG_Food_Surplus = crop_rect_from_surface(pBuf, &crop_rect);
+  SDL_SetColorKey(pIcons->pBIG_Food_Surplus, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  getpixel(pIcons->pBIG_Food_Surplus, 13, 0));
+  SDL_SetAlpha(pIcons->pBIG_Food_Surplus, SDL_SRCALPHA, 128);
+  
   crop_rect.x += 15;
   pIcons->pBIG_Shield = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Shield, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Shield, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Shield));
 
+  pIcons->pBIG_Shield_Surplus = crop_rect_from_surface(pBuf, &crop_rect);
+  SDL_SetColorKey(pIcons->pBIG_Shield_Surplus, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pIcons->pBIG_Shield_Surplus));
+  SDL_SetAlpha(pIcons->pBIG_Shield_Surplus, SDL_SRCALPHA, 128);
+  
   crop_rect.x += 15;
   pIcons->pBIG_Trade = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Trade, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Trade, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Trade));
   crop_rect.x = 1;
   crop_rect.y += 15;
   pIcons->pBIG_Luxury = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Luxury, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Luxury, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Luxury));
   crop_rect.x += 15;
   pIcons->pBIG_Coin = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Coin, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Coin, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Coin));
   crop_rect.x += 15;
   pIcons->pBIG_Colb = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Colb, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Colb, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Colb));
 
   crop_rect.x = 1 + 15;
   crop_rect.y += 15;
   pIcons->pBIG_Coin_Corr = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Coin_Corr,
 		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Coin_Corr, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Coin_Corr));
 
   crop_rect.x += 15;
   pIcons->pBIG_Coin_UpKeep = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pBIG_Coin_UpKeep,
 		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pBIG_Coin_UpKeep, 0, 0));
+		  get_first_pixel(pIcons->pBIG_Coin_UpKeep));
 		  
   /* small icon */
   crop_rect.x = 1;
@@ -230,36 +240,36 @@ void tilespec_setup_city_icons(void)
   crop_rect.h = 10;
   pIcons->pFood = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pFood, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pFood, 0, 0));
+		  get_first_pixel(pIcons->pFood));
 
   crop_rect.x += 11;
   pIcons->pShield = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pShield, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pShield, 0, 0));
+		  get_first_pixel(pIcons->pShield));
 
   crop_rect.x += 11;
   pIcons->pTrade = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pTrade, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pTrade, 0, 0));
+		  get_first_pixel(pIcons->pTrade));
 
   crop_rect.x += 11;
   pIcons->pFace = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pFace, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pFace, 0, 0));
+		  get_first_pixel(pIcons->pFace));
 
   crop_rect.x += 1;
   crop_rect.y += 11;
   pIcons->pLuxury = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pLuxury, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pLuxury, 0, 0));
+		  get_first_pixel(pIcons->pLuxury));
   crop_rect.x += 11;
   pIcons->pCoin = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pCoin, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pCoin, 0, 0));
+		  get_first_pixel(pIcons->pCoin));
   crop_rect.x += 11;
   pIcons->pColb = crop_rect_from_surface(pBuf, &crop_rect);
   SDL_SetColorKey(pIcons->pColb, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pColb, 0, 0));
+		  get_first_pixel(pIcons->pColb));
 
   FREESURFACE(pBuf);
   /* ================================================================= */
@@ -269,7 +279,7 @@ void tilespec_setup_city_icons(void)
   assert(pIcons->pPollution != NULL);
   
   SDL_SetColorKey(pIcons->pPollution, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pIcons->pPollution, 0, 0));
+		  get_first_pixel(pIcons->pPollution));
   /* ================================================================= */
   my_snprintf(cBuf, sizeof(cBuf) ,"%s%s", pDataPath, "theme/default/city_fist.png");
 
@@ -295,7 +305,8 @@ void tilespec_setup_city_icons(void)
 void tilespec_setup_theme(void)
 {
   char buf[80];	/* I hope this is enought :) */
-
+  int i;
+  
   pTheme = MALLOC(sizeof(struct Theme));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
@@ -367,13 +378,13 @@ void tilespec_setup_theme(void)
 	      "theme/default/sellected_buttons.png");
   pTheme->CBOX_Sell_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->CBOX_Sell_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CBOX_Sell_Icon, 0, 0));
+		  get_first_pixel(pTheme->CBOX_Sell_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/unsellected_buttons.png");
   pTheme->CBOX_Unsell_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->CBOX_Unsell_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CBOX_Unsell_Icon, 0, 0));
+		  get_first_pixel(pTheme->CBOX_Unsell_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/fr_vert.png");
@@ -434,62 +445,62 @@ void tilespec_setup_theme(void)
 	      "theme/default/find_city_buttons.png");
   pTheme->FindCity_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->FindCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->FindCity_Icon, 0, 0));
+		  get_first_pixel(pTheme->FindCity_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/new_turn_buttons.png");
   pTheme->NEW_TURN_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->NEW_TURN_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->NEW_TURN_Icon, 0, 0));
+		  get_first_pixel(pTheme->NEW_TURN_Icon));
 
   /* ================================================================== */
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/I_buttons.png");
   pTheme->INFO_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->INFO_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->INFO_Icon, 0, 0));
+		  get_first_pixel(pTheme->INFO_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/happy_buttons.png");
   pTheme->Happy_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->Happy_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Happy_Icon, 0, 0));
+		  get_first_pixel(pTheme->Happy_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/army_buttons.png");
   pTheme->Army_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->Army_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Army_Icon, 0, 0));
+		  get_first_pixel(pTheme->Army_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/supported_buttons.png");
   pTheme->Support_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->Support_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Support_Icon, 0, 0));
+		  get_first_pixel(pTheme->Support_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/prod_buttons.png");
   pTheme->PROD_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->PROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->PROD_Icon, 0, 0));
+		  get_first_pixel(pTheme->PROD_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/q_prod_buttons.png");
   pTheme->QPROD_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->QPROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->QPROD_Icon, 0, 0));
+		  get_first_pixel(pTheme->QPROD_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/buy_buttons.png");
   pTheme->Buy_PROD_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->Buy_PROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Buy_PROD_Icon, 0, 0));
+		  get_first_pixel(pTheme->Buy_PROD_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/cma_buttons.png");
   pTheme->CMA_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->CMA_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CMA_Icon, 0, 0));
+		  get_first_pixel(pTheme->CMA_Icon));
 
   /* ================================================================== */
 
@@ -497,129 +508,152 @@ void tilespec_setup_theme(void)
 	      "theme/default/order2_buttons.png");
   pTheme->Order_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->Order_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Order_Icon, 0, 0));
+		  get_first_pixel(pTheme->Order_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_disband2_buttons.png");
   pTheme->ODisband_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->ODisband_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ODisband_Icon, 0, 0));
+		  get_first_pixel(pTheme->ODisband_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_wait_buttons.png");
   pTheme->OWait_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OWait_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OWait_Icon, 0, 0));
+		  get_first_pixel(pTheme->OWait_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_done_buttons.png");
   pTheme->ODone_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->ODone_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ODone_Icon, 0, 0));
+		  get_first_pixel(pTheme->ODone_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_auto_att_buttons.png");
   pTheme->OAutoAtt_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OAutoAtt_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoAtt_Icon, 0, 0));
+		  get_first_pixel(pTheme->OAutoAtt_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_auto_sett_buttons.png");
   pTheme->OAutoSett_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OAutoSett_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoSett_Icon, 0, 0));
+		  get_first_pixel(pTheme->OAutoSett_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_auto_cont_buttons.png");
   pTheme->OAutoConet_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OAutoConet_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoConet_Icon, 0, 0));
+		  get_first_pixel(pTheme->OAutoConet_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_auto_exp_buttons.png");
   pTheme->OAutoExp_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OAutoExp_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoExp_Icon, 0, 0));
+		  get_first_pixel(pTheme->OAutoExp_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_unload_buttons.png");
   pTheme->OUnload_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OUnload_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OUnload_Icon, 0, 0));
+		  get_first_pixel(pTheme->OUnload_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_buildcity_buttons.png");
   pTheme->OBuildCity_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OBuildCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OBuildCity_Icon, 0, 0));
+		  get_first_pixel(pTheme->OBuildCity_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_gotocity_buttons.png");
   pTheme->OGotoCity_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OGotoCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OGotoCity_Icon, 0, 0));
+		 get_first_pixel(pTheme->OGotoCity_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_home_buttons.png");
   pTheme->OHomeCity_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OHomeCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OHomeCity_Icon, 0, 0));
+		  get_first_pixel(pTheme->OHomeCity_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_goto_buttons.png");
   pTheme->OGoto_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OGoto_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OGoto_Icon, 0, 0));
+		  get_first_pixel(pTheme->OGoto_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_patrol_buttons.png");
   pTheme->OPatrol_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OPatrol_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OPatrol_Icon, 0, 0));
+		  get_first_pixel(pTheme->OPatrol_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_mine_buttons.png");
   pTheme->OMine_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OMine_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OMine_Icon, 0, 0));
+		  get_first_pixel(pTheme->OMine_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_forest_buttons.png");
   pTheme->OForest_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OForest_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OForest_Icon, 0, 0));
+		  get_first_pixel(pTheme->OForest_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_crop_buttons.png");
   pTheme->OCropForest_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OCropForest_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OCropForest_Icon, 0, 0));
+		  get_first_pixel(pTheme->OCropForest_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_fortify_buttons.png");
   pTheme->OFortify_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OFortify_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OFortify_Icon, 0, 0));
+		  get_first_pixel(pTheme->OFortify_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_sentry_buttons.png");
   pTheme->OSentry_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OSentry_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OSentry_Icon, 0, 0));
+		  get_first_pixel(pTheme->OSentry_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_irigation_buttons.png");
   pTheme->OIrigation_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->OIrigation_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OIrigation_Icon, 0, 0));
+		  get_first_pixel(pTheme->OIrigation_Icon));
 
   my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
 	      "theme/default/order_road_buttons.png");
   pTheme->ORoad_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->ORoad_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ORoad_Icon, 0, 0));
+		  get_first_pixel(pTheme->ORoad_Icon));
+		  
+  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
+	      "theme/default/order_pillage_buttons.png");
+  pTheme->OPillage_Icon = load_surf(buf);
+  SDL_SetColorKey(pTheme->OPillage_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pTheme->OPillage_Icon));
 
+  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
+	      "theme/default/order_railroads_buttons.png");
+  pTheme->ORailRoad_Icon = load_surf(buf);
+  SDL_SetColorKey(pTheme->ORailRoad_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pTheme->ORailRoad_Icon));
 
+  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
+	      "theme/default/order_paradrop_buttons.png");
+  pTheme->OParaDrop_Icon = load_surf(buf);
+  SDL_SetColorKey(pTheme->OParaDrop_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pTheme->OParaDrop_Icon));
+
+  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
+	      "theme/default/order_nuke_buttons.png");
+  pTheme->ONuke_Icon = load_surf(buf);
+  SDL_SetColorKey(pTheme->ONuke_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pTheme->ONuke_Icon));
+		  
   /* ================================================== */
   /* Map Dithering */
   
@@ -627,6 +661,14 @@ void tilespec_setup_theme(void)
   pDitherMask = load_surf(buf);
   assert(pDitherMask != NULL);	  
   
+  /* ================================================== */
+  for( i=0; i<4; i++) {
+    my_snprintf(buf,sizeof(buf), "%s/theme/default/anim%d.png", pDataPath, i+1 );
+    pTheme->ActiveUnit[i] = load_surf(buf);
+    assert(pTheme->ActiveUnit[i] != NULL);
+    SDL_SetColorKey(pTheme->ActiveUnit[i], SDL_SRCCOLORKEY | SDL_RLEACCEL,
+		  get_first_pixel(pTheme->ActiveUnit[i]));
+  }
   return;
 }
 
