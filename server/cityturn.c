@@ -1125,22 +1125,20 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pplayer(pplayer);
   int space_part;
-  
-  if (pcity->shield_surplus<0) {
+
+  while (pcity->shield_surplus<0) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (utype_shield_cost(get_unit_type(punit->type), g)) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, get_unit_type(punit->type)->name);
-	 wipe_unit(pplayer, punit);
-	 break;
+	wipe_unit(pplayer, punit);
+	break;
       }
     }
     unit_list_iterate_end;
   }
-  
-  if(pcity->shield_surplus<=0 && !city_unhappy(pcity)) 
-    pcity->shield_surplus=1;
+
   pcity->shield_stock+=pcity->shield_surplus;
   if (!pcity->is_building_unit) {
     if (pcity->currently_building==B_CAPITAL) {

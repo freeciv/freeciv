@@ -1172,9 +1172,6 @@ int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
 {
   int city_shield_surplus = pcity->shield_surplus;
 
-  if(city_shield_surplus==0 && !city_unhappy(pcity))
-    city_shield_surplus=1;
-
   if (city_shield_surplus > 0)
   {
     int rounds, cost;
