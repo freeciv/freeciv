@@ -1159,66 +1159,19 @@ void change_callback(struct city_dialog *pdialog)
       lvi.mask=LVIF_TEXT;
       for(i=0; i<4; i++)
 	row[i]=buf[i];
+	
       for(i=0, n=0; i<game.num_impr_types; i++)
-	 
 	if(can_build_improvement(pdialog->pcity, i)) {
-	  if (i==B_CAPITAL) { /* Total & turns left meaningless on capitalization */
-	    my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
-	    buf[1][0]='\0';
-	    my_snprintf(buf[2], sizeof(buf[2]), "--");
-	    my_snprintf(buf[3], sizeof(buf[3]), "--");
-	  } else {
-	    turns = city_turns_to_build (pdialog->pcity, i, FALSE,TRUE);
-	    my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
-	     
-	    /* from city.c get_impr_name_ex() */
-	    if (wonder_replacement(pdialog->pcity, i))
-	      {
-		my_snprintf(buf[1], sizeof(buf[1]), "*");
-	      }
-	    else
-	      {
-		char *state = "";
-		 
-		if (is_wonder(i))
-		  {
-		    state = _("Wonder");
-		    if (game.global_wonders[i]) state = _("Built");
-		    if (wonder_obsolete(i))     state = _("Obsolete");
-		  }
-		my_snprintf(buf[1], sizeof(buf[1]), state);
-	      }
-	  
-	    my_snprintf(buf[2], sizeof(buf[2]), "%d",
-			get_improvement_type(i)->build_cost);
-	    my_snprintf(buf[3], sizeof(buf[3]), "%d",
-			turns);
-	  }
+	  id_to_info_row(row, sizeof(buf[0]), i, FALSE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}
+	
       pdialog->change_list_num_improvements=n;
       
       for(i=0; i<game.num_unit_types; i++)
 	if(can_build_unit(pdialog->pcity, i)) {
-	  struct unit_type *ptype;
-
-	  turns = city_turns_to_build (pdialog->pcity, i, TRUE,TRUE);
-	  my_snprintf(buf[0], sizeof(buf[0]), unit_name(i));
-	  
-	  /* from unit.h get_unit_name() */
-	  ptype = get_unit_type(i);
-	  if (ptype->fuel > 0)
-	    my_snprintf(buf[1], sizeof(buf[1]), "%d/%d/%d(%d)",
-			ptype->attack_strength, ptype->defense_strength,
-			ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);
-	  else
-	    my_snprintf(buf[1], sizeof(buf[1]), "%d/%d/%d",
-			ptype->attack_strength, ptype->defense_strength,
-			ptype->move_rate / 3);
-	  my_snprintf(buf[2], sizeof(buf[2]), "%d", 
-		      get_unit_type(i)->build_cost);
-	  my_snprintf(buf[3], sizeof(buf[3]), "%d", turns);
+	  id_to_info_row(row, sizeof(buf[0]), i, TRUE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}
