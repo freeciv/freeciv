@@ -59,6 +59,7 @@ static int *river_map;
 static int *height_map;
 static int maxval=0;
 static int forests=0;
+static bool has_poles;
 
 struct isledata {
   int goodies;
@@ -854,7 +855,7 @@ static void make_land(void)
       tres*=9;
     tres/=10;
   } while (abs(total-count)> maxval/40);
-  if (map.separatepoles) {
+  if (map.separatepoles && has_poles) {
     make_passable();
   }
   make_mountains(maxval*8/10);
@@ -862,7 +863,9 @@ static void make_land(void)
   make_swamps();
   make_deserts();
   make_plains();
-  make_polar();
+  if (has_poles) {
+    make_polar();
+  }
   make_fair();
   make_rivers();
 }
@@ -937,7 +940,7 @@ void assign_continent_numbers(void)
     map_set_continent(x, y, 0);
   } whole_map_iterate_end;
 
-  if (map.generator != 0) {
+  if (map.generator != 0 && has_poles) {
     assign_continent_flood(0, 0, 1);
     assign_continent_flood(0, map.ysize-1, 2);
     isle = 3;
@@ -970,7 +973,7 @@ static void setup_isledata(void)
   islands = fc_calloc((map.num_continents + 1), sizeof(struct isledata));
   
   /* the arctic and the antarctic are continents 1 and 2 for generator > 0 */
-  if ((map.generator > 0) && map.separatepoles) {
+  if (map.generator > 0 && map.separatepoles && has_poles) {
     firstcont = 3;
   } else {
     firstcont = 1;
@@ -1154,7 +1157,14 @@ void map_fractal_generate(void)
     map.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
 
   mysrand(map.seed);
-  
+
+  /* FIXME: currently the lack of poles is hard-coded for maps that wrap
+   * north-south.  In the future this could be a server option.  It also
+   * needs to control the temperature gradient between "poles" and
+   * "equator"; e.g., if there are no poles desert and tundra should be
+   * equally likely at either end. */
+  has_poles = !topo_has_flag(TF_WRAPY);
+
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
@@ -1771,21 +1781,27 @@ static void initworld(struct gen234_state *pstate)
       map_clear_all_specials(x, y);
       map_set_owner(x, y, NULL);
     }
-  for (x = 0 ; x < map.xsize; x++) {
-    map_set_terrain(x, 0, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-    map_set_continent(x, 0, 1);
-    if (myrand(9) == 0) {
-      map_set_terrain(x, 1, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-      map_set_continent(x, 1, 1);
+  if (has_poles) {
+    for (x = 0; x < map.xsize; x++) {
+      map_set_terrain(x, 0, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
+      map_set_continent(x, 0, 1);
+      if (myrand(9) == 0) {
+	map_set_terrain(x, 1, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
+	map_set_continent(x, 1, 1);
+      }
+      map_set_terrain(x, map.ysize - 1,
+		      myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
+      map_set_continent(x, map.ysize - 1, 2);
+      if (myrand(9) == 0) {
+	map_set_terrain(x, map.ysize - 2,
+			myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
+	map_set_continent(x, map.ysize - 2, 2);
+      }
     }
-    map_set_terrain(x, map.ysize-1, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-    map_set_continent(x, map.ysize-1, 2);
-    if (myrand(9) == 0) {
-      map_set_terrain(x, map.ysize-2, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-      map_set_continent(x, map.ysize-2, 2);
-    }
+    map.num_continents = 2;
+  } else {
+    map.num_continents = 0;
   }
-  map.num_continents = 2;
   make_island(0, 0, pstate, 0);
   islands[2].starters = 0;
   islands[1].starters = 0;
@@ -2140,7 +2156,7 @@ static void mapgenerator5(void)
     for (y = 0; y < ydiv2; y++) {
       hmap(0, y * ymax / ydiv) -= avoidedge;
       hmap(xmax, y * ymax / ydiv) -= avoidedge;
-      if (map.separatepoles) {
+      if (map.separatepoles && has_poles) {
 	hmap(2, y * ymax / ydiv) = hmap(0, y * ymax / ydiv) 
 	                                                - myrand(3*avoidedge);
 	hmap(xmax - 2, y * ymax / ydiv) 
@@ -2153,7 +2169,7 @@ static void mapgenerator5(void)
     for (x = 0; x < xdiv2; x++) {
       hmap(x * xmax / xdiv, 0) -= avoidedge;
       hmap(x * xmax / xdiv, ymax) -= avoidedge;
-      if (map.separatepoles){
+      if (map.separatepoles && has_poles) {
 	hmap(x * xmax / xdiv, 2) = hmap(x * xmax / xdiv, 0) 
                                                        - myrand(3*avoidedge);
 	hmap(x * xmax / xdiv, ymax - 2) 
