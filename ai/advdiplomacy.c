@@ -491,6 +491,9 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
     total_balance += balance;
     gift = (gift && (balance >= 0));
     ai_treaty_react(pplayer, aplayer, pclause);
+    if (pclause->type == CLAUSE_ALLIANCE && ai->diplomacy.target == aplayer) {
+      ai->diplomacy.target = NULL; /* Oooops... */
+    }
   } clause_list_iterate_end;
 
   /* Rather arbitrary algorithm to increase our love for a player if
@@ -901,7 +904,10 @@ void ai_diplomacy_actions(struct player *pplayer)
 
   if (target && !pplayers_at_war(pplayer, target)
       && ai->diplomacy.countdown-- <= 0) {
-    assert(!pplayers_allied(target, pplayer));
+    if (pplayers_allied(pplayer, target)) {
+      freelog(LOG_ERROR, "%s: Went to war against %s, who is an ally!",
+              pplayer->name, target->name); /* Oh, my. */
+    }
     if (pplayer->diplstates[target->player_no].has_reason_to_cancel > 0) {
       /* We have good reason */
       notify(target, _("*%s (AI)* Your despicable actions will not go "
