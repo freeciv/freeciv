@@ -1450,6 +1450,9 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     send_player_info(pplayer2, pplayer1);
     send_player_info(pplayer1, pplayer1);
     send_player_info(pplayer2, pplayer2);
+
+    check_city_workers(pplayer1);
+    check_city_workers(pplayer2);
     return;
   }
   if (player_has_embassy(pplayer1, pplayer2)
