@@ -172,9 +172,8 @@ following order: Glib, Gtk+, Imlib.
 2. Generating the Makefile:
 ===========================
 
-Before you compile Freeciv, you must generate a Makefile.  This
-makefile is configured to suit the features available on your
-machine.
+Before you compile Freeciv, you must generate a Makefile.  This makefile
+is configured to suit the features available on your machine.
 
 This configuration is done using the GNU "configure" script.
 
@@ -187,8 +186,8 @@ This script will then attempt to determine the relevant features (and
 misfeatures!!) of your system.  It should print a page or two of
 diagnostics about your machine, then stop gracefully.
 
-If you'd like help on the various options supported by the
-configure script, try the --help option, like this:
+If you'd like help on the various options supported by the configure
+script, try the --help option, like this:
 
  % ./configure --help
 
@@ -222,9 +221,11 @@ or
 If you're tracking down a "core dump", we suggest that you use
 a value of "-g" for CFLAGS.
 
-Note, the CFLAGS variable shouldn't be used to specify include and
-library directories.  Instead, use the proper configure command-line
-options for that.
+When you install Freeciv (later), the game components will be copied into
+subdirectories of /usr/local by default.  If you would like to use some
+other installation prefix besides /usr/local, you should specify it now:
+
+ % ./configure --prefix=/opt/freeciv
 
 If for some reason using "configure" gives you trouble, follow these steps:
 
@@ -289,13 +290,13 @@ the source directory; you must install Freeciv for that.)
 ================
 
 Installing Freeciv involves installing the components mentioned in
-Section 3.  These need to be copied to a directory such as /usr/games,
-/usr/games/freeciv, /usr/local/freeciv, or some other suitable
-directory.
+Section 3.  These need to be copied to a directory such as /usr/local
+(the default), /usr/games, /usr/games/freeciv, /usr/local/freeciv,
+or some other suitable directory.
 
-Typing "make install" should install everything correctly on
-your machine.  You may like to use the --prefix=DIR configure option
-to ensure the files get placed where you want.
+Typing "make install" should install everything correctly on your machine.
+You may like to use the --prefix=DIR configure option (see Section 2) to
+ensure the files get placed where you want.
 
 When the Freeciv client and Freeciv server are run they both need to 
 find some files from the "data" directory.  By default freeciv looks
