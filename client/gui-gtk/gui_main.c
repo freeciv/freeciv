@@ -156,15 +156,48 @@ void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_d
 void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
 
 
+/**************************************************************************
+  Print the usage information, including one line help on each option,
+  to stderr.
+**************************************************************************/
+static void print_usage(const char *argv0)
+{
+  fprintf(stderr, "Usage: %s [option ...]\nValid options are:\n", argv0);
+  fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
+  fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
+  fprintf(stderr, "  -n, --name=NAME\tUse NAME.\n");
+  fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
+  fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
+#ifdef DEBUG
+  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,"
+	                                          "or 3:file1,min,max:...)\n");
+#else
+  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n");
+#endif
+  fprintf(stderr, "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n");
+  fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
+}
+
+/**************************************************************************
+  Complain and die if str is NULL.
+  Could also check whether it is empty (*str == '\0') but
+  there may be cases where it is useful to use, eg "--name="
+  to specify an empty name...
+**************************************************************************/
+static void check_arg(const char *str, const char *optname, const char *argv0)
+{
+  if (str==NULL) {
+    fprintf(stderr, "Missing argument for %s\n", optname);
+    print_usage(argv0);
+    exit(1);
+  }
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
 void parse_options(int *argc, char **argv[])
 {
-  static char usage[] = 
-    "Usage: %s [option ...]\nValid options are:\n";
-
   char *logfile=NULL;
   int loglevel;
 
@@ -197,15 +230,7 @@ void parse_options(int *argc, char **argv[])
       if (!strcmp ("--help", (*argv)[i]) ||
               !strncmp ("-h", (*argv)[i], 2))
       {
-	fprintf(stderr, usage, (*argv)[0]);
-	fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
-	fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
-	fprintf(stderr, "  -n, --name=NAME\tUse NAME.\n");
-	fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
-	fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
-	fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n");
-	fprintf(stderr, "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n");
-	fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
+	print_usage((*argv)[0]);
 	exit(0);
       }
       else if (!strcmp ("--version", (*argv)[i]) ||
@@ -228,6 +253,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_log = (*argv)[i];
 	}
+	check_arg(opt_log, "--log", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	logfile=opt_log;
@@ -246,6 +272,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_name = (*argv)[i];
 	}
+	check_arg(opt_name, "--name", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	strcpy(name, opt_name);
@@ -264,6 +291,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_port = (*argv)[i];
 	}
+	check_arg(opt_port, "--port", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	server_port=atoi(opt_port);
@@ -282,6 +310,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_server = (*argv)[i];
 	}
+	check_arg(opt_server, "--server", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	strcpy(server_host, opt_server);
@@ -300,6 +329,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_debug = (*argv)[i];
 	}
+	check_arg(opt_debug, "--debug", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	loglevel=log_parse_level_str(opt_debug);
@@ -321,6 +351,7 @@ void parse_options(int *argc, char **argv[])
 	  i += 1;
 	  opt_tiles = (*argv)[i];
 	}
+	check_arg(opt_tiles, "--tiles", (*argv)[0]);
         (*argv)[i] = NULL;
 
 	tile_set_dir=opt_tiles;
