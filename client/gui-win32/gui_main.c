@@ -150,13 +150,25 @@ void set_overview_win_dim(int w, int h)
 
 static void Handle_Hscroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
 {
-  int PosCur,PosMax,PosMin,id;
+  int PosCur, PosMax, PosMin, id, xstep, ystep;
+  get_mapview_scroll_step(&xstep, &ystep);
   PosCur=ScrollBar_GetPos(hWndCtl);
   ScrollBar_GetRange(hWndCtl,&PosMin,&PosMax);
+  id=GetDlgCtrlID(hWndCtl);
   switch(code)
     {
-    case SB_LINELEFT: PosCur--; break;
-    case SB_LINERIGHT: PosCur++; break;
+    case SB_LINELEFT: 
+      if (id==ID_MAPHSCROLL)
+	PosCur -= xstep;
+      if (id==ID_MAPVSCROLL)
+	PosCur -= ystep;
+      break;
+    case SB_LINERIGHT: 
+      if (id==ID_MAPHSCROLL)
+	PosCur += xstep;
+      if (id==ID_MAPVSCROLL)
+	PosCur += ystep;
+      break;
     case SB_PAGELEFT: PosCur-=(PosMax-PosMin+1)/10; break;
     case SB_PAGERIGHT: PosCur+=(PosMax-PosMin+1)/10; break;
     case SB_LEFT: PosCur=PosMin; break;
@@ -164,7 +176,6 @@ static void Handle_Hscroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
     case SB_THUMBTRACK: PosCur=pos; break;
     case SB_THUMBPOSITION:
     case SB_ENDSCROLL:
-      id=GetDlgCtrlID(hWndCtl);
       if (id==ID_MAPHSCROLL)
 	map_handle_hscroll(PosCur);
       if (id==ID_MAPVSCROLL)
