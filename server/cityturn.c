@@ -482,6 +482,12 @@ static void city_support(struct city *pcity)
     int food_cost = utype_food_cost(ut, g);
     int gold_cost = utype_gold_cost(ut, g);
 
+    /* Save old values so ve can decide if the unit info should be resent */
+    int old_unhappiness = this_unit->unhappiness;
+    int old_upkeep      = this_unit->upkeep;
+    int old_upkeep_food = this_unit->upkeep_food;
+    int old_upkeep_gold = this_unit->upkeep_gold;
+
     /* set current upkeep on unit to zero */
     this_unit->unhappiness = 0;
     this_unit->upkeep      = 0;
@@ -534,8 +540,14 @@ static void city_support(struct city *pcity)
         this_unit->upkeep_gold = gold_cost;
       }
     }
-  }
-  unit_list_iterate_end;
+    
+    /* Send unit info if anything has changed */
+    if (this_unit->unhappiness != old_unhappiness
+	|| this_unit->upkeep != old_upkeep
+	|| this_unit->upkeep_food != old_upkeep_food
+	|| this_unit->upkeep_gold != old_upkeep_gold)
+      send_unit_info(unit_owner(this_unit), this_unit);
+  } unit_list_iterate_end;
 }
 
 
