@@ -812,9 +812,7 @@ struct packet_ruleset_terrain_control {
   char river_help_text[MAX_LEN_PACKET];
   int fortress_defense_bonus;
   int road_superhighway_trade_bonus;
-  int rail_food_bonus;
-  int rail_shield_bonus;
-  int rail_trade_bonus;
+  int rail_tile_bonus[O_MAX];
   int farmland_supermarket_food_bonus;
   int pollution_food_penalty;
   int pollution_shield_penalty;

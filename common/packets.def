@@ -1071,9 +1071,7 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
 
   UINT16 fortress_defense_bonus;        /* % added to defense if fortress */
   UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
-  UINT16 rail_food_bonus;               /* % added to food if railroad */
-  UINT16 rail_shield_bonus;             /* % added to shield if railroad */
-  UINT16 rail_trade_bonus;              /* % added to trade if railroad */
+  UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
   UINT16 farmland_supermarket_food_bonus;# % added to food if farm/s-market
   UINT16 pollution_food_penalty;        /* % subtr. from food if polluted */
   UINT16 pollution_shield_penalty;      /* % subtr. from shield if polluted */

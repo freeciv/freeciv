@@ -590,7 +590,7 @@ static int base_get_shields_tile(const struct tile *ptile,
   }
 
   if (contains_special(spec_t, S_RAILROAD)) {
-    s += (s * terrain_control.rail_shield_bonus) / 100;
+    s += (s * terrain_control.rail_tile_bonus[O_SHIELD]) / 100;
   }
 
   if (pcity) {
@@ -693,7 +693,7 @@ static int base_get_trade_tile(const struct tile *ptile,
   }
 
   if (contains_special(spec_t, S_RAILROAD)) {
-    t += (t * terrain_control.rail_trade_bonus) / 100;
+    t += (t * terrain_control.rail_tile_bonus[O_TRADE]) / 100;
   }
 
   /* Civ1 specifically documents that Railroad trade increase is before 
@@ -810,7 +810,7 @@ static int base_get_food_tile(const struct tile *ptile,
   }
 
   if (contains_special(tile.special, S_RAILROAD)) {
-    f += (f * terrain_control.rail_food_bonus) / 100;
+    f += (f * terrain_control.rail_tile_bonus[O_FOOD]) / 100;
   }
 
   if (pcity) {

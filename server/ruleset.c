@@ -1580,12 +1580,11 @@ static void load_ruleset_terrain(struct section_file *file)
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
-  terrain_control.rail_food_bonus =
-    secfile_lookup_int_default(file, 0, "parameters.rail_food_bonus");
-  terrain_control.rail_shield_bonus =
-    secfile_lookup_int_default(file, 50, "parameters.rail_shield_bonus");
-  terrain_control.rail_trade_bonus =
-    secfile_lookup_int_default(file, 0, "parameters.rail_trade_bonus");
+  output_type_iterate(o) {
+    terrain_control.rail_tile_bonus[o] =
+      secfile_lookup_int_default(file, 0, "parameters.rail_%s_bonus",
+				 get_output_identifier(o));
+  } output_type_iterate_end;
   terrain_control.farmland_supermarket_food_bonus =
     secfile_lookup_int_default(file, 50, "parameters.farmland_supermarket_food_bonus");
   terrain_control.pollution_food_penalty =
