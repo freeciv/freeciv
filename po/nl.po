@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-01-22 10:58+0100\n"
-"PO-Revision-Date: 2002-01-22 11:02+0200\n"
+"POT-Creation-Date: 2002-01-24 16:29+0100\n"
+"PO-Revision-Date: 2002-01-24 16:30+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -307,6 +307,12 @@ msgstr "Omdat beschaving vrij zou moeten zijn!"
 msgid "error %d (compiled without strerror)"
 msgstr "fout %d (gecompileerd zonder strerror)"
 
+#: client/gui-gtk/repodlgs.c:348 client/gui-gtk/repodlgs.c:356
+#: client/gui-gtk/repodlgs.c:461 common/tech.c:536
+#, c-format
+msgid "Future Tech. %d"
+msgstr "Toekomst Tech. %d"
+
 #: client/gui-gtk/plrdlg.c:145 client/gui-mui/plrdlg.c:189
 #: client/gui-win32/plrdlg.c:374 common/unit.c:520
 msgid "Idle"
@@ -447,12 +453,12 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:254 server/citytools.c:1707
+#: ai/aicity.c:254 server/citytools.c:1708
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:263 server/citytools.c:1749
+#: ai/aicity.c:263 server/citytools.c:1750
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
@@ -565,7 +571,7 @@ msgstr "Spel: %s overgeplaatst van %s naar %s."
 msgid "Game: You lost your capital %s. A new palace was built in %s."
 msgstr "Spel: U verloor uw hoofdstad %s. Een nieuw paleis is gebouwd in %s."
 
-#: server/citytools.c:859
+#: server/citytools.c:860
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -575,17 +581,17 @@ msgstr ""
 "      Arbeiders verzamelen zich spontaan om de stad op te waarderen met "
 "spoorwegen."
 
-#: server/citytools.c:1067
+#: server/citytools.c:1068
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spel: Hoofdstad verplaatst van %s naar %s."
 
-#: server/citytools.c:1098
+#: server/citytools.c:1099
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Spel: %s uit verlaten stad %s gehaald om vastzitten te voorkomen."
 
-#: server/citytools.c:1109
+#: server/citytools.c:1110
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -594,46 +600,46 @@ msgstr ""
 "Spel: Toen %s werd verlaten konden uw %s niet wegkomen en zijn daardoor vast "
 "komen te zitten."
 
-#: server/citytools.c:1212
+#: server/citytools.c:1213
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spel: U vernietigt %s volledig."
 
-#: server/citytools.c:1214
+#: server/citytools.c:1215
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spel: %s is vernietigd door %s."
 
-#: server/citytools.c:1234
+#: server/citytools.c:1235
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spel: U verovert %s, uw plunderingen leveren %d goud op!"
 
-#: server/citytools.c:1238
+#: server/citytools.c:1239
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spel: %s veroverde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1246
+#: server/citytools.c:1247
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spel: U hebt %s bevrijdt!! plunderingen leveren %d goud op."
 
-#: server/citytools.c:1251
+#: server/citytools.c:1252
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spel: %s bevrijdde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1728
+#: server/citytools.c:1729
 msgid " from the worklist"
 msgstr " van de werklijst"
 
-#: server/citytools.c:1738
+#: server/citytools.c:1739
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spel: %s is %s%s aan het bouwen."
 
-#: server/citytools.c:1742
+#: server/citytools.c:1743
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spel: %s is %s aan het bouwen."
@@ -903,7 +909,8 @@ msgstr ""
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug GETAL\tZet debug-logniveau (0 tot 4,of 4:bestand1,min,max:...)\n"
+"  -d, --debug GETAL\tZet debug-logniveau (0 tot 4,of 4:bestand1,min,"
+"max:...)\n"
 
 #: client/civclient.c:124 server/civserver.c:139
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
@@ -1076,8 +1083,9 @@ msgid ""
 "Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
-"Spel: Uw %s is ter dood veroordeeld in %s onder verdenking van spionage. "
-"De %s verwelkomen toekomstige diplomatieke inspanningen vooropgesteld dat de Ambassadeur reputabel is."
+"Spel: Uw %s is ter dood veroordeeld in %s onder verdenking van spionage. De %"
+"s verwelkomen toekomstige diplomatieke inspanningen vooropgesteld dat de "
+"Ambassadeur reputabel is."
 
 #: server/diplomats.c:257
 #, c-format
@@ -1524,17 +1532,15 @@ msgstr "Spel: %s geleerd. Onze wetenschappers onderzoeken nu %s, doel is %s."
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Spel: %s geleerd. Wetenschappers kiezen %s voor verder onderzoek."
 
-#: server/plrhand.c:304
+#: server/plrhand.c:307
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
-msgstr ""
-"Spel: %s geleerd. Wetenschappers kiezen Toekomst Tech. 1. voor verder "
-"onderzoek."
+msgid "Game: Learned %s. "
+msgstr "Spel: Leerde %s."
 
 #: server/plrhand.c:310
 #, c-format
-msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
-msgstr "Spel: Toekomst Tech. %d geleerd. Onderzoeken Toekomst Tech. %d."
+msgid "Researching %s."
+msgstr "Onderzoeken %s."
 
 #: server/plrhand.c:322
 #, c-format
@@ -1616,7 +1622,7 @@ msgstr "Luxe"
 #: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:162
 #: client/gui-mui/repodlgs.c:300 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/repodlgs.c:115 client/gui-xaw/menu.c:200
-#: client/gui-xaw/repodlgs.c:269 client/gui-xaw/repodlgs.c:514
+#: client/gui-xaw/repodlgs.c:262 client/gui-xaw/repodlgs.c:507
 #: data/Freeciv:1360 server/plrhand.c:624
 msgid "Science"
 msgstr "Wetenschap"
@@ -1656,7 +1662,8 @@ msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
-"De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de %s."
+"De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de %"
+"s."
 
 #: server/plrhand.c:831
 #, c-format
@@ -2343,106 +2350,106 @@ msgstr "Sorry, %s is al verbonden."
 msgid "%s was rejected: %s already connected."
 msgstr "%s is geweigerd, %s heeft al verbinding."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1361
 msgid "Sorry, the game is already running."
 msgstr "Sorry, het spel is al begonnen."
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1362
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1368
 msgid "Sorry, the game is full."
 msgstr "Sorry, het spel is vol."
 
-#: server/srv_main.c:1368
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s is geweigerd: Maximum aantal spelers bereikt."
 
-#: server/srv_main.c:1374
+#: server/srv_main.c:1375
 msgid "Sorry, no new players allowed in this game."
 msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
 
-#: server/srv_main.c:1375
+#: server/srv_main.c:1376
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s is geweigerd: Geen verbindingen als nieuwe speler."
 
-#: server/srv_main.c:1397
+#: server/srv_main.c:1398
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Verbinding verbroken: %s."
 
-#: server/srv_main.c:1406
+#: server/srv_main.c:1407
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spel: Verbinding verbroken: %s."
 
-#: server/srv_main.c:1492
+#: server/srv_main.c:1493
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/srv_main.c:1533
+#: server/srv_main.c:1534
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1540
+#: server/srv_main.c:1541
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1554
+#: server/srv_main.c:1555
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/srv_main.c:1613
+#: server/srv_main.c:1614
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
-#: server/srv_main.c:1628
+#: server/srv_main.c:1629
 msgid "Argh! ran out of nations!"
 msgstr "Nee hè, geen naties meer!"
 
-#: server/srv_main.c:1645
+#: server/srv_main.c:1646
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/srv_main.c:1651
+#: server/srv_main.c:1652
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
 
-#: server/srv_main.c:1792
+#: server/srv_main.c:1793
 #, c-format
 msgid "Loading saved game: %s"
 msgstr "Laad opgeslagen spel: %s"
 
-#: server/srv_main.c:1796
+#: server/srv_main.c:1797
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Kon opgeslagen spel niet laden: %s"
 
-#: server/srv_main.c:1813
+#: server/srv_main.c:1814
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Zend info naar metaserver [%s]"
 
-#: server/srv_main.c:1827
+#: server/srv_main.c:1828
 msgid "Now accepting new client connections."
 msgstr "Accepteer nu nieuwe client-verbindingen."
 
-#: server/srv_main.c:1884
+#: server/srv_main.c:1885
 msgid "Last player has disconnected: will need to restart."
 msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
 
-#: server/srv_main.c:1975
+#: server/srv_main.c:1976
 msgid "Game: The game is over..."
 msgstr "Spel: Het spel is voorbij..."
 
@@ -2659,9 +2666,9 @@ msgid ""
 "called \"techs.ruleset\".  The advances (technologies) present in the game "
 "will be initialized from this file.  See also README.rulesets."
 msgstr ""
-"Dit zou een subdirectory moeten aangeven die een bestand met de naam "
-"\"techs.ruleset\" bevat.  De vooruitgangen (technologieën) in het spel zullen "
-"worden geïnitialiseerd vanuit dit bestand. Zie ook README.rulesets."
+"Dit zou een subdirectory moeten aangeven die een bestand met de naam \"techs."
+"ruleset\" bevat.  De vooruitgangen (technologieën) in het spel zullen worden "
+"geïnitialiseerd vanuit dit bestand. Zie ook README.rulesets."
 
 #: server/stdinhand.c:388
 msgid "Data subdir containing governments.ruleset"
@@ -2687,8 +2694,8 @@ msgid ""
 "called \"units.ruleset\".  The unit types present in the game will be "
 "initialized from this file.  See also README.rulesets."
 msgstr ""
-"Dit zou een subdirectory moeten aangeven die een bestand met de naam "
-"\"units.ruleset\" bevat.  De eenheid-typen in het spel zullen worden geïnitialiseerd "
+"Dit zou een subdirectory moeten aangeven die een bestand met de naam \"units."
+"ruleset\" bevat.  De eenheid-typen in het spel zullen worden geïnitialiseerd "
 "vanuit dit bestand. Zie ook README.rulesets."
 
 #: server/stdinhand.c:412
@@ -2699,8 +2706,8 @@ msgstr "Data subdirectory die buildings.ruleset bevat"
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"buildings.ruleset\".  The building types (City Improvements and "
-"Wonders) in the game will be initialized from this file.  See also "
-"README.rulesets."
+"Wonders) in the game will be initialized from this file.  See also README."
+"rulesets."
 msgstr ""
 "Dit zou een subdirectory moeten aangeven die een bestand met de naam "
 "\"buildings.ruleset\" bevat.  De gebouw-typen (Stadsverbeteringen en "
@@ -2759,9 +2766,9 @@ msgid ""
 "called \"game.ruleset\".  The file is used to initialize some miscellanous "
 "game rules.  See also README.rulesets."
 msgstr ""
-"Dit zou een subdirectory moeten aangeven die een bestand met de naam "
-"\"game.ruleset\" bevat.  Dit bestand wordt gebruikt om de diverse spelregels "
-"mee te initialiseren. Zie ook README.rulesets."
+"Dit zou een subdirectory moeten aangeven die een bestand met de naam \"game."
+"ruleset\" bevat.  Dit bestand wordt gebruikt om de diverse spelregels mee te "
+"initialiseren. Zie ook README.rulesets."
 
 #: server/stdinhand.c:470
 msgid "Points required to gain a new advance"
@@ -5203,7 +5210,7 @@ msgstr "Overcapaciteit: Voeding, Produktie, Handel"
 
 #: client/cityrepdata.c:213 client/gui-gtk/repodlgs.c:581
 #: client/gui-win32/repodlgs.c:328 client/gui-xaw/menu.c:199
-#: client/gui-xaw/repodlgs.c:649 client/gui-xaw/repodlgs.c:805
+#: client/gui-xaw/repodlgs.c:635 client/gui-xaw/repodlgs.c:791
 #: data/Freeciv:1763
 msgid "Economy"
 msgstr "Economie"
@@ -6829,14 +6836,14 @@ msgstr "Stel zichtbare kolommen in"
 #: client/gui-gtk/dialogs.c:329 client/gui-gtk/dialogs.c:708
 #: client/gui-gtk/dialogs.c:806 client/gui-gtk/dialogs.c:1798
 #: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:617
-#: client/gui-gtk/inteldlg.c:184 client/gui-gtk/repodlgs.c:226
+#: client/gui-gtk/inteldlg.c:178 client/gui-gtk/repodlgs.c:226
 #: client/gui-gtk/repodlgs.c:602 client/gui-gtk/repodlgs.c:854
 #: client/gui-gtk/spaceshipdlg.c:211 client/gui-gtk/wldlg.c:202
 #: client/gui-win32/citydlg.c:849 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:890 client/gui-win32/dialogs.c:179
 #: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:663
 #: client/gui-win32/dialogs.c:1285 client/gui-win32/dialogs.c:1496
-#: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:158
+#: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:152
 #: client/gui-win32/messagewin.c:208 client/gui-win32/optiondlg.c:108
 #: client/gui-win32/plrdlg.c:386 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:492 client/gui-win32/repodlgs.c:743
@@ -7834,27 +7841,20 @@ msgstr "Wetenschap: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Luxe: %d%%"
 
-#: client/gui-gtk/inteldlg.c:133 client/gui-mui/inteldlg.c:147
-#: client/gui-win32/inteldlg.c:126 client/gui-xaw/inteldlg.c:148
+#: client/gui-gtk/inteldlg.c:132 client/gui-mui/inteldlg.c:146
+#: client/gui-win32/inteldlg.c:125 client/gui-xaw/inteldlg.c:147
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Onderzoek: %s(%d/%d)"
 
-#: client/gui-gtk/inteldlg.c:137 client/gui-mui/inteldlg.c:151
-#: client/gui-win32/inteldlg.c:130 client/gui-xaw/inteldlg.c:152
-#: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:525
-#, c-format
-msgid "Researching Future Tech. %d: %d/%d"
-msgstr "Onderzoek Toekomst Tech. %d: %d/%d"
-
-#: client/gui-gtk/inteldlg.c:146 client/gui-mui/inteldlg.c:156
-#: client/gui-win32/inteldlg.c:137 client/gui-xaw/inteldlg.c:164
+#: client/gui-gtk/inteldlg.c:140 client/gui-mui/inteldlg.c:150
+#: client/gui-win32/inteldlg.c:131 client/gui-xaw/inteldlg.c:158
 #, c-format
 msgid "Capital: %s"
 msgstr "Hoofdstad: %s"
 
-#: client/gui-gtk/inteldlg.c:147 client/gui-mui/inteldlg.c:156
-#: client/gui-win32/inteldlg.c:138 client/gui-xaw/inteldlg.c:165
+#: client/gui-gtk/inteldlg.c:141 client/gui-mui/inteldlg.c:150
+#: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:159
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
@@ -8111,7 +8111,7 @@ msgstr "Verontreiniging & Radioactiviteit"
 #: client/gui-win32/repodlgs.c:650 client/gui-win32/repodlgs.c:730
 #: client/gui-win32/repodlgs.c:737 client/gui-xaw/menu.c:142
 #: client/gui-xaw/menu.c:197 client/gui-xaw/menu.c:218
-#: client/gui-xaw/repodlgs.c:915 client/gui-xaw/repodlgs.c:1108
+#: client/gui-xaw/repodlgs.c:901 client/gui-xaw/repodlgs.c:1094
 #: data/Freeciv:1838 data/helpdata.txt:756
 msgid "Units"
 msgstr "Eenheden"
@@ -8617,12 +8617,6 @@ msgid_plural "(%d steps)"
 msgstr[0] "(%d stap)"
 msgstr[1] "(%d stappen)"
 
-#: client/gui-gtk/repodlgs.c:348 client/gui-gtk/repodlgs.c:356
-#: client/gui-gtk/repodlgs.c:461
-#, c-format
-msgid "Researching Future Tech. %d"
-msgstr "Onderzoek Toekomst Tech. %d"
-
 #: client/gui-gtk/repodlgs.c:383
 msgid "Research speed: no research"
 msgstr "Onderzoekssnelheid: geen onderzoek"
@@ -8664,29 +8658,29 @@ msgid "Sell All"
 msgstr "Verkoop Alles"
 
 #: client/gui-gtk/repodlgs.c:711 client/gui-mui/repodlgs.c:560
-#: client/gui-win32/repodlgs.c:414 client/gui-xaw/repodlgs.c:780
+#: client/gui-win32/repodlgs.c:414 client/gui-xaw/repodlgs.c:766
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s verkocht voor %d goud"
 
 #: client/gui-gtk/repodlgs.c:714 client/gui-mui/repodlgs.c:564
-#: client/gui-win32/repodlgs.c:417 client/gui-xaw/repodlgs.c:783
+#: client/gui-win32/repodlgs.c:417 client/gui-xaw/repodlgs.c:769
 #, c-format
 msgid "No %s could be sold"
 msgstr "%s kon niet verkocht worden"
 
 #: client/gui-gtk/repodlgs.c:718 client/gui-mui/repodlgs.c:566
-#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:786
+#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:772
 msgid "Sell-Off:"
 msgstr "Uitverkoop:"
 
 #: client/gui-gtk/repodlgs.c:718 client/gui-mui/repodlgs.c:566
-#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:786
+#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:772
 msgid "Results"
 msgstr "Resultaten"
 
 #: client/gui-gtk/repodlgs.c:779 client/gui-mui/repodlgs.c:680
-#: client/gui-win32/repodlgs.c:368 client/gui-xaw/repodlgs.c:846
+#: client/gui-win32/repodlgs.c:368 client/gui-xaw/repodlgs.c:832
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Inkomen:%6d   Totale Kosten: %6d"
@@ -8716,7 +8710,7 @@ msgstr "Aktief"
 msgid "Shield"
 msgstr "Schild"
 
-#: client/gui-gtk/repodlgs.c:850 client/gui-xaw/repodlgs.c:938
+#: client/gui-gtk/repodlgs.c:850 client/gui-xaw/repodlgs.c:924
 msgid "Totals: ..."
 msgstr "Totalen: ..."
 
@@ -8732,7 +8726,7 @@ msgid "Refresh"
 msgstr "Ververs"
 
 #: client/gui-gtk/repodlgs.c:949 client/gui-mui/repodlgs.c:829
-#: client/gui-win32/repodlgs.c:603 client/gui-xaw/repodlgs.c:1041
+#: client/gui-win32/repodlgs.c:603 client/gui-xaw/repodlgs.c:1027
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -9940,7 +9934,7 @@ msgstr "Verbreek Verdrag"
 msgid "Withdraw vision"
 msgstr "Ontneem waarneming"
 
-#: client/gui-win32/repodlgs.c:119 client/gui-xaw/repodlgs.c:508
+#: client/gui-win32/repodlgs.c:119 client/gui-xaw/repodlgs.c:501
 msgid ""
 "\n"
 "(no research)"
@@ -9948,7 +9942,7 @@ msgstr ""
 "\n"
 "(geen onderzoek)"
 
-#: client/gui-win32/repodlgs.c:122 client/gui-xaw/repodlgs.c:511
+#: client/gui-win32/repodlgs.c:122 client/gui-xaw/repodlgs.c:504
 #, c-format
 msgid ""
 "\n"
@@ -10199,19 +10193,19 @@ msgstr ""
 "%s van de %s\n"
 "%s %s: %s%s"
 
-#: client/gui-xaw/repodlgs.c:230 client/gui-xaw/repodlgs.c:407
-#: client/gui-xaw/repodlgs.c:519
+#: client/gui-xaw/repodlgs.c:229 client/gui-xaw/repodlgs.c:400
+#: client/gui-xaw/repodlgs.c:511
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Onderzoek: %s: %d/%d"
 
-#: client/gui-xaw/repodlgs.c:243 client/gui-xaw/repodlgs.c:436
-#: client/gui-xaw/repodlgs.c:533
+#: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:429
+#: client/gui-xaw/repodlgs.c:519
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Doel: %s (%d stappen)"
 
-#: client/gui-xaw/repodlgs.c:1160
+#: client/gui-xaw/repodlgs.c:1146
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalen:                    %9d%9d%9d%9d"
@@ -16441,6 +16435,17 @@ msgstr "Zoeloe"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zoeloes"
+
+#~ msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
+#~ msgstr ""
+#~ "Spel: %s geleerd. Wetenschappers kiezen Toekomst Tech. 1. voor verder "
+#~ "onderzoek."
+
+#~ msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
+#~ msgstr "Spel: Toekomst Tech. %d geleerd. Onderzoeken Toekomst Tech. %d."
+
+#~ msgid "Researching Future Tech. %d: %d/%d"
+#~ msgstr "Onderzoek Toekomst Tech. %d: %d/%d"
 
 #~ msgid "%3d/%3d %3d turns"
 #~ msgstr "%3d/%3d %3d beurten"
