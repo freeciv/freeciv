@@ -148,8 +148,8 @@ void close_connection(struct connection *pconn)
   pconn->established = 0;
   pconn->player = NULL;
   pconn->access_level = ALLOW_NONE;
-  free(pconn->buffer);
-  free(pconn->send_buffer);
+  free_socket_packet_buffer(pconn->buffer);
+  free_socket_packet_buffer(pconn->send_buffer);
   pconn->buffer = NULL;
   pconn->send_buffer = NULL;
 }
@@ -188,6 +188,75 @@ static void close_socket_callback(struct connection *pc)
   close_connection(pc);
 }
 
+/****************************************************************************
+  Attempt to flush all information in the send buffers for upto 'netwait'
+  seconds.
+*****************************************************************************/
+void flush_packets(void)
+{
+  int i;
+  int max_desc;
+  fd_set writefs, exceptfs;
+  struct timeval tv;
+  time_t start;
+
+  time(&start);
+
+  for(;;) {
+    tv.tv_sec=(time(NULL) - start + game.netwait);
+    tv.tv_usec=0;
+
+    MY_FD_ZERO(&writefs);
+    MY_FD_ZERO(&exceptfs);
+    max_desc=-1;
+
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+      struct connection *pconn = &connections[i];
+      if(pconn->used && pconn->send_buffer->ndata) {
+	FD_SET(pconn->sock, &writefs);
+	FD_SET(pconn->sock, &exceptfs);
+       max_desc=MAX(pconn->sock, max_desc);
+      }
+    }
+
+    if (max_desc == -1) {
+      return;
+    }
+
+    if(select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
+      return;
+    }
+
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
+      struct connection *pconn = &connections[i];
+      if(pconn->used) {
+        if(FD_ISSET(pconn->sock, &exceptfs)) {
+	  freelog(LOG_NORMAL, "cut connection %s due to exception data",
+		  conn_description(pconn));
+	  close_socket_callback(pconn);
+        } else {
+	  if(pconn->send_buffer && pconn->send_buffer->ndata) {
+	    if(FD_ISSET(pconn->sock, &writefs)) {
+	      flush_connection_send_buffer_all(pconn);
+	    } else {
+	      if(game.tcptimeout && pconn->last_write
+		 && (time(NULL)>pconn->last_write + game.tcptimeout)) {
+	        freelog(LOG_NORMAL, "cut connection %s due to lagging player",
+			conn_description(pconn));
+		close_socket_callback(pconn);
+	      }
+	    }
+	  }
+        }
+      }
+    }
+    
+    if (time(NULL) >= start + game.netwait) {
+      return;
+    }
+  }
+}
+
 /*****************************************************************************
 Get and handle:
 - new connections,
@@ -204,7 +273,7 @@ int sniff_packets(void)
 {
   int i;
   int max_desc;
-  fd_set readfs, exceptfs;
+  fd_set readfs, writefs, exceptfs;
   struct timeval tv;
   static int year;
 #ifdef SOCKET_ZERO_ISNT_STDIN
@@ -260,6 +329,7 @@ int sniff_packets(void)
     tv.tv_usec=0;
     
     MY_FD_ZERO(&readfs);
+    MY_FD_ZERO(&writefs);
     MY_FD_ZERO(&exceptfs);
 #ifndef SOCKET_ZERO_ISNT_STDIN
     FD_SET(0, &readfs);	
@@ -271,13 +341,14 @@ int sniff_packets(void)
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
+	FD_SET(connections[i].sock, &writefs);
 	FD_SET(connections[i].sock, &exceptfs);
         max_desc=MAX(connections[i].sock, max_desc);
       }
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
     
-    if(select(max_desc+1, &readfs, NULL, &exceptfs, &tv)==0) { /* timeout */
+    if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0,0);
       if((game.timeout) 
 	&& (time(NULL)>game.turn_start + game.timeout)
@@ -317,10 +388,11 @@ int sniff_packets(void)
       }
     }
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
-      if(connections[i].used && FD_ISSET(connections[i].sock, &exceptfs)) {
+      struct connection *pconn = &connections[i];
+      if(pconn->used && FD_ISSET(pconn->sock, &exceptfs)) {
  	freelog(LOG_ERROR, "cut connection %s due to exception data",
-		conn_description(&connections[i]));
-	close_socket_callback(&connections[i]);
+		conn_description(pconn));
+	close_socket_callback(pconn);
       }
     }
 #ifndef SOCKET_ZERO_ISNT_STDIN
@@ -374,6 +446,22 @@ int sniff_packets(void)
 	    close_socket_callback(pconn);
 	  }
 	}
+      }
+
+      for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+       struct connection *pconn = &connections[i];
+       if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata) {
+	 if(FD_ISSET(pconn->sock, &writefs)) {
+	   flush_connection_send_buffer_all(pconn);
+	 } else {
+	   if(game.tcptimeout && pconn->last_write
+	      && (time(NULL)>pconn->last_write + game.tcptimeout)) {
+	     freelog(LOG_NORMAL, "cut connection %s due to lagging player",
+		     conn_description(pconn));
+	     close_socket_callback(pconn);
+	   }
+	 }
+       }
       }
     }
     break;
@@ -448,6 +536,7 @@ static int server_accept_connection(int sockfd)
       pconn->player = NULL;
       pconn->buffer = new_socket_packet_buffer();
       pconn->send_buffer = new_socket_packet_buffer();
+      pconn->last_write = 0;
       pconn->first_packet = 1;
       pconn->byte_swap = 0;
       pconn->capability[0] = '\0';

@@ -669,8 +669,10 @@ static void ai_start_turn(void)
 
   for (i = 0; i < game.nplayers; i++) {
     struct player *pplayer = shuffled_player(i);
-    if (pplayer->ai.control) 
+    if (pplayer->ai.control) {
       ai_do_first_activities(pplayer);
+      flush_packets();			/* AIs can be such spammers... */
+    }
   }
 }
 
@@ -705,6 +707,7 @@ static void begin_turn(void)
   for (i=0; i<game.nplayers;i++) {
     send_player_cities(&game.players[i]);
   }
+  flush_packets();			/* to curb major city spam */
 
   conn_list_do_unbuffer(&game.game_connections);
 }
@@ -723,12 +726,18 @@ static int end_turn(void)
 		  i, pplayer->name);
     update_player_activities(pplayer);
          /* ai unit activity has been moved UP -- Syela */
+
+    flush_packets();
+	 /* update_player_activities calls update_unit_activities which
+	    causes *major* network traffic */
     pplayer->turn_done=0;
   }
   nocity_send = 0;
   for (i=0; i<game.nplayers;i++) {
     send_player_cities(&game.players[i]);
   }
+  flush_packets();			/* to curb major city spam */
+
   update_environmental_upset(S_POLLUTION, &game.heating,
 			     &game.globalwarming, &game.warminglevel,
 			     global_warming);
@@ -1296,11 +1305,11 @@ static void introduce_game_to_connection(struct connection *pconn)
   dest = &pconn->self;
   
   if (my_gethostname(hostname, sizeof(hostname))==0) {
-    notify_conn(dest, _("Welcome to the %s Server running at %s."), 
-		FREECIV_NAME_VERSION, hostname);
+    notify_conn(dest, _("Welcome to the %s Server running at %s port %d."), 
+		FREECIV_NAME_VERSION, hostname, srvarg.port);
   } else {
-    notify_conn(dest, _("Welcome to the %s Server."),
-		FREECIV_NAME_VERSION);
+    notify_conn(dest, _("Welcome to the %s Server at port %d."),
+		FREECIV_NAME_VERSION, srvarg.port);
   }
 
   /* tell who we're waiting on to end the game turn */
@@ -1912,7 +1921,6 @@ static void enable_fog_of_war_player(struct player *pplayer)
       if (map_get_seen(x, y, playerid) == 0)
 	update_player_tile_last_seen(pplayer, x, y);
     }
-  send_all_known_tiles(&pplayer->connections);
 }
 
 /*************************************************************************
@@ -1923,6 +1931,7 @@ static void enable_fog_of_war(void)
   int o;
   for (o = 0; o < game.nplayers; o++)
     enable_fog_of_war_player(&game.players[o]);
+  send_all_known_tiles(&game.game_connections);
 }
 
 /*************************************************************************
@@ -1943,9 +1952,6 @@ static void disable_fog_of_war_player(struct player *pplayer)
       }
     }
   }
-  send_all_known_tiles(&pplayer->connections);
-  send_all_known_units(&pplayer->connections);
-  send_all_known_cities(&pplayer->connections);
 }
 
 /*************************************************************************
@@ -1956,4 +1962,7 @@ static void disable_fog_of_war(void)
   int o;
   for (o = 0; o < game.nplayers; o++)
     disable_fog_of_war_player(&game.players[o]);
+  send_all_known_tiles(&game.game_connections);
+  send_all_known_units(&game.game_connections);
+  send_all_known_cities(&game.game_connections);
 }

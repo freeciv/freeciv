@@ -20,6 +20,7 @@ struct connection;
 #define BUF_SIZE 512
 
 int server_open_socket(void);
+void flush_packets(void);
 int sniff_packets(void);
 void close_connections_and_socket(void);
 void init_connections(void);

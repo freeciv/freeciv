@@ -42,6 +42,7 @@
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "maphand.h"
 #include "plrhand.h"
+#include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
@@ -3094,6 +3095,7 @@ void send_all_known_units(struct conn_list *dest)
   }
   conn_list_iterate_end;
   conn_list_do_unbuffer(dest);
+  flush_packets();
 }
 
 /**************************************************************************

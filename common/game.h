@@ -59,6 +59,8 @@ struct civ_game {
   int tech;
   int skill_level;
   int timeout;
+  int tcptimeout;
+  int netwait;
   time_t turn_start;
   int end_year;
   int year;
@@ -319,6 +321,14 @@ extern struct civ_game game;
 #define GAME_DEFAULT_TIMEOUT         0
 #define GAME_MIN_TIMEOUT             0
 #define GAME_MAX_TIMEOUT             8639999
+
+#define GAME_DEFAULT_TCPTIMEOUT      10
+#define GAME_MIN_TCPTIMEOUT          0
+#define GAME_MAX_TCPTIMEOUT          120
+
+#define GAME_DEFAULT_NETWAIT         4
+#define GAME_MIN_NETWAIT             0
+#define GAME_MAX_NETWAIT             20
 
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0

@@ -730,6 +730,8 @@ void game_init(void)
   game.tech        = GAME_DEFAULT_TECHLEVEL;
   game.skill_level = GAME_DEFAULT_SKILL_LEVEL;
   game.timeout     = GAME_DEFAULT_TIMEOUT;
+  game.tcptimeout  = GAME_DEFAULT_TCPTIMEOUT;
+  game.netwait     = GAME_DEFAULT_NETWAIT;
   game.end_year    = GAME_DEFAULT_END_YEAR;
   game.year        = GAME_START_YEAR;
   game.min_players = GAME_DEFAULT_MIN_PLAYERS;

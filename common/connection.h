@@ -66,7 +66,8 @@ struct connection;
 struct socket_packet_buffer {
   int ndata;
   int do_buffer_sends;
-  unsigned char data[10*MAX_LEN_PACKET];
+  int nsize;
+  unsigned char *data;
 };
 
 /***********************************************************
@@ -86,6 +87,7 @@ struct connection {
  				   (implementation incomplete) */
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
+  time_t last_write;
   struct conn_list self;	/* list with this connection as single element */
   char name[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
@@ -108,6 +110,8 @@ typedef void (*CLOSE_FUN) (struct connection *pc);
 void close_socket_set_callback(CLOSE_FUN fun);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
+void flush_connection_send_buffer_all(struct connection *pc);
+void flush_connection_send_buffer_packets(struct connection *pc);
 int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
 void connection_do_buffer(struct connection *pc);
@@ -122,6 +126,7 @@ struct connection *find_conn_by_name_prefix(const char *name,
 struct connection *find_conn_by_id(int id);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
+void free_socket_packet_buffer(struct socket_packet_buffer *buf);
 
 const char *conn_description(const struct connection *pconn);
 

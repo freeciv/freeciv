@@ -148,11 +148,11 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   write wrapper function -vasc
 **************************************************************************/
 static int write_socket_data(struct connection *pc,
-			     struct socket_packet_buffer *buf)
+			     struct socket_packet_buffer *buf, int limit)
 {
   int start, nput, nblock;
 
-  for (start=0; start<buf->ndata;) {
+  for (start=0; buf->ndata-start>limit;) {
     fd_set writefs, exceptfs;
     struct timeval tv;
 
@@ -161,12 +161,10 @@ static int write_socket_data(struct connection *pc,
     FD_SET(pc->sock, &writefs);
     FD_SET(pc->sock, &exceptfs);
 
-    tv.tv_sec = 2; tv.tv_usec = 0;
+    tv.tv_sec = 0; tv.tv_usec = 0;
 
     if (select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
-      buf->ndata -= start;
-      memmove(buf->data, buf->data+start, buf->ndata);
-      return -1;
+      break;
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
@@ -177,11 +175,11 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &writefs)) {
-      nblock=MIN(buf->ndata-start, 4096);
+      nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
       if((nput=write(pc->sock, (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
-	  continue;
+	  break;
 	}
 #endif
 	if (close_callback) {
@@ -193,7 +191,11 @@ static int write_socket_data(struct connection *pc,
     }
   }
 
-  buf->ndata=0;
+  if (start > 0) {
+    buf->ndata -= start;
+    memmove(buf->data, buf->data+start, buf->ndata);
+    time(&pc->last_write);
+  }
   return 0;
 }
 
@@ -201,10 +203,20 @@ static int write_socket_data(struct connection *pc,
 /**************************************************************************
   flush'em
 **************************************************************************/
-static void flush_connection_send_buffer(struct connection *pc)
+void flush_connection_send_buffer_all(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer && pc->send_buffer->ndata) {
-    write_socket_data(pc, pc->send_buffer);
+  if(pc && pc->used && pc->send_buffer->ndata) {
+    write_socket_data(pc, pc->send_buffer, 0);
+  }
+}
+
+/**************************************************************************
+  flush'em
+**************************************************************************/
+void flush_connection_send_buffer_packets(struct connection *pc)
+{
+  if(pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
+    write_socket_data(pc, pc->send_buffer, MAX_LEN_PACKET-1);
   }
 }
 
@@ -214,13 +226,24 @@ static void flush_connection_send_buffer(struct connection *pc)
 static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
-  if (pc && pc->used && pc->send_buffer) {
-    if(10*MAX_LEN_PACKET-pc->send_buffer->ndata >= len) { /* room for more? */
-      memcpy(pc->send_buffer->data + pc->send_buffer->ndata, data, len);
-      pc->send_buffer->ndata += len;
-      return 1;
+  if (pc && pc->used) {
+    struct socket_packet_buffer *buf;
+
+    buf = pc->send_buffer;
+
+    /* room for more? */
+    if(buf->nsize - buf->ndata < len) {
+      buf->nsize += MAX_LEN_PACKET;
+      if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
+	if (close_callback) {
+	  (*close_callback)(pc);
+	}
+	return 0;
+      }
     }
-    return 0;
+    memcpy(buf->data + buf->ndata, data, len);
+    buf->ndata += len;
+    return 1;
   }
   return 1;
 }
@@ -230,23 +253,23 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 **************************************************************************/
 int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
-  if (pc && pc->used && pc->send_buffer) {
+  if (pc && pc->used) {
     if(pc->send_buffer->do_buffer_sends) {
       if (!add_connection_data(pc, data, len)) {
-	flush_connection_send_buffer(pc);
+	flush_connection_send_buffer_all(pc);
 	if (!add_connection_data(pc, data, len)) {
-	  freelog(LOG_ERROR, "send buffer filled, packet discarded, for %s",
+	  freelog(LOG_ERROR, "send buffer filled, packet discarded (1), for %s",
 		  conn_description(pc));
 	}
       }
     }
     else {
-      flush_connection_send_buffer(pc);
+      flush_connection_send_buffer_all(pc);
       if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_ERROR, "send buffer filled, packet discarded, for %s",
+	freelog(LOG_ERROR, "send buffer filled, packet discarded (2), for %s",
 		conn_description(pc));
       }
-      flush_connection_send_buffer(pc);
+      flush_connection_send_buffer_all(pc);
     }
   }
   return 0;
@@ -257,7 +280,7 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 **************************************************************************/
 void connection_do_buffer(struct connection *pc)
 {
-  if (pc && pc->used && pc->send_buffer) {
+  if (pc && pc->used) {
     pc->send_buffer->do_buffer_sends++;
   }
 }
@@ -269,14 +292,14 @@ void connection_do_buffer(struct connection *pc)
 **************************************************************************/
 void connection_do_unbuffer(struct connection *pc)
 {
-  if (pc && pc->used && pc->send_buffer) {
+  if (pc && pc->used) {
     pc->send_buffer->do_buffer_sends--;
     if (pc->send_buffer->do_buffer_sends < 0) {
       freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->name);
       pc->send_buffer->do_buffer_sends = 0;
     }
     if(pc->send_buffer->do_buffer_sends == 0)
-      flush_connection_send_buffer(pc);
+      flush_connection_send_buffer_all(pc);
   }
 }
 
@@ -364,7 +387,26 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
   buf = fc_malloc(sizeof(*buf));
   buf->ndata = 0;
   buf->do_buffer_sends = 0;
-  return buf;
+  buf->nsize = 10*MAX_LEN_PACKET;
+  if (!(buf->data = fc_malloc(buf->nsize))) {
+    free(buf);
+    return NULL;
+  } else {
+    return buf;
+  }
+}
+
+/**************************************************************************
+  Free malloced struct
+**************************************************************************/
+void free_socket_packet_buffer(struct socket_packet_buffer *buf)
+{
+  if (buf) {
+    if (buf->data) {
+      free(buf->data);
+    }
+    free(buf);
+  }
 }
 
 /**************************************************************************

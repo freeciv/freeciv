@@ -94,8 +94,8 @@ static void close_socket_nomessage(struct connection *pc)
   close(pc->sock);
 
   /* make sure not to use these accidently: */
-  free(pc->buffer);
-  free(pc->send_buffer);
+  free_socket_packet_buffer(pc->buffer);
+  free_socket_packet_buffer(pc->send_buffer);
   pc->buffer = NULL;
   pc->send_buffer = NULL;
   
@@ -171,11 +171,12 @@ int connect_to_server(char *name, char *hostname, int port,
     /* didn't close cleanly previously? */
     freelog(LOG_ERROR, "Unexpected buffers in connect_to_server()");
     /* get newly initialized ones instead */
-    free(aconnection.buffer);
-    free(aconnection.send_buffer);
+    free_socket_packet_buffer(aconnection.buffer);
+    free_socket_packet_buffer(aconnection.send_buffer);
   }
   aconnection.buffer = new_socket_packet_buffer();
   aconnection.send_buffer = new_socket_packet_buffer();
+  aconnection.last_write = 0;
   
   aconnection.used = 1;
 

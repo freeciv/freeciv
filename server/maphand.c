@@ -29,6 +29,7 @@
 #include "cityhand.h"
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
+#include "sernet.h"
 #include "unitfunc.h"
 #include "unithand.h"
 
@@ -285,31 +286,43 @@ void give_citymap_from_player_to_player(struct city *pcity,
 **************************************************************************/
 void send_all_known_tiles(struct conn_list *dest)
 {
+  int y, x;
+
   if (dest==NULL) dest = &game.game_connections;
   
-  conn_list_do_buffer(dest);
-
   conn_list_iterate(*dest, pconn) {
-    struct player *pplayer = pconn->player;
-
-    if (pplayer) {
-      set_unknown_tiles_to_unsent(pplayer);
-    } else if(!pconn->observer) {
-      continue;			/* no map needed */
+    if (pconn->player) {
+      set_unknown_tiles_to_unsent(pconn->player);
     }
-  
-    whole_map_iterate(x, y) {
-      if (pplayer==NULL || map_get_known(x, y, pplayer)) {
-	if (pplayer) {
-	  send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
-	}
-	send_tile_info_always(pplayer, &pconn->self, x, y);
+  } conn_list_iterate_end;
+
+  /* send whole map row by row to each player to balance the
+     load of the send buffers better */
+  for (y=0; y<map.ysize; y++) {
+    conn_list_do_buffer(dest);
+    conn_list_iterate(*dest, pconn) {
+      struct player *pplayer = pconn->player;
+
+      if (!pplayer && !pconn->observer) {	/* no map needed */
+        continue;
       }
-    } whole_map_iterate_end;
+
+      if (pplayer) {
+	for (x=0; x<map.xsize; x++) {
+	  if (map_get_known(x, y, pplayer)) {
+	    send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
+	    send_tile_info_always(pplayer, &pconn->self, x, y);
+	  }
+	}
+      } else {
+	for (x=0; x<map.xsize; x++) {
+	  send_tile_info_always(pplayer, &pconn->self, x, y);
+	}
+      }
+    } conn_list_iterate_end;
+    conn_list_do_unbuffer(dest);
   }
-  conn_list_iterate_end;
-  
-  conn_list_do_unbuffer(dest);
+  flush_packets();
 }
 
 /**************************************************************************

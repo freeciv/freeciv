@@ -40,6 +40,7 @@
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
 #include "unitfunc.h"
@@ -1184,4 +1185,5 @@ void send_all_known_cities(struct conn_list *dest)
   }
   conn_list_iterate_end;
   conn_list_do_unbuffer(dest);
+  flush_packets();
 }

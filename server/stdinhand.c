@@ -619,6 +619,22 @@ static struct settings_s settings[] = {
     N_("If all players have not hit \"Turn Done\" before this time is up, "
        "then the turn ends automatically.  Zero means there is no timeout.") },
 
+  { "tcptimeout", &game.tcptimeout,
+    SSET_META, SSET_TO_CLIENT,
+    GAME_MIN_TCPTIMEOUT, GAME_MAX_TCPTIMEOUT, GAME_DEFAULT_TCPTIMEOUT,
+    N_("Seconds to let a client connection block"),
+    N_("If a TCP connection is blocking for a time greater than this value, "
+       "then the TCP connection is closed. Zero means there is no timeout "
+       "beyond that enforced by the TCP protocol implementation itself.") },
+
+  { "netwait", &game.netwait,
+    SSET_META, SSET_TO_CLIENT,
+    GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT,
+    N_("Max seconds for TCP buffers to drain"),
+    N_("The civserver will wait for upto the value of this parameter in "
+       "seconds, for all client connection TCP buffers to unblock. Zero means "
+       "the server will not wait at all.") },
+
   { "turnblock", &game.turnblock,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,
@@ -3066,9 +3082,11 @@ void show_players(struct connection *caller)
       cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
       
       conn_list_iterate(pplayer->connections, pconn) {
-	my_snprintf(buf, sizeof(buf), _("  %s from %s (command access level %s)"),
+	my_snprintf(buf, sizeof(buf),
+		    _("  %s from %s (command access level %s), bufsize=%dkb"),
 		    pconn->name, pconn->addr, 
-		    cmdlevel_name(pconn->access_level));
+		    cmdlevel_name(pconn->access_level),
+		    (pconn->send_buffer->nsize>>10));
 	if (pconn->observer) {
 	  sz_strlcat(buf, _(" (observer mode)"));
 	}
