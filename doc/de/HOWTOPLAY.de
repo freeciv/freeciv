@@ -12,7 +12,7 @@ werfen:
 
 ***************************************************************************
 *  Wenn Sie wissen wollen, wie man Freeciv spielt, sind Sie hier richtig! *
-************************************************************************
+***************************************************************************
 
 Wenn Ihr Freeciv (endlich) läuft, werden Sie mit dem Spielen beginnen
 wollen...
@@ -32,10 +32,10 @@ entwickeln.
 Wir unterteilen das Spiel in verschiedene Abschnitte:
 
 	Die einleitende Expansionsphase
-	Die technologische Unterphase
+	Die technologische Zwischenphase
 	Die zweite Expansionsphase
 	Die Produktionsphase
-	und die Phase der völligen Vernichtung aller Feinde
+    und Die Phase der völligen Vernichtung aller Feinde
 
 Expansion zu Beginn des Spiels:
 
@@ -159,7 +159,7 @@ Außerdem beschreibt die Freeciv-Online-Hilfe noch eine andere
 Strategie.
 
 
-Frage: Welchen Wartezeit sollte man in Mehrspieler-Partien verwenden?
+Frage: Welchen Rundenzeit sollte man in Mehrspieler-Partien verwenden?
 
 Das hängt von der Anzahl der Spieler ab. Wenn nur zwei Leute teilnehmen,
 funktioniert normalerweise ein Timeout von 0. Wenn es mehr als zwei Mitspieler
@@ -177,8 +177,10 @@ Frage: Wie groß sollte die Karte sein?
 Die optimale Größe hängt davon ab, wieviele Spieler teilnehmen und wie lange
 das Spiel dauern soll. Die Voreinstellung (80x50) ist groß genug für eine
 recht schnelle Runde mit zwei Spielern, wird aber in ein zu schnelles Spiel
-ausarten, wenn mehr als drei Spieler teilnehmen. (Schnelle Spiele tendieren dazu, jeden außer dem Gewinner zu frustrieren, weil
-niemand wirklich Zeit hatte, seine Verteidigung aufzubauen.) Wenn Sie mehr als
+ausarten, wenn mehr als drei Spieler teilnehmen.
+
+Schnelle Spiele tendieren dazu, jeden außer dem Gewinner zu frustrieren, weil
+niemand wirklich Zeit hatte, seine Verteidigung aufzubauen. Wenn Sie mehr als
 drei Teilnehmer haben, sollten Sie eine 80x80 Karte verwenden. Ab fünf
 Mitspielern bietet sich eine Karte mit 100x100 Feldern an.
 
