@@ -36,7 +36,7 @@ government="Democracy"
 civilwar_nations = "english"
 
 cities =
-  "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
+  "København", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers",
   "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
   "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
   "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
