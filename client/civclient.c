@@ -94,6 +94,9 @@ int seconds_to_turndone;
 int last_turn_gold_amount;
 int turn_gold_difference;
 
+/* TRUE if an end turn request is blocked by busy agents */
+static bool waiting_for_end_turn = FALSE;
+
 static void client_remove_all_cli_conn(void);
 
 /**************************************************************************
@@ -424,6 +427,11 @@ void handle_packet_input(void *packet, int type)
 
   case PACKET_PROCESSING_FINISHED:
     handle_processing_finished();
+    /* This may thaw the agents, which may in turn have been blocking an
+     * end turn request */
+    if (waiting_for_end_turn) {
+      send_turn_done();
+    }
     break;
 
   case PACKET_START_TURN:
@@ -456,7 +464,10 @@ void send_turn_done(void)
 {
   struct packet_generic_message gen_packet;
 
+  waiting_for_end_turn = FALSE;
+
   if (agents_busy()) {
+    waiting_for_end_turn = TRUE;
     /*
      * The turn done button is disabled but the user may have press
      * the return key.
