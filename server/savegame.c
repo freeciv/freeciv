@@ -3338,9 +3338,7 @@ void game_load(struct section_file *file)
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
 
-      if (tmp_server_state==PRE_GAME_STATE
-	  && map.generator == 0
-	  && !has_capability("map_editor",savefile_options)) {
+      if (tmp_server_state==PRE_GAME_STATE && map.generator == 0) {
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
