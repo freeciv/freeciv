@@ -22,6 +22,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "log.h"
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
@@ -574,7 +575,7 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
   spy_tech_shell = 0l;
   
   if(!steal_advance){
-    printf("Bug in spy steal tech code\n");
+    freelog(LOG_NORMAL,"Bug in spy steal tech code.\n");
     return;
   }
   
