@@ -420,7 +420,7 @@ static void cma_select_preset_callback(GtkWidget *w, gint row, gint col,
     return;
   }
 
-  preset_index = (int) selection->data;
+  preset_index = GPOINTER_TO_INT(selection->data);
 
   if (ev && ev->type == GDK_2BUTTON_PRESS) {
     /* Double-click to remove preset from list */
@@ -460,7 +460,7 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
   char *default_name;
 
   if (selection) {
-    default_name = cmafec_preset_get_descr((int) selection->data);
+    default_name = cmafec_preset_get_descr(GPOINTER_TO_INT(selection->data));
   } else {
     default_name = _("new preset");
   }
@@ -542,7 +542,7 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
   if (ev->type == GDK_KEY_PRESS) {
     switch (ev->keyval) {
     case GDK_Delete:
-      cma_preset_remove(pdialog, (int) selection->data);
+      cma_preset_remove(pdialog, GPOINTER_TO_INT(selection->data));
       break;
     default:
       return FALSE;
@@ -565,7 +565,7 @@ static void cma_del_preset_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  cma_preset_remove(pdialog, (int) selection->data);
+  cma_preset_remove(pdialog, GPOINTER_TO_INT(selection->data));
 }
 
 /**************************************************************************

@@ -14,26 +14,12 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <stdarg.h>
-
 #include <gtk/gtk.h>
 
 #include "events.h"
 #include "fcintl.h"
-#include "game.h"
-#include "packets.h"
-#include "player.h"
-#include "shared.h"
 
-#include "clinet.h"
-#include "dialogs.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
-#include "mapview.h"
-#include "optiondlg.h"
 #include "options.h"
 
 #include "messagedlg.h"

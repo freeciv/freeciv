@@ -459,7 +459,7 @@ void science_dialog_update(void)
     if (strlen(data) > 0)
       gtk_signal_connect(GTK_OBJECT(item), "activate",
 			 GTK_SIGNAL_FUNC(science_change_callback),
-			 (gpointer) g_list_nth_data(sorting_list, i));
+			 g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(popupmenu);
@@ -508,7 +508,7 @@ void science_dialog_update(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
     gtk_signal_connect(GTK_OBJECT(item), "activate",
 		       GTK_SIGNAL_FUNC(science_goal_callback),
-		       (gpointer) g_list_nth_data(sorting_list, i));
+		       g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(goalmenu);
@@ -610,9 +610,9 @@ void create_economy_report_dialog(bool make_modal)
   gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
 	GTK_SIGNAL_FUNC(economy_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(sellobsolete_command), "clicked",
-	GTK_SIGNAL_FUNC(economy_selloff_callback), (gpointer)0);
+	GTK_SIGNAL_FUNC(economy_selloff_callback), GINT_TO_POINTER(FALSE));
   gtk_signal_connect(GTK_OBJECT(sellall_command), "clicked",
-	GTK_SIGNAL_FUNC(economy_selloff_callback), (gpointer)1);
+	GTK_SIGNAL_FUNC(economy_selloff_callback), GINT_TO_POINTER(TRUE));
 
   gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->action_area );

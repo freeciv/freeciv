@@ -1743,9 +1743,11 @@ void update_map_canvas_scrollbars_size(void)
 	GTK_ADJUSTMENT(map_vadj));
 
   gtk_signal_connect(GTK_OBJECT(map_hadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)TRUE);
+	GTK_SIGNAL_FUNC(scrollbar_jump_callback),
+	GINT_TO_POINTER(TRUE));
   gtk_signal_connect(GTK_OBJECT(map_vadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)FALSE);
+	GTK_SIGNAL_FUNC(scrollbar_jump_callback),
+	GINT_TO_POINTER(FALSE));
 }
 
 /**************************************************************************

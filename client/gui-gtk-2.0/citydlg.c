@@ -1377,7 +1377,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 		       FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(pdialog->misc.whichtab_radio[i]),
 		       "toggled", GTK_SIGNAL_FUNC(misc_whichtab_callback),
-		       (gpointer *) i);
+		       GINT_TO_POINTER(i));
   }
 
   /* we choose which page to popup by default */
@@ -1961,7 +1961,7 @@ static void city_dialog_update_improvement_list(struct city_dialog
     row = gtk_clist_append(GTK_CLIST(pdialog->overview.improvement_list),
 			   strings);
     gtk_clist_set_row_data(GTK_CLIST(pdialog->overview.improvement_list),
-			   row, (gpointer) id);
+			   row, GINT_TO_POINTER(id));
 
     total += get_improvement_type(id)->upkeep;
   }
@@ -2051,12 +2051,12 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 		       (pdialog->overview.supported_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(supported_unit_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT
 		       (pdialog->overview.supported_unit_boxes[i]),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(present_unit_middle_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->overview.supported_unit_boxes[i],
 			     TRUE);
   }
@@ -2099,11 +2099,11 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.supported_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(supported_unit_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.supported_unit_boxes[i]),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(supported_unit_middle_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->unit.supported_unit_boxes[i], TRUE);
   }
 
@@ -2191,12 +2191,12 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 		       (pdialog->overview.present_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(present_unit_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT
 		       (pdialog->overview.present_unit_boxes[i]),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(present_unit_middle_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->overview.present_unit_boxes[i],
 			     TRUE);
   }
@@ -2234,11 +2234,11 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.present_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(present_unit_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.present_unit_boxes[i]),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(present_unit_middle_callback),
-		       (gpointer) punit->id);
+		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->unit.present_unit_boxes[i], TRUE);
   }
   for (; i < NUM_UNITS_SHOWN; i++) {
@@ -3053,7 +3053,7 @@ static void change_callback(GtkWidget * w, gpointer data)
     	                           pdialog->pcity);
     row_no = gtk_clist_append(GTK_CLIST(pdialog->change_list), row);
     gtk_clist_set_row_data(GTK_CLIST(pdialog->change_list),
-			   row_no, (gpointer) cid);
+			   row_no, GINT_TO_POINTER(cid));
   }
 
   gtk_clist_thaw(GTK_CLIST(pdialog->change_list));
@@ -3102,9 +3102,9 @@ static void change_yes_callback(GtkWidget * w, gpointer data)
 
   if (selection) {
     struct packet_city_request packet;
-    cid cid = (int) gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
-					   GPOINTER_TO_INT
-					   (selection->data));
+    cid cid = GPOINTER_TO_INT(
+		gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
+				GPOINTER_TO_INT(selection->data)));
 
     packet.city_id = pdialog->pcity->id;
     packet.build_id = cid_id(cid);
@@ -3137,9 +3137,9 @@ static void change_help_callback(GtkWidget * w, gpointer data)
   GList *selection = GTK_CLIST(pdialog->change_list)->selection;
 
   if (selection) {
-    cid cid = (int) gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
-					   GPOINTER_TO_INT
-					   (selection->data));
+    cid cid = GPOINTER_TO_INT(
+		gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
+				GPOINTER_TO_INT(selection->data)));
     int id = cid_id(cid);
 
     if (cid_is_unit(cid)) {
@@ -3168,9 +3168,9 @@ static void sell_callback(GtkWidget * w, gpointer data)
   if (!selection)
     return;
 
-  id = (int) gtk_clist_get_row_data(GTK_CLIST
-				    (pdialog->overview.improvement_list),
-				    (int) selection->data);
+  id = GPOINTER_TO_INT(gtk_clist_get_row_data
+		       (GTK_CLIST(pdialog->overview.improvement_list),
+			GPOINTER_TO_INT(selection->data)));
   assert(city_got_building(pdialog->pcity, id));
   if (is_wonder(id))
     return;
@@ -3244,10 +3244,9 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
     gtk_button_set_label(GTK_BUTTON(pdialog->overview.sell_command), _("Sell"));
     gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
   } else {
-    int id = (int) gtk_clist_get_row_data(GTK_CLIST
-					  (pdialog->overview.
-					   improvement_list),
-					  (int) selection->data);
+    int id = GPOINTER_TO_INT(gtk_clist_get_row_data
+			     (GTK_CLIST(pdialog->overview.improvement_list),
+			      GPOINTER_TO_INT(selection->data)));
     assert(city_got_building(pdialog->pcity, id));
 
     if (!is_wonder(id)) {
@@ -3415,7 +3414,7 @@ static void rename_callback_yes(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void misc_whichtab_callback(GtkWidget * w, gpointer data)
 {
-  new_dialog_def_page = (int) data;
+  new_dialog_def_page = GPOINTER_TO_INT(data);
 }
 
 /**************************************************************************

@@ -1233,7 +1233,7 @@ static void government_callback(GtkWidget *w, gpointer data)
 {
   struct packet_player_request packet;
 
-  packet.government=(size_t)data;
+  packet.government=GPOINTER_TO_INT(data);
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
 
   destroy_message_dialog(w);
@@ -1261,7 +1261,7 @@ void popup_government_dialog(void)
       GTK_OBJECT(dshell),
       "delete_event",
       GTK_SIGNAL_FUNC(gtk_true),
-      (gpointer) toplevel
+      GINT_TO_POINTER(toplevel)
     );
 
     gtk_window_set_title(GTK_WINDOW(dshell), _("Choose Your New Government"));
@@ -1290,7 +1290,7 @@ void popup_government_dialog(void)
         GTK_OBJECT(button),
         "clicked",
         GTK_SIGNAL_FUNC(government_callback),
-        (gpointer) g->index
+        GINT_TO_POINTER(g->index)
       );
       if(!can_change_to_government(game.player_ptr, i))
 	gtk_widget_set_sensitive(button, FALSE);
@@ -1353,7 +1353,7 @@ static void pillage_callback(GtkWidget *w, gpointer data)
     if (punit) {
       request_new_unit_activity_targeted (punit,
 					  ACTIVITY_PILLAGE,
-					  (int)data);
+					  GPOINTER_TO_INT(data));
     }
   }
 
@@ -1408,7 +1408,7 @@ void popup_pillage_dialog(struct unit *punit,
         GTK_OBJECT (button),
         "clicked",
         GTK_SIGNAL_FUNC (pillage_callback),
-        (gpointer)what
+        GINT_TO_POINTER(what)
       );
       may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
     }
@@ -1472,7 +1472,7 @@ static void unit_connect_callback (GtkWidget *w, gpointer data)
 static gint unit_connect_del_callback(GtkWidget *widget, GdkEvent *event,
 				      gpointer data)
 {
-  unit_connect_callback((GtkWidget *)data, (gpointer)ACTIVITY_IDLE);
+  unit_connect_callback((GtkWidget *)data, GINT_TO_POINTER(ACTIVITY_IDLE));
   return FALSE;
 }
 
@@ -1518,7 +1518,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
       GTK_OBJECT (button),
       "clicked",
       GTK_SIGNAL_FUNC (unit_connect_callback),
-      (gpointer)activity
+      GINT_TO_POINTER(activity)
       );
   }
   button = gtk_button_new_with_label (_("Cancel"));
@@ -1527,7 +1527,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
     GTK_OBJECT (button),
     "clicked",
     GTK_SIGNAL_FUNC (unit_connect_callback),
-    (gpointer)ACTIVITY_IDLE
+    GINT_TO_POINTER(ACTIVITY_IDLE)
     );
 
   gtk_signal_connect (
@@ -1769,7 +1769,7 @@ void popup_unit_select_dialog(struct tile *ptile)
        FALSE, FALSE, 0);
 
     gtk_signal_connect(GTK_OBJECT(unit_select_commands[i]), "clicked",
-       GTK_SIGNAL_FUNC(unit_select_callback), (gpointer)punit->id);
+       GTK_SIGNAL_FUNC(unit_select_callback), GINT_TO_POINTER(punit->id));
   }
   unit_select_no=i;
 
