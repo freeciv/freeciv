@@ -61,7 +61,7 @@
 #undef OPTION_FILE_NAME
 #undef ESD
 #undef SDL
-
+#undef WINMM
 @BOTTOM@
 
 #endif /* FC_CONFIG_H */

@@ -511,6 +511,13 @@ if test x$client != xno; then
       AC_MSG_RESULT([no, install SDL_mixer first: http://www.libsdl.org/projects/SDL_mixer/index.html])
     fi
   fi
+  
+  dnl Add WinMM sound support to client
+  if test x"$MINGW32" = "xyes"; then
+    SOUND_LIBS="$SOUND_LIBS -lwinmm"
+    AC_DEFINE(WINMM)    
+    WINMM="yes"
+  fi
 
   gui_sources="gui-$client"
 fi
@@ -521,6 +528,7 @@ AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
 AM_CONDITIONAL(ESD, test "$ESD" != "no")
 AM_CONDITIONAL(SDL, test "$SDL_mixer" = "yes")
+AM_CONDITIONAL(WINMM, test "$WINMM" = "yes")
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
