@@ -24,8 +24,6 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 void ai_manage_cities(struct player *pplayer);
 
-Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v);
-
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
 /* These are not used (well, except AICITY_NONE)  --dwp */
 
