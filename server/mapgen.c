@@ -1583,7 +1583,8 @@ static int place_island(void)
       if (hmap(x, y)) {
 	int map_x = x + xo - w;
 	int map_y = y + yo - n;
-	assert(normalize_map_pos(&map_x, &map_y));
+	assert(is_real_tile(&map_x, &map_y));
+	normalize_map_pos(&map_x, &map_y);
 
 	checkmass--; 
 	if(checkmass<=0) {
