@@ -33,10 +33,6 @@
 
 struct move_cost_map warmap;
 
-struct stack_element {
-  unsigned char x, y;
-};
-
 /* These are used for airplane GOTOs with waypoints */
 #define MAXFUEL 100
 
