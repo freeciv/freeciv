@@ -106,11 +106,7 @@ static int exit_space_dialog_callback(struct GUI *pWidget)
 
 static int launch_spaceship_callback(struct  GUI *pWidget)
 {
-  struct packet_spaceship_action packet;
-
-  packet.action = SSHIP_ACT_LAUNCH;
-  packet.num = 0;
-  send_packet_spaceship_action(&aconnection, &packet);
+  send_packet_spaceship_launch(&aconnection);
   return -1;
 }
 

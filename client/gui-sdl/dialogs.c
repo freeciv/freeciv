@@ -1784,12 +1784,9 @@ static int caravan_dlg_window_callback(struct GUI *pWindow)
 *****************************************************************/
 static int caravan_establish_trade_callback(struct GUI *pWidget)
 {
-  struct packet_unit_request req;
-  req.unit_id = pWidget->data.cont->id0;
-  req.city_id = pWidget->data.cont->id1;
-  req.name[0]='\0';
   popdown_caravan_dialog();
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+
+  dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
   return -1;
 }
 
@@ -1799,12 +1796,9 @@ static int caravan_establish_trade_callback(struct GUI *pWidget)
 *****************************************************************/
 static int caravan_help_build_wonder_callback(struct GUI *pWidget)
 {
-  struct packet_unit_request req;
-  req.unit_id = pWidget->data.cont->id0;
-  req.city_id = pWidget->data.cont->id1;
-  req.name[0]='\0';
   popdown_caravan_dialog();
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+
+  dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
   return -1;
 }
 
@@ -2320,9 +2314,7 @@ static int diplomat_incite_callback(struct GUI *pWidget)
   popdown_diplomat_dialog();
   
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_generic_integer packet;
-    packet.value = pCity->id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+    dsend_packet_city_incite_inq(&aconnection, pCity->id);
   }
   
   return -1;
@@ -2352,7 +2344,6 @@ static int diplomat_keep_moving_callback(struct GUI *pWidget)
 *****************************************************************/
 static int diplomat_bribe_callback(struct GUI *pWidget)
 {
-  struct packet_generic_integer packet;
   struct unit *pTunit = pWidget->data.unit;
   int id = MAX_ID - pWidget->ID;
   
@@ -2360,8 +2351,7 @@ static int diplomat_bribe_callback(struct GUI *pWidget)
   popdown_diplomat_dialog();
   
   if(find_unit_by_id(id) && pTunit) { 
-    packet.value = pTunit->id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+    dsend_packet_unit_bribe_inq(&aconnection, pTunit->id);
   }
    
   return -1;
@@ -3818,10 +3808,7 @@ static struct SMALL_DLG *pGov_Dlg = NULL;
 **************************************************************************/
 static int government_dlg_callback(struct GUI *pGov_Button)
 {
-  struct packet_player_request packet;
-  packet.government = MAX_ID - pGov_Button->ID;
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_GOVERNMENT);
+  dsend_packet_player_government(&aconnection, MAX_ID - pGov_Button->ID);
   popdown_window_group_dialog(pGov_Dlg->pBeginWidgetList,
 			      pGov_Dlg->pEndWidgetList);
   FREE(pGov_Dlg);
@@ -3982,19 +3969,11 @@ static int nations_dialog_callback(struct GUI *pWindow)
 **************************************************************************/
 static int start_callback(struct GUI *pStart_Button)
 {
-  struct packet_alloc_nation packet;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
   char *pStr = convert_to_chars(pSetup->pName_Edit->string16->text);
 
   /* perform a minimum of sanity test on the name */
-  packet.nation_no = pSetup->nation;	/*selected; */
-  packet.is_male = pSetup->leader_sex;	/*selected_sex; */
-  packet.city_style = pSetup->nation_city_style;
-
-  sz_strlcpy(packet.name, pStr);
-  FREE(pStr);
-
-  if (!is_sane_name(packet.name)) {
+  if (!is_sane_name(pStr)) {
     append_output_window(_("You must type a legal name."));
     pSellected_Widget = pStart_Button;
     set_wstate(pStart_Button, FC_WS_SELLECTED);
@@ -4003,9 +3982,10 @@ static int start_callback(struct GUI *pStart_Button)
     return (-1);
   }
 
-  /*packet.name[0] = toupper( packet.name[0] ); */
-
-  send_packet_alloc_nation(&aconnection, &packet);
+  dsend_packet_nation_select_req(&aconnection, pSetup->nation,
+				 pSetup->leader_sex, pStr,
+				 pSetup->nation_city_style);
+  FREE(pStr);
 
   return -1;
 }
@@ -4749,18 +4729,19 @@ void popdown_races_dialog(void)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   
-  if(packet->num_nations_used) {
+  if (num_nations_used > 0) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
     int i, nation;
     bool change = FALSE;
     struct GUI *pNat;
       
-    freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
-    for (i = 0; i < packet->num_nations_used; i++) {
-      nation = packet->nations_used[i];
+    freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
+    for (i = 0; i < num_nations_used; i++) {
+      nation = nations_used[i];
 
       freelog(LOG_DEBUG,"  [%d]: %d = %s", i, nation, get_nation_name(nation));
 

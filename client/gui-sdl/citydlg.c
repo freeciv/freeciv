@@ -886,7 +886,6 @@ static int happy_city_dlg_callback(struct GUI *pButton)
 **************************************************************************/
 static int misc_panel_city_dlg_callback(struct GUI *pWidget)
 {
-  struct packet_generic_values packet;
   int new = pCityDlg->pCity->city_options & 0xff;
 
   switch (MAX_ID - pWidget->ID) {
@@ -929,9 +928,7 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
     break;
   }
 
-  packet.value1 = pCityDlg->pCity->id;
-  packet.value2 = new;
-  send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS, &packet);
+  dsend_packet_city_options_req(&aconnection, pCityDlg->pCity->id, new);
 
   return -1;
 }

@@ -38,6 +38,7 @@
 #include "civclient.h"
 #include "chatline.h"
 #include "clinet.h"
+#include "packhand.h"
 
 #include "gui_mem.h"
 
@@ -915,13 +916,12 @@ void close_connection_dialog(void)
  popup passwd dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
-  switch (packet->type) {
+  switch (type) {
     case AUTH_NEWUSER_FIRST:
     case AUTH_NEWUSER_RETRY:
-      popup_new_user_passwd_dialog(packet->message);
+      popup_new_user_passwd_dialog(message);
     break;
     case AUTH_LOGIN_FIRST:
     /* if we magically have a password already present in 'password'
@@ -933,11 +933,11 @@ void handle_authentication_request(struct packet_authentication_request *
       send_packet_authentication_reply(&aconnection, &reply);
       return;
     } else {
-      popup_user_passwd_dialog(packet->message);
+      popup_user_passwd_dialog(message);
     }
     break;
     case AUTH_LOGIN_RETRY:
-      popup_user_passwd_dialog(packet->message);
+      popup_user_passwd_dialog(message);
     break;
     default:
       assert(0);

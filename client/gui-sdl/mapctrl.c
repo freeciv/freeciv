@@ -2101,13 +2101,11 @@ bool map_event_handler(SDL_keysym Key)
 **************************************************************************/
 static int newcity_ok_callback(struct GUI *pOk_Button)
 {
-  struct packet_unit_request req;
   char *input =
 	  convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
 
-  req.unit_id = pOk_Button->data.unit->id;
-  sz_strlcpy(req.name, input);
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+  dsend_packet_unit_build_city(&aconnection, pOk_Button->data.unit->id,
+  			       input);
   FREE(input);
 
   popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,

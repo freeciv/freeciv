@@ -136,7 +136,7 @@ static int units_dialog_callback(struct GUI *pWindow)
 /* --------------------------------------------------------------- */
 static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
 {
-  int ut1 = MAX_ID - pWidget->ID;;
+  int ut1 = MAX_ID - pWidget->ID;
   
   /* popdown sell dlg */
   lock_buffer(pWidget->dst);
@@ -145,7 +145,7 @@ static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
   unlock_buffer();
   FREE(pUnits_Upg_Dlg);
    
-  send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
+  dsend_packet_unit_type_upgrade(&aconnection, ut1);
     
   rebuild_focus_anim_frames();
 
@@ -1289,7 +1289,7 @@ END:
 static int apply_taxrates_callback(struct GUI *pButton)
 {
   struct GUI *pBuf;
-  struct packet_player_request packet;
+  int science, luxury, tax;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return -1;
@@ -1297,19 +1297,19 @@ static int apply_taxrates_callback(struct GUI *pButton)
 
   /* Science Scrollbar */
   pBuf = pButton->next->next;
-  packet.science = *(int *)pBuf->data.ptr;
+  science = *(int *)pBuf->data.ptr;
     
   /* Luxuries Scrollbar */
   pBuf = pBuf->next->next->next;
-  packet.luxury = *(int *)pBuf->data.ptr;
+  luxury = *(int *)pBuf->data.ptr;
   
   /* Tax */
-  packet.tax = 100 - packet.luxury - packet.science;
+  tax = 100 - luxury - science;
   
-  if(packet.tax != game.player_ptr->economic.tax ||
-    packet.science != game.player_ptr->economic.science ||
-    packet.luxury != game.player_ptr->economic.luxury) {
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+  if(tax != game.player_ptr->economic.tax ||
+    science != game.player_ptr->economic.science ||
+    luxury != game.player_ptr->economic.luxury) {
+    dsend_packet_player_rates(&aconnection, tax, luxury, science);
   }
 
   redraw_tibutton(pButton);
@@ -2709,10 +2709,7 @@ static int exit_change_tech_dlg_callback(struct GUI *pWidget)
 **************************************************************************/
 static int change_research_callback(struct GUI *pWidget)
 {
-  struct packet_player_request packet;
-  packet.tech = MAX_ID - pWidget->ID;
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_RESEARCH);
+  dsend_packet_player_research(&aconnection, (MAX_ID - pWidget->ID));
   
   exit_change_tech_dlg_callback(NULL);
   return -1;
@@ -2896,10 +2893,7 @@ static int change_research(struct GUI *pWidget)
 **************************************************************************/
 static int change_research_goal_callback(struct GUI *pWidget)
 {
-  struct packet_player_request packet;
-  packet.tech = MAX_ID - pWidget->ID;
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_TECH_GOAL);
+  dsend_packet_player_tech_goal(&aconnection, (MAX_ID - pWidget->ID));
 
   exit_change_tech_dlg_callback(NULL);
     

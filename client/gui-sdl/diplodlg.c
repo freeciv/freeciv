@@ -56,19 +56,37 @@ static void popdown_sdip_dialog(void);
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
-void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
+void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
+				    bool other_accepted)
 {
   struct GUI *pLabel;
   SDL_Surface *pThm;
   SDL_Rect src = {0, 0, 0, 0};
   
-  if (pa->plrno_from == game.player_idx) {
-    pLabel = pClauses_Dlg->pEndWidgetList->prev;
-  } else {
-    pLabel = pClauses_Dlg->pEndWidgetList->prev->prev;
-  }
+  /* updates your own acceptance status */
+  pLabel = pClauses_Dlg->pEndWidgetList->prev;
 
-  pLabel->private_data.cbox->state = !pLabel->private_data.cbox->state;  
+  pLabel->private_data.cbox->state = I_accepted;  
+  if (pLabel->private_data.cbox->state) {
+    pThm = pLabel->private_data.cbox->pTRUE_Theme;
+  } else {
+    pThm = pLabel->private_data.cbox->pFALSE_Theme;
+  }
+      
+  src.w = pThm->w / 4;
+  src.h = pThm->h;
+    
+  SDL_SetAlpha(pThm, 0x0, 0x0);
+  SDL_BlitSurface(pThm, &src, pLabel->theme, NULL);
+  SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
+  
+  redraw_widget(pLabel);
+  flush_rect(pLabel->size);
+  
+  /* updates other player's acceptance status */
+  pLabel = pClauses_Dlg->pEndWidgetList->prev->prev;
+  
+  pLabel->private_data.cbox->state = other_accepted;  
   if (pLabel->private_data.cbox->state) {
     pThm = pLabel->private_data.cbox->pTRUE_Theme;
   } else {
@@ -90,7 +108,7 @@ void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
-void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa)
+void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 {
   popdown_diplomacy_dialog();
   flush_dirty();
@@ -99,22 +117,21 @@ void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa)
 
 static int remove_clause_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-
-  pa.plrno0 = pClauses_Dlg->pEndWidgetList->data.cont->id0;
-  pa.plrno1 = pClauses_Dlg->pEndWidgetList->data.cont->id1;
-  pa.plrno_from = pWidget->data.cont->id0;
-  pa.clause_type = (enum clause_type) pWidget->data.cont->id1;
-  pa.value = pWidget->data.cont->value;
-  
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_REMOVE_CLAUSE, &pa);
+  dsend_packet_diplomacy_remove_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   (enum clause_type) pWidget->data.
+					   cont->id1,
+					   pWidget->data.cont->value);
   return -1;
 }
 
 /**************************************************************************
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
-void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
+void handle_diplomacy_create_clause(int counterpart, int giver,
+				    enum clause_type type, int value)
 {
   SDL_String16 *pStr;
   struct GUI *pBuf, *pWindow = pClauses_Dlg->pEndWidgetList;
@@ -123,21 +140,21 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   bool redraw_all, scroll = pClauses_Dlg->pActiveWidgetList == NULL;
   int len = pClauses_Dlg->pScroll->pUp_Left_Button->size.w;
      
-  Cl.type = pa->clause_type;
-  Cl.from = &game.players[pa->plrno_from];
-  Cl.value = pa->value;
+  Cl.type = type;
+  Cl.from = &game.players[giver];
+  Cl.value = value;
   
   client_diplomacy_clause_string(cBuf, sizeof(cBuf), &Cl);
   
   /* find existing gold clause and update value */
-  if(pa->clause_type == CLAUSE_GOLD && pClauses_Dlg->pScroll->count) {
+  if(type == CLAUSE_GOLD && pClauses_Dlg->pScroll->count) {
     pBuf = pClauses_Dlg->pEndActiveWidgetList;
     while(pBuf) {
       
-      if(pBuf->data.cont->id0 == pa->plrno_from &&
-	pBuf->data.cont->id1 == (int)pa->clause_type) {
-	if(pBuf->data.cont->value != pa->value) {
-	  pBuf->data.cont->value = pa->value;
+      if(pBuf->data.cont->id0 == giver &&
+	pBuf->data.cont->id1 == (int)type) {
+	if(pBuf->data.cont->value != value) {
+	  pBuf->data.cont->value = value;
 	  copy_chars_to_string16(pBuf->string16, cBuf);
 	  if(redraw_widget(pBuf) == 0) {
 	    flush_rect(pBuf->size);
@@ -157,14 +174,14 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
    (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
       
-  if(pa->plrno_from != game.player_idx) {
+  if(giver != game.player_idx) {
      pBuf->string16->style |= SF_CENTER_RIGHT;  
   }
 
   pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
-  pBuf->data.cont->id0 = pa->plrno_from;
-  pBuf->data.cont->id1 = (int)pa->clause_type;
-  pBuf->data.cont->value = pa->value;
+  pBuf->data.cont->id0 = giver;
+  pBuf->data.cont->id1 = (int)type;
+  pBuf->data.cont->value = value;
     
   pBuf->action = remove_clause_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -201,7 +218,8 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
 /**************************************************************************
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
-void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
+void handle_diplomacy_remove_clause(int counterpart, int giver,
+				    enum clause_type type, int value)
 {
   struct GUI *pBuf;
   SDL_Rect src = {0, 0, 0, 0};
@@ -213,14 +231,14 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
   pBuf = pClauses_Dlg->pEndActiveWidgetList->next;
   do {
     pBuf = pBuf->prev;
-  } while(!(pBuf->data.cont->id0 == pa->plrno_from &&
-            pBuf->data.cont->id1 == (int)pa->clause_type &&
-            pBuf->data.cont->value == pa->value) &&
+  } while(!(pBuf->data.cont->id0 == giver &&
+            pBuf->data.cont->id1 == (int)type &&
+            pBuf->data.cont->value == value) &&
   		pBuf != pClauses_Dlg->pBeginActiveWidgetList);
   
-  if(!(pBuf->data.cont->id0 == pa->plrno_from &&
-            pBuf->data.cont->id1 == (int)pa->clause_type &&
-            pBuf->data.cont->value == pa->value)) {
+  if(!(pBuf->data.cont->id0 == giver &&
+            pBuf->data.cont->id1 == (int)type &&
+            pBuf->data.cont->value == value)) {
      return;
   }
     
@@ -291,23 +309,15 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
 
 static int cancel_meeting_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-             
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.plrno_from = pa.plrno0;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CANCEL_MEETING, &pa);
+  dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
+					    pWidget->data.cont->id1);
   return -1;
 }
 
 static int accept_treaty_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-             
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.plrno_from = game.player_idx;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_ACCEPT_TREATY, &pa);
+  dsend_packet_diplomacy_accept_treaty_req(&aconnection,
+					   pWidget->data.cont->id1);
   return -1;
 }
 
@@ -315,72 +325,69 @@ static int accept_treaty_callback(struct GUI *pWidget)
 
 static int pact_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
+  int clause_type;
   
   switch(MAX_ID - pWidget->ID) {
     case 2:
-      pa.clause_type = CLAUSE_CEASEFIRE;
+      clause_type = CLAUSE_CEASEFIRE;
     break;
     case 1:
-      pa.clause_type = CLAUSE_PEACE;
+      clause_type = CLAUSE_PEACE;
     break;
     default:
-      pa.clause_type = CLAUSE_ALLIANCE;
+      clause_type = CLAUSE_ALLIANCE;
     break;
   }
   
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.plrno_from = pa.plrno0;
-  pa.value = 0;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   clause_type, 0);
+  
   return -1;
 }
 
 static int vision_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-  
-  pa.clause_type = CLAUSE_VISION;
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.plrno_from = pa.plrno0;
-  pa.value = 0;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   CLAUSE_VISION, 0);
   return -1;
 }
 
 static int maps_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
+  int clause_type;
   
   switch(MAX_ID - pWidget->ID) {
     case 1:
-      pa.clause_type = CLAUSE_MAP;
+      clause_type = CLAUSE_MAP;
     break;
     default:
-      pa.clause_type = CLAUSE_SEAMAP;
+      clause_type = CLAUSE_SEAMAP;
     break;
   }
-  
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.plrno_from = pa.plrno0;
-  pa.value = 0;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   clause_type, 0);
   return -1;
 }
 
 static int techs_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-    
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.clause_type = CLAUSE_ADVANCE;
-  pa.plrno_from = pa.plrno0;
-  pa.value = MAX_ID - pWidget->ID;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   CLAUSE_ADVANCE,
+					   (MAX_ID - pWidget->ID));
+  
   return -1;
 }
 
@@ -404,14 +411,11 @@ static int gold_callback(struct GUI *pWidget)
   }
   
   if (amount > 0) {
-    struct packet_diplomacy_info pa;
-    
-    pa.clause_type = CLAUSE_GOLD;
-    pa.plrno0 = pWidget->data.cont->id0;
-    pa.plrno1 = pWidget->data.cont->id1;
-    pa.plrno_from = pa.plrno0;
-    pa.value = amount;
-    send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+					     pClauses_Dlg->pEndWidgetList->
+					     data.cont->id1,
+					     pWidget->data.cont->id0,
+					     CLAUSE_GOLD, amount);
     
   } else {
     append_output_window(_("Game: Invalid amount of gold specified."));
@@ -429,14 +433,13 @@ static int gold_callback(struct GUI *pWidget)
 
 static int cities_callback(struct GUI *pWidget)
 {
-  struct packet_diplomacy_info pa;
-    
-  pa.plrno0 = pWidget->data.cont->id0;
-  pa.plrno1 = pWidget->data.cont->id1;
-  pa.clause_type = CLAUSE_CITY;
-  pa.plrno_from = pa.plrno0;
-  pa.value = MAX_ID - pWidget->ID;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pClauses_Dlg->pEndWidgetList->
+					   data.cont->id1,
+					   pWidget->data.cont->id0,
+					   CLAUSE_CITY,
+					   (MAX_ID - pWidget->ID));
+  
   return -1;
 }
 
@@ -795,11 +798,11 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   Handle the start of a diplomacy meeting - usually by poping up a
   diplomacy dialog.
 **************************************************************************/
-void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
+void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 {
   if(!pClauses_Dlg) {
-    struct player *pPlayer0 = &game.players[pa->plrno0];
-    struct player *pPlayer1 = &game.players[pa->plrno1];
+    struct player *pPlayer0 = &game.players[game.player_idx];
+    struct player *pPlayer1 = &game.players[counterpart];
     struct CONTAINER *pCont = MALLOC(sizeof(struct CONTAINER));
     int hh, ww = 0;
     char cBuf[128];
@@ -810,10 +813,10 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     
     pClauses_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
     
-    if(game.player_idx != pPlayer0->player_no) {
+    /*if(game.player_idx != pPlayer0->player_no) {
       pPlayer0 = pPlayer1;
-      pPlayer1 = &game.players[pa->plrno0];
-    }
+      pPlayer1 = game.player_idx;
+    }*/
         
     pCont->id0 = pPlayer0->player_no;
     pCont->id1 = pPlayer1->player_no;
@@ -1014,13 +1017,11 @@ static int sdip_window_callback(struct GUI *pWindow)
 
 static int withdraw_vision_dlg_callback(struct GUI *pWidget)
 {
-  struct player *pPlayer = pWidget->data.player;
-  struct packet_generic_values packet;
   popdown_sdip_dialog();
 
-  packet.id = pPlayer->player_no;
-  packet.value1 = CLAUSE_VISION;
-  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT, &packet);
+  dsend_packet_diplomacy_cancel_pact(&aconnection,
+				     pWidget->data.player->player_no,
+				     CLAUSE_VISION);
   
   flush_dirty();
   return -1;
@@ -1028,13 +1029,11 @@ static int withdraw_vision_dlg_callback(struct GUI *pWidget)
 
 static int cancel_pact_dlg_callback(struct GUI *pWidget)
 {
-  struct player *pPlayer = pWidget->data.player;
-  struct packet_generic_values packet;
   popdown_sdip_dialog();
 
-  packet.id = pPlayer->player_no;
-  packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
-  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT, &packet);
+  dsend_packet_diplomacy_cancel_pact(&aconnection,
+				     pWidget->data.player->player_no,
+				     CLAUSE_CEASEFIRE);
   
   flush_dirty();
   return -1;
@@ -1042,15 +1041,10 @@ static int cancel_pact_dlg_callback(struct GUI *pWidget)
 
 static int call_meeting_dlg_callback(struct GUI *pWidget)
 {
-  struct player *pPlayer = pWidget->data.player;
-  struct packet_diplomacy_info packet;
   popdown_sdip_dialog();
   
-  packet.plrno0 = game.player_idx;
-  packet.plrno1 = pPlayer->player_no;
-  packet.plrno_from = packet.plrno0;
-  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
-                             &packet);
+  dsend_packet_diplomacy_init_meeting_req(&aconnection,
+					  pWidget->data.player->player_no);
   
   flush_dirty();
   return -1;

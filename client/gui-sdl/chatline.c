@@ -144,14 +144,10 @@ void real_append_output_window(const char *astring)
     convertcopy_to_utf16(pUniStr, n, astring);
     add_to_chat_list(pUniStr, n);
   } else {
-    struct packet_generic_message packet;
-  
-    my_snprintf(packet.message , MAX_LEN_MSG, "%s" , astring);
-    packet.x = -1;
-    packet.y = -1;
-    /* packet.event;*/
-  
-    add_notify_window(&packet);
+    char message[MAX_LEN_MSG];
+    my_snprintf(message , MAX_LEN_MSG, "%s" , astring);
+    
+    add_notify_window(message, -1, -1, E_NOEVENT);
   }
 }
 
