@@ -384,7 +384,7 @@ void center_on_something(void)
       }
     } iterate_outward_end;
 
-    assert(0);
+    center_tile_mapcanvas(native_pos_to_tile(map.xsize / 2, map.ysize / 2));
   }
 }
 
