@@ -803,8 +803,9 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   pdialog=(struct city_dialog *)client_data;
 
-  bptr+=sprintf(buf, "These trade routes have been established with %s:\n",
-	        pdialog->pcity->name);
+  sprintf(buf, "These trade routes have been established with %s:\n",
+	  pdialog->pcity->name);
+  bptr += strlen(bptr);
   
   for(i=0; i<4; i++)
     if(pdialog->pcity->trade[i]) {
@@ -812,11 +813,13 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-	bptr+=sprintf(bptr, "%32s: %2d Gold/Year\n",
-		      pcity->name, pdialog->pcity->trade_value[i]);
-      } else {
-	bptr+=sprintf(bptr, "%32s: %2d Gold/Year\n","Unknown",
-	              pdialog->pcity->trade_value[i]);
+       sprintf(bptr, "%32s: %2d Gold/Year\n",
+               pcity->name, pdialog->pcity->trade_value[i]);
+       bptr += strlen(bptr);
+      } else {	
+       sprintf(bptr, "%32s: %2d Gold/Year\n","Unknown",
+               pdialog->pcity->trade_value[i]);
+       bptr += strlen(bptr);
       }
     }
   if (!x)
