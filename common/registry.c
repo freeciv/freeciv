@@ -410,7 +410,7 @@ int section_file_load(struct section_file *sf, const char *filename)
       i = -1;
       do {
 	i++;
-	inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
 	tok = inf_token_required(inf, INF_TOK_VALUE);
 	if (i<columns_tab.n) {
 	  astr_minsize(&entry_name, base_name.n + 10 + columns[i].n);
@@ -437,13 +437,13 @@ int section_file_load(struct section_file *sf, const char *filename)
     astr_minsize(&base_name, strlen(tok)+1);
     strcpy(base_name.str, tok);
 
-    inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+    inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
     
     if (inf_token(inf, INF_TOK_TABLE_START)) {
       i = -1;
       do {
 	i++;
-	inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
 	tok = inf_token_required(inf, INF_TOK_VALUE);
 	if( tok[0] != '\"' ) {
 	  inf_die(inf, "table column header non-string");
@@ -471,7 +471,7 @@ int section_file_load(struct section_file *sf, const char *filename)
     i = -1;
     do {
       i++;
-      inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+      inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
       tok = inf_token_required(inf, INF_TOK_VALUE);
       if (i==0) {
 	pentry = new_entry(sb, base_name.str, tok);

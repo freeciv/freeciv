@@ -422,6 +422,19 @@ const char *inf_token_required(struct inputfile *inf, enum inf_token_type type)
 }
 
 /********************************************************************** 
+  Read as many tokens of specified type as possible, discarding
+  the results; returns number of such tokens read and discarded.
+***********************************************************************/
+int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
+{
+  int count = 0;
+  
+  while(inf_token(inf, type))
+    count++;
+  return count;
+}
+
+/********************************************************************** 
   ...
 ***********************************************************************/
 static const char *get_token_section_name(struct inputfile *inf)
