@@ -324,13 +324,19 @@ void ai_manage_taxes(struct player *pplayer)
 /* Less-intelligent previous versions of the follow equation purged. -- Syela */
   n = ((expense - gnow + cities + pplayer->ai.maxbuycost) * 10 + trade - 1) / trade;
   if (n < 0) n = 0;
-  while (n > 10 - (pplayer->economic.luxury / 10) || n > maxrate) n--;
+  while (n > maxrate) n--; /* Better to cheat on lux than on tax -- Syela */
+  if (m > 10 - n) m = 10 - n;
 
 /*printf("%s has %d trade and %d expense.  Min lux = %d, tax = %d\n",
 pplayer->name, trade, expense, m, n);*/
 
+/* Peter Schaefer points out (among other things) that in pathological cases
+(like expense == 468) the AI will try to celebrate with m = 10 and then abort */
+
   /* want to max the hhjj */
-  for (i = m; i <= maxrate && i <= 10 - n; i++) if (hhjj[i] > hhjj[m]) m = i;
+  for (i = m; i <= maxrate && i <= 10 - n; i++)
+    if (hhjj[i] > hhjj[m] && (trade * (10 - i) >= expense * 10)) m = i;
+/* if the lux rate necessary to celebrate cannot be maintained, don't bother */
   pplayer->economic.luxury = 10 * m;
 
   if (pplayer->research.researching==A_NONE) {
