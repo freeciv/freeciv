@@ -657,9 +657,9 @@ void handle_player_government(struct player *pplayer,
 
   check_player_government_rates(pplayer);
 
-  global_city_refresh(pplayer);
-
   send_player_info(pplayer, pplayer);
+
+  global_city_refresh(pplayer);
 }
 
 /**************************************************************************
@@ -680,11 +680,11 @@ void handle_player_revolution(struct player *pplayer)
 
   check_player_government_rates(pplayer);
 
-  global_city_refresh(pplayer);
-
   send_player_info(pplayer, pplayer);
   if (player_owns_active_govchange_wonder(pplayer))
     pplayer->revolution=1;
+
+  global_city_refresh(pplayer);
 }
 
 /**************************************************************************
