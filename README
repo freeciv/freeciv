@@ -423,11 +423,12 @@ or
 
     <freeciv-dev@freeciv.org>    (For bug reports, and for Freeciv developers)
 
-To subscribe, send mail to <majordomo@freeciv.org>, with the single word
-"subscribe", followed by the name of the list.
+To subscribe, send mail to <listar@freeciv.org>, with the single word
+"subscribe", followed by the name of the list.  (Put this in the body
+of the email message, leaving the email subject line blank.)
 
 Example: To subscribe to the "freeciv" mailing list, send the line
-"subscribe freeciv" to <majordomo@freeciv.org>
+"subscribe freeciv" to <listar@freeciv.org>.
 
 
 New Releases:
