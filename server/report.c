@@ -756,7 +756,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
 			   char **player_names)
 {
   int line_nr;
-  char line[64];
+  char line[80];
   char *ptr;
 
   *last_turn = -1;
