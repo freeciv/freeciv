@@ -336,7 +336,6 @@ int assess_danger(struct city *pcity)
   struct unit virtualunit;
   struct unit *funit = &virtualunit; /* saves me a lot of typing. -- Syela */
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-  bool palace = city_got_building(pcity, B_PALACE);
 
   memset(&virtualunit, 0, sizeof(struct unit));
   memset(&danger, 0, sizeof(danger));
@@ -348,14 +347,9 @@ int assess_danger(struct city *pcity)
   pcity->ai.has_diplomat = FALSE;
 
   unit_list_iterate(ptile->units, punit) {
-    danger[0] -= 4;
     if (unit_flag(punit, F_DIPLOMAT)) pcity->ai.has_diplomat = TRUE;
     if (unit_flag(punit, F_PIKEMEN)) pikemen = TRUE;
   } unit_list_iterate_end;
-
-  /* Set default danger to protect valuable cities. Idea fom Ross.
-     FIXME: use aidata code here to protect cities in danger locations */
-  danger[0] = MAX(0, pcity->size + (palace * 4) - danger[0] - 3);
 
   players_iterate(aplayer) {
     int boatspeed;
