@@ -171,15 +171,105 @@ static void ai_manage_buildings(struct player *pplayer)
   city_list_iterate_end;
 }
 
+/*************************************************************************** 
+  This function computes distances between cities for purpose of building 
+  crowds of water-consuming Caravans or smoggish Freights which want to add 
+  their brick to the wonder being built in pcity.
+
+  At the function entry point, our warmap is intact.  We need to do two 
+  things: (1) establish "downtown" for THIS city (which is an estimate of 
+  how much help we can expect when building a wonder) and 
+  (2) establish distance to pcity for ALL cities on our continent.
+
+  If there are more than one wondercity, things will get a bit random.
+****************************************************************************/
+static void establish_city_distances(struct player *pplayer, 
+				     struct city *pcity)
+{
+  int distance, wonder_continent;
+  Unit_Type_id freight = best_role_unit(pcity, F_HELP_WONDER);
+  int moverate = (freight == U_LAST) ? SINGLE_MOVE
+                                     : get_unit_type(freight)->move_rate;
+
+  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
+    wonder_continent = map_get_continent(pcity->x, pcity->y);
+  } else {
+    wonder_continent = 0;
+  }
+
+  pcity->ai.downtown = 0;
+  city_list_iterate(pplayer->cities, othercity) {
+    distance = WARMAP_COST(othercity->x, othercity->y);
+    if (wonder_continent != 0
+        && map_get_continent(othercity->x, othercity->y) == wonder_continent) {
+      othercity->ai.distance_to_wonder_city = distance;
+    }
+
+    /* How many people near enough would help us? */
+    distance += moverate - 1; distance /= moverate;
+    pcity->ai.downtown += MAX(0, 5 - distance);
+  } city_list_iterate_end;
+}
+
+/**************************************************************************
+  Choose a build for the barbarian player.
+
+  TODO: Move this into advmilitary.c
+  TODO: It will be called for each city but doesn't depend on the city,
+  maybe cache it?  Although barbarians don't normally have many cities, 
+  so can be a bigger bother to cache it.
+**************************************************************************/
+static void ai_barbarian_choose_build(struct player *pplayer, 
+				      struct ai_choice *choice)
+{
+  Unit_Type_id bestunit = -1;
+  int i, bestattack = 0;
+
+  /* Choose the best unit among the basic ones */
+  for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
+    Unit_Type_id iunit = get_role_unit(L_BARBARIAN_BUILD, i);
+
+    if (get_unit_type(iunit)->attack_strength > bestattack) {
+      bestunit = iunit;
+      bestattack = get_unit_type(iunit)->attack_strength;
+    }
+  }
+
+  /* Choose among those made available through other civ's research */
+  for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
+    Unit_Type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
+
+    if (game.global_advances[get_unit_type(iunit)->tech_requirement] != 0
+	&& get_unit_type(iunit)->attack_strength > bestattack) {
+      bestunit = iunit;
+      bestattack = get_unit_type(iunit)->attack_strength;
+    }
+  }
+
+  /* If found anything, put it into the choice */
+  if (bestunit != -1) {
+    choice->choice = bestunit;
+    /* FIXME: 101 is the "overriding military emergency" indicator */
+    choice->want   = 101;
+    choice->type   = CT_ATTACKER;
+  } else {
+    freelog(LOG_VERBOSE, "Barbarians don't know what to build!");
+  }
+}
+
 /************************************************************************** 
-... change the build order.
+  Chooses what the city will build.  Is called after the military advisor
+  put it's choice into pcity->ai.choice and "settler advisor" put settler
+  want into pcity->founder_*.
+
+  Note that AI cheats -- it suffers no penalty for switching from unit to 
+  improvement, etc.
 **************************************************************************/
 static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
-  struct ai_choice bestchoice, curchoice;
+  struct ai_choice newchoice;
 
-  init_choice(&bestchoice);
-  init_choice(&curchoice);
+  init_choice(&newchoice);
 
   if (ai_handicap(pplayer, H_AWAY)
       && game_next_year(pcity->turn_last_built) != game.year
@@ -188,103 +278,75 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if( is_barbarian(pplayer) ) {    /* always build best attack unit */
-    Unit_Type_id i, iunit, bestunit = -1;
-    int bestattack = 0;
-    for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
-      iunit = get_role_unit(L_BARBARIAN_BUILD, i);
-      if (get_unit_type(iunit)->attack_strength > bestattack) {
-	bestunit = iunit;
-	bestattack = get_unit_type(iunit)->attack_strength;
-      }
-    }
-    for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
-      iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
-      if (game.global_advances[get_unit_type(iunit)->tech_requirement] != 0
-	  && get_unit_type(iunit)->attack_strength > bestattack) {
-	bestunit = iunit;
-	bestattack = get_unit_type(iunit)->attack_strength;
-      }
-    }
-    if (bestunit != -1) {
-      bestchoice.choice = bestunit;
-      bestchoice.want   = 101;
-      bestchoice.type   = CT_ATTACKER;
-    }
-    else {
-      freelog(LOG_VERBOSE, "Barbarians don't know what to build!\n");
+  if( is_barbarian(pplayer) ) {
+    ai_barbarian_choose_build(pplayer, &(pcity->ai.choice));
+  } else {
+    /* FIXME: 101 is the "overriding military emergency" indicator */
+    if (pcity->ai.choice.want <= 100 || pcity->ai.urgency == 0) { 
+      domestic_advisor_choose_build(pplayer, pcity, &newchoice);
+      copy_if_better_choice(&newchoice, &(pcity->ai.choice));
     }
   }
-  else {
-    copy_if_better_choice(&pcity->ai.choice, &bestchoice);
 
-    if (bestchoice.want <= 100 || pcity->ai.urgency == 0) { /* soldier at 101 cannot be denied */
-      domestic_advisor_choose_build(pplayer, pcity, &curchoice);
-      copy_if_better_choice(&curchoice, &bestchoice);
+  /* Fallbacks */
+  if (pcity->ai.choice.want == 0) {
+    /* Fallbacks do happen with techlevel 0, which is now default. -- Per */
+    CITY_LOG(LOG_VERBOSE, pcity, "Falling back - didn't want to build soldiers,"
+	     " settlers, or buildings");
+    pcity->ai.choice.want = 1;
+    if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
+      pcity->ai.choice.choice = best_role_unit(pcity, F_TRADE_ROUTE);
+      pcity->ai.choice.type = CT_NONMIL;
+    } else if (can_build_improvement(pcity, B_CAPITAL)) {
+      pcity->ai.choice.choice = B_CAPITAL;
+      pcity->ai.choice.type = CT_BUILDING;
+    } else if (best_role_unit(pcity, F_SETTLERS) != U_LAST) {
+      pcity->ai.choice.choice = best_role_unit(pcity, F_SETTLERS);
+      pcity->ai.choice.type = CT_NONMIL;
+    } else {
+      CITY_LOG(LOG_VERBOSE, pcity, "Cannot even build a fallback "
+	       "(caravan/coinage/settlers). Fix the ruleset!");
+      pcity->ai.choice.want = 0;
     }
-
-    pcity->ai.choice.choice = bestchoice.choice; /* we want to spend gold later */
-    pcity->ai.choice.want = bestchoice.want; /* so that we spend it in the right city */
-    pcity->ai.choice.type = bestchoice.type; /* instead of the one atop the list */
-    pcity->ai.choice.need_boat = bestchoice.need_boat;
   }
 
-  if (bestchoice.want != 0) { /* Note - on fallbacks, will NOT get stopped building msg */
+  if (pcity->ai.choice.want != 0) { 
+    ASSERT_REAL_CHOICE_TYPE(pcity->ai.choice.type);
 
-    ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
-
-    freelog(LOG_DEBUG, "%s wants %s with desire %d.", pcity->name,
-		  (is_unit_choice_type(bestchoice.type) ?
-                   unit_name(bestchoice.choice) :
-		   get_improvement_name(bestchoice.choice)),
-		  bestchoice.want);
-    if (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
-       (is_unit_choice_type(bestchoice.type) ||
-        bestchoice.choice != pcity->currently_building))
+    CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
+	     (is_unit_choice_type(pcity->ai.choice.type) ?
+	      unit_name(pcity->ai.choice.choice) :
+	      get_improvement_name(pcity->ai.choice.choice)),
+	     pcity->ai.choice.want);
+    
+    if (!pcity->is_building_unit && is_wonder(pcity->currently_building) 
+	&& (is_unit_choice_type(pcity->ai.choice.type) 
+	    || pcity->ai.choice.choice != pcity->currently_building))
       notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STOPPED,
 		       _("Game: The %s have stopped building The %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
 		       pcity->name);
-
-    if (bestchoice.type == CT_BUILDING && (pcity->is_building_unit ||
-                 pcity->currently_building != bestchoice.choice) &&
-                 is_wonder(bestchoice.choice)) {
+    
+    if (pcity->ai.choice.type == CT_BUILDING 
+	&& is_wonder(pcity->ai.choice.choice)
+	&& (pcity->is_building_unit 
+	    || pcity->currently_building != pcity->ai.choice.choice)) {
       notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STARTED,
 		       _("Game: The %s have started building The %s in %s."),
 		       get_nation_name_plural(city_owner(pcity)->nation),
-		       get_impr_name_ex(pcity, bestchoice.choice),
+		       get_impr_name_ex(pcity, pcity->ai.choice.choice),
 		       pcity->name);
-      pcity->currently_building = bestchoice.choice;
-      pcity->is_building_unit    = is_unit_choice_type(bestchoice.type);
+      pcity->currently_building = pcity->ai.choice.choice;
+      pcity->is_building_unit = is_unit_choice_type(pcity->ai.choice.type);
 
-      /* need to establish distance to wondercity */
+      /* Help other cities to send caravans to us */
       generate_warmap(pcity, NULL);
-
-      establish_city_distances(pplayer, pcity); /* for caravans in other cities */
+      establish_city_distances(pplayer, pcity);
     } else {
-      pcity->currently_building = bestchoice.choice;
-      pcity->is_building_unit   = is_unit_choice_type(bestchoice.type);
+      pcity->currently_building = pcity->ai.choice.choice;
+      pcity->is_building_unit   = is_unit_choice_type(pcity->ai.choice.type);
     }
-
-    return;
-  } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
-
-  /* I think fallbacks only happen with techlevel 0, and even then are rare.
-   * I haven't seen them, but I want to somewhat prepare for them anyway. 
-   * -- Syela */ 
-  /* Yes, they do happen with techlevel 0, which is now default. -- Per */
-  freelog(LOG_VERBOSE, "Falling back - %s didn't want soldiers, settlers,"
-                       " or buildings", pcity->name);
-  if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
-    pcity->currently_building = best_role_unit(pcity, F_TRADE_ROUTE);
-    pcity->is_building_unit = TRUE;
-  } else if (can_build_improvement(pcity, B_CAPITAL)) {
-    pcity->currently_building = B_CAPITAL;
-    pcity->is_building_unit = FALSE;
-  } else if (best_role_unit(pcity, F_SETTLERS) != U_LAST) {
-    pcity->currently_building = best_role_unit(pcity, F_SETTLERS);
-    pcity->is_building_unit = TRUE;
   }
 }
 

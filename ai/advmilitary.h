@@ -25,7 +25,6 @@ void military_advisor_choose_tech(struct player *pplayer,
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
 void assess_danger_player(struct player *pplayer);
-void establish_city_distances(struct player *pplayer, struct city *pcity);
 int assess_defense_quadratic(struct city *pcity);
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall);
 int assess_defense(struct city *pcity);
