@@ -1139,7 +1139,6 @@ static const struct command commands[] = {
       "been started.")
   },
   {"away",	ALLOW_INFO,
-   /* TRANS: translate text between <> only */
    N_("away\n"
       "away"),
    N_("Set yourself in away mode. The AI will watch your back."),
