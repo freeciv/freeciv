@@ -306,6 +306,7 @@ int sniff_packets(void)
 	readline_handled_input = 0;
 	con_prompt_enter_clear();
       }
+      continue;
 #else
       int didget;
       char buf[BUF_SIZE+1];
