@@ -39,7 +39,6 @@
 #include "climisc.h"
 #include "colors.h"
 #include "control.h" /* get_unit_in_focus() */
-#include "goto.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

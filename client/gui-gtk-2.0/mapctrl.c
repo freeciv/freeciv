@@ -35,7 +35,6 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
-#include "goto.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "inputdlg.h"
