@@ -257,7 +257,7 @@ void x_main(int argc, char *argv[])
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
 
-  if(strcmp(appResources.version, VERSION_STRING)) {
+  if(strncmp(appResources.version, VERSION_STRING,strlen(appResources.version))) {
     log(LOG_FATAL, "Game version does not match Resource version");
     log(LOG_FATAL, "Game version: %s - Resource version: %s", 
 	VERSION_STRING, appResources.version);

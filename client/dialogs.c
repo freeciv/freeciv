@@ -91,23 +91,6 @@ void unit_select_callback(Widget w, XtPointer client_data,
 void unit_select_all_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
 
-char *default_race_leader_names[] = {
-  "Caesar",
-  "Hammurabi",
-  "Frederick",
-  "Ramesses",
-  "Lincoln",
-  "Alexander",
-  "Gandi",
-  "Stalin",
-  "Shaka",
-  "Napoleon",
-  "Montezuma",
-  "Mao",
-  "Elizabeth",
-  "Genghis"
-};
-
 int is_showing_government_dialog;
 
 int caravan_city_id;

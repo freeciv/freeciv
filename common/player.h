@@ -137,7 +137,7 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit);
 int player_owns_city(struct player *pplayer, struct city *pcity);
 
 extern struct player_race races[];
-
+extern char *default_race_leader_names[];
 #endif
 
 

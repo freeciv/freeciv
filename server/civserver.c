@@ -214,10 +214,14 @@ int main(int argc, char *argv[])
   send_server_info_to_metaserver(1);
   
   /* allow players to select a race(case new game} */
+/* come on, this can't be right!
+  for(i=0; i<game.nplayers && game.players[i].race!=R_LAST
+      && !game.players[i].ai.control; i++); */
   for(i=0; i<game.nplayers && game.players[i].race!=R_LAST; i++);
   
   /* at least one player is missing a race */
   if(i<game.nplayers) { 
+/* this is bizarre!  Who wrote this and how long has it been this way?? -- Syela */
     send_select_race(&game.players[i]);
     for(i=0; i<game.nplayers; i++)
       send_select_race(&game.players[i]);
@@ -225,13 +229,16 @@ int main(int argc, char *argv[])
     while(server_state==SELECT_RACES_STATE) {
       sniff_packets();
       for(i=0; i<game.nplayers; i++)
-	if(game.players[i].race==R_LAST)
+	if((game.players[i].race==R_LAST) && !game.players[i].ai.control)
 	  break;
       if(i==game.nplayers)
 	server_state=RUN_GAME_STATE;
     }
   }
-
+  for(i=0; i<game.nplayers; i++) 
+     if ((game.players[i].race == R_LAST) && game.players[i].ai.control) 
+       ai_select_race (&game.players[i]);
+   
   if(map_is_empty())
     map_fractal_generate();
   else 
@@ -852,6 +859,33 @@ void send_select_race(struct player *pplayer)
   send_packet_generic_integer(pplayer->conn, PACKET_SELECT_RACE, &genint);
 }
 
+
+/**************************************************************************
+* Select first free race for given ai player                              *
+**************************************************************************/
+
+void ai_select_race (struct player *pplayer) 
+{
+   static int race = R_ROMAN - 1;
+   int ok = 0, i;
+   
+   while (!ok && (race < R_LAST)) {
+      ok = 1;
+      race++;
+      for (i = 0; i<game.nplayers; i++)
+	if (game.players[i].race == race) {
+	   ok = 0;
+	   break;
+	}
+   }
+   if (race == R_LAST) {
+      log(LOG_FATAL, "Argh! ran out of races!");
+      exit(1);
+   }
+   pplayer->race = race;
+   log(LOG_NORMAL, "%s is the %s ruler.", pplayer->name, get_race_name(race));
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -865,39 +899,41 @@ void accept_new_player(char *name, struct connection *pconn)
   strcpy(game.players[game.nplayers].name, name);
   game.players[game.nplayers].conn=pconn;
   game.players[game.nplayers].is_connected=1;
-  strcpy(game.players[game.nplayers].addr, pconn->addr); 
-  sprintf(gen_packet.message, "Welcome %s.", name);
-  send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_ACCEPT, 
-			      &gen_packet);
-  log(LOG_NORMAL, "%s[%s] has joined the game.", name, pconn->addr);
-
-  for(i=0; i<game.nplayers; ++i)
-    notify_player(&game.players[i],
-		  "Game: Player %s[%s] has connected.", name, pconn->addr);
-
+  if (pconn) {
+    strcpy(game.players[game.nplayers].addr, pconn->addr); 
+    sprintf(gen_packet.message, "Welcome %s.", name);
+    send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_ACCEPT, 
+  			        &gen_packet);
+    log(LOG_NORMAL, "%s[%s] has joined the game.", name, pconn->addr);
+    for(i=0; i<game.nplayers; ++i)
+      notify_player(&game.players[i],
+	  	    "Game: Player %s[%s] has connected.", name, pconn->addr);
+  } else {
+     log(LOG_NORMAL, "%s[ai-player] has joined the game.", name, pconn->addr);
+     for(i=0; i<game.nplayers; ++i)
+       notify_player(&game.players[i],
+		     "Game: Player %s[ai-player] has connected.", name, pconn->addr);
+  }
   game.nplayers++;
   if(server_state==PRE_GAME_STATE && game.max_players==game.nplayers)
     server_state=SELECT_RACES_STATE;
 
   /* now notify the player about the server etc */
-  if(gethostname(buf, 512)==0) {
-    notify_player(&game.players[game.nplayers-1],
-		  "Welcome to the %s Server running at %s", 
-		  FREECIV_NAME_VERSION, buf);
-    notify_player(&game.players[game.nplayers-1],
-		  "There's currently %d player%s connected:", game.nplayers,
-		  game.nplayers>1 ? "s" : "");
-
-    for(i=0; i<game.nplayers; ++i)
-      notify_player(&game.players[game.nplayers-1], "%s[%s]", 
-		    game.players[i].name, game.players[i].addr);
+  if (pconn && (gethostname(buf, 512)==0)) {
+     notify_player(&game.players[game.nplayers-1],
+		   "Welcome to the %s Server running at %s", 
+		   FREECIV_NAME_VERSION, buf);
+     notify_player(&game.players[game.nplayers-1],
+		   "There's currently %d player%s connected:", game.nplayers,
+		   game.nplayers>1 ? "s" : "");
+     
+     for(i=0; i<game.nplayers; ++i)
+       notify_player(&game.players[game.nplayers-1], "%s[%s]", 
+		     game.players[i].name, game.players[i].addr);
   }
-  
   send_server_info_to_metaserver(1);
 }
   
-
-
 /**************************************************************************
 ...
 **************************************************************************/

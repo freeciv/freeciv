@@ -51,6 +51,7 @@ int get_next_id_number(void);
 extern enum server_states server_state;
 extern int nocity_send;
 
+void ai_select_race ( struct player * );
 #endif
 
 

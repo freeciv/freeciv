@@ -220,6 +220,33 @@ void toggle_ai_player(char *arg)
   
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void create_ai_player(char *arg)
+{
+  struct player *pplayer;
+   
+  if (server_state==PRE_GAME_STATE) {
+     if(game.nplayers==game.max_players) 
+       puts ("Can't add more players, server is full.");
+     else if ((pplayer=find_player_by_name(arg))) 
+       puts("A player already exists by that name.");
+     else {
+	accept_new_player(arg, NULL);
+	pplayer = find_player_by_name(arg);
+	if (!pplayer) 
+	  printf ("Error creating new ai player: %s\n", arg);
+	else {
+	   pplayer->ai.control = !pplayer->ai.control;
+	   notify_player(0, "Option: %s has been added as an AI-controlled.",
+			 pplayer->name);
+	}
+     }
+  } else
+     puts ("Can't add AI players once the game has begun.");
+}
+
 
 /**************************************************************************
 ...
@@ -376,6 +403,8 @@ void handle_stdin_input(char *str)
     show_players();
   else if (!strcmp("ai", command))
     toggle_ai_player(arg);
+  else if (!strcmp("create", command))
+    create_ai_player(arg);
   else if(!strcmp("q", command))
     quit_game();
   else if(!strcmp("c", command))
@@ -422,7 +451,7 @@ void cut_player_connection(char *playername)
   struct player *pplayer;
 
   pplayer=find_player_by_name(playername);
-  if(pplayer->conn) {
+  if(pplayer && pplayer->conn) {
     log(LOG_NORMAL, "cutting connection to %s", playername);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
@@ -465,8 +494,8 @@ void show_help(void)
   puts("show     - list server options");
   puts("help     - help on server options");
   puts("meta T   - Set meta-server infoline to T");
-/* commented out since we want this release to be stable */
-  /*  puts("ai P     - toggles AI on player"); */  
+  puts("ai P     - toggles AI on player");
+  puts("create P - creates an AI player");
   if(server_state==PRE_GAME_STATE) {
     puts("set      - set options");
     puts("s        - start game");

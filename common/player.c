@@ -108,6 +108,23 @@ struct player_race races[]= { /* additional goals added by Syela */
   }
 };
 
+char *default_race_leader_names[] = {
+  "Caesar",
+  "Hammurabi",
+  "Frederick",
+  "Ramesses",
+  "Lincoln",
+  "Alexander",
+  "Gandi",
+  "Stalin",
+  "Shaka",
+  "Napoleon",
+  "Montezuma",
+  "Mao",
+  "Elizabeth",
+  "Genghis"
+};
+
 char *government_names[G_LAST] = {
   "Anarchy", "Despotism", "Monarchy",
   "Communism", "Republic", "Democracy"
