@@ -45,4 +45,11 @@ name        = _("Modern")
 graphic     = "city.modern"
 graphic_alt = "-"
 tech        = "Automobile"
+replaced_by = "PostModern"
+
+[citystyle_postmodern]
+name        = _("PostModern")
+graphic     = "city.postmodern"
+graphic_alt = "-"
+tech        = "Superconductors"
 replaced_by = "-"

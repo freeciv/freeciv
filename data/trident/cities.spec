@@ -76,4 +76,10 @@ tiles = { "row", "column", "tag"
  3,  3, "city.modern_wall"
  3,  4, "city.modern_occupied"
 
+ 4,  0, "city.postmodern_0"
+ 4,  1, "city.postmodern_5"
+ 4,  2, "city.postmodern_10"
+ 4,  3, "city.postmodern_wall"
+ 4,  4, "city.postmodern_occupied"
+
 }
