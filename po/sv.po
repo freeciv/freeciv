@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.6\n"
-"POT-Creation-Date: 2000-08-20 11:22+0200\n"
-"PO-Revision-Date: 2000-08-20 18:00+02:00\n"
+"POT-Creation-Date: 2000-08-28 23:00+0200\n"
+"PO-Revision-Date: 2000-08-28 23:00+02:00\n"
 "Last-Translator: Erik Sigra <freeciv@home.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
 
@@ -575,7 +575,7 @@ msgstr "Spel: %s kan inte bygga %s från arbetslistan; en nödvändig teknologi är 
 #: server/cityturn.c:1078 server/cityturn.c:1118 server/cityturn.c:1221
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
-msgstr "Spel: Tillverkning av %s uppgraderas till %s i %s."
+msgstr "Spel: Byggandet av %s uppgraderades till %s i %s."
 
 #: server/cityturn.c:1143
 #, c-format
@@ -1872,7 +1872,7 @@ msgstr "Mängd rutor med \"särskilda\" resurser"
 
 #: server/stdinhand.c:229
 msgid "Special resources improve the basic terrain type they are on.  The server variable's scale is parts per thousand."
-msgstr "Särksilda resurser förbättrar den grundläggande marktypen de befinner sig på. Servervariabelns skala är tusendelar."
+msgstr "Särksilda tillgångar förbättrar det grundläggande landskapsslag som de befinner sig på. Servervariabelns skala är tusendelar."
 
 #: server/stdinhand.c:235
 msgid "Amount of huts (minor tribe villages)"
@@ -1948,7 +1948,7 @@ msgstr "Dataunderkatalog innehållande units.ruleset"
 
 #: server/stdinhand.c:323
 msgid "This should specify a subdirectory of the data directory, containing a file called \"units.ruleset\".  The unit types present in the game will be initialized from this file.  See also README.rulesets."
-msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \"units.ruleset\". Enhetstyperna som finns i spelet hämtas från denna fil. Se även README.rulesets."
+msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \"units.ruleset\". Enhetsslagen som finns i spelet hämtas från denna fil. Se även README.rulesets."
 
 #: server/stdinhand.c:334
 msgid "Data subdir containing buildings.ruleset"
@@ -1956,7 +1956,7 @@ msgstr "Dataunderkatalog innehållande buildings.ruleset"
 
 #: server/stdinhand.c:335
 msgid "This should specify a subdirectory of the data directory, containing a file called \"buildings.ruleset\".  The building types (City Improvements and Wonders) in the game will be initialized from this file.  See also README.rulesets."
-msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \"buildings.ruleset\". Byggnadstyperna (stadsförbättringar och världsunder) som finns i spelet hämtas från denna fil. Se även README.rulesets."
+msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \"buildings.ruleset\". Byggnadsslagen (stadsförbättringar och världsunder) som finns i spelet hämtas från denna fil. Se även README.rulesets."
 
 #: server/stdinhand.c:346
 msgid "Data subdir containing terrain.ruleset"
@@ -1964,7 +1964,7 @@ msgstr "Dataunderkatalog innehållande terrain.ruleset"
 
 #: server/stdinhand.c:347
 msgid "This should specify a subdirectory of the data directory, containing a file called \"terrain.ruleset\".  The terrain types present in the game will be initialized from this file.  See also README.rulesets."
-msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \terrain.ruleset\". Marktyperna som finns i spelet hämtas från denna fil. Se även README.rulesets."
+msgstr "Detta skall ange en underkatalog till datakatalogen, innehållande en fil kallad \terrain.ruleset\". Landskapsslagen som finns i spelet hämtas från denna fil. Se även README.rulesets."
 
 #: server/stdinhand.c:358
 msgid "Data subdir containing nations.ruleset"
@@ -2104,7 +2104,7 @@ msgid ""
 "  4 = heli\n"
 "  8 = air"
 msgstr ""
-"Denna flagga anger om städers folkmängd ska minskas efter lyckade angrepp från fientliga enheter, beroende på deras typ (ELLER-ad):\n"
+"Denna flagga anger om städers folkmängd ska minskas efter lyckade angrepp från fientliga enheter, beroende på deras slag (ELLER-ad):\n"
 "  1 = land\n"
 "  2 = sjö\n"
 "  4 = heli\n"
@@ -2185,14 +2185,14 @@ msgid ""
 "The first description from the _bottom_ which matches a player is the one which applies.  Thus 'd' does not include Barbarians, 'a' does not include dead AI players, and so on.  Upper case letters apply before the game has started, lower case letters afterwards.\n"
 "If a letter of followed immediately by the single character '*', then multiple connections are allowed for that player type.  The character '+' is the same, but only one \"controlling\" connection is allowed -- other connections will be \"observers\".  Multiple connections and observer connections are currently EXPERIMENTAL and may not work properly."
 msgstr ""
-"Detta skall vara en teckensträng. Varje tecken anger en typ eller status för en civilisation, eller \"spelare\". Klienter tillåts endast att ansluta till de spelare som passar något av de angivna tecknen. Detta påverkar endast framtida anslutningar, och befintliga anslutningar lämnas oförändrade. Tecknen och deras innebörder är:\n"
+"Detta skall vara en teckensträng. Varje tecken anger ett slag eller status för en civilisation, eller \"spelare\". Klienter tillåts endast att ansluta till de spelare som passar något av de angivna tecknen. Detta påverkar endast framtida anslutningar, och befintliga anslutningar lämnas oförändrade. Tecknen och deras innebörder är:\n"
 "    N   = Nya spelare (gäller endast förspelet)\n"
 "    H,h = Mänskliga spelare (befintliga)\n"
 "    A,a = datorstyrda spelare\n"
 "    d   = Döda spelare\n"
 "    b   = Barbariska spelare\n"
-"Den första beskrivningen nedifrån som passar på en spelare gäller. Därför gäller inte 'd' barbarer, 'a' gäller inte döda datorstyrda spelare, och så vidare. Bokstävernas fall (versal/gemen) saknar inverkan.\n"
-"Om en bokstav omedelbart följs av ett enda tecken \"*\", tillåts flera anslutningar för denna spelartyp. Tecknet \"+\" är samma, men bara en \"styrande\" anslutning tillåts -- andra anslutningar blir \"iakttagare\". Stödet för flera anslutningar och iakttagaranslutningar är för tillfället under utprovning och fungerar kanske inte riktigt."
+"Den första beskrivningen nedifrån som passar på en spelare gäller. Därför gäller inte 'd' barbarer, 'a' gäller inte döda datorstyrda spelare, och så vidare. Bokstävernas skiftläge saknar inverkan.\n"
+"Om en bokstav omedelbart följs av ett enda tecken \"*\", tillåts flera anslutningar för detta spelarslag. Tecknet \"+\" är samma, men bara en \"styrande\" anslutning tillåts -- andra anslutningar blir \"iakttagare\". Stödet för flera anslutningar och iakttagaranslutningar är för tillfället under utprovning och fungerar kanske inte riktigt."
 
 #: server/stdinhand.c:602
 msgid "Whether AI-status toggles with connection"
@@ -2256,7 +2256,7 @@ msgstr ""
 "Dessutom anger följande tecken om vissa kolumner skall visas i meddelandet:\n"
 "    q = visa kolumnen \"mängd\"       r = visa kolumnen \"rang\"\n"
 "    b = visa kolumnen \"bästa folkstam\"\n"
-"(Ordningen på dessa tecken är betydelselös, men gemen/VERSAL har betydelse.)"
+"(Dessa teckens skiftläge har betydelse men inte deras ordning.)"
 
 #: server/stdinhand.c:655
 msgid "Turns per auto-save"
@@ -3606,12 +3606,12 @@ msgstr "Spel: Din %s kunde inte hitta %s att förstöra i %s."
 #: server/unitfunc.c:1024
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr "Spel: Din %s lyckades förstöra tillverkningen av %s i %s."
+msgstr "Spel: Din %s lyckades förstöra byggandet av %s i %s."
 
 #: server/unitfunc.c:1028
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr "Spel: Tillverkningen av %s förstördes i %s, %s misstänks ligga bakom."
+msgstr "Spel: Byggandet av %s förstördes i %s. %s misstänks ligga bakom."
 
 #: server/unitfunc.c:1046
 #, c-format
@@ -3761,7 +3761,7 @@ msgstr "Spel: %s framgångsrikt fraktad."
 
 #: server/unitfunc.c:2540
 msgid "Game: This unit type can not be paradropped."
-msgstr "Spel: Denna enhetstyp kan inte hoppa fallskärm."
+msgstr "Spel: Detta enhetsslag kan inte hoppa fallskärm."
 
 #: server/unitfunc.c:2549
 msgid "Game: The destination location is not known."
@@ -4058,17 +4058,17 @@ msgstr "Spel: Ledsen, din %s kan inte inrätta en handelsled hit!"
 #: server/unithand.c:1180
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
-msgstr "      En handelsled finns redan mellan %s och %s!"
+msgstr "      Det finns redan en handelsled mellan %s och %s!"
 
 #: server/unithand.c:1187 server/unithand.c:1193
 #, c-format
 msgid "      The city of %s already has 4 trade routes!"
-msgstr "      Staden %s har redan 4 har redan 4 handelsleder!"
+msgstr "      Staden %s har redan 4 handelsleder!"
 
 #: server/unithand.c:1203
 #, c-format
 msgid "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
-msgstr "Spel: Din %s från %s har anlänt i %s, och ger en inkomst på %d guld"
+msgstr "Spel: Din %s från %s har anlänt i %s och gett en inkomst på %d guld och forskning."
 
 #: server/unithand.c:1263
 #, c-format
@@ -4083,7 +4083,7 @@ msgstr "Spel: %s har förstörts av %s."
 #: server/unithand.c:1287
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
-msgstr "Spel: Du erövrar %s, dina plundringar inbringar %d guld!"
+msgstr "Spel: Du erövrar %s. Dina plundringar inbringar %d guld!"
 
 #: server/unithand.c:1291
 #, c-format
@@ -4093,12 +4093,12 @@ msgstr "Spel: %s erövrar %s och plundrar %d guld från staden."
 #: server/unithand.c:1302
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
-msgstr "Spel: Du har befriat %s!! plundringar inbringar %d guld."
+msgstr "Spel: Du har befriat %s! Plundringarna inbringade %d guld."
 
 #: server/unithand.c:1307
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr "Spel: %s befriar %s och plundrar %d guld från staden."
+msgstr "Spel: %s befriade %s och plundrade %d guld från staden."
 
 #: server/unittools.c:104
 #, c-format
@@ -4198,11 +4198,11 @@ msgstr "Överskott"
 
 #: client/cityrepdata.c:208
 msgid "F/P/T"
-msgstr "M/T/H"
+msgstr "M/S/H"
 
 #: client/cityrepdata.c:209
 msgid "Surplus: Food, Production, Trade"
-msgstr "Överskott: Mat, Tillverkning, Handel"
+msgstr "Överskott: Mat, Sköldar, Handel"
 
 #: client/cityrepdata.c:211
 msgid "Economy"
@@ -4246,7 +4246,7 @@ msgstr "Mutning"
 
 #: client/cityrepdata.c:222 client/cityrepdata.c:223
 msgid "Currently Building"
-msgstr "Tillverkning"
+msgstr "Bygger"
 
 #: client/cityrepdata.c:222
 msgid "(Stock,Target,Turns,Buy)"
@@ -4766,7 +4766,7 @@ msgstr "Centrera kartan vid öppning av stadsfönster"
 
 #: client/options.c:68
 msgid "Concise City Production    "
-msgstr "Kortfattad stadstillverkning               "
+msgstr "Kortfattad visning av vad städer bygger    "
 
 #: client/options.c:69
 msgid "End Turn when done moving  "
@@ -5498,7 +5498,7 @@ msgstr "Spel: Det är samma sak!"
 #: client/gui-gtk/cityrep.c:820 client/gui-xaw/cityrep.c:1085
 #, c-format
 msgid "Game: Changing production of every %s into %s."
-msgstr "Spel: Ändrar tillverkningen av varje %s till %s."
+msgstr "Spel: Ändrar bygget av varje %s till %s."
 
 #: client/gui-gtk/cityrep.c:844 data/Freeciv:1672
 msgid "From:"
@@ -6949,7 +6949,7 @@ msgstr "Tillgängliga mål"
 
 #: client/gui-gtk/wldlg.c:317
 msgid "Production worklist"
-msgstr "Tillverkningsarbetslista"
+msgstr "Byggnadsarbetslista"
 
 #: client/gui-gtk/wldlg.c:368 data/Freeciv:2060
 msgid "Prepend"
@@ -7310,7 +7310,7 @@ msgstr "Byggnadsnamn        Antal Kostnad Sammanlagt"
 
 #: data/Freeciv:1846
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Enhetstyp            Uppgradera Fortskridande Verksam Sköld Mat"
+msgstr "Enhetsslag           Uppgradera Fortskridande Verksam Sköld Mat"
 
 #: data/Freeciv:1926
 msgid "Rename worklist"
@@ -7322,7 +7322,7 @@ msgstr "Välj ny tillverkning"
 
 #: data/Freeciv:2029
 msgid "Production Worklist"
-msgstr "Tillverkningsarbetslista"
+msgstr "Byggnadsarbetslista"
 
 #: data/Freeciv:2096
 msgid "  Ok  "
@@ -7520,9 +7520,9 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.5 av den svenska översättningen av Freeciv.\n"
+"Detta är version 0.6 av den svenska översättningen av Freeciv.\n"
 "\n"
-"Eftersom översättningen är alldeles ny, innehåller den massor av fel. Olyckligtvis kan inte alla fel rättas till, eftersom det kräver omfattande arbete på programmeringssidan, utanför den svenska översättningen. Exempel på sådana fel är versal/gemen och böjningsformer av ord. Jag har för avsikt att ta i tu med det också, så ni behöver inte anmäla dessa fel. Andra uppenbara fel, som till exempel stavfel eller oklarheter anmäler ni till:\n"
+"Eftersom översättningen är alldeles ny, innehåller den massor av fel. Olyckligtvis kan inte alla fel rättas till, eftersom det kräver omfattande arbete på programmeringssidan, utanför den svenska översättningen. Exempel på sådana fel är versal/gemen och böjningsformer av ord. Jag har gjort en uppdatering till Freeciv som avser att lösa vissa av dessa problem. Hör av er om ni är intresserade av att testa den så att den kan komma med i framtida versioner av Freeciv. Andra uppenbara fel, som till exempel stavfel eller oklarheter anmäler ni till:\n"
 "\n"
 "<freeciv@home.se>.\n"
 "\n"
@@ -7530,7 +7530,8 @@ msgstr ""
 "Erik Sigra\n"
 "\n"
 "Versionshistorik:\n"
-"\n"
+"Version 0.6; 2000-08-28\n"
+"  Rättelser.\n"
 "Version 0.5; 2000-08-18\n"
 "  Rättleser och uppdateringar. Stavfel. Bytt ut många enkla\n"
 "  citattecken mot dubbla citattecken enligt förslag från Mattias\n"
@@ -7791,7 +7792,7 @@ msgid ""
 msgstr ""
 " 1. Lära känna om omgivningen.\n"
 "\n"
-"   Efter att huvudstaden grundats, börjar den tillverka en krigarenhet. Dessa enheter kan användas för att ströva omkring och utforska omgivningen. Kom ihåg att det är vågat att lämna en stad oförsvarad, så överväg att behålla den första krigaren i staden, och använd den efterföljanden för att utforska. Om du  började spelet med en utforskarenhet, skall du naturligtvis använda den för att utforska!"
+"   Efter att huvudstaden grundats, börjar den bygga en krigarenhet. Dessa enheter kan användas för att ströva omkring och utforska omgivningen. Kom ihåg att det är vågat att lämna en stad oförsvarad, så överväg att behålla den första krigaren i staden, och använd den efterföljanden för att utforska. Om du  började spelet med en utforskarenhet, skall du naturligtvis använda den för att utforska!"
 
 #: data/helpdata.txt:541
 msgid ""
@@ -7984,7 +7985,7 @@ msgstr "Enheter kan användas för 3 ändamål: angrepp, försvar och spaning. Hur an
 
 #: data/helpdata.txt:733
 msgid "There are four general types of unit: Land, Sea, Air, and Helicopter.  (Helicopters are sufficiently different from other air units that it is easiest to think of them as a separate unit type.)"
-msgstr "Det finns fyra huvudtyper av enheter: land-, sjö-, flyg- och helikopter-. (Helikoptereneter skiljer sig så mycket från från flygenheter att det är enklast att tänka på dem som en avskild enhetstyp.)"
+msgstr "Det finns fyra huvudslag av enheter: land-, sjö-, flyg- och helikopter-. (Helikoptereneter skiljer sig så mycket från från flygenheter att det är enklast att tänka på dem som ett särskilt enhetsslag.)"
 
 #: data/helpdata.txt:737
 #, c-format
@@ -7997,7 +7998,7 @@ msgstr "Sjöenheter rör sig på havsrutor och i städer intill havsrutor. De kan en
 
 #: data/helpdata.txt:757
 msgid "Air units can move on any square not occupied by an enemy unit or enemy city.  The movement rate of air units is not affected by loss of hitpoints.  Air units require fuel, which is obtained by ending their turn in a friendly city, Airbase or Carrier (or a Submarine for missile units).  The number of turns an air unit can last without fuel varies by the unit type (see the individual units). Like sea units, air units are unable to enter an empty enemy city to capture it.  When outside cities, air units can only be attacked by Fighters (or Stealth Fighters).  Air units cannot be used to explore villages; depending upon server options, an overflown village may disband."
-msgstr "Flygenheter kan röra sig på varje ruta som inte upptas av fientliga enheter eller fientliga städer. Rörligheten hos flygenheter påverkas inte av träffpunktsförlust. Flygenheter kräver drivmedel, vilket fås då de avslutar sin omgång i en vänlig stad eller flygbas, eller på ett vänligt hangarfartyg (eller en undervattensbåt för missilenheter). Antalet omgångar som en flygenhet klarar sig utan drivmedelspåfyllning beror på dess typ (se varje enskild enhet). Liksom sjöenheter kan flygenheter inte inta fientliga städer. Flygenheter utanför städer kan endast angripas av stridsflygplan (eller smygstridsflygplan). Flygenheter kan inte användas för att utforska byar; beroende på servervalmöjligheter, kan en överflugen by upplösas."
+msgstr "Flygenheter kan röra sig på varje ruta som inte upptas av fientliga enheter eller fientliga städer. Rörligheten hos flygenheter påverkas inte av träffpunktsförlust. Flygenheter kräver drivmedel, vilket fås då de avslutar sin omgång i en vänlig stad eller flygbas, eller på ett vänligt hangarfartyg (eller en undervattensbåt för missilenheter). Antalet omgångar som en flygenhet klarar sig utan drivmedelspåfyllning beror på dess slag (se varje enskild enhet). Liksom sjöenheter kan flygenheter inte inta fientliga städer. Flygenheter utanför städer kan endast angripas av stridsflygplan (eller smygstridsflygplan). Flygenheter kan inte användas för att utforska mindre stambyar; beroende på servervalmöjligheter, kan en överflugen mindre stamby upplösas."
 
 #: data/helpdata.txt:769
 msgid "Like air units, Helicopters can move on any square not occupied by an enemy unit or enemy city, and their movement rate is not affected by loss of hitpoints.  Helicopters do not require fuel, but they lose a small amount of health for every turn not spent in a city or an Airbase, unless you have the United Nations wonder.  Unlike other air units, Helicopters can capture enemy cities."
@@ -8009,7 +8010,7 @@ msgstr "Enheter som sårats i kamp återfår träffpunkter varje omgång som de får v
 
 #: data/helpdata.txt:793
 msgid "Depending upon server options, any set of unit types may reduce the population of a City without City Walls by one point upon a successful attack."
-msgstr "Beroende på servervalmöjligheter, kan en godtycklig uppsättning enhetstyper minska städer utan stadsmurs invånarantal med 1 vid ett lyckat angrepp."
+msgstr "Beroende på servervalmöjligheter, kan en godtycklig uppsättning enhetsslag minska städer utan stadsmurs invånarantal med 1 vid ett lyckat angrepp."
 
 #: data/helpdata.txt:804
 msgid "When one unit attacks another unit, either the attacker will be destroyed, or the defender will be destroyed -- never both (unless the attacker was a missile).  The outcome depends on several factors, including chance."
@@ -8189,7 +8190,7 @@ msgstr ""
 "- En enhet flyttar direkt in i eller ut ur en stad.\n"
 "- En enhet flyttar till en ruta som besätts av en välvillig enhet.\n"
 "- En enhet flyttar från en havsruta (stiger av en båt).\n"
-"- En enhetstyp åsidosätter uttryckligen kontrollområdesreglerna (till exempel budbärare och spejare)."
+"- Ett slags enhet åsidosätter uttryckligen kontrollområdesreglerna (till exempel budbärare och spejare)."
 
 #: data/helpdata.txt:985
 msgid ""
@@ -8231,7 +8232,7 @@ msgstr ""
 
 #: data/helpdata.txt:1021
 msgid "The different types of terrain each have different strengths and drawbacks.  When choosing a place for a new city, make sure there are enough food-producing squares nearby to support your growing population."
-msgstr "De olika landskapstyperna har var och en sina fördelar och nackdelar. Vid val av plats för en ny stad, se till att det finns tillräckligt många matgivande rutor i närheten för att befolkningen skall kunna växa."
+msgstr "De olika landskapsslagen har vart och ett sina fördelar och nackdelar. Vid val av plats för nya städer, se till att det finns tillräckligt många matgivande rutor i närheten så att befolkningen växer bra."
 
 #: data/helpdata.txt:1026
 msgid "The net benefit of a square for your city depends on your government type as well as city improvements and wonders."
@@ -8247,11 +8248,11 @@ msgstr "Bosättare och ingenjörer har förmågan att förändra landskapet i rutor på
 
 #: data/helpdata.txt:1039
 msgid "Suitable types of terrain can be irrigated.  This requires a nearby source of water: an Ocean or River square, or another square which is irrigated, must be directly adjacent to the target square, to the north, south, east or west.  Irrigating a square causes it to produce some extra food each turn.  In addition, given sufficient technology, you may irrigate a square a second time, turning it into even more productive Farmland."
-msgstr "En ruta med lämplig landskapstyp kan förses med en bevattningsanläggning. Det kräver en angränsande vattenkälla: en sjöruta, en flodruta eller en annan bevattningsanläggning. I detta fall innebär angränsande de 4 riktningarna nord, öst, syd och väst. En bevattningsanläggning i en ruta ökar mängden mat som rutan ger. När man har erforderlig teknologi kan man förbättra bevattningsanläggningarna. Då blir det jordbruksland som ger ännu mer mat."
+msgstr "En ruta med lämpligt landskapsslag kan förses med en bevattningsanläggning. Det kräver en angränsande vattenkälla: en sjöruta, en flodruta eller en annan bevattningsanläggning. I detta fall innebär angränsande de 4 riktningarna nord, öst, syd och väst. En bevattningsanläggning i en ruta ökar mängden mat som rutan ger. När man har erforderlig teknologi kan man förbättra bevattningsanläggningarna. Då blir det jordbruksland som ger ännu mer mat."
 
 #: data/helpdata.txt:1047
 msgid "Some types of terrain can be mined, which increases the number of resources (shields) produced by that square."
-msgstr "I vissa landskapstyper kan gruvdrift ske, vilket ökar antalet sköldar som utvinns från den rutan."
+msgstr "Gruvdrift kan bedrivas i vissa slags landskap. Det ökar antalet sköldar som kan utvinnas från en ruta."
 
 #: data/helpdata.txt:1050
 msgid "Roads and railroads can be built on any square except Ocean.  (To build a road or railroad on a River square, though, you must know Bridge Building.)  Roads and railroads allow your units to move more quickly, and they increase the resources produced in cities."
@@ -8267,7 +8268,7 @@ msgstr " - Enheter kan åka oändligt långt utan kostnad längs järnväg."
 
 #: data/helpdata.txt:1061
 msgid " - A road may increase the trade resources produced by some types of terrain."
-msgstr " - En väg kan öka handelstillgångarna som fås från en landskapstyp."
+msgstr " - Väg kan öka handeln som fås från ett slags landskap."
 
 #: data/helpdata.txt:1064
 msgid " - A railroad increases the shield resources produced by a square by 50%.  (Depending on server options, railroads may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
@@ -8429,7 +8430,7 @@ msgid ""
 "\n"
 "Two cities with Airports can airlift one unit per turn.  Airlifting instantly transports the unit from one city to another and will use all of the unit's movement points.  A unit must have some movement points left to be airlifted."
 msgstr ""
-"Tillåter en stad att tillverka erfarna flygenheter. Dessutom lagas skadade flygenheter, som stannar en hel omgång utan att röra sig, helt.\n"
+"Tillåter en stad att bygga erfarna flygenheter. Dessutom lagas skadade flygenheter, som stannar en hel omgång utan att röra sig, helt.\n"
 "\n"
 "2 Städer med flygplatser man flygfrakta en enhet varje omgång. Flygfrakt flyttar omedelbart enheten från en stad till en annan och förbrukar enhetens samtliga drag. En enhet måste ha drag kvar för att kunna flygfraktas."
 
@@ -8536,7 +8537,7 @@ msgid ""
 "\n"
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear Plant.  A city can only build a Hydro Plant if it is next to (or on) a Mountain or River tile."
 msgstr ""
-"Minskar mängden föroreningar, som skapas av tillverkningen i en stad, med 50%. Ökar även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i staden: en fabrik och ett vattenkraftverk ger tillsammans 75% tillverkningsbonus, och en fabrik, en tillverkningsanläggning och ett vattenkraftverk ger tillsammans 150% tillverkningsbonus.\n"
+"Minskar mängden föroreningar, som orsakas av tillverkningen i en stad, med 50%. Ökar även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i staden: en fabrik och ett vattenkraftverk ger tillsammans 75% tillverkningsbonus, och en fabrik, en tillverkningsanläggning och ett vattenkraftverk ger tillsammans 150% tillverkningsbonus.\n"
 "En stad kan endast ha ett solkraftverk, ett vattenkraftverk, ett kraftverk eller ett kärnkraftverk. En stad kan endast bygga ett vattenkraftverk om den är intill (eller på) en bergs- eller kullruta."
 
 #: data/civ1/buildings.ruleset:445 data/civ2/buildings.ruleset:428 data/default/buildings.ruleset:618
@@ -8722,7 +8723,7 @@ msgid ""
 "\n"
 "Before you can build any spaceship parts, the Apollo Program wonder must have been built by any player."
 msgstr ""
-"Rymdmoduler är de dyraste delarna av rymdskepp. Det finns 3 olika typer av rymdmoduler:\n"
+"Rymdmoduler är de dyraste delarna av rymdskepp. Det finns 3 olika slags rymdmoduler:\n"
 "\n"
 "- Bostadsmodul: tillhandahåller bostadsutrymme åt 10,000 människor.\n"
 "- Livsunderstödsmodul: tillhandahåller mat och vatten till befolkningen i en bostadsmodul.\n"
@@ -9305,7 +9306,7 @@ msgid ""
 "\n"
 "You impose limited but efficient martial law under Communism.  Each military unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens content."
 msgstr ""
-"En kommunistisk regering grundar sig på idealet att alla människor är jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. Kommunism ger en avvägning mellan krigisk och ekonomisk regeringtyp.\n"
+"En kommunistisk regering grundar sig på idealet att alla människor är jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. Kommunism ger en avvägning mellan krigiskt och ekonomiskt regeringslag.\n"
 "\n"
 "Under kommunism, ändras mutningen inte beroende på avståndet till huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp (se 'enheter', 'budbärare').\n"
 "\n"
@@ -9493,7 +9494,7 @@ msgid ""
 "\n"
 "You impose limited but efficient martial law under Communism.  Each military unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens content."
 msgstr ""
-"En kommunistisk regering grundar sig på idealet att alla människor är jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. Kommunism ger en avvägning mellan krigsisk och ekonomisk regeringtyp.\n"
+"En kommunistisk regering grundar sig på idealet att alla människor är jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. Kommunism ger en avvägning mellan krigsiskt och ekonomiskt regeringslag.\n"
 "\n"
 "Under kommunism, ändras mutningen inte beroende på avståndet till huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp (se 'enheter', 'budbärare').\n"
 "\n"
@@ -9901,7 +9902,7 @@ msgid ""
 "\n"
 "Roads and railroads can only be built on River squares if your civilization has learned Bridge Building technology."
 msgstr ""
-"Varje marktyp (utom hav) kan ha flod på sig.  En flod lägger 1 handel till tillgångarna som utvinns på den rutan.  Den ökar även rutans försvarsfaktor med 50%.  Slutligen kan landenheter följa floder (dock ej diagonalt); förflyttningar längs floder kostar bara 1/3 drag.\n"
+"Varje landskapsslag (utom hav) kan ha flod på sig.  En flod lägger 1 handel till tillgångarna som utvinns på den rutan.  Den ökar även rutans försvarsfaktor med 50%.  Slutligen kan landenheter följa floder (dock ej diagonalt); förflyttningar längs floder kostar bara 1/3 drag.\n"
 "\n"
 "Vägar och järnvägar kan bara byggas på rutor med flod av en civilisation som har lärt sig teknologin brobyggnad"
 
@@ -10115,7 +10116,7 @@ msgid ""
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time required for long projects.  If two or more Settlers and/or Engineers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
-"Bosättaren är en av nyckelenheterna i spelet. Bosättare kan användas för att grunda nya städer, bygga bevattningsanläggningar vägar, järnvägar, fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt nedfall. Underhåll för bosättare kostar både mat och tillverkning, och en bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
+"Bosättaren är en av nyckelenheterna i spelet. Bosättare kan användas för att grunda nya städer, bygga bevattningsanläggningar vägar, järnvägar, fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt nedfall. Underhåll för bosättare kostar både mat och sköldar, och en bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
 "\n"
 "Bosättare och ingenjörer kan arbeta tillsammans för att minska tidsåtgången för långvariga projekt. Om två eller fler bosättare och/eller ingejörer arbetar med samma uppgift i samma ruta, läggs deras ansträngingar samman varje omgång tills uppgiften är slutförd. Var dock försiktig med att utse för många arbetare till en uppgift; överflödigt arbete kan förslösas, och en grupp bosättare, ingenjörer är mycket sårbar för fientilga angrepp."
 
@@ -10481,7 +10482,7 @@ msgid ""
 "\n"
 "Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 msgstr ""
-"Bosättaren är en av nyckelenheterna i spelet. Bosättare kan användas för att grunda nya städer, bygga bevattningsanläggningar och vägar, järnvägar, fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt nedfall. Underhåll för bosättare kostar både mat och tillverkning, och en bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
+"Bosättaren är en av nyckelenheterna i spelet. Bosättare kan användas för att grunda nya städer, bygga bevattningsanläggningar och vägar, järnvägar, fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt nedfall. Underhåll för bosättare kostar både mat och sköldar, och en bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
 "\n"
 "Bosättare och ingenjörer kan arbeta tillsammans för att minska tidsåtgången för långvariga projekt. Om två eller fler bosättare och/eller ingejörer arbetar med samma uppgift i samma ruta, läggs deras ansträngingar samman varje omgång tills uppgiften är slutförd. Var dock försiktig med att utse för många arbetare till en uppgift; överflödigt arbete kan förslösas, och en grupp bosättare, ingenjörer är mycket sårbar för fientilga angrepp."
 
