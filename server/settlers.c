@@ -615,7 +615,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
     ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
                 punit->ai.ferryboat);
     if (ferryboat) {
-printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);
+/*printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);*/
       ferryboat->ai.passenger = 0;
       punit->ai.ferryboat = 0;
     }
@@ -803,6 +803,8 @@ gx, gy, v, x, y, v2, d, b);*/
   if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
 
   boatid = find_boat(pplayer, punit, &bx, &by);
+  if ((ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid)))
+    really_generate_warmap(mycity, ferryboat, SEA_MOVING);
 
   if (pplayer->ai.control) { /* don't want to make cities otherwise */
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
@@ -819,7 +821,10 @@ gx, gy, v, x, y, v2, d, b);*/
         if (!is_already_assigned(punit, pplayer, x, y) &&
             map_get_terrain(x, y) != T_OCEAN &&
             (near < 8 || (nav && map_get_continent(x, y) != co))) {
-          if (!goto_is_sane(pplayer, punit, x, y, 1)) {
+          if (ferryboat) { /* already aboard ship, can use real warmap */
+            if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
+            else z = warmap.seacost[x][y] * m / unit_types[ferryboat->type].move_rate;
+          } else if (!goto_is_sane(pplayer, punit, x, y, 1)) {
             if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
             else if (boatid) {
               if (!punit->id && mycity->id == boatid) w = 1;
@@ -827,7 +832,7 @@ gx, gy, v, x, y, v2, d, b);*/
             } else if (punit->id || !is_terrain_near_tile(mycity->x,
                         mycity->y, T_OCEAN)) z = 9999;
             else {
-              z = real_map_distance(punit->x, punit->y, x, y) + m;
+              z = warmap.seacost[x][y] * m / 9;  /* this should be fresh */
               w = 1;
             }
           } else z = warmap.cost[x][y];
@@ -860,9 +865,9 @@ gx, gy, v, x, y, v2, d, b);*/
     }
   }
 
-if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
+/*if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
 printf("Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
-punit->id, punit->x, punit->y, t, gx, gy, v);
+punit->id, punit->x, punit->y, t, gx, gy, v);*/
 /* I had the return here, but it led to stupidity where several engineers would
 be built to solve one problem.  Moving the return down will solve this. -- Syela */
 
@@ -884,9 +889,10 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
       add_city_to_minimap(gx, gy);
     } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
     if (!same_pos(gx, gy, punit->x, punit->y)) {
-      if (!goto_is_sane(pplayer, punit, gx, gy, 1)) {
+      if (!goto_is_sane(pplayer, punit, gx, gy, 1) ||
+          (ferryboat && !is_tiles_adjacent(punit->x, punit->y, gx, gy))) {
         punit->ai.ferryboat = find_boat(pplayer, punit, &x, &y);
-printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);
+/*printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);*/
         if (!same_pos(x, y, punit->x, punit->y)) {
           auto_settler_do_goto(pplayer, punit, x, y);
           if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
@@ -896,7 +902,7 @@ printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);
         punit->goto_dest_x = gx;
         punit->goto_dest_y = gy;
         if (ferryboat) {
-printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);
+/*printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);*/
           set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */
           ferryboat->ai.passenger = punit->id;
           auto_settler_do_goto(pplayer, ferryboat, gx, gy);
