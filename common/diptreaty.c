@@ -44,6 +44,19 @@ bool could_meet_with_player(struct player *pplayer, struct player *aplayer)
           && pplayer->is_connected);
 }
 
+/**************************************************************************
+  Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
+**************************************************************************/
+bool could_intel_with_player(struct player *pplayer, struct player *aplayer)
+{
+  return (pplayer->is_alive
+          && aplayer->is_alive
+          && pplayer != aplayer
+          && (pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
+              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0
+              || player_has_embassy(pplayer, aplayer)));
+}
+
 /****************************************************************
 ...
 *****************************************************************/

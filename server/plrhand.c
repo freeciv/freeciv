@@ -1127,7 +1127,10 @@ static void package_player_common(struct player *plr,
 }
 
 /**************************************************************************
- Package player info depending on info_level.
+  Package player info depending on info_level. We send everything to
+  plr's connections, we send almost everything to players with embassy
+  to plr, we send a little to players we are in contact with and almost
+  nothing to everyone else.
 
  Note: if reciever is NULL and info < INFO_EMBASSY the info related to the
        receiving player are not set correctly.
@@ -1145,38 +1148,14 @@ static void package_player_info(struct player *plr,
     info_level = min_info_level;
   }
 
-  if (info_level >= INFO_MEETING) {
-    packet->gold            = plr->economic.gold;
-    for (i = A_NONE; i < game.num_tech_types; i++) {
+  packet->gold            = plr->economic.gold;
+  packet->government      = plr->government;
+
+  if (info_level >= INFO_EMBASSY) {
+    for (i = A_FIRST; i < game.num_tech_types; i++) {
       packet->inventions[i] = plr->research.inventions[i].state + '0';
     }
     packet->inventions[i]   = '\0';
-    packet->government      = plr->government;
-  } else {
-    packet->gold            = 0;
-    for (i = A_NONE; i < game.num_tech_types; i++) {
-      packet->inventions[i] = '0';
-    }
-
-    /* 
-     * We have to inform the client that the other players also know
-     * A_NONE.
-     */
-    packet->inventions[A_NONE] =
-	plr->research.inventions[A_NONE].state + '0';
-    packet->inventions[i]   = '\0';
-
-    /* Ideally, we should check whether receiver really sees any cities owned
-     * by player before this. */
-    if (server_state == RUN_GAME_STATE) {
-      packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
-    }
-
-    /* FIXME: temporary kludge */
-    packet->government      = plr->government; /*G_MAGIC;*/
-  }
-
-  if (info_level >= INFO_EMBASSY) {
     packet->tax             = plr->economic.tax;
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
@@ -1200,12 +1179,16 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
     }
   } else {
+    for (i = A_FIRST; i < game.num_tech_types; i++) {
+      packet->inventions[i] = '0';
+    }
+    packet->inventions[i]   = '\0';
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
     packet->bulbs_researched= 0;
     packet->techs_researched= 0;
-    packet->researching     = A_UNSET;
+    packet->researching     = A_NOINFO;
     packet->future_tech     = 0;
     packet->revolution      = 0;
 
@@ -1229,14 +1212,19 @@ static void package_player_info(struct player *plr,
     /* We always know the players relation to us */
     if (receiver) {
       int p_no = receiver->player_no;
+
       packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
       packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
-      packet->diplstates[i].contact_turns_left = 
-         plr->diplstates[i].contact_turns_left;
+      packet->diplstates[p_no].contact_turns_left = 
+         plr->diplstates[p_no].contact_turns_left;
       packet->diplstates[p_no].has_reason_to_cancel =
 	plr->diplstates[p_no].has_reason_to_cancel;
     }
   }
+
+  /* We have to inform the client that the other players also know
+   * A_NONE. */
+  packet->inventions[A_NONE] = plr->research.inventions[A_NONE].state + '0';
 
   if (info_level >= INFO_FULL) {
     packet->tech_goal       = plr->ai.tech_goal;
@@ -1268,7 +1256,7 @@ static enum plr_info_level player_info_level(struct player *plr,
   if (receiver && player_has_embassy(receiver, plr)) {
     return INFO_EMBASSY;
   }
-  if (receiver && find_treaty(plr, receiver)) {
+  if (receiver && could_intel_with_player(receiver, plr)) {
     return INFO_MEETING;
   }
   return INFO_MINIMUM;

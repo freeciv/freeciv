@@ -46,6 +46,7 @@ struct Treaty {
 };
 
 bool could_meet_with_player(struct player *pplayer, struct player *aplayer);
+bool could_intel_with_player(struct player *pplayer, struct player *aplayer);
 
 void init_treaty(struct Treaty *ptreaty, 
 		 struct player *plr0, struct player *plr1);

@@ -542,7 +542,9 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
 {
   static char buffer[200];
 
-  if (!is_future_tech(tech)) {
+  if (tech == A_NOINFO) {
+    my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
+  } else if (!is_future_tech(tech)) {
     assert(tech_exists(tech));
     my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
   } else {

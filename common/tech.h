@@ -29,6 +29,7 @@ typedef int Tech_Type_id;
 #define A_LAST MAX_NUM_ITEMS
 #define A_UNSET (A_LAST-1)
 #define A_FUTURE (A_LAST-2)
+#define A_NOINFO (A_LAST-3)
 
 /*
    A_NONE is the root tech. All players always know this tech. It is
