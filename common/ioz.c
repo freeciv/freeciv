@@ -68,8 +68,8 @@ struct fz_FILE_s {
   (If errno is 0, and using FZ_ZLIB, probably had zlib error
   Z_MEM_ERROR.  Wishlist: better interface for errors?)
 ***************************************************************/
-fz_FILE *fz_fromFile(const char *filename, const char *in_mode,
-		     enum fz_method method, int compress_level)
+fz_FILE *fz_from_file(const char *filename, const char *in_mode,
+		      enum fz_method method, int compress_level)
 {
   fz_FILE *fp;
   char mode[64];
@@ -137,20 +137,17 @@ fz_FILE *fz_fromFile(const char *filename, const char *in_mode,
 /***************************************************************
   Open uncompressed stream for reading/writing.
 ***************************************************************/
-fz_FILE *fz_fromFP(FILE *stream)
+fz_FILE *fz_from_stream(FILE *stream)
 {
   fz_FILE *fp;
 
-  fp = (fz_FILE *)fc_malloc(sizeof(*fp));
-
-  fp->method = FZ_PLAIN;
-
-  fp->u.plain = stream;
-  if (!fp->u.plain) {
-    free(fp);
-    fp = NULL;
+  if (!stream) {
+    return NULL;
   }
 
+  fp = fc_malloc(sizeof(*fp));
+  fp->method = FZ_PLAIN;
+  fp->u.plain = stream;
   return fp;
 }
 

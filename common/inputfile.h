@@ -19,8 +19,7 @@
 #ifndef FC__INPUTFILE_H
 #define FC__INPUTFILE_H
 
-#include <stdio.h>  	    	/* FILE type */
-
+#include "ioz.h"
 #include "shared.h"		/* bool type */
 
 struct inputfile;		/* opaque */
@@ -28,8 +27,10 @@ struct inputfile;		/* opaque */
 typedef char *(*datafilename_fn_t)(const char *filename);
 
 const char *inf_filename(struct inputfile *inf);
-struct inputfile *inf_fromFile(const char *filename, datafilename_fn_t datafn);
-struct inputfile *inf_fromFP(FILE *stream, datafilename_fn_t datafn);
+struct inputfile *inf_from_file(const char *filename,
+				datafilename_fn_t datafn);
+struct inputfile *inf_from_stream(fz_FILE * stream,
+				  datafilename_fn_t datafn);
 void inf_close(struct inputfile *inf);
 bool inf_at_eof(struct inputfile *inf);
 

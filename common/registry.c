@@ -554,7 +554,7 @@ static bool section_file_read_dup(struct section_file *sf,
 bool section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
-  struct inputfile *inf = inf_fromFile(filename, datafilename);
+  struct inputfile *inf = inf_from_file(filename, datafilename);
 
   return section_file_read_dup(my_section_file, filename, inf, TRUE);
 }
@@ -565,7 +565,7 @@ bool section_file_load(struct section_file *my_section_file,
 bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename)
 {
-  struct inputfile *inf = inf_fromFile(filename, datafilename);
+  struct inputfile *inf = inf_from_file(filename, datafilename);
 
   return section_file_read_dup(my_section_file, filename, inf, FALSE);
 }
@@ -573,10 +573,10 @@ bool section_file_load_nodup(struct section_file *my_section_file,
 /**************************************************************************
 ...
 **************************************************************************/
-bool section_file_loadFP(struct section_file *my_section_file,
-		      	 FILE *stream)
+bool section_file_load_from_stream(struct section_file *my_section_file,
+				   fz_FILE * stream)
 {
-  struct inputfile *inf = inf_fromFP(stream, datafilename);
+  struct inputfile *inf = inf_from_stream(stream, datafilename);
 
   return section_file_read_dup(my_section_file, NULL, inf, TRUE);
 }
@@ -603,7 +603,7 @@ bool section_file_loadFP(struct section_file *my_section_file,
 bool section_file_save(struct section_file *my_section_file, const char *filename,
 		      int compression_level)
 {
-  fz_FILE *fs = fz_fromFile(filename, "w", FZ_ZLIB, compression_level);
+  fz_FILE *fs = fz_from_file(filename, "w", FZ_ZLIB, compression_level);
 
   struct genlist_iterator ent_iter, save_iter, col_iter;
   struct entry *pentry, *col_pentry;

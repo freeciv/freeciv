@@ -215,25 +215,21 @@ const char *inf_filename(struct inputfile *inf)
   Open the file, and return an allocated, initialized structure.
   Returns NULL if the file could not be opened.
 ***********************************************************************/
-struct inputfile *inf_fromFile(const char *filename, datafilename_fn_t datafn)
+struct inputfile *inf_from_file(const char *filename,
+				datafilename_fn_t datafn)
 {
   struct inputfile *inf;
   fz_FILE *fp;
 
   assert(filename != NULL);
-  assert(strlen(filename)>0);
-  fp = fz_fromFile(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
+  assert(strlen(filename) > 0);
+  fp = fz_from_file(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
   if (!fp) {
     return NULL;
   }
-  inf = (struct inputfile *)fc_malloc(sizeof(struct inputfile));
-  init_zeros(inf);
-  
-  inf->filename = mystrdup(filename);
-  inf->fp = fp;
-  inf->datafn = datafn;
-
   freelog(LOG_DEBUG, "inputfile: opened \"%s\" ok", filename);
+  inf = inf_from_stream(fp, datafn);
+  inf->filename = mystrdup(filename);
   return inf;
 }
 
@@ -241,21 +237,16 @@ struct inputfile *inf_fromFile(const char *filename, datafilename_fn_t datafn)
   Open the stream, and return an allocated, initialized structure.
   Returns NULL if the file could not be opened.
 ***********************************************************************/
-struct inputfile *inf_fromFP(FILE *stream, datafilename_fn_t datafn)
+struct inputfile *inf_from_stream(fz_FILE * stream, datafilename_fn_t datafn)
 {
   struct inputfile *inf;
-  fz_FILE *fp;
 
   assert(stream != NULL);
-  fp = fz_fromFP(stream);
-  if (!fp) {
-    return NULL;
-  }
-  inf = (struct inputfile *)fc_malloc(sizeof(struct inputfile));
+  inf = fc_malloc(sizeof(*inf));
   init_zeros(inf);
   
   inf->filename = NULL;
-  inf->fp = fp;
+  inf->fp = stream;
   inf->datafn = datafn;
 
   freelog(LOG_DEBUG, "inputfile: opened \"%s\" ok", inf_filename(inf));
@@ -420,7 +411,7 @@ static bool check_include(struct inputfile *inf)
     } while((inc=inc->included_from));
   }
   
-  new_inf = inf_fromFile(full_name, inf->datafn);
+  new_inf = inf_from_file(full_name, inf->datafn);
 
   /* Swap things around so that memory pointed to by inf (user pointer,
      and pointer in calling functions) contains the new inputfile,
