@@ -154,7 +154,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_AQUEDUCT] *= 2; /* guessing about value of loving the president */
     if (city_happy(pcity)) values[B_AQUEDUCT] = (pcity->size * 
               (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-              game.foodbox / 2 - pcity->food_stock) * food / (9 - pcity->size);
+              game.foodbox / 2 - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
   }
 
 
@@ -196,7 +196,8 @@ void ai_eval_buildings(struct city *pcity)
 /* it was so stupid, AI wouldn't start building walls until it was in danger */
 /* and it would have no chance to finish them before it was too late */
 
-  if (can_build_improvement(pcity, B_CITY) && !built_elsewhere(pcity, B_WALL))
+  if (can_build_improvement(pcity, B_CITY))
+/* && !built_elsewhere(pcity, B_WALL))      was counterproductive -- Syela */
     values[B_CITY] = 40; /* WAG */
 
   if (can_build_improvement(pcity, B_COLOSSEUM))
@@ -246,7 +247,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_SEWER] *= 3; /* guessing about value of loving the president */
     if (city_happy(pcity)) values[B_SEWER] = (pcity->size *
               (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
-              game.foodbox / 2 - pcity->food_stock) * food / (13 - pcity->size); 
+              game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
   }
 
   if (can_build_improvement(pcity, B_STOCK))
