@@ -3320,7 +3320,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     /* Check if the vote command would succeed. */
     if (handle_stdin_input(caller, full_command, TRUE)) {
       last_vote++;
-      notify_player(NULL, _("New vote, no. %d, by %s: %s."), last_vote, 
+      notify_player(NULL, _("New vote (number %d) by %s: %s."), last_vote, 
                     caller->player->name, full_command);
       sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
