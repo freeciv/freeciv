@@ -385,6 +385,9 @@ int game_load(struct section_file *file)
       return 0;
     }
   }
+
+  load_rulesets();
+
   map_load(file);
 
   /* destroyed wonders: */
@@ -399,15 +402,6 @@ int game_load(struct section_file *file)
     player_load(&game.players[i], i, file); 
   }
   
-  /* Load rulesets: this has to be after finding game.ruleset strings,
-   * (above) and before doing initialize_globals, city_refresh() below.
-   * But we need to free the current savefile first, because of
-   * the way strbuffermalloc is implemented in registry.c  -- dwp
-   */
-  section_file_check_unused(file, NULL);
-  section_file_free(file);
-  load_rulesets();
-
   initialize_globals();
   apply_unit_ordering();
 
