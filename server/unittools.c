@@ -407,6 +407,7 @@ int get_attack_power(struct unit *punit)
   power=get_unit_type(punit->type)->attack_strength*10;
   if (punit->veteran)
     power*=1.5;
+  if (unit_flag(punit->type, F_IGTIRED)) return power;
   if (punit->moves_left==1)
     return power/3;
   if (punit->moves_left==2)

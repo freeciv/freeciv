@@ -143,6 +143,7 @@ enum unit_flag_id {
   F_PARATROOPERS,
   F_AIRBASE,          /* Can build Airbases */
   F_CITIES,           /* Can build cities */
+  F_IGTIRED,          /* Ignore tired negative bonus when attacking */
   F_LAST
 };
 
