@@ -1408,12 +1408,14 @@ static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 **************************************************************************/
 static void show_city_descriptions()
 {
-  PangoLayout *layout;
+  static PangoLayout *layout;
 
   if (!draw_city_names && !draw_city_productions)
     return;
 
-  layout = pango_layout_new(gdk_pango_context_get());
+  if (!layout) {
+    layout = pango_layout_new(gdk_pango_context_get());
+  }
 
   if (is_isometric ) {
     int x, y;
@@ -1443,10 +1445,6 @@ static void show_city_descriptions()
       }
     }
   }
-
-  gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
-  gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
-  g_object_unref(layout);
 }
 
 /**************************************************************************
