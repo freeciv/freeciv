@@ -70,6 +70,11 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
 {
   struct Clause *pclause;
   struct genlist_iterator myiter;
+
+  if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
+    freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
+    return 0;
+  }
   
   genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
   
@@ -89,25 +94,13 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       pclause->type=type;
       return 1;
     }
-    switch(type) {
-    case CLAUSE_ADVANCE:
-      if (pclause->value < A_FIRST || pclause->value >= A_LAST) {
-        freelog(LOG_ERROR, "Out of range tech value %i in clause.",
-	        pclause->value);
-        return 0;
-      }
-      break;
-    case CLAUSE_GOLD:
-      if (pclause->type==CLAUSE_GOLD && pclause->from==pfrom) {
-        /* gold clause there, different value */
-        ptreaty->accept0=0;
-        ptreaty->accept1=0;
-        pclause->value=val;
-        return 1;
-      }
-      break;
-    default:
-      ; /* nothing */
+    if (type == CLAUSE_GOLD && pclause->type==CLAUSE_GOLD &&
+        pclause->from==pfrom) {
+      /* gold clause there, different value */
+      ptreaty->accept0=0;
+      ptreaty->accept1=0;
+      pclause->value=val;
+      return 1;
     }
   }
    
