@@ -2480,12 +2480,14 @@ int send_packet_ruleset_government(struct connection *pc,
   dio_put_uint8(&dout, packet->fixed_corruption_distance);
   dio_put_uint8(&dout, packet->corruption_distance_factor);
   dio_put_uint8(&dout, packet->extra_corruption_distance);
+  dio_put_uint8(&dout, packet->max_distance_cap);
   
   dio_put_uint8(&dout, packet->waste_level);
   dio_put_uint8(&dout, packet->waste_modifier);
   dio_put_uint8(&dout, packet->fixed_waste_distance);
   dio_put_uint8(&dout, packet->waste_distance_factor);
   dio_put_uint8(&dout, packet->extra_waste_distance);
+  dio_put_uint8(&dout, packet->waste_max_distance_cap);
   
   dio_put_uint16(&dout, packet->flags);
   dio_put_uint8(&dout, packet->hints);
@@ -2571,12 +2573,14 @@ receive_packet_ruleset_government(struct connection *pc)
   dio_get_uint8(&din, &packet->fixed_corruption_distance);
   dio_get_uint8(&din, &packet->corruption_distance_factor);
   dio_get_uint8(&din, &packet->extra_corruption_distance);
+  dio_get_uint8(&din, &packet->max_distance_cap);
   
   dio_get_uint8(&din, &packet->waste_level);
   dio_get_uint8(&din, &packet->waste_modifier);
   dio_get_uint8(&din, &packet->fixed_waste_distance);
   dio_get_uint8(&din, &packet->waste_distance_factor);
   dio_get_uint8(&din, &packet->extra_waste_distance);
+  dio_get_uint8(&din, &packet->waste_max_distance_cap);
   
   dio_get_uint16(&din, &packet->flags);
   dio_get_uint8(&din, &packet->hints);

@@ -164,8 +164,8 @@ Anarchy is simply the absence of any recognizable government.\
  income as quickly as possible, rather than paying taxes or\
  conducting research.\
 \n\n\
-Anarchy offers slightly less corruption than Despotism, but slightly\
- more unhappiness.\
+Anarchy offers slightly less corruption than Despotism,\ 
+ but slightly more unhappiness.\
 \n\n\
 Settlers consume 1 food per turn under Anarchy.  Squares which would\
  normally yield more than 2 units of food, shields or trade suffer\
@@ -238,8 +238,8 @@ helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
  control over your citizens is maintained largely by martial law.\
 \n\n\
-Despotism suffers the highest level of corruption of all forms of\
- government.\
+Despotism suffers the highest level of corruption of all\ 
+ forms of government.\
 \n\n\
 Settlers consume 1 food per turn under Despotism.  Squares which\
  would normally yield more than 2 units of food, shields or trade\
@@ -315,8 +315,8 @@ helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
  for your government.\
 \n\n\
-Monarchy suffers the same small amount of corruption that the\
- Republic does.\
+Monarchy suffers the same small amount of corruption that\ 
+ the Republic does.\
 \n\n\
 Settlers consume 1 food per turn under Monarchy.\
 \n\n\
@@ -393,11 +393,12 @@ A Communist government is based on the ideal that all people are\
  citizens.  Communism gives a balance between military and commercial\
  styles of government.\
 \n\n\
-Under Communism, corruption does not vary by distance from the\
- capital; all cities (including the capital) have a modest amount\
- of corruption.  In addition, Communist cities more than 10 squares\
- away from the capital are considered to be only 10 squares away when\
- computing the cost of inciting a revolt (see Units, Diplomat).\
+Under Communism, corruption does not vary by distance from\ 
+ the capital; all cities (including the capital) have a modest amount\
+ of corruption.  In addition, Communist cities more than 10\ 
+ squares away from the capital are considered to be only 10 squares\ 
+ away when computing the cost of inciting a revolt. \
+ See Units, Diplomat.\
 \n\n\
 Settlers consume 2 food per turn under Communism.\
 \n\n\
@@ -561,7 +562,8 @@ helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\
  Democracy offers the highest possible level of trade, but also\
  offers the most potential for unhappiness.  There is no corruption\
- during Democracy, but citizens become very upset during wars.\
+ during Democracy, but citizens become very upset during\ 
+ wars.\
 \n\n\
 Settlers consume 2 food per turn under Democracy.  Squares with\
  at least 1 trade resource get a trade bonus of 1 under Democracy.\

@@ -247,7 +247,7 @@ static void get_contents_of_production(struct city_dialog *pdialog,
     pcity=pdialog->pcity;
     foodprod=pcity->food_prod;
     foodsurplus=pcity->food_surplus;
-    shieldprod=pcity->shield_prod;
+    shieldprod=pcity->shield_prod + pcity->shield_waste;
     shieldsurplus=pcity->shield_surplus;
     tradeprod=pcity->trade_prod+pcity->corruption;
     tradesurplus=pcity->trade_prod;

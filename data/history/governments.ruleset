@@ -85,6 +85,15 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		     (but not bribe costs)
 ; _extra_distance  = add this to distance after applying distance factor
 
+; waste:
+
+; _level             = percentage factor applied to waste;
+; _modifier          = same as corruption modifier 
+; _fixed_distance    = used if not 0 instead of actual calculation of 
+;		              distance from Palace;  		     
+; _distance_factor   = multiply distance by this factor for waste
+; _extra_distance    = add this to distance after applying distance factor
+
 ; production_*_bonus   = added to base production for each worked tile;
 ;			 second value is used instead when city is celebrating
 ; production_*_penalty = if non-zero, tile production above this amount is 
@@ -132,6 +141,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
+waste_level                = 100
+waste_modifier             = 40
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -149,8 +164,8 @@ Anarchy is simply the absence of any recognizable government.\
  income as quickly as possible, rather than paying taxes or\
  conducting research.\
 \n\n\
-Anarchy offers slightly less corruption than Despotism, but slightly\
- more unhappiness.\
+Anarchy offers slightly less corruption and waste than Despotism,\ 
+ but slightly more unhappiness.\
 \n\n\
 Settlers consume 1 food per turn under Anarchy.  Squares which would\
  normally yield more than 2 units of food, shields or trade suffer\
@@ -202,6 +217,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 2 
 corruption_extra_distance  = 3 
 
+waste_level                = 100
+waste_modifier             = 27
+waste_fixed_distance       = 0
+waste_distance_factor      = 2 
+waste_extra_distance       = 3 
+
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -217,8 +238,8 @@ helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
  control over your citizens is maintained largely by martial law.\
 \n\n\
-Despotism suffers the highest level of corruption of all forms of\
- government.\
+Despotism suffers the highest level of corruption and waste of all \ 
+forms of government.\
 \n\n\
 Settlers consume 1 food per turn under Despotism.  Squares which\
  would normally yield more than 2 units of food, shields or trade\
@@ -273,6 +294,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
+waste_level                = 100
+waste_modifier             = 67
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -288,8 +315,8 @@ helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
  for your government.\
 \n\n\
-Monarchy suffers the same small amount of corruption that the\
- Republic does.\
+Monarchy suffers the same small amount of corruption and waste that\ 
+the Republic does.\
 \n\n\
 Settlers consume 1 food per turn under Monarchy.\
 \n\n\
@@ -340,8 +367,14 @@ unit_free_gold    = 0
 corruption_level           = 50
 corruption_modifier        = 80
 corruption_fixed_distance  = 10
-corruption_distance_factor = 1 
-corruption_extra_distance  = 0 
+corruption_distance_factor = 1
+corruption_extra_distance  = 0
+
+waste_level                = 50
+waste_modifier             = 80
+waste_fixed_distance       = 10
+waste_distance_factor      = 1
+waste_extra_distance       = 0
 
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
@@ -360,11 +393,11 @@ A Communist government is based on the ideal that all people are\
  citizens.  Communism gives a balance between military and commercial\
  styles of government.\
 \n\n\
-Under Communism, corruption does not vary by distance from the\
- capital; all cities (including the capital) have a modest amount\
- of corruption.  In addition, Communist cities more than 10 squares\
- away from the capital are considered to be only 10 squares away when\
- computing the cost of inciting a revolt (see Units, Diplomat).\
+Under Communism, corruption and waste does not vary by distance from\ 
+ the capital; all cities (including the capital) have a modest amount\
+ of corruption and waste.  In addition, Communist cities more than 10 \
+ squares away from the capital are considered to be only 10 squares away\ 
+ when computing the cost of inciting a revolt (see Units, Diplomat).\
 \n\n\
 Settlers consume 2 food per turn under Communism.\
 \n\n\
@@ -417,8 +450,14 @@ unit_free_gold    = 0
 corruption_level           = 100
 corruption_modifier        = 67
 corruption_fixed_distance  = 0
-corruption_distance_factor = 1 
-corruption_extra_distance  = 0 
+corruption_distance_factor = 1
+corruption_extra_distance  = 0
+
+waste_level                = 100
+waste_modifier             = 67
+waste_fixed_distance       = 0
+waste_distance_factor      = 1
+waste_extra_distance       = 0
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
@@ -439,7 +478,7 @@ Under a Republican government, citizens hold an election to select a\
  easily, but the self-sufficiency of your citizens allows high levels\
  of trade.\
 \n\n\
-Cities under the Republic suffer a small amount of corruption.\
+Cities under the Republic suffer a small amount of corruption and waste.\
 \n\n\
 Settlers consume 2 food per turn under the Republic.  Squares with\
  at least 1 trade resource get a trade bonus of 1 under the Republic.\
@@ -498,8 +537,14 @@ unit_free_gold    = 0
 corruption_level           = 0
 corruption_modifier        = 1
 corruption_fixed_distance  = 0
-corruption_distance_factor = 0 
-corruption_extra_distance  = 0 
+corruption_distance_factor = 0
+corruption_extra_distance  = 0
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0
+waste_extra_distance       = 0
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
@@ -516,7 +561,7 @@ helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\
  Democracy offers the highest possible level of trade, but also\
  offers the most potential for unhappiness.  There is no corruption\
- during Democracy, but citizens become very upset during wars.\
+ or waste during Democracy, but citizens become very upset during wars.\
 \n\n\
 Settlers consume 2 food per turn under Democracy.  Squares with\
  at least 1 trade resource get a trade bonus of 1 under Democracy.\

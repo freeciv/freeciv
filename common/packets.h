@@ -759,13 +759,14 @@ struct packet_ruleset_government {
   int fixed_corruption_distance;
   int corruption_distance_factor;
   int extra_corruption_distance;
+  int max_distance_cap;
   
   int waste_level;
   int waste_modifier;
   int fixed_waste_distance;
   int waste_distance_factor;
   int extra_waste_distance;
-  
+  int waste_max_distance_cap;
   
   int flags;
   int hints;

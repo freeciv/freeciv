@@ -431,7 +431,7 @@ void city_dialog_update_production(struct city_dialog *pdialog)
   my_snprintf(buf, sizeof(buf),
 	      _("Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)"),
 	      pcity->food_prod, pcity->food_surplus,
-	      pcity->shield_prod, pcity->shield_surplus,
+	      pcity->shield_prod + pcity->shield_waste, pcity->shield_surplus,
 	      pcity->trade_prod+pcity->corruption, pcity->trade_prod);              
   SetWindowText(pdialog->prod_area[0],buf);
   SetWindowText(pdialog->prod_area[1],buf);

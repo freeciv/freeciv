@@ -2135,7 +2135,7 @@ void adjust_city_free_cost(int *num_free, int *this_cost)
 }
 
 /**************************************************************************
-corruption, corruption is halved during love the XXX days.
+  Corruption is halved during love the XXX days.
 **************************************************************************/
 int city_corruption(struct city *pcity, int trade)
 {
@@ -2162,10 +2162,10 @@ int city_corruption(struct city *pcity, int trade)
   } else {
     capital = find_palace(city_owner(pcity));
     if (!capital)
-      dist = 36;
+      dist = g->max_distance_cap;
     else {
-      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist = MIN(36, tmp);
+      int tmp = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist = MIN(g->max_distance_cap, tmp);
     }
   }
   dist =
@@ -2198,14 +2198,13 @@ int city_waste(struct city *pcity, int shields)
   } else {
     capital = find_palace(city_owner(pcity));
     if (!capital) {
-      dist = 36;
+      dist = g->waste_max_distance_cap;
     } else {
-      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist = MIN(36, tmp);
+      int tmp = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist = MIN(g->waste_max_distance_cap, tmp);
     }
   }
   dist = dist * g->waste_distance_factor + g->extra_waste_distance;
-
   /* Ordered to reduce integer roundoff errors */
   val = shields * dist;
   val *= g->waste_level;

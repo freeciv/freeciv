@@ -198,6 +198,7 @@ struct city_info
   Object *growth_text;
 
   Object *corruption_text;
+  Object *waste_text;
   Object *pollution_text;
 };
 
@@ -1412,6 +1413,8 @@ static Object *create_city_info(struct city_info *info)
 	Child, VSpace(1), Child, VSpace(1),
 	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Corruption:"), End,
 	Child, info->corruption_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Waste:"), End,
+	Child, info->waste_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
 	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Pollution:"), End,
 	Child, info->pollution_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
 	End;
@@ -1884,7 +1887,7 @@ static void city_dialog_update_information(struct city_dialog *pdialog, struct c
   pollutionstyle = (pcity->pollution >= 10) ? RED : NORMAL;
 
   settextf(info->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
-  settextf(info->shield_text, "%2d (%+2d)", pcity->shield_prod, pcity->shield_surplus);
+  settextf(info->shield_text, "%2d (%+2d)", pcity->shield_prod + pcity->shield_waste, pcity->shield_surplus);
   settextf(info->trade_text, "%2d (%+2d)", pcity->trade_prod + pcity->corruption, pcity->trade_prod);
   settextf(info->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity));
   settextf(info->luxury_text, "%2d", pcity->luxury_total);
@@ -1907,6 +1910,7 @@ static void city_dialog_update_information(struct city_dialog *pdialog, struct c
   }
 
   settextf(info->corruption_text, "%ld", pcity->corruption);
+  settextf(info->waste_text, "%ld", pcity->shield_waste);
   settextf(info->pollution_text, "%ld", pcity->pollution);
 }
 
