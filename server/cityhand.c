@@ -280,6 +280,7 @@ void handle_city_make_specialist(struct player *pplayer,
   if (!player_owns_city(pplayer, pcity))  return;
   if (preq->worker_x==2 && preq->worker_y==2) {
     auto_arrange_workers(pcity);
+    send_adjacent_cities(pcity);
     return;
   }
   if (is_worker_here(pcity, preq->worker_x, preq->worker_y) == C_TILE_WORKER) {
@@ -314,8 +315,11 @@ void handle_city_make_worker(struct player *pplayer,
     return;
 
   if(preq->worker_x==2 && preq->worker_y==2) {
-    auto_arrange_workers(pcity);
+      auto_arrange_workers(pcity);
+      send_adjacent_cities(pcity);
+      return;
   }
+
   if (!city_specialists(pcity) || 
       !can_place_worker_here(pcity, preq->worker_x, preq->worker_y))
     return;
@@ -415,9 +419,12 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   cost=city_buy_cost(pcity);
    if (cost>pplayer->economic.gold)
     return;
-  pcity->did_buy=1;
+
   pplayer->economic.gold-=cost;
-  if (pcity->shield_stock < total) pcity->shield_stock=total; /* AI wants this -- Syela */
+  if (pcity->shield_stock < total){
+    pcity->shield_stock=total; /* AI wants this -- Syela */
+    pcity->did_buy=1; /* !PS: no need to set buy flag otherwise */
+  }
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		   "Game: %s bought for %d", name, cost); 
   
