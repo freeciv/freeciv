@@ -575,18 +575,16 @@ static struct player *best_mil_service(void)
 **************************************************************************/
 static char *value_units(char *val, char *uni)
 {
-  static char buf[64] = "??";
+  static char buf[64];
 
-  if ((strlen (val) + strlen (uni) + 1) > sizeof (buf))
-    {
-      return (buf);
-    }
+  if (my_snprintf(buf, sizeof(buf), "%s%s", val, uni) == -1) {
+    freelog(LOG_ERROR, "String truncated in value_units()!");
+    assert(0);
+    exit(EXIT_FAILURE);
+  }
 
-  my_snprintf(buf, sizeof(buf), "%s%s", val, uni);
-
-  return (buf);
+  return buf;
 }
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -905,7 +903,7 @@ void report_demographics(struct connection *pconn)
 {
   struct player *pplayer = pconn->player;
   char civbuf[1024];
-  char buffer[4096] = "";
+  char buffer[4096];
   int inx;
   int anyrows;
   enum dem_flag selcols;
@@ -930,6 +928,7 @@ void report_demographics(struct connection *pconn)
 
   anyrows = FALSE;
   selcols = DEM_NONE;
+  buffer[0] = '\0';
   for (inx = 0; inx < ARRAY_SIZE(keytable); inx++) {
     if (strchr(game.demography, keytable[inx].key)) {
       if (keytable[inx].flag == DEM_ROW) {
