@@ -14,12 +14,13 @@
 #
 #***********************************************************************/
 DIR=`dirname $0`
+FREECIV_PATH="@top_srcdir@/data:$FREECIV_PATH"
 
-[ -x $DIR/server/civserver ] && EXE=$DIR/server/civserver
-[ -x $DIR/civserver ] && EXE=$DIR/civserver
+[ -x $DIR/client/civclient ] && EXE=$DIR/client/civclient
+[ -x $DIR/civclient ] && EXE=$DIR/civclient
 
 if [ "$EXE" = "" ]; then
-  echo $0: Unable to find civserver.
+  echo $0: Unable to find civclient.
   exit 1
 fi
 

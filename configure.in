@@ -688,4 +688,7 @@ AC_OUTPUT(Makefile
 	  doc/ja/Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
-	  undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
+	  civ
+	  ser
+	  undep.sh,
+	  [ chmod +x undep.sh civ ser ; ./undep.sh ])

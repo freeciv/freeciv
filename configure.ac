@@ -703,5 +703,6 @@ AC_CONFIG_FILES([Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
 	  undep.sh])
+AC_CONFIG_FILES([civ ser], [chmod +x civ ser])
 AC_CONFIG_COMMANDS([default],[[ chmod +x undep.sh ; ./undep.sh ]],[[]])
 AC_OUTPUT
