@@ -1559,12 +1559,3 @@ This is not a normal improvement.  Instead, setting a city's\
 
 aqueduct_size=10;
 default="Capitalization"
-
-; FIXME: remove all of the following when gen-impr implemented...
-
-; Techs which modify building effects:
-
-cathedral_plus="Never"
-cathedral_minus="Never"
-colosseum_plus="Never"
-temple_plus="Mysticism"

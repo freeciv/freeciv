@@ -2060,13 +2060,3 @@ This is not a normal improvement.  Instead, setting a city's\
 
 aqueduct_size=8
 default="Coinage"
-
-; FIXME: remove all of the following when gen-impr implemented...
-
-; Techs which modify building effects:
-
-cathedral_plus="Theology"
-cathedral_minus="Communism"
-colosseum_plus="Electricity"
-temple_plus="Mysticism"
-
