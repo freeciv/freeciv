@@ -1296,7 +1296,7 @@ void popup_government_dialog(void)
     dlabel = gtk_label_new(_("Select government type:"));
     gtk_box_pack_start(GTK_BOX(vbox), dlabel, TRUE, FALSE, 0);
 
-    gtk_object_set_data(GTK_OBJECT(vbox), "parent",(gpointer) toplevel);
+    gtk_object_set_data(GTK_OBJECT(vbox), "parent",(gpointer) top_vbox);
 
     for (i=0; i<game.government_count; ++i) {
       struct government *g = &governments[i];
@@ -1413,7 +1413,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
     dlabel = gtk_label_new (_("Select what to pillage:"));
     gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
 
-    gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)toplevel);
+    gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)top_vbox);
 
     while (may_pillage) {
       what = get_preferred_pillage (may_pillage);
@@ -1512,7 +1512,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   dlabel = gtk_label_new (_("Choose unit activity:"));
   gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
 
-  gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)toplevel);
+  gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)top_vbox);
 
   for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
     if (! can_unit_do_connect (punit, activity)) continue;
