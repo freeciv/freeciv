@@ -286,6 +286,7 @@ void ai_best_government(struct player *pplayer)
   }
 
   if (ai->govt_reeval == 0) {
+    TIMING_LOG(LOG_DEBUG, pplayer, "Finding best government");
     government_iterate(gov) {
       int val = 0;
       int dist;

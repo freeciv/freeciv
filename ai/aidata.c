@@ -223,6 +223,8 @@ void ai_data_movemap_recalculate(void)
       } movemap_vector_iterate_end;
     }
   } whole_map_iterate_end;
+
+  TIMING_LOG(LOG_DEBUG, NULL, "Done generating movemap");
 }
 
 /**************************************************************************
@@ -395,6 +397,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   struct player *ally_strongest = NULL;
 
   /*** Threats ***/
+
+  TIMING_LOG(LOG_DEBUG, pplayer, "Generating aidata");
 
   ai->num_continents    = map.num_continents;
   ai->num_oceans        = map.num_oceans;
@@ -633,8 +637,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
   ai->pollution_priority = POLLUTION_WEIGHTING;
 
-  ai_best_government(pplayer);
-
   /*** Interception engine ***/
 
   /* We are tracking a unit if punit->ai.cur_pos is not NULL. If we
@@ -665,6 +667,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   } else {
     ai->wants_no_science = FALSE;
   }
+
+  /* Government */
+  ai_best_government(pplayer);
 }
 
 /**************************************************************************

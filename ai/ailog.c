@@ -258,6 +258,7 @@ void TIMING_LOG(int level, struct player *pplayer, const char *msg)
   char buffer[500];
   int minlevel = MIN(LOGLEVEL_BODYGUARD, level);
   static struct timer *t = NULL;
+  static int turn = -1;
 
   if (t == NULL) {
     t = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -268,6 +269,12 @@ void TIMING_LOG(int level, struct player *pplayer, const char *msg)
   } else if (minlevel > fc_log_level) {
     clear_timer_start(t);
     return;
+  }
+
+  /* So that the first log won't be displayed ridiculously high */
+  if (turn != game.turn) {
+    turn = game.turn;
+    clear_timer_start(t);
   }
 
   my_snprintf(buffer, sizeof(buffer), "... %g seconds. %s: ",
