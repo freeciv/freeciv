@@ -27,6 +27,7 @@
 #include "support.h"
 
 #include "cityhand.h"
+#include "cityturn.h"
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
@@ -417,6 +418,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
 static void really_unfog_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
+  int old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "really unfogging %d,%d\n", x, y);
   send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, 0);
@@ -435,6 +437,23 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
 
   /* send info about the tile itself */
   send_tile_info_always(pplayer, &pplayer->connections, x, y);
+
+  /* If the tile was not known before we need to refresh the cities that
+     can use the tile.
+     It is slightly suboptimal to do this here as a city may be sent to
+     the client once for each tile that is revieled, but it shouldn't make
+     too big a difference. It would require a largish recoding to make sure
+     only to send a city once when multiple squares were unveiled at once.
+  */
+  if (!old_known) {
+    map_city_radius_iterate(x, y, x1, y1) {
+      pcity = map_get_city(x1, y1);
+      if (pcity && city_owner(pcity) == pplayer) {
+	city_check_workers(pcity, 1);
+	send_city_info(pplayer, pcity);
+      }
+    } map_city_radius_iterate_end;
+  }
 }
 
 /**************************************************************************
