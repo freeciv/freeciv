@@ -1201,8 +1201,9 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
       int here_in_radius =
 	player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
       /* left side... */
-      if(here_in_radius ||
-	 player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0)) {
+      if((map_get_tile(abs_x0-1, abs_y0))->known &&
+	 (here_in_radius ||
+	  player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0))) {
 	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
       } else {
 	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
@@ -1211,8 +1212,9 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
 		    x*NORMAL_TILE_WIDTH, (y+1)*NORMAL_TILE_HEIGHT);
       /* top side... */
-      if(here_in_radius ||
-	 player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1)) {
+      if((map_get_tile(abs_x0, abs_y0-1))->known &&
+	 (here_in_radius ||
+	  player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1))) {
 	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
       } else {
 	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);

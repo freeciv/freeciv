@@ -245,8 +245,23 @@ void handle_city_info(struct packet_city_info *packet)
       unit_list_iterate_end;
     }
   }
-    
-  refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
+
+  if(draw_map_grid &&
+     city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+    /* just to update grid; slow, but doesn't happen very often --jjm */
+    int r=((CITY_MAP_SIZE+1)/2);
+    int d=(2*r)+1;
+    int x=map_adjust_x(pcity->x - r);
+    int y=map_adjust_y(pcity->y - r);
+    update_map_canvas
+    (
+     map_canvas_adjust_x(x), map_canvas_adjust_y(y),
+     d, d,
+     1
+    );
+  } else {
+    refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
+  }
 
   if(city_workers_display==pcity)  {
     put_city_workers(pcity, -1);
