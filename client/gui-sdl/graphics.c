@@ -126,25 +126,43 @@ static SDL_Cursor *init_cursor(const char *image_data,
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Surface *crop_rect_from_surface(SDL_Surface * pSource,
-				    SDL_Rect * pRect)
+SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
+				    SDL_Rect *pRect)
 {
   SDL_Surface *pNew = create_surf_with_format(pSource->format,
 					      pRect->w, pRect->h,
 					      SDL_SWSURFACE);
-
+  bool is_colorkey = (pSource->flags & SDL_SRCCOLORKEY) > 0;
+  Uint32 colorkey;
+  
   if (pSource->format->Amask) {
+    /* turn off alpha */
     SDL_SetAlpha(pSource, 0x0, 0x0);
+  } else {
+    if(is_colorkey) {
+      /* turn off colorkey */
+      colorkey = pSource->format->colorkey;
+      SDL_SetColorKey(pSource, 0x0, colorkey);
+    }
   }
-
+  
   if (SDL_BlitSurface(pSource, pRect, pNew, NULL)) {
     FREESURFACE(pNew);
   }
 
   if (pSource->format->Amask) {
+    /* turn on alpha */
     SDL_SetAlpha(pSource, SDL_SRCALPHA, 255);
+  } else {
+    if(is_colorkey) {
+      /* turn on colorkey */
+      SDL_SetColorKey(pSource, SDL_SRCCOLORKEY, colorkey);
+      if(pNew) {
+        SDL_SetColorKey(pNew, SDL_SRCCOLORKEY, colorkey);
+      }
+    }
   }
-
+  
   return pNew;
 }
 
@@ -365,7 +383,7 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 		      Uint32 color)
 {
   register Uint8 *buf_ptr, *max;
-  register int pitch = pDest->pitch;
+  register int pitch;
   register size_t lng;
 
   /* correct y0, y1 position ( must be inside 'pDest' surface ) */
@@ -382,13 +400,17 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
   }
   
   if (y1 - y0 < 0) {
-    lng = y0 - y1;
-  } else {
-    lng = y1 - y0;
+    /* swap */
+    pitch = y0;
+    y0 = y1;
+    y1 = pitch;
   }
+  
+  lng = y1 - y0;
   
   if (!lng) return;
     
+  pitch = pDest->pitch;  
   buf_ptr = ((Uint8 *) pDest->pixels + (y0 * pitch));
   max = buf_ptr + (lng * pitch);
 
@@ -457,10 +479,13 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
   }
 
   if (x1 - x0 < 0) {
-    lng = (x0 - x1);
-  } else {
-    lng = (x1 - x0);
+    /* swap */
+    i = x0;
+    x0 = x1;
+    x1 = i;
   }
+  
+  lng = x1 - x0;
   
   if (!lng) return;
   
@@ -740,11 +765,13 @@ void init_sdl(int iFlags)
 {
   bool error;
   Main.screen = NULL;
+  Main.guis = NULL;
   Main.gui = NULL;
   Main.map = NULL;
   Main.text = NULL;
   Main.rects_count = 0;
-
+  Main.guis_count = 0;
+  
   mapview_canvas.store = &Main;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
@@ -947,7 +974,8 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
   register Uint32 A = pColor->unused >> 3;
 
   S &= 0xFFFF;
-
+  
+  lock_surf(pSurface);
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint16 *) pSurface->pixels;
@@ -1038,7 +1066,8 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
     }
 
   }
-
+  
+  unlock_surf(pSurface);
   return 0;
 }
 
@@ -1057,7 +1086,9 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
   register Uint32 A = pColor->unused >> 3;
 
   S &= 0xFFFF;
-
+  
+  lock_surf(pSurface);
+  
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint16 *) pSurface->pixels;
@@ -1148,7 +1179,8 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
     }
 
   }
-
+  
+  unlock_surf(pSurface);
   return 0;
 }
 
@@ -1170,7 +1202,8 @@ static int __FillRectAlpha8888(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   S1 = S2 & 0x00FF00FF;
 
-
+  lock_surf(pSurface);
+  
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint32 *) pSurface->pixels;
@@ -1264,7 +1297,8 @@ static int __FillRectAlpha8888(SDL_Surface * pSurface, SDL_Rect * pRect,
       }
     }
   }
-
+  
+  unlock_surf(pSurface);
   return 0;
 }
 
@@ -1288,6 +1322,8 @@ static int __FillRectAlpha888(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   S2 &= 0xFF00;
 
+  lock_surf(pSurface);
+  
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint8 *) pSurface->pixels;
@@ -1370,6 +1406,7 @@ static int __FillRectAlpha888(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   }
 
+  unlock_surf(pSurface);
   return 0;
 }
 
@@ -1380,8 +1417,8 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 		      SDL_Color * pColor)
 {
 	
-  if ( pRect && ( pRect->x < - pRect->w || pRect->x >= pSurface->w ||
-	         pRect->y < - pRect->h || pRect->y >= pSurface->h ) )
+  if (pRect && (pRect->x < - pRect->w || pRect->x >= pSurface->w ||
+	         pRect->y < - pRect->h || pRect->y >= pSurface->h))
   {
      return -2;
   }
@@ -1392,6 +1429,11 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 	SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b));
   }
 
+  if (!pColor->unused)
+  {
+    return -3;
+  }
+  
   switch (pSurface->format->BytesPerPixel) {
   case 1:
     /* PORT ME */
@@ -1624,36 +1666,6 @@ static bool correct_black(SDL_Surface * pSrc)
   return ret;
 }
 
-#if 0
-static int alpha_used(SDL_Surface * pSurf)
-{
-
-  if (pSurf->format->BitsPerPixel == 32) {
-
-    register Uint32 *pPixels;
-    register Uint32 alpha, i;
-    Uint32 End;
-
-    lock_surf(pSurf);
-
-    pPixels = (Uint32 *) pSurf->pixels;
-
-    End = pSurf->h * pSurf->w;
-
-    for (i = 0; i < End; i++, pPixels++) {
-      alpha = *pPixels & 0xff000000;
-      if (alpha && (alpha != 0xff000000)) {
-	unlock_surf(pSurf);
-	return 1;
-      }
-    }
-
-    unlock_surf(pSurf);
-  }
-  return 0;
-}
-#endif
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -1761,6 +1773,9 @@ void load_intro_gfx(void)
   }
 }
 
+/**************************************************************************
+  Create a sprite struct and fill it with SDL_Surface pointer
+**************************************************************************/
 static struct Sprite * ctor_sprite(SDL_Surface *pSurface)
 {
   struct Sprite *result = fc_malloc(sizeof(struct Sprite));
@@ -1811,8 +1826,8 @@ void load_cursors(void)
   /* goto */
   pGoto_Cursor = init_cursor(goto_cursor_bits, goto_cursor_mask_bits,
 			     goto_cursor_width, goto_cursor_height,
-			     goto_cursor_x_hot, goto_cursor_y_hot);
-  /*2 ,2 ); */
+			/*     goto_cursor_x_hot, goto_cursor_y_hot);*/
+  				2, 2);
 
   /* drop */
   pDrop_Cursor = init_cursor(drop_cursor_bits, drop_cursor_mask_bits,
@@ -1885,11 +1900,11 @@ struct Sprite * load_gfxfile(const char *filename)
 
   if (alpha) {
     pNew = pBuf;
-    freelog(LOG_DEBUG, _("%s load with own format %d!"), filename,
+    freelog(LOG_DEBUG, _("%s load with own %d bpp format !"), filename,
 	    pNew->format->BitsPerPixel);
   } else {
 
-    freelog(LOG_DEBUG, _("%s ( %d ) load with screen format %d !"),
+    freelog(LOG_DEBUG, _("%s (%d bpp) load with screen (%d bpp) format !"),
 	    filename, pBuf->format->BitsPerPixel,
 	    Main.screen->format->BitsPerPixel);
 
@@ -1917,7 +1932,7 @@ struct Sprite * load_gfxfile(const char *filename)
 void free_sprite(struct Sprite *s)
 {
   FREESURFACE(GET_SURF(s));
-  s->psurface=NULL;
+  /*s->psurface=NULL;*/
   free(s);
 }
 
@@ -1927,6 +1942,5 @@ void free_sprite(struct Sprite *s)
 **************************************************************************/
 void free_intro_radar_sprites(void)
 {
-  freelog(LOG_NORMAL, "free_intro_radar_sprites");
   FREESURFACE(pIntro_gfx);
 }

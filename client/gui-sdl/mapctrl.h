@@ -29,10 +29,17 @@ struct unit;
 void popdown_newcity_dialog(void);
 
 void Init_MapView(void);
-void set_new_units_window_pos(struct GUI *pUnit_Window);
-void set_new_mini_map_window_pos(struct GUI *pMiniMap_Window);
+void set_new_units_window_pos(void);
+void set_new_mini_map_window_pos(void);
+struct GUI * get_unit_info_window_widget(void);
+struct GUI * get_minimap_window_widget(void);
+struct GUI * get_tax_rates_widget(void);
+struct GUI * get_research_widget(void);
+struct GUI * get_revolution_widget(void);
+void enable_and_redraw_find_city_button(void);
+void enable_and_redraw_revolution_button(void);
 
 int map_event_handler(SDL_keysym Key);
 void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent);
 
-#endif				/* FC__MAPCTRL_H */
+#endif	/* FC__MAPCTRL_H */

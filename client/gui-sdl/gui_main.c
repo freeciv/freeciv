@@ -126,9 +126,11 @@ static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 
+
 Uint32 widget_info_cunter = 0;
 
 char *pDataPath = NULL;
+extern bool draw_goto_patrol_lines;
 
 /* ================================ Private ============================ */
 static void print_usage(const char *argv0);
@@ -312,6 +314,7 @@ static void gui_main_loop(void)
 
 	  case SDLK_ESCAPE:
 	    key_cancel_action();
+	    draw_goto_patrol_lines = FALSE;
 	    break;
 
 	  case SDLK_c:
@@ -379,6 +382,10 @@ static void gui_main_loop(void)
       
     case SDL_MOUSEMOTION:
 
+      if(draw_goto_patrol_lines) {
+	update_line(Main.event.motion.x, Main.event.motion.y);
+      }
+      
       pWidget = MainWidgetListScaner(&Main.event.motion);
       if (pWidget) {
 	widget_sellected_action(pWidget);
@@ -544,7 +551,7 @@ static Uint32 try_autoconnect_timer_callback(Uint32 interval, void *param)
 static int optiondlg_callback(struct GUI *pButton)
 {
   set_wstate(pButton, WS_DISABLED);
-  real_redraw_icon(pButton, Main.gui);
+  real_redraw_icon(pButton);
   flush_rect(pButton->size);
 
   popup_optiondlg();
@@ -614,7 +621,7 @@ void ui_init(void)
 
   draw_intro_gfx();
 
-  pInit_String = create_themelabel(pBgd,
+  pInit_String = create_themelabel(pBgd, Main.gui,
 	create_str16_from_char(_("Initializing Client"), 20), 350, 50,
 				   WF_FREE_THEME);
 
@@ -678,16 +685,15 @@ void ui_main(int argc, char *argv[])
   
   tilespec_setup_city_icons();
 
-  pSellected_Widget = create_themeicon(pTheme->Options_Icon,
+  pSellected_Widget = create_themeicon(pTheme->Options_Icon, Main.gui,
 				       (WF_WIDGET_HAS_INFO_LABEL |
 					WF_DRAW_THEME_TRANSPARENT));
 
   pSellected_Widget->action = optiondlg_callback;
   pSellected_Widget->string16 = create_str16_from_char(_("Options"), 12);
-
+  pSellected_Widget->key = SDLK_TAB;
   add_to_gui_list(ID_CLIENT_OPTIONS, pSellected_Widget);
-  pSellected_Widget = NULL;
-
+  
   /* clear double call */
   for(i=0; i<E_LAST; i++) {
     if (messages_where[i] & MW_MESSAGES)
@@ -708,23 +714,23 @@ void ui_main(int argc, char *argv[])
   set_output_window_text(_("Now.. Go give'em hell!"));
 
   Init_Input_Edit();
-
+  
   Init_MapView();
 
   create_units_order_widgets();
 
   setup_auxiliary_tech_icons();
 
-  SDL_FillRect(Main.gui,
-	  &get_widget_pointer_form_main_list(ID_WAITING_LABEL)->size, 0x0 );
-	  
-  flush_all();
+  pSellected_Widget = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
+  SDL_FillRect(pSellected_Widget->dst, &pSellected_Widget->size, 0x0);
+  pSellected_Widget = NULL;
   
+  flush_all();
+
 #ifdef TIMERS
   game_timer_id = SDL_AddTimer(UNITS_TIMER_INTERVAL,
-					  game_timer_callback , NULL );
+					  game_timer_callback , NULL);
 #endif
-
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
@@ -774,8 +780,6 @@ void add_net_input(int sock)
   
 #endif
 
-  
-  return;
 }
 
 /**************************************************************************

@@ -30,7 +30,7 @@ struct city;
 
 void get_new_view_rectsize(void);
 void tmp_map_surfaces_init(void);
-void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window);
+void redraw_unit_info_label(struct unit *pUnit);
 void real_blink_active_unit(void);
 SDL_Surface * create_city_map(struct city *pCity);
 SDL_Surface * get_terrain_surface(int x , int y);  

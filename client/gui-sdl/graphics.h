@@ -36,12 +36,14 @@ struct Sprite {
 #define GET_SURF(m_sprite)	(m_sprite->psurface)
 
 struct canvas_store {
-  int rects_count;		/* update rect. list counter */
+  int rects_count;		/* update rect. array counter */
+  int guis_count;		/* gui buffers array counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
   SDL_Surface *screen;		/* main screen buffer */
   SDL_Surface *map;		/* map buffer */
   SDL_Surface *text;		/* city descriptions buffer */
   SDL_Surface *gui;		/* gui buffer */
+  SDL_Surface **guis;		/* gui buffers used by sdlclient widgets window menager */
   SDL_Event event;		/* main event struct */
 };
 

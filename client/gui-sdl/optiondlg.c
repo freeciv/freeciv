@@ -70,8 +70,10 @@ static struct GUI *pBeginMainOptionsWidgetList = NULL;
 **************************************************************************/
 static void center_optiondlg(void)
 {
-  Sint16 newX = (Main.gui->w - pEndOptionsWidgetList->size.w) / 2;
-  Sint16 newY = (Main.gui->h - pEndOptionsWidgetList->size.h) / 2;
+  Sint16 newX =
+	  (pEndOptionsWidgetList->dst->w - pEndOptionsWidgetList->size.w) / 2;
+  Sint16 newY =
+	  (pEndOptionsWidgetList->dst->h - pEndOptionsWidgetList->size.h) / 2;
 
   set_new_group_start_pos(pBeginOptionsWidgetList,
 			  pEndOptionsWidgetList,
@@ -103,7 +105,7 @@ static int work_lists_callback(struct GUI *pWidget)
 {
   /* popdown window */
   popdown_window_group_dialog(pBeginOptionsWidgetList,
-			      pEndOptionsWidgetList, Main.gui);
+			      pEndOptionsWidgetList);
 
   /* clear flags */
   SDL_Client_Flags &=
@@ -166,10 +168,10 @@ static int change_mode_callback(struct GUI *pWidget)
   /* change setting label */
   if (Main.screen->flags & SDL_FULLSCREEN) {
     my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
-	    Main.gui->w, Main.gui->h);
+	    Main.screen->w, Main.screen->h);
   } else {
     my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\n%dx%d"),
-	    Main.gui->w, Main.gui->h);
+	    Main.screen->w, Main.screen->h);
   }
 
   FREE(pBeginMainOptionsWidgetList->prev->string16->text);
@@ -178,21 +180,19 @@ static int change_mode_callback(struct GUI *pWidget)
 
 
   /* move units window to botton-right corrner */
-  set_new_units_window_pos(get_widget_pointer_form_main_list
-			   (ID_UNITS_WINDOW));
+  set_new_units_window_pos();
 
   /* move minimap window to botton-left corrner */
-  set_new_mini_map_window_pos(get_widget_pointer_form_main_list
-			      (ID_MINI_MAP_WINDOW));
+  set_new_mini_map_window_pos();
 
   /* move cooling/warming icons to botton-right corrner */
 
   pWindow = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-  pWindow->size.x = Main.gui->w - 10 - (pWindow->size.w << 1);
+  pWindow->size.x = pWindow->dst->w - 10 - (pWindow->size.w << 1);
 
   /* ID_COOLING_ICON */
   pWindow = pWindow->next;
-  pWindow->size.x = Main.gui->w - 10 - pWindow->size.w;
+  pWindow->size.x = pWindow->dst->w - 10 - pWindow->size.w;
 
   center_optiondlg();
   center_meswin_dialog();
@@ -205,9 +205,9 @@ static int change_mode_callback(struct GUI *pWidget)
 
     draw_intro_gfx();
 
-    refresh_widget_background(pWindow , Main.gui);
+    refresh_widget_background(pWindow);
 
-    redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+    redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
 
   } else {
 
@@ -220,9 +220,9 @@ static int change_mode_callback(struct GUI *pWidget)
     /* with redrawing full map */
     center_on_something();
     
-    refresh_widget_background(pWindow, Main.gui);
+    refresh_widget_background(pWindow);
 
-    redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+    redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
 
   }
   
@@ -330,7 +330,8 @@ static int video_callback(struct GUI *pWidget)
 	    Main.screen->h);
   }
 
-  pTmpGui = create_iconlabel(NULL, create_str16_from_char(cBuf, 10), 0);
+  pTmpGui = create_iconlabel(NULL, pWindow->dst,
+  			create_str16_from_char(cBuf, 10), 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -347,7 +348,7 @@ static int video_callback(struct GUI *pWidget)
   /* fullscreen mode label */
   pTmpGui =
       create_themelabel(create_filled_surface
-			(150, 30, SDL_SWSURFACE, NULL),
+			(150, 30, SDL_SWSURFACE, NULL), pWindow->dst,
 			create_str16_from_char(_("Fullscreen Mode"),
 					       10), 150, 30, 0);
   
@@ -363,9 +364,9 @@ static int video_callback(struct GUI *pWidget)
 
   /* fullscreen check box */
   if (Main.screen->flags & SDL_FULLSCREEN) {
-    pTmpGui = create_checkbox(TRUE, WF_DRAW_THEME_TRANSPARENT);
+    pTmpGui = create_checkbox(pWindow->dst, TRUE, WF_DRAW_THEME_TRANSPARENT);
   } else {
-    pTmpGui = create_checkbox(FALSE, WF_DRAW_THEME_TRANSPARENT);
+    pTmpGui = create_checkbox(pWindow->dst, FALSE, WF_DRAW_THEME_TRANSPARENT);
   }
 
   pTmpGui->action = togle_fullscreen_callback;
@@ -379,7 +380,8 @@ static int video_callback(struct GUI *pWidget)
   /* create modes buttons */
   for (i = 0; pModes[i]; i++) {
 
-    pTmpGui = create_icon_button_from_unichar(NULL, pModes[i], 14, 0);
+    pTmpGui = create_icon_button_from_unichar(NULL, pWindow->dst,
+    							pModes[i], 14, 0);
 
     if (len) {
       pTmpGui->size.w = len;
@@ -399,7 +401,7 @@ static int video_callback(struct GUI *pWidget)
 
   if ((i == 1)&&(pModes_Rect[0]->w > 640))
   {
-    pTmpGui = create_icon_button_from_unichar(NULL,
+    pTmpGui = create_icon_button_from_unichar(NULL, pWindow->dst,
 			    convert_to_utf16("640x480"), 14, 0);
 
     if (len) {
@@ -435,7 +437,7 @@ static int video_callback(struct GUI *pWidget)
 
   FREE(pModes);
 
-  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
   flush_rect(pWindow->size);
 
   return -1;
@@ -464,12 +466,12 @@ static int smooth_move_units_callback(struct GUI *pWidget)
   if (smooth_move_units) {
     smooth_move_units = FALSE;
     set_wstate(pWidget->prev->prev, WS_DISABLED);
-    redraw_edit(pWidget->prev->prev, Main.gui);
+    redraw_edit(pWidget->prev->prev);
     flush_rect(pWidget->prev->prev->size);
   } else {
     smooth_move_units = TRUE;
     set_wstate(pWidget->prev->prev, WS_NORMAL);
-    redraw_edit(pWidget->prev->prev, Main.gui);
+    redraw_edit(pWidget->prev->prev);
     flush_rect(pWidget->prev->prev->size);
   }
   return -1;
@@ -580,7 +582,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'sound befor new turn' */
   /* check box */
-  pTmpGui = create_checkbox(sound_bell_at_new_turn,
+  pTmpGui = create_checkbox(pWindow->dst, sound_bell_at_new_turn,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = sound_bell_at_new_turn_callback;
@@ -592,7 +594,7 @@ static int local_setting_callback(struct GUI *pWidget)
   add_to_gui_list(ID_OPTIONS_LOCAL_SOUND_CHECKBOX, pTmpGui);
 
   /* 'sound befor new turn' label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Sound bell at new turn"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -608,7 +610,8 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'smooth unit moves' */
   /* check box */
-  pTmpGui = create_checkbox(smooth_move_units, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  		smooth_move_units, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = smooth_move_units_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -619,7 +622,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Smooth unit moves"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -637,7 +640,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* edit */
   my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_steps);
-  pTmpGui = create_edit_from_chars(NULL, cBuf, 11, 25,
+  pTmpGui = create_edit_from_chars(NULL, pWindow->dst, cBuf, 11, 25,
 					  WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = smooth_move_unit_steps_callback;
@@ -652,7 +655,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Smooth unit move steps"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -669,8 +672,8 @@ static int local_setting_callback(struct GUI *pWidget)
   /* 'show combat anim' */
 
   /* check box */
-  pTmpGui =
-      create_checkbox(do_combat_animation, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+      			do_combat_animation, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = do_combat_animation_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -681,7 +684,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 				  _("Show combat animation"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -697,8 +700,8 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'auto center on units' */
   /* check box */
-  pTmpGui =
-      create_checkbox(auto_center_on_unit, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+      		auto_center_on_unit, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_center_on_unit_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -709,7 +712,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 					_("Auto Center on Units"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -725,7 +728,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'auto center on combat' */
   /* check box */
-  pTmpGui = create_checkbox(auto_center_on_combat,
+  pTmpGui = create_checkbox(pWindow->dst, auto_center_on_combat,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_center_on_combat_callback;
@@ -737,7 +740,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 					_("Auto Center on Combat"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -754,7 +757,8 @@ static int local_setting_callback(struct GUI *pWidget)
   /* 'wakeup focus' */
 
   /* check box */
-  pTmpGui = create_checkbox(wakeup_focus, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  		wakeup_focus, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = wakeup_focus_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -765,7 +769,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Focus on Awakened Units"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -781,7 +785,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'popup new city window' */
   /* check box */
-  pTmpGui = create_checkbox(popup_new_cities,
+  pTmpGui = create_checkbox(pWindow->dst, popup_new_cities,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = popup_new_cities_callback;
@@ -793,7 +797,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Pop up city dialog for new cities"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -809,7 +813,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'popup new city window' */
   /* check box */
-  pTmpGui = create_checkbox(ask_city_name,
+  pTmpGui = create_checkbox(pWindow->dst, ask_city_name,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = ask_city_names_callback;
@@ -821,7 +825,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 			_("Prompt for city names"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -837,7 +841,8 @@ static int local_setting_callback(struct GUI *pWidget)
   /* 'auto turn done' */
 
   /* check box */
-  pTmpGui = create_checkbox(auto_turn_done, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  		auto_turn_done, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_turn_done_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -848,7 +853,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL,
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("End Turn when done moving"),	10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
@@ -864,7 +869,7 @@ static int local_setting_callback(struct GUI *pWidget)
   /* ------------------------- */
 
   pBeginOptionsWidgetList = pTmpGui;
-  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
   flush_rect(pWindow->size);
 
   return -1;
@@ -1066,7 +1071,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw map gird' */
   /* check box */
-  pTmpGui = create_checkbox(draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+		  draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = map_grid_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1077,7 +1083,8 @@ static int map_setting_callback(struct GUI *pWidget)
   add_to_gui_list(ID_OPTIONS_MAP_GRID_CHECKBOX, pTmpGui);
 
   /* 'sound befor new turn' label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Map Grid"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+						  _("Map Grid"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1092,7 +1099,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw city names' */
   /* check box */
-  pTmpGui = create_checkbox(draw_city_names, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+		  draw_city_names, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_city_names_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1103,7 +1111,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("City Names"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("City Names"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1118,7 +1127,7 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw city prod.' */
   /* check box */
-  pTmpGui = create_checkbox(draw_city_productions,
+  pTmpGui = create_checkbox(pWindow->dst, draw_city_productions,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_city_productions_callback;
@@ -1131,7 +1140,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* label */
   pTmpGui =
-      create_iconlabel_from_chars(NULL, _("City Production"), 10, 0);
+      create_iconlabel_from_chars(NULL, pWindow->dst,
+      					_("City Production"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1146,7 +1156,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw terrain' */
   /* check box */
-  pTmpGui = create_checkbox(draw_terrain, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_terrain, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_terrain_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1157,7 +1168,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Terrain"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Terrain"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1173,7 +1185,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw coast line' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_coastline, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_coastline, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_coastline_callback;
 
@@ -1187,7 +1200,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Coast outline"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  					_("Coast outline"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1202,7 +1216,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw specials' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_specials, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_specials, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_specials_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1214,7 +1229,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* label */
   pTmpGui =
-      create_iconlabel_from_chars(NULL, _("Special Resources"), 10, 0);
+      create_iconlabel_from_chars(NULL, pWindow->dst,
+      				_("Special Resources"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1230,7 +1246,7 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw pollutions' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_pollution, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst, draw_pollution, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_pollution_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1241,7 +1257,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Pollution"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Pollution"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1257,7 +1274,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw cities' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_cities, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst, 
+  				draw_cities, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_cities_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1268,7 +1286,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Cities"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Cities"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1284,7 +1303,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw units' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_units, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_units, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_units_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1295,7 +1315,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 3;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Units"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Units"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1311,7 +1332,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw fog of war' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fog_of_war_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1322,7 +1344,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 3;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Fog of War"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Fog of War"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1336,7 +1359,8 @@ static int map_setting_callback(struct GUI *pWidget)
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
 
   /* label inpr. */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Infrastructure"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  					_("Infrastructure"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1352,7 +1376,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw road / rails' */
   /* check box */
-  pTmpGui = create_checkbox(draw_roads_rails, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_roads_rails, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_roads_rails_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1363,7 +1388,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->size.y + pTmpGui->next->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Roads and Rails"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  					_("Roads and Rails"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1378,7 +1404,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw irrigations' */
   /* check box */
-  pTmpGui = create_checkbox(draw_irrigation, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst, 
+  			draw_irrigation, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_irrigation_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1389,7 +1416,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Irrigation"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  						_("Irrigation"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1405,7 +1433,8 @@ static int map_setting_callback(struct GUI *pWidget)
   /* 'draw mines' */
 
   /* check box */
-  pTmpGui = create_checkbox(draw_mines, WF_DRAW_THEME_TRANSPARENT);
+  pTmpGui = create_checkbox(pWindow->dst,
+  			draw_mines, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_mines_callback;
   set_wstate(pTmpGui, WS_NORMAL);
@@ -1416,7 +1445,7 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Mines"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(pWindow->dst, NULL, _("Mines"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1431,7 +1460,7 @@ static int map_setting_callback(struct GUI *pWidget)
 
   /* 'draw fortress / air bases' */
   /* check box */
-  pTmpGui = create_checkbox(draw_fortress_airbase,
+  pTmpGui = create_checkbox(pWindow->dst, draw_fortress_airbase,
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fortress_airbase_callback;
@@ -1443,8 +1472,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Fortress and Airbase"),
-					10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  		_("Fortress and Airbase"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1459,7 +1488,8 @@ static int map_setting_callback(struct GUI *pWidget)
 
 /* 'Civ3 / Classic CITY Text Style ' */
   /* check box */
-  pTmpGui = create_checkbox( ((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) > 0),
+  pTmpGui = create_checkbox(pWindow->dst,
+  	((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) > 0),
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_civ3_city_text_style_callback;
@@ -1471,8 +1501,8 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Civ3 city text style"),
-					10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, pWindow->dst,
+  		_("Civ3 city text style"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -1490,7 +1520,7 @@ static int map_setting_callback(struct GUI *pWidget)
   pBeginOptionsWidgetList = pTmpGui;
 
   /* redraw window group */
-  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
   flush_rect(pWindow->size);
 
   return -1;
@@ -1508,19 +1538,19 @@ static int disconnect_callback(struct GUI *pWidget)
     struct GUI *pOptions_Button =
 	get_widget_pointer_form_main_list(ID_CLIENT_OPTIONS);
     popdown_window_group_dialog(pBeginOptionsWidgetList,
-				pEndOptionsWidgetList, Main.gui);
+				pEndOptionsWidgetList);
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
 			  CF_TOGGLED_FULLSCREEN);
     /* hide buton */
     area = pOptions_Button->size;
-    SDL_BlitSurface(pOptions_Button->gfx, NULL, Main.gui, &area);
+    SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
     sdl_dirty_rect(pOptions_Button->size);
     
 #if 0
     /* hide "waiting for game start" label */
     pOptions_Button = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
     area = pOptions_Button->size;
-    SDL_BlitSurface(pOptions_Button->gfx, NULL, Main.gui, &area);
+    SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
     sdl_dirty_rect(pOptions_Button->size);
 #endif    
       
@@ -1541,7 +1571,7 @@ static int back_callback(struct GUI *pWidget)
     struct GUI *pOptions_Button =
 	get_widget_pointer_form_main_list(ID_CLIENT_OPTIONS);
     popdown_window_group_dialog(pBeginOptionsWidgetList,
-				pEndOptionsWidgetList, Main.gui);
+				pEndOptionsWidgetList);
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
 			  CF_TOGGLED_FULLSCREEN);
     if(aconnection.established) {
@@ -1566,7 +1596,7 @@ static int back_callback(struct GUI *pWidget)
   SDL_Client_Flags |= CF_OPTION_MAIN;
   SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
 
-  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
 
   flush_rect(pEndOptionsWidgetList->size);
 
@@ -1597,7 +1627,7 @@ void popup_optiondlg(void)
 
   /* create window widget */
   pTmp_GUI =
-      create_window(create_str16_from_char(_("Options"), 12), w, h, 0);
+      create_window(Main.gui, create_str16_from_char(_("Options"), 12), w, h, 0);
   pTmp_GUI->string16->style |= TTF_STYLE_BOLD;
   pTmp_GUI->size.x = start_x;
   pTmp_GUI->size.y = start_y;
@@ -1614,17 +1644,18 @@ void popup_optiondlg(void)
 
   /* create exit button */
   pTmp_GUI = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-						_("Quit"), 12, 0);
+				pTmp_GUI->dst, _("Quit"), 12, 0);
   pTmp_GUI->size.x = start_x + w - pTmp_GUI->size.w - 10;
   pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
   /* pTmp_GUI->action = exit_callback; */
+  pTmp_GUI->key = SDLK_q;
   set_wstate(pTmp_GUI, WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pTmp_GUI);
 
   /* create disconnection button */
   if(aconnection.established) {
     pTmp_GUI = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-						_("Disconnect"), 12, 0);
+				pTmp_GUI->dst, _("Disconnect"), 12, 0);
     pTmp_GUI->size.x = start_x + (w - pTmp_GUI->size.w) / 2;
     pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
     pTmp_GUI->action = disconnect_callback;
@@ -1634,10 +1665,11 @@ void popup_optiondlg(void)
   
   /* create back button */
   pTmp_GUI = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-						_("Back"), 12, 0);
+				pTmp_GUI->dst, _("Back"), 12, 0);
   pTmp_GUI->size.x = start_x + 10;
   pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
   pTmp_GUI->action = back_callback;
+  pTmp_GUI->key = SDLK_ESCAPE;
   set_wstate(pTmp_GUI, WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pTmp_GUI);
   pBeginCoreOptionsWidgetList = pTmp_GUI;
@@ -1646,7 +1678,7 @@ void popup_optiondlg(void)
 
   /* create video button widget */
   pTmp_GUI = create_icon_button_from_chars(NULL,
-					   _("Video options"), 12, 0);
+			pTmp_GUI->dst, _("Video options"), 12, 0);
   pTmp_GUI->size.y = start_y + 60;
   pTmp_GUI->action = video_callback;
   set_wstate(pTmp_GUI, WS_NORMAL);
@@ -1658,7 +1690,7 @@ void popup_optiondlg(void)
 
   /* create sound button widget */
   pTmp_GUI = create_icon_button_from_chars(NULL,
-					   _("Sound options"), 12, 0);
+				pTmp_GUI->dst, _("Sound options"), 12, 0);
   pTmp_GUI->size.y = start_y + 90;
   pTmp_GUI->action = sound_callback;
   /* set_wstate( pTmp_GUI, WS_NORMAL ); */
@@ -1670,7 +1702,8 @@ void popup_optiondlg(void)
 
   /* create local button widget */
   pTmp_GUI =
-      create_icon_button_from_chars(NULL, _("Game options"), 12, 0);
+      create_icon_button_from_chars(NULL, pTmp_GUI->dst,
+				      _("Game options"), 12, 0);
   pTmp_GUI->size.y = start_y + 120;
   pTmp_GUI->action = local_setting_callback;
   set_wstate(pTmp_GUI, WS_NORMAL);
@@ -1680,7 +1713,8 @@ void popup_optiondlg(void)
   add_to_gui_list(ID_OPTIONS_LOCAL_BUTTON, pTmp_GUI);
 
   /* create map button widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, _("Map options"), 12, 0);
+  pTmp_GUI = create_icon_button_from_chars(NULL,
+				  pTmp_GUI->dst, _("Map options"), 12, 0);
   pTmp_GUI->size.y = start_y + 150;
   pTmp_GUI->action = map_setting_callback;
   set_wstate(pTmp_GUI, WS_NORMAL);
@@ -1691,7 +1725,8 @@ void popup_optiondlg(void)
 
 
   /* create work lists widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, _("Worklists"), 12, 0);
+  pTmp_GUI = create_icon_button_from_chars(NULL, 
+  				pTmp_GUI->dst, _("Worklists"), 12, 0);
   pTmp_GUI->size.y = start_y + 180;
   pTmp_GUI->action = work_lists_callback;
   /*set_wstate( pTmp_GUI, WS_NORMAL ); */
@@ -1713,7 +1748,7 @@ void popup_optiondlg(void)
   } while (pTmp_GUI != pBeginCoreOptionsWidgetList);
 
   /* draw window group */
-  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, Main.gui,0);
+  redraw_group(pBeginOptionsWidgetList, pEndOptionsWidgetList, 0);
 
   flush_rect(pEndOptionsWidgetList->size);
 
@@ -1730,7 +1765,7 @@ void podown_optiondlg(void)
 {
   if (SDL_Client_Flags & CF_OPTION_OPEN) {
     popdown_window_group_dialog(pBeginOptionsWidgetList,
-				pEndOptionsWidgetList, Main.gui);
+				pEndOptionsWidgetList);
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
 			  CF_TOGGLED_FULLSCREEN);
     flush_dirty();

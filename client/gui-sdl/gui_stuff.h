@@ -99,11 +99,12 @@ struct GUI {
   struct GUI *next;
   struct GUI *prev;
   int (*action) (struct GUI *);	/* defalut callback action */
+  SDL_Surface *dst;  		/* destination buffer layer */
   SDL_Surface *theme;
   SDL_Surface *gfx;		/* Icon, background or theme2 */
   SDL_String16 *string16;
   
-  void *data;
+  void *data;			/* data/information/transport pointer */
   
   Uint32 state_types_flags;	/* "packed" widget info */
 
@@ -145,6 +146,11 @@ void move_widget_to_front_of_gui_list(struct GUI *pGUI);
 void del_gui_list(struct GUI *pGUI_List);
 void del_main_list(void);
 
+void lock_buffer(SDL_Surface *pBuffer);
+void unlock_buffer(void);
+SDL_Surface * get_locked_buffer(void);
+void remove_locked_buffer(void);
+
 struct GUI *WidgetListScaner(const struct GUI *pGUI_List,
 			     SDL_MouseMotionEvent *pPosition);
 struct GUI *MainWidgetListScaner(SDL_MouseMotionEvent *pPosition);
@@ -165,7 +171,7 @@ void draw_widget_info_label(void);
 /* Group */
 Uint16 redraw_group(const struct GUI *pBeginGroupWidgetList,
 		    const struct GUI *pEndGroupWidgetList,
-		    SDL_Surface *pDest, int add_to_update);
+		    int add_to_update);
 		    
 void set_new_group_start_pos(const struct GUI *pBeginGroupWidgetList,
 			     const struct GUI *pEndGroupWidgetList,
@@ -184,16 +190,18 @@ void show_group(struct GUI *pBeginGroupWidgetList,
 void hide_group(struct GUI *pBeginGroupWidgetList,
 		struct GUI *pEndGroupWidgetList);
 
-int redraw_widget(struct GUI *pWidget , SDL_Surface *pDest);
+int redraw_widget(struct GUI *pWidget);
 
 /* Window Group */
 void popdown_window_group_dialog(struct GUI *pBeginGroupWidgetList,
-				 struct GUI *pEndGroupWidgetList,
-				   SDL_Surface *pDest);
+				 struct GUI *pEndGroupWidgetList);
 
-int move_window_group_dialog(struct GUI *pBeginGroupWidgetList,
-			     struct GUI *pEndGroupWidgetList,
-			       SDL_Surface *pDest);
+bool sellect_window_group_dialog(struct GUI *pBeginWidgetList,
+				struct GUI *pWindow);
+bool move_window_group_dialog(struct GUI *pBeginGroupWidgetList,
+			     struct GUI *pEndGroupWidgetList);
+int std_move_window_group_callback(struct GUI *pBeginWidgetList,
+				struct GUI *pWindow);
 
 /* Vertic scrolling */
 struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
@@ -220,87 +228,90 @@ void up_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
 void set_new_icon_theme(struct GUI *pIcon_Widget,
 			SDL_Surface *pNew_Theme);
 SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon);
-struct GUI *create_themeicon(SDL_Surface *pIcon_theme, Uint32 flags);
+struct GUI *create_themeicon(SDL_Surface *pIcon_theme,
+			  SDL_Surface *pDest ,Uint32 flags);
 SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme,
 				    Uint8 state);
 int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
 			 SDL_Surface *pDest, Sint16 start_x,
 			 Sint16 start_y);
-int real_redraw_icon(struct GUI *pIcon, SDL_Surface *pDest);
+int real_redraw_icon(struct GUI *pIcon);
 int draw_icon(struct GUI *pIcon, Sint16 start_x, Sint16 start_y);
 
 /* ICON2 */
-int real_redraw_icon2(struct GUI *pIcon, SDL_Surface *pDest);
-struct GUI *create_icon2(SDL_Surface *pIcon, Uint32 flags);
+void set_new_icon2_theme(struct GUI *pIcon_Widget, SDL_Surface *pNew_Theme,
+			  bool free_old_theme);
+int real_redraw_icon2(struct GUI *pIcon);
+struct GUI *create_icon2(SDL_Surface *pIcon, SDL_Surface *pDest, Uint32 flags);
 
 /* BUTTON */
-struct GUI *create_icon_button(SDL_Surface *pIcon, SDL_String16 *pString,
-			       Uint32 flags);
+struct GUI *create_icon_button(SDL_Surface *pIcon,
+	  SDL_Surface *pDest, SDL_String16 *pString, Uint32 flags);
 
 struct GUI *create_themeicon_button(SDL_Surface *pIcon_theme,
-				    SDL_String16 *pString, Uint32 flags);
+		SDL_Surface *pDest, SDL_String16 *pString, Uint32 flags);
 
-int real_redraw_ibutton(struct GUI *pTIButton, SDL_Surface *pDest);
-int real_redraw_tibutton(struct GUI *pTIButton, SDL_Surface *pDest);
+int real_redraw_ibutton(struct GUI *pTIButton);
+int real_redraw_tibutton(struct GUI *pTIButton);
 
 int draw_tibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y);
 int draw_ibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y);
 
 /* EDIT */
-struct GUI *create_edit(SDL_Surface *pBackground,
+struct GUI *create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
 			SDL_String16 *pString16, Uint16 lenght,
 			Uint32 flags);
-void edit_field(struct GUI *pEdit_Widget , SDL_Surface *pDest);
-int redraw_edit(struct GUI *pEdit_Widget , SDL_Surface *pDest);
+void edit_field(struct GUI *pEdit_Widget);
+int redraw_edit(struct GUI *pEdit_Widget);
 
 int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y);
 
 /* VERTICAL */
-struct GUI *create_vertical(SDL_Surface *pVert_theme, Uint16 high,
-			    Uint32 flags);
-int redraw_vert(struct GUI *pVert , SDL_Surface *pDest);
-void draw_vert(struct GUI *pVert, Sint16 x, Sint16 y);
+struct GUI *create_vertical(SDL_Surface *pVert_theme, SDL_Surface *pDest,
+  				Uint16 high, Uint32 flags);
+int redraw_vert(struct GUI *pVert);
+int draw_vert(struct GUI *pVert, Sint16 x, Sint16 y);
 
 /* HORIZONTAL */
-struct GUI *create_horizontal(SDL_Surface *pHoriz_theme, Uint16 width,
-			      Uint32 flags);
-int redraw_horiz(struct GUI *pHoriz, SDL_Surface *pDest);
-void draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y);
+struct GUI *create_horizontal(SDL_Surface *pHoriz_theme, SDL_Surface *pDest,
+  			Uint16 width, Uint32 flags);
+int redraw_horiz(struct GUI *pHoriz);
+int draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y);
 
 /* WINDOW */
-struct GUI *create_window(SDL_String16 *pTitle, Uint16 w, Uint16 h,
-			  Uint32 flags);
+struct GUI *create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
+	  Uint16 w, Uint16 h, Uint32 flags);
 
 int resize_window(struct GUI *pWindow, SDL_Surface *pBcgd,
 		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
 
-int redraw_window(struct GUI *pWindow, SDL_Surface *pDest);
-int move_window(struct GUI *pWindow , SDL_Surface *pDest);
+int redraw_window(struct GUI *pWindow);
+int move_window(struct GUI *pWindow);
 
 /* misc */
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
 		Uint16 w, Uint16 h);
-void refresh_widget_background(struct GUI *pWidget, SDL_Surface *pSrc);
+void refresh_widget_background(struct GUI *pWidget);
 void draw_menubuttons(struct GUI *pFirstButtonOnList);
 
 /* LABEL */
-struct GUI *create_themelabel(SDL_Surface *pBackground,
+struct GUI *create_themelabel(SDL_Surface *pBackground, SDL_Surface *pDest,
 			      SDL_String16 *pText, Uint16 w, Uint16 h,
 			      Uint32 flags);
-struct GUI *create_iconlabel(SDL_Surface *pIcon, SDL_String16 *pText,
-			     Uint32 flags);
+struct GUI *create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest, 
+  	SDL_String16 *pText, Uint32 flags);
 int draw_label(struct GUI *pLabel, Sint16 start_x, Sint16 start_y);
 
-int redraw_label(struct GUI *pLabel , SDL_Surface *pDest);
+int redraw_label(struct GUI *pLabel);
 void remake_label_size(struct GUI *pLabel);
 
 /* CHECKBOX */
-struct GUI *create_textcheckbox(bool state, SDL_String16 *pStr,
-				Uint32 flags);
-struct GUI *create_checkbox(bool state, Uint32 flags);
+struct GUI *create_textcheckbox(SDL_Surface *pDest, bool state,
+			  SDL_String16 *pStr, Uint32 flags);
+struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags);
 void togle_checkbox(struct GUI *pCBox);
 bool get_checkbox_state(struct GUI *pCBox);
-int redraw_textcheckbox(struct GUI *pCBox, SDL_Surface *pDest);
+int redraw_textcheckbox(struct GUI *pCBox);
 
 #define set_wstate(pWidget, state)		\
 do {						\
@@ -351,7 +362,7 @@ do {						\
 	redraw_widget(get_widget_pointer_form_main_list(ID))
 
 #define refresh_ID_background(ID) \
-	refresh_widget_background(get_widget_pointer_form_main_list(ID), Main.gui)
+	refresh_widget_background(get_widget_pointer_form_main_list(ID))
 
 #define del_widget_from_gui_list(__pGUI)	\
 do {						\
@@ -414,47 +425,47 @@ do {								\
   set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
 /* BUTTON */
-#define create_icon_button_from_unichar(pIcon, pUniChar, iPtsize, flags) \
-	create_icon_button(pIcon, create_string16(pUniChar, iPtsize), flags)
+#define create_icon_button_from_unichar(pIcon, pDest, pUniChar, iPtsize, flags) \
+	create_icon_button(pIcon, pDest, create_string16(pUniChar, iPtsize), flags)
 
-#define create_icon_button_from_chars(pIcon, pCharString, iPtsize, flags) \
-	create_icon_button(pIcon,                                         \
+#define create_icon_button_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
+	create_icon_button(pIcon, pDest,                                        \
 			   create_str16_from_char(pCharString, iPtsize),  \
 			   flags)
 
-#define create_themeicon_button_from_unichar(pIcon_theme, pUniChar, iPtsize, flags) \
-	create_themeicon_button(pIcon, create_string16(pUniChar, iPtsize), \
+#define create_themeicon_button_from_unichar(pIcon_theme, pDest, pUniChar, iPtsize, flags) \
+	create_themeicon_button(pIcon, pDest, create_string16(pUniChar, iPtsize), \
 				flags)
 
-#define create_themeicon_button_from_chars(pIcon_theme, pCharString, iPtsize, flags) \
-	create_themeicon_button(pIcon_theme,                        \
+#define create_themeicon_button_from_chars(pIcon_theme, pDest, pCharString, iPtsize, flags) \
+	create_themeicon_button(pIcon_theme, pDest,                 \
 				create_str16_from_char(pCharString, \
 						       iPtsize),    \
 				flags)
 
 #define redraw_tibutton(pButton)	\
-	real_redraw_tibutton(pButton, Main.gui)
+	real_redraw_tibutton(pButton)
 
 #define redraw_ibutton(pButton)	\
-	real_redraw_ibutton(pButton, Main.gui)
+	real_redraw_ibutton(pButton)
 
 /* EDIT */
-#define create_edit_from_chars(pBackground, pCharString, iPtsize, length, flags)                                                                 \
-	create_edit(pBackground,                                  \
+#define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags)                                                                 \
+	create_edit(pBackground, pDest,                                 \
 		    create_str16_from_char(pCharString, iPtsize), \
 		    length, flags)
 
-#define create_edit_from_unichars(pBackground, pUniChar, iPtsize, length, flags) \
-	create_edit(pBackground, create_string16(pUniChar, iPtsize), length, flags )
+#define create_edit_from_unichars(pBackground, pDest, pUniChar, iPtsize, length, flags) \
+	create_edit(pBackground, pDest, create_string16(pUniChar, iPtsize), length, flags )
 
-#define edit(pEdit, pDest) edit_field(pEdit , pDest)
+#define edit(pEdit) edit_field(pEdit)
 
 #define draw_frame_inside_widget_on_surface(pWidget , pDest)		\
 	draw_frame(pDest, pWidget->size.x, pWidget->size.y,		\
 				pWidget->size.w, pWidget->size.h)
 
 #define draw_frame_inside_widget(pWidget)				\
-	draw_frame_inside_widget_on_surface(pWidget , Main.gui)
+	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst)
 
 #define draw_frame_around_widget_on_surface(pWidget , pDest)		\
 	draw_frame(pDest, pWidget->size.x - FRAME_WH,			\
@@ -463,17 +474,17 @@ do {								\
 				pWidget->size.h + DOUBLE_FRAME_WH)
 
 #define draw_frame_around_widget(pWidget)				\
-	draw_frame_around_widget_on_surface(pWidget , Main.gui)
+	draw_frame_around_widget_on_surface(pWidget , pWidget->dst)
 
 /* ICON */
 #define redraw_icon(pIcon)	\
-	real_redraw_icon(pIcon, Main.gui)
+	real_redraw_icon(pIcon)
 
 #define redraw_icon2(pIcon)	\
-	real_redraw_icon2(pIcon, Main.gui)
+	real_redraw_icon2(pIcon)
 
 /* LABEL */
-#define create_iconlabel_from_chars(pIcon, pCharString, iPtsize, flags) \
-	create_iconlabel(pIcon, create_str16_from_char(pCharString, iPtsize), flags)
+#define create_iconlabel_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
+	create_iconlabel(pIcon, pDest, create_str16_from_char(pCharString, iPtsize), flags)
 
-#endif				/* FC__GUI_STUFF_H */
+#endif	/* FC__GUI_STUFF_H */

@@ -74,7 +74,7 @@ static int connect_callback(struct GUI *pWidget)
 			errbuf, sizeof(errbuf)) != -1) {
 			  
     /* clear dlg area */			  
-    SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
+    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
     sdl_dirty_rect(*((SDL_Rect *)pWidget->data));
     FREE(pWidget->data);
 			  
@@ -93,7 +93,7 @@ static int connect_callback(struct GUI *pWidget)
     pSellected_Widget->size.y = 5;
     set_wstate(pSellected_Widget, WS_NORMAL);
     clear_wflag(pSellected_Widget, WF_HIDDEN);
-    real_redraw_icon( pSellected_Widget , Main.gui );
+    real_redraw_icon(pSellected_Widget);
 
     if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
       flush_dirty();
@@ -146,7 +146,7 @@ static int meta_severs_window_callback(struct GUI *pWindow)
 static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
 {
   popdown_window_group_dialog(pMeta_Severs->pBeginWidgetList,
-				  pMeta_Severs->pEndWidgetList, Main.gui);
+				  pMeta_Severs->pEndWidgetList);
   FREE(pMeta_Severs->pScroll);
   FREE(pMeta_Severs);
   flush_dirty();
@@ -206,7 +206,7 @@ static int vscroll_meta_severs_callback(struct GUI *pVscrollBar)
   unsellect_widget_action();
   set_wstate(pVscrollBar, WS_SELLECTED);
   pSellected_Widget = pVscrollBar;
-  redraw_vert(pVscrollBar, Main.screen);
+  redraw_vert(pVscrollBar);
   flush_rect(pVscrollBar->size);
   return -1;
 }
@@ -220,7 +220,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   char cBuf[512];
   int w = 0, h = 0, count = 0, meta_h;
   struct GUI *pBuf, *pWindow;
-  SDL_Surface *pLogo;
+  SDL_Surface *pLogo , *pDest = pWidget->dst;
   SDL_Color col = {255, 255, 255, 128};
   SDL_Rect area;
   
@@ -229,7 +229,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   }
   
   /* clear dlg area */			  
-  SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
+  SDL_FillRect(pDest, (SDL_Rect *)pWidget->data, 0x0);
   flush_rect(*((SDL_Rect *)pWidget->data));
   FREE(pWidget->data);
 			  
@@ -252,7 +252,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   
   pMeta_Severs = MALLOC(sizeof(struct ADVANCED_DLG));
     
-  pWindow = create_window(NULL, 10 , 10 , 0);
+  pWindow = create_window(pDest, NULL, 10, 10, 0);
   pWindow->action = meta_severs_window_callback;
   set_wstate(pWindow, WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
@@ -260,7 +260,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   add_to_gui_list(ID_WINDOW, pWindow);
   pMeta_Severs->pEndWidgetList = pWindow;
   /* ---------------------- */
-  pBuf = create_themeicon_button_from_chars(pTheme->META_Icon,
+  pBuf = create_themeicon_button_from_chars(pTheme->META_Icon, pWindow->dst,
 					_("Refresh"), 14, 0);
 					
   /*pBuf->action = refresh_meta_severs_callback;*/
@@ -269,7 +269,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------------ */
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), 14, 0);
   pBuf->action = exit_meta_severs_dlg_callback;
   set_wstate(pBuf, WS_NORMAL);
@@ -282,7 +282,7 @@ static int meta_severs_callback(struct GUI *pWidget)
     	pServer->name, pServer->port, pServer->version, _(pServer->status),
     		_("Players"), pServer->players, pServer->metastring);
 
-    pBuf = create_iconlabel_from_chars(NULL, cBuf, 10,
+    pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 10,
 		WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
     
     pBuf->action = sellect_meta_severs_callback;
@@ -309,7 +309,7 @@ static int meta_severs_callback(struct GUI *pWidget)
     meta_h = 10 * h;
        
     /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, NULL, 0);
+    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
 
     pBuf->action = up_meta_severs_callback;
@@ -318,7 +318,8 @@ static int meta_severs_callback(struct GUI *pWidget)
     add_to_gui_list(ID_BUTTON, pBuf);
       
     /* create vsrollbar */
-    pBuf = create_vertical(pTheme->Vertic, 50, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
+				    50, WF_DRAW_THEME_TRANSPARENT);
        
     set_wstate(pBuf, WS_NORMAL);
     pBuf->action = vscroll_meta_severs_callback;
@@ -326,7 +327,7 @@ static int meta_severs_callback(struct GUI *pWidget)
     add_to_gui_list(ID_SCROLLBAR, pBuf);
 
     /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, NULL, 0);
+    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
        
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
 
@@ -352,11 +353,11 @@ static int meta_severs_callback(struct GUI *pWidget)
   
   meta_h += pMeta_Severs->pEndWidgetList->prev->size.h + 10 + 20;
   
-  pWindow->size.x = (Main.gui->w - w) /2;
-  pWindow->size.y = (Main.gui->h - meta_h) /2;
+  pWindow->size.x = (pWindow->dst->w - w) /2;
+  pWindow->size.y = (pWindow->dst->h - meta_h) /2;
   
   pLogo = get_logo_gfx();
-  if (resize_window( pWindow , pLogo , NULL , w , meta_h )) {
+  if (resize_window(pWindow , pLogo , NULL , w , meta_h )) {
     FREESURFACE(pLogo);
   }
   
@@ -438,19 +439,19 @@ static int meta_severs_callback(struct GUI *pWidget)
   /* -------------------- */
   /* redraw */
   
-  redraw_window(pWindow, Main.gui);
+  redraw_window(pWindow);
   
   area.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area.y = pMeta_Severs->pEndActiveWidgetList->size.y;
   
-  SDL_FillRectAlpha(Main.gui, &area, &col);
+  SDL_FillRectAlpha(pWindow->dst, &area, &col);
   
-  putframe(Main.gui, area.x - 1, area.y - 1, 
+  putframe(pWindow->dst, area.x - 1, area.y - 1, 
   		area.x + area.w , area.y + area.h , 0xff000000);
   
-  redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, Main.gui,0);
+  redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
-  putframe(Main.gui, pWindow->size.x , pWindow->size.y , 
+  putframe(pWindow->dst, pWindow->size.x , pWindow->size.y , 
   		pWindow->size.x + pWindow->size.w - 1,
   		pWindow->size.y + pWindow->size.h - 1,
   		0xffffffff);
@@ -498,7 +499,7 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
   
   struct GUI *pEnd = pWidget->next->next->next->next->next;
     
-  SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
+  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
   
   FREE(pWidget->data);
   
@@ -520,7 +521,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   SDL_String16 *pServer_name = NULL;
   SDL_String16 *pPort_nr = NULL;
   SDL_Color color = {255, 255, 255, 255};
-  SDL_Surface *pLogo, *pTmp;
+  SDL_Surface *pLogo, *pTmp, *pDest;
   SDL_Rect *area = MALLOC(sizeof(SDL_Rect));
   
   int start_x, start_y;
@@ -532,12 +533,15 @@ static int popup_join_game_callback(struct GUI *pWidget)
   
   if(pWidget) {
     /* popdown start buttons */  
-    SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
+    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
   
     FREE(pWidget->data);
   
     del_group_of_widgets_from_gui_list(pWidget->prev->prev,
   					pWidget->next->next);
+    pDest = pWidget->dst;
+  } else {
+    pDest = Main.gui;
   }
   /* -------------------------- */
 
@@ -553,7 +557,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   /* ====================== INIT =============================== */
   my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
 
-  pConnect = create_themeicon_button_from_chars(pTheme->OK_Icon,
+  pConnect = create_themeicon_button_from_chars(pTheme->OK_Icon, pDest,
 						     _("Connect"), 14, 0);
 
   pConnect->action = connect_callback;
@@ -563,7 +567,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   add_to_gui_list(ID_CONNECT_BUTTON, pConnect);
   /* ------------------------------ */
 
-  pMeta = create_themeicon_button_from_chars(pTheme->META_Icon,
+  pMeta = create_themeicon_button_from_chars(pTheme->META_Icon, pDest,
 					_("Metaserver"), 14, 0);
 					
   pMeta->action = meta_severs_callback;
@@ -573,7 +577,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   add_to_gui_list(ID_META_SERVERS_BUTTON, pMeta);
   /* ------------------------------ */
   
-  pCancel = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+  pCancel = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pDest,
 						     _("Cancel"), 14, 0);
   pCancel->action = cancel_connect_dlg_callback;
   pCancel->data = (void *)area;
@@ -582,7 +586,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   
   /* ------------------------------ */
 
-  pUser = create_edit_from_chars(NULL, player_name, 14, 210,
+  pUser = create_edit_from_chars(NULL, pDest, player_name, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
   pUser->action = convert_playername_callback;
   set_wstate(pUser, WS_NORMAL);
@@ -590,7 +594,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 
   /* ------------------------------ */
   
-  pServer = create_edit_from_chars(NULL, server_host, 14, 210,
+  pServer = create_edit_from_chars(NULL, pDest, server_host, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
 
   pServer->action = convert_servername_callback;
@@ -599,7 +603,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 
   /* ------------------------------ */
 
-  pPort = create_edit_from_chars(NULL, pCharPort, 14, 210,
+  pPort = create_edit_from_chars(NULL, pDest, pCharPort, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
 					 
   pPort->action = convert_portnr_callback;
@@ -613,12 +617,12 @@ static int popup_join_game_callback(struct GUI *pWidget)
   pTmp = ResizeSurface(pLogo, 400, 250, 1);
   FREESURFACE(pLogo);
   
-  area->x = (Main.gui->w - 400)/ 2;
-  area->y = (Main.gui->h - 250)/ 2 + 40;
-  SDL_BlitSurface(pTmp, NULL, Main.gui, area);
+  area->x = (pUser->dst->w - 400)/ 2;
+  area->y = (pUser->dst->h - 250)/ 2 + 40;
+  SDL_BlitSurface(pTmp, NULL, pUser->dst, area);
   FREESURFACE(pTmp);
 
-  putframe(Main.gui, area->x, area->y, area->x + 399, area->y + 249, 0xffffffff);
+  putframe(pUser->dst, area->x, area->y, area->x + 399, area->y + 249, 0xffffffff);
 
   area->w = 400;
   area->h = 250;
@@ -627,12 +631,12 @@ static int popup_join_game_callback(struct GUI *pWidget)
   start_x = area->x + (area->w - pUser->size.w) / 2;
   start_y = area->y + 35;
   
-  write_text16(Main.gui, start_x + 5, start_y - 13, pPlayer_name);
+  write_text16(pUser->dst, start_x + 5, start_y - 13, pPlayer_name);
   draw_edit(pUser, start_x, start_y);
-  write_text16(Main.gui, start_x + 5, start_y - 13 + 15 +
+  write_text16(pUser->dst, start_x + 5, start_y - 13 + 15 +
 	       pUser->size.h, pServer_name);
   draw_edit(pServer, start_x, start_y + 15 + pUser->size.h);
-  write_text16(Main.gui, start_x + 5, start_y - 13 + 30 +
+  write_text16(pUser->dst, start_x + 5, start_y - 13 + 30 +
 	       pUser->size.h + pServer->size.h, pPort_nr);
   draw_edit(pPort, start_x,
 	    start_y + 30 + pUser->size.h + pServer->size.h);
@@ -684,7 +688,7 @@ static int popup_option_callback(struct GUI *pWidget)
 {
   struct GUI *pEnd = pWidget->next->next->next;
     
-  SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
+  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
   
   flush_rect(*((SDL_Rect *)pWidget->data));
   FREE(pWidget->data);
@@ -709,7 +713,7 @@ void gui_server_connect(void)
   SDL_Color col = {255, 255, 255, 128};
   
   pFirst = pBuf =
-	create_iconlabel_from_chars(NULL, _("Start New Game"), 14,
+	create_iconlabel_from_chars(NULL, Main.gui, _("Start New Game"), 14,
 						  WF_DRAW_THEME_TRANSPARENT);
   
   /*pBuf->action = popup_start_new_game_callback;*/
@@ -721,7 +725,7 @@ void gui_server_connect(void)
   h = MAX(h , pBuf->size.h);
   add_to_gui_list(ID_START_NEW_GAME, pBuf);
   
-  pBuf = create_iconlabel_from_chars(NULL, _("Load Game"), 14,
+  pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Load Game"), 14,
 		WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   /*pBuf->action = popup_load_game_callback;*/
   pBuf->string16->forecol.r = 128;
@@ -732,7 +736,7 @@ void gui_server_connect(void)
   h = MAX(h , pBuf->size.h);
   add_to_gui_list(ID_LOAD_GAME, pBuf);
   
-  pBuf = create_iconlabel_from_chars(NULL, _("Join Game"), 14,
+  pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Join Game"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = popup_join_game_callback;
   
@@ -742,7 +746,7 @@ void gui_server_connect(void)
   h = MAX(h , pBuf->size.h);
   add_to_gui_list(ID_JOIN_GAME, pBuf);
   
-  pBuf = create_iconlabel_from_chars(NULL, _("Options"), 14,
+  pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Options"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = popup_option_callback;
   
@@ -751,7 +755,7 @@ void gui_server_connect(void)
   set_wstate(pBuf, WS_NORMAL);
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pBuf);
   
-  pLast = pBuf = create_iconlabel_from_chars(NULL, _("Quit"), 14,
+  pLast = pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Quit"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = quit_callback;
   
@@ -763,8 +767,8 @@ void gui_server_connect(void)
   w+=30;
   h+=6;
   
-  pFirst->size.x = (Main.gui->w - w) - 20;
-  pFirst->size.y = (Main.gui->h - (h * 5)) -20;
+  pFirst->size.x = (pFirst->dst->w - w) - 20;
+  pFirst->size.y = (pFirst->dst->h - (h * 5)) -20;
   pFirst->size.w = w;
   pFirst->size.h = h;
   pBuf = pFirst->prev;
@@ -795,14 +799,14 @@ void gui_server_connect(void)
   pTmp = ResizeSurface(pLogo, pArea->w, pArea->h , 1);
   FREESURFACE(pLogo);
   
-  blit_entire_src(pTmp, Main.gui, pArea->x , pArea->y );
+  blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y );
   FREESURFACE(pLogo);
     
-  SDL_FillRectAlpha(Main.gui, pArea, &col );
+  SDL_FillRectAlpha(pFirst->dst, pArea, &col );
   
-  redraw_group(pLast, pFirst, Main.gui, 0);
+  redraw_group(pLast, pFirst, 0);
   
-  draw_frame(Main.gui, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
+  draw_frame(pFirst->dst, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
   	w + DOUBLE_FRAME_WH, (h*5) + DOUBLE_FRAME_WH);
 
   flush_all();

@@ -41,6 +41,7 @@
 #include "colors.h"
 
 #include "mapview.h"
+#include "mapctrl.h"
 #include "dialogs.h"
 #include "tilespec.h"
 
@@ -51,21 +52,23 @@
 /* ====================================================================== */
 static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
 
-static int find_city_window_dlg_callback( struct GUI *pWindow )
+static int find_city_window_dlg_callback(struct GUI *pWindow)
 {
-  return -1;
+  return std_move_window_group_callback(pFind_City_Dlg->pBeginWidgetList,
+								  pWindow);
 }
 
-static int exit_find_city_dlg_callback( struct GUI *pWidget )
+static int exit_find_city_dlg_callback(struct GUI *pWidget)
 {
   int orginal_x = ((struct map_position *)pWidget->data)->x;
   int orginal_y = ((struct map_position *)pWidget->data)->y;
       
   popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
-			pFind_City_Dlg->pEndWidgetList, Main.gui);
+			pFind_City_Dlg->pEndWidgetList);
 				   
   FREE(pFind_City_Dlg->pScroll);
   FREE(pFind_City_Dlg);
+  enable_and_redraw_find_city_button();
   
   center_tile_mapcanvas(orginal_x, orginal_y);
   
@@ -123,7 +126,7 @@ static int vscroll_find_city_dlg_callback(struct GUI *pVscrollBar)
   unsellect_widget_action();
   set_wstate(pVscrollBar, WS_SELLECTED);
   pSellected_Widget = pVscrollBar;
-  redraw_vert(pVscrollBar, Main.screen);
+  redraw_vert(pVscrollBar);
   flush_rect(pVscrollBar->size);
   return -1;
 }
@@ -135,7 +138,7 @@ void popdown_find_dialog(void)
 {
   if (pFind_City_Dlg) {
     popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
-			pFind_City_Dlg->pEndWidgetList, Main.gui);	   
+			pFind_City_Dlg->pEndWidgetList);
     FREE(pFind_City_Dlg->pScroll);
     FREE(pFind_City_Dlg);
     flush_dirty();
@@ -166,7 +169,7 @@ void popup_find_dialog(void)
   pStr = create_str16_from_char(_("Find City") , 12);
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(pStr , 10 , 10 , WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
     
   pWindow->action = find_city_window_dlg_callback;
   set_wstate(pWindow , WS_NORMAL);
@@ -176,9 +179,9 @@ void popup_find_dialog(void)
   pFind_City_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon ,
+  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
 			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1) ,
+			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   		(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   SDL_SetColorKey(pBuf->theme ,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
@@ -208,14 +211,14 @@ void popup_find_dialog(void)
         pLogo = make_flag_surface_smaler(pLogo);
         owner = pCity->owner;
       }
-      pBuf = create_iconlabel( pLogo , pStr , 
+      pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
     	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->forecol =
 	    *(get_game_colorRGB(player_color(get_player(pCity->owner))));
-      /*pBuf->string16->render = 3;
-      pBuf->string16->backcol.unused = 128;*/
+      pBuf->string16->render = 3;
+      pBuf->string16->backcol.unused = 128;
     
       pBuf->data = (void *)pCity;
   
@@ -247,7 +250,7 @@ void popup_find_dialog(void)
     units_h = 20 * pBuf->size.h + WINDOW_TILE_HIGH + 3 + FRAME_WH;
        
     /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, NULL, 0);
+    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
 
     pBuf->action = up_find_city_dlg_callback;
@@ -256,7 +259,8 @@ void popup_find_dialog(void)
     add_to_gui_list(ID_UNIT_SELLECT_DLG_UP_BUTTON, pBuf);
       
     /* create vsrollbar */
-    pBuf = create_vertical(pTheme->Vertic, 50, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
+				    50, WF_DRAW_THEME_TRANSPARENT);
        
     set_wstate(pBuf, WS_NORMAL);
     pBuf->action = vscroll_find_city_dlg_callback;
@@ -264,7 +268,7 @@ void popup_find_dialog(void)
     add_to_gui_list(ID_UNIT_SELLECT_DLG_VSCROLLBAR, pBuf);
 
     /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, NULL, 0);
+    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
       
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
 
@@ -292,7 +296,7 @@ void popup_find_dialog(void)
   h = units_h;
   
   pWindow->size.x = 10;
-  pWindow->size.y = (Main.gui->h - h) / 2;
+  pWindow->size.y = (pWindow->dst->h - h) / 2;
 #if 0  
   pLogo = get_logo_gfx();  
   if(resize_window( pWindow , pLogo , NULL , w , h )) {
@@ -300,9 +304,12 @@ void popup_find_dialog(void)
   }
   SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
 #endif
+/*
   resize_window(pWindow , NULL,
 	  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-	  
+*/  
+  resize_window(pWindow , NULL, NULL, w, h);
+  
   w -= DOUBLE_FRAME_WH;
   
   if (n > 20)
@@ -368,7 +375,8 @@ void popup_find_dialog(void)
   
   /* -------------------- */
   /* redraw */
-  redraw_group(pFind_City_Dlg->pBeginWidgetList, pWindow, Main.gui,0);
-
-  flush_rect(pWindow->size);
+  redraw_group(pFind_City_Dlg->pBeginWidgetList, pWindow, 0);
+  sdl_dirty_rect(pWindow->size);
+  
+  flush_dirty();
 }

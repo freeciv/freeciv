@@ -94,7 +94,7 @@ void Init_Input_Edit(void)
   int w = 400;
   int h = 30;
   
-  pInput_Edit = create_edit_from_unichars(NULL, NULL, 18, w, 0);
+  pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 18, w, 0);
   pInput_Edit->size.x = (Main.screen->w - w) / 2;
 
   if (h > pInput_Edit->size.h) {
@@ -120,13 +120,13 @@ void Init_Input_Edit(void)
 **************************************************************************/
 void popup_input_line(void)
 {
-  SDL_Rect dst = { pInput_Edit->size.x, pInput_Edit->size.y, 0, 0};
+  SDL_Rect dst = {pInput_Edit->size.x, pInput_Edit->size.y, 0, 0};
   
-  refresh_widget_background(pInput_Edit, Main.gui);
+  refresh_widget_background(pInput_Edit);
   
-  edit(pInput_Edit , Main.gui);
+  edit(pInput_Edit);
   
-  SDL_BlitSurface(pInput_Edit->gfx, NULL, Main.gui, &dst);
+  SDL_BlitSurface(pInput_Edit->gfx, NULL, pInput_Edit->dst, &dst);
   
   flush_rect(pInput_Edit->size);
     

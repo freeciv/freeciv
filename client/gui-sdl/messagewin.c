@@ -127,12 +127,7 @@ static int msg_callback(struct GUI *pWidget)
 
 static int move_msg_window_callback(struct GUI *pWindow)
 {
-  /*
-  if (move_window_group_dialog(pMsg_Dlg->pBeginWidgetList , pWindow , Main.gui)) {
-    flush_rect(pWindow->size);
-  }
-  */
-  return -1;
+  return std_move_window_group_callback(pMsg_Dlg->pBeginWidgetList, pWindow);
 }
 
 static int up_msg_callback(struct GUI *pWidget)
@@ -142,7 +137,7 @@ static int up_msg_callback(struct GUI *pWidget)
   unsellect_widget_action();
   pSellected_Widget = pWidget;
   set_wstate(pWidget, WS_SELLECTED);
-  real_redraw_tibutton(pWidget, Main.gui);
+  real_redraw_tibutton(pWidget);
   flush_rect(pWidget->size);
   return -1;
 }
@@ -153,7 +148,7 @@ static int down_msg_callback(struct GUI *pWidget)
   unsellect_widget_action();
   pSellected_Widget = pWidget;
   set_wstate(pWidget, WS_SELLECTED);
-  real_redraw_tibutton(pWidget, Main.gui);
+  real_redraw_tibutton(pWidget);
   flush_rect(pWidget->size);
   return -1;
 }
@@ -164,7 +159,7 @@ static int vscroll_msg_callback(struct GUI *pWidget)
   unsellect_widget_action();
   set_wstate(pWidget, WS_SELLECTED);
   pSellected_Widget = pWidget;
-  redraw_vert(pWidget, Main.gui);
+  redraw_vert(pWidget);
   flush_rect(pWidget->size);
   return -1;
 }
@@ -183,15 +178,19 @@ static int togle_msg_window(struct GUI *pWidget)
       clear_wflag(pWindow->prev->prev->prev, WF_HIDDEN);
     }
 
-    refresh_widget_background(pWindow, Main.gui);
+    refresh_widget_background(pWindow);
 
     show_group(pMsg_Dlg->pBeginActiveWidgetList,
 		pMsg_Dlg->pEndActiveWidgetList);
+    
+    FREE(pWidget->string16->text);
+    pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));
 
   } else {    
 
     hide_group(pMsg_Dlg->pBeginWidgetList, pWindow);
-
+    FREE(pWidget->string16->text);
+    pWidget->string16->text = convert_to_utf16(_("Show Log (F10)"));
   }
 
   /* redraw window */
@@ -200,7 +199,7 @@ static int togle_msg_window(struct GUI *pWidget)
   if(pWidget) {
     pSellected_Widget = pWidget;
     set_wstate(pWidget, WS_SELLECTED);
-    real_redraw_icon(pWidget, Main.gui);
+    real_redraw_icon(pWidget);
     flush_rect(pWidget->size);
   }
   return -1;
@@ -220,23 +219,9 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   int min, max;
   
   pMsg_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
-  
-#if 0
-
-  pStr = create_str16_from_char(_("Log"), 12);
-  pStr->style = TTF_STYLE_BOLD;
 
   /* create window */
-  pWindow = create_window(pStr, w, h, WF_DRAW_THEME_TRANSPARENT);
-
-  pWindow->size.x = start_x;
-  pWindow->size.y = start_y;
-
-  resize_window(pWindow, NULL, NULL, w, h);
-#else  
-
-  /* create window */
-  pWindow = create_window(NULL, w, h, WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, NULL, w, h, WF_DRAW_THEME_TRANSPARENT);
 
   pWindow->size.x = start_x;
   pWindow->size.y = start_y;
@@ -277,7 +262,6 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   /*draw_frame(pWindow->theme, 0 , 0, w - 3, h - 3);*/
     
   SDL_SetAlpha(pWindow->theme, 0x0 , 0x0);
-#endif
 
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, WS_NORMAL);
@@ -287,7 +271,7 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   
   /* ------------------------------- */
   /* create up button */
-  pWidget = create_themeicon_button(pTheme->UP_Icon, NULL, 0);
+  pWidget = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
   pWidget->size.x = start_x + w - pWidget->size.w - 3;
   pWidget->size.y = start_y + FRAME_WH;
   pWidget->action = up_msg_callback;
@@ -299,7 +283,7 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   /* ----------------------- */
   
   /* create down button */
-  pWidget = create_themeicon_button(pTheme->DOWN_Icon, NULL, 0);
+  pWidget = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
   pWidget->size.x = start_x + w - pWidget->size.w - FRAME_WH;
   pWidget->size.y = max = start_y + h - pWidget->size.h - FRAME_WH;
   pWidget->action = down_msg_callback;
@@ -311,7 +295,7 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   
   /* create vsrollbar */
   pWidget =
-      create_vertical(pTheme->Vertic, max - min, 0);
+      create_vertical(pTheme->Vertic, pWindow->dst, max - min, 0);
   pWidget->size.x = start_x + w - pWidget->size.w - 1;
   pWidget->size.y = min;
 
@@ -337,9 +321,12 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   pMsg_Dlg->pActiveWidgetList = NULL;
   /* ================================================ */
 
-  pWidget = create_themeicon(pTheme->LOG_Icon, 0);
+  /* create hide/show button - this button belong to mini-map window group */
+  pWidget = create_themeicon(pTheme->LOG_Icon, Main.gui,
+						  WF_WIDGET_HAS_INFO_LABEL);
+  pWidget->string16 = create_str16_from_char(_("Hide Log (F10)"), 12);
   pWidget->action = togle_msg_window;
-  pWidget->key = SDLK_BACKQUOTE;
+  pWidget->key = SDLK_F10;
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
 
 }
@@ -350,24 +337,21 @@ static void redraw_meswin_dialog(void)
   if (get_wflags(pMsg_Dlg->pEndWidgetList) & WF_HIDDEN)
   {
     /* clear */
-    SDL_BlitSurface(pMsg_Dlg->pEndWidgetList->gfx, NULL , Main.gui, &dst);
+    SDL_BlitSurface(pMsg_Dlg->pEndWidgetList->gfx, NULL,
+			    pMsg_Dlg->pEndWidgetList->dst, &dst);
     flush_rect(pMsg_Dlg->pEndWidgetList->size);
   } else {
     
-    if(SDL_Client_Flags & CF_CITY_DIALOG_IS_OPEN) {
-      undraw_city_dialog();
-    }
-    
     /* redraw */
     redraw_group(pMsg_Dlg->pBeginWidgetList,
-		  pMsg_Dlg->pEndWidgetList, Main.gui,0);
+		  pMsg_Dlg->pEndWidgetList, 0);
     
     if(SDL_Client_Flags & CF_CITY_DIALOG_IS_OPEN) {
-      refresh_city_dlg_background();
       sdl_dirty_rect(pMsg_Dlg->pEndWidgetList->size);
     } else {
       flush_rect(pMsg_Dlg->pEndWidgetList->size); 
     }
+    
   }
 }
 
@@ -414,7 +398,7 @@ void real_update_meswin_dialog(void)
       pMsg = get_message(i);
       pStr = create_str16_from_char(pMsg->descr , 10);
       	
-      pBuf = create_iconlabel(NULL, pStr, 
+      pBuf = create_iconlabel(NULL, pMsg_Dlg->pEndWidgetList->dst, pStr, 
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->style &= ~SF_CENTER;
@@ -567,7 +551,7 @@ void popup_meswin_dialog(void)
 {
    
   if(!pMsg_Dlg) {
-    Init_Msg_Window((Main.gui->w - 520) / 2, 25 , 520, 124);
+    Init_Msg_Window((Main.screen->w - 520) / 2, 25 , 520, 124);
   }
   
   if (get_wflags(pMsg_Dlg->pEndWidgetList) & WF_HIDDEN)
@@ -575,7 +559,7 @@ void popup_meswin_dialog(void)
     clear_wflag(pMsg_Dlg->pEndWidgetList, WF_HIDDEN);
   }
   
-  refresh_widget_background(pMsg_Dlg->pEndWidgetList, Main.gui);
+  refresh_widget_background(pMsg_Dlg->pEndWidgetList);
   
   real_update_meswin_dialog();
   
@@ -602,7 +586,7 @@ void center_meswin_dialog(void)
   }
   
   dx = pMsg_Dlg->pEndWidgetList->size.x;
-  pMsg_Dlg->pEndWidgetList->size.x = (Main.gui->w - 
+  pMsg_Dlg->pEndWidgetList->size.x = (pMsg_Dlg->pEndWidgetList->dst->w - 
   					pMsg_Dlg->pEndWidgetList->size.w) / 2;
   dx = pMsg_Dlg->pEndWidgetList->size.x - dx;
   

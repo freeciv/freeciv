@@ -77,12 +77,11 @@ void init_color_system(void)
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Color *get_game_colorRGB(Uint32 color_offset)
+SDL_Color * get_game_colorRGB(Uint32 color_offset)
 {
   if (color_offset >= COLOR_STD_LAST) {
     return &SDLClient_standard_rgba_colors[color_offset - COLOR_STD_LAST];
   }
-
   return &colors_standard_rgb[color_offset];
 }
 
