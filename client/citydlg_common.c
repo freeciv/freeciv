@@ -419,14 +419,16 @@ void get_city_dialog_output_text(const struct city *pcity,
   /* Special cases for "bonus" production.  See set_city_production in
    * city.c. */
   if (otype == O_TRADE) {
-    int routes = 0, i;
+    int i;
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
-      routes += pcity->trade_value[i];
-    }
-    if (routes != 0) {
-      cat_snprintf(buf, bufsz, _("%+4d : Trade routes\n"), routes);
-      total += routes;
+      if (pcity->trade[i] != 0 && pcity->trade_value[i] != 0) {
+	struct city *trade_city = find_city_by_id(pcity->trade[i]);
+
+	cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
+		     pcity->trade_value[i], trade_city->name);
+	total += pcity->trade_value[i];
+      }
     }
   } else if (otype == O_GOLD) {
     int tithes = get_city_tithes_bonus(pcity);
