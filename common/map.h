@@ -20,7 +20,14 @@
 
 struct Sprite;			/* opaque; client-gui specific */
 
-#define NUM_DIRECTION_NSEW 16
+#define NUM_DIRECTION_NSEW 		16
+
+/*
+ * The value of MOVE_COST_FOR_VALID_SEA_STEP has no particular
+ * meaning. The value is only used for comparison. The value must be
+ * <0.
+ */
+#define MOVE_COST_FOR_VALID_SEA_STEP	(-3)
 
 struct map_position {
   int x,y;

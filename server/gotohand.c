@@ -342,11 +342,13 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
         move_cost = SINGLE_MOVE;
         move_cost += warmap.seacost[x][y];
         if (warmap.seacost[x1][y1] > move_cost && move_cost < maxcost) {
-	  /* by adding the move_cost to the warmap regardless if we can move between
-	     we allow for shore bombardment/transport to inland positions/etc. */
+	  /* by adding the move_cost to the warmap regardless if we
+	     can move between we allow for shore bombardment/transport
+	     to inland positions/etc. */
           warmap.seacost[x1][y1] = move_cost;
-          if (ptile->move_cost[dir] == -3) /* -3 means ships can move between */
+	  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP) {
 	    add_to_mapqueue(move_cost, x1, y1);
+	  }
 	}
 	break;
       default:
@@ -702,9 +704,11 @@ static int find_the_shortest_path(struct unit *punit,
 	if (warmap.seacost[x1][y1] <= warmap.seacost[x][y])
 	  continue; /* No need for all the calculations */
 
-	if (psrctile->move_cost[dir] != -3 /* is -3 if sea units can move between */
-	    && (dest_x != x1 || dest_y != y1)) /* allow ships to target a shore */
+	/* allow ships to target a shore */
+	if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP
+	    && (dest_x != x1 || dest_y != y1)) {
 	  continue;
+	}
 	else if (unit_flag(punit, F_TRIREME)
 		 && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {
 	  move_cost = 2*SINGLE_MOVE+1;

@@ -390,7 +390,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 		   || is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  add_to_queue = 0;
 	  move_cost = SINGLE_MOVE;
-	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
+	} else if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP) {
 	  continue;
 	} else if (unit_flag(punit, F_TRIREME) 
 		   && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {

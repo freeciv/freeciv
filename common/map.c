@@ -999,27 +999,46 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 }
 
 /***************************************************************
-  Similar to tile_move_cost_ptrs, but for pre-calculating
-  tile->move_cost[] values for use by ai (?)
-  If either terrain is T_UNKNOWN, then return 'maxcost'.
-  If both are ocean, or one is ocean and other city,
-  return -3, else if either is ocean return maxcost.
-  Otherwise, return normal cost (unit-independent).
+  tile_move_cost_ai is used to fill the move_cost array of struct
+  tile. The cached values of this array are used in server/gotohand.c
+  and client/goto.c. tile_move_cost_ai returns the move cost as
+  calculated by tile_move_cost_ptrs (with no unit pointer to get
+  unit-independent results) EXCEPT if either of the source or
+  destination tile is an ocean tile. Then the result of the method
+  shows if a ship can take the step from the source position to the
+  destination position (return value is MOVE_COST_FOR_VALID_SEA_STEP)
+  or not (return value is maxcost).
+
+  A ship can take the step if:
+    - both tiles are ocean or
+    - one of the tiles is ocean and the other is a city or is unknown
 ***************************************************************/
 static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
 			     int x, int y, int x1, int y1, int maxcost)
 {
   assert(is_real_tile(x, y));
-  assert(!is_server || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
+  assert(!is_server
+	 || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
 
-  if (tile0->terrain == T_OCEAN) {
-    return (tile1->city || tile1->terrain == T_OCEAN
-	    || tile1->terrain == T_UNKNOWN) ? -3 : maxcost;
-  } else if (tile1->terrain == T_OCEAN) {
-    return (tile0->city || tile0->terrain == T_UNKNOWN) ? -3 : maxcost;
-  } else {
-    return tile_move_cost_ptrs(NULL, tile0, tile1, x, y, x1, y1);
+  if (tile0->terrain == T_OCEAN && tile1->terrain == T_OCEAN) {
+    return MOVE_COST_FOR_VALID_SEA_STEP;
   }
+
+  if (tile0->terrain == T_OCEAN
+      && (tile1->city || tile1->terrain == T_UNKNOWN)) {
+    return MOVE_COST_FOR_VALID_SEA_STEP;
+  }
+
+  if (tile1->terrain == T_OCEAN
+      && (tile0->city || tile0->terrain == T_UNKNOWN)) {
+    return MOVE_COST_FOR_VALID_SEA_STEP;
+  }
+
+  if (tile0->terrain == T_OCEAN || tile1->terrain == T_OCEAN) {
+    return maxcost;
+  }
+
+  return tile_move_cost_ptrs(NULL, tile0, tile1, x, y, x1, y1);
 }
 
 /***************************************************************
