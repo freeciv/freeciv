@@ -384,9 +384,10 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
   struct tile *ptile,*ptile2;
   struct city *pcity;
 
-  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO && !punit->connecting)
+  if(punit->activity!=ACTIVITY_IDLE &&
+     punit->activity!=ACTIVITY_GOTO && !punit->connecting)
     return 0;
-  
+
   if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
     return 0;
   
@@ -495,55 +496,73 @@ static int dir_ect(int x0, int y0, int x1, int y1, int k)
 }
 
 /**************************************************************************
- Return "k" for straightest direction.
+Return the direction that takes us most directly to dest_x,dest_y.
+The direction is a value for use in ii[] and jj[] arrays.
 **************************************************************************/
-static int dir_str(int x0, int y0, int x1, int y1, int *xx, int *yy)
+static int straightest_direction(int src_x, int src_y, int dest_x, int dest_y)
 {
-  int n, s, e, w, dx, dy;
-  int bestk = 0;
+  int best_dir;
+  int go_x, go_y;
 
-  dir_deltas(x0, y0, x1, y1, &n, &s, &e, &w);
-  dx = e - w;
-  dy = s - n;
+  /* Should we go up or down, east or west: go_x/y is the "step" in x/y.
+     Will allways be -1 or 1 even if src_x == dest_x or src_y == dest_y. */
+  go_x = dest_x > src_x ?
+    (dest_x-src_x < map.xsize/2 ? 1 : -1) :
+    (src_x-dest_x < map.xsize/2 ? -1 : 1);
+  go_y = dest_y > src_y ? 1 : -1;
 
-  if (dx == 0) {
-    bestk = (dy > 0) ? 6 : 1;
-  } else if (dy == 0) {
-    bestk = (dx > 0) ? 4 : 3;
-  } else if (dx > 0) {
-    bestk = (dy > 0) ? 7 : 2;
-  } else {
-    bestk = (dy > 0) ? 5 : 0;
-  }
+  if (src_x == dest_x)
+    best_dir = (go_y > 0) ? 6 : 1;
+  else if (src_y == dest_y)
+    best_dir = (go_x > 0) ? 4 : 3;
+  else if (go_x > 0)
+    best_dir = (go_y > 0) ? 7 : 2;
+  else /* go_x < 0 */
+    best_dir = (go_y > 0) ? 5 : 0;
 
-  return (bestk);
+  return (best_dir);
 }
 
 /**************************************************************************
-...
+This is an A* search; recursively pile tiles on a stack until we have
+found a patch or we have exceded maxcost. (Or there are no more tiles in
+the stack).
+Whenever we reach a tile we see how many movepoints it took to get there,
+and compare it to eventual previous moves to the tile. If the route is
+faster or just as fast we mark the direction from which we came on the
+destination tile.
+We have a maxcost, as an upper limit for the lenght of gotos. When we
+arrive at the destination we know that we don't have to follow paths that
+have exceeded this lenght, and set maxcost to lenght+1. (the +1 because we
+still want to find alternative paths of the same lenght, and comparisons
+with maxcost are done with <).
+When we have found all paths of the shortest lenght to the destination we
+backtrack from the destination tile all the way back to the start tile,
+marking the routes on the warmap as we go. (again by piling tiles on the
+stack).
 **************************************************************************/
 static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 				  int dest_x, int dest_y,
 				  enum goto_move_restriction restriction)
 {
-  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
-  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int igter = 0, xx[3], yy[3], x, y, x1, y1, k, tm, c;
+  static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
+  static const int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  static const int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int igter, xx[3], yy[3], x, y, x1, y1, dir;
   int orig_x, orig_y;
-  struct tile *tile0;
-  enum unit_move_type which = unit_types[punit->type].move_type;
+  struct tile *ptile;
+  enum unit_move_type move_type = unit_types[punit->type].move_type;
   int maxcost = 255;
-  int str = 0;
+  int move_cost;
+  int straight_dir = 0;	/* init to silence compiler warning */
   unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-  struct unit *passenger; /* and I ride and I ride */
+  struct unit *passenger;
   
-/* Often we'll already have a working warmap, but I don't want to
-deal with merging these functions yet.  Once they work correctly
-and independently I can worry about optimizing them. -- Syela */
-
+  /* Often we'll already have a working warmap, but I don't want to
+     deal with merging these functions yet.  Once they work correctly
+     and independently I can worry about optimizing them. -- Syela */
   memset(local_vector, 0, sizeof(local_vector));
-/* I think I only need to zero (orig_x, orig_y), but ... */
+  /* I think I only need to zero (orig_x, orig_y), but ... */
 
   init_gotomap(punit->x, punit->y);
   warstacksize = 0;
@@ -554,144 +573,226 @@ and independently I can worry about optimizing them. -- Syela */
 
   add_to_stack(orig_x, orig_y);
 
-  if (punit && unit_flag(punit->type, F_IGTER)) igter++;
-  if (which == SEA_MOVING) passenger = other_passengers(punit);
-  else passenger = 0;
+  if (punit && unit_flag(punit->type, F_IGTER))
+    igter = 1;
+  else
+    igter = 0;
 
-  if (passenger)
-    if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
-          is_friendly_unit_tile(dest_x, dest_y, passenger->owner) ||
-          is_friendly_city_tile(dest_x, dest_y, passenger->owner) ||
-          unit_flag(passenger->type, F_MARINES) ||
-          is_my_zoc(passenger, dest_x, dest_y)) passenger = 0;
+  /* If we have a passenger abord a ship we must be sure he can disembark
+     I have no idea how this works - leaving it as it is -Thue */
+  if (move_type == SEA_MOVING) {
+    passenger = other_passengers(punit);
+    if (passenger)
+      if (map_get_terrain(dest_x, dest_y) == T_OCEAN
+	  || is_friendly_unit_tile(dest_x, dest_y, passenger->owner)
+	  || is_friendly_city_tile(dest_x, dest_y, passenger->owner)
+	  || unit_flag(passenger->type, F_MARINES)
+	  || is_my_zoc(passenger, dest_x, dest_y))
+	passenger = NULL;
+  } else
+    passenger = NULL;
 
-/* if passenger is nonzero, the next-to-last tile had better be zoc-ok! */
-
+  /* until we have found the shortest path */
   do {
     get_from_warstack(warnodes, &x, &y);
-    warnodes++; /* for debug purposes */
-    tile0 = map_get_tile(x, y);
+    warnodes++; /* points to buttom of stack */
+    ptile = map_get_tile(x, y);
+
+    /* Initiaze xx and yy to hold the adjacent tiles (this makes sure goto's
+       will behave at the poles) and around 0,y where the x values wrap */
     map_calc_adjacent_xy(x, y, xx, yy);
-    if (restriction == GOTO_MOVE_STRAIGHTEST) {
-      str = dir_str(x, y, dest_x, dest_y, xx, yy);
-    }
-    
-    for (k = 0; k < 8; k++) {
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[k][1]) continue;
-      x1 = xx[ii[k]];
-      y1 = yy[jj[k]];
-      if (which != SEA_MOVING) {
-        if (which != LAND_MOVING) c = 3;
-        else if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
-        else if (igter) c = (tile0->move_cost[k] ? 3 : 0); /* Reinier's fix -- Syela */
-        else c = tile0->move_cost[k];
-        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c, restriction);
-        if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
-	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (k == str)) {
-	  c /= 3;
-	}
-        if (!c && !dir_ect(x, y, dest_x, dest_y, k)) c = 1;
-        tm = warmap.cost[x][y] + c;
-#ifdef ACTUALLYTESTED
-        if (warmap.cost[x][y] < punit->moves_left && tm < maxcost &&
-            tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, x1, y1)) {
-          tm += unit_types[punit->type].move_rate;
-	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
-			unit_types[punit->type].name, punit->id,
-			punit->x, punit->y, x1, y1,
-			punit->goto_dest_x, punit->goto_dest_y);
-        }
-#endif
-        if (tm < maxcost) {
-          if (warmap.cost[x1][y1] > tm) {
-            warmap.cost[x1][y1] = tm;
+
+    if (restriction == GOTO_MOVE_STRAIGHTEST)
+      straight_dir = straightest_direction(x, y, dest_x, dest_y);
+
+    /* Try to move to all tiles adjacent to x,y. The coordinats of the tile we
+       try to move too are x1,y1 */
+    for (dir = 0; dir < 8; dir++) {
+      /* if the direction is N, S, E or W d[dir][1] is the /0 character... */
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1]) continue;
+
+      x1 = xx[ii[dir]];
+      y1 = yy[jj[dir]];
+
+      switch (move_type) {
+      case LAND_MOVING:
+        if (ptile->move_cost[dir] == -3 || ptile->move_cost[dir] > 16)
+	  move_cost = maxcost; 
+        else if (igter)
+	  move_cost = (ptile->move_cost[dir] ? 3 : 0);
+        else
+	  move_cost = ptile->move_cost[dir];
+
+        move_cost =
+	  goto_tile_cost(pplayer, punit, x, y, x1, y1, move_cost, restriction);
+
+	/* This leads to suboptimal paths choosen sometimes */
+        if (!dir_ok(x, y, dest_x, dest_y, dir))
+	  move_cost += move_cost;
+
+	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
+	  move_cost /= 3;
+
+        if (move_cost == 0 && !dir_ect(x, y, dest_x, dest_y, dir))
+	  move_cost = 1;
+
+	/* Add the route to our warmap if it is worth keeping */
+        move_cost += warmap.cost[x][y];
+
+        if (move_cost < maxcost) {
+          if (warmap.cost[x1][y1] > move_cost) {
+            warmap.cost[x1][y1] = move_cost;
             add_to_stack(x1, y1);
-            local_vector[x1][y1] = 128>>k;
+            local_vector[x1][y1] = 128>>dir;
 	    freelog(LOG_DEBUG,
-		    "Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-		    d[k], x, y, x1, y1, c, tm);
-          } else if (warmap.cost[x1][y1] == tm) {
-            local_vector[x1][y1] |= 128>>k;
+		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
+          } else if (warmap.cost[x1][y1] == move_cost) {
+            local_vector[x1][y1] |= 128>>dir;
 	    freelog(LOG_DEBUG,
-		    "Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-		    d[k], x, y, x1, y1, c, tm);
+		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
           }
         }
-      } else {
-	if (tile0->move_cost[k] != -3) c = maxcost;
-        else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) c = 7;
-        else c = 3;
-/* I want to disable these totally but for some reason it bugs. -- Syela */
-        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c, restriction);
-        if (x1 == dest_x && y1 == dest_y && passenger && c < 60 &&
-            !is_my_zoc(passenger, x, y)) c = 60; /* passenger cannot disembark */
-        if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
-	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (k == str)) {
-	  c /= 3;
-	}
-        tm = warmap.seacost[x][y] + c;
-        if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
-            (pplayer->ai.control) &&
-            tm >= punit->moves_left - (get_transporter_capacity(punit) >
-            unit_types[punit->type].attack_strength ? 3 : 2) &&
-            enemies_at(punit, x1, y1)) {
-          tm += unit_types[punit->type].move_rate;
+	break;
+
+      case SEA_MOVING:
+	if (ptile->move_cost[dir] != -3)
+	  move_cost = maxcost;
+	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1))
+	  move_cost = 7;
+	else
+	  move_cost = 3;
+
+	move_cost =
+	  goto_tile_cost(pplayer, punit, x, y, x1, y1, move_cost, restriction);
+
+	/* Again I wonder why the passengers work this way */
+	if (x1 == dest_x && y1 == dest_y && passenger && move_cost < 60 &&
+	    !is_my_zoc(passenger, x, y))
+	  move_cost = 60; /* passenger cannot disembark */
+
+	/* Again I don't see how these help */
+	if (!dir_ok(x, y, dest_x, dest_y, dir))
+	  move_cost += move_cost;
+
+	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
+	  move_cost /= 3;
+
+	move_cost += warmap.seacost[x][y];
+
+	/* AI stuff; hope it is correct. No idea what it does :) */
+	if (pplayer->ai.control &&
+	    warmap.seacost[x][y] < punit->moves_left && move_cost < maxcost &&
+	    move_cost >= punit->moves_left - (get_transporter_capacity(punit) >
+			    unit_types[punit->type].attack_strength ? 3 : 2) &&
+	    enemies_at(punit, x1, y1)) {
+	  move_cost += unit_types[punit->type].move_rate;
 	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 		  unit_types[punit->type].name, punit->id,
 		  punit->x, punit->y, x1, y1,
 		  punit->goto_dest_x, punit->goto_dest_y);
-        }
-        if (tm < maxcost) {
-          if (warmap.seacost[x1][y1] > tm) {
-            warmap.seacost[x1][y1] = tm;
-            add_to_stack(x1, y1);
-            local_vector[x1][y1] = 128>>k;
-          } else if (warmap.seacost[x1][y1] == tm) {
-            local_vector[x1][y1] |= 128>>k;
-          }
-        }
+	}
+
+	/* Add the route to our warmap if it is worth keeping */
+	if (move_cost < maxcost) {
+	  if (warmap.seacost[x1][y1] > move_cost) {
+	    warmap.seacost[x1][y1] = move_cost;
+	    add_to_stack(x1, y1);
+	    local_vector[x1][y1] = 128>>dir;
+	    freelog(LOG_DEBUG,
+		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
+	  } else if (warmap.seacost[x1][y1] == move_cost) {
+	    local_vector[x1][y1] |= 128>>dir;
+	    freelog(LOG_DEBUG,
+		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
+	  }
+	}
+	break;
+
+      case AIR_MOVING:
+      case HELI_MOVING:
+	move_cost = 3;
+
+	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
+	  move_cost /= 3;
+
+	move_cost += warmap.cost[x][y];
+
+	if (!could_unit_move_to_tile(punit, x, y, x1, y1))
+	  move_cost = maxcost;
+
+	/* Add the route to our warmap if it is worth keeping */
+	if (move_cost < maxcost) {
+	  if (warmap.cost[x1][y1] > move_cost) {
+	    warmap.cost[x1][y1] = move_cost;
+	    add_to_stack(x1, y1);
+	    local_vector[x1][y1] = 128>>dir;
+	    freelog(LOG_DEBUG,
+		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
+	  } else if (warmap.cost[x1][y1] == move_cost) {
+	    local_vector[x1][y1] |= 128>>dir;
+	    freelog(LOG_DEBUG,
+		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		    d[dir], x, y, x1, y1, move_cost);
+	  }
+	}
+	break;
+
+      default:
+	move_cost = 255;	/* silence compiler warning */
+	freelog(LOG_FATAL, "Bad move_type in find_the_shortest_path().");
+	abort();
+	break;
+      } /****** end switch ******/
+
+      if (x1 == dest_x && y1 == dest_y && maxcost > move_cost) {
+	freelog(LOG_DEBUG, "Found path, cost = %d", move_cost);
+	/* Make sure we stop searching when we have no hope of finding a shorter path */
+        maxcost = move_cost + 1;
       }
-      if (x1 == dest_x && y1 == dest_y && maxcost > tm) {
-	freelog(LOG_DEBUG, "Found path, cost = %d", tm);
-        maxcost = tm + 1; /* NOT = tm.  Duh! -- Syela */
-      }
-    } /* end for */
+    } /* end  for (dir = 0; dir < 8; dir++) */
   } while (warstacksize > warnodes);
   
   freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d", 
-		orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
-  if (maxcost == 255) return(0);
-  /* succeeded.  the vector at the destination indicates which
-     way we get there */
-  /* backtracing */
+	  orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
+
+  if (maxcost == 255)
+    return 0; /* No route */
+
+  /* Succeeded. The vector at the destination indicates which way we get there.
+     Now backtrack to remove all the blind paths */
   warnodes = 0;
   warstacksize = 0;
   add_to_stack(dest_x, dest_y);
 
   do {
     get_from_warstack(warnodes, &x, &y);
-    warnodes++; /* for debug purposes */
-    tile0 = map_get_tile(x, y);
+    warnodes++;
+    ptile = map_get_tile(x, y);
     map_calc_adjacent_xy(x, y, xx, yy);
 
-    for (k = 0; k < 8; k++) {
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[k][1]) continue;
-      x1 = xx[ii[k]];
-      y1 = yy[jj[k]];
-      if (local_vector[x][y] & (1<<k)) {
-/* && (local_vector[x1][y1] || !warmap.vector[x1][y1])) {
-is not adequate to prevent RR loops.  Bummer. -- Syela */
+    for (dir = 0; dir < 8; dir++) {
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1])
+	continue;
+
+      x1 = xx[ii[dir]];
+      y1 = yy[jj[dir]];
+      if (local_vector[x][y] & (1<<dir)) {
         add_to_stack(x1, y1);
-        warmap.vector[x1][y1] |= 128>>k;
-        local_vector[x][y] -= 1<<k; /* avoid repetition */
+        warmap.vector[x1][y1] |= 128>>dir; /* Mark it on the warmap */
+        local_vector[x][y] -= 1<<dir; /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
-		d[7-k], x1, y1, x, y);
+		d[7-dir], x1, y1, x, y);
       }
     }
   } while (warstacksize > warnodes);
   freelog(LOG_DEBUG, "BACKTRACE: %u nodes", warnodes);
-  return(1);
-  /* DONE! */
+
+  return 1;
 }
 
 /**************************************************************************
