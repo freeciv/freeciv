@@ -525,8 +525,7 @@ static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *p
       }
     }
     unit_list_iterate_end;
-  }
-  square_iterate_end
+  } square_iterate_end;
 
   pcity->ai.a = val2;
   pcity->ai.f = val3;
