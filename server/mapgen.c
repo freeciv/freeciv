@@ -62,7 +62,7 @@ static void mapgenerator3(void);
 static void mapgenerator4(void);
 static void mapgenerator5(void);
 static void smooth_map(void);
-static void adjust_map(int minval);
+static void adjust_map(void);
 static void adjust_terrain_param(void);
 
 #define RIVERS_MAXTRIES 32767
@@ -879,10 +879,14 @@ static void make_fair(void)
 **************************************************************************/
 static void make_land(void)
 {
-  int tres=(maxval*map.landpercent)/100;
+  int tres;
   int count=0;
   int total = (map_num_tiles() * map.landpercent) / 100;
   int forever=0;
+
+  adjust_map(); 
+  tres = (maxval * map.landpercent ) / 100;
+
   do {
     forever++;
     if (forever>50) break; /* loop elimination */
@@ -1356,12 +1360,22 @@ static void adjust_terrain_param(void)
 }
 
 /**************************************************************************
-  since the generated map will always have a positive number as minimum height
-  i reduce the height so the lowest height is zero, this makes calculations
-  easier
+  Adjust the map so that its minimum height is 0.  This raises or lowers
+  every position by a fixed amount and sets the "maxval" global variable
+  to hold the maximum height.
 **************************************************************************/
-static void adjust_map(int minval)
+static void adjust_map(void)
 {
+  int minval = maxval = hnat(0, 0);
+
+  /* Determine minimum and maximum heights. */
+  whole_map_iterate(x, y) {
+    maxval = MAX(maxval, hmap(x, y));
+    minval = MIN(minval, hmap(x, y));
+  } whole_map_iterate_end;
+
+  /* Translate heights so the minimum height is 0. */
+  maxval -= minval;
   whole_map_iterate(x, y) {
     hmap(x, y) -= minval;
   } whole_map_iterate_end;
@@ -1373,7 +1387,6 @@ static void adjust_map(int minval)
 static void mapgenerator1(void)
 {
   int i;
-  int minval=5000000;
   height_map=fc_malloc (sizeof(int)*map.xsize*map.ysize);
 
   whole_map_iterate(x, y) {
@@ -1393,16 +1406,6 @@ static void mapgenerator1(void)
   smooth_map(); 
   smooth_map(); 
   smooth_map(); 
-
-  whole_map_iterate(x, y) {
-    if (hmap(x, y) > maxval)
-      maxval = hmap(x, y);
-    if (hmap(x, y) < minval)
-      minval = hmap(x, y);
-  } whole_map_iterate_end;
-
-  maxval-=minval;
-  adjust_map(minval);
 
   make_land();
   free(height_map);
@@ -2374,7 +2377,7 @@ static void mapgenerator5(void)
 
   int xmax = map.xsize - (xnowrap ? 1 : 0);
   int ymax = map.ysize - (ynowrap ? 1 : 0);
-  int xn, yn, minval;
+  int xn, yn;
   /* just need something > log(max(xsize, ysize)) for the recursion */
   int step = map.xsize + map.ysize; 
   /* edges are avoided more strongly as this increases */
@@ -2436,16 +2439,6 @@ static void mapgenerator5(void)
     hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
   } whole_map_iterate_end;
 
-  /* and calibrate maxval and minval */
-  maxval = hnat(0, 0);
-  minval = hnat(0, 0);
-  whole_map_iterate(x, y) {
-    maxval = MAX(maxval, hmap(x, y));
-    minval = MIN(minval, hmap(x, y));
-  } whole_map_iterate_end;
-  maxval -= minval;
-  adjust_map(minval);
-  
   make_land();
   free(height_map);
   height_map = NULL;
