@@ -48,7 +48,9 @@ char *beta_message (void)
   my_snprintf (msgbuf, sizeof (msgbuf),
 	       _("THIS IS A BETA VERSION\n"
 		 "Freeciv %s will be released in\n"
-		 "%s, at %s"),
+		 "%s, at %s"), /* No full stop here since it would be
+				  immediately following a URL, which
+				  would only cause confusion. */
 	       NEXT_STABLE_VERSION,
 	       _(NEXT_RELEASE_MONTH),
 	       WEBSITE_URL);
