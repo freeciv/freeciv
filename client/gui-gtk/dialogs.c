@@ -1250,7 +1250,7 @@ void popup_government_dialog(void)
     gtk_signal_connect(
       GTK_OBJECT(dshell),
       "delete_event",
-      GTK_SIGNAL_FUNC(popup_mes_del_callback),
+      GTK_SIGNAL_FUNC(gtk_true),
       (gpointer) toplevel
     );
 
