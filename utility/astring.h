@@ -38,5 +38,8 @@ struct astring {
 void astr_init(struct astring *astr);
 void astr_minsize(struct astring *astr, size_t n);
 void astr_free(struct astring *astr);
+void astr_clear(struct astring *astr);
+void astr_add(struct astring *astr, const char *format, ...)
+      fc__attribute((format(printf, 2, 3)));
 
 #endif  /* FC__ASTRING_H */

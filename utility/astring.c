@@ -43,8 +43,10 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 
 #include "mem.h"
+#include "support.h"		/* my_vsnprintf, mystrlcat */
 
 #include "astring.h"
 
@@ -68,6 +70,7 @@ void astr_init(struct astring *astr)
 void astr_minsize(struct astring *astr, size_t n)
 {
   int n1;
+  bool was_null = (astr->n == 0);
   
   assert(astr != NULL);
   
@@ -80,6 +83,9 @@ void astr_minsize(struct astring *astr, size_t n)
   n1 = (3*(astr->n_alloc+10)) / 2;
   astr->n_alloc = (n > n1) ? n : n1;
   astr->str = (char *)fc_realloc(astr->str, astr->n_alloc);
+  if (was_null) {
+    astr_clear(astr);
+  }
 }
 
 /**********************************************************************
@@ -97,4 +103,48 @@ void astr_free(struct astring *astr)
     free(astr->str);
   }
   *astr = zero_astr;
+}
+
+/****************************************************************************
+  Add the text to the string.
+****************************************************************************/
+static void vadd(struct astring *astr, const char *format, va_list ap)
+{
+  size_t new_len;
+  char buf[1024];
+
+  if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
+    die("Formatted string bigger than %d bytes", sizeof(buf));
+  }
+
+  /* Avoid calling strlen with NULL. */
+  astr_minsize(astr, 1);
+
+  new_len = strlen(astr->str) + strlen(buf) + 1;
+
+  astr_minsize(astr, new_len);
+  mystrlcat(astr->str, buf, astr->n_alloc);
+}
+
+/****************************************************************************
+  Add the text to the string.
+****************************************************************************/
+void astr_add(struct astring *astr, const char *format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  vadd(astr, format, args);
+  va_end(args);
+}
+
+/**********************************************************************
+  Sets the content to the empty string.
+***********************************************************************/
+void astr_clear(struct astring *astr)
+{
+  assert(astr != NULL);
+
+  astr_minsize(astr, 1);
+  astr->str[0] = '\0';
 }
