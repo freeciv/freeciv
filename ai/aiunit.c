@@ -1795,16 +1795,15 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 }
 
 /********************************************************************** 
-...
+  Send a unit to its homecity. FIXME: Give it one if it has none.
 ***********************************************************************/
 static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
-  struct city *pcity;
+  struct city *pcity = find_city_by_id(punit->homecity);
 
   CHECK_UNIT(punit);
 
-  if (punit->homecity != 0){
-    pcity=find_city_by_id(punit->homecity);
+  if (pcity) {
     freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
 		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
     if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
@@ -2467,8 +2466,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Sail somewhere */
     (void) ai_unit_goto(punit, pcity->x, pcity->y);
   } else if (!is_barbarian(pplayer)) {
-    /* Nothing else to do. Worst case, this function
-       will send us back home */
+    /* Nothing else to do, so try exploring. */
     (void) ai_manage_explorer(punit);
   } else {
     /* You can still have some moves left here, but barbarians should
@@ -2483,18 +2481,24 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         /* sometimes find_beachhead is not enough */
         if (!find_beachhead(punit, pc->x, pc->y, &fx, &fy)) {
           find_city_beach(pc, punit, &fx, &fy);
-          freelog(LOG_DEBUG, "Barbarian sailing to city");
-          ai_military_gothere(pplayer, punit, fx, fy);
-       }
+        }
+        UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to %s", pc->name);
+        ai_military_gothere(pplayer, punit, fx, fy);
       }
     }
   }
   if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
     struct city *pcity = map_get_city(punit->x, punit->y);
 
-    if (pcity && pcity->id == punit->homecity) {
-      /* We're needlessly idle in our homecity */
-      UNIT_LOG(LOG_DEBUG, punit, "fstk could not find work for me!");
+    if (pcity) {
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+      /* FIXME: Send unit to nearest city needing more defence */
+      UNIT_LOG(LOG_DEBUG, punit, "could not find work, sitting duck");
+    } else {
+      /* Going home */
+      UNIT_LOG(LOG_DEBUG, punit, "sent home");
+      /* FIXME: Rehome & send us to nearest city needing more defence */
+      ai_military_gohome(pplayer, punit);
     }
   }
 }
