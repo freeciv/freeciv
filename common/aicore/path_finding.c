@@ -844,7 +844,7 @@ static bool danger_iterate_map(struct pf_map *pf_map)
 
       /* Is the move ZOC-ok? */
       if (pf_map->params->get_zoc
-	  && !(node->zoc_number > 1 || node1->zoc_number > 2)) {
+	  && !(node->zoc_number > 1 || node1->zoc_number > 0)) {
 	continue;
       }
 
