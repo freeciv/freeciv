@@ -1494,27 +1494,21 @@ static void broadcast_city_info(struct city *pcity)
   struct packet_city_info packet;
   struct packet_city_short_info sc_pack;
 
-  /* nocity_send is used to inhibit sending cities to the owner between
-   * turn updates
-   */
-  if (!nocity_send) {    /* first send all info to the owner */
-    update_dumb_city(powner, pcity);
-    package_city(pcity, &packet, FALSE);
-    lsend_packet_city_info(&powner->connections, &packet);
-  }
-
-  /* send to all others who can see the city: */
+  /* Send to everyone who can see the city. */
   players_iterate(pplayer) {
-    if (city_owner(pcity) == pplayer) {
-      /* Already sent above. */
-      continue;
-    }
-
-    if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)
-	|| player_has_traderoute_with_city(pplayer, pcity)) {
-      update_dumb_city(pplayer, pcity);
-      package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
-      lsend_packet_city_short_info(&pplayer->connections, &sc_pack);
+    if (can_player_see_city_internals(pplayer, pcity)) {
+      if (!nocity_send || pplayer != city_owner(pcity)) {
+	update_dumb_city(powner, pcity);
+	package_city(pcity, &packet, FALSE);
+	lsend_packet_city_info(&powner->connections, &packet);
+      }
+    } else {
+      if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)
+	  || player_has_traderoute_with_city(pplayer, pcity)) {
+	update_dumb_city(pplayer, pcity);
+	package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
+	lsend_packet_city_short_info(&pplayer->connections, &sc_pack);
+      }
     }
   } players_iterate_end;
 

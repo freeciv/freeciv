@@ -234,6 +234,11 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
 			     int x, int y);
 
+bool can_player_see_units_in_city(struct player *pplayer,
+				  struct city *pcity);
+bool can_player_see_city_internals(struct player *pplayer,
+				   struct city *pcity);
+
 bool player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);

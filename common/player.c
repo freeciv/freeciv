@@ -276,7 +276,7 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 
   return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
 	  && player_can_see_unit_at_location(pplayer, punit, x, y)
-	  && (!pcity || pplayers_allied(city_owner(pcity), pplayer)));
+	  && (!pcity || can_player_see_units_in_city(pplayer, pcity)));
 }
 
 /***************************************************************
@@ -293,6 +293,43 @@ bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
   }
 
   return can_player_see_unit_at(pplayer, punit, x, y);
+}
+
+/****************************************************************************
+  Return TRUE iff the player can see units in the city.  Either they
+  can see all units or none.
+
+  If the player can see units in the city, then the server sends the
+  unit info for units in the city to the client.  The client uses the
+  tile's unitlist to determine whether to show the city occupied flag.  Of
+  course the units will be visible to the player as well, if he clicks on
+  them.
+
+  If the player can't see units in the city, then the server doesn't send
+  the unit info for these units.  The client therefore uses the "occupied"
+  flag sent in the short city packet to determine whether to show the city
+  occupied flag.
+
+  Note that can_player_see_city_internals => can_player_see_units_in_city.
+  Otherwise the player would not know anything about the city's units at
+  all, since the full city packet has no "occupied" flag.
+****************************************************************************/
+bool can_player_see_units_in_city(struct player *pplayer,
+				  struct city *pcity)
+{
+  return (can_player_see_city_internals(pplayer, pcity)
+	  || pplayers_allied(pplayer, city_owner(pcity)));
+}
+
+/****************************************************************************
+  Return TRUE iff the player can see the city's internals.  This means the
+  full city packet is sent to the client, who should then be able to popup
+  a dialog for it.
+****************************************************************************/
+bool can_player_see_city_internals(struct player *pplayer,
+				   struct city *pcity)
+{
+  return (pplayer == city_owner(pcity));
 }
 
 /***************************************************************

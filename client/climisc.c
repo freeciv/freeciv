@@ -99,8 +99,10 @@ void client_remove_unit(struct unit *punit)
 
   pcity = map_get_city(x, y);
   if (pcity) {
-    pcity->client.occupied =
+    if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+      pcity->client.occupied =
 	(unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+    }
 
     refresh_city_dialog(pcity);
     freelog(LOG_DEBUG, "map city %s, %s, (%d %d)", pcity->name,

@@ -1301,7 +1301,7 @@ void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
     }
   }
   /* Otherwise use popups. */
-  else if (pcity && game.player_idx==pcity->owner) {
+  else if (pcity && can_player_see_city_internals(game.player_ptr, pcity)) {
     popup_city_dialog(pcity, FALSE);
   }
   else if (unit_list_size(&ptile->units) == 0 && !pcity

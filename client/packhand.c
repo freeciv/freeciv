@@ -500,8 +500,10 @@ void handle_city_info(struct packet_city_info *packet)
 
   /* Since we can see inside the city, just determine the client status
    * from what we know. */
+  assert(can_player_see_units_in_city(game.player_ptr, pcity));
   pcity->client.occupied =
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+
   pcity->client.happy = city_happy(pcity);
   pcity->client.unhappy = city_unhappy(pcity);
 
@@ -1047,16 +1049,15 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       do_move_unit(punit, packet_unit, carried);
 
       if(pcity)  {
-	/* Unit moved out of a city - update the occupied status.  The
-	 * logic is a little shaky since it's not clear whether we can
-	 * see the internals of the city or not; however, the server should
-	 * send us a city update to clear things up. */
-	bool new_occupied =
-	  (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+	  /* Unit moved out of a city - update the occupied status. */
+	  bool new_occupied =
+	    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
 
-	if (pcity->client.occupied != new_occupied) {
-	  pcity->client.occupied = new_occupied;
-	  refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	  if (pcity->client.occupied != new_occupied) {
+	    pcity->client.occupied = new_occupied;
+	    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	  }
 	}
 
         if(pcity->id==punit->homecity)
@@ -1066,10 +1067,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       }
       
       if((pcity=map_get_city(punit->x, punit->y)))  {
-	/* Unit moved into a city - obviously it's occupied. */
-	if (!pcity->client.occupied) {
-	  pcity->client.occupied = TRUE;
-	  refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+	  /* Unit moved into a city - obviously it's occupied. */
+	  if (!pcity->client.occupied) {
+	    pcity->client.occupied = TRUE;
+	    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	  }
 	}
 
         if(pcity->id == punit->homecity)
