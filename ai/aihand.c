@@ -236,6 +236,9 @@ void ai_manage_taxes(struct player *pplayer)
   int waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  struct packet_unit_request pack;
+  struct city *incity; /* stay a while, until the night is over */
+  struct unit *visitor; /* stay a while, stay forever */
 
   pplayer->economic.science += pplayer->economic.luxury;
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
@@ -364,6 +367,37 @@ void ai_manage_taxes(struct player *pplayer)
     city_refresh(pcity);
     if (ai_fix_unhappy(pcity))
       ai_scientists_taxmen(pcity);
+    if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
+        pcity->food_stock + pcity->food_surplus < 0) 
+       emergency_reallocate_workers(pplayer, pcity);
+    if (pcity->shield_surplus < 0) {
+      visitor = 0;
+      unit_list_iterate(pcity->units_supported, punit)
+        incity = map_get_city(punit->x, punit->y);
+        if (incity && pcity->shield_surplus < 0) {
+          if (incity == pcity) {
+            if (visitor) {
+              pack.unit_id = punit->id;
+              handle_unit_disband(pplayer, &pack);
+              city_refresh(pcity);
+printf("Disbanding %s in %s\n", unit_types[punit->type].name, pcity->name);
+            } else visitor = punit;
+          } else if (incity->shield_surplus > 0) {
+            pack.unit_id = punit->id;
+            pack.city_id = incity->id;
+            handle_unit_change_homecity(pplayer, &pack);
+            city_refresh(pcity);
+printf("Reassigning %s from %s to %s\n", unit_types[punit->type].name, pcity->name, incity->name);
+          }
+        } /* end if */
+      unit_list_iterate_end;
+      if (pcity->shield_surplus < 0 && visitor) { /* AAAAAAAaaaaaaaAAAAAAAaaaaaaaAAAAAAA */
+        pack.unit_id = visitor->id;
+        handle_unit_disband(pplayer, &pack);
+        city_refresh(pcity);
+printf("Disbanding %s in %s\n", unit_types[visitor->type].name, pcity->name);
+      }
+    } /* end if we can't meet payroll */
     send_city_info(city_owner(pcity), pcity, 1);
   city_list_iterate_end;
 }
