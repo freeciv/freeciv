@@ -174,9 +174,8 @@ Client:
   In this release the isotrident tileset is the default in the GTK+,
   amiga, and win32 clients, while the Xaw client has trident as default. 
   The "_shields" variants use a shield-shaped flag, which is smaller and 
-  may be less obscured. 
-  try them both and decide for yourself -- to use the trident tileset
-  start the client with:
+  may be less obscured. Try them both and decide for yourself -- to
+  use the trident tileset start the client with:
 
   |  % civclient --tiles trident
 
