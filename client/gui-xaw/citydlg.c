@@ -58,6 +58,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "optiondlg.h"		/* for toggle_callback */
+#include "options.h"
 #include "repodlgs.h"
 #include "tilespec.h"
 #include "wldlg.h"
@@ -102,7 +103,7 @@ struct city_dialog {
   Widget close_command, rename_command, trade_command, activate_command;
   Widget show_units_command, cityopt_command;
   Widget building_label, progress_label, buy_command, change_command,
-    worklist_command;
+    worklist_command, worklist_label;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
   Widget *support_unit_pixcomms;
@@ -289,6 +290,58 @@ static void get_contents_of_output(struct city_dialog *pdialog,
 /****************************************************************
 ...
 *****************************************************************/
+static void get_contents_of_progress(struct city_dialog *pdialog,
+				     char *retbuf, int n)
+{
+  struct city *pcity = pdialog ? pdialog->pcity : NULL;
+  int stock=0;
+  int cost=0;
+  int turns=0;
+
+  if (pcity) {
+    stock = pcity->shield_stock;
+    if(pcity->is_building_unit) {
+      cost = get_unit_type(pcity->currently_building)->build_cost;
+      turns = city_turns_to_build(pcity, pcity->currently_building, TRUE);
+    } else {
+      cost = get_improvement_type(pcity->currently_building)->build_cost;
+      turns = city_turns_to_build(pcity, pcity->currently_building, FALSE);
+    }
+  }
+
+  if (pcity && (pcity->currently_building==B_CAPITAL)) {
+    /* Capitalization is special, you can't buy it or finish making it */
+    my_snprintf(retbuf, n,
+		concise_city_production ? " %3d/XXX:XXX " :
+		  _(" %3d/XXX XXX turns "),
+		stock);
+  } else {
+    my_snprintf(retbuf, n,
+		concise_city_production ? " %3d/%3d:%3d " :
+		  turns == 1 ? _(" %3d/%3d %3d turn ") :
+		    _(" %3d/%3d %3d turns "),
+		stock, cost, turns);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void get_contents_of_worklist(struct city_dialog *pdialog,
+				     char *retbuf, int n)
+{
+  struct city *pcity = pdialog ? pdialog->pcity : NULL;
+
+  if (pcity && worklist_is_empty(pcity->worklist)) {
+    mystrlcpy(retbuf, _("(is empty)"), n);
+  } else {
+    mystrlcpy(retbuf, _("(in prog.)"), n);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
 struct city_dialog *get_city_dialog(struct city *pcity)
 {
   struct genlist_iterator myiter;
@@ -434,8 +487,9 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
-  static char *dummy_improvement_list[]={ 
-    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  char *dummy_improvement_list[]={ 
+    concise_city_production
+    ? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX" : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "2",
     "3",
     "4",
@@ -574,15 +628,20 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNheight, NORMAL_TILE_HEIGHT*5,
 			    NULL);
 
-  
+
   pdialog->building_label=
     XtVaCreateManagedWidget("citybuildinglabel",
 			    labelWidgetClass,
 			    pdialog->sub_form,
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->map_canvas,
+			    XtNlabel,
+			    concise_city_production
+				? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+				: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 			    NULL);
-  
+
+  get_contents_of_progress(NULL, lblbuf, sizeof(lblbuf));
   pdialog->progress_label=
     XtVaCreateManagedWidget("cityprogresslabel",
 			    labelWidgetClass,
@@ -591,17 +650,18 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->map_canvas,
 			    XtNfromVert, 
 			    pdialog->building_label,
+			    XtNlabel, lblbuf,
 			    NULL);
 
   pdialog->buy_command=
     I_L(XtVaCreateManagedWidget("citybuycommand", 
-			    commandWidgetClass,
-			    pdialog->sub_form,
-			    XtNfromVert, 
-			    pdialog->building_label,
-			    XtNfromHoriz, 
-			    (XtArgVal)pdialog->progress_label,
-			    NULL));
+				commandWidgetClass,
+				pdialog->sub_form,
+				XtNfromVert, 
+				pdialog->building_label,
+				XtNfromHoriz, 
+				pdialog->progress_label,
+				NULL));
 
   pdialog->change_command=
     I_L(XtVaCreateManagedWidget("citychangecommand", 
@@ -610,7 +670,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromVert, 
 			    pdialog->building_label,
 			    XtNfromHoriz, 
-			    (XtArgVal)pdialog->buy_command,
+			    pdialog->buy_command,
 			    NULL));
  
   pdialog->improvement_viewport=
@@ -620,7 +680,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->map_canvas,
 			    XtNfromVert, 
-			    pdialog->buy_command,
+			    pdialog->change_command,
 			    NULL);
 
   pdialog->improvement_list=
@@ -651,8 +711,21 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromVert, 
 			    pdialog->improvement_viewport,
 			    XtNfromHoriz, 
-			    (XtArgVal)pdialog->sell_command,
+			    pdialog->sell_command,
 			    NULL));
+
+  get_contents_of_worklist(NULL, lblbuf, sizeof(lblbuf));
+  pdialog->worklist_label=
+    XtVaCreateManagedWidget("cityworklistlabel",
+			    labelWidgetClass,
+			    pdialog->sub_form,
+			    XtNfromVert,
+			    pdialog->improvement_viewport,
+			    XtNfromHoriz,
+			    pdialog->worklist_command,
+			    XtNlabel, lblbuf,
+			    NULL);
+
 
   pdialog->support_unit_label=
     I_L(XtVaCreateManagedWidget("supportunitlabel",
@@ -1381,46 +1454,25 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[64], buf3[128];
-  int turns;
+  char buf[32];
   struct city *pcity=pdialog->pcity;
-  
-  XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
+
+  if (pcity->currently_building==B_CAPITAL)
+    XtSetSensitive(pdialog->buy_command, False);
+  else
+    XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
   XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
 
-  if(pcity->is_building_unit) {
-    turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
-    my_snprintf(buf, sizeof(buf),
- 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
- 		pcity->shield_stock, 
- 		get_unit_type(pcity->currently_building)->build_cost,
- 		turns);
-    sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
-  }
-  else {
-    if(pcity->currently_building==B_CAPITAL)  {
-      /* Capitalization is special, you can't buy it or finish making it */
-      my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
-      XtSetSensitive(pdialog->buy_command, False);
-    } else {
-      turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
-      my_snprintf(buf, sizeof(buf),
-		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
-		  pcity->shield_stock, 
-		  get_improvement_type(pcity->currently_building)->build_cost,
-		  turns);
-    }
-    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
-  }
-    
-  if (!worklist_is_empty(pcity->worklist)) {
-    my_snprintf(buf3, sizeof(buf3), _("%s (worklist)"), buf2);
-  } else {
-    my_snprintf(buf3, sizeof(buf3), "%s", buf2);
-  }
-    
-  xaw_set_label(pdialog->building_label, buf3);
+  xaw_set_label(pdialog->building_label,
+		pcity->is_building_unit ?
+		  get_unit_type(pcity->currently_building)->name :
+		  get_imp_name_ex(pcity, pcity->currently_building));
+
+  get_contents_of_progress(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->progress_label, buf);
+
+  get_contents_of_worklist(pdialog, buf, sizeof(buf));
+  xaw_set_label(pdialog->worklist_label, buf);
 }
 
 /****************************************************************

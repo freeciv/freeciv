@@ -22,6 +22,8 @@
 #include "game.h"
 #include "support.h"
 
+#include "options.h"
+
 #include "cityrepdata.h"
 
 /************************************************************************
@@ -138,32 +140,36 @@ static char *cr_entry_num_trade(struct city *pcity)
 static char *cr_entry_building(struct city *pcity)
 {
   static char buf[128];
-  int using_worklist = !worklist_is_empty(pcity->worklist);
-  char *from_worklist = using_worklist?_("(worklist)"):"";
-  if(pcity->is_building_unit)  {
-    my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d/%d)%s", 
-		get_unit_type(pcity->currently_building)->name,
+  char *name;
+  int cost, turns;
+  char *from_worklist =
+    worklist_is_empty(pcity->worklist) ? "" :
+    concise_city_production ? "*" : _("(worklist)");
+
+  if(pcity->currently_building==B_CAPITAL) {
+    my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
+		get_imp_name_ex(pcity, pcity->currently_building),
 		pcity->shield_stock,
-		get_unit_type(pcity->currently_building)->build_cost,
-		city_turns_to_build(pcity, pcity->currently_building, TRUE),
-		city_buy_cost(pcity),
 		from_worklist);
   } else {
-    if(pcity->currently_building==B_CAPITAL)  {
-      my_snprintf(buf, sizeof(buf), "%s(%d/X/X/X)%s",
-		  get_imp_name_ex(pcity, pcity->currently_building),
-		  pcity->shield_stock,
-		  from_worklist);
+    if(pcity->is_building_unit) {
+      name = get_unit_type(pcity->currently_building)->name;
+      cost = get_unit_type(pcity->currently_building)->build_cost;
+      turns = city_turns_to_build(pcity, pcity->currently_building, TRUE);
     } else {
-      my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d/%d)%s", 
-		  get_imp_name_ex(pcity, pcity->currently_building),
-		  pcity->shield_stock,
-		  get_improvement_type(pcity->currently_building)->build_cost,
-		  city_turns_to_build(pcity, pcity->currently_building, FALSE),
-		  city_buy_cost(pcity),
-		  from_worklist);
+      name = get_imp_name_ex(pcity, pcity->currently_building);
+      cost = get_improvement_type(pcity->currently_building)->build_cost;
+      turns = city_turns_to_build(pcity, pcity->currently_building, FALSE);
     }
+    my_snprintf(buf, sizeof(buf), "%s (%d/%d/%d/%d)%s",
+		name,
+		pcity->shield_stock,
+		cost,
+		turns,
+		city_buy_cost(pcity),
+		from_worklist);
   }
+
   return buf;
 }
 

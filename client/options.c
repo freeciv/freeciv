@@ -42,6 +42,7 @@ int auto_center_on_unit=1;
 int wakeup_focus=1;
 int draw_diagonal_roads=1;
 int center_when_popup_city=1;
+int concise_city_production=0;
 int draw_map_grid=0;
 
 #define GEN_OPTION(name, description) { #name, description, &name, NULL }
@@ -58,6 +59,7 @@ client_option options[] = {
   GEN_OPTION(wakeup_focus,		    N_("Focus on Awakened Units    ")),
   GEN_OPTION(draw_diagonal_roads,	    N_("Draw Diagonal Roads/Rails  ")),
   GEN_OPTION(center_when_popup_city,	    N_("Center map when Popup city ")),
+  GEN_OPTION(concise_city_production,	    N_("Concise City Production    ")),
   NULL_OPTION
 };
 

@@ -23,6 +23,7 @@ extern int auto_center_on_unit;
 extern int wakeup_focus;
 extern int draw_diagonal_roads;
 extern int center_when_popup_city;
+extern int concise_city_production;
 extern int draw_map_grid;
 
 typedef struct {

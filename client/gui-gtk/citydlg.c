@@ -42,6 +42,7 @@
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
+#include "options.h"
 #include "repodlgs.h"
 #include "tilespec.h"
 #include "wldlg.h"
@@ -80,7 +81,7 @@ struct city_dialog {
   GtkWidget *close_command, *rename_command, *trade_command, *activate_command;
   GtkWidget *show_units_command, *cityopt_command;
   GtkWidget *building_label, *progress_label, *buy_command, *change_command,
-    *worklist_command;
+    *worklist_command, *worklist_label;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
   GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
@@ -444,6 +445,11 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->worklist_command=gtk_accelbutton_new(_("_Worklist"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->worklist_command, 
 			    FALSE, TRUE, 0);
+
+  pdialog->worklist_label=gtk_label_new("");
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->worklist_label, 
+			    FALSE, TRUE, 0);
+
   gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, TRUE, 0);
   pdialog->worklist_shell = NULL;
 
@@ -950,7 +956,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[64], buf3[128];
+  char buf[32], buf2[64];
   int turns;
   struct city *pcity=pdialog->pcity;
   
@@ -960,7 +966,8 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   if(pcity->is_building_unit) {
     turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
     my_snprintf(buf, sizeof(buf),
- 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+ 		concise_city_production ? "%3d/%3d:%3d" :
+		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
  		pcity->shield_stock,
  		get_unit_type(pcity->currently_building)->build_cost,
  		turns);
@@ -968,27 +975,29 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
       /* Capitalization is special, you can't buy it or finish making it */
-      my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
+      my_snprintf(buf, sizeof(buf),
+		  concise_city_production ? "%3d/XXX:XXX" :
+		    _("%3d/XXX XXX turns"),
+		  pcity->shield_stock);
       gtk_widget_set_sensitive(pdialog->buy_command, FALSE);
     } else {
       turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
       my_snprintf(buf, sizeof(buf),
-		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  concise_city_production ? "%3d/%3d:%3d" :
+		    turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
 		  pcity->shield_stock, 
 		  get_improvement_type(pcity->currently_building)->build_cost,
 		  turns);
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
-
-  if (!worklist_is_empty(pcity->worklist)) {
-    my_snprintf(buf3, sizeof(buf3), _("%s (worklist)"), buf2);
-  } else {
-    my_snprintf(buf3, sizeof(buf3), "%s", buf2);
-  }
     
-  gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf3);
+  gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf2);
   gtk_set_label(pdialog->progress_label, buf);
+  gtk_set_label(pdialog->worklist_label,
+		worklist_is_empty(pcity->worklist) ?
+		_("(list empty)") :
+		_("(in progress)"));
 }
 
 
