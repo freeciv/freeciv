@@ -938,22 +938,22 @@ msgstr ""
 #: server/diplhand.c:292
 #, c-format
 msgid "Game: The %s have aquired %s from the %s."
-msgstr ""
+msgstr "Joc: %si au obþinut %s de la %s."
 
 #: server/diplhand.c:307
 #, c-format
 msgid "Game: You get %d gold."
-msgstr ""
+msgstr "Joc: Aþi primit %d galbeni."
 
 #: server/diplhand.c:313
 #, c-format
 msgid "Game: You receive %s's worldmap."
-msgstr ""
+msgstr "Joc: Aþi primit harta lumi a %slor."
 
 #: server/diplhand.c:318
 #, c-format
 msgid "Game: You receive %s's seamap."
-msgstr ""
+msgstr "Joc: Aþi primit harta maritimã a %slor."
 
 #: server/diplhand.c:333
 #, c-format
@@ -4375,8 +4375,7 @@ msgstr "Joc: Nu puteþi paraºuta în ocean."
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
-"Joc: Distanþa la þintã (%i) este mai mare decât raza de acþiune a unitãþi (%"
-"i)."
+"Joc: Distanþa la þintã (%i) este mai mare decât raza de acþiune a unitãþi (%i)."
 
 #: server/unittools.c:2351
 #, c-format
@@ -6331,7 +6330,7 @@ msgstr "Harta lumii"
 #: client/gui-gtk/diplodlg.c:318 client/gui-gtk/diplodlg.c:336
 #: client/gui-xaw/diplodlg.c:375 client/gui-xaw/diplodlg.c:393
 msgid "Sea-map"
-msgstr ""
+msgstr "Harta maritimã"
 
 #: client/gui-gtk/diplodlg.c:324 client/gui-gtk/diplodlg.c:342
 #: client/gui-mui/diplodlg.c:481 client/gui-mui/diplodlg.c:516
@@ -7992,15 +7991,15 @@ msgstr "_Acceptã tratatul"
 
 #: client/gui-mui/diplodlg.c:529
 msgid "_Cancel meeting"
-msgstr "Renunþã la Întrunire"
+msgstr "_Renunþã la Întrunire"
 
 #: client/gui-mui/diplodlg.c:550 client/gui-mui/diplodlg.c:568
 msgid "World-Map"
-msgstr ""
+msgstr "Harta lumii"
 
 #: client/gui-mui/diplodlg.c:554 client/gui-mui/diplodlg.c:572
 msgid "Sea-Map"
-msgstr ""
+msgstr "Harta maritimã"
 
 #: client/gui-mui/diplodlg.c:648
 #, c-format
@@ -8788,13 +8787,13 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:511
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "Cercetând %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:243 client/gui-xaw/repodlgs.c:436
 #: client/gui-xaw/repodlgs.c:524
 #, c-format
 msgid "Goal: %s (%d steps)"
-msgstr ""
+msgstr "Þelul: %s (%d paºi)"
 
 #: client/gui-xaw/repodlgs.c:1150
 #, c-format
@@ -8966,7 +8965,7 @@ msgstr ""
 
 #: data/Freeciv:2048
 msgid "Production Worklist"
-msgstr ""
+msgstr "Planul de lucru"
 
 #: data/Freeciv:2115
 msgid "  Ok  "
@@ -9043,7 +9042,7 @@ msgstr "Lista Unitãþilor"
 
 #: data/Freeciv:2972
 msgid " Buy "
-msgstr " Cumpãrã"
+msgstr " Cumpãrã "
 
 #: data/Freeciv:2976
 msgid "Worklist"
@@ -9059,11 +9058,11 @@ msgstr "Unitãþi prezente:"
 
 #: data/Freeciv:3032
 msgid "What Nation Will You Be?"
-msgstr ""
+msgstr "Cãrei naþii vreþi sã-i aparþineþi?"
 
 #: data/Freeciv:3037
 msgid "Select nation and name:"
-msgstr ""
+msgstr "Alegeþi naþiunea ºi un nume:"
 
 #: data/Freeciv:3050
 msgid "Pick Name"
@@ -9079,7 +9078,7 @@ msgstr "Masculin  "
 
 #: data/Freeciv:3063
 msgid "Select city style:"
-msgstr ""
+msgstr "Alegeþi stilul oraºelor:"
 
 #: data/Freeciv:3074
 msgid " Ok "
@@ -9889,6 +9888,8 @@ msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
+"Zona de Control - abreviate ZDC - este o regulã a acestui joc ce interzice "
+"miºcarea liberã în zone controlate parþial sau total de inamic."
 
 #: data/helpdata.txt:990
 msgid ""
@@ -9911,6 +9912,11 @@ msgid ""
 "- A unit moving from an ocean square (disembarking from a boat).\n"
 "- A unit type which explicitly ignores ZOC, eg Diplomats."
 msgstr ""
+"În urmatoarele cazuri speciale regula ZDC nu are efect:\n"
+"- o unitate ce se miºcã direct într-un sau înafara unui oraº.\n"
+"- o unitate ce se miºcã pe un pãtrat ocupat de o unitate aliatã.\n"
+"- o unitate ce vine de pe un pãtrat de ocean (debarcheazã de pe o navã.\n"
+"- un tip unitate ce ignoreazã regula ZDC explicit, e.g. Diplomaþi."
 
 #: data/helpdata.txt:1002
 msgid ""
@@ -9957,6 +9963,10 @@ msgid ""
 "When choosing a place for a new city, make sure there are enough food-"
 "producing squares nearby to support your growing population."
 msgstr ""
+"Existã diferite tipuri de teren, fiecare având avantaje ºi dezavantaje "
+"diferite.  Când alegeþi un loc pentru un oraº nou aveþi grijã sã fie "
+"destule pãtrate producãtoare de hranã în apropiere pentru a înlesni "
+"creºterea oraºului."
 
 #: data/helpdata.txt:1043
 msgid ""
@@ -10048,7 +10058,7 @@ msgstr ""
 
 #: data/helpdata.txt:1104
 msgid "  Pillaging"
-msgstr ""
+msgstr "  Prãdarea"
 
 #: data/helpdata.txt:1105
 msgid ""
@@ -10152,6 +10162,8 @@ msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr ""
+"Jucãtorii rãmân în stare de rãzboi civil doar pentru o rundã dupã care "
+"imperiul se aflã în stare de anarhie."
 
 #: data/helpdata.txt:1173
 msgid ""
@@ -10438,7 +10450,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:268 data/civ2/buildings.ruleset:249
 #: data/default/buildings.ruleset:433
 msgid "Coastal Defense"
-msgstr ""
+msgstr "Apãrarea de Coastã"
 
 #: data/civ1/buildings.ruleset:285 data/civ2/buildings.ruleset:266
 #: data/default/buildings.ruleset:450
@@ -10470,6 +10482,9 @@ msgid ""
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
+"Reduce corupþia într-un oraº cu 50%. Sub o Democraþie o Judacãtorie "
+"mulþumeºte un cetãþean nemulþumit. Totodatã înjumãtãþeºte distanþa "
+"efectivã de capitalã, ce intrã în calculul costului unei revolte."
 
 #: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:323
 #: data/default/buildings.ruleset:509
@@ -10868,6 +10883,9 @@ msgid ""
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
 msgstr ""
+"Mulþumeºte un jucãtor nemulþumit. Misticismul ºi minunea Oraclul "
+"dubleazã acest efect. Având Misticismul cât ºi Oraclul, 4 cetãþeni "
+"sunt multumiþi."
 
 #: data/civ1/buildings.ruleset:1058 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1049 data/civ2/techs.ruleset:559
@@ -10896,6 +10914,9 @@ msgid ""
 "players to start building spaceship parts (assuming they have researched the "
 "necessary technologies)."
 msgstr ""
+"Întreaga hartã devine vizibilã pentru jucãtorul în posesia acestei "
+"minuni. Permite tuturor jucãtorilor sã porneascã construcþia unei nave "
+"spaþiale (desigur doar dacã au cunoºtinþele necesare)."
 
 #: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
 #: data/default/buildings.ruleset:1303
@@ -11037,7 +11058,7 @@ msgstr "Catedrala lui J.S. Bach"
 
 #: data/civ2/buildings.ruleset:1381 data/default/buildings.ruleset:1589
 msgid "Makes two unhappy citizens content in every city."
-msgstr ""
+msgstr "Mulþumeºte doi cetãþeni nemulþumiþi în fiecare oraº."
 
 #: data/civ1/buildings.ruleset:1400 data/civ2/buildings.ruleset:1386
 #: data/default/buildings.ruleset:1594
@@ -11332,6 +11353,9 @@ msgid ""
 "all players to start building spaceship parts (assuming they have researched "
 "the necessary technologies)."
 msgstr ""
+"Toate oraºele de pe hartã sunt vizibile pentru jucãtorul în posesia acestei "
+"minuni. Permite tuturor jucãtorilor sã porneascã construcþia unei nave "
+"spaþiale (desigur doar dacã au cunoºtinþele necesare)."
 
 #: data/civ1/buildings.ruleset:1345
 msgid ""
@@ -11345,6 +11369,8 @@ msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
 msgstr ""
+"Mulþumeºte doi cetãþeni nemulþumiþi în fiecare oraº ce vã aparþine "
+"situat pe acelaºi continent cu minunea."
 
 #: data/civ1/buildings.ruleset:1491
 msgid "Gives all sea units 1 additional movement point."
@@ -12406,7 +12432,7 @@ msgstr "Grâu"
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
-msgstr "Preria este o regiune foarte întinsã îngreunând într-un fel negot,ul."
+msgstr "Preria este o regiune foarte întinsã îngreunând într-un fel negoþul."
 
 #: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:510
 #: data/classic/terrain.ruleset:509 data/default/terrain.ruleset:510
@@ -12464,6 +12490,8 @@ msgid ""
 "Arctic squares are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
 msgstr ""
+"Pãtratele arctice se gãsesc doar la extremele nordice ºi sudice ale lumii. "
+"Frigul aspru îngreuneazã traiul pe aceste pãtrate."
 
 #: data/civ1/terrain.ruleset:442 data/classic/terrain.ruleset:442
 msgid "Horses"
@@ -12750,7 +12778,7 @@ msgstr "Interceptor Invizibil"
 #: data/civ2/units.ruleset:837 data/default/units.ruleset:837
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
-"Un Interceptor îmbunãtãþit cu o putere de atac ºi razã de acþiune mãritã."
+"Un Interceptor îmbunãtãþit cu putere de atac ºi razã de acþiune mãritã."
 
 #: data/civ1/units.ruleset:813 data/civ2/units.ruleset:843
 #: data/default/units.ruleset:843
@@ -12760,7 +12788,7 @@ msgstr "Bombardier Invizibil"
 #: data/civ2/units.ruleset:864 data/default/units.ruleset:864
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
-"Un bombardier îmbunãtãþit cu o putere de distrugere ºi razã de acþiune "
+"Un bombardier îmbunãtãþit cu putere de distrugere ºi razã de acþiune "
 "mãritã."
 
 #: data/civ1/units.ruleset:836 data/civ2/units.ruleset:870
@@ -12824,7 +12852,7 @@ msgstr "Submarin"
 #: data/default/units.ruleset:1103
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
-"Submarinele au o impotanþa strategicã deosebitã, dar au o apãrare slabã."
+"Submarinele au o importanþa strategicã deosebitã, dar au o apãrare slabã."
 
 #: data/civ1/units.ruleset:1070 data/civ2/units.ruleset:1109
 #: data/default/units.ruleset:1109
@@ -12838,7 +12866,7 @@ msgid ""
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 "SFAT: Pãziþivã portavionul cu câteva nave rapide ºi un cuirasat, deoarece "
-"pierderea unui portavion încãcat plin este FOARTE costisitoare ºi dureroasã."
+"pierderea unui portavion încãrcat plin este FOARTE costisitoare ºi dureroasã."
 
 #: data/civ1/units.ruleset:1098 data/civ2/units.ruleset:1137
 #: data/default/units.ruleset:1137
@@ -12954,7 +12982,7 @@ msgstr "Camion"
 
 #: data/civ2/units.ruleset:1364 data/default/units.ruleset:1364
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "Camionul înlocuies,te caravana ºi se deplaseazã cu vitezã dublã."
+msgstr "Camionul înlocuieºte caravana ºi se deplaseazã cu vitezã dublã."
 
 #: data/civ1/units.ruleset:1304 data/civ2/units.ruleset:1369
 #: data/default/units.ruleset:1369
