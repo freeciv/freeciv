@@ -1253,17 +1253,17 @@ void server_remove_player(struct player *pplayer)
   lsend_packet_generic_integer(&game.est_connections,
 			       PACKET_REMOVE_PLAYER, &pack);
 
-  game_remove_player(pplayer->player_no);
+  game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void make_contact(int player1, int player2, int x, int y)
+void make_contact(struct player *pplayer1, struct player *pplayer2,
+		  int x, int y)
 {
-  struct player *pplayer1 = get_player(player1);
-  struct player *pplayer2 = get_player(player2);
+  int player1 = pplayer1->player_no, player2 = pplayer2->player_no;
 
   if (pplayer1 == pplayer2
       || !pplayer1->is_alive || !pplayer2->is_alive
@@ -1293,15 +1293,15 @@ void make_contact(int player1, int player2, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void maybe_make_first_contact(int x, int y, int playerid)
+void maybe_make_first_contact(int x, int y, struct player *pplayer)
 {
   square_iterate(x, y, 1, x_itr, y_itr) {
     struct tile *ptile = map_get_tile(x_itr, y_itr);
     struct city *pcity = ptile->city;
     if (pcity)
-      make_contact(playerid, pcity->owner, x, y);
+      make_contact(pplayer, city_owner(pcity), x, y);
     unit_list_iterate(ptile->units, punit) {
-      make_contact(playerid, punit->owner, x, y);
+      make_contact(pplayer, unit_owner(punit), x, y);
     } unit_list_iterate_end;
   } square_iterate_end;
 }
@@ -1325,8 +1325,9 @@ void neutralize_ai_player(struct player *pplayer)
     if (!pother->is_alive || pplayer == pother
 	|| pplayer_get_diplstate(pplayer, pother)->type == DS_NO_CONTACT)
       continue;
-    while (pplayers_non_attack(pplayer, pother) || pplayers_allied(pplayer, pother)) {
-      handle_player_cancel_pact(pplayer, other_player);
+    while (pplayers_non_attack(pplayer, pother)
+	   || pplayers_allied(pplayer, pother)) {
+      handle_player_cancel_pact(pplayer, pother->player_no);
     }
   }
 }

@@ -261,7 +261,7 @@ static void marco_polo_make_contact(void)
   struct city *pcity;
   if (cityid && (pcity = find_city_by_id(cityid)))
     for (o = 0; o < game.nplayers; o++)
-      make_contact(pcity->owner, o, pcity->x, pcity->y);
+      make_contact(city_owner(pcity), get_player(o), pcity->x, pcity->y);
 }
 
 /**************************************************************************

@@ -338,7 +338,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
     if (pplayer==NULL && !pconn->observer) {
       continue;
     }
-    if(pplayer==NULL || map_get_known_and_seen(x, y, pplayer->player_no)) {
+    if (pplayer == NULL || map_get_known_and_seen(x, y, pplayer)) {
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
       info.special = ptile->special;
@@ -689,14 +689,13 @@ shown
 **************************************************************************/
 static void really_show_area(struct player *pplayer, int x, int y)
 {
-  int playerid = pplayer->player_no;
   struct city *pcity;
   int old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "Showing %i,%i", x, y);
 
   send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, 0);
-  if (!map_get_known_and_seen(x, y, playerid)) {
+  if (!map_get_known_and_seen(x, y, pplayer)) {
     map_set_known(x, y, pplayer);
 
     /* as the tile may be fogged send_tile_info won't always do this for us */
@@ -767,11 +766,13 @@ int map_get_known(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_known_and_seen(int x, int y, int playerid)
+int map_get_known_and_seen(int x, int y, struct player *pplayer)
 {
   int offset = map_adjust_x(x)+map_adjust_y(y)*map.xsize;
-  return ((map.tiles+offset)->known)&(1u<<playerid) &&
-    (get_player(playerid)->private_map+offset)->seen;
+  int playerid=pplayer->player_no;
+
+  return ((map.tiles + offset)->known) & (1u << playerid) &&
+      (pplayer->private_map + offset)->seen;
 }
 
 /***************************************************************
@@ -985,14 +986,14 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 {
   struct dumb_city *from_city, *dest_city;
   struct player_tile *from_tile, *dest_tile;
-  if (!map_get_known_and_seen(x, y, pdest->player_no)) {
+  if (!map_get_known_and_seen(x, y, pdest)) {
     /* I can just hear people scream as they try to comprehend this if :).
        Let me try in words:
        1) if the tile is seen by pdest the info is sent to pfrom
        OR
        2) if the tile is known by pfrom AND (he has more resent info
           OR it is not known by pdest) */
-    if (map_get_known_and_seen(x, y, pfrom->player_no)
+    if (map_get_known_and_seen(x, y, pfrom)
 	|| (map_get_known(x,y,pfrom)
 	    && (((map_get_player_tile(x, y, pfrom)->last_updated
 		 > map_get_player_tile(x, y, pdest)->last_updated))

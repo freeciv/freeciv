@@ -1328,7 +1328,8 @@ int enemies_at(struct unit *punit, int x, int y)
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_vulnerability_virtual(punit) * db;
   adjc_iterate(x, y, x1, y1) {
-    if (!pplayer->ai.control && !map_get_known_and_seen(x1, y1, punit->owner)) continue;
+    if (!pplayer->ai.control
+	&& !map_get_known_and_seen(x1, y1, unit_owner(punit))) continue;
     if (is_enemy_city_tile(map_get_tile(x1, y1), unit_owner(punit)))
       return 1;
     unit_list_iterate(map_get_tile(x1, y1)->units, enemy) {
@@ -1643,7 +1644,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
 
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
-  maybe_make_first_contact(x, y, punit->owner);
+  maybe_make_first_contact(x, y, unit_owner(punit));
   wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
@@ -1689,13 +1690,13 @@ static void server_remove_unit(struct unit *punit)
 
   packet.value = punit->id;
   players_iterate(pplayer) {
-    if (map_get_known_and_seen(punit_x, punit_y, pplayer->player_no)) {
+    if (map_get_known_and_seen(punit_x, punit_y, pplayer)) {
       lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_UNIT,
 				   &packet);
     }
   } players_iterate_end;
 
-  game_remove_unit(punit->id);  
+  game_remove_unit(punit);  
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(punit_x, punit_y, x1, y1) {
@@ -1945,8 +1946,8 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
     struct player *pplayer = pconn->player;
     if (pplayer==NULL && !pconn->observer) continue;
     if (pplayer==NULL
-	|| map_get_known_and_seen(info.x, info.y, pplayer->player_no)
-	|| map_get_known_and_seen(x, y, pplayer->player_no)) {
+	|| map_get_known_and_seen(info.x, info.y, pplayer)
+	|| map_get_known_and_seen(x, y, pplayer)) {
       send_packet_unit_info(pconn, &info);
     }
   }
@@ -1981,8 +1982,8 @@ void send_all_known_units(struct conn_list *dest)
     for(p=0; p<game.nplayers; p++) { /* send the players units */
       struct player *unitowner = &game.players[p];
       unit_list_iterate(unitowner->units, punit) {
-	if (pplayer==NULL
-	    || map_get_known_and_seen(punit->x, punit->y, pplayer->player_no)) {
+	if (pplayer == NULL
+	    || map_get_known_and_seen(punit->x, punit->y, pplayer)) {
 	  send_unit_info_to_onlookers(&pconn->self, punit,
 				      punit->x, punit->y, 0, 0);
 	}
@@ -2670,7 +2671,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
-	  && map_get_known_and_seen(punit->x, punit->y, penemy->owner)
+	  && map_get_known_and_seen(punit->x, punit->y, unit_owner(penemy))
 	  && range >= real_map_distance(punit->x, punit->y, x, y)
 	  && player_can_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
@@ -2717,7 +2718,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
     homecity = find_city_by_id(punit->homecity);
 
   wakeup_neighbor_sentries(punit);
-  maybe_make_first_contact(dest_x, dest_y, punit->owner);
+  maybe_make_first_contact(dest_x, dest_y, unit_owner(punit));
 
   if (tocity)
     handle_unit_enter_city(punit, tocity);

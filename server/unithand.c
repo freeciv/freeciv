@@ -655,7 +655,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     
     packet.x=def_x;
     packet.y=def_y;
-    if ((pcity=sdi_defense_close(punit->owner, def_x, def_y))) {
+    if ((pcity=sdi_defense_close(unit_owner(punit), def_x, def_y))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
 		       _("Game: Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));
@@ -714,9 +714,10 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   combat.make_winner_veteran=pwinner->veteran?1:0;
   
   for(o=0; o<game.nplayers; o++)
-    if(map_get_known_and_seen(punit->x, punit->y, o) ||
-       map_get_known_and_seen(def_x, def_y, o))
+    if (map_get_known_and_seen(punit->x, punit->y, get_player(o)) ||
+	map_get_known_and_seen(def_x, def_y, get_player(o))) {
       lsend_packet_unit_combat(&game.players[o].connections, &combat);
+    }
   conn_list_iterate(game.game_connections, pconn) {
     if (!pconn->player && pconn->observer) {
       send_packet_unit_combat(pconn, &combat);

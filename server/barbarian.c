@@ -393,12 +393,13 @@ static void try_summon_barbarians(void)
   show_area(barbarians, pc->x, pc->y, 3);
 
   /* There should probably be a different message about Sea Raiders */
-  if( is_land_barbarian(barbarians) )
-    notify_player_ex( victim, xu, yu, E_UPRISING, _("Native unrest near %s led by %s."),
-                      pc->name, barbarians->name);
-  else if( map_get_known_and_seen(xu, yu, victim->player_no) )
-    notify_player_ex( victim, xu, yu, E_UPRISING, _("Sea raiders seen near %s!"),
-                      pc->name);
+  if (is_land_barbarian(barbarians))
+    notify_player_ex(victim, xu, yu, E_UPRISING,
+		     _("Native unrest near %s led by %s."), pc->name,
+		     barbarians->name);
+  else if (map_get_known_and_seen(xu, yu, victim))
+    notify_player_ex(victim, xu, yu, E_UPRISING,
+		     _("Sea raiders seen near %s!"), pc->name);
 }
 
 /**************************************************************************

@@ -218,11 +218,11 @@ struct city *game_find_city_by_name(char *name);
 struct unit *find_unit_by_id(int id);
 struct city *find_city_by_id(int id);
 
-void game_remove_player(int plrno);
+void game_remove_player(struct player *pplayer);
 void game_remove_all_players(void);
 void game_renumber_players(int plrno);
 
-void game_remove_unit(int unit_id);
+void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
 int research_time(struct player *pplayer);
 int total_player_citizens(struct player *pplayer);

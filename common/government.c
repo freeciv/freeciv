@@ -162,19 +162,10 @@ struct government *get_gov_pplayer(struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-struct government *get_gov_iplayer(int player_num)
-{
-  assert(player_num >= 0 && player_num < game.nplayers);
-  return get_government(game.players[player_num].government);
-}
-
-/***************************************************************
-...
-***************************************************************/
 struct government *get_gov_pcity(struct city *pcity)
 {
   assert(pcity);
-  return get_gov_iplayer(pcity->owner);
+  return get_gov_pplayer(city_owner(pcity));
 }
 
 

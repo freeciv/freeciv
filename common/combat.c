@@ -224,12 +224,12 @@ int unit_behind_sdi(struct unit *punit)
 /**************************************************************************
   a wrapper function returns 1 if there is a sdi-defense close to the square
 **************************************************************************/
-struct city *sdi_defense_close(int owner, int x, int y)
+struct city *sdi_defense_close(struct player *owner, int x, int y)
 {
   square_iterate(x, y, 2, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity && (pcity->owner!=owner) && city_got_building(pcity, B_SDI))
-      return pcity;
+    if (pcity && (city_owner(pcity) != owner)
+	&& city_got_building(pcity, B_SDI)) return pcity;
   } square_iterate_end;
 
   return NULL;
@@ -295,7 +295,7 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender)
  Specifically, include:
  unit def, terrain effect, fortress effect, ground unit in city effect
 ***************************************************************************/
-int get_simple_defense_power(int d_type, int x, int y)
+int get_simple_defense_power(Unit_Type_id d_type, int x, int y)
 {
   int defensepower=unit_types[d_type].defense_strength;
   struct city *pcity = map_get_city(x, y);
@@ -322,7 +322,7 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 /**************************************************************************
 ...
 **************************************************************************/
-int get_virtual_defense_power(int a_type, int d_type, int x, int y)
+int get_virtual_defense_power(Unit_Type_id a_type, Unit_Type_id d_type, int x, int y)
 {
   int defensepower=unit_types[d_type].defense_strength;
   int m_type = unit_types[a_type].move_type;

@@ -737,8 +737,9 @@ struct city *transfer_city(struct player *ptaker,
   /* Update the city's trade routes. */
   for (i=0; i<4; i++)
     old_trade_routes[i] = pcity->trade[i];
-  for (i=0; i<4; i++)
-    remove_trade_route(pcity->trade[i], pcity->id); 
+  for (i = 0; i < 4; i++) {
+    remove_trade_route(find_city_by_id(pcity->trade[i]), pcity);
+  }
   reestablish_city_trade_routes(pcity, old_trade_routes);
 
   city_refresh(pcity);
@@ -781,7 +782,7 @@ struct city *transfer_city(struct player *ptaker,
   }
 
   map_fog_pseudo_city_area(pgiver, pcity->x, pcity->y);
-  maybe_make_first_contact(pcity->x, pcity->y, ptaker->player_no);
+  maybe_make_first_contact(pcity->x, pcity->y, ptaker);
 
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_nation_name_plural(pgiver->nation),
@@ -910,7 +911,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
   pcity->synced = 0;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
-  maybe_make_first_contact(x, y, pcity->owner);
+  maybe_make_first_contact(x, y, city_owner(pcity));
 
   /* Catch fortress building, transforming into ocean, etc. */
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
@@ -1004,8 +1005,8 @@ void remove_city(struct city *pcity)
     goto MOVE_SEA_UNITS;
   } unit_list_iterate_end;
 
-  for (o=0; o<4; o++)
-    remove_trade_route(pcity->trade[o], pcity->id); 
+  for (o = 0; o < 4; o++)
+    remove_trade_route(find_city_by_id(pcity->trade[o]), pcity);
 
   /* idex_unregister_city() is called in game_remove_city() below */
 
@@ -1018,7 +1019,7 @@ void remove_city(struct city *pcity)
   game_remove_city(pcity);
 
   for(o=0; o<game.nplayers; o++)           /* dests */
-    if (map_get_known_and_seen(x, y, o))
+    if (map_get_known_and_seen(x, y, get_player(o)))
       reality_check_city(&game.players[o], x, y);
   map_fog_pseudo_city_area(pplayer, x, y);
 
@@ -1155,7 +1156,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   sz_strlcpy(packet->name, pdcity->name);
 
   packet->size=pdcity->size;
-  if (map_get_known_and_seen(x, y, pplayer->player_no)) {
+  if (map_get_known_and_seen(x, y, pplayer)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
     pcity = map_get_tile(x,y)->city;
@@ -1205,7 +1206,7 @@ static void broadcast_city_info(struct city *pcity)
   for(o=0; o<game.nplayers; o++) {
     struct player *pplayer = &game.players[o];
     if(pcity->owner==o) continue; /* already sent above */
-    if(map_get_known_and_seen(pcity->x, pcity->y, o)) {
+    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer)) {
       update_dumb_city(pplayer, pcity);
       package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
       lsend_packet_short_city(&pplayer->connections, &sc_pack);
@@ -1339,7 +1340,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	package_city(pcity, &packet, FALSE);   /* should be dumb_city info? */
 	lsend_packet_city_info(dest, &packet);
       }
-    } else if (map_get_known_and_seen(x, y, pviewer->player_no)) {
+    } else if (map_get_known_and_seen(x, y, pviewer)) {
       if (pcity) { /* it's there and we see it; update and send */
 	update_dumb_city(pviewer, pcity);
 	package_dumb_city(pviewer, x, y, &sc_pack);
@@ -1480,22 +1481,19 @@ void reality_check_city(struct player *pplayer,int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void remove_trade_route(int c1, int c2) 
+void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
-  struct city *pc1, *pc2;
-  
-  pc1=find_city_by_id(c1);
-  pc2=find_city_by_id(c2);
+
   if (pc1) {
-    for (i=0;i<4;i++)
-      if (pc1->trade[i]==c2)
-	pc1->trade[i]=0;
+    for (i = 0; i < 4; i++)
+      if (pc1->trade[i] == pc2->id)
+	pc1->trade[i] = 0;
   }
   if (pc2) {
-    for (i=0;i<4;i++)
-      if (pc2->trade[i]==c1)
-	pc2->trade[i]=0;
+    for (i = 0; i < 4; i++)
+      if (pc2->trade[i] == pc1->id)
+	pc2->trade[i] = 0;
   }
 }
 

@@ -414,7 +414,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Check for unit from a bribable government. */
-  if (government_has_flag (get_gov_iplayer (pvictim->owner), G_UNBRIBABLE)) {
+  if (government_has_flag(get_gov_pplayer(unit_owner(pvictim)),
+			  G_UNBRIBABLE)) {
     notify_player_ex (pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT,
 		      _("Game: You can't bribe a unit from this nation."));
     freelog (LOG_DEBUG, "bribe-unit: unit's government is unbribable");
@@ -1331,7 +1332,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
 {  
-  struct government *g = get_gov_iplayer(punit->owner);
+  struct government *g = get_gov_pplayer(unit_owner(punit));
   int cost;
   struct city *capital;
   int dist;

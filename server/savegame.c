@@ -1291,7 +1291,7 @@ static void player_map_load(struct player *plr, int plrno,
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
     for (x=0; x<map.xsize; x++) {
       for (y=0; y<map.ysize; y++) {
-	if (map_get_known_and_seen(x, y, plrno)) {
+	if (map_get_known_and_seen(x, y, get_player(plrno))) {
 	  update_tile_knowledge(plr, x, y);
 	  reality_check_city(plr, x, y);
 	  if (map_get_city(x, y)) {

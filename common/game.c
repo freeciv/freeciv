@@ -614,37 +614,33 @@ struct unit *find_unit_by_id(int id)
 /**************************************************************************
 If in the server use wipe_unit().
 **************************************************************************/
-void game_remove_unit(int unit_id)
+void game_remove_unit(struct unit *punit)
 {
-  struct unit *punit;
+  struct city *pcity;
 
-  freelog(LOG_DEBUG, "game_remove_unit %d", unit_id);
-  
-  if((punit=find_unit_by_id(unit_id))) {
-    struct city *pcity;
+  freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
+  freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+	  punit->id, get_nation_name(unit_owner(punit)->nation),
+	  unit_name(punit->type), punit->x, punit->y, punit->homecity);
 
-    freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_nation_name(unit_owner(punit)->nation),
-	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
+  pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
+  if (pcity)
+    unit_list_unlink(&pcity->units_supported, punit);
 
-    pcity=player_find_city_by_id(unit_owner(punit), punit->homecity);
-    if(pcity)
-      unit_list_unlink(&pcity->units_supported, punit);
-    
-    if (pcity) {
-      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-    }
-
-    unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-    unit_list_unlink(&unit_owner(punit)->units, punit);
-    
-    idex_unregister_unit(punit);
-    
-    free(punit);
-    if(is_server)
-      dealloc_id(unit_id);
+  if (pcity) {
+    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x,
+	    pcity->y);
   }
+
+  unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+  unit_list_unlink(&unit_owner(punit)->units, punit);
+
+  idex_unregister_unit(punit);
+
+  if (is_server)
+    dealloc_id(punit->id);
+  free(punit);
 }
 
 /**************************************************************************
@@ -870,7 +866,7 @@ void game_remove_all_players(void)
 {
   int i;
   for(i=0; i<game.nplayers; ++i)
-    game_remove_player(i);
+    game_remove_player(get_player(i));
   game.nplayers=0;
 }
 
@@ -878,12 +874,10 @@ void game_remove_all_players(void)
 /***************************************************************
 ...
 ***************************************************************/
-void game_remove_player(int plrno)
+void game_remove_player(struct player *pplayer)
 {
-  struct player *pplayer=&game.players[plrno];
-
   unit_list_iterate(pplayer->units, punit) 
-    game_remove_unit(punit->id);
+    game_remove_unit(punit);
   unit_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) 
