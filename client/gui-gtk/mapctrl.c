@@ -234,8 +234,17 @@ void create_line_at_mouse_pos(void)
   int x, y;
 
   gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
-
-  update_line(x, y);
+  if (x >= 0 && y >= 0
+      && x < mapview_canvas.width && y < mapview_canvas.width) {
+    update_line(x, y);
+  } else {
+    gdk_window_get_pointer(overview_canvas->window, &x, &y, 0);
+    if (x >= 0 && y >= 0
+	&& x < OVERVIEW_TILE_WIDTH * map.xsize
+	&& y < OVERVIEW_TILE_WIDTH * map.ysize) {
+      overview_update_line(x, y);
+    }
+  }
 }
 
 /**************************************************************************
@@ -244,6 +253,15 @@ void create_line_at_mouse_pos(void)
 gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
 {
   update_line(event->x, event->y);
+  return TRUE;
+}
+
+/**************************************************************************
+  Draw a goto line when the mouse moves over the overview canvas.
+**************************************************************************/
+gint move_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
+{
+  overview_update_line(event->x, event->y);
   return TRUE;
 }
 

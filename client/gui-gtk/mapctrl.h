@@ -26,6 +26,7 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev);
 gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event);
+gint move_overviewcanvas(GtkWidget *widget, GdkEventButton *event);
 
 void center_on_unit(void);
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);

@@ -226,6 +226,24 @@ void update_line(int canvas_x, int canvas_y)
   }
 }
 
+/****************************************************************************
+  Update the goto/patrol line to the given overview canvas location.
+****************************************************************************/
+void overview_update_line(int overview_x, int overview_y)
+{
+  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+      && draw_goto_line) {
+    int x, y, old_x, old_y;
+
+    overview_to_map_pos(&x, &y, overview_x, overview_y);
+
+    get_line_dest(&old_x, &old_y);
+    if (!same_pos(old_x, old_y, x, y)) {
+      draw_line(x, y);
+    }
+  }
+}
+
 /**************************************************************************
   Find the focus unit's chance of success at attacking/defending the
   given tile.  Return FALSE if the values cannot be determined (e.g., no
