@@ -495,19 +495,30 @@ The Procedure:
    commands.
 
 
-9. Mac OS X notes:
-==================
-Apples version of gcc uses precompiled headers that does not support
-vararg macros. So instead of the usual
-  % ./configure <...>
-depending on which shell you work in, instead use:
+9. Mac OS X and Darwin notes:
+=============================
 
- bourne shell:
-   % CC="gcc -no-cpp-precomp" ./configure <...>
- c shell:
+Apple's version of GCC uses precompiled headers that does not support
+vararg macros (a GCC extension).  This causes GCC to fail when
+compiling Freeciv since the compiler is otherwise (mostly)
+indistuingishable from vanilla GCC.  So instead of the usual
+
+  % ./configure <...>
+
+you should use either
+
+ Bourne shell:
+   $ CC="gcc -no-cpp-precomp" ./configure <...>
+
+or
+
+ C shell:
    % env CC="gcc -no-cpp-precomp" ./configure <...>
 
-Where <...> is whatever additional arguments you want to give to
+depending on whether your shell is a Bourne or C shell variant.  (If
+in doubt, just try both to see which one will work.)
+
+Replace <...> with whatever additional arguments you want to give to
 configure.
 
 ** END **
