@@ -1235,82 +1235,123 @@ static void adjust_ai_unit_choice(struct city *pcity,
 }
 
 /********************************************************************** 
-... this function should assign a value to choice and want and type, 
-    where want is a value between 1 and 100.
-    if want is 0 this advisor doesn't want anything
+    This function selects either a defender or an attacker to be built.
+    It records its choice into ai_choice struct.
+    If coice->want is 0 this advisor doesn't want anything.
 ***********************************************************************/
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   Unit_Type_id unit_type;
-  int def, danger, urgency;
+  int our_def, danger, urgency;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct unit *virtualunit;
 
   init_choice(choice);
 
-  /* Note: assess_danger() creates a warmap for us */
-  urgency = assess_danger(pcity); /* calling it now, rewriting old wall code */
-  freelog(LOG_DEBUG, "%s: danger %d, grave_danger %d",
-          pcity->name, pcity->ai.danger, pcity->ai.grave_danger);
-  def = assess_defense_quadratic(pcity); /* has to be AFTER assess_danger thanks to wallvalue */
-/* changing to quadratic to stop AI from building piles of small units -- Syela */
-  danger = pcity->ai.danger; /* we now have our warmap and will use it! */
-  freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
-          pcity->name, danger, def);
+  /* Note: assess_danger() creates a warmap for us. */
+  urgency = assess_danger(pcity);
+  /* Changing to quadratic to stop AI from building piles 
+   * of small units -- Syela */
+  /* It has to be AFTER assess_danger thanks to wallvalue. */
+  our_def = assess_defense_quadratic(pcity); 
+  freelog(LOG_DEBUG, "%s: danger = %d, grave_danger = %d, our_def = %d",
+          pcity->name, pcity->ai.danger, pcity->ai.grave_danger, our_def);
 
-  ai_choose_diplomat_defensive(pplayer, pcity, choice, def);
+  ai_choose_diplomat_defensive(pplayer, pcity, choice, our_def);
 
+  /* Otherwise no need to defend yet */
+  if (pcity->ai.danger != 0) { 
+    int num_defenders = unit_list_size(&ptile->units);
 
-  if (danger != 0) { /* otherwise might be able to wait a little longer to defend */
-    if (danger >= def) {
-      if (urgency == 0) danger = 100; /* don't waste money otherwise */
-      else if (danger >= def * 2) danger = 200 + urgency;
-      else { danger *= 100; danger /= def; danger += urgency; }
-    } else { danger *= 100; danger /= def; }
-    if (pcity->shield_surplus <= 0 && def != 0) danger = 0;
-    if (pcity->ai.building_want[B_CITY] != 0 && def != 0 && can_build_improvement(pcity, B_CITY)
-        && (danger < 101 || unit_list_size(&ptile->units) > 1 ||
-/* walls before a second defender, unless we need it RIGHT NOW */
-         (pcity->ai.grave_danger == 0 && /* I'm not sure this is optimal */
-         pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) &&
-        ai_fuzzy(pplayer, TRUE)) {
-/* or we can afford just to buy walls.  Added 980805 -- Syela */
-      choice->choice = B_CITY; /* great wall is under domestic */
-      choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
-      if (urgency == 0 && choice->want > 100) choice->want = 100;
+    /* First determine the danger.  It is measured in percents of our 
+     * defensive strength, capped at 200 + urgency */
+    if (pcity->ai.danger >= our_def) {
+      if (urgency == 0) {
+        /* don't waste money */
+        danger = 100;
+      } else if (our_def == 0) {
+        danger = 200 + urgency;
+      } else {
+        danger = MIN(200, 100 * pcity->ai.danger / our_def) + urgency;
+      }
+    } else { 
+      danger = 100 * pcity->ai.danger / our_def;
+    }
+    if (pcity->shield_surplus <= 0 && our_def != 0) {
+      /* Won't be able to support anything */
+      danger = 0;
+    }
+
+    /* FIXME: 1. Will tend to build walls beofre coastal irrespectfully what
+     * type of danger we are facing
+     * 2. (80 - pcity->shield_stock) * 2 below is hardcoded price of walls */
+    /* We will build walls if we can and want and (have "enough" defenders or
+     * can just buy the walls straight away) */
+    if (pcity->ai.building_want[B_CITY] != 0 && our_def != 0 
+        && can_build_improvement(pcity, B_CITY)
+        && (danger < 101 || num_defenders > 1
+            || (pcity->ai.grave_danger == 0 
+                && pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) 
+        && ai_fuzzy(pplayer, TRUE)) {
+      /* NB: great wall is under domestic */
+      choice->choice = B_CITY;
+      /* building_want is hacked by assess_danger */
+      choice->want = pcity->ai.building_want[B_CITY];
+      if (urgency == 0 && choice->want > 100) {
+        choice->want = 100;
+      }
       choice->type = CT_BUILDING;
-    } else if (pcity->ai.building_want[B_COASTAL] != 0 && def != 0 &&
-        can_build_improvement(pcity, B_COASTAL) &&
-        (danger < 101 || unit_list_size(&ptile->units) > 1) &&
-        ai_fuzzy(pplayer, TRUE)) {
-      choice->choice = B_COASTAL; /* great wall is under domestic */
-      choice->want = pcity->ai.building_want[B_COASTAL]; /* hacked by assess_danger */
-      if (urgency == 0 && choice->want > 100) choice->want = 100;
+
+    } else if (pcity->ai.building_want[B_COASTAL] != 0 && our_def != 0 
+               && can_build_improvement(pcity, B_COASTAL) 
+               && (danger < 101 || num_defenders > 1) 
+               && ai_fuzzy(pplayer, TRUE)) {
+      choice->choice = B_COASTAL;
+      /* building_want is hacked by assess_danger */
+      choice->want = pcity->ai.building_want[B_COASTAL];
+      if (urgency == 0 && choice->want > 100) {
+        choice->want = 100;
+      }
       choice->type = CT_BUILDING;
-    } else if (pcity->ai.building_want[B_SAM] != 0 && def != 0 &&
-        can_build_improvement(pcity, B_SAM) &&
-        (danger < 101 || unit_list_size(&ptile->units) > 1) &&
-        ai_fuzzy(pplayer, TRUE)) {
-      choice->choice = B_SAM; /* great wall is under domestic */
-      choice->want = pcity->ai.building_want[B_SAM]; /* hacked by assess_danger */
-      if (urgency == 0 && choice->want > 100) choice->want = 100;
+
+    } else if (pcity->ai.building_want[B_SAM] != 0 && our_def != 0 
+               && can_build_improvement(pcity, B_SAM) 
+               && (danger < 101 || num_defenders > 1) 
+               && ai_fuzzy(pplayer, TRUE)) {
+      choice->choice = B_SAM;
+      /* building_want is hacked by assess_danger */
+      choice->want = pcity->ai.building_want[B_SAM];
+      if (urgency == 0 && choice->want > 100) {
+        choice->want = 100;
+      }
       choice->type = CT_BUILDING;
-    } else if (danger > 0 && unit_list_size(&ptile->units) <= urgency) {
+
+    } else if (danger > 0 && num_defenders <= urgency) {
+      /* Consider building defensive units units */
       process_defender_want(pplayer, pcity, danger, choice);
       if (urgency == 0 && unit_types[choice->choice].defense_strength == 1) {
-        if (city_got_barracks(pcity)) choice->want = MIN(49, danger); /* unlikely */
-        else choice->want = MIN(25, danger);
-      } else choice->want = danger;
+        if (city_got_barracks(pcity)) {
+          /* unlikely */
+          choice->want = MIN(49, danger);
+        } else {
+          choice->want = MIN(25, danger);
+        }
+      } else {
+        choice->want = danger;
+      }
       freelog(LOG_DEBUG, "%s wants %s to defend with desire %d.",
                     pcity->name, get_unit_type(choice->choice)->name,
                     choice->want);
-      /* return; - this is just stupid */
     }
   } /* ok, don't need to defend */
 
-  if (pcity->shield_surplus <= 0 || /* must be able to upkeep units */
-      pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]) return; /* and no disorder */
+  if (pcity->shield_surplus <= 0 
+      || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]) {
+    /* Things we consider below are not life-saving so we don't want to 
+     * build them if our populace doesn't feel like it */
+    return;
+  }
 
   /* Consider making a land bodyguard */
   unit_type = ai_choose_bodyguard(pcity, LAND_MOVING, L_DEFEND_GOOD);
