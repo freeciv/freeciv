@@ -39,6 +39,10 @@ static struct tile void_tile;
 struct terrain_misc terrain_control;
 struct tile_type tile_types[T_LAST];
 
+/* used to compute neighboring tiles */
+const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+
 /* Names of specials.
  * (These must correspond to enum tile_special_type in terrain.h.)
  */

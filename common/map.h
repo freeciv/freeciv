@@ -327,6 +327,7 @@ extern struct tile_type tile_types[T_LAST];
 }
 
 /*
+used to compute neighboring tiles:
 using
 x1 = x + DIR_DX[dir];
 y1 = y + DIR_DX[dir];
@@ -339,8 +340,8 @@ will give you the tile as shown below.
 |5|6|7|
 -------
  */
-static const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-static const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+extern const int DIR_DX[8];
+extern const int DIR_DY[8];
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0
