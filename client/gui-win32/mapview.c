@@ -78,6 +78,7 @@ HBITMAP mapstorebitmap;
 
 static HBITMAP intro_gfx;
 static HBITMAP indicatorbmp;
+static HBITMAP single_tile_pixmap;
 static HDC indicatordc;
 
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
@@ -149,6 +150,10 @@ void init_map_win()
   hdc=GetDC(root_window);
   mapstoredc=CreateCompatibleDC(hdc);
   overviewstoredc=CreateCompatibleDC(hdc);
+
+  single_tile_pixmap=CreateCompatibleBitmap(hdc,
+					    UNIT_TILE_WIDTH,
+					    UNIT_TILE_HEIGHT);
   ReleaseDC(root_window,hdc);
   mapstorebitmap=NULL;
   overviewstorebitmap=NULL;
@@ -1032,7 +1037,14 @@ static void show_city_descriptions(HDC hdc)
 void
 put_cross_overlay_tile(int x,int y)
 {
-	/* PORTME */
+  HDC hdc;
+  int canvas_x, canvas_y;
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+  if (tile_visible_mapcanvas(x, y)) {
+    hdc=GetDC(root_window);
+    draw_sprite(sprites.user.attention,hdc,canvas_x,canvas_y);
+    ReleaseDC(root_window,hdc);
+  }
 }
 
 /**************************************************************************
@@ -1048,9 +1060,109 @@ put_city_workers(struct city *pcity, int color)
 
 **************************************************************************/
 void
-move_unit_map_canvas(struct unit *punit, int x0, int y0, int x1, int y1)
+move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
-	/* PORTME */
+
+  static struct timer *anim_timer = NULL; 
+  int dest_x, dest_y;
+  
+  
+  /* only works for adjacent-square moves */
+  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
+      ((dx == 0) && (dy == 0))) {
+    return;
+  }
+  
+  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
+    set_hover_state(NULL, HOVER_NONE);
+    update_unit_info_label(punit);
+  }
+  
+  dest_x = map_adjust_x(x0+dx);
+  dest_y = map_adjust_y(y0+dy);
+  
+  if (player_can_see_unit(game.player_ptr, punit) &&
+      (tile_visible_mapcanvas(x0, y0) ||
+       tile_visible_mapcanvas(dest_x, dest_y))) {
+    int i, steps;
+    int start_x, start_y;
+    int this_x, this_y;
+    int canvas_dx, canvas_dy;
+    HDC hdc,hdcwin;
+    HBITMAP oldbmp;
+    hdc=CreateCompatibleDC(mapstoredc);
+    oldbmp=SelectObject(hdc,single_tile_pixmap);
+    hdcwin=GetDC(root_window);
+    if (is_isometric) {
+      if (dx == 0) {
+        canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
+        canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
+      } else if (dy == 0) {
+        canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
+        canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
+      } else {
+        if (dx > 0) {
+          if (dy > 0) {
+            canvas_dx = 0;
+            canvas_dy = NORMAL_TILE_HEIGHT;
+          } else { /* dy < 0 */
+            canvas_dx = NORMAL_TILE_WIDTH;
+            canvas_dy = 0;
+          }
+        } else { /* dx < 0 */
+          if (dy > 0) {
+            canvas_dx = -NORMAL_TILE_WIDTH;
+            canvas_dy = 0;
+          } else { /* dy < 0 */
+            canvas_dx = 0;
+            canvas_dy = -NORMAL_TILE_HEIGHT;
+          }
+        }
+      }
+    } else {
+      canvas_dx = NORMAL_TILE_WIDTH * dx;
+      canvas_dy = NORMAL_TILE_HEIGHT * dy;
+    }
+    
+    if (smooth_move_unit_steps < 2) {
+      steps = 2;
+    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx), abs(canvas_dy))) {
+      steps = MAX(abs(canvas_dx), abs(canvas_dy));
+    } else {
+      steps = smooth_move_unit_steps;
+    }
+    
+    get_canvas_xy(x0, y0, &start_x, &start_y);
+    if (is_isometric) {
+      start_y -= NORMAL_TILE_HEIGHT/2;
+    }
+    
+    this_x = start_x;
+    this_y = start_y;
+    
+    for (i = 1; i <= steps; i++) {
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      /* FIXME: We need to draw units on tiles below the moving unit on top. */
+      BitBlt(hdcwin,this_x+map_win_x,this_y+map_win_y,UNIT_TILE_WIDTH,
+	     UNIT_TILE_HEIGHT,mapstoredc,this_x,this_y,SRCCOPY);
+      this_x = start_x + ((i * canvas_dx)/steps);
+      this_y = start_y + ((i * canvas_dy)/steps);
+      BitBlt(hdc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,mapstoredc,
+	     this_x,this_y,SRCCOPY);
+      put_unit_pixmap(punit, hdc, 0, 0);
+      BitBlt(hdcwin,this_x+map_win_x,this_y+map_win_y,UNIT_TILE_WIDTH,
+	     UNIT_TILE_HEIGHT,hdc,0,0,SRCCOPY);
+      
+      GdiFlush();
+      if (i < steps) {
+	
+	usleep_since_timer_start(anim_timer, 10000);
+      }
+    }
+    SelectObject(hdc,oldbmp);
+    DeleteDC(hdc);
+    ReleaseDC(root_window,hdcwin);
+  }
 }
 
 /**************************************************************************
@@ -1060,7 +1172,80 @@ void
 decrease_unit_hp_smooth(struct unit *punit0, int hp0,
                              struct unit *punit1, int hp1)
 {
-	/* PORTME */
+  HDC hdc,hdcwin;
+  HBITMAP oldbmp;
+  static struct timer *anim_timer = NULL; 
+  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
+  int i;
+  
+  if (!do_combat_animation) {
+    punit0->hp = hp0;
+    punit1->hp = hp1;
+
+    set_units_in_combat(NULL, NULL);
+    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+
+    return;
+  }
+  
+  set_units_in_combat(punit0, punit1);
+
+  do {
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    
+    if (punit0->hp > hp0
+        && myrand((punit0->hp - hp0) + (punit1->hp - hp1)) < punit0->hp - hp0)
+      punit0->hp--;
+    else if (punit1->hp > hp1)
+      punit1->hp--;
+    else
+      punit0->hp--;
+    
+    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+    GdiFlush();
+    
+    usleep_since_timer_start(anim_timer, 10000);
+    
+  } while (punit0->hp > hp0 || punit1->hp > hp1);
+
+  hdc=CreateCompatibleDC(NULL);
+  hdcwin=GetDC(root_window);
+  oldbmp=SelectObject(hdc,single_tile_pixmap);
+  for (i = 0; i < num_tiles_explode_unit; i++) {
+    int canvas_x, canvas_y;
+    get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    if (is_isometric) {
+      /* We first draw the explosion onto the unit and draw draw the
+         complete thing onto the map canvas window. This avoids flickering. */
+      BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
+	     mapstoredc,canvas_x,canvas_y,SRCCOPY);
+      draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
+      BitBlt(hdcwin,canvas_x+map_win_x,canvas_y+map_win_y,
+	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
+	     hdc,0,0,SRCCOPY);
+    } else {
+      pixmap_put_tile(hdc, losing_unit->x, losing_unit->y,
+                      0, 0, 0);
+      put_unit_pixmap(losing_unit, hdc, 0, 0);
+      draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
+      BitBlt(hdcwin,map_win_x+canvas_x,map_win_y+canvas_y,
+	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
+	     hdc,0,0,SRCCOPY);
+    }
+    GdiFlush();
+    usleep_since_timer_start(anim_timer, 20000);
+  }
+  
+  SelectObject(hdc,oldbmp);
+  DeleteDC(hdc);
+  ReleaseDC(root_window,hdcwin);
+  set_units_in_combat(NULL, NULL);
+  refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
+  refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+  
 }
 
 /**************************************************************************
