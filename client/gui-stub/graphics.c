@@ -5,6 +5,20 @@
 #include "graphics.h"
 
 
+int
+isometric_view_supported(void)
+{
+	/* PORTME */
+	return 0;
+}
+
+int
+overhead_view_supported(void)
+{
+	/* PORTME */
+	return 0;
+}
+
 void
 load_intro_gfx(void)
 {
