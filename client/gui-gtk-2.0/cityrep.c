@@ -176,7 +176,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   GtkSizeGroup *group[3];
   const char *markup[3] = {
     "weight=\"bold\"",
-    "font_family=\"Monospace\"",
+    "",
     ""
   };
 
@@ -250,7 +250,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
       label = gtk_label_new(NULL);
       gtk_label_set_markup(GTK_LABEL(label), txt);
 
-      if (i == 0) {
+      if (i < 2) {
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       } else {
 	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
