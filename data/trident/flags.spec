@@ -88,4 +88,5 @@ tiles = { "row", "column", "tag"
   4,  3, "f.wales"
   4,  4, "f.lithuania"
   4,  5, "f.kenya"
+  4,  6, "f.dunedain"
 }

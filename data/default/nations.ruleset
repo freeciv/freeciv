@@ -1497,6 +1497,38 @@ cities =
   "Kakuma", "Lokitaung"
 
 
+[nation41]
+
+name=_("Dúnedain")
+plural=_("?plural:Dúnedan")
+leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn"
+leader_sex="Male", "Female", "Female", "Male", "Male", "Male"
+flag = "f.dunedain"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("King"),         _("Queen")
+}
+
+attack=0
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Iron Working", "Feudalism", "Construction"
+wonder="Magellan's Expedition"
+government="Monarchy"
+
+cities =
+  "Armenelos", "Romenna", "Meneltarma", "Andúnië", "Eldalondë",
+  "Nindamos", "Osgiliath", "Minas Anor", "Minas Ithil", "Pelargir",
+  "Erech", "Umbar", "Aglarond", "Angrenost", "Elastirion", "Annúminas",
+  "Amon Sûl", "Fornost", "Ethring", "Dol Amroth", "Edhellond", "Linhir",
+  "Calembel", "Tharbad", "Isengard", "Belfalas", "Anorien", "Bree", "Staddle",
+  "Combe", "Archet", "Minas Tirith", "Halifirien", "Calenhad", "Minrimmon",
+  "Erelas", "Nardol", "Eilenach", "Amon Dîn", "Henneth Anûn", "Tarnost"
+
+
 ;[nation??]
 ;
 ;name=_("Olympic")
