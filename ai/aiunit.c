@@ -973,7 +973,8 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
      
       /* ...and free foreign city waiting for us. Who would resist! */
       if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
-          && is_ground_unit(punit)
+          && could_unit_move_to_tile(punit, x1, y1) != 0
+          && COULD_OCCUPY(punit)
           && !is_ocean(map_get_terrain(punit->x, punit->y))) {
         SET_BEST(99999);
         continue;
