@@ -463,7 +463,6 @@ void x_main(int argc, char *argv[])
 void setup_widgets(void)
 {
   int i;
-  char econlabelstr[12]="econlabel0";
 
   main_form = XtVaCreateManagedWidget("mainform", formWidgetClass, 
 				      toplevel, 
@@ -523,65 +522,20 @@ void setup_widgets(void)
 
 
   
-  for(i=0;i<5;i++){
-   econlabelstr[9]='0'+i;
-  econ_label[i] = XtVaCreateManagedWidget(econlabelstr, 
-				       commandWidgetClass,
-				       left_column_form,
-					  /*XtNbitmap, get_citizen_pixmap(1),*/
-				       NULL);  
+  for(i=0;i<10;i++)  {
+    econ_label[i] = XtVaCreateManagedWidget("econlabels",
+					    commandWidgetClass,
+					    left_column_form,
+					    XtNbitmap, 
+					      get_citizen_pixmap(i<5?1:2),
+					    i?XtNfromHoriz:NULL, 
+					    i?econ_label[i-1]:NULL,
+					    XtNhorizDistance, 1,
+					    NULL);  
+    XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
+		  (XtPointer)i);  
   }
-  for(i=5;i<10;i++){
-   econlabelstr[9]='0'+i;
-  econ_label[i] = XtVaCreateManagedWidget(econlabelstr, 
-				       commandWidgetClass,
-				       left_column_form,
-					  /*XtNbitmap, get_citizen_pixmap(2),*/
-				       NULL);  
-  }
-  for(i=0;i<10;i++)
-        XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
-		    (XtPointer)i);  
 
-
-  /*  econ_label[1] = XtVaCreateManagedWidget("econlabel1", 
-				       commandWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[2] = XtVaCreateManagedWidget("econlabel2", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[3] = XtVaCreateManagedWidget("econlabel3", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[4] = XtVaCreateManagedWidget("econlabel4", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[5] = XtVaCreateManagedWidget("econlabel5", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[6] = XtVaCreateManagedWidget("econlabel6", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[7] = XtVaCreateManagedWidget("econlabel7", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[8] = XtVaCreateManagedWidget("econlabel8", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-  econ_label[9] = XtVaCreateManagedWidget("econlabel9", 
-				       labelWidgetClass,
-				       left_column_form,
-				       NULL);  
-
-  */
   turn_done_button = XtVaCreateManagedWidget("turndonebutton", 
 					     commandWidgetClass,
 					     left_column_form,
