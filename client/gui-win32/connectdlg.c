@@ -641,6 +641,8 @@ static LONG CALLBACK server_window_proc(HWND dlg,UINT message,
     ShowWindow(dlg,SW_HIDE);
     break;
   case WM_DESTROY:
+    server_window=NULL;
+    break;
   case WM_SIZE:
   case WM_GETMINMAXINFO:
     break;
@@ -712,17 +714,19 @@ static void create_server_window()
   sa.nLength=sizeof(sa);
   sa.bInheritHandle=TRUE;
   
-  if (!CreatePipe(&stdout_pipe[0],&stdout_pipe[1],&sa,1024)) {
-    freelog(LOG_FATAL,_("Cannot create pipe"));
-    exit(1);
-  }
-  if (!CreatePipe(&stderr_pipe[0],&stderr_pipe[1],&sa,1024)) {
-    freelog(LOG_FATAL,_("Cannot create pipe"));
-    exit(1);
-  }
-  if (!CreatePipe(&stdin_pipe[0],&stdin_pipe[1],&sa,1024)) {
-    freelog(LOG_FATAL,_("Cannot create pipe"));
-    exit(1);
+  if (stdout_pipe[0]==NULL) {
+    if (!CreatePipe(&stdout_pipe[0],&stdout_pipe[1],&sa,1024)) {
+      freelog(LOG_FATAL,_("Cannot create pipe"));
+      exit(1);
+    }
+    if (!CreatePipe(&stderr_pipe[0],&stderr_pipe[1],&sa,1024)) {
+      freelog(LOG_FATAL,_("Cannot create pipe"));
+      exit(1);
+    }
+    if (!CreatePipe(&stdin_pipe[0],&stdin_pipe[1],&sa,1024)) {
+      freelog(LOG_FATAL,_("Cannot create pipe"));
+      exit(1);
+    }
   }
   server_window=fcwin_create_layouted_window(server_window_proc,
 					     _("Game Control"),
