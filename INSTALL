@@ -51,13 +51,27 @@ out whether your system is suitable.  If in doubt, just try it.
 
    The output should include "GNU Make" somewhere.
 
+1. Prerequisites for the clients:
+=================================
+
+The Freeciv client now comes in two different forms: one using
+the Athena widget library ("Xaw"), and one using the Gtk+ widget
+library.  The two forms have different prerequisites, explained
+separately below.  Your system will need to satisfy at least 
+one of the two sets of prerequisites.
+
+Note that some systems have separate library packages for "runtime" 
+library support and for development support (for compiling programs 
+which use those libraries).  To compile Freeciv on such systems you 
+will need to have the appropriate "development" packages installed.
+
 1a. Prerequisites for the Xaw client:
 =====================================
 
  - X-Windows.
 
-   The Freeciv client is an X-Windows program, so you'll need some way
-   of running X-Windows programs.  (Most Unixes can...)
+   The Freeciv Xaw client is an X-Windows program, so you'll need 
+   some way of running X-Windows programs.  (Most Unixes can...)
 
    If the Freeciv configuration program can't find X Windows on
    your system, you may need to use the --x-includes=DIR
@@ -70,7 +84,8 @@ out whether your system is suitable.  If in doubt, just try it.
    example) only provide it in a limited form.
 
    To compile the client using the "Xaw" library add "--with-xaw" to
-   the Freeciv configure script.
+   the Freeciv configure script.  See the section below for more 
+   information about the configure script.
 
    Many modern Unix systems (such as Linux) ship with a variant called
    "Xaw3d", which has a more modern "3D" look.  If you'd like to try
@@ -186,6 +201,11 @@ configure script, try the --help option, like this:
 
   "--disable-cvs-deps" has no effect when run with a stable release.
 
+By default the configure script will choose the Gtk+ client if the 
+required libraries are found, or else fall back to the Xaw client 
+(possibly using Xaw3d).  If you prefer to override this default, you
+can give configure one of the options "--with-xaw" or "--with-xaw3d".
+
 If you want to change the compiler options, set the CFLAGS environment
 variable in your shell before running "configure".  For example:
 
@@ -233,17 +253,9 @@ If for some reason using "configure" gives you trouble, follow these steps:
     You can find out about the freeciv-dev mailing list on our web
     site, at http://www.freeciv.org
 
-  - If you're still having problems, and you'd like to persist, edit the
-
-    "Makefile.noimake" file, then use as follows:
-
-     % make -f Makefile.noimake
-
-    (This is just to get you going - we'd rather solve your configure
-    problem)
-
-Please note that as of Freeciv 1.7.2, we no longer support using
-Imake.
+Please note that since Freeciv 1.7.2 we have stopped supporting 
+the use of Imake, and as of Freeciv 1.8.1 we no longer include 
+the Makefile.noimake fallback.
 
 3. Compiling Freeciv:
 =====================
@@ -251,18 +263,18 @@ Imake.
 If all has gone well previous to this point, then compiling Freeciv
 should be as easy as typing "make" (or preferably, "gmake").
 
-If you have problems, read the "Bugs" section in the README file,
-and follow the advice carefully.
+If you have problems, read the file BUGS, and follow the advice 
+carefully.
 
 After compilation, the important results are:
 
-  - The "civ" and "ser" scripts.
   - The "client/civclient" and "server/civserver" binaries.
   - The "data/" directory, which contains the graphics and scenarios.
+  - The "civ" and "ser" scripts.
 
 It's perfectly feasible to play Freeciv in this directory, without
-installing it.  If you do this, you'll need to use the "civ" and
-"ser" scripts.
+installing it.  If you do this, the "civ" and "ser" scripts may be
+useful, although they are not as necessary as they used to be.
 
 See the README file for more information.
 
@@ -278,22 +290,22 @@ Typing "make install" should install everything correctly on
 your machine.  You may like to use the --prefix=DIR configure option
 to ensure the files get placed where you want.
 
-When the Freeciv client starts, it looks in the current directory for
-the data/ directory. You can override this by setting the
-FREECIV_DATADIR environment variable to point to another location.
+When the Freeciv client and Freeciv server are run they both need to 
+find some files from the "data" directory.  By default freeciv looks
+in the following directories, in order, for any data files: the current 
+directory; the "data" subdirectory of the current directory; the 
+subdirectory ".freeciv" in the user's home directory; and the directory
+where the files are placed by running "make install".  You can override
+this search patch by setting the FREECIV_PATH environment variable, to
+a single directory or a list of directories separated by colons.
 
-For example,
+For example:
 
-setenv FREECIV_DATADIR /usr/games/freeciv/data
+setenv FREECIV_PATH "/usr/games/freeciv/data:./data"
    (for users of csh, tcsh, etc)
 
-FREECIV_DATADIR=/usr/games/freeciv/data; export FREECIV
+FREECIV_PATH="/usr/games/freeciv/data:./data"; export FREECIV_PATH
    (for users of sh, bash, ksh, zsh, etc)
-
-Another way to run the Freeciv client is by using the 'civ' script, located
-in the Freeciv main directory.  This script first sets FREECIV_DATADIR to
-point to a 'data' directory under the directory where the script lives, and
-then runs civclient.
 
 Finally, if you've choose to use the Xaw client and you're logged in as the
 'root' user, you should consider copying the file data/Freeciv into your
