@@ -3,7 +3,7 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/@PACKAGE@/flags
 
-png_files =				\
+flag_files =				\
 		afghanistan.png		\
 		arab.png		\
 		argentina.png		\
@@ -105,6 +105,109 @@ png_files =				\
 		usa.png			\
 		vietnam.png		\
 		wales.png
+
+shield_files =					\
+		afghanistan-shield.png		\
+		arab-shield.png			\
+		argentina-shield.png		\
+		armenia-shield.png		\
+		assyria-shield.png		\
+		australia-shield.png		\
+		austria-shield.png		\
+		azerbaijan-shield.png		\
+		barbarian-shield.png		\
+		bavarian-shield.png		\
+		belgium-shield.png		\
+		boer-shield.png			\
+		bosnia-shield.png		\
+		brasil-shield.png		\
+		bulgaria-shield.png		\
+		canada-shield.png		\
+		catalan-shield.png		\
+		cheyenne-shield.png		\
+		chile-shield.png		\
+		china-shield.png		\
+		columbia-shield.png		\
+		cornwall-shield.png		\
+		croatia-shield.png		\
+		cuba-shield.png			\
+		czech-shield.png		\
+		denmark-shield.png		\
+		dunedain-shield.png		\
+		elves-shield.png		\
+		egypt-shield.png		\
+		england-shield.png		\
+		estonia-shield.png		\
+		ethiopia-shield.png		\
+		europe-shield.png		\
+		finland-shield.png		\
+		france-shield.png		\
+		galicia-shield.png		\
+		germany-shield.png		\
+		greece-shield.png		\
+		greenland-shield.png		\
+		hobbits-shield.png		\
+		hungary-shield.png		\
+		iceland-shield.png		\
+		india-shield.png		\
+		indonesia-shield.png		\
+		iran-shield.png			\
+		iraq_old-shield.png		\
+		ireland-shield.png		\
+		israel-shield.png		\
+		italy-shield.png		\
+		japan-shield.png		\
+		kampuchea-shield.png		\
+		kenya-shield.png		\
+		korea-shield.png		\
+		krev-shield.png			\
+		latvia-shield.png		\
+		lithuania-shield.png		\
+		malaysia-shield.png		\
+		macedonia-shield.png		\
+		mars-shield.png			\
+		mexico-shield.png		\
+		mongolia-shield.png		\
+		mordor-shield.png		\
+		nato-shield.png			\
+		netherlands-shield.png		\
+		nigeria-shield.png		\
+		norway-shield.png		\
+		observer-shield.png		\
+		pakistan-shield.png		\
+		peru-shield.png			\
+		philippines-shield.png		\
+		phoenicia-shield.png		\
+		poland-shield.png		\
+		portugal-shield.png		\
+		quebec-shield.png		\
+		rome-shield.png			\
+		russia-shield.png		\
+		rwanda-shield.png		\
+		scotland-shield.png		\
+		serbia-shield.png		\
+		silesia-shield.png		\
+		singapore-shield.png		\
+		slovenia-shield.png		\
+		south_africa-shield.png		\
+		soviet-shield.png		\
+		spain-shield.png		\
+		stpatrick-shield.png		\
+		sumeria-shield.png		\
+		sweden-shield.png		\
+		swiss-shield.png		\
+		syria-shield.png		\
+		taiwan-shield.png		\
+		thailand-shield.png		\
+		tunisia-shield.png		\
+		turkey-shield.png		\
+		ukraine-shield.png		\
+		united_kingdom-shield.png	\
+		united_nations-shield.png	\
+		unknown-shield.png		\
+		usa-shield.png			\
+		vietnam-shield.png		\
+		wales-shield.png
 
 svg_files = 				\
 		afghanistan.svg		\
@@ -209,6 +312,6 @@ svg_files = 				\
 		vietnam.svg		\
 		wales.svg
 
-pkgdata_DATA = $(png_files)
+pkgdata_DATA = $(flag_files) $(shield_files)
 
-EXTRA_DIST = $(pkgdata_DATA) $(svg_files) credits convert_png
+EXTRA_DIST = $(pkgdata_DATA) $(svg_files) credits convert_png mask.png

@@ -11,7 +11,6 @@ pkgdata_DATA =          \
 	flags.spec	\
 	intro.png	\
 	radar.png	\
-	shields.png	\
 	shields.spec	\
 	small.png	\
 	small.spec	\

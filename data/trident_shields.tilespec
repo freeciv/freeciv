@@ -20,7 +20,7 @@ is_isometric = 0
 
 ; offset the flags by this amount when drawing units
 flag_offset_x = 0
-flag_offset_y = 0
+flag_offset_y = 2
 
 ; Do not blend hills and mountains together.
 is_mountainous = 0
