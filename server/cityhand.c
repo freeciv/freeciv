@@ -431,7 +431,7 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   int i, o, x, y;
   char *p;
   struct packet_city_info packet;
-  if (nocity_send) 
+  if (nocity_send && dest) 
     return;
   packet.id=pcity->id;
   packet.owner=pcity->owner;
@@ -484,7 +484,8 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   
   for(o=0; o<game.nplayers; o++) {           /* dests */
     if(!dest || &game.players[o]==dest) {
-       if(dosend || map_get_known(pcity->x, pcity->y, &game.players[o])) {
+      if(nocity_send && &game.players[o]==dest) continue;
+      if(dosend || map_get_known(pcity->x, pcity->y, &game.players[o])) {
 	send_packet_city_info(game.players[o].conn, &packet);
       }
     }
