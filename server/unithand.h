@@ -16,7 +16,6 @@
 #include "packets.h"
 #include "unit.h"
 
-void server_remove_unit(struct unit *punit);
 void handle_unit_goto_tile(struct player *pplayer, 
 			   struct packet_unit_request *req);
 void handle_unit_connect(struct player *pplayer, 

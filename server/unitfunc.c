@@ -1451,7 +1451,6 @@ void player_restore_units(struct player *pplayer)
       /* This should usually only happen for heli units,
 	 but if any other units get 0 hp somehow, catch
 	 them too.  --dwp  */
-      send_remove_unit(0, punit->id);
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 		       _("Game: Your %s has run out of hit points."),
 		       unit_name(punit->type));
@@ -1513,7 +1512,6 @@ void player_restore_units(struct player *pplayer)
 	}
       }
       if(punit->fuel<=0) {
-	send_remove_unit(0, punit->id);
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 _("Game: Your %s has run out of fuel."),
 			 unit_name(punit->type));
@@ -1874,26 +1872,6 @@ void create_unit_full(struct player *pplayer, int x, int y,
 
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
-}
-
-
-/**************************************************************************
-  Removes the unit from the game, and notifies the clients.
-  TODO: Find out if the homecity is refreshed and resend when this happends
-  otherwise (refresh_city(homecity) + send_city(homecity))
-**************************************************************************/
-void send_remove_unit(struct player *pplayer, int unit_id)
-{
-  int o;
-
-  struct packet_generic_integer packet;
-
-  packet.value=unit_id;
-
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!pplayer || &game.players[o]==pplayer)
-      send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_UNIT,
-				  &packet);
 }
 
 /**************************************************************************
@@ -2487,6 +2465,39 @@ void make_partisans(struct city *pcity)
   place_partisans(pcity,partisans);
 }
 
+/**************************************************************************
+We remove the unit and see if it's disapperance have affected the homecity
+and the city it was in.
+**************************************************************************/
+static void server_remove_unit(struct unit *punit)
+{
+  int o;
+  struct packet_generic_integer packet;
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  struct city *phomecity = find_city_by_id(punit->homecity);
+
+  remove_unit_sight_points(punit);
+
+  packet.value = punit->id;
+  /* FIXME: maybe we should only send to those players who can see the unit,
+     as the client automatically removes any units in a fogged square, and
+     the send_unit_info() only sends units who are in non-fogged square.
+     Leaving for now. */
+  for (o=0; o<game.nplayers; o++)
+    send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_UNIT,
+				&packet);
+
+  game_remove_unit(punit->id);  
+
+  if (phomecity) {
+    city_refresh(phomecity);
+    send_city_info(get_player(phomecity->owner), phomecity);
+  }
+  if (pcity && pcity != phomecity) {
+    city_refresh(pcity);
+    send_city_info(get_player(pcity->owner), pcity);
+  }
+}
 
 /**************************************************************************
 this is a highlevel routine
@@ -2531,14 +2542,12 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 		n_if_vowel(get_unit_type(pcargo->type)->name[0]),
 		get_unit_type(pcargo->type)->name,
 		get_unit_type(punit->type)->name);
-	send_remove_unit(0, pcargo->id);
 	server_remove_unit(pcargo);
 	capacity++;
       }
     } unit_list_iterate_end;
   }
 
-  send_remove_unit(0, punit->id);
   server_remove_unit(punit);
 }
 
@@ -2610,8 +2619,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 	    get_unit_type(punit->type)->name,
 	    get_nation_name_plural(destroyer->nation));
 
-    send_remove_unit(0, punit->id);
-    server_remove_unit(punit);
+    wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
     if (!(unitcount > 1)) {
@@ -2655,8 +2663,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		get_unit_type(punit2->type)->name,
 		get_nation_name_plural(destroyer->nation));
-	send_remove_unit(0, punit2->id);
-	server_remove_unit(punit2);
+	wipe_unit_spec_safe(punit2, NULL, 0);
       }
     }
     unit_list_iterate_end;

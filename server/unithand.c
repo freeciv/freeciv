@@ -426,7 +426,6 @@ void handle_unit_build_city(struct player *pplayer,
     return;
   }
 
-  send_remove_unit(0, req->unit_id);
   if (terrain_control.may_road) {
     map_set_special(punit->x, punit->y, S_ROAD);
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
@@ -435,7 +434,7 @@ void handle_unit_build_city(struct player *pplayer,
   send_tile_info(0, punit->x, punit->y);
 
   create_city(pplayer, punit->x, punit->y, name);
-  server_remove_unit(punit);
+  wipe_unit(punit);
 }
 
 /**************************************************************************
@@ -1371,26 +1370,4 @@ void handle_unit_paradrop_to(struct player *pplayer,
   
   if (punit)
     do_paradrop(punit, req->x, req->y);
-}
-
-/**************************************************************************
-We remove the unit and see if it's disapperance have affected the homecity
-and the city it was in.
-**************************************************************************/
-void server_remove_unit(struct unit *punit)
-{
-  struct city *pcity = map_get_city(punit->x, punit->y);
-  struct city *phomecity = find_city_by_id(punit->homecity);
-
-  remove_unit_sight_points(punit);
-  game_remove_unit(punit->id);  
-
-  if (phomecity) {
-    city_refresh(phomecity);
-    send_city_info(get_player(phomecity->owner), phomecity);
-  }
-  if (pcity && pcity != phomecity && pcity->owner == punit->owner) {
-    city_refresh(pcity);
-    send_city_info(get_player(pcity->owner), pcity);
-  }
 }

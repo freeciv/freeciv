@@ -658,7 +658,7 @@ struct unit *find_unit_by_id(int id)
 
 
 /**************************************************************************
-If called from server use the wrapper void server_remove_unit(punit);
+If in the server use wipe_unit().
 **************************************************************************/
 void game_remove_unit(int unit_id)
 {
