@@ -100,16 +100,25 @@ static int get_government_tech(struct player *plr)
 }
 #endif /* NEW_GOV_EVAL */
 
+/**************************************************************************
+  Returns tech corresponding to players wonder goal from races[],
+  if it makes sense, and wonder is not already built and not obsolete.
+  Otherwise returns A_NONE.
+**************************************************************************/
 static int get_wonder_tech(struct player *plr)
 {
-  int building;
-  int tech=0; /* make compiler happy */
-  building = get_race(plr)->goals.wonder;
+  int tech = A_NONE;
+  int building = get_race(plr)->goals.wonder;
+  
+  if (!improvement_exists(building))
+    return A_NONE;
   if (game.global_wonders[building] || wonder_obsolete(building)) 
-    return 0;
+    return A_NONE;
   tech = improvement_types[building].tech_requirement;
+  if (!tech_exists(tech))
+    return A_NONE;
   if (get_invention(plr, tech) == TECH_KNOWN)
-    return 0;
+    return A_NONE;
   return tech;
 }
 
@@ -123,17 +132,18 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   int tech;
   prace = get_race(pplayer);
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
-    if (get_invention(pplayer, prace->goals.tech[i]) == TECH_KNOWN) 
+    int j = prace->goals.tech[i];
+    if (!tech_exists(j) || get_invention(pplayer, j) == TECH_KNOWN) 
       continue;
-    dist = tech_goal_turns(pplayer, prace->goals.tech[i]);
+    dist = tech_goal_turns(pplayer, j);
     if (dist < bestdist) { 
       bestdist = dist;
-      goal = prace->goals.tech[i];
+      goal = j;
       break; /* remove this to restore old functionality -- Syela */
     }
   } 
   tech = get_government_tech(pplayer);
-  if (tech) {
+  if (tech != A_NONE && tech_exists(tech)) {
     dist = tech_goal_turns(pplayer, tech);
     if (dist < bestdist) { 
       bestdist = dist;
@@ -141,7 +151,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
     }
   }
   tech = get_wonder_tech(pplayer);
-  if (tech) {
+  if (tech != A_NONE) {
     dist = tech_goal_turns(pplayer, tech);
     if (dist < bestdist) { 
       bestdist = dist;
