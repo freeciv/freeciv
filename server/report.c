@@ -207,11 +207,11 @@ static int nr_wonders(struct city *pcity)
 {
   int result = 0;
 
-  impr_type_iterate(i) {
-    if (is_wonder(i) && city_got_building(pcity, i)) {
+  built_impr_iterate(pcity, i) {
+    if (is_wonder(i)) {
       result++;
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 
   return result;
 }

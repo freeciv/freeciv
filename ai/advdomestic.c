@@ -499,11 +499,10 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     if (is_wonder(id) && could_build_improvement(pcity, id)
 	&& !wonder_obsolete(id)&& is_wonder_useful(id)) {
       if (id == B_ASMITHS) {
-	impr_type_iterate(id2) {
-          if (city_got_building(pcity, id2) &&
-              improvement_upkeep(pcity, id2) == 1)
+	built_impr_iterate(pcity, id2) {
+          if (improvement_upkeep(pcity, id2) == 1)
             values[id] += t;
-	} impr_type_iterate_end;
+	} built_impr_iterate_end;
       }
 
       if (id == B_COLLOSSUS)

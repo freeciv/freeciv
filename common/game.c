@@ -768,10 +768,10 @@ void initialize_globals(void)
 {
   players_iterate(plr) {
     city_list_iterate(plr->cities, pcity) {
-      impr_type_iterate(i) {
-	if (city_got_building(pcity, i) && is_wonder(i))
+      built_impr_iterate(pcity, i) {
+	if (is_wonder(i))
 	  game.global_wonders[i] = pcity->id;
-      } impr_type_iterate_end;
+      } built_impr_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 }
@@ -1035,22 +1035,22 @@ void update_all_effects(void)
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities,pcity) {
-      impr_type_iterate(i) {
-        if (pcity->improvements[i]==I_NONE) continue;
+      built_impr_iterate(pcity, i) {
         if (improvement_obsolete(pplayer,i)) {
           freelog(LOG_DEBUG,"%s in %s is obsolete",
                   improvement_types[i].name,pcity->name);
           mark_improvement(pcity,i,I_OBSOLETE);
         }
-      } impr_type_iterate_end;
+      } built_impr_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities,pcity) {
-      impr_type_iterate(i) {
-        if (pcity->improvements[i]==I_NONE ||
-            pcity->improvements[i]==I_OBSOLETE) continue;
+      built_impr_iterate(pcity, i) {
+	if (pcity->improvements[i] == I_OBSOLETE) {
+	  continue;
+	}
 	if (improvement_redundant(pplayer, pcity, i, FALSE)) {
           freelog(LOG_DEBUG,"%s in %s is redundant",
                   improvement_types[i].name,pcity->name);
@@ -1060,7 +1060,7 @@ void update_all_effects(void)
           freelog(LOG_DEBUG,"%s in %s is active!",
                   improvement_types[i].name,pcity->name);
         }
-      } impr_type_iterate_end;
+      } built_impr_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 }

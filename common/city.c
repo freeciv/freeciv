@@ -899,10 +899,9 @@ int city_gold_surplus(struct city *pcity)
   bool asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
   int cost=0;
 
-  impr_type_iterate(i) {
-    if (city_got_building(pcity, i)) 
-      cost+=improvement_upkeep_asmiths(pcity, i, asmiths);
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, i) {
+    cost += improvement_upkeep_asmiths(pcity, i, asmiths);
+  } built_impr_iterate_end;
 
   return pcity->tax_total-cost;
 }

@@ -169,9 +169,9 @@ static void ai_manage_taxes(struct player *pplayer)
     city_refresh(pcity);
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
     freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
-    impr_type_iterate(id) {
-      if (city_got_building(pcity, id)) expense += improvement_upkeep(pcity,id);
-    } impr_type_iterate_end;
+    built_impr_iterate(pcity, id) {
+      expense += improvement_upkeep(pcity, id);
+    } built_impr_iterate_end;
 
   city_list_iterate_end;
 

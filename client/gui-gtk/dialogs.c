@@ -828,13 +828,13 @@ static int create_improvements_list(struct player *pplayer,
   gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
   improvement_type[j++] = -1;
 
-  impr_type_iterate(i) {
-    if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
+  built_impr_iterate(pcity, i) {
+    if(i != B_PALACE && !is_wonder(i)) {
       row[0] = get_impr_name_ex(pcity, i);
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 
   if(j > 1) {
     row[0] = _("At Spy's Discretion");

@@ -197,18 +197,16 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int i, n = 0, flag = 0;
   
-  impr_type_iterate(i) {
-    if(pdialog->pcity->improvements[i]) {
-      if(!pdialog->improvlist_names_ptrs[n] ||
-         strcmp(pdialog->improvlist_names_ptrs[n],
-                get_impr_name_ex(pdialog->pcity, i)) != 0)
-        flag=1;
-      sz_strlcpy(pdialog->improvlist_names[n],
-                 get_impr_name_ex(pdialog->pcity, i));
-      pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
-      n++;
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pdialog->pcity, i) {
+    if (!pdialog->improvlist_names_ptrs[n] ||
+	strcmp(pdialog->improvlist_names_ptrs[n],
+	       get_impr_name_ex(pdialog->pcity, i)) != 0)
+      flag = 1;
+    sz_strlcpy(pdialog->improvlist_names[n],
+	       get_impr_name_ex(pdialog->pcity, i));
+    pdialog->improvlist_names_ptrs[n] = pdialog->improvlist_names[n];
+    n++;
+  } built_impr_iterate_end;
  
   if(pdialog->improvlist_names_ptrs[n]!=0) {
     pdialog->improvlist_names_ptrs[n]=0;
@@ -980,27 +978,28 @@ void sell_callback(struct city_dialog *pdialog)
   if (row!=LB_ERR) {
     row=ListBox_GetItemData(pdialog->buildings_list,row);
     n=0;
-    impr_type_iterate(i) {
-      if(pdialog->pcity->improvements[i]) {
-	if(n==row) {
-	  char buf[512];
-	  
-	  if(is_wonder(i))
-	    return;
-	  
-	  pdialog->sell_id=i;
-	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-		      get_impr_name_ex(pdialog->pcity, i),
-		      improvement_value(i));
-	  
-	  popup_message_dialog(pdialog->mainwindow, /*"selldialog"*/ _("Sell It!"), buf,
-			       _("_Yes"), sell_callback_yes, pdialog,
-			       _("_No"), sell_callback_no, pdialog, 0);
+
+    built_impr_iterate(pdialog->pcity, i) {
+      if (n == row) {
+	char buf[512];
+
+	if (is_wonder(i)) {
 	  return;
 	}
-	n++;
+
+	pdialog->sell_id = i;
+	my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+		    get_impr_name_ex(pdialog->pcity, i),
+		    improvement_value(i));
+
+	popup_message_dialog(pdialog->mainwindow, /*"selldialog" */
+			     _("Sell It!"), buf, _("_Yes"),
+			     sell_callback_yes, pdialog, _("_No"),
+			     sell_callback_no, pdialog, 0);
+	return;
       }
-    } impr_type_iterate_end;
+      n++;
+    } built_impr_iterate_end;
   }
 }
 

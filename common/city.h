@@ -449,4 +449,17 @@ int get_colosseum_power(struct city *pcity);
 
 /* misc */
 bool is_city_option_set(struct city *pcity, enum city_options option);
+
+/*
+ * Iterates over all improvements which are built in the given city.
+ */
+#define built_impr_iterate(m_pcity, m_i)                                      \
+  impr_type_iterate(m_i) {                                                    \
+    if((m_pcity)->improvements[m_i] == I_NONE) {                              \
+      continue;                                                               \
+    }
+
+#define built_impr_iterate_end                                                \
+  } impr_type_iterate_end;
+
 #endif  /* FC__CITY_H */

@@ -446,13 +446,13 @@ static void create_improvements_list(struct city *pcity)
   {
     int any_improvements=FALSE;
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
-    impr_type_iterate(i) {
-      if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i))
+    built_impr_iterate(pcity, i) {
+      if (i != B_PALACE && !is_wonder(i))
       {
         DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
         any_improvements = TRUE;
       }
-    } impr_type_iterate_end;
+    } built_impr_iterate_end;
 
     if (any_improvements)
     {

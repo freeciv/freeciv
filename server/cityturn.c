@@ -112,10 +112,8 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   struct player *pplayer = city_owner(pcity);
   bool sold = FALSE;
 
-  impr_type_iterate(i) {
-    if (city_got_building(pcity, i) 
-	&& !is_wonder(i) 
-	&& improvement_obsolete(pplayer, i)) {
+  built_impr_iterate(pcity, i) {
+    if (!is_wonder(i) && improvement_obsolete(pplayer, i)) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
@@ -123,7 +121,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 		       improvement_value(i));
       sold = TRUE;
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 
   if (sold) update_all_effects();
 
@@ -1089,22 +1087,20 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
-  impr_type_iterate(i) {
-    if (city_got_building(pcity, i)) {
-      if (!is_wonder(i)
-	  && pplayer->government != game.government_when_anarchy) {
-	if (pplayer->economic.gold-improvement_upkeep(pcity, i) < 0) {
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
-			   _("Game: Can't afford to maintain %s in %s, "
-			     "building sold!"), 
-			   improvement_types[i].name, pcity->name);
-	  do_sell_building(pplayer, pcity, i);
-	  city_refresh(pcity);
-	} else
-	  pplayer->economic.gold -= improvement_upkeep(pcity, i);
-      }
+  built_impr_iterate(pcity, i) {
+    if (!is_wonder(i)
+	&& pplayer->government != game.government_when_anarchy) {
+      if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
+			 _("Game: Can't afford to maintain %s in %s, "
+			   "building sold!"),
+			 improvement_types[i].name, pcity->name);
+	do_sell_building(pplayer, pcity, i);
+	city_refresh(pcity);
+      } else
+	pplayer->economic.gold -= improvement_upkeep(pcity, i);
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 }
 
 /**************************************************************************

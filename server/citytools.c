@@ -681,12 +681,11 @@ static void raze_city(struct city *pcity)
   if (is_land_barbarian(city_owner(pcity)))
     razechance += 30;
 
-  impr_type_iterate(i) {
-    if (city_got_building(pcity, i) && !is_wonder(i) 
-	&& (myrand(100) < razechance)) {
+  built_impr_iterate(pcity, i) {
+    if (!is_wonder(i) && (myrand(100) < razechance)) {
       pcity->improvements[i]=I_NONE;
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 
   nullify_prechange_production(pcity);
   pcity->shield_stock = 0;
@@ -780,12 +779,10 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Remove all global improvement effects that this city confers (but
      then restore the local improvement list - we need this to restore the
      global effects for the new city owner) */
-  impr_type_iterate(i) {
-    if (pcity->improvements[i]!=I_NONE) {
-      city_remove_improvement(pcity,i);
-      pcity->improvements[i]=I_ACTIVE;
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, i) {
+    city_remove_improvement(pcity, i);
+    pcity->improvements[i] = I_ACTIVE;
+  } built_impr_iterate_end;
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   map_unfog_pseudo_city_area(ptaker, pcity->x, pcity->y);
@@ -863,11 +860,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     raze_city(pcity);
 
   /* Restore any global improvement effects that this city confers */
-  impr_type_iterate(i) {
-    if (pcity->improvements[i]!=I_NONE) {
-      city_add_improvement(pcity,i);
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, i) {
+    city_add_improvement(pcity, i);
+  } built_impr_iterate_end;
   update_all_effects();
 
   /* If the city was building something we haven't invented we
@@ -1075,12 +1070,10 @@ void remove_city(struct city *pcity)
      and to handle the preservation of "destroyed" effects. */
   effect_update=FALSE;
 
-  impr_type_iterate(i) {
-    if (pcity->improvements[i]!=I_NONE) {
-      effect_update=TRUE;
-      city_remove_improvement(pcity,i);
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, i) {
+    effect_update = TRUE;
+    city_remove_improvement(pcity, i);
+  } built_impr_iterate_end;
 
   if (effect_update)
     update_all_effects();

@@ -2121,16 +2121,13 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   LONG j = 0, refresh = FALSE, imprv;
 
-  impr_type_iterate(i) {
-    if(pdialog->pcity->improvements[i])
-    {
-      DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j++, &imprv);
-      if(!imprv || imprv - 1 != i) {
-	refresh = TRUE;
-	goto out;
-      }
+  built_impr_iterate(pdialog->pcity, i) {
+    DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j++, &imprv);
+    if (!imprv || imprv - 1 != i) {
+      refresh = TRUE;
+      goto out;
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
  out:
   /* check the case for to much improvements in list */
   DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j, &imprv);
@@ -2140,12 +2137,10 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     set(pdialog->imprv_listview, MUIA_NList_Quiet, TRUE);
     DoMethod(pdialog->imprv_listview, MUIM_NList_Clear);
 
-    impr_type_iterate(i) {
-      if (pdialog->pcity->improvements[i])
-      {
-	DoMethod(pdialog->imprv_listview, MUIM_NList_InsertSingle, i + 1, MUIV_NList_Insert_Bottom);
-      }
-    } impr_type_iterate_end;
+    built_impr_iterate(pdialog->pcity, i) {
+      DoMethod(pdialog->imprv_listview, MUIM_NList_InsertSingle, i + 1,
+	       MUIV_NList_Insert_Bottom);
+    } built_impr_iterate_end;
 
     set(pdialog->imprv_listview, MUIA_NList_Quiet, FALSE);
   }

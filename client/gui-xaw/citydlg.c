@@ -1886,17 +1886,16 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int n = 0, flag = 0;
 
-  impr_type_iterate(i) {
-    if(pdialog->pcity->improvements[i]) {
-      if(!pdialog->improvlist_names_ptrs[n] ||
-	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)) != 0)
-	flag=1;
-      sz_strlcpy(pdialog->improvlist_names[n],
-		 get_impr_name_ex(pdialog->pcity, i));
-      pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
-      n++;
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pdialog->pcity, i) {
+    if (!pdialog->improvlist_names_ptrs[n] ||
+	strcmp(pdialog->improvlist_names_ptrs[n],
+	       get_impr_name_ex(pdialog->pcity, i)) != 0)
+      flag = 1;
+    sz_strlcpy(pdialog->improvlist_names[n],
+	       get_impr_name_ex(pdialog->pcity, i));
+    pdialog->improvlist_names_ptrs[n] = pdialog->improvlist_names[n];
+    n++;
+  } built_impr_iterate_end;
   
   if(pdialog->improvlist_names_ptrs[n]!=0) {
     pdialog->improvlist_names_ptrs[n]=0;
@@ -2490,29 +2489,27 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   if(ret->list_index!=XAW_LIST_NONE) {
     int n = 0;
-    impr_type_iterate(i) {
-      if(pdialog->pcity->improvements[i]) {
-	if(n==ret->list_index) {
-	  char buf[512];
-	  
-	  if(is_wonder(i))
-	    return;
-	  
-	  pdialog->sell_id=i;
-	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), 
-		      get_impr_name_ex(pdialog->pcity, i),
-		      improvement_value(i));
+    built_impr_iterate(pdialog->pcity, i) {
+      if (n == ret->list_index) {
+	char buf[512];
 
-	  popup_message_dialog(pdialog->shell, "selldialog", buf,
-			       sell_callback_yes, pdialog, 0,
-			       sell_callback_no, pdialog, 0,
-			       NULL);
-	  
+	if (is_wonder(i)) {
 	  return;
 	}
-	n++;
+
+	pdialog->sell_id = i;
+	my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+		    get_impr_name_ex(pdialog->pcity, i),
+		    improvement_value(i));
+
+	popup_message_dialog(pdialog->shell, "selldialog", buf,
+			     sell_callback_yes, pdialog, 0,
+			     sell_callback_no, pdialog, 0, NULL);
+
+	return;
       }
-    } impr_type_iterate_end;
+      n++;
+    } built_impr_iterate_end;
   }
 }
 

@@ -126,12 +126,10 @@ void client_remove_city(struct city *pcity)
      and to handle the preservation of "destroyed" effects. */
   effect_update=FALSE;
 
-  impr_type_iterate(i) {
-    if (pcity->improvements[i]!=I_NONE) {
-      effect_update=TRUE;
-      city_remove_improvement(pcity, i);
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, i) {
+    effect_update = TRUE;
+    city_remove_improvement(pcity, i);
+  } built_impr_iterate_end;
 
   if (effect_update)
     update_all_effects();
@@ -923,12 +921,10 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
 
   assert(pcity != NULL);
 
-  impr_type_iterate(id) {
-    if (pcity->improvements[id] != 0) {
-      dest_cids[cids_used] = cid_encode(FALSE, id);
-      cids_used++;
-    }
-  } impr_type_iterate_end;
+  built_impr_iterate(pcity, id) {
+    dest_cids[cids_used] = cid_encode(FALSE, id);
+    cids_used++;
+  } built_impr_iterate_end;
 
   return cids_used;
 }

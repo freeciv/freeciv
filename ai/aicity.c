@@ -748,9 +748,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
 
-  impr_type_iterate(i) {
-    if(city_got_building(pcity, i) 
-       && !is_wonder(i) 
+  built_impr_iterate(pcity, i) {
+    if(!is_wonder(i) 
        && i != B_CITY /* selling city walls is really, really dumb -- Syela */
        && (wonder_replacement(pcity, i) || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
@@ -760,7 +759,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 		       improvement_value(i)/2);
       return; /* max 1 building each turn */
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 }
 
 /**************************************************************************

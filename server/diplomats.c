@@ -893,12 +893,11 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Examine the city for improvements to sabotage. */
   count = 0;
-  impr_type_iterate(index) {
-    if (city_got_building (pcity, index) &&
-	(!is_wonder (index)) && (index != B_PALACE)) {
+  built_impr_iterate(pcity, index) {
+    if (!is_wonder(index) && index != B_PALACE) {
       count++;
     }
-  } impr_type_iterate_end;
+  } built_impr_iterate_end;
 
   freelog (LOG_DEBUG, "sabotage: count of improvements: %d", count);
 
@@ -931,9 +930,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       target = -1;
       which = myrand (count);
 
-      impr_type_iterate(index) {
-	if (city_got_building (pcity, index) &&
-	    (!is_wonder (index)) && (index != B_PALACE)) {
+      built_impr_iterate(pcity, index) {
+	if (!is_wonder(index) && index != B_PALACE) {
 	  if (which > 0) {
 	    which--;
 	  } else {
@@ -941,7 +939,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 	    break;
 	  }
 	}
-      } impr_type_iterate_end;
+      } built_impr_iterate_end;
 
       freelog (LOG_DEBUG, "sabotage: random: targeted improvement: %d (%s)",
 	       target, get_improvement_name (target));
