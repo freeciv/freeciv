@@ -734,7 +734,10 @@ static char *stats_%(name)s_names[] = {%(names)s};
             delta_header=""
 
         if self.want_post_send:
-            post="  post_send_%(packet_name)s(pc, real_packet);\n"
+            if self.no_packet:
+                post="  post_send_%(packet_name)s(pc, NULL);\n"
+            else:
+                post="  post_send_%(packet_name)s(pc, real_packet);\n"
         else:
             post=""
 
