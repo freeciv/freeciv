@@ -196,6 +196,13 @@ static void ai_manage_taxes(struct player *pplayer)
     } else {
       pplayer->economic.luxury = luxrate;
       pplayer->economic.science = scirate;
+      city_list_iterate(pplayer->cities, pcity) {
+        /* KLUDGE: Must refresh to restore the original values which 
+         * were clobbered in cm_query_result, after the tax rates 
+         * were changed.  This is because the cm_query_result() calls
+         * generic_city_refresh(). */
+        generic_city_refresh(pcity, TRUE, NULL);
+      } city_list_iterate_end;
     }
   }
 
