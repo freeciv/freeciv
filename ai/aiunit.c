@@ -1837,7 +1837,7 @@ int is_ai_simple_military(int type)
  */
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
-  int i, x, y, bribe, handicap, has_emb, continent, dist, rmd, oic;
+  int i, x, y, bribe, handicap, has_emb, continent, dist, rmd, oic, did;
   struct packet_unit_request req;
   struct packet_diplomat_action dact;
   struct city *pcity, *ctarget;
@@ -1931,27 +1931,33 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
     }
     if (ctarget) {
       /* Otherwise, we just kinda sit here.  -AJS */
+      did = -1;
       if ((dist == 1) && (pplayer->player_no != ctarget->owner)) {
 	dact.diplomat_id=pdiplomat->id;
 	dact.target_id=ctarget->id;
 	if (!pdiplomat->foul && diplomat_can_do_action(pdiplomat,
 	     DIPLOMAT_EMBASSY, ctarget->x, ctarget->y)) {
+	    did=pdiplomat->id;
 	    dact.action_type=DIPLOMAT_EMBASSY;
 	    handle_diplomat_action(pplayer, &dact);
 	} else if (!ctarget->steal && diplomat_can_do_action(pdiplomat,
 		    DIPLOMAT_STEAL, ctarget->x, ctarget->y)) {
+	    did=pdiplomat->id;
 	    dact.action_type=DIPLOMAT_STEAL;
 	    handle_diplomat_action(pplayer, &dact);
 	} else if (diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
 		   ctarget->x, ctarget->y)) {
+	    did=pdiplomat->id;
 	    dact.action_type=DIPLOMAT_INCITE;
 	    handle_diplomat_action(pplayer, &dact);
 	}
       }
-      pdiplomat->goto_dest_x=ctarget->x;
-      pdiplomat->goto_dest_y=ctarget->y;
-      set_unit_activity(pdiplomat, ACTIVITY_GOTO);
-      do_unit_goto(pplayer, pdiplomat, GOTO_MOVE_ANY);
+      if ((did < 0) || find_unit_by_id(did)) {
+	pdiplomat->goto_dest_x=ctarget->x;
+	pdiplomat->goto_dest_y=ctarget->y;
+	set_unit_activity(pdiplomat, ACTIVITY_GOTO);
+	do_unit_goto(pplayer, pdiplomat, GOTO_MOVE_ANY);
+      }
     }
   }
   return;
