@@ -342,23 +342,26 @@ gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
 /**************************************************************************
   Adjust the position of city workers from the mapcanvas
 **************************************************************************/
-gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
+void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 {
   int x, y, map_x, map_y, is_valid;
   struct city *pcity;
   struct packet_city_request packet;
   enum city_tile_type wrk;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    return TRUE;
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
 
   get_map_xy(ev->x, ev->y, &map_x, &map_y);
 
-  if (!(pcity = find_city_near_tile(map_x, map_y)))
-    return TRUE;
+  pcity = find_city_near_tile(map_x, map_y);
+  if (pcity == NULL) {
+    return;
+  }
 
   if (cma_is_city_under_agent(pcity, NULL)) {
-    return TRUE;
+    return;
   }
 
   is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
@@ -380,7 +383,6 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 
   /* When the city info packet is received, update the workers on the map*/
   city_workers_display = pcity;
-  return TRUE;
 }
 
 
@@ -427,24 +429,26 @@ void center_on_unit(void)
 /**************************************************************************
   Draws the on the map the tiles the given city is using
 **************************************************************************/
-gint key_city_workers(GtkWidget *w, GdkEventKey *ev)
+void key_city_workers(GtkWidget *w, GdkEventKey *ev)
 {
   int x,y;
   struct city *pcity;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    return TRUE;
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
   
   gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
   get_map_xy(x, y, &x, &y);
 
   pcity = find_city_near_tile(x,y);
-  if(pcity==NULL) return TRUE;
+  if (pcity == NULL) {
+    return;
+  }
 
   /* Shade tiles on usage */
   city_workers_color = (city_workers_color%3)+1;
   put_city_workers(pcity, city_workers_color);
-  return TRUE;
 }
 
 

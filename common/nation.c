@@ -159,12 +159,11 @@ struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 }
 
 /***************************************************************
-Returns pointer to a nation 
+ Allocate space for the given number of nations.
 ***************************************************************/
-struct nation_type *alloc_nations(int num)
+void alloc_nations(int num)
 {
   nations = fc_calloc( num, sizeof(struct nation_type) );
-  return nations;
 }
 
 void free_nations(int num)

@@ -80,7 +80,7 @@ int get_nation_leader_sex(Nation_Type_id nation, const char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);
 int check_nation_leader_name(Nation_Type_id nation, const char *name);
-struct nation_type *alloc_nations(int num);
+void alloc_nations(int num);
 void free_nations(int num);
 int get_nation_city_style(Nation_Type_id nation);
 
