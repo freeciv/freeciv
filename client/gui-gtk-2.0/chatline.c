@@ -93,8 +93,16 @@ void append_output_window(char *astring)
 **************************************************************************/
 void log_output_window(void)
 {
-  write_chatline_content(gtk_editable_get_chars
-			 (GTK_EDITABLE(main_message_area), 0, -1));
+  GtkTextBuffer *buf;
+  GtkTextIter start, end;
+  gchar *txt;
+
+  buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+  gtk_text_buffer_get_bounds(buf, &start, &end);
+  txt = gtk_text_buffer_get_text(buf, &start, &end, TRUE);
+
+  write_chatline_content(txt);
+  g_free(txt);
 }
 
 /**************************************************************************
