@@ -39,27 +39,26 @@
 
 #include "helpdata.h"
 
-
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Governments", NULL
 };
 
-
 #define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),T_COUNT))
 
+#define SPECLIST_TAG help
+#define SPECLIST_TYPE struct help_item
+#include "speclist.h"
+#define SPECLIST_TAG help
+#define SPECLIST_TYPE struct help_item
+#include "speclist_c.h"
 
-/* speclist? */
-#define help_list_iterate(helplist, pitem) { \
-  struct genlist_iterator myiter; \
-  struct help_item *pitem; \
-  for( genlist_iterator_init(&myiter, &helplist, 0); \
-       (pitem=ITERATOR_PTR(myiter)); \
-       ITERATOR_NEXT(myiter) ) {
-#define help_list_iterate_end }}
+#define help_list_iterate(helplist, phelp) \
+    TYPED_LIST_ITERATE(struct help_item, helplist, phelp)
+#define help_list_iterate_end  LIST_ITERATE_END
 
-static struct genlist help_nodes;
-static struct genlist_iterator help_nodes_iterator;
+static struct genlist_link *help_nodes_iterator;
+static struct help_list help_nodes;
 static bool help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
    latter can be 0 even after call, eg if couldn't find helpdata.txt.
@@ -76,7 +75,7 @@ char long_buffer[64000];
 static void check_help_nodes_init(void)
 {
   if (!help_nodes_init) {
-    genlist_init(&help_nodes);
+    help_list_init(&help_nodes);
     help_nodes_init = TRUE;    /* before help_iter_start to avoid recursion! */
     help_iter_start();
   }
@@ -92,10 +91,8 @@ void free_help_texts(void)
     free(ptmp->topic);
     free(ptmp->text);
     free(ptmp);
-  }
-  help_list_iterate_end;
-  genlist_unlink_all(&help_nodes);
-  help_iter_start();
+  } help_list_iterate_end;
+  help_list_unlink_all(&help_nodes);
 }
 
 /****************************************************************
@@ -154,7 +151,7 @@ static struct help_item *new_help_item(int type)
 }
 
 /****************************************************************
- for genlist_sort(); sort by topic via compare_strings()
+ for help_list_sort(); sort by topic via compare_strings()
  (sort topics with more leading spaces after those with fewer)
 *****************************************************************/
 static int help_item_compar(const void *a, const void *b)
@@ -240,38 +237,39 @@ void boot_help_texts(void)
 	   data instead of doing it later on the fly, but I don't want
 	   to change that now.  --dwp
 	*/
-	char name[MAX_LEN_NAME+2];
-	struct genlist category_nodes;
+	char name[MAX_LEN_NAME + 2];
+	struct help_list category_nodes;
 	
-	genlist_init(&category_nodes);
-	if(current_type==HELP_UNIT) {
+	help_list_init(&category_nodes);
+	if (current_type == HELP_UNIT) {
 	  unit_type_iterate(i) {
-	    if(unit_type_exists(i)) {
+	    if (unit_type_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", unit_name(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
+	      help_list_insert_back(&category_nodes, pitem);
 	    }
 	  } unit_type_iterate_end;
-	} else if(current_type==HELP_TECH) {
+	} else if (current_type == HELP_TECH) {
 	  tech_type_iterate(i) {
 	    if (i != A_NONE && tech_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", advances[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
+	      help_list_insert_back(&category_nodes, pitem);
 	    }
 	  } tech_type_iterate_end;
-	} else if(current_type==HELP_TERRAIN) {
-	  for(i=T_FIRST; i<T_COUNT; i++) {
-	    if(*(tile_types[i].terrain_name) != '\0') {
+	} else if (current_type == HELP_TERRAIN) {
+	  for (i = T_FIRST; i < T_COUNT; i++) {
+	    if (*(tile_types[i].terrain_name) != '\0') {
 	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", tile_types[i].terrain_name);
+	      my_snprintf(name, sizeof(name), " %s",
+			  tile_types[i].terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
+	      help_list_insert_back(&category_nodes, pitem);
 	    }
 	  }
 	  /* Add special Civ2-style river help text if it's supplied. */
@@ -282,45 +280,46 @@ void boot_help_texts(void)
 	    strcpy(long_buffer, _(terrain_control.river_help_text));
 	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
-	    genlist_insert(&category_nodes, pitem, -1);
+	    help_list_insert_back(&category_nodes, pitem);
 	  }
-	} else if(current_type==HELP_GOVERNMENT) {
+	} else if (current_type == HELP_GOVERNMENT) {
 	  government_iterate(gov) {
 	    pitem = new_help_item(current_type);
 	    my_snprintf(name, sizeof(name), " %s", gov->name);
 	    pitem->topic = mystrdup(name);
 	    pitem->text = mystrdup("");
-	    genlist_insert(&category_nodes, pitem, -1);
+	    help_list_insert_back(&category_nodes, pitem);
 	  } government_iterate_end;
-	} else if(current_type==HELP_IMPROVEMENT) {
+	} else if (current_type == HELP_IMPROVEMENT) {
 	  impr_type_iterate(i) {
-	    if(improvement_exists(i) && !is_wonder(i)) {
+	    if (improvement_exists(i) && !is_wonder(i)) {
 	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
+	      my_snprintf(name, sizeof(name), " %s",
+			  improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
+	      help_list_insert_back(&category_nodes, pitem);
 	    }
 	  } impr_type_iterate_end;
-	} else if(current_type==HELP_WONDER) {
+	} else if (current_type == HELP_WONDER) {
 	  impr_type_iterate(i) {
-	    if(improvement_exists(i) && is_wonder(i)) {
+	    if (improvement_exists(i) && is_wonder(i)) {
 	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
+	      my_snprintf(name, sizeof(name), " %s",
+			  improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
+	      help_list_insert_back(&category_nodes, pitem);
 	    }
 	  } impr_type_iterate_end;
 	} else {
 	  die("Bad current_type %d", current_type);
 	}
-	genlist_sort(&category_nodes, help_item_compar);
+	help_list_sort(&category_nodes, help_item_compar);
 	help_list_iterate(category_nodes, ptmp) {
-	  genlist_insert(&help_nodes, ptmp, -1);
-	}
-	help_list_iterate_end;
-	genlist_unlink_all(&category_nodes);
+	  help_list_insert_back(&help_nodes, ptmp);
+	} help_list_iterate_end;
+	help_list_unlink_all(&category_nodes);
 	continue;
       }
     }
@@ -348,7 +347,7 @@ void boot_help_texts(void)
     paras = NULL;
     wordwrap_string(long_buffer, 68);
     pitem->text=mystrdup(long_buffer);
-    genlist_insert(&help_nodes, pitem, -1);
+    help_list_insert_back(&help_nodes, pitem);
   }
 
   free(sec);
@@ -372,7 +371,7 @@ void boot_help_texts(void)
 int num_help_items(void)
 {
   check_help_nodes_init();
-  return genlist_size(&help_nodes);
+  return help_list_size(&help_nodes);
 }
 
 /****************************************************************
@@ -385,7 +384,7 @@ const struct help_item *get_help_item(int pos)
   int size;
   
   check_help_nodes_init();
-  size = genlist_size(&help_nodes);
+  size = help_list_size(&help_nodes);
   if (pos < 0 || pos > size) {
     freelog(LOG_ERROR, "Bad index %d to get_help_item (size %d)", pos, size);
     return NULL;
@@ -393,7 +392,7 @@ const struct help_item *get_help_item(int pos)
   if (pos == size) {
     return NULL;
   }
-  return genlist_get(&help_nodes, pos);
+  return help_list_get(&help_nodes, pos);
 }
 
 /****************************************************************
@@ -457,7 +456,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
 void help_iter_start(void)
 {
   check_help_nodes_init();
-  genlist_iterator_init(&help_nodes_iterator, &help_nodes, 0);
+  help_nodes_iterator = help_nodes.list.head_link;
 }
 
 /****************************************************************
@@ -469,8 +468,9 @@ const struct help_item *help_iter_next(void)
   const struct help_item *pitem;
   
   check_help_nodes_init();
-  pitem = ITERATOR_PTR(help_nodes_iterator);
-  ITERATOR_NEXT(help_nodes_iterator);
+  pitem = help_nodes_iterator->dataptr;
+  help_nodes_iterator = help_nodes_iterator->next;
+
   return pitem;
 }
 
