@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-02-02 12:50+0100\n"
+"POT-Creation-Date: 2002-02-02 17:34+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -157,7 +157,7 @@ msgid "Mine"
 msgstr "Bergwerk"
 
 #: client/cityrepdata.c:226 client/options.c:123 common/map.c:59
-#: common/unit.c:521 server/report.c:899
+#: common/unit.c:521 server/report.c:925
 msgid "Pollution"
 msgstr "Verschmutzung"
 
@@ -1906,137 +1906,137 @@ msgstr "%2d: Die %s %s\n"
 msgid "Historian Publishes!"
 msgstr "Historiker veröffentlicht:"
 
-#: server/report.c:180
+#: server/report.c:197
 #, c-format
-msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
+msgid "%2d: The %s City of %s of size %d, with %d wonder\n"
 msgstr "%2d: Die %se Stadt %s: Größe %d mit %d Weltwunder(n)\n"
 
-#: server/report.c:186 server/report.c:228
+#: server/report.c:204 server/report.c:246
 msgid "Traveler's Report:"
 msgstr "Reisende berichten:"
 
-#: server/report.c:187
+#: server/report.c:205
 msgid "The Five Greatest Cities in the World!"
 msgstr "Die fünf großartigsten Städte der Welt!"
 
-#: server/report.c:204
+#: server/report.c:222
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s in %s (%s)\n"
 
-#: server/report.c:208
+#: server/report.c:226
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s wurde ZERSTÖRT\n"
 
-#: server/report.c:220
+#: server/report.c:238
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(baut %s in %s (%s))\n"
 
 #: client/gui-mui/gui_main.c:313 client/gui-xaw/menu.c:202
-#: data/helpdata.txt:745 server/report.c:229
+#: data/helpdata.txt:745 server/report.c:247
 msgid "Wonders of the World"
 msgstr "Weltwunder"
 
-#: server/report.c:585
+#: server/report.c:603
 msgid "st"
 msgstr "."
 
-#: server/report.c:588
+#: server/report.c:606
 msgid "nd"
 msgstr "."
 
-#: server/report.c:591
+#: server/report.c:609
 msgid "rd"
 msgstr "."
 
-#: server/report.c:596 server/report.c:601
+#: server/report.c:614 server/report.c:619
 msgid "th"
 msgstr "."
 
-#: server/report.c:683 server/report.c:698 server/report.c:707
-#: server/report.c:723
+#: server/report.c:701 server/report.c:716 server/report.c:725
+#: server/report.c:741
 msgid " sq. mi."
 msgstr " qkm"
 
-#: server/report.c:780 server/report.c:795
+#: server/report.c:798 server/report.c:813
 msgid " M tons"
 msgstr " M t"
 
-#: server/report.c:804 server/report.c:819
+#: server/report.c:822 server/report.c:837
 msgid " M goods"
 msgstr " M Produkte"
 
-#: server/report.c:828 server/report.c:844
-msgid " months"
+#: server/report.c:848 server/report.c:866
+msgid " month"
 msgstr " Monate"
 
-#: server/report.c:853 server/report.c:868
-msgid " tons"
+#: server/report.c:877 server/report.c:894
+msgid " ton"
 msgstr " t"
 
-#: server/report.c:891
+#: server/report.c:917
 msgid "Population"
 msgstr "Bevölkerung"
 
-#: server/report.c:892
+#: server/report.c:918
 msgid "Land Area"
 msgstr "Landfläche"
 
-#: server/report.c:893
+#: server/report.c:919
 msgid "Settled Area"
 msgstr "Besiedelte Fläche"
 
-#: server/report.c:894
+#: server/report.c:920
 msgid "Research Speed"
 msgstr "Forschungstempo"
 
 #: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:303 server/report.c:895
+#: data/default/techs.ruleset:303 server/report.c:921
 msgid "Literacy"
 msgstr "Bildung"
 
-#: client/gui-mui/citydlg.c:1319 server/report.c:896
+#: client/gui-mui/citydlg.c:1319 server/report.c:922
 msgid "Production"
 msgstr "Produktion"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:177 server/report.c:897
+#: data/default/techs.ruleset:177 server/report.c:923
 msgid "Economics"
 msgstr "Wirtschaft"
 
-#: server/report.c:898
+#: server/report.c:924
 msgid "Military Service"
 msgstr "Wehrdienst"
 
-#: server/report.c:919 server/report.c:943
+#: server/report.c:945 server/report.c:969
 msgid "Demographics Report:"
 msgstr "Bericht zur Lage der Nation:"
 
-#: server/report.c:920
+#: server/report.c:946
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 
-#: server/report.c:925
+#: server/report.c:951
 #, c-format
 msgid "The %s of the %s"
 msgstr "Die %s der %s"
 
-#: server/report.c:1398
+#: server/report.c:1424
 #, c-format
-msgid "%2d: The %s %s scored %d points\n"
+msgid "%2d: The %s %s scored %d point\n"
 msgstr "%2d: Die %s %s erreichten %d Punkte.\n"
 
-#: server/report.c:1406
+#: server/report.c:1435
 msgid "Final Report:"
 msgstr "Abschlußbericht:"
 
-#: server/report.c:1406
+#: server/report.c:1435
 msgid "Progress Scores:"
 msgstr "Spielstand: "
 
-#: server/report.c:1407
+#: server/report.c:1436
 msgid "The Greatest Civilizations in the world."
 msgstr "Die großartigsten Nationen der Welt."
 
@@ -5321,100 +5321,151 @@ msgstr "Unbekannte Option: '%s'\n"
 msgid "There was an error while auto connecting; aborting."
 msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
 
-#: client/climisc.c:306
+#: client/climisc.c:307
 #, c-format
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spiel: Anstatt %s werden jetzt überall %s (auf)gebaut."
 
-#: client/climisc.c:347
+#: client/climisc.c:348
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02dSek"
 
-#: client/climisc.c:350
+#: client/climisc.c:351
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dMin %02dSek"
 
-#: client/climisc.c:353
+#: client/climisc.c:354
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dStd %02dMin"
 
-#: client/climisc.c:356
+#: client/climisc.c:357
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dTge %02dStd"
 
-#: client/climisc.c:359
+#: client/climisc.c:360
 msgid "?duration:overflow"
 msgstr "?duration:überschritten"
 
-#: client/climisc.c:369
+#: client/climisc.c:370
 msgid "?embassy:Both"
 msgstr "?embassy:beide"
 
-#: client/climisc.c:371
+#: client/climisc.c:372
 msgid "?embassy:Yes"
 msgstr "?embassy:ja"
 
-#: client/climisc.c:373
+#: client/climisc.c:374
 msgid "?embassy:With Us"
 msgstr "?embassy:bei uns"
 
-#: client/climisc.c:385
+#: client/climisc.c:386
 msgid "?vision:Both"
 msgstr "?vision:beide"
 
-#: client/climisc.c:387
+#: client/climisc.c:388
 msgid "?vision:To Them"
 msgstr "?vision:sie"
 
-#: client/climisc.c:389
+#: client/climisc.c:390
 msgid "?vision:To Us"
 msgstr "?vision:wir"
 
-#: client/climisc.c:404 client/climisc.c:411
+#: client/climisc.c:405 client/climisc.c:412
 #, c-format
 msgid "The %s give %s"
 msgstr "Die %s geben %s"
 
-#: client/climisc.c:415
+#: client/climisc.c:416
 #, c-format
 msgid "The %s give unknown city."
 msgstr "Die %s geben eine unbekannte Stadt."
 
-#: client/climisc.c:420
+#: client/climisc.c:421
 #, c-format
 msgid "The %s give %d gold"
 msgstr "Die %s geben %d Goldstücke"
 
-#: client/climisc.c:425
+#: client/climisc.c:426
 #, c-format
 msgid "The %s give their worldmap"
 msgstr "Die %s geben ihre Weltkarte"
 
-#: client/climisc.c:429
+#: client/climisc.c:430
 #, c-format
 msgid "The %s give their seamap"
 msgstr "Die %s geben ihre Seekarte"
 
-#: client/climisc.c:433
+#: client/climisc.c:434
 msgid "The parties agree on a cease-fire"
 msgstr "Die Verhandlungspartner vereinbaren einen Waffenstillstand"
 
-#: client/climisc.c:436
+#: client/climisc.c:437
 msgid "The parties agree on a peace"
 msgstr "Die Verhandlungspartner vereinbaren Frieden"
 
-#: client/climisc.c:439
+#: client/climisc.c:440
 msgid "The parties create an alliance"
 msgstr "Die Verhandlungspartner schließen eine Allianz"
 
-#: client/climisc.c:442
+#: client/climisc.c:443
 #, c-format
 msgid "The %s gives shared vision"
 msgstr "Die %s erlauben uns ihre Karte einzusehen"
+
+#: client/climisc.c:1072
+msgid ""
+"Population:       1234\n"
+"Support:           100 %\n"
+"Energy:            100 %\n"
+"Mass:            12345 tons\n"
+"Travel time:      1234 years\n"
+"Success prob.:     100 %\n"
+"Year of arrival:  1234 AD"
+msgstr ""
+"Passagiere:                 1234\n"
+"Lebenserhaltungssysteme:     100 %\n"
+"Energieversorgung:           100 %\n"
+"Masse:                     12345 tons\n"
+"Reisezeit:                  1234 years\n"
+"Erfolgswahrscheinlichkeit:   100 %\n"
+"Ankunftsjahr:               1234 AD"
+
+#: client/climisc.c:1083
+#, c-format
+msgid "Travel time:     %5.1f years"
+msgstr "Reisezeit:       %5.1f Jahre"
+
+#: client/climisc.c:1087
+msgid "Travel time:        N/A     "
+msgstr "Reisezeit:          ?       "
+
+#: client/climisc.c:1098
+#, c-format
+msgid "Mass:            %5d ton"
+msgstr "Gewicht:           %5d t"
+
+#: client/climisc.c:1102
+#, c-format
+msgid ""
+"Population:      %5d\n"
+"Support:         %5d %%\n"
+"Energy:          %5d %%\n"
+"%s\n"
+"%s\n"
+"Success prob.:   %5d %%\n"
+"Year of arrival: %8s"
+msgstr ""
+"Passagiere:                 %5d\n"
+"Lebenserhaltungssysteme:    %5d %%\n"
+"Energieversorgung:          %5d %%\n"
+"%s\n"
+"%s\n"
+"Erfolgswahrscheinlichkeit:  %5d %%\n"
+"Ankunftsjahr:               %8s"
 
 #: client/clinet.c:118
 msgid "Lost connection to server!"
@@ -6867,7 +6918,7 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:617
 #: client/gui-gtk/inteldlg.c:178 client/gui-gtk/repodlgs.c:226
 #: client/gui-gtk/repodlgs.c:602 client/gui-gtk/repodlgs.c:854
-#: client/gui-gtk/spaceshipdlg.c:211 client/gui-gtk/wldlg.c:202
+#: client/gui-gtk/spaceshipdlg.c:206 client/gui-gtk/wldlg.c:202
 #: client/gui-win32/citydlg.c:849 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:890 client/gui-win32/dialogs.c:179
 #: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:663
@@ -6876,7 +6927,7 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-win32/messagewin.c:208 client/gui-win32/optiondlg.c:108
 #: client/gui-win32/plrdlg.c:386 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:492 client/gui-win32/repodlgs.c:743
-#: client/gui-win32/spaceshipdlg.c:238 data/Freeciv:145 data/Freeciv:195
+#: client/gui-win32/spaceshipdlg.c:232 data/Freeciv:145 data/Freeciv:195
 #: data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1439
 #: data/Freeciv:1552 data/Freeciv:1648 data/Freeciv:1679 data/Freeciv:1812
 #: data/Freeciv:1886 data/Freeciv:1928 data/Freeciv:2293 data/Freeciv:2335
@@ -8788,58 +8839,10 @@ msgstr "Nein"
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d"
 msgstr "Gesamt:                     %s%9d%s%9d%s%9d%s%9d"
 
-#: client/gui-gtk/spaceshipdlg.c:198 client/gui-win32/spaceshipdlg.c:228
-msgid ""
-"Population:       1234\n"
-"Support:           100 %\n"
-"Energy:            100 %\n"
-"Mass:            12345 tons\n"
-"Travel time:      1234 years\n"
-"Success prob.:     100 %\n"
-"Year of arrival:  1234 AD"
-msgstr ""
-"Passagiere:                 1234\n"
-"Lebenserhaltungssysteme:     100 %\n"
-"Energieversorgung:           100 %\n"
-"Masse:                     12345 tons\n"
-"Reisezeit:                  1234 years\n"
-"Erfolgswahrscheinlichkeit:   100 %\n"
-"Ankunftsjahr:               1234 AD"
-
-#: client/gui-gtk/spaceshipdlg.c:213 client/gui-win32/spaceshipdlg.c:239
+#: client/gui-gtk/spaceshipdlg.c:208 client/gui-win32/spaceshipdlg.c:233
 #: data/Freeciv:1655
 msgid "Launch"
 msgstr "Start"
-
-#: client/gui-gtk/spaceshipdlg.c:257 client/gui-win32/spaceshipdlg.c:259
-#: client/gui-xaw/spaceshipdlg.c:258
-#, c-format
-msgid "Travel time:     %5.1f years"
-msgstr "Reisezeit:       %5.1f Jahre"
-
-#: client/gui-gtk/spaceshipdlg.c:262 client/gui-win32/spaceshipdlg.c:264
-msgid "Travel time:        N/A     "
-msgstr "Reisezeit:          ?       "
-
-#: client/gui-gtk/spaceshipdlg.c:270 client/gui-win32/spaceshipdlg.c:272
-#: client/gui-xaw/spaceshipdlg.c:271
-#, c-format
-msgid ""
-"Population:      %5d\n"
-"Support:         %5d %%\n"
-"Energy:          %5d %%\n"
-"Mass:            %5d tons\n"
-"%s\n"
-"Success prob.:   %5d %%\n"
-"Year of arrival: %8s"
-msgstr ""
-"Passagiere:                 %5d\n"
-"Lebenserhaltungssysteme:    %5d %%\n"
-"Energieversorgung:          %5d %%\n"
-"Masse:                      %5d t\n"
-"%s\n"
-"Erfolgswahrscheinlichkeit:  %5d %%\n"
-"Ankunftsjahr:               %8s"
 
 #: client/gui-gtk/wldlg.c:142 data/Freeciv:1915
 msgid "Available worklists"
