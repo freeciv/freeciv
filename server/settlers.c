@@ -139,16 +139,17 @@ int amortize(int benefit, int delay)
 **************************************************************************/
 void generate_minimap(void)
 {
-  int a, i, j;
+  int x_itr, y_itr;
+  struct player *pplayer;
 
   memset(minimap, 0, sizeof(minimap));
-  for (a = 0; a < game.nplayers; a++) {
-    city_list_iterate(game.players[a].cities, pcity)
-      city_map_iterate(i, j) {
-        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)]--;
-      }
-    city_list_iterate_end;
-  }
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
+	minimap[x_itr][y_itr]--;
+      } map_city_radius_iterate_end;
+    } city_list_iterate_end;
+  } players_iterate_end;
 }
 
 /**************************************************************************
