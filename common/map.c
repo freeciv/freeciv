@@ -1489,10 +1489,11 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
 **************************************************************************/
 void rand_map_pos(int *x, int *y)
 {
-  do {
-    *x = myrand(map.xsize);
-    *y = myrand(map.ysize);
-  } while (!is_normal_map_pos(*x, *y));
+  int nat_x = myrand(map.xsize), nat_y = myrand(map.ysize);
+
+  /* Don't pass non-deterministic expressions to native_to_map_pos! */
+  native_to_map_pos(x, y, nat_x, nat_y);
+  CHECK_MAP_POS(*x, *y);
 }
 
 /**************************************************************************
