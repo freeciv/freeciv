@@ -441,7 +441,7 @@ int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
-  if (!(map_get_special(x, y) & S_POLLUTION)) return(0);
+  if (!(map_get_special(x, y) & S_POLLUTION)) return(-1);
   map_clear_special(x, y, S_POLLUTION);
   m = city_tile_value(pcity, i, j, 0, 0);
   map_set_special(x, y, S_POLLUTION);
@@ -476,7 +476,7 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_IRRIGATION);
     return(m);
-  } else return(0);
+  } else return(-1);
 }
 
 int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
@@ -487,12 +487,12 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
   ptile = map_get_tile(x, y);
 /* changing terrain types?? */
   if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
-      !(ptile->special&S_MINE)) {
+      !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
     map_set_special(x, y, S_MINE);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_MINE);
     return(m);
-  } else return(0);
+  } else return(-1);
 }
 
 int road_bonus(int x, int y, int spc)
@@ -543,7 +543,7 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
     m = city_tile_value(pcity, i, j, 0, 0);
     ptile->special&=~S_ROAD;
     return(m);
-  } else return(0);
+  } else return(-1);
 }
 
 int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
@@ -566,7 +566,7 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
       map_clear_special(x, y, S_ROAD | S_RAILROAD);
       return(m);
     }
-  } else return(0);
+  } else return(-1);
 /* bonuses for adjacent railroad tiles */
 }
 
@@ -739,9 +739,14 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
         if (w > val && (i != 2 || j != 2)) val = w;
 /* perhaps I should just subtract w rather than val but I prefer this -- Syela */
 
+/* Christopher Neufeld provided a rather crufty patch to make settlers
+needlessly idle less often.  I didn't want to apply it, but the ideas
+for the -1 return values in ai_calc_*, the !irrigation in calc_mine,
+and the prioritization of useless (b <= 0) activities are his. -- Syela */
+
 	v2 = pcity->ai.irrigate[i][j];
-        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-        if (b > 0) {
+        if (v2 >= 0) { /* worth evaluating */
+          b = MAX((v2 - val)<<6, MORT);
           d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
@@ -754,8 +759,8 @@ gx, gy, v, x, y, v2, d, b);*/
         }
 
 	v2 = pcity->ai.mine[i][j];
-        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-        if (b > 0) {    
+        if (v2 >= 0) {    
+          b = MAX((v2 - val)<<6, MORT);
           d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
@@ -769,10 +774,10 @@ gx, gy, v, x, y, v2, d, b);*/
 
         if (!(map_get_tile(x,y)->special&S_ROAD)) {
   	  v2 = pcity->ai.road[i][j];
-          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
+          if (v2 >= 0) {    
+            v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
 /* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
-          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-          if (b > 0) {    
+            b = MAX((v2 - val)<<6, MORT);
             d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
@@ -785,9 +790,9 @@ gx, gy, v, x, y, v2, d, b);*/
           }
 
 	  v2 = pcity->ai.railroad[i][j];
-          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-          if (b > 0) {    
+          if (v2 >= 0) {    
+            v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+            b = MAX((v2 - val)<<6, MORT);
             d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
@@ -798,9 +803,9 @@ gx, gy, v, x, y, v2, d, b);*/
           }
         } else {
 	  v2 = pcity->ai.railroad[i][j];
-          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-          if (b > 0) {    
+          if (v2 >= 0) {    
+            v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+            b = MAX((v2 - val)<<6, MORT);
             d = (3 * 3 + m - 1) / m + z;
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
@@ -812,9 +817,9 @@ gx, gy, v, x, y, v2, d, b);*/
         } /* end else */
 
 	v2 = pcity->ai.detox[i][j];
-        if (v2) v2 += pplayer->ai.warmth;
-        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-        if (b > 0) {    
+        if (v2 >= 0) {
+          v2 = MAX(v2, val) + pplayer->ai.warmth;
+          b = MAX((v2 - val)<<6, MORT);
           d = (3 * 3 + z + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
