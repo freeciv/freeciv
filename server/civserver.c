@@ -153,6 +153,8 @@ int main(int argc, char *argv[])
   /* have arguments, call the main server loop... */
   srv_main();
 
+  /* Technically, we won't ever get here. We exit via server_quit. */
+
   /* suppress warnings */
   logdebug_suppress_warning;
 

@@ -3062,6 +3062,15 @@ static void cut_comment(char *str)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void quit_game(struct connection *caller)
+{
+  cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
+  server_quit();
+}
+
+/**************************************************************************
   Handle "command input", which could really come from stdin on console,
   or from client chat command, or read from file with -r, etc.
   caller==NULL means console, str is the input, which may optionally
@@ -3353,16 +3362,6 @@ static void cut_client_connection(struct connection *caller, char *name)
 	    _("Cutting connection %s."), ptarget->name);
   lost_connection_to_client(ptarget);
   close_connection(ptarget);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void quit_game(struct connection *caller)
-{
-  cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
-  close_connections_and_socket();
-  exit(EXIT_SUCCESS);
 }
 
 /**************************************************************************

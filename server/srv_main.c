@@ -606,6 +606,16 @@ void start_game(void)
 }
 
 /**************************************************************************
+ Quit the server and exit.
+**************************************************************************/
+void server_quit(void)
+{
+  server_game_free();
+  close_connections_and_socket();
+  exit(EXIT_SUCCESS);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void handle_report_request(struct connection *pconn,
@@ -1909,9 +1919,7 @@ void srv_main(void)
   while (TRUE) {
     srv_loop();
     if (game.timeout == -1) {
-      game_free();
-      close_connections_and_socket();
-      exit(EXIT_SUCCESS);
+      server_quit();
     }
 
     send_game_state(&game.est_connections, CLIENT_GAME_OVER_STATE);
@@ -1935,9 +1943,7 @@ void srv_main(void)
     server_state = PRE_GAME_STATE;
   }
 
-  /* Technically, we won't ever get here... */
-  game_free();
-  close_connections_and_socket();
+  /* Technically, we won't ever get here. We exit via server_quit. */
 }
 
 /**************************************************************************

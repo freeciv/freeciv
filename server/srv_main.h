@@ -42,6 +42,7 @@ struct server_arguments {
 
 void srv_init(void);
 void srv_main(void);
+void server_quit(void);
 
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void lost_connection_to_client(struct connection *pconn);

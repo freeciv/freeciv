@@ -27,7 +27,6 @@ void set_ai_level_directer(struct player *pplayer, int level);
 bool read_init_script(struct connection *caller, char *script_filename);
 void show_players(struct connection *caller);
 
-void quit_game(struct connection *caller);
 void load_command(struct connection *caller, char *arg);
 
 
