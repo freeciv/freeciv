@@ -59,6 +59,8 @@ extern int metaserver_port;
 enum cmdlevel_id default_access_level = ALLOW_INFO;
 enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
+extern int force_end_of_sniff;
+
 static void cut_player_connection(struct player *caller, char *playername);
 static void quit_game(struct player *caller);
 static void show_help(struct player *caller, char *arg);
@@ -771,6 +773,7 @@ enum command_id {
   CMD_CMDLEVEL,
 
   /* potentially harmful: */
+  CMD_END_GAME,
   CMD_REMOVE,
   CMD_SAVE,
   CMD_READ_SCRIPT,
@@ -803,7 +806,7 @@ static struct command commands[] = {
       "for the game to recommence.  Once the game is running this command "
       "is no longer available, since it would have no effect.")
   },
-  
+
   {"help",	ALLOW_INFO,
    /* translate <> only */
    N_("help\n"
@@ -820,7 +823,7 @@ static struct command commands[] = {
       "information includes the current and default values for that option.  "
       "The argument may be abbreviated where unambiguous.")
   },
-   
+
   {"list",	ALLOW_INFO,
    "list",
    N_("Show a list of players.")
@@ -950,6 +953,12 @@ static struct command commands[] = {
       "because some untrusted person could reconnect as that player.\n"
       "If the first player to connect disconnects, then the next player "
       "to connect receives 'first' status.")
+  },
+
+  {"end",	ALLOW_CTRL,
+   "end",
+   N_("End the game."),
+   N_("This command ends the game immediately.")
   },
   {"remove",	ALLOW_CTRL,
    /* translate <> only */
@@ -2491,7 +2500,7 @@ void handle_stdin_input(struct player *caller, char *str)
     cmdlevel_command(caller,arg);
     break;
   case CMD_START_GAME:
-    if(server_state==PRE_GAME_STATE) {
+    if (server_state==PRE_GAME_STATE) {
       int plrs=0;
       int i;
 
@@ -2529,6 +2538,15 @@ void handle_stdin_input(struct player *caller, char *str)
     else {
       cmd_reply(cmd,caller, C_FAIL,
 		_("Cannot start the game: it is already running."));
+    }
+    break;
+  case CMD_END_GAME:
+    if (server_state==RUN_GAME_STATE) {
+      server_state = GAME_OVER_STATE;
+      force_end_of_sniff = 1;
+    } else {
+      cmd_reply(cmd,caller, C_FAIL,
+		_("Cannot end the game: no game running."));
     }
     break;
   case CMD_NUM:
