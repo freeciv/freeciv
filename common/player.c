@@ -521,43 +521,50 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player *pplaye
 }
 
 /***************************************************************
-returns true iff players can attack each other.
+  Returns true iff players can attack each other.
 ***************************************************************/
 bool pplayers_at_war(const struct player *pplayer,
-		    const struct player *pplayer2)
+                     const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
-  if (pplayer == pplayer2) return FALSE;
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+  if (pplayer == pplayer2) {
+    return FALSE;
+  }
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return TRUE;
+  }
   return ds == DS_WAR || ds == DS_NO_CONTACT;
 }
 
 /***************************************************************
-returns true iff players are allied
+  Returns true iff players are allied.
 ***************************************************************/
 bool pplayers_allied(const struct player *pplayer,
-		    const struct player *pplayer2)
+                     const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
-  if (pplayer == pplayer2)
+  if (pplayer == pplayer2) {
     return TRUE;
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+  }
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
+  }
   return (ds == DS_ALLIANCE);
 }
 
 /***************************************************************
-returns true iff players have peace or cease-fire
+  Returns true iff players have peace or cease-fire.
 ***************************************************************/
 bool pplayers_non_attack(const struct player *pplayer,
-			const struct player *pplayer2)
+                         const struct player *pplayer2)
 {
   enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
-  if (pplayer == pplayer2)
+  if (pplayer == pplayer2) {
     return FALSE;
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+  }
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
+  }
   return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_NEUTRAL);
 }
 
