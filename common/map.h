@@ -230,15 +230,21 @@ void reset_move_costs(int x, int y);
      normalize_map_pos(&(dest_x), &(dest_y)))
 
 /*
- * Sets (dest_x, dest_y) to the new map position or a real map
- * position near. In most cases it is better to use MAPSTEP instead of
- * SAFE_MAPSTEP.
+ * Sets (dest_x, dest_y) to the new map position or to (src_x, src_y)
+ * if the step would end in an unreal map position. In most cases it
+ * is better to use MAPSTEP instead of SAFE_MAPSTEP.
  */
 #define SAFE_MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
-(    DIRSTEP(dest_x, dest_y, dir),			\
-     (dest_x) += (src_x),		   		\
-     (dest_y) += (src_y),   				\
-     nearest_real_pos(&(dest_x), &(dest_y)))
+   do {                                                 \
+     DIRSTEP(dest_x, dest_y, dir);			\
+     (dest_x) += (src_x);		   		\
+     (dest_y) += (src_y);   				\
+     if (!normalize_map_pos(&(dest_x), &(dest_y))) {    \
+       (dest_x) = (src_x);                              \
+       (dest_y) = (src_y);                              \
+       CHECK_MAP_POS((dest_x), (dest_y));               \
+     }                                                  \
+   } while(0)
 
 /*
  * Returns the next direction clock-wise

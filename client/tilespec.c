@@ -1128,21 +1128,30 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     tspecial |= S_RIVER;
   }
 
+  /* Find specials.  Any unreal tile will be given no specials. */
   for (dir = 0; dir < 8; dir++) {
-    ttype_near[dir] = T_UNKNOWN;
     tspecial_near[dir] = S_NO_SPECIAL;
-  } 
-
+  }
   adjc_dir_iterate(x, y, x1, y1, dir) {
-    ttype_near[dir] = map_get_terrain(x1, y1);
     tspecial_near[dir] = map_get_special(x1, y1);
+  } adjc_dir_iterate_end;
+
+  /*
+   * Find terrain types.  Any unreal tile will be given the same
+   * terrain type as (x, y) has.
+   */
+  for (dir = 0; dir < 8; dir++) {
+    int x1, y1;
+
+    SAFE_MAPSTEP(x1, y1, x, y, dir);
+    ttype_near[dir] = map_get_terrain(x1, y1);
 
     /* hacking away the river here... */
     if (ttype_near[dir] == T_RIVER) {
       ttype_near[dir] = T_GRASSLAND;
       tspecial_near[dir] |= S_RIVER;
     }
-  } adjc_dir_iterate_end;
+  }
   
   if (draw_terrain) {
     if (ttype != T_OCEAN) /* painted via coasts. */
@@ -1289,16 +1298,24 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     }
   }
 
-  for (dir = 0; dir < 4; dir++) {
-    dither[dir] = get_dither(ttype, T_UNKNOWN);
-  }
-  adjc_dir_iterate(x, y, x1, y1, dir8) {
-    if (!DIR_IS_CARDINAL(dir8) || !tile_get_known(x1, y1)) {
+  /*
+   * We want to mark unknown tiles so that an unreal tile will be
+   * given the same marking as our current tile - that way we won't
+   * get the "unknown" dither along the edge of the map.
+   */
+  for (dir = 0; dir < 8; dir++) {
+    int x1, y1;
+
+    if (!DIR_IS_CARDINAL(dir)) {
       continue;
     }
 
-    dither[dir8_to_dir4(dir8)] = get_dither(ttype, ttype_near[dir8]);
-  } adjc_dir_iterate_end;
+    SAFE_MAPSTEP(x1, y1, x, y, dir);
+    dither[dir8_to_dir4(dir)] = get_dither(ttype,
+					   tile_get_known(x1, y1) ?
+					   map_get_terrain(x1, y1) :
+					   T_UNKNOWN);
+  }
 
   return sprs - save_sprs;
 }
@@ -1369,23 +1386,26 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     }
   }
 
-  ttype=map_get_terrain(abs_x0, abs_y0);
-  for (dir = 0; dir < 8; dir++) {
-    int x, y;
-
-    /* nearest_real_pos is used to make the poles seamless */
-    SAFE_MAPSTEP(x, y, abs_x0, abs_y0, dir);
-    ttype_near[dir] = map_get_terrain(x, y);
-  }
-
-  /* make sure that S_NO_SPECIAL is set past poles */
-  tspecial=map_get_special(abs_x0, abs_y0);
+  /* Find specials.  Any unreal tile will be given no specials. */
+  tspecial = map_get_special(abs_x0, abs_y0);
   for (dir = 0; dir < 8; dir++) {
     tspecial_near[dir] = S_NO_SPECIAL;
   }
   adjc_dir_iterate(abs_x0, abs_y0, x, y, dir) {
     tspecial_near[dir] = map_get_special(x, y);
   } adjc_dir_iterate_end;
+
+  /*
+   * Find terrain types.  Any unreal tile will be given the same
+   * terrain type as (x, y) has.
+   */
+  ttype = map_get_terrain(abs_x0, abs_y0);
+  for (dir = 0; dir < 8; dir++) {
+    int x, y;
+
+    SAFE_MAPSTEP(x, y, abs_x0, abs_y0, dir);
+    ttype_near[dir] = map_get_terrain(x, y);
+  }
 
   if(map.is_earth &&
      abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
@@ -1566,15 +1586,24 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if(!citymode) {
     /* 
      * We're looking to find the INDEX_NSEW for the directions that
-     * are unknown
+     * are unknown.  We want to mark unknown tiles so that an unreal
+     * tile will be given the same marking as our current tile - that
+     * way we won't get the "unknown" dither along the edge of the
+     * map.
      */
     int known[4];
+
     memset(known, 0, sizeof(known));
-    adjc_dir_iterate(abs_x0, abs_y0, x, y, dir8) {
-      if (!DIR_IS_CARDINAL(dir8))
-	continue;
-      known[dir8_to_dir4(dir8)] = (tile_get_known(x, y) != TILE_UNKNOWN);
-    } adjc_dir_iterate_end;
+    for (dir = 0; dir < 8; dir++) {
+      int x1, y1;
+
+      if (!DIR_IS_CARDINAL(dir)) {
+        continue;
+      }
+
+      SAFE_MAPSTEP(x1, y1, abs_x0, abs_y0, dir);
+      known[dir8_to_dir4(dir)] = (tile_get_known(x1, y1) != TILE_UNKNOWN);
+    }
 
     tileno =
 	INDEX_NSEW(!known[DIR4_NORTH], !known[DIR4_SOUTH],
