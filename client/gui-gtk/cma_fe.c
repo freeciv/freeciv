@@ -63,7 +63,7 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
 						gpointer data);
 static void cma_del_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index);
-static void cma_preset_remove_callback_yes(GtkWidget *w, gpointer data);
+static void cma_preset_remove_callback_yes(gpointer data);
 static void cma_preset_remove_close_callback(gpointer data);
 
 static void cma_add_preset_callback(GtkWidget *w, gpointer data);
@@ -570,7 +570,7 @@ static void cma_preset_remove_close_callback(gpointer data)
 /****************************************************************
  callback for the remove_preset popup (remove it)
 *****************************************************************/
-static void cma_preset_remove_callback_yes(GtkWidget *w, gpointer data)
+static void cma_preset_remove_callback_yes(gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 

@@ -353,7 +353,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
+static void diplomat_bribe_yes_callback(gpointer data)
 {
   struct packet_diplomat_action req;
 
@@ -368,7 +368,7 @@ static void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...  Ask the server how much the bribe is
 *****************************************************************/
-static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
+static void diplomat_bribe_callback(gpointer data)
 {
   struct packet_generic_integer packet;
 
@@ -407,7 +407,7 @@ void popup_bribe_dialog(struct unit *punit)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
+static void diplomat_sabotage_callback(gpointer data)
 {
   diplomat_dialog_open=0;
 
@@ -429,7 +429,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
+static void diplomat_investigate_callback(gpointer data)
 {
   diplomat_dialog_open=0;
 
@@ -450,7 +450,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
+static void spy_sabotage_unit_callback(gpointer data)
 {
 
   struct packet_diplomat_action req;
@@ -465,7 +465,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
+static void diplomat_embassy_callback(gpointer data)
 {
   diplomat_dialog_open=0;
 
@@ -486,7 +486,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_poison_callback(GtkWidget *w, gpointer data)
+static void spy_poison_callback(gpointer data)
 {
   diplomat_dialog_open=0;
 
@@ -507,7 +507,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_steal_callback(GtkWidget *w, gpointer data)
+static void diplomat_steal_callback(gpointer data)
 {
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -594,7 +594,7 @@ static void spy_uselect_improvement_callback(GtkWidget *w, gint row,
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_steal_callback(GtkWidget *w, gpointer data)
+static void spy_steal_callback(gpointer data)
 {  
   gtk_widget_destroy(spy_tech_shell);
   spy_tech_shell = NULL;
@@ -618,6 +618,14 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
   }
 
   process_diplomat_arrival(NULL, 0);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void spy_steal_button_callback(GtkWidget * w, gpointer data)
+{
+  spy_steal_callback(data);
 }
 
 /****************************************************************
@@ -700,7 +708,7 @@ static int create_advances_list(struct player *pplayer,
   gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
 	GTK_SIGNAL_FUNC(spy_close_tech_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(spy_steal_command), "clicked",
-	GTK_SIGNAL_FUNC(spy_steal_callback), NULL);
+	GTK_SIGNAL_FUNC(spy_steal_button_callback), NULL);
 
   /* Now populate the list */
   gtk_clist_freeze(GTK_CLIST(spy_advances_list));
@@ -864,7 +872,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
  Requests up-to-date list of improvements, the return of
  which will trigger the popup_sabotage_dialog() function.
 *****************************************************************/
-static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
+static void spy_request_sabotage_list(gpointer data)
 {
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -897,7 +905,7 @@ void popup_sabotage_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
+static void diplomat_incite_yes_callback(gpointer data)
 {
   struct packet_diplomat_action req;
 
@@ -919,7 +927,7 @@ static void diplomat_incite_close_callback(gpointer data)
 /****************************************************************
 ...  Ask the server how much the revolt is going to cost us
 *****************************************************************/
-static void diplomat_incite_callback(GtkWidget *w, gpointer data)
+static void diplomat_incite_callback(gpointer data)
 {
   struct city *pcity;
   struct packet_generic_integer packet;
@@ -969,7 +977,7 @@ void popup_incite_dialog(struct city *pcity)
   Callback from diplomat/spy dialog for "keep moving".
   (This should only occur when entering allied city.)
 *****************************************************************/
-static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
+static void diplomat_keep_moving_callback(gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -1108,7 +1116,7 @@ bool diplomat_dialog_is_open(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
+static void caravan_establish_trade_callback(gpointer data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -1121,7 +1129,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
+static void caravan_help_build_wonder_callback(gpointer data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -1235,7 +1243,7 @@ void popup_government_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void revolution_callback_yes(GtkWidget *w, gpointer data)
+static void revolution_callback_yes(gpointer data)
 {
   struct packet_player_request packet;
 

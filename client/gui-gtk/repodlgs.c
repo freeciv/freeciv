@@ -885,9 +885,10 @@ void activeunits_list_ucallback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-static void upgrade_callback_yes(GtkWidget *w, gpointer data)
+static void upgrade_callback_yes(gpointer data)
 {
-  send_packet_unittype_info(&aconnection, (size_t)data,PACKET_UNITTYPE_UPGRADE);
+  send_packet_unittype_info(&aconnection, (size_t) data,
+			    PACKET_UNITTYPE_UPGRADE);
 }
 
 /****************************************************************
