@@ -2461,7 +2461,7 @@ static enum command_id cmd_of_level(level)
 #endif
   }
   assert(FALSE);
-  return CMD_EXPERIMENTAL; /* to satisfy compiler */
+  return CMD_NORMAL; /* to satisfy compiler */
 }
 
 /******************************************************************
