@@ -80,7 +80,7 @@ enum government_flag_id government_flag_from_str(const char *s)
 
   assert(sizeof(flag_names)/sizeof(char*)==G_LAST_FLAG);
   
-  for(i=0; i<G_LAST_FLAG; i++) {
+  for(i=G_FIRST_FLAG; i<G_LAST_FLAG; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {
       return i;
     }
@@ -94,7 +94,7 @@ enum government_flag_id government_flag_from_str(const char *s)
 int government_has_flag(const struct government *gov,
 			enum government_flag_id flag)
 {
-  assert(flag>=0 && flag<G_LAST_FLAG);
+  assert(flag>=G_FIRST_FLAG && flag<G_LAST_FLAG);
   return gov->flags & (1<<flag);
 }
 
@@ -108,7 +108,7 @@ enum government_hint_id government_hint_from_str(const char *s)
 
   assert(sizeof(hint_names)/sizeof(char*)==G_LAST_HINT);
   
-  for(i=0; i<G_LAST_HINT; i++) {
+  for(i=G_FIRST_HINT; i<G_LAST_HINT; i++) {
     if (mystrcasecmp(hint_names[i], s)==0) {
       return i;
     }
@@ -122,7 +122,7 @@ enum government_hint_id government_hint_from_str(const char *s)
 int government_has_hint(const struct government *gov,
 			enum government_hint_id hint)
 {
-  assert(hint>=0 && hint<G_LAST_FLAG);
+  assert(hint>=G_FIRST_HINT && hint<G_LAST_HINT);
   return gov->hints & (1<<hint);
 }
 

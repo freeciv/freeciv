@@ -33,11 +33,14 @@ enum government_flag_id {
   G_RAPTURE_CITY_GROWTH,        /* allows city to grow by celebrating */
   G_LAST_FLAG
 };
+#define G_FIRST_FLAG G_BUILD_VETERAN_DIPLOMAT
+
 enum government_hint_id {
   G_IS_NICE=0,			/* spaceship auto-placement, among others */
   G_FAVORS_GROWTH,
   G_LAST_HINT
 };
+#define G_FIRST_HINT G_IS_NICE
 
 /* each government has a list of ruler titles, where at least
  * one entry should have nation=DEFAULT_TITLE.
