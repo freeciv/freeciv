@@ -309,8 +309,7 @@ static gint city_dialog_delete_callback(GtkWidget * w, GdkEvent * ev,
 					gpointer data);
 static void close_city_dialog(struct city_dialog *pdialog);
 static void close_callback(GtkWidget * w, gpointer data);
-static void prev_callback(GtkWidget * w, gpointer data);
-static void next_callback(GtkWidget * w, gpointer data);
+static void switch_city_callback(GtkWidget * w, gpointer data);
 
 /****************************************************************
 ...
@@ -1529,10 +1528,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 		     GTK_SIGNAL_FUNC(close_callback), pdialog);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->prev_command), "clicked",
-		     GTK_SIGNAL_FUNC(prev_callback), pdialog);
+		     GTK_SIGNAL_FUNC(switch_city_callback), pdialog);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->next_command), "clicked",
-		     GTK_SIGNAL_FUNC(next_callback), pdialog);
+		     GTK_SIGNAL_FUNC(switch_city_callback), pdialog);
 
   gtk_widget_add_accelerator(close_command, "clicked",
 			     pdialog->accel, GDK_Return, 0, 0);
@@ -3657,25 +3656,35 @@ static void close_city_dialog(struct city_dialog *pdialog)
   city_dialog_update_prev_next();
 }
 
-/****************************************************************
-...
-*****************************************************************/
-static void prev_callback(GtkWidget * w, gpointer data)
+/************************************************************************
+  Callback for the prev/next buttons. Switches to the previous/next
+  city.
+*************************************************************************/
+static void switch_city_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, j, size = city_list_size(&game.player_ptr->cities);
+  int i, j, dir, size = city_list_size(&game.player_ptr->cities);
   struct city *new_pcity = NULL;
 
   assert(city_dialogs_have_been_initialised);
   assert(size >= 1);
 
-  if (size == 1)
+  if (size == 1) {
     return;
+  }
+
+  /* dir = 1 will advance to the city, dir = -1 will get previous */
+  if (w == pdialog->next_command) {
+    dir = 1;
+  } else if (w == pdialog->prev_command) {
+    dir = -1;
+  } else {
+    assert(0);
+    dir = 1;
+  }
 
   for (i = 0; i < size; i++) {
-    struct city *pcity = city_list_get(&game.player_ptr->cities, i);
-
-    if (pdialog->pcity == pcity) {
+    if (pdialog->pcity == city_list_get(&game.player_ptr->cities, i)) {
       break;
     }
   }
@@ -3683,78 +3692,21 @@ static void prev_callback(GtkWidget * w, gpointer data)
   assert(i < size);
 
   for (j = 1; j < size; j++) {
-    struct city *pcity2 =
-	city_list_get(&game.player_ptr->cities, (i - j + size) % size);
-    struct city_dialog *pdialog2 = get_city_dialog(pcity2);
+    struct city *other_pcity = city_list_get(&game.player_ptr->cities,
+					     (i + dir * j + size) % size);
+    struct city_dialog *other_pdialog = get_city_dialog(other_pcity);
 
-    assert(pdialog2 != pdialog);
-    if (!pdialog2) {
-      new_pcity = pcity2;
+    assert(other_pdialog != pdialog);
+    if (!other_pdialog) {
+      new_pcity = other_pcity;
       break;
     }
   }
 
-  if (!new_pcity)
+  if (!new_pcity) {
+    /* Every other city has an open city dialog. */
     return;
-
-  if (pdialog->wl_editor->changed
-      && pdialog->pcity->owner == game.player_idx) {
-    commit_worklist(pdialog->wl_editor);
   }
-  close_happiness_dialog(pdialog->pcity);
-  pdialog->pcity = new_pcity;
-  gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE,
-		     0);
-  pdialog->wl_editor->pcity = new_pcity;
-  pdialog->wl_editor->pwl = new_pcity->worklist;
-  pdialog->wl_editor->user_data = (void *) pdialog;
-  update_worklist_editor(pdialog->wl_editor);
-  center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
-  set_cityopt_values(pdialog);	/* perhaps this should be in refresh_? */
-  refresh_city_dialog(pdialog->pcity);
-  select_impr_list_callback(NULL, 0, 0, NULL, pdialog);	/* unselects clist */
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void next_callback(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, j, size = city_list_size(&game.player_ptr->cities);
-  struct city *new_pcity = NULL;
-
-  assert(city_dialogs_have_been_initialised);
-  assert(size >= 1);
-
-  if (size == 1)
-    return;
-
-  for (i = 0; i < size; i++) {
-    struct city *pcity = city_list_get(&game.player_ptr->cities, i);
-
-    if (pdialog->pcity == pcity) {
-      break;
-    }
-  }
-
-  assert(i < size);
-
-  for (j = 1; j < size; j++) {
-    struct city *pcity2 =
-	city_list_get(&game.player_ptr->cities, (i + j + size) % size);
-    struct city_dialog *pdialog2 = get_city_dialog(pcity2);
-
-    assert(pdialog2 != pdialog);
-    if (!pdialog2) {
-      new_pcity = pcity2;
-      break;
-    }
-  }
-
-  if (!new_pcity)
-    return;
 
   if (pdialog->wl_editor->changed
       && pdialog->pcity->owner == game.player_idx) {
