@@ -191,7 +191,7 @@ struct proto_settings settings[] = {
 typedef enum {
     PNameOk,
     PNameEmpty,
-    PNameTooLong,
+    PNameTooLong
 } PlayerNameStatus;
 
 PlayerNameStatus test_player_name(char* name)
