@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.20\n"
-"POT-Creation-Date: 2001-11-07 20:45+0100\n"
-"PO-Revision-Date: 2001-11-09 20:39GMT+1\n"
+"Project-Id-Version: 0.21\n"
+"POT-Creation-Date: 2001-11-20 22:25+0100\n"
+"PO-Revision-Date: 2001-11-20 23:00GMT+1\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -345,7 +345,7 @@ msgstr "Förändra"
 msgid "Patrol"
 msgstr "Vaktrunda"
 
-#: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:714
+#: client/gui-gtk/citydlg.c:2305 client/gui-mui/citydlg.c:714
 #: client/gui-win32/citydlg.c:1371 client/gui-xaw/citydlg.c:1468
 #: common/unit.c:537
 msgid "Unknown"
@@ -793,7 +793,7 @@ msgstr "Spel: Vi älskar %sen-dag inställd i %s."
 #: server/cityturn.c:1290
 #, c-format
 msgid "Game: Civil disorder in %s."
-msgstr "Spel: Upplop stör friden i %s."
+msgstr "Spel: Upplopp stör friden i %s."
 
 #: server/cityturn.c:1293
 #, c-format
@@ -925,7 +925,7 @@ msgstr "Ok. Standardstil satt."
 
 #: server/console.c:199
 msgid "For introductory help, type 'help'."
-msgstr "För inledande hjälp, skriv \"help\"."
+msgstr "Skriv \"help\" för att få inledande hjälp."
 
 #: server/diplhand.c:147
 #, c-format
@@ -1432,7 +1432,7 @@ msgstr ""
 "järnväg.\n"
 "      Arbetare samlas frivilligt och bygger järnvägar genom alla städer."
 
-#: server/maphand.c:1219
+#: server/maphand.c:1215
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ger oss inte längre delad anblick!"
@@ -4883,163 +4883,163 @@ msgstr "Spel: Vår %s har upplösts vid (%d, %d)."
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Vår %s har fjärrförflyttats från (%d, %d) till %s."
 
-#: server/unittools.c:1815
+#: server/unittools.c:1814
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: Vi förlorade %s när %s förlorades."
 
-#: server/unittools.c:1867
+#: server/unittools.c:1866
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbarledare tillfångatagen, %d guld erhållet som lösen."
 
-#: server/unittools.c:1887
+#: server/unittools.c:1886
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: Vi förlorade %s under angrepp från %ss %s%s."
 
-#: server/unittools.c:1917
+#: server/unittools.c:1916
 #, c-format
 msgid "Game: You lost %d units to an attack from %s's %s%s."
 msgstr "Spel: Vi förlorade %d enheter under angrepp från %ss %s%s."
 
-#: server/unittools.c:1929
+#: server/unittools.c:1928
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: Vi förlorade %s under angrepp från %ss %s."
 
-#: server/unittools.c:2099
+#: server/unittools.c:2098
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spel: Vår %s atombombades av %s."
 
-#: server/unittools.c:2101 server/unittools.c:2117
+#: server/unittools.c:2100 server/unittools.c:2116
 msgid "yourself"
 msgstr "oss själva"
 
-#: server/unittools.c:2105
+#: server/unittools.c:2104
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spel: %ss %s atombombades."
 
-#: server/unittools.c:2115
+#: server/unittools.c:2114
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spel: %s atombombades av %s."
 
-#: server/unittools.c:2122
+#: server/unittools.c:2121
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spel: Vi atombombade %s."
 
-#: server/unittools.c:2159
+#: server/unittools.c:2158
 msgid "Game: You detonated a nuke."
 msgstr "Spel: Vi utlöste en atombomb."
 
-#: server/unittools.c:2197
+#: server/unittools.c:2196
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s framgångsrikt fraktad."
 
-#: server/unittools.c:2218
+#: server/unittools.c:2217
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Detta enhetsslag kan inte hoppa fallskärm."
 
-#: server/unittools.c:2227
+#: server/unittools.c:2226
 msgid "Game: The destination location is not known."
 msgstr "Spel: Målets läge är okänt."
 
-#: server/unittools.c:2233
+#: server/unittools.c:2232
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan inte hoppa fallskärm i havet."
 
-#: server/unittools.c:2242
+#: server/unittools.c:2241
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Spel: Avståndet till målet (%i) är större än enhetens räckvidd (%i)."
 
-#: server/unittools.c:2254
+#: server/unittools.c:2253
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Spel: Vår %s hoppade fallskärm ner i havet och gick förlorad."
 
-#: server/unittools.c:2266
+#: server/unittools.c:2265
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Vår %s dödades av fientliga enheter där den landade."
 
-#: server/unittools.c:2289
+#: server/unittools.c:2288
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: Vi fann %d guld."
 
-#: server/unittools.c:2302
+#: server/unittools.c:2301
 msgid "Game: You found ancient scrolls of wisdom."
 msgstr "Spel: Vi fann forntida skriftrullar med visdom."
 
-#: server/unittools.c:2317
+#: server/unittools.c:2316
 #, c-format
 msgid "Game: You gain knowledge about %s."
 msgstr "Spel: Vi fick kunskap om %s."
 
-#: server/unittools.c:2323
+#: server/unittools.c:2322
 #, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom."
 msgstr "Spel: %s erhöll %s från forntida skriftrullar med visdom."
 
-#: server/unittools.c:2332
+#: server/unittools.c:2331
 #, c-format
 msgid "Game: You gain knowledge about Future Tech. %d."
 msgstr "Spel: Vi får kunskap om framtidsteknologi %d."
 
-#: server/unittools.c:2347
+#: server/unittools.c:2346
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: En grupp soldenärer ställer sig till förfogande."
 
-#: server/unittools.c:2363
+#: server/unittools.c:2362
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Här är en övergiven by."
 
-#: server/unittools.c:2375
+#: server/unittools.c:2374
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: Vi har släppt lös en hord barbarer!"
 
-#: server/unittools.c:2378
+#: server/unittools.c:2377
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Barbarer har dödat vår %s!"
 
-#: server/unittools.c:2396
+#: server/unittools.c:2395
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vänliga nomader är imponerade av oss och ställer sig till förfogande."
 
-#: server/unittools.c:2420
+#: server/unittools.c:2419
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Spel: Vår överflygning skrämde stammen. Den skingras av skräck."
 
-#: server/unittools.c:3042
+#: server/unittools.c:3041
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Spel: Vår %s avbröt sin vaktrunda för att den påträffade en fiendeenhet."
 
-#: server/unittools.c:3162
+#: server/unittools.c:3161
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Spel: Endast %s kan angripa från sjön."
 
-#: server/unittools.c:3167
+#: server/unittools.c:3166
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan inte angripa från sjön."
 
-#: server/unittools.c:3172
+#: server/unittools.c:3171
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: Kan inte angripa utan att förklara krig först."
 
-#: server/unittools.c:3175
+#: server/unittools.c:3174
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Spel: %s kan endast gå in i vårt eget kontrollområde."
@@ -6083,7 +6083,7 @@ msgstr "Underhåll"
 
 #: client/gui-gtk/citydlg.c:602
 msgid "City _Overview"
-msgstr "Stadsö_versikt"
+msgstr "_Stadsöversikt"
 
 #: client/gui-gtk/citydlg.c:626
 msgid "City info"
@@ -6113,13 +6113,13 @@ msgstr "%d/%d %d omgångar"
 msgid "_Buy"
 msgstr "_Köp"
 
-#: client/gui-gtk/citydlg.c:824 client/gui-gtk/citydlg.c:3116
+#: client/gui-gtk/citydlg.c:824 client/gui-gtk/citydlg.c:3124
 #: client/gui-gtk/cityrep.c:427
 msgid "_Change"
-msgstr "Ä_ndra"
+msgstr "Än_dra"
 
-#: client/gui-gtk/citydlg.c:866 client/gui-gtk/citydlg.c:1991
-#: client/gui-gtk/citydlg.c:3350 client/gui-win32/citydlg.c:860
+#: client/gui-gtk/citydlg.c:866 client/gui-gtk/citydlg.c:1999
+#: client/gui-gtk/citydlg.c:3358 client/gui-win32/citydlg.c:860
 msgid "Sell"
 msgstr "Sälj"
 
@@ -6127,7 +6127,7 @@ msgstr "Sälj"
 #: client/gui-gtk/menu.c:748 client/gui-win32/menu.c:354
 #: client/gui-win32/menu.c:373
 msgid "_Units"
-msgstr "En_heter"
+msgstr "_Enheter"
 
 #: client/gui-gtk/citydlg.c:941 client/gui-win32/citydlg.c:893
 msgid "Supported units"
@@ -6140,15 +6140,15 @@ msgstr "Närvarande enheter"
 
 #: client/gui-gtk/citydlg.c:1075
 msgid "_Activate present units"
-msgstr "Gör närv_arande enheter verksamma"
+msgstr "Gör närvarande enheter verksa_mma"
 
 #: client/gui-gtk/citydlg.c:1081
 msgid "_Sentry idle units"
-msgstr "_Sätt overksamma enheter på vakt"
+msgstr "Sätt _overksamma enheter på vakt"
 
 #: client/gui-gtk/citydlg.c:1087
 msgid "_List present units"
-msgstr "_Räkna upp närvarande enheter"
+msgstr "Visa _närvarande enheter"
 
 #: client/gui-gtk/citydlg.c:1112 client/gui-mui/citydlg.c:1326
 msgid "_Worklist"
@@ -6156,7 +6156,7 @@ msgstr "_Arbetslista"
 
 #: client/gui-gtk/citydlg.c:1136
 msgid "_Happiness"
-msgstr "Lycklig_het"
+msgstr "_Lycklighet"
 
 #: client/gui-gtk/citydlg.c:1190
 msgid "_Trade Routes"
@@ -6168,7 +6168,7 @@ msgstr "Inrättade handelsvägar"
 
 #: client/gui-gtk/citydlg.c:1221
 msgid "_Misc. Settings"
-msgstr "Övriga i_nställningar"
+msgstr "Övriga _inställningar"
 
 #: client/gui-gtk/citydlg.c:1223
 msgid "Entertainers"
@@ -6280,85 +6280,97 @@ msgstr "_Nästa stad"
 msgid "%s - %s citizens"
 msgstr "%s - %s medborgare"
 
-#: client/gui-gtk/citydlg.c:1882 client/gui-gtk/citydlg.c:1906
+#: client/gui-gtk/citydlg.c:1589
+msgid " - DISORDER"
+msgstr " - UPPLOPP"
+
+#: client/gui-gtk/citydlg.c:1591
+msgid " - celebrating"
+msgstr " - firar"
+
+#: client/gui-gtk/citydlg.c:1593
+msgid " - happy"
+msgstr " - lyckliga"
+
+#: client/gui-gtk/citydlg.c:1890 client/gui-gtk/citydlg.c:1914
 #: client/gui-mui/citydlg.c:1499 client/gui-mui/citydlg.c:1522
 #: client/gui-win32/citydlg.c:415 client/gui-win32/citydlg.c:436
 #, c-format
 msgid "%3d/%3d %3d turn"
 msgstr "%3d/%3d %3d omgång"
 
-#: client/gui-gtk/citydlg.c:1882 client/gui-gtk/citydlg.c:1906
+#: client/gui-gtk/citydlg.c:1890 client/gui-gtk/citydlg.c:1914
 #: client/gui-mui/citydlg.c:1499 client/gui-mui/citydlg.c:1522
 #: client/gui-win32/citydlg.c:415 client/gui-win32/citydlg.c:437
 #, c-format
 msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d omgångar"
 
-#: client/gui-gtk/citydlg.c:1886 client/gui-gtk/citydlg.c:1917
+#: client/gui-gtk/citydlg.c:1894 client/gui-gtk/citydlg.c:1925
 msgid "Currently building"
 msgstr "Bygger"
 
-#: client/gui-gtk/citydlg.c:1897 client/gui-win32/citydlg.c:428
+#: client/gui-gtk/citydlg.c:1905 client/gui-win32/citydlg.c:428
 #, c-format
 msgid "%3d/XXX XXX turns"
 msgstr "%3d/XXX XXX omgångar"
 
-#: client/gui-gtk/citydlg.c:1986
+#: client/gui-gtk/citydlg.c:1994
 #, c-format
 msgid "Upkeep (Total: %d)"
 msgstr "Omkostnader (Sammanlagt: %d)"
 
-#: client/gui-gtk/citydlg.c:2135
+#: client/gui-gtk/citydlg.c:2143
 #, c-format
 msgid "Supported units (%d)"
 msgstr "Understödda enheter (%d)"
 
-#: client/gui-gtk/citydlg.c:2270
+#: client/gui-gtk/citydlg.c:2278
 #, c-format
 msgid "Present units (%d)"
 msgstr "Närvarande enheter (%d)"
 
-#: client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk/citydlg.c:2305
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk/citydlg.c:2308
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Handel med %s ger %d handel.\n"
 
-#: client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk/citydlg.c:2314
 msgid "No trade routes exist."
 msgstr "Inga handelsvägar finns."
 
-#: client/gui-gtk/citydlg.c:2309
+#: client/gui-gtk/citydlg.c:2317
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Sammanlagd handel från handelsvägar: %d"
 
-#: client/gui-gtk/citydlg.c:2479 client/gui-gtk/citydlg.c:2509
+#: client/gui-gtk/citydlg.c:2487 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1630 client/gui-win32/citydlg.c:1658
 #: data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
 msgstr "Enhetskommandon"
 
-#: client/gui-gtk/citydlg.c:2480 client/gui-gtk/citydlg.c:2510
+#: client/gui-gtk/citydlg.c:2488 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1632 client/gui-win32/citydlg.c:1660
 msgid "_Activate unit"
 msgstr "_Gör enhet verksam"
 
-#: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2511
+#: client/gui-gtk/citydlg.c:2489 client/gui-gtk/citydlg.c:2519
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/citydlg.c:1662
 msgid "Activate unit, _close dialog"
 msgstr "Gör enhet verksam, stäng dialog"
 
-#: client/gui-gtk/citydlg.c:2483 client/gui-gtk/citydlg.c:2516
+#: client/gui-gtk/citydlg.c:2491 client/gui-gtk/citydlg.c:2524
 #: client/gui-win32/citydlg.c:1636 client/gui-win32/citydlg.c:1668
 msgid "_Disband unit"
 msgstr "_Upplös enhet"
 
-#: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2521
+#: client/gui-gtk/citydlg.c:2492 client/gui-gtk/citydlg.c:2529
 #: client/gui-gtk/dialogs.c:1063 client/gui-gtk/dialogs.c:1088
 #: client/gui-gtk/dialogs.c:1120 client/gui-gtk/gotodlg.c:127
 #: client/gui-mui/citydlg.c:1155 client/gui-mui/citydlg.c:1400
@@ -6370,51 +6382,51 @@ msgstr "_Upplös enhet"
 #: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
 #: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:91
 #: client/gui-mui/worklistclass.c:654 client/gui-win32/citydlg.c:1638
-#: client/gui-win32/citydlg.c:1674 client/gui-win32/dialogs.c:1612
-#: client/gui-win32/dialogs.c:1634 client/gui-win32/dialogs.c:1664
+#: client/gui-win32/citydlg.c:1674 client/gui-win32/dialogs.c:1620
+#: client/gui-win32/dialogs.c:1642 client/gui-win32/dialogs.c:1672
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: client/gui-gtk/citydlg.c:2513 client/gui-win32/citydlg.c:1664
+#: client/gui-gtk/citydlg.c:2521 client/gui-win32/citydlg.c:1664
 msgid "_Sentry unit"
 msgstr "_Sätt enhet på vakt"
 
-#: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1666
+#: client/gui-gtk/citydlg.c:2523 client/gui-win32/citydlg.c:1666
 msgid "_Fortify unit"
 msgstr "_Befäst enhet"
 
-#: client/gui-gtk/citydlg.c:2518 client/gui-win32/citydlg.c:1670
+#: client/gui-gtk/citydlg.c:2526 client/gui-win32/citydlg.c:1670
 msgid "Make new _homecity"
 msgstr "Gör till ny _hemstad"
 
-#: client/gui-gtk/citydlg.c:2520 client/gui-win32/citydlg.c:1672
+#: client/gui-gtk/citydlg.c:2528 client/gui-win32/citydlg.c:1672
 msgid "_Upgrade unit"
 msgstr "_Ersätt enhet"
 
-#: client/gui-gtk/citydlg.c:2706 client/gui-mui/dialogs.c:1888
+#: client/gui-gtk/citydlg.c:2714 client/gui-mui/dialogs.c:1888
 #: client/gui-win32/citydlg.c:1582 client/gui-xaw/citydlg.c:2154
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Ledsen: kan inte ersätta %s."
 
-#: client/gui-gtk/citydlg.c:2709 client/gui-gtk/citydlg.c:2732
+#: client/gui-gtk/citydlg.c:2717 client/gui-gtk/citydlg.c:2740
 #: client/gui-mui/dialogs.c:1889 client/gui-mui/dialogs.c:1913
 #: client/gui-win32/citydlg.c:1583 client/gui-win32/citydlg.c:1607
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
 msgstr "Ersätt Enhet!"
 
-#: client/gui-gtk/citydlg.c:2709 client/gui-gtk/citydlg.c:2734
-#: client/gui-gtk/citydlg.c:3011 client/gui-gtk/dialogs.c:416
+#: client/gui-gtk/citydlg.c:2717 client/gui-gtk/citydlg.c:2742
+#: client/gui-gtk/citydlg.c:3019 client/gui-gtk/dialogs.c:416
 #: client/gui-gtk/dialogs.c:992 client/gui-mui/dialogs.c:238
 #: client/gui-mui/dialogs.c:521 client/gui-win32/citydlg.c:1022
 #: client/gui-win32/citydlg.c:1584 client/gui-win32/citydlg.c:1608
-#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1566
+#: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1574
 #: data/Freeciv:2185 data/Freeciv:2389 data/Freeciv:2419
 msgid "Darn"
 msgstr "Synd"
 
-#: client/gui-gtk/citydlg.c:2715 client/gui-mui/dialogs.c:1898
+#: client/gui-gtk/citydlg.c:2723 client/gui-mui/dialogs.c:1898
 #: client/gui-win32/citydlg.c:1590 client/gui-xaw/citydlg.c:2163
 #, c-format
 msgid ""
@@ -6424,38 +6436,38 @@ msgstr ""
 "Ersätt %s med %s för %d guld?\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:2721 client/gui-gtk/repodlgs.c:944
+#: client/gui-gtk/citydlg.c:2729 client/gui-gtk/repodlgs.c:944
 #: client/gui-mui/dialogs.c:1902 client/gui-mui/repodlgs.c:820
 #: client/gui-win32/citydlg.c:1595 client/gui-win32/repodlgs.c:603
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
 msgstr "Ersätt föråldrade enheter"
 
-#: client/gui-gtk/citydlg.c:2721 client/gui-gtk/citydlg.c:3003
-#: client/gui-gtk/citydlg.c:3287 client/gui-gtk/dialogs.c:408
+#: client/gui-gtk/citydlg.c:2729 client/gui-gtk/citydlg.c:3011
+#: client/gui-gtk/citydlg.c:3295 client/gui-gtk/dialogs.c:408
 #: client/gui-gtk/dialogs.c:984 client/gui-gtk/dialogs.c:1352
 #: client/gui-mui/citydlg.c:950 client/gui-mui/citydlg.c:990
 #: client/gui-mui/dialogs.c:512 client/gui-mui/dialogs.c:1159
 #: client/gui-mui/dialogs.c:1903 client/gui-mui/repodlgs.c:821
 #: client/gui-win32/citydlg.c:1013 client/gui-win32/citydlg.c:1078
-#: client/gui-win32/citydlg.c:1596 client/gui-win32/dialogs.c:859
-#: client/gui-win32/dialogs.c:1366 client/gui-win32/dialogs.c:1558
+#: client/gui-win32/citydlg.c:1596 client/gui-win32/dialogs.c:867
+#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1566
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk/citydlg.c:2723 client/gui-gtk/citydlg.c:3004
-#: client/gui-gtk/citydlg.c:3288 client/gui-gtk/dialogs.c:409
+#: client/gui-gtk/citydlg.c:2731 client/gui-gtk/citydlg.c:3012
+#: client/gui-gtk/citydlg.c:3296 client/gui-gtk/dialogs.c:409
 #: client/gui-gtk/dialogs.c:985 client/gui-gtk/dialogs.c:1353
 #: client/gui-mui/citydlg.c:951 client/gui-mui/citydlg.c:991
 #: client/gui-mui/dialogs.c:513 client/gui-mui/dialogs.c:1160
 #: client/gui-mui/dialogs.c:1904 client/gui-mui/repodlgs.c:822
 #: client/gui-win32/citydlg.c:1014 client/gui-win32/citydlg.c:1079
-#: client/gui-win32/citydlg.c:1598 client/gui-win32/dialogs.c:860
-#: client/gui-win32/dialogs.c:1367 client/gui-win32/dialogs.c:1559
+#: client/gui-win32/citydlg.c:1598 client/gui-win32/dialogs.c:868
+#: client/gui-win32/dialogs.c:1375 client/gui-win32/dialogs.c:1567
 msgid "_No"
 msgstr "_Nej"
 
-#: client/gui-gtk/citydlg.c:2727 client/gui-mui/dialogs.c:1908
+#: client/gui-gtk/citydlg.c:2735 client/gui-mui/dialogs.c:1908
 #: client/gui-win32/citydlg.c:1602 client/gui-xaw/citydlg.c:2173
 #, c-format
 msgid ""
@@ -6465,7 +6477,7 @@ msgstr ""
 "Att ersätta %s med %s kostar %d guld.\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:2998 client/gui-mui/citydlg.c:946
+#: client/gui-gtk/citydlg.c:3006 client/gui-mui/citydlg.c:946
 #: client/gui-win32/citydlg.c:1009 client/gui-xaw/citydlg.c:2093
 #, c-format
 msgid ""
@@ -6475,14 +6487,14 @@ msgstr ""
 "Vill du köpa %s för %d guld\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:3002 client/gui-gtk/citydlg.c:3011
+#: client/gui-gtk/citydlg.c:3010 client/gui-gtk/citydlg.c:3019
 #: client/gui-mui/citydlg.c:949 client/gui-mui/citydlg.c:959
 #: client/gui-win32/citydlg.c:1012 client/gui-win32/citydlg.c:1021
 #: data/Freeciv:2153 data/Freeciv:2183
 msgid "Buy It!"
 msgstr "Köp det!"
 
-#: client/gui-gtk/citydlg.c:3007 client/gui-mui/citydlg.c:956
+#: client/gui-gtk/citydlg.c:3015 client/gui-mui/citydlg.c:956
 #: client/gui-win32/citydlg.c:1018 client/gui-xaw/citydlg.c:2102
 #, c-format
 msgid ""
@@ -6492,20 +6504,20 @@ msgstr ""
 "%s kostar %d guld.\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:3068 client/gui-gtk/wldlg.c:310
+#: client/gui-gtk/citydlg.c:3076 client/gui-gtk/wldlg.c:310
 #: client/gui-gtk/wldlg.c:316 client/gui-mui/citydlg.c:556
 #: client/gui-mui/citydlg.c:585 client/gui-mui/worklistclass.c:213
 #: client/gui-win32/citydlg.c:1208
 msgid "Type"
 msgstr "Typ"
 
-#: client/gui-gtk/citydlg.c:3068 client/gui-gtk/wldlg.c:311
+#: client/gui-gtk/citydlg.c:3076 client/gui-gtk/wldlg.c:311
 #: client/gui-gtk/wldlg.c:317 client/gui-mui/citydlg.c:557
 #: client/gui-mui/worklistclass.c:214 client/gui-win32/citydlg.c:1211
 msgid "Info"
 msgstr "Information"
 
-#: client/gui-gtk/citydlg.c:3068 client/gui-gtk/repodlgs.c:557
+#: client/gui-gtk/citydlg.c:3076 client/gui-gtk/repodlgs.c:557
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:559 client/gui-mui/repodlgs.c:494
 #: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1215
@@ -6513,47 +6525,47 @@ msgstr "Information"
 msgid "Cost"
 msgstr "Kostnad"
 
-#: client/gui-gtk/citydlg.c:3068 client/gui-gtk/wldlg.c:319
+#: client/gui-gtk/citydlg.c:3076 client/gui-gtk/wldlg.c:319
 #: client/gui-win32/citydlg.c:1217
 msgid "Turns"
 msgstr "Omgångar"
 
-#: client/gui-gtk/citydlg.c:3090 client/gui-win32/citydlg.c:1187
+#: client/gui-gtk/citydlg.c:3098 client/gui-win32/citydlg.c:1187
 #: data/Freeciv:2012
 msgid "Change Production"
 msgstr "Ändra tillverkning"
 
-#: client/gui-gtk/citydlg.c:3124
+#: client/gui-gtk/citydlg.c:3132
 msgid "Ca_ncel"
 msgstr "_Avbryt"
 
-#: client/gui-gtk/citydlg.c:3132 client/gui-gtk/menu.c:728
+#: client/gui-gtk/citydlg.c:3140 client/gui-gtk/menu.c:728
 #: client/gui-mui/citydlg.c:1154 client/gui-win32/menu.c:365
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: client/gui-gtk/citydlg.c:3282 client/gui-mui/citydlg.c:984
+#: client/gui-gtk/citydlg.c:3290 client/gui-mui/citydlg.c:984
 #: client/gui-win32/citydlg.c:1073 client/gui-xaw/citydlg.c:2553
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Sälj %s för %d guld?"
 
-#: client/gui-gtk/citydlg.c:3286 client/gui-mui/citydlg.c:989
+#: client/gui-gtk/citydlg.c:3294 client/gui-mui/citydlg.c:989
 #: client/gui-win32/citydlg.c:1077 data/Freeciv:2172
 msgid "Sell It!"
 msgstr "Sälj det!"
 
-#: client/gui-gtk/citydlg.c:3361
+#: client/gui-gtk/citydlg.c:3369
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "Sälj (värt %d guld)"
 
-#: client/gui-gtk/citydlg.c:3470 client/gui-win32/citydlg.c:1332
+#: client/gui-gtk/citydlg.c:3478 client/gui-win32/citydlg.c:1332
 #: data/Freeciv:524
 msgid "Rename City"
 msgstr "Byt namn på stad"
 
-#: client/gui-gtk/citydlg.c:3472 client/gui-win32/citydlg.c:1333
+#: client/gui-gtk/citydlg.c:3480 client/gui-win32/citydlg.c:1333
 #: client/gui-xaw/citydlg.c:1425
 msgid "What should we rename the city to?"
 msgstr "Vad ska vi kalla staden?"
@@ -6681,8 +6693,8 @@ msgstr "Ändra"
 #: client/gui-gtk/gamedlgs.c:315 client/gui-gtk/inputdlg.c:106
 #: client/gui-gtk/messagedlg.c:147 client/gui-gtk/wldlg.c:488
 #: client/gui-win32/citydlg.c:1200 client/gui-win32/citydlg.c:2131
-#: client/gui-win32/cityrep.c:768 client/gui-win32/dialogs.c:1746
-#: client/gui-win32/dialogs.c:1951 client/gui-win32/finddlg.c:126
+#: client/gui-win32/cityrep.c:768 client/gui-win32/dialogs.c:1754
+#: client/gui-win32/dialogs.c:1959 client/gui-win32/finddlg.c:126
 #: client/gui-win32/gotodlg.c:167 client/gui-win32/inputdlg.c:129
 #: client/gui-win32/messagedlg.c:138 client/gui-win32/ratesdlg.c:337
 #: client/gui-xaw/inputdlg.c:109 data/Freeciv:1096 data/Freeciv:1151
@@ -6717,8 +6729,8 @@ msgstr "Välj visade kolumner"
 #: client/gui-gtk/spaceshipdlg.c:211 client/gui-gtk/wldlg.c:202
 #: client/gui-win32/citydlg.c:903 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:890 client/gui-win32/dialogs.c:179
-#: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:662
-#: client/gui-win32/dialogs.c:1277 client/gui-win32/dialogs.c:1488
+#: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:663
+#: client/gui-win32/dialogs.c:1285 client/gui-win32/dialogs.c:1496
 #: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:158
 #: client/gui-win32/messagewin.c:208 client/gui-win32/optiondlg.c:108
 #: client/gui-win32/plrdlg.c:384 client/gui-win32/repodlgs.c:293
@@ -6796,7 +6808,7 @@ msgstr "Uppdatera"
 
 #: client/gui-gtk/connectdlg.c:228 client/gui-gtk/dialogs.c:1516
 #: client/gui-mui/gui_main.c:293 client/gui-win32/connectdlg.c:287
-#: client/gui-win32/dialogs.c:1938 client/gui-xaw/menu.c:179 data/Freeciv:95
+#: client/gui-win32/dialogs.c:1946 client/gui-xaw/menu.c:179 data/Freeciv:95
 #: data/Freeciv:2443
 msgid "Connect"
 msgstr "Anslut"
@@ -6848,7 +6860,7 @@ msgid "Goto and Close"
 msgstr "Gå till och stäng"
 
 #: client/gui-gtk/dialogs.c:405 client/gui-mui/dialogs.c:225
-#: client/gui-win32/dialogs.c:1362 client/gui-xaw/dialogs.c:419
+#: client/gui-win32/dialogs.c:1370 client/gui-xaw/dialogs.c:419
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -6858,12 +6870,12 @@ msgstr ""
 "Skattkistan innehåller %d guld."
 
 #: client/gui-gtk/dialogs.c:407 client/gui-mui/dialogs.c:228
-#: client/gui-win32/dialogs.c:1364 data/Freeciv:2352 data/Freeciv:2365
+#: client/gui-win32/dialogs.c:1372 data/Freeciv:2352 data/Freeciv:2365
 msgid "Bribe Enemy Unit"
 msgstr "Muta fientlig enhet"
 
 #: client/gui-gtk/dialogs.c:412 client/gui-mui/dialogs.c:234
-#: client/gui-win32/dialogs.c:1370 client/gui-xaw/dialogs.c:428
+#: client/gui-win32/dialogs.c:1378 client/gui-xaw/dialogs.c:428
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -6874,61 +6886,61 @@ msgstr ""
 
 #: client/gui-gtk/dialogs.c:415 client/gui-gtk/dialogs.c:991
 #: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:520
-#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1565
+#: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1573
 #: data/Freeciv:2387
 msgid "Traitors Demand Too Much!"
 msgstr "Förrädare begär för mycket!"
 
 #: client/gui-gtk/dialogs.c:683 client/gui-mui/dialogs.c:333
-#: client/gui-win32/dialogs.c:1274 data/Freeciv:2283
+#: client/gui-win32/dialogs.c:1282 data/Freeciv:2283
 msgid "Select Advance to Steal"
 msgstr "Välj en teknologi att stjäla"
 
 #: client/gui-gtk/dialogs.c:690 client/gui-mui/dialogs.c:329
-#: client/gui-win32/dialogs.c:1266 data/Freeciv:2218 data/Freeciv:2251
+#: client/gui-win32/dialogs.c:1274 data/Freeciv:2218 data/Freeciv:2251
 #: data/Freeciv:2268
 msgid "Steal Technology"
 msgstr "Stjäl teknologi"
 
-#: client/gui-gtk/dialogs.c:713 client/gui-win32/dialogs.c:1278
+#: client/gui-gtk/dialogs.c:713 client/gui-win32/dialogs.c:1286
 #: data/Freeciv:2299
 msgid "Steal"
 msgstr "Stjäl"
 
 #: client/gui-gtk/dialogs.c:749 client/gui-gtk/dialogs.c:843
 #: client/gui-mui/dialogs.c:309 client/gui-mui/dialogs.c:410
-#: client/gui-win32/dialogs.c:1173 client/gui-win32/dialogs.c:1397
+#: client/gui-win32/dialogs.c:1181 client/gui-win32/dialogs.c:1405
 #: client/gui-xaw/dialogs.c:759 client/gui-xaw/dialogs.c:845
 msgid "At Spy's Discretion"
 msgstr "Låt spejaren välja"
 
-#: client/gui-gtk/dialogs.c:756 client/gui-win32/dialogs.c:1178
+#: client/gui-gtk/dialogs.c:756 client/gui-win32/dialogs.c:1186
 #: client/gui-xaw/dialogs.c:745
 msgid "NONE"
 msgstr "INGEN"
 
 #: client/gui-gtk/dialogs.c:782 client/gui-mui/dialogs.c:430
-#: client/gui-win32/dialogs.c:1485 data/Freeciv:2325
+#: client/gui-win32/dialogs.c:1493 data/Freeciv:2325
 msgid "Select Improvement to Sabotage"
 msgstr "Välj en stadsförbättring att förstöra"
 
 #: client/gui-gtk/dialogs.c:789 client/gui-mui/dialogs.c:426
-#: client/gui-win32/dialogs.c:1477 data/Freeciv:2310
+#: client/gui-win32/dialogs.c:1485 data/Freeciv:2310
 msgid "Sabotage Improvements"
 msgstr "Förstör stadsförbättringar"
 
-#: client/gui-gtk/dialogs.c:811 client/gui-win32/dialogs.c:1489
+#: client/gui-gtk/dialogs.c:811 client/gui-win32/dialogs.c:1497
 #: data/Freeciv:2341
 msgid "Sabotage"
 msgstr "Förstör"
 
 #: client/gui-gtk/dialogs.c:830 client/gui-mui/dialogs.c:409
-#: client/gui-win32/dialogs.c:1387 client/gui-xaw/dialogs.c:835
+#: client/gui-win32/dialogs.c:1395 client/gui-xaw/dialogs.c:835
 msgid "City Production"
 msgstr "Stadens tillverkning"
 
 #: client/gui-gtk/dialogs.c:980 client/gui-mui/dialogs.c:507
-#: client/gui-win32/dialogs.c:1554 client/gui-xaw/dialogs.c:1004
+#: client/gui-win32/dialogs.c:1562 client/gui-xaw/dialogs.c:1004
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -6938,12 +6950,12 @@ msgstr ""
 "Skattkistan innehåller %d guld."
 
 #: client/gui-gtk/dialogs.c:983 client/gui-mui/dialogs.c:511
-#: client/gui-win32/dialogs.c:1557 data/Freeciv:2376
+#: client/gui-win32/dialogs.c:1565 data/Freeciv:2376
 msgid "Incite a Revolt!"
 msgstr "Anstifta ett uppror!"
 
 #: client/gui-gtk/dialogs.c:988 client/gui-mui/dialogs.c:518
-#: client/gui-win32/dialogs.c:1562 client/gui-xaw/dialogs.c:1014
+#: client/gui-win32/dialogs.c:1570 client/gui-xaw/dialogs.c:1014
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -6952,7 +6964,7 @@ msgstr ""
 "Anstiftar ett uppror för %d guld?\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/dialogs.c:1051 client/gui-win32/dialogs.c:1601
+#: client/gui-gtk/dialogs.c:1051 client/gui-win32/dialogs.c:1609
 #: client/gui-xaw/dialogs.c:1078
 #, c-format
 msgid ""
@@ -6962,86 +6974,86 @@ msgstr ""
 "Vår %s har anlänt till %s.\n"
 "Vilket är ditt kommando?"
 
-#: client/gui-gtk/dialogs.c:1056 client/gui-win32/dialogs.c:1606
+#: client/gui-gtk/dialogs.c:1056 client/gui-win32/dialogs.c:1614
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Välj bår budbärares strategi"
 
 #: client/gui-gtk/dialogs.c:1057 client/gui-gtk/dialogs.c:1081
-#: client/gui-win32/dialogs.c:1607 client/gui-win32/dialogs.c:1628
+#: client/gui-win32/dialogs.c:1615 client/gui-win32/dialogs.c:1636
 msgid "Establish _Embassy"
 msgstr "Inrätta B_eskickning"
 
-#: client/gui-gtk/dialogs.c:1058 client/gui-win32/dialogs.c:1608
+#: client/gui-gtk/dialogs.c:1058 client/gui-win32/dialogs.c:1616
 msgid "_Investigate City"
 msgstr "Undersök staden"
 
-#: client/gui-gtk/dialogs.c:1059 client/gui-win32/dialogs.c:1609
+#: client/gui-gtk/dialogs.c:1059 client/gui-win32/dialogs.c:1617
 msgid "_Sabotage City"
 msgstr "För_stör i staden"
 
 #: client/gui-gtk/dialogs.c:1060 client/gui-gtk/dialogs.c:1085
-#: client/gui-win32/dialogs.c:1610 client/gui-win32/dialogs.c:1632
+#: client/gui-win32/dialogs.c:1618 client/gui-win32/dialogs.c:1640
 msgid "Steal _Technology"
 msgstr "Stjäl _Teknologi"
 
 #: client/gui-gtk/dialogs.c:1061 client/gui-gtk/dialogs.c:1086
-#: client/gui-win32/dialogs.c:1611 client/gui-win32/dialogs.c:1633
+#: client/gui-win32/dialogs.c:1619 client/gui-win32/dialogs.c:1641
 msgid "Incite a _Revolt"
 msgstr "Anstifta ett upp_ror"
 
 #: client/gui-gtk/dialogs.c:1062 client/gui-gtk/dialogs.c:1087
 #: client/gui-gtk/dialogs.c:1221 client/gui-mui/dialogs.c:831
 #: client/gui-mui/dialogs.c:898 client/gui-mui/dialogs.c:1066
-#: client/gui-win32/dialogs.c:1008
+#: client/gui-win32/dialogs.c:1016
 msgid "_Keep moving"
 msgstr "_Fortsätt drag"
 
 #: client/gui-gtk/dialogs.c:1080 client/gui-mui/dialogs.c:910
-#: client/gui-win32/dialogs.c:1627 data/Freeciv:2232
+#: client/gui-win32/dialogs.c:1635 data/Freeciv:2232
 msgid "Choose Your Spy's Strategy"
 msgstr "Välj vår spejares strategi"
 
-#: client/gui-gtk/dialogs.c:1082 client/gui-win32/dialogs.c:1629
+#: client/gui-gtk/dialogs.c:1082 client/gui-win32/dialogs.c:1637
 msgid "_Investigate City (free)"
 msgstr "Undersök stad (kostnadslöst)"
 
-#: client/gui-gtk/dialogs.c:1083 client/gui-win32/dialogs.c:1630
+#: client/gui-gtk/dialogs.c:1083 client/gui-win32/dialogs.c:1638
 msgid "_Poison City"
 msgstr "För_gifta stad"
 
-#: client/gui-gtk/dialogs.c:1084 client/gui-win32/dialogs.c:1631
+#: client/gui-gtk/dialogs.c:1084 client/gui-win32/dialogs.c:1639
 msgid "Industrial _Sabotage"
 msgstr "För_stör industri"
 
 #: client/gui-gtk/dialogs.c:1114 client/gui-mui/dialogs.c:945
-#: client/gui-win32/dialogs.c:1658 data/Freeciv:2363
+#: client/gui-win32/dialogs.c:1666 data/Freeciv:2363
 msgid "Subvert Enemy Unit"
 msgstr "Omvänd fientlig enhet"
 
 #: client/gui-gtk/dialogs.c:1116 client/gui-mui/dialogs.c:844
-#: client/gui-mui/dialogs.c:947 client/gui-win32/dialogs.c:1660
+#: client/gui-mui/dialogs.c:947 client/gui-win32/dialogs.c:1668
 #: client/gui-xaw/dialogs.c:1138
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Min herre, budbäraren väntar på ditt kommando"
 
 #: client/gui-gtk/dialogs.c:1117 client/gui-mui/dialogs.c:911
-#: client/gui-mui/dialogs.c:948 client/gui-win32/dialogs.c:1661
+#: client/gui-mui/dialogs.c:948 client/gui-win32/dialogs.c:1669
 #: client/gui-xaw/dialogs.c:1139
 msgid "Sir, the spy is waiting for your command"
 msgstr "Min herre, spejaren väntar på ditt kommando"
 
 #: client/gui-gtk/dialogs.c:1118 client/gui-mui/dialogs.c:925
-#: client/gui-win32/dialogs.c:1662
+#: client/gui-win32/dialogs.c:1670
 msgid "_Bribe Enemy Unit"
 msgstr "Muta fientlig enhet"
 
 #: client/gui-gtk/dialogs.c:1119 client/gui-mui/dialogs.c:933
-#: client/gui-win32/dialogs.c:1663
+#: client/gui-win32/dialogs.c:1671
 msgid "_Sabotage Enemy Unit"
 msgstr "För_stör fientlig enhet"
 
 #: client/gui-gtk/dialogs.c:1210 client/gui-mui/dialogs.c:1033
-#: client/gui-win32/dialogs.c:997 client/gui-xaw/dialogs.c:1239
+#: client/gui-win32/dialogs.c:1005 client/gui-xaw/dialogs.c:1239
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -7051,50 +7063,50 @@ msgstr ""
 "Vad nu?"
 
 #: client/gui-gtk/dialogs.c:1217 client/gui-mui/dialogs.c:1072
-#: client/gui-win32/dialogs.c:1004 data/Freeciv:2192
+#: client/gui-win32/dialogs.c:1012 data/Freeciv:2192
 msgid "Your Caravan Has Arrived"
 msgstr "Vår karavan har anlänt"
 
-#: client/gui-gtk/dialogs.c:1219 client/gui-win32/dialogs.c:1006
+#: client/gui-gtk/dialogs.c:1219 client/gui-win32/dialogs.c:1014
 msgid "Establish _Traderoute"
 msgstr "Inrä_tta handelsväg"
 
-#: client/gui-gtk/dialogs.c:1220 client/gui-win32/dialogs.c:1007
+#: client/gui-gtk/dialogs.c:1220 client/gui-win32/dialogs.c:1015
 msgid "Help build _Wonder"
 msgstr "_Hjälp till att bygga världsunder"
 
 #: client/gui-gtk/dialogs.c:1284 client/gui-mui/dialogs.c:1136
-#: client/gui-win32/dialogs.c:908
+#: client/gui-win32/dialogs.c:916
 msgid "Choose Your New Government"
 msgstr "Välj vår nya regeringsform"
 
 #: client/gui-gtk/dialogs.c:1295 client/gui-mui/dialogs.c:1137
-#: client/gui-win32/dialogs.c:909 data/Freeciv:2427
+#: client/gui-win32/dialogs.c:917 data/Freeciv:2427
 msgid "Select government type:"
 msgstr "Välj regeringsform:"
 
 #: client/gui-gtk/dialogs.c:1350 client/gui-mui/dialogs.c:1158
-#: client/gui-win32/dialogs.c:857 data/Freeciv:2395
+#: client/gui-win32/dialogs.c:865 data/Freeciv:2395
 msgid "Revolution!"
 msgstr "Revolution!"
 
 #: client/gui-gtk/dialogs.c:1351 client/gui-mui/dialogs.c:1158
-#: client/gui-win32/dialogs.c:858 client/gui-xaw/dialogs.c:1352
+#: client/gui-win32/dialogs.c:866 client/gui-xaw/dialogs.c:1352
 msgid "You say you wanna revolution?"
 msgstr "Vill du ha revolution?"
 
-#: client/gui-gtk/dialogs.c:1407 client/gui-win32/dialogs.c:1733
+#: client/gui-gtk/dialogs.c:1407 client/gui-win32/dialogs.c:1741
 #: data/Freeciv:2433
 msgid "What To Pillage"
 msgstr "Plundra vad?"
 
 #: client/gui-gtk/dialogs.c:1414 client/gui-mui/dialogs.c:1230
-#: client/gui-win32/dialogs.c:1738 data/Freeciv:2435
+#: client/gui-win32/dialogs.c:1746 data/Freeciv:2435
 msgid "Select what to pillage:"
 msgstr "Välj något att plundra:"
 
 #: client/gui-gtk/dialogs.c:1523 client/gui-mui/dialogs.c:1320
-#: client/gui-win32/dialogs.c:1943 data/Freeciv:2445
+#: client/gui-win32/dialogs.c:1951 data/Freeciv:2445
 msgid "Choose unit activity:"
 msgstr "Välj vår handling:"
 
@@ -7102,7 +7114,7 @@ msgstr "Välj vår handling:"
 msgid "Unit selection"
 msgstr "Enhetsval"
 
-#: client/gui-gtk/dialogs.c:1799 client/gui-win32/dialogs.c:661
+#: client/gui-gtk/dialogs.c:1799 client/gui-win32/dialogs.c:662
 #: data/Freeciv:534
 msgid "Ready all"
 msgstr "Gör alla tillgängliga"
@@ -8366,7 +8378,7 @@ msgstr "Meddelanden"
 #: client/gui-mui/repodlgs.c:580 client/gui-mui/repodlgs.c:859
 #: client/gui-mui/spaceshipdlg.c:229
 msgid "_Close"
-msgstr "_Stäng"
+msgstr "Stän_g"
 
 #: client/gui-gtk/messagewin.c:154
 msgid "_Goto location"
@@ -10388,7 +10400,7 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.20 av den svenska översättningen av Freeciv. Den "
+"Detta är version 0.21 av den svenska översättningen av Freeciv. Den "
 "innehåller vissa fel som ännu inte kan rättas till, eftersom det kräver "
 "omfattande arbete på programmeringssidan, utanför den svenska "
 "översättningen. Exempel på sådana fel är versal/gemen och böjningsformer av "
@@ -10402,6 +10414,9 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.21; 2001-11-20\n"
+"  Uppdateringar.\n"
+"  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
 "Version 0.20; 2001-11-09\n"
 "  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
 "Version 0.19; 2001-10-30\n"
