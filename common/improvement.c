@@ -29,7 +29,7 @@ The improvement_types array is now setup in:
 struct impr_type improvement_types[B_LAST];
 
 /* Names of effect ranges.
- * (These must correspond to enum effect_range_id in city.h.)
+ * (These must correspond to enum effect_range_id in improvement.h.)
  */
 static char *effect_range_names[] = {
   "None",
@@ -41,7 +41,7 @@ static char *effect_range_names[] = {
 };
 
 /* Names of effect types.
- * (These must correspond to enum effect_type_id in city.h.)
+ * (These must correspond to enum effect_type_id in improvement.h.)
  */
 static char *effect_type_names[] = {
   "Adv_Parasite",
@@ -194,7 +194,7 @@ Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
 int improvement_exists(Impr_Type_id id)
 {
-  if (id<0 || id>=B_LAST)
+  if (id<0 || id>=B_LAST || id>=game.num_impr_types)
     return 0;
 
   if ((id==B_SCOMP || id==B_SMODULE || id==B_SSTRUCTURAL)
@@ -244,7 +244,7 @@ Impr_Type_id find_improvement_by_name(char *s)
 {
   int i;
 
-  for( i=0; i<B_LAST; i++ ) {
+  for( i=0; i<game.num_impr_types; i++ ) {
     if (strcmp(improvement_types[i].name, s)==0)
       return i;
   }
@@ -351,4 +351,3 @@ int can_player_build_improvement(struct player *p, Impr_Type_id id)
     return 0;
   return(could_player_build_improvement(p, id));
 }
-

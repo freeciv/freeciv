@@ -50,6 +50,7 @@
 
 #include "savegame.h"
 
+
 static char dec2hex[] = "0123456789abcdef";
 static char terrain_chars[] = "adfghjm prstu";
 
@@ -58,8 +59,7 @@ static char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-  " diplchance_percent"
-
+" diplchance_percent worklists2"
 
 
 /***************************************************************
@@ -449,6 +449,82 @@ static void map_save(struct section_file *file)
 }
 
 /***************************************************************
+Load the worklist elements specified by path, given the arguments
+plrno and wlinx, into the worklist pointed to by pwl.
+***************************************************************/
+static void worklist_load(struct section_file *file,
+			  char *path, int plrno, int wlinx,
+			  struct worklist *pwl)
+{
+  char efpath[64];
+  char idpath[64];
+  int i, end = 0;
+
+  sz_strlcpy(efpath, path);
+  sz_strlcat(efpath, ".wlef%d");
+  sz_strlcpy(idpath, path);
+  sz_strlcat(idpath, ".wlid%d");
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    if (end) {
+      pwl->wlefs[i] = WEF_END;
+      pwl->wlids[i] = 0;
+      section_file_lookup(file, efpath, plrno, wlinx, i);
+      section_file_lookup(file, idpath, plrno, wlinx, i);
+    } else {
+      pwl->wlefs[i] =
+	secfile_lookup_int_default(file, WEF_END, efpath, plrno, wlinx, i);
+      pwl->wlids[i] =
+	secfile_lookup_int_default(file, 0, idpath, plrno, wlinx, i);
+
+      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
+	  ((pwl->wlefs[i] == WEF_UNIT) && !unit_type_exists(pwl->wlids[i])) ||
+	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
+	pwl->wlefs[i] = WEF_END;
+	pwl->wlids[i] = 0;
+	end = 1;
+      }
+    }
+  }
+}
+
+/***************************************************************
+Load the worklist elements specified by path, given the arguments
+plrno and wlinx, into the worklist pointed to by pwl.
+Assumes original save-file format.  Use for backward compatibility.
+***************************************************************/
+static void worklist_load_old(struct section_file *file,
+			      char *path, int plrno, int wlinx,
+			      struct worklist *pwl)
+{
+  int i, id, end = 0;
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    if (end) {
+      pwl->wlefs[i] = WEF_END;
+      pwl->wlids[i] = 0;
+      section_file_lookup(file, path, plrno, wlinx, i);
+    } else {
+      id = secfile_lookup_int_default(file, -1, path, plrno, wlinx, i);
+
+      if ((id < 0) || (id >= 284)) {	/* 284 was flag value for end of list */
+	pwl->wlefs[i] = WEF_END;
+	pwl->wlids[i] = 0;
+	end = 1;
+      } else if (id >= 68) {		/* 68 was offset to unit ids */
+	pwl->wlefs[i] = WEF_UNIT;
+	pwl->wlids[i] = id - 68;
+	end = !unit_type_exists(pwl->wlids[i]);
+      } else {				/* must be an improvement id */
+	pwl->wlefs[i] = WEF_IMPR;
+	pwl->wlids[i] = id;
+	end = !improvement_exists(pwl->wlids[i]);
+      }
+    }
+  }
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 static void player_load(struct player *plr, int plrno,
@@ -464,7 +540,7 @@ static void player_load(struct player *plr, int plrno,
       || (game.version > 10604))
     savefile_options = secfile_lookup_str(file,"savefile.options");  
   /* else leave savefile_options empty */
-  
+
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
      game.version) to determine which variables you can expect to 
      find in a savegame file.  Or even better (IMO --dwp) is to use
@@ -487,17 +563,20 @@ static void player_load(struct player *plr, int plrno,
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
   plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
                                              "player%d.city_style", plrno);
-  for (j = 0; j < MAX_NUM_WORKLISTS; j++) {
-    plr->worklists[j].is_valid = 
-      secfile_lookup_int_default(file, 0, 
-				 "player%d.worklist%d.is_valid", plrno, j);
-    strcpy(plr->worklists[j].name, 
+
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+    plr->worklists[i].is_valid =
+      secfile_lookup_int_default(file, 0,
+				 "player%d.worklist%d.is_valid", plrno, i);
+    strcpy(plr->worklists[i].name,
 	   secfile_lookup_str_default(file, "",
-				      "player%d.worklist%d.name", plrno, j));
-    for (i = 0; i < MAX_LEN_WORKLIST; i++)
-      plr->worklists[j].ids[i] = 
-	secfile_lookup_int_default(file, WORKLIST_END,
-				   "player%d.worklist%d.ids%d", plrno, j, i);
+				      "player%d.worklist%d.name", plrno, i));
+    if (has_capability("worklists2", savefile_options)) {
+      worklist_load(file, "player%d.worklist%d", plrno, i, &(plr->worklists[i]));
+    } else {
+      worklist_load_old(file, "player%d.worklist%d.ids%d",
+			plrno, i, &(plr->worklists[i]));
+    }
   }
 
   plr->nturns_idle=0;
@@ -735,20 +814,26 @@ static void player_load(struct player *plr, int plrno,
     }
 
     p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
-    
-    for(x=0; x<B_LAST; x++)
-      pcity->improvements[x]=(*p++=='1') ? 1 : 0;
+    for(x=0; x<game.num_impr_types; x++) {
+      if (*p) {
+	pcity->improvements[x]=(*p++=='1') ? 1 : 0;
+      } else {
+	pcity->improvements[x]=0;
+      }
+    }
 
     pcity->worklist = create_worklist();
-    for(j=0; j<MAX_LEN_WORKLIST; j++)
-      pcity->worklist->ids[j]=
-	secfile_lookup_int_default(file, WORKLIST_END,
-				   "player%d.c%d.worklist%d", plrno, i, j);
+    if (has_capability("worklists2", savefile_options)) {
+      worklist_load(file, "player%d.c%d", plrno, i, pcity->worklist);
+    } else {
+      worklist_load_old(file, "player%d.c%d.worklist%d",
+			plrno, i, pcity->worklist);
+    }
 
     map_set_city(pcity->x, pcity->y, pcity);
 
     pcity->incite_revolt_cost = -1; /* flag value */
-    
+
     city_list_insert_back(&plr->cities, pcity);
   }
 
@@ -1025,12 +1110,35 @@ static void player_map_load(struct player *plr, int plrno,
 }
 
 /***************************************************************
+Save the worklist elements specified by path, given the arguments
+plrno and wlinx, from the worklist pointed to by pwl.
+***************************************************************/
+static void worklist_save(struct section_file *file,
+			  char *path, int plrno, int wlinx,
+			  struct worklist *pwl)
+{
+  char efpath[64];
+  char idpath[64];
+  int i;
+
+  sz_strlcpy(efpath, path);
+  sz_strlcat(efpath, ".wlef%d");
+  sz_strlcpy(idpath, path);
+  sz_strlcat(idpath, ".wlid%d");
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
+    secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
+  }
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 static void player_save(struct player *plr, int plrno,
 			struct section_file *file)
 {
-  int i, j, x, y;
+  int i, x, y;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
   char *pbuf=fc_malloc(map.xsize+1);
@@ -1040,15 +1148,13 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->nation, "player%d.race", plrno);
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
-   
-  for (j = 0; j < MAX_NUM_WORKLISTS; j++) {
-    secfile_insert_int(file, plr->worklists[j].is_valid, 
-		       "player%d.worklist%d.is_valid", plrno, j);
-    secfile_insert_str(file, plr->worklists[j].name, 
-		       "player%d.worklist%d.name", plrno, j);
-    for (i = 0; i < MAX_LEN_WORKLIST; i++)
-      secfile_insert_int(file, plr->worklists[j].ids[i], 
-			 "player%d.worklist%d.ids%d", plrno, j, i);
+
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+    secfile_insert_int(file, plr->worklists[i].is_valid,
+		       "player%d.worklist%d.is_valid", plrno, i);
+    secfile_insert_str(file, plr->worklists[i].name,
+		       "player%d.worklist%d.name", plrno, i);
+    worklist_save(file, "player%d.worklist%d", plrno, i, &(plr->worklists[i]));
   }
 
   secfile_insert_int(file, plr->city_style, "player%d.city_style", plrno);
@@ -1233,15 +1339,12 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->currently_building, 
 		       "player%d.c%d.currently_building", plrno, i);
 
-    for(j=0; j<B_LAST; j++)
+    for(j=0; j<game.num_impr_types; j++)
       buf[j]=(pcity->improvements[j]) ? '1' : '0';
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
 
-    for(j=0; j<MAX_LEN_WORKLIST; j++)
-      secfile_insert_int(file, pcity->worklist->ids[j], 
-			 "player%d.c%d.worklist%d", plrno, i, j);
-
+    worklist_save(file, "player%d.c%d", plrno, i, pcity->worklist);
   }
   city_list_iterate_end;
 
@@ -1641,7 +1744,7 @@ void game_load(struct section_file *file)
 
   /* destroyed wonders: */
   string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
-  for(i=0; i<B_LAST && string[i]; i++) {
+  for(i=0; i<game.num_impr_types && string[i]; i++) {
     if (string[i] == '1') {
       game.global_wonders[i] = -1; /* destroyed! */
     }
@@ -1831,7 +1934,7 @@ void game_save(struct section_file *file)
   }
   
   /* destroyed wonders: */
-  for(i=0; i<B_LAST; i++) {
+  for(i=0; i<game.num_impr_types; i++) {
     if (is_wonder(i) && game.global_wonders[i]!=0
 	&& !find_city_by_id(game.global_wonders[i])) {
       temp[i] = '1';

@@ -698,7 +698,7 @@ void trade_list_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     i=trade_improvement_type[ret->list_index];
-    if(i>=0 && i<B_LAST && !is_wonder(i))
+    if(i>=0 && i<game.num_impr_types && !is_wonder(i))
       XtSetSensitive(sellobsolete_command, TRUE);
       XtSetSensitive(sellall_command, TRUE);
     return;
@@ -794,7 +794,7 @@ void trade_report_dialog_update(void)
     k = 0;
     pcity = city_list_get(&game.player_ptr->cities,0);
     if(pcity)  {
-      for (j=0;j<B_LAST;j++)
+      for (j=0;j<game.num_impr_types;j++)
       if(!is_wonder(j)) {
 	count = 0; 
 	city_list_iterate(game.player_ptr->cities,pcity)

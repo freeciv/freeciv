@@ -239,7 +239,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 
   /* Send city improvements info to player. */
   p = packet.improvements;
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<game.num_impr_types; i++)
     *p++=(pcity->improvements[i]) ? '1' : '0';
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
@@ -923,7 +923,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Examine the city for improvements to sabotage. */
   count = 0;
-  for (index = 0; index < B_LAST; index++) {
+  for (index = 0; index < game.num_impr_types; index++) {
     if (city_got_building (pcity, index) &&
 	(!is_wonder (index)) && (index != B_PALACE)) {
       count++;
@@ -960,7 +960,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     } else {
       target = -1;
       which = myrand (count);
-      for (index = 0; index < B_LAST; index++) {
+      for (index = 0; index < game.num_impr_types; index++) {
 	if (city_got_building (pcity, index) &&
 	    (!is_wonder (index)) && (index != B_PALACE)) {
 	  if (which > 0) {
@@ -2602,7 +2602,7 @@ void raze_city(struct city *pcity)
   if( is_land_barbarian(&game.players[pcity->owner]) )
     razechance += 30;
 
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (city_got_building(pcity, i) && !is_wonder(i) 
 	&& (myrand(100) < razechance)) {
       pcity->improvements[i]=0;

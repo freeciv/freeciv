@@ -648,7 +648,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   create_help_page(HELP_IMPROVEMENT);
   
-  if (which<B_LAST) {
+  if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
     gtk_set_label(help_ilabel[1], buf);
@@ -688,7 +688,7 @@ static void help_update_wonder(const struct help_item *pitem,
   
   create_help_page(HELP_WONDER);
 
-  if (which<B_LAST) {
+  if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
     gtk_set_label(help_wlabel[1], buf);
@@ -824,7 +824,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_label_set_justify(GTK_LABEL(w), GTK_JUSTIFY_LEFT);
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
 
-    for(j=0; j<B_LAST; ++j) {
+    for(j=0; j<game.num_impr_types; ++j) {
       if(i==improvement_types[j].tech_req) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);

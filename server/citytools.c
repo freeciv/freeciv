@@ -337,7 +337,7 @@ void eval_buildings(struct city *pcity,int *values)
   struct government *g = get_gov_pcity(pcity);
   tech = (plr->research.researching != A_NONE);
     
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i) && can_build_improvement(pcity, i) && !built_elsewhere(pcity, i)) {
       if (wonder_obsolete(i))
 	values[i]=1;
@@ -1066,7 +1066,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   pnewcity->id=get_next_id_number();
   idex_register_city(pnewcity);
 
-  for (i = 0; i < B_LAST; i++) {
+  for (i = 0; i < game.num_impr_types; i++) {
     if (is_wonder(i) && city_got_building(pnewcity, i))
       game.global_wonders[i] = pnewcity->id;
   }

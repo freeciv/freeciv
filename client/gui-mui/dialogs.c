@@ -456,7 +456,7 @@ static void create_improvements_list(/*struct player *pplayer,*/
     int i;
     int any_improvements=FALSE;
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
-    for(i=0; i<B_LAST; i++)
+    for(i=0; i<game.num_impr_types; i++)
     {
       if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i))
       {
@@ -467,7 +467,7 @@ static void create_improvements_list(/*struct player *pplayer,*/
 
     if (any_improvements)
     {
-      DoMethod(listview, MUIM_NList_InsertSingle, i+B_LAST,MUIV_NList_Insert_Bottom);
+      DoMethod(listview, MUIM_NList_InsertSingle, i+game.num_impr_types,MUIV_NList_Insert_Bottom);
     }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, spy_close, wnd);

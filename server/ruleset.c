@@ -837,8 +837,8 @@ static void load_ruleset_units(struct section_file *file)
 **************************************************************************/
 static void load_building_names(struct section_file *file)
 {
-  int nval, i;
   char **sec;
+  int nval, i;
   struct impr_type *b;
   const char *filename = secfile_filename(file);
 
@@ -846,12 +846,25 @@ static void load_building_names(struct section_file *file)
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
-  if(nval != B_LAST) {
-    /* sometime this restriction should be removed */
+  freelog(LOG_VERBOSE, "%d improvement types (including possibly unused)", nval);
+  if (nval == 0) {
+    freelog(LOG_FATAL, "No improvements?! (%s)", filename);
+    exit(1);
+  }
+  if (nval > B_LAST) {
+    freelog(LOG_FATAL, "Too many improvements (%d, max %d) (%s)",
+	    nval, B_LAST, filename);
+    exit(1);
+  }
+  /* FIXME: Remove this restriction when gen-impr implemented. */
+  if (nval != B_LAST_ENUM) {
     freelog(LOG_FATAL, "Bad number of buildings %d (%s)", nval, filename);
     exit(1);
   }
-  for (i = 0; i < nval; i++) {
+  /* REMOVE TO HERE when gen-impr implemented. */
+  game.num_impr_types = nval;
+
+  for (i=0; i<game.num_impr_types; i++) {
     b = &improvement_types[i];
     sz_strlcpy(b->name, secfile_lookup_str(file, "%s.name", sec[i]));
     b->name_orig[0] = '\0';
@@ -1124,7 +1137,7 @@ static void load_ruleset_buildings(struct section_file *file)
   }
 
   /* Some more consistency checking: */
-  for (i = 0; i < B_LAST; i++) {
+  for (i = 0; i < game.num_impr_types; i++) {
     b = &improvement_types[i];
     if (improvement_exists(i)) {
       if (!tech_exists(b->tech_req)) {
@@ -1645,6 +1658,7 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.default_government = game.default_government;
 
   packet.num_unit_types = game.num_unit_types;
+  packet.num_impr_types = game.num_impr_types;
   packet.num_tech_types = game.num_tech_types;
 
   packet.nation_count = game.nation_count;
@@ -2129,7 +2143,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
   struct packet_ruleset_building packet;
   struct impr_type *b;
 
-  for(b=improvement_types; b<improvement_types+B_LAST; b++) {
+  for(b=improvement_types; b<improvement_types+game.num_impr_types; b++) {
     packet.id = b-improvement_types;
     sz_strlcpy(packet.name, b->name_orig);
     packet.tech_req = b->tech_req;

@@ -614,7 +614,7 @@ static void help_update_improvement(const struct help_item *pitem,
 
   create_help_page(HELP_IMPROVEMENT);
 
-  if (which < B_LAST)
+  if (which < game.num_impr_types)
   {
     struct impr_type *imp = &improvement_types[which];
 
@@ -637,7 +637,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   create_help_page(HELP_WONDER);
 
-  if (which < B_LAST)
+  if (which < game.num_impr_types)
   {
     struct impr_type *imp = &improvement_types[which];
 
@@ -740,7 +740,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
       if (help_tech_group)
       {
-	for (j = 0; j < B_LAST; ++j)
+	for (j = 0; j < game.num_impr_types; ++j)
 	{
 	  Object *o, *button;
 	  if (i != improvement_types[j].tech_req)

@@ -186,7 +186,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
     for (x_itr = 0; x_itr < CITY_MAP_SIZE; x_itr++)
       pcity->city_map[x_itr][y_itr]=C_TILE_EMPTY;
 
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<game.num_impr_types; i++)
     pcity->improvements[i]=0;
   if(!pplayer->capital) {
     pplayer->capital=1;
@@ -432,16 +432,22 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
   send_player_info(pplayer, pplayer);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
 {
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
   if (!pcity || !player_owns_city(pplayer, pcity) 
-      || preq->build_id>=B_LAST) 
+      || preq->build_id>=game.num_impr_types) 
     return;
   really_handle_city_sell(pplayer, pcity, preq->build_id);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
   char *name;
@@ -533,6 +539,9 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
   really_handle_city_buy(pplayer, pcity);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq)
 {
   struct city *pcity;
@@ -544,9 +553,7 @@ void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *
 }
 
 /**************************************************************************
-  Change the build target.  Added when adding worklists; target is encoded
-  as it is for worklists (0..B_LAST-1 are building and wonders, 
-  B_LAST..B_LAST+U_LAST-1 are units+B_LAST).
+  Change the build target.
 **************************************************************************/
 void change_build_target(struct player *pplayer, struct city *pcity, 
 			 int target, int is_unit, int event)
@@ -1064,7 +1071,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   *p='\0';
 
   p=packet->improvements;
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<game.num_impr_types; i++)
     *p++=(pcity->improvements[i]) ? '1' : '0';
   *p='\0';
 }

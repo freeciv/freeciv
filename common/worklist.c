@@ -20,45 +20,73 @@
 
 #include "worklist.h"
 
-struct worklist *create_worklist(void) {
+
+/****************************************************************
+...
+****************************************************************/
+struct worklist *create_worklist(void)
+{
   struct worklist *pwl = fc_malloc(sizeof(struct worklist));
   init_worklist(pwl);
-  
+
   return pwl;
 }
-  
+
 /****************************************************************
   Initialize a worklist to be empty and have a default name.
-  For ids, only really need to set ids[0], but initialize the
+  For elements, only really need to set [0], but initialize the
   rest to avoid junk values in savefile.
 ****************************************************************/
 void init_worklist(struct worklist *pwl)
 {
   int i;
-  
-  pwl->ids[0] = WORKLIST_END;
+
   pwl->is_valid = 1;
   strcpy(pwl->name, "a worklist");
 
-  for(i=1; i<MAX_LEN_WORKLIST; i++) {
-    pwl->ids[i] = 0;
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    pwl->wlefs[i] = WEF_END;
+    pwl->wlids[i] = 0;
   }
 }
 
-void destroy_worklist(struct worklist *pwl) {
+/****************************************************************
+...
+****************************************************************/
+void destroy_worklist(struct worklist *pwl)
+{
   free(pwl);
 }
 
-int worklist_is_empty(struct worklist *pwl) {
-  return pwl==NULL || pwl->ids[0] == WORKLIST_END;
+/****************************************************************
+...
+****************************************************************/
+int worklist_length(struct worklist *pwl)
+{
+  int len = 0;
+
+  if (pwl) {
+    for (len = 0; len < MAX_LEN_WORKLIST && pwl->wlefs[len] != WEF_END; len++) ;
+  }
+
+  return len;
 }
-  
+
+/****************************************************************
+...
+****************************************************************/
+int worklist_is_empty(struct worklist *pwl)
+{
+  return pwl == NULL || pwl->wlefs[0] == WEF_END;
+}
+
 /****************************************************************
   Fill in the id and is_unit values for the head of the worklist
   if the worklist is non-empty.  Return 1 iff id and is_unit
   are valid.
 ****************************************************************/
-int worklist_peek(struct worklist *pwl, int *id, int *is_unit) {
+int worklist_peek(struct worklist *pwl, int *id, int *is_unit)
+{
   if (worklist_is_empty(pwl))
     return 0;
 
@@ -69,52 +97,58 @@ int worklist_peek(struct worklist *pwl, int *id, int *is_unit) {
   Fill in the id and is_unit values for the ith element in the
   worklist.  If the worklist has fewer than i elements, return 0.
 ****************************************************************/
-int worklist_peek_ith(struct worklist *pwl, int *id, int *is_unit, int idx) {
-  int j;
+int worklist_peek_ith(struct worklist *pwl, int *id, int *is_unit, int idx)
+{
+  int i;
 
   /* Out of possible bounds. */
   if (idx < 0 || MAX_LEN_WORKLIST <= idx)
     return 0;
 
   /* Worklist isn't long enough. */
-  if (pwl->ids[idx] == WORKLIST_END)
-    return 0;
-
-  for (j = 0; j < idx; j++)
-    if (pwl->ids[j] == WORKLIST_END)
+  for (i = 0; i <= idx; i++)
+    if (pwl->wlefs[i] == WEF_END)
       return 0;
 
-  *is_unit = pwl->ids[idx] >= B_LAST;
-  *id = *is_unit ? pwl->ids[idx]-B_LAST : pwl->ids[idx];
+  *is_unit = (pwl->wlefs[idx] == WEF_UNIT);
+  *id = pwl->wlids[idx];
 
   return 1;
 }
 
-int worklist_peek_id(struct worklist *pwl) {
-  return worklist_peek_id_ith(pwl, 0);
-}
-
-int worklist_peek_id_ith(struct worklist *pwl, int idx) {
-  return pwl->ids[idx];
-}
-
-void worklist_advance(struct worklist *pwl) {
+/****************************************************************
+...
+****************************************************************/
+void worklist_advance(struct worklist *pwl)
+{
   worklist_remove(pwl, 0);
 }  
 
-void copy_worklist(struct worklist *dst, struct worklist *src) {
+/****************************************************************
+...
+****************************************************************/
+void copy_worklist(struct worklist *dst, struct worklist *src)
+{
   memcpy(dst, src, sizeof(struct worklist));
 }
 
-void worklist_remove(struct worklist *pwl, int idx) {
+/****************************************************************
+...
+****************************************************************/
+void worklist_remove(struct worklist *pwl, int idx)
+{
   /* Don't try to remove something way outside of the worklist. */
   if (idx < 0 || MAX_LEN_WORKLIST <= idx)
     return;
 
   /* Slide everything up one spot. */
-  if (idx < MAX_LEN_WORKLIST)
-    memmove(&pwl->ids[idx], &pwl->ids[idx+1], 
+  if (idx < MAX_LEN_WORKLIST-1) {
+    memmove(&pwl->wlefs[idx], &pwl->wlefs[idx+1],
+	    sizeof(enum worklist_elem_flag) * (MAX_LEN_WORKLIST-1-idx));
+    memmove(&pwl->wlids[idx], &pwl->wlids[idx+1],
 	    sizeof(int) * (MAX_LEN_WORKLIST-1-idx));
+  }
 
-  pwl->ids[MAX_LEN_WORKLIST-1] = WORKLIST_END;
+  pwl->wlefs[MAX_LEN_WORKLIST-1] = WEF_END;
+  pwl->wlids[MAX_LEN_WORKLIST-1] = 0;
 }

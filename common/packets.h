@@ -537,6 +537,7 @@ struct packet_ruleset_control {
   int sewer_size;
   int add_to_size_limit;
   int num_unit_types;
+  int num_impr_types;
   int num_tech_types;
   struct {
     int get_bonus_tech;

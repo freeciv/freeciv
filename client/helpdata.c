@@ -297,7 +297,7 @@ void boot_help_texts(void)
 	      genlist_insert(&category_nodes, pitem, -1);
 	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
-	  for(i=0; i<B_LAST; i++) {
+	  for(i=0; i<game.num_impr_types; i++) {
 	    if(improvement_exists(i) && !is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
@@ -307,7 +307,7 @@ void boot_help_texts(void)
 	    }
 	  }
 	} else if(current_type==HELP_WONDER) {
-	  for(i=0; i<B_LAST; i++) {
+	  for(i=0; i<game.num_impr_types; i++) {
 	    if(improvement_exists(i) && is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);

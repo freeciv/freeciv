@@ -18,23 +18,31 @@
 
 #define MAX_LEN_WORKLIST 16
 #define MAX_NUM_WORKLISTS 16
-#define WORKLIST_END (U_LAST+B_LAST+MAX_NUM_WORKLISTS)
 
+/* worklist element flags */
+enum worklist_elem_flag {
+  WEF_END,	/* element is past end of list */
+  WEF_UNIT,	/* element specifies a unit to be built */
+  WEF_IMPR,	/* element specifies an improvement to be built */
+  WEF_LAST	/* leave this last */
+};
+
+/* a worklist */
 struct worklist {
   int is_valid;
   char name[MAX_LEN_NAME];
-  int ids[MAX_LEN_WORKLIST];
+  enum worklist_elem_flag wlefs[MAX_LEN_WORKLIST];
+  int wlids[MAX_LEN_WORKLIST];
 };
 
 struct worklist *create_worklist(void);
 void init_worklist(struct worklist *pwl);
 void destroy_worklist(struct worklist *pwl);
 
+int worklist_length(struct worklist *pwl);
 int worklist_is_empty(struct worklist *pwl);
 int worklist_peek(struct worklist *pwl, int *id, int *is_unit);
 int worklist_peek_ith(struct worklist *pwl, int *id, int *is_unit, int idx);
-int worklist_peek_id(struct worklist *pwl);
-int worklist_peek_id_ith(struct worklist *pwl, int idx);
 void worklist_advance(struct worklist *pwl);
 
 void copy_worklist(struct worklist *dst, struct worklist *src);

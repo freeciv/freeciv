@@ -112,7 +112,7 @@ static void ai_manage_buildings(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
     if (!palace) corr += pcity->corruption * 8;
-    for (i = 0; i < B_LAST; i++) 
+    for (i = 0; i < game.num_impr_types; i++) 
       if (pcity->ai.building_want[i] > 0) values[i] += pcity->ai.building_want[i];
     if (pcity->ai.building_want[B_LEONARDO] > leon)
       leon = pcity->ai.building_want[B_LEONARDO];
@@ -133,7 +133,7 @@ static void ai_manage_buildings(struct player *pplayer)
    * regression testing --dwp */
   if (g->index != game.default_government
       && g->index != game.government_when_anarchy) {
-    for (i = 0; i < B_LAST; i++) {
+    for (i = 0; i < game.num_impr_types; i++) {
       j = improvement_types[i].tech_req;
       if (get_invention(pplayer, j) != TECH_KNOWN)
         pplayer->ai.tech_want[j] += values[i];
@@ -165,7 +165,7 @@ static void ai_manage_buildings(struct player *pplayer)
   city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) /* wonder-kluge */
-    for (i = 0; i < B_LAST; i++) {
+    for (i = 0; i < game.num_impr_types; i++) {
       if (!pcity->is_building_unit && is_wonder(i) &&
           is_wonder(pcity->currently_building))
         pcity->ai.building_want[i] += pcity->shield_stock / 2;
@@ -299,7 +299,7 @@ static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   int id;
-  for (id = 0; id < B_LAST; id++) {
+  for (id = 0; id < game.num_impr_types; id++) {
     if (can_sell_building(pcity, id) && id != B_CITY) {
 /* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, id);
@@ -551,7 +551,7 @@ int city_get_buildings(struct city *pcity)
 {
   int b=0;
   int i;
-  for (i=0; i<B_LAST; i++) {
+  for (i=0; i<game.num_impr_types; i++) {
     if (is_wonder(i)) continue;
     if (i==B_PALACE)  continue;
     if (city_got_building(pcity, i))
@@ -788,7 +788,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 {
   int i;
   struct player *pplayer = city_owner(pcity);
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if(city_got_building(pcity, i) 
        && !is_wonder(i) 
        && i != B_CITY /* selling city walls is really, really dumb -- Syela */

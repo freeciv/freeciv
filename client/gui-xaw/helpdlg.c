@@ -770,7 +770,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   create_help_page(HELP_IMPROVEMENT);
   
-  if (which<B_LAST) {
+  if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", imp->build_cost);
     xaw_set_label(help_improvement_cost_data, buf);
@@ -808,7 +808,7 @@ static void help_update_wonder(const struct help_item *pitem,
   
   create_help_page(HELP_WONDER);
 
-  if (which<B_LAST) {
+  if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", imp->build_cost);
     xaw_set_label(help_improvement_cost_data, buf);
@@ -912,7 +912,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, i, pitem->text);
 
-    for(j=0; j<B_LAST; ++j) {
+    for(j=0; j<game.num_impr_types; ++j) {
       if(i==improvement_types[j].tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);

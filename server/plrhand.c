@@ -207,7 +207,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 	    advances[tech_found].name
 	    );
     /* Alert the owners of any wonders that have been made obsolete */
-    for (wonder = 0; wonder < B_LAST; wonder++)
+    for (wonder = 0; wonder < game.num_impr_types; wonder++)
       if (game.global_wonders[wonder] && is_wonder(wonder) &&
 	  improvement_types[wonder].obsolete_by == tech_found &&
 	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {

@@ -319,7 +319,7 @@ void handle_city_info(struct packet_city_info *packet)
     }
   }
     
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<game.num_impr_types; i++)
     pcity->improvements[i]=(packet->improvements[i]=='1') ? 1 : 0;
 
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
@@ -485,7 +485,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->did_buy            = 0;
     pcity->did_sell           = 0;
     pcity->was_happy          = 0;
-    for(i=0; i<B_LAST; i++) {
+    for(i=0; i<game.num_impr_types; i++) {
       if (i != B_PALACE && i != B_CITY)
         pcity->improvements[i] = 0;
     }
@@ -885,7 +885,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   }
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     game.global_advances[i]=pinfo->global_advances[i];
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
     game.global_wonders[i]=pinfo->global_wonders[i];
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
@@ -1473,6 +1473,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.default_government = packet->default_government;
 
   game.num_unit_types = packet->num_unit_types;
+  game.num_impr_types = packet->num_impr_types;
   game.num_tech_types = packet->num_tech_types;
 
   governments = fc_calloc(game.government_count, sizeof(struct government));
@@ -1568,7 +1569,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 {
   struct impr_type *b;
 
-  if(p->id < 0 || p->id >= B_LAST) {
+  if(p->id < 0 || p->id >= game.num_impr_types || p->id >= B_LAST) {
     freelog(LOG_ERROR,
 	    "Received bad building id %d in handle_ruleset_building()",
 	    p->id);
@@ -1600,9 +1601,9 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->helptext = p->helptext;		/* pointer assignment */
 
 #ifdef DEBUG
-  if(p->id == B_LAST-1) {
+  if(p->id == game.num_impr_types-1) {
     int id;
-    for (id = 0; id < B_LAST; id++) {
+    for (id = 0; id < game.num_impr_types; id++) {
       int inx;
       b = &improvement_types[id];
       freelog(LOG_DEBUG, "Impr: %s...",
@@ -2055,7 +2056,7 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
 
   if (punit && pcity) {
     int i;
-    for(i=0; i<B_LAST; i++)
+    for(i=0; i<game.num_impr_types; i++)
       pcity->improvements[i] = (packet->improvements[i]=='1') ? 1 : 0;
 
     popup_sabotage_dialog(pcity);

@@ -808,7 +808,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
   packet.worklist.is_valid = 1;
   packet.worklist.name[0] = '\0';
   for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
-    packet.worklist.ids[i] = pwl->ids[i+1];
+    packet.worklist.wlefs[i] = pwl->wlefs[i+1];
+    packet.worklist.wlids[i] = pwl->wlids[i+1];
   }
     
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
@@ -1164,7 +1165,7 @@ void popup_city_production_dialog(struct city *pcity)
 
     DoMethod(pcprod->available_listview, MUIM_NList_Clear);
 
-    for (i = 0; i < B_LAST; i++)
+    for (i = 0; i < game.num_impr_types; i++)
     {
       if (can_build_improvement(pcity, i))
       {
@@ -1751,7 +1752,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   LONG i, j = 0, refresh = FALSE, imprv;
 
-  for (i = 0; i < B_LAST && !refresh; ++i)
+  for (i = 0; i < game.num_impr_types && !refresh; ++i)
   {
     if(pdialog->pcity->improvements[i])
     {
@@ -1768,7 +1769,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     set(pdialog->imprv_listview, MUIA_NList_Quiet, TRUE);
     DoMethod(pdialog->imprv_listview, MUIM_NList_Clear);
 
-    for (i = 0; i < B_LAST; ++i)
+    for (i = 0; i < game.num_impr_types; ++i)
     {
       if (pdialog->pcity->improvements[i])
       {

@@ -94,11 +94,14 @@ struct worklist_dialog {
   int worklist_avail_num_improvements;
   int worklist_avail_num_targets;
 };
+#define WORKLIST_END (-1)
+
 
 static Widget worklist_report_shell = NULL;
 static struct worklist_report_dialog *report_dialog;
 
 
+static int uni_id(struct worklist *pwl, int wlinx);
 
 static void worklist_id_to_name(char buf[], int id, int is_unit, 
 				struct city *pcity);
@@ -559,6 +562,22 @@ void update_worklist_report_dialog(void)
 /****************************************************************
 
 *****************************************************************/
+int uni_id(struct worklist *pwl, int inx)
+{
+  if ((inx < 0) || (inx >= MAX_LEN_WORKLIST)) {
+    return WORKLIST_END;
+  } else if (pwl->wlefs[inx] == WEF_UNIT) {
+    return pwl->wlids[inx] + B_LAST;
+  } else if (pwl->wlefs[inx] == WEF_IMPR) {
+    return pwl->wlids[inx];
+  } else {
+    return WORKLIST_END;
+  }
+}
+
+/****************************************************************
+
+*****************************************************************/
 void worklist_id_to_name(char buf[], int id, int is_unit, 
 			 struct city *pcity)
 {
@@ -941,8 +960,8 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
     int wl_idx = pdialog->worklist_avail_ids[retAvail->list_index];
     struct worklist *pwl = &pplr->worklists[wl_idx];
 
-    for (i = 0; i < MAX_LEN_WORKLIST && pwl->ids[i] != WORKLIST_END; i++) {
-      insert_into_worklist(pdialog, where, pwl->ids[i]);
+    for (i = 0; i < MAX_LEN_WORKLIST && uni_id(pwl, i) != WORKLIST_END; i++) {
+      insert_into_worklist(pdialog, where, uni_id(pwl, i));
       if (where < MAX_LEN_WORKLIST)
 	where++;
     }
@@ -1095,7 +1114,19 @@ void worklist_ok_callback(Widget w, XtPointer client_data, XtPointer call_data)
   init_worklist(&wl);
   
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    wl.ids[i] = pdialog->worklist_ids[i];
+    if (pdialog->worklist_ids[i] == WORKLIST_END) {
+      wl.wlefs[i] = WEF_END;
+      wl.wlids[i] = 0;
+    } else if (pdialog->worklist_ids[i] >= B_LAST) {
+      wl.wlefs[i] = WEF_UNIT;
+      wl.wlids[i] = pdialog->worklist_ids[i] - B_LAST;
+    } else if (pdialog->worklist_ids[i] >= 0) {
+      wl.wlefs[i] = WEF_IMPR;
+      wl.wlids[i] = pdialog->worklist_ids[i];
+    } else {
+      wl.wlefs[i] = WEF_END;
+      wl.wlids[i] = 0;
+    }
   }
   strcpy(wl.name, pdialog->pwl->name);
   wl.is_valid = pdialog->pwl->is_valid;
@@ -1244,9 +1275,9 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
 
   /* Fill in the rest of the worklist list */
   for (i = 0; n < MAX_LEN_WORKLIST &&
-	 pdialog->pwl->ids[i] != WORKLIST_END; i++, n++) {
+	 uni_id(pdialog->pwl, i) != WORKLIST_END; i++, n++) {
     worklist_peek_ith(pdialog->pwl, &target, &is_unit, i);
-    id = worklist_peek_id_ith(pdialog->pwl, i);
+    id = uni_id(pdialog->pwl, i);
 
     worklist_id_to_name(pdialog->worklist_names[n],
 			target, is_unit, pdialog->pcity);
@@ -1284,7 +1315,7 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
     advanced_tech = False;
  
   /*     + First, improvements and Wonders. */
-  for(i=0; i<B_LAST; i++) {
+  for(i=0; i<game.num_impr_types; i++) {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_improvement(pplr,i);
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);

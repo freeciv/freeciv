@@ -1168,14 +1168,31 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *put_worklist(unsigned char *buffer, struct worklist *pwl)
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'struct connection *pc' argument (?) */
+static unsigned char *put_worklist(unsigned char *buffer, struct worklist *pwl,
+				   struct connection *pc)
 {
   int i;
 
   buffer = put_uint8(buffer, pwl->is_valid);
   buffer = put_string(buffer, pwl->name);
-  for (i = 0; i < MAX_LEN_WORKLIST; i++)
-    buffer = put_uint16(buffer, pwl->ids[i]);
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+/* when removing "worklist_true_ids" capability,
+   leave only the code from the *else* clause (send untranslated values) */
+if (pc && !has_capability("worklist_true_ids", pc->capability)) {
+  if (pwl->wlefs[i] == WEF_END) {
+    buffer = put_uint16(buffer, 284);
+  } else if (pwl->wlefs[i] == WEF_UNIT) {
+    buffer = put_uint16(buffer, pwl->wlids[i] + 68);
+  } else {
+    buffer = put_uint16(buffer, pwl->wlids[i]);
+  }
+} else {  /* the following is the code to leave when removing "worklist_true_ids" */
+    buffer = put_uint8(buffer, pwl->wlefs[i]);
+    buffer = put_uint8(buffer, pwl->wlids[i]);
+}
+  }
 
   return buffer;
 }
@@ -1183,14 +1200,36 @@ static unsigned char *put_worklist(unsigned char *buffer, struct worklist *pwl)
 /**************************************************************************
 ...
 **************************************************************************/
-static void iget_worklist(struct pack_iter *piter, struct worklist *pwl)
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'struct connection *pc' argument (?) */
+static void iget_worklist(struct pack_iter *piter, struct worklist *pwl,
+			  struct connection *pc)
 {
   int i;
-  
+
   iget_uint8(piter, &pwl->is_valid);
   iget_string(piter, pwl->name, MAX_LEN_NAME);
-  for (i = 0; i < MAX_LEN_WORKLIST; i++)
-    iget_uint16(piter, &pwl->ids[i]);
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+/* when removing "worklist_true_ids" capability,
+   leave only the code from the *else* clause (receive untranslated values) */
+if (pc && !has_capability("worklist_true_ids", pc->capability)) {
+  int val;
+  iget_uint16(piter, &val);
+  if (val == 284) {
+    pwl->wlefs[i] = WEF_END;
+    pwl->wlids[i] = 0;
+  } else if (val >= 68) {
+    pwl->wlefs[i] = WEF_UNIT;
+    pwl->wlids[i] = val - 68;
+  } else {
+    pwl->wlefs[i] = WEF_IMPR;
+    pwl->wlids[i] = val;
+  }
+} else {  /* the following is the code to leave when removing "worklist_true_ids" */
+    iget_uint8(piter, (int*)&pwl->wlefs[i]);
+    iget_uint8(piter, &pwl->wlids[i]);
+}
+  }
 }
     
 /*************************************************************************
@@ -1466,7 +1505,9 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-  cptr=put_worklist(cptr, &packet->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  cptr=put_worklist(cptr, &packet->worklist, pc);
   cptr=put_uint8(cptr, packet->wl_idx);
   put_uint16(buffer, cptr-buffer);
 
@@ -1491,7 +1532,9 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
-  iget_worklist(&iter, &preq->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  iget_worklist(&iter, &preq->worklist, pc);
   iget_uint8(&iter, &preq->wl_idx);
   
   pack_iter_end(&iter, pc);
@@ -1516,7 +1559,9 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
-  cptr=put_worklist(cptr, &packet->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  cptr=put_worklist(cptr, &packet->worklist, pc);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1543,7 +1588,9 @@ receive_packet_city_request(struct connection *pc)
   iget_uint8(&iter, &preq->worker_y);
   iget_uint8(&iter, &preq->specialist_from);
   iget_uint8(&iter, &preq->specialist_to);
-  iget_worklist(&iter, &preq->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  iget_worklist(&iter, &preq->worklist, pc);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
@@ -1611,8 +1658,11 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
  }
   /* Remove to here */
  
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-    cptr = put_worklist(cptr, &pinfo->worklists[i]);
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+    cptr = put_worklist(cptr, &pinfo->worklists[i], pc);
+  }
 
   put_uint16(buffer, cptr-buffer);
 
@@ -1682,8 +1732,11 @@ receive_packet_player_info(struct connection *pc)
  }
   /* Remove to here */
  
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-    iget_worklist(&iter, &pinfo->worklists[i]);
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+    iget_worklist(&iter, &pinfo->worklists[i], pc);
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -1805,8 +1858,15 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     cptr=put_uint8(cptr, pinfo->global_advances[i]);
-  for(i=0; i<B_LAST; i++)
+/* when removing "indef_impr_types" capability,
+   leave only the code from the *else* clause (send B_LAST values) */
+if (pc && !has_capability("indef_impr_types", pc->capability)) {
+  for(i=0; i<B_LAST_ENUM; i++)
     cptr=put_uint16(cptr, pinfo->global_wonders[i]);
+} else {  /* the following is the code to leave when removing "indef_impr_types" */
+  for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
+    cptr=put_uint16(cptr, pinfo->global_wonders[i]);
+}
   cptr=put_uint8(cptr, pinfo->techpenalty);
   cptr=put_uint8(cptr, pinfo->foodbox);
   cptr=put_uint8(cptr, pinfo->civstyle);
@@ -1860,8 +1920,17 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     iget_uint8(&iter, &pinfo->global_advances[i]);
-  for(i=0; i<B_LAST; i++)
+/* when removing "indef_impr_types" capability,
+   leave only the code from the *else* clause (receive B_LAST values) */
+if (pc && !has_capability("indef_impr_types", pc->capability)) {
+  for(i=0; i<B_LAST_ENUM; i++)
     iget_uint16(&iter, &pinfo->global_wonders[i]);
+  for( ; i<B_LAST/*game.num_impr_types*/; i++)
+    pinfo->global_wonders[i] = 0;
+} else {  /* the following is the code to leave when removing "indef_impr_types" */
+  for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
+    iget_uint16(&iter, &pinfo->global_wonders[i]);
+}
   iget_uint8(&iter, &pinfo->techpenalty);
   iget_uint8(&iter, &pinfo->foodbox);
   iget_uint8(&iter, &pinfo->civstyle);
@@ -2144,7 +2213,9 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
   cptr=put_uint16(cptr, req->before_change_shields);
 }
 
-  cptr=put_worklist(cptr, &req->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  cptr=put_worklist(cptr, &req->worklist, pc);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
@@ -2232,7 +2303,9 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
   packet->before_change_shields = packet->shield_stock;
 }
 
-  iget_worklist(&iter, &packet->worklist);
+/* when removing "worklist_true_ids" capability,
+   may want to remove the 'pc' argument (?) */
+  iget_worklist(&iter, &packet->worklist, pc);
 
   iget_uint8(&iter, &data);
   packet->is_building_unit = data&1;
@@ -2325,13 +2398,13 @@ int send_packet_short_city(struct connection *pc, struct packet_short_city *req)
     old.was_happy          = 0;
 
     p=old.improvements;
-    for(i=0; i<B_LAST; i++)
+    for(i=0; i<game.num_impr_types; i++)
       *p++ = '0';
-    *p='\0';
     if (req->capital)
       old.improvements[B_PALACE] = '1';
     if (req->walls)
       old.improvements[B_CITY]   = '1';
+    *p='\0';
 
     p=old.city_map;
     for(y=0; y<CITY_MAP_SIZE; y++) /* (Mis)use of function parameters */
@@ -2834,6 +2907,9 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->government_when_anarchy);
   
   cptr=put_uint8(cptr, packet->num_unit_types);
+if (pc && has_capability("indef_impr_types", pc->capability)) {
+  cptr=put_uint8(cptr, packet->num_impr_types);
+}
   cptr=put_uint8(cptr, packet->num_tech_types);
  
   cptr=put_uint8(cptr, packet->nation_count);
@@ -2874,6 +2950,11 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->government_when_anarchy);
 
   iget_uint8(&iter, &packet->num_unit_types);
+if (pc && has_capability("indef_impr_types", pc->capability)) {
+  iget_uint8(&iter, &packet->num_impr_types);
+} else {
+packet->num_impr_types = B_LAST_ENUM;
+}
   iget_uint8(&iter, &packet->num_tech_types);
 
   iget_uint8(&iter, &packet->nation_count);
@@ -3921,5 +4002,3 @@ receive_packet_sabotage_list(struct connection *pc)
   remove_packet_from_buffer(pc->buffer);
   return packet;
 }
-
-

@@ -136,16 +136,6 @@ char *get_unit_info(int id)
 }
 
 /****************************************************************
- Returns the length of a worklist
-*****************************************************************/
-int worklist_length(struct worklist *pwl)
-{
-  int i;
-  for (i=0; i < MAX_LEN_WORKLIST && pwl->ids[i] != WORKLIST_END; i++);
-  return i;
-}
-
-/****************************************************************
  Display function for the listview
 *****************************************************************/
 HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry)
@@ -341,15 +331,14 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
 	    int i;
 	    struct player *pplr = city_owner(pcity);
 	    struct worklist *pwl = &pplr->worklists[entry->id];
-	    for (i=0; i < MAX_LEN_WORKLIST && pwl->ids[i] != WORKLIST_END; i++)
+	    for (i=0; i < MAX_LEN_WORKLIST && pwl->wlefs[i] != WEF_END; i++)
 	    {
 	      struct worklist_entry newentry;
-	      newentry.id = pwl->ids[i];
-	      if (newentry.id >= B_LAST)
-	      {
-	        newentry.id -= B_LAST;
+	      newentry.id = pwl->wlids[i];
+	      if (pwl->wlefs[i] == WEF_UNIT)
 	        newentry.type = 1;
-	      } else newentry.type = 0;
+	      else
+		newentry.type = 0;
 
 	      Worklistview_Insert(obj,&newentry,dropmark,pcity);
 	      dropmark++;
@@ -433,7 +422,7 @@ void worklist_populate_targets(struct Worklist_Data *data)
   entry.type = 4;
   entry.id = 0;
   DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
-  for(i=0; i<B_LAST; i++)
+  for(i=0; i<game.num_impr_types; i++)
   {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_improvement(pplr,i);
@@ -541,7 +530,7 @@ void worklist_populate_worklist(struct Worklist_Data *data)
 
   /* Fill in the rest of the worklist list */
   for (i = 0; n < MAX_LEN_WORKLIST &&
-	 data->worklist->ids[i] != WORKLIST_END; i++, n++)
+	 data->worklist->wlefs[i] != WEF_END; i++, n++)
   {
     worklist_peek_ith(data->worklist, &target, &is_unit, i);
     entry.type = is_unit;
@@ -600,17 +589,24 @@ STATIC VOID worklist_ok(struct Worklist_Data **pdata)
   {
     struct worklist_entry *entry;
     DoMethod(data->current_listview, MUIM_NList_GetEntry, i, &entry);
-    wl.ids[i] = entry->id;
-    if (entry->type) wl.ids[i] += B_LAST;
+    wl.wlids[i] = entry->id;
+    if (entry->type)
+      wl.wlefs[i] = WEF_UNIT;
+    else
+      wl.wlefs[i] = WEF_IMPR;
   }
 
   if (entries != 0)
   {
     if (i < MAX_LEN_WORKLIST)
-      wl.ids[i] = WORKLIST_END;
+    {
+      wl.wlefs[i] = WEF_END;
+      wl.wlids[i] = 0;
+    }
   } else
   {
-    wl.ids[0] = wl.ids[1] = WORKLIST_END;
+    wl.wlefs[0] = wl.wlefs[1] = WEF_END;
+    wl.wlids[0] = wl.wlids[1] = 0;
   }
 
   strcpy(wl.name, data->worklist->name);

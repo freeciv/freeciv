@@ -213,7 +213,7 @@ void ai_eval_buildings(struct city *pcity)
   if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
   else hunger = 1;
 
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     values[i]=0;
   } /* rewrite by Syela - old values seemed very random */
 
@@ -402,11 +402,11 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
 /* military advisor will deal with CITY and PORT */
 
-  for (i = 0; i < B_LAST; i++) {
+  for (i = 0; i < game.num_impr_types; i++) {
     if (is_wonder(i) && could_build_improvement(pcity, i)
 	&& !wonder_obsolete(i)&& is_wonder_useful(i)) {
       if (i == B_ASMITHS)
-        for (j = 0; j < B_LAST; j++)
+        for (j = 0; j < game.num_impr_types; j++)
           if (city_got_building(pcity, j) && improvement_upkeep(pcity, j) == 1)
             values[i] += t;
       if (i == B_COLLOSSUS)
@@ -507,7 +507,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
     }
   }
 
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (values[i]) {
       freelog(LOG_DEBUG, "%s wants %s with desire %d.",
 	      pcity->name, get_improvement_name(i), values[i]);

@@ -142,7 +142,7 @@ static int nr_wonders(struct city *pcity)
 {
   int i;
   int res=0;
-  for (i=0;i<B_LAST;i++)
+  for (i=0;i<game.num_impr_types;i++)
     if (is_wonder(i) && city_got_building(pcity, i))
       res++;
   return res;
@@ -197,7 +197,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
   struct city *pcity;
   char buffer[4096];
   buffer[0]=0;
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
       if (game.global_wonders[i]) {
 	if ((pcity=find_city_by_id(game.global_wonders[i]))) {
@@ -211,7 +211,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
       }
     }
   }
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
       if (!game.global_wonders[i]) {
 	players_iterate(pplayer) {

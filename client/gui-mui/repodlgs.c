@@ -640,7 +640,7 @@ void trade_report_dialog_update(void)
   {
     int j;
 
-    for (j = 0; j < B_LAST; j++)
+    for (j = 0; j < game.num_impr_types; j++)
     {
       if (!is_wonder(j))
       {

@@ -24,8 +24,15 @@ struct player;
 
 
 /* Improvement types.
- * (This will later not be an enum.)
+ * (This is the type for improvement types;
+ *  improvement types are loaded from the buildings.ruleset file.)
  */
+typedef int Impr_Type_id;
+
+/* FIXME: Remove this define when there is per-file need for this enum. */
+#define OLD_IMPR_TYPE_ENUM
+/* FIXME: Remove this enum and the ifdef/endif when gen-impr implemented. */
+#ifdef OLD_IMPR_TYPE_ENUM
 enum improvement_type_id {
   B_AIRPORT=0, B_AQUEDUCT, B_BANK, B_BARRACKS, B_BARRACKS2, B_BARRACKS3, 
   B_CATHEDRAL, B_CITY, B_COASTAL, B_COLOSSEUM, B_COURTHOUSE,  B_FACTORY, 
@@ -40,14 +47,20 @@ enum improvement_type_id {
   B_LEONARDO, B_LIGHTHOUSE, B_MAGELLAN, B_MANHATTEN, B_MARCO, B_MICHELANGELO, 
   B_ORACLE, B_PYRAMIDS, B_SETI, B_SHAKESPEARE, B_LIBERTY, B_SUNTZU, 
   B_UNITED, B_WOMENS,
-  B_CAPITAL, B_LAST
+  B_CAPITAL, B_LAST_ENUM
 };
+#endif
 
-typedef int Impr_Type_id;
+/* B_LAST is a value which is guaranteed to be larger than all
+ * actual Impr_Type_id values.  It is used as a flag value;
+ * it can also be used for fixed allocations to ensure ability
+ * to hold full number of improvement types.
+ */
+#define B_LAST MAX_NUM_ITEMS
 
 /* Range of effects.
  * Used in equiv_range and effect.range fields.
- * (These must correspond to effect_range_names[] in city.c.)
+ * (These must correspond to effect_range_names[] in improvement.c.)
  */
 enum effect_range_id {
   EFR_NONE,
@@ -63,7 +76,7 @@ typedef enum effect_range_id Eff_Range_id;
 
 /* Type of effects.
  * Used in effect.type field.
- * (These must correspond to effect_type_names[] in city.c.)
+ * (These must correspond to effect_type_names[] in improvement.c.)
  */
 enum effect_type_id {
   EFT_ADV_PARASITE,

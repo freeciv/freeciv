@@ -72,7 +72,8 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
-" event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city"
+" event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
+" indef_impr_types worklist_true_ids"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -113,6 +114,15 @@ const char * const our_capability = our_capability_internal;
 
    "packet_short_city" is smaller packet often sent instead of
    packet_city_info.
+
+   "indef_impr_types" extends the protocol to allow for an indefinite
+   number of improvement types.
+
+   "worklist_true_ids" changes the worklist internals and extends
+   the protocol so that unit and improvement IDs are communicated as
+   their true values (units are no longer B_LAST + unit_id).  A flag
+   field is added to discriminate between unit and improvement and to
+   specify the end of the list.
 */
 
 void init_our_capability(void)

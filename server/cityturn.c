@@ -564,7 +564,7 @@ void remove_obsolete_buildings(struct player *pplayer)
 {
   int i;
   city_list_iterate(pplayer->cities, pcity) {
-    for (i=0;i<B_LAST;i++) {
+    for (i=0;i<game.num_impr_types;i++) {
       if(city_got_building(pcity, i) 
 	 && !is_wonder(i) 
 	 && improvement_obsolete(pplayer, i)) {
@@ -1004,7 +1004,7 @@ static int advisor_choose_build(struct player *pplayer, struct city *pcity)
     return 1; /* making something.  return value = 1 */
   }
 
-  for (i=0;i<B_LAST;i++)
+  for (i=0;i<game.num_impr_types;i++)
     if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
       pcity->currently_building=i;
       pcity->is_building_unit=0;
@@ -1404,7 +1404,7 @@ return 1;
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   int i;
-  for (i=0;i<B_LAST;i++) 
+  for (i=0;i<game.num_impr_types;i++) 
     if (city_got_building(pcity, i)) {
       if (is_wonder(i)) {
 	if (wonder_obsolete(i)) {

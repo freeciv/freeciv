@@ -269,7 +269,7 @@ static void ai_manage_taxes(struct player *pplayer)
     sad += pcity->ppl_unhappy[4];
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
     freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
-    for (i = 0; i < B_LAST; i++)
+    for (i = 0; i < game.num_impr_types; i++)
       if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
   city_list_iterate_end;
 

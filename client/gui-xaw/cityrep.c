@@ -329,7 +329,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 				        city_change_command,
 				        NULL);
     flag = 0;
-    for(i=0; i<B_LAST; i++)
+    for(i=0; i<game.num_impr_types; i++)
       if(can_build_improvement(pcity, i)) {
 	Widget entry;
 	if (i==B_CAPITAL) {

@@ -1396,7 +1396,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int i, n, flag;
 
-  for(i=0, n=0, flag=0; i<B_LAST; ++i)
+  for(i=0, n=0, flag=0; i<game.num_impr_types; ++i)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
 	 strcmp(pdialog->improvlist_names_ptrs[n],
@@ -1846,7 +1846,7 @@ void change_callback(GtkWidget *w, gpointer data)
   gtk_clist_freeze(GTK_CLIST(pdialog->change_list));
   gtk_clist_clear(GTK_CLIST(pdialog->change_list));
 
-  for(i=0, n=0; i<B_LAST; i++)
+  for(i=0, n=0; i<game.num_impr_types; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
       if (i==B_CAPITAL) { /* Total & turns left meaningless on capitalization */
 	my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
@@ -1990,7 +1990,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
   packet.worklist.name[0] = '\0';
   packet.worklist.is_valid = 1;
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    packet.worklist.ids[i] = pwl->ids[i];
+    packet.worklist.wlefs[i] = pwl->wlefs[i];
+    packet.worklist.wlids[i] = pwl->wlids[i];
   }
     
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
@@ -2045,7 +2046,7 @@ void sell_callback(GtkWidget *w, gpointer data)
     int i, n;
     gint row=(gint)selection->data;
 
-    for(i=0, n=0; i<B_LAST; i++)
+    for(i=0, n=0; i<game.num_impr_types; i++)
       if(pdialog->pcity->improvements[i]) {
 	if(n==row) {
 	  char buf[512];

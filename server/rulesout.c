@@ -109,7 +109,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
     
   /* Improvements and Wonders */
-  for(j=0; j<B_LAST; j++) {
+  for(j=0; j<game.num_impr_types; j++) {
     struct impr_type *it = &improvement_types[j];
     if (it->tech_req == itech) {
       if (it->is_wonder ) {
@@ -137,7 +137,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
     
   /* Obsoleted buildings: */
-  for(j=0; j<B_LAST; j++) {
+  for(j=0; j<game.num_impr_types; j++) {
     struct impr_type *it = &improvement_types[j];
     if (improvement_exists(j) && it->obsolete_by == itech) {
       if (it->is_wonder ) {

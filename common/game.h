@@ -115,6 +115,7 @@ struct civ_game {
 			   the server we need to remember the old setting */
 
   int num_unit_types;
+  int num_impr_types;
   int num_tech_types;  /* including A_NONE */
 
   int government_count;

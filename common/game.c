@@ -587,7 +587,7 @@ int civ_score(struct player *pplayer)
     if (is_military_unit(punit)) pplayer->score.units++;
   unit_list_iterate_end;
   
-  for (i=0;i<B_LAST;i++) {
+  for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i) && (pcity=find_city_by_id(game.global_wonders[i])) && 
 	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
@@ -783,6 +783,7 @@ void game_init(void)
   sz_strlcpy(game.ruleset.game,        GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   game.num_unit_types = 0;
+  game.num_impr_types = 0;
   game.num_tech_types = 0;
 
   game.government_count = 0;
@@ -804,7 +805,7 @@ void game_init(void)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
     game.global_advances[i]=0;
-  for (i=0; i<B_LAST; i++)
+  for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
     game.global_wonders[i]=0;
   game.conn_id = 0;
   game.player_idx=0;
@@ -819,7 +820,7 @@ void initialize_globals(void)
   for (j=0;j<game.nplayers;j++) {
     plr=&game.players[j];
     city_list_iterate(plr->cities, pcity) {
-      for (i=0;i<B_LAST;i++) {
+      for (i=0;i<game.num_impr_types;i++) {
 	if (city_got_building(pcity, i) && is_wonder(i))
 	  game.global_wonders[i]=pcity->id;
       }
@@ -983,7 +984,7 @@ void translate_data_names(void)
     sz_strlcpy(tthis->name_orig, tthis->name);
     sz_strlcpy(tthis->name, Q_(tthis->name_orig));
   }
-  for (i=0; i<B_LAST; i++) {
+  for (i=0; i<game.num_impr_types; i++) {
     struct impr_type *tthis = &improvement_types[i];
     sz_strlcpy(tthis->name_orig, tthis->name);
     sz_strlcpy(tthis->name, Q_(tthis->name_orig));

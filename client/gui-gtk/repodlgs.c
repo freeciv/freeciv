@@ -654,7 +654,7 @@ void trade_list_callback(GtkWidget *w, gint row, gint column)
   int i;
 
   i=trade_improvement_type[row];
-  if(i>=0 && i<B_LAST && !is_wonder(i))
+  if(i>=0 && i<game.num_impr_types && !is_wonder(i))
     gtk_widget_set_sensitive(sellobsolete_command, TRUE);
     gtk_widget_set_sensitive(sellall_command, TRUE);
   return;
@@ -761,7 +761,7 @@ void trade_report_dialog_update(void)
 
     pcity = city_list_get(&game.player_ptr->cities,0);
     if(pcity)  {
-      for (j=0;j<B_LAST;j++)
+      for (j=0;j<game.num_impr_types;j++)
       if(!is_wonder(j)) {
        count = 0; 
        city_list_iterate(game.player_ptr->cities,pcity)

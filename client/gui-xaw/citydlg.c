@@ -1894,7 +1894,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int i, n, flag;
 
-  for(i=0, n=0, flag=0; i<B_LAST; ++i)
+  for(i=0, n=0, flag=0; i<game.num_impr_types; ++i)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
 	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)))
@@ -2334,7 +2334,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   XtSetSensitive(pdialog->shell, FALSE);
 
-  for(i=0, n=0; i<B_LAST; i++)
+  for(i=0, n=0; i<game.num_impr_types; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
       if (i==B_CAPITAL) {
 	my_snprintf(pdialog->change_list_names[n],
@@ -2449,7 +2449,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
   packet.worklist.name[0] = '\0';
   packet.worklist.is_valid = 1;
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    packet.worklist.ids[i] = pwl->ids[i];
+    packet.worklist.wlefs[i] = pwl->wlefs[i];
+    packet.worklist.wlids[i] = pwl->wlids[i];
   }
     
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
@@ -2508,7 +2509,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   if(ret->list_index!=XAW_LIST_NONE) {
     int i, n;
-    for(i=0, n=0; i<B_LAST; i++)
+    for(i=0, n=0; i<game.num_impr_types; i++)
       if(pdialog->pcity->improvements[i]) {
 	if(n==ret->list_index) {
 	  char buf[512];
