@@ -14,7 +14,12 @@ contributions to the Freeciv project.
      Raimar Falke <rf13@inf.tu-dresden.de> (since Aug 2001 [from 1.12.0])
      Mike Kaufman <kaufman@orion.physics.wisc.edu> (since Dec 2001 
        [from 1.12.0])
-     Per I. Mathisen <per@leftist.net> (since April 17 2002 [from 1.12.0])
+     Per I. Mathisen <per@leftist.net> (since April 2002 [from 1.12.0])
+     Davide Pagnin <nightmare@freeciv.it> (since September 2002 [from 1.13.0])
+     Gregory Berkolaiko <Gregory.Berkolaiko@strath.ac.uk> 
+       (since September 2002 [from 1.13.0])
+     Jason Dorje Short <jdorje@users.sourceforge.net> (since September 2002
+       [from 1.13.0])
 
   Past administrators:
 
@@ -24,6 +29,43 @@ contributions to the Freeciv project.
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (Jan 1999 to Jun 1999 [1.8.0])
      Mitch Davis <mjd@alphalink.com.au> (Dec 1997 to Dec 1998 [1.5.2 to 1.7.2])
      James Blackwell <innocent@jupiter.linuxguru.net> (versions 1.5.0 to 1.5.3)
+
+  Coders since 1.13.0 release:
+
+     Andreas Kemnade <akemnade@informatik.uni-bremen.de> (Win32 client
+	maintainer, fixes)
+     Ben Webb <ben@bellatrix.pcl.ox.ac.uk> (fixes)
+     Christian Knoke <chrisk@enter.de> (fixes)
+     Daniel L Speyer <dspeyer@wam.umd.edu> (history ruleset, nation dialog)
+     Davide Pagnin <nightmare@freeciv.it> (co-admin, 64bit fixes, civ2 
+	compatibility, fixes)
+     Gaute B Strokkenes <gs234@cam.ac.uk> (fixes)
+     Gregory Berkolaiko <Gregory.Berkolaiko@strath.ac.uk> 
+	(co-admin, AI cleanup)
+     Jason Short <jdorje@users.sourceforge.net> (co-admin, fixes)
+     Jean-Francois Leveque <leveque@webmails.com> (patch)
+     Jens Georg <jgeorg@ldknet.org> (fix)
+     John Bauman <baumans@ptdprolog.net> (save client defaults, misc)
+     Karen Yeats <kayeats@uwaterloo.ca> (mapgen 5, fixes)
+     Karl-Ingo Friese <kif@informatik.uni-hannover.de> (rapturedelay)
+     Mateusz Stefek <matusik_s@o2.pl> (i18n fixes, AI cleanup, fixes)
+     Mike Kaufman <kaufman@orion.physics.wisc.edu> (co-admin, 
+	load command, fixes)
+     Per I. Mathisen <per@leftist.net> (co-admin, AI cleanup, server cleanup)
+     Petr Baudis <pasky@pasky.ji.cz> (AI cleanup)
+     Raahul Kumar <raahul_da_man@yahoo.com> (ruleset cleanup)
+     Raimar Falke <rf13@inf.tu-dresden.de> (co-admin, dataio, network 
+	thaw/freeze, code cleanup)
+     Reinier Post <reinpost@win.tue.nl> (server command spy, fix command)
+     Ross W. Wetmore <rwetmore@sympatico.ca> (AI cleanup)
+     Sami Liedes (fix)
+     SAWADA Katsuya <ama@petmail.net> (i18n fixes)
+     Sebastian Bauer <sebauer@t-online.de> (amiga client maintainer)
+     Thomas Strub <ue80@rz.uni-karlsruhe.de> (new tax algorithm, 
+	end turn reorganisation)
+     tkurppa <teemu@hoasnet.fi> (unique city names)
+     Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt> (gtk and gtk2
+	clients maintainer, bitvectors, fixes)
 
   Coders since 1.12.0 release:
      
@@ -510,6 +552,28 @@ contributions to the Freeciv project.
 
      Peter Dam Mains <lancelot@daimi.au.dk>
 
+  Bug reports since 1.13.0 release:
+
+     Alex Volkov <volkoff@usa.net>
+     Chris M <CBM2004@www.com>
+     Christian Knoke <chrisk@enter.de>
+     Daniel Herding <DHerding@gmx.de>
+     Egbert Hinzen <egbert@hinzen-koeln.de>
+     Gianmario Scotti <gianmario.scotti@nokia.com>
+     J.K.Sun <jsun2@gte.net>
+     Jordi Negrevernis i Font <jorneg@retemail.es>
+     Jussi Asp <Jussi.Asp@uta.fi>
+     Kenn Munro <kenn@cyberbeach.net>
+     Markus Schaber <markus.schaber@student.uni-ulm.de>
+     Martin McMahon <martin.mcmahon@ukonline.co.uk>
+     Müller, Hans-Werner Dr. <hw@muella7.com>
+     Pete Stewart <stwrtpj@earthlink.net>
+     Pieter J. Kersten <kersten@dia.eur.nl>
+     SAWADA Katsuya <ama@petmail.net>
+     Stuart Yeates <s.yeates@cs.waikato.ac.nz>
+     Thomas Strub <ue80@rz.uni-karlsruhe.de>
+     Tom Goulet <tomg@em.ca>
+
   Bug reports since 1.12.0 release:
 
      Thomas Strub <ue80@rz.uni-karlsruhe.de>
@@ -739,6 +803,23 @@ contributions to the Freeciv project.
 
      David King <crkinger@usa.net> (Freeciv Client and Server Guides)
      Bart Coppens <coppensbart@pi.be>
+
+  Localization (l10n) since 1.13.0 release:
+
+     Egbert Hinzen <egbert@hinzen-koeln.de> (de.po)
+     Miguel Lobo <miguell@miguell.cjb.net> (es.po)
+     Ahti Akel <akel@stallion.ee> (et.po)
+     Sini Ruohomaa <sini.ruohomaa@iki.fi> (fi.po)
+     Jarkko Siekkinen <jarkko.siekkinen@evl.fi> (fi.po)
+     Juhani Heino <juhani.heino@vtt.fi> (fi.po)
+     Anthony Ferrand <Anthony.Ferrand@wanadoo.fr> (fr.po)
+     Gabor Takacs <tg330@hszk.bme.hu> (hu.po)
+     Davide Pagnin <nightmare@freeciv.it> (it.po)
+     SAWADA Katsuya <ama@petmail.net> (ja.po)
+     Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
+     Andreas Røsdal <andrearo@stud.ntnu.no> (no.po)
+     Mateusz Stefek <matusik_s@o2.pl> (pl.po)
+     Erik Sigra <sigra@home.se> (se.po)
 
   Localization (l10n) since 1.12.0 release:
 
