@@ -245,35 +245,6 @@ static char *option_file_name(void)
 }
   
 /****************************************************************
-...								
-*****************************************************************/
-static FILE *open_option_file(char *mode)
-{
-  char *name;
-  FILE *f;
-
-  name = option_file_name();
-  if (name==NULL) {
-    return NULL;
-  }
-  f = fopen(name, mode);
-
-  if(mode[0]=='w') {
-    char output_buffer[256];
-    if (f) {
-      my_snprintf(output_buffer, sizeof(output_buffer),
-		  _("Settings file is %s"), name);
-    } else {
-      my_snprintf(output_buffer, sizeof(output_buffer),
-		  _("Cannot write to file %s"), name);
-    }
-    append_output_window(output_buffer);
-  }
-  
-  return f;
-}
-
-/****************************************************************
 ... 
 *****************************************************************/
 void load_options(void)
@@ -313,6 +284,7 @@ void load_options(void)
   }
   /* avoid warning for unused: */
   section_file_lookup(&sf, "client.flags_are_transparent");
+  section_file_lookup(&sf, "client.version");
   
   section_file_check_unused(&sf, name);
   section_file_free(&sf);
@@ -323,38 +295,49 @@ void load_options(void)
 *****************************************************************/
 void save_options(void)
 {
-  FILE *option_file;
+  struct section_file sf;
   client_option *o;
+  char *name = option_file_name();
+  char output_buffer[256];
   view_option *v;
   int i;
 
-  option_file = open_option_file("w");
-  if (option_file==NULL) {
-    append_output_window(_("Cannot save settings."));
+  if(name == NULL) {
+    append_output_window(_("Save failed, cannot find a filename."));
     return;
   }
 
-  fprintf(option_file, "# settings file for freeciv client version %s\n#\n",
-	 VERSION_STRING);
-  
-  fprintf(option_file, "[client]\n");
+  section_file_init(&sf);
+  secfile_insert_str(&sf, VERSION_STRING, "client.version");
 
-  for (o=options; o->name; o++) {
-    fprintf(option_file, "%s = %d\n", o->name, *(o->p_value));
-  }
-  for (v=view_options; v->name; v++) {
-    fprintf(option_file, "%s = %d\n", v->name, *(v->p_value));
-  }
-  for (i=0; i<E_LAST; i++) {
-    fprintf(option_file, "message_where_%02d = %d  # %s\n",
-	   i, messages_where[i], message_text[i]);
-  }
-  for (i=1; i<num_city_report_spec(); i++) {
-    fprintf(option_file, "city_report_%s = %d\n",
-	   city_report_spec_tagname(i), *(city_report_spec_show_ptr(i)));
+  for (o = options; o->name; o++) {
+    secfile_insert_int(&sf, *(o->p_value), "client.%s", o->name);
   }
 
-  fclose(option_file);
-  
-  append_output_window(_("Saved settings."));
+  for (v = view_options; v->name; v++) {
+    secfile_insert_int(&sf, *(v->p_value), "client.%s", v->name);
+  }
+
+  for (i = 0; i < E_LAST; i++) {
+    secfile_insert_int_comment(&sf, messages_where[i], message_text[i],
+			       "client.message_where_%02d", i);
+  }
+
+  for (i = 1; i < num_city_report_spec(); i++) {
+    secfile_insert_int(&sf, *(city_report_spec_show_ptr(i)),
+		       "client.city_report_%s",
+		       city_report_spec_tagname(i));
+  }
+
+  /* save to disk */
+  if (!section_file_save(&sf, name, 0)) {
+    my_snprintf(output_buffer, sizeof(output_buffer),
+		_("Save failed, cannot write to file %s"), name);
+  } else {
+    my_snprintf(output_buffer, sizeof(output_buffer),
+		_("Saved setttings to file %s"), name);
+  }
+
+  append_output_window(output_buffer);
+  section_file_free(&sf);
 }
