@@ -42,10 +42,18 @@ const char *secfile_filename(const struct section_file *file);
 void secfile_insert_int(struct section_file *my_section_file, 
 			int val, char *path, ...)
                         fc__attribute((format (printf, 3, 4)));
+void secfile_insert_int_comment(struct section_file *my_section_file,
+				int val, const char *const comment, 
+				char *path, ...)
+                                fc__attribute((format(printf, 4, 5)));
 			
 void secfile_insert_str(struct section_file *my_section_file, 
 			char *sval, char *path, ...)
                         fc__attribute((format (printf, 3, 4)));
+void secfile_insert_str_comment(struct section_file *my_section_file,
+				char *sval, const char *const comment,
+				char *path, ...)
+                                fc__attribute((format (printf, 4, 5)));
 
 int section_file_lookup(struct section_file *my_section_file, 
 			char *path, ...)

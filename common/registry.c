@@ -177,6 +177,7 @@ struct entry {
   int  ivalue;			/* value if integer */
   char *svalue;			/* value if string (in sbuffer) */
   int  used;			/* number of times entry looked up */
+  char *comment;                /* comment, may be NULL */
 };
 
 /* create a 'struct entry_list' and related functions: */
@@ -328,6 +329,7 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
 
   pentry = sbuf_malloc(sb, sizeof(struct entry));
   pentry->name = sbuf_strdup(sb, name);
+  pentry->comment = NULL;
   if (tok[0] == '\"') {
     pentry->svalue = minstrdup(sb, tok+1);
     pentry->ivalue = 0;
@@ -678,9 +680,14 @@ int section_file_save(struct section_file *my_section_file, const char *filename
       if(!pentry) break;
 
       if(pentry->svalue)
-	fz_fprintf(fs, "%s=\"%s\"\n", pentry->name, moutstr(pentry->svalue));
+	fz_fprintf(fs, "%s=\"%s\"", pentry->name, moutstr(pentry->svalue));
       else
-	fz_fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
+	fz_fprintf(fs, "%s=%d", pentry->name, pentry->ivalue);
+      if (pentry->comment) {
+	fz_fprintf(fs, "  # %s\n", pentry->comment);
+      } else {
+	fz_fprintf(fs, "\n");
+      }
     }
   }
   section_list_iterate_end;
@@ -760,7 +767,6 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
   }
 }
       
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -778,8 +784,30 @@ void secfile_insert_int(struct section_file *my_section_file,
   pentry=section_file_insert_internal(my_section_file, buf);
 
   pentry->ivalue=val;
-  pentry->svalue=0;
-  
+  pentry->svalue=0;  
+  pentry->comment = NULL;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void secfile_insert_int_comment(struct section_file *my_section_file,
+				int val, const char *const comment,
+				char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  pentry = section_file_insert_internal(my_section_file, buf);
+
+  pentry->ivalue = val;
+  pentry->svalue = 0;
+  pentry->comment = sbuf_strdup(my_section_file->sb, comment);
 }
 
 /**************************************************************************
@@ -798,8 +826,28 @@ void secfile_insert_str(struct section_file *my_section_file,
 
   pentry = section_file_insert_internal(my_section_file, buf);
   pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
+  pentry->comment = NULL;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void secfile_insert_str_comment(struct section_file *my_section_file,
+				char *sval, const char *const comment,
+				char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  pentry = section_file_insert_internal(my_section_file, buf);
+  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
+  pentry->comment = sbuf_strdup(my_section_file->sb, comment);
+}
 
 /**************************************************************************
 ...
