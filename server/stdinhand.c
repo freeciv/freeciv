@@ -69,6 +69,8 @@ static void show_list(struct connection *caller, char *arg);
 static void show_connections(struct connection *caller);
 static void set_ai_level(struct connection *caller, char *name, int level);
 
+static void fix_command(struct connection *caller, char *str, int cmd_enum);
+
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
 
@@ -807,8 +809,14 @@ static struct settings_s settings[] = {
 #define SETTINGS_NUM (ARRAY_SIZE(settings)-1)
 
 /********************************************************************
+Returns whether the specified server setting (option) has been
+explicitly protected from change at runtime with /fix.  Array of booleans.
+*********************************************************************/
+static bool sset_is_fixed[SETTINGS_NUM];
+
+/********************************************************************
 Returns whether the specified server setting (option) can currently
-be changed.  Does not indicate whether it can be changed by clients or not.
+be changed.  Does not indicate whether it can be changed by clients.
 *********************************************************************/
 static bool sset_is_changeable(int idx)
 {
@@ -836,6 +844,24 @@ static bool sset_is_changeable(int idx)
     freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
 	    op->sclass, __FILE__, __LINE__);
     return FALSE;
+  }
+}
+
+/********************************************************************
+Returns whether the specified server setting (option) can ever be changed
+by a client while the game is running.  Does not test whether the client
+has sufficient access or the option has been /fixed.
+*********************************************************************/
+static int sset_is_runtime_changeable_by_client(int idx)
+{
+  struct settings_s *op = &settings[idx];
+
+  switch(op->sclass) {
+  case SSET_RULES_FLEXIBLE:
+  case SSET_META:
+    return 1;
+  default:
+   return 0;
   }
 }
 
@@ -903,6 +929,8 @@ enum command_id {
   
   /* mostly non-harmful: */
   CMD_SET,
+  CMD_FIX,
+  CMD_UNFIX,
   CMD_RULESETDIR,
   CMD_RENAME,
   CMD_METAINFO,
@@ -934,6 +962,7 @@ enum command_id {
   CMD_UNRECOGNIZED,	/* used as a possible iteration result */
   CMD_AMBIGUOUS		/* used as a possible iteration result */
 };
+
 
 static const struct command commands[] = {
   {"start",	ALLOW_CTRL,
@@ -1022,7 +1051,15 @@ static const struct command commands[] = {
   },
   {"set",	ALLOW_CTRL,
    N_("set <option-name> <value>"),
-   N_("Set server options."), NULL
+   N_("Set server option."), NULL
+  },
+  {"fix",       ALLOW_CTRL,
+   N_("fix <option-name>"),
+   N_("Make server option unchangeable during game.")
+  },
+  {"unfix",      ALLOW_CTRL,
+   N_("unfix <option-name>"),
+   N_("Make server option changeable during game.")
   },
   {"rulesetdir", ALLOW_CTRL,
    N_("rulesetdir <directory>"),
@@ -1216,7 +1253,7 @@ static enum command_id command_named(const char *token, bool accept_ambiguity)
 
 /**************************************************************************
   Whether the caller can use the specified command.
-  caller == NULL means console.
+  Does not see if the setting has been /fixed.  caller == NULL means console.
 **************************************************************************/
 static bool may_use(struct connection *caller, enum command_id cmd)
 {
@@ -1241,7 +1278,7 @@ static bool may_use_nothing(struct connection *caller)
 /**************************************************************************
   Whether the caller can set the specified option (assuming that
   the state of the game would allow changing the option at all).
-  caller == NULL means console.
+  Does not see if the setting has been /fixed.  caller == NULL means console.
 **************************************************************************/
 static bool may_set_option(struct connection *caller, int option_idx)
 {
@@ -1256,11 +1293,12 @@ static bool may_set_option(struct connection *caller, int option_idx)
 
 /**************************************************************************
   Whether the caller can set the specified option, taking into account
-  both access and the game state.  caller == NULL means console.
+  access, the game state, and /fix.  caller == NULL means console.
 **************************************************************************/
 static bool may_set_option_now(struct connection *caller, int option_idx)
 {
   return (may_set_option(caller, option_idx)
+	  && !sset_is_fixed[option_idx]
 	  && sset_is_changeable(option_idx));
 }
 
@@ -1860,6 +1898,14 @@ static void write_init_script(char *script_filename)
       case SSET_STRING:
 	fprintf(script_file, "set %s %s\n", op->name, op->string_value);
 	break;
+      }
+    }
+
+    /* the 'fix'ed settings */
+
+    for (i = 0; settings[i].name; i++) {
+      if (sset_is_fixed[i]) {
+        fprintf(script_file, "fix %s\n", settings[i].name);
       }
     }
 
@@ -2678,7 +2724,7 @@ static void set_command(struct connection *caller, char *str)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
-  cmd=lookup_option(command);
+  cmd = lookup_option(command);
   if (cmd==-1) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
 	      _("Undefined argument.  Usage: set <option> <value>."));
@@ -2697,6 +2743,12 @@ static void set_command(struct connection *caller, char *str)
   if (!sset_is_changeable(cmd)) {
     cmd_reply(CMD_SET, caller, C_BOUNCE,
 	      _("This setting can't be modified after the game has started."));
+    return;
+  }
+  if (sset_is_fixed[cmd] && !(map_is_empty() || game.is_new_game)) {
+    cmd_reply(CMD_SET, caller, C_BOUNCE,
+	      _("This setting is protected from being modified after the "
+                "game has started."));
     return;
   }
 
@@ -2790,6 +2842,80 @@ static void set_command(struct connection *caller, char *str)
       send_game_info(NULL);
     }
   }
+}
+
+/**************************************************************************
+  /fix and /unfix commands
+  allow runtime modifiable options to be [un]fixed before the game starts
+**************************************************************************/
+static void fix_command(struct connection *caller, char *str, int cmd_enum)
+{
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[1];
+  char msg[500];
+  int opt, ntokens;
+
+  assert(cmd_enum == CMD_FIX || cmd_enum == CMD_UNFIX);
+
+  /* can't use the command now */
+  if (!(map_is_empty() || game.is_new_game)) {
+    cmd_reply(cmd_enum, caller, C_FAIL,
+	      _("This command may only be used before the game has started."));
+    return;
+  }
+
+  /* we can use it. find the option name */
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 1, TOKEN_DELIMITERS);
+
+  if (ntokens == 0) {
+    cmd_reply(cmd_enum, caller, C_SYNTAX,
+              _("Need an argument.  Usage: %s <option-name>."),
+              commands[cmd_enum].name);
+    return;
+  }
+
+  opt = lookup_option(arg[0]);
+  free(arg[0]);
+
+  if (opt == -1) {
+    cmd_reply(cmd_enum, caller, C_SYNTAX, _("Unknown option name."));
+    return;
+  } else if (opt == -2) {
+    cmd_reply(cmd_enum, caller, C_SYNTAX, _("Ambiguous option name."));
+    return;
+  }
+
+  /* option's good, can we do anything with it? */
+  if (!sset_is_runtime_changeable_by_client(opt)) {
+    cmd_reply(cmd_enum, caller, C_BOUNCE,
+	    _("Option '%s' can never be modified after the game has started."),
+              settings[opt].name);
+    return;
+  }
+
+  if (!may_set_option(caller, opt)) {
+    if (cmd_enum == CMD_FIX) {
+      sz_strlcpy(msg, _("You are not allowed to set option '%s', so you " 
+                        "may not prevent it from being set, either."));
+    } else {
+      sz_strlcpy(msg, _("You are not allowed to set option '%s', so you "
+                        "may not allow it to be set, either."));
+    }
+    cmd_reply(cmd_enum, caller, C_FAIL, msg, settings[opt].name);
+    return;
+  }
+
+  if (cmd_enum == CMD_FIX) {
+    sset_is_fixed[opt] = TRUE;
+    sz_strlcpy(msg, _("Option: '%s' now cannot be modified "
+                      "after the game has started."));
+  } else {
+    sset_is_fixed[opt] = FALSE;
+    sz_strlcpy(msg,_("Option: '%s' may now be modified "
+                     "after the game has started."));
+  }
+  notify_player(NULL, msg, settings[opt].name);
+  if (!caller) cmd_reply(cmd_enum, caller, C_OK, msg, settings[opt].name);
 }
 
 /**************************************************************************
@@ -2982,6 +3108,12 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_SET:
     set_command(caller,arg);
     break;
+   case CMD_FIX:
+     fix_command(caller,arg, CMD_FIX);
+     break;
+   case CMD_UNFIX:
+     fix_command(caller, arg, CMD_UNFIX);
+     break;
   case CMD_RULESETDIR:
     set_rulesetdir(caller, arg);
     break;
