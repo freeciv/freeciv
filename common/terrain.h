@@ -39,7 +39,21 @@ enum tile_special_type {
   S_FALLOUT    = 4096
 };
 
-#define S_ALL (0xFFFF)
+#define S_ALL    \
+ (  S_SPECIAL_1  \
+  | S_ROAD       \
+  | S_IRRIGATION \
+  | S_RAILROAD   \
+  | S_MINE       \
+  | S_POLLUTION  \
+  | S_HUT        \
+  | S_FORTRESS   \
+  | S_SPECIAL_2  \
+  | S_RIVER      \
+  | S_FARMLAND   \
+  | S_AIRBASE    \
+  | S_FALLOUT)
+
 #define S_INFRASTRUCTURE_MASK \
   (S_ROAD                   \
    | S_RAILROAD             \
@@ -60,6 +74,5 @@ enum tile_terrain_type {
 enum known_type {
  TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
-
 
 #endif  /* FC__TERRAIN_H */
