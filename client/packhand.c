@@ -229,6 +229,7 @@ void handle_city_info(struct packet_city_info *packet)
   int i, x, y, city_is_new;
   struct city *pcity;
   int popup;
+  int update_descriptions = 0;
 
   pcity=find_city_by_id(packet->id);
 
@@ -254,6 +255,17 @@ void handle_city_info(struct packet_city_info *packet)
   }
   else {
     city_is_new=0;
+
+    /* Check if city desciptions should be updated */
+    if (draw_city_names && strcmp(pcity->name,packet->name)) {
+      update_descriptions = 1;
+    }
+    if (draw_city_productions &&
+        ((pcity->is_building_unit != packet->is_building_unit) ||
+         (pcity->currently_building != packet->currently_building))) {
+      update_descriptions = 1;
+    }
+
     assert(pcity->id == packet->id);
   }
   
@@ -291,7 +303,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->food_stock=packet->food_stock;
   pcity->shield_stock=packet->shield_stock;
   pcity->pollution=packet->pollution;
-    
+
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
   if (city_is_new)
@@ -326,6 +338,11 @@ void handle_city_info(struct packet_city_info *packet)
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
 
   handle_city_packet_common(pcity, city_is_new, popup);
+
+  /* update the descriptions if necessary */
+  if (update_descriptions) {
+    update_city_descriptions();
+  }
 }
 
 /**************************************************************************
@@ -403,6 +420,7 @@ void handle_short_city(struct packet_short_city *packet)
 {
   struct city *pcity;
   int city_is_new;
+  int update_descriptions = 0;
 
   pcity=find_city_by_id(packet->id);
 
@@ -428,6 +446,12 @@ void handle_short_city(struct packet_short_city *packet)
   }
   else {
     city_is_new=0;
+
+    /* Check if city desciptions should be updated */
+    if (draw_city_names && strcmp(pcity->name,packet->name)) {
+      update_descriptions = 1;
+    }
+    
     assert(pcity->id == packet->id);
   }
 
@@ -495,6 +519,11 @@ void handle_short_city(struct packet_short_city *packet)
   } /* Dumb values */
 
   handle_city_packet_common(pcity, city_is_new, 0);
+
+  /* update the descriptions if necessary */
+  if (update_descriptions) {
+    update_city_descriptions();
+  }
 }
 
 /**************************************************************************

@@ -2654,7 +2654,7 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	{
 	  if (msg->flags & MADF_DRAWOBJECT)
 	  {
-	    DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,0,0,0);
+	    DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,x1,y1,0);
 	  }
 	}
       }
