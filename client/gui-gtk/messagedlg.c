@@ -40,9 +40,9 @@
 #include "messagedlg.h"
 
 /*************************************************************************/
-GtkWidget *create_messageopt_dialog(void);
-void messageopt_ok_command_callback(GtkWidget *w, gpointer data);
-void messageopt_cancel_command_callback(GtkWidget *w, gpointer data);
+static GtkWidget *create_messageopt_dialog(void);
+static void messageopt_ok_command_callback(GtkWidget * w, gpointer data);
+static void messageopt_cancel_command_callback(GtkWidget * w, gpointer data);
 static GtkWidget *messageopt_toggles[E_LAST][NUM_MW];
 
 /**************************************************************************

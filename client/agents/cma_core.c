@@ -125,7 +125,7 @@ static struct {
 } cache2;
 
 /* Contains all combinations. */
-struct {
+static struct {
   int fields_available_total;
 
   struct {

@@ -43,54 +43,49 @@
 
 /******************************************************************/
 
-
-void create_science_dialog(int make_modal);
-void science_close_callback(GtkWidget *widget, gpointer data);
-void science_help_callback(GtkWidget *w, gint row, gint column);
-void science_change_callback(GtkWidget *widget, gpointer data);
-void science_goal_callback(GtkWidget *widget, gpointer data);
-
+static void create_science_dialog(int make_modal);
+static void science_close_callback(GtkWidget * widget, gpointer data);
+static void science_help_callback(GtkWidget * w, gint row, gint column);
+static void science_change_callback(GtkWidget * widget, gpointer data);
+static void science_goal_callback(GtkWidget * widget, gpointer data);
 
 /******************************************************************/
-GtkWidget *science_dialog_shell=NULL;
-GtkWidget *science_label;
-GtkWidget *science_current_label, *science_goal_label;
-GtkWidget *science_change_menu_button, *science_goal_menu_button;
-GtkWidget *science_list[4], *science_help_toggle;
-int science_dialog_shell_is_modal;
-int science_dialog_popupmenu;
-GtkWidget *popupmenu, *goalmenu;
-
+static GtkWidget *science_dialog_shell = NULL;
+static GtkWidget *science_label;
+static GtkWidget *science_current_label, *science_goal_label;
+static GtkWidget *science_change_menu_button, *science_goal_menu_button;
+static GtkWidget *science_list[4], *science_help_toggle;
+static int science_dialog_shell_is_modal;
+static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
-void create_economy_report_dialog(int make_modal);
-void economy_close_callback(GtkWidget *widget, gpointer data);
-void economy_selloff_callback(GtkWidget *widget, gpointer data);
-void economy_list_callback(GtkWidget *w, gint row, gint column);
-void economy_list_ucallback(GtkWidget *w, gint row, gint column);
-int economy_improvement_type[B_LAST];
+static void create_economy_report_dialog(int make_modal);
+static void economy_close_callback(GtkWidget * widget, gpointer data);
+static void economy_selloff_callback(GtkWidget * widget, gpointer data);
+static void economy_list_callback(GtkWidget * w, gint row, gint column);
+static void economy_list_ucallback(GtkWidget * w, gint row, gint column);
+static int economy_improvement_type[B_LAST];
 
-GtkWidget *economy_dialog_shell=NULL;
-GtkWidget *economy_label2;
-GtkWidget *economy_list, *economy_list_label;
-GtkWidget *sellall_command, *sellobsolete_command;
-int economy_dialog_shell_is_modal;
+static GtkWidget *economy_dialog_shell = NULL;
+static GtkWidget *economy_label2;
+static GtkWidget *economy_list;
+static GtkWidget *sellall_command, *sellobsolete_command;
+static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
-void create_activeunits_report_dialog(int make_modal);
-void activeunits_close_callback(GtkWidget *widget, gpointer data);
-void activeunits_upgrade_callback(GtkWidget *widget, gpointer data);
-void activeunits_refresh_callback(GtkWidget *widget, gpointer data);
-void activeunits_list_callback(GtkWidget *w, gint row, gint column);
-void activeunits_list_ucallback(GtkWidget *w, gint row, gint column);
-int activeunits_type[U_LAST];
+static void create_activeunits_report_dialog(int make_modal);
+static void activeunits_close_callback(GtkWidget * widget, gpointer data);
+static void activeunits_upgrade_callback(GtkWidget * widget, gpointer data);
+static void activeunits_refresh_callback(GtkWidget * widget, gpointer data);
+static void activeunits_list_callback(GtkWidget * w, gint row, gint column);
+static void activeunits_list_ucallback(GtkWidget * w, gint row, gint column);
+static int activeunits_type[U_LAST];
+static GtkWidget *activeunits_dialog_shell = NULL;
+static GtkWidget *activeunits_label2;
+static GtkWidget *activeunits_list;
+static GtkWidget *upgrade_command;
 
-GtkWidget *activeunits_dialog_shell=NULL;
-GtkWidget *activeunits_label2;
-GtkWidget *activeunits_list, *activeunits_list_label;
-GtkWidget *upgrade_command;
-
-int activeunits_dialog_shell_is_modal;
+static int activeunits_dialog_shell_is_modal;
 /******************************************************************/
 
 int delay_report_update=0;

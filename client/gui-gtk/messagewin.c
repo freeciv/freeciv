@@ -48,13 +48,14 @@ static GtkWidget *meswin_popcity_command;
 static GtkStyle *meswin_visited_style;
 static GtkStyle *meswin_not_visited_style;
 
-void create_meswin_dialog(void);
-void meswin_scroll_down(void);
-void meswin_close_callback(GtkWidget *w, gpointer data);
-void meswin_list_callback(GtkWidget *w, gint row, gint column, GdkEvent *ev);
-void meswin_list_ucallback(GtkWidget *w, gint row, gint column);
-void meswin_goto_callback(GtkWidget *w, gpointer data);
-void meswin_popcity_callback(GtkWidget *w, gpointer data);
+static void create_meswin_dialog(void);
+static void meswin_scroll_down(void);
+static void meswin_close_callback(GtkWidget * w, gpointer data);
+static void meswin_list_callback(GtkWidget * w, gint row, gint column,
+				 GdkEvent * ev);
+static void meswin_list_ucallback(GtkWidget * w, gint row, gint column);
+static void meswin_goto_callback(GtkWidget * w, gpointer data);
+static void meswin_popcity_callback(GtkWidget * w, gpointer data);
 
 #define N_MSG_VIEW 24	       /* max before scrolling happens */
 

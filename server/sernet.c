@@ -82,7 +82,7 @@
 
 #include "sernet.h"
 
-struct connection connections[MAX_NUM_CONNECTIONS];
+static struct connection connections[MAX_NUM_CONNECTIONS];
 
 #ifdef GENERATING_MAC      /* mac network globals */
 TEndpointInfo serv_info;

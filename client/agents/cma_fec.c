@@ -40,7 +40,7 @@
 struct cma_preset {
   char *descr;
   struct cma_parameter parameter;
-} cma_preset;
+};
 
 #define SPECLIST_TAG preset
 #define SPECLIST_TYPE struct cma_preset

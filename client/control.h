@@ -32,7 +32,6 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);
-void do_unit_connect(struct unit *punit, int x, int y);
 void do_unit_patrol_to(struct unit *punit, int x, int y);
 void do_map_click(int xtile, int ytile);
 

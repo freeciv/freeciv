@@ -32,9 +32,13 @@ static void undraw_line(void);
 Various stuff for the goto routes
 **************************************************************************/
 #define INITIAL_ARRAY_LENGTH 100
-int goto_array_length = INITIAL_ARRAY_LENGTH; /* allocated length */
-int goto_array_index = 0; /* points to where the next element should be inserted */
-struct map_position *goto_array = NULL;
+/* allocated length */
+static int goto_array_length = INITIAL_ARRAY_LENGTH;
+
+/* points to where the next element should be inserted */
+static int goto_array_index = 0;
+
+static struct map_position *goto_array = NULL;
 
 struct waypoint {
   int x;
@@ -43,12 +47,15 @@ struct waypoint {
 			   x, y is/should be inserted. */
 };
 #define INITIAL_WAYPOINT_LENGTH 50
-struct waypoint *waypoint_list = NULL;
-int waypoint_list_length = INITIAL_WAYPOINT_LENGTH; /* allocated length */
-int waypoint_list_index = 0; /* points to where the next element should be inserted */
+static struct waypoint *waypoint_list = NULL;
 
-int is_active = 0;
+/* allocated length */
+static int waypoint_list_length = INITIAL_WAYPOINT_LENGTH;
 
+/* points to where the next element should be inserted */
+static int waypoint_list_index = 0; 
+
+static int is_active = 0;
 
 struct client_goto_map goto_map;
 
@@ -709,9 +716,9 @@ static void undraw_line(void)
 }
 
 #define INITIAL_ROUTE_LENGTH 30
-struct map_position *route = NULL;
-int route_length = INITIAL_ROUTE_LENGTH;
-int route_index = 0;
+static struct map_position *route = NULL;
+static int route_length = INITIAL_ROUTE_LENGTH;
+static int route_index = 0;
 /********************************************************************** 
 Return what index the first element in the new route should be inserted.
 ie, we don't want to first undraw a lot of a route and then redraw it,

@@ -62,15 +62,16 @@ struct spaceship_dialog {
 static struct genlist dialog_list;
 static int dialog_list_has_been_initialised;
 
-struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
-struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer);
-void close_spaceship_dialog(struct spaceship_dialog *pdialog);
+static struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
+static struct spaceship_dialog *create_spaceship_dialog(struct player
+							*pplayer);
+static void close_spaceship_dialog(struct spaceship_dialog *pdialog);
 
-void spaceship_dialog_update_image(struct spaceship_dialog *pdialog);
-void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
+static void spaceship_dialog_update_image(struct spaceship_dialog *pdialog);
+static void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 
-void spaceship_close_callback(GtkWidget *w, gpointer data);
-void spaceship_launch_callback(GtkWidget *w, gpointer data);
+static void spaceship_close_callback(GtkWidget * w, gpointer data);
+static void spaceship_launch_callback(GtkWidget * w, gpointer data);
 
 /****************************************************************
 ...

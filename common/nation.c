@@ -29,7 +29,7 @@
 
 #include "nation.h"
 
-struct nation_type *nations = NULL;
+static struct nation_type *nations = NULL;
 
 /***************************************************************
   Returns 1 if nid is a valid nation id, else 0.

@@ -118,17 +118,17 @@ GtkWidget *turn_done_button;
 GtkWidget *unit_info_label;
 GtkWidget *unit_info_frame;
 
-GtkWidget *unit_pixmap;
-GtkWidget *unit_pixmap_button;
-GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
-GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
-GtkWidget *more_arrow_pixmap;
+static GtkWidget *unit_pixmap;
+static GtkWidget *unit_pixmap_button;
+static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
+static GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
+static GtkWidget *more_arrow_pixmap;
 
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
                                             * information display: (or 0) */
 GtkText   *main_message_area;
 GtkWidget *text_scrollbar;
-GtkWidget *inputline;
+static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */

@@ -22,7 +22,7 @@
 
 #include "colors.h"
 
-struct rgbtriple {
+static struct rgbtriple {
   int r, g, b;
 } colors_standard_rgb[COLOR_STD_LAST] = {
   {  0,   0,   0},  /* Black */

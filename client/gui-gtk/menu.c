@@ -51,15 +51,14 @@
 
 #include "menu.h"
 
-GtkItemFactory *item_factory=NULL;
+static GtkItemFactory *item_factory = NULL;
+static enum unit_activity road_activity;
 
 static void menus_rename(const char *path, char *s);
 
 /****************************************************************
 ...
 *****************************************************************/
-enum unit_activity road_activity;
-
 enum MenuID {
   MENU_END_OF_LIST=0,
 

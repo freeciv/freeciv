@@ -51,9 +51,6 @@
 /* contains the x0, y0 coordinates of the upper left corner block */
 int map_view_x0, map_view_y0;
 
-/* used by map_canvas expose func */ 
-int force_full_repaint;
-
 /* T: area above the actual tile.
    M: the top of the actual tile.
    B: the bottom of the actual tile.

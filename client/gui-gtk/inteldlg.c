@@ -41,9 +41,8 @@ static GtkWidget *intel_dialog_shell;
 /******************************************************************/
 
 
-void intel_create_dialog(struct player *p);
-
-void intel_close_command_callback(GtkWidget *w, gpointer data);
+static void intel_create_dialog(struct player *p);
+static void intel_close_command_callback(GtkWidget *w, gpointer data);
 
 /****************************************************************
 ... 

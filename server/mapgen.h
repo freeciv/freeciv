@@ -15,7 +15,6 @@
 
 void assign_continent_numbers(void);
 void map_fractal_generate(void);
-void flood_it(int loaded);
 void create_start_positions(void);
 void adjust_terrain_param(void);
 

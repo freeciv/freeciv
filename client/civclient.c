@@ -78,7 +78,7 @@ int server_port;
  */
 int auto_connect = 0;
 
-enum client_states client_state=CLIENT_BOOT_STATE;
+static enum client_states client_state = CLIENT_BOOT_STATE;
 
 static char *tile_set_name = NULL;
 

@@ -70,10 +70,9 @@
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-int NUM_UNITS_SHOWN;
-int MAX_UNIT_ROWS;
-int MINI_NUM_UNITS;
-
+static int NUM_UNITS_SHOWN;
+static int MAX_UNIT_ROWS;
+static int MINI_NUM_UNITS;
 
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
@@ -81,7 +80,7 @@ int MINI_NUM_UNITS;
 				   notebook (+1) */
 #define NUM_INFO_FIELDS 10	/* number of fields in city_info */
 
-int citydialog_width, citydialog_height, support_frame_width,
+static int citydialog_width, citydialog_height, support_frame_width,
     support_frame_height;
 
 struct city_dialog {

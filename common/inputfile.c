@@ -124,7 +124,7 @@ struct {
   char *name;
   get_token_fn_t func;
 }
-tok_tab[INF_TOK_LAST] =
+static tok_tab[INF_TOK_LAST] =
 {
   { "section_name", get_token_section_name },
   { "entry_name",   get_token_entry_name },

@@ -25,9 +25,9 @@
 
 #include "log.h"
 
-int log_level;
-char *log_filename;
-log_callback_fn log_callback;
+static int log_level;
+static char *log_filename;
+static log_callback_fn log_callback;
 int logd_init_counter = 1;
 
 struct logd_fileinfo {

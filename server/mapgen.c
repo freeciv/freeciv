@@ -409,7 +409,7 @@ struct test_func {
 };
 
 #define NUM_TEST_FUNCTIONS 9
-struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
+static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
   {river_test_blocked,            1},
   {river_test_rivergrid,          1},
   {river_test_highlands,          0},

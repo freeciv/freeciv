@@ -128,9 +128,6 @@ static int diplomat_dialog_open = 0;
 static int diplomat_id;
 static int diplomat_target_id;
 
-struct city *pcity_caravan_dest;
-struct unit *punit_caravan;
-
 static GtkWidget *caravan_dialog;
 
 static int is_showing_unit_connect_dialog = FALSE;

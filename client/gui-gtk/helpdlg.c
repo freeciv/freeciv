@@ -81,13 +81,13 @@ typedef struct help_tree_node {
   int turns_to_tech;
 } help_tndata;
 
-char *help_ilabel_name[6] =
+static char *help_ilabel_name[6] =
 { N_("Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
 
-char *help_wlabel_name[6] =
+static char *help_wlabel_name[6] =
 { N_("Cost:"), NULL, N_("Requirement:"), NULL, N_("Obsolete by:"), NULL };
 
-char *help_ulabel_name[5][5] =
+static char *help_ulabel_name[5][5] =
 {
     { N_("Cost:"),		NULL, NULL, N_("Attack:"),	NULL },
     { N_("Defense:"),		NULL, NULL, N_("Move:")	,	NULL },
@@ -96,7 +96,7 @@ char *help_ulabel_name[5][5] =
     { N_("Requirement:"),	NULL, NULL, N_("Obsolete by:"),	NULL }
 };
 
-char *help_tlabel_name[4][5] =
+static char *help_tlabel_name[4][5] =
 {
     { N_("Move/Defense:"),	NULL, NULL, N_("Food/Res/Trade:"),	NULL },
     { N_("Sp1 F/R/T:"),		NULL, NULL, N_("Sp2 F/R/T:"),		NULL },
