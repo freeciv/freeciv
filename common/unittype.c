@@ -210,6 +210,9 @@ int unit_buy_gold_cost(Unit_Type_id id, int shields_in_stock)
   if (missing > 0) {
     cost = 2 * missing + (missing * missing) / 20;
   }
+  if (shields_in_stock == 0) {
+    cost *= 2;
+  }
   return cost;
 }
 

@@ -189,6 +189,9 @@ int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock)
   if (is_wonder(id)) {
     cost *= 2;
   }
+  if (shields_in_stock == 0) {
+    cost *= 2;
+  }
   return cost;
 }
 

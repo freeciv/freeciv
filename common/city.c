@@ -360,9 +360,6 @@ int city_buy_cost(const struct city *pcity)
   } else {
     cost = impr_buy_gold_cost(pcity->currently_building, build);
   }
-  if (build == 0) {
-    cost *= 2;
-  }
   return cost;
 }
 
