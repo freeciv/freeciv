@@ -1743,6 +1743,12 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_worklist(struct player *pplayer,
 			    struct packet_player_request *preq)
 {
+  if (preq->wl_idx < 0 || preq->wl_idx >= MAX_NUM_WORKLISTS) {
+    freelog(LOG_NORMAL, "Bad worklist index (%d) received from %s",
+	    preq->wl_idx, pplayer->name);
+    return;
+  }
+
   copy_worklist(&pplayer->worklists[preq->wl_idx], &preq->worklist);
   send_player_info(pplayer, pplayer);
 }

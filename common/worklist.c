@@ -103,9 +103,7 @@ void worklist_advance(struct worklist *pwl) {
 }  
 
 void copy_worklist(struct worklist *dst, struct worklist *src) {
-  memcpy(dst->ids, src->ids, sizeof(int) * MAX_LEN_WORKLIST);
-  strcpy(dst->name, src->name);
-  dst->is_valid = src->is_valid;
+  memcpy(dst, src, sizeof(struct worklist));
 }
 
 void worklist_remove(struct worklist *pwl, int idx) {
