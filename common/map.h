@@ -258,7 +258,7 @@ int map_build_mine_time(int x, int y);
 #define GAME_MIN_RESEARCHLEVEL       4
 #define GAME_MAX_RESEARCHLEVEL       100
 
-#define GAME_DEFAULT_DIPLCOST        100
+#define GAME_DEFAULT_DIPLCOST        0
 #define GAME_MIN_DIPLCOST            0
 #define GAME_MAX_DIPLCOST            100
 
