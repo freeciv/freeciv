@@ -6,18 +6,27 @@
 ; into that directory, and then modify that copy.  Then use the
 ; command "set units <mysubdir>" in the server to have freeciv
 ; use your new customized file.
-
-; Note that the freeciv AI may not cope well with anything more
-; than minor changes.
+;
+; The AI does not know the value of Partial_Invis, nor does this
+; work against the AI, since it knows all. It does not know anything 
+; about air units at all. It does not build No_Land_Attack, Missile 
+; or Nuclear units.
+;
+; You can have up to 199 unit types.
 
 [datafile]
-description="Default unit_type data for Freeciv (as Civ2, minus a few units)"
+description="Default unit_type data for Freeciv"
 options="1.9"
 
 [units_adjust]
-max_hitpoints=0                 ; 0 means no max
-max_firepower=0                 ; 0 means no max
-firepower_factor=1              ; convenient for Civ1
+; FIXME: These variables are here just for lazy ruleset authors
+; who couldn't be bothered to run search/replace (or sed) on the
+; rulesets they modify. Notably the civ1 ruleset. This should be
+; fixed, and these options removed. - Per
+max_hitpoints=0        ; Cap on unit hitpoints, 0 means no max
+max_firepower=0        ; Cap unit unit firewpower, 0 means no max
+firepower_factor=1     ; Multiply firepower by this value. Set it
+                       ; to zero to disable firepower altogether.
 
 ; Below: The individual units, one per section.
 ;
@@ -32,7 +41,7 @@ firepower_factor=1              ; convenient for Civ1
 ; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
-; Notes:
+; ** Fields **
 ;
 ; name          = name as seen by user 
 ; graphic       = tag specifing preferred graphic
@@ -42,15 +51,52 @@ firepower_factor=1              ; convenient for Civ1
 ;		  for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start; "Never" => never available
-; obsolete_by   = another unit name
+; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
-; fuel          = number of turns, for air units
+; fuel          = number of turns air units can fly before they crash. For
+;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
-; flags         = special flag strings, as in common/unittype.h,unittype.c
-; roles         = special role strings, as in common/unittype.h,unittype.c
+; flags         = special flag strings
+; roles         = special role strings
 ; helptext	= optional help text string; should escape all raw newlines 
 ;		  so that xgettext parsing works
+;
+; ** Flags **
+;
+; "Caravan"	= can establish trade routes and help build wonders
+; "Missile"	= (air only) some buildings and units have higher defence 
+;                  against these
+; "IgZOC"	= (land only) ignore Zones of Control (ZOC)
+; "NonMil"	= a non-military unit, does not cause unhappiness
+; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
+; "Carrier"	= can transport air and missile units, but not land units
+; "Missile_Carrier" = can transport only missiles, but no aircraft or land units
+; "OneAttack"	= can only make a single attack, regardless of movement points
+; "Pikemen"	= double defence power against "Horse" flag units
+; "Horse"	= (no effect)
+; "IgWall"	= ignore effect of city walls
+; "FieldUnit"	= cause unhappiness even when not being aggressive
+; "AEGIS"	= fivefold increased defence against air attacks and missiles
+; "Fighter"	= can attack air units (no other units can normally do this)
+; "Marines"	= (land only) can attack from transports
+; "Partial_Invis" = visible only to adjancent units; does not hide transported
+;		  units other than missiles
+; "Settlers"	= can irrigate and build roads
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Spy"		= can do poison and sabotage, _must_ be "Diplomat" also
+; "Trireme"	= (sea only) sinks on high seas, lots of special rules
+; "Nuclear"	= nuke!
+; "Transform"	= can transform terrain
+; "Paratroopers"= (land only) can paradrop
+; "Airbase"	= (land only) can produce airbases
+; "Cities"	= can disband to produce a city
+; "IgTired"	= ignore tired penalty when attacking
+; "No_Land_Attack" = (sea only) cannot attack targets on land
+; "AddToCity"	= can disband to add a single point of population to a city
+;		  (see cities.ruleset for limitation of this ability)
+; "Fanatic"	= can only be built by governments that allow them
+;		  (see data/civ2/governments.ruleset, Fanaticism government)
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -59,6 +105,31 @@ firepower_factor=1              ; convenient for Civ1
 ;                         paradropping
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;
+; ** Roles **
+;
+; "FirstBuild"	= first unit to be built when city founded (only one unit can
+;                 have this flag)
+; "Explorer"	= initial explorer unit (only one unit can have this flag)
+; "Hut"		= can be found in a hut
+; "HutTech"	= can be found in a hut, but its techs required
+; "Partisan"	= can be created as a partisan (only one unit can have this 
+;                 flag), see end of this file for its tech requirements option
+; "DefendOk"	= AI hint: ok for defending with
+; "DefendGood"	= AI hint: good for defending with
+; "AttackFast"	= AI hint: quick attacking unit (unused)
+; "AttackStrong"= AI hint: strong attacker (unused)
+; "Ferryboat"	= AI hint: useful for ferrying
+; "Barbarian"	= can be created as barbarian
+; "BarbarianTech" = can be created as barbarian, if someone has
+;		    researched its tech requirements
+; "BarbarianBoat" = can be created as barbarian
+; "BarbarianBuild" = can be built by barbarians
+; "BarbarianBuildTech" = can be built by barbarians if someone has
+;		         researched its tech requirements
+; "BarbarianLeader" = this unit is the barbarian leader (only one)
+; "BarbarianSea" = can be created as a sea barbarian
+; "BarbarianSeaTech" = can be created as a sea barbarian if someone
+;		       has researched its tech requirements
 
 [unit_settlers]
 name          = _("Settlers")

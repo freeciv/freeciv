@@ -75,6 +75,7 @@ typedef enum unit_class_id Unit_Class_id;
    for bits, though unit_type.flags is still a bitfield, and code
    which uses unit_flag() without twiddling bits is unchanged.
    (It is easier to go from i to (1<<i) than the reverse.)
+   See data/default/units.ruleset for documentation of their effects.
 */
 enum unit_flag_id { 
   F_TRADE_ROUTE=0,
@@ -120,6 +121,7 @@ enum unit_flag_id {
    (Now have to consider F_CITIES too)
    So we make sure flag values and role values are distinct,
    so some functions can use them interchangably.
+   See data/default/units.ruleset for documentation of their effects.
 */
 #define L_FIRST 64		/* should be >= F_LAST */
 enum unit_role_id {
