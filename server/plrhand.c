@@ -1948,10 +1948,16 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
      secfile_lookup_int_default() or secfile_lookup_str_default().
   */
 
+  plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
+                                                    plrno);
+
   sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
   plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
+  if (plr->ai.is_barbarian) {
+    plr->nation=game.nation_count-1;
+  }
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
   plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
@@ -1985,8 +1991,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   if (plr->ai.control && plr->ai.skill_level==0) {
     plr->ai.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
   }
-  plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
-                                                    plrno);
+
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
