@@ -313,10 +313,13 @@ fi
 
 AC_OUTPUT(Makefile
           data/Makefile 
+	  data/misc/Makefile 
+	  data/trident/Makefile 
+	  data/engels/Makefile 
 	  data/default/Makefile 
+	  data/classic/Makefile 
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
-	  data/trident/Makefile 
 	  data/scenario/Makefile 
 	  common/Makefile 
 	  ai/Makefile 

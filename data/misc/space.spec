@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "default/space"
+gfx = "misc/space"
 
 [grid_main]
 

@@ -12,7 +12,7 @@ artists = "
 "
 
 [file]
-gfx = "default/treaty"
+gfx = "misc/treaty"
 
 [grid_main]
 

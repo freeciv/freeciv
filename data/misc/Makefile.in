@@ -98,9 +98,9 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 
-pkgdatadir = $(datadir)/@PACKAGE@/default
+pkgdatadir = $(datadir)/@PACKAGE@/misc
 
-pkgdata_DATA =  	terrain.ruleset		techs.ruleset		governments.ruleset 	units.ruleset		buildings.ruleset 	nations.ruleset
+pkgdata_DATA =  	intro.xpm		radar.xpm		small.xpm		small.spec		space.xpm		space.spec		treaty.xpm		treaty.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -119,7 +119,7 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu data/default/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu data/misc/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -150,14 +150,14 @@ TAGS:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = data/default
+subdir = data/misc
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu data/default/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu data/misc/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "default/small"
+gfx = "misc/small"
 
 [grid_main]
 

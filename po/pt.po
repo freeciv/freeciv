@@ -159,7 +159,10 @@ msgid ""
 "\n"
 "\n"
 "The discovery of %s will make %s obsolete.  "
-msgstr "A descoberta de %s tornará %s obsoleto.  "
+msgstr ""
+"\n"
+"\n"
+"A descoberta de %s tornará %s obsoleto.  "
 
 #: client/helpdata.c:680
 #, c-format
@@ -787,7 +790,7 @@ msgid ""
 "Treasury contains %d gold."
 msgstr ""
 "Compro %s por %d moedas de ouro?\n"
-"O Tesouro contém %d moedas?\n"
+"O Tesouro contém %d moedas?"
 
 #. "buydialog"
 #: client/gui-gtk/citydlg.c:1457 client/gui-gtk/citydlg.c:1465

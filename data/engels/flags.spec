@@ -14,7 +14,7 @@ artists = "
 "
 
 [file]
-gfx = "default/flags"
+gfx = "engels/flags"
 
 [grid_main]
 

@@ -12,7 +12,7 @@ artists = "
 "
 
 [file]
-gfx = "default/tiles"
+gfx = "engels/tiles"
 
 [grid_main]
 

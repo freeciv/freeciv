@@ -19,7 +19,7 @@ artists = "
 "
 
 [file]
-gfx = "default/units"
+gfx = "engels/units"
 
 [grid_main]
 

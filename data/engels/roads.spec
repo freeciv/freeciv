@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "default/roads"
+gfx = "engels/roads"
 
 [grid_main]
 
