@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2002-12-16 12:32+0100\n"
+"POT-Creation-Date: 2002-12-21 10:07+0100\n"
 "PO-Revision-Date: 2002-12-16 10:56+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -4101,7 +4101,7 @@ msgstr "Wissel de server uitvoerstijl tussen 'RFC-stijl en de normale stijl."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: server/stdinhand.c:1362 client/packhand.c:1001
+#: server/stdinhand.c:1362 client/packhand.c:1007
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -6697,20 +6697,20 @@ msgstr "Begin van beurt %d"
 msgid "Popup Request"
 msgstr "Popup Verzoek"
 
-#: client/packhand.c:1224
+#: client/packhand.c:1230
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1225
+#: client/packhand.c:1231
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1225
+#: client/packhand.c:1231
 msgid "OFF"
 msgstr "UIT"
 
-#: client/packhand.c:1235
+#: client/packhand.c:1241
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
@@ -7314,7 +7314,7 @@ msgstr "Waardeer Verouderde Eenheden Op"
 #: client/gui-gtk-2.0/citydlg.c:2666 client/gui-gtk-2.0/citydlg.c:2851
 #: client/gui-gtk-2.0/citydlg.c:3115 client/gui-gtk-2.0/cma_fe.c:579
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/citydlg.c:2904
-#: client/gui-gtk/citydlg.c:3171 client/gui-gtk/cma_fe.c:553
+#: client/gui-gtk/citydlg.c:3171 client/gui-gtk/cma_fe.c:563
 #: client/gui-gtk/dialogs.c:398 client/gui-gtk/dialogs.c:964
 #: client/gui-gtk/dialogs.c:1264 client/gui-mui/citydlg.c:1050
 #: client/gui-mui/citydlg.c:1090 client/gui-mui/dialogs.c:514
@@ -7329,7 +7329,7 @@ msgstr "_Ja"
 #: client/gui-gtk-2.0/citydlg.c:2668 client/gui-gtk-2.0/citydlg.c:2852
 #: client/gui-gtk-2.0/citydlg.c:3116 client/gui-gtk-2.0/cma_fe.c:581
 #: client/gui-gtk/citydlg.c:2710 client/gui-gtk/citydlg.c:2905
-#: client/gui-gtk/citydlg.c:3172 client/gui-gtk/cma_fe.c:556
+#: client/gui-gtk/citydlg.c:3172 client/gui-gtk/cma_fe.c:566
 #: client/gui-gtk/dialogs.c:399 client/gui-gtk/dialogs.c:965
 #: client/gui-gtk/dialogs.c:1265 client/gui-mui/citydlg.c:1051
 #: client/gui-mui/citydlg.c:1091 client/gui-mui/dialogs.c:515
@@ -7609,87 +7609,87 @@ msgstr "Beschikbare Verbeteringen"
 msgid "Available Wonders"
 msgstr "Beschikbare Wonderen"
 
-#: client/gui-gtk-2.0/cma_fe.c:135 client/gui-gtk/cma_fe.c:131
+#: client/gui-gtk-2.0/cma_fe.c:135 client/gui-gtk/cma_fe.c:139
 msgid "Presets"
 msgstr "Snelkeuzen"
 
-#: client/gui-gtk-2.0/cma_fe.c:148 client/gui-gtk/cma_fe.c:144
+#: client/gui-gtk-2.0/cma_fe.c:148 client/gui-gtk/cma_fe.c:154
 #: data/helpdata.txt:719
 msgid "Citizen Management Agent"
 msgstr "Burgemeester"
 
-#: client/gui-gtk-2.0/cma_fe.c:179 client/gui-gtk/cma_fe.c:175
+#: client/gui-gtk-2.0/cma_fe.c:179 client/gui-gtk/cma_fe.c:185
 msgid "Add preset"
 msgstr "Snelkeuze toevoegen"
 
-#: client/gui-gtk-2.0/cma_fe.c:186 client/gui-gtk/cma_fe.c:182
+#: client/gui-gtk-2.0/cma_fe.c:186 client/gui-gtk/cma_fe.c:192
 msgid "Delete preset"
 msgstr "Snelkeuze verwijderen"
 
-#: client/gui-gtk-2.0/cma_fe.c:200 client/gui-gtk/cma_fe.c:196
+#: client/gui-gtk-2.0/cma_fe.c:200 client/gui-gtk/cma_fe.c:206
 #: client/gui-gtk/repodlgs.c:692 client/gui-mui/citydlg.c:1633
 #: client/gui-mui/repodlgs.c:533 client/gui-win32/repodlgs.c:395
 #: client/gui-xaw/repodlgs.c:753
 msgid "Results"
 msgstr "Resultaten"
 
-#: client/gui-gtk-2.0/cma_fe.c:214 client/gui-gtk/cma_fe.c:210
+#: client/gui-gtk-2.0/cma_fe.c:214 client/gui-gtk/cma_fe.c:220
 #: client/gui-mui/citydlg.c:1672
 msgid "Minimal Surplus"
 msgstr "Minimale overcapaciteit"
 
-#: client/gui-gtk-2.0/cma_fe.c:217 client/gui-gtk/cma_fe.c:213
+#: client/gui-gtk-2.0/cma_fe.c:217 client/gui-gtk/cma_fe.c:223
 #: client/gui-mui/citydlg.c:1673
 msgid "Factor"
 msgstr "Factor"
 
-#: client/gui-gtk-2.0/cma_fe.c:252 client/gui-gtk/cma_fe.c:248
+#: client/gui-gtk-2.0/cma_fe.c:252 client/gui-gtk/cma_fe.c:258
 #: client/gui-mui/citydlg.c:1699 client/gui-mui/citydlg.c:1700
 msgid "Celebrate"
 msgstr "Viering"
 
-#: client/gui-gtk-2.0/cma_fe.c:288 client/gui-gtk/cma_fe.c:284
+#: client/gui-gtk-2.0/cma_fe.c:288 client/gui-gtk/cma_fe.c:294
 msgid "Apply onc_e"
 msgstr "Pas eenmaal to_e"
 
-#: client/gui-gtk-2.0/cma_fe.c:294 client/gui-gtk/cma_fe.c:290
+#: client/gui-gtk-2.0/cma_fe.c:294 client/gui-gtk/cma_fe.c:300
 msgid "Control c_ity"
 msgstr "Bestuur _stad"
 
-#: client/gui-gtk-2.0/cma_fe.c:301 client/gui-gtk/cma_fe.c:297
+#: client/gui-gtk-2.0/cma_fe.c:301 client/gui-gtk/cma_fe.c:307
 #: client/gui-mui/citydlg.c:1709
 msgid "_Release city"
 msgstr "Ve_rlos stad"
 
-#: client/gui-gtk-2.0/cma_fe.c:387 client/gui-gtk/cma_fe.c:383
+#: client/gui-gtk-2.0/cma_fe.c:387 client/gui-gtk/cma_fe.c:393
 msgid "For information on:"
 msgstr "Voor informatie over:"
 
-#: client/gui-gtk-2.0/cma_fe.c:388 client/gui-gtk/cma_fe.c:384
+#: client/gui-gtk-2.0/cma_fe.c:388 client/gui-gtk/cma_fe.c:394
 msgid "CMA and presets"
 msgstr "Burgemeester en snelkeuzen"
 
-#: client/gui-gtk-2.0/cma_fe.c:389 client/gui-gtk/cma_fe.c:385
+#: client/gui-gtk-2.0/cma_fe.c:389 client/gui-gtk/cma_fe.c:395
 msgid "including sample presets,"
 msgstr "inclusief voorbeeldsnelkeuzen,"
 
-#: client/gui-gtk-2.0/cma_fe.c:390 client/gui-gtk/cma_fe.c:386
+#: client/gui-gtk-2.0/cma_fe.c:390 client/gui-gtk/cma_fe.c:396
 msgid "see README.cma."
 msgstr "zie README.cma"
 
-#: client/gui-gtk-2.0/cma_fe.c:464 client/gui-gtk/cma_fe.c:460
+#: client/gui-gtk-2.0/cma_fe.c:464 client/gui-gtk/cma_fe.c:470
 msgid "new preset"
 msgstr "nieuwe snelkeuze"
 
-#: client/gui-gtk-2.0/cma_fe.c:468 client/gui-gtk/cma_fe.c:464
+#: client/gui-gtk-2.0/cma_fe.c:468 client/gui-gtk/cma_fe.c:474
 msgid "Name new preset"
 msgstr "Benoem nieuwe snelkeuze"
 
-#: client/gui-gtk-2.0/cma_fe.c:469 client/gui-gtk/cma_fe.c:465
+#: client/gui-gtk-2.0/cma_fe.c:469 client/gui-gtk/cma_fe.c:475
 msgid "What should we name the preset?"
 msgstr "Hoe zullen we de snelkeuze noemen?"
 
-#: client/gui-gtk-2.0/cma_fe.c:578 client/gui-gtk/cma_fe.c:550
+#: client/gui-gtk-2.0/cma_fe.c:578 client/gui-gtk/cma_fe.c:560
 msgid "Remove this preset?"
 msgstr "Deze snelkeuze verwijderen?"
 
