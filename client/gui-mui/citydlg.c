@@ -77,8 +77,6 @@
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
 
-#define NUM_CITYOPT_TOGGLES 5
-
 enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
   HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
 };
@@ -95,6 +93,7 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 #define NUM_HAPPINESS_MODIFIERS 5
 enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
 
+static void set_cityopt_values(struct city_dialog *pdialog);
 
 /******************************************************************
 * functions in cma_fec.c but as static
@@ -218,6 +217,8 @@ struct city_dialog
 
   struct city_info overview_city_info;
 
+  Object *register_group;
+
   /* Units */
   Object *units_supported_group;
   Object *units_present_group;
@@ -240,6 +241,11 @@ struct city_dialog
   /* Trade */
   Object *trade_text;
 
+  /* Misc settings */
+  Object *misc_radio;
+  Object *misc_checks[NUM_CITY_OPTS];
+  Object *misc_next_radio;
+
   Object *map_area;
 
   Object *prod_gauge;
@@ -256,16 +262,11 @@ struct city_dialog
   Object *close_button;
   Object *activateunits_button;
   Object *unitlist_button;
-  Object *configure_button;
 
   struct city_prod prod;
 
   int sell_id;
   Object *sell_wnd;
-
-  Object *cityopt_wnd;
-  Object *cityopt_cycle;
-  Object *cityopt_checks[NUM_CITYOPT_TOGGLES];
 
   Object *worklist_wnd;
 };
@@ -337,6 +338,10 @@ static void request_city_sell(struct city *pcity, int sell_id)
 
 /* End GUI Independed */
 
+
+static int new_dialog_def_page = OVERVIEW_PAGE;
+static int last_page = OVERVIEW_PAGE;
+
 static struct genlist dialog_list;
 static int dialog_list_has_been_initialised;
 
@@ -356,8 +361,6 @@ static void city_dialog_update_building(struct city_dialog *pdialog);
 
 static void refresh_cma_dialog(struct city_dialog *pdialog);
 static void refresh_happiness_dialog(struct city_dialog *pdialog);
-
-static void open_cityopt_dialog(struct city_dialog *pdialog);
 
 /****************************************************************
 ...
@@ -410,7 +413,6 @@ static void refresh_this_city_dialog(struct city_dialog *pdialog)
 
   set(pdialog->activateunits_button, MUIA_Disabled, !units);
   set(pdialog->unitlist_button, MUIA_Disabled, !units);
-  set(pdialog->configure_button, MUIA_Disabled, FALSE);
 }
 
 /****************************************************************
@@ -445,7 +447,6 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->worklist_button, MUIA_Disabled, TRUE);
 	set(pdialog->activateunits_button, MUIA_Disabled, TRUE);
 	set(pdialog->unitlist_button, MUIA_Disabled, TRUE);
-	set(pdialog->configure_button, MUIA_Disabled, TRUE);
       } else
       {
 	refresh_happiness_dialog(pdialog);
@@ -490,7 +491,16 @@ void popup_city_dialog(struct city *pcity, bool make_modal)
     pdialog = create_city_dialog(pcity);
 
   if (pdialog)
+  {
+    set_cityopt_values(pdialog);
+
+    if (new_dialog_def_page == NUM_PAGES-1) set(pdialog->register_group, MUIA_Group_ActivePage, last_page);
+    else set(pdialog->register_group, MUIA_Group_ActivePage, new_dialog_def_page);
+
+    nnset(pdialog->misc_next_radio, MUIA_Radio_Active, new_dialog_def_page);
+
     set(pdialog->wnd, MUIA_Window_Open, TRUE);
+  }
 }
 
 /****************************************************************
@@ -782,7 +792,7 @@ static void city_sell_yes(struct popup_message_data *data)
 /**************************************************************************
  Callback to accept the options in the configure window
 **************************************************************************/
-static void city_opt_ok(struct city_dialog **ppdialog)
+static void cityopt_callback(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   struct city *pcity = pdialog->pcity;
@@ -790,29 +800,32 @@ static void city_opt_ok(struct city_dialog **ppdialog)
   if (pcity)
   {
     struct packet_generic_values packet;
-    int i, new_options, newcitizen_index = xget(pdialog->cityopt_cycle, MUIA_Cycle_Active);
+    int i, new_options, newcitizen_index = xget(pdialog->misc_radio, MUIA_Radio_Active);
 
     new_options = 0;
-    for (i = 0; i < NUM_CITYOPT_TOGGLES; i++)
+    for (i = 0; i < NUM_CITY_OPTS; i++)
     {
-      if (xget(pdialog->cityopt_checks[i], MUIA_Selected))
+      if (xget(pdialog->misc_checks[i], MUIA_Selected))
 	new_options |= (1 << i);
     }
-    if (newcitizen_index == 1)
-    {
-      new_options |= (1 << CITYO_NEW_EINSTEIN);
-    }
-    else if (newcitizen_index == 2)
-    {
-      new_options |= (1 << CITYO_NEW_TAXMAN);
-    }
+
+    if (newcitizen_index == 1)  new_options |= (1 << CITYO_NEW_EINSTEIN);
+    else if (newcitizen_index == 2) new_options |= (1 << CITYO_NEW_TAXMAN);
 
     packet.value1 = pcity->id;
     packet.value2 = new_options;
     send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
 			       &packet);
   }
-  set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
+}
+
+/**************************************************************************
+ Callback to set the next page
+**************************************************************************/
+static void misc_next_callback(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog;
+  new_dialog_def_page = xget(pdialog->misc_next_radio,MUIA_Radio_Active);
 }
 
 /****************************************************************
@@ -860,14 +873,6 @@ static void city_activate_units(struct city_dialog **ppdialog)
     if (pmyunit)
       set_unit_focus(pmyunit);
   }
-}
-
-/**************************************************************************
- Callback for the Configure button
-**************************************************************************/
-static void city_configure(struct city_dialog **ppdialog)
-{
-  open_cityopt_dialog(*ppdialog);
 }
 
 /**************************************************************************
@@ -1425,8 +1430,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   struct city_dialog *pdialog;
   static char *newcitizen_labels[4];
   static char *page_labels[NUM_PAGES];
-  Object *cityopt_ok_button;
-  Object *cityopt_cancel_button, *next_button, *prev_button;
+  static char *misc_whichtab_label[NUM_PAGES+1];
+
+  Object *next_button, *prev_button;
 
   newcitizen_labels[0] = _("Workers");
   newcitizen_labels[1] = _("Scientists");
@@ -1440,6 +1446,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   page_labels[4] = _("CMA");
   page_labels[5] = _("Trade Routes");
   page_labels[6] = _("Misc. Settings");
+
+  misc_whichtab_label[0] = _("City Overview page");
+  misc_whichtab_label[1] = _("Units page");
+  misc_whichtab_label[2] = _("Worklist page");
+  misc_whichtab_label[3] = _("Happiness page");
+  misc_whichtab_label[4] = _("CMA page");
+  misc_whichtab_label[5] = _("Trade Routes page");
+  misc_whichtab_label[6] = _("This Misc. Settings page");
+  misc_whichtab_label[7] = _("Last active page");
 
   pdialog = AllocVec(sizeof(struct city_dialog), 0x10000);
   if (!pdialog)
@@ -1481,7 +1496,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	Child, pdialog->citizen_right_space = HSpace(0),
 	End,
 
-      Child, RegisterGroup(page_labels),
+      Child, pdialog->register_group = RegisterGroup(page_labels),
       	MUIA_CycleChain,1,
 	Child, HGroup, /* City Overview */
 	  Child, VGroup,
@@ -1679,57 +1694,57 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	  End,
 
 	Child, pdialog->trade_text = TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_SetVMax, FALSE,End,  /* Trade Route */
+
+        /* Misc settings */
+	Child, HGroup,
+	    Child, HVSpace,
+	    Child, VGroup,
+		Child, HorizLineTextObject(_("New citizens are")),
+		Child, pdialog->misc_radio = MUI_MakeObject(MUIO_Radio, NULL, newcitizen_labels),
+		Child, HorizLineTextObject(_("Auto attack vs")),
+		Child, ColGroup(4),
+		    Child, MakeLabelLeft(_("Land units")),
+		    Child, pdialog->misc_checks[0] = MakeCheck(_("Land units"), FALSE),
+
+		    Child, MakeLabelLeft(_("Sea units")),
+		    Child, pdialog->misc_checks[1] = MakeCheck(_("Sea units"), FALSE),
+
+		    Child, MakeLabelLeft(_("Helicopters")),
+		    Child, pdialog->misc_checks[2] = MakeCheck(_("Helicopters"), FALSE),
+
+		    Child, MakeLabelLeft(_("Air units")),
+		    Child, pdialog->misc_checks[3] = MakeCheck(_("Air units"), FALSE),
+		    End,
+	        Child, HorizLineObject,
+	        Child, HGroup,
+		    Child, MakeLabelLeft(_("_Disband if build settler at size 1")),
+		    Child, pdialog->misc_checks[4] = MakeCheck(_("_Disband if build settler at size 1"), FALSE),
+		    End,
+	        Child, HVSpace, 0,
+	        End,
+	    Child, HVSpace,
+	    Child, VGroup,
+	    	Child, HorizLineTextObject(_("Next time open")),
+	    	Child, pdialog->misc_next_radio = MUI_MakeObject(MUIO_Radio, NULL, misc_whichtab_label),
+	    	Child, HVSpace,
+	    	End,
+	    Child, HVSpace,
+	    End,
 	End,
       Child, VGroup,
 	Child, HorizLineObject,
 	Child, HGroup,
-	  Child, pdialog->close_button = MakeButton(_("_Close")),
 	  Child, HSpace(0),
-	  Child, pdialog->configure_button = MakeButton(_("Con_figure")),
+	  Child, pdialog->close_button = MakeButton(_("_Close")),
 	  End,
         End,
       End,
     End;
 
-  pdialog->cityopt_wnd = WindowObject,
-    MUIA_Window_Title, _("Freeciv - Cityoptions"),
-    MUIA_Window_ID, MAKE_ID('C','I','T','O'),
-    WindowContents, VGroup,
-	Child, HGroup,
-	    Child, HSpace(0),
-	    Child, ColGroup(2),
-		Child, MakeLabelLeft(_("_New specialists are")),
-		Child, pdialog->cityopt_cycle = MakeCycle(_("_New specialists are"), newcitizen_labels),
-
-		Child, MakeLabelLeft(_("_Disband if build settler at size 1")),
-		Child, pdialog->cityopt_checks[4] = MakeCheck(_("_Disband if build settler at size 1"), FALSE),
-
-		Child, MakeLabelLeft(_("Auto-attack vs _land units")),
-		Child, pdialog->cityopt_checks[0] = MakeCheck(_("Auto-attack vs _land units"), FALSE),
-
-		Child, MakeLabelLeft(_("Auto-attack vs _sea units")),
-		Child, pdialog->cityopt_checks[1] = MakeCheck(_("Auto-attack vs _sea units"), FALSE),
-
-		Child, MakeLabelLeft(_("Auto-attack vs _air units")),
-		Child, pdialog->cityopt_checks[3] = MakeCheck(_("Auto-attack vs _air units"), FALSE),
-
-		Child, MakeLabelLeft(_("Auto-attack vs _helicopters")),
-		Child, pdialog->cityopt_checks[2] = MakeCheck(_("Auto-attack vs _helicopters"), FALSE),
-		End,
-	    Child, HSpace(0),
-	    End,
-	Child, HGroup,
-	    Child, cityopt_ok_button = MakeButton(_("_Ok")),
-	    Child, cityopt_cancel_button = MakeButton(_("_Cancel")),
-	    End,
-	End,
-    End;
-
-  if(pdialog->wnd && pdialog->cityopt_wnd)
+  if(pdialog->wnd)
   {
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
     DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
-    DoMethod(pdialog->configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_configure, pdialog);
     DoMethod(pdialog->unitlist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_unitlist, pdialog);
     DoMethod(pdialog->activateunits_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_activate_units, pdialog);
 
@@ -1757,6 +1772,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     DoMethod(pdialog->cma_perm_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_permanent, pdialog);
     DoMethod(pdialog->cma_release_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_release, pdialog);
 
+    /* Misc notifies */
+    DoMethod(pdialog->misc_radio,MUIM_Notify,MUIA_Radio_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_checks[0],MUIM_Notify,MUIA_Selected, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_checks[1],MUIM_Notify,MUIA_Selected, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_checks[2],MUIM_Notify,MUIA_Selected, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_checks[3],MUIM_Notify,MUIA_Selected, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_checks[4],MUIM_Notify,MUIA_Selected, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, cityopt_callback, pdialog);
+    DoMethod(pdialog->misc_next_radio, MUIM_Notify, MUIA_Radio_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, misc_next_callback, pdialog);
+
     set(pdialog->buy_button, MUIA_Weight, 0);
     set(pdialog->change_button, MUIA_Weight, 0);
 
@@ -1767,12 +1791,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_buy, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_sell, pdialog);
 
-    DoMethod(pdialog->cityopt_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(cityopt_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Window, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(cityopt_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_opt_ok, pdialog);
-
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
-    DoMethod(app, OM_ADDMEMBER, pdialog->cityopt_wnd);
 
     genlist_insert(&dialog_list, pdialog, 0);
     refresh_city_dialog(pdialog->pcity);
@@ -1781,8 +1800,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   if (pdialog->wnd)
     MUI_DisposeObject(pdialog->wnd);
-  if (pdialog->cityopt_wnd)
-    MUI_DisposeObject(pdialog->cityopt_wnd);
 
   FreeVec(pdialog);
   return NULL;
@@ -2491,6 +2508,31 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   }
 }
 
+/**************************************************************************
+ refresh the city options (auto_[land, air, sea, helicopter] and 
+ disband-is-size-1) in the misc page.
+**************************************************************************/
+static void set_cityopt_values(struct city_dialog *pdialog)
+{
+  struct city *pcity = pdialog->pcity;
+  int i, newcitizen_index;
+
+  for (i = 0; i < NUM_CITY_OPTS; i++)
+  {
+    set(pdialog->misc_checks[i], MUIA_Selected,
+	is_city_option_set(pcity, i));
+  }
+
+  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN))
+    newcitizen_index = 1;
+  else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN))
+    newcitizen_index = 2;
+  else
+    newcitizen_index = 0;
+
+  set(pdialog->misc_radio, MUIA_Radio_Active, newcitizen_index);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -2514,44 +2556,14 @@ static void close_city_dialog(struct city_dialog *pdialog)
       MUI_DisposeObject(pdialog->worklist_wnd);
     }
     set(pdialog->wnd, MUIA_Window_Open, FALSE);
-    set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
     if (pdialog->sell_wnd)
       destroy_message_dialog(pdialog->sell_wnd);
 
+    last_page = xget(pdialog->register_group,MUIA_Group_ActivePage);
+
     DoMethod(app, OM_REMMEMBER, pdialog->wnd);
-    DoMethod(app, OM_REMMEMBER, pdialog->cityopt_wnd);
     MUI_DisposeObject(pdialog->wnd);
-    MUI_DisposeObject(pdialog->cityopt_wnd);
     FreeVec(pdialog);
   }
 }
 
-/**************************************************************************
- Open the City Options dialog for this city
-**************************************************************************/
-static void open_cityopt_dialog(struct city_dialog *pdialog)
-{
-  struct city *pcity = pdialog->pcity;
-  int i, newcitizen_index;
-
-  for (i = 0; i < NUM_CITYOPT_TOGGLES; i++)
-  {
-    set(pdialog->cityopt_checks[i], MUIA_Selected,
-	is_city_option_set(pcity, i));
-  }
-  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN))
-  {
-    newcitizen_index = 1;
-  }
-  else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN))
-  {
-    newcitizen_index = 2;
-  }
-  else
-  {
-    newcitizen_index = 0;
-  }
-
-  set(pdialog->cityopt_cycle, MUIA_Cycle_Active, newcitizen_index);
-  set(pdialog->cityopt_wnd, MUIA_Window_Open, TRUE);
-}
