@@ -727,7 +727,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->support_unit_label,
 			    XtNwidth, UNIT_TILE_WIDTH,
-			    XtNheight, 3 * UNIT_TILE_HEIGHT / 2,
+			    XtNheight, 3 * NORMAL_TILE_HEIGHT / 2,
 			    NULL);
 
   pdialog->present_unit_label=
@@ -970,7 +970,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			      XtNfromHoriz,
 			        (XtArgVal)pdialog->support_unit_pixcomms[i-1],
 			      XtNwidth, UNIT_TILE_WIDTH,
-			      XtNheight, 3 * UNIT_TILE_HEIGHT / 2,
+			      XtNheight, 3 * NORMAL_TILE_HEIGHT / 2,
 			      NULL);
   }
 

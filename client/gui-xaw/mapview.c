@@ -433,7 +433,11 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct Sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  /* PORTME */
+  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, psprite);
+
+  if (fog) {
+    canvas_fog_sprite_area(pcanvas, psprite, canvas_x, canvas_y);
+  }
 }
 
 /**************************************************************************
