@@ -110,7 +110,7 @@ void add_notify_window(struct packet_generic_message *packet)
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
   char *s = fc_malloc(strlen(packet->message) + min_msg_len);
-  int nspc;
+  int i, nspc;
 
   change = TRUE;
 
@@ -137,18 +137,21 @@ void add_notify_window(struct packet_generic_message *packet)
   messages[messages_total].event = packet->event;
   messages[messages_total].descr = s;
   messages[messages_total].location_ok = (packet->x != -1 && packet->y != -1);
-
-  if (messages[messages_total].location_ok) {
-    struct city *pcity = map_get_city(packet->x, packet->y);
-
-    messages[messages_total].city_ok = (pcity
-					&& city_owner(pcity) ==
-					game.player_ptr);
-  } else {
-    messages[messages_total].city_ok = FALSE;
-  }
-
   messages_total++;
+
+  /* 
+   * Update the city_ok fields of all messages since the city may have
+   * changed owner.
+   */
+  for (i = 0; i < messages_total; i++) {
+    if (messages[i].location_ok) {
+      struct city *pcity = map_get_city(messages[i].x, messages[i].y);
+
+      messages[i].city_ok = (pcity && city_owner(pcity) == game.player_ptr);
+    } else {
+      messages[i].city_ok = FALSE;
+    }
+  }
 
   update_meswin_dialog();
 }
