@@ -35,7 +35,6 @@ extern bool ai_manual_turn_done;
 extern bool auto_center_on_unit;
 extern bool auto_center_on_combat;
 extern bool wakeup_focus;
-extern bool draw_diagonal_roads;
 extern bool center_when_popup_city;
 extern bool concise_city_production;
 extern bool auto_turn_done;

@@ -2053,11 +2053,6 @@ static int fill_road_corner_sprites(struct drawn_sprite *sprs,
   int i;
 
   assert(draw_roads_rails);
-  if (!(draw_diagonal_roads || is_isometric)) {
-    /* We're not supposed to draw roads/rails here. */
-    /* HACK: draw_diagonal_roads is not checked in iso view. */
-    return 0;
-  }
 
   /* Roads going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
@@ -2102,11 +2097,6 @@ static int fill_rail_corner_sprites(struct drawn_sprite *sprs,
   int i;
 
   assert(draw_roads_rails);
-  if (!(draw_diagonal_roads || is_isometric)) {
-    /* We're not supposed to draw roads/rails here. */
-    /* HACK: draw_diagonal_roads is not checked in iso view. */
-    return 0;
-  }
 
   /* Rails going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
@@ -2164,18 +2154,11 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
     road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
     rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
 
-    if (draw_diagonal_roads
-	|| is_cardinal_tileset_dir(map_to_gui_dir(dir))) {
-      /* Draw rail/road if there is a connection from this tile to the
-       * adjacent tile.  But don't draw road if there is also a rail
-       * connection. */
-      draw_rail[dir] = rail && rail_near[dir];
-      draw_road[dir] = road && road_near[dir] && !draw_rail[dir];
-    } else {
-      /* Don't draw diagonal roads/rails if draw_diagonal_roads isn't set. */
-      draw_road[dir] = FALSE;
-      draw_rail[dir] = FALSE;
-    }
+    /* Draw rail/road if there is a connection from this tile to the
+     * adjacent tile.  But don't draw road if there is also a rail
+     * connection. */
+    draw_rail[dir] = rail && rail_near[dir];
+    draw_road[dir] = road && road_near[dir] && !draw_rail[dir];
 
     /* Don't draw an isolated road/rail if there's any connection. */
     draw_single_rail &= !draw_rail[dir];
