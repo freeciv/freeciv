@@ -389,14 +389,6 @@ int render_sprites(APTR drawhandle)
 }
 
 /****************************************************************
- Returns a cititen sprite
-*****************************************************************/
-struct Sprite *get_citizen_sprite(int frame)
-{
-  return sprites.citizen[CLIP(0, frame, NUM_TILES_CITIZEN - 1)];
-}
-
-/****************************************************************
  Returns a thumb sprite
 *****************************************************************/
 struct Sprite *get_thumb_sprite(int onoff)

@@ -192,6 +192,8 @@ struct named_sprites {
 
 extern struct named_sprites sprites;
 
+struct Sprite *get_citizen_sprite(int citizen);
+
 extern char current_tile_set_name[512];
 
 /* full pathnames: */

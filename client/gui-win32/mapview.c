@@ -425,15 +425,6 @@ void put_city_tile_output(HDC hdc, int canvas_x, int canvas_y,
 /**************************************************************************
 
 **************************************************************************/
-SPRITE *get_citizen_sprite(int frame)
-{
-  frame = CLIP(0, frame, NUM_TILES_CITIZEN-1);
-  return sprites.citizen[frame];
-}           
-
-/**************************************************************************
-
-**************************************************************************/
 static void draw_rates(HDC hdc)
 {
   int d;

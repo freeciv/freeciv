@@ -58,7 +58,6 @@ extern void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite
 extern void put_city_output_tile(struct RastPort *rp,
        int food, int shield, int trade, int offx, int offy, int x_tile, int y_tile);
 
-extern struct Sprite *get_citizen_sprite(int frame);
 extern struct Sprite *get_thumb_sprite(int onoff);
 
 extern int load_all_sprites(void);

@@ -2042,3 +2042,12 @@ void tilespec_free_tiles(void)
   hash_free(sprite_hash);
   sprite_hash = NULL;
 }
+
+/**************************************************************************
+  Return a sprite for the given citizen.
+**************************************************************************/
+struct Sprite *get_citizen_sprite(int citizen)
+{
+  citizen = CLIP(0, citizen, NUM_TILES_CITIZEN - 1);
+  return sprites.citizen[citizen];
+}
