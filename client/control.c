@@ -1696,7 +1696,8 @@ void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 
   draw_line(ptile);
   dest_tile = get_line_dest();
-  if (ptile == dest_tile) {
+  if (ptile == dest_tile
+      && !is_non_allied_unit_tile(ptile, unit_owner(punit))) {
     send_patrol_route(punit);
   } else {
     append_output_window(_("Didn't find a route to the destination!"));
