@@ -921,7 +921,7 @@ void ui_main(int argc, char **argv)
 {
   GdkBitmap *icon_bitmap;
   PangoLanguage *lang;
-  gchar *home;
+  const gchar *home;
 
   parse_options(argc, argv);
 
