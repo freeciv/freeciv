@@ -257,10 +257,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
           popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
         }
       } else {
-        if (!is_real) {
-          nearest_real_pos(&xtile, &ytile);
-        }
-        center_tile_mapcanvas(xtile, ytile);
+	recenter_button_pressed(LOWORD(lParam), HIWORD(lParam));
       }
     }
     break;

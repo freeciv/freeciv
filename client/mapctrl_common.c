@@ -131,6 +131,22 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
+  Recenter the map on the canvas location, on user request.  Usually this
+  is done with a right-click.
+**************************************************************************/
+void recenter_button_pressed(int canvas_x, int canvas_y)
+{
+  int map_x, map_y;
+
+  if (can_client_change_view()) {
+    if (!canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+      nearest_real_pos(&map_x, &map_y);
+    }
+    center_tile_mapcanvas(map_x, map_y);
+  }
+}
+
+/**************************************************************************
  Update the turn done button state.
 **************************************************************************/
 void update_turn_done_button_state()

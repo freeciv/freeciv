@@ -798,10 +798,7 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
         popup_advanced_terrain_dialog(col, row);
       }
     } else {
-      if (!is_real) {
-        nearest_real_pos(&col, &row);
-      }
-      center_tile_mapcanvas(col, row);
+      recenter_button_pressed(pButtonEvent->x, pButtonEvent->y);
       flush_dirty();
     }
   }

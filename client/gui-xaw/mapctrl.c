@@ -245,21 +245,21 @@ void mapctrl_btn_mapcanvas(XEvent *event)
 {
   int x, y;
   XButtonEvent *ev=&event->xbutton;
+  bool is_real;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  if (!canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
-    nearest_real_pos(&x, &y);
-  }
+  is_real = canvas_to_map_pos(&x, &y, ev->x, ev->y);
 
-  if (ev->button==Button1)
+  if (is_real && ev->button == Button1) {
     do_map_click(x, y);
-  else if (ev->button==Button2||ev->state&ControlMask)
+  } else if (is_real &&
+	     (ev->button == Button2 || ev->state & ControlMask)) {
     popit(ev->x, ev->y, x, y);
-  else if (ev->button == Button3) {
-    center_tile_mapcanvas(x, y);
+  } else if (ev->button == Button3) {
+    recenter_button_pressed(ev->x, ev->y);
   }
 }
 

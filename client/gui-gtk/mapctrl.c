@@ -321,9 +321,6 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
   }
 
   is_real = canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y);
-  if (!is_real) {
-    nearest_real_pos(&xtile, &ytile);
-  }
 
   if (is_real && ev->button == 1) {
     do_map_click(xtile, ytile);
@@ -332,7 +329,7 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 	     && (ev->button == 2 || (ev->state & GDK_CONTROL_MASK))) {
     popit(ev, xtile, ytile);
   } else if (ev->button == 3) {
-    center_tile_mapcanvas(xtile, ytile);
+    recenter_button_pressed(ev->x, ev->y);
   }
   return TRUE;
 }
