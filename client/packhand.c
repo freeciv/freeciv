@@ -469,9 +469,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     }
   }
 
-  if(draw_map_grid &&
-     is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE) {
-    /* just to update grid; slow, but doesn't happen very often --jjm */
+  if (draw_map_grid && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     int r = ((CITY_MAP_SIZE + 1) / 2);
     int d = (2 * r) + 1;
     int x = pcity->x - r;
