@@ -843,84 +843,92 @@ static char *menu_path_tok(char *path)
 /****************************************************************
 ...
 *****************************************************************/
-static const char *translate_menu_path(const char *path, bool remove_uline)
+static gchar *translate_func(const gchar *path, gpointer data)
 {
 #ifndef ENABLE_NLS
-  static char res[100];
-  strcpy(res, path);
+    static gchar res[100];
+    
+    g_strlcpy(res, path, sizeof(res));
 #else
-  static struct astring in, out, tmp;   /* these are never free'd */
-  char *tok, *next, *trn, *t;
-  int len;
-  char *res;
+    static struct astring in, out, tmp;   /* these are never free'd */
+    char *tok, *next, *trn, *t;
+    int len;
+    char *res;
 
-  /* copy to in so can modify with menu_path_tok: */
-  astr_minsize(&in, strlen(path)+1);
-  strcpy(in.str, path);
-  astr_minsize(&out, 1);
-  out.str[0] = '\0';
-  freelog(LOG_DEBUG, "trans: %s", in.str);
+    /* copy to in so can modify with menu_path_tok: */
+    astr_minsize(&in, strlen(path)+1);
+    strcpy(in.str, path);
+    astr_minsize(&out, 1);
+    out.str[0] = '\0';
+    freelog(LOG_DEBUG, "trans: %s", in.str);
 
-  tok = in.str;
-  do {
-    next = menu_path_tok(tok);
-
-    len = strlen(tok);
-    freelog(LOG_DEBUG, "tok \"%s\", len %d", tok, len);
-    if (len == 0 || (tok[0] == '<' && tok[len-1] == '>')) {
-      t = tok;
-    } else {
-      trn = _(tok);
-      len = strlen(trn) + 1;	/* string plus leading '/' */
-      astr_minsize(&tmp, len+1);
-      sprintf(tmp.str, "/%s", trn);
-      t = tmp.str;
-      len = strlen(t);
-    }
-    astr_minsize(&out, out.n + len);
-    strcat(out.str, t);
-    freelog(LOG_DEBUG, "t \"%s\", len %d, out \"%s\"", t, len, out.str);
-    tok = next+1;
-  } while (next);
-  res = out.str;
-#endif
-
-  if (remove_uline) {
-    char *from, *to;
-    from = to = res;
+    tok = in.str;
     do {
-      if (*from != '_') {
-	*(to++) = *from;
-      }
-    } while (*(from++));
-  }
+      next = menu_path_tok(tok);
 
+      len = strlen(tok);
+      freelog(LOG_DEBUG, "tok \"%s\", len %d", tok, len);
+      if (len == 0 || (tok[0] == '<' && tok[len-1] == '>')) {
+	t = tok;
+      } else {
+	trn = _(tok);
+	len = strlen(trn) + 1;	/* string plus leading '/' */
+	astr_minsize(&tmp, len+1);
+	sprintf(tmp.str, "/%s", trn);
+	t = tmp.str;
+	len = strlen(t);
+      }
+      astr_minsize(&out, out.n + len);
+      strcat(out.str, t);
+      freelog(LOG_DEBUG, "t \"%s\", len %d, out \"%s\"", t, len, out.str);
+      tok = next+1;
+    } while (next);
+    res = out.str;
+#endif
+  
   return res;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
+static const char *menu_path_remove_uline(const char *path)
+{
+  static char res[100];
+  const char *from;
+  char *to;
+  
+  from = path;
+  to = res;
+
+  do {
+    if (*from != '_') {
+      *(to++) = *from;
+    }
+  } while (*(from++));
+
+  return res;
+}
+
+/****************************************************************
+  ...
+ *****************************************************************/
 void setup_menus(GtkWidget *window, GtkWidget **menubar)
 {
   const int nmenu_items = ARRAY_SIZE(menu_items);
-  int i;
 
   toplevel_accel = gtk_accel_group_new();
-  item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",toplevel_accel);
-  gtk_accel_group_lock(toplevel_accel);
-   
-  for (i = 0; i < nmenu_items; i++) {
-    menu_items[i].path =
-	mystrdup(translate_menu_path(menu_items[i].path, FALSE));
-  }
-  
-  gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
+  item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",
+      toplevel_accel);
+  gtk_item_factory_set_translate_func(item_factory, translate_func, NULL, NULL);
 
+  gtk_accel_group_lock(toplevel_accel);
+  gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
   gtk_window_add_accel_group(GTK_WINDOW(window), toplevel_accel);
 
-  if(menubar)
-    *menubar=gtk_item_factory_get_widget(item_factory, "<main>");
+  if (menubar) {
+    *menubar = gtk_item_factory_get_widget(item_factory, "<main>");
+  }
 }
 
 /****************************************************************
@@ -930,9 +938,9 @@ static void menus_set_sensitive(const char *path, int sensitive)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, TRUE);
-  
-  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
+  path = menu_path_remove_uline(path);
+
+  if(!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
 	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
@@ -948,7 +956,7 @@ static void menus_set_active(const char *path, int active)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, TRUE);
+  path = menu_path_remove_uline(path);
 
   if (!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
@@ -967,17 +975,18 @@ static void menus_set_shown(const char *path, int shown)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path, TRUE);
+  path = menu_path_remove_uline(path);
   
-  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
+  if(!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
     return;
   }
 
-  if(shown)
+  if (shown) {
     gtk_widget_show(item);
-  else
+  } else {
     gtk_widget_hide(item);
+  }
 }
 #endif /* UNUSED */
 
@@ -987,10 +996,10 @@ static void menus_set_shown(const char *path, int shown)
 static void menus_rename(const char *path, char *s)
 {
   GtkWidget *item;
-  
-  path = translate_menu_path(path, TRUE);
-  
-  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
+
+  path = menu_path_remove_uline(path);
+
+  if(!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
     return;
   }
@@ -1022,7 +1031,7 @@ void update_menus(void)
     struct unit *punit;
     GtkWidget *item;
     const char *path =
-	translate_menu_path("<main>/_Kingdom/_Government", TRUE);
+	menu_path_remove_uline("<main>/_Kingdom/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
