@@ -176,7 +176,7 @@ void city_dialog_redraw_map(struct city *pcity,
   mapview_layer_iterate(layer) {
     citydlg_known_iterate(pcity, city_x, city_y,
 			  ptile, canvas_x, canvas_y) {
-      put_one_tile(pcanvas, layer, ptile, canvas_x, canvas_y, TRUE);
+      put_one_tile(pcanvas, layer, ptile, canvas_x, canvas_y, pcity);
     } citydlg_known_iterate_end;
   } mapview_layer_iterate_end;
 

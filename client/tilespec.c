@@ -2759,7 +2759,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 		      const struct tile_edge *pedge,
 		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
-		      bool citymode)
+		      const struct city *citymode)
 {
   Terrain_type_id ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
@@ -3196,7 +3196,8 @@ void toggle_focus_unit_state(void)
 /**********************************************************************
 ...
 ***********************************************************************/
-struct unit *get_drawable_unit(struct tile *ptile, bool citymode)
+struct unit *get_drawable_unit(struct tile *ptile,
+			       const struct city *citymode)
 {
   struct unit *punit = find_visible_unit(ptile);
   struct unit *pfocus = get_unit_in_focus();

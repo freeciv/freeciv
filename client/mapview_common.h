@@ -251,10 +251,8 @@ void put_red_frame_tile(struct canvas *pcanvas,
 void put_nuke_mushroom_pixmaps(struct tile *ptile);
 
 void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
-		  struct tile *ptile,
-		  int canvas_x, int canvas_y, bool citymode);
-void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
-		    int canvas_x, int canvas_y, bool citymode);
+		  struct tile *ptile, int canvas_x, int canvas_y,
+		  const struct city *citymode);
 
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);

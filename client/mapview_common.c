@@ -60,6 +60,10 @@ static void redraw_overview(void);
 static void dirty_overview(void);
 static void flush_dirty_overview(void);
 
+static void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
+			   int canvas_x, int canvas_y,
+			   const struct city *citymode);
+
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
@@ -933,7 +937,8 @@ static void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
 			    const struct tile_edge *pedge,
 			    const struct tile_corner *pcorner,
 			    const struct unit *punit, struct city *pcity,
-			    int canvas_x, int canvas_y, bool citymode)
+			    int canvas_x, int canvas_y,
+			    const struct city *citymode)
 {
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tile_sprs, layer, ptile, pedge, pcorner,
@@ -955,7 +960,7 @@ void put_unit(const struct unit *punit,
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer, NULL, NULL, NULL,
-		    punit, NULL, canvas_x, canvas_y, FALSE);
+		    punit, NULL, canvas_x, canvas_y, NULL);
   } mapview_layer_iterate_end;
 }
 
@@ -970,7 +975,7 @@ void put_city(struct city *pcity,
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer,
 		    NULL, NULL, NULL, NULL, pcity,
-		    canvas_x, canvas_y, FALSE);
+		    canvas_x, canvas_y, NULL);
   } mapview_layer_iterate_end;
 }
 
@@ -986,7 +991,7 @@ void put_terrain(struct tile *ptile,
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL, NULL, NULL,
-		    canvas_x, canvas_y, FALSE);
+		    canvas_x, canvas_y, NULL);
   } mapview_layer_iterate_end;
 }
 
@@ -1537,8 +1542,9 @@ static void tile_draw_selection(struct canvas *pcanvas,
    Draw the grid lines of the given map tile at the given canvas position
    in isometric view.  (This include the map grid, borders, and coastline).
 ****************************************************************************/
-void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
-		    int canvas_x, int canvas_y, bool citymode)
+static void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
+			   int canvas_x, int canvas_y,
+			   const struct city *citymode)
 {
   tile_draw_map_grid(pcanvas, ptile, canvas_x, canvas_y);
   tile_draw_borders(pcanvas, ptile, canvas_x, canvas_y);
@@ -1550,8 +1556,8 @@ void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
 void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
-		  struct tile *ptile,
-		  int canvas_x, int canvas_y, bool citymode)
+		  struct tile *ptile, int canvas_x, int canvas_y,
+		  const struct city *citymode)
 {
   if (tile_get_known(ptile) != TILE_UNKNOWN) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
@@ -1621,13 +1627,13 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
 		     ptile, pedge, pcorner, cx, cy) {
       if (ptile) {
-	put_one_tile(mapview.store, layer, ptile, cx, cy, FALSE);
+	put_one_tile(mapview.store, layer, ptile, cx, cy, NULL);
       } else if (pedge) {
 	put_one_element(mapview.store, layer, NULL, pedge, NULL,
-			NULL, NULL, cx, cy, FALSE);
+			NULL, NULL, cx, cy, NULL);
       } else if (pcorner) {
 	put_one_element(mapview.store, layer, NULL, NULL, pcorner,
-			NULL, NULL, cx, cy, FALSE);
+			NULL, NULL, cx, cy, NULL);
       } else {
 	/* This can happen, for instance for unreal tiles. */
       }
