@@ -1232,24 +1232,22 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   }
 
   if (ttype == T_OCEAN) {
-    const int dirs[4][3] = {
-      	/* up */
-        { DIR_CCW(DIR8_NORTHWEST), DIR8_NORTHWEST, DIR_CW(DIR8_NORTHWEST) },
-        /* down */
-        { DIR_CCW(DIR8_SOUTHEAST), DIR8_SOUTHEAST, DIR_CW(DIR8_SOUTHEAST) },
-        /* left */
-        { DIR_CCW(DIR8_SOUTHWEST), DIR8_SOUTHWEST, DIR_CW(DIR8_SOUTHWEST) },
-        /* right */
-        { DIR_CCW(DIR8_NORTHEAST), DIR8_NORTHEAST, DIR_CW(DIR8_NORTHEAST) }
-      };
+    const int dirs[4] = {
+      /* up */
+      DIR8_NORTHWEST,
+      /* down */
+      DIR8_SOUTHEAST,
+      /* left */
+      DIR8_SOUTHWEST,
+      /* right */
+      DIR8_NORTHEAST
+    };
 
     /* put coasts */
     for (i = 0; i < 4; i++) {
-      int array_index;
-
-      array_index = (ttype_near[dirs[i][0]] != T_OCEAN ? 1 : 0)
-        		+ (ttype_near[dirs[i][1]] != T_OCEAN ? 2 : 0)
-        		+ (ttype_near[dirs[i][2]] != T_OCEAN ? 4 : 0);
+      int array_index = ((ttype_near[DIR_CCW(dirs[i])] != T_OCEAN ? 1 : 0)
+			 + (ttype_near[dirs[i]] != T_OCEAN ? 2 : 0)
+			 + (ttype_near[DIR_CW(dirs[i])] != T_OCEAN ? 4 : 0));
 
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
