@@ -1,15 +1,15 @@
 # Brazilian Portuguese translations for Freeciv
 # Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # Vasco Costa <vasc@camoes.rnl.ist.utl.pt>, 1999.
-# Lalo Martins <lalo@webcom.com>, 1999.
+# Lalo Martins <lalo@webcom.com>, 1999, 2000.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-02-21 16:09-0500\n"
+"POT-Creation-Date: 2000-02-21 17:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Lalo Martins <lalo@hackandroll.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
@@ -17,16 +17,15 @@ msgstr ""
 
 #: common/city.c:177
 msgid "?wonder:w"
-msgstr ""
+msgstr "m"
 
 #: common/city.c:186
 msgid "?built:B"
-msgstr ""
+msgstr "c"
 
 #: common/city.c:187
-#, fuzzy
 msgid "?obsolete:O"
-msgstr "Obsoleto por:"
+msgstr "O"
 
 #: common/log.c:83
 #, c-format
@@ -116,14 +115,14 @@ msgid "Missing argument for \"%s\".\n"
 msgstr ""
 
 #: common/shared.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "%d BC"
-msgstr "%dª "
+msgstr "%d AC"
 
 #: common/shared.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "%d AD"
-msgstr "%dª "
+msgstr "%d DC"
 
 #: client/tilespec.c:174 common/shared.c:579
 #, c-format
@@ -174,7 +173,7 @@ msgstr ""
 
 #: common/shared.c:700
 msgid "'Cause civilization should be free!"
-msgstr ""
+msgstr "Porque a civilização deve ser livre!"
 
 #: common/support.c:112
 #, c-format
@@ -195,7 +194,7 @@ msgstr "Poluição"
 
 #: client/gui-gtk/menu.c:547 client/gui-xaw/menu.c:156 common/unit.c:854
 msgid "Fortify"
-msgstr "Fortifica"
+msgstr "Entrincheirado"
 
 #: client/gui-gtk/menu.c:549 client/gui-xaw/menu.c:157 common/unit.c:856
 msgid "Sentry"
@@ -203,7 +202,7 @@ msgstr "Sentinela"
 
 #: client/gui-gtk/menu.c:551 client/gui-xaw/menu.c:158 common/unit.c:858
 msgid "Pillage"
-msgstr "Pilha"
+msgstr "Pilhagem"
 
 #: common/unit.c:859 data/Freeciv:1090
 msgid "Goto"
@@ -211,11 +210,11 @@ msgstr "Ir"
 
 #: common/unit.c:860
 msgid "Explore"
-msgstr "Explora"
+msgstr "Explorar"
 
 #: common/unit.c:861
 msgid "Transform"
-msgstr "Transforma"
+msgstr "Transformar"
 
 #: client/gui-gtk/citydlg.c:894 client/gui-xaw/citydlg.c:1414
 #: common/unit.c:863
@@ -232,69 +231,62 @@ msgstr "Movimento"
 
 #: common/version.c:26
 msgid "January"
-msgstr ""
+msgstr "Janeiro"
 
 #: common/version.c:27
 msgid "February"
-msgstr ""
+msgstr "Fevereiro"
 
 #: common/version.c:28
-#, fuzzy
 msgid "March"
-msgstr "Monarquia"
+msgstr "Março"
 
 #: common/version.c:29
 msgid "April"
-msgstr ""
+msgstr "Abril"
 
 #: common/version.c:30
-#, fuzzy
 msgid "May"
-msgstr "Maçonaria"
+msgstr "Maio"
 
 #: common/version.c:31
-#, fuzzy
 msgid "June"
-msgstr "Selva"
+msgstr "Junho"
 
 #: common/version.c:32
-#, fuzzy
 msgid "July"
-msgstr "Selva"
+msgstr "Julho"
 
 #: common/version.c:33
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 #: common/version.c:34
-#, fuzzy
 msgid "September"
-msgstr "Orador"
+msgstr "Setembro"
 
 #: common/version.c:35
-#, fuzzy
 msgid "October"
-msgstr "Bombardeiro"
+msgstr "Outubro"
 
 #: common/version.c:36
-#, fuzzy
 msgid "November"
-msgstr "Bombardeiro"
+msgstr "Novembro"
 
 #: common/version.c:37
 msgid "December"
-msgstr ""
+msgstr "Dezembro"
 
 #: common/version.c:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
 "ESTA É UMA VERSÃO BETA\n"
-"O Freeciv 1.9 será lançado no início\n"
-"de Outubro, em http://www.freeciv.org"
+"O Freeciv %s será lançado em\n"
+"%s, em %s"
 
 #: server/barbarian.c:431
 #, c-format
@@ -354,17 +346,17 @@ msgstr "Jogo: Os %s pararam de construir %s em %s."
 
 #: server/cityhand.c:550
 msgid " from the worklist"
-msgstr ""
+msgstr " da lista de tarefas"
 
 #: server/cityhand.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Jogo: %s agora está construindo %s."
+msgstr "Jogo: %s está construindo %s%s."
 
 #: server/cityhand.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s."
-msgstr "Jogo: %s agora está construindo %s."
+msgstr "Jogo: %s está construindo %s."
 
 #: ai/aicity.c:247 server/cityhand.c:571
 #, c-format
@@ -460,9 +452,9 @@ msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Jogo: Fome atinge %s, %s perdidos!"
 
 #: server/cityturn.c:988 server/cityturn.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr "Jogo: %s ainda não pode construir %s."
+msgstr "Jogo: %s não pode construir %s da lista de tarefas. Eliminando..."
 
 #: server/cityturn.c:1007 server/cityturn.c:1047
 #, c-format
@@ -1093,65 +1085,59 @@ msgstr ""
 
 #: server/plrhand.c:67
 msgid "Herodot's report on the RICHEST Civilizations in the World."
-msgstr ""
+msgstr "Relatório de Heródoto sobre as mais RICAS Civilizações no Mundo"
 
 #: server/plrhand.c:68
 msgid "Herodot's report on the most ADVANCED Civilizations in the World."
-msgstr ""
+msgstr "Relatório de Heródoto sobre as mais AVANÇADAS Civilizações no Mundo"
 
 #: server/plrhand.c:69
 msgid "Herodot's report on the most MILITARIZED Civilizations in the World."
-msgstr ""
+msgstr "Relatório de Heródoto sobre as mais MILITARIZADAS Civilizações no Mundo"
 
 #: server/plrhand.c:70
 msgid "Herodot's report on the HAPPIEST Civilizations in the World."
-msgstr ""
+msgstr "Relatório de Heródoto sobre as mais FELIZES Civilizações no Mundo"
 
 #: server/plrhand.c:71
 msgid "Herodot's report on the LARGEST Civilizations in the World."
-msgstr ""
+msgstr "Relatório de Heródoto sobre as MAIORES Civilizações no Mundo"
 
 #: server/plrhand.c:88
-#, fuzzy
 msgid "Magnificent"
-msgstr "Magnetismo"
+msgstr "Magníficos"
 
 #: server/plrhand.c:88
 msgid "Glorious"
-msgstr ""
+msgstr "Gloriosos"
 
 #: server/plrhand.c:88
-#, fuzzy
 msgid "Great"
-msgstr "Grande Muralha"
+msgstr "Grandes"
 
 #: server/plrhand.c:88
-#, fuzzy
 msgid "Decent"
-msgstr "Deserto"
+msgstr "Decentes"
 
 #: server/plrhand.c:89
-#, fuzzy
 msgid "Mediocre"
-msgstr "Medicina"
+msgstr "Medíocres"
 
 #: server/plrhand.c:89
 msgid "Hilarious"
-msgstr ""
+msgstr "Hilariantes"
 
 #: server/plrhand.c:89
-#, fuzzy
 msgid "Worthless"
-msgstr "Baleias"
+msgstr "Imprestáveis"
 
 #: server/plrhand.c:89
-#, fuzzy
 msgid "Pathetic"
-msgstr "Matemática"
+msgstr "Patéticos"
 
 #: server/plrhand.c:90
 msgid "Useless"
-msgstr ""
+msgstr "Inúteis"
 
 #: server/plrhand.c:130
 #, fuzzy, c-format
@@ -1160,7 +1146,7 @@ msgstr "Os %s dão %s"
 
 #: server/plrhand.c:134
 msgid "Historian Publishes!"
-msgstr ""
+msgstr "Historiador Publica!"
 
 #: server/plrhand.c:176
 #, c-format
@@ -1168,13 +1154,12 @@ msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
 msgstr ""
 
 #: server/plrhand.c:182 server/plrhand.c:204
-#, fuzzy
 msgid "Traveler's Report:"
-msgstr "Relatório do Comércio"
+msgstr "Relatório do Viajante:"
 
 #: server/plrhand.c:183
 msgid "The Five Greatest Cities in the World!"
-msgstr ""
+msgstr "As Cinco Maiores Cidades do Mundo!"
 
 #: server/plrhand.c:195
 #, c-format
@@ -5359,12 +5344,12 @@ msgstr "As ofertas dos %s"
 #: client/gui-gtk/diplodlg.c:299 client/gui-gtk/diplodlg.c:317
 #: client/gui-xaw/diplodlg.c:355 client/gui-xaw/diplodlg.c:373
 msgid "World-map"
-msgstr "Mapa-Mundo"
+msgstr "Mapa-Múndi"
 
 #: client/gui-gtk/diplodlg.c:304 client/gui-gtk/diplodlg.c:322
 #: client/gui-xaw/diplodlg.c:359 client/gui-xaw/diplodlg.c:377
 msgid "Sea-map"
-msgstr "Mapa-Oceano"
+msgstr "Mapa dos Oceanos"
 
 #: client/gui-gtk/diplodlg.c:310 client/gui-gtk/diplodlg.c:328
 #: data/Freeciv:327 data/Freeciv:336
@@ -6008,7 +5993,7 @@ msgstr "Relatório do Comércio"
 #: client/gui-gtk/menu.c:602 client/gui-gtk/repodlgs.c:183
 #: client/gui-xaw/menu.c:185 data/Freeciv:1334
 msgid "Science Report"
-msgstr "Relatório das Pesquisas"
+msgstr "Relatório de Ciência"
 
 #: client/gui-gtk/menu.c:608 client/gui-xaw/menu.c:188
 msgid "Top Five Cities"
@@ -6077,7 +6062,7 @@ msgstr "Zonas de Controle"
 
 #: client/gui-gtk/menu.c:639 client/gui-xaw/menu.c:205
 msgid "Help Technology"
-msgstr "Pesquisas"
+msgstr "Tecnologias"
 
 #: client/gui-gtk/menu.c:641 client/gui-xaw/menu.c:206
 msgid "Help Terrain"
@@ -7309,9 +7294,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:705
-#, fuzzy
 msgid "Technology"
-msgstr "Investigação"
+msgstr "Tecnologia"
 
 #: data/helpdata.txt:706
 msgid ""
@@ -9223,14 +9207,13 @@ msgstr "Suma Sacedotiza"
 
 #: data/civ2/governments.ruleset:428
 msgid "(Sorry, no helptext available.)"
-msgstr ""
+msgstr "(Desculpe, nenhum texto disponível.)"
 
 #: data/default/nations.ruleset:52
 msgid "Roman"
 msgstr "Romano"
 
 #: data/default/nations.ruleset:53
-#, fuzzy
 msgid "?plural:Romans"
 msgstr "Romanos"
 
@@ -9240,27 +9223,25 @@ msgstr "Ditador"
 
 #: data/default/nations.ruleset:62
 msgid "Imperator"
-msgstr ""
+msgstr "Imperador"
 
 #: data/default/nations.ruleset:62
 msgid "Imperatrix"
-msgstr ""
+msgstr "Imperatriz"
 
 #: data/default/nations.ruleset:96
 msgid "Babylonian"
-msgstr "Babilónio"
+msgstr "Babilônio"
 
 #: data/default/nations.ruleset:97
-#, fuzzy
 msgid "?plural:Babylonians"
-msgstr "Babilónios"
+msgstr "Babilônios"
 
 #: data/default/nations.ruleset:125
 msgid "German"
 msgstr "Alemão"
 
 #: data/default/nations.ruleset:126
-#, fuzzy
 msgid "?plural:Germans"
 msgstr "Alemães"
 
@@ -9277,7 +9258,6 @@ msgid "Egyptian"
 msgstr "Egípcio"
 
 #: data/default/nations.ruleset:168
-#, fuzzy
 msgid "?plural:Egyptians"
 msgstr "Egípcios"
 
@@ -9294,7 +9274,6 @@ msgid "American"
 msgstr "Americano"
 
 #: data/default/nations.ruleset:202
-#, fuzzy
 msgid "?plural:Americans"
 msgstr "Americanos"
 
@@ -9311,7 +9290,6 @@ msgid "Greek"
 msgstr "Grego"
 
 #: data/default/nations.ruleset:242
-#, fuzzy
 msgid "?plural:Greeks"
 msgstr "Gregos"
 
@@ -9330,7 +9308,6 @@ msgid "Indian"
 msgstr "Indiano"
 
 #: data/default/nations.ruleset:281
-#, fuzzy
 msgid "?plural:Indians"
 msgstr "Indianos"
 
@@ -9343,7 +9320,6 @@ msgid "Russian"
 msgstr "Russo"
 
 #: data/default/nations.ruleset:314
-#, fuzzy
 msgid "?plural:Russians"
 msgstr "Russos"
 
@@ -9369,16 +9345,15 @@ msgstr "Zulu"
 
 #: data/default/nations.ruleset:349
 msgid "?plural:Zulus"
-msgstr ""
+msgstr "Zulus"
 
 #: data/default/nations.ruleset:376
 msgid "French"
-msgstr "Françês"
+msgstr "Francês"
 
 #: data/default/nations.ruleset:377
-#, fuzzy
 msgid "?plural:French"
-msgstr "Françês"
+msgstr "Franceses"
 
 #: data/default/nations.ruleset:384
 msgid "Premier"
@@ -9386,63 +9361,59 @@ msgstr ""
 
 #: data/default/nations.ruleset:411
 msgid "Aztec"
-msgstr "Axteca"
+msgstr "Asteca"
 
 #: data/default/nations.ruleset:412
-#, fuzzy
 msgid "?plural:Aztecs"
-msgstr "Axtecas"
+msgstr "Astecas"
 
 #: data/default/nations.ruleset:440
 msgid "Chinese"
 msgstr "Chinês"
 
 #: data/default/nations.ruleset:441
-#, fuzzy
 msgid "?plural:Chinese"
-msgstr "Chinês"
+msgstr "Chineses"
 
 #: data/default/nations.ruleset:448
 msgid "Chairman"
-msgstr ""
+msgstr "Presidente"
 
 #: data/default/nations.ruleset:448
 msgid "Chairperson"
-msgstr ""
+msgstr "Presidente"
 
 #: data/default/nations.ruleset:483
 msgid "English"
 msgstr "Inglês"
 
 #: data/default/nations.ruleset:484
-#, fuzzy
 msgid "?plural:English"
-msgstr "Inglês"
+msgstr "Ingleses"
 
 #: data/default/nations.ruleset:494
 msgid "Lord Protector"
-msgstr "Lorde Protector"
+msgstr "Lorde Protetor"
 
 #: data/default/nations.ruleset:494
 msgid "Lady Protector"
-msgstr "Dama Protectora"
+msgstr "Lady Protetora"
 
 #: data/default/nations.ruleset:526
 msgid "Mongol"
 msgstr "Mongol"
 
 #: data/default/nations.ruleset:527
-#, fuzzy
 msgid "?plural:Mongols"
 msgstr "Mongóis"
 
 #: data/default/nations.ruleset:534
 msgid "Khan"
-msgstr "Cão"
+msgstr "Khan"
 
 #: data/default/nations.ruleset:535
 msgid "Great Khan"
-msgstr "Grande Cão"
+msgstr "Grande Khan"
 
 #: data/default/nations.ruleset:559
 msgid "Turk"
@@ -9450,7 +9421,7 @@ msgstr "Turco"
 
 #: data/default/nations.ruleset:560
 msgid "?plural:Turks"
-msgstr ""
+msgstr "Turcos"
 
 #: data/default/nations.ruleset:570
 msgid "Sultan"
@@ -9461,16 +9432,14 @@ msgid "Spanish"
 msgstr "Espanhol"
 
 #: data/default/nations.ruleset:595
-#, fuzzy
 msgid "?plural:Spanish"
-msgstr "Espanhol"
+msgstr "Espanhóis"
 
 #: data/default/nations.ruleset:625
 msgid "Persian"
 msgstr "Persa"
 
 #: data/default/nations.ruleset:626
-#, fuzzy
 msgid "?plural:Persians"
 msgstr "Persas"
 
@@ -9484,7 +9453,7 @@ msgstr "Árabe"
 
 #: data/default/nations.ruleset:661
 msgid "?plural:Arabs"
-msgstr ""
+msgstr "Árabes"
 
 #: data/default/nations.ruleset:669
 msgid "Caliph"
@@ -9495,7 +9464,6 @@ msgid "Carthaginian"
 msgstr "Cartaginês"
 
 #: data/default/nations.ruleset:695
-#, fuzzy
 msgid "?plural:Carthaginians"
 msgstr "Cartagineses"
 
@@ -9505,7 +9473,7 @@ msgstr "Inca"
 
 #: data/default/nations.ruleset:726
 msgid "?plural:Incas"
-msgstr ""
+msgstr "Incas"
 
 #: data/default/nations.ruleset:734
 msgid "Warlord"
@@ -9516,18 +9484,16 @@ msgid "Viking"
 msgstr "Viking"
 
 #: data/default/nations.ruleset:759
-#, fuzzy
 msgid "?plural:Vikings"
 msgstr "Vikings"
 
 #: data/default/nations.ruleset:793
 msgid "Polish"
-msgstr "Polaco"
+msgstr "Polonês"
 
 #: data/default/nations.ruleset:794
-#, fuzzy
 msgid "?plural:Polish"
-msgstr "Polaco"
+msgstr "Poloneses"
 
 #: data/default/nations.ruleset:801
 msgid "Prymas"
@@ -9538,7 +9504,6 @@ msgid "Hungarian"
 msgstr "Húngaro"
 
 #: data/default/nations.ruleset:828
-#, fuzzy
 msgid "?plural:Hungarians"
 msgstr "Húngaros"
 
@@ -9548,7 +9513,7 @@ msgstr "Dinamarquês"
 
 #: data/default/nations.ruleset:856
 msgid "?plural:Danes"
-msgstr ""
+msgstr "Dinamarqueses"
 
 #: data/default/nations.ruleset:889
 msgid "Dutch"
@@ -9556,14 +9521,13 @@ msgstr "Holandês"
 
 #: data/default/nations.ruleset:890
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "Holandeses"
 
 #: data/default/nations.ruleset:933
 msgid "Swedish"
 msgstr "Sueco"
 
 #: data/default/nations.ruleset:934
-#, fuzzy
 msgid "?plural:Swedes"
 msgstr "Suecos"
 
@@ -9572,9 +9536,8 @@ msgid "Japanese"
 msgstr "Japonês"
 
 #: data/default/nations.ruleset:967
-#, fuzzy
 msgid "?plural:Japanese"
-msgstr "Japonês"
+msgstr "Japoneses"
 
 #: data/default/nations.ruleset:975
 msgid "Shogun"
@@ -9582,20 +9545,19 @@ msgstr "Shogun"
 
 #: data/default/nations.ruleset:999
 msgid "Portuguese"
-msgstr ""
+msgstr "Português"
 
 #: data/default/nations.ruleset:1000
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "Portugueses"
 
 #: data/default/nations.ruleset:1037
-#, fuzzy
 msgid "Finnish"
-msgstr "Peixe"
+msgstr "Finlandês"
 
 #: data/default/nations.ruleset:1038
 msgid "?plural:Finns"
-msgstr ""
+msgstr "Finlandeses"
 
 #: data/default/nations.ruleset:1087
 msgid "Sioux"
@@ -9606,185 +9568,161 @@ msgid "?plural:Sioux"
 msgstr ""
 
 #: data/default/nations.ruleset:1096
-#, fuzzy
 msgid "Chief"
-msgstr "Chinês"
+msgstr "Chefe"
 
 #: data/default/nations.ruleset:1097
-#, fuzzy
 msgid "Great Chief"
-msgstr "Grande Cão"
+msgstr "Grande Chefe"
 
 #: data/default/nations.ruleset:1119
-#, fuzzy
 msgid "Czech"
-msgstr "Axteca"
+msgstr "Tcheco"
 
 #: data/default/nations.ruleset:1120
-#, fuzzy
 msgid "?plural:Czechs"
-msgstr "Axtecas"
+msgstr "Tchecos"
 
 #: data/default/nations.ruleset:1137
-#, fuzzy
 msgid "Thane"
-msgstr "Muda"
+msgstr "Nobre"
 
 #: data/default/nations.ruleset:1137
 msgid "Prophetess"
-msgstr ""
+msgstr "Profetiza"
 
 #: data/default/nations.ruleset:1179
-#, fuzzy
 msgid "Australian"
-msgstr "Industrialização"
+msgstr "Australiano"
 
 #: data/default/nations.ruleset:1180
-#, fuzzy
 msgid "?plural:Australians"
-msgstr "Industrialização"
+msgstr "Australianos"
 
 #: data/default/nations.ruleset:1220
-#, fuzzy
 msgid "Welsh"
-msgstr "Focas"
+msgstr "Galês"
 
 #: data/default/nations.ruleset:1221
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "Galeses"
 
 #: data/default/nations.ruleset:1235
-#, fuzzy
 msgid "Prince"
-msgstr "Ciência"
+msgstr "Príncipe"
 
 #: data/default/nations.ruleset:1235
-#, fuzzy
 msgid "Princess"
-msgstr "Fuzileiros"
+msgstr "Princesa"
 
 #: data/default/nations.ruleset:1258
-#, fuzzy
 msgid "Korean"
-msgstr "Cão"
+msgstr "Coreano"
 
 #: data/default/nations.ruleset:1259
 msgid "?plural:Koreans"
-msgstr ""
+msgstr "Coreanos"
 
 #: data/default/nations.ruleset:1285
 msgid "Scottish"
-msgstr ""
+msgstr "Escocês"
 
 #: data/default/nations.ruleset:1286
 msgid "?plural:Scottish"
-msgstr ""
+msgstr "Escoceses"
 
 #: data/default/nations.ruleset:1319
 msgid "Israeli"
-msgstr ""
+msgstr "Israelita"
 
 #: data/default/nations.ruleset:1320
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "Israelitas"
 
 #: data/default/nations.ruleset:1353
 msgid "Argentine"
-msgstr ""
+msgstr "Argentino"
 
 #: data/default/nations.ruleset:1354
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "Argentinos"
 
 #: data/default/nations.ruleset:1378
-#, fuzzy
 msgid "Canadian"
-msgstr "Indiano"
+msgstr "Canadense"
 
 #: data/default/nations.ruleset:1379
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "Canadenses"
 
 #: data/default/nations.ruleset:1413
-#, fuzzy
 msgid "Ukrainian"
-msgstr "Cartaginês"
+msgstr "Ucraniano"
 
 #: data/default/nations.ruleset:1414
-#, fuzzy
 msgid "?plural:Ukrainians"
-msgstr "Cartagineses"
+msgstr "Ucranianos"
 
 #: data/default/nations.ruleset:1421
-#, fuzzy
 msgid "Hetman"
-msgstr "Alemão"
+msgstr "Comandante"
 
 #: data/default/nations.ruleset:1444
-#, fuzzy
 msgid "Lithuanian"
-msgstr "Cartaginês"
+msgstr "Lituano"
 
 #: data/default/nations.ruleset:1445
-#, fuzzy
 msgid "?plural:Lithuanians"
-msgstr "Cartagineses"
+msgstr "Lituanos"
 
 #: data/default/nations.ruleset:1452
-#, fuzzy
 msgid "Great Duke"
-msgstr "Grande Muralha"
+msgstr "Grão-Duque"
 
 #: data/default/nations.ruleset:1452
 #, fuzzy
 msgid "Great Duchess"
-msgstr "Grande Cão"
+msgstr "Grã-Duquesa"
 
 #: data/default/nations.ruleset:1477
-#, fuzzy
 msgid "Kenyan"
-msgstr "Cão"
+msgstr "Queniano"
 
 #: data/default/nations.ruleset:1478
-#, fuzzy
 msgid "?plural:Kenyans"
-msgstr "Alemães"
+msgstr "Quenianos"
 
 #: data/default/nations.ruleset:1505
 msgid "Dúnedain"
 msgstr ""
 
 #: data/default/nations.ruleset:1506
-#, fuzzy
 msgid "?plural:Dúnedan"
-msgstr "Indianos"
+msgstr ""
 
 #: data/default/nations.ruleset:1537
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietmanitas"
 
 #: data/default/nations.ruleset:1538
-#, fuzzy
 msgid "?plural:Vietnamese"
-msgstr "Chinês"
+msgstr "Vietnamitas"
 
 #: data/default/nations.ruleset:1561
-#, fuzzy
 msgid "Thai"
-msgstr "Muda"
+msgstr "Tailandês"
 
 #: data/default/nations.ruleset:1562
-#, fuzzy
 msgid "?plural:Thai"
-msgstr "Chinês"
+msgstr "Tailandeses"
 
 #: data/default/nations.ruleset:1589
 msgid "Olympic"
-msgstr ""
+msgstr "Olímpico"
 
 #: data/default/nations.ruleset:1590
 msgid "?plural:Olympians"
-msgstr ""
+msgstr "Olímpicos"
 
 #: data/default/nations.ruleset:1615
 msgid "Krevi"
@@ -9827,7 +9765,7 @@ msgstr "Automóvel"
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
 #: data/default/techs.ruleset:85
 msgid "Banking"
-msgstr "Banca"
+msgstr "Banco"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
 #: data/default/techs.ruleset:91
@@ -9852,7 +9790,7 @@ msgstr "Química"
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
 #: data/default/techs.ruleset:115
 msgid "Chivalry"
-msgstr "Cavalaria"
+msgstr "Cavalaria Medieval"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
 #: data/default/techs.ruleset:121
@@ -9862,7 +9800,7 @@ msgstr "Código de Leis"
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
 #: data/default/techs.ruleset:127
 msgid "Combined Arms"
-msgstr "Ramos Combinados"
+msgstr ""
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
 #: data/default/techs.ruleset:133
@@ -9877,7 +9815,7 @@ msgstr "Computadores"
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
 #: data/default/techs.ruleset:151
 msgid "Conscription"
-msgstr "Conscripção"
+msgstr "Serviço Militar"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
 #: data/default/techs.ruleset:157
@@ -9897,7 +9835,7 @@ msgstr "Electricidade"
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
 #: data/default/techs.ruleset:187
 msgid "Electronics"
-msgstr "Electrônica"
+msgstr "Eletrônica"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
 #: data/default/techs.ruleset:193
@@ -9952,7 +9890,7 @@ msgstr "Pólvora"
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
 #: data/default/techs.ruleset:259
 msgid "Horseback Riding"
-msgstr "Arte de Cavalgar"
+msgstr "Montaria"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
 #: data/default/techs.ruleset:265
@@ -9987,7 +9925,7 @@ msgstr "Liderança"
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
 #: data/default/techs.ruleset:307
 msgid "Machine Tools"
-msgstr "Máquinas-Ferramenta"
+msgstr ""
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
 #: data/default/techs.ruleset:313
@@ -10002,7 +9940,7 @@ msgstr "Cartografia"
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
 #: data/default/techs.ruleset:325
 msgid "Masonry"
-msgstr "Maçonaria"
+msgstr "Alvenaria"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
 #: data/default/techs.ruleset:331
@@ -10122,7 +10060,7 @@ msgstr "Sanitarização"
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
 #: data/default/techs.ruleset:481
 msgid "Seafaring"
-msgstr "Navegação"
+msgstr "Navegação de Cabotagem"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
 #: data/default/techs.ruleset:487
@@ -10132,7 +10070,7 @@ msgstr "Vôo Espacial"
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
 #: data/default/techs.ruleset:493
 msgid "Stealth"
-msgstr ""
+msgstr "Camuflagem"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
 #: data/default/techs.ruleset:499
@@ -10152,12 +10090,12 @@ msgstr "Supercondutores"
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
 #: data/default/techs.ruleset:517
 msgid "Tactics"
-msgstr "Tácticas"
+msgstr "Táctica"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
 #: data/default/techs.ruleset:523
 msgid "The Corporation"
-msgstr "A Empresa"
+msgstr "A Corporação"
 
 #: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
 #: data/default/techs.ruleset:529
@@ -10205,7 +10143,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:135 data/default/terrain.ruleset:135
 msgid "Glacier"
-msgstr "Glaciar"
+msgstr "Geleira"
 
 #: data/civ2/terrain.ruleset:143 data/default/terrain.ruleset:143
 msgid "Ivory"
@@ -10261,7 +10199,7 @@ msgstr ""
 #: data/civ1/terrain.ruleset:236 data/civ2/terrain.ruleset:244
 #: data/classic/terrain.ruleset:236 data/default/terrain.ruleset:244
 msgid "Grassland"
-msgstr ""
+msgstr "Pastagens"
 
 #: data/civ1/terrain.ruleset:244 data/civ1/terrain.ruleset:461
 #: data/civ2/terrain.ruleset:252 data/civ2/terrain.ruleset:258
@@ -10304,11 +10242,11 @@ msgstr "Selva"
 #: data/civ1/terrain.ruleset:315 data/civ2/terrain.ruleset:323
 #: data/classic/terrain.ruleset:315 data/default/terrain.ruleset:323
 msgid "Gems"
-msgstr ""
+msgstr "Jóias"
 
 #: data/civ2/terrain.ruleset:329 data/default/terrain.ruleset:329
 msgid "Fruit"
-msgstr "Fruta"
+msgstr "Frutas"
 
 #: data/civ1/terrain.ruleset:337 data/civ2/terrain.ruleset:345
 #: data/classic/terrain.ruleset:337 data/default/terrain.ruleset:345
@@ -10386,7 +10324,7 @@ msgstr "Pântano"
 
 #: data/civ2/terrain.ruleset:501 data/default/terrain.ruleset:501
 msgid "Peat"
-msgstr ""
+msgstr "Turfa"
 
 #: data/civ2/terrain.ruleset:507 data/default/terrain.ruleset:507
 msgid "Spice"
@@ -10531,7 +10469,7 @@ msgstr "Fanáticos"
 #: data/civ1/units.ruleset:300 data/civ2/units.ruleset:305
 #: data/default/units.ruleset:305
 msgid "Partisan"
-msgstr ""
+msgstr "Guerrilheiro"
 
 #: data/civ2/units.ruleset:326 data/default/units.ruleset:326
 msgid ""
@@ -10565,7 +10503,7 @@ msgstr "Fuzileiros"
 #: data/civ1/units.ruleset:392 data/civ2/units.ruleset:409
 #: data/default/units.ruleset:409
 msgid "Paratroopers"
-msgstr "Páratropas"
+msgstr "Para-quedistas"
 
 #: data/civ1/units.ruleset:415 data/civ2/units.ruleset:436
 #: data/default/units.ruleset:436
@@ -10581,7 +10519,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:464 data/default/units.ruleset:464
 msgid "Horsemen"
-msgstr ""
+msgstr "Cavaleiros"
 
 #: data/civ1/units.ruleset:466 data/civ2/units.ruleset:487
 #: data/default/units.ruleset:487
@@ -10601,12 +10539,12 @@ msgstr "Cruzados"
 #: data/civ1/units.ruleset:535 data/civ2/units.ruleset:556
 #: data/default/units.ruleset:556
 msgid "Knights"
-msgstr "Cavaleiros"
+msgstr "Cavaleiros Medievais"
 
 #: data/civ1/units.ruleset:559 data/civ2/units.ruleset:580
 #: data/default/units.ruleset:580
 msgid "Dragoons"
-msgstr "Couraceiros"
+msgstr "Dragões"
 
 #: data/civ1/units.ruleset:443 data/civ2/units.ruleset:603
 #: data/default/units.ruleset:603
@@ -10663,7 +10601,7 @@ msgstr ""
 #: data/civ1/units.ruleset:789 data/civ2/units.ruleset:816
 #: data/default/units.ruleset:816
 msgid "Stealth Fighter"
-msgstr "Caça Furtivo"
+msgstr "Caça Camuflado"
 
 #: data/civ2/units.ruleset:837 data/default/units.ruleset:837
 msgid "An improved Fighter, with improved attack and a higher movement radius."
@@ -10672,7 +10610,7 @@ msgstr ""
 #: data/civ1/units.ruleset:812 data/civ2/units.ruleset:843
 #: data/default/units.ruleset:843
 msgid "Stealth Bomber"
-msgstr "Bombardeiro Furtivo"
+msgstr "Bombardeiro Camuflado"
 
 #: data/civ2/units.ruleset:864 data/default/units.ruleset:864
 msgid "An improved Bomber, with improved attack and a higher movement radius."
@@ -10864,7 +10802,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1283 data/civ2/units.ruleset:1345
 #: data/default/units.ruleset:1345
 msgid "Freight"
-msgstr ""
+msgstr "Trem"
 
 #: data/civ2/units.ruleset:1366 data/default/units.ruleset:1366
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -10882,7 +10820,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1329 data/civ2/units.ruleset:1397
 #: data/default/units.ruleset:1397
 msgid "Barbarian Leader"
-msgstr ""
+msgstr "Líder Bárbaro"
 
 #: data/civ2/units.ruleset:1418 data/default/units.ruleset:1418
 msgid ""
@@ -10937,57 +10875,3 @@ msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
 msgstr ""
-
-#~ msgid "Freeciv 1.9 will be released early October, at %s"
-#~ msgstr "O Freeciv 1.9 será lançado no início de Outubro, em %s"
-
-#, fuzzy
-#~ msgid "Description: %s."
-#~ msgstr "Conscripção"
-
-#, fuzzy
-#~ msgid "nometa          - Close connection to the metaserver"
-#~ msgstr "  -metaserver A\tLiga ao metaservidor em A\n"
-
-#~ msgid "This is the Freeciv client\n"
-#~ msgstr "Este é o cliente Freeciv\n"
-
-#~ msgid "  -help\t\tPrint a summary of the options\n"
-#~ msgstr "  -help\t\tMostra um sumário das opções\n"
-
-#~ msgid "  -log F\tUse F as logfile\n"
-#~ msgstr "  -log F\tUsa F como ficheiro de registo\n"
-
-#~ msgid "  -port N\tconnect to port N\n"
-#~ msgstr "  -port N\tliga ao porto N\n"
-
-#~ msgid "  -version\tPrint the version number\n"
-#~ msgstr "  -version\tMostra o número de versão\n"
-
-#~ msgid "Parse error while loading option file: input is:"
-#~ msgstr "Erro de parsing ao ler o ficheiro de opções: entrada é:"
-
-#~ msgid "Unknown variable found in option file: input is:"
-#~ msgstr "Variável desconhecida no ficheiro de opções: entrada é:"
-
-#~ msgid "Zulus"
-#~ msgstr "Zulus"
-
-#~ msgid "Turks"
-#~ msgstr "Turcos"
-
-#~ msgid "Arabs"
-#~ msgstr "Árabes"
-
-#~ msgid "Incas"
-#~ msgstr "Incas"
-
-#~ msgid "Danes"
-#~ msgstr "Dinamarqueses"
-
-#, fuzzy
-#~ msgid "Finns"
-#~ msgstr "Peixe"
-
-#~ msgid "Bug in spy sabotage code\n"
-#~ msgstr "Bug no código de sabotagem do espião\n"
