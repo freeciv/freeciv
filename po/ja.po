@@ -626,7 +626,7 @@ msgstr "Game: %sを%sから%sへ輸送しました。"
 #, c-format
 msgid "Game: You lost your capital %s. A new palace was built in %s."
 msgstr ""
-"Game: あなたは 首都 %s を失ないました。新しい宮殿が %s に建てられました。"
+"Game: あなたは 首都 %s を失いました。新しい宮殿が %s に建てられました。"
 
 #: server/citytools.c:833
 #, c-format
@@ -645,7 +645,7 @@ msgstr ""
 #: server/citytools.c:942 server/citytools.c:1120
 #, c-format
 msgid "%s lose %s (%i,%i)"
-msgstr "%sは%s (%i,%i)を失ないます。"
+msgstr "%sは%s (%i,%i)を失います。"
 
 #: server/citytools.c:965
 #, c-format
@@ -788,17 +788,17 @@ msgstr "Game: %sの大きさは%dに増えました。"
 #: server/cityturn.c:587
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
-msgstr "Game: 飢饉が%sで起こり、%sを失ないました。"
+msgstr "Game: 飢饉が%sで起こり、%sを失いました。"
 
 #: server/cityturn.c:589
 #, c-format
 msgid "%s lose %s (famine)"
-msgstr "%sは%sを失ないます(飢饉)"
+msgstr "%sは%sを失います(飢饉)"
 
 #: server/cityturn.c:600
 #, c-format
 msgid "Game: Famine causes population loss in %s."
-msgstr "Game: 飢饉で%sの人口を失ないました。"
+msgstr "Game: 飢饉で%sの人口を失いました。"
 
 #: server/cityturn.c:681 server/cityturn.c:721
 #, c-format
@@ -1436,7 +1436,7 @@ msgstr "Game: 不思議や%sは破壊できません!"
 #: server/diplomats.c:966
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
-msgstr "Game: %1$sは%3$sで破壊するつもりの%2$sを見つけれませんでした。"
+msgstr "Game: %1$sは%3$sで破壊するつもりの%2$sを見つけられませんでした。"
 
 #: server/diplomats.c:991
 #, c-format
@@ -1471,7 +1471,7 @@ msgstr "Game: %1$sは%3$sの%2$sを破壊しました。"
 #: server/diplomats.c:1117
 #, c-format
 msgid "Game: Your %s has been eliminated defending against a %s in %s."
-msgstr "Game: %1$sは%2$sから%3$sを守って消されました。"
+msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
 
 #: server/diplomats.c:1126
 #, c-format
@@ -2937,7 +2937,7 @@ msgid ""
 "does not apply if you have just gained tech this turn."
 msgstr ""
 "もしあなたが現在の研究を変えその時に研究ポイントがあったら、ここで指定した割"
-"合だけ研究ポイントから失ないます。ただし、現在のターンに科学を得た場合には、"
+"合だけ研究ポイントから失います。ただし、現在のターンに科学を得た場合には、"
 "この規則は適用されません。"
 
 #: server/stdinhand.c:388
@@ -2990,7 +2990,7 @@ msgstr "都市拡大に必要な食料"
 
 #: server/stdinhand.c:419
 msgid "Percentage food lost when need aqueduct"
-msgstr "水道が必要な時に失なう食料の割合"
+msgstr "水道が必要な時に失う食料の割合"
 
 # ama, yasu
 #: server/stdinhand.c:420
@@ -3035,28 +3035,28 @@ msgstr ""
 msgid "City size before people become unhappy"
 msgstr "市民が不幸にならない都市規模"
 
-# yasu
+# yasu, clefs
 #: server/stdinhand.c:449
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
 msgstr ""
-"他の修正がない時、この規模になった時の最初の市民は普通状態で、それ以後の市民"
-"が不幸状態になります。cityfactor も参照。"
+"他の修正がない時、最初の unhappysize 単位までの市民は普通状態、それ以後の市民"
+"は不幸状態になります。cityfactor も参照。"
 
 #: server/stdinhand.c:456
 msgid "Whether angry citizens are enabled"
 msgstr "怒り市民の有効/無効"
 
+# ama, clefs
 #: server/stdinhand.c:457
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
 msgstr ""
-"Civilization II のような怒り市民を導入します。他の市民クラスと見なされる以前"
-"は、怒り市民は不幸市民になるはずです。unhappysize, cityfactor, 政治体制も見て"
-"下さい。 "
+"Civilization II のような怒り市民を導入します。怒り市民は、他の市民タイプが算"
+"入される前に不幸市民になります。unhappysize、cityfactor、 政治体制も参照。"
 
 #: server/stdinhand.c:464
 msgid "Number of cities for higher unhappiness"
@@ -3070,7 +3070,7 @@ msgid ""
 "numbers of cities."
 msgstr ""
 "プレイヤーが所有する都市の数が cityfactor より多ければ、他の修正を行なう前に "
-"1市民が不幸になります。 unhappysize も見て下さい。このは民主性の時です。他の"
+"1市民が不幸になります。 unhappysize も見て下さい。これは民主制の時です。他の"
 "政治体制では、都市の数は少なくなります。"
 
 #: server/stdinhand.c:473
@@ -3107,12 +3107,12 @@ msgstr ""
 msgid "Chance for conquered building destruction"
 msgstr "占領した建物が壊れる確率"
 
-# yasu
+# yasu, clefs
 #: server/stdinhand.c:492
 msgid ""
 "When a player conquers a city, each City Improvement has this percentage "
 "chance to be destroyed."
-msgstr "都市を占領した場合、その都市毎に破壊される確率が決まっています。"
+msgstr "都市を占領した場合、都市の各施設はそれぞれこの確率で破壊されます。"
 
 #: server/stdinhand.c:497
 msgid "Style of Civ rules"
@@ -3561,14 +3561,15 @@ msgstr ""
 msgid "Whether to log player statistics"
 msgstr "プレイヤー統計のログを行なうかどうか"
 
+# ama, clefs
 #: server/stdinhand.c:810
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn.  These statistics can be used to create power graphs after "
 "the game."
 msgstr ""
-"この変数を 1 に設定したら、プレイヤー統計をターン毎にフィアル \"civscore.log"
-"\" へ追加されます。これらの統計は、ゲーム後パワー・グラフを作るのに使われま"
+"この変数を 1 に設定すると、プレイヤー統計をターン毎にファイル\"civscore.log"
+"\" に追加します。これらの統計は、ゲーム後パワー・グラフを作るのに使われま"
 "す。"
 
 #: server/stdinhand.c:816
@@ -3674,7 +3675,7 @@ msgid ""
 "command now takes connection names, not player names."
 msgstr ""
 "指定したクライアントの接続を切り、ゲームから排除します。ゲームがまだ開始して"
-"いなければ、クライアントのプレイヤーはゲームから排除されません。開始していれ"
+"いなければ、クライアントのプレイヤーはゲームから排除されます。開始していれ"
 "ば、プレイヤーには影響ありません。このコマンドはプレイヤー名ではなく接続名を"
 "取ることに注意して下さい。"
 
@@ -4501,9 +4502,10 @@ msgstr "残念ながらオプション '%s' を閲覧する権限を持っていません。"
 msgid "Unknown option '%s'."
 msgstr "未知のオプション '%s'。"
 
+# ama, clefs
 #: server/stdinhand.c:2566
 msgid "+ means you may change the option"
-msgstr "+ は変更するかもしれないオプションを意味します。"
+msgstr "+ は変更可能なオプションを意味します。"
 
 # ama, clefs
 #: server/stdinhand.c:2567
@@ -5074,12 +5076,12 @@ msgstr "Game: %sは体力が尽きました。"
 #: server/unittools.c:476
 #, c-format
 msgid "%s lose a %s (out of hp)"
-msgstr "%sは%sを失ないます(体力なし)"
+msgstr "%sは%sを失います(体力なし)"
 
 #: server/unittools.c:487
 #, c-format
 msgid "Game: Your %s has been lost on the high seas."
-msgstr "Game: %sを公海で失ないました。"
+msgstr "Game: %sを外洋で失いました。"
 
 #: server/unittools.c:489
 #, c-format
@@ -5099,7 +5101,7 @@ msgstr "Game: %s の燃料が切れました。"
 #: server/unittools.c:544
 #, c-format
 msgid "%s lose a %s (fuel)"
-msgstr "%sは%sを失なう(燃料)"
+msgstr "%sは%sを失う(燃料)"
 
 #: server/unittools.c:708
 #, c-format
@@ -5179,41 +5181,42 @@ msgstr "Game: %sを(%d, %d)から%sへテレポートしました。"
 #: server/unittools.c:1852
 #, c-format
 msgid "Game: %s lost when %s was lost."
-msgstr "Game: %2$sを失った時に%1$sを失ないました。"
+msgstr "Game: %2$sを失った時に%1$sを失いました。"
 
 #: server/unittools.c:1855
 #, c-format
 msgid "%s lose %s when %s lost"
-msgstr "%1$sは%3$sを失った時に%2$sを失ないました。"
+msgstr "%1$sは%3$sを失った時に%2$sを失いました。"
 
+# ama, clefs
 #: server/unittools.c:1903
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
-msgstr "Game: バーバリアンの指導者が捉えられ、金%dが支払われました。"
+msgstr "Game: バーバリアンの指導者が捕えられ、身代金%dが支払われました。"
 
 #: server/unittools.c:1923
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
-msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失ないました。"
+msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
 
 # clefs
 #: server/unittools.c:1926 server/unittools.c:1971
 #, c-format
 msgid "%s lose %s to the %s"
-msgstr "%1$sは%3$sによる攻撃で%2$sを失ないました。"
+msgstr "%1$sは%3$sによる攻撃で%2$sを失いました。"
 
 # Game: You lost 2 units to an attack from Lluis Company's チャリオット Fukuokaの外にいる.
 #: server/unittools.c:1952
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Game: %4$s%2$sの%3$sからの攻撃で%1$d部隊を失ないました。"
+msgstr[0] "Game: %4$s%2$sの%3$sからの攻撃で%1$d部隊を失いました。"
 
 # 射手 lost to an attack from Lluis Companys's チャリオット.
 #: server/unittools.c:1967
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
-msgstr "Game: %2$sの%3$sからの攻撃で%1$sを失ないました。"
+msgstr "Game: %2$sの%3$sからの攻撃で%1$sを失いました。"
 
 #: server/unittools.c:2139
 #, c-format
@@ -6179,17 +6182,17 @@ msgstr "寺院の効果を増やします。\n"
 #: client/helpdata.c:832
 #, c-format
 msgid "Allows %s to build roads on river squares.\n"
-msgstr "%sで川の上に道路を作るとこができるようになります。\n"
+msgstr "%sで川の上に道路を作れるようになります。\n"
 
 #: client/helpdata.c:838
 #, c-format
 msgid "Allows %s to build fortresses.\n"
-msgstr "%sで要塞を作ることができるようになります。\n"
+msgstr "%sで要塞を作れるようになります。\n"
 
 #: client/helpdata.c:845
 #, c-format
 msgid "Allows %s to build airbases.\n"
-msgstr "%sで空港を作ることができるようになります。\n"
+msgstr "%sで空港を作れるようになります。\n"
 
 #: client/helpdata.c:852
 #, c-format
@@ -6782,7 +6785,7 @@ msgstr "スペックファイル %s 用のグラフィックスファイルがロードできません"
 #: client/agents/cma_core.c:640
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
-msgstr "CMA: %s の管理を失ないました。都市を切り離しています。"
+msgstr "CMA: %s の管理を失いました。都市を切り離しています。"
 
 #: client/agents/cma_core.c:1789
 #, c-format
@@ -7165,10 +7168,11 @@ msgstr " - 祝典"
 msgid " - happy"
 msgstr " - 幸福"
 
+# clefs
 #: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk/citydlg.c:1710
 #: client/gui-mui/citydlg.c:1908
 msgid "blocked"
-msgstr ""
+msgstr "拡大不能"
 
 #: client/gui-gtk-2.0/citydlg.c:1898 client/gui-gtk/citydlg.c:1913
 msgid " (worklist)"
@@ -7615,17 +7619,18 @@ msgstr "都市の建造物"
 msgid "Wonders in City"
 msgstr "都市の不思議"
 
+# clefs
 #: client/gui-gtk-2.0/cityrep.c:1221 client/gui-gtk/cityrep.c:895
 msgid "Available Units"
-msgstr "存在する部隊"
+msgstr "建造できる部隊"
 
 #: client/gui-gtk-2.0/cityrep.c:1224 client/gui-gtk/cityrep.c:891
 msgid "Available Improvements"
-msgstr "存在する建造物"
+msgstr "建設できる建造物"
 
 #: client/gui-gtk-2.0/cityrep.c:1227 client/gui-gtk/cityrep.c:899
 msgid "Available Wonders"
-msgstr "存在する不思議"
+msgstr "建設できる不思議"
 
 #: client/gui-gtk-2.0/cma_fe.c:136 client/gui-gtk/cma_fe.c:131
 msgid "Presets"
@@ -8444,6 +8449,9 @@ msgstr "Freeciv"
 msgid "Turn Done"
 msgstr "ターン終了"
 
+# ama, clefs
+# was "さぁ、地獄へ落ちろ!"
+# 変更には抵抗感がありますが…
 #: client/gui-gtk-2.0/gui_main.c:811 client/gui-gtk/gui_main.c:702
 #: client/gui-mui/gui_main.c:1026 client/gui-win32/gui_main.c:442
 #: data/Freeciv:2744
@@ -8454,7 +8462,7 @@ msgid ""
 msgstr ""
 "Freeciv はフリーソフトウェアです。特定の条件に従って Freeciv のコピー\n"
 "を配布することを歓迎します。ヘルプメニューの\"著作権\"の項目を見て下さい。\n"
-"さぁ、地獄へ落ちろ!"
+"…さぁ、コテンパンにしてやれ!"
 
 #: client/gui-gtk-2.0/gui_main.c:1132 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
@@ -8510,7 +8518,7 @@ msgstr "贅沢: 合計 %d"
 #: client/gui-gtk-2.0/happiness.c:292 client/gui-gtk/happiness.c:292
 #: client/gui-mui/citydlg.c:2361 client/gui-win32/happiness.c:234
 msgid "Buildings: "
-msgstr "建物物: "
+msgstr "建造物: "
 
 #: client/gui-gtk-2.0/happiness.c:299 client/gui-gtk-2.0/happiness.c:306
 #: client/gui-gtk-2.0/happiness.c:313 client/gui-gtk-2.0/happiness.c:334
@@ -8834,18 +8842,19 @@ msgstr "+%d 資源 / %d"
 msgid "Ok"
 msgstr "了解"
 
+# clefs
 #: client/gui-gtk-2.0/inteldlg.c:80 client/gui-gtk/inteldlg.c:80
 #: client/gui-mui/inteldlg.c:111 client/gui-win32/inteldlg.c:85
 #: data/Freeciv:156
 msgid "Foreign Intelligence Report"
-msgstr "外国の技術報告"
+msgstr "外国の諜報報告"
 
 #: client/gui-gtk-2.0/inteldlg.c:85 client/gui-gtk/inteldlg.c:85
 #: client/gui-mui/inteldlg.c:138 client/gui-win32/inteldlg.c:94
 #: client/gui-xaw/inteldlg.c:93
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "%sの国の技術情報"
+msgstr "%sの国の諜報情報"
 
 # Ruler: 大統領 Lluis Companys
 #: client/gui-gtk-2.0/inteldlg.c:98 client/gui-gtk/inteldlg.c:98
@@ -9721,10 +9730,11 @@ msgstr "ホスト"
 msgid "C_lose"
 msgstr "閉じる(_l)"
 
+# clefs
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
 msgid "_Intelligence"
-msgstr "技術(_I)"
+msgstr "諜報(_I)"
 
 #: client/gui-gtk-2.0/plrdlg.c:169 client/gui-gtk/plrdlg.c:169
 #: client/gui-mui/plrdlg.c:329
@@ -9881,6 +9891,7 @@ msgstr "活躍中"
 msgid "_Upgrade"
 msgstr "新型へ(_U)"
 
+# clefs
 #: client/gui-gtk-2.0/repodlgs.c:991 client/gui-gtk/repodlgs.c:898
 #: client/gui-mui/repodlgs.c:766 client/gui-win32/repodlgs.c:578
 #: client/gui-xaw/repodlgs.c:992
@@ -9889,6 +9900,8 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
+"%sを%sに一部隊あたり%dで可能な限りアップグレードしますか？"
+"現在の資金は%dです。"
 
 #: client/gui-gtk-2.0/repodlgs.c:1106
 msgid "Totals:"
@@ -12052,7 +12065,7 @@ msgstr ""
 "ゲームを開始している時、もう接続していないプレイヤー(AI プレイヤーを含む)とし"
 "て誰でも接続できます。AI プレイヤーによる接続は、単に人間がコントロールしてい"
 "ないだけです。サーバの設定に関係ありません。もしあなたがあるゲームの接続を失"
-"なって再接続をするなら、オリジナルのニックネームではなく支配者の名前を使いま"
+"って再接続をするなら、オリジナルのニックネームではなく支配者の名前を使いま"
 "す。サーバがメタサーバへ報告しているなら、プレイヤー名はそこに表れます。"
 
 #: data/helpdata.txt:431
@@ -12849,7 +12862,7 @@ msgstr ""
 "空中部隊と同様、ヘリコプターは敵部隊や敵都市によって占拠されている場所以外の"
 "全ての場所を移動でき、また行動力は体力の低下に影響されません。ヘリコプターは"
 "燃料を必要としませんが、不思議「国際連合」を持っていなければ、都市や空港以外"
-"の土地でターンを過ごすと少し体力を失ないます。空中部隊と違い、ヘリコプターは"
+"の土地でターンを過ごすと少し体力を失います。空中部隊と違い、ヘリコプターは"
 "敵の都市を占領できます。"
 
 #: data/helpdata.txt:858
@@ -12872,12 +12885,12 @@ msgstr ""
 "戦闘でダメージを受けた部隊は、移動しなかったターンに回復を計ります。通常、移"
 "動しなかった部隊はターンごとに体力1回復します。兵舍のある都市にいる地上部隊、"
 "港施設のある都市にいる海上(中)部隊、空港のある都市にいる空中部隊は、その都市"
-"で移動せずに過ごすことで失なった体力を完全に回復できます。それ以外の都市で過"
+"で移動せずに過ごすことで失った体力を完全に回復できます。それ以外の都市で過"
 "ごしたら、部隊の基本体力の1/3回復します。要塞の上で過ごしたら、通常の回復に加"
 "え、基礎体力の1/4回復します。防御姿勢をとっている部隊は、余分に体力を回復しま"
 "す。国際連合の不思議を持っていたら、毎ターンさらに体力2多く回復します。これは"
 "移動した部隊でも起こります。他には、都市でターンを終えなかったヘリコプター"
-"は、体力2を失ないます。ダメージを受けている見張り番部隊は、体力が全快すると起"
+"は、体力2を失います。ダメージを受けている見張り番部隊は、体力が全快すると起"
 "こされます。"
 
 # ama, clefs
@@ -13037,24 +13050,26 @@ msgid ""
 msgstr ""
 " - 艦船が陸上にある陸ユニットを攻撃する場合、双方とも火力は1になります。"
 
+# was fuzzy
 #: data/helpdata.txt:951
 msgid ""
-"After these preliminaries, combat occurs, as long as both units are still "
-"alive (i.e., hit points are greater than 0).  Each round, a random number "
-"between 1 and the sum of the attacker's and defender's strengths is "
-"generated.  If this number is greater than the defender's strength, the "
-"defender loses hit points equal to the attacker's firepower.  Otherwise, the "
-"attacker loses hit points equal to the defender's firepower. The first unit "
-"to reach 0 hit points (or negative hit points) loses. "
+"After these preliminaries, combat occurs, as long as both units are "
+"still alive (i.e., hit points are greater than 0).  Each round, a "
+"random number between 1 and the sum of the attacker's and defender's "
+"strengths is generated.  If this number is greater than the "
+"defender's strength, the defender loses hit points equal to the "
+"attacker's firepower.  Otherwise, the attacker loses hit points "
+"equal to the defender's firepower. The first unit to reach 0 hit "
+"points (or negative hit points) loses. "
 msgstr ""
 "これらの準備の後、両方の部隊がまだ生きていたら (即ち体力が 0 より大きければ) "
 "戦闘が行なわれます。 各ラウンド、1〜「攻撃側と防御側の強さの合計」までの間の"
 "乱数が生成されます。 この数が防御側の強さより大きければ、防御側は攻撃側の火力"
-"だけ体力を失ないます(攻撃側が地上部隊を攻撃する船なら、防御側は体力 1 だけ失"
-"ないます)。そうでなければ、攻撃側は防御側の火力だけ体力を失ないます(防御側が"
+"だけ体力を失います(攻撃側が地上部隊を攻撃する船なら、防御側は体力 1 だけ失"
+"います)。そうでなければ、攻撃側は防御側の火力だけ体力を失います(防御側が"
 "都市内にいる船の時を除きます。停泊している船は効果的な作戦行動を起こせませ"
 "ん。また、攻撃側が地上部隊を攻撃する船の時も除きます。これらの場合、攻撃側は"
-"体力 1 を失ないます)。最初に体力 0 か負になった部隊が消滅します。"
+"体力 1 を失います)。最初に体力 0 か負になった部隊が消滅します。"
 
 # yasu, ama
 #: data/helpdata.txt:966
@@ -13141,8 +13156,8 @@ msgid ""
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 "各戦闘ラウンドで、 1から 282までの乱数が生成されます。その数が 202より大きけ"
-"れば(およそ 28%の確率)、防御側が体力 1を失ないます。そうでなければ(およそ 72%"
-"の確率)、攻撃側は体力 1を失ないます。"
+"れば(およそ 28%の確率)、防御側が体力 1を失います。そうでなければ(およそ 72%"
+"の確率)、攻撃側は体力 1を失います。"
 
 # ama, yasu
 #: data/helpdata.txt:1013
@@ -13155,8 +13170,8 @@ msgid ""
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
 "両部隊とも体力は 20あるので、防御側が有利です。防御側は戦闘で体力のおよそ 40%"
-"を失なうでしょう。しかし、両部隊が 0以外の強さである限り、確実な結果はありま"
-"せん。防御側は無傷かもしれないし、ほとんどの体力を失なうかもしれないし、負け"
+"を失うでしょう。しかし、両部隊が 0以外の強さである限り、確実な結果はありま"
+"せん。防御側は無傷かもしれないし、ほとんどの体力を失うかもしれないし、負け"
 "ることさえあります。"
 
 #: data/helpdata.txt:1023
@@ -13202,6 +13217,7 @@ msgstr "内部では、攻撃側と防御側で使われる値はそれぞれ 180 と 225 です。"
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "戦艦の火力は 2から 1に修正されます。"
 
+# ama, clefs
 # was fuzzy
 #: data/helpdata.txt:1044
 #, no-c-format
@@ -13211,10 +13227,10 @@ msgid ""
 "the attacker loses 1 hit point."
 msgstr ""
 "各ラウンドで、 1から 405までの乱数が生成されます。その数が 225より大きければ"
-"(およそ 44%の確率)、防御側が体力 2を失ないます(攻撃側の火力は 2だから)。そう"
-"でなれれば、攻撃側が体力 1を失ないます。"
+"(およそ 44%の確率)、防御側が体力 1を失います。そうでなれれば、攻撃側が体力"
+" 1を失います。"
 
-# yasu
+# yasu, clefs
 # was fuzzy
 #: data/helpdata.txt:1055
 #, no-c-format
@@ -13225,10 +13241,9 @@ msgid ""
 "its hit points during the fight, and should expect to have no movement "
 "points left."
 msgstr ""
-"この場合、攻撃側が非常に優位です。戦艦の攻撃は各ラウンドで 50% 以下の確率でし"
-"か成功しません。しかし、成功すると 2倍のダメージを与えることができます。そし"
-"て、戦艦は 2倍のヒットポイントを持っています。戦艦は約 30% のヒットポイントを"
-"失うと推測されます。戦闘後、まだ移動力が 2 ポイント残っています。"
+"この場合、攻撃側が非常に優位です。戦艦の各ラウンドでの攻撃成功率は 25% 劣りま"
+"すが、戦艦は 2倍のヒットポイントを持っています。戦艦は約 60% のヒットポイント"
+"を失うと推測されます。戦闘後、移動力はおそらく残らないでしょう。"
 
 #: data/helpdata.txt:1064
 msgid "Zones of Control"
@@ -13563,7 +13578,7 @@ msgid ""
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
 msgstr ""
-"内戦は国を荒廃させます。首都(宮殿)を失なうことで内戦が引き起こされます。都市"
+"内戦は国を荒廃させます。首都(宮殿)を失うことで内戦が引き起こされます。都市"
 "の半数以下が反乱を起こし、新しい(人工知能の)指導者への忠誠を誓います。新しい"
 "指導者は国庫の半分を略奪し、全ての科学の発展をそのまま保持します。"
 
@@ -14136,8 +14151,8 @@ msgstr ""
 "に、革命の煽動に必要な費用は、(全ての政治体制で)首都からの距離に関係しま"
 "す。\n"
 "\n"
-"首都は大事に扱って下さい。首都を失なうと、内戦に突入するかもしれません。また"
-"首都を失なうことは宇宙船を失なうことにもなります。"
+"首都は大事に扱って下さい。首都を失うと、内戦に突入するかもしれません。また"
+"首都を失うことは宇宙船を失うことにもなります。"
 
 #: data/default/buildings.ruleset:863 data/civ2/buildings.ruleset:663
 #: data/civ1/buildings.ruleset:675 data/history/buildings.ruleset:672
@@ -14641,7 +14656,7 @@ msgid ""
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
 "cities)."
 msgstr ""
-"全ての海上(中)部隊の移動力を1増やし、さらにトライリームを高波で失なう危険を排"
+"全ての海上(中)部隊の移動力を1増やし、さらにトライリームを高波で失う危険を排"
 "除します。全ての新しく生産される海上(中)部隊をベテランにします。"
 
 #: data/default/buildings.ruleset:1783 data/civ2/buildings.ruleset:1568
@@ -15420,8 +15435,8 @@ msgstr ""
 "民主制下では、戦闘部隊の維持に(工業)生産物1が必要です。さらに以下の部隊は不幸"
 "市民を引き起こします:\n"
 "\n"
-"- 攻撃力が1以上の部隊が都市内か友好的な都市の範囲3以内の要塞にいないなら、不"
-"幸市民2が生み出されます。\n"
+"- 攻撃力が1以上の部隊が都市内か友好的な都市の範囲3以内の要塞以外の場所にいる"
+"なら、不幸市民2が生み出されます。\n"
 "\n"
 "- 攻撃力が1以上の航空部隊が都市内にいるなら、不幸市民1が生み出されます。戦闘"
 "機は不幸市民を作りません。\n"
@@ -16718,7 +16733,7 @@ msgid ""
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 "ヒント: 高速な艦艇数隻と戦艦で空母を護衛しましょう。航空機を満載した空母を失"
-"なうと被害は甚大です。"
+"うと被害は甚大です。"
 
 #: data/default/units.ruleset:1427 data/civ2/units.ruleset:1364
 #: data/civ1/units.ruleset:1317 data/history/units.ruleset:1427
