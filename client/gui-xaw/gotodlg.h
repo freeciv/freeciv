@@ -13,8 +13,11 @@
 #ifndef FC__GOTODLG_H
 #define FC__GOTODLG_H
 
-void popup_goto_dialog(void);
+#include <X11/Intrinsic.h>
+
+#include "gotodlg_g.h"
+
 void popup_goto_dialog_action(Widget w, XEvent *event, 
 			      String *argv, Cardinal *argc);
 
-#endif
+#endif  /* FC__GOTODLG_H */

@@ -434,3 +434,19 @@ GdkPixmap *create_overlay_unit(int i)
 
   return pm;
 }
+
+/***************************************************************************
+  This function is so that packhand.c can be gui-independent, and
+  not have to deal with Sprites itself.
+***************************************************************************/
+void free_intro_radar_sprites(void)
+{
+  if (intro_gfx_sprite) {
+    free_sprite(intro_gfx_sprite);
+    intro_gfx_sprite=NULL;
+  }
+  if (radar_gfx_sprite) {
+    free_sprite(radar_gfx_sprite);
+    radar_gfx_sprite=NULL;
+  }
+}

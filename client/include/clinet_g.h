@@ -10,13 +10,21 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__CLINET_G_H
+#define FC__CLINET_G_H
 
-#include <gtk/gtk.h>
+#define DEFAULT_SOCK_PORT 5555
+#define METALIST_ADDR "http://www.daimi.aau.dk/~lancelot/freeciv.html"
 
-#include "chatline_g.h"
+struct connection;
 
-void inputline_return(GtkWidget *w, gpointer data);
+int connect_to_server(char *name, char *hostname, int port, char *errbuf);
+void disconnect_from_server(void);
+void close_server_connection(void);
+int client_open_connection(char *host, int port);
+void connection_gethostbyaddr(struct connection *pconn, char *desthost);
 
-#endif  /* FC__CHATLINE_H */
+extern struct connection aconnection;
+/* this is the client's connection to the server */
+
+#endif  /* FC__CLINET_G_H */

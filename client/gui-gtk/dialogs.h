@@ -13,32 +13,16 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
-struct tile;
-struct unit;
-struct city;
+#include <gtk/gtk.h>
 
-void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
-void popup_notify_dialog(char *headline, char *lines);
+#include "dialogs_g.h"
+
+struct tile;
+
 void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname, int state);
 GtkWidget *popup_message_dialog(GtkWidget *parent, char *shellname, char *text,
 				...);
 void destroy_message_dialog(GtkWidget *button);
-
-void popup_races_dialog(void);
-void popdown_races_dialog(void);
-void popup_unit_select_dialog(struct tile *ptile);
-
-void races_toggles_set_sensitive(int bits);
-
-void popup_revolution_dialog(void);
-void popup_government_dialog(void);
-void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity);
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y);
-void popup_incite_dialog(struct city *pcity);
-void popup_bribe_dialog(struct unit *punit);
-
-void process_caravan_arrival(struct unit *punit);
 
 void destroy_me_callback(GtkWidget *w, gpointer data);
 void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);

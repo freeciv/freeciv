@@ -10,13 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__SPACESHIPDLG_G_H
+#define FC__SPACESHIPDLG_G_H
 
-#include <gtk/gtk.h>
+struct player;
 
-#include "chatline_g.h"
+void popup_spaceship_dialog(struct player *pplayer);
+void popdown_spaceship_dialog(struct player *pplayer);
+void refresh_spaceship_dialog(struct player *pplayer);
 
-void inputline_return(GtkWidget *w, gpointer data);
-
-#endif  /* FC__CHATLINE_H */
+#endif  /* FC__SPACESHIPDLG_G_H */

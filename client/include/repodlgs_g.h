@@ -10,13 +10,19 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__REPODLGS_G_H
+#define FC__REPODLGS_G_H
 
-#include <gtk/gtk.h>
+void report_update_delay_on(void);
+void report_update_delay_off(void);
+char *get_report_title(char *report_name);
+void update_report_dialogs(void);
 
-#include "chatline_g.h"
+void science_dialog_update(void);
+void popup_science_dialog(int make_modal);
+void trade_report_dialog_update(void);
+void popup_trade_report_dialog(int make_modal);
+void activeunits_report_dialog_update(void);
+void popup_activeunits_report_dialog(int make_modal);
 
-void inputline_return(GtkWidget *w, gpointer data);
-
-#endif  /* FC__CHATLINE_H */
+#endif  /* FC__REPODLGS_G_H */

@@ -23,7 +23,7 @@
 #include "log.h"
 #include "version.h"
 
-#include "chatline.h"
+#include "chatline_g.h"
 #include "cityrep.h"
 
 #include "options.h"

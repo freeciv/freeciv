@@ -13,7 +13,10 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
-int gui_server_connect(void);
+#include <X11/Intrinsic.h>
+
+#include "connectdlg_g.h"
+
 void connect_dialog_returnkey(Widget w, XEvent *event, String *params,
 			      Cardinal *num_params);
 

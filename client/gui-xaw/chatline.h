@@ -15,11 +15,9 @@
 
 #include <X11/Intrinsic.h>
 
+#include "chatline_g.h"
+
 void inputline_return(Widget w,	XEvent *event, String *params,
 		      Cardinal *num_params);
-
-void append_output_window(char *astring);
-void log_output_window(void);
-void clear_output_window(void);
 
 #endif  /* FC__CHATLINE_H */

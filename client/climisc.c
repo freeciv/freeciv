@@ -27,11 +27,11 @@ used throughout the client.
 #include "log.h"
 #include "map.h"
 
-#include "chatline.h"
-#include "citydlg.h"
+#include "chatline_g.h"
+#include "citydlg_g.h"
 #include "cityrep.h"
-#include "mapctrl.h"
-#include "mapview.h"
+#include "mapctrl_g.h"
+#include "mapview_g.h"
 
 #include "climisc.h"
 

@@ -13,9 +13,9 @@
 #ifndef FC__SPACESHIPDLG_H
 #define FC__SPACESHIPDLG_H
 
-void popup_spaceship_dialog(struct player *pplayer);
-void popdown_spaceship_dialog(struct player *pplayer);
-void refresh_spaceship_dialog(struct player *pplayer);
+#include <X11/Intrinsic.h>
+
+#include "spaceshipdlg_g.h"
 
 void close_spaceship_dialog_action(Widget w, XEvent *event, String *argv,
 				   Cardinal *argc);

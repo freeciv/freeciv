@@ -15,9 +15,7 @@
 
 #include <gtk/gtk.h>
 
-void popup_spaceship_dialog(struct player *pplayer);
-void popdown_spaceship_dialog(struct player *pplayer);
-void refresh_spaceship_dialog(struct player *pplayer);
+#include "spaceshipdlg_g.h"
 
 void close_spaceship_dialog_action(GtkWidget *w, gpointer data);
 

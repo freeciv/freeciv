@@ -740,7 +740,7 @@ void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_
 /**************************************************************************
 ...
 **************************************************************************/
-int ui_main(int argc, char **argv)
+void ui_main(int argc, char **argv)
 {
   GdkBitmap	      *icon_bitmap;
 
@@ -860,8 +860,6 @@ int ui_main(int argc, char **argv)
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gtk_main();
-  	
-  return 0;
 }
 
 /**************************************************************************

@@ -10,13 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__GUI_MAIN_G_H
+#define FC__GUI_MAIN_G_H
 
-#include <gtk/gtk.h>
+void ui_main(int argc, char *argv[]);
+void enable_turn_done_button(void);
+void remove_net_input(void);
 
-#include "chatline_g.h"
-
-void inputline_return(GtkWidget *w, gpointer data);
-
-#endif  /* FC__CHATLINE_H */
+#endif  /* FC__GUI_MAIN_G_H */

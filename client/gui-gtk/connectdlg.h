@@ -13,6 +13,8 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
-void gui_server_connect(void);
+#include "connectdlg_g.h"
 
-#endif
+/* nothing to add */
+
+#endif  /* FC__CONNECTDLG_H */

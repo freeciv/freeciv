@@ -13,16 +13,8 @@
 #ifndef FC__REPODLGS_H
 #define FC__REPODLGS_H
 
-void report_update_delay_on(void);
-void report_update_delay_off(void);
-char *get_report_title(char *report_name);
-void update_report_dialogs(void);
+#include "repodlgs_g.h"
 
-void science_dialog_update(void);
-void popup_science_dialog(int make_modal);
-void trade_report_dialog_update(void);
-void popup_trade_report_dialog(int make_modal);
-void activeunits_report_dialog_update(void);
-void popup_activeunits_report_dialog(int make_modal);
+/* nothing else */
 
 #endif  /* FC__REPODLGS_H */

@@ -62,7 +62,7 @@ void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 
-int gui_server_connect(void)
+void gui_server_connect(void)
 {
   Widget shell, form, label, label2;
   char buf[512];
@@ -114,9 +114,6 @@ int gui_server_connect(void)
   XtOverrideTranslations(iport, textfieldtranslations);
 
   XtSetKeyboardFocus(toplevel, shell);
-
-
-  return 1;
 }
 
 /****************************************************************

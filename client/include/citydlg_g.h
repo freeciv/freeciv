@@ -10,13 +10,18 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CHATLINE_H
-#define FC__CHATLINE_H
+#ifndef FC__CITYDLG_G_H
+#define FC__CITYDLG_G_H
 
-#include <gtk/gtk.h>
+struct unit;
+struct city;
 
-#include "chatline_g.h"
+void activate_unit(struct unit *punit);
+void popup_city_dialog(struct city *pcity, int make_modal);
+void popdown_city_dialog(struct city *pcity);
+void popdown_all_city_dialogs(void);
+void refresh_city_dialog(struct city *pcity);
+void refresh_unit_city_dialogs(struct unit *punit);
 
-void inputline_return(GtkWidget *w, gpointer data);
+#endif  /* FC__CITYDLG_G_H */
 
-#endif  /* FC__CHATLINE_H */

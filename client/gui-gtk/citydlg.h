@@ -15,12 +15,8 @@
 
 #include <gtk/gtk.h>
 
-void activate_unit(struct unit *punit);
-void popup_city_dialog(struct city *pcity, int make_modal);
-void popdown_city_dialog(struct city *pcity);
-void popdown_all_city_dialogs(void);
+#include "citydlg_g.h"
+
 gint button_down_citymap(GtkWidget *w, GdkEventButton *ev);
-void refresh_city_dialog(struct city *pcity);
-void refresh_unit_city_dialogs(struct unit *punit);
 
 #endif  /* FC__CITYDLG_H */

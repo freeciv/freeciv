@@ -25,24 +25,24 @@
 #include "spaceship.h"
 #include "unit.h"
 
-#include "chatline.h"
-#include "citydlg.h"
+#include "chatline_g.h"
+#include "citydlg_g.h"
 #include "cityrep.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "clinet.h"		/* aconnection */
-#include "dialogs.h"
-#include "graphics.h"
-#include "gui_main.h"
+#include "clinet_g.h"		/* aconnection */
+#include "dialogs_g.h"
+#include "graphics_g.h"
+#include "gui_main_g.h"
 #include "helpdlg.h"		/* boot_help_texts */
-#include "mapctrl.h"
-#include "mapview.h"
-#include "menu.h"
+#include "mapctrl_g.h"
+#include "mapview_g.h"
+#include "menu_g.h"
 #include "meswindlg.h"
 #include "options.h"
 #include "plrdlg.h"
-#include "repodlgs.h"
-#include "spaceshipdlg.h"
+#include "repodlgs_g.h"
+#include "spaceshipdlg_g.h"
 
 #include "packhand.h"
 
@@ -151,8 +151,8 @@ void handle_game_state(struct packet_generic_integer *packet)
 
     if(get_unit_in_focus())
       center_tile_mapcanvas(get_unit_in_focus()->x, get_unit_in_focus()->y);
-    if(intro_gfx_sprite) { free_sprite(intro_gfx_sprite); intro_gfx_sprite=NULL; };
-    if(radar_gfx_sprite) { free_sprite(radar_gfx_sprite); radar_gfx_sprite=NULL; };
+    
+    free_intro_radar_sprites();
   }
 }
 

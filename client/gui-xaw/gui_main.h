@@ -15,13 +15,12 @@
 
 #include <X11/Intrinsic.h>
 
-void ui_main(int argc, char *argv[]);
+#include "gui_main_g.h"
+
 void setup_widgets(void);
 
 void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
 void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void remove_net_callback(void);
-void remove_net_input(void);
-void enable_turn_done_button(void);
 
 #endif  /* FC__GUI_MAIN_H */

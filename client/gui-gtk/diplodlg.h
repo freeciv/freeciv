@@ -13,13 +13,10 @@
 #ifndef FC__DIPLODLG_H
 #define FC__DIPLODLG_H
 
-#include "packets.h"
+#include <gtk/gtk.h>
 
-void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa);
-void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa);
-void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa);
-void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa);
-void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa);
+#include "diplodlg_g.h"
+
 void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
 
 #endif  /* FC__DIPLODLG_H */

@@ -15,8 +15,9 @@
 
 #include <X11/Intrinsic.h>
 
+#include "menu_g.h"
+
 void setup_menus(Widget parent_form);
-void update_menus(void);
 
 #endif  /* FC__MENU_H */
 

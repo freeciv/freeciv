@@ -10,30 +10,31 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__DIALOGS_H
-#define FC__DIALOGS_H
-
-#include <X11/Intrinsic.h>
-
-#include "dialogs_g.h"
+#ifndef FC__DIALOGS_G_H
+#define FC__DIALOGS_G_H
 
 struct tile;
+struct unit;
+struct city;
 
-Widget popup_message_dialog(Widget parent, char *shellname, char *text, ...);
-void destroy_message_dialog(Widget button);
+void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
+void popup_notify_dialog(char *headline, char *lines);
 
-void popup_about_dialog(void);
-void races_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params);
+void popup_races_dialog(void);
+void popdown_races_dialog(void);
+
 void popup_unit_select_dialog(struct tile *ptile);
 
-enum help_type_dialog {HELP_COPYING_DIALOG, HELP_KEYS_DIALOG};
+void races_toggles_set_sensitive(int bits);
 
-void free_bitmap_destroy_callback(Widget w, XtPointer client_data, 
-				  XtPointer call_data);
-void destroy_me_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data);
+void popup_revolution_dialog(void);
+void popup_government_dialog(void);
+void popup_caravan_dialog(struct unit *punit,
+			  struct city *phomecity, struct city *pdestcity);
+void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y);
+void popup_incite_dialog(struct city *pcity);
+void popup_bribe_dialog(struct unit *punit);
 
-void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void process_caravan_arrival(struct unit *punit);
 
-#endif  /* FC__DIALOGS_H */
+#endif  /* FC__DIALOGS_G_H */

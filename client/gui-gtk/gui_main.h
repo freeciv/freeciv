@@ -15,9 +15,8 @@
 
 #include <gtk/gtk.h>
 
-int ui_main(int argc, char **argv);
-void enable_turn_done_button(void);
+#include "gui_main_g.h"
+
 void end_turn_callback(GtkWidget *w, gpointer data);
-void remove_net_input(void);
 
 #endif  /* FC__GUI_MAIN_H */
