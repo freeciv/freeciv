@@ -255,11 +255,6 @@ gettext package. We recommend you versions >= 0.10.38. Or use
   fi
 fi
 
-
-dnl note this has to match the path installed by po/Makefile
-FC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
-AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
-
 EXTRA_GCC_DEBUG_CFLAGS=""
 
 if test -n "$GCC"; then
@@ -308,6 +303,15 @@ if test x"$MINGW32" = "xyes"; then
   AC_DEFINE(HAVE_WINSOCK, 1, [Mingw32-specific setting - winsock])
   LIBS="$LIBS -lwsock32"
 fi
+
+dnl note this has to match the path installed by po/Makefile
+if test x"$MINGW32" != "xyes"; then
+  FC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
+  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
+else
+  FC_EXPAND_DIR(LOCALEDIR, './share/locale')
+  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
+fi  
 
 dnl Check for zlib (needed for libpng)
 AC_CHECK_LIB(z, gzgets, , 
