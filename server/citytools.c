@@ -1202,8 +1202,9 @@ void remove_city(struct city *pcity)
      savepalace is on. */
   if (had_palace && game.savepalace) {
     build_free_palace(pplayer, city_name);
-    free(city_name);
   }
+
+  free(city_name);
 
   sync_cities();
 }
