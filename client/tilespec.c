@@ -168,6 +168,9 @@ struct small_sprite {
   struct specfile *sf;
   int x, y, width, height;
 
+  /* A little more (optional) data. */
+  int hot_x, hot_y;
+
   struct Sprite *sprite;
 };
 
@@ -736,11 +739,16 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
       int x1, y1;
       char **tags;
       int num_tags;
+      int hot_x, hot_y;
 
       row = secfile_lookup_int(file, "%s.tiles%d.row", gridnames[i], j);
       column = secfile_lookup_int(file, "%s.tiles%d.column", gridnames[i], j);
       tags = secfile_lookup_str_vec(file, &num_tags, "%s.tiles%d.tag",
 				    gridnames[i], j);
+      hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
+					 gridnames[i], j);
+      hot_y = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_y",
+					 gridnames[i], j);
 
       /* there must be at least 1 because of the while(): */
       assert(num_tags > 0);
@@ -756,6 +764,8 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
       ss->height = dy;
       ss->sf = sf;
       ss->sprite = NULL;
+      ss->hot_x = hot_x;
+      ss->hot_y = hot_y;
 
       small_sprite_list_prepend(small_sprites, ss);
 
@@ -785,15 +795,21 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
     char **tags;
     char *filename;
     int num_tags, k;
+    int hot_x, hot_y;
 
     tags
       = secfile_lookup_str_vec(file, &num_tags, "extra.sprites%d.tag", i);
     filename = secfile_lookup_str(file, "extra.sprites%d.file", i);
 
+    hot_x = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_x", i);
+    hot_y = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_y", i);
+
     ss->ref_count = 0;
     ss->file = mystrdup(filename);
     ss->sf = NULL;
     ss->sprite = NULL;
+    ss->hot_x = hot_x;
+    ss->hot_y = hot_y;
 
     small_sprite_list_prepend(small_sprites, ss);
 
@@ -1369,6 +1385,17 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(spaceship.structural,   "spaceship.structural");
   SET_SPRITE(spaceship.fuel,         "spaceship.fuel");
   SET_SPRITE(spaceship.propulsion,   "spaceship.propulsion");
+
+  for (i = 0; i < CURSOR_LAST; i++) {
+    const char *names[CURSOR_LAST] = {"goto", "patrol", "paradrop", "nuke"};
+    struct small_sprite *ss;
+
+    my_snprintf(buffer, sizeof(buffer), "cursor.%s", names[i]);
+    SET_SPRITE(cursor[i].icon, buffer);
+    ss = hash_lookup_data(sprite_hash, buffer);
+    sprites.cursor[i].hot_x = ss->hot_x;
+    sprites.cursor[i].hot_y = ss->hot_y;
+  }
 
   /* Isolated road graphics are used by roadstyle 0 and 1*/
   if (roadstyle == 0 || roadstyle == 1) {
@@ -3685,6 +3712,19 @@ struct Sprite *get_treaty_thumb_sprite(bool on_off)
 struct sprite_vector *get_unit_explode_animation(void)
 {
   return &sprites.explode.unit;
+}
+
+/**************************************************************************
+  Returns a sprite for the given cursor.  The "hot" coordinates (the
+  active coordinates of the mouse relative to the sprite) are placed int
+  (*hot_x, *hot_y).
+**************************************************************************/
+struct Sprite *get_cursor_sprite(enum cursor_type cursor,
+				 int *hot_x, int *hot_y)
+{
+  *hot_x = sprites.cursor[cursor].hot_x;
+  *hot_y = sprites.cursor[cursor].hot_y;
+  return sprites.cursor[cursor].icon;
 }
 
 /**************************************************************************

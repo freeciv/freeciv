@@ -70,6 +70,7 @@ files =
   "trident/units.spec",
   "isotrident/unitextras.spec",
   "misc/flags.spec",
+  "misc/cursors.spec",
   "misc/space.spec",
   "misc/treaty.spec",
   "isotrident/nuke.spec",

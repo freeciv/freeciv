@@ -215,17 +215,17 @@ void update_unit_info_label(struct unit *punit)
       XUndefineCursor(display, XtWindow(map_canvas));
       break;
     case HOVER_PATROL:
-      XDefineCursor(display, XtWindow(map_canvas), patrol_cursor);
+      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_PATROL]);
       break;
     case HOVER_GOTO:
     case HOVER_CONNECT:
-      XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
+      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_GOTO]);
       break;
     case HOVER_NUKE:
-      XDefineCursor(display, XtWindow(map_canvas), nuke_cursor);
+      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_NUKE]);
       break;
     case HOVER_PARADROP:
-      XDefineCursor(display, XtWindow(map_canvas), drop_cursor);
+      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_PARADROP]);
       break;
     }
   } else {

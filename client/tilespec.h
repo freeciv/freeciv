@@ -210,6 +210,14 @@ struct terrain_drawing_data {
   struct Sprite *mine;
 };
 
+enum cursor_type {
+  CURSOR_GOTO,
+  CURSOR_PATROL,
+  CURSOR_PARADROP,
+  CURSOR_NUKE,
+  CURSOR_LAST
+};
+
 struct named_sprites {
   struct Sprite
     *bulb[NUM_TILES_PROGRESS],
@@ -244,6 +252,10 @@ struct named_sprites {
       *fuel,
       *propulsion;
   } spaceship;
+  struct {
+    int hot_x, hot_y;
+    struct Sprite *icon;
+  } cursor[CURSOR_LAST];
   struct {
     struct Sprite
       /* for roadstyle 0 */
@@ -361,6 +373,8 @@ struct Sprite *get_arrow_sprite(void);
 struct Sprite *get_tax_sprite(Output_type_id otype);
 struct Sprite *get_treaty_thumb_sprite(bool on_off);
 struct sprite_vector *get_unit_explode_animation(void);
+struct Sprite *get_cursor_sprite(enum cursor_type cursor,
+				 int *hot_x, int *hot_y);
 
 /* full pathnames: */
 extern char *main_intro_filename;

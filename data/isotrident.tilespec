@@ -60,6 +60,7 @@ files =
   "isotrident/unitextras.spec",
   "isotrident/select.spec",
   "misc/flags.spec",
+  "misc/cursors.spec",
   "misc/buildings.spec",
   "misc/space.spec",
 ;  "misc/techs.spec",

@@ -39,10 +39,7 @@ void create_overlay_unit(struct canvas *pcanvas, int i);
 
 extern SPRITE *    intro_gfx_sprite;
 extern SPRITE *    radar_gfx_sprite;
-extern GdkCursor * goto_cursor;
-extern GdkCursor * drop_cursor;
-extern GdkCursor * nuke_cursor;
-extern GdkCursor * patrol_cursor;
+extern GdkCursor *cursors[CURSOR_LAST];
 
 void gtk_draw_shadowed_string(GdkDrawable *drawable,
 			      GdkGC *black_gc,

@@ -40,22 +40,10 @@
 
 #include "graphics.h"
 
-#include "goto_cursor.xbm"
-#include "goto_cursor_mask.xbm"
-#include "drop_cursor.xbm"
-#include "drop_cursor_mask.xbm"
-#include "nuke_cursor.xbm"
-#include "nuke_cursor_mask.xbm"
-#include "patrol_cursor.xbm"
-#include "patrol_cursor_mask.xbm"
-
 SPRITE *               intro_gfx_sprite;
 SPRITE *               radar_gfx_sprite;
 
-GdkCursor *		goto_cursor;
-GdkCursor *		drop_cursor;
-GdkCursor *		nuke_cursor;
-GdkCursor *		patrol_cursor;
+GdkCursor *cursors[CURSOR_LAST];
 
 /***************************************************************************
 ...
@@ -194,63 +182,17 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 ***************************************************************************/
 void load_cursors(void)
 {
-  GdkBitmap *pixmap, *mask;
-  GdkColor *white, *black;
+  enum cursor_type cursor;
+  GdkDisplay *display = gdk_display_get_default();
 
-  white = colors_standard[COLOR_STD_WHITE];
-  black = colors_standard[COLOR_STD_BLACK];
+  for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
+    int hot_x, hot_y;
+    struct Sprite *sprite = get_cursor_sprite(cursor, &hot_x, &hot_y);
+    GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
 
-  /* goto */
-  pixmap = gdk_bitmap_create_from_data(root_window, goto_cursor_bits,
-				      goto_cursor_width,
-				      goto_cursor_height);
-  mask   = gdk_bitmap_create_from_data(root_window, goto_cursor_mask_bits,
-				      goto_cursor_mask_width,
-				      goto_cursor_mask_height);
-  goto_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
-					  white, black,
-					  goto_cursor_x_hot, goto_cursor_y_hot);
-  g_object_unref(pixmap);
-  g_object_unref(mask);
-
-  /* drop */
-  pixmap = gdk_bitmap_create_from_data(root_window, drop_cursor_bits,
-				      drop_cursor_width,
-				      drop_cursor_height);
-  mask   = gdk_bitmap_create_from_data(root_window, drop_cursor_mask_bits,
-				      drop_cursor_mask_width,
-				      drop_cursor_mask_height);
-  drop_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
-					  white, black,
-					  drop_cursor_x_hot, drop_cursor_y_hot);
-  g_object_unref(pixmap);
-  g_object_unref(mask);
-
-  /* nuke */
-  pixmap = gdk_bitmap_create_from_data(root_window, nuke_cursor_bits,
-				      nuke_cursor_width,
-				      nuke_cursor_height);
-  mask   = gdk_bitmap_create_from_data(root_window, nuke_cursor_mask_bits,
-				      nuke_cursor_mask_width,
-				      nuke_cursor_mask_height);
-  nuke_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
-					  white, black,
-					  nuke_cursor_x_hot, nuke_cursor_y_hot);
-  g_object_unref(pixmap);
-  g_object_unref(mask);
-
-  /* patrol */
-  pixmap = gdk_bitmap_create_from_data(root_window, patrol_cursor_bits,
-				      patrol_cursor_width,
-				      patrol_cursor_height);
-  mask   = gdk_bitmap_create_from_data(root_window, patrol_cursor_mask_bits,
-				      patrol_cursor_mask_width,
-				      patrol_cursor_mask_height);
-  patrol_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
-					     white, black,
-					     patrol_cursor_x_hot, patrol_cursor_y_hot);
-  g_object_unref(pixmap);
-  g_object_unref(mask);
+    cursors[cursor] = gdk_cursor_new_from_pixbuf(display, pixbuf,
+						 hot_x, hot_y);
+  }
 }
 
 /***************************************************************************

@@ -10,6 +10,8 @@ pkgdata_DATA =          \
 	chiefs.spec	\
 	colors.png	\
 	colors.spec	\
+	cursors.png	\
+	cursors.spec	\
 	flags.spec	\
 	intro.png	\
 	overlays.png	\
