@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-02-12 00:25+0100\n"
+"POT-Creation-Date: 2002-02-13 10:11+0100\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@egroups.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
@@ -34,17 +34,17 @@ msgid "?wonder:w"
 msgstr "m"
 
 #: client/gui-mui/citydlg.c:527 client/gui-mui/worklistclass.c:107
-#: client/gui-win32/citydlg.c:1191 common/city.c:1411
+#: client/gui-win32/citydlg.c:1191 common/city.c:1419
 msgid "Wonder"
 msgstr "Merveille"
 
 #: client/gui-mui/citydlg.c:529 client/gui-mui/worklistclass.c:104
-#: client/gui-win32/citydlg.c:1192 common/city.c:1413
+#: client/gui-win32/citydlg.c:1192 common/city.c:1421
 msgid "Built"
 msgstr "Construit"
 
 #: client/gui-mui/citydlg.c:531 client/gui-mui/worklistclass.c:106
-#: client/gui-win32/citydlg.c:1193 common/city.c:1415
+#: client/gui-win32/citydlg.c:1193 common/city.c:1423
 msgid "Obsolete"
 msgstr "Obsolète"
 
@@ -78,34 +78,34 @@ msgstr ""
 "Freeciv doit être compilé en utilisant l'option DEBUG pour pouvoir utiliser "
 "le niveau de déboguage %d.\n"
 
-#: common/log.c:101 common/log.c:116 common/log.c:146
+#: common/log.c:101 common/log.c:117 common/log.c:147
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
 msgstr "Le niveau de journal \"%s\" en argument est mal formé.\n"
 
-#: common/log.c:136
+#: common/log.c:137
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
 msgstr ""
 "Nom de fichier non renseigné dans l'argument niveau de journal \"%s\".\n"
 
-#: common/log.c:240
+#: common/log.c:241
 #, c-format
 msgid "Couldn't open logfile: %s for appending.\n"
 msgstr ""
 "Impossible d'ouvrir le fichier de journal \"%s\" pour y faire des ajouts.\n"
 
-#: common/log.c:253 common/log.c:271
+#: common/log.c:254 common/log.c:272
 #, c-format
 msgid "last message repeated %d times"
 msgstr "dernier message répété %d fois"
 
-#: common/log.c:255 common/log.c:274
+#: common/log.c:256 common/log.c:275
 #, c-format
 msgid " (total %d repeats)"
 msgstr " (total : %d répétitions)"
 
-#: common/log.c:268
+#: common/log.c:269
 msgid "last message repeated once"
 msgstr "dernier message répété une fois"
 
@@ -175,66 +175,66 @@ msgstr ""
 "fichier %s."
 
 # AR
-#: common/player.c:482
+#: common/player.c:491
 msgid "Spotless"
 msgstr "Parfaite"
 
-#: common/player.c:484
+#: common/player.c:493
 msgid "Excellent"
 msgstr "Excellente"
 
-#: common/player.c:486
+#: common/player.c:495
 msgid "Honorable"
 msgstr "Honorable"
 
 # AR
-#: common/player.c:488
+#: common/player.c:497
 msgid "Questionable"
 msgstr "Douteuse"
 
 # AR
-#: common/player.c:490
+#: common/player.c:499
 msgid "Dishonorable"
 msgstr "Déshonorable"
 
 # AR
-#: common/player.c:492
+#: common/player.c:501
 msgid "Poor"
 msgstr "Médiocre"
 
 # AR
-#: common/player.c:494
+#: common/player.c:503
 msgid "Despicable"
 msgstr "Lamentable"
 
-#: common/player.c:496
+#: common/player.c:505
 msgid "Atrocious"
 msgstr "Atroce"
 
-#: common/player.c:506
+#: common/player.c:515
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutre"
 
-#: common/player.c:507
+#: common/player.c:516
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Guerre"
 
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:624
-#: client/gui-xaw/diplodlg.c:512 common/player.c:508
+#: client/gui-xaw/diplodlg.c:512 common/player.c:517
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Cessez-le-feu"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:628
-#: client/gui-xaw/diplodlg.c:516 common/player.c:509
+#: client/gui-xaw/diplodlg.c:516 common/player.c:518
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Paix"
 
 #: client/gui-gtk/diplodlg.c:452 client/gui-mui/diplodlg.c:632
-#: client/gui-xaw/diplodlg.c:520 common/player.c:510
+#: client/gui-xaw/diplodlg.c:520 common/player.c:519
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alliance"
 
-#: common/player.c:511
+#: common/player.c:520
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Pas de contact"
 
@@ -332,7 +332,7 @@ msgid "Future Tech. %d"
 msgstr "Recherche de la Techno. Future %d"
 
 #: client/gui-gtk/plrdlg.c:145 client/gui-mui/plrdlg.c:189
-#: client/gui-win32/plrdlg.c:374 common/unit.c:520
+#: client/gui-win32/plrdlg.c:375 common/unit.c:520
 msgid "Idle"
 msgstr "Inactif"
 
@@ -471,12 +471,12 @@ msgstr ""
 "Freeciv %s sortira en\n"
 "%s, sur %s"
 
-#: ai/aicity.c:254 server/citytools.c:1742
+#: ai/aicity.c:254 server/citytools.c:1743
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Jeu : les %s ont cessé la construction de %s à %s."
 
-#: ai/aicity.c:263 server/citytools.c:1784
+#: ai/aicity.c:263 server/citytools.c:1785
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Jeu : les %s ont commencé la construction de %s à %s."
@@ -654,16 +654,16 @@ msgstr "Jeu : vous avez libéré %s !! Les pillages se montent à %d lingots."
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Jeu : %s a libéré %s et y a pillé %d lingots."
 
-#: server/citytools.c:1763
+#: server/citytools.c:1764
 msgid " from the worklist"
 msgstr " d'après la liste de travail"
 
-#: server/citytools.c:1773
+#: server/citytools.c:1774
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Jeu : %s construit %s%s."
 
-#: server/citytools.c:1777
+#: server/citytools.c:1778
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Jeu : %s construit %s."
@@ -1901,7 +1901,9 @@ msgstr "Un historien publie ! "
 #: server/report.c:197
 #, c-format
 msgid "%2d: The %s City of %s of size %d, with %d wonder\n"
-msgstr "%2d: La ville de %s de %s d'une taille de %d, avec %d merveilles\n"
+msgid_plural "%2d: The %s City of %s of size %d, with %d wonders\n"
+msgstr[0] "%2d: La ville de %s de %s d'une taille de %d, avec %d merveille\n"
+msgstr[1] "%2d: La ville de %s de %s d'une taille de %d, avec %d merveilles\n"
 
 #: server/report.c:204 server/report.c:246
 msgid "Traveler's Report:"
@@ -1962,11 +1964,14 @@ msgstr " M d'unités"
 
 #: server/report.c:846 server/report.c:864
 msgid " month"
-msgstr " mois"
+msgid_plural " months"
+msgstr[0] " mois"
 
 #: server/report.c:875 server/report.c:892
 msgid " ton"
-msgstr " tonnes"
+msgid_plural " tons"
+msgstr[0] " tonne"
+msgstr[1] " tonnes"
 
 #: server/report.c:915
 msgid "Population"
@@ -2018,7 +2023,9 @@ msgstr "Le %s des %s"
 #: server/report.c:1423
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
-msgstr "%2d : Le %s %s obtient %d points\n"
+msgid_plural "%2d: The %s %s scored %d points\n"
+msgstr[0] "%2d : Le %s %s obtient %d point\n"
+msgstr[1] "%2d : Le %s %s obtient %d points\n"
 
 #: server/report.c:1434
 msgid "Final Report:"
@@ -5049,7 +5056,11 @@ msgstr "Jeu : vous avez perdu %s dans une attaque de %3$s de %2$s %4$s"
 #: server/unittools.c:1916
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgstr "Jeu : vous avez perdu %d unités dans une attaque de %3$s de %2$s %4$s"
+msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgstr[0] ""
+"Jeu : vous avez perdu %d unité dans une attaque de %3$s de %2$s %4$s"
+msgstr[1] ""
+"Jeu : vous avez perdu %d unités dans une attaque de %3$s de %2$s %4$s"
 
 #: server/unittools.c:1931
 #, c-format
@@ -5213,7 +5224,7 @@ msgid "(worklist)"
 msgstr "(liste de travail)"
 
 #: client/cityrepdata.c:202 client/gui-gtk/plrdlg.c:143
-#: client/gui-mui/plrdlg.c:181 client/gui-win32/plrdlg.c:372 data/Freeciv:71
+#: client/gui-mui/plrdlg.c:181 client/gui-win32/plrdlg.c:373 data/Freeciv:71
 msgid "Name"
 msgstr "Nom"
 
@@ -5230,7 +5241,7 @@ msgid "Size"
 msgstr "Taille"
 
 #: client/cityrepdata.c:206 client/gui-gtk/plrdlg.c:145
-#: client/gui-mui/plrdlg.c:187 client/gui-win32/plrdlg.c:374
+#: client/gui-mui/plrdlg.c:187 client/gui-win32/plrdlg.c:375
 msgid "State"
 msgstr "État"
 
@@ -5511,10 +5522,12 @@ msgstr "Durée voyage :      ND"
 #: client/climisc.c:1096
 #, c-format
 msgid "Mass:            %5d ton"
-msgstr "Masse :           %5d tonnes"
+msgid_plural "Mass:            %5d tons"
+msgstr[0] "Masse :           %5d tonne"
+msgstr[1] "Masse :           %5d tonnes"
 
 #: client/climisc.c:1100
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -5524,13 +5537,13 @@ msgid ""
 "Success prob.:   %5d %%\n"
 "Year of arrival: %8s"
 msgstr ""
-"Population:      %5d\n"
-"Support:         %5d %%\n"
-"Énergie:         %5d %%\n"
+"Population :      %5d\n"
+"Support :         %5d %%\n"
+"Énergie :         %5d %%\n"
 "%s\n"
 "%s\n"
-"Prob. de succès: %5d %%\n"
-"Année d'arrivée: %8s"
+"Prob. de succès : %5d %%\n"
+"Année d'arrivée : %8s"
 
 #: client/clinet.c:114
 msgid "Lost connection to server!"
@@ -5666,17 +5679,24 @@ msgstr "Permet à tous les joueurs connaissant %s de construire des %s.  "
 #: client/helpdata.c:593
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
-msgstr "* Peut transporter et ravitailler %d unités aériennes.\n"
+msgid_plural "* Can carry and refuel %d air units.\n"
+msgstr[0] "* Peut transporter et ravitailler %d unité aérienne.\n"
+msgstr[1] "* Peut transporter et ravitailler %d unités aériennes.\n"
 
 #: client/helpdata.c:598
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
-msgstr "* Peut transporter et ravitailler %d missiles.\n"
+msgid_plural "* Can carry and refuel %d missile units.\n"
+msgstr[0] "* Peut transporter et ravitailler %d missile.\n"
+msgstr[1] "* Peut transporter et ravitailler %d missiles.\n"
+
 
 #: client/helpdata.c:603
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
-msgstr "* Peut transporter %d unités terrestres à travers les mers.\n"
+msgid_plural "* Can carry %d ground units across water.\n"
+msgstr[0] "* Peut transporter %d unité terrestre à travers les mers.\n"
+msgstr[1] "* Peut transporter %d unités terrestres à travers les mers.\n"
 
 #: client/helpdata.c:610
 msgid "* Can establish trade routes and help build wonders.\n"
@@ -6286,14 +6306,16 @@ msgstr "AGU : Vous perdez le contrôle de %s qui se détache de la ville."
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
-"AGU : l'agent ne peut pas remplir les pré-requis pour %s et redonne le contrôle."
+"AGU : l'agent ne peut pas remplir les pré-requis pour %s et redonne le "
+"contrôle."
 
 #: client/agents/cma_core.c:1618
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
 msgstr ""
-"AGU : %s a changé et le résultat calculé n'est pas applicable. Recommencement."
+"AGU : %s a changé et le résultat calculé n'est pas applicable. "
+"Recommencement."
 
 #: client/agents/cma_core.c:1643
 #, c-format
@@ -6302,9 +6324,9 @@ msgid ""
 "luck. Please contact <freeciv-dev@freeciv.org>. The CMA will detach itself "
 "from the city now."
 msgstr ""
-"AGU : %s a changé de nombreuses fois. Cela peut être dû à une erreur dans"
-"Freeciv ou à un manque de chance. Veuillez contacter <freeciv-dev@freeciv.org>."
-"L'AGU va maintenant se détacher de lui-même de la ville."
+"AGU : %s a changé de nombreuses fois. Cela peut être dû à une erreur "
+"dansFreeciv ou à un manque de chance. Veuillez contacter <freeciv-"
+"dev@freeciv.org>.L'AGU va maintenant se détacher de lui-même de la ville."
 
 #: client/agents/cma_core.c:1811 client/gui-gtk/repodlgs.c:818
 #: client/gui-mui/repodlgs.c:778 client/gui-win32/repodlgs.c:725
@@ -6340,7 +6362,9 @@ msgstr "Jamais"
 #: client/gui-gtk/citydlg.c:1733
 #, c-format
 msgid "%d turn"
-msgstr "%d tours"
+msgid_plural "%d turns"
+msgstr[0] "%d tour"
+msgstr[1] "%d tours"
 
 #: client/agents/cma_fec.c:362
 #, fuzzy
@@ -6364,7 +6388,7 @@ msgstr ""
 "Production :  %10s Luxe :    %10s\n"
 "Commerce :    %10s Science : %10s\n"
 "\n"
-"    Population (T/E/S/C)  : %s\n"
+"    Population (T/A/S/C)  : %s\n"
 "Accroissement de la ville : %s\n"
 "       Production achevée : %s"
 
@@ -6654,7 +6678,9 @@ msgstr " - contents"
 #: client/gui-win32/citydlg.c:415 client/gui-win32/citydlg.c:436
 #, c-format
 msgid "%3d/%3d %3d turn"
-msgstr "%3d/%3d %3d tour"
+msgid_plural "%3d/%3d %3d turns"
+msgstr[0] "%3d/%3d %3d tour"
+msgstr[1] "%3d/%3d %3d tours"
 
 #: client/gui-gtk/citydlg.c:1920 client/gui-win32/citydlg.c:428
 #, c-format
@@ -7076,7 +7102,7 @@ msgstr "Définir les colonnes"
 #: client/gui-gtk/cityrep.c:1359 client/gui-gtk/dialogs.c:201
 #: client/gui-gtk/dialogs.c:326 client/gui-gtk/dialogs.c:705
 #: client/gui-gtk/dialogs.c:803 client/gui-gtk/dialogs.c:1795
-#: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:617
+#: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:616
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:221
 #: client/gui-gtk/repodlgs.c:597 client/gui-gtk/repodlgs.c:849
 #: client/gui-gtk/spaceshipdlg.c:207 client/gui-gtk/wldlg.c:202
@@ -7086,7 +7112,7 @@ msgstr "Définir les colonnes"
 #: client/gui-win32/dialogs.c:1285 client/gui-win32/dialogs.c:1496
 #: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:152
 #: client/gui-win32/messagewin.c:208 client/gui-win32/optiondlg.c:108
-#: client/gui-win32/plrdlg.c:386 client/gui-win32/repodlgs.c:301
+#: client/gui-win32/plrdlg.c:387 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:492 client/gui-win32/repodlgs.c:743
 #: client/gui-win32/spaceshipdlg.c:232 data/Freeciv:145 data/Freeciv:195
 #: data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1439
@@ -7196,7 +7222,7 @@ msgstr "Statut"
 
 #: client/gui-gtk/connectdlg.c:130 client/gui-gtk/plrdlg.c:167
 #: client/gui-mui/connectdlg.c:163 client/gui-mui/plrdlg.c:338
-#: client/gui-win32/connectdlg.c:241 client/gui-win32/plrdlg.c:378
+#: client/gui-win32/connectdlg.c:241 client/gui-win32/plrdlg.c:379
 #: client/gui-xaw/menu.c:198 data/Freeciv:3090 data/Freeciv:3091
 msgid "Players"
 msgstr "Joueurs"
@@ -7876,7 +7902,9 @@ msgstr "pas de maximum, "
 #: client/gui-gtk/happiness.c:364
 #, c-format
 msgid "%d unit maximum, "
-msgstr "%d unités au maximum, "
+msgid_plural "%d units maximum"
+msgstr[0] "%d unité au maximum, "
+msgstr[1] "%d unités au maximum, "
 
 #: client/gui-gtk/happiness.c:368
 #, c-format
@@ -7892,44 +7920,44 @@ msgid "Wonders: "
 msgstr "Merveilles : "
 
 #: client/gui-gtk/helpdlg.c:85 client/gui-gtk/helpdlg.c:88
-#: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:490
-#: client/gui-mui/helpdlg.c:506 client/gui-win32/helpdlg.c:77
+#: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:486
+#: client/gui-mui/helpdlg.c:502 client/gui-win32/helpdlg.c:77
 #: client/gui-win32/helpdlg.c:80 client/gui-win32/helpdlg.c:84
 #: data/Freeciv:609 data/Freeciv:751
 msgid "Cost:"
 msgstr "Coût :"
 
-#: client/gui-gtk/helpdlg.c:85 client/gui-mui/helpdlg.c:492
+#: client/gui-gtk/helpdlg.c:85 client/gui-mui/helpdlg.c:488
 #: client/gui-win32/helpdlg.c:77 data/Freeciv:626
 msgid "Upkeep:"
 msgstr "Entretien :"
 
 #: client/gui-gtk/helpdlg.c:85 client/gui-gtk/helpdlg.c:88
-#: client/gui-gtk/helpdlg.c:96 client/gui-mui/helpdlg.c:494
-#: client/gui-mui/helpdlg.c:508 client/gui-mui/helpdlg.c:573
+#: client/gui-gtk/helpdlg.c:96 client/gui-mui/helpdlg.c:490
+#: client/gui-mui/helpdlg.c:504 client/gui-mui/helpdlg.c:569
 #: client/gui-win32/helpdlg.c:77 client/gui-win32/helpdlg.c:80
 #: client/gui-win32/helpdlg.c:88 data/Freeciv:667
 msgid "Requirement:"
 msgstr "Préalables :"
 
 #: client/gui-gtk/helpdlg.c:88 client/gui-gtk/helpdlg.c:96
-#: client/gui-mui/helpdlg.c:510 client/gui-mui/helpdlg.c:575
+#: client/gui-mui/helpdlg.c:506 client/gui-mui/helpdlg.c:571
 #: client/gui-win32/helpdlg.c:80 client/gui-win32/helpdlg.c:88
 #: data/Freeciv:705
 msgid "Obsolete by:"
 msgstr "Rendu obsolète par :"
 
-#: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:557
+#: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:553
 #: client/gui-win32/helpdlg.c:84 data/Freeciv:768
 msgid "Attack:"
 msgstr "Attaque :"
 
-#: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:559
+#: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:555
 #: client/gui-win32/helpdlg.c:85 data/Freeciv:786
 msgid "Defense:"
 msgstr "Défense :"
 
-#: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:561
+#: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:557
 #: client/gui-win32/helpdlg.c:85 data/Freeciv:804
 msgid "Move:"
 msgstr "Mouvement :"
@@ -7938,17 +7966,17 @@ msgstr "Mouvement :"
 msgid "FirePower:"
 msgstr "Puissance de Feu :"
 
-#: client/gui-gtk/helpdlg.c:94 client/gui-mui/helpdlg.c:567
+#: client/gui-gtk/helpdlg.c:94 client/gui-mui/helpdlg.c:563
 #: client/gui-win32/helpdlg.c:86 data/Freeciv:849
 msgid "Hitpoints:"
 msgstr "Énergie Vitale :"
 
-#: client/gui-gtk/helpdlg.c:95 client/gui-mui/helpdlg.c:569
+#: client/gui-gtk/helpdlg.c:95 client/gui-mui/helpdlg.c:565
 #: client/gui-win32/helpdlg.c:87 data/Freeciv:885
 msgid "Basic Upkeep:"
 msgstr "Entretien de base :"
 
-#: client/gui-gtk/helpdlg.c:95 client/gui-mui/helpdlg.c:563
+#: client/gui-gtk/helpdlg.c:95 client/gui-mui/helpdlg.c:559
 #: client/gui-win32/helpdlg.c:87 data/Freeciv:867
 msgid "Vision:"
 msgstr "Vision :"
@@ -7985,21 +8013,21 @@ msgstr "Mine Res/Tps :"
 msgid "Trans. Rslt/Time:"
 msgstr "Transp Res/Tps :"
 
-#: client/gui-gtk/helpdlg.c:123 client/gui-mui/helpdlg.c:117
+#: client/gui-gtk/helpdlg.c:122 client/gui-mui/helpdlg.c:116
 #: client/gui-xaw/helpdlg.c:124 client/gui-xaw/menu.c:229 data/helpdata.txt:37
 msgid "About"
 msgstr "À propos"
 
-#: client/gui-gtk/helpdlg.c:222 client/gui-mui/helpdlg.c:397
+#: client/gui-gtk/helpdlg.c:221 client/gui-mui/helpdlg.c:393
 #: client/gui-xaw/helpdlg.c:270
 msgid "Removed"
 msgstr "Retiré"
 
-#: client/gui-gtk/helpdlg.c:381 client/gui-gtk/helpdlg.c:659
-#: client/gui-gtk/helpdlg.c:668 client/gui-gtk/helpdlg.c:697
-#: client/gui-gtk/helpdlg.c:707 client/gui-gtk/helpdlg.c:749
-#: client/gui-gtk/helpdlg.c:781 client/gui-mui/helpdlg.c:162
-#: client/gui-mui/helpdlg.c:229 client/gui-win32/helpdlg.c:163
+#: client/gui-gtk/helpdlg.c:380 client/gui-gtk/helpdlg.c:658
+#: client/gui-gtk/helpdlg.c:667 client/gui-gtk/helpdlg.c:696
+#: client/gui-gtk/helpdlg.c:706 client/gui-gtk/helpdlg.c:748
+#: client/gui-gtk/helpdlg.c:780 client/gui-mui/helpdlg.c:158
+#: client/gui-mui/helpdlg.c:225 client/gui-win32/helpdlg.c:163
 #: client/gui-win32/helpdlg.c:452 client/gui-win32/helpdlg.c:461
 #: client/gui-win32/helpdlg.c:483 client/gui-win32/helpdlg.c:493
 #: client/gui-win32/helpdlg.c:686 client/gui-win32/helpdlg.c:710
@@ -8009,10 +8037,10 @@ msgstr "Retiré"
 msgid "(Never)"
 msgstr "(Jamais)"
 
-#: client/gui-gtk/helpdlg.c:381 client/gui-gtk/helpdlg.c:708
-#: client/gui-gtk/helpdlg.c:755 client/gui-gtk/helpdlg.c:783
-#: client/gui-mui/helpdlg.c:162 client/gui-mui/helpdlg.c:231
-#: client/gui-mui/helpdlg.c:687 client/gui-mui/repodlgs.c:218
+#: client/gui-gtk/helpdlg.c:380 client/gui-gtk/helpdlg.c:707
+#: client/gui-gtk/helpdlg.c:754 client/gui-gtk/helpdlg.c:782
+#: client/gui-mui/helpdlg.c:158 client/gui-mui/helpdlg.c:227
+#: client/gui-mui/helpdlg.c:683 client/gui-mui/repodlgs.c:218
 #: client/gui-win32/helpdlg.c:163 client/gui-win32/helpdlg.c:494
 #: client/gui-win32/helpdlg.c:692 client/gui-win32/helpdlg.c:712
 #: client/gui-xaw/helpdlg.c:827 client/gui-xaw/helpdlg.c:869
@@ -8020,86 +8048,86 @@ msgstr "(Jamais)"
 msgid "None"
 msgstr "Aucun"
 
-#: client/gui-gtk/helpdlg.c:448 client/gui-win32/helpdlg.c:395
+#: client/gui-gtk/helpdlg.c:447 client/gui-win32/helpdlg.c:395
 #: data/Freeciv:549
 msgid "Freeciv Help Browser"
 msgstr "Navigateur d'Aide de Freeciv"
 
-#: client/gui-gtk/helpdlg.c:589
+#: client/gui-gtk/helpdlg.c:588
 msgid "Expand All"
 msgstr "Tout déplier"
 
-#: client/gui-gtk/helpdlg.c:590
+#: client/gui-gtk/helpdlg.c:589
 msgid "Collapse All"
 msgstr "Tout replier"
 
-#: client/gui-gtk/helpdlg.c:591
+#: client/gui-gtk/helpdlg.c:590
 msgid "Reset Tree"
 msgstr "Réinitialiser l'arbre"
 
-#: client/gui-gtk/helpdlg.c:592
+#: client/gui-gtk/helpdlg.c:591
 msgid "Expand Unknown"
 msgstr "Déplier tech. inconnues"
 
-#: client/gui-gtk/helpdlg.c:832 client/gui-gtk/helpdlg.c:856
-#: client/gui-gtk/helpdlg.c:869 client/gui-gtk/helpdlg.c:879
-#: client/gui-gtk/helpdlg.c:894 client/gui-mui/helpdlg.c:750
-#: client/gui-mui/helpdlg.c:768 client/gui-mui/helpdlg.c:787
-#: client/gui-mui/helpdlg.c:816 client/gui-win32/helpdlg.c:743
+#: client/gui-gtk/helpdlg.c:831 client/gui-gtk/helpdlg.c:855
+#: client/gui-gtk/helpdlg.c:868 client/gui-gtk/helpdlg.c:878
+#: client/gui-gtk/helpdlg.c:893 client/gui-mui/helpdlg.c:746
+#: client/gui-mui/helpdlg.c:764 client/gui-mui/helpdlg.c:783
+#: client/gui-mui/helpdlg.c:812 client/gui-win32/helpdlg.c:743
 #: client/gui-win32/helpdlg.c:763 client/gui-win32/helpdlg.c:773
 #: client/gui-win32/helpdlg.c:779 client/gui-win32/helpdlg.c:792
 msgid "Allows "
 msgstr "Autorise "
 
-#: client/gui-gtk/helpdlg.c:843 client/gui-win32/helpdlg.c:752
+#: client/gui-gtk/helpdlg.c:842 client/gui-win32/helpdlg.c:752
 msgid "Obsoletes "
 msgstr "Rend obsolète :"
 
-#: client/gui-gtk/helpdlg.c:883 client/gui-gtk/helpdlg.c:898
-#: client/gui-mui/helpdlg.c:798 client/gui-mui/helpdlg.c:818
+#: client/gui-gtk/helpdlg.c:882 client/gui-gtk/helpdlg.c:897
+#: client/gui-mui/helpdlg.c:794 client/gui-mui/helpdlg.c:814
 #: client/gui-win32/helpdlg.c:782 client/gui-win32/helpdlg.c:795
 msgid " (with "
 msgstr " (avec "
 
-#: client/gui-gtk/helpdlg.c:887 client/gui-gtk/helpdlg.c:902
+#: client/gui-gtk/helpdlg.c:886 client/gui-gtk/helpdlg.c:901
 #: client/gui-win32/helpdlg.c:785 client/gui-win32/helpdlg.c:798
 msgid "?techhelp:)."
 msgstr "?techhelp:)."
 
-#: client/gui-gtk/helpdlg.c:935 client/gui-gtk/helpdlg.c:950
+#: client/gui-gtk/helpdlg.c:934 client/gui-gtk/helpdlg.c:949
 #: client/gui-win32/helpdlg.c:527 client/gui-win32/helpdlg.c:542
 #: client/gui-xaw/helpdlg.c:981 client/gui-xaw/helpdlg.c:996
 #, c-format
 msgid "%s F/R/T:"
 msgstr "%s N/R/C:"
 
-#: client/gui-gtk/helpdlg.c:965 client/gui-win32/helpdlg.c:557
+#: client/gui-gtk/helpdlg.c:964 client/gui-win32/helpdlg.c:557
 #: client/gui-xaw/helpdlg.c:1011
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Comm. / %d"
 
-#: client/gui-gtk/helpdlg.c:971 client/gui-win32/helpdlg.c:563
+#: client/gui-gtk/helpdlg.c:970 client/gui-win32/helpdlg.c:563
 #: client/gui-xaw/helpdlg.c:1017
 #, c-format
 msgid "no extra / %d"
 msgstr "pas d'extra / %d"
 
-#: client/gui-gtk/helpdlg.c:976 client/gui-gtk/helpdlg.c:980
-#: client/gui-gtk/helpdlg.c:998 client/gui-win32/helpdlg.c:568
+#: client/gui-gtk/helpdlg.c:975 client/gui-gtk/helpdlg.c:979
+#: client/gui-gtk/helpdlg.c:997 client/gui-win32/helpdlg.c:568
 #: client/gui-win32/helpdlg.c:572 client/gui-win32/helpdlg.c:590
 #: client/gui-xaw/helpdlg.c:1022 client/gui-xaw/helpdlg.c:1026
 #: client/gui-xaw/helpdlg.c:1044 client/gui-xaw/helpdlg.c:1068
 msgid "n/a"
 msgstr "nc"
 
-#: client/gui-gtk/helpdlg.c:985 client/gui-win32/helpdlg.c:577
+#: client/gui-gtk/helpdlg.c:984 client/gui-win32/helpdlg.c:577
 #: client/gui-xaw/helpdlg.c:1031
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Nour. / %d"
 
-#: client/gui-gtk/helpdlg.c:1003 client/gui-win32/helpdlg.c:595
+#: client/gui-gtk/helpdlg.c:1002 client/gui-win32/helpdlg.c:595
 #: client/gui-xaw/helpdlg.c:1049
 #, c-format
 msgid "+%d Res. / %d"
@@ -8640,7 +8668,7 @@ msgstr "Vaisseau s_patial"
 #: client/gui-gtk/menu.c:764 client/gui-gtk/menu.c:766
 #: client/gui-gtk/menu.c:768 client/gui-gtk/repodlgs.c:186
 #: client/gui-gtk/wldlg.c:498 client/gui-mui/gui_main.c:318
-#: client/gui-mui/helpdlg.c:288 client/gui-mui/repodlgs.c:313
+#: client/gui-mui/helpdlg.c:284 client/gui-mui/repodlgs.c:313
 #: client/gui-win32/citydlg.c:1148 client/gui-win32/repodlgs.c:287
 #: data/Freeciv:1970 data/Freeciv:2038 data/Freeciv:2121 data/Freeciv:2127
 msgid "Help"
@@ -8837,36 +8865,36 @@ msgid "Flag"
 msgstr "Drapeau"
 
 #: client/gui-gtk/plrdlg.c:143 client/gui-mui/plrdlg.c:182
-#: client/gui-win32/plrdlg.c:372
+#: client/gui-win32/plrdlg.c:373
 msgid "Nation"
 msgstr "Nation"
 
-#: client/gui-gtk/plrdlg.c:143 client/gui-win32/plrdlg.c:372
+#: client/gui-gtk/plrdlg.c:143 client/gui-win32/plrdlg.c:373
 msgid "Ai"
 msgstr "IA"
 
 #: client/gui-gtk/plrdlg.c:144 client/gui-mui/plrdlg.c:183
-#: client/gui-win32/plrdlg.c:373
+#: client/gui-win32/plrdlg.c:374
 msgid "Embassy"
 msgstr "Ambassade"
 
 #: client/gui-gtk/plrdlg.c:144 client/gui-mui/plrdlg.c:184
-#: client/gui-win32/plrdlg.c:373
+#: client/gui-win32/plrdlg.c:374
 msgid "Dipl.State"
 msgstr "État dipl."
 
 #: client/gui-gtk/plrdlg.c:144 client/gui-mui/plrdlg.c:185
-#: client/gui-win32/plrdlg.c:373
+#: client/gui-win32/plrdlg.c:374
 msgid "Vision"
 msgstr "Vision"
 
 #: client/gui-gtk/plrdlg.c:144 client/gui-mui/plrdlg.c:186
-#: client/gui-win32/plrdlg.c:373
+#: client/gui-win32/plrdlg.c:374
 msgid "Reputation"
 msgstr "Réputation"
 
 #: client/gui-gtk/plrdlg.c:145 client/gui-mui/plrdlg.c:188
-#: client/gui-win32/plrdlg.c:374 data/Freeciv:79
+#: client/gui-win32/plrdlg.c:375 data/Freeciv:79
 msgid "Host"
 msgstr "Hôte"
 
@@ -8891,28 +8919,30 @@ msgid "_Spaceship"
 msgstr "_Vaisseau spatial"
 
 #: client/gui-gtk/plrdlg.c:308 client/gui-mui/plrdlg.c:134
-#: client/gui-win32/plrdlg.c:180 client/gui-xaw/plrdlg.c:234
+#: client/gui-win32/plrdlg.c:181 client/gui-xaw/plrdlg.c:234
 msgid "done"
 msgstr "terminé"
 
 #: client/gui-gtk/plrdlg.c:310 client/gui-mui/plrdlg.c:136
-#: client/gui-win32/plrdlg.c:182 client/gui-xaw/plrdlg.c:236
+#: client/gui-win32/plrdlg.c:183 client/gui-xaw/plrdlg.c:236
 msgid "moving"
 msgstr "en mouvement"
 
 #: client/gui-gtk/plrdlg.c:316 client/gui-mui/plrdlg.c:142
-#: client/gui-win32/plrdlg.c:188 client/gui-xaw/plrdlg.c:242
+#: client/gui-win32/plrdlg.c:189 client/gui-xaw/plrdlg.c:242
 msgid "R.I.P"
 msgstr "Mort"
 
 #: client/gui-gtk/plrdlg.c:322 client/gui-mui/plrdlg.c:123
-#: client/gui-win32/plrdlg.c:194 client/gui-xaw/plrdlg.c:223
+#: client/gui-win32/plrdlg.c:195 client/gui-xaw/plrdlg.c:223
 #, c-format
 msgid "(idle %d turn)"
-msgstr "(Inactif, %d tours)"
+msgid_plural "(idle %d turns)"
+msgstr[0] "(Inactif, %d tour)"
+msgstr[1] "(Inactif, %d tours)"
 
 #: client/gui-gtk/plrdlg.c:554 client/gui-mui/plrdlg.c:280
-#: client/gui-win32/plrdlg.c:93 client/gui-xaw/plrdlg.c:382
+#: client/gui-win32/plrdlg.c:94 client/gui-xaw/plrdlg.c:382
 msgid "Game: You need an embassy to establish a diplomatic meeting."
 msgstr "Jeu : vous devez avoir une ambassade pour une rencontre diplomatique"
 
@@ -8928,7 +8958,9 @@ msgstr "But"
 #: client/gui-gtk/repodlgs.c:292 client/gui-gtk/repodlgs.c:484
 #, c-format
 msgid "(%d step)"
-msgstr "(%d étapes)"
+msgid_plural "(%d steps)"
+msgstr[0] "(%d étape)"
+msgstr[1] "(%d étapes)"
 
 #: client/gui-gtk/repodlgs.c:378
 msgid "Research speed: no research"
@@ -8937,7 +8969,9 @@ msgstr "Vitesse de recherche : pas de recherche"
 #: client/gui-gtk/repodlgs.c:381
 #, c-format
 msgid "Research speed: %d turn/advance"
-msgstr "Vitesse de recherche : %d tours/avancée"
+msgid_plural "Research speed: %d turns/advance"
+msgstr[0] "Vitesse de recherche : %d tour/avancée"
+msgstr[1] "Vitesse de recherche : %d tours/avancée"
 
 #: client/gui-gtk/repodlgs.c:563 client/gui-mui/repodlgs.c:507
 #: client/gui-win32/repodlgs.c:499
@@ -9683,7 +9717,7 @@ msgstr "Top 5 des villes"
 msgid "Demographics"
 msgstr "Démographie"
 
-#: client/gui-mui/gui_main.c:316 client/gui-win32/plrdlg.c:392
+#: client/gui-mui/gui_main.c:316 client/gui-win32/plrdlg.c:393
 #: client/gui-xaw/menu.c:206 data/Freeciv:3159
 msgid "Spaceship"
 msgstr "Vaisseau spatial"
@@ -9741,39 +9775,39 @@ msgstr ""
 "Impossible d'ouvrir la fenêtre principale (problème de mémoire graphique ou "
 "taille de l'écran trop petite)\n"
 
-#: client/gui-mui/helpdlg.c:565 data/Freeciv:832
+#: client/gui-mui/helpdlg.c:561 data/Freeciv:832
 msgid "Firepower:"
 msgstr "Puissance de feu:"
 
-#: client/gui-mui/helpdlg.c:675
+#: client/gui-mui/helpdlg.c:671
 #, c-format
 msgid "Cost: %ld"
 msgstr "Coût : %ld"
 
-#: client/gui-mui/helpdlg.c:752
+#: client/gui-mui/helpdlg.c:748
 msgid " wonder"
 msgstr " merveille"
 
-#: client/gui-mui/helpdlg.c:752
+#: client/gui-mui/helpdlg.c:748
 msgid " improvement"
 msgstr " bâtiment"
 
-#: client/gui-mui/helpdlg.c:770
+#: client/gui-mui/helpdlg.c:766
 msgid " unit"
 msgstr " unité"
 
-#: client/gui-mui/helpdlg.c:856
+#: client/gui-mui/helpdlg.c:852
 #, c-format
 msgid "Movecost: %ld"
 msgstr "Coût du déplacement : %ld"
 
-#: client/gui-mui/helpdlg.c:857
+#: client/gui-mui/helpdlg.c:853
 #, c-format
 msgid "Defense: %ld.%ld"
 msgstr "Défense : %ld.%ld"
 
-#: client/gui-mui/helpdlg.c:869 client/gui-mui/helpdlg.c:886
-#: client/gui-mui/helpdlg.c:904
+#: client/gui-mui/helpdlg.c:865 client/gui-mui/helpdlg.c:882
+#: client/gui-mui/helpdlg.c:900
 #, c-format
 msgid ""
 "Food:   %d\n"
@@ -9890,7 +9924,13 @@ msgstr ""
 msgid ""
 "%s\n"
 "(%d turn/advance)"
-msgstr ""
+msgid_plural ""
+"%s\n"
+"(%d turns/advance)"
+msgstr[0] ""
+"%s\n"
+"(%d tour/avancée)"
+msgstr[1] ""
 "%s\n"
 "(%d tours/avancée)"
 
@@ -9990,7 +10030,9 @@ msgstr "_Retirer"
 
 #: client/gui-mui/worklistclass.c:180
 msgid "entry"
-msgstr "entrée"
+msgid_plural "entries"
+msgstr[0] "entrée"
+msgstr[1] "entrées"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:206
@@ -10161,19 +10203,19 @@ msgstr "Transformer en %s"
 msgid "Goto location"
 msgstr "Aller vers"
 
-#: client/gui-win32/plrdlg.c:387 data/Freeciv:3127
+#: client/gui-win32/plrdlg.c:388 data/Freeciv:3127
 msgid "Intelligence"
 msgstr "Renseignement"
 
-#: client/gui-win32/plrdlg.c:388 data/Freeciv:3135
+#: client/gui-win32/plrdlg.c:389 data/Freeciv:3135
 msgid "Meet"
 msgstr "Rencontrer"
 
-#: client/gui-win32/plrdlg.c:389
+#: client/gui-win32/plrdlg.c:390
 msgid "Cancel Treaty"
 msgstr "_Annuler traité"
 
-#: client/gui-win32/plrdlg.c:390 data/Freeciv:3151
+#: client/gui-win32/plrdlg.c:391 data/Freeciv:3151
 msgid "Withdraw vision"
 msgstr "Retirer la vue"
 
@@ -10190,9 +10232,16 @@ msgstr ""
 msgid ""
 "\n"
 "(%d turn/advance)"
-msgstr ""
+msgid_plural ""
 "\n"
-"(%d tours/avancées)"
+"(%d turns/advance)"
+msgstr[0] ""
+"\n"
+"(%d tour/avancée)"
+msgstr[1] ""
+"\n"
+"(%d tours/avancée)"
+
 
 #: client/gui-win32/repodlgs.c:182 client/gui-win32/repodlgs.c:236
 #, c-format
@@ -10247,7 +10296,9 @@ msgstr " %3d/XXX XXX tours "
 #: client/gui-xaw/citydlg.c:314
 #, c-format
 msgid " %3d/%3d %3d turn "
-msgstr " %3d/%3d %3d tour "
+msgid_plural " %3d/%3d %3d turns "
+msgstr[0] " %3d/%3d %3d tour "
+msgstr[1] " %3d/%3d %3d tours "
 
 #: client/gui-xaw/citydlg.c:328
 msgid "(is empty)"
@@ -10260,7 +10311,9 @@ msgstr "(en cours)"
 #: client/gui-xaw/citydlg.c:2370 client/gui-xaw/citydlg.c:2386
 #, c-format
 msgid "%s (%d) %d turn"
-msgstr "%s (%d) %d tour"
+msgid_plural "%s (%d) %d turns"
+msgstr[0] "%s (%d) %d tour"
+msgstr[1] "%s (%d) %d tours"
 
 # AR Luxe ?
 #: client/gui-xaw/colors.c:83
