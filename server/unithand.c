@@ -350,13 +350,17 @@ void handle_unit_disband(struct player *pplayer,
 void handle_unit_build_city(struct player *pplayer, 
 			    struct packet_unit_request *req)
 {
-  struct unit *punit = unit_list_find(&pplayer->units, req->unit_id);
-  char *unit_name = get_unit_type(punit->type)->name;
-  struct city *pcity = map_get_city(punit->x, punit->y);
+  struct unit *punit;
+  char *unit_name;
+  struct city *pcity;
   char *name;
   
+  punit = unit_list_find(&pplayer->units, req->unit_id) ;
   if(!punit)
     return;
+  
+  unit_name = get_unit_type(punit->type)->name;
+  pcity = map_get_city(punit->x, punit->y);
   
   if (!unit_flag(punit->type, F_SETTLERS)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
