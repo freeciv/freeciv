@@ -53,53 +53,6 @@
 
 static void ai_manage_city(struct player *pplayer, struct city *pcity);
      
-#ifdef UNUSED
-/************************************************************************** 
-...
-**************************************************************************/
-void ai_do_build_unit(struct city *pcity, Unit_Type_id unit_type)
-{
-  pcity->is_building_unit = TRUE;
-  pcity->currently_building = unit_type;
-}
-
-void ai_city_build_defense(struct city *pcity)
-{
-  ai_do_build_unit(pcity, ai_choose_defender(pcity));
-}
-
-/************************************************************************** 
-...
-**************************************************************************/
-void ai_city_build_settler(struct city *pcity)
-{
-  ai_do_build_unit(pcity, best_role_unit(pcity, F_SETTLERS));
-}
-
-/************************************************************************** 
-...
-**************************************************************************/
-bool ai_city_build_peaceful_unit(struct city *pcity)
-{
-  Unit_Type_id i;
-
-  if (is_building_other_wonder(pcity)) {
-    i = best_role_unit(pcity, F_HELP_WONDER);
-    if (i < U_LAST) {
-      ai_do_build_unit(pcity, i);
-      return TRUE;
-    }
-  } else {
-    if (can_build_improvement(pcity, B_CAPITAL)) {
-      pcity->currently_building=B_CAPITAL;
-      pcity->is_building_unit = FALSE;
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-#endif /* UNUSED */
-
 /************************************************************************** 
 ...
 **************************************************************************/
@@ -589,12 +542,17 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
   }
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
 {
   ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT,  choice->want);
 }
 
-/* don't ask me why this is in aicity, I can't even remember -- Syela */
+/************************************************************************** 
+  don't ask me why this is in aicity, I can't even remember -- Syela 
+**************************************************************************/
 static Unit_Type_id ai_choose_attacker(struct city *pcity,
                                        enum unit_move_type which)
 {
@@ -616,16 +574,25 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
   return bestid;
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_attacker_ground(struct city *pcity)
 {
   return(ai_choose_attacker(pcity, LAND_MOVING));
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_attacker_sailing(struct city *pcity)
 {
   return(ai_choose_attacker(pcity, SEA_MOVING));
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
 {
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
@@ -647,7 +614,8 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
   return bestid;
 }
 
-/* I'm not sure how to generalize this for rulesets, because I
+/************************************************************************** 
+   I'm not sure how to generalize this for rulesets, because I
    don't understand what its trying to return.  A military ground
    unit with hp>10 could be a Cannon, which doesn't seem like
    a "normal defender" to me...   But I think I have to do something,
@@ -655,16 +623,9 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
    would return 0.  Hence this strange a+2*d formula, which gives
    the same results as (hp>10) for the default set, and does
    _something_ for other sets.  This should be revisited.  --dwp
-*/
+**************************************************************************/
 bool has_a_normal_defender(struct city *pcity)
 {
-#if 0 /* pre-rulesets */
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (is_military_unit(punit) && is_ground_unit(punit) &&
-        unit_type(punit)->hp > 10 && /* for when we don't get Feudalism */
-        can_build_unit(pcity, punit->type)) return TRUE;
-  unit_list_iterate_end;
-#else
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit)
 	&& is_ground_unit(punit)
@@ -674,10 +635,12 @@ bool has_a_normal_defender(struct city *pcity)
       return TRUE;
     }
   unit_list_iterate_end;
-#endif
   return FALSE;
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
                                         enum unit_move_type which)
 {
@@ -707,34 +670,26 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
   return bestid;
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_defender_by_type(struct city *pcity,
                                         enum unit_move_type which)
 {
   return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, which));
 }
 
+/************************************************************************** 
+  ...
+**************************************************************************/
 Unit_Type_id ai_choose_defender(struct city *pcity)
 {
   return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, 0));
 }
 
-#ifdef UNUSED
-/************************************************************************** 
-...
-**************************************************************************/
-void adjust_build_choice(struct player *pplayer, struct ai_choice *cur, 
-			 struct ai_choice *best, int advisor)
-{
-  island_adjust_build_choice(pplayer, cur, advisor);
-  leader_adjust_build_choice(pplayer, cur, advisor);
-  copy_if_better_choice(cur, best);
-}
-#endif /* UNUSED */
-
 /**************************************************************************
 ... 
 **************************************************************************/
-
 static bool building_unwanted(struct player *plr, Impr_Type_id i)
 {
   if (plr->research.researching != A_NONE)
@@ -745,7 +700,6 @@ static bool building_unwanted(struct player *plr, Impr_Type_id i)
 /**************************************************************************
 ...
 **************************************************************************/
-
 static void ai_sell_obsolete_buildings(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
@@ -780,7 +734,6 @@ static void ai_manage_city(struct player *pplayer, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-
 static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   struct government *g = get_gov_pcity(pcity);
@@ -842,6 +795,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   }
   return(city_tile_value(pcity, *xp, *yp, foodneed, prodneed));
 }
+
 /**************************************************************************
 ...
 **************************************************************************/

@@ -24,7 +24,6 @@
     if choice is A_NONE this advisor doesn't want any tech researched at
     the moment
 ***********************************************************************/
-
 void science_advisor_choose_tech(struct player *pplayer,
 				 struct ai_choice *choice)
 {

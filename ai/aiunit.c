@@ -639,24 +639,36 @@ int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
 	  get_unit_type(type)->firepower / POWER_DIVIDER);
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 static int unit_belligerence_primitive(struct unit *punit)
 {
   return (base_unit_belligerence_primitive(punit->type, punit->veteran,
 					   punit->moves_left, punit->hp));
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_belligerence_basic(struct unit *punit)
 {
   return (base_unit_belligerence_primitive(punit->type, punit->veteran,
 					   SINGLE_MOVE, punit->hp));
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_belligerence(struct unit *punit)
 {
   int v = unit_belligerence_basic(punit);
   return(v * v);
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
   return (get_total_defense_power(punit, pdef) *
@@ -664,6 +676,9 @@ int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 	  unit_type(pdef)->firepower / POWER_DIVIDER);
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_vulnerability_virtual(struct unit *punit)
 {
   int v = base_get_defense_power(punit) * punit->hp / POWER_DIVIDER;
@@ -688,12 +703,18 @@ int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
   return v * v;
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_vulnerability(struct unit *punit, struct unit *pdef)
 {
   int v = unit_vulnerability_basic(punit, pdef);
   return (v * v);
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 static int stack_attack_value(int x, int y)
 {
   int val = 0;
@@ -810,6 +831,9 @@ static int reinforcements_value(struct unit *punit, int x, int y)
   return val;
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
 { 
   int val, val2 = 0, val3 = 0;
@@ -836,6 +860,9 @@ static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *p
   return(val2);
 }
 
+/********************************************************************** 
+  ...
+***********************************************************************/
 #ifdef UNUSED
 static int reinforcements_cost(struct unit *punit, int x, int y)
 { /* I might rather have one function which does this and the above -- Syela */
@@ -1318,23 +1345,6 @@ static bool unit_can_defend(Unit_Type_id type)
   return (unit_has_role(type, L_DEFEND_GOOD));
 }
 
-#if 0
-/* pre-rulesets method, which was too hard to generalize (because
-   whether a unit is a "good" defender depends on how good other
-   units are)
-*/
-int old_unit_can_defend(Unit_Type_id type)
-{
-  if (unit_types[type].move_type != LAND_MOVING) return FALSE; /* temporary kluge */
-  if (unit_types[type].defense_strength * 
-      (unit_types[type].hp > 10 ? 5 : 3) >=
-      unit_types[type].attack_strength * 4 &&
-      !unit_types[type].transport_capacity &&
-      !unit_flag(type, F_NONMIL)) return TRUE;
-  return FALSE;
-}
-#endif
-
 /*************************************************************************
 ...
 **************************************************************************/
@@ -1486,6 +1496,9 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
   else punit->ai.ai_role = AIUNIT_DEFEND_HOME; /* for default */
 }
 
+/********************************************************************** 
+...
+***********************************************************************/
 static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity;
@@ -1812,6 +1825,9 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
   return(best);
 }
 
+/********************************************************************** 
+...
+***********************************************************************/
 static bool find_nearest_friendly_port(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
@@ -1979,7 +1995,6 @@ to invade something, it goes there. If it carries other units, it returns home.
 When empty, it tries to find some units to carry or goes home or explores.
 Military units handled by ai_manage_military()
 **************************************************************************/
-
 static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 { /* It's about 12 feet square and has a capacity of almost 1000 pounds.
      It is well constructed of teak, and looks seaworthy. */
@@ -2360,13 +2375,6 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
 {
-#if 0
-  /* This is a hack for regression testing; I believe the new version
-   * is actually better (at least as it is used in aicity.c)  --dwp
-   */
-  return (base==U_WARRIORS && test==U_PHALANX)
-    || (base==U_PHALANX && test==U_MUSKETEERS);
-#else
   /* This is the real function: */
   do {
     base = unit_types[base].obsoleted_by;
@@ -2375,18 +2383,17 @@ bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
     }
   } while (base != -1);
   return FALSE;
-#endif
 }
 
-/*
- * If we are the only diplomat in a city, defend against enemy actions.
- * The passive defense is set by game.diplchance.  The active defense is
- * to bribe units which end their move nearby.
- * Our next trick is to look for enemy units and cities on our continent.
- * If we find a city, we look first to establish an embassy.  The
- * information gained this way is assumed to be more useful than anything
- * else we could do.  Making this come true is for future code.  -AJS
- */
+/**************************************************************************
+ If we are the only diplomat in a city, defend against enemy actions.
+ The passive defense is set by game.diplchance.  The active defense is
+ to bribe units which end their move nearby.
+ Our next trick is to look for enemy units and cities on our continent.
+ If we find a city, we look first to establish an embassy.  The
+ information gained this way is assumed to be more useful than anything
+ else we could do.  Making this come true is for future code.  -AJS
+**************************************************************************/
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
   bool handicap, has_emb;

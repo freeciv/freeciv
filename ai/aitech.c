@@ -39,10 +39,6 @@
 /**************************************************************************
 .. calculate next government wish.
 **************************************************************************/
-#ifndef NEW_GOV_EVAL
-/*
-   regression testing
-*/
 static Tech_Type_id get_government_tech(struct player *plr)
 {
   int goal = get_nation_by_plr(plr)->goals.government;
@@ -70,28 +66,6 @@ static Tech_Type_id get_government_tech(struct player *plr)
   }
 }
 
-#else  /* following may need updating before enabled --dwp */
-
-static Tech_Type_id get_government_tech(struct player *plr)
-{
-  int i, rating;
-  int best_government = -1, best_rating = 0;
-
-  for (i = 0; i < game.government_count; ++i) {
-    struct government *g = get_government(i);
-    rating = ai_evaluate_government (plr, g);
-    if (rating > best_rating &&
-        get_invention (plr, g->required_tech) != TECH_KNOWN) {
-      best_rating = rating;
-      best_government = i;
-    }
-  }
-  if (best_government == -1)
-    return A_NONE;
-  return get_government(best_government)->required_tech;
-}
-#endif /* NEW_GOV_EVAL */
-
 /**************************************************************************
   Returns tech corresponding to players wonder goal from nations[],
   if it makes sense, and wonder is not already built and not obsolete.
@@ -112,6 +86,9 @@ static Tech_Type_id get_wonder_tech(struct player *plr)
   return A_NONE;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void ai_next_tech_goal_default(struct player *pplayer, 
 				      struct ai_choice *choice)
 {
@@ -242,11 +219,17 @@ to be doing; it just looks strange. -- Syela */
   return;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
   ai_select_tech(pplayer, NULL, choice);
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 void ai_next_tech_goal(struct player *pplayer)
 {
   struct ai_choice bestchoice, curchoice;
@@ -279,6 +262,9 @@ void ai_next_tech_goal(struct player *pplayer)
     pplayer->ai.tech_goal = bestchoice.choice;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 void ai_manage_tech(struct player *pplayer)
 {
   struct ai_choice choice, gol;

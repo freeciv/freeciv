@@ -21,7 +21,6 @@ TODO: distmodifier should be assigned a value between 1 and 100
       100 = can research immediately, 1 = much too far away in the tech
       tree.
 ***********************************************************************/
-
 void leader_adjust_tech_choice(struct player *pplayer, 
 			       struct ai_choice *choice, int advisor)
 {
@@ -36,7 +35,9 @@ void leader_adjust_tech_choice(struct player *pplayer,
   adjust_choice(distmodifier, choice);
 }
 
-
+/********************************************************************** 
+  ...
+***********************************************************************/
 void leader_adjust_build_choice(struct player *pplayer, 
 				struct ai_choice *choice, int advisor)
 {

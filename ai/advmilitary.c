@@ -477,6 +477,9 @@ int unit_attack_desirability(Unit_Type_id i)
   return unit_desirability(i, FALSE);
 } 
 
+/************************************************************************** 
+...
+**************************************************************************/
 static void process_defender_want(struct player *pplayer, struct city *pcity,
 				  int danger, struct ai_choice *choice)
 {
@@ -666,6 +669,9 @@ static void process_attacker_want(struct player *pplayer,
   } simple_ai_unit_type_iterate_end;
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
 				struct unit *myunit, struct ai_choice *choice)
 {
@@ -1079,6 +1085,9 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   return;
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 void establish_city_distances(struct player *pplayer, struct city *pcity)
 {
   int dist, wonder_continent, moverate;

@@ -51,75 +51,6 @@
   And these are the days when we look for something other
   /U2 Lemon.
 ******************************************************************************/
-/*
-1 Basic:
-- (serv) AI <player> server command toggles AI on off                DONE
-- (Unit) settler capable of building city                            DONE
-- (City) cities capable of building units/buildings                  DONE
-- (Hand) adjustments of tax/luxuries/science                         DONE
-- (City) happiness control                                           DONE
-- (Hand) change government                                           DONE
-- (Tech) tech management                                             DONE
-2 Medium:
-- better city placement                                              TODO
-- ability to explore island                                          DONE
-- Barbarians                                                         ????
-- better unit building management                                    DONE
-- better improvement management                                      DONE
-- taxcollecters/scientists                                           DONE
-- spend spare trade on buying                                        DONE
-- upgrade units                                                      DONE
-- (Unit) wonders/caravans                                            DONE
-- defense/city value                                                 ????
-- Tax/science/unit producing cities                                  ????
-3 Advanced:
-- ZOC
-- continent defense
-- sea superiority
-- air superiority
-- continent attack
-4 Superadvanced:
-- Transporters (attack on other continents)
-- diplomacy (embassies / tech trading / map trading with other AIs)
-
-
-Step 1 is the basics, can be used for the blank seat people usually have when
-they start a game, the AI will atleast do something other than just sit and 
-wait, for the kill.
-Step 2 will make it do it alot better, and hopefully the barbarians will be in
-action.
-3 if step 1 and 2 gives decent results, the AI will actually have survived the
-building phase and we have to worry about units, step 3 is meant as defense.
-So first in step 4 will we introduce attacking AI. (if it ever gets that far)
-
--- I don't know who wrote this, but I've gone a different direction -- Syela
- */
-
-#ifdef UNUSED
-/**************************************************************************
- update advisors/structures
-**************************************************************************/
-static void ai_before_work(struct player *pplayer)
-{
-
-}
-
-/**************************************************************************
- well am not sure what will happend here yet, maybe some more analysis
-**************************************************************************/
-static void ai_after_work(struct player *pplayer)
-{
-
-}
-
-/**************************************************************************
- Trade tech and stuff, this one will probably be blank for a long time.
-**************************************************************************/
-static void ai_manage_diplomacy(struct player *pplayer)
-{
-
-}
-#endif /* UNUSED */
 
 /**************************************************************************
  handle spaceship related stuff
@@ -370,7 +301,6 @@ static void ai_manage_taxes(struct player *pplayer)
 /**************************************************************************
  change the government form, if it can and there is a good reason
 **************************************************************************/
-#ifndef NEW_GOV_EVAL
 static void ai_manage_government(struct player *pplayer)
 {
   int goal;
@@ -424,84 +354,19 @@ static void ai_manage_government(struct player *pplayer)
   }
 }
 
-#else  /* following may need updating before enabled --dwp */
-
-#define DEBUG_AMG_RATING	(FALSE)
-#define DEBUG_AMG_BOOST		(FALSE)
-#define DEBUG_AMG_CHANGED	(FALSE)
-#define DEBUG_AMG_CHOICE	(TRUE)
-static void ai_manage_government(struct player *pplayer)
-{
-  static int prev_rating[10][10];  /* these are for debugging only */
-  static int prev_choice[10];      /* -- SKi*/
-  int best_government = pplayer->government,
-      best_rating = ai_evaluate_government(pplayer, get_gov_pplayer(pplayer));
-  int i;
-
-  for (i=0; i<game.government_count; ++i) {
-    struct government *g = &governments[ i ];
-    int rating;
-
-    rating = ai_evaluate_government (pplayer, g);
-    /* give bonus to current government */
-/*    if (i == pplayer->government)
-      rating += 2500; */
-
-    if (DEBUG_AMG_RATING && prev_rating[pplayer->player_no][i] != rating && (rating > 0 || rating > prev_rating[pplayer->player_no][i]))
-      freelog (LOG_DEBUG, "%d: ai_manage_government: %s: %s: %d (%+d)", game.year, pplayer->name, g->name, rating, rating - prev_rating[pplayer->player_no][i]);
-    prev_rating[pplayer->player_no][i] = rating;
-    /* compare this government with the best so far */
-    if (rating > best_rating || best_government == -1) {
-      if (can_change_to_government(pplayer, i)) {
-        /* Use this thing! -- SKi */
-        best_government = i;
-        best_rating = rating;
-      } else {
-        if (get_invention(pplayer, g->required_tech) != TECH_KNOWN && rating > 0) {
-          /* Research this thing! -- SKi */
-	  if (DEBUG_AMG_BOOST)
-            freelog (LOG_DEBUG, "%d: ai_manage_government: boosting %s for %s (%d -> %d)",
-              game.year,
-	      advances[ g->required_tech ].name, pplayer->name,
-              pplayer->ai.tech_want[ g->required_tech ],
-              pplayer->ai.tech_want[ g->required_tech ] + rating * 2);
-          pplayer->ai.tech_want[ g->required_tech ] += 250 + rating / 2; /* need constant modifier? */
-        }
-      }
-    }
-  }
-  if ((DEBUG_AMG_CHANGED && prev_choice[pplayer->player_no] != best_government) || DEBUG_AMG_CHOICE)
-    freelog (LOG_DEBUG, "%d: %s chooses new government: %s", game.year, pplayer->name, governments[best_government].name);
-  prev_choice[pplayer->player_no] = best_government;
-
-  if (pplayer->government != best_government) {
-    ai_government_change(pplayer, best_government);
-  }
-  return;
-}
-#endif /* NEW_GOV_EVAL */
-
 /**************************************************************************
  Main AI routine.
 **************************************************************************/
 void ai_do_first_activities(struct player *pplayer)
 {
-#ifdef UNUSED
-  ai_before_work(pplayer); 
-#endif
   ai_manage_units(pplayer); /* STOP.  Everything else is at end of turn. */
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 void ai_do_last_activities(struct player *pplayer)
 {
-/*  ai_manage_units(pplayer);  very useful to include this! -- Syela */
-
-  /* 
-   * I finally realized how stupid it was to call manage_units in
-   * update_player_ac instead of right before it.  Managing units
-   * before end-turn reset now. -- Syela
-   */
-
   ai_manage_cities(pplayer);
   /* manage cities will establish our tech_wants. */
   /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
@@ -523,6 +388,9 @@ void ai_do_last_activities(struct player *pplayer)
 }
 
 
+/**************************************************************************
+  ...
+**************************************************************************/
 bool is_unit_choice_type(enum choice_type type)
 {
    return type == CT_NONMIL || type == CT_ATTACKER || type == CT_DEFENDER;
