@@ -55,6 +55,9 @@
 #include "aitools.h"
 #include "aiunit.h"
 
+// REMOVEME
+#include "ailog.h"
+
 #include "unittools.h"
 
 /* We need this global variable for our sort algorithm */
@@ -822,6 +825,7 @@ static void update_unit_activity(struct unit *punit)
        punit->ai.passenger != 0 || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
+UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
       (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
     }
     return;

@@ -627,6 +627,10 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
  
   pft_fill_unit_attack_param(&parameter, punit);
+  /* When trying to find rampage targets we ignore risks such as
+   * enemy units because we are looking for trouble!
+   * Hence no call ai_avoid_risks()
+   */
   
   tgt_map = pf_create_map(&parameter);
   while (pf_next(tgt_map)) {
@@ -757,7 +761,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
   if (!same_pos(punit->tile, ptile)) {
     if (goto_is_sane(punit, ptile, TRUE)) {
-      if (!ai_unit_goto(punit, ptile)) {
+      if (!ai_gothere(pplayer, punit, ptile)) {
         /* We died */
         return;
       }
@@ -766,9 +770,8 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
     }
   }
-  /* I had these guys set to just fortify, which is so dumb. -- Syela
-   * Instead we can attack adjacent units and maybe even pick up some free 
-   * cities! */
+  /* We might have stopped because of an enemy nearby.
+   * Perhaps we can kill it.*/
   if (ai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD,
                           RAMPAGE_FREE_CITY_OR_BETTER)
       && same_pos(punit->tile, ptile)) {
@@ -778,12 +781,12 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
 /*************************************************************************
   Tries to find a land tile adjacent to water and to our target 
-  (dest_x, dest_y).  Prefers tiles which are more defensible and/or
+  (dest_tile).  Prefers tiles which are more defensible and/or
   where we will have moves left.
   FIXME: It checks if the ocean tile is in our Zone of Control?!
 **************************************************************************/
-bool find_beachhead(struct unit *punit, struct tile *dest_tile,
-		    struct tile **beachhead_tile)
+static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
+			   struct tile **beachhead_tile)
 {
   int ok, best = 0;
   Terrain_type_id t;
@@ -826,32 +829,6 @@ bool find_beachhead(struct unit *punit, struct tile *dest_tile,
   } adjc_iterate_end;
 
   return (best > 0);
-}
-
-/**************************************************************************
-find_beachhead() works only when city is not further that 1 tile from
-the sea. But Sea Raiders might want to attack cities inland.
-So this finds the nearest land tile on the same continent as the city.
-**************************************************************************/
-static void find_city_beach(struct city *pc, struct unit *punit,
-			    struct tile **dest_tile)
-{
-  struct tile *best_tile = punit->tile;
-  int dist = 100;
-  int search_dist = real_map_distance(pc->tile, punit->tile) - 1;
-
-  CHECK_UNIT(punit);
-  
-  square_iterate(punit->tile, search_dist, tile1) {
-    if (map_get_continent(tile1) == map_get_continent(pc->tile)
-        && real_map_distance(punit->tile, tile1) < dist) {
-
-      dist = real_map_distance(punit->tile, tile1);
-      best_tile = tile1;
-    }
-  } square_iterate_end;
-
-  *dest_tile = best_tile;
 }
 
 /*************************************************************************
@@ -1647,6 +1624,39 @@ struct city *find_nearest_safe_city(struct unit *punit)
 }
 
 /*************************************************************************
+  Go berserk, assuming there are no targets nearby.
+  TODO: Is it not possible to remove this special casing for barbarians?
+**************************************************************************/
+static void ai_military_attack_barbarian(struct player *pplayer,
+					 struct unit *punit)
+{
+  struct city *pc;
+
+  if ((pc = dist_nearest_city(pplayer, punit->tile, FALSE, TRUE))) {
+    if (!is_ocean(map_get_terrain(punit->tile))) {
+      UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
+      (void) ai_gothere(pplayer, punit, pc->tile);
+    } else {
+      struct unit *ferry = NULL;
+
+      unit_list_iterate(punit->tile->units, aunit) {
+	if (is_boat_free(aunit, punit, 2)) {
+	  ferry = aunit;
+	  break;
+	}
+      } unit_list_iterate_end;
+      if (ferry) {
+	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
+		 pc->name);
+	(void)aiferry_goto_amphibious(ferry, punit, pc->tile);
+      } else {
+	UNIT_LOG(LOG_ERROR, punit, "unable to find barbarian ferry");
+      }
+    }
+  }
+}
+
+/*************************************************************************
   This does the attack until we have used up all our movement, unless we
   should safeguard a city.  First we rampage nearby, then we go
   looking for trouble elsewhere. If there is nothing to kill, sailing units 
@@ -1658,6 +1668,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int id = punit->id;
   int ct = 10;
   struct city *pcity = NULL;
+  struct tile *start_tile = punit->tile;
 
   CHECK_UNIT(punit);
 
@@ -1690,6 +1701,14 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
                  dest_tile->x, dest_tile->y);
         if (!ai_gothere(pplayer, punit, dest_tile)) {
           /* Died or got stuck */
+	  if (find_unit_by_id(id)
+	      && punit->moves_left && punit->tile != start_tile) {
+	    /* Got stuck. Possibly because of adjacency to an
+	     * enemy unit. Perhaps we are in luck and are now next to a
+	     * tempting target? Let's find out... */
+	    (void) ai_military_rampage(punit,
+				       RAMPAGE_ANYTHING, RAMPAGE_ANYTHING);
+	  }
           return;
         }
         if (punit->moves_left <= 0) {
@@ -1742,22 +1761,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   } else {
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
-    struct city *pc;
-    struct tile *ftile;
-
-    if ((pc = dist_nearest_city(pplayer, punit->tile, FALSE, TRUE))) {
-      if (!is_ocean(map_get_terrain(punit->tile))) {
-        UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
-        (void) ai_gothere(pplayer, punit, pc->tile);
-      } else {
-        /* sometimes find_beachhead is not enough */
-        if (!find_beachhead(punit, pc->tile, &ftile)) {
-          find_city_beach(pc, punit, &ftile);
-        }
-        UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to %s", pc->name);
-        (void) ai_gothere(pplayer, punit, ftile);
-      }
-    }
+    ai_military_attack_barbarian(pplayer, punit);
   }
   if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
     ai_military_defend(pplayer, punit);

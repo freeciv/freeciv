@@ -18,6 +18,7 @@
 #include "fc_types.h"
 
 struct pf_path;
+struct pft_amphibious;
 
 /* 
  * Initialize ferrybaot-related statistics in the ai data.
@@ -36,10 +37,24 @@ void aiferry_clear_boat(struct unit *punit);
 
 /*
  * Go to the destination by hitching a ride on a boat.  Will try to find 
- * a beachhead but it works better if (dest_x, dest_y) is on the coast.
+ * a beachhead but it works better if dst_tile is on the coast.
+ * Loads a bodyguard too, if necessary.
  */
 bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 		      struct tile *dst_tile);
+/*
+ * Go to the destination on a particular boat.  Will try to find 
+ * a beachhead but it works better if ptile is on the coast.
+ */
+bool aiferry_goto_amphibious(struct unit *ferry,
+			     struct unit *passenger, struct tile *ptile);
+
+bool ai_amphibious_goto_constrained(struct unit *ferry,
+				    struct unit *passenger,
+				    struct tile *ptile,
+				    struct pft_amphibious *parameter);
+
+bool is_boat_free(struct unit *boat, struct unit *punit, int cap);
 
 /*
  * Main boat managing function.  Gets units on board to where they want to
