@@ -87,6 +87,9 @@ static int  pack_iter_remaining(struct pack_iter *piter);
 static unsigned char *put_uint8(unsigned char *buffer, int val);
 static unsigned char *put_uint32(unsigned char *buffer, int val);
 
+static unsigned char *put_bool8(unsigned char *buffer, bool val);
+static unsigned char *put_bool32(unsigned char *buffer, bool val);
+
 static unsigned char *put_uint8_vec8(unsigned char *buffer, int *val, int stop);
 static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop);
 
@@ -98,6 +101,9 @@ static unsigned char *put_tech_list(unsigned char *buffer, const int *techs);
 static void iget_uint8(struct pack_iter *piter, int *val);
 static void iget_uint16(struct pack_iter *piter, int *val);
 static void iget_uint32(struct pack_iter *piter, int *val);
+
+static void iget_bool8(struct pack_iter *piter, bool *val);
+static void iget_bool32(struct pack_iter *piter, bool *val);
 
 static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop);
 static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop);
@@ -742,6 +748,24 @@ static unsigned char *put_uint32(unsigned char *buffer, int val)
 #define put_sint32(b,v) put_uint32(b,v)
 
 /**************************************************************************
+...
+**************************************************************************/
+static unsigned char *put_bool8(unsigned char *buffer, bool val)
+{
+  assert(val == TRUE || val == FALSE);
+  return put_uint8(buffer, val ? 1 : 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static unsigned char *put_bool32(unsigned char *buffer, bool val)
+{
+  assert(val == TRUE || val == FALSE);
+  return put_uint32(buffer, val ? 1 : 0);
+}
+
+/**************************************************************************
   Gets a vector of uint8 values; at most 2^8-1 elements.
   Allocates the return value.
   val can be NULL meaning just read past.
@@ -984,6 +1008,30 @@ static void iget_sint32(struct pack_iter *piter, int *val)
   }
 }
 #endif
+
+/**************************************************************************
+...
+**************************************************************************/
+static void iget_bool8(struct pack_iter *piter, bool * val)
+{
+  int ival;
+
+  iget_uint8(piter, &ival);
+  assert(ival == 0 || ival == 1);
+  *val = (ival != 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void iget_bool32(struct pack_iter *piter, bool * val)
+{
+  int ival;
+
+  iget_uint32(piter, &ival);
+  assert(ival == 0 || ival == 1);
+  *val = (ival != 0);
+}
 
 /**************************************************************************
   Like get_uint8_vec8, but using a pack_iter.
@@ -1337,7 +1385,7 @@ static unsigned char *put_worklist(struct connection *pc,
   int i, length;
   bool short_wls = has_capability("short_worklists", pc->capability);
 
-  buffer = put_uint8(buffer, pwl->is_valid);
+  buffer = put_bool8(buffer, pwl->is_valid);
 
   if ((short_wls && pwl->is_valid) || !short_wls) {
     if (real_wl) {
@@ -1369,7 +1417,7 @@ static void iget_worklist(struct connection *pc, struct pack_iter *piter,
   int i, length;
   bool short_wls = has_capability("short_worklists", pc->capability);
 
-  iget_uint8(piter, &pwl->is_valid);
+  iget_bool8(piter, &pwl->is_valid);
 
   if ((short_wls && pwl->is_valid) || !short_wls) {
     iget_string(piter, pwl->name, MAX_LEN_NAME);
@@ -1736,7 +1784,7 @@ receive_packet_city_request(struct connection *pc)
 
   iget_uint16(&iter, &preq->city_id);
   iget_uint8(&iter, &preq->build_id);
-  iget_uint8(&iter, &preq->is_build_id_unit_id);
+  iget_bool8(&iter, &preq->is_build_id_unit_id);
   iget_uint8(&iter, &preq->worker_x);
   iget_uint8(&iter, &preq->worker_y);
   iget_uint8(&iter, &preq->specialist_from);
@@ -1763,7 +1811,7 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
 
-  cptr=put_uint8(cptr, pinfo->is_male);
+  cptr=put_bool8(cptr, pinfo->is_male);
   cptr=put_uint8(cptr, pinfo->government);
   cptr=put_uint32(cptr, pinfo->embassy);
   cptr=put_uint8(cptr, pinfo->city_style);
@@ -1826,14 +1874,14 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter,  &pinfo->playerno);
   iget_string(&iter, pinfo->name, sizeof(pinfo->name));
 
-  iget_uint8(&iter,  &pinfo->is_male);
+  iget_bool8(&iter,  &pinfo->is_male);
   iget_uint8(&iter,  &pinfo->government);
   iget_uint32(&iter,  &pinfo->embassy);
   iget_uint8(&iter,  &pinfo->city_style);
   iget_uint8(&iter,  &pinfo->nation);
-  iget_uint8(&iter,  &pinfo->turn_done);
+  iget_bool8(&iter,  &pinfo->turn_done);
   iget_uint16(&iter,  &pinfo->nturns_idle);
-  iget_uint8(&iter,  &pinfo->is_alive);
+  iget_bool8(&iter,  &pinfo->is_alive);
   
   iget_uint32(&iter, &pinfo->reputation);
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -1853,11 +1901,11 @@ receive_packet_player_info(struct connection *pc)
   iget_bit_string(&iter, (char*)pinfo->inventions, sizeof(pinfo->inventions));
   iget_uint16(&iter, &pinfo->future_tech);
 
-  iget_uint8(&iter, &pinfo->is_connected);
+  iget_bool8(&iter, &pinfo->is_connected);
 
   iget_uint8(&iter, &pinfo->revolution);
   iget_uint8(&iter, &pinfo->tech_goal);
-  iget_uint8(&iter, &pinfo->ai);
+  iget_bool8(&iter, &pinfo->ai);
   iget_uint8(&iter, &pinfo->barbarian_type);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
@@ -1981,7 +2029,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->techpenalty);
   cptr=put_uint8(cptr, pinfo->foodbox);
   cptr=put_uint8(cptr, pinfo->civstyle);
-  cptr=put_uint8(cptr, pinfo->spacerace);
+  cptr=put_bool8(cptr, pinfo->spacerace);
 
   /* computed values */
   cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
@@ -2040,7 +2088,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->techpenalty);
   iget_uint8(&iter, &pinfo->foodbox);
   iget_uint8(&iter, &pinfo->civstyle);
-  iget_uint8(&iter, &pinfo->spacerace);
+  iget_bool8(&iter, &pinfo->spacerace);
 
   /* computed values */
   iget_uint32(&iter, &pinfo->seconds_to_turndone);
@@ -2086,7 +2134,7 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc)
 
   iget_uint8(&iter, &pinfo->xsize);
   iget_uint8(&iter, &pinfo->ysize);
-  iget_uint8(&iter, &pinfo->is_earth);
+  iget_bool8(&iter, &pinfo->is_earth);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2646,7 +2694,7 @@ int send_packet_join_game_reply(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_JOIN_GAME_REPLY);
-  cptr=put_uint32(cptr, reply->you_can_join);
+  cptr=put_bool32(cptr, reply->you_can_join);
   /* if other end is byte swapped, you_can_join should be 0,
      which is 0 even if bytes are swapped! --dwp */
   cptr=put_string(cptr, reply->message);
@@ -2751,7 +2799,7 @@ receive_packet_join_game_reply(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_uint32(&iter, &packet->you_can_join);
+  iget_bool32(&iter, &packet->you_can_join);
   iget_string(&iter, packet->message, sizeof(packet->message));
   iget_string(&iter, packet->capability, sizeof(packet->capability));
 
@@ -2824,7 +2872,7 @@ int send_packet_alloc_nation(struct connection *pc,
   cptr=put_uint8(buffer+2, PACKET_ALLOC_NATION);
   cptr=put_uint32(cptr, packet->nation_no);
   cptr=put_string(cptr, packet->name);
-  cptr=put_uint8(cptr,packet->is_male);
+  cptr=put_bool8(cptr,packet->is_male);
   cptr=put_uint8(cptr,packet->city_style);
   put_uint16(buffer, cptr-buffer);
 
@@ -2845,7 +2893,7 @@ receive_packet_alloc_nation(struct connection *pc)
 
   iget_uint32(&iter, &packet->nation_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
-  iget_uint8(&iter, &packet->is_male);
+  iget_bool8(&iter, &packet->is_male);
   iget_uint8(&iter, &packet->city_style);
 
   pack_iter_end(&iter, pc);
@@ -3194,7 +3242,7 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_uint8_vec8(cptr, packet->equiv_dupl, B_LAST);
   cptr=put_uint8_vec8(cptr, packet->equiv_repl, B_LAST);
   cptr=put_uint8(cptr, packet->obsolete_by);
-  cptr=put_uint8(cptr, packet->is_wonder);
+  cptr=put_bool8(cptr, packet->is_wonder);
   cptr=put_uint16(cptr, packet->build_cost);
   cptr=put_uint8(cptr, packet->upkeep);
   cptr=put_uint8(cptr, packet->sabotage);
@@ -3247,7 +3295,7 @@ receive_packet_ruleset_building(struct connection *pc)
   iget_uint8_vec8(&iter, &packet->equiv_dupl, B_LAST);
   iget_uint8_vec8(&iter, &packet->equiv_repl, B_LAST);
   iget_uint8(&iter, &packet->obsolete_by);
-  iget_uint8(&iter, &packet->is_wonder);
+  iget_bool8(&iter, &packet->is_wonder);
   iget_uint16(&iter, &packet->build_cost);
   iget_uint8(&iter, &packet->upkeep);
   iget_uint8(&iter, &packet->sabotage);
@@ -3406,10 +3454,10 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
 
   cptr=put_uint8(cptr, packet->river_style);
-  cptr=put_uint8(cptr, packet->may_road);
-  cptr=put_uint8(cptr, packet->may_irrigate);
-  cptr=put_uint8(cptr, packet->may_mine);
-  cptr=put_uint8(cptr, packet->may_transform);
+  cptr=put_bool8(cptr, packet->may_road);
+  cptr=put_bool8(cptr, packet->may_irrigate);
+  cptr=put_bool8(cptr, packet->may_mine);
+  cptr=put_bool8(cptr, packet->may_transform);
   cptr=put_uint8(cptr, packet->ocean_reclaim_requirement);
   cptr=put_uint8(cptr, packet->land_channel_requirement);
   cptr=put_uint8(cptr, packet->river_move_mode);
@@ -3449,10 +3497,10 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_uint8(&iter, (int*)&packet->river_style);
-  iget_uint8(&iter, &packet->may_road);
-  iget_uint8(&iter, &packet->may_irrigate);
-  iget_uint8(&iter, &packet->may_mine);
-  iget_uint8(&iter, &packet->may_transform);
+  iget_bool8(&iter, &packet->may_road);
+  iget_bool8(&iter, &packet->may_irrigate);
+  iget_bool8(&iter, &packet->may_mine);
+  iget_bool8(&iter, &packet->may_transform);
   iget_uint8(&iter, (int*)&packet->ocean_reclaim_requirement);
   iget_uint8(&iter, (int*)&packet->land_channel_requirement);
   iget_uint8(&iter, (int*)&packet->river_move_mode);
