@@ -2971,6 +2971,11 @@ void ai_manage_units(struct player *pplayer)
   unit_list_iterate_safe(pplayer->units, punit) {
     ai_manage_unit(pplayer, punit);
   } unit_list_iterate_safe_end;
+  /* Sometimes units wait for other units to move so we crudely
+   * solve it by moving everything again */ 
+  unit_list_iterate_safe(pplayer->units, punit) {
+    ai_manage_unit(pplayer, punit);
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************

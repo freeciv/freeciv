@@ -1495,13 +1495,9 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Season of native unrests");
     summon_barbarians(); /* wild guess really, no idea where to put it, but
                             I want to give them chance to move their units */
+    /* Moved this to after the human turn for efficiency -- Syela */
     freelog(LOG_DEBUG, "Autosettlers");
-    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
-    /* moved after sniff_packets for even more efficiency.
-       What a guy I am. -- Syela */
-    /* and now, we must manage our remaining units BEFORE the cities that are
-       empty get to refresh and defend themselves.  How totally stupid. */
-    ai_start_turn(); /* Misleading name for manage_units -- Syela */
+    auto_settlers();
     freelog(LOG_DEBUG, "Auto-Attack phase");
     auto_attack();
     freelog(LOG_DEBUG, "Endturn");
@@ -1776,7 +1772,6 @@ main_start_players:
       civ_score(pplayer);	/* if we don't, the AI gets really confused */
       if (pplayer->ai.control) {
 	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
-        /* assess_danger_player(pplayer); */
       }
     } players_iterate_end;
   }

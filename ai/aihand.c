@@ -36,6 +36,7 @@
 #include "spacerace.h"
 #include "unithand.h"
 
+#include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -295,15 +296,27 @@ static void ai_manage_government(struct player *pplayer)
 }
 
 /**************************************************************************
- Main AI routine.
+  Activities to be done by AI _before_ human turn.  Here we just move the
+  units intelligently.
 **************************************************************************/
 void ai_do_first_activities(struct player *pplayer)
 {
-  ai_manage_units(pplayer); /* STOP.  Everything else is at end of turn. */
+  assess_danger_player(pplayer);
+  /* TODO: Make assess_danger save information on what is threatening
+   * us and make ai_mange_units and Co act upon this information, trying
+   * to eliminate the source of danger */
+
+  ai_manage_units(pplayer); 
+  /* STOP.  Everything else is at end of turn. */
 }
 
 /**************************************************************************
-  ...
+  Activities to be done by AI _after_ human turn.  Here we respond to 
+  dangers created by human and AI opposition by ordering defenders in 
+  cities and setting taxes accordingly.  We also do other duties.  
+
+  We do _not_ move units here, otherwise humans complain that AI moves 
+  twice.
 **************************************************************************/
 void ai_do_last_activities(struct player *pplayer)
 {
