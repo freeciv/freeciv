@@ -102,7 +102,7 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 
-EXTRA_DIST =  	INSTALL.de 	README.de
+EXTRA_DIST =  	INSTALL.de		README.de		INSTALL.it		README.it		NEWS.ja
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
