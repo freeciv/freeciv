@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14\n"
-"POT-Creation-Date: 2002-08-16 22:40+0200\n"
+"POT-Creation-Date: 2002-08-20 00:33+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: \n"
@@ -1152,7 +1152,7 @@ msgstr "Spiel: Die Kenntnis über %s wurde vermittelt."
 
 #: server/diplhand.c:281
 #, c-format
-msgid "Game: The %s have aquired %s from the %s."
+msgid "Game: The %s have acquired %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s übernommen."
 
 #: server/diplhand.c:286
@@ -5354,7 +5354,7 @@ msgstr "Die %s haben %s erforscht."
 
 #: server/unittools.c:2336
 #, c-format
-msgid "Game: The %s have aquired %s from ancient scrolls of wisdom."
+msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr ""
 "Spiel: Die %s haben die Kenntnis über %s in überlieferten wissenschaftlichen "
 "Texten gefunden."
@@ -17531,14 +17531,6 @@ msgstr "koreanisch"
 msgid "?plural:Koreans"
 msgstr "?plural:Koreaner"
 
-#: data/nation/krevi.ruleset:3
-msgid "Krevi"
-msgstr "krevisch"
-
-#: data/nation/krevi.ruleset:4
-msgid "?plural:Krevis"
-msgstr "?plural:Krevier"
-
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
 msgstr "lettisch"
@@ -17594,14 +17586,6 @@ msgstr "Overlord"
 #: data/nation/mordor.ruleset:13
 msgid "Dark Lord"
 msgstr "Dark Lord"
-
-#: data/nation/olympic.ruleset:3
-msgid "Olympic"
-msgstr "olympisch"
-
-#: data/nation/olympic.ruleset:4
-msgid "?plural:Olympians"
-msgstr "?plural:Olympier"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -17850,3 +17834,15 @@ msgstr "zuluanisch"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
+
+#~ msgid "Krevi"
+#~ msgstr "krevisch"
+
+#~ msgid "?plural:Krevis"
+#~ msgstr "?plural:Krevier"
+
+#~ msgid "Olympic"
+#~ msgstr "olympisch"
+
+#~ msgid "?plural:Olympians"
+#~ msgstr "?plural:Olympier"
