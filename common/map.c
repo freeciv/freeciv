@@ -264,11 +264,8 @@ static void set_ratio(double base_size, int Xratio, int Yratio)
 	    _("Requested size of %d is too big for this topology."),
 	    map.size);
   }
-  freelog(LOG_VERBOSE,
-	  _("Creating a map of size of %2.1fk tiles"),
-	  base_size);
-  freelog(LOG_VERBOSE,
-	  "map.xsize and map.ysize are seted to %d and %d ",
+  freelog(LOG_VERBOSE, "Creating a map of size of %2.1fk tiles.", base_size);
+  freelog(LOG_VERBOSE, "xsize and ysize are set to %d and %d.",
 	  map.xsize, map.ysize);
 }
 
