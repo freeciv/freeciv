@@ -81,6 +81,9 @@ WHAT'S CHANGED SINCE 1.11.4
    players (new players; human players; AI players; dead players;
    barbarian players) can connect.
  - More nations added.
+ - New maps in data/scenario: british-isles-80x76-v2.51.sav,
+   iberian-peninsula-136x100-v0.9.sav,
+   hagworld-120x60-v1.2.sav (earth map).
  - Amiga internationalization/localization.
  - Amiga client: history added to chatline.
  - Lots of bug fixes and code cleanups.
