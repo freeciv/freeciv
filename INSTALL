@@ -136,7 +136,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk-1.2.1.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk-1.2.3.tar.gz
 
  - The "Glib" utility library.
 
@@ -148,7 +148,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.1.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.3.tar.gz
 
  - The "Imlib" library.
 
