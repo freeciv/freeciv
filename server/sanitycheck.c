@@ -258,10 +258,30 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     }
   } city_map_iterate_end;
   if (workers + city_specialists(pcity) != pcity->size + 1) {
-    die("%s is illegal (size%d w%d s%s) in %s line %d",
-	pcity->name, pcity->size, workers,
-	specialists_string(pcity->specialists), file, line);
+    int diff = pcity->size + 1 - workers - city_specialists(pcity);
 
+    SANITY_CHECK(workers + city_specialists(pcity) == pcity->size + 1);
+    if (diff > 0) {
+      pcity->specialists[DEFAULT_SPECIALIST] += diff;
+    } else if (diff < 0) {
+      specialist_type_iterate(sp) {
+	int num = MIN(-diff, pcity->specialists[sp]);
+
+	diff += num;
+	pcity->specialists[sp] -= num;
+      } specialist_type_iterate_end;
+
+      if (diff < 0) {
+	city_map_checked_iterate(pcity->tile, city_x, city_y, ptile) {
+	  if (ptile->worked == pcity && diff < 0) {
+	    server_remove_worker_city(pcity, city_x, city_y);
+	    diff++;
+	  }
+	} city_map_checked_iterate_end;
+      }
+    }
+
+    generic_city_refresh(pcity, TRUE, NULL);
   }
 }
 
