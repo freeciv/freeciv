@@ -34,6 +34,9 @@
 /* semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 23
 
+#define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH)
+#define	PIXCOMM_HEIGHT	(SMALL_TILE_HEIGHT)
+
 #define NUM_HAPPINESS_MODIFIERS 5
 
 static struct genlist happiness_list;
@@ -49,7 +52,6 @@ struct happiness_dialog {
   GtkWidget *close;
 };
 
-static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index);
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
 static struct happiness_dialog *create_happiness_dialog(struct city
 							*pcity);
@@ -113,8 +115,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     box = gtk_vbox_new(FALSE, 2);
     gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
     
-    pdialog->hpixmaps[i] =
-	gtk_image_new_from_pixmap(create_happiness_pixmap(pcity, i), NULL);
+    pdialog->hpixmaps[i] = gtk_pixcomm_new(PIXCOMM_WIDTH, PIXCOMM_HEIGHT);
     gtk_box_pack_start(GTK_BOX(box), pdialog->hpixmaps[i], FALSE, FALSE, 0);
 
     pdialog->hlabels[i] = gtk_label_new("");
@@ -144,27 +145,24 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
+static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
 {
   int i;
   enum citizen_type citizens[MAX_CITY_SIZE];
   int num_citizens = pcity->size;
-  int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
-  int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);
-  int true_pix_width = (num_citizens - 1) * offset + SMALL_TILE_WIDTH;
-
-  GdkPixmap *happiness_pixmap = gdk_pixmap_new(root_window, true_pix_width,
-					       SMALL_TILE_HEIGHT, -1);
+  int offset = MIN(SMALL_TILE_WIDTH, PIXCOMM_WIDTH / num_citizens);
 
   get_city_citizen_types(pcity, index, citizens);
 
+  gtk_pixcomm_freeze(dst);
+  gtk_pixcomm_clear(dst);
+
   for (i = 0; i < num_citizens; i++) {
-    pixmap_put_sprite_full(happiness_pixmap,
-			   i * offset, 0,
-			   get_citizen_sprite(citizens[i], i, pcity));
+    gtk_pixcomm_copyto(dst, get_citizen_sprite(citizens[i], i, pcity),
+		       i * offset, 0);
   }
 
-  return happiness_pixmap;
+  gtk_pixcomm_thaw(dst);
 }
 
 /**************************************************************************
@@ -177,8 +175,7 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < 5; i++) {
-    gtk_image_set_from_pixmap(GTK_IMAGE(pdialog->hpixmaps[i]),
-			      create_happiness_pixmap(pdialog->pcity, i), NULL);
+    refresh_pixcomm(GTK_PIXCOMM(pdialog->hpixmaps[i]), pdialog->pcity, i);
   }
 
   happiness_dialog_update_cities(pdialog);
@@ -241,7 +238,7 @@ static void happiness_dialog_update_cities(struct happiness_dialog
   my_snprintf(bptr, nleft, _("%d additional unhappy citizens."), penalty);
   bptr = end_of_strn(bptr, &nleft);
 
-  gtk_set_label(pdialog->hlabels[CITIES], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[CITIES]), buf);
 }
 
 /**************************************************************************
@@ -257,7 +254,7 @@ static void happiness_dialog_update_luxury(struct happiness_dialog
   my_snprintf(bptr, nleft, _("Luxury: %d total."),
 	      pcity->luxury_total);
 
-  gtk_set_label(pdialog->hlabels[LUXURIES], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[LUXURIES]), buf);
 }
 
 /**************************************************************************
@@ -323,7 +320,7 @@ static void happiness_dialog_update_buildings(struct happiness_dialog
     bptr = end_of_strn(bptr, &nleft);
   }
 
-  gtk_set_label(pdialog->hlabels[BUILDINGS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[BUILDINGS]), buf);
 }
 
 /**************************************************************************
@@ -364,7 +361,7 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
 
   }
 
-  gtk_set_label(pdialog->hlabels[UNITS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[UNITS]), buf);
 }
 
 /**************************************************************************
@@ -420,7 +417,7 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
     my_snprintf(bptr, nleft, _("None. "));
   }
 
-  gtk_set_label(pdialog->hlabels[WONDERS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[WONDERS]), buf);
 }
 
 /**************************************************************************
