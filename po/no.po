@@ -17,7 +17,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2002-10-24 18:28\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Language-Team: Norwegian\n"
@@ -176,7 +177,7 @@ msgstr "Atomavfall"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Tomt for minne ved forsøk på %s %lu bytes på linje %d i %s."
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -348,7 +349,7 @@ msgstr ""
 "være kodet som %s; du kan endre dette ved å sette\n"
 "$FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -543,12 +544,12 @@ msgstr "Spill: Auto-Angrep: %ss %s fant en for sterk fiende (%s)"
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Spill: Anto-angrep: %ss %s angriper %ss %s"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Uroligheter nær %s, ledet av %s."
 
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Pirater sett nær %s!"
@@ -1551,23 +1552,23 @@ msgstr "Spill: Der er ingen tilkobling med navn %s."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Spill: Der er ingen spiller eller tilkobling med navn %s."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Kartgenerator: Ikke nok startposisjoner, fikser."
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr "Mye landmasse - dette kan ta noen sekunder."
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr "Faller tilbake på generator 2."
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 plasserte ikke alle de store øyene."
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 forlot %li landmasse uplassert."
@@ -2228,7 +2229,7 @@ msgstr "støttede alternativ: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Regeloppsett datafil krever alternativ(er) som ikke er støttet:"
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr "Laster inn regeloppsett"
 
@@ -2263,19 +2264,19 @@ msgid ""
 msgstr ""
 "Antall påmeldte (%d) er lavere enn max_players (%d), senker max_players."
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 "Den lagrede filen er for gammel, versjoner fra og med 1.9.0 er støttet."
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Den lagrede filen bruker det klassiske terreng regeloppsettet som ikke "
 "lenger er støttet."
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -8231,7 +8232,7 @@ msgstr "Velg destinasjon"
 msgid "Show _All Cities"
 msgstr "Vis _alle byer"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8256,7 +8257,7 @@ msgstr ""
 "Besøk http://www.freeciv.org/ for oppdaterte versjoner av Freeciv, \n"
 "og for å rapportere feil ved Freeciv eller den norske oversettelsen."
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""

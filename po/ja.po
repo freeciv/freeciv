@@ -29,7 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2003-11-23 15:20+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -186,7 +187,7 @@ msgstr ""
 "%s が %lu バイトを得ようとしてメモリ不足になりました。  %d 行目 %s ファイルで"
 "す。"
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -361,7 +362,7 @@ msgid ""
 msgstr ""
 
 # ntaka
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -557,13 +558,13 @@ msgstr "Game: 自動攻撃: %sの%sは、非常に強い敵(%s)を発見"
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Game: 自動攻撃: %sの%sが、%sの%sを攻撃中"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "%2$sによって%1$s近くの住民が動揺しています"
 
 # yasu
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "海賊が%sのそばに見えます!"
@@ -1620,23 +1621,23 @@ msgstr "Game: %sという名前の接続はありません。"
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Game: %s という名前のプレイヤーもしくは接続はありません。"
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Map generator: 十分なスタート地点がありません。修正中。"
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr "多大陸 - 少し時間がかかるかもしれません。"
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr "Generator 2 を試みます。"
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 は大きな島のいくつかを配置できません。"
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 は配置しなかった%liの島を残しました。"
@@ -2307,7 +2308,7 @@ msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 "ルールセット・データファイルは、サポートしていない必須オプションを要求します:"
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr "ルールセットをロードしています"
 
@@ -2344,18 +2345,18 @@ msgstr ""
 "スタートの人数(%d)が最大プレーヤー(%d)より少ないです、最大プレーヤーを削減"
 "中。"
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "savegame は古過ぎます。1.9.0 以上が必要です。"
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "savegame はもうサポートされていない classic terrain ルールセットを使っていま"
 "す。"
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -8302,7 +8303,7 @@ msgstr "行き先の選択"
 msgid "Show _All Cities"
 msgstr "全ての都市(_A)"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8327,7 +8328,7 @@ msgstr ""
 "を配布することを歓迎します。ヘルプメニューの\"著作権\"の項目を見て下さい。\n"
 "…さぁ、コテンパンにしてやれ!"
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""

@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2002-12-20 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@egroups.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: common/city.c:263
@@ -170,7 +170,7 @@ msgstr ""
 "Plus de mémoire lors de la tentative de %s %lu octets à la ligne %d du "
 "fichier %s."
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -353,7 +353,7 @@ msgstr ""
 "doivent être encodés en %s, vous pouvez changer ceci en modifiant\n"
 "$FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -550,12 +550,12 @@ msgstr ""
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Jeu : Auto-Attaque : le %2$s de %1$s attaque le %4$s de %3$s"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Apparition d'indigènes menés par %2$s aux abords de %1$s."
 
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Pirates aperçus au large de %s !"
@@ -1592,23 +1592,23 @@ msgstr "Jeu : il n'y a pas de connexion du nom de %s."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Jeu : il n'y a pas de joueur ou de connexion du nom de %s."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Générateur de cartes: pas assez de positions de départ, je corrige."
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr "Beaucoup de terres - cela risque de prendre quelques secondes."
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr "Utilisation du générateur 2 à la place."
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr "Le générateur 3 n'a pas placé toutes les grandes îles."
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Le générateur 3 a laissé %li terres non placées."
@@ -2285,7 +2285,7 @@ msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 "Le fichier de règles nécessite des options qui ne sont pas supportées : "
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr "Chargement des règles"
 
@@ -2321,18 +2321,18 @@ msgstr ""
 "Nombre de départs (%d) est inférieur au nombre maximum de joueurs "
 "(\"max_player\" : %d), diminution de \"max_player\"."
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Sauvegarde trop ancienne, la version 1.9.0 ou supérieure est requise."
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "La sauvegarde utilise le jeu de règles des terrains classique qui n'est plus "
 "supporté."
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -8368,7 +8368,7 @@ msgstr "Choisissez une destination"
 msgid "Show _All Cities"
 msgstr "Toutes les villes"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8391,7 +8391,7 @@ msgstr ""
 "Aide.\n"
 "Maintenant... Envoyez les en Enfer !"
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""

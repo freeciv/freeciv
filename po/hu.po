@@ -8,7 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2003-11-20 22:20+0100\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -166,7 +167,7 @@ msgstr ""
 "Elfogyott a memória, amikor a(z) %1$s függvény %2$lu bájtot próbált "
 "lefoglalni (%4$s, %3$d. sor)."
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -342,7 +343,7 @@ msgstr ""
 "változóval\n"
 "változtathatod meg."
 
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -539,12 +540,12 @@ msgstr "Játék: Automata Támadás: A(z) %si %s túl kemény ellenfelet talált (%s)"
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Játék: Automata Támadás: A(z) %si %s %s %s egységét támadja"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Bennszülött felkelés %s közelében %s vezetésével."
 
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Kalózok %s közelében!"
@@ -1586,24 +1587,24 @@ msgstr "Játék: Nincs %s nevû kapcsolat."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Játék: Sem %1$s nevû játékos sem %1$s nevû kapcsolat nincsen."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr ""
 "Térképgenerátor: nincs elég kezdõhely (megpróbálom megszüntetni a problémát)."
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr "Sok szárazföld - ez néhány másodpercet vehet igénybe."
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr "Vissza a 2-es generálóeljáráshoz."
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr "A 3-as generálóeljárás nem helyezte el az összes nagy szigetet."
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "A 3-as generálóeljárás %li szárazföldi mezõt nem helyezett el."
@@ -2271,7 +2272,7 @@ msgstr "a támogatott opciók: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "A szabálykészlet fájl nem támogatott opció(ka)t követel meg:"
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr "Szabályok betöltése"
 
@@ -2307,18 +2308,18 @@ msgstr ""
 "A kezdõhelyek száma (%d) kevesebb mint max_players (%d), ezért max_players-t "
 "csökkentettem."
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "A játékállás túl régi, legalább 1.9.0-ás verziójúnak kéne lennie."
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "A játékállás a már nem támogatott klasszikus terep szabálykészletet "
 "használja."
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -8385,7 +8386,7 @@ msgstr "Válassz célt"
 msgid "Show _All Cities"
 msgstr "Ö_sszes város megjelenítése"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8408,7 +8409,7 @@ msgstr ""
 "(Lásd a \"Másolás\" pontot a Súgó menüben.)\n"
 "És most.. Adj nekik! :)"
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""

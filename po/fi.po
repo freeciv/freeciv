@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2003-11-12 19:55+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:263
@@ -169,7 +169,7 @@ msgstr "Laskeuma"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Muisti loppui, yritin %s %lu tavua (rivi %d tiedostossa %s)."
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -348,7 +348,7 @@ msgstr ""
 "koodituksen pitää olla %s; voit muuttaa tätä asettamalla\n"
 "ympäristömuuttujan $FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -548,12 +548,12 @@ msgstr ""
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Peli: Kaupungin %s puolustaja %s hyökkää vihollisen (%s: %s) kimppuun"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "%s raportoi levottomuuksia lähistöllä, %s johtaa rähinöijiä."
 
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "%s on havainnut merirosvoja!"
@@ -1579,23 +1579,23 @@ msgstr "Peli: En löydä sennimistä (%s) yhteyttä."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Peli: En löydä sennimistä (%s) pelaajaa enkä yhteyttä."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Karttakehitin: liian vähän aloituspaikkoja, korjaan tilanteen."
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr "Paljon maa-alaa - tässä voi mennä jonkin aikaa."
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr "Palaan generaattoriin 2."
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr "3-generaattori ei asettanut kaikkia suuria saaria paikalleen."
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generaattori 3 jätti %li maa-alasta sijoittamatta."
@@ -2257,7 +2257,7 @@ msgstr "tuetut asetukset: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Sääntökokoelmatiedosto vaatii asetuksen/-ia joita ei tueta:"
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr "Lataan sääntökokoelmaa"
 
@@ -2293,17 +2293,17 @@ msgstr ""
 "Aloitusten (%d) määrä on pienempi kuin pelaajamaksimi max_players (%d), "
 "pienennän pelaajamaksimia."
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 1.9.0."
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Tallennettu peli käyttää 'klassista' maastosäännöstöä, jota ei enää tueta."
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -8275,7 +8275,7 @@ msgstr "Valitse kohde"
 msgid "Show _All Cities"
 msgstr "Näytä k_aikki kaupungit"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8302,7 +8302,7 @@ msgstr ""
 "peruslähtökohdiltaan varsin erilaisia, ja kaikki suomennokset eivät\n"
 "ikävä kyllä ole erinomaisen sujuvia."
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, c-format
 msgid ""

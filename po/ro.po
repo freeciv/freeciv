@@ -5,7 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-28 22:48+0200\n"
 "PO-Revision-Date: 2001-07-14 23:42GMT\n"
 "Last-Translator: Michael Stefaniuc <mstefani@redhat.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -162,7 +163,7 @@ msgstr "Contaminare Radioactivã"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr ""
 
-#: common/packets.c:3059
+#: common/packets.c:3061
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -327,7 +328,7 @@ msgid ""
 "$FREECIV_DATA_ENCODING."
 msgstr ""
 
-#: common/shared.c:1363
+#: common/shared.c:1346
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -520,12 +521,12 @@ msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr ""
 "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a reuºit!"
 
-#: server/barbarian.c:397
+#: server/barbarian.c:406
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Revoltã a bãºtinaºilor lîngã %s sub conducerea lui %s."
 
-#: server/barbarian.c:401
+#: server/barbarian.c:410
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Au fost observaþi piraþi în apropiere de %s!"
@@ -1512,23 +1513,23 @@ msgstr "Joc: Nu existã o conexiune cu numele %s."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Joc: Nu existã jucãtor sau conexiune cu numele %s."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1103
 msgid "Map generator: not enough start positions, fixing."
 msgstr ""
 
-#: server/mapgen.c:1722
+#: server/mapgen.c:1723
 msgid "High landmass - this may take a few seconds."
 msgstr ""
 
-#: server/mapgen.c:1938
+#: server/mapgen.c:1939
 msgid "Falling back to generator 2."
 msgstr ""
 
-#: server/mapgen.c:1953
+#: server/mapgen.c:1954
 msgid "Generator 3 didn't place all big islands."
 msgstr ""
 
-#: server/mapgen.c:1979
+#: server/mapgen.c:1980
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
@@ -2166,7 +2167,7 @@ msgstr ""
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 
-#: server/ruleset.c:2735
+#: server/ruleset.c:2737
 msgid "Loading rulesets"
 msgstr ""
 
@@ -2197,16 +2198,16 @@ msgid ""
 "Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr ""
 
-#: server/savegame.c:1731
+#: server/savegame.c:1738
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 
-#: server/savegame.c:1894
+#: server/savegame.c:1901
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 
-#: server/savegame.c:1903
+#: server/savegame.c:1910
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -7940,7 +7941,7 @@ msgstr "Aleget unitatea"
 msgid "Show _All Cities"
 msgstr "Toate oraºele"
 
-#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
+#: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:958
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -7959,7 +7960,7 @@ msgid ""
 "Now.. Go give'em hell!"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1211 client/gui-gtk/gui_main.c:1012
+#: client/gui-gtk-2.0/gui_main.c:1207 client/gui-gtk/gui_main.c:1012
 #: client/gui-xaw/gui_main.c:693
 #, fuzzy, c-format
 msgid ""
