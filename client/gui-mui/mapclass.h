@@ -77,6 +77,7 @@ Object *MakeMap(void);
 Object *MakeCityMap(struct city *city);
 Object *MakeSpaceShip(struct player_spaceship *ship);
 Object *MakeSprite(struct Sprite *sprite);
+Object *MakeBorderSprite(struct Sprite *sprite);
 Object *MakeUnit(struct unit *punit, LONG upkeep);
 
 // Something which should be otherwere

@@ -788,6 +788,8 @@ struct MUI_CustomClass *CL_Map;
 Object *MakeMap(void)
 {
   return MapObject,
+    InnerSpacing(0,0),
+    VirtualFrame,
     MUIA_Font, MUIV_Font_Big,
     End;
 }
@@ -2361,6 +2363,17 @@ struct MUI_CustomClass *CL_Sprite;
 Object *MakeSprite(struct Sprite *sprite)
 {
   return SpriteObject,
+    MUIA_Sprite_Sprite, sprite,
+    MUIA_InputMode, MUIV_InputMode_RelVerify,
+    MUIA_ShowSelState, FALSE,
+    End;
+}
+
+Object *MakeBorderSprite(struct Sprite *sprite)
+{
+  return SpriteObject,
+    TextFrame,
+    InnerSpacing(0,0),
     MUIA_Sprite_Sprite, sprite,
     MUIA_InputMode, MUIV_InputMode_RelVerify,
     MUIA_ShowSelState, FALSE,

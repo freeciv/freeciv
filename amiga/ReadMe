@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.5 => Freeciv 1.9.0
+Short:     Amiga Version 1.6 => Freeciv 1.9.1-devel
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.5 => Freeciv 1.9.0
+Kurz:      Amiga Version 1.6 => Freeciv 1.9.1-devel
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.5
+Version:   1.6
 
 Introduction
 ~~~~~~~~~~~~
@@ -80,12 +80,20 @@ Future
 
 Notes
 ~~~~~
-This version is incompatible with the previous version 1.3. That means
+This version is incompatible with the previous version 1.5. That means
 with the included client you cannot connect to a old server. Also old
 clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.6 (xx.xx.2000)
+ - corresponds to latest Freeciv 1.9.1-devel
+ - in the help window you can see the tech tree now simliar to
+   the XAW client
+ - the units in the unit selection window are now ordered by column
+   while the number of rows depends on the windows size.
+ - smaller gui changes
+
 Version 1.5 (07.11.99)
  - corresponds to Freeciv 1.9.0
  - context menu for the map

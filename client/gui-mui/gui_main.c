@@ -62,6 +62,7 @@
 #include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl.h"
 #include "mapview.h"
+#include "menu_g.h"
 #include "options.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
@@ -282,7 +283,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Quit", MENU_GAME_QUIT, "Q", 0),
 
   MAKE_TITLE("Kingdom", MENU_KINGDOM),
-MAKE_ITEM("Tax Rate...", MENU_KINGDOM_TAX_RATE, "SHIFT T", NM_COMMANDSTRING),
+  MAKE_ITEM("Tax Rate...", MENU_KINGDOM_TAX_RATE, "SHIFT T", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Find City...", MENU_KINGDOM_FIND_CITY, "SHIFT C", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
@@ -299,7 +300,7 @@ MAKE_ITEM("Tax Rate...", MENU_KINGDOM_TAX_RATE, "SHIFT T", NM_COMMANDSTRING),
   MAKE_ITEM("Build Road", MENU_ORDER_ROAD, "r", NM_COMMANDSTRING),
   MAKE_ITEM("Build Mine", MENU_ORDER_MINE, "m", NM_COMMANDSTRING),
   MAKE_ITEM("Build Irrigation", MENU_ORDER_IRRIGATE, "i", NM_COMMANDSTRING),
-MAKE_ITEM("Transform Terrain", MENU_ORDER_TRANSFORM, "o", NM_COMMANDSTRING),
+  MAKE_ITEM("Transform Terrain", MENU_ORDER_TRANSFORM, "o", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Build Fortress", MENU_ORDER_FORTRESS, "SHIFT F", NM_COMMANDSTRING),
   MAKE_ITEM("Build Airbase", MENU_ORDER_AIRBASE, "e", NM_COMMANDSTRING),
@@ -309,14 +310,14 @@ MAKE_ITEM("Transform Terrain", MENU_ORDER_TRANSFORM, "o", NM_COMMANDSTRING),
   MAKE_ITEM("Explode Nuclear", MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
   MAKE_ITEM("Unload", MENU_ORDER_UNLOAD, "u", NM_COMMANDSTRING),
   MAKE_ITEM("Go to", MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
-MAKE_ITEM("Go/Airlist to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
+  MAKE_ITEM("Go/Airlist to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
   MAKE_ITEM("Make Homecity", MENU_ORDER_HOMECITY, "h", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Fortify", MENU_ORDER_FORTIFY, "f", NM_COMMANDSTRING),
   MAKE_ITEM("Sentry", MENU_ORDER_SENTRY, "s", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Disband Unit", MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
-MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP, "SHIFT W", NM_COMMANDSTRING),
+  MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP, "SHIFT W", NM_COMMANDSTRING),
   MAKE_ITEM("Wait", MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
   MAKE_ITEM("Pillage", MENU_ORDER_PILLAGE, "SHIFT P", NM_COMMANDSTRING),
   MAKE_ITEM("Help Build Wonder", MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
@@ -325,7 +326,7 @@ MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP, "SHIFT W", NM_COMMANDSTRING),
 
   MAKE_TITLE("Report", MENU_REPORT),
   MAKE_ITEM("City Report...", MENU_REPORT_CITY, "F1", NM_COMMANDSTRING),
-MAKE_ITEM("Science Report...", MENU_REPORT_SCIENCE, "F6", NM_COMMANDSTRING),
+  MAKE_ITEM("Science Report...", MENU_REPORT_SCIENCE, "F6", NM_COMMANDSTRING),
   MAKE_ITEM("Trade Report...", MENU_REPORT_TRADE, "F5", NM_COMMANDSTRING),
   MAKE_ITEM("Military Report...", MENU_REPORT_ACTIVE_UNITS, "F2", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
@@ -463,7 +464,8 @@ static void control_callback(ULONG * value)
       key_cancel_action();
       break;
     case END_TURN:
-      key_end_turn();
+      if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
+        key_end_turn();
       break;
     case NEXT_UNIT:
       advance_unit_focus();	/*focus_to_next_unit(); */
@@ -868,7 +870,7 @@ static int init_gui(void)
                         End,
                     Child, main_info_group = VGroup,
                         Child, main_turndone_group = HGroup,
-                            Child, main_turndone_button = MakeButton("Turn Done"),
+                            Child, main_turndone_button = MakeButton("Turn\nDone"),
                             End,
                         End,
                     Child, HGroup,
@@ -1068,6 +1070,19 @@ void menu_entry_sensitive(ULONG udata, ULONG sens)
 }
 
 /****************************************************************
+ Enable/Disable a menu title
+*****************************************************************/
+void menu_title_sensitive(ULONG udata, ULONG sens)
+{
+  Object *item = menu_find_item(udata);
+  if (item)
+  {
+    if (xget(item, MUIA_Menu_Enabled) != sens)
+      set(item, MUIA_Menu_Enabled, sens);
+  }
+}
+
+/****************************************************************
  Rename a menu entry
 *****************************************************************/
 void menu_entry_rename(ULONG udata, char *newtitle, BOOL force)
@@ -1107,10 +1122,10 @@ void update_menus(void) /* from menu.c */
 {
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
   {
-    menu_entry_sensitive(MENU_REPORT, FALSE);
-    menu_entry_sensitive(MENU_ORDER, FALSE);
-    menu_entry_sensitive(MENU_VIEW, FALSE);
-    menu_entry_sensitive(MENU_KINGDOM, FALSE);
+    menu_title_sensitive(MENU_REPORT, FALSE);
+    menu_title_sensitive(MENU_ORDER, FALSE);
+    menu_title_sensitive(MENU_VIEW, FALSE);
+    menu_title_sensitive(MENU_KINGDOM, FALSE);
 
     menu_entry_sensitive(MENU_GAME_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME_MSG_OPTIONS, 0);
@@ -1138,10 +1153,10 @@ void update_menus(void) /* from menu.c */
       }
     }
 
-    menu_entry_sensitive(MENU_REPORT, TRUE);
-    menu_entry_sensitive(MENU_ORDER, punit ? TRUE : FALSE);
-    menu_entry_sensitive(MENU_VIEW, TRUE);
-    menu_entry_sensitive(MENU_KINGDOM, TRUE);
+    menu_title_sensitive(MENU_REPORT, TRUE);
+    menu_title_sensitive(MENU_ORDER, punit ? TRUE : FALSE);
+    menu_title_sensitive(MENU_VIEW, TRUE);
+    menu_title_sensitive(MENU_KINGDOM, TRUE);
 
     menu_entry_sensitive(MENU_GAME_OPTIONS, TRUE);
     menu_entry_sensitive(MENU_GAME_MSG_OPTIONS, TRUE);
@@ -1282,9 +1297,9 @@ void ui_main(int argc, char *argv[])
       load_options();
 
       /* TODO: Move this into init_gui() */
-      main_bulb_sprite = MakeSprite(sprites.bulb[0]);
-      main_sun_sprite = MakeSprite(sprites.warming[0]);
-      main_government_sprite = MakeSprite(sprites.citizen[7]);
+      main_bulb_sprite = MakeBorderSprite(sprites.bulb[0]);
+      main_sun_sprite = MakeBorderSprite(sprites.warming[0]);
+      main_government_sprite = MakeBorderSprite(sprites.citizen[7]);
       main_timeout_text = TextObject, End;
 
       econ_group = HGroup, GroupSpacing(0), End;
