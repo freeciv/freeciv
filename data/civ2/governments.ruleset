@@ -328,7 +328,7 @@ rapture_size     = 3
 
 unit_unhappy_factor = 0
 unit_shield_factor  = 1
-unit_food_factor    = 1
+unit_food_factor    = 1 ; The Payciv manual (wrongly) claims this is 2.
 unit_gold_factor    = 1 
 
 unit_free_unhappy = 0
