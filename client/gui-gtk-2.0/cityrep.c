@@ -39,6 +39,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "mapview_common.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
@@ -50,6 +51,15 @@
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 #define CMA_NONE	(-1)
 #define CMA_CUSTOM	(-2)
+
+/* get 'struct city *' functions: */
+#define SPECVEC_TAG pcity
+#define SPECVEC_TYPE struct city *
+#include "specvec.h"
+
+#define SPECVEC_TAG pcity
+#define SPECVEC_TYPE struct city *
+#include "specvec_c.h"
 
 /******************************************************************/
 static void create_city_report_dialog(int make_modal);
@@ -144,47 +154,91 @@ static void append_impr_or_unit_to_menu_sub(GtkMenuShell *menu,
 {
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
-  int item, cids_used, num_selected_cities = 0;
-  struct city *selected_cities[200];
+  int i, item, cids_used, num_selected = 0;
+  char *row[4];
+  char buf[4][64];
+  struct pcity_vector selected;
+
+  pcity_vector_init(&selected);
+  pcity_vector_reserve(&selected, city_list_size(&game.player_ptr->cities));
 
   if (change_prod) {
     GtkTreeIter it;
 
     if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
-      struct city *pcity;
+      struct city *pcity, **pdest;
 
       do {
         gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
 	  POINTER_COLUMN, &pcity, -1);
 
-        selected_cities[num_selected_cities] = pcity;
-        num_selected_cities++;
-        assert(num_selected_cities < ARRAY_SIZE(selected_cities));
+	pdest = pcity_vector_get(&selected, num_selected);
+	*pdest = pcity;
+        num_selected++;
 
       } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
     }
-
-    g_assert(num_selected_cities > 0);
   }
 
-  cids_used = collect_cids1(cids, selected_cities,
-			    num_selected_cities, append_units,
+  cids_used = collect_cids1(cids, pcity_vector_get(&selected, 0),
+			    num_selected, append_units,
 			    append_wonders, change_prod, test_func);
+  pcity_vector_free(&selected);
   name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
+  for (i = 0; i < 4; i++)
+    row[i] = buf[i];
+
   for (item = 0; item < cids_used; item++) {
-    GtkWidget *w = gtk_menu_item_new_with_label(items[item].descr);
+    cid cid = items[item].cid;
+    GtkWidget *view, *menu_item;
+    GtkListStore *model;
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    GtkTreeIter it;
+    
+    model = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    gtk_list_store_append(model, &it);
+    get_city_dialog_production_row(row, sizeof(buf[0]), cid_id(cid),
+				   cid_is_unit(cid), NULL);
+    gtk_list_store_set(model, &it, 0, row[0], 1, row[1], 2, row[2], -1);
 
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
+    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model));
+    g_object_unref(model);
+    gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
+    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
-    gtk_signal_connect(GTK_OBJECT(w), "activate", callback,
-		       GINT_TO_POINTER(items[item].cid));
-  }
+    renderer = gtk_cell_renderer_text_new();
+    g_object_set(renderer, "xalign", 0.0, "background", "#d6d6d6",
+	"foreground", "#000000", NULL);
 
-  if (cids_used == 0) {
-    GtkWidget *w = gtk_menu_item_new_with_label(nothing_appended_text);
-    gtk_widget_set_sensitive(w, FALSE);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
+    column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+  	"text", 0, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+    gtk_tree_view_column_set_min_width(column, 130);
+
+    column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+  	"text", 1, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+    gtk_tree_view_column_set_min_width(column, 60);
+
+    renderer = gtk_cell_renderer_text_new();
+    g_object_set(renderer, "xalign", 1.0, "background", "#d6d6d6",
+	"foreground", "#000000", NULL);
+
+    column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+  	"text", 2, NULL);
+
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+    gtk_tree_view_column_set_min_width(column, 40);
+    gtk_tree_view_column_set_alignment(column, 0.0);
+
+    menu_item = gtk_menu_item_new();
+    gtk_container_add(GTK_CONTAINER(menu_item), view);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+
+    g_signal_connect(menu_item, "activate", callback,
+		     GINT_TO_POINTER(items[item].cid));
   }
 }
 
@@ -623,6 +677,7 @@ static void create_city_report_dialog(int make_modal)
   city_model_init();
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
+  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(city_view), TRUE);
   g_object_unref(city_model);
   city_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(city_view));
   gtk_tree_selection_set_mode(city_selection, GTK_SELECTION_MULTIPLE);
