@@ -9,4 +9,5 @@ check:
 	rm -f check-output
 	./header_guard.sh $(top_srcdir) >> check-output
 	./va_list.sh $(top_srcdir) >> check-output
+	./copyright.sh $(top_srcdir) >> check-output
 	cat check-output | sed "s\\$(top_srcdir)/\\\\" > check-output
