@@ -1046,11 +1046,12 @@ void key_unit_pollution(void)
 **************************************************************************/
 void key_unit_road(void)
 {
-  if(get_unit_in_focus())
+  if(get_unit_in_focus()) {
     if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
       request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
     else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
       request_new_unit_activity(punit_focus, ACTIVITY_RAILROAD);
+  }
 }
 
 /**************************************************************************
