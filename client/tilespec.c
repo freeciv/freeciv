@@ -1944,8 +1944,9 @@ static void build_tile_data(int map_x, int map_y,
 /**********************************************************************
   Fill in the sprite array for the unit
 ***********************************************************************/
-int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
-			   bool stack, bool backdrop)
+static int fill_unit_sprite_array(struct drawn_sprite *sprs,
+				  struct unit *punit,
+				  bool stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
@@ -2604,34 +2605,34 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 }
 
 
-/**********************************************************************
-Fill in the sprite array for the tile at position (abs_x0,abs_y0).
-Does not fill in the city or unit; that have to be done seperatly in
-isometric view. Also, no fog here.
+/****************************************************************************
+  Fill in the sprite array for the given tile, city, and unit.
 
-A return of -1 means the tile should be black.
+  ptile, if specified, gives the tile.  If specified the terrain and specials
+  will be drawn for this tile.  In this case (map_x,map_y) should give the
+  location of the tile.
 
-The sprites are drawn in the following order:
- 1) basic terrain type + irrigation/farmland (+ river hack)
- 2) road/railroad
- 3) specials
- 4) mine
- 5) huts
-***********************************************************************/
-int fill_tile_sprite_array(struct drawn_sprite *sprs,
-			   int map_x, int map_y, bool citymode)
+  punit, if specified, gives the unit.  For tile drawing this should
+  generally be get_drawable_unit(); otherwise it can be any unit.
+
+  pcity, if specified, gives the city.  For tile drawing this should
+  generally be ptile->city; otherwise it can be any city.
+
+  citymode specifies whether this is part of a citydlg.  If so some drawing
+  is done differently.
+****************************************************************************/
+int fill_sprite_array(struct drawn_sprite *sprs,
+		      int map_x, int map_y, struct tile *ptile,
+		      struct unit *punit, struct city *pcity,
+		      bool citymode)
 {
   Terrain_type_id ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
   int tileno, dir;
-  struct tile *ptile = map_get_tile(map_x, map_y);
-  struct city *pcity = ptile->city;
-  struct unit *punit = get_drawable_unit(map_x, map_y, citymode);
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
-  bool unit_only = FALSE, city_only = FALSE;
 
-  if (tile_get_known(map_x, map_y) == TILE_UNKNOWN) {
+  if (ptile && ptile->known == TILE_UNKNOWN) {
     ADD_BG(COLOR_STD_BLACK);
     return sprs - save_sprs;
   }
@@ -2647,11 +2648,11 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
     ADD_BG(COLOR_STD_BACKGROUND);
   }
 
-  build_tile_data(map_x, map_y,
-		  &ttype, &tspecial, ttype_near, tspecial_near);
-
   /* Terrain and specials. */
-  if (!unit_only && !city_only) {
+  if (ptile) {
+    build_tile_data(map_x, map_y,
+		    &ttype, &tspecial, ttype_near, tspecial_near);
+
     sprs += fill_terrain_sprite_array(sprs, map_x, map_y, ttype_near);
 
     if (is_ocean(ttype) && draw_terrain) {
@@ -2707,13 +2708,13 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
-  if (is_isometric) {
+  if (ptile && is_isometric) {
     /* Add grid.  In classic view this is done later. */
     ADD_GRID(map_x, map_y, citymode);
   }
 
   /* City.  Some city sprites are drawn later. */
-  if (pcity && draw_cities && !unit_only) {
+  if (pcity && draw_cities) {
     if (!solid_color_behind_units) {
       ADD_SPRITE(get_city_nation_flag_sprite(pcity),
 		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
@@ -2731,7 +2732,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
-  if (!unit_only && !city_only) {
+  if (ptile) {
     if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
       ADD_SPRITE_FULL(sprites.tx.airbase);
     }
@@ -2751,7 +2752,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
   }
 
   /* City size.  Drawing this under fog makes it hard to read. */
-  if (pcity && draw_cities && !unit_only) {
+  if (pcity && draw_cities) {
     if (pcity->size >= 10) {
       ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
 		 FALSE, 0, 0);
@@ -2760,15 +2761,14 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
 	       FALSE, 0, 0);
   }
 
-  if (punit && !city_only
-      && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    bool stacked = (unit_list_size(&map_get_tile(map_x, map_y)->units) > 1);
-    bool backdrop = !pcity && !unit_only;
+  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
+    bool stacked = ptile && (unit_list_size(&ptile->units) > 1);
+    bool backdrop = !pcity;
 
     sprs += fill_unit_sprite_array(sprs, punit, stacked, backdrop);
   }
 
-  if (!unit_only && !city_only) {
+  if (ptile) {
     if (is_isometric && draw_fortress_airbase
 	&& contains_special(tspecial, S_FORTRESS)) {
       /* Draw fortress front in iso-view (non-iso view only has a fortress
@@ -2777,7 +2777,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
-  if (!is_isometric) {
+  if (ptile && !is_isometric) {
     /* Add grid.  In iso-view this is done earlier. */
     ADD_GRID(map_x, map_y, citymode);
   }

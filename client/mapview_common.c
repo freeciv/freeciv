@@ -829,7 +829,8 @@ void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_unit_sprite_array(drawn_sprites, punit, FALSE, TRUE);
+  int count = fill_sprite_array(drawn_sprites, -1, -1, NULL,
+				punit, NULL, FALSE);
 
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   put_drawn_sprites(pcanvas, canvas_x, canvas_y,
@@ -1237,7 +1238,10 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
   if (normalize_map_pos(&map_x, &map_y)
       && tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
     struct drawn_sprite tile_sprs[80];
-    int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode);
+    int count = fill_sprite_array(tile_sprs, map_x, map_y,
+				  map_get_tile(map_x, map_y),
+				  get_drawable_unit(map_x, map_y, citymode),
+				  map_get_city(map_x, map_y), citymode);
 
     put_drawn_sprites(pcanvas, canvas_x, canvas_y,
 		      count, tile_sprs, FALSE);
@@ -1384,24 +1388,11 @@ void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
 		      int canvas_x, int canvas_y, bool citymode)
 {
   struct drawn_sprite tile_sprs[80];
-  int count;
-  bool fog;
-
-  count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode);
-
-  if (count == -1) { /* tile is unknown */
-    canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
-			    canvas_x, canvas_y);
-    return;
-  }
-
-  /* Replace with check for is_normal_tile later */
-  if (!normalize_map_pos(&map_x, &map_y)) {
-    assert(0);
-    return;
-  }
-
-  fog = tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  int count = fill_sprite_array(tile_sprs, map_x, map_y, ptile,
+				get_drawable_unit(map_x, map_y, citymode),
+				ptile->city, citymode);
+  bool fog = ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war;
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
