@@ -3,8 +3,6 @@
 # Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # This translation is covered by the GNU General Public License Version 2.
 #
-# FIXME: Insert some appropriate Plural-Forms: header.
-#
 # === Authors
 #
 #   Vasco Costa		<vasc@rnl.ist.utl.pt>	1999, 2000.
@@ -19,6 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:208
 msgid "?wonder:w"
@@ -33,39 +32,37 @@ msgid "?obsolete:O"
 msgstr "?obsoleto:O"
 
 #: common/connection.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "%s from %s"
-msgstr "%spróximo %s"
+msgstr "%s @ %s"
 
 #: common/connection.c:447
-#, fuzzy
 msgid " (connection incomplete)"
-msgstr "Cortando a ligação com o jogador."
+msgstr " (ligação incompleta)"
 
 #: common/connection.c:451
-#, fuzzy, c-format
+#, c-format
 msgid " (player %s)"
-msgstr "<não existem jogadores>"
+msgstr " (jogador %s)"
 
 #: common/connection.c:455
-#, fuzzy
 msgid " (observer)"
-msgstr "(Nunca)"
+msgstr " (observador)"
 
 #: common/log.c:83
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "Mau nível de debug %d em \"%s\".\n"
 
 #: common/log.c:85 common/log.c:96
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr ""
+msgstr "Freeciv tem de ser compilado com a opção DEBUG para usar o nível de debug %d.\n"
 
 #: common/log.c:101 common/log.c:116 common/log.c:146
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr ""
+msgstr "Argumento de nível de log \"%s\" mal formado.\n"
 
 #: common/log.c:136
 #, c-format
@@ -85,16 +82,15 @@ msgstr "a última mensagem repetida %d vezes"
 #: common/log.c:255 common/log.c:274
 #, c-format
 msgid " (total %d repeats)"
-msgstr " (num total de %d repetições)"
+msgstr " (total de %d repetições)"
 
 #: common/log.c:268
 msgid "last message repeated once"
 msgstr "a última mensagem repetida uma vez"
 
 #: common/map.c:61
-#, fuzzy
 msgid "Special1"
-msgstr "Especial"
+msgstr "Especial1"
 
 #: common/map.c:62 common/map.c:628 common/unit.c:501
 msgid "Road"
@@ -123,16 +119,15 @@ msgstr "Poluição"
 
 #: common/map.c:67
 msgid "Hut"
-msgstr ""
+msgstr "Cabana"
 
 #: common/map.c:68 common/map.c:637 common/unit.c:506
 msgid "Fortress"
 msgstr "Fortaleza"
 
 #: common/map.c:69
-#, fuzzy
 msgid "Special2"
-msgstr "Especial"
+msgstr "Especial2"
 
 #: common/map.c:70 data/civ1/terrain.ruleset:470
 #: data/classic/terrain.ruleset:470
@@ -152,9 +147,8 @@ msgid "Fallout"
 msgstr ""
 
 #: common/mem.c:38
-#, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
-msgstr ""
+msgstr "Acabou a memória ao tentar %s %lu bytes na linha %d de %s."
 
 #: common/player.c:414
 msgid "Spotless"
@@ -190,30 +184,30 @@ msgstr "Atroz"
 
 #: common/player.c:438
 msgid "?diplomatic_state:Neutral"
-msgstr ""
+msgstr "?diplomatic_state:Neutral"
 
 #: common/player.c:439
 msgid "?diplomatic_state:War"
-msgstr ""
+msgstr "?diplomatic_state:Guerra"
 
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:627
 #: client/gui-xaw/diplodlg.c:512 common/player.c:440
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?diplomatic_state:Cessar-fogo"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:631
 #: client/gui-xaw/diplodlg.c:516 common/player.c:441
 msgid "?diplomatic_state:Peace"
-msgstr ""
+msgstr "?diplomatic_state:Paz"
 
 #: client/gui-gtk/diplodlg.c:452 client/gui-mui/diplodlg.c:635
 #: client/gui-xaw/diplodlg.c:520 common/player.c:442
 msgid "?diplomatic_state:Alliance"
-msgstr ""
+msgstr "?diplomatic_state:Aliança"
 
 #: common/player.c:443
 msgid "?diplomatic_state:No Contact"
-msgstr ""
+msgstr "?diplomatic_state:Não Contactado"
 
 #: common/shared.c:140
 #, c-format
@@ -326,9 +320,8 @@ msgid "Transform"
 msgstr "Transformar"
 
 #: client/gui-mui/gui_main.c:298 client/gui-xaw/menu.c:180 common/unit.c:515
-#, fuzzy
 msgid "Patrol"
-msgstr "Pol"
+msgstr "Patrulha"
 
 #: client/gui-gtk/citydlg.c:1140 client/gui-mui/citydlg.c:709
 #: client/gui-xaw/citydlg.c:1466 common/unit.c:516
@@ -349,28 +342,26 @@ msgid " and "
 msgstr " e "
 
 #: common/version.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s %s"
-msgstr "Selecção de Servidor Freeciv"
+msgstr "Freeciv versão %s %s"
 
 #: common/version.c:33
-#, fuzzy
 msgid "(beta version)"
-msgstr "(veterano)"
+msgstr "(versão beta)"
 
 #: common/version.c:35
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s"
-msgstr "Selecção de Servidor Freeciv"
+msgstr "Freeciv versão %s"
 
 #: common/version.c:48
 msgid "betatest version "
-msgstr ""
+msgstr "versão de teste "
 
 #: common/version.c:50
-#, fuzzy
 msgid "version "
-msgstr "Versão"
+msgstr "versão "
 
 #: common/version.c:65
 msgid "January"
@@ -511,13 +502,13 @@ msgid "Game: %s is not a valid name."
 msgstr "Jogo: %s não é um nome válido."
 
 #: server/citytools.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "City no. %d"
-msgstr "cidade %d"
+msgstr "Cidade nº %d"
 
 #: server/citytools.c:104
 msgid "A poorly-named city"
-msgstr ""
+msgstr "Uma cidade de mau nome"
 
 #: server/citytools.c:657
 #, fuzzy, c-format
@@ -561,32 +552,32 @@ msgstr ""
 #: server/citytools.c:1222
 #, c-format
 msgid "Game: You destroy %s completely."
-msgstr ""
+msgstr "Jogo: Você destruiu completamente %s."
 
 #: server/citytools.c:1224
 #, c-format
 msgid "Game: %s has been destroyed by %s."
-msgstr ""
+msgstr "Jogo: %s foi destruido por %s."
 
 #: server/citytools.c:1246
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
-msgstr ""
+msgstr "Jogo: Você conquistou %s, a pilhagem acumulou %d moedas!"
 
 #: server/citytools.c:1250
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
-msgstr ""
+msgstr "Jogo: %s conquistou %s e pilhou %d moedas da cidade."
 
 #: server/citytools.c:1261
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
-msgstr ""
+msgstr "Jogo: Você libertou %s!! a pilhagem acumulou %d moedas."
 
 #: server/citytools.c:1266
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr ""
+msgstr "Jogo: %s libertou %s e pilhou %d moedas da cidade."
 
 #: server/citytools.c:1789
 msgid " from the worklist"
@@ -618,7 +609,7 @@ msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr ""
-"Jogo: Sugiro acelerar o crescimento em %s de modo a utilizar %s (em "
+"Jogo: Sugiro acelerar o crescimento em %s para utilizar %s (em "
 "construção) de forma mais eficaz."
 
 #: server/cityturn.c:827
@@ -627,9 +618,9 @@ msgid "Game: %s may soon grow to size %i."
 msgstr "Jogo: %s deverá crescer brevemente para tamanho %i."
 
 #: server/cityturn.c:834
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Warning: Famine feared in %s."
-msgstr "Jogo: Fome receada em %s."
+msgstr "Jogo: Aviso: Fome receada em %s."
 
 #: server/cityturn.c:865
 msgid "Game: WARNING, we're LOW on FUNDS sire."
@@ -877,18 +868,18 @@ msgid "For introductory help, type 'help'."
 msgstr "Para ter alguma ajuda inicial, escreva 'help'."
 
 #: server/diplhand.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have tech %s, you can't accept treaty."
-msgstr "Jogo: Você não tem dinheiro suficiente para subverter %s."
+msgstr "Jogo: Você não tem a tecn. %s, não pode aceitar o tratado."
 
 #: server/diplhand.c:161
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
+msgstr "A cidade que está a oferecer já não existe, não pode aceitar o tratado."
 
 #: server/diplhand.c:167
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
-msgstr ""
+msgstr "Você não e o senhor de %s, não pode aceitar o tratado."
 
 #: server/diplhand.c:173
 #, c-format
@@ -912,10 +903,9 @@ msgid ""
 msgstr ""
 
 #: server/diplhand.c:247 server/diplhand.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr ""
-"Jogo: Os %s não possuem a quantia de ouro prometida! Tratado cancelado!"
+msgstr "Jogo: Os %s já não controlam %s! Tratado cancelado!"
 
 #: server/diplhand.c:262 server/diplhand.c:266
 #, c-format
@@ -929,7 +919,7 @@ msgid "Game: You are taught the knowledge of %s."
 msgstr "Jogo: É-lhe ensinado o conhecimento de %s."
 
 #: server/diplhand.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the %s."
 msgstr "Jogo: Os %s adquiriram %s dos %s."
 
@@ -974,14 +964,14 @@ msgid "Game: You agree on an alliance with %s."
 msgstr "Jogo: Você forma uma aliança com %s."
 
 #: server/diplhand.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You give shared vision to %s."
-msgstr "Jogo: Você dá a cidade de %s a %s."
+msgstr "Jogo: Você partilha a visão com %s."
 
 #: server/diplhand.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "Jogo: %s agora é humano."
+msgstr "Jogo: %s partilhou a visão consigo."
 
 #: server/diplhand.c:483
 #, c-format
@@ -989,24 +979,24 @@ msgid "Game: %s canceled the meeting!"
 msgstr "Jogo: %s cancelou o encontro!"
 
 #: server/diplhand.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Meeting with %s canceled."
-msgstr "Jogo: Fim das celebrações de \"Nós Adoramos O %s\" em %s."
+msgstr "Jogo: Encontro com %s cancelado."
 
 #: server/diplomats.c:88
 #, c-format
 msgid "Game: Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "Jogo: O seu %s não conseguiu envenenar o abastecimento de água em %s."
 
 #: server/diplomats.c:103
 #, c-format
 msgid "Game: Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "Jogo: O seu %s envenenou o abastecimento de água em %s."
 
 #: server/diplomats.c:106
 #, c-format
 msgid "Game: %s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "Jogo: Suspeita-se que %s envenenou o abastecimento de água de %s."
 
 #: server/diplomats.c:252
 #, c-format
@@ -1055,7 +1045,7 @@ msgid "Game: You can't bribe a unit from this nation."
 msgstr "Jogo: Você não pode sabotar uma unidade dessa nação."
 
 #: server/diplomats.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Jogo: Você não tem dinheiro suficiente para subornar o %s de %s."
 
@@ -1095,14 +1085,14 @@ msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr ""
 
 #: server/diplomats.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
-msgstr "Jogo: Os %s roubaram %s dos %s."
+msgstr "Jogo: Tecn. Futura %d roubada por %s %s dos %s."
 
 #: server/diplomats.c:660
 #, c-format
 msgid "Game: Your %s stole %s from %s."
-msgstr ""
+msgstr "Jogo: O seu %s roubou %s dos %s."
 
 #: server/diplomats.c:664
 #, c-format
@@ -1123,7 +1113,7 @@ msgid "Game: You can't subvert the capital of a nation."
 msgstr "Jogo: Você não pode subverter a capital de uma nação."
 
 #: server/diplomats.c:755
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Jogo: Você não tem dinheiro suficiente para subverter %s."
 
@@ -1133,9 +1123,9 @@ msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Jogo: O seu %s foi capturado ao tentar incitar uma revolta!"
 
 #: server/diplomats.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Jogo: Você capturou um %s %s %s a tentar incitar uma revolta em %s!"
+msgstr "Jogo: Você capturou um %s %s a tentar incitar uma revolta em %s!"
 
 #: server/diplomats.c:798
 #, c-format
@@ -1153,9 +1143,9 @@ msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr ""
 
 #: server/diplomats.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
-msgstr "Jogo: Você capturou um %s %s %s a tentar incitar uma revolta em %s!"
+msgstr "Jogo: Você capturou um %s %s a tentar sabotar em %s!"
 
 #: server/diplomats.c:918
 #, c-format
@@ -1188,19 +1178,19 @@ msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr ""
 
 #: server/diplomats.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "Jogo: Você capturou um %s %s %s a tentar incitar uma revolta em %s!"
+msgstr "Jogo: Você capturou um %s %s a tentar sabotar %s em %s!"
 
 #: server/diplomats.c:1034
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
-msgstr ""
+msgstr "Jogo: O seu %s destruíu %s em %s."
 
 #: server/diplomats.c:1038
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
-msgstr ""
+msgstr "Jogo: Os %s destruíram %s em %s."
 
 #: server/diplomats.c:1121
 #, c-format
@@ -1275,9 +1265,9 @@ msgid "Couldn't open gamelogfile \"%s\" for appending."
 msgstr "Não consegui abrir o registo do jogo \"%s\" para escrever."
 
 #: server/handchat.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an ambiguous player name-prefix."
-msgstr "Jogo: %s é um prefixo de nome ambíguo."
+msgstr "Jogo: %s é um prefixo de nome de jogador ambíguo."
 
 #: server/handchat.c:73
 #, fuzzy, c-format
