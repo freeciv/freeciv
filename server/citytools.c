@@ -974,6 +974,14 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
 	  x,y, get_nation_name_plural(pplayer->nation));
+
+  if (terrain_control.may_road) {
+    map_set_special(x, y, S_ROAD);
+    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
+      map_set_special(x, y, S_RAILROAD);
+  }
+  send_tile_info(0, x, y);
+
   pcity=fc_malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();

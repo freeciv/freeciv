@@ -452,13 +452,6 @@ void handle_unit_build_city(struct player *pplayer,
     return;
   }
 
-  if (terrain_control.may_road) {
-    map_set_special(punit->x, punit->y, S_ROAD);
-    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
-      map_set_special(punit->x, punit->y, S_RAILROAD);
-  }
-  send_tile_info(0, punit->x, punit->y);
-
   create_city(pplayer, punit->x, punit->y, name);
   wipe_unit(punit);
 }
@@ -806,14 +799,6 @@ static void hut_get_city(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   
   if (is_ok_city_spot(punit->x, punit->y)) {
-    /* Fixme: message? */
-    if (terrain_control.may_road) {
-      map_set_special(punit->x, punit->y, S_ROAD);
-      if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
-	map_set_special(punit->x, punit->y, S_RAILROAD);
-    }
-    send_tile_info(0, punit->x, punit->y);
-
     create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
   } else {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
