@@ -259,8 +259,6 @@ extern char *city_names_font;
 
 extern char *city_productions_font_name;
 
-extern bool flags_are_transparent;
-
 extern int num_tiles_explode_unit;
 
 #endif  /* FC__TILESPEC_H */

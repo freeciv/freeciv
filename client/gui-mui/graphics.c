@@ -869,8 +869,7 @@ void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
     }
     else
     {
-      if (flags_are_transparent) put_sprite_overlay(rp, sprites[0], x1, y1);
-      else put_sprite(rp, sprites[0], x1, y1);
+      put_sprite_overlay(rp, sprites[0], x1, y1);
     }
 
     for (i = 1; i < count; i++)

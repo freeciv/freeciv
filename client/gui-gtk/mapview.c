@@ -824,13 +824,7 @@ static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			   canvas_x, canvas_y,
 			   UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
       } else {
-	if (flags_are_transparent) {
-	  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
-	} else {
-	  gdk_draw_pixmap(pm, civ_gc, sprites[0]->pixmap,
-			  0, 0, canvas_x, canvas_y,
-			  sprites[0]->width, sprites[0]->height);
-	}
+	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
 	i++;
       }
 

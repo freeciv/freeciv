@@ -2052,10 +2052,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->overview.supported_unit_pixmaps[i]),
-			FALSE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->
+				  overview.supported_unit_pixmaps[i]),
+		      FALSE);
 
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->
@@ -2105,9 +2104,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->unit.supported_unit_pixmaps[i]), FALSE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]),
+		      FALSE);
 
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]));
@@ -2198,10 +2196,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->overview.present_unit_pixmaps[i]),
-			FALSE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.present_unit_pixmaps[i]),
+		      FALSE);
 
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->
@@ -2245,9 +2241,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
-			FALSE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
+		      FALSE);
 
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]));

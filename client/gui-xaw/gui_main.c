@@ -829,9 +829,7 @@ void set_unit_icon(int idx, struct unit *punit)
     unit_ids[idx] = punit ? punit->id : 0;
   }
   
-  if (flags_are_transparent || punit==NULL) {
-    XawPixcommClear(w);
-  }
+  XawPixcommClear(w);
   if (punit) {
     put_unit_pixmap(punit, XawPixcommPixmap(w), 0, 0);
     xaw_expose_now(w);

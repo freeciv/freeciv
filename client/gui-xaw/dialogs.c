@@ -1650,6 +1650,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   int nargs;
   Widget unit_select_all_command, unit_select_close_command;
   Widget firstcolumn=0,column=0;
+  Pixel bg;
 
   XtSetSensitive(main_form, FALSE);
 
@@ -1662,11 +1663,8 @@ void popup_unit_select_dialog(struct tile *ptile)
 					     formWidgetClass, 
 					     unit_select_dialog_shell, NULL);
 
-  if(flags_are_transparent)  {
-    Pixel bg;
-    XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
-    XSetForeground(display, fill_bg_gc, bg);
-  }
+  XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
+  XSetForeground(display, fill_bg_gc, bg);
 
   n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
   r = number_of_rows(n);
@@ -1698,10 +1696,8 @@ void popup_unit_select_dialog(struct tile *ptile)
 					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 					 display_depth);
 
-    if (flags_are_transparent) {
-      XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
-		     0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
+    XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
+		   0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
     put_unit_pixmap(punit, unit_select_pixmaps[i], 0, 0);
 

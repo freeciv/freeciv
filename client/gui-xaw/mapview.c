@@ -769,13 +769,7 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm,
 		     canvas_x, canvas_y,
 		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     } else {
-      if (flags_are_transparent) {
-	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
-      } else {
-	XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
-		  sprites[0]->width, sprites[0]->height, 
-		  canvas_x, canvas_y);
-      }
+      pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
       i++;
     }
 

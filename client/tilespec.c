@@ -74,8 +74,6 @@ bool is_isometric;
 char *city_names_font;
 char *city_productions_font_name;
 
-bool flags_are_transparent = TRUE;
-
 int num_tiles_explode_unit=0;
 
 static bool is_mountainous = FALSE;
@@ -445,9 +443,6 @@ void tilespec_read_toplevel(const char *tileset_name)
       secfile_lookup_str_default(file, "8x16",
 				 "tilespec.city_productions_font");
   city_productions_font_name = mystrdup(c);
-
-  flags_are_transparent =
-    secfile_lookup_bool(file, "tilespec.flags_are_transparent"); 
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   main_intro_filename = tilespec_gfx_filename(c);
@@ -1155,7 +1150,6 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   *solid_bg = 0;
   if (!no_backdrop) {
     if(!solid_color_behind_units) {
-      /* will be the first sprite if flags_are_transparent == FALSE */
       *sprs++ = get_city_nation_flag_sprite(pcity);
     } else {
       *solid_bg = 1;
@@ -1283,7 +1277,6 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
   } else {
     if (!no_backdrop) {
       if (!solid_color_behind_units) {
-	/* will be the first sprite if flags_are_transparent == FALSE */
 	*sprs++ = get_unit_nation_flag_sprite(punit);
       } else {
 	*solid_bg = 1;
@@ -1933,9 +1926,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   pcity=map_get_city(abs_x0, abs_y0);
   pfocus=get_unit_in_focus();
 
-  if(!flags_are_transparent || solid_color_behind_units) {
-    /* non-transparent flags -> just draw city or unit */
-
+  if (solid_color_behind_units) {
     punit = get_drawable_unit(abs_x0, abs_y0, citymode);
     if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
       sprs += fill_unit_sprite_array(sprs, punit, solid_bg);
@@ -2071,24 +2062,25 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       *sprs++ = sprites.tx.darkness[tileno];
   }
 
-  if (flags_are_transparent) {
+  if (pcity && draw_cities) {
     int dummy;
-    /* transparent flags -> draw city or unit last */
 
-    if (pcity && draw_cities) {
-      sprs+=fill_city_sprite_array(sprs, pcity, &dummy);
-    }
+    sprs += fill_city_sprite_array(sprs, pcity, &dummy);
+  }
 
-    punit = find_visible_unit(ptile);
-    if (punit) {
-      if (!citymode || punit->owner != game.player_idx) {
-	if ((!focus_unit_hidden || pfocus != punit) &&
-	    (draw_units || (draw_focus_unit && !focus_unit_hidden && punit == pfocus))) {
-	  no_backdrop = (pcity != NULL);
-	  sprs += fill_unit_sprite_array(sprs, punit, &dummy);
-	  no_backdrop=FALSE;
-	  if (unit_list_size(&ptile->units)>1)  
-	    *sprs++ = sprites.unit.stack;
+  punit = find_visible_unit(ptile);
+  if (punit) {
+    if (!citymode || punit->owner != game.player_idx) {
+      if ((!focus_unit_hidden || pfocus != punit) &&
+	  (draw_units || (draw_focus_unit && !focus_unit_hidden
+			  && punit == pfocus))) {
+	int dummy;
+
+	no_backdrop = (pcity != NULL);
+	sprs += fill_unit_sprite_array(sprs, punit, &dummy);
+	no_backdrop = FALSE;
+	if (unit_list_size(&ptile->units) > 1) {  
+	  *sprs++ = sprites.unit.stack;
 	}
       }
     }

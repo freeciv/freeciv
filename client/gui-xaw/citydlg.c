@@ -1720,8 +1720,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     if(!adj_base && unitid && punit->id!=unitid)
       continue;
 
-    if (flags_are_transparent)
-      XawPixcommClear(pixcomm); /* STG */
+    XawPixcommClear(pixcomm); /* STG */
     put_unit_pixmap(punit,
 		    XawPixcommPixmap(pixcomm), 
 		    0, 0);
@@ -1782,8 +1781,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     if(!adj_base && unitid && punit->id!=unitid)
       continue;
 
-    if (flags_are_transparent)
-      XawPixcommClear(pixcomm); /* STG */
+    XawPixcommClear(pixcomm); /* STG */
     put_unit_pixmap(punit,
 		    XawPixcommPixmap(pixcomm),
 		    0, 0);

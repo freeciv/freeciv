@@ -81,7 +81,6 @@ options include:
   -----------------
   is_isometric          : set to 1 for an iso-view tileset
   is_mountainous        : do hills and mountains blend together?
-  flags_are_transparent : 
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
