@@ -388,6 +388,7 @@ void handle_city_info(struct packet_city_info *packet)
 {
   int i;
   bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  bool need_units_dialog_update = FALSE;
   struct city *pcity;
   bool popup, update_descriptions = FALSE, name_changed = FALSE;
   struct unit *pfocus_unit = get_unit_in_focus();
@@ -472,6 +473,11 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->shield_stock=packet->shield_stock;
   pcity->pollution=packet->pollution;
 
+  if (city_is_new
+      || pcity->is_building_unit != packet->is_building_unit
+      || pcity->currently_building != packet->currently_building) {
+    need_units_dialog_update = TRUE;
+  }
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
   if (city_is_new) {
@@ -552,6 +558,11 @@ void handle_city_info(struct packet_city_info *packet)
   /* Update focus unit info label if necessary. */
   if (name_changed && pfocus_unit && pfocus_unit->homecity == pcity->id) {
     update_unit_info_label(pfocus_unit);
+  }
+
+  /* Update the units dialog if necessary. */
+  if (need_units_dialog_update) {
+    activeunits_report_dialog_update();
   }
 
   /* Update the panel text (including civ population). */
