@@ -784,7 +784,7 @@ static int create_improvements_list(struct player *pplayer,
   Widget spy_sabotage_form;
   Widget close_command;
   Dimension width1, width2; 
-  int i, j;
+  int j;
 
   static char *improvements_can_sabotage[B_LAST+1]; 
   

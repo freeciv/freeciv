@@ -2243,7 +2243,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Position x, y;
   Dimension width, height;
   struct city_dialog *pdialog;
-  int i, n, turns;
+  int n, turns;
   
   pdialog=(struct city_dialog *)client_data;
   

@@ -1083,7 +1083,7 @@ void activeunits_report_dialog_update(void)
   };
   if(delay_report_update) return;
   if(activeunits_dialog_shell) {
-    int i, k;
+    int k;
     Dimension width; 
     static char *activeunits_list_names_ptrs[U_LAST+1];
     static char activeunits_list_names[U_LAST][200];
