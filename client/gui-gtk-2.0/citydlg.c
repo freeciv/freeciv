@@ -679,6 +679,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
@@ -1060,6 +1062,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 	NULL,
   	0,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(pdialog->shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
   if (make_modal) {
@@ -1473,7 +1477,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command,
 			   can_client_issue_orders() && !pcity->did_buy);
-			
+
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->is_building_unit) {
@@ -1505,6 +1509,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	GTK_PROGRESS_BAR(pdialog->overview.progress_label), pct);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pdialog->overview.progress_label),
 	buf);
+  /* work around GTK+ bug. */
+  gtk_widget_queue_resize(pdialog->overview.progress_label);
 }
 
 /****************************************************************
@@ -2768,12 +2774,12 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  /* cleanup worklist and happiness dialogs */
+  /* cleanup happiness dialog */
   close_happiness_dialog(pdialog->pcity);
 
   pdialog->pcity = new_pcity;
 
-  /* reinitialize happiness, worklist, and cma dialogs */
+  /* reinitialize happiness, and cma dialogs */
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
