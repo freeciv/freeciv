@@ -51,8 +51,50 @@
 #include "savegame.h"
 
 
+#define DEC2HEX(int_value, halfbyte_wanted) \
+  dec2hex[((int_value) >> ((halfbyte_wanted) * 4)) & 0xf]
 static const char dec2hex[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
+
+/* 
+ * This loops over the entire map to save data. It collects all the
+ * data of a line using get_xy_char and then executes the
+ * secfile_insert_line code. The macro provides the variables x and y
+ * and line. Parameter:
+ * - get_xy_char: code that returns the character for each (x, y)
+ * coordinate.
+ *  - secfile_insert_line: code which is executed every time a line is
+ *  processed
+ */
+
+#define SAVE_MAP_DATA(get_xy_char, secfile_insert_line) \
+{                                                       \
+  char *line = fc_malloc(map.xsize + 1);                \
+  int x, y;                                             \
+                                                        \
+  for (y = 0; y < map.ysize; y++) {                     \
+    for (x = 0; x < map.xsize; x++) {                   \
+      if (is_normal_map_pos(x, y)) {                    \
+	line[x] = get_xy_char;                          \
+      } else {                                          \
+        /* skipped over in loading */                   \
+	line[x] = '#';                                  \
+      }                                                 \
+    }                                                   \
+    line[map.xsize] = '\0';                             \
+    secfile_insert_line;                                \
+  }                                                     \
+  free(line);                                           \
+}
+
+#define SAVE_NORMAL_MAP_DATA(secfile, get_xy_char, secfile_name)          \
+	SAVE_MAP_DATA(get_xy_char,                                        \
+		      secfile_insert_str(secfile, line, secfile_name, y))
+
+#define SAVE_PLAYER_MAP_DATA(secfile, get_xy_char, secfile_name, plrno)   \
+	SAVE_MAP_DATA(get_xy_char,                                        \
+		      secfile_insert_str(secfile, line, secfile_name,     \
+					 plrno, y))
 
 /* Following does not include "unirandom", used previously; add it if
  * appropriate.  (Code no longer looks at "unirandom", but should still
@@ -227,27 +269,6 @@ static void map_rivers_overlay_load(struct section_file *file)
     }
   }
   map.have_rivers_overlay = 1;
-}
-
-/***************************************************************
-  Save the rivers overlay map; this is a special case to allow
-  re-saving scenarios which have rivers overlay data.  This
-  only applies if don't have rest of specials.
-***************************************************************/
-static void map_rivers_overlay_save(struct section_file *file)
-{
-  char *pbuf = fc_malloc(map.xsize+1);
-  int x, y;
-  
-  /* put "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++) {
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
-    }
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.n%03d", y);
-  }
-  free(pbuf);
 }
 
 /***************************************************************
@@ -494,8 +515,7 @@ static void map_load(struct section_file *file)
 ***************************************************************/
 static void map_save(struct section_file *file)
 {
-  int i, x, y;
-  char *pbuf=fc_malloc(map.xsize+1);
+  int i;
 
   /* map.xsize and map.ysize (saved as map.width and map.height)
    * are now always saved in game_save()
@@ -512,126 +532,56 @@ static void map_save(struct section_file *file)
   }
     
   /* put the terrain type */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=terrain_chars[map_get_tile(x, y)->terrain];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.t%03d", y);
-  }
+  SAVE_NORMAL_MAP_DATA(file, terrain_chars[map_get_tile(x, y)->terrain],
+		       "map.t%03d");
 
   if (!map.have_specials) {
     if (map.have_rivers_overlay) {
-      map_rivers_overlay_save(file);
+      /* 
+       * Save the rivers overlay map; this is a special case to allow
+       * re-saving scenarios which have rivers overlay data.  This only
+       * applies if don't have rest of specials.
+       */
+
+      /* bits 8-11 of special flags field */
+      SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 2),
+			   "map.n%03d");
     }
-    free(pbuf);
     return;
   }
 
-  /* put lower 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[map_get_tile(x, y)->special&0xf];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.l%03d", y);
-  }
-
-  /* put upper 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf0)>>4];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.u%03d", y);
-  }
-
-  /* put "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.n%03d", y);
-  }
+  /* put 4-bit segments of 12-bit "special flags" field */
+  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 0),
+		       "map.l%03d");
+  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 1),
+		       "map.u%03d");
+  SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 2),
+		       "map.n%03d");
 
   secfile_insert_int(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
-    /* put "final" 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf000)>>12];
-      pbuf[x]='\0';
+    /* put the top 4 bits (bits 12-15) of special flags */
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->special, 3),
+			 "map.f%03d");
 
-      secfile_insert_str(file, pbuf, "map.f%03d", y);
-    }
-
-    /* put bit 0-3 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_tile(x, y)->known&0xf)];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.a%03d", y);
-    }
-
-    /* put bit 4-7 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0))>>4];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.b%03d", y);
-    }
-
-    /* put bit 8-11 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00))>>8];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.c%03d", y);
-    }
-
-    /* put bit 12-15 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000))>>12];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.d%03d", y);
-    }
-
-    /* put bit 16-19 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0000))>>16];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.e%03d", y);
-    }
-
-    /* put bit 20-23 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00000))>>20];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.g%03d", y); /* f already taken! */
-    }
-
-    /* put bit 24-27 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000000))>>24];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.h%03d", y);
-    }
-
-    /* put bit 28-31 of known bits */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0000000))>>28];
-      pbuf[x]='\0';
-      secfile_insert_str(file, pbuf, "map.i%03d", y);
-    }
+    /* put 4-bit segments of the 32-bit "known" field */
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 0),
+			 "map.a%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 1),
+			 "map.b%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 2),
+			 "map.c%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 3),
+			 "map.d%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 4),
+			 "map.e%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 5),
+			 "map.g%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 6),
+			 "map.h%03d");
+    SAVE_NORMAL_MAP_DATA(file, DEC2HEX(map_get_tile(x, y)->known, 7),
+			 "map.i%03d");
   }
-  
-  free(pbuf);
 }
 
 /***************************************************************
@@ -1458,10 +1408,9 @@ static void worklist_save(struct section_file *file,
 static void player_save(struct player *plr, int plrno,
 			struct section_file *file)
 {
-  int i, x, y;
+  int i;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
-  char *pbuf=fc_malloc(map.xsize+1);
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -1723,79 +1672,41 @@ static void player_save(struct player *plr, int plrno,
  /* Otherwise the player can see all, and there's no reason to save the private map. */
   if (game.fogofwar
       && game.save_options.save_private_map) {
+
     /* put the terrain type */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=terrain_chars[map_get_player_tile(x, y, plr)->terrain];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_t%03d", plrno, y);
-    }
-    
-    /* put lower 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[map_get_player_tile(x, y, plr)->special&0xf];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_l%03d",plrno,  y);
-    }
-    
-    /* put upper 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->special&0xf0)>>4];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_u%03d", plrno,  y);
-    }
-    
-    /* put "next" 4 bits of special flags */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->special&0xf00)>>8];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_n%03d", plrno, y);
-    }
-    
-    /* put lower 4 bits of updated */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[map_get_player_tile(x, y, plr)->last_updated&0xf];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_ua%03d",plrno,  y);
-    }
-    
-    /* put upper 4 bits of updated */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf0)>>4];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_ub%03d", plrno,  y);
-    }
-    
-    /* put "next" 4 bits of updated */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf00)>>8];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_uc%03d", plrno, y);
-    }
-    
-    /* put "yet next" 4 bits of updated */
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf000)>>12];
-      pbuf[x]='\0';
-      
-      secfile_insert_str(file, pbuf, "player%d.map_ud%03d", plrno, y);
-    }
-    
-    free(pbuf);
+    SAVE_PLAYER_MAP_DATA(file,
+			 terrain_chars[map_get_player_tile
+				       (x, y, plr)->terrain],
+			 "player%d.map_t%03d", plrno);
+
+    /* put 4-bit segments of 12-bit "special flags" field */
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
+				 0), "player%d.map_l%03d", plrno);
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
+				 1), "player%d.map_u%03d", plrno);
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->special,
+				 2), "player%d.map_n%03d", plrno);
+
+    /* put 4-bit segments of 16-bit "updated" field */
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->
+				 last_updated, 0), "player%d.map_ua%03d",
+			 plrno);
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->
+				 last_updated, 1), "player%d.map_ub%03d",
+			 plrno);
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->
+				 last_updated, 2), "player%d.map_uc%03d",
+			 plrno);
+    SAVE_PLAYER_MAP_DATA(file,
+			 DEC2HEX(map_get_player_tile(x, y, plr)->
+				 last_updated, 3), "player%d.map_ud%03d",
+			 plrno);
     
     if (1) {
       struct dumb_city *pdcity;
