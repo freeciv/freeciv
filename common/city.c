@@ -1962,8 +1962,8 @@ static inline void unhappy_city_check(struct city *pcity)
   if (city_unhappy(pcity)) {
     pcity->surplus[O_FOOD] = MIN(0, pcity->surplus[O_FOOD]);
     pcity->surplus[O_SHIELD] = MIN(0, pcity->surplus[O_SHIELD]);
-    pcity->surplus[O_GOLD] = MIN(0, pcity->surplus[O_GOLD]);
-    pcity->surplus[O_SCIENCE] = MIN(0, pcity->surplus[O_SCIENCE]);
+    pcity->surplus[O_GOLD] -= pcity->prod[O_GOLD];
+    pcity->surplus[O_SCIENCE] -= pcity->prod[O_SCIENCE];
 
     /* FIXME: These are special cases because many parts of the code still
      * check tax_total and science_total instead of the surplus[] array. */
