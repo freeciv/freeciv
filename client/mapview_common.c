@@ -22,15 +22,16 @@
 #include "support.h"
 #include "timing.h"
 
+#include "graphics_g.h"
+#include "mapctrl_g.h"
+#include "mapview_g.h"
+
 #include "civclient.h"
 #include "climap.h"
 #include "control.h"
 #include "goto.h"
-#include "mapctrl_g.h"
-#include "mapview_g.h"
-#include "tilespec.h"
-
 #include "mapview_common.h"
+#include "tilespec.h"
 
 struct canvas mapview_canvas;
 struct overview overview;
@@ -695,6 +696,35 @@ void put_unit_city_overlays(struct unit *punit,
     gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
 			sprites.upkeep.unhappy[unhappy - 1]);
   }
+}
+
+/****************************************************************************
+  Animate the nuke explosion at map(x, y).
+****************************************************************************/
+void put_nuke_mushroom_pixmaps(int map_x, int map_y)
+{
+  int canvas_x, canvas_y;
+  struct Sprite *mysprite = sprites.explode.nuke;
+  int width, height;
+
+  /* We can't count on the return value of map_to_canvas_pos since the
+   * sprite may span multiple tiles. */
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+  get_sprite_dimensions(mysprite, &width, &height);
+
+  canvas_x += (NORMAL_TILE_WIDTH - width) / 2;
+  canvas_y += (NORMAL_TILE_HEIGHT - height) / 2;
+
+  gui_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y, mysprite);
+  dirty_rect(canvas_x, canvas_y, width, height);
+
+  /* Make sure everything is flushed and synced before proceeding. */
+  flush_dirty();
+  gui_flush();
+
+  myusleep(1000000);
+
+  update_map_canvas_visible();
 }
 
 /**************************************************************************

@@ -64,6 +64,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 		int pixel_width, int pixel_height);
 void dirty_all(void);
 void flush_dirty(void);
+void gui_flush(void);
 
 void update_map_canvas_scrollbars(void);
 void update_map_canvas_scrollbars_size(void);
@@ -77,7 +78,6 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int new_canvas_x, int new_canvas_y);
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1);
-void put_nuke_mushroom_pixmaps(int x, int y);
 
 void draw_segment(int src_x, int src_y, int dir);
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);

@@ -927,16 +927,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE_OPT(road.corner[DIR8_SOUTHWEST], "r.c_road_sw");
   SET_SPRITE_OPT(road.corner[DIR8_SOUTHEAST], "r.c_road_se");
 
-  if (is_isometric) {
-    SET_SPRITE(explode.iso_nuke, "explode.iso_nuke");
-  } else {
-    for(i=0; i<3; i++) {
-      for(j=0; j<3; j++) {
-	my_snprintf(buffer, sizeof(buffer), "explode.nuke_%d%d", i, j);
-	SET_SPRITE(explode.nuke[i][j], buffer);
-      }
-    }
-  }
+  SET_SPRITE(explode.nuke, "explode.nuke");
 
   num_tiles_explode_unit = 0;
   do {

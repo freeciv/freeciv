@@ -30,6 +30,7 @@ const char **gfx_fileextensions(void);
 struct Sprite *load_gfxfile(const char *filename);
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y, int width, int height);
+void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height);
 void free_sprite(struct Sprite *s);
 
 #endif  /* FC__GRAPHICS_G_H */

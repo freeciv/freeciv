@@ -22,5 +22,5 @@ dy = 88
 is_pixel_border = 0
 
 tiles = { "row", "column", "tag"
- 0, 0, "explode.iso_nuke"
+ 0, 0, "explode.nuke"
 }

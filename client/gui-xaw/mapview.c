@@ -638,6 +638,16 @@ void flush_dirty(void)
   num_dirty_rects = 0;
 }
 
+/****************************************************************************
+  Do any necessary synchronization to make sure the screen is up-to-date.
+  The canvas should have already been flushed to screen via flush_dirty -
+  all this function does is make sure the hardware has caught up.
+****************************************************************************/
+void gui_flush(void)
+{
+  XSync(display, 0);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -781,40 +791,6 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
   put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void put_nuke_mushroom_pixmaps(int x, int y)
-{
-  int x_itr, y_itr;
-
-  for (x_itr = 0; x_itr<3; x_itr++) {
-    for (y_itr = 0; y_itr<3; y_itr++) {
-      int x1 = x + x_itr -1;
-      int y1 = y + y_itr -1;
-      if (normalize_map_pos(&x1, &y1)) {
-	int canvas_x, canvas_y;
-	struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
-
-	if (!map_to_canvas_pos(&canvas_x, &canvas_y, x1, y1)) {
-	  continue;
-	}
-	XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
-		  canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		  0, 0);
-	pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
-	XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
-		  0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		  canvas_x, canvas_y);
-      }
-    }
-  }
-  XSync(display, 0);
-  myusleep(1000000);
-
-  update_map_canvas(x-1, y-1, 3, 3, TRUE);
 }
 
 /**************************************************************************

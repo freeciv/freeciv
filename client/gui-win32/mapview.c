@@ -569,6 +569,16 @@ void flush_dirty(void)
   num_dirty_rects = 0;
 }
 
+/****************************************************************************
+  Do any necessary synchronization to make sure the screen is up-to-date.
+  The canvas should have already been flushed to screen via flush_dirty -
+  all this function does is make sure the hardware has caught up.
+****************************************************************************/
+void gui_flush(void)
+{
+  GdiFlush();
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -829,45 +839,6 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
   
 }
-
-/**************************************************************************
-
-**************************************************************************/
-void
-put_nuke_mushroom_pixmaps(int x, int y)
-{
-  
-  HDC hdc;
-  hdc=GetDC(map_window);
-  if (is_isometric) {
-    int canvas_x, canvas_y;
-    struct Sprite *mysprite = sprites.explode.iso_nuke;  
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    canvas_x += NORMAL_TILE_WIDTH/2 - mysprite->width/2;
-    canvas_y += NORMAL_TILE_HEIGHT/2 - mysprite->height/2;
-    draw_sprite(mysprite,hdc,canvas_x,canvas_y);
-    GdiFlush();
-    ReleaseDC(map_window,hdc);
-    Sleep(1000);
-    update_map_canvas_visible();
-  } else {
-    int x_itr, y_itr;
-    int canvas_x, canvas_y;
-    
-    for (y_itr=0; y_itr<3; y_itr++) {
-      for (x_itr=0; x_itr<3; x_itr++) {
-        struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
-        get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
-	draw_sprite(mysprite,hdc,canvas_x,canvas_y);
-      }
-    }
-    GdiFlush();
-    ReleaseDC(map_window,hdc);
-    Sleep(1000); 
-    update_map_canvas(x-1, y-1, 3, 3, TRUE);
-  }
-}
-
 
 /**************************************************************************
 

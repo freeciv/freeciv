@@ -501,21 +501,19 @@ tiles = { "row", "column", "tag"
  16, 18, "upkeep.unhappy2"
  16, 19, "upkeep.shield"
 
-; Nuclear explosion: this could maybe now be handled as one 
-; big graphic (?), but for now is done old way as 3 by 3:
-
-  1, 17, "explode.nuke_00"
-  1, 18, "explode.nuke_01"
-  1, 19, "explode.nuke_02"
-  2, 17, "explode.nuke_10"
-  2, 18, "explode.nuke_11"
-  2, 19, "explode.nuke_12"
-  3, 17, "explode.nuke_20"
-  3, 18, "explode.nuke_21"
-  3, 19, "explode.nuke_22"
-
 ; Misc:
 
   9, 17, "user.attention"	; Variously crosshair/red-square/arrows
 
+}
+
+[grid_nuke]
+
+x_top_left = 510
+y_top_left = 30
+dx = 90
+dy = 90
+
+tiles = { "row", "column", "tag"
+  0, 0, "explode.nuke"
 }
