@@ -634,7 +634,9 @@ static void player_load(struct player *plr, int plrno,
     p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
   }
   plr->nation = find_nation_by_name_orig(p);
-  init_tech(plr, game.tech); /* add techs from game and nation here */
+
+  /* Add techs from game and nation, but ignore game.tech. */
+  init_tech(plr, 0);
 
   /* not all players have teams */
   if (section_file_lookup(file, "player%d.team", plrno)) {
