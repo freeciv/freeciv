@@ -286,16 +286,10 @@ int rate_unit(struct unit *punit, struct unit *against)
 {
   int val;
   struct city *pcity=map_get_city(punit->x, punit->y);
-  if(punit)
-    val=get_defense_power(punit);
-  else
-    return 0;
-  if (pcity && !unit_ignores_citywalls(against))
-    val*=3;
-  else if (pcity || unit_on_fortress(punit))
-    val*=2;
-  else if (punit->activity==ACTIVITY_FORTIFY)
-    val*=1.5;
+
+  if(!punit) return 0;
+  val = get_total_defense_power(against,punit);
+
   return val*100+punit->hp;
 }
 
