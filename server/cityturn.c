@@ -214,7 +214,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
   *foodneed += 2 * (*workers - 1 - e);
   *prodneed += (*workers - 1 - e);
   if (*prodneed > 0) {
-    freelog(LOG_VERBOSE, "Ignored prodneed? in %s (%d)",
+    freelog(LOG_DEBUG, "Ignored prodneed? in %s (%d)",
 	 pcity->name, *prodneed);
   }
 }
