@@ -929,8 +929,8 @@ void ai_diplomacy_actions(struct player *pplayer)
         && adip->at_war_with_ally
         && !adip->is_allied_with_ally
         && !pplayers_at_war(pplayer, aplayer)) {
-      notify(aplayer, _("*%s (AI)* Your aggression against my allies was your "
-             "your last mistake!"), pplayer->name);
+      notify(aplayer, _("*%s (AI)* Your aggression against my allies was "
+			"your last mistake!"), pplayer->name);
       ai_go_to_war(pplayer, ai, aplayer);
     }
   } players_iterate_end;
