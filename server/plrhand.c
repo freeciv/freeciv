@@ -217,23 +217,14 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   plr->got_tech=1;
   plr->research.researchpoints++;
   was_first = !game.global_advances[tech_found];
+
   if (was_first) {
     gamelog(GAMELOG_TECH,_("%s are first to learn %s"),
 	    get_nation_name_plural(plr->nation),
-	    advances[tech_found].name
-	    );
+	    advances[tech_found].name);
     
-  for (i=0; i<=game.government_count; i++) {
-    if (tech_found == governments[i].required_tech) {
-      notify_player_ex(plr,-1,-1, E_NEW_GOVERNMENT,
-		       _("Game: Discovery of %s makes the government form %s"
-			 " available. You may want to start a revolution."),
-		       advances[tech_found].name, get_government_name(i));
-    }
-  }
-  
     /* Alert the owners of any wonders that have been made obsolete */
-    for (wonder = 0; wonder < game.num_impr_types; wonder++)
+    for (wonder = 0; wonder < game.num_impr_types; wonder++) {
       if (game.global_wonders[wonder] && is_wonder(wonder) &&
 	  improvement_types[wonder].obsolete_by == tech_found &&
 	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
@@ -242,6 +233,16 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 	      advances[tech_found].name, get_improvement_name(wonder),
 	      pcity->name);
       }
+    }
+  }
+
+  for (i=0; i<=game.government_count; i++) {
+    if (tech_found == governments[i].required_tech) {
+      notify_player_ex(plr,-1,-1, E_NEW_GOVERNMENT,
+		       _("Game: Discovery of %s makes the government form %s"
+			 " available. You may want to start a revolution."),
+		       advances[tech_found].name, get_government_name(i));
+    }
   }
     
   if (tech_found==game.rtech.get_bonus_tech && was_first)
