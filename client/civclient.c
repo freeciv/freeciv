@@ -399,6 +399,10 @@ void handle_packet_input(char *packet, int type)
     handle_processing_finished();
     break;
 
+  case PACKET_START_TURN:
+    handle_start_turn();
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
