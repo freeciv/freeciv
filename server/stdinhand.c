@@ -651,6 +651,9 @@ void toggle_ai_player(char *arg)
   } else {
     notify_player(0, "Game: %s is now human.", pplayer->name);
     printf("%s is now under human control.\n",pplayer->name);
+
+    /* because the hard AI `cheats' with government rates but humans shouldn't */
+    check_player_government_rates(pplayer);
   }
   send_player_info(pplayer,0);
 }
