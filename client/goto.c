@@ -674,8 +674,11 @@ static void fill_client_goto_parameter(struct unit *punit,
   }
 
   /* Note that in connect mode the "time" does not correspond to any actual
-   * move rate. */
-  parameter->turn_mode = TM_WORST_TIME;
+   * move rate.
+   *
+   * FIXME: for units traveling across dangerous terrains with partial MP
+   * (which is very rare) using TM_BEST_TIME could cause them to die. */
+  parameter->turn_mode = TM_BEST_TIME;
   parameter->start_tile = punit->tile;
 
   /* Omniscience is always FALSE in the client */
