@@ -323,40 +323,18 @@ economy_report_dialog_update(void)
 **************************************************************************/
 static void economy_dlg_sell(HWND hWnd,int data)
 {
-  HWND lv;
-  int n,i,count=0,gold=0;
-  char str[64];
-  int row;
-  lv=GetDlgItem(hWnd,ID_TRADEREP_LIST);
-  n=ListView_GetItemCount(lv);
-  
-  for(row=0;row<n;row++)
+  HWND lv = GetDlgItem(hWnd, ID_TRADEREP_LIST);
+  char str[1024];
+  int row, n = ListView_GetItemCount(lv);
+
+  for (row = 0; row < n; row++) {
     if (ListView_GetItemState(lv,row,LVIS_SELECTED)) {
-       
-      i=economy_improvement_type[row];
-
-      city_list_iterate(game.player_ptr->cities, pcity) {      
-	if (!pcity->did_sell && city_got_building(pcity, i)
-	    && (data || improvement_obsolete(game.player_ptr,i)
-		|| wonder_replacement(pcity, i)))  {
-	  count++;
-	  gold += impr_sell_gold(i);
-	  city_sell_improvement(pcity, i);
-	}            
-      } city_list_iterate_end;
-
-      if(count)  {
-	my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
-		    count, get_improvement_name(i), gold);
-      } else {
-	my_snprintf(str, sizeof(str), _("No %s could be sold"),
-		    get_improvement_name(i));
-      }      
-      
+      sell_all_improvements(economy_improvement_type[row],
+			    data != 0, str, sizeof(str));
       ListView_SetItemState(lv,row,0,LVIS_SELECTED);
       popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
-    }   
-  return ;
+    }
+  }
 }
 
 /**************************************************************************

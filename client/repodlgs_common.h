@@ -73,4 +73,9 @@ extern int num_options_categories;
 void settable_options_init(void);
 void settable_options_free(void);
 
+void sell_all_improvements(Impr_Type_id impr, bool obsolete_only,
+			   char *message, size_t message_sz);
+void disband_all_units(Unit_Type_id type, bool in_cities_only,
+		       char *message, size_t message_sz);
+
 #endif /* FC__REPODLGS_COMMON_H */

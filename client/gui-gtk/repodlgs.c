@@ -694,9 +694,8 @@ static void economy_close_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 void economy_selloff_callback(GtkWidget *w, gpointer data)
 {
-  int count = 0, gold = 0;
   struct economy_row row_type;
-  char str[64];
+  char str[1024];
   GList *selection;
   int row;
 
@@ -706,54 +705,16 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
     row_type = economy_row_type[row];
     
     if (row_type.is_impr == TRUE) {
-      city_list_iterate(game.player_ptr->cities, pcity) {
-	if (!pcity->did_sell && city_got_building(pcity, row_type.type)
-	    && (data
- 	        || improvement_obsolete(game.player_ptr, row_type.type)
-		|| wonder_replacement(pcity, row_type.type))) {
- 	  count++;
-	  gold += impr_sell_gold(row_type.type);
-	  city_sell_improvement(pcity, row_type.type);
-	}
-      } city_list_iterate_end;
-      
-      if (count) {
- 	my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
- 		    count, get_improvement_name(row_type.type), gold);
-      } else {
- 	my_snprintf(str, sizeof(str), _("No %s could be sold"),
-		get_improvement_name(row_type.type));
-      }
+      sell_all_improvements(row_type.type, data == NULL,
+			    str, sizeof(str));
     } else {
-      /* With this code only units supported by cities will be disbanded
-       * That's like this because it is a non-sense of selling units with
-       * no upkeep */
-      city_list_iterate(game.player_ptr->cities, pcity) {
- 	unit_list_iterate(pcity->units_supported, punit) {
- 	  /* We don't sell obsolete units when sell obsolete is clicked. 
- 	   * Indeed, unlike improvements, obsolete units can fight like
-	   * up-to-date ones */
- 	  if (punit->type == row_type.type && data) {
- 	    count++;
- 	    request_unit_disband(punit);
- 	  }
- 	} unit_list_iterate_end;
-      } city_list_iterate_end;
-      
-      if (count > 0) {
- 	my_snprintf(str, sizeof(str), "Disbanded %d %s", count,
- 		    unit_name(row_type.type));
-      } else {
- 	my_snprintf(str, sizeof(str), "No %s could be disbanded", 
- 		    unit_name(row_type.type));
-      }
+      disband_all_units(row_type.type, FALSE, str, sizeof(str));
     }
  
     gtk_clist_unselect_row(GTK_CLIST(economy_list), row, 0);
     popup_notify_dialog(_("Sell-Off:"),_("Results"), str);
     
   }
-  return;
 }
 
 /****************************************************************

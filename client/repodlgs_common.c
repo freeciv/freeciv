@@ -17,12 +17,16 @@
 
 #include <assert.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "mem.h"		/* free */
+#include "support.h"		/* my_snprintf */
 
 #include "repodlgs_g.h"
 
+#include "civclient.h"		/* can_client_issue_orders */
+#include "control.h"
 #include "repodlgs_common.h"
 #include "packhand_gen.h"
 
@@ -293,5 +297,83 @@ void handle_options_settable(struct packet_options_settable *packet)
   /* if we've received all the options, pop up the settings dialog */
   if (i == num_settable_options - 1) {
     popup_settable_options_dialog();
+  }
+}
+
+/****************************************************************************
+  Sell all improvements of the given type in all cities.  If "obsolete_only"
+  is specified then only those improvements that are replaced will be sold.
+
+  The "message" string will be filled with a GUI-friendly message about
+  what was sold.
+****************************************************************************/
+void sell_all_improvements(Impr_Type_id impr, bool obsolete_only,
+			   char *message, size_t message_sz)
+{
+  int count = 0, gold = 0;
+
+  if (!can_client_issue_orders()) {
+    my_snprintf(message, message_sz, _("You cannot sell improvements."));
+    return;
+  }
+
+  city_list_iterate(game.player_ptr->cities, pcity) {
+    if (!pcity->did_sell && city_got_building(pcity, impr)
+	&& (!obsolete_only
+	    || improvement_obsolete(game.player_ptr, impr)
+	    || wonder_replacement(pcity, impr))) {
+      count++;
+      gold += impr_sell_gold(impr);
+      city_sell_improvement(pcity, impr);
+    }
+  } city_list_iterate_end;
+
+  if (count > 0) {
+    my_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
+		count, get_improvement_name(impr), gold);
+  } else {
+    my_snprintf(message, message_sz, _("No %s could be sold."),
+		get_improvement_name(impr));
+  }
+}
+
+/****************************************************************************
+  Disband all supported units of the given type.  If in_cities_only is
+  specified then only units inside our cities will be disbanded.
+
+  The "message" string will be filled with a GUI-friendly message about
+  what was sold.
+****************************************************************************/
+void disband_all_units(Unit_Type_id type, bool in_cities_only,
+		       char *message, size_t message_sz)
+{
+  int count = 0;
+
+  if (!can_client_issue_orders()) {
+    my_snprintf(message, message_sz, _("You cannot disband units."));
+    return;
+  }
+
+  city_list_iterate(game.player_ptr->cities, pcity) {
+    /* Only supported units are disbanded.  Units with no homecity have no
+     * cost and are not disbanded. */
+    unit_list_iterate(pcity->units_supported, punit) {
+      struct city *incity = map_get_city(punit->x, punit->y);
+
+      if (punit->type == type
+	  && (!in_cities_only
+	      || (incity && city_owner(incity) == game.player_ptr))) {
+	count++;
+	request_unit_disband(punit);
+      }
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+
+  if (count > 0) {
+    my_snprintf(message, message_sz, _("Disbanded %d %s."),
+		count, unit_name(type));
+  } else {
+    my_snprintf(message, message_sz, _("No %s could be disbanded."),
+		unit_name(type));
   }
 }

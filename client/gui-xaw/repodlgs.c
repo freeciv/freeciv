@@ -706,34 +706,16 @@ void economyreport_msg_close(Widget w)
 void economy_selloff_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  int i,count=0,gold=0;
-  char str[64];
-  XawListReturnStruct *ret=XawListShowCurrent(economy_list);
+  char str[1024];
+  XawListReturnStruct *ret = XawListShowCurrent(economy_list);
 
-  if(ret->list_index==XAW_LIST_NONE) return;
-
-  i=economy_improvement_type[ret->list_index];
-
-  city_list_iterate(game.player_ptr->cities, pcity) {
-    if (!pcity->did_sell && city_got_building(pcity, i)
-	&& (client_data
-	    || improvement_obsolete(game.player_ptr,i)
-	    || wonder_replacement(pcity, i)))  {
-      count++;
-      gold += impr_sell_gold(i);
-      city_sell_improvement(pcity, i);
-    }
-  } city_list_iterate_end;
-
-  if(count)  {
-    my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
-		count, get_improvement_name(i), gold);
-  } else {
-    my_snprintf(str, sizeof(str), _("No %s could be sold"),
-		get_improvement_name(i));
+  if (ret->list_index == XAW_LIST_NONE) {
+    return;
   }
+
+  sell_all_improvements(economy_improvement_type[ret->list_index],
+			client_data == NULL, str, sizeof(str));
   popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
-  return;
 }
 
 /****************************************************************

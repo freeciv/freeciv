@@ -750,9 +750,10 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 *****************************************************************/
 static void economy_command_callback(GtkWidget *w, gint response_id)
 {
-  int i, count = 0, gold = 0, is_impr;
+  int i, is_impr;
   gint row;
   GtkWidget *shell;
+  char buf[1024];
 
   if (response_id != ECONOMY_SELL_OBSOLETE
       && response_id != ECONOMY_SELL_ALL) {
@@ -783,59 +784,20 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
       }
     }
 
-    city_list_iterate(game.player_ptr->cities, pcity) {
-      if (!pcity->did_sell && city_got_building(pcity, i ) &&
-	  (response_id == ECONOMY_SELL_ALL ||
-	   improvement_obsolete(game.player_ptr, i) ||
-	   wonder_replacement(pcity, i) )) {
-	count++; 
-	gold += impr_sell_gold(i);
-	city_sell_improvement(pcity, i);
-      }
-    } city_list_iterate_end;
-
-    if (count > 0) {
-      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-				     GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("Sold %d %s for %d gold"), count,
-				     get_improvement_name(i), gold);
-    } else {
-      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-				     GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("No %s could be sold"), 
-				     get_improvement_name(i));
-    }
+    sell_all_improvements(i, response_id != ECONOMY_SELL_ALL,
+			  buf, sizeof(buf));
   } else {
-    city_list_iterate(game.player_ptr->cities, pcity) {
-      unit_list_iterate(pcity->units_supported, punit) {
- 	/* We don't sell obsolete units when sell obsolete is clicked
-	 * Indeed, unlike improvements, obsolete units can fight like
- 	 * up-to-dates ones. And they are also all obsolete at the same
- 	 * time so if the user want to sell them off, he can use the
-	 * sell all button */
- 	if (punit->type == i && response_id == ECONOMY_SELL_ALL) {
-	  count++;
- 	  request_unit_disband(punit);
- 	}
-      } unit_list_iterate_end;
-    } city_list_iterate_end;
-    
-    if (count > 0) {
-      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-				     GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("Disbanded %d %s."), count,
-				     unit_name(i));
-    } else {
-      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-				     GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("No %s could be disbanded"),
-				     unit_name(i));
+    if (response_id == ECONOMY_SELL_OBSOLETE) {
+      return;
     }
+    disband_all_units(i, FALSE, buf, sizeof(buf));
   }
+
+  shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+				 GTK_DIALOG_DESTROY_WITH_PARENT,
+				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				 buf);
+
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
   gtk_window_present(GTK_WINDOW(shell));
