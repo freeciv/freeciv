@@ -14,29 +14,31 @@
 
 #include <gtk/gtk.h>
 
-#include <log.h>
-#include <dialogs.h>
-#include <plrdlg.h>
-#include <meswindlg.h>
-#include <repodlgs.h>
-#include <cityrep.h>
-#include <ratesdlg.h>
-#include <optiondlg.h>
-#include <messagedlg.h>
-#include <finddlg.h>
-#include <helpdlg.h>
-#include <civclient.h>
-#include <map.h>
-#include <gotodlg.h>
-#include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
-#include <chatline.h>
-#include <clinet.h>
-#include <gui_stuff.h>
-#include <unit.h>
-#include <spaceshipdlg.h>
-#include <options.h>
-#include <capability.h>
+#include "capability.h"
+#include "log.h"
+#include "map.h"
+#include "unit.h"
 
+#include "chatline.h"
+#include "cityrep.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "dialogs.h"
+#include "finddlg.h"
+#include "gotodlg.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "mapctrl.h"
+#include "messagedlg.h"
+#include "meswindlg.h"
+#include "optiondlg.h"
+#include "options.h"
+#include "plrdlg.h"
+#include "ratesdlg.h"
+#include "repodlgs.h"
+#include "spaceshipdlg.h"
+
+#include "menu.h"
 
 GtkItemFactory *item_factory=NULL;
 

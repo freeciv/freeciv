@@ -25,10 +25,14 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
-#include <gui_stuff.h>
-#include <clinet.h>
-#include <chatline.h>
-#include <shared.h>
+
+#include "shared.h"
+
+#include "chatline.h"
+#include "clinet.h"
+#include "gui_stuff.h"
+
+#include "connectdlg.h"
 
 /* extern AppResources appResources; */
 extern Widget toplevel;

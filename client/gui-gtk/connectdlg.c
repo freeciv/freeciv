@@ -19,12 +19,15 @@
 
 #include <gtk/gtk.h>
 
-#include <clinet.h>
-#include <chatline.h>
-#include <shared.h>
-#include <gui_stuff.h>
-#include <dialogs.h>
-#include <colors.h>
+#include "shared.h"
+
+#include "chatline.h"
+#include "clinet.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "gui_stuff.h"
+
+#include "connectdlg.h"
 
 extern char name[];
 extern char server_host[];

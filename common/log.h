@@ -118,5 +118,4 @@ static void freelog(int level, char *message, ...)
 }
 #endif /* __GNUC__ */
 
-	    
-#endif
+#endif  /* FC__LOG_H */

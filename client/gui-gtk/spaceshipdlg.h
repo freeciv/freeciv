@@ -10,12 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SPACESHIPDLG__H
-#define __SPACESHIPDLG__H
+#ifndef FC__SPACESHIPDLG_H
+#define FC__SPACESHIPDLG_H
 
 #include <gtk/gtk.h>
-
-struct spaceship_dialog;
 
 void popup_spaceship_dialog(struct player *pplayer);
 void popdown_spaceship_dialog(struct player *pplayer);
@@ -23,4 +21,4 @@ void refresh_spaceship_dialog(struct player *pplayer);
 
 void close_spaceship_dialog_action(GtkWidget *w, gpointer data);
 
-#endif
+#endif  /* FC__SPACESHIPDLG_H */

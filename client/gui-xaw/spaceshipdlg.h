@@ -10,10 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SPACESHIPDLG__H
-#define __SPACESHIPDLG__H
-
-struct spaceship_dialog;
+#ifndef FC__SPACESHIPDLG_H
+#define FC__SPACESHIPDLG_H
 
 void popup_spaceship_dialog(struct player *pplayer);
 void popdown_spaceship_dialog(struct player *pplayer);
@@ -24,4 +22,4 @@ void close_spaceship_dialog_action(Widget w, XEvent *event, String *argv,
 void spaceship_dialog_returnkey(Widget w, XEvent *event, String *params,
 				Cardinal *num_params);
 
-#endif
+#endif  /* FC__SPACESHIPDLG_H */

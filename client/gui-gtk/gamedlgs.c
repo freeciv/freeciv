@@ -22,16 +22,20 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <game.h>
-#include <gui_stuff.h>
-#include <events.h>
-#include <player.h>
-#include <shared.h>
-#include <packets.h>
-#include <dialogs.h>
-#include <chatline.h>
-#include <cityrep.h>
-#include <options.h>
+#include "events.h"
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "chatline.h"
+#include "cityrep.h"
+#include "dialogs.h"
+#include "gui_stuff.h"
+#include "options.h"
+
+#include "ratesdlg.h"
+#include "optiondlg.h"
 
 extern	GtkWidget *toplevel;
 extern struct connection aconnection;

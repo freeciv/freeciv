@@ -18,21 +18,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/xpm.h>
 
-#include <shared.h>
-#include <log.h>
-#include <unit.h>
-#include <game.h>
-#include <graphics.h>
-#include <colors.h>
-#include <climisc.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "unit.h"
 
-#include <goto_cursor.xbm>
-#include <goto_cursor_mask.xbm>
+#include "climisc.h"
+#include "colors.h"
+
+#include "graphics.h"
+
+#include "goto_cursor.xbm"
+#include "goto_cursor_mask.xbm"
 
 extern int display_depth;
 extern Widget map_canvas;

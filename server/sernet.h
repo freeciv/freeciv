@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SERNET_H
-#define __SERNET_H
+#ifndef FC__SERNET_H
+#define FC__SERNET_H
 
 #include "packets.h"
 
@@ -26,4 +26,4 @@ void close_connections_and_socket(void);
 void init_connections(void);
 void close_connection(struct connection *pconn);
 
-#endif
+#endif  /* FC__SERNET_H */

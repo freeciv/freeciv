@@ -13,31 +13,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <game.h>
-#include <player.h>
-#include <unitfunc.h>
-#include <civserver.h>
-#include <map.h>
-#include <maphand.h>
-#include <mapgen.h>
-#include <cityhand.h>
-#include <cityturn.h>
-#include <citytools.h>
-#include <unit.h>
-#include <unittools.h>
-#include <city.h>
-#include <player.h>
-#include <tech.h>
-#include <shared.h>
-#include <plrhand.h>
-#include <events.h>
-#include <aicity.h>
-#include <aitools.h> /* for ai_advisor_choose_building/ai_choice */
-#include <settlers.h>
-#include <advdomestic.h>
-#include <log.h>
-#include <gamelog.h>
-#include <spacerace.h>
+#include "city.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "player.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "civserver.h"
+#include "gamelog.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "spacerace.h"
+#include "unitfunc.h"
+#include "unittools.h"
+
+#include "advdomestic.h"
+#include "aicity.h"
+#include "aitools.h"		/* for ai_advisor_choose_building/ai_choice */
+
+#include "cityturn.h"
 
 extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 

@@ -20,17 +20,20 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Scrollbar.h>
 
-#include <mapview.h>
-#include <map.h>
-#include <graphics.h>
-#include <colors.h>
-#include <unit.h>
-#include <game.h>
-#include <civclient.h>
-#include <gui_stuff.h>
-#include <mapctrl.h>
-#include <canvas.h>
-#include <pixcomm.h>
+#include "canvas.h"
+#include "pixcomm.h"
+
+#include "game.h"
+#include "map.h"
+#include "unit.h"
+
+#include "civclient.h"
+#include "colors.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "mapctrl.h"
+
+#include "mapview.h"
 
 int terrain_to_tile_map[13]= {
   ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,

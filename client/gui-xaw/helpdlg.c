@@ -28,20 +28,21 @@
 #include <X11/Xaw/AsciiText.h>
 #include <X11/Xaw/Tree.h>
 
-#include <gui_stuff.h>
+#include "city.h"
+#include "game.h"
+#include "genlist.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
 
-#include <genlist.h>
-#include <climisc.h>
-#include <log.h>
-#include <shared.h>
-#include <unit.h>
-#include <city.h>
-#include <tech.h>
-#include <game.h>
-#include <helpdlg.h>
-#include <dialogs.h>
-#include <graphics.h>
-#include <mem.h>
+#include "climisc.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+
+#include "helpdlg.h"
 
 extern int UNIT_TILES;
 extern Widget toplevel, main_form;
@@ -126,8 +127,6 @@ struct help_item *find_help_item_position(int pos)
 }
 
 
-
-
 void set_title_topic(struct help_item *pitem)
 {
   if(!strcmp(pitem->topic, "Freeciv") || 
@@ -136,7 +135,6 @@ void set_title_topic(struct help_item *pitem)
   else
   xaw_set_label(help_title, pitem->topic);
 }
-
 
 
 static struct help_item *new_help_item(int type)

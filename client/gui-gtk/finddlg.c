@@ -18,10 +18,13 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <dialogs.h>
+#include "game.h"
+#include "player.h"
+
+#include "dialogs.h"
+#include "mapview.h"
+
+#include "finddlg.h"
 
 extern GtkWidget *toplevel;
 extern struct player_race races[];

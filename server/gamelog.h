@@ -11,8 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC_GAMELOG_H
-#define FC_GAMELOG_H
+#ifndef FC__GAMELOG_H
+#define FC__GAMELOG_H
 
 #include "attribute.h"
 
@@ -57,4 +57,4 @@ void gamelog(int level, char *message, ...)
 void gamelog_map(void);
 void gamelog_save(void);
 
-#endif
+#endif  /* FC__GAMELOG_H */

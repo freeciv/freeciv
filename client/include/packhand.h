@@ -13,6 +13,8 @@
 #ifndef FC__PACKHAND_H
 #define FC__PACKHAND_H
 
+#include "packets.h"
+
 void handle_join_game_reply(struct packet_join_game_reply *packet);
 
 void handle_remove_city(struct packet_generic_integer *packet);

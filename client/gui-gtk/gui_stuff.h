@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GUI_STUFF_H
-#define __GUI_STUFF_H
+#ifndef FC__GUI_STUFF_H
+#define FC__GUI_STUFF_H
 
 #include <gtk/gtk.h>
 
@@ -23,6 +23,9 @@ void gtk_set_label(GtkWidget *w, char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
+
+/* FIXME: disagrees with actual function in gui_stuff.c */
 GdkPixmap *gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h,
 			    int dst_w, int dst_h);
-#endif
+
+#endif  /* FC__GUI_STUFF_H */

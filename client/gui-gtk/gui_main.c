@@ -16,36 +16,39 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pwd.h>
-#include <unistd.h>
+#include <string.h>
 #include <time.h>
 
-#include <string.h>
+#include <pwd.h>
+#include <unistd.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <gui_main.h>
-#include <gui_stuff.h>
-#include <menu.h>
-#include <colors.h>
-#include <log.h>
-#include <graphics.h>
-#include <map.h>
-#include <mapview.h>
-#include <chatline.h>
-#include <civclient.h>
-#include <clinet.h>
-#include <mapctrl.h>
-#include <freeciv.ico>
-#include <dialogs.h>
-#include <game.h>
-#include <gotodlg.h>
-#include <connectdlg.h>
-#include <helpdlg.h>
-#include <optiondlg.h>
-#include <spaceshipdlg.h>
-#include <options.h>
+#include "log.h"
+#include "game.h"
+#include "map.h"
+
+#include "chatline.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "colors.h"
+#include "connectdlg.h"
+#include "dialogs.h"
+#include "gotodlg.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "menu.h"
+#include "optiondlg.h"
+#include "options.h"
+#include "spaceshipdlg.h"
+
+#include "gui_main.h"
+
+#include "freeciv.ico"
 
 #define NOTIFY_DIALOG_FONT	"-b&h-lucidatypewriter-bold-r-normal-*-12-*-*-*-*-*-*-*"
 #define FIXED_10_BFONT		"-b&h-lucidatypewriter-bold-r-normal-*-10-*-*-*-*-*-*-*"

@@ -10,9 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __PLRDLG__H
-#define __PLRDLG__H
+#ifndef FC__PLRDLG_H
+#define FC__PLRDLG_H
 
 void popup_players_dialog(void);
 void update_players_dialog(void);
+
 #endif

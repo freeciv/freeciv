@@ -17,6 +17,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* FIXME: gtk_scale_pixmap() prototype problem */
+/* #include "gui_stuff.h" */
+		 
 extern GdkWindow *root_window;
 
 extern GdkGC *mask_fg_gc;
@@ -162,6 +165,8 @@ GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
 
 /**************************************************************************
 ...
+FIXME: signature disgrees with proto in gui_stuff.h, and with
+usage in mapview.c 
 **************************************************************************/
 GdkPixmap *
 gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h, 

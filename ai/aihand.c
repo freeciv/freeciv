@@ -14,25 +14,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <player.h>
-#include <city.h>
-#include <cityturn.h>
-#include <citytools.h>
-#include <game.h>
-#include <unit.h>
-#include <unithand.h>
-#include <shared.h>
-#include <cityhand.h>
-#include <packets.h>
-#include <map.h>
-#include <mapgen.h>
-#include <aitools.h>
-#include <aihand.h>
-#include <aiunit.h>
-#include <aicity.h>
-#include <aitech.h>
-#include <sys/time.h>
-#include <log.h>
+
+#include "city.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "unithand.h"
+
+#include "aicity.h"
+#include "aitech.h"
+#include "aitools.h"
+#include "aiunit.h"
+
+#include "aihand.h"
 
 /****************************************************************************
   A man builds a city

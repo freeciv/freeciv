@@ -16,10 +16,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include <unistd.h>
-#include <errno.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -28,8 +29,6 @@
 #include <sys/time.h>
 
 #include <pwd.h>
-#include <string.h>
-#include <errno.h>
 
 #ifdef AIX
 #include <sys/select.h>
@@ -43,15 +42,17 @@
 
 #include <gtk/gtk.h>
 
-#include <civclient.h>
-#include <clinet.h>
-#include <log.h>
-#include <chatline.h>
-#include <packets.h>
-#include <gui_main.h>
-#include <game.h>
-#include <packhand.h>
-#include <capstr.h>
+#include "capstr.h"
+#include "log.h"
+#include "game.h"
+#include "packets.h"
+
+#include "chatline.h"
+#include "civclient.h"
+#include "gui_main.h"
+#include "packhand.h"
+
+#include "clinet.h"
 
 struct connection aconnection;
 

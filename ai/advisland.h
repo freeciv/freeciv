@@ -10,10 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVISLAND_H
-#define __ADVISLAND_H
+#ifndef FC__ADVISLAND_H
+#define FC__ADVISLAND_H
+
 void island_adjust_build_choice(struct player *pplayer, 
 				struct ai_choice *choice, int advisor);
-
 
 #endif

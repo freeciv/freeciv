@@ -13,11 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <genlist.h>
-#include <player.h>
-#include <diptreaty.h>
-#include <mem.h>
+#include "genlist.h"
+#include "mem.h"
+#include "player.h"
 
+#include "diptreaty.h"
 
 /****************************************************************
 ...

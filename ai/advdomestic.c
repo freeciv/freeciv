@@ -13,19 +13,23 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <aitools.h>
-#include <map.h>
-#include <game.h>
-#include <unit.h>
-#include <citytools.h>
-#include <advmilitary.h>
-#include <unitfunc.h>
-#include <cityhand.h>
-#include <aicity.h>
-#include <aiunit.h>
-#include <settlers.h>
-#include <unittools.h>
-#include <log.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "settlers.h"
+#include "unitfunc.h"
+#include "unittools.h"
+
+#include "advmilitary.h"
+#include "aicity.h"
+#include "aitools.h"
+#include "aiunit.h"
+
+#include "advdomestic.h"
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 

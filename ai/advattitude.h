@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVATTITUDE_H
-#define __ADVATTITUDE_H
+#ifndef FC__ADVATTITUDE_H
+#define FC__ADVATTITUDE_H
 
 void attitude_advisor_choose_tech(struct player *pplayer, 
 				  struct ai_choice *choice);

@@ -13,9 +13,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <tech.h>
-#include <player.h>
-#include <game.h>
+#include "game.h"
+#include "player.h"
+
+#include "tech.h"
 
 struct advance advances[A_LAST];
 /* the advances array is now setup in:

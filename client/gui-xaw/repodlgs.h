@@ -28,4 +28,4 @@ void activeunits_report_dialog_update(void);
 void popup_activeunits_report_dialog(int make_modal);
 void close_activeunits_dialog_action(Widget, XEvent *, String *, Cardinal *);
 
-#endif
+#endif  /* FC__REPODLGS_H */

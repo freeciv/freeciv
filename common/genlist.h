@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GENLIST_H
-#define __GENLIST_H
+#ifndef FC__GENLIST_H
+#define FC__GENLIST_H
 
 struct genlist_link {
   struct genlist_link *next, *prev; 
@@ -53,4 +53,4 @@ void genlist_iterator_init(struct genlist_iterator *iter,
 #define ITERATOR_PREV(X) ((X).link=(X).link->prev)
 
 
-#endif
+#endif  /* FC__GENLIST_H */

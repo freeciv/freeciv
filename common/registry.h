@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __REGISTRY_H
-#define __REGISTRY_H
+#ifndef FC__REGISTRY_H
+#define FC__REGISTRY_H
 
 #include "sbuffer.h"
 #include "genlist.h"
@@ -94,5 +94,5 @@ struct section_entry *section_file_insert_internal(struct section_file
 						   *my_section_file, 
 						   char *fullpath);
 
-#endif
+#endif  /* FC__REGISTRY_H */
 

@@ -16,24 +16,26 @@
 
 #include <gtk/gtk.h>
 
-#include <game.h>
-#include <player.h>
-#include <spaceshipdlg.h>
-#include <shared.h>
-#include <genlist.h>
-#include <mapview.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <packets.h>
-#include <dialogs.h>
-#include <inputdlg.h>
-#include <gui_stuff.h>
-#include <colors.h>
-#include <repodlgs.h>
-#include <helpdlg.h>
-#include <graphics.h>
-#include <spaceship.h>
-#include <mem.h>
+#include "game.h"
+#include "genlist.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "colors.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "inputdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "repodlgs.h"
+#include "spaceship.h"
+
+#include "spaceshipdlg.h"
 
 extern int SPACE_TILES;
 extern GdkGC *civ_gc, *fill_bg_gc;

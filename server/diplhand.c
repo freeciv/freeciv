@@ -13,23 +13,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <player.h>
-#include <packets.h>
-#include <unit.h>
-#include <diplhand.h>
-#include <game.h>
-#include <diptreaty.h>
-#include <plrhand.h>
-#include <maphand.h>
-#include <map.h>
-#include <gamelog.h>
-#include <citytools.h>
-#include <unittools.h>
-#include <log.h>
-#include <cityhand.h>
-#include <cityturn.h>
-#include <settlers.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "diptreaty.h"
+#include "gamelog.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "unittools.h"
+
+#include "diplhand.h"
 
 struct genlist treaties;
 int did_init_treaties;

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __HELPDLG__H
-#define __HELPDLG__H
+#ifndef FC__HELPDLG__H
+#define FC__HELPDLG__H
 
 enum help_page_type { HELP_ANY, HELP_TEXT, HELP_UNIT, HELP_IMPROVEMENT,
 		      HELP_WONDER, HELP_TECH };
@@ -38,4 +38,4 @@ void boot_help_texts(void);
 #define HELP_COPYING_ITEM "Copying"
 #define HELP_ABOUT_ITEM "About"
 
-#endif
+#endif  /* FC__HELPDLG__H */

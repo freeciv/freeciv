@@ -13,13 +13,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <game.h>
-#include <map.h>
-#include <city.h>
-#include <tech.h>
-#include <shared.h>
-#include <log.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "shared.h"
+#include "tech.h"
+
+#include "city.h"
 
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 

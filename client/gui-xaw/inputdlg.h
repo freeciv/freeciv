@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __INPUTDLG_H
-#define __INPUTDLG_H
+#ifndef FC__INPUTDLG_H
+#define FC__INPUTDLG_H
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -26,4 +26,4 @@ char *input_dialog_get_input(Widget button);
 void input_dialog_returnkey(Widget w, XEvent *event, String *params,
 			    Cardinal *num_params);
 
-#endif
+#endif  /* FC__INPUTDLG_H */

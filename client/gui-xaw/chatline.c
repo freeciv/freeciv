@@ -18,11 +18,13 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/AsciiText.h>
 
-#include <chatline.h>
-#include <packets.h>
-#include <clinet.h>
-#include <gui_stuff.h>
-#include <mem.h>
+#include "mem.h"
+#include "packets.h"
+
+#include "clinet.h"
+#include "gui_stuff.h"
+
+#include "chatline.h"
 
 extern Widget inputline_text, outputwindow_text;
 

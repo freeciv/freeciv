@@ -10,16 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __AITECH_H
-#define __AITECH_H
+#ifndef FC__AITECH_H
+#define FC__AITECH_H
 
-
+struct player;
 
 void ai_manage_tech(struct player *pplayer); 
 void ai_next_tech_goal(struct player *pplayer);
 void calculate_tech_turns(struct player *pplayer);
 
-
-
-
-#endif 
+#endif  /* FC__AITECH_H */

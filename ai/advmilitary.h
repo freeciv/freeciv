@@ -10,8 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVMILITARY_H
-#define __ADVMILITARY_H
+#ifndef FC__ADVMILITARY_H
+#define FC__ADVMILITARY_H
+
+struct city;
+struct player;
+struct unit;
+struct ai_choice;
 
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice);
@@ -24,4 +29,4 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall);
 int assess_defense(struct city *pcity);
 int unit_desirability(int i, int def);
 
-#endif
+#endif  /* FC__ADVMILITARY_H */

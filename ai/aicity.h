@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __AICITY_H
-#define __AICITY_H
+#ifndef FC__AICITY_H
+#define FC__AICITY_H
 
 void ai_manage_cities(struct player *pplayer);
 int city_get_buildings(struct city *pcity);
@@ -34,4 +34,4 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity);
 
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
 
-#endif
+#endif  /* FC__AICITY_H */

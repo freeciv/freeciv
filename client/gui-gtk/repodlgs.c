@@ -19,16 +19,18 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <packets.h>
-#include <game.h>
-#include <shared.h>
-#include <helpdlg.h>
-#include <dialogs.h>
-#include <repodlgs.h>
-#include <cityrep.h>
-#include <civclient.h>
-#include <gui_stuff.h>
-#include <optiondlg.h>
+#include "game.h"
+#include "packets.h"
+#include "shared.h"
+
+#include "cityrep.h"
+#include "civclient.h"
+#include "dialogs.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "optiondlg.h"
+
+#include "repodlgs.h"
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;

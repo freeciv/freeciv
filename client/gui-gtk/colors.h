@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __COLORS_H
-#define __COLORS_H
+#ifndef FC__COLORS_H
+#define FC__COLORS_H
 
 #include <gtk/gtk.h>
 
@@ -41,5 +41,5 @@ void			init_color_system	(void);
 void			color_error		(void);
 
 GdkColor *colors_standard		[COLOR_STD_LAST];
-#endif
 
+#endif  /* FC__COLORS_H */

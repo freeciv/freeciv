@@ -20,25 +20,26 @@
 #include <assert.h>
 
 #include <gtk/gtk.h>
-#include <genlist.h>
-#include <climisc.h>
-#include <log.h>
-#include <shared.h>
-#include <unit.h>
-#include <city.h>
-#include <tech.h>
-#include <game.h>
-#include <helpdlg.h>
-#include <colors.h>
-#include <gui_stuff.h>
-#include <graphics.h>
-#include <mem.h>
+
+#include "city.h"
+#include "game.h"
+#include "genlist.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
+
+#include "climisc.h"
+#include "colors.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+
+#include "helpdlg.h"
 
 
 #define	HELP_UNIT_FONT		"-*-times-bold-r-*-*-14-*-*-*-*-*-*-*"
 #define	HELP_TEXT_FONT		"-*-fixed-medium-r-*-*-14-*-*-*-*-*-iso8859-*"
-
-
 
 
 char *help_type_names[] = { "", "TEXT", "UNIT", "IMPROVEMENT",
@@ -108,9 +109,6 @@ char *help_ulabel_name[4][5] =
 void create_help_dialog(void);
 void help_update_dialog(struct help_item *pitem);
 void create_help_page(enum help_page_type type);
-
-
-
 
 
 /****************************************************************

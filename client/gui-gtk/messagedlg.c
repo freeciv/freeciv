@@ -18,17 +18,19 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <messagedlg.h>
-#include <shared.h>
-#include <packets.h>
-#include <events.h>
-#include <optiondlg.h>
-#include <dialogs.h>
-#include <gui_stuff.h>
-#include <options.h>
+#include "events.h"
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "dialogs.h"
+#include "gui_stuff.h"
+#include "mapview.h"
+#include "optiondlg.h"
+#include "options.h"
+
+#include "messagedlg.h"
 
 extern GtkWidget *toplevel;
 

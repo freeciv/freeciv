@@ -16,9 +16,10 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include <shared.h>
-#include <mem.h>
-#include <log.h>
+#include "log.h"
+#include "mem.h"
+
+#include "shared.h"
 
 #define BASE_DATA_PATH ".:data:~/.freeciv"
 

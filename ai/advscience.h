@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVSCIENCE_H
-#define __ADVSCIENCE_H
+#ifndef FC__ADVSCIENCE_H
+#define FC__ADVSCIENCE_H
 
 void science_advisor_choose_tech(struct player *pplayer,
 				 struct ai_choice *choice);

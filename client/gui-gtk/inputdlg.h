@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __INPUTDLG_H
-#define __INPUTDLG_H
+#ifndef FC__INPUTDLG_H
+#define FC__INPUTDLG_H
 
 #include <gtk/gtk.h>
 
@@ -22,4 +22,5 @@ GtkWidget *input_dialog_create(GtkWidget *parent, char *dialogname,
 
 void input_dialog_destroy(GtkWidget *button);
 char *input_dialog_get_input(GtkWidget *button);
-#endif
+
+#endif  /* FC__INPUTDLG_H */

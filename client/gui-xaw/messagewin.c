@@ -23,21 +23,20 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 
-#include <game.h>
-#include <player.h>
-#include <meswindlg.h>
-#include <diplodlg.h>
-#include <inteldlg.h>
-#include <packets.h>
-#include <clinet.h>
-#include <chatline.h>
-#include <gui_stuff.h>
-#include <packets.h>
-#include <mapview.h>
-#include <map.h>
-#include <citydlg.h>
-#include <mem.h>
-#include <options.h>
+#include "game.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "clinet.h"
+#include "gui_stuff.h"
+#include "mapview.h"
+#include "options.h"
+
+#include "meswindlg.h"
 
 extern Widget toplevel;
 extern Display *display;

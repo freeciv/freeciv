@@ -10,11 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CITY_H
-#define __CITY_H
+#ifndef FC__CITY_H
+#define FC__CITY_H
 
 #include "genlist.h"
 #include "shared.h"		/* MAX_LENGTH_NAME */
+#include "unit.h"		/* struct unit_list */
 
 struct player;
 
@@ -99,15 +100,11 @@ enum city_options {
     ITERATOR_NEXT(myiter); 
 #define city_list_iterate_end }}
 
-#ifndef __AITOOLS_H
-
 struct ai_choice {
   int choice;            /* what the advisor wants */
   int want;              /* how bad it wants it (0-100) */
   int type;              /* unit/building or other depending on question */
 };
-
-#endif
 
 struct ai_city {
   int workremain;
@@ -264,4 +261,4 @@ void initialize_city_cache(void);
 void add_city_to_cache(struct city *pcity);
 void remove_city_from_cache(int id);
 
-#endif
+#endif  /* FC__CITY_H */

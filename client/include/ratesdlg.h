@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __RATESDLG_H
-#define __RATESDLG_H
+#ifndef FC__RATESDLG_H
+#define FC__RATESDLG_H
 
 void popup_rates_dialog(void);
 

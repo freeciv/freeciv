@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GRAPHICS_H
-#define __GRAPHICS_H
+#ifndef FC__GRAPHICS_H
+#define FC__GRAPHICS_H
 
 #include <gtk/gtk.h>
 
@@ -81,6 +81,7 @@ void		load_cursors		(void);
 SPRITE *	load_gfxfile		(char *filename, int makemask);
 
 GdkPixmap *	create_overlay_unit	(int i);
-#endif
+
+#endif  /* FC__GRAPHICS_H */
 
 

@@ -14,28 +14,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <player.h>
-#include <unitfunc.h>
-#include <civserver.h>
-#include <map.h>
-#include <maphand.h>
-#include <mapgen.h>
-#include <cityhand.h>
-#include <citytools.h>
-#include <cityturn.h>
-#include <unit.h>
-#include <city.h>
-#include <player.h>
-#include <tech.h>
-#include <shared.h>
-#include <plrhand.h>
-#include <events.h>
-#include <aicity.h>
-#include <settlers.h>
-#include <gamelog.h>
-#include <log.h>
-#include <mem.h>
+#include "city.h"
+#include "events.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "player.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
 
+#include "citytools.h"
+#include "cityturn.h"
+#include "civserver.h"
+#include "gamelog.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "unitfunc.h"
+
+#include "aicity.h"
+
+#include "cityhand.h"
 
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 

@@ -15,35 +15,37 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <registry.h>
-#include <sernet.h>
-#include <player.h>
-#include <unit.h>
-#include <player.h>
-#include <shared.h>
-#include <packets.h>
-#include <game.h>
-#include <tech.h>
-#include <plrhand.h>
-#include <cityhand.h> 
-#include <cityturn.h>
-#include <citytools.h>
-#include <unitfunc.h> 
-#include <unittools.h>
-#include <civserver.h>
-#include <maphand.h>
-#include <map.h>
-#include <events.h>
-#include <aihand.h>
-#include <aiunit.h>
-#include <aicity.h>
-#include <aitech.h>
-#include <settlers.h>
-#include <capability.h>
-#include <gamelog.h>
-#include <log.h>
-#include <spacerace.h>
-#include <mem.h>
+#include "capability.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "registry.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
+
+#include "cityhand.h" 
+#include "citytools.h"
+#include "cityturn.h"
+#include "civserver.h"
+#include "gamelog.h"
+#include "maphand.h"
+#include "sernet.h"
+#include "settlers.h"
+#include "spacerace.h"
+#include "unitfunc.h" 
+#include "unittools.h"
+
+#include "aicity.h"
+#include "aihand.h"
+#include "aitech.h"
+#include "aiunit.h"
+
+#include "plrhand.h"
 
 extern struct advance advances[];
 extern struct player_race races[];

@@ -10,8 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#include <player.h>
-#include <aitools.h>
+#include "player.h"
+
+#include "aitools.h"
+
+#include "advleader.h"
 
 /********************************************************************** 
 TODO: distmodifier should be assigned a value between 1 and 100

@@ -10,8 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __AIUNIT_H
-#define __AIUNIT_H
+#ifndef FC__AIUNIT_H
+#define FC__AIUNIT_H
+
+struct player;
+struct city;
+struct unit;
+struct ai_choice;
 
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
@@ -50,4 +55,4 @@ int ai_wants_role_unit(struct player *pplayer, struct city *pcity,
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want);
 
-#endif
+#endif  /* FC__AIUNIT_H */

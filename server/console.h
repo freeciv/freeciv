@@ -69,4 +69,4 @@ int con_get_style(void);
 void con_rfconly(int i, char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
-#endif
+#endif  /* FC__CONSOLE_H */

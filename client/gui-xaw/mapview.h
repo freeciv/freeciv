@@ -10,11 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPVIEW_H
-#define __MAPVIEW_H
+#ifndef FC__MAPVIEW_H
+#define FC__MAPVIEW_H
 
 #include <sys/types.h>
 #include <X11/Intrinsic.h>
+
 struct unit;
 struct city;
 
@@ -179,5 +180,4 @@ Pixmap get_thumb_pixmap(int onoff);
 Pixmap get_citizen_pixmap(int frame);
 void timer_callback(caddr_t client_data, XtIntervalId *id);
 
-#endif
-
+#endif  /* FC__MAPVIEW_H */

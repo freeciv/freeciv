@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __FINDDLG__H
-#define __FINDDLG__H
+#ifndef FC__FINDDLG__H
+#define FC__FINDDLG__H
 
 void popup_find_dialog(void);
 

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GAMEHAND_H
-#define __GAMEHAND_H
+#ifndef FC__GAMEHAND_H
+#define FC__GAMEHAND_H
 
 struct section_file;
 
@@ -23,4 +23,4 @@ void send_game_state(struct player *dest, int state);
 int game_load(struct section_file *file);
 void game_save(struct section_file *file);
 
-#endif
+#endif  /* FC__GAMEHAND_H */

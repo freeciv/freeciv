@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CIVCLIENT_H
-#define __CIVCLIENT_H
+#ifndef FC__CIVCLIENT_H
+#define FC__CIVCLIENT_H
 
 #include "packets.h"
 #include "game.h"
@@ -32,4 +32,4 @@ enum client_states get_client_state(void);
 extern int turn_gold_difference;
 void send_move_unit(struct unit *punit);
 
-#endif
+#endif  /* FC__CIVCLIENT_H */

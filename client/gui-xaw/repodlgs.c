@@ -29,16 +29,18 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/Toggle.h>
 
-#include <packets.h>
-#include <game.h>
-#include <repodlgs.h>
-#include <cityrep.h>
-#include <shared.h>
-#include <gui_stuff.h>
-#include <city.h>
-#include <helpdlg.h>
-#include <dialogs.h>
-#include <optiondlg.h>
+#include "city.h"
+#include "game.h"
+#include "packets.h"
+#include "shared.h"
+
+#include "cityrep.h"
+#include "dialogs.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "optiondlg.h"
+
+#include "repodlgs.h"
 
 extern Display	*display;
 extern Atom wm_delete_window;

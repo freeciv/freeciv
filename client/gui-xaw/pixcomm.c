@@ -50,9 +50,9 @@ in this Software without prior written authorization from the X Consortium.
 #include <X11/Xmu/Converters.h>
 #include <X11/extensions/shape.h>
 
-#include <pixcomm.h>
-#include <pixcommp.h>
-#include <gui_stuff.h>
+#include "pixcomm.h"
+#include "pixcommp.h"
+#include "gui_stuff.h"
 
 extern GC civ_gc;
 extern GC fill_bg_gc;

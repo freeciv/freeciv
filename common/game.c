@@ -14,13 +14,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <game.h>
-#include <player.h>
-#include <map.h>
-#include <city.h>
-#include <shared.h>
-#include <log.h>
-#include <spaceship.h>
+#include "city.h"
+#include "log.h"
+#include "map.h"
+#include "player.h"
+#include "shared.h"
+#include "spaceship.h"
+
+#include "game.h"
 
 void dealloc_id(int id);
 extern int is_server;

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __DIPLHAND_H
-#define __DIPLHAND_H
+#ifndef FC__DIPLHAND_H
+#define FC__DIPLHAND_H
 
 #include "packets.h"
 
@@ -26,4 +26,4 @@ void handle_diplomacy_init(struct player *pplayer,
 void handle_diplomacy_accept_treaty(struct player *pplayer, 
 				    struct packet_diplomacy_info *packet);
 
-#endif
+#endif  /* FC__DIPLHAND_H */

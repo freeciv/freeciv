@@ -14,33 +14,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <player.h>
-#include <city.h>
-#include <game.h>
-#include <unit.h>
-#include <shared.h>
-#include <packets.h>
-#include <events.h>
-#include <map.h>
-#include <mapgen.h>
-#include <plrhand.h>
-#include <cityhand.h>
-#include <citytools.h>
-#include <cityturn.h>
-#include <unithand.h>
-#include <unitfunc.h>
-#include <aitools.h>
-#include <aihand.h>
-#include <aiunit.h>
-#include <aicity.h>
-#include <advisland.h>
-#include <advleader.h>
-#include <advmilitary.h>
-#include <advdomestic.h>
-#include <gotohand.h>
-#include <settlers.h>
-#include <unittools.h>
-#include <log.h>
+
+#include "city.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "gotohand.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "advdomestic.h"
+#include "advisland.h"
+#include "advleader.h"
+#include "advmilitary.h"
+#include "aihand.h"
+#include "aitools.h"
+#include "aiunit.h"
+
+#include "aicity.h"
 
 int ai_fix_unhappy(struct city *pcity);
 void ai_manage_city(struct player *pplayer, struct city *);

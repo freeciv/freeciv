@@ -16,24 +16,25 @@
 
 #include <gtk/gtk.h>
 
-#include <civclient.h>
-#include <unit.h>
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <dialogs.h>
-#include <clinet.h>
-#include <graphics.h>
-#include <mapview.h>
-#include <citydlg.h>
-#include <inputdlg.h>
-#include <chatline.h>
-#include <menu.h>
-#include <colors.h>
-#include <log.h>
-#include <capability.h>
+#include "capability.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "player.h"
+#include "unit.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "inputdlg.h"
+#include "mapview.h"
+#include "menu.h"
+
+#include "mapctrl.h"
 
 extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;

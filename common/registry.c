@@ -120,10 +120,11 @@
 #include <ctype.h>
 #include <stdarg.h>
 
-#include <registry.h>
-#include <log.h>
-#include <shared.h>
-#include <mem.h>
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+
+#include "registry.h"
 
 /**************************************************************************
   Hashing registry lookups: (by dwp)

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__MESWINDLG__H
-#define FC__MESWINDLG__H
+#ifndef FC__MESWINDLG_H
+#define FC__MESWINDLG_H
 
 #include "packets.h"
 
@@ -23,4 +23,4 @@ void add_notify_window(struct packet_generic_message *packet);
 void meswin_update_delay_on(void);
 void meswin_update_delay_off(void);
      
-#endif
+#endif  /* FC__MESWINDLG_H */

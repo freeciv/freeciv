@@ -14,34 +14,37 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include <packets.h>
-#include <climisc.h>
-#include <game.h>
-#include <unit.h>
-#include <mapview.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <dialogs.h>
-#include <citydlg.h>
-#include <repodlgs.h>
-#include <cityrep.h>
-#include <gui_main.h>
-#include <log.h>
-#include <meswindlg.h>
-#include <chatline.h>
-#include <plrdlg.h>
-#include <civclient.h>
-#include <graphics.h>
-#include <menu.h>
-#include <events.h>
-#include <options.h>
-#include <clinet.h>		/* aconnection */
-#include <capability.h>
-#include <helpdlg.h>		/* boot_help_texts */
-#include <spaceship.h>
-#include <spaceshipdlg.h>
-#include <mem.h>
-#include <capstr.h>
+#include "capability.h"
+#include "capstr.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "spaceship.h"
+#include "unit.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "cityrep.h"
+#include "civclient.h"
+#include "climisc.h"
+#include "clinet.h"		/* aconnection */
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_main.h"
+#include "helpdlg.h"		/* boot_help_texts */
+#include "mapctrl.h"
+#include "mapview.h"
+#include "menu.h"
+#include "meswindlg.h"
+#include "options.h"
+#include "plrdlg.h"
+#include "repodlgs.h"
+#include "spaceshipdlg.h"
+
+#include "packhand.h"
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;

@@ -10,8 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __INTELDLG_H
-#define __INTELDLG_H
+#ifndef FC__INTELDLG_H
+#define FC__INTELDLG_H
+
+struct player;
 
 void popup_intel_dialog(struct player *p);
 

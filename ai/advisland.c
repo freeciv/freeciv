@@ -10,7 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#include <aitools.h>
+#include "aitools.h"
+
+#include "advisland.h"
+
 /**********************************************************************
 ... add some interesting adjustments here according to island status
 **********************************************************************/

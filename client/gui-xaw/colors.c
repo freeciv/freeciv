@@ -18,15 +18,14 @@
 
 #include <stdio.h>
 
-#include <log.h>
-#include <colors.h>
+#include "log.h"
+#include "colors.h"
 
 Colormap cmap;
 extern int screen_number;
 extern Display *display;
 extern Widget toplevel;
 extern Widget map_canvas;
-
 
 
 /* This is just so we can print the visual class intelligibly */

@@ -24,19 +24,20 @@
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Toggle.h>     
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <ratesdlg.h>
-#include <shared.h>
-#include <packets.h>
-#include <gui_stuff.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "gui_stuff.h"
+#include "mapview.h"
+
+#include "ratesdlg.h"
 
 extern Widget toplevel, main_form;
 
 extern struct connection aconnection;
 extern Display	*display;
-
 
 
 /******************************************************************/
@@ -93,8 +94,6 @@ void popup_rates_dialog(void)
   
   XtPopup(rates_dialog_shell, XtGrabNone);
 }
-
-
 
 
 /****************************************************************

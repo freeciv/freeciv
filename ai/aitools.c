@@ -14,24 +14,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <player.h>
-#include <city.h>
-#include <game.h>
-#include <unit.h>
-#include <shared.h>
-#include <packets.h>
-#include <map.h>
-#include <log.h>
+#include "city.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+#include "unit.h"
 
-#include <mapgen.h>
-#include <unittools.h>
-#include <cityhand.h>
-#include <cityturn.h>
-#include <citytools.h>
-#include <plrhand.h>
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "plrhand.h"
+#include "unittools.h"
 
-#include <aitools.h>
-#include <aiunit.h>
+#include "aiunit.h"
+
+#include "aitools.h"
 
 struct city *dist_nearest_city(struct player *pplayer, int x, int y)
 { /* dist_nearest_enemy_* are no longer ever used.  This is

@@ -14,15 +14,16 @@
 #include <assert.h>
 #include <string.h>
 
-#include <shared.h>
-#include <game.h>
-#include <packets.h>
-#include <spaceship.h>
-#include <log.h>
-#include <events.h>
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "packets.h"
+#include "shared.h"
+#include "spaceship.h"
 
-#include "plrhand.h"
 #include "civserver.h"
+#include "plrhand.h"
+
 #include "spacerace.h"
 
 /* use shuffled order from civserver.c: */

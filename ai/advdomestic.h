@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVDOMESTIC_H
-#define __ADVDOMESTIC_H
+#ifndef FC__ADVDOMESTIC_H
+#define FC__ADVDOMESTIC_H
 
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);

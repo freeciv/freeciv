@@ -18,5 +18,5 @@
 void setup_menus(Widget parent_form);
 void update_menus(void);
 
-#endif
+#endif  /* FC__MENU_H */
 

@@ -14,8 +14,8 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include "log.h"
 #include "mem.h"
+#include "log.h"
 
 int log_level;
 char *log_filename;

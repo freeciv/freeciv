@@ -16,19 +16,21 @@
 
 #include <gtk/gtk.h>
 
-#include <game.h>
-#include <player.h>
-#include <genlist.h>
-#include <diplodlg.h>
-#include <diptreaty.h>
-#include <clinet.h>
-#include <shared.h>
-#include <mapview.h>
-#include <map.h>
-#include <gui_stuff.h>
-#include <chatline.h>
-#include <capability.h>
-#include <mem.h>
+#include "capability.h"
+#include "game.h"
+#include "genlist.h"
+#include "map.h"
+#include "mem.h"
+#include "player.h"
+#include "shared.h"
+
+#include "chatline.h"
+#include "clinet.h"
+#include "diptreaty.h"
+#include "gui_stuff.h"
+#include "mapview.h"
+
+#include "diplodlg.h"
 
 extern GtkWidget *toplevel;
 

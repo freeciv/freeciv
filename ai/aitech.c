@@ -14,19 +14,22 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <player.h>
-#include <aitools.h>
-#include <tech.h>
-#include <game.h>
-#include <plrhand.h>
-#include <log.h>
+#include "game.h"
+#include "log.h"
+#include "player.h"
+#include "tech.h"
 
-#include <advleader.h>
-#include <advmilitary.h>
-#include <advtrade.h>
-#include <advscience.h>
-#include <advforeign.h>
-#include <advattitude.h>
+#include "plrhand.h"
+
+#include "advattitude.h"
+#include "advforeign.h"
+#include "advleader.h"
+#include "advmilitary.h"
+#include "advscience.h"
+#include "advtrade.h"
+#include "aitools.h"
+
+#include "aitech.h"
 
 /**************************************************************************
 .. AI got some tech goals, and should try to fulfill them. 

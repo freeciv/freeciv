@@ -15,15 +15,16 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "capability.h"
+#include "city.h"
 #include "game.h"
-#include "registry.h"
-#include "packets.h"
 #include "log.h"
+#include "packets.h"
+#include "registry.h"
 #include "tech.h"
 #include "unit.h"
-#include "city.h"
+
 #include "ruleset.h"
-#include "capability.h"
 
 static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);

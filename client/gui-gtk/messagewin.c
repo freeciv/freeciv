@@ -17,23 +17,22 @@
 
 #include <gtk/gtk.h>
 
-#include <game.h>
-#include <player.h>
-#include <meswindlg.h>
-/*#include <diplodlg.h>*/
-/*#include <inteldlg.h>*/
-#include <packets.h>
-#include <clinet.h>
-#include <chatline.h>
-#include <packets.h>
-#include <events.h>
-#include <mapview.h>
-#include <map.h>
-#include <citydlg.h>
-#include <gui_stuff.h>
-#include <colors.h>
-#include <mem.h>
-#include <options.h>
+#include "events.h"
+#include "game.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "clinet.h"
+#include "colors.h"
+#include "gui_stuff.h"
+#include "mapview.h"
+#include "options.h"
+
+#include "meswindlg.h"
 
 extern GtkWidget *toplevel;
 extern struct player_race races[];

@@ -27,21 +27,23 @@
  */
 
 #include <stdio.h>
-
-#include <game.h>
-#include <map.h>
-#include <unit.h>
-#include <player.h>
-#include <events.h>
-#include <log.h>
-#include <civserver.h>
-
-#include <gotohand.h>
-#include <unitfunc.h>
-#include <unittools.h>
-#include <plrhand.h>
 #include <stdlib.h>
-#include <unithand.h>
+
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "player.h"
+#include "unit.h"
+
+#include "civserver.h"
+#include "gotohand.h"
+#include "plrhand.h"
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "autoattack.h"
 
 extern struct player *shuffled[MAX_PLAYERS];    /* civserver.c */
 

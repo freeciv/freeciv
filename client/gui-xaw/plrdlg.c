@@ -22,16 +22,18 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 
-#include <game.h>
-#include <player.h>
-#include <plrdlg.h>
-#include <diplodlg.h>
-#include <inteldlg.h>
-#include <packets.h>
-#include <clinet.h>
-#include <chatline.h>
-#include <gui_stuff.h>
-#include <spaceshipdlg.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+
+#include "chatline.h"
+#include "clinet.h"
+#include "diplodlg.h"
+#include "gui_stuff.h"
+#include "inteldlg.h"
+#include "spaceshipdlg.h"
+
+#include "plrdlg.h"
 
 extern Widget toplevel, main_form;
 extern Display *display;

@@ -19,14 +19,16 @@
 
 #include <gdk_imlib.h>
 
-#include <map.h>
-#include <game.h>
-#include <civclient.h>
-#include <graphics.h>
-#include <mapview.h>
-#include <colors.h>
-#include <mapctrl.h>
-#include <gui_stuff.h>
+#include "game.h"
+#include "map.h"
+
+#include "civclient.h"
+#include "colors.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "mapctrl.h"
+
+#include "mapview.h"
 
 int terrain_to_tile_map[13]= {
   ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,

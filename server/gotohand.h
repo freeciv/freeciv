@@ -10,8 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GOTOHAND_H
-#define __GOTOHAND_H
+#ifndef FC__GOTOHAND_H
+#define FC__GOTOHAND_H
+
+#include "map.h"		/* MAP_MAX_ */
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 void generate_warmap(struct city *pcity, struct unit *punit);
@@ -24,7 +26,6 @@ int calculate_move_cost(struct player *pplayer, struct unit *punit,
 
 #define THRESHOLD 12
 
-#include <map.h> /* just to allow MAP_MAX_ to be used */
 
 int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
@@ -38,4 +39,4 @@ struct move_cost_map {
   int orig_x, orig_y;
 };
 
-#endif
+#endif  /* FC__GOTOHAND_H */

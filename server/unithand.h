@@ -10,11 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __UNITHAND_H
-#define __UNITHAND_H
+#ifndef FC__UNITHAND_H
+#define FC__UNITHAND_H
 
 #include "packets.h"
 #include "unit.h"
+
 void handle_unit_goto_tile(struct player *pplayer, 
 			   struct packet_unit_request *req);
 void handle_upgrade_unittype_request(struct player *pplayer, 
@@ -55,7 +56,4 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet);
 
-#endif
-
-
-
+#endif  /* FC__UNITHAND_H */

@@ -17,15 +17,17 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <game.h>
-#include <player.h>
-#include <plrdlg.h>
-#include <inteldlg.h>
-#include <packets.h>
-#include <clinet.h>
-#include <chatline.h>
-#include <gui_stuff.h>
-#include <spaceshipdlg.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+
+#include "chatline.h"
+#include "clinet.h"
+#include "gui_stuff.h"
+#include "inteldlg.h"
+#include "spaceshipdlg.h"
+
+#include "plrdlg.h"
 
 
 extern GdkWindow *root_window;

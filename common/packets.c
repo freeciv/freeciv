@@ -13,16 +13,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <unistd.h>
 
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <packets.h>
-#include <log.h>
-#include <capability.h>
-#include <mem.h>
+#include "capability.h"
+#include "log.h"
+#include "mem.h"
+
+#include "packets.h"
 
 /**************************************************************************
 Swap bytes on an integer considered as 16 bits

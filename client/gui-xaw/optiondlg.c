@@ -28,17 +28,19 @@
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Toggle.h>     
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <optiondlg.h>
-#include <shared.h>
-#include <packets.h>
-#include <gui_stuff.h>
-#include <events.h>
-#include <chatline.h>
-#include <cityrep.h>
-#include <options.h>
+#include "events.h"
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "chatline.h"
+#include "cityrep.h"
+#include "gui_stuff.h"
+#include "mapview.h"
+#include "options.h"
+
+#include "optiondlg.h"
 
 extern Widget toplevel, main_form;
 

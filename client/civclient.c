@@ -16,31 +16,32 @@
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <time.h>
 
-#include <civclient.h>
-#include <clinet.h>
-#include <gui_main.h>
-#include <log.h>
-#include <packets.h>
-#include <map.h>
-#include <dialogs.h>
-#include <chatline.h>
-#include <game.h>
-#include <plrdlg.h>
-#include <mapctrl.h>
-#include <mapview.h>
-#include <citydlg.h>
-#include <diplodlg.h>
-#include <repodlgs.h>
-#include <meswindlg.h>
-#include <climisc.h>
-#include <packhand.h>
-#include <menu.h>
-#include <connectdlg.h>
-#include <helpdlg.h>
-#include <options.h>
-#include <capstr.h>
+#include "capstr.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "connectdlg.h"
+#include "dialogs.h"
+#include "diplodlg.h"
+#include "gui_main.h"
+#include "helpdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "menu.h"
+#include "meswindlg.h"
+#include "options.h"
+#include "packhand.h"
+#include "plrdlg.h"
+#include "repodlgs.h"
+
+#include "civclient.h"
 
 char server_host[512];
 char name[512];

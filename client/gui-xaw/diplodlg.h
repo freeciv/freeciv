@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __DIPLODLG__H
-#define __DIPLODLG__H
+#ifndef FC__DIPLODLG_H
+#define FC__DIPLODLG_H
 
 #include "packets.h"
 
@@ -23,4 +23,4 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa);
 void diplo_dialog_returnkey(Widget w, XEvent *event, String *params,
 			    Cardinal *num_params);
 
-#endif
+#endif  /* FC__DIPLODLG_H */

@@ -24,10 +24,13 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <mem.h>
+#include "game.h"
+#include "mem.h"
+#include "player.h"
+
+#include "mapview.h"
+
+#include "finddlg.h"
 
 extern Widget toplevel, main_form;
 extern struct player_race races[];

@@ -17,22 +17,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <civserver.h>
-#include <registry.h>
-#include <game.h>
-#include <gamehand.h>
-#include <unitfunc.h>
-#include <cityturn.h>
-#include <maphand.h>
-#include <plrhand.h>
-#include <packets.h>
-#include <map.h>
-#include <meta.h>
-#include <capability.h>
 #include <time.h>
-#include <log.h>
-#include <ruleset.h>
+
+#include "capability.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "registry.h"
+
+#include "cityturn.h"
+#include "civserver.h"
+#include "maphand.h"
+#include "meta.h"
+#include "plrhand.h"
+#include "ruleset.h"
+#include "unitfunc.h"
+
+#include "gamehand.h"
 
 extern char metaserver_info_line[];
 extern RANDOM_TYPE RandomState[];

@@ -16,10 +16,10 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include <game.h>
-#include <map.h>
-#include <log.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
 
 #include "gamelog.h"
 

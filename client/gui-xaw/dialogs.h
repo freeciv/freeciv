@@ -10,17 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __DIALOGS_H
-#define __DIALOGS_H
-
-void popup_notify_goto_dialog(char *headline, char *lines,int x, int y);
-void popup_notify_dialog(char *headline, char *lines);
-Widget popup_message_dialog(Widget parent, char *shellname, char *text, ...);
-void destroy_message_dialog(Widget button);
+#ifndef FC__DIALOGS_H
+#define FC__DIALOGS_H
 
 struct tile;
 struct unit;
 struct city;
+
+void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
+void popup_notify_dialog(char *headline, char *lines);
+Widget popup_message_dialog(Widget parent, char *shellname, char *text, ...);
+void destroy_message_dialog(Widget button);
 
 void popup_races_dialog(void);
 void popup_about_dialog(void);
@@ -49,4 +49,5 @@ void destroy_me_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data);
 
 void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data);
-#endif
+
+#endif  /* FC__DIALOGS_H */

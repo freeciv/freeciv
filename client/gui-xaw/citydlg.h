@@ -10,13 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CITYDLG__H
-#define __CITYDLG__H
+#ifndef FC__CITYDLG_H
+#define FC__CITYDLG_H
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
-
-struct city_dialog;
 
 void activate_unit(struct unit *punit);
 void popup_city_dialog(struct city *pcity, int make_modal);
@@ -25,6 +23,10 @@ void popdown_all_city_dialogs(void);
 void button_down_citymap(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void refresh_city_dialog(struct city *pcity);
 void refresh_unit_city_dialogs(struct unit *punit);
-void close_city_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void city_dialog_returnkey(Widget w, XEvent *event, String *params, Cardinal *num_params);
-#endif
+void close_city_dialog_action(Widget w, XEvent *event, String *argv,
+			      Cardinal *argc);
+void city_dialog_returnkey(Widget w, XEvent *event, String *params,
+			   Cardinal *num_params);
+
+#endif  /* FC__CITYDLG_H */
+

@@ -12,15 +12,15 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
 
+#include <unistd.h>
 #include <sys/signal.h>
 #include <sys/types.h>
-#include <time.h>
 #include <sys/time.h>
-#include <unistd.h>
-#include <errno.h>
 #include <pwd.h>
-#include <string.h>
 
 #if defined(AIX) || defined(__EMX__)
 #include <sys/select.h>
@@ -34,13 +34,15 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <log.h>
-#include <sernet.h>
-#include <shared.h>
-#include <civserver.h>
-#include <stdinhand.h>
-#include <packets.h>
-#include <console.h>
+#include "log.h"
+#include "packets.h"
+#include "shared.h"
+
+#include "civserver.h"
+#include "console.h"
+#include "stdinhand.h"
+
+#include "sernet.h"
 
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 

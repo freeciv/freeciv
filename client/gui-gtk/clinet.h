@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CLINET_H
-#define __CLINET_H
+#ifndef FC__CLINET_H
+#define FC__CLINET_H
 
 #include <gtk/gtk.h>
 
@@ -30,4 +30,4 @@ int get_meta_list(GtkWidget *list, char *errbuf);
 extern struct connection aconnection;
 /* this is the client's connection to the server */
 
-#endif
+#endif  /* FC__CLINET_H */

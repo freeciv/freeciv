@@ -10,11 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPHAND_H
-#define __MAPHAND_H
+#ifndef FC__MAPHAND_H
+#define FC__MAPHAND_H
 
-#include <map.h>
-#include <mapgen.h>
+#include "map.h"
+
 struct player;
 struct section_file;
 
@@ -36,4 +36,4 @@ void map_startpos_load(struct section_file *file);
 void map_tiles_load(struct section_file *file);
 void map_load(struct section_file *file);
 
-#endif
+#endif  /* FC__MAPHAND_H */

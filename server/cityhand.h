@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CITYHAND_H
-#define __CITYHAND_H
+#ifndef FC__CITYHAND_H
+#define FC__CITYHAND_H
 
 #include "packets.h"
 #include "city.h"
@@ -50,9 +50,4 @@ void reestablish_city_trade_routes(struct city *pcity);
 void handle_city_options(struct player *pplayer,
  			 struct packet_generic_values *preq);
 
-#endif
-
-
-
-
-
+#endif  /* FC__CITYHAND_H */

@@ -27,29 +27,33 @@
 #include <X11/Xaw/Toggle.h>     
 #include <X11/IntrinsicP.h>
 
-#include <pixcomm.h>
-#include <game.h>
-#include <player.h>
-#include <city.h>
-#include <citydlg.h>
-#include <shared.h>
-#include <genlist.h>
-#include <cityicon.ico>
-#include <canvas.h>
-#include <mapview.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <packets.h>
-#include <dialogs.h>
-#include <inputdlg.h>
-#include <gui_stuff.h>
-#include <colors.h>
-#include <repodlgs.h>
-#include <helpdlg.h>
-#include <graphics.h>
-#include <optiondlg.h>		/* for toggle_callback */
-#include <cityrep.h>
-#include <mem.h>
+#include "pixcomm.h"
+#include "canvas.h"
+
+#include "city.h"
+#include "game.h"
+#include "genlist.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "cityrep.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "inputdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "optiondlg.h"		/* for toggle_callback */
+#include "repodlgs.h"
+
+#include "citydlg.h"
+
+#include "cityicon.ico"
 
 extern Display	*display;
 extern Widget toplevel, main_form, map_canvas;

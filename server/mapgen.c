@@ -18,12 +18,13 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include <log.h>
-#include <map.h>
-#include <game.h>
-#include <shared.h>
-#include <mem.h>
-#include <mapgen.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "shared.h"
+
+#include "mapgen.h"
 
 #define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
 

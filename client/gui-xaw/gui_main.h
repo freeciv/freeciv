@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GUI_MAIN_H
-#define __GUI_MAIN_H
+#ifndef FC__GUI_MAIN_H
+#define FC__GUI_MAIN_H
 
 #include <X11/Intrinsic.h>
 
@@ -24,5 +24,4 @@ void remove_net_callback(void);
 void remove_net_input(void);
 void enable_turn_done_button(void);
 
-
-#endif
+#endif  /* FC__GUI_MAIN_H */

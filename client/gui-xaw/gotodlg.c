@@ -25,17 +25,19 @@
 #include <X11/Xaw/Viewport.h>
 #include <X11/Xaw/Toggle.h>     
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <gotodlg.h>
-#include <packets.h>
-#include <unit.h>
-#include <mapctrl.h>
-#include <clinet.h>
-#include <map.h>
-#include <civclient.h>
-#include <mem.h>
+#include "game.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "unit.h"
+
+#include "civclient.h"
+#include "clinet.h"
+#include "mapctrl.h"
+#include "mapview.h"
+
+#include "gotodlg.h"
 
 void send_unit_info(struct unit *punit);
 

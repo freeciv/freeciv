@@ -19,12 +19,13 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <events.h>
-#include <log.h>
+#include "events.h"
+#include "log.h"
 
-#include <cityrep.h>
-#include <chatline.h>
-#include <options.h>
+#include "chatline.h"
+#include "cityrep.h"
+
+#include "options.h"
 
 int use_solid_color_behind_units;
 int sound_bell_at_new_turn;

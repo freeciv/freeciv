@@ -10,10 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __OPTIONDLG_H
-#define __OPTIONDLG_H
+#ifndef FC__OPTIONDLG_H
+#define FC__OPTIONDLG_H
 
 void popup_option_dialog(void);
 void toggle_callback(GtkWidget *w, gpointer data);
 
-#endif
+#endif  /* FC__OPTIONDLG_H */

@@ -10,10 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __AIHAND_H
-#define __AIHAND_H
+#ifndef FC__AIHAND_H
+#define FC__AIHAND_H
+
+struct player;
 
 void ai_do_first_activities(struct player *pplayer);
 void ai_do_last_activities(struct player *pplayer);
 
-#endif
+#endif  /* FC__AIHAND_H */

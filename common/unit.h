@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __UNIT_H
-#define __UNIT_H
+#ifndef FC__UNIT_H
+#define FC__UNIT_H
 
 #include "genlist.h"
 #include "shared.h"
@@ -297,4 +297,4 @@ int num_role_units(int role);
 enum unit_type_id get_role_unit(int role, int index);
 enum unit_type_id best_role_unit(struct city *pcity, int role);
 
-#endif
+#endif  /* FC__UNIT_H */

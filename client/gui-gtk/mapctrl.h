@@ -10,12 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPCTRL_H
-#define __MAPCTRL_H
+#ifndef FC__MAPCTRL_H
+#define FC__MAPCTRL_H
 
 #include <gtk/gtk.h>
-#include <unit.h>
-#include <packets.h>
+
+#include "unit.h"
+#include "packets.h"
 
 struct unit *get_unit_in_focus(void);
 void advance_unit_focus(void);
@@ -68,7 +69,6 @@ void key_unit_disband(void);
 void key_end_turn(void);
 void key_unit_clean_pollution(void);
 
-
 void key_unit_north(void);
 void key_unit_north_east(void);
 void key_unit_east(void);
@@ -87,4 +87,5 @@ gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev);
 void center_on_unit(void);
 void focus_to_next_unit(void);
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);
-#endif
+
+#endif  /* FC__MAPCTRL_H */

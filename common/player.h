@@ -10,12 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __PLAYER_H
-#define __PLAYER_H
+#ifndef FC__PLAYER_H
+#define FC__PLAYER_H
 
+#include "city.h"
 #include "tech.h"
 #include "unit.h"
-#include "city.h"
 #include "spaceship.h"
 
 struct tile;
@@ -202,4 +202,4 @@ extern char *default_race_leader_names[];
 char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named (char *token);
 
-#endif
+#endif  /* FC__PLAYER_H */

@@ -17,21 +17,23 @@
 #include <assert.h>
 #include <stdarg.h>
 
-#include <mem.h>
-#include <game.h>
-#include <gamehand.h>
-#include <player.h>
-#include <events.h>
-#include <civserver.h>
-#include <log.h>
-#include <sernet.h>
-#include <map.h>
-#include <mapgen.h>
-#include <registry.h>
-#include <plrhand.h>
-#include <stdinhand.h>
-#include <gamelog.h>
-#include <console.h>
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "player.h"
+#include "registry.h"
+
+#include "civserver.h"
+#include "console.h"
+#include "gamehand.h"
+#include "gamelog.h"
+#include "mapgen.h"
+#include "plrhand.h"
+#include "sernet.h"
+
+#include "stdinhand.h"
 
 #define MAX_CMD_LEN MAX_PACKET_SIZE
   /* to be used more widely - rp */

@@ -10,12 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPVIEW_H
-#define __MAPVIEW_H
+#ifndef FC__MAPVIEW_H
+#define FC__MAPVIEW_H
 
 #include <gtk/gtk.h>
 
-#include <graphics.h>
+#include "graphics.h"
 
 struct unit;
 struct city;
@@ -168,4 +168,5 @@ void update_unit_pix_label(struct unit *punit);
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars(void);
 void update_map_canvas_scrollbars_size(void);
-#endif
+
+#endif  /* FC__MAPVIEW_H */

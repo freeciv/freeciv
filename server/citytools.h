@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CITYTOOLS_H
-#define __CITYTOOLS_H
+#ifndef FC__CITYTOOLS_H
+#define FC__CITYTOOLS_H
 
 #include "packets.h"
 #include "city.h"
@@ -59,13 +59,4 @@ void civil_war(struct player *pplayer);
 struct city *transfer_city(struct player *pplayer, struct player *cplayer, struct city *pcity);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y);
 
-#endif
-
-
-
-
-
-
-
-
-
+#endif  /* FC__CITYTOOLS_H */

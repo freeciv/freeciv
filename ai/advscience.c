@@ -11,7 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#include <aitools.h>
+#include "aitools.h"
+
+#include "advscience.h"
 
 /********************************************************************** 
 ... this function should assign a value to choice and want, where 

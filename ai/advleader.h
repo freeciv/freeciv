@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVLEADER_H
-#define __ADVLEADER_H
+#ifndef FC__ADVLEADER_H
+#define FC__ADVLEADER_H
 
 void leader_adjust_tech_choice(struct player *pplayer, 
 			       struct ai_choice *choice, int advisor);

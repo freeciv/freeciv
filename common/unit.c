@@ -15,13 +15,14 @@
 #include <string.h>
 #include <assert.h>
 
-#include <game.h>
-#include <unit.h>
-#include <tech.h>
-#include <map.h>
-#include <player.h>
-#include <log.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "player.h"
+#include "tech.h"
+
+#include "unit.h"
 
 struct unit_type unit_types[U_LAST];
 /* the unit_types array is now setup in:

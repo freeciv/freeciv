@@ -12,18 +12,23 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <string.h>
-#include <aitools.h>
-#include <game.h>
-#include <map.h>
-#include <unitfunc.h>
-#include <citytools.h>
-#include <aicity.h>
-#include <aiunit.h>
-#include <unittools.h> /* for get_defender, amazingly */
-#include <gotohand.h> /* warmap has been redeployed */
-#include <settlers.h>
-#include <cityturn.h>
-#include <log.h>
+
+#include "game.h"
+#include "log.h"
+#include "map.h"
+
+#include "citytools.h"
+#include "cityturn.h"
+#include "gotohand.h"		/* warmap has been redeployed */
+#include "settlers.h"
+#include "unitfunc.h"
+#include "unittools.h"		/* for get_defender, amazingly */
+
+#include "aicity.h"
+#include "aitools.h"
+#include "aiunit.h"
+
+#include "advmilitary.h"
 
 extern struct move_cost_map warmap;
 

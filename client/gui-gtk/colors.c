@@ -16,8 +16,8 @@
 
 #include <gdk_imlib.h>
 
-#include <log.h>
-#include <colors.h>
+#include "log.h"
+#include "colors.h"
 
 struct rgbtriple {
   int r, g, b;

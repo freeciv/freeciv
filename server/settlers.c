@@ -12,22 +12,25 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <string.h>
-
-#include <settlers.h>
-#include <packets.h>
-#include <map.h>
-#include <game.h>
-#include <citytools.h>
-#include <aiunit.h>
-#include <gotohand.h>
 #include <assert.h>
-#include <cityhand.h>
-#include <unithand.h>
-#include <unitfunc.h>
-#include <maphand.h>
-#include <aicity.h>
-#include <unittools.h>
-#include <log.h>
+
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "gotohand.h"
+#include "maphand.h"
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "aicity.h"
+#include "aiunit.h"
+
+#include "settlers.h"
 
 extern struct move_cost_map warmap;
 signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];

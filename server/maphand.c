@@ -11,19 +11,22 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <string.h>
-#include <registry.h>
-#include <map.h>
-#include <game.h>
-#include <maphand.h>
-#include <packets.h>
-#include <unitfunc.h>
-#include <cityhand.h>
-#include <mapgen.h>
 #include <stdlib.h>
-#include <log.h>
 #include <ctype.h>
-#include <plrhand.h>           /* notify_player */
-#include <mem.h>
+
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "registry.h"
+
+#include "cityhand.h"
+#include "mapgen.h"
+#include "plrhand.h"           /* notify_player */
+#include "unitfunc.h"
+
+#include "maphand.h"
 
 
 char terrain_chars[]="adfghjm prst";

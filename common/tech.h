@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __TECH_H
-#define __TECH_H
+#ifndef FC__TECH_H
+#define FC__TECH_H
 
 #include "shared.h"
 
@@ -59,4 +59,4 @@ enum tech_type_id find_tech_by_name(char *s);
 
 extern struct advance advances[];
 
-#endif
+#endif  /* FC__TECH_H */

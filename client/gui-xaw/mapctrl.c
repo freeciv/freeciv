@@ -27,25 +27,26 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
-#include <gui_stuff.h>
-#include <civclient.h>
-#include <unit.h>
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <dialogs.h>
-#include <citydlg.h>
-#include <clinet.h>
-#include <gui_stuff.h>
-#include <inputdlg.h>
-#include <chatline.h>
-#include <menu.h>
-#include <graphics.h>
-#include <colors.h>
-#include <log.h>
-#include <capability.h>
+#include "capability.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "player.h"
+#include "unit.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "inputdlg.h"
+#include "mapview.h"
+#include "menu.h"
+
+#include "mapctrl.h"
 
 extern Display	*display;
 

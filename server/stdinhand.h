@@ -13,10 +13,10 @@
 #ifndef FC__STDINHAND_H
 #define FC__STDINHAND_H
 
+#include "player.h"		/* struct player; enum cmdlevel_id */
+
 #define SERVER_COMMAND_PREFIX '/'
   /* the character to mark chatlines as server commands */
-
-struct player;
 
 void handle_stdin_input(struct player *caller, char *str);
 void report_server_options(struct player *pplayer, int which);

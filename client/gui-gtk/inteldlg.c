@@ -17,12 +17,15 @@
 
 #include <gtk/gtk.h>
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <shared.h>
-#include <packets.h>
-#include <gui_stuff.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "gui_stuff.h"
+#include "mapview.h"
+
+#include "inteldlg.h"
 
 extern GtkWidget *toplevel;
 extern struct connection aconnection;

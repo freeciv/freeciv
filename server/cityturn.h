@@ -11,8 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef __CITYTURN_H
-#define __CITYTURN_H
+#ifndef FC__CITYTURN_H
+#define FC__CITYTURN_H
 
 #include "packets.h"
 #include "city.h"
@@ -35,12 +35,4 @@ void update_city_activities(struct player *pplayer);
 void city_incite_cost(struct city *pcity);
 void remove_obsolete_buildings(struct player *plr);
 
-#endif
-
-
-
-
-
-
-
-
+#endif  /* FC__CITYTURN_H */

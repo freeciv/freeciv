@@ -20,19 +20,17 @@
 
 #include "mem.h"
 
+#include "gui_stuff.h"
+
 extern Display	*display;
 extern int screen_number;
 extern GC civ_gc, font_gc;
 extern int display_depth;
 
-void xaw_expose_now(Widget w);
-
 void put_line_8(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
 void put_line_16(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
 void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
 void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
-
-void xaw_expose_now(Widget w);
 
 /**************************************************************************
 ...

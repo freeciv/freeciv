@@ -23,13 +23,16 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/List.h>
 
-#include <game.h>
-#include <player.h>
-#include <mapview.h>
-#include <optiondlg.h>
-#include <shared.h>
-#include <packets.h>
-#include <gui_stuff.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "gui_stuff.h"
+#include "mapview.h"
+#include "optiondlg.h"
+
+#include "inteldlg.h"
 
 extern Widget toplevel, main_form;
 extern struct connection aconnection;

@@ -17,10 +17,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <string.h>
 #include <assert.h>
+#include <time.h>
+
+#include <unistd.h>
+#include <sys/types.h>
 
 #ifdef __EMX__
 #include <netdb.h>
@@ -29,42 +31,43 @@
 #include <termios.h>
 #endif
 
-#include <time.h>
-#include <registry.h>
-#include <game.h>
-#include <gamehand.h>
-#include <civserver.h>
-#include <map.h>
-#include <shared.h>
-#include <city.h>
-#include <tech.h>
-#include <sernet.h>
-#include <gamelog.h>
-#include <log.h>
-#include <packets.h>
-#include <unithand.h>
-#include <unitfunc.h>
-#include <cityhand.h>
-#include <cityturn.h>
-#include <handchat.h>
-#include <maphand.h>
-#include <player.h>
-#include <plrhand.h>
-#include <mapgen.h>
-#include <diplhand.h>
-#include <packets.h>
-#include <stdinhand.h>
-#include <meta.h>
-#include <advmilitary.h>
-#include <aihand.h>
-#include <capability.h>
-#include <settlers.h>
-#include <events.h>
-#include <ruleset.h>
-#include <autoattack.h>
-#include <spacerace.h>
-#include <console.h>
-#include <capstr.h>
+#include "capability.h"
+#include "capstr.h"
+#include "city.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "registry.h"
+#include "shared.h"
+#include "tech.h"
+
+#include "autoattack.h"
+#include "cityhand.h"
+#include "cityturn.h"
+#include "console.h"
+#include "diplhand.h"
+#include "gamehand.h"
+#include "gamelog.h"
+#include "handchat.h"
+#include "mapgen.h"
+#include "maphand.h"
+#include "meta.h"
+#include "plrhand.h"
+#include "ruleset.h"
+#include "sernet.h"
+#include "settlers.h"
+#include "spacerace.h"
+#include "stdinhand.h"
+#include "unitfunc.h"
+#include "unithand.h"
+
+#include "advmilitary.h"
+#include "aihand.h"
+
+#include "civserver.h"
 
 void end_game(void);
 void before_end_year(void); /* main() belongs at the bottom of files!! -- Syela */

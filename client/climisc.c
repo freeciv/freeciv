@@ -9,7 +9,9 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
+***********************************************************************/
 
+/********************************************************************** 
 This module contains various general - mostly highlevel - functions
 used throughout the client.
 ***********************************************************************/
@@ -18,18 +20,20 @@ used throughout the client.
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <unistd.h>
-#include <sys/stat.h>
 
-#include <game.h>
-#include <citydlg.h>
-#include <mapview.h>
-#include <climisc.h>
-#include <mapctrl.h>
-#include <map.h>
-#include <chatline.h>
-#include <log.h>
-#include <cityrep.h>
+#include <unistd.h>
+
+#include "game.h"
+#include "log.h"
+#include "map.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "cityrep.h"
+#include "mapctrl.h"
+#include "mapview.h"
+
+#include "climisc.h"
 
 char *tile_set_dir=NULL;
 

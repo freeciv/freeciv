@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __RESOURCES_H
-#define __RESOURCES_H
+#ifndef FC__RESOURCES_H
+#define FC__RESOURCES_H
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -29,4 +29,4 @@ typedef struct _AppResources {
   String  tileset;
 } AppResources;
 
-#endif
+#endif  /* FC__RESOURCES_H */

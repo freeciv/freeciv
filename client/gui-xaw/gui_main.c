@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <pwd.h>
 
 #include <X11/Intrinsic.h>
@@ -33,33 +34,37 @@
 #include <X11/Xaw/Paned.h>
 #include <X11/Xatom.h>
 
-#include <pixcomm.h>
-#include <gui_main.h>
-#include <canvas.h>
-#include <menu.h>
-#include <colors.h>
-#include <log.h>
-#include <graphics.h>
-#include <map.h>
-#include <mapview.h>
-#include <chatline.h>
-#include <civclient.h>
-#include <clinet.h>
-#include <mapctrl.h>
-#include <citydlg.h>
-#include <freeciv.ico>
-#include <inputdlg.h>
-#include <dialogs.h>
-#include <game.h>
-#include <diplodlg.h>
-#include <resources.h>
-#include <gotodlg.h>
-#include <connectdlg.h>
-#include <helpdlg.h>
-#include <optiondlg.h>
-#include <spaceshipdlg.h>
-#include <repodlgs.h>
-#include <options.h>
+#include "canvas.h"
+#include "pixcomm.h"
+
+#include "game.h"
+#include "log.h"
+#include "map.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "colors.h"
+#include "connectdlg.h"
+#include "dialogs.h"
+#include "diplodlg.h"
+#include "gotodlg.h"
+#include "graphics.h"
+#include "helpdlg.h"
+#include "inputdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "menu.h"
+#include "optiondlg.h"
+#include "options.h"
+#include "repodlgs.h"
+#include "resources.h"
+#include "spaceshipdlg.h"
+
+#include "gui_main.h"
+
+#include "freeciv.ico"
 
 AppResources appResources;
 

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __COLORS_H
-#define __COLORS_H
+#ifndef FC__COLORS_H
+#define FC__COLORS_H
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -32,7 +32,6 @@ enum {
   COLOR_STD_LAST
 };
 
-
 enum Display_color_type {BW_DISPLAY, GRAYSCALE_DISPLAY, COLOR_DISPLAY};
 enum Display_color_type get_visual(void);
 int get_colors(Display *display);
@@ -42,5 +41,5 @@ void color_error(void);
 
 extern unsigned long colors_standard[COLOR_STD_LAST];
 
-#endif
+#endif  /* FC__COLORS_H */
 

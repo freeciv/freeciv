@@ -15,11 +15,12 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "map.h"
-#include "shared.h"
-#include "log.h"
-#include "unit.h"
 #include "city.h"
+#include "log.h"
+#include "shared.h"
+#include "unit.h"
+
+#include "map.h"
 
 /* the very map */
 struct civ_map map;

@@ -35,7 +35,7 @@ The info string should look like this:
 #include <config.h>
 #endif
 
-#include <shared.h>
+#include "shared.h"
 
 #define	METASERVER_PORT	12245
 #define	METASERVER_ADDR	"platinum.daimi.aau.dk"

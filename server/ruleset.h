@@ -10,12 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __RULESET_H
-#define __RULESET_H
+#ifndef FC__RULESET_H
+#define FC__RULESET_H
 
 #include "player.h"
 
 void load_rulesets(void);
 void send_rulesets(struct player *dest);
 
-#endif
+#endif  /* FC__RULESET_H */

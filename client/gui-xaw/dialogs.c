@@ -26,18 +26,20 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/SmeBSB.h>
 
-#include <dialogs.h>
-#include <player.h>
-#include <packets.h>
-#include <chatline.h>
-#include <map.h>
-#include <mapview.h>
-#include <game.h>
-#include <mapctrl.h>
-#include <gui_stuff.h>
-#include <graphics.h>
-#include <civclient.h>
-#include <mem.h>
+#include "game.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+
+#include "chatline.h"
+#include "civclient.h"
+#include "graphics.h"
+#include "gui_stuff.h"
+#include "mapctrl.h"
+#include "mapview.h"
+
+#include "dialogs.h"
 
 extern Widget toplevel, main_form, map_canvas;
 

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GRAPHICS_H
-#define __GRAPHICS_H
+#ifndef FC__GRAPHICS_H
+#define FC__GRAPHICS_H
 
 #include <X11/Xlib.h>
 
@@ -76,6 +76,4 @@ struct Sprite *load_gfxfile(char *filename, int makemask);
 
 Pixmap create_overlay_unit(int i);
 
-#endif
-
-
+#endif  /* FC__GRAPHICS_H */

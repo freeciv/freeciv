@@ -15,25 +15,27 @@
 #include <string.h>
 #include <assert.h>
 
-#include <log.h>
-#include <player.h>
-#include <unithand.h>
-#include <packets.h>
-#include <civserver.h>
-#include <map.h>
-#include <maphand.h>
-#include <cityhand.h>
-#include <citytools.h>
-#include <cityturn.h>
-#include <unit.h>
-#include <plrhand.h>
-#include <city.h>
-#include <mapgen.h>
-#include <events.h>
-#include <shared.h>
-#include <aiunit.h>
-#include <unittools.h>
-#include <unitfunc.h>
+#include "city.h"
+#include "events.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "civserver.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "unitfunc.h"
+#include "unithand.h"
+
+#include "aiunit.h"
+
+#include "unittools.h"
 
 /**************************************************************************
   unit can be moved if:

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GOTODLG__H
-#define FC__GOTODLG__H
+#ifndef FC__GOTODLG_H
+#define FC__GOTODLG_H
 
 void popup_goto_dialog(void);
 void popup_goto_dialog_action(Widget w, XEvent *event, 

@@ -13,29 +13,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <log.h>
-#include <player.h>
-#include <unithand.h>
-#include <civserver.h>
-#include <map.h>
-#include <maphand.h>
-#include <mapgen.h>
-#include <cityhand.h>
-#include <cityturn.h>
-#include <citytools.h>
-#include <unit.h>
-#include <city.h>
-#include <player.h>
-#include <tech.h>
-#include <shared.h>
-#include <plrhand.h>
-#include <events.h>
-#include <unitfunc.h>
-#include <settlers.h>
-#include <unittools.h>
-#include <gamehand.h>		/* send_game_info */
-#include <stdinhand.h>		/* set_ai_level_direct */
-#include <mem.h>
+#include "city.h"
+#include "events.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "player.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "cityturn.h"
+#include "civserver.h"
+#include "gamehand.h"		/* send_game_info */
+#include "maphand.h"
+#include "player.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "stdinhand.h"		/* set_ai_level_direct */
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "citytools.h"
 
 /****************************************************************
 ...

@@ -25,4 +25,4 @@ void popup_trade_report_dialog(int make_modal);
 void activeunits_report_dialog_update(void);
 void popup_activeunits_report_dialog(int make_modal);
 
-#endif
+#endif  /* FC__REPODLGS_H */

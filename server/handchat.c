@@ -14,12 +14,12 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <game.h>
-#include <packets.h>
-#include <player.h>
-#include <shared.h>
+#include "game.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
 
-#include <stdinhand.h>
+#include "stdinhand.h"
 
 #include "handchat.h"
 

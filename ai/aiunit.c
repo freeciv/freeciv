@@ -16,33 +16,31 @@
 #include <string.h>
 #include <assert.h>
 
-#include <sys/time.h>
+#include "city.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+#include "unit.h"
 
-#include <player.h>
-#include <city.h>
-#include <game.h>
-#include <unit.h>
-#include <shared.h>
-#include <packets.h>
-#include <map.h>
-#include <log.h>
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "gotohand.h"
+#include "maphand.h"
+#include "settlers.h"
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
 
-#include <unittools.h>
-#include <unitfunc.h>
-#include <unithand.h>
-#include <cityhand.h>
-#include <mapgen.h>
-#include <maphand.h>
-#include <gotohand.h>
-#include <citytools.h>
-#include <settlers.h>
-#include <cityturn.h>
+#include "advmilitary.h"
+#include "aicity.h"
+#include "aihand.h"
+#include "aitools.h"
 
-#include <aitools.h>
-#include <aihand.h>
-#include <aiunit.h>
-#include <aicity.h>
-#include <advmilitary.h>
+#include "aiunit.h"
 
 extern struct move_cost_map warmap;
 

@@ -15,14 +15,16 @@
 #include <assert.h>
 #include <string.h>
 
-#include <map.h>
-#include <game.h>
-#include <unitfunc.h>
-#include <unithand.h>
-#include <unittools.h>
-#include <gotohand.h>
-#include <settlers.h>
-#include <log.h>
+#include "game.h"
+#include "log.h"
+#include "map.h"
+
+#include "settlers.h"
+#include "unitfunc.h"
+#include "unithand.h"
+#include "unittools.h"
+
+#include "gotohand.h"
 
 struct move_cost_map warmap;
 

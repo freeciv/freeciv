@@ -10,19 +10,19 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __DIALOGS_H
-#define __DIALOGS_H
+#ifndef FC__DIALOGS_H
+#define FC__DIALOGS_H
 
-void popup_notify_goto_dialog(char *headline, char *lines,int x, int y);
+struct tile;
+struct unit;
+struct city;
+
+void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
 void popup_notify_dialog(char *headline, char *lines);
 void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname, int state);
 GtkWidget *popup_message_dialog(GtkWidget *parent, char *shellname, char *text,
 				...);
 void destroy_message_dialog(GtkWidget *button);
-
-struct tile;
-struct unit;
-struct city;
 
 void popup_races_dialog(void);
 void popdown_races_dialog(void);
@@ -44,4 +44,5 @@ void destroy_me_callback(GtkWidget *w, gpointer data);
 void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data);
-#endif
+
+#endif  /* FC__DIALOGS_H */

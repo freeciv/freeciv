@@ -14,31 +14,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <game.h>
-#include <player.h>
-#include <unithand.h>
-#include <unittools.h>
-#include <unitfunc.h>
-#include <packets.h>
-#include <civserver.h>
-#include <map.h>
-#include <maphand.h>
-#include <cityhand.h>
-#include <citytools.h>
-#include <cityturn.h>
-#include <unit.h>
-#include <plrhand.h>
-#include <city.h>
-#include <log.h>
-#include <mapgen.h>
-#include <events.h>
-#include <shared.h>
-#include <aiunit.h>
-#include <aitools.h>
-#include <settlers.h>
-#include <gamelog.h>
-#include <spacerace.h>
-#include <mem.h>
+#include "city.h"
+#include "events.h"
+#include "game.h"
+#include "log.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "unit.h"
+
+#include "cityhand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "civserver.h"
+#include "gamelog.h"
+#include "maphand.h"
+#include "plrhand.h"
+#include "settlers.h"
+#include "shared.h"
+#include "spacerace.h"
+#include "unitfunc.h"
+#include "unittools.h"
+
+#include "aitools.h"
+#include "aiunit.h"
+
+#include "unithand.h"
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 

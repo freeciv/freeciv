@@ -20,7 +20,8 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 
-#include <gui_stuff.h>
+#include "gui_stuff.h"
+#include "inputdlg.h"
 
 /****************************************************************
 ...

@@ -10,9 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __ADVTRADE_H
-#define __ADVTRADE_H
-
+#ifndef FC__ADVTRADE_H
+#define FC__ADVTRADE_H
 
 void trade_advisor_choose_tech(struct player *pplayer, 
 			       struct ai_choice *choice);

@@ -14,13 +14,14 @@
 #include <string.h>
 #include <assert.h>
 
-#include <game.h>
-#include <player.h>
-#include <unit.h>
-#include <city.h>
-#include <map.h>
-#include <shared.h>
-#include <tech.h>
+#include "city.h"
+#include "game.h"
+#include "map.h"
+#include "shared.h"
+#include "tech.h"
+#include "unit.h"
+
+#include "player.h"
 
 extern int is_server;
 

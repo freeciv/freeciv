@@ -10,10 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPCTRL_H
-#define __MAPCTRL_H
+#ifndef FC__MAPCTRL_H
+#define FC__MAPCTRL_H
 
 #include <X11/Intrinsic.h>
+
 #include "unit.h"
 #include "packets.h"
 
@@ -89,4 +90,4 @@ void city_new_name_return(Widget w, XEvent *event, String *params,
 void popupinfo_popdown_callback(Widget w, XtPointer client_data,
 				XtPointer call_data);
 
-#endif
+#endif  /* FC__MAPCTRL_H */

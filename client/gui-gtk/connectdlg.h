@@ -10,8 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CONNECTDLG_H
-#define __CONNECTDLG_H
+#ifndef FC__CONNECTDLG_H
+#define FC__CONNECTDLG_H
 
-int gui_server_connect(void);
+void gui_server_connect(void);
+
 #endif

@@ -23,17 +23,19 @@
 
 #include <gdk_imlib.h>
 
-#include <log.h>
-#include <climisc.h>
-#include <shared.h>
-#include <graphics.h>
-#include <unit.h>
-#include <game.h>
-#include <colors.h>
-#include <mem.h>
+#include "game.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "unit.h"
 
-#include <goto_cursor.xbm>
-#include <goto_cursor_mask.xbm>
+#include "climisc.h"
+#include "colors.h"
+
+#include "graphics.h"
+
+#include "goto_cursor.xbm"
+#include "goto_cursor_mask.xbm"
 
 extern GtkWidget *	drawing;
 extern GtkWidget *	toplevel;

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GUI_MAIN_H
-#define __GUI_MAIN_H
+#ifndef FC__GUI_MAIN_H
+#define FC__GUI_MAIN_H
 
 #include <gtk/gtk.h>
 
@@ -19,4 +19,5 @@ int ui_main(int argc, char **argv);
 void enable_turn_done_button(void);
 void end_turn_callback(GtkWidget *w, gpointer data);
 void remove_net_input(void);
-#endif
+
+#endif  /* FC__GUI_MAIN_H */

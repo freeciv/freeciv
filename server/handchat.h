@@ -20,4 +20,4 @@ struct player;
 void handle_chat_msg(struct player *pplayer, 
 		     struct packet_generic_message *packet);
 
-#endif
+#endif  /* FC__HANDCHAT_H */

@@ -693,4 +693,3 @@ void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
 
 #endif  /* FC__PACKETS_H */
-

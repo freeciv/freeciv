@@ -16,16 +16,18 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <time.h>
-#include <unistd.h>
-#include <meta.h>
-#include <packets.h>
-#include <console.h>
+
+#include "packets.h"
+#include "console.h"
+#include "meta.h"
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xffffffff

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __GUI_STUFF_H
-#define __GUI_STUFF_H
+#ifndef FC__GUI_STUFF_H
+#define FC__GUI_STUFF_H
 
 #include <X11/Intrinsic.h>
 
@@ -24,4 +24,4 @@ void xaw_set_relative_position(Widget ref, Widget w, int px, int py);
 Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h, 
 		      Window root);
 
-#endif
+#endif  /* FC__GUI_STUFF_H */
