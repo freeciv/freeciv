@@ -712,10 +712,10 @@ void auto_arrange_workers(struct city *pcity)
   int foodneed, prodneed;
 
   city_map_iterate(x, y)
-    if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
+    if (get_worker_city(pcity, x, y)==C_TILE_WORKER
+	&& x != CITY_MAP_SIZE/2 && y != CITY_MAP_SIZE/2)
       server_remove_worker_city(pcity, x, y);
   
-  server_set_worker_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2); 
   foodneed=(pcity->size *2 -city_get_food_tile(2,2, pcity)) + settler_eats(pcity);
   prodneed = 0;
   prodneed -= city_get_shields_tile(2,2,pcity);
