@@ -560,27 +560,28 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
   h = src->height;
   
   /* convert pixmap */
-  dst = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  dst = gdk_pixbuf_new(GDK_COLORSPACE_RGB, src->mask != NULL, 8, w, h);
   gdk_pixbuf_get_from_drawable(dst, src->pixmap, NULL, 0, 0, 0, 0, w, h);
 
   /* convert mask */
   if (src->mask) {
     GdkImage *img;
-    int x, y;
+    int x, y, rowstride;
     guchar *pixels;
 
     img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
 
     pixels = gdk_pixbuf_get_pixels(dst);
+    rowstride = gdk_pixbuf_get_rowstride(dst);
 
     for (y = 0; y < h; y++) {
       for (x = 0; x < w; x++) {
-	pixels += 3;
+	guchar *pixel = pixels + y * rowstride + x * 4 + 3;
 
 	if (gdk_image_get_pixel(img, x, y)) {
-	  *pixels++ = 255;
+	  *pixel = 255;
 	} else {
-	  *pixels++ = 0;
+	  *pixel = 0;
 	}
       }
     }
