@@ -188,8 +188,6 @@ int unleash_barbarians(struct player* victim, int x, int y)
   int unit, unit_cnt, land_cnt=0, sea_cnt=0;
   int boat;
   int i, xu, yu, me;
-  int xx[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int yy[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int alive = 1;     /* explorer survived */
 
   if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
@@ -210,10 +208,10 @@ int unleash_barbarians(struct player* victim, int x, int y)
     freelog(LOG_DEBUG, "Created barbarian unit %s",unit_types[unit].name);
   }
 
-  for( i = 0; i < 8; i++ ) {
-    land_cnt += is_free_land(x+xx[i], y+yy[i], me);
-    sea_cnt += is_free_sea(x+xx[i], y+yy[i], me);
-  }
+  adjc_iterate(x, y, x1, y1) {
+    land_cnt += is_free_land(x1, y1, me);
+    sea_cnt += is_free_sea(x1, y1, me);
+  } adjc_iterate_end;
 
   if( land_cnt >= 3 ) {           /* enough land, scatter guys around */
     unit_list_iterate(map_get_tile(x, y)->units, punit2) {
@@ -273,38 +271,29 @@ int unleash_barbarians(struct player* victim, int x, int y)
 /**************************************************************************
 Is sea not further than a couple of tiles away from land
 **************************************************************************/
-
-static int is_near_land( int x0, int y0)
+static int is_near_land(int x0, int y0)
 {
-  int x, y;
+  square_iterate(x0, y0, 4, x, y) {
+    if (map_get_terrain(x,y) != T_OCEAN)
+      return 1;
+  } square_iterate_end;
 
-  for( x = x0-4; x < x0+5; x++) {
-    for(y = y0-4; y < y0+5; y++) {
-      if( y < 0 || y >= map.ysize )
-        continue;
-      if( map_get_terrain(x,y) != T_OCEAN )
-        return 1;
-    }
-  }
   return 0;
 }
 
 /**************************************************************************
 return this or a neighbouring tile that is free of any units
 **************************************************************************/
-
 static int find_empty_tile_nearby(int x0, int y0, int *x, int *y)
 {
-  int xx[9] = { 0, -1, 0, 1, -1, 1, -1, 0, 1 };
-  int yy[9] = { 0, -1, -1, -1, 0, 0, 1, 1, 1 };
-  int i;
-
-  for( i = 0; i < 9; i++) {
-    *x = x0 + xx[i];
-    *y = map_adjust_y(y0 + yy[i]);
-    if( unit_list_size(&map_get_tile(*x, *y)->units) == 0 )
+  square_iterate(x0, y0, 1, x1, y1) {
+    if (unit_list_size(&map_get_tile(x1, y1)->units) == 0) {
+      *x = x1;
+      *y = y1;
       return 1;
-  }
+    }
+  } square_iterate_end;
+
   return 0;
 }
 
