@@ -953,58 +953,6 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   set_mapview_scroll_pos(scroll_x, scroll_y);
 }
 
-  
-/**************************************************************************
-draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store
-FIXME: We currently always draw the line.
-Only used for isometric view.
-**************************************************************************/
-static void really_draw_segment(int src_x, int src_y, int dir,
-				bool write_to_screen, bool force)
-{
-  int dest_x, dest_y;
-  bool is_real, is_visible1, is_visible2;
-  int canvas_start_x, canvas_start_y;
-  int canvas_end_x, canvas_end_y;
-
-  gdk_gc_set_foreground(thick_line_gc, colors_standard[COLOR_STD_CYAN]);
-
-  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-  assert(is_real);
-
-  /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
-     horizontal line when we refresh the tile below-between. */
-  is_visible1
-    = map_to_canvas_pos(&canvas_start_x, &canvas_start_y, src_x, src_y);
-  is_visible2
-    = map_to_canvas_pos(&canvas_end_x, &canvas_end_y, dest_x, dest_y);
-
-  if (!is_visible1 && !is_visible2) {
-    return; /* No need to draw anything. */
-  }
-
-  canvas_start_x += NORMAL_TILE_WIDTH/2;
-  canvas_start_y += NORMAL_TILE_HEIGHT/2-1;
-  canvas_end_x += NORMAL_TILE_WIDTH/2;
-  canvas_end_y += NORMAL_TILE_HEIGHT/2-1;
-
-  /* somewhat hackish way of solving the problem where draw from a tile on
-     one side of the screen out of the screen, and the tile we draw to is
-     found to be on the other side of the screen. */
-  if (abs(canvas_end_x - canvas_start_x) > NORMAL_TILE_WIDTH
-      || abs(canvas_end_y - canvas_start_y) > NORMAL_TILE_HEIGHT)
-    return;
-
-  /* draw it! */
-  gdk_draw_line(map_canvas_store, thick_line_gc,
-		canvas_start_x, canvas_start_y, canvas_end_x, canvas_end_y);
-  if (write_to_screen)
-    gdk_draw_line(map_canvas->window, thick_line_gc,
-		  canvas_start_x, canvas_start_y, canvas_end_x, canvas_end_y);
-  return;
-}
-
 /**************************************************************************
  Area Selection
 **************************************************************************/
