@@ -727,8 +727,10 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
     city_map_iterate(i, j) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       x = map_adjust_x(pcity->x + i - 2);
-      y = map_adjust_y(pcity->y + j - 2);
+/*      y = map_adjust_y(pcity->y + j - 2);     Pernicious! */
+      y = pcity->y + j - 2;
       if (map_get_continent(x, y) == co &&
+          (y >= 0 && y < map.xsize) &&
           warmap.cost[x][y] <= THRESHOLD * m &&
           (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
           !is_already_assigned(punit, pplayer, x, y)) {
