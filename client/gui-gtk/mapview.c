@@ -570,7 +570,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
   struct canvas canvas_store = {NULL, p};
 
-  put_unit_full(punit, &canvas_store, 0, 0);
+  put_unit(punit, &canvas_store, 0, 0);
 
   gtk_pixcomm_changed(GTK_PIXCOMM(p));
 }

@@ -796,7 +796,7 @@ popup_unit_select_dialog(struct tile *ptile)
       SelectObject(unitsel_dc,unit_select_bitmaps[i]);
       BitBlt(unitsel_dc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,NULL,
 	     0,0,WHITENESS);
-      put_unit_full(punit,&canvas_store,0,0);
+      put_unit(punit,&canvas_store,0,0);
       unit_select_but[i]=CreateWindow("BUTTON",NULL,
 				      WS_CHILD | WS_VISIBLE | BS_BITMAP,
 				      (i/r)*max_width,

@@ -756,21 +756,14 @@ static void put_path_length(void)
 
 /**************************************************************************
   Draw the given unit onto the canvas store at the given location.
-
-  unit_offset_x, unit_offset_y, unit_width, unit_height are used
-  in iso-view to draw only part of the tile.  Non-iso view should use
-  put_unit_full instead.
 **************************************************************************/
-void put_unit(struct unit *punit, bool stacked, bool backdrop,
-	      struct canvas *pcanvas,
-	      int canvas_x, int canvas_y,
-	      int unit_offset_x, int unit_offset_y,
-	      int unit_width, int unit_height)
+void put_unit(struct unit *punit,
+	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
   bool solid_bg;
   int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg,
-				     stacked, backdrop);
+				     FALSE, TRUE);
   int i;
 
   if (!is_isometric && solid_bg) {
@@ -784,22 +777,10 @@ void put_unit(struct unit *punit, bool stacked, bool backdrop,
       int ox = drawn_sprites[i].offset_x, oy = drawn_sprites[i].offset_y;
 
       /* units are never fogged */
-      canvas_put_sprite(pcanvas, canvas_x + ox, canvas_y + oy,
-			drawn_sprites[i].sprite,
-			unit_offset_x - ox, unit_offset_y - oy,
-			unit_width, unit_height);
+      canvas_put_sprite_full(pcanvas, canvas_x + ox, canvas_y + oy,
+			     drawn_sprites[i].sprite);
     }
   }
-}
-
-/**************************************************************************
-  Draw the given unit onto the canvas store at the given location.
-**************************************************************************/
-void put_unit_full(struct unit *punit, struct canvas *pcanvas,
-		   int canvas_x, int canvas_y)
-{
-  put_unit(punit, FALSE, TRUE, pcanvas, canvas_x, canvas_y,
-	   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 }
 
 /****************************************************************************
@@ -1937,7 +1918,7 @@ void move_unit_map_canvas(struct unit *punit,
 		  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Draw */
-      put_unit_full(punit, mapview_canvas.store, new_x, new_y);
+      put_unit(punit, mapview_canvas.store, new_x, new_y);
       dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Flush. */

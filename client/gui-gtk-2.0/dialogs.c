@@ -1358,7 +1358,7 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
     struct canvas canvas_store = {.type = CANVAS_PIXBUF, .v.pixbuf = pix};
 
     gdk_pixbuf_fill(pix, 0x00000000);
-    put_unit_full(punit, &canvas_store, 0, 0);
+    put_unit(punit, &canvas_store, 0, 0);
   }
 
   gtk_tree_store_append(unit_select_store, it, parent);

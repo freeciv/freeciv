@@ -628,7 +628,7 @@ static struct osda *unit_to_osda(struct unit *punit)
   store->osda = result;
   store->widget = NULL;
 
-  put_unit_full(punit, store, 0, 0);
+  put_unit(punit, store, 0, 0);
 
   free(store);
   return result;

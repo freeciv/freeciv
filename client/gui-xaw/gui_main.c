@@ -840,7 +840,7 @@ void set_unit_icon(int idx, struct unit *punit)
   if (punit) {
     struct canvas store = {XawPixcommPixmap(w)};
 
-    put_unit_full(punit, &store, 0, 0);
+    put_unit(punit, &store, 0, 0);
     xaw_expose_now(w);
   }
 }
