@@ -84,10 +84,16 @@ static bool diplomacy_verbose = TRUE;
   because we may want to highligh/present these messages differently
   in the future.
 ***********************************************************************/
-#define notify(pplayer, text, ...)                                     \
-  if (diplomacy_verbose) {                                             \
-    notify_player_ex(pplayer, -1, -1, E_DIPLOMACY, text, __VA_ARGS__); \
+static void notify(struct player *pplayer, const char *text, ...)
+{
+  if (diplomacy_verbose) {
+    va_list ap;
+
+    va_start(ap, text);
+    notify_player_ex(pplayer, -1, -1, E_DIPLOMACY, text, ap);
+    va_end(ap);
   }
+}
 
 /********************************************************************** 
   This is your typical human reaction. Convert lack of love into 
