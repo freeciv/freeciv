@@ -123,6 +123,5 @@ void init_our_capability(void)
   if (!s) {
     s = CAPABILITY;
   }
-  if (s) return;
   sz_strlcpy(our_capability_internal, s);
 }
