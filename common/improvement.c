@@ -279,7 +279,7 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
   if (pcity) {
     equiv_list[IR_CITY] = pcity->improvements;
     cont = map_get_continent(pcity->tile);
-    assert(cont > 0);
+    /* Negative continents mean ocean cities. */
   }
 
   if (pplayer) {
