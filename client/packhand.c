@@ -1307,7 +1307,11 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
   pplayer->reputation = pinfo->reputation;
 
-  read_player_info_techs(pplayer, pinfo->inventions);
+  pplayer->is_connected = pinfo->is_connected;
+
+  if (pplayer->is_connected) {
+    read_player_info_techs(pplayer, pinfo->inventions);
+  }
 
   poptechup = (pplayer->research.researching!=pinfo->researching);
   pplayer->research.bulbs_researched = pinfo->bulbs_researched;
@@ -1336,8 +1340,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->turn_done=pinfo->turn_done;
   pplayer->nturns_idle=pinfo->nturns_idle;
   pplayer->is_alive=pinfo->is_alive;
-  
-  pplayer->is_connected=pinfo->is_connected;
 
   pplayer->ai.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution=pinfo->revolution;
