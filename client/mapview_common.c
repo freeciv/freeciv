@@ -34,7 +34,7 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
-struct canvas mapview_canvas;
+struct mapview_canvas mapview_canvas;
 struct overview overview;
 
 /*
@@ -621,7 +621,7 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
   in iso-view to draw only part of the tile.  Non-iso view should use
   put_unit_full instead.
 **************************************************************************/
-void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
+void put_unit(struct unit *punit, struct canvas *pcanvas,
 	      int canvas_x, int canvas_y,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height)
@@ -632,7 +632,7 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
   int i;
 
   if (!is_isometric && solid_bg) {
-    gui_put_rectangle(pcanvas_store, player_color(unit_owner(punit)),
+    gui_put_rectangle(pcanvas, player_color(unit_owner(punit)),
 		      canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   }
 
@@ -641,7 +641,7 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
       int ox = drawn_sprites[i].offset_x, oy = drawn_sprites[i].offset_y;
 
       /* units are never fogged */
-      gui_put_sprite(pcanvas_store, canvas_x + ox, canvas_y + oy,
+      gui_put_sprite(pcanvas, canvas_x + ox, canvas_y + oy,
 		     drawn_sprites[i].sprite,
 		     unit_offset_x - ox, unit_offset_y - oy,
 		     unit_width - ox, unit_height - oy);
@@ -649,7 +649,7 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
   }
 
   if (punit->occupy) {
-    gui_put_sprite(pcanvas_store, canvas_x, canvas_y,
+    gui_put_sprite(pcanvas, canvas_x, canvas_y,
 		   sprites.unit.stack,
 		   unit_offset_x, unit_offset_y, unit_width, unit_height);
   }
@@ -658,10 +658,10 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 /**************************************************************************
   Draw the given unit onto the canvas store at the given location.
 **************************************************************************/
-void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
+void put_unit_full(struct unit *punit, struct canvas *pcanvas,
 		   int canvas_x, int canvas_y)
 {
-  put_unit(punit, pcanvas_store, canvas_x, canvas_y,
+  put_unit(punit, pcanvas, canvas_x, canvas_y,
 	   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 }
 
@@ -673,7 +673,7 @@ void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
   sprites (limiting the number of combinations).
 ****************************************************************************/
 void put_city_tile_output(struct city *pcity, int city_x, int city_y,
-			  struct canvas_store *pcanvas_store,
+			  struct canvas *pcanvas,
 			  int canvas_x, int canvas_y)
 {
   int food = city_get_food_tile(city_x, city_y, pcity);
@@ -691,11 +691,11 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
     canvas_y -= NORMAL_TILE_HEIGHT / 3;
   }
 
-  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 		      sprites.city.tile_foodnum[food]);
-  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 		      sprites.city.tile_shieldnum[shields]);
-  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 		      sprites.city.tile_tradenum[trade]);
 }
 
@@ -707,7 +707,7 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
   sprites (limiting the number of combinations).
 ****************************************************************************/
 void put_unit_city_overlays(struct unit *punit,
-			    struct canvas_store *pcanvas_store,
+			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y)
 {
   int upkeep_food = CLIP(0, punit->upkeep_food, 2);
@@ -716,19 +716,19 @@ void put_unit_city_overlays(struct unit *punit,
 
   /* draw overlay pixmaps */
   if (punit->upkeep > 0) {
-    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 			sprites.upkeep.shield);
   }
   if (upkeep_food > 0) {
-    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 			sprites.upkeep.food[upkeep_food - 1]);
   }
   if (upkeep_gold > 0) {
-    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 			sprites.upkeep.gold[upkeep_gold - 1]);
   }
   if (unhappy > 0) {
-    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
 			sprites.upkeep.unhappy[unhappy - 1]);
   }
 }
@@ -736,33 +736,33 @@ void put_unit_city_overlays(struct unit *punit,
 /****************************************************************************
   Draw a red frame around the tile.  (canvas_x, canvas_y) is the tile origin.
 ****************************************************************************/
-void put_red_frame_tile(struct canvas_store *pcanvas_store,
+void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y)
 {
   if (is_isometric) {
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
 		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y,
 		 NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2 - 1);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
 		 canvas_x + NORMAL_TILE_WIDTH - 1,
 		 canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
 		 -NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
 		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
 		 canvas_y + NORMAL_TILE_HEIGHT - 1,
 		 -(NORMAL_TILE_WIDTH / 2 - 1), -NORMAL_TILE_HEIGHT / 2);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
 		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
 		 NORMAL_TILE_WIDTH / 2 - 1, -(NORMAL_TILE_HEIGHT / 2 - 1));
   } else {
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
 		 canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
 		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
 		 0, NORMAL_TILE_HEIGHT - 1);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
 		 canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
-    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
 		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
 		 NORMAL_TILE_WIDTH - 1, 0);
   }
@@ -801,7 +801,7 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
    Draw the borders of the given map tile at the given canvas position
    in non-isometric view.
 **************************************************************************/
-static void tile_draw_borders(struct canvas_store *pcanvas_store,
+static void tile_draw_borders(struct canvas *pcanvas,
 			      int map_x, int map_y,
 			      int canvas_x, int canvas_y)
 {
@@ -817,7 +817,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		 canvas_x + 1, canvas_y + 1,
 		 0, NORMAL_TILE_HEIGHT - 1);
   }
@@ -827,7 +827,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		 canvas_x + 1, canvas_y + 1, NORMAL_TILE_WIDTH - 1, 0);
   }
 
@@ -836,7 +836,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + 1,
 		 0, NORMAL_TILE_HEIGHT - 1);
   }
@@ -846,7 +846,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		 canvas_x + 1, canvas_y + NORMAL_TILE_HEIGHT - 1,
 		 NORMAL_TILE_WIDTH - 1, 0);
   }
@@ -856,7 +856,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
   Draw the given map tile at the given canvas position in non-isometric
   view.
 **************************************************************************/
-void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
+void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode)
 {
   struct drawn_sprite tile_sprs[80];
@@ -872,13 +872,13 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
     if (solid_bg) {
       enum color_std color = pplayer ? player_color(pplayer)
 	      : COLOR_STD_BACKGROUND;
-      gui_put_rectangle(pcanvas_store, color, canvas_x, canvas_y,
+      gui_put_rectangle(pcanvas, color, canvas_x, canvas_y,
 			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
 
     for (i = 0; i < count; i++) {
       if (tile_sprs[i].sprite) {
-	gui_put_sprite_full(pcanvas_store,
+	gui_put_sprite_full(pcanvas,
 			    canvas_x + tile_sprs[i].offset_x,
 			    canvas_y + tile_sprs[i].offset_y,
 			    tile_sprs[i].sprite);
@@ -892,43 +892,43 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 
       if (!draw_map_grid) { /* it would be overwritten below */
         /* left side... */
-        gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+        gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
             canvas_x, canvas_y,
             0, NORMAL_TILE_HEIGHT - 1);
 
         /* top side... */
-        gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+        gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
             canvas_x, canvas_y,
             NORMAL_TILE_WIDTH - 1, 0);
       }
 
       /* right side... */
-      gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+      gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
           canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
           0, NORMAL_TILE_HEIGHT - 1);
 
       /* bottom side... */
-      gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+      gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
           canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
           NORMAL_TILE_WIDTH - 1, 0);
     }
 
     if (draw_map_grid && !citymode) {
       /* left side... */
-      gui_put_line(pcanvas_store,
+      gui_put_line(pcanvas,
 		   get_grid_color(map_x, map_y, map_x - 1, map_y),
 		   LINE_NORMAL,
 		   canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 
       /* top side... */
-      gui_put_line(pcanvas_store,
+      gui_put_line(pcanvas,
 		   get_grid_color(map_x, map_y, map_x, map_y - 1),
 		   LINE_NORMAL,
 		   canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
     }
 
     /* Draw national borders. */
-    tile_draw_borders(pcanvas_store, map_x, map_y, canvas_x, canvas_y);
+    tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y);
 
     if (draw_coastline && !draw_terrain) {
       enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
@@ -938,7 +938,7 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN, LINE_NORMAL,
+	  gui_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
 		       canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 	}
       }
@@ -947,14 +947,14 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN, LINE_NORMAL,
+	  gui_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
 		       canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
 	}
       }
     }
   } else {
     /* tile is unknown */
-    gui_put_rectangle(pcanvas_store, COLOR_STD_BLACK,
+    gui_put_rectangle(pcanvas, COLOR_STD_BLACK,
 		      canvas_x, canvas_y,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
@@ -1004,7 +1004,7 @@ static void put_tile(int map_x, int map_y)
    Draw the borders of the given map tile at the given canvas position
    in isometric view.
 **************************************************************************/
-void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
+void tile_draw_borders_iso(struct canvas *pcanvas,
 			   int map_x, int map_y,
 			   int canvas_x, int canvas_y,
 			   enum draw_type draw)
@@ -1021,14 +1021,14 @@ void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)) {
     if (adjc_owner) {
-      gui_put_line(pcanvas_store, player_color(adjc_owner), LINE_BORDER,
+      gui_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
 		   canvas_x,
 		   canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
 		   NORMAL_TILE_WIDTH / 2,
                    -NORMAL_TILE_HEIGHT / 2);
     }
     if (this_owner) {
-      gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+      gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		   canvas_x,
 		   canvas_y + NORMAL_TILE_HEIGHT / 2 + 1,
 		   NORMAL_TILE_WIDTH / 2,
@@ -1041,14 +1041,14 @@ void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)) {
     if (adjc_owner) {
-      gui_put_line(pcanvas_store, player_color(adjc_owner), LINE_BORDER,
+      gui_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
 		   canvas_x + NORMAL_TILE_WIDTH / 2,
 		   canvas_y - 1,
 		   NORMAL_TILE_WIDTH / 2,
 		   NORMAL_TILE_HEIGHT / 2);
     }
     if (this_owner) {
-      gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+      gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 		   canvas_x + NORMAL_TILE_WIDTH / 2,
 		   canvas_y + 1,
 		   NORMAL_TILE_WIDTH / 2,
@@ -1785,14 +1785,14 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 **************************************************************************/
 static void redraw_overview(void)
 {
-  struct canvas_store *dest = get_overview_window();
+  struct canvas *dest = get_overview_window();
 
   if (!dest || !overview.store) {
     return;
   }
 
   {
-    struct canvas_store *src = overview.store;
+    struct canvas *src = overview.store;
     int x = overview.map_x0 * OVERVIEW_TILE_WIDTH;
     int y = overview.map_y0 * OVERVIEW_TILE_HEIGHT;
     int ix = overview.width - x;

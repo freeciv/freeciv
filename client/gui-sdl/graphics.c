@@ -73,7 +73,7 @@
 #include "patrol_cursor.xbm"
 #include "patrol_cursor_mask.xbm"
 
-struct canvas_store Main;
+struct canvas Main;
 
 static SDL_Surface *pIntro_gfx = NULL;
 

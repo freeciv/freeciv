@@ -153,48 +153,48 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas_store *pCanvas_store,
+void gui_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
   SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
-  SDL_BlitSurface(GET_SURF(sprite), &src, pCanvas_store->map, &dst);
+  SDL_BlitSurface(GET_SURF(sprite), &src, pcanvas->map, &dst);
 }
 
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas_store *pCanvas_store,
+void gui_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
 			 struct Sprite *sprite)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
-  SDL_BlitSurface(GET_SURF(sprite), NULL, pCanvas_store->map, &dst);
+  SDL_BlitSurface(GET_SURF(sprite), NULL, pcanvas->map, &dst);
 }
 
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas_store *pCanvas_store,
+void gui_put_rectangle(struct canvas *pcanvas,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
   SDL_Rect dst = {canvas_x, canvas_y, width, height};
-  SDL_FillRect(pCanvas_store->map, &dst,
-	    get_game_color(color, pCanvas_store->map));
+  SDL_FillRect(pcanvas->map, &dst,
+	    get_game_color(color, pcanvas->map));
 }
 
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas_store *pCanvas_store, enum color_std color,
+void gui_put_line(struct canvas *pcanvas, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
-  putline(pCanvas_store->map, start_x, start_y, start_x + dx, start_y + dy,
-				get_game_color(color, pCanvas_store->map));
+  putline(pcanvas->map, start_x, start_y, start_x + dx, start_y + dy,
+				get_game_color(color, pcanvas->map));
 }
 
 static bool is_flush_queued = FALSE;
@@ -3120,7 +3120,7 @@ static SDL_Surface * create_noiso_city_map(struct city *pCity)
   int city_x, city_y;
   int map_x, map_y, canvas_x, canvas_y;
   int draw_units_backup = draw_units;
-  struct canvas_store store;
+  struct canvas store;
   SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
 				   get_citydlg_canvas_height(), SDL_SWSURFACE);
 

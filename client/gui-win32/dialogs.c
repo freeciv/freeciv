@@ -772,7 +772,7 @@ popup_unit_select_dialog(struct tile *ptile)
   max_height+=4;
   for (i=0;i<n;i++)
     {
-      struct canvas_store canvas_store={unitsel_dc, NULL};
+      struct canvas canvas_store = {unitsel_dc, NULL};
       struct unit *punit=unit_list_get(&ptile->units, i);
       struct unit_type *punittemp=unit_type(punit);
       struct city *pcity;

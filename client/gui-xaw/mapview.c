@@ -85,9 +85,9 @@ void map_size_changed(void)
 /**************************************************************************
 ...
 **************************************************************************/
-struct canvas_store *canvas_store_create(int width, int height)
+struct canvas *canvas_store_create(int width, int height)
 {
-  struct canvas_store *result = fc_malloc(sizeof(*result));
+  struct canvas *result = fc_malloc(sizeof(*result));
 
   result->pixmap =
       XCreatePixmap(display, root_window, width, height, display_depth);
@@ -97,7 +97,7 @@ struct canvas_store *canvas_store_create(int width, int height)
 /**************************************************************************
 ...
 **************************************************************************/
-void canvas_store_free(struct canvas_store *store)
+void canvas_store_free(struct canvas *store)
 {
   XFreePixmap(display, store->pixmap);
   free(store);
@@ -106,9 +106,9 @@ void canvas_store_free(struct canvas_store *store)
 /****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
-struct canvas_store *get_overview_window(void)
+struct canvas *get_overview_window(void)
 {
-  static struct canvas_store store;
+  static struct canvas store;
 
   store.pixmap = XtWindow(overview_canvas);
 
@@ -302,7 +302,7 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y)
 {
-  struct canvas_store store = {single_tile_pixmap};
+  struct canvas store = {single_tile_pixmap};
 
   /* Clear old sprite. */
   XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
@@ -350,7 +350,7 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 /**************************************************************************
 ...
 **************************************************************************/
-void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+void gui_copy_canvas(struct canvas *dest, struct canvas *src,
 		     int src_x, int src_y, int dest_x, int dest_y, int width,
 		     int height)
 {
@@ -415,7 +415,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 /**************************************************************************
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void put_one_tile_iso(struct canvas_store *pcanvas_store,
+void put_one_tile_iso(struct canvas *pcanvas,
                      int map_x, int map_y,
                      int canvas_x, int canvas_y,
                      int offset_x, int offset_y, int offset_y_unit,
@@ -454,42 +454,42 @@ static void pixmap_put_sprite(Pixmap pixmap,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas_store *pcanvas_store,
+void gui_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
+  pixmap_put_sprite(pcanvas->pixmap, canvas_x, canvas_y,
 		    sprite, offset_x, offset_y, width, height);
 }
 
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+void gui_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
 			 struct Sprite *sprite)
 {
-  gui_put_sprite(pcanvas_store, canvas_x, canvas_y,
+  gui_put_sprite(pcanvas, canvas_x, canvas_y,
 		 sprite, 0, 0, sprite->width, sprite->height);
 }
 
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas_store *pcanvas_store,
+void gui_put_rectangle(struct canvas *pcanvas,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
   XSetForeground(display, fill_bg_gc, colors_standard[color]);
-  XFillRectangle(display, pcanvas_store->pixmap, fill_bg_gc,
+  XFillRectangle(display, pcanvas->pixmap, fill_bg_gc,
 		 canvas_x, canvas_y, width, height);
 }
 
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+void gui_put_line(struct canvas *pcanvas, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
@@ -497,7 +497,7 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 
   gc = (ltype == LINE_BORDER ? border_line_gc : civ_gc);
   XSetForeground(display, gc, colors_standard[color]);
-  XDrawLine(display, pcanvas_store->pixmap, gc,
+  XDrawLine(display, pcanvas->pixmap, gc,
 	    start_x, start_y, start_x + dx, start_y + dy);
 }
 
@@ -721,7 +721,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 **************************************************************************/
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 {
-  struct canvas_store store = {pm};
+  struct canvas store = {pm};
  
   /* wipe the slate clean */
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
@@ -776,7 +776,7 @@ void put_city_workers(struct city *pcity, int color)
 {
   int canvas_x, canvas_y;
   static struct city *last_pcity = NULL;
-  struct canvas_store store = {XtWindow(map_canvas)};
+  struct canvas store = {XtWindow(map_canvas)};
 
   if (color == -1) {
     if (pcity != last_pcity)

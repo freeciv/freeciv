@@ -18,7 +18,7 @@
 #include "gtkpixcomm.h"
 #include "gui_main_g.h"
 
-struct canvas_store
+struct canvas
 {
   GdkPixmap *pixmap;	/* if NULL, the pixcomm is drawn to instead. */
   GtkPixcomm *pixcomm;

@@ -170,7 +170,7 @@ struct Sprite {
 
 #define GET_SURF(m_sprite)	(m_sprite->psurface)
 
-struct canvas_store {
+struct canvas {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */

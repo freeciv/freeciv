@@ -22,11 +22,11 @@ struct unit;
 
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
-struct canvas {
+struct mapview_canvas {
   int map_x0, map_y0;
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
-  struct canvas_store *store, *single_tile;
+  struct canvas *store, *single_tile;
 };
 
 /* Holds all information about the overview aka minimap. */
@@ -34,10 +34,10 @@ struct overview {
   /* The following fields are controlled by mapview_common.c. */
   int map_x0, map_y0;
   int width, height;		/* Size in pixels. */
-  struct canvas_store *store;
+  struct canvas *store;
 };
 
-extern struct canvas mapview_canvas;
+extern struct mapview_canvas mapview_canvas;
 extern struct overview overview;
 
 /*
@@ -156,27 +156,27 @@ void center_tile_mapcanvas(int map_x, int map_y);
 bool tile_visible_mapcanvas(int map_x, int map_y);
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
-void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
+void put_unit(struct unit *punit, struct canvas *pcanvas,
 	      int canvas_x, int canvas_y,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height);
-void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
+void put_unit_full(struct unit *punit, struct canvas *pcanvas,
 		   int canvas_x, int canvas_y);
 
 void put_city_tile_output(struct city *pcity, int city_x, int city_y,
-			  struct canvas_store *pcanvas_store,
+			  struct canvas *pcanvas,
 			  int canvas_x, int canvas_y);
 void put_unit_city_overlays(struct unit *punit,
-			    struct canvas_store *pcanvas_store,
+			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y);
-void put_red_frame_tile(struct canvas_store *pcanvas_store,
+void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y);
 
 void put_nuke_mushroom_pixmaps(int map_x, int map_y);
 
-void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
+void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
-void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
+void tile_draw_borders_iso(struct canvas *pcanvas,
 			   int map_x, int map_y,
 			   int canvas_x, int canvas_y,
 			   enum draw_type draw);

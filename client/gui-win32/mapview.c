@@ -87,9 +87,9 @@ static void draw_rates(HDC hdc);
 /***************************************************************************
  ...
 ***************************************************************************/
-struct canvas_store *canvas_store_create(int width, int height)
+struct canvas *canvas_store_create(int width, int height)
 {
-  struct canvas_store *result = fc_malloc(sizeof(*result));
+  struct canvas *result = fc_malloc(sizeof(*result));
   HDC hdc;
   hdc = GetDC(root_window);
   result->bitmap = CreateCompatibleBitmap(hdc, width, height);
@@ -101,18 +101,18 @@ struct canvas_store *canvas_store_create(int width, int height)
 /***************************************************************************
   ...
 ***************************************************************************/
-void canvas_store_free(struct canvas_store *store)
+void canvas_store_free(struct canvas *store)
 {
   DeleteObject(store->bitmap);
   free(store);
 }
 
-static struct canvas_store overview_store;
+static struct canvas overview_store;
 
 /****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
-struct canvas_store *get_overview_window(void)
+struct canvas *get_overview_window(void)
 {
   return &overview_store;
 }
@@ -120,7 +120,7 @@ struct canvas_store *get_overview_window(void)
 /***************************************************************************
    ...
 ***************************************************************************/
-void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+void gui_copy_canvas(struct canvas *dest, struct canvas *src,
 		                     int src_x, int src_y, int dest_x, int dest_y, int width,
 				                          int height)
 {
@@ -685,7 +685,7 @@ void draw_unit_animation_frame(struct unit *punit,
 {
   static HDC mapstoredc, hdc, hdcwin;
   static HBITMAP old, oldbmp;
-  static struct canvas_store canvas_store;
+  static struct canvas canvas_store;
   /* Create extra backing store.  This should be done statically. */
   if (first_frame) {
     mapstoredc = CreateCompatibleDC(NULL);
@@ -1000,14 +1000,14 @@ void put_one_tile_full(HDC hdc, int x, int y,
 /**************************************************************************
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void put_one_tile_iso(struct canvas_store *pcanvas_store,
+void put_one_tile_iso(struct canvas *pcanvas,
 		      int map_x, int map_y,
 		      int canvas_x, int canvas_y,
 		      int offset_x, int offset_y, int offset_y_unit,
 		      int width, int height, int height_unit,
 		      enum draw_type draw, bool citymode)
 {
-  pixmap_put_tile_iso(pcanvas_store->hdc, map_x, map_y,
+  pixmap_put_tile_iso(pcanvas->hdc, map_x, map_y,
 		      canvas_x, canvas_y, 0,
 		      offset_x, offset_y, offset_y_unit,
 		      width, height, height_unit,
@@ -1017,7 +1017,7 @@ void put_one_tile_iso(struct canvas_store *pcanvas_store,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas_store *pcanvas_store,
+void gui_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
@@ -1026,16 +1026,16 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
   HBITMAP old = NULL; /*Remove warning*/
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
-  if (pcanvas_store->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas_store->hdc);
-    old = SelectObject(hdc, pcanvas_store->bitmap);
+  if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas->hdc);
+    old = SelectObject(hdc, pcanvas->bitmap);
   } else {
-    hdc = pcanvas_store->hdc;
+    hdc = pcanvas->hdc;
   }
   pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       sprite, offset_x, offset_y,
 			       width, height, 0);
-  if (pcanvas_store->bitmap) {
+  if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
   }
@@ -1044,18 +1044,18 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+void gui_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
 			 struct Sprite *sprite)
 {
-  gui_put_sprite(pcanvas_store, canvas_x, canvas_y, sprite,
+  gui_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
 		 0, 0, sprite->width, sprite->height);
 }
 
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas_store *pcanvas_store,
+void gui_put_rectangle(struct canvas *pcanvas,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
@@ -1063,11 +1063,11 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
   HBITMAP old = NULL; /*Remove warning*/
   RECT rect;
 
-  if (pcanvas_store->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas_store->hdc);
-    old = SelectObject(hdc, pcanvas_store->bitmap);
+  if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas->hdc);
+    old = SelectObject(hdc, pcanvas->bitmap);
   } else {
-    hdc = pcanvas_store->hdc;
+    hdc = pcanvas->hdc;
   }
 
   /*"+1"s are needed because FillRect doesn't fill bottom and right edges*/
@@ -1076,7 +1076,7 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 
   FillRect(hdc, &rect, brush_std[color]);
 
-  if (pcanvas_store->bitmap) {
+  if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
   }
@@ -1085,7 +1085,7 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+void gui_put_line(struct canvas *pcanvas, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
@@ -1093,11 +1093,11 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
   HBITMAP old = NULL; /*Remove warning*/
   HPEN old_pen;
 
-  if (pcanvas_store->hdc) {
-    hdc = pcanvas_store->hdc;
-  } else if (pcanvas_store->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas_store->hdc);
-    old = SelectObject(hdc, pcanvas_store->bitmap);
+  if (pcanvas->hdc) {
+    hdc = pcanvas->hdc;
+  } else if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas->hdc);
+    old = SelectObject(hdc, pcanvas->bitmap);
   } else {
     hdc = GetDC(root_window);
   }
@@ -1107,8 +1107,8 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
   LineTo(hdc, start_x + dx, start_y + dy);
   SelectObject(hdc, old_pen);
 
-  if (!pcanvas_store->hdc) {
-    if (pcanvas_store->bitmap) {
+  if (!pcanvas->hdc) {
+    if (pcanvas->bitmap) {
       SelectObject(hdc, old);
       DeleteDC(hdc);
     } else {
@@ -1181,7 +1181,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
-  struct canvas_store canvas_store={hdc,NULL};
+  struct canvas canvas_store={hdc,NULL};
   enum tile_special_type special;
   int count, i = 0, dither_count;
   bool fog, solid_bg, is_real;

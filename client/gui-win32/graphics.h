@@ -36,7 +36,7 @@ struct Sprite
   int cache_id;
 };
 
-struct canvas_store
+struct canvas
 {
   HDC hdc;
   HBITMAP bitmap;

@@ -24,7 +24,7 @@ struct Sprite {
   int has_mask;
 };
 
-struct canvas_store {
+struct canvas {
   Pixmap pixmap;
 };
 

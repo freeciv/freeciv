@@ -354,7 +354,7 @@ void refresh_city_dialog(struct city *pcity)
   struct city_dialog *pdialog;
   
   if((pdialog=get_city_dialog(pcity))) {
-    struct canvas_store store = {XtWindow(pdialog->map_canvas)};
+    struct canvas store = {XtWindow(pdialog->map_canvas)};
 
     city_dialog_update_improvement_list(pdialog);
     city_dialog_update_title(pdialog);
@@ -464,7 +464,7 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 				   void *client_data)
 {
   struct city_dialog *pdialog = client_data;
-  struct canvas_store store = {XtWindow(pdialog->map_canvas)};
+  struct canvas store = {XtWindow(pdialog->map_canvas)};
   
   city_dialog_redraw_map(pdialog->pcity, &store);
 }
@@ -1682,7 +1682,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   i = 0; /* number of displayed units */
   j = 0; /* index into list */
   unit_list_iterate(*plist, punit) {
-    struct canvas_store store;
+    struct canvas store;
 
     if (j++ < pdialog->support_unit_base) {
       continue;
@@ -1746,7 +1746,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   i = 0; /* number of displayed units */
   j = 0; /* index into list */
   unit_list_iterate(*plist, punit) {
-    struct canvas_store store;
+    struct canvas store;
 
     if (j++ < pdialog->present_unit_base) {
       continue;

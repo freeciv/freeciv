@@ -294,7 +294,8 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   struct unit_list *plist;
   struct genlist_link *myiter;
   struct unit *punit;
-  struct canvas_store canvas_store = {hdc, NULL};
+  struct canvas canvas_store = {hdc, NULL};
+
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->present_unit_ids[i]==unitid)
@@ -350,7 +351,8 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   struct unit_list *plist;
   struct genlist_link *myiter;
   struct unit *punit;    
-  struct canvas_store canvas_store = {hdc, NULL};
+  struct canvas canvas_store = {hdc, NULL};
+
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->support_unit_ids[i]==unitid)
@@ -368,7 +370,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
       RECT rc;
-      struct canvas_store store = {hdc, NULL};
+      struct canvas store = {hdc, NULL};
 
       punit=(struct unit*)ITERATOR_PTR(myiter);
       if(unitid && punit->id!=unitid)
@@ -499,7 +501,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
 {
   HBITMAP oldbit;
-  struct canvas_store store;
+  struct canvas store;
 
   oldbit=SelectObject(citydlgdc,pdialog->map_bmp);
   BitBlt(citydlgdc,0,0,pdialog->map_w,pdialog->map_h,

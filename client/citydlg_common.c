@@ -123,12 +123,12 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   and orthogonal views.
 ****************************************************************************/
 void city_dialog_redraw_map(struct city *pcity,
-			    struct canvas_store *pcanvas_store)
+			    struct canvas *pcanvas)
 {
   int city_x, city_y;
 
   /* First make it all black. */
-  gui_put_rectangle(pcanvas_store, COLOR_STD_BLACK, 0, 0,
+  gui_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0,
 		    get_citydlg_canvas_width(), get_citydlg_canvas_height());
 
   /* We have to draw the tiles in a particular order, so its best
@@ -142,14 +142,14 @@ void city_dialog_redraw_map(struct city *pcity,
 	  && tile_get_known(map_x, map_y)
 	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
 	if (is_isometric) {
-	  put_one_tile_iso(pcanvas_store, map_x, map_y,
+	  put_one_tile_iso(pcanvas, map_x, map_y,
 			   canvas_x, canvas_y,
 			   0, 0, 0,
 			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 			   UNIT_TILE_HEIGHT,
 			   D_FULL, TRUE);
 	} else {
-	  put_one_tile(pcanvas_store, map_x, map_y,
+	  put_one_tile(pcanvas, map_x, map_y,
 		       canvas_x, canvas_y, TRUE);
 	}
       }
@@ -164,7 +164,7 @@ void city_dialog_redraw_map(struct city *pcity,
     if (tile_get_known(map_x, map_y)
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(pcity, x, y, pcanvas_store, canvas_x, canvas_y);
+      put_city_tile_output(pcity, x, y, pcanvas, canvas_x, canvas_y);
     }
   } city_map_checked_iterate_end;
 
@@ -178,7 +178,7 @@ void city_dialog_redraw_map(struct city *pcity,
     if (tile_get_known(map_x, map_y)
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-      put_red_frame_tile(pcanvas_store, canvas_x, canvas_y);
+      put_red_frame_tile(pcanvas, canvas_x, canvas_y);
     }
   } city_map_checked_iterate_end;
 }
