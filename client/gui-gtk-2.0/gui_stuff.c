@@ -179,14 +179,6 @@ void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 /****************************************************************
 ...
 *****************************************************************/
-void tstore_remove(ITree *it)
-{
-  gtk_tree_store_remove(GTK_TREE_STORE(it->model), &it->it);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 {
   return gtk_tree_selection_iter_is_selected(selection, &it->it);

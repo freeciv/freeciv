@@ -57,6 +57,7 @@ static GtkWidget *players_war_command;
 static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 static GtkListStore *store;
+static GtkTreeModel *model;
 
 static gint ncolumns;
 
@@ -220,6 +221,7 @@ static void create_store(void)
   
   ncolumns = i;
   store = gtk_list_store_newv(ncolumns, model_types);  
+  model = GTK_TREE_MODEL(store);
 }
 
 /**************************************************************************
@@ -555,56 +557,52 @@ static void build_row(GtkTreeIter *it, int i)
 void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
-    gboolean exists[MAX_NUM_PLAYERS];
+    gboolean exists[game.nplayers];
     gint i;
-    ITree it, it_next;
+    GtkTreeIter it, it_next;
 
-    for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    for (i = 0; i < game.nplayers; i++) {
       exists[i] = FALSE;
     }
 
-    itree_begin(GTK_TREE_MODEL(store), &it);
-    while (!itree_end(&it)) {
+    if (gtk_tree_model_get_iter_first(model, &it)) {
       gint plrno;
+      bool more;
 
-      it_next = it;
-      itree_next(&it_next);
+      do {
+	it_next = it;
+	more = gtk_tree_model_iter_next(model, &it_next);
 
-      itree_get(&it, ncolumns - 1, &plrno, -1);
+	gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-      /*
-       * The nation already had a row in the player report. In that
-       * case we just update the row.
-       */
-      if (plrno >= 0 && plrno < game.nplayers) {
-      	exists[plrno] = TRUE;
-
-        build_row(&it.it, plrno);
-      } else {
-      	gtk_list_store_remove(store, &it.it);
-      }
-
-      it = it_next;
-    }
-
-    for (i = 0; i < game.nplayers; i++) {
-      GtkTreeIter iter;
-
-      /* skip barbarians */
-      if (is_barbarian(&game.players[i])) {
-	continue;
-      }
-
-      if (!exists[i]) {
-	/* 
-	 * A nation is not in the player report yet. This happens when
-	 * the report is just opened and after a split.
+	/*
+	 * The nation already had a row in the player report. In that
+	 * case we just update the row.
 	 */
-      	gtk_list_store_append(store, &iter);
+	if (is_valid_player_id(plrno)) {
+	  exists[plrno] = TRUE;
 
-        build_row(&iter, i);
-      }
+	  build_row(&it, plrno);
+	} else {
+	  gtk_list_store_remove(store, &it);
+	}
+      } while (more);
     }
+
+    players_iterate(pplayer) {
+      /* skip barbarians */
+      if (!is_barbarian(pplayer)) {
+	if (!exists[pplayer->player_no]) {
+	  /* 
+	   * A nation is not in the player report yet. This happens when
+	   * the report is just opened and after a split.
+	   */
+	  gtk_list_store_append(store, &it);
+
+	  build_row(&it, pplayer->player_no);
+	}
+      }
+    } players_iterate_end;
 
     update_players_menu();
     update_views();
