@@ -14,11 +14,11 @@ PACKAGE=freeciv
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
 MAJOR_VERSION=1
-MINOR_VERSION=13
-PATCH_VERSION=1
-VERSION_LABEL="-devel"
-IS_DEVEL_VERSION=1
-IS_BETA_VERSION=0
+MINOR_VERSION=14
+PATCH_VERSION=0
+VERSION_LABEL="-beta1"
+IS_DEVEL_VERSION=0
+IS_BETA_VERSION=1
 
 VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
 
