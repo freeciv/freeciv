@@ -985,7 +985,7 @@ static void popup_chgall_dialog (Widget parent)
   XtAddCallback (state->w.cancel, XtNcallback,
 		 chgall_cancel_command_callback, state);
 
-  chgall_refresh_command_callback (NULL, state, NULL);
+  chgall_refresh_command_callback (NULL, (XtPointer)state, NULL);
 
   XtRealizeWidget (state->w.shell);
   XtVaGetValues (parent, XtNwidth, &width, XtNheight, &height, NULL);
