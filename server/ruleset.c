@@ -1580,7 +1580,15 @@ static void load_ruleset_governments(struct section_file *file)
     int i = g->index;
     const char *waste_name[] = {NULL, "waste", "corruption",
 				NULL, NULL, NULL};
-    
+
+    if (section_file_lookup(file, "%s.ai_better", sec[i])) {
+      char entry[100];
+
+      my_snprintf(entry, sizeof(entry), "%s.ai_better", sec[i]);
+      g->ai_better = lookup_government(file, entry, filename);
+    } else {
+      g->ai_better = G_MAGIC;
+    }
     g->required_tech
       = lookup_tech(file, sec[i], "tech_req", FALSE, filename, g->name);
     

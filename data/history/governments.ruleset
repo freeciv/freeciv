@@ -178,6 +178,7 @@ tech_req    = "None"
 graphic     = "gov.despotism"
 graphic_alt = "-"
 flags       = "-"
+ai_better   = "Monarchy"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -253,6 +254,7 @@ tech_req    = "Monarchy"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 flags       = "-"
+ai_better   = "Communism"
 
 martial_law_max  = 3
 martial_law_per  = 1

@@ -17,7 +17,6 @@ options="1.9"
 [governments]
 default="Despotism"
 when_anarchy="Anarchy"
-ai_goal="Republic"
 
 ; Below: The individual government types, one per section.
 ;
@@ -40,6 +39,8 @@ ai_goal="Republic"
 ;               should be a standard tag if preferred is not;
 ;		otherwise may be "-"
 ; flags       = special effects; see government.c for strings
+; ai_better   = AI will not consider this government for use if the
+;               government listed here is available
 
 ; martial_law_max  = maximum number of units which can enforce martial law
 ;		     in the city
@@ -165,6 +166,7 @@ tech_req    = "None"
 graphic     = "gov.despotism"
 graphic_alt = "-"
 flags       = "-"
+ai_better   = "Monarchy"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -223,6 +225,7 @@ tech_req    = "Monarchy"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 flags       = "-"
+ai_better   = "Communism"
 
 martial_law_max  = 3
 martial_law_per  = 1

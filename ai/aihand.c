@@ -293,6 +293,10 @@ void ai_best_government(struct player *pplayer)
       if (gov->index == game.government_when_anarchy) {
         continue; /* pointless */
       }
+      if (gov->ai_better != G_MAGIC
+          && can_change_to_government(pplayer, gov->ai_better)) {
+        continue; /* we have better governments available */
+      }
       pplayer->government = gov->index;
       /* Ideally we should change tax rates here, but since
        * this is a rather big CPU operation, we'd rather not. */

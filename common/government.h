@@ -69,6 +69,8 @@ struct government
   char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */
 
+  int ai_better;		/* govt AI prefers to this one (hint) */
+
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
