@@ -686,9 +686,9 @@ void remove_city(struct city *pcity)
   for(o=0; o<game.nplayers; o++)           /* dests */
     send_packet_generic_integer(game.players[o].conn,
 				PACKET_REMOVE_CITY,&packet);
-  unit_list_iterate(pcity->units_supported, punit) 
-    wipe_unit(0, punit);
-  unit_list_iterate_end;
+  while(pcity->units_supported.list.head_link->dataptr) {
+    wipe_unit(0,(struct unit *)pcity->units_supported.list.head_link->dataptr);
+  }
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }
