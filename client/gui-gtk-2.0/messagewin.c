@@ -41,7 +41,6 @@
 
 static GtkWidget *meswin_dialog_shell;
 static GtkWidget *meswin_list;
-static GtkWidget *meswin_close_command;
 static GtkWidget *meswin_goto_command;
 static GtkWidget *meswin_popcity_command;
 static GtkStyle *meswin_visited_style;
@@ -49,7 +48,8 @@ static GtkStyle *meswin_not_visited_style;
 
 static void create_meswin_dialog(void);
 static void meswin_scroll_down(void);
-static void meswin_close_callback(GtkWidget * w, gpointer data);
+static void meswin_destroy_callback(GtkWidget *w, gpointer data);
+static void meswin_command_callback(GtkWidget *w, gint response_id);
 static void meswin_list_callback(GtkWidget * w, gint row, gint column,
 				 GdkEvent * ev);
 static void meswin_list_ucallback(GtkWidget * w, gint row, gint column);
@@ -90,7 +90,8 @@ void popup_meswin_dialog(void)
   }
 
   gtk_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
-  gtk_widget_show(meswin_dialog_shell);
+  gtk_window_present(GTK_WINDOW(meswin_dialog_shell));
+
   if(!updated) 
     update_meswin_dialog();
   
@@ -124,16 +125,18 @@ void create_meswin_dialog(void)
   static gchar *titles_[1] = { N_("Messages") };
   static gchar **titles;
   GtkWidget *scrolled;
-  GtkAccelGroup *accel = gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(1, titles_);
+  if (!titles)
+    titles = intl_slist(1, titles_);
 
-  meswin_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",
-        GTK_SIGNAL_FUNC(meswin_close_callback),NULL );
-//  gtk_accel_group_attach(accel, GTK_OBJECT(meswin_dialog_shell));
-
-  gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), _("Messages") );
+  meswin_dialog_shell = gtk_dialog_new_with_buttons(_("Messages"),
+  	NULL,
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(meswin_dialog_shell),
+	GTK_RESPONSE_CLOSE);
 
   scrolled = gtk_scrolled_window_new(NULL,NULL);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
@@ -146,31 +149,23 @@ void create_meswin_dialog(void)
   gtk_clist_column_titles_passive(GTK_CLIST(meswin_list));
   gtk_clist_set_column_auto_resize(GTK_CLIST(meswin_list), 0, TRUE);
 
-  meswin_close_command = gtk_accelbutton_new(_("_Close"), accel);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
-		     meswin_close_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( meswin_close_command, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( meswin_close_command );
+  meswin_goto_command = gtk_stockbutton_new(GTK_STOCK_JUMP_TO,
+	_("_Goto location"));
+  gtk_widget_set_sensitive(meswin_goto_command, FALSE);
+  gtk_dialog_add_action_widget(GTK_DIALOG(meswin_dialog_shell),
+			       meswin_goto_command, 1);
 
-  meswin_goto_command = gtk_accelbutton_new(_("_Goto location"), accel);
-  gtk_widget_set_sensitive( meswin_goto_command, FALSE );
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
-		     meswin_goto_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( meswin_goto_command, GTK_CAN_DEFAULT );
-
-  meswin_popcity_command = gtk_accelbutton_new(_("_Popup City"), accel);
-  gtk_widget_set_sensitive( meswin_popcity_command, FALSE );
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
-		     meswin_popcity_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( meswin_popcity_command, GTK_CAN_DEFAULT );
+  meswin_popcity_command = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN,
+	_("_Popup City"));
+  gtk_widget_set_sensitive(meswin_popcity_command, FALSE);
+  gtk_dialog_add_action_widget(GTK_DIALOG(meswin_dialog_shell),
+			       meswin_popcity_command, 2);
 
   gtk_signal_connect(GTK_OBJECT(meswin_list), "select_row",
 		GTK_SIGNAL_FUNC(meswin_list_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_list), "unselect_row",
 		GTK_SIGNAL_FUNC(meswin_list_ucallback), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(meswin_close_command), "clicked",
-		GTK_SIGNAL_FUNC(meswin_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_goto_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_goto_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_popcity_command), "clicked",
@@ -195,10 +190,15 @@ void create_meswin_dialog(void)
   meswin_not_visited_style->bg[GTK_STATE_SELECTED]=
 					*colors_standard[COLOR_STD_RACE13];
 
+  g_signal_connect(meswin_dialog_shell, "response",
+		   G_CALLBACK(meswin_command_callback), NULL);
+  g_signal_connect(meswin_dialog_shell, "destroy",
+		   G_CALLBACK(meswin_destroy_callback), NULL);
+
   update_meswin_dialog();
 
-  gtk_widget_show_all( GTK_DIALOG(meswin_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(meswin_dialog_shell)->action_area );
+  gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->action_area);
 }
 
 /**************************************************************************
@@ -256,6 +256,7 @@ void clear_notify_window(void)
   string_ptrs[0] = NULL;
   messages_total = 0;
   update_meswin_dialog();
+
   if(meswin_dialog_shell) {
     gtk_widget_set_sensitive(meswin_goto_command, FALSE);
     gtk_widget_set_sensitive(meswin_popcity_command, FALSE);
@@ -393,12 +394,20 @@ void meswin_list_ucallback(GtkWidget *w, gint row, gint column)
 /**************************************************************************
 ...
 **************************************************************************/
-void meswin_close_callback(GtkWidget *w, gpointer data)
+static void meswin_destroy_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(meswin_dialog_shell);
   meswin_dialog_shell = NULL;
-  gtk_style_unref(meswin_visited_style);
-  gtk_style_unref(meswin_not_visited_style);
+  g_object_unref(meswin_visited_style);
+  g_object_unref(meswin_not_visited_style);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void meswin_command_callback(GtkWidget *w, gint response_id)
+{
+  if (response_id <= 0)
+    gtk_widget_destroy(w);
 }
 
 /**************************************************************************
