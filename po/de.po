@@ -5086,7 +5086,7 @@ msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
 
 #: client/civclient.c:121
 msgid "  -a, --autoconnect\tAutomatically connect to server\n"
-msgstr "  -a, --autoconnnect\tMit dem lokalen Server verbinden\n"
+msgstr "  -a, --autoconnnect\tAuswahlmenu zur Serverwahl unterdrücken\n"
 
 #: client/civclient.c:122
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
