@@ -399,152 +399,31 @@ void free_intro_radar_sprites(void)
 }
 
 /***************************************************************************
- Draws a black border around the sprite. This is done by parsing the
- mask and replacing the first and last pixel in every column and row
- by a black one.
-***************************************************************************/
-void sprite_draw_black_border(SPRITE * sprite)
-{
-  GdkImage *mask_image, *pixmap_image;
-  int x, y;
-
-  pixmap_image =
-      gdk_drawable_get_image(sprite->pixmap, 0, 0,
-			     sprite->width, sprite->height);
-
-  mask_image =
-      gdk_drawable_get_image(sprite->mask, 0, 0,
-			     sprite->width, sprite->height);
-
-  /* parsing columns */
-  for (x = 0; x < sprite->width; x++) {
-    for (y = 0; y < sprite->height; y++) {
-      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
-	gdk_image_put_pixel(pixmap_image, x, y, 0);
-	break;
-      }
-    }
-
-    for (y = sprite->height - 1; y > 0; y--) {
-      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
-	gdk_image_put_pixel(pixmap_image, x, y, 0);
-	break;
-      }
-    }
-  }
-
-  /* parsing rows */
-  for (y = 0; y < sprite->height; y++) {
-    for (x = 0; x < sprite->width; x++) {
-      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
-	gdk_image_put_pixel(pixmap_image, x, y, 0);
-	break;
-      }
-    }
-
-    for (x = sprite->width - 1; x > 0; x--) {
-      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
-	gdk_image_put_pixel(pixmap_image, x, y, 0);
-	break;
-      }
-    }
-  }
-
-  gdk_draw_image(sprite->pixmap, civ_gc, pixmap_image, 0, 0, 0, 0,
-		 sprite->width, sprite->height);
-
-  g_object_unref(mask_image);
-  g_object_unref(pixmap_image);
-}
-
-/***************************************************************************
   Scales a sprite. If the sprite contains a mask, the mask is scaled
-  as as well. The algorithm produces rather fast but beautiful
-  results.
+  as as well.
 ***************************************************************************/
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
 {
-  SPRITE *dst = ctor_sprite_mask(NULL, NULL, new_w, new_h);
-  GdkImage *xi_src, *xi_dst, *xb_src;
-  guint32 pixel;
-  int xoffset_table[4096];
-  int x, xoffset, xadd, xremsum, xremadd;
-  int y, yoffset, yadd, yremsum, yremadd;
+  GdkPixbuf *original, *im;
+  SPRITE    *mysprite;
 
-  xi_src = gdk_drawable_get_image(src->pixmap, 0, 0, src->width, src->height);
+  original = gdk_pixbuf_new_from_sprite(src);
+  im = gdk_pixbuf_scale_simple(original, new_w, new_h, GDK_INTERP_BILINEAR);
+  g_object_unref(original);
 
-  xi_dst = gdk_image_new(GDK_IMAGE_FASTEST,
-			 gdk_drawable_get_visual(root_window), new_w, new_h);
+  mysprite=fc_malloc(sizeof(struct Sprite));
 
-  /* for each pixel in dst, calculate pixel offset in src */
-  xadd = src->width / new_w;
-  xremadd = src->width % new_w;
-  xoffset = 0;
-  xremsum = new_w / 2;
+  gdk_pixbuf_render_pixmap_and_mask(im, &mysprite->pixmap, &mysprite->mask, 1);
 
-  for (x = 0; x < new_w; x++) {
-    xoffset_table[x] = xoffset;
-    xoffset += xadd;
-    xremsum += xremadd;
-    if (xremsum >= new_w) {
-      xremsum -= new_w;
-      xoffset++;
-    }
-  }
+  mysprite->has_mask  = (mysprite->mask != NULL);
+  mysprite->width     = new_w;
+  mysprite->height    = new_h;
 
-  yadd = src->height / new_h;
-  yremadd = src->height % new_h;
-  yoffset = 0;
-  yremsum = new_h / 2;
+  mysprite->pixbuf    = NULL;
 
-  if (src->has_mask) {
-    xb_src = gdk_drawable_get_image(src->mask, 0, 0, src->width, src->height);
+  g_object_unref(im);
 
-    dst->mask = gdk_pixmap_new(root_window, new_w, new_h, 1);
-    gdk_draw_rectangle(dst->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
-
-    for (y = 0; y < new_h; y++) {
-      for (x = 0; x < new_w; x++) {
-	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
-	gdk_image_put_pixel(xi_dst, x, y, pixel);
-
-	if (gdk_image_get_pixel(xb_src, xoffset_table[x], yoffset) != 0) {
-	  gdk_draw_point(dst->mask, mask_fg_gc, x, y);
-	}
-      }
-
-      yoffset += yadd;
-      yremsum += yremadd;
-      if (yremsum >= new_h) {
-	yremsum -= new_h;
-	yoffset++;
-      }
-    }
-
-    g_object_unref(xb_src);
-  } else {
-    for (y = 0; y < new_h; y++) {
-      for (x = 0; x < new_w; x++) {
-	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
-	gdk_image_put_pixel(xi_dst, x, y, pixel);
-      }
-
-      yoffset += yadd;
-      yremsum += yremadd;
-      if (yremsum >= new_h) {
-	yremsum -= new_h;
-	yoffset++;
-      }
-    }
-  }
-
-  dst->pixmap = gdk_pixmap_new(root_window, new_w, new_h, -1);
-  gdk_draw_image(dst->pixmap, civ_gc, xi_dst, 0, 0, 0, 0, new_w, new_h);
-  g_object_unref(xi_src);
-  g_object_unref(xi_dst);
-
-  dst->has_mask = src->has_mask;
-  return dst;
+  return mysprite;
 }
 
 /***************************************************************************
