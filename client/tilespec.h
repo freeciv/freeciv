@@ -83,7 +83,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
 		      struct unit *punit, struct city *pcity,
 		      bool citymode);
 
-enum color_std player_color(struct player *pplayer);
+enum color_std player_color(const struct player *pplayer);
 enum color_std overview_tile_color(struct tile *ptile);
 
 void set_focus_unit_hidden_state(bool hide);

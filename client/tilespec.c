@@ -2938,7 +2938,7 @@ void tilespec_free_city_tiles(int count)
   A hack added to avoid returning more that COLOR_STD_RACE13.
   But really there should be more colors available -- jk.
 ***********************************************************************/
-enum color_std player_color(struct player *pplayer)
+enum color_std player_color(const struct player *pplayer)
 {
   return COLOR_STD_RACE0 +
     (pplayer->player_no %
