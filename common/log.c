@@ -177,16 +177,16 @@ struct logdebug_afile_info logdebug_update(const char *file)
   struct logdebug_afile_info ret;
   int i;
 
-  ret.this = 1;
+  ret.tthis = 1;
   ret.min = 0;
   ret.max = 0;
   if (logd_num_files==0) {
     return ret;
   }
-  ret.this = 0;
+  ret.tthis = 0;
   for (i = 0; i < logd_num_files; i++) {
     if((strstr(file, logd_files[i].name) != NULL)) {
-      ret.this = 1;
+      ret.tthis = 1;
       ret.min = logd_files[i].min;
       ret.max = logd_files[i].max;
       return ret;

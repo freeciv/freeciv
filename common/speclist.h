@@ -74,13 +74,13 @@ SPECLIST_LIST {
   struct genlist list;
 };
 
-void SPECLIST_FOO(_list_init) (SPECLIST_LIST *this);
-int  SPECLIST_FOO(_list_size) (SPECLIST_LIST *this);
-SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *this, int index);
-void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *this);
+void SPECLIST_FOO(_list_init) (SPECLIST_LIST *This);
+int  SPECLIST_FOO(_list_size) (SPECLIST_LIST *This);
+SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *This, int index);
+void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
+void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
+void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
+void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *This);
 
 #undef SPECLIST_TAG
 #undef SPECLIST_TYPE

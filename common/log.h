@@ -28,7 +28,7 @@
    and if so for which lines (min,max) :
 */
 struct logdebug_afile_info {
-  int this;
+  int tthis;
   int min;
   int max;
 };
@@ -70,7 +70,7 @@ static int logdebug_check(const char *file, int line)
     logdebug_thisfile = logdebug_update(file);
     logdebug_this_init = logd_init_counter;
   } 
-  return (logdebug_thisfile.this  && (logdebug_thisfile.max==0 
+  return (logdebug_thisfile.tthis && (logdebug_thisfile.max==0 
 				      || (line >= logdebug_thisfile.min 
 					  && line <= logdebug_thisfile.max))); 
 }
