@@ -106,6 +106,11 @@ enum cell_type {
 
 #define MAX_NUM_LAYERS 2
 
+/* Create the sprite_vector type. */
+#define SPECVEC_TAG sprite
+#define SPECVEC_TYPE struct Sprite *
+#include "specvec.h"
+
 struct terrain_drawing_data {
   char *name;
   char *mine_tag;
@@ -120,7 +125,7 @@ struct terrain_drawing_data {
 
     enum cell_type cell_type;
 
-    struct Sprite *base;
+    struct sprite_vector base;
     struct Sprite *match[MAX_INDEX_CARDINAL];
     struct Sprite **cells;
   } layer[MAX_NUM_LAYERS];

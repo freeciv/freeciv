@@ -25,25 +25,25 @@ tiles = { "row", "column","tag"
 
 ; terrain
   0,    0,  "t.desert1"
-  0,    1,  "t.desert2"
+;  0,    1,  "t.desert2"
 
   1,    0,  "t.plains1"
-  1,    1,  "t.plains2"
+;  1,    1,  "t.plains2"
 
   2,    0,  "t.grassland1"
-  2,    1, "t.grassland2"
+;  2,    1, "t.grassland2"
 
   2,	0, "t.t_river1"
-  2,	1, "t.t_river2"
+;  2,	1, "t.t_river2"
 
   3,    0, "t.forest1"
-  3,    1, "t.forest2"
+;  3,    1, "t.forest2"
 
   4,    0, "t.hills1"
-  4,    1, "t.hills2"
+;  4,    1, "t.hills2"
 
   5,    0, "t.mountains1"
-  5,    1, "t.mountains2"
+;  5,    1, "t.mountains2"
 
   6,    0, "t.tundra1"
 

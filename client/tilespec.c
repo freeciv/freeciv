@@ -1610,12 +1610,27 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
 
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
+    sprite_vector_init(&draw->layer[l].base);
+    sprite_vector_reserve(&draw->layer[l].base, 1);
     if (draw->layer[l].match_style == MATCH_NONE) {
       /* Load single sprite for this terrain. */
-      my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
-      draw->layer[l].base = lookup_sprite_tag_alt(buffer1, "", TRUE,
-						  "tile_type",
-						  tt->terrain_name);
+      for (i = 0; ; i++) {
+	struct Sprite *sprite;
+
+	my_snprintf(buffer1, sizeof(buffer1), "t.%s%d", draw->name, i + 1);
+	sprite = load_sprite(buffer1);
+	if (!sprite) {
+	  break;
+	}
+	sprite_vector_reserve(&draw->layer[l].base, i + 1);
+	draw->layer[l].base.p[i] = sprite;
+      }
+      if (i == 0) {
+	/* TRANS: obscure tileset error. */
+	freelog(LOG_FATAL, _("Missing base sprite tag \"%s1\"."),
+		draw->name);
+	exit(EXIT_FAILURE);
+      }
     } else {
       switch (draw->layer[l].cell_type) {
       case CELL_SINGLE:
@@ -1627,7 +1642,7 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
 							  "tile_type",
 							  tt->terrain_name);
 	}
-	draw->layer[l].base = draw->layer[l].match[0];
+	draw->layer[l].base.p[0] = draw->layer[l].match[0];
 	break;
       case CELL_RECT:
 	{
@@ -1728,7 +1743,7 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
 	  }
 	}
 	my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
-	draw->layer[l].base
+	draw->layer[l].base.p[0]
 	  = lookup_sprite_tag_alt(buffer1, "", FALSE, "tile_type",
 				  tt->terrain_name);
 	break;
@@ -1745,7 +1760,8 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
     enum direction4 dir;
 
     for (dir = 0; dir < 4; dir++) {
-      draw->blend[dir] = crop_sprite(draw->layer[0].base,
+      assert(sprite_vector_size(&draw->layer[0].base) > 0);
+      draw->blend[dir] = crop_sprite(draw->layer[0].base.p[0],
 				     offsets[dir][0], offsets[dir][1],
 				     W / 2, H / 2,
 				     sprites.dither_tile, 0, 0);
@@ -2427,7 +2443,18 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 
   for (l = 0; l < draw->num_layers; l++) {
     if (draw->layer[l].match_style == MATCH_NONE) {
-      ADD_SPRITE_SIMPLE(draw->layer[l].base);
+      int count = sprite_vector_size(&draw->layer[l].base);
+
+      /* Pseudo-random reproducable algorithm to pick a sprite. */
+#define LARGE_PRIME 10007
+#define SMALL_PRIME 1009
+      assert(count < SMALL_PRIME);
+      assert((int)(LARGE_PRIME * MAX_MAP_INDEX) > 0);
+      count = ((map_pos_to_index(map_x, map_y)
+		* LARGE_PRIME) % SMALL_PRIME) % count;
+      ADD_SPRITE(draw->layer[l].base.p[count],
+		 draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
+		 TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
     } else {
       int match_type = draw->layer[l].match_type;
 
