@@ -1848,7 +1848,7 @@ void buy_callback(GtkWidget *w, gpointer data)
 
     pdialog->buy_shell=
     popup_message_dialog(pdialog->shell, /*"buynodialog"*/ _("Buy It!"), buf,
-			 _("Darn"), buy_callback_no, 0, 0);
+			 _("Darn"), buy_callback_no, pdialog, 0);
   }
 
   gtk_signal_connect(GTK_OBJECT(pdialog->buy_shell), "delete_event",
