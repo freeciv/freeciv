@@ -36,7 +36,7 @@ contributions to the Freeciv project.
      Andreas Kemnade <akemnade@informatik.uni-bremen.de> (Win32 client
 	maintainer, fixes)
      Ben Webb <ben@bellatrix.pcl.ox.ac.uk> (fixes)
-     Christian Knoke <chrisk@enter.de> (fixes)
+     Christian Knoke <chrisk@cknoke.de> (fixes)
      Daniel L Speyer <dspeyer@wam.umd.edu> (history ruleset, nation dialog)
      Davide Pagnin <nightmare@freeciv.it> (co-admin, 64bit fixes, civ2 
 	compatibility, fixes)
@@ -195,7 +195,7 @@ contributions to the Freeciv project.
      Michael Zinn <michaelz@cse.unsw.edu.au> (patch)
      Robert Alan Byer <byer@chef.ourservers.net> (vms update)
      Daniel Speyer <dspeyer@users.sourceforge.net> (patches)
-     Christian Knoke <chrisk@enter.de> (patch)
+     Christian Knoke <chrisk@cknoke.de> (patch)
      Andrew Pimlott <andrew@pimlott.ne.mediaone.net> (patch)
      Michael Stefaniuc <mstefani@redhat.de> (patch)
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il> (patch)
@@ -557,7 +557,7 @@ contributions to the Freeciv project.
 
      Alex Volkov <volkoff@usa.net>
      Chris M <CBM2004@www.com>
-     Christian Knoke <chrisk@enter.de>
+     Christian Knoke <chrisk@cknoke.de>
      Daniel Herding <DHerding@gmx.de>
      Egbert Hinzen <egbert@hinzen-koeln.de>
      Gianmario Scotti <gianmario.scotti@nokia.com>
@@ -614,7 +614,7 @@ contributions to the Freeciv project.
      Fabien Seisen <seisen@linuxfr.org>
      Andreas Kemnade <akemnade@informatik.uni-bremen.de>
      Matthias Wolle <ma_wo@gmx.de>
-     Christian Knoke <ChrisK@enter.de> (lots!)
+     Christian Knoke <chrisk@cknoke.de> (lots!)
      Richard Stallman <rms@gnu.org>
      Elke Moritz <moritz@unix-ag.uni-kl.de>
      Alexander Wilkins <awilkins@stanford.edu>
@@ -626,7 +626,7 @@ contributions to the Freeciv project.
 
   Bug reports since 1.11.4 release:
 
-     Christian Knoke <chrisk@enter.de>
+     Christian Knoke <chrisk@cknoke.de>
      Jan Heidefuss <jan_heidefuss@yahoo.de>
      Paul Zastoupil <paulz@dunedain.net>
      Mark Saward <mark_saward@unite.com.au>
@@ -689,7 +689,7 @@ contributions to the Freeciv project.
      Jan Heidefuss <jan_heidefuss@yahoo.de> (1.11.4, 1.10.0)
      Mark Polo <mark@zenit.org> (1.11.4)
      Martin Manns <mmanns@gmx.net> (1.11.4)
-     Christian Knoke <chrisk@enter.de> (1.11.4, 1.10.0)
+     Christian Knoke <chrisk@cknoke.de> (1.11.4, 1.10.0)
      Jeff Mallatt <jjm@codewell.com> (1.11.4)
      Alex Davidoff <aldave@tirastel.md> (1.11.4, 1.10.0)
 
@@ -807,7 +807,7 @@ contributions to the Freeciv project.
 
   Localization (l10n) since 1.13.0 release:
 
-     Christian Knoke <chrisk@enter.de> (NEWS.de, de.po)
+     Christian Knoke <chrisk@cknoke.de> (NEWS.de, de.po)
      Daniel Herding <DHerding@gmx.de> (de.po)
      Egbert Hinzen <egbert@hinzen-koeln.de> (de.po)
      Jens Georg <mail@jensgeorg.de> (INSTALL.de, de.po)
@@ -843,7 +843,7 @@ contributions to the Freeciv project.
      Dmitriy Genzel <dg@cs.brown.edu> (ru.po)
      Paolo Sammicheli <xdatap1@siena.linux.it> (it.po)
      Keld Jørn Simonsen <keld@dkuug.dk> (dk.po)
-     Christian Knoke <ChrisK@enter.de> (de.po)
+     Christian Knoke <chrisk@cknoke.de> (de.po)
      Mattias Andersson <tamasis@softhome.net> (sv.po)
      Geneviève Gracian, Benoit Timbert and Loic Vigneras (fr.po)
      Andrei Darashenka, Valek Filippov and Egor Vyscrebentsov (ru.po)
@@ -871,7 +871,7 @@ contributions to the Freeciv project.
      Paolo Sammicheli <xdatap1@supereva.it> (INSTALL.it, README.it)
      Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de> (de.po)
      Gábor Dukai <dukai@EUnet.yu> (hu.po)
-     Christian Knoke <ChrisK@enter.de> (NEWS.de, de.po)
+     Christian Knoke <chrisk@cknoke.de> (NEWS.de, de.po)
      Michael Stefaniuc <mstefani@redhat.de> (ro.po)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (pt.po)
      Stig Erik Sandoe <stig@ii.uib.no> (no.po)
@@ -888,7 +888,7 @@ contributions to the Freeciv project.
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
 	(pt.po 1.11.0, 1.10.0, 1.9.0)
      Tomasz Wegrzanowski <maniek@beer.com> (pl.po 1.11.0)
-     Christian Knoke <chrisk@enter.de> (de.po 1.11.4, 1.11.0)
+     Christian Knoke <chrisk@cknoke.de> (de.po 1.11.4, 1.11.0)
      Frank Osterfeld <fraos@gmx.de> (de.po 1.11.0)
      Jens Georg <mail@jensgeorg.de> (INSTALL.de 1.11.0, 1.10.0)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po 1.11.4, 1.11.0)
@@ -1002,7 +1002,7 @@ contributions to the Freeciv project.
      Heikki Pernu <Heikki.Pernu@hut.fi> (xcivclient)
      David Pfitzner <dwp@mso.anu.edu.au> (TechTree)
      Wong Teck Meng <lookmeow@magix.com.sg> (CivLog)
-     Christian Knoke <ChrisK@enter.de> (CivGo)
+     Christian Knoke <chrisk@cknoke.de> (CivGo)
      Andreas Kemnade <akemnade@informatik.uni-bremen.de> (WinCivGo)
      Daniel Glassey <danglassey@geocities.com> (Windows - Gtk+)
      Justin Hopkins <hop@elwood.pionet.net> (Windows - native)
