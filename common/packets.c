@@ -3192,32 +3192,47 @@ void connection_do_unbuffer(struct connection *pc)
   write wrapper function -vasc
 ********************************************************************/
 static int write_socket_data(struct connection *pc,
-			     unsigned char *data, int *len)
+			     struct socket_packet_buffer *buf)
 {
   int start, nput, nblock;
 
-  for (start=0; start<*len;) {
-    nblock=MIN(*len-start, 2048);
-    if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
-#ifdef NONBLOCKING_SOCKETS
-      if (errno == EWOULDBLOCK || errno == EAGAIN) {
-	freelog(LOG_DEBUG, "EGAIN on socket write");
-	continue;
-      }
-#endif
-      freelog(LOG_DEBUG, "failed writing to socket: %s", mystrerror(errno));
-      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, *len);
+  for (start=0; start<buf->ndata;) {
+    fd_set writefs;
+    struct timeval tv;
 
-      memmove(data, data+start, *len-start);
-      *len-=start;
+#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
+
+    MY_FD_ZERO(&writefs);
+    FD_SET(pc->sock, &writefs);
+
+    tv.tv_sec = 2; tv.tv_usec = 0;
+
+    if (select(pc->sock+1, NULL, &writefs, NULL, &tv) <= 0) {
+      buf->ndata -= start;
+      memmove(buf->data, buf->data+start, buf->ndata);
       return -1;
     }
-    start += nput;
+
+    if (FD_ISSET(pc->sock, &writefs)) {
+      nblock=MIN(buf->ndata-start, 4096);
+      if((nput=write(pc->sock, (const char *)buf->data+start, nblock)) == -1) {
+#ifdef NONBLOCKING_SOCKETS
+	if (errno == EWOULDBLOCK || errno == EAGAIN) {
+	  continue;
+	}
+#endif
+	buf->ndata -= start;
+	memmove(buf->data, buf->data+start, buf->ndata);
+	return -1;
+      }
+      start += nput;
+    }
   }
 
-  *len=0;
+  buf->ndata=0;
   return 0;
 }
+
 
 /********************************************************************
   flush'em
@@ -3226,11 +3241,23 @@ void flush_connection_send_buffer(struct connection *pc)
 {
   if(pc) {
     if(pc->send_buffer.ndata) {
-      write_socket_data(pc, pc->send_buffer.data, &pc->send_buffer.ndata);
+      write_socket_data(pc, &pc->send_buffer);
     }
   }
 }
 
+/********************************************************************
+...
+********************************************************************/
+int add_connection_data(struct connection *pc, unsigned char *data, int len)
+{
+  if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
+    memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
+    pc->send_buffer.ndata+=len;
+    return 1;
+  }
+  return 0;
+}
 
 /********************************************************************
   write data to socket
@@ -3239,24 +3266,19 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if(pc) {
     if(pc->send_buffer.do_buffer_sends) {
-      if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more?*/
-	memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
-	pc->send_buffer.ndata+=len;
-      }
-      else {
-        /* ok, we don't have enough space, let's try emptying the send buffer */
+      if (!add_connection_data(pc, data, len)) {
 	flush_connection_send_buffer(pc);
-        if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more?*/
-	  memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
-	  pc->send_buffer.ndata+=len;
-	} else {
-          freelog(LOG_NORMAL, "fatal error!, send_buffer overrun");
+	if (!add_connection_data(pc, data, len)) {
+	  freelog(LOG_DEBUG, "send buffer filled, packet discarded");
 	}
       }
     }
     else {
-      if (write_socket_data(pc, data, &len) == -1)
-        return -1;
+      flush_connection_send_buffer(pc);
+      if (!add_connection_data(pc, data, len)) {
+	freelog(LOG_DEBUG, "send buffer filled, packet discarded");
+      }
+      flush_connection_send_buffer(pc);
     }
   }
   return 0;
