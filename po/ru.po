@@ -175,10 +175,9 @@ msgstr "Безупречная"
 msgid "Excellent"
 msgstr "Отличная"
 
-#  Can't find a good translation...
 #: common/player.c:543
 msgid "Honorable"
-msgstr "Неплохая"
+msgstr "Достойная"
 
 #: common/player.c:545
 msgid "Questionable"
@@ -537,7 +536,7 @@ msgstr "Игра: %s начали строить чудо %s в %s."
 #: ai/aicity.c:614
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
-msgstr "Игра: %s продают %s (ненужные) за %d"
+msgstr "Игра: %s продают %s (не нужны) за %d."
 
 #: ai/advdiplomacy.c:219
 #, c-format
@@ -796,9 +795,9 @@ msgid "Game: Transfered %s from %s to %s."
 msgstr "Игра: Переведено %s от %s к %s."
 
 #: server/citytools.c:675
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost along with control of %s."
-msgstr "Игра: Вы потеряли %s в результате атаки %s %s."
+msgstr "Игра: Вы потеряли %s вместе с контролем над городом %s."
 
 #: server/citytools.c:794
 #, c-format
@@ -1272,7 +1271,7 @@ msgstr "Не можем присоединить вас к новому игроку."
 #: server/connecthand.c:149
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr "Вы подсоединены как \"%s\", не подключенный ни к каким игрокам."
+msgstr "Вы подсоединены как \"%s\", не подключенный ни к какому игроку."
 
 #: server/connecthand.c:152
 #, c-format
@@ -1310,9 +1309,8 @@ msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Предупреждение: имя гостя \"%s\" используется кем-то другим, переименовываем в \"%s\"."
 
 #: server/connecthand.c:242
-#, fuzzy
 msgid "Guests are not allowed on this server."
-msgstr "Вам не позволено изменять этот параметр."
+msgstr "Гости не разрешены на этом сервере."
 
 #: server/connecthand.c:251
 #, c-format
@@ -1365,25 +1363,32 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
+"При чтении базы данных пользователей произошла ошибка, регистрируемся как "
+"гостевое подключение '%s'."
 
 #: server/connecthand.c:326
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
+"При чтении базы данных пользователей произошла ошибка, а гостевые "
+"регистрации не разрешены. Извините"
 
 #: server/connecthand.c:334
 #, c-format
 msgid "Enter password for %s:"
-msgstr ""
+msgstr "Введите пароль для %s:"
 
 #: server/connecthand.c:342
 msgid "Enter a password (and remember it)."
-msgstr ""
+msgstr "Введите пароль (и запомните его)."
 
 #: server/connecthand.c:346
+#, fuzzy
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
+"На этом сервере разрешены только уже зарегистрированные пользователи. "
+"Извините."
 
 #: server/connecthand.c:361
 #, c-format
@@ -1400,11 +1405,11 @@ msgstr ""
 
 #: server/connecthand.c:389 server/connecthand.c:415
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "Извините, слишком много неверных попыток..."
 
 #: server/connecthand.c:396
 msgid "Your password is incorrect. Try again."
-msgstr ""
+msgstr "Ваш пароль неверен. Попробуйте еще раз."
 
 #: server/connecthand.c:434
 msgid ""
@@ -1416,6 +1421,7 @@ msgstr ""
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
+"Ваш пароль слишком короткий, минимальная длина - %d. Попробуйте еще раз."
 
 #: server/connecthand.c:524
 #, c-format
@@ -1423,6 +1429,8 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
+"Пароль должен содержать по крайней мере %d заглавные буквы, %d цифры и быть "
+"длиной не менее %d [читабельных] символов. Попробуйте еще раз."
 
 #: server/connecthand.c:569
 #, c-format
@@ -1447,9 +1455,9 @@ msgid "For introductory help, type 'help'."
 msgstr "Для вводной помощи напишите 'help'."
 
 #: server/diplhand.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s can't accept %s."
-msgstr "Игра: %s изучили %s."
+msgstr "Игра: %s не могут принять %s."
 
 #: server/diplhand.c:171
 #, c-format
@@ -1934,7 +1942,7 @@ msgstr "Игра: %s - неоднозначное начало имени подсоединения."
 #: server/handchat.c:73
 #, fuzzy, c-format
 msgid "Game: %s is an anonymous name. Use connection name"
-msgstr "Игра: %s - неоднозначное начало имени подсоединения."
+msgstr "Игра: %s - аноним. Используйте имя подсоединения."
 
 #: server/handchat.c:197
 #, c-format
@@ -2555,8 +2563,8 @@ msgstr "-ый"
 #: server/report.c:688
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
-"Строка демографии содержит неправильные символы. Попробуйте \"help demography"
-"\"."
+"Строка демографии содержит неправильные символы. Попробуйте \"help "
+"demography\"."
 
 #: server/report.c:728 server/report.c:746
 msgid "Demographics Report:"
@@ -2635,7 +2643,7 @@ msgstr ""
 #: server/ruleset.c:1499
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr ""
+msgstr "Рельеф %s имеет неизвестный флаг %s"
 
 #: server/ruleset.c:2871
 msgid "Loading rulesets"
@@ -2677,6 +2685,8 @@ msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr ""
+"Обнаружена неверная структура альянса: союз между игроками %s и %s сокращен "
+"до мирного договора."
 
 #: server/savegame.c:1858
 msgid "Savegame too old, at least version 1.9.0 required."
@@ -3451,7 +3461,7 @@ msgstr ""
 
 #: server/stdinhand.c:562
 msgid "National border's radius"
-msgstr ""
+msgstr "Радиус государственных границ"
 
 #: server/stdinhand.c:563
 msgid ""
@@ -3459,6 +3469,9 @@ msgid ""
 "borders placed on the loci between cities, with the maximum distance from "
 "any city specified."
 msgstr ""
+"Если установленное значение больше 0, нации будут владеть территорией, "
+"очерченной границами, размещенными на позициях между городами с заданным "
+"максимальным расстоянием от любого города."
 
 #: server/stdinhand.c:569
 msgid "The ability to do diplomacy with other players"
@@ -4190,9 +4203,8 @@ msgstr ""
 
 #. TRANS: translate text between [] and <> only
 #: server/stdinhand.c:1190
-#, fuzzy
 msgid "observe [connection-name] <player-name>"
-msgstr "take [имя-подсоединения] <имя-игрока>"
+msgstr "observe [имя-подсоединения] <имя-игрока>"
 
 #: server/stdinhand.c:1191
 #, fuzzy
@@ -4212,9 +4224,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1198
-#, fuzzy
 msgid "detach <connection-name>"
-msgstr "cut <имя-соединения>"
+msgstr "detach <имя-соединения>"
 
 #: server/stdinhand.c:1199
 msgid "detach from a player."
@@ -5147,7 +5158,6 @@ msgid "Option: '%s' may now be modified after the game has started."
 msgstr "Параметр: '%s' может быть изменен после запуска игры."
 
 #: server/stdinhand.c:3254
-#, fuzzy
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за варварами."
 
@@ -5157,7 +5167,6 @@ msgid "Sorry, one can't take barbarians in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за варварами."
 
 #: server/stdinhand.c:3265
-#, fuzzy
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за погибшими игроками."
 
@@ -5167,7 +5176,6 @@ msgid "Sorry, one can't take dead players in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за погибшими игроками."
 
 #: server/stdinhand.c:3276
-#, fuzzy
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми "
@@ -5210,12 +5218,12 @@ msgstr "Извините, больше не принимаем новых игроков."
 #: server/stdinhand.c:3344 server/stdinhand.c:3359
 #, fuzzy
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr "Использование: take [имя-подсоединения] <имя-игрока>"
+msgstr "Использование: observe [имя-подсоединения] <имя-игрока>"
 
 #: server/stdinhand.c:3350
 #, fuzzy
 msgid "Usage: observe [player-name]"
-msgstr "Использование: take <имя-игрока>"
+msgstr "Использование: observe <имя-игрока>"
 
 #: server/stdinhand.c:3409
 #, fuzzy, c-format
@@ -5513,7 +5521,7 @@ msgid ""
 "characters.  Try \"help allowtake\"."
 msgstr ""
 "Строка разрешенных соединений содержит неправильные\n"
-"символы. Попробуйте \"help allowconnect\"."
+"символы. Попробуйте \"help allowtake\"."
 
 #: server/unithand.c:165
 #, c-format
@@ -12535,12 +12543,12 @@ msgstr "Военный отчет"
 
 #: client/gui-mui/repodlgs.c:911 client/gui-sdl/repodlgs.c:3258
 #: client/gui-win32/repodlgs.c:754 client/gui-xaw/repodlgs.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] "%2d: %s %s набрали %d очко\n"
-msgstr[1] "%2d: %s %s набрали %d очка\n"
-msgstr[2] "%2d: %s %s набрали %d очков\n"
+msgstr[0] "%2d: %s, которыми правит %s, набрали %d очко\n"
+msgstr[1] "%2d: %s, которыми правит %s, набрали %d очка\n"
+msgstr[2] "%2d: %s, которыми правит %s, набрали %d очков\n"
 
 #: client/gui-mui/repodlgs.c:919 client/gui-sdl/repodlgs.c:3266
 #: client/gui-win32/repodlgs.c:762 client/gui-xaw/repodlgs.c:1170
@@ -12870,10 +12878,11 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:2496 client/gui-sdl/wldlg.c:981
 #: client/gui-sdl/wldlg.c:1164 client/gui-sdl/wldlg.c:1428
 #: client/gui-sdl/wldlg.c:1433 client/gui-sdl/wldlg.c:1542
-#, fuzzy
 msgid "turn"
 msgid_plural "turns"
-msgstr[0] "%d/ход"
+msgstr[0] "ход"
+msgstr[1] "хода"
+msgstr[2] "ходов"
 
 #: client/gui-sdl/citydlg.c:3025
 #, fuzzy, c-format
@@ -12972,16 +12981,16 @@ msgid "Maintenance Report"
 msgstr "Научный отчет"
 
 #: client/gui-sdl/cityrep.c:508 client/gui-sdl/cityrep.c:1033
-#, fuzzy
 msgid "worklist"
-msgstr "(список работ)"
+msgstr "список работ"
 
 #: client/gui-sdl/cityrep.c:512
-#, fuzzy
 msgid ""
 "\n"
 "finshed"
-msgstr "фиксированный"
+msgstr ""
+"\n"
+"завершен"
 
 #: client/gui-sdl/cma_fe.c:827
 #, c-format
@@ -13065,23 +13074,20 @@ msgid "SDLClient welcomes you..."
 msgstr ""
 
 #: client/gui-sdl/connectdlg.c:1073
-#, fuzzy
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv является бесплатным продуктом и вы имеете право распространять его "
-"копии\n"
-"при определенных условиях; смотрите пункт \"Копирование\" в меню Справка\n"
-"А теперь... Пусть всем чертям станет тошно!"
+"Freeciv является бесплатным продуктом и Вы имеете право распространять его "
+"копии при определенных условиях;"
 
 #: client/gui-sdl/connectdlg.c:1076
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Смотрите пункт \"Копирование\" в меню Справка."
 
 #: client/gui-sdl/connectdlg.c:1078
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "А теперь... Пусть всем чертям станет тошно!"
 
 #: client/gui-sdl/dialogs.c:664
 #, c-format
