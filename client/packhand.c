@@ -319,7 +319,7 @@ void handle_city_info(struct packet_city_info *packet)
   int i, x, y;
   bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
-  bool popup;
+  bool popup, update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
@@ -334,10 +334,9 @@ void handle_city_info(struct packet_city_info *packet)
     pcity=fc_malloc(sizeof(struct city));
     pcity->id=packet->id;
     idex_register_city(pcity);
+    update_descriptions = TRUE;
   }
   else {
-    bool update_descriptions = FALSE;
-
     city_is_new = FALSE;
 
     /* Check if city desciptions should be updated */
@@ -356,15 +355,17 @@ void handle_city_info(struct packet_city_info *packet)
 	 is likely to have changed as well. */
       update_descriptions = TRUE;
     }
-
-    /* update the descriptions if necessary */
-    if (update_descriptions && tile_visible_mapcanvas(packet->x, packet->y)) {
-      queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
-    }
-
     assert(pcity->id == packet->id);
   }
   
+  /* Update the descriptions if necessary.  We only draw the description
+   * if the *city* is visible on the mapview, which is a bit inaccurate -
+   * it's possible the city is off the mapview but the description is
+   * visible.  See all show_city_descriptions(). */
+  if (update_descriptions && tile_visible_mapcanvas(packet->x, packet->y)) {
+    queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
+  }
+
   pcity->owner=packet->owner;
   pcity->x=packet->x;
   pcity->y=packet->y;
