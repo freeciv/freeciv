@@ -31,7 +31,6 @@ Unit_Type_id ai_choose_defender(struct city *pcity);
 int ai_make_elvis(struct city *pcity);
 void ai_scientists_taxmen(struct city *pcity);
 bool ai_fix_unhappy(struct city *pcity);
-void emergency_reallocate_workers(struct player *pplayer, struct city *pcity);
 
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
 /* These are not used (well, except AICITY_NONE)  --dwp */

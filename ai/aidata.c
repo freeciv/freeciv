@@ -253,8 +253,13 @@ void ai_data_turn_init(struct player *pplayer)
    * are all WAGs. */
   ai->food_priority = FOOD_WEIGHTING;
   ai->shield_priority = SHIELD_WEIGHTING;
-  ai->luxury_priority = 1;
-  ai->science_priority = TRADE_WEIGHTING;
+  if (ai_wants_no_science(pplayer)) {
+    ai->luxury_priority = TRADE_WEIGHTING;
+    ai->science_priority = 1;
+  } else {
+    ai->luxury_priority = 1;
+    ai->science_priority = TRADE_WEIGHTING;
+  }
   ai->gold_priority = TRADE_WEIGHTING;
   ai->happy_priority = 1;
   ai->unhappy_priority = TRADE_WEIGHTING; /* danger */

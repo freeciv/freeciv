@@ -55,6 +55,11 @@
 
 #include "aicity.h"
 
+#define CITY_EMERGENCY(pcity)                        \
+ (pcity->shield_surplus < 0 || city_unhappy(pcity)   \
+  || pcity->food_stock + pcity->food_surplus < 0)    \
+
+static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 static void ai_manage_city(struct player *pplayer, struct city *pcity);
 
 /**************************************************************************
@@ -509,6 +514,10 @@ void ai_manage_cities(struct player *pplayer)
   pplayer->ai.maxbuycost = 0;
 
   city_list_iterate(pplayer->cities, pcity)
+    if (CITY_EMERGENCY(pcity)) {
+      /* Fix critical shortages or unhappiness */
+      resolve_city_emergency(pplayer, pcity);
+    }
     ai_manage_city(pplayer, pcity);
   city_list_iterate_end;
 
@@ -896,17 +905,16 @@ bool ai_fix_unhappy(struct city *pcity)
   Syela is wrong. It happens quite too often, mostly due to unhappiness.
   Also, most of the time we are unable to resolve the situation. 
 **************************************************************************/
-void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
+static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 #define LOG_EMERGENCY LOG_DEBUG
-{ 
+{
   struct city_list minilist;
-  char report[500];
 
-  my_snprintf(report, sizeof(report),
-              "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
-              pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
-              pcity->ppl_angry[4], pcity->ppl_unhappy[4],
-              pcity->food_surplus, pcity->shield_surplus);
+  freelog(LOG_EMERGENCY,
+          "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
+          pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
+          pcity->ppl_angry[4], pcity->ppl_unhappy[4],
+          pcity->food_surplus, pcity->shield_surplus);
 
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
@@ -934,9 +942,9 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE)) {
     ai_scientists_taxmen(pcity);
   }
-  if (pcity->shield_surplus >= 0 && !city_unhappy(pcity)
-      && pcity->food_stock + pcity->food_surplus >= 0) {
-    freelog(LOG_EMERGENCY, "%s resolved without disbanding", report);
+
+  if (!CITY_EMERGENCY(pcity)) {
+    freelog(LOG_EMERGENCY, "Emergency in %s resolved", pcity->name);
     goto cleanup;
   }
 
@@ -955,11 +963,12 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     }
   } unit_list_iterate_end;
 
-  if (pcity->shield_surplus >= 0 && !city_unhappy(pcity)
-      && pcity->food_stock + pcity->food_surplus >= 0) {
-    freelog(LOG_EMERGENCY, "%s resolved by disbanding unit(s)", report);
+  if (CITY_EMERGENCY(pcity)) {
+    freelog(LOG_EMERGENCY, "Emergency in %s remains unresolved", 
+            pcity->name);
   } else {
-    freelog(LOG_EMERGENCY, "%s remains unresolved", report);
+    freelog(LOG_EMERGENCY, 
+            "Emergency in %s resolved by disbanding unit(s)", pcity->name);
   }
 
   cleanup:
