@@ -103,9 +103,9 @@ static void populate_worklist_report_list(struct worklist_report_dialog *pdialog
 
 /* Callbacks for the worklist dialog */
 static void worklist_list_callback(GtkWidget *w, gint row, gint column,
-			    GdkEventButton *e, gpointer data);
+				   GdkEvent *ev, gpointer data);
 static void worklist_avail_callback(GtkWidget *w, gint row, gint column,
-			    GdkEventButton *e, gpointer data);
+				    GdkEvent *ev, gpointer data);
 static void insert_into_worklist(struct worklist_dialog *pdialog, 
 				 int before, int id);
 static void worklist_prepend_callback(GtkWidget *w, gpointer data);
@@ -743,11 +743,17 @@ void populate_worklist_report_list(struct worklist_report_dialog *pdialog)
   User selected one of the worklist items
 *****************************************************************/
 void worklist_list_callback(GtkWidget *w, gint row, gint column,
-			    GdkEventButton *e, gpointer data)
+			    GdkEvent *ev, gpointer data)
 {
   GList *selection;
   struct worklist_dialog *pdialog;
-  
+
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
+    /* Double-click to remove item from worklist */
+    worklist_delete_callback(w, data);
+    return;
+  }
+
   pdialog=(struct worklist_dialog *)data;
   
   selection = GTK_CLIST(pdialog->worklist)->selection;
@@ -768,13 +774,19 @@ void worklist_list_callback(GtkWidget *w, gint row, gint column,
   User selected one of the available items
 *****************************************************************/
 void worklist_avail_callback(GtkWidget *w, gint row, gint column,
-			    GdkEventButton *e, gpointer data)
+			    GdkEvent *ev, gpointer data)
 {
   struct worklist_dialog *pdialog;
   GList *selection;
-  
+
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
+    /* Double-click to insert item in worklist */
+    worklist_insert_callback(w, data);
+    return;
+  }
+
   pdialog=(struct worklist_dialog *)data;
-  
+
   selection = GTK_CLIST(pdialog->avail)->selection;
 
   if (! selection) {
