@@ -27,6 +27,7 @@
 #include <proto/exec.h>
 #include <proto/utility.h>
 #include <proto/muimaster.h>
+#include <exec/memory.h>
 
 #include "city.h"
 #include "fcintl.h"
@@ -67,6 +68,14 @@ IMPORT Object *app;
  */
 
 #define NUM_CITYOPT_TOGGLES 5
+
+struct city_prod
+{
+  Object *wnd;
+  struct city *pcity;
+  Object *available_listview;
+  struct Hook available_disphook;
+};
 
 struct city_dialog
 {
@@ -113,12 +122,7 @@ struct city_dialog
   Object *unitlist_button;
   Object *configure_button;
 
-  struct Hook prod_available_disphook;
-  Object *prod_wnd;
-  Object *prod_available_listview;
-  Object *prod_change_button;
-  Object *prod_help_button;
-  Object *prod_cancel_button;
+  struct city_prod prod;
 
   int sell_id;
 
@@ -468,8 +472,7 @@ __asm __saveds static int city_prod_display(register __a0 struct Hook *h, regist
   static char cost[32];
   static char rounds[32];
 
-  struct city_dialog *pdialog = (struct city_dialog *) h->h_Data;
-  struct city *pcity = pdialog->pcity;
+  struct city *pcity = (struct city *) h->h_Data;
 
   if (which)
   {
@@ -520,7 +523,7 @@ __asm __saveds static int city_prod_display(register __a0 struct Hook *h, regist
 
       {
 	/* from city.c get_impr_name_ex() */
-	if (wonder_replacement(pdialog->pcity, which))
+	if (wonder_replacement(pcity, which))
 	{
 	  strcpy(info, "*");
 	}
@@ -532,7 +535,7 @@ __asm __saveds static int city_prod_display(register __a0 struct Hook *h, regist
 	    if (game.global_wonders[which])
 	      strcpy(info, "Built");
 	    if (wonder_obsolete(which))
-	      strcpy(info, "Obsolette");
+	      strcpy(info, "Obsolete");
 	  }
 	}
       }
@@ -579,12 +582,12 @@ __asm __saveds static int city_imprv_display(register __a0 struct Hook *h, regis
     sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which), get_improvement_type(which)->build_cost);
     sprintf(cost, "%d", improvement_upkeep(pdialog->pcity, which));
     *array++ = name;
-    *array++ = cost;
+    *array = cost;
   }
   else
   {
     *array++ = "Type";
-    *array++ = "Upkeep";
+    *array = "Upkeep";
   }
   return 0;
 }
@@ -605,70 +608,7 @@ static int city_close_real(struct city_dialog **ppdialog)
 static int city_close(struct city_dialog **ppdialog)
 {
   set((*ppdialog)->wnd, MUIA_Window_Open, FALSE);
-  set((*ppdialog)->prod_wnd, MUIA_Window_Open, FALSE);
   DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, city_close_real, *ppdialog);
-  return NULL;
-}
-
-/**************************************************************************
- Callback for the Change button in the production window
-**************************************************************************/
-static int city_prod_change(struct city_dialog **ppdialog)
-{
-  struct city_dialog *pdialog = *ppdialog;
-  LONG sel = xget(pdialog->prod_available_listview, MUIA_NList_Active);
-  if (sel >= 0)
-  {
-    LONG which = 0;
-    LONG is_unit = 0;
-
-    DoMethod(pdialog->prod_available_listview, MUIM_NList_GetEntry, sel, &which);
-    if (which >= 10000)
-    {
-      if (which == 20000 || which == 20001)
-	return NULL;
-      which -= 10000;
-      is_unit = 1;
-    }
-    else
-      which--;
-
-    request_city_change_production(pdialog->pcity, which, is_unit);
-    set(pdialog->prod_wnd, MUIA_Window_Open, FALSE);
-  }
-  return NULL;
-}
-
-/**************************************************************************
- Callback for the Help button in the production window
-**************************************************************************/
-static int city_prod_help(struct city_dialog **ppdialog)
-{
-  struct city_dialog *pdialog = *ppdialog;
-  LONG sel = xget(pdialog->prod_available_listview, MUIA_NList_Active);
-  if (sel >= 0)
-  {
-    LONG which = 0;
-
-    DoMethod(pdialog->prod_available_listview, MUIM_NList_GetEntry, sel, &which);
-    if (which >= 10000)
-    {
-      which -= 10000;
-      popup_help_dialog_typed(get_unit_type(which)->name, HELP_UNIT);
-    }
-    else
-    {
-      which--;
-      if (is_wonder(which))
-      {
-	popup_help_dialog_typed(get_improvement_name(which), HELP_WONDER);
-      }
-      else
-      {
-	popup_help_dialog_typed(get_improvement_name(which), HELP_IMPROVEMENT);
-      }
-    }
-  }
   return NULL;
 }
 
@@ -879,60 +819,7 @@ static int city_configure(struct city_dialog **ppdialog)
 **************************************************************************/
 static int city_change(struct city_dialog **ppdialog)
 {
-  int i;
-  int pos = 0;
-  int current = -1;
-  int improv = 0;
-  struct city_dialog *pdialog = *ppdialog;
-  struct city *pcity = pdialog->pcity;
-  set(pdialog->prod_available_listview, MUIA_NList_Quiet, TRUE);
-
-  DoMethod(pdialog->prod_available_listview, MUIM_NList_Clear);
-
-  for (i = 0; i < B_LAST; i++)
-  {
-    if (can_build_improvement(pcity, i))
-    {
-      improv = TRUE;
-
-      DoMethod(pdialog->prod_available_listview, MUIM_NList_InsertSingle, i + 1, MUIV_NList_Insert_Bottom);
-
-      if (i == pcity->currently_building && !pcity->is_building_unit)
-	current = ++pos;
-
-      pos++;
-    }
-  }
-
-  if (improv)
-  {
-    DoMethod(pdialog->prod_available_listview, MUIM_NList_InsertSingle, 20001, MUIV_NList_Insert_Top);
-    if (current == -1)
-      pos++;
-  }
-  DoMethod(pdialog->prod_available_listview, MUIM_NList_InsertSingle, 20000, MUIV_NList_Insert_Bottom);
-
-  for (i = 0; i < game.num_unit_types; i++)
-  {
-    if (can_build_unit(pcity, i))
-    {
-      DoMethod(pdialog->prod_available_listview, MUIM_NList_InsertSingle, i + 10000, MUIV_NList_Insert_Bottom);
-
-      if (i == pcity->currently_building && pcity->is_building_unit)
-	current = ++pos;
-
-      pos++;
-    }
-  }
-
-  set(pdialog->prod_available_listview, MUIA_NList_Quiet, FALSE);
-
-  if (current != -1)
-  {
-    set(pdialog->prod_available_listview, MUIA_NList_Active, current);
-  }
-
-  set(pdialog->prod_wnd, MUIA_Window_Open, TRUE);
+  popup_city_production_dialog((*ppdialog)->pcity);
   return NULL;
 }
 
@@ -1185,6 +1072,190 @@ static int city_present(struct city_unit_msg *data)
   return NULL;
 }
 
+/****************************************************************
+ Must be called from the Application object so it is safe to
+ dispose the window
+*****************************************************************/
+static void city_prod_close_real(struct city_prod **ppcprod)
+{
+  set((*ppcprod)->wnd,MUIA_Window_Open,FALSE);
+  DoMethod(app, OM_REMMEMBER, (*ppcprod)->wnd);
+  MUI_DisposeObject((*ppcprod)->wnd);
+  FreeVec(*ppcprod);
+}
+
+/****************************************************************
+ city_prod_destroy destroy the object after use
+*****************************************************************/
+void city_prod_destroy(struct city_prod **ppcprod)
+{
+  set((*ppcprod)->wnd, MUIA_Window_Open, FALSE);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, city_prod_close_real, *ppcprod);
+}
+
+/**************************************************************************
+ Callback for the Change button in the production window
+**************************************************************************/
+static int city_prod_change(struct city_prod **ppcprod)
+{
+  struct city_prod *pcprod = *ppcprod;
+  LONG sel = xget(pcprod->available_listview, MUIA_NList_Active);
+  if (sel >= 0)
+  {
+    LONG which = 0;
+    LONG is_unit = 0;
+
+    DoMethod(pcprod->available_listview, MUIM_NList_GetEntry, sel, &which);
+    if (which >= 10000)
+    {
+      if (which == 20000 || which == 20001)
+	return NULL;
+      which -= 10000;
+      is_unit = 1;
+    }
+    else
+      which--;
+
+    request_city_change_production(pcprod->pcity, which, is_unit);
+    city_prod_destroy(ppcprod);
+  }
+  return NULL;
+}
+
+/**************************************************************************
+ Callback for the Help button in the production window
+**************************************************************************/
+static int city_prod_help(struct city_prod **ppcprod)
+{
+  struct city_prod *pcprod = *ppcprod;
+  LONG sel = xget(pcprod->available_listview, MUIA_NList_Active);
+  if (sel >= 0)
+  {
+    LONG which = 0;
+
+    DoMethod(pcprod->available_listview, MUIM_NList_GetEntry, sel, &which);
+    if (which >= 10000)
+    {
+      which -= 10000;
+      popup_help_dialog_typed(get_unit_type(which)->name, HELP_UNIT);
+    }
+    else
+    {
+      which--;
+      if (is_wonder(which))
+      {
+	popup_help_dialog_typed(get_improvement_name(which), HELP_WONDER);
+      }
+      else
+      {
+	popup_help_dialog_typed(get_improvement_name(which), HELP_IMPROVEMENT);
+      }
+    }
+  }
+  return NULL;
+}
+
+/**************************************************************************
+ Allocate and initialize a new city production dialog
+**************************************************************************/
+void popup_city_production_dialog(struct city *pcity)
+{
+  struct city_prod *pcprod;
+  Object *change_button;
+  Object *help_button;
+  Object *cancel_button;
+
+  if(!(pcprod = (struct city_prod *) AllocVec(sizeof(struct city_prod), MEMF_CLEAR)))
+    return;
+
+  pcprod->pcity = pcity;
+  pcprod->available_disphook.h_Entry = (HOOKFUNC) city_prod_display;
+  pcprod->available_disphook.h_Data = pcity;
+
+  pcprod->wnd = WindowObject,
+    MUIA_Window_Title, "Freeciv - Cityproduction",
+    MUIA_Window_ID, 'PROD',
+    WindowContents, VGroup,
+	Child, pcprod->available_listview = NListviewObject,
+	    MUIA_CycleChain, 1,
+	    MUIA_NListview_NList, NListObject,
+		MUIA_NList_DisplayHook, &pcprod->available_disphook,
+		MUIA_NList_Format, "BAR,P=\33c BAR,P=\33c BAR,P=\33r NOBAR,",
+		MUIA_NList_Title, TRUE,
+		MUIA_NList_AutoVisible, TRUE,
+		End,
+	    End,
+	Child, HGroup,
+	    Child, change_button = MakeButton("Chan_ge"),
+	    Child, help_button = MakeButton("_Help"),
+	    Child, cancel_button = MakeButton("_Cancel"),
+	    End,
+	End,
+    End;
+
+  if(pcprod->wnd)
+  {
+    int i, pos = 0, current = -1, improv = 0;
+
+    set(pcprod->available_listview, MUIA_NList_Quiet, TRUE);
+
+    DoMethod(pcprod->available_listview, MUIM_NList_Clear);
+
+    for (i = 0; i < B_LAST; i++)
+    {
+      if (can_build_improvement(pcity, i))
+      {
+        improv = TRUE;
+
+        DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 1, MUIV_NList_Insert_Bottom);
+
+        if (i == pcity->currently_building && !pcity->is_building_unit)
+         current = ++pos;
+
+        pos++;
+      }
+    }
+
+    if (improv)
+    {
+      DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, 20001, MUIV_NList_Insert_Top);
+      if (current == -1)
+        pos++;
+    }
+    DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, 20000, MUIV_NList_Insert_Bottom);
+
+    for (i = 0; i < game.num_unit_types; i++)
+    {
+      if (can_build_unit(pcity, i))
+      {
+        DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 10000, MUIV_NList_Insert_Bottom);
+
+        if(i == pcity->currently_building && pcity->is_building_unit)
+         current = ++pos;
+
+        pos++;
+      }
+    }
+
+    set(pcprod->available_listview, MUIA_NList_Quiet, FALSE);
+
+    if(current != -1)
+    {
+      set(pcprod->available_listview, MUIA_NList_Active, current);
+    }
+
+    DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_destroy, pcprod);
+    DoMethod(pcprod->available_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);
+    DoMethod(change_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);
+    DoMethod(help_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_help, pcprod);
+
+    DoMethod(app,OM_ADDMEMBER,pcprod->wnd);
+    SetAttrs(pcprod->wnd, MUIA_Window_Open, TRUE, TAG_DONE);
+  }
+  else
+    FreeVec(pcprod);
+}
+
 /**************************************************************************
  Allocate and initialize a new city dialog
 **************************************************************************/
@@ -1202,8 +1273,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     return NULL;
 
   pdialog->pcity = pcity;
-  pdialog->prod_available_disphook.h_Entry = (HOOKFUNC) city_prod_display;
-  pdialog->prod_available_disphook.h_Data = pdialog;
 
   pdialog->imprv_disphook.h_Entry = (HOOKFUNC) city_imprv_display;
   pdialog->imprv_disphook.h_Data = pdialog;
@@ -1340,27 +1409,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 	End,
     End;
 
-  pdialog->prod_wnd = WindowObject,
-    MUIA_Window_Title, "Freeciv - Cityproduction",
-    MUIA_Window_ID, 'PROD',
-    WindowContents, VGroup,
-	Child, pdialog->prod_available_listview = NListviewObject,
-	    MUIA_CycleChain, 1,
-	    MUIA_NListview_NList, NListObject,
-		MUIA_NList_DisplayHook, &pdialog->prod_available_disphook,
-		MUIA_NList_Format, "BAR,P=\33c BAR,P=\33c BAR,P=\33r NOBAR,",
-		MUIA_NList_Title, TRUE,
-		MUIA_NList_AutoVisible, TRUE,
-		End,
-	    End,
-	Child, HGroup,
-	    Child, pdialog->prod_change_button = MakeButton("Chan_ge"),
-	    Child, pdialog->prod_help_button = MakeButton("_Help"),
-	    Child, pdialog->prod_cancel_button = MakeButton("_Cancel"),
-	    End,
-	End,
-    End;
-
   pdialog->cityopt_wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityoptions",
     MUIA_Window_ID, 'ID',
@@ -1395,7 +1443,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 	End,
     End;
 
-  if (pdialog->wnd && pdialog->prod_wnd && pdialog->cityopt_wnd)
+  if(pdialog->wnd && pdialog->cityopt_wnd)
   {
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
     DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
@@ -1419,18 +1467,11 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     DoMethod(pdialog->rename_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_rename, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_sell, pdialog);
 
-    DoMethod(pdialog->prod_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(pdialog->prod_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Window, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(pdialog->prod_available_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pdialog);
-    DoMethod(pdialog->prod_change_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pdialog);
-    DoMethod(pdialog->prod_help_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_help, pdialog);
-
     DoMethod(pdialog->cityopt_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(cityopt_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Window, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(cityopt_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_opt_ok, pdialog);
 
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
-    DoMethod(app, OM_ADDMEMBER, pdialog->prod_wnd);
     DoMethod(app, OM_ADDMEMBER, pdialog->cityopt_wnd);
 
     genlist_insert(&dialog_list, pdialog, 0);
@@ -1440,8 +1481,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   if (pdialog->wnd)
     MUI_DisposeObject(pdialog->wnd);
-  if (pdialog->prod_wnd)
-    MUI_DisposeObject(pdialog->prod_wnd);
   if (pdialog->cityopt_wnd)
     MUI_DisposeObject(pdialog->cityopt_wnd);
 
@@ -1567,7 +1606,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  int i, n;
+  int n;
   struct city *pcity = pdialog->pcity;
 
   DoMethod(pdialog->citizen_group, MUIM_Group_InitChange);
@@ -1579,30 +1618,32 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   pdialog->citizen2_group = HGroup, GroupSpacing(0), End;
 
-  for (i = 0, n = 0; n < pcity->ppl_happy[4] /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
+  /* maybe add an i < NUM_CITIZENS_SHOWN check into every loop with own counter i */
+
+  for (n = 0; n < pcity->ppl_happy[4]; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(5 + i % 2));
+    Object *o = MakeSprite(get_citizen_sprite(5 + n % 2));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
-  for (i = 0, n = 0; n < pcity->ppl_content[4] /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
+  for (n = 0; n < pcity->ppl_content[4]; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(3 + i % 2));
-    if (o)
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-  }
-
-
-  for (i = 0, n = 0; n < pcity->ppl_unhappy[4] /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(7 + i % 2));
+    Object *o = MakeSprite(get_citizen_sprite(3 + n % 2));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
 
-  for (n = 0; n < pcity->ppl_elvis /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
+  for (n = 0; n < pcity->ppl_unhappy[4]; n++)
+  {
+    Object *o = MakeSprite(get_citizen_sprite(7 + n % 2));
+    if (o)
+      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
+  }
+
+
+  for (n = 0; n < pcity->ppl_elvis; n++)
   {
     Object *o = MakeSprite(get_citizen_sprite(0));
     if (o)
@@ -1612,7 +1653,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
   }
 
-  for (n = 0; n < pcity->ppl_scientist /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
+  for (n = 0; n < pcity->ppl_scientist; n++)
   {
     Object *o = MakeSprite(get_citizen_sprite(1));
     if (o)
@@ -1622,7 +1663,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
   }
 
-  for (n = 0; n < pcity->ppl_taxman /*&& i<NUM_CITIZENS_SHOWN */ ; n++, i++)
+  for (n = 0; n < pcity->ppl_taxman; n++)
   {
     Object *o = MakeSprite(get_citizen_sprite(2));
 
@@ -1648,7 +1689,6 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 					int unitid)
 {
   struct unit_list *plist;
-  int i;
   struct genlist_iterator myiter;
   struct unit *punit;
 
@@ -1671,7 +1711,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 
   genlist_iterator_init(&myiter, &(plist->list), 0);
 
-  for (i = 0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++)
+  for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
   {
     Object *o;
 
@@ -1693,7 +1733,6 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
   struct unit_list *plist;
-  int i;
   struct genlist_iterator myiter;
   struct unit *punit;
 
@@ -1716,7 +1755,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 
   genlist_iterator_init(&myiter, &(plist->list), 0);
 
-  for (i = 0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++)
+  for (; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
   {
     Object *o;
 
@@ -1805,13 +1844,10 @@ void close_city_dialog(struct city_dialog *pdialog)
       MUI_DisposeObject(pdialog->worklist_wnd);
     }
     set(pdialog->wnd, MUIA_Window_Open, FALSE);
-    set(pdialog->prod_wnd, MUIA_Window_Open, FALSE);
     set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
     DoMethod(app, OM_REMMEMBER, pdialog->wnd);
-    DoMethod(app, OM_REMMEMBER, pdialog->prod_wnd);
     DoMethod(app, OM_REMMEMBER, pdialog->cityopt_wnd);
     MUI_DisposeObject(pdialog->wnd);
-    MUI_DisposeObject(pdialog->prod_wnd);
     MUI_DisposeObject(pdialog->cityopt_wnd);
     FreeVec(pdialog);
   }

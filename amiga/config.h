@@ -2,6 +2,25 @@
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
+/* The following lines prevent prototype errors */
+#ifdef MIAMI_SDK
+void usleep(unsigned long usec);
+#else /* AmiTCP */
+char *inet_ntoa(struct in_addr addr);
+#endif
+int ioctl(int fd, unsigned int request, char *argp);
+#include <proto/socket.h>
+#include <proto/usergroup.h>
+#include <fcntl.h>
+
+#ifdef __SASC /* this is necessary, else SAS-C does not use the supplied */
+#undef read   /* functions in server and client, but it's own stuff in */
+#undef write  /* sc.lib, which has no network support. */
+#undef close
+#endif
+
+/* And now the real defines come */
+
 /* Define if using alloca.c.  */
 /* #undef C_ALLOCA */
 
@@ -186,7 +205,9 @@
 /* #undef HAVE_NL_TYPES_H */
 
 /* Define if you have the <pwd.h> header file.  */
+#ifndef MIAMI_SDK
 #define HAVE_PWD_H 1
+#endif
 
 /* Define if you have the <string.h> header file.  */
 #define HAVE_STRING_H 1

@@ -49,7 +49,6 @@
 
 #include "capability.h"
 #include "fcintl.h"
-#include "log.h"
 #include "mem.h"
 #include "version.h"
 
@@ -67,6 +66,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu_g.h"
+#include "messagedlg.h"
 #include "options.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
@@ -436,6 +436,7 @@ static void control_callback(ULONG * value)
       popup_option_dialog();
       break;
     case MENU_GAME_MSG_OPTIONS:
+      popup_messageopt_dialog();
       break;
     case MENU_GAME_SAVE_SETTINGS:
       save_options();
@@ -693,7 +694,7 @@ void do_unit_function(struct unit *punit, ULONG value)
 *****************************************************************/
 static void taxrates_callback(LONG * number)
 {
-  int tax_end, lux_end, sci_end;
+  int lux_end, sci_end;
   size_t i;
   int delta = 10;
   struct packet_player_request packet;
@@ -705,7 +706,6 @@ static void taxrates_callback(LONG * number)
 
   lux_end = game.player_ptr->economic.luxury;
   sci_end = lux_end + game.player_ptr->economic.science;
-  tax_end = 100;
 
   packet.luxury = game.player_ptr->economic.luxury;
   packet.science = game.player_ptr->economic.science;

@@ -112,6 +112,7 @@ STATIC Object *cityrep_wnd;
 STATIC Object *cityrep_title_text;
 STATIC Object *cityrep_listview;
 STATIC struct Hook cityreq_disphook;
+STATIC struct Hook cityreq_comparehook;
 STATIC Object *cityrep_close_button;
 STATIC Object *cityrep_center_button;
 STATIC Object *cityrep_popup_button;
@@ -157,6 +158,15 @@ __asm __saveds static int cityrep_display(register __a0 struct Hook *h, register
     get_city_table_header(array);
   }
   return 0;
+}
+
+/**************************************************************************
+ Compare function for the listview in the city report window
+**************************************************************************/
+__asm __saveds static int cityrep_compare(register __a0 struct Hook *h, register __a1 struct city *pcity1,
+register __a2 struct city *pcity2)
+{
+  return stricmp(pcity1->name, pcity2->name);
 }
 
 /**************************************************************************
@@ -287,6 +297,20 @@ static int cityrep_popup(void)
   return NULL;
 }
 
+/**************************************************************************
+ Callback for the Change Button
+**************************************************************************/
+static int cityrep_change(void)
+{
+  struct city *pcity;
+
+  DoMethod(cityrep_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &pcity);
+
+  if(pcity)
+    popup_city_production_dialog(pcity);
+
+  return NULL;
+}
 
 /****************************************************************
  Create and initialize the city report window
@@ -297,6 +321,7 @@ void create_city_report_dialog(int make_modal)
     return;
 
   cityreq_disphook.h_Entry = (HOOKFUNC) cityrep_display;
+  cityreq_comparehook.h_Entry = (HOOKFUNC) cityrep_compare;
 
   cityrep_wnd = WindowObject,
     MUIA_Window_Title, "City Report",
@@ -309,6 +334,7 @@ void create_city_report_dialog(int make_modal)
 	    MUIA_NListview_NList, NListObject,
 		MUIA_NList_Format, ",,,,,,,,,,,,",
 		MUIA_NList_DisplayHook, &cityreq_disphook,
+		MUIA_NList_CompareHook, &cityreq_comparehook,
 		MUIA_NList_Title, TRUE,
 		End,
 	    End,
@@ -317,7 +343,7 @@ void create_city_report_dialog(int make_modal)
 	    Child, cityrep_center_button = MakeButton("Cen_ter"),
 	    Child, cityrep_popup_button = MakeButton("_Popup"),
 	    Child, cityrep_buy_button = MakeButton("_Buy"),
-	    Child, cityrep_change_button = MakeButton("C_hange"),
+	    Child, cityrep_change_button = MakeButton("Chan_ge"),
 	    Child, cityrep_refresh_button = MakeButton("_Refresh"),
 	    Child, cityrep_configure_button = MakeButton("Con_figure"),
 	    End,
@@ -343,6 +369,7 @@ void create_city_report_dialog(int make_modal)
     DoMethod(cityrep_center_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_center);
     DoMethod(cityrep_popup_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_popup);
     DoMethod(cityrep_buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_buy);
+    DoMethod(cityrep_change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_change);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, cityrep_active);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, app, 3, MUIM_CallHook, &standart_hook, cityrep_center);
 
@@ -371,7 +398,7 @@ void city_report_dialog_update(void)
 
   city_list_iterate(game.player_ptr->cities, pcity)
   {
-    DoMethod(cityrep_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Bottom);
+    DoMethod(cityrep_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Sorted);
   }
   city_list_iterate_end
 
@@ -387,7 +414,7 @@ void city_report_dialog_update(void)
 void city_report_dialog_update_city(struct city *pcity)
 {
   int i, entries;
-  struct city *pfindcity;
+  struct city *pfindcity = 0;
 
   if (!cityrep_wnd)
     return;

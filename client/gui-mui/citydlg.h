@@ -15,6 +15,6 @@
 
 #include "citydlg_g.h"
 
-/* nothing to add */
+void popup_city_production_dialog(struct city *);
 
 #endif  /* FC__CITYDLG_H */

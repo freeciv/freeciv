@@ -124,6 +124,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 
   wnd = WindowObject,
     MUIA_Window_Title, strdup(caption),	/* Never freed! */
+    MUIA_Window_ID, 'POPU',
     WindowContents, VGroup,
       Child, TextObject,
         MUIA_Text_Contents, headline,
@@ -155,52 +156,52 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 }
 
 /****************************************************************
+ Close the notify window and goto position
+*****************************************************************/
+struct notify_goto_close_arg {
+  Object *pwnd;
+  int     x;
+  int     y;
+};
+static void notify_goto_close(struct notify_goto_close_arg *obj)
+{
+  center_tile_mapcanvas(obj->x, obj->y);
+  set(obj->pwnd, MUIA_Window_Open, FALSE);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, notify_close_real, obj->pwnd);
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 {
-  printf("popup_notify_goto_dialog(%s,%s,%ld,%ld)\n",headline,lines,x,y);
+  Object *wnd;
+  Object *close_button;
+  Object *goto_button;
 
-/*
-  GtkWidget *notify_dialog_shell, *notify_command, *notify_goto_command;
-  GtkWidget *notify_label;
-  
-  if (x == 0 && y == 0) {
-    popup_notify_dialog("Message:", headline, lines);
-    return;
+  wnd = WindowObject,
+    MUIA_Window_Title, headline,
+    MUIA_Window_ID, 'POGO',
+    WindowContents, VGroup,
+      Child, TextObject,
+        MUIA_Text_Contents, lines,
+        MUIA_Text_PreParse, "\33c",
+        End,
+      Child, HGroup,
+        Child, close_button = MakeButton("_Close"),
+        Child, goto_button = MakeButton("_Goto and Close"),
+        End,
+      End,
+    End;
+
+  if(wnd)
+  {
+    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
+    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
+    DoMethod(goto_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 6, MUIM_CallHook, &standart_hook, notify_goto_close, wnd, x, y);
+    DoMethod(app, OM_ADDMEMBER, wnd);
+    set(wnd,MUIA_Window_Open, TRUE);
   }
-  notify_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(notify_dialog_shell),"delete_event",
-	GTK_SIGNAL_FUNC(notify_deleted_callback),NULL );
-
-  gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), headline );
-
-  notify_label=gtk_label_new(lines);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
-	notify_label, TRUE, TRUE, 0 );
-
-  notify_command = gtk_button_new_with_label("Close");
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->action_area ),
-	notify_command, TRUE, TRUE, 0 );
-
-  notify_goto_command = gtk_button_new_with_label("Goto and Close");
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->action_area ),
-	notify_goto_command, TRUE, TRUE, 0 );
-  
-  gtk_signal_connect(GTK_OBJECT(notify_command), "clicked",
-		GTK_SIGNAL_FUNC(notify_no_goto_command_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(notify_goto_command), "clicked",
-		GTK_SIGNAL_FUNC(notify_goto_command_callback), NULL);
-  notify_goto_add_widget_coords(notify_goto_command, x, y);
-
-  gtk_set_relative_position(toplevel, notify_dialog_shell, 25, 25);
-
-  gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->action_area );
-  gtk_widget_show(notify_dialog_shell);
-
-  gtk_widget_set_sensitive(toplevel, FALSE);
-*/
 }
 
 /****************************************************************
@@ -322,7 +323,7 @@ __asm __saveds static void advance_display( register __a0 struct Hook *h, regist
 ...
 *****************************************************************/
 static void create_advances_list(struct player *pplayer,
-				struct player *pvictim, int make_modal)
+				struct player *pvictim/*, int make_modal*/)
 {
   Object *listview,*steal_button,*cancel_button,*wnd;
   static struct Hook disphook;
@@ -419,8 +420,8 @@ __asm __saveds void imprv_display( register __a0 struct Hook *h, register __a2 c
 /****************************************************************
 ...
 *****************************************************************/
-static void create_improvements_list(struct player *pplayer,
-				     struct city *pcity, int make_modal)
+static void create_improvements_list(/*struct player *pplayer,*/
+				     struct city *pcity/*, int make_modal*/)
 {  
   Object *listview,*steal_button,*cancel_button,*wnd;
   static struct Hook disphook;
@@ -708,7 +709,7 @@ static void spy_request_sabotage_list(struct popup_message_data *data)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pcity)
 {
-  create_improvements_list(game.player_ptr, pcity, 1);
+  create_improvements_list(/*game.player_ptr,*/ pcity/*, 1*/);
 }
 
 /****************************************************************
@@ -717,7 +718,7 @@ void popup_sabotage_dialog(struct city *pcity)
 static void spy_steal(struct popup_message_data *data)
 {
   struct city *pvcity = find_city_by_id(diplomat_target_id);
-  struct player *pvictim = NULL;
+  struct player *pvictim;
 
   message_close(data);
   diplomat_dialog_open=0;
@@ -729,7 +730,7 @@ static void spy_steal(struct popup_message_data *data)
 has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 
-    create_advances_list(game.player_ptr, pvictim, 1);/*spy_tech_shell_is_modal);*/
+    create_advances_list(game.player_ptr, pvictim/*, 1*/);/*spy_tech_shell_is_modal);*/
   }
 }
 
@@ -1780,8 +1781,8 @@ void popup_races_dialog(void)
   if(!nations_wnd)
   {
     Object *nations_ok_button,*list;
-    Object *nations_disconnect_button=NULL;
-    Object *nations_quit_button=NULL;
+    Object *nations_disconnect_button;
+    Object *nations_quit_button;
 
     int i;
     static char *sex_labels[] = {"Male","Female",NULL};

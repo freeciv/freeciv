@@ -46,7 +46,7 @@ static void input_dialog_close_real( Object **ppwnd)
 }
 
 /****************************************************************
- destroy_message_dialog destroy the object after use
+ input_dialog_destroy destroy the object after use
 *****************************************************************/
 void input_dialog_destroy( Object * wnd)
 {

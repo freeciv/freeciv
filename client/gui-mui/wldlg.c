@@ -212,7 +212,7 @@ static void worklist_report_rename( struct worklist_report_dialog **ppdialog)
 
   packet.wl_idx = selection;
   copy_worklist(&packet.worklist, 
-		&pdialog->pplr->worklists[pdialog->wl_idx]);
+		&pdialog->pplr->worklists[selection]);
   strncpy(packet.worklist.name, getstring(pdialog->name_string), MAX_LEN_NAME);
   packet.worklist.name[MAX_LEN_NAME-1] = '\0';
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
