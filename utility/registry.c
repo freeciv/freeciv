@@ -172,6 +172,9 @@
 #define SAVE_TABLES TRUE	/* set to 0 for old-style savefiles */
 #define SECF_DEBUG_ENTRIES FALSE/* LOG_DEBUG each entry value */
 
+#define SPECVEC_TAG astring
+#include "specvec.h"
+
 /* An 'entry' is a single value, either a string or integer;
  * Whether string or int is determined by whether svalue is NULL.
  */
@@ -390,8 +393,7 @@ static bool section_file_read_dup(struct section_file *sf,
   int i;
   struct astring base_name = ASTRING_INIT;    /* for table or single entry */
   struct astring entry_name = ASTRING_INIT;
-  struct athing columns_tab;	        /* astrings for column headings */
-  struct astring *columns = NULL;	/* -> columns_tab.ptr */
+  struct astring_vector columns;    /* astrings for column headings */
 
   if (!inf) {
     return FALSE;
@@ -402,7 +404,7 @@ static bool section_file_read_dup(struct section_file *sf,
   } else {
     sf->filename = NULL;
   }
-  ath_init(&columns_tab, sizeof(struct astring));
+  astring_vector_init(&columns);
   sb = sf->sb;
 
   if (filename) {
@@ -455,23 +457,25 @@ static bool section_file_read_dup(struct section_file *sf,
     if (table_state) {
       i = -1;
       do {
+	int num_columns = astring_vector_size(&columns);
+
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
 	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
           return FALSE;
         }
 
-	if (i<columns_tab.n) {
-	  astr_minsize(&entry_name, base_name.n + 10 + columns[i].n);
+	if (i < num_columns) {
+	  astr_minsize(&entry_name, base_name.n + 10 + columns.p[i].n);
 	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
-		      base_name.str, table_lineno, columns[i].str);
+		      base_name.str, table_lineno, columns.p[i].str);
 	} else {
 	  astr_minsize(&entry_name,
-		       base_name.n + 20 +  columns[columns_tab.n-1].n);
+		       base_name.n + 20 + columns.p[num_columns - 1].n);
 	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
 		      base_name.str, table_lineno,
-		      columns[columns_tab.n - 1].str,
-		      (int) (i - columns_tab.n + 1));
+		      columns.p[num_columns - 1].str,
+		      (int) (i - num_columns + 1));
 	}
 	pentry = new_entry(sb, entry_name.str, tok);
 	entry_list_insert_back(&psection->entries, pentry);
@@ -505,17 +509,16 @@ static bool section_file_read_dup(struct section_file *sf,
 	  inf_log(inf, LOG_ERROR, "table column header non-string");
           return FALSE;
 	}
-	{ 	/* expand columns_tab: */
+	{ 	/* expand columns: */
 	  int j, n_prev;
-	  n_prev = columns_tab.n_alloc;
-	  ath_minnum(&columns_tab, (i+1));
-	  columns = columns_tab.ptr;
-	  for(j=n_prev; j<columns_tab.n_alloc; j++) {
-	    astr_init(&columns[j]);
+	  n_prev = astring_vector_size(&columns);
+	  astring_vector_reserve(&columns, i + 1);
+	  for (j = n_prev; j < i + 1; j++) {
+	    astr_init(&columns.p[j]);
 	  }
 	}
-	astr_minsize(&columns[i], strlen(tok));
-	strcpy(columns[i].str, tok+1);
+	astr_minsize(&columns.p[i], strlen(tok));
+	strcpy(columns.p[i].str, tok+1);
 	
       } while(inf_token(inf, INF_TOK_COMMA));
       
@@ -560,10 +563,10 @@ static bool section_file_read_dup(struct section_file *sf,
   
   astr_free(&base_name);
   astr_free(&entry_name);
-  for(i=0; i<columns_tab.n_alloc; i++) {
-    astr_free(&columns[i]);
+  for (i = 0; i < astring_vector_size(&columns); i++) {
+    astr_free(&columns.p[i]);
   }
-  ath_free(&columns_tab);
+  astring_vector_free(&columns);
   
   secfilehash_build(sf, allow_duplicates);
     
