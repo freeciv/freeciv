@@ -547,18 +547,6 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     return;
   }
 
-  if (activity == ACTIVITY_IDLE && punit->transported_by != -1
-      && can_unit_survive_at_tile(punit, punit->x, punit->y)) {
-    unload_unit_from_transporter(punit);
-  } else if (activity == ACTIVITY_SENTRY && punit->transported_by == -1) {
-    struct unit *ptrans = find_transporter_for_unit(punit,
-						    punit->x, punit->y);
-
-    if (ptrans) {
-      load_unit_onto_transporter(punit, ptrans);
-    }
-  }
-
   if (punit->activity != activity ||
       punit->activity_target != activity_target ||
       punit->ai.control) {
