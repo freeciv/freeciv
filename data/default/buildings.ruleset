@@ -68,66 +68,6 @@ options="1.10.1"
 ;
 ; */ <-- avoid gettext warnings
 
-;
-; Effect groups are a convenience mechanism to handle
-; equivalent effects which may be done by one of several buildings.
-; The first building in the 'buildings' list of the group which
-; exists wins.
-;
-
-[group_cathedrals]
-name		= "Cathedrals"
-elements	=
-    { "building", "range"
-      "Michelangelo's Chapel", "Player"
-      "Cathedral", "City"
-    }
-
-[group_generators]
-name		= "Generators"
-elements	=
-    { "building", "range"
-      "Hoover Dam", "Player"
-      "Nuclear Plant", "City"
-      "Hydro Plant", "City"
-      "Power Plant", "City"
-    }
-
-[group_janitors]
-name            = "Janitors"
-elements	=
-    { "building", "range"
-      "Recycling Center", "City"
-      "Hoover Dam", "Player"
-      "Nuclear Plant", "City"
-      "Hydro Plant", "City"
-    }
-
-[group_defenders]
-name		= "Defenders"
-elements	=
-    { "building", "range"
-      "Great Wall", "Player"
-      "City Walls", "City"
-    }
-
-[group_peacekeepers]
-name		= "Peacekeepers"
-elements	=
-    { "building", "range"
-      "Women's Suffrage", "Player"
-      "Police Station", "City"
-    }
-
-[group_purifiers]
-name		= "Purifiers"
-elements	=
-    { "building", "range"
-      "Palace", "City"
-      "Courthouse", "City"
-    }
-
-
 [building_airport]
 name		= _("Airport")
 genus		= "Improvement"
@@ -141,12 +81,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name"
-      "Air_Veteran"
-      "Air_Regen"
-      "Airlift"
-    }
 sound		= "b_airport"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -173,10 +107,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 2
 sabotage	= 100
-effect          =
-    { "name", "value"
-      "Size_Adj", 4
-    }
 sound		= "b_aqueduct"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -197,11 +127,6 @@ obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 2
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Tax_Bonus", 50, "Building", "Marketplace"
-      "Luxury_Bonus", 50, "Building", "Marketplace"
-    }
 sound		= "b_bank"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -224,11 +149,6 @@ replaced_by	= "Barracks II"
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name"
-      "Land_Veteran"
-      "Land_Regen"
-    }
 sound		= "b_barracks_i"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -253,11 +173,6 @@ replaced_by	= "Barracks III"
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name"
-      "Land_Veteran"
-      "Land_Regen"
-    }
 sound		= "b_barracks_ii"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -281,11 +196,6 @@ obsolete_by	= "None"
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name"
-      "Land_Veteran"
-      "Land_Regen"
-    }
 sound		= "b_barracks_iii"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -309,12 +219,6 @@ obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Make_Content", 3, "Cathedrals"
-      "Make_Content", 1, "Cathedrals", "Tech", "Theology"
-      "Make_Content", -1, "Cathedrals", "Tech", "Communism"
-    }
 sound		= "b_cathedral"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -339,11 +243,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 0
 sabotage	= 50
-effect		=
-    { "name", "value", "equiv"
-      "Land_Defend", 200, "Defenders"
-      "Unit_No_Lose_Pop"
-    }
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -367,10 +266,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Sea_Defend", 100
-    }
 sound		= "b_coastal_defense"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -391,11 +286,6 @@ obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Make_Content", 3
-      "Make_Content", 1, "Tech", "Electricity"
-    }
 sound		= "b_colosseum"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -418,13 +308,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Corrupt_Pct", 50, "Purifiers"
-      "Waste_Pct", 50, "Purifiers"
-      "Make_Content", 1, "", "Gov", "Democracy"
-      "Incite_Dist_Pct", 75
-    }
 sound		= "b_courthouse"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -447,10 +330,6 @@ obsolete_by	= "None"
 build_cost	= 140
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Prod_Bonus", 50
-    }
 sound		= "b_factory"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -471,10 +350,6 @@ obsolete_by	= "None"
 build_cost	= 40
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Growth_Food", 50
-    }
 sound		= "b_granary"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -499,10 +374,6 @@ obsolete_by	= "None"
 build_cost	= 40
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-	"Food_Add_Tile", 1, "Terrain", "Ocean"
-    }
 sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -523,13 +394,6 @@ obsolete_by	= "None"
 build_cost	= 180
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Prod_Bonus", 25, "Generators", "Building", "Factory"
-      "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Mfg. Plant"
-    }
 sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -563,10 +427,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Science_Bonus", 100
-    }
 sound		= "b_library"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -587,11 +447,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 0
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Tax_Bonus", 50
-      "Luxury_Bonus", 50
-    }
 sound		= "b_marketplace"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -612,10 +467,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Pollu_Pop_Pct", -100
-    }
 sound		= "b_mass_transit"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -637,10 +488,6 @@ obsolete_by	= "None"
 build_cost	= 220
 upkeep		= 6
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Prod_Bonus", 50, "Building", "Factory"
-    }
 sound		= "b_mfg_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -662,13 +509,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 2
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Prod_Bonus", 25, "Generators", "Building", "Factory"
-      "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Mfg. Plant"
-    }
 sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -703,10 +543,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-	"Prod_Add_Tile", 1, "Terrain", "Ocean"
-    }
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -727,14 +563,6 @@ obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "value", "equiv"
-      "Corrupt_Pct", 50, "Purifiers"
-      "Waste_Pct", 50, "Purifiers"
-      "Spy_Resistant", 50
-      "No_Incite"
-      "Capital_City"
-    }
 sound		= "b_palace"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -763,11 +591,6 @@ obsolete_by	= "None"
 build_cost	= 50
 upkeep		= 2
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Make_Content_Mil", 1, "Peacekeepers", "Gov", "Republic"
-      "Make_Content_Mil", 2, "Peacekeepers", "Gov", "Democracy"
-    }
 sound		= "b_police_station"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -792,11 +615,6 @@ obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name"
-      "Sea_Veteran"
-      "Sea_Regen"
-    }
 sound		= "b_port_facility"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -818,11 +636,6 @@ obsolete_by	= "None"
 build_cost	= 130
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv", "req_type", "req"
-      "Prod_Bonus", 25, "Generators", "Building", "Factory"
-      "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-    }
 sound		= "b_power_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -853,10 +666,6 @@ obsolete_by	= "None"
 build_cost	= 140
 upkeep		= 2
 sabotage	= 100
-effect		=
-    { "name", "value", "equiv"
-      "Pollu_Prod_Pct", -66, "Janitors"
-    }
 sound		= "b_recycling_center"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -878,11 +687,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-	"Science_Bonus", 100, "Building", "Library"
-	"Science_Bonus", 100, "Building", "University"
-    }
 sound		= "b_research_lab"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -905,10 +709,6 @@ obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 2
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Air_Defend", 100
-    }
 sound		= "b_sam_battery"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -929,11 +729,6 @@ obsolete_by	= "None"
 build_cost	= 140
 upkeep		= 4
 sabotage	= 100
-effect		=
-    { "name", "value"
-      "Nuke_Proof"
-      "Missile_Defend", 100
-    }
 sound		= "b_sdi_defense"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -957,10 +752,6 @@ obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 2
 sabotage	= 100
-effect          =
-    { "name", "req_type", "req"
-      "Size_Unlimit", "Building", "Aqueduct"
-    }
 sound		= "b_sewer_system"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1014,10 +805,6 @@ obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 0
 sabotage	= 100
-effect          =
-    { "name"
-      "SS_Component"
-    }
 sound		= "b_space_component"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1042,10 +829,6 @@ obsolete_by	= "None"
 build_cost	= 320
 upkeep		= 0
 sabotage	= 100
-effect          =
-    { "name"
-      "SS_Module"
-    }
 sound		= "b_space_module"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1079,10 +862,6 @@ obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 0
 sabotage	= 100
-effect          =
-    { "name"
-      "SS_Structural"
-    }
 sound		= "b_space_structural"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1107,11 +886,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Tax_Bonus", 50, "Building", "Bank"
-      "Luxury_Bonus", 50, "Building", "Bank"
-    }
 sound		= "b_stock_exchange"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -1133,10 +907,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-	"Trade_Per_Tile", 50, "Special", "Road"
-    }
 sound		= "b_super_highways"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -1160,10 +930,6 @@ obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-	"Food_Per_Tile", 50, "Special", "Farmland"
-    }
 sound		= "b_supermarket"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -1186,11 +952,6 @@ obsolete_by	= "None"
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Make_Content", 1
-      "Make_Content", 1, "Tech", "Mysticism"
-    }
 sound		= "b_temple"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1212,10 +973,6 @@ obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
-effect		=
-    { "name", "value", "req_type", "req"
-      "Science_Bonus", 150, "Building", "Library"
-    }
 sound		= "b_university"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
@@ -1237,11 +994,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "survives"
-      "Reveal_Map", "Player", 0
-      "Enable_Space", "World", 1
-    }
 sound		= "w_apollo_program"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1263,10 +1015,6 @@ obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Upkeep_Free", "Player", 1
-    }
 sound		= "w_asmiths_trading_co"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1287,10 +1035,6 @@ obsolete_by	= "Flight"
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "value"
-      "Trade_Inc_Tile", 1
-    }
 sound		= "w_colossus"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1311,10 +1055,6 @@ obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "value"
-      "Science_Bonus", 100
-    }
 sound		= "w_copernicus_observatory"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
@@ -1335,10 +1075,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Force_Content", "Player", 1
-    }
 sound		= "w_cure_for_cancer"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1361,10 +1097,6 @@ obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Give_Imm_Tech", "Player", 2
-    }
 sound		= "w_darwins_voyage"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1386,11 +1118,6 @@ obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Regen_Reputation", "Player", 2
-      "Gain_AI_Love", "Player", 20
-    }
 sound		= "w_eiffel_tower"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
@@ -1413,10 +1140,6 @@ obsolete_by	= "Electricity"
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Tech_Parasite", "Player", 2
-    }
 sound		= "w_great_library"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1437,11 +1160,6 @@ obsolete_by	= "Metallurgy"
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "equiv"
-      "Land_Defend", "Player", 200, "Defenders"
-      "Unit_No_Lose_Pop", "Player"
-    }
 sound		= "w_great_wall"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1464,11 +1182,6 @@ obsolete_by	= "Railroad"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Make_Happy", "Player", 1
-      "Make_Happy", "City", 2
-    }
 sound		= "w_hanging_gardens"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1492,13 +1205,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "equiv", "req_type", "req"
-      "Prod_Bonus", "Player", 25, "Generators", "Building", "Factory"
-      "Prod_Bonus", "Player", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", "Player", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", "Player", -25, "Janitors", "Building", "Mfg. Plant"
-    }
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1519,10 +1225,6 @@ obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "req_type", "req"
-      "Science_Bonus", "Player", 100, "Building", "University"
-    }
 sound		= "w_isaac_newtons_college"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
@@ -1544,10 +1246,6 @@ obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Force_Content", "Player", 2
-    }
 sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1567,10 +1265,6 @@ obsolete_by	= "Robotics"
 build_cost	= 150
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "value"
-      "Prod_Add_Tile", 1
-    }
 sound		= "w_king_richards_crusade"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1591,10 +1285,6 @@ obsolete_by	= "Automobile"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Upgrade_Unit", "Player", 1
-    }
 sound		= "w_leonardos_workshop"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1614,12 +1304,6 @@ obsolete_by	= "Magnetism"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Sea_Move", "Player", 1
-      "No_Sink_Deep", "Player"
-      "Sea_Veteran", "Player"
-    }
 sound		= "w_lighthouse"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1641,10 +1325,6 @@ obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Sea_Move", "Player", 2
-    }
 sound		= "w_magellans_expedition"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1664,10 +1344,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "survives"
-      "Enable_Nuke", "World", 1
-    }
 sound		= "w_manhattan_project"
 sound_alt	= "w_generic"
 ;helptext is set in client/helpdata.c:helptext_wonder()
@@ -1686,10 +1362,6 @@ obsolete_by	= "Communism"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range"
-      "Have_Embassies", "Player"
-    }
 sound		= "w_marco_polos_embassy"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1709,12 +1381,6 @@ obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "equiv", "req_type", "req"
-      "Make_Content", "Player", 3, "Cathedrals"
-      "Make_Content", "Player", 1, "Cathedrals", "Tech", "Theology"
-      "Make_Content", "Player", -1, "Cathedrals", "Tech", "Communism"
-    }
 sound		= "w_michelangelos_chapel"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1739,11 +1405,6 @@ obsolete_by	= "Theology"
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "req_type", "req"
-; Note this is not exactly the same as doubling the effect of temples
-      "Make_Content", "Player", 2, "Building", "Temple"
-    }
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1763,10 +1424,6 @@ obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "value", "range"
-      "Growth_Food", 50, "Player"
-    }
 sound		= "w_pyramids"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1788,10 +1445,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "req_type", "req"
-      "Science_Bonus", "Player", 100, "Building", "Research Lab"
-    }
 sound		= "w_seti_program"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1811,10 +1464,6 @@ obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name"
-      "No_Unhappy"
-    }
 sound		= "w_shakespeares_theatre"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1834,11 +1483,6 @@ obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range"
-      "Any_Government", "Player"
-      "No_Anarchy", "Player"
-    }
 sound		= "w_statue_of_liberty"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1860,11 +1504,6 @@ obsolete_by	= "Mobile Warfare"
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Land_Veteran", "Player"
-      "Land_Vet_Combat", "Player", 50
-    }
 sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1886,10 +1525,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value"
-      "Unit_Recover", "Player", 2
-    }
 sound		= "w_united_nations"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1917,11 +1552,6 @@ obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name", "range", "value", "equiv", "req_type", "req"
-      "Make_Content_Mil", "Player", 1, "Peacekeepers", "Gov", "Republic"
-      "Make_Content_Mil", "Player", 2, "Peacekeepers", "Gov", "Democracy"
-    }
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1952,10 +1582,6 @@ obsolete_by	= "None"
 build_cost	= 999
 upkeep		= 0
 sabotage	= 0
-effect		=
-    { "name"
-      "Prod_To_Gold"
-    }
 ; FIXME: this is the real helptext; restore when have a subordnate analogue
 ; /* (ignore for gettext until fixed)
 ;helptext	= _("\
