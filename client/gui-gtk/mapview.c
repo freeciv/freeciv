@@ -359,6 +359,7 @@ void update_unit_info_label(struct unit *punit)
   {
     gtk_frame_set_label( GTK_FRAME(unit_info_frame),"");
     gtk_set_label(unit_info_label,"\n\n");
+    gdk_window_set_cursor (root_window, 0);
   }
   update_unit_pix_label(punit);
 }

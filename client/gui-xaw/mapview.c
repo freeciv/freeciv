@@ -328,9 +328,10 @@ void update_unit_info_label(struct unit *punit)
 	XUndefineCursor(display, XtWindow(map_canvas));
       }
     }
-  }
-  else
+  } else {
     xaw_set_label(unit_info_label, "");
+    XUndefineCursor(display, XtWindow(map_canvas));
+  }
 
   update_unit_pix_label(punit);
 }
