@@ -4682,7 +4682,7 @@ msgstr "Siste spiller har koblet fra - start serveren på nytt."
 #: server/stdinhand.c:232
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
-msgstr "VAlget \"%s\" ble vedtatt %d %d med %d som unnlot å stemme."
+msgstr "Valget \"%s\" ble vedtatt med %d mot %d stemmer (%d stemte ikke)."
 
 #: server/stdinhand.c:237
 #, c-format
