@@ -249,7 +249,7 @@ effect		=
 	"Unit_Defend", "City", 300, "Helicopter"
 	"Unit_Defend", "City", 300, "Land"
 	"Unit_Defend", "City", 300, "Sea"
-	"Unit_No_Lose_Pop", "City", "Land"
+	"Unit_No_Lose_Pop", "City", 0, "Land"
     }
 variant		= 1		; FIXME: remove when gen-impr obsoletes
 helptext	= _("\
