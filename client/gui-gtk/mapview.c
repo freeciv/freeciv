@@ -44,6 +44,23 @@
 
 #include "mapview.h"
 
+/*
+The bottom row of the map was sometimes hidden.
+
+As of now the top left corner is always aligned with the tiles. This is what
+causes the problem in the first place. The ideal solution would be to align the
+window with the bottom left tiles if you tried to center the window on a tile
+closer than (screen_tiles_height/2 -1) to the south pole.
+
+But, for now, I just grepped for occurences where the ysize (or the values
+derived from it) were used, and those places that had relevance to drawing the
+map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
+
+-Thue
+*/
+#define EXTRA_BOTTOM_ROW 1
+
+
 extern int		seconds_to_turndone;
 
 /* adjusted depending on tile size: */
@@ -633,8 +650,9 @@ void center_tile_mapcanvas(int x, int y)
 
   new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
   new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
-  if(new_map_view_y0>map.ysize-map_canvas_store_theight)
-     new_map_view_y0=map_adjust_y(map.ysize-map_canvas_store_theight);
+  if(new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
+    new_map_view_y0=
+      map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
 
   map_view_x0=new_map_view_x0;
   map_view_y0=new_map_view_y0;
@@ -907,7 +925,7 @@ void update_map_canvas_scrollbars_size(void)
 {
   map_hadj=gtk_adjustment_new(-1, 0, map.xsize, 1,
 	   map_canvas_store_twidth, map_canvas_store_twidth);
-  map_vadj=gtk_adjustment_new(-1, 0, map.ysize, 1,
+  map_vadj=gtk_adjustment_new(-1, 0, map.ysize+EXTRA_BOTTOM_ROW, 1,
 	   map_canvas_store_theight, map_canvas_store_theight);
   gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
 	GTK_ADJUSTMENT(map_hadj));
@@ -1382,8 +1400,10 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   else {
     map_view_y0=percent;
     map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
-    map_view_y0=(map_view_y0>map.ysize-map_canvas_store_theight) ? 
-       map.ysize-map_canvas_store_theight : map_view_y0;
+    map_view_y0=
+      (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
+	map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
+	map_view_y0;
   }
 
   if(last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {

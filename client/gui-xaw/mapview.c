@@ -46,6 +46,22 @@
 
 #include "mapview.h"
 
+/*
+The bottom row of the map was sometimes hidden.
+
+As of now the top left corner is always aligned with the tiles. This is what
+causes the problem in the first place. The ideal solution would be to align the
+window with the bottom left tiles if you tried to center the window on a tile
+closer than (screen_tiles_height/2 -1) to the south pole.
+
+But, for now, I just grepped for occurences where the ysize (or the values
+derived from it) were used, and those places that had relevance to drawing the
+map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
+
+-Thue
+*/
+#define EXTRA_BOTTOM_ROW 1
+
 
 extern Display	*display;
 extern GC civ_gc, font_gc;
@@ -600,8 +616,9 @@ void center_tile_mapcanvas(int x, int y)
 
   new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
   new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
-  if(new_map_view_y0>map.ysize-map_canvas_store_theight)
-     new_map_view_y0=map_adjust_y(map.ysize-map_canvas_store_theight);
+  if(new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
+     new_map_view_y0=
+       map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
 
   map_view_x0=new_map_view_x0;
   map_view_y0=new_map_view_y0;
@@ -871,8 +888,8 @@ void update_map_canvas_scrollbars(void)
 {
   float shown_h=(float)map_canvas_store_twidth/(float)map.xsize;
   float top_h=(float)map_view_x0/(float)map.xsize;
-  float shown_v=(float)map_canvas_store_theight/(float)map.ysize;
-  float top_v=(float)map_view_y0/(float)map.ysize;
+  float shown_v=(float)map_canvas_store_theight/(float)map.ysize+EXTRA_BOTTOM_ROW;
+  float top_v=(float)map_view_y0/(float)map.ysize+EXTRA_BOTTOM_ROW;
 
   XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
   XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
@@ -1287,10 +1304,12 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
   if(w==map_horizontal_scrollbar)
     map_view_x0=percent*map.xsize;
   else {
-    map_view_y0=percent*map.ysize;
+    map_view_y0=percent*map.ysize+EXTRA_BOTTOM_ROW;
     map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
-    map_view_y0=(map_view_y0>map.ysize-map_canvas_store_theight) ? 
-       map.ysize-map_canvas_store_theight : map_view_y0;
+    map_view_y0=
+      (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
+	map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
+	map_view_y0;
   }
 
   update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
@@ -1319,7 +1338,7 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
       map_view_x0--;
   }
   else {
-    if(position>0 && map_view_y0<map.ysize-map_canvas_store_theight)
+    if(position>0 && map_view_y0<map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
       map_view_y0++;
     else if(position<0 && map_view_y0>0)
       map_view_y0--;
