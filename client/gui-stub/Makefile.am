@@ -45,4 +45,6 @@ libguiclient_a_SOURCES = \
 	repodlgs.c	\
 	repodlgs.h	\
 	spaceshipdlg.c	\
-	spaceshipdlg.h
+	spaceshipdlg.h	\
+	wldlg.c		\
+	wldlg.h

@@ -105,7 +105,7 @@ l = @l@
 noinst_LIBRARIES = libguiclient.a
 INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
 
-libguiclient_a_SOURCES =  	chatline.c		chatline.h		citydlg.c		citydlg.h		cityrep.c		cityrep.h		colors.c		colors.h		connectdlg.c		connectdlg.h		dialogs.c		dialogs.h		diplodlg.c		diplodlg.h		finddlg.c		gotodlg.c		gotodlg.h		graphics.c		graphics.h		gui_main.c		gui_main.h		helpdlg.c		helpdlg.h		inteldlg.c		mapctrl.c		mapctrl.h		mapview.c		mapview.h		menu.c			menu.h			messagedlg.c		messagewin.c		messagewin.h		plrdlg.c		plrdlg.h		ratesdlg.c		repodlgs.c		repodlgs.h		spaceshipdlg.c		spaceshipdlg.h
+libguiclient_a_SOURCES =  	chatline.c		chatline.h		citydlg.c		citydlg.h		cityrep.c		cityrep.h		colors.c		colors.h		connectdlg.c		connectdlg.h		dialogs.c		dialogs.h		diplodlg.c		diplodlg.h		finddlg.c		gotodlg.c		gotodlg.h		graphics.c		graphics.h		gui_main.c		gui_main.h		helpdlg.c		helpdlg.h		inteldlg.c		mapctrl.c		mapctrl.h		mapview.c		mapview.h		menu.c			menu.h			messagedlg.c		messagewin.c		messagewin.h		plrdlg.c		plrdlg.h		ratesdlg.c		repodlgs.c		repodlgs.h		spaceshipdlg.c		spaceshipdlg.h		wldlg.c			wldlg.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
@@ -125,7 +125,7 @@ libguiclient_a_LIBADD =
 libguiclient_a_OBJECTS =  chatline.o citydlg.o cityrep.o colors.o \
 connectdlg.o dialogs.o diplodlg.o finddlg.o gotodlg.o graphics.o \
 gui_main.o helpdlg.o inteldlg.o mapctrl.o mapview.o menu.o messagedlg.o \
-messagewin.o plrdlg.o ratesdlg.o repodlgs.o spaceshipdlg.o
+messagewin.o plrdlg.o ratesdlg.o repodlgs.o spaceshipdlg.o wldlg.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -143,7 +143,7 @@ DEP_FILES =  .deps/chatline.P .deps/citydlg.P .deps/cityrep.P \
 .deps/finddlg.P .deps/gotodlg.P .deps/graphics.P .deps/gui_main.P \
 .deps/helpdlg.P .deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P \
 .deps/menu.P .deps/messagedlg.P .deps/messagewin.P .deps/plrdlg.P \
-.deps/ratesdlg.P .deps/repodlgs.P .deps/spaceshipdlg.P
+.deps/ratesdlg.P .deps/repodlgs.P .deps/spaceshipdlg.P .deps/wldlg.P
 SOURCES = $(libguiclient_a_SOURCES)
 OBJECTS = $(libguiclient_a_OBJECTS)
 

@@ -27,7 +27,15 @@ char **
 gfx_fileextensions(void)
 {
 	/* PORTME */
-	return NULL;
+
+  /* hack to allow stub to run */
+  static char *ext[] =
+  {
+    "xpm",
+    NULL
+  };
+
+  return ext;
 }
 
 struct Sprite *
