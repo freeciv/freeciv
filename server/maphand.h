@@ -49,8 +49,6 @@ void map_startpos_load(struct section_file *file);
 void map_tiles_load(struct section_file *file);
 void map_load(struct section_file *file);
 void map_rivers_overlay_load(struct section_file *file);
-void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
-				struct unit* punit);
 void map_fog_city_area(struct city *pcity);
 void map_unfog_city_area(struct city *pcity);
 void remove_unit_sight_points(struct unit *punit);

@@ -3383,7 +3383,6 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   if (punit->homecity)
     homecity = find_city_by_id(punit->homecity);
 
-  teleport_unit_sight_points(src_x, src_y, dest_x, dest_y, punit);
   wakeup_neighbor_sentries(pplayer, dest_x, dest_y);
   maybe_make_first_contact(dest_x, dest_y, punit->owner);
 
@@ -3463,6 +3462,7 @@ who do the checking themselves.
 If you move a unit you should always use this function, as it also sets the
 transported_by unit field correctly.
 take_from_land is only relevant if you have set transport_units.
+Note that the src and dest need not be adjacent.
 **************************************************************************/
 int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 	      int transport_units, int take_from_land, int move_cost)
@@ -3505,8 +3505,8 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
       pcargo->transported_by = -1;
   } unit_list_iterate_end;
 
-  /* The way we first make a list of the units to be moved with a transporter
-     and then we insert them again. The way this is done makes sure that the
+  /* Transporting units. We first make a list of the units to be moved and
+     then insert them again. The way this is done makes sure that the
      units stay in the same order. */
   if (get_transporter_capacity(punit) && transport_units) {
     struct unit_list cargo_units;
@@ -3523,15 +3523,23 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
+      unfog_area(pplayer, dest_x, dest_y, get_unit_type(pcargo->type)->vision_range);
       pcargo->x = dest_x;
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(0, pcargo, src_x, src_y, 1, 0);
+      fog_area(pplayer, src_x, src_y, get_unit_type(pcargo->type)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
     unit_list_unlink_all(&cargo_units);
   }
+
+  /* We first unfog the destination, then move the unit and send the move,
+     and then fog the old territory. This means that the player gets a chance to
+     see the newly explored territory while the client moves the unit, and both
+     areas are visible during the move */
+  unfog_area(pplayer, dest_x, dest_y, get_unit_type(punit->type)->vision_range);
 
   unit_list_unlink(&psrctile->units, punit);
   punit->x = dest_x;
@@ -3549,6 +3557,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
   send_unit_info_to_onlookers(0, punit, src_x, src_y, 0, 0);
+  fog_area(pplayer, src_x, src_y, get_unit_type(punit->type)->vision_range);
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
 

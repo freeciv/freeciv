@@ -716,18 +716,6 @@ void map_rivers_overlay_load(struct section_file *file)
 /**************************************************************************
 ...
 **************************************************************************/
-void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
-				struct unit* punit)
-{
-  struct player *pplayer = &game.players[punit->owner];
-  int range = get_unit_type(punit->type)->vision_range;
-  unfog_area(pplayer,dest_x,dest_y,range);
-  fog_area(pplayer,src_x,src_y,range);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void map_fog_city_area(struct city *pcity)
 {
   if (!pcity) {
