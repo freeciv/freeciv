@@ -641,14 +641,6 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-  If necessary, clear the city descriptions out of the buffer.
-**************************************************************************/
-void prepare_show_city_descriptions(void)
-{
-  /* Nothing to do */
-}
-
-/**************************************************************************
 Draw at x = left of string, y = top of string.
 **************************************************************************/
 static void draw_shadowed_string(struct canvas *pcanvas,
@@ -670,69 +662,38 @@ static void draw_shadowed_string(struct canvas *pcanvas,
       x, y, string, len);
 }
 
+static XFontSet *fonts[FONT_COUNT] = {&main_font_set, &prod_font_set};
+static GC *font_gcs[FONT_COUNT] = {&font_gc, &prod_font_gc};
+
 /****************************************************************************
-  Draw a description for the given city.  This description may include the
-  name, turns-to-grow, production, and city turns-to-build (depending on
-  client options).
-
-  (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
-  width and height of the text block (centered directly underneath the
-  city's tile).
+  Return the size of the given text in the given font.  This size should
+  include the ascent and descent of the text.  Either of width or height
+  may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		    struct city *pcity, int *width, int *height)
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
 {
-  char buffer[512], buffer2[512];
-  enum color_std color;
-  int w, w2;
-  XFontSetExtents *main_exts = XExtentsOfFontSet(main_font_set);
-  XFontSetExtents *prod_exts = XExtentsOfFontSet(prod_font_set);
-
-  canvas_x += NORMAL_TILE_WIDTH / 2;
-  canvas_y += NORMAL_TILE_HEIGHT;
-
-  get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
-				   buffer2, sizeof(buffer2), &color);
-
-  w = XmbTextEscapement(main_font_set, buffer, strlen(buffer));
-  if (buffer2[0] != '\0') {
-    /* HACK: put a character's worth of space between the two strings. */
-    w += XmbTextEscapement(main_font_set, "M", 1);
+  if (width) {
+    *width = XmbTextEscapement(*fonts[font], text, strlen(text));
   }
-  w2 = XmbTextEscapement(main_font_set, buffer2, strlen(buffer2));
-
-  draw_shadowed_string(pcanvas, main_font_set, font_gc,
-		       COLOR_STD_WHITE, COLOR_STD_BLACK,
-		       canvas_x - (w + w2) / 2,
-		       canvas_y, buffer);
-
-  draw_shadowed_string(pcanvas, prod_font_set, prod_font_gc, color,
-		       COLOR_STD_BLACK,
-		       canvas_x - (w + w2) / 2 + w,
-		       canvas_y, buffer2);
-
-  *width = w + w2;
-  *height = main_exts->max_logical_extent.height;
-
-  if (draw_city_productions && (pcity->owner == game.player_idx)) {
-    if (draw_city_names) {
-      canvas_y += main_exts->max_logical_extent.height;
-    }
-
-    get_city_mapview_production(pcity, buffer, sizeof(buffer));
-    w = XmbTextEscapement(prod_font_set, buffer, strlen(buffer));
-
-    draw_shadowed_string(pcanvas, prod_font_set, prod_font_gc,
-			 COLOR_STD_WHITE, COLOR_STD_BLACK,
-			 canvas_x - w / 2,
-			 canvas_y, buffer);
-
-    *width = MAX(*width, w);
-    *height += prod_exts->max_logical_extent.height;
+  if (height) {
+    /* ??? */
+    *height = main_exts->max_logical_extent.height;
   }
+}
+
+/****************************************************************************
+  Draw the text onto the canvas in the given color and font.  The canvas
+  position does not account for the ascent of the text; this function must
+  take care of this manually.  The text will not be NULL but may be empty.
+****************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text)
+{
+  draw_shadowed_string(pcanvas, fonts[font], font_gcs[font],
+		       color, COLOR_STD_BLACK,
+		       canvas_x, canvas_y, text);
 }
 
 /**************************************************************************

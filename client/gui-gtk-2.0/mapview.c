@@ -461,117 +461,63 @@ void update_city_descriptions(void)
   update_map_canvas_visible();
 }
 
-/**************************************************************************
-  If necessary, clear the city descriptions out of the buffer.
-**************************************************************************/
-void prepare_show_city_descriptions(void)
-{
-  /* Nothing to do */
-}
+static PangoLayout *layout;
+static PangoFontDescription **fonts[FONT_COUNT] = {&main_font,
+						   &city_productions_font};
 
 /****************************************************************************
-  Draw a description for the given city.  This description may include the
-  name, turns-to-grow, production, and city turns-to-build (depending on
-  client options).
-
-  (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
-  width and height of the text block (centered directly underneath the
-  city's tile).
+  Return the size of the given text in the given font.  This size should
+  include the ascent and descent of the text.  Either of width or height
+  may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		    struct city *pcity, int *width, int *height)
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-  static char buffer[512], buffer2[32];
-  PangoRectangle rect, rect2;
-  enum color_std color;
-  int extra_width = 0;
-  static PangoLayout *layout;
+  PangoRectangle rect;
 
   if (!layout) {
     layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  *width = *height = 0;
+  pango_layout_set_font_description(layout, *fonts[font]);
+  pango_layout_set_text(layout, text, -1);
 
-  canvas_x += NORMAL_TILE_WIDTH / 2;
-  canvas_y += NORMAL_TILE_HEIGHT;
+  pango_layout_get_pixel_extents(layout, &rect, NULL);
+  if (width) {
+    *width = rect.width;
+  }
+  if (height) {
+    *height = rect.height;
+  }
+}
 
-  if (draw_city_names) {
-    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
-				     buffer2, sizeof(buffer2), &color);
+/****************************************************************************
+  Draw the text onto the canvas in the given color and font.  The canvas
+  position does not account for the ascent of the text; this function must
+  take care of this manually.  The text will not be NULL but may be empty.
+****************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text)
+{
+  PangoRectangle rect;
 
-    pango_layout_set_font_description(layout, main_font);
-    if (buffer2[0] != '\0') {
-      /* HACK: put a character's worth of space between the two strings. */
-      pango_layout_set_text(layout, "M", -1);
-      pango_layout_get_pixel_extents(layout, &rect, NULL);
-      extra_width = rect.width;
-    }
-    pango_layout_set_text(layout, buffer, -1);
-    pango_layout_get_pixel_extents(layout, &rect, NULL);
-    rect.width += extra_width;
-
-    if (draw_city_growth && pcity->owner == game.player_idx) {
-      /* We need to know the size of the growth text before
-	 drawing anything. */
-      pango_layout_set_font_description(layout, city_productions_font);
-      pango_layout_set_text(layout, buffer2, -1);
-      pango_layout_get_pixel_extents(layout, &rect2, NULL);
-
-      /* Now return the layout to its previous state. */
-      pango_layout_set_font_description(layout, main_font);
-      pango_layout_set_text(layout, buffer, -1);
-    } else {
-      rect2.width = 0;
-    }
-
-    gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			     toplevel->style->black_gc,
-			     toplevel->style->white_gc,
-			     canvas_x - (rect.width + rect2.width) / 2,
-			     canvas_y + PANGO_ASCENT(rect), layout);
-
-    if (draw_city_growth && pcity->owner == game.player_idx) {
-      pango_layout_set_font_description(layout, city_productions_font);
-      pango_layout_set_text(layout, buffer2, -1);
-      gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-      gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			       toplevel->style->black_gc,
-			       civ_gc,
-			       canvas_x - (rect.width + rect2.width) / 2
-			       + rect.width,
-			       canvas_y + PANGO_ASCENT(rect)
-			       + rect.height / 2 - rect2.height / 2,
-			       layout);
-    }
-
-    canvas_y += rect.height + 3;
-
-    *width = rect.width + rect2.width;
-    *height += rect.height + 3;
+  if (pcanvas->type != CANVAS_PIXMAP) {
+    return;
+  }
+  if (!layout) {
+    layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  if (draw_city_productions && (pcity->owner==game.player_idx)) {
-    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+  gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+  pango_layout_set_font_description(layout, *fonts[font]);
+  pango_layout_set_text(layout, text, -1);
 
-    pango_layout_set_font_description(layout, city_productions_font);
-    pango_layout_set_text(layout, buffer, -1);
-
-    pango_layout_get_pixel_extents(layout, &rect, NULL);
-    gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			     toplevel->style->black_gc,
-			     toplevel->style->white_gc,
-			     canvas_x - rect.width / 2,
-			     canvas_y + PANGO_ASCENT(rect), layout);
-
-    *width = MAX(*width, rect.width);
-    *height += rect.height;
-  }
-  }
+  pango_layout_get_pixel_extents(layout, &rect, NULL);
+  gtk_draw_shadowed_string(pcanvas->v.pixmap,
+			   toplevel->style->black_gc, civ_gc,
+			   canvas_x,
+			   canvas_y + PANGO_ASCENT(rect), layout);
 }
 
 /**************************************************************************

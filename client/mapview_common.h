@@ -55,6 +55,12 @@ extern struct mapview_decoration *map_deco;
 extern struct view mapview;
 extern struct overview overview;
 
+enum client_font {
+  FONT_CITY_NAME,
+  FONT_CITY_PROD,
+  FONT_COUNT
+};
+
 /* HACK: Callers can set this to FALSE to disable sliding.  It should be
  * reenabled afterwards. */
 extern bool can_slide;

@@ -34,10 +34,12 @@ struct canvas *canvas_create(int width, int height);
 void canvas_free(struct canvas *store);
 struct canvas *get_overview_window(void);
 
-void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		    struct city *pcity, int *width, int *height);
-void prepare_show_city_descriptions(void);
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text);
 
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text);
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y, struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height);

@@ -1263,6 +1263,78 @@ void update_city_description(struct city *pcity)
   queue_mapview_tile_update(pcity->tile, TILE_UPDATE_CITY_DESC);
 }
 
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+static void show_city_desc(struct canvas *pcanvas,
+			   int canvas_x, int canvas_y,
+			   struct city *pcity, int *width, int *height)
+{
+  static char name[512], growth[32], prod[512];
+  enum color_std growth_color;
+  struct {
+    int x, y, w, h;
+  } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
+    prod_rect = {0, 0, 0, 0};
+  int extra_width = 0, total_width, total_height;
+
+  *width = *height = 0;
+
+  canvas_x += NORMAL_TILE_WIDTH / 2;
+  canvas_y += NORMAL_TILE_HEIGHT;
+
+  if (draw_city_names) {
+    get_city_mapview_name_and_growth(pcity, name, sizeof(name),
+				     growth, sizeof(growth), &growth_color);
+
+    get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
+
+    if (growth[0] != '\0') {
+      get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
+      /* HACK: put a character's worth of space between the two strings. */
+      get_text_size(&extra_width, NULL, FONT_CITY_NAME, "M");
+    }
+    total_width = name_rect.w + extra_width + growth_rect.w;
+    total_height = MAX(name_rect.h, growth_rect.h);
+    canvas_put_text(pcanvas,
+		    canvas_x - total_width / 2, canvas_y,
+		    FONT_CITY_NAME, COLOR_STD_WHITE, name);
+    if (growth[0] != '\0') {
+      canvas_put_text(pcanvas,
+		      canvas_x - total_width / 2 + name_rect.w + extra_width,
+		      canvas_y + total_height - growth_rect.h,
+		      FONT_CITY_PROD, growth_color, growth);
+    }
+    canvas_y += total_height + 3;
+
+    *width = MAX(*width, total_width);
+    *height += total_height + 3;
+  }
+  if (draw_city_productions && pcity->owner == game.player_idx) {
+    get_city_mapview_production(pcity, prod, sizeof(prod));
+    get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
+
+    total_width = prod_rect.w;
+    total_height = prod_rect.h;
+
+    canvas_put_text(pcanvas, canvas_x - total_width / 2, canvas_y,
+		    FONT_CITY_PROD, COLOR_STD_WHITE, prod);
+
+    canvas_y += total_height;
+    *width = MAX(*width, total_width);
+    *height += total_height;
+  }
+}
+
 /**************************************************************************
   Show descriptions for all cities visible on the map canvas.
 **************************************************************************/
@@ -1274,8 +1346,6 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   if (!draw_city_names && !draw_city_productions) {
     return;
   }
-
-  prepare_show_city_descriptions();
 
   /* A city description is shown below the city.  It has a specified
    * maximum width and height (although these are only estimates).  Thus

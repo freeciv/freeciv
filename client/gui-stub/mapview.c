@@ -122,19 +122,30 @@ void map_size_changed(void)
 }
 
 /****************************************************************************
-  Draw a description for the given city.  This description may include the
-  name, turns-to-grow, production, and city turns-to-build (depending on
-  client options).
-
-  (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
-  width and height of the text block (centered directly underneath the
-  city's tile).
+  Return the size of the given text in the given font.  This size should
+  include the ascent and descent of the text.  Either of width or height
+  may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		    struct city *pcity, int *width, int *height)
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
+{
+  /* PORTME */
+  if (width) {
+    *width = 0;
+  }
+  if (height) {
+    *height = 0;
+  }
+}
+
+/****************************************************************************
+  Draw the text onto the canvas in the given color and font.  The canvas
+  position does not account for the ascent of the text; this function must
+  take care of this manually.  The text will not be NULL but may be empty.
+****************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text)
 {
   /* PORTME */
 }
@@ -319,14 +330,6 @@ void update_map_canvas_scrollbars_size(void)
 void update_city_descriptions(void)
 {
   update_map_canvas_visible();
-}
-
-/****************************************************************************
-  If necessary, clear the city descriptions out of the buffer.
-****************************************************************************/
-void prepare_show_city_descriptions(void)
-{
-  /* PORTME */
 }
 
 /****************************************************************************
