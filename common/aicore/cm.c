@@ -1438,9 +1438,12 @@ void cm_init(void)
 ****************************************************************************/
 void cm_init_citymap(void)
 {
-  cache3.results
-    = fc_realloc(cache3.results,
-		 (MAX_FIELDS_USED + 1) * sizeof(*cache3.results));
+  size_t size = (MAX_FIELDS_USED + 1) * sizeof(*cache3.results);
+
+  cache3.results = fc_realloc(cache3.results, size);
+
+  /* Initialize all values to NULL/0/FALSE */
+  memset(cache3.results, 0, size);
 }
 
 /****************************************************************************
