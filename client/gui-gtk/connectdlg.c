@@ -296,7 +296,7 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
   Make an attempt to autoconnect to the server.
   (server_autoconnect() gets GTK to call this function every so often.)
 **************************************************************************/
-static int try_to_autoconnect()
+static int try_to_autoconnect(gpointer data)
 {
   char errbuf[512];
   static int count = 0;
@@ -362,7 +362,7 @@ void server_autoconnect()
 	    server_host, server_port, player_name, buf);
     gtk_exit(1);
   }
-  if (try_to_autoconnect()) {
+  if (try_to_autoconnect(NULL)) {
     gtk_timeout_add(AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);
   }
 }

@@ -6,7 +6,7 @@
 
 #include "connectdlg.h"
 
-static void try_to_autoconnect();
+static void try_to_autoconnect(void);
 
 
 void

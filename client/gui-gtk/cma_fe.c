@@ -88,7 +88,7 @@ static void set_hscales(const struct cma_parameter *const parameter,
 /**************************************************************************
 ...
 **************************************************************************/
-static void ensure_initialised_cma_dialog_list()
+static void ensure_initialised_cma_dialog_list(void)
 {
   if (!cma_dialog_list_has_been_initialised) {
     cma_dialog_list_init(&cma_dialog_list);
