@@ -177,11 +177,15 @@ void wonders_of_the_world(struct player *pplayer)
   char buf2[4096];
   buffer[0]=0;
   for (i=0;i<B_LAST;i++) {
-    if(is_wonder(i) && game.global_wonders[i] && 
-       (pcity=find_city_by_id(game.global_wonders[i]))) {
-      sprintf(buf2, "%s (%s) has the %s\n", pcity->name, 
-	      get_race_name(game.players[pcity->owner].race), 
-	      get_imp_name_ex(pcity, i));
+    if(is_wonder(i) && game.global_wonders[i]) {
+      if((pcity=find_city_by_id(game.global_wonders[i]))) {
+	sprintf(buf2, "%s in %s (%s)\n",
+		get_imp_name_ex(pcity, i), pcity->name,
+		get_race_name(game.players[pcity->owner].race));
+      } else {
+	sprintf(buf2, "%s has been DESTROYED\n",
+		get_improvement_type(i)->name);
+      }
       strcat(buffer, buf2);
     }
   }

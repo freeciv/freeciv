@@ -58,6 +58,8 @@ struct civ_game {
   struct player players[MAX_PLAYERS];   
   int global_advances[A_LAST];             /* a counter */
   int global_wonders[B_LAST];              /* contains city id's */
+         /* global_wonders[] may also be (-1), or the id of a city
+	    which no longer exists, if the wonder has been destroyed */
   int globalwarming;                       /* counter of how disturbed 
 					      mother nature is */
   int rail_food, rail_trade, rail_prod;

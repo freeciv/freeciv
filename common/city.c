@@ -1184,12 +1184,22 @@ int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*F
     return 0;
   if (city_got_building(pcity, id))
     return 1;
-  /* For Manhatten it can be owned by anyone, but otherwise the player
-   * who owns the city needs to have it to get the effect.
-   * (Note player_find_city_by_id() may be faster, in the client)
+  
+  /* For Manhatten it can be owned by anyone, and it doesn't matter
+   * whether it is destroyed or not.
+   *
+   * (The same goes for Apollo, with respect to building spaceship parts,
+   * but not for getting the map effect.  This function only returns true
+   * for Apollo for the owner of a non-destroyed Apollo; for building
+   * spaceship parts just check (game.global_wonders[id] != 0).
+   * (Actually, this function is not currently used for either Manhatten
+   * or Apollo.))
+   *
+   * Otherwise the player who owns the city needs to have it to
+   * get the effect.
    */
   if (id==B_MANHATTEN) 
-    return (find_city_by_id(game.global_wonders[id]) != 0);
+    return (game.global_wonders[id] != 0);
   
   tmp = player_find_city_by_id(get_player(pcity->owner),
 			       game.global_wonders[id]);

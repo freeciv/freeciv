@@ -379,6 +379,14 @@ int game_load(struct section_file *file)
   }
   map_load(file);
 
+  /* destroyed wonders: */
+  string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
+  for(i=0; i<B_LAST && string[i]; i++) {
+    if (string[i] == '1') {
+      game.global_wonders[i] = -1; /* destroyed! */
+    }
+  }
+  
   for(i=0; i<game.nplayers; i++) {
     player_load(&game.players[i], i, file); 
   }
@@ -522,6 +530,18 @@ void game_save(struct section_file *file)
     }
      
   }
+
+  /* destroyed wonders: */
+  for(i=0; i<B_LAST; i++) {
+    if (is_wonder(i) && game.global_wonders[i]!=0
+	&& !find_city_by_id(game.global_wonders[i])) {
+      temp[i] = '1';
+    } else {
+      temp[i] = '0';
+    }
+  }
+  temp[i] = '\0';
+  secfile_insert_str(file, temp, "game.destroyed_wonders");
 
   calc_unit_ordering();
   
