@@ -12963,7 +12963,7 @@ msgstr ""
 "einem Fliegerhorst, einem Flugzeugträger oder (im Fall von Raketen) auf "
 "einem U-Boot landen. Die Anzahl der Runden, nach denen aufgetankt werden "
 "muß, ist unterschiedlich. Wie die Marineeinheiten sind auch "
-"Lauftwaffeneinheiten nicht in der Lage, feindliche Städte einzunehmen. "
+"Luftwaffeneinheiten nicht in der Lage, feindliche Städte einzunehmen. "
 "Außerhalb von Städten können Luftwaffeneinheiten nur von Jägern angegriffen "
 "werden."
 
