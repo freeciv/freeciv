@@ -1243,6 +1243,7 @@ void server_remove_player(struct player *pplayer)
     city_map_iterate(x,y) {
       set_worker_city(pcity, x, y, C_TILE_EMPTY);
     }
+    remove_city_from_minimap(x, y);
   city_list_iterate_end;
 
   game_remove_player(pplayer->player_no);

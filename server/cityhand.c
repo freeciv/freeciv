@@ -134,6 +134,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   
   unit_list_init(&pcity->units_supported);
   city_list_insert(&pplayer->cities, pcity);
+  add_city_to_minimap(pcity->x, pcity->y);
 
 /* it is possible to build a city on a tile that is already worked */
 /* this will displace the worker on the newly-built city's tile -- Syela */
@@ -589,5 +590,6 @@ void remove_city(struct city *pcity)
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }
+  remove_city_from_minimap(x, y);
   game_remove_city(pcity->id);
 }

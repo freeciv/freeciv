@@ -291,6 +291,7 @@ int main(int argc, char *argv[])
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
+  generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!is_new_game) {
     for (i=0;i<game.nplayers;i++) {

@@ -41,7 +41,8 @@ void do_unit_goto(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
 
 extern struct move_cost_map warmap;
-unsigned char minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+/* negative: in_city_radius, 0: unassigned, positive: city_des */
 
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)
@@ -785,7 +786,7 @@ int amortize(int b, int d)
   return(b * s);
 }
 
-void generate_minimap(struct player *pplayer)
+void generate_minimap(void)
 {
   int a, i, j;
 
@@ -793,21 +794,71 @@ void generate_minimap(struct player *pplayer)
   for (a = 0; a < game.nplayers; a++) {
     city_list_iterate(game.players[a].cities, pcity)
       city_map_iterate(i, j) {
-        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)] = 1;
+        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)]--;
       }
     city_list_iterate_end;
   }
-  unit_list_iterate(pplayer->units, punit)
-    if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-      city_map_iterate(i, j) {
-        minimap[map_adjust_x(punit->goto_dest_x+i-2)][map_adjust_y(punit->goto_dest_y+j-2)] = 1;
-      }
-    }
-  unit_list_iterate_end;
 }
 
-int city_desirability(int x, int y, int dist, struct player *pplayer)
-{ /* this whole funct assumes G_REPUBLIC -- Syela */
+void remove_city_from_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -4; j <= 4; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -4; i <= 4; i++) {
+      xx = map_adjust_x(x+i);
+/*printf("Removing (%d, %d) from minimap. [%d][%d] = %d ->", x, y, xx, y + j,
+minimap[xx][y + j]);*/
+      n = i * i + j * j;
+      if (n <= 5) {
+        if (minimap[xx][y+j] < 0) minimap[xx][y+j]++;
+        else minimap[xx][y+j] = 0;
+      } else if (n <= 20) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+/*printf("%d\n", minimap[xx][y + j]);*/
+    }
+  }
+}    
+
+void add_city_to_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -4; j <= 4; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -4; i <= 4; i++) {
+      xx = map_adjust_x(x+i);
+      n = i * i + j * j;
+/*printf("Adding (%d, %d) to minimap. [%d][%d] = %d ->", x, y, xx, y + j,
+minimap[xx][y + j]);*/
+      if (n <= 5) {
+        if (minimap[xx][y+j] < 0) minimap[xx][y+j]--;
+        else minimap[xx][y+j] = -1;
+      } else if (n <= 20) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+/*printf("%d\n", minimap[xx][y + j]);*/
+    }
+  }
+}    
+
+void locally_zero_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -2; j <= 2; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -2; i <= 2; i++) {
+      xx = map_adjust_x(x+i);
+      n = i * i + j * j;
+      if (n <= 5) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+    }
+  }
+}  
+
+int city_desirability(int x, int y)
+{ /* this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela */
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
   int irrig[5][5], mine[5][5], road[5][5];
   int i, j, f, n = 0;
@@ -822,23 +873,27 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
   int har, t, sh;
   struct tile_type *ptype;
   struct city *pcity;
-  
-  har = is_terrain_near_tile(x, y, T_OCEAN);
-
-  sh = SHIELD_WEIGHTING * MORT;
-  t = 8 * MORT - (8 * MORT * dist * 3 / (20 * 10));
 
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN) return(0);
   pcity = map_get_city(x, y);
   if (pcity && pcity->size > 7) return(0);
-  if (!pcity && minimap[x][y]) return(0);
+  if (!pcity && minimap[x][y] < 0) return(0);
+  if (!pcity && minimap[x][y] > 0) return(minimap[x][y]);
+
+  har = is_terrain_near_tile(x, y, T_OCEAN);
+
+  sh = SHIELD_WEIGHTING * MORT;
+/*  t = 8 * MORT - (8 * MORT * dist * 3 / (20 * 10)); */
+  t = 8 * MORT; /* assuming DEMOCRACY now, it makes everything easier! - Syela */
 
   con = ptile->continent;
 
+/* not worth the computations AFAICT -- Syela
   city_list_iterate(pplayer->cities, acity)
     if (city_got_building(acity, B_PYRAMIDS)) g++;
   city_list_iterate_end;
+*/
 
   memset(taken, 0, sizeof(taken));
   memset(food, 0, sizeof(food));
@@ -849,7 +904,7 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
   memset(road, 0, sizeof(road));
 
   city_map_iterate(i, j) {
-    if ((!minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)] && !pcity) ||
+    if ((minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)] >= 0 && !pcity) ||
        (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
       ptile = map_get_tile(x+i-2, y+j-2);
       con2 = ptile->continent;
@@ -965,6 +1020,7 @@ get_tile_type(map_get_tile(x + i0 - 2, y + j0 - 2)->terrain)->terrain_name, n, d
     else val = tmp;
   }
   val -= 110 * SHIELD_WEIGHTING; /* WAG: walls, defenders */
+  minimap[x][y] = val;
 
 if (debug)
 printf("Total value of (%d, %d) [%d workers] = %d\n", x, y, n, val);

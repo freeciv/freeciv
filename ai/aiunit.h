@@ -36,6 +36,6 @@ int get_cities_on_island(struct player *pplayer, int cont);
 int get_settlers_on_island(struct player *pplayer, int cont);
 const char *get_a_name(struct player *pplayer);
 int amortize(int b, int d);
-void generate_minimap(struct player *pplayer);
-int city_desirability(int x, int y, int dist, struct player *pplayer);
+void generate_minimap(void);
+int city_desirability(int x, int y);
 #endif

@@ -272,6 +272,14 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     
     return;
   }
+  if (diplomat_on_tile(pcity->x, pcity->y)) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+		     "Game: A%s spy has been eliminated in %s..", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
+    wipe_unit(0, pdiplomat);
+    return;
+  }
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
 
@@ -1186,8 +1194,6 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int a, b, d;
   struct city *mycity = map_get_city(punit->x, punit->y);
   int fu;
-  struct city *capital = find_palace(pplayer);
-  int dist;
 
   if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
   else {
@@ -1310,8 +1316,10 @@ gx, gy, v, x, y, v2, d, b);*/
   if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
 
   if (pplayer->ai.control) { /* don't want to make cities otherwise */
+    if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+      remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+    }
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
-    generate_minimap(pplayer);
     for (i = -7; i <= 7; i++) {
       for (j = -7; j <= 7; j++) { /* hope this is far enough -- Syela */
         x = map_adjust_x(punit->x + i);
@@ -1319,15 +1327,11 @@ gx, gy, v, x, y, v2, d, b);*/
         if (map_get_continent(x, y) == co &&
             !is_already_assigned(punit, pplayer, x, y)) {
           z = warmap.cost[x][y]; /* + m - 1; not this time */
-          if (!capital) {
-            if (city_list_size(&pplayer->cities)) dist=36;
-            else dist = 0;   
-          } else dist=MIN(36,map_distance(capital->x, capital->y, x, y));
           d = z / m;
 /* without this, the computer will go 6-7 tiles from X to build a city at Y */
           d *= 2;
 /* and then build its NEXT city halfway between X and Y. -- Syela */
-          z = city_desirability(x, y, dist, pplayer);
+          z = city_desirability(x, y);
           v2 = amortize(z, d);
           b = (food * FOOD_WEIGHTING) * MORT;
           v2 -= (b - amortize(b, d));
@@ -1359,8 +1363,10 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
   }
 
   if (gx!=-1 && gy!=-1) {
-    if (t == ACTIVITY_UNKNOWN) punit->ai.ai_role = AIUNIT_BUILD_CITY;
-    else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    if (t == ACTIVITY_UNKNOWN) {
+      punit->ai.ai_role = AIUNIT_BUILD_CITY;
+      add_city_to_minimap(gx, gy);
+    } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
     if (!same_pos(gx, gy, punit->x, punit->y))
       auto_settler_do_goto(pplayer, punit,gx, gy);
   } else {
