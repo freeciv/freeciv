@@ -946,7 +946,7 @@ void civil_war(struct player *pplayer)
 	 a unit from another city, and both cities join the rebellion. We
 	 resolved stack conflicts for each city we would teleport the first
 	 of the units we met since the other would have another owner */
-	if(!(pnewcity = transfer_city(cplayer, pplayer, pcity, -1, 0, 0))){
+	if(!(pnewcity = transfer_city(cplayer, pplayer, pcity, -1, 0, 0, 0))){
 	   freelog(LOG_VERBOSE,
 		   "Transfer city returned no city - aborting civil war.");
 	   unit_list_iterate(pplayer->units, punit) 
@@ -992,7 +992,7 @@ transfer_city_units(), which is called in the middle of the function.
 ***********************************************************************/
 struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 			   struct city *pcity, int kill_outside,
-			   int transfer_unit_verbose, int resolve_stack)
+			   int transfer_unit_verbose, int resolve_stack, int raze)
 {
   struct city *pnewcity;
   int *resolve_list=NULL;
@@ -1055,6 +1055,9 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   update_map_with_city_workers(pnewcity);
   city_refresh(pnewcity);
   initialize_infrastructure_cache(pnewcity);
+  if (raze)
+    raze_city(pnewcity);
+
   send_city_info(0, pnewcity);
   
   if (terrain_control.may_road &&

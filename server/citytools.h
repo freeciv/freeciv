@@ -64,7 +64,7 @@ int civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 			   struct city *pcity, int kill_outside,
-			   int transfer_unit_verbose, int resolve_stack);
+			   int transfer_unit_verbose, int resolve_stack, int raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 				     int sea_required, struct city *pexclcity);
 

@@ -193,7 +193,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
 	  
-	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity,-1,1,1))){
+	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity, -1, 1, 1, 0))){
 	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
 	  }

@@ -1273,8 +1273,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
   get_a_tech(pplayer, cplayer);
   make_partisans(pcity);
 
-  pnewcity = transfer_city(pplayer, cplayer, pcity , 0, 0, 1);
-  raze_city(pnewcity);
+  pnewcity = transfer_city(pplayer, cplayer, pcity , 0, 0, 1, 1);
 
   if (do_civil_war)
     civil_war(cplayer);

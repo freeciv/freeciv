@@ -774,7 +774,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
    * are within one square of the city) to the new owner.
    */
   pcity->shield_stock = 0;
-  pnewcity = transfer_city (pplayer, cplayer, pcity, 1, 1, 1);
+  pnewcity = transfer_city (pplayer, cplayer, pcity, 1, 1, 1, 0);
 
   /* You get a technology advance, too! */
   get_a_tech (pplayer, cplayer);
