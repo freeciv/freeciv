@@ -47,7 +47,7 @@ static const char *flag_names[] = {
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
-  "CityBuster"
+  "CityBuster", "NoBuild"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -475,6 +475,9 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
     return FALSE;
   if (unit_type_flag(id, F_NUCLEAR) && game.global_wonders[B_MANHATTEN] == 0)
     return FALSE;
+  if (unit_type_flag(id, F_NOBUILD)) {
+    return FALSE;
+  }
   if (unit_type_flag(id, F_FANATIC)
       && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))
     return FALSE;

@@ -118,6 +118,7 @@ enum unit_flag_id {
   F_NO_VETERAN,       /* Cannot increase veteran level */
   F_BOMBARDER,        /* Has the ability to bombard */
   F_CITYBUSTER,       /* Gets double firepower against cities */
+  F_NOBUILD,          /* Unit cannot be built (barb leader etc) */
   F_LAST
 };
 #define F_MAX 64

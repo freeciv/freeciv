@@ -1752,7 +1752,7 @@ Explorers are very useful for mapping unknown territory.\
 name          = _("Barbarian Leader")
 move_type     = "Land"
 tech_req      = "None"
-obsolete_by   = "Settlers"    ; Ugly hack, to prevent anyone from building it
+obsolete_by   = "None"
 graphic       = "u.barbarian_leader"
 graphic_alt   = "u.diplomat"
 sound_move    = "m_barbarian_leader"
@@ -1773,7 +1773,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil"
+flags         = "IgZOC", "NonMil", "NoBuild"
 roles         = "BarbarianLeader"
 helptext      = _("\
 When barbarian leader is killed on a tile without any defending units, \
