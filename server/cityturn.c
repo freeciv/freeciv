@@ -981,7 +981,7 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 
       create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
 		  do_make_unit_veteran(pcity, pcity->currently_building), 
-		  pcity->id);
+		  pcity->id, -1);
       /* to eliminate micromanagement, we only subtract the unit's cost */
       pcity->shield_stock-=unit_value(pcity->currently_building); 
       notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,

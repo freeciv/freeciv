@@ -405,6 +405,28 @@ void diplomat_embassy_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
+void spy_poison_callback(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
+{
+  
+  destroy_message_dialog(w);
+  
+  if(find_unit_by_id(diplomat_id) && 
+     (find_city_by_id(diplomat_target_id))) { 
+    struct packet_diplomat_action req;
+    
+    req.action_type=SPY_POISON;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+    
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void diplomat_steal_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
@@ -523,6 +545,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 			   "Sir, the diplomat is waiting for your command",
 			   diplomat_bribe_callback, 0,
 			   diplomat_embassy_callback, 0,
+			   spy_poison_callback, 0,
 			   diplomat_sabotage_callback, 0,
 			   diplomat_steal_callback, 0,
 			   diplomat_incite_callback, 0,
@@ -533,12 +556,14 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
   if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+  if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+  if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+  if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+  if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+    XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
 }
 
 

@@ -633,7 +633,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     
     if(same_pos(vunit->x, vunit->y, x, y)){
       create_unit(pplayer, x, y, vunit->type, vunit->veteran,
-		  pcity->id);
+		  pcity->id, vunit->moves_left);
+      wipe_unit(0, vunit);
     }else{
       if(vunit->homecity == vcity->id){
 	/* look up victim's cities and see if this unit is
@@ -646,7 +647,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	  /* unit is in another city: make that the new homecity */
 	  
 	  create_unit(pvictim, vunit->x, vunit->y, vunit->type, 
-		      vunit->veteran, new_home_city->id);
+		      vunit->veteran, new_home_city->id, vunit->moves_left);
+
 	}else{
 
 	  /* 
@@ -655,8 +657,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	   * retaken.  We don't actually have to do anything here 
 	   * as remove_city deletes all supported units.
 	   */
-
-	  ;
+	 
+	  wipe_unit(0, vunit);
 	  
 	}
       }

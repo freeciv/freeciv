@@ -148,7 +148,12 @@ void handle_diplomat_action(struct player *pplayer,
 					  pcity->x, pcity->y))
 	 diplomat_sabotage(pplayer, pdiplomat, pcity);
        break;
-     case DIPLOMAT_EMBASSY:
+    case SPY_POISON:
+      if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
+					 pcity->x, pcity->y))
+	spy_poison(pplayer, pdiplomat, pcity);
+      break;
+    case DIPLOMAT_EMBASSY:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY, 
 					 pcity->x, pcity->y)) {
 	pplayer->embassy|=(1<<pcity->owner);
@@ -547,7 +552,7 @@ void handle_unit_enter_hut(struct unit *punit)
   case 9:
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     "Game: A band of friendly mercenaries joins your cause.");
-    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(), 0, punit->homecity);
+    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(), 0, punit->homecity, -1);
     break;
   case 10:
     if (in_city_radius(punit->x, punit->y))
@@ -568,7 +573,7 @@ void handle_unit_enter_hut(struct unit *punit)
     } else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		   "Game: Friendly nomads are impressed by you, and join you");
-      create_unit(pplayer, punit->x, punit->y, U_SETTLERS, 0, punit->homecity);
+      create_unit(pplayer, punit->x, punit->y, U_SETTLERS, 0, punit->homecity, -1);
     }
     break;
   }

@@ -41,6 +41,48 @@
 extern struct move_cost_map warmap;
 
 /******************************************************************************
+ A spy (but not a diplomat) can poison a cities water supply.  There is 
+ no protection from this other than a defending spy/diplomat.
+
+ For now, this wipes the foodstock and one worker.  However, a 
+ city of size one will not be destroyed - only the foodstock
+ will be effected.
+
+ - Kris Bubendorfer
+****************************************************************************/
+
+
+void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pcity){
+  
+  struct player *cplayer = city_owner(pcity);
+  
+  fprintf(stderr,"in spy_poison");
+
+  if(pdiplomat->type == U_SPY){
+    if(!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
+      return;  /* failed against defending diplomats/spies */
+    
+     /* Kill off a worker (population unit) */
+
+    if (pcity->size >1) {
+      pcity->size--;
+      city_auto_remove_worker(pcity);
+    } 
+    
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		     "Game: Your spy poisoned the water supply of %s.", pcity->name);
+    
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_NOEVENT,
+		     "Game: %s is suspected of poisoning the water supply of %s.",pplayer->name, pcity->name);
+    
+    diplomat_leave_city(pplayer, pdiplomat, pcity);
+    city_refresh(pcity);  
+    send_city_info(0, pcity, 0);
+
+  }
+}
+
+/******************************************************************************
   bribe an enemy unit
   rules:
   1) can't bribe a unit if owner runs a democracy
@@ -64,7 +106,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
 		    "Game: Succeeded in bribing the enemy unit.");
       
       create_unit(pplayer, pvictim->x, pvictim->y,
-		  pvictim->type, pvictim->veteran, pdiplomat->homecity);
+		  pvictim->type, pvictim->veteran, pdiplomat->homecity,
+		  pvictim->moves_left);
       light_square(pplayer, pvictim->x, pvictim->y,
                    get_unit_type(pvictim->type)->vision_range);
       wipe_unit(0, pvictim);
@@ -116,13 +159,19 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                       "Game: %s diplomat stole Future Tech. %d in %s.", 
                       pplayer->name, pplayer->future_tech, pcity->name);
       return;
-    } else
-	  return;
+    } else {
+
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		       "Game: No new technology found in %s", pcity->name);
+      return;
+    }
+
   if (pcity->steal) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
     notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
 		     "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
+    wipe_unit(0,pdiplomat);
     return;
   }
 
@@ -233,24 +282,17 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       /* Survived (1:N) chance */
       
       struct city *spyhome = find_city_by_id(pdiplomat->homecity);
-/* is it possible for a spy not to have a spyhome? -- Syela */
+
+      if(!spyhome){
+	printf("Bug in diplomat_leave_city\n");
+	return;
+      }
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
+		       "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
       
-      /* move back to home city */ /* doing it the right way -- Syela */
-      unit_list_unlink(&map_get_tile(pdiplomat->x, pdiplomat->y)->units, pdiplomat);
-
-      pdiplomat->x = map_adjust_x(spyhome->x);
-      pdiplomat->y = spyhome->y;
-  
-      unit_list_insert(&map_get_tile(pdiplomat->x, pdiplomat->y)->units, pdiplomat);
-
-      pdiplomat->veteran = 1;
-      pdiplomat->moves_left = 0;
-      send_unit_info(0, pdiplomat, 0);
-
-      return;
+      create_unit(pplayer, spyhome->x, spyhome->y,
+		  pdiplomat->type, 1, spyhome->id, 0);
     }
   }
   wipe_unit(0, pdiplomat);
@@ -427,16 +469,19 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 		      "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: You caught a%s %s diplomat in industrial sabotage!",
-		n_if_vowel(get_race_name(pplayer->race)[0]),
-		get_race_name(pplayer->race));
+			 n_if_vowel(get_race_name(pplayer->race)[0]),
+			 get_race_name(pplayer->race));
+
+	wipe_unit(0, pdiplomat);
+	return;
       }
     }
     break;
   }
   send_city_info(cplayer, pcity, 1);
-
+  
   /* Check if a spy survives her mission */
-
+  
   diplomat_leave_city(pplayer, pdiplomat, pcity);
 }
 
@@ -705,7 +750,7 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
  immediately on the clients? (refresh_city + send_city_info)
 **************************************************************************/
 void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
-		 int make_veteran, int homecity_id)
+		 int make_veteran, int homecity_id, int moves_left)
 {
   struct unit *punit;
   struct city *pcity;
@@ -740,7 +785,10 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
   if (pcity)
     unit_list_insert(&pcity->units_supported, punit);
   punit->bribe_cost=unit_bribe_cost(punit);
-  punit->moves_left=unit_move_rate(punit);
+  if(moves_left < 0)  
+    punit->moves_left=unit_move_rate(punit);
+  else
+    punit->moves_left=moves_left;
   send_unit_info(0, punit, 0);
 }
 
@@ -1053,7 +1101,7 @@ void place_partisans(struct city *pcity,int count)
     for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
     ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
     create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
-		U_PARTISAN, 0, 0);
+		U_PARTISAN, 0, 0, -1);
     count--; total--;
   }
 }

@@ -52,9 +52,9 @@ void init_new_game(void)
     y=map.start_positions[i].y;
     light_square(&game.players[i], x, y, 1);
     for (j=0;j<game.settlers;j++) 
-      create_unit(&game.players[i], x, y, U_SETTLERS, 0, 0);
+      create_unit(&game.players[i], x, y, U_SETTLERS, 0, 0, -1);
     for (j=0;j<game.explorer;j++) 
-      create_unit(&game.players[i], x, y, U_EXPLORER, 0, 0);
+      create_unit(&game.players[i], x, y, U_EXPLORER, 0, 0, -1);
   }
 }
 

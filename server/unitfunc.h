@@ -16,6 +16,8 @@
 #include "packets.h"
 #include "unit.h"
 
+void spy_poison(struct player *pplayer, struct unit *pdiplomat, 
+		struct city *pcity);
 int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 			     struct unit *pdiplomat, struct city *pcity);
 void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
@@ -36,7 +38,7 @@ void update_unit_activities(struct player *pplayer);
 void update_unit_activity(struct player *pplayer, struct unit *punit);
 
 void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
-		 int make_veteran, int homecity_id);
+		 int make_veteran, int homecity_id, int moves_left);
 void send_remove_unit(struct player *pplayer, int unit_id);
 void wipe_unit(struct player *dest, struct unit *punit);
 void kill_unit(struct unit *pkiller, struct unit *punit);

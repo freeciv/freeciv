@@ -1208,7 +1208,13 @@ rather than production, and a setter can die if its supporting city
 runs out of food.
 ---
 # Spy
-An improved Diplomat, which has an extra move point.  (On speed?)
+An improved Diplomat, which has a chance of returning unharmed
+from her missions.  She can also be used to poison the water
+supply of an enemy city - which reduces the population.  A Spy
+cannot establish an Embassy due to the nature of her less
+savory actions.
+
+A Spy also has one additional movement point per turn.
 ---
 # Stealth Bomber
 An improved Bomber, with more firepower and a higher movement

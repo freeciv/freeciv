@@ -91,7 +91,7 @@ enum unit_focus_status {
 
 enum diplomat_actions {
   DIPLOMAT_BRIBE, DIPLOMAT_EMBASSY, DIPLOMAT_SABOTAGE,
-  DIPLOMAT_STEAL, DIPLOMAT_INCITE
+  DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON
 };
 
 struct unit_ai {

@@ -172,10 +172,23 @@ int diplomat_can_do_action(struct unit *pdiplomat,
       if(pcity->owner!=pdiplomat->owner) {
 	if(action==DIPLOMAT_SABOTAGE)
 	  return 1;
-        if(action==DIPLOMAT_EMBASSY && 
+
+/* FIXME: Civ II rules are that spies cannot create embassies.  But this */
+/*        means that once espionage is discovered, it is no longer       */
+/*        possible to create embassies.  The section below is a last-    */
+/*        minute hack to allow spies to establish embassies.  This code  */
+/*        should be revisited.                                           */
+
+#if 0
+        if(action==DIPLOMAT_EMBASSY && pdiplomat->type!=U_SPY &&
+#else
+        if(action==DIPLOMAT_EMBASSY &&
+#endif
 	   !player_has_embassy(&game.players[pdiplomat->owner], 
 			       &game.players[pcity->owner]))
 	   return 1;
+	if(action==SPY_POISON && pdiplomat->type==U_SPY)
+	  return 1;
 	if(action==DIPLOMAT_STEAL)
 	  return 1;
 	if(action==DIPLOMAT_INCITE)
