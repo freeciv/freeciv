@@ -619,18 +619,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
 
-  game.aqueduct_size = pinfo->aqueduct_size;
-  game.sewer_size = pinfo->sewer_size;
-  game.rtech.get_bonus_tech = pinfo->rtech.get_bonus_tech;
-  game.rtech.boat_fast = pinfo->rtech.boat_fast;
-  game.rtech.cathedral_plus = pinfo->rtech.cathedral_plus;
-  game.rtech.cathedral_minus = pinfo->rtech.cathedral_minus;
-  game.rtech.colosseum_plus = pinfo->rtech.colosseum_plus;
-  game.num_unit_types = pinfo->num_unit_types;
-
-  game.government_when_anarchy = pinfo->government_when_anarchy;
-  game.default_government = pinfo->default_government;
-
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
@@ -999,14 +987,48 @@ void handle_select_race(struct packet_generic_integer *packet)
 }
 
 /**************************************************************************
+  Take arrival of ruleset control packet to indicate that
+  current allocated governments should be free'd, and new
+  memory allocated for new size.
+**************************************************************************/
+void handle_ruleset_control(struct packet_ruleset_control *packet)
+{
+  int i;
+  
+  for(i=0; i<game.government_count; i++) {
+    free(get_government(i)->ruler_titles);
+  }
+  free(governments);
+      
+  game.aqueduct_size = packet->aqueduct_size;
+  game.sewer_size = packet->sewer_size;
+  
+  game.rtech.get_bonus_tech = packet->rtech.get_bonus_tech;
+  game.rtech.boat_fast = packet->rtech.boat_fast;
+  game.rtech.cathedral_plus = packet->rtech.cathedral_plus;
+  game.rtech.cathedral_minus = packet->rtech.cathedral_minus;
+  game.rtech.colosseum_plus = packet->rtech.colosseum_plus;
+
+  game.government_count = packet->government_count;
+  game.government_when_anarchy = packet->government_when_anarchy;
+  game.default_government = packet->default_government;
+
+  game.num_unit_types = packet->num_unit_types;
+
+  governments = fc_calloc(game.government_count, sizeof(struct government));
+  for(i=0; i<game.government_count; i++) {
+    get_government(i)->ruler_titles = NULL;
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_ruleset_unit(struct packet_ruleset_unit *p)
 {
   struct unit_type *u;
 
-  if(p->id < 0 || p->id >= U_LAST) {
-    /*  Don't check game.num_unit_types because don't have it yet... */
+  if(p->id < 0 || p->id >= game.num_unit_types || p->id >= U_LAST) {
     freelog(LOG_NORMAL, "Received bad unit_type id %d in handle_ruleset_unit()",
 	    p->id);
     return;
@@ -1043,7 +1065,14 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 **************************************************************************/
 void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
-  struct advance *a = &advances[p->id];
+  struct advance *a;
+
+  if(p->id < 0 || p->id >= A_LAST) {
+    freelog(LOG_NORMAL, "Received bad advance id %d in handle_ruleset_tech()",
+	    p->id);
+    return;
+  }
+  a = &advances[p->id];
 
   strcpy(a->name, p->name);
   a->req[0] = p->req[0];
@@ -1055,7 +1084,15 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct improvement_type *b = &improvement_types[p->id];
+  struct improvement_type *b;
+
+  if(p->id < 0 || p->id >= B_LAST) {
+    freelog(LOG_NORMAL,
+	    "Received bad building id %d in handle_ruleset_building()",
+	    p->id);
+    return;
+  }
+  b = &improvement_types[p->id];
 
   strcpy(b->name, p->name);
   b->is_wonder        = p->is_wonder;
@@ -1074,17 +1111,12 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 {
   struct government *gov;
 
-  if (p->id < 0 || p->id >= G_MAGIC) {
-    freelog(LOG_NORMAL, "Received bad government id %d", p->id);
+  if (p->id < 0 || p->id >= game.government_count) {
+    freelog(LOG_NORMAL,
+	    "Received bad government id %d in handle_ruleset_government",
+	    p->id);
     return;
   }
-  
-  if (p->id >= game.government_count) {
-    game.government_count = p->id + 1;
-    governments = fc_realloc(governments,
-			     game.government_count * sizeof (struct government));
-  }
-
   gov = &governments[p->id];
 
   gov->index             = p->id;
@@ -1130,13 +1162,14 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->extra_corruption_distance = p->extra_corruption_distance;
 
   gov->flags               = p->flags;
+  gov->num_ruler_titles    = p->num_ruler_titles;
     
   strcpy(gov->name, p->name);
   strcpy(gov->graphic_str, p->graphic_str);
   strcpy(gov->graphic_alt, p->graphic_alt);
 
-  gov->ruler_title         = fc_calloc(p->ruler_title_count + 1,
-				       sizeof(struct ruler_title));
+  gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
+				sizeof(struct ruler_title));
   
   tilespec_setup_government(p->id);
 }
@@ -1150,9 +1183,14 @@ void handle_ruleset_government_ruler_title
     return;
   }
   gov = &governments[p->gov];
-  gov->ruler_title[p->id].race = p->race;
-  gov->ruler_title[p->id].male_title = mystrdup(p->male_title);
-  gov->ruler_title[p->id].female_title = mystrdup(p->female_title);
+  if(p->id < 0 || p->id >= gov->num_ruler_titles) {
+    freelog(LOG_NORMAL, "Received bad ruler title num %d for %s title",
+	    p->id, gov->name);
+    return;
+  }
+  gov->ruler_titles[p->id].race = p->race;
+  strcpy(gov->ruler_titles[p->id].male_title, p->male_title);
+  strcpy(gov->ruler_titles[p->id].female_title, p->female_title);
 }
 
 /**************************************************************************
@@ -1160,8 +1198,16 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct tile_type *t = &(tile_types[p->id]);
+  struct tile_type *t;
   int j;
+
+  if (p->id < T_FIRST || p->id >= T_COUNT) {
+    freelog(LOG_NORMAL,
+	    "Received bad terrain id %d in handle_ruleset_terrain",
+	    p->id);
+    return;
+  }
+  t = &(tile_types[p->id]);
 
   strcpy(t->terrain_name, p->terrain_name);
   strcpy(t->graphic_str, p->graphic_str);

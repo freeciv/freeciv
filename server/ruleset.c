@@ -1021,7 +1021,6 @@ static void load_ruleset_governments(char *ruleset_subdir)
   /* get ruler titles -- SKi */
   for (i = 0; i < game.government_count; ++i) {
     int titles = 0;
-    struct ruler_title t_last = NULL_RULER_TITLE;
     g = &governments[i];
 
     j = -1;
@@ -1041,19 +1040,58 @@ static void load_ruleset_governments(char *ruleset_subdir)
         exit (1);
       }
       /* t.male_title */
-      t.male_title = mystrdup(secfile_lookup_str(&file, "governments.ruler_titles%d.male_title", j));
+      strncpy(t.male_title,
+	      secfile_lookup_str(&file,
+				 "governments.ruler_titles%d.male_title", j),
+	      sizeof(t.male_title)-1);
+      t.male_title[sizeof(t.male_title)-1] = '\0';
+      
       /* t.female_title */
-      t.female_title = mystrdup(secfile_lookup_str(&file, "governments.ruler_titles%d.female_title", j));
- 
-      g->ruler_title = fc_realloc(g->ruler_title, ++titles * sizeof(struct ruler_title));
-      g->ruler_title[titles-1] = t;
+      strncpy(t.female_title,
+	      secfile_lookup_str(&file,
+				 "governments.ruler_titles%d.female_title", j),
+	      sizeof(t.female_title)-1);
+      t.female_title[sizeof(t.female_title)-1] = '\0';
+      
+      g->ruler_titles = fc_realloc(g->ruler_titles,
+				   (++titles) * sizeof(struct ruler_title));
+      g->ruler_titles[titles-1] = t;
     }
-    g->ruler_title = fc_realloc(g->ruler_title, (titles + 1) * sizeof(struct ruler_title));
-    g->ruler_title[titles] = t_last; 
+    g->num_ruler_titles = titles;
   }
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void send_ruleset_control(struct player *dest)
+{
+  struct packet_ruleset_control packet;
+  int to;
+
+  packet.aqueduct_size = game.aqueduct_size;
+  packet.sewer_size = game.sewer_size;
+  
+  packet.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
+  packet.rtech.boat_fast = game.rtech.boat_fast;
+  packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
+  packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
+  packet.rtech.colosseum_plus = game.rtech.colosseum_plus;
+
+  packet.government_count = game.government_count;
+  packet.government_when_anarchy = game.government_when_anarchy;
+  packet.default_government = game.default_government;
+
+  packet.num_unit_types = game.num_unit_types;
+
+  for(to=0; to<game.nplayers; to++) {           /* dests */
+    if(dest==0 || get_player(to)==dest) {
+      send_packet_ruleset_control(get_player(to)->conn, &packet);
+    }
+  }
 }
 
 /**************************************************************************
@@ -1277,9 +1315,9 @@ static void send_ruleset_governments(struct player *dest)
     gov.corruption_distance_factor = g->corruption_distance_factor;
     gov.extra_corruption_distance = g->extra_corruption_distance;
     
-    for (p_title = g->ruler_title, j = 0; p_title->male_title != NULL; ++p_title, ++j);
-    gov.ruler_title_count = j;
-    
+    gov.flags = g->flags;
+    gov.num_ruler_titles = g->num_ruler_titles;
+
     strcpy(gov.name, g->name);
     strcpy(gov.graphic_str, g->graphic_str);
     strcpy(gov.graphic_alt, g->graphic_alt);
@@ -1291,7 +1329,9 @@ static void send_ruleset_governments(struct player *dest)
     }
     
     /* send one packet_government_ruler_title per ruler title */
-    for (p_title = g->ruler_title, j = 0; p_title->male_title != NULL; ++p_title, ++j) {
+    for(j=0; j<g->num_ruler_titles; j++) {
+      p_title = &g->ruler_titles[j];
+
       title.gov = i;
       title.id = j;
       title.race = p_title->race;
@@ -1333,7 +1373,8 @@ void send_rulesets(struct player *dest)
       connection_do_buffer(get_player(to)->conn);
     }
   }
-  
+
+  send_ruleset_control(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_units(dest);

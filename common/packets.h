@@ -96,7 +96,8 @@ enum packet_type {
   PACKET_RULESET_TERRAIN,
   PACKET_RULESET_TERRAIN_CONTROL,
   PACKET_RULESET_GOVERNMENT,
-  PACKET_RULESET_GOVERNMENT_RULER_TITLE
+  PACKET_RULESET_GOVERNMENT_RULER_TITLE,
+  PACKET_RULESET_CONTROL
 };
 
 enum report_type {
@@ -423,6 +424,30 @@ struct packet_spaceship_action {
 
 
 /*********************************************************
+  Ruleset control values: single values, some of which are
+  needed before sending other ruleset data (eg,
+  num_unit_types, government_count).  This is only sent
+  once at the start of the game, eg unlike game_info which
+  is sent again each turn.  (Terrain ruleset has enough
+  info for its own "control" packet, done separately.)
+*********************************************************/
+struct packet_ruleset_control {
+  int aqueduct_size;
+  int sewer_size;
+  int num_unit_types;
+  struct {
+    int get_bonus_tech;
+    int boat_fast;
+    int cathedral_plus;
+    int cathedral_minus;
+    int colosseum_plus;
+  } rtech;
+  int government_when_anarchy;
+  int default_government;
+  int government_count;
+};
+
+/*********************************************************
 Specify all the fields of a struct unit_type
 *********************************************************/
 struct packet_ruleset_unit {
@@ -557,7 +582,7 @@ struct packet_ruleset_government {
       
   int flags;
       
-  int ruler_title_count;
+  int num_ruler_titles;
        
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
@@ -596,19 +621,6 @@ struct packet_game_info {
   int foodbox;
   int techpenalty;
   int spacerace;
-  int aqueduct_size;
-  int sewer_size;
-  int num_unit_types;
-  struct {
-    int get_bonus_tech;
-    int boat_fast;
-    int cathedral_plus;
-    int cathedral_minus;
-    int colosseum_plus;
-  } rtech;
-
-  int government_when_anarchy;
-  int default_government;
 };
 
 /*********************************************************
@@ -770,6 +782,11 @@ struct packet_before_new_year *receive_packet_before_new_year(struct connection 
 
 int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
+
+int send_packet_ruleset_control(struct connection *pc, 
+				struct packet_ruleset_control *pinfo);
+struct packet_ruleset_control *
+receive_packet_ruleset_control(struct connection *pc);
 
 int send_packet_ruleset_unit(struct connection *pc,
 			     struct packet_ruleset_unit *packet);

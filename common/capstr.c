@@ -69,7 +69,8 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
-    " +terrainrulesets1 +governmentrulesets1 +num_units +tilespec"
+    " +terrainrulesets1 +governmentrulesets1 +num_units +tilespec" \
+    " +ruleset_control"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -92,6 +93,9 @@ const char * const our_capability = our_capability_internal;
  
    "tilespec" means units etc send strings for graphic instead of
    numbers, to be used with tilespec system.
+   
+   "ruleset_control" means new ruleset_control packet, and related
+   new handling of some ruleset info.
 */
 
 void init_our_capability(void)

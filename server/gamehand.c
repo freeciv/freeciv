@@ -160,18 +160,6 @@ void send_game_info(struct player *dest)
   for(i=0; i<B_LAST; i++)
     ginfo.global_wonders[i]=game.global_wonders[i];
 
-  ginfo.aqueduct_size = game.aqueduct_size;
-  ginfo.sewer_size = game.sewer_size;
-  ginfo.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
-  ginfo.rtech.boat_fast = game.rtech.boat_fast;
-  ginfo.rtech.cathedral_plus = game.rtech.cathedral_plus;
-  ginfo.rtech.cathedral_minus = game.rtech.cathedral_minus;
-  ginfo.rtech.colosseum_plus = game.rtech.colosseum_plus;
-  ginfo.num_unit_types = game.num_unit_types;
-
-  ginfo.government_when_anarchy = game.government_when_anarchy;
-  ginfo.default_government = game.default_government;
-
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest) {
       struct player *pplayer=&game.players[o];

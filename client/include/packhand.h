@@ -34,6 +34,7 @@ void handle_nuke_tile(struct packet_nuke_tile *packet);
 void handle_page_msg(struct packet_generic_message *packet);
 void handle_before_new_year(void);
 void handle_remove_player(struct packet_generic_integer *packet);
+void handle_ruleset_control(struct packet_ruleset_control *packet);
 void handle_ruleset_unit(struct packet_ruleset_unit *packet);
 void handle_ruleset_tech(struct packet_ruleset_tech *packet);
 void handle_ruleset_building(struct packet_ruleset_building *packet);

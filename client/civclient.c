@@ -232,6 +232,10 @@ void handle_packet_input(char *packet, int type)
     handle_remove_player((struct packet_generic_integer *)packet);
     break;
 
+  case PACKET_RULESET_CONTROL:
+    handle_ruleset_control((struct packet_ruleset_control *)packet);
+    break;
+
   case PACKET_RULESET_UNIT:
     handle_ruleset_unit((struct packet_ruleset_unit *)packet);
     break;

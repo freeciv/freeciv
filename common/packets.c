@@ -267,6 +267,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_OPTIONS:
     return receive_packet_generic_values(pc);
 
+  case PACKET_RULESET_CONTROL:
+    return receive_packet_ruleset_control(pc);
   case PACKET_RULESET_TECH:
     return receive_packet_ruleset_tech(pc);
   case PACKET_RULESET_UNIT:
@@ -1125,19 +1127,6 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->civstyle);
   cptr=put_int8(cptr, pinfo->spacerace);
 
-  cptr=put_int8(cptr, pinfo->aqueduct_size);
-  cptr=put_int8(cptr, pinfo->sewer_size);
-  cptr=put_int8(cptr, pinfo->rtech.get_bonus_tech);
-  cptr=put_int8(cptr, pinfo->rtech.boat_fast);
-  cptr=put_int8(cptr, pinfo->rtech.cathedral_plus);
-  cptr=put_int8(cptr, pinfo->rtech.cathedral_minus);
-  cptr=put_int8(cptr, pinfo->rtech.colosseum_plus);
-
-  cptr=put_int8(cptr, pinfo->default_government);
-  cptr=put_int8(cptr, pinfo->government_when_anarchy);
-  
-  cptr=put_int8(cptr, pinfo->num_unit_types);
-  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1182,18 +1171,6 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->foodbox);
   iget_int8(&iter, &pinfo->civstyle);
   iget_int8(&iter, &pinfo->spacerace);
-
-  iget_int8(&iter, &pinfo->aqueduct_size);
-  iget_int8(&iter, &pinfo->sewer_size);
-  iget_int8(&iter, &pinfo->rtech.get_bonus_tech);
-  iget_int8(&iter, &pinfo->rtech.boat_fast);
-  iget_int8(&iter, &pinfo->rtech.cathedral_plus);
-  iget_int8(&iter, &pinfo->rtech.cathedral_minus);
-  iget_int8(&iter, &pinfo->rtech.colosseum_plus);
-  iget_int8(&iter, &pinfo->default_government);
-  iget_int8(&iter, &pinfo->government_when_anarchy);
-  
-  iget_int8(&iter, &pinfo->num_unit_types);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1859,6 +1836,68 @@ receive_packet_generic_values(struct connection *pc)
   return packet;
 }
 
+/*************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_control(struct connection *pc, 
+				struct packet_ruleset_control *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  
+  cptr=put_int8(buffer+2, PACKET_RULESET_CONTROL);
+  
+  cptr=put_int8(cptr, packet->aqueduct_size);
+  cptr=put_int8(cptr, packet->sewer_size);
+  
+  cptr=put_int8(cptr, packet->rtech.get_bonus_tech);
+  cptr=put_int8(cptr, packet->rtech.boat_fast);
+  cptr=put_int8(cptr, packet->rtech.cathedral_plus);
+  cptr=put_int8(cptr, packet->rtech.cathedral_minus);
+  cptr=put_int8(cptr, packet->rtech.colosseum_plus);
+
+  cptr=put_int8(cptr, packet->government_count);
+  cptr=put_int8(cptr, packet->default_government);
+  cptr=put_int8(cptr, packet->government_when_anarchy);
+  
+  cptr=put_int8(cptr, packet->num_unit_types);
+  
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_control *
+receive_packet_ruleset_control(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_control *packet =
+    fc_malloc(sizeof(struct packet_ruleset_control));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->aqueduct_size);
+  iget_int8(&iter, &packet->sewer_size);
+  
+  iget_int8(&iter, &packet->rtech.get_bonus_tech);
+  iget_int8(&iter, &packet->rtech.boat_fast);
+  iget_int8(&iter, &packet->rtech.cathedral_plus);
+  iget_int8(&iter, &packet->rtech.cathedral_minus);
+  iget_int8(&iter, &packet->rtech.colosseum_plus);
+  
+  iget_int8(&iter, &packet->government_count);
+  iget_int8(&iter, &packet->default_government);
+  iget_int8(&iter, &packet->government_when_anarchy);
+
+  iget_int8(&iter, &packet->num_unit_types);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2245,7 +2284,7 @@ int send_packet_ruleset_government(struct connection *pc,
 
   cptr=put_int8(cptr, packet->flags);
 
-  cptr=put_int8(cptr, packet->ruler_title_count);
+  cptr=put_int8(cptr, packet->num_ruler_titles);
 
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
@@ -2330,7 +2369,7 @@ receive_packet_ruleset_government(struct connection *pc)
 
   iget_int8(&iter, &packet->flags);
 
-  iget_int8(&iter, &packet->ruler_title_count);
+  iget_int8(&iter, &packet->num_ruler_titles);
 
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));

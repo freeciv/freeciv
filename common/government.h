@@ -35,18 +35,16 @@ enum government_flag_id {
   G_LAST_FLAG
 };
 
-/* each government has a NULL-record terminated list of ruler titles,
- * at least one entry (the default) should be in it, the list is traversed
- * when a players title is needed.
- * -- SKi */
-#define DEFAULT_TITLE  G_MAGIC
-#define NULL_RULER_TITLE { 0, NULL, NULL }
+/* each government has a list of ruler titles, where at least
+ * one entry should have race=DEFAULT_TITLE.
+ */
+#define DEFAULT_TITLE  MAX_NUM_ITEMS
 
 struct ruler_title
 {
-  int   race;
-  char *male_title;
-  char *female_title;
+  int  race;
+  char male_title[MAX_LEN_NAME];
+  char female_title[MAX_LEN_NAME];
 };
 
 /* This is struct government itself.  All information about
@@ -60,7 +58,8 @@ struct government
   char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */
 
-  struct ruler_title *ruler_title;  /* ruler titles */
+  struct ruler_title *ruler_titles;
+  int   num_ruler_titles;
 
   int   max_rate;		/* max individual Tax/Lux/Sci rate  */
   int   civil_war;              /* chance (from 100) of civil war in
