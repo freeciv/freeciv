@@ -70,7 +70,7 @@ struct player_research {
    * Invention being researched in. Valid values for researching are:
    *  - any existing tech but not A_NONE or
    *  - A_FUTURE.
-   * In addition A_UNSET is allowed at the client for enemies.
+   * In addition A_NOINFO is allowed at the client for enemies.
    */
   int researching;        
   int changed_from;       /* if the player changed techs, which one
