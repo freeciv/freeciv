@@ -2195,7 +2195,7 @@ EOF
 
 else
   echo "$ac_t""no" 1>&6
-{ echo "configure: error: "Need X11"" 1>&2; exit 1; }
+{ echo "configure: error: Need X11; perhaps try/adjust --x-libraries" 1>&2; exit 1; }
 fi
 
     echo $ac_n "checking for XShapeCombineMask in X library -lXext""... $ac_c" 1>&6
@@ -2376,7 +2376,7 @@ EOF
 
 else
   echo "$ac_t""no" 1>&6
-{ echo "configure: error: "Need Xpm library"" 1>&2; exit 1; }
+{ echo "configure: error: Need Xpm library; perhaps try/adjust --with-xpm-lib" 1>&2; exit 1; }
 fi
 
     if test x$WITH_XAW3D = x; then
@@ -2876,7 +2876,7 @@ if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
   :
 else
   echo "$ac_t""no" 1>&6
-{ echo "configure: error: "Need X11/xpm.h header"" 1>&2; exit 1; }
+{ echo "configure: error: Need X11/xpm.h header; perhaps try/adjust --with-xpm-include" 1>&2; exit 1; }
 fi
 
     CPPFLAGS="$fc_save_CPPFLAGS"

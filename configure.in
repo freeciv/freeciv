@@ -105,11 +105,13 @@ if test x$client = xtrue; then
     X_LIBS="$X_LIBS $X_PRE_LIBS"
 
     dnl Checks for X libs:
-    FC_CHECK_X_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"))
+    FC_CHECK_X_LIB(X11, XOpenDisplay, , 
+        AC_MSG_ERROR(Need X11; perhaps try/adjust --x-libraries))
     FC_CHECK_X_LIB(Xext, XShapeCombineMask)
     FC_CHECK_X_LIB(Xt, main)
     FC_CHECK_X_LIB(Xmu, main)
-    FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need Xpm library"))
+    FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , 
+        AC_MSG_ERROR(Need Xpm library; perhaps try/adjust --with-xpm-lib))
     if test x$WITH_XAW3D = x; then
 	FC_CHECK_X_LIB(Xaw, main)
     else
@@ -145,7 +147,8 @@ if test x$client = xtrue; then
     dnl Want to get appropriate -I flags:
     fc_save_CPPFLAGS="$CPPFLAGS"
     CPPFLAGS="$CPPFLAGS $X_CFLAGS"
-    AC_CHECK_HEADER(X11/xpm.h, , AC_MSG_ERROR("Need X11/xpm.h header"))
+    AC_CHECK_HEADER(X11/xpm.h, , 
+        AC_MSG_ERROR(Need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
     CPPFLAGS="$fc_save_CPPFLAGS"
 fi
 
