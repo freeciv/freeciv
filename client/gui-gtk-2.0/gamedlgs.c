@@ -446,17 +446,17 @@ static void create_option_dialog(void)
     /* nothing */
   }
 
-  table=gtk_table_new(i, 2, FALSE);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox),
-  	table);
+  table = gtk_table_new(i, 2, FALSE);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
+		     table, FALSE, FALSE, 0);
 
   for (o = options, i = 0; o->name; o++, i++) {
     switch (o->type) {
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
 		       0, 0);
       o->p_gui_data = (void *)gtk_check_button_new();
       gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
@@ -467,7 +467,7 @@ static void create_option_dialog(void)
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
 		       0, 0);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
@@ -479,7 +479,7 @@ static void create_option_dialog(void)
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
 		       0, 0);
       if (o->p_string_vals) {
         o->p_gui_data = gtk_combo_new();
