@@ -198,7 +198,8 @@ void citizen_happy_units(struct city *pcity, int unhap)
 {
   int step;         
 
-  if (city_got_effect(pcity, B_POLICE)) {
+  if (improvement_variant(B_WOMENS)==0
+      && city_got_effect(pcity, B_POLICE)) {
     if (get_government(pcity->owner)==G_DEMOCRACY)
       unhap-=2;
     else
@@ -444,6 +445,8 @@ void city_support(struct city *pcity)
   int city_units=0;
   int unhap=0;
   int gov=get_government(pcity->owner);
+  int orig_suffrage_applies = (improvement_variant(B_WOMENS)==1 &&
+			       city_got_effect(pcity, B_POLICE));
   happy_copy(pcity, 2);
   city_settlersupport(pcity);
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, this_unit) {
@@ -480,11 +483,8 @@ void city_support(struct city *pcity)
       case G_REPUBLIC:
 	pcity->shield_surplus--;
 	this_unit->upkeep=1;
-	if (unit_being_aggressive(this_unit)) {
-	  if (unhap)
-	    this_unit->unhappiness=1;
-	  unhap++;
-	} else if (is_field_unit(this_unit)) {
+	if (!orig_suffrage_applies && (unit_being_aggressive(this_unit)
+					|| is_field_unit(this_unit))) {
 	  if (unhap)
 	    this_unit->unhappiness=1;
 	  unhap++;
@@ -494,12 +494,14 @@ void city_support(struct city *pcity)
 	pcity->shield_surplus--;
 	this_unit->upkeep=1;
 	if (unit_being_aggressive(this_unit)) {
-	  unhap+=2;
 	  this_unit->unhappiness=2;
 	} else if (is_field_unit(this_unit)) {
 	  this_unit->unhappiness=1;
-	  unhap+=1;
 	}
+	if (this_unit->unhappiness>0 && orig_suffrage_applies) {
+	  this_unit->unhappiness--;
+	}
+	unhap += this_unit->unhappiness;
 	break;
       default:
 	break;

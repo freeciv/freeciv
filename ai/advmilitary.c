@@ -712,7 +712,9 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     } /* end dealing with units */
 
     if (get_government(pplayer->player_no) == G_REPUBLIC &&
-        (pcity->id == myunit->homecity || !myunit->id)) {
+        (pcity->id == myunit->homecity || !myunit->id)
+	&& !(improvement_variant(B_WOMENS)==1
+	     && city_got_effect(pcity, B_POLICE))) {
       unit_list_iterate(pcity->units_supported, punit)
         if (unit_being_aggressive(punit)) {
           unhap++;

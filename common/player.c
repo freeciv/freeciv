@@ -234,10 +234,10 @@ int can_change_to_government(struct player *pplayer, enum government_type gov)
         return 1;
     break;
   default:
-    return 0;
+    return 0;			/* unknown govt type */
     break;
   }
-  return player_owns_active_wonder(pplayer, B_LIBERTY);
+  return player_owns_active_govchange_wonder(pplayer);
 }
 
 /***************************************************************
@@ -364,6 +364,18 @@ int player_owns_active_wonder(struct player *pplayer,
 	  && is_wonder(id)
 	  && (!wonder_obsolete(id))
 	  && player_find_city_by_id(pplayer, game.global_wonders[id]));
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+int player_owns_active_govchange_wonder(struct player *pplayer)
+{
+  return ( player_owns_active_wonder(pplayer, B_LIBERTY) ||
+	   ( (improvement_variant(B_PYRAMIDS)==1) &&
+	     player_owns_active_wonder(pplayer, B_PYRAMIDS) ) ||
+	   ( (improvement_variant(B_UNITED)==1) &&
+	     player_owns_active_wonder(pplayer, B_UNITED) ) );
 }
 
 /**************************************************************************

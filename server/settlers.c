@@ -197,9 +197,12 @@ int city_desirability(struct player *pplayer, int x, int y)
   con = ptile->continent;
 
 /* not worth the computations AFAICT -- Syela
-  city_list_iterate(pplayer->cities, acity)
-    if (city_got_building(acity, B_PYRAMIDS)) g++;
-  city_list_iterate_end;
+   wrapped anyway in case it comes back -- dwp
+  if (improvement_variant(B_PYRAMIDS)==0) {     
+    city_list_iterate(pplayer->cities, acity) 
+      if (city_got_building(acity, B_PYRAMIDS)) g++;
+    city_list_iterate_end;
+  }
 */
 
   memset(taken, 0, sizeof(taken));

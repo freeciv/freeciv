@@ -41,6 +41,7 @@ struct improvement_type {
   int build_cost;
   int shield_upkeep;
   int obsolete_by;
+  int variant;
 };
 
 enum specialist_type {
@@ -181,6 +182,7 @@ int wonder_obsolete(enum improvement_type_id id);
 int is_wonder(enum improvement_type_id id);
 int improvement_exists(enum improvement_type_id id);
 enum improvement_type_id find_improvement_by_name(char *s);
+int improvement_variant(enum improvement_type_id id);
 
 /* city related improvement and unit functions */
 

@@ -24,6 +24,7 @@ static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 /****************************************************************
 all the city improvements
 use get_improvement_type(id) to access the array
+variant=0 for all improvements, until rulesets.
 *****************************************************************/
 struct improvement_type improvement_types[B_LAST]={
   /* Buildings */
@@ -637,7 +638,8 @@ int wonder_replacement(struct city *pcity, enum improvement_type_id id)
       return 1;
     break;
   case B_GRANARY:
-    if (city_affected_by_wonder(pcity, B_PYRAMIDS)) 
+    if (improvement_variant(B_PYRAMIDS)==0
+	&& city_affected_by_wonder(pcity, B_PYRAMIDS))
       return 1;
     break;
   case B_CATHEDRAL:
@@ -752,9 +754,10 @@ int is_wonder(enum improvement_type_id id)
 /**************************************************************************
 Returns 1 if the improvement_type "exists" in this game, 0 otherwise.
 An improvement_type doesn't exist if one of:
-- id is out of range
+- id is out of range;
 - the improvement_type has been flagged as removed by setting its
-  tech_requirement to A_LAST.
+  tech_requirement to A_LAST;
+- it is a space part, and the spacerace is not enabled.
 Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
 int improvement_exists(enum improvement_type_id id)
@@ -787,7 +790,14 @@ enum improvement_type_id find_improvement_by_name(char *s)
 /**************************************************************************
 ...
 **************************************************************************/
+int improvement_variant(enum improvement_type_id id)
+{
+  return improvement_types[id].variant;
+}
 
+/**************************************************************************
+...
+**************************************************************************/
 int improvement_obsolete(struct player *pplayer, enum improvement_type_id id) 
 {
   if (improvement_types[id].obsolete_by==A_NONE) 
@@ -1278,10 +1288,13 @@ int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*F
   case B_RICHARDS:
     return 0;
   case B_HOOVER:
-  case B_BACH: /*
-    return (map_get_continent(tmp->x, tmp->y) == map_get_continent(pcity->x, pcity->y));
-    */
-    return 1;
+  case B_BACH:
+    if (improvement_variant(id)==1) {
+      return (map_get_continent(tmp->x, tmp->y) ==
+	      map_get_continent(pcity->x, pcity->y));
+    } else {
+      return 1;
+    }
   default:
     return 0;
   }

@@ -51,7 +51,7 @@ int unit_move_turns(struct unit *punit, int x, int y)
     if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
       m += 3;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
-      m += 6;
+      m += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
     /* A_POWER in default ruleset: */
     if (get_invention(pplayer, game.rtech.boat_fast) == TECH_KNOWN)
       m += 3;
@@ -932,7 +932,9 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   pcity = map_get_city(punit->x, punit->y);
 
   if (get_government(pplayer->player_no) == G_REPUBLIC &&
-      pcity && (!punit->id || pcity->id == punit->homecity)) {
+      pcity && (!punit->id || pcity->id == punit->homecity)
+      && !(improvement_variant(B_WOMENS)==1
+	   && city_got_effect(pcity, B_POLICE))) {
     unit_list_iterate(pcity->units_supported, punit)
       if (unit_being_aggressive(punit)) {
         unhap++;

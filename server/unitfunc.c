@@ -965,10 +965,13 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
   } else if (m_type == SEA_MOVING && pcity) {
     if (city_got_building(pcity, B_COASTAL))
       defensepower*=2;
-  } else if (!unit_flag(a_type, F_IGWALL) &&
-          (m_type == LAND_MOVING || m_type == HELI_MOVING) &&
-          pcity && city_got_citywalls(pcity))
+  }
+  if (!unit_flag(a_type, F_IGWALL)
+      && (m_type == LAND_MOVING || m_type == HELI_MOVING
+	  || (improvement_variant(B_CITY)==1 && m_type == SEA_MOVING))
+      && pcity && city_got_citywalls(pcity)) {
     defensepower*=3;
+  }
   if (map_get_special(x, y)&S_FORTRESS && !pcity)
     defensepower*=2;
   if (pcity && unit_types[d_type].move_type == LAND_MOVING)

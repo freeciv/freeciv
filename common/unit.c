@@ -121,7 +121,7 @@ int unit_move_rate(struct unit *punit)
     if(player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
       val+=3;
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
-      val+=6;	   /* or 3 */
+      val += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
     if (get_invention(pplayer, game.rtech.boat_fast/*A_POWER*/) == TECH_KNOWN)
       val+=3;
     if (val < 6) 

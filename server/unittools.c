@@ -263,7 +263,8 @@ int hp_gain_coord(struct unit *punit)
   else
     hp=0;
   if((pcity=map_get_city(punit->x,punit->y))) {
-    if ((city_got_barracks(pcity) && is_ground_unit(punit)) ||
+    if ((city_got_barracks(pcity) &&
+	 (is_ground_unit(punit) || improvement_variant(B_BARRACKS)==1)) ||
 	(city_got_building(pcity, B_AIRPORT) && is_air_unit(punit)) || 
 	(city_got_building(pcity, B_AIRPORT) && is_heli_unit(punit)) || 
 	(city_got_building(pcity, B_PORT) && is_sailing_unit(punit))) {
@@ -400,12 +401,13 @@ int unit_ignores_citywalls(struct unit *punit)
 }
 
 /**************************************************************************
-  Takes into account unit move_type as well
+  Takes into account unit move_type as well, and Walls variant.
 **************************************************************************/
 int unit_really_ignores_citywalls(struct unit *punit)
 {
   return unit_ignores_citywalls(punit)
-    || is_air_unit(punit) || is_sailing_unit(punit);
+    || is_air_unit(punit)
+    || (is_sailing_unit(punit) && !(improvement_variant(B_CITY)==1));
 }
 
 /**************************************************************************

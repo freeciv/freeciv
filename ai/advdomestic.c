@@ -292,7 +292,9 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
   if (could_build_improvement(pcity, B_FACTORY))
     values[B_FACTORY] = (prod>>1) + pollution_cost(pplayer, pcity, B_FACTORY);
   
-  if (could_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
+  if (could_build_improvement(pcity, B_GRANARY) &&
+      !(improvement_variant(B_PYRAMIDS)==0 &&
+	built_elsewhere(pcity, B_PYRAMIDS)))
     values[B_GRANARY] = grana * pcity->food_surplus;
   
   if (could_build_improvement(pcity, B_HARBOUR))
@@ -428,7 +430,8 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         }
       }
           
-      if (i == B_PYRAMIDS && !city_got_building(pcity, B_GRANARY))
+      if (i == B_PYRAMIDS && improvement_variant(B_PYRAMIDS)==0
+	  && !city_got_building(pcity, B_GRANARY))
         values[i] = food * pcity->food_surplus; /* different tech req's */
       if (i == B_SETI && !city_got_building(pcity, B_RESEARCH))
         values[i] = sci>>1;

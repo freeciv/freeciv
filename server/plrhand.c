@@ -933,7 +933,7 @@ void handle_player_revolution(struct player *pplayer)
                 races[pplayer->race].name);
 
   send_player_info(pplayer, pplayer);
-  if (player_owns_active_wonder(pplayer, B_LIBERTY))
+  if (player_owns_active_govchange_wonder(pplayer))
     pplayer->revolution=1;
 }
 
