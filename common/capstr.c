@@ -76,7 +76,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
                    "city_struct_minor_cleanup obsolete_last class_legend " \
-                   "+impr_req +waste +fastfocus +continent +netopt1"
+                   "+impr_req +waste +fastfocus +continent +small_dipl"
   
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -109,6 +109,9 @@ const char * const our_capability = our_capability_internal;
  * "fastfocus" removes the server from client unit focus.
  *
  * +continent": the server gives the client continent information
+ *
+ * "small_dipl" makes the player diplomacy data in the player packet
+ * smaller, by sending 8-bit instead of 32-bit values.
  */
 
 void init_our_capability(void)
