@@ -13,7 +13,7 @@
 #ifndef FC__MAPGEN_H
 #define FC__MAPGEN_H
 
-void map_fractal_generate(void);
+void map_fractal_generate(bool autosize);
 void create_start_positions(void);
 
 #endif  /* FC__MAPGEN_H */

@@ -1713,7 +1713,7 @@ main_start_players:
   /* if we have a tile map, and map.generator==0, call map_fractal_generate
      anyway, to make the specials and huts */
   if (map_is_empty() || (map.generator == 0 && game.is_new_game)) {
-    map_fractal_generate();
+    map_fractal_generate(TRUE);
   }
 
   /*

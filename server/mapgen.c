@@ -1567,18 +1567,22 @@ static void set_sizes(double size, int Xratio, int Yratio)
   This function sets sizes in a topology-specific way then calls
   map_init_topology.
 ***************************************************************************/
-static void generator_init_topology(void)
+static void generator_init_topology(bool autosize)
 {
-  /* Changing or reordering the topo_flag enum will break this code. */
-  const int default_ratios[4][2] =
+  /* The default server behavior is to generate xsize/ysize from the
+   * "size" server option.  Others may want to set xsize/ysize directly. */
+  if (autosize) {
+    /* Changing or reordering the topo_flag enum will break this code. */
+    const int default_ratios[4][2] =
       {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
        AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
-  const int id = 0x3 & map.topology_id;
-  
-  assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
+    const int id = 0x3 & map.topology_id;
 
-  /* Set map.xsize and map.ysize based on map.size. */
-  set_sizes(map.size, default_ratios[id][0], default_ratios[id][1]);
+    assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
+
+    /* Set map.xsize and map.ysize based on map.size. */
+    set_sizes(map.size, default_ratios[id][0], default_ratios[id][1]);
+  }
 
   /* Then initialise all topoloicals parameters */
   map_init_topology(TRUE);
@@ -1592,8 +1596,12 @@ FIXME: Some continent numbers are unused at the end of this function, fx
        When this function is finished various data is written to "islands",
        indexed by continent numbers, so a simple renumbering would not
        work...
+
+  If "autosize" is specified then mapgen will automatically size the map
+  based on the map.size server parameter and the specified topology.  If
+  not map.xsize and map.ysize will be used.
 **************************************************************************/
-void map_fractal_generate(void)
+void map_fractal_generate(bool autosize)
 {
   /* save the current random state: */
   RANDOM_STATE rstate = get_myrand_state();
@@ -1606,7 +1614,7 @@ void map_fractal_generate(void)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
-    generator_init_topology();  /* initialize map.xsize and map.ysize, etc */
+    generator_init_topology(autosize);
     map_allocate();
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
