@@ -804,12 +804,7 @@ static void wakeup_neighbor_sentries(struct player *pplayer,
 **************************************************************************/
 static void transporter_cargo_move_to_tile(struct unit_list *units, int x, int y)
 {
-  struct genlist_iterator myiter;
-  
-  genlist_iterator_init(&myiter, &units->list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct unit *punit=(struct unit *)ITERATOR_PTR(myiter);
+  unit_list_iterate(*units, punit) {
     /* cancel activities when transport moves
        otherwise could carry activity to tile where it is illegal */
     if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_SENTRY) {
@@ -819,7 +814,7 @@ static void transporter_cargo_move_to_tile(struct unit_list *units, int x, int y
     punit->x=x;
     punit->y=y;
     unit_list_insert_back(&map_get_tile(x, y)->units, punit);
-  }
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
