@@ -1,0 +1,38 @@
+[nation_singaporean]
+
+name=_("Singaporean")
+plural=_("?plural:Singaporeans")
+leader="Lee Kuan Yew", "Yusof bin Ishak", "Ah Beng", "Ah Lian"
+leader_sex="Male", "Male", "Male", "Female"
+flag="f.singapore"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",   "male_title",         "female_title"
+                 "Despotism",    _("Ah"),              _("Ah")
+                 "Republic",     _("Prime Minister"),  _("Prime Minister")
+                 "Democracy",    _("Prime Minister"),  _("Prime Minister")
+}
+
+attack=1
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
+             "Engineering", "Railroad"
+wonder="Lighthouse"
+government="Republic"
+
+cities =
+  "Raffles Place", "Orchard", "Chinatown", "Robinson", "Tanjong Pagar",
+  "Serangoon", "City Hall", "Telok Blangah", "Red Hill", "Bukit Timah",
+  "Rochor Canal", "Palau Ubin", "Sentosa", "MacRitchie", "Outram",
+  "Kallang", "Newton", "Brani", "Tanah Merah", "Bukit Batok",
+  "Changi", "Woodland", "Sembawang", "Mountbatten", "Teck Whye",
+  "Clementi", "Jurong", "Choa Chu Kang", "Tuas", "Yishun",
+  "Ang Mo Kio", "Queensway", "East Cost", "Seletar", "Geylang",
+  "Buona Vista", "Paya Lebar", "Marsiling", "Simei", "Braddell",
+  "Marina", "Keppel", "Faber", "Eunos", "Mandai",
+  "Palau Tekong", "Kent Ridge", "Dover", "Commonwealth", "Kranji",
+  "Pasir Panjang", "Bishan", "Tampines", "West Cost", "Ayer Rajah",
+  "Somerset", "Pasir Ris", "Boon Lay", "Yio Chu Kang"

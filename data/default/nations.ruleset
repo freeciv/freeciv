@@ -104,6 +104,7 @@ options="1.9"
 *include "nation/latvian.ruleset"
 *include "nation/boer.ruleset"
 *include "nation/silesian.ruleset"
+*include "nation/singaporean.ruleset"
 
 ;*include "nation/olympic.ruleset"
 ;*include "nation/krevi.ruleset"
