@@ -33,6 +33,11 @@ struct player_tile{
   enum tile_special_type special;
   unsigned short seen;
   unsigned short own_seen;
+  /* If you build a city with an unknown square within city radius
+     the square stays unknown. However, we still have to keep count
+     of the seen points, so they are kept in here. When the tile
+     then becomes known they are moved to seen. */
+  unsigned short pending_seen;
   struct dumb_city* city;
   short last_updated;
 };
@@ -57,7 +62,6 @@ void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y);
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
 
 int map_get_known_and_seen(int x, int y, int playerid);
-int map_get_seen(int x, int y, int playerid);
 void map_change_seen(int x, int y, int playerid, int change);
 int map_get_own_seen(int x, int y, int playerid);
 void map_change_own_seen(int x, int y, int playerid, int change);
@@ -76,4 +80,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto);
 void remove_shared_vision(struct player *pfrom, struct player *pto);
 void handle_player_remove_vision(struct player *pplayer,
 				 struct packet_generic_integer *packet);
+
+void enable_fog_of_war(void);
+void disable_fog_of_war(void);
 #endif  /* FC__MAPHAND_H */

@@ -107,10 +107,6 @@ static void handle_request_join_game(struct connection *pconn,
 				     struct packet_req_join_game *request);
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
-static void enable_fog_of_war_player(struct player *pplayer);
-static void disable_fog_of_war_player(struct player *pplayer);
-static void enable_fog_of_war(void);
-static void disable_fog_of_war(void);
 static int check_for_full_turn_done(void);
 
 
@@ -1912,65 +1908,4 @@ static void announce_ai_player (struct player *pplayer) {
   	     _("Game: %s rules the %s."), pplayer->name,
                     get_nation_name_plural(pplayer->nation));
 
-}
-
-/*************************************************************************
-...
-*************************************************************************/
-static void enable_fog_of_war_player(struct player *pplayer)
-{
-  int x,y;
-  int playerid = pplayer->player_no;
-  struct tile *ptile;
-  for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.ysize; y++) {
-      ptile = map_get_tile(x,y);
-      map_change_seen(x, y, playerid, -1);
-      if (map_get_seen(x, y, playerid) == 0)
-	update_player_tile_last_seen(pplayer, x, y);
-    }
-}
-
-/*************************************************************************
-...
-*************************************************************************/
-static void enable_fog_of_war(void)
-{
-  int o;
-  for (o = 0; o < game.nplayers; o++)
-    enable_fog_of_war_player(&game.players[o]);
-  send_all_known_tiles(&game.game_connections);
-}
-
-/*************************************************************************
-...
-*************************************************************************/
-static void disable_fog_of_war_player(struct player *pplayer)
-{
-  int x,y;
-  int playerid = pplayer->player_no;
-  for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      map_change_seen(x, y, playerid, +1);
-      if (map_get_known(x, y, pplayer)) {
-	struct city *pcity = map_get_city(x,y);
-	reality_check_city(pplayer, x, y);
-	if (pcity)
-	  update_dumb_city(pplayer, pcity);
-      }
-    }
-  }
-}
-
-/*************************************************************************
-...
-*************************************************************************/
-static void disable_fog_of_war(void)
-{
-  int o;
-  for (o = 0; o < game.nplayers; o++)
-    disable_fog_of_war_player(&game.players[o]);
-  send_all_known_tiles(&game.game_connections);
-  send_all_known_units(&game.game_connections);
-  send_all_known_cities(&game.game_connections);
 }

@@ -50,6 +50,7 @@ static void map_set_sent(int x, int y, struct player *pplayer);
 static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
 static void shared_vision_change_seen(int x, int y, struct player *pplayer, int change);
+static int map_get_seen(int x, int y, int playerid);
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -415,6 +416,55 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
 /**************************************************************************
 ...
 **************************************************************************/
+static int map_get_pending_seen(struct player *pplayer, int x, int y)
+{
+  return map_get_player_tile(x, y, pplayer->player_no)->pending_seen;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void map_set_pending_seen(struct player *pplayer, int x, int y, int newv)
+{
+  map_get_player_tile(x, y, pplayer->player_no)->pending_seen = newv;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void increment_pending_seen(struct player *pplayer, int x, int y)
+{
+  map_get_player_tile(x, y, pplayer->player_no)->pending_seen += 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void decrement_pending_seen(struct player *pplayer, int x, int y)
+{
+  struct player_tile *plr_tile = map_get_player_tile(x, y, pplayer->player_no);
+  assert(plr_tile->pending_seen != 0);
+  map_get_player_tile(x, y, pplayer->player_no)->pending_seen -= 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void reveal_pending_seen(struct player *pplayer, int x, int y, int len)
+{
+  square_iterate(x, y, len, x_itr, y_itr) {
+    int pseen = map_get_pending_seen(pplayer, x_itr, y_itr);
+    map_set_pending_seen(pplayer, x_itr, y_itr, 0);
+    while (pseen > 0) {
+      unfog_area(pplayer, x_itr, y_itr, 0);
+      pseen--;
+    }
+  } square_iterate_end;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void really_unfog_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
@@ -484,6 +534,8 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	really_unfog_area(pplayer2, abs_x, abs_y);
     } players_iterate_end;
   } square_iterate_end;
+
+  reveal_pending_seen(pplayer, x, y, len);
   unbuffer_shared_vision(pplayer);
 }
 
@@ -530,19 +582,23 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 
   buffer_shared_vision(pplayer);
   square_iterate(x, y, len, abs_x, abs_y) {
-    /* the player himself */
-    shared_vision_change_seen(abs_x, abs_y, pplayer, -1);
-    if (map_get_seen(abs_x, abs_y, playerid) == 0)
-      really_fog_area(pplayer, abs_x, abs_y);
+    if (map_get_known(abs_x, abs_y, pplayer)) {
+      /* the player himself */
+      shared_vision_change_seen(abs_x, abs_y, pplayer, -1);
+      if (map_get_seen(abs_x, abs_y, playerid) == 0)
+	really_fog_area(pplayer, abs_x, abs_y);
 
-    /* players (s)he gives shared vision */
-    players_iterate(pplayer2) {
-      int playerid2 = pplayer2->player_no;
-      if (!(pplayer->really_gives_vision & (1<<playerid2)))
-	continue;
-      if (map_get_seen(abs_x, abs_y, playerid2) == 0)
-	really_fog_area(pplayer2, abs_x, abs_y);
-    } players_iterate_end;
+      /* players (s)he gives shared vision */
+      players_iterate(pplayer2) {
+	int playerid2 = pplayer2->player_no;
+	if (!(pplayer->really_gives_vision & (1<<playerid2)))
+	  continue;
+	if (map_get_seen(abs_x, abs_y, playerid2) == 0)
+	  really_fog_area(pplayer2, abs_x, abs_y);
+      } players_iterate_end;
+    } else {
+      decrement_pending_seen(pplayer, abs_x, abs_y);
+    }
   } square_iterate_end;
   unbuffer_shared_vision(pplayer);
 }
@@ -612,20 +668,10 @@ void map_unfog_pseudo_city_area(struct player *pplayer, int x, int y)
 
   buffer_shared_vision(pplayer);
   map_city_radius_iterate(x, y, x_itr, y_itr) {
-    if (map_get_known(x_itr, y_itr, pplayer))
+    if (map_get_known(x_itr, y_itr, pplayer)) {
       unfog_area(pplayer, x_itr, y_itr, 0);
-    else {
-      map_change_seen(x_itr, y_itr, pplayer->player_no, +1);
-      map_change_own_seen(x_itr, y_itr, pplayer->player_no, +1);
-
-      players_iterate(pplayer2) {
-	int playerid2 = pplayer2->player_no;
-	if (!(pplayer->really_gives_vision & (1<<playerid2)))
-	  continue;
-	map_change_seen(x_itr, y_itr, playerid2, +1);
-	if (map_get_known(x_itr, y_itr, pplayer2))
-	  really_unfog_area(pplayer2, x_itr, y_itr);
-      } players_iterate_end;
+    } else {
+      increment_pending_seen(pplayer, x_itr, y_itr);
     }
   } map_city_radius_iterate_end;
   unbuffer_shared_vision(pplayer);
@@ -634,26 +680,16 @@ void map_unfog_pseudo_city_area(struct player *pplayer, int x, int y)
 /**************************************************************************
 There doesn't have to be a city.
 **************************************************************************/
-void map_fog_pseudo_city_area(struct player *pplayer, int x,int y)
+void map_fog_pseudo_city_area(struct player *pplayer, int x, int y)
 {
   freelog(LOG_DEBUG, "Fogging city area at %i,%i", x, y);
 
   buffer_shared_vision(pplayer);
   map_city_radius_iterate(x, y, x_itr, y_itr) {
-    if (map_get_known(x_itr, y_itr, pplayer))
+    if (map_get_known(x_itr, y_itr, pplayer)) {
       fog_area(pplayer, x_itr, y_itr, 0);
-    else {
-      map_change_seen(x_itr, y_itr, pplayer->player_no, -1);
-      map_change_own_seen(x_itr, y_itr, pplayer->player_no, -1);
-
-      players_iterate(pplayer2) {
-	int playerid2 = pplayer2->player_no;
-	if (!(pplayer->really_gives_vision & (1<<playerid2)))
-	  continue;
-	map_change_seen(x_itr, y_itr, playerid2, -1);
-	if (map_get_known(x_itr, y_itr, pplayer2))
-	  really_fog_area(pplayer2, x_itr, y_itr);
-      } players_iterate_end;
+    } else {
+      decrement_pending_seen(pplayer, x_itr, y_itr);
     }
   } map_city_radius_iterate_end;
   unbuffer_shared_vision(pplayer);
@@ -725,6 +761,8 @@ void show_area(struct player *pplayer, int x, int y, int len)
 	really_show_area(pplayer2, abs_x, abs_y);
     } players_iterate_end;
   } square_iterate_end;
+
+  reveal_pending_seen(pplayer, x, y, len);
   unbuffer_shared_vision(pplayer);
 }
 
@@ -733,8 +771,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
 ***************************************************************/
 int map_get_known(int x, int y, struct player *pplayer)
 {
-  return (int) (((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->known)&(1u<<pplayer->player_no));
+  return map_get_tile(x, y)->known & (1u<<pplayer->player_no);
 }
 
 /***************************************************************
@@ -750,7 +787,7 @@ int map_get_known_and_seen(int x, int y, int playerid)
 /***************************************************************
 Watch out - this can be true even if the tile is not known.
 ***************************************************************/
-int map_get_seen(int x, int y, int playerid)
+static int map_get_seen(int x, int y, int playerid)
 {
   return map_get_player_tile(x, y, playerid)->seen;
 }
@@ -766,11 +803,14 @@ void map_change_seen(int x, int y, int playerid, int change)
 }
 
 /***************************************************************
-Watch out - this can be true even if the tile is not known.
+...
 ***************************************************************/
 int map_get_own_seen(int x, int y, int playerid)
 {
-  return map_get_player_tile(x, y, playerid)->own_seen;
+  int own_seen = map_get_player_tile(x, y, playerid)->own_seen;
+  if (own_seen)
+    assert(map_get_known(x, y, get_player(playerid)));
+  return own_seen;
 }
 
 /***************************************************************
@@ -786,17 +826,15 @@ void map_change_own_seen(int x, int y, int playerid, int change)
 ***************************************************************/
 void map_set_known(int x, int y, struct player *pplayer)
 {
-  (map.tiles+map_adjust_x(x)+
-   map_adjust_y(y)*map.xsize)->known|=(1u<<pplayer->player_no);
+  map_get_tile(x, y)->known |= (1u<<pplayer->player_no);
 }
 
 /***************************************************************
-Not used
+...
 ***************************************************************/
 void map_clear_known(int x, int y, struct player *pplayer)
 {
-  (map.tiles+map_adjust_x(x)+
-   map_adjust_y(y)*map.xsize)->known&=~(1u<<pplayer->player_no);
+  map_get_tile(x, y)->known &= ~(1u<<pplayer->player_no);
 }
 
 /***************************************************************
@@ -834,8 +872,7 @@ void show_map_to_all(void)
 ***************************************************************/
 static void map_set_sent(int x, int y, struct player *pplayer)
 {
-  (map.tiles+map_adjust_x(x)+ map_adjust_y(y)*map.xsize)->sent
-    |= (1u<<pplayer->player_no);
+  map_get_tile(x, y)->sent |= (1u<<pplayer->player_no);
 }
 
 /***************************************************************
@@ -843,8 +880,7 @@ static void map_set_sent(int x, int y, struct player *pplayer)
 ***************************************************************/
 static void map_clear_sent(int x, int y, struct player *pplayer)
 {
-  (map.tiles+map_adjust_x(x)+ map_adjust_y(y)*map.xsize)->sent
-    &= ~(1u<<pplayer->player_no);
+  map_get_tile(x, y)->sent &= ~(1u<<pplayer->player_no);
 }
 
 /***************************************************************
@@ -852,8 +888,7 @@ static void map_clear_sent(int x, int y, struct player *pplayer)
 ***************************************************************/
 static int map_get_sent(int x, int y, struct player *pplayer)
 {
-  return (int) (((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->sent)&(1u<<pplayer->player_no));
+  return map_get_tile(x, y)->sent & (1u<<pplayer->player_no);
 }
 
 /***************************************************************
@@ -894,6 +929,7 @@ static void player_tile_init(struct player_tile *plrtile)
     plrtile->seen = 1;
   plrtile->last_updated = GAME_START_YEAR;
   plrtile->own_seen = plrtile->seen;
+  plrtile->pending_seen = 0;
 }
  
 /***************************************************************
@@ -913,9 +949,9 @@ struct player_tile *map_get_player_tile(int x, int y, int playerid)
 /***************************************************************
 ...
 ***************************************************************/
-void update_tile_knowledge(struct player *pplayer,int x, int y)
+void update_tile_knowledge(struct player *pplayer, int x, int y)
 {
-  struct tile *ptile = map_get_tile(x,y);
+  struct tile *ptile = map_get_tile(x, y);
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer->player_no);
 
   plrtile->terrain = ptile->terrain;
@@ -986,6 +1022,8 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	dest_city->owner = from_city->owner;
 	send_city_info_at_tile(pdest, &pdest->connections, NULL, x, y);
       }
+
+      reveal_pending_seen(pdest, x, y, 0);
     }
   }
 }
@@ -1077,8 +1115,10 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	  int change = map_get_own_seen(x, y, pplayer->player_no);
 	  if (change) {
 	    map_change_seen(x, y, pplayer2->player_no, change);
-	    if (map_get_seen(x, y, pplayer2->player_no) == change)
+	    if (map_get_seen(x, y, pplayer2->player_no) == change) {
 	      really_unfog_area(pplayer2, x, y);
+	      reveal_pending_seen(pplayer2, x, y, 0);
+	    }
 	  }
 	} whole_map_iterate_end;
 
@@ -1156,4 +1196,67 @@ void handle_player_remove_vision(struct player *pplayer,
   remove_shared_vision(pplayer, pplayer2);
   notify_player(pplayer2, _("%s no longer gives us shared vision!"),
 		pplayer->name);
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+static void enable_fog_of_war_player(struct player *pplayer)
+{
+  int playerid = pplayer->player_no;
+  whole_map_iterate(x, y) {
+    if (map_get_known(x, y, pplayer)) {
+      map_change_seen(x, y, playerid, -1);
+      if (map_get_seen(x, y, playerid) == 0)
+	update_player_tile_last_seen(pplayer, x, y);
+    } else {
+      decrement_pending_seen(pplayer, x, y);
+    }
+  } whole_map_iterate_end;
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void enable_fog_of_war(void)
+{
+  players_iterate(pplayer) {
+    enable_fog_of_war_player(pplayer);
+  } players_iterate_end;
+
+  send_all_known_tiles(&game.game_connections);
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+static void disable_fog_of_war_player(struct player *pplayer)
+{
+  int playerid = pplayer->player_no;
+  whole_map_iterate(x, y) {
+    if (map_get_known(x, y, pplayer)) {
+      struct city *pcity = map_get_city(x, y);
+      map_change_seen(x, y, playerid, +1);
+      reality_check_city(pplayer, x, y);
+      if (pcity) {
+	update_dumb_city(pplayer, pcity);
+      }
+    } else {
+      increment_pending_seen(pplayer, x, y);
+    }
+  } whole_map_iterate_end;
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void disable_fog_of_war(void)
+{
+  players_iterate(pplayer) {
+    disable_fog_of_war_player(pplayer);
+  } players_iterate_end;
+
+  send_all_known_tiles(&game.game_connections);
+  send_all_known_units(&game.game_connections);
+  send_all_known_cities(&game.game_connections);
 }
