@@ -413,7 +413,9 @@ void update_city_activities(struct player *pplayer)
      update_city_activity(pplayer, pcity);
   city_list_iterate_end;
   pplayer->ai.prev_gold = gold;
-  if (gold-(gold-pplayer->economic.gold)*3<0) {
+  /* This test include the cost of the units because pay_for_units is called
+   * in update_city_activity */
+  if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
     notify_player_ex(pplayer, -1, -1, E_LOW_ON_FUNDS,
 		     _("Game: WARNING, we're LOW on FUNDS sire."));  
   }
@@ -1326,6 +1328,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       pcity->airlift=FALSE;
     update_tech(pplayer, pcity->science_total);
     pplayer->economic.gold+=pcity->tax_total;
+    pay_for_units(pplayer, pcity);
     pay_for_buildings(pplayer, pcity);
 
     if(city_unhappy(pcity)) { 

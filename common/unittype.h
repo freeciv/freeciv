@@ -181,7 +181,7 @@ struct unit_type {
   int happy_cost;  /* unhappy people in home city */
   int shield_cost; /* normal upkeep cost */
   int food_cost;   /* settler food cost */
-  int gold_cost;   /* gold upkeep (n/a now, maybe later) */
+  int gold_cost;   /* gold upkeep */
 
   int paratroopers_range; /* only valid for F_PARATROOPERS */
   int paratroopers_mr_req;

@@ -46,6 +46,7 @@ static void citizen_happy_wonders(struct city *pcity);
 static void unhappy_city_check(struct city *pcity);
 static void set_pollution(struct city *pcity);
 static void set_food_trade_shields(struct city *pcity);
+static int citygov_free_gold(struct city *pcity, struct government *gov);
 static void city_support(struct city *pcity,
 			 void (*send_unit_info) (struct player * pplayer,
 						 struct unit * punit));
@@ -906,16 +907,21 @@ int city_num_trade_routes(struct city *pcity)
 }
 
 /*************************************************************************
-Calculate amount of gold remaining in city after paying for buildings
+  Calculate amount of gold remaining in city after paying for buildings 
+  and units.
 *************************************************************************/
 int city_gold_surplus(struct city *pcity)
 {
   bool asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
-  int cost=0;
+  int cost = 0;
 
   built_impr_iterate(pcity, i) {
     cost += improvement_upkeep_asmiths(pcity, i, asmiths);
   } built_impr_iterate_end;
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    cost += punit->upkeep_gold;
+  } unit_list_iterate_end;
 
   return pcity->tax_total-cost;
 }

@@ -47,7 +47,7 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
 void disband_stack_conflict_unit(struct unit *punit, bool verbose);
 int get_watchtower_vision(struct unit *punit);
 bool unit_profits_of_watchtower(struct unit *punit);
-
+void pay_for_units(struct player *pplayer, struct city *pcity);
 
 /* creation/deletion/upgrading */
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
