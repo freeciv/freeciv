@@ -212,57 +212,50 @@ void client_remove_player(int plrno)
 /**************************************************************************
 ...
 **************************************************************************/
-void client_remove_unit(int unit_id)
+void client_remove_unit(struct unit *punit)
 {
-  struct unit *punit;
   struct city *pcity;
+  int x = punit->x;
+  int y = punit->y;
+  int hc = punit->homecity;
+  struct unit *ufocus = get_unit_in_focus();
 
-  freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
-  
-  if((punit=find_unit_by_id(unit_id))) {
-    int x=punit->x;
-    int y=punit->y;
-    int hc=punit->homecity;
-    struct unit *ufocus = get_unit_in_focus();
+  freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+	  punit->id, get_nation_name(unit_owner(punit)->nation),
+	  unit_name(punit->type), punit->x, punit->y, hc);
 
-    freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_nation_name(unit_owner(punit)->nation),
-	   unit_name(punit->type), punit->x, punit->y, hc);
-    
-    if(punit==ufocus) {
-      set_unit_focus_no_center(NULL);
-      game_remove_unit(punit);
-      punit = ufocus = NULL;
-      advance_unit_focus();
-    }
-    else {
-      /* calculate before punit disappears, use after punit removed: */
-      bool update = (ufocus
-		     && same_pos(ufocus->x, ufocus->y, punit->x, punit->y));
+  if (punit == ufocus) {
+    set_unit_focus_no_center(NULL);
+    game_remove_unit(punit);
+    punit = ufocus = NULL;
+    advance_unit_focus();
+  } else {
+    /* calculate before punit disappears, use after punit removed: */
+    bool update = (ufocus
+		   && same_pos(ufocus->x, ufocus->y, punit->x, punit->y));
 
-      game_remove_unit(punit);
-      punit = NULL;
-      if (update) {
-	update_unit_pix_label(ufocus);
-      }
+    game_remove_unit(punit);
+    punit = NULL;
+    if (update) {
+      update_unit_pix_label(ufocus);
     }
-
-    pcity = map_get_city(x, y);
-    if (pcity) {
-      refresh_city_dialog(pcity);
-      freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-    }
-    
-    pcity = player_find_city_by_id(game.player_ptr, hc);
-    if (pcity) {
-      refresh_city_dialog(pcity);
-      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-    }
-    
-    refresh_tile_mapcanvas(x, y, TRUE);
   }
+
+  pcity = map_get_city(x, y);
+  if (pcity) {
+    refresh_city_dialog(pcity);
+    freelog(LOG_DEBUG, "map city %s, %s, (%d %d)", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+  }
+
+  pcity = player_find_city_by_id(game.player_ptr, hc);
+  if (pcity) {
+    refresh_city_dialog(pcity);
+    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+  }
+
+  refresh_tile_mapcanvas(x, y, TRUE);
 }
 
 /**************************************************************************

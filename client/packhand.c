@@ -172,8 +172,14 @@ void handle_remove_city(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_remove_unit(struct packet_generic_integer *packet)
 {
-  agents_unit_remove(find_unit_by_id(packet->value));
-  client_remove_unit(packet->value);
+  struct unit *punit = find_unit_by_id(packet->value);
+
+  if (!punit) {
+    return;
+  }
+
+  agents_unit_remove(punit);
+  client_remove_unit(punit);
 }
 
 /**************************************************************************
@@ -902,7 +908,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
       else {
 	do_move_unit(punit, packet); /* nice to see where a unit is going */
-	client_remove_unit(punit->id);
+	client_remove_unit(punit);
 	refresh_tile_mapcanvas(packet->x, packet->y, TRUE);
         return;
       }
@@ -968,7 +974,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     dest_y = packet->y;
     /*fog of war*/
     if (!(tile_get_known(punit->x,punit->y) == TILE_KNOWN)) {
-      client_remove_unit(packet->id);
+      client_remove_unit(punit);
       refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
     }
     agents_unit_changed(punit);
@@ -1523,7 +1529,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* fog of war remove units */
   if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
     unit_list_iterate(ptile->units, punit) {
-      client_remove_unit(punit->id);
+      client_remove_unit(punit);
     }
     unit_list_iterate_end;
   }

@@ -26,7 +26,7 @@ typedef int wid;
 void client_init_player(struct player *plr);
 void client_remove_player(int plrno);
 void client_remove_city(struct city *pcity);
-void client_remove_unit(int unit_id);
+void client_remove_unit(struct unit *punit);
 
 void climap_init_continents(void);
 void climap_update_continents(int x, int y);
