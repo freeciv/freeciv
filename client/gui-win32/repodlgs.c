@@ -210,21 +210,26 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	case ID_SCIENCE_RESEARCH:
 	  if (HIWORD(wParam)==CBN_SELCHANGE) {
 	    to=ComboBox_GetCurSel(GetDlgItem(hWnd,ID_SCIENCE_RESEARCH));
-	    if (to!=LB_ERR)
-	      {
-		char text[512];
-		struct packet_player_request packet;
-		to=ComboBox_GetItemData(GetDlgItem(hWnd,
-						   ID_SCIENCE_RESEARCH),
-					to);
+	    if (to!=LB_ERR) {
+	      char text[512];
+	      struct packet_player_request packet;
+	      to=ComboBox_GetItemData(GetDlgItem(hWnd,
+						 ID_SCIENCE_RESEARCH),
+				      to);
+	      
+	      if (IsDlgButtonChecked(hWnd, ID_SCIENCE_HELP)) {
+		popup_help_dialog_typed(advances[to].name, HELP_TECH);
+		science_dialog_update();
+	      } else {
 		my_snprintf(text, sizeof(text), "%d/%d",
 			    game.player_ptr->research.bulbs_researched,
 			    total_bulbs_required(game.player_ptr));
-	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_PROG),text);
-	      packet.tech=to;
-	      send_packet_player_request(&aconnection, &packet,
-					 PACKET_PLAYER_RESEARCH);  
+		SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_PROG),text);
+		packet.tech=to;
+		send_packet_player_request(&aconnection, &packet,
+					   PACKET_PLAYER_RESEARCH);  
 	      }
+	    }
 	  }
 	  break;
 	case ID_SCIENCE_GOAL:
@@ -246,11 +251,10 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	}
       break;
     case WM_CLOSE:
-      
       DestroyWindow(science_dlg);
-      science_dlg=NULL;
       break;
     case WM_DESTROY:
+      science_dlg=NULL;
       break;
     case WM_SIZE:
       break;
