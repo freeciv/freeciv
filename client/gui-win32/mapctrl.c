@@ -32,11 +32,13 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_stuff.h"
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
@@ -48,6 +50,7 @@
 
 struct city *city_workers_display = NULL;
 
+HWND popit_popup=NULL;
 /*************************************************************************
 
 *************************************************************************/
@@ -67,6 +70,181 @@ void map_handle_move(int window_x, int window_y)
   
 }
 
+/*************************************************************************
+
+*************************************************************************/
+static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
+				WPARAM wParam,LPARAM lParam)
+{
+  switch(message)
+    {
+    case WM_CREATE:
+    case WM_DESTROY:
+    case WM_SIZE:
+    case WM_GETMINMAXINFO:
+      break;
+    default:
+      return DefWindowProc(hwnd,message,wParam,lParam);
+    }
+  return 0;
+}
+
+/*************************************************************************
+
+*************************************************************************/
+static void popit(int x, int y, int xtile, int ytile)
+{
+  HWND popup;
+  POINT pt;
+  RECT rc;
+  struct fcwin_box *vbox;
+  static struct map_position cross_list[2+1];
+  struct map_position *cross_head = cross_list;
+  int i;
+  char s[512];
+  struct city *pcity;
+  struct unit *punit;
+  struct tile *ptile=map_get_tile(xtile, ytile);
+  if (popit_popup!=NULL) {
+    DestroyWindow(popit_popup);
+    popit_popup=NULL;
+  }
+  
+  if (tile_get_known(xtile,ytile)<TILE_KNOWN_FOGGED)
+    return;
+  
+  popup=fcwin_create_layouted_window(popit_proc,NULL,WS_POPUP|WS_BORDER,
+				     0,0,root_window,NULL,
+				     NULL);
+  vbox=fcwin_vbox_new(popup,FALSE);
+  
+  my_snprintf(s, sizeof(s), _("Terrain: %s"),
+	      map_get_tile_info_text(xtile, ytile));
+  fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+  my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
+	      map_get_tile_fpt_text(xtile, ytile));
+  fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+  
+  if (tile_has_special(ptile, S_HUT)) {
+    fcwin_box_add_static(vbox,_("Minor Tribe Village"),
+			 0,SS_LEFT,FALSE,FALSE,0);
+  }
+  
+  if((pcity=map_get_city(xtile, ytile))) {
+    my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
+		get_nation_name(city_owner(pcity)->nation));
+    fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+    if (city_got_citywalls(pcity)) {
+      fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+    }
+  }
+   
+  if (get_tile_infrastructure_set(ptile)) {
+    sz_strlcpy(s, _("Infrastructure: "));
+    sz_strlcat(s, map_get_infrastructure_text(ptile->special));
+    fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+  }
+
+  sz_strlcpy(s, _("Activity: "));
+  if (concat_tile_activity_text(s, sizeof(s), xtile, ytile)) {
+    fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+  }
+
+  if((punit=find_visible_unit(ptile)) && !pcity) {
+    char cn[64];
+    struct unit_type *ptype=unit_type(punit);
+    cn[0]='\0';
+    if(punit->owner==game.player_idx) {
+      struct city *pcity;
+      pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+      if(pcity)
+	my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
+    }
+    my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
+		get_nation_name(unit_owner(punit)->nation), cn);
+
+    fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+    if(punit->owner==game.player_idx)  {
+      char uc[64] = "";
+      if(unit_list_size(&ptile->units)>=2) {
+	my_snprintf(uc, sizeof(uc), _("  (%d more)"),
+		    unit_list_size(&ptile->units) - 1);
+      }
+      my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d/%d%s%s"),
+		  ptype->attack_strength, 
+		  ptype->defense_strength, ptype->firepower, punit->hp, 
+		  ptype->hp, punit->veteran?_(" V"):"", uc);
+      
+      if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
+	cross_head->x = punit->goto_dest_x;
+	cross_head->y = punit->goto_dest_y;
+	cross_head++;
+      }
+    } else {
+      my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
+		  ptype->attack_strength, 
+		  ptype->defense_strength, ptype->firepower, 
+		  (punit->hp*100/ptype->hp + 9)/10 );
+    }
+    fcwin_box_add_static(vbox,s,0,SS_LEFT,FALSE,FALSE,0);
+  }
+  
+  cross_head->x = xtile;
+  cross_head->y = ytile;
+  cross_head++;
+  
+  cross_head->x = -1;
+  for (i = 0; cross_list[i].x >= 0; i++) {
+    put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+  }
+  fcwin_set_box(popup,vbox);
+
+  GetWindowRect(popup,&rc);
+  pt.x=x;
+  pt.y=y;
+  ClientToScreen(map_window,&pt);
+  MoveWindow(popup,pt.x+16,pt.y-rc.bottom+rc.top,
+	     rc.right-rc.left,rc.bottom-rc.top,FALSE);
+  ShowWindow(popup,SW_SHOWNORMAL);
+  popit_popup=popup;
+  SetFocus(map_window);
+} 
+
+/**************************************************************************
+
+**************************************************************************/
+static void adjust_workers(int map_x, int map_y)
+{
+  int x, y, is_valid;
+  struct city *pcity;
+  struct packet_city_request packet;
+  enum city_tile_type wrk;
+  
+
+  pcity = find_city_near_tile(map_x, map_y);
+  if (!pcity) {
+    return;
+  }
+  
+  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
+  assert(is_valid);
+  
+  packet.city_id=pcity->id;
+  packet.worker_x=x;
+  packet.worker_y=y;
+  
+  wrk = get_worker_city(pcity, x, y);
+  if(wrk==C_TILE_WORKER)
+    send_packet_city_request(&aconnection, &packet, 
+			     PACKET_CITY_MAKE_SPECIALIST);
+  else if(wrk==C_TILE_EMPTY)
+    send_packet_city_request(&aconnection, &packet, 
+			     PACKET_CITY_MAKE_WORKER);
+  
+  /* When the city info packet is received, update the workers on the map*/
+  city_workers_display = pcity;
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -80,16 +258,39 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   case WM_CREATE:
     break;
   case WM_LBUTTONDOWN:
+    if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+      break;
     get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
-    do_map_click(xtile,ytile);
-    wakeup_sentried_units(xtile,ytile);
+    if (wParam&MK_SHIFT) {
+      adjust_workers(xtile,ytile);
+    } else if (wParam&MK_CONTROL){
+      popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
+    } else {
+      do_map_click(xtile,ytile);
+      wakeup_sentried_units(xtile,ytile);
+    }
     break;
   case WM_RBUTTONDOWN:
-    get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);  
-    center_tile_mapcanvas(xtile,ytile);
+    if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+      get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
+      if (wParam&MK_CONTROL) {
+	popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);	
+      } else {
+	center_tile_mapcanvas(xtile,ytile);
+      }
+    }
+    break;
+  case WM_LBUTTONUP:
+  case WM_RBUTTONUP:
+    if (popit_popup!=NULL) {
+      DestroyWindow(popit_popup);
+      popit_popup=NULL;
+    }
     break;
   case WM_MOUSEMOVE:
-    map_handle_move(LOWORD(lParam),HIWORD(lParam));
+    if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+      map_handle_move(LOWORD(lParam),HIWORD(lParam));
+    }
     break;
   case WM_PAINT:
     hdc=BeginPaint(hwnd,(LPPAINTSTRUCT)&ps);
