@@ -985,7 +985,7 @@ GtkWidget *create_worklist()
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(help_callback), ptr);
 
-  button = gtk_button_new_with_mnemonic("Chan_ge Production");
+  button = gtk_button_new_with_mnemonic(_("Chan_ge Production"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(change_callback), ptr);
