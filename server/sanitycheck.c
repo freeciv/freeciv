@@ -182,6 +182,22 @@ static void check_cities(void)
       }
     } city_list_iterate_end;
   } players_iterate_end;
+
+  whole_map_iterate(x, y) {
+    struct tile *ptile = map_get_tile(x, y);
+    if (ptile->worked) {
+      struct city *pcity = ptile->worked;
+      int city_x, city_y;
+      get_citymap_xy(pcity, x, y, &city_x, &city_y);
+      if (pcity->city_map[city_x][city_y] != C_TILE_WORKER) {
+	freelog(LOG_ERROR, "%d,%d is listed as being worked by %s "
+		"on the map, but %s lists the tile %d,%d as having "
+		"status %d\n",
+		x, y, pcity->name, pcity->name, city_x, city_y,
+		pcity->city_map[city_x][city_y]);
+      }
+    }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
