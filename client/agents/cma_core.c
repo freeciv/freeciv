@@ -100,7 +100,7 @@
 #define MAX_LUXURY					150
 #define NUM_SPECIALISTS_ROLLES				3
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
-#define MAX_COMBINATIONS				80
+#define MAX_COMBINATIONS				100
 
 /* Maps scientists and taxmen to result for a certain combination. */
 static struct {
@@ -1138,7 +1138,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 static void add_combination(int fields_used,
 			    struct combination *combination)
 {
-  int i;
+  static int max_used = 0;
+  int i, used;
   /* This one is cached for later. Avoids another loop. */
   struct combination *invalid_slot_for_insert = NULL;
 
@@ -1195,11 +1196,27 @@ static void add_combination(int fields_used,
   }
 
   /* Insert the given combination. */
-  assert(invalid_slot_for_insert != NULL);
+  if (invalid_slot_for_insert == NULL) {
+    freelog(LOG_FATAL,
+	    "No more free combinations left. You may increase "
+	    "MAX_COMBINATIONS or \nreport this error to "
+	    "freeciv-dev@freeciv.org.\nCurrent MAX_COMBINATIONS=%d",
+	    MAX_COMBINATIONS);
+    exit(EXIT_FAILURE);
+  }
 
   memcpy(invalid_slot_for_insert, combination, sizeof(struct combination));
   invalid_slot_for_insert->all_entertainer.found_a_valid = FALSE;
   invalid_slot_for_insert->cache1 = NULL;
+
+  used = count_valid_combinations(fields_used);
+  if (used > (MAX_COMBINATIONS * 9) / 10
+      && (used > max_used || max_used == 0)) {
+    max_used = used;
+    freelog(LOG_ERROR,
+	    "Warning: there are currently %d out of %d combinations used",
+	    used, MAX_COMBINATIONS);
+  }
 
   freelog(LOG_DEBUG, "there are now %d combination which use %d tiles",
 	  count_valid_combinations(fields_used), fields_used);
