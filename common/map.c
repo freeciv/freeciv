@@ -401,7 +401,14 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */
     tile1 = map_get_tile(xx[i], yy[j]);
-    if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+    if (tile1->terrain == T_UNKNOWN) c = maxcost;
+    else if (tile0->terrain == T_OCEAN) {
+      if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+      else c = maxcost;
+    } else if (tile1->terrain == T_OCEAN) {
+      if (tile0->city_id) c = -3;
+      else c = maxcost;
+    }
     else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
     else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
     else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
@@ -416,7 +423,14 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */
     tile0 = map_get_tile(xx[i], yy[j]);
-    if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+    if (tile1->terrain == T_UNKNOWN) c = maxcost;
+    else if (tile0->terrain == T_OCEAN) {
+      if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+      else c = maxcost;
+    } else if (tile1->terrain == T_OCEAN) {
+      if (tile0->city_id) c = -3;
+      else c = maxcost;
+    }
     else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
     else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
     else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
@@ -448,7 +462,14 @@ void initialize_move_costs(void)
       for (k = 0; k < 8; k++) {
         i = ii[k]; j = jj[k]; /* saves CPU cycles? */
         tile1 = map_get_tile(xx[i], yy[j]);
-        if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+        if (tile1->terrain == T_UNKNOWN) c = maxcost;
+        else if (tile0->terrain == T_OCEAN) {
+          if (tile1->city_id || tile1->terrain == T_OCEAN) c = -3;
+          else c = maxcost;
+        } else if (tile1->terrain == T_OCEAN) {
+          if (tile0->city_id) c = -3;
+          else c = maxcost;
+        }
         else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
         else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
         else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
