@@ -1175,7 +1175,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   
   if (is_capital(pcity)
       && city_list_size(&cplayer->cities) >= game.civilwarsize
-      && game.nplayers < game.nation_count
+      && game.nplayers < game.playable_nation_count
       && game.civilwarsize < GAME_MAX_CIVILWARSIZE
       && get_num_human_and_ai_players() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
