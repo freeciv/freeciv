@@ -55,6 +55,7 @@
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
+#include "sanitycheck.h"
 #include "savegame.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -4139,6 +4140,8 @@ bool load_command(struct connection *caller, char *arg, bool check)
   freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
           read_timer_seconds_free(loadtimer),
           read_timer_seconds_free(uloadtimer));
+
+  sanity_check();
 
   /* attach connections to players. currently, this applies only 
    * to connections that have the correct username. Any attachments

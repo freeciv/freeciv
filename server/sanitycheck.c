@@ -367,12 +367,16 @@ static void check_players(void)
 **************************************************************************/
 void sanity_check(void)
 {
-  check_specials();
-  check_fow();
+  if (!map_is_empty()) {
+    /* Don't sanity-check the map if it hasn't been created yet (this
+     * happens when loading scenarios). */
+    check_specials();
+    check_map();
+    check_cities();
+    check_units();
+    check_fow();
+  }
   check_misc();
-  check_map();
-  check_cities();
-  check_units();
   check_players();
 }
 
