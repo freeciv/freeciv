@@ -1157,7 +1157,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	int dir = data->segment_dir;
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
-	assert(get_drawn(src_x, src_y, dir) > 0);
+	assert(is_drawn_line(src_x, src_y, dir));
 
 	if (is_isometric) {
 	  really_draw_segment(data->map_layer->rp, 0, 0, src_x, src_y, dir,
@@ -1368,7 +1368,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    int y1 = y_itr;
 	    if (normalize_map_pos(&x1, &y1)) {
 	      adjc_dir_iterate(x1, y1, x2, y2, dir) {
-		if (get_drawn(x1, y1, dir)) {
+		if (is_drawn_line(x1, y1, dir)) {
 		  really_draw_segment(data->map_layer->rp, 0, 0, x1, y1,
 				      dir, TRUE);
 		}

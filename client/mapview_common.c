@@ -1067,7 +1067,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       enum direction8 dir;
 
       for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(map_x, map_y, dir) != 0) {
+	if (is_drawn_line(map_x, map_y, dir)) {
 	  draw_segment(map_x, map_y, dir);
 	}
       }
@@ -1078,7 +1078,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       int line_x = map_x - 1, line_y = map_y;
 
       if (normalize_map_pos(&line_x, &line_y)
-	  && get_drawn(line_x, line_y, DIR8_NORTHEAST) != 0) {
+	  && is_drawn_line(line_x, line_y, DIR8_NORTHEAST)) {
 	draw_segment(line_x, line_y, DIR8_NORTHEAST);
       }
     }
@@ -1316,7 +1316,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
       if (normalize_map_pos(&map_x, &map_y)) {
 	adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
-	  if (get_drawn(map_x, map_y, dir)) {
+	  if (is_drawn_line(map_x, map_y, dir)) {
 	    draw_segment(map_x, map_y, dir);
 	  }
 	} adjc_dir_iterate_end;
@@ -1569,7 +1569,7 @@ void undraw_segment(int src_x, int src_y, int dir)
 {
   int dest_x, dest_y;
 
-  assert(get_drawn(src_x, src_y, dir) == 0);
+  assert(!is_drawn_line(src_x, src_y, dir));
 
   if (!MAPSTEP(dest_x, dest_y, src_x, src_y, dir)) {
     assert(0);

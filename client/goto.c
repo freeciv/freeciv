@@ -640,13 +640,19 @@ static unsigned char *get_drawn_char(int x, int y, enum direction8 dir)
 **************************************************************************/
 static void increment_drawn(int src_x, int src_y, enum direction8 dir)
 {
+  unsigned char *count = get_drawn_char(src_x, src_y, dir);
+
   freelog(LOG_DEBUG, "increment_drawn(src=(%d,%d) dir=%s)",
           src_x, src_y, dir_get_name(dir));
-  /* don't overflow unsigned char. */
-  assert(*get_drawn_char(src_x, src_y, dir) < 255);
-  *get_drawn_char(src_x, src_y, dir) += 1;
 
-  if (get_drawn(src_x, src_y, dir) == 1) {
+  if (*count < 255) {
+    (*count)++;
+  } else {
+    /* don't overflow unsigned char. */
+    assert(*count < 255);
+  }
+
+  if (*count == 1) {
     draw_segment(src_x, src_y, dir);
   }
 }
@@ -657,21 +663,28 @@ static void increment_drawn(int src_x, int src_y, enum direction8 dir)
 **************************************************************************/
 static void decrement_drawn(int src_x, int src_y, enum direction8 dir)
 {
+  unsigned char *count = get_drawn_char(src_x, src_y, dir);
+
   freelog(LOG_DEBUG, "decrement_drawn(src=(%d,%d) dir=%s)",
           src_x, src_y, dir_get_name(dir));
-  /* don't underflow unsigned char. */
-  assert(*get_drawn_char(src_x, src_y, dir) > 0);
-  *get_drawn_char(src_x, src_y, dir) -= 1;
 
-  if (get_drawn(src_x, src_y, dir) == 0) {
+  if (*count > 0) {
+    (*count)--;
+  } else {
+    /* don't underflow unsigned char. */
+    assert(*count > 0);
+  }
+
+  if (*count == 0) {
     undraw_segment(src_x, src_y, dir);
   }
 }
 
-/********************************************************************** 
-  Part of the public interface. Needed by mapview.
-***********************************************************************/
-int get_drawn(int x, int y, int dir)
+/****************************************************************************
+  Return TRUE if there is a line drawn from (x,y) in the given direction.
+  This is used by mapview to determine whether to draw a goto line.
+****************************************************************************/
+bool is_drawn_line(int x, int y, int dir)
 {
   int dummy_x, dummy_y;
 
@@ -679,7 +692,7 @@ int get_drawn(int x, int y, int dir)
     return 0;
   }
 
-  return *get_drawn_char(x, y, dir);
+  return (*get_drawn_char(x, y, dir) != 0);
 }
 
 /**************************************************************************

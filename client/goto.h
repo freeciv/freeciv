@@ -27,7 +27,7 @@ void goto_add_waypoint(void);
 bool goto_pop_waypoint(void);
 
 void draw_line(int dest_x, int dest_y);
-int get_drawn(int x, int y, int dir);
+bool is_drawn_line(int x, int y, int dir);
 
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path);

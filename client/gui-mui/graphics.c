@@ -973,7 +973,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
     if (is_real_map_pos(x, y)) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(x, y, dir)) {
+	if (is_drawn_line(x, y, dir)) {
 	  put_line(rp, 0,0,x, y, dir);
 	}
       }
@@ -984,7 +984,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
       int line_x = x - 1;
       int line_y = y;
       if (normalize_map_pos(&line_x, &line_y)
-	  && get_drawn(line_x, line_y, 2)) {
+	  && is_drawn_line(line_x, line_y, 2)) {
 	/* it is really only one pixel in the top right corner */
 	put_line(rp, 0,0,line_x, line_y, 2);
       }
