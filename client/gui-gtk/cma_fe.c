@@ -247,7 +247,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 		       pdialog);
 
     pdialog->factor[i] =
-	GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, 25, 1, 1, 0));
+	GTK_ADJUSTMENT(gtk_adjustment_new(1, 0, 25, 1, 1, 0));
 
     hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[i]));
     gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3, i + 1, i + 2);
@@ -279,7 +279,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 		     GTK_SIGNAL_FUNC(hscale_changed), pdialog);
 
   pdialog->factor[NUM_STATS] =
-      GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, 50, 1, 0, 0));
+      GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 50, 1, 0, 0));
 
   hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[NUM_STATS]));
   gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3,
