@@ -118,6 +118,14 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
   /* pearl harbour */
   if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
     *def_fp = 1;
+  
+  /* 
+   * When attacked by fighters, helicopters have their firepower
+   * reduced to 1.
+   */
+  if (is_heli_unit(defender) && unit_flag(attacker, F_FIGHTER)) {
+    *def_fp = 1;
+  }
 
   /* In land bombardment both units have their firepower reduced to 1 */
   if (is_sailing_unit(attacker)
@@ -330,7 +338,7 @@ static int defence_multiplication(Unit_Type_id att_type,
 	(is_air_unittype(att_type) || is_heli_unittype(att_type))) {
       defensepower *= 5;
     }
-
+         
     if (is_air_unittype(att_type) && pcity) {
       if (city_got_building(pcity, B_SAM)) {
 	defensepower *= 2;
@@ -350,6 +358,10 @@ static int defence_multiplication(Unit_Type_id att_type,
 		&& is_water_unit(att_type))) && pcity
 	&& city_got_citywalls(pcity)) {
       defensepower *= 3;
+    }
+
+    if (unit_type_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {
+      defensepower /= 2;
     }
   }
 
