@@ -119,15 +119,16 @@ struct Sprite *te_load_gfx(const char *filename)
 }
 
 /*************************************************************************
-  ...
+  Transform a colour string to a be_color primitive.
 *************************************************************************/
-static be_color str_color_to_be_color(const char *s)
+static bool str_color_to_be_color(be_color *col, const char *s)
 {
   int values[3];
   int i;
 
-  assert(strlen(s) == 7);
-  assert(s[0] == '#');
+  if (strlen(s) != 9 || s[0] != '#') {
+    return FALSE;
+  }
 
   s++;
   for (i = 0; i < 3; i++) {
@@ -142,17 +143,27 @@ static be_color str_color_to_be_color(const char *s)
     assert(scanned == 1);
     s += 2;
   }
-  return be_get_color(values[0], values[1], values[2]);
+  *col = be_get_color(values[0], values[1], values[2]);
+  return TRUE;
 }
 
 /*************************************************************************
   ...
 *************************************************************************/
-be_color te_read_color(struct section_file * file, const char *section,
+be_color te_read_color(struct section_file *file, const char *section,
 		       const char *prefix, const char *suffix)
 {
-  return str_color_to_be_color(secfile_lookup_str
-			       (file, "%s.%s%s", section, prefix, suffix));
+  be_color col;
+  if (str_color_to_be_color(&col, secfile_lookup_str(file, 
+                                   "%s.%s%s", section, prefix, suffix))) {
+    return col;
+  } else {
+    freelog(LOG_FATAL, "Wrong colour string in %s, %s.%s%s",
+            file->filename, section, prefix, suffix);
+    assert(0);
+    exit(EXIT_FAILURE);
+    return 0;
+  }
 }
 
 /*************************************************************************
