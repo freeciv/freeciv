@@ -38,6 +38,7 @@
 #include <advmilitary.h>
 #include <advdomestic.h>
 #include <gotohand.h>
+#include <settlers.h>
 
 int ai_fix_unhappy(struct city *pcity);
 void ai_manage_city(struct player *pplayer, struct city *);
@@ -370,6 +371,7 @@ void ai_manage_cities(struct player *pplayer)
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
     establish_city_distances(pplayer, pcity); /* in advmilitary for warmap */
 /* determines downtown and distance_to_wondercity, which a_c_c_b will need */
+    contemplate_settling(pplayer, pcity); /* while we have the warmap handy */
   city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity)

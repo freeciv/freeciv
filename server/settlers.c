@@ -1021,3 +1021,23 @@ void auto_settlers()
     auto_settlers_player(&game.players[i]);
   }
 }
+
+void contemplate_settling(struct player *pplayer, struct city *pcity)
+{
+  struct unit virtualunit;
+  int want;
+/* used to use old crappy formulas for settler want, but now using actual want! */
+  memset(&virtualunit, 0, sizeof(&virtualunit));
+  virtualunit.id = 0;
+  virtualunit.owner = pplayer->player_no;
+  virtualunit.x = pcity->x;
+  virtualunit.y = pcity->y;
+  virtualunit.type = (can_build_unit(pcity, U_ENGINEERS) ? U_ENGINEERS : U_SETTLERS);
+  virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
+  virtualunit.hp = 20;  
+  want = auto_settler_findwork(pplayer, &virtualunit);
+  unit_list_iterate(pplayer->units, qpass)
+    if (qpass->ai.ferryboat == pcity->id) want = -199;
+  unit_list_iterate_end;
+  pcity->ai.settler_want = want;
+}
