@@ -333,7 +333,10 @@ PACKET_TILE_INFO=14; is-info,sc,lsend
   STRING spec_sprite[MAX_LEN_NAME];
 end
 
-PACKET_GAME_INFO=15; is-info,sc
+# This packet used to have is_info set but that doesn't work with the
+# seconds_to_phasedone field: sending the same value a second time after a
+# while has passed means a completely reset timeout.
+PACKET_GAME_INFO=15; sc
   GOLD gold;
   UINT32 tech;
   UINT8 researchcost;

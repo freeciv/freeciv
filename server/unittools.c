@@ -48,6 +48,7 @@
 #include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
+#include "gamehand.h"
 
 #include "aiexplorer.h"
 #include "aitools.h"
@@ -2918,6 +2919,26 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   maybe_make_contact(pdesttile, unit_owner(punit));
 
   conn_list_do_unbuffer(pplayer->connections);
+
+  if (game.timeout != 0 && game.timeoutaddenemymove > 0) {
+    bool new_information_for_enemy = FALSE;
+
+    phase_players_iterate(penemy) {
+      /* Increase the timeout if an enemy unit moves and the
+       * timeoutaddenemymove setting is in use. */
+      if (penemy->is_connected
+	  && pplayer != penemy
+	  && pplayers_at_war(penemy, pplayer)
+	  && can_player_see_unit(penemy, punit)) {
+	new_information_for_enemy = TRUE;
+	break;
+      }
+    } phase_players_iterate_end;
+
+    if (new_information_for_enemy) {
+      increase_timeout_because_unit_moved();
+    }
+  }
 
   /* Note, an individual call to move_unit may leave things in an unstable
    * state (e.g., negative transporter capacity) if more than one unit is

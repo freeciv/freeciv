@@ -413,6 +413,28 @@ int update_timeout(void)
   return game.timeout;
 }
 
+/**************************************************************************
+  adjusts game.phase_start when enemy moves a unit, we see it and the 
+  remaining timeout is smaller than the timeoutaddenemymove option.
+
+  It's possible to use a similar function to do that per-player.  In
+  theory there should be a separate timeout for each player and the
+  added time should only go onto the victim's timer.
+**************************************************************************/
+void increase_timeout_because_unit_moved(void)
+{
+  if (game.timeout != 0 && game.timeoutaddenemymove > 0) {
+    int seconds_to_turndone;
+    time_t now = time(NULL); /* Only call this once */
+
+    seconds_to_turndone = game.phase_start + game.timeout - now;
+    if (seconds_to_turndone < game.timeoutaddenemymove){
+      game.phase_start = now - game.timeout + game.timeoutaddenemymove;
+      send_game_info(NULL);
+    }	
+  }
+}
+
 /************************************************************************** 
   generate challenge filename for this connection, cannot fail.
 **************************************************************************/

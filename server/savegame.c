@@ -3112,6 +3112,11 @@ void game_load(struct section_file *file)
     game.timeoutcounter =
 	secfile_lookup_int_default(file, 1, "game.timeoutcounter");
 
+    game.timeoutaddenemymove
+      = secfile_lookup_int_default(file, game.timeoutaddenemymove,
+				   "game.timeoutaddenemymove");
+
+    
     game.end_year      = secfile_lookup_int(file, "game.end_year");
     game.researchcost  = secfile_lookup_int_default(file, 0, "game.researchcost");
     if (game.researchcost == 0)
@@ -3658,7 +3663,9 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.timeoutintinc, "game.timeoutintinc");
   secfile_insert_int(file, game.timeoutinc, "game.timeoutinc");
   secfile_insert_int(file, game.timeoutincmult, "game.timeoutincmult"); 
-  secfile_insert_int(file, game.timeoutcounter, "game.timeoutcounter"); 
+  secfile_insert_int(file, game.timeoutcounter, "game.timeoutcounter");
+  secfile_insert_int(file, game.timeoutaddenemymove,
+		     "game.timeoutaddenemymove");
   secfile_insert_int(file, game.end_year, "game.end_year");
   secfile_insert_int(file, game.year, "game.year");
   secfile_insert_int(file, game.turn, "game.turn");

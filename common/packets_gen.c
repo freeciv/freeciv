@@ -3725,7 +3725,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   const struct packet_game_info *real_packet = packet;
   packet_game_info_100_fields fields;
   struct packet_game_info *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
   struct hash_table **hash = &pc->phs.sent[PACKET_GAME_INFO];
   int different = 0;
   SEND_PACKET_START(PACKET_GAME_INFO);

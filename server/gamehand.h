@@ -24,6 +24,7 @@ void send_game_state(struct conn_list *dest, int state);
 void send_start_phase_to_clients(void);
 
 int update_timeout(void);
+void increase_timeout_because_unit_moved(void);
 
 const char *new_challenge_filename(struct connection *pc);
 
