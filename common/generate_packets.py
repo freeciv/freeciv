@@ -1105,6 +1105,12 @@ class Packet:
 
         result='''%(receive_prototype)s
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %%s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
@@ -1135,6 +1141,12 @@ class Packet:
 
         result='''%(send_prototype)s
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %%s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 

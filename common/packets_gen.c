@@ -777,6 +777,12 @@ static void ensure_valid_variant_packet_processing_started(struct connection *pc
 
 struct packet_processing_started *receive_packet_processing_started(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_processing_started at the server.");
@@ -791,6 +797,12 @@ struct packet_processing_started *receive_packet_processing_started(struct conne
 
 int send_packet_processing_started(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_processing_started from the client.");
@@ -835,6 +847,12 @@ static void ensure_valid_variant_packet_processing_finished(struct connection *p
 
 struct packet_processing_finished *receive_packet_processing_finished(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_processing_finished at the server.");
@@ -849,6 +867,12 @@ struct packet_processing_finished *receive_packet_processing_finished(struct con
 
 int send_packet_processing_finished(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_processing_finished from the client.");
@@ -893,6 +917,12 @@ static void ensure_valid_variant_packet_freeze_hint(struct connection *pc)
 
 struct packet_freeze_hint *receive_packet_freeze_hint(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_freeze_hint at the server.");
@@ -907,6 +937,12 @@ struct packet_freeze_hint *receive_packet_freeze_hint(struct connection *pc, enu
 
 int send_packet_freeze_hint(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_freeze_hint from the client.");
@@ -958,6 +994,12 @@ static void ensure_valid_variant_packet_thaw_hint(struct connection *pc)
 
 struct packet_thaw_hint *receive_packet_thaw_hint(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_thaw_hint at the server.");
@@ -972,6 +1014,12 @@ struct packet_thaw_hint *receive_packet_thaw_hint(struct connection *pc, enum pa
 
 int send_packet_thaw_hint(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_thaw_hint from the client.");
@@ -1038,6 +1086,12 @@ static void ensure_valid_variant_packet_server_join_req(struct connection *pc)
 
 struct packet_server_join_req *receive_packet_server_join_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_server_join_req at the client.");
@@ -1052,6 +1106,12 @@ struct packet_server_join_req *receive_packet_server_join_req(struct connection 
 
 int send_packet_server_join_req(struct connection *pc, const struct packet_server_join_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_server_join_req from the server.");
@@ -1123,6 +1183,12 @@ static void ensure_valid_variant_packet_server_join_reply(struct connection *pc)
 
 struct packet_server_join_reply *receive_packet_server_join_reply(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_server_join_reply at the server.");
@@ -1137,6 +1203,12 @@ struct packet_server_join_reply *receive_packet_server_join_reply(struct connect
 
 int send_packet_server_join_reply(struct connection *pc, const struct packet_server_join_reply *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_server_join_reply from the client.");
@@ -1269,6 +1341,12 @@ static void ensure_valid_variant_packet_authentication_req(struct connection *pc
 
 struct packet_authentication_req *receive_packet_authentication_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_authentication_req at the server.");
@@ -1283,6 +1361,12 @@ struct packet_authentication_req *receive_packet_authentication_req(struct conne
 
 int send_packet_authentication_req(struct connection *pc, const struct packet_authentication_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_authentication_req from the client.");
@@ -1415,6 +1499,12 @@ static void ensure_valid_variant_packet_authentication_reply(struct connection *
 
 struct packet_authentication_reply *receive_packet_authentication_reply(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_authentication_reply at the client.");
@@ -1429,6 +1519,12 @@ struct packet_authentication_reply *receive_packet_authentication_reply(struct c
 
 int send_packet_authentication_reply(struct connection *pc, const struct packet_authentication_reply *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_authentication_reply from the server.");
@@ -1473,6 +1569,12 @@ static void ensure_valid_variant_packet_server_shutdown(struct connection *pc)
 
 struct packet_server_shutdown *receive_packet_server_shutdown(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_server_shutdown at the server.");
@@ -1487,6 +1589,12 @@ struct packet_server_shutdown *receive_packet_server_shutdown(struct connection 
 
 int send_packet_server_shutdown(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_server_shutdown from the client.");
@@ -1656,6 +1764,12 @@ static void ensure_valid_variant_packet_nations_selected_info(struct connection 
 
 struct packet_nations_selected_info *receive_packet_nations_selected_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_nations_selected_info at the server.");
@@ -1670,6 +1784,12 @@ struct packet_nations_selected_info *receive_packet_nations_selected_info(struct
 
 int send_packet_nations_selected_info(struct connection *pc, const struct packet_nations_selected_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_nations_selected_info from the client.");
@@ -1825,6 +1945,12 @@ static void ensure_valid_variant_packet_nation_select_req(struct connection *pc)
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_nation_select_req at the client.");
@@ -1839,6 +1965,12 @@ struct packet_nation_select_req *receive_packet_nation_select_req(struct connect
 
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_nation_select_req from the server.");
@@ -1895,6 +2027,12 @@ static void ensure_valid_variant_packet_nation_select_ok(struct connection *pc)
 
 struct packet_nation_select_ok *receive_packet_nation_select_ok(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_nation_select_ok at the server.");
@@ -1909,6 +2047,12 @@ struct packet_nation_select_ok *receive_packet_nation_select_ok(struct connectio
 
 int send_packet_nation_select_ok(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_nation_select_ok from the client.");
@@ -2040,6 +2184,12 @@ static void ensure_valid_variant_packet_game_state(struct connection *pc)
 
 struct packet_game_state *receive_packet_game_state(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_game_state at the server.");
@@ -2054,6 +2204,12 @@ struct packet_game_state *receive_packet_game_state(struct connection *pc, enum 
 
 int send_packet_game_state(struct connection *pc, const struct packet_game_state *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_game_state from the client.");
@@ -2761,6 +2917,12 @@ static void ensure_valid_variant_packet_endgame_report(struct connection *pc)
 
 struct packet_endgame_report *receive_packet_endgame_report(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_endgame_report at the server.");
@@ -2775,6 +2937,12 @@ struct packet_endgame_report *receive_packet_endgame_report(struct connection *p
 
 int send_packet_endgame_report(struct connection *pc, const struct packet_endgame_report *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_endgame_report from the client.");
@@ -2986,6 +3154,12 @@ static void ensure_valid_variant_packet_tile_info(struct connection *pc)
 
 struct packet_tile_info *receive_packet_tile_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_tile_info at the server.");
@@ -3000,6 +3174,12 @@ struct packet_tile_info *receive_packet_tile_info(struct connection *pc, enum pa
 
 int send_packet_tile_info(struct connection *pc, const struct packet_tile_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_tile_info from the client.");
@@ -3491,6 +3671,12 @@ static void ensure_valid_variant_packet_game_info(struct connection *pc)
 
 struct packet_game_info *receive_packet_game_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_game_info at the server.");
@@ -3505,6 +3691,12 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc, enum pa
 
 int send_packet_game_info(struct connection *pc, const struct packet_game_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_game_info from the client.");
@@ -3647,6 +3839,12 @@ static void ensure_valid_variant_packet_map_info(struct connection *pc)
 
 struct packet_map_info *receive_packet_map_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_map_info at the server.");
@@ -3661,6 +3859,12 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc, enum pack
 
 int send_packet_map_info(struct connection *pc, const struct packet_map_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_map_info from the client.");
@@ -3800,6 +4004,12 @@ static void ensure_valid_variant_packet_nuke_tile_info(struct connection *pc)
 
 struct packet_nuke_tile_info *receive_packet_nuke_tile_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_nuke_tile_info at the server.");
@@ -3814,6 +4024,12 @@ struct packet_nuke_tile_info *receive_packet_nuke_tile_info(struct connection *p
 
 int send_packet_nuke_tile_info(struct connection *pc, const struct packet_nuke_tile_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_nuke_tile_info from the client.");
@@ -4010,6 +4226,12 @@ static void ensure_valid_variant_packet_chat_msg(struct connection *pc)
 
 struct packet_chat_msg *receive_packet_chat_msg(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_chat_msg at the server.");
@@ -4024,6 +4246,12 @@ struct packet_chat_msg *receive_packet_chat_msg(struct connection *pc, enum pack
 
 int send_packet_chat_msg(struct connection *pc, const struct packet_chat_msg *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_chat_msg from the client.");
@@ -4153,6 +4381,12 @@ static void ensure_valid_variant_packet_chat_msg_req(struct connection *pc)
 
 struct packet_chat_msg_req *receive_packet_chat_msg_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_chat_msg_req at the client.");
@@ -4167,6 +4401,12 @@ struct packet_chat_msg_req *receive_packet_chat_msg_req(struct connection *pc, e
 
 int send_packet_chat_msg_req(struct connection *pc, const struct packet_chat_msg_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_chat_msg_req from the server.");
@@ -4298,6 +4538,12 @@ static void ensure_valid_variant_packet_city_remove(struct connection *pc)
 
 struct packet_city_remove *receive_packet_city_remove(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_remove at the server.");
@@ -4312,6 +4558,12 @@ struct packet_city_remove *receive_packet_city_remove(struct connection *pc, enu
 
 int send_packet_city_remove(struct connection *pc, const struct packet_city_remove *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_remove from the client.");
@@ -5082,6 +5334,12 @@ static void ensure_valid_variant_packet_city_info(struct connection *pc)
 
 struct packet_city_info *receive_packet_city_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_info at the server.");
@@ -5096,6 +5354,12 @@ struct packet_city_info *receive_packet_city_info(struct connection *pc, enum pa
 
 int send_packet_city_info(struct connection *pc, const struct packet_city_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_info from the client.");
@@ -5328,6 +5592,12 @@ static void ensure_valid_variant_packet_city_short_info(struct connection *pc)
 
 struct packet_city_short_info *receive_packet_city_short_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_short_info at the server.");
@@ -5342,6 +5612,12 @@ struct packet_city_short_info *receive_packet_city_short_info(struct connection 
 
 int send_packet_city_short_info(struct connection *pc, const struct packet_city_short_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_short_info from the client.");
@@ -5481,6 +5757,12 @@ static void ensure_valid_variant_packet_city_sell(struct connection *pc)
 
 struct packet_city_sell *receive_packet_city_sell(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_sell at the client.");
@@ -5495,6 +5777,12 @@ struct packet_city_sell *receive_packet_city_sell(struct connection *pc, enum pa
 
 int send_packet_city_sell(struct connection *pc, const struct packet_city_sell *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_sell from the server.");
@@ -5627,6 +5915,12 @@ static void ensure_valid_variant_packet_city_buy(struct connection *pc)
 
 struct packet_city_buy *receive_packet_city_buy(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_buy at the client.");
@@ -5641,6 +5935,12 @@ struct packet_city_buy *receive_packet_city_buy(struct connection *pc, enum pack
 
 int send_packet_city_buy(struct connection *pc, const struct packet_city_buy *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_buy from the server.");
@@ -5788,6 +6088,12 @@ static void ensure_valid_variant_packet_city_change(struct connection *pc)
 
 struct packet_city_change *receive_packet_city_change(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_change at the client.");
@@ -5802,6 +6108,12 @@ struct packet_city_change *receive_packet_city_change(struct connection *pc, enu
 
 int send_packet_city_change(struct connection *pc, const struct packet_city_change *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_change from the server.");
@@ -5945,6 +6257,12 @@ static void ensure_valid_variant_packet_city_worklist(struct connection *pc)
 
 struct packet_city_worklist *receive_packet_city_worklist(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_worklist at the client.");
@@ -5959,6 +6277,12 @@ struct packet_city_worklist *receive_packet_city_worklist(struct connection *pc,
 
 int send_packet_city_worklist(struct connection *pc, const struct packet_city_worklist *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_worklist from the server.");
@@ -6111,6 +6435,12 @@ static void ensure_valid_variant_packet_city_make_specialist(struct connection *
 
 struct packet_city_make_specialist *receive_packet_city_make_specialist(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_make_specialist at the client.");
@@ -6125,6 +6455,12 @@ struct packet_city_make_specialist *receive_packet_city_make_specialist(struct c
 
 int send_packet_city_make_specialist(struct connection *pc, const struct packet_city_make_specialist *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_make_specialist from the server.");
@@ -6278,6 +6614,12 @@ static void ensure_valid_variant_packet_city_make_worker(struct connection *pc)
 
 struct packet_city_make_worker *receive_packet_city_make_worker(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_make_worker at the client.");
@@ -6292,6 +6634,12 @@ struct packet_city_make_worker *receive_packet_city_make_worker(struct connectio
 
 int send_packet_city_make_worker(struct connection *pc, const struct packet_city_make_worker *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_make_worker from the server.");
@@ -6445,6 +6793,12 @@ static void ensure_valid_variant_packet_city_change_specialist(struct connection
 
 struct packet_city_change_specialist *receive_packet_city_change_specialist(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_change_specialist at the client.");
@@ -6459,6 +6813,12 @@ struct packet_city_change_specialist *receive_packet_city_change_specialist(stru
 
 int send_packet_city_change_specialist(struct connection *pc, const struct packet_city_change_specialist *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_change_specialist from the server.");
@@ -6602,6 +6962,12 @@ static void ensure_valid_variant_packet_city_rename(struct connection *pc)
 
 struct packet_city_rename *receive_packet_city_rename(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_rename at the client.");
@@ -6616,6 +6982,12 @@ struct packet_city_rename *receive_packet_city_rename(struct connection *pc, enu
 
 int send_packet_city_rename(struct connection *pc, const struct packet_city_rename *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_rename from the server.");
@@ -6758,6 +7130,12 @@ static void ensure_valid_variant_packet_city_options_req(struct connection *pc)
 
 struct packet_city_options_req *receive_packet_city_options_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_options_req at the client.");
@@ -6772,6 +7150,12 @@ struct packet_city_options_req *receive_packet_city_options_req(struct connectio
 
 int send_packet_city_options_req(struct connection *pc, const struct packet_city_options_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_options_req from the server.");
@@ -6904,6 +7288,12 @@ static void ensure_valid_variant_packet_city_refresh(struct connection *pc)
 
 struct packet_city_refresh *receive_packet_city_refresh(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_refresh at the client.");
@@ -6918,6 +7308,12 @@ struct packet_city_refresh *receive_packet_city_refresh(struct connection *pc, e
 
 int send_packet_city_refresh(struct connection *pc, const struct packet_city_refresh *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_refresh from the server.");
@@ -7049,6 +7445,12 @@ static void ensure_valid_variant_packet_city_incite_inq(struct connection *pc)
 
 struct packet_city_incite_inq *receive_packet_city_incite_inq(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_incite_inq at the client.");
@@ -7063,6 +7465,12 @@ struct packet_city_incite_inq *receive_packet_city_incite_inq(struct connection 
 
 int send_packet_city_incite_inq(struct connection *pc, const struct packet_city_incite_inq *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_incite_inq from the server.");
@@ -7204,6 +7612,12 @@ static void ensure_valid_variant_packet_city_incite_info(struct connection *pc)
 
 struct packet_city_incite_info *receive_packet_city_incite_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_incite_info at the server.");
@@ -7218,6 +7632,12 @@ struct packet_city_incite_info *receive_packet_city_incite_info(struct connectio
 
 int send_packet_city_incite_info(struct connection *pc, const struct packet_city_incite_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_incite_info from the client.");
@@ -7350,6 +7770,12 @@ static void ensure_valid_variant_packet_city_name_suggestion_req(struct connecti
 
 struct packet_city_name_suggestion_req *receive_packet_city_name_suggestion_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_name_suggestion_req at the client.");
@@ -7364,6 +7790,12 @@ struct packet_city_name_suggestion_req *receive_packet_city_name_suggestion_req(
 
 int send_packet_city_name_suggestion_req(struct connection *pc, const struct packet_city_name_suggestion_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_city_name_suggestion_req from the server.");
@@ -7505,6 +7937,12 @@ static void ensure_valid_variant_packet_city_name_suggestion_info(struct connect
 
 struct packet_city_name_suggestion_info *receive_packet_city_name_suggestion_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_name_suggestion_info at the server.");
@@ -7519,6 +7957,12 @@ struct packet_city_name_suggestion_info *receive_packet_city_name_suggestion_inf
 
 int send_packet_city_name_suggestion_info(struct connection *pc, const struct packet_city_name_suggestion_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_name_suggestion_info from the client.");
@@ -7688,6 +8132,12 @@ static void ensure_valid_variant_packet_city_sabotage_list(struct connection *pc
 
 struct packet_city_sabotage_list *receive_packet_city_sabotage_list(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_city_sabotage_list at the server.");
@@ -7702,6 +8152,12 @@ struct packet_city_sabotage_list *receive_packet_city_sabotage_list(struct conne
 
 int send_packet_city_sabotage_list(struct connection *pc, const struct packet_city_sabotage_list *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_city_sabotage_list from the client.");
@@ -7831,6 +8287,12 @@ static void ensure_valid_variant_packet_player_remove(struct connection *pc)
 
 struct packet_player_remove *receive_packet_player_remove(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_remove at the server.");
@@ -7845,6 +8307,12 @@ struct packet_player_remove *receive_packet_player_remove(struct connection *pc,
 
 int send_packet_player_remove(struct connection *pc, const struct packet_player_remove *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_player_remove from the client.");
@@ -8673,6 +9141,12 @@ static void ensure_valid_variant_packet_player_info(struct connection *pc)
 
 struct packet_player_info *receive_packet_player_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_info at the server.");
@@ -8688,6 +9162,12 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc, enu
 
 int send_packet_player_info(struct connection *pc, const struct packet_player_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_player_info from the client.");
@@ -8733,6 +9213,12 @@ static void ensure_valid_variant_packet_player_turn_done(struct connection *pc)
 
 struct packet_player_turn_done *receive_packet_player_turn_done(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_turn_done at the client.");
@@ -8747,6 +9233,12 @@ struct packet_player_turn_done *receive_packet_player_turn_done(struct connectio
 
 int send_packet_player_turn_done(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_turn_done from the server.");
@@ -8889,6 +9381,12 @@ static void ensure_valid_variant_packet_player_rates(struct connection *pc)
 
 struct packet_player_rates *receive_packet_player_rates(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_rates at the client.");
@@ -8903,6 +9401,12 @@ struct packet_player_rates *receive_packet_player_rates(struct connection *pc, e
 
 int send_packet_player_rates(struct connection *pc, const struct packet_player_rates *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_rates from the server.");
@@ -8958,6 +9462,12 @@ static void ensure_valid_variant_packet_player_revolution(struct connection *pc)
 
 struct packet_player_revolution *receive_packet_player_revolution(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_revolution at the client.");
@@ -8972,6 +9482,12 @@ struct packet_player_revolution *receive_packet_player_revolution(struct connect
 
 int send_packet_player_revolution(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_revolution from the server.");
@@ -9094,6 +9610,12 @@ static void ensure_valid_variant_packet_player_government(struct connection *pc)
 
 struct packet_player_government *receive_packet_player_government(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_government at the client.");
@@ -9108,6 +9630,12 @@ struct packet_player_government *receive_packet_player_government(struct connect
 
 int send_packet_player_government(struct connection *pc, const struct packet_player_government *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_government from the server.");
@@ -9239,6 +9767,12 @@ static void ensure_valid_variant_packet_player_research(struct connection *pc)
 
 struct packet_player_research *receive_packet_player_research(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_research at the client.");
@@ -9253,6 +9787,12 @@ struct packet_player_research *receive_packet_player_research(struct connection 
 
 int send_packet_player_research(struct connection *pc, const struct packet_player_research *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_research from the server.");
@@ -9384,6 +9924,12 @@ static void ensure_valid_variant_packet_player_tech_goal(struct connection *pc)
 
 struct packet_player_tech_goal *receive_packet_player_tech_goal(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_tech_goal at the client.");
@@ -9398,6 +9944,12 @@ struct packet_player_tech_goal *receive_packet_player_tech_goal(struct connectio
 
 int send_packet_player_tech_goal(struct connection *pc, const struct packet_player_tech_goal *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_tech_goal from the server.");
@@ -9451,6 +10003,12 @@ static void ensure_valid_variant_packet_player_attribute_block(struct connection
 
 struct packet_player_attribute_block *receive_packet_player_attribute_block(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_player_attribute_block at the client.");
@@ -9465,6 +10023,12 @@ struct packet_player_attribute_block *receive_packet_player_attribute_block(stru
 
 int send_packet_player_attribute_block(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_player_attribute_block from the server.");
@@ -9634,6 +10198,12 @@ static void ensure_valid_variant_packet_player_attribute_chunk(struct connection
 
 struct packet_player_attribute_chunk *receive_packet_player_attribute_chunk(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   ensure_valid_variant_packet_player_attribute_chunk(pc);
 
@@ -9645,6 +10215,12 @@ struct packet_player_attribute_chunk *receive_packet_player_attribute_chunk(stru
 
 int send_packet_player_attribute_chunk(struct connection *pc, const struct packet_player_attribute_chunk *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   ensure_valid_variant_packet_player_attribute_chunk(pc);
 
@@ -9764,6 +10340,12 @@ static void ensure_valid_variant_packet_unit_remove(struct connection *pc)
 
 struct packet_unit_remove *receive_packet_unit_remove(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_remove at the server.");
@@ -9778,6 +10360,12 @@ struct packet_unit_remove *receive_packet_unit_remove(struct connection *pc, enu
 
 int send_packet_unit_remove(struct connection *pc, const struct packet_unit_remove *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_remove from the client.");
@@ -10736,6 +11324,12 @@ static void ensure_valid_variant_packet_unit_info(struct connection *pc)
 
 struct packet_unit_info *receive_packet_unit_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_info at the server.");
@@ -10751,6 +11345,12 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc, enum pa
 
 int send_packet_unit_info(struct connection *pc, const struct packet_unit_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_info from the client.");
@@ -11252,6 +11852,12 @@ static void ensure_valid_variant_packet_unit_short_info(struct connection *pc)
 
 struct packet_unit_short_info *receive_packet_unit_short_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_short_info at the server.");
@@ -11267,6 +11873,12 @@ struct packet_unit_short_info *receive_packet_unit_short_info(struct connection 
 
 int send_packet_unit_short_info(struct connection *pc, const struct packet_unit_short_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_short_info from the client.");
@@ -11433,6 +12045,12 @@ static void ensure_valid_variant_packet_unit_combat_info(struct connection *pc)
 
 struct packet_unit_combat_info *receive_packet_unit_combat_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_combat_info at the server.");
@@ -11447,6 +12065,12 @@ struct packet_unit_combat_info *receive_packet_unit_combat_info(struct connectio
 
 int send_packet_unit_combat_info(struct connection *pc, const struct packet_unit_combat_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_combat_info from the client.");
@@ -11596,6 +12220,12 @@ static void ensure_valid_variant_packet_unit_move(struct connection *pc)
 
 struct packet_unit_move *receive_packet_unit_move(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_move at the client.");
@@ -11610,6 +12240,12 @@ struct packet_unit_move *receive_packet_unit_move(struct connection *pc, enum pa
 
 int send_packet_unit_move(struct connection *pc, const struct packet_unit_move *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_move from the server.");
@@ -11753,6 +12389,12 @@ static void ensure_valid_variant_packet_unit_build_city(struct connection *pc)
 
 struct packet_unit_build_city *receive_packet_unit_build_city(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_build_city at the client.");
@@ -11767,6 +12409,12 @@ struct packet_unit_build_city *receive_packet_unit_build_city(struct connection 
 
 int send_packet_unit_build_city(struct connection *pc, const struct packet_unit_build_city *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_build_city from the server.");
@@ -11899,6 +12547,12 @@ static void ensure_valid_variant_packet_unit_disband(struct connection *pc)
 
 struct packet_unit_disband *receive_packet_unit_disband(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_disband at the client.");
@@ -11913,6 +12567,12 @@ struct packet_unit_disband *receive_packet_unit_disband(struct connection *pc, e
 
 int send_packet_unit_disband(struct connection *pc, const struct packet_unit_disband *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_disband from the server.");
@@ -12054,6 +12714,12 @@ static void ensure_valid_variant_packet_unit_change_homecity(struct connection *
 
 struct packet_unit_change_homecity *receive_packet_unit_change_homecity(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_change_homecity at the client.");
@@ -12068,6 +12734,12 @@ struct packet_unit_change_homecity *receive_packet_unit_change_homecity(struct c
 
 int send_packet_unit_change_homecity(struct connection *pc, const struct packet_unit_change_homecity *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_change_homecity from the server.");
@@ -12200,6 +12872,12 @@ static void ensure_valid_variant_packet_unit_establish_trade(struct connection *
 
 struct packet_unit_establish_trade *receive_packet_unit_establish_trade(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_establish_trade at the client.");
@@ -12214,6 +12892,12 @@ struct packet_unit_establish_trade *receive_packet_unit_establish_trade(struct c
 
 int send_packet_unit_establish_trade(struct connection *pc, const struct packet_unit_establish_trade *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_establish_trade from the server.");
@@ -12345,6 +13029,12 @@ static void ensure_valid_variant_packet_unit_help_build_wonder(struct connection
 
 struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wonder(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_help_build_wonder at the client.");
@@ -12359,6 +13049,12 @@ struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wonder(stru
 
 int send_packet_unit_help_build_wonder(struct connection *pc, const struct packet_unit_help_build_wonder *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_help_build_wonder from the server.");
@@ -12510,6 +13206,12 @@ static void ensure_valid_variant_packet_unit_goto(struct connection *pc)
 
 struct packet_unit_goto *receive_packet_unit_goto(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_goto at the client.");
@@ -12524,6 +13226,12 @@ struct packet_unit_goto *receive_packet_unit_goto(struct connection *pc, enum pa
 
 int send_packet_unit_goto(struct connection *pc, const struct packet_unit_goto *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_goto from the server.");
@@ -12779,6 +13487,12 @@ static void ensure_valid_variant_packet_unit_orders(struct connection *pc)
 
 struct packet_unit_orders *receive_packet_unit_orders(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_orders at the client.");
@@ -12793,6 +13507,12 @@ struct packet_unit_orders *receive_packet_unit_orders(struct connection *pc, enu
 
 int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orders *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_orders from the server.");
@@ -12915,6 +13635,12 @@ static void ensure_valid_variant_packet_unit_auto(struct connection *pc)
 
 struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_auto at the client.");
@@ -12929,6 +13655,12 @@ struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum pa
 
 int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_auto from the server.");
@@ -13070,6 +13802,12 @@ static void ensure_valid_variant_packet_unit_load(struct connection *pc)
 
 struct packet_unit_load *receive_packet_unit_load(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_load at the client.");
@@ -13084,6 +13822,12 @@ struct packet_unit_load *receive_packet_unit_load(struct connection *pc, enum pa
 
 int send_packet_unit_load(struct connection *pc, const struct packet_unit_load *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_load from the server.");
@@ -13226,6 +13970,12 @@ static void ensure_valid_variant_packet_unit_unload(struct connection *pc)
 
 struct packet_unit_unload *receive_packet_unit_unload(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_unload at the client.");
@@ -13240,6 +13990,12 @@ struct packet_unit_unload *receive_packet_unit_unload(struct connection *pc, enu
 
 int send_packet_unit_unload(struct connection *pc, const struct packet_unit_unload *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_unload from the server.");
@@ -13372,6 +14128,12 @@ static void ensure_valid_variant_packet_unit_upgrade(struct connection *pc)
 
 struct packet_unit_upgrade *receive_packet_unit_upgrade(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_upgrade at the client.");
@@ -13386,6 +14148,12 @@ struct packet_unit_upgrade *receive_packet_unit_upgrade(struct connection *pc, e
 
 int send_packet_unit_upgrade(struct connection *pc, const struct packet_unit_upgrade *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_upgrade from the server.");
@@ -13517,6 +14285,12 @@ static void ensure_valid_variant_packet_unit_nuke(struct connection *pc)
 
 struct packet_unit_nuke *receive_packet_unit_nuke(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_nuke at the client.");
@@ -13531,6 +14305,12 @@ struct packet_unit_nuke *receive_packet_unit_nuke(struct connection *pc, enum pa
 
 int send_packet_unit_nuke(struct connection *pc, const struct packet_unit_nuke *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_nuke from the server.");
@@ -13682,6 +14462,12 @@ static void ensure_valid_variant_packet_unit_paradrop_to(struct connection *pc)
 
 struct packet_unit_paradrop_to *receive_packet_unit_paradrop_to(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_paradrop_to at the client.");
@@ -13696,6 +14482,12 @@ struct packet_unit_paradrop_to *receive_packet_unit_paradrop_to(struct connectio
 
 int send_packet_unit_paradrop_to(struct connection *pc, const struct packet_unit_paradrop_to *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_paradrop_to from the server.");
@@ -13839,6 +14631,12 @@ static void ensure_valid_variant_packet_unit_airlift(struct connection *pc)
 
 struct packet_unit_airlift *receive_packet_unit_airlift(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_airlift at the client.");
@@ -13853,6 +14651,12 @@ struct packet_unit_airlift *receive_packet_unit_airlift(struct connection *pc, e
 
 int send_packet_unit_airlift(struct connection *pc, const struct packet_unit_airlift *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_airlift from the server.");
@@ -14015,6 +14819,12 @@ static void ensure_valid_variant_packet_unit_connect(struct connection *pc)
 
 struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_connect at the client.");
@@ -14029,6 +14839,12 @@ struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, e
 
 int send_packet_unit_connect(struct connection *pc, const struct packet_unit_connect *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_connect from the server.");
@@ -14151,6 +14967,12 @@ static void ensure_valid_variant_packet_unit_bribe_inq(struct connection *pc)
 
 struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_bribe_inq at the client.");
@@ -14165,6 +14987,12 @@ struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *p
 
 int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_bribe_inq *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_bribe_inq from the server.");
@@ -14306,6 +15134,12 @@ static void ensure_valid_variant_packet_unit_bribe_info(struct connection *pc)
 
 struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_bribe_info at the server.");
@@ -14320,6 +15154,12 @@ struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection 
 
 int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_bribe_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_bribe_info from the client.");
@@ -14452,6 +15292,12 @@ static void ensure_valid_variant_packet_unit_type_upgrade(struct connection *pc)
 
 struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_type_upgrade at the client.");
@@ -14466,6 +15312,12 @@ struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connect
 
 int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_unit_type_upgrade *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_type_upgrade from the server.");
@@ -14627,6 +15479,12 @@ static void ensure_valid_variant_packet_unit_diplomat_action(struct connection *
 
 struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_diplomat_action at the client.");
@@ -14641,6 +15499,12 @@ struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action(struct c
 
 int send_packet_unit_diplomat_action(struct connection *pc, const struct packet_unit_diplomat_action *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_diplomat_action from the server.");
@@ -14785,6 +15649,12 @@ static void ensure_valid_variant_packet_unit_diplomat_popup_dialog(struct connec
 
 struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dialog(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_diplomat_popup_dialog at the server.");
@@ -14799,6 +15669,12 @@ struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dia
 
 int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct packet_unit_diplomat_popup_dialog *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_diplomat_popup_dialog from the client.");
@@ -14968,6 +15844,12 @@ static void ensure_valid_variant_packet_unit_change_activity(struct connection *
 
 struct packet_unit_change_activity *receive_packet_unit_change_activity(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_unit_change_activity at the client.");
@@ -14982,6 +15864,12 @@ struct packet_unit_change_activity *receive_packet_unit_change_activity(struct c
 
 int send_packet_unit_change_activity(struct connection *pc, const struct packet_unit_change_activity *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_unit_change_activity from the server.");
@@ -15115,6 +16003,12 @@ static void ensure_valid_variant_packet_diplomacy_init_meeting_req(struct connec
 
 struct packet_diplomacy_init_meeting_req *receive_packet_diplomacy_init_meeting_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_init_meeting_req at the client.");
@@ -15129,6 +16023,12 @@ struct packet_diplomacy_init_meeting_req *receive_packet_diplomacy_init_meeting_
 
 int send_packet_diplomacy_init_meeting_req(struct connection *pc, const struct packet_diplomacy_init_meeting_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_init_meeting_req from the server.");
@@ -15270,6 +16170,12 @@ static void ensure_valid_variant_packet_diplomacy_init_meeting(struct connection
 
 struct packet_diplomacy_init_meeting *receive_packet_diplomacy_init_meeting(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_init_meeting at the server.");
@@ -15284,6 +16190,12 @@ struct packet_diplomacy_init_meeting *receive_packet_diplomacy_init_meeting(stru
 
 int send_packet_diplomacy_init_meeting(struct connection *pc, const struct packet_diplomacy_init_meeting *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_init_meeting from the client.");
@@ -15433,6 +16345,12 @@ static void ensure_valid_variant_packet_diplomacy_cancel_meeting_req(struct conn
 
 struct packet_diplomacy_cancel_meeting_req *receive_packet_diplomacy_cancel_meeting_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_meeting_req at the client.");
@@ -15447,6 +16365,12 @@ struct packet_diplomacy_cancel_meeting_req *receive_packet_diplomacy_cancel_meet
 
 int send_packet_diplomacy_cancel_meeting_req(struct connection *pc, const struct packet_diplomacy_cancel_meeting_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_meeting_req from the server.");
@@ -15588,6 +16512,12 @@ static void ensure_valid_variant_packet_diplomacy_cancel_meeting(struct connecti
 
 struct packet_diplomacy_cancel_meeting *receive_packet_diplomacy_cancel_meeting(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_meeting at the server.");
@@ -15602,6 +16532,12 @@ struct packet_diplomacy_cancel_meeting *receive_packet_diplomacy_cancel_meeting(
 
 int send_packet_diplomacy_cancel_meeting(struct connection *pc, const struct packet_diplomacy_cancel_meeting *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_meeting from the client.");
@@ -15781,6 +16717,12 @@ static void ensure_valid_variant_packet_diplomacy_create_clause_req(struct conne
 
 struct packet_diplomacy_create_clause_req *receive_packet_diplomacy_create_clause_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_create_clause_req at the client.");
@@ -15795,6 +16737,12 @@ struct packet_diplomacy_create_clause_req *receive_packet_diplomacy_create_claus
 
 int send_packet_diplomacy_create_clause_req(struct connection *pc, const struct packet_diplomacy_create_clause_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_create_clause_req from the server.");
@@ -15959,6 +16907,12 @@ static void ensure_valid_variant_packet_diplomacy_create_clause(struct connectio
 
 struct packet_diplomacy_create_clause *receive_packet_diplomacy_create_clause(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_create_clause at the server.");
@@ -15973,6 +16927,12 @@ struct packet_diplomacy_create_clause *receive_packet_diplomacy_create_clause(st
 
 int send_packet_diplomacy_create_clause(struct connection *pc, const struct packet_diplomacy_create_clause *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_create_clause from the client.");
@@ -16156,6 +17116,12 @@ static void ensure_valid_variant_packet_diplomacy_remove_clause_req(struct conne
 
 struct packet_diplomacy_remove_clause_req *receive_packet_diplomacy_remove_clause_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_remove_clause_req at the client.");
@@ -16170,6 +17136,12 @@ struct packet_diplomacy_remove_clause_req *receive_packet_diplomacy_remove_claus
 
 int send_packet_diplomacy_remove_clause_req(struct connection *pc, const struct packet_diplomacy_remove_clause_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_remove_clause_req from the server.");
@@ -16334,6 +17306,12 @@ static void ensure_valid_variant_packet_diplomacy_remove_clause(struct connectio
 
 struct packet_diplomacy_remove_clause *receive_packet_diplomacy_remove_clause(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_remove_clause at the server.");
@@ -16348,6 +17326,12 @@ struct packet_diplomacy_remove_clause *receive_packet_diplomacy_remove_clause(st
 
 int send_packet_diplomacy_remove_clause(struct connection *pc, const struct packet_diplomacy_remove_clause *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_remove_clause from the client.");
@@ -16501,6 +17485,12 @@ static void ensure_valid_variant_packet_diplomacy_accept_treaty_req(struct conne
 
 struct packet_diplomacy_accept_treaty_req *receive_packet_diplomacy_accept_treaty_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_accept_treaty_req at the client.");
@@ -16515,6 +17505,12 @@ struct packet_diplomacy_accept_treaty_req *receive_packet_diplomacy_accept_treat
 
 int send_packet_diplomacy_accept_treaty_req(struct connection *pc, const struct packet_diplomacy_accept_treaty_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_accept_treaty_req from the server.");
@@ -16658,6 +17654,12 @@ static void ensure_valid_variant_packet_diplomacy_accept_treaty(struct connectio
 
 struct packet_diplomacy_accept_treaty *receive_packet_diplomacy_accept_treaty(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_accept_treaty at the server.");
@@ -16672,6 +17674,12 @@ struct packet_diplomacy_accept_treaty *receive_packet_diplomacy_accept_treaty(st
 
 int send_packet_diplomacy_accept_treaty(struct connection *pc, const struct packet_diplomacy_accept_treaty *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_accept_treaty from the client.");
@@ -16833,6 +17841,12 @@ static void ensure_valid_variant_packet_diplomacy_cancel_pact(struct connection 
 
 struct packet_diplomacy_cancel_pact *receive_packet_diplomacy_cancel_pact(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_pact at the client.");
@@ -16847,6 +17861,12 @@ struct packet_diplomacy_cancel_pact *receive_packet_diplomacy_cancel_pact(struct
 
 int send_packet_diplomacy_cancel_pact(struct connection *pc, const struct packet_diplomacy_cancel_pact *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_pact from the server.");
@@ -16989,6 +18009,12 @@ static void ensure_valid_variant_packet_page_msg(struct connection *pc)
 
 struct packet_page_msg *receive_packet_page_msg(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_page_msg at the server.");
@@ -17003,6 +18029,12 @@ struct packet_page_msg *receive_packet_page_msg(struct connection *pc, enum pack
 
 int send_packet_page_msg(struct connection *pc, const struct packet_page_msg *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_page_msg from the client.");
@@ -17132,6 +18164,12 @@ static void ensure_valid_variant_packet_report_req(struct connection *pc)
 
 struct packet_report_req *receive_packet_report_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_report_req at the client.");
@@ -17146,6 +18184,12 @@ struct packet_report_req *receive_packet_report_req(struct connection *pc, enum 
 
 int send_packet_report_req(struct connection *pc, const struct packet_report_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_report_req from the server.");
@@ -17358,6 +18402,12 @@ static void ensure_valid_variant_packet_conn_info(struct connection *pc)
 
 struct packet_conn_info *receive_packet_conn_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_conn_info at the server.");
@@ -17372,6 +18422,12 @@ struct packet_conn_info *receive_packet_conn_info(struct connection *pc, enum pa
 
 int send_packet_conn_info(struct connection *pc, const struct packet_conn_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_conn_info from the client.");
@@ -17584,6 +18640,12 @@ static void ensure_valid_variant_packet_conn_ping_info(struct connection *pc)
 
 struct packet_conn_ping_info *receive_packet_conn_ping_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_conn_ping_info at the server.");
@@ -17598,6 +18660,12 @@ struct packet_conn_ping_info *receive_packet_conn_ping_info(struct connection *p
 
 int send_packet_conn_ping_info(struct connection *pc, const struct packet_conn_ping_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_conn_ping_info from the client.");
@@ -17649,6 +18717,12 @@ static void ensure_valid_variant_packet_conn_ping(struct connection *pc)
 
 struct packet_conn_ping *receive_packet_conn_ping(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_conn_ping at the server.");
@@ -17663,6 +18737,12 @@ struct packet_conn_ping *receive_packet_conn_ping(struct connection *pc, enum pa
 
 int send_packet_conn_ping(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_conn_ping from the client.");
@@ -17707,6 +18787,12 @@ static void ensure_valid_variant_packet_conn_pong(struct connection *pc)
 
 struct packet_conn_pong *receive_packet_conn_pong(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_conn_pong at the client.");
@@ -17721,6 +18807,12 @@ struct packet_conn_pong *receive_packet_conn_pong(struct connection *pc, enum pa
 
 int send_packet_conn_pong(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_conn_pong from the server.");
@@ -17765,6 +18857,12 @@ static void ensure_valid_variant_packet_before_new_year(struct connection *pc)
 
 struct packet_before_new_year *receive_packet_before_new_year(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_before_new_year at the server.");
@@ -17779,6 +18877,12 @@ struct packet_before_new_year *receive_packet_before_new_year(struct connection 
 
 int send_packet_before_new_year(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_before_new_year from the client.");
@@ -17830,6 +18934,12 @@ static void ensure_valid_variant_packet_start_turn(struct connection *pc)
 
 struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_start_turn at the server.");
@@ -17844,6 +18954,12 @@ struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum 
 
 int send_packet_start_turn(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_start_turn from the client.");
@@ -17983,6 +19099,12 @@ static void ensure_valid_variant_packet_new_year(struct connection *pc)
 
 struct packet_new_year *receive_packet_new_year(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_new_year at the server.");
@@ -17997,6 +19119,12 @@ struct packet_new_year *receive_packet_new_year(struct connection *pc, enum pack
 
 int send_packet_new_year(struct connection *pc, const struct packet_new_year *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_new_year from the client.");
@@ -18048,6 +19176,12 @@ static void ensure_valid_variant_packet_spaceship_launch(struct connection *pc)
 
 struct packet_spaceship_launch *receive_packet_spaceship_launch(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_spaceship_launch at the client.");
@@ -18062,6 +19196,12 @@ struct packet_spaceship_launch *receive_packet_spaceship_launch(struct connectio
 
 int send_packet_spaceship_launch(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_spaceship_launch from the server.");
@@ -18194,6 +19334,12 @@ static void ensure_valid_variant_packet_spaceship_place(struct connection *pc)
 
 struct packet_spaceship_place *receive_packet_spaceship_place(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_spaceship_place at the client.");
@@ -18208,6 +19354,12 @@ struct packet_spaceship_place *receive_packet_spaceship_place(struct connection 
 
 int send_packet_spaceship_place(struct connection *pc, const struct packet_spaceship_place *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_spaceship_place from the server.");
@@ -18543,6 +19695,12 @@ static void ensure_valid_variant_packet_spaceship_info(struct connection *pc)
 
 struct packet_spaceship_info *receive_packet_spaceship_info(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_spaceship_info at the server.");
@@ -18557,6 +19715,12 @@ struct packet_spaceship_info *receive_packet_spaceship_info(struct connection *p
 
 int send_packet_spaceship_info(struct connection *pc, const struct packet_spaceship_info *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_spaceship_info from the client.");
@@ -19102,7 +20266,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
 
 #define cmp_packet_ruleset_unit_101 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_101_fields, 33);
+BV_DEFINE(packet_ruleset_unit_101_fields, 35);
 
 static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connection *pc, enum packet_type type)
 {
@@ -19117,417 +20281,6 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connec
 
   if (!*hash) {
     *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_get_string(&din, real_packet->sound_move, sizeof(real_packet->sound_move));
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_get_string(&din, real_packet->sound_move_alt, sizeof(real_packet->sound_move_alt));
-  }
-  if (BV_ISSET(fields, 6)) {
-    dio_get_string(&din, real_packet->sound_fight, sizeof(real_packet->sound_fight));
-  }
-  if (BV_ISSET(fields, 7)) {
-    dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
-  }
-  if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
-  }
-  if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
-  }
-  if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
-  }
-  if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
-  }
-  if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
-  }
-  if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
-  }
-  if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
-  }
-  if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
-  }
-  if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
-  }
-  if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
-  }
-  if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
-  }
-  if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
-  }
-  if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
-  }
-  if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
-  }
-  if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
-  }
-  if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
-  }
-  if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
-  }
-  if (BV_ISSET(fields, 30)) {
-    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
-  }
-  if (BV_ISSET(fields, 31)) {
-    DIO_BV_GET(&din, real_packet->flags);
-  }
-  if (BV_ISSET(fields, 32)) {
-    DIO_BV_GET(&din, real_packet->roles);
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_ruleset_unit_101(struct connection *pc, const struct packet_ruleset_unit *packet)
-{
-  const struct packet_ruleset_unit *real_packet = packet;
-  packet_ruleset_unit_101_fields fields;
-  struct packet_ruleset_unit *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
-  int different = 0;
-  SEND_PACKET_START(PACKET_RULESET_UNIT);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->id != real_packet->id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  differ = (strcmp(old->name, real_packet->name) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-  differ = (strcmp(old->sound_move, real_packet->sound_move) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (strcmp(old->sound_move_alt, real_packet->sound_move_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
-  differ = (strcmp(old->sound_fight, real_packet->sound_fight) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
-
-  differ = (strcmp(old->sound_fight_alt, real_packet->sound_fight_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
-
-  differ = (old->move_type != real_packet->move_type);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
-
-  differ = (old->build_cost != real_packet->build_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
-
-  differ = (old->pop_cost != real_packet->pop_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
-
-  differ = (old->attack_strength != real_packet->attack_strength);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
-
-  differ = (old->defense_strength != real_packet->defense_strength);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
-
-  differ = (old->move_rate != real_packet->move_rate);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
-
-  differ = (old->tech_requirement != real_packet->tech_requirement);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
-
-  differ = (old->impr_requirement != real_packet->impr_requirement);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
-
-  differ = (old->vision_range != real_packet->vision_range);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
-
-  differ = (old->transport_capacity != real_packet->transport_capacity);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
-
-  differ = (old->hp != real_packet->hp);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
-  differ = (old->firepower != real_packet->firepower);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
-
-  differ = (old->obsoleted_by != real_packet->obsoleted_by);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
-
-  differ = (old->fuel != real_packet->fuel);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
-
-  differ = (old->happy_cost != real_packet->happy_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
-
-  differ = (old->shield_cost != real_packet->shield_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
-
-  differ = (old->food_cost != real_packet->food_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
-
-  differ = (old->gold_cost != real_packet->gold_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
-
-  differ = (old->paratroopers_range != real_packet->paratroopers_range);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
-
-  differ = (old->paratroopers_mr_req != real_packet->paratroopers_mr_req);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
-
-  differ = (old->paratroopers_mr_sub != real_packet->paratroopers_mr_sub);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
-
-  differ = (old->bombard_rate != real_packet->bombard_rate);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
-
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
-
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
-
-  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 32);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_put_string(&dout, real_packet->name);
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_string(&dout, real_packet->graphic_str);
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_put_string(&dout, real_packet->graphic_alt);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_put_string(&dout, real_packet->sound_move);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_string(&dout, real_packet->sound_move_alt);
-  }
-  if (BV_ISSET(fields, 6)) {
-    dio_put_string(&dout, real_packet->sound_fight);
-  }
-  if (BV_ISSET(fields, 7)) {
-    dio_put_string(&dout, real_packet->sound_fight_alt);
-  }
-  if (BV_ISSET(fields, 8)) {
-    dio_put_uint8(&dout, real_packet->move_type);
-  }
-  if (BV_ISSET(fields, 9)) {
-    dio_put_uint16(&dout, real_packet->build_cost);
-  }
-  if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->pop_cost);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->attack_strength);
-  }
-  if (BV_ISSET(fields, 12)) {
-    dio_put_uint8(&dout, real_packet->defense_strength);
-  }
-  if (BV_ISSET(fields, 13)) {
-    dio_put_uint8(&dout, real_packet->move_rate);
-  }
-  if (BV_ISSET(fields, 14)) {
-    dio_put_uint8(&dout, real_packet->tech_requirement);
-  }
-  if (BV_ISSET(fields, 15)) {
-    dio_put_uint8(&dout, real_packet->impr_requirement);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->vision_range);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_put_uint8(&dout, real_packet->transport_capacity);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_put_uint8(&dout, real_packet->hp);
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->firepower);
-  }
-  if (BV_ISSET(fields, 20)) {
-    dio_put_sint8(&dout, real_packet->obsoleted_by);
-  }
-  if (BV_ISSET(fields, 21)) {
-    dio_put_uint8(&dout, real_packet->fuel);
-  }
-  if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->happy_cost);
-  }
-  if (BV_ISSET(fields, 23)) {
-    dio_put_uint8(&dout, real_packet->shield_cost);
-  }
-  if (BV_ISSET(fields, 24)) {
-    dio_put_uint8(&dout, real_packet->food_cost);
-  }
-  if (BV_ISSET(fields, 25)) {
-    dio_put_uint8(&dout, real_packet->gold_cost);
-  }
-  if (BV_ISSET(fields, 26)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_range);
-  }
-  if (BV_ISSET(fields, 27)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_mr_req);
-  }
-  if (BV_ISSET(fields, 28)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_mr_sub);
-  }
-  if (BV_ISSET(fields, 29)) {
-    dio_put_uint8(&dout, real_packet->bombard_rate);
-  }
-  if (BV_ISSET(fields, 30)) {
-    dio_put_string(&dout, real_packet->helptext);
-  }
-  if (BV_ISSET(fields, 31)) {
-  DIO_BV_PUT(&dout, packet->flags);
-  }
-  if (BV_ISSET(fields, 32)) {
-  DIO_BV_PUT(&dout, packet->roles);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-#define hash_packet_ruleset_unit_102 hash_const
-
-#define cmp_packet_ruleset_unit_102 cmp_const
-
-BV_DEFINE(packet_ruleset_unit_102_fields, 35);
-
-static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connection *pc, enum packet_type type)
-{
-  packet_ruleset_unit_102_fields fields;
-  struct packet_ruleset_unit *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_ruleset_unit *clone;
-  RECEIVE_PACKET_START(packet_ruleset_unit, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -19677,10 +20430,10 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connec
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_ruleset_unit_102(struct connection *pc, const struct packet_ruleset_unit *packet)
+static int send_packet_ruleset_unit_101(struct connection *pc, const struct packet_ruleset_unit *packet)
 {
   const struct packet_ruleset_unit *real_packet = packet;
-  packet_ruleset_unit_102_fields fields;
+  packet_ruleset_unit_101_fields fields;
   struct packet_ruleset_unit *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
   struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
@@ -19688,7 +20441,7 @@ static int send_packet_ruleset_unit_102(struct connection *pc, const struct pack
   SEND_PACKET_START(PACKET_RULESET_UNIT);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
+    *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
   }
   BV_CLR_ALL(fields);
 
@@ -20006,6 +20759,417 @@ static int send_packet_ruleset_unit_102(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, packet->flags);
   }
   if (BV_ISSET(fields, 34)) {
+  DIO_BV_PUT(&dout, packet->roles);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_ruleset_unit_102 hash_const
+
+#define cmp_packet_ruleset_unit_102 cmp_const
+
+BV_DEFINE(packet_ruleset_unit_102_fields, 33);
+
+static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_unit_102_fields fields;
+  struct packet_ruleset_unit *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_unit *clone;
+  RECEIVE_PACKET_START(packet_ruleset_unit, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    dio_get_uint8(&din, (int *) &real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_get_string(&din, real_packet->sound_move, sizeof(real_packet->sound_move));
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_get_string(&din, real_packet->sound_move_alt, sizeof(real_packet->sound_move_alt));
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_get_string(&din, real_packet->sound_fight, sizeof(real_packet->sound_fight));
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_get_uint8(&din, (int *) &real_packet->move_type);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_get_uint8(&din, (int *) &real_packet->hp);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_get_uint8(&din, (int *) &real_packet->firepower);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_get_uint8(&din, (int *) &real_packet->fuel);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+  }
+  if (BV_ISSET(fields, 24)) {
+    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+  }
+  if (BV_ISSET(fields, 25)) {
+    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+  }
+  if (BV_ISSET(fields, 26)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+  }
+  if (BV_ISSET(fields, 27)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
+  }
+  if (BV_ISSET(fields, 30)) {
+    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
+  }
+  if (BV_ISSET(fields, 31)) {
+    DIO_BV_GET(&din, real_packet->flags);
+  }
+  if (BV_ISSET(fields, 32)) {
+    DIO_BV_GET(&din, real_packet->roles);
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_unit_102(struct connection *pc, const struct packet_ruleset_unit *packet)
+{
+  const struct packet_ruleset_unit *real_packet = packet;
+  packet_ruleset_unit_102_fields fields;
+  struct packet_ruleset_unit *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_UNIT);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->id != real_packet->id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (strcmp(old->sound_move, real_packet->sound_move) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (strcmp(old->sound_move_alt, real_packet->sound_move_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (strcmp(old->sound_fight, real_packet->sound_fight) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (strcmp(old->sound_fight_alt, real_packet->sound_fight_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->move_type != real_packet->move_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (old->build_cost != real_packet->build_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->pop_cost != real_packet->pop_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->attack_strength != real_packet->attack_strength);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 11);}
+
+  differ = (old->defense_strength != real_packet->defense_strength);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->move_rate != real_packet->move_rate);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->tech_requirement != real_packet->tech_requirement);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 14);}
+
+  differ = (old->impr_requirement != real_packet->impr_requirement);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 15);}
+
+  differ = (old->vision_range != real_packet->vision_range);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 16);}
+
+  differ = (old->transport_capacity != real_packet->transport_capacity);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
+
+  differ = (old->hp != real_packet->hp);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 18);}
+
+  differ = (old->firepower != real_packet->firepower);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 19);}
+
+  differ = (old->obsoleted_by != real_packet->obsoleted_by);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 20);}
+
+  differ = (old->fuel != real_packet->fuel);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 21);}
+
+  differ = (old->happy_cost != real_packet->happy_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 22);}
+
+  differ = (old->shield_cost != real_packet->shield_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 23);}
+
+  differ = (old->food_cost != real_packet->food_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 24);}
+
+  differ = (old->gold_cost != real_packet->gold_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 25);}
+
+  differ = (old->paratroopers_range != real_packet->paratroopers_range);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 26);}
+
+  differ = (old->paratroopers_mr_req != real_packet->paratroopers_mr_req);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 27);}
+
+  differ = (old->paratroopers_mr_sub != real_packet->paratroopers_mr_sub);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
+  differ = (old->bombard_rate != real_packet->bombard_rate);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 29);}
+
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 30);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 31);}
+
+  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 32);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_string(&dout, real_packet->graphic_str);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_string(&dout, real_packet->graphic_alt);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_string(&dout, real_packet->sound_move);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_string(&dout, real_packet->sound_move_alt);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_string(&dout, real_packet->sound_fight);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_put_string(&dout, real_packet->sound_fight_alt);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->move_type);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_uint16(&dout, real_packet->build_cost);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_put_uint8(&dout, real_packet->pop_cost);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_uint8(&dout, real_packet->attack_strength);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_put_uint8(&dout, real_packet->defense_strength);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_put_uint8(&dout, real_packet->move_rate);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_put_uint8(&dout, real_packet->tech_requirement);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_put_uint8(&dout, real_packet->impr_requirement);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_put_uint8(&dout, real_packet->vision_range);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_put_uint8(&dout, real_packet->transport_capacity);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_put_uint8(&dout, real_packet->hp);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_put_uint8(&dout, real_packet->firepower);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_put_sint8(&dout, real_packet->obsoleted_by);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_put_uint8(&dout, real_packet->fuel);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_put_uint8(&dout, real_packet->happy_cost);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_put_uint8(&dout, real_packet->shield_cost);
+  }
+  if (BV_ISSET(fields, 24)) {
+    dio_put_uint8(&dout, real_packet->food_cost);
+  }
+  if (BV_ISSET(fields, 25)) {
+    dio_put_uint8(&dout, real_packet->gold_cost);
+  }
+  if (BV_ISSET(fields, 26)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_range);
+  }
+  if (BV_ISSET(fields, 27)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_mr_req);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_mr_sub);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_put_uint8(&dout, real_packet->bombard_rate);
+  }
+  if (BV_ISSET(fields, 30)) {
+    dio_put_string(&dout, real_packet->helptext);
+  }
+  if (BV_ISSET(fields, 31)) {
+  DIO_BV_PUT(&dout, packet->flags);
+  }
+  if (BV_ISSET(fields, 32)) {
   DIO_BV_PUT(&dout, packet->roles);
   }
 
@@ -20431,13 +21595,13 @@ static void ensure_valid_variant_packet_ruleset_unit(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if((has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && (has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
+  } else if((has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && (has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
     variant = 100;
-  } else if((has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && !(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
-    variant = 101;
   } else if((has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && !(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
+    variant = 101;
+  } else if((has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && !(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
     variant = 102;
-  } else if(!(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && !(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
+  } else if(!(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && !(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
     variant = 103;
   } else {
     die("unknown variant");
@@ -20447,6 +21611,12 @@ static void ensure_valid_variant_packet_ruleset_unit(struct connection *pc)
 
 struct packet_ruleset_unit *receive_packet_ruleset_unit(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_unit at the server.");
@@ -20464,6 +21634,12 @@ struct packet_ruleset_unit *receive_packet_ruleset_unit(struct connection *pc, e
 
 int send_packet_ruleset_unit(struct connection *pc, const struct packet_ruleset_unit *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_unit from the client.");
@@ -21963,6 +23139,12 @@ static void ensure_valid_variant_packet_ruleset_game(struct connection *pc)
 
 struct packet_ruleset_game *receive_packet_ruleset_game(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_game at the server.");
@@ -21980,6 +23162,12 @@ struct packet_ruleset_game *receive_packet_ruleset_game(struct connection *pc, e
 
 int send_packet_ruleset_game(struct connection *pc, const struct packet_ruleset_game *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_game from the client.");
@@ -22152,6 +23340,12 @@ static void ensure_valid_variant_packet_ruleset_government_ruler_title(struct co
 
 struct packet_ruleset_government_ruler_title *receive_packet_ruleset_government_ruler_title(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_government_ruler_title at the server.");
@@ -22166,6 +23360,12 @@ struct packet_ruleset_government_ruler_title *receive_packet_ruleset_government_
 
 int send_packet_ruleset_government_ruler_title(struct connection *pc, const struct packet_ruleset_government_ruler_title *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_government_ruler_title from the client.");
@@ -22411,6 +23611,12 @@ static void ensure_valid_variant_packet_ruleset_tech(struct connection *pc)
 
 struct packet_ruleset_tech *receive_packet_ruleset_tech(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_tech at the server.");
@@ -22425,6 +23631,12 @@ struct packet_ruleset_tech *receive_packet_ruleset_tech(struct connection *pc, e
 
 int send_packet_ruleset_tech(struct connection *pc, const struct packet_ruleset_tech *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_tech from the client.");
@@ -23024,6 +24236,12 @@ static void ensure_valid_variant_packet_ruleset_government(struct connection *pc
 
 struct packet_ruleset_government *receive_packet_ruleset_government(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_government at the server.");
@@ -23038,6 +24256,12 @@ struct packet_ruleset_government *receive_packet_ruleset_government(struct conne
 
 int send_packet_ruleset_government(struct connection *pc, const struct packet_ruleset_government *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_government from the client.");
@@ -23361,6 +24585,12 @@ static void ensure_valid_variant_packet_ruleset_terrain_control(struct connectio
 
 struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_terrain_control at the server.");
@@ -23375,6 +24605,12 @@ struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control(st
 
 int send_packet_ruleset_terrain_control(struct connection *pc, const struct packet_ruleset_terrain_control *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_terrain_control from the client.");
@@ -23686,6 +24922,12 @@ static void ensure_valid_variant_packet_ruleset_nation(struct connection *pc)
 
 struct packet_ruleset_nation *receive_packet_ruleset_nation(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_nation at the server.");
@@ -23700,6 +24942,12 @@ struct packet_ruleset_nation *receive_packet_ruleset_nation(struct connection *p
 
 int send_packet_ruleset_nation(struct connection *pc, const struct packet_ruleset_nation *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_nation from the client.");
@@ -23899,6 +25147,12 @@ static void ensure_valid_variant_packet_ruleset_city(struct connection *pc)
 
 struct packet_ruleset_city *receive_packet_ruleset_city(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_city at the server.");
@@ -23913,6 +25167,12 @@ struct packet_ruleset_city *receive_packet_ruleset_city(struct connection *pc, e
 
 int send_packet_ruleset_city(struct connection *pc, const struct packet_ruleset_city *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_city from the client.");
@@ -24438,6 +25698,12 @@ static void ensure_valid_variant_packet_ruleset_building(struct connection *pc)
 
 struct packet_ruleset_building *receive_packet_ruleset_building(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_building at the server.");
@@ -24452,6 +25718,12 @@ struct packet_ruleset_building *receive_packet_ruleset_building(struct connectio
 
 int send_packet_ruleset_building(struct connection *pc, const struct packet_ruleset_building *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_building from the client.");
@@ -24901,6 +26173,12 @@ static void ensure_valid_variant_packet_ruleset_terrain(struct connection *pc)
 
 struct packet_ruleset_terrain *receive_packet_ruleset_terrain(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_terrain at the server.");
@@ -24915,6 +26193,12 @@ struct packet_ruleset_terrain *receive_packet_ruleset_terrain(struct connection 
 
 int send_packet_ruleset_terrain(struct connection *pc, const struct packet_ruleset_terrain *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_terrain from the client.");
@@ -25619,6 +26903,12 @@ static void ensure_valid_variant_packet_ruleset_control(struct connection *pc)
 
 struct packet_ruleset_control *receive_packet_ruleset_control(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_ruleset_control at the server.");
@@ -25634,6 +26924,12 @@ struct packet_ruleset_control *receive_packet_ruleset_control(struct connection 
 
 int send_packet_ruleset_control(struct connection *pc, const struct packet_ruleset_control *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_ruleset_control from the client.");
@@ -25764,6 +27060,12 @@ static void ensure_valid_variant_packet_single_want_hack_req(struct connection *
 
 struct packet_single_want_hack_req *receive_packet_single_want_hack_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_single_want_hack_req at the client.");
@@ -25778,6 +27080,12 @@ struct packet_single_want_hack_req *receive_packet_single_want_hack_req(struct c
 
 int send_packet_single_want_hack_req(struct connection *pc, const struct packet_single_want_hack_req *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_single_want_hack_req from the server.");
@@ -25905,6 +27213,12 @@ static void ensure_valid_variant_packet_single_want_hack_reply(struct connection
 
 struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_single_want_hack_reply at the server.");
@@ -25919,6 +27233,12 @@ struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(stru
 
 int send_packet_single_want_hack_reply(struct connection *pc, const struct packet_single_want_hack_reply *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_single_want_hack_reply from the client.");
@@ -25972,6 +27292,12 @@ static void ensure_valid_variant_packet_single_playerlist_req(struct connection 
 
 struct packet_single_playerlist_req *receive_packet_single_playerlist_req(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Receiving packet_single_playerlist_req at the client.");
@@ -25986,6 +27312,12 @@ struct packet_single_playerlist_req *receive_packet_single_playerlist_req(struct
 
 int send_packet_single_playerlist_req(struct connection *pc)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Sending packet_single_playerlist_req from the server.");
@@ -26358,6 +27690,12 @@ static void ensure_valid_variant_packet_single_playerlist_reply(struct connectio
 
 struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_single_playerlist_reply at the server.");
@@ -26372,6 +27710,12 @@ struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(st
 
 int send_packet_single_playerlist_reply(struct connection *pc, const struct packet_single_playerlist_reply *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_single_playerlist_reply from the client.");
@@ -26544,6 +27888,12 @@ static void ensure_valid_variant_packet_options_settable_control(struct connecti
 
 struct packet_options_settable_control *receive_packet_options_settable_control(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_options_settable_control at the server.");
@@ -26558,6 +27908,12 @@ struct packet_options_settable_control *receive_packet_options_settable_control(
 
 int send_packet_options_settable_control(struct connection *pc, const struct packet_options_settable_control *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_options_settable_control from the client.");
@@ -26790,6 +28146,12 @@ static void ensure_valid_variant_packet_options_settable(struct connection *pc)
 
 struct packet_options_settable *receive_packet_options_settable(struct connection *pc, enum packet_type type)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
   assert(pc->phs.variant != NULL);
   if(is_server) {
     freelog(LOG_ERROR, "Receiving packet_options_settable at the server.");
@@ -26804,6 +28166,12 @@ struct packet_options_settable *receive_packet_options_settable(struct connectio
 
 int send_packet_options_settable(struct connection *pc, const struct packet_options_settable *packet)
 {
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
     freelog(LOG_ERROR, "Sending packet_options_settable from the client.");
