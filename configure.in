@@ -95,7 +95,7 @@ if test x$client = xtrue; then
     FC_CHECK_X_LIB(Xt, main)
     FC_CHECK_X_LIB(Xmu, main)
     FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need Xpm library"))
-    if test -z $WITH_XAW3D; then
+    if test x$WITH_XAW3D = x; then
 	FC_CHECK_X_LIB(Xaw, main)
     else
 	FC_CHECK_X_LIB(Xaw3d, main)

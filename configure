@@ -2307,7 +2307,7 @@ else
 { echo "configure: error: "Need Xpm library"" 1>&2; exit 1; }
 fi
 
-    if test -z $WITH_XAW3D; then
+    if test x$WITH_XAW3D = x; then
 	echo $ac_n "checking for main in X library -lXaw""... $ac_c" 1>&6
 echo "configure:2313: checking for main in X library -lXaw" >&5
 ac_lib_var=`echo Xaw'_'main | sed 'y%./+-%__p_%'`
