@@ -82,10 +82,10 @@ enum MenuID {
   MENU_GAME_END,
   MENU_GAME_QUIT,
   
-  MENU_KINGDOM_TAX_RATE,
-  MENU_KINGDOM_FIND_CITY,
-  MENU_KINGDOM_WORKLISTS,
-  MENU_KINGDOM_REVOLUTION,
+  MENU_GOVERNMENT_TAX_RATE,
+  MENU_GOVERNMENT_FIND_CITY,
+  MENU_GOVERNMENT_WORKLISTS,
+  MENU_GOVERNMENT_REVOLUTION,
 
   MENU_VIEW_SHOW_MAP_GRID,
   MENU_VIEW_SHOW_NATIONAL_BORDERS,
@@ -225,20 +225,20 @@ static void game_menu_callback(gpointer callback_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void kingdom_menu_callback(gpointer callback_data,
+static void government_menu_callback(gpointer callback_data,
 				  guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
-  case MENU_KINGDOM_TAX_RATE:
+  case MENU_GOVERNMENT_TAX_RATE:
     popup_rates_dialog();
     break;
-  case MENU_KINGDOM_FIND_CITY:
+  case MENU_GOVERNMENT_FIND_CITY:
     popup_find_dialog();
     break;
-  case MENU_KINGDOM_WORKLISTS:
+  case MENU_GOVERNMENT_WORKLISTS:
     popup_worklists_report();
     break;
-  case MENU_KINGDOM_REVOLUTION:
+  case MENU_GOVERNMENT_REVOLUTION:
     popup_revolution_dialog();
     break;
   }
@@ -643,27 +643,27 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
-  /* Kingdom menu ... */
-  { "/" N_("_Kingdom"),					NULL,
+  /* Government menu ... */
+  { "/" N_("_Government"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Kingdom") "/tearoff1",			NULL,
+  { "/" N_("Government") "/tearoff1",			NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Kingdom") "/" N_("_Tax Rates"),		"<shift>t",
-	kingdom_menu_callback,	MENU_KINGDOM_TAX_RATE					},
-  { "/" N_("Kingdom") "/sep1",				NULL,
+  { "/" N_("Government") "/" N_("_Tax Rates"),		"<shift>t",
+	government_menu_callback,	MENU_GOVERNMENT_TAX_RATE			},
+  { "/" N_("Government") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Kingdom") "/" N_("_Find City"),		"<shift>f",
-	kingdom_menu_callback,	MENU_KINGDOM_FIND_CITY					},
-  { "/" N_("Kingdom") "/" N_("_Worklists"),		"<shift>w",
-	kingdom_menu_callback,	MENU_KINGDOM_WORKLISTS					},
-  { "/" N_("Kingdom") "/sep2",				NULL,
+  { "/" N_("Government") "/" N_("_Find City"),		"<shift>f",
+	government_menu_callback,	MENU_GOVERNMENT_FIND_CITY			},
+  { "/" N_("Government") "/" N_("_Worklists"),		"<shift>w",
+	government_menu_callback,	MENU_GOVERNMENT_WORKLISTS			},
+  { "/" N_("Government") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("_Kingdom") "/" N_("_Government"),           NULL,
+  { "/" N_("Government") "/" N_("_Change Government"),           NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Kingdom") "/" N_("_Government") "/" N_("_Revolution"),
+  { "/" N_("Government") "/" N_("_Change Government") "/" N_("_Revolution"),
                                                         "<shift>r",
-	kingdom_menu_callback,	MENU_KINGDOM_REVOLUTION					},
-  { "/" N_("_Kingdom") "/" N_("_Government") "/sep1", NULL,
+	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
+  { "/" N_("_Government") "/" N_("_Change Government") "/sep1", NULL,
 	NULL,			0,					"<Separator>"	},
   /* View menu ... */
   { "/" N_("_View"),					NULL,
@@ -1095,13 +1095,13 @@ void update_menus(void)
 
   if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Reports", FALSE);
-    menus_set_sensitive("<main>/_Kingdom", FALSE);
+    menus_set_sensitive("<main>/_Government", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
     menus_set_sensitive("<main>/_Orders", FALSE);
   } else {
     struct unit *punit;
     const char *path =
-      menu_path_remove_uline("<main>/_Kingdom/_Government");
+      menu_path_remove_uline("<main>/_Government/_Change Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
@@ -1147,16 +1147,16 @@ void update_menus(void)
     }
 
     menus_set_sensitive("<main>/_Reports", TRUE);
-    menus_set_sensitive("<main>/_Kingdom", TRUE);
+    menus_set_sensitive("<main>/_Government", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
     menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
 
-    menus_set_sensitive("<main>/_Kingdom/_Tax Rates",
+    menus_set_sensitive("<main>/_Government/_Tax Rates",
 			game.rgame.changable_tax
                         && can_client_issue_orders());
-    menus_set_sensitive("<main>/_Kingdom/_Worklists",
+    menus_set_sensitive("<main>/_Government/_Worklists",
 			can_client_issue_orders());
-    menus_set_sensitive("<main>/_Kingdom/_Government",
+    menus_set_sensitive("<main>/_Government/_Change Government",
 			can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Reports/S_paceship",
