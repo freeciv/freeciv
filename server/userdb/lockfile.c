@@ -23,7 +23,7 @@
 #include <unistd.h>
 #endif
 
-#ifndef WIN32_NATIVE
+#if defined HAVE_FILENO && (defined HAVE_FLOCK || defined HAVE_FCNTL)
 #define HAS_FILE_LOCKING
 #endif
 
@@ -75,7 +75,7 @@ bool create_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int i, fd;
-#ifndef HAVE_FLOCK
+#ifdef HAVE_FLOCK
   struct flock fl = { F_WRLCK, SEEK_SET, 0, 0, 0 };
 
   fl.l_pid = getpid();
@@ -113,7 +113,7 @@ void remove_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int fd = fileno(fp);
-#ifndef HAVE_FLOCK
+#ifdef HAVE_FLOCK
   struct flock fl = { F_UNLCK, SEEK_SET, 0, 0, 0 };
 
   fl.l_pid = getpid();
