@@ -494,7 +494,7 @@ void ai_eval_buildings(struct city *pcity)
         /* how long (== how much food) till we grow big enough? 
          * j = num_pop_rollover * biggest_granary_size - current_food */
         j = (k+1) - MIN(k, pcity->size);
-        j*= (MAX(k, pcity->size)+1) * game.foodbox;
+	j *= city_granary_size(MAX(k, pcity->size));
         j-= pcity->food_stock;
   
         /* value = some odd factors / food_required */
