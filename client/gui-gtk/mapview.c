@@ -1253,16 +1253,30 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
   }
     
   ttype=map_get_terrain(abs_x0, abs_y0);
-
-  ttype_north=map_get_terrain(abs_x0, abs_y0-1);
-  ttype_south=map_get_terrain(abs_x0, abs_y0+1);
-  ttype_west=map_get_terrain(abs_x0-1, abs_y0);
   ttype_east=map_get_terrain(abs_x0+1, abs_y0);
-  ttype_north_east=map_get_terrain(abs_x0+1, abs_y0-1);
-  ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
-  ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
-  ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
+  ttype_west=map_get_terrain(abs_x0-1, abs_y0);
 
+  /* make north and south pole seamless: */
+  if(abs_y0==0) {
+    ttype_north=ttype;
+    ttype_north_east=ttype_east;
+    ttype_north_west=ttype_west;
+  } else {
+    ttype_north=map_get_terrain(abs_x0, abs_y0-1);
+    ttype_north_east=map_get_terrain(abs_x0+1, abs_y0-1);
+    ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
+  }
+  if(abs_y0==map.ysize-1) {
+    ttype_south=ttype;
+    ttype_south_east=ttype_east;
+    ttype_south_west=ttype_west;
+  } else {
+    ttype_south=map_get_terrain(abs_x0, abs_y0+1);
+    ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
+    ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
+  }
+
+  /* map_get_specials() returns S_NONE past poles anyway */
   tspecial=map_get_special(abs_x0, abs_y0);
   tspecial_north=map_get_special(abs_x0, abs_y0-1);
   tspecial_east=map_get_special(abs_x0+1, abs_y0);
@@ -1272,7 +1286,6 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
   tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
   tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
   tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
-
 
   tileno=tile_types[ttype].graphic_base;
 
