@@ -482,11 +482,11 @@ static struct secondary_stat *get_secondary_stat(int trade, int specialists,
   freelog(LOG_DEBUG, "second: trade=%d spec=%d type=%d", trade, specialists,
 	  specialist_type);
 
-  assert(trade <= cache2.allocated_trade);
-  assert(specialists <= cache2.allocated_size);
+  assert(trade >= 0 && trade < cache2.allocated_trade);
+  assert(specialists >= 0 && specialists < cache2.allocated_size);
 
   return &cache2.secondary_stats[NUM_SPECIALISTS_ROLES *
-				 (cache2.allocated_size * (trade) +
+				 (cache2.allocated_size * trade +
 				  specialists) + specialist_type];
 }
 
@@ -497,8 +497,8 @@ static struct city_status *get_city_status(int luxury, int workers)
 {
   freelog(LOG_DEBUG, "status: lux=%d worker=%d", luxury, workers);
 
-  assert(luxury <= cache2.allocated_luxury);
-  assert(workers <= cache2.allocated_size);
+  assert(luxury >=0 && luxury < cache2.allocated_luxury);
+  assert(workers >= 0 && workers < cache2.allocated_size);
 
   return &cache2.city_status[cache2.allocated_size * luxury + workers];
 }
