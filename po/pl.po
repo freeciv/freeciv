@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
+"POT-Creation-Date: 2003-10-25 10:29+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -2436,9 +2436,8 @@ msgid "Please choose a non-blank name."
 msgstr "Proszê wybraæ niepust± nazwê."
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Proszê wybraæ niepust± nazwê."
+msgstr "Proszê wybraæ poprawn± nazwê."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -5390,7 +5389,7 @@ msgstr "Gra: Przyjazne oddzia³y s± zachwycone tob± i przy³±czaj± siê."
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Gra: Twój przelot wystraszy³ tubylców; uciekli wystraszeni."
 
-#: server/unittools.c:3118
+#: server/unittools.c:3096
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6981,7 +6980,7 @@ msgstr ""
 "Zakoñczenie produkcji: %s"
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:145
 msgid "Cleared output window."
 msgstr "Okno komunikatów zosta³o wyczyszczone."
 
@@ -18208,3 +18207,4 @@ msgstr "Zuluski"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "Zulusi"
+
