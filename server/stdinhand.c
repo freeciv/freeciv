@@ -566,10 +566,10 @@ static int sset_is_changeable(int idx)
   case SSET_GAME_INIT:
   case SSET_RULES:
     /* Only change start params and most rules if we don't yet have a map,
-     * or if we do have a map but its a scenario one.  Once a scenario is
-     * actually started, game.scenario will be set to 0.
+     * or if we do have a map but its a scenario one (ie, the game has
+     * never actually been started).
      */
-    return (map_is_empty() || (game.scenario!=0));
+    return (map_is_empty() || game.is_new_game);
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
     /* These can always be changed: */

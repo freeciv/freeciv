@@ -333,8 +333,7 @@ void map_save(struct section_file *file)
    */
   secfile_insert_int(file, map.is_earth, "map.is_earth");
 
-  /* don't save start positions in a type 3 scenario */
-  if(game.scenario!=3) {
+  if(map.num_start_positions>0) {
     for(i=0; i<game.nation_count; i++) {
       secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
       secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
@@ -350,8 +349,7 @@ void map_save(struct section_file *file)
     secfile_insert_str(file, pbuf, "map.t%03d", y);
   }
 
-  /* don't save specials in scenarios of types 2 and 3 */
-  if((game.scenario==3) || (game.scenario==2)) {
+  if(!map.have_specials) {
     free(pbuf);
     return;
   }
@@ -607,6 +605,7 @@ void map_load(struct section_file *file)
       }
     }
   }
+  map.have_specials = 1;
 }
 
 /***************************************************************

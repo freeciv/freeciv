@@ -38,6 +38,7 @@ struct unit;
 struct city;
 
 struct civ_game {
+  int is_new_game;		/* 1 for games never started */
   int version;
   int civstyle;
   int gold;
@@ -71,7 +72,6 @@ struct civ_game {
   int warminglevel;
   char save_name[MAX_LEN_NAME];
   int save_nturns;
-  int scenario;
   int foodbox;
   int aqueductloss;
   int techpenalty;

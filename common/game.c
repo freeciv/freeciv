@@ -707,6 +707,7 @@ void game_remove_city(struct city *pcity)
 void game_init(void)
 {
   int i;
+  game.is_new_game = 1;
   game.globalwarming=0;
   game.warminglevel=8;
   game.gold        = GAME_DEFAULT_GOLD;
@@ -739,7 +740,6 @@ void game_init(void)
   game.barbarians  = GAME_DEFAULT_BARBARIAN;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
-  game.scenario    = 0;
   strcpy(game.save_name, "civgame");
   game.save_nturns=10;
   game.randseed=GAME_DEFAULT_RANDSEED;

@@ -138,8 +138,6 @@ unsigned short global_id_counter=100;
 unsigned char used_ids[8192]={0};
 int is_server = 1;
 
-int is_new_game=1;
-
 /* The following is unused, AFAICT.  --dwp */
 char usage[] = 
 "Usage: %s [-fhlpgv] [--file] [--help] [--log] [--port]\n\t[--gamelog] [--version]\n";
@@ -296,18 +294,12 @@ int main(int argc, char *argv[])
       freelog(LOG_FATAL, _("Couldn't load savefile: %s"), load_filename);
       exit(1);
     }
-    game.scenario=game_load(&file);
+    game_load(&file);
     section_file_check_unused(&file, load_filename);
     section_file_free(&file);
 
-   /* game.scenario: 0=normal savegame, 1=everything but players,
-       2=just tile map and startpositions, 3=just tile map
-   */
-    if (game.scenario) { /* we may have a scenario here */
-      if(game.nplayers) { /* no, it's just a normal savegame */
-	is_new_game=0;
-	game.scenario=0;
-      }
+    if (!game.is_new_game) {
+      /* Is this right/necessary/the_right_place_for_this/etc? --dwp */
       while(is_id_allocated(global_id_counter++));
     }
     freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
@@ -338,7 +330,7 @@ int main(int argc, char *argv[])
 
   send_server_info_to_metaserver(1,0);
 
-  if(is_new_game) {
+  if(game.is_new_game) {
     load_rulesets();
     /* otherwise rulesets were loaded when savegame was loaded */
   }
@@ -399,12 +391,12 @@ main_start_players:
   if(!myrand_is_init())
     mysrand(game.randseed);
 
-  if(is_new_game)
+  if(game.is_new_game)
     generate_ai_players();
    
   /* if we have a tile map, and map.generator==0, call map_fractal_generate
      anyway, to make the specials and huts */
-  if(map_is_empty() || (map.generator == 0 && is_new_game))
+  if(map_is_empty() || (map.generator == 0 && game.is_new_game))
     map_fractal_generate();
   else 
     flood_it(1);
@@ -414,7 +406,7 @@ main_start_players:
   server_state=RUN_GAME_STATE;
   send_server_info_to_metaserver(1,0);
 
-  if(is_new_game) {
+  if(game.is_new_game) {
     int i;
     for(i=0; i<game.nplayers; i++) {
       init_tech(&game.players[i], game.tech); 
@@ -424,9 +416,9 @@ main_start_players:
 
     /* we don't want random start positions in a scenario which already
        provides them.  -- Gudy */
-    if(game.scenario==1 || game.scenario==2)
+    if(map.num_start_positions>0) {
       flood_it(1);
-    else {
+    } else {
       flood_it(0);
       create_start_positions();
     }
@@ -435,7 +427,7 @@ main_start_players:
   initialize_move_costs(); /* this may be the wrong place to do this */
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
-  if (!is_new_game) {
+  if (!game.is_new_game) {
     for (i=0;i<game.nplayers;i++) {
       civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
       if (game.players[i].ai.control) {
@@ -449,14 +441,12 @@ main_start_players:
   
   send_all_info(0);
 
-  if(is_new_game) 
+  if(game.is_new_game) 
     init_new_game();
-    
+
+  game.is_new_game = 0;
+
   send_game_state(0, CLIENT_GAME_RUNNING_STATE);
-  
-  /* from here on, treat scenarios as normal games, as this is what
-     they have become (nothing special about them anymore)*/
-  game.scenario=0;
   
   while(server_state==RUN_GAME_STATE) {
     force_end_of_sniff=0;
@@ -1509,7 +1499,7 @@ void lost_connection_to_player(struct connection *pconn)
       send_player_info(&game.players[i], 0);
       notify_player(0, _("Game: Lost connection to %s."), game.players[i].name);
 
-      if(is_new_game && (server_state==PRE_GAME_STATE ||
+      if(game.is_new_game && (server_state==PRE_GAME_STATE ||
 			 server_state==SELECT_RACES_STATE))
 	 server_remove_player(&game.players[i]);
       check_for_full_turn_done();

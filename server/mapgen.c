@@ -732,7 +732,7 @@ void map_fractal_generate(void)
     remove_tiny_islands();
   }
 
-  if(game.scenario!=1) /* type 1 scenarios already provide specials */
+  if(!map.have_specials) /* some scenarios already provide specials */
     add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
   
   /* print_map(); */
@@ -971,7 +971,7 @@ static void add_specials(int prob)
 {
   int x,y;
   enum tile_terrain_type ttype;
-  for (y=1;y<map.ysize-1;y++)
+  for (y=1;y<map.ysize-1;y++) {
     for (x=0;x<map.xsize; x++) {
       ttype = map_get_terrain(x, y);
       if ((ttype==T_OCEAN && is_coastline(x,y)) || (ttype!=T_OCEAN)) {
@@ -988,6 +988,8 @@ static void add_specials(int prob)
 	}
       }
     }
+  }
+  map.have_specials = 1;
 }
 
 /**************************************************************************

@@ -52,7 +52,7 @@ void init_new_game(void)
   int i, j, x, y;
   int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
   
-  if (game.scenario!=1 && game.scenario!=2) {
+  if (!map.fixed_start_positions) {
     /* except in a scenario which provides them,
        shuffle the start positions around... */
     assert(game.nplayers==map.num_start_positions);
@@ -72,7 +72,7 @@ void init_new_game(void)
      to random from remainder.  (Would be better to label start
      positions by nation etc, but this will do for now. --dwp)
   */
-  if(game.scenario!=1 && game.scenario!=2) {
+  if(!map.fixed_start_positions) {
     for(i=0; i<game.nplayers; i++) {
       start_pos[i] = i;
     } 
@@ -266,7 +266,7 @@ static void apply_unit_ordering(void)
 /***************************************************************
 ...
 ***************************************************************/
-int game_load(struct section_file *file)
+void game_load(struct section_file *file)
 {
   int i;
   enum server_states tmp_server_state;
@@ -419,12 +419,15 @@ int game_load(struct section_file *file)
       }
 
       if (tmp_server_state==PRE_GAME_STATE &&
-	  map.generator == 0) { /* generator 0 = map done with map editor */
+	  map.generator == 0) {
+	/* generator 0 = map done with map editor */
+	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
           map_load(file);
+	  map.fixed_start_positions = 1;
           section_file_check_unused(file, NULL);
           section_file_free(file);
-          return 1; /* make this a type 1 scenario */
+          return;
         }
         map_tiles_load(file);
         if (has_capability("riversoverlay",savefile_options)) {
@@ -432,16 +435,19 @@ int game_load(struct section_file *file)
 	}
         if (has_capability("startpos",savefile_options)) {
           map_startpos_load(file);
-          return 2; /* make this a type 2 scenario */
+	  map.fixed_start_positions = 1;
+          return;
         }
-	return 3; /* make this a type 3 scenario */
+	return;
       }
     }
     if(tmp_server_state==PRE_GAME_STATE) {
-      return 0;
+      return;
     }
   }
 
+  game.is_new_game = 0;
+  
   load_rulesets();
 
   map_load(file);
@@ -471,7 +477,7 @@ int game_load(struct section_file *file)
   game.player_idx=0;
   game.player_ptr=&game.players[0];  
 
-  return 1;
+  return;
 }
 
 
@@ -504,12 +510,10 @@ void game_save(struct section_file *file)
       }
       temp2=strtok(NULL," ");
     }
-    if(game.scenario==2) {
-      /* we have start positions in type 2 scenarios */
+    if(map.num_start_positions>0) {
       strcat(temp1," startpos");
-    } else
-    if(game.scenario==1) {
-      /* we have start positions and specials in type 1 scenarios */
+    }
+    if(map.have_specials) {
       strcat(temp1," specials");
     }
     secfile_insert_str(file, temp1+1, "savefile.options");
@@ -576,7 +580,7 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
   } 
-  if ((server_state==PRE_GAME_STATE) && (game.scenario==0)) {
+  if ((server_state==PRE_GAME_STATE) && game.is_new_game) {
     return; /* want to save scenarios as well */
   }
   if (server_state!=PRE_GAME_STATE) {

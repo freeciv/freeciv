@@ -162,6 +162,8 @@ struct civ_map {
   int forestsize;
   int generator;
   int num_start_positions;
+  int fixed_start_positions;
+  int have_specials;
   struct tile *tiles;
   struct map_position start_positions[MAX_NUM_NATIONS];
 };

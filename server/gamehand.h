@@ -21,7 +21,7 @@ void send_year_to_clients(int year);
 void send_game_info(struct player *dest);
 void send_game_state(struct player *dest, int state);
 
-int game_load(struct section_file *file);
+void game_load(struct section_file *file);
 void game_save(struct section_file *file);
 
 #endif  /* FC__GAMEHAND_H */
