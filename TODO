@@ -61,6 +61,8 @@ TODO:
   content of the messages, needed for fx a client side AI. It will also
   mean that the messages are automatically correctly localized.
   Note that these new messages will have to sometimes contain city names.
+  A possibility of sending text should still exist, to avoid
+  compatability breakage when changing the server.
 
 - Create a new "ocean" variable in the tile struct, similar to the
   "continent" variable. It needs assisiated functions to be kept up to date
