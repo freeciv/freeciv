@@ -30,7 +30,8 @@
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
- 
+
+#include "chatline_common.h"	/* send_chat() */ 
 #include "cityrep.h"
 #include "civclient.h"
 #include "climisc.h"
@@ -46,11 +47,20 @@
 static HWND economy_dlg;
 static HWND activeunits_dlg;
 static HWND science_dlg;
+
+static HWND settable_options_dialog_win;
+static HWND tab_ctrl;
+static HWND *tab_wnds;
+static int num_tabs;
+static int *categories;
+
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
 extern struct connection aconnection;               
 int economy_improvement_type[B_LAST];   
 int activeunits_type[U_LAST]; 
+
+#define ID_OPTIONS_BASE 1000
 
 /**************************************************************************
 
@@ -720,10 +730,243 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                       buffer);
 }
 
+/****************************************************************
+
+*****************************************************************/
+static void destroy_options_window(void)
+{
+  int i;
+  DestroyWindow(settable_options_dialog_win);
+  settable_options_dialog_win = NULL;
+  free(categories);
+  for (i = 0; i < num_tabs; i++) {
+    DestroyWindow(tab_wnds[i]);
+    tab_wnds[i] = NULL;
+  }
+  free(tab_wnds);
+}
+
+/****************************************************************
+
+*****************************************************************/
+static LONG CALLBACK OptionsWndProc(HWND hWnd,
+				    UINT message,
+				    WPARAM wParam,
+				    LPARAM lParam) 
+{
+  LPNMHDR nmhdr;
+
+  switch(message) {
+    case WM_CLOSE:
+      destroy_options_window();
+      break;
+    case WM_COMMAND:
+      if (LOWORD(wParam) == IDOK) {
+	int i, tab;
+        for (i = 0; i < num_settable_options; i++) {
+	  tab = categories[settable_options[i].category];
+	  if (settable_options[i].type == 0) {
+	    /* checkbox */
+	    int val = Button_GetState(GetDlgItem(tab_wnds[tab],
+				      ID_OPTIONS_BASE + i)) == BST_CHECKED;
+	    if (val != settable_options[i].val) {
+	      char buffer[MAX_LEN_MSG];
+	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
+			  settable_options[i].name, val);
+	      send_chat(buffer);
+	    }
+	  } else if (settable_options[i].type == 1) {
+	    char buf[512];
+	    int val;
+	    Edit_GetText(GetDlgItem(tab_wnds[tab], ID_OPTIONS_BASE + i), buf,
+				    512);
+	    val = atoi(buf);
+	    if (val != settable_options[i].val) {
+	      char buffer[MAX_LEN_MSG];
+	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
+			  settable_options[i].name, val);
+	      send_chat(buffer);
+	    }	    
+	  } else {
+	    char strval[512];
+	    Edit_GetText(GetDlgItem(tab_wnds[tab], ID_OPTIONS_BASE + i),
+			 strval, 512);
+	    if (strcmp(strval, settable_options[i].strval) != 0) {
+	      char buffer[MAX_LEN_MSG];
+	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
+			  settable_options[i].name, strval);
+	      send_chat(buffer);
+	    }
+	  }
+	}
+      }
+      if ((LOWORD(wParam) == IDCANCEL) || (LOWORD(wParam) == IDOK)) {
+        destroy_options_window();
+      }
+      break;
+    case WM_NOTIFY:
+      nmhdr = (LPNMHDR)lParam;
+      if (nmhdr->hwndFrom == tab_ctrl) {
+	int i, sel;
+	sel = TabCtrl_GetCurSel(tab_ctrl);
+	for (i = 0; i < num_tabs; i++) {
+	  ShowWindow(tab_wnds[i], SW_HIDE);
+	}
+	if ((sel >= 0) && (sel < num_tabs)) {
+	  ShowWindow(tab_wnds[sel], SW_SHOWNORMAL);
+	}
+      }
+      break;
+    default:
+      return DefWindowProc(hWnd,message,wParam,lParam);
+  }
+  return (0);
+}
+
+/****************************************************************
+
+*****************************************************************/
+static LONG CALLBACK OptionsWndProc2(HWND hWnd,
+				     UINT message,
+				     WPARAM wParam,
+				     LPARAM lParam) 
+{
+  switch(message) {
+    default:
+      return DefWindowProc(hWnd,message,wParam,lParam);
+  }
+  return (0);
+}
+
 /*************************************************************************
   Server options dialog
 *************************************************************************/
+static void create_settable_options_dialog(void)
+{
+  HWND win;
+  struct fcwin_box *vbox, *hbox, **tab_boxes;
+  char **titles;
+  void **user_data;
+  WNDPROC *tab_procs;
+  bool *used;
+  int i, j;
+
+  num_tabs = 0;
+
+  used = fc_malloc(num_options_categories * sizeof(bool));
+  categories = fc_malloc(num_options_categories * sizeof(int));
+
+  for(i = 0; i < num_options_categories; i++) {
+    used[i] = FALSE;
+  }
+
+  for (i = 0; i < num_settable_options; i++) {
+    used[settable_options[i].category] = TRUE;
+  }
+
+  for(i = 0; i < num_options_categories; i++) {
+    if (used[i]) {
+      categories[i] = num_tabs;
+      num_tabs++;
+    }
+  }
+
+  titles = fc_malloc(sizeof(titles) * num_tabs);
+  tab_procs = fc_malloc(sizeof(tab_procs) * num_tabs);
+  tab_wnds = fc_malloc(sizeof(tab_wnds) * num_tabs);
+  tab_boxes = fc_malloc(sizeof(tab_boxes) * num_tabs);
+  user_data = fc_malloc(sizeof(user_data) * num_tabs);
+
+  j = 0;
+  for (i = 0; i < num_options_categories; i++) {
+    if (used[i]) {
+      titles[j] = _(options_categories[i]);
+      tab_procs[j] = OptionsWndProc2;
+      j++;
+    }
+  }
+
+  win = fcwin_create_layouted_window(OptionsWndProc, _("Game Options"),
+				     WS_OVERLAPPEDWINDOW, 20, 20,
+				     root_window, NULL, REAL_CHILD, NULL);
+  settable_options_dialog_win = win;
+  vbox = fcwin_vbox_new(win, FALSE);
+
+  /* create a notebook for the options */
+  tab_ctrl = fcwin_box_add_tab(vbox, tab_procs, tab_wnds, titles,
+			       user_data, num_tabs, 0, 0, TRUE, TRUE, 5);
+  j = 0;
+  for (i = 0; i < num_options_categories; i++) {
+    if (used[i]) {
+      tab_boxes[j] = fcwin_vbox_new(tab_wnds[j], FALSE);
+      fcwin_set_box(tab_wnds[j], tab_boxes[j]);
+      j++;
+    }
+  }
+
+  for (i = 0; i < num_settable_options; i++) {
+    j = categories[settable_options[i].category];
+    hbox = fcwin_hbox_new(tab_wnds[j], FALSE);
+    fcwin_box_add_static(hbox, _(settable_options[i].short_help),
+			 0, 0, FALSE, TRUE, 5);
+    fcwin_box_add_static(hbox, "", 0, 0, TRUE, TRUE, 0);
+    if (settable_options[i].type == 0) {
+      HWND check;
+      /* boolean */
+      check = fcwin_box_add_checkbox(hbox, "", ID_OPTIONS_BASE + i, 0, FALSE,
+				     TRUE, 5);
+      Button_SetCheck(check,
+		      settable_options[i].val ? BST_CHECKED : BST_UNCHECKED);
+    } else if (settable_options[i].type == 1) {
+      /* integer */
+      char buf[80];
+      int length;
+      my_snprintf(buf, 80, "%d", settable_options[i].max);
+      buf[79] = 0;
+      length = strlen(buf);
+      my_snprintf(buf, 80, "%d", settable_options[i].min);
+      buf[79] = 0;
+      if (length < strlen(buf)) {
+        length = strlen(buf);
+      }
+      my_snprintf(buf, 80, "%d", settable_options[i].val);
+      fcwin_box_add_edit(hbox, buf, length, ID_OPTIONS_BASE + i, 0, FALSE,
+			 TRUE, 5);
+    } else {
+      /* string */
+      fcwin_box_add_edit(hbox, settable_options[i].strval, 40,
+			 ID_OPTIONS_BASE + i, 0, FALSE, TRUE, 5);
+    }
+    fcwin_box_add_box(tab_boxes[j], hbox, FALSE, TRUE, 5);
+  }
+
+  hbox = fcwin_hbox_new(win, FALSE);
+  fcwin_box_add_button(hbox, _("OK"), IDOK, 0, TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Cancel"), IDCANCEL, 0, TRUE, TRUE, 5);
+  fcwin_box_add_box(vbox, hbox, TRUE, TRUE, 5);
+
+  free(used);
+  free(titles);
+  free(tab_procs);
+  free(user_data);
+  free(tab_boxes);
+
+  fcwin_set_box(win, vbox);
+
+  for (i = 0; i < num_tabs; i++) {
+    fcwin_redo_layout(tab_wnds[i]);
+  }
+  fcwin_redo_layout(win);
+  ShowWindow(win, SW_SHOWNORMAL);
+  ShowWindow(tab_wnds[0], SW_SHOWNORMAL);
+}
+
+/**************************************************************************
+  Show a dialog with the server options.
+**************************************************************************/
 void popup_settable_options_dialog(void)
 {
-  /* PORT ME */
+  if (!settable_options_dialog_win) {
+    create_settable_options_dialog();
+  }
 }
