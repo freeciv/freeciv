@@ -196,6 +196,8 @@ get_charset_aliases ()
    If the canonical name cannot be determined, the result is a non-canonical
    name.  */
 
+const char *locale_charset (void);
+
 #ifdef STATIC
 STATIC
 #endif
