@@ -26,6 +26,8 @@ struct section_file;
 struct conn_list;
 
 struct dumb_city{
+  /* Values in this struct are copied using a memcpy, so don't put any
+   * pointers in here. */
   int id;
   bool has_walls;
   bool occupied;
