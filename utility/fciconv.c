@@ -83,6 +83,13 @@ void init_character_encodings(char *my_internal_encoding)
        * encoding is unconfigured. */
       local_encoding = "ISO-8859-1";
     }
+
+    if (mystrcasecmp(local_encoding, "646") == 0) {
+      /* HACK: On Solaris the encoding always comes up as "646" (ascii),
+       * which iconv doesn't understand.  Work around it by using UTF-8
+       * instead. */
+      local_encoding = "UTF-8";
+    }
   }
 
   /* Set the internal encoding - first check $FREECIV_INTERNAL_ENCODING,
@@ -295,16 +302,27 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   va_list ap;
   char string[4096];
   const char *output;
+  static bool recursion = FALSE;
+
+  /* The recursion variable is used to prevent a recursive loop.  If
+   * an iconv conversion fails, then freelog will be called and an
+   * fc_fprintf will be done.  But below we do another iconv conversion
+   * on the error messages, which is of course likely to fail also. */
+  if (recursion) {
+    return;
+  }
 
   va_start(ap, format);
   my_vsnprintf(string, sizeof(string), format, ap);
   va_end(ap);
 
+  recursion = TRUE;
   if (is_init) {
     output = internal_to_local_string_static(string);
   } else {
     output = string;
   }
+  recursion = FALSE;
 
   fputs(output, stream);
   fflush(stream);
