@@ -22,6 +22,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "log.h"
+#include "shared.h"
 #include "version.h"
 
 #include "chatline_g.h"
@@ -150,7 +151,7 @@ static FILE *open_option_file(char *mode)
   name = getenv("FREECIV_OPT");
 
   if (!name) {
-    name = getenv("HOME");
+    name = user_home_dir();
     if (!name) {
       append_output_window(_("Cannot find your home directory"));
       return NULL;
