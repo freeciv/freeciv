@@ -1252,6 +1252,7 @@ void create_start_positions(void)
       islands[(int)map_get_continent(x, y)].starters--;
       map.start_positions[data.count].x = x;
       map.start_positions[data.count].y = y;
+      map.start_positions[data.count].nation = NO_NATION_SELECTED;
       freelog(LOG_DEBUG, "Adding %d,%d as starting position %d.",
 	      x, y, data.count);
       data.count++;

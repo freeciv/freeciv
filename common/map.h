@@ -140,7 +140,10 @@ struct civ_map {
   struct tile *tiles;
 
   /* Only used by server. */
-  struct map_position *start_positions;	/* allocated at runtime */
+  struct start_position {
+    int x, y;
+    Nation_Type_id nation; /* May be NO_NATION_SELECTED. */
+  } *start_positions;	/* allocated at runtime */
 };
 
 enum topo_flag {

@@ -302,8 +302,23 @@ static void map_startpos_load(struct section_file *file)
   while (i < game.max_players
 	 && (pos = secfile_lookup_int_default(file, -1,
 					      "map.r%dsx", i)) != -1) {
+    char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
+					      i);
+
     map.start_positions[i].x = pos;
     map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
+
+    if (nation) {
+      /* This will fall back to NO_NATION_SELECTED if the string doesn't
+       * match any nation. */
+      map.start_positions[i].nation = find_nation_by_name_orig(nation);
+    } else {
+      /* Old-style nation ordering is useless to us because the nations
+       * have been reordered.  Just ignore it and order the nations
+       * randomly. */
+      map.start_positions[i].nation = NO_NATION_SELECTED;
+    }
+
     i++;
   }
 
@@ -466,6 +481,12 @@ static void map_save(struct section_file *file)
     for (i=0; i<map.num_start_positions; i++) {
       secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
       secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+
+      if (map.start_positions[i].nation != NO_NATION_SELECTED) {
+	const char *nation = get_nation_name(map.start_positions[i].nation);
+
+	secfile_insert_str(file, nation, "map.r%dsnation", i);
+      }
     }
   }
     

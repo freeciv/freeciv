@@ -91,107 +91,64 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
 }
 
 /****************************************************************************
-  Swap two map positions.
-****************************************************************************/
-static void swap_map_positions(struct map_position *a,
-			       struct map_position *b)
-{
-  struct map_position tmp;
-
-  tmp = *a;
-  *a = *b;
-  *b = tmp;
-}
-
-/****************************************************************************
-  Get the start position for the given player.
-****************************************************************************/
-static struct map_position get_start_position(struct player *pplayer,
-					      int *start_pos)
-{
-  if (map.fixed_start_positions) {
-    return map.start_positions[start_pos[pplayer->player_no]];
-  } else {
-    return map.start_positions[pplayer->player_no];
-  }
-}
-
-/****************************************************************************
   Initialize a new game: place the players' units onto the map, etc.
 ****************************************************************************/
 void init_new_game(void)
 {
-  Nation_Type_id start_pos[MAX_NUM_PLAYERS];
+#define NO_START_POS -1
+  int start_pos[game.nplayers];
+  bool pos_used[map.num_start_positions];
+  int i, num_used = 0;
+
   init_game_id();
 
   /* Shuffle starting positions around so that they match up with the
    * desired players. */
-  if (!map.fixed_start_positions) {
-    /* With non-fixed starting positions, just randomize the order.  This
-     * avoids giving an advantage to lower-numbered players. */
-    assert(game.nplayers == map.num_start_positions);
-    players_iterate(pplayer) {
-      swap_map_positions(&map.start_positions[pplayer->player_no],
-			 &map.start_positions[myrand(game.nplayers)]);
-    } players_iterate_end;
-  } else {
-    /* In a scenario, choose starting positions by nation.  If there are too
-     * few starts for number of nations, assign to nations with specific
-     * starts first, then assign the rest to random from remainder.  (It
-     * would be better to label start positions by nation etc, but this will
-     * do for now.)
-     *
-     * NOTE: map.num_start_positions may be very high.
-     *
-     * FIXME: this method is broken since it assumes nations have a constant
-     * id, which is generally not true. */
-    const int npos = map.num_start_positions;
-    int nrem = npos, player_no;
-    bool *pos_used = fc_calloc(map.num_start_positions, sizeof(*pos_used));
 
-    /* Match nation 0 to starting position 0, and so on.  This needs an
-     * explicit for loop to guarantee the proper ordering. */
-    assert(game.nplayers <= map.num_start_positions);
-    for (player_no = 0; player_no < game.nplayers; player_no++) {
-      Nation_Type_id nation = game.players[player_no].nation;
+  /* First set up some data fields. */
+  for (i = 0; i < map.num_start_positions; i++) {
+    pos_used[i] = FALSE;
+  }
+  players_iterate(pplayer) {
+    start_pos[pplayer->player_no] = NO_START_POS;
+  } players_iterate_end;
 
-      if (nation < npos) {
-	start_pos[player_no] = nation;
-	pos_used[nation] = TRUE;
-	nrem--;
-      } else {
-	start_pos[player_no] = NO_NATION_SELECTED;
+  /* Second, assign a nation to a start position for that nation. */
+  players_iterate(pplayer) {
+    for (i = 0; i < map.num_start_positions; i++) {
+      assert(pplayer->nation != NO_NATION_SELECTED);
+      if (pplayer->nation == map.start_positions[i].nation) {
+	start_pos[pplayer->player_no] = i;
+	pos_used[i] = TRUE;
+	num_used++;
       }
     }
+  } players_iterate_end;
 
-    /* Now randomize the unchosen nations. */
-    players_iterate(pplayer) {
-      if (start_pos[pplayer->player_no] == NO_NATION_SELECTED) {
-	int j, k;
+  /* Third, assign players randomly to the remaining start positions. */
+  players_iterate(pplayer) {
+    if (start_pos[pplayer->player_no] == NO_START_POS) {
+      int which = myrand(map.num_start_positions - num_used);
 
-	assert(nrem > 0);
-	k = myrand(nrem);
-	for (j = 0; j < npos; j++) {
-	  if (!pos_used[j] && (0 == k--)) {
-	    start_pos[pplayer->player_no] = j;
-	    pos_used[j] = TRUE;
-	    nrem--;
+      for (i = 0; i < map.num_start_positions; i++) {
+	if (!pos_used[i]) {
+	  if (which == 0) {
+	    start_pos[pplayer->player_no] = i;
+	    pos_used[i] = TRUE;
+	    num_used++;
 	    break;
 	  }
+	  which--;
 	}
-	assert(start_pos[pplayer->player_no] != NO_NATION_SELECTED);
       }
-    } players_iterate_end;
-
-    /* The starting positions are now stored in the start_pos array, and
-     * may be accessed via the get_start_position function. */
-
-    free(pos_used);
-  }
+    }
+    assert(start_pos[pplayer->player_no] != NO_START_POS);
+  } players_iterate_end;
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
-    struct map_position pos = get_start_position(pplayer, start_pos);
+    struct start_position pos
+      = map.start_positions[start_pos[pplayer->player_no]];
 
     /* Place the first unit. */
     assert(game.settlers > 0);
@@ -201,7 +158,8 @@ void init_new_game(void)
   /* Place all other units. */
   players_iterate(pplayer) {
     int i, x, y;
-    struct map_position p = get_start_position(pplayer, start_pos);
+    struct start_position p
+      = map.start_positions[start_pos[pplayer->player_no]];
 
     for (i = 1; i < (game.settlers + game.explorer); i++) {
       do {
