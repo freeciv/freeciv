@@ -294,7 +294,10 @@ static void option_ok(void)
   {
     Object *obj = (Object *) o->p_gui_data;
     if (obj)
-      *(o->p_value) = xget(obj, MUIA_Selected);
+    {
+      if (o->type == COT_BOOL) *(o->p_value) = xget(obj, MUIA_Selected);
+      else if (o->type == COT_INT) *(o->p_value) = xget(obj, MUIA_String_Integer);
+    }
   }
 
   update_map_canvas_visible();
@@ -333,18 +336,22 @@ static void create_option_dialog(void)
     {
       for (o = options; o->name; ++o)
       {
-	Object *check, *label;
-	check = MakeCheck(_(o->description), FALSE);
-	label = MakeLabelLeft(_(o->description));
+      	Object *obj, *label;
 
-	if (check && label)
+	if (o->type == COT_BOOL) obj = MakeCheck(_(o->description), FALSE);
+	else if (o->type == COT_INT) obj = MakeInteger(_(o->description));
+	else obj = NULL;
+
+	
+	if (obj)
 	{
-	  o->p_gui_data = check;
-	  DoMethod(group, OM_ADDMEMBER, label);
-	  DoMethod(group, OM_ADDMEMBER, check);
-	}
-	else
-	  o->p_gui_data = NULL;
+	  if ((label = MakeLabelLeft(_(o->description))))
+	  {
+	    o->p_gui_data = obj;
+	    DoMethod(group, OM_ADDMEMBER, label);
+	    DoMethod(group, OM_ADDMEMBER, obj);
+	  } else o->p_gui_data = NULL;
+	} else o->p_gui_data = NULL;
       }
 
       DoMethod(option_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
@@ -361,7 +368,10 @@ static void create_option_dialog(void)
     {
       Object *obj = (Object *) o->p_gui_data;
       if (obj)
-	setcheckmark(obj, *(o->p_value));
+      {
+      	if (o->type == COT_BOOL) setcheckmark(obj, *(o->p_value));
+	else if (o->type == COT_INT) set(obj,MUIA_String_Integer,*(o->p_value));
+      }
     }
 
     set(option_wnd, MUIA_Window_Open, TRUE);
