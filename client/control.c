@@ -1006,11 +1006,11 @@ void request_toggle_city_names(void)
 **************************************************************************/
 void request_toggle_city_growth(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     return;
   }
 
-  draw_city_growth = !draw_city_growth;
+  draw_city_growth ^= 1;
   update_map_canvas_visible();
 }
 
