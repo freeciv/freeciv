@@ -154,13 +154,24 @@ static struct help_item *new_help_item(int type)
 
 /****************************************************************
  for genlist_sort(); sort by topic via strcmp
+ (sort topics with more leading spaces after those with fewer)
 *****************************************************************/
 static int help_item_compar(const void *a, const void *b)
 {
   const struct help_item *ha, *hb;
+  char *ta, *tb;
   ha = (const struct help_item*) *(const void**)a;
   hb = (const struct help_item*) *(const void**)b;
-  return strcmp(ha->topic, hb->topic);
+  for (ta = ha->topic, tb = hb->topic; *ta && *tb; ta++, tb++) {
+    if (*ta != ' ') {
+      if (*tb == ' ') return -1;
+      break;
+    } else if (*tb != ' ') {
+      if (*ta == ' ') return 1;
+      break;
+    }
+  }
+  return strcmp(ta, tb);
 }
 
 /****************************************************************
@@ -266,6 +277,15 @@ void boot_help_texts(void)
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
+	  }
+	  /* Add special Civ2-style river help text if it's supplied. */
+	  if (terrain_control.river_help_text) {
+	    pitem = new_help_item(HELP_TEXT);
+	    pitem->topic = mystrdup(_("  Rivers"));
+	    strcpy(long_buffer, terrain_control.river_help_text);
+	    wordwrap_string(long_buffer, 68);
+	    pitem->text = mystrdup(long_buffer);
+	    genlist_insert(&category_nodes, pitem, -1);
 	  }
 	} else if(current_type==HELP_GOVERNMENT) {
 	  for(i=0; i<game.government_count; i++) {

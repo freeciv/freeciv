@@ -833,6 +833,11 @@ static void load_ruleset_terrain(char *ruleset_subdir)
     secfile_lookup_int_default(&file, 50, "parameters.river_defense_bonus");
   terrain_control.river_trade_incr =
     secfile_lookup_int_default(&file, 1, "parameters.river_trade_incr");
+  {
+    char *s = secfile_lookup_str_default(&file, NULL,
+      "parameters.river_help_text");
+    terrain_control.river_help_text = (s && *s) ? mystrdup(s) : NULL;
+  }
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(&file, 100, "parameters.fortress_defense_bonus");
   terrain_control.road_superhighway_trade_bonus =

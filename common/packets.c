@@ -2484,6 +2484,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint16(cptr, packet->pollution_food_penalty);
   cptr=put_uint16(cptr, packet->pollution_shield_penalty);
   cptr=put_uint16(cptr, packet->pollution_trade_penalty);
+  if (packet->river_help_text) cptr=put_string(cptr, packet->river_help_text);
 
   put_uint16(buffer, cptr-buffer);
 
@@ -2499,6 +2500,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   struct pack_iter iter;
   struct terrain_misc *packet=
     fc_malloc(sizeof(struct terrain_misc));
+  int len;
 
   pack_iter_init(&iter, pc);
 
@@ -2519,6 +2521,14 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint16(&iter, &packet->pollution_food_penalty);
   iget_uint16(&iter, &packet->pollution_shield_penalty);
   iget_uint16(&iter, &packet->pollution_trade_penalty);
+
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->river_help_text = fc_malloc(len);
+    iget_string(&iter, packet->river_help_text, len);
+  } else {
+    packet->river_help_text = NULL;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

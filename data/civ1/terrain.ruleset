@@ -39,6 +39,9 @@ river_defense_bonus=0
 ; amount added to trade production if square is Civ2-style river
 river_trade_incr=0
 
+; help text for Civ2-style rivers
+river_help_text=""
+
 ; percent added to defense if square has fortress
 fortress_defense_bonus=100
 

@@ -39,6 +39,17 @@ river_defense_bonus=50
 ; amount added to trade production if square is Civ2-style river
 river_trade_incr=1
 
+; help text for Civ2-style rivers
+river_help_text=_("\
+Any terrain type (except Ocean) may have a River on it.  A River adds 1\
+ trade to the resources produced by that tile.  It also increases a tile's\
+ defense factor by 50%.  Finally, land units may move along a River (but\
+ not diagonally); movement along a River costs only 1/3 of a movement point.\
+\n\n\
+Roads and railroads can only be built on River squares if your\
+ civilization has learned Bridge Building technology.\
+")
+
 ; percent added to defense if square has fortress
 fortress_defense_bonus=100
 

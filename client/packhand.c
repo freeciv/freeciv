@@ -1325,6 +1325,8 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.river_move_mode = p->river_move_mode;
   terrain_control.river_defense_bonus = p->river_defense_bonus;
   terrain_control.river_trade_incr = p->river_trade_incr;
+  terrain_control.river_help_text =
+    p->river_help_text ? mystrdup(p->river_help_text) : NULL;
   terrain_control.fortress_defense_bonus = p->fortress_defense_bonus;
   terrain_control.road_superhighway_trade_bonus = p->road_superhighway_trade_bonus;
   terrain_control.rail_food_bonus = p->rail_food_bonus;

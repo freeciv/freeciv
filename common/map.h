@@ -79,6 +79,7 @@ struct terrain_misc
   enum special_river_move river_move_mode;
   int river_defense_bonus;             /* % added to defense if Civ2 river */
   int river_trade_incr;                /* added to trade if Civ2 river */
+  char *river_help_text;	       /* help for Civ2-style rivers */
   int fortress_defense_bonus;          /* % added to defense if fortress */
   int road_superhighway_trade_bonus;   /* % added to trade if road/s-highway */
   int rail_food_bonus;                 /* % added to food if railroad */
