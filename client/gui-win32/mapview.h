@@ -38,4 +38,10 @@ void map_handle_vscroll(int pos);
 #define map_view_width mapview_canvas.tile_width
 #define map_view_height mapview_canvas.tile_height
 
+/* Use of these wrapper functions is deprecated. */
+#define get_map_xy(canvas_x, canvas_y, map_x, map_y) \
+  canvas_to_map_pos(map_x, map_y, canvas_x, canvas_y)
+#define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
+  map_to_canvas_pos(canvas_x, canvas_y, map_x, map_y)
+
 #endif  /* FC__MAPVIEW_H */

@@ -137,8 +137,8 @@ enum update_type {
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
-bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
+bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y);
+void canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y);
 
 void get_center_tile_mapcanvas(int *map_x, int *map_y);
 void center_tile_mapcanvas(int map_x, int map_y);

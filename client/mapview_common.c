@@ -75,7 +75,7 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 	 * for tiles 2-8 (actually we end up drawing 1 as well). */
 	square_iterate(x - 1, y - 1, 1, city_x, city_y) {
 	  if ((pcity = map_get_city(city_x, city_y))) {
-	    get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
 	    show_city_desc(pcity, canvas_x, canvas_y);
 	  }
 	} square_iterate_end;
@@ -91,7 +91,7 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 
 	  if (normalize_map_pos(&city_x, &city_y)
 	      && (pcity = map_get_city(city_x, city_y))) {
-	    get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
 	    show_city_desc(pcity, canvas_x, canvas_y);
 	  }
 	}
@@ -152,12 +152,7 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
   in canvas_x,canvas_y it returns whether the tile is inside the
   visible map.
 **************************************************************************/
-static bool map_pos_to_canvas_pos(int map_x, int map_y,
-				  int *canvas_x, int *canvas_y,
-				  int map_view_topleft_map_x,
-				  int map_view_topleft_map_y,
-				  int map_view_pixel_width,
-				  int map_view_pixel_height)
+bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 {
   if (is_isometric) {
     /* For a simpler example of this math, see
@@ -171,7 +166,7 @@ static bool map_pos_to_canvas_pos(int map_x, int map_y,
      * all.
      */
     map_x %= map.xsize;
-    if (map_x < map_view_topleft_map_x) {
+    if (map_x < mapview_canvas.map_x0) {
       map_x += map.xsize;
     }
 
@@ -186,12 +181,10 @@ static bool map_pos_to_canvas_pos(int map_x, int map_y,
      * 789                4 8
      *                     7
      */
-    iso_x =
-	(map_x - map_y) - (map_view_topleft_map_x -
-			   map_view_topleft_map_y);
-    iso_y =
-	(map_x + map_y) - (map_view_topleft_map_x +
-			   map_view_topleft_map_y);
+    iso_x = (map_x - map_y)
+      - (mapview_canvas.map_x0 - mapview_canvas.map_y0);
+    iso_y = (map_x + map_y)
+      - (mapview_canvas.map_x0 + mapview_canvas.map_y0);
 
     /*
      * As the above picture shows, each isometric-coordinate unit
@@ -209,45 +202,35 @@ static bool map_pos_to_canvas_pos(int map_x, int map_y,
      * visible on the canvas.
      */
     return (*canvas_x > -NORMAL_TILE_WIDTH)
-	&& *canvas_x < (map_view_pixel_width + NORMAL_TILE_WIDTH / 2)
+	&& *canvas_x < (mapview_canvas.width + NORMAL_TILE_WIDTH / 2)
 	&& (*canvas_y > -NORMAL_TILE_HEIGHT)
-	&& (*canvas_y < map_view_pixel_height);
+	&& *canvas_y < mapview_canvas.height;
   } else {			/* is_isometric */
-    /* map_view_map_width is the width in tiles/map positions */
-    int map_view_map_width =
-	(map_view_pixel_width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
-
-    if (map_view_topleft_map_x + map_view_map_width <= map.xsize) {
-      *canvas_x = map_x - map_view_topleft_map_x;
-    } else if (map_x >= map_view_topleft_map_x) {
-      *canvas_x = map_x - map_view_topleft_map_x;
-    }
-      else if (map_x <
-	       map_adjust_x(map_view_topleft_map_x +
-			    map_view_map_width)) {*canvas_x =
-	  map_x + map.xsize - map_view_topleft_map_x;
+    if (mapview_canvas.map_x0 + mapview_canvas.tile_width <= map.xsize) {
+      *canvas_x = map_x - mapview_canvas.map_x0;
+    } else if (map_x >= mapview_canvas.map_x0) {
+      *canvas_x = map_x - mapview_canvas.map_x0;
+    } else if (map_x < map_adjust_x(mapview_canvas.map_x0
+				    + mapview_canvas.tile_width)) {
+      *canvas_x = map_x + map.xsize - mapview_canvas.map_x0;
     } else {
       *canvas_x = -1;
     }
 
-    *canvas_y = map_y - map_view_topleft_map_y;
+    *canvas_y = map_y - mapview_canvas.map_y0;
 
     *canvas_x *= NORMAL_TILE_WIDTH;
     *canvas_y *= NORMAL_TILE_HEIGHT;
 
-    return *canvas_x >= 0
-	&& *canvas_x < map_view_pixel_width
-	&& *canvas_y >= 0 && *canvas_y < map_view_pixel_height;
+    return *canvas_x >= 0 && *canvas_x < mapview_canvas.width
+        && *canvas_y >= 0 && *canvas_y < mapview_canvas.height;
   }
 }
 
 /**************************************************************************
   Finds the map coordinates corresponding to pixel coordinates.
 **************************************************************************/
-static void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
-				  int *map_x, int *map_y,
-				  int map_view_topleft_map_x,
-				  int map_view_topleft_map_y)
+void canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 {
   if (is_isometric) {
     /* The basic operation here is a simple pi/4 rotation; however, we
@@ -284,8 +267,8 @@ static void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
     *map_y = canvas_y / NORMAL_TILE_HEIGHT;
   }
 
-  *map_x += map_view_topleft_map_x;
-  *map_y += map_view_topleft_map_y;
+  *map_x += mapview_canvas.map_x0;
+  *map_y += mapview_canvas.map_y0;
 
   /*
    * If we are outside the map find the nearest tile, with distance as
@@ -295,34 +278,13 @@ static void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
 }
 
 /**************************************************************************
-  Finds the pixel coordinates of a tile.  Beside setting the results
-  in canvas_x, canvas_y it returns whether the tile is inside the
-  visible map.
-**************************************************************************/
-bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
-{
-  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
-			       mapview_canvas.map_x0, mapview_canvas.map_y0,
-			       mapview_canvas.width, mapview_canvas.height);
-}
-
-/**************************************************************************
-  Finds the map coordinates corresponding to pixel coordinates.
-**************************************************************************/
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y,
-			mapview_canvas.map_x0, mapview_canvas.map_y0);
-}
-
-/**************************************************************************
   Finds the current center tile of the mapcanvas.
 **************************************************************************/
 void get_center_tile_mapcanvas(int *map_x, int *map_y)
 {
   /* This sets the pointers map_x and map_y */
-  get_map_xy(mapview_canvas.width / 2, mapview_canvas.height / 2,
-	     map_x, map_y);
+  canvas_to_map_pos(map_x, map_y,
+		    mapview_canvas.width / 2, mapview_canvas.height / 2);
 }
 
 /**************************************************************************
@@ -368,7 +330,7 @@ bool tile_visible_mapcanvas(int map_x, int map_y)
 {
   int dummy_x, dummy_y;		/* well, it needs two pointers... */
 
-  return get_canvas_xy(map_x, map_y, &dummy_x, &dummy_y);
+  return map_to_canvas_pos(&dummy_x, &dummy_y, map_x, map_y);
 }
 
 /**************************************************************************
@@ -389,7 +351,7 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
 
     /* The border consists of the half-tile on the left and top of the
      * screen, and the 1.5-tiles on the right and bottom. */
-    return (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)
+    return (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)
 	    && canvas_x > NORMAL_TILE_WIDTH / 2
 	    && canvas_x < mapview_canvas.width - 3 * NORMAL_TILE_WIDTH / 2
 	    && canvas_y >= NORMAL_TILE_HEIGHT
@@ -516,7 +478,7 @@ static void put_tile(int map_x, int map_y)
 {
   int canvas_x, canvas_y;
 
-  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
 	    map_x, map_y, canvas_x, canvas_y);
     put_one_tile(mapview_canvas.store, map_x, map_y,
@@ -533,7 +495,7 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 {
   int canvas_x, canvas_y;
 
-  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
     int height, width, height_unit;
     int offset_x, offset_y, offset_y_unit;
 
@@ -682,7 +644,7 @@ void update_map_canvas(int x, int y, int width, int height,
 
     /* Lastly draw our changes to the screen. */
     /* top left corner */
-    get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+    map_to_canvas_pos(&canvas_start_x, &canvas_start_y, x, y);
 
     /* top left corner in isometric view */
     canvas_start_x -= height * NORMAL_TILE_WIDTH / 2;
@@ -717,7 +679,7 @@ void update_map_canvas(int x, int y, int width, int height,
     /* Here we draw a rectangle that includes the updated tiles.  This
      * method can fail if the area wraps off one side of the screen and
      * back to the other. */
-    get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+    map_to_canvas_pos(&canvas_start_x, &canvas_start_y, x, y);
     dirty_rect(canvas_start_x, canvas_start_y,
 	       width * NORMAL_TILE_WIDTH,
 	       height * NORMAL_TILE_HEIGHT);
@@ -783,7 +745,7 @@ void show_city_descriptions(void)
 
 	if (normalize_map_pos(&x, &y)
 	    && (pcity = map_get_city(x, y))) {
-	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
 	  show_city_desc(pcity, canvas_x, canvas_y);
 	}
       }
@@ -799,7 +761,7 @@ void show_city_descriptions(void)
 
 	if (normalize_map_pos(&x, &y)
 	    && (pcity = map_get_city(x, y))) {
-	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
 	  show_city_desc(pcity, canvas_x, canvas_y);
 	}
       }
@@ -926,7 +888,7 @@ void move_unit_map_canvas(struct unit *punit,
       steps = smooth_move_unit_steps;
     }
 
-    get_canvas_xy(map_x, map_y, &start_x, &start_y);
+    map_to_canvas_pos(&start_x, &start_y, map_x, map_y);
     if (is_isometric) {
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
