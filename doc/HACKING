@@ -434,6 +434,25 @@ In Freeciv, we have the general concept of a "position" or "tile".  A tile
 can be referred to in any of several coordinate systems.  The distinction
 becomes important when we start to use non-standard maps (see above).
 
+  Here is a diagram of coordinate conversions for a classical map.
+
+      map        natural      native
+
+      ABCD        ABCD         ABCD
+      EFGH  <=>   EFGH     <=> EFGH   <=> ABCDEFGHIJKL
+      IJKL        IJKL         IJKL
+
+  Here is a diagram of coordinate conversions for an iso-map.
+
+     map          natural     native       index
+
+        CF        A B C         ABC     
+       BEIL  <=>   D E F   <=>  DEF   <=> ABCDEFGHIJKL
+      ADHK        G H I         GJI
+       GJ          J K L        JKL
+
+Below each of the coordinate systems are explained in more detail.
+
 - Map (or "standard") coordinates.
 
   All of the code examples above are in map coordinates.  These preserve
@@ -450,6 +469,14 @@ becomes important when we start to use non-standard maps (see above).
 
   Map coordinates are easiest for local operations (like square_iterate
   or adjc_iterate) but unwieldy for global operations.
+
+- Natural coordinates.
+
+  Natural coordinates preserve the geometry of map coordinates, but also have
+  the rectangular property of native coordinates.  They are unwieldy for
+  most operations because of their sparseness - they may not have the same
+  scale as map coordinates and, in the iso case, there are gaps in the
+  natural representation of a map.
 
 - Native coordinates.
 
@@ -493,37 +520,19 @@ becomes important when we start to use non-standard maps (see above).
 - Index coordinates.
 
   Index coordinates simply reorder the map into a continous (filled-in)
-  one-dimensional system.  For instance the above iso-rectangular map
-  would look like
-
-        25        0 1 2         012     
-       148   <=>   3 4 5   <=>  345   <=> 012345678
-      037         6 7 8         678
-       6
-
-  in index coordinates.  This coordinate system is closely tied to
+  one-dimensional system.  This coordinate system is closely tied to
   the ordering of the tiles in native coordinates, and is slightly
   easier to use for some operations (like storage) because it is
-  one-dimensional.
+  one-dimensional.  In general you can't assume anything about the ordering
+  of the positions within the system.
 
-- Natural coordinates.
-
-  These have been hinted at above, but are not actually used in Freeciv.  But
-  they are very helpful for human understanding of non-standard maps.
-
-  Natural coordinates preserve the geometry of map coordinates, but also have
-  the rectangular property of native coordinates.  They are unwieldy for
-  some operations because of their sparseness - they may not have the same
-  scale as map coordinates and, in the iso case, there are gaps in the
-  natural representation of a map.
-
-With a standard rectangular map, map and native coordinates are
+With a classical rectangular map, the first three coordinate systems are
 equivalent.  When we introduce isometric maps, the distinction becomes
 important, as demonstrated above.  Many places in the code have
 introduced "map_x/map_y" or "nat_x/nat_y" to help distinguish whether
 map or native coordinates are being used.  Other places are not yet
 rigorous in keeping them apart, and will often just name their variables
-"x" and "y".
+"x" and "y".  The latter can usually be assumed to be map coordinates.
 
 Note that map.xsize and map.ysize define the dimension of the map in
 _native_ coordinates.

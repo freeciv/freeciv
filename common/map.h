@@ -207,9 +207,23 @@ void reset_move_costs(int x, int y);
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
+#define natural_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                    \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
+      *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
+   : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
+
+#define map_to_natural_pos(pnat_x, pnat_y, map_x, map_y)                    \
+  (topo_has_flag(TF_ISO)                                                    \
+   ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
+      *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
+   : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
+
+
 /* Provide a block to convert from map to native coordinates.  This allows
  * you to use a native version of the map position within the block.  Note
- * that any changes to the native position won't affect the map position. */
+ * that the native position is declared as const and can't be changed
+ * inside the block. */
 #define do_in_native_pos(nat_x, nat_y, map_x, map_y)                        \
 {                                                                           \
   int _nat_x, _nat_y;                                                       \
@@ -220,6 +234,29 @@ void reset_move_costs(int x, int y);
 #define do_in_native_pos_end                                                \
   }                                                                         \
 }
+
+/* Provide a block to convert from map to natural coordinates. This allows
+ * you to use a natural version of the map position within the block.  Note
+ * that the natural position is declared as const and can't be changed
+ * inside the block. */
+#define do_in_natural_pos(ntl_x, ntl_y, map_x, map_y)                        \
+{                                                                           \
+  int _ntl_x, _ntl_y;                                                       \
+  map_to_natural_pos(&_ntl_x, &_ntl_y, map_x, map_y);			    \
+  {                                                                         \
+    const int ntl_x = _ntl_x, ntl_y = _ntl_y;
+
+#define do_in_natural_pos_end                                                \
+  }                                                                         \
+}
+
+/* Width and height of the map, in native coordinates. */
+#define NATIVE_WIDTH map.xsize
+#define NATIVE_HEIGHT map.ysize
+
+/* Width and height of the map, in natural coordinates. */
+#define NATURAL_WIDTH (topo_has_flag(TF_ISO) ? 2 * map.xsize : map.xsize)
+#define NATURAL_HEIGHT map.ysize
 
 static inline int map_pos_to_index(int map_x, int map_y);
 
