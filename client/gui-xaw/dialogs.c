@@ -748,11 +748,9 @@ static int create_advances_list(struct player *pplayer,
         advance_type[j++] = i;
       }
     }
-    if(has_capability("spy_discretion", aconnection.capability)) {
     if(j > 0) {
       advances_can_steal[j] = _("At Spy's Discretion");
       advance_type[j++] = game.num_tech_types;
-    }
     }
   }
 
@@ -836,13 +834,11 @@ static int create_improvements_list(struct player *pplayer,
       improvement_type[j++] = i;
     }  
 
-  if(has_capability("spy_discretion", aconnection.capability)) {
   if(j > 1) {
     improvements_can_sabotage[j] = _("At Spy's Discretion");
     improvement_type[j++] = B_LAST;
   } else {
     improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
-  }
   }
 
   improvements_can_sabotage[j] = NULL;

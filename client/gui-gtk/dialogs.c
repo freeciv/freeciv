@@ -721,12 +721,10 @@ static int create_advances_list(struct player *pplayer,
       }
     }
 
-    if(has_capability("spy_discretion", aconnection.capability)) {
     if(j > 0) {
       row[0] = _("At Spy's Discretion");
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       advance_type[j++] = game.num_tech_types;
-    }
     }
   }
 
@@ -817,14 +815,12 @@ static int create_improvements_list(struct player *pplayer,
     }  
   }
 
-  if(has_capability("spy_discretion", aconnection.capability)) {
   if(j > 1) {
     row[0] = _("At Spy's Discretion");
     gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
     improvement_type[j++] = B_LAST;
   } else {
     improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
-  }
   }
 
   gtk_clist_thaw(GTK_CLIST(spy_improvements_list));

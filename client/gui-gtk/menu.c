@@ -865,8 +865,7 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
       menus_set_sensitive("<main>/Orders/Connect",
-			  can_unit_do_connect(punit, ACTIVITY_IDLE)
-			  && has_capability ("unit_connect", aconnection.capability));
+			  can_unit_do_connect(punit, ACTIVITY_IDLE));
       menus_set_sensitive("<main>/Orders/Clean Pollution",
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));

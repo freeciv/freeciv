@@ -324,8 +324,7 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
-			   can_unit_do_connect(punit, ACTIVITY_IDLE)
-			   && has_capability ("unit_connect", aconnection.capability));
+			   can_unit_do_connect(punit, ACTIVITY_IDLE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,

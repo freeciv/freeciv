@@ -1688,7 +1688,6 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
 
-  /* if(pc && has_capability("autoattack1", pc->capability)) */
   /* only 8 options allowed before need to extend protocol */
   cptr=put_uint8(cptr, req->city_options);
   
@@ -1763,7 +1762,6 @@ receive_packet_city_info(struct connection *pc)
   iget_bit_string(&iter, (char*)packet->improvements,
 		  sizeof(packet->improvements));
 
-  /* if(has_capability("autoattack1", pc->capability)) */
   iget_uint8(&iter, &packet->city_options);
 
   for(data=0;data<4;data++)  {
@@ -2152,8 +2150,7 @@ int send_packet_ruleset_control(struct connection *pc,
   
   cptr=put_uint8(cptr, packet->aqueduct_size);
   cptr=put_uint8(cptr, packet->sewer_size);
-  if(pc && has_capability("add_to_size_limit", pc->capability))
-    cptr=put_uint8(cptr, packet->add_to_size_limit);
+  cptr=put_uint8(cptr, packet->add_to_size_limit);
 
   cptr=put_uint8(cptr, packet->rtech.get_bonus_tech);
   cptr=put_uint8(cptr, packet->rtech.cathedral_plus);
@@ -2193,10 +2190,7 @@ receive_packet_ruleset_control(struct connection *pc)
 
   iget_uint8(&iter, &packet->aqueduct_size);
   iget_uint8(&iter, &packet->sewer_size);
-  if(has_capability("add_to_size_limit", pc->capability))
-    iget_uint8(&iter, &packet->add_to_size_limit);
-  else
-    packet->add_to_size_limit = 8; /* old server burned-in value */
+  iget_uint8(&iter, &packet->add_to_size_limit);
 
   iget_uint8(&iter, &packet->rtech.get_bonus_tech);
   iget_uint8(&iter, &packet->rtech.cathedral_plus);
@@ -2312,10 +2306,6 @@ receive_packet_ruleset_unit(struct connection *pc)
     packet->paratroopers_range=0;
     packet->paratroopers_mr_req=0;
     packet->paratroopers_mr_sub=0;
-  }
-
-  if (!(has_capability("founders", pc->capability))) {
-    packet->flags |= (1L<<F_CITIES);
   }
 
   len = pack_iter_remaining(&iter);
@@ -2657,8 +2647,7 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_uint8(cptr, packet->martial_law_max);
   cptr=put_uint8(cptr, packet->martial_law_per);
   cptr=put_uint8(cptr, packet->empire_size_mod);
-  if(pc && has_capability("lesshappy", pc->capability))
-    cptr=put_uint8(cptr, packet->empire_size_inc);
+  cptr=put_uint8(cptr, packet->empire_size_inc);
   cptr=put_uint8(cptr, packet->rapture_size);
   
   cptr=put_uint8(cptr, packet->unit_happy_cost_factor);
@@ -2751,8 +2740,7 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_uint8(&iter, &packet->martial_law_per);
   iget_uint8(&iter, &packet->empire_size_mod);
   if(packet->empire_size_mod > 127) packet->empire_size_mod-=256;
-  if(has_capability("lesshappy", pc->capability))
-    iget_uint8(&iter, &packet->empire_size_inc);
+  iget_uint8(&iter, &packet->empire_size_inc);
   iget_uint8(&iter, &packet->rapture_size);
   
   iget_uint8(&iter, &packet->unit_happy_cost_factor);

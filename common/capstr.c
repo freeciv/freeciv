@@ -70,27 +70,9 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9 river_help_text +barbarians founders lesshappy \
-unit_connect add_to_size_limit +worklists spy_discretion"
+#define CAPABILITY "+1.10"
 
-/* "+1.9" is protocol for 1.9.0 stable release
-
-   "river_help_text" is protocol extension for Civ2-style river help text.
-
-   "barbarians" is protocol extension for Barbarians.
-
-   "founders" means that city founders are specified by an extra unit type
-   flag (F_CITIES) in addition to the standard settlers (F_SETTLERS) flag.
-
-   "lesshappy" is protocol extension for empire_size_inc happiness modifier.
-
-   "unit_connect" is protocol extension for settlers connecting w/ roads etc.
-
-   "add_to_size_limit" adds add_to_size_limit field to game structure.
-
-   "worklists" is protocol extension for city build lists.
-
-   "spy_discretion" allows spy to do unspecified sabotage, like diplomats.
+/* "+1.10" is protocol for 1.10.0 stable release
 */
 
 void init_our_capability(void)

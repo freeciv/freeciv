@@ -359,11 +359,8 @@ static void create_advances_list(struct player *pplayer,
         }
       }
 
-      if(has_capability("spy_discretion", aconnection.capability))
-      {
-	if (any_tech)
-	  DoMethod(listview, MUIM_NList_InsertSingle, 100+game.num_tech_types,MUIV_NList_Insert_Bottom);
-      }
+      if (any_tech)
+	DoMethod(listview, MUIM_NList_InsertSingle, 100+game.num_tech_types,MUIV_NList_Insert_Bottom);
     }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 5, MUIM_CallHook, &standart_hook, spy_close, wnd, listview);
@@ -457,12 +454,9 @@ static void create_improvements_list(struct player *pplayer,
       }
     }
 
-    if(has_capability("spy_discretion", aconnection.capability))
+    if (any_improvements)
     {
-      if (any_improvements)
-      {
-        DoMethod(listview, MUIM_NList_InsertSingle, i+B_LAST,MUIV_NList_Insert_Bottom);
-      }
+      DoMethod(listview, MUIM_NList_InsertSingle, i+B_LAST,MUIV_NList_Insert_Bottom);
     }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, spy_close, wnd);
