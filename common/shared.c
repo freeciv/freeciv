@@ -36,10 +36,14 @@
 
 #include "shared.h"
 
-
-/* If no path separator is defined use colon */
 #ifndef PATH_SEPARATOR
-#define PATH_SEPARATOR ":"
+#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
+  /* Win32, OS/2, DOS */
+# define PATH_SEPARATOR ";"
+#else
+  /* Unix */
+# define PATH_SEPARATOR ":"
+#endif
 #endif
 
 /* If no default data path is defined use the default default one */
