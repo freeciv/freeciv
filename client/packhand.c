@@ -2254,8 +2254,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 
   T(terr_gate, terr_gate_count, T_NONE);
   T(spec_gate, spec_gate_count, S_NO_SPECIAL);
-  T(equiv_dupl, equiv_dupl_count, B_LAST);
-  T(equiv_repl, equiv_repl_count, B_LAST);
 #undef T
 
 #ifdef DEBUG
@@ -2283,16 +2281,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       for (inx = 0; b->spec_gate[inx] != S_NO_SPECIAL; inx++) {
 	freelog(LOG_DEBUG, "    %2d/%s",
 		b->spec_gate[inx], get_special_name(b->spec_gate[inx]));
-      }
-      freelog(LOG_DEBUG, "  equiv_dupl...");
-      for (inx = 0; b->equiv_dupl[inx] != B_LAST; inx++) {
-	freelog(LOG_DEBUG, "    %2d/%s",
-		b->equiv_dupl[inx], improvement_types[b->equiv_dupl[inx]].name);
-      }
-      freelog(LOG_DEBUG, "  equiv_repl...");
-      for (inx = 0; b->equiv_repl[inx] != B_LAST; inx++) {
-	freelog(LOG_DEBUG, "    %2d/%s",
-		b->equiv_repl[inx], improvement_types[b->equiv_repl[inx]].name);
       }
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",

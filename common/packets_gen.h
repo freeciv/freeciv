@@ -868,10 +868,6 @@ struct packet_ruleset_building {
   Terrain_type_id terr_gate[255];
   int spec_gate_count;
   enum tile_special_type spec_gate[255];
-  int equiv_dupl_count;
-  Impr_Type_id equiv_dupl[255];
-  int equiv_repl_count;
-  Impr_Type_id equiv_repl[255];
 };
 
 struct packet_ruleset_terrain {

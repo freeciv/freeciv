@@ -74,8 +74,6 @@ struct impr_type {
   Impr_Type_id bldg_req;		/* B_LAST = none required */
   Terrain_type_id *terr_gate;	/* list; T_NONE terminated */
   enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
-  Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
-  Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
   Impr_Type_id replaced_by;		/* B_LAST = never replaced */
   int build_cost;			/* Use wrappers to access this. */

@@ -1126,10 +1126,6 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   TERRAIN terr_gate[255:terr_gate_count];
   UINT8 spec_gate_count;
   SPECIAL spec_gate[255:spec_gate_count];
-  UINT8 equiv_dupl_count;
-  IMPROVEMENT equiv_dupl[255:equiv_dupl_count];
-  UINT8 equiv_repl_count;
-  IMPROVEMENT equiv_repl[255:equiv_repl_count];
 end
 
 PACKET_RULESET_TERRAIN=105;sc,lsend

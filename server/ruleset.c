@@ -1270,38 +1270,6 @@ static void load_ruleset_buildings(struct section_file *file)
     b->spec_gate[k] = S_NO_SPECIAL;
     free(list);
 
-    list = secfile_lookup_str_vec(file, &count, "%s.equiv_dupl", sec[i]);
-    b->equiv_dupl = fc_malloc((count + 1) * sizeof(b->equiv_dupl[0]));
-    k = 0;
-    for (j = 0; j < count; j++) {
-      b->equiv_dupl[k] = find_improvement_by_name(list[j]);
-      if (b->equiv_dupl[k] == B_LAST) {
-	freelog(LOG_ERROR,
-		"for %s equiv_dupl[%d] couldn't match improvement \"%s\" (%s)",
-		b->name, j, list[j], filename);
-      } else {
-	k++;
-      }
-    }
-    b->equiv_dupl[k] = B_LAST;
-    free(list);
-
-    list = secfile_lookup_str_vec(file, &count, "%s.equiv_repl", sec[i]);
-    b->equiv_repl = fc_malloc((count + 1) * sizeof(b->equiv_repl[0]));
-    k = 0;
-    for (j = 0; j < count; j++) {
-      b->equiv_repl[k] = find_improvement_by_name(list[j]);
-      if (b->equiv_repl[k] == B_LAST) {
-	freelog(LOG_ERROR,
-		"for %s equiv_repl[%d] couldn't match improvement \"%s\" (%s)",
-		b->name, j, list[j], filename);
-      } else {
-	k++;
-      }
-    }
-    b->equiv_repl[k] = B_LAST;
-    free(list);
-
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
 				 FALSE, filename, b->name);
     if (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by)) {
@@ -2890,8 +2858,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
 
     T(terr_gate, terr_gate_count, T_NONE);
     T(spec_gate, spec_gate_count, S_NO_SPECIAL);
-    T(equiv_dupl, equiv_dupl_count, B_LAST);
-    T(equiv_repl, equiv_repl_count, B_LAST);
 #undef T
 
     lsend_packet_ruleset_building(dest, &packet);

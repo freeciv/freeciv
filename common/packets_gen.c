@@ -24104,7 +24104,7 @@ void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_building_100 cmp_const
 
-BV_DEFINE(packet_ruleset_building_100_fields, 23);
+BV_DEFINE(packet_ruleset_building_100_fields, 19);
 
 static struct packet_ruleset_building *receive_packet_ruleset_building_100(struct connection *pc, enum packet_type type)
 {
@@ -24272,60 +24272,6 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->equiv_dupl_count = readin;
-    }
-  }
-  if (BV_ISSET(fields, 20)) {
-    
-    {
-      int i;
-    
-      if(real_packet->equiv_dupl_count > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->equiv_dupl_count = 255;
-      }
-      for (i = 0; i < real_packet->equiv_dupl_count; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->equiv_dupl[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 21)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->equiv_repl_count = readin;
-    }
-  }
-  if (BV_ISSET(fields, 22)) {
-    
-    {
-      int i;
-    
-      if(real_packet->equiv_repl_count > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->equiv_repl_count = 255;
-      }
-      for (i = 0; i < real_packet->equiv_repl_count; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->equiv_repl[i] = readin;
-    }
-      }
-    }
-  }
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -24460,46 +24406,6 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 18);}
 
-  differ = (old->equiv_dupl_count != real_packet->equiv_dupl_count);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
-
-
-    {
-      differ = (old->equiv_dupl_count != real_packet->equiv_dupl_count);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->equiv_dupl_count; i++) {
-          if (old->equiv_dupl[i] != real_packet->equiv_dupl[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
-
-  differ = (old->equiv_repl_count != real_packet->equiv_repl_count);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
-
-
-    {
-      differ = (old->equiv_repl_count != real_packet->equiv_repl_count);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->equiv_repl_count; i++) {
-          if (old->equiv_repl[i] != real_packet->equiv_repl[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
-
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -24574,32 +24480,6 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
 
       for (i = 0; i < real_packet->spec_gate_count; i++) {
         dio_put_uint16(&dout, real_packet->spec_gate[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->equiv_dupl_count);
-  }
-  if (BV_ISSET(fields, 20)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->equiv_dupl_count; i++) {
-        dio_put_uint8(&dout, real_packet->equiv_dupl[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 21)) {
-    dio_put_uint8(&dout, real_packet->equiv_repl_count);
-  }
-  if (BV_ISSET(fields, 22)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->equiv_repl_count; i++) {
-        dio_put_uint8(&dout, real_packet->equiv_repl[i]);
       }
     } 
   }
