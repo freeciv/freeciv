@@ -310,7 +310,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
   while (get_from_mapqueue(&x, &y)) { /* until all accesible is marked */
     psrctile = map_get_tile(x, y);
 
-    /* Try to move to all tiles adjacent to x,y. The coordinats of the
+    /* Try to move to all tiles adjacent to x,y. The coordinates of the
        tile we try to move to are x1,y1 */
     adjc_dir_iterate(x, y, x1, y1, dir) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
@@ -320,12 +320,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
       pdesttile = map_get_tile(x1, y1);
       add_to_queue = 1;
 
+      if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y]) {
+	/* No need for all the calculations. Note that this also excludes
+	 * RR loops, ie you can't create a cycle with the same move_cost */
+	continue;
+      }
+
       switch (move_type) {
       case LAND_MOVING:
-	if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y])
-	  continue; /* No need for all the calculations. Note that this also excludes
-		       RR loops, ie you can't create a cycle with the same move_cost */
-
 	if (pdesttile->terrain == T_OCEAN) {
 	  if (ground_unit_transporter_capacity(x1, y1, unit_owner(punit))
 	      <= 0)
@@ -333,10 +335,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  else
 	    move_cost = SINGLE_MOVE;
 	} else if (psrctile->terrain == T_OCEAN) {
-	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
-	  move_cost =
-	      igter ? MOVE_COST_ROAD : MIN(base_cost,
-					   unit_type(punit)->move_rate);
+	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * 
+                                        SINGLE_MOVE;
+	  move_cost = igter ? MOVE_COST_ROAD 
+                            : MIN(base_cost, unit_type(punit)->move_rate);
 	  if (src_x != x || src_y != y) {
 	    /* Attempting to make a path through a sea transporter */
 	    move_cost += MOVE_COST_ROAD; /* Rather arbitrary deterrent */
@@ -350,7 +352,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
-	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 3 * SINGLE_MOVE;
+	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE 
+                                                             : 3 * SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
@@ -366,24 +369,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
 	  continue;
-
-	/* Add the route to our warmap if it is worth keeping */
-	total_cost = move_cost + goto_map.move_cost[x][y];
-	if (goto_map.move_cost[x1][y1] > total_cost) {
-	  goto_map.move_cost[x1][y1] = total_cost;
-	  if (add_to_queue)
-	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	  freelog(LOG_DEBUG,
-		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  dir_get_name(dir), x, y, x1, y1, total_cost);
-	}
+	
 	break;
 
       case SEA_MOVING:
-	if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y])
-	  continue; /* No need for all the calculations */
-
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  move_cost = 2*SINGLE_MOVE; /* arbitrary */
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
@@ -399,43 +388,16 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = SINGLE_MOVE;
 	}
 
-	total_cost = move_cost + goto_map.move_cost[x][y];
-
-	/* Add the route to our warmap if it is worth keeping */
-	if (goto_map.move_cost[x1][y1] > total_cost) {
-	  goto_map.move_cost[x1][y1] = total_cost;
-	  if (add_to_queue)
-	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	  freelog(LOG_DEBUG,
-		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  dir_get_name(dir), x, y, x1, y1, total_cost);
-	}
 	break;
 
       case AIR_MOVING:
       case HELI_MOVING:
-	if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y])
-	  continue; /* No need for all the calculations */
-
 	move_cost = SINGLE_MOVE;
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
 	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  add_to_queue = 0;
-	}
-
-	/* Add the route to our warmap if it is worth keeping */
-	total_cost = move_cost + goto_map.move_cost[x][y];
-	if (goto_map.move_cost[x1][y1] > total_cost) {
-	  goto_map.move_cost[x1][y1] = total_cost;
-	  if (add_to_queue)
-	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	  freelog(LOG_DEBUG,
-		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  dir_get_name(dir), x, y, x1, y1, total_cost);
 	}
 	break;
 
@@ -445,6 +407,20 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	abort();
 	break;
       } /****** end switch ******/
+
+      /* Add the route to our warmap if it is worth keeping */
+      total_cost = move_cost + goto_map.move_cost[x][y];
+      if (goto_map.move_cost[x1][y1] > total_cost) {
+	goto_map.move_cost[x1][y1] = total_cost;
+	if (add_to_queue) {
+	  add_to_mapqueue(total_cost, x1, y1);
+	}
+	goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
+	freelog(LOG_DEBUG,
+		"Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		dir_get_name(dir), x, y, x1, y1, total_cost);
+      }
+
     } adjc_dir_iterate_end;
   } /* end while */
 }
