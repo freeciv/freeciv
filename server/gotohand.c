@@ -103,7 +103,8 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
       if (which == LAND_MOVING) {
-        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
+        if (map_get_terrain(xx[i], yy[j]) == T_OCEAN) c = maxcost;
+/*        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost;*/
         else if (igter) c = 3; /* NOT c = 1 */
         else if (punit) c = MIN(tile0->move_cost[k], unit_types[punit->type].move_rate);
         else c = tile0->move_cost[k];
@@ -114,14 +115,11 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
           add_to_stack(xx[i], yy[j]);
         }
       } else {
-        if (tile0->move_cost[k] == -3) c = 3;
-        else c = maxcost;
+        c = 3; /* allow for shore bombardment/transport/etc */
         tm = warmap.seacost[x][y] + c;
         if (warmap.seacost[xx[i]][yy[j]] > tm && tm < maxcost) {
           warmap.seacost[xx[i]][yy[j]] = tm;
-          add_to_stack(xx[i], yy[j]);
-/*        if (acity = map_get_city(xx[i], yy[j])) printf("(%d,%d) to %s: %d\n",
-             orig_x, orig_y, acity->name, warmap.seacost[xx[i]][yy[j]]); */
+          if (tile0->move_cost[k] == -3) add_to_stack(xx[i], yy[j]);
         }
       }
     } /* end for */
@@ -232,7 +230,9 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
      if (!same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1)) return(15);
 /* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
   } else {
-    if (!could_unit_move_to_tile(punit, x0, y0, x1, y1)) return(255);
+    if (!could_unit_move_to_tile(punit, x0, y0, x1, y1) &&
+        !same_pos(x1, y1, punit->goto_dest_x, punit->goto_dest_y)) return(255);
+/* in order to allow transports to GOTO shore correctly */
   }
   return(MIN(m, unit_types[punit->type].move_rate));
 }
@@ -261,7 +261,7 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
   dx = x1 - x0;
   if (dx > map.xsize>>1) w = map.xsize - dx;
   else if (dx > 0) e = dx;
-  else if (dx + map.xsize>>1 > 0) w = 0 - dx;
+  else if (dx + (map.xsize>>1) > 0) w = 0 - dx;
   else e = map.xsize + dx;
   switch(k) {
     case 0:
@@ -372,6 +372,7 @@ and independently I can worry about optimizing them. -- Syela */
         }
       } else {
         if (tile0->move_cost[k] != -3) c = maxcost;
+        else if (punit->type == U_TRIREME && !is_coastline(xx[i], yy[j])) c = 7;
         else c = 3;
         c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
@@ -436,6 +437,7 @@ int find_a_direction(struct unit *punit)
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   struct tile *ptile, *adjtile;
+  int nearland = 0;
 
   for (k = 0; k < 8; k++) {
     if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
@@ -459,6 +461,7 @@ int find_a_direction(struct unit *punit)
 
       for (n = 0; n < 8; n++) {
         adjtile = map_get_tile(x + ii[n], y + jj[n]);
+        if (adjtile->terrain != T_OCEAN) nearland++;
         if (!((adjtile->known)&(1u<<punit->owner))) d[k]++; /* nice but not important */
         else { /* NOTE: Not being omniscient here!! -- Syela */
           unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */
@@ -470,6 +473,12 @@ int find_a_direction(struct unit *punit)
           unit_list_iterate_end;
         } /* end this-tile-is-seen else */
       } /* end tiles-adjacent-to-dest for */
+ 
+      if (punit->type == U_TRIREME && !nearland) {
+        if (punit->moves_left < 6) d[k] = 1;
+        else if (punit->moves_left == 6) d[k] -= 10;
+      }
+
       if (d[k] < 1) d[k] = 1;
       if (d[k] > best) { 
         best = d[k];
@@ -483,13 +492,49 @@ int find_a_direction(struct unit *punit)
   return(k);
 }
 
+int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni)
+{  
+  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+  int k, possible = 0;
+  if (is_ground_unit(punit) && 
+          (omni || map_get_known(x, y, pplayer))) {
+    if (map_get_terrain(x, y) == T_OCEAN) {
+      if (is_transporter_with_free_space(pplayer, x, y)) {
+        for (k = 0; k < 8; k++) {
+          if (map_get_continent(punit->x, punit->y) ==
+              map_get_continent(x + ii[k], y + jj[k]))
+            possible++;
+        }
+      }
+    } else { /* going to a land tile */
+      if (map_get_continent(punit->x, punit->y) ==
+            map_get_continent(x, y))
+         possible++;
+      else {
+        for (k = 0; k < 8; k++) {
+          if (map_get_continent(punit->x + ii[k], punit->y + jj[k]) ==
+              map_get_continent(x, y))
+            possible++;
+        }
+      }
+    }
+    return(possible);
+  } else if (is_sailing_unit(punit) && (omni || map_get_known(x, y, pplayer)) &&
+       map_get_terrain(x, y) != T_OCEAN && !map_get_tile(x, y)->city_id &&
+       !is_terrain_near_tile(x, y, T_OCEAN)) {
+    return(0);
+  } /* end pre-emption subroutine. */
+  return(1);
+}
+
+
 /**************************************************************************
 ...
 **************************************************************************/
 void do_unit_goto(struct player *pplayer, struct unit *punit)
 {
   int x, y, k;
-  int possible = 0;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
@@ -501,41 +546,12 @@ because it would cost oodles of CPU time.  He's right for the most part
 but Peter and others have recommended more flexibility, so this is a little
 different but should still pre-empt calculation of impossible GOTO's. -- Syela */
 
-  if (is_ground_unit(punit) && 
-          map_get_known(punit->goto_dest_x, punit->goto_dest_y, pplayer)) {
-    if (map_get_terrain(punit->goto_dest_x, punit->goto_dest_y) == T_OCEAN) {
-      if (is_transporter_with_free_space(pplayer, punit->goto_dest_x, punit->goto_dest_y)) {
-        for (k = 0; k < 8; k++) {
-          if (map_get_continent(punit->x, punit->y) ==
-              map_get_continent(punit->goto_dest_x + ii[k], punit->goto_dest_y + jj[k]))
-            possible++;
-        }
-      }
-    } else { /* going to a land tile */
-      if (map_get_continent(punit->x, punit->y) ==
-            map_get_continent(punit->goto_dest_x, punit->goto_dest_y))
-         possible++;
-      else {
-        for (k = 0; k < 8; k++) {
-          if (map_get_continent(punit->x + ii[k], punit->y + jj[k]) ==
-              map_get_continent(punit->goto_dest_x, punit->goto_dest_y))
-            possible++;
-        }
-      }
-    }
-    if (!possible) {
-      punit->activity=ACTIVITY_IDLE;
-      send_unit_info(0, punit, 0);
-      return;
-    }
-  } else if (is_sailing_unit(punit) && map_get_known(punit->goto_dest_x,
-       punit->goto_dest_y, pplayer) && map_get_terrain(punit->goto_dest_x,
-       punit->goto_dest_y) != T_OCEAN && !map_get_tile(punit->goto_dest_x,
-       punit->goto_dest_y)->city_id) {
+  if (same_pos(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y) ||
+      !goto_is_sane(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y, 0)) {
     punit->activity=ACTIVITY_IDLE;
     send_unit_info(0, punit, 0);
     return;
-  } /* end pre-emption subroutine. */
+  }
 
   if(find_the_shortest_path(pplayer, punit, 
 			    punit->goto_dest_x, punit->goto_dest_y)) {
