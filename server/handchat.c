@@ -16,7 +16,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -164,7 +163,7 @@ void handle_chat_msg(struct connection *pconn,
   genmsg.y = -1;
   genmsg.event =-1;
   for (cp = packet->message; *cp != '\0'; ++cp)
-    if(!isprint(*cp & 0x7f)) {
+    if(!my_isprint(*cp & 0x7f)) {
       *cp='\0';
       break;
     }

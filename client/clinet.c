@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <errno.h>
 #include <assert.h>
 
@@ -496,7 +495,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
       }
       s[0] = '\0';
       ++s;
-      while (isdigit(s[0])) {++s;}
+      while (my_isdigit(s[0])) {++s;}
     } else {
       port = 80;
       if (!(s = strchr(server,'/'))) {

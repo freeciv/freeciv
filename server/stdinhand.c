@@ -16,7 +16,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <stdarg.h>
@@ -1917,7 +1916,7 @@ static void rulesout_command(struct connection *caller, char *arg)
   if (*s == '\0') goto usage;
   rules = s;
 
-  while (*s != '\0' && !isspace(*s)) s++;
+  while (*s != '\0' && !my_isspace(*s)) s++;
   if (*s == '\0') goto usage;
   *s = '\0';			/* terminate rules */
   
@@ -2050,12 +2049,12 @@ static void cmdlevel_command(struct connection *caller, char *str)
   struct connection *ptarget;
 
   /* find the start of the level: */
-  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
 
   /* copy the level into arg_level[] */
-  for(cptr_d=arg_level; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++) {
+  for(cptr_d=arg_level; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++) {
     *cptr_d=*cptr_s;
   }
   *cptr_d='\0';
@@ -2095,13 +2094,13 @@ static void cmdlevel_command(struct connection *caller, char *str)
   }
 
   /* find the start of the name: */
-  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+  for (; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
 
   /* copy the name into arg_name[] */
   for(cptr_d=arg_name;
-      *cptr_s != '\0' && (*cptr_s == '-' || *cptr_s == ' ' || isalnum(*cptr_s));
+      *cptr_s != '\0' && (*cptr_s == '-' || *cptr_s == ' ' || my_isalnum(*cptr_s));
       cptr_s++ , cptr_d++) {
     *cptr_d=*cptr_s;
   }
@@ -2375,10 +2374,10 @@ static void explain_option(struct connection *caller, char *str)
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
-  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
-  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
@@ -2538,10 +2537,10 @@ static void show_command(struct connection *caller, char *str)
   int cmd,i,len1;
   size_t clen = 0;
 
-  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
-  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
@@ -2644,7 +2643,7 @@ static void show_command(struct connection *caller, char *str)
 ******************************************************************/
 static bool is_ok_opt_name_char(char c)
 {
-  return isalnum(c);
+  return my_isalnum(c);
 }
 
 /******************************************************************
@@ -2652,7 +2651,7 @@ static bool is_ok_opt_name_char(char c)
 ******************************************************************/
 static bool is_ok_opt_value_char(char c)
 {
-  return (c == '-') || (c == '*') || (c == '+') || (c == '=') || isalnum(c);
+  return (c == '-') || (c == '*') || (c == '+') || (c == '=') || my_isalnum(c);
 }
 
 /******************************************************************
@@ -2660,7 +2659,7 @@ static bool is_ok_opt_value_char(char c)
 ******************************************************************/
 static bool is_ok_opt_name_value_sep_char(char c)
 {
-  return (c == '=') || isspace(c);
+  return (c == '=') || my_isspace(c);
 }
 
 /******************************************************************
@@ -2884,7 +2883,7 @@ void handle_stdin_input(struct connection *caller, char *str)
 
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
-  for (cptr_s = str; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++) {
+  for (cptr_s = str; *cptr_s != '\0' && my_isspace(*cptr_s); cptr_s++) {
     /* nothing */
   }
   if(*cptr_s == 0 || *cptr_s == '#') {
@@ -2895,7 +2894,7 @@ void handle_stdin_input(struct connection *caller, char *str)
      given on the server command line - rp */
   if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
 
-  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
+  for (; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
 
@@ -2904,7 +2903,7 @@ void handle_stdin_input(struct connection *caller, char *str)
    * skipped leading whitespace, the SERVER_COMMAND_PREFIX and any
    * other non-alphanumeric characters.
    */
-  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s) &&
+  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s) &&
       cptr_d < command+sizeof(command)-1; cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
@@ -2928,7 +2927,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     return;
   }
 
-  for (; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++) {
+  for (; *cptr_s != '\0' && my_isspace(*cptr_s); cptr_s++) {
     /* nothing */
   }
   sz_strlcpy(arg, cptr_s);
@@ -2940,7 +2939,7 @@ void handle_stdin_input(struct connection *caller, char *str)
   cut_comment(allargs);
 
   i=strlen(arg)-1;
-  while(i>0 && isspace(arg[i]))
+  while(i>0 && my_isspace(arg[i]))
     arg[i--]='\0';
 
   switch(cmd) {
@@ -3676,19 +3675,19 @@ static bool contains_str_before_start(int start, char *cmd, bool allow_fluff)
   char *str_itr = rl_line_buffer;
   int cmd_len = strlen(cmd);
 
-  while (str_itr < rl_line_buffer + start && !isalnum(*str_itr))
+  while (str_itr < rl_line_buffer + start && !my_isalnum(*str_itr))
     str_itr++;
 
   if (mystrncasecmp(str_itr, cmd, cmd_len) != 0)
     return FALSE;
   str_itr += cmd_len;
 
-  if (isalnum(*str_itr)) /* not a distinct word */
+  if (my_isalnum(*str_itr)) /* not a distinct word */
     return FALSE;
 
   if (!allow_fluff) {
     for (; str_itr < rl_line_buffer + start; str_itr++)
-      if (isalnum(*str_itr))
+      if (my_isalnum(*str_itr))
 	return FALSE;
   }
 
@@ -3708,7 +3707,7 @@ static bool is_command(int start)
   /* if there is only it is also OK */
   str_itr = rl_line_buffer;
   while (str_itr - rl_line_buffer < start) {
-    if (isalnum(*str_itr))
+    if (my_isalnum(*str_itr))
       return FALSE;
     str_itr++;
   }
@@ -3737,7 +3736,7 @@ static int num_tokens(int start)
   char *chptr = rl_line_buffer;
 
   while (chptr - rl_line_buffer < start) {
-    if (isalnum(*chptr)) {
+    if (my_isalnum(*chptr)) {
       if (!alnum) {
 	alnum = 1;
 	res++;

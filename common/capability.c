@@ -13,20 +13,20 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "shared.h"		/* TRUE, FALSE */
+#include "support.h"		/* my_is* */
 
 #include "capability.h"
 
 #define	GET_TOKEN(start, end)	\
   {									\
     /* skip leading whitespace */					\
-    while (isspace(*start)) {						\
+    while (my_isspace(*start)) {					\
       start++;								\
     }									\
     /* skip to end of token */						\
-    for (end = start; *end != '\0' && !isspace(*end) && *end != ','; end++) { \
+    for (end = start; *end != '\0' && !my_isspace(*end) && *end != ','; end++) { \
       /* nothing */							\
     }                                                                   \
   }

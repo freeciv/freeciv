@@ -17,7 +17,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <stdarg.h>
 
 #include <X11/Intrinsic.h>
@@ -2367,8 +2366,6 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
     append_output_window(_("You must type a legal name."));
     return;
   }
-
-  packet.name[0]=toupper(packet.name[0]);
 
   send_packet_alloc_nation(&aconnection, &packet);
 }

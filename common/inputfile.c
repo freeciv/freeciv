@@ -66,7 +66,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <ctype.h>
 
 #include "astring.h"
 #include "ioz.h"
@@ -141,7 +140,7 @@ static bool read_a_line(struct inputfile *inf);
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'
 ***********************************************************************/
-static bool my_is_comment(int c)
+static bool is_comment(int c)
 {
   return (c == '#' || c == ';');
 }
@@ -338,7 +337,7 @@ static bool check_include(struct inputfile *inf)
   /* skip any whitespace: */
   inf->cur_line_pos = len;
   c = inf->cur_line.str + len;
-  while (*c != '\0' && isspace(*c)) c++;
+  while (*c != '\0' && my_isspace(*c)) c++;
 
   if (*c != '\"') {
     inf_die(inf, "Did not find opening doublequote for '*include' line");
@@ -355,8 +354,8 @@ static bool check_include(struct inputfile *inf)
   inf->cur_line_pos = c - inf->cur_line.str;
 
   /* check rest of line is well-formed: */
-  while (*c != '\0' && isspace(*c) && !my_is_comment(*c)) c++;
-  if (!(*c=='\0' || my_is_comment(*c))) {
+  while (*c != '\0' && my_isspace(*c) && !is_comment(*c)) c++;
+  if (!(*c=='\0' || is_comment(*c))) {
     inf_die(inf, "Junk after filename for '*include' line");
   }
   inf->cur_line_pos = inf->cur_line.n-1;
@@ -643,19 +642,19 @@ static const char *get_token_entry_name(struct inputfile *inf)
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && isspace(*c)) {
+  while(*c != '\0' && my_isspace(*c)) {
     c++;
   }
   if (*c == '\0')
     return NULL;
   start = c;
-  while (*c != '\0' && !isspace(*c) && *c != '=' && !my_is_comment(*c)) {
+  while (*c != '\0' && !my_isspace(*c) && *c != '=' && !is_comment(*c)) {
     c++;
   }
-  if (!(*c != '\0' && (isspace(*c) || *c == '='))) 
+  if (!(*c != '\0' && (my_isspace(*c) || *c == '='))) 
     return NULL;
   end = c;
-  while (*c != '\0' && *c != '=' && !my_is_comment(*c)) {
+  while (*c != '\0' && *c != '=' && !is_comment(*c)) {
     c++;
   }
   if (*c != '=') {
@@ -679,10 +678,10 @@ static const char *get_token_eol(struct inputfile *inf)
 
   if (!at_eol(inf)) {
     c = inf->cur_line.str + inf->cur_line_pos;
-    while(*c != '\0' && isspace(*c)) {
+    while(*c != '\0' && my_isspace(*c)) {
       c++;
     }
-    if (*c != '\0' && !my_is_comment(*c))
+    if (*c != '\0' && !is_comment(*c))
       return NULL;
   }
 
@@ -706,7 +705,7 @@ static const char *get_token_white_char(struct inputfile *inf,
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && isspace(*c)) {
+  while(*c != '\0' && my_isspace(*c)) {
     c++;
   }
   if (*c != target)
@@ -753,20 +752,20 @@ static const char *get_token_value(struct inputfile *inf)
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && isspace(*c)) {
+  while(*c != '\0' && my_isspace(*c)) {
     c++;
   }
   if (*c == '\0')
     return NULL;
 
-  if (*c == '-' || isdigit(*c)) {
+  if (*c == '-' || my_isdigit(*c)) {
     /* a number: */
     start = c++;
-    while(*c != '\0' && isdigit(*c)) {
+    while(*c != '\0' && my_isdigit(*c)) {
       c++;
     }
     /* check that the trailing stuff is ok: */
-    if (!(*c == '\0' || *c == ',' || isspace(*c) || my_is_comment(*c))) {
+    if (!(*c == '\0' || *c == ',' || my_isspace(*c) || is_comment(*c))) {
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,
@@ -786,7 +785,7 @@ static const char *get_token_value(struct inputfile *inf)
   if (*c == '_' && *(c+1) == '(') {
     has_i18n_marking = TRUE;
     c += 2;
-    while(*c != '\0' && isspace(*c)) {
+    while(*c != '\0' && my_isspace(*c)) {
       c++;
     }
     if (*c == '\0')

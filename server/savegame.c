@@ -15,7 +15,6 @@
 #endif
 
 #include <assert.h>
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,11 +70,11 @@
     for (x = 0; x < map.xsize; x++) {                   \
       if (regular_map_pos_is_normal(x, y)) {            \
 	line[x] = get_xy_char;                          \
-        if(!isprint(line[x] & 0x7f)) {                  \
+        if(!my_isprint(line[x] & 0x7f)) {               \
           freelog(LOG_FATAL, _("Trying to write invalid"\
 		  " map data: '%c' %d"),                \
 		  line[x], line[x]);                    \
-          exit(EXIT_FAILURE);                                      \
+          exit(EXIT_FAILURE);                           \
         }                                               \
       } else {                                          \
         /* skipped over in loading */                   \

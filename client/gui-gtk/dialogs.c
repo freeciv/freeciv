@@ -15,7 +15,6 @@
 #endif
 
 #include <assert.h>
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2248,8 +2247,6 @@ static void races_buttons_callback( GtkWidget *w, gpointer data )
     append_output_window(_("You must type a legal name."));
     return;
   }
-
-  packet.name[0]=toupper(packet.name[0]);
 
   send_packet_alloc_nation(&aconnection, &packet);
 }

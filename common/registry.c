@@ -147,7 +147,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdarg.h>
 #include <assert.h>
 
@@ -610,13 +609,13 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 	if(!SAVE_TABLES) break;
 	
 	c = first = pentry->name;
-	if(*c == '\0' || !isalpha(*c)) break;
-	for (; *c != '\0' && isalpha(*c); c++) {
+	if(*c == '\0' || !my_isalpha(*c)) break;
+	for (; *c != '\0' && my_isalpha(*c); c++) {
 	  /* nothing */
 	}
 	if(strncmp(c,"0.",2) != 0) break;
 	c+=2;
-	if(*c == '\0' || !isalnum(*c)) break;
+	if(*c == '\0' || !my_isalnum(*c)) break;
 
 	offset = c - first;
 	first[offset-2] = '\0';

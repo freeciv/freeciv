@@ -14,7 +14,6 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1638,8 +1637,6 @@ static void nations_ok(void)
     append_output_window(_("You must type a legal name."));
     return;
   }
-
-  packet.name[0]=toupper(packet.name[0]);
 
   send_packet_alloc_nation(&aconnection, &packet);
 }

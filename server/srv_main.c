@@ -14,11 +14,11 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#include <assert.h>
 #include <time.h>
 
 #ifdef HAVE_UNISTD_H
@@ -920,6 +920,8 @@ static void handle_alloc_nation(struct player *pplayer,
     send_select_nation(pplayer);
     return;
   }
+
+  packet->name[0] = my_toupper(packet->name[0]);
 
   players_iterate(other_player) {
     if(other_player->nation==packet->nation_no) {

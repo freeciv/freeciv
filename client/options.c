@@ -14,11 +14,11 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <assert.h>
 
 #include "events.h"
 #include "fcintl.h"
@@ -310,7 +310,7 @@ void init_messages_where(void)
     event_to_index[events[i].event] = i;
     events[i].tag_name = mystrdup(events[i].enum_name);
     for (j = 0; j < strlen(events[i].tag_name); j++) {
-      events[i].tag_name[j] = tolower(events[i].tag_name[j]);
+      events[i].tag_name[j] = my_tolower(events[i].tag_name[j]);
     }
     freelog(LOG_DEBUG,
 	    "event[%d]=%d: name='%s' / '%s'\n\tdescr_orig='%s'\n\tdescr='%s'",

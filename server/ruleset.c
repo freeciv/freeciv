@@ -14,7 +14,6 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

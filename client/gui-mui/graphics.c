@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include <graphics/gfxmacros.h>
 #include <cybergraphx/cybergraphics.h>

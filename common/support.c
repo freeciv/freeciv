@@ -42,11 +42,11 @@
 #endif
 
 #include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -98,12 +98,14 @@ int mystrcasecmp(const char *str0, const char *str1)
 #ifdef HAVE_STRCASECMP
   return strcasecmp (str0, str1);
 #else
-  for(; tolower(*str0)==tolower(*str1); str0++, str1++)
-    if(*str0=='\0')
+  for (; my_tolower(*str0) == my_tolower(*str1); str0++, str1++) {
+    if (*str0 == '\0') {
       return 0;
+    }
+  }
 
-  return ((int) (unsigned char) tolower(*str0))
-    - ((int) (unsigned char) tolower(*str1));
+  return ((int) (unsigned char) my_tolower(*str0))
+    - ((int) (unsigned char) my_tolower(*str1));
 #endif
 }
 
@@ -118,15 +120,18 @@ int mystrncasecmp(const char *str0, const char *str1, size_t n)
 #else
   size_t i;
   
-  for(i=0; i<n && tolower(*str0)==tolower(*str1); i++, str0++, str1++)
-    if(*str0=='\0')
+  for (i = 0; i < n && my_tolower(*str0) == my_tolower(*str1);
+       i++, str0++, str1++) {
+    if (*str0 == '\0') {
       return 0;
+    }
+  }
 
   if (i == n)
     return 0;
   else
-    return ((int) (unsigned char) tolower(*str0))
-      - ((int) (unsigned char) tolower(*str1));
+    return ((int) (unsigned char) my_tolower(*str0))
+      - ((int) (unsigned char) my_tolower(*str1));
 #endif
 }
 
@@ -489,4 +494,60 @@ bool is_reg_file_for_access(const char *name, bool write_access)
   } else {
     return write_access && errno == ENOENT;
   }
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+bool my_isalnum(char c)
+{
+  return isalnum((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+bool my_isalpha(char c)
+{
+  return isalpha((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+bool my_isdigit(char c)
+{
+  return isdigit((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+bool my_isprint(char c)
+{
+  return isprint((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+bool my_isspace(char c)
+{
+  return isspace((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+char my_toupper(char c)
+{
+  return (char) toupper((int) c);
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
+char my_tolower(char c)
+{
+  return (char) tolower((int) c);
 }

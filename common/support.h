@@ -58,4 +58,12 @@ char *my_read_console(void);
 
 bool is_reg_file_for_access(const char *name, bool write_access);
 
+bool my_isalnum(char c);
+bool my_isalpha(char c);
+bool my_isdigit(char c);
+bool my_isprint(char c);
+bool my_isspace(char c);
+char my_toupper(char c);
+char my_tolower(char c);
+
 #endif  /* FC__SUPPORT_H */

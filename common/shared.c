@@ -15,7 +15,6 @@
 #endif
 
 #include <assert.h>
-#include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -436,7 +435,7 @@ int compare_strings_ptrs(const void *first, const void *second)
 char *skip_leading_spaces(char *s)
 {
   assert(s!=NULL);
-  while(*s != '\0' && isspace(*s)) {
+  while(*s != '\0' && my_isspace(*s)) {
     s++;
   }
   return s;
@@ -473,7 +472,7 @@ void remove_trailing_spaces(char *s)
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
-    while(isspace(*t)) {
+    while(my_isspace(*t)) {
       *t = '\0';
       if (t == s) {
 	break;
@@ -537,7 +536,7 @@ int wordwrap_string(char *s, int len)
     
     /* find space and break: */
     for(c=s+len; c>s; c--) {
-      if (isspace(*c)) {
+      if (my_isspace(*c)) {
 	*c = '\n';
 	slen -= c+1 - s;
 	s = c+1;
@@ -547,7 +546,7 @@ int wordwrap_string(char *s, int len)
 
     /* couldn't find a good break; settle for a bad one... */
     for (c = s + len + 1; *c != '\0'; c++) {
-      if (isspace(*c)) {
+      if (my_isspace(*c)) {
 	*c = '\n';
 	slen -= c+1 - s;
 	s = c+1;

@@ -14,7 +14,6 @@
 #include <config.h>
 #endif      
 
-#include <ctype.h>     
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
@@ -322,9 +321,7 @@ static void do_select(HWND hWnd)
       append_output_window(_("You must type a legal name."));
       return;
     }
-  packet.name[0]=toupper(packet.name[0]);
-  send_packet_alloc_nation(&aconnection,&packet);
-  
+  send_packet_alloc_nation(&aconnection,&packet);  
 }
 
 

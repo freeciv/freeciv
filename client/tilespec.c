@@ -21,10 +21,10 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "astring.h"
 #include "capability.h"
@@ -492,9 +492,9 @@ static void tilespec_lookup_sprite_tags(void)
       char dir_name[3];
 
       assert(strlen(s) == 1 || strlen(s) == 2);
-      dir_name[0] = tolower(s[0]);
-      dir_name[1] = tolower(s[1]);
-      dir_name[2] = tolower(s[2]);
+      dir_name[0] = my_tolower(s[0]);
+      dir_name[1] = my_tolower(s[1]);
+      dir_name[2] = my_tolower(s[2]);
 
       my_snprintf(buffer, sizeof(buffer), "r.road_%s", dir_name);
       SET_SPRITE(road.dir[i], buffer);

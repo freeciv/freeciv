@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>  
 #include <windows.h>
-#include <ctype.h>
+
 #include "astring.h"
 #include "capability.h"
 #include "fcintl.h"
@@ -237,7 +237,7 @@ static void my_add_menu_accelerator(char *item,int cmd)
       newaccel.key=VK_F1+(plus[1]-'1');
     newaccel.fVirt=FVIRTKEY;
   } else if (*plus) { /* standard ascii */
-    newaccel.key=toupper(*plus);
+    newaccel.key = my_toupper(*plus);
     newaccel.fVirt=FVIRTKEY;
   } else {
     return;
