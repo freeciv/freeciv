@@ -60,6 +60,7 @@
 #include "srv_main.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
+#include "ailog.h"
 
 #include "stdinhand.h"
 
@@ -985,6 +986,7 @@ enum command_id {
   CMD_WALL,
   
   /* mostly non-harmful: */
+  CMD_DEBUG,
   CMD_SET,
   CMD_TEAM,
   CMD_FIX,
@@ -1113,6 +1115,12 @@ static const struct command commands[] = {
    N_("Send message to all connections."),
    N_("For each connected client, pops up a window showing the message "
       "entered.")
+  },
+  {"debug",	ALLOW_HACK,
+   N_("debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>"),
+   N_("Turn on or off AI debugging of given entity."),
+   N_("Print AI debug information about given entity and turn continous "
+      "debugging output for this entity on or off."),
   },
   {"set",	ALLOW_CTRL,
    N_("set <option-name> <value>"),
@@ -2877,6 +2885,139 @@ static void team_command(struct connection *caller, char *str)
 /******************************************************************
   ...
 ******************************************************************/
+static void debug_command(struct connection *caller, char *str) 
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[3];
+  int ntokens = 0, i;
+  char *usage = _("Undefined arguments. Usage: debug <player "
+                  "<player> | city <x> <y> | units <x> <y> | unit <id>>.");
+
+  if (server_state != RUN_GAME_STATE) {
+    cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
+              _("Can only use this command once game has begun."));
+    return;
+  }
+
+  if (str != NULL || strlen(str) > 0) {
+    sz_strlcpy(buf, str);
+    ntokens = get_tokens(buf, arg, 3, TOKEN_DELIMITERS);
+  }
+
+  if (strcmp(arg[0], "player") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (ntokens != 2) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      goto cleanup;
+    }
+    pplayer = find_player_by_name_prefix(arg[1], &match_result);
+    if (pplayer == NULL) {
+      cmd_reply_no_such_player(CMD_TEAM, caller, arg[1], match_result);
+      goto cleanup;
+    }
+    if (pplayer->debug) {
+      pplayer->debug = FALSE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s no longer debugged"), 
+                pplayer->name);
+    } else {
+      pplayer->debug = TRUE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s debugged"), pplayer->name);
+      /* TODO: print some info about the player here */
+    }
+  } else if (strcmp(arg[0], "city") == 0) {
+    int x, y;
+    struct city *pcity;
+
+    if (ntokens != 3) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      goto cleanup;
+    }
+    if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
+      goto cleanup;
+    }
+    if (!is_normal_map_pos(x, y)) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
+      goto cleanup;
+    }
+    pcity = map_get_city(x, y);
+    if (!pcity) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("No city at this coordinate."));
+      goto cleanup;
+    }
+    if (pcity->debug) {
+      pcity->debug = FALSE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s no longer debugged"),
+                pcity->name);
+    } else {
+      pcity->debug = TRUE;
+      CITY_LOG(LOG_NORMAL, pcity, "debugged");
+    }
+  } else if (strcmp(arg[0], "units") == 0) {
+    int x, y;
+
+    if (ntokens != 3) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      goto cleanup;
+    }
+    if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
+      goto cleanup;
+    }
+    if (!is_normal_map_pos(x, y)) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
+      goto cleanup;
+    }
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      if (punit->debug) {
+        punit->debug = FALSE;
+        cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
+                  unit_owner(punit)->name, unit_name(punit->type));
+      } else {
+        punit->debug = TRUE;
+        UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
+                 unit_owner(punit)->name, unit_name(punit->type));
+      }
+    } unit_list_iterate_end;
+  } else if (strcmp(arg[0], "unit") == 0) {
+    int id;
+    struct unit *punit;
+
+    if (ntokens != 2) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      goto cleanup;
+    }
+    if (sscanf(arg[1], "%d", &id) != 1) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 must be integer."));
+      goto cleanup;
+    }
+    if (!(punit = find_unit_by_id(id))) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Unit %d does not exist."), id);
+      goto cleanup;
+    }
+    if (punit->debug) {
+      punit->debug = FALSE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
+                unit_owner(punit)->name, unit_name(punit->type));
+    } else {
+      punit->debug = TRUE;
+      UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
+               unit_owner(punit)->name, unit_name(punit->type));
+    }
+  } else {
+    cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+  }
+  cleanup:
+  for (i = 0; i < ntokens; i++) {
+    free(arg[i]);
+  }
+}
+
+/******************************************************************
+  ...
+******************************************************************/
 static void set_command(struct connection *caller, char *str) 
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
@@ -3861,6 +4002,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_EXPLAIN:
     explain_option(caller,arg);
+    break;
+  case CMD_DEBUG:
+    debug_command(caller,arg);
     break;
   case CMD_SET:
     set_command(caller,arg);

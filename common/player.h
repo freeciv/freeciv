@@ -212,6 +212,7 @@ struct player {
     int length;
     void *data;
   } attribute_block;
+  bool debug;
 };
 
 void player_init(struct player *plr);

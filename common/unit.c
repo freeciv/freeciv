@@ -1459,6 +1459,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->unhappiness = 0;
   /* A unit new and fresh ... */
   punit->foul = FALSE;
+  punit->debug = FALSE;
   punit->fuel = unit_type(punit)->fuel;
   punit->hp = unit_type(punit)->hp;
   punit->moves_left = unit_move_rate(punit);

@@ -287,6 +287,7 @@ struct city {
   struct unit_list info_units_present;
 
   struct ai_city ai;
+  bool debug;
 };
 
 /* city drawing styles */

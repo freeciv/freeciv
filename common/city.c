@@ -2544,6 +2544,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->science_bonus = 100;
 
   unit_list_init(&pcity->units_supported);
+  pcity->debug = FALSE;
 
   return pcity;
 }

@@ -40,7 +40,9 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
   va_list ap;
   int minlevel = MIN(LOGLEVEL_CITY, level);
 
-  if (minlevel > fc_log_level) {
+  if (pcity->debug) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
     return;
   }
 
@@ -60,7 +62,9 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
 
 /**************************************************************************
   Log unit messages, they will appear like this
-    2: c's Archers[139] (5,35)->(0,0){0} stays to defend city
+    2: c's Archers[139] (5,35)->(0,0){0,0} stays to defend city
+  where [] is unit id, ()->() are coordinates present and goto, and
+  {,} contains bodyguard and ferryboat ids.
 **************************************************************************/
 void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
 {
@@ -70,7 +74,9 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   int minlevel = MIN(LOGLEVEL_UNIT, level);
   int gx, gy;
 
-  if (minlevel > fc_log_level) {
+  if (punit->debug) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
     return;
   }
 
@@ -81,11 +87,11 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
     gx = gy = -1;
   }
   
-  my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d} ",
+  my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d,%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
               punit->id, punit->x, punit->y,
 	      gx, gy,
-              punit->ai.bodyguard);
+              punit->ai.bodyguard, punit->ai.ferryboat);
 
   va_start(ap, msg);
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
@@ -147,7 +153,9 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   int x = -1, y = -1, id = -1;
   const char *s = "none";
 
-  if (minlevel > fc_log_level) {
+  if (punit->debug) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
     return;
   }
 

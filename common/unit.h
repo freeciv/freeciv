@@ -133,6 +133,7 @@ struct unit {
   /* ord_map and ord_city are the order index of this unit in tile.units
      and city.units_supported; they are only used for save/reload */
   bool foul;
+  bool debug;
   bool moved;
   bool paradropped;
   bool connecting;
