@@ -243,7 +243,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  case EFT_TRADE_INC_TILE:
 	  case EFT_FOOD_INC_TILE:
 	  case EFT_TRADE_ADD_TILE:
-	  case EFT_NO_UPKEEP:
 	  case EFT_PROD_INC_TILE:
 	  case EFT_PROD_PER_TILE:
 	  case EFT_PROD_ADD_TILE:

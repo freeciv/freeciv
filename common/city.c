@@ -516,10 +516,7 @@ int improvement_upkeep(const struct city *pcity, Impr_Type_id i)
   if (is_wonder(i))
     return 0;
   if (improvement_types[i].upkeep
-      <= get_city_bonus(pcity, EFT_UPKEEP_FREE)) {
-    return 0;
-  }
-  if (get_building_bonus(pcity, i, EFT_NO_UPKEEP) > 0) {
+      <= get_building_bonus(pcity, i, EFT_UPKEEP_FREE)) {
     return 0;
   }
   

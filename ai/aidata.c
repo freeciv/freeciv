@@ -92,7 +92,6 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_TRADE_INC_TILE:
       case EFT_TRADE_PER_TILE:
       case EFT_UPKEEP_FREE:
-      case EFT_NO_UPKEEP:
       effect_list_iterate(*get_building_effects(id, *ptype), peff) {
         ai->impr_calc[id] = AI_IMPR_CALCULATE;
         if (peff->range > ai->impr_range[id]) {
