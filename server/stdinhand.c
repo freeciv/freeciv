@@ -3035,7 +3035,6 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static void send_load_game_info(bool load_successful)
 {
-  int i;
   struct packet_game_load packet;
 
   /* Clear everything to be safe. */
@@ -3045,29 +3044,29 @@ static void send_load_game_info(bool load_successful)
   packet.load_successful = load_successful;
 
   if (load_successful) {
-    packet.nplayers = game.nplayers;
+    int i = 0;
 
-    for (i = 0; i < game.nplayers; i++) {
-      struct player *pplayer = &game.players[i];
-
-      if (game.nation_count && is_barbarian(pplayer)){
-        packet.nplayers--;
-        continue;
+    players_iterate(pplayer) {
+      if (game.nation_count && is_barbarian(pplayer)) {
+	continue;
       }
 
       sz_strlcpy(packet.name[i], pplayer->name);
       sz_strlcpy(packet.username[i], pplayer->username);
       if (game.nation_count) {
-        sz_strlcpy(packet.nation_name[i], get_nation_name(pplayer->nation));
-        sz_strlcpy(packet.nation_flag[i],
-                 get_nation_by_plr(pplayer)->flag_graphic_str);
+	sz_strlcpy(packet.nation_name[i], get_nation_name(pplayer->nation));
+	sz_strlcpy(packet.nation_flag[i],
+	    get_nation_by_plr(pplayer)->flag_graphic_str);
       } else { /* No nations picked */
-        sz_strlcpy(packet.nation_name[i], "");
-        sz_strlcpy(packet.nation_flag[i], "");
+	sz_strlcpy(packet.nation_name[i], "");
+	sz_strlcpy(packet.nation_flag[i], "");
       }
       packet.is_alive[i] = pplayer->is_alive;
       packet.is_ai[i] = pplayer->ai.control;
-    }
+      i++;
+    } players_iterate_end;
+
+    packet.nplayers = i;
   } else {
     packet.nplayers = 0;
   }
