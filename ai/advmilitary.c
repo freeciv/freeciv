@@ -776,8 +776,8 @@ static void process_attacker_want(struct city *pcity,
         && unit_types[unit_type].attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
       /* TODO: Case for B_AIRPORT. -- Raahul */
-      bool will_be_veteran = (move_type == LAND_MOVING ||
-                              player_knows_improvement_tech(pplayer, B_PORT));
+      int will_be_veteran = (move_type == LAND_MOVING
+                             || player_knows_improvement_tech(pplayer, B_PORT));
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
