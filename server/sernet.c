@@ -224,9 +224,6 @@ void close_connections_and_socket(void)
     write_history(history_file);
     history_truncate_file(history_file, HISTORY_LENGTH);
   }
-  if (readline_initialized) {
-    rl_callback_handler_remove();
-  }
 #endif
 
   server_close_udp();
@@ -360,6 +357,7 @@ int sniff_packets(void)
       rl_attempted_completion_function = freeciv_completion;
 
       readline_initialized = TRUE;
+      atexit(rl_callback_handler_remove);
     }
   }
 #endif /* HAVE_LIBREADLINE */
