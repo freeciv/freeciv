@@ -1039,7 +1039,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
     
     n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
 
-    if (row < n-2 && unit_type_exists(activeunits_type[row])) {
+    if (row < n - 1 && unit_type_exists(activeunits_type[row])) {
       is_unit_type = TRUE;
     } else {
       is_unit_type = FALSE;
@@ -1228,20 +1228,6 @@ void activeunits_report_dialog_update(void)
 	unittotals.building_count += unitarray[i].building_count;
       }
     } unit_type_iterate_end;
-
-    gtk_list_store_append(activeunits_store, &it);
-    gtk_list_store_set(activeunits_store, &it,
-	    1, FALSE,
-	    2, 0,
-	    3, 0,
-	    4, 0,
-	    5, 0,
-	    6, 0,
-	    7, FALSE, -1);
-    g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, "");
-    gtk_list_store_set_value(activeunits_store, &it, 0, &value);
-    g_value_unset(&value);
 
     gtk_list_store_append(activeunits_store, &it);
     gtk_list_store_set(activeunits_store, &it,
