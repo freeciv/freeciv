@@ -2221,6 +2221,20 @@ void game_load(struct section_file *file)
   game.player_idx=0;
   game.player_ptr=&game.players[0];  
 
+  /* Fix ferrying sanity */
+  players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      struct unit *ferry = find_unit_by_id(punit->transported_by);
+
+      if (is_ocean(map_get_terrain(punit->x, punit->y))
+          && is_ground_unit(punit) && !ferry) {
+        freelog(LOG_ERROR, "Removing %s's unferried %s in ocean at (%d, %d)",
+                pplayer->name, unit_name(punit->type), punit->x, punit->y);
+        bounce_unit(punit, TRUE);
+      }
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
   return;
 }
 
