@@ -255,8 +255,10 @@ struct city {
 
   struct unit_list units_supported;
 
-  /* TRUE iff there units in the town. Only set at the client. */
-  bool occupied;	      
+  struct {
+    /* Only used at the client (the serer is omniscient). */
+    bool occupied;	
+  } client;      
 
   int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */

@@ -1269,7 +1269,7 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
     }
   }
 
-  if (pcity->occupied) {
+  if (pcity->client.occupied) {
     *sprs++ = get_city_occupied_sprite(pcity);
   }
 
@@ -1312,7 +1312,7 @@ int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity)
     *sprs++ = get_city_nation_flag_sprite(pcity);
   }
 
-  if (pcity->occupied) {
+  if (pcity->client.occupied) {
     *sprs++ = get_city_occupied_sprite(pcity);
   }
 

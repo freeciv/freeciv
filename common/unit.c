@@ -1173,7 +1173,7 @@ bool is_my_zoc(struct player *pplayer, int x0, int y0)
       struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
 
       if (pcity 
-          && (pcity->occupied 
+          && (pcity->client.occupied 
               || map_get_known2(x1, y1, pplayer) == TILE_KNOWN_FOGGED)) {
         /* If the city is fogged, we assume it's occupied */
         return FALSE;

@@ -457,7 +457,9 @@ void handle_city_info(struct packet_city_info *packet)
                                    &need_effect_update);
   } impr_type_iterate_end;
 
-  pcity->occupied =
+  /* Since we can see inside the city, just determine the occupied status
+   * from the units present. */
+  pcity->client.occupied =
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
 
   popup = (city_is_new && can_client_change_view() && 
@@ -591,7 +593,10 @@ void handle_short_city(struct packet_short_city *packet)
   
   pcity->size=packet->size;
   pcity->tile_trade = packet->tile_trade;
-  pcity->occupied = packet->occupied;
+
+  /* We can't actually see the internals of the city, but the server tells
+   * us this much. */
+  pcity->client.occupied = packet->occupied;
 
   if (packet->happy) {
     pcity->ppl_happy[4]   = pcity->size;
@@ -993,7 +998,11 @@ void handle_unit_info(struct packet_unit_info *packet)
         return;
       }
       if(pcity)  {
-	pcity->occupied =
+	/* Unit moved out of a city - update the occupied status.  The
+	 * logic is a little shaky since it's not clear whether we can
+	 * see the internals of the city or not; however, the server should
+	 * send us a city update to clear things up. */
+	pcity->client.occupied =
 	    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
 
         if(pcity->id==punit->homecity)
@@ -1003,7 +1012,9 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
       
       if((pcity=map_get_city(punit->x, punit->y)))  {
-	pcity->occupied = TRUE;
+	/* Unit moved into a city - obviously it's occupied. */
+	pcity->client.occupied = TRUE;
+
         if(pcity->id == punit->homecity)
 	  repaint_city = TRUE;
 	else
@@ -1086,7 +1097,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     agents_unit_new(punit);
 
     if ((pcity = map_get_city(punit->x, punit->y))) {
-      pcity->occupied = TRUE;
+      /* The unit is in a city - obviously it's occupied. */
+      pcity->client.occupied = TRUE;
     }
   }
 
