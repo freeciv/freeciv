@@ -128,42 +128,40 @@ msgid "?attitude:Belligerent"
 msgstr ""
 
 #: common/player.c:574
-#, fuzzy
 msgid "?attitude:Hostile"
-msgstr "?nation:враждебных"
+msgstr "?attitude:Враждебные"
 
 #: common/player.c:576
 msgid "?attitude:Uncooperative"
-msgstr ""
+msgstr "?attitude:Несговорчивые"
 
 #: common/player.c:578
 msgid "?attitude:Uneasy"
-msgstr ""
+msgstr "?attitude:Беспокойные"
 
 #: common/player.c:580
-#, fuzzy
 msgid "?attitude:Neutral"
-msgstr "?nation:нейтральных"
+msgstr "?nation:Нейтральные"
 
 #: common/player.c:582
 msgid "?attitude:Respectful"
-msgstr ""
+msgstr "?attitude:Вежливые"
 
 #: common/player.c:584
 msgid "?attitude:Helpful"
-msgstr ""
+msgstr "?attitude:Полезные"
 
 #: common/player.c:586
 msgid "?attitude:Enthusiastic"
-msgstr ""
+msgstr "?attitude:Восторженные"
 
 #: common/player.c:588
 msgid "?attitude:Admiring"
-msgstr ""
+msgstr "?attitude:Восхищённые"
 
 #: common/player.c:591
 msgid "?attitude:Worshipful"
-msgstr ""
+msgstr "?attitude:Враждебные"
 
 #: common/player.c:603
 msgid "Spotless"
@@ -667,10 +665,10 @@ msgid "*%s (AI)* Begone scoundrel, we all know that you cannot be trusted!"
 msgstr "*%s (компьютер)* Прочь негодяй, мы знаем, что тебе нельзя доверять!"
 
 #: ai/advdiplomacy.c:281
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
-msgstr "*%s (компьютер)* Тебе не удастся увильнуть так легко, %s."
+msgstr "*%s (компьютер)* Тебе не удастся увильнуть так легко, %s. Текущий договор остаётся в силе."
 
 #: ai/advdiplomacy.c:298
 #, c-format
@@ -696,10 +694,9 @@ msgid "*%s (AI)* You don't have the offered city!"
 msgstr "*%s (компьютер)* У Вас нет города, который Вы предложили!"
 
 #: ai/advdiplomacy.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr ""
-"*%s (компьютер)* Извините, но общее зрение с Вами для меня очень опасно"
+msgstr "*%s (компьютер)* Извините, но общее зрение с Вами для меня очень опасно."
 
 #: ai/advdiplomacy.c:518
 #, c-format
@@ -780,10 +777,9 @@ msgstr ""
 "ошибкой!"
 
 #: ai/advdiplomacy.c:1064
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
-"*%s (компьютер)* Извините, но общее зрение с Вами для меня очень опасно"
+msgstr "*%s (компьютер)* Извините, но общее зрение с Вами для меня не безопасно."
 
 #: ai/advdiplomacy.c:1132
 #, c-format
@@ -920,10 +916,9 @@ msgid "A city called %s already exists."
 msgstr "Город под названием %s уже существует."
 
 #: server/citytools.c:255
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
-"Игра: Нельзя использовать %s как название города. Оно зарезервировано, чтобы "
+msgstr "Нельзя использовать %s как название города. Оно зарезервировано, чтобы "
 "его могли использовать %s."
 
 #: server/citytools.c:266
@@ -1122,9 +1117,9 @@ msgstr ""
 "Игра: Городу %s требуется %s (в процессе постройки) для дальнейшего развития."
 
 #: server/cityturn.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s needs an improvement to grow any further."
-msgstr "Игра: Городу %s требуется %s для дальнейшего развития."
+msgstr "Игра: Городу %s требуются улучшения для дальнейшего развития."
 
 #: server/cityturn.c:507
 #, c-format
@@ -1230,7 +1225,7 @@ msgstr[2] ""
 "Игра: %s ускоряет исследования, Вы получаете 2 немедленных открытия."
 
 #: server/cityturn.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Игра: %s приобрели %s от %s."
 
@@ -1602,12 +1597,11 @@ msgstr "Для каждого подключенного клиента показать сообщение в новом окне."
 
 #: server/commands.c:111
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "vote yes|no [номер]"
 
 #: server/commands.c:112
-#, fuzzy
 msgid "Cast a vote."
-msgstr "Приморские города"
+msgstr "Подсчёт голоса."
 
 #: server/commands.c:114
 #, no-c-format
@@ -1621,9 +1615,8 @@ msgid ""
 msgstr ""
 
 #: server/commands.c:123
-#, fuzzy
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
-msgstr "debug <player <имя-игрока> | city <x> <y> | units <x> <y> | unit <id>>"
+msgstr "debug [ player <имя-игрока> | city <x> <y> | units <x> <y> | unit <id> ]"
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
@@ -1671,9 +1664,8 @@ msgid "rulesetdir <directory>"
 msgstr "rulesetdir <каталог>"
 
 #: server/commands.c:143
-#, fuzzy
 msgid "Choose new ruleset directory or modpack."
-msgstr "Текущий путь для данных: \"%s\""
+msgstr "Выберите новую директорию или модуль."
 
 #: server/commands.c:144
 msgid ""
@@ -2246,9 +2238,8 @@ msgstr ""
 "в \"%s\"."
 
 #: server/connecthand.c:293
-#, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "Гости не разрешены на этом сервере."
+msgstr "Гости не разрешены на этом сервере. Извините."
 
 #: server/connecthand.c:313
 #, c-format
@@ -2681,9 +2672,8 @@ msgid "Game: You can't subvert a city from this nation."
 msgstr "Игра: Вы не можете переманить город этой страны."
 
 #: server/diplomats.c:762
-#, fuzzy
 msgid "Game: You can't subvert this city."
-msgstr "Игра: Вы не можете переманить город этой страны."
+msgstr "Игра: Вы не можете переманить этот город."
 
 #: server/diplomats.c:773
 #, c-format
@@ -2726,9 +2716,9 @@ msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Игра: Ваш %s не смог найти ни одного объекта для саботажа в %s."
 
 #: server/diplomats.c:978
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You cannot sabotage a %s!"
-msgstr "Игра: Вы не можете саботировать чудо или %s!"
+msgstr "Игра: Вы не можете саботировать %s!"
 
 #: server/diplomats.c:988
 #, c-format
@@ -2813,13 +2803,13 @@ msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "Игра: %s %s был убит при попытке проникнуть в Ваш отряд."
 
 #: server/diplomats.c:1271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
 msgstr ""
-"Игра: Ваш %s успешно закончил свою миссию, вернулся в %s и стал более "
-"опытным."
+"Игра: Ваш %s успешно закончил свою миссию, вернулся невредимым в %s и стал "
+"более опытным."
 
 #: server/diplomats.c:1277
 #, c-format
@@ -3066,9 +3056,8 @@ msgid "Researching %s."
 msgstr "Исследуется %s."
 
 #: server/plrhand.c:371
-#, fuzzy, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
-msgstr "Игра: %s изучено. Ученые выбрали для исследования %s."
+msgstr "Игра: %s изучено. Учёные не знают, что исследовать дальше."
 
 #: server/plrhand.c:390
 msgid ""
@@ -3086,12 +3075,13 @@ msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные выбрали для исследования %s."
 
 #: server/plrhand.c:455
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
 "research next."
 msgstr ""
-"Игра: %s изучено в сотрудничестве с %s. Учёные выбрали для исследования %s."
+"Игра: %s изучено в сотрудничестве с %s. Учёные не знают, что исследовать "
+"дальше."
 
 #: server/plrhand.c:484
 #, c-format
@@ -3747,9 +3737,9 @@ msgid "Wrong tech type id value (%d)"
 msgstr ""
 
 #: server/savegame.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown technology (%s)"
-msgstr "Нет технологий"
+msgstr "Неизвестная технология (%s)"
 
 #: server/savegame.c:1062 server/savegame.c:1068 server/savegame.c:1074
 #, c-format
@@ -3861,19 +3851,16 @@ msgid "All"
 msgstr "Все"
 
 #: server/settings.c:40
-#, fuzzy
 msgid "Vital"
-msgstr "Столица:"
+msgstr "Живой"
 
 #: server/settings.c:41
-#, fuzzy
 msgid "Situational"
-msgstr "Санитария"
+msgstr "Ситуационный"
 
 #: server/settings.c:42
-#, fuzzy
 msgid "Rare"
-msgstr "Налоги"
+msgstr "Редкий"
 
 #: server/settings.c:55
 #, fuzzy
@@ -4038,9 +4025,8 @@ msgstr ""
 "гор."
 
 #: server/settings.c:326
-#, fuzzy
 msgid "Amount of water on lands"
-msgstr "Соотношение воды и суши"
+msgstr "Количество воды на суше"
 
 #: server/settings.c:331
 msgid "Map generation random seed"
@@ -4320,9 +4306,8 @@ msgstr ""
 "правительств эффект происходит раньше."
 
 #: server/settings.c:547
-#, fuzzy
 msgid "Minimum distance between cities"
-msgstr "Минимальное расстояние между городами (в ходах)"
+msgstr "Минимальное расстояние между городами"
 
 #: server/settings.c:548
 msgid ""
@@ -5065,9 +5050,8 @@ msgid "Please choose a non-blank name."
 msgstr "Выберите непустое имя."
 
 #: server/srv_main.c:1053
-#, fuzzy
 msgid "That nation is already in use."
-msgstr "Игра уже запущена."
+msgstr "Этот народ уже используется."
 
 #: server/srv_main.c:1070
 #, c-format
@@ -5567,9 +5551,8 @@ msgid "Unknown option '%s'."
 msgstr "Неизвестная настройка '%s'."
 
 #: server/stdinhand.c:1818
-#, fuzzy
 msgid "All options"
-msgstr "Настройки карты"
+msgstr "Все настройки"
 
 #: server/stdinhand.c:1821
 #, fuzzy
@@ -5582,9 +5565,8 @@ msgid "Situational options"
 msgstr "Установить локальные настройки"
 
 #: server/stdinhand.c:1827
-#, fuzzy
 msgid "Rarely used options"
-msgstr "Настройки игры"
+msgstr "Редкоиспользуемые настройки"
 
 #: server/stdinhand.c:1830
 msgid "+ means you may change the option"
@@ -5635,11 +5617,8 @@ msgid "Player %s set to team %s."
 msgstr "Игрок %s в команде: %s"
 
 #: server/stdinhand.c:2012
-#, fuzzy
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
-msgstr ""
-"Неопределённый аргумент. Используйте: vote new <команда> или vote yes|no "
-"[номер]."
+msgstr "Неопределённый аргумент. Используйте: vote yes|no [номер]."
 
 #: server/stdinhand.c:2028
 #, c-format
@@ -5841,9 +5820,9 @@ msgstr ""
 "%s итак контролирует %s. Если Вы используете команду 'observe', это уберет %s"
 
 #: server/stdinhand.c:2590
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already observing %s."
-msgstr "%s уже контролирует %s"
+msgstr "%s уже контролирует %s."
 
 #: server/stdinhand.c:2644
 #, c-format
@@ -5859,9 +5838,8 @@ msgid "Usage: take <player-name>"
 msgstr "Использование: take <имя-игрока>"
 
 #: server/stdinhand.c:2695
-#, fuzzy
 msgid "Usage: take [connection-name] <player-name>"
-msgstr "Используйте: take <имя-подключения> <имя-игрока>"
+msgstr "Используйте: take [имя-подключения] <имя-игрока>"
 
 #: server/stdinhand.c:2727
 #, c-format
@@ -5879,9 +5857,9 @@ msgid "being detached from %s."
 msgstr "отключается от %s."
 
 #: server/stdinhand.c:2806
-#, fuzzy, c-format
+#, c-format
 msgid "%s now controls %s (%s, %s)"
-msgstr "%s сейчас контролируeт %s"
+msgstr "%s сейчас контролируeт %s (%s, %s)"
 
 #: server/stdinhand.c:2808 server/stdinhand.c:3801
 #: data/nation/barbarian.ruleset:3
@@ -6226,10 +6204,10 @@ msgid "Game: %s is too big to add %s."
 msgstr "Игра: %s слишком велик, чтобы добавить %s."
 
 #: server/unithand.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s needs an improvement to grow, so you cannot add %s."
 msgstr ""
-"Игра: Городу %s требуется %s для роста, поэтому Вы не можете добавить %s."
+"Игра: Городу %s требуются улучшения для роста, поэтому Вы не можете добавить %s."
 
 #: server/unithand.c:419
 #, c-format
@@ -6366,16 +6344,16 @@ msgid "Game: Your %s helps build the %s in %s (%d surplus)."
 msgstr "Игра: Ваш %s помогает строить %s в %s (%d - лишнее)."
 
 #: server/unithand.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Sorry, your %s cannot establish a trade route because it has no home "
 "city"
-msgstr "Игра: Извините, Ваш %s не может установить здесь торговый путь!"
+msgstr "Игра: Извините, Ваш %s не может установить торговый путь, потому что у него нет домашнего города."
 
 #: server/unithand.c:1219
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
-msgstr "Игра: Извините, Ваш %s не может установить здесь торговый путь!"
+msgstr "Игра: Извините, Ваш %s не может установить торговый путь между %s и %s"
 
 #: server/unithand.c:1247 server/unithand.c:1264
 #, c-format
@@ -6403,9 +6381,9 @@ msgstr ""
 "исследованиях."
 
 #: server/unittools.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s was upgraded for free to %s%s."
-msgstr "Игра: %s модернизировал %s до %s%s."
+msgstr "Игра: %s бесплатно модернизирован до %s%s."
 
 #: server/unittools.c:267
 #, c-format
@@ -7381,9 +7359,8 @@ msgid "?embassy:Contact"
 msgstr "?Посольство:Контакт"
 
 #: client/climisc.c:211
-#, fuzzy
 msgid "?embassy:No Contact"
-msgstr "?Посольство:Контакт"
+msgstr "?Посольство:Не встречал"
 
 #: client/climisc.c:222
 msgid "?vision:Both"
@@ -7527,11 +7504,9 @@ msgid "Starting server..."
 msgstr "Запуск игры..."
 
 #: client/connectdlg_common.c:307
-#, fuzzy
 msgid "Couldn't start the server. You'll have to start one manually. Sorry..."
 msgstr ""
-"Невозможно подключиться к серверу. Нельзя стартовать сервер отсюда. Вы "
-"должны запустить сервер вручную. Извините..."
+"Нельзя стартовать сервер. Вы должны запустить сервер вручную. Извините..."
 
 #: client/connectdlg_common.c:339
 msgid ""
@@ -7621,22 +7596,18 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "Allows all players with knowledge of %s to build %s units."
 msgstr "Позволяет всем игрокам знающим технологию %s строить %s.  "
 
 #: client/helpdata.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "The discovery of %s will make %s obsolete."
-msgstr ""
-"\n"
-"\n"
-"Открытие %s упразднит %s.  "
+msgstr "Открытие %s упразднит %s.  "
 
 #: client/helpdata.c:605
-#, fuzzy
 msgid "* May not be built in cities.\n"
-msgstr "* Может строить новые города.\n"
+msgstr "* Не может быть построен в городах.\n"
 
 #: client/helpdata.c:608
 msgid "* Never has a home city.\n"
@@ -8620,9 +8591,8 @@ msgid "Team"
 msgstr "Команда"
 
 #: client/plrdlg_common.c:220
-#, fuzzy
 msgid "Attitude"
-msgstr "Актив."
+msgstr "Отношения"
 
 #: client/plrdlg_common.c:221 client/gui-gtk/plrdlg.c:142
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/diplodlg.c:609
@@ -9015,9 +8985,9 @@ msgid "Buildings: "
 msgstr "Здания: "
 
 #: client/text.c:722 client/text.c:747 client/text.c:754 client/text.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "%s. "
-msgstr ". "
+msgstr "%s. "
 
 #: client/text.c:727 client/text.c:766
 msgid "None. "
@@ -9116,9 +9086,9 @@ msgstr "Нет графического тэга %s или %s для %s %s"
 
 #. TRANS: obscure tileset error.
 #: client/tilespec.c:1630
-#, fuzzy, c-format
+#, c-format
 msgid "Missing base sprite tag \"%s1\"."
-msgstr "Отсутствует аргумент для \"%s\".\n"
+msgstr "Отсутствует базовый тэг для \"%s1\"."
 
 #: client/tilespec.c:3105
 #, c-format
@@ -9204,25 +9174,23 @@ msgstr ""
 
 #: client/agents/cma_fec.c:415
 msgid "?cma:Max food"
-msgstr ""
+msgstr "?cma:Максимум еда"
 
 #: client/agents/cma_fec.c:416
-#, fuzzy
 msgid "?cma:Max production"
-msgstr "Maccoвoe пpoизвoдcтвo"
+msgstr "?cma:Максимум пpoизвoдcтвo"
 
 #: client/agents/cma_fec.c:417
 msgid "?cma:Max gold"
-msgstr ""
+msgstr "?cma:Максимум золото"
 
 #: client/agents/cma_fec.c:418
-#, fuzzy
 msgid "?cma:Max science"
-msgstr "Экономика: Наука"
+msgstr "?cma:Максимум наука"
 
 #: client/agents/cma_fec.c:419
 msgid "?cma:Very happy"
-msgstr ""
+msgstr "?cma:Очень счастливы"
 
 #: client/gui-gtk-2.0/chatline.c:127 client/gui-gtk/chatline.c:105
 #: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:147
@@ -9875,9 +9843,8 @@ msgid "Connect to Network Game"
 msgstr "Подключиться к сетевой игре"
 
 #: client/gui-gtk-2.0/connectdlg.c:791
-#, fuzzy
 msgid "Game _Options"
-msgstr "Настройки игры"
+msgstr "Настройки _игры"
 
 #: client/gui-gtk-2.0/connectdlg.c:803
 msgid "_Start"
@@ -9912,7 +9879,7 @@ msgstr "Число игроков (Включая компьютерных игроков):"
 
 #: client/gui-gtk-2.0/connectdlg.c:877 client/gui-win32/connectdlg.c:1009
 msgid "AI skill level:"
-msgstr "Уровень компьютерного противника(AI):"
+msgstr "Уровень компьютерного противника (AI):"
 
 #: client/gui-gtk-2.0/connectdlg.c:912 client/gui-gtk-2.0/dialogs.c:1398
 #: client/gui-gtk-2.0/wldlg.c:979 client/gui-gtk/plrdlg.c:140
@@ -11655,9 +11622,8 @@ msgid "Pop"
 msgstr "Отк"
 
 #: client/gui-gtk-2.0/messagewin.c:176
-#, fuzzy
 msgid "Goto _location"
-msgstr "Идти к"
+msgstr "_Идти к"
 
 #: client/gui-gtk-2.0/plrdlg.c:357
 msgid "_Player"
@@ -15446,12 +15412,10 @@ msgid "Configure"
 msgstr "Конфиг."
 
 #: client/gui-win32/connectdlg.c:956
-#, fuzzy
 msgid "Connect To Network Game"
 msgstr "Подключиться к сетевой игре"
 
 #: client/gui-win32/connectdlg.c:966
-#, fuzzy
 msgid "Choose a nation to play"
 msgstr "Выберите _народ, которым Вы будете играть:"
 
@@ -15468,7 +15432,6 @@ msgid "Select your sex"
 msgstr "Выберите Ваш пол"
 
 #: client/gui-win32/diplodlg.c:665
-#, fuzzy
 msgid "Erase Clause"
 msgstr "Убрать статью"
 
@@ -15477,7 +15440,6 @@ msgid "(veteran)"
 msgstr "(ветеран)"
 
 #: client/gui-win32/menu.c:318
-#, fuzzy
 msgid "Gov_ernment"
 msgstr "Форма правления"
 
@@ -15520,7 +15482,7 @@ msgid "Pollution:    %3d"
 msgstr "Загрязнение:    %3d"
 
 #: client/gui-xaw/citydlg.c:222
-#, fuzzy, c-format
+#, c-format
 msgid "Granary:  %3d/%-3d"
 msgstr "Запас еды: %3d/%-3d"
 
@@ -18100,13 +18062,12 @@ msgstr "Акведук"
 
 #: data/default/buildings.ruleset:204 data/civ2/buildings.ruleset:145
 #: data/history/buildings.ruleset:145
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
 msgstr ""
-"Позволяет городу вырасти сверх 12 жителей. Акведук также необходим для роста "
-"свыше 8 жителей."
+"Позволяет городу вырасти свыше 8 жителей. Канализация также необходима для роста "
+"города свыше 12 жителей."
 
 #: data/default/buildings.ruleset:210 data/civ2/buildings.ruleset:151
 #: data/civ1/buildings.ruleset:134 data/history/buildings.ruleset:151
@@ -18822,7 +18783,6 @@ msgid "Great Wall"
 msgstr "Великая cтена"
 
 #: data/default/buildings.ruleset:1606
-#, fuzzy
 msgid "Works as a City Wall in all your cities."
 msgstr "Действует как городская стена для всех городов."
 
@@ -18911,13 +18871,12 @@ msgid "Lighthouse"
 msgstr "Маяк"
 
 #: data/default/buildings.ruleset:1804
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point and eliminates the risk "
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
 "(for all your cities)."
 msgstr ""
-"Даёт всем морским соединением 1 дополнителный ход и уничтожает риск потери "
+"Даёт всем морским соединением 1 дополнителный ход и предотвращает риск потери "
 "Трирем в море. Делает все новые морские соединения ветеранами (во всех "
 "городах)."
 
@@ -18927,7 +18886,6 @@ msgid "Magellan's Expedition"
 msgstr "Пyтeшecтвиe Maгeллaнa"
 
 #: data/default/buildings.ruleset:1832
-#, fuzzy
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
@@ -18971,7 +18929,6 @@ msgid "Oracle"
 msgstr "Оракул"
 
 #: data/default/buildings.ruleset:1942
-#, fuzzy
 msgid "Doubles the effect of Temples, in all your cities."
 msgstr "Удваивает эффект храмов во всех городах."
 
@@ -19045,7 +19002,6 @@ msgid "United Nations"
 msgstr "ООН"
 
 #: data/default/buildings.ruleset:2105
-#, fuzzy
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "Соединения получают две лишних единицы здоровья за ход."
 
@@ -19238,9 +19194,8 @@ msgstr ""
 "направляете производство щитов на производство денег."
 
 #: data/civ1/buildings.ruleset:129
-#, fuzzy
 msgid "Allows a city to grow larger than size 10."
-msgstr "Позволяет городу вырасти сверх %d жителей.  "
+msgstr "Позволяет городу вырасти сверх 10 жителей.  "
 
 #: data/civ1/buildings.ruleset:186 data/civ1/buildings.ruleset:218
 #: data/civ1/buildings.ruleset:250
@@ -21943,12 +21898,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr ""
+msgstr "Афганцы"
 
 #: data/nation/afghani.ruleset:4
-#, fuzzy
 msgid "?plural:Afghanis"
-msgstr "Таиландцы"
+msgstr "?plural:Афганцы"
 
 #: data/nation/afghani.ruleset:14 data/nation/australian.ruleset:15
 #: data/nation/canadian.ruleset:12 data/nation/danish.ruleset:26
@@ -22018,14 +21972,12 @@ msgid "Caliph"
 msgstr "Калиф"
 
 #: data/nation/assyrian.ruleset:3
-#, fuzzy
 msgid "Assyrian"
-msgstr "Азиатский"
+msgstr "Ассирийцы"
 
 #: data/nation/assyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Assyrians"
-msgstr "Русские"
+msgstr "?plural:Ассирийцы"
 
 #: data/nation/assyrian.ruleset:14
 #, fuzzy
@@ -22124,14 +22076,12 @@ msgstr ""
 "немецких государств."
 
 #: data/nation/belgian.ruleset:3
-#, fuzzy
 msgid "Belgian"
-msgstr "Религия"
+msgstr "Бельгийцы"
 
 #: data/nation/belgian.ruleset:4
-#, fuzzy
 msgid "?plural:Belgians"
-msgstr "Бразильцы"
+msgstr "?plaural:Бельгийцы"
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -22317,14 +22267,12 @@ msgid "Dowager"
 msgstr "Вдова"
 
 #: data/nation/columbian.ruleset:3
-#, fuzzy
 msgid "Columbian"
-msgstr "Сражения"
+msgstr "Колумбийцы"
 
 #: data/nation/columbian.ruleset:4
-#, fuzzy
 msgid "?plural:Columbians"
-msgstr "Римляне"
+msgstr "?plural:Колумбийцы"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -22460,14 +22408,12 @@ msgid "Great Pharaoh"
 msgstr "Великий фараон"
 
 #: data/nation/elvish.ruleset:4
-#, fuzzy
 msgid "Elves"
-msgstr "Скоморохи"
+msgstr "Эльфы"
 
 #: data/nation/elvish.ruleset:5
-#, fuzzy
 msgid "?plural:Elves"
-msgstr "Англичане"
+msgstr "?plural:Эльфы"
 
 #: data/nation/elvish.ruleset:21
 msgid "High King of the Noldor"
@@ -22520,14 +22466,12 @@ msgstr ""
 "народ и язык близко связаны с народом и языком Финляндии."
 
 #: data/nation/ethiopian.ruleset:3
-#, fuzzy
 msgid "Ethiopian"
-msgstr "Эстонцы"
+msgstr "Эфиопы"
 
 #: data/nation/ethiopian.ruleset:4
-#, fuzzy
 msgid "?plural:Ethiopians"
-msgstr "Эстонцы"
+msgstr "?plural:Эфиопы"
 
 #: data/nation/ethiopian.ruleset:14
 #, fuzzy
@@ -22590,12 +22534,10 @@ msgid "?plural:Galicians"
 msgstr "Итальянцы"
 
 #: data/nation/galician.ruleset:14
-#, fuzzy
 msgid "Primeiro Ministro"
 msgstr "Премьер-министр"
 
 #: data/nation/galician.ruleset:14
-#, fuzzy
 msgid "Primeira Ministra"
 msgstr "Премьер-министр"
 
@@ -22605,12 +22547,10 @@ msgid "Raina"
 msgstr "Королева"
 
 #: data/nation/galician.ruleset:17
-#, fuzzy
 msgid "Presidente"
 msgstr "Президент"
 
 #: data/nation/galician.ruleset:17
-#, fuzzy
 msgid "Presidenta"
 msgstr "Президент"
 
@@ -22665,14 +22605,12 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Древние греки, между Микенами и римским завоеванием."
 
 #: data/nation/hobbits.ruleset:3
-#, fuzzy
 msgid "Hobbit"
-msgstr "Сервер"
+msgstr "Хоббиты"
 
 #: data/nation/hobbits.ruleset:4
-#, fuzzy
 msgid "?plural:Hobbits"
-msgstr "Шотландцы"
+msgstr "?plural:Хоббиты"
 
 #: data/nation/hobbits.ruleset:14
 msgid "Mayor of the Shire"
@@ -22688,12 +22626,11 @@ msgstr "Венгры"
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr ""
+msgstr "Исландцы"
 
 #: data/nation/icelandic.ruleset:4
-#, fuzzy
 msgid "?plural:Icelanders"
-msgstr "Инки"
+msgstr "?plural:Исландцы"
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -22733,14 +22670,12 @@ msgid "Maharaja"
 msgstr "Магараджа"
 
 #: data/nation/indonesian.ruleset:3
-#, fuzzy
 msgid "Indonesian"
-msgstr "Индийцы"
+msgstr "Индонезийцы"
 
 #: data/nation/indonesian.ruleset:4
-#, fuzzy
 msgid "?plural:Indonesians"
-msgstr "Индийцы"
+msgstr "?plural:Индонезийцы"
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -22760,9 +22695,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/irish.ruleset:37
-#, fuzzy
 msgid "Chieftain"
-msgstr "Чилийцы"
+msgstr "Вождь"
 
 #: data/nation/irish.ruleset:38
 #, fuzzy
@@ -22902,34 +22836,28 @@ msgid "Great Duchess"
 msgstr "Великая княгиня"
 
 #: data/nation/malaysian.ruleset:3
-#, fuzzy
 msgid "Malaysian"
-msgstr "Игра"
+msgstr "Малазийцы"
 
 #: data/nation/malaysian.ruleset:4
-#, fuzzy
 msgid "?plural:Malaysians"
-msgstr "Итальянцы"
+msgstr "?plural:Малазийцы"
 
 #: data/nation/martian.ruleset:3
-#, fuzzy
 msgid "Martian"
-msgstr "Партизаны"
+msgstr "Марсиане"
 
 #: data/nation/martian.ruleset:4
-#, fuzzy
 msgid "?plural:Martians"
-msgstr "Латыши"
+msgstr "?plural:Марсиане"
 
 #: data/nation/mexican.ruleset:3
-#, fuzzy
 msgid "Mexican"
-msgstr "Американцы"
+msgstr "Мексиканцы"
 
 #: data/nation/mexican.ruleset:4
-#, fuzzy
 msgid "?plural:Mexicans"
-msgstr "Американцы"
+msgstr "?plural:Мексиканцы"
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -22982,24 +22910,20 @@ msgid "Dark Lord"
 msgstr "Темный властелин"
 
 #: data/nation/nigerian.ruleset:3
-#, fuzzy
 msgid "Nigerian"
-msgstr "Сербы"
+msgstr "Нигерийцы"
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "Персы"
+msgstr "?plural:Нигерийцы"
 
 #: data/nation/observer.ruleset:3
-#, fuzzy
 msgid "Observer"
-msgstr "(наблюдатель)"
+msgstr "Наблюдатель"
 
 #: data/nation/observer.ruleset:4
-#, fuzzy
 msgid "?plural:Observers"
-msgstr "Буры"
+msgstr "?plural:Наблюдатели"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -23281,14 +23205,12 @@ msgid "Cardinal"
 msgstr "Кардинал"
 
 #: data/nation/sumerian.ruleset:3
-#, fuzzy
 msgid "Sumerian"
-msgstr "Сербы"
+msgstr "Шумеры"
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "Сербы"
+msgstr "?plural:Шумеры"
 
 #: data/nation/sumerian.ruleset:13
 msgid "Lugal"
@@ -23308,24 +23230,20 @@ msgid "?plural:Swedes"
 msgstr "Шведы"
 
 #: data/nation/swiss.ruleset:3
-#, fuzzy
 msgid "Swiss"
-msgstr "Шведы"
+msgstr "Швейцарцы"
 
 #: data/nation/swiss.ruleset:4
-#, fuzzy
 msgid "?plural:Swiss"
-msgstr "Шведы"
+msgstr "?plural:Швейцарцы"
 
 #: data/nation/taiwanese.ruleset:3
-#, fuzzy
 msgid "Taiwanese"
-msgstr "Японцы"
+msgstr "Тайванцы"
 
 #: data/nation/taiwanese.ruleset:4
-#, fuzzy
 msgid "?plural:Taiwanese"
-msgstr "Японцы"
+msgstr "?plural:Тайванцы"
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
