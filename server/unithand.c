@@ -156,40 +156,55 @@ void handle_unit_connect(struct player *pplayer,
 /**************************************************************************
  Upgrade all units of a given type.
 **************************************************************************/
-void handle_upgrade_unittype_request(struct player *pplayer, 
-				     struct packet_unittype_info *packet)
+void handle_upgrade_unittype_request(struct player * const pplayer,
+			const struct packet_unittype_info * const packet)
 {
-  int cost;
-  int to_unit;
-  int upgraded = 0;
-  if ((to_unit =can_upgrade_unittype(pplayer, packet->type)) == -1) {
-    notify_player(pplayer, _("Game: Illegal packet, can't upgrade %s (yet)."), 
-		  unit_types[packet->type].name);
-    return;
-  }
-  cost = unit_upgrade_price(pplayer, packet->type, to_unit);
-  conn_list_do_buffer(&pplayer->connections);
-  unit_list_iterate(pplayer->units, punit) {
-    struct city *pcity;
-    if (cost > pplayer->economic.gold)
-      break;
-    pcity = map_get_city(punit->x, punit->y);
-    if (punit->type == packet->type && pcity && pcity->owner == pplayer->player_no) {
-      pplayer->economic.gold -= cost;
-      
-      upgrade_unit(punit, to_unit);
-      upgraded++;
-    }
-  }
-  unit_list_iterate_end;
-  conn_list_do_unbuffer(&pplayer->connections);
-  if (upgraded > 0) {
-    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d gold."), 
-		  upgraded, unit_types[packet->type].name, 
-		  unit_types[to_unit].name, cost * upgraded);
-    send_player_info(pplayer, pplayer);
+  const Unit_Type_id from_unittype = packet->type;
+  const Unit_Type_id to_unittype = can_upgrade_unittype(pplayer,
+							from_unittype);
+
+  if (to_unittype == -1) {
+    notify_player(pplayer,
+		  _("Game: Illegal packet, can't upgrade %s (yet)."),
+                  unit_types[from_unittype].name);
   } else {
-    notify_player(pplayer, _("Game: No units could be upgraded."));
+    const int cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
+    int number_of_upgraded_units = 0;
+
+    if (pplayer->economic.gold >= cost) {
+      const int player_no = pplayer->player_no;
+
+      /* Try to upgrade units. The order we upgrade in is arbitrary (if
+       * the player really cared they should have done it manually). */
+      conn_list_do_buffer(&pplayer->connections);
+      unit_list_iterate(pplayer->units, punit) {
+        if (punit->type == from_unittype) {
+          const struct city * const pcity = map_get_city(punit->x, punit->y);
+
+	  /* Only units in cities can be upgraded. */
+          if (pcity && pcity->owner == player_no) {
+            upgrade_unit(punit, to_unittype);
+            ++number_of_upgraded_units;
+            if ((pplayer->economic.gold -= cost) < cost) {
+	      /* We can't upgrade any more units. */
+              break;
+            }
+          }
+        }
+      } unit_list_iterate_end;
+      conn_list_do_unbuffer(&pplayer->connections);
+    }
+
+    /* Alert the player about what happened. */
+    if (number_of_upgraded_units > 0) {
+      notify_player(pplayer, _("Game: %d %s upgraded to %s for %d gold."),
+                    number_of_upgraded_units, unit_types[from_unittype].name,
+                    unit_types[to_unittype].name,
+                    cost * number_of_upgraded_units);
+      send_player_info(pplayer, pplayer);
+    } else {
+      notify_player(pplayer, _("Game: No units could be upgraded."));
+    }
   }
 }
 

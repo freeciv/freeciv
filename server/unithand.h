@@ -22,8 +22,8 @@ void handle_unit_airlift(struct player *pplayer,
 			 struct packet_unit_request *req);
 void handle_unit_connect(struct player *pplayer, 
 		          struct packet_unit_connect *req);
-void handle_upgrade_unittype_request(struct player *pplayer, 
-				     struct packet_unittype_info *packet);
+void handle_upgrade_unittype_request(struct player * const pplayer,
+			const struct packet_unittype_info * const packet);
 void handle_unit_upgrade_request(struct player *pplayer,
 				 struct packet_unit_request *packet);
 void handle_diplomat_action(struct player *pplayer, 
