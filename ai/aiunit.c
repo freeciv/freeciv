@@ -1260,8 +1260,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   if (attack_value == 0) {
-    /* A very poor attacker... */
-    UNIT_LOG(LOG_ERROR, punit, "non-attacker passed to fstk");
+    /* A very poor attacker...
+     *  probably low on HP */
     return 0;
   }
 
