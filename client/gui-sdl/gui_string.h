@@ -52,6 +52,8 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
 					size_t n_alloc, Uint16 ptsize);
 SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
 					const char *pCharString);
+bool convert_string_to_const_surface_width(SDL_String16 *pString,
+								int width);
 int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
 		 SDL_String16 * pString);
 SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString);

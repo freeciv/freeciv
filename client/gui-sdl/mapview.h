@@ -38,6 +38,7 @@ int correction_map_pos(int *pCol, int *pRow);
 void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
 			  Sint16 map_x, Sint16 map_y);
 void rebuild_focus_anim_frames(void);
+void toggle_overview_mode(void);
 
 void flush_rect(SDL_Rect rect);
 void sdl_dirty_rect(SDL_Rect rect);

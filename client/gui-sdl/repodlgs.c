@@ -404,7 +404,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->active_count);
 	
   pStr = create_str16_from_char(cBuf, 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
@@ -416,7 +416,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_shield);
 	
   pStr = create_str16_from_char(cBuf, 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
 	
@@ -426,7 +426,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_food);
 	
   pStr = create_str16_from_char(cBuf, 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
 	
@@ -436,7 +436,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->building_count);
 	
   pStr = create_str16_from_char(cBuf, 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
@@ -463,7 +463,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       
       /* ----------- */
       pStr = create_str16_from_char(pUnit->name, 12);
-      pStr->style |= TTF_STYLE_BOLD;
+      pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
@@ -484,6 +484,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       /* ----------- */	
       my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].active_count);
       pStr = create_str16_from_char(cBuf, 10);
+      pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
       if(count > 63) {
@@ -496,6 +497,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       /* ----------- */	
       my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].upkeep_shield);
       pStr = create_str16_from_char(cBuf, 10);
+      pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
       						WF_DRAW_THEME_TRANSPARENT);
       if(count > 63) {
@@ -508,6 +510,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       /* ----------- */
       my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].upkeep_food);
       pStr = create_str16_from_char(cBuf, 10);
+      pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 						WF_DRAW_THEME_TRANSPARENT);
       if(count > 63) {
@@ -525,6 +528,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 	my_snprintf(cBuf, sizeof(cBuf), "--");
       }
       pStr = create_str16_from_char(cBuf, 10);
+      pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
       if(count > 63) {
@@ -543,7 +547,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       }
 	
       pStr = create_str16_from_char(cBuf, 10);
-
+      pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
 	
@@ -1664,7 +1668,7 @@ void popup_economy_report_dialog(bool make_modal)
   my_snprintf(cBuf, sizeof(cBuf), "%d", game.player_ptr->economic.gold);
 
   pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(pIcons->pBIG_Coin, pWindow->dst, pStr,
   			(WF_DRAW_THEME_TRANSPARENT|WF_ICON_CENTER_RIGHT));
@@ -1677,7 +1681,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* it is important to leave 1 space at ending of this string */
   my_snprintf(cBuf, sizeof(cBuf), "%d%% " , game.player_ptr->economic.tax);
   pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
     
@@ -1691,8 +1695,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
-  pBuf->string16->style &= ~SF_CENTER;
-  
+    
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -1703,8 +1706,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
-  pBuf->string16->style &= ~SF_CENTER;
-  
+    
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -1712,7 +1714,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* Net Icome */
   my_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
   pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   if(tax - total < 0) {
     pStr->fgcol.r = 255;
@@ -1874,7 +1876,7 @@ void popup_economy_report_dialog(bool make_modal)
       
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_that_w(pStr, pSurf->w);
+      pText_Name = create_text_surf_smaller_that_w(pStr, pSurf->w - 4);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
             
       my_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
@@ -2163,7 +2165,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* ------------------------------- */
   
   if(entries_used) {
-    setup_vertical_vidgets_position(TARGETS_COL,
+    setup_vertical_widgets_position(TARGETS_COL,
 	pWindow->size.x + FRAME_WH,
 	pWindow->size.y + h,
 	  0, 0, pEconomyDlg->pBeginActiveWidgetList,
@@ -2252,7 +2254,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
   }
 
   putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1, 0xFF000000);
-  pText = create_text_surf_smaller_that_w(pStr, pSurf->w);
+  pText = create_text_surf_smaller_that_w(pStr, pSurf->w - 4);
 
   /* draw name tech text */
   dst.x = (100 - pText->w) / 2;
@@ -2904,7 +2906,7 @@ static int change_research_goal(struct GUI *pWidget)
 	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
 
       pStr = create_str16_from_char(advances[i].name, 10);
-      pStr->style |= TTF_STYLE_BOLD;
+      pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pStr->fgcol = *(get_game_colorRGB(COLOR_STD_WHITE));
 	  
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 

@@ -163,7 +163,7 @@ void popup_find_dialog(void)
       my_snprintf(cBuf , sizeof(cBuf), "%s (%d)",pCity->name, pCity->size);
       
       pStr = create_str16_from_char(cBuf , 10);
-      pStr->style |= TTF_STYLE_BOLD;
+      pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
       if(pCity->owner != owner) {
         pLogo = GET_SURF(get_nation_by_idx(
@@ -261,7 +261,7 @@ void popup_find_dialog(void)
   
   /* cities */
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH, pWindow->size.y + WINDOW_TILE_HIGH + 2,
 	w, 0, pFind_City_Dlg->pBeginActiveWidgetList, pBuf);
   

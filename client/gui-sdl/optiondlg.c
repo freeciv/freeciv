@@ -229,6 +229,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   pNew_WorkList_Widget = create_iconlabel_from_chars(NULL, pWidget->dst, 
       		game.player_ptr->worklists[j].name, 12, WF_DRAW_THEME_TRANSPARENT);
   pNew_WorkList_Widget->ID = MAX_ID - j;
+  pNew_WorkList_Widget->string16->style |= SF_CENTER;
   set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
   pNew_WorkList_Widget->size.w = pWidget->size.w;
   pNew_WorkList_Widget->action = edit_worklist_callback;
@@ -324,7 +325,7 @@ static int work_lists_callback(struct GUI *pWidget)
       set_wstate(pBuf, FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - i, pBuf);
       pBuf->action = edit_worklist_callback;
-      
+      pBuf->string16->style |= SF_CENTER;
       count++;
     
       if(count>13) {
@@ -339,7 +340,7 @@ static int work_lists_callback(struct GUI *pWidget)
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
     pBuf->action = add_new_worklist_callback;
-    
+    pBuf->string16->style |= SF_CENTER;
     count++;
     
     if(count>13) {
@@ -378,7 +379,7 @@ static int work_lists_callback(struct GUI *pWidget)
   }
   /* ----------------------------- */
   
-  setup_vertical_vidgets_position(1, pWindow->size.x + 20,
+  setup_vertical_widgets_position(1, pWindow->size.x + 20,
 	pWindow->size.y + WINDOW_TILE_HIGH + 1 + 20,
 	area.w - 10 - len, 0,
 	pOption_Dlg->pADlg->pBeginActiveWidgetList,
@@ -460,13 +461,7 @@ static int change_mode_callback(struct GUI *pWidget)
   }
   copy_chars_to_string16(
   	pOption_Dlg->pBeginMainOptionsWidgetList->prev->string16, cBuf);
-  
-  /* move units window to botton-right corrner */
-  set_new_units_window_pos();
-
-  /* move minimap window to botton-left corrner */
-  set_new_mini_map_window_pos();
-
+    
   pOptions_Button->dst = Main.gui;
   /* move cooling/warming icons to botton-right corrner */
 
@@ -482,6 +477,12 @@ static int change_mode_callback(struct GUI *pWidget)
   center_optiondlg();/* alloc new dest buffers */
   set_new_order_widgets_dest_buffers();
   reset_main_widget_dest_buffer();
+  
+  /* move units window to botton-right corrner */
+  set_new_units_window_pos();
+
+  /* move minimap window to botton-left corrner */
+  set_new_mini_map_window_pos();
   
   /* Options Dlg Window */
   pWindow = pOption_Dlg->pEndOptionsWidgetList;
@@ -499,7 +500,7 @@ static int change_mode_callback(struct GUI *pWidget)
     
     update_info_label();
     update_unit_info_label(get_unit_in_focus());
-    refresh_overview_viewrect();
+    
     
     /* with redrawing full map */
     center_on_something();
@@ -625,7 +626,7 @@ static int video_callback(struct GUI *pWidget)
 
   pTmpGui = create_iconlabel(NULL, pWindow->dst,
   			create_str16_from_char(cBuf, 10), 0);
-  pTmpGui->string16->style |= TTF_STYLE_BOLD;
+  pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pTmpGui->string16->fgcol.r = 255;
   pTmpGui->string16->fgcol.g = 255;
   /*pTmpGui->string16->fgcol.b = 255; */
@@ -645,7 +646,7 @@ static int video_callback(struct GUI *pWidget)
 			create_str16_from_char(_("Fullscreen Mode"),
 					       10), 150, 30, 0);
   
-  pTmpGui->string16->style |= TTF_STYLE_BOLD;
+  pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   xxx = pTmpGui->size.x = pWindow->size.x +
       ((pWindow->size.w - pTmpGui->size.w) / 2);
@@ -1930,10 +1931,9 @@ static int disconnect_callback(struct GUI *pWidget)
 {
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     SDL_Rect area;
-    popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,
-				pOption_Dlg->pEndOptionsWidgetList);
-    SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
-			  CF_TOGGLED_FULLSCREEN);
+    
+    podown_optiondlg();
+    
     /* undraw buton */
     area = pOptions_Button->size;
     SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
@@ -1967,16 +1967,11 @@ static int back_callback(struct GUI *pWidget)
   }
   
   if (SDL_Client_Flags & CF_OPTION_MAIN) {
-    popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,
-				pOption_Dlg->pEndOptionsWidgetList);
-    SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
-			  CF_TOGGLED_FULLSCREEN);
-    FREE(pOption_Dlg);
+    podown_optiondlg();
     if(aconnection.established) {
       set_wstate(pOptions_Button, FC_WS_NORMAL);
       redraw_icon(pOptions_Button);
       sdl_dirty_rect(pOptions_Button->size);
-      update_menus();
       flush_dirty();
     } else {
       gui_server_connect();
@@ -2210,12 +2205,14 @@ void popup_optiondlg(void)
   /* draw window group */
   redraw_group(pOption_Dlg->pBeginOptionsWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  sdl_dirty_rect(pWindow->size);
 
   SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
   SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
 
-  update_menus();
+  disable_main_widgets();
+  
+  flush_dirty();
 }
 
 /**************************************************************************
@@ -2229,7 +2226,7 @@ void podown_optiondlg(void)
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
 			  CF_TOGGLED_FULLSCREEN);
     FREE(pOption_Dlg);
-    flush_dirty();
+    enable_main_widgets();
   }
 }
 

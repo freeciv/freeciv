@@ -788,23 +788,62 @@ void update_menus(void)
   struct unit *pUnit = NULL;
   static char cBuf[128];
   
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE ||
-      (SDL_Client_Flags & CF_OPTION_OPEN)) {
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
 	
     set_wflag(pOptions_Button, WF_HIDDEN);
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
-      hide(ID_TOGGLE_UNITS_WINDOW_BUTTON);
-      hide(ID_TOGGLE_MAP_WINDOW_BUTTON);
-      hide(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
-      hide(ID_CITIES);
-      hide(ID_PLAYERS);
-      hide(ID_UNITS);
-      hide(ID_REVOLUTION);
-      hide(ID_RESEARCH);
-      hide(ID_ECONOMY);
-      hide(ID_NEW_TURN);
+      struct GUI *pWidget = get_unit_info_window_widget();
+	
+      /* economy button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* research button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+            
+      /* revolution button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* show/hide unit's window button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* ------------------------------------ */
+      /* mini map window */
+      pWidget = pWidget->prev;
+      
+      /* new turn button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* players button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* find city button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* units button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* show/hide log window button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* toggle minimap mode button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
+      /* show/hide minimap button */
+      pWidget = pWidget->prev;
+      set_wflag(pWidget, WF_HIDDEN);
+      
     }
 
     if (SDL_Client_Flags & CF_ORDERS_WIDGETS_CREATED) {
@@ -817,24 +856,67 @@ void update_menus(void)
     }
 
     if (SDL_Client_Flags & CF_GANE_JUST_STARTED) {
-
+      struct GUI *pWidget = get_unit_info_window_widget();
+	
       SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
 
       clear_wflag(pOptions_Button, WF_HIDDEN);
       real_redraw_icon(pOptions_Button);
       sdl_dirty_rect(pOptions_Button->size);
       
-      show(ID_TOGGLE_UNITS_WINDOW_BUTTON);
-      show(ID_REVOLUTION);
-      show(ID_RESEARCH);
-      show(ID_ECONOMY);
-
-      show(ID_TOGGLE_MAP_WINDOW_BUTTON);
-      show(ID_CITIES);
-      /*show(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);*/
-      show(ID_NEW_TURN);
-      /*show(ID_UNITS);*/
-      show(ID_PLAYERS);
+      /* economy button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* research button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+            
+      /* revolution button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* show/hide unit's window button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* ------------------------------------ */
+      /* mini map window */
+      pWidget = pWidget->prev;
+      
+      /* new turn button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* players button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* find city button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
+      
+      /* units button */
+      pWidget = pWidget->prev;
+      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+        clear_wflag(pWidget, WF_HIDDEN);
+      }
+      
+      /* show/hide log window button */
+      pWidget = pWidget->prev;
+      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+        clear_wflag(pWidget, WF_HIDDEN);
+      }
+      
+      /* toggle minimap mode button */
+      pWidget = pWidget->prev;
+      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+        clear_wflag(pWidget, WF_HIDDEN);
+      }
+      
+      /* show/hide minimap button */
+      pWidget = pWidget->prev;
+      clear_wflag(pWidget, WF_HIDDEN);
       
       counter = 0;
     }
@@ -1152,4 +1234,18 @@ void update_menus(void)
       counter = 0;
     }
   }
+}
+
+void disable_order_buttons(void)
+{
+  undraw_order_widgets();
+  disable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+  redraw_order_widgets();
+}
+
+void enable_order_buttons(void)
+{
+  undraw_order_widgets();
+  enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+  redraw_order_widgets();
 }

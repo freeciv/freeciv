@@ -46,12 +46,16 @@
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_id.h"
+
 #include "gui_main.h"
 #include "gui_zoom.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "messagewin.h"
 #include "connectdlg.h"
+
+#include "colors.h"
+
 
 static struct server_list *pServer_list = NULL;
 static struct ADVANCED_DLG *pMeta_Severs = NULL;
@@ -203,6 +207,7 @@ static int meta_severs_callback(struct GUI *pWidget)
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 10,
 	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
     
+    pBuf->string16->style |= SF_CENTER;
     pBuf->string16->render = 3;
     pBuf->string16->bgcol.r = 0;
     pBuf->string16->bgcol.g = 0;
@@ -966,6 +971,7 @@ void gui_server_connect(void)
 	(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   
   /*pBuf->action = popup_start_new_game_callback;*/
+  pFirst->string16->style |= SF_CENTER;
   pFirst->string16->fgcol.r = 128;
   pFirst->string16->fgcol.g = 128;
   pFirst->string16->fgcol.b = 128;
@@ -979,6 +985,7 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Load Game"), 14,
 		(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
   /*pBuf->action = popup_load_game_callback;*/
+  pBuf->string16->style |= SF_CENTER;
   pBuf->string16->fgcol.r = 128;
   pBuf->string16->fgcol.g = 128;
   pBuf->string16->fgcol.b = 128;
@@ -991,7 +998,7 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Join Game"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = popup_join_game_callback;
-    
+  pBuf->string16->style |= SF_CENTER;  
   set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w, pBuf->size.w);
   h = MAX(h, pBuf->size.h);
@@ -1001,7 +1008,7 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Join Pubserver"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = meta_severs_callback;
-    
+  pBuf->string16->style |= SF_CENTER;  
   set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w, pBuf->size.w);
   h = MAX(h, pBuf->size.h);
@@ -1011,7 +1018,7 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Options"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = popup_option_callback;
-  
+  pBuf->string16->style |= SF_CENTER;
   w = MAX(w, pBuf->size.w);
   h = MAX(h, pBuf->size.h);
   count++;
@@ -1021,6 +1028,7 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Quit"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = quit_callback;
+  pBuf->string16->style |= SF_CENTER;
   pBuf->key = SDLK_ESCAPE;
   set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w, pBuf->size.w);
@@ -1032,7 +1040,7 @@ void gui_server_connect(void)
   w+=30;
   h+=6;
    
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	(pFirst->dst->w - w) - 20, (pFirst->dst->h - (h * count)) - 20,
 		w, h, pBuf, pFirst);
 		

@@ -279,7 +279,7 @@ static void add_target_to_worklist(struct GUI *pTarget)
   } else {
     pStr = create_str16_from_char(get_impr_name_ex(pEditor->pCity, target), 10);
   }
-    
+  pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(NULL, pDest, pStr,
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
     
@@ -736,7 +736,8 @@ static void add_global_worklist(struct GUI *pWidget)
 				   (WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
 	pBuf->ID = MAX_ID - 1000 - pWorkList->wlids[count];
       }
-    
+      
+      pBuf->string16->style |= SF_CENTER;
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = worklist_editor_item_callback;
       pBuf->size.w = 126;  
@@ -844,7 +845,7 @@ static void set_global_worklist(struct GUI *pWidget)
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID -1000 - target;
         }
-    
+        pBuf->string16->style |= SF_CENTER;
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = worklist_editor_item_callback;
         pBuf->size.w = 126;  
@@ -1124,7 +1125,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   }
     
   pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   pBuf = create_iconlabel(NULL, pDest, pStr, 0);
   
@@ -1177,7 +1178,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
     my_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
     pStr = create_str16_from_char(cBuf, 12);
-    pStr->style |= TTF_STYLE_BOLD;
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     
     pBuf = create_iconlabel(pIcon, pDest, pStr,
     		(WF_DRAW_THEME_TRANSPARENT|WF_ICON_CENTER|WF_FREE_THEME));
@@ -1239,6 +1240,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pStr = create_str16_from_char(get_production_name(pCity,
     				pCity->currently_building,
     				pCity->is_building_unit, &turns), 10);
+    pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
     
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1271,7 +1273,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     } else {
       pStr = create_str16_from_char(get_impr_name_ex(pCity, turns), 10);
     }
-    
+    pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pDest, pStr,
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
     
@@ -1317,7 +1319,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 					      WF_DRAW_THEME_TRANSPARENT);
         set_wstate(pBuf, FC_WS_NORMAL);
         add_to_gui_list(MAX_ID - i, pBuf);
-      
+        pBuf->string16->style |= SF_CENTER;
         pBuf->action = global_worklist_callback;
         pBuf->string16->fgcol = color;
 	
@@ -1387,7 +1389,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       my_snprintf(cBuf, sizeof(cBuf), "%s", pImpr->name);
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w);
+      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if (is_wonder(imp)) {
@@ -1512,7 +1514,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w);
+      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if(pCity) {
@@ -1690,7 +1692,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* worklist */
   if(pCity || pWorkList->wlefs[0] != WEF_END) {
-    setup_vertical_vidgets_position(1,
+    setup_vertical_widgets_position(1,
       pWindow->size.x + FRAME_WH + 2, pWindow->size.y + FRAME_WH + 152,
 	126, 0, pEditor->pWork->pBeginWidgetList,
 		  pEditor->pWork->pEndWidgetList);
@@ -1698,7 +1700,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* global worklists */
   if(pEditor->pGlobal) {
-    setup_vertical_vidgets_position(1,
+    setup_vertical_widgets_position(1,
       pWindow->size.x + FRAME_WH + 4,
       pWindow->size.y + FRAME_WH + 384 +
 	(pEditor->pGlobal->pScroll ?
@@ -1716,7 +1718,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   }
   
   /* Targets */  
-  setup_vertical_vidgets_position(TARGETS_COL,
+  setup_vertical_widgets_position(TARGETS_COL,
 	pWindow->size.x + FRAME_WH + 130,
 	pWindow->size.y + FRAME_WH,
 	  0, 0, pEditor->pTargets->pBeginWidgetList,

@@ -145,7 +145,6 @@ static void update_goto_dialog(void)
         owner = pCity->owner;
       }
       
-      pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->fgcol =
 	    *(get_game_colorRGB(player_color(get_player(pCity->owner))));
       pBuf->string16->render = 3;
@@ -188,7 +187,7 @@ static void update_goto_dialog(void)
       hide_scrollbar(pGotoDlg->pScroll);
     }
   
-    setup_vertical_vidgets_position(1,
+    setup_vertical_widgets_position(1,
 	pGotoDlg->pEndWidgetList->size.x + FRAME_WH + 1,
         pGotoDlg->pEndWidgetList->size.y + WINDOW_TILE_HIGH + 1,
         pGotoDlg->pScroll->pUp_Left_Button->size.x -

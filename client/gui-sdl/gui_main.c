@@ -94,15 +94,6 @@
 
 const char *client_string = "gui-sdl";
 
-enum USER_EVENT_ID {
-  EVENT_ERROR = 0,
-  NET = 1,
-  ANIM = 2,
-  TRY_AUTO_CONNECT = 3,
-  SHOW_WIDGET_INFO_LABBEL = 4,
-  FLUSH = 5
-};
-
 Uint32 SDL_Client_Flags = 0;
 Uint32 widget_info_counter = 0;
 
@@ -120,6 +111,16 @@ static SDL_Event *pInfo_User_Event = NULL;
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static void game_focused_unit_anim(void);
+
+enum USER_EVENT_ID {
+  EVENT_ERROR = 0,
+  NET = 1,
+  ANIM = 2,
+  TRY_AUTO_CONNECT = 3,
+  SHOW_WIDGET_INFO_LABBEL = 4,
+  FLUSH = 5,
+  EXIT_FROM_EVENT_LOOP = 6
+};
 
 /* =========================================================== */
 
@@ -340,6 +341,19 @@ void add_autoconnect_to_timer(void)
   pInfo_User_Event->user.code = TRY_AUTO_CONNECT;
 }
 
+void force_exit_from_event_loop(void)
+{
+  SDL_Event Event;
+  
+  Event.type = SDL_USEREVENT;
+  Event.user.code = EXIT_FROM_EVENT_LOOP;
+  Event.user.data1 = NULL;
+  Event.user.data2 = NULL;
+  
+  SDL_PushEvent(&Event);
+  
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -515,6 +529,8 @@ Uint16 gui_event_loop(void *pData,
           case FLUSH:
 	    unqueue_flush();
 	  break;
+          case EXIT_FROM_EVENT_LOOP:
+	    return MAX_ID;
 	  default:
 	  break;
         }    
@@ -592,6 +608,8 @@ void ui_init(void)
   pInit_String = create_iconlabel(pBgd, Main.gui,
 	create_str16_from_char(_("Initializing Client"), 20),
 				   WF_ICON_CENTER|WF_FREE_THEME);
+  pInit_String->string16->style |= SF_CENTER;
+  
   draw_label(pInit_String,
 	     (Main.screen->w - pInit_String->size.w) / 2,
 	     (Main.screen->h - pInit_String->size.h) / 2);
@@ -801,12 +819,4 @@ void set_unit_icon(int idx, struct unit *punit)
 void set_unit_icons_more_arrow(bool onoff)
 {
   freelog(LOG_DEBUG, "set_unit_icons_more_arrow : PORT ME");
-}
-
-/**************************************************************************
- Update the connected users list at pregame state.
-**************************************************************************/
-void update_conn_list_dialog(void)
-{
-  freelog(LOG_DEBUG, "update_conn_list_dialog : PORT ME");
 }

@@ -450,7 +450,6 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
     	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->style &= ~SF_CENTER;
     pBuf->string16->bgcol.unused = 128;
     pBuf->string16->render = 3;
     pBuf->action = LD_cma_callback;
@@ -507,7 +506,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
   pBuf = pBuf->prev;
   ww -= (DOUBLE_FRAME_WH + 2);
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
-  setup_vertical_vidgets_position(1, pWindow->size.x + FRAME_WH + 1,
+  setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1 + hh, ww, 0,
 		  pCma->pAdv->pBeginActiveWidgetList, pBuf);
   if(pCma->pAdv->pScroll) {

@@ -98,6 +98,13 @@ static SDL_Surface *pOcean_Tile;
 static SDL_Surface *pOcean_Foged_Tile;
 static SDL_Surface *pDithers[T_LAST][4];
 
+static enum {
+  NORMAL = 0,
+  BORDERS = 1,
+  TEAMS
+} overview_mode = NORMAL;
+
+
 static void init_dither_tiles(void);
 static void free_dither_tiles(void);
 static void init_borders_tiles(void);
@@ -1090,6 +1097,9 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 /* =============================== Mini Map ============================ */
 /* ===================================================================== */
 
+/**************************************************************************
+...
+**************************************************************************/
 void center_minimap_on_minimap_window(void)
 {
   struct GUI *pMMap = get_minimap_window_widget();
@@ -1124,15 +1134,37 @@ void set_overview_dimensions(int w, int h)
   center_minimap_on_minimap_window();
   
   enable(ID_TOGGLE_UNITS_WINDOW_BUTTON);
-  enable(ID_TOGGLE_MAP_WINDOW_BUTTON);
-  enable(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
   enable(ID_REVOLUTION);
   enable(ID_ECONOMY);
   enable(ID_RESEARCH);
-  enable(ID_CITIES);
-  enable(ID_PLAYERS);
-  enable(ID_UNITS);
-
+  
+  /* New Turn */
+  pMMap = pMMap->prev;
+    
+  /* enable PLAYERS BUTTON */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+    
+  /* enable ID_FIND_CITY */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+  
+  /* enable UNITS BUTTON */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+  
+  /* enable ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+  
+  /* enable toggle minimap mode */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+  
+  /* enable ID_TOGGLE_MAP_WINDOW_BUTTON */
+  pMMap = pMMap->prev;
+  set_wstate(pMMap, FC_WS_NORMAL);
+  
   /* del init string */
   pMMap = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
 
@@ -1152,6 +1184,106 @@ void set_overview_dimensions(int w, int h)
   
 }
 
+void toggle_overview_mode(void)
+{
+  if (overview_mode == BORDERS) {
+    overview_mode = NORMAL;
+  } else {
+    overview_mode = BORDERS;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static SDL_Color sdl_overview_tile_color(int x, int y)
+{
+  SDL_Color color;
+  struct tile *pTile=map_get_tile(x, y);
+      
+  if ((enum known_type)pTile->known == TILE_UNKNOWN) {
+    return *(get_game_colorRGB(COLOR_STD_BLACK));
+  } else {
+    struct city *pCity = pTile->city;
+    if (pCity) {
+      if(pCity->owner == game.player_idx) {
+        return *(get_game_colorRGB(COLOR_STD_WHITE));
+      } else {
+        return *(get_game_colorRGB(COLOR_STD_CYAN));
+      }
+    } else {
+      struct unit *pUnit = find_visible_unit(pTile);
+      if (pUnit) {
+        if(pUnit->owner == game.player_idx) {
+	  return *(get_game_colorRGB(COLOR_STD_YELLOW));
+	} else {
+	  return *(get_game_colorRGB(COLOR_STD_RED));
+	}
+      } else {
+        switch (overview_mode) {
+          case BORDERS:
+	    if (pTile->owner) {
+	      if (is_ocean(pTile->terrain)) {
+                if ((enum known_type)pTile->known == TILE_KNOWN_FOGGED
+	           && draw_fog_of_war) {
+	          return *(get_game_colorRGB(COLOR_STD_RACE4));
+                } else {
+		  SDL_Color color_fog = *(get_game_colorRGB(COLOR_STD_RACE0 +
+		  				pTile->owner->player_no));
+		  
+		  color = *(get_game_colorRGB(COLOR_STD_OCEAN));
+		  
+		  ALPHA_BLEND(color_fog.r, color_fog.g, color_fog.b, 64,
+			         color.r, color.g, color.b);
+	          return color;
+                }
+              } else {
+                if ((enum known_type)pTile->known == TILE_KNOWN_FOGGED
+	           && draw_fog_of_war) {
+		  color = *(get_game_colorRGB(COLOR_STD_RACE0 +
+		  				pTile->owner->player_no));
+		  
+		  ALPHA_BLEND(0, 0, 0, 64,
+			         color.r, color.g, color.b);
+	          return color;
+                } else {
+	          return *(get_game_colorRGB(COLOR_STD_RACE0 +
+		  				pTile->owner->player_no));
+                }
+              } 
+	    } else {
+	      goto STD;
+	    }
+          break;
+          case TEAMS:
+	    goto STD;
+          break;
+          default:
+	  {
+STD:        if (is_ocean(pTile->terrain)) {
+	      if ((enum known_type)pTile->known == TILE_KNOWN_FOGGED
+	         && draw_fog_of_war) {
+	        return *(get_game_colorRGB(COLOR_STD_RACE4));
+              } else {
+	        return *(get_game_colorRGB(COLOR_STD_OCEAN));
+              }
+            } else {
+	      if ((enum known_type)pTile->known == TILE_KNOWN_FOGGED
+	          && draw_fog_of_war) {
+	        return *(get_game_colorRGB(COLOR_STD_GROUND_FOGED));
+              } else {
+	        return *(get_game_colorRGB(COLOR_STD_GROUND));
+              }
+            }
+	  }
+        }	
+      }
+    }
+  }
+    
+  return color;
+}
+
 /**************************************************************************
   Update the tile for the given map position on the overview.
 **************************************************************************/
@@ -1161,7 +1293,7 @@ void overview_update_tile(int x, int y)
   SDL_Rect cell_size = {OVERVIEW_TILE_WIDTH * x + OVERVIEW_START_X,
 			OVERVIEW_TILE_HEIGHT * y + OVERVIEW_START_Y,
 			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
-  SDL_Color color = *(get_game_colorRGB(overview_tile_color(x, y)));
+  SDL_Color color = sdl_overview_tile_color(x, y);
 
   freelog(LOG_DEBUG, "MAPVIEW: overview_update_tile (x = %d y = %d )", x, y);
 			 
@@ -1190,7 +1322,7 @@ void refresh_overview_canvas(void)
   	SDL_MapRGB(pMMap->theme->format, 0x0, 0x0, 0x0));
   
   while (TRUE) { /* mini map draw loop */
-    std_color = *(get_game_colorRGB(overview_tile_color(col, row))); 
+    std_color = sdl_overview_tile_color(col, row); 
     SDL_FillRect(pMMap->theme, &cell_size,
 	    SDL_MapRGBA(pMMap->theme->format, std_color.r,std_color.g,
     					std_color.b,std_color.unused));
@@ -1401,7 +1533,19 @@ void refresh_overview_viewrect(void)
 
       real_redraw_icon(pBuf);
     }
+    
+    /* ===== */
+    
+    /* Toggle minimap mode */
+    pBuf = pBuf->prev;
+    if((get_wflags(pBuf) & WF_HIDDEN) != WF_HIDDEN) {
+      if (!pBuf->gfx) {
+        pBuf->gfx = crop_rect_from_surface(pBuf->dst, &pBuf->size);
+      }
 
+      real_redraw_icon(pBuf);
+    }
+    
     /* ===== */
     /* ID_TOGGLE_MAP_WINDOW_BUTTON */
     pBuf = pBuf->prev;
@@ -1470,11 +1614,11 @@ void refresh_overview_viewrect(void)
 /**************************************************************************
   Draw City's surfaces to 'pDest' on position 'map_x' , 'map_y'.
 **************************************************************************/
-static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
+static void put_city_pixmap_draw(struct city *pCity, SDL_Surface *pDest,
 				 Sint16 map_x, Sint16 map_y)
 {
-  static struct Sprite *pSprites[20];
-  static SDL_Rect src ,des;
+  static struct drawn_sprite pSprites[10];
+  static SDL_Rect src, des;
   static int i, count;
     
   if(!pCity) {
@@ -1484,42 +1628,42 @@ static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
   des.x = map_x;
   des.y = map_y;
 
-  count =
-      fill_city_sprite_array_iso(pSprites, pCity);
+  count = fill_city_sprite_array_iso(pSprites, pCity);
   
   if (!(SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE))
   {
-    src = get_smaller_surface_rect(GET_SURF(pSprites[0]));
+    src = get_smaller_surface_rect(GET_SURF(pSprites[0].sprite));
     des.x += NORMAL_TILE_WIDTH / 4 + NORMAL_TILE_WIDTH / 8;
     des.y += NORMAL_TILE_HEIGHT / 4;
       
     /* blit flag/shield */
-    SDL_BlitSurface(GET_SURF(pSprites[0]), &src, pDest, &des);
+    SDL_BlitSurface(GET_SURF(pSprites[0].sprite), &src, pDest, &des);
   }
       
   des.x = map_x;
   des.y = map_y;
   src = des;
   for (i = 1; i < count; i++) {
-    if (pSprites[i]) {
-      if(GET_SURF(pSprites[i])->w - NORMAL_TILE_WIDTH > 0) {
-	des.x -= ((GET_SURF(pSprites[i])->w - NORMAL_TILE_WIDTH) >> 1);
+    if (pSprites[i].sprite) {
+#if 0      
+      if(GET_SURF(pSprites[i].sprite)->w - NORMAL_TILE_WIDTH > 0) {
+	des.x -= ((GET_SURF(pSprites[i].sprite)->w - NORMAL_TILE_WIDTH) >> 1);
       }
-      SDL_BlitSurface(GET_SURF(pSprites[i]), NULL, pDest, &des);
+#endif      
+      SDL_BlitSurface(GET_SURF(pSprites[i].sprite), NULL, pDest, &des);
       des = src;	    
     }
   }
   
-
 }
 
 /**************************************************************************
   Draw Unit's surfaces to 'pDest' on position 'map_x' , 'map_y'.
 **************************************************************************/
-void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
+void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
 			  Sint16 map_x, Sint16 map_y)
 {
-  static struct Sprite *pSprites[10];
+  static struct drawn_sprite pSprites[10];
   static SDL_Rect copy, des;
   static SDL_Rect src_hp = {0,0,0,0};
   static SDL_Rect src_flag = {0,0,0,0};
@@ -1540,10 +1684,10 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   /* blit hp bar */
   if (!src_hp.x)
   {
-    src_hp = get_smaller_surface_rect(GET_SURF(pSprites[count - 1]));
+    src_hp = get_smaller_surface_rect(GET_SURF(pSprites[count - 1].sprite));
   }
   copy = des;
-  SDL_BlitSurface(GET_SURF(pSprites[count - 1]), &src_hp, pDest, &des);
+  SDL_BlitSurface(GET_SURF(pSprites[count - 1].sprite), &src_hp, pDest, &des);
 
   des = copy;
   des.y += src_hp.h;
@@ -1552,17 +1696,17 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   /* blit flag/shield */
   if (!src_flag.x)
   {
-    src_flag = get_smaller_surface_rect(GET_SURF(pSprites[0]));
+    src_flag = get_smaller_surface_rect(GET_SURF(pSprites[0].sprite));
   }
   
-  SDL_BlitSurface(GET_SURF(pSprites[0]), &src_flag, pDest, &des);
+  SDL_BlitSurface(GET_SURF(pSprites[0].sprite), &src_flag, pDest, &des);
 
   des.x = map_x;
   des.y = map_y;
   copy = des;    
   for (i = 1; i < count - 1; i++) {
-    if (pSprites[i]) {
-      SDL_BlitSurface(GET_SURF(pSprites[i]), NULL, pDest, &des);
+    if (pSprites[i].sprite) {
+      SDL_BlitSurface(GET_SURF(pSprites[i].sprite), NULL, pDest, &des);
       des = copy;	    
     }
   }
@@ -1591,12 +1735,11 @@ static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
   on map_x , map_y position.
   Main Draw Map Function... speed of this function is critical !
 **************************************************************************/
-static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
+static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
 			  Uint16 map_col, Uint16 map_row, int citymode)
 {
-  static struct Sprite *pTile_sprs[80];
+  static struct drawn_sprite pTile_sprs[80];
   static struct Sprite *pCoasts[4] = {NULL, NULL, NULL, NULL};
-  static struct Sprite *pDither[4] = {NULL, NULL, NULL, NULL};
   static SDL_Surface *pDitherBufs[4];
   static SDL_Surface *pBufSurface = NULL;
   static SDL_Rect dst, des;
@@ -1609,7 +1752,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static bool fog, full_ocean, solid_bg;
 
   count =
-      fill_tile_sprite_array_iso(pTile_sprs, pCoasts, pDither, map_col,
+  	fill_tile_sprite_array_iso(pTile_sprs, pCoasts, NULL, map_col,
 				 map_row, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
@@ -1646,95 +1789,88 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
   dst = des;
   
-  if (draw_terrain) {
-    if (is_ocean(terrain)) {
-      if (full_ocean) 
-      {
-	if (fog)
-	{
-	  SDL_BlitSurface(pOcean_Foged_Tile, NULL, pBufSurface, &des);
-	}
-	else
-	{
-	  SDL_BlitSurface(pOcean_Tile, NULL, pBufSurface, &des);
-	}
+  if (is_ocean(terrain)) {
+    if (full_ocean) {
+      if (fog) {
+	SDL_BlitSurface(pOcean_Foged_Tile, NULL, pBufSurface, &des);
+      } else {
+	SDL_BlitSurface(pOcean_Tile, NULL, pBufSurface, &des);
       }
-      else
-      {  /* coasts */
-        /* top */
-        des.x += NORMAL_TILE_WIDTH / 4;
-        SDL_BlitSurface(GET_SURF(pCoasts[0]), NULL, pBufSurface, &des);
-        des = dst;
+    } else {  /* coasts */
+      /* top */
+      des.x += NORMAL_TILE_WIDTH / 4;
+      SDL_BlitSurface(GET_SURF(pCoasts[0]), NULL, pBufSurface, &des);
+      des = dst;
       
-        /* bottom */
-        des.x += NORMAL_TILE_WIDTH / 4;
-        des.y += HALF_NORMAL_TILE_HEIGHT;
-        SDL_BlitSurface(GET_SURF(pCoasts[1]), NULL, pBufSurface, &des);
-        des = dst;
+      /* bottom */
+      des.x += NORMAL_TILE_WIDTH / 4;
+      des.y += HALF_NORMAL_TILE_HEIGHT;
+      SDL_BlitSurface(GET_SURF(pCoasts[1]), NULL, pBufSurface, &des);
+      des = dst;
       
-        /* left */
-        des.y += NORMAL_TILE_HEIGHT / 4;
-        SDL_BlitSurface(GET_SURF(pCoasts[2]), NULL, pBufSurface, &des);
-        des = dst;
+      /* left */
+      des.y += NORMAL_TILE_HEIGHT / 4;
+      SDL_BlitSurface(GET_SURF(pCoasts[2]), NULL, pBufSurface, &des);
+      des = dst;
       
-        /* right */
-        des.y += NORMAL_TILE_HEIGHT / 4;
-        des.x += HALF_NORMAL_TILE_WIDTH;
-        SDL_BlitSurface(GET_SURF(pCoasts[3]), NULL, pBufSurface, &des);
-      }
-    } else {
-      SDL_BlitSurface(GET_SURF(pTile_sprs[0]), NULL, pBufSurface, &des);
-      i++;
+      /* right */
+      des.y += NORMAL_TILE_HEIGHT / 4;
+      des.x += HALF_NORMAL_TILE_WIDTH;
+      SDL_BlitSurface(GET_SURF(pCoasts[3]), NULL, pBufSurface, &des);
     }
-
-    des = dst;
-    /*** Dither base terrain ***/
-
-    if (!full_ocean && !is_ocean(terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
-    {
-      /* north */
-      if (pDitherBufs[0]) {
-        des.x += HALF_NORMAL_TILE_WIDTH;
-        SDL_BlitSurface(pDitherBufs[0], NULL, pBufSurface, &des);
-        des = dst;
-      }
-      /* south */
-      if (pDitherBufs[1]) {
-        des.y += HALF_NORMAL_TILE_HEIGHT;
-        SDL_BlitSurface(pDitherBufs[1], NULL, pBufSurface, &des);
-        des = dst;
-      }
-      /* east */
-      if (pDitherBufs[2]) {
-        des.y += HALF_NORMAL_TILE_HEIGHT;
-        des.x += HALF_NORMAL_TILE_WIDTH;
-        SDL_BlitSurface(pDitherBufs[2], NULL, pBufSurface, &des);
-        des = dst;
-      }
-      /* west */
-      if (pDitherBufs[3]) {
-        SDL_BlitSurface(pDitherBufs[3], NULL, pBufSurface, &des);
-        des = dst;
-      }
-    }
-    
+  } else {
+    SDL_BlitSurface(GET_SURF(pTile_sprs[0].sprite), NULL, pBufSurface, &des);
+    i++;
   }
 
-    /*** Rest of terrain and specials ***/
-  for (; i < count; i++) {
-    if (pTile_sprs[i]) {
-      if (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH > 0
-	  || GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT > 0) {
-	des.x -= ((GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH) / 2); /* center */
-        /* this allow drawing of civ3 bigger tiles */
-	des.y -= (GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT);
-	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
-      } else {
-	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
-      }
+  des = dst;
+  /*** Dither base terrain ***/
+
+  if (!full_ocean && !is_ocean(terrain) && (SDL_Client_Flags & CF_DRAW_MAP_DITHER))
+  {
+    /* north */
+    if (pDitherBufs[0]) {
+      des.x += HALF_NORMAL_TILE_WIDTH;
+      SDL_BlitSurface(pDitherBufs[0], NULL, pBufSurface, &des);
       des = dst;
-    } else {
-      freelog(LOG_ERROR, _("sprite is NULL"));
+    }
+    /* south */
+    if (pDitherBufs[1]) {
+      des.y += HALF_NORMAL_TILE_HEIGHT;
+      SDL_BlitSurface(pDitherBufs[1], NULL, pBufSurface, &des);
+      des = dst;
+    }
+    /* east */
+    if (pDitherBufs[2]) {
+      des.y += HALF_NORMAL_TILE_HEIGHT;
+      des.x += HALF_NORMAL_TILE_WIDTH;
+      SDL_BlitSurface(pDitherBufs[2], NULL, pBufSurface, &des);
+      des = dst;
+    }
+    /* west */
+    if (pDitherBufs[3]) {
+      SDL_BlitSurface(pDitherBufs[3], NULL, pBufSurface, &des);
+      des = dst;
+    }
+  }  
+
+    /*** Rest of terrain and specials ***/
+  if (draw_terrain) {
+    for (; i < count; i++) {
+      if (pTile_sprs[i].sprite) {
+        if (GET_SURF(pTile_sprs[i].sprite)->w - NORMAL_TILE_WIDTH > 0
+	   || GET_SURF(pTile_sprs[i].sprite)->h - NORMAL_TILE_HEIGHT > 0) {
+	  des.x -= ((GET_SURF(pTile_sprs[i].sprite)->w - NORMAL_TILE_WIDTH) / 2); /* center */
+          /* this allow drawing of civ3 bigger tiles */
+	  des.y -= (GET_SURF(pTile_sprs[i].sprite)->h - NORMAL_TILE_HEIGHT);
+	  SDL_BlitSurface(GET_SURF(pTile_sprs[i].sprite), NULL, pBufSurface, &des);
+        } else {
+	  SDL_BlitSurface(GET_SURF(pTile_sprs[i].sprite), NULL, pBufSurface, &des);
+        }
+        des = dst;
+      } else {
+        freelog(LOG_ERROR, _("sprite is NULL"));
+      }
     }
   }
 
@@ -1848,34 +1984,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
       des = dst;
     }
   }
-
-  /* this option is pure nonsens for me and will be removed soon */
-  if (draw_coastline && !draw_terrain) {
-    enum tile_terrain_type t1 = pTile->terrain , t2;
-    int x1, y1;
-    Uint32 coast_color = SDL_MapRGB(pBufSurface->format, 255, 255, 0);
-    x1 = map_col;
-    y1 = map_row - 1;
-    if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
-      if ((is_ocean(t1) ^ is_ocean(t2))) {
-	putline( pBufSurface ,
-		      des.x + HALF_NORMAL_TILE_WIDTH, des.y,
-		      des.x + NORMAL_TILE_WIDTH,
-		      des.y + HALF_NORMAL_TILE_HEIGHT, coast_color );
-      }
-    }
-    x1 = map_col - 1;
-    y1 = map_row;
-    if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
-      if ((is_ocean(t1) ^ is_ocean(t2))) {
-	putline(pBufSurface , 
-		      des.x, des.y + HALF_NORMAL_TILE_HEIGHT,
-		      des.x + HALF_NORMAL_TILE_WIDTH, des.y , coast_color);
-      }
-    }
-  }
   
   /*** City and various terrain improvements ***/
   if (sdl_contains_special(special, S_FORTRESS) && draw_fortress_airbase) {
@@ -1925,8 +2033,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     put_unit_pixmap_draw(pUnit, pBufSurface, des.x,
 			 des.y - HALF_NORMAL_TILE_HEIGHT);
 
-    if (!pCity
-	&& unit_list_size(&(pTile->units)) > 1) {
+    if (!pCity && unit_list_size(&(pTile->units)) > 1) {
       des.y -= HALF_NORMAL_TILE_HEIGHT;
       SDL_BlitSurface(GET_SURF(sprites.unit.stack), NULL, pBufSurface, &des);
       des = dst;		
@@ -2659,7 +2766,7 @@ static void init_dither_tiles(void)
   SDL_Surface *pTerrain_Surface, *pBuf = create_surf(NORMAL_TILE_WIDTH,
   					NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
   
-  SDL_SetColorKey(pBuf , SDL_SRCCOLORKEY , 0x0);
+  SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, 0x0);
   
   for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
   {
@@ -2769,8 +2876,7 @@ static void init_borders_tiles(void)
   pMapBorders = CALLOC(game.nplayers + 1, sizeof(SDL_Surface **));
   for(i=0; i<game.nplayers; i++) {
     
-    color = get_game_colorRGB(COLOR_STD_RACE0 +
-			(i % (COLOR_STD_RACE13 - COLOR_STD_RACE0 + 1)));
+    color = get_game_colorRGB(COLOR_STD_RACE0 + i);
     color->unused = 192;
     
     pMapBorders[i] = CALLOC(4, sizeof(SDL_Surface *));

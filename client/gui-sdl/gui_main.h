@@ -62,6 +62,7 @@ bool LCTRL;
 bool RCTRL;
 bool LALT;
 
+void force_exit_from_event_loop(void);
 void add_autoconnect_to_timer(void);
 void enable_focus_animation(void);
 void disable_focus_animation(void);

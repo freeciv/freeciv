@@ -52,7 +52,8 @@ enum WFlags {
   WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<21),	/* 2097152 */
   WF_WIDGET_HAS_INFO_LABEL		= (1<<22),	/* 4194304 */
   WF_SELLECT_WITHOUT_BAR		= (1<<23),	/* 8388608 */
-  WF_PASSWD_EDIT			= (1<<24)	
+  WF_PASSWD_EDIT			= (1<<24),
+  WF_EDIT_LOOP				= (1<<25)
 };
 
 /* Widget states */
@@ -85,6 +86,13 @@ enum WTypes {			/* allow 64 widgets type */
   WT_TCHECKBOX	= 52,		/* text label with checkbox. */
   WT_ICON2	= 56,		/* flat Button from 1 - state icon */
   WT_T2_LABEL	= 60
+};
+
+enum Edit_Return_Codes {
+  ED_RETURN = 1,
+  ED_ESC = 2,
+  ED_MOUSE = 3,
+  ED_FORCE_EXIT = 4
 };
 
 struct city;
@@ -189,8 +197,7 @@ struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List,
 				SDL_keysym Key);
 struct GUI *MainWidgetListKeyScaner(SDL_keysym Key);
 
-struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List,
-				       Uint16 ID);
+struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List, Uint16 ID);
 struct GUI *get_widget_pointer_form_main_list(Uint16 ID);
 
 void widget_sellected_action(struct GUI *pWidget);
@@ -255,7 +262,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 	Sint16 start_x, Sint16 start_y, Uint16 hight, bool swap_start_x);
 void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll);
   
-void setup_vertical_vidgets_position(int step,
+void setup_vertical_widgets_position(int step,
 	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
 				struct GUI *pBegin, struct GUI *pEnd);
 
@@ -310,7 +317,7 @@ int draw_ibutton(struct GUI *pButton, Sint16 start_x, Sint16 start_y);
 struct GUI *create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
 			SDL_String16 *pString16, Uint16 lenght,
 			Uint32 flags);
-bool edit_field(struct GUI *pEdit_Widget);
+enum Edit_Return_Codes edit_field(struct GUI *pEdit_Widget);
 int redraw_edit(struct GUI *pEdit_Widget);
 
 int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y);

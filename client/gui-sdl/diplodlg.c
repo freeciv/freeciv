@@ -157,7 +157,6 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 	(WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
       
-  pBuf->string16->style &= ~SF_CENTER;
   if(pa->plrno_from != game.player_idx) {
      pBuf->string16->style |= SF_CENTER_RIGHT;  
   }
@@ -488,7 +487,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  _("Pacts"), 12, WF_DRAW_THEME_TRANSPARENT);
     pBuf->string16->fgcol = color_t;
-    pBuf->string16->style &= ~SF_CENTER;
     width = pBuf->size.w;
     height = pBuf->size.h;
     add_to_gui_list(ID_LABEL, pBuf);
@@ -500,7 +498,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = color;
-      pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -516,7 +513,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = color;
-      pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -532,7 +528,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = color;
-      pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -551,7 +546,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	_("Give shared vision"), 12,
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = color;
-    pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = vision_callback;
@@ -565,7 +559,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Maps"), 12, WF_DRAW_THEME_TRANSPARENT);
     pBuf->string16->fgcol = color_t;
-    pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -577,7 +570,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = color;
-    pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
@@ -592,7 +584,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = color;
-    pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
@@ -609,7 +600,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  cBuf, 12, WF_DRAW_THEME_TRANSPARENT);
     pBuf->string16->fgcol = color_t;
-    pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -642,7 +632,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Advances"), 12, WF_DRAW_THEME_TRANSPARENT);
              pBuf->string16->fgcol = color_t;
-	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
              add_to_gui_list(ID_LABEL, pBuf);
@@ -653,7 +642,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 12,
 	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = color;
-	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
@@ -679,7 +667,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 12,
 	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = color;
-	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
@@ -737,7 +724,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 12,
 	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         pBuf->string16->fgcol = color;
-	pBuf->string16->style &= ~SF_CENTER;
 	width = MAX(width, pBuf->size.w);
 	height = MAX(height, pBuf->size.h);
         pBuf->data.cont = pCont;
@@ -790,7 +776,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), ww, hh);
   
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
      pWindow->size.x + FRAME_WH + 2, pWindow->size.y + WINDOW_TILE_HIGH + 2,
 	width, height, pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
   
@@ -849,7 +835,7 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     /* ============================================================= */
   
     pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), 12);
-    pStr->style |= TTF_STYLE_BOLD;
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = color;
     
     pBuf = create_iconlabel(
@@ -866,7 +852,7 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     add_to_gui_list(ID_ICON, pBuf);
     
     pStr = create_str16_from_char(get_nation_name(pPlayer1->nation), 12);
-    pStr->style |= TTF_STYLE_BOLD;
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = color;
     
     pBuf = create_iconlabel(

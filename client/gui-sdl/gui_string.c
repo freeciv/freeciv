@@ -59,43 +59,69 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_str16_surf(SDL_String16 * pString);
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString);
 
+
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Rect str16size(SDL_String16 * pString16)
+SDL_Rect str16size(SDL_String16 *pString16)
 {
   SDL_Rect Ret = {0, 0, 0, 0};
-  SDL_Surface *pText;
-  SDL_bool empty = SDL_FALSE;
-
-  if (!pString16) {
-    return Ret;
-  }
-
-  if (pString16->text == NULL) {
-    /* FIXME: is this correct?  We temporarily set the wide string
-     * to containe " ".  Then we reset it so as not to leave a
-     * dangling pointer. */
-    Uint16 text[2];
-    text[0] = ' ';
-    text[1] = '\0';
-    pString16->text = text;
-    empty = SDL_TRUE;
-    pText = create_str16_surf(pString16);
-    pString16->text = NULL;
+  
+  if (pString16 && pString16->text && pString16->text != '\0') {
+    Uint16 *pStr16 = pString16->text;
+    Uint16 c = *pStr16;
+    bool new_line = FALSE;
+    int w, h;
+    
+    /* find '\n' */
+    while (c != '\0') {
+      if (c == 10) {
+	new_line = TRUE;
+	break;
+      }
+      pStr16++;
+      c = *pStr16;
+    }
+   
+    if (!((pString16->style & 0x0F) & TTF_STYLE_NORMAL)) {
+      TTF_SetFontStyle(pString16->font, (pString16->style & 0x0F));
+    }
+    
+    if (new_line) {
+      int ww, hh, count = 0;
+      Uint16 **UniTexts = create_new_line_unistrings(pString16->text);
+      
+      w = 0;
+      h = 0;
+      while (UniTexts[count]) {
+        if (TTF_SizeUNICODE(pString16->font, UniTexts[count], &ww, &hh) < 0) {
+          do {
+	    FREE(UniTexts[count]);
+            count++;
+	  } while(UniTexts[count]);
+	  die("TTF_SizeUNICODE return ERROR !");
+        }
+        w = MAX(w, ww);
+        h += hh;
+        FREE(UniTexts[count]);
+        count++;
+      }
+    } else {  
+      if (TTF_SizeUNICODE(pString16->font, pString16->text, &w, &h) < 0) {
+	die("TTF_SizeUNICODE return ERROR !");
+      }
+    }
+   
+    if (!((pString16->style & 0x0F) & TTF_STYLE_NORMAL)) {
+      TTF_SetFontStyle(pString16->font, TTF_STYLE_NORMAL);
+    }
+    
+    Ret.w = w;
+    Ret.h = h;
   } else {
-    pText = create_text_surf_from_str16(pString16);
+    Ret.h = (pString16 ? TTF_FontHeight(pString16->font) : 0);
   }
-
-  Ret.w = pText->w;
-  Ret.h = pText->h;
-
-  FREESURFACE(pText);
-
-  if (empty) {
-    Ret.w = 0;
-  }
-
+  
   return Ret;
 }
 
@@ -154,7 +180,7 @@ SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
   
   if (n > pString->n_alloc) {
     /* allocated more if this is only a small increase on before: */
-    int n1 = (3 * pString->n_alloc) / 2;
+    size_t n1 = (3 * pString->n_alloc) / 2;
     pString->n_alloc = (n > n1) ? n : n1;
     pString->text = REALLOC(pString->text, pString->n_alloc);
   }
@@ -209,16 +235,6 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     pText = TTF_RenderUNICODE_Shaded(pString->font,
 				     pString->text, pString->fgcol,
 				     pString->bgcol);
-#if 0
-    if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
-      freelog(LOG_ERROR, _("Error in SDL_create_str16_surf: "
-			   "Couldn't convert text to display format: %s"),
-	      SDL_GetError());
-      pText = pTmp;
-      goto END;
-    }
-#endif
-
     break;
   case 1:
   {
@@ -356,24 +372,26 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 **************************************************************************/
 SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString)
 {
-  Uint16 *pStr16 = NULL;
-
-  if (!pString || !pString->text)
-    return NULL;
-
-  pStr16 = pString->text;
-
-  /* find '\n' */
-  while (*pStr16 != 0) {
-    if (*pStr16 == 10) {
-      return create_str16_multi_surf(pString);
+  if (pString && pString->text) {
+    Uint16 *pStr16 = pString->text;
+    Uint16 c = *pStr16;
+    
+    /* find '\n' */
+    while (c != '\0') {
+      if (c == 10) {
+        return create_str16_multi_surf(pString);
+      }
+      pStr16++;
+      c = *pStr16;
     }
-    pStr16++;
-  }
 
-  return create_str16_surf(pString);
+    return create_str16_surf(pString);
+  }
+  
+  return NULL;
 }
 
+#if 0
 /**************************************************************************
   ...
 **************************************************************************/
@@ -419,8 +437,117 @@ SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
     
   return pText;
 }
+#endif
 
+/**************************************************************************
+  ...
+**************************************************************************/
+bool convert_string_to_const_surface_width(SDL_String16 *pString,
+								int width)
+{  
+  int w;
+  bool converted = FALSE;
+  
+  assert(pString != NULL);
+  assert(pString->text != NULL);
+  
+  w = str16size(pString).w;
+  if(w > width) {
+    /* cut string length to w length by replacing space " " with new line "\n" */
+    bool resize = FALSE;
+    int len = 0, adv;
+    Uint16 New_Line, Space;
+    Uint16 *ptr_rev, *ptr = pString->text;
+        
+    {
+      Uint16 pBuf[2];
+      convertcopy_to_utf16(pBuf, sizeof(pBuf), "\n");
+      New_Line = pBuf[0];
+      convertcopy_to_utf16(pBuf, sizeof(pBuf), " ");
+      Space = pBuf[0];
+    }
+    
+    converted = TRUE;
+    
+    do {
+      if (!resize) {
+	
+	if (*ptr == '\0') {
+	  resize = TRUE;
+	  continue;
+	}
+	
+	if (*ptr == New_Line) {
+	  len = 0;
+	  ptr++;
+	  continue;
+	}
+		
+	if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
+    	  TTF_SetFontStyle(pString->font, (pString->style & 0x0F));
+	}
+	TTF_GlyphMetrics(pString->font, *ptr, NULL, NULL, NULL, NULL, &adv);
+	if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
+    	  TTF_SetFontStyle(pString->font, TTF_STYLE_NORMAL);
+	}
+	
+	len += adv;
+	
+	if (len > width) {
+	  ptr_rev = ptr;
+	  while(ptr_rev != pString->text) {
+	    if(*ptr_rev == Space) {
+              *ptr_rev = New_Line;/* "\n" */
+              w = str16size(pString).w;
+	      len = 0;
+	      break;
+	    }
+	    if(*ptr_rev == New_Line) {
+	      resize = TRUE;
+	      break;
+	    }
+	    ptr_rev--;
+	  }
+	  if (ptr_rev == pString->text) {
+	    resize = TRUE;
+	  }
+	}
+	
+	ptr++;
+      } else {
+        if (pString->ptsize > 8) {
+	  change_ptsize16(pString, pString->ptsize - 1);
+	  w = str16size(pString).w;
+	} else {
+	  die("Can't convert string to const width");
+	}
+      }  
+      
+    } while (w > width);
+  }
+    
+  return converted;
+}
 
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
+{
+  int ptsize;
+  SDL_Surface *pText;
+  
+  assert(pString != NULL);
+  
+  ptsize = pString->ptsize;
+  convert_string_to_const_surface_width(pString, w);
+  pText = create_text_surf_from_str16(pString);
+  if(pString->ptsize != ptsize) {
+    change_ptsize16(pString, ptsize);
+  }
+  
+  return pText;
+}
 
 /**************************************************************************
   ...
@@ -429,6 +556,10 @@ void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
 {
   TTF_Font *pBuf;
 
+  if (pString->ptsize == new_ptsize) {
+    return;
+  }
+  
   if ((pBuf = load_font(new_ptsize)) == NULL) {
     freelog(LOG_ERROR, _("Error in change_ptsize: Change ptsize failed"));
     return;

@@ -671,10 +671,8 @@ void popup_players_nations_dialog(void)
       pLogo = make_flag_surface_smaler(pLogo);
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
-    	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    
-      pBuf->string16->style &= ~SF_CENTER;
-                  
+    	(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                      
       /* now add some eye candy ... */
       switch (pDS->type) {
         case DS_WAR:
@@ -761,7 +759,7 @@ void popup_players_nations_dialog(void)
              (Main.event.motion.y - (WINDOW_TILE_HIGH + 2)) :
              (pWindow->dst->h - h - 10));
       
-  resize_window(pWindow , NULL, NULL, w, h);
+  resize_window(pWindow, NULL, NULL, w, h);
   
   w -= DOUBLE_FRAME_WH;
   
@@ -778,7 +776,7 @@ void popup_players_nations_dialog(void)
   
   /* cities */
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH, pWindow->size.y + WINDOW_TILE_HIGH + 2,
 	w, 0, pShort_Players_Dlg->pBeginActiveWidgetList, pBuf);
   

@@ -245,14 +245,14 @@ SEND:
     enum specialist_type to;
 
     switch (type) {
-    case SP_ELVIS:
-      to = SP_TAXMAN;
-      break;
     case SP_TAXMAN:
       to = SP_SCIENTIST;
       break;
     case SP_SCIENTIST:
       to = SP_ELVIS;
+      break;
+    default: /* SP_ELVIS */
+      to = SP_TAXMAN;
       break;
     }
 
@@ -540,7 +540,7 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
 
   pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(GET_SURF(get_unit_type(pUnit->type)->sprite),
 			  pWindow->dst, pStr, 0);
@@ -939,7 +939,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   pCityDlg->pBeginCityPanelWidgetList = pBuf;
 
 
-  setup_vertical_vidgets_position(NUM_UNITS_SHOWN,
+  setup_vertical_widgets_position(NUM_UNITS_SHOWN,
 	pWindow->size.x + 7,
 	pWindow->size.y + WINDOW_TILE_HIGH + 40,
 	  0, 0, pCityDlg->pBeginCityPanelWidgetList,
@@ -1737,7 +1737,7 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
 
   /* create text label */
   pStr = create_str16_from_char(cBuf, 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pStr->fgcol.r = 255;
   pStr->fgcol.g = 255;
   /*pStr->fgcol.b = 255; */
@@ -3871,7 +3871,6 @@ static void rebuild_imprm_list(struct city *pCity)
     pBuf->size.y = pWindow->size.y + 91 + count * pBuf->size.h;
     
     pBuf->size.w = 182;
-    pBuf->string16->style &= ~SF_CENTER;
     pBuf->action = sell_imprvm_dlg_callback;
 
     if (!pCityDlg->pCity->did_sell && !pImpr->is_wonder) {

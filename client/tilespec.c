@@ -1956,7 +1956,7 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
 
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
-    
+        
     if (draw_specials) {
       if (contains_special(tspecial, S_SPECIAL_1)) {
 	ADD_SPRITE_SIMPLE(tile_types[ttype].special[0].sprite);
@@ -2008,20 +2008,22 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
     }
 #endif
   }
+  
+  if (dither) {
+    /*
+     * We want to mark unknown tiles so that an unreal tile will be
+     * given the same marking as our current tile - that way we won't
+     * get the "unknown" dither along the edge of the map.
+     */
+    for (dir = 0; dir < 4; dir++) {
+      int x1, y1, other;
 
-  /*
-   * We want to mark unknown tiles so that an unreal tile will be
-   * given the same marking as our current tile - that way we won't
-   * get the "unknown" dither along the edge of the map.
-   */
-  for (dir = 0; dir < 4; dir++) {
-    int x1, y1, other;
-
-    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir]))
-      other = (tile_get_known(x1, y1) != TILE_UNKNOWN) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
-    else
-      other = ttype_near[dir];
-    dither[dir] = get_dither(ttype, other);
+      if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir]))
+        other = (tile_get_known(x1, y1) != TILE_UNKNOWN) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
+      else
+        other = ttype_near[dir];
+      dither[dir] = get_dither(ttype, other);
+    }
   }
 
   return sprs - save_sprs;

@@ -31,7 +31,6 @@
 
 #include "fcintl.h"
 #include "support.h"
-#include "log.h"
 
 #include "options.h"
 #include "colors.h"
@@ -437,15 +436,25 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     break;
   case WT_EDIT:
   {
-    bool change = edit_field(pWidget);
-    redraw_edit(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    if (change && pWidget->action) {
-      if (pWidget->action(pWidget)) {
-	ID = 0;
+    bool ret, loop = ((get_wflags(pWidget) & WF_EDIT_LOOP) == WF_EDIT_LOOP);
+    enum Edit_Return_Codes change;
+    do {
+      ret = FALSE;
+      change = edit_field(pWidget);
+      if (change != ED_FORCE_EXIT && (!loop || change != ED_RETURN)) {
+        redraw_edit(pWidget);
+        sdl_dirty_rect(pWidget->size);
+        flush_dirty();
       }
-    }
+      if (change != ED_FORCE_EXIT && change != ED_ESC && pWidget->action) {
+        if (pWidget->action(pWidget)) {
+	  ID = 0;
+        }
+      }
+      if (loop && change == ED_RETURN) {
+        ret = TRUE;
+      }
+    } while(ret);
     ID = 0;
   }
   break;
@@ -658,16 +667,23 @@ void draw_widget_info_label(void)
 
   /*pWidget->string16->render = 3;*/
   
+  color = pWidget->string16->fgcol;
+  pWidget->string16->style |= TTF_STYLE_BOLD;
+  pWidget->string16->fgcol.r = 255;
+  pWidget->string16->fgcol.g = 255;
+  pWidget->string16->fgcol.b = 255;
+  
   /* create string and bcgd theme */
   pText = create_text_surf_from_str16(pWidget->string16);
   /*SDL_SetAlpha(pText, 0x0, 0x0);*/
-
-  color = *get_game_colorRGB(QUICK_INFO);
+  pWidget->string16->fgcol = color;
+  
+  color = *get_game_colorRGB(COLOR_STD_QUICK_INFO);
   color.unused = 150;
 
 
   pBcgd = create_filled_surface(pText->w + 10, pText->h + 6, SDL_SWSURFACE,
-				get_game_colorRGB(QUICK_INFO));
+				get_game_colorRGB(COLOR_STD_QUICK_INFO));
 
 
   /* callculate start position */
@@ -1735,9 +1751,10 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 					Sint16 start_x, Sint16 start_y)
 {
   struct GUI *pBuf = NULL;
-  struct GUI *pEnd = NULL,*pOld_End = NULL;
+  struct GUI *pEnd = NULL, *pOld_End = NULL;
   int count = 0;
-  bool last = FALSE;
+  bool last = FALSE, seen = TRUE;
+  
   assert(pNew_Widget != NULL);
   assert(pDlg != NULL);
   assert(pDlg->pScroll != NULL);
@@ -1750,18 +1767,30 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   
   if(pDlg->pScroll->count > pDlg->pScroll->active * pDlg->pScroll->step) {
     if(pDlg->pActiveWidgetList) {
+      int i = 0;
       /* find last active widget */
       pOld_End = pAdd_Dock;
       while(pOld_End != pDlg->pActiveWidgetList) {
         pOld_End = pOld_End->next;
+	i++;
+	if (pOld_End == pDlg->pEndActiveWidgetList) {
+	  seen = FALSE;
+	  break;
+	}
       }
-      count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
-      while(count) {
-	pOld_End = pOld_End->prev;
-	count--;
-      }
-      if(pOld_End == pAdd_Dock) {
-	last = TRUE;
+      if (seen) {
+        count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
+        if (i > count) {
+	  seen = FALSE;
+        } else {
+          while(count) {
+	    pOld_End = pOld_End->prev;
+	    count--;
+          }
+          if(pOld_End == pAdd_Dock) {
+	    last = TRUE;
+          }
+	}
       }
     } else {
       last = TRUE;
@@ -1799,88 +1828,100 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   }
   
   /* setup draw positions */
-  if(!pDlg->pBeginActiveWidgetList) {
-    /* first element ( active list empty ) */
-    if(dir) {
-      freelog(LOG_FATAL, "Forbided List Operation");
-      abort();
-    }
-    pNew_Widget->size.x = start_x;
-    pNew_Widget->size.y = start_y;
-    pDlg->pBeginActiveWidgetList = pNew_Widget;
-    pDlg->pEndActiveWidgetList = pNew_Widget;
-    if(!pDlg->pBeginWidgetList) {
-      pDlg->pBeginWidgetList = pNew_Widget;
-      pDlg->pEndWidgetList = pNew_Widget;
-    }
-  } else { /* there are some elements on local active list */
-    if(last) {
-      /* We add to last seen position */
+  if (seen) {
+    if(!pDlg->pBeginActiveWidgetList) {
+      /* first element ( active list empty ) */
       if(dir) {
-	/* only swap pAdd_Dock with pNew_Widget on last seen positions */
-	pNew_Widget->size.x = pAdd_Dock->size.x;
-	pNew_Widget->size.y = pAdd_Dock->size.y;
-	pNew_Widget->gfx = pAdd_Dock->gfx;
-	pAdd_Dock->gfx = NULL;
-	set_wflag(pAdd_Dock, WF_HIDDEN);
-      } else {
-	/* repositon all widgets */
-	pBuf = pNew_Widget;
-        do {
-	  pBuf->size.x = pBuf->next->size.x;
-	  pBuf->size.y = pBuf->next->size.y;
-	  pBuf->gfx = pBuf->next->gfx;
-	  pBuf->next->gfx = NULL;
-	  pBuf = pBuf->next;
-        } while(pBuf != pDlg->pActiveWidgetList);
-        pBuf->gfx = NULL;
-        set_wflag(pBuf, WF_HIDDEN);
-	pDlg->pActiveWidgetList = pDlg->pActiveWidgetList->prev;
+	die("Forbided List Operation");
       }
-    } else {
-      pBuf = pNew_Widget;
-      /* find last seen widget */
-      if(pDlg->pActiveWidgetList) {
-	pEnd = pDlg->pActiveWidgetList;
-	count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
-        while(count && pEnd != pDlg->pBeginActiveWidgetList) {
-	  pEnd = pEnd->prev;
-	  count--;
-        }
+      pNew_Widget->size.x = start_x;
+      pNew_Widget->size.y = start_y;
+      pDlg->pBeginActiveWidgetList = pNew_Widget;
+      pDlg->pEndActiveWidgetList = pNew_Widget;
+      if(!pDlg->pBeginWidgetList) {
+        pDlg->pBeginWidgetList = pNew_Widget;
+        pDlg->pEndWidgetList = pNew_Widget;
       }
-      while(pBuf) {
-        if(pBuf == pDlg->pBeginActiveWidgetList) {
-	  struct GUI *pTmp = pBuf;
-	  count = pDlg->pScroll->step;
-	  while(count) {
-	    pTmp = pTmp->next;
-	    count--;
-	  }
-	  pBuf->size.x = pTmp->size.x;
-	  pBuf->size.y = pTmp->size.y + pTmp->size.h;
-	  /* break when last active widget or last seen widget */
-	  break;
+    } else { /* there are some elements on local active list */
+      if(last) {
+        /* We add to last seen position */
+        if(dir) {
+	  /* only swap pAdd_Dock with pNew_Widget on last seen positions */
+	  pNew_Widget->size.x = pAdd_Dock->size.x;
+	  pNew_Widget->size.y = pAdd_Dock->size.y;
+	  pNew_Widget->gfx = pAdd_Dock->gfx;
+	  pAdd_Dock->gfx = NULL;
+	  set_wflag(pAdd_Dock, WF_HIDDEN);
         } else {
-	  pBuf->size.x = pBuf->prev->size.x;
-	  pBuf->size.y = pBuf->prev->size.y;
-	  pBuf->gfx = pBuf->prev->gfx;
-	  pBuf->prev->gfx = NULL;
-	  if(pBuf == pEnd) {
-	    break;
-	  } 
+	  /* repositon all widgets */
+	  pBuf = pNew_Widget;
+          do {
+	    pBuf->size.x = pBuf->next->size.x;
+	    pBuf->size.y = pBuf->next->size.y;
+	    pBuf->gfx = pBuf->next->gfx;
+	    pBuf->next->gfx = NULL;
+	    pBuf = pBuf->next;
+          } while(pBuf != pDlg->pActiveWidgetList);
+          pBuf->gfx = NULL;
+          set_wflag(pBuf, WF_HIDDEN);
+	  pDlg->pActiveWidgetList = pDlg->pActiveWidgetList->prev;
         }
-        pBuf = pBuf->prev;
-      }
-      if(pOld_End && pBuf->prev == pOld_End) {
-        set_wflag(pOld_End, WF_HIDDEN);
-      }
-    }
+      } else { /* !last */
+        pBuf = pNew_Widget;
+        /* find last seen widget */
+        if(pDlg->pActiveWidgetList) {
+	  pEnd = pDlg->pActiveWidgetList;
+	  count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
+          while(count && pEnd != pDlg->pBeginActiveWidgetList) {
+	    pEnd = pEnd->prev;
+	    count--;
+          }
+        }
+        while(pBuf) {
+          if(pBuf == pDlg->pBeginActiveWidgetList) {
+	    struct GUI *pTmp = pBuf;
+	    count = pDlg->pScroll->step;
+	    while(count) {
+	      pTmp = pTmp->next;
+	      count--;
+	    }
+	    pBuf->size.x = pTmp->size.x;
+	    pBuf->size.y = pTmp->size.y + pTmp->size.h;
+	    /* break when last active widget or last seen widget */
+	    break;
+          } else {
+	    pBuf->size.x = pBuf->prev->size.x;
+	    pBuf->size.y = pBuf->prev->size.y;
+	    pBuf->gfx = pBuf->prev->gfx;
+	    pBuf->prev->gfx = NULL;
+	    if(pBuf == pEnd) {
+	      break;
+	    } 
+          }
+          pBuf = pBuf->prev;
+        }
+        if(pOld_End && pBuf->prev == pOld_End) {
+          set_wflag(pOld_End, WF_HIDDEN);
+        }
+      }/* !last */
+    } /* pDlg->pBeginActiveWidgetList */
+  } else {/* !seen */
+    set_wflag(pNew_Widget, WF_HIDDEN);
   }
-
+  
   if(pDlg->pActiveWidgetList) {
+    blit_entire_src(pDlg->pScroll->pScrollBar->gfx,
+    		    pDlg->pScroll->pScrollBar->dst,
+		    pDlg->pScroll->pScrollBar->size.x,
+    		    pDlg->pScroll->pScrollBar->size.y);
+    sdl_dirty_rect(pDlg->pScroll->pScrollBar->size);
     pDlg->pScroll->pScrollBar->size.h = scrollbar_size(pDlg->pScroll);
     if(last) {
       pDlg->pScroll->pScrollBar->size.y = get_position(pDlg);
+    }
+    refresh_widget_background(pDlg->pScroll->pScrollBar);
+    if (!seen) {
+      redraw_vert(pDlg->pScroll->pScrollBar);
     }
   }
 
@@ -2145,10 +2186,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   
   if(!pDlg->pScroll) {
     pDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
-    
-    pDlg->pScroll->active = active;
-    pDlg->pScroll->step = step;
-    
+        
     pBuf = pDlg->pEndActiveWidgetList;
     while(pBuf && pBuf != pDlg->pBeginActiveWidgetList->prev) {
       pBuf = pBuf->prev;
@@ -2157,6 +2195,9 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   
     pDlg->pScroll->count = count;
   }
+  
+  pDlg->pScroll->active = active;
+  pDlg->pScroll->step = step;
   
   if(create_buttons) {
     /* create up button */
@@ -2275,7 +2316,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 /**************************************************************************
   ...
 **************************************************************************/
-void setup_vertical_vidgets_position(int step,
+void setup_vertical_widgets_position(int step,
 	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
 				struct GUI *pBegin, struct GUI *pEnd)
 {
@@ -2739,20 +2780,19 @@ int real_redraw_icon2(struct GUI *pIcon)
 	     SDL_MapRGB(pIcon->dst->format, 246, 254, 2));
   }
 
+  if (state == FC_WS_DISABLED) {
+    putframe(pIcon->dst, dest.x + 1, dest.y + 1,
+	     dest.x + dest.w + 2, dest.y + dest.h + 2,
+	     get_game_color(COLOR_STD_DISABLED, pIcon->dst));
+  }
+  
   dest.x += 2;
   dest.y += 2;
   ret = SDL_BlitSurface(pIcon->theme, NULL, pIcon->dst, &dest);
   if (ret) {
     return ret;
   }
-
-  if (state == FC_WS_DISABLED) {
-    SDL_Color RGBA_Color = { 255, 255, 255, 128 };
-    dest.w = pIcon->theme->w;
-    dest.h = pIcon->theme->h;
-    SDL_FillRectAlpha(pIcon->dst, &dest, &RGBA_Color);
-  }
-
+    
   return 0;
 }
 
@@ -2794,7 +2834,7 @@ struct GUI * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
   pButton->mod = KMOD_NONE;
   pButton->dst = pDest;
   
-  if (pStr) {
+  if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
     pButton->string16->style |= SF_CENTER;
     /* if BOLD == true then longest wight */
     if (!(pStr->style & TTF_STYLE_BOLD)) {
@@ -2930,7 +2970,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
 
-  if (pIButton->string16) {
+  if (pIButton->string16 && !(get_wflags(pIButton) & WF_WIDGET_HAS_INFO_LABEL)) {
 
     /* make copy of string16 */
     TMPString = *pIButton->string16;
@@ -3120,7 +3160,7 @@ int real_redraw_tibutton(struct GUI *pTIButton)
 /* =================================================== */
 /* ===================== EDIT ======================== */
 /* =================================================== */
-
+  
 /**************************************************************************
   Return length of UniChar chain.
   WARRNING: if struct UniChar has 1 member and UniChar->chr == 0 then
@@ -3222,6 +3262,68 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
   return pOutText;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void redraw_edit_chain(struct EDIT *pEdt)
+{
+  struct UniChar *pInputChain_TMP;
+  SDL_Rect Dest, Dest_Copy;
+  int iStart_Mod_X;
+  
+  Dest_Copy.x = pEdt->pWidget->size.x;
+  Dest_Copy.y = pEdt->pWidget->size.y;
+
+  /* blit backgroud ( if any ) */
+  if (get_wflags(pEdt->pWidget) & WF_DRAW_THEME_TRANSPARENT) {
+    Dest = Dest_Copy;
+    SDL_BlitSurface(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
+  }
+
+  /* blit theme */
+  Dest = Dest_Copy;
+  SDL_BlitSurface(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
+
+  /* set start parametrs */
+  pInputChain_TMP = pEdt->pBeginTextChain;
+  iStart_Mod_X = 0;
+
+  Dest_Copy.y += (pEdt->pBg->h - pInputChain_TMP->pTsurf->h) / 2;
+  Dest_Copy.x += pEdt->Start_X;
+
+  /* draw loop */
+  while (pInputChain_TMP) {
+    Dest_Copy.x += iStart_Mod_X;
+    /* chech if we draw inside of edit rect */
+    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
+      break;
+    }
+
+    if (Dest_Copy.x > pEdt->pWidget->size.x) {
+      Dest = Dest_Copy;
+      SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
+			  			pEdt->pWidget->dst, &Dest);
+    }
+
+    iStart_Mod_X = pInputChain_TMP->pTsurf->w;
+
+    /* draw cursor */
+    if (pInputChain_TMP == pEdt->pInputChain) {
+      putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
+		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
+		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
+		  0xff0088ff);
+      /* save active element position */
+      pEdt->InputChain_X = Dest_Copy.x;
+    }
+	
+    pInputChain_TMP = pInputChain_TMP->next;
+  }	/* while - draw loop */
+
+  flush_rect(pEdt->pWidget->size);
+  
+}
+
 /* =================================================== */
 
 /**************************************************************************
@@ -3303,77 +3405,81 @@ int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y)
 **************************************************************************/
 int redraw_edit(struct GUI *pEdit_Widget)
 {
-  int iRet = 0;
-  SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
-  SDL_Surface *pEdit = NULL;
-  SDL_Surface *pText;
+  if (get_wstate(pEdit_Widget) & FC_WS_PRESSED) {
+    redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
+  } else {
+    int iRet = 0;
+    SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
+    SDL_Surface *pEdit = NULL;
+    SDL_Surface *pText;
   
-  if (pEdit_Widget->string16->text &&
+    if (pEdit_Widget->string16->text &&
     	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
-    Uint16 *backup = pEdit_Widget->string16->text;
-    size_t len = unistrlen(backup) + 1;
-    char *cBuf = MALLOC(len);
+      Uint16 *backup = pEdit_Widget->string16->text;
+      size_t len = unistrlen(backup) + 1;
+      char *cBuf = MALLOC(len);
     
-    memset(cBuf, '*', len - 1);
-    cBuf[len - 1] = '\0';
-    pEdit_Widget->string16->text = convert_to_utf16(cBuf);
-    pText = create_text_surf_from_str16(pEdit_Widget->string16);
-    FREE(pEdit_Widget->string16->text);
-    FREE(cBuf);
-    pEdit_Widget->string16->text = backup;
-  } else {
-    pText = create_text_surf_from_str16(pEdit_Widget->string16);
-  }
-  
-  if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
-
-    pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
-			      get_wstate(pEdit_Widget),
-			      pEdit_Widget->size.w, pEdit_Widget->size.h);
-
-    if (!pEdit) {
-      return -1;
-    }
-
-    /* blit background */
-    SDL_BlitSurface(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
-  } else {
-    pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
-			      get_wstate(pEdit_Widget),
-			      pEdit_Widget->size.w, pEdit_Widget->size.h);
-
-    if (!pEdit) {
-      return -1;
-    }
-  }
-
-  /* blit theme */
-  SDL_BlitSurface(pEdit, NULL, pEdit_Widget->dst, &rDest);
-
-  /* set position and blit text */
-  if (pText) {
-    rDest.y += (pEdit->h - pText->h) / 2;
-    /* blit centred text to botton */
-    if (pEdit_Widget->string16->style & SF_CENTER) {
-      rDest.x += (pEdit->w - pText->w) / 2;
+      memset(cBuf, '*', len - 1);
+      cBuf[len - 1] = '\0';
+      pEdit_Widget->string16->text = convert_to_utf16(cBuf);
+      pText = create_text_surf_from_str16(pEdit_Widget->string16);
+      FREE(pEdit_Widget->string16->text);
+      FREE(cBuf);
+      pEdit_Widget->string16->text = backup;
     } else {
-      if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
-	rDest.x += pEdit->w - pText->w - 5;
-      } else {
-	rDest.x += 5;		/* cennter left */
+      pText = create_text_surf_from_str16(pEdit_Widget->string16);
+    }
+  
+    if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
+
+      pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
+			      get_wstate(pEdit_Widget),
+			      pEdit_Widget->size.w, pEdit_Widget->size.h);
+
+      if (!pEdit) {
+        return -1;
+      }
+
+      /* blit background */
+      SDL_BlitSurface(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
+    } else {
+      pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
+			      get_wstate(pEdit_Widget),
+			      pEdit_Widget->size.w, pEdit_Widget->size.h);
+
+      if (!pEdit) {
+        return -1;
       }
     }
 
-    SDL_BlitSurface(pText, NULL, pEdit_Widget->dst, &rDest);
+    /* blit theme */
+    SDL_BlitSurface(pEdit, NULL, pEdit_Widget->dst, &rDest);
+
+    /* set position and blit text */
+    if (pText) {
+      rDest.y += (pEdit->h - pText->h) / 2;
+      /* blit centred text to botton */
+      if (pEdit_Widget->string16->style & SF_CENTER) {
+        rDest.x += (pEdit->w - pText->w) / 2;
+      } else {
+        if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
+	  rDest.x += pEdit->w - pText->w - 5;
+        } else {
+	  rDest.x += 5;		/* cennter left */
+        }
+      }
+
+      SDL_BlitSurface(pText, NULL, pEdit_Widget->dst, &rDest);
+    }
+    /* pText */
+    iRet = pEdit->h;
+
+    /* Free memory */
+    FREESURFACE(pText);
+    FREESURFACE(pEdit);
+    return iRet;
   }
-  /* pText */
-  iRet = pEdit->h;
-
-  /* Free memory */
-  FREESURFACE(pText);
-  FREESURFACE(pEdit);
-
-  return iRet;
+  return 0;
 }
 
 /**************************************************************************
@@ -3395,65 +3501,6 @@ int redraw_edit(struct GUI *pEdit_Widget)
   NOTE: This functions can return NULL in 'pEdit_Widget->sting16->text' but
         never free 'pEdit_Widget->sting16' struct.
 **************************************************************************/
-static void redraw_edit_chain(struct EDIT *pEdt)
-{
-  struct UniChar *pInputChain_TMP;
-  SDL_Rect Dest, Dest_Copy;
-  int iStart_Mod_X;
-  
-  Dest_Copy.x = pEdt->pWidget->size.x;
-  Dest_Copy.y = pEdt->pWidget->size.y;
-
-  /* blit backgroud ( if any ) */
-  if (get_wflags(pEdt->pWidget) & WF_DRAW_THEME_TRANSPARENT) {
-    Dest = Dest_Copy;
-    SDL_BlitSurface(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
-  }
-
-  /* blit theme */
-  Dest = Dest_Copy;
-  SDL_BlitSurface(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
-
-  /* set start parametrs */
-  pInputChain_TMP = pEdt->pBeginTextChain;
-  iStart_Mod_X = 0;
-
-  Dest_Copy.y += (pEdt->pBg->h - pInputChain_TMP->pTsurf->h) / 2;
-  Dest_Copy.x += pEdt->Start_X;
-
-  /* draw loop */
-  while (pInputChain_TMP) {
-    Dest_Copy.x += iStart_Mod_X;
-    /* chech if we draw inside of edit rect */
-    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
-      break;
-    }
-
-    if (Dest_Copy.x > pEdt->pWidget->size.x) {
-      Dest = Dest_Copy;
-      SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
-			  			pEdt->pWidget->dst, &Dest);
-    }
-
-    iStart_Mod_X = pInputChain_TMP->pTsurf->w;
-
-    /* draw cursor */
-    if (pInputChain_TMP == pEdt->pInputChain) {
-      putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
-		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
-		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
-		  0xff0088ff);
-      /* save active element position */
-      pEdt->InputChain_X = Dest_Copy.x;
-    }
-	
-    pInputChain_TMP = pInputChain_TMP->next;
-  }	/* while - draw loop */
-
-  flush_rect(pEdt->pWidget->size);
-  
-}
-
 static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
@@ -3464,11 +3511,11 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
   switch (Key.sym) {
     case SDLK_ESCAPE:
       /* exit from loop without changes */
-      return MAX_ID;
+      return ED_ESC;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
       /* exit from loop */
-      return ID_EDIT;
+      return ED_RETURN;
     case SDLK_KP6:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
@@ -3674,23 +3721,26 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
 	    pButtonEvent->y >= pEdt->pWidget->size.y &&
 	    pButtonEvent->y <= pEdt->pWidget->size.y + pEdt->pBg->h)) {
 	/* exit from loop */
-	return (Uint16)ID_EDIT;
+	return (Uint16)ED_MOUSE;
   }
   return (Uint16)ID_ERROR;
 }
 
-bool edit_field(struct GUI *pEdit_Widget)
+enum Edit_Return_Codes edit_field(struct GUI *pEdit_Widget)
 {
   struct EDIT pEdt;
   struct UniChar ___last;
   struct UniChar *pInputChain_TMP = NULL;
-  bool ret;
+  enum Edit_Return_Codes ret;
+  void *backup = pEdit_Widget->data.ptr;
   
   pEdt.pWidget = pEdit_Widget;
   pEdt.ChainLen = 0;
   pEdt.Truelength = 0;
   pEdt.Start_X = 5;
   pEdt.InputChain_X = 0;
+  
+  pEdit_Widget->data.ptr = (void *)&pEdt;
   
   SDL_EnableUNICODE(1);
 
@@ -3757,28 +3807,43 @@ bool edit_field(struct GUI *pEdit_Widget)
 
   redraw_edit_chain(&pEdt);
   
-  /* local loop */  
-  ret = (gui_event_loop((void *)&pEdt, NULL,
-  	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL) == ID_EDIT);
+  set_wstate(pEdit_Widget, FC_WS_PRESSED);
+  {
+    /* local loop */  
+    Uint16 rety = gui_event_loop((void *)&pEdt, NULL,
+  	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL);
+    
+    if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
+      pEdt.pBeginTextChain = NULL;
+    }
+    
+    if (rety == MAX_ID) {
+      ret = ED_FORCE_EXIT;
+    } else {
+      ret = (enum Edit_Return_Codes) rety;
+      
+      /* this is here becouse we have no knowladge that pEdit_Widget exist
+         or nor in force exit mode from gui loop */
   
-  /* reset font settings */
-  if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
-    TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
+      /* reset font settings */
+      if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
+        TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
+      }
+      
+      if(ret != ED_ESC) {
+        FREE(pEdit_Widget->string16->text);
+        pEdit_Widget->string16->text =
+  	    chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
+        pEdit_Widget->string16->n_alloc = (pEdt.ChainLen + 1) * sizeof(Uint16);
+      }
+      
+      pEdit_Widget->data.ptr = backup;
+      set_wstate(pEdit_Widget, FC_WS_NORMAL);    
+    }
   }
-
-  if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
-    pEdt.pBeginTextChain = NULL;
-  }
-
+  
   FREESURFACE(pEdt.pEndTextChain->pTsurf);
-
-  if(ret) {
-    FREE(pEdit_Widget->string16->text);
-    pEdit_Widget->string16->text =
-  	  chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
-    pEdit_Widget->string16->n_alloc = (pEdt.ChainLen + 1) * sizeof(Uint16);
-  }
-
+   
   del_chain(pEdt.pBeginTextChain);
   
   FREESURFACE(pEdt.pBg);
@@ -3788,7 +3853,7 @@ bool edit_field(struct GUI *pEdit_Widget)
 
   /* disable Unicode */
   SDL_EnableUNICODE(0);
-  
+    
   return ret;
 }
 
@@ -4092,7 +4157,8 @@ SDL_Surface * get_buffer_layer(bool transparent)
     pBuffer = SDL_DisplayFormatAlpha(Main.screen);
     colorkey = 0x0;
   } else {
-    pBuffer = SDL_DisplayFormat(Main.screen);
+    /*pBuffer = SDL_DisplayFormat(Main.screen);*/
+    pBuffer = create_surf(Main.screen->w, Main.screen->h, SDL_SWSURFACE);
     colorkey = SDL_MapRGB(pBuffer->format, 255, 0, 255);
   }
   
@@ -4283,7 +4349,7 @@ int resize_window(struct GUI *pWindow,
   }
 
   if (pBcgd) {
-    if (pBcgd->w != new_w && pBcgd->h != new_h) {
+    if (pBcgd->w != new_w || pBcgd->h != new_h) {
       pWindow->theme = ResizeSurface(pBcgd, new_w, new_h, 2);
       if (get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT) {
 	SDL_SetAlpha(pWindow->theme, SDL_SRCALPHA, 128);
@@ -5405,7 +5471,6 @@ void remake_label_size(struct GUI *pLabel)
   }
 
   if (pText) {
-    pLabel->string16->style |= SF_CENTER;
     buf = str16size(pText);
 
     w = MAX(w, buf.w + space);

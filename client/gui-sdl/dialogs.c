@@ -84,7 +84,6 @@ do { 									 \
   pStr->style |= TTF_STYLE_BOLD;					 \
   pBuf = create_iconlabel(NULL, pDest, pStr, 				 \
     	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
-  pBuf->string16->style &= ~SF_CENTER;					 \
   pBuf->string16->bgcol.unused = 128;					 \
   pBuf->string16->render = 3;						 \
   pBuf->action = pCallback;						 \
@@ -698,7 +697,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   pBuf->size.y = pWindow->size.y;
   pBuf = pBuf->prev;
   
-  setup_vertical_vidgets_position(1, pWindow->size.x + FRAME_WH + 1,
+  setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1, w, 0,
 		  pUnit_Select_Dlg->pBeginActiveWidgetList, pBuf);
     
@@ -832,6 +831,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
 {
   SDL_Surface *pSurf;
   struct GUI *pBuf, *pWindow;
+  SDL_String16 *pStr;  
   char cBuf[255];  
     
   if (pTerrain_Info_Dlg) {
@@ -888,13 +888,13 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain : UNKNOWN"));
   }
   
-  pBuf = create_iconlabel(pSurf, pWindow->dst,
-	  create_str16_from_char(cBuf, 12), 
-    		WF_FREE_THEME);
+  pStr = create_str16_from_char(cBuf, 12);
+  pStr->style |= SF_CENTER;
+  pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, WF_FREE_THEME);
   
   pBuf->size.h += NORMAL_TILE_HEIGHT / 2;
   
-  add_to_gui_list(ID_LABEL , pBuf);
+  add_to_gui_list(ID_LABEL, pBuf);
   
   /* ------ window ---------- */
   pWindow->size.w = pBuf->size.w + 20;
@@ -1199,8 +1199,7 @@ void popup_advanced_terrain_dialog(int x , int y)
    
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr , 
     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
-    
-  pBuf->string16->style &= ~SF_CENTER;
+
   pBuf->string16->render = 3;
   pBuf->string16->bgcol.unused = 128;
     
@@ -1748,7 +1747,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pCaravan_Dlg->pBeginWidgetList, pBuf);
@@ -2467,7 +2466,7 @@ void popup_diplomat_dialog(struct unit *pUnit, int target_x, int target_y)
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pDiplomat_Dlg->pBeginWidgetList, pBuf);
@@ -2976,7 +2975,7 @@ void popup_incite_dialog(struct city *pCity)
   }
   
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pIncite_Dlg->pBeginWidgetList, pBuf);
@@ -3174,7 +3173,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   }
   
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pBribe_Dlg->pBeginWidgetList, pBuf);
@@ -3320,7 +3319,7 @@ void popup_pillage_dialog(struct unit *pUnit,
 
   /* first special to pillage */
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pPillage_Dlg->pBeginWidgetList, pBuf);
@@ -3505,7 +3504,7 @@ void popup_unit_connect_dialog(struct unit *pUnit, int dest_x, int dest_y)
 
   /* first special to connect */
   pBuf = pBuf->prev;
-  setup_vertical_vidgets_position(1,
+  setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
 	pConnect_Dlg->pBeginWidgetList, pBuf);
@@ -3610,7 +3609,7 @@ void popup_revolution_dialog(void)
 
   /* create text label */
   pStr = create_str16_from_char(_("You say you wanna revolution?"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pStr->fgcol.r = 255;
   pStr->fgcol.g = 255;
   /* pStr->fgcol.b = 255; */
@@ -3815,77 +3814,38 @@ void popup_government_dialog(void)
 /**************************************************************************
                                 Nation Wizard
 **************************************************************************/
-static struct Nation_Window {
-
-  struct GUI *pBeginWidgetList;
-  struct GUI *pEndWidgetList;/* window */
-  struct GUI *pWidgetListSeparator;
-
-  SDL_String16 *nation_name_str16;
+static struct ADVANCED_DLG *pNationDlg = NULL;
+static struct SMALL_DLG *pHelpDlg = NULL;
   
+struct NAT {
   Uint8 nation_city_style;	/* sellected city style */
   Uint8 selected_leader;	/* if not unique -> sellected leader */
   Sint8 nation;			/* sellected nation */
   bool leader_sex;		/* sellected leader sex */
-  
-} *pNations;
+  struct GUI *pChange_Sex;
+  struct GUI *pName_Edit;
+  struct GUI *pName_Next;
+  struct GUI *pName_Prev;
+};
 
 static int nations_dialog_callback(struct GUI *pWindow);
-
 static int nation_button_callback(struct GUI *pNation);
-
-static int back_callback(struct GUI *pBack_Button);
 static int start_callback(struct GUI *pStart_Button);
 static int disconnect_callback(struct GUI *pButton);
-
 static int next_name_callback(struct GUI *pNext_Button);
 static int prev_name_callback(struct GUI *pPrev_Button);
 static int change_sex_callback(struct GUI *pSex);
-
 static void select_random_leader(Nation_Type_id nation);
-
-static void create_city_styles_widgets(void);
-static int create_nations_buttons(int *width , int *hight);
-
-static void create_nations_dialog(void);
-static void destroy_nations_dialog(void);
-static void redraw_nations_dialog(void);
+static void change_nation_label(void);
 
 /**************************************************************************
   ...
 **************************************************************************/
 static int nations_dialog_callback(struct GUI *pWindow)
 {
-  if(sellect_window_group_dialog(pNations->pBeginWidgetList, pWindow)) {
+  if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
     flush_rect(pWindow->size);
   }      
-  return -1;
-}
-
-/**************************************************************************
-   ...
-**************************************************************************/
-static int nation_button_callback(struct GUI *pNationButton)
-{
-    
-  pNations->nation = MAX_ID - pNationButton->ID;
-  pNations->nation_city_style =
-      get_nation_city_style(MAX_ID - pNationButton->ID);
-
-  pNations->nation_name_str16->text = pNationButton->string16->text;
-
-  disable(MAX_ID - 1000 - pNations->nation_city_style);
-  
-  hide_group(pNations->pWidgetListSeparator , pNations->pEndWidgetList->prev);
-  show_group(pNations->pBeginWidgetList , pNations->pWidgetListSeparator);
-      
-  copy_chars_to_string16(pNations->pEndWidgetList->string16,
-  					_("Nation Wizard : Nation Settings"));
-  
-  select_random_leader(pNations->nation);
-  
-  redraw_nations_dialog();
-
   return -1;
 }
 
@@ -3895,13 +3855,13 @@ static int nation_button_callback(struct GUI *pNationButton)
 static int start_callback(struct GUI *pStart_Button)
 {
   struct packet_alloc_nation packet;
-  char *pStr = convert_to_chars(pNations->pBeginWidgetList
-  					->next->next->next->string16->text);
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+  char *pStr = convert_to_chars(pSetup->pName_Edit->string16->text);
 
   /* perform a minimum of sanity test on the name */
-  packet.nation_no = pNations->nation;	/*selected; */
-  packet.is_male = pNations->leader_sex;	/*selected_sex; */
-  packet.city_style = pNations->nation_city_style;
+  packet.nation_no = pSetup->nation;	/*selected; */
+  packet.is_male = pSetup->leader_sex;	/*selected_sex; */
+  packet.city_style = pSetup->nation_city_style;
 
   sz_strlcpy(packet.name, pStr);
   FREE(pStr);
@@ -3925,40 +3885,16 @@ static int start_callback(struct GUI *pStart_Button)
 /**************************************************************************
   ...
 **************************************************************************/
-static int back_callback(struct GUI *pBack_Button)
-{
-  
-  enable(MAX_ID - 1000 - pNations->nation_city_style);
-  
-  pNations->nation = -1;
-  pNations->nation_name_str16->text = NULL;
-
-  hide_group(pNations->pBeginWidgetList , pNations->pWidgetListSeparator);
-  show_group(pNations->pWidgetListSeparator , pNations->pEndWidgetList->prev);
-    
-  copy_chars_to_string16(pNations->pEndWidgetList->string16,
-  			_("Nation Wizard : What nation will you be?"));
-  
-  set_wstate(pNations->pBeginWidgetList->next, FC_WS_DISABLED);
-  set_wstate(pNations->pBeginWidgetList->next->next, FC_WS_DISABLED);
-
-  redraw_nations_dialog();
-
-  return (-1);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 static int change_sex_callback(struct GUI *pSex)
 {
-
-  if (pNations->leader_sex) {
-    copy_chars_to_string16(pNations->pBeginWidgetList->string16, _("Female"));
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+    
+  if (pSetup->leader_sex) {
+    copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Female"));
   } else {
-    copy_chars_to_string16(pNations->pBeginWidgetList->string16, _("Male"));
+    copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Male"));
   }
-  pNations->leader_sex = !pNations->leader_sex;
+  pSetup->leader_sex = !pSetup->leader_sex;
   
   if (pSex) {
     pSellected_Widget = pSex;
@@ -3976,43 +3912,43 @@ static int change_sex_callback(struct GUI *pSex)
 static int next_name_callback(struct GUI *pNext)
 {
   int dim;
-  struct GUI *pEdit = pNations->pBeginWidgetList->next->next->next;
-  struct GUI *pPrev = pNations->pBeginWidgetList->next;
-  struct leader *leaders = get_nation_leaders(pNations->nation, &dim);
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+  struct leader *leaders = get_nation_leaders(pSetup->nation, &dim);
     
-  pNations->selected_leader++;
+  pSetup->selected_leader++;
   
   /* change leadaer sex */
-  if (pNations->leader_sex != leaders[pNations->selected_leader].is_male) {
+  if (pSetup->leader_sex != leaders[pSetup->selected_leader].is_male) {
     change_sex_callback(NULL);
   }
     
   /* change leadaer name */
-  copy_chars_to_string16(pEdit->string16,
-  				leaders[pNations->selected_leader].name);
+  copy_chars_to_string16(pSetup->pName_Edit->string16,
+  				leaders[pSetup->selected_leader].name);
   
-  if ((dim - 1) == pNations->selected_leader) {
-    set_wstate(pNext, FC_WS_DISABLED);
+  if ((dim - 1) == pSetup->selected_leader) {
+    set_wstate(pSetup->pName_Next, FC_WS_DISABLED);
   }
 
-  if (get_wstate(pPrev) == FC_WS_DISABLED) {
-    set_wstate(pPrev, FC_WS_NORMAL);
+  if (get_wstate(pSetup->pName_Prev) == FC_WS_DISABLED) {
+    set_wstate(pSetup->pName_Prev, FC_WS_NORMAL);
   }
 
-  if (!(get_wstate(pNext) == FC_WS_DISABLED)) {
-    pSellected_Widget = pNext;
-    set_wstate(pNext, FC_WS_SELLECTED);
+  if (!(get_wstate(pSetup->pName_Next) == FC_WS_DISABLED)) {
+    pSellected_Widget = pSetup->pName_Next;
+    set_wstate(pSetup->pName_Next, FC_WS_SELLECTED);
   }
 
-  redraw_edit(pEdit);
-  redraw_tibutton(pPrev);
-  redraw_tibutton(pNext);
-  dirty_rect(pEdit->size.x - pPrev->size.w, pEdit->size.y,
-		 pEdit->size.w + pPrev->size.w + pNext->size.w,
-		 pEdit->size.h);
+  redraw_edit(pSetup->pName_Edit);
+  redraw_tibutton(pSetup->pName_Prev);
+  redraw_tibutton(pSetup->pName_Next);
+  dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
+  		pSetup->pName_Edit->size.y,
+		pSetup->pName_Edit->size.w + pSetup->pName_Prev->size.w +
+  		pSetup->pName_Next->size.w, pSetup->pName_Edit->size.h);
   
-  redraw_ibutton(pNations->pBeginWidgetList);
-  sdl_dirty_rect(pNations->pBeginWidgetList->size);
+  redraw_ibutton(pSetup->pChange_Sex);
+  sdl_dirty_rect(pSetup->pChange_Sex->size);
   
   flush_dirty();
   return -1;
@@ -4024,43 +3960,43 @@ static int next_name_callback(struct GUI *pNext)
 static int prev_name_callback(struct GUI *pPrev)
 {
   int dim;
-  struct GUI *pEdit = pNations->pBeginWidgetList->next->next->next;
-  struct GUI *pNext = pNations->pBeginWidgetList->next->next;
-  struct leader *leaders = get_nation_leaders(pNations->nation, &dim);
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+  struct leader *leaders = get_nation_leaders(pSetup->nation, &dim);
     
-  pNations->selected_leader--;
+  pSetup->selected_leader--;
 
   /* change leadaer sex */
-  if (pNations->leader_sex != leaders[pNations->selected_leader].is_male) {
+  if (pSetup->leader_sex != leaders[pSetup->selected_leader].is_male) {
     change_sex_callback(NULL);
   }
   
   /* change leadaer name */
-  copy_chars_to_string16(pEdit->string16,
-  				leaders[pNations->selected_leader].name);
+  copy_chars_to_string16(pSetup->pName_Edit->string16,
+  				leaders[pSetup->selected_leader].name);
   
-  if (!pNations->selected_leader) {
-    set_wstate(pPrev, FC_WS_DISABLED);
+  if (!pSetup->selected_leader) {
+    set_wstate(pSetup->pName_Prev, FC_WS_DISABLED);
   }
 
-  if (get_wstate(pNext) == FC_WS_DISABLED) {
-    set_wstate(pNext, FC_WS_NORMAL);
+  if (get_wstate(pSetup->pName_Next) == FC_WS_DISABLED) {
+    set_wstate(pSetup->pName_Next, FC_WS_NORMAL);
   }
 
-  if (!(get_wstate(pPrev) == FC_WS_DISABLED)) {
-    pSellected_Widget = pPrev;
-    set_wstate(pPrev, FC_WS_SELLECTED);
+  if (!(get_wstate(pSetup->pName_Prev) == FC_WS_DISABLED)) {
+    pSellected_Widget = pSetup->pName_Prev;
+    set_wstate(pSetup->pName_Prev, FC_WS_SELLECTED);
   }
 
-  redraw_edit(pEdit);
-  redraw_tibutton(pPrev);
-  redraw_tibutton(pNext);
-  dirty_rect(pEdit->size.x - pPrev->size.w, pEdit->size.y,
-		 pEdit->size.w + pPrev->size.w + pNext->size.w,
-		 pEdit->size.h);
+  redraw_edit(pSetup->pName_Edit);
+  redraw_tibutton(pSetup->pName_Prev);
+  redraw_tibutton(pSetup->pName_Next);
+  dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
+  		pSetup->pName_Edit->size.y, pSetup->pName_Edit->size.w +
+  		pSetup->pName_Prev->size.w + pSetup->pName_Next->size.w,
+		pSetup->pName_Edit->size.h);
   
-  redraw_ibutton(pNations->pBeginWidgetList);
-  sdl_dirty_rect(pNations->pBeginWidgetList->size);
+  redraw_ibutton(pSetup->pChange_Sex);
+  sdl_dirty_rect(pSetup->pChange_Sex->size);
   
   flush_dirty();
   return -1;
@@ -4071,31 +4007,210 @@ static int prev_name_callback(struct GUI *pPrev)
 **************************************************************************/
 static int disconnect_callback(struct GUI *pButton)
 {
-  destroy_nations_dialog();
+  popdown_races_dialog();
   disconnect_from_server();
   return -1;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static int city_style_callback(struct GUI *pWidget)
 {
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
   struct GUI *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
-					    pNations->nation_city_style);
+					    pSetup->nation_city_style);
   set_wstate(pGUI, FC_WS_NORMAL);
   redraw_icon2(pGUI);
   sdl_dirty_rect(pGUI->size);
   
-  set_wstate(pWidget , FC_WS_DISABLED);
+  set_wstate(pWidget, FC_WS_DISABLED);
   redraw_icon2(pWidget);
   sdl_dirty_rect(pWidget->size);
   
-  pNations->nation_city_style = MAX_ID - 1000 - pWidget->ID;
+  pSetup->nation_city_style = MAX_ID - 1000 - pWidget->ID;
   
   flush_dirty();
   pSellected_Widget = NULL;
   return -1;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
+static int help_dlg_callback(struct GUI *pWindow)
+{
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int cancel_help_dlg_callback(struct GUI *pWidget)
+{
+  if (pHelpDlg) {
+    popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
+			pHelpDlg->pEndWidgetList);
+    FREE(pHelpDlg);
+    if (pWidget) {
+      flush_dirty();
+    }
+  }
+  return -1;
+}
+
+/**************************************************************************
+   ...
+**************************************************************************/
+static int nation_button_callback(struct GUI *pNationButton)
+{
+      
+  set_wstate(pNationButton, FC_WS_SELLECTED);
+  pSellected_Widget = pNationButton;
+  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+      
+    if (pSetup->nation == MAX_ID - pNationButton->ID) {
+      redraw_widget(pNationButton);
+      flush_rect(pNationButton->size);
+      return -1;
+    }
+  
+    pSetup->nation = MAX_ID - pNationButton->ID;
+  
+    change_nation_label();
+  
+    enable(MAX_ID - 1000 - pSetup->nation_city_style);
+    pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
+    disable(MAX_ID - 1000 - pSetup->nation_city_style);
+    
+    select_random_leader(pSetup->nation);
+    
+    redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
+    flush_rect(pNationDlg->pEndWidgetList->size);
+  } else {
+    /* pop up legend info */
+    int w = 0, h;
+    struct GUI *pWindow, *pCancel;
+    SDL_String16 *pStr;
+    SDL_Surface *pText, *pText2;
+    SDL_Rect area;
+    struct nation_type *pNation = get_nation_by_idx(MAX_ID - pNationButton->ID);
+      
+    redraw_widget(pNationButton);
+    sdl_dirty_rect(pNationButton->size);
+  
+    if (!pHelpDlg) {
+    
+      pHelpDlg = MALLOC(sizeof(struct SMALL_DLG));
+    
+      pStr = create_str16_from_char("Nation's Legend", 12);
+      pStr->style |= TTF_STYLE_BOLD;
+  
+      pWindow = create_window(NULL, pStr, 10, 10, 0);
+      pWindow->action = help_dlg_callback;
+      w = pWindow->size.w;
+      set_wstate(pWindow, FC_WS_NORMAL);
+    
+      pHelpDlg->pEndWidgetList = pWindow;
+      add_to_gui_list(ID_WINDOW, pWindow);
+    
+      pCancel = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+    				pWindow->dst, _("Cancel"), 14, 0);
+      pCancel->action = cancel_help_dlg_callback;
+      set_wstate(pCancel, FC_WS_NORMAL);
+      pCancel->key = SDLK_ESCAPE;
+      add_to_gui_list(ID_BUTTON, pCancel);
+      pHelpDlg->pBeginWidgetList = pCancel;
+    } else {
+      pWindow = pHelpDlg->pEndWidgetList;
+      pCancel = pHelpDlg->pBeginWidgetList;
+      /* undraw window */
+      blit_entire_src(pWindow->gfx, pWindow->dst,
+				      pWindow->size.x, pWindow->size.y);
+      sdl_dirty_rect(pWindow->size);
+    }
+    
+    if (pNation->legend && *(pNation->legend) != '\0') {
+      pStr = create_str16_from_char(pNation->legend, 12);
+    } else {
+      pStr = create_str16_from_char("SORRY... NO INFO", 12);
+    }
+    
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_WHITE);
+    pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - 20);
+  
+    copy_chars_to_string16(pStr, pNation->name_plural);
+    pText2 = create_text_surf_from_str16(pStr);
+  
+    FREESTRING16(pStr);
+    
+    /* create window background */
+    w = MAX(w, pText2->w + 20);
+    w = MAX(w, pText->w + 20);
+    w = MAX(w, pCancel->size.w + 20);
+    h = WINDOW_TILE_HIGH + 10 + pText2->h + 10 + pText->h + 10 +
+  			pCancel->size.h + 10 + FRAME_WH;
+  
+    pWindow->size.x = (pWindow->dst->w - w) / 2;
+    pWindow->size.y = (pWindow->dst->h - h) / 2;
+  
+    resize_window(pWindow, NULL,
+  	get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+  
+    area.x = 10;
+    area.y = WINDOW_TILE_HIGH + 10;
+    SDL_BlitSurface(pText2, NULL, pWindow->theme, &area);
+    area.y += (pText2->h + 10);
+    FREESURFACE(pText2);
+  
+    SDL_BlitSurface(pText, NULL, pWindow->theme, &area);
+    FREESURFACE(pText);
+  
+    pCancel->size.x = pWindow->size.x + (pWindow->size.w - pCancel->size.w) / 2;
+    pCancel->size.y = pWindow->size.y +
+			pWindow->size.h - pCancel->size.h - 10 - FRAME_WH;
+  
+    /* redraw */
+    redraw_group(pCancel, pWindow, 0);
+
+    sdl_dirty_rect(pWindow->size);
+  
+    flush_dirty();
+
+  }
+  
+  return -1;
+}
+
 /* =========================================================== */
+
+/**************************************************************************
+   ...
+**************************************************************************/
+static void change_nation_label(void)
+{
+  SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed;
+  struct GUI *pWindow = pNationDlg->pEndWidgetList;
+  struct NAT *pSetup = (struct NAT *)(pWindow->data.ptr);  
+  struct GUI *pLabel = pSetup->pName_Edit->next;
+  struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
+  
+  pTmp_Surf = make_flag_surface_smaler(GET_SURF(pNation->flag_sprite));
+  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 5.0, 5.0, 1);
+  FREESURFACE(pTmp_Surf);
+  FREESURFACE(pLabel->theme);
+  
+  pLabel->theme = pTmp_Surf_zoomed;
+  copy_chars_to_string16(pLabel->string16, pNation->name_plural);
+  
+  remake_label_size(pLabel);
+  
+  pLabel->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - pLabel->size.w) / 2;
+    
+}
 
 /**************************************************************************
   Selectes a leader and the appropriate sex. Updates the gui elements
@@ -4104,135 +4219,134 @@ static int city_style_callback(struct GUI *pWidget)
 static void select_random_leader(Nation_Type_id nation)
 {
   int dim;
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
   struct leader *leaders = get_nation_leaders(nation, &dim);
-  struct GUI *pChange_Sex_Button = pNations->pBeginWidgetList;
-  struct GUI *pName_edit = pNations->pBeginWidgetList->next->next->next;
+  
     
-  pNations->selected_leader = myrand(dim);
-  copy_chars_to_string16(pName_edit->string16,
-  				leaders[pNations->selected_leader].name);
+  pSetup->selected_leader = myrand(dim);
+  copy_chars_to_string16(pSetup->pName_Edit->string16,
+  				leaders[pSetup->selected_leader].name);
   
   /* initialize leader sex */
-  pNations->leader_sex = leaders[pNations->selected_leader].is_male;
+  pSetup->leader_sex = leaders[pSetup->selected_leader].is_male;
 
-  if (pNations->leader_sex) {
-    copy_chars_to_string16(pChange_Sex_Button->string16, _("Male"));
+  if (pSetup->leader_sex) {
+    copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Male"));
   } else {
-    copy_chars_to_string16(pChange_Sex_Button->string16, _("Female"));
+    copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Female"));
   }
   
   if (dim > 1) {
-    if (pNations->selected_leader) {
-      set_wstate(pNations->pBeginWidgetList->next, FC_WS_NORMAL);
+    if (pSetup->selected_leader) {
+      set_wstate(pSetup->pName_Prev, FC_WS_NORMAL);
     }
 
-    if ((dim - 1) != pNations->selected_leader) {
-      set_wstate(pNations->pBeginWidgetList->next->next, FC_WS_NORMAL);
+    if ((dim - 1) != pSetup->selected_leader) {
+      set_wstate(pSetup->pName_Next, FC_WS_NORMAL);
     }
   }
   
 }
 
 /**************************************************************************
-  ...
+  Popup the nation selection dialog.
 **************************************************************************/
-static void create_city_styles_widgets(void)
+void popup_races_dialog(void)
 {
-  int i = 0;
-  Uint16 len = 0;
-  struct GUI *pEnd = NULL, *pWidget;
-  Sint16 start_y = pNations->pEndWidgetList->size.y +
-			  pNations->pEndWidgetList->size.h - 130;
+  struct GUI *pWindow, *pWidget = NULL, *pBuf, *pLast_City_Style;
+  SDL_String16 *pStr;
+  int i, len = 0;
+  int w = 10, h = 10;
+  SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
+  SDL_Surface *pMain_Bg, *pText_Name, *pText_Class;
+  SDL_Color color = {255,255,255,128};
+  SDL_Rect dst;
+  struct NAT *pSetup;
+    
+  #define TARGETS_ROW 4
+  #define TARGETS_COL 3
   
-  while (i < game.styles_count) {
-    if (city_styles[i].techreq == A_NONE) {
-      pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
-		pNations->pEndWidgetList->dst, WF_DRAW_THEME_TRANSPARENT);
-      pEnd = pWidget;
-      
-      pWidget->action = city_style_callback;
-      set_wstate(pWidget, FC_WS_NORMAL);
-      
-      len = pWidget->size.w;
-      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
-      set_wflag(pWidget, WF_HIDDEN);
-      i++;
-      break;
-    }
-    i++;
-  }
-
-  len += 3;
-
-  for (i = i; (i < game.styles_count && i < 64); i++) {
-    if (city_styles[i].techreq == A_NONE) {
-      pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
-		pNations->pEndWidgetList->dst, WF_DRAW_THEME_TRANSPARENT);
-      pWidget->action = city_style_callback;
-      set_wstate(pWidget, FC_WS_NORMAL);
-      len += (pWidget->size.w + 3);
-      set_wflag(pWidget, WF_HIDDEN);
-      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
-    }
+  if (pNationDlg) {
+    return;
   }
   
-  pEnd->size.x = pNations->pEndWidgetList->size.x +
-		  (pNations->pEndWidgetList->size.w - len) / 2;
-  pEnd->size.y = start_y;
-  pEnd = pEnd->prev;
+  pNationDlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
-  while(pEnd) {
-    pEnd->size.x = pEnd->next->size.x + pEnd->next->size.w + 3;
-    pEnd->size.y = start_y;
-    pEnd = pEnd->prev;
-  }
+  /* create window widget */
+  pStr = create_str16_from_char(_("What nation will you be?"), 12);
+  pStr->style |= TTF_STYLE_BOLD;
   
-}
+  pWindow = create_window(NULL, pStr, w, h, WF_FREE_DATA);
+  pWindow->action = nations_dialog_callback;
+  set_wstate(pWindow, FC_WS_NORMAL);
+  pSetup = MALLOC(sizeof(struct NAT));
+  pWindow->data.ptr = (void *)pSetup;
+    
+  pNationDlg->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_NATION_WIZARD_WINDOW, pWindow);
+  /* --------------------------------------------------------- */
+  /* create nations list */
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int create_nations_buttons(int *width , int *hight)
-{
-  int i , start_x , x , y;
-  int w = 0, h = 0;
-  SDL_Surface *pTmp_flag = NULL, *pTmp_flag_zoomed = NULL;
-  struct GUI *pBeginNationButtons = NULL , *pWidget;
-
-  /* init list */
-  pTmp_flag = GET_SURF(get_nation_by_idx(0)->flag_sprite);
-  pTmp_flag = make_flag_surface_smaler(pTmp_flag);
-  pTmp_flag_zoomed = ZoomSurface(pTmp_flag, 0.5, 0.5, 0);
-  FREESURFACE(pTmp_flag);
-  pBeginNationButtons = pWidget =
-	create_icon_button(pTmp_flag_zoomed, pNations->pEndWidgetList->dst,
-		create_str16_from_char(get_nation_name_plural(0),11), 0);
+  /* Create Imprv Background Icon */
+  pTmp_Surf = create_surf(96, 96, SDL_SWSURFACE);
+  pMain_Bg = SDL_DisplayFormatAlpha(pTmp_Surf);
+  SDL_FillRect(pMain_Bg, NULL, SDL_MapRGBA(pMain_Bg->format, color.r,
+					    color.g, color.b, color.unused));
+  putframe(pMain_Bg, 0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1, 0xFF000000);
+  FREESURFACE(pTmp_Surf);
   
-  pWidget->size.h += 4;
-  set_wflag(pWidget, WF_FREE_GFX);
-  set_wstate(pWidget, FC_WS_NORMAL);
-  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
-  pWidget->action = nation_button_callback;
-
-  w = pWidget->size.w;
-  h = pWidget->size.h;
-
-  add_to_gui_list(MAX_ID, pWidget);
+  pStr = create_string16(NULL, 0, 12);
+  pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
+  pStr->render = 3;
+  pStr->bgcol = color;
 
   /* fill list */
-  for (i = 1; i < game.playable_nation_count; i++) {
-    pTmp_flag = GET_SURF(get_nation_by_idx(i)->flag_sprite);
+  pText_Class = NULL;
+  for (i = 0; i < game.playable_nation_count; i++) {
+    
+    struct nation_type *pNation = get_nation_by_idx(i);
+    
+    pTmp_Surf = make_flag_surface_smaler(GET_SURF(pNation->flag_sprite));
+    pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 3.0, 3.0, 1);
+    SDL_SetAlpha(pTmp_Surf_zoomed, 0x0, 0x0);
+    FREESURFACE(pTmp_Surf);
 
-    pTmp_flag = make_flag_surface_smaler(pTmp_flag);
-    pTmp_flag_zoomed = ZoomSurface(pTmp_flag, 0.5, 0.5, 0);
-    FREESURFACE(pTmp_flag);
-
-    pWidget = create_icon_button(pTmp_flag_zoomed, pNations->pEndWidgetList->dst,
-		  create_str16_from_char(get_nation_name_plural(i), 11), 0);
-
-    pWidget->size.h += 4;
-    set_wflag(pWidget, WF_FREE_GFX);
-    clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
+    pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
+          
+    copy_chars_to_string16(pStr, pNation->name_plural);
+    change_ptsize16(pStr, 12);
+    pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - 4);
+    SDL_SetAlpha(pText_Name, 0x0, 0x0);
+    
+    if (pNation->class && *(pNation->class) != '\0') {
+      copy_chars_to_string16(pStr, pNation->class);
+      change_ptsize16(pStr, 10);
+      pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - 4);
+      SDL_SetAlpha(pText_Class, 0x0, 0x0);
+    }
+    
+    dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
+    len = pTmp_Surf_zoomed->h +
+	    10 + pText_Name->h + (pText_Class ? pText_Class->h : 0);
+    dst.y = (pTmp_Surf->h - len) / 2;
+    SDL_BlitSurface(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst);
+    dst.y += (pTmp_Surf_zoomed->h + 10);
+    FREESURFACE(pTmp_Surf_zoomed);
+    
+    dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
+    SDL_BlitSurface(pText_Name, NULL, pTmp_Surf, &dst);
+    dst.y += pText_Name->h;
+    FREESURFACE(pText_Name);
+    
+    if (pText_Class) {
+      dst.x = (pTmp_Surf->w - pText_Class->w) / 2;
+      SDL_BlitSurface(pText_Class, NULL, pTmp_Surf, &dst);
+      FREESURFACE(pText_Class);
+    }
+    
+    pWidget = create_icon2(pTmp_Surf, pWindow->dst,
+    			(WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME));
+    
     set_wstate(pWidget, FC_WS_NORMAL);
     
     pWidget->action = nation_button_callback;
@@ -4241,267 +4355,241 @@ static int create_nations_buttons(int *width , int *hight)
     h = MAX(h, pWidget->size.h);
     
     add_to_gui_list(MAX_ID - i, pWidget);
-
-    pTmp_flag = NULL;
-  }
-
-  /* set window w, h and start position */
-  *width = 20 + 4 * w;
-  
-  if ( i & 0x01 ) {
-    *hight = 65 + ((i + 1) / 4) * h;
-  } else {
-    *hight = 65 + (i / 4) * h;
-  }
-  
-  pNations->pEndWidgetList->size.x =
-	  (pNations->pEndWidgetList->dst->w - *width) /2;
-  pNations->pEndWidgetList->size.y =
-	  (pNations->pEndWidgetList->dst->h - *hight) /2;
-  
-  x = start_x = pNations->pEndWidgetList->size.x + 10;
-  y = pNations->pEndWidgetList->size.y + 25;
-  
-  pWidget = pBeginNationButtons;
-  i = 1;
-  /* correct size and set start positions*/
-  while (pWidget) {
-
-    pWidget->size.w = w;
-    pWidget->size.h = h;
-
-    pWidget->size.x = x;
-    pWidget->size.y = y;
-    x += w;
-
-    if (x > start_x + w * 3) {
-      x = start_x;
-      y += h;
-      i++;
+    
+    if(i > (TARGETS_ROW * TARGETS_COL - 1)) {
+      set_wflag(pWidget, WF_HIDDEN);
     }
     
-    pWidget = pWidget->prev;
   }
+  
+  FREESURFACE(pMain_Bg);
     
-  return i;
-}
-
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void create_nations_dialog(void)
-{
-  SDL_Surface *pBuf = NULL;
-  struct GUI *pWindow, *pWidget;
-  int w = 0;
-  int h = 0;
-
-  pNations = MALLOC(sizeof(struct Nation_Window));
-
-  pNations->nation = -1;
-
-  pNations->nation_name_str16 = create_string16(NULL, 0, 24);
-  pNations->nation_name_str16->fgcol =
-      *get_game_colorRGB(COLOR_STD_WHITE);
-
-  /* create window widget */
-  pWindow =
-     create_window(NULL, create_str16_from_char
-	(_("Nation Wizard : What nation will you be?"), 12), w, h, 0);
-  pWindow->string16->style |= TTF_STYLE_BOLD;
-  
-  pWindow->action = nations_dialog_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-
-  pNations->pEndWidgetList = pWindow;
-  add_to_gui_list(ID_NATION_WIZARD_WINDOW, pWindow);
-  /* ---------------------------- */
-  
-  /* Create Nations Buttons and set window start pos*/
-  create_nations_buttons(&w, &h);
-  
-  pBuf = get_logo_gfx();
-  if (resize_window(pWindow, pBuf, NULL, w, h)) {
-    FREESURFACE(pBuf);
+  pNationDlg->pEndActiveWidgetList = pWindow->prev;
+  pNationDlg->pBeginActiveWidgetList = pWidget;
+  pNationDlg->pBeginWidgetList = pWidget;
+    
+  if(game.playable_nation_count > TARGETS_ROW * TARGETS_COL) {
+      pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
+      create_vertical_scrollbar(pNationDlg,
+		    		TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
   }
   
-  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
+  /* ----------------------------------------------------------------- */
+    
+  /* nation name */
+  
+  pSetup->nation = myrand(game.playable_nation_count);
+  pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
+  
+  copy_chars_to_string16(pStr, get_nation_by_idx(pSetup->nation)->name_plural);
+  change_ptsize16(pStr, 36);
+  pStr->render = 2;
+  pStr->fgcol = color;
+  pTmp_Surf = make_flag_surface_smaler(
+  		GET_SURF(get_nation_by_idx(pSetup->nation)->flag_sprite));
+  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 5.0, 5.0, 1);
+  FREESURFACE(pTmp_Surf);
+  
+  pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
+  			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
+  pBuf = pWidget;
+  add_to_gui_list(ID_LABEL, pWidget);
+  
+  /* create leader name edit */
+  pWidget = create_edit_from_unichars(NULL, pWindow->dst,
+						  NULL, 0, 16, 200, 0);
+  pWidget->size.h = 30;
+  
+  set_wstate(pWidget, FC_WS_NORMAL);
+  add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pWidget);
+  pSetup->pName_Edit = pWidget;
+  
+  /* create next leader name button */
+  pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
+						  pWindow->dst, NULL, 0);
+  pWidget->action = next_name_callback;
+  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
+  pWidget->size.h = pWidget->next->size.h;
+  pSetup->pName_Next = pWidget;
+  
+  /* create prev leader name button */
+  pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
+  						pWindow->dst, NULL, 0);
+  pWidget->action = prev_name_callback;
+  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
+  pWidget->size.h = pWidget->next->size.h;
+  pSetup->pName_Prev = pWidget;
+  
+  /* change sex button */
+  
+  pWidget = create_icon_button_from_chars(NULL, pWindow->dst, _("Male"), 14, 0);
+  pWidget->action = change_sex_callback;
+  pWidget->size.w = 100;
+  pWidget->size.h = 22;
+  set_wstate(pWidget, FC_WS_NORMAL);
+  pSetup->pChange_Sex = pWidget;
+  
+  /* add to main widget list */
+  add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pWidget);
+
+  /* ---------------------------------------------------------- */
+  i = 0;
+  while (i < game.styles_count) {
+    if (city_styles[i].techreq == A_NONE) {
+      pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
+			pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+      
+      pWidget->action = city_style_callback;
+      if (i != pSetup->nation_city_style) {
+        set_wstate(pWidget, FC_WS_NORMAL);
+      }
+      len = pWidget->size.w;
+      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
+      i++;
+      break;
+    }
+    i++;
+  }
+
+  len += 3;
+
+  for (; (i < game.styles_count && i < 64); i++) {
+    if (city_styles[i].techreq == A_NONE) {
+      pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
+				pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+      pWidget->action = city_style_callback;
+      if (i != pSetup->nation_city_style) {
+        set_wstate(pWidget, FC_WS_NORMAL);
+      }
+      len += (pWidget->size.w + 3);
+      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
+    }
+  }
+  pLast_City_Style = pWidget;
+  /* ---------------------------------------------------------- */
   
   /* create disconnection button */
-  pWidget =
-      create_themeicon_button_from_chars(pTheme->BACK_Icon, pWindow->dst,
+  pWidget = create_themeicon_button_from_chars(pTheme->BACK_Icon, pWindow->dst,
 					 _("Disconnect"), 12, 0);
   pWidget->action = disconnect_callback;
   set_wstate(pWidget, FC_WS_NORMAL);
   
-  pWidget->size.x = pWindow->size.x + pWindow->size.w - pWidget->size.w - 10;
-  pWidget->size.y = pWindow->size.y + pWindow->size.h - pWidget->size.h - 7;
-  
   add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pWidget);
-  
-  pNations->pWidgetListSeparator = pWidget;  
-
-  /* create back button */
-  pWidget =
-      create_themeicon_button_from_chars(pTheme->BACK_Icon,
-				  pWindow->dst, _("Back"), 12, 0);
-  pWidget->action = back_callback;
-
-  pWidget->size.x = pWindow->size.x + 10;
-  pWidget->size.y = pWindow->size.y + pWindow->size.h - pWidget->size.h - 7;
-  set_wflag(pWidget, WF_HIDDEN);
-  set_wstate(pWidget, FC_WS_NORMAL);
-  add_to_gui_list(ID_NATION_WIZARD_BACK_BUTTON, pWidget);
 
   /* create start button */
   pWidget =
       create_themeicon_button_from_chars(pTheme->FORWARD_Icon, pWindow->dst,
-					 _("Start"), 12, 0);
+				_("Start"), 12, WF_ICON_CENTER_RIGHT);
   pWidget->action = start_callback;
 
   pWidget->size.w += 60;
-  pWidget->size.x = pWindow->size.x + (pWindow->size.w - pWidget->size.w) / 2;
-  pWidget->size.y = pWindow->size.y + pWindow->size.h - pWidget->size.h - 10;
-  set_wflag(pWidget, WF_HIDDEN);
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_NATION_WIZARD_START_BUTTON, pWidget);
-
-  /* ------- city style toggles ------- */
-
-  create_city_styles_widgets();
-
-  /* create leader name edit */
-  pWidget = create_edit_from_unichars(NULL, pWindow->dst, NULL, 0, 16, 200, 0);
-  pWidget->size.h = 30;
-
-  pWidget->size.x = pWindow->size.x + (pWindow->size.w - pWidget->size.w) / 2;
-  pWidget->size.y = pWindow->size.y + 120;		  
-  set_wflag(pWidget, WF_HIDDEN);
-  set_wstate(pWidget, FC_WS_NORMAL);
-  add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pWidget);
-
-  /* create next leader name button */
-  pWidget = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
-  pWidget->action = next_name_callback;
-  set_wflag(pWidget, WF_HIDDEN);
-  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
-  add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
-  pWidget->size.h = pWidget->next->size.h;
-  pWidget->size.x = pWidget->next->size.x + pWidget->next->size.w;
-  pWidget->size.y = pWidget->next->size.y;
-
-  /* create prev leader name button */
-  pWidget = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
-  pWidget->action = prev_name_callback;
-  set_wflag(pWidget, WF_HIDDEN);
-  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
-  add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
-  pWidget->size.h = pWidget->next->size.h;
-  pWidget->size.x = pWidget->next->next->size.x - pWidget->size.w;
-  pWidget->size.y = pWidget->next->size.y;
-
-  /* change sex button */
-  pWidget = create_icon_button_from_unichar(NULL, pWindow->dst, NULL, 0, 14, 0);
-  pWidget->action = change_sex_callback;
-  pWidget->size.w = 100;
-  pWidget->size.h = 22;
-  set_wflag(pWidget, WF_HIDDEN);
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pWidget->size.y = pWindow->size.y + 180;
-  pWidget->size.x = pWindow->size.x + (pWindow->size.w - pWidget->size.w) / 2;
+  pWidget->size.w = MAX(pWidget->size.w, pWidget->next->size.w);
+  pWidget->next->size.w = pWidget->size.w;
   
-  /* add to main widget list */
-
-  add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pWidget);
-
-  pNations->pBeginWidgetList = pWidget;
+  pNationDlg->pBeginWidgetList = pWidget;
+  /* ---------------------------------------------------------- */
+      
   
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void destroy_nations_dialog(void)
-{
-
-  /* Free widgets */
-  pNations->nation_name_str16->text = NULL;
-  
-  /* change sex button */
-  pNations->pBeginWidgetList->string16->text = NULL;
-  
-  /* leader name edit */
-  pNations->pBeginWidgetList->next->next->next->string16->text = NULL;
-  
-  popdown_window_group_dialog(pNations->pBeginWidgetList,
-			  pNations->pEndWidgetList);
-
-  FREESTRING16(pNations->nation_name_str16);
-
-  FREE(pNations);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void redraw_nations_dialog(void)
-{
-  SDL_Surface *pTmp = NULL;
-  struct GUI *pWindow = pNations->pEndWidgetList;
-  
-  redraw_window(pWindow);
-  
-  putframe(pWindow->dst, pWindow->size.x , pWindow->size.y ,
-  		pWindow->size.x + pWindow->size.w - 1,
-		pWindow->size.y + pWindow->size.h - 1, 0xffffffff);
-  
-  if (pNations->nation != -1) {
-    SDL_Rect dst;
-    redraw_group(pNations->pBeginWidgetList ,
-		    pNations->pWidgetListSeparator, 0);
-  
+  pWindow->size.x = (Main.screen->w - 640) / 2;
+  pWindow->size.y = (Main.screen->h - 480) / 2;
     
-    pTmp = GET_SURF(get_nation_by_idx(pNations->nation)->flag_sprite);
-    pTmp = ZoomSurface(pTmp, 3.0, 3.0, 1);
-    SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY, get_first_pixel(pTmp));
-
-    dst.x = pWindow->size.x + 40;
-    dst.y = pWindow->size.y + 20;
-    SDL_BlitSurface(pTmp, NULL, pWindow->dst, &dst);
-    
-    FREESURFACE(pTmp);
-
-    pTmp = create_text_surf_from_str16(pNations->nation_name_str16);
-    
-    dst.x = pWindow->size.x + (pWindow->size.w - pTmp->w) / 2;
-    dst.y = pWindow->size.y + 50;
-    SDL_BlitSurface(pTmp, NULL, pWindow->dst, &dst);
-    
-    FREESURFACE(pTmp);
-
-    draw_frame(pWindow->dst, pNations->pBeginWidgetList->next->size.x - FRAME_WH,
-	       pNations->pBeginWidgetList->next->size.y - FRAME_WH,
-	       pNations->pBeginWidgetList->next->size.w +
-	       pNations->pBeginWidgetList->next->next->size.w +
-	       pNations->pBeginWidgetList->next->next->next->size.w +
-	       DOUBLE_FRAME_WH,
-	       pNations->pBeginWidgetList->next->size.h + DOUBLE_FRAME_WH);
-
-  } else {
-    redraw_group(pNations->pWidgetListSeparator, pWindow->prev, 0);
+  pMain_Bg = get_logo_gfx();
+  if(resize_window(pWindow, pMain_Bg, NULL, 640, 480)) {
+    FREESURFACE(pMain_Bg);
   }
   
+  /* nations */
+  
+  h = pNationDlg->pEndActiveWidgetList->size.h * TARGETS_ROW;
+  i = (pWindow->size.h - WINDOW_TILE_HIGH - h) / 2;
+  setup_vertical_widgets_position(TARGETS_COL,
+	pWindow->size.x + FRAME_WH + 10,
+	pWindow->size.y + WINDOW_TILE_HIGH + i,
+	  0, 0, pNationDlg->pBeginActiveWidgetList,
+			  pNationDlg->pEndActiveWidgetList);
+  
+  if(pNationDlg->pScroll) {
+    SDL_Rect area;
+  
+    w = pNationDlg->pEndActiveWidgetList->size.w * TARGETS_COL;    
+    setup_vertical_scrollbar_area(pNationDlg->pScroll,
+	pWindow->size.x + FRAME_WH + w + 12,
+    	pWindow->size.y + WINDOW_TILE_HIGH + i,	h, FALSE);
+    
+    area.x = FRAME_WH + w + 11;
+    area.y = WINDOW_TILE_HIGH + i;
+    area.w = pNationDlg->pScroll->pUp_Left_Button->size.w + 2;
+    area.h = h;
+    SDL_FillRectAlpha(pWindow->theme, &area, &color);
+    putframe(pWindow->theme, area.x, area.y - 1,
+		area.x + area.w, area.y + area.h, 0xFF000000);
+  }
+   
+  /* Sellected Nation Name */
+  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - pBuf->size.w) / 2;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 50;
+  
+  /* Leader Name Edit */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - pBuf->size.w) / 2;
+  pBuf->size.y = pWindow->size.y + (pWindow->size.h - pBuf->size.h) / 2;
+  
+  /* Next Leader Name Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w;
+  pBuf->size.y = pBuf->next->size.y;
+  
+  /* Prev Leader Name Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pBuf->next->next->size.x - pBuf->size.w;
+  pBuf->size.y = pBuf->next->size.y;
+  
+  /* Change Leader Sex Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - pBuf->size.w) / 2;
+  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + 20;
+  
+  /* First City Style Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - len) / 2;
+  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + 20;
+  
+  /* Rest City Style Buttons */
+  if (pBuf != pLast_City_Style) {
+    do {
+      pBuf = pBuf->prev;
+      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 3;
+      pBuf->size.y = pBuf->next->size.y;
+    } while (pLast_City_Style != pBuf);
+  }
+  
+  /* Disconnect Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
+  				(pWindow->size.w/2 - pBuf->size.w) / 2;
+  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + 20;
+  
+  /* Start Button */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pBuf->next->size.x;
+  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + 10;
+  
+  /* -------------------------------------------------------------------- */
+  
+  select_random_leader(pSetup->nation);
+  
+  redraw_group(pNationDlg->pBeginWidgetList, pWindow, 0);
+  
   flush_rect(pWindow->size);
-}
-
-/**************************************************************************
-  Popup the nation selection dialog.
-**************************************************************************/
-void popup_races_dialog(void)
-{
-  create_nations_dialog();
-  redraw_nations_dialog();
+  
 }
 
 /**************************************************************************
@@ -4510,8 +4598,13 @@ void popup_races_dialog(void)
 **************************************************************************/
 void popdown_races_dialog(void)
 {
-  if (pNations) {
-    destroy_nations_dialog();
+  if (pNationDlg) {
+    popdown_window_group_dialog(pNationDlg->pBeginWidgetList,
+			  pNationDlg->pEndWidgetList);
+
+    cancel_help_dlg_callback(NULL);
+    FREE(pNationDlg->pScroll);
+    FREE(pNationDlg);
   }
 }
 
@@ -4521,11 +4614,13 @@ void popdown_races_dialog(void)
 **************************************************************************/
 void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
-  int i, nation , back = 0;
-  struct GUI *pNat;
-
-  if(packet->num_nations_used) {
   
+  if(packet->num_nations_used) {
+    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+    int i, nation;
+    bool change = FALSE;
+    struct GUI *pNat;
+      
     freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
     for (i = 0; i < packet->num_nations_used; i++) {
       nation = packet->nations_used[i];
@@ -4533,17 +4628,30 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
       freelog(LOG_DEBUG,"  [%d]: %d = %s", i, nation, get_nation_name(nation));
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation);
-      set_wstate(pNat , FC_WS_DISABLED);
+      set_wstate(pNat, FC_WS_DISABLED);
     
-      if (nation == pNations->nation) {
-        back = 1;
+      if (nation == pSetup->nation) {
+        change = TRUE;
       }
+      
     }
   
-    if (back) {
-      back_callback(NULL);
-    } else {
-      redraw_nations_dialog();
+    if (change) {
+      do {
+	pSetup->nation = myrand(game.playable_nation_count);
+	pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
+      } while(get_wstate(pNat) == FC_WS_DISABLED);
+      if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {
+        force_exit_from_event_loop();
+	set_wstate(pSetup->pName_Edit, FC_WS_NORMAL);
+      }
+      change_nation_label();
+      enable(MAX_ID - 1000 - pSetup->nation_city_style);
+      pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
+      disable(MAX_ID - 1000 - pSetup->nation_city_style);
+      select_random_leader(pSetup->nation);
     }
+    redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
+    flush_rect(pNationDlg->pEndWidgetList->size);
   }
 }

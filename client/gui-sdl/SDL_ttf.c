@@ -777,6 +777,9 @@ int TTF_GlyphMetrics(TTF_Font *font, Uint16 ch,
 	}
 	if ( advance ) {
 		*advance = font->current->advance;
+	  	if ( font->style & TTF_STYLE_BOLD ) {
+			*advance += font->glyph_overhang;
+		}
 	}
 	return 0;
 }

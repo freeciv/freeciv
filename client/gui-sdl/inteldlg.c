@@ -243,7 +243,7 @@ void popup_intel_dialog(struct player *pPlayer)
     dst.y += pText2->h + 2;
     FREESURFACE(pText2);
     
-    setup_vertical_vidgets_position(4,
+    setup_vertical_widgets_position(4,
 	pWindow->size.x + FRAME_WH,
 	pWindow->size.y + dst.y,
 	  0, 0, pIntel_Dlg->pBeginActiveWidgetList,

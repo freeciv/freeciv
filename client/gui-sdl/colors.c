@@ -60,9 +60,28 @@ static SDL_Color colors_standard_rgb[COLOR_STD_LAST] = {
 */
 static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
 						COLOR_STD_LAST] = {
+  {72, 61, 139, 255},		/* race14 */
+  {100, 149, 237, 255},		/* race15 */
+  {255, 228, 181, 255},		/* race16 */
+  {112, 128, 144, 255},		/* race17 */
+  {143, 188, 143, 255},		/* race18 */
+  {93, 71, 139, 255},		/* race19 */
+  {255, 114, 86, 255},		/* race20 */
+  {205, 205, 180, 255},		/* race21 */
+  {238, 99, 99, 255},		/* race22 */
+  {154, 205, 50, 255},		/* race23 */
+  {250, 128, 114, 255},		/* race24 */
+  {205, 198, 115, 255},		/* race25 */
+  {238, 92, 66, 255},		/* race26 */
+  {191, 62, 255, 255},		/* race27 */
+  {127, 255, 212, 255},		/* race28 */
+  {0, 191, 255, 255},		/* race29 */
+  {255, 222, 173, 255},		/* race30 */
+  {65, 105, 225, 255},		/* race31 */
+  {0, 128, 0, 255},		/* Ground (green) fogged */
   {138, 114, 82, 255},		/* Background2 (brown) */
   {190, 190, 190, 255},		/* Grid line color */
-  {0, 200, 0, 150},		/* Quick info (green) */
+  {0, 150, 0, 150},		/* Quick info (green) */
   {0, 0, 0, 96},		/* FOG OF WAR color */
   {90, 90, 90, 255},		/* disable color */
   {125, 170, 220, 255},		/* city production color */

@@ -173,7 +173,6 @@ void real_update_meswin_dialog(void)
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->bgcol = color;
       pBuf->string16->render = 3;
       
@@ -296,7 +295,6 @@ void popup_meswin_dialog(void)
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->bgcol = color;
       pBuf->string16->render = 3;
       pBuf->size.x = start_x;
@@ -359,7 +357,7 @@ void popup_meswin_dialog(void)
       pBuf = pMsg_Dlg->pEndActiveWidgetList;
     }
     
-    setup_vertical_vidgets_position(1,
+    setup_vertical_widgets_position(1,
 	start_x + FRAME_WH, start_y + WINDOW_TILE_HIGH + 2, len, 0,
 	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
