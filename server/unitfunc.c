@@ -848,7 +848,7 @@ void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
     if(pcity && !wonder_obsolete(B_UNITED))
       punit->hp+=2;
     
-    if(!pcity && (punit->type==U_HELICOPTER))
+    if(!pcity && (is_heli_unit(punit)))
       punit->hp-=get_unit_type(punit->type)->hp/10;
     if(punit->hp>=get_unit_type(punit->type)->hp) {
       punit->hp=get_unit_type(punit->type)->hp;
