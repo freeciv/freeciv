@@ -125,7 +125,7 @@ gtk_pixcomm_destroy(GtkObject *object)
   g_object_freeze_notify(G_OBJECT(p));
   
   if (p->actions) {
-    g_array_free(p->actions, FALSE);
+    g_array_free(p->actions, TRUE);
   }
   p->actions = NULL;
 

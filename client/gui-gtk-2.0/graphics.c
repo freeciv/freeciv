@@ -105,10 +105,12 @@ void load_intro_gfx(void)
   char s[64];
   GdkColor face;
   GdkGC *face_gc;
+  PangoContext *context;
   PangoLayout *layout;
   PangoRectangle rect;
 
-  layout = pango_layout_new(gdk_pango_context_get());
+  context = gdk_pango_context_get();
+  layout = pango_layout_new(context);
   pango_layout_set_font_description(layout, main_font);
 
   /* get colors */
@@ -161,6 +163,7 @@ void load_intro_gfx(void)
 
   /* done */
   g_object_unref(layout);
+  g_object_unref(context);
   return;
 }
 
