@@ -58,8 +58,8 @@ into the CVS source tree. It is useful to run the client and server as
 autogames to verify either a particular savegame no longer shows a
 fixed bug, or as a random sequence of games in a while loop overnight.
 
-To start a server game with all AI players, create a fill with lines
-such as the following:
+To start a server game with all AI players, create a file (below named
+civ.serv) with lines such as the following:
 
 # set randseed 42       # repeat a particular game (random) sequence
 # set seed 42           # repeat a particular map generation sequence
@@ -71,7 +71,8 @@ create Caesar           # first player (with known name) created and
                         # toggled to AI mode
 start
 
-Note: After the after command the server prompt is unusable.
+Note: After the start command the server prompt is unusable in
+autogame mode.
 
 The commandline to run server-only games can be typed as variations
 of:
