@@ -373,9 +373,9 @@ extern struct tile_type tile_types[T_LAST];
   assert(0 <= center_y && center_y <= map.ysize                               \
          && 0 <= center_x && center_x <= map.xsize);                          \
   MACRO_border = (center_y == 0                                               \
-            || center_x == 0                                                  \
-            || center_y == map.ysize-1                                        \
-            || center_x == map.xsize-1);                                      \
+                  || center_x == 0                                            \
+                  || center_y == map.ysize-1                                  \
+                  || center_x == map.xsize-1);                                \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
     y_itr = center_y + DIR_DY[dir_itr];                                       \
     x_itr = center_x + DIR_DX[dir_itr];                                       \
