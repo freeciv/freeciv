@@ -27,7 +27,7 @@ struct pf_path;
  (assert(punit != NULL),                                         \
   assert(punit->type < U_LAST),                                  \
   assert(punit->owner < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS),   \
-  assert(find_unit_by_id(punit->id)))
+  assert(find_unit_by_id(punit->id) != NULL))
 #else
 #define CHECK_UNIT(punit) assert(TRUE)
 #endif
