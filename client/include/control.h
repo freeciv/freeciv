@@ -17,6 +17,8 @@
 
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_nuke(struct unit *punit);
+int do_goto(int xtile, int ytile);
+void do_map_click(int xtile, int ytile);
 
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dx, int dy); /* used by key_xxx */

@@ -17,6 +17,7 @@
 #include "log.h"
 
 #include "chatline_g.h"
+#include "citydlg_g.h"
 #include "dialogs_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
@@ -522,9 +523,96 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 }
 
 /**************************************************************************
+ Finish the goto mode and let the unit which is stored in goto_state move
+ to a given location.
+ returns 1 if goto mode was activated before calling this function
+ otherwise 0 (then this function does nothing)
+**************************************************************************/
+int do_goto(int xtile, int ytile)
+{
+  if(goto_state) {
+    struct unit *punit;
+
+    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
+      struct packet_unit_request req;
+      req.unit_id=punit->id;
+      req.name[0]='\0';
+      req.x=xtile;
+      req.y=ytile;
+      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+    }
+
+    goto_state=0;
+    nuke_state=0;
+
+    return 1;
+  }
+  return 0;
+}
+
+/**************************************************************************
+ Handles everything when the user clicked a tile
+**************************************************************************/
+void do_map_click(int xtile, int ytile)
+{
+  struct city *pcity;
+  struct tile *ptile;
+
+  ptile=map_get_tile(xtile, ytile);
+  pcity=map_get_city(xtile, ytile);
+
+  if(goto_state) { 
+    struct unit *punit;
+
+    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
+      struct packet_unit_request req;
+      if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
+        append_output_window("Game: Too far for this unit.");
+        goto_state=0;
+        nuke_state=0;
+        update_unit_info_label(punit);
+      } else {
+        req.unit_id=punit->id;
+        req.name[0]='\0';
+        req.x=xtile;
+        req.y=ytile;
+        send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+        if(nuke_state && (!pcity))
+          do_unit_nuke(punit);
+        goto_state=0;
+        nuke_state=0;
+      }
+    }
+    return;
+  }
+  
+  if(pcity && game.player_idx==pcity->owner) {
+    popup_city_dialog(pcity, 0);
+    return;
+  }
+  
+  if(unit_list_size(&ptile->units)==1) {
+    struct unit *punit=unit_list_get(&ptile->units, 0);
+    if(game.player_idx==punit->owner) {
+      if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+        /* struct unit *old_focus=get_unit_in_focus(); */
+        request_new_unit_activity(punit, ACTIVITY_IDLE);
+        /* this is now done in set_unit_focus: --dwp */
+        /* if(old_focus)
+             refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
+        set_unit_focus(punit);
+      }
+    }
+  }
+  else if(unit_list_size(&ptile->units)>=2) {
+    if(unit_list_get(&ptile->units, 0)->owner==game.player_idx)
+      popup_unit_select_dialog(ptile);
+  }
+}
+
+/**************************************************************************
 Explode nuclear at a tile without enemy units
 **************************************************************************/
-
 void do_unit_nuke(struct unit *punit)
 {
   struct packet_unit_request req;

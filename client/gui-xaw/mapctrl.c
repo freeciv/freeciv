@@ -66,10 +66,6 @@ extern int smooth_move_units; /* from options.c */
 extern int auto_center_on_unit;
 extern int draw_map_grid;
 
-extern int goto_state; /* from control.c */
-extern int nuke_state;
-extern struct unit *punit_focus;
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -267,8 +263,6 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   int xtile, ytile;
   XButtonEvent *ev=&event->xbutton;
-  struct city *pcity;
-  struct tile *ptile;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
@@ -276,58 +270,8 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
   xtile=map_adjust_x(map_view_x0+ev->x/NORMAL_TILE_WIDTH);
   ytile=map_adjust_y(map_view_y0+ev->y/NORMAL_TILE_HEIGHT);
 
-  ptile=map_get_tile(xtile, ytile);
-  pcity=map_get_city(xtile, ytile);
-
-  if(ev->button==Button1 && goto_state) { 
-    struct unit *punit;
-
-    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
-      struct packet_unit_request req;
-      if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
-        append_output_window("Game: Too far for this unit.");
-        goto_state=0;
-        nuke_state=0;
-        update_unit_info_label(punit);
-      } else {
-        req.unit_id=punit->id;
-        req.name[0]='\0';
-        req.x=xtile;
-        req.y=ytile;
-        send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
-        if(nuke_state && (!pcity))
-          do_unit_nuke(punit);
-        goto_state=0;
-        nuke_state=0;
-      }
-    }
-    return;
-  }
-  
-  if(pcity && ev->button==Button1 && game.player_idx==pcity->owner) {
-    popup_city_dialog(pcity, 0);
-    return;
-  }
-  
-  if(ev->button==Button1) {
-    if(unit_list_size(&ptile->units)==1) {
-      struct unit *punit=unit_list_get(&ptile->units, 0);
-      if(game.player_idx==punit->owner) {
-        if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-          /* struct unit *old_focus=get_unit_in_focus(); */
-          request_new_unit_activity(punit, ACTIVITY_IDLE);
-          /* this is now done in set_unit_focus: --dwp */
-          /* if(old_focus)
-               refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
-          set_unit_focus(punit);
-        }
-      }
-    }
-    else if(unit_list_size(&ptile->units)>=2) {
-      if(unit_list_get(&ptile->units, 0)->owner==game.player_idx)
-        popup_unit_select_dialog(ptile);
-    }
-  }
+  if(ev->button==Button1)
+    do_map_click(xtile, ytile);
   else if(ev->button==Button2||ev->state&ControlMask)
     popit(ev->x, ev->y, xtile, ytile);
   else
@@ -455,24 +399,9 @@ void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv,
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
      return;
 
-  if(ev->button==Button1 && goto_state) {
-    struct unit *punit;
-
-    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
-      struct packet_unit_request req;
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=xtile;
-      req.y=ytile;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
-    }
-
-    goto_state=0;
-
-    return;
-  }
-  
-  if(ev->button==Button3)
+  if(ev->button==Button1)
+    do_goto(xtile,ytile);
+  else if(ev->button==Button3)
     center_tile_mapcanvas(xtile, ytile);
 }
 
