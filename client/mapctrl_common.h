@@ -30,6 +30,8 @@ extern int keyboardless_goto_start_x, keyboardless_goto_start_y;
 void anchor_selection_rectangle(int canvas_x, int canvas_y);
 void update_selection_rectangle(int canvas_x, int canvas_y);
 
+bool is_city_hilited(struct city *pcity);
+
 void cancel_tile_hiliting(void);
 void toggle_tile_hilite(int tile_x, int tile_y);
 
@@ -58,8 +60,5 @@ bool get_chance_to_win(int *att_chance, int *def_chance,
 		       int map_x, int map_y);
 
 extern struct city *city_workers_display;
-
-#define is_city_hilited(pcity)                                              \
-  (map_get_tile((pcity)->x, (pcity)->y)->client.hilite == HILITE_CITY)      \
 
 #endif /* FC__MAPCTRL_COMMON_H */

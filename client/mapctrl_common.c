@@ -231,6 +231,14 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+bool is_city_hilited(struct city *pcity)
+{
+  return map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY;
+}
+
+/**************************************************************************
  Remove hiliting from all tiles, but not from rows in the City List window.
 **************************************************************************/
 void cancel_tile_hiliting(void)
