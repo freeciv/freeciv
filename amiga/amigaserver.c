@@ -30,11 +30,20 @@ function main() and call main2() afterwards. This depends on your compiler.
 
 #include <clib/alib_protos.h>
 
+#ifdef __PPC__
+#include <clib/dos_protos.h>
+#include <clib/exec_protos.h>
+#include <clib/icon_protos.h>
+#include <clib/socket_protos.h>
+#include <clib/usergroup_protos.h>
+#include <clib/powerpc_protos.h>
+#else
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include <proto/icon.h>
 #include <proto/socket.h>
 #include <proto/usergroup.h>
+#endif
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
@@ -59,8 +68,10 @@ extern struct DosLibrary *DOSBase;
 struct Library *SocketBase = 0;
 struct Library *UserGroupBase = 0;
 struct IntuitionBase *IntuitionBase = 0;
-struct Library *IconBase;
-static char *stdargv[1] = {"civserver"}; /* standard arg, if WB parsing failed */
+struct Library *IconBase = 0;
+static char *stdargv[1] = {
+"civserver"}
+; /* standard arg, if WB parsing failed */
 static struct MsgPort *arexx_port = 0;
 static struct MsgPort *stdin_port = 0;
 static STRPTR stdin_buffer = 0;
@@ -121,31 +132,36 @@ static void civ_exitfunc(void)
 
 int main(int argc, char **argv)
 {
-  int ret = 20;
+  struct DiskObject *dob;
+  struct WBArg *wba;
+  BPTR dir, input;
+  int ret = 20, i, j, len, u, h_errno;
+  char *ttype, *dest, *second;
+  struct UFB *stdin_ufb;
 
   /* using malloc needs to free calls */
   if(!argc) /* called from WB */
   {
     if(IconBase = OpenLibrary("icon.library", 0L))
     {
-      struct DiskObject *dob;
-      struct WBArg *wba = ((struct WBStartup *) argv)->sm_ArgList;
-      BPTR dir = CurrentDir(wba->wa_Lock);
+      wba = ((struct WBStartup *) argv)->sm_ArgList;
+      dir = CurrentDir(wba->wa_Lock);
 
       if((dob = GetDiskObject(wba->wa_Name)))
       {
-        int i = 1, j;
-      
+        i = 1;
+
         if(dob->do_ToolTypes)
         {
           for(j = 0; dob->do_ToolTypes[j]; ++j)
           {
-            if(*dob->do_ToolTypes[j] != '(' && *dob->do_ToolTypes[j] != ' ' &&
-            *dob->do_ToolTypes[j] != ';')
+            if(*dob->do_ToolTypes[j] != '(' && *dob->do_ToolTypes[j] != ' ' && *dob->do_ToolTypes[j] != ';')
             {
               ++argc;
               if(strchr(dob->do_ToolTypes[j], '='))
+              {
                 ++argc;
+              }
             }
           }
         }
@@ -157,38 +173,52 @@ int main(int argc, char **argv)
 
           for(j = 0; argc && dob->do_ToolTypes[j]; ++j)
           {
-            char *ttype = dob->do_ToolTypes[j], *dest;
-            int len = strlen(ttype), u;
-            char *second = strchr(ttype,'=');
+            ttype = dob->do_ToolTypes[j];
+            len = strlen(ttype);
+            second = strchr(ttype,'=');
 
-            if(*ttype == '(' || *ttype == ' ' || *ttype == ';')
+            if (*ttype == '(' || *ttype == ' ' || *ttype == ';')
+            {
               ;
+            }
             else if((dest = argv[i++] = (char*)malloc(len+4)))
             {
               if(second)
+              {
                 len = second-ttype;
+              }
               dest[0] = dest[1] = '-';
               strcpy(dest+2,ttype);
               dest[2+len] = 0;
 
               for(u = 0; dest[u]; ++u)
+              {
                 dest[u]=tolower(dest[u]);
+              }
               if(second)
+              {
                 argv[i++] = dest+3+len;
+              }
             }
             else
+            {
               argc = 0; /* error */
+            }
           }
         }
         else
+        {
           argc=0; /* error */
-
+        }
         FreeDiskObject(dob);
-      } /* get disk object */
+      }
+      /* get disk object */
       CurrentDir(dir);
       CloseLibrary(IconBase);
-    } /* OpenLibary */
-  } /* WB start */
+    }
+    /* OpenLibary */
+  }
+  /* WB start */
 
   atexit(civ_exitfunc); /* we need to free the stuff on exit()! */
   if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
@@ -216,17 +246,18 @@ int main(int argc, char **argv)
           {
             if((stdin_buffer = AllocVec(STDIN_BUF_SIZE, MEMF_PUBLIC)))
             {
-              BPTR input = Input();
+              input = Input();
 
-#ifdef __SASC
+              #ifdef __SASC
               /* When started from Workbench input will be NULL so we use the handle of stdin */
               if(!input && stdin)
               {
-                struct UFB *stdin_ufb = chkufb(fileno(stdin));
-                if(stdin_ufb)
+                if (stdin_ufb = chkufb(fileno(stdin)))
+                {
                   input = (BPTR)stdin_ufb->ufbfh;
+                }
               }
-#endif
+              #endif
               stdin_handle = (struct FileHandle *) BADDR(input);
 
               if(stdin_handle && stdin_handle->fh_Type)
@@ -234,19 +265,11 @@ int main(int argc, char **argv)
                 /* Now open the bsdsocket.library, which provides the bsd socket functions */
                 if((SocketBase = OpenLibrary(SOCKETNAME,SOCKETVERSION)))
                 {
-                  int h_errno;
-
-                  SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno,
-                    SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno,
-                    SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver",
-                    TAG_END);
+                  SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno, SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno, SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver", TAG_END);
 
                   if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
                   {
-                    ug_SetupContextTags("civserver",
-                      UGT_INTRMASK, SIGBREAKB_CTRL_C,
-                      UGT_ERRNOPTR(sizeof(errno)), &errno,
-                      TAG_END);
+                    ug_SetupContextTags("civserver", UGT_INTRMASK, SIGBREAKB_CTRL_C, UGT_ERRNOPTR(sizeof(errno)), &errno, TAG_END);
 
                     /* Reserve 0 for stdin */
                     Dup2Socket(-1,0);
@@ -255,26 +278,35 @@ int main(int argc, char **argv)
 
                     /* all went well, call main function */
                     if(!argc)
+                    {
                       ret = civ_main(1, stdargv);
+                    }
                     else
+                    {
                       ret = civ_main(argc, argv);
+                    }
                   }
                   else
+                  {
                     printf("Couldn't open " USERGROUPNAME"\n");
+                  }
                 }
                 else
+                {
                   printf("Couldn't open " SOCKETNAME "!\nPlease start a TCP/IP stack.\n");
+                }
               }
               else
+              {
                 printf("Bad Input Handle\n");
+              }
             }
           }
         }
       }
     }
   }
-
-  exit (ret);
+  exit(ret);
 }
 
 /**************************************************************************
@@ -293,9 +325,11 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
   int sel;
   BOOL usestdin=FALSE;
 
+  struct RexxMsg *msg;
+
   if (readfds)
   {
-    if(FD_ISSET(0,readfds))
+    if (FD_ISSET(0,readfds))
     {
       FD_CLR(0, readfds);
       usestdin=TRUE;
@@ -306,24 +340,23 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
   }
 
   sel = WaitSelect(nfds, readfds, writefds, exeptfds, timeout, &mask);
-  if(sel >=0)
+  if (sel >=0)
   {
-    if(mask & SIGBREAKF_CTRL_C)
+    if (mask & SIGBREAKF_CTRL_C)
     {
       printf("\n***Break\n");
       exit(0);
     }
 
-    if(mask & arexxmask)
+    if (mask & arexxmask)
     {
-      struct RexxMsg *msg;
       while((msg = (struct RexxMsg*)GetMsg(arexx_port)))
-        ReplyMsg((struct Message*)msg);
+      ReplyMsg((struct Message*)msg);
 
       printf("Got ARexx Message");
     }
 
-    if(usestdin && (mask & stdinmask))
+    if (usestdin && (mask & stdinmask))
     {
       while(GetMsg(stdin_port));
       pkt_sent = FALSE;
@@ -333,13 +366,13 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
       FD_SET(0, readfds);
       sel = 1;
     }
-  } else
+  }
+  else
   {
     printf("select failed %d\n",errno);
     exit(1);
   }
-
-  return sel;
+  return(sel);
 }
 
 /**************************************************************************
@@ -347,7 +380,11 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
 **************************************************************************/
 void usleep(unsigned long usec)
 {
+  #ifndef __PPC__
   TimeDelay(0,0,usec);
+  #else
+  WaitTime(0,usec);
+  #endif
 }
 
 /**************************************************************************
@@ -364,7 +401,7 @@ char *strerror(int error)
   taglist[2] = TAG_END;
 
   SocketBaseTagList((struct TagItem *)taglist);
-  return (char *)taglist[1];
+  return((char *)taglist[1]);
 }
 
 /**************************************************************************
@@ -373,26 +410,39 @@ char *strerror(int error)
 **************************************************************************/
 int read(int fd, char *buf, int len)
 {
-  if(!len) return 0;
-  if(!fd)
+  int i;
+  char *src;
+  char *dest;
+  char c;
+
+  if (!len)
   {
-    int i=0;
-    char *src = stdin_buffer_copy;
-    char *dest = buf;
+    return(0);
+  }
+  if (!fd)
+  {
+    i=0;
+    src = stdin_buffer_copy;
+    dest = buf;
 
     while((i < STDIN_BUF_SIZE - 1) && (i < len - 1) && (i < stdin_buffer_copy_len))
     {
-      char c = *src++;
-      *dest++ = c; i++;
-      if (c==10) break;
+      c = *src++;
+      *dest++ = c;
+      i++;
+      if (c==10)
+      {
+        break;
+      }
     }
 
     *dest = 0;
 
-    return i;
-  } else
+    return(i);
+  }
+  else
   {
-    return recv(fd,buf,len,0);
+    return(recv(fd,buf,len,0));
   }
 }
 
@@ -417,7 +467,7 @@ void close(int fd)
 /**************************************************************************
  inet_ntoa() stub
 **************************************************************************/
-char *inet_ntoa(struct in_addr addr) 
+char *inet_ntoa(struct in_addr addr)
 {
   return Inet_NtoA(addr.s_addr);
 }
@@ -439,7 +489,7 @@ clock_t clock(void)
   DateStamp(&ds);
 
   return (clock_t)((ds.ds_Days*1440 + ds.ds_Minute)*60 +
-                    ds.ds_Tick/TICKS_PER_SECOND);
+  ds.ds_Tick/TICKS_PER_SECOND);
 }
 
 /**************************************************************************

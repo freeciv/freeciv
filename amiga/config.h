@@ -1,10 +1,12 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/*
+**  config.h for Amiga
+*/
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
 /***************************************************************************/
 /* The following lines prevent prototype errors and do some general stuff  */
-/* This file is modified by hand and no longer auto genererated :-)        */
+/* This file is modified by hand and no longer auto generated :-)          */
 /***************************************************************************/
 #ifdef MIAMI_SDK
 void usleep(unsigned long usec);
@@ -13,8 +15,13 @@ void usleep(unsigned long usec);
 char *inet_ntoa(struct in_addr addr);
 #endif
 int ioctl(int fd, unsigned int request, char *argp);
+#if defined(__VBCC__) && defined(__PPC__)
+#include <clib/socket_protos.h>
+#include <clib/usergroup_protos.h>
+#else
 #include <proto/socket.h>
 #include <proto/usergroup.h>
+#endif
 #ifndef __VBCC__
 #include <fcntl.h>
 #endif
@@ -26,6 +33,7 @@ int ioctl(int fd, unsigned int request, char *argp);
 #endif
 
 #ifdef __VBCC__
+#include <stdlib.h>
 #define bzero(a,l) memset(a, 0, l);
 #endif
 /***************************************************************************/
