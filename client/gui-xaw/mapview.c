@@ -49,22 +49,6 @@
 
 #include "mapview.h"
 
-/*
-The bottom row of the map was sometimes hidden.
-
-As of now the top left corner is always aligned with the tiles. This is what
-causes the problem in the first place. The ideal solution would be to align the
-window with the bottom left tiles if you tried to center the window on a tile
-closer than (screen_tiles_height/2 -1) to the south pole.
-
-But, for now, I just grepped for occurences where the ysize (or the values
-derived from it) were used, and those places that had relevance to drawing the
-map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
-
--Thue
-*/
-#define EXTRA_BOTTOM_ROW 1
-
 /* contains the x0, y0 coordinates of the upper left corner block */
 int map_view_x0, map_view_y0;
 
@@ -82,38 +66,31 @@ Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 /**************************************************************************
-Finds the pixel coordinates of a tile.
-Beside setting the results in canvas_x,canvas_y it returns whether the tile
-is inside the visible map.
+Finds the pixel coordinates of a tile.  Beside setting the results in
+canvas_x,canvas_y it returns whether the tile is inside the visible map.
+
+This function is almost identical between all GUI's.
 **************************************************************************/
-static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+static int get_canvas_xy(int map_x, int map_y, int *canvas_x,
+			 int *canvas_y)
 {
-  if (map_view_x0+map_canvas_store_twidth <= map.xsize)
-    *canvas_x = map_x-map_view_x0;
-  else if(map_x >= map_view_x0)
-    *canvas_x = map_x-map_view_x0;
-  else if(map_x < map_adjust_x(map_view_x0+map_canvas_store_twidth))
-    *canvas_x = map_x+map.xsize-map_view_x0;
-  else *canvas_x = -1;
+  int width, height;
 
-  *canvas_y = map_y - map_view_y0;
+  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
 
-  *canvas_x *= NORMAL_TILE_WIDTH;
-  *canvas_y *= NORMAL_TILE_HEIGHT;
-
-  return *canvas_x >= 0
-      && *canvas_x < map_canvas_store_twidth * NORMAL_TILE_WIDTH
-      && *canvas_y >= 0
-      && *canvas_y < map_canvas_store_theight * NORMAL_TILE_HEIGHT;
+  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
+			       map_view_x0, map_view_y0, width, height);
 }
 
 /**************************************************************************
 Finds the map coordinates corresponding to pixel coordinates.
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
-  *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
-  *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);
+  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x0,
+			map_view_y0);
 }
 
 /**************************************************************************
@@ -489,20 +466,13 @@ void get_center_tile_mapcanvas(int *x, int *y)
 }
 
 /**************************************************************************
-...
+Centers the mapview around (x, y).
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 void center_tile_mapcanvas(int x, int y)
 {
-  int new_map_view_x0, new_map_view_y0;
-
-  new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
-  new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
-  if(new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
-     new_map_view_y0=
-       map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
-
-  map_view_x0=new_map_view_x0;
-  map_view_y0=new_map_view_y0;
+  base_center_tile_mapcanvas(x, y, &map_view_x0, &map_view_y0, map_canvas_store_twidth, map_canvas_store_theight);
 
   update_map_canvas_visible();
   update_map_canvas_scrollbars();

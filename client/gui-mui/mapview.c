@@ -54,25 +54,6 @@
 #include "mapclass.h"
 #include "overviewclass.h"
 
-/*
-The bottom row of the map was sometimes hidden.
-
-As of now the top left corner is always aligned with the tiles. This is what
-causes the problem in the first place. The ideal solution would be to align the
-window with the bottom left tiles if you tried to center the window on a tile
-closer than (screen_tiles_height/2 -1) to the south pole.
-
-But, for now, I just grepped for occurences where the ysize (or the values
-derived from it) were used, and those places that had relevance to drawing the
-map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
-
--Thue
-*/
-
-/* If we have isometric view we need to be able to scroll a little extra down.
-   The places that needs to be adjusted are the same as above. */
-#define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
-
 /**************************************************************************
  Some support functions
 **************************************************************************/
@@ -371,115 +352,36 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   set(main_government_sprite, MUIA_Sprite_Sprite, gov_sprite);
 }
 
-
 /**************************************************************************
-Finds the pixel coordinates of a tile.
-Beside setting the results in canvas_x,canvas_y it returns whether the tile
-is inside the visible map.
+Finds the pixel coordinates of a tile.  Beside setting the results in
+canvas_x,canvas_y it returns whether the tile is inside the visible
+map.
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
 {
-  int map_canvas_store_twidth = xget(main_map_area, MUIA_Map_HorizVisible);
-  int map_canvas_store_theight = xget(main_map_area, MUIA_Map_VertVisible);
   int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
   int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+  int width = _mwidth(main_map_area);	/* !! */
+  int height = _mheight(main_map_area);	/* !! */
 
-  if (is_isometric) {
-    /* canvas_x,canvas_y is the top corner of the actual tile, not the pixmap.
-       This function also handels non-adjusted tile coords (like -1, -2) as if
-       they were adjusted.
-       You might want to first take a look at the simpler city_get_xy() for basic
-       understanding. */
-    int diff_xy;
-    int diff_x, diff_y;
-    int width, height;
-
-    width = _mwidth(main_map_area); /* !! */
-    height = _mheight(main_map_area); /* !! */
-
-    map_x %= map.xsize;
-    if (map_x < map_view_x0) map_x += map.xsize;
-    diff_xy = (map_x + map_y) - (map_view_x0 + map_view_y0);
-    /* one diff_xy value defines a line parallel with the top of the isometric
-       view. */
-    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
-
-    /* changing both x and y with the same amount doesn't change the isometric
-       x value. (draw a grid to see it!) */
-    map_x -= diff_xy/2;
-    map_y -= diff_xy/2;
-    diff_x = map_x - map_view_x0;
-    diff_y = map_view_y0 - map_y;
-
-    *canvas_x = (diff_x - 1) * NORMAL_TILE_WIDTH
-      + (diff_x == diff_y ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2)
-      /* tiles starting above the visible area */
-      + (diff_y > diff_x ? NORMAL_TILE_WIDTH : 0);
-
-    /* We now have the corner of the sprite. For drawing we move it. */
-    *canvas_x -= NORMAL_TILE_WIDTH/2;
-
-    return (*canvas_x > -NORMAL_TILE_WIDTH)
-      && *canvas_x < (width + NORMAL_TILE_WIDTH/2)
-      && (*canvas_y > -NORMAL_TILE_HEIGHT)
-      && (*canvas_y < height);
-  } else { /* is_isometric */
-    if (map_view_x0+map_canvas_store_twidth <= map.xsize)
-      *canvas_x = map_x-map_view_x0;
-    else if(map_x >= map_view_x0)
-      *canvas_x = map_x-map_view_x0;
-    else if(map_x < map_adjust_x(map_view_x0+map_canvas_store_twidth))
-      *canvas_x = map_x+map.xsize-map_view_x0;
-    else *canvas_x = -1;
-
-    *canvas_y = map_y - map_view_y0;
-
-    *canvas_x *= NORMAL_TILE_WIDTH;
-    *canvas_y *= NORMAL_TILE_HEIGHT;
-
-    return *canvas_x >= 0
-	&& *canvas_x < map_canvas_store_twidth * NORMAL_TILE_WIDTH
-	&& *canvas_y >= 0
-	&& *canvas_y < map_canvas_store_theight * NORMAL_TILE_HEIGHT;
-  }
+  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
+			       map_view_x0, map_view_y0, width, height);
 }
 
 /**************************************************************************
 Finds the map coordinates corresponding to pixel coordinates.
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
   int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
   int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
 
-  if (is_isometric) {
-    *map_x = map_view_x0;
-    *map_y = map_view_y0;
-
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x/NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
-
-    /* Then move op to the top corner. */
-    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
-
-    /* We are inside a rectangle, with 2 half tiles starting in the corner,
-       and two tiles further out. Draw a grid to see how this works :). */
-    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
-    canvas_y *= 2; /* now we have a square. */
-    if (canvas_x > canvas_y) (*map_y) -= 1;
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) (*map_x) += 1;
-
-    /* If we are outside the map find the nearest tile, with distance as
-       seen on the map. */
-    nearest_real_pos(map_x, map_y);
-  } else { /* is_isometric */
-    *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
-    *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);
-  }
+  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x0,
+			map_view_y0);
 }
 
 /**************************************************************************
@@ -588,34 +490,17 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 }
 
 /**************************************************************************
-...
+Centers the mapview around (x, y).
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 void center_tile_mapcanvas(int x, int y)
 {
   int map_view_x0;
   int map_view_y0;
-  int map_canvas_store_twidth = get_map_x_visible();
-  int map_canvas_store_theight = get_map_y_visible();
 
-  if (is_isometric) {
-    x -= map_canvas_store_twidth/2;
-    y += map_canvas_store_twidth/2;
-    x -= map_canvas_store_theight/2;
-    y -= map_canvas_store_theight/2;
-
-    map_view_x0 = map_adjust_x(x);
-    map_view_y0 = map_adjust_y(y);
-
-    map_view_y0 =
-      (map_view_y0 > map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight) ? 
-      map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight :
-      map_view_y0;
-  } else {
-    map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
-    map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
-    if (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
-      map_view_y0=map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
-  }
+  base_center_tile_mapcanvas(x, y, &map_view_x0, &map_view_y0,
+			     get_map_x_visible(), get_map_y_visible());
 
   set_map_xy_start(map_view_x0, map_view_y0);
 // remove me

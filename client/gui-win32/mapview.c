@@ -43,9 +43,6 @@
 #include "gui_main.h"
 #include "mapview.h"
 
-
-#define EXTRA_BOTTOM_ROW 1
-
 enum draw_part {
   D_T_L = 1, D_T_R = 2, D_M_L = 4, D_M_R = 8, D_B_L = 16, D_B_R = 32
 };
@@ -671,43 +668,19 @@ overview_update_tile(int x, int y)
 }
 
 /**************************************************************************
+Centers the mapview around (x, y).
 
+This function is almost identical between all GUI's.
 **************************************************************************/
-void
-center_tile_mapcanvas(int x, int y)
+void center_tile_mapcanvas(int x, int y)
 {
-  if (is_isometric)
-    {
-      x -= map_view_width/2;
-      y += map_view_width/2;
-      x -= map_view_height/2;
-      y -= map_view_height/2;
-      map_view_x = map_adjust_x(x);
-      map_view_y = map_adjust_y(y);
-      map_view_y = (map_view_y > map.ysize + EXTRA_BOTTOM_ROW - 
-		    map_view_height) ? 
-	map.ysize + EXTRA_BOTTOM_ROW - map_view_height :
-	map_view_y;
-      
-    }
-  else
-    {
-      int new_map_view_x0, new_map_view_y0;
-      
-      new_map_view_x0=map_adjust_x(x-map_view_width/2);
-      new_map_view_y0=map_adjust_y(y-map_view_height/2);
-      if(new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_view_height)
-	new_map_view_y0=
-	  map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_view_height);
-      
-      map_view_x=new_map_view_x0;
-      map_view_y=new_map_view_y0;
-    }
+  base_center_tile_mapcanvas(x, y, &map_view_x, &map_view_y,
+			     map_view_width, map_view_height);
+
   update_map_canvas_visible();
   update_map_canvas_scrollbars();
-      
-  refresh_overview_viewrect_real(NULL); 
-      
+
+  refresh_overview_viewrect_real(NULL);
 }
 
 /**************************************************************************
@@ -1421,101 +1394,31 @@ void map_handle_vscroll(int pos)
 }
 
 /**************************************************************************
+Finds the pixel coordinates of a tile.  Beside setting the results in
+canvas_x,canvas_y it returns whether the tile is inside the visible
+map.
 
+This function is almost identical between all GUI's.
 **************************************************************************/
-static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+static int get_canvas_xy(int map_x, int map_y, int *canvas_x,
+			 int *canvas_y)
 {
-  if (is_isometric) {
-    /* canvas_x,canvas_y is the top corner of the actual tile, not the pixmap.
-       This function also handels non-adjusted tile coords (like -1, -2) as if
-       they were adjusted.
-       You might want to first take a look at the simpler city_get_xy() for basic
-       understanding. */
-    int diff_xy;
-    int diff_x, diff_y;
-    int width, height;
-    width=map_win_width;
-    height=map_win_height;
-    map_x %= map.xsize;
-    if (map_x < map_view_x) map_x += map.xsize;
-    diff_xy = (map_x + map_y) - (map_view_x + map_view_y);
-    /* one diff_xy value defines a line parallel with the top of the isometric
-       view. */
-    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
-    /* changing both x and y with the same amount doesn't change the isometric
-       x value. (draw a grid to see it!) */
-    map_x -= diff_xy/2;
-    map_y -= diff_xy/2;
-    diff_x = map_x - map_view_x;
-    diff_y = map_view_y - map_y;
-    
-    *canvas_x = (diff_x - 1) * NORMAL_TILE_WIDTH
-      + (diff_x == diff_y ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2)
-      /* tiles starting above the visible area */
-      + (diff_y > diff_x ? NORMAL_TILE_WIDTH : 0);
-    
-    /* We now have the corner of the sprite. For drawing we move it. */
-    *canvas_x -= NORMAL_TILE_WIDTH/2;
-    
-    return (*canvas_x > (-NORMAL_TILE_WIDTH))
-      && *canvas_x < (width+NORMAL_TILE_WIDTH/2)
-      && (*canvas_y > (-NORMAL_TILE_HEIGHT))
-      && (*canvas_y < (height)); 
-  } else { /* is_isometric */
-    if (map_view_x+map_view_width<=map.xsize)
-      *canvas_x=map_x-map_view_x;
-    else if (map_x >= map_view_x)
-      *canvas_x=map_x-map_view_x;
-    else if (map_x < map_adjust_x(map_view_x+map_view_width))
-      *canvas_x=map_x+map.xsize-map_view_x;
-    else *canvas_x=-1;
-    *canvas_y=map_y-map_view_y;
-    *canvas_x*=NORMAL_TILE_WIDTH;
-    *canvas_y*=NORMAL_TILE_HEIGHT;
-    
-    return *canvas_x >= 0
-      && *canvas_x <(map_view_width*NORMAL_TILE_WIDTH)
-      && *canvas_y >=0
-      && *canvas_y <(map_view_height*NORMAL_TILE_HEIGHT);
-  }
+  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
+			       map_view_x, map_view_y, map_win_width,
+			       map_win_height);
 }
 
 
 /**************************************************************************
 Finds the map coordinates corresponding to pixel coordinates.
+
+This function is almost identical between all GUI's.
 **************************************************************************/
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
-  if (is_isometric) {
-    *map_x = map_view_x;
-    *map_y = map_view_y;
-
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x/NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
-
-    /* Then move op to the top corner. */
-    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
-
-    /* We are inside a rectangle, with 2 half tiles starting in the corner,
-       and two tiles further out. Draw a grid to see how this works :). */
-    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
-    canvas_y *= 2; /* now we have a square. */
-    if (canvas_x > canvas_y) (*map_y) -= 1;
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) (*map_x) += 1;
-
-    /* If we are outside the map find the nearest tile, with distance as
-       seen on the map. */
-    nearest_real_pos(map_x, map_y);
-  } else { /* is_isometric */
-    *map_x = map_adjust_x(map_view_x + canvas_x/NORMAL_TILE_WIDTH);
-    *map_y = map_adjust_y(map_view_y + canvas_y/NORMAL_TILE_HEIGHT);
-  }
+  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x,
+			map_view_y);
 }
-
 
 /**************************************************************************
 Only used for isometric view.
