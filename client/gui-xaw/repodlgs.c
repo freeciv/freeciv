@@ -336,7 +336,7 @@ void create_science_dialog(bool make_modal)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->ai.tech_goal) {
+	    || i == game.player_ptr->ai.tech_goal)) {
       Widget entry=
       XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 			      goalmenu, NULL);
