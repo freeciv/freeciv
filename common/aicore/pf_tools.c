@@ -147,7 +147,7 @@ static int land_overlap_move(int x, int y, enum direction8 dir,
 
 /************************************************************ 
   Reversed LAND_MOVE cost function for a unit.
-  Will be used. DO NOT REMOVE you pricks.
+  Will be used. DO NOT REMOVE.
 ************************************************************/
 #ifdef UNUSED
 static int reverse_move_unit(int x, int y, enum direction8 dir,
@@ -193,7 +193,15 @@ static int igter_move_unit(int x, int y, enum direction8 dir,
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (ptile->terrain == T_OCEAN) {
-    move_cost = MOVE_COST_ROAD;
+    struct tile *ptile1 = map_get_tile(x1, y1);
+
+    if (!BV_ISSET(param->unit_flags, F_MARINES)
+        && (is_non_allied_unit_tile(ptile1, param->owner) 
+            || is_non_allied_city_tile(ptile1, param->owner))) {
+      move_cost = PF_IMPOSSIBLE_MC;
+    } else {
+      move_cost = MOVE_COST_ROAD;
+    }
   } else {
     move_cost = (ptile->move_cost[dir] != 0 ? MOVE_COST_ROAD : 0);
   }
@@ -202,7 +210,7 @@ static int igter_move_unit(int x, int y, enum direction8 dir,
 
 /************************************************************ 
   Reversed IGTER_MOVE cost function for a unit.
-  Will be used. DO NOT REMOVE you pricks.
+  Will be used. DO NOT REMOVE.
 ************************************************************/
 #ifdef UNUSED
 static int reverse_igter_move_unit(int x, int y, enum direction8 dir,
