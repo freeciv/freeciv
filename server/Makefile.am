@@ -1,10 +1,11 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=	userdb
+SUBDIRS=	userdb generator
 
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb -I$(srcdir)/generator
+
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -45,8 +46,6 @@ libcivserver_a_SOURCES = \
 		handchat.h	\
 		hand_gen.h	\
 		hand_gen.c	\
-		mapgen.c	\
-		mapgen.h	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\
@@ -83,10 +82,12 @@ libcivserver_a_SOURCES = \
 
 civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a \
-      ../utility/libcivutility.a ../common/aicore/libaicore.a $(USER_DB_DEP)
+      ../utility/libcivutility.a ../common/aicore/libaicore.a \
+      ./generator/libgenerator.a $(USER_DB_DEP)
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
       ../utility/libcivutility.a ./libcivserver.a ../utility/libcivutility.a \
-      ../common/aicore/libaicore.a $(USER_DB_LIB) $(SERVER_LIBS)
+      ../common/aicore/libaicore.a ./generator/libgenerator.a \
+      $(USER_DB_LIB) $(SERVER_LIBS)
 
