@@ -1947,6 +1947,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int dest_x, dest_y; 
   int id = punit->id;
   int ct = 10;
+  bool igzoc = unit_flag(punit, F_IGZOC);
 
   assert(punit != NULL);
   if (punit->activity == ACTIVITY_GOTO) {
@@ -1970,7 +1971,11 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Then find enemies the hard way */
     find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
     if (!same_pos(punit->x, punit->y, dest_x, dest_y)) {
-      if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
+      if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
+          || !can_unit_attack_tile(punit, dest_x, dest_y)
+          || !can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
+        /* Can't attack or move usually means we are adjacent but
+         * on a ferry. This fixes the problem (usually). */
         (void) ai_military_gothere(pplayer, punit, dest_x, dest_y);
       } else { 
         /* Close combat. fstk sometimes want us to attack an adjacent
