@@ -24,7 +24,7 @@
 #include <pwd.h>
 #endif
 
-#if defined(AIX) || defined(__EMX__)
+#ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
 

@@ -30,7 +30,7 @@
 
 #include <pwd.h>
 
-#ifdef AIX
+#ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
 
