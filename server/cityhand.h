@@ -24,6 +24,7 @@ void remove_city_from_cache(int id);
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity, int dosend);
+void send_adjacent_cities(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 

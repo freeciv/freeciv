@@ -343,6 +343,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
   }
 
   pnewcity->shield_stock=0;
+  city_check_workers(pplayer,pnewcity);
   city_refresh(pnewcity);
   initialize_infrastructure_cache(pnewcity);
   send_city_info(0, pnewcity, 0);

@@ -196,6 +196,8 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   city_refresh(pcity);
   city_incite_cost(pcity);
   initialize_infrastructure_cache(pcity);
+
+  send_adjacent_cities(pcity);
   send_city_info(0, pcity, 0);
 /* fnord -- Syela */
 }
@@ -269,6 +271,7 @@ void handle_city_make_specialist(struct player *pplayer,
     set_worker_city(pcity, preq->worker_x, preq->worker_y, C_TILE_EMPTY);
     pcity->ppl_elvis++;
     city_refresh(pcity);
+    send_adjacent_cities(pcity);
     send_city_info(pplayer, pcity, 0);
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, "Game: you don't have a worker here"); 
@@ -312,6 +315,7 @@ void handle_city_make_worker(struct player *pplayer,
     pcity->ppl_taxman--;
   
   city_refresh(pcity);
+  send_adjacent_cities(pcity);
   send_city_info(pplayer, pcity, 1);
 }
 
@@ -518,6 +522,42 @@ void send_player_cities(struct player *pplayer)
     send_city_info(pplayer, pcity, 0);
   }
   city_list_iterate_end;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void send_adjacent_cities(struct city *pcity)
+{
+  int x1,x2,y1,y2;
+  int i;
+
+  x1=pcity->x-4; x2=pcity->x+4; y1=pcity->y-4; y2=pcity->y+4;
+  x1=map_adjust_x(x1); x2=map_adjust_x(x2);
+  y1=map_adjust_y(y1); y2=map_adjust_y(y2);
+  if(x1>x2)  {
+    for (i=0;i<game.nplayers;i++) {
+      city_list_iterate(game.players[i].cities, pcity2)
+	if(pcity2!=pcity)
+	  if((pcity2->x <= x2 || pcity2->x >= x1) && 
+	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
+	    city_check_workers(city_owner(pcity2),pcity2);
+	    send_city_info(city_owner(pcity2), pcity2, 0);
+	  }
+      city_list_iterate_end;
+    }
+  } else {
+    for (i=0;i<game.nplayers;i++) {
+      city_list_iterate(game.players[i].cities, pcity2)
+	if(pcity2!=pcity)
+	  if((pcity2->x <= x2 && pcity2->x >= x1) && 
+	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
+	    city_check_workers(city_owner(pcity2),pcity2);
+	    send_city_info(city_owner(pcity2), pcity2, 0);
+	  }
+      city_list_iterate_end;
+    }
+  }
 }
 
 /**************************************************************************
