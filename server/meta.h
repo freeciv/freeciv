@@ -15,27 +15,35 @@
 
 #include "shared.h"		/* bool type */
 
-/*
- * Definitions for UDP.
- */
+#define DEFAULT_META_SERVER_NO_SEND  TRUE
+#define DEFAULT_META_SERVER_ADDR     "http://meta.freeciv.org/metaserver.phtml"
+#define METASERVER_REFRESH_INTERVAL   (3*60)
+#define METASERVER_MIN_UPDATE_INTERVAL 7   /* not too short, not too long */
 
-#define DEFAULT_META_SERVER_NO_SEND	TRUE
-#define DEFAULT_META_SERVER_PORT	12245
-#define DEFAULT_META_SERVER_ADDR	"meta.freeciv.org"
-#define METASERVER_UPDATE_INTERVAL	(3*60)
+enum meta_flag {
+  META_INFO,
+  META_REFRESH,
+  META_GOODBYE
+};
 
-#define PACKET_UDP_PCKT 2
+const char *default_meta_patches_string(void);
+const char *default_meta_topic_string(void);
+const char *default_meta_message_string(void);
 
-const char *default_meta_server_info_string(void);
+const char *get_meta_patches_string(void);
+const char *get_meta_topic_string(void);
+const char *get_meta_message_string(void);
 
-void meta_addr_split(void);
+void set_meta_patches_string(const char *string);
+void set_meta_topic_string(const char *string);
+void set_meta_message_string(const char *string);
+
 char *meta_addr_port(void);
 
-void server_close_udp(void);
-void server_open_udp(void);
+void server_close_meta(void);
+void server_open_meta(void);
+bool is_metaserver_open(void);
 
-bool send_server_info_to_metaserver(bool do_send, bool reset_timer);
-
-extern bool server_is_open;
+bool send_server_info_to_metaserver(enum meta_flag flag);
 
 #endif /* FC__META_H */

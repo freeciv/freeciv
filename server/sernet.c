@@ -233,7 +233,8 @@ void close_connections_and_socket(void)
   }
 #endif
 
-  server_close_udp();
+  send_server_info_to_metaserver(META_GOODBYE);
+  server_close_meta();
 
   my_shutdown_network();
 }
@@ -394,10 +395,9 @@ int sniff_packets(void)
       if(conn_list_size(&game.est_connections) == 0) {
 	if (last_noplayers != 0) {
 	  if (time(NULL)>last_noplayers + srvarg.quitidle) {
-	    sz_strlcpy(srvarg.metaserver_info_line,
-		       "restarting for lack of players");
-	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	    (void) send_server_info_to_metaserver(TRUE, FALSE);
+	    set_meta_message_string("restarting for lack of players");
+	    freelog(LOG_NORMAL, get_meta_message_string());
+	    (void) send_server_info_to_metaserver(META_INFO);
 
             server_state = GAME_OVER_STATE;
             force_end_of_sniff = TRUE;
@@ -407,14 +407,15 @@ int sniff_packets(void)
             } conn_list_iterate_end;
 	  }
 	} else {
+          char buf[256];
 	  last_noplayers = time(NULL);
 	  
-	  my_snprintf(srvarg.metaserver_info_line,
-		      sizeof(srvarg.metaserver_info_line),
+	  my_snprintf(buf, sizeof(buf),
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
-	  freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	  (void) send_server_info_to_metaserver(TRUE, FALSE);
+          set_meta_message_string((const char *)buf);
+	  freelog(LOG_NORMAL, get_meta_message_string());
+	  (void) send_server_info_to_metaserver(META_INFO);
 	}
       } else {
         last_noplayers = 0;
@@ -465,7 +466,7 @@ int sniff_packets(void)
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
-      (void) send_server_info_to_metaserver(FALSE, FALSE);
+      (void) send_server_info_to_metaserver(META_REFRESH);
       return 0;
     }
 
@@ -503,7 +504,7 @@ int sniff_packets(void)
     con_prompt_off();		/* output doesn't generate a new prompt */
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
-      (void) send_server_info_to_metaserver(FALSE, FALSE);
+      (void) send_server_info_to_metaserver(META_REFRESH);
       if(game.timeout != 0
 	&& (time(NULL)>game.turn_start + game.timeout)
 	&& (server_state == RUN_GAME_STATE)){
@@ -1091,7 +1092,7 @@ static void send_lanserver_response(void)
   dio_put_string(&dout, version);
   dio_put_string(&dout, status);
   dio_put_string(&dout, players);
-  dio_put_string(&dout, srvarg.metaserver_info_line);
+  dio_put_string(&dout, get_meta_message_string());
   size = dio_output_used(&dout);
 
   /* Sending packet to client with the information gathered above. */

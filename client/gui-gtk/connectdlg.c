@@ -256,12 +256,12 @@ static gint get_lanservers(gpointer data)
       row[i] = buf[i];
     }
     server_list_iterate(*server_list,pserver) {
-      sz_strlcpy(buf[0], pserver->name);
+      sz_strlcpy(buf[0], pserver->host);
       sz_strlcpy(buf[1], pserver->port);
       sz_strlcpy(buf[2], pserver->version);
-      sz_strlcpy(buf[3], _(pserver->status));
-      sz_strlcpy(buf[4], pserver->players);
-      sz_strlcpy(buf[5], pserver->metastring);
+      sz_strlcpy(buf[3], _(pserver->state));
+      sz_strlcpy(buf[4], pserver->nplayers);
+      sz_strlcpy(buf[5], pserver->message);
 
       gtk_clist_append(GTK_CLIST(lan_list), row);
     } server_list_iterate_end;
@@ -599,12 +599,12 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
     row[i]=buf[i];
 
   server_list_iterate(*server_list,pserver) {
-    sz_strlcpy(buf[0], pserver->name);
+    sz_strlcpy(buf[0], pserver->host);
     sz_strlcpy(buf[1], pserver->port);
     sz_strlcpy(buf[2], pserver->version);
-    sz_strlcpy(buf[3], _(pserver->status));
-    sz_strlcpy(buf[4], pserver->players);
-    sz_strlcpy(buf[5], pserver->metastring);
+    sz_strlcpy(buf[3], _(pserver->state));
+    sz_strlcpy(buf[4], pserver->nplayers);
+    sz_strlcpy(buf[5], pserver->message);
 
     gtk_clist_append(GTK_CLIST(meta_list), row);
   }

@@ -67,6 +67,7 @@
 #include "mem.h"
 #include "netintf.h"
 #include "packets.h"
+#include "registry.h"
 #include "support.h"
 #include "version.h"
 
@@ -93,7 +94,7 @@ static int socklan;
 static struct server_list *lan_servers;
 static union my_sockaddr server_addr;
 
-/**************************************************************************
+/*************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
   do so before-hand if necessary.
 **************************************************************************/
@@ -492,6 +493,82 @@ static char *win_uname()
 }
 #endif
 
+/**************************************************************************
+ The server sends a stream in a registry 'ini' type format.
+ Read it using secfile functions and fill the server_list structs.
+**************************************************************************/
+static struct server_list *parse_metaserver_data(fz_FILE *f)
+{
+  struct server_list *server_list;
+  struct section_file the_file, *file = &the_file;
+  int nservers, i, j;
+
+  server_list = fc_malloc(sizeof(struct server_list));
+  server_list_init(server_list);
+
+  /* This call closes f. */
+  if (!section_file_load_from_stream(file, f)) {
+    return server_list;
+  }
+
+  nservers = secfile_lookup_int_default(file, 0, "main.nservers");
+
+  for (i = 0; i < nservers; i++) {
+    char *host, *port, *version, *state, *message, *nplayers;
+    int n;
+    struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
+
+    host = secfile_lookup_str_default(file, "", "server%d.host", i);
+    pserver->host = mystrdup(host);
+
+    port = secfile_lookup_str_default(file, "", "server%d.port", i);
+    pserver->port = mystrdup(port);
+
+    version = secfile_lookup_str_default(file, "", "server%d.version", i);
+    pserver->version = mystrdup(version);
+
+    state = secfile_lookup_str_default(file, "", "server%d.state", i);
+    pserver->state = mystrdup(state);
+
+    message = secfile_lookup_str_default(file, "", "server%d.message", i);
+    pserver->message = mystrdup(message);
+
+    nplayers = secfile_lookup_str_default(file, "0", "server%d.nplayers", i);
+    pserver->nplayers = mystrdup(nplayers);
+    n = atoi(nplayers);
+
+    if (n > 0) {
+      pserver->players = fc_malloc(n * sizeof(*pserver->players));
+    } else {
+      pserver->players = NULL;
+    }
+      
+    for (j = 0; j < n; j++) {
+      char *name, *nation, *type, *host;
+
+      name = secfile_lookup_str_default(file, "", 
+                                        "server%d.player%d.name", i, j);
+      pserver->players[j].name = mystrdup(name);
+
+      type = secfile_lookup_str_default(file, "",
+                                        "server%d.player%d.type", i, j);
+      pserver->players[j].type = mystrdup(type);
+
+      host = secfile_lookup_str_default(file, "", 
+                                        "server%d.player%d.host", i, j);
+      pserver->players[j].host = mystrdup(host);
+
+      nation = secfile_lookup_str_default(file, "",
+                                          "server%d.player%d.nation", i, j);
+      pserver->players[j].nation = mystrdup(nation);
+    }
+
+    server_list_insert(server_list, pserver);
+  }
+
+  section_file_free(file);
+  return server_list;
+}
 
 /**************************************************************************
  Create the list of servers from the metaserver
@@ -500,69 +577,27 @@ static char *win_uname()
 **************************************************************************/
 struct server_list *create_server_list(char *errbuf, int n_errbuf)
 {
-  struct server_list *server_list;
   union my_sockaddr addr;
   int s;
   fz_FILE *f;
-  char *proxy_url;
-  char urlbuf[512];
-  char *urlpath;
-  char *server;
-  int port;
-  char str[512];
+  const char *urlpath;
+  char metaname[MAX_LEN_ADDR];
+  int metaport;
+  const char *capstr;
+  char str[MAX_LEN_PACKET];
   char machine_string[128];
 #ifdef HAVE_UNAME
   struct utsname un;
 #endif 
 
-  if ((proxy_url = getenv("http_proxy"))) {
-    if (strncmp(proxy_url, "http://", strlen("http://")) != 0) {
-      (void) mystrlcpy(errbuf, _("Invalid $http_proxy value, must "
-				 "start with 'http://'"), n_errbuf);
-      return NULL;
-    }
-    sz_strlcpy(urlbuf, proxy_url);
-  } else {
-    if (strncmp(metaserver, "http://", strlen("http://")) != 0) {
-      (void) mystrlcpy(errbuf, _("Invalid metaserver URL, must start "
-				 "with 'http://'"), n_errbuf);
-      return NULL;
-    }
-    sz_strlcpy(urlbuf, metaserver);
-  }
-  server = &urlbuf[strlen("http://")];
-
-  {
-    char *s;
-    if ((s = strchr(server,':'))) {
-      if (sscanf(&s[1], "%d", &port) != 1) {
-	port = 80;
-      }
-      s[0] = '\0';
-      s++;
-      while (my_isdigit(s[0])) {
-	s++;
-      }
-    } else {
-      port = 80;
-      if (!(s = strchr(server,'/'))) {
-        s = &server[strlen(server)];
-      }
-    }  /* s now points past the host[:port] part */
-
-    if (s[0] == '/') {
-      s[0] = '\0';
-      s++;
-    } else if (s[0] != '\0') {
-      (void) mystrlcpy(errbuf, _("Invalid $http_proxy value, cannot "
-				 "find separating '/'"), n_errbuf);
-      /* which is obligatory if more characters follow */
-      return NULL;
-    }
-    urlpath = s;
+  urlpath = my_lookup_httpd(metaname, &metaport, METALIST_ADDR);//metaserver);
+  if (!urlpath) {
+    (void) mystrlcpy(errbuf, _("Invalid $http_proxy or metaserver value, must "
+                              "start with 'http://'"), n_errbuf);
+    return NULL;
   }
 
-  if (!net_lookup_service(server, port, &addr)) {
+  if (!net_lookup_service(metaname, metaport, &addr)) {
     (void) mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return NULL;
   }
@@ -572,7 +607,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     return NULL;
   }
   
-  if(connect(s, &addr.sockaddr, sizeof (addr)) == -1) {
+  if(connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), n_errbuf);
     my_closesocket(s);
     return NULL;
@@ -596,56 +631,34 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 #endif
 #endif /* HAVE_UNAME */
 
-  my_snprintf(str,sizeof(str),
-              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s %s %s\r\n\r\n",
-              proxy_url ? "" : "/",
-              urlpath,
-              proxy_url ? metaserver : "",
-              VERSION_STRING,
-              client_string,
-              machine_string,
-              default_tileset_name);
+  capstr = my_url_encode(our_capability);
+
+  my_snprintf(str, sizeof(str),
+    "POST %s HTTP/1.1\r\n"
+    "Host: %s:%d\r\n"
+    "User-Agent: Freeciv/%s %s %s\r\n"
+    "Connection: close\r\n"
+    "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
+    "Content-Length: %d\r\n"
+    "\r\n"
+    "client_cap=%s\r\n",
+    urlpath,
+    metaname, metaport,
+    VERSION_STRING, client_string, machine_string,
+    strlen("client_cap=")+strlen(capstr),
+    capstr);
 
   f = my_querysocket(s, str, strlen(str));
 
-#define NEXT_FIELD p=strstr(p,"<TD>"); if(!p) continue; p+=4;
-#define END_FIELD  p=strstr(p,"</TD>"); if(!p) continue; *p++='\0';
-#define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
-
-  server_list = fc_malloc(sizeof(struct server_list));
-  server_list_init(server_list);
-
-  while(fz_fgets(str, 512, f)) {
-    if((0 == strncmp(str, "<TR BGCOLOR",11)) && strchr(str, '\n')) {
-      char *name,*port,*version,*status,*players,*metastring;
-      char *p;
-      struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
-
-      p=strstr(str,"<a"); if(!p) continue;
-      p=strchr(p,'>');    if(!p) continue;
-      name=++p;
-      p=strstr(p,"</a>"); if(!p) continue;
-      *p++='\0';
-
-      GET_FIELD(port);
-      GET_FIELD(version);
-      GET_FIELD(status);
-      GET_FIELD(players);
-      GET_FIELD(metastring);
-
-      pserver->name = mystrdup(name);
-      pserver->port = mystrdup(port);
-      pserver->version = mystrdup(version);
-      pserver->status = mystrdup(status);
-      pserver->players = mystrdup(players);
-      pserver->metastring = mystrdup(metastring);
-
-      server_list_insert(server_list, pserver);
-    }
+  /* skip HTTP headers */
+  while (fz_fgets(str, sizeof(str), f) && strcmp(str, "\r\n") != 0) {
+    /* nothing */
   }
-  fz_fclose(f);
 
-  return server_list;
+  /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
+
+  /* parse HTTP message body */
+  return parse_metaserver_data(f);
 }
 
 /**************************************************************************
@@ -656,17 +669,31 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 void delete_server_list(struct server_list *server_list)
 {
   server_list_iterate(*server_list, ptmp)
-    free(ptmp->name);
+    int i;
+    int n = atoi(ptmp->nplayers);
+
+    free(ptmp->host);
     free(ptmp->port);
     free(ptmp->version);
-    free(ptmp->status);
-    free(ptmp->players);
-    free(ptmp->metastring);
+    free(ptmp->state);
+    free(ptmp->message);
+
+    if (ptmp->players) {
+      for (i = 0; i < n; i++) {
+        free(ptmp->players[i].name);
+        free(ptmp->players[i].type);
+        free(ptmp->players[i].host);
+        free(ptmp->players[i].nation);
+      }
+      free(ptmp->players);
+    }
+    free(ptmp->nplayers);
+
     free(ptmp);
   server_list_iterate_end;
 
   server_list_unlink_all(server_list);
-	free(server_list);
+  free(server_list);
 }
 
 /**************************************************************************
@@ -790,7 +817,7 @@ struct server_list *get_lan_server_list(void) {
   char version[256];
   char status[256];
   char players[256];
-  char metastring[1024];
+  char message[1024];
   fd_set readfs, exceptfs;
   struct timeval tv;
 
@@ -826,7 +853,7 @@ struct server_list *get_lan_server_list(void) {
     dio_get_string(&din, version, sizeof(version));
     dio_get_string(&din, status, sizeof(status));
     dio_get_string(&din, players, sizeof(players));
-    dio_get_string(&din, metastring, sizeof(metastring));
+    dio_get_string(&din, message, sizeof(message));
 
     if (!mystrcasecmp("none", servername)) {
       from = gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
@@ -836,7 +863,7 @@ struct server_list *get_lan_server_list(void) {
 
     /* UDP can send duplicate or delayed packets. */
     server_list_iterate(*lan_servers, aserver) {
-      if (!mystrcasecmp(aserver->name, servername) 
+      if (!mystrcasecmp(aserver->host, servername) 
           && !mystrcasecmp(aserver->port, port)) {
         return lan_servers;
       } 
@@ -846,12 +873,13 @@ struct server_list *get_lan_server_list(void) {
             ("Received a valid announcement from a server on the LAN."));
     
     pserver =  (struct server*)fc_malloc(sizeof(struct server));
-    pserver->name = mystrdup(servername);
+    pserver->host = mystrdup(servername);
     pserver->port = mystrdup(port);
     pserver->version = mystrdup(version);
-    pserver->status = mystrdup(status);
-    pserver->players = mystrdup(players);
-    pserver->metastring = mystrdup(metastring);
+    pserver->state = mystrdup(status);
+    pserver->nplayers = mystrdup(players);
+    pserver->message = mystrdup(message);
+    pserver->players = NULL;
 
     server_list_insert(lan_servers, pserver);
   } else {

@@ -145,10 +145,20 @@ const struct command commands[] = {
       "without any arguments will show you the currently selected "
       "ruleset.")
   },
-  {"metainfo",	ALLOW_CTRL,
+  {"metamessage", ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line."), NULL
+  },
+  {"metatopic", ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
+   N_("metatopic <meta-line>"),
+   N_("Set metaserver topic line."), NULL
+  },
+  {"metapatches", ALLOW_HACK,
+   /* TRANS: translate text between <> only */
+   N_("metapatch <meta-line>"),
+   N_("Set metaserver patches line."), NULL
   },
   {"metaconnection",	ALLOW_HACK,
    "metaconnection u|up\n"
@@ -162,7 +172,7 @@ const struct command commands[] = {
   {"metaserver",ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("metaserver <address>"),
-   N_("Set address for metaserver to report to."), NULL
+   N_("Set address (URL) for metaserver to report to."), NULL
   },
   {"aitoggle",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */

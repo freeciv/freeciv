@@ -176,9 +176,7 @@ void srv_init(void)
   /* init server arguments... */
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
-  sz_strlcpy(srvarg.metaserver_info_line, default_meta_server_info_string());
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
-  srvarg.metaserver_port = DEFAULT_META_SERVER_PORT;
 
   srvarg.bind_addr = NULL;
   srvarg.port = DEFAULT_SOCK_PORT;
@@ -192,8 +190,6 @@ void srv_init(void)
 
   srvarg.quitidle = 0;
   BV_CLR_ALL(srvarg.draw);
-
-  srvarg.extra_metaserver_info[0] = '\0';
 
   srvarg.auth_enabled = FALSE;
   srvarg.auth_allow_guests = FALSE;
@@ -1381,8 +1377,6 @@ static void generate_ai_players(void)
 
     game.nplayers++;
 
-    (void) send_server_info_to_metaserver(TRUE, FALSE);
-
     if (!((game.nplayers == old_nplayers+1)
 	  && strcmp(player_name, pplayer->name)==0)) {
       con_write(C_FAIL, _("Error creating new AI player: %s\n"),
@@ -1402,7 +1396,7 @@ static void generate_ai_players(void)
     announce_ai_player(pplayer);
     set_ai_level_direct(pplayer, pplayer->ai.skill_level);
   }
-  (void) send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(META_INFO);
 }
 
 /*************************************************************************
@@ -1551,7 +1545,7 @@ static void main_loop(void)
     end_phase();
     end_turn();
     freelog(LOG_DEBUG, "Sendinfotometaserver");
-    (void) send_server_info_to_metaserver(FALSE, FALSE);
+    (void) send_server_info_to_metaserver(META_REFRESH);
 
     conn_list_do_unbuffer(&game.game_connections);
 
@@ -1609,10 +1603,10 @@ void srv_main(void)
   if(!(srvarg.metaserver_no_send)) {
     freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
 	    meta_addr_port());
-    server_open_udp(); /* open socket for meta server */ 
+    server_open_meta(); /* open socket for meta server */ 
   }
 
-  (void) send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(META_INFO);
 
   /* accept new players, wait for serverop to start..*/
   server_state = PRE_GAME_STATE;
@@ -1632,6 +1626,7 @@ void srv_main(void)
     show_map_to_all();
     notify_player(NULL, _("Game: The game is over..."));
     gamelog(GAMELOG_NORMAL, _("The game is over!"));
+    send_server_info_to_metaserver(META_INFO);
     if (game.save_nturns > 0) {
       save_game_auto();
     }
@@ -1669,7 +1664,7 @@ static void srv_loop(void)
     sniff_packets(); /* Accepting commands. */
   }
 
-  (void) send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(META_INFO);
 
   if (game.is_new_game) {
     load_rulesets();
@@ -1790,7 +1785,7 @@ main_start_players:
   /* start the game */
 
   server_state = RUN_GAME_STATE;
-  (void) send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(META_INFO);
 
   if(game.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */

@@ -11,28 +11,11 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/*
- * This bit sends "I'm here" packages to the metaserver.
- */
-
-/*
-The desc block should look like this:
-1) GameName   - Freeciv
-2) Version    - 1.5.0
-3) State      - Running(Open for new players)
-4) Host       - Empty
-5) Port       - 5555
-6) NoPlayers  - 3
-7) InfoText   - Warfare - starts at 8:00 EMT
-
-The info string should look like this:
-  GameSpecific text block
-*/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,9 +40,12 @@ The info string should look like this:
 #include <winsock.h>
 #endif
 
+#include "capstr.h"
+#include "connection.h"
 #include "dataio.h"
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "netintf.h"
 #include "support.h"
 #include "timing.h"
@@ -70,18 +56,39 @@ The info string should look like this:
 
 #include "meta.h"
 
-bool server_is_open = FALSE;
+static bool server_is_open = FALSE;
 
-static int			sockfd=0;
-static union my_sockaddr   	meta_addr;
+static union my_sockaddr meta_addr;
+static char  metaname[MAX_LEN_ADDR];
+static int   metaport;
+static char *metaserver_path;
 
+static char meta_patches[256] = "";
+static char meta_topic[256] = "";
+static char meta_message[256] = "";
+
+/*************************************************************************
+ the default metaserver patches for this server
+*************************************************************************/
+const char *default_meta_patches_string(void)
+{
+  return "none";
+}
+
+/*************************************************************************
+ the default metaserver topic
+*************************************************************************/
+const char *default_meta_topic_string(void)
+{
+  return "";
+}
 
 /*************************************************************************
   Return static string with default info line to send to metaserver.
   This is a function (instead of a define) to keep meta.h clean of
   including config.h and version.h
 *************************************************************************/
-const char *default_meta_server_info_string(void)
+const char *default_meta_message_string(void)
 {
 #if IS_BETA_VERSION
   return "unstable pre-" NEXT_STABLE_VERSION ": beware";
@@ -95,15 +102,51 @@ const char *default_meta_server_info_string(void)
 }
 
 /*************************************************************************
-...
+ the metaserver patches
 *************************************************************************/
-void meta_addr_split(void)
+const char *get_meta_patches_string(void)
 {
-  char *metaserver_port_separator = strchr(srvarg.metaserver_addr, ':');
+  return meta_patches;
+}
 
-  if (metaserver_port_separator) {
-    sscanf(metaserver_port_separator + 1, "%hu", &srvarg.metaserver_port);
-  }
+/*************************************************************************
+ the metaserver topic
+*************************************************************************/
+const char *get_meta_topic_string(void)
+{
+  return meta_topic;
+}
+
+/*************************************************************************
+ the metaserver message
+*************************************************************************/
+const char *get_meta_message_string(void)
+{
+  return meta_message;
+}
+
+/*************************************************************************
+ set the metaserver patches string
+*************************************************************************/
+void set_meta_patches_string(const char *string)
+{
+  sz_strlcpy(meta_patches, string);
+}
+
+/*************************************************************************
+ set the metaserver topic string
+*************************************************************************/
+void set_meta_topic_string(const char *string)
+{
+  sz_strlcpy(meta_topic, string);
+}
+
+/*************************************************************************
+ set the metaserver message string
+*************************************************************************/
+void set_meta_message_string(const char *string)
+{
+  sz_strlcpy(meta_message, string);
 }
 
 /*************************************************************************
@@ -111,209 +154,287 @@ void meta_addr_split(void)
 *************************************************************************/
 char *meta_addr_port(void)
 {
-  static char retstr[300];
-
-  if (srvarg.metaserver_port == DEFAULT_META_SERVER_PORT) {
-    sz_strlcpy(retstr, srvarg.metaserver_addr);
-  } else {
-    my_snprintf(retstr, sizeof(retstr),
-		"%s:%d", srvarg.metaserver_addr, srvarg.metaserver_port);
-  }
-
-  return retstr;
+  return srvarg.metaserver_addr;
 }
 
 /*************************************************************************
-...
-  Returns true if able to send 
-*************************************************************************/
-static bool send_to_metaserver(char *desc, char *info)
-{
-  unsigned char buffer[MAX_LEN_PACKET];
-  struct data_out dout;
-  size_t size;
-
-  dio_output_init(&dout, buffer, sizeof(buffer));
-
-  if(sockfd<=0)
-    return FALSE;
-
-  dio_put_uint16(&dout, 0);
-  dio_put_uint8(&dout, PACKET_UDP_PCKT);
-  dio_put_string(&dout, desc);
-  dio_put_string(&dout, info);
-
-  size = dio_output_used(&dout);
-
-  dio_output_rewind(&dout);
-  dio_put_uint16(&dout, size);
-
-  my_writesocket(sockfd, buffer, size);
-  return TRUE;
-}
-
-/*************************************************************************
-...
-*************************************************************************/
-void server_close_udp(void)
-{
-  server_is_open = FALSE;
-
-  if(sockfd<=0)
-    return;
-  my_closesocket(sockfd);
-  sockfd=0;
-}
-
-/*************************************************************************
-...
+ we couldn't find or connect to the metaserver.
 *************************************************************************/
 static void metaserver_failed(void)
 {
   con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
   con_flush();
+
+  server_close_meta();
 }
 
 /*************************************************************************
-...
+ construct the POST message and send info to metaserver.
 *************************************************************************/
-void server_open_udp(void)
+static bool send_to_metaserver(enum meta_flag flag)
 {
-  char *metaname = srvarg.metaserver_addr;
-  int metaport;
-  union my_sockaddr bind_addr;
-  
-  /*
-   * Fill in the structure "meta_addr" with the address of the
-   * server that we want to connect with, checks if server address 
-   * is valid, both decimal-dotted and name.
-   */
-  metaport = srvarg.metaserver_port;
-  if (!net_lookup_service(metaname, metaport, &meta_addr)) {
-    freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
-      metaname,
-      metaport);
-    metaserver_failed();
-    return;
+  static char msg[8192];
+  static char str[8192];
+  int rest = sizeof(str);
+  int n;
+  char *s = str;
+  char host[512];
+  char state[20];
+  int sock;
+
+  if (!server_is_open) {
+    return FALSE;
   }
 
-  /*
-   * Open a UDP socket (an Internet datagram socket).
-   */
-  if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
-    freelog(LOG_ERROR, "Metaserver: can't open datagram socket: %s",
+  if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    freelog(LOG_ERROR, "Metaserver: can't open stream socket: %s",
 	    mystrerror());
     metaserver_failed();
-    return;
+    return FALSE;
   }
 
-  /*
-   * Bind any local address for us and
-   * associate datagram socket with server.
-   */
-  if (!net_lookup_service(srvarg.bind_addr, 0, &bind_addr)) {
-    freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
-	    srvarg.bind_addr, 0);
-    metaserver_failed();
-  }
-
-  /* set source IP */
-  if (bind(sockfd, &bind_addr.sockaddr, sizeof(bind_addr)) == -1) {
-    freelog(LOG_ERROR, "Metaserver: bind failed: %s", mystrerror());
-    metaserver_failed();
-    return;
-  }
-
-  /* no, this is not weird, see man connect(2) --vasc */
-  if (connect(sockfd, &meta_addr.sockaddr, sizeof(meta_addr))==-1) {
+  if (connect(sock, (struct sockaddr *) &meta_addr, sizeof(meta_addr)) == -1) {
     freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror());
     metaserver_failed();
+    my_closesocket(sock);
+    return FALSE;
+  }
+
+  switch(server_state) {
+  case PRE_GAME_STATE:
+    sz_strlcpy(state, "Pregame");
+    break;
+  case SELECT_RACES_STATE:
+    sz_strlcpy(state, "Nation Select");
+    break;
+  case RUN_GAME_STATE:
+    sz_strlcpy(state, "Running");
+    break;
+  case GAME_OVER_STATE:
+    sz_strlcpy(state, "Game Ended");
+    break;
+  default:
+    sz_strlcpy(state, "Unknown");
+    break;
+  }
+
+  /* get hostname */
+  if (my_gethostname(host, sizeof(host)) != 0) {
+    sz_strlcpy(host, "unknown");
+  }
+
+  my_snprintf(s, rest, "host=%s&port=%d&state=%s&", host, srvarg.port, state);
+  s = end_of_strn(s, &rest);
+
+  if (flag == META_GOODBYE) {
+    mystrlcpy(s, "bye=1&", rest);
+    s = end_of_strn(s, &rest);
+  } else {
+    my_snprintf(s, rest, "version=%s&", my_url_encode(VERSION_STRING));
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "patches=%s&", 
+                my_url_encode(get_meta_patches_string()));
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "capability=%s&", my_url_encode(our_capability));
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "topic=%s&",
+                my_url_encode(get_meta_topic_string()));
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "message=%s&",
+                my_url_encode(get_meta_message_string()));
+    s = end_of_strn(s, &rest);
+
+    /* NOTE: send info for ALL players or none at all. */
+    if (get_num_human_and_ai_players() == 0) {
+      mystrlcpy(s, "dropplrs=1&", rest);
+      s = end_of_strn(s, &rest);
+    } else {
+      players_iterate(plr) {
+        char type[15];
+        struct connection *pconn = find_conn_by_user(plr->username);
+
+        if (!plr->is_alive) {
+          sz_strlcpy(type, "Dead");
+        } else if (is_barbarian(plr)) {
+          sz_strlcpy(type, "Barbarian");
+        } else if (plr->ai.control) {
+          sz_strlcpy(type, "A.I.");
+        } else {
+          sz_strlcpy(type, "Human");
+        }
+
+        my_snprintf(s, rest, "plu[]=%s&", my_url_encode(plr->username));
+        s = end_of_strn(s, &rest);
+
+        my_snprintf(s, rest, "plt[]=%s&", type);
+        s = end_of_strn(s, &rest);
+
+        my_snprintf(s, rest, "pll[]=%s&", my_url_encode(plr->name));
+        s = end_of_strn(s, &rest);
+
+        my_snprintf(s, rest, "pln[]=%s&",
+                    my_url_encode(plr->nation != NO_NATION_SELECTED 
+                                  ? get_nation_name_plural(plr->nation)
+                                  : "none"));
+        s = end_of_strn(s, &rest);
+
+        my_snprintf(s, rest, "plh[]=%s&",
+                    pconn ? my_url_encode(pconn->addr) : "");
+        s = end_of_strn(s, &rest);
+      } players_iterate_end;
+    }
+
+    /* send some variables: should be listed in inverted order
+     * FIXME: these should be input from the settings array */
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("timeout"), game.timeout);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("year"), game.year);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("turn"), game.turn);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("endyear"), game.end_year);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("minplayers"), game.min_players);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("maxplayers"), game.max_players);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("generator"), map.generator);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+                my_url_encode("size"), map.size);
+    s = end_of_strn(s, &rest);
+  }
+
+  n = my_snprintf(msg, sizeof(msg),
+    "POST %s HTTP/1.1\r\n"
+    "Host: %s:%d\r\n"
+    "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
+    "Content-Length: %d\r\n"
+    "\r\n"
+    "%s\r\n",
+    metaserver_path,
+    metaname,
+    metaport,
+    sizeof(str)-rest+1,
+    str
+  );
+
+  my_writesocket(sock, msg, n);
+
+  return TRUE;
+}
+
+/*************************************************************************
+ 
+*************************************************************************/
+void server_close_meta(void)
+{
+  server_is_open = FALSE;
+}
+
+/*************************************************************************
+ lookup the correct address for the metaserver.
+*************************************************************************/
+void server_open_meta(void)
+{
+  const char *path;
+ 
+  if (metaserver_path) {
+    free(metaserver_path);
+    metaserver_path = NULL;
+  }
+  
+  if (!(path = my_lookup_httpd(metaname, &metaport, srvarg.metaserver_addr))) {
     return;
+  }
+  
+  metaserver_path = mystrdup(path);
+
+  if (!net_lookup_service(metaname, metaport, &meta_addr)) {
+    freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
+            metaname, metaport);
+    metaserver_failed();
+    return;
+  }
+
+  if (meta_patches[0] == '\0') {
+    set_meta_patches_string(default_meta_patches_string());
+  }
+  if (meta_topic[0] == '\0') {
+    set_meta_topic_string(default_meta_topic_string());
+  }
+  if (meta_message[0] == '\0') {
+    set_meta_message_string(default_meta_message_string());
   }
 
   server_is_open = TRUE;
 }
 
+/**************************************************************************
+ are we sending info to the metaserver?
+**************************************************************************/
+bool is_metaserver_open(void)
+{
+  return server_is_open;
+}
 
 /**************************************************************************
-...
+ control when we send info to the metaserver.
 **************************************************************************/
-bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
+bool send_server_info_to_metaserver(enum meta_flag flag)
 {
-  static struct timer *time_since_last_send = NULL;
-  char desc[4096], info[4096];
-  int num_nonbarbarians = get_num_human_and_ai_players();
+  static struct timer *last_send_timer = NULL;
+  static bool want_update;
 
-  if (reset_timer && time_since_last_send)
-  {
-    free_timer(time_since_last_send);
-    time_since_last_send = NULL;
-    return TRUE;
-     /* use when we close the connection to a metaserver */
+  /* if we're bidding farewell, ignore all timers */
+  if (flag == META_GOODBYE) { 
+    if (last_send_timer) {
+      free_timer(last_send_timer);
+      last_send_timer = NULL;
+    }
+    return send_to_metaserver(flag);
   }
 
-  if (!do_send && time_since_last_send
-      && ((int) read_timer_seconds(time_since_last_send)
-	  < METASERVER_UPDATE_INTERVAL)) {
+  /* don't allow the user to spam the metaserver with updates */
+  if (last_send_timer && (read_timer_seconds(last_send_timer)
+                                          < METASERVER_MIN_UPDATE_INTERVAL)) {
+    if (flag == META_INFO) {
+      want_update = TRUE; /* we couldn't update now, but update a.s.a.p. */
+    }
     return FALSE;
   }
-  if (!time_since_last_send) {
-    time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
+
+  /* if we're asking for a refresh, only do so if 
+   * we've exceeded the refresh interval */
+  if ((flag == META_REFRESH) && !want_update && last_send_timer 
+      && (read_timer_seconds(last_send_timer) < METASERVER_REFRESH_INTERVAL)) {
+    return FALSE;
   }
 
-  /* build description block */
-  desc[0]='\0';
-  
-  cat_snprintf(desc, sizeof(desc), "Freeciv\n");
-  cat_snprintf(desc, sizeof(desc), VERSION_STRING"\n");
-  /* note: the following strings are not translated here;
-     we mark them so they may be translated when received by a client */
-  switch(server_state) {
-  case PRE_GAME_STATE:
-    cat_snprintf(desc, sizeof(desc), N_("Pregame"));
-    break;
-  case RUN_GAME_STATE:
-    cat_snprintf(desc, sizeof(desc), N_("Running"));
-    break;
-  case GAME_OVER_STATE:
-    cat_snprintf(desc, sizeof(desc), N_("Game over"));
-    break;
-  default:
-    cat_snprintf(desc, sizeof(desc), N_("Waiting"));
+  /* start a new timer if we haven't already */
+  if (!last_send_timer) {
+    last_send_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
   }
-  cat_snprintf(desc, sizeof(desc), "\n");
-  cat_snprintf(desc, sizeof(desc), "%s\n", "UNSET");
-  cat_snprintf(desc, sizeof(desc), "%d\n", srvarg.port);
-  cat_snprintf(desc, sizeof(desc), "%d\n", num_nonbarbarians);
-  cat_snprintf(desc, sizeof(desc), "%s %s", srvarg.metaserver_info_line,
-	       srvarg.extra_metaserver_info);
 
-  /* now build the info block */
-  info[0]='\0';
-  cat_snprintf(info, sizeof(info),
-	  "Players:%d  Min players:%d  Max players:%d\n",
-	  num_nonbarbarians,  game.min_players, game.max_players);
-  cat_snprintf(info, sizeof(info),
-	  "Timeout:%d  Year: %s\n",
-	  game.timeout, textyear(game.year));
-    
-    
-  cat_snprintf(info, sizeof(info),
-	       "NO:  NAME:               HOST:\n");
-  cat_snprintf(info, sizeof(info),
-	       "----------------------------------------\n");
-
-  players_iterate(pplayer) {
-    if (!is_barbarian(pplayer)) {
-      /* Fixme: how should metaserver handle multi-connects?
-       * Uses player_addr_hack() for now.
-       */
-      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n",
-		   pplayer->player_no, pplayer->name,
-		   player_addr_hack(pplayer));
-    }
-  } players_iterate_end;
-
-  clear_timer_start(time_since_last_send);
-  return send_to_metaserver(desc, info);
+  clear_timer_start(last_send_timer);
+  want_update = FALSE;
+  return send_to_metaserver(flag);
 }

@@ -82,8 +82,7 @@ int main(int argc, char *argv[])
       srvarg.metaserver_no_send = FALSE;
     else if ((option = get_option("--Metaserver", argv, &inx, argc))) {
       sz_strlcpy(srvarg.metaserver_addr, argv[inx]);
-      meta_addr_split();
-      srvarg.metaserver_no_send = FALSE;	/* --Metaserver implies --meta */
+      srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */
     } else if ((option = get_option("--port", argv, &inx, argc))) {
       if (sscanf(option, "%d", &srvarg.port) != 1) {
 	showhelp = TRUE;
@@ -100,8 +99,6 @@ int main(int argc, char *argv[])
       }
     } else if (is_option("--exit-on-end", argv[inx])) {
       srvarg.exit_on_end = TRUE;
-    } else if ((option = get_option("--info", argv, &inx, argc))) {
-      sz_strlcpy(srvarg.extra_metaserver_info, option);
     } else if ((option = get_option("--debug", argv, &inx, argc))) {
       srvarg.loglevel = log_parse_level_str(option);
       if (srvarg.loglevel == -1) {

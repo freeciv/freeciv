@@ -260,12 +260,12 @@ static gboolean get_lanservers(gpointer data)
     server_list_iterate(*server_list, pserver) {
       GtkTreeIter it;
 
-      row[0] = pserver->name;
+      row[0] = pserver->host;
       row[1] = pserver->port;
       row[2] = pserver->version;
-      row[3] = _(pserver->status);
-      row[4] = pserver->players;
-      row[5] = pserver->metastring;
+      row[3] = _(pserver->state);
+      row[4] = pserver->nplayers;
+      row[5] = pserver->message;
 
       gtk_list_store_append(storelan, &it);
       gtk_list_store_set(storelan, &it,
@@ -1146,7 +1146,7 @@ void gui_server_connect(void)
 static int get_meta_list(char *errbuf, int n_errbuf)
 {
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
-  gchar *row[6];
+  gchar *row[3];
 
   if (!server_list) {
     return -1;
@@ -1157,12 +1157,12 @@ static int get_meta_list(char *errbuf, int n_errbuf)
   server_list_iterate(*server_list, pserver) {
     GtkTreeIter it;
 
-    row[0] = pserver->name;
+    row[0] = pserver->host;
     row[1] = pserver->port;
     row[2] = pserver->version;
-    row[3] = _(pserver->status);
-    row[4] = pserver->players;
-    row[5] = pserver->metastring;
+    row[3] = _(pserver->state);
+    row[4] = pserver->nplayers;
+    row[5] = pserver->message;
 
     gtk_list_store_append(storemeta, &it);
     gtk_list_store_set(storemeta, &it,

@@ -514,8 +514,8 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
   server_list_iterate(*server_list,pserver) {
     if (pserver == NULL) continue;
     my_snprintf(line, sizeof(line), "%-35s %-5s %-11s %-11s %2s   %s",
-		pserver->name, pserver->port, pserver->version,
-		_(pserver->status), pserver->players, pserver->metastring);
+		pserver->host, pserver->port, pserver->version,
+		_(pserver->state), pserver->nplayers, pserver->message);
     if (*list) free(*list);
     *list=mystrdup(line);
     list++;

@@ -496,8 +496,8 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
 **************************************************************************/
 static void open_metaserver_connection(struct connection *caller)
 {
-  server_open_udp();
-  if (send_server_info_to_metaserver(TRUE, FALSE)) {
+  server_open_meta();
+  if (send_server_info_to_metaserver(META_INFO)) {
     notify_player(NULL, _("Open metaserver connection to [%s]."),
 		  meta_addr_port());
   }
@@ -508,8 +508,8 @@ static void open_metaserver_connection(struct connection *caller)
 **************************************************************************/
 static void close_metaserver_connection(struct connection *caller)
 {
-  if (send_server_info_to_metaserver(TRUE, TRUE)) {
-    server_close_udp();
+  if (send_server_info_to_metaserver(META_GOODBYE)) {
+    server_close_meta();
     notify_player(NULL, _("Close metaserver connection to [%s]."),
 		  meta_addr_port());
   }
@@ -523,7 +523,7 @@ static bool metaconnection_command(struct connection *caller, char *arg,
 {
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
-    if (server_is_open) {
+    if (is_metaserver_open()) {
       cmd_reply(CMD_METACONN, caller, C_COMMENT,
 		_("Metaserver connection is open."));
     } else {
@@ -532,7 +532,7 @@ static bool metaconnection_command(struct connection *caller, char *arg,
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
 	     (0 == mystrcasecmp(arg, "up"))) {
-    if (!server_is_open) {
+    if (!is_metaserver_open()) {
       if (!check) {
         open_metaserver_connection(caller);
       }
@@ -543,7 +543,7 @@ static bool metaconnection_command(struct connection *caller, char *arg,
     }
   } else if ((0 == mystrcasecmp(arg, "d")) ||
 	     (0 == mystrcasecmp(arg, "down"))) {
-    if (server_is_open) {
+    if (is_metaserver_open()) {
       if (!check) {
         close_metaserver_connection(caller);
       }
@@ -563,19 +563,66 @@ static bool metaconnection_command(struct connection *caller, char *arg,
 /**************************************************************************
 ...
 **************************************************************************/
-static bool metainfo_command(struct connection *caller, char *arg, bool check)
+static bool metapatches_command(struct connection *caller, 
+                                char *arg, bool check)
 {
   if (check) {
     return TRUE;
   }
-  sz_strlcpy(srvarg.metaserver_info_line, arg);
-  if (!send_server_info_to_metaserver(TRUE, FALSE)) {
-    cmd_reply(CMD_METAINFO, caller, C_METAERROR,
-	      _("Not reporting to the metaserver."));
+
+  set_meta_patches_string(arg);
+
+  if (is_metaserver_open()) {
+    send_server_info_to_metaserver(META_INFO);
+    notify_player(NULL, _("Metaserver patches string set to '%s'."), arg);
   } else {
-    notify_player(NULL, _("Metaserver infostring set to '%s'."),
-		  srvarg.metaserver_info_line);
+    notify_player(NULL, _("Metaserver patches string set to '%s', "
+                          "not reporting to metaserver."), arg);
   }
+
+  return TRUE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static bool metatopic_command(struct connection *caller, char *arg, bool check)
+{
+  if (check) {
+    return TRUE;
+  }
+
+  set_meta_topic_string(arg);
+  if (is_metaserver_open()) {
+    send_server_info_to_metaserver(META_INFO);
+    notify_player(NULL, _("Metaserver topic string set to '%s'."), arg);
+  } else {
+    notify_player(NULL, _("Metaserver topic string set to '%s', "
+                          "not reporting to metaserver."), arg);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static bool metamessage_command(struct connection *caller, 
+                                char *arg, bool check)
+{
+  if (check) {
+    return TRUE;
+  }
+
+  set_meta_message_string(arg);
+  if (is_metaserver_open()) {
+    send_server_info_to_metaserver(META_INFO);
+    notify_player(NULL, _("Metaserver message string set to '%s'."), arg);
+  } else {
+    notify_player(NULL, _("Metaserver message string set to '%s', "
+                          "not reporting to metaserver."), arg);
+  }
+
   return TRUE;
 }
 
@@ -591,7 +638,6 @@ static bool metaserver_command(struct connection *caller, char *arg,
   close_metaserver_connection(caller);
 
   sz_strlcpy(srvarg.metaserver_addr, arg);
-  meta_addr_split();
 
   notify_player(NULL, _("Metaserver is now [%s]."),
 		meta_addr_port());
@@ -824,7 +870,6 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   notify_player(NULL, _("Game: %s has been added as an AI-controlled player."),
                 arg);
-  (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   pplayer = find_player_by_name(arg);
   if (!pplayer)
@@ -836,6 +881,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.skill_level);
+  (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
 }
 
@@ -955,15 +1001,18 @@ static void write_init_script(char *script_filename)
 					"experimental");
 
     if (*srvarg.metaserver_addr != '\0' &&
-	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
-	 (srvarg.metaserver_port != DEFAULT_META_SERVER_PORT))) {
+	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)))) {
       fprintf(script_file, "metaserver %s\n", meta_addr_port());
     }
 
-    if (*srvarg.metaserver_info_line != '\0' &&
-	(0 != strcmp(srvarg.metaserver_info_line,
-		     default_meta_server_info_string()))) {
-      fprintf(script_file, "metainfo %s\n", srvarg.metaserver_info_line);
+    if (0 != strcmp(get_meta_patches_string(), default_meta_patches_string())) {
+      fprintf(script_file, "metapatches %s\n", get_meta_patches_string());
+    }
+    if (0 != strcmp(get_meta_topic_string(), default_meta_topic_string())) {
+      fprintf(script_file, "metatopic %s\n", get_meta_topic_string());
+    }
+    if (0 != strcmp(get_meta_message_string(), default_meta_message_string())) {
+      fprintf(script_file, "metamessage %s\n", get_meta_message_string());
     }
 
     /* then, the 'set' option settings */
@@ -2374,6 +2423,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && do_update) {
+    send_server_info_to_metaserver(META_INFO);
     /* 
      * send any modified game parameters to the clients -- if sent
      * before RUN_GAME_STATE, triggers a popdown_races_dialog() call
@@ -3267,8 +3317,12 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return save_command(caller,arg, check);
   case CMD_LOAD:
     return load_command(caller, arg, check);
-  case CMD_METAINFO:
-    return metainfo_command(caller, arg, check);
+  case CMD_METAPATCHES:
+    return metapatches_command(caller, arg, check);
+  case CMD_METATOPIC:
+    return metatopic_command(caller, arg, check);
+  case CMD_METAMESSAGE:
+    return metamessage_command(caller, arg, check);
   case CMD_METACONN:
     return metaconnection_command(caller, arg, check);
   case CMD_METASERVER:

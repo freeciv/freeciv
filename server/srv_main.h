@@ -24,7 +24,6 @@ BV_DEFINE(bv_draw, MAX_NUM_PLAYERS);
 struct server_arguments {
   /* metaserver information */
   bool metaserver_no_send;
-  char metaserver_info_line[256];
   char metaserver_addr[256];
   unsigned short int metaserver_port;
   /* address this server is to listen on (NULL => INADDR_ANY) */
@@ -38,8 +37,6 @@ struct server_arguments {
   char *gamelog_filename;
   char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
   char *script_filename;
-  /* extra info for the metaserver */
-  char extra_metaserver_info[256];
   /* quit if there no players after a given time interval */
   int quitidle;
   /* exit the server on game ending */

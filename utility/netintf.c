@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef HAVE_ARPA_INET_H
@@ -224,6 +225,108 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
 #endif
 
   return fz_from_stream(fp);
+}
+
+/*************************************************************************
+  Returns a valid httpd server and port, plus the path to the resource
+  at the url location.
+*************************************************************************/
+const char *my_lookup_httpd(char *server, int *port, const char *url)
+{
+  const char *purl, *str, *ppath, *pport;
+
+  if ((purl = getenv("http_proxy"))) {
+    if (strncmp(purl, "http://", strlen("http://")) != 0) {
+      return NULL;
+    }
+    str = purl;
+  } else {
+    if (strncmp(url, "http://", strlen("http://")) != 0) {
+      return NULL;
+    }
+    str = url;
+  }
+
+  str += strlen("http://");
+  
+  pport = strchr(str, ':');
+  ppath = strchr(str, '/');
+
+  /* snarf server. */
+  server[0] = '\0';
+
+  if (pport) {
+    strncat(server, str, MIN(MAX_LEN_ADDR, pport-str));
+  } else {
+    if (ppath) {
+      strncat(server, str, MIN(MAX_LEN_ADDR, ppath-str));
+    } else {
+      strncat(server, str, MAX_LEN_ADDR);
+    }
+  }
+
+  /* snarf port. */
+  if (!pport || sscanf(pport+1, "%d", port) != 1) {
+    *port = 80;
+  }
+
+  /* snarf path. */
+  if (!ppath) {
+    ppath = "/";
+  }
+
+  return (purl ? url : ppath);
+}
+
+/*************************************************************************
+  Returns TRUE if ch is an unreserved ASCII character.
+*************************************************************************/
+static bool is_url_safe(unsigned ch)
+{
+  const char *unreserved = "-_.!~*'|";
+
+  if ((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch>='0' && ch<='9')) {
+    return TRUE;
+  } else {
+    return (strchr(unreserved, ch) != NULL);
+  }
+}
+
+/***************************************************************
+  URL-encode a string as per RFC 2396.
+  Should work for all ASCII based charsets: including UTF-8.
+***************************************************************/
+const char *my_url_encode(const char *txt)
+{
+  static char buf[2048];
+  int  pos;
+  unsigned ch;
+  char *ptr;
+
+  /* in a worst case scenario every character needs "% HEX HEX" encoding. */
+  if (sizeof(buf) <= (3*strlen(txt))) {
+    return "";
+  }
+  
+  ptr = buf;
+  for (ptr = buf; *txt != '\0'; txt++) {
+    ch = (unsigned char) *txt;
+
+    if (is_url_safe(ch)) {
+      *ptr++ = *txt;
+      pos++;
+    } else if (ch == ' ') {
+      *ptr++ = '+';
+      pos++;
+    } else {
+      sprintf(ptr, "%%%2.2X", ch);
+      ptr += 3;
+      pos += 3;
+    }
+  }
+  *ptr++ = '\0';
+
+  return buf;
 }
 
 /************************************************************************** 

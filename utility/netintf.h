@@ -66,4 +66,7 @@ bool net_lookup_service(const char *name, int port,
 fz_FILE *my_querysocket(int sock, void *buf, size_t size);
 int find_next_free_port(int starting_port);
 
+const char *my_lookup_httpd(char *server, int *port, const char *url);
+const char *my_url_encode(const char *txt);
+
 #endif  /* FC__NETINTF_H */

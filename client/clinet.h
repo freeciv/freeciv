@@ -14,7 +14,7 @@
 #define FC__CLINET_H
 
 #define DEFAULT_SOCK_PORT 5555
-#define METALIST_ADDR "http://meta.freeciv.org/metaserver/"
+#define METALIST_ADDR "http://meta.freeciv.org/metaserver.phtml"
 
 #define SERVER_LAN_PORT 4555
 #define SERVER_LAN_TTL 1
@@ -43,12 +43,24 @@ extern struct connection aconnection;
 
 struct server
 {
-  char *name;
+  char *host;
   char *port;
+  char *capability;
+  char *patches;
   char *version;
-  char *status;
-  char *players;
-  char *metastring;
+  char *state;
+  char *topic;
+  char *message;
+
+  struct players
+  {
+    char *name;
+    char *type;
+    char *host;
+    char *nation;
+  } *players;
+
+  char *nplayers;
 };
 
 #define SPECLIST_TAG server
