@@ -264,27 +264,27 @@ extern struct tile_type tile_types[T_LAST];
   int MACRO_xcycle = 1;                                                       \
   int MACRO_positive = 0;                                                     \
   int MACRO_dxy = 0, MACRO_do_xy;                                             \
-  while(MACRO_dxy <= ARG_max_dist) {                                          \
+  while(MACRO_dxy <= (ARG_max_dist)) {                                        \
     for (MACRO_do_xy = -MACRO_dxy; MACRO_do_xy <= MACRO_dxy; MACRO_do_xy++) { \
       if (MACRO_xcycle) {                                                     \
-	ARG_x_itr = ARG_start_x + MACRO_do_xy;                                \
+	ARG_x_itr = (ARG_start_x) + MACRO_do_xy;                              \
 	if (MACRO_positive)                                                   \
-	  ARG_y_itr = ARG_start_y + MACRO_dxy;                                \
+	  ARG_y_itr = (ARG_start_y) + MACRO_dxy;                              \
 	else                                                                  \
-	  ARG_y_itr = ARG_start_y - MACRO_dxy;                                \
+	  ARG_y_itr = (ARG_start_y) - MACRO_dxy;                              \
       } else { /* ! MACRO_xcycle */                                           \
         if (MACRO_dxy == MACRO_do_xy || MACRO_dxy == -MACRO_do_xy)            \
           continue;                                                           \
-	ARG_y_itr = ARG_start_y + MACRO_do_xy;                                \
+	ARG_y_itr = (ARG_start_y) + MACRO_do_xy;                              \
 	if (MACRO_positive)                                                   \
-	  ARG_x_itr = ARG_start_x + MACRO_dxy;                                \
+	  ARG_x_itr = (ARG_start_x) + MACRO_dxy;                              \
 	else                                                                  \
-	  ARG_x_itr = ARG_start_x - MACRO_dxy;                                \
+	  ARG_x_itr = (ARG_start_x) - MACRO_dxy;                              \
       }                                                                       \
       if (ARG_y_itr<0 || ARG_y_itr >= map.ysize)                              \
 	continue;                                                             \
       {                                                                       \
-	int MACRO_dx = ARG_start_x - ARG_x_itr;                               \
+	int MACRO_dx = (ARG_start_x) - ARG_x_itr;                             \
 	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
 	  continue;                                                           \
       }                                                                       \
@@ -311,12 +311,12 @@ extern struct tile_type tile_types[T_LAST];
 #define square_iterate(SI_center_x, SI_center_y, radius, SI_x_itr, SI_y_itr)  \
 {                                                                             \
   int SI_x_itr1;                                                              \
-  for (SI_y_itr = SI_center_y - radius;                                       \
-       SI_y_itr <= SI_center_y + radius; SI_y_itr++) {                        \
+  for (SI_y_itr = (SI_center_y) - (radius);                                   \
+       SI_y_itr <= (SI_center_y) + (radius); SI_y_itr++) {                    \
     if (SI_y_itr < 0 || SI_y_itr >= map.ysize)                                \
       continue;                                                               \
-    for (SI_x_itr1 = SI_center_x - radius;                                    \
-	 SI_x_itr1 <= SI_center_x + radius; SI_x_itr1++) {                    \
+    for (SI_x_itr1 = (SI_center_x) - (radius);                                \
+	 SI_x_itr1 <= (SI_center_x) + (radius); SI_x_itr1++) {                \
       SI_x_itr = map_adjust_x(SI_x_itr1);
 
 #define square_iterate_end                                                    \

@@ -297,47 +297,40 @@ sidelength 1+2*len, ie length 1 is normal sightrange for a unit.
 **************************************************************************/
 void unfog_area(struct player *pplayer, int x, int y, int len)
 {
-  int dx,dy,abs_x,abs_y;
+  int abs_x, abs_y;
   int playerid = pplayer->player_no;
-  struct tile *ptile;
   struct city *pcity;
   send_NODRAW_tiles(pplayer,x,y,len);
   connection_do_buffer(pplayer->conn);
-  for (dx = x-len;dx <= x+len;dx++) {
-    abs_x = map_adjust_x(dx);
-    for (dy = y-len;dy <= y+len;dy++) {
-      if (is_real_tile(dx,dy)) {
-	abs_y = map_adjust_y(dy);
-	ptile = map_get_tile(abs_x,abs_y);
+  square_iterate(x, y, len, abs_x, abs_y) {
 	
-	freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.",
-		 abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
+    freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.",
+	     abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
 	
-	/* Did the tile just become visible?
-	   - send info about units and cities and the tile itself */
-	if (!map_get_seen(abs_x, abs_y, playerid) ||
-	    !map_get_known(abs_x, abs_y, pplayer)) {
-	  map_change_seen(abs_x, abs_y, playerid, +1);
+    /* Did the tile just become visible?
+       - send info about units and cities and the tile itself */
+    if (!map_get_seen(abs_x, abs_y, playerid) ||
+	!map_get_known(abs_x, abs_y, pplayer)) {
+      map_change_seen(abs_x, abs_y, playerid, +1);
 
-	  map_set_known(abs_x, abs_y, pplayer);
-	  
-	  /*discover units*/
-	  unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
-	    send_unit_info(pplayer, punit);
-	  unit_list_iterate_end;
+      map_set_known(abs_x, abs_y, pplayer);
 
-	  /*discover cities*/ 
-	  reality_check_city(pplayer, abs_x, abs_y);
-	  if((pcity=map_get_city(abs_x, abs_y)))
-	    send_city_info(pplayer, pcity);
+      /*discover units*/
+      unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
+	send_unit_info(pplayer, punit);
+      unit_list_iterate_end;
 
-	  /* send info about the tile itself */
-	  send_tile_info(pplayer, abs_x, abs_y);
-	} else 
-	  map_change_seen(abs_x, abs_y, playerid, +1);
-      }
+      /*discover cities*/ 
+      reality_check_city(pplayer, abs_x, abs_y);
+      if ((pcity=map_get_city(abs_x, abs_y)))
+	send_city_info(pplayer, pcity);
+
+      /* send info about the tile itself */
+      send_tile_info(pplayer, abs_x, abs_y);
+    } else {
+      map_change_seen(abs_x, abs_y, playerid, +1);
     }
-  }
+  } square_iterate_end;
   connection_do_unbuffer(pplayer->conn);
 }
 
@@ -347,29 +340,14 @@ We send only the unknown tiles around the square with lenght len
 **************************************************************************/
 static void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len)
 {
-  int dx,dy,abs_x,abs_y;
+  int abs_x,abs_y;
   connection_do_buffer(pplayer->conn);
-  for (dx = - len - 1;dx <= len + 1;dx += 2 * len + 2) {
-    abs_x = map_adjust_x(x+dx);
-    for (dy = - len - 1;dy <= len + 1;dy++) {
-      abs_y = map_adjust_y(y+dy);
-      if (!map_get_sent(abs_x,abs_y,pplayer)) {
-	send_tile_info(pplayer,abs_x,abs_y);
-	map_set_sent(abs_x,abs_y,pplayer);
-      }
+  square_iterate(x, y, len+1, abs_x, abs_y) {
+    if (!map_get_sent(abs_x, abs_y, pplayer)) {
+      send_tile_info(pplayer, abs_x, abs_y);
+      map_set_sent(abs_x, abs_y, pplayer);
     }
-  }
-
-  for (dy = - len - 1;dy <= len + 1;dy += 2 * len + 2) {
-    abs_y = map_adjust_y(y+dy);
-    for (dx = - len;dx <= len;dx++) {
-      abs_x = map_adjust_x(x+dx);
-      if (!map_get_sent(abs_x,abs_y,pplayer)) {
-	send_tile_info(pplayer,abs_x,abs_y);
-	map_set_sent(abs_x,abs_y,pplayer);
-      }
-    }
-  }
+  } square_iterate_end;
   connection_do_unbuffer(pplayer->conn);
 }
 
@@ -379,34 +357,26 @@ sidelenght 1+2*len, ie lenght 1 is normal sightrange for a unit.
 **************************************************************************/
 void fog_area(struct player *pplayer, int x, int y, int len)
 {
-  int dx, dy, abs_x, abs_y, seen;
+  int abs_x, abs_y, seen;
   int playerid = pplayer->player_no;
-  struct tile *ptile;
   connection_do_buffer(pplayer->conn);
-  for (dx = x-len;dx <= x+len;dx++) {
-    abs_x = map_adjust_x(dx);
-    for (dy = y-len;dy <= y+len;dy++) {
-      if (is_real_tile(dx,dy)) {
-	abs_y = map_adjust_y(dy);
-	ptile = map_get_tile(abs_x,abs_y);
-	freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
- 		 abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
- 	map_change_seen(abs_x, abs_y, playerid, -1);
+  square_iterate(x, y, len, abs_x, abs_y) {
+    freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
+	     abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
+    map_change_seen(abs_x, abs_y, playerid, -1);
  
- 	seen = map_get_seen(abs_x, abs_y, playerid);
- 	if (seen > 60000) {
- 	  freelog(LOG_FATAL, "square %i,%i has a seen value > 60000 (wrap)"
- 		  "for player %s", abs_x, abs_y, pplayer->name);     
-	  abort();
-	}
-
- 	if (seen == 0) {
- 	  update_player_tile_last_seen(pplayer, abs_x, abs_y);
-	  send_tile_info(pplayer, abs_x, abs_y);
-	}
-      }
+    seen = map_get_seen(abs_x, abs_y, playerid);
+    if (seen > 60000) {
+      freelog(LOG_FATAL, "square %i,%i has a seen value > 60000 (wrap)"
+	      "for player %s", abs_x, abs_y, pplayer->name);     
+      abort();
     }
-  }
+
+    if (seen == 0) {
+      update_player_tile_last_seen(pplayer, abs_x, abs_y);
+      send_tile_info(pplayer, abs_x, abs_y);
+    }
+  } square_iterate_end;
   connection_do_unbuffer(pplayer->conn);
 }
 
@@ -908,7 +878,7 @@ Shows area even if still fogged, sans units and cities.
 **************************************************************************/
 void show_area(struct player *pplayer, int x, int y, int len)
 {
-  int dx,dy,abs_x,abs_y;
+  int abs_x,abs_y;
   int playerid = pplayer->player_no;
   struct city *pcity;    
 
@@ -916,35 +886,31 @@ void show_area(struct player *pplayer, int x, int y, int len)
 
   connection_do_buffer(pplayer->conn);  
   send_NODRAW_tiles(pplayer, x, y, len);
-  for (dx = - len; dx <= len; dx++) {
-    abs_x = map_adjust_x(x + dx);
-    for (dy = - len; dy <= len; dy++) {
-      abs_y = map_adjust_y(y + dy);
-      if (!map_get_known_and_seen(abs_x, abs_y, playerid) && is_real_tile(x, y)) {
-	map_set_known(abs_x, abs_y, pplayer);
+  square_iterate(x, y, len, abs_x, abs_y) {
+    if (!map_get_known_and_seen(abs_x, abs_y, playerid) && is_real_tile(x, y)) {
+      map_set_known(abs_x, abs_y, pplayer);
 
-	/* as the tile may be fogged send_tile_info won't always do this for us */
-	update_tile_knowledge(pplayer, abs_x, abs_y);
-	update_player_tile_last_seen(pplayer, abs_x, abs_y);
+      /* as the tile may be fogged send_tile_info won't always do this for us */
+      update_tile_knowledge(pplayer, abs_x, abs_y);
+      update_player_tile_last_seen(pplayer, abs_x, abs_y);
 
-	send_tile_info(pplayer, abs_x, abs_y);
+      send_tile_info(pplayer, abs_x, abs_y);
 
-	/* remove old cities that exist no more */
-	reality_check_city(pplayer, abs_x, abs_y);
-	if ((pcity = map_get_city(abs_x, abs_y))) {
-	  /* as the tile may be fogged send_city_info won't do this for us */
-	  update_dumb_city(pplayer, pcity);
-	  send_city_info(pplayer, pcity);
-	}
+      /* remove old cities that exist no more */
+      reality_check_city(pplayer, abs_x, abs_y);
+      if ((pcity = map_get_city(abs_x, abs_y))) {
+	/* as the tile may be fogged send_city_info won't do this for us */
+	update_dumb_city(pplayer, pcity);
+	send_city_info(pplayer, pcity);
+      }
 
-	if (map_get_seen(abs_x, abs_y, playerid)) {
-	  unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
-	    send_unit_info(pplayer, punit);
-	  unit_list_iterate_end;
-	}
+      if (map_get_seen(abs_x, abs_y, playerid)) {
+	unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
+	  send_unit_info(pplayer, punit);
+	unit_list_iterate_end;
       }
     }
-  }
+  } square_iterate_end;
   connection_do_unbuffer(pplayer->conn);
 }
 
