@@ -1012,7 +1012,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   /* Can't break alliance with a team member, but can reduce a team
    * research to an alliance for stand-alone research. */
-  if (pplayers_in_the_same_team(pplayer, pplayer2) && old_type != DS_TEAM) {
+  if (players_in_same_team(pplayer, pplayer2) && old_type != DS_TEAM) {
     return;
   }
 
@@ -1150,7 +1150,29 @@ repeat_break_treaty:
     if (other->is_alive && other != pplayer && other != pplayer2
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && pplayers_allied(pplayer, other)) {
-
+      if (!players_in_same_team(pplayer, other)) {
+        /* If an ally declares war on another ally, break off your alliance
+         * to the aggressor. This prevents in-alliance wars, which are not
+         * permitted. */
+        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+                         _("Game: %s has attacked your ally %s! "
+                           "You cancel your alliance to the aggressor."),
+                       pplayer->name, pplayer2->name);
+        other->diplstates[pplayer->player_no].has_reason_to_cancel = 1;
+        handle_diplomacy_cancel_pact(pplayer, other->player_no,
+                                     CLAUSE_ALLIANCE);
+      } else {
+        /* We are in the same team as the agressor; we cannot break 
+         * alliance with him. We trust our team mate and break alliance
+         * with the attacked player */
+        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+                         _("Game: Your team mate %s declared war on %s. "
+                           "You are obligated to cancel alliance with %s."),
+                         pplayer->name,
+                         get_nation_name_plural(pplayer2->nation),
+                         pplayer2->name);
+        handle_diplomacy_cancel_pact(other, pplayer2->player_no, CLAUSE_ALLIANCE);
+      }
     }
   } players_iterate_end;
 }
