@@ -61,16 +61,20 @@ static int city_desirability(struct player *pplayer, int x, int y);
 **************************************************************************/
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
-  int x, y;
+  int x = punit->x;
+  int y = punit->y;
   struct packet_unit_request req;
   struct city *pcity;
-  req.unit_id=punit->id;
-  x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
+
+  req.unit_id = punit->id;
   sz_strlcpy(req.name, city_name_suggestion(pplayer, x, y));
-  handle_unit_build_city(pplayer, &req);        
-  pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
-  if (!pcity)
+  handle_unit_build_city(pplayer, &req);
+  pcity = map_get_city(x, y);
+  if (!pcity) {
+    freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 
+            pplayer->name, x, y);
     return FALSE;
+  }
 
   /* initialize infrastructure cache for both this city and other cities
      nearby. This is neccesary to avoid having settlers want to transform
@@ -1173,7 +1177,6 @@ static int evaluate_improvements(struct unit *punit,
 static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat)
 {
   struct player *pplayer = unit_owner(punit);
-  int save_id         = punit->id;              /* in case unit dies */
 
   if (!same_pos(gx, gy, punit->x, punit->y)) {
     if (!goto_is_sane(punit, gx, gy, TRUE)
@@ -1186,8 +1189,9 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
       freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
 	      punit->id, punit->x, punit->y);
       if (!same_pos(x, y, punit->x, punit->y)) {
-	(void) ai_unit_goto(punit, x, y);
-	if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
+	if (!ai_unit_goto(punit, x, y)) {
+          return FALSE; /* died */
+        }
       }
       ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
 				 punit->ai.ferryboat);
@@ -1202,7 +1206,9 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 		punit->id, ferryboat->id, punit->x, punit->y, gx, gy);
 	handle_unit_activity_request(punit, ACTIVITY_SENTRY);
 	ferryboat->ai.passenger = punit->id;
-	(void) ai_unit_goto(ferryboat, gx, gy);
+	if (!ai_unit_goto(ferryboat, gx, gy)) {
+          return FALSE; /* died */
+        }
 	handle_unit_activity_request(punit, ACTIVITY_IDLE);
       } /* need to zero pass & ferryboat at some point. */
     }
@@ -1211,8 +1217,11 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, gx, gy) != 0))) {
-      (void) ai_unit_goto(punit, gx, gy);
-      if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
+      punit->goto_dest_x = gx;
+      punit->goto_dest_y = gy;
+      if (!ai_unit_goto(punit, gx, gy)) {
+        return FALSE; /* died */
+      }
       punit->ai.ferryboat = 0;
     }
   }
@@ -1255,7 +1264,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   }
 
   /* Mark the square as taken. */
-  if (gx!=-1 && gy!=-1) {
+  if (gx != -1 && gy != -1) {
     map_get_tile(gx, gy)->assigned =
       map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
   } else {
@@ -1281,19 +1290,17 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are at the destination then do the activity. */
-  if (punit->ai.control
-      && punit->moves_left > 0
-      && punit->activity == ACTIVITY_IDLE) {
-    if (same_pos(gx, gy, punit->x, punit->y)) {
-      if (best_act == ACTIVITY_UNKNOWN) {
-        remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
-        (void) ai_do_build_city(pplayer, punit);
-        return;
-      }
-      set_unit_activity(punit, best_act);
-      send_unit_info(NULL, punit);
+  if (punit->moves_left > 0
+      && same_pos(gx, gy, punit->x, punit->y)) {
+    if (best_act == ACTIVITY_UNKNOWN) {
+      remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      (void) ai_do_build_city(pplayer, punit);
       return;
     }
+    handle_unit_activity_request(punit, best_act);
+    send_unit_info(NULL, punit);
+    return;
   }
 }
 
