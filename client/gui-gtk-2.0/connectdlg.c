@@ -144,7 +144,7 @@ static void connect_command_callback(GtkWidget *w, gint response_id)
 **************************************************************************/
 void gui_server_connect(void)
 {
-  GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update;
+  GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update, *w;
   char buf [256];
   GtkCellRenderer *renderer;
   GtkTreeSelection *selection;
@@ -152,17 +152,19 @@ void gui_server_connect(void)
   dialog = gtk_dialog_new_with_buttons(_(" Connect to Freeciv Server"),
     GTK_WINDOW(toplevel),
     GTK_DIALOG_MODAL,
-    GTK_STOCK_JUMP_TO,
-    GTK_RESPONSE_ACCEPT,
-    GTK_STOCK_QUIT,
-    GTK_RESPONSE_REJECT,
     NULL);
 
   g_signal_connect(dialog, "destroy",
 		   G_CALLBACK(connect_destroy_callback), NULL);
   g_signal_connect(dialog, "response",
 		   G_CALLBACK(connect_command_callback), NULL);
-  
+
+  w = gtk_stockbutton_new(GTK_STOCK_JUMP_TO, _("_Connect"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(dialog), w, GTK_RESPONSE_ACCEPT);
+
+  gtk_dialog_add_button(GTK_DIALOG(dialog),
+    GTK_STOCK_QUIT, GTK_RESPONSE_REJECT);
+
   book = gtk_notebook_new ();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), book, TRUE, TRUE, 0);
 
