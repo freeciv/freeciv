@@ -33,8 +33,6 @@ includedir = @includedir@
 oldincludedir = /usr/include
 
 DISTDIR =
-
-pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
@@ -68,6 +66,8 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
+
+pkgdatadir = $(datadir)/@PACKAGE@/default
 
 pkgdata_DATA =          \
 	roads.xpm	\
