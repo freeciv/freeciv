@@ -196,7 +196,7 @@ extern struct civ_game game;
 #define GAME_MIN_MIN_PLAYERS         1
 #define GAME_MAX_MIN_PLAYERS         MAX_NUM_PLAYERS
 
-#define GAME_DEFAULT_MAX_PLAYERS     14
+#define GAME_DEFAULT_MAX_PLAYERS     MAX_NUM_PLAYERS
 #define GAME_MIN_MAX_PLAYERS         1
 #define GAME_MAX_MAX_PLAYERS         MAX_NUM_PLAYERS
 
