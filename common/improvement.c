@@ -261,12 +261,19 @@ int improvement_variant(Impr_Type_id id)
 }
 
 /**************************************************************************
-...
+ Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
 int improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
 {
   if (improvement_types[id].obsolete_by==A_NONE) 
     return 0;
+
+  if (improvement_types[id].is_wonder) {
+    /* a wonder is obsolette, as soon as *any* player researched the
+       obsolete tech */
+   return BOOL_VAL(game.global_advances[improvement_types[id].obsolete_by]);
+  }
+
   return (get_invention(pplayer, improvement_types[id].obsolete_by)
 	  ==TECH_KNOWN);
 }
@@ -316,7 +323,10 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
      assume that it has the "equiv" effect even if it itself is redundant) */
   for (ept=improvement_types[id].equiv_repl;ept && *ept!=B_LAST;ept++) {
     for (i=0;i<EFR_LAST;i++) {
-      if (equiv_list[i] && equiv_list[i][*ept] != I_NONE) return 1;
+      if (equiv_list[i]) {
+      	 Impr_Status stat = equiv_list[i][*ept];
+      	 if (stat != I_NONE && stat != I_OBSOLETE) return 1;
+      }
     }
   }
 
@@ -325,7 +335,10 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
   if (!want_to_build) {
     for (ept=improvement_types[id].equiv_dupl;ept && *ept!=B_LAST;ept++) {
       for (i=0;i<EFR_LAST;i++) {
-	if (equiv_list[i] && equiv_list[i][*ept] != I_NONE) return 1;
+	if (equiv_list[i]) {
+	  Impr_Status stat = equiv_list[i][*ept];
+	  if (stat != I_NONE && stat != I_OBSOLETE) return 1;
+	}
       }
     }
   }
