@@ -57,6 +57,16 @@ style "comment_label"
   fg[PRELIGHT] = "blue"
 }
 
+style "city_names_font"
+{
+  font_name = "Sans Bold 10"
+}
+
+style "city_productions_font"
+{
+  font_name = "Serif 10"
+}
+
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
 widget	"Freeciv*.spaceship label"	style	"spaceship_label"
@@ -65,4 +75,6 @@ widget	"Freeciv*.help link"		style	"help_link"
 widget	"Freeciv*.help text"		style	"help_text"
 widget	"Freeciv*.chatline"		style	"chatline"
 widget	"Freeciv*.comment label"	style	"comment_label"
+widget	"Freeciv*.city names"		style	"city_names_font"
+widget	"Freeciv*.city productions"	style	"city_productions_font"
 
