@@ -1989,7 +1989,6 @@ void handle_tile_info(struct packet_tile_info *packet)
 	      unit_type(punit)->name, TILE_XY(punit->tile),
 	      unit_owner(punit)->name);
     } unit_list_iterate_end;
-    assert(unit_list_size(&ptile->units) == 0);
     unit_list_unlink_all(&ptile->units);
   }
 
