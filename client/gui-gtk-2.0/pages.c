@@ -897,7 +897,6 @@ GtkWidget *create_start_page(void)
   GtkWidget *label, *menu, *item;
   GtkCellRenderer *rend;
 
-  GtkAdjustment *adj;
   int i;
 
   box = gtk_vbox_new(FALSE, 8);
@@ -919,13 +918,13 @@ GtkWidget *create_start_page(void)
   gtk_table_set_col_spacings(GTK_TABLE(table), 12);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
 
-  adj = GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, MAX_NUM_PLAYERS, 1, 1, 1));
-  spin = gtk_spin_button_new(adj, 1, 0);
+  spin = gtk_spin_button_new_with_range(1, MAX_NUM_PLAYERS, 1);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
   /* Default to aifill 5. */
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), 5);
   gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), 
                                     GTK_UPDATE_IF_VALID);
-  g_signal_connect_after(spin, "activate",
+  g_signal_connect_after(spin, "value_changed",
                          G_CALLBACK(ai_fill_callback), NULL);
 
   gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
