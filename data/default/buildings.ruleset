@@ -1705,9 +1705,8 @@ effect		=
     { "type", "range", "survives"
 	"Enable_Nuke", "World", 1
     }
-helptext	= _("\
-Allows all players with knowledge of Rocketry to build Nuclear units.\
-")
+;helptext is set in client/helpdata.c:helptext_wonder()
+;helptext	=
 
 [building_marco_polos_embassy]
 name		= _("Marco Polo's Embassy")
