@@ -740,6 +740,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   GtkWidget *page, *hbox, *editor, *bar;
 
   page = gtk_vbox_new(FALSE, 0);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* stuff that's being currently built */
@@ -750,7 +751,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new(FALSE, 0);
+  hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 2);
 
   bar = gtk_progress_bar_new();
@@ -762,7 +763,8 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   g_signal_connect(bar, "drag_data_received",
 		   G_CALLBACK(target_drag_data_received), pdialog);
 
-  pdialog->overview.buy_command = gtk_button_new_with_mnemonic(_("_Buy"));
+  pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
+						      _("_Buy"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
 		     FALSE, FALSE, 0);
 
@@ -914,7 +916,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   page = gtk_table_new(2, 2, FALSE);
   gtk_table_set_col_spacings(GTK_TABLE(page), 18);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 12);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
   
