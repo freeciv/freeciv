@@ -4927,12 +4927,12 @@ msgstr "Mãrteºte efectul Templelor.\n"
 #: client/helpdata.c:756
 #, c-format
 msgid "Allows %s to build roads on river squares.\n"
-msgstr "Permite construcþia de strãzi pe pãtrate cu un râu.\n"
+msgstr "Permite %slor construcþia de strãzi pe pãtrate cu un râu.\n"
 
 #: client/helpdata.c:762
 #, c-format
 msgid "Allows %s to build fortresses.\n"
-msgstr "Permite construcþia de fortãreþe.\n"
+msgstr "Permite %slor construcþia de fortãreþe.\n"
 
 #: client/helpdata.c:769
 #, c-format
@@ -5208,7 +5208,7 @@ msgstr ""
 #: client/options.c:258
 #, c-format
 msgid "Settings file is %s"
-msgstr "Fiºierul de setãri "
+msgstr "Fiºierul de setãri este %s"
 
 #: client/options.c:261
 #, c-format
@@ -5570,13 +5570,13 @@ msgstr "La naiba"
 #: client/gui-xaw/citydlg.c:2138
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr "Din pãcate nu pot moderniza %S."
+msgstr "Din pãcate nu pot moderniza %s."
 
 #: client/gui-gtk/citydlg.c:1974 client/gui-gtk/citydlg.c:1998
 #: client/gui-mui/dialogs.c:1885 client/gui-mui/dialogs.c:1909
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
-msgstr ""
+msgstr "Modernizeazã Unitatea!"
 
 #: client/gui-gtk/citydlg.c:1981 client/gui-mui/dialogs.c:1894
 #: client/gui-xaw/citydlg.c:2147
@@ -5608,17 +5608,17 @@ msgstr "Tipul"
 #: client/gui-gtk/citydlg.c:2112 client/gui-mui/citydlg.c:552
 #: client/gui-mui/worklistclass.c:217
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: client/gui-gtk/citydlg.c:2112 client/gui-gtk/repodlgs.c:582
 #: client/gui-mui/citydlg.c:554 client/gui-mui/repodlgs.c:495
 #: client/gui-mui/worklistclass.c:218
 msgid "Cost"
-msgstr ""
+msgstr "Costul"
 
 #: client/gui-gtk/citydlg.c:2112
 msgid "Turns"
-msgstr ""
+msgstr "Runde"
 
 #: client/gui-gtk/citydlg.c:2129 data/Freeciv:2012
 msgid "Change Production"
@@ -5626,7 +5626,7 @@ msgstr "Schimbã producþia"
 
 #: client/gui-gtk/citydlg.c:2163
 msgid "Ca_ncel"
-msgstr ""
+msgstr "_Renunþã"
 
 #: client/gui-gtk/citydlg.c:2172 client/gui-gtk/menu.c:726
 #: client/gui-mui/citydlg.c:1149
@@ -5652,16 +5652,16 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:2537
 #, c-format
 msgid "Sell %s for %d gold?"
-msgstr ""
+msgstr "Vinde %s pentru %d galbeni?"
 
 #: client/gui-gtk/citydlg.c:2428 client/gui-mui/citydlg.c:984
 #: data/Freeciv:2172
 msgid "Sell It!"
-msgstr ""
+msgstr "Vinde!"
 
 #: client/gui-gtk/citydlg.c:2515
 msgid "Elvises"
-msgstr ""
+msgstr "Elviºi"
 
 #: client/gui-gtk/citydlg.c:2515 client/gui-mui/citydlg.c:1230
 #: client/gui-xaw/citydlg.c:2638
@@ -5723,7 +5723,7 @@ msgstr "Renunþã"
 
 #: client/gui-gtk/cityrep.c:351
 msgid "No Buildings Available"
-msgstr "Nu"
+msgstr ""
 
 #: client/gui-gtk/cityrep.c:360
 msgid "No Wonders Available"
@@ -5743,7 +5743,7 @@ msgstr ""
 #: client/gui-xaw/menu.c:196 data/Freeciv:368 data/Freeciv:377
 #: data/Freeciv:1508
 msgid "Cities"
-msgstr ""
+msgstr "Oraºe"
 
 #: client/gui-gtk/cityrep.c:473 client/gui-mui/cityrep.c:394
 msgid "Cen_ter"
@@ -5771,11 +5771,11 @@ msgstr "Toate oraºele"
 
 #: client/gui-gtk/cityrep.c:722
 msgid "No Cities"
-msgstr ""
+msgstr "Nici un oraº"
 
 #: client/gui-gtk/cityrep.c:728
 msgid "Invert Selection"
-msgstr ""
+msgstr "Inverteazã Selecþia"
 
 #: client/gui-gtk/cityrep.c:737
 msgid "Coastal Cities"
@@ -5831,11 +5831,11 @@ msgstr "Schimbã"
 #: client/gui-xaw/cityrep.c:441
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr ""
+msgstr "Joc: %s costã %d galbeni pe când dumneavoastrã aveþi doar %d galbeni."
 
 #: client/gui-gtk/cityrep.c:1294 data/Freeciv:1666
 msgid "Configure Cities Report"
-msgstr ""
+msgstr "Configureazã Rapartul Oraºelor"
 
 #: client/gui-gtk/cityrep.c:1297 client/gui-mui/cityrep.c:300
 #: data/Freeciv:1671
@@ -5967,7 +5967,7 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:690 client/gui-mui/dialogs.c:329 data/Freeciv:2218
 #: data/Freeciv:2251 data/Freeciv:2268
 msgid "Steal Technology"
-msgstr ""
+msgstr "Furã Tehnologie"
 
 #: client/gui-gtk/dialogs.c:713 data/Freeciv:2299
 msgid "Steal"
@@ -6012,7 +6012,7 @@ msgstr ""
 
 #: client/gui-gtk/dialogs.c:983 client/gui-mui/dialogs.c:512 data/Freeciv:2376
 msgid "Incite a Revolt!"
-msgstr "Incitã o revoltã"
+msgstr "Incitã la Revoltã!"
 
 #: client/gui-gtk/dialogs.c:988 client/gui-mui/dialogs.c:519
 #: client/gui-xaw/dialogs.c:1014
@@ -6229,7 +6229,7 @@ msgstr "Întrunire diplomaticã"
 #: client/gui-xaw/diplodlg.c:344 client/gui-xaw/diplodlg.c:352
 #, c-format
 msgid "The %s offerings"
-msgstr ""
+msgstr "%s vã oferã"
 
 #: client/gui-gtk/diplodlg.c:313 client/gui-gtk/diplodlg.c:331
 #: client/gui-xaw/diplodlg.c:371 client/gui-xaw/diplodlg.c:389
@@ -6343,7 +6343,7 @@ msgstr "%s ratã maximã: %d%%"
 #: client/gui-gtk/gamedlgs.c:416 client/gui-mui/gamedlgs.c:321
 #: data/Freeciv:1229
 msgid "Set local options"
-msgstr ""
+msgstr "Setezã opþiunile locale"
 
 #: client/gui-gtk/gotodlg.c:93 client/gui-mui/gotodlg.c:154 data/Freeciv:1108
 msgid "Goto/Airlift Unit"
@@ -6395,7 +6395,7 @@ msgstr ""
 #: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:488
 #: client/gui-mui/helpdlg.c:504 data/Freeciv:609 data/Freeciv:751
 msgid "Cost:"
-msgstr ""
+msgstr "Costul:"
 
 #: client/gui-gtk/helpdlg.c:85 client/gui-mui/helpdlg.c:490 data/Freeciv:626
 msgid "Upkeep:"
@@ -6414,19 +6414,19 @@ msgstr ""
 
 #: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:555 data/Freeciv:768
 msgid "Attack:"
-msgstr ""
+msgstr "Atac:"
 
 #: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:557 data/Freeciv:786
 msgid "Defense:"
-msgstr ""
+msgstr "Apãrare:"
 
 #: client/gui-gtk/helpdlg.c:93 client/gui-mui/helpdlg.c:559 data/Freeciv:804
 msgid "Move:"
-msgstr ""
+msgstr "Miºcãri"
 
 #: client/gui-gtk/helpdlg.c:94
 msgid "FirePower:"
-msgstr ""
+msgstr "Putere de Foc:"
 
 #: client/gui-gtk/helpdlg.c:94 client/gui-mui/helpdlg.c:565 data/Freeciv:849
 msgid "Hitpoints:"
@@ -6438,7 +6438,7 @@ msgstr ""
 
 #: client/gui-gtk/helpdlg.c:95 client/gui-mui/helpdlg.c:561 data/Freeciv:867
 msgid "Vision:"
-msgstr ""
+msgstr "Viziune:"
 
 #: client/gui-gtk/helpdlg.c:101
 msgid "Move/Defense:"
@@ -6446,15 +6446,15 @@ msgstr ""
 
 #: client/gui-gtk/helpdlg.c:101
 msgid "Food/Res/Trade:"
-msgstr ""
+msgstr "Hranã/Res/Negoþ:"
 
 #: client/gui-gtk/helpdlg.c:102
 msgid "Sp1 F/R/T:"
-msgstr ""
+msgstr "Sp1 H/R/N"
 
 #: client/gui-gtk/helpdlg.c:102
 msgid "Sp2 F/R/T:"
-msgstr ""
+msgstr "Sp2 H/R/N"
 
 #: client/gui-gtk/helpdlg.c:103
 msgid "Road Rslt/Time:"
@@ -6462,15 +6462,15 @@ msgstr "Stradã Rslt/Timp:"
 
 #: client/gui-gtk/helpdlg.c:103
 msgid "Irrig. Rslt/Time:"
-msgstr ""
+msgstr "iIrig. Rslt/Timp:"
 
 #: client/gui-gtk/helpdlg.c:104
 msgid "Mine Rslt/Time:"
-msgstr ""
+msgstr "Minare Rslt/Timp:"
 
 #: client/gui-gtk/helpdlg.c:104
 msgid "Trans. Rslt/Time:"
-msgstr ""
+msgstr "Trans: Rslt/Timp:"
 
 #: client/gui-gtk/helpdlg.c:123 client/gui-mui/helpdlg.c:115
 #: client/gui-xaw/helpdlg.c:124 client/gui-xaw/menu.c:229 data/helpdata.txt:37
@@ -6491,7 +6491,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:826 client/gui-xaw/helpdlg.c:862
 #: client/gui-xaw/helpdlg.c:886
 msgid "(Never)"
-msgstr ""
+msgstr "(Niciodatã)"
 
 #: client/gui-gtk/helpdlg.c:381 client/gui-gtk/helpdlg.c:708
 #: client/gui-gtk/helpdlg.c:755 client/gui-gtk/helpdlg.c:783
@@ -6547,12 +6547,12 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:981 client/gui-xaw/helpdlg.c:996
 #, c-format
 msgid "%s F/R/T:"
-msgstr ""
+msgstr "%s H/R/N:"
 
 #: client/gui-gtk/helpdlg.c:965 client/gui-xaw/helpdlg.c:1011
 #, c-format
 msgid "+%d Trade / %d"
-msgstr ""
+msgstr "+%d Negoþ / %d"
 
 #: client/gui-gtk/helpdlg.c:971 client/gui-xaw/helpdlg.c:1017
 #, c-format
@@ -6569,12 +6569,12 @@ msgstr ""
 #: client/gui-gtk/helpdlg.c:985 client/gui-xaw/helpdlg.c:1031
 #, c-format
 msgid "+%d Food / %d"
-msgstr ""
+msgstr "+%d Hranã / %d"
 
 #: client/gui-gtk/helpdlg.c:1003 client/gui-xaw/helpdlg.c:1049
 #, c-format
 msgid "+%d Res. / %d"
-msgstr ""
+msgstr "+%d Res. / %d"
 
 #: client/gui-gtk/inteldlg.c:82 client/gui-mui/inteldlg.c:112 data/Freeciv:156
 msgid "Foreign Intelligence Report"
@@ -6596,7 +6596,7 @@ msgstr "Conducãtor: %s %s"
 #: client/gui-xaw/inteldlg.c:112
 #, c-format
 msgid "Government: %s"
-msgstr ""
+msgstr "Guvern: %s"
 
 #: client/gui-gtk/inteldlg.c:113 client/gui-mui/inteldlg.c:142
 #: client/gui-mui/mapview.c:220 client/gui-xaw/inteldlg.c:119
@@ -12315,10 +12315,10 @@ msgstr "Coloniºti"
 
 #: data/civ2/units.ruleset:85 data/default/units.ruleset:85
 msgid ""
-"Setters are one of the key units in the game.  They can be used to found new "
+"Settlers are one of the key units in the game.  They can be used to found new "
 "cities, irrigate land, build roads, railroads, fortresses, airbases and "
 "mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is "
-"in food as well as production, and a Setter can die if its supporting city "
+"in food as well as production, and a Settler can die if its supporting city "
 "runs out of food.\n"
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time "
@@ -12798,10 +12798,10 @@ msgstr ""
 
 #: data/civ1/units.ruleset:94
 msgid ""
-"Setters are one of the key units in the game.  They can be used to found new "
+"Settlers are one of the key units in the game.  They can be used to found new "
 "cities, irrigate land, build roads, railroads, fortresses and mines, and "
 "clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
-"well as production, and a Setter can die if its supporting city runs out of "
+"well as production, and a Settler can die if its supporting city runs out of "
 "food.\n"
 "\n"
 "Settlers may work together to decrease the amount of time required for long "
