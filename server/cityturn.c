@@ -758,7 +758,7 @@ void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
       }
     }
 
-    if (turns_growth <= 0) {
+    if ((turns_growth <= 0) && !city_celebrating(pcity)) {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
 		       E_CITY_MAY_SOON_GROW,
 		       _("Game: %s may soon grow to size %i."),
