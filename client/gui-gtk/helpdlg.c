@@ -189,10 +189,7 @@ static int help_tndata_compare(gpointer d1, gpointer d2) {
   help_tndata *b = (help_tndata *)d2;
   if (!a)
     return (b != NULL);
-  if (a->tech == b->tech)
-    return FALSE;
-  else /* a->tech != b->tech */
-    return TRUE;
+  return (a->tech != b->tech);
 }      
 
 /**************************************************************************
@@ -213,7 +210,7 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   char          label [MAX_LEN_NAME+3];
   gboolean      leaf;
   help_tndata  *d = fc_malloc(sizeof(help_tndata));
-  int           original;
+  bool           original;
 
   text[0] = label;
   if ( advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST )
@@ -239,12 +236,9 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   d->tech = tech;
   d->turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
   l = gtk_ctree_find_by_row_data_custom(ctree, NULL, d, (GCompareFunc)help_tndata_compare);
-  if (l) {
-    /* l is the original in the tree. */
-    original = FALSE;
-  } else {
-    original = TRUE;
-  }
+  /* l is the original in the tree. */
+  original = (l == NULL);
+
   my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
 	      d->turns_to_tech);
 
