@@ -20,12 +20,15 @@
 #include "log.h"
 #include "support.h"
 
-#include "clinet.h"
-#include "control.h"
-#include "options.h"		/* for concise_city_production */
-#include "tilespec.h"		/* for is_isometric */
+#include "mapview_g.h"
 
 #include "citydlg_common.h"
+#include "climap.h"
+#include "clinet.h"
+#include "control.h"
+#include "mapview_common.h"
+#include "options.h"		/* for concise_city_production */
+#include "tilespec.h"		/* for is_isometric */
 
 /**************************************************************************
   Return the width of the city dialog canvas.
@@ -113,6 +116,71 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 	  orig_canvas_x, orig_canvas_y, *city_x, *city_y);
 
   return is_valid_city_coords(*city_x, *city_y);
+}
+
+/****************************************************************************
+  Draw the full city map onto the canvas store.  Works for both isometric
+  and orthogonal views.
+****************************************************************************/
+void city_dialog_redraw_map(struct city *pcity,
+			    struct canvas_store *pcanvas_store)
+{
+  int city_x, city_y;
+
+  /* First make it all black. */
+  gui_put_rectangle(pcanvas_store, COLOR_STD_BLACK, 0, 0,
+		    get_citydlg_canvas_width(), get_citydlg_canvas_height());
+
+  /* We have to draw the tiles in a particular order, so its best
+     to avoid using any iterator macro. */
+  for (city_x = 0; city_x < CITY_MAP_SIZE; city_x++) {
+    for (city_y = 0; city_y < CITY_MAP_SIZE; city_y++) {
+      int map_x, map_y, canvas_x, canvas_y;
+
+      if (is_valid_city_coords(city_x, city_y)
+	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
+	  && tile_get_known(map_x, map_y)
+	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
+	if (is_isometric) {
+	  put_one_tile_iso(pcanvas_store, map_x, map_y,
+			   canvas_x, canvas_y,
+			   0, 0, 0,
+			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+			   UNIT_TILE_HEIGHT,
+			   D_FULL, TRUE);
+	} else {
+	  put_one_tile(pcanvas_store, map_x, map_y,
+		       canvas_x, canvas_y, TRUE);
+	}
+      }
+    }
+  }
+
+  /* We have to put the output afterwards or it will be covered
+   * in iso-view. */
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_WORKER) {
+      put_city_tile_output(pcity, x, y, pcanvas_store, canvas_x, canvas_y);
+    }
+  } city_map_checked_iterate_end;
+
+  /* This sometimes will draw one of the lines on top of a city or
+   * unit pixmap (in iso-view). This should maybe be moved to
+   * put_one_tile to fix this, but maybe it wouldn't be a good idea because
+   * the lines would get obscured. */
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+      put_red_frame_tile(pcanvas_store, canvas_x, canvas_y);
+    }
+  } city_map_checked_iterate_end;
 }
 
 /**************************************************************************

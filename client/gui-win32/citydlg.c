@@ -493,106 +493,21 @@ void city_dialog_update_building(struct city_dialog *pdialog)
  
 }
 
-/****************************************************************
-Isometric.
-*****************************************************************/
-static void city_dialog_update_map_iso(HDC hdc,struct city_dialog *pdialog)
-{
-  struct city *pcity = pdialog->pcity;
-  int city_x,city_y;
-  struct canvas_store store = {hdc, NULL};
-  
-  /* We have to draw the tiles in a particular order, so its best
-     to avoid using any iterator macro. */
-  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
-    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
-      int map_x, map_y, canvas_x, canvas_y;
-
-      if (is_valid_city_coords(city_x, city_y)
-          && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
-	  && tile_get_known(map_x, map_y)
-          && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
-	put_one_tile_full(hdc, map_x, map_y, canvas_x, canvas_y, 1);
-      }
-    }
-  
-  /* We have to put the output afterwards or it will be covered. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y)
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
-    }
-  } city_map_checked_iterate_end;
-
-  /* This sometimes will draw one of the lines on top of a city or
-     unit pixmap. This should maybe be moved to put_one_tile_pixmap()
-     to fix this, but maybe it wouldn't be a good idea because the
-     lines would get obscured. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y)
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-      put_red_frame_tile(&store, canvas_x, canvas_y);
-    }
-  } city_map_checked_iterate_end;
-
-}
-
-/****************************************************************
-Overhead
-*****************************************************************/
-static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
-{
-  int y,x;
-  struct city *pcity;
-  struct canvas_store store = {citydlgdc, NULL};
-
-  pcity=pdialog->pcity;
-  for(y=0; y<CITY_MAP_SIZE; y++)
-    for(x=0; x<CITY_MAP_SIZE; x++) {
-      int map_x, map_y;
-
-      if (is_valid_city_coords(x, y)
-	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
-	  && tile_get_known(map_x, map_y)) {
-	put_one_tile(&store, map_x, map_y,
-		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, TRUE);
-        if(pcity->city_map[x][y]==C_TILE_WORKER)
-          put_city_tile_output(pcity, x, y, &store,
-			       NORMAL_TILE_WIDTH * x,
-			       NORMAL_TILE_HEIGHT * y);
-	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
-	  put_red_frame_tile(&store,
-			     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT);
-      }
-      else {
-	BitBlt(citydlgdc,x*NORMAL_TILE_WIDTH,
-	       y*NORMAL_TILE_HEIGHT,
-	       NORMAL_TILE_WIDTH,
-	       NORMAL_TILE_HEIGHT,
-	       NULL,0,0,BLACKNESS);
-      }
-    }
-  
-}
 /**************************************************************************
 									   ...
 **************************************************************************/
 void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
 {
   HBITMAP oldbit;
+  struct canvas_store store;
+
   oldbit=SelectObject(citydlgdc,pdialog->map_bmp);
   BitBlt(citydlgdc,0,0,pdialog->map_w,pdialog->map_h,
 	 NULL,0,0,BLACKNESS);
-  if (is_isometric)
-    city_dialog_update_map_iso(citydlgdc,pdialog);
-  else
-    city_dialog_update_map_ovh(citydlgdc,pdialog);
+
+  store.hdc = citydlgdc;
+  store.bitmap = NULL;
+  city_dialog_redraw_map(pdialog->pcity, &store);
                            
   BitBlt(hdc,pdialog->map.x,pdialog->map.y,city_map_width,
 	 city_map_height,

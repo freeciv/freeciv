@@ -1108,10 +1108,11 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
     }
 
     if (normalize_map_pos(&map_x, &map_y)) {
-      gui_map_put_tile_iso(map_x, map_y, canvas_x, canvas_y,
-			   offset_x, offset_y, offset_y_unit,
-			   width, height, height_unit,
-			   draw);
+      put_one_tile_iso(mapview_canvas.store,
+		       map_x, map_y, canvas_x, canvas_y,
+		       offset_x, offset_y, offset_y_unit,
+		       width, height, height_unit,
+		       draw, FALSE);
     } else {
       gui_put_sprite(mapview_canvas.store, canvas_x, canvas_y,
 		     sprites.black_tile, offset_x, offset_y, width, height);

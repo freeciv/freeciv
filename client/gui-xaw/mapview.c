@@ -473,13 +473,14 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 }
 
 /**************************************************************************
-  Draw some or all of a tile onto the mapview canvas.
+  Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void gui_map_put_tile_iso(int map_x, int map_y,
-			  int canvas_x, int canvas_y,
-			  int offset_x, int offset_y, int offset_y_unit,
-			  int width, int height, int height_unit,
-			  enum draw_type draw)
+void put_one_tile_iso(struct canvas_store *pcanvas_store,
+                     int map_x, int map_y,
+                     int canvas_x, int canvas_y,
+                     int offset_x, int offset_y, int offset_y_unit,
+                     int width, int height, int height_unit,
+                     enum draw_type draw, bool citymode)
 {
   /* PORTME */
   assert(0);

@@ -21,6 +21,7 @@
 #include "shared.h"		/* bool type */
 
 struct city;
+struct canvas_store;
 
 enum citizen_type {
   CITIZEN_ELVIS,
@@ -40,6 +41,8 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y,
 			int city_x, int city_y);
 bool canvas_to_city_pos(int *city_x, int *city_y,
 			int canvas_x, int canvas_y);
+void city_dialog_redraw_map(struct city *pcity,
+			    struct canvas_store *pcanvas_store);
 
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);

@@ -36,11 +36,12 @@ struct canvas_store *get_overview_window(void);
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 void prepare_show_city_descriptions(void);
 
-void gui_map_put_tile_iso(int map_x, int map_y,
-			  int canvas_x, int canvas_y,
-			  int offset_x, int offset_y, int offset_y_unit,
-			  int width, int height, int height_unit,
-			  enum draw_type draw);
+void put_one_tile_iso(struct canvas_store *pcanvas_store,
+		      int map_x, int map_y,
+		      int canvas_x, int canvas_y,
+		      int offset_x, int offset_y, int offset_y_unit,
+		      int width, int height, int height_unit,
+		      enum draw_type draw, bool citymode);
 void gui_put_sprite(struct canvas_store *pcanvas_store,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,

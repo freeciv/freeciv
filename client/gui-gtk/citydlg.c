@@ -230,8 +230,6 @@ static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
 static void city_dialog_update_information(GtkWidget **info_label,
                                            struct city_dialog *pdialog);
-static void city_dialog_update_map_iso(struct city_dialog *pdialog);
-static void city_dialog_update_map_ovh(struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
 static void city_dialog_update_improvement_list(struct city_dialog
@@ -1756,106 +1754,13 @@ static void city_dialog_update_information(GtkWidget **info_label,
 }
 
 /****************************************************************
-Isometric.
-*****************************************************************/
-static void city_dialog_update_map_iso(struct city_dialog *pdialog)
-{
-  struct city *pcity = pdialog->pcity;
-  int city_x, city_y;
-  struct canvas_store store = {pdialog->map_canvas_store};
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-
-  /* First make it all black. */
-  gdk_draw_rectangle(pdialog->map_canvas_store, fill_bg_gc, TRUE,
-		     0, 0, canvas_width, canvas_height);
-
-  /* We have to draw the tiles in a particular order, so its best
-     to avoid using any iterator macro. */
-  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
-    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
-      int map_x, map_y, canvas_x, canvas_y;
-
-      if (is_valid_city_coords(city_x, city_y)
-	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
-	  && tile_get_known(map_x, map_y)
-	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
-	put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
-			  canvas_x, canvas_y, 1);
-      }
-    }
-
-  /* We have to put the output afterwards or it will be covered. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y)
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
-    }
-  }
-  city_map_checked_iterate_end;
-
-  /* This sometimes will draw one of the lines on top of a city or
-     unit pixmap. This should maybe be moved to put_one_tile_pixmap()
-     to fix this, but maybe it wouldn't be a good idea because the
-     lines would get obscured. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y)
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-      put_red_frame_tile(&store, canvas_x, canvas_y);
-    }
-  }
-  city_map_checked_iterate_end;
-}
-
-/****************************************************************
-Non-isometric
-*****************************************************************/
-static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
-{
-  int x, y;
-  struct city *pcity = pdialog->pcity;
-  struct canvas_store store = {pdialog->map_canvas_store};
-
-  for (y = 0; y < CITY_MAP_SIZE; y++)
-    for (x = 0; x < CITY_MAP_SIZE; x++) {
-      int map_x, map_y;
-
-      if (is_valid_city_coords(x, y)
-	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
-	  && tile_get_known(map_x, map_y)) {
-	put_one_tile(&store, map_x, map_y,
-		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_WIDTH, TRUE);
-	if (pcity->city_map[x][y] == C_TILE_WORKER)
-	  put_city_tile_output(pcity, x, y, &store,
-			       x * NORMAL_TILE_WIDTH,
-			       y * NORMAL_TILE_HEIGHT);
-	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	  put_red_frame_tile(&store,
-			     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT);
-      } else {
-	pixmap_put_black_tile(pdialog->map_canvas_store,
-			      x * NORMAL_TILE_WIDTH,
-			      y * NORMAL_TILE_HEIGHT);
-      }
-    }
-}
-
-/****************************************************************
 ...
 *****************************************************************/
 static void city_dialog_update_map(struct city_dialog *pdialog)
 {
-  if (is_isometric) {
-    city_dialog_update_map_iso(pdialog);
-  } else {
-    city_dialog_update_map_ovh(pdialog);
-  }
+  struct canvas_store store = {pdialog->map_canvas_store};
+
+  city_dialog_redraw_map(pdialog->pcity, &store);
 
   /* draw to real window */
   draw_map_canvas(pdialog);

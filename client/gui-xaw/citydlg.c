@@ -157,7 +157,6 @@ static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
 static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
-static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_production(struct city_dialog *pdialog);
 static void city_dialog_update_output(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
@@ -355,12 +354,14 @@ void refresh_city_dialog(struct city *pcity)
   struct city_dialog *pdialog;
   
   if((pdialog=get_city_dialog(pcity))) {
+    struct canvas_store store = {XtWindow(pdialog->map_canvas)};
+
     city_dialog_update_improvement_list(pdialog);
     city_dialog_update_title(pdialog);
     city_dialog_update_supported_units(pdialog, 0);
     city_dialog_update_present_units(pdialog, 0);
     city_dialog_update_citizens(pdialog);
-    city_dialog_update_map(pdialog);
+    city_dialog_redraw_map(pdialog->pcity, &store);
     city_dialog_update_production(pdialog);
     city_dialog_update_output(pdialog);
     city_dialog_update_building(pdialog);
@@ -462,10 +463,10 @@ void popdown_all_city_dialogs(void)
 static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed, 
 				   void *client_data)
 {
-  struct city_dialog *pdialog;
+  struct city_dialog *pdialog = client_data;
+  struct canvas_store store = {XtWindow(pdialog->map_canvas)};
   
-  pdialog=(struct city_dialog *)client_data;
-  city_dialog_update_map(pdialog);
+  city_dialog_redraw_map(pdialog->pcity, &store);
 }
 
 
@@ -1521,38 +1522,6 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 
   get_contents_of_output(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->output_label, buf);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-void city_dialog_update_map(struct city_dialog *pdialog)
-{
-  int x, y;
-  struct city *pcity=pdialog->pcity;
-  struct canvas_store store = {XtWindow(pdialog->map_canvas)};
-  
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  XFillRectangle(display, XtWindow(pdialog->map_canvas), fill_bg_gc,
-		 0, 0, 4 * NORMAL_TILE_WIDTH, 4 * NORMAL_TILE_HEIGHT);
-
-  for(y=0; y<CITY_MAP_SIZE; y++) {
-    for(x=0; x<CITY_MAP_SIZE; x++) {
-      int map_x, map_y, canvas_x, canvas_y;
-
-      if (is_valid_city_coords(x, y)
-	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
-	  && tile_get_known(map_x, map_y)
-	  && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
-	put_one_tile(&store, map_x, map_y, canvas_x, canvas_y, TRUE);
-	if (pcity->city_map[x][y] == C_TILE_WORKER)
-	  put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
-	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	  put_red_frame_tile(&store, canvas_x, canvas_y);
-      }
-    }
-  }
 }
 
 /****************************************************************
