@@ -167,6 +167,7 @@ bool is_normal_nat_pos(int x, int y)
   do {
     whole_map_iterate(ptile) {
       int  N = 0, D = 0;
+
       iterate_axe(tile1, i, ptile, 2, axe) {
 	D += weight[i + 2];
 	N += weight[i + 2] * source_map[tile1->index];
@@ -177,16 +178,16 @@ bool is_normal_nat_pos(int x, int y)
       target_map[ptile->index] = N / D;
     } whole_map_iterate_end;
 
-    if (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) {
-    weight[0] = weight[4] = 0.5;
-    weight[1] = weight[3] = 0.7;
-    total_weight = 3.4;  
-  }
+    if (MAP_IS_ISOMETRIC) {
+      weight[0] = weight[4] = 0.5;
+      weight[1] = weight[3] = 0.7;
+      total_weight = 3.4;  
+    }
 
-  axe = !axe;
+    axe = !axe;
 
-  source_map = alt_int_map;
-  target_map = int_map;
+    source_map = alt_int_map;
+    target_map = int_map;
 
-  } while ( !axe );
+  } while (!axe);
 }

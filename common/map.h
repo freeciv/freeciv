@@ -202,6 +202,8 @@ enum topo_flag {
   TF_HEX = 8
 };
 
+#define MAP_IS_ISOMETRIC (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
+
 #define CURRENT_TOPOLOGY (map.topology_id)
 
 #define topo_has_flag(flag) ((CURRENT_TOPOLOGY & (flag)) != 0)
@@ -257,25 +259,25 @@ void reset_move_costs(struct tile *ptile);
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
-  ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))                         \
+  (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
       *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATIVE_POS(pnat_x, pnat_y, map_x, map_y)                     \
-  ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))			    \
+  (MAP_IS_ISOMETRIC							    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
 #define NATURAL_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                    \
-  (topo_has_flag(TF_ISO)                                                    \
+  (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
       *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATURAL_POS(pnat_x, pnat_y, map_x, map_y)                    \
-  (topo_has_flag(TF_ISO)                                                    \
+  (MAP_IS_ISOMETRIC							    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
@@ -316,17 +318,13 @@ void reset_move_costs(struct tile *ptile);
 #define NATIVE_HEIGHT map.ysize
 
 /* Width and height of the map, in natural coordinates. */
-#define NATURAL_WIDTH (topo_has_flag(TF_ISO) ? 2 * map.xsize : map.xsize)
+#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * map.xsize : map.xsize)
 #define NATURAL_HEIGHT map.ysize
 
-#define MAP_WIDTH \
-   (topo_has_flag(TF_ISO) \
-    ? (map.xsize + map.ysize / 2) \
-    : map.xsize)
+#define MAP_WIDTH  \
+  (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.xsize)
 #define MAP_HEIGHT \
-(topo_has_flag(TF_ISO) \
-    ? (map.xsize + map.ysize / 2) \
-    : map.ysize)
+  (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.ysize)
   
 static inline int map_pos_to_index(int map_x, int map_y);
 
@@ -695,8 +693,7 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
    * the Y direction.  Hence (x+1,y) is 1 tile away while (x,y+2) is also
    * one tile away. */
   int xdist = dist;
-  int ydist = ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
-	       ? (2 * dist) : dist);
+  int ydist = (MAP_IS_ISOMETRIC ? (2 * dist) : dist);
 
   return (ptile->nat_x < xdist 
 	  || ptile->nat_y < ydist

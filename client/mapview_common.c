@@ -521,7 +521,7 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
   *xsize = mapview_canvas.width;
   *ysize = mapview_canvas.height;
 
-  if (topo_has_flag(TF_ISO) == is_isometric) {
+  if (MAP_IS_ISOMETRIC == is_isometric) {
     /* If the map and view line up, it's easy. */
     NATIVE_TO_MAP_POS(xmin, ymin, 0, 0);
     map_to_gui_pos(xmin, ymin, *xmin, *ymin);
@@ -681,7 +681,7 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 			: 2 * NORMAL_TILE_WIDTH);
   const int border_y = (is_isometric ? NORMAL_TILE_HEIGHT / 2
 			: 2 * NORMAL_TILE_HEIGHT);
-  bool same = (is_isometric == topo_has_flag(TF_ISO));
+  bool same = (is_isometric == MAP_IS_ISOMETRIC);
 
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
@@ -2250,7 +2250,7 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
     if (topo_has_flag(TF_WRAPX)) {
       ovr_x = FC_WRAP(ovr_x, NATURAL_WIDTH);
     } else {
-      if (topo_has_flag(TF_ISO)) {
+      if (MAP_IS_ISOMETRIC) {
 	/* HACK: For iso-maps that don't wrap in the X direction we clip
 	 * a half-tile off of the left and right of the overview.  This
 	 * means some tiles only are halfway shown.  However it means we
@@ -2276,7 +2276,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
   int ntl_x = overview_x / OVERVIEW_TILE_SIZE + overview.map_x0;
   int ntl_y = overview_y / OVERVIEW_TILE_SIZE + overview.map_y0;
 
-  if (topo_has_flag(TF_ISO) && !topo_has_flag(TF_WRAPX)) {
+  if (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) {
     /* Clip half tile left and right.  See comment in map_to_overview_pos. */
     ntl_x++;
   }
@@ -2302,7 +2302,7 @@ static void get_mapview_corners(int x[4], int y[4])
   /* Note: these calculations operate on overview coordinates as if they
    * are natural.  Corners may be off by one tile, however. */
 
-  if (is_isometric && !topo_has_flag(TF_ISO)) {
+  if (is_isometric && !MAP_IS_ISOMETRIC) {
     /* We start with the west corner. */
 
     /* North */
@@ -2316,7 +2316,7 @@ static void get_mapview_corners(int x[4], int y[4])
     /* South */
     x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
     y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
-  } else if (!is_isometric && topo_has_flag(TF_ISO)) {
+  } else if (!is_isometric && MAP_IS_ISOMETRIC) {
     /* We start with the west corner.  Note the X scale is smaller. */
 
     /* North */
@@ -2374,7 +2374,7 @@ void overview_update_tile(struct tile *ptile)
     int overview_y = ntl_y * OVERVIEW_TILE_SIZE;
     int overview_x = ntl_x * OVERVIEW_TILE_SIZE;
 
-    if (topo_has_flag(TF_ISO)) {
+    if (MAP_IS_ISOMETRIC) {
       if (topo_has_flag(TF_WRAPX)) {
 	if (overview_x > overview.width - OVERVIEW_TILE_WIDTH) {
 	  /* This tile is shown half on the left and half on the right
@@ -2412,7 +2412,7 @@ void set_overview_dimensions(int width, int height)
    * tall or short overview if your map is unusually sized. */
 
   OVERVIEW_TILE_SIZE = (120 / width) + 1;
-  if (topo_has_flag(TF_ISO)) {
+  if (MAP_IS_ISOMETRIC) {
     OVERVIEW_TILE_SIZE = MAX(120 / width, 1);
 
     /* Clip half tile left and right.  See comment in map_to_overview_pos. */

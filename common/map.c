@@ -322,8 +322,7 @@ void map_init_topology(bool set_sizes)
   }
   
   /* sanity check for iso topologies*/
-  assert(!(topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
-	 || (map.ysize % 2) == 0);
+  assert(!MAP_IS_ISOMETRIC || (map.ysize % 2) == 0);
 
   /* The size and ratio must satisfy the minimum and maximum *linear*
    * restrictions on width */
@@ -1825,7 +1824,7 @@ bool is_singular_tile(const struct tile *ptile, int dist)
 {
   do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
     /* Iso-natural coordinates are doubled in scale. */
-    dist *= topo_has_flag(TF_ISO) ? 2 : 1;
+    dist *= MAP_IS_ISOMETRIC ? 2 : 1;
 
     return ((!topo_has_flag(TF_WRAPX) 
 	     && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
