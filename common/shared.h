@@ -32,7 +32,7 @@
 
 #define MAX_UINT32 0xFFFFFFFF
 
-#define RANDOM_TYPE unsigned int
+typedef unsigned int RANDOM_TYPE;
 
 char *n_if_vowel(char ch);
 char *create_centered_string(char *s);

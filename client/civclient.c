@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -116,6 +117,11 @@ int main(int argc, char *argv[])
   init_messages_where();
   init_our_capability();
   game_init();
+
+  /* This seed is not saved anywhere; randoms in the client should
+     have cosmetic effects only (eg city name suggestions).  --dwp */
+  mysrand(time(NULL));
+
   ui_main(argc, argv);
   return 0;
   /*  audio_term(); */

@@ -518,10 +518,6 @@ void ui_main(int argc, char *argv[])
 
   load_options();
 
-  /* This seed is not saved anywhere; randoms in the client should
-     have cosmetic effects only (eg city name suggestions).  --dwp */
-  mysrand(time(NULL));
-
   set_client_state(CLIENT_PRE_GAME_STATE);
   
   XtAppMainLoop(app_context);
