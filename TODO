@@ -122,6 +122,47 @@ TODO:
 - Teach the AI to use ferryboats to transport explorers to unexplored land.
   See ai_manage_explorer() and ai_manage_ferryboat().
 
+Client goto related:
+- Make connect command find the connect route in the client and send it
+  to the server. Draw a line when chosing the connect route.
+- Find the goto route of an airplane in the client, and send it to
+  the server. Make the client draw the goto line. Note that you cannot
+  make a client_goto_map for airplanes with fuel. It may be fine to go
+  from p to q, and there may be a valid route from r to s via p, but
+  the route p->s is then not always usable without running out of fuel.
+  This makes the vectors in the client_goto_map unusable.
+  A solution would be a client_goto_map which held a lot more info per
+  tile, but that would not be nice I think. A better solution is
+  calculating the last part of the route dynamically as the mouse moves.
+  (maintain a list of the move costs to the refuel points to quickly
+  know if more than the last part needs recalculating)
+- Make the goto line more visible. Perhaps we have to drop the very
+  smart and CPU friendly XOR'ed line, and just redraw the whole tile
+  when a line is moved.
+  Currently, when the line is moved it is first completely undrawn and
+  then redrawn. This is OK as the XOR'ed draw is cheap. But it should
+  be fixed if this point is to be implemented.
+- Allow waypoint. Fx hitting space would set a waypoint, freezing the
+  first part of the route. Note that luckily create_goto_map takes
+  parameters src_x, src_y already :).
+  Note that this may result in a situatin where a units walks on a path
+  twice. So when we undraw the latest part we have to make sure the part
+  "below" is preserved. (drawing may have to be fixed too).
+  Currently the path is stored via the vectors in the client_goto_map
+  and the destination. We will have to use a stack to store the "old"
+  part of the route to allow waypoints. Perhaps with a list of indices
+  into it so that if you cancel the waypoint one by one you know how
+  much of the route to cancel.
+- Store the goto route in the client too. Keep it up to date as the unit
+  moves. Make middle-clicking the unit display the route by drawing the
+  line.
+- Perhaps make a check on all units on goto each turn to see if you could
+  find a better route than the current one. This would require the goto
+  route to be kept up to date in the client.
+  Note that this is not as simple as it seems, because a route A to B
+  with a waypoint C is often chosen not to be the fastest way from A to
+  B, but the route is still as it should be.
+
 FURTHER INFORMATION:
 ====================
 
