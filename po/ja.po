@@ -2,11 +2,8 @@
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # This translation is covered by the GNU General Public License Version 2.
 # SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>, 2000, 2001.
-# When you use msgmerge, you have to use option -w 0 because msgmerge's bug.
-# ex.
-# msgmerge -w 0 ja.po freeciv.pot -o new_ja.po
-# For Japanese users:
 #
+# For Japanese users:
 # こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
 # とてもひどいもので、本来他人に公開できるようなレベルではないと思います。
 # しかし、私にとって実際、こんな下手な訳でも役に立っていますし、英語の苦
@@ -20,9 +17,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.11.5-devel\n"
+"Project-Id-Version: Freeciv 1.11.7-devel\n"
 "POT-Creation-Date: 2001-06-30 16:24+0200\n"
-"PO-Revision-Date: 2001-03-17 04:58+09:00\n"
+"PO-Revision-Date: 2001-07-01 03:59+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -2100,7 +2097,7 @@ msgstr "プレイヤー %2$s として %1$s が参加しました。"
 #: server/srv_main.c:1022
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
-msgstr ""
+msgstr "Game: プレイヤー %3$s として、%2$s からの接続 %1$s が参加しました。"
 
 #: server/srv_main.c:1045
 #, c-format
@@ -3810,7 +3807,7 @@ msgstr "Game: あなたの利用レベルは '%s' になりました。"
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
-msgstr ""
+msgstr "Game: 誰でも 'firstlevel' コマンドを発行することで、コマンド利用レベル '%s' になれます。"
 
 #: server/stdinhand.c:1981
 msgid "Command access levels in effect:"
@@ -4346,7 +4343,7 @@ msgstr "* 外交行為を行なえます。\n"
 
 #: server/unithand.c:851
 msgid "Game: You can't attack there."
-msgstr ""
+msgstr "Game: そこへ攻撃できません。"
 
 #: server/unithand.c:857
 msgid "Game: This unit has no moves left."
@@ -5323,7 +5320,7 @@ msgstr "市民の混乱"
 
 #: client/options.c:123
 msgid "City Celebrating"
-msgstr ""
+msgstr "都市の祝典"
 
 #: client/options.c:124
 msgid "City Normal"
@@ -5343,11 +5340,11 @@ msgstr "都市での飢饉"
 
 #: client/options.c:128
 msgid "City Captured/Destroyed"
-msgstr ""
+msgstr "都市の占領/破壊"
 
 #: client/options.c:129
 msgid "Building Unavailable Item"
-msgstr ""
+msgstr "作成不可能な建物を建築"
 
 #: client/options.c:130
 msgid "Wonder Started"
@@ -5398,9 +5395,8 @@ msgid "Tech from Great Library"
 msgstr "王立図書館からの科学"
 
 #: client/options.c:142
-#, fuzzy
 msgid "Player Destroyed"
-msgstr "駆逐艦"
+msgstr "プレイヤー全滅"
 
 #: client/options.c:143
 #, fuzzy
@@ -5475,19 +5471,16 @@ msgid "Wonder Made Obsolete"
 msgstr "古くなった不思議"
 
 #: client/options.c:160
-#, fuzzy
 msgid "Famine Feared in City"
-msgstr "都市での飢饉"
+msgstr "都市での飢饉の恐れ有り"
 
 #: client/options.c:161
-#, fuzzy
 msgid "Wonder Will Be Finished Next Turn"
-msgstr "不思議の終了"
+msgstr "不思議が次のターンで完成"
 
 #: client/options.c:162
-#, fuzzy
 msgid "Learned New Government"
-msgstr "新しい政治体制の選択"
+msgstr "新しい政治体制を獲得"
 
 #: client/options.c:226
 msgid "Cannot find your home directory"
@@ -6220,7 +6213,7 @@ msgstr "メッセージ:"
 
 #: client/gui-gtk/dialogs.c:333 data/Freeciv:507
 msgid "Goto and Close"
-msgstr ""
+msgstr "移動して閉じる"
 
 #: client/gui-gtk/dialogs.c:405 client/gui-mui/dialogs.c:225
 #: client/gui-xaw/dialogs.c:419
@@ -6295,6 +6288,8 @@ msgid ""
 "Incite a revolt for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"革命を金%dで煽りますか？\n"
+"現在の資金は%dです。"
 
 #: client/gui-gtk/dialogs.c:983 client/gui-mui/dialogs.c:512 data/Freeciv:2376
 msgid "Incite a Revolt!"
@@ -6307,6 +6302,8 @@ msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"革命煽動にかかる費用は金%dです。\n"
+"現在の資金は%dです。"
 
 #: client/gui-gtk/dialogs.c:1051 client/gui-xaw/dialogs.c:1078
 #, c-format
@@ -10893,7 +10890,7 @@ msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
-msgstr ""
+msgstr "都市での汚職を 50% 減らします。反乱コストを計算するために使われる首都からの距離による影響を半減します。民主制下では、不幸市民 1を収容します。"
 
 #: data/civ1/buildings.ruleset:339 data/civ2/buildings.ruleset:322
 #: data/default/buildings.ruleset:508
@@ -11291,7 +11288,7 @@ msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
-msgstr ""
+msgstr "都市のまわりで使われている各農地の食料生産を 50% 増やします。農地とは、二度灌漑を行なえる土地のことです。"
 
 #: data/civ1/buildings.ruleset:1023 data/civ2/buildings.ruleset:1014
 #: data/default/buildings.ruleset:1219
