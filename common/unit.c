@@ -32,32 +32,57 @@
 #define SPECLIST_TYPE struct unit
 #include "speclist_c.h"
 
-
 /***************************************************************
-...
+Unit move rate calculates the move rate of the unit taking into 
+account the penalty for reduced hitpoints (affects sea and land units 
+only) and the effects of wonders for sea units. --RK
 ***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
-  int val;
-  struct player *pplayer = unit_owner(punit);
+  int move_rate = unit_type(punit)->move_rate;
+
+  switch (unit_type(punit)->move_type) {
+    case LAND_MOVING:
+      move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+      break;
+   
+    case SEA_MOVING:
+      move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
   
-  val = unit_type(punit)->move_rate;
-  if (!is_air_unit(punit) && !is_heli_unit(punit)) 
-    val = (val * punit->hp) / unit_type(punit)->hp;
-  if(is_sailing_unit(punit)) {
-    if(player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
-      val+=SINGLE_MOVE;
-    if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
-      val += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    val += num_known_tech_with_flag(pplayer, TF_BOAT_FAST) * SINGLE_MOVE;
-    if (val < 2 * SINGLE_MOVE)
-      val = 2 * SINGLE_MOVE;
+      if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
+        move_rate += SINGLE_MOVE;
+      }
+   
+      if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
+        move_rate += (improvement_variant(B_MAGELLAN) == 1) 
+                       ? SINGLE_MOVE : 2 * SINGLE_MOVE;
+      }
+   
+      if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
+        move_rate += SINGLE_MOVE;
+      }
+   
+      if (move_rate < 2 * SINGLE_MOVE) {
+        move_rate = 2 * SINGLE_MOVE; 
+      }
+      break;
+
+    case HELI_MOVING:
+    case AIR_MOVING:
+      break;
+
+    default:
+      assert(0);
+      freelog(LOG_FATAL, "In common/unit.c: function unit_move_rate");
+      freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
+      exit(EXIT_FAILURE);
+      move_rate = -1;
   }
-  if (val < SINGLE_MOVE
-      && unit_type(punit)->move_rate > 0) {
-    val = SINGLE_MOVE;
+  
+  if (move_rate < SINGLE_MOVE && unit_type(punit)->move_rate > 0) {
+    move_rate = SINGLE_MOVE;
   }
-  return val;
+  return move_rate;
 }
 
 /**************************************************************************
