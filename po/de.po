@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2001-09-12 14:32+0200\n"
+"POT-Creation-Date: 2001-09-16 12:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -112,61 +112,61 @@ msgstr " (insgesamt %d Wiederholungen)"
 msgid "last message repeated once"
 msgstr "Letzte Mitteilung einmal wiederholt."
 
-#: common/map.c:61
+#: common/map.c:57
 msgid "Special1"
 msgstr "Sonderfall_1"
 
-#: common/map.c:62 common/map.c:623 common/unit.c:522
+#: common/map.c:58 common/map.c:619 common/unit.c:522
 msgid "Road"
 msgstr "Straße"
 
 #: client/gui-gtk/menu.c:609 client/gui-mui/gui_main.c:258
-#: client/gui-xaw/menu.c:136 common/map.c:63 common/map.c:629
+#: client/gui-xaw/menu.c:136 common/map.c:59 common/map.c:625
 #: common/unit.c:524
 msgid "Irrigation"
 msgstr "Bewässerung"
 
-#: common/map.c:64 common/map.c:621 common/unit.c:529
+#: common/map.c:60 common/map.c:617 common/unit.c:529
 #: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
 #: data/default/techs.ruleset:443
 msgid "Railroad"
 msgstr "Eisenbahn"
 
-#: common/map.c:65 common/map.c:632 common/unit.c:523
+#: common/map.c:61 common/map.c:628 common/unit.c:523
 msgid "Mine"
 msgstr "Bergwerk"
 
-#: client/cityrepdata.c:219 client/options.c:120 common/map.c:66
+#: client/cityrepdata.c:219 client/options.c:120 common/map.c:62
 #: common/unit.c:521 server/report.c:896
 msgid "Pollution"
 msgstr "Verschmutzung"
 
-#: common/map.c:67
+#: common/map.c:63
 msgid "Hut"
 msgstr "Hütte"
 
-#: common/map.c:68 common/map.c:635 common/unit.c:527
+#: common/map.c:64 common/map.c:631 common/unit.c:527
 msgid "Fortress"
 msgstr "Befestigung"
 
-#: common/map.c:69
+#: common/map.c:65
 msgid "Special2"
 msgstr "Sonderfall_2"
 
-#: common/map.c:70 data/civ1/terrain.ruleset:470
+#: common/map.c:66 data/civ1/terrain.ruleset:470
 #: data/classic/terrain.ruleset:470
 msgid "River"
 msgstr "Fluß"
 
-#: common/map.c:71 common/map.c:627
+#: common/map.c:67 common/map.c:623
 msgid "Farmland"
 msgstr "Ackerland"
 
-#: common/map.c:72 common/map.c:638 common/unit.c:534
+#: common/map.c:68 common/map.c:634 common/unit.c:534
 msgid "Airbase"
 msgstr "Fliegerhorst"
 
-#: common/map.c:73 common/unit.c:535
+#: common/map.c:69 common/unit.c:535
 msgid "Fallout"
 msgstr "Fallout"
 
@@ -245,72 +245,72 @@ msgstr "Unvollständige Eingabe ('%s').\n"
 msgid "Missing argument for \"%s\".\n"
 msgstr "Unvollständige Eingabe ('%s').\n"
 
-#: common/shared.c:272
+#: common/shared.c:300
 #, c-format
 msgid "%d BC"
 msgstr "%d v.Chr."
 
-#: common/shared.c:274
+#: common/shared.c:302
 #, c-format
 msgid "%d AD"
 msgstr "%d AD"
 
-#: common/shared.c:700
+#: common/shared.c:728
 #, c-format
 msgid "Could not find readable file \"%s\" in data path."
 msgstr "Die Datei '%s' wurde nicht gefunden."
 
-#: common/shared.c:702
+#: common/shared.c:730
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "Der Suchpfad kann über die Umgebungsvariable FREECIV_PATH gesetzt werden."
 
-#: common/shared.c:704
+#: common/shared.c:732
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Aktueller Suchpfad: '%s'"
 
-#: common/shared.c:724
+#: common/shared.c:752
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Die Datei '%s' wird benötigt... Abruch!"
 
-#: common/shared.c:787
+#: common/shared.c:815
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "*** DIESES PROGRAMM DARF AUS SICHERHEITSGRÜNDEN NICHT\n"
 "*** VON PRIVILEGIERTEN BENUTZERN (root) AUFGERUFEN WERDEN!\n"
 
-#: common/shared.c:789
+#: common/shared.c:817
 msgid "Use a non-privileged account instead.\n"
 msgstr "*** Starten Sie es als 'normaler' Benutzer.\n"
 
-#: common/shared.c:805
+#: common/shared.c:833
 msgid "exact match"
 msgstr "Volltreffer"
 
-#: common/shared.c:806
+#: common/shared.c:834
 msgid "only match"
 msgstr "Treffer"
 
-#: common/shared.c:807
+#: common/shared.c:835
 msgid "ambiguous"
 msgstr "mehrdeutig"
 
-#: common/shared.c:808
+#: common/shared.c:836
 msgid "empty"
 msgstr "leer"
 
-#: common/shared.c:809
+#: common/shared.c:837
 msgid "too long"
 msgstr "zu lang"
 
-#: common/shared.c:810
+#: common/shared.c:838
 msgid "non-match"
 msgstr "Fehlschlag"
 
-#: common/shared.c:873
+#: common/shared.c:901
 msgid "'Cause civilization should be free!"
 msgstr "Because civilization(s) should be free!"
 
@@ -363,7 +363,7 @@ msgstr "Patrouillieren"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: client/gui-mui/dialogs.c:1525 client/gui-mui/mapview.c:274
+#: client/gui-mui/dialogs.c:1525 client/gui-mui/mapview.c:275
 #: common/unit.c:832
 msgid " (veteran)"
 msgstr " (Veteran)"
@@ -372,7 +372,7 @@ msgstr " (Veteran)"
 msgid "Moves"
 msgstr "Züge"
 
-#: common/unittype.c:270
+#: common/unittype.c:278
 msgid " and "
 msgstr " und "
 
@@ -1366,7 +1366,7 @@ msgstr ""
 "Spiel: %s hat durch die Anstiftung einer Revolte in %s eine diplomatische "
 "Krise verursacht."
 
-#: client/gui-mui/mapview.c:220 server/gamehand.c:174
+#: client/gui-mui/mapview.c:221 server/gamehand.c:174
 #, c-format
 msgid "Year: %s"
 msgstr "Jahr: %s"
@@ -1644,8 +1644,7 @@ msgstr "Steuern"
 msgid "Luxury"
 msgstr "Luxus"
 
-#: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:182
-#: client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:402
+#: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:162
 #: client/gui-mui/repodlgs.c:298 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:270 client/gui-xaw/repodlgs.c:506
 #: data/Freeciv:1360 server/plrhand.c:573
@@ -2015,19 +2014,19 @@ msgstr "Konnte ruleset '%s' nicht laden."
 msgid "Ruleset datafile appears incompatible:"
 msgstr "Inkompatibles ruleset:"
 
-#: client/tilespec.c:166 client/tilespec.c:174 server/ruleset.c:165
+#: client/tilespec.c:167 client/tilespec.c:175 server/ruleset.c:165
 #: server/ruleset.c:173
 #, c-format
 msgid "file: \"%s\""
 msgstr "Datei: '%s'"
 
-#: client/tilespec.c:167 client/tilespec.c:175 server/ruleset.c:166
+#: client/tilespec.c:168 client/tilespec.c:176 server/ruleset.c:166
 #: server/ruleset.c:174
 #, c-format
 msgid "file options: %s"
 msgstr "Dateioptionen: %s"
 
-#: client/tilespec.c:168 client/tilespec.c:176 server/ruleset.c:167
+#: client/tilespec.c:169 client/tilespec.c:177 server/ruleset.c:167
 #: server/ruleset.c:175
 #, c-format
 msgid "supported options: %s"
@@ -3821,7 +3820,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:956 server/stdinhand.c:1302
+#: client/packhand.c:955 server/stdinhand.c:1302
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5033,7 +5032,7 @@ msgid "Concise *=Rapture, X=Disorder"
 msgstr "einspaltige Statusanzeige: *=begeistert, X=in Aufruhr"
 
 #: client/cityrepdata.c:203 client/gui-mui/citydlg.c:1232
-#: client/gui-xaw/citydlg.c:2639
+#: client/gui-xaw/citydlg.c:2640
 msgid "Workers"
 msgstr "Arbeiter"
 
@@ -5069,8 +5068,7 @@ msgstr "N/P/H"
 msgid "Surplus: Food, Production, Trade"
 msgstr "Überschuß: Nahrung, Produktion, Handel"
 
-#: client/cityrepdata.c:212 client/gui-gtk/repodlgs.c:594
-#: client/gui-gtk/repodlgs.c:596 client/gui-gtk/repodlgs.c:759
+#: client/cityrepdata.c:212 client/gui-gtk/repodlgs.c:567
 #: client/gui-xaw/menu.c:199 client/gui-xaw/repodlgs.c:639
 #: client/gui-xaw/repodlgs.c:795 data/Freeciv:1763
 msgid "Economy"
@@ -5096,7 +5094,7 @@ msgstr "H"
 msgid "Number of Trade Routes"
 msgstr "Anzahl der Handelswege"
 
-#: client/cityrepdata.c:217 client/gui-gtk/repodlgs.c:847
+#: client/cityrepdata.c:217 client/gui-gtk/repodlgs.c:810
 #: client/gui-mui/repodlgs.c:764
 msgid "Food"
 msgstr "Nahrung"
@@ -5882,64 +5880,64 @@ msgstr "Server capability string: %s"
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1137
+#: client/packhand.c:1136
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1138
+#: client/packhand.c:1137
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1138
+#: client/packhand.c:1137
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:2214
+#: client/packhand.c:2213
 msgid "Client: No reaction from server."
 msgstr "Client: Server reagiert nicht."
 
-#: client/tilespec.c:144
+#: client/tilespec.c:145
 msgid "No useable default tileset found, aborting!"
 msgstr "No useable default tileset found, aborting!"
 
-#: client/tilespec.c:147
+#: client/tilespec.c:148
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "Verwende tileset '%s'."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:165
+#: client/tilespec.c:166
 #, c-format
 msgid "%s file appears incompatible:"
 msgstr "%s file appears incompatible:"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:172
+#: client/tilespec.c:173
 #, c-format
 msgid "%s file claims required option(s) which we don't support:"
 msgstr "%s file claims required option(s) which we don't support:"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:202
+#: client/tilespec.c:203
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Couldn't find a supported gfx file extension for %s"
 
-#: client/tilespec.c:222 client/tilespec.c:321
+#: client/tilespec.c:223 client/tilespec.c:322
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "'%s' konnte nicht geöffnet werden."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:231
+#: client/tilespec.c:232
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Client does not support isometric tilesets. Using default tileset instead."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:240
+#: client/tilespec.c:241
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -5948,7 +5946,7 @@ msgstr ""
 "instead."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:349
+#: client/tilespec.c:350
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Couldn't load gfx file for the spec file %s"
@@ -5967,13 +5965,13 @@ msgstr "Fertig."
 msgid "Cleared output window."
 msgstr "Textfenster gelöscht."
 
-#: client/gui-gtk/citydlg.c:629 client/gui-gtk/cityrep.c:483
+#: client/gui-gtk/citydlg.c:629 client/gui-gtk/cityrep.c:475
 #: client/gui-mui/citydlg.c:1323 client/gui-mui/cityrep.c:396
 msgid "_Buy"
 msgstr "_Kaufen"
 
-#: client/gui-gtk/citydlg.c:632 client/gui-gtk/citydlg.c:2238
-#: client/gui-gtk/cityrep.c:488
+#: client/gui-gtk/citydlg.c:632 client/gui-gtk/citydlg.c:2239
+#: client/gui-gtk/cityrep.c:480
 msgid "_Change"
 msgstr "Ä_ndern"
 
@@ -5993,7 +5991,7 @@ msgstr "zu unterhaltende Einheiten"
 msgid "Units present"
 msgstr "stationierte Einheiten"
 
-#: client/gui-gtk/citydlg.c:734 client/gui-gtk/cityrep.c:467
+#: client/gui-gtk/citydlg.c:734 client/gui-gtk/cityrep.c:459
 #: client/gui-gtk/plrdlg.c:175
 msgid "C_lose"
 msgstr "_Schließen"
@@ -6014,7 +6012,7 @@ msgstr "Einheiten _aktivieren"
 msgid "_Unit List"
 msgstr "Einheiten _zeigen"
 
-#: client/gui-gtk/citydlg.c:759 client/gui-gtk/cityrep.c:508
+#: client/gui-gtk/citydlg.c:759 client/gui-gtk/cityrep.c:500
 #: client/gui-mui/citydlg.c:1363 client/gui-mui/cityrep.c:399
 msgid "Con_figure"
 msgstr "_Einstellungen"
@@ -6168,14 +6166,14 @@ msgstr ""
 "Luxusgüter:       %2d\n"
 "Forschung:        %2d"
 
-#: client/gui-gtk/citydlg.c:1845 client/gui-mui/citydlg.c:1735
+#: client/gui-gtk/citydlg.c:1845 client/gui-mui/citydlg.c:1736
 #: client/gui-xaw/citydlg.c:1886
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s Einwohner"
 
-#: client/gui-gtk/citydlg.c:1991 client/gui-mui/citydlg.c:944
-#: client/gui-xaw/citydlg.c:2078
+#: client/gui-gtk/citydlg.c:1992 client/gui-mui/citydlg.c:944
+#: client/gui-xaw/citydlg.c:2079
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -6184,14 +6182,14 @@ msgstr ""
 "%s für %d Goldstücke kaufen?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk/citydlg.c:1995 client/gui-gtk/citydlg.c:2005
+#: client/gui-gtk/citydlg.c:1996 client/gui-gtk/citydlg.c:2006
 #: client/gui-mui/citydlg.c:947 client/gui-mui/citydlg.c:957 data/Freeciv:2153
 #: data/Freeciv:2183
 msgid "Buy It!"
 msgstr "Kaufen!"
 
-#: client/gui-gtk/citydlg.c:1996 client/gui-gtk/citydlg.c:2071
-#: client/gui-gtk/citydlg.c:2513 client/gui-gtk/dialogs.c:408
+#: client/gui-gtk/citydlg.c:1997 client/gui-gtk/citydlg.c:2072
+#: client/gui-gtk/citydlg.c:2514 client/gui-gtk/dialogs.c:408
 #: client/gui-gtk/dialogs.c:984 client/gui-gtk/dialogs.c:1352
 #: client/gui-mui/citydlg.c:948 client/gui-mui/citydlg.c:988
 #: client/gui-mui/dialogs.c:512 client/gui-mui/dialogs.c:1159
@@ -6199,8 +6197,8 @@ msgstr "Kaufen!"
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk/citydlg.c:1997 client/gui-gtk/citydlg.c:2073
-#: client/gui-gtk/citydlg.c:2514 client/gui-gtk/dialogs.c:409
+#: client/gui-gtk/citydlg.c:1998 client/gui-gtk/citydlg.c:2074
+#: client/gui-gtk/citydlg.c:2515 client/gui-gtk/dialogs.c:409
 #: client/gui-gtk/dialogs.c:985 client/gui-gtk/dialogs.c:1353
 #: client/gui-mui/citydlg.c:949 client/gui-mui/citydlg.c:989
 #: client/gui-mui/dialogs.c:513 client/gui-mui/dialogs.c:1160
@@ -6208,8 +6206,8 @@ msgstr "_Ja"
 msgid "_No"
 msgstr "_Nein"
 
-#: client/gui-gtk/citydlg.c:2001 client/gui-mui/citydlg.c:954
-#: client/gui-xaw/citydlg.c:2087
+#: client/gui-gtk/citydlg.c:2002 client/gui-mui/citydlg.c:954
+#: client/gui-xaw/citydlg.c:2088
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -6218,28 +6216,28 @@ msgstr ""
 "%s kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk/citydlg.c:2006 client/gui-gtk/citydlg.c:2059
-#: client/gui-gtk/citydlg.c:2083 client/gui-gtk/dialogs.c:416
+#: client/gui-gtk/citydlg.c:2007 client/gui-gtk/citydlg.c:2060
+#: client/gui-gtk/citydlg.c:2084 client/gui-gtk/dialogs.c:416
 #: client/gui-gtk/dialogs.c:992 client/gui-mui/dialogs.c:238
 #: client/gui-mui/dialogs.c:521 data/Freeciv:2185 data/Freeciv:2389
 #: data/Freeciv:2419
 msgid "Darn"
 msgstr "Zurück"
 
-#: client/gui-gtk/citydlg.c:2057 client/gui-mui/dialogs.c:1888
-#: client/gui-xaw/citydlg.c:2139
+#: client/gui-gtk/citydlg.c:2058 client/gui-mui/dialogs.c:1888
+#: client/gui-xaw/citydlg.c:2140
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "%s können nicht modernisiert werden."
 
-#: client/gui-gtk/citydlg.c:2058 client/gui-gtk/citydlg.c:2082
+#: client/gui-gtk/citydlg.c:2059 client/gui-gtk/citydlg.c:2083
 #: client/gui-mui/dialogs.c:1889 client/gui-mui/dialogs.c:1913
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
 msgstr "Einheit modernisieren!"
 
-#: client/gui-gtk/citydlg.c:2065 client/gui-mui/dialogs.c:1898
-#: client/gui-xaw/citydlg.c:2148
+#: client/gui-gtk/citydlg.c:2066 client/gui-mui/dialogs.c:1898
+#: client/gui-xaw/citydlg.c:2149
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -6248,14 +6246,14 @@ msgstr ""
 "%s zu %s für %d Goldstücke modernisieren?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk/citydlg.c:2070 client/gui-gtk/repodlgs.c:984
+#: client/gui-gtk/citydlg.c:2071 client/gui-gtk/repodlgs.c:942
 #: client/gui-mui/dialogs.c:1902 client/gui-mui/repodlgs.c:820
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
 msgstr "Modernisiere veraltete Einheiten"
 
-#: client/gui-gtk/citydlg.c:2077 client/gui-mui/dialogs.c:1908
-#: client/gui-xaw/citydlg.c:2158
+#: client/gui-gtk/citydlg.c:2078 client/gui-mui/dialogs.c:1908
+#: client/gui-xaw/citydlg.c:2159
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -6264,108 +6262,108 @@ msgstr ""
 "Modernisierung von %s zu %s kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk/citydlg.c:2196 client/gui-mui/citydlg.c:554
+#: client/gui-gtk/citydlg.c:2197 client/gui-mui/citydlg.c:554
 #: client/gui-mui/citydlg.c:583 client/gui-mui/worklistclass.c:213
 msgid "Type"
 msgstr "Bezeichnung"
 
-#: client/gui-gtk/citydlg.c:2196 client/gui-mui/citydlg.c:555
+#: client/gui-gtk/citydlg.c:2197 client/gui-mui/citydlg.c:555
 #: client/gui-mui/worklistclass.c:214
 msgid "Info"
 msgstr "Info"
 
-#: client/gui-gtk/citydlg.c:2196 client/gui-gtk/repodlgs.c:582
+#: client/gui-gtk/citydlg.c:2197 client/gui-gtk/repodlgs.c:555
 #: client/gui-mui/citydlg.c:557 client/gui-mui/repodlgs.c:494
 #: client/gui-mui/worklistclass.c:215
 msgid "Cost"
 msgstr "Kosten"
 
-#: client/gui-gtk/citydlg.c:2196
+#: client/gui-gtk/citydlg.c:2197
 msgid "Turns"
 msgstr "Runden"
 
-#: client/gui-gtk/citydlg.c:2213 data/Freeciv:2012
+#: client/gui-gtk/citydlg.c:2214 data/Freeciv:2012
 msgid "Change Production"
 msgstr "Produktion ändern"
 
-#: client/gui-gtk/citydlg.c:2247
+#: client/gui-gtk/citydlg.c:2248
 msgid "Ca_ncel"
 msgstr "A_bbrechen"
 
-#: client/gui-gtk/citydlg.c:2256 client/gui-gtk/menu.c:724
+#: client/gui-gtk/citydlg.c:2257 client/gui-gtk/menu.c:724
 #: client/gui-mui/citydlg.c:1152
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: client/gui-gtk/citydlg.c:2292 client/gui-mui/citydlg.c:526
+#: client/gui-gtk/citydlg.c:2293 client/gui-mui/citydlg.c:526
 #: client/gui-mui/worklistclass.c:107
 msgid "Wonder"
 msgstr "Weltwunder"
 
-#: client/gui-gtk/citydlg.c:2293 client/gui-mui/citydlg.c:528
+#: client/gui-gtk/citydlg.c:2294 client/gui-mui/citydlg.c:528
 #: client/gui-mui/worklistclass.c:104
 msgid "Built"
 msgstr "Fertig"
 
-#: client/gui-gtk/citydlg.c:2294 client/gui-mui/citydlg.c:530
+#: client/gui-gtk/citydlg.c:2295 client/gui-mui/citydlg.c:530
 #: client/gui-mui/worklistclass.c:106
 msgid "Obsolete"
 msgstr "Veraltet"
 
-#: client/gui-gtk/citydlg.c:2507 client/gui-mui/citydlg.c:982
-#: client/gui-xaw/citydlg.c:2538
+#: client/gui-gtk/citydlg.c:2508 client/gui-mui/citydlg.c:982
+#: client/gui-xaw/citydlg.c:2539
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "%s für %d Goldstücke verkaufen?"
 
-#: client/gui-gtk/citydlg.c:2512 client/gui-mui/citydlg.c:987
+#: client/gui-gtk/citydlg.c:2513 client/gui-mui/citydlg.c:987
 #: data/Freeciv:2172
 msgid "Sell It!"
 msgstr "Verkaufen!"
 
-#: client/gui-gtk/citydlg.c:2599
+#: client/gui-gtk/citydlg.c:2600
 msgid "Elvises"
 msgstr "Unterhalter"
 
-#: client/gui-gtk/citydlg.c:2599 client/gui-mui/citydlg.c:1233
-#: client/gui-xaw/citydlg.c:2639
+#: client/gui-gtk/citydlg.c:2600 client/gui-mui/citydlg.c:1233
+#: client/gui-xaw/citydlg.c:2640
 msgid "Scientists"
 msgstr "Forscher"
 
-#: client/gui-gtk/citydlg.c:2599 client/gui-mui/citydlg.c:1234
-#: client/gui-xaw/citydlg.c:2639
+#: client/gui-gtk/citydlg.c:2600 client/gui-mui/citydlg.c:1234
+#: client/gui-xaw/citydlg.c:2640
 msgid "Taxmen"
 msgstr "Steuereintreiber"
 
-#: client/gui-gtk/citydlg.c:2654 data/Freeciv:1449 data/Freeciv:2970
+#: client/gui-gtk/citydlg.c:2655 data/Freeciv:1449 data/Freeciv:2970
 msgid "City Options"
 msgstr "Allgemeine Einstellungen"
 
-#: client/gui-gtk/citydlg.c:2662
+#: client/gui-gtk/citydlg.c:2663
 msgid "New citizens are"
 msgstr "Neue Bürger werden"
 
-#: client/gui-gtk/citydlg.c:2684
+#: client/gui-gtk/citydlg.c:2685
 msgid "Disband if build settler at size 1"
 msgstr "Auflösen, wenn die Stadt Größe 1 hat und Siedler baut"
 
-#: client/gui-gtk/citydlg.c:2689
+#: client/gui-gtk/citydlg.c:2690
 msgid "Auto-attack vs land units"
 msgstr "Landeinheiten automatisch angreifen"
 
-#: client/gui-gtk/citydlg.c:2694
+#: client/gui-gtk/citydlg.c:2695
 msgid "Auto-attack vs sea units"
 msgstr "Marineeinheiten automatisch angreifen"
 
-#: client/gui-gtk/citydlg.c:2699
+#: client/gui-gtk/citydlg.c:2700
 msgid "Auto-attack vs air units"
 msgstr "Luftwaffeneinheiten automatisch angreifen"
 
-#: client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk/citydlg.c:2705
 msgid "Auto-attack vs helicopters"
 msgstr "Helikopter automatisch angreifen"
 
-#: client/gui-gtk/citydlg.c:2708 client/gui-gtk/dialogs.c:2024
+#: client/gui-gtk/citydlg.c:2709 client/gui-gtk/dialogs.c:2024
 #: client/gui-gtk/gamedlgs.c:306 client/gui-gtk/inputdlg.c:100
 #: client/gui-gtk/messagedlg.c:139 client/gui-gtk/wldlg.c:468
 #: client/gui-xaw/inputdlg.c:102 data/Freeciv:1241 data/Freeciv:1272
@@ -6373,7 +6371,7 @@ msgstr "Helikopter automatisch angreifen"
 msgid "Ok"
 msgstr "OK"
 
-#: client/gui-gtk/citydlg.c:2710 client/gui-gtk/cityrep.c:1019
+#: client/gui-gtk/citydlg.c:2711 client/gui-gtk/cityrep.c:1011
 #: client/gui-gtk/dialogs.c:1431 client/gui-gtk/dialogs.c:1540
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:315
 #: client/gui-gtk/inputdlg.c:106 client/gui-gtk/messagedlg.c:147
@@ -6385,20 +6383,19 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: client/gui-gtk/cityrep.c:351
+#: client/gui-gtk/cityrep.c:350
 msgid "No Buildings Available"
 msgstr "Keine Stadterweiterungen erhältlich"
 
-#: client/gui-gtk/cityrep.c:360
+#: client/gui-gtk/cityrep.c:359
 msgid "No Wonders Available"
 msgstr "Keine Weltwunder erhältlich"
 
-#: client/gui-gtk/cityrep.c:373
+#: client/gui-gtk/cityrep.c:372
 msgid "No Units Available"
 msgstr "Keine Einheiten erhältlich"
 
-#: client/gui-gtk/cityrep.c:435 client/gui-gtk/cityrep.c:437
-#: client/gui-gtk/cityrep.c:1161 client/gui-gtk/diplodlg.c:376
+#: client/gui-gtk/cityrep.c:433 client/gui-gtk/diplodlg.c:376
 #: client/gui-gtk/diplodlg.c:388 client/gui-gtk/menu.c:619
 #: client/gui-mui/diplodlg.c:483 client/gui-mui/diplodlg.c:518
 #: client/gui-mui/diplodlg.c:599 client/gui-mui/diplodlg.c:609
@@ -6409,109 +6406,109 @@ msgstr "Keine Einheiten erhältlich"
 msgid "Cities"
 msgstr "Städte"
 
-#: client/gui-gtk/cityrep.c:473 client/gui-mui/cityrep.c:394
+#: client/gui-gtk/cityrep.c:465 client/gui-mui/cityrep.c:394
 msgid "Cen_ter"
 msgstr "_Zentrieren"
 
-#: client/gui-gtk/cityrep.c:478 client/gui-mui/cityrep.c:395
+#: client/gui-gtk/cityrep.c:470 client/gui-mui/cityrep.c:395
 msgid "_Popup"
 msgstr "_Stadt zeigen"
 
-#: client/gui-gtk/cityrep.c:493
+#: client/gui-gtk/cityrep.c:485
 msgid "Change _All"
 msgstr "_Alles ändern"
 
-#: client/gui-gtk/cityrep.c:498 client/gui-mui/cityrep.c:398
+#: client/gui-gtk/cityrep.c:490 client/gui-mui/cityrep.c:398
 msgid "_Refresh"
 msgstr "Neu _Laden"
 
-#: client/gui-gtk/cityrep.c:503
+#: client/gui-gtk/cityrep.c:495
 msgid "_Select"
 msgstr "_Wählen"
 
-#: client/gui-gtk/cityrep.c:716 client/gui-gtk/gotodlg.c:122 data/Freeciv:1141
+#: client/gui-gtk/cityrep.c:708 client/gui-gtk/gotodlg.c:122 data/Freeciv:1141
 msgid "All Cities"
 msgstr "Alle Städte"
 
-#: client/gui-gtk/cityrep.c:722
+#: client/gui-gtk/cityrep.c:714
 msgid "No Cities"
 msgstr "Keine Städte"
 
-#: client/gui-gtk/cityrep.c:728
+#: client/gui-gtk/cityrep.c:720
 msgid "Invert Selection"
 msgstr "Auswahl umkehren"
 
-#: client/gui-gtk/cityrep.c:737
+#: client/gui-gtk/cityrep.c:729
 msgid "Coastal Cities"
 msgstr "Küstenstädte"
 
-#: client/gui-gtk/cityrep.c:743
+#: client/gui-gtk/cityrep.c:735
 msgid "Same Island"
 msgstr "Gleiche Insel"
 
-#: client/gui-gtk/cityrep.c:754 client/gui-mui/citydlg.c:1349
+#: client/gui-gtk/cityrep.c:746 client/gui-mui/citydlg.c:1349
 msgid "Supported Units"
 msgstr "zu unterhaltende Einheiten"
 
-#: client/gui-gtk/cityrep.c:760
+#: client/gui-gtk/cityrep.c:752
 msgid "Units Present"
 msgstr "stationierte Einheiten"
 
-#: client/gui-gtk/cityrep.c:766
+#: client/gui-gtk/cityrep.c:758
 msgid "Available To Build"
 msgstr "Bau möglich"
 
-#: client/gui-gtk/cityrep.c:773
+#: client/gui-gtk/cityrep.c:765
 msgid "Improvements in City"
 msgstr "Stadterweiterungen"
 
-#: client/gui-gtk/cityrep.c:827
+#: client/gui-gtk/cityrep.c:819
 msgid "Game: Select a unit or improvement to change production to."
 msgstr "Spiel: Was soll stattdessen (auf)gebaut werden?"
 
-#: client/gui-gtk/cityrep.c:846 client/gui-xaw/cityrep.c:1079
+#: client/gui-gtk/cityrep.c:838 client/gui-xaw/cityrep.c:1079
 #, c-format
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spiel: Anstatt %s werden jetzt überall %s (auf)gebaut."
 
-#: client/gui-gtk/cityrep.c:870 data/Freeciv:1691
+#: client/gui-gtk/cityrep.c:862 data/Freeciv:1691
 msgid "From:"
 msgstr "Von:"
 
-#: client/gui-gtk/cityrep.c:871 data/Freeciv:1701
+#: client/gui-gtk/cityrep.c:863 data/Freeciv:1701
 msgid "To:"
 msgstr "Zu:"
 
-#: client/gui-gtk/cityrep.c:895 data/Freeciv:1685
+#: client/gui-gtk/cityrep.c:887 data/Freeciv:1685
 msgid "Change Production Everywhere"
 msgstr "Produktion überall verändert."
 
-#: client/gui-gtk/cityrep.c:1011 data/Freeciv:1381 data/Freeciv:1583
+#: client/gui-gtk/cityrep.c:1003 data/Freeciv:1381 data/Freeciv:1583
 #: data/Freeciv:1737 data/Freeciv:2026 data/Freeciv:2974
 msgid "Change"
 msgstr "Ändern"
 
-#: client/gui-gtk/cityrep.c:1064 client/gui-mui/cityrep.c:191
+#: client/gui-gtk/cityrep.c:1056 client/gui-mui/cityrep.c:191
 #: client/gui-xaw/cityrep.c:441
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
 
-#: client/gui-gtk/cityrep.c:1294 data/Freeciv:1666
+#: client/gui-gtk/cityrep.c:1282 data/Freeciv:1666
 msgid "Configure Cities Report"
 msgstr "Stadtbericht: Einstellungen"
 
-#: client/gui-gtk/cityrep.c:1297 client/gui-mui/cityrep.c:300
+#: client/gui-gtk/cityrep.c:1285 client/gui-mui/cityrep.c:300
 #: data/Freeciv:1671
 msgid "Set columns shown"
 msgstr "Gewünschte Spalten markieren:"
 
-#: client/gui-gtk/cityrep.c:1308 client/gui-gtk/dialogs.c:204
+#: client/gui-gtk/cityrep.c:1296 client/gui-gtk/dialogs.c:204
 #: client/gui-gtk/dialogs.c:329 client/gui-gtk/dialogs.c:708
 #: client/gui-gtk/dialogs.c:806 client/gui-gtk/dialogs.c:1793
 #: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:617
-#: client/gui-gtk/inteldlg.c:183 client/gui-gtk/repodlgs.c:250
-#: client/gui-gtk/repodlgs.c:620 client/gui-gtk/repodlgs.c:883
+#: client/gui-gtk/inteldlg.c:184 client/gui-gtk/repodlgs.c:227
+#: client/gui-gtk/repodlgs.c:588 client/gui-gtk/repodlgs.c:841
 #: client/gui-gtk/spaceshipdlg.c:211 client/gui-gtk/wldlg.c:207
 #: data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533
 #: data/Freeciv:578 data/Freeciv:1439 data/Freeciv:1552 data/Freeciv:1648
@@ -7046,7 +7043,7 @@ msgid "Goto/Airlift Unit"
 msgstr "Gehe nach / Fliege nach"
 
 #: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:548
-#: client/gui-mui/mapview.c:275 client/gui-xaw/mapview.c:314
+#: client/gui-mui/mapview.c:276 client/gui-xaw/mapview.c:314
 msgid "Select destination"
 msgstr "Bestimmungsort wählen"
 
@@ -7298,7 +7295,7 @@ msgid "Government: %s"
 msgstr "Regierungsform: %s"
 
 #: client/gui-gtk/inteldlg.c:113 client/gui-mui/inteldlg.c:142
-#: client/gui-mui/mapview.c:221 client/gui-xaw/inteldlg.c:119
+#: client/gui-mui/mapview.c:222 client/gui-xaw/inteldlg.c:119
 #, c-format
 msgid "Gold: %d"
 msgstr "Gold: %d"
@@ -7345,69 +7342,73 @@ msgstr "Hauptstadt: %s"
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
-#: client/gui-gtk/mapctrl.c:75 data/Freeciv:516
+#: client/gui-gtk/mapctrl.c:76 data/Freeciv:516
 msgid "Build New City"
 msgstr "Neue Stadt gründen"
 
-#: client/gui-gtk/mapctrl.c:76 client/gui-mui/mapctrl.c:82
+#: client/gui-gtk/mapctrl.c:77 client/gui-mui/mapctrl.c:82
 #: client/gui-xaw/mapctrl.c:92
 msgid "What should we call our new city?"
 msgstr "Wie soll die neue Stadt heißen?"
 
-#: client/gui-gtk/mapctrl.c:113 client/gui-mui/mapclass.c:131
+#: client/gui-gtk/mapctrl.c:114 client/gui-mui/mapclass.c:131
 #: client/gui-xaw/mapctrl.c:117
 #, c-format
 msgid "Terrain: %s"
 msgstr "Gelände: %s"
 
-#: client/gui-gtk/mapctrl.c:120 client/gui-xaw/mapctrl.c:121
+#: client/gui-gtk/mapctrl.c:121 client/gui-xaw/mapctrl.c:121
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Nahrung/Produktion/Handel: %s"
 
-#: client/gui-gtk/mapctrl.c:129 client/gui-mui/mapclass.c:137
+#: client/gui-gtk/mapctrl.c:130 client/gui-mui/mapclass.c:137
 #: client/gui-xaw/mapctrl.c:126
 msgid "Minor Tribe Village"
 msgstr "Kleine Siedlung"
 
-#: client/gui-gtk/mapctrl.c:135 client/gui-mui/mapclass.c:143
+#: client/gui-gtk/mapctrl.c:136 client/gui-mui/mapclass.c:143
 #, c-format
 msgid "City: %s(%s)"
 msgstr "Stadt: %s(%s)"
 
-#: client/gui-gtk/mapctrl.c:144 client/gui-mui/mapclass.c:151
+#: client/gui-gtk/mapctrl.c:145 client/gui-mui/mapclass.c:151
 #: client/gui-xaw/mapctrl.c:133
 msgid "with City Walls"
 msgstr "mit Stadtmauern"
 
-#: client/gui-gtk/mapctrl.c:151 client/gui-mui/mapclass.c:159
+#: client/gui-gtk/mapctrl.c:152 client/gui-mui/mapclass.c:159
 #: client/gui-xaw/mapctrl.c:138
 msgid "Infrastructure: "
 msgstr "Infrastruktur: "
 
-#: client/gui-gtk/mapctrl.c:169 client/gui-mui/mapclass.c:177
+#: client/gui-gtk/mapctrl.c:160
+msgid "Activity: "
+msgstr "Tätigkeit: "
+
+#: client/gui-gtk/mapctrl.c:177 client/gui-mui/mapclass.c:177
 #: client/gui-xaw/mapctrl.c:153
 #, c-format
 msgid "Unit: %s(%s%s)"
 msgstr "Einheit: %s(%s%s)"
 
-#: client/gui-gtk/mapctrl.c:179 client/gui-mui/mapclass.c:187
+#: client/gui-gtk/mapctrl.c:187 client/gui-mui/mapclass.c:187
 #: client/gui-xaw/mapctrl.c:160
 #, c-format
 msgid "  (%d more)"
 msgstr " (noch %d)"
 
-#: client/gui-gtk/mapctrl.c:182 client/gui-mui/mapclass.c:189
+#: client/gui-gtk/mapctrl.c:190 client/gui-mui/mapclass.c:189
 #: client/gui-xaw/mapctrl.c:164
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "A:%d V:%d FK:%d TP:%d/%d%s%s"
 
-#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:166
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:166
 msgid " V"
 msgstr " V"
 
-#: client/gui-gtk/mapctrl.c:193 client/gui-mui/mapclass.c:202
+#: client/gui-gtk/mapctrl.c:201 client/gui-mui/mapclass.c:202
 #: client/gui-xaw/mapctrl.c:175
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
@@ -7593,8 +7594,7 @@ msgstr "Extras"
 msgid "Pollution & Fallout"
 msgstr "Verschmutzung"
 
-#: client/gui-gtk/menu.c:621 client/gui-gtk/repodlgs.c:859
-#: client/gui-gtk/repodlgs.c:861 client/gui-gtk/repodlgs.c:1031
+#: client/gui-gtk/menu.c:621 client/gui-gtk/repodlgs.c:822
 #: client/gui-mui/gui_main.c:264 client/gui-xaw/menu.c:142
 #: client/gui-xaw/menu.c:197 client/gui-xaw/menu.c:218
 #: client/gui-xaw/repodlgs.c:905 client/gui-xaw/repodlgs.c:1098
@@ -7798,7 +7798,7 @@ msgstr "_Raumschiff"
 #: client/gui-gtk/menu.c:754 client/gui-gtk/menu.c:756
 #: client/gui-gtk/menu.c:758 client/gui-gtk/menu.c:760
 #: client/gui-gtk/menu.c:762 client/gui-gtk/menu.c:764
-#: client/gui-gtk/repodlgs.c:215 client/gui-gtk/wldlg.c:361
+#: client/gui-gtk/repodlgs.c:192 client/gui-gtk/wldlg.c:361
 #: client/gui-gtk/wldlg.c:448 client/gui-mui/gui_main.c:318
 #: client/gui-mui/helpdlg.c:288 client/gui-mui/repodlgs.c:311
 #: data/Freeciv:1970 data/Freeciv:2038 data/Freeciv:2121 data/Freeciv:2127
@@ -8059,134 +8059,117 @@ msgstr "(untätig seit %d Runden)"
 msgid "Game: You need an embassy to establish a diplomatic meeting."
 msgstr "Spiel: Konferenzen können nur in Botschaften stattfinden."
 
-#: client/gui-gtk/repodlgs.c:133 client/gui-mui/repodlgs.c:127
-#: client/gui-xaw/repodlgs.c:151
+#: client/gui-gtk/repodlgs.c:164 client/gui-gtk/repodlgs.c:379
 #, c-format
-msgid ""
-"%s\n"
-"%s of the %s\n"
-"%s %s: %s"
-msgstr ""
-"%s\n"
-"%s der %s\n"
-"%s %s: %s"
+msgid "Research speed: %d turns/advance"
+msgstr "Forschungstempo: %d Runde(n)/Fortschritt"
 
-#: client/gui-gtk/repodlgs.c:186 client/gui-gtk/repodlgs.c:404
-#: client/gui-xaw/repodlgs.c:268 client/gui-xaw/repodlgs.c:504
-#, c-format
-msgid ""
-"\n"
-"(%d turns/advance)"
-msgstr ""
-"\n"
-"(%d Runde(n)/Fortschritt)"
-
-#: client/gui-gtk/repodlgs.c:194
+#: client/gui-gtk/repodlgs.c:171
 msgid "Researching"
 msgstr "Erforsche"
 
-#: client/gui-gtk/repodlgs.c:218 data/Freeciv:1421
+#: client/gui-gtk/repodlgs.c:195 data/Freeciv:1421
 msgid "Goal"
 msgstr "Ziel"
 
-#: client/gui-gtk/repodlgs.c:319 client/gui-gtk/repodlgs.c:502
+#: client/gui-gtk/repodlgs.c:296 client/gui-gtk/repodlgs.c:476
 #, c-format
 msgid "(%d steps)"
 msgstr "(%d Schritte)"
 
-#: client/gui-gtk/repodlgs.c:371 client/gui-gtk/repodlgs.c:379
-#: client/gui-gtk/repodlgs.c:476
+#: client/gui-gtk/repodlgs.c:348 client/gui-gtk/repodlgs.c:356
+#: client/gui-gtk/repodlgs.c:450
 #, c-format
 msgid "Researching Future Tech. %d"
 msgstr "Erforsche Zukunftstechnologie %d"
 
-#: client/gui-gtk/repodlgs.c:581 client/gui-mui/repodlgs.c:492
+#: client/gui-gtk/repodlgs.c:554 client/gui-mui/repodlgs.c:492
 msgid "Building Name"
 msgstr "Gebäude"
 
-#: client/gui-gtk/repodlgs.c:581 client/gui-mui/repodlgs.c:493
+#: client/gui-gtk/repodlgs.c:554 client/gui-mui/repodlgs.c:493
 msgid "Count"
 msgstr "Anzahl"
 
-#: client/gui-gtk/repodlgs.c:582 client/gui-mui/repodlgs.c:495
+#: client/gui-gtk/repodlgs.c:555 client/gui-mui/repodlgs.c:495
 msgid "U Total"
 msgstr "Kosten gesamt"
 
-#: client/gui-gtk/repodlgs.c:616
+#: client/gui-gtk/repodlgs.c:584
 msgid "Total Cost:"
 msgstr "Gesamtkosten:"
 
-#: client/gui-gtk/repodlgs.c:626 data/Freeciv:1819
+#: client/gui-gtk/repodlgs.c:594 data/Freeciv:1819
 msgid "Sell Obsolete"
 msgstr "Verkaufe Veraltetes"
 
-#: client/gui-gtk/repodlgs.c:632 data/Freeciv:1827
+#: client/gui-gtk/repodlgs.c:600 data/Freeciv:1827
 msgid "Sell All"
 msgstr "Alles verkaufen"
 
-#: client/gui-gtk/repodlgs.c:730 client/gui-mui/repodlgs.c:545
+#: client/gui-gtk/repodlgs.c:698 client/gui-mui/repodlgs.c:545
 #: client/gui-xaw/repodlgs.c:770
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s für %d Goldstücke verkauft"
 
-#: client/gui-gtk/repodlgs.c:733 client/gui-mui/repodlgs.c:549
+#: client/gui-gtk/repodlgs.c:701 client/gui-mui/repodlgs.c:549
 #: client/gui-xaw/repodlgs.c:773
 #, c-format
 msgid "No %s could be sold"
 msgstr "%s konnten nicht verkauft werden"
 
-#: client/gui-gtk/repodlgs.c:737 client/gui-mui/repodlgs.c:551
+#: client/gui-gtk/repodlgs.c:705 client/gui-mui/repodlgs.c:551
 #: client/gui-xaw/repodlgs.c:776
 msgid "Sell-Off:"
 msgstr "Ausverkauf:"
 
-#: client/gui-gtk/repodlgs.c:737 client/gui-mui/repodlgs.c:551
+#: client/gui-gtk/repodlgs.c:705 client/gui-mui/repodlgs.c:551
 #: client/gui-xaw/repodlgs.c:776
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: client/gui-gtk/repodlgs.c:802 client/gui-mui/repodlgs.c:665
+#: client/gui-gtk/repodlgs.c:766 client/gui-mui/repodlgs.c:665
 #: client/gui-xaw/repodlgs.c:836
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
-#: client/gui-gtk/repodlgs.c:846 client/gui-mui/repodlgs.c:759
+#: client/gui-gtk/repodlgs.c:809 client/gui-mui/repodlgs.c:759
 msgid "Unit Type"
 msgstr "Einheiten"
 
-#: client/gui-gtk/repodlgs.c:846 client/gui-mui/repodlgs.c:760
+#: client/gui-gtk/repodlgs.c:809 client/gui-mui/repodlgs.c:760
 msgid "U"
 msgstr "Unt."
 
-#: client/gui-gtk/repodlgs.c:846 client/gui-mui/repodlgs.c:761
+#: client/gui-gtk/repodlgs.c:809 client/gui-mui/repodlgs.c:761
 msgid "In-Prog"
 msgstr "im Bau"
 
-#: client/gui-gtk/repodlgs.c:846 client/gui-mui/repodlgs.c:762
+#: client/gui-gtk/repodlgs.c:809 client/gui-mui/repodlgs.c:762
 msgid "Active"
 msgstr "aktiv"
 
-#: client/gui-gtk/repodlgs.c:847 client/gui-mui/repodlgs.c:763
+#: client/gui-gtk/repodlgs.c:810 client/gui-mui/repodlgs.c:763
 msgid "Shield"
 msgstr "Schild"
 
-#: client/gui-gtk/repodlgs.c:879 client/gui-xaw/repodlgs.c:928
+#: client/gui-gtk/repodlgs.c:837 client/gui-xaw/repodlgs.c:928
 msgid "Totals: ..."
 msgstr "Insgesamt: ..."
 
-#: client/gui-gtk/repodlgs.c:889 client/gui-mui/mapclass.c:3195
+#: client/gui-gtk/repodlgs.c:847 client/gui-mui/mapclass.c:3195
 #: data/Freeciv:1893
 msgid "Upgrade"
 msgstr "Modernisieren"
 
-#: client/gui-gtk/repodlgs.c:895 data/Freeciv:1599 data/Freeciv:1744
+#: client/gui-gtk/repodlgs.c:853 data/Freeciv:1599 data/Freeciv:1744
 #: data/Freeciv:1901
 msgid "Refresh"
 msgstr "Neu laden"
 
-#: client/gui-gtk/repodlgs.c:978 client/gui-mui/repodlgs.c:814
+#: client/gui-gtk/repodlgs.c:936 client/gui-mui/repodlgs.c:814
 #: client/gui-xaw/repodlgs.c:1031
 #, c-format
 msgid ""
@@ -8196,8 +8179,8 @@ msgstr ""
 "Möglichst viele %s zu %s modernisieren? Kosten: %d Goldstücke / Einheit?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk/repodlgs.c:985 client/gui-mui/dialogs.c:229
-#: client/gui-xaw/citydlg.c:2665 client/gui-xaw/cityrep.c:687
+#: client/gui-gtk/repodlgs.c:943 client/gui-mui/dialogs.c:229
+#: client/gui-xaw/citydlg.c:2666 client/gui-xaw/cityrep.c:687
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:74
 #: client/gui-xaw/optiondlg.c:187 client/gui-xaw/wldlg.c:1248
 #: data/Freeciv:2141 data/Freeciv:2155 data/Freeciv:2174 data/Freeciv:2354
@@ -8205,8 +8188,8 @@ msgstr ""
 msgid "Yes"
 msgstr "Ja"
 
-#: client/gui-gtk/repodlgs.c:986 client/gui-mui/dialogs.c:230
-#: client/gui-xaw/citydlg.c:2665 client/gui-xaw/cityrep.c:687
+#: client/gui-gtk/repodlgs.c:944 client/gui-mui/dialogs.c:230
+#: client/gui-xaw/citydlg.c:2666 client/gui-xaw/cityrep.c:687
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:74
 #: client/gui-xaw/optiondlg.c:187 client/gui-xaw/wldlg.c:1248
 #: data/Freeciv:2157 data/Freeciv:2176 data/Freeciv:2356 data/Freeciv:2380
@@ -8214,7 +8197,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: client/gui-gtk/repodlgs.c:1082
+#: client/gui-gtk/repodlgs.c:1036
 #, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d"
 msgstr "Gesamt:                     %s%9d%s%9d%s%9d%s%9d"
@@ -9029,7 +9012,7 @@ msgstr "aus"
 msgid "Population: %s"
 msgstr "Bevölkerung: %s"
 
-#: client/gui-mui/mapview.c:222
+#: client/gui-mui/mapview.c:223
 #, c-format
 msgid "Tax:%d Lux:%d Sci:%d"
 msgstr "Ste:%d Lux:%d For:%d"
@@ -9037,6 +9020,17 @@ msgstr "Ste:%d Lux:%d For:%d"
 #: client/gui-mui/messagewin.c:249
 msgid "_Goto Location"
 msgstr "_Gehe nach"
+
+#: client/gui-mui/repodlgs.c:127 client/gui-xaw/repodlgs.c:151
+#, c-format
+msgid ""
+"%s\n"
+"%s of the %s\n"
+"%s %s: %s"
+msgstr ""
+"%s\n"
+"%s der %s\n"
+"%s %s: %s"
 
 #: client/gui-mui/repodlgs.c:165 client/gui-mui/repodlgs.c:379
 #, c-format
@@ -9238,13 +9232,13 @@ msgstr "(leer)"
 msgid "(in prog.)"
 msgstr "(in Arbeit)"
 
-#: client/gui-xaw/citydlg.c:2355 client/gui-xaw/citydlg.c:2372
+#: client/gui-xaw/citydlg.c:2356 client/gui-xaw/citydlg.c:2373
 #: client/gui-xaw/cityrep.c:338 client/gui-xaw/cityrep.c:353
 #, c-format
 msgid "%s (%d) %d turn"
 msgstr "%s (%d) %d Runde"
 
-#: client/gui-xaw/citydlg.c:2355 client/gui-xaw/citydlg.c:2372
+#: client/gui-xaw/citydlg.c:2356 client/gui-xaw/citydlg.c:2373
 #: client/gui-xaw/cityrep.c:338 client/gui-xaw/cityrep.c:353
 #, c-format
 msgid "%s (%d) %d turns"
@@ -9458,6 +9452,15 @@ msgstr "Erforsche: %s: %d/%d"
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
+
+#: client/gui-xaw/repodlgs.c:268 client/gui-xaw/repodlgs.c:504
+#, c-format
+msgid ""
+"\n"
+"(%d turns/advance)"
+msgstr ""
+"\n"
+"(%d Runde(n)/Fortschritt)"
 
 #: client/gui-xaw/repodlgs.c:1150
 #, c-format
