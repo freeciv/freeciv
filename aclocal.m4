@@ -430,17 +430,13 @@ CFLAGS="$fc_x_save_CFLAGS"
 AC_LANG_RESTORE
 ])
 
-dnl FC_CHECK_READLINE_RUNTIME(EXTRA-LIBS, ACTION-IF-FOUND)
+dnl FC_CHECK_READLINE_RUNTIME(EXTRA-LIBS, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 dnl
 dnl This tests whether readline works at runtime.  Here, "works"
 dnl means "doesn't dump core", as some versions do if linked
 dnl against wrong ncurses library.  Compiles with LIBS modified 
 dnl to included -lreadline and parameter EXTRA-LIBS.
 dnl Should already have checked that header and library exist.
-dnl
-dnl If readline "works", or if cross-compiling, defines 
-dnl HAVE_LIBREADLINE and runs ACTION-IF-FOUND.  Otherwise prints 
-dnl a warning (and doesn't define HAVE_LIBREADLINE).
 dnl
 AC_DEFUN(FC_CHECK_READLINE_RUNTIME,
 [AC_MSG_CHECKING(whether readline works at runtime)
@@ -484,13 +480,10 @@ int main(void) {
 }
 ],
 [AC_MSG_RESULT(yes)
-  AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE)
   [$2]],
 [AC_MSG_RESULT(no)
-  AC_MSG_WARN(Readline fails at runtime and will not be used.)
-  AC_MSG_WARN(You probably need to get a newer readline package.)],
+  [$3]],
 [AC_MSG_RESULT(unknown: cross-compiling)
-  AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE)
   [$2]])
 LIBS="$templibs"
 ])
