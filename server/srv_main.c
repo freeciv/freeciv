@@ -617,6 +617,13 @@ static void end_turn(void)
 {
   freelog(LOG_DEBUG, "Endturn");
 
+  /* Output some ranking and AI debugging info here. */
+  if (game.turn % 10 == 0) {
+    players_iterate(pplayer) {
+      gamelog(GAMELOG_INFO, pplayer);
+    } players_iterate_end;
+  }
+
   /* We build scores at the beginning and end of every turn.  We have to
    * build them at the end so that the history report can be built. */
   players_iterate(pplayer) {
@@ -637,13 +644,6 @@ static void end_turn(void)
   make_history_report();
   stdinhand_turn();
   send_player_turn_notifications(NULL);
-
-  /* Output some ranking and AI debugging info here. */
-  if (game.turn % 10 == 0) {
-    players_iterate(pplayer) {
-      gamelog(GAMELOG_INFO, pplayer);
-    } players_iterate_end;
-  }
 
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
