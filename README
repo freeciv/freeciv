@@ -1,0 +1,188 @@
+                           =========================
+      		           Freeciv 1.5 documentation
+                           =========================
+		       
+This archive contains Freeciv version 1.5, a free Civilization clone for 
+Unix and X. This version only allows multiplayer games, which means you 
+can't play against AI computer-players.
+
+
+Compiling and installing:
+=========================
+Please read the file INSTALL for instructions on how to get Freeciv compiled 
+on your machine.  It's really not very hard.
+
+Please notice: Freeciv *must* be linked with the _real_ Athena widget 
+               library(libXaw), and not one of the substitutions like 
+	       libXaw3d etc.  If Freeciv is linked with a substitute, the
+               client will crash.
+
+Starting a new game:
+===================
+Server:
+
+  start the server:
+  % civserver
+
+  Help on command-line options can be obtained with the --help option.
+
+  get a list of the available commands with 'h':
+  >h
+  Available commands
+  -------------------------------------
+  c P      - cut connection to player
+  h        - this help
+  l        - list players
+  q        - quit game and shutdown server
+  remove P - fully remove player from game
+  score    - show current score
+  show     - list server options
+  help     - help on server options
+  set      - set options
+  s        - start game
+  meta S   - set the metastring to S
+
+  Now use the 'set' command to set the various variables for the game. 
+  You can get a list of the variables with the 'show' command.
+  
+  You can get option-specific help with: help <option>
+
+  For example:
+
+  > help xsize
+  Affects: Width of map in squares
+  Minimum 40, Maximum 100, Default 80
+
+  > set xsize 100
+  > set ysize 80
+
+  This will make the map slightly bigger than the default (80x50).
+
+Client:
+  Now all the players that want to participate in the game should join. 
+  Suppose the server is running on the machine 'io'. Then players would 
+  join with a command like:
+
+  % civclient -server io
+
+Server:
+  When everybody has joined (use the (l)ist command to see who's in), the
+  server-op starts the game with the (s)start command:
+  > s
+  starting game.
+
+And the game is on!
+
+
+Playing the game:
+=================
+The server-op can save the game at any time using the 'save' command,
+like so:
+
+> save mygame
+
+As for the the clients, everything is pretty much as you would expect from
+a multiplayer civilization game. That is, the players move at the same time.
+There's a turn timeout value, which is by default set to 0 seconds (no
+timeout). The server-op can alter this value at any time with the 'set'
+command.
+
+Have a look at the online help system. All three mouse-buttons are used,
+and documented in the help.
+
+Players can push the 'Return' key to announce the end of their turn, or just
+push the 'Turn done' button.
+
+Use the 'Players' dialog to see who has announced their end of turn, and who
+you're waiting for.  (Hey feller, are you asleep or what?? ;).
+
+Use the input line at the bottom of the window for broadcasting messages to
+other players.
+You can send a message to an individual player (say, 'peter') like so:
+
+  peter: move that armor away *NOW*!
+
+
+Ending the game:
+================
+There are two ways in which a game can end:
+
+1) Only one race is left.
+2) The final year is reached.
+
+A score-table will be shown in both cases. 
+Hint: The server-op can set the final year at run-time by changing the 
+end-year variable. This is nice when the winner is obvious, but you don't
+want to play through the boring 'cleanup phase'.
+
+
+Restoring games, and playing scenarios:
+=========================================
+
+You can restore a saved game by using the '-f' server option, eg:
+
+  % civserver -f oursave2001.sav
+
+Now the players can join the game:
+
+  % civclient -n Alexander -s io
+  
+Notice how the player-name is specified with the -n option. It's vital
+that the player uses the same name if they're to be allowed in.
+
+The server-op can now start the game with 's' as usual. Notice that
+additional players can join the game even if it has been started.
+
+Server autostart
+=================
+When the maximum number of players have connected, the server auto-starts.
+The maximum number of players can be set with the 'maxplayers' variable.
+
+
+Scenarios
+=======
+The procedure for loading a scenario is the same as for restoring a saved game.
+The scenarios are located in the 'freeciv/scenarios/' directory.
+
+As for saved games, you can start a scenario by using the '-f' server option.
+
+  % civserver -f scenarios/crecy-4.sav
+
+The server-op can get a list of allowed player-names in the scenery by
+typing 'l'.
+
+The server-op can then start the game with 's' as usual.
+Note: Read the .txt files in the scenarios/ directory.
+
+
+Bugs:
+=====
+Should you find any bugs then please send us an email specifying what's
+wrong. It might be helpful for us if you specify which OS/version/compiler
+you're using.  (Try typing 'uname -a').
+
+The Freeciv team maintains a bug-list at the Freeciv homepage(address below).
+
+
+Homepage:
+=========
+We maintain a homepage for the game at:
+  http://www.daimi.aau.dk/~allan/freeciv.html
+
+You should check out the page, as it contains much more information than
+this file and the online help. This is also where we'll inform people about 
+new releases/bugs/fixes/competitions, etc.
+
+
+New Releases:
+=============
+New releases will first be made available at:
+  ftp://ftp.daimi.aau.dk/pub/stud/pjunold/freeciv
+
+Have fun and now go give'em hell!
+
+  The Freeciv Team:
+  
+     Allan Ove Kjeldbjerg - allan@daimi.aau.dk
+     Claus Leth Gregersen - leth@daimi.aau.dk
+     Peter Joachim Unold  - pjunold@daimi.aau.dk

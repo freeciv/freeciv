@@ -1,0 +1,293 @@
+                          Freeciv Hacker's Guide
+			  
+This guide is intended to be a help for developers, wanting to mess with
+Freeciv program. 
+
+Here and there, you'll see some comments marked as [...], containing more
+personal thoughts on the design, why it looks like it does, and sometimes what 
+went wrong. I hope developers will find that interesting too.
+
+===========================================================================
+Basic
+===========================================================================
+Freeciv is a client/server civilization style of game, written in C.
+The client is pretty dumb. Almost all calculations is performed on the
+server. 
+
+[It wasn't like this always. Originally more code was placed in the
+common/ dir, allowing the client to do some of the world updates itself. 
+The end_of_turn city-refresh was for example performed both on the server 
+and on the client. However things got quite complex, more and more info
+was needed on the client-side(security prob). Little by little we moved more 
+code to the server, and as of 1.5 the client is quite dumb -PU]
+
+===========================================================================
+Server
+===========================================================================
+General:
+
+The server main loop basically looks like:
+
+  while(server_state==RUN_GAME_STATE) { /* looped once per turn */
+    do_ai_stuff();   /* do the ai controlled players */
+    sniff_packets(); /* get player requests and handle them */
+    end_turn();      /* main turn update */
+    game_next_year();
+  }
+
+
+Most time is spend in the sniff_packets() function, where a select()
+call waits for packets or input on stdin(server-op commands).
+
+===========================================================================
+Datastructures
+===========================================================================
+If you study the code, you'll soon come upon the genlist contructs.
+The genlist is a simple double-linked list, into which any kind of 
+data can be inserted. The basic genlist is only used in a few places,
+as it's completly type-unsafe(void*).
+However the genlist is used as a "base-class" for some typesafe versions,
+which are used all over the program. unit_list is just one example:
+
+struct unit_list {
+  struct genlist list;
+};
+
+Here's an example of how to use an iterater, to scan a genlist:
+
+{
+  struct unit_list *punit_list;
+  struct genlist_iterator myiter;
+  .....
+  
+  genlist_iterator_init(&myiter, &punit_list->list, 0);
+  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+    punit=(struct unit *)ITERATOR_PTR(myiter);
+    if(unit_can_defend_here(punit) && rate_unit(punit, aunit)>bestvalue) {
+      bestvalue=rate_unit(punit, aunit);
+      bestdef=punit;
+    }
+  }
+}
+
+First the iterator is initialized with the list.
+
+ITERATOR_PTR(myiter) is a macro, returning a void* to the element
+pointed to by the iterator, NULL if the iterator doesn't point to
+an element.
+ITERATOR_NEXT(myiter) moves the iterator one element forward.
+
+Careful! The above idiom with the for-contruct can be pretty lethal!
+If you inside the for-loop removes the element pointed to by myiter,
+then ITERATOR_NEXT(myiter) will probably return garbage.
+
+The following example shows a correct way of removing genlist elements
+while iterating through the list.
+
+  for(; ITERATOR_PTR(myiter);) {
+    struct unit *punit2=(struct unit *)ITERATOR_PTR(myiter);
+    ITERATOR_NEXT(myiter); /* !!! */
+    send_remove_unit(0, punit2->id);
+    game_remove_unit(punit2->id);
+  }
+
+As of 1.5.3 a number of high-level macros for scanning genlists have
+been made. The above loop can now be written as:
+
+  unit_list_iterate(punit_list, punit)
+    send_remove_unit(0, punit->id);
+    game_remove_unit(punit->id);
+  unit_list_iterate_end;
+
+[The genlist was in theory a good idea. However the implementation turned
+out quite crappy. The typecasting shouldn't have been necessary and using
+some more macro-magic, the much-used scan_all_the_list case could have
+been handled much more elegant. Well Claus just did this for 1.5.3 -PU]
+
+=========================================================================
+Network and packets
+=========================================================================
+The basic netcode is located in server/sernet.c and client/clinet.c.
+Notice the XtAppAddInput() call in clinet, that tells Xt to call
+the callback functions, when soemthing happens on the client socket.
+
+All information passed between the server and clients, is send as
+serialized packet structures. These packets structures are all
+defined in common/packets.h.
+
+For each packet, there's two corresponding send and receive functions:
+
+int send_packet_unit_combat(struct connection *pc, 
+                            struct packet_unit_combat *packet);
+struct packet_unit_combat *recieve_packet_unit_combat(struct connection *pc);
+
+Each of these functions (de-)serializes a bytestream representation of
+the corresponding packet. Each entry in a packet-structure is
+(de-)serialized using architecture independent function such as
+get_int32() and put_int32().
+
+To demonstrate the route for a packet through the system, here's how
+a unit disband is performed.
+
+1)  A player disbands a unit.
+2)  The client initializes a packet_unit_request structure, and calls the
+    packet layer with this structure and packet type: PACKET_UNIT_DISBAND
+3)  The packet layer serialiazes the structure, wraps it up in a packet
+    containing the type, the packetlength and the serialized data. Finally
+    the data is send to the server.
+4)  On the server the packet is read. Based on the type, the corresponding
+    deserialize function is called. 
+5)  a packet_unit_request is initialized with the bytestream.
+6)  Finally the corresponding packet-handler(handle_unit_disband) function
+    is called with the newly constructed structure.
+7)  The handler function checks if the disband request is legal(is the sender
+    really the owner of the unit) etc.
+8)  The unit is disbanded=> wipe_unit() => send_remove_unit().
+9)  Now an integer, containing the id of the disbanded unit is
+    wrapped into a packet along with the type PACKET_REMOVE_UNIT:
+    send_packet_generic_integer
+10) The packet is serialized and send across the network
+11) On the client the packet is deserialized into a packet_generic_integer
+    structure
+12) The corresponding client handler function is now called 
+    handle_remove_unit(), and finally the unit is disbanded.
+    
+Notice that both packets involved in this scenery was generic packets.
+That is the packet structures involved, are used in various requests
+and updated. The packet_unit_request is for example also used for
+the packets PACKET_UNIT_BUILD_CITY and PACKET_UNIT_CHANGE_HOMECITY.
+
+When adding a new packet type, then check to see if you can reuse
+some of the existing packet types. This saves you the trouble of
+writing new serialize/deserialize functions.
+
+[The packet system started out as a pain and it stayed that way all the time. 
+After using Java's object serialize system, this handcoded serialize
+code really feels like the stoneage. That said, I fear it requires some
+advanced pre-processing system etc to automate the task for C structures. -PU]
+
+=========================================================================
+Graphics
+=========================================================================
+Currently the graphics is stored in the xpm fileformat, and accordingly
+loaded using libxpm.
+
+If you alter the graphics, then notice that after saving the new xpm
+file, you must manually mark the first color as transparent. Look at
+the original xpm-files, to see how this is done. Failing to do this
+results in crash(the mask-pixmaps will not be generated).
+
+Each terrain tile is drawn in 16 versions, all the combinations with
+with a green border in one of the main directions. Hills, mountains,
+forests and rivers are treated in special cases.
+
+[IMO we should have gotten rid of libxpm long ago. The graphics should
+be drawn in 24bit, and then quantizied runtime, if the client is displayed
+on a pseudocolor display. 
+The current tile system should be converted to something like civ2's.
+They get away with drawing way less tiles, and it looks better. -PU]
+
+=========================================================================
+Diplomacy
+=========================================================================
+A few words about the diplomacy system. When a diplomacy meeting is
+established, a Treaty structure is created on both of the clients and
+on the server. All these structures are updated concurrently as clauses
+are added and removed.
+
+[There might be a bug somewhere in this system, if a player involved in
+diplomacy loses link. I'm not sure the server Treaty is removed, making
+it impossible to establish a new Treaty between the two players -PU]
+
+=========================================================================
+Map 
+=========================================================================
+The map is maintained in a pretty straightforward C array, containing
+X*Y tiles. However the 'known' field needs a comment.
+
+struct tile {
+  ...
+  unsigned short known;
+  ...
+};
+
+One the server the known fields is considered to be a bitvector, one
+bit for each player, 0==tile unknown, 1==tile known.
+On the client this field contains one of the following 3 values:
+
+enum known_type {
+ TILE_UNKNOWN, TILE_KNOWN_NODRAW, TILE_KNOWN
+};
+
+The values TILE_UNKNOWN, TILE_KNOWN is straightforward. 
+TILE_KNOWN_NODRAW however is a special value, given to all unknown tiles,
+sharing border with a known. Because of how the tile-drawing system works,
+the client has to know the terrain and specials of such tiles.
+
+[If I was to recode this, I'd drop the ugly TILE_KNOWN_NODRAW value,
+and have the server tell me excact which kind of graphics should be
+drawn at each tile. -PU]
+
+=========================================================================
+Client GUI- Athena 
+=========================================================================
+The client GUI is written using athena-widgets. A few comments on this 
+could prove useful for anyone wishing to write new dialogs or improve
+on the current ones.
+
+Widgets:
+--------
+When you create new widgets for a dialog, like:
+
+  players_form = XtVaCreateManagedWidget("playersform", 
+				       formWidgetClass, 
+				       players_dialog_shell, NULL);
+
+then put the widget properties in the app-default file 'Freeciv', instead
+of hardcoding them. For the widget created above, the following entries
+in the app-default file applies:
+
+*playersform.background:          lightblue
+*playersform.resizable:           true
+*playersform.top:                 chainTop
+*playersform.bottom:              chainBottom
+*playersform.left:                chainLeft
+*playersform.right:               chainRight
+
+Pixcomm and Canvas:
+-------------------
+The Pixcomm is a subclassed Command-widget, which can displays a Pixmap
+instead of a string, on top of a button(command). The Pixcomm widget
+should be used all places where this kind of high-level functionality
+is required. 
+
+The Canvas widget is more low-level. One have to write an expose(redraw)
+event-handler for each widget. The widget generates events on resize
+and mousebuttons.
+
+[Reading any Xt documentation, will tell you how powerful widget
+subclassing is. So I went trough great troubles subclassing the
+command widget. It was not before long I got mails from unhappy Xaw3d
+(and derives) users, that the client keeps crashing on them. Turns
+out that subclassing from any widgets but Core, chains the new
+widgets to libXaw. In hindsight I should just subclassed the Canvas
+widget and add more highlevel functionality. -PU]
+
+
+
+
+===========================================================================
+Misc - The idea trashcan 
+===========================================================================
+[Currently all of the major entities - units, cities, players, contains
+an unique id. This id is really only required when a reference to an entity
+is to be serialized(saved or distributed over the net). However in the
+current code, the id is also used for comparing, looking up and in general
+referencing entities. This results in a lot of mess, unnessesary duplicate
+functions. Often when programming, one wondering if some function needs
+the id or a pointer when refering to an entity. -PU]
+
+[Currently there's a 1-to-1 mapping between players and connections. Some
+interesting results could be archived, if more connections could be attached
+to a single player(race). That way 2 persons could play cooperate, splitting 
+the work between them. -PU]

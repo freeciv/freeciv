@@ -1,0 +1,391 @@
+TODO:
+
+ - goto should be looked at, unit with moves left after goto is not active 
+   anylonger.
+
+1.5.3
+- Highlevel genlist iterators for unitlist and citylist iterating
+  has been introduced. 
+- The include/ directory has been removed. The include files has been
+  put into the corresponding common/ server/ client/ dirs.
+- Some server files has been split into smaller modules.
+- Freeciv Hacker's Guide included.
+- Last references to the old Militia unit removed from the help.
+
+1.5.2
+- Mitch did alot for this release:
+-   Added support for none 30x30 sized tiles.
+-   Removed a bunch of warnings
+-   Went through the helpdata.tx file and corrected and added alot
+-   Fixed a nasty spell-bug: goverment -> government
+-   Much much more
+- Jan Echternach fixed a bug in the worker placement code
+- AI code has been better structured.  
+- Some bugs related with the helpbrowser fixed
+- Some visual improvements here and there
+
+1.5.1
+- The resource file is now version checked
+- Fixed bug with long names
+- There will be no netscape unit,and the explorer can't be uninstalled!(sue me)
+- After loading a game, partisans would only be given to the player with the
+  lowest index. Keep the fixes and bug reports coming
+  Due to a missing entry in the save file as Rajala Ilkka reported
+  and provided a patch for.
+- Sorry but due to a missing entry in the save file as Rajala Ilkka reported
+  and provided a patch for.
+  After loading a game, partisans would only be given to the player with the
+  lowest index.
+- There was another wrap bug, which resulted in buggy worker assignment.
+- Worked alot on the AI, still it plays like a child.
+- The AI work has resulted in a better automatic build algorithm, there
+  is alot of work to here still.
+1.5.0
+- removed some of the micromanagement, extra prod points are transfered
+  to the next build.
+- Fixed the help texts, now someone needs to fix my grammar..
+- Added zoc message as people doesn't understand the rules.
+- ai server command, to toggle AI on a player. Now we just need the AI code.
+- AI value added to the saveformat, so new minor level is required
+  Don't think it's doing anything yet...
+- automatic worker allocation scheme has been modified further, cities less
+  than size 4 will go for citygrowth, now prefer 210 tiles over 102. 
+- new help dialog
+- nuke tiles moved. auto tile added.
+
+1.4.6
+
+- Hohensee's pointed out that Beatles sings 'You say you wanna revolution'
+- fixed bug with players joined a loaded game with the same name
+- autostart when #players==maxplayers after loading
+- New server connection dialog
+- Now foodbox just have to be full, not overfull to increase city size
+- Massimo Campostrini, sent a patch fixing bug with missing gameinfo
+- Alpine troops, and explorers now benefits from railroads
+- initial steps to AI has been made. 
+- turns taken to perform irrigation and mining  has been altered.
+- Airborne units can now goto from one continent to another
+- Fixed 2 bugs in autosettlers, 1. they could crash the server, 2. they now 
+  start immediately on their tasks.
+- man pages included to please the Debian rules
+- Michael Hohensee wrote a very nice HOWTOPLAY text
+- Richard Braakman fixes bug related to detecting savefile error
+- Removed all warnings reported by gcc -Wall
+- Rewrote sniff_packets() main loop to periodically send reports
+  to the meta-server.
+- New 'meta' server command.
+
+1.4.5
+- the subject list box in the help-dialog is now properly updated
+  when an item is selected
+- renumber player updated
+- subs updated - hate them forever
+
+1.4.4
+- Players nolonger starts on top of huts - Mitch
+- Spy's now work, and a major bug in diplomacy has been fixed.
+- modified settler assignment a bit, weights production a bit higher now.
+- Yet more cosmetic changes by Mitch
+- Nuke bug spotted by James Blackwell
+
+1.4.3
+- Mitch Davis send us 4 patches, which fixes quite a few spelling
+  mistakes and alot of sourcecode improvements and some Makefile
+  fixes.
+  Fixed Submarines, can now carry 8 missiles
+  Carriers and subs can't carry ground units anymore, still were a bug
+
+1.4.2
+- fixed bug with colliding global vars
+- fixed bug with missing char, when server vars was set
+
+1.4.1
+- fixed bug in load code
+- initial metaserver support added
+
+1.4.0
+- when players looses connection before the game is started,
+  they're removed from the game.
+- correct end of turn when the last player cuts link
+- remove player command added to server
+- goto algorithm has been improved thanks to Rene Schalburg
+- new random generator, hope things now are more random.
+- submarines now works...
+- Engineers works as double speed settlers, can't do organizing
+- submarines are now invisible
+- airlifts and city goto implemented, shortcut is 'l'
+- Carriers can only carry planes and missiles now.
+- Marine flag added, to add support for amphibious attack
+- ground/air unit capability added (helicopter) 
+  Helicopters can take cities etc.. and don't need to refuel.
+  allthough they will loose 1 hp per round out of city.
+- Aegis cruisers got double defense against attack from airborne units.
+- leonardo's workshop will now only work if you actually got the damn thing. 
+- totally redesigned help pages.
+- The remaining units has been added.. 
+1.3.1
+- Lighthouse now let you produce veteran sea units aswell.
+- Got a new neat compiler, that could give more intelligent warnings.
+  removed alot of unnecessary variables.
+- Added a modified version of leonardo's workshop, (invention)
+  will upgrade 1 unit/round, will remove veteranstatus.
+- altered the autoplace worker algorithm yet again, now i think it
+  works decently (well atleast it suits my playstile)
+- veteran status wasn't updated on the client side.
+- upgrade units in active units dialog. allows you to upgrade your old out of
+  date units, that is in a city square to a new and more modern version.
+  will cost you some gold tho.. the side effect of this is leonardo's workshop
+  which i'm still not sure if i want to incorporate or not.
+- u for unload ship
+- 'all' button on the wake up units
+- Found one of the ancient gigantic bugs, and a fix for it 
+  as it was, units didn't get a homecity on the server before the game was
+  saved and reloaded, now this will help alot for the game balance. 
+- Peter Skov fixed the problem with saving before game has started in a neat
+  way by saving the settings instead of a game, this means you can make your
+  favorite settings then save them to a file which you can use later on.
+  with the -f server switch. 
+- can't change all the map dependent options after the game has started.. 
+- fixed a little problem with the help button on the science dialog.
+- removed a bug that had sneaked into the support of units calculations.
+- compiled it with some strict options and found a few minor bugs..
+- added a civ1-2 switch but it doesn't do anything yet. need a voluenteer
+  to do the civ1 tech tree and unit-building dependencies.
+- The unit values  and the techtree has been checked and has been adjusted 
+  according to civ 2.42 rules.
+
+1.3.0
+- Peter Skov added the following client features & server fixes
+    * help in the city dialog on the units/buildings you can build.
+    * a help toggle in the science dialog, if you turn it on, you won't change
+      techs, rather it will show the help for this tech.
+    * buy and change buttons in the city report, eases the pain of managing 
+      your cities. 
+    * there had sneaked a bug into top-5 cities, which has also been fixed
+
+- port facility added, if naval unit is build in city with port facility
+  unit will be veteran, repairment of a ship in a city with port facility
+  only takes 1 turn
+- Airport added on server, need to do a client command to activate them
+  airborne units will be fully repaired in a city with a airport in 1 turn
+  and will initially be veteran if build in a city with airport 
+- new techs added radio, machine tools, amphibious warfare
+- Shuffles players randomly at new turn, so the first player that connected
+  doesn't get the wonder when 2 people are building the same wonder in the
+  same round. 
+
+1.2.0
+- Extra fast unit info when middle clicking on an unit on the map 
+  (attack, defense, firepower)
+- Fortresses wasn't saved correctly in the save file.
+- Cities are now properly refreshed at end of turn.
+- can't buy units when cities are in disorder anymore.
+- buildings unnecessary due to wonders like the granaries to pyramids, don't
+  show on the build list anymore, if you have an unnecessary building already
+  it will be marked with (*)
+- autobuild  needed serious fixing, is better now. Still not ideal 
+- Made a new mapgenerator, that works on minimum 80x50 maps
+  which will make 7 equal sized islands. Still alot of fiddling to do with
+  it but it should make things alot more fair.
+  So set generator 2 to try the new map generator.
+  And keep the number of players below 8....
+- changed the "auto choose place to put worker algorithm" a bit now it
+  favors huge amounts of trade and production over food.
+
+1.1.6 (never released)
+- SDI now give double defense against missile attacks, thats a 
+  multiplier by 4 together with SAM batteries..
+- SAM batteries added. Double defense against aircrafts
+- supermarkets added. 50% food bonus on irrigated tiles
+- Hoover dam can now be build, an and should have been an or :)
+- Fixed problem with king richards crusade.
+- Fixed problem with cruise missiles.
+- Fixed problem with martial law under communism and monarchy 
+- Fixed problem with wonders not seemingly working first turn after reload
+- think i fixed the change tech stuff, now it's not reset on the client
+  if you change tech in the round you get one.. Maybe..
+
+1.1.5 (never released (except for 2 persons))
+- the city growth can now be adjusted with the foodbox server option
+  used instead of the standard 10 multiplier of citysize to determine when
+  a city will grow
+- number of buildings that will be razed if you conquer or loose a city is
+  now a game variable, namely razechance. Palaces will always be destroyed..
+- oops fortresses beneath cities gave 100% defense bonus. don't anymore
+  units in cities and fortresses always count as fortified.
+  coastal fortresses is needed to protect cities, a citywall just won't do
+  it anymore. same count for bombers, but there is no defense against them.
+  since SAM site haven't been made yet. 
+- Hanging gardens converts content to happy if possible, other wonders
+  converts unhappy to content.
+- Caught in city, a ship used to have 1 in defense, now it has its usual 
+  defense, but only 1 in firepower instead.
+- Changed the messages when a unit(s) dies. (tells which city if on a city 
+  square and what units died always)
+- Found some crash bugs while debugging, goto could kill server if unit died 
+  while gotoing. (my settler did a goto into a hut with barbarians)
+- Changed obsolete tech test, to unit testing in the unit list.
+  makes things easier, and more readable.
+- remaining units, techs, buildings has been added, but looped..
+  just to make sure future savefiles will be consistent, if we want to have 
+  them in the game.
+1.1.4 (beta tested by 4-5 persons)
+- new flags:
+  igwall    ignore citywalls, counts for artillery, 
+  generates extra unhappy under  republic and democracy (as it has always been)
+- happy/content/unhappy fixed according to civ2 rules, be careful out there,
+  it's harder now to keep cities happy. 
+  (took me a bloody sunday to figure how the exact formula works) 
+- cruiser missiles was to cheap, costs 60 now instead of 40, 
+  and their firepower is now 3, reduced its hp to 10.
+- armor had firepower 2, fixed.
+- carriers only 9 defense now, 2 firepower 40 hp's instead.
+
+- got rid of year 0. A nasty hack was needed , but we were getting too many
+  reports about it.
+
+- percent penalty instead of 0 when changing tech default 100 
+- foodbox server option default 10
+- fixed a few bugs in mapgen.c (landmass and swamp is now used)
+
+  o settlers costs 2 food under communism now.
+  o cities did loose size by naval or air bombardements, doesn't anymore.
+
+o cities did loose size by naval or air bombardements, doesn't anymore.
+  o can only build fortresses after invention of construction
+  o can't fortify naval or airborne units anymore.
+  o happiness calculations was buggy, among other things colloseums gives
+    +4 instead of +3 after development of electricty.
+    the luxury and wonder happy calculations has been modified a bit..
+  o cities only give a 50% bonus on defense, city walls still give a 200% bonus
+    and since they don't cost much in maintainance. Go Build them.
+  o movement changes:
+    - unit move rates, scaled by lost hp's. allthough land based units have 
+      atleast 1 move, naval units 2, and air units isn't affected
+    - moves and fuel wasn't in the savefiles, they are now.
+    - discover nuclear power and get + 1 move for naval units.
+
+  o getting a city in a goody hut didn't add a road beneath the city.
+
+o ver 1.0k - August 10
+  o server freeze bug fixed thanks to Stefan Andersson.
+  o various other bugs fixed too.
+
+o ver 1.0j - Apr 8 
+  o Pillage could be done by settlers only. This isn't correct, actually should
+    be doable by all land based units, except settlers, caravans & diplomats..
+  o Now units with 0 attack/defence power will ALWAYS loose in battle.
+  o Reported By Andrew Donkin and patches aswell :).
+    - Could make unlimited # of trade routes... Fixed 
+    - Units gained hp by building fortresses not when fortified .... Fixed  
+  o Problem with nukes, could nuke the server :). 
+    Fixed (well not first time i said that) 
+    (Reported By Christian Bricart).
+  o Problems with list of available tech after getting techs one way or 
+    another is hopefully fixed. (noone has been cheated, tech was correct, 
+    but the researchable list was not updated.)
+  o Tried to fix rolling thunder tactics. new server option cityfactor which
+    modify the unhappysize this way: 
+    newunhappysize = unhappysize - #cities/(cityfactor - (5-goverment))
+    eg. under monarchy with 25 cities, unhappysize 5, cityfactor 14  
+    you'll have a newunhappysize of 5 - 25/(14-(5-2)) = 3 ...
+    that is lots of cities and low goverment forms, will give unhappiness. 
+  o Diplomat treaties are unbalancing the game. Now you have a new variable 
+    that can reduce the effect of tech-trading, techcost. Whenever you get a 
+    free tech  it'll cost you techcost percent of a normal research cost, 
+    to incorporate  it in your society. Standard this variable is 25%. 
+    Setting it to 0 will  give you the standard behaviour. So don't look 
+    startled if you suddenly have a negative number of tech bulbs.   
+  o Tax-Trade-Luxury calculation tended to favor Tax when distributing. Fixed..
+  o Goodie huts changed a bit: 
+    - different units in huts depending on tech level.
+    - no barbarians if hut is in city radius.
+    - advanced tribes added.
+  o Seperate Popup windows added (see the Game menu (Mes Options)), more to
+    be added later.
+  o Message Window added, with goto location button.  
+  o fixed minor textual details
+    (eg.when someone you have contact with gains tech)
+  o autosettlers added, use this option at your own risk..
+    Press A to activate them.
+  o New server option cavalry, allows players to start with a number of 
+    cavalry.
+  o Game will not start before Minplayers has connected. 
+  o buffed lighthouse, now owner will not loose triremes at sea. 
+  o Diplomats will now be able to defend cities, against other diplomats.
+  o Rivers only costs 1/3 movepoint to travel on.
+  o Altered the startposition algorithm, should even out things abit.
+    A side effect of this lets small maps eg 40x25 work, server used to loop..
+    (well atleast for a reasonable amount of players)
+o ver 1.0h - feb 16
+  Massimo Campostrini once again supplied us with historical correct
+  citynames - this time for the Aztecs.
+  Proper error message when the xpm files can't be opened.
+  Panner widget allow resizing of chat window.
+  A huge pile of bugs, reported to us by Goswin Brederlow, has been
+  fixed.
+  Pedantic detail: Default setting of game-save interval was 1. 
+  Correct value is 10.
+  Notification added when player with whom you have an embassy invents 
+  something. 
+  Game will end if only one player is alive.
+  Announcement of building wonders now include which city that builds it.
+  Notifies attacker if his attack was succesful or not
+  resets light bulbs at end of turn if player gets a tech. 
+  Check every turn if units on ocean has transporters enough.
+  If wonder was autobuild it wouldn't be announced. (fixed)
+  Bug in mapgen.c fixed, start positions could be real close.
+  Added a steal flag to the city structure, can only be stolen once from
+  every city now, restarts if the city has been conquered. Don't know if this
+  is correct..
+  Trade Routes are now modified according to the continental rules.
+  (both cities on same continents halfes the output).
+  Hoover dam and Michelangelo's Chapel only affects the continent
+  on which they have been built.
+  Gaining a free tech in huts worked before but gave a wrong message, 
+  this has been fixed aswell.
+  Fixed bug located by Robert Wilton, in unit_activity_text()
+  Fixed zone of control bug, now you can always enter and leave a city.
+  saved alot of cycles in goto, no affect on game play. 
+
+o ver 1.0f - jan 26
+  The X resource leak fixed. Citynames initial go. Now handling the
+  wm_delete_window event.
+  Ouch that genlist fix in 1.0e made another bug visible in the
+  transporter code. Stephan Boettcher patched that and fixed bug
+  with carriers not carrying planes.
+
+o ver 1.0e - jan 26
+  Applied patches submited by Massimo Campostrini, concerning citynames
+  and diplomat action messages.
+  Fixed nasty leak in the pixcomm widget. Fixed leak in genlist's 
+  unlink().
+
+o ver 1.0d - jan 19
+  Applied patches submitted by Hans Petter Bieker, to fix bugs in
+  clinet.c and unithand.c.
+  Included spanish translation of the help-file - submitted by 
+  Anselmo Perez Serrada.
+  The city-report now contains some more data.
+  The main info widget is now clickable, to produce a small
+  popup, containing some more info.
+
+o ver 1.0c - jan 12
+  Fixed bug in citydialog introduced in 1.0b. Made the code handling the
+  overview map much more efficient. Let X parse command line options.
+  Hopefully fixed problem with viewport widget's width in the diplomacy
+  dialog on some setups.
+
+o ver 1.0b - jan 11
+  Fixed problem with Pixcomm widget, which caused the city dialog
+  to crash on some setups.
+
+o ver 1.0a - jan 8
+  Applied large patch by Warwick Allison - fixing many spelling mistakes 
+  and lots of other stuff. Fixed problem with units not showing up in the 
+  left bar. Fixed bug with cities with size 0. 
+
+o ver 1.0  - jan  5 - 1996
+  first release
+  
+

@@ -1,0 +1,2180 @@
+!
+!                        freeciv resource file
+!
+!
+! none widgets resources
+! gotAppDefFile MUST be the first entry!
+*gotAppDefFile:                       True
+*server:                              localhost
+*port:                                5555
+*version:                             1.5.3
+*connectdialog.cform.background: lightblue
+
+*connectdialog.*.cheadline.label: Freeciv Server Selection
+*connectdialog.*.cheadline.background: grey
+*connectdialog.*.cheadline.foreground: black
+*connectdialog.*.cheadline.width: 300
+
+*connectdialog.*.cnamel.label: Name
+*connectdialog.*.cnamel.fromVert: cheadline
+*connectdialog.*.cnamel.background: grey
+*connectdialog.*.cnamel.foreground: black
+*connectdialog.*.cnamei.fromVert: cheadline
+*connectdialog.*.cnamei.fromHoriz: cnamel
+*connectdialog.*.cnamei.*.editType: edit
+*connectdialog.*.cnamei.width: 256
+
+*connectdialog.*.chostl.label: Host
+*connectdialog.*.chostl.fromVert: cnamel
+*connectdialog.*.chostl.background: grey
+*connectdialog.*.chostl.foreground: black
+*connectdialog.*.chosti.fromVert: cnamel
+*connectdialog.*.chosti.fromHoriz: chostl
+*connectdialog.*.chosti.*.editType: edit
+*connectdialog.*.chosti.width: 256
+
+
+*connectdialog.*.cportl.label: Port
+*connectdialog.*.cportl.fromVert: chostl
+*connectdialog.*.cportl.background: grey
+*connectdialog.*.cportl.foreground: black
+
+*connectdialog.*.cporti.fromVert: chostl
+*connectdialog.*.cporti.fromHoriz: cportl
+*connectdialog.*.cporti.*.editType: edit
+*connectdialog.*.cporti.width: 256
+
+*connectdialog.*.cconnectc.label: Connect
+*connectdialog.*.cconnectc.fromVert: cportl
+
+*connectdialog.*.cquitc.label: Quit
+*connectdialog.*.cquitc.fromVert: cportl
+*connectdialog.*.cquitc.fromHoriz: cconnectc
+
+*connectdialog.*.cconnectc.background: blue
+*connectdialog.*.cconnectc.foreground: white
+*connectdialog.*.cquitc.background: blue
+*connectdialog.*.cquitc.foreground: white
+
+
+
+!
+! inteligence dialog
+!
+*intelpopup.title:
+*intelform.background:                lightblue
+
+*inteltitlelabel.background:          grey
+*inteltitlelabel.foreground:          black
+ 
+*intelnamelabel.fromVert:             inteltitlelabel
+*intelnamelabel.background:           lightgrey
+*intelnamelabel.foreground:           black
+
+*intelgovlabel.fromVert:              inteltitlelabel
+*intelgovlabel.fromHoriz:             intelnamelabel
+*intelgovlabel.background:            lightgrey
+*intelgovlabel.foreground:            black
+
+*intelgoldlabel.fromVert:             intelnamelabel
+*intelgoldlabel.background:           lightgrey
+*intelgoldlabel.foreground:           black
+
+*inteltaxlabel.fromVert:              intelnamelabel
+*inteltaxlabel.fromHoriz:             intelgoldlabel
+*inteltaxlabel.background:            lightgrey
+*inteltaxlabel.foreground:            black
+
+*intelscilabel.fromVert:              intelnamelabel
+*intelscilabel.fromHoriz:             inteltaxlabel
+*intelscilabel.background:            lightgrey
+*intelscilabel.foreground:            black
+
+*intelluxlabel.fromVert:              intelnamelabel
+*intelluxlabel.fromHoriz:             intelscilabel
+*intelluxlabel.background:            lightgrey
+*intelluxlabel.foreground:            black
+
+*intelreslabel.fromVert:              intelgoldlabel
+*intelreslabel.background:            lightgrey
+*intelreslabel.foreground:            black
+
+*inteltechlist.fromVert:            intelreslabel
+*inteltechlist.forceColumns:        true
+*inteltechlist.defaultColumns:      3
+*inteltechlist.verticalList:        true
+*inteltechlist.background:          cyan
+*inteltechlist.resizable:           true
+
+*intelclosecommand.label:             Close
+*intelclosecommand.fromVert:          inteltechlist
+*intelclosecommand.foreground:        white
+*intelclosecommand.background:        blue
+
+!*.font:            *-courier-bold-r-normal--12-*
+!*.Font:            *-courier-bold-r-normal--12-*
+
+Freeciv.title: Freeciv
+Freeciv.iconName: Freeciv
+*borderColor: black
+
+
+!
+! tile info popup dialog
+!
+*popupinfo.*.background:                  grey
+*popupinfo.*.foreground:                  black
+
+
+!
+! generic message dialog
+!
+*dform.background: lightblue
+*dlabel.background: lightblue
+*dform.button0.background: blue
+*dform.button1.background: blue
+*dform.button2.background: blue
+*dform.button3.background: blue
+*dform.button4.background: blue
+*dform.button5.background: blue
+
+*dform.button0.foreground: white
+*dform.button1.foreground: white
+*dform.button2.foreground: white
+*dform.button3.foreground: white
+*dform.button4.foreground: white
+*dform.button5.foreground: white
+
+!
+! generic input dialog
+!
+*iform.borderWidth: 0
+*iform.ilabel.borderWidth: 0
+*iform.background: lightblue
+*iform.ilabel.background: lightblue
+
+*iform.iokcommand.background: blue
+*iform.icancelcommand.background: blue
+*iform.iokcommand.foreground: white
+*iform.icancelcommand.foreground: white
+
+!
+! Player to player diplomacy meeting dialog
+!
+*dippopupshell.title: Diplomacy meeting
+*dippopupshell.allowShellResize: True
+*dipform.background:              lightblue
+*dipform.resizable:               true
+*dipform0.background:             grey
+*dipform0.resizable:              true
+*dipform1.background:             grey
+*dipform1.resizable:              true
+*dipformm.fromHoriz:              dipform0
+*dipformm.background:             grey
+*dipformm.foreground:             black
+
+*dipform1.fromHoriz:              dipformm
+*dipmainform.background:          lightblue
+*dipmainform.resizable:           true
+
+*dipheadline0.top:                chainTop
+*dipheadline0.bottom:             chainTop
+*dipheadline0.left:               chainLeft
+*dipheadline0.right:              chainRight
+*dipheadline0.background:         grey
+
+*dipheadline1.top:                chainTop
+*dipheadline1.bottom:             chainTop
+*dipheadline1.left:               chainLeft
+*dipheadline1.right:              chainRight
+*dipheadline1.background:         grey
+
+*dipheadlinem.borderWidth:        0
+*dipheadlinem.background:         grey
+*dipheadlinem.foreground:         black
+*dipheadlinem.justify:            center
+
+*dipclauselabel.label: The following clauses have been agreed upon:
+*dipclauselabel.fromVert:         dipheadlinem
+*dipclauselabel.borderWidth:      0
+*dipclauselabel.background:       lightgrey
+*dipclauselabel.foreground:       black
+
+*dipview.fromVert:                dipclauselabel
+*dipview.allowVert:               True
+
+*dipclauselist.background:        lightgrey
+*dipclauselist.foreground:        black
+*dipclauselist.defaultColumns:    1
+*dipclauselist.forceColumns:      true
+
+*dipacceptlabel0.label:            Babylonian view:
+*dipacceptlabel0.fromVert:         dipview
+*dipacceptlabel0.borderWidth:      0
+*dipacceptlabel0.background:       lightgrey
+*dipacceptlabel0.foreground:       black
+*dipacceptlabel0.borderWidth:      0
+
+*dipacceptthumb0.fromVert:         dipview
+*dipacceptthumb0.fromHoriz:        dipacceptlabel0
+*dipacceptthumb0.Width:            30
+*dipacceptthumb0.Height:           30
+*dipacceptthumb0.internalWidth:    0
+*dipacceptthumb0.internalHeight:   0
+
+*dipacceptlabel1.label:            \ \ \ Babylonian view:
+*dipacceptlabel1.fromHoriz:        dipacceptthumb0
+*dipacceptlabel1.fromVert:         dipview
+*dipacceptlabel1.borderWidth:      0
+*dipacceptlabel1.background:       lightgrey
+*dipacceptlabel1.foreground:       black
+
+*dipacceptthumb1.fromVert:         dipview
+*dipacceptthumb1.fromHoriz:        dipacceptlabel1
+*dipacceptthumb1.Width:            30
+*dipacceptthumb1.Height:           30
+*dipacceptthumb1.internalWidth:    0
+*dipacceptthumb1.internalHeight:   0
+
+*diperaseclausecommand.label:      Erase clause
+*diperaseclausecommand.fromVert:   dipformm
+*diperaseclausecommand.fromHoriz:  dipform0
+*diperaseclausecommand.foreground: white
+*diperaseclausecommand.background: blue
+
+*dipmapmenubutton0.label:             Maps
+*dipmapmenubutton0.foreground:        white
+*dipmapmenubutton0.background:        blue
+*dipmapmenubutton0.fromVert:          dipheadline0
+*dipmapmenubutton0.top:               chainTop
+*dipmapmenubutton0.bottom:            chainTop
+*dipmapmenubutton0.left:              chainLeft
+*dipmapmenubutton0.right:             chainRight
+
+*dipmapmenubutton1.label:             Maps
+*dipmapmenubutton1.foreground:        white
+*dipmapmenubutton1.background:        blue
+*dipmapmenubutton1.fromVert:          dipheadline1
+*dipmapmenubutton1.top:               chainTop
+*dipmapmenubutton1.bottom:            chainTop
+*dipmapmenubutton1.left:              chainLeft
+*dipmapmenubutton1.right:             chainRight
+
+*diptechmenubutton0.label:         Advances
+*diptechmenubutton0.fromVert:      dipmapmenubutton0
+*diptechmenubutton0.foreground:    white
+*diptechmenubutton0.background:    blue
+*diptechmenubutton0.top:           chainTop
+*diptechmenubutton0.bottom:        chainTop
+*diptechmenubutton0.left:          chainLeft
+*diptechmenubutton0.right:         chainRight
+
+*diptechmenubutton1.label:         Advances
+*diptechmenubutton1.fromVert:      dipmapmenubutton1
+*diptechmenubutton1.foreground:    white
+*diptechmenubutton1.background:    blue
+*diptechmenubutton1.top:           chainTop
+*diptechmenubutton1.bottom:        chainTop
+*diptechmenubutton1.left:          chainLeft
+*diptechmenubutton1.right:         chainRight
+
+*dipgoldinput0.foreground:        black
+*dipgoldinput0.background:        white
+*dipgoldinput0.fromVert:          diptechmenubutton0
+*dipgoldinput0.top:               chainTop
+*dipgoldinput0.bottom:            chainTop
+*dipgoldinput0.left:              chainLeft
+*dipgoldinput0.right:             chainRight
+*dipgoldinput0.Width:             60
+*dipgoldinput0.*.editType:        edit
+
+*dipgoldinput1.foreground:        black
+*dipgoldinput1.background:        white
+*dipgoldinput1.fromVert:          diptechmenubutton1
+*dipgoldinput1.top:               chainTop
+*dipgoldinput1.bottom:            chainTop
+*dipgoldinput1.left:              chainLeft
+*dipgoldinput1.right:             chainRight
+*dipgoldinput1.Width:             60
+*dipgoldinput1.*.editType:        edit
+
+*dipgoldlabel0.label:             Gold(max 100)
+*dipgoldlabel0.borderWidth:       0
+*dipgoldlabel0.background:        lightgrey
+*dipgoldlabel0.foreground:        black
+*dipgoldlabel0.fromHoriz:         dipgoldinput0
+*dipgoldlabel0.fromVert:          diptechmenubutton0
+*dipgoldlabel0.top:               chainTop
+*dipgoldlabel0.bottom:            chainTop
+*dipgoldlabel0.left:              chainLeft
+*dipgoldlabel0.right:             chainRight
+
+*dipgoldlabel1.label:             Gold(max 9999)
+*dipgoldlabel1.borderWidth:       0
+*dipgoldlabel1.background:        lightgrey
+*dipgoldlabel1.foreground:        black
+*dipgoldlabel1.fromHoriz:         dipgoldinput1
+*dipgoldlabel1.fromVert:          diptechmenubutton1
+*dipgoldlabel1.top:               chainTop
+*dipgoldlabel1.bottom:            chainTop
+*dipgoldlabel1.left:              chainLeft
+*dipgoldlabel1.right:             chainRight
+
+*dipacceptcommand.label:          Accept treaty
+*dipacceptcommand.fromVert:       dipmainform
+*dipacceptcommand.foreground:     white
+*dipacceptcommand.background:     blue
+
+*dipclosecommand.label:           Cancel meeting
+*dipclosecommand.fromVert:        dipmainform
+*dipclosecommand.fromHoriz:       dipacceptcommand
+*dipclosecommand.foreground:      white
+*dipclosecommand.background:      blue
+
+*notifyheadline.background:   grey
+*notifyheadline.foreground:   black
+*notifyheadline.top:          chainTop
+*notifyheadline.bottom:       chainTop
+*notifyheadline.left:         chainLeft
+*notifyheadline.right:        chainLeft
+
+*notifylabel.borderWidth:  0
+*notifylabel.fromVert:     notifyheadline
+*notifylabel.top:          chainTop
+*notifylabel.bottom:       chainTop
+*notifylabel.left:         chainLeft
+*notifylabel.right:        chainLeft
+
+*notifycommand.fromVert:   notifylabel
+*notifycommand.background: blue
+*notifycommand.foreground: white
+*notifycommand.label:      Close
+*notifycommand.top:        chainTop
+*notifycommand.bottom:     chainTop
+*notifycommand.left:       chainLeft
+*notifycommand.right:      chainLeft
+
+*notifygotocommand.fromVert:   notifylabel
+*notifygotocommand.fromHoriz:   notifycommand
+*notifygotocommand.background: blue
+*notifygotocommand.foreground: white
+*notifygotocommand.label:      Goto and Close
+*notifygotocommand.top:        chainTop
+*notifygotocommand.bottom:     chainTop
+*notifygotocommand.left:       chainleft
+*notifygotocommand.right:      chainLeft
+*notifyform.background: lightblue
+*notifylabel.background: lightblue
+
+!
+! new city name dialog
+!
+*shellnewcityname.title: 
+*shellnewcityname*iinput*background: white
+*shellnewcityname*iinput*foreground: black
+
+
+!
+! rename city dialog
+!
+*shellrenamecity.title: 
+*shellrenamecity*iinput*background: white
+*shellrenamecity*iinput*foreground: black
+
+*unitselectdialogshell.title: 
+*unitselectform.unitselectclosecommand.background: blue
+*unitselectform.unitselectclosecommand.foreground: white
+*unitselectform.unitselectclosecommand.label: Close
+
+*unitselectform.unitselectallcommand.background: blue
+*unitselectform.unitselectallcommand.foreground: white
+*unitselectallcommand.label: Ready all
+*unitselectallcommand.fromHoriz:   unitselectclosecommand
+
+*unitselectform*background: lightblue
+*unitselectform*foreground: black
+
+
+!
+! Help dialog
+!
+*helpdialog.title: Freeciv Help Browser
+*helpdialog.*.helpform.background: lightblue
+*helpdialog.*.helpviewport.allowVert: True
+*helpdialog.*.helpviewport.top:      chainTop
+*helpdialog.*.helpviewport.bottom:   chainBottom
+*helpdialog.*.helpviewport.left:     chainLeft
+*helpdialog.*.helpviewport.right:    chainLeft
+*helpdialog.*.helpviewport.Height: 350
+
+*helpdialog.*.helplist.defaultColumns: 1
+*helpdialog.*.helplist.forceColumns: true
+*helpdialog.*.helplist.background: cyan
+*helpdialog.*.helplist.foreground: black
+
+
+*helpdialog.*.helptext.label: Transporter
+*helpdialog.*.helptext.Width: 532
+*helpdialog.*.helptext.Height: 250
+*helpdialog.*.helptext.top:      chainTop
+*helpdialog.*.helptext.bottom:   chainTop
+*helpdialog.*.helptext.left:     chainLeft
+*helpdialog.*.helptext.right:    chainRight
+*helpdialog.*.helptext.borderWidth: 1
+
+*helpdialog.*.helptext.*.textoptions: 
+
+*helpdialog.*.helptext.fromVert: helptitle
+*helpdialog.*.helptext.justify:  left
+*helpdialog.*.helptext.*.background: grey
+*helpdialog.*.helptext.*.foreground: black
+*helpdialog.*.helptext.*displayCaret: false
+*helpdialog.*.wrap: word
+
+*helpdialog.*.helpclosecommand.label: Close
+*helpdialog.*.helpclosecommand.foreground: White
+*helpdialog.*.helpclosecommand.background: Blue
+*helpdialog.*.helpclosecommand.fromVert: helpviewport
+*helpdialog.*.helpclosecommand.top:      chainBottom
+*helpdialog.*.helpclosecommand.bottom:   chainBottom
+*helpdialog.*.helpclosecommand.left:     chainLeft
+*helpdialog.*.helpclosecommand.right:    chainLeft
+
+*helpdialog.*.helprightform.fromHoriz: helpviewport
+
+!*helpdialog.*.helprightform.width: 300
+*helpdialog.*.helprightform.height: 200
+
+*helpdialog.*.helprightform.top: chainTop
+*helpdialog.*.helprightform.bottom: chainBottom
+*helpdialog.*.helprightform.left: chainLeft
+*helpdialog.*.helprightform.right: chainRight
+*helpdialog.*.helprightform.borderwidth: 0
+
+
+*helpdialog.*.helprightform.background: lightblue
+
+!*helpdialog.helpform.width:500
+
+*helpdialog.*.*helptitle.label: 0123456789012345678901234567890123456789012345678901234567890123456789
+!*helpdialog.*.*helptitle.width: 400
+
+*helpdialog.*.*helptitle.background: grey
+*helpdialog.*.*helptitle.foreground: black
+
+*helpdialog.*.*helptitle.top: chainTop
+*helpdialog.*.*helptitle.bottom: chainTop
+*helpdialog.*.*helptitle.left: chainLeft
+*helpdialog.*.*helptitle.right: chainRight
+
+*helpdialog.*.helpimprcost.foreground: black
+*helpdialog.*.helpimprcost.background: grey
+*helpdialog.*.helpimprcost.fromVert: helptext
+*helpdialog.*.helpimprcost.label: Cost:
+*helpdialog.*.helpimprcost.left: chainLeft
+*helpdialog.*.helpimprcost.right: chainLeft
+*helpdialog.*.helpimprcost.top: chainTop
+*helpdialog.*.helpimprcost.bottom: chainTop
+
+*helpdialog.*.helpimprcostdata.foreground: black
+*helpdialog.*.helpimprcostdata.background: lightblue
+*helpdialog.*.helpimprcostdata.fromVert: helptext
+*helpdialog.*.helpimprcostdata.fromHoriz: helpimprcost
+*helpdialog.*.helpimprcostdata.label: 111\ 
+*helpdialog.*.helpimprcostdata.borderWidth: 0
+*helpdialog.*.helpimprcostdata.justify: Left
+*helpdialog.*.helpimprcostdata.left: chainLeft
+*helpdialog.*.helpimprcostdata.right: chainLeft
+*helpdialog.*.helpimprcostdata.top: chainTop
+*helpdialog.*.helpimprcostdata.bottom: chainTop
+
+*helpdialog.*.helpimprupkeep.foreground: black
+*helpdialog.*.helpimprupkeep.background: grey
+*helpdialog.*.helpimprupkeep.fromVert: helptext
+*helpdialog.*.helpimprupkeep.fromHoriz: helpimprcostdata
+*helpdialog.*.helpimprupkeep.label: Upkeep:
+*helpdialog.*.helpimprupkeep.left: chainLeft
+*helpdialog.*.helpimprupkeep.right: chainLeft
+*helpdialog.*.helpimprupkeep.top: chainTop
+*helpdialog.*.helpimprupkeep.bottom: chainTop
+
+*helpdialog.*.helpimprupkeepdata.foreground: black
+*helpdialog.*.helpimprupkeepdata.background: lightblue
+*helpdialog.*.helpimprupkeepdata.fromVert: helptext
+*helpdialog.*.helpimprupkeepdata.fromHoriz: helpimprupkeep
+*helpdialog.*.helpimprupkeepdata.label: 111\ 
+*helpdialog.*.helpimprupkeepdata.borderWidth: 0
+*helpdialog.*.helpimprupkeepdata.justify: Left
+*helpdialog.*.helpimprupkeepdata.left: chainLeft
+*helpdialog.*.helpimprupkeepdata.right: chainLeft
+*helpdialog.*.helpimprupkeepdata.top: chainTop
+*helpdialog.*.helpimprupkeepdata.bottom: chainTop
+
+*helpdialog.*.helpimprreq.foreground: black
+*helpdialog.*.helpimprreq.background: grey
+*helpdialog.*.helpimprreq.fromVert: helpimprcost
+*helpdialog.*.helpimprreq.label: Requirement:
+*helpdialog.*.helpimprreq.left: chainLeft
+*helpdialog.*.helpimprreq.right: chainLeft
+*helpdialog.*.helpimprreq.top: chainTop
+*helpdialog.*.helpimprreq.bottom: chainTop
+
+*helpdialog.*.helpimprreqdata.foreground: black
+*helpdialog.*.helpimprreqdata.background: lightblue
+*helpdialog.*.helpimprreqdata.fromVert: helpimprcost
+*helpdialog.*.helpimprreqdata.fromHoriz: helpimprreq
+*helpdialog.*.helpimprreqdata.label: Genetic Engineering
+*helpdialog.*.helpimprreqdata.borderWidth: 0
+*helpdialog.*.helpimprreqdata.justify: Left
+*helpdialog.*.helpimprreqdata.left: chainLeft
+*helpdialog.*.helpimprreqdata.right: chainLeft
+*helpdialog.*.helpimprreqdata.top: chainTop
+*helpdialog.*.helpimprreqdata.bottom: chainTop
+
+*helpdialog.*.helptree.fromVert: helpimprreq
+*helpdialog.*.helptree.gravity: east
+*helpdialog.*.helptree.background: lightblue
+*helpdialog.*.helptree.borderWidth: 0
+*helpdialog.*.helptree.bottom: chainBottom
+*helpdialog.*.helptree.top:    chainTop
+*helpdialog.*.helptree.left:   chainLeft
+*helpdialog.*.helptree.right:  chainRight
+
+
+*helpdialog.*.helpwonderobsolete.foreground: black
+*helpdialog.*.helpwonderobsolete.background: grey
+*helpdialog.*.helpwonderobsolete.fromVert: helpimprcost
+*helpdialog.*.helpwonderobsolete.fromHoriz: helpimprreqdata
+*helpdialog.*.helpwonderobsolete.label: Obsolete by:
+*helpdialog.*.helpwonderobsolete.left: chainLeft
+*helpdialog.*.helpwonderobsolete.right: chainLeft
+*helpdialog.*.helpwonderobsolete.top: chainTop
+*helpdialog.*.helpwonderobsolete.bottom: chainTop
+
+*helpdialog.*.helpwonderobsoletedata.foreground: black
+*helpdialog.*.helpwonderobsoletedata.background: lightblue
+*helpdialog.*.helpwonderobsoletedata.fromVert: helpimprcost
+*helpdialog.*.helpwonderobsoletedata.fromHoriz: helpwonderobsolete
+*helpdialog.*.helpwonderobsoletedata.label: Genetic Engineering
+*helpdialog.*.helpwonderobsoletedata.left: chainLeft
+*helpdialog.*.helpwonderobsoletedata.right: chainLeft
+*helpdialog.*.helpwonderobsoletedata.top: chainTop
+*helpdialog.*.helpwonderobsoletedata.bottom: chainTop
+*helpdialog.*.helpwonderobsoletedata.borderWidth: 0
+*helpdialog.*.helpwonderobsoletedata.justify: Left
+
+*helpdialog.*.treenode.background: grey
+*helpdialog.*.treenode.label: Yo
+
+*helpdialog.*.helpunitattack.fromVert: helptext
+*helpdialog.*.helpunitattack.fromHoriz: helpunitcostdata
+*helpdialog.*.helpunitattack.label: Attack:
+*helpdialog.*.helpunitattack.left: chainLeft
+*helpdialog.*.helpunitattack.right: chainLeft
+*helpdialog.*.helpunitattack.top: chainTop
+*helpdialog.*.helpunitattack.bottom: chainTop
+*helpdialog.*.helpunitattack.foreground: black
+*helpdialog.*.helpunitattack.background: grey
+
+*helpdialog.*.helpunitattackdata.fromVert: helptext
+*helpdialog.*.helpunitattackdata.fromHoriz: helpunitattack
+*helpdialog.*.helpunitattackdata.label: 1\ 
+*helpdialog.*.helpunitattackdata.left: chainLeft
+*helpdialog.*.helpunitattackdata.right: chainLeft
+*helpdialog.*.helpunitattackdata.top: chainTop
+*helpdialog.*.helpunitattackdata.bottom: chainTop
+*helpdialog.*.helpunitattackdata.foreground: black
+*helpdialog.*.helpunitattackdata.background: lightblue
+*helpdialog.*.helpunitattackdata.borderWidth: 0
+
+*helpdialog.*.helpunitdef.fromVert: helptext
+*helpdialog.*.helpunitdef.fromHoriz: helpunitattackdata
+*helpdialog.*.helpunitdef.label: Defense:
+*helpdialog.*.helpunitdef.left: chainLeft
+*helpdialog.*.helpunitdef.right: chainLeft
+*helpdialog.*.helpunitdef.top: chainTop
+*helpdialog.*.helpunitdef.bottom: chainTop
+*helpdialog.*.helpunitdef.foreground: black
+*helpdialog.*.helpunitdef.background: grey
+
+*helpdialog.*.helpunitdefdata.fromVert: helptext
+*helpdialog.*.helpunitdefdata.fromHoriz: helpunitdef
+*helpdialog.*.helpunitdefdata.label: 1\ 
+*helpdialog.*.helpunitdefdata.left: chainLeft
+*helpdialog.*.helpunitdefdata.right: chainLeft
+*helpdialog.*.helpunitdefdata.top: chainTop
+*helpdialog.*.helpunitdefdata.bottom: chainTop
+*helpdialog.*.helpunitdefdata.foreground: black
+*helpdialog.*.helpunitdefdata.background: lightblue
+*helpdialog.*.helpunitdefdata.borderWidth: 0
+
+*helpdialog.*.helpunitmove.fromVert: helptext
+*helpdialog.*.helpunitmove.fromHoriz: helpunitdefdata
+*helpdialog.*.helpunitmove.label: Move:
+*helpdialog.*.helpunitmove.left: chainLeft
+*helpdialog.*.helpunitmove.right: chainLeft
+*helpdialog.*.helpunitmove.top: chainTop
+*helpdialog.*.helpunitmove.bottom: chainTop
+*helpdialog.*.helpunitmove.foreground: black
+*helpdialog.*.helpunitmove.background: grey
+
+*helpdialog.*.helpunitmovedata.fromVert: helptext
+*helpdialog.*.helpunitmovedata.fromHoriz: helpunitmove
+*helpdialog.*.helpunitmovedata.label: 1\ 
+*helpdialog.*.helpunitmovedata.left: chainLeft
+*helpdialog.*.helpunitmovedata.right: chainLeft
+*helpdialog.*.helpunitmovedata.top: chainTop
+*helpdialog.*.helpunitmovedata.bottom: chainTop
+*helpdialog.*.helpunitmovedata.foreground: black
+*helpdialog.*.helpunitmovedata.background: lightblue
+*helpdialog.*.helpunitmovedata.borderWidth: 0
+
+*helpdialog.*.helpunithp.fromVert: helpunitcost
+*helpdialog.*.helpunithp.fromHoriz: helpunitfpdata
+*helpdialog.*.helpunithp.label: Hitpoints:
+*helpdialog.*.helpunithp.left: chainLeft
+*helpdialog.*.helpunithp.right: chainLeft
+*helpdialog.*.helpunithp.top: chainTop
+*helpdialog.*.helpunithp.bottom: chainTop
+*helpdialog.*.helpunithp.foreground: black
+*helpdialog.*.helpunithp.background: grey
+
+*helpdialog.*.helpunithpdata.fromVert: helpunitcost
+*helpdialog.*.helpunithpdata.fromHoriz: helpunithp
+*helpdialog.*.helpunithpdata.label: 1\ 
+*helpdialog.*.helpunithpdata.left: chainLeft
+*helpdialog.*.helpunithpdata.right: chainLeft
+*helpdialog.*.helpunithpdata.top: chainTop
+*helpdialog.*.helpunithpdata.bottom: chainTop
+*helpdialog.*.helpunithpdata.foreground: black
+*helpdialog.*.helpunithpdata.background: lightblue
+*helpdialog.*.helpunithpdata.borderWidth: 0
+
+*helpdialog.*.helpunitfp.fromVert: helpunitcost
+*helpdialog.*.helpunitfp.label: Firepower:
+*helpdialog.*.helpunitfp.left: chainLeft
+*helpdialog.*.helpunitfp.right: chainLeft
+*helpdialog.*.helpunitfp.top: chainTop
+*helpdialog.*.helpunitfp.bottom: chainTop
+*helpdialog.*.helpunitfp.foreground: black
+*helpdialog.*.helpunitfp.background: grey
+
+*helpdialog.*.helpunitfpdata.fromVert: helpunitcost
+*helpdialog.*.helpunitfpdata.fromHoriz: helpunitfp
+*helpdialog.*.helpunitfpdata.label: 1\ 
+*helpdialog.*.helpunitfpdata.left: chainLeft
+*helpdialog.*.helpunitfpdata.right: chainLeft
+*helpdialog.*.helpunitfpdata.top: chainTop
+*helpdialog.*.helpunitfpdata.bottom: chainTop
+*helpdialog.*.helpunitfpdata.foreground: black
+*helpdialog.*.helpunitfpdata.background: lightblue
+*helpdialog.*.helpunitfpdata.borderWidth: 0
+
+*helpdialog.*.helpunitcost.fromVert: helptext
+*helpdialog.*.helpunitcost.label: Cost:
+*helpdialog.*.helpunitcost.left: chainLeft
+*helpdialog.*.helpunitcost.right: chainLeft
+*helpdialog.*.helpunitcost.top: chainTop
+*helpdialog.*.helpunitcost.bottom: chainTop
+*helpdialog.*.helpunitcost.foreground: black
+*helpdialog.*.helpunitcost.background: grey
+
+*helpdialog.*.helpunitcostdata.fromVert: helptext
+*helpdialog.*.helpunitcostdata.fromHoriz: helpunitcost
+*helpdialog.*.helpunitcostdata.label: 1\ \ 
+*helpdialog.*.helpunitcostdata.left: chainLeft
+*helpdialog.*.helpunitcostdata.right: chainLeft
+*helpdialog.*.helpunitcostdata.top: chainTop
+*helpdialog.*.helpunitcostdata.bottom: chainTop
+*helpdialog.*.helpunitcostdata.foreground: black
+*helpdialog.*.helpunitcostdata.background: lightblue
+*helpdialog.*.helpunitcostdata.borderWidth: 0
+
+
+!
+! Find city dialog
+!
+*finddialog.title:
+*finddialog.*.findlabel.label: Select a city:
+*finddialog.*.findlabel.borderWidth: 0
+*finddialog.*.findlabel.background: lightblue
+
+*finddialog.*.findform.background: lightblue
+
+*finddialog.*.findviewport.fromVert: findlabel
+*finddialog.*.findviewport.allowVert: True
+
+*finddialog.*.findlist.defaultColumns: 1
+*finddialog.*.findlist.forceColumns: true
+*finddialog.*.findlist.background: cyan
+
+*finddialog.*.findcentercommand.label: Center
+*finddialog.*.findcentercommand.foreground: White
+*finddialog.*.findcentercommand.background: Blue
+*finddialog.*.findcentercommand.fromVert: findviewport
+
+*finddialog.*.findcancelcommand.label: Cancel
+*finddialog.*.findcancelcommand.foreground: White
+*finddialog.*.findcancelcommand.background: Blue
+*finddialog.*.findcancelcommand.fromVert: findviewport
+*finddialog.*.findcancelcommand.fromHoriz: findcentercommand
+
+!
+! goto city dialog
+!
+*gotodialog.title:
+*gotodialog.*.gotolabel.label: Select destination:
+*gotodialog.*.gotolabel.borderWidth: 0
+*gotodialog.*.gotolabel.background: lightblue
+
+*gotodialog.*.gotoform.background: lightblue
+
+*gotodialog.*.gotoviewport.fromVert: gotolabel
+*gotodialog.*.gotoviewport.allowVert: True
+
+*gotodialog.*.gotolist.defaultColumns: 1
+*gotodialog.*.gotolist.forceColumns: true
+*gotodialog.*.gotolist.background: cyan
+
+*gotodialog.*.gotocentercommand.label: Goto
+*gotodialog.*.gotocentercommand.foreground: White
+*gotodialog.*.gotocentercommand.background: Blue
+*gotodialog.*.gotocentercommand.fromVert: gotoviewport
+
+*gotodialog.*.gotoairliftcommand.label: Airlift
+*gotodialog.*.gotoairliftcommand.foreground: White
+*gotodialog.*.gotoairliftcommand.background: Blue
+*gotodialog.*.gotoairliftcommand.fromVert: gotoviewport
+*gotodialog.*.gotoairliftcommand.fromHoriz: gotocentercommand
+
+*gotodialog.*.gotocancelcommand.label: Cancel
+*gotodialog.*.gotocancelcommand.foreground: White
+*gotodialog.*.gotocancelcommand.background: Blue
+*gotodialog.*.gotocancelcommand.fromVert: gotoviewport
+*gotodialog.*.gotocancelcommand.fromHoriz: gotoairliftcommand
+
+!
+! Present units dialog in city dialog
+!
+*presentunitsdialog.title:
+*presentunitsdialog.*.dlabel.borderWidth:  0
+*presentunitsdialog.*.button0.label:     Activate unit
+*presentunitsdialog.*.button0.fromVert:  dlabel
+*presentunitsdialog.*.button0.width:     200
+
+*presentunitsdialog.*.button1.label:     Activate unit, close dialog
+*presentunitsdialog.*.button1.fromVert:  button0
+*presentunitsdialog.*.button1.width:     200
+
+*presentunitsdialog.*.button2.label:     Disband unit
+*presentunitsdialog.*.button2.fromVert:  button1
+*presentunitsdialog.*.button2.width:     200
+
+*presentunitsdialog.*.button3.label:     Make new homecity
+*presentunitsdialog.*.button3.fromVert:  button2
+*presentunitsdialog.*.button3.width:     200
+
+*presentunitsdialog.*.button4.label:     Cancel
+*presentunitsdialog.*.button4.fromVert:  button3
+*presentunitsdialog.*.button4.foreground: White
+*presentunitsdialog.*.button4.background: Blue
+
+!
+! Supported units dialog in city dialog
+!
+*supportunitsdialog.title:
+*supportunitsdialog.*.dlabel.borderWidth:  0
+*supportunitsdialog.*.button0.label:     Activate unit
+*supportunitsdialog.*.button0.fromVert:  dlabel
+*supportunitsdialog.*.button0.width:     200
+
+*supportunitsdialog.*.button1.label:     Activate unit, close dialog
+*supportunitsdialog.*.button1.fromVert:  button0
+*supportunitsdialog.*.button1.width:     200
+
+*supportunitsdialog.*.button2.label:     Disband unit
+*supportunitsdialog.*.button2.fromVert:  button1
+*supportunitsdialog.*.button2.width:     200
+
+*supportunitsdialog.*.button3.label:     Cancel
+*supportunitsdialog.*.button3.fromVert:  button2
+*supportunitsdialog.*.button3.foreground: White
+*supportunitsdialog.*.button3.background: Blue
+
+
+
+
+!
+! The options dialog
+!
+*optionpopup.title:        Options dialog
+
+*optionform.background:         lightblue
+
+*optionlabel.label:             Set local options
+*optionlabel.borderWidth:       0
+*optionlabel.background:        grey
+
+*optionbglabel.label:           Solid unit background color
+*optionbglabel.borderWidth:     0
+*optionbglabel.background:      lightblue
+*optionbglabel.fromVert:        optionlabel
+
+*optionbgtoggle.label:          Yes
+*optionbgtoggle.fromVert:       optionlabel
+*optionbgtoggle.fromHoriz:      optionbglabel
+*optionbgtoggle.internalHeight: 0
+*optionbgtoggle.background:     cyan
+
+*optionbelllabel.label:         Sound bell at new turn\ \ \ \ \ 
+*optionbelllabel.borderWidth:   0
+*optionbelllabel.background:    lightblue
+*optionbelllabel.fromVert:      optionbglabel
+
+*optionbelltoggle.label:          Yes
+*optionbelltoggle.fromVert:       optionbglabel
+*optionbelltoggle.fromHoriz:      optionbelllabel
+*optionbelltoggle.internalHeight: 0
+*optionbelltoggle.background:     cyan
+
+*optionmovelabel.label:         Smooth unit moves\ \ \ \ \ \ \ \ \ \ 
+*optionmovelabel.borderWidth:   0
+*optionmovelabel.background:    lightblue
+*optionmovelabel.fromVert:      optionbelltoggle
+
+*optionmovetoggle.label:          Yes
+*optionmovetoggle.fromVert:       optionbelltoggle
+*optionmovetoggle.fromHoriz:      optionmovelabel
+*optionmovetoggle.internalHeight: 0
+*optionmovetoggle.background:     cyan
+
+*optionokcommand.label:          Close
+*optionokcommand.foreground:     white
+*optionokcommand.background:     blue
+*optionokcommand.fromVert:       optionmovelabel
+
+!
+! The messageopts dialog
+!
+*messageoptpopup.title:        Message dialog
+
+*messageoptform.background:         lightblue
+
+*messageoptlabel.label:             Set message options
+*messageoptlabel.borderWidth:       0
+*messageoptlabel.background:        grey
+
+*messageoptloflabel.label:           Warn when low on funds\ 
+*messageoptloflabel.borderWidth:     0
+*messageoptloflabel.background:      lightblue
+*messageoptloflabel.fromVert:        messageoptlabel
+
+*messageoptloftoggle.label:          Yes
+*messageoptloftoggle.fromVert:       messageoptlabel
+*messageoptloftoggle.fromHoriz:      messageoptloflabel
+*messageoptloftoggle.internalHeight: 0
+*messageoptloftoggle.background:     cyan
+
+*messageoptpolabel.label:         Notify on pollution\ \ \ \  
+*messageoptpolabel.borderWidth:   0
+*messageoptpolabel.background:    lightblue
+*messageoptpolabel.fromVert:      messageoptloflabel
+
+*messageoptpotoggle.label:          Yes
+*messageoptpotoggle.fromVert:       messageoptloflabel
+*messageoptpotoggle.fromHoriz:      messageoptpolabel
+*messageoptpotoggle.internalHeight: 0
+*messageoptpotoggle.background:     cyan
+
+*messageoptcdlabel.label:         Notify on city disorder
+*messageoptcdlabel.borderWidth:   0
+*messageoptcdlabel.background:    lightblue
+*messageoptcdlabel.fromVert:      messageoptpotoggle
+
+*messageoptcdtoggle.label:          Yes
+*messageoptcdtoggle.fromVert:       messageoptpotoggle
+*messageoptcdtoggle.fromHoriz:      messageoptcdlabel
+*messageoptcdtoggle.internalHeight: 0
+*messageoptcdtoggle.background:     cyan
+
+*messageoptokcommand.label:          Close
+*messageoptokcommand.foreground:     white
+*messageoptokcommand.background:     blue
+*messageoptokcommand.fromVert:       messageoptcdlabel
+
+
+!
+! The rates selection dialog
+!
+*ratespopup.title:              Rates dialog
+
+*ratesform.background:          lightblue
+
+*rateslabel.label:              Select tax, luxury and science rates:
+*rateslabel.borderWidth:        0
+*rateslabel.background:         lightblue
+
+*ratestaxlabel.label:           Tax:   0%
+*ratestaxlabel.fromVert:        rateslabel
+*ratestaxlabel.borderWidth:     0
+*ratestaxlabel.justify:         left
+*ratestaxlabel.background:      lightblue
+
+*ratestaxscroll.width:          300
+*ratestaxscroll.orientation:    horizontal
+*ratestaxscroll.fromVert:       ratestaxlabel
+*ratestaxscroll.background:     cyan
+
+*ratestaxtoggle.label:          Lock
+*ratestaxtoggle.fromVert:       ratestaxlabel
+*ratestaxtoggle.fromHoriz:      ratestaxscroll
+*ratestaxtoggle.internalHeight: 0
+*ratestaxtoggle.background:     cyan
+
+*ratesluxlabel.label:           Luxury:   0%
+*ratesluxlabel.fromVert:        ratestaxscroll
+*ratesluxlabel.borderWidth:     0
+*ratesluxlabel.justify:         left
+*ratesluxlabel.background:      lightblue
+
+*ratesluxscroll.width:          300
+*ratesluxscroll.orientation:    horizontal
+*ratesluxscroll.fromVert:       ratesluxlabel
+*ratesluxscroll.background:     cyan
+
+*ratesluxtoggle.label:          Lock
+*ratesluxtoggle.fromVert:       ratesluxlabel
+*ratesluxtoggle.fromHoriz:      ratesluxscroll
+*ratesluxtoggle.internalHeight: 0
+*ratesluxtoggle.radioGroup:     ratestaxtoggle
+*ratesluxtoggle.background:     cyan
+
+*ratesscilabel.label:           Science:   0%
+*ratesscilabel.fromVert:        ratesluxscroll
+*ratesscilabel.borderWidth:     0
+*ratesscilabel.justify:         left
+*ratesscilabel.background:      lightblue
+
+*ratessciscroll.width:          300
+*ratessciscroll.orientation:    horizontal
+*ratessciscroll.fromVert:       ratesscilabel
+*ratessciscroll.background:     cyan
+
+*ratesscitoggle.label:          Lock
+*ratesscitoggle.fromVert:       ratesscilabel
+*ratesscitoggle.fromHoriz:      ratessciscroll
+*ratesscitoggle.internalHeight: 0
+*ratesscitoggle.radioGroup:     ratestaxtoggle
+*ratesscitoggle.background:     cyan
+
+*ratesokcommand.label:          Ok
+*ratesokcommand.foreground:     white
+*ratesokcommand.background:     blue
+*ratesokcommand.fromVert:       ratessciscroll
+
+
+*ratescancelcommand.label:      Cancel
+*ratescancelcommand.foreground: white
+*ratescancelcommand.background: blue
+*ratescancelcommand.fromVert:   ratessciscroll
+*ratescancelcommand.fromHoriz:  ratesokcommand
+
+
+!
+!
+! Science report dialog
+!
+!
+*sciencepopup.title: Science Report
+*sciencepopup.allowShellResize: True
+*scienceform.background: lightblue
+*scienceform.resizable: True
+
+*sciencelabel.width:              400
+*sciencelabel.justify:            center
+*sciencelabel.borderWidth:        0
+*sciencelabel.background:         lightblue
+*sciencelabel.top:                chainTop
+*sciencelabel.bottom:             chainTop
+*sciencelabel.left:               chainLeft
+*sciencelabel.right:              chainRight
+
+*sciencecurrentlabel.fromVert:    sciencelabel
+*sciencecurrentlabel.background:  grey
+*sciencecurrentlabel.foreground:  black
+*sciencecurrentlabel.resizable:   True
+*sciencecurrentlabel.top:         chainTop
+*sciencecurrentlabel.bottom:      chainTop
+*sciencecurrentlabel.left:        chainLeft
+*sciencecurrentlabel.right:       chainLeft
+
+
+*sciencechangemenubutton.label:      Change
+*sciencechangemenubutton.fromVert:   sciencelabel
+*sciencechangemenubutton.fromHoriz:  sciencecurrentlabel
+*sciencechangemenubutton.foreground: white
+*sciencechangemenubutton.background: blue
+*sciencechangemenubutton.top:         chainTop
+*sciencechangemenubutton.bottom:      chainTop
+*sciencechangemenubutton.left:        chainLeft
+*sciencechangemenubutton.right:       chainLeft
+
+*sciencehelptoggle.label:          Help
+*sciencehelptoggle.fromVert:       sciencelabel
+*sciencehelptoggle.fromHoriz:      sciencechangemenubutton
+*sciencehelptoggle.internalHeight: 0
+*sciencehelptoggle.background:     cyan
+*sciencehelptoggle.top:         chainTop
+*sciencehelptoggle.bottom:      chainTop
+*sciencehelptoggle.left:        chainLeft
+*sciencehelptoggle.right:       chainLeft
+
+*sciencelist.fromVert:            sciencecurrentlabel
+*sciencelist.forceColumns:        true
+*sciencelist.defaultColumns:      3
+*sciencelist.verticalList:        true
+*sciencelist.background:          cyan
+*sciencelist.resizable:           true
+*sciencelist.top:                 chainTop
+*sciencelist.bottom:              chainBottom
+*sciencelist.left:                chainLeft
+*sciencelist.right:               chainRight
+
+*scienceclosecommand.label:       Close
+*scienceclosecommand.fromVert:    sciencelist
+*scienceclosecommand.foreground:  white
+*scienceclosecommand.background:  blue
+*scienceclosecommand.top:         chainBottom
+*scienceclosecommand.bottom:      chainBottom
+*scienceclosecommand.left:        chainLeft
+*scienceclosecommand.right:       chainLeft
+
+
+!
+!
+! City report dialog
+!
+!
+*reportcitypopup.title: City Report
+*reportcitypopup.allowShellResize: True
+
+*reportcityform.background:          lightblue
+*reportcityform.resizable:           true
+*reportcityform.top:                 chainTop
+*reportcityform.bottom:              chainBottom
+*reportcityform.left:                chainLeft
+*reportcityform.right:               chainRight
+
+*reportcitylabel.width:              400
+*reportcitylabel.justify:            center
+*reportcitylabel.borderWidth:        0
+*reportcitylabel.background:         lightblue
+*reportcitylabel.top:                chainTop
+*reportcitylabel.bottom:             chainTop
+*reportcitylabel.left:               chainLeft
+*reportcitylabel.right:              chainRight
+
+*reportcitylistlabel.resizable:          true
+*reportcitylistlabel.justify:            left
+*reportcitylistlabel.borderWidth:        1
+*reportcitylistlabel.background:         grey
+*reportcitylistlabel.foreground:         black
+*reportcitylistlabel.top:                chainTop
+*reportcitylistlabel.bottom:             chainTop
+*reportcitylistlabel.left:               chainLeft
+*reportcitylistlabel.right:              chainRight
+*reportcitylistlabel.fromVert:           reportcitylabel
+*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     Production          
+
+*reportcitylist.fromVert:            reportcitylistlabel
+*reportcitylist.forceColumns:        true
+*reportcitylist.defaultColumns:      1
+*reportcitylist.verticalList:        true
+*reportcitylist.background:          cyan
+*reportcitylist.resizable:           true
+*reportcitylist.top:                 chainTop
+*reportcitylist.bottom:              chainBottom
+*reportcitylist.left:                chainLeft
+*reportcitylist.right:               chainRight
+
+*reportcityclosecommand.label:       Close
+*reportcityclosecommand.fromVert:    reportcitylist
+*reportcityclosecommand.foreground:  white
+*reportcityclosecommand.background:  blue
+*reportcityclosecommand.top:         chainBottom
+*reportcityclosecommand.bottom:      chainBottom
+*reportcityclosecommand.left:        chainLeft
+*reportcityclosecommand.right:       chainLeft
+
+*reportcitycentercommand.label:       Center
+*reportcitycentercommand.fromVert:    reportcitylist
+*reportcitycentercommand.fromHoriz:   reportcityclosecommand
+*reportcitycentercommand.foreground:  white
+*reportcitycentercommand.background:  blue
+*reportcitycentercommand.top:         chainBottom
+*reportcitycentercommand.bottom:      chainBottom
+*reportcitycentercommand.left:        chainLeft
+*reportcitycentercommand.right:       chainLeft
+
+*reportcitypopupcommand.label:       Popup
+*reportcitypopupcommand.fromVert:    reportcitylist
+*reportcitypopupcommand.fromHoriz:   reportcitycentercommand
+*reportcitypopupcommand.foreground:  white
+*reportcitypopupcommand.background:  blue
+*reportcitypopupcommand.top:         chainBottom
+*reportcitypopupcommand.bottom:      chainBottom
+*reportcitypopupcommand.left:        chainLeft
+*reportcitypopupcommand.right:       chainLeft
+
+*reportcitybuycommand.label:       Buy
+*reportcitybuycommand.fromVert:    reportcitylist
+*reportcitybuycommand.fromHoriz:   reportcitypopupcommand
+*reportcitybuycommand.foreground:  white
+*reportcitybuycommand.background:  blue
+*reportcitybuycommand.top:         chainBottom
+*reportcitybuycommand.bottom:      chainBottom
+*reportcitybuycommand.left:        chainLeft
+*reportcitybuycommand.right:       chainLeft
+
+*reportcitychangemenubutton.label:       Change
+*reportcitychangemenubutton.fromVert:    reportcitylist
+*reportcitychangemenubutton.fromHoriz:   reportcitybuycommand
+*reportcitychangemenubutton.foreground:  white
+*reportcitychangemenubutton.background:  blue
+*reportcitychangemenubutton.top:         chainBottom
+*reportcitychangemenubutton.bottom:      chainBottom
+*reportcitychangemenubutton.left:        chainLeft
+*reportcitychangemenubutton.right:       chainLeft
+
+!
+!
+! Trade report dialog
+!
+!
+*reporttradepopup.title: Trade Report
+*reporttradepopup.allowShellResize: True
+
+*reporttradeform.background:          lightblue
+*reporttradeform.resizable:           true
+*reporttradeform.top:                 chainTop
+*reporttradeform.bottom:              chainBottom
+*reporttradeform.left:                chainLeft
+*reporttradeform.right:               chainRight
+
+*reporttradelabel.resizable:          true
+!*reporttradelabel.width:              200
+*reporttradelabel.justify:            center
+*reporttradelabel.borderWidth:        0
+*reporttradelabel.background:         lightblue
+*reporttradelabel.top:                chainTop
+*reporttradelabel.bottom:             chainTop
+*reporttradelabel.left:               chainLeft
+*reporttradelabel.right:              chainRight
+
+*reporttradelistlabel.resizable:          true
+*reporttradelistlabel.justify:            left
+*reporttradelistlabel.borderWidth:        1
+*reporttradelistlabel.background:         grey
+*reporttradelistlabel.foreground:         black
+*reporttradelistlabel.top:                chainTop
+*reporttradelistlabel.bottom:             chainTop
+*reporttradelistlabel.left:               chainLeft
+*reporttradelistlabel.right:              chainRight
+*reporttradelistlabel.fromVert:           reporttradelabel
+*reporttradelistlabel.label:Building Name       Count Cost Total
+*reporttradelist.fromVert:            reporttradelistlabel
+*reporttradelist.forceColumns:        true
+*reporttradelist.defaultColumns:      1
+*reporttradelist.verticalList:        true
+*reporttradelist.background:          cyan
+*reporttradelist.resizable:           true
+*reporttradelist.top:                 chainTop
+*reporttradelist.bottom:              chainBottom
+*reporttradelist.left:                chainLeft
+*reporttradelist.right:               chainRight
+
+*reporttradelabel2.resizable:          true
+*reporttradelabel2.justify:            left
+*reporttradelabel2.borderWidth:        1
+*reporttradelabel2.background:         grey
+*reporttradelabel2.foreground:         black
+*reporttradelabel2.top:                chainBottom
+*reporttradelabel2.bottom:             chainBottom
+*reporttradelabel2.left:               chainLeft
+*reporttradelabel2.right:              chainRight
+*reporttradelabel2.fromVert:           reporttradelist
+
+*reporttradeclosecommand.label:       Close
+*reporttradeclosecommand.fromVert:    reporttradelabel2
+*reporttradeclosecommand.foreground:  white
+*reporttradeclosecommand.background:  blue
+*reporttradeclosecommand.top:         chainBottom
+*reporttradeclosecommand.bottom:      chainBottom
+*reporttradeclosecommand.left:        chainLeft
+*reporttradeclosecommand.right:       chainLeft
+
+
+!
+!
+! Activeunits report dialog
+!
+!
+*reportactiveunitspopup.title: Active units Report
+*reportactiveunitspopup.allowShellResize: True
+
+*reportactiveunitsform.background:          lightblue
+*reportactiveunitsform.resizable:           true
+*reportactiveunitsform.top:                 chainTop
+*reportactiveunitsform.bottom:              chainBottom
+*reportactiveunitsform.left:                chainLeft
+*reportactiveunitsform.right:               chainRight
+
+*reportactiveunitslabel.resizable:          true
+!*reportactiveunitslabel.width:              200
+*reportactiveunitslabel.justify:            center
+*reportactiveunitslabel.borderWidth:        0
+*reportactiveunitslabel.background:         lightblue
+*reportactiveunitslabel.top:                chainTop
+*reportactiveunitslabel.bottom:             chainTop
+*reportactiveunitslabel.left:               chainLeft
+*reportactiveunitslabel.right:              chainRight
+
+*reportactiveunitslistlabel.resizable:          true
+*reportactiveunitslistlabel.justify:            left
+*reportactiveunitslistlabel.borderWidth:        1
+*reportactiveunitslistlabel.background:         grey
+*reportactiveunitslistlabel.foreground:         black
+*reportactiveunitslistlabel.top:                chainTop
+*reportactiveunitslistlabel.bottom:             chainTop
+*reportactiveunitslistlabel.left:               chainLeft
+*reportactiveunitslistlabel.right:              chainRight
+*reportactiveunitslistlabel.fromVert:           reportactiveunitslabel
+*reportactiveunitslistlabel.label:Unit Type                    Total
+*reportactiveunitslist.fromVert:            reportactiveunitslistlabel
+*reportactiveunitslist.forceColumns:        true
+*reportactiveunitslist.defaultColumns:      1
+*reportactiveunitslist.verticalList:        true
+*reportactiveunitslist.background:          cyan
+*reportactiveunitslist.resizable:           true
+*reportactiveunitslist.top:                 chainTop
+*reportactiveunitslist.bottom:              chainBottom
+*reportactiveunitslist.left:                chainLeft
+*reportactiveunitslist.right:               chainRight
+
+*reportactiveunitslabel2.resizable:          true
+*reportactiveunitslabel2.justify:            left
+*reportactiveunitslabel2.borderWidth:        1
+*reportactiveunitslabel2.background:         grey
+*reportactiveunitslabel2.foreground:         black
+*reportactiveunitslabel2.top:                chainBottom
+*reportactiveunitslabel2.bottom:             chainBottom
+*reportactiveunitslabel2.left:               chainLeft
+*reportactiveunitslabel2.right:              chainRight
+*reportactiveunitslabel2.fromVert:           reportactiveunitslist
+
+*reportactiveunitsclosecommand.label:       Close
+*reportactiveunitsclosecommand.fromVert:    reportactiveunitslabel2
+*reportactiveunitsclosecommand.foreground:  white
+*reportactiveunitsclosecommand.background:  blue
+*reportactiveunitsclosecommand.top:         chainBottom
+*reportactiveunitsclosecommand.bottom:      chainBottom
+*reportactiveunitsclosecommand.left:        chainLeft
+*reportactiveunitsclosecommand.right:       chainLeft
+
+*reportactiveunitsupgradecommand.label:       Upgrade
+*reportactiveunitsupgradecommand.fromVert:    reportactiveunitslabel2
+*reportactiveunitsupgradecommand.fromHoriz:   reportactiveunitsclosecommand
+*reportactiveunitsupgradecommand.foreground:  white
+*reportactiveunitsupgradecommand.background:  blue
+*reportactiveunitsupgradecommand.top:         chainBottom
+*reportactiveunitsupgradecommand.bottom:      chainBottom
+*reportactiveunitsupgradecommand.left:        chainLeft
+*reportactiveunitsupgradecommand.right:       chainLeft
+
+
+!
+! menues
+!
+*gamemenu.label:                 Game
+*ordersmenu.label:               Orders
+*reportsmenu.label:              Reports
+*helpmenu.label:                 Help
+*gamemenu.background:            Blue
+*gamemenu.foreground:            White
+*ordersmenu.background:          Blue
+*ordersmenu.foreground:          White
+*reportsmenu.background:         Blue
+*reportsmenu.foreground:         White
+*helpmenu.background:            Blue
+*helpmenu.foreground:            White
+*gamemenu.borderWidth:           0
+*ordersmenu.borderWidth:         0
+*reportsmenu.borderWidth:        0
+*helpmenu.borderWidth:           0
+*gamemenu.left:                  chainLeft
+*gamemenu.right:                 chainLeft
+*ordersmenu.fromHoriz:           gamemenu
+*ordersmenu.left:                chainLeft
+*ordersmenu.right:               chainLeft
+*reportsmenu.fromHoriz:          ordersmenu
+*reportsmenu.left:               chainLeft
+*reportsmenu.right:              chainLeft
+*helpmenu.fromHoriz:             reportsmenu
+*helpmenu.left:                  chainLeft
+*helpmenu.right:                 chainLeft
+*menu.background:                Cyan
+
+
+
+!
+! change city production dialog
+!
+*changedialog.title:
+*changedialog.*.dlabel.label: Select new production 
+*changedialog.*.dlabel.borderWidth:  0
+*changedialog.*.buttonchange.label: Change
+*changedialog.*.buttoncancel.label: Cancel
+*changedialog.*.buttonhelp.label: Help
+*changedialog.*.dview.allowVert: True
+*changedialog.*.dlist.background: cyan
+*changedialog.*.buttonchange.background: blue
+*changedialog.*.buttonchange.foreground: white
+*changedialog.*.buttoncancel.background: blue
+*changedialog.*.buttoncancel.foreground: white
+*changedialog.*.buttonhelp.background: blue
+*changedialog.*.buttonhelp.foreground: white
+
+!
+! city buy production dialog
+!
+*buydialog.title:
+*buydialog.*.dlabel.borderWidth:  0
+*buydialog.*.button0.label:     Yes
+*buydialog.*.button0.fromVert:  dlabel
+
+!
+! trade dialog
+!
+*citytradedialog.title:
+*citytradedialog.*.dlabel.borderWidth:  0
+*citytradedialog.*.button0.label:     Done
+*citytradedialog.*.button0.fromVert:  dlabel
+
+!
+!
+!
+*selldialog.title:
+*selldialog.*.dlabel.borderWidth:  0
+*selldialog.*.button0.label:     Yes
+*selldialog.*.button0.fromVert:  dlabel
+
+!
+!
+!
+*selldialog.title:
+*selldialog.*.button1.label:     No
+*selldialog.*.button1.fromVert:  dlabel
+*selldialog.*.button1.fromHoriz: button0
+
+
+!
+!
+!
+*buydialog.title: 
+*buydialog.*.button1.label:     No
+*buydialog.*.button1.fromVert:  dlabel
+*buydialog.*.button1.fromHoriz: button0
+
+!
+!
+!
+*buynodialog.title:
+*buynodialog.*.dlabel.borderWidth:  0
+*buynodialog.*.button0.label:     Darn
+*buynodialog.*.button0.fromVert:  dlabel
+
+
+!
+! caravan dialog
+!
+*caravandialog.title:
+*caravandialog.*.dlabel.borderWidth:  0
+*caravandialog.*.button0.label:     Establish traderoute
+*caravandialog.*.button0.fromVert:  dlabel
+*caravandialog.*.button1.label:     Help build Wonder
+*caravandialog.*.button1.fromVert:  dlabel
+*caravandialog.*.button1.fromHoriz: button0
+*caravandialog.*.button2.label:     Keep moving
+*caravandialog.*.button2.fromVert:  dlabel
+*caravandialog.*.button2.fromHoriz: button1
+
+!
+! diplomat dialog
+!
+*diplomatdialog.title:
+*diplomatdialog.*.dlabel.borderWidth:  0
+*diplomatdialog.*.button0.label:     Bribe unit
+*diplomatdialog.*.button0.fromVert:  dlabel
+*diplomatdialog.*.button1.label:     Establish embassy
+*diplomatdialog.*.button1.fromVert:  dlabel
+*diplomatdialog.*.button1.fromHoriz: button0
+*diplomatdialog.*.button2.label:     Sabotage city
+*diplomatdialog.*.button2.fromVert:  dlabel
+*diplomatdialog.*.button2.fromHoriz: button1
+*diplomatdialog.*.button3.label:     Steal technology
+*diplomatdialog.*.button3.fromVert:  dlabel
+*diplomatdialog.*.button3.fromHoriz: button2
+*diplomatdialog.*.button4.label:     Incite a revolt
+*diplomatdialog.*.button4.fromVert:  dlabel
+*diplomatdialog.*.button4.fromHoriz: button3
+*diplomatdialog.*.button5.label:     Cancel
+*diplomatdialog.*.button5.fromVert:  button0
+
+
+
+!
+! diplomat bribe dialog
+!
+*diplomatbribedialog.title:
+*diplomatbribedialog.*.dlabel.borderWidth:  0
+*diplomatbribedialog.*.button0.label:     Yes
+*diplomatbribedialog.*.button0.fromVert:  dlabel
+*diplomatbribedialog.*.button1.label:     No
+*diplomatbribedialog.*.button1.fromVert:  dlabel
+*diplomatbribedialog.*.button1.fromHoriz: button0
+
+!
+! diplomat no gold bribe dialog
+!
+*diplomatnogolddialog.title:
+*diplomatnogolddialog.*.dlabel.borderWidth:  0
+*diplomatnogolddialog.*.button0.label:     Darn
+*diplomatnogolddialog.*.button0.fromVert:  dlabel
+
+!
+! revolution dialog
+!
+*revolutiondialog.title:
+*revolutiondialog.*.dlabel.borderWidth:  0
+*revolutiondialog.*.button0.label:     Yes
+*revolutiondialog.*.button0.fromVert:  dlabel
+*revolutiondialog.*.button1.label:     No
+*revolutiondialog.*.button1.fromVert:  dlabel
+*revolutiondialog.*.button1.fromHoriz: button0
+
+!
+! upgrade dialog
+!
+*upgradedialog.title:
+*upgradedialog.*.dlabel.borderWidth:  0
+*upgradedialog.*.button0.label:     Yes
+*upgradedialog.*.button0.fromVert:  dlabel
+*upgradedialog.*.button1.label:     No
+*upgradedialog.*.button1.fromVert:  dlabel
+*upgradedialog.*.button1.fromHoriz: button0
+
+
+!
+! government dialog
+!
+*governmentdialog.title:
+*governmentdialog.*.dlabel.borderWidth:  0
+*governmentdialog.*.button0.label:     Despotism
+*governmentdialog.*.button0.fromVert:  dlabel
+*governmentdialog.*.button1.label:     Monarchy
+*governmentdialog.*.button1.fromVert:  dlabel
+*governmentdialog.*.button1.fromHoriz: button0
+*governmentdialog.*.button2.label:     Communism
+*governmentdialog.*.button2.fromVert:  dlabel
+*governmentdialog.*.button2.fromHoriz: button1
+*governmentdialog.*.button3.label:     Republic
+*governmentdialog.*.button3.fromVert:  dlabel
+*governmentdialog.*.button3.fromHoriz: button2
+*governmentdialog.*.button4.label:     Democracy
+*governmentdialog.*.button4.fromVert:  dlabel
+*governmentdialog.*.button4.fromHoriz: button3
+
+!
+! leftcolumnform
+!
+*leftcolumnform.borderWidth:                0
+*leftcolumnform.top:                        chainTop
+*leftcolumnform.bottom:                     chainBottom
+*leftcolumnform.left:                       chainLeft
+*leftcolumnform.right:                      chainLeft
+*leftcolumnform.background:                 lightblue
+*leftcolumnform.resizable:                  True
+
+*overviewcanvas.width:                      160
+*overviewcanvas.height:                     100
+*overviewcanvas.top:                        chainTop
+*overviewcanvas.bottom:                     chainTop
+*overviewcanvas.left:                       chainLeft
+*overviewcanvas.right:                      chainRight
+*overviewcanvas.resizable:                  True
+
+*infocommand.label: \n\n\n\n
+*infocommand.width:                         160
+*infocommand.background:                    Grey
+*infocommand.foreground:                    black
+*infocommand.justify:                       left
+*infocommand.top:                           chainTop
+*infocommand.bottom:                        chainTop
+*infocommand.left:                          chainLeft
+*infocommand.right:                         chainRight
+
+*infocommand.translations: #override \
+                              <Btn1Down>: show-info-popup() \n\
+			      <EnterWindow>:
+
+
+*popupinfo.translations: #override \
+                              <Btn1Up>: MenuPopdown()
+
+*fullinfopopuplabel.background:                  grey
+*fullinfopopuplabel.foreground:                  black
+
+
+
+*turndonebutton.label:                      Turn Done
+*turndonebutton.background:                 blue
+*turndonebutton.foreground:                 white
+*turndonebutton.fromVert:                   infocommand
+*turndonebutton.top:                        chainTop
+*turndonebutton.bottom:                     chainTop
+*turndonebutton.left:                       chainLeft
+*turndonebutton.right:                      chainLeft
+
+*bulblabel.width:                           15
+*bulblabel.height:                          20
+*bulblabel.internalWidth:                   0
+*bulblabel.internalHeight:                  0
+*bulblabel.fromVert:                        infocommand
+*bulblabel.fromHoriz:                       turndonebutton
+*bulblabel.top:                             chainTop
+*bulblabel.bottom:                          chainTop
+*bulblabel.left:                            chainLeft
+*bulblabel.right:                           chainLeft
+
+*sunlabel.width:                            15
+*sunlabel.height:                           20
+*sunlabel.internalWidth:                    0
+*sunlabel.internalHeight:                   0
+*sunlabel.fromVert:                         infocommand
+*sunlabel.fromHoriz:                        bulblabel
+*sunlabel.top:                              chainTop
+*sunlabel.bottom:                           chainTop
+*sunlabel.left:                             chainLeft
+*sunlabel.right:                            chainLeft
+
+*governmentlabel.width:                     15
+*governmentlabel.height:                    20
+*governmentlabel.internalWidth:             0
+*governmentlabel.internalHeight:            0
+*governmentlabel.fromVert:                  infocommand
+*governmentlabel.fromHoriz:                 sunlabel
+*governmentlabel.top:                       chainTop
+*governmentlabel.bottom:                    chainTop
+*governmentlabel.left:                      chainLeft
+*governmentlabel.right:                     chainLeft
+
+*timeoutlabel.label:                        \ \ \ 
+*timeoutlabel.fromVert:                     infocommand
+*timeoutlabel.fromHoriz:                    governmentlabel
+*timeoutlabel.top:                          chainTop
+*timeoutlabel.bottom:                       chainTop
+*timeoutlabel.left:                         chainLeft
+*timeoutlabel.right:                        chainLeft
+*timeoutlabel.borderWidth:                  0
+*timeoutlabel.internalWidth:                0
+*timeoutlabel.background:                   lightblue
+*timeoutlabel.foreground:                   black
+
+
+*unitinfolabel.label:                       \n\n\n\n
+*unitinfolabel.width:                       160
+*unitinfolabel.background:                  grey
+*unitinfolabel.foreground:                  black
+*unitinfolabel.justify:                     left
+*unitinfolabel.fromVert:                    turndonebutton
+*unitinfolabel.top:                         chainTop
+*unitinfolabel.bottom:                      chainTop
+*unitinfolabel.left:                        chainLeft
+*unitinfolabel.right:                       chainRight
+
+*unitpixcanvas.label:
+*unitpixcanvas.background:                   lightblue
+*unitpixcanvas.borderWidth:                  0
+*unitpixcanvas.width:                        30
+*unitpixcanvas.height:                       30
+*unitpixcanvas.internalWidth:                0
+*unitpixcanvas.internalHeight:               0
+*unitpixcanvas.fromVert:                     unitinfolabel
+*unitpixcanvas.top:                          chainTop
+*unitpixcanvas.bottom:                       chainTop
+*unitpixcanvas.left:                         chainLeft
+*unitpixcanvas.right:                        chainRight
+
+*unitbelowcanvas0.label:
+*unitbelowcanvas0.width:                     30
+*unitbelowcanvas0.height:                    30
+*unitbelowcanvas0.internalWidth:             0
+*unitbelowcanvas0.internalHeight:            0
+*unitbelowcanvas0.fromVert:                  unitpixcanvas
+*unitbelowcanvas0.borderWidth:               0
+*unitbelowcanvas0.top:                       chainTop
+*unitbelowcanvas0.bottom:                    chainTop
+*unitbelowcanvas0.left:                      chainLeft
+*unitbelowcanvas0.right:                     chainRight
+*unitbelowcanvas0.background:                lightblue
+
+*unitbelowcanvas1.label:
+*unitbelowcanvas1.width:                     30
+*unitbelowcanvas1.height:                    30
+*unitbelowcanvas1.internalWidth:             0
+*unitbelowcanvas1.internalHeight:            0
+*unitbelowcanvas1.fromVert:                  unitpixcanvas
+*unitbelowcanvas1.fromHoriz:                 unitbelowcanvas0
+*unitbelowcanvas1.borderWidth:               0
+*unitbelowcanvas1.top:                       chainTop
+*unitbelowcanvas1.bottom:                    chainTop
+*unitbelowcanvas1.left:                      chainLeft
+*unitbelowcanvas1.right:                     chainRight
+*unitbelowcanvas1.background:                lightblue
+
+*unitbelowcanvas2.label:
+*unitbelowcanvas2.width:                     30
+*unitbelowcanvas2.height:                    30
+*unitbelowcanvas2.internalWidth:             0
+*unitbelowcanvas2.internalHeight:            0
+*unitbelowcanvas2.fromVert:                  unitpixcanvas
+*unitbelowcanvas2.fromHoriz:                 unitbelowcanvas1
+*unitbelowcanvas2.borderWidth:               0
+*unitbelowcanvas2.top:                       chainTop
+*unitbelowcanvas2.bottom:                    chainTop
+*unitbelowcanvas2.left:                      chainLeft
+*unitbelowcanvas2.right:                     chainRight
+*unitbelowcanvas2.background:                lightblue
+
+*unitbelowcanvas3.label:
+*unitbelowcanvas3.width:                     30
+*unitbelowcanvas3.height:                    30
+*unitbelowcanvas3.internalWidth:             0
+*unitbelowcanvas3.internalHeight:            0
+*unitbelowcanvas3.fromVert:                  unitpixcanvas
+*unitbelowcanvas3.fromHoriz:                 unitbelowcanvas2
+*unitbelowcanvas3.borderWidth:               0
+*unitbelowcanvas3.top:                       chainTop
+*unitbelowcanvas3.bottom:                    chainTop
+*unitbelowcanvas3.left:                      chainLeft
+*unitbelowcanvas3.right:                     chainRight
+*unitbelowcanvas3.background:                lightblue
+
+*morearrowlabel.label:
+*morearrowlabel.width:                      15
+*morearrowlabel.height:                     20
+*morearrowlabel.borderWidth:                0
+*morearrowlabel.internalWidth:              0
+*morearrowlabel.internalHeight:             0
+*morearrowlabel.fromVert:                   unitpixcanvas
+*morearrowlabel.fromHoriz:                  unitbelowcanvas3
+*morearrowlabel.top:                        chainTop
+*morearrowlabel.bottom:                     chainTop
+*morearrowlabel.left:                       chainLeft
+*morearrowlabel.right:                      chainLeft
+*morearrowlabel.background:                 lightblue
+
+
+!
+! mainform
+!
+*mainform.borderWidth:                      0
+*mainform.top:                              chainTop
+*mainform.bottom:                           chainBottom
+*mainform.left:                             chainLeft
+*mainform.right:                            chainRight
+*mainform.background:                       lightblue
+*mainform.resizable:                        True
+
+!
+! menuform
+!
+*menuform.borderWidth:                      0
+*menuform.top:                              chainTop
+*menuform.bottom:                           chainTop
+*menuform.left:                             chainLeft
+*menuform.right:                            chainLeft
+*menuform.background:                       lightblue
+
+!
+! mainvpane
+!
+*mainvpane.top:                         chainTop
+*mainvpane.bottom:                      chainBottom
+*mainvpane.left:                        chainLeft
+*mainvpane.right:                       chainRight
+*mainvpane.borderWidth:                 0
+*mainvpane.fromVert:                    menuform
+*mainvpane.background:                  lightblue
+!*mainvpane.resizable:                   true
+
+
+!
+! belowmenuform
+!
+*belowmenuform.top:                         chainTop
+*belowmenuform.bottom:                      chainBottom
+*belowmenuform.left:                        chainLeft
+*belowmenuform.right:                       chainRight
+*belowmenuform.borderWidth:                 0
+*belowmenuform.fromVert:                    menuform
+*belowmenuform.background:                  lightblue
+*belowmenuform.resizable:                   true
+
+!
+! mapform
+!
+*mapform.borderWidth:    	            0
+*mapform.top:                               chainTop
+*mapform.bottom:                            chainBottom
+*mapform.left:                              chainLeft
+*mapform.right:                             chainRight
+*mapform.fromHoriz:                         leftcolumnform
+*mapform.background:                        lightblue
+
+
+!
+! bottomform
+!
+*bottomform.borderWidth:                    0
+*bottomform.top:                            chainBottom
+*bottomform.bottom:                         chainBottom
+*bottomform.left:                           chainLeft
+*bottomform.right:                          chainRight
+*bottomform.background:                     lightblue
+*bottomform.skipAdjust:                     True
+*bottomform.fromVert:                       belowmenuform
+
+*mapvertiscrbar.Height:                     300
+*mapvertiscrbar.left:                       chainLeft
+*mapvertiscrbar.right:                      chainLeft
+*mapvertiscrbar.top:                        chainTop
+*mapvertiscrbar.bottom:                     chainBottom
+*mapvertiscrbar.background:                 cyan
+
+*mapcanvas.Width:                           510
+*mapcanvas.Height:                          300
+*mapcanvas.fromHoriz:                       mapvertiscrbar
+*mapcanvas.left:                            chainLeft
+*mapcanvas.right:                           chainRight
+*mapcanvas.top:                             chainTop
+*mapcanvas.bottom:                          chainBottom
+
+*maphorizscrbar.fromVert:                   mapcanvas
+*maphorizscrbar.Width:                      510
+*maphorizscrbar.horizDistance:              25
+*maphorizscrbar.left:                       chainLeft
+*maphorizscrbar.right:                      chainRight
+*maphorizscrbar.top:                        chainBottom
+*maphorizscrbar.bottom:                     chainBottom
+*maphorizscrbar.orientation:                horizontal
+*maphorizscrbar.background:                 cyan
+
+*outputwindowtext.Width:                    710
+*outputwindowtext.Height:                   100
+*outputwindowtext.left:                     chainLeft
+*outputwindowtext.right:                    chainRight
+*outputwindowtext.top:                      chainTop
+*outputwindowtext.bottom:                   chainBottom
+*outputwindowtext.displayCaret: false
+*outputwindowtext.editType:                 read
+*outputwindowtext.scrollVertical:           Always
+*outputwindowtext.*.background: grey
+*outputwindowtext.*.foreground: black
+*outputwindowtext*wrap: word
+*outputwindowtext*String: \
+Freeciv is free software and you are welcome to distribute copies of it\n\
+under certain conditions; See the "Copying" item on the Help menu.\n\
+Now.. Go give'em hell!
+
+*inputlinetext.Width:                       710
+*inputlinetext.*.editType:                  edit
+*inputlinetext.fromVert:                    outputwindowtext
+*inputlinetext.left:                      chainLeft
+*inputlinetext.right:                     chainRight
+*inputlinetext.top:                       chainBottom
+*inputlinetext.bottom:                    chainBottom
+*inputlinetext.*.foreground:                black
+*inputlinetext.*.background:                white
+
+!
+! translations
+!
+*mapcanvas.translations:\
+   <BtnDown>:         select-mapcanvas()    \n\
+   <Key>Tab:          focus-to-next-unit()  \n\
+   <Key>c:            center-on-unit()      \n\
+   <Key>KP_8:         key-unit-north()      \n\
+   <Key>Up:           key-unit-north()      \n\
+   <Key>KP_9:         key-unit-north-east() \n\
+   <Key>KP_6:         key-unit-east()       \n\
+   <Key>Right:        key-unit-east()       \n\
+   <Key>KP_3:         key-unit-south-east() \n\
+   <Key>KP_2:         key-unit-south()      \n\
+   <Key>Down:         key-unit-south()      \n\
+   <Key>KP_1:         key-unit-south-west() \n\
+   <Key>KP_4:         key-unit-west()       \n\
+   <Key>Left:         key-unit-west()       \n\
+   <Key>KP_7:         key-unit-north-west() \n\
+   <Key>KP_5:         focus-to-next-unit()  \n\
+   <Key>i:            key-unit-irrigate()   \n\
+   <Key>r:            key-unit-road()       \n\
+   <Key>m:            key-unit-mine()       \n\
+   <Key>f:            key-unit-fortify()    \n\
+   <Key>g:            key-unit-goto()       \n\
+   Shift<Key>d:       key-unit-disband()    \n\
+   Shift<Key>p:       key-unit-pillage()    \n\
+   <Key>s:            key-unit-sentry()     \n\
+   <Key>w:            key-unit-wait()       \n\
+   <Key>space:        key-unit-done()       \n\
+   <Key>b:            key-unit-build-city() \n\
+   <Key>e:            key-end-turn()        \n\
+   <Key>Return:       key-end-turn()        \n\
+   <Key>KP_Enter:     key-end-turn()        \n\
+   <Key>h:            key-unit-homecity()   \n\
+   <Key>p:            key-unit-clean-pollution() \n\
+   <Key>a:            key-unit-auto() \n\
+   <Key>u:            key-unit-unload() \n\
+   <Key>l:            key-goto-dialog()
+
+*overviewcanvas.translations:\
+   <BtnDown>:         select-overviewcanvas() \n\
+   <Key>g:            key-unit-goto()       \n\
+   <Key>Tab:          focus-to-next-unit()  \n\
+   <Key>KP_8:         key-unit-north()      \n\
+   <Key>KP_9:         key-unit-north-east() \n\
+   <Key>KP_6:         key-unit-east()       \n\
+   <Key>KP_3:         key-unit-south-east() \n\
+   <Key>KP_2:         key-unit-south()      \n\
+   <Key>KP_1:         key-unit-south-west() \n\
+   <Key>KP_4:         key-unit-west()       \n\
+   <Key>KP_7:         key-unit-north-west() \n\
+   <Key>KP_5:         focus-to-next-unit()
+
+
+!
+! the city dialog
+!
+*citymainform.*.top:                    chainTop
+*citymainform.*.bottom:                 chainTop
+*citymainform.*.left:                   chainLeft
+*citymainform.*.right:                  chainLeft
+*citymainform.resizable:                True
+*citymainform.background:               white
+
+!*citymainform.background: blue
+*citymainform.foreground: black
+
+*citynamelabel.borderWidth:                0
+*citynamelabel.justify:                    left
+*citynamelabel.horizDistance:              0
+*citynamelabel.internalWidth:              0
+*citynamelabel.resizable:                  True
+*citynamelabel.background: white
+*citynamelabel.foreground: black
+
+*citizenlabels.label:
+*citizenlabels.internalHeight:             0
+*citizenlabels.internalWidth:              0
+*citizenlabels.horizDistance:              2
+*citizenlabels.borderWidth:                0
+
+*citysubform.borderWidth:    	           0
+*citysubform.horizDistance:                0
+*citysubform.background: white
+*citysubform.foreground: black
+
+*citymapcanvas.width: 150
+*citymapcanvas.height: 150
+
+*cityimprovview.allowVert: True
+
+*citysellcommand.label: Sell
+*citysellcommand.foreground:           White
+*citysellcommand.background:           Blue
+
+*cityclosecommand.label: Close
+*cityclosecommand.foreground:          White
+*cityclosecommand.background:          Blue
+
+*cityrenamecommand.label: Rename
+*cityrenamecommand.foreground:          White
+*cityrenamecommand.background:          Blue
+
+*citytradecommand.label: Trade
+*citytradecommand.foreground:          White
+*citytradecommand.background:          Blue
+
+*cityprodlabel.label: \
+Food:    12 (-2)\n\
+Prod:     2 (+2)\n\
+Trade:   25 (-10)
+*cityprodlabel.background:             grey
+*cityprodlabel.foreground:             black
+
+*cityoutputlabel.label: \
+Gold:    20 (+12)\n\
+Luxury:   2\n\
+Science: 25
+*cityoutputlabel.background:           grey
+*cityoutputlabel.foreground:           black
+
+*citystoragelabel.label: Granary:    15/54
+*citystoragelabel.background:           grey
+*citystoragelabel.foreground:           black
+
+*citypollutionlabel.label: Pollution:    111
+*citypollutionlabel.background:        grey
+*citypollutionlabel.foreground:        black
+
+*citybuildinglabel.label: Copernicus' Observatory
+*citybuildinglabel.background:         grey
+*citybuildinglabel.foreground:         black
+
+*cityprogresslabel.label: 199/200
+*cityprogresslabel.background:         grey
+*cityprogresslabel.foreground:         black
+
+*cityimprovlist.background:            cyan
+*cityimprovlist.foreground:            black
+
+*citybuycommand.label: Buy
+*citybuycommand.foreground:            White
+*citybuycommand.background:            Blue
+
+*citychangecommand.label: Change
+*citychangecommand.foreground:         White
+*citychangecommand.background:         Blue
+
+*supportunitlabel.label: Supported units:
+*supportunitlabel.internalWidth:               0
+*supportunitlabel.borderWidth:                 0
+*supportunitlabel.background:              white
+*supportunitlabel.foreground:              black
+
+*supportunitcanvas.label:
+*supportunitcanvas.borderWidth:                0
+*supportunitcanvas.internalWidth:              0
+*supportunitcanvas.internalHeight:             0
+*supportunitcanvas.width:                     30
+*supportunitcanvas.height:                    44
+
+*presentunitlabel.label: Units present:
+*presentunitlabel.internalWidth:               0
+*presentunitlabel.borderWidth:                 0
+*presentunitlabel.background:              white
+*presentunitlabel.foreground:              black
+
+*presentunitcanvas.label:
+*presentunitcanvas.borderWidth:              0
+*presentunitcanvas.internalWidth:            0
+*presentunitcanvas.internalHeight:           0
+*presentunitcanvas.width:                    30
+*presentunitcanvas.height:                   44
+!*presentunitcanvas.background:          lightblue
+
+
+*citymapcanvas.translations:\
+<BtnDown>: select-citymap()
+
+
+!
+! the race selection dialog
+!
+*racespopup.title:
+*raceslabel.label:              Select race and name
+*raceslabel.borderWidth:        0
+*raceslabel.foreground:         black
+*raceslabel.background:         lightblue
+
+*racesokcommand.label:          Ok
+*racesokcommand.foreground:     white
+*racesokcommand.background:     blue
+
+*ratestogglesform.borderWidth:  0
+*racestoggle0.label:            Roman\ \ \ \ \ \ 
+*racestoggle1.label:            Babylonian\ 
+*racestoggle2.label:            German\ \ \ \ \ 
+*racestoggle3.label:            Egyptian\ \ \ 
+*racestoggle4.label:            American\ \ \ 
+*racestoggle5.label:            Greek\ \ \ \ \ \ 
+*racestoggle6.label:            Indian\ \ \ \ \ 
+*racestoggle7.label:            Russian\ \ \ \ 
+*racestoggle8.label:            Zulu\ \ \ \ \ \ \ 
+*racestoggle9.label:            French\ \ \ \ \ 
+*racestoggle10.label:           Aztec\ \ \ \ \ \ 
+*racestoggle11.label:           Chinese\ \ \ \ 
+*racestoggle12.label:           English\ \ \ \ 
+*racestoggle13.label:           Mongol\ \ \ \ \ 
+
+
+*racestoggle1.fromHoriz:        racestoggle0
+*racestoggle2.fromVert:         racestoggle0
+*racestoggle3.fromHoriz:        racestoggle2
+*racestoggle3.fromVert:         racestoggle1
+*racestoggle4.fromVert:         racestoggle2
+*racestoggle5.fromHoriz:        racestoggle4
+*racestoggle5.fromVert:         racestoggle3
+*racestoggle6.fromVert:         racestoggle4
+*racestoggle7.fromHoriz:        racestoggle6
+*racestoggle7.fromVert:         racestoggle5
+*racestoggle8.fromVert:         racestoggle6
+*racestoggle9.fromHoriz:        racestoggle8
+*racestoggle9.fromVert:         racestoggle7
+*racestoggle10.fromVert:        racestoggle8
+*racestoggle11.fromHoriz:       racestoggle10
+*racestoggle11.fromVert:        racestoggle9
+*racestoggle12.fromVert:        racestoggle10
+*racestoggle13.fromHoriz:       racestoggle12
+*racestoggle13.fromVert:        racestoggle11
+*racesname.fromVert:            racestoggle13
+*racesname*String:              \ \ \ \ \ \ \ \ \ \ \ \ 
+*racesname*foreground: black
+*racesname*background: white
+
+*racesokcommand.fromVert:       racesname
+*racescancelcommand.fromHoriz:  racesokcommand
+*racescancelcommand.fromVert:   racesname
+
+*racespopup.racesform.racestogglesform.?.translations: #override\n\
+<Btn1Down>,<Btn1Up>:   set() notify()
+
+
+*racesform.background: lightblue
+*racestogglesform.background:   lightblue
+*racestogglesform*background: blue
+*racestogglesform*foreground: white
+
+
+!
+! players dialog
+!
+*playerspopup.title: Players
+*playerspopup.iconName: Players
+*playerspopup.allowShellResize: True
+
+*playersform.background:          lightblue
+*playersform.resizable:           true
+*playersform.top:                 chainTop
+*playersform.bottom:              chainBottom
+*playersform.left:                chainLeft
+*playersform.right:               chainRight
+
+*playerslabel.resizable:          true
+*playerslabel.justify:            left
+*playerslabel.borderWidth:        1
+*playerslabel.background:         grey
+*playerslabel.foreground:         black
+*playerslabel.top:                chainTop
+*playerslabel.bottom:             chainTop
+*playerslabel.left:               chainLeft
+*playerslabel.right:              chainRight
+*playerslabel.label:Name             Race         Embassy  State    Host
+
+*playerslist.fromVert:            playerslabel
+*playerslist.forceColumns:        true
+*playerslist.defaultColumns:      1
+*playerslist.verticalList:        true
+*playerslist.background:          cyan
+*playerslist.resizable:           true
+*playerslist.top:                 chainTop
+*playerslist.bottom:              chainBottom
+*playerslist.left:                chainLeft
+*playerslist.right:               chainRight
+
+*playersclosecommand.label:         Close
+*playersclosecommand.fromVert:      playerslist
+*playersclosecommand.foreground:    white
+*playersclosecommand.background:    blue
+*playersclosecommand.top:           chainBottom
+*playersclosecommand.bottom:        chainBottom
+*playersclosecommand.left:          chainLeft
+*playersclosecommand.right:         chainLeft
+
+*playersintcommand.label:           Intelligence
+*playersintcommand.fromHoriz:       playersclosecommand
+*playersintcommand.fromVert:        playerslist
+*playersintcommand.foreground:      white
+*playersintcommand.background:      blue
+*playersintcommand.top:             chainBottom
+*playersintcommand.bottom:          chainBottom
+*playersintcommand.left:            chainLeft
+*playersintcommand.right:           chainLeft
+
+*playersmeetcommand.label:          Meet
+*playersmeetcommand.fromHoriz:      playersintcommand
+*playersmeetcommand.fromVert:       playerslist
+*playersmeetcommand.foreground:     white
+*playersmeetcommand.background:     blue
+*playersmeetcommand.top:            chainBottom
+*playersmeetcommand.bottom:         chainBottom
+*playersmeetcommand.left:           chainLeft
+*playersmeetcommand.right:          chainLeft
+
+!
+! meswin dialog
+!
+*meswinpopup.title: Messages
+*meswinpopup.iconName: Messages
+*meswinpopup.allowShellResize: True
+
+*meswinform.background:          lightblue
+*meswinform.resizable:           true
+*meswinform.top:                 chainTop
+*meswinform.bottom:              chainBottom
+*meswinform.left:                chainLeft
+*meswinform.right:               chainRight
+
+*meswinlabel.resizable:          true
+*meswinlabel.justify:            center
+*meswinlabel.borderWidth:        1
+*meswinlabel.background:         grey
+*meswinlabel.foreground:         black
+*meswinlabel.top:                chainTop
+*meswinlabel.bottom:             chainTop
+*meswinlabel.left:               chainLeft
+*meswinlabel.right:              chainRight
+*meswinlabel.label:              Messages
+
+*meswinlist.fromVert:            meswinlabel
+*meswinlist.forceColumns:        true
+*meswinlist.defaultColumns:      1
+*meswinlist.verticalList:        true
+*meswinlist.background:          cyan
+*meswinlist.resizable:           true
+*meswinlist.top:                 chainTop
+*meswinlist.bottom:              chainBottom
+*meswinlist.left:                chainLeft
+*meswinlist.right:               chainRight
+
+*meswinclosecommand.label:         Close
+*meswinclosecommand.fromVert:      meswinlist
+*meswinclosecommand.foreground:    white
+*meswinclosecommand.background:    blue
+*meswinclosecommand.top:           chainBottom
+*meswinclosecommand.bottom:        chainBottom
+*meswinclosecommand.left:          chainLeft
+*meswinclosecommand.right:         chainLeft
+
+*meswingotocommand.label:           Goto location
+*meswingotocommand.fromHoriz:       meswinclosecommand
+*meswingotocommand.fromVert:        meswinlist
+*meswingotocommand.foreground:      white
+*meswingotocommand.background:      blue
+*meswingotocommand.top:             chainBottom
+*meswingotocommand.bottom:          chainBottom
+*meswingotocommand.left:            chainLeft
+*meswingotocommand.right:           chainLeft
+
+
+

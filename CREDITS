@@ -1,0 +1,34 @@
+The Freeciv team would like to acknowledge the following people 
+for their help. 
+
+Erik Vasaasen:         the 'cause civilization should be free' subtitle.
+Peter Mains:           for tons of criticism and playtesting, and the
+                       metaserver module
+Rene Schalburg:        the startup scripts and tons of playtesting.
+Robert H. Forsman Jr:  the canvas widget(part of FWF).
+Sid Meier:             for slight inspiration ;)
+Warwick Allison:       for fixing many spelling mistakes and bugs
+Massimo Campostrini:   for patch concerning city names and diplomat
+                       action messages. And a patch fixing bug concerning
+                       missing gameinfo.
+Stephan Boettcher:     for patch concerning transporter code
+Matthias Gessl:        for fix to function flood_it in mapgen.c
+Thomas Kraube:         made RPM's for Linux and Sparc
+Brian Thomas:          made "the 1300 scenario"
+Troels Valsted Hansen: Amiga version of FreeCiv
+Peter Skov:            Included a help function in the "change button of the
+                       citydialog" and several other dialogboxes.
+                       Also made a patch to save "server settings"
+Peter Meerwald:        OS/2 version of FreeCiv (XFree86)
+merconline.com:        Made our Mirror site available (freeciv.merconline.com)
+Mitch Davis:           Many patches fixing spelling mistakes and various code
+                       issues. Patch; introducing variable sized tiles and 
+                       several helptext updates. 
+Michael Hohensee:      Draw new units. (Cruiser miss, freigt, battleship, partisans, explorer,                                                                      archer) and wrote a very nice HOWTOPLAY document. 
+Rajala Ilkka:          Patch concerning Partisan bug when reloading a saved game. 
+Richard Braakman:      Fixed bug related to detecting savefile error. 
+Jan Echternach:        Fixed bug related to workers replacement. 
+
+
+And the rest of DAIMI boys for playtesting and criticising. There's no question
+that when it comes to hardcore gamers, our CS-labs are second to none.
