@@ -476,6 +476,8 @@ const char *get_unit_info_label_text2(struct unit *punit)
 {
   INIT;
 
+  /* This text should always have the same number of lines.  Otherwise the
+   * GUI widgets may be confused and try to resize themselves. */
   if (punit) {
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
@@ -491,12 +493,13 @@ const char *get_unit_info_label_text2(struct unit *punit)
     add_line("%s", map_get_tile_info_text(punit->x, punit->y));
     if (infrastructure) {
       add_line("%s", map_get_infrastructure_text(infrastructure));
+    } else {
+      add_line(" ");
     }
     if (pcity) {
-      add("%s", pcity->name);
-    }
-    if (infrastructure) {
-      add("\n");
+      add_line("%s", pcity->name);
+    } else {
+      add_line(" ");
     }
   } else {
     add("\n\n\n");
