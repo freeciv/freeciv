@@ -507,7 +507,8 @@ bool can_unit_do_auto(struct unit *punit)
 {
   if (unit_flag(punit, F_SETTLERS))
     return TRUE;
-  if (is_military_unit(punit) && map_get_city(punit->x, punit->y))
+  if (is_military_unit(punit) && unit_type(punit)->attack_strength > 0
+      && map_get_city(punit->x, punit->y))
     return TRUE;
   return FALSE;
 }
