@@ -2803,8 +2803,9 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     } unit_list_iterate_end;
   } square_iterate_end;
 
-  /* Wakeup patrolling units we bump into. */
-  square_iterate(punit->x, punit->y, 1, x, y) {
+  /* Wakeup patrolling units we bump into.
+     We do not wakeup units further away than 3 squares... */
+  square_iterate(punit->x, punit->y, 3, x, y) {
     unit_list_iterate(map_get_tile(x, y)->units, ppatrol) {
       if (punit != ppatrol
 	  && ppatrol->activity == ACTIVITY_PATROL) {
@@ -3054,8 +3055,9 @@ wakeup_neighbor_sentries() too.
 static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
   int cancel = 0;
+  int range = get_unit_type(punit->type)->vision_range;
 
-  square_iterate(punit->x, punit->y, 1, x, y) {
+  square_iterate(punit->x, punit->y, range, x, y) {
     struct unit *penemy = is_non_allied_unit_tile(map_get_tile(x, y), punit->owner);
     if (penemy && player_can_see_unit(unit_owner(punit), penemy)) {
       cancel = 1;
