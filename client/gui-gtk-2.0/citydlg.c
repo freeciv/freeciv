@@ -712,8 +712,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(pdialog->overview.supported_units_frame), sw);
 
   {
-    int unit_height = (is_isometric) ?
-      UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
+    int unit_height = NORMAL_TILE_HEIGHT * 3 / 2;
 
     align = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
     gtk_widget_set_size_request(align, -1, unit_height);
@@ -1640,8 +1639,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       GtkWidget *cmd, *pix;
       struct unit_node node;
 
-      int unit_height = (is_isometric) ?
-	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
+      int unit_height = NORMAL_TILE_HEIGHT * 3 / 2;
 
       cmd = gtk_button_new();
       node.cmd = cmd;
