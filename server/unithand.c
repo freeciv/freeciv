@@ -654,7 +654,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
        * send_packet_unit_short_info calls up above.
        */
       if (!can_player_see_unit(other_player, pattacker)) {
-	unit_goes_out_of_sight(other_player, pdefender);
+	unit_goes_out_of_sight(other_player, pattacker);
       }
       if (!can_player_see_unit(other_player, pdefender)) {
 	unit_goes_out_of_sight(other_player, pdefender);
