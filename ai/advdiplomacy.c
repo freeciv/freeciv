@@ -766,15 +766,14 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
     struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
 
-    /* We don't hate ourselves, those we don't know and those we're
-     * allied to or team members. Defer judgement on alliance members
-     * we're not (yet) allied to to the alliance leader. Always respect
-     * ceasefires the boss has signed. */
+    /* We don't hate ourselves, those we don't know or team members
+     * Defer judgement on alliance members we're not (yet) allied to
+     * to the alliance leader. Always respect ceasefires the boss has signed. 
+     */
     if (aplayer == pplayer
         || !aplayer->is_alive
         || ds == DS_NO_CONTACT
         || (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team)
-        || ds == DS_ALLIANCE
         || (pplayer != ai->diplomacy.alliance_leader 
             && adip->is_allied_with_ally)
         || (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
