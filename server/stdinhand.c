@@ -2365,8 +2365,11 @@ static void set_command(struct player *caller, char *str)
 		      settings[cmd].name, val);
 	/* canonify map generator settings( all of which are int ) */
 	adjust_terrain_param();
-	/* send any modified game parameters to the clients */
-	send_game_info(0);
+	/* send any modified game parameters to the clients --
+	   if sent before RUN_GAME_STATE, triggers a popdown_races_dialog()
+	   call in client/packhand.c#handle_game_info() */
+	if (server_state==RUN_GAME_STATE)
+	  send_game_info(0);
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
