@@ -47,9 +47,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>		/* usleep */
+#include <unistd.h>		/* usleep, fcntl */
 #endif
 
 #ifdef HAVE_SYS_TIME_H
@@ -58,6 +59,13 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+#ifdef HAVE_SYS_IOCTL_H
+#include <sys/ioctl.h>
+#endif
+
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
@@ -414,3 +422,33 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
   return ret;
 }
 
+
+/***************************************************************
+...
+***************************************************************/
+void my_nonblock(int sockfd)
+{
+#ifdef NONBLOCKING_SOCKETS
+#ifdef HAVE_FCNTL
+  int f_set;
+
+  if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
+    fprintf(stderr, "fcntl F_GETFL failed: %s", mystrerror(errno));
+  }
+
+  f_set |= O_NONBLOCK;
+
+  if (fcntl(sockfd, F_SETFL, f_set) == -1) {
+    fprintf(stderr, "fcntl F_SETFL failed: %s", mystrerror(errno));
+  }
+#else
+#ifdef HAVE_IOCTL
+  long value=1;
+
+  if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
+    freelog(stderr, "ioctl failed: %s", mystrerror(errno));
+  }
+#endif
+#endif
+#endif
+}

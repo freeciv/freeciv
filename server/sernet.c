@@ -36,12 +36,6 @@
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-#ifdef HAVE_SYS_IOCTL_H
-#include <sys/ioctl.h>
-#endif
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
@@ -252,33 +246,6 @@ int sniff_packets(void)
 }
   
   
-static void nonblock(int sockfd)
-{
-#ifdef NONBLOCKING_SOCKETS
-#ifdef HAVE_FCNTL
-  int f_set;
-
-  if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
-    freelog(LOG_FATAL, "fcntl F_GETFL failed: %s", mystrerror(errno));
-  }
-
-  f_set |= O_NONBLOCK;
-
-  if (fcntl(sockfd, F_SETFL, f_set) == -1) {
-    freelog(LOG_FATAL, "fcntl F_SETFL failed: %s", mystrerror(errno));
-  }
-#else
-#ifdef HAVE_IOCTL
-  long value=1;
-
-  if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
-  	freelog(LOG_FATAL, "ioctl failed: %s", mystrerror(errno));
-  }
-#endif
-#endif
-#endif
-}
-
 /********************************************************************
  server accepts connections from client
 ********************************************************************/
@@ -297,7 +264,7 @@ int server_accept_connection(int sockfd)
     return -1;
   }
 
-  nonblock(new_sock);
+  my_nonblock(new_sock);
 
   from=gethostbyaddr((char*)&fromend.sin_addr, sizeof(fromend.sin_addr),
 		     AF_INET);

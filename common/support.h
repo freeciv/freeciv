@@ -51,4 +51,6 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
 #define FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
+void my_nonblock(int sockfd);
+
 #endif  /* FC__SUPPORT_H */
