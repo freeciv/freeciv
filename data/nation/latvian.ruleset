@@ -2,8 +2,10 @@
 
 name=_("Latvian")
 plural=_("?plural:Latvians")
-leader="Guntars Krasts"
-leader_sex="Male"
+leader="Guntars Krasts", "Karlis Ulmanis", "Guntis Ulmanis", 
+  "Vaira Vike Freiberga", "Namejs"
+leader_sex="Male", "Male", "Male", 
+  "Female", "Male"
 flag="f.latvia"
 flag_alt = "-"
 city_style = "European"
