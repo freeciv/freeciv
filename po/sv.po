@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.39-1.14-7\n"
-"POT-Creation-Date: 2003-06-16 00:55+0200\n"
-"PO-Revision-Date: 2003-07-05 08:19+0200\n"
+"Project-Id-Version: 0.39-1.14-8\n"
+"POT-Creation-Date: 2003-07-24 14:21+0200\n"
+"PO-Revision-Date: 2003-07-24 14:21+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Radioaktivt nedfall"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Slut på minne vid försök att %s %lu byte på rad %d av %s."
 
-#: common/packets.c:3057
+#: common/packets.c:3059
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -815,7 +815,7 @@ msgstr ""
 "Spel: %s kan inte bygga %s från arbetslistan; en nödvändig teknologi är ännu "
 "inte tillgänglig. Skjuter upp..."
 
-#: server/cityturn.c:714 server/cityturn.c:771 server/cityturn.c:874
+#: server/cityturn.c:714 server/cityturn.c:771 server/cityturn.c:880
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Byggandet av %s ersätts med %s i %s."
@@ -842,114 +842,114 @@ msgstr ""
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %ss arbetslista tog slut."
 
-#: server/cityturn.c:893
+#: server/cityturn.c:899
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan inte underhålla %s, enhet upplöst."
 
-#: server/cityturn.c:923
+#: server/cityturn.c:929
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s bygger %s, som inte längre är tillgängligt."
 
-#: server/cityturn.c:960
+#: server/cityturn.c:966
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: %s ha färdigställt %s i %s."
 
-#: server/cityturn.c:964 server/cityturn.c:970
+#: server/cityturn.c:970 server/cityturn.c:976
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s bygger %s i %s"
 
-#: server/cityturn.c:976
+#: server/cityturn.c:982
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s har färdigställt %s."
 
-#: server/cityturn.c:983
+#: server/cityturn.c:989
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s ökar forskningen, vi få genast 2 framsteg."
 
-#: server/cityturn.c:999
+#: server/cityturn.c:1005
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spel: %s erhöllo %s och %s från %s."
 
-#: server/cityturn.c:1006
+#: server/cityturn.c:1012
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: %s ha börjat bygga ett rymdskepp!"
 
-#: server/cityturn.c:1049
+#: server/cityturn.c:1055
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan ej bygga %s än."
 
-#: server/cityturn.c:1076
+#: server/cityturn.c:1082
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s har färdigställt %s."
 
-#: server/cityturn.c:1080
+#: server/cityturn.c:1086
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s bygger %s i %s (%i,%i)"
 
-#: server/cityturn.c:1119
+#: server/cityturn.c:1125
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Vi ha ej råd att underhålla %s i %s, byggnaden såld!"
 
-#: server/cityturn.c:1155
+#: server/cityturn.c:1161
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Förorening nära %s."
 
-#: server/cityturn.c:1285
+#: server/cityturn.c:1291
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: Vi Älska Vår %s-Dagen firad i %s."
 
-#: server/cityturn.c:1293
+#: server/cityturn.c:1299
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: Vi Älska Vår%s-Dagen inställd i %s."
 
-#: server/cityturn.c:1325
+#: server/cityturn.c:1331
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Upplopp stör friden i %s."
 
-#: server/cityturn.c:1328
+#: server/cityturn.c:1334
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: UPPLOPP FORTSÄTTER ATT STÖRA FRIDEN i %s."
 
-#: server/cityturn.c:1334
+#: server/cityturn.c:1340
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Friden är återställd i %s."
 
-#: server/cityturn.c:1343
+#: server/cityturn.c:1349
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spel: Medborgarna ha störtat vår regering (%s). Vårt land är i vild ofrid."
 
-#: server/cityturn.c:1367
+#: server/cityturn.c:1373
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spel: %s kan inte färdigställa %s än. Vi kunna ej överge vår enda stad."
 
-#: server/cityturn.c:1384
+#: server/cityturn.c:1390
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s upplöstes till %s."
 
-#: server/cityturn.c:1386
+#: server/cityturn.c:1392
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) upplöstes till %s av %s"
@@ -1513,12 +1513,12 @@ msgstr "Kunde inte öppna spelloggningsfilen \"%s\" för tillfogning."
 #: server/handchat.c:69
 #, c-format
 msgid "Game: %s is an ambiguous player name-prefix."
-msgstr "Spel. %s är en flertydig förstavelse till ett spelarnamn."
+msgstr "Spel: %s är en flertydig förstavelse till ett spelarnamn."
 
 #: server/handchat.c:72
 #, c-format
 msgid "Game: %s is an ambiguous connection name-prefix."
-msgstr "Spel. %s är en flertydig förstavelse till ett anslutningsnamn."
+msgstr "Spel: %s är en flertydig förstavelse till ett anslutningsnamn."
 
 #: server/handchat.c:193
 #, c-format
@@ -12186,6 +12186,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39-1.14-8; 2003-07-24\n"
+"  Rättelser och uppdateringar.\n"
 "Version 0.39-1.14-7; 2003-07-05\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.39-1.14-6; 2003-03-09\n"
