@@ -401,8 +401,9 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
 
   UINT8 specialists[SP_MAX];
 
-  UINT16 food_prod, shield_prod, trade_prod;
-  SINT16 food_surplus, shield_surplus, tile_trade;
+  SINT16 surplus[O_MAX];
+  UINT16 food_prod, shield_prod;
+  SINT16 tile_trade;
   UINT16 food_stock, shield_stock, corruption;
 
   UINT16 trade[NUM_TRADEROUTES];
@@ -975,9 +976,7 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 forced_science;
   UINT8 forced_luxury;
   UINT8 forced_gold;
-  UINT8 min_city_center_food;
-  UINT8 min_city_center_shield;
-  UINT8 min_city_center_trade;
+  UINT8 min_city_center_output[O_MAX];
   UINT8 min_dist_bw_cities;
   UINT8 init_vis_radius_sq;
   UINT8 hut_overflight;
@@ -1038,22 +1037,11 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 free_shield;
   UINT8 free_food;
   UINT8 free_gold;
-      
-  UINT8 trade_before_penalty;
-  UINT8 shields_before_penalty;
-  UINT8 food_before_penalty;
-      
-  UINT8 celeb_trade_before_penalty;
-  UINT8 celeb_shields_before_penalty;
-  UINT8 celeb_food_before_penalty;
-      
-  UINT8 trade_bonus;
-  UINT8 shield_bonus;
-  UINT8 food_bonus;
-      
-  UINT8 celeb_trade_bonus;
-  UINT8 celeb_shield_bonus;
-  UINT8 celeb_food_bonus;
+
+  UINT8 output_before_penalty[O_MAX];
+  UINT8 celeb_output_before_penalty[O_MAX];
+  UINT8 output_inc_tile[O_MAX];
+  UINT8 celeb_output_inc_tile[O_MAX];
 
   UINT16 waste_level[O_MAX];
   UINT8 fixed_waste_distance[O_MAX];
@@ -1165,21 +1153,15 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   UINT8 movement_cost;
   UINT8 defense_bonus;
 
-  UINT8 food;
-  UINT8 shield;
-  UINT8 trade;
+  UINT8 output[O_MAX];
 
   STRING special_1_name[MAX_LEN_NAME];
-  UINT8 food_special_1;
-  UINT8 shield_special_1;
-  UINT8 trade_special_1;
+  UINT8 output_special_1[O_MAX];
   STRING graphic_str_special_1[MAX_LEN_NAME];
   STRING graphic_alt_special_1[MAX_LEN_NAME];
 
   STRING special_2_name[MAX_LEN_NAME];
-  UINT8 food_special_2;
-  UINT8 shield_special_2;
-  UINT8 trade_special_2;
+  UINT8 output_special_2[O_MAX];
   STRING graphic_str_special_2[MAX_LEN_NAME];
   STRING graphic_alt_special_2[MAX_LEN_NAME];
 

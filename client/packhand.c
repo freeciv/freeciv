@@ -421,12 +421,12 @@ void handle_city_info(struct packet_city_info *packet)
     } else if (draw_city_productions
 	       && (pcity->is_building_unit != packet->is_building_unit
 		   || pcity->currently_building != packet->currently_building
-		   || pcity->surplus[O_SHIELD] != packet->shield_surplus
+		   || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
 		   || pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
     } else if (draw_city_names && draw_city_growth &&
 	       (pcity->food_stock != packet->food_stock ||
-		pcity->surplus[O_FOOD] != packet->food_surplus)) {
+		pcity->surplus[O_FOOD] != packet->surplus[O_FOOD])) {
       /* If either the food stock or surplus have changed, the time-to-grow
 	 is likely to have changed as well. */
       update_descriptions = TRUE;
@@ -457,10 +457,10 @@ void handle_city_info(struct packet_city_info *packet)
   }
   
   pcity->food_prod=packet->food_prod;
-  pcity->surplus[O_FOOD] = packet->food_surplus;
+  output_type_iterate(o) {
+    pcity->surplus[o] = packet->surplus[o];
+  } output_type_iterate_end;
   pcity->shield_prod=packet->shield_prod;
-  pcity->surplus[O_SHIELD] = packet->shield_surplus;
-  pcity->surplus[O_TRADE] = packet->trade_prod;
   pcity->tile_trade=packet->tile_trade;
   pcity->corruption=packet->corruption;
   pcity->shield_waste=packet->shield_waste;
@@ -2415,31 +2415,11 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->free_gold           = p->free_gold;
 
   output_type_iterate(o) {
-    gov->output_before_penalty[o] = FC_INFINITY;
-    gov->celeb_output_before_penalty[o] = FC_INFINITY;
-  } output_type_iterate_end;
+    gov->output_before_penalty[o] = p->output_before_penalty[o];
+    gov->celeb_output_before_penalty[o] = p->celeb_output_before_penalty[o];
+    gov->output_inc_tile[o] = p->output_inc_tile[o];
+    gov->celeb_output_inc_tile[o] = p->celeb_output_inc_tile[o];
 
-  gov->output_before_penalty[O_TRADE] = p->trade_before_penalty;
-  gov->output_before_penalty[O_SHIELD] = p->shields_before_penalty;
-  gov->output_before_penalty[O_FOOD] = p->food_before_penalty;
-
-  gov->celeb_output_before_penalty[O_TRADE] = p->celeb_trade_before_penalty;
-  gov->celeb_output_before_penalty[O_SHIELD]
-    = p->celeb_shields_before_penalty;
-  gov->celeb_output_before_penalty[O_FOOD] = p->celeb_food_before_penalty;
-
-  memset(gov->output_inc_tile, 0, O_COUNT * sizeof(*gov->output_inc_tile));
-  gov->output_inc_tile[O_TRADE] = p->trade_bonus;
-  gov->output_inc_tile[O_SHIELD] = p->shield_bonus;
-  gov->output_inc_tile[O_FOOD] = p->food_bonus;
-
-  memset(gov->celeb_output_inc_tile, 0,
-	 O_COUNT * sizeof(*gov->celeb_output_inc_tile));
-  gov->celeb_output_inc_tile[O_TRADE] = p->celeb_trade_bonus;
-  gov->celeb_output_inc_tile[O_SHIELD] = p->celeb_shield_bonus;
-  gov->celeb_output_inc_tile[O_FOOD] = p->celeb_food_bonus;
-
-  output_type_iterate(o) {
     gov->waste[o].level = p->waste_level[o];
     gov->waste[o].fixed_distance = p->fixed_waste_distance[o];
     gov->waste[o].distance_factor = p->waste_distance_factor[o];
@@ -2508,22 +2488,18 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   sz_strlcpy(t->graphic_alt, p->graphic_alt);
   t->movement_cost = p->movement_cost;
   t->defense_bonus = p->defense_bonus;
-  memset(t->output, 0, O_COUNT * sizeof(*t->output));
-  t->output[O_FOOD] = p->food;
-  t->output[O_SHIELD] = p->shield;
-  t->output[O_TRADE] = p->trade;
+
+  output_type_iterate(o) {
+    t->output[o] = p->output[o];
+    t->special[0].output[o] = p->output_special_1[o];
+    t->special[1].output[o] = p->output_special_2[o];
+  } output_type_iterate_end;
+
   sz_strlcpy(t->special[0].name_orig, p->special_1_name);
   t->special[0].name = t->special[0].name_orig;
-  memset(t->special[0].output, 0, O_COUNT * sizeof(*t->special[0].output));
-  t->special[0].output[O_FOOD] = p->food_special_1;
-  t->special[0].output[O_SHIELD] = p->shield_special_1;
-  t->special[0].output[O_TRADE] = p->trade_special_1;
+
   sz_strlcpy(t->special[1].name_orig, p->special_2_name);
   t->special[1].name = t->special[1].name_orig;
-  memset(t->special[1].output, 0, O_COUNT * sizeof(*t->special[1].output));
-  t->special[1].output[O_FOOD] = p->food_special_2;
-  t->special[1].output[O_SHIELD] = p->shield_special_2;
-  t->special[1].output[O_TRADE] = p->trade_special_2;
 
   sz_strlcpy(t->special[0].graphic_str, p->graphic_str_special_1);
   sz_strlcpy(t->special[0].graphic_alt, p->graphic_alt_special_1);
@@ -2661,10 +2637,9 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.forced_science = packet->forced_science;
   game.rgame.forced_luxury = packet->forced_luxury;
   game.rgame.forced_gold = packet->forced_gold;
-  game.rgame.min_city_center_output[O_FOOD] = packet->min_city_center_food;
-  game.rgame.min_city_center_output[O_SHIELD]
-    = packet->min_city_center_shield;
-  game.rgame.min_city_center_output[O_TRADE] = packet->min_city_center_trade;
+  output_type_iterate(o) {
+    game.rgame.min_city_center_output[o] = packet->min_city_center_output[o];
+  } output_type_iterate_end;
   game.rgame.min_dist_bw_cities = packet->min_dist_bw_cities;
   game.rgame.init_vis_radius_sq = packet->init_vis_radius_sq;
   game.rgame.hut_overflight = packet->hut_overflight;

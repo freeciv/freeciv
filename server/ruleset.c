@@ -2935,19 +2935,14 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.movement_cost = t->movement_cost;
       packet.defense_bonus = t->defense_bonus;
 
-      packet.food = t->output[O_FOOD];
-      packet.shield = t->output[O_SHIELD];
-      packet.trade = t->output[O_TRADE];
+      output_type_iterate(o) {
+	packet.output[o] = t->output[o];
+	packet.output_special_1[o] = t->special[0].output[o];
+	packet.output_special_2[o] = t->special[1].output[o];
+      } output_type_iterate_end;
 
       sz_strlcpy(packet.special_1_name, t->special[0].name_orig);
-      packet.food_special_1 = t->special[0].output[O_FOOD];
-      packet.shield_special_1 = t->special[0].output[O_SHIELD];
-      packet.trade_special_1 = t->special[0].output[O_TRADE];
-
       sz_strlcpy(packet.special_2_name, t->special[1].name_orig);
-      packet.food_special_2 = t->special[1].output[O_FOOD];
-      packet.shield_special_2 = t->special[1].output[O_SHIELD];
-      packet.trade_special_2 = t->special[1].output[O_TRADE];
 
       sz_strlcpy(packet.graphic_str_special_1, t->special[0].graphic_str);
       sz_strlcpy(packet.graphic_alt_special_1, t->special[0].graphic_alt);
@@ -3020,22 +3015,12 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.free_food   = g->free_food;
     gov.free_gold   = g->free_gold;
 
-    gov.trade_before_penalty = g->output_before_penalty[O_TRADE];
-    gov.shields_before_penalty = g->output_before_penalty[O_SHIELD];
-    gov.food_before_penalty = g->output_before_penalty[O_FOOD];
-
-    gov.celeb_trade_before_penalty = g->celeb_output_before_penalty[O_TRADE];
-    gov.celeb_shields_before_penalty
-      = g->celeb_output_before_penalty[O_SHIELD];
-    gov.celeb_food_before_penalty = g->celeb_output_before_penalty[O_FOOD];
-
-    gov.trade_bonus = g->output_inc_tile[O_TRADE];
-    gov.shield_bonus = g->output_inc_tile[O_SHIELD];
-    gov.food_bonus = g->output_inc_tile[O_FOOD];
-
-    gov.celeb_trade_bonus = g->celeb_output_inc_tile[O_TRADE];
-    gov.celeb_shield_bonus = g->celeb_output_inc_tile[O_SHIELD];
-    gov.celeb_food_bonus = g->celeb_output_inc_tile[O_FOOD];
+    output_type_iterate(o) {
+      gov.output_before_penalty[o] = g->output_before_penalty[o];
+      gov.celeb_output_before_penalty[o] = g->celeb_output_before_penalty[o];
+      gov.output_inc_tile[o] = g->output_inc_tile[o];
+      gov.celeb_output_inc_tile[o] = g->celeb_output_inc_tile[o];
+    } output_type_iterate_end;
 
     output_type_iterate(o) {
       gov.waste_level[o] = g->waste[o].level;
@@ -3159,10 +3144,9 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.forced_science = game.rgame.forced_science;
   misc_p.forced_luxury = game.rgame.forced_luxury;
   misc_p.forced_gold = game.rgame.forced_gold;
-  misc_p.min_city_center_food = game.rgame.min_city_center_output[O_FOOD];
-  misc_p.min_city_center_shield
-    = game.rgame.min_city_center_output[O_SHIELD];
-  misc_p.min_city_center_trade = game.rgame.min_city_center_output[O_TRADE];
+  output_type_iterate(o) {
+    misc_p.min_city_center_output[o] = game.rgame.min_city_center_output[o];
+  } output_type_iterate_end;
   misc_p.min_dist_bw_cities = game.rgame.min_dist_bw_cities;
   misc_p.init_vis_radius_sq = game.rgame.init_vis_radius_sq;
   misc_p.hut_overflight = game.rgame.hut_overflight;
