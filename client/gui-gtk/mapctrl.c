@@ -411,12 +411,16 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 /**************************************************************************
   Toggle display of grid lines on the map
 **************************************************************************/
-void key_map_grid(void)
+void request_toggle_map_grid(void)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) return;
 
   draw_map_grid^=1;
   update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
+}
+void key_map_grid(void)
+{
+  request_toggle_map_grid();
 }
 
 /**************************************************************************
@@ -998,12 +1002,16 @@ gint butt_down_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
 /**************************************************************************
 ...
 **************************************************************************/
-void center_on_unit(void)
+void request_center_focus_unit(void)
 {
   struct unit *punit;
   
   if((punit=get_unit_in_focus()))
     center_tile_mapcanvas(punit->x, punit->y);
+}
+void center_on_unit(void)
+{
+  request_center_focus_unit();
 }
 
 /**************************************************************************

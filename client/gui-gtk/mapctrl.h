@@ -30,6 +30,8 @@ void request_unit_upgrade(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_unload(struct unit *punit);
 void request_unit_wakeup(struct unit *punit);
+void request_center_focus_unit(void);
+void request_toggle_map_grid(void);
 
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
