@@ -1048,6 +1048,7 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
   gint height, width;
   int tile_width, tile_height;
   gboolean map_resized;
+  static int exposed_once = 0;
 
   gdk_window_get_size( widget->window, &width, &height );
 
@@ -1124,7 +1125,10 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
     refresh_overview_canvas();
   }
 
-  center_on_something();
+  if (!exposed_once) {
+    center_on_something();
+    exposed_once = 1;
+  }
   return TRUE;
 }
 
