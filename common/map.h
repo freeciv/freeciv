@@ -43,7 +43,7 @@ struct tile {
   unsigned short known;
   int city_id;
   struct unit_list units;
-  char worked; 
+  signed char worked; /* who defaults chars to unsigned?  Ugh. */
   short assigned; /* these can save a lot of CPU usage -- Syela */
   unsigned char move_cost[8]; /* don't know if this helps! */
 };
