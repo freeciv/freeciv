@@ -106,7 +106,8 @@ char *city_name_suggestion(struct player *pplayer)
   int i, j;
   static int n_misc = -1;
   static char tempname[MAX_LEN_NAME];
-  static const int max_nb_name = MAP_MAX_WIDTH * MAP_MAX_WIDTH; 
+
+  static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
 
   freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
   
@@ -130,7 +131,7 @@ char *city_name_suggestion(struct player *pplayer)
     }
   }
 
-  for (i = 1; i < max_nb_name; i++ ) {
+  for (i = 1; i <= num_tiles; i++ ) {
     my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
     if (!game_find_city_by_name(tempname)) 
       return tempname;
