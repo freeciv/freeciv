@@ -34,7 +34,7 @@ const char *input_dialog_get_input(GtkWidget *button)
   const char *dp;
   GtkWidget *winput;
       
-  winput=gtk_object_get_data(GTK_OBJECT(button->parent->parent->parent),
+  winput=g_object_get_data(G_OBJECT(button->parent->parent->parent),
 	"iinput");
   
   dp=gtk_entry_get_text(GTK_ENTRY(winput));
@@ -87,7 +87,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname,
 
   gtk_widget_grab_focus(input);
 
-  gtk_object_set_data(GTK_OBJECT(shell), "iinput", input);
+  g_object_set_data(G_OBJECT(shell), "iinput", input);
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(shell)->action_area);

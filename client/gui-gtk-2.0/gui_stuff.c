@@ -59,24 +59,13 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 /**************************************************************************
 ...
 **************************************************************************/
-void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm)
-{
-  if (!GTK_IS_PIXMAP(w))
-    return;
-  gtk_pixmap_set(GTK_PIXMAP(w), pm, NULL);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
 void gtk_set_label(GtkWidget *w, char *text)
 {
-  char *str;
+  const char *str;
 
   if (!GTK_IS_LABEL(w))
     return;
-  gtk_label_get(GTK_LABEL(w), &str);
+  str = gtk_label_get_text(GTK_LABEL(w));
   if(strcmp(str, text) != 0) {
     gtk_label_set_text(GTK_LABEL(w), text);
     gtk_expose_now(w);

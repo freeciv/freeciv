@@ -108,7 +108,7 @@ void popup_find_dialog(void)
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(sw, -1, 200);
+  gtk_widget_set_size_request(sw, -1, 200);
   gtk_container_add(GTK_CONTAINER(label), sw);
 
   g_signal_connect(selection, "changed",

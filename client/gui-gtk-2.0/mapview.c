@@ -130,17 +130,17 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     if (is_isometric) {
       /* We first draw the explosion onto the unit and draw draw the
 	 complete thing onto the map canvas window. This avoids flickering. */
-      gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-		      canvas_x, canvas_y,
-		      0, 0,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      gdk_draw_drawable(single_tile_pixmap, civ_gc, map_canvas_store,
+			canvas_x, canvas_y,
+			0, 0,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       pixmap_put_overlay_tile(single_tile_pixmap,
 			      NORMAL_TILE_WIDTH/4, 0,
 			      sprites.explode.unit[i]);
-      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap,
+			0, 0,
+			canvas_x, canvas_y,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     } else { /* is_isometric */
       /* FIXME: maybe do as described in the above comment. */
       struct canvas_store store = {single_tile_pixmap};
@@ -151,11 +151,11 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
 			      sprites.explode.unit[i]);
 
-      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      UNIT_TILE_WIDTH,
-		      UNIT_TILE_HEIGHT);
+      gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap,
+			0, 0,
+			canvas_x, canvas_y,
+			UNIT_TILE_WIDTH,
+			UNIT_TILE_HEIGHT);
     }
     gdk_flush();
     usleep_since_timer_start(anim_timer, 20000);
@@ -366,19 +366,19 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int new_canvas_x, int new_canvas_y)
 {
   /* Clear old sprite. */
-  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
-		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
+  gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
+		    old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
+		    UNIT_TILE_HEIGHT);
 
   /* Draw the new sprite. */
-  gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
-		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  gdk_draw_drawable(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
+		    new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
 
   /* Write to screen. */
-  gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
-		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
+  gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
+		    new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
+		    UNIT_TILE_HEIGHT);
 
   /* Flush. */
   gdk_flush();
@@ -393,7 +393,7 @@ void set_overview_dimensions(int x, int y)
   overview_canvas_store_height = OVERVIEW_TILE_HEIGHT * y;
 
   if (overview_canvas_store)
-    gdk_pixmap_unref(overview_canvas_store);
+    g_object_unref(overview_canvas_store);
   
   overview_canvas_store	= gdk_pixmap_new(root_window,
 			  overview_canvas_store_width,
@@ -404,8 +404,9 @@ void set_overview_dimensions(int x, int y)
 		     0, 0,
 		     overview_canvas_store_width, overview_canvas_store_height);
 
-  gtk_widget_set_usize(overview_canvas,
-		       OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y);
+  gtk_widget_set_size_request(overview_canvas,
+			      OVERVIEW_TILE_WIDTH  * x,
+			      OVERVIEW_TILE_HEIGHT * y);
   update_map_canvas_scrollbars_size();
 }
 
@@ -416,9 +417,10 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
   if (!can_client_change_view()) {
     if (radar_gfx_sprite) {
-      gdk_draw_pixmap(overview_canvas->window, civ_gc,
-		      radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
-		      ev->area.x, ev->area.y, ev->area.width, ev->area.height);
+      gdk_draw_drawable(overview_canvas->window, civ_gc,
+			radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
+			ev->area.x, ev->area.y,
+			ev->area.width, ev->area.height);
     }
     return TRUE;
   }
@@ -485,25 +487,29 @@ void refresh_overview_viewrect(void)
   delta = map.xsize/2 - (map_view_x0 + screen_width/2);
 
   if (delta>=0) {
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		0, 0, OVERVIEW_TILE_WIDTH * delta, 0,
-		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta,
-		overview_canvas_store_height );
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta, 0,
-		0, 0,
-		OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
+    gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		      0, 0, OVERVIEW_TILE_WIDTH * delta, 0,
+		      overview_canvas_store_width -
+		      OVERVIEW_TILE_WIDTH * delta,
+		      overview_canvas_store_height);
+    gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		      overview_canvas_store_width -
+		      OVERVIEW_TILE_WIDTH * delta, 0,
+		      0, 0,
+		      OVERVIEW_TILE_WIDTH * delta,
+		      overview_canvas_store_height);
   } else {
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		-OVERVIEW_TILE_WIDTH * delta, 0,
-		0, 0,
-		overview_canvas_store_width + OVERVIEW_TILE_WIDTH *delta,
-		overview_canvas_store_height );
+    gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		      -OVERVIEW_TILE_WIDTH * delta, 0,
+		      0, 0,
+		      overview_canvas_store_width + OVERVIEW_TILE_WIDTH *delta,
+		      overview_canvas_store_height);
 
-    gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		0, 0,
-		overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0,
-		-OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
+    gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		      0, 0,
+		      overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0,
+		      -OVERVIEW_TILE_WIDTH * delta,
+		      overview_canvas_store_height);
   }
 
   gdk_gc_set_foreground( civ_gc, colors_standard[COLOR_STD_WHITE] );
@@ -622,18 +628,19 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
       }
 
       scaled_intro_sprite = sprite_scale(intro_gfx_sprite,
-      	      	      	      	      	 w->allocation.width, w->allocation.height);
+					 w->allocation.width,
+					 w->allocation.height);
     }
 
     if (scaled_intro_sprite) {
-      gdk_draw_pixmap(map_canvas->window, civ_gc,
-		      scaled_intro_sprite->pixmap,
-		      ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-		      ev->area.width, ev->area.height);
+      gdk_draw_drawable(map_canvas->window, civ_gc,
+			scaled_intro_sprite->pixmap,
+			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+			ev->area.width, ev->area.height);
       cleared = FALSE;
     } else {
       if (!cleared) {
-        gtk_widget_queue_draw(w);
+	gtk_widget_queue_draw(w);
 	cleared = TRUE;
       }
     }
@@ -647,9 +654,9 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
     }
 
     if (map.xsize) { /* do we have a map at all */
-      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-		ev->area.width, ev->area.height);
+      gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
+			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+			ev->area.width, ev->area.height);
       cleared = FALSE;
     } else {
       if (!cleared) {
@@ -784,9 +791,9 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height)
 {
-  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		  canvas_x, canvas_y, canvas_x, canvas_y,
-		  pixel_width, pixel_height);
+  gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
+		    canvas_x, canvas_y, canvas_x, canvas_y,
+		    pixel_width, pixel_height);
 }
 
 /**************************************************************************
@@ -1039,13 +1046,13 @@ void put_nuke_mushroom_pixmaps(int x, int y)
 	struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
 	get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
 
-	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-			canvas_x, canvas_y, 0, 0,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_drawable(single_tile_pixmap, civ_gc, map_canvas_store,
+			  canvas_x, canvas_y, 0, 0,
+			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 	pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
-	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-			0, 0, canvas_x, canvas_y,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap,
+			  0, 0, canvas_x, canvas_y,
+			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       }
     }
 
@@ -1111,10 +1118,10 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
   gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
   gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
 
-  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
-		  0, 0,
-		  canvas_x, canvas_y,
-		  ssprite->width, ssprite->height);
+  gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+		    0, 0,
+		    canvas_x, canvas_y,
+		    ssprite->width, ssprite->height);
   gdk_gc_set_clip_mask(civ_gc, NULL);
 }
 
@@ -1132,11 +1139,11 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
     gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
   }
 
-  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
-		  offset_x, offset_y,
-		  pixmap_x + offset_x, pixmap_y + offset_y,
-		  MIN(width, MAX(0, ssprite->width - offset_x)),
-		  MIN(height, MAX(0, ssprite->height - offset_y)));
+  gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+		    offset_x, offset_y,
+		    pixmap_x + offset_x, pixmap_y + offset_y,
+		    MIN(width, MAX(0, ssprite->width - offset_x)),
+		    MIN(height, MAX(0, ssprite->height - offset_y)));
 
   gdk_gc_set_clip_mask(civ_gc, NULL);
 }
@@ -1279,19 +1286,19 @@ void put_city_workers(struct city *pcity, int color)
       if (is_isometric) {
 	gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
 	gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
-	gdk_draw_pixmap(map_canvas->window, fill_tile_gc, map_canvas_store,
-			canvas_x, canvas_y,
-			canvas_x, canvas_y,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_drawable(map_canvas->window, fill_tile_gc, map_canvas_store,
+			  canvas_x, canvas_y,
+			  canvas_x, canvas_y,
+			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
 			   canvas_x, canvas_y,
 			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 	gdk_gc_set_clip_mask(fill_tile_gc, NULL);
       } else {
-	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-			canvas_x, canvas_y,
-			canvas_x, canvas_y,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
+			  canvas_x, canvas_y,
+			  canvas_x, canvas_y,
+			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
 			   canvas_x, canvas_y,
 			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -1334,11 +1341,11 @@ void update_map_canvas_scrollbars_size(void)
   gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
 	GTK_ADJUSTMENT(map_vadj));
 
-  gtk_signal_connect(GTK_OBJECT(map_hadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback),
+  g_signal_connect(map_hadj, "value_changed",
+	G_CALLBACK(scrollbar_jump_callback),
 	GINT_TO_POINTER(TRUE));
-  gtk_signal_connect(GTK_OBJECT(map_vadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback),
+  g_signal_connect(map_vadj, "value_changed",
+	G_CALLBACK(scrollbar_jump_callback),
 	GINT_TO_POINTER(FALSE));
 }
 
@@ -1501,10 +1508,10 @@ static void pixmap_put_black_tile_iso(GdkDrawable *pm,
 
   assert(width <= NORMAL_TILE_WIDTH);
   assert(height <= NORMAL_TILE_HEIGHT);
-  gdk_draw_pixmap(pm, civ_gc, sprites.black_tile->pixmap,
-		  offset_x, offset_y,
-		  canvas_x+offset_x, canvas_y+offset_y,
-		  width, height);
+  gdk_draw_drawable(pm, civ_gc, sprites.black_tile->pixmap,
+		    offset_x, offset_y,
+		    canvas_x+offset_x, canvas_y+offset_y,
+		    width, height);
 
   gdk_gc_set_clip_mask(civ_gc, NULL);
 }
@@ -1532,40 +1539,40 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
   if (dither[0]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y == 0)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[0]->pixmap,
-		    NORMAL_TILE_WIDTH/2, 0,
-		    canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+    gdk_draw_drawable(pixmap, civ_gc, dither[0]->pixmap,
+		      NORMAL_TILE_WIDTH/2, 0,
+		      canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
+		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
   /* south */
   if (dither[1] && offset_x == 0
       && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[1]->pixmap,
-		    0, NORMAL_TILE_HEIGHT/2,
-		    canvas_x,
-		    canvas_y + NORMAL_TILE_HEIGHT/2,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+    gdk_draw_drawable(pixmap, civ_gc, dither[1]->pixmap,
+		      0, NORMAL_TILE_HEIGHT/2,
+		      canvas_x,
+		      canvas_y + NORMAL_TILE_HEIGHT/2,
+		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
   /* east */
   if (dither[2]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[2]->pixmap,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		    canvas_x + NORMAL_TILE_WIDTH/2,
-		    canvas_y + NORMAL_TILE_HEIGHT/2,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+    gdk_draw_drawable(pixmap, civ_gc, dither[2]->pixmap,
+		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+		      canvas_x + NORMAL_TILE_WIDTH/2,
+		      canvas_y + NORMAL_TILE_HEIGHT/2,
+		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
   /* west */
   if (dither[3] && offset_x == 0 && offset_y == 0) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[3]->pixmap,
-		    0, 0,
-		    canvas_x,
-		    canvas_y,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+    gdk_draw_drawable(pixmap, civ_gc, dither[3]->pixmap,
+		      0, 0,
+		      canvas_x,
+		      canvas_y,
+		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
   gdk_gc_set_clip_mask(civ_gc, NULL);
@@ -1832,7 +1839,7 @@ void tileset_changed(void)
   reset_unit_table();
 
   /* single_tile is originally allocated in gui_main.c. */
-  gdk_pixmap_unref(single_tile_pixmap);
+  g_object_unref(single_tile_pixmap);
   single_tile_pixmap = gdk_pixmap_new(root_window, 
 				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 }

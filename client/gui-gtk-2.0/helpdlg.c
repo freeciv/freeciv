@@ -473,7 +473,7 @@ static void create_help_dialog(void)
   help_view_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_sw),
   			  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(help_view_sw, 230, -1);
+  gtk_widget_set_size_request(help_view_sw, 230, -1);
   gtk_container_add(GTK_CONTAINER(help_view_sw), help_view);
   gtk_widget_show(help_view);
   gtk_box_pack_start(GTK_BOX(hbox), help_view_sw, FALSE, FALSE, 0);
@@ -481,7 +481,7 @@ static void create_help_dialog(void)
 
   help_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(hbox), help_frame, TRUE, TRUE, 0);
-  gtk_widget_set_usize(help_frame, 480, 350);
+  gtk_widget_set_size_request(help_frame, 480, 350);
   gtk_widget_show(help_frame);
 
   help_box = gtk_vbox_new(FALSE, 5);

@@ -130,7 +130,7 @@ static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
-static gint gdk_input_id;
+static guint input_id;
 
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -561,9 +561,9 @@ static void populate_unit_pixmap_table(void)
   gtk_widget_ref(unit_pixmap_button);
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
-  gtk_signal_connect(GTK_OBJECT(unit_pixmap_button), "button_press_event",
-                     GTK_SIGNAL_FUNC(select_unit_pixmap_callback), 
-                     GINT_TO_POINTER(-1));
+  g_signal_connect(unit_pixmap_button, "button_press_event",
+		   G_CALLBACK(select_unit_pixmap_callback), 
+		   GINT_TO_POINTER(-1));
 
   for (i = 0; i < num_units_below; i++) {
     unit_below_pixmap[i] = gtk_pixcomm_new(UNIT_TILE_WIDTH,
@@ -573,21 +573,21 @@ static void populate_unit_pixmap_table(void)
     gtk_widget_ref(unit_below_pixmap_button[i]);
     gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
                       unit_below_pixmap[i]);
-    gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]),
-		       "button_press_event",
-                       GTK_SIGNAL_FUNC(select_unit_pixmap_callback),
-                       GINT_TO_POINTER(i));
+    g_signal_connect(unit_below_pixmap_button[i],
+		     "button_press_event",
+		     G_CALLBACK(select_unit_pixmap_callback),
+		     GINT_TO_POINTER(i));
       
     gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
                               i, i + 1, 1, 2);
-    gtk_widget_set_usize(unit_below_pixmap[i],
-			 UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    gtk_widget_set_size_request(unit_below_pixmap[i],
+				UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
   }
 
-  more_arrow_pixmap = gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
+  more_arrow_pixmap = gtk_image_new_from_pixmap(sprites.right_arrow->pixmap,
+						NULL);
   gtk_widget_ref(more_arrow_pixmap);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(more_arrow_pixmap), FALSE);
   gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
 
   gtk_widget_show_all(table);
@@ -1281,10 +1281,11 @@ static void set_wait_for_writable_socket(struct connection *pc,
     return;
 
   freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
-  gdk_input_remove(gdk_input_id);
-  gdk_input_id = gdk_input_add(aconnection.sock, GDK_INPUT_READ 
-                               | (socket_writable ? GDK_INPUT_WRITE : 0)
-                               | GDK_INPUT_EXCEPTION, get_net_input, NULL);
+  gtk_input_remove(input_id);
+  input_id = gtk_input_add_full(aconnection.sock, GDK_INPUT_READ 
+				| (socket_writable ? GDK_INPUT_WRITE : 0)
+				| GDK_INPUT_EXCEPTION,
+				get_net_input, NULL, NULL, NULL);
   previous_state = socket_writable;
 }
 
@@ -1294,8 +1295,8 @@ static void set_wait_for_writable_socket(struct connection *pc,
 **************************************************************************/
 void add_net_input(int sock)
 {
-  gdk_input_id = gdk_input_add(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
-			       get_net_input, NULL);
+  input_id = gtk_input_add_full(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
+				get_net_input, NULL, NULL, NULL);
   aconnection.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
@@ -1305,6 +1306,6 @@ void add_net_input(int sock)
 **************************************************************************/
 void remove_net_input(void)
 {
-  gdk_input_remove(gdk_input_id);
+  gtk_input_remove(input_id);
   gdk_window_set_cursor(root_window, NULL);
 }

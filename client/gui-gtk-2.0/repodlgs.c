@@ -176,7 +176,7 @@ void create_science_dialog(bool make_modal)
 
   science_current_label=gtk_progress_bar_new();
   gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
-  gtk_widget_set_usize(science_current_label, 0, 25);
+  gtk_widget_set_size_request(science_current_label, -1, 25);
   
   science_help_toggle = gtk_check_button_new_with_label (_("Help"));
   gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
@@ -196,7 +196,7 @@ void create_science_dialog(bool make_modal)
 
   science_goal_label = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( hbox ), science_goal_label, TRUE, FALSE, 0 );
-  gtk_widget_set_usize(science_goal_label, 0,25);
+  gtk_widget_set_size_request(science_goal_label, -1, 25);
 
   w = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
@@ -463,9 +463,9 @@ void science_dialog_update(void)
     item = gtk_menu_item_new_with_label(data);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
     if (strlen(data) > 0)
-      gtk_signal_connect(GTK_OBJECT(item), "activate",
-			 GTK_SIGNAL_FUNC(science_change_callback),
-			 g_list_nth_data(sorting_list, i));
+      g_signal_connect(item, "activate",
+		       G_CALLBACK(science_change_callback),
+		       g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(popupmenu);
@@ -485,7 +485,7 @@ void science_dialog_update(void)
 				     game.player_ptr->ai.tech_goal);
   my_snprintf(text, sizeof(text), PL_("(%d step)", "(%d steps)", steps),
 	      steps);
-  gtk_set_label(science_goal_label,text);
+  gtk_label_set_text(GTK_LABEL(science_goal_label), text);
 
   if (game.player_ptr->ai.tech_goal == A_UNSET) {
     item = gtk_menu_item_new_with_label(advances[A_NONE].name);
@@ -514,9 +514,9 @@ void science_dialog_update(void)
 
     item = gtk_menu_item_new_with_label(data);
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
-    gtk_signal_connect(GTK_OBJECT(item), "activate",
-		       GTK_SIGNAL_FUNC(science_goal_callback),
-		       g_list_nth_data(sorting_list, i));
+    g_signal_connect(item, "activate",
+		     G_CALLBACK(science_goal_callback),
+		     g_list_nth_data(sorting_list, i));
   }
 
   gtk_widget_show_all(goalmenu);

@@ -148,7 +148,7 @@ static GtkWidget *create_messageopt_dialog(void)
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_widget_set_usize(sw, -1, 425);
+    gtk_widget_set_size_request(sw, -1, 425);
     gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
 
     gtk_tree_view_focus(GTK_TREE_VIEW(view));

@@ -125,7 +125,7 @@ void load_intro_gfx(void)
   gdk_gc_set_rgb_fg_color(face_gc, &face);
   gdk_draw_layout(intro_gfx_sprite->pixmap, face_gc,
 		  (tot-rect.width) / 2, y, layout);
-  gdk_gc_destroy (face_gc);
+  g_object_unref(face_gc);
 
   /* Minimap graphic */
   radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
@@ -171,15 +171,15 @@ struct Sprite *crop_sprite(struct Sprite *source,
 
   mypixmap = gdk_pixmap_new(root_window, width, height, -1);
 
-  gdk_draw_pixmap(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
-		  width, height);
+  gdk_draw_drawable(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
+		    width, height);
 
   if (source->has_mask) {
     mask = gdk_pixmap_new(NULL, width, height, 1);
     gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
 
-    gdk_draw_pixmap(mask, mask_fg_gc, source->mask,
-		    x, y, 0, 0, width, height);
+    gdk_draw_drawable(mask, mask_fg_gc, source->mask,
+		      x, y, 0, 0, width, height);
   }
 
   return ctor_sprite_mask(mypixmap, mask, width, height);
@@ -207,8 +207,8 @@ void load_cursors(void)
   goto_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
 					  white, black,
 					  goto_cursor_x_hot, goto_cursor_y_hot);
-  gdk_bitmap_unref(pixmap);
-  gdk_bitmap_unref(mask);
+  g_object_unref(pixmap);
+  g_object_unref(mask);
 
   /* drop */
   pixmap = gdk_bitmap_create_from_data(root_window, drop_cursor_bits,
@@ -220,8 +220,8 @@ void load_cursors(void)
   drop_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
 					  white, black,
 					  drop_cursor_x_hot, drop_cursor_y_hot);
-  gdk_bitmap_unref(pixmap);
-  gdk_bitmap_unref(mask);
+  g_object_unref(pixmap);
+  g_object_unref(mask);
 
   /* nuke */
   pixmap = gdk_bitmap_create_from_data(root_window, nuke_cursor_bits,
@@ -233,8 +233,8 @@ void load_cursors(void)
   nuke_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
 					  white, black,
 					  nuke_cursor_x_hot, nuke_cursor_y_hot);
-  gdk_bitmap_unref(pixmap);
-  gdk_bitmap_unref(mask);
+  g_object_unref(pixmap);
+  g_object_unref(mask);
 
   /* patrol */
   pixmap = gdk_bitmap_create_from_data(root_window, patrol_cursor_bits,
@@ -246,8 +246,8 @@ void load_cursors(void)
   patrol_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
 					     white, black,
 					     patrol_cursor_x_hot, patrol_cursor_y_hot);
-  gdk_bitmap_unref(pixmap);
-  gdk_bitmap_unref(mask);
+  g_object_unref(pixmap);
+  g_object_unref(mask);
 }
 
 /***************************************************************************
@@ -400,10 +400,12 @@ void sprite_draw_black_border(SPRITE * sprite)
   int x, y;
 
   pixmap_image =
-      gdk_image_get(sprite->pixmap, 0, 0, sprite->width, sprite->height);
+      gdk_drawable_get_image(sprite->pixmap, 0, 0,
+			     sprite->width, sprite->height);
 
   mask_image =
-      gdk_image_get(sprite->mask, 0, 0, sprite->width, sprite->height);
+      gdk_drawable_get_image(sprite->mask, 0, 0,
+			     sprite->width, sprite->height);
 
   /* parsing columns */
   for (x = 0; x < sprite->width; x++) {
@@ -442,8 +444,8 @@ void sprite_draw_black_border(SPRITE * sprite)
   gdk_draw_image(sprite->pixmap, civ_gc, pixmap_image, 0, 0, 0, 0,
 		 sprite->width, sprite->height);
 
-  gdk_image_destroy(mask_image);
-  gdk_image_destroy(pixmap_image);
+  g_object_unref(mask_image);
+  g_object_unref(pixmap_image);
 }
 
 /***************************************************************************
@@ -460,10 +462,10 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   int x, xoffset, xadd, xremsum, xremadd;
   int y, yoffset, yadd, yremsum, yremadd;
 
-  xi_src = gdk_image_get(src->pixmap, 0, 0, src->width, src->height);
+  xi_src = gdk_drawable_get_image(src->pixmap, 0, 0, src->width, src->height);
 
   xi_dst = gdk_image_new(GDK_IMAGE_FASTEST,
-			 gdk_window_get_visual(root_window), new_w, new_h);
+			 gdk_drawable_get_visual(root_window), new_w, new_h);
 
   /* for each pixel in dst, calculate pixel offset in src */
   xadd = src->width / new_w;
@@ -487,7 +489,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   yremsum = new_h / 2;
 
   if (src->has_mask) {
-    xb_src = gdk_image_get(src->mask, 0, 0, src->width, src->height);
+    xb_src = gdk_drawable_get_image(src->mask, 0, 0, src->width, src->height);
 
     dst->mask = gdk_pixmap_new(root_window, new_w, new_h, 1);
     gdk_draw_rectangle(dst->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
@@ -510,7 +512,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
       }
     }
 
-    gdk_image_destroy(xb_src);
+    g_object_unref(xb_src);
   } else {
     for (y = 0; y < new_h; y++) {
       for (x = 0; x < new_w; x++) {
@@ -529,8 +531,8 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
 
   dst->pixmap = gdk_pixmap_new(root_window, new_w, new_h, -1);
   gdk_draw_image(dst->pixmap, civ_gc, xi_dst, 0, 0, 0, 0, new_w, new_h);
-  gdk_image_destroy(xi_src);
-  gdk_image_destroy(xi_dst);
+  g_object_unref(xi_src);
+  g_object_unref(xi_dst);
 
   dst->has_mask = src->has_mask;
   return dst;
@@ -556,7 +558,7 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
   }
 
   mask_image =
-      gdk_image_get(sprite->mask, 0, 0, sprite->width, sprite->height);
+    gdk_drawable_get_image(sprite->mask, 0, 0, sprite->width, sprite->height);
 
 
   /* parses mask image for the first column that contains a visible pixel */
@@ -603,7 +605,7 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
     }
   }
 
-  gdk_image_destroy(mask_image);
+  g_object_unref(mask_image);
 }
 
 /*********************************************************************
@@ -651,7 +653,7 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
       }
     }
   }
-  gdk_image_destroy(img);
+  g_object_unref(img);
 
   return dst;
 }

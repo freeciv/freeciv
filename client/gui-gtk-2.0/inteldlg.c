@@ -183,7 +183,7 @@ void intel_create_dialog(struct player *p)
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(sw, -1, 300);
+  gtk_widget_set_size_request(sw, -1, 300);
 
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
 	sw, TRUE, FALSE, 2);

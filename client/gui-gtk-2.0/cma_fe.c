@@ -267,9 +267,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
-    gtk_signal_connect(GTK_OBJECT(pdialog->minimal_surplus[i]),
-		       "value_changed", GTK_SIGNAL_FUNC(hscale_changed),
-		       pdialog);
+    g_signal_connect(pdialog->minimal_surplus[i],
+		     "value_changed",
+		     G_CALLBACK(hscale_changed), pdialog);
 
     pdialog->factor[i] =
 	GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, 25, 1, 1, 0));
@@ -279,8 +279,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
-    gtk_signal_connect(GTK_OBJECT(pdialog->factor[i]), "value_changed",
-		       GTK_SIGNAL_FUNC(hscale_changed), pdialog);
+    g_signal_connect(pdialog->factor[i], "value_changed",
+		     G_CALLBACK(hscale_changed), pdialog);
   }
 
   /* Happy Surplus and Factor */
@@ -300,8 +300,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
 			       FALSE);
 
-  gtk_signal_connect(GTK_OBJECT(pdialog->happy_button), "toggled",
-		     GTK_SIGNAL_FUNC(hscale_changed), pdialog);
+  g_signal_connect(pdialog->happy_button, "toggled",
+		   G_CALLBACK(hscale_changed), pdialog);
 
   pdialog->factor[NUM_STATS] =
       GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, 50, 1, 0, 0));
@@ -312,9 +312,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
   gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
-  gtk_signal_connect(GTK_OBJECT(pdialog->factor[NUM_STATS]),
-		     "value_changed", GTK_SIGNAL_FUNC(hscale_changed),
-		     pdialog);
+  g_signal_connect(pdialog->factor[NUM_STATS],
+		   "value_changed",
+		   G_CALLBACK(hscale_changed), pdialog);
 
   /* buttons */
 

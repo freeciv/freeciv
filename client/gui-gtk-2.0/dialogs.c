@@ -1104,10 +1104,10 @@ void popup_government_dialog(void)
       "modal", TRUE,
       NULL);
 
-    gtk_signal_connect(
-      GTK_OBJECT(dshell),
+    g_signal_connect(
+      dshell,
       "delete_event",
-      GTK_SIGNAL_FUNC(gtk_true),
+      G_CALLBACK(gtk_true),
       GINT_TO_POINTER(toplevel)
     );
 
@@ -1116,7 +1116,7 @@ void popup_government_dialog(void)
 
     vbox = gtk_vbutton_box_new();
     gtk_container_add(GTK_CONTAINER(dlabel), vbox);
-    gtk_container_border_width(GTK_CONTAINER(vbox), 5);
+    gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
 
     for (i = 0; i < game.government_count; i++) {
       struct government *g = &governments[i];

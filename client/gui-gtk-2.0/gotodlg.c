@@ -167,7 +167,7 @@ static void create_goto_dialog(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(sw, -1, 200);
+  gtk_widget_set_size_request(sw, -1, 200);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,

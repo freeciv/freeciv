@@ -52,7 +52,7 @@ int city_workers_color=COLOR_STD_WHITE;
 /**************************************************************************
 ...
 **************************************************************************/
-static gint popit_button_release(GtkWidget *w, GdkEventButton *event)
+static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 {
   gtk_grab_remove(w);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
@@ -207,9 +207,9 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     for (i = 0; cross_list[i].x >= 0; i++) {
       put_cross_overlay_tile(cross_list[i].x, cross_list[i].y);
     }
-    gtk_signal_connect(GTK_OBJECT(p),"destroy",
-		       GTK_SIGNAL_FUNC(popupinfo_popdown_callback),
-		       cross_list);
+    g_signal_connect(p, "destroy",
+		     G_CALLBACK(popupinfo_popdown_callback),
+		     cross_list);
 
     /* displace popup so as not to obscure it by the mouse cursor */
     popx= event->x_root + 16;
@@ -222,8 +222,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 		     NULL, NULL, event->time);
     gtk_grab_add(p);
 
-    gtk_signal_connect_after(GTK_OBJECT(p), "button_release_event",
-                             GTK_SIGNAL_FUNC(popit_button_release), NULL);
+    g_signal_connect_after(p, "button_release_event",
+                           G_CALLBACK(popit_button_release), NULL);
   }
 }
 
