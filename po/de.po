@@ -5264,7 +5264,8 @@ msgstr "%s verlieren %s beim Kampf gegen die %s"
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Spiel: %d Einheiten bei einem Angriff von %ss %s%s verloren."
+msgstr[0] "Spiel: 1 Einheit bei einem Angriff von %ss %s verloren."
+msgstr[1] "Spiel: %d Einheiten bei einem Angriff von %ss %s verloren."
 
 #: server/unittools.c:1946
 #, c-format
