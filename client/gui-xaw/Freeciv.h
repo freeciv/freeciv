@@ -2082,7 +2082,8 @@ Now.. Go give'em hell!\")",
    <Key>4:            key-unit-west()       \\n\
    <Key>3:            key-unit-south-east() \\n\
    <Key>2:            key-unit-south()      \\n\
-   <Key>1:            key-unit-south-west()",
+   <Key>1:            key-unit-south-west() \\n\
+   <Key>Escape:       key-cancel-action()",
 "Freeciv*overviewcanvas.translations:\
    <BtnDown>:         select-overviewcanvas() \\n\
    <Key>g:            key-unit-goto()       \\n\
@@ -2095,7 +2096,8 @@ Now.. Go give'em hell!\")",
    <Key>KP_1:         key-unit-south-west() \\n\
    <Key>KP_4:         key-unit-west()       \\n\
    <Key>KP_7:         key-unit-north-west() \\n\
-   <Key>KP_5:         focus-to-next-unit()",
+   <Key>KP_5:         focus-to-next-unit()  \\n\
+   <Key>Escape:       key-cancel-action()",
 "Freeciv*citymainform.*.top:                    chainTop",
 "Freeciv*citymainform.*.bottom:                 chainTop",
 "Freeciv*citymainform.*.left:                   chainLeft",

@@ -509,7 +509,7 @@ void request_unit_paradrop(struct unit *punit)
     append_output_window("Game: Only paratrooper units can do this.");
     return;
   }
-	if(!can_unit_paradropped(punit))
+  if(!can_unit_paradropped(punit))
     return;
 
   paradrop_state=1;
@@ -790,6 +790,24 @@ void key_end_turn(void)
     gen_packet.message[0]='\0';
     send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
     set_turn_done_button_state(FALSE);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_cancel_action(void)
+{
+  if(goto_state) {
+    struct unit *punit;
+
+    punit=unit_list_find(&game.player_ptr->units, goto_state);
+
+    goto_state=0;
+    nuke_state=0;
+    paradrop_state=0;
+
+    update_unit_info_label(punit);
   }
 }
 

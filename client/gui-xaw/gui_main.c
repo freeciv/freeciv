@@ -294,6 +294,7 @@ XtActionsRec Actions[] = {
   { "key-unit-wakeup", xaw_key_unit_wakeup },
   { "wakeup", butt_down_wakeup },
   { "key-end-turn", xaw_key_end_turn },
+  { "key-cancel-action", xaw_key_cancel_action },
   { "select-citymap", button_down_citymap},
   { "quit-freeciv", quit_freeciv},
   { "close-citydialog", close_city_dialog_action},

@@ -51,6 +51,7 @@ void set_unit_focus_no_center(struct unit *punit);
 void update_unit_focus(void);
 
 void key_end_turn(void);
+void key_cancel_action(void);
 void key_map_grid(void);
 void key_unit_airbase(void);
 void key_unit_auto(void);

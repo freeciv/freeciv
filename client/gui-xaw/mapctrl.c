@@ -420,6 +420,10 @@ void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_end_turn();
 }
+void xaw_key_cancel_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_cancel_action();
+}
 void xaw_key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_map_grid();

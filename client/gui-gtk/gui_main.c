@@ -280,6 +280,8 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_Return:		key_end_turn();			break;
     case GDK_KP_Enter:		key_end_turn();			break;
 
+    case GDK_Escape:		key_cancel_action();		break;
+
     case GDK_t:			key_city_workers(widget,event);	break;
     default:							return FALSE;
     }
