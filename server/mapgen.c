@@ -28,6 +28,7 @@
 #include "mem.h"
 #include "rand.h"
 #include "shared.h"
+#include "srv_main.h"
 
 #include "mapgen.h"
 
@@ -1125,9 +1126,12 @@ void create_start_positions(void)
     }
     counter++;
     if (counter > MAXTRIES) {
-      die("The server appears to have gotten into an infinite loop "
-	  "in the allocation of starting positions, and will abort.\n"
-	  "Please report this bug at " WEBSITE_URL);
+      char filename[] = "map_core.sav";
+      save_game(filename);
+      die(_("The server appears to have gotten into an infinite loop "
+	    "in the allocation of starting positions, and will abort.\n"
+	    "The map has been saved into %s.\n"
+	    "Please report this bug at %s."), filename, WEBSITE_URL);
     }
   }
   map.num_start_positions = game.nplayers;
