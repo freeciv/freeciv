@@ -185,11 +185,17 @@ void get_select_timeout(struct timeval *timeout)
       timeout->tv_sec = 0;
       timeout->tv_usec = 0;
     } else {
+      int usec;
+
+      /* Note that on some platforms the field of timeval are defined as
+       * unsigned so we must enforce a signed type for usec */
       timeout->tv_sec = earliest->time.tv_sec - now.tv_sec;
-      timeout->tv_usec = earliest->time.tv_usec - now.tv_usec;
-      if (timeout->tv_usec < 0) {
-	timeout->tv_usec += 1000 * 1000;
-	timeout->tv_sec--;
+      usec = earliest->time.tv_usec - now.tv_usec;
+      if (usec < 0) {
+	timeout->tv_sec++;
+	timeout->tv_usec = usec + 1000 * 1000;
+      } else {
+      	timeout->tv_usec = usec;
       }
     }
     assert(timeout->tv_sec >= 0 && timeout->tv_usec >= 0);
