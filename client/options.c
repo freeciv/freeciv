@@ -21,6 +21,7 @@
 
 #include "events.h"
 #include "log.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "cityrep.h"

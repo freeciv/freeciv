@@ -25,6 +25,7 @@
 #include "map.h"
 #include "packets.h"
 #include "registry.h"
+#include "version.h"
 
 #include "cityturn.h"
 #include "civserver.h"

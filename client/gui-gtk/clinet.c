@@ -46,6 +46,7 @@
 #include "log.h"
 #include "game.h"
 #include "packets.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "civclient.h"

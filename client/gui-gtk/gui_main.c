@@ -28,6 +28,7 @@
 #include "log.h"
 #include "game.h"
 #include "map.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "civclient.h"

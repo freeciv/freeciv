@@ -29,6 +29,7 @@
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"
+#include "version.h"
 
 #include "climisc.h"
 #include "colors.h"

@@ -43,6 +43,7 @@
 #include "registry.h"
 #include "shared.h"
 #include "tech.h"
+#include "version.h"
 
 #include "autoattack.h"
 #include "cityhand.h"

@@ -40,4 +40,5 @@ libcivcommon_a_SOURCES = \
 		tech.c		\
 		tech.h		\
 		unit.c		\
-		unit.h
+		unit.h		\
+		version.h

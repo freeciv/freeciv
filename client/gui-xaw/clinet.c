@@ -45,6 +45,7 @@
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "civclient.h"

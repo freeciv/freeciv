@@ -13,32 +13,8 @@
 #ifndef FC__SHARED_H
 #define FC__SHARED_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#else
-
-/* This is for the benefit of Imakefile and Makefile.noimake */
-/* client/server should always have the same major and minor versions */
-/* different patch versions are compatible */
-#define MAJOR_VERSION  1
-#define MINOR_VERSION  8 
-#define PATCH_VERSION  0 
-#define VERSION_STRING "1.8.0"
-#define IS_BETA_VERSION 0 
-#define MAILING_LIST "freeciv-dev@freeciv.org"
-#define SITE "http://www.freeciv.org"
-
-#endif /* HAVE_CONFIG_H */
-
-#if IS_BETA_VERSION
-#define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING" (beta release)"
-#define WORD_VERSION "betatest version"
-#else
-#define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
-#define WORD_VERSION "version"
-#endif
-
 /* Note: the capability string is now in capstr.c --dwp */
+/* Version stuff is now in version.h --dwp */
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

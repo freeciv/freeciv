@@ -28,6 +28,7 @@
 #include "mem.h"
 #include "shared.h"
 #include "unit.h"
+#include "version.h"
 
 #include "climisc.h"
 #include "colors.h"

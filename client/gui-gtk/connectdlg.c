@@ -19,7 +19,7 @@
 
 #include <gtk/gtk.h>
 
-#include "shared.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "clinet.h"

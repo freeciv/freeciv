@@ -26,7 +26,7 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
 
-#include "shared.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "clinet.h"

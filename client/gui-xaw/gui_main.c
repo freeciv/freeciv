@@ -40,6 +40,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "citydlg.h"
