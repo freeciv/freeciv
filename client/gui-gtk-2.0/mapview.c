@@ -1009,17 +1009,26 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
+  GdkPoint points[5];
+
   gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_YELLOW]);
 
   /* gdk_draw_rectangle() must start top-left.. */
-  gdk_draw_line(map_canvas->window, civ_gc,
-            canvas_x, canvas_y, canvas_x + w, canvas_y);
-  gdk_draw_line(map_canvas->window, civ_gc,
-            canvas_x, canvas_y, canvas_x, canvas_y + h);
-  gdk_draw_line(map_canvas->window, civ_gc,
-            canvas_x, canvas_y + h, canvas_x + w, canvas_y + h);
-  gdk_draw_line(map_canvas->window, civ_gc,
-            canvas_x + w, canvas_y, canvas_x + w, canvas_y + h);
+  points[0].x = canvas_x;
+  points[0].y = canvas_y;
+
+  points[1].x = canvas_x + w;
+  points[1].y = canvas_y;
+
+  points[2].x = canvas_x + w;
+  points[2].y = canvas_y + h;
+
+  points[3].x = canvas_x;
+  points[3].y = canvas_y + h;
+
+  points[4].x = canvas_x;
+  points[4].y = canvas_y;
+  gdk_draw_lines(map_canvas->window, civ_gc, points, ARRAY_SIZE(points));
 
   rectangle_active = TRUE;
 }
