@@ -150,7 +150,9 @@ int content_citizens(struct player *pplayer)
   if (cities > basis) {
     content--;
     if (step)
-      content -= (cities - basis) / step;
+      content -= (cities - basis - 1) / step;
+    /* the first penalty is at (basis + 1) cities;
+       the next is at (basis + step + 1), _not_ (basis + step) */
   }
   return content;
 }
