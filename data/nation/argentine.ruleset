@@ -2,8 +2,8 @@
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
-leader="San Martin", "Rosas", "Rivadavia", "Peron"
-leader_sex="Male", "Male", "Male", "Male"
+leader="San Martin", "de Rosas", "Rivadavia", "Peron", "Eva Peron", "Menem"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="f.argentina"
 flag_alt = "-"
 city_style = "European"
@@ -13,16 +13,17 @@ expand=1
 civilized=2
 advisors=100,100,100,100,100,100,100
 
-tech_goals="Monarchy","The Republic","Iron Working","Trade","Navigation",
-           "Railroad","Steel","Industrialization","Democracy"
+tech_goals="Monarchy", "The Republic", "Iron Working", "Trade", "Navigation",
+           "Railroad", "Steel", "Industrialization", "Democracy"
 wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
-  "Buenos Aires", "Cordoba", "Rosario", "Mendoza", "Tucuman",
-  "Mar del Plata", "Santa Fe", "Ushuaia", "La Plata", "Posadas",
-  "Neuquen", "Corrientes", "Catamarca", "Formosa", "Resistencia",
-  "Salta", "Bahia Blanca", "Viedma", "Comodoro Rivadavia",
-  "Rawson", "Rio Grande"
-
-
+  "Buenos Aires", "San Juan", "Mendoza", "San Luís", "Córdoba", "Rosario",
+  "Tucumán", "Entre Rios", "Rio Grande", "Mar del Plata", "Santa Fe",
+  "Rawson", "Usuahia", "Islas Malvinas", "Comodoro Rivadavia", "Junín",
+  "Maipú", "Chimbas", "El Leoncito", "La Quiaca", "Paraná", "Santa Cruz",
+  "Santiago del Estero", "Jujuy", "Rio Gallegos", "Corrientes", "Mercedes",
+  "Reconquista", "La Rioja", "Lanus", "Moron", "La Plata", "San Lorenzo",
+  "San Pedro", "Rio Negro", "Quequén", "Neuquén", "Bariloche", "Bahia Blanca",
+  "San Sebastián", "Quilmes", "Decepción", "Esperanza", "Teniente Matienzo"
