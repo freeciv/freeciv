@@ -18,6 +18,9 @@
 
 #define GAME_DEFAULT_TIMEOUT 0
 
+#define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
+#define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */
+
 #define GAME_START_YEAR -4000
 
 enum server_states { 

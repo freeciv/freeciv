@@ -232,6 +232,8 @@ int game_load(struct section_file *file)
   game.gold          = secfile_lookup_int(file, "game.gold");
   game.tech          = secfile_lookup_int(file, "game.tech");
   game.skill_level   = secfile_lookup_int(file, "game.skill_level");
+  if (game.skill_level==0)
+    game.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
   game.timeout       = secfile_lookup_int(file, "game.timeout");
   game.end_year      = secfile_lookup_int(file, "game.end_year");
   game.techlevel     = secfile_lookup_int(file, "game.techlevel");

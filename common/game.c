@@ -314,7 +314,7 @@ void game_init(void)
   game.warminglevel=8;
   game.gold        = GAME_DEFAULT_GOLD;
   game.tech        = GAME_DEFAULT_TECHLEVEL;
-  game.skill_level = 0;
+  game.skill_level = GAME_DEFAULT_SKILL_LEVEL;
   game.timeout     = GAME_DEFAULT_TIMEOUT;
   game.end_year    = GAME_DEFAULT_END_YEAR;
   game.year        = GAME_START_YEAR;

@@ -367,7 +367,7 @@ int main(int argc, char *argv[])
     for (i=0;i<game.nplayers;i++) {
       civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
       if (game.players[i].ai.control) {
-	set_ai_level(game.players[i].name, game.players[i].ai.skill_level);
+	set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         city_list_iterate(game.players[i].cities, pcity)
           assess_danger(pcity); /* a slowdown, but a necessary one */
         city_list_iterate_end;
@@ -1299,8 +1299,10 @@ void generate_ai_players()
          !strcmp(player_name,game.players[i].name)) {
            game.players[i].race=race;
 	   game.players[i].ai.control = !game.players[i].ai.control;
+	   game.players[i].ai.skill_level = game.skill_level;
 	   game.players[i].is_connected=0;
            announce_ai_player(&game.players[i]);
+	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         } else
 	  printf ("Error creating new ai player: %s\n", player_name);
    }

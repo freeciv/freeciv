@@ -26,6 +26,7 @@
 #include <mapgen.h>
 #include <registry.h>
 #include <plrhand.h>
+#include <stdinhand.h>
 
 extern char metaserver_info_line[256];
 
@@ -247,11 +248,11 @@ void meta_command(char *arg)
 ***************************************************************/
 const char *name_of_skill_level(int level)
 {
-  const char *nm[11] = { "default", "UNKNOWN", "UNKNOWN", "easy",
+  const char *nm[11] = { "UNUSED", "UNKNOWN", "UNKNOWN", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
 			 "UNKNOWN", "UNKNOWN", "UNKNOWN" };
   
-  assert(level>=0 && level<=10);
+  assert(level>0 && level<=10);
   return nm[level];
 }
 
@@ -260,23 +261,23 @@ const char *name_of_skill_level(int level)
 ***************************************************************/
 int handicap_of_skill_level(int level)
 {
-  int h[11] = { H_RATES+H_TARGETS+H_HUTS, 0, 0, H_RATES+H_TARGETS+H_HUTS,
+  int h[11] = { -1, 0, 0, H_RATES+H_TARGETS+H_HUTS,
 		0, H_RATES+H_TARGETS+H_HUTS, 0, 0,
 		0, 0, 0 };
   
-  assert(level>=0 && level<=10);
+  assert(level>0 && level<=10);
   return h[level];
 }
 
 /**************************************************************************
 Return the AI fuzziness (0 to 1000) corresponding to a given skill
-level (0 to 10).  See ai_fuzzy() in common/player.c
+level (1 to 10).  See ai_fuzzy() in common/player.c
 **************************************************************************/
 int fuzzy_of_skill_level(int level)
 {
-  int f[11] = { 0, 0, 0, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
+  int f[11] = { -1, 0, 0, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
   
-  assert(level>=0 && level<=10);
+  assert(level>0 && level<=10);
   return f[level];
 }
 
@@ -287,9 +288,9 @@ compared to defaults.  0 means _never_ build new cities, > 100 means to
 **************************************************************************/
 int expansionism_of_skill_level(int level)
 {
-  int x[11] = { 100, 100, 100, 30/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
+  int x[11] = { -1, 100, 100, 30/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
   
-  assert(level>=0 && level<=10);
+  assert(level>0 && level<=10);
   return x[level];
 }
 
@@ -340,6 +341,13 @@ void toggle_ai_player(char *arg)
   if (pplayer->ai.control) {
     notify_player(0, "Option: %s is AI-controlled.", pplayer->name);
     printf("%s is now under AI control.\n",pplayer->name);
+    if (pplayer->ai.skill_level==0) {
+      pplayer->ai.skill_level = game.skill_level;
+    }
+    /* Set the skill level explicitly, because eg: the player skill
+       level could have been set as AI, then toggled, then saved,
+       then reloaded. */ 
+    set_ai_level(arg, pplayer->ai.skill_level);
   } else {
     notify_player(0, "Option: %s is human.", pplayer->name);
     printf("%s is now under human control.\n",pplayer->name);
@@ -371,6 +379,7 @@ void create_ai_player(char *arg)
 	  printf ("Error creating new ai player: %s\n", arg);
 	else {
 	   pplayer->ai.control = !pplayer->ai.control;
+	   pplayer->ai.skill_level = game.skill_level;
 	   pplayer->is_connected=0;
 	   notify_player(0, "Option: %s has been added as an AI-controlled.",
 			 pplayer->name);
@@ -468,6 +477,15 @@ void report_server_options(struct player *pplayer)
   
 }
 
+void set_ai_level_direct(struct player *pplayer, int level)
+{
+  pplayer->ai.handicap = handicap_of_skill_level(level);
+  pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
+  pplayer->ai.expand = expansionism_of_skill_level(level);
+  pplayer->ai.skill_level = level;
+  printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
+}
+
 void set_ai_level(char *name, int level)
 {
   struct player *pplayer;
@@ -478,17 +496,13 @@ void set_ai_level(char *name, int level)
     return;
   }
 
-  assert(level >= 0 && level < 11);
+  assert(level > 0 && level < 11);
 
   pplayer=find_player_by_name(name);
 
   if (pplayer) {
     if (pplayer->ai.control) {
-      pplayer->ai.handicap = handicap_of_skill_level(level);
-      pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
-      pplayer->ai.expand = expansionism_of_skill_level(level);
-      pplayer->ai.skill_level = level;
-      printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
+      set_ai_level_direct(pplayer, level);
     } else {
       printf("%s is not controlled by the AI.\n", pplayer->name);
     }
@@ -496,11 +510,7 @@ void set_ai_level(char *name, int level)
     for (i = 0; i < game.nplayers; i++) {
       pplayer = get_player(i);
       if (pplayer->ai.control) {
-        pplayer->ai.handicap = handicap_of_skill_level(level);
-	pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
-	pplayer->ai.expand = expansionism_of_skill_level(level);
-	pplayer->ai.skill_level = level;
-        printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
+	set_ai_level_direct(pplayer, level);
       }
     }
     printf("Setting game.skill_level to %d.\n", level);

@@ -1061,6 +1061,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->ai.skill_level =
     secfile_lookup_int_default(file, game.skill_level,
 			       "player%d.ai.skill_level", plrno);
+  if (plr->ai.control && plr->ai.skill_level==0) {
+    plr->ai.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
+  }
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);

@@ -13,8 +13,11 @@
 #ifndef __STDINHAND_H
 #define __STDINHAND_H
 
+struct player;
+
 void handle_stdin_input(char *str);
 void report_server_options(struct player *pplayer);
 void set_ai_level(char *name, int level);
+void set_ai_level_direct(struct player *pplayer, int level);
 
 #endif
