@@ -97,9 +97,11 @@ struct civ_map {
   struct map_position start_positions[R_LAST];
 };
 
-char *map_get_tile_info_text(int x, int y);
-void map_init(void);
 int map_is_empty(void);
+void map_init(void);
+void map_allocate(void);
+
+char *map_get_tile_info_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
 int map_distance(int x0, int y0, int x1, int y1);

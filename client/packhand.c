@@ -549,18 +549,11 @@ void handle_unit_info(struct packet_unit_info *packet)
 **************************************************************************/
 void handle_map_info(struct packet_map_info *pinfo)
 {
-  int x, y;
-
   map.xsize=pinfo->xsize;
   map.ysize=pinfo->ysize;
   map.is_earth=pinfo->is_earth;
 
-  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
-
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++)
-      tile_init(map_get_tile(x, y));
-
+  map_allocate();
   climap_init_continents();
   
   set_overview_dimensions(map.xsize, map.ysize);

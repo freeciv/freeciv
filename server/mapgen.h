@@ -18,6 +18,5 @@ int is_water_adjacent(int x, int y);
 void flood_it(int loaded);
 void create_start_positions(void);
 void adjust_terrain_param(void);
-void init_workmap(void);
 
 #endif  /* FC__MAPGEN_H */

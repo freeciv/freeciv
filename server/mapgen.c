@@ -691,7 +691,7 @@ void map_fractal_generate(void)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
-    init_workmap();
+    map_allocate();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
     if (map.generator == 4 )
@@ -830,19 +830,6 @@ void adjust_map(int minval)
       height_map[y*map.xsize+x]-=minval;
     }
   }
-}
-
-/**************************************************************************
-  this function will create a map.
-**************************************************************************/
-void init_workmap(void)
-{
-  int x,y;
-  
-  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
-  for(y=0;y<map.ysize;y++)
-     for(x=0;x<map.xsize;x++)
-       tile_init(map_get_tile(x, y));
 }
 
 /**************************************************************************

@@ -22,7 +22,6 @@
 #include "registry.h"
 
 #include "cityhand.h"
-#include "mapgen.h"
 #include "plrhand.h"           /* notify_player */
 #include "unitfunc.h"
 
@@ -421,7 +420,7 @@ void map_tiles_load(struct section_file *file)
   map.xsize=secfile_lookup_int(file, "map.width");
   map.ysize=secfile_lookup_int(file, "map.height");
 
-  init_workmap();
+  map_allocate();
 
   /* get the terrain type */
   for(y=0; y<map.ysize; y++) {

@@ -17,6 +17,7 @@
 
 #include "city.h"
 #include "log.h"
+#include "mem.h"
 #include "shared.h"
 #include "unit.h"
 
@@ -77,7 +78,10 @@ char *map_get_tile_info_text(int x, int y)
 }
 
 /***************************************************************
-...
+  Returns 1 if we are at a stage of the game where the map
+  has not yet been generated/loaded.
+  (To be precise, returns 1 if map_allocate() has not yet been
+  called.)
 ***************************************************************/
 int map_is_empty(void)
 {
@@ -109,6 +113,29 @@ void map_init(void)
 
   tile_init(&void_tile);
 }
+
+/**************************************************************************
+  Allocate space for map, and initialise the tiles.
+  Uses current map.xsize and map.ysize.
+  Uses realloc, in case map was allocated before (eg, in client);
+  should have called map_init() (via game_init()) before this,
+  so map.tiles will be 0 on first call.
+**************************************************************************/
+void map_allocate(void)
+{
+  int x,y;
+
+  freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
+	  map.tiles, map.xsize, map.ysize);
+  
+  map.tiles=fc_realloc(map.tiles, map.xsize*map.ysize*sizeof(struct tile));
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++) {
+      tile_init(map_get_tile(x, y));
+    }
+  }
+}
+
 
 /***************************************************************
 ...
