@@ -754,6 +754,17 @@ static void player_load(struct player *plr, int plrno,
 				 "player%d.diplstate%d.has_reason_to_cancel",
 				 plrno, i);
   }
+  /* We don't need this info, but savegames carry it anyway.
+     To avoid getting "unused" warnings we touch the values like this. */
+  for (i=game.nplayers; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+    secfile_lookup_int_default(file, DS_NEUTRAL,
+			       "player%d.diplstate%d.type", plrno, i);
+    secfile_lookup_int_default(file, 0,
+			       "player%d.diplstate%d.turns_left", plrno, i);
+    secfile_lookup_int_default(file, 0,
+			       "player%d.diplstate%d.has_reason_to_cancel",
+			       plrno, i);
+  }
   
   if (has_capability("spacerace", savefile_options)) {
     struct player_spaceship *ship = &plr->spaceship;
