@@ -256,6 +256,10 @@ static void update_server_list(GtkTreeSelection *selection,
 
   gtk_list_store_clear(store);
 
+  if (!list) {
+    return;
+  }
+
   server_list_iterate(*list, pserver) {
     GtkTreeIter it;
     gchar *row[6];
