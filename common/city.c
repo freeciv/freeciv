@@ -1083,7 +1083,7 @@ int get_shields_tile(int x, int y, struct city *pcity)
     s+=(s*terrain_control.rail_shield_bonus)/100;
   if (city_affected_by_wonder(pcity, B_RICHARDS))
     s++;
-  if (city_got_building(pcity, B_OFFSHORE) && tile_t==T_OCEAN)
+  if (tile_t==T_OCEAN && city_got_building(pcity, B_OFFSHORE))
     s++;
   if (s>2 && gov <=G_DESPOTISM) 
     s--;
@@ -1178,7 +1178,7 @@ int get_food_tile(int x, int y, struct city *pcity)
     }
   }
 
-  if (city_got_building(pcity, B_HARBOUR) && tile_t==T_OCEAN)
+  if (tile_t==T_OCEAN && city_got_building(pcity, B_HARBOUR))
     f++;
 
   if (spec_t & S_RAILROAD)
