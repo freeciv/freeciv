@@ -1108,8 +1108,8 @@ static void adjust_terrain_param(void)
 
   mountain_pct = factor * map.steepness * 90;
 
-  /* 40 % if wetness == 50 & */
-  forest_pct = factor * (map.wetness * 60 + 1000) ; 
+  /* 27 % if wetness == 50 & */
+  forest_pct = factor * (map.wetness * 40 + 700) ; 
   jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL) /
                (MAX_COLATITUDE * 2);
   forest_pct -= jungle_pct;
@@ -1118,8 +1118,10 @@ static void adjust_terrain_param(void)
   river_pct = (100 - polar) * (3 + map.wetness / 12) / 100;
 
   /* 6 %  if wetness == 50 && temperature == 50 */
-  swamp_pct = factor * (map.wetness * 6 + map.temperature * 6);
-  desert_pct = factor * (map.temperature * 10 + (100 - map.wetness) * 10) ;
+  swamp_pct = factor * MAX(0, 
+			   (map.wetness * 9 - 150 + map.temperature * 6));
+  desert_pct =factor * MAX(0,
+		(map.temperature * 15 - 250 + (100 - map.wetness) * 10)) ;
 }
 
 /****************************************************************************
