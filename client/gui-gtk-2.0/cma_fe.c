@@ -34,6 +34,7 @@
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
+#include "helpdlg.h"
 #include "inputdlg.h"
 
 #include "cma_fe.h"
@@ -69,9 +70,7 @@ static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data);
 static void cma_preset_add_callback_no(GtkWidget *w, gpointer data);
 static void cma_preset_add_callback_destroy(GtkWidget *w, gpointer data);
 
-static void cma_change_to_callback(GtkWidget *w, gpointer data);
-static void cma_change_permanent_to_callback(GtkWidget *w, gpointer data);
-static void cma_release_callback(GtkWidget *w, gpointer data);
+static void cma_active_callback(GtkWidget *w, gpointer data);
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
 				         GtkTreeViewColumn *col, gpointer data);
 
@@ -130,6 +129,71 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev,
+				      gpointer data)
+{
+  GtkTreePath *path;
+  GtkTreeViewColumn *column;
+
+  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view),
+	ev->x, ev->y, &path, &column, NULL, NULL)) {
+    if (ev->type == GDK_BUTTON_PRESS) {
+      cma_activate_preset_callback(view, path, column, data);
+    } else if (ev->type == GDK_2BUTTON_PRESS) {
+      struct cma_dialog *pdialog = (struct cma_dialog *) data;
+      struct cm_parameter param;
+
+      cmafec_get_fe_parameter(pdialog->pcity, &param);
+      cma_put_city_under_agent(pdialog->pcity, &param);
+      refresh_city_dialog(pdialog->pcity);
+    }
+  }
+  gtk_tree_path_free(path);
+
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void help_callback(GtkWidget *w, gpointer data)
+{
+  popup_help_dialog_string(HELP_CMA_ITEM);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
+			   GtkTreeModel *model, GtkTreeIter *it, gpointer data)
+{
+  struct cma_dialog *pdialog = (struct cma_dialog *) data;
+  const char *s1, *s2;
+  int i1, i2;
+  struct cm_parameter param;
+  GtkTreePath *path;
+
+  gtk_tree_model_get(model, it, 0, &s1, -1); 
+  path = gtk_tree_model_get_path(model, it);
+  i1 = gtk_tree_path_get_indices(path) [0];
+  gtk_tree_path_free(path);
+
+  cmafec_get_fe_parameter(pdialog->pcity, &param);
+  s2 = cmafec_get_short_descr(&param);
+  i2 = cmafec_preset_get_index_of_parameter(&param);
+
+  if (!strcmp(s1, s2) && i1 == i2) {
+    g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_ITALIC,
+		 "weight", PANGO_WEIGHT_BOLD, NULL);
+  } else {
+    g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_NORMAL,
+		 "weight", PANGO_WEIGHT_NORMAL, NULL);
+  }
+}
+
+/**************************************************************************
  instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
 struct cma_dialog *create_cma_dialog(struct city *pcity)
@@ -137,16 +201,17 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   struct cma_dialog *pdialog;
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
-  GtkWidget *vbox, *sw, *hscale;
+  GtkWidget *vbox, *sw, *hscale, *button, *align;
   int i;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkWidget *view;
+  GtkTreeViewColumn *column;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
   pdialog->pcity = pcity;
-  pdialog->shell = gtk_vbox_new(FALSE, 0);
+  pdialog->shell = gtk_vbox_new(FALSE, 8);
   gtk_container_set_border_width(GTK_CONTAINER(pdialog->shell), 8);
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(cma_dialog_destroy_callback), pdialog);
@@ -176,6 +241,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   pdialog->preset_list = view;
   pdialog->selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 
+  g_signal_connect(pdialog->preset_list, "button_press_event",
+      		   G_CALLBACK(button_press_callback), pdialog);
+
   gtk_tooltips_set_tip(pdialog->tips, view,
 		       _("For information on:\n"
 		         "CMA and presets\n"
@@ -184,8 +252,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 		       "");
 
   rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-    rend, "text", 0, NULL);
+  column = gtk_tree_view_column_new_with_attributes(NULL, rend,
+      "text", 0, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+  gtk_tree_view_column_set_cell_data_func(column, rend, cell_data_func,
+      pdialog, NULL);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -203,13 +274,18 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 		   G_CALLBACK(cma_preset_key_pressed_callback), pdialog);
 
   hbox = gtk_hbutton_box_new();
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_SPREAD);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   pdialog->add_preset_command = gtk_button_new_from_stock(GTK_STOCK_NEW);
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->add_preset_command);
   g_signal_connect(pdialog->add_preset_command, "clicked",
 		   G_CALLBACK(cma_add_preset_callback), pdialog);
+
+  button = gtk_button_new_from_stock(GTK_STOCK_HELP);
+  g_signal_connect(button, "clicked",
+		   G_CALLBACK(help_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
 
   pdialog->del_preset_command = gtk_button_new_from_stock(GTK_STOCK_DELETE);
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->del_preset_command);
@@ -312,20 +388,21 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_SPREAD);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  pdialog->change_command = gtk_button_new_with_mnemonic(_("Apply onc_e"));
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->change_command);
-  g_signal_connect(pdialog->change_command, "clicked",
-		   G_CALLBACK(cma_change_to_callback), pdialog);
+  pdialog->active_command = gtk_toggle_button_new();
+  gtk_container_add(GTK_CONTAINER(hbox), pdialog->active_command);
 
-  pdialog->perm_command = gtk_button_new_with_mnemonic(_("Control c_ity"));
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->perm_command);
-  g_signal_connect(pdialog->perm_command, "clicked",
-		   G_CALLBACK(cma_change_permanent_to_callback), pdialog);
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_container_add(GTK_CONTAINER(pdialog->active_command), align);
 
-  pdialog->release_command = gtk_button_new_with_mnemonic(_("_Release city"));
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->release_command);
-  g_signal_connect(pdialog->release_command, "clicked",
-		   G_CALLBACK(cma_release_callback), pdialog);
+  vbox = gtk_vbox_new(FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(align), vbox);
+
+  pdialog->active_image = gtk_image_new();
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->active_image, FALSE, FALSE, 0);
+
+  pdialog->active_label = gtk_label_new(NULL);
+  gtk_widget_set_name(pdialog->active_label, "comment label");
+  gtk_box_pack_end(GTK_BOX(vbox), pdialog->active_label, FALSE, FALSE, 0);
 
   gtk_widget_show_all(pdialog->shell);
 
@@ -334,6 +411,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   dialog_list_insert(&dialog_list, pdialog);
 
   update_cma_preset_list(pdialog);
+
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 
   /* refresh is done in refresh_city_dialog */
 
@@ -349,7 +428,6 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   struct cm_parameter param;
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
   int controlled = cma_is_city_under_agent(pcity, NULL);
-  int preset_index;
 
   cmafec_get_fe_parameter(pcity, &param);
 
@@ -363,35 +441,29 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
     set_hscales(&param, pdialog);
   }
 
-  if (refresh != DONT_REFRESH_SELECT) {
-    /* highlight preset if parameter matches */
-    preset_index = cmafec_preset_get_index_of_parameter(&param);
-    if (preset_index != -1) {
-      GtkTreePath *path;
+  gtk_widget_queue_draw(pdialog->preset_list);
 
-      path = gtk_tree_path_new();
-      gtk_tree_path_append_index(path, preset_index);
+  gtk_widget_set_sensitive(pdialog->active_command, can_client_issue_orders());
 
-      allow_refreshes = 0;
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(pdialog->preset_list), path,
-			       NULL, FALSE);
-      allow_refreshes = 1;
+  g_signal_handlers_disconnect_matched(pdialog->active_command,
+      G_SIGNAL_MATCH_FUNC,
+      0, 0, NULL, cma_active_callback, NULL);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->active_command),
+      controlled);
+  g_signal_connect(pdialog->active_command, "clicked",
+      G_CALLBACK(cma_active_callback), pdialog);
 
-      gtk_tree_path_free(path);
-    } else {
-      gtk_tree_selection_unselect_all(pdialog->selection);
-    }
+  if (controlled) {
+    gtk_image_set_from_stock(GTK_IMAGE(pdialog->active_image),
+	GTK_STOCK_YES, GTK_ICON_SIZE_DND);
+    gtk_label_set_text_with_mnemonic(GTK_LABEL(pdialog->active_label),
+	_("CMA Enabl_ed"));
+  } else {
+    gtk_image_set_from_stock(GTK_IMAGE(pdialog->active_image),
+	GTK_STOCK_NO, GTK_ICON_SIZE_DND);
+    gtk_label_set_text_with_mnemonic(GTK_LABEL(pdialog->active_label),
+	_("CMA Disabl_ed"));
   }
-
-  gtk_widget_set_sensitive(pdialog->change_command,
-			   can_client_issue_orders() &&
-			   result.found_a_valid && !controlled);
-  gtk_widget_set_sensitive(pdialog->perm_command,
-			   can_client_issue_orders() &&
-			   result.found_a_valid && !controlled);
-  gtk_widget_set_sensitive(pdialog->release_command,
-			   can_client_issue_orders() &&
-			   controlled);
 }
 
 /**************************************************************************
@@ -437,21 +509,11 @@ static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, pparam);
 
-  if (allow_refreshes) {
-    if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
-      cma_release_city(pdialog->pcity);
-      cma_put_city_under_agent(pdialog->pcity, pparam);
-
-      /* unfog the city map if we were unable to put back under */
-      if (!cma_is_city_under_agent(pdialog->pcity, NULL)) {
-	refresh_city_dialog(pdialog->pcity);
-	return;			/* refreshing the city, refreshes cma */
-      } else {
-        city_report_dialog_update_city(pdialog->pcity);
-      }
-    }
-    refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_SELECT);
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    cma_release_city(pdialog->pcity);
+    cma_put_city_under_agent(pdialog->pcity, pparam);
   }
+  refresh_city_dialog(pdialog->pcity);
 }
 
 /**************************************************************************
@@ -540,6 +602,9 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
     case GDK_Delete:
       cma_preset_remove(pdialog, index);
       break;
+    case GDK_Insert:
+      cma_add_preset_callback(NULL, pdialog);
+      break;
     default:
       return FALSE;
     }
@@ -611,41 +676,20 @@ static void cma_preset_remove_response(GtkWidget *w, gint response,
 }
 
 /**************************************************************************
- changes the workers of the city to the cma parameters
+ activates/deactivates agent control.
 **************************************************************************/
-static void cma_change_to_callback(GtkWidget *w, gpointer data)
-{
-  struct cm_result result;
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cm_parameter param;
-
-  cmafec_get_fe_parameter(pdialog->pcity, &param);
-  cm_query_result(pdialog->pcity, &param, &result);
-  cma_apply_result(pdialog->pcity, &result);
-}
-
-/**************************************************************************
- changes the workers of the city to the cma parameters and puts the
- city under agent control
-**************************************************************************/
-static void cma_change_permanent_to_callback(GtkWidget *w, gpointer data)
-{
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cm_parameter param;
-
-  cmafec_get_fe_parameter(pdialog->pcity, &param);
-  cma_put_city_under_agent(pdialog->pcity, &param);
-  refresh_city_dialog(pdialog->pcity);
-}
-
-/**************************************************************************
- releases the city from agent control
-**************************************************************************/
-static void cma_release_callback(GtkWidget *w, gpointer data)
+static void cma_active_callback(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  cma_release_city(pdialog->pcity);
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    cma_release_city(pdialog->pcity);
+  } else {
+    struct cm_parameter param;
+
+    cmafec_get_fe_parameter(pdialog->pcity, &param);
+    cma_put_city_under_agent(pdialog->pcity, &param);
+  }
   refresh_city_dialog(pdialog->pcity);
 }
 
@@ -700,15 +744,9 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
   if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
     cma_release_city(pdialog->pcity);
     cma_put_city_under_agent(pdialog->pcity, &param);
-
-    /* unfog the city map if we were unable to put back under */
-    if (!cma_is_city_under_agent(pdialog->pcity, NULL)) {
-      refresh_city_dialog(pdialog->pcity);
-      return;			/* refreshing city refreshes cma */
-    } else {
-      city_report_dialog_update_city(pdialog->pcity);
-    }
+    refresh_city_dialog(pdialog->pcity);
+  } else {
+    refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
   }
-
-  refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
 }
+

@@ -35,9 +35,9 @@ struct cma_dialog {
   GtkWidget *result_label;
   GtkWidget *add_preset_command;
   GtkWidget *del_preset_command;
-  GtkWidget *change_command;
-  GtkWidget *perm_command;
-  GtkWidget *release_command;
+  GtkWidget *active_label;
+  GtkWidget *active_image;
+  GtkWidget *active_command;
   GtkAdjustment *minimal_surplus[NUM_STATS];
   GtkWidget *happy_button;
   GtkAdjustment *factor[NUM_STATS + 1];
