@@ -478,6 +478,10 @@ void ruleset_cache_free(void)
     building_vector_free(get_buildings_with_effect(i));
 
     for (j = 0; j < ARRAY_SIZE(ruleset_cache.effects[i].buckets); j++) {
+      effect_list_iterate(*get_building_effects(j, i), peffect) {
+	/* Allocated in ruleset_cache_add. */
+	free(peffect);
+      } effect_list_iterate_end;
       effect_list_unlink_all(get_building_effects(j, i));
     }
   }
