@@ -25,6 +25,10 @@ endif
 if CLIENT_GUI_WIN32
 GUI_SUBDIR = gui-win32
 endif
+if CLIENT_GUI_FTWL
+GUI_SUBDIR = gui-ftwl
+LIBFTWL = ../utility/ftwl/libftwl.a
+endif
 
 ALL_ESD_FILES=audio_esd.c audio_esd.h
 ALL_SDL_FILES=audio_sdl.c audio_sdl.h
@@ -191,10 +195,10 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 civclient_LDFLAGS = @CLIENT_LDFLAGS@
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
 	../utility/libcivutility.a ../common/libcivcommon.a agents/libagents.a \
-        ../common/aicore/libaicore.a
+        ../common/aicore/libaicore.a $(LIBFTWL)
 
 civclient_LDADD        = @gui_sources@/libguiclient.a \
 	@INTLLIBS@ ../common/aicore/libaicore.a \
         ../utility/libcivutility.a ../common/libcivcommon.a \
         agents/libagents.a ../common/aicore/libaicore.a \
-	@CLIENT_LIBS@ @SOUND_LIBS@
+        $(LIBFTWL) @CLIENT_LIBS@ @SOUND_LIBS@

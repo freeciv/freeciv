@@ -63,7 +63,7 @@ WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 
 dnl  no=do not compile client,  yes=guess it,  *=use this client or error
 AC_ARG_ENABLE(client,
-[  --enable-client[=no/yes/xaw3d/xaw/gtk/gtk2/win32/sdl]
+[  --enable-client[=no/yes/xaw3d/xaw/gtk/gtk2/win32/sdl/ftwl]
                           compile a client [default=yes] (if yes, guess type)],
 [case "${enableval}" in
   yes)	  client=yes ;;
@@ -359,6 +359,8 @@ if test x$client != xno; then
   FC_XAW_CLIENT
 
   if test "$client" = ftwl ; then
+      AC_MSG_CHECKING([will compile gui-ftwl])
+      AC_MSG_RESULT([yes])
       CLIENT_CFLAGS="$CLIENT_FLAGS $FTWL_FLAGS"
       CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
   fi
@@ -419,7 +421,7 @@ AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "$gui_sources" = "gui-stub")
 AM_CONDITIONAL(CLIENT_GUI_WIN32, test "$gui_sources" = "gui-win32")
-dnl AM_CONDITIONAL(CLIENT_GUI_FTWL, test "$gui_sources" = "gui-ftwl")
+AM_CONDITIONAL(CLIENT_GUI_FTWL, test "$gui_sources" = "gui-ftwl")
 AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
 AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
 AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
@@ -638,6 +640,7 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-xaw/Makefile 
 	  client/gui-win32/Makefile 
+	  client/gui-ftwl/Makefile
 	  client/gui-stub/Makefile 
 	  server/Makefile 
 	  server/userdb/Makefile
