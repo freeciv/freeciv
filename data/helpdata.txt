@@ -775,6 +775,7 @@ improvements.
 # Nuclear Fission
 ---
 # Nuclear Power
+Gives sea units one extra move.
 ---
 # Philosophy
 The first player to research philosophy gets an immediate advance.
