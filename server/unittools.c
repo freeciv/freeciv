@@ -521,21 +521,26 @@ int can_place_partisan(int x, int y)
  return 1 if there is already a unit on this square or one destined for it 
  (via goto)
 **************************************************************************/
-int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
-{
+int new_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+{ /* fails to handle a unit on GOTO passing over an assigned tile correctly */
+/* this can be worked around, but I'm testing old version for profiling -- Syela */
   x=map_adjust_x(x);
   y=map_adjust_y(y);
   if (same_pos(myunit->x, myunit->y, x, y))
+    return 0;
+  if (same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y))
     return 0;
   return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
 }
 
-int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 {
   x=map_adjust_x(x);
   y=map_adjust_y(y);
+#ifdef RIDICULOUS
   if (same_pos(myunit->x, myunit->y, x, y))
     return 0;
+#endif
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (myunit==punit) continue;
     if (punit->owner!=pplayer->player_no)
@@ -544,6 +549,10 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
       return 1;
   }
   unit_list_iterate_end;
+#ifndef RIDICULOUS
+  if (same_pos(myunit->x, myunit->y, x, y))
+    return 0;
+#endif
   unit_list_iterate(pplayer->units, punit) {
     if (myunit==punit) continue;
     if (punit->owner!=pplayer->player_no)
@@ -557,215 +566,125 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
   return 0;
 }
 
-/**************************************************************************
-  how much is it worth for the ai to clean pollution on this square:
-  1) there is pollution value is 80
-  2) there is no pollution value is 0
-  TODO: can't tell whether or not this is OUR pollution, or it's closer
-  to an enemy.
-**************************************************************************/
-int benefit_pollution(struct player *pplayer, int x, int y)
+/* all of the benefit and ai_calc routines rewritten by Syela */
+/* to conform with city_tile_value and related calculations elsewhere */
+/* all of these functions are VERY CPU-inefficient and will later be optimized. */
+
+int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  if (map_get_special(x, y) & S_POLLUTION)
-    return 80;
-  return 0;
+  int x, y, m;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!(map_get_special(x, y) & S_POLLUTION)) return(0);
+  map_clear_special(x, y, S_POLLUTION);
+  m = city_tile_value(pcity, i, j, 0, 0);
+  map_set_special(x, y, S_POLLUTION);
+  return(m);
 }
 
-/**************************************************************************
-  1) if there is railroad or road then return 0
-  2) if there is already work on this square return 0
-  3) return a value based on the terrain, note that some of the
-     terrains won't return anything before the invention of railroad.   
-**************************************************************************/
-int benefit_road(struct player *pplayer, int x, int y)
+int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  int t;
-  int f=0;
-  enum tile_special_type spec_t = map_get_special(x, y);
-  enum tile_terrain_type tile_t = map_get_terrain(x, y);
-  if ((spec_t & S_RAILROAD))
-    return 0;
-  if (get_invention(pplayer, A_RAILROAD) == TECH_KNOWN) 
-    f=1;
-  if ((spec_t & S_ROAD) && !f) 
-    return 0; 
-/* if(is_unit_activity_on_tile(ACTIVITY_ROAD, x, y))
-   return 0;
- if(is_unit_activity_on_tile(ACTIVITY_RAILROAD, x, y))
-   return 0;                                                     Redundant */
- 
-  switch (tile_t) {
-  case T_DESERT:
-  case T_GRASSLAND:
-  case T_PLAINS:
-    t=3;
-    if (f || spec_t & S_SPECIAL)
-      t+=2;
-    break;
-  case T_RIVER:
-    if (f || get_invention(pplayer, A_BRIDGE) == TECH_KNOWN)
-      t=3;
-    else
-      t=0;
-    break;
-  case T_OCEAN:
-    t=0;
-    break;
-  case T_MOUNTAINS:
-    if (f || (spec_t & S_SPECIAL))
-      t=5;
-    else
-      t=1;
-    break;
-  default:
-    if (spec_t & S_SPECIAL)
-      t=3;
-    else
-      t=1;
-    break;
+  int x, y, m;
+  struct tile *ptile;
+  struct tile_type *type;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  type=get_tile_type(ptile->terrain);
+
+/* changing terrain types?? */
+
+  if((ptile->terrain==type->irrigation_result &&
+     !(ptile->special&S_IRRIGATION) &&
+     is_water_adjacent_to_tile(x, y))) {
+    map_set_special(x, y, S_IRRIGATION);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_IRRIGATION);
+    return(m);
+  } else return(0);
+}
+
+int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+/* changing terrain types?? */
+  if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
+      !(ptile->special&S_MINE)) {
+    map_set_special(x, y, S_MINE);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_MINE);
+    return(m);
+  } else return(0);
+}
+
+int road_bonus(int x, int y, int spc)
+{
+  int m = 0, k;
+  int rd[12], te[12];
+  int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
+  int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
+  struct tile *ptile;
+  for (k = 0; k < 12; k++) {
+    ptile = map_get_tile(x + ii[k], y + jj[k]);
+    rd[k] = ptile->special&spc;
+    te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
+    if (!rd[k]) {
+      unit_list_iterate(ptile->units, punit)
+        if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
+          rd[k] = spc;
+      unit_list_iterate_end;
+    }
   }
-  return (t);
+/* this gives road-bonus if NE, E, SE are all ocean and W is a road.  FIX? -- Syela */
+  if (rd[0] && !rd[1] && !rd[3] && (!rd[2] || !rd[8]) &&
+      (!te[2] || !te[4] || !te[7] || !te[6] || !te[5])) m++;
+  if (rd[2] && !rd[1] && !rd[4] && (!rd[7] || !rd[10]) &&
+      (!te[0] || !te[3] || !te[7] || !te[6] || !te[5])) m++;
+  if (rd[5] && !rd[6] && !rd[3] && (!rd[5] || !rd[11]) &&
+      (!te[2] || !te[4] || !te[7] || !te[1] || !te[0])) m++;
+  if (rd[7] && !rd[6] && !rd[4] && (!rd[0] || !rd[9]) &&
+      (!te[2] || !te[3] || !te[0] || !te[1] || !te[5])) m++;
+
+  if (rd[1] && !rd[4] && !rd[3] && (!te[5] || !te[6] || !te[7])) m++;
+  if (rd[3] && !rd[1] && !rd[6] && (!te[2] || !te[4] || !te[7])) m++;
+  if (rd[4] && !rd[1] && !rd[6] && (!te[0] || !te[3] || !te[5])) m++;
+  if (rd[6] && !rd[4] && !rd[3] && (!te[0] || !te[1] || !te[2])) m++;
+  return(m);
 }
 
-/**************************************************************************
-  1) return 0 if there is already a mine on the square
-  2) return 0 if there is already assigned a settler to mining this square
-  3) return 0 if it's not hills or mountains.
-  4) return ALOT if there is specials on this square.
-**************************************************************************/
-int benefit_mine(struct player *pplayer, int x, int y)
+int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  enum tile_special_type spec_t=map_get_special(x, y);
-  enum tile_terrain_type tile_t=map_get_terrain(x, y);
-  if ((spec_t & S_MINE))
-    return 0;
-/* if(is_unit_activity_on_tile(ACTIVITY_MINE, x, y))
-   return 0;                                             Redundant */
-
-  switch (tile_t) {
-  case T_HILLS:
-    if (spec_t & S_SPECIAL) /* prod specials are vital */ 
-      return 20;
-    else
-      return 3;
-    break;
-  case T_MOUNTAINS:
-    if (spec_t & S_SPECIAL) /* prod specials are vital */ 
-      return 10;
-    else
-      return 2;
-  default:
-    return 0;
-  }
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain != T_OCEAN && (ptile->terrain != T_RIVER ||
+      get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
+      !(ptile->special&S_ROAD)) {
+if (ptile->special&S_ROAD) printf("BUG - road on road, %s:(%d, %d)\n", pcity->name, i, j);
+    map_set_special(x, y, S_ROAD);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_ROAD);
+    return(m);
+  } else return(0);
 }
 
-/**************************************************************************
-  return 0 if:
-  1) there is already irrigated on the square
-  2) there is not water around the square
-  3) the square can't be irrigated
-  otherwise return a value weighted on how much it'll help if it's irrigated
-***************************************************************************/
-int benefit_irrigate(struct player *pplayer, int x, int y)
+int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  enum tile_special_type spec_t=map_get_special(x, y);
-  enum tile_terrain_type tile_t=map_get_terrain(x, y);
-  if ((spec_t & S_IRRIGATION))
-    return 0;
-  if (!is_water_adjacent_to_tile(x, y))
-    return 0;
-/* if(is_unit_activity_on_tile(ACTIVITY_IRRIGATE, x, y))
-   return 0;                                                  Redundant */
-
-  switch (tile_t) {
-  case T_DESERT:
-  case T_PLAINS:
-  case T_GRASSLAND:
-  case T_RIVER:
-    return ((get_food_tile_bc(x, y)+1)*2);
-  case T_JUNGLE:
-  case T_SWAMP:
-    if ((spec_t & S_SPECIAL)) /* Maybe this should have other priority? */
-      return 0;
-    return 3;
-  default:
-    return 0;
-  }
-}
-
-/************************************************************************** 
-  checks if there is already a settler destined for this location 
-  otherwise it'll return the benefit of cleaning the pollution here 
-**************************************************************************/
-int ai_calc_pollution(struct unit *punit, struct player *pplayer, int x, int y)
-{
-#ifdef OBSOLETE
-  if (is_already_assigned(punit, pplayer, x, y))
-      return 0; 
-#endif
-  return benefit_pollution(pplayer, x, y);
-}
-
-/**************************************************************************
- 1) checks if there is already a settler destined for this location 
- 2) checks if this is in city range
- return the benefit of mining
- if there is a worker on the square multiply the value with 1.33
-**************************************************************************/
-int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y)
-{
-#ifdef OBSOLETE
-  if (is_already_assigned(punit, pplayer, x, y))
-      return 0; 
-  if (!in_city_radius(pplayer, x, y)) 
-    return 0; 
-#endif
-  if (is_worked_here(x, y))
-    return 4*benefit_mine(pplayer, x, y);
-  else
-    return 3*benefit_mine(pplayer, x, y); 
-}
-
-/**************************************************************************
-  1) checks if there is alread a settler destined for this location
-  2) checks if it's in range of a city (higher multiplier)
-  3) checks if there is worked here (higher multiplier)
-**************************************************************************/
-int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
-{
-#ifdef OBSOLETE
-  if (is_already_assigned(punit, pplayer, x, y))
-      return 0;
-  if (map_get_city(x, y))
-    return 0;
-  if (!in_city_radius(pplayer, x, y)) {
-    if (benefit_road(pplayer, x, y) > 0) /* build up infrastructure */
-      return 1;
-    else
-      return 0;
-  } */
-#else
-  if (map_get_city(x, y))
-    return 0;
-#endif
-  if (is_worked_here(x, y))
-    return benefit_road(pplayer, x, y)*8;
-  return benefit_road(pplayer, x, y)*4;
-}
-
-/*************************************************************************
-  returns the food production of a square without taking concern of government
-**************************************************************************/
-int get_food_tile_bc(int xp, int yp)
-{
-  int f;
-  enum tile_special_type spec_t=map_get_special(xp,yp);
-  enum tile_terrain_type tile_t=map_get_terrain(xp,yp);
-    if (spec_t & S_SPECIAL) 
-    f=get_tile_type(tile_t)->food_special;
-  else
-    f=get_tile_type(tile_t)->food;
-    return f;
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain != T_OCEAN &&
+      get_invention(pplayer, A_RAILROAD) == TECH_KNOWN &&
+      ptile->special&S_ROAD && !(ptile->special&S_RAILROAD)) {
+    map_set_special(x, y, S_RAILROAD);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_RAILROAD);
+    return(m);
+  } else return(0);
+/* bonuses for adjacent railroad tiles */
 }
 
 /*************************************************************************
@@ -797,7 +716,7 @@ int is_ok_city_spot(int x, int y)
   }
   for (i = 0; i < game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) {
-      if (map_distance(x, y, pcity->x, pcity->y)<=8) { 
+      if (map_distance(x, y, pcity->x, pcity->y)<=8) {
         dx=make_dx(pcity->x, x);
         dy=make_dy(pcity->y, y);
         if (dx<=5 && dy<5)
@@ -814,64 +733,13 @@ int is_ok_city_spot(int x, int y)
 /*************************************************************************
   return the city if any that is in range of this square.
 **************************************************************************/
-int in_city_radius(struct player *pplayer, int x, int y)
+int in_city_radius(int x, int y)
 {
-  int dx,dy;
-  city_list_iterate(pplayer->cities, pcity) {
-      if (map_distance(x, y, pcity->x, pcity->y)<=4) { 
-        dx=make_dx(pcity->x, x);
-        dy=make_dy(pcity->y, y);
-        if (dx<=2 && dy<2)
-          return 1;
-        if (dx<2 && dy<=2)
-          return 1;
-      }
+  int i, j;
+  city_map_iterate(i, j) {
+    if (map_get_tile(x+i-2, y+j-2)->city_id) return 1;
   }
-  city_list_iterate_end;
   return 0;
-}
-
-/*************************************************************************
-  returns the value of irrigating this square
-  1) 0 if it's a city square
-  2) 0 if there is already a settler working here
-  3) 0 if the government form is despotism or anarchy
-  4) 0 if it's not in the range of a city
-  multiplied with 133% if there is actually worked on the square
-**************************************************************************/
-int ai_calc_irrigate(struct unit *punit, struct player *pplayer, int x, int y)
-{
-  if (map_get_city(x, y))
-    return 0;
-#ifdef OBSOLETE
-  if (is_already_assigned(punit, pplayer, x, y))
-      return 0;
-  if (get_government(pplayer->player_no) < G_MONARCHY) 
-    return 0;
-  if (!in_city_radius(pplayer, x, y)) 
-    return 0;
-#else
-  if (get_government(pplayer->player_no) < G_MONARCHY) 
-    return 0;
-#endif
-  if (is_worked_here(x, y))
-    return 4*benefit_irrigate(pplayer, x, y);
-  else
-    return 3*benefit_irrigate(pplayer, x, y);
-}
-
-/*************************************************************************
-  distance modifier, so task where settler have to move alot is ranked 
-  low.
-**************************************************************************/
-int dist_mod(int dist, int val)
-{
-  if (dist==0) return 14*val;
-  if (dist==1) return 12*val;
-  if (dist<4) return 10*val;
-  if (dist<8) return 6*val;
-  if (dist<15) return 3*val;
-  return ((2*val * (100-dist))/100);
 }
 
 /*************************************************************************
