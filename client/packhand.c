@@ -510,17 +510,20 @@ void handle_city_info(struct packet_city_info *packet)
                                    &need_effect_update);
   } impr_type_iterate_end;
 
-  /* Since we can see inside the city, just determine the client status
-   * from what we know. */
-  assert(can_player_see_units_in_city(game.player_ptr, pcity));
-  pcity->client.occupied =
-      (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+  /* We should be able to see units in the city.  But for a diplomat
+   * investigating an enemy city we can't.  In that case we don't update
+   * the occupied flag at all: it's already been set earlier and we'll
+   * get an update if it changes. */
+  if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+    pcity->client.occupied
+      = (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+  }
 
   pcity->client.happy = city_happy(pcity);
   pcity->client.unhappy = city_unhappy(pcity);
 
-  popup = (city_is_new && can_client_change_view() && 
-           pcity->owner==game.player_idx && popup_new_cities) 
+  popup = (city_is_new && can_client_change_view()
+           && pcity->owner == game.player_idx && popup_new_cities)
           || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
@@ -529,7 +532,8 @@ void handle_city_info(struct packet_city_info *packet)
     agents_city_changed(pcity);
   }
 
-  handle_city_packet_common(pcity, city_is_new, popup, packet->diplomat_investigate);
+  handle_city_packet_common(pcity, city_is_new, popup,
+			    packet->diplomat_investigate);
 
   try_update_effects(need_effect_update);
 }
