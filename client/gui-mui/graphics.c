@@ -66,9 +66,9 @@ void free_sprite(struct Sprite *sprite)
 /****************************************************************
  Return the gfx file extension the client supports
 *****************************************************************/
-char **gfx_fileextensions(void)
+const char **gfx_fileextensions(void)
 {
-  static char *ext[] =
+  static const char *ext[] =
   {
     "png",
     "ilbm",

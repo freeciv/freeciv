@@ -244,10 +244,9 @@ void free_intro_radar_sprites(void)
 }
 
 
-char **
-gfx_fileextensions(void)
+const char ** gfx_fileextensions(void)
 {
-  static char *ext[] =
+  static const char *ext[] =
   {
     "xpm",
     NULL

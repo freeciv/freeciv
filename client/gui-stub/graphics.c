@@ -36,13 +36,13 @@ free_intro_radar_sprites(void)
 	/* PORTME */
 }
 
-char **
+const char **
 gfx_fileextensions(void)
 {
 	/* PORTME */
 
   /* hack to allow stub to run */
-  static char *ext[] =
+  static const char *ext[] =
   {
     "xpm",
     NULL

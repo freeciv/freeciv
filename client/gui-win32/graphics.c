@@ -90,10 +90,10 @@ free_intro_radar_sprites(void)
 /**************************************************************************
 
 **************************************************************************/
-char **
+const char **
 gfx_fileextensions(void)
 {
-  static char *ext[] =
+  static const char *ext[] =
   {
     "png",
     NULL

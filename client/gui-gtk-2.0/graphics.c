@@ -285,9 +285,9 @@ void dtor_sprite( SPRITE *mysprite )
  Returns the filename extensions the client supports
  Order is important.
 ***************************************************************************/
-char **gfx_fileextensions(void)
+const char **gfx_fileextensions(void)
 {
-  static char *ext[] =
+  static const char *ext[] =
   {
     "png",
     "xpm",
