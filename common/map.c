@@ -34,9 +34,6 @@
 /* the very map */
 struct civ_map map;
 
-/* this is used for map yval out of range: */
-static struct tile void_tile;
-
 /* these are initialized from the terrain ruleset */
 struct terrain_misc terrain_control;
 struct tile_type tile_types[T_LAST];
@@ -175,7 +172,6 @@ int map_is_empty(void)
 
 /***************************************************************
  put some sensible values into the map structure
- Also initialize special void_tile.
 ***************************************************************/
 void map_init(void)
 {
@@ -200,8 +196,6 @@ void map_init(void)
   map.have_specials         = 0;
   map.have_rivers_overlay   = 0;
   map.have_huts             = 0;
-
-  tile_init(&void_tile);
 }
 
 /**************************************************************************
@@ -1015,8 +1009,7 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 /***************************************************************
   Similar to tile_move_cost_ptrs, but for pre-calculating
   tile->move_cost[] values for use by ai (?)
-  If either terrain is T_UNKNOWN (only void_tile, note this
-  is different to tile->known), then return 'maxcost'.
+  If either terrain is T_UNKNOWN, then return 'maxcost'.
   If both are ocean, or one is ocean and other city,
   return -3, else if either is ocean return maxcost.
   Otherwise, return normal cost (unit-independent).
@@ -1090,11 +1083,6 @@ void reset_move_costs(int x, int y)
 void initialize_move_costs(void)
 {
   int maxcost = 72; /* should be big enough without being TOO big */
-  int dir;
-
-  for (dir = 0; dir < 8; dir++) {
-    void_tile.move_cost[dir] = maxcost;
-  }
 
   whole_map_iterate(x, y) {
     struct tile *tile0, *tile1;
@@ -1155,10 +1143,11 @@ void tile_init(struct tile *ptile)
 ***************************************************************/
 struct tile *map_get_tile(int x, int y)
 {
-  if (!normalize_map_pos(&x, &y))
-    return &void_tile; /* accurate fix by Syela */
-  else
-    return map.tiles + map_inx(x, y);
+  int is_real = normalize_map_pos(&x, &y);
+
+  assert(is_real);
+
+  return map.tiles + map_inx(x, y);
 }
 
 /***************************************************************
