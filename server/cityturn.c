@@ -1287,7 +1287,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int disband_city(struct city *pcity)
 {
-  struct player *pplayer = get_player(pcity->owner);
+  struct player *pplayer = city_owner(pcity);
   int x = pcity->x, y = pcity->y;
   struct city *rcity=NULL;
 

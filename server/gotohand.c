@@ -954,7 +954,7 @@ static int find_a_direction(struct unit *punit,
   int nearland;
   struct city *pcity;
   struct unit *passenger;
-  struct player *pplayer = get_player(punit->owner);
+  struct player *pplayer = unit_owner(punit);
 
   if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
     passenger = other_passengers(punit);

@@ -74,7 +74,7 @@ void client_remove_unit(int unit_id)
     struct unit *ufocus = get_unit_in_focus();
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_nation_name(get_player(punit->owner)->nation),
+	   unit_id, get_nation_name(unit_owner(punit)->nation),
 	   unit_name(punit->type), punit->x, punit->y, hc);
     
     if(punit==ufocus) {

@@ -144,7 +144,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
   m = unit_types[punit->type].move_rate;
   if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
   if(is_sailing_unit(punit)) {
-    struct player *pplayer = get_player(punit->owner);
+    struct player *pplayer = unit_owner(punit);
     if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
       m += SINGLE_MOVE;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
@@ -572,7 +572,7 @@ static int is_my_turn(struct unit *punit, struct unit *pdef)
         if (!d) return 1; /* Thanks, Markus -- Syela */
         cur = unit_belligerence_primitive(aunit) *
               get_virtual_defense_power(punit->type, pdef->type, pdef->x, pdef->y) / d;
-        if (cur > val && ai_fuzzy(get_player(punit->owner),1)) return(0);
+        if (cur > val && ai_fuzzy(unit_owner(punit),1)) return(0);
       unit_list_iterate_end;
     }
   }
@@ -1442,7 +1442,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
 
 static int find_nearest_friendly_port(struct unit *punit)
 {
-  struct player *pplayer = get_player(punit->owner);
+  struct player *pplayer = unit_owner(punit);
   int best = 6 * THRESHOLD + 1, cur;
   generate_warmap(map_get_city(punit->x, punit->y), punit);
   city_list_iterate(pplayer->cities, pcity)

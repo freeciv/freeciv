@@ -923,7 +923,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       unit_list_insert(&pcity->units_supported, punit);
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
-	   get_nation_name(get_player(punit->owner)->nation),
+	   get_nation_name(unit_owner(punit)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 

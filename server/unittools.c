@@ -170,12 +170,12 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 **************************************************************************/
 void maybe_make_veteran(struct unit *punit)
 {
-    if (punit->veteran) 
-      return;
-    if(player_owns_active_wonder(get_player(punit->owner), B_SUNTZU)) 
-      punit->veteran = 1;
-    else
-      punit->veteran=myrand(2);
+  if (punit->veteran)
+    return;
+  if (player_owns_active_wonder(unit_owner(punit), B_SUNTZU))
+    punit->veteran = 1;
+  else
+    punit->veteran = myrand(2);
 }
 
 /**************************************************************************
@@ -1313,7 +1313,7 @@ void make_partisans(struct city *pcity)
 int enemies_at(struct unit *punit, int x, int y)
 {
   int a = 0, d, db;
-  struct player *pplayer = get_player(punit->owner);
+  struct player *pplayer = unit_owner(punit);
   struct city *pcity = map_get_tile(x,y)->city;
 
   if (pcity && pcity->owner == punit->owner)
@@ -1344,10 +1344,10 @@ Disband given unit because of a stack conflict.
 static void disband_stack_conflict_unit(struct unit *punit, int verbose)
 {
   freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
-	  get_player(punit->owner)->name, unit_name(punit->type),
+	  unit_owner(punit)->name, unit_name(punit->type),
 	  punit->x, punit->y);
   if (verbose) {
-    notify_player(get_player(punit->owner),
+    notify_player(unit_owner(punit),
 		  _("Game: Disbanded your %s at (%d, %d)."),
 		  unit_name(punit->type), punit->x, punit->y);
   }
@@ -1429,7 +1429,7 @@ void resolve_unit_stack(int x, int y, int verbose)
     if (!cunit)
       break;
 
-    ccity = find_closest_owned_city(get_player(cunit->owner), x, y,
+    ccity = find_closest_owned_city(unit_owner(cunit), x, y,
 				    is_sailing_unit(cunit), NULL);
 
     if (pcity && ccity) {
@@ -1477,8 +1477,8 @@ void resolve_unit_stack(int x, int y, int verbose)
       if (ground_unit_transporter_capacity(x, y, punit->owner) < 0) {
  	unit_list_iterate(ptile->units, wunit) {
  	  if (is_ground_unit(wunit) && wunit->owner == vunit->owner) {
- 	    struct city *wcity =
- 	      find_closest_owned_city(get_player(wunit->owner), x, y, 0, NULL);
+	    struct city *wcity =
+		find_closest_owned_city(unit_owner(wunit), x, y, 0, NULL);
  	    if (wcity)
  	      teleport_unit_to_city(wunit, wcity, 0, verbose);
  	    else
@@ -1709,11 +1709,11 @@ static void server_remove_unit(struct unit *punit)
 
   if (phomecity) {
     city_refresh(phomecity);
-    send_city_info(get_player(phomecity->owner), phomecity);
+    send_city_info(city_owner(phomecity), phomecity);
   }
   if (pcity && pcity != phomecity) {
     city_refresh(pcity);
-    send_city_info(get_player(pcity->owner), pcity);
+    send_city_info(city_owner(pcity), pcity);
   }
 }
 
@@ -1791,8 +1791,8 @@ tile dies unless ...
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
   struct city   *incity    = map_get_city(punit->x, punit->y);
-  struct player *pplayer   = get_player(punit->owner);
-  struct player *destroyer = get_player(pkiller->owner);
+  struct player *pplayer   = unit_owner(punit);
+  struct player *destroyer = unit_owner(pkiller);
   char *loc_str = get_location_str_in(pplayer, punit->x, punit->y);
   int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int ransom, unitcount = 0;
@@ -1870,7 +1870,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			 get_unit_type(punit2->type)->name, destroyer->name,
 			 unit_name(pkiller->type));
 	gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
-		get_nation_name_plural(get_player(punit2->owner)->nation),
+		get_nation_name_plural(unit_owner(punit2)->nation),
 		get_unit_type(punit2->type)->name,
 		get_nation_name_plural(destroyer->nation));
 	wipe_unit_spec_safe(punit2, NULL, 0);
@@ -1879,11 +1879,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     unit_list_iterate_end;
   }
 }
-
-
-
-
-
 
 /**************************************************************************
 ...
@@ -2710,7 +2705,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   struct city *fromcity = map_get_city(src_x, src_y);
   struct city *tocity = map_get_city(dest_x, dest_y);
   struct city *homecity = NULL;
-  struct player *pplayer = get_player(punit->owner);
+  struct player *pplayer = unit_owner(punit);
   /*  struct government *g = get_gov_pplayer(pplayer);*/
   int senthome = 0;
   if (punit->homecity)

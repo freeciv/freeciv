@@ -488,7 +488,7 @@ any activity if activity arg is set to ACTIVITY_IDLE)
 **************************************************************************/
 int can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
 {
-  struct player  *pplayer = get_player (punit->owner);
+  struct player *pplayer = unit_owner(punit);
 
   if (!unit_flag(punit->type, F_SETTLERS))
     return 0;

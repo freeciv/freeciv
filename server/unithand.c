@@ -719,44 +719,40 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    game.players[pdefender->owner].name, 
 	    unit_types[pdefender->type].name);
 
-    notify_player_ex(get_player(pwinner->owner),
-		     pwinner->x, pwinner->y, E_UNIT_WIN, 
+    notify_player_ex(unit_owner(pwinner),
+		     pwinner->x, pwinner->y, E_UNIT_WIN,
 		     _("Game: Your %s%s survived the pathetic attack"
-		     " from %s's %s."),
-		     unit_name(pwinner->type), 
-		     get_location_str_in(get_player(pwinner->owner),
-					 pwinner->x, pwinner->y),
-		     get_player(plooser->owner)->name,
-		     unit_name(plooser->type));
-    
-    notify_player_ex(get_player(plooser->owner),
-		     def_x, def_y, E_UNIT_LOST_ATT, 
-		     _("Game: Your attacking %s failed against %s's %s%s!"),
-		     unit_name(plooser->type),
-		     get_player(pwinner->owner)->name,
+		       " from %s's %s."),
 		     unit_name(pwinner->type),
-		     get_location_str_at(get_player(plooser->owner),
+		     get_location_str_in(unit_owner(pwinner),
+					 pwinner->x, pwinner->y),
+		     unit_owner(plooser)->name, unit_name(plooser->type));
+    
+    notify_player_ex(unit_owner(plooser),
+		     def_x, def_y, E_UNIT_LOST_ATT,
+		     _
+		     ("Game: Your attacking %s failed against %s's %s%s!"),
+		     unit_name(plooser->type), unit_owner(pwinner)->name,
+		     unit_name(pwinner->type),
+		     get_location_str_at(unit_owner(plooser),
 					 pwinner->x, pwinner->y));
     wipe_unit(plooser);
   }
   else {
     /* The defender lost, the attacker punit lives! */
     freelog(LOG_DEBUG, "Defender lost: %s's %s against %s's %s.",
-	    pplayer->name, unit_types[punit->type].name, 
-	    game.players[pdefender->owner].name, 
-	    unit_types[pdefender->type].name);
+	    pplayer->name, unit_types[punit->type].name,
+	    unit_owner(pdefender)->name, unit_types[pdefender->type].name);
 
     punit->moved=1; /* We moved */
 
-    notify_player_ex(get_player(pwinner->owner), 
-		     punit->x, punit->y, E_UNIT_WIN_ATT, 
+    notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
+		     E_UNIT_WIN_ATT,
 		     _("Game: Your attacking %s succeeded"
-		       " against %s's %s%s!"),
-		     unit_name(pwinner->type),
-		     get_player(plooser->owner)->name,
-		     unit_name(plooser->type),
-		     get_location_str_at(get_player(pwinner->owner),
-					 plooser->x, plooser->y));
+		       " against %s's %s%s!"), unit_name(pwinner->type),
+		     unit_owner(plooser)->name, unit_name(plooser->type),
+		     get_location_str_at(unit_owner(pwinner), plooser->x,
+					 plooser->y));
     kill_unit(pwinner, plooser);
                /* no longer pplayer - want better msgs -- Syela */
   }

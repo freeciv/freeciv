@@ -1597,7 +1597,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
     int i;
 
     if (solid_bg) {
-      gtk_pixcomm_fill(p, colors_standard[player_color(get_player(punit->owner))],
+      gtk_pixcomm_fill(p, colors_standard[player_color(unit_owner(punit))],
 		       FALSE);
     }
 

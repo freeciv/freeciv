@@ -153,11 +153,10 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   
   if (debug) freelog(LOG_DEBUG, "launching attack");
   
-  notify_player_ex(pplayer, enemy->x,enemy->y, E_NOEVENT,
-                   "Game: Auto-Attack: %s's %s attacking %s's %s",
-                   pcity->name, unit_name(punit->type),
-                   get_player(enemy->owner)->name,
-                   unit_name(enemy->type));
+  notify_player_ex(pplayer, enemy->x, enemy->y, E_NOEVENT,
+		   "Game: Auto-Attack: %s's %s attacking %s's %s",
+		   pcity->name, unit_name(punit->type),
+		   unit_owner(enemy)->name, unit_name(enemy->type));
   
   set_unit_activity(punit, ACTIVITY_GOTO);
   punit->goto_dest_x=enemy->x;

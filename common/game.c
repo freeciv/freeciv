@@ -624,10 +624,10 @@ void game_remove_unit(int unit_id)
     struct city *pcity;
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_nation_name(get_player(punit->owner)->nation),
+	   unit_id, get_nation_name(unit_owner(punit)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
 
-    pcity=player_find_city_by_id(get_player(punit->owner), punit->homecity);
+    pcity=player_find_city_by_id(unit_owner(punit), punit->homecity);
     if(pcity)
       unit_list_unlink(&pcity->units_supported, punit);
     

@@ -862,8 +862,7 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
   if (id==B_MANHATTEN) 
     return (game.global_wonders[id] != 0);
   
-  tmp = player_find_city_by_id(get_player(pcity->owner),
-			       game.global_wonders[id]);
+  tmp = player_find_city_by_id(city_owner(pcity), game.global_wonders[id]);
   if (!tmp)
     return 0;
   switch (id) {

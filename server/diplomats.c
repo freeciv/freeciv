@@ -334,7 +334,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim)
     return;
-  uplayer = get_player (pvictim->owner);
+  uplayer = unit_owner(pvictim);
   if (uplayer == NULL || pplayers_allied(pplayer, uplayer))
     return;
 
@@ -346,11 +346,10 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* If unit has too few hp, can't sabotage. */
   if (pvictim->hp < 2) {
-    notify_player_ex (pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
-		      _("Game: Your %s could not sabotage %s's %s."),
-		      unit_name (pdiplomat->type),
-		      get_player (pvictim->owner)->name,
-		      unit_name (pvictim->type));
+    notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
+		     _("Game: Your %s could not sabotage %s's %s."),
+		     unit_name(pdiplomat->type),
+		     unit_owner(pvictim)->name, unit_name(pvictim->type));
     freelog (LOG_DEBUG, "sabotage-unit: unit has too few hit points");
     return;
   }
@@ -362,11 +361,10 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   send_unit_info (0, pvictim);
 
   /* Notify everybody involved. */
-  notify_player_ex (pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
-		    _("Game: Your %s succeeded in sabotaging %s's %s."),
-		    unit_name (pdiplomat->type),
-		    get_player (pvictim->owner)->name,
-		    unit_name (pvictim->type));
+  notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
+		   _("Game: Your %s succeeded in sabotaging %s's %s."),
+		   unit_name(pdiplomat->type),
+		   unit_owner(pvictim)->name, unit_name(pvictim->type));
   notify_player_ex (uplayer, pvictim->x, pvictim->y, E_DIPLOMATED,
 		    _("Game: Your %s was sabotaged by %s!"),
 		    unit_name (pvictim->type), pplayer->name);
@@ -402,7 +400,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim)
     return;
-  uplayer = get_player(pvictim->owner);
+  uplayer = unit_owner(pvictim);
   /* We might make it allowable in peace with a liss of reputaion */
   if (uplayer == NULL || pplayers_allied(pplayer, uplayer))
     return;
@@ -426,11 +424,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* If player doesn't have enough gold, can't bribe. */
   if (pplayer->economic.gold < pvictim->bribe_cost) {
-    notify_player_ex (pplayer, pdiplomat->x, pdiplomat->y, E_MY_DIPLOMAT,
-		      _("Game: You don't have enough gold to"
-			" bribe %s's %s."),
-		      get_player (pvictim->owner)->name,
-		      unit_name (pvictim->type));
+    notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_MY_DIPLOMAT,
+		     _("Game: You don't have enough gold to"
+		       " bribe %s's %s."),
+		     unit_owner(pvictim)->name, unit_name(pvictim->type));
     freelog (LOG_DEBUG, "bribe-unit: not enough gold");
     return;
   }
@@ -443,11 +440,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		    pvictim->moves_left, pvictim->hp);
 
   /* Notify everybody involved. */
-  notify_player_ex (pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
-		    _("Game: Your %s succeeded in bribing %s's %s."),
-		    unit_name (pdiplomat->type),
-		    get_player (pvictim->owner)->name,
-		    unit_name (pvictim->type));
+  notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
+		   _("Game: Your %s succeeded in bribing %s's %s."),
+		   unit_name(pdiplomat->type),
+		   unit_owner(pvictim)->name, unit_name(pvictim->type));
   notify_player_ex (uplayer, pvictim->x, pvictim->y, E_DIPLOMATED,
 		    _("Game: Your %s was bribed by %s."),
 		    unit_name (pvictim->type), pplayer->name);
