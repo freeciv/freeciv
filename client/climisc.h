@@ -36,9 +36,10 @@ const char *get_vision_status(const struct player *me,
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause);
 
-int client_research_sprite(void);
-int client_warming_sprite(void);
-int client_cooling_sprite(void);
+struct Sprite *client_research_sprite(void);
+struct Sprite *client_warming_sprite(void);
+struct Sprite *client_cooling_sprite(void);
+struct Sprite *client_government_sprite(void);
 
 void center_on_something(void);
 

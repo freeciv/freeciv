@@ -108,7 +108,6 @@ void update_timeout_label(void)
 void update_info_label( void )
 {
   int  d;
-  int  sol, flake;
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
@@ -117,12 +116,10 @@ void update_info_label( void )
 
   gtk_label_set_text(GTK_LABEL(main_label_info), get_info_label_text());
 
-  sol = client_warming_sprite();
-  flake = client_cooling_sprite();
   set_indicator_icons(client_research_sprite(),
-		      sol,
-		      flake,
-		      game.player_ptr->government);
+		      client_warming_sprite(),
+		      client_cooling_sprite(),
+		      client_government_sprite());
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
@@ -221,35 +218,22 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
   return sprite_get_pixbuf(sprites.treaty_thumb[BOOL_VAL(onoff)]);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void set_indicator_icons(int bulb, int sol, int flake, int gov)
+/****************************************************************************
+  Set information for the indicator icons typically shown in the main
+  client window.  The parameters tell which sprite to use for the
+  indicator.
+****************************************************************************/
+void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
+			 struct Sprite *flake, struct Sprite *gov)
 {
-  struct Sprite *gov_sprite;
-
-  bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
-  sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
-  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
-
   gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label),
-			    sprite_get_pixbuf(sprites.bulb[bulb]));
+			    sprite_get_pixbuf(bulb));
   gtk_image_set_from_pixbuf(GTK_IMAGE(sun_label),
-			    sprite_get_pixbuf(sprites.warming[sol]));
+			    sprite_get_pixbuf(sol));
   gtk_image_set_from_pixbuf(GTK_IMAGE(flake_label),
-			    sprite_get_pixbuf(sprites.cooling[flake]));
-
-  if (game.government_count==0) {
-    /* HACK: the UNHAPPY citizen is used for the government
-     * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-    gov_sprite = get_citizen_sprite(c, 0, NULL);
-  } else {
-    gov_sprite = get_government(gov)->sprite;
-  }
+			    sprite_get_pixbuf(flake));
   gtk_image_set_from_pixbuf(GTK_IMAGE(government_label),
-			    sprite_get_pixbuf(gov_sprite));
+			    sprite_get_pixbuf(gov));
 }
 
 /**************************************************************************

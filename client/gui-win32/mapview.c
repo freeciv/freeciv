@@ -277,7 +277,7 @@ update_info_label(void)
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
                       client_cooling_sprite(),
-                      game.player_ptr->government);
+		      client_government_sprite());
   
   hdc=GetDC(root_window);
   draw_rates(hdc);
@@ -351,30 +351,22 @@ void update_turn_done_button(bool do_restore)
   }
 }
 
-/**************************************************************************
-
-**************************************************************************/
-void
-set_indicator_icons(int bulb, int sol, int flake, int gov)
+/****************************************************************************
+  Set information for the indicator icons typically shown in the main
+  client window.  The parameters tell which sprite to use for the
+  indicator.
+****************************************************************************/
+void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
+			 struct Sprite *flake, struct Sprite *gov)
 {
   int i;
   HDC hdc;
   
-  bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
-  sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
-  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);     
-  indicator_sprite[0]=sprites.bulb[bulb];
-  indicator_sprite[1]=sprites.warming[sol];
-  indicator_sprite[2]=sprites.cooling[flake];
-  if (game.government_count==0) {
-    /* HACK: the UNHAPPY citizen is used for the government
-     * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+  indicator_sprite[0] = bulb;
+  indicator_sprite[1] = sol;
+  indicator_sprite[2] = flake;
+  indicator_sprite[3] = gov;
 
-    indicator_sprite[3] = get_citizen_sprite(c, 0, NULL);
-  } else {
-    indicator_sprite[3] = get_government(gov)->sprite;    
-  }
   hdc=GetDC(root_window);
   for(i=0;i<4;i++)
     draw_sprite(indicator_sprite[i],hdc,i*SMALL_TILE_WIDTH,indicator_y); 

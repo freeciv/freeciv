@@ -226,7 +226,8 @@ void update_turn_done_button(bool do_restore)
   client window.  The parameters tell which sprite to use for the
   indicator.
 **************************************************************************/
-void set_indicator_icons(int bulb, int sol, int flake, int gov)
+void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
+			 struct Sprite *flake, struct Sprite *gov)
 {
   /* PORTME */
 }

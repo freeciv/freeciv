@@ -30,6 +30,7 @@ used throughout the client.
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -298,19 +299,24 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 }
 
 /**************************************************************************
-Return the sprite index for the research indicator.
+  Return the sprite for the research indicator.
 **************************************************************************/
-int client_research_sprite(void)
+struct Sprite *client_research_sprite(void)
 {
-  return (NUM_TILES_PROGRESS *
-	  game.player_ptr->research.bulbs_researched) /
-      (total_bulbs_required(game.player_ptr) + 1);
+  int index = (NUM_TILES_PROGRESS
+	       * game.player_ptr->research.bulbs_researched)
+    / (total_bulbs_required(game.player_ptr) + 1);
+
+  /* This clipping can be necessary since we can end up with excess
+   * research. */
+  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+  return sprites.bulb[index];
 }
 
 /**************************************************************************
-Return the sprite index for the global-warming indicator.
+  Return the sprite for the global-warming indicator.
 **************************************************************************/
-int client_warming_sprite(void)
+struct Sprite *client_warming_sprite(void)
 {
   int index;
   if ((game.globalwarming <= 0) &&
@@ -321,13 +327,16 @@ int client_warming_sprite(void)
 		(MAX(0, 4 + game.globalwarming) / 5) +
 		((NUM_TILES_PROGRESS / 2) - 1));
   }
-  return index;
+
+  /* The clipping is needed because the above math is a little fuzzy. */
+  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+  return sprites.warming[index];
 }
 
 /**************************************************************************
-Return the sprite index for the global-cooling indicator.
+  Return the sprite for the global-cooling indicator.
 **************************************************************************/
-int client_cooling_sprite(void)
+struct Sprite *client_cooling_sprite(void)
 {
   int index;
   if ((game.nuclearwinter <= 0) &&
@@ -338,7 +347,26 @@ int client_cooling_sprite(void)
 		(MAX(0, 4 + game.nuclearwinter) / 5) +
 		((NUM_TILES_PROGRESS / 2) - 1));
   }
-  return index;
+
+  /* The clipping is needed because the above math is a little fuzzy. */
+  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+  return sprites.cooling[index];
+}
+
+/**************************************************************************
+  Return the sprite for the government indicator.
+**************************************************************************/
+struct Sprite *client_government_sprite(void)
+{
+  if (game.government_count == 0) {
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+
+    return get_citizen_sprite(c, 0, NULL);
+  } else {
+    return get_government(game.player_ptr->government)->sprite;
+  }
 }
 
 /**************************************************************************

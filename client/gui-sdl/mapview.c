@@ -377,21 +377,18 @@ void flush_dirty(void)
   client window.  The parameters tell which sprite to use for the
   indicator.
 **************************************************************************/
-void set_indicator_icons(int bulb, int sol, int flake, int gov)
+void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
+			 struct Sprite *flake, struct Sprite *gov)
 {
   struct GUI *pBuf = NULL;
   char cBuf[128];
   
-  bulb = CLIP(0, bulb, NUM_TILES_PROGRESS - 1);
-  sol = CLIP(0, sol, NUM_TILES_PROGRESS - 1);
-  flake = CLIP(0, flake, NUM_TILES_PROGRESS - 1);
-
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-  pBuf->theme = GET_SURF(sprites.warming[sol]);
+  pBuf->theme = GET_SURF(sol);
   redraw_label(pBuf);
     
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
-  pBuf->theme = GET_SURF(sprites.cooling[flake]);
+  pBuf->theme = GET_SURF(flake);
   redraw_label(pBuf);
     
   putframe(pBuf->dst, pBuf->size.x - pBuf->size.w - 1,
@@ -404,19 +401,8 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 	      2 * pBuf->size.w + 2, 2 * pBuf->size.h + 2);
 
   if (SDL_Client_Flags & CF_REVOLUTION) {
-    struct Sprite *sprite = NULL;
-    if (game.government_count == 0) {
-      /* HACK: the UNHAPPY citizen is used for the government
-       * when we don't know any better. */
-      struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-      sprite = get_citizen_sprite(c, 0, NULL);
-    } else {
-      sprite = get_government(gov)->sprite;
-    }
-
     pBuf = get_revolution_widget();
-    set_new_icon2_theme(pBuf, GET_SURF(sprite), FALSE);
+    set_new_icon2_theme(pBuf, GET_SURF(gov), FALSE);
     
     my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
     				get_gov_pplayer(game.player_ptr)->name);
@@ -459,7 +445,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 
   copy_chars_to_string16(pBuf->string16, cBuf);
   
-  set_new_icon2_theme(pBuf, GET_SURF(sprites.bulb[bulb]), FALSE);
+  set_new_icon2_theme(pBuf, GET_SURF(bulb), FALSE);
   redraw_widget(pBuf);
   sdl_dirty_rect(pBuf->size);
   
@@ -538,7 +524,7 @@ void update_info_label(void)
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
 		      client_cooling_sprite(),
-		      game.player_ptr->government);
+		      client_government_sprite());
 
   update_timeout_label();
 

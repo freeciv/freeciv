@@ -128,7 +128,7 @@ void update_info_label( void )
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
 		      client_cooling_sprite(),
-		      game.player_ptr->government);
+		      client_government_sprite());
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
@@ -228,31 +228,18 @@ GdkPixmap *get_thumb_pixmap(int onoff)
   return sprites.treaty_thumb[BOOL_VAL(onoff)]->pixmap;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void set_indicator_icons(int bulb, int sol, int flake, int gov)
+/****************************************************************************
+  Set information for the indicator icons typically shown in the main
+  client window.  The parameters tell which sprite to use for the
+  indicator.
+****************************************************************************/
+void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
+			 struct Sprite *flake, struct Sprite *gov)
 {
-  struct Sprite *gov_sprite;
-
-  bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
-  sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
-  flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
-
-  gtk_pixmap_set(GTK_PIXMAP(bulb_label), sprites.bulb[bulb]->pixmap, NULL);
-  gtk_pixmap_set(GTK_PIXMAP(sun_label), sprites.warming[sol]->pixmap, NULL);
-  gtk_pixmap_set(GTK_PIXMAP(flake_label), sprites.cooling[flake]->pixmap, NULL);
-
-  if (game.government_count==0) {
-    /* HACK: the UNHAPPY citizen is used for the government
-     * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-    gov_sprite = get_citizen_sprite(c, 0, NULL);
-  } else {
-    gov_sprite = get_government(gov)->sprite;
-  }
-  gtk_pixmap_set(GTK_PIXMAP(government_label), gov_sprite->pixmap, NULL);
+  gtk_pixmap_set(GTK_PIXMAP(bulb_label), bulb->pixmap, bulb->mask);
+  gtk_pixmap_set(GTK_PIXMAP(sun_label), sol->pixmap, sol->mask);
+  gtk_pixmap_set(GTK_PIXMAP(flake_label), flake->pixmap, flake->mask);
+  gtk_pixmap_set(GTK_PIXMAP(government_label), gov->pixmap, gov->mask);
 }
 
 /**************************************************************************

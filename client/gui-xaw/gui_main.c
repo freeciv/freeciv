@@ -486,7 +486,10 @@ void ui_main(int argc, char *argv[])
 				       UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 
 				       display_depth);  
 
-  set_indicator_icons(0, 0, 0, 0);
+  set_indicator_icons(client_research_sprite(),
+		      client_warming_sprite(),
+		      client_cooling_sprite(),
+		      client_government_sprite());
 
   wm_delete_window = XInternAtom(XtDisplay(toplevel), "WM_DELETE_WINDOW", 0);
   XSetWMProtocols(display, XtWindow(toplevel), &wm_delete_window, 1);
