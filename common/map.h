@@ -173,6 +173,7 @@ struct civ_map {
   bool tinyisles;
   bool separatepoles;
   bool alltemperate;
+  int temperature;
   int num_start_positions;
   bool have_specials;
   bool have_huts;
@@ -675,6 +676,9 @@ extern const int DIR_DY[8];
 #define MAP_MIN_ALLTEMPERATE       FALSE
 #define MAP_MAX_ALLTEMPERATE       TRUE
 
+#define MAP_DEFAULT_TEMPERATURE   50
+#define MAP_MIN_TEMPERATURE       0
+#define MAP_MAX_TEMPERATURE       100
 
 /*
  * Inline function definitions.  These are at the bottom because they may use

@@ -293,6 +293,22 @@ struct settings_s settings[] = {
 	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
 	   NULL, MAP_DEFAULT_ALLTEMPERATE)
 
+  GEN_INT("temperature", map.temperature,
+ 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+ 	  N_("Average temperature of the planet"),
+ 	  N_("Small values will give a cold map, while larger values will "
+             "give a hotter map\n"
+	     "100 means a very dry and hot planet: no polar arctic zones, "
+             "only tropical and dry zones\n"
+	     "70 means a hot planet: little polar ice\n"
+             "50 means a temperatue planet: normal polar, cold, temperate, "
+             "and tropical zones; a desert zone overlaps tropical and "
+             "temperate zones\n"
+	     "30 means a cold planet: little tropical zones\n"
+	     "0 means a very cold planet: large polar zones and no tropics"), 
+          NULL,
+  	  MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
+ 
   GEN_INT("landmass", map.landpercent,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Amount of land vs ocean"), "", NULL,

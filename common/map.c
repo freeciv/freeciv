@@ -207,6 +207,7 @@ void map_init(void)
   map.tinyisles             = MAP_DEFAULT_TINYISLES;
   map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;
   map.alltemperate          = MAP_DEFAULT_ALLTEMPERATE;
+  map.temperature           = MAP_DEFAULT_TEMPERATURE;
   map.tiles                 = NULL;
   map.num_continents        = 0;
   map.num_oceans            = 0;

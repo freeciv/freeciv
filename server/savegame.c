@@ -3104,6 +3104,9 @@ void game_load(struct section_file *file)
       map.forestsize = secfile_lookup_int(file, "map.forestsize");
       map.have_huts = secfile_lookup_bool_default(file, TRUE,
 						  "map.have_huts");
+      map.temperature =
+	secfile_lookup_int_default(file,
+				   MAP_DEFAULT_TEMPERATURE, "map.temperature");
       map.alltemperate
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_ALLTEMPERATE,
 				      "map.alltemperate");
@@ -3483,6 +3486,7 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
     secfile_insert_bool(file, map.have_huts, "map.have_huts");
+    secfile_insert_int(file, map.temperature, "map.temperature");
     secfile_insert_bool(file, map.alltemperate, "map.alltemperate");
     secfile_insert_bool(file, map.tinyisles, "map.tinyisles");
     secfile_insert_bool(file, map.separatepoles, "map.separatepoles");

@@ -33,34 +33,20 @@
 
 #include "mapgen.h"
 
+#include "height_map.h"
+#include "temperature_map.h"
+#include "mapgen_topology.h"
+#include "utilities.h"
+
+
 /* Old-style terrain enumeration: deprecated. */
 enum {
   T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE,
   T_MOUNTAINS, T_OCEAN, T_PLAINS, T_SWAMP, T_TUNDRA,
 };
 
-/* Provide a block to convert from native to map coordinates.  For instance
- *   do_in_map_pos(mx, my, xn, yn) {
- *     map_set_terrain(mx, my, T_OCEAN);
- *   } do_in_map_pos_end;
- * Note that changing the value of the map coordinates won't change the native
- * coordinates.
- */
-#define do_in_map_pos(map_x, map_y, nat_x, nat_y)                           \
-{                                                                           \
-  int map_x, map_y;                                                         \
-  NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                          \
-  {                                                                         \
-
-#define do_in_map_pos_end                                                   \
-  }                                                                         \
-}
-
 /* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
-#define hmap(x, y) (height_map[map_pos_to_index(x, y)])
-#define hnat(x, y) (height_map[native_pos_to_index((x), (y))])
 #define rmap(x, y) (river_map[map_pos_to_index(x, y)])
-#define pmap(x, y) (placed_map[map_pos_to_index(x, y)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -70,7 +56,6 @@ static void mapgenerator3(void);
 static void mapgenerator4(void);
 static void mapgenerator5(void);
 static void smooth_map(void);
-static void adjust_hmap(void);
 static void adjust_terrain_param(void);
 
 #define RIVERS_MAXTRIES 32767
@@ -82,245 +67,13 @@ enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
    A value of 2 means river.                            -Erik Sigra */
 static int *river_map;
 
-/*
- * Height map information
- *
- *   height_map[] stores the height of each tile
- *   hmap_max_level is the maximum height (heights will range from
- *     [0,hmap_max_level).
- *   hmap_shore_level is the level of ocean.  Any tile at this height or
- *     above is land; anything below is ocean.
- *   hmap_mount_level is the level of mountains and hills.  Any tile above
- *     this height will usually be a mountain or hill.
- */
-static int *height_map;
-static const int hmap_max_level = 1000;
-static int hmap_shore_level, hmap_mountain_level;
-
 struct isledata {
   int goodies;
   int starters;
 };
 static struct isledata *islands;
 
-/* this is the maximal temperature at equators returned by map_temperature */
-#define MAX_TEMP 1000
-
-/* An estimate of the linear (1-dimensional) size of the map. */
-#define SQSIZE MAX(1, sqrt(map.xsize * map.ysize / 1000))
-/*
- * these are base units to define distances 
- */
-#define H_UNIT MIN(1, (hmap_max_level - hmap_shore_level) / 100)
-#define T_UNIT (MAX_TEMP / (30 * SQSIZE) )
-
-/* define the 5 region of a Earth like map
-   =========================================================
-    0-COLD_LV                cold region: 
-    COLD_LV-TREOPICAL_LV     temperate wet region: 
-    TROPICAL_LV-MAX_TEMP     tropical wet region:
-
-   and a dry region, this last one can ovelap others 
-   DRY_MIN_LEVEL- DRY_MAX_LEVEL
- */
-#define COLD_LEVEL (10 * MAX_TEMP / 100)
-#define TROPICAL_LEVEL (70 * MAX_TEMP / 100)
-#define DRY_MIN_LEVEL (65 * MAX_TEMP / 100)
-#define DRY_MAX_LEVEL (80 * MAX_TEMP / 100)
-
-/* used to create the poles and for separating them.  In a
- * mercator projection map we don't want the poles to be too big. */
-#define ICE_BASE_LEVEL						\
-  ((!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY))	\
-   /* 5% for little maps; 2% for big ones */			\
-   ? MAX_TEMP * (3 + 2 * SQSIZE) / (100 * SQSIZE)		\
-   : COLD_LEVEL / 2  /* for all maps */)
-
-/****************************************************************************
-  Used to initialize an array 'a' of size 'size' with value 'val' in each
-  element.
-****************************************************************************/
-#define INITIALIZE_ARRAY(array, size, value)				    \
-  {									    \
-    int _ini_index;							    \
-    									    \
-    for (_ini_index = 0; _ini_index < (size); _ini_index++) {		    \
-      (array)[_ini_index] = (value);					    \
-    }									    \
-  }
-
-/****************************************************************************
- Map that contains, according to circumstances, information on whether
- we have already placed terrain (special, hut) here.
-****************************************************************************/
-static bool *placed_map;
-
-/****************************************************************************
-  Create a clean pmap
-****************************************************************************/
-static void create_placed_map(void)
-{
-  assert(placed_map == NULL); 
-  placed_map = fc_malloc (sizeof(bool) * MAX_MAP_INDEX);
-  INITIALIZE_ARRAY(placed_map, MAX_MAP_INDEX, FALSE );
-}
-
-/**************************************************************************** 
-  Free the pmap
-****************************************************************************/
-static void destroy_placed_map(void)
-{
-  free(placed_map);
-  placed_map = NULL;
-}
-
-/* Checks if land has not yet been placed on pmap at (x, y) */
-#define not_placed(x, y) (!pmap((x), (y)))
-
-/* set has placed or not placed position in the pmap */
-#define map_set_placed(x, y) (pmap((x), (y)) = TRUE)
-#define map_unset_placed(x, y) (pmap((x), (y)) = FALSE)
-/**************************************************************************** 
-  Unset all oceanics tiles in placed_map
-****************************************************************************/
-static void unset_placed_all_oceans(void)
-{
-  whole_map_iterate(x, y) {
-    if (is_ocean(map_get_terrain(x,y))) {
-      map_unset_placed(x, y);
-    }
-  } whole_map_iterate_end;
-}
-/****************************************************************************
-  Returns the temperature of this map position.  This is a value in the
-  range of 0 to MAX_TEMP (inclusive).
-****************************************************************************/
-static int map_temperature(int map_x, int map_y)
-{
-  double x, y;
-  
-  if (map.alltemperate) {
-    /* An all-temperate map has "average" temperature everywhere.
-     *
-     * TODO: perhaps there should be a random temperature variation. */
-    return MAX_TEMP / 2;
-  }
-
-  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
-    if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
-      /* A FLAT (unwrapped) map 
-       *
-       * We assume this is a partial planetary map.  A polar zone is placed
-       * at the top and the equator is at the bottom.  The user can specify
-       * all-temperate to avoid this. */
-      return MAX_TEMP * ntl_y / (NATURAL_HEIGHT - 1);
-    }
-
-    /* Otherwise a wrapping map is assumed to be a global planetary map. */
-
-    /* we fold the map to get the base symetries
-     *
-     * ...... 
-     * :c__c:
-     * :____:
-     * :____:
-     * :c__c:
-     * ......
-     *
-     * C are the corners.  In all cases the 4 corners have equal temperature.
-     * So we fold the map over in both directions and determine
-     * x and y vars in the range [0.0, 1.0].
-     *
-     * ...>x 
-     * :C_
-     * :__
-     * V
-     * y
-     *
-     * And now this is what we have - just one-quarter of the map.
-     */
-    x = ((ntl_x > (NATURAL_WIDTH / 2 - 1)
-	 ? NATURAL_WIDTH - 1.0 - (double)ntl_x
-	 : (double)ntl_x)
-	 / (NATURAL_WIDTH / 2 - 1));
-    y = ((ntl_y > (NATURAL_HEIGHT / 2 - 1)
-	  ? NATURAL_HEIGHT - 1.0 - (double)ntl_y
-	  : (double)ntl_y)
-	 / (NATURAL_HEIGHT / 2 - 1));
-  } do_in_natural_pos_end;
-
-  if (topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
-    /* In an Earth-like topology the polar zones are at north and south.
-     * This is equivalent to a Mercator projection. */
-    return MAX_TEMP * y;
-  }
-  
-  if (!topo_has_flag(TF_WRAPX) && topo_has_flag(TF_WRAPY)) {
-    /* In a Uranus-like topology the polar zones are at east and west.
-     * This isn't really the way Uranus is; it's the way Earth would look
-     * if you tilted your head sideways.  It's still a Mercator
-     * projection. */
-    return MAX_TEMP * x;
-  }
-
-  /* Otherwise we have a torus topology.  We set it up as an approximation
-   * of a sphere with two circular polar zones and a square equatorial
-   * zone.  In this case north and south are not constant directions on the
-   * map because we have to use a more complicated (custom) projection.
-   *
-   * Generators 2 and 5 work best if the center of the map is free.  So
-   * we want to set up the map with the poles (N,S) along the sides and the
-   * equator (/,\) in between.
-   *
-   * ........
-   * :\ NN /:
-   * : \  / :
-   * :S \/ S:
-   * :S /\ S:
-   * : /  \ :
-   * :/ NN \:
-   * ''''''''
-   */
-
-  /* Remember that we've already folded the map into fourths:
-   *
-   * ....
-   * :\ N
-   * : \ 
-   * :S \
-   *
-   * Now flip it along the X direction to get this:
-   *
-   * ....
-   * :N /
-   * : / 
-   * :/ S
-   */
-  x = 1.0 - x;
-
-  /* Since the north and south poles are equivalent, we can fold along the
-   * diagonal.  This leaves us with 1/8 of the map
-   *
-   * .....
-   * :P /
-   * : / 
-   * :/
-   *
-   * where P is the polar regions and / is the equator. */
-  if (x + y > 1.0) {
-    x = 1.0 - x;
-    y = 1.0 - y;
-  }
-
-  /* This projection makes poles with a shape of a quarter-circle along
-   * "P" and the equator as a straight line along "/".
-   *
-   * This is explained more fully at
-   * http://rt.freeciv.org/Ticket/Display.html?id=8624. */
-  return MAX_TEMP * (1.5 * (x * x * y + x * y * y) 
-		     - 0.5 * (x * x * x + y * y * y) 
-		     + 1.5 * (x * x + y * y));
-}
+#define HAS_POLES (map.temperature < 70 && !map.alltemperate  )
 
 /****************************************************************************
  * Conditions used mainly in rand_map_pos_characteristic()
@@ -329,30 +82,10 @@ static int map_temperature(int map_x, int map_y)
 
 /* necessary condition of deserts placement */
 #define map_pos_is_dry(x, y)						\
-  (map_temperature((x), (y)) <= DRY_MAX_LEVEL				\
-   && map_temperature((x), (y)) > DRY_MIN_LEVEL				\
-   && count_ocean_near_tile((x), (y), FALSE, TRUE) <= 50)
+  (map_colatitude((x), (y)) <= DRY_MAX_LEVEL				\
+   && map_colatitude((x), (y)) > DRY_MIN_LEVEL				\
+   && count_ocean_near_tile((x), (y), FALSE, TRUE) <= 35)
 typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
-
-/* TEMPERATURE */
-
-/* necessary condition of jungle placement */
-#define map_pos_is_tropical(x, y) (map_temperature((x), (y)) > TROPICAL_LEVEL)
-
-
-/* necessary condition of arctic placement */
-#define map_pos_is_frizzed(x, y) \
-             (map_temperature((x), (y)) <= 2 * ICE_BASE_LEVEL)
-
-/* necessary condition of tundra placement */
-#define map_pos_is_cold(x, y) (map_temperature((x), (y)) <= COLD_LEVEL && \
-                               !map_pos_is_frizzed((x), (y)))
-/* used by generator 2-4 */
-#define map_pos_is_cold_or_frizzed(x, y) \
-                              (map_temperature((x), (y)) <= COLD_LEVEL)
-
-typedef enum { TC_ALL = 100, TC_FRIZZED, TC_NFRIZZED, TC_COLD, 
-		   TC_TROPICAL, TC_NTROPICAL} temperature_c;
 
 /* MISCELANEOUS (OTHER CONDITIONS) */
 
@@ -360,11 +93,11 @@ typedef enum { TC_ALL = 100, TC_FRIZZED, TC_NFRIZZED, TC_COLD,
 static int hmap_low_level = 0;
 #define ini_hmap_low_level() \
 { \
-hmap_low_level = (2 * map.swampsize * \
+hmap_low_level = (2 * map.swampsize  * \
      (hmap_max_level - hmap_shore_level)) / 100 + hmap_shore_level; \
 }
 /* should be used after having hmap_low_level initialized */
-#define map_pos_is_low(x, y) ( hmap((x), (y)) < hmap_low_level )
+#define map_pos_is_low(x, y) ((hmap((x), (y)) < hmap_low_level))
 
 typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
 
@@ -383,29 +116,6 @@ static bool test_wetness(int x, int y, wetness_c c)
 	    return map_pos_is_dry(x, y);
 	case WC_NDRY:
 	    return !map_pos_is_dry(x, y);
-	default:
-	    assert(0);
-    }
-}
-
-/***************************************************************************
-  Checks if the given location satisfy some temperature condition
-***************************************************************************/
-static bool test_temperature(int x, int y, temperature_c c)
-{
-    switch(c) {
-	case TC_ALL:
-	    return TRUE;
-	case TC_FRIZZED:
-	    return map_pos_is_frizzed(x, y);
-	case TC_NFRIZZED:
-	    return !map_pos_is_frizzed(x, y);
-	case TC_COLD:
-	    return map_pos_is_cold(x, y);
-	case TC_TROPICAL:
-	    return map_pos_is_tropical(x, y);
-	case TC_NTROPICAL:
-	    return !map_pos_is_tropical(x, y);
 	default:
 	    assert(0);
     }
@@ -433,7 +143,7 @@ static bool test_miscellaneous(int x, int y, miscellaneous_c c)
 ***************************************************************************/
 struct DataFilter {
   wetness_c        wc;
-  temperature_c    tc;
+  temperature_type tc;
   miscellaneous_c  mc;
 };
 
@@ -446,7 +156,7 @@ static bool condition_filter(int map_x, int map_y, void *data)
   struct DataFilter *filter = data;
 
   return  not_placed(map_x, map_y) 
-      &&  test_temperature(map_x, map_y, filter->tc) 
+      &&  tmap_is(map_x, map_y, filter->tc) 
       &&  test_wetness(map_x, map_y, filter->wc) 
       &&  test_miscellaneous(map_x, map_y, filter->mc) ;
 }
@@ -458,7 +168,7 @@ static bool condition_filter(int map_x, int map_y, void *data)
 ****************************************************************************/
 static bool rand_map_pos_characteristic(int *map_x, int *map_y,
 				   wetness_c        wc,
-				   temperature_c    tc,
+				   temperature_type tc,
 				   miscellaneous_c  mc )
 {
   struct DataFilter filter;
@@ -467,15 +177,6 @@ static bool rand_map_pos_characteristic(int *map_x, int *map_y,
   filter.tc = tc;
   filter.mc = mc;
   return rand_map_pos_filtered(map_x, map_y, &filter, condition_filter);
-}
-
-/****************************************************************************
-  Return TRUE if the map in a city radius is SINGULAR.  This is used to
-  avoid putting (non-polar) land near the edge of the map.
-****************************************************************************/
-static bool near_singularity(int map_x, int map_y)
-{
-  return is_singular_map_pos(map_x, map_y, CITY_MAP_RADIUS);
 }
 
 /**************************************************************************
@@ -513,7 +214,7 @@ static bool terrain_is_too_flat(int map_x, int map_y,int thill, int my_height)
   we don't want huge areas of hill/mountains, 
   so we put in a plains here and there, where it gets too 'heigh' 
 
-  Return TRUE if the terrain at the given map position is to heigh.
+  Return TRUE if the terrain at the given map position is too heigh.
 ****************************************************************************/
 static bool terrain_is_too_high(int map_x, int map_y,int thill, int my_height)
 {
@@ -546,8 +247,7 @@ static void make_relief(void)
 	 || terrain_is_too_flat(x, y, hmap_mountain_level, hmap(x, y)))) {
       /* Randomly place hills and mountains on "high" tiles.  But don't
        * put hills near the poles (they're too green). */
-      if (myrand(100) > 70 
-	  || map_temperature(x, y) <= COLD_LEVEL) {
+      if (myrand(100) > 70 || tmap_is(x, y, TT_NHOT)) {
 	map_set_terrain(x, y, T_MOUNTAINS);
 	map_set_placed(x, y);
       } else {
@@ -565,34 +265,13 @@ static void make_relief(void)
 ****************************************************************************/
 static void make_polar(void)
 {
-  struct tile *ptile;
-  int T;
-
-  whole_map_iterate(map_x, map_y) {
-    T = map_temperature(map_x, map_y);	/* temperature parameter */
-    ptile = map_get_tile(map_x, map_y);
-    if (T < ICE_BASE_LEVEL) { /* get the coldest part of the map */
-      if (ptile->terrain != T_MOUNTAINS) {
-	ptile->terrain = T_ARCTIC;
-	map_set_placed(map_x, map_y);
-      }
-    } else if ((T <= 1.5 * ICE_BASE_LEVEL) 
-	       && (ptile->terrain == T_OCEAN) ) {  
-      ptile->terrain = T_ARCTIC;
-      map_set_placed(map_x, map_y);
-    } else if (T <= 2 * ICE_BASE_LEVEL) {
-      if (ptile->terrain == T_OCEAN) {
-	if (myrand(10) > 5) {
-	  ptile->terrain = T_ARCTIC;
-	  map_set_placed(map_x, map_y);
-	} else if (myrand(10) > 6) {
-	  ptile->terrain = T_TUNDRA;
-	  map_set_placed(map_x, map_y);
-	}
-      } else if (myrand(10) > 0 && ptile->terrain != T_MOUNTAINS) {
-	ptile->terrain = T_TUNDRA; 
-	map_set_placed(map_x, map_y);
-      }
+  whole_map_iterate(map_x, map_y) {  
+    if (tmap_is(map_x, map_y, TT_FROZEN )
+	||
+	(tmap_is(map_x, map_y, TT_COLD ) &&
+	 (myrand(10) > 7) &&
+	 is_temperature_type_near(map_x, map_y, TT_FROZEN))) { 
+      map_set_terrain(map_x, map_y, T_ARCTIC);
     }
   } whole_map_iterate_end;
 }
@@ -616,44 +295,21 @@ static bool ok_for_separate_poles(int x, int y)
 
 /****************************************************************************
   Place untextured land at the poles.  This is used by generators 1 and 5.
-  The land is textured by make_tundra, make_arctic, and make_mountains.
 ****************************************************************************/
 static void make_polar_land(void)
 {
-  struct tile *ptile;
-  int T;
-
   assign_continent_numbers();
   whole_map_iterate(map_x, map_y) {
-    T = map_temperature(map_x, map_y);	/* temperature parameter */
-    ptile = map_get_tile(map_x, map_y);
-    if (T < 1.5 * ICE_BASE_LEVEL && ok_for_separate_poles(map_x, map_y)) {
-      ptile->terrain = T_UNKNOWN;
-      map_unset_placed(map_x, map_y);
-      map_set_continent(map_x, map_y, 0);
-    } else if ((T <= 2 * ICE_BASE_LEVEL) 
-	       && myrand(10) > 4 && ok_for_separate_poles(map_x, map_y)) { 
-      ptile->terrain = T_UNKNOWN;
-      map_unset_placed(map_x, map_y);
-      map_set_continent(map_x, map_y, 0);
-    }
-  } whole_map_iterate_end;
-}
-
-/****************************************************************************
-  Create arctic in cold zones.  Used by generators 1 and 5.
-****************************************************************************/
-static void make_arctic(void)
-{
-  whole_map_iterate(x, y) {
-    int T = map_temperature(x, y);
-
-    if (not_placed(x, y)
-	&& myrand(1.5 * COLD_LEVEL) > T -  ICE_BASE_LEVEL 
-	&& T <= 3 * ICE_BASE_LEVEL) {
-      map_set_terrain(x, y, T_ARCTIC);
-      map_set_placed(x, y);
-    }
+    if ((tmap_is(map_x, map_y, TT_FROZEN ) &&
+	ok_for_separate_poles(map_x, map_y))
+	||
+	(tmap_is(map_x, map_y, TT_COLD ) &&
+	 (myrand(10) > 7) &&
+	 is_temperature_type_near(map_x, map_y, TT_FROZEN) &&
+	 ok_for_separate_poles(map_x, map_y))) {
+	map_set_terrain(map_x, map_y, T_UNKNOWN);
+	map_set_continent(map_x, map_y, 0);
+    } 
   } whole_map_iterate_end;
 }
 
@@ -663,7 +319,7 @@ static void make_arctic(void)
 static void place_terrain(int x, int y, int diff, 
                            Terrain_type_id ter, int *to_be_placed,
 			   wetness_c        wc,
-			   temperature_c    tc,
+			   temperature_type tc,
 			   miscellaneous_c  mc)
 {
   if (*to_be_placed <= 0) {
@@ -675,11 +331,11 @@ static void place_terrain(int x, int y, int diff,
   (*to_be_placed)--;
   
   cardinal_adjc_iterate(x, y, x1, y1) {
-    int Delta = abs(map_temperature(x1, y1) - map_temperature(x, y)) / T_UNIT
+    int Delta = abs(map_colatitude(x1, y1) - map_colatitude(x, y)) / L_UNIT
 	+ abs(hmap(x1, y1) - (hmap(x, y))) /  H_UNIT;
     if (not_placed(x1, y1) 
+	&& tmap_is(x1, y1, tc) 
 	&& test_wetness(x1, y1, wc)
-	&& test_temperature(x1, y1, tc) 
  	&& test_miscellaneous(x1, y1, mc)
 	&& Delta < diff 
 	&& myrand(10) > 4) {
@@ -694,9 +350,10 @@ static void place_terrain(int x, int y, int diff,
 **************************************************************************/
 static void make_plain(int x, int y, int *to_be_placed )
 {
-  int T = map_temperature(x, y);
   /* in cold place we get tundra instead */
-  if ((COLD_LEVEL > T)) {
+  if (tmap_is(x, y, TT_FROZEN)) {
+    map_set_terrain(x, y, T_ARCTIC); 
+  } else if (tmap_is(x, y, TT_COLD)) {
     map_set_terrain(x, y, T_TUNDRA); 
   } else {
     if (myrand(100) > 50) {
@@ -730,7 +387,7 @@ static void make_plains(void)
   if((count) > 0) {                                       \
     int x, y; \
     /* Place some terrains */                             \
-    if (rand_map_pos_characteristic(&x, &y, (wc), (tc), (mc))) { \
+    if (rand_map_pos_characteristic(&x, &y, (wc), (tc), (mc))) {  \
       place_terrain(x, y, (weight), (ter), &(count), (wc),(tc), (mc));   \
     } else {                                                             \
       /* If rand_map_pos_temperature returns FALSE we may as well stop*/ \
@@ -765,8 +422,8 @@ static void make_terrains(void)
 
   forests_count = total * map.forestsize
        / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize );
-  jungles_count = (MAX_TEMP - TROPICAL_LEVEL) * forests_count 
-      /  (MAX_TEMP * 2);
+  jungles_count = (MAX_COLATITUDE - TROPICAL_LEVEL) * forests_count 
+      /  (MAX_COLATITUDE * 2);
   forests_count -= jungles_count;
 
   deserts_count = total * map.deserts
@@ -782,22 +439,22 @@ static void make_terrains(void)
   do {
     
     PLACE_ONE_TYPE(forests_count , plains_count, T_FOREST,
-		   WC_ALL, TC_NFRIZZED, MC_NONE, 60);
+		   WC_ALL, TT_NFROZEN, MC_NONE, 60);
     PLACE_ONE_TYPE(jungles_count, forests_count , T_JUNGLE,
-		   WC_ALL, TC_TROPICAL, MC_NONE, 50);
+		   WC_ALL, TT_TROPICAL, MC_NONE, 50);
     PLACE_ONE_TYPE(swamps_count, forests_count , T_SWAMP,
-		   WC_NDRY, TC_NFRIZZED, MC_LOW, 50);
+		   WC_NDRY, TT_NFROZEN, MC_LOW, 50);
     PLACE_ONE_TYPE(deserts_count, alt_deserts_count , T_DESERT,
-		   WC_DRY, TC_NFRIZZED, MC_NLOW, 80);
+		   WC_DRY, TT_NFROZEN, MC_NLOW, 80);
     PLACE_ONE_TYPE(alt_deserts_count, plains_count , T_DESERT,
-		   WC_ALL, TC_NFRIZZED, MC_NLOW, 40);
+		   WC_ALL, TT_NFROZEN, MC_NLOW, 40);
  
   /* make the plains and tundras */
     if (plains_count > 0) {
       int x, y;
 
       /* Don't use any restriction here ! */
-      if (rand_map_pos_characteristic(&x, &y,  WC_ALL, TC_ALL, MC_NONE)){
+      if (rand_map_pos_characteristic(&x, &y,  WC_ALL, TT_ALL, MC_NONE)){
 	make_plain(x,y, &plains_count);
       } else {
 	/* If rand_map_pos_temperature returns FALSE we may as well stop
@@ -1039,7 +696,7 @@ static bool make_river(int x, int y)
     if (count_special_near_tile(x, y, TRUE, TRUE, S_RIVER) > 0
 	|| count_ocean_near_tile(x, y, TRUE, TRUE) > 0
         || (map_get_terrain(x, y) == T_ARCTIC 
-	    && map_temperature(x, y) < 0.8 * COLD_LEVEL)) { 
+	    && map_colatitude(x, y) < 0.8 * COLD_LEVEL)) { 
 
       freelog(LOG_DEBUG,
 	      "The river ended at (%d, %d).\n", x, y);
@@ -1144,7 +801,7 @@ static void make_rivers(void)
     10 *
     /* The size of the map (poles don't count). */
     map_num_tiles() 
-      * (map.alltemperate ? 1.0 : 1.0 - 2.0 * ICE_BASE_LEVEL / MAX_TEMP) *
+      * (map.alltemperate ? 1.0 : 1.0 - 2.0 * ICE_BASE_LEVEL / MAX_COLATITUDE) *
     /* Rivers need to be on land only. */
     map.landpercent /
     /* Adjustment value. Tested by me. Gives no rivers with 'set
@@ -1163,7 +820,7 @@ static void make_rivers(void)
   int iteration_counter = 0;
 
   create_placed_map(); /* needed bu rand_map_characteristic */
-  unset_placed_all_oceans();
+  set_all_ocean_tiles_placed();
 
   river_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
 
@@ -1172,7 +829,7 @@ static void make_rivers(void)
 	 && iteration_counter < RIVERS_MAXTRIES) {
 
     if (!rand_map_pos_characteristic(&x, &y, 
-                                     WC_NDRY, TC_NFRIZZED, MC_NLOW)) {
+                                     WC_ALL, TT_NFROZEN, MC_NLOW)) {
 	break; /* mo more spring places */
     }
 
@@ -1270,13 +927,13 @@ static void normalize_hmap_poles(void)
   whole_map_iterate(x, y) {
     if (near_singularity(x, y)) {
       hmap(x, y) = 0;
-    } else if (map_temperature(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_temperature(x, y) / (2.5 * ICE_BASE_LEVEL);
+    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
     } else if (map.separatepoles 
-	       && map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
       hmap(x, y) *= 0.1;
-    } else if (map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_temperature(x, y) / (2.5 * ICE_BASE_LEVEL);
+    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
     }
   } whole_map_iterate_end;
 }
@@ -1288,15 +945,15 @@ static void normalize_hmap_poles(void)
 static void renormalize_hmap_poles(void)
 {
   whole_map_iterate(x, y) {
-    if (hmap(x, y) == 0 || map_temperature(x, y) == 0) {
+    if (hmap(x, y) == 0 || map_colatitude(x, y) == 0) {
       /* Nothing. */
-    } else if (map_temperature(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) / map_temperature(x, y);
+    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) / map_colatitude(x, y);
     } else if (map.separatepoles 
-	       && map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
       hmap(x, y) *= 10;
-    } else if (map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) /  map_temperature(x, y);
+    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) /  map_colatitude(x, y);
     }
   } whole_map_iterate_end;
 }
@@ -1308,9 +965,8 @@ static void renormalize_hmap_poles(void)
 **************************************************************************/
 static void make_land(void)
 {
-  create_placed_map(); /* here it means land terrains to be placed */
-  adjust_hmap();
-  if (!map.alltemperate) {
+  adjust_int_map(height_map, hmap_max_level);
+  if (HAS_POLES) {
     normalize_hmap_poles();
   }
   hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
@@ -1319,18 +975,26 @@ static void make_land(void)
     map_set_terrain(x, y, T_UNKNOWN); /* set as oceans count is used */
     if (hmap(x, y) < hmap_shore_level) {
       map_set_terrain(x, y, T_OCEAN);
-      map_set_placed(x, y); /* placed, not a land target */
     }
   } whole_map_iterate_end;
-  if(!map.alltemperate) {
-    renormalize_hmap_poles(); 
+  if (HAS_POLES) {
+    renormalize_hmap_poles();
+  } 
+
+  create_tmap(TRUE); /* base temperature map, need hmap and oceans */
+  
+  if (HAS_POLES) { /* this is a hack to terrains set with not frizzed oceans*/
     make_polar_land(); /* make extra land at poles*/
   }
+
+  create_placed_map(); /* here it means land terrains to be placed */
+  set_all_ocean_tiles_placed();
   make_relief(); /* base relief on map */
-  make_arctic(); 
-  make_terrains(); /* place forest/desert/swamp/grass/tundra and plains */
+  make_terrains(); /* place all exept mountains and hill */
   destroy_placed_map();
-  make_rivers();
+
+  make_rivers(); /* use a new placed_map. destroy older before call */
+
   assign_continent_numbers();
 }
 
@@ -1439,7 +1103,7 @@ static void setup_isledata(void)
       /* (x1,y1) is possible location of a future city which will
        * be able to get benefit of the tile (x,y) */
       if (is_ocean(map_get_terrain(x1, y1)) 
-	  || map_temperature(x1, y1) <= 2 * ICE_BASE_LEVEL) { 
+	  || map_colatitude(x1, y1) <= 2 * ICE_BASE_LEVEL) { 
 	/* Not land, or too cold. */
         continue;
       }
@@ -1630,102 +1294,6 @@ void create_start_positions(void)
   islands = NULL;
 }
 
-/****************************************************************************
-  Set the map xsize and ysize based on a base size and ratio (in natural
-  coordinates).
-****************************************************************************/
-static void set_sizes(double size, int Xratio, int Yratio)
-{
-  /* Some code in generator assumes even dimension, so this is set to 2.
-   * Future topologies may also require even dimensions. */
-  const int even = 2;
-
-  /* In iso-maps we need to double the map.ysize factor, since xsize is
-   * in native coordinates which are compressed 2x in the X direction. */ 
-  const int iso = (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) ? 2 : 1;
-
-  /* We have:
-   *
-   *   1000 * size = xsize * ysize
-   *
-   * And to satisfy the ratios and other constraints we set
-   *
-   *   xsize = i_size * xratio * even
-   *   ysize = i_size * yratio * even * iso
-   *
-   * For any value of "i_size".  So with some substitution
-   *
-   *   1000 * size = i_size * i_size * xratio * yratio * even * even * iso
-   *   i_size = sqrt(1000 * size / (xratio * yratio * even * even * iso))
-   * 
-   * Make sure to round off i_size to preserve exact wanted ratios,
-   * that may be importante for some topologies.
-   */
-  const int i_size
-    = sqrt((float)(1000 * size)
-	   / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
-
-  /* Now build xsize and ysize value as described above. */
-  map.xsize = Xratio * i_size * even;
-  map.ysize = Yratio * i_size * even * iso;
-
-  /* Now make sure the size isn't too large for this ratio.  If it is
-   * then decrease the size and try again. */
-  if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE ) {
-    assert(size > 0.1);
-    set_sizes(size - 0.1, Xratio, Yratio);
-    return;
-  }
-
-  /* If the ratio is too big for some topology the simplest way to avoid
-   * this error is to set the maximum size smaller for all topologies! */
-  if (map.size > size + 0.9) {
-    /* Warning when size is set uselessly big */ 
-    freelog(LOG_ERROR,
-	    "Requested size of %d is too big for this topology.",
-	    map.size);
-  }
-  freelog(LOG_VERBOSE,
-	  "Creating a map of size %d x %d = %d tiles (%d requested).",
-	  map.xsize, map.ysize, map.xsize * map.ysize, map.size * 1000);
-}
-
-/*
- * The default ratios for known topologies
- *
- * The factor Xratio * Yratio determines the accuracy of the size.
- * Small ratios work better than large ones; 3:2 is not the same as 6:4
- */
-#define AUTO_RATIO_FLAT           {1, 1}
-#define AUTO_RATIO_CLASSIC        {3, 2} 
-#define AUTO_RATIO_URANUS         {2, 3} 
-#define AUTO_RATIO_TORUS          {1, 1}
-
-/*************************************************************************** 
-  This function sets sizes in a topology-specific way then calls
-  map_init_topology.
-***************************************************************************/
-static void generator_init_topology(bool autosize)
-{
-  /* The default server behavior is to generate xsize/ysize from the
-   * "size" server option.  Others may want to set xsize/ysize directly. */
-  if (autosize) {
-    /* Changing or reordering the topo_flag enum will break this code. */
-    const int default_ratios[4][2] =
-      {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
-       AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
-    const int id = 0x3 & map.topology_id;
-
-    assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
-
-    /* Set map.xsize and map.ysize based on map.size. */
-    set_sizes(map.size, default_ratios[id][0], default_ratios[id][1]);
-  }
-
-  /* Then initialise all topoloicals parameters */
-  map_init_topology(TRUE);
-}
-
 /**************************************************************************
   See stdinhand.c for information on map generation methods.
 
@@ -1774,6 +1342,10 @@ void map_fractal_generate(bool autosize)
       assign_continent_numbers();
   }
 
+  if(!temperature_is_initialized()) {
+    create_tmap(FALSE);
+  }
+
   if(!map.have_specials) /* some scenarios already provide specials */
     add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
 
@@ -1783,6 +1355,7 @@ void map_fractal_generate(bool autosize)
 
   /* restore previous random state: */
   set_myrand_state(rstate);
+  destroy_tmap();
 }
 
 /**************************************************************************
@@ -1791,7 +1364,7 @@ void map_fractal_generate(bool autosize)
 static void adjust_terrain_param(void)
 {
   int total;
-  int polar = ICE_BASE_LEVEL * 100 / MAX_TEMP;
+  int polar = ICE_BASE_LEVEL * 100 / MAX_COLATITUDE;
 
   total = map.mountains + map.deserts + map.forestsize + map.swampsize
     + map.grasssize;
@@ -1803,51 +1376,6 @@ static void adjust_terrain_param(void)
     map.deserts = map.deserts * (100 - polar) / total;
     map.grasssize = 100 - map.forestsize - map.swampsize - map.mountains 
       - polar - map.deserts;
-  }
-}
-
-/**************************************************************************
-  Change the values of the height map, so that they contain ranking of each 
-  tile scaled to [0 .. hmap_max_level].
-  The lowest 20% of tiles will have values lower than 0.2 * hmap_max_level.
-
-  slope can globally be estimated as
-        hmap_max_level * sqrt(number_of_islands) / linear_size_of_map
-**************************************************************************/
-static void adjust_hmap(void)
-{
-  int minval = hnat(0, 0), maxval = minval;
-
-  /* Determine minimum and maximum heights. */
-  whole_map_iterate(x, y) {
-    maxval = MAX(maxval, hmap(x, y));
-    minval = MIN(minval, hmap(x, y));
-  } whole_map_iterate_end;
-
-  {
-    int const size = 1 + maxval - minval;
-    int i, count = 0, frequencies[size];
-
-    INITIALIZE_ARRAY(frequencies, size, 0);
-
-    /* Translate heights so the minimum height is 0
-       and count the number of occurencies of all values to initialize the 
-       frequencies[] */
-    whole_map_iterate(x, y) {
-      hmap(x, y) = (hmap(x, y) - minval);
-      frequencies[hmap(x, y)]++;
-    } whole_map_iterate_end;
-
-    /* create the linearize function as "incremental" frequencies */
-    for(i =  0; i < size; i++) {
-      count += frequencies[i]; 
-      frequencies[i] = (count * hmap_max_level) / MAX_MAP_INDEX;
-    }
-
-    /* apply the linearize function */
-    whole_map_iterate(x, y) {
-      hmap(x, y) = frequencies[hmap(x, y)];
-    } whole_map_iterate_end; 
   }
 }
 
@@ -1867,7 +1395,7 @@ static void mapgenerator1(void)
     rand_map_pos(&x, &y);
 
     if (near_singularity(x, y)
-	|| map_temperature(x, y) <= ICE_BASE_LEVEL / 2) { 
+	|| map_colatitude(x, y) <= ICE_BASE_LEVEL / 2) { 
       /* Avoid land near singularities or at the poles. */
       hmap(x, y) -= myrand(5000);
     } else { 
@@ -1926,16 +1454,6 @@ static void smooth_map(void)
   free(new_hmap);
 }
 
-/****************************************************************************
-  Set all nearby tiles as placed on pmap. This helps avoiding huts being 
-  too close
-****************************************************************************/
-static void set_placed_close_hut(int map_x, int map_y)
-{
-  square_iterate(map_x, map_y, 3, x1, y1) {
-    map_set_placed(x1, y1);
-  } square_iterate_end;
-}
 
 /****************************************************************************
   Return TRUE if a safe tile is in a radius of 1.  This function is used to
@@ -1966,13 +1484,13 @@ static void make_huts(int number)
 
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
-    if (rand_map_pos_characteristic(&x, &y, WC_ALL, TC_NFRIZZED, MC_NONE)) {
+    if (rand_map_pos_characteristic(&x, &y, WC_ALL, TT_NFROZEN, MC_NONE)) {
       if (is_ocean(map_get_terrain(x, y))) {
 	map_set_placed(x, y); /* not good for a hut */
       } else {
 	number--;
 	map_set_special(x, y, S_HUT);
-	set_placed_close_hut(x, y);
+	set_placed_near_pos(x, y, 3);
 	    /* Don't add to islands[].goodies because islands[] not
 	       setup at this point, except for generator>1, but they
 	       have pre-set starters anyway. */
@@ -2107,7 +1625,7 @@ static void fill_island(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
 	   &&( !is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast )) {
-	if (map_pos_is_cold_or_frizzed(x, y)) {
+	if (map_colatitude(x, y) < COLD_LEVEL) {
 	  map_set_terrain(x, y, (myrand(cold0_weight
 					+ cold1_weight) < cold0_weight) 
 			  ? cold0 : cold1);
@@ -2479,6 +1997,7 @@ static void initworld(struct gen234_state *pstate)
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
   create_placed_map(); /* land tiles which aren't placed yet */
+  create_tmap(FALSE);
   whole_map_iterate(x, y) {
     map_set_terrain(x, y, T_OCEAN);
     map_set_continent(x, y, 0);
@@ -2486,7 +2005,7 @@ static void initworld(struct gen234_state *pstate)
     map_clear_all_specials(x, y);
     map_set_owner(x, y, NULL);
   } whole_map_iterate_end;
-  if (!map.alltemperate) {
+  if (HAS_POLES) {
     make_polar();
   }
   
@@ -2534,11 +2053,15 @@ static void mapgenerator2(void)
                        * (map.xsize - spares)) / 100;
   totalweight = 100 * game.nplayers;
 
-  assert(placed_map == NULL);
+  assert(!placed_map_is_initialized());
 
   while (!done && bigfrac > midfrac) {
     done = TRUE;
-    if ( placed_map != NULL ) { destroy_placed_map(); }
+
+    if (placed_map_is_initialized()) {
+      destroy_placed_map();
+    }
+
     initworld(pstate);
     
     /* Create one big island for each player. */
@@ -2786,7 +2309,7 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
 #define set_midpoints(X, Y, V)						\
   do_in_map_pos(map_x, map_y, (X), (Y)) {                               \
     if (!near_singularity(map_x, map_y)					\
-	&& map_temperature(map_x, map_y) >  ICE_BASE_LEVEL/2		\
+	&& map_colatitude(map_x, map_y) >  ICE_BASE_LEVEL/2		\
 	&& hnat((X), (Y)) == 0) {					\
       hnat((X), (Y)) = (V);						\
     }									\
@@ -2866,7 +2389,7 @@ static void mapgenerator5(void)
 	  hmap(x, y) -= avoidedge;
 	}
 
-	if (map_temperature(x, y) <= ICE_BASE_LEVEL / 2 ) {
+	if (map_colatitude(x, y) <= ICE_BASE_LEVEL / 2 ) {
 	  /* separate poles and avoid too much land at poles */
 	  hmap(x, y) -= myrand(avoidedge);
 	}
