@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-21 12:40-0400\n"
+"POT-Creation-Date: 2000-06-21 22:14+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -135,6 +135,73 @@ msgstr "Fliegerhorst"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
+
+# ?
+#: common/player.c:423
+msgid "Spotless"
+msgstr ""
+
+# ?
+#: common/player.c:425
+msgid "Excellent"
+msgstr ""
+
+# ?
+#: common/player.c:427
+msgid "Honorable"
+msgstr ""
+
+# ?
+#: common/player.c:429
+msgid "Questionable"
+msgstr ""
+
+# ?
+#: common/player.c:431
+msgid "Dishonorable"
+msgstr ""
+
+# ?
+#: common/player.c:433
+msgid "Poor"
+msgstr ""
+
+# ?
+#: common/player.c:435
+msgid "Despicable"
+msgstr ""
+
+# ?
+#: common/player.c:437
+msgid "Atrocious"
+msgstr ""
+
+#: common/player.c:447
+msgid "Neutral"
+msgstr "Neutralität"
+
+#: common/player.c:448
+msgid "War"
+msgstr "Krieg"
+
+#: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485
+#: common/player.c:449
+msgid "Cease-fire"
+msgstr "Waffenstillstand"
+
+#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429
+#: client/gui-xaw/diplodlg.c:489 common/player.c:450
+msgid "Peace"
+msgstr "Frieden"
+
+#: client/gui-gtk/diplodlg.c:434 client/gui-xaw/diplodlg.c:493
+#: common/player.c:451
+msgid "Alliance"
+msgstr "Allianz"
+
+#: common/player.c:452
+msgid "No Contact"
+msgstr "Kein Kontakt"
 
 #: common/shared.c:130
 #, c-format
@@ -4278,11 +4345,6 @@ msgstr "Begeisterung"
 msgid "Disorder"
 msgstr "Aufruhr"
 
-#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429
-#: client/gui-xaw/diplodlg.c:489
-msgid "Peace"
-msgstr "Frieden"
-
 #: client/cityrepdata.c:147
 msgid "(worklist)"
 msgstr "(Arbeitsliste)"
@@ -4433,6 +4495,58 @@ msgstr "Unbekannte Option: '%s'\n"
 #: client/civclient.c:348
 msgid "Received unknown packet from server!"
 msgstr "Received unknown packet from server!"
+
+# ?
+#: client/climisc.c:331
+#, c-format
+msgid "?seconds:%d"
+msgstr ""
+
+# ?
+#. < 99.5 minutes
+#: client/climisc.c:333
+#, c-format
+msgid "?minutes:%dm"
+msgstr ""
+
+# ?
+#. < 99.5 hours
+#: client/climisc.c:335
+#, c-format
+msgid "?hours:%dh"
+msgstr ""
+
+#: client/climisc.c:348 client/climisc.c:353
+#, c-format
+msgid "The %s give %s"
+msgstr "Die %s geben %s"
+
+#: client/climisc.c:358
+#, c-format
+msgid "The %s give %d gold"
+msgstr "Die %s geben %d Goldstücke"
+
+#: client/climisc.c:363
+#, c-format
+msgid "The %s give their worldmap"
+msgstr "Die %s geben ihre Weltkarte"
+
+#: client/climisc.c:367
+#, c-format
+msgid "The %s give their seamap"
+msgstr "Die %s geben ihre Seekarte"
+
+#: client/climisc.c:371
+msgid "The parties agree on a cease-fire"
+msgstr "Die Verhandlungspartner vereinbaren einen Waffenstillstand"
+
+#: client/climisc.c:374
+msgid "The parties agree on a peace"
+msgstr "Die Verhandlungspartner vereinbaren Frieden"
+
+#: client/climisc.c:377
+msgid "The parties create an alliance"
+msgstr "Die Verhandlungspartner schließen eine Allianz"
 
 #: client/clinet.c:102
 msgid "Invalid hostname"
@@ -4673,6 +4787,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:734
+#, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -5255,7 +5370,7 @@ msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-gtk/citydlg.c:932 client/gui-gtk/citydlg.c:937
 #: client/gui-xaw/citydlg.c:1456 client/gui-xaw/citydlg.c:1460
-#, c-format
+#, c-format, ycp-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -5283,7 +5398,7 @@ msgid "Done"
 msgstr "Fertig"
 
 #: client/gui-gtk/citydlg.c:967
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -5293,17 +5408,17 @@ msgid "Granary: %3d/%-3d"
 msgstr "Getreidevorrat: %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turn"
 msgstr "%3d/%3d %3d Runde"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d Runden"
 
 #: client/gui-gtk/citydlg.c:1028
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/XXX XXX turns"
 msgstr "%3d/XXX XXX Runden"
 
@@ -6057,14 +6172,6 @@ msgstr "Städte"
 #, c-format
 msgid "Gold(max %d)"
 msgstr "Gold (max %d)"
-
-#: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485
-msgid "Cease-fire"
-msgstr "Waffenstillstand"
-
-#: client/gui-gtk/diplodlg.c:434 client/gui-xaw/diplodlg.c:493
-msgid "Alliance"
-msgstr "Allianz"
 
 #: client/gui-gtk/diplodlg.c:441 data/Freeciv:432
 msgid "Pacts"
@@ -7046,7 +7153,7 @@ msgid "Results"
 msgstr "Ergebnisse"
 
 #: client/gui-gtk/repodlgs.c:788 client/gui-xaw/repodlgs.c:830
-#, c-format
+#, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -7137,6 +7244,7 @@ msgid "Launch"
 msgstr "Start"
 
 #: client/gui-gtk/spaceshipdlg.c:264 client/gui-xaw/spaceshipdlg.c:268
+#, ycp-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -7228,7 +7336,7 @@ msgid "empty worklist"
 msgstr "leere Arbeitsliste"
 
 #: client/gui-xaw/citydlg.c:203
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -7260,17 +7368,17 @@ msgstr ""
 "Forschung: %3d"
 
 #: client/gui-xaw/citydlg.c:316
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/XXX XXX turns "
 msgstr " %3d/XXX XXX Runden "
 
 #: client/gui-xaw/citydlg.c:321
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turn "
 msgstr " %3d/%3d %3d Runde "
 
 #: client/gui-xaw/citydlg.c:322
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turns "
 msgstr " %3d/%3d %3d Runden "
 
@@ -7424,7 +7532,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1144
-#, c-format
+#, c-format, ycp-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
