@@ -22,10 +22,10 @@
 /* The following is for the benefit (?) of non-configure make methods. */
 /* !! These must be the same as their counterparts in configure.in. !! */
 #ifndef MAJOR_VERSION
-#define MAJOR_VERSION		1
+#define MAJOR_VERSION		2
 #endif
 #ifndef MINOR_VERSION
-#define MINOR_VERSION		14
+#define MINOR_VERSION		0
 #endif
 #ifndef PATCH_VERSION
 #define PATCH_VERSION		99
