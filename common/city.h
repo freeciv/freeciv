@@ -247,6 +247,9 @@ struct city {
   /* Cached values for CPU savings. */
   int bonus[O_MAX];
 
+  int martial_law; /* Number of citizens pacified by martial law. */
+  int unit_happy_upkeep; /* Number of citizens angered by military action. */
+
   /* the physics */
   int food_stock;
   int shield_stock;

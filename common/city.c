@@ -1762,6 +1762,23 @@ static void happy_copy(struct city *pcity, int i)
 }
 
 /**************************************************************************
+  Move up to 'count' citizens from the source to the destination
+  happiness categories. For instance
+
+    make_citizens_happy(&pcity->angry[0], &pcity->unhappy[0], 1)
+
+  will make up to 1 angry citizen unhappy.  The number converted will be
+  returned.
+**************************************************************************/
+static inline int make_citizens_happy(int *from, int *to, int count)
+{
+  count = MIN(count, *from);
+  *from -= count;
+  *to += count;
+  return count;
+}
+
+/**************************************************************************
   Create content, unhappy and angry citizens.
 **************************************************************************/
 static void citizen_happy_size(struct city *pcity)
@@ -1848,31 +1865,6 @@ static inline void citizen_happy_luxury(struct city *pcity)
 }
 
 /**************************************************************************
-  Make given number of citizens unhappy due to units in the field.
-**************************************************************************/
-static inline void citizen_unhappy_units(struct city *pcity, int unhap)
-{
-  while (unhap > 0 && pcity->ppl_content[3] > 0) {
-    pcity->ppl_content[3]--;
-    pcity->ppl_unhappy[3]++;
-    unhap--;
-  }
-  while (unhap >= 2 && pcity->ppl_happy[3] > 0) {
-    pcity->ppl_happy[3]--;
-    pcity->ppl_unhappy[3]++;
-    unhap -= 2;
-  }
-  if (unhap > 0) {
-    if (pcity->ppl_happy[3] > 0) {	/* 1 unhap left */
-      pcity->ppl_happy[3]--;
-      pcity->ppl_content[3]++;
-      unhap--;
-    }
-    /* everyone is unhappy now, units don't make angry citizen */
-  }
-}
-
-/**************************************************************************
   Make citizens content due to city improvements.
 **************************************************************************/
 static inline void citizen_content_buildings(struct city *pcity)
@@ -1894,6 +1886,41 @@ static inline void citizen_content_buildings(struct city *pcity)
     pcity->ppl_content[2]++;
     faces--;
   }
+}
+
+/**************************************************************************
+  Make citizens happy/unhappy due to units.
+
+  This function requires that pcity->martial_law and
+  pcity->unit_happy_cost have already been set in city_support.
+**************************************************************************/
+static inline void citizen_happy_units(struct city *pcity)
+{
+  int amt;
+
+  happy_copy(pcity, 2);
+
+  /* Pacify discontent citizens through martial law.  First convert
+   * angry->unhappy and then unhappy->content. */
+  amt = pcity->martial_law;
+  amt -= make_citizens_happy(&pcity->ppl_angry[3], &pcity->ppl_unhappy[3],
+			     amt);
+  amt -= make_citizens_happy(&pcity->ppl_unhappy[3], &pcity->ppl_content[3],
+			     amt);
+  /* Any remaining martial law is unused. */
+
+  /* Now make citizens unhappier because of military units away from home.
+   * First make content people unhappy, then happy people unhappy,
+   * then happy people content. */
+  amt = pcity->unit_happy_upkeep;
+  amt -= make_citizens_happy(&pcity->ppl_content[3], &pcity->ppl_unhappy[3],
+			     amt);
+  amt -= 2 * make_citizens_happy(&pcity->ppl_happy[3], &pcity->ppl_unhappy[3],
+				 amt / 2);
+  amt -= make_citizens_happy(&pcity->ppl_happy[3], &pcity->ppl_content[3],
+			     amt);
+  /* Any remaining unhappiness is lost since angry citizens aren't created
+   * here. */
 }
 
 /**************************************************************************
@@ -2049,9 +2076,12 @@ static inline void city_support(struct city *pcity,
     free_upkeep[o] = citygov_free_upkeep(pcity, g, o);
   } output_type_iterate_end;
 
-  happy_copy(pcity, 2);
-
+  /* Clear all usage values. */
   memset(pcity->usage, 0, O_COUNT * sizeof(*pcity->usage));
+  pcity->martial_law = 0;
+  pcity->unit_happy_upkeep = 0;
+
+  /* Add base amounts for building upkeep and citizen consumption. */
   pcity->usage[O_GOLD] += city_building_upkeep(pcity, O_GOLD);
   pcity->usage[O_FOOD] += 2 * pcity->size;
 
@@ -2068,24 +2098,14 @@ static inline void city_support(struct city *pcity,
      unhappy citizens content
    */
   if (g->martial_law_max > 0) {
-    int city_units = 0;
     unit_list_iterate(pcity->tile->units, punit) {
-      if (city_units < g->martial_law_max && is_military_unit(punit)
-	  && punit->owner == pcity->owner)
-	city_units++;
+      if (pcity->martial_law < g->martial_law_max
+	  && is_military_unit(punit)
+	  && punit->owner == pcity->owner) {
+	pcity->martial_law++;
+      }
     } unit_list_iterate_end;
-    city_units *= g->martial_law_per;
-    /* get rid of angry first, then make unhappy content */
-    while (city_units > 0 && pcity->ppl_angry[3] > 0) {
-      pcity->ppl_angry[3]--;
-      pcity->ppl_unhappy[3]++;
-      city_units--;
-    }
-    while (city_units > 0 && pcity->ppl_unhappy[3] > 0) {
-      pcity->ppl_unhappy[3]--;
-      pcity->ppl_content[3]++;
-      city_units--;
-    }
+    pcity->martial_law *= g->martial_law_per;
   }
 
   /* loop over units, subtracting appropriate amounts of food, shields,
@@ -2130,7 +2150,7 @@ static inline void city_support(struct city *pcity,
     if (happy_cost > 0) {
       adjust_city_free_cost(&free_happy, &happy_cost);
       if (happy_cost > 0) {
-	citizen_unhappy_units(pcity, happy_cost);
+	pcity->unit_happy_upkeep += happy_cost;
 	this_unit->unhappiness = happy_cost;
       }
     }
@@ -2172,6 +2192,7 @@ void generic_city_refresh(struct city *pcity,
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
   city_support(pcity, send_unit_info);	/* manage settlers, and units */
+  citizen_happy_units(pcity); /* Martial law & unrest from units */
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
   set_surpluses(pcity);
