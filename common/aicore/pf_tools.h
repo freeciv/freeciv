@@ -22,6 +22,8 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     struct unit *punit);
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit);
+void pft_fill_unit_attack_param(struct pf_parameter *parameter,
+                                struct unit *punit);
 
 /*
  * Below iterator is mostly for use by AI, iterates through all positions

@@ -77,9 +77,30 @@ static int sea_overlap_move(int x, int y, enum direction8 dir,
   return PF_IMPOSSIBLE_MC;
 }
 
+/**********************************************************************
+  Sea attack is the same as overlap (consider bombardment) but we don't
+  want to pass through enemy tiles.
+**********************************************************************/
+static int sea_attack_move(int x, int y, enum direction8 dir,
+			    int x1, int y1, struct pf_parameter *param)
+{
+  struct tile *src_tile = map_get_tile(x, y);
+
+  if (src_tile->terrain == T_OCEAN) {
+    if (is_non_allied_unit_tile(src_tile, param->owner)) {
+      return PF_IMPOSSIBLE_MC;
+    }
+    return SINGLE_MOVE;
+  } else if (is_allied_city_tile(map_get_tile(x, y), param->owner)
+	     && map_get_terrain(x1, y1) == T_OCEAN) {
+    return SINGLE_MOVE;
+  }
+
+  return PF_IMPOSSIBLE_MC;
+}
+
 /************************************************************ 
   LAND_MOVE cost function for a unit 
-  Must put owner into *data.
 ************************************************************/
 static int normal_move_unit(int x, int y, enum direction8 dir,
 			    int x1, int y1, struct pf_parameter *param)
@@ -110,6 +131,58 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
 
   return move_cost;
 }
+
+/******************************************************************* 
+  LAND_MOVE cost function for a unit, but taking into account
+  possibilities of attacking.
+*******************************************************************/
+static int land_attack_move(int x, int y, enum direction8 dir,
+			    int x1, int y1, struct pf_parameter *param)
+{
+  struct tile *src_tile = map_get_tile(x, y);
+  struct tile *tgt_tile = map_get_tile(x1, y1);
+  int move_cost;
+
+  if (tgt_tile->terrain == T_OCEAN) {
+
+    /* Any-to-Sea */
+    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+      move_cost = SINGLE_MOVE;
+    } else {
+      move_cost = PF_IMPOSSIBLE_MC;
+    }
+  } else if (src_tile->terrain == T_OCEAN) {
+
+    /* Sea-to-Land. */
+    if (!is_non_allied_unit_tile(tgt_tile, param->owner)
+        && !is_non_allied_city_tile(tgt_tile, param->owner)) {
+      move_cost 
+        = get_tile_type(tgt_tile->terrain)->movement_cost * SINGLE_MOVE;
+    } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
+      /* Can attack!! */
+      move_cost = SINGLE_MOVE;
+    } else {
+      move_cost = PF_IMPOSSIBLE_MC;
+    }
+  } else {
+
+    /* Land-to-Land */
+    if (is_non_allied_unit_tile(src_tile, param->owner)) {
+      /* Cannot pass through defended tiles */
+      move_cost = PF_IMPOSSIBLE_MC;
+    } else if (is_non_allied_unit_tile(tgt_tile, param->owner)) {
+
+      /* Attack! */
+      move_cost = SINGLE_MOVE;
+    } else {
+      /* Normal move */
+      move_cost = src_tile->move_cost[dir];
+    }
+  }
+
+  return move_cost;
+}
+
 
 /************************************************************ 
   A cost function for a land unit, which allows going into
@@ -365,6 +438,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     break;
   case SEA_MOVING:
     parameter->get_MC = sea_overlap_move;
+    break;
   default:
     die("Unsupported move_type");
   }
@@ -377,6 +451,45 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   } else {
     parameter->is_pos_dangerous = NULL;
   }
+}
+
+/**********************************************************************
+  Consider attacking and non-attacking possibilities properly
+**********************************************************************/
+void pft_fill_unit_attack_param(struct pf_parameter *parameter,
+                                struct unit *punit)
+{
+  parameter->turn_mode = TM_CAPPED;
+  parameter->get_TB = NULL;
+  parameter->get_EC = NULL;
+
+  parameter->start_x = punit->x;
+  parameter->start_y = punit->y;
+  parameter->moves_left_initially = punit->moves_left;
+  parameter->move_rate = unit_move_rate(punit);
+  parameter->owner = unit_owner(punit);
+  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+
+  switch (unit_type(punit)->move_type) {
+  case LAND_MOVING:
+    parameter->get_MC = land_attack_move;
+    break;
+  case SEA_MOVING:
+    parameter->get_MC = sea_attack_move;
+    break;
+  default:
+    die("Unsupported move_type");
+  }
+
+  if (unit_type(punit)->move_type == LAND_MOVING 
+      && !unit_flag(punit, F_IGZOC)) {
+    parameter->get_zoc = is_my_zoc;
+  } else {
+    parameter->get_zoc = NULL;
+  }
+
+  /* It is too complicated to work with danger here */
+  parameter->is_pos_dangerous = NULL;
 }
 
 /**********************************************************************

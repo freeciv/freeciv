@@ -44,6 +44,9 @@
 #include "unithand.h"
 #include "unittools.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
@@ -62,10 +65,14 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
 				       struct unit *leader);
 
+#define RAMPAGE_ANYTHING                 1
+#define RAMPAGE_HUT_OR_BETTER        99998
+#define RAMPAGE_FREE_CITY_OR_BETTER  99999
+static bool ai_military_rampage(struct unit *punit, int thresh_adj, 
+                                int thresh_move);
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_gohome(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
-static bool ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_role_defender(Unit_Type_id type);
@@ -1020,182 +1027,218 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 }
 
 /*************************************************************************
-This function looks at tiles adjacent to the unit in order to find something
-to kill or explore.  It prefers tiles in the following order:
+  This function appraises the location (x, y) for a quick hit-n-run operation.
 
-Returns value of the victim which has been chosen:
-
-99999    means empty (undefended) city
-99998    means hut
-2..99997 means value of enemy unit weaker than our unit
-1        means barbarians wanting to pillage
-0        means nothing found or error
--2*MORT*TRADE_WEIGHTING
-         means nothing found and punit causing unhappiness
-
-If value <= 0 is returned, (dest_x, dest_y) is set to actual punit's position.
+  Returns value as follows:
+    -RAMPAGE_FREE_CITY_OR_BETTER    
+             means undefended enemy city
+    -RAMPAGE_HUT_OR_BETTER    
+             means hut
+    RAMPAGE_ANYTHING ... RAMPAGE_HUT_OR_BETTER - 1  
+             is value of enemy unit weaker than our unit
+    0        means nothing found or error
+  Here the minus indicates that you need to enter the target tile (as 
+  opposed to attacking it, which leaves you where you are).
 **************************************************************************/
-static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
+static int ai_rampage_want(struct unit *punit, int x, int y)
 {
   struct player *pplayer = unit_owner(punit);
-  int attack_power = unit_att_rating_now(punit);
-  int x = punit->x, y = punit->y;
-  int best = 0;
-  int stack_size = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
+  struct unit *pdef = get_defender(punit, x, y);
 
   CHECK_UNIT(punit);
-
-  *dest_y = y;
-  *dest_x = x;
- 
-  /* Ferryboats with passengers do not attack. */
-  if (punit->ai.passenger > 0) {
-    return 0;
-  }
- 
-  if (punit->unhappiness > 0) {
-    /* When we're causing unhappiness, we'll set best even lower, 
-     * so that we will take even targets which we would ignore otherwise 
-     * (in other words -- we're going to commit suicide). */
-    best = - 2 * MORT * TRADE_WEIGHTING;
-  }
-
-  adjc_iterate(x, y, x1, y1) {
-    /* Macro to set the tile with our target as the best (with value new_best) */
-#define SET_BEST(new_best) \
-    do { best = (new_best); *dest_x = x1; *dest_y = y1; } while (FALSE)
-
-    struct unit *pdef = get_defender(punit, x1, y1);
+  
+  if (pdef) {
     
-    if (pdef) {
-      struct unit *patt = get_attacker(punit, x1, y1);
-
-      if (!can_unit_attack_tile(punit, x1, y1)) {
-        continue;
-      }
-
-      /* If we are in the city, let's deeply consider defending it - however,
-       * horsemen in city refused to attack phalanx just outside that was
-       * bodyguarding catapult; thus, we get the best attacker on the tile (x1,
-       * y1) as well, for the case when there are multiple different units on
-       * the tile (x1, y1). Thus we force punit to attack a stack of units if
-       * they're endangering punit seriously, even if they aren't that weak. */
-      /* FIXME: The get_total_defense_power(pdef, punit) should probably use
-       * patt rather than pdef. There also ought to be a better metric for
-       * determining this. */
-      if (patt
-          && map_get_city(x, y) 
-          && get_total_defense_power(pdef, punit) *
-             get_total_defense_power(punit, pdef) >=
-             get_total_attack_power(patt, punit) *
-             get_total_attack_power(punit, pdef)
-          && stack_size < 2
-          && get_total_attack_power(patt, punit) > 0) {
-        freelog(LOG_DEBUG, "%s's %s defending %s from %s's %s at (%d, %d)",
-                pplayer->name, unit_type(punit)->name, map_get_city(x, y)->name,
-                unit_owner(pdef)->name, unit_type(pdef)->name, punit->x, punit->y);
-      } else {
-        /* See description of kill_desire() about this variables. */
-        int vuln = unit_def_rating_sq(punit, pdef);
-        int attack = reinforcements_value(punit, pdef->x, pdef->y)
-                     + attack_power;
-        int benefit = unit_type(pdef)->build_cost;
-        int loss = unit_type(punit)->build_cost;
-        
-        attack *= attack;
-        
-        /* If the victim is in the city, we increase the benefit and correct
-         * it with our health because there may be more units in the city
-         * stacked, and we won't destroy them all at once, so in the next
-         * turn they may attack us. So we shouldn't send already injured
-         * units to useless suicide. */
-        if (map_get_city(x1, y1)) {
-          benefit += unit_value(get_role_unit(F_CITIES, 0));
-          benefit = (benefit * punit->hp) / unit_type(punit)->hp;
-        }
-        
-        /* If we have non-zero attack rating... */
-        if (attack > 0 && is_my_turn(punit, pdef)) {
-          int desire;
-
-          /* FIXME? Why we don't use stack_size as victim_count? --pasky */
-
-          desire = kill_desire(benefit, attack, loss, vuln, 1);
-          
-          /* No need to amortize! We're doing it in one-turn horizon. */
-          
-          if (desire > best && ai_fuzzy(pplayer, TRUE)) {
-            freelog(LOG_DEBUG, "Better than %d is %d (%s)",
-                          best, desire, unit_type(pdef)->name);
-            SET_BEST(desire);
-          } else {
-            freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
-                    best, desire, unit_type(pdef)->name);
-          }
-        }
+    if (!can_player_attack_tile(pplayer, x, y)
+        || !can_unit_attack_unit_at_tile(punit, pdef, x, y)) {
+      return 0;
+    }
+    
+    {
+      /* See description of kill_desire() about these variables. */
+      int att_rating = unit_att_rating_now(punit);
+      int vuln = unit_def_rating_sq(punit, pdef);
+      int attack = reinforcements_value(punit, pdef->x, pdef->y) + att_rating;
+      int benefit = stack_cost(pdef);
+      int loss = unit_type(punit)->build_cost;
+      
+      attack *= attack;
+      
+      /* If the victim is in the city/fortress, we correct the benefit
+       * with our health because there could be reprisal attacks.  We
+       * shouldn't send already injured units to useless suicide.
+       * Note that we do not specially encourage attacks against
+       * cities: rampage is a hit-n-run operation. */
+      if (!is_stack_vulnerable(x, y) 
+          && unit_list_size(&(map_get_tile(x, y)->units)) > 1) {
+        benefit = (benefit * punit->hp) / unit_type(punit)->hp;
       }
       
-    } else {
-      struct city *pcity = map_get_city(x1, y1);
-      
-      /* No defender... */
-     
-      /* ...and free foreign city waiting for us. Who would resist! */
-      if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
-          && could_unit_move_to_tile(punit, x1, y1) != 0
-          && COULD_OCCUPY(punit)
-          && !is_ocean(map_get_terrain(punit->x, punit->y))) {
-        SET_BEST(99999);
-        continue;
-      }
-
-      /* ...or tiny pleasant hut here! */
-      if (map_has_special(x1, y1, S_HUT) && best < 99999
-          && could_unit_move_to_tile(punit, x1, y1) != 0
-          && !is_barbarian(unit_owner(punit))
-          && punit->ai.ai_role != AIUNIT_ESCORT
-          && punit->ai.charge == BODYGUARD_NONE /* Above line doesn't seem to work. :( */
-          && punit->ai.ai_role != AIUNIT_DEFEND_HOME) {
-        SET_BEST(99998);
-        continue;
-      }
-      
-      /* If we have nothing to do, we can at least pillage something, hmm? */
-      if (is_land_barbarian(pplayer) && best == 0
-          && get_tile_infrastructure_set(map_get_tile(x1, y1)) != S_NO_SPECIAL
-          && could_unit_move_to_tile(punit, x1, y1) != 0) {
-        SET_BEST(1);
-        continue;
+      /* If we have non-zero attack rating... */
+      if (att_rating > 0 && is_my_turn(punit, pdef)) {
+        /* No need to amortize, our operation takes one turn. */
+        return kill_desire(benefit, attack, loss, vuln, 1);
       }
     }
-#undef SET_BEST
-  } adjc_iterate_end;
-
-  return best;
+    
+  } else {
+    struct city *pcity = map_get_city(x, y);
+    
+    /* No defender... */
+    
+    /* ...and free foreign city waiting for us. Who would resist! */
+    if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
+        && COULD_OCCUPY(punit)) {
+      
+      return -RAMPAGE_FREE_CITY_OR_BETTER;
+    }
+    
+    /* ...or tiny pleasant hut here! */
+    if (map_has_special(x, y, S_HUT) && !is_barbarian(pplayer)) {
+      
+      return -RAMPAGE_HUT_OR_BETTER;
+    }
+    
+  }
+  
+  return 0;
 }
 
 /*************************************************************************
-  Find and kill anything adjacent to us that we don't like with a 
-  given threshold until we have run out of juicy targets or movement. 
-  Wraps ai_military_findvictim().
-  Returns TRUE if survived the rampage session.
-**************************************************************************/
-static bool ai_military_rampage(struct unit *punit, int threshold)
+  Look for worthy targets within a one-turn horizon.
+*************************************************************************/
+static struct pf_path *find_rampage_target(struct unit *punit, 
+                                           int thresh_adj, int thresh_move)
 {
-  int x, y;
-  int count = punit->moves_left + 1; /* break any infinite loops */
+  struct pf_map *tgt_map;
+  struct pf_path *path = NULL;
+  struct pf_parameter parameter;
+  /* Coordinates of the best target (initialize to silence compiler) */
+  int x = punit->x, y = punit->y;
+  /* Want of the best target */
+  int max_want = 0;
+  struct player *pplayer = unit_owner(punit);
+ 
+  pft_fill_default_parameter(&parameter);  
+  pft_fill_unit_attack_param(&parameter, punit);
+  
+  tgt_map = pf_create_map(&parameter);
+  while (pf_next(tgt_map)) {
+    struct pf_position pos;
+    int want;
+    bool move_needed;
+    int thresh;
+ 
+    pf_next_get_position(tgt_map, &pos);
+    
+    if (pos.total_MC > punit->moves_left) {
+      /* This is too far */
+      break;
+    }
 
-  CHECK_UNIT(punit);
+    if (ai_handicap(pplayer, H_TARGETS) 
+        && !map_is_known_and_seen(pos.x, pos.y, pplayer)) {
+      /* The target is under fog of war */
+      continue;
+    }
+    
+    want = ai_rampage_want(punit, pos.x, pos.y);
 
-  while (punit->moves_left > 0 && count-- > 0
-         && ai_military_findvictim(punit, &x, &y) >= threshold) {
-    if (!ai_unit_attack(punit, x, y)) {
-      /* Died */
-      return FALSE;
+    /* Negative want means move needed even though the tiles are adjacent */
+    move_needed = (!is_tiles_adjacent(punit->x, punit->y, pos.x, pos.y)
+                   || want < 0);
+    /* Select the relevant threshold */
+    thresh = (move_needed ? thresh_move : thresh_adj);
+    want = (want < 0 ? -want : want);
+
+    if (want > max_want && want > thresh) {
+      /* The new want exceeds both the previous maximum 
+       * and the relevant threshold, so it's worth recording */
+      max_want = want;
+      x = pos.x;
+      y = pos.y;
     }
   }
-  assert(count >= 0);
+
+  if (max_want > 0) {
+    /* We found something */
+    path = pf_get_path(tgt_map, x, y);
+    assert(path);
+  }
+
+  pf_destroy_map(tgt_map);
+  
+  return path;
+}
+
+/*************************************************************************
+  This is a function to execute paths returned by the path-finding engine.
+  It is analogous to goto_route_execute, only much simpler.
+
+  Weuse ai_unit_attack which means "move if target unoccupied, attack 
+  otherwise" and also brings our bodyguard along.
+*************************************************************************/
+static bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
+{
+  int i;
+
+  /* We start with i = 1 for i = 0 is our present position */
+  for (i = 1; i < path->length; i++) {
+    int x = path->positions[i].x, y = path->positions[i].y;
+
+    if (!ai_unit_attack(punit, x, y)) {
+      /* Died... */
+      return FALSE;
+    }
+    
+    if (!same_pos(punit->x, punit->y, x, y)) {
+      /* Stopped (or maybe fought) */
+      return TRUE;
+    }
+  }
+
   return TRUE;
+}
+
+/*************************************************************************
+  Find and kill anything reachable within this turn and worth more than 
+  the relevant of the given thresholds until we have run out of juicy 
+  targets or movement.  The first threshold is for attacking which will 
+  leave us where we stand (attacking adjacent units), the second is for 
+  attacking distant (but within reach) targets.
+
+  For example, if unit is a bodyguard on duty, it should call
+    ai_military_rampage(punit, 100, RAMPAGE_FREE_CITY_OR_BETTER)
+  meaning "we will move _only_ to pick up a free city but we are happy to
+  attack adjacent squares as long as they are worthy of it".
+
+  Returns TRUE if survived the rampage session.
+**************************************************************************/
+static bool ai_military_rampage(struct unit *punit, int thresh_adj, 
+                                int thresh_move)
+{
+  int count = punit->moves_left + 1; /* break any infinite loops */
+  struct pf_path *path = NULL;
+  
+  CHECK_UNIT(punit);
+
+  assert(thresh_adj <= thresh_move);
+  /* This teaches the AI about the dangers inherent in occupychance. */
+  thresh_adj += ((thresh_move - thresh_adj) * game.occupychance / 100);
+
+  while (count-- > 0 && punit->moves_left > 0
+         && (path = find_rampage_target(punit, thresh_adj, thresh_move))) {
+    if (!ai_unit_execute_path(punit, path)) {
+      /* Died */
+      count = -1;
+    }
+    pf_destroy_path(path);
+    path = NULL;
+  }
+
+  assert(!path);
+
+  return (count >= 0);
 }
 
 /*************************************************************************
@@ -1240,8 +1283,11 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
   } else {
-    /* I had these guys set to just fortify, which is so dumb. -- Syela */
-    (void) ai_military_rampage(punit, 40 * SHIELD_WEIGHTING);
+    /* I had these guys set to just fortify, which is so dumb. -- Syela
+     * Instead we can attack adjacent units and maybe even pick up some free 
+     * cities! */
+    (void) ai_military_rampage(punit, 40 * SHIELD_WEIGHTING, 
+                               RAMPAGE_FREE_CITY_OR_BETTER);
   }
 }
 
@@ -1766,7 +1812,9 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
       /* aggro defense goes here -- Syela */
-      (void) ai_military_rampage(punit, 2); /* 2 is better than pillage */
+      /* Attack anything that won't kill us */
+      (void) ai_military_rampage(punit, RAMPAGE_ANYTHING, 
+                                 RAMPAGE_ANYTHING);
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
       (void) ai_unit_goto(punit, pcity->x, pcity->y);
@@ -2335,7 +2383,7 @@ static struct city *find_nearest_safe_city(struct unit *punit)
 
 /*************************************************************************
   This does the attack until we have used up all our movement, unless we
-  should safeguard a city. First we rampage on adjacent tiles, then we go
+  should safeguard a city.  First we rampage nearby, then we go
   looking for trouble elsewhere. If there is nothing to kill, sailing units 
   go home, others explore while barbs go berserk.
 **************************************************************************/
@@ -2350,8 +2398,9 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
 
   /* Main attack loop */
   do {
-    /* First find easy adjacent enemies; 2 is better than pillage */
-    if (!ai_military_rampage(punit, 2)) {
+    /* First find easy nearby enemies, anything better than pillage goes */
+    if (!ai_military_rampage(punit, RAMPAGE_ANYTHING, 
+                             RAMPAGE_ANYTHING)) {
       return; /* we died */
     }
 
@@ -2694,8 +2743,9 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
 
   if (pcity) {
     /* rest in city until the hitpoints are recovered, but attempt
-       to protect city from attack */
-    if (ai_military_rampage(punit, 2)) {
+       to protect city from attack (and be opportunistic too)*/
+    if (ai_military_rampage(punit, RAMPAGE_ANYTHING, 
+                            RAMPAGE_FREE_CITY_OR_BETTER)) {
       freelog(LOG_DEBUG, "%s's %s(%d) at (%d, %d) recovering hit points.",
               pplayer->name, unit_type(punit)->name, punit->id, punit->x,
               punit->y);
@@ -2704,8 +2754,9 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
     }
   } else {
     /* goto to nearest city to recover hit points */
-    /* just before, check to see if we can occupy at enemy city undefended */
-    if (!ai_military_rampage(punit, 99999)) { 
+    /* just before, check to see if we can occupy an undefended enemy city */
+    if (!ai_military_rampage(punit, RAMPAGE_FREE_CITY_OR_BETTER, 
+                             RAMPAGE_FREE_CITY_OR_BETTER)) { 
       return; /* oops, we died */
     }
 
