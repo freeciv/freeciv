@@ -35,8 +35,6 @@
 
 extern Widget inputline_text, outputwindow_text;
 
-#define OUTPUT_MAXLEN 95
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -71,16 +69,34 @@ void chatline_key_send(Widget w)
  instead of the start of line as below, but that didn't help.)  So we
  split the line ourselves.  I'm just using a fixed length split; should
  perhaps check and use width of output window (but font size?)  -dwp
+
+ Now uses window's font size and width.  Assumes fixed-width font.  --jjm
 **************************************************************************/
 void append_output_window(char *astring)
 {
+  static m_width=0;
+
+  int windowwth, maxlinelen;
   String theoutput;
   char *newout, *rmcr;
   char *input_string = astring;
 
-  if (strlen(astring) > OUTPUT_MAXLEN) {
+  if (!m_width) {
+    XFontStruct *out_font;
+    XtVaGetValues(outputwindow_text, XtNfont, &out_font, NULL);
+    if (out_font)
+      m_width=XTextWidth(out_font, "M", 1);
+    else
+      m_width=10;
+  }
+
+  XtVaGetValues(outputwindow_text, XtNwidth, &windowwth, NULL);
+  maxlinelen=(windowwth/m_width)-1;
+  if (maxlinelen<32) maxlinelen=32;
+
+  if (strlen(astring) > maxlinelen) {
     astring = mystrdup(astring);
-    wordwrap_string(astring, OUTPUT_MAXLEN);
+    wordwrap_string(astring, maxlinelen);
   }
   
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
