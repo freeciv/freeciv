@@ -458,16 +458,21 @@ int is_wet(struct player *pplayer, int x, int y)
 
 int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  int x, y, m;
-  struct tile *ptile;
-  struct tile_type *type;
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
-  ptile = map_get_tile(x, y);
-  type=get_tile_type(ptile->terrain);
+  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  struct tile *ptile = map_get_tile(x, y);
+  enum tile_terrain_type t = ptile->terrain;
+  struct tile_type *type = get_tile_type(t);
+  int s = ptile->special;
 
-/* changing terrain types?? */
-
-  if((ptile->terrain==type->irrigation_result &&
+  if (ptile->terrain != type->irrigation_result &&
+      type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
+    ptile->terrain = type->irrigation_result;
+    map_clear_special(x, y, S_MINE);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    ptile->terrain = t;
+    ptile->special = s;
+    return(m);
+  } else if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
      !(ptile->special&S_MINE) && !(ptile->city) &&
      (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
@@ -481,12 +486,21 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 
 int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
 {
-  int x, y, m;
-  struct tile *ptile;
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
-  ptile = map_get_tile(x, y);
-/* changing terrain types?? */
-  if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
+  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  struct tile *ptile = map_get_tile(x, y);
+  enum tile_terrain_type t = ptile->terrain;
+  struct tile_type *type = get_tile_type(t);
+  int s = ptile->special;
+
+  if (ptile->terrain != type->mining_result &&
+      type->mining_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
+    ptile->terrain = type->mining_result;
+    map_clear_special(x, y, S_IRRIGATION);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    ptile->terrain = t;
+    ptile->special = s;
+    return(m);
+  } else if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
       !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
     map_set_special(x, y, S_MINE);
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -747,7 +761,7 @@ for the -1 return values in ai_calc_*, the !irrigation in calc_mine,
 and the prioritization of useless (b <= 0) activities are his. -- Syela */
 
 	v2 = pcity->ai.irrigate[i][j];
-        if (v2 >= 0) { /* worth evaluating */
+        if (v2 >= val) { /* worth evaluating */
           b = MAX((v2 - val)<<6, MORT);
           d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
@@ -761,7 +775,7 @@ gx, gy, v, x, y, v2, d, b);*/
         }
 
 	v2 = pcity->ai.mine[i][j];
-        if (v2 >= 0) {    
+        if (v2 >= val) {
           b = MAX((v2 - val)<<6, MORT);
           d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
