@@ -145,8 +145,8 @@ static void city_dialog_update_storage(struct city_dialog *pdialog);
 static void city_dialog_update_pollution(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
-static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
-static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_supported_units(struct city_dialog *pdialog);
+static void city_dialog_update_present_units(struct city_dialog *pdialog);
 
 static gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
@@ -283,8 +283,8 @@ void refresh_city_dialog(struct city *pcity)
   if((pdialog=get_city_dialog(pcity))) {
     city_dialog_update_improvement_list(pdialog);
     city_dialog_update_title(pdialog);
-    city_dialog_update_supported_units(pdialog, 0);
-    city_dialog_update_present_units(pdialog, 0);
+    city_dialog_update_supported_units(pdialog);
+    city_dialog_update_present_units(pdialog);
     city_dialog_update_citizens(pdialog);
     city_dialog_update_map(pdialog);
     city_dialog_update_production(pdialog);
@@ -333,10 +333,10 @@ void refresh_unit_city_dialogs(struct unit *punit)
   pcity_pre=map_get_city(punit->x, punit->y);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
-    city_dialog_update_supported_units(pdialog, 0);
+    city_dialog_update_supported_units(pdialog);
   
   if(pcity_pre && (pdialog=get_city_dialog(pcity_pre)))
-    city_dialog_update_present_units(pdialog, 0);
+    city_dialog_update_present_units(pdialog);
 }
 
 /****************************************************************
@@ -416,7 +416,7 @@ static void city_dialog_support_unit_pos_callback(GtkWidget *w, gpointer data)
   if (pdialog->support_unit_pos<0) {
     pdialog->support_unit_pos=0;
   }
-  city_dialog_update_supported_units(pdialog, 0);
+  city_dialog_update_supported_units(pdialog);
 }
 
 /****************************************************************
@@ -434,39 +434,32 @@ static void city_dialog_present_unit_pos_callback(GtkWidget *w, gpointer data)
   if (pdialog->present_unit_pos<0) {
     pdialog->present_unit_pos=0;
   }
-  city_dialog_update_present_units(pdialog, 0);
+  city_dialog_update_present_units(pdialog);
 }
 
 
 /****************************************************************
 ...
 *****************************************************************/
-static void add_box_and_pixmap(GList* box, GList* map, GList* id,
-			       GtkWidget* hbox, gint own_city)
+static void add_box_and_pixmap(GtkWidget **box, GtkWidget **map, int *id,
+			       GtkWidget *hbox, gint own_city)
 {
-  box->data=(gpointer)gtk_event_box_new();
-  gtk_widget_set_events((GtkWidget*)(box->data),
-			GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
-  
-  gtk_box_pack_start(GTK_BOX(hbox), (GtkWidget*)(box->data),
-		     FALSE, FALSE, 0);
-    
-  map->data=(gpointer)(gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
-				       NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2));
+  int width = UNIT_TILE_WIDTH + (is_isometric ? 0 : UNIT_TILE_WIDTH/2);
+  *box = gtk_event_box_new();
+  gtk_widget_set_events(*box, GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
+  gtk_box_pack_start(GTK_BOX(hbox), *box, FALSE, FALSE, 0);
 
-  gtk_container_add(GTK_CONTAINER((GtkWidget*)(box->data)),
-		    (GtkWidget*)(map->data));
-  
-  id->data=(gpointer)(-1);
-  
+  *map = gtk_pixcomm_new(root_window, width,
+			 NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
+  gtk_container_add(GTK_CONTAINER(*box),
+		    *map);
+
+  *id = -1;
+
   if (own_city)
-    gtk_widget_set_sensitive((GtkWidget*)(box->data), FALSE);    
+    gtk_widget_set_sensitive(*box, FALSE);    
 
-  gtk_widget_show_all((GtkWidget*)(box->data));
-
-  box->next=NULL;
-  map->next=NULL;
-  id->next=NULL;
+  gtk_widget_show_all(*box);
 }
 
 /****************************************************************
@@ -1624,25 +1617,16 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_supported_units(struct city_dialog *pdialog, 
-					       int unitid)
+static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 {
   int i;
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
   int size;
-  GList **support_box,**support_pixmap,**support_id,*iter,*tmp;
+  GList *support_box, *support_pixmap, *support_id;
 
   recalculate_NUM_UNITS_SHOWN(pdialog);
-
-  if(unitid) {
-    for(i=0,iter=pdialog->support_unit_ids; i<pdialog->NUM_UNITS_SHOWN && iter; iter=iter->next, i++)
-      if((gint)(iter->data)==unitid)
-	break;
-    if(i==pdialog->NUM_UNITS_SHOWN)
-      unitid=0;
-  }
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
@@ -1650,7 +1634,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     plist = &(pdialog->pcity->units_supported);
   }
 
-  size=(plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
+  size = (plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
   size = MAX(0, size);
   if (size==0 || pdialog->support_unit_pos>size) {
     pdialog->support_unit_pos=0;
@@ -1664,94 +1648,87 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   genlist_iterator_init(&myiter, &(plist->list),
   	pdialog->support_unit_pos*pdialog->NUM_UNITS_SHOWN);
 
-
-  support_box=&(pdialog->support_unit_boxes);
-  support_pixmap=&(pdialog->support_unit_pixmaps);
-  support_id=&(pdialog->support_unit_ids);
-
-  for(i=0;i<pdialog->NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
+  /* Show all the units that should be shown. If unit boxes already
+     exists use them, else create new ones. */
+  for(i=0; i<pdialog->NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
+
+    support_box = g_list_nth(pdialog->support_unit_boxes, i);
+    support_pixmap = g_list_nth(pdialog->support_unit_pixmaps, i);
+    support_id = g_list_nth(pdialog->support_unit_ids, i);
     
-    if(unitid && punit->id!=unitid)
-      continue;
-    
-    if (*support_box==NULL){ /*The three lists should always be syncronized*/
-      *support_box=fc_malloc(sizeof(GList*));
-      *support_pixmap=fc_malloc(sizeof(GList*));
-      *support_id=fc_malloc(sizeof(GList*));
-      add_box_and_pixmap(*support_box,*support_pixmap,*support_id,pdialog->support_box,(pdialog->pcity->owner==game.player_idx));
+    if (support_box==NULL){ /*The three lists should always be syncronized*/
+      pdialog->support_unit_boxes = g_list_append(pdialog->support_unit_boxes, NULL);
+      support_box = g_list_nth(pdialog->support_unit_boxes, i);
+
+      pdialog->support_unit_pixmaps = g_list_append(pdialog->support_unit_pixmaps, NULL);
+      support_pixmap = g_list_nth(pdialog->support_unit_pixmaps, i);
+
+      pdialog->support_unit_ids = g_list_append(pdialog->support_unit_ids, NULL);
+      support_id = g_list_nth(pdialog->support_unit_ids, i);
+
+      add_box_and_pixmap((GtkWidget **)&support_box->data,
+			 (GtkWidget **)&support_pixmap->data,
+			 (int *)&support_id->data,
+			 pdialog->support_box, pdialog->pcity->owner==game.player_idx);
     }
-    
+
     if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)), FALSE);
+      gtk_pixcomm_clear(GTK_PIXCOMM(support_pixmap->data), FALSE);
+
+    put_unit_gpixmap(punit, GTK_PIXCOMM(support_pixmap->data));
+    put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(support_pixmap->data));
+
+    gtk_pixcomm_changed(GTK_PIXCOMM(support_pixmap->data));
     
-    put_unit_gpixmap(punit, GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
-    put_unit_gpixmap_city_overlays(punit, 
-				   GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
+    support_id->data = (gpointer)punit->id;
     
-    gtk_pixcomm_changed(GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
-    
-    (*support_id)->data=(gpointer)(punit->id);
-    
-    gtk_signal_handlers_destroy(GTK_OBJECT((GtkWidget*)((*support_box)->data)));
-    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*support_box)->data)),
+    gtk_signal_handlers_destroy(GTK_OBJECT(support_box->data));
+    gtk_signal_connect(GTK_OBJECT(support_box->data),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(support_units_callback), (gpointer)punit->id);
-    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*support_box)->data)),
+    gtk_signal_connect(GTK_OBJECT(support_box->data),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(s_units_middle_callback), (gpointer)punit->id);
-    gtk_widget_set_sensitive((GtkWidget*)((*support_box)->data), TRUE);
+    gtk_widget_set_sensitive((GtkWidget*)support_box->data, TRUE);
 
-    support_box=&((*support_box)->next);
-    support_pixmap=&((*support_pixmap)->next);
-    support_id=&((*support_id)->next);
-
+    support_box = support_box->next;
+    support_pixmap = support_pixmap->next;
+    support_id = support_id->next;
   }
 
-  for(iter=*support_box;iter;iter=tmp){
-    gtk_widget_destroy((GtkWidget*)iter->data);
-    tmp=iter->next;
-    free(iter);
+  /* Maybe there used to be some more units. Their positions are
+     now unoccupied, so free them. */
+  while (i<g_list_length(pdialog->support_unit_boxes)) {
+    support_box = g_list_nth(pdialog->support_unit_boxes, i);
+    gtk_widget_destroy((GtkWidget*)support_box->data);
+    pdialog->support_unit_boxes = g_list_remove_link(pdialog->support_unit_boxes, support_box);
+    g_list_free_1(support_box);
+
+    support_pixmap = g_list_nth(pdialog->support_unit_pixmaps, i);
+    pdialog->support_unit_pixmaps = g_list_remove_link(pdialog->support_unit_pixmaps, support_pixmap);
+    g_list_free_1(support_pixmap);
+
+    support_id = g_list_nth(pdialog->support_unit_ids, i);
+    pdialog->support_unit_ids = g_list_remove_link(pdialog->support_unit_ids, support_id);
+    g_list_free_1(support_id);
   }
-  for(iter=*support_pixmap;iter;iter=tmp){
-    tmp=iter->next;
-    free(iter);
-  }
-  for(iter=*support_id;iter;iter=tmp){
-    tmp=iter->next;
-    free(iter);
-  }
-  *support_box=NULL;
-  *support_pixmap=NULL;
-  *support_id=NULL;
-  
 }
-
 
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_present_units(struct city_dialog *pdialog, 
-					       int unitid)
+static void city_dialog_update_present_units(struct city_dialog *pdialog)
 {
   int i;
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
   int size;
-  GList **present_box,**present_pixmap,**present_id,*iter,*tmp;
+  GList *present_box, *present_pixmap, *present_id;
 
 
   recalculate_NUM_UNITS_SHOWN(pdialog);
-
-
-  if(unitid) {
-    for(i=0, iter=pdialog->present_unit_ids;i<pdialog->NUM_UNITS_SHOWN && iter; i++, iter=iter->next)
-      if ((gint)(iter->data)==unitid)
-	break;
-    if(i==pdialog->NUM_UNITS_SHOWN)
-      unitid=0;
-  }
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
@@ -1759,7 +1736,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog,
     plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
 
-  size=(plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
+  size = (plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
   size = MAX(0, size);
   if (size==0 || pdialog->present_unit_pos>size) {
     pdialog->present_unit_pos=0;
@@ -1773,67 +1750,72 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog,
   genlist_iterator_init(&myiter, &(plist->list),
   	pdialog->present_unit_pos*pdialog->NUM_UNITS_SHOWN);
 
-
-  present_box=&(pdialog->present_unit_boxes);
-  present_pixmap=&(pdialog->present_unit_pixmaps);
-  present_id=&(pdialog->present_unit_ids);
-
+  /* Show all the units that should be shown. If unit boxes already
+     exists use them, else create new ones. */
   for(i=0; i<pdialog->NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
-    
-    if(unitid && punit->id!=unitid)
-      continue;
 
-    if (*present_box==NULL){ /*The three lists should always be syncronized*/
-      *present_box=fc_malloc(sizeof(GList*));
-      *present_pixmap=fc_malloc(sizeof(GList*));
-      *present_id=fc_malloc(sizeof(GList*));
-      add_box_and_pixmap(*present_box,*present_pixmap,*present_id,pdialog->present_box,(pdialog->pcity->owner==game.player_idx));
+    present_box = g_list_nth(pdialog->present_unit_boxes, i);
+    present_pixmap = g_list_nth(pdialog->present_unit_pixmaps, i);
+    present_id = g_list_nth(pdialog->present_unit_ids, i);
+
+    if (present_box==NULL){ /*The three lists should always be syncronized*/
+      pdialog->present_unit_boxes = g_list_append(pdialog->present_unit_boxes, NULL);
+      present_box = g_list_nth(pdialog->present_unit_boxes, i);
+
+      pdialog->present_unit_pixmaps = g_list_append(pdialog->present_unit_pixmaps, NULL);
+      present_pixmap = g_list_nth(pdialog->present_unit_pixmaps, i);
+
+      pdialog->present_unit_ids = g_list_append(pdialog->present_unit_ids, NULL);
+      present_id = g_list_nth(pdialog->present_unit_ids, i);
+
+      add_box_and_pixmap((GtkWidget **)&present_box->data,
+			 (GtkWidget **)&present_pixmap->data,
+			 (int *)&present_id->data,
+			 pdialog->present_box, pdialog->pcity->owner==game.player_idx);
     }
 
     if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)), FALSE);
+      gtk_pixcomm_clear(GTK_PIXCOMM(present_pixmap->data), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)));
+    put_unit_gpixmap(punit, GTK_PIXCOMM(present_pixmap->data));
+    put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(present_pixmap->data));
 
-    gtk_pixcomm_changed(GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)));
+    gtk_pixcomm_changed(GTK_PIXCOMM(present_pixmap->data));
     
-    (*present_id)->data=(gpointer)(punit->id);
+    present_id->data = (gpointer)punit->id;
     
-    gtk_signal_handlers_destroy(GTK_OBJECT((GtkWidget*)((*present_box)->data)));
-    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*present_box)->data)),
+    gtk_signal_handlers_destroy(GTK_OBJECT(present_box->data));
+    gtk_signal_connect(GTK_OBJECT(present_box->data),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(present_units_callback), (gpointer)punit->id);
-    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*present_box)->data)),
+    gtk_signal_connect(GTK_OBJECT(present_box->data),
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC(p_units_middle_callback), (gpointer)punit->id);
-    gtk_widget_set_sensitive((GtkWidget*)((*present_box)->data), TRUE);
+    gtk_widget_set_sensitive(present_box->data, TRUE);
 
-    present_box=&((*present_box)->next);
-    present_pixmap=&((*present_pixmap)->next);
-    present_id=&((*present_id)->next);
-
+    present_box = present_box->next;
+    present_pixmap = present_pixmap->next;
+    present_id = present_id->next;
   }
 
-  for(iter=*present_box;iter;iter=tmp){
-    gtk_widget_destroy((GtkWidget*)iter->data);
-    tmp=iter->next;
-    free(iter);
+  /* Maybe there used to be some more units. Their positions are
+     now unoccupied, so free them. */
+  while (i<g_list_length(pdialog->present_unit_boxes)) {
+    present_box = g_list_nth(pdialog->present_unit_boxes, i);
+    gtk_widget_destroy((GtkWidget*)present_box->data);
+    pdialog->present_unit_boxes = g_list_remove_link(pdialog->present_unit_boxes, present_box);
+    g_list_free_1(present_box);
+
+    present_pixmap = g_list_nth(pdialog->present_unit_pixmaps, i);
+    pdialog->present_unit_pixmaps = g_list_remove_link(pdialog->present_unit_pixmaps, present_pixmap);
+    g_list_free_1(present_pixmap);
+
+    present_id = g_list_nth(pdialog->present_unit_ids, i);
+    pdialog->present_unit_ids = g_list_remove_link(pdialog->present_unit_ids, present_id);
+    g_list_free_1(present_id);
   }
-  for(iter=*present_pixmap;iter;iter=tmp){
-    tmp=iter->next;
-    free(iter);
-  }
-  for(iter=*present_id;iter;iter=tmp){
-    tmp=iter->next;
-    free(iter);
-  }
-  *present_box=NULL;
-  *present_pixmap=NULL;
-  *present_id=NULL;
-  
 }
-
 
 /****************************************************************
 ...
@@ -2558,14 +2540,14 @@ static void close_city_dialog(struct city_dialog *pdialog)
 
   gtk_widget_destroy(pdialog->shell);
 
-  free(pdialog->support_unit_boxes);
-  free(pdialog->support_unit_pixmaps);
-  free(pdialog->present_unit_boxes);
-  free(pdialog->present_unit_pixmaps);
+  g_list_free(pdialog->support_unit_boxes);
+  g_list_free(pdialog->support_unit_pixmaps);
+  g_list_free(pdialog->support_unit_ids);
 
-  free(pdialog->support_unit_ids);
-  free(pdialog->present_unit_ids);
-
+  g_list_free(pdialog->present_unit_boxes);
+  g_list_free(pdialog->present_unit_pixmaps);
+  g_list_free(pdialog->present_unit_ids);
+ 
   free(pdialog);
 }
 
