@@ -1,0 +1,910 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+#include <stdio.h>
+#include <settlers.h>
+#include <packets.h>
+#include <map.h>
+#include <game.h>
+#include <citytools.h>
+#include <aiunit.h>
+#include <gotohand.h>
+#include <assert.h>
+
+extern struct move_cost_map warmap;
+signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+/* negative: in_city_radius, 0: unassigned, positive: city_des */
+
+/**************************************************************************
+...
+**************************************************************************/
+const char *get_a_name(struct player *pplayer)
+{
+  static char buf[80];
+  static int x=0;
+  sprintf(buf, "%s", city_name_suggestion(pplayer)); /* Not a Number -- Syela */
+  if (!buf[0]) sprintf(buf, "city%d", x++);
+  return buf;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int ai_do_build_city(struct player *pplayer, struct unit *punit)
+{
+  int x,y;
+  struct packet_unit_request req;
+  struct city *pcity;
+  req.unit_id=punit->id;
+  strcpy(req.name, get_a_name(pplayer));
+  handle_unit_build_city(pplayer, &req);        
+  pcity=map_get_city(punit->x, punit->y);
+  if (!pcity)
+    return 0;
+  for (y=0;y<5;y++)
+    for (x=0;x<5;x++) {
+      if ((x==0 || x==4) && (y==0 || y==4)) 
+        continue;
+      light_square(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
+    }
+  return 1;
+}
+
+int amortize(int b, int d)
+{
+  int num = MORT - 1;
+  int denom;
+  int s = 1;
+  assert(d >= 0);
+  if (b < 0) { s = -1; b *= s; }
+  while (d && b) {
+    denom = 1;
+    while (d >= 12 && !(b>>28) && !(denom>>27)) {
+      b *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
+      denom *= 5;      /* as long as MORT remains 24! -- Syela */
+      d -= 12;
+    }
+    while (!(b>>25) && d && !(denom>>25)) {
+      b *= num;
+      denom *= MORT;
+      d--;
+    }
+    if (denom > 1) {
+      b = (b + (denom>>1)) / denom;
+    }
+  }
+  return(b * s);
+}
+
+void generate_minimap(void)
+{
+  int a, i, j;
+
+  memset(minimap, 0, sizeof(minimap));
+  for (a = 0; a < game.nplayers; a++) {
+    city_list_iterate(game.players[a].cities, pcity)
+      city_map_iterate(i, j) {
+        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)]--;
+      }
+    city_list_iterate_end;
+  }
+}
+
+void remove_city_from_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -4; j <= 4; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -4; i <= 4; i++) {
+      xx = map_adjust_x(x+i);
+/*printf("Removing (%d, %d) from minimap. [%d][%d] = %d ->", x, y, xx, y + j,
+minimap[xx][y + j]);*/
+      n = i * i + j * j;
+      if (n <= 5) {
+        if (minimap[xx][y+j] < 0) minimap[xx][y+j]++;
+        else minimap[xx][y+j] = 0;
+      } else if (n <= 20) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+/*printf("%d\n", minimap[xx][y + j]);*/
+    }
+  }
+}    
+
+void add_city_to_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -4; j <= 4; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -4; i <= 4; i++) {
+      xx = map_adjust_x(x+i);
+      n = i * i + j * j;
+/*printf("Adding (%d, %d) to minimap. [%d][%d] = %d ->", x, y, xx, y + j,
+minimap[xx][y + j]);*/
+      if (n <= 5) {
+        if (minimap[xx][y+j] < 0) minimap[xx][y+j]--;
+        else minimap[xx][y+j] = -1;
+      } else if (n <= 20) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+/*printf("%d\n", minimap[xx][y + j]);*/
+    }
+  }
+}    
+
+void locally_zero_minimap(int x, int y)
+{
+  int i, j, n, xx;
+  for (j = -2; j <= 2; j++) {
+    if (y+j < 0 || y+j >= map.ysize) continue;
+    for (i = -2; i <= 2; i++) {
+      xx = map_adjust_x(x+i);
+      n = i * i + j * j;
+      if (n <= 5) {
+        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
+      }
+    }
+  }
+}  
+
+int city_desirability(int x, int y)
+{ /* this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela */
+  int taken[5][5], food[5][5], shield[5][5], trade[5][5];
+  int irrig[5][5], mine[5][5], road[5][5];
+  int i, j, f, n = 0;
+  int worst, b2, best, ii, jj, val, cur;
+  int d = 0;
+  int a, i0, j0; /* need some temp variables */
+  int temp, tmp;
+  int debug = 0;
+  int g = 1;
+  struct tile *ptile;
+  int con, con2;
+  int har, t, sh;
+  struct tile_type *ptype;
+  struct city *pcity;
+
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain == T_OCEAN) return(0);
+  pcity = map_get_city(x, y);
+  if (pcity && pcity->size > 7) return(0);
+  if (!pcity && minimap[x][y] < 0) return(0);
+  if (!pcity && minimap[x][y] > 0) return(minimap[x][y]);
+
+  har = is_terrain_near_tile(x, y, T_OCEAN);
+
+  sh = SHIELD_WEIGHTING * MORT;
+/*  t = 8 * MORT - (8 * MORT * dist * 3 / (20 * 10)); */
+  t = 8 * MORT; /* assuming DEMOCRACY now, it makes everything easier! - Syela */
+
+  con = ptile->continent;
+
+/* not worth the computations AFAICT -- Syela
+  city_list_iterate(pplayer->cities, acity)
+    if (city_got_building(acity, B_PYRAMIDS)) g++;
+  city_list_iterate_end;
+*/
+
+  memset(taken, 0, sizeof(taken));
+  memset(food, 0, sizeof(food));
+  memset(shield, 0, sizeof(shield));
+  memset(trade, 0, sizeof(trade));
+  memset(irrig, 0, sizeof(irrig));
+  memset(mine, 0, sizeof(mine));
+  memset(road, 0, sizeof(road));
+
+  city_map_iterate(i, j) {
+    if ((minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)] >= 0 && !pcity) ||
+       (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
+      ptile = map_get_tile(x+i-2, y+j-2);
+      con2 = ptile->continent;
+      ptype = get_tile_type(ptile->terrain);
+      food[i][j] = ((ptile->special&S_SPECIAL ? ptype->food_special : ptype->food) - 2) * MORT;
+      if (i == 2 && j == 2) food[i][j] += 2 * MORT;
+      if (ptype->irrigation_result == ptile->terrain && con2 == con) {
+        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2)) irrig[i][j] = MORT;
+        else if (is_water_adjacent_to_tile(x+i-2, y+j-2) &&
+                 ptile->terrain != T_HILLS) irrig[i][j] = MORT - 9; /* KLUGE */
+/* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
+      } else if (ptile->terrain == T_OCEAN && har) food[i][j] += MORT; /* harbor */
+      shield[i][j] = (ptile->special&S_SPECIAL ? ptype->shield_special : ptype->shield) * sh;
+      if (i == 2 && j == 2 && !shield[i][j]) shield[i][j] = sh;
+      if (ptile->special&S_MINE) mine[i][j] = (ptile->terrain == T_HILLS ? sh * 3 : sh);
+      else if (ptile->terrain == T_HILLS && con2 == con) mine[i][j] = sh * 3 - 300; /* KLUGE */
+      trade[i][j] =(ptile->special&S_SPECIAL ? ptype->trade_special : ptype->trade) * t;
+      if (ptile->terrain == T_DESERT || ptile->terrain == T_GRASSLAND ||
+        ptile->terrain == T_PLAINS) {
+        if (ptile->special&S_ROAD || (i == 2 && j == 2)) road[i][j] = t;
+        else if (con2 == con)
+          road[i][j] = t - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
+      }
+      if (trade[i][j]) trade[i][j] += t;
+      else if (road[i][j]) road[i][j] += t;
+    }
+  }
+
+  if (pcity) { /* quick-n-dirty immigration routine -- Syela */
+    n = pcity->size;
+    best = 0;
+    city_map_iterate(i, j) {
+      cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
+            (shield[i][j] + mine[i][j]) +
+            (trade[i][j] + road[i][j]);
+      if (cur > best && (i != 2 || j != 2)) { best = cur; ii = i; jj = j; }
+    }
+    if (!best) return(0);
+    val = (shield[ii][jj] + mine[ii][jj]) +
+          (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
+          (trade[ii][jj] + road[ii][jj]);
+/*printf("Desire to immigrate to %s = %d -> %d\n", pcity->name, val,
+(val * 100) / MORT / 70);*/
+    return(val);
+  }
+
+  f = food[2][2] + irrig[2][2];
+  if (!f) return(0); /* no starving cities, thank you! -- Syela */
+  val = f * FOOD_WEIGHTING + /* this needs to be here, strange as it seems */
+          (shield[2][2] + mine[2][2]) +
+          (trade[2][2] + road[2][2]);
+  taken[2][2]++;
+  /* val is mort times the real value */
+  /* treating harbor as free to approximate advantage of building boats. -- Syela */
+  val += (4 * (get_tile_type(map_get_tile(x, y)->terrain)->defense_bonus) - 40) * SHIELD_WEIGHTING;
+/* don't build cities in danger!! FIX! -- Syela */
+  val += 8 * MORT; /* one science per city */
+if (debug)
+printf("City value (%d, %d) = %d, har = %d, f = %d\n", x, y, val, har, f);
+
+  for (n = 1; n <= 20 && f > 0; n++) {
+    for (a = 1; a; a--) {
+      best = 0; worst = -1; b2 = 0;
+      city_map_iterate(i, j) {
+        cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
+              (shield[i][j] + mine[i][j]) +
+              (trade[i][j] + road[i][j]);
+        if (!taken[i][j]) {
+          if (cur > best) { b2 = best; best = cur; ii = i; jj = j; }
+          else if (cur > b2) b2 = cur;
+        } else if (i != 2 || j != 2) {
+          if (cur < worst || worst < 0) { worst = cur; i0 = i; j0 = j; }
+        }
+      }
+      if (!best) break;
+      cur = amortize((shield[ii][jj] + mine[ii][jj]) +
+            (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
+            (trade[ii][jj] + road[ii][jj]), d);
+      f += food[ii][jj] + irrig[ii][jj];
+      if (cur > 0) val += cur;
+      taken[ii][jj]++;
+if (debug)
+printf("Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
+ ii, jj, cur, (food[ii][jj] + irrig[ii][jj]),
+get_tile_type(map_get_tile(x + ii - 2, y + jj - 2)->terrain)->terrain_name, n, d);
+
+/* I hoped to avoid the following, but it seems I can't take ANY shortcuts
+in this unspeakable routine, so here comes even more CPU usage in order to
+get this EXACTLY right instead of just reasonably close. -- Syela */
+      if (worst < b2 && worst >= 0) {
+        cur = amortize((shield[i0][j0] + mine[i0][j0]) +
+              (trade[i0][j0] + road[i0][j0]), d);
+        f -= (food[i0][j0] + irrig[i0][j0]);
+        val -= cur;
+        taken[i0][j0]--;
+        a++;
+if (debug)
+printf("REJECTING Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
+ i0, j0, cur, (food[i0][j0] + irrig[i0][j0]),
+get_tile_type(map_get_tile(x + i0 - 2, y + j0 - 2)->terrain)->terrain_name, n, d);
+      }
+    }
+    if (!best) break;
+    if (f > 0) d += (game.foodbox * MORT * n + (f*g) - 1) / (f*g);
+    if (n == 4) {
+      val -= amortize(40 * SHIELD_WEIGHTING + (50 - 20 * g) * FOOD_WEIGHTING, d); /* lers */
+      temp = amortize(40 * SHIELD_WEIGHTING, d); /* temple */
+      tmp = val;
+    }
+  } /* end while */
+  if (n > 4) {
+    if (val - temp > tmp) val -= temp;
+    else val = tmp;
+  }
+  val -= 110 * SHIELD_WEIGHTING; /* WAG: walls, defenders */
+  minimap[x][y] = val;
+
+if (debug)
+printf("Total value of (%d, %d) [%d workers] = %d\n", x, y, n, val);
+  return(val);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void ai_manage_settler(struct player *pplayer, struct unit *punit)
+{
+  punit->ai.control = 1;
+  if (punit->ai.ai_role == AIUNIT_NONE) /* if BUILD_CITY must remain BUILD_CITY */
+    punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+/* gonna handle city-building in the auto-settler routine -- Syela */
+  return;
+}
+
+/*************************************************************************
+  returns dy according to the wrap rules
+**************************************************************************/
+int make_dy(int y1, int y2)
+{
+  int dy=y2-y1;
+  if (dy<0) dy=-dy;
+  return dy;
+}
+
+/*************************************************************************
+  returns dx according to the wrap rules
+**************************************************************************/
+int make_dx(int x1, int x2)
+{
+  int tmp;
+  x1=map_adjust_x(x1);
+  x2=map_adjust_x(x2);
+  if(x1>x2)
+    tmp=x1, x1=x2, x2=tmp;
+
+  return MIN(x2-x1, map.xsize-x2+x1);
+}
+
+/**************************************************************************
+ return 1 if there is already a unit on this square or one destined for it 
+ (via goto)
+**************************************************************************/
+int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+{ 
+  x=map_adjust_x(x);
+  y=map_adjust_y(y);
+  if (same_pos(myunit->x, myunit->y, x, y) || 
+      same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y)) {
+/* I'm still not sure this is exactly right -- Syela */
+    unit_list_iterate(map_get_tile(x, y)->units, punit)
+      if (myunit==punit) continue;
+      if (punit->owner!=pplayer->player_no)
+        return 1;
+      if (unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type, F_SETTLERS))
+        return 1;
+    unit_list_iterate_end;
+    return 0;
+  }
+  return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
+}
+
+int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+{
+  x=map_adjust_x(x);
+  y=map_adjust_y(y);
+#ifdef RIDICULOUS
+  if (same_pos(myunit->x, myunit->y, x, y))
+    return 0;
+#endif
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (myunit==punit) continue;
+    if (punit->owner!=pplayer->player_no)
+      return 1;
+    if (unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type, F_SETTLERS))
+      return 1;
+  }
+  unit_list_iterate_end;
+#ifndef RIDICULOUS
+  if (same_pos(myunit->x, myunit->y, x, y))
+    return 0;
+#endif
+  unit_list_iterate(pplayer->units, punit) {
+    if (myunit==punit) continue;
+    if (punit->owner!=pplayer->player_no)
+      return 1;
+    if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x, y) && unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type,F_SETTLERS) && punit->activity==ACTIVITY_GOTO)
+      return 1;
+    if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x, y) && !unit_flag(myunit->type, F_SETTLERS) && punit->activity==ACTIVITY_GOTO)
+      return 1;
+  }
+  unit_list_iterate_end;
+  return 0;
+}
+
+/* all of the benefit and ai_calc routines rewritten by Syela */
+/* to conform with city_tile_value and related calculations elsewhere */
+/* all of these functions are VERY CPU-inefficient and will later be optimized. */
+
+int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!(map_get_special(x, y) & S_POLLUTION)) return(0);
+  map_clear_special(x, y, S_POLLUTION);
+  m = city_tile_value(pcity, i, j, 0, 0);
+  map_set_special(x, y, S_POLLUTION);
+  return(m);
+}
+
+int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  struct tile *ptile;
+  struct tile_type *type;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  type=get_tile_type(ptile->terrain);
+
+/* changing terrain types?? */
+
+  if((ptile->terrain==type->irrigation_result &&
+     !(ptile->special&S_IRRIGATION) &&
+     !(ptile->special&S_MINE) && !(ptile->city_id) && /* Duh! */
+     is_water_adjacent_to_tile(x, y))) {
+    map_set_special(x, y, S_IRRIGATION);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_IRRIGATION);
+    return(m);
+  } else return(0);
+}
+
+int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+/* changing terrain types?? */
+  if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
+      !(ptile->special&S_MINE)) {
+    map_set_special(x, y, S_MINE);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_MINE);
+    return(m);
+  } else return(0);
+}
+
+int road_bonus(int x, int y, int spc)
+{
+  int m = 0, k;
+  int rd[12], te[12];
+  int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
+  int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
+  struct tile *ptile;
+  for (k = 0; k < 12; k++) {
+    ptile = map_get_tile(x + ii[k], y + jj[k]);
+    rd[k] = ptile->special&spc;
+    te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
+    if (!rd[k]) {
+      unit_list_iterate(ptile->units, punit)
+        if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
+          rd[k] = spc;
+      unit_list_iterate_end;
+    }
+  }
+
+  if (rd[0] && !rd[1] && !rd[3] && (!rd[2] || !rd[8]) &&
+      (!te[2] || !te[4] || !te[7] || !te[6] || !te[5])) m++;
+  if (rd[2] && !rd[1] && !rd[4] && (!rd[7] || !rd[10]) &&
+      (!te[0] || !te[3] || !te[7] || !te[6] || !te[5])) m++;
+  if (rd[5] && !rd[6] && !rd[3] && (!rd[5] || !rd[11]) &&
+      (!te[2] || !te[4] || !te[7] || !te[1] || !te[0])) m++;
+  if (rd[7] && !rd[6] && !rd[4] && (!rd[0] || !rd[9]) &&
+      (!te[2] || !te[3] || !te[0] || !te[1] || !te[5])) m++;
+
+  if (rd[1] && !rd[4] && !rd[3] && (!te[5] || !te[6] || !te[7])) m++;
+  if (rd[3] && !rd[1] && !rd[6] && (!te[2] || !te[4] || !te[7])) m++;
+  if (rd[4] && !rd[1] && !rd[6] && (!te[0] || !te[3] || !te[5])) m++;
+  if (rd[6] && !rd[4] && !rd[3] && (!te[0] || !te[1] || !te[2])) m++;
+  return(m);
+}
+
+int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain != T_OCEAN && (ptile->terrain != T_RIVER ||
+      get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
+      !(ptile->special&S_ROAD)) {
+    map_set_special(x, y, S_ROAD);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_ROAD);
+    return(m);
+  } else return(0);
+}
+
+int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int x, y, m;
+  struct tile *ptile;
+  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain != T_OCEAN &&
+      get_invention(pplayer, A_RAILROAD) == TECH_KNOWN &&
+      !(ptile->special&S_RAILROAD)) {
+    if (ptile->special&S_ROAD) {
+      map_set_special(x, y, S_RAILROAD);
+      m = city_tile_value(pcity, i, j, 0, 0);
+      map_clear_special(x, y, S_RAILROAD);
+      return(m);
+    } else {
+      map_set_special(x, y, S_ROAD | S_RAILROAD);
+      m = city_tile_value(pcity, i, j, 0, 0);
+      map_clear_special(x, y, S_ROAD | S_RAILROAD);
+      return(m);
+    }
+  } else return(0);
+/* bonuses for adjacent railroad tiles */
+}
+
+/*************************************************************************
+  return how good this square is for a new city.
+**************************************************************************/
+int is_ok_city_spot(int x, int y)
+{
+  int dx, dy;
+  int i;
+  switch (map_get_terrain(x,y)) {
+  case T_OCEAN:
+  case T_UNKNOWN:
+  case T_MOUNTAINS:
+  case T_FOREST:
+  case T_HILLS:
+  case T_ARCTIC:
+  case T_DESERT:
+  case T_JUNGLE:
+  case T_SWAMP:
+  case T_TUNDRA:
+  case T_LAST:
+    return 0;
+  case T_GRASSLAND:
+  case T_PLAINS:
+  case T_RIVER:
+    break;
+  default:
+    break;
+  }
+  for (i = 0; i < game.nplayers; i++) {
+    city_list_iterate(game.players[i].cities, pcity) {
+      if (map_distance(x, y, pcity->x, pcity->y)<=8) {
+        dx=make_dx(pcity->x, x);
+        dy=make_dy(pcity->y, y);
+        if (dx<=5 && dy<5)
+          return 0;
+        if (dx<5 && dy<=5)
+          return 0;
+      }
+    }
+    city_list_iterate_end;
+  }
+  return 1;
+}
+
+/*************************************************************************
+  return the city if any that is in range of this square.
+**************************************************************************/
+int in_city_radius(int x, int y)
+{
+  int i, j;
+  city_map_iterate(i, j) {
+    if (map_get_tile(x+i-2, y+j-2)->city_id) return 1;
+  }
+  return 0;
+}
+
+/**************************************************************************
+  simply puts the settler unit into goto
+**************************************************************************/
+int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
+{
+  punit->goto_dest_x=map_adjust_x(x);
+  punit->goto_dest_y=map_adjust_y(y);
+  punit->activity=ACTIVITY_GOTO;
+  punit->activity_count=0;
+  send_unit_info(0, punit, 0);
+  do_unit_goto(pplayer, punit);
+  return 1;
+}
+
+/********************************************************************
+  find some work for the settler
+*********************************************************************/
+int auto_settler_findwork(struct player *pplayer, struct unit *punit)
+{
+  int gx,gy;
+  int co=map_get_continent(punit->x, punit->y);
+  int t=0;
+  int v=0;
+  int v2;
+  int x, y, z, i, j;
+  int m = unit_types[punit->type].move_rate;
+  int food;
+  int val;
+  int w;
+  int a, b, d;
+  struct city *mycity = map_get_city(punit->x, punit->y);
+  int fu;
+
+  if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
+  else {
+    if (mycity->size == 1) fu = 20;
+    else fu = 40 * (mycity->size - 1) / mycity->size;
+    if (city_got_building(mycity, B_GRANARY)) fu -= 20;
+  }
+
+  gx=-1;
+  gy=-1;
+/* iterating over the whole map is just ridiculous.  let's only look at
+our own cities.  The old method wasted billions of CPU cycles and led to
+AI settlers improving enemy cities. */ /* arguably should include city_spot */
+  generate_warmap(mycity, punit);
+  food = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
+  if (punit->id && !punit->homecity) food = 0; /* thanks, Peter */
+  city_list_iterate(pplayer->cities, pcity)
+    w = worst_worker_tile_value(pcity);
+    city_map_iterate(i, j) {
+      x = map_adjust_x(pcity->x + i - 2);
+      y = map_adjust_y(pcity->y + j - 2);
+      if (map_get_continent(x, y) == co &&
+          warmap.cost[x][y] <= THRESHOLD * m &&
+          !is_already_assigned(punit, pplayer, x, y)) {
+/* calling is_already_assigned once instead of four times for obvious reasons */
+/* structure is much the same as it once was but subroutines are not -- Syela */
+	z = (warmap.cost[x][y]) / m;
+        val = city_tile_value(pcity, i, j, 0, 0);
+        if (w > val && (i != 2 || j != 2)) val = w;
+/* perhaps I should just subtract w rather than val but I prefer this -- Syela */
+
+	v2 = ai_calc_irrigate(pcity, pplayer, i, j);
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {
+          d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+	if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
+	  t=ACTIVITY_IRRIGATE;
+	  v=v2; gx=x; gy=y;
+        }
+
+	v2 = ai_calc_mine(pcity, pplayer, i, j);
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
+	  t=ACTIVITY_MINE;
+	  v=v2; gx=x; gy=y;
+        }
+
+        if (!(map_get_tile(x,y)->special&S_ROAD)) {
+  	  v2 = ai_calc_road(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
+/* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
+	    t=ACTIVITY_ROAD;
+	    v=v2; gx=x; gy=y;
+          }
+
+	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
+  	    t=ACTIVITY_ROAD;
+	    v=v2; gx=x; gy=y;
+          }
+        } else {
+	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            d = (3 * 3 + m - 1) / m + z;
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
+  	    t=ACTIVITY_RAILROAD;
+	    v=v2; gx=x; gy=y;
+          }
+        } /* end else */
+
+	v2 = ai_calc_pollution(pcity, pplayer, i, j);
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          d = (3 * 3 + z + m - 1) / m + z;
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
+	  t=ACTIVITY_POLLUTION;
+	  v=v2; gx=x; gy=y;
+        }
+      } /* end if we are a legal destination */
+    } /* end city map iterate */
+  city_list_iterate_end;
+
+  v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
+  if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
+
+  if (pplayer->ai.control) { /* don't want to make cities otherwise */
+    if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+      remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+    }
+    punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
+    for (i = -7; i <= 7; i++) {
+      for (j = -7; j <= 7; j++) { /* hope this is far enough -- Syela */
+        x = map_adjust_x(punit->x + i);
+        y = map_adjust_y(punit->y + j);
+        if (map_get_continent(x, y) == co &&
+            !is_already_assigned(punit, pplayer, x, y)) {
+          z = warmap.cost[x][y]; /* + m - 1; not this time */
+          d = z / m;
+/* without this, the computer will go 6-7 tiles from X to build a city at Y */
+          d *= 2;
+/* and then build its NEXT city halfway between X and Y. -- Syela */
+          z = city_desirability(x, y);
+          v2 = amortize(z, d);
+          b = (food * FOOD_WEIGHTING) * MORT;
+          v2 -= (b - amortize(b, d));
+/* deal with danger Real Soon Now! -- Syela */
+/* v2 is now the value over mort turns */
+          v2 = (v2 * 100) / MORT / (40 + fu);
+          if (v2 > v) {
+/*printf("City_des (%d, %d) = %d, v2 = %d, d = %d\n", x, y, z, v2, d);*/
+            t = ACTIVITY_UNKNOWN; /* flag */
+            v = v2; gx = x; gy = y;
+          }
+        }
+      }
+    }
+  }
+
+/* I had the return here, but it led to stupidity where several engineers would
+be built to solve one problem.  Moving the return down will solve this. -- Syela */
+
+  if (gx!=-1 && gy!=-1) {
+    map_get_tile(gx, gy)->assigned =
+        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+  }
+
+  if (!punit->id) { /* has to be before we try to send_unit_info()! -- Syela */
+/*    printf("%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)\n",
+      mycity->name, mycity->x, mycity->y, v, t, gx, gy);*/
+    return(v); /* virtual unit for assessing settler want */
+  }
+
+  if (gx!=-1 && gy!=-1) {
+    if (t == ACTIVITY_UNKNOWN) {
+      punit->ai.ai_role = AIUNIT_BUILD_CITY;
+      add_city_to_minimap(gx, gy);
+    } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    if (!same_pos(gx, gy, punit->x, punit->y))
+      auto_settler_do_goto(pplayer, punit,gx, gy);
+  } else {
+    if (!map_get_special(punit->x, punit->y) & S_ROAD) {
+/* this should not ever be needed anymore, but ... -- Syela */
+      gx = punit->x; gy = punit->y;
+      t = ACTIVITY_ROAD;
+    } else punit->ai.control=0;
+  }
+
+  if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
+    if (same_pos(gx, gy, punit->x, punit->y)) {
+      if (t == ACTIVITY_UNKNOWN) {
+        ai_do_build_city(pplayer, punit);
+        return(0);
+      }
+      set_unit_activity(punit, t);
+      send_unit_info(0, punit, 0);
+      return(0);
+    }
+  }
+}
+
+/************************************************************************** 
+  run through all the players settlers and let those on ai.control work 
+  automagically
+**************************************************************************/
+void auto_settlers_player(struct player *pplayer) 
+{
+#ifdef CHRONO
+  int sec, usec;
+  struct timeval tv;
+  gettimeofday(&tv, 0);
+  sec = tv.tv_sec; usec = tv.tv_usec; 
+#endif
+  unit_list_iterate(pplayer->units, punit) {
+/* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
+    if (punit->ai.control) {
+/* printf("Is ai controlled.\n");*/
+      if(punit->activity == ACTIVITY_SENTRY && 
+	 !map_get_terrain(punit->x, punit->y) == T_OCEAN &&
+	 is_ground_unit(punit))
+	set_unit_activity(punit, ACTIVITY_IDLE);
+      if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
+        set_unit_activity(punit, ACTIVITY_IDLE);
+      if (punit->activity == ACTIVITY_IDLE)
+	auto_settler_findwork(pplayer, punit);
+/* printf("Has been processed.\n"); */
+    }
+  }
+  unit_list_iterate_end;
+#ifdef CHRONO
+  gettimeofday(&tv, 0);
+  printf("%s's autosettlers consumed %d microseconds.\n", pplayer->name, 
+       (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+#endif
+}
+
+void assign_settlers_player(struct player *pplayer)
+{
+  short i = 1<<pplayer->player_no;
+  struct tile *ptile;
+  unit_list_iterate(pplayer->units, punit)
+    if (unit_flag(punit->type, F_SETTLERS)) {
+      if (punit->activity == ACTIVITY_GOTO) {
+        ptile = map_get_tile(punit->goto_dest_x, punit->goto_dest_y);
+        ptile->assigned = ptile->assigned | i; /* assigned for us only */
+      } else {
+        ptile = map_get_tile(punit->x, punit->y);
+        ptile->assigned = 32767; /* assigned for everyone */
+      }
+    } else {
+      ptile = map_get_tile(punit->x, punit->y);
+      ptile->assigned = ptile->assigned | (32767 ^ i); /* assigned for everyone else */
+    }
+  unit_list_iterate_end;
+}
+
+void assign_settlers()
+{
+  int i, x, y;
+  for (x = 0; x < map.xsize; x++)
+    for (y = 0; y < map.xsize; y++)
+      map_get_tile(x, y)->assigned = 0;
+
+  for (i = 0; i < game.nplayers; i++) {
+    assign_settlers_player(&game.players[i]);
+  }
+}
+
+/**************************************************************************
+  Do the auto_settler stuff for all the players. 
+  TODO: This should be moved into the update_player loop i think
+**************************************************************************/
+void auto_settlers()
+{
+  int i;
+  assign_settlers();
+  for (i = 0; i < game.nplayers; i++) {
+    auto_settlers_player(&game.players[i]);
+  }
+}
