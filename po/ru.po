@@ -925,7 +925,7 @@ msgstr "Нельзя использовать %s как название города. Оно зарезервировано, чтобы "
 #, c-format
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr ""
+msgstr "%s - неверное название. Для городов разрешено использовать только ASCII символы или названия, предлагаемые игрой."
 
 #: server/citytools.c:385
 #, c-format
@@ -1214,15 +1214,12 @@ msgid "Game: %s has finished building %s."
 msgstr "Игра: В городе %s завершена постройка %s."
 
 #: server/cityturn.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
-msgstr[0] ""
-"Игра: %s ускоряет исследования, Вы получаете 2 немедленных открытия."
-msgstr[1] ""
-"Игра: %s ускоряет исследования, Вы получаете 2 немедленных открытия."
-msgstr[2] ""
-"Игра: %s ускоряет исследования, Вы получаете 2 немедленных открытия."
+msgstr[0] "Игра: %s ускоряет исследования, Вы получаете %d немедленное открытие."
+msgstr[1] "Игра: %s ускоряет исследования, Вы получаете %d немедленных открытия."
+msgstr[2] "Игра: %s ускоряет исследования, Вы получаете %d немедленных открытий."
 
 #: server/cityturn.c:968
 #, c-format
@@ -2987,19 +2984,19 @@ msgid "Waiting"
 msgstr "Ожидание"
 
 #: server/plrhand.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s acquired from a building!"
-msgstr "Игра: %s приобретено в Великой Библиотеке!"
+msgstr "Игра: %s приобретено из здания!"
 
 #: server/plrhand.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "%s discover %s (building)"
-msgstr "%s открыли %s (Хижина)"
+msgstr "%s открыли %s (здание)"
 
 #: server/plrhand.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from a building."
-msgstr "Игра: %s приобрели %s от %s."
+msgstr "Игра: %s приобрели %s из здания."
 
 #: server/plrhand.c:206
 #, c-format
@@ -3597,13 +3594,13 @@ msgstr ""
 #: server/ruleset.c:500
 #, c-format
 msgid "Unknown terrain %s in entry %s."
-msgstr ""
+msgstr "Неизвестный рельеф %s в записи %s."
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1190
-#, fuzzy, c-format
+#, c-format
 msgid "Group %s lists unknown building: \"%s\" (%s)"
-msgstr "Игра: %s сейчас строит %s%s."
+msgstr "Группа %s включает неизвестное здание: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1201
@@ -3619,9 +3616,9 @@ msgstr ""
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1350
-#, fuzzy, c-format
+#, c-format
 msgid "Building %s lists bad range: \"%s\" (%s)"
-msgstr "(здание %s в %s (%s))\n"
+msgstr "Здание %s включает неправильное расстояние: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1371
@@ -3643,9 +3640,8 @@ msgstr ""
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1433
-#, fuzzy
 msgid "Cannot find any palace building"
-msgstr "Не могу найти аудио-файл %s"
+msgstr "Не могу найти ни одного дворцового здания"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1441
@@ -4104,9 +4100,8 @@ msgstr ""
 "достигнет этого числа."
 
 #: server/settings.c:398
-#, fuzzy
 msgid "List of player's initial units"
-msgstr "Список присутствующих соед."
+msgstr "Список начальных соединений игрока"
 
 #: server/settings.c:399
 msgid ""
@@ -4448,9 +4443,8 @@ msgstr ""
 "максимальным расстоянием от любого города."
 
 #: server/settings.c:642
-#, fuzzy
 msgid "Units inside borders cause no unhappiness"
-msgstr "Военные соединения вне городов могут вызвать недовольство. "
+msgstr "Соединения внутри границ не вызывают недовольства"
 
 #: server/settings.c:643
 msgid ""
@@ -5580,7 +5574,7 @@ msgstr "описание"
 
 #: server/stdinhand.c:1898
 msgid "Try 'show situational' or 'show rare' to show more options"
-msgstr "Попробуйте 'показать ситуационные' или 'показать редкие' для просмотра дополнительных настроек"
+msgstr "Попробуйте 'show situational' или 'show rare' для просмотра дополнительных настроек"
 
 #: server/stdinhand.c:1945
 msgid "Cannot change teams once game has begun."
@@ -6694,8 +6688,7 @@ msgstr "Игра: Приказ для %s отменён, невозможно выполнить приказ."
 #: server/unittools.c:2981
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
-msgstr ""
-"Игра: %s отменил команду ИДТИ К, т.к. другие соединения находятся рядом."
+msgstr "Игра: Приказ для  %s отменён, невозможно выполнить приказ."
 
 #: server/unittools.c:2995
 #, c-format
@@ -7549,7 +7542,7 @@ msgstr "Игра: Извините, патрулирование воздушными войсками еще не работает."
 
 #: client/control.c:1685
 msgid "Game: Sorry, airunit connect not yet implemented."
-msgstr "Игра: Извините, соединение воздушных единиц еще не работает."
+msgstr "Игра: Извините, соединение воздушных соединений ещё не работает."
 
 #: client/control.c:1741
 msgid "Game: Oh my! You seem to have no capital!"
@@ -7593,7 +7586,7 @@ msgstr "Позволяет всем игрокам знающим технологию %s строить %s.  "
 #: client/helpdata.c:537
 #, c-format
 msgid "The discovery of %s will make %s obsolete."
-msgstr "Открытие %s упразднит %s.  "
+msgstr "Открытие %s упразднит %s."
 
 #: client/helpdata.c:605
 msgid "* May not be built in cities.\n"
@@ -7668,77 +7661,69 @@ msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr ""
 
 #: client/helpdata.c:666
-#, fuzzy
 msgid "* Can build roads and railroads.\n"
-msgstr "* Может помогать строить чудеса.\n"
+msgstr "* Может строить дороги и железные дороги.\n"
 
 #: client/helpdata.c:667
-#, fuzzy
 msgid "* Can build mines on tiles.\n"
-msgstr "* Может строить новые города.\n"
+msgstr "* Может строить шахты.\n"
 
 #: client/helpdata.c:668
-#, fuzzy
 msgid "* Can build irrigation on tiles.\n"
-msgstr "* Может строить новые города.\n"
+msgstr "* Может строить орошение.\n"
 
 #: client/helpdata.c:673
-#, fuzzy
 msgid "* Can build farmland.\n"
-msgstr "Построить ферму"
+msgstr "* Может строить ферму.\n"
 
 #: client/helpdata.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "* Может строить новые города.\n"
+msgstr "* Может строить ферму (если известно %s).\n"
 
 #: client/helpdata.c:681
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Может строить ферму (если что-либо из списка известно: %s).\n"
 
 #: client/helpdata.c:689
-#, fuzzy
 msgid "* Can build fortresses.\n"
-msgstr "* Позволяет соединению \"%s\" строить крепости.\n"
+msgstr "* Может строить крепости.\n"
 
 #: client/helpdata.c:693
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr ""
+msgstr "* Может строить крепости (если известно %s).\n"
 
 #: client/helpdata.c:697
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Может строить крепости (если что-либо из списка известно: %s).\n"
 
 #: client/helpdata.c:703
 msgid "* Can clean pollution from tiles.\n"
-msgstr ""
+msgstr "* Может очищать загрязнения.\n"
 
 #: client/helpdata.c:705
-#, fuzzy
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr "Очистить радиацию"
+msgstr "* Может очищать радиоактивные загрязнения.\n"
 
 #: client/helpdata.c:708
-#, fuzzy
 msgid "* Can transform tiles.\n"
-msgstr "* Может выполнять функции колониста.\n"
+msgstr "* Может изменять ландшафт.\n"
 
 #: client/helpdata.c:711
-#, fuzzy
 msgid "* Can build airbases.\n"
-msgstr "* Может строить новые города.\n"
+msgstr "* Может строить аэродромы.\n"
 
 #: client/helpdata.c:715
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr ""
+msgstr "* Может укрепляться, что даёт 50%% защитную премию.\n"
 
 #: client/helpdata.c:719
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* Может грабить и уничтожать инфраструктуру.\n"
 
 #: client/helpdata.c:723
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
@@ -7755,9 +7740,8 @@ msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr ""
 
 #: client/helpdata.c:734
-#, fuzzy
 msgid "* May not be bribed.\n"
-msgstr "Это соединение не может быть завербовано!"
+msgstr "* Не может быть завербовано.\n"
 
 #: client/helpdata.c:737
 msgid "* Can attack enemy air units.\n"
@@ -7774,18 +7758,16 @@ msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Может атаковать только войка в океане (нет береговых атак).\n"
 
 #: client/helpdata.c:749
-#, fuzzy
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
 msgstr ""
-"* Может атаковать с кораблей: против вражеских городов и на земные квадраты."
+"* Может атаковать с морских соединений: против вражеских городов и на земные квадраты.\n"
 
 #: client/helpdata.c:754
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr ""
-"* Может быть сброшен на парашюте из дружественного города (Расстояние: %d)."
+msgstr "* Может быть сброшен на парашюте из дружественного города (Расстояние: %d).\n"
 
 #: client/helpdata.c:758
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -7849,11 +7831,11 @@ msgstr "* Полевое соединение: одно несчастье, даже если не агрессивен.\n"
 
 #: client/helpdata.c:815
 msgid "* Will never achieve veteran status.\n"
-msgstr ""
+msgstr "* Никогда не достигнет статуса ветерана.\n"
 
 #: client/helpdata.c:818
 msgid "* May become veteran through training or combat.\n"
-msgstr ""
+msgstr "* Может стать ветераном в процессе обучения или в бою.\n"
 
 #: client/helpdata.c:824
 #, c-format
@@ -7959,27 +7941,27 @@ msgstr "* Усиливает эффект Храмов.\n"
 #: client/helpdata.c:978
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr "* Позволяет соединению \"%s\" строить дороги на речных квадратах.\n"
+msgstr "* Позволяет соединению %s строить дороги на речных квадратах.\n"
 
 #: client/helpdata.c:985
 #, c-format
 msgid "* Allows %s to build fortresses.\n"
-msgstr "* Позволяет соединению \"%s\" строить крепости.\n"
+msgstr "* Позволяет соединению %s строить крепости.\n"
 
 #: client/helpdata.c:993
 #, c-format
 msgid "* Allows %s to build airbases.\n"
-msgstr "* Позволяет соединению \"%s\" строить аэродромы.\n"
+msgstr "* Позволяет соединению %s строить аэродромы.\n"
 
 #: client/helpdata.c:1002
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr "* Позволяет соединению \"%s\" обновлять дороги до железных дорог.\n"
+msgstr "* Позволяет соединению %s обновлять дороги до железных дорог.\n"
 
 #: client/helpdata.c:1009
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "* Позволяет соединению \"%s\" обновлять орошения до ферм.\n"
+msgstr "* Позволяет соединению %s обновлять орошения до ферм.\n"
 
 #: client/helpdata.c:1070
 #, c-format
@@ -19108,7 +19090,7 @@ msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr ""
-"Здания, обычно требующие 1 золотой на поддержку становятся бесплатными, для "
+"Городские улучшения, обычно требующие 1 единицу золота на поддержку, становятся бесплатными, для "
 "всех городов."
 
 #: data/civ2/buildings.ruleset:1410 data/civ1/buildings.ruleset:1068
@@ -21785,13 +21767,13 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
-"Инженеры двигаются и строят вдвое быстрее колонистов, а так же могут "
+"Инженеры аналогичны Колонистам, но двигаются и строят вдвое быстрее. а так же могут "
 "выполнять преобразование ландшафта.\n"
 "\n"
-"Совет: Модернизируйте колонистов до инженеров как можно быстрее, т.к. они "
+"Совет 1: Модернизируйте колонистов до инженеров как можно быстрее, т.к. они "
 "потребляют пищи столько-же, а работают быстрее.\n"
 "\n"
-"Совет: Если Вы построили Мастерскую Леонардо, исследуйте Взрывчатые Вещества "
+"Совет 2: Если Вы построили Мастерскую Леонардо, исследуйте Взрывчатые Вещества "
 "прежде, чем мастерская устареет. Вам бесплатно модернизируют колонистов."
 
 #: data/civ2/units.ruleset:374
@@ -21966,14 +21948,12 @@ msgid "?plural:Assyrians"
 msgstr "?plural:Ассирийцы"
 
 #: data/nation/assyrian.ruleset:14
-#, fuzzy
 msgid "Malka"
-msgstr "Мужской"
+msgstr "Малка"
 
 #: data/nation/assyrian.ruleset:14
-#, fuzzy
 msgid "Malikta"
-msgstr "Ополчение"
+msgstr "Маликта"
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
@@ -22403,11 +22383,11 @@ msgstr "?plural:Эльфы"
 
 #: data/nation/elvish.ruleset:21
 msgid "High King of the Noldor"
-msgstr ""
+msgstr "Король Нолдор"
 
 #: data/nation/elvish.ruleset:21
 msgid "Queen of Doriath"
-msgstr ""
+msgstr "Королева Дориата"
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -22525,7 +22505,6 @@ msgid "Primeira Ministra"
 msgstr "Премьер-министр"
 
 #: data/nation/galician.ruleset:16
-#, fuzzy
 msgid "Raina"
 msgstr "Королева"
 
@@ -22538,14 +22517,12 @@ msgid "Presidenta"
 msgstr "Президент"
 
 #: data/nation/galician.ruleset:18
-#, fuzzy
 msgid "Gran Bardo"
-msgstr "Амбар"
+msgstr "Великий бард"
 
 #: data/nation/galician.ruleset:18
-#, fuzzy
 msgid "Grande Bardesa"
-msgstr "Великая ведьма"
+msgstr "Великий бард"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -22597,7 +22574,7 @@ msgstr "?plural:Хоббиты"
 
 #: data/nation/hobbits.ruleset:14
 msgid "Mayor of the Shire"
-msgstr ""
+msgstr "Городской Голова Шира"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -22691,11 +22668,11 @@ msgstr "Королева"
 
 #: data/nation/irish.ruleset:39
 msgid "Mother Superior"
-msgstr ""
+msgstr "Преподобная мать"
 
 #: data/nation/irish.ruleset:40
 msgid "Taoiseach"
-msgstr ""
+msgstr "Премьер-министр"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -22989,6 +22966,8 @@ msgid ""
 "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome "
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
+"Согласно легенде, Рим был основан Ромулом ж 753 до н.э. В период расцвета Рим "
+"правил почти весй Европой, северной Африкой и Месопотамией."
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -22996,7 +22975,7 @@ msgstr "Русские"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "Русские"
+msgstr "?plural:Русские"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -23190,12 +23169,11 @@ msgstr "?plural:Шумеры"
 
 #: data/nation/sumerian.ruleset:13
 msgid "Lugal"
-msgstr ""
+msgstr "Лугал"
 
 #: data/nation/sumerian.ruleset:14
-#, fuzzy
 msgid "Ensi"
-msgstr "Энцик"
+msgstr "Энси"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
