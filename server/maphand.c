@@ -917,7 +917,7 @@ void player_map_allocate(struct player *pplayer)
 
 /***************************************************************
 We need to use use fogofwar_old here, so the player's tiles get
-in the same state as th other players' tiles.
+in the same state as the other players' tiles.
 ***************************************************************/
 static void player_tile_init(struct player_tile *plrtile)
 {
@@ -1212,12 +1212,9 @@ void handle_player_remove_vision(struct player *pplayer,
 *************************************************************************/
 static void enable_fog_of_war_player(struct player *pplayer)
 {
-  int playerid = pplayer->player_no;
   whole_map_iterate(x, y) {
     if (map_get_known(x, y, pplayer)) {
-      map_change_seen(x, y, playerid, -1);
-      if (map_get_seen(x, y, playerid) == 0)
-	update_player_tile_last_seen(pplayer, x, y);
+      fog_area(pplayer, x, y, 0);
     } else {
       decrement_pending_seen(pplayer, x, y);
     }
@@ -1232,8 +1229,6 @@ void enable_fog_of_war(void)
   players_iterate(pplayer) {
     enable_fog_of_war_player(pplayer);
   } players_iterate_end;
-
-  send_all_known_tiles(&game.game_connections);
 }
 
 /*************************************************************************
@@ -1241,15 +1236,9 @@ void enable_fog_of_war(void)
 *************************************************************************/
 static void disable_fog_of_war_player(struct player *pplayer)
 {
-  int playerid = pplayer->player_no;
   whole_map_iterate(x, y) {
     if (map_get_known(x, y, pplayer)) {
-      struct city *pcity = map_get_city(x, y);
-      map_change_seen(x, y, playerid, +1);
-      reality_check_city(pplayer, x, y);
-      if (pcity) {
-	update_dumb_city(pplayer, pcity);
-      }
+      unfog_area(pplayer, x, y, 0);
     } else {
       increment_pending_seen(pplayer, x, y);
     }
@@ -1264,8 +1253,4 @@ void disable_fog_of_war(void)
   players_iterate(pplayer) {
     disable_fog_of_war_player(pplayer);
   } players_iterate_end;
-
-  send_all_known_tiles(&game.game_connections);
-  send_all_known_units(&game.game_connections);
-  send_all_known_cities(&game.game_connections);
 }
