@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -956,14 +957,12 @@ char *datafilename(const char *filename)
   }
   
   for (i = 0; i < num_dirs; i++) {
-    FILE *fp;			/* see if we can open the file */
+    struct stat buf;		/* see if we can open the file or directory */
     size_t len = strlen(dirs[i]) + strlen(filename) + 2;
     
     astr_minsize(&realfile, len);
     my_snprintf(realfile.str, len, "%s/%s", dirs[i], filename);
-    fp = fopen(realfile.str, "r");
-    if (fp) {
-      fclose(fp);
+    if (stat(realfile.str, &buf) == 0) {
       return realfile.str;
     }
   }
