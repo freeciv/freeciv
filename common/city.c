@@ -2442,7 +2442,8 @@ int city_corruption(const struct city *pcity, int trade)
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
-  int val, trade_penalty;
+  unsigned int val;
+  int trade_penalty;
 
   assert(game.notradesize < game.fulltradesize);
   if (pcity->size <= game.notradesize) {
@@ -2473,12 +2474,12 @@ int city_corruption(const struct city *pcity, int trade)
 
   /* Now calculate the final corruption.  Ordered to reduce integer
    * roundoff errors. */
-  val = (trade * dist) * g->corruption_level;
+  val = trade * MAX(dist, 1) * g->corruption_level;
   if (city_got_building(pcity, B_COURTHOUSE) ||
       city_got_building(pcity, B_PALACE)) {
     val /= 2;
   }
-  val /= 100 * g->corruption_modifier;
+  val /= 100 * 100; /* Level is a % multiplied by 100 */
   val = CLIP(trade_penalty, val, trade);
   return val;
 }
@@ -2491,7 +2492,8 @@ int city_waste(const struct city *pcity, int shields)
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
-  int val, shield_penalty = 0;
+  int shield_penalty = 0;
+  unsigned int val;
 
   if (g->waste_level == 0) {
     return shield_penalty;
@@ -2509,10 +2511,8 @@ int city_waste(const struct city *pcity, int shields)
   }
   dist = dist * g->waste_distance_factor + g->extra_waste_distance;
   /* Ordered to reduce integer roundoff errors */
-  val = shields * dist;
-  val *= g->waste_level;
-  val /= g->waste_modifier;
-  val /= 100;
+  val = shields * MAX(dist, 1) * g->waste_level;
+  val /= 100 * 100; /* Level is a % multiplied by 100 */
 
   if (city_got_building(pcity, B_COURTHOUSE)
       || city_got_building(pcity, B_PALACE)) {

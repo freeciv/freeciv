@@ -821,13 +821,11 @@ struct packet_ruleset_government {
   int celeb_shield_bonus;
   int celeb_food_bonus;
   int corruption_level;
-  int corruption_modifier;
   int fixed_corruption_distance;
   int corruption_distance_factor;
   int extra_corruption_distance;
   int corruption_max_distance_cap;
   int waste_level;
-  int waste_modifier;
   int fixed_waste_distance;
   int waste_distance_factor;
   int extra_waste_distance;

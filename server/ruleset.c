@@ -1795,8 +1795,6 @@ static void load_ruleset_governments(struct section_file *file)
 
     g->corruption_level
       = secfile_lookup_int(file, "%s.corruption_level", sec[i]);
-    g->corruption_modifier
-      = secfile_lookup_int(file, "%s.corruption_modifier", sec[i]);
     g->fixed_corruption_distance
       = secfile_lookup_int(file, "%s.corruption_fixed_distance", sec[i]);
     g->corruption_distance_factor
@@ -1809,8 +1807,6 @@ static void load_ruleset_governments(struct section_file *file)
 
     g->waste_level
       = secfile_lookup_int(file, "%s.waste_level", sec[i]);
-    g->waste_modifier
-      = secfile_lookup_int(file, "%s.waste_modifier", sec[i]);
     g->fixed_waste_distance
       = secfile_lookup_int(file, "%s.waste_fixed_distance", sec[i]);
     g->waste_distance_factor
@@ -3005,14 +3001,12 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.celeb_food_bonus = g->celeb_food_bonus;
 
     gov.corruption_level = g->corruption_level;
-    gov.corruption_modifier = g->corruption_modifier;
     gov.fixed_corruption_distance = g->fixed_corruption_distance;
     gov.corruption_distance_factor = g->corruption_distance_factor;
     gov.extra_corruption_distance = g->extra_corruption_distance;
     gov.corruption_max_distance_cap = g->corruption_max_distance_cap;
     
     gov.waste_level = g->waste_level;
-    gov.waste_modifier = g->waste_modifier;
     gov.fixed_waste_distance = g->fixed_waste_distance;
     gov.waste_distance_factor = g->waste_distance_factor;
     gov.extra_waste_distance = g->extra_waste_distance;

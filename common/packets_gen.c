@@ -24183,7 +24183,7 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_government_100 cmp_const
 
-BV_DEFINE(packet_ruleset_government_100_fields, 47);
+BV_DEFINE(packet_ruleset_government_100_fields, 45);
 
 static struct packet_ruleset_government *receive_packet_ruleset_government_100(struct connection *pc, enum packet_type type)
 {
@@ -24295,57 +24295,51 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     dio_get_uint8(&din, (int *) &real_packet->celeb_food_bonus);
   }
   if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->corruption_level);
+    dio_get_uint16(&din, (int *) &real_packet->corruption_level);
   }
   if (BV_ISSET(fields, 30)) {
-    dio_get_uint8(&din, (int *) &real_packet->corruption_modifier);
-  }
-  if (BV_ISSET(fields, 31)) {
     dio_get_uint8(&din, (int *) &real_packet->fixed_corruption_distance);
   }
-  if (BV_ISSET(fields, 32)) {
+  if (BV_ISSET(fields, 31)) {
     dio_get_uint8(&din, (int *) &real_packet->corruption_distance_factor);
   }
-  if (BV_ISSET(fields, 33)) {
+  if (BV_ISSET(fields, 32)) {
     dio_get_uint8(&din, (int *) &real_packet->extra_corruption_distance);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 33)) {
     dio_get_uint8(&din, (int *) &real_packet->corruption_max_distance_cap);
   }
+  if (BV_ISSET(fields, 34)) {
+    dio_get_uint16(&din, (int *) &real_packet->waste_level);
+  }
   if (BV_ISSET(fields, 35)) {
-    dio_get_uint8(&din, (int *) &real_packet->waste_level);
-  }
-  if (BV_ISSET(fields, 36)) {
-    dio_get_uint8(&din, (int *) &real_packet->waste_modifier);
-  }
-  if (BV_ISSET(fields, 37)) {
     dio_get_uint8(&din, (int *) &real_packet->fixed_waste_distance);
   }
-  if (BV_ISSET(fields, 38)) {
+  if (BV_ISSET(fields, 36)) {
     dio_get_uint8(&din, (int *) &real_packet->waste_distance_factor);
   }
-  if (BV_ISSET(fields, 39)) {
+  if (BV_ISSET(fields, 37)) {
     dio_get_uint8(&din, (int *) &real_packet->extra_waste_distance);
   }
-  if (BV_ISSET(fields, 40)) {
+  if (BV_ISSET(fields, 38)) {
     dio_get_uint8(&din, (int *) &real_packet->waste_max_distance_cap);
   }
-  if (BV_ISSET(fields, 41)) {
+  if (BV_ISSET(fields, 39)) {
     dio_get_uint16(&din, (int *) &real_packet->flags);
   }
-  if (BV_ISSET(fields, 42)) {
+  if (BV_ISSET(fields, 40)) {
     dio_get_uint8(&din, (int *) &real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 43)) {
+  if (BV_ISSET(fields, 41)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 44)) {
+  if (BV_ISSET(fields, 42)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 43)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 44)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -24502,73 +24496,65 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 29);}
 
-  differ = (old->corruption_modifier != real_packet->corruption_modifier);
+  differ = (old->fixed_corruption_distance != real_packet->fixed_corruption_distance);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 30);}
 
-  differ = (old->fixed_corruption_distance != real_packet->fixed_corruption_distance);
+  differ = (old->corruption_distance_factor != real_packet->corruption_distance_factor);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
-  differ = (old->corruption_distance_factor != real_packet->corruption_distance_factor);
+  differ = (old->extra_corruption_distance != real_packet->extra_corruption_distance);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 32);}
 
-  differ = (old->extra_corruption_distance != real_packet->extra_corruption_distance);
+  differ = (old->corruption_max_distance_cap != real_packet->corruption_max_distance_cap);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 33);}
 
-  differ = (old->corruption_max_distance_cap != real_packet->corruption_max_distance_cap);
+  differ = (old->waste_level != real_packet->waste_level);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 34);}
 
-  differ = (old->waste_level != real_packet->waste_level);
+  differ = (old->fixed_waste_distance != real_packet->fixed_waste_distance);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 35);}
 
-  differ = (old->waste_modifier != real_packet->waste_modifier);
+  differ = (old->waste_distance_factor != real_packet->waste_distance_factor);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 36);}
 
-  differ = (old->fixed_waste_distance != real_packet->fixed_waste_distance);
+  differ = (old->extra_waste_distance != real_packet->extra_waste_distance);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 37);}
 
-  differ = (old->waste_distance_factor != real_packet->waste_distance_factor);
+  differ = (old->waste_max_distance_cap != real_packet->waste_max_distance_cap);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 38);}
 
-  differ = (old->extra_waste_distance != real_packet->extra_waste_distance);
+  differ = (old->flags != real_packet->flags);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 39);}
 
-  differ = (old->waste_max_distance_cap != real_packet->waste_max_distance_cap);
+  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 40);}
 
-  differ = (old->flags != real_packet->flags);
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 41);}
 
-  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 42);}
 
-  differ = (strcmp(old->name, real_packet->name) != 0);
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 43);}
 
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 44);}
-
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 45);}
-
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 46);}
+  if(differ) {BV_SET(fields, 44);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24664,57 +24650,51 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     dio_put_uint8(&dout, real_packet->celeb_food_bonus);
   }
   if (BV_ISSET(fields, 29)) {
-    dio_put_uint8(&dout, real_packet->corruption_level);
+    dio_put_uint16(&dout, real_packet->corruption_level);
   }
   if (BV_ISSET(fields, 30)) {
-    dio_put_uint8(&dout, real_packet->corruption_modifier);
-  }
-  if (BV_ISSET(fields, 31)) {
     dio_put_uint8(&dout, real_packet->fixed_corruption_distance);
   }
-  if (BV_ISSET(fields, 32)) {
+  if (BV_ISSET(fields, 31)) {
     dio_put_uint8(&dout, real_packet->corruption_distance_factor);
   }
-  if (BV_ISSET(fields, 33)) {
+  if (BV_ISSET(fields, 32)) {
     dio_put_uint8(&dout, real_packet->extra_corruption_distance);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 33)) {
     dio_put_uint8(&dout, real_packet->corruption_max_distance_cap);
   }
+  if (BV_ISSET(fields, 34)) {
+    dio_put_uint16(&dout, real_packet->waste_level);
+  }
   if (BV_ISSET(fields, 35)) {
-    dio_put_uint8(&dout, real_packet->waste_level);
-  }
-  if (BV_ISSET(fields, 36)) {
-    dio_put_uint8(&dout, real_packet->waste_modifier);
-  }
-  if (BV_ISSET(fields, 37)) {
     dio_put_uint8(&dout, real_packet->fixed_waste_distance);
   }
-  if (BV_ISSET(fields, 38)) {
+  if (BV_ISSET(fields, 36)) {
     dio_put_uint8(&dout, real_packet->waste_distance_factor);
   }
-  if (BV_ISSET(fields, 39)) {
+  if (BV_ISSET(fields, 37)) {
     dio_put_uint8(&dout, real_packet->extra_waste_distance);
   }
-  if (BV_ISSET(fields, 40)) {
+  if (BV_ISSET(fields, 38)) {
     dio_put_uint8(&dout, real_packet->waste_max_distance_cap);
   }
-  if (BV_ISSET(fields, 41)) {
+  if (BV_ISSET(fields, 39)) {
     dio_put_uint16(&dout, real_packet->flags);
   }
-  if (BV_ISSET(fields, 42)) {
+  if (BV_ISSET(fields, 40)) {
     dio_put_uint8(&dout, real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 43)) {
+  if (BV_ISSET(fields, 41)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 44)) {
+  if (BV_ISSET(fields, 42)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 43)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 44)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

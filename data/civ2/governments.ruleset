@@ -69,11 +69,8 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 
 ; corruption:
  
-; _level            = percentage factor applied to corruption; 
-;		      if 0, Courthouse effect changes
-; _modifier         = non-zero divisor to corruption; higher value 
-;		      means less corruption 
-;		      TODO: why have both level and modifier??
+; _level            = percentage factor applied to corruption multiplied
+;		      by 100; if 0, Courthouse effect changes
 ; _fixed_distance   = if non-zero, used instead of actual calculation of 
 ;		      distance from Palace; also used for distances in 
 ;		      unit and city bribe cost calculations
@@ -85,8 +82,7 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 
 ; waste:
 
-; _level             = percentage factor applied to waste;
-; _modifier          = same as corruption modifier 
+; _level             = percentage factor applied to waste multipled by 100
 ; _fixed_distance    = used if not 0 instead of actual calculation of 
 ;		              distance from Palace;  		     
 ; _distance_factor   = multiply distance by this factor for waste
@@ -133,15 +129,13 @@ unit_free_shield  = "City_Size"
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level            = 30
-corruption_modifier         = 8
+corruption_level            = 375
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 5 
 corruption_max_distance_cap = 32
 
-waste_level                = 30
-waste_modifier             = 8
+waste_level                = 375
 waste_fixed_distance       = 0
 waste_distance_factor      = 1 
 waste_extra_distance       = 5 
@@ -209,15 +203,13 @@ unit_free_shield  = "City_Size"
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level            = 30
-corruption_modifier         = 10
+corruption_level            = 300
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 5 
 corruption_max_distance_cap = 32
 
-waste_level                = 30
-waste_modifier             = 10
+waste_level                = 300
 waste_fixed_distance       = 0
 waste_distance_factor      = 1 
 waste_extra_distance       = 5 
@@ -286,15 +278,13 @@ unit_free_shield  = 3
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level            = 30
-corruption_modifier         = 12
+corruption_level            = 250
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 0 
 corruption_max_distance_cap = 32
 
-waste_level                = 30
-waste_modifier             = 24
+waste_level                = 250
 waste_fixed_distance       = 0
 waste_distance_factor      = 1 
 waste_extra_distance       = 0 
@@ -362,15 +352,13 @@ unit_free_shield  = 3
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level            = 30
-corruption_modifier         = 14
+corruption_level            = 215
 corruption_fixed_distance   = 1
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 1 
 corruption_max_distance_cap = 32
 
-waste_level                = 30
-waste_modifier             = 84
+waste_level                = 35
 waste_fixed_distance       = 1
 waste_distance_factor      = 1 
 waste_extra_distance       = 1 
@@ -447,14 +435,12 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level            = 1
-corruption_modifier         = 100
 corruption_fixed_distance   = 1
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 0 
 corruption_max_distance_cap = 32
 
 waste_level                = 1
-waste_modifier             = 100
 waste_fixed_distance       = 1
 waste_distance_factor      = 1 
 waste_extra_distance       = 0 
@@ -532,15 +518,13 @@ unit_free_shield  = 0
 unit_free_food    = 0
 unit_free_gold    = 0
 
-corruption_level            = 30
-corruption_modifier         = 16
+corruption_level            = 187
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
 corruption_extra_distance   = 0 
 corruption_max_distance_cap = 32
 
-waste_level                = 30
-waste_modifier             = 46
+waste_level                = 65
 waste_fixed_distance       = 0
 waste_distance_factor      = 1 
 waste_extra_distance       = 0 
@@ -621,14 +605,12 @@ unit_free_food    = 0
 unit_free_gold    = 0
 
 corruption_level            = 0
-corruption_modifier         = 1
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 0 
 corruption_extra_distance   = 0 
 corruption_max_distance_cap = 32
 
 waste_level                = 0
-waste_modifier             = 1
 waste_fixed_distance       = 0
 waste_distance_factor      = 0 
 waste_extra_distance       = 0 

@@ -2515,14 +2515,12 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->celeb_food_bonus    = p->celeb_food_bonus;
 
   gov->corruption_level    = p->corruption_level;
-  gov->corruption_modifier = p->corruption_modifier;
   gov->fixed_corruption_distance = p->fixed_corruption_distance;
   gov->corruption_distance_factor = p->corruption_distance_factor;
   gov->extra_corruption_distance = p->extra_corruption_distance;
   gov->corruption_max_distance_cap = p->corruption_max_distance_cap;
   
   gov->waste_level           = p->waste_level;
-  gov->waste_modifier        = p->waste_modifier;
   gov->fixed_waste_distance  = p->fixed_waste_distance;
   gov->waste_distance_factor = p->waste_distance_factor;
   gov->extra_waste_distance  = p->extra_waste_distance;
