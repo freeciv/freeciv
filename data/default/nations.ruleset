@@ -105,6 +105,8 @@ options="1.9"
 *include "nation/boer.ruleset"
 *include "nation/silesian.ruleset"
 *include "nation/singaporean.ruleset"
+*include "nation/chilean.ruleset"
+*include "nation/catalan.ruleset"
 
 ;*include "nation/olympic.ruleset"
 ;*include "nation/krevi.ruleset"

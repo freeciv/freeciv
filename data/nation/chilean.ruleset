@@ -1,0 +1,33 @@
+[nation_chilean]
+
+name=_("Chilean")
+plural=_("?plural:Chileans")
+leader="O'Higgins", "Pinochet", "Portales", "Allende",
+       "Lautaro", "Carrera"
+leader_sex="Male", "Male", "Male", "Male",
+           "Male", "Male"
+flag="f.chile"
+flag_alt = "f.england"
+city_style = "European"
+ruler_titles = { "government",      "male_title",          "female_title"
+                 "Democracy",       _("President"),        _("Prime Minister")
+                 "Despotism",       _("Capitan General"),  _("Primera Dama")
+                 "Fundamentalism",  _("Ayatollah"),        _("Protector")
+               }
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Monotheism",
+             "Navigation", "Democracy", "Railroad"
+wonder="King Richard's Crusade"
+government="Democracy"
+
+cities =
+  "Santiago", "Valparaiso", "La Serena", "Concepcion", "Coquimbo", "Valdivia",
+  "Temuco", "Pto. Montt", "Punta Arenas", "Copiapo", "Antofagasta", "Iquique",
+  "Arica", "Manquehua", "Talca", "Chillan", "Pto. Varas", "Frutillar",
+  "Putre", "Vina del Mar", "Calera", "Calama", "Caldera", "Los Andes",
+  "San Felipe", "Villarrica", "Mulchen", "Rancagua", "La Ligua", "Pto Natales",
+  "Coyhaique", "Talcahuano", "Base At. Tte Marsch"

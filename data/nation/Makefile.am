@@ -16,6 +16,8 @@ pkgdata_DATA =			\
 	brazilian.ruleset	\
 	canadian.ruleset	\
 	carthaginian.ruleset	\
+	catalan.ruleset		\
+	chilean.ruleset		\
 	chinese.ruleset		\
 	cornish.ruleset		\
 	czech.ruleset		\

@@ -106,4 +106,6 @@ tiles = { "row", "column", "tag"
   5,  3, "f.latvia"
   5,  4, "f.silesia"
   5,  5, "f.singapore"
+  5,  6, "f.chile"
+  5,  7, "f.catalan"
 }
