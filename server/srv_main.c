@@ -1518,10 +1518,6 @@ void srv_main(void)
   /* Run server loop */
   while (TRUE) {
     srv_loop();
-    if (game.timeout == -1 || srvarg.exit_on_end) {
-      /* For autogames or if the -e option is specified, exit the server. */
-      server_quit();
-    }
 
     send_game_state(&game.game_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
@@ -1535,6 +1531,11 @@ void srv_main(void)
     /* Remain in GAME_OVER_STATE until players log out */
     while (conn_list_size(&game.est_connections) > 0) {
       (void) sniff_packets();
+    }
+
+    if (game.timeout == -1 || srvarg.exit_on_end) {
+      /* For autogames or if the -e option is specified, exit the server. */
+      server_quit();
     }
 
     /* Reset server */
