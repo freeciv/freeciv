@@ -57,6 +57,7 @@ extern char metaserver_addr[256];
 extern int metaserver_port;
 
 enum cmdlevel_id default_access_level = ALLOW_INFO;
+enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
 static void cut_player_connection(struct player *caller, char *playername);
 static void quit_game(struct player *caller);
@@ -923,6 +924,7 @@ static struct command commands[] = {
    N_("cmdlevel\n"
       "cmdlevel <level>\n"
       "cmdlevel <level> new\n"
+      "cmdlevel <level> first\n"
       "cmdlevel <level> <player-name>"),
    N_("Query or set command-level access."),
    N_("The command-level controls which server commands are available to "
@@ -934,10 +936,13 @@ static struct command commands[] = {
       "With no arguments, the current command-levels are reported.\n"
       "With a single argument, the level is set for all existing "
       "connections, and the default is set for future connections.\n"
-      "If 'new' is specified, the default level is set for future connections.\n"
+      "If 'new' is specified, the level is set for newly connecting players.\n"
+      "If 'first' is specified, the level is set for the first player connected.\n"
       "If a player name is specified, the level is set for that player only.\n"
       "Command-levels do not persist if a player disconnects, "
-      "because some untrusted person could reconnect as that player.")
+      "because some untrusted person could reconnect as that player.\n"
+      "If the first player to connect disconnects, then the next player "
+      "to connect receives 'first' status.")
   },
   {"remove",	ALLOW_CTRL,
    /* translate <> only */
@@ -1602,8 +1607,11 @@ static void write_init_script(char *script_filename)
 
     /* first, some state info from commands (we can't save everything) */
 
-    fprintf(script_file, "cmdlevel %s\n",
+    fprintf(script_file, "cmdlevel %s new\n",
 	cmdlevel_name(default_access_level));
+
+    fprintf(script_file, "cmdlevel %s first\n",
+	cmdlevel_name(first_access_level));
 
     fprintf(script_file, "%s\n",
 	(game.skill_level <= 3) ?	"easy" :
@@ -1791,8 +1799,11 @@ static void cmdlevel_command(struct player *caller, char *str)
       }
     }
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-	      _("Default command level for new connections: %s"),
+	      _("Command level for new connections: %s"),
 	      cmdlevel_name(default_access_level));
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
+	      _("Command level for first connections: %s"),
+	      cmdlevel_name(first_access_level));
     return;
   }
 
@@ -1845,10 +1856,16 @@ static void cmdlevel_command(struct player *caller, char *str)
     }
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      _("Default command access level set to '%s'."),
+	      _("default command access level set to '%s'"),
 	      cmdlevel_name(level));
     notify_player(0, _("Game: All players now have access level '%s'."),
 		  cmdlevel_name(level));
+    if (level > first_access_level) {
+      first_access_level = level;
+      cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+		_("first connection command access level also raised to '%s'"),
+		cmdlevel_name(level));
+    }
   }
   else if (strcmp(arg_name,"new") == 0) {
     default_access_level = level;
@@ -1857,6 +1874,26 @@ static void cmdlevel_command(struct player *caller, char *str)
 	      cmdlevel_name(level));
     notify_player(0, _("Game: New connections will have access level '%s'."),
 		  cmdlevel_name(level));
+    if (level > first_access_level) {
+      first_access_level = level;
+      cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+		_("first connection command access level also raised to '%s'"),
+		cmdlevel_name(level));
+    }
+  }
+  else if (strcmp(arg_name,"first") == 0) {
+    first_access_level = level;
+    cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+	      _("first connection command access level set to '%s'"),
+	      cmdlevel_name(level));
+    notify_player(0, _("Game: First connections will have access level '%s'."),
+		  cmdlevel_name(level));
+    if (level < default_access_level) {
+      default_access_level = level;
+      cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+		_("default command access level also lowered to '%s'"),
+		cmdlevel_name(level));
+    }
   }
   else if ((pplayer=find_player_by_name_prefix(arg_name,&match_result))) {
     if (!pplayer->conn) {
@@ -2827,13 +2864,13 @@ static void show_players(struct player *caller)
       else if (game.players[i].ai.control) {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (AI, %s) is being observed from %s"),
+	       _("%s (AI, difficulty level %s) is being observed from %s"),
 		game.players[i].name,
 		name_of_skill_level(game.players[i].ai.skill_level),
 		game.players[i].addr);
 	} else {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (AI, %s) is not being observed"),
+		_("%s (AI, difficulty level %s) is not being observed"),
 		game.players[i].name,
 		name_of_skill_level(game.players[i].ai.skill_level));
 	}
@@ -2841,9 +2878,10 @@ static void show_players(struct player *caller)
       else {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (human, %s) is connected from %s"),
+		_("%s (human %s, command level %s) is connected from %s"),
 		game.players[i].name,
-                game.players[i].username,
+		game.players[i].username,
+		cmdlevel_name(access_level(&game.players[i])),
 		game.players[i].addr);
 	} else {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,

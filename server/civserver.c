@@ -1530,6 +1530,7 @@ void accept_new_player(char *name, struct connection *pconn)
   sz_strlcpy(pplayer->username, name);
   pplayer->conn = pconn;
   pplayer->is_connected = (pconn!=NULL);
+
   if (pconn) {
     sz_strlcpy(pplayer->addr, pconn->addr); 
     join_game_accept(pplayer, 0);

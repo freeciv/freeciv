@@ -305,7 +305,7 @@ int server_accept_connection(int sockfd)
       connections[i].buffer.ndata=0;
       connections[i].first_packet=1;
       connections[i].byte_swap=0;
-      connections[i].access_level=default_access_level;
+      connections[i].access_level=(i?default_access_level:first_access_level);
 
       if (from)
 	sz_strlcpy(connections[i].addr, from->h_name);

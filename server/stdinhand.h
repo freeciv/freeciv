@@ -26,6 +26,7 @@ extern void read_init_script(char *script_filename);
 
 void toggle_ai_player_direct(struct player *caller, struct player *subject);
 
-extern enum cmdlevel_id default_access_level;
+extern enum cmdlevel_id default_access_level;  /* for sernet.c in */
+extern enum cmdlevel_id   first_access_level;  /* initing a new connection */
 
 #endif /* FC__STDINHAND_H */
