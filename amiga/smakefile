@@ -628,8 +628,7 @@ install: dirs civserver civclient locale
   copy Icons.info ${DESTDIR}
   copy locale/\#? ${DESTDIR}/locale
   copy ${FREECIV_DIR}data/\#?.(ilbm|txt|sav|serv) ${DESTDIR}/data
-  copy ${FREECIV_DIR}data/trident.tilespec ${DESTDIR}/data
-  copy ${FREECIV_DIR}data/trident_shields.tilespec ${DESTDIR}/data
+  copy ${FREECIV_DIR}data/\#?.tilespec ${DESTDIR}/data
   copy ${FREECIV_DIR}data/civ1/\#?.ruleset ${DESTDIR}/data/civ1
   copy ${FREECIV_DIR}data/civ2/\#?.ruleset ${DESTDIR}/data/civ2
   copy ${FREECIV_DIR}data/classic/\#?.ruleset ${DESTDIR}/data/classic
@@ -638,6 +637,7 @@ install: dirs civserver civclient locale
   copy ${FREECIV_DIR}data/misc/\#?.(ilbm|spec) ${DESTDIR}/data/misc
   copy ${FREECIV_DIR}data/scenario/\#?.sav ${DESTDIR}/data/scenario
   copy ${FREECIV_DIR}data/trident/\#?.(ilbm|ruleset|spec) ${DESTDIR}/data/trident
+  copy ${FREECIV_DIR}data/hires/\#?.(ilbm|ruleset|spec) ${DESTDIR}/data/hires
   copy ${FREECIV_DIR}README ${DESTDIR}/README.org
   copy ${FREECIV_DIR}*(README.~(bak\#?)|BUGS|TODO|HOWTO\#?|NEWS|AUTHORS|PEOPLE|HOWTOPLAY|COPYING|INSTALL) ${DESTDIR}
 
