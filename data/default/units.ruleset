@@ -58,7 +58,7 @@ firepower_factor=1              ; convenient for Civ1
 ;
 
 [unit_settlers]
-name          = "Settlers"
+name          = _("Settlers")
 move_type     = "Land"
 tech_req      = "None"
 obsolete_by   = "Engineers"
@@ -96,7 +96,7 @@ Settlers and Engineers may work together to decrease the amount of\
 ")
 
 [unit_engineers]
-name          = "Engineers"
+name          = _("Engineers")
 move_type     = "Land"
 tech_req      = "Explosives"
 obsolete_by   = "None"
@@ -132,7 +132,7 @@ TIP 2:  If you manage to build Leonardo's Workshop, research\
 ")
 
 [unit_warriors]
-name          = "Warriors"
+name          = _("Warriors")
 move_type     = "Land"
 tech_req      = "None"
 obsolete_by   = "Pikemen"
@@ -159,7 +159,7 @@ This unit may be built from the start of the game.  It is the\
 ")
 
 [unit_phalanx]
-name          = "Phalanx"
+name          = _("Phalanx")
 move_type     = "Land"
 tech_req      = "Bronze Working"
 obsolete_by   = "Pikemen"
@@ -182,7 +182,7 @@ flags         = ""
 roles         = "DefendGood", "FirstBuild"
 
 [unit_archers]
-name          = "Archers"
+name          = _("Archers")
 move_type     = "Land"
 tech_req      = "Warrior Code"
 obsolete_by   = "Musketeers"
@@ -205,7 +205,7 @@ flags         = ""
 roles         = "DefendOk"
 
 [unit_legion]
-name          = "Legion"
+name          = _("Legion")
 move_type     = "Land"
 tech_req      = "Iron Working"
 obsolete_by   = "Musketeers"
@@ -228,7 +228,7 @@ flags         = ""
 roles         = "DefendOk", "Hut"
 
 [unit_pikemen]
-name          = "Pikemen"
+name          = _("Pikemen")
 move_type     = "Land"
 tech_req      = "Feudalism"
 obsolete_by   = "Musketeers"
@@ -251,7 +251,7 @@ flags         = "Pikemen"
 roles         = "DefendGood", "FirstBuild"
 
 [unit_musketeers]
-name          = "Musketeers"
+name          = _("Musketeers")
 move_type     = "Land"
 tech_req      = "Gunpowder"
 obsolete_by   = "Riflemen"
@@ -274,7 +274,7 @@ flags         = ""
 roles         = "DefendGood", "FirstBuild", "HutTech"
 
 [unit_fanatics]
-name          = "Fanatics"
+name          = _("Fanatics")
 move_type     = "Land"
 tech_req      = "Never"
 obsolete_by   = "None"
@@ -297,7 +297,7 @@ flags         = ""
 roles         = "DefendGood"
 
 [unit_partisan]
-name          = "Partisan"
+name          = _("Partisan")
 move_type     = "Land"
 tech_req      = "Guerilla Warfare"
 obsolete_by   = "None"
@@ -332,7 +332,7 @@ A number of Partisans are granted free when an enemy conquers your\
 ")
 
 [unit_alpine_troops]
-name          = "Alpine Troops"
+name          = _("Alpine Troops")
 move_type     = "Land"
 tech_req      = "Tactics"
 obsolete_by   = "None"
@@ -355,7 +355,7 @@ flags         = "IgTer"
 roles         = "DefendGood"
 
 [unit_riflemen]
-name          = "Riflemen"
+name          = _("Riflemen")
 move_type     = "Land"
 tech_req      = "Conscription"
 obsolete_by   = "None"
@@ -378,7 +378,7 @@ flags         = ""
 roles         = "DefendGood", "FirstBuild"
 
 [unit_marines]
-name          = "Marines"
+name          = _("Marines")
 move_type     = "Land"
 tech_req      = "Amphibious Warfare"
 obsolete_by   = "None"
@@ -401,7 +401,7 @@ flags         = "Marines"
 roles         = "DefendOk"
 
 [unit_paratroopers]
-name          = "Paratroopers"
+name          = _("Paratroopers")
 move_type     = "Land"
 tech_req      = "Combined Arms"
 obsolete_by   = "None"
@@ -426,7 +426,7 @@ roles         = "DefendOk"
 paratroopers_range = 10
 
 [unit_mech_inf]
-name          = "Mech. Inf."
+name          = _("Mech. Inf.")
 move_type     = "Land"
 tech_req      = "Labor Union"
 obsolete_by   = "None"
@@ -454,7 +454,7 @@ Mechanized Infantry; this unit has the strongest defence strength\
 ")
 
 [unit_horsemen]
-name          = "Horsemen"
+name          = _("Horsemen")
 move_type     = "Land"
 tech_req      = "Horseback Riding"
 obsolete_by   = "Knights"
@@ -477,7 +477,7 @@ flags         = "Horse"
 roles         = "AttackFast", "Hut"
 
 [unit_chariot]
-name          = "Chariot"
+name          = _("Chariot")
 move_type     = "Land"
 tech_req      = "The Wheel"
 obsolete_by   = "Knights"
@@ -500,7 +500,7 @@ flags         = "Horse"
 roles         = "AttackFast", "Hut"
 
 [unit_elephants]
-name          = "Elephants"
+name          = _("Elephants")
 move_type     = "Land"
 tech_req      = "Never"
 obsolete_by   = "Crusaders"
@@ -523,7 +523,7 @@ flags         = ""
 roles         = "AttackFast"
 
 [unit_crusaders]
-name          = "Crusaders"
+name          = _("Crusaders")
 move_type     = "Land"
 tech_req      = "Never"
 obsolete_by   = "Dragoons"
@@ -546,7 +546,7 @@ flags         = "Horse"
 roles         = "AttackFast"
 
 [unit_knights]
-name          = "Knights"
+name          = _("Knights")
 move_type     = "Land"
 tech_req      = "Chivalry"
 obsolete_by   = "Dragoons"
@@ -569,7 +569,7 @@ flags         = "Horse"
 roles         = "AttackFast", "HutTech"
 
 [unit_dragoons]
-name          = "Dragoons"
+name          = _("Dragoons")
 move_type     = "Land"
 tech_req      = "Leadership"
 obsolete_by   = "Cavalry"
@@ -592,7 +592,7 @@ flags         = "Horse"
 roles         = "AttackFast"
 
 [unit_cavalry]
-name          = "Cavalry"
+name          = _("Cavalry")
 move_type     = "Land"
 tech_req      = "Tactics"
 obsolete_by   = "Armor"
@@ -615,7 +615,7 @@ flags         = ""
 roles         = "AttackFast"
 
 [unit_armor]
-name          = "Armor"
+name          = _("Armor")
 move_type     = "Land"
 tech_req      = "Mobile Warfare"
 obsolete_by   = "None"
@@ -638,7 +638,7 @@ flags         = ""
 roles         = "AttackFast"
 
 [unit_catapult]
-name          = "Catapult"
+name          = _("Catapult")
 move_type     = "Land"
 tech_req      = "Mathematics"
 obsolete_by   = "Cannon"
@@ -661,7 +661,7 @@ flags         = ""
 roles         = "AttackStrong"
 
 [unit_cannon]
-name          = "Cannon"
+name          = _("Cannon")
 move_type     = "Land"
 tech_req      = "Metallurgy"
 obsolete_by   = "Artillery"
@@ -684,7 +684,7 @@ flags         = ""
 roles         = "AttackStrong"
 
 [unit_artillery]
-name          = "Artillery"
+name          = _("Artillery")
 move_type     = "Land"
 tech_req      = "Machine Tools"
 obsolete_by   = "Howitzer"
@@ -707,7 +707,7 @@ flags         = ""
 roles         = "AttackStrong"
 
 [unit_howitzer]
-name          = "Howitzer"
+name          = _("Howitzer")
 move_type     = "Land"
 tech_req      = "Robotics"
 obsolete_by   = "None"
@@ -730,7 +730,7 @@ flags         = "IgWall"
 roles         = "AttackStrong"
 
 [unit_fighter]
-name          = "Fighter"
+name          = _("Fighter")
 move_type     = "Air"
 tech_req      = "Flight"
 obsolete_by   = "Stealth Fighter"
@@ -753,7 +753,7 @@ flags         = "FieldUnit", "Fighter"
 roles         = ""
 
 [unit_bomber]
-name          = "Bomber"
+name          = _("Bomber")
 move_type     = "Air"
 tech_req      = "Advanced Flight"
 obsolete_by   = "Stealth Bomber"
@@ -776,7 +776,7 @@ flags         = "FieldUnit", "OneAttack"
 roles         = ""
 
 [unit_helicopter]
-name          = "Helicopter"
+name          = _("Helicopter")
 move_type     = "Heli"
 tech_req      = "Combined Arms"
 obsolete_by   = "None"
@@ -805,7 +805,7 @@ The Helicopter is a very powerful unit, as it can both fly and\
 ")
 
 [unit_stealth_fighter]
-name          = "Stealth Fighter"
+name          = _("Stealth Fighter")
 move_type     = "Air"
 tech_req      = "Stealth"
 obsolete_by   = "None"
@@ -832,7 +832,7 @@ An improved Fighter, with improved attack and a higher movement\
 ")
 
 [unit_stealth_bomber]
-name          = "Stealth Bomber"
+name          = _("Stealth Bomber")
 move_type     = "Air"
 tech_req      = "Stealth"
 obsolete_by   = "None"
@@ -859,7 +859,7 @@ An improved Bomber, with improved attack and a higher movement\
 ")
 
 [unit_trireme]
-name          = "Trireme"
+name          = _("Trireme")
 move_type     = "Sea"
 tech_req      = "Map Making"
 obsolete_by   = "Caravel"
@@ -882,7 +882,7 @@ flags         = "FieldUnit", "Trireme"
 roles         = "Ferryboat"
 
 [unit_caravel]
-name          = "Caravel"
+name          = _("Caravel")
 move_type     = "Sea"
 tech_req      = "Navigation"
 obsolete_by   = "Galleon"
@@ -905,7 +905,7 @@ flags         = ""
 roles         = "Ferryboat"
 
 [unit_galleon]
-name          = "Galleon"
+name          = _("Galleon")
 move_type     = "Sea"
 tech_req      = "Magnetism"
 obsolete_by   = "Transport"
@@ -928,7 +928,7 @@ flags         = ""
 roles         = "Ferryboat"
 
 [unit_frigate]
-name          = "Frigate"
+name          = _("Frigate")
 move_type     = "Sea"
 tech_req      = "Magnetism"
 obsolete_by   = "Ironclad"
@@ -951,7 +951,7 @@ flags         = "FieldUnit"
 roles         = ""
 
 [unit_ironclad]
-name          = "Ironclad"
+name          = _("Ironclad")
 move_type     = "Sea"
 tech_req      = "Steam Engine"
 obsolete_by   = "Destroyer"
@@ -974,7 +974,7 @@ flags         = "FieldUnit"
 roles         = ""
 
 [unit_destroyer]
-name          = "Destroyer"
+name          = _("Destroyer")
 move_type     = "Sea"
 tech_req      = "Electricity"
 obsolete_by   = "None"
@@ -1001,7 +1001,7 @@ TIP:  A very fast unit, which is very useful for hunting down enemy\
 ")
 
 [unit_cruiser]
-name          = "Cruiser"
+name          = _("Cruiser")
 move_type     = "Sea"
 tech_req      = "Steel"
 obsolete_by   = "AEGIS Cruiser"
@@ -1024,7 +1024,7 @@ flags         = "FieldUnit"
 roles         = ""
 
 [unit_aegis_cruiser]
-name          = "AEGIS Cruiser"
+name          = _("AEGIS Cruiser")
 move_type     = "Sea"
 tech_req      = "Rocketry"
 obsolete_by   = "None"
@@ -1047,7 +1047,7 @@ flags         = "FieldUnit", "AEGIS"
 roles         = ""
 
 [unit_battleship]
-name          = "Battleship"
+name          = _("Battleship")
 move_type     = "Sea"
 tech_req      = "Automobile"
 obsolete_by   = "None"
@@ -1070,7 +1070,7 @@ flags         = "FieldUnit"
 roles         = ""
 
 [unit_submarine]
-name          = "Submarine"
+name          = _("Submarine")
 move_type     = "Sea"
 tech_req      = "Combustion"
 obsolete_by   = "None"
@@ -1100,7 +1100,7 @@ Submarines have a very high strategic value, but have a weak\
 ")
 
 [unit_carrier]
-name          = "Carrier"
+name          = _("Carrier")
 move_type     = "Sea"
 tech_req      = "Advanced Flight"
 obsolete_by   = "None"
@@ -1128,7 +1128,7 @@ TIP:  Guard Carriers with a handful of fast-moving ships and a\
 ")
 
 [unit_transport]
-name          = "Transport"
+name          = _("Transport")
 move_type     = "Sea"
 tech_req      = "Industrialization"
 obsolete_by   = "None"
@@ -1151,7 +1151,7 @@ flags         = ""
 roles         = "Ferryboat"
 
 [unit_cruise_missile]
-name          = "Cruise Missile"
+name          = _("Cruise Missile")
 move_type     = "Air"
 tech_req      = "Rocketry"
 obsolete_by   = "None"
@@ -1178,7 +1178,7 @@ TIP:  A handful of these can successfully keep the waters around\
 ")
 
 [unit_nuclear]
-name          = "Nuclear"
+name          = _("Nuclear")
 move_type     = "Air"
 tech_req      = "Rocketry"
 obsolete_by   = "None"
@@ -1220,7 +1220,7 @@ TIP 2:  You may be involved in a situation where you've invaded an\
 ")
 
 [unit_diplomat]
-name          = "Diplomat"
+name          = _("Diplomat")
 move_type     = "Land"
 tech_req      = "Writing"
 obsolete_by   = "Spy"
@@ -1261,7 +1261,7 @@ helptext      = _("\
 ")
 
 [unit_spy]
-name          = "Spy"
+name          = _("Spy")
 move_type     = "Land"
 tech_req      = "Espionage"
 obsolete_by   = "None"
@@ -1303,7 +1303,7 @@ A Spy can also be of aid on the battlefield - sabotaging enemy units\
 ")
 
 [unit_caravan]
-name          = "Caravan"
+name          = _("Caravan")
 move_type     = "Land"
 tech_req      = "Trade"
 obsolete_by   = "Freight"
@@ -1334,7 +1334,7 @@ TIP:  A well-known strategy is to build wonders in one turn, by\
 ")
 
 [unit_freight]
-name          = "Freight"
+name          = _("Freight")
 move_type     = "Land"
 tech_req      = "The Corporation"
 obsolete_by   = "None"
@@ -1360,7 +1360,7 @@ The Freight unit replaces the Caravan, and moves at twice the speed.\
 ")
 
 [unit_explorer]
-name          = "Explorer"
+name          = _("Explorer")
 move_type     = "Land"
 tech_req      = "Seafaring"
 obsolete_by   = "Partisan"
