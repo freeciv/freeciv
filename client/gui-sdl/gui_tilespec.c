@@ -805,6 +805,8 @@ void unload_unused_graphics(void)
   unload_sprite("citizen.angry_1");
   unload_sprite("s.right_arrow");
   unload_sprite("t.coast_color");
+  unload_sprite("upkeep.gold");
+  unload_sprite("upkeep.gold2");
   unload_sprite("upkeep.food");
   unload_sprite("upkeep.food2");
   unload_sprite("upkeep.unhappy");

@@ -238,12 +238,12 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
     set_wstate(pIcon_Widget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
   
-    if (pUnits_Info_Window->private_data.adv->pEndActiveWidgetList) {
-      del_group(pUnits_Info_Window->private_data.adv->pBeginActiveWidgetList,
-	    	pUnits_Info_Window->private_data.adv->pEndActiveWidgetList);
+    if (pUnits_Info_Window->private_data.adv_dlg->pEndActiveWidgetList) {
+      del_group(pUnits_Info_Window->private_data.adv_dlg->pBeginActiveWidgetList,
+	    	pUnits_Info_Window->private_data.adv_dlg->pEndActiveWidgetList);
     }
-    if (pUnits_Info_Window->private_data.adv->pScroll) {
-      hide_scrollbar(pUnits_Info_Window->private_data.adv->pScroll);
+    if (pUnits_Info_Window->private_data.adv_dlg->pScroll) {
+      hide_scrollbar(pUnits_Info_Window->private_data.adv_dlg->pScroll);
     }
     
     /* clear area under old map window */
@@ -1427,7 +1427,7 @@ void Init_MapView(void)
   add_to_gui_list(ID_UNITS_WINDOW, pBuf);
   pUnits_Info_Window = pBuf;
   pUnitInfo_Dlg->pEndWidgetList = pBuf;
-  pBuf->private_data.adv = pUnitInfo_Dlg;
+  pBuf->private_data.adv_dlg = pUnitInfo_Dlg;
   /* economy button */
   pBuf = create_icon2(NULL, Main.gui,
 	WF_FREE_GFX | WF_FREE_THEME |
@@ -1531,7 +1531,7 @@ void Init_MapView(void)
 
   pBuf->action = end_turn_callback;
   pBuf->key = SDLK_RETURN;
-  pBuf->mod = KMOD_LSHIFT;
+  pBuf->mod = KMOD_LCTRL;
   
   pBuf->size.x = DEFAULT_UNITS_W - BLOCK_W;
   pBuf->size.y = pBuf->dst->h - MINI_MAP_H + FRAME_WH + 2;
@@ -1658,7 +1658,7 @@ void reset_main_widget_dest_buffer(void)
     
   while (pBuf) {
     pBuf->dst = Main.gui;
-    if (pBuf == pUnits_Info_Window->private_data.adv->pBeginWidgetList) {
+    if (pBuf == pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList) {
       break;
     }
     pBuf = pBuf->prev;
@@ -1712,8 +1712,8 @@ void reset_main_widget_dest_buffer(void)
 void disable_main_widgets(void)
 {
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    struct GUI *pEnd = pUnits_Info_Window->private_data.adv->pEndWidgetList;
-    struct GUI *pBuf = pUnits_Info_Window->private_data.adv->pBeginWidgetList;
+    struct GUI *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
+    struct GUI *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
         
     /* =================== Units Window ======================= */
     set_group_state(pBuf, pEnd, FC_WS_DISABLED);    
@@ -1761,8 +1761,8 @@ void disable_main_widgets(void)
 void enable_main_widgets(void)
 {
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    struct GUI *pEnd = pUnits_Info_Window->private_data.adv->pEndWidgetList;
-    struct GUI *pBuf = pUnits_Info_Window->private_data.adv->pBeginWidgetList;
+    struct GUI *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
+    struct GUI *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
         
     /* =================== Units Window ======================= */
     set_group_state(pBuf, pEnd, FC_WS_NORMAL);

@@ -692,23 +692,19 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
 static void create_present_supported_units_widget_list(struct unit_list *pList)
 {
   int i;
-  struct GUI *pBuf = NULL; /* FIXME: possibly uninitialized */
+  struct GUI *pBuf = NULL;
   struct GUI *pEnd = NULL;
   struct GUI *pWindow = pCityDlg->pEndCityWidgetList;
-  struct genlist_iterator myiter;
-  struct unit *pUnit;
   struct city *pHome_City;
   struct unit_type *pUType;
   SDL_Surface *pSurf;
   SDL_String16 *pStr;
   char cBuf[256];
-    
-  genlist_iterator_init(&myiter, &(pList->list), 0);
-
+  
   i = 0;
 
-  while (ITERATOR_PTR(myiter)) {
-    pUnit = (struct unit *) ITERATOR_PTR(myiter);
+  unit_list_iterate(*pList, pUnit) {
+        
     pUType = get_unit_type(pUnit->type);
     pHome_City = find_city_by_id(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
@@ -718,6 +714,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
                 unit_activity_text(pUnit),
 		pUnit->hp, pUType->hp,
 		pHome_City ? pHome_City->name : _("None"));
+    
     if (pCityDlg->state == SUPPORTED_UNITS_PAGE) {
       char buffer2[64];
       int pcity_near_dist;
@@ -754,8 +751,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     
     pBuf->action = units_orders_city_dlg_callback;
 
-    ITERATOR_NEXT(myiter);
-  }
+  } unit_list_iterate_end;
   
   pCityDlg->pPanel = MALLOC(sizeof(struct ADVANCED_DLG));
   pCityDlg->pPanel->pEndWidgetList = pEnd;

@@ -174,6 +174,13 @@ static int toggle_draw_neutral_status_callback(struct GUI *pWidget)
 }
 
 
+static bool have_diplomat_info_about(struct player *pPlayer)
+{
+  return (pPlayer == game.player_ptr ||
+  	(pPlayer != game.player_ptr
+	  && player_has_embassy(game.player_ptr, pPlayer)));
+}
+
 /**************************************************************************
   Update all information in the player list dialog.
 **************************************************************************/
@@ -243,42 +250,46 @@ void update_players_dialog(void)
         y0 = pPlayer0->size.y + pPlayer0->size.h / 2;
         do{
           pPlayer1 = pPlayer1->prev;
-          x1 = pPlayer1->size.x + pPlayer1->size.w / 2;
-          y1 = pPlayer1->size.y + pPlayer1->size.h / 2;
-          switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
-	    case DS_NEUTRAL:
-	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	        putline(pPlayer1->dst, x0, y0, x1, y1, 0xFF000000);
-	      }
-	    break;
-            case DS_WAR:
-	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	        putline(pPlayer1->dst, x0, y0, x1, y1,
+	  if (have_diplomat_info_about(pPlayer) ||
+	     have_diplomat_info_about(pPlayer1->data.player)) {
+            x1 = pPlayer1->size.x + pPlayer1->size.w / 2;
+            y1 = pPlayer1->size.y + pPlayer1->size.h / 2;
+            switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
+	      case DS_NEUTRAL:
+	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
+	          putline(pPlayer1->dst, x0, y0, x1, y1, 0xFF000000);
+	        }
+	      break;
+              case DS_WAR:
+	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
+	          putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_RED, pPlayer1->dst));
-	      }
-            break;
-	    case DS_CEASEFIRE:
-	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	        putline(pPlayer1->dst, x0, y0, x1, y1,
+	        }
+              break;
+	      case DS_CEASEFIRE:
+	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
+	          putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_YELLOW, pPlayer1->dst));
-	      }
-            break;
-            case DS_PEACE:
-	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	        putline(pPlayer1->dst, x0, y0, x1, y1,
+	        }
+              break;
+              case DS_PEACE:
+	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
+	          putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_GROUND, pPlayer1->dst));
-	      }
-            break;
-	    case DS_ALLIANCE:
-	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	        putline(pPlayer1->dst, x0, y0, x1, y1,
+	        }
+              break;
+	      case DS_ALLIANCE:
+	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
+	          putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_CITY_GOLD, pPlayer1->dst));
-	      }
-            break;
-            default:
-	      /* no contact */
-            break;
+	        }
+              break;
+              default:
+	        /* no contact */
+              break;
+	    }  
 	  }
+	  
         } while(pPlayer1 != pPlayers_Dlg->pBeginWidgetList);
       }
       

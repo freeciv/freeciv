@@ -94,7 +94,7 @@ static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
 static int space_dialog_window_callback(struct GUI *pWindow)
 {
   return std_move_window_group_callback(
-  	pWindow->private_data.small->pBeginWidgetList, pWindow);
+  	pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
 }
 
 static int exit_space_dialog_callback(struct GUI *pWidget)
@@ -175,7 +175,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     w = MAX(w, pWindow->size.w);
     h = WINDOW_TILE_HIGH + 1;
     pWindow->data.player = pPlayer;
-    pWindow->private_data.small = pSpaceShp;
+    pWindow->private_data.small_dlg = pSpaceShp;
     add_to_gui_list(ID_WINDOW, pWindow);
     pSpaceShp->pEndWidgetList = pWindow;
   

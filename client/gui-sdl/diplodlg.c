@@ -68,8 +68,8 @@ void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
     pLabel = pClauses_Dlg->pEndWidgetList->prev->prev;
   }
 
-  pLabel->private_data.cbox->state = !pLabel->private_data.cbox->state;
-  if(pLabel->private_data.cbox->state) {
+  pLabel->private_data.cbox->state = !pLabel->private_data.cbox->state;  
+  if (pLabel->private_data.cbox->state) {
     pThm = pLabel->private_data.cbox->pTRUE_Theme;
   } else {
     pThm = pLabel->private_data.cbox->pFALSE_Theme;
@@ -208,7 +208,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
   bool scroll, redraw = TRUE;
   
   assert(pClauses_Dlg->pScroll->count > 0);
-  
+   
   /* find widget with clause */
   pBuf = pClauses_Dlg->pEndActiveWidgetList->next;
   do {
@@ -257,6 +257,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
     }
   }
   
+  /*
   pBuf = pBuf->prev;
   if(pBuf->private_data.cbox->state) {
     pBuf->private_data.cbox->state = FALSE;
@@ -272,7 +273,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
       sdl_dirty_rect(pBuf->size);
     }
   }
-   
+   */
   if(redraw) {
     redraw_group(pClauses_Dlg->pBeginActiveWidgetList,
     				pClauses_Dlg->pEndActiveWidgetList, TRUE);

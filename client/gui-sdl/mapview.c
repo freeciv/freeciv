@@ -852,7 +852,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       }
       
       if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
-	struct ADVANCED_DLG *pDlg = pInfo_Window->private_data.adv;
+	struct ADVANCED_DLG *pDlg = pInfo_Window->private_data.adv_dlg;
 	struct GUI *pBuf = NULL, *pEnd = NULL, *pDock;
 	struct city *pHome_City;
         struct unit_type *pUType;
@@ -975,22 +975,22 @@ void redraw_unit_info_label(struct unit *pUnit)
 			  pDlg->pEndActiveWidgetList);
 	  	  
       } else {
-	if (pInfo_Window->private_data.adv->pEndActiveWidgetList) {
-	  del_group(pInfo_Window->private_data.adv->pBeginActiveWidgetList,
-	    		pInfo_Window->private_data.adv->pEndActiveWidgetList);
+	if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
+	  del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
+	    		pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
 	}
-	if (pInfo_Window->private_data.adv->pScroll) {
-	  hide_scrollbar(pInfo_Window->private_data.adv->pScroll);
+	if (pInfo_Window->private_data.adv_dlg->pScroll) {
+	  hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
 	}
       }
     
     } else { /* pUnit */
-      if (pInfo_Window->private_data.adv->pEndActiveWidgetList) {
-	del_group(pInfo_Window->private_data.adv->pBeginActiveWidgetList,
-	    		pInfo_Window->private_data.adv->pEndActiveWidgetList);
+      if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
+	del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
+	    		pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
       }
-      if (pInfo_Window->private_data.adv->pScroll) {
-	hide_scrollbar(pInfo_Window->private_data.adv->pScroll);
+      if (pInfo_Window->private_data.adv_dlg->pScroll) {
+	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
       }
       change_ptsize16(pInfo_Window->string16, 14);
       copy_chars_to_string16(pInfo_Window->string16,
@@ -1004,8 +1004,8 @@ void redraw_unit_info_label(struct unit *pUnit)
       FREESURFACE(pBuf_Surf);
     }
 
-    redraw_group(pInfo_Window->private_data.adv->pBeginWidgetList,
-	    	pInfo_Window->private_data.adv->pEndWidgetList->prev, 0);
+    redraw_group(pInfo_Window->private_data.adv_dlg->pBeginWidgetList,
+	    	pInfo_Window->private_data.adv_dlg->pEndWidgetList->prev, 0);
     
   } else {
 #if 0    

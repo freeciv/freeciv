@@ -147,8 +147,8 @@ struct GUI {
   
   union {
     struct CHECKBOX *cbox;
-    struct SMALL_DLG *small;
-    struct ADVANCED_DLG *adv;
+    struct SMALL_DLG *small_dlg;
+    struct ADVANCED_DLG *adv_dlg;
     void *ptr;
   } private_data;
   
