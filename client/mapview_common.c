@@ -64,7 +64,7 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
     update_map_canvas(canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
@@ -217,7 +217,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
 
   The center of a tile is defined as:
   {
-    map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+    tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
     canvas_x += NORMAL_TILE_WIDTH / 2;
     canvas_y += NORMAL_TILE_HEIGHT / 2;
   }
@@ -227,7 +227,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
   parts of the code assume NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT
   to be even numbers.
 **************************************************************************/
-bool map_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
+bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
 {
   int center_map_x, center_map_y, dx, dy;
 
@@ -269,24 +269,39 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
   resulting position is unwrapped and may be unreal.
 ****************************************************************************/
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
-                                  int canvas_x, int canvas_y)
+				   int canvas_x, int canvas_y)
 {
   gui_to_map_pos(map_x, map_y,
 		 canvas_x + mapview_canvas.gui_x0,
 		 canvas_y + mapview_canvas.gui_y0);
 }
 
+/**************************************************************************
+  Finds the tile corresponding to pixel coordinates.  Returns that tile,
+  or NULL if the position is off the map.
+**************************************************************************/
+struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y)
+{
+  int map_x, map_y;
+
+  base_canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y);
+  if (normalize_map_pos(&map_x, &map_y)) {
+    return map_pos_to_tile(map_x, map_y);
+  } else {
+    return NULL;
+  }
+}
 
 /**************************************************************************
-  Finds the map coordinates corresponding to pixel coordinates.  Returns
-  TRUE if the position is real; in this case it will be normalized. Returns
-  FALSE if the tile is unreal - caller may use nearest_real_pos() if
-  required.
+  Finds the tile corresponding to pixel coordinates.  Returns that tile,
+  or the one nearest is the position is off the map.  Will never return NULL.
 **************************************************************************/
-bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
+struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y)
 {
-  base_canvas_to_map_pos(map_x, map_y, canvas_x, canvas_y);
-  return normalize_map_pos(map_x, map_y);
+  int map_x, map_y;
+
+  base_canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y);
+  return nearest_real_tile(map_x, map_y);
 }
 
 /****************************************************************************
@@ -616,16 +631,8 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 **************************************************************************/
 struct tile *get_center_tile_mapcanvas(void)
 {
-  int map_x, map_y;
-
-  /* This sets the pointers map_x and map_y */
-  if (canvas_to_map_pos(&map_x, &map_y,
-			mapview_canvas.width / 2,
-			mapview_canvas.height / 2)) {
-    return map_pos_to_tile(map_x, map_y);
-  } else {
-    return nearest_real_tile(map_x, map_y);
-  }
+  return canvas_pos_to_nearest_tile(mapview_canvas.width / 2,
+				    mapview_canvas.height / 2);
 }
 
 /**************************************************************************
@@ -652,7 +659,7 @@ bool tile_visible_mapcanvas(struct tile *ptile)
 {
   int dummy_x, dummy_y;		/* well, it needs two pointers... */
 
-  return map_to_canvas_pos(&dummy_x, &dummy_y, ptile);
+  return tile_to_canvas_pos(&dummy_x, &dummy_y, ptile);
 }
 
 /**************************************************************************
@@ -679,7 +686,7 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
 
-  if (!map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (!tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     /* The tile isn't visible at all. */
     return FALSE;
   }
@@ -728,7 +735,7 @@ static void put_path_length(void)
 			   "Report this bug to bugs@freeciv.freeciv.org."));
     }
 
-    if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
       if (sprites.path.turns[units]) {
 	canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
 			       sprites.path.turns[units]);
@@ -956,7 +963,7 @@ void toggle_city_color(struct city *pcity)
 
   pcity->client.color = (pcity->client.color + 1) % NUM_CITY_COLORS;
 
-  map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
+  tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		    width, height);
@@ -975,7 +982,7 @@ void toggle_unit_color(struct unit *punit)
 
   punit->client.color = (punit->client.color + 1) % NUM_CITY_COLORS;
 
-  map_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
+  tile_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		    width, height);
@@ -1168,9 +1175,9 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   struct Sprite *mysprite = sprites.explode.nuke;
   int width, height;
 
-  /* We can't count on the return value of map_to_canvas_pos since the
+  /* We can't count on the return value of tile_to_canvas_pos since the
    * sprite may span multiple tiles. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
   get_sprite_dimensions(mysprite, &width, &height);
 
   canvas_x += (NORMAL_TILE_WIDTH - width) / 2;
@@ -1280,7 +1287,7 @@ static void put_tile(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
 	    TILE_XY(ptile), canvas_x, canvas_y);
     put_one_tile(mapview_canvas.store, ptile,
@@ -1423,7 +1430,7 @@ static void put_tile_iso(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
 	    TILE_XY(ptile), canvas_x, canvas_y);
 
@@ -1534,7 +1541,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       if (pcity
 	  && city_colors[pcity->client.color] != COLOR_STD_LAST
 	  && map_to_city_map(&city_x, &city_y, pcity, ptile)
-	  && map_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
+	  && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
 
 	put_city_worker(mapview_canvas.store,
@@ -1546,7 +1553,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	}
       } else if (punit
 		 && city_colors[punit->client.color] != COLOR_STD_LAST
-		 && map_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
+		 && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	/* Draw citymap overlay for settlers. */
 	put_city_worker(mapview_canvas.store,
 			city_colors[punit->client.color], C_TILE_EMPTY,
@@ -1603,7 +1610,7 @@ void update_city_description(struct city *pcity)
   /* We update the entire map canvas area that this city description
    * might be covering.  This may, for instance, redraw other city
    * descriptions that overlap with this one. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
+  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
   update_map_canvas(canvas_x - (max_desc_width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y + NORMAL_TILE_HEIGHT,
 		    max_desc_width, max_desc_height);
@@ -1651,7 +1658,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
     if (pcity) {
       int width = 0, height = 0;
 
-      (void) map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+      (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
       show_city_desc(mapview_canvas.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
 
@@ -1717,7 +1724,7 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
   int canvas_x, canvas_y, canvas_dx, canvas_dy;
 
   /* Determine the source position of the segment. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
+  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
   canvas_x += NORMAL_TILE_WIDTH / 2;
   canvas_y += NORMAL_TILE_HEIGHT / 2;
 
@@ -1756,7 +1763,7 @@ void undraw_segment(struct tile *src_tile, enum direction8 dir)
    * mapview wraps around) this will not give the correct behavior.  This is
    * consistent with the current design which fails when the size of the
    * mapview approaches the size of the map. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
+  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
   map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   update_map_canvas(MIN(canvas_x, canvas_x + canvas_dx),
@@ -1798,7 +1805,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   if (num_tiles_explode_unit > 0
-      && map_to_canvas_pos(&canvas_x, &canvas_y,
+      && tile_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->tile)) {
     refresh_tile_mapcanvas(losing_unit->tile, FALSE);
     canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
@@ -1876,7 +1883,7 @@ void move_unit_map_canvas(struct unit *punit,
 
     map_to_gui_vector(&canvas_dx, &canvas_dy, dx, dy);
 
-    map_to_canvas_pos(&start_x, &start_y, src_tile);
+    tile_to_canvas_pos(&start_x, &start_y, src_tile);
     if (is_isometric) {
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
@@ -2289,7 +2296,7 @@ static void get_mapview_corners(int x[4], int y[4])
 {
   int map_x0, map_y0;
 
-  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
+  base_canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
   map_to_overview_pos(&x[0], &y[0], map_x0, map_y0);
 
   /* Note: these calculations operate on overview coordinates as if they

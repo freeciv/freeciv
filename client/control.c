@@ -1373,7 +1373,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
       int height = get_citydlg_canvas_height();
       int canvas_x, canvas_y;
 
-      map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+      tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
       update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 			width, height);

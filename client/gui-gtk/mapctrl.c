@@ -208,7 +208,7 @@ gint butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 {
   int xtile, ytile;
-  struct tile *ptile;
+  struct tile *ptile = NULL;
   struct city *pcity = NULL;
 
   if (!can_client_change_view()) {
@@ -216,10 +216,8 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
   }
 
   gtk_widget_grab_focus(turn_done_button);
-  if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)) {
-    ptile = map_pos_to_tile(xtile, ytile);
-    pcity = map_get_city(ptile);
-  }
+  ptile = canvas_pos_to_tile(ev->x, ev->y);
+  pcity = ptile ? ptile->city : NULL;
 
   switch (ev->button) {
 

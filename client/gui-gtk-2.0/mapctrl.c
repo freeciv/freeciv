@@ -186,7 +186,6 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 **************************************************************************/
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
-  int xtile, ytile;
   struct city *pcity = NULL;
   struct tile *ptile = NULL;
 
@@ -195,10 +194,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   }
 
   gtk_widget_grab_focus(map_canvas);
-  if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)) {
-    ptile = map_pos_to_tile(xtile, ytile);
-    pcity = map_get_city(ptile);
-  }
+  ptile = canvas_pos_to_tile(ev->x, ev->y);
+  pcity = ptile ? ptile->city : NULL;
 
   switch (ev->button) {
 

@@ -200,7 +200,7 @@ void mapctrl_btn_wakeup(XEvent *event)
 **************************************************************************/
 void mapctrl_btn_mapcanvas(XEvent *event)
 {
-  int x, y;
+  struct tile *ptile = canvas_pos_to_tile(ev->x, ev->y);
   XButtonEvent *ev=&event->xbutton;
 
   if (!can_client_change_view()) {
@@ -211,9 +211,8 @@ void mapctrl_btn_mapcanvas(XEvent *event)
     action_button_pressed(ev->x, ev->y, SELECT_SEA);
   } else if (ev->button == Button1) {
     action_button_pressed(ev->x, ev->y, SELECT_POPUP);
-  } else if (ev->button == Button2 &&
-             canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
-    popit(ev->x, ev->y, map_pos_to_tile(x, y));
+  } else if (ev->button == Button2 && ptile) {
+    popit(ev->x, ev->y, ptile);
   } else if (ev->button == Button3 && (ev->state & ControlMask)) {
     action_button_pressed(ev->x, ev->y, SELECT_LAND);
   } else if (ev->button == Button3) {

@@ -128,8 +128,9 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen);
 enum color_std get_grid_color(struct tile *ptile, enum direction8 dir);
 
 void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy);
-bool map_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
-bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y);
+bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
+struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y);
+struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y);
 
 void get_mapview_scroll_window(int *xmin, int *ymin,
 			       int *xmax, int *ymax,

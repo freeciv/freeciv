@@ -115,7 +115,7 @@ void put_window_near_map_tile(struct GUI *pWindow,
 {
   int canvas_x, canvas_y;
   
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
     if (canvas_x + NORMAL_TILE_WIDTH + window_width >= pWindow->dst->w)
     {
       if (canvas_x - window_width < 0) {

@@ -817,7 +817,7 @@ static void canvas_mouse_press_callback(struct sw_widget *widget,
 					enum be_mouse_button button,
 					int state, void *data)
 {
-  int xtile, ytile;
+  struct tile *ptile;
 
   if (!can_client_change_view()) {
     return;
@@ -831,10 +831,13 @@ static void canvas_mouse_press_callback(struct sw_widget *widget,
   }
 #endif
 
-  canvas_to_map_pos(&xtile, &ytile, pos->x, pos->y);
+  ptile = canvas_pos_to_tile(pos->x, pos->y);
+  if (!ptile) {
+    return;
+  }
 
   if (button == BE_MB_LEFT) {
-    set_focus_tile(map_pos_to_tile(xtile, ytile));
+    set_focus_tile(ptile);
     update_focus_tile_list();
   } else if (button == BE_MB_MIDDLE) {
     //popit(ev, xtile, ytile);

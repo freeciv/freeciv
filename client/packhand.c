@@ -588,7 +588,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     int width = get_citydlg_canvas_width();
     int height = get_citydlg_canvas_height();
 
-    (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
+    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
 
     update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
@@ -1209,7 +1209,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       int height = get_citydlg_canvas_height();
       int canvas_x, canvas_y;
 
-      map_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
+      tile_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
       update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 			width, height);

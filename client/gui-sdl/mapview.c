@@ -2460,7 +2460,7 @@ void real_blink_active_unit(void)
   static struct city *pCity;
   
   if (draw_units && (pUnit = get_unit_in_focus())) {
-    if(map_to_canvas_pos(&canvas_x, &canvas_y, pUnit->x, pUnit->y)) {
+    if(tile_to_canvas_pos(&canvas_x, &canvas_y, pUnit->x, pUnit->y)) {
       area.x = canvas_x;
       area.y = canvas_y - HALF_NORMAL_TILE_HEIGHT;
       backup = area;
@@ -2614,7 +2614,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
 
   if (num_tiles_explode_unit &&
-      map_to_canvas_pos(&canvas_x, &canvas_y, losing_unit->x, losing_unit->y)) {
+      tile_to_canvas_pos(&canvas_x, &canvas_y, losing_unit->x, losing_unit->y)) {
     /* copy screen area */
     src.x = canvas_x;
     src.y = canvas_y;
@@ -2693,7 +2693,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
   int canvas_x, canvas_y;
       
   if (pAnim->num_tiles_explode_nuke &&
-     map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+     tile_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
     struct Sprite *pNuke;
     SDL_Surface *pStore;
     struct timer *anim_timer = NULL;
@@ -2767,8 +2767,8 @@ void draw_segment(int src_x, int src_y, int dir)
   
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */
-  map_to_canvas_pos(&canvas_start_x, &canvas_start_y, src_x, src_y);
-  map_to_canvas_pos(&canvas_end_x, &canvas_end_y, dest_x, dest_y);
+  tile_to_canvas_pos(&canvas_start_x, &canvas_start_y, src_x, src_y);
+  tile_to_canvas_pos(&canvas_end_x, &canvas_end_y, dest_x, dest_y);
   canvas_start_x += HALF_NORMAL_TILE_WIDTH;
   canvas_start_y += HALF_NORMAL_TILE_HEIGHT - 1;
   canvas_end_x += HALF_NORMAL_TILE_WIDTH;

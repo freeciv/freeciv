@@ -169,8 +169,6 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
 {
   HDC hdc;
   PAINTSTRUCT ps;
-  int xtile;
-  int ytile;
   struct tile *ptile;
   switch(message) {
   case WM_CREATE:
@@ -184,9 +182,8 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       adjust_workers_button_pressed(LOWORD(lParam), HIWORD(lParam));
       wakeup_button_pressed(LOWORD(lParam), HIWORD(lParam));
     } else if (wParam & MK_CONTROL
-	       && canvas_to_map_pos(&xtile, &ytile,
-				    LOWORD(lParam), HIWORD(lParam))) {
-      ptile = map_pos_to_tile(xtile, ytile);
+	       && (ptile = canvas_pos_to_tile(LOWORLD(lParam),
+					      HIWORD(lParam)))) {
       popit(LOWORD(lParam),HIWORD(lParam),ptile);
     } else {
       action_button_pressed(LOWORD(lParam), HIWORD(lParam), SELECT_POPUP);
@@ -194,17 +191,15 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     break;
   case WM_MBUTTONDOWN:
     if (can_client_change_view()
-        && canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam))) {
-      ptile = map_pos_to_tile(xtile, ytile);
+        && (ptile = canvas_pos_to_tile(LOWORLD(lParam),
+					      HIWORD(lParam)))) {
       popit(LOWORD(lParam), HIWORD(lParam), ptile);
     }
     break;
   case WM_RBUTTONDOWN:
     if (can_client_change_view()) {
       if (wParam&MK_CONTROL) {
-        if (canvas_to_map_pos(&xtile, &ytile,
-			      LOWORD(lParam), HIWORD(lParam))) {
-	  ptile = map_pos_to_tile(xtile, ytile);
+        if ((ptile = canvas_pos_to_tile(LOWORLD(lParam), HIWORD(lParam)))) {
           popit(LOWORD(lParam), HIWORD(lParam), ptile);
         }
       } else {
