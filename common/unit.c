@@ -923,6 +923,11 @@ bool can_unit_do_activity_targeted_at(struct unit *punit,
 	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_SENTRY:
+    if (!can_unit_survive_at_tile(punit, punit->tile)
+	&& punit->transported_by == -1) {
+      /* Don't let units sentry on tiles they will die on. */
+      return FALSE;
+    }
     return TRUE;
 
   case ACTIVITY_RAILROAD:
