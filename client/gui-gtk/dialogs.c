@@ -1661,9 +1661,11 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static void unit_select_callback(GtkWidget *w, struct unit *punit)
+static void unit_select_callback(GtkWidget *w, int id)
 {
-  if(punit && punit->owner == game.player_idx) {
+  struct unit *punit = player_find_unit_by_id(game.player_ptr, id);
+
+  if (punit) {
     request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }
@@ -1764,7 +1766,7 @@ void popup_unit_select_dialog(struct tile *ptile)
        FALSE, FALSE, 0);
 
     gtk_signal_connect(GTK_OBJECT(unit_select_commands[i]), "clicked",
-       GTK_SIGNAL_FUNC(unit_select_callback), (gpointer)punit);
+       GTK_SIGNAL_FUNC(unit_select_callback), (gpointer)punit->id);
   }
   unit_select_no=i;
 
