@@ -163,13 +163,13 @@ static void update_last_part(int x, int y)
     /* Erase everything we cannot reuse */
     for (; i < p->path->length - 1; i++) {
       struct pf_position *a = &p->path->positions[i];
-      struct pf_position *next =
-	  (i == p->path->length - 1) ? NULL : &p->path->positions[i + 1];
 
       if (is_valid_dir(a->dir_to_next_pos)) {
 	decrement_drawn(a->x, a->y, a->dir_to_next_pos);
       } else {
-	assert(next && (a->x == next->x && a->y == next->y));
+	assert(i < p->path->length - 1
+	       && a->x == p->path->positions[i + 1].x
+	       && a->y == p->path->positions[i + 1].y);
       }
     }
     pf_destroy_path(p->path);
@@ -179,13 +179,13 @@ static void update_last_part(int x, int y)
   /* Draw the new path */
   for (i = start_index; i < new_path->length - 1; i++) {
     struct pf_position *a = &new_path->positions[i];
-    struct pf_position *next =
-	(i == new_path->length - 1) ? NULL : &new_path->positions[i + 1];
 
     if (is_valid_dir(a->dir_to_next_pos)) {
       increment_drawn(a->x, a->y, a->dir_to_next_pos);
     } else {
-      assert(next && (a->x == next->x && a->y == next->y));
+      assert(i < new_path->length - 1
+	     && a->x == new_path->positions[i + 1].x
+	     && a->y == new_path->positions[i + 1].y);
     }
   }
   p->path = new_path;
@@ -271,10 +271,10 @@ static void remove_last_part(void)
 void goto_add_waypoint(void)
 {
   int x, y;
-  struct unit *punit = find_unit_by_id(goto_map.unit_id);
 
   assert(is_active);
-  assert(punit && punit == get_unit_in_focus());
+  assert(find_unit_by_id(goto_map.unit_id)
+	 && find_unit_by_id(goto_map.unit_id) == get_unit_in_focus());
   get_line_dest(&x, &y);
   add_part();
 }
@@ -285,12 +285,12 @@ void goto_add_waypoint(void)
 ***********************************************************************/
 bool goto_pop_waypoint(void)
 {
-  struct unit *punit = find_unit_by_id(goto_map.unit_id);
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
   int end_x = p->end_x, end_y = p->end_y;
 
   assert(is_active);
-  assert(punit && punit == get_unit_in_focus());
+  assert(find_unit_by_id(goto_map.unit_id)
+	 && find_unit_by_id(goto_map.unit_id) == get_unit_in_focus());
 
   if (goto_map.num_parts == 1) {
     /* we don't have any waypoint but the start pos. */
