@@ -1804,7 +1804,7 @@ void cityopt_callback(GtkWidget *w, gpointer data)
     gtk_widget_destroy(cityopt_shell);
   }
   cityopt_shell=create_cityopt_dialog(pcity->name);
-  /* Doing this here makes the "No"'s centered consistently */
+
   for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
     state = (pcity->city_options & (1<<i));
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(cityopt_toggles[i]),
@@ -1854,27 +1854,27 @@ GtkWidget *create_cityopt_dialog(char *city_name)
   */
 
   cityopt_toggles[4] = gtk_check_button_new_with_label
-					("Disband if build settler at size 1:");
+					("Disband if build settler at size 1");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[4], FALSE, FALSE, 0);
 
   cityopt_toggles[0] = gtk_check_button_new_with_label
-					("Auto-attack vs land units:");
+					("Auto-attack vs land units");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[0], FALSE, FALSE, 0);
 
   cityopt_toggles[1] = gtk_check_button_new_with_label
-					("Auto-attack vs sea units:");
+					("Auto-attack vs sea units");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[1], FALSE, FALSE, 0);
 
   cityopt_toggles[3] = gtk_check_button_new_with_label
-					("Auto-attack vs air units:");
+					("Auto-attack vs air units");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[3], FALSE, FALSE, 0);
 
   cityopt_toggles[2] = gtk_check_button_new_with_label
-					("Auto-attack vs helicopters:");
+					("Auto-attack vs helicopters");
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[2], FALSE, FALSE, 0);
 
