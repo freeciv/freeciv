@@ -50,10 +50,10 @@ int unit_move_rate(struct unit *punit)
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
       val += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
     val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
-    if (val < 6) 
-      val = 6;
+    if (val < 2 * SINGLE_MOVE)
+      val = 2 * SINGLE_MOVE;
   }
-  if (val < 3) val = 3;
+  if (val < SINGLE_MOVE) val = SINGLE_MOVE;
   return val;
 }
 
@@ -335,17 +335,14 @@ int is_ground_threat(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int is_square_threatened(struct player *pplayer, int x, int y)
 {
-  int i,j;
   int threat=0;
 
-  for(i=x-2;i<=x+2;i++) {
-    for(j=y-2;j<=y+2;j++) {
-      unit_list_iterate(map_get_tile(i,j)->units, punit) {
-	threat += is_ground_threat(pplayer, punit);
-      }
-      unit_list_iterate_end;
-    }
-  }
+  square_iterate(x, y, 2, x1, y1) {
+    unit_list_iterate(map_get_tile(x1, y1)->units, punit) {
+      threat += is_ground_threat(pplayer, punit);
+    } unit_list_iterate_end;
+  } square_iterate_end;
+
   return threat;
 }
 
@@ -355,7 +352,6 @@ int is_square_threatened(struct player *pplayer, int x, int y)
 int is_field_unit(struct unit *punit)
 {
   return ((unit_flag(punit->type, F_FIELDUNIT) > 0));
-
 }
 
 
@@ -555,7 +551,7 @@ a sufficient number of adjacent tiles that are not ocean.
 **************************************************************************/
 static int can_reclaim_ocean(int x, int y)
 {
-  int i, j, landtiles;
+  int landtiles;
 
   if (terrain_control.ocean_reclaim_requirement >= 9)
     return 0;
@@ -563,17 +559,13 @@ static int can_reclaim_ocean(int x, int y)
     return 1;
 
   landtiles = 0;
-  for (i = -1; i <= 1; i++) {
-    for (j = -1; j <= 1; j++) {
-      if (i || j) {
-	if (map_get_tile(x+i, y+j)->terrain != T_OCEAN) {
-	  landtiles++;
-	}
-	if (landtiles >= terrain_control.ocean_reclaim_requirement)
-	  return 1;
-      }
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_tile(x1, y1)->terrain != T_OCEAN) {
+      landtiles++;
     }
-  }
+    if (landtiles >= terrain_control.ocean_reclaim_requirement)
+      return 1;
+  } adjc_iterate_end;
 
   return 0;
 }
@@ -585,7 +577,7 @@ a sufficient number of adjacent tiles that are ocean.
 **************************************************************************/
 static int can_channel_land(int x, int y)
 {
-  int i, j, oceantiles;
+  int oceantiles;
 
   if (terrain_control.land_channel_requirement >= 9)
     return 0;
@@ -593,17 +585,13 @@ static int can_channel_land(int x, int y)
     return 1;
 
   oceantiles = 0;
-  for (i = -1; i <= 1; i++) {
-    for (j = -1; j <= 1; j++) {
-      if (i || j) {
-	if (map_get_tile(x+i, y+j)->terrain == T_OCEAN) {
-	  oceantiles++;
-	}
-	if (oceantiles >= terrain_control.land_channel_requirement)
-	  return 1;
-      }
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_tile(x1, y1)->terrain == T_OCEAN) {
+      oceantiles++;
     }
-  }
+    if (oceantiles >= terrain_control.land_channel_requirement)
+      return 1;
+  } adjc_iterate_end;
 
   return 0;
 }
@@ -1137,18 +1125,15 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
 **************************************************************************/
 int is_my_zoc(struct unit *myunit, int x0, int y0)
 {
-  int x,y;
-  int ax,ay;
   int owner=myunit->owner;
 
   assert(is_ground_unit(myunit));
      
-  for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
-    ax=map_adjust_x(x);
-    ay=map_adjust_y(y);
-    if ((map_get_terrain(ax,ay)!=T_OCEAN)
-	&& is_non_allied_unit_tile(map_get_tile(ax,ay), owner))
+  square_iterate(x0, y0, 1, x1, y1) {
+    if ((map_get_terrain(x1, y1)!=T_OCEAN)
+	&& is_non_allied_unit_tile(map_get_tile(x1, y1), owner))
       return 0;
-  }
+  } square_iterate_end;
+
   return 1;
 }
