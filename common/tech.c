@@ -398,8 +398,9 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     cost = 0;
   }
 
-  /* Research becomes more expensive. */
-  if (game.year > 0) {
+  /* Research becomes more expensive this year and after. */
+  if (game.rgame.tech_cost_double_year != 0
+      && game.year >= game.rgame.tech_cost_double_year) {
     cost *= 2;
   }
 

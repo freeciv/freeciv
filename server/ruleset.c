@@ -2693,6 +2693,8 @@ static void load_ruleset_game()
 	    game.rgame.tech_cost_style);
     game.rgame.tech_cost_style = 0;
   }
+  game.rgame.tech_cost_double_year = 
+      secfile_lookup_int_default(&file, 1, "civstyle.tech_cost_double_year");
 
   game.rgame.tech_leakage =
       secfile_lookup_int(&file, "civstyle.tech_leakage");
@@ -3139,6 +3141,7 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.granary_food_inc = game.rgame.granary_food_inc;
   misc_p.tech_cost_style = game.rgame.tech_cost_style;
   misc_p.tech_leakage = game.rgame.tech_leakage;
+  misc_p.tech_cost_double_year = game.rgame.tech_cost_double_year;
 
   memcpy(misc_p.trireme_loss_chance, game.trireme_loss_chance, 
          sizeof(game.trireme_loss_chance));

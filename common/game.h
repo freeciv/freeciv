@@ -208,6 +208,7 @@ struct civ_game {
     int granary_food_inc;
     int tech_cost_style;
     int tech_leakage;
+    int tech_cost_double_year;
 
     /* 
      * Advances given to all players at game start.

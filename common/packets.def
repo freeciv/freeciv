@@ -980,6 +980,7 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 granary_num_inis;
   UINT8 granary_food_inc;
   UINT8 tech_cost_style;
+  YEAR tech_cost_double_year;
   UINT8 tech_leakage;
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
 

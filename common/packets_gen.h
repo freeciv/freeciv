@@ -758,6 +758,7 @@ struct packet_ruleset_game {
   int granary_num_inis;
   int granary_food_inc;
   int tech_cost_style;
+  int tech_cost_double_year;
   int tech_leakage;
   int global_init_techs[MAX_NUM_TECH_LIST];
   bool killstack;
