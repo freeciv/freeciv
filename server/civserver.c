@@ -598,18 +598,18 @@ void send_all_info(struct player *dest)
 int find_highest_used_id(void)
 {
   int i, max_id;
-  struct genlist_iterator myiter;
 
   max_id=0;
   for(i=0; i<game.nplayers; i++) {
-    genlist_iterator_init(&myiter, &game.players[i].cities.list, 0);
-    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-      max_id=MAX(max_id, ((struct city *)ITERATOR_PTR(myiter))->id);
-    genlist_iterator_init(&myiter, &game.players[i].units.list, 0);
-    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-      max_id=MAX(max_id, ((struct unit *)ITERATOR_PTR(myiter))->id);
+    city_list_iterate(game.players[i].cities, pcity) {
+      max_id=MAX(max_id, pcity->id);
+    }
+    city_list_iterate_end;
+    unit_list_iterate(game.players[i].units, punit) {
+      max_id=MAX(max_id, punit->id);
+    }
+    unit_list_iterate_end;
   }
-
   return max_id;
 }
 /**************************************************************************

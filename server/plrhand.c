@@ -1326,7 +1326,6 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 {
   int i;
   char invs[A_LAST+1];
-  struct genlist_iterator myiter;
   struct player_spaceship *ship = &plr->spaceship;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
@@ -1393,13 +1392,10 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 		     plrno);
   secfile_insert_int(file, city_list_size(&plr->cities), "player%d.ncities", 
 		     plrno);
-  
-  
-  genlist_iterator_init(&myiter, &plr->units.list, 0);
 
-  for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
-    struct unit *punit=(struct unit *)ITERATOR_PTR(myiter);
-
+  i = -1;
+  unit_list_iterate(plr->units, punit) {
+    i++;
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
     secfile_insert_int(file, punit->x, "player%d.u%d.x", plrno, i);
     secfile_insert_int(file, punit->y, "player%d.u%d.y", plrno, i);
@@ -1429,15 +1425,14 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_int(file, punit->moved, "player%d.u%d.moved", plrno, i);
   }
+  unit_list_iterate_end;
 
-  genlist_iterator_init(&myiter, &plr->cities.list, 0);
-  
-  for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  i = -1;
+  city_list_iterate(plr->cities, pcity) {
     int j, x, y;
     char buf[512];
-    struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
 
-    
+    i++;
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
     secfile_insert_int(file, pcity->x, "player%d.c%d.x", plrno, i);
     secfile_insert_int(file, pcity->y, "player%d.c%d.y", plrno, i);
@@ -1486,6 +1481,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
   }
+  city_list_iterate_end;
 }
 
 void server_remove_player(struct player *pplayer)
