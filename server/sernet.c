@@ -57,7 +57,13 @@
 #include <arpa/inet.h>
 #endif
 
+#ifdef HAVE_LIBREADLINE
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
+
 #include "log.h"
+#include "mem.h"
 #include "netintf.h"
 #include "packets.h"
 #include "shared.h"
@@ -94,7 +100,34 @@ void user_interrupt_callback();
 #endif
 
 
-/*****************************************************************************/
+#ifdef HAVE_LIBREADLINE
+/****************************************************************************/
+
+#define HISTORY_FILENAME  ".civserver_history"
+#define HISTORY_LENGTH    100
+
+static char *history_file = NULL;
+
+static int readline_handled_input = 0;
+
+/*****************************************************************************
+...
+*****************************************************************************/
+static void handle_readline_input_callback(char *line)
+{
+  if (line) {
+    if (*line)
+      add_history(line);
+    con_prompt_enter();		/* just got an 'Enter' hit */
+    handle_stdin_input((struct player *)NULL, line);
+  }
+  readline_handled_input = 1;
+}
+
+#endif
+/*****************************************************************************
+...
+*****************************************************************************/
 void close_connection(struct connection *pconn)
 {
   close(pconn->sock);
@@ -102,7 +135,9 @@ void close_connection(struct connection *pconn)
   pconn->access_level=ALLOW_NONE;
 }
 
-/*****************************************************************************/
+/*****************************************************************************
+...
+*****************************************************************************/
 void close_connections_and_socket(void)
 {
   int i;
@@ -113,8 +148,18 @@ void close_connections_and_socket(void)
     }
   }
   close(sock);
+
+#ifdef HAVE_LIBREADLINE
+  if (history_file) {
+    write_history(history_file);
+    history_truncate_file(history_file, HISTORY_LENGTH);
+  }
+#endif
 }
 
+/*****************************************************************************
+...
+*****************************************************************************/
 static void close_socket_callback(struct connection *pc)
 {
   lost_connection_to_player(pc);
@@ -144,7 +189,35 @@ int sniff_packets(void)
   char buf[BUF_SIZE+1];
   char *bufptr = buf;
 #endif
-  
+
+  con_prompt_init();
+
+#ifdef HAVE_LIBREADLINE
+  {
+    static int readline_initialized = 0;
+
+    if (!readline_initialized) {
+      char *home_dir = user_home_dir();
+      if (home_dir) {
+	history_file =
+	  fc_malloc(strlen(home_dir) + 1 + strlen(HISTORY_FILENAME) + 1);
+	if (history_file) {
+	  strcpy(history_file, home_dir);
+	  strcat(history_file, "/");
+	  strcat(history_file, HISTORY_FILENAME);
+	  using_history();
+	  read_history(history_file);
+	}
+      }
+
+      rl_initialize();
+      rl_callback_handler_install("> ", handle_readline_input_callback);
+
+      readline_initialized = 1;
+    }
+  }
+#endif
+
   if(year!=game.year) {
     if (server_state == RUN_GAME_STATE) year=game.year;
   }
@@ -169,6 +242,7 @@ int sniff_packets(void)
     FD_SET(0, &readfs);	
 #endif
     FD_SET(sock, &readfs);
+    FD_SET(sock, &exceptfs);
     max_desc=sock;
     
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
@@ -209,19 +283,30 @@ int sniff_packets(void)
     }
     if (!game.timeout)
       game.turn_start = time(NULL);
-  
+
+    if(FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
+      continue;
+    }
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
       freelog(LOG_VERBOSE, "got new connection");
       if(server_accept_connection(sock)==-1)
 	freelog(LOG_NORMAL, "failed accepting connection");
     }
-    for(i=0; i<MAX_NUM_CONNECTIONS; i++)   /* check for freaky players */
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
       if(connections[i].used && FD_ISSET(connections[i].sock, &exceptfs)) {
 	freelog(LOG_VERBOSE, "cut freaky player");
 	close_socket_callback(&connections[i]);
+      }
     }
 #ifndef SOCKET_ZERO_ISNT_STDIN
     if(FD_ISSET(0, &readfs)) {    /* input from server operator */
+#ifdef HAVE_LIBREADLINE
+      rl_callback_read_char();
+      if (readline_handled_input) {
+	readline_handled_input = 0;
+	con_prompt_enter_clear();
+      }
+#else
       int didget;
       char buf[BUF_SIZE+1];
       
@@ -232,6 +317,7 @@ int sniff_packets(void)
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input((struct player *)NULL, buf);
+#endif
     }
 #else
     if(!feof(stdin)) {    /* input from server operator */
@@ -249,7 +335,7 @@ int sniff_packets(void)
     }
 #endif
     else {                             /* input from a player */
-      for(i=0; i<MAX_NUM_CONNECTIONS; i++)
+      for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
 	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {
 	  if(read_socket_data(connections[i].sock, 
 			      &connections[i].buffer)>=0) {
@@ -262,11 +348,12 @@ int sniff_packets(void)
 	    close_socket_callback(&connections[i]);
 	  }
 	}
+      }
     }
     break;
   }
   con_prompt_off();
-  
+
   if((game.timeout) 
      && (time(NULL)>game.turn_start + game.timeout))
     return 0;

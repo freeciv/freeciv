@@ -50,6 +50,9 @@ void con_puts(int i, char *str);
 /* ensure timely update */
 void con_flush(void);
 
+/* initialize prompt; display initial message */
+void con_prompt_init(void);
+
 /* make sure a prompt is printed, and re-printed after every message */
 void con_prompt_on(void);
 
@@ -58,6 +61,9 @@ void con_prompt_off(void);
 
 /* user pressed enter: will need a new prompt */
 void con_prompt_enter(void);
+
+/* clear "user pressed enter" state (used in special cases) */
+void con_prompt_enter_clear(void);
 
 /* set rfc-style */
 void con_set_style(int i);
