@@ -1319,8 +1319,7 @@ static char *convert_string_malloc(const char *text,
 char *convert_data_string_malloc(const char *text)
 {
 #ifdef HAVE_ICONV
-  const char *local_encoding;
-  const char *data_encoding;
+  char *local_encoding, *data_encoding;
   char target[128];
 
   data_encoding = getenv("FREECIV_DATA_ENCODING");
