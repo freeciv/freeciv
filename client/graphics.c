@@ -42,12 +42,10 @@ extern Window root_window;
 extern XFontStruct *main_font_struct;
 extern int use_solid_color_behind_units;
 
-#define FLAG_TILES       12*20
-
 struct Sprite **tile_sprites;
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
-int UNIT_TILES, SPACE_TILES;
+int UNIT_TILES, SPACE_TILES, FLAG_TILES;
 int NORMAL_TILE_WIDTH;
 int NORMAL_TILE_HEIGHT;
 
@@ -98,7 +96,7 @@ void load_tile_gfx(void)
 {
   int i, x, y, ntiles, a;
   struct Sprite *big_sprite, *small_sprite, *unit_sprite, *treaty_sprite;
-  struct Sprite *roads_sprite, *space_sprite;
+  struct Sprite *roads_sprite, *space_sprite, *flags_sprite;
   int row;
 
   big_sprite   = load_xpmfile(tilefilename("tiles.xpm"));
@@ -107,8 +105,9 @@ void load_tile_gfx(void)
   treaty_sprite= load_xpmfile(tilefilename("treaty.xpm"));
   roads_sprite = load_xpmfile(tilefilename("roads.xpm"));
   space_sprite = load_xpmfile(tilefilename("space.xpm"));
+  flags_sprite = load_xpmfile(tilefilename("flags.xpm"));
 
-  ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6;
+  ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6 + (14*2);
 
   if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
     freelog(LOG_FATAL, "couldn't malloc tile_sprites array");
@@ -116,7 +115,7 @@ void load_tile_gfx(void)
   }
 
   NORMAL_TILE_WIDTH=big_sprite->width/20;
-  NORMAL_TILE_HEIGHT=big_sprite->height/19;
+  NORMAL_TILE_HEIGHT=big_sprite->height/18;
 
   i=0;
   for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
@@ -278,12 +277,48 @@ void load_tile_gfx(void)
     XFreeGC(display, plane_gc);
   }
 
+  if(flags_sprite->width != NORMAL_TILE_WIDTH*14 ||
+     flags_sprite->height != NORMAL_TILE_HEIGHT*2)  {
+    freelog(LOG_FATAL, "XPM file flags.xpm is the wrong size!");
+    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+         NORMAL_TILE_WIDTH*14,NORMAL_TILE_HEIGHT*2,
+	 flags_sprite->width, flags_sprite->height);
+    exit(1);
+  }
+
+  FLAG_TILES = i;
+  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT)
+    for(x=0; x<flags_sprite->width; x+=NORMAL_TILE_WIDTH) {
+      GC plane_gc;
+      Pixmap mypixmap, mask;
+      
+      mypixmap=XCreatePixmap(display, root_window,
+			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
+			     display_depth);
+      XCopyArea(display, flags_sprite->pixmap, mypixmap, civ_gc, 
+		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
+
+      mask=XCreatePixmap(display, root_window,
+			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
+
+      plane_gc = XCreateGC(display, mask, 0, NULL);
+
+      XCopyArea(display, flags_sprite->mask, mask, plane_gc, 
+		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
+
+      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
+					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+
+      XFreeGC(display, plane_gc);
+    }
+  
   free_sprite(unit_sprite);
   free_sprite(big_sprite);
   free_sprite(small_sprite);
   free_sprite(treaty_sprite);
   free_sprite(roads_sprite);
   free_sprite(space_sprite);
+  free_sprite(flags_sprite);
 }
 
 

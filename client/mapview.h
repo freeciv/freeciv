@@ -58,6 +58,10 @@ extern int RAIL_TILES;
 #define DENMARK_TILES    10*20+12
 #define X_TILE           10*20+19
 
+#define CROSS_TILE       9*20+17
+#define AUTO_TILE        9*20+18
+#define PLUS_TILE        9*20+19
+
 #define SPECIAL_TILES    11*20
 #define O_TILE           11*20+12
 #define S_TILE           11*20+13
@@ -68,10 +72,8 @@ extern int RAIL_TILES;
 #define I_TILE           11*20+18
 #define F_TILE           11*20+19
 
-#define FLAG_TILES       12*20
-#define CROSS_TILE       12*20+17
-#define AUTO_TILE        12*20+18
-#define PLUS_TILE        12*20+19
+/*  The tiles for the units are now stored in flags.xpm */
+extern int FLAG_TILES;
 
 /*
 #define UNIT_TILES       15*20
@@ -79,39 +81,39 @@ The tiles for the units are now stored in units.xpm
 */
 extern int UNIT_TILES;
 
-#define IRRIGATION_TILE  13*20+8
-#define HILLMINE_TILE    13*20+9
-#define DESERTMINE_TILE  13*20+10
-#define POLLUTION_TILE   13*20+11
-#define CITY_TILE        13*20+12
-#define CITY_WALLS_TILE  13*20+13
-#define HUT_TILE         13*20+14
-#define FORTRESS_TILE    13*20+15
+#define IRRIGATION_TILE  12*20+8
+#define HILLMINE_TILE    12*20+9
+#define DESERTMINE_TILE  12*20+10
+#define POLLUTION_TILE   12*20+11
+#define CITY_TILE        12*20+12
+#define CITY_WALLS_TILE  12*20+13
+#define HUT_TILE         12*20+14
+#define FORTRESS_TILE    12*20+15
 
-#define BORDER_TILES     14*20
+#define BORDER_TILES     13*20
 
-#define NUMBER_TILES     15*20
-#define NUMBER_MSD_TILES 15*20+9
+#define NUMBER_TILES     14*20
+#define NUMBER_MSD_TILES 14*20+9
 
-#define SHIELD_NUMBERS   16*20
-#define TRADE_NUMBERS    16*20+10
+#define SHIELD_NUMBERS   15*20
+#define TRADE_NUMBERS    15*20+10
 
-#define HP_BAR_TILES     17*20
+#define HP_BAR_TILES     16*20
 
-#define CITY_FLASH_TILE  17*20+14
-#define CITY_FOOD_TILES  17*20+15
-#define CITY_MASK_TILES  17*20+17
-#define CITY_SHIELD_TILE 17*20+19
+#define CITY_FLASH_TILE  16*20+14
+#define CITY_FOOD_TILES  16*20+15
+#define CITY_MASK_TILES  16*20+17
+#define CITY_SHIELD_TILE 16*20+19
 
-#define FOOD_NUMBERS     18*20
+#define FOOD_NUMBERS     17*20
 
-#define BULB_TILES       19*20
-#define GOVERNMENT_TILES 19*20+8
-#define SUN_TILES        19*20+14
-#define PEOPLE_TILES     19*20+22
-#define RIGHT_ARROW_TILE 19*20+30
+#define BULB_TILES       18*20
+#define GOVERNMENT_TILES 18*20+8
+#define SUN_TILES        18*20+14
+#define PEOPLE_TILES     18*20+22
+#define RIGHT_ARROW_TILE 18*20+30
 
-#define THUMB_TILES      19*20+31
+#define THUMB_TILES      18*20+31
 
 Pixmap get_thumb_pixmap(int onoff);
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
