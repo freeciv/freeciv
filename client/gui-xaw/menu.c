@@ -117,13 +117,13 @@ static struct MenuEntry game_menu_entries[]={
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
 
-static struct MenuEntry kingdom_menu_entries[]={
-    { { N_("Tax Rates"), 0            },     "T", MENU_KINGDOM_RATES, 0 },
+static struct MenuEntry government_menu_entries[]={
+    { { N_("Tax Rates"), 0            },     "T", MENU_GOVERNMENT_RATES, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Find City"), 0            },     "F", MENU_KINGDOM_FIND_CITY, 0 },
-    { { N_("Worklists"), 0            },     "L", MENU_KINGDOM_WORKLISTS, 0 },
+    { { N_("Find City"), 0            },     "F", MENU_GOVERNMENT_FIND_CITY, 0 },
+    { { N_("Worklists"), 0            },     "L", MENU_GOVERNMENT_WORKLISTS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Revolution"), 0           },     "R", MENU_KINGDOM_REVOLUTION, 0 },
+    { { N_("Revolution"), 0           },     "R", MENU_GOVERNMENT_REVOLUTION, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
 
@@ -259,7 +259,7 @@ void update_menus(void)
     XtSetSensitive(menus[MENU_REPORT]->button, False);
     XtSetSensitive(menus[MENU_ORDER]->button, False);
     XtSetSensitive(menus[MENU_VIEW]->button, False);
-    XtSetSensitive(menus[MENU_KINGDOM]->button, False);
+    XtSetSensitive(menus[MENU_GOVERNMENT]->button, False);
 
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 0);
@@ -287,13 +287,13 @@ void update_menus(void)
     XtSetSensitive(menus[MENU_ORDER]->button,
 		   punit && can_client_issue_orders());
     XtSetSensitive(menus[MENU_VIEW]->button, True);
-    XtSetSensitive(menus[MENU_KINGDOM]->button, True);
+    XtSetSensitive(menus[MENU_GOVERNMENT]->button, True);
 
-    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_RATES,
+    menu_entry_sensitive(MENU_GOVERNMENT, MENU_GOVERNMENT_RATES,
                          can_client_issue_orders());
-    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_WORKLISTS,
+    menu_entry_sensitive(MENU_GOVERNMENT, MENU_GOVERNMENT_WORKLISTS,
                          can_client_issue_orders());
-    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_REVOLUTION,
+    menu_entry_sensitive(MENU_GOVERNMENT, MENU_GOVERNMENT_REVOLUTION,
                          can_client_issue_orders());
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,
 			 draw_city_names);
@@ -500,22 +500,22 @@ static void game_menu_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void kingdom_menu_callback(Widget w, XtPointer client_data,
-				  XtPointer garbage)
+static void government_menu_callback(Widget w, XtPointer client_data,
+				     XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
-  case MENU_KINGDOM_FIND_CITY:
+  case MENU_GOVERNMENT_FIND_CITY:
     popup_find_dialog();
     break;
-  case MENU_KINGDOM_RATES:
+  case MENU_GOVERNMENT_RATES:
     popup_rates_dialog();
     break;
-  case MENU_KINGDOM_WORKLISTS:
+  case MENU_GOVERNMENT_WORKLISTS:
     popup_worklists_dialog(game.player_ptr);
     break;
-  case MENU_KINGDOM_REVOLUTION:
+  case MENU_GOVERNMENT_REVOLUTION:
     popup_revolution_dialog();
     break;
   }
@@ -827,8 +827,8 @@ void setup_menus(Widget parent_form)
   create_menu(MENU_GAME, "gamemenu", 
 	      game_menu_entries, game_menu_callback, 
 	      parent_form);
-  create_menu(MENU_KINGDOM, "kingdommenu", 
-	      kingdom_menu_entries, kingdom_menu_callback, 
+  create_menu(MENU_GOVERNMENT, "governmentmenu", 
+	      government_menu_entries, government_menu_callback, 
 	      parent_form);
   create_menu(MENU_VIEW, "viewmenu", 
 	      view_menu_entries, view_menu_callback, 
