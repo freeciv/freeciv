@@ -449,6 +449,7 @@ void popup_races_dialog(void)
 {
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
+  struct fcwin_box *grp_box;
   int i;
   races_dlg=fcwin_create_layouted_window(racesdlg_proc,
 					 _("What nation will you be?"),
@@ -458,26 +459,29 @@ void popup_races_dialog(void)
 					 root_window,
 					 NULL,NULL);
   vbox=fcwin_vbox_new(races_dlg,FALSE);
-  fcwin_box_add_static(vbox,_("Select nation and name"),
-		       0,SS_LEFT | WS_GROUP,TRUE,TRUE,5);
-  add_nations(vbox);
+  grp_box=fcwin_vbox_new(races_dlg,FALSE);
+  fcwin_box_add_groupbox(vbox,_("Select nation and name"),
+			 grp_box,WS_GROUP,TRUE,TRUE,5);
+  add_nations(grp_box);
+  grp_box=fcwin_vbox_new(races_dlg,FALSE);
   
-  fcwin_box_add_static(vbox,_("Your leader name"),
-		       0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_combo(vbox,10,ID_RACESDLG_LEADER,CBS_DROPDOWN,
-		      FALSE,FALSE,5);
-  fcwin_box_add_static(vbox,_("Select your sex"),WS_GROUP,SS_LEFT,
-		       FALSE,FALSE,5);
-  hbox=fcwin_hbox_new(races_dlg,TRUE);
-  fcwin_box_add_radiobutton(hbox,_("Male"),ID_RACESDLG_MALE,0,
+  
+  fcwin_box_add_groupbox(vbox,_("Your leader name"),grp_box,
+			 0,FALSE,FALSE,5);
+  fcwin_box_add_combo(grp_box,10,ID_RACESDLG_LEADER,CBS_DROPDOWN,
+		      FALSE,FALSE,0);
+  grp_box=fcwin_hbox_new(races_dlg,TRUE);
+  fcwin_box_add_groupbox(vbox,_("Select your sex"),grp_box,WS_GROUP,
+			 FALSE,FALSE,5);
+  fcwin_box_add_radiobutton(grp_box,_("Male"),ID_RACESDLG_MALE,0,
 			    TRUE,TRUE,25);
-  fcwin_box_add_radiobutton(hbox,_("Female"),ID_RACESDLG_FEMALE,
+  fcwin_box_add_radiobutton(grp_box,_("Female"),ID_RACESDLG_FEMALE,
 			    WS_GROUP,TRUE,TRUE,25);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  fcwin_box_add_static(vbox,_("Select your city style"),WS_GROUP,SS_LEFT,
-		       FALSE,FALSE,5);
+ 
+  grp_box=fcwin_vbox_new(races_dlg,FALSE);
+  fcwin_box_add_groupbox(vbox,_("Select your city style"),grp_box,WS_GROUP,
+			 FALSE,FALSE,5);
   hbox=fcwin_hbox_new(races_dlg,TRUE);
-
   for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
     if(city_styles[i].techreq == A_NONE) {
       city_style_idx[b_s_num] = i;
@@ -489,13 +493,13 @@ void popup_races_dialog(void)
     fcwin_box_add_radiobutton(hbox,city_styles[city_style_idx[i]].name,
 			      ID_RACESDLG_STYLE_BASE+i,0,TRUE,TRUE,25);
     if (i%2) {
-      fcwin_box_add_box(vbox,hbox,FALSE,FALSE,20);
+      fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,0);
       hbox=fcwin_hbox_new(races_dlg,TRUE);
     }
   }
-  if (i%2)
-    fcwin_box_add_box(vbox,hbox,FALSE,FALSE,20);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+  /* if (i%2)
+     fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,20); */
+  fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,0);
   hbox=fcwin_hbox_new(races_dlg,TRUE);
   fcwin_box_add_button(hbox,_("Ok"),ID_RACESDLG_OK,WS_GROUP,TRUE,TRUE,25);
   fcwin_box_add_button(hbox,_("Disconnect"),ID_RACESDLG_DISCONNECT,0,
@@ -1395,12 +1399,12 @@ static void create_improvements_list(struct player *pplayer,
   ListBox_AddString(lb,_("City Production"));
   improvement_type[j++] = -1;
   
-  built_impr_iterate(pcity, i) {
-    if (i != B_PALACE && !is_wonder(i)) {
+  impr_type_iterate(i) {
+    if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
       ListBox_AddString(lb,get_impr_name_ex(pcity,i));
       improvement_type[j++] = i;
     }  
-  } built_impr_iterate_end;
+  } impr_type_iterate_end;
 
   if(j > 1) {
     ListBox_AddString(lb,_("At Spy's Discretion"));

@@ -665,9 +665,9 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 					    parent,
 					    NULL,
 					    peditor);
-  
+  hbox2=fcwin_hbox_new(peditor->win,FALSE);
   vbox=fcwin_vbox_new(peditor->win,FALSE);
-  fcwin_box_add_static(vbox,_("Current worklist"),0,SS_LEFT,
+  fcwin_box_add_groupbox(hbox2,_("Current worklist"),vbox,SS_LEFT,
 		       FALSE,FALSE,0);
   peditor->worklist=fcwin_box_add_listview(vbox,5,0,LVS_REPORT | LVS_SINGLESEL,
 					   TRUE,TRUE,0);
@@ -676,22 +676,20 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   fcwin_box_add_button(hbox,_("Down"),ID_DOWN,0,TRUE,TRUE,0);
   fcwin_box_add_button(hbox,_("Remove"),ID_DELETE,0,TRUE,TRUE,0);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,0);
-  hbox=fcwin_hbox_new(peditor->win,FALSE);
-  fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
+ 
   vbox=fcwin_vbox_new(peditor->win,FALSE);
-  fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
-  fcwin_box_add_static(vbox,_("Available items"),0,SS_LEFT,FALSE,FALSE,0);
+  fcwin_box_add_groupbox(hbox2,_("Available items"),vbox,0,FALSE,FALSE,0);
   peditor->avail=fcwin_box_add_listview(vbox,5,ID_LIST,
 					LVS_SINGLESEL | LVS_REPORT,
 					TRUE,TRUE,5);
-  hbox2=fcwin_hbox_new(peditor->win,FALSE);
+  hbox=fcwin_hbox_new(peditor->win,FALSE);
   peditor->toggle_show_advanced=
-    fcwin_box_add_checkbox(hbox2,_("Show future targets"),ID_FUTURE_TARGETS,
+    fcwin_box_add_checkbox(hbox,_("Show future targets"),ID_FUTURE_TARGETS,
 			   0,TRUE,TRUE,5);
-  fcwin_box_add_button(hbox2,_("Help"),ID_HELP,0,FALSE,FALSE,5);
-  fcwin_box_add_box(vbox,hbox2,FALSE,FALSE,0);
+  fcwin_box_add_button(hbox,_("Help"),ID_HELP,0,FALSE,FALSE,5);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,0);
   vbox=fcwin_vbox_new(peditor->win,FALSE);
-  fcwin_box_add_box(vbox,hbox,TRUE,TRUE,5);
+  fcwin_box_add_box(vbox,hbox2,TRUE,TRUE,5);
   hbox=fcwin_hbox_new(peditor->win,TRUE);
   fcwin_box_add_button(hbox,_("Ok"),ID_OK,0,TRUE,TRUE,5);
   fcwin_box_add_button(hbox,_("Cancel"),ID_CANCEL,0,TRUE,TRUE,5);

@@ -280,21 +280,22 @@ popup_science_dialog(int make_modal)
 					       NULL,NULL);
       vbox=fcwin_vbox_new(science_dlg,FALSE);
       fcwin_box_add_static(vbox,"",ID_SCIENCE_TOP,SS_CENTER,FALSE,FALSE,15);
-      fcwin_box_add_static(vbox,_("Researching"),0,SS_LEFT,FALSE,FALSE,5);
       hbox=fcwin_hbox_new(science_dlg,FALSE);
+      fcwin_box_add_groupbox(vbox,_("Researching"),hbox,0,FALSE,FALSE,5);
+     
       fcwin_box_add_combo(hbox,10,ID_SCIENCE_RESEARCH,
 			  CBS_DROPDOWNLIST | WS_VSCROLL,FALSE,FALSE,5);
       fcwin_box_add_static(hbox,"",ID_SCIENCE_PROG,SS_CENTER,TRUE,TRUE,25);
       fcwin_box_add_checkbox(hbox,_("Help"),ID_SCIENCE_HELP,0,
 			     FALSE,FALSE,10);
-      fcwin_box_add_box(vbox,hbox,FALSE,FALSE,25);
-      fcwin_box_add_static(vbox,_("Goal"),0,SS_LEFT,FALSE,FALSE,5);
+      
       hbox=fcwin_hbox_new(science_dlg,FALSE);
+      fcwin_box_add_groupbox(vbox,_("Goal"),hbox,0,FALSE,FALSE,5);
       fcwin_box_add_combo(hbox,10,ID_SCIENCE_GOAL,
 			  CBS_DROPDOWNLIST | WS_VSCROLL,
 			  TRUE,TRUE,15);
       fcwin_box_add_static(hbox,"",ID_SCIENCE_STEPS,SS_CENTER,TRUE,TRUE,15);
-      fcwin_box_add_box(vbox,hbox,FALSE,FALSE,25);
+ 
       fcwin_box_add_list(vbox,15,ID_SCIENCE_LIST,
 			 LBS_HASSTRINGS | LBS_STANDARD | 
 			 WS_VSCROLL | LBS_NOSEL,
