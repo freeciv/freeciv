@@ -1589,7 +1589,18 @@ static void player_save(struct player *plr, int plrno,
       secfile_insert_str(file, dir_buf,
 			 "player%d.u%d.dir_list", plrno, i);
     } else {
+      /* Put all the same fields into the savegame.  Otherwise the
+       * registry code gets confused (although it still works). */
       secfile_insert_int(file, 0, "player%d.u%d.orders_length", plrno, i);
+      secfile_insert_int(file, 0, "player%d.u%d.orders_index", plrno, i);
+      secfile_insert_bool(file, FALSE,
+			  "player%d.u%d.orders_repeat", plrno, i);
+      secfile_insert_bool(file, FALSE,
+			  "player%d.u%d.orders_vigilant", plrno, i);
+      secfile_insert_str(file, "-",
+			 "player%d.u%d.orders_list", plrno, i);
+      secfile_insert_str(file, "-",
+			 "player%d.u%d.dir_list", plrno, i);
     }
   }
   unit_list_iterate_end;
