@@ -3,10 +3,13 @@ Welcome to Freeciv 1.7!
 This is release 1.7.2.
 
 Thanks again to all our developers, who continue to work so hard.
+My extra-special huge steaming thanks to David Pfitzner.  This release
+wouldn't have happened were it not for his tireless efforts.  The Freeciv
+team salutes you.
 
 For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
-to John Stonebraker, the AI is now so powerful that you'll probably want
-to handicap it with the "normal" or "easy" commands. :-)
+to John Stonebraker, the AI is now a worthy match for most people.
+(See the "easy", "normal" and "hard" server commands).
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
@@ -96,7 +99,7 @@ KNOWN BUGS:
  - The easy AI is not easy enough.  If the AI is beating you up early
    in the game, try setting the "generator" server option to 2 or 3.
  - The hard AI is not hard enough, and still does some stupid things.
-   Its particularly susceptible to Diplomat attacks -- this is being
+   It's particularly susceptible to Diplomat attacks -- this is being
    worked on.
  - If you scroll to the bottom of the map, sometimes the bottom row
    of squares is not fully visible.  As a work-around, try adjusting
@@ -104,6 +107,8 @@ KNOWN BUGS:
  - There may be some cases when the "red squares" in the city dialog
    are not quite right.  (In particular when you first reload a game
    they don't appear straight away.)
+ - A new server prompt is unnecessarily displayed for every turn.
+ - Possibly problems with tax/trade/science icons.
 
 THINGS TO DO:
 
