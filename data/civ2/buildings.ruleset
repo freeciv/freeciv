@@ -245,11 +245,11 @@ build_cost	= 80
 upkeep		= 0
 sabotage	= 100
 effect		=
-    { "type", "range", "amount", "cond_eff", "aff_unit"
+    { "type", "range", "amount", "cond_bldg", "aff_unit"
 	"Unit_Defend", "City", 300, "", "Land"
 	"Unit_No_Lose_Pop", "City", 0, "", "Land"
-	"Spy_Resistant", "Building", 50
-	"Spy_Resistant", "Building", -50, "Capital_City"
+	"Spy_Resistant", "Local", 50
+	"Spy_Resistant", "Local", -50, "Palace"
     }
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
@@ -934,7 +934,7 @@ upkeep		= 0
 sabotage	= 100
 effect		=
     { "type", "range", "amount"
-	"Space_Part", "None", 2
+	"Space_Part", "Local", 2
     }
 sound		= "b_space_component"
 sound_alt	= "b_generic"
@@ -963,7 +963,7 @@ upkeep		= 0
 sabotage	= 100
 effect		=
     { "type", "range", "amount"
-	"Space_Part", "None", 3
+	"Space_Part", "Local", 3
     }
 sound		= "b_space_module"
 sound_alt	= "b_generic"
@@ -1001,7 +1001,7 @@ upkeep		= 0
 sabotage	= 100
 effect		=
     { "type", "range", "amount"
-	"Space_Part", "None", 1
+	"Space_Part", "Local", 1
     }
 sound		= "b_space_structural"
 sound_alt	= "b_generic"
@@ -1164,7 +1164,7 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range", "survives"
-	"Reveal_Map", "None", 0
+	"Reveal_Map", "Player", 0
 	"Enable_Space", "World", 1
     }
 sound		= "w_apollo_program"
@@ -1291,7 +1291,7 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range", "amount"
-	"Give_Imm_Adv", "None", 2
+	"Give_Imm_Adv", "Player", 2
     }
 sound		= "w_darwins_voyage"
 sound_alt	= "w_generic"
@@ -1317,7 +1317,7 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range", "amount"
-	"Improve_Rep", "None", 25
+	"Improve_Rep", "Player", 25
     }
 sound		= "w_eiffel_tower"
 sound_alt	= "w_generic"
@@ -1345,7 +1345,7 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range", "amount"
-	"Adv_Parasite", "None", 2
+	"Adv_Parasite", "Player", 2
     }
 sound		= "w_great_library"
 sound_alt	= "w_generic"
@@ -1627,7 +1627,7 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range"
-	"Have_Embassies", "None"
+	"Have_Embassies", "Player"
     }
 sound		= "w_marco_polos_embassy"
 sound_alt	= "w_generic"
@@ -1780,8 +1780,8 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "type", "range"
-	"Any_Government", "None"
-	"No_Anarchy", "None"
+	"Any_Government", "Player"
+	"No_Anarchy", "Player"
     }
 sound		= "w_statue_of_liberty"
 sound_alt	= "w_generic"

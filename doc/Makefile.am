@@ -11,6 +11,7 @@ EXTRA_DIST =			\
 	README.agents		\
 	README.attributes 	\
 	README.cma		\
+	README.effects		\
 	README.graphics		\
 	README.rulesets		\
 	README.sound		\

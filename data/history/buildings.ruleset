@@ -245,11 +245,11 @@ build_cost	= 80
 upkeep		= 0
 sabotage	= 100
 effect		=
-    { "type", "range", "amount", "cond_eff", "aff_unit"
+    { "type", "range", "amount", "cond_bldg", "aff_unit"
 	"Unit_Defend", "City", 300, "", "Land"
 	"Unit_No_Lose_Pop", "City", 0, "", "Land"
-	"Spy_Resistant", "Building", 50
-	"Spy_Resistant", "Building", -50, "Capital_City"
+	"Spy_Resistant", "Local", 50
+	"Spy_Resistant", "Local", -50, "Palace"
     }
 sound		= "b_city_walls"
 sound_alt	= "b_generic"

@@ -50,7 +50,7 @@ struct impr_type improvement_types[B_LAST];
  */
 static const char *effect_range_names[] = {
   "None",
-  "Building",
+  "Local",
   "City",
   "Island",
   "Player",
