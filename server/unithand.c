@@ -82,6 +82,7 @@ void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y)
   punit->goto_tile = ptile;
 
   set_unit_activity(punit, ACTIVITY_GOTO);
+  free_unit_orders(punit);
 
   send_unit_info(NULL, punit);
 
