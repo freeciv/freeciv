@@ -418,7 +418,7 @@ static void create_help_dialog(void)
   help_history_pos = -1;
 
   help_dialog_shell = gtk_dialog_new_with_buttons(_("Freeciv Help Browser"),
-						  NULL,
+						  GTK_WINDOW(toplevel),
 						  0,
 						  GTK_STOCK_GO_BACK,
 						  1,

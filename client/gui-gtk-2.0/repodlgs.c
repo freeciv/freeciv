@@ -137,7 +137,7 @@ void create_science_dialog(bool make_modal)
   int i;
 
   science_dialog_shell = gtk_dialog_new_with_buttons(_("Science"),
-  	NULL,
+  	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
@@ -588,7 +588,7 @@ void create_economy_report_dialog(bool make_modal)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
   economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
-  	NULL,
+  	GTK_WINDOW(toplevel),
 	0,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(economy_dialog_shell),
@@ -881,7 +881,7 @@ void create_activeunits_report_dialog(bool make_modal)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
-  	NULL,
+  	GTK_WINDOW(toplevel),
 	0,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(activeunits_dialog_shell),

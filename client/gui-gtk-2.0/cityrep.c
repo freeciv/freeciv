@@ -553,16 +553,16 @@ static GtkWidget *create_city_report_menubar(void)
 
   menubar = gtk_menu_bar_new();
   
-  item = gtk_menu_item_new_with_mnemonic(_("_Change..."));
+  item = gtk_menu_item_new_with_mnemonic(_("_Change"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   city_change_command = item;
   create_change_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Select..."));
+  item = gtk_menu_item_new_with_mnemonic(_("_Select"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   create_select_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("S_how..."));
+  item = gtk_menu_item_new_with_mnemonic(_("S_how"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   update_view_menu(item);
   return menubar;
@@ -640,13 +640,14 @@ static void create_city_report_dialog(bool make_modal)
   int i;
   
   city_dialog_shell = gtk_dialog_new_with_buttons(_("Cities"),
-  	NULL,
+  	GTK_WINDOW(toplevel),
 	0,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(city_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_default_size(GTK_WINDOW(city_dialog_shell), -1, 420);
   gtk_dialog_set_default_response(GTK_DIALOG(city_dialog_shell),
-	GTK_RESPONSE_CLOSE);
+				  GTK_RESPONSE_CLOSE);
 
   if (make_modal) {
     gtk_window_set_transient_for(GTK_WINDOW(city_dialog_shell),
@@ -729,7 +730,6 @@ static void create_city_report_dialog(bool make_modal)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request(sw, -1, 350);
   gtk_container_add(GTK_CONTAINER(sw), city_view);
 
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(city_dialog_shell)->vbox),

@@ -160,7 +160,7 @@ static void create_meswin_dialog(void)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   meswin_shell = gtk_dialog_new_with_buttons(_("Messages"),
-  	NULL,
+  	GTK_WINDOW(toplevel),
 	0,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(meswin_shell),

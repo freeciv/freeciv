@@ -131,6 +131,7 @@ struct city_dialog {
  
   struct { 
     GtkWidget *production_bar;
+    GtkWidget *worklist;
   } production;
 
   struct {
@@ -368,7 +369,7 @@ void refresh_city_dialog(struct city *pcity)
     bool have_present_units =
 	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
 
-    refresh_worklist(&pdialog->pcity->worklist);
+    refresh_worklist(pdialog->production.worklist);
 
     city_dialog_update_information(pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
@@ -726,6 +727,10 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
   GtkTreeModel *model;
   GtkTreePath *path;
 
+  if (pdialog->pcity->owner != game.player_idx) {
+    gtk_drag_finish(context, FALSE, FALSE, time);
+  }
+    
   if (gtk_tree_get_row_drag_data(data, &model, &path)) {
     GtkTreeIter it;
 
@@ -791,8 +796,10 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 		   G_CALLBACK(buy_callback), pdialog);
 
 
-  editor = create_worklist(&pdialog->pcity->worklist, pdialog->pcity);
+  editor = create_worklist();
+  reset_worklist(editor, &pdialog->pcity->worklist, pdialog->pcity);
   gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 6);
+  pdialog->production.worklist = editor;
 
   gtk_widget_show_all(page);
 }
@@ -1017,7 +1024,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   vbox2 = gtk_vbox_new(TRUE, 0);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
-  button = gtk_button_new_with_mnemonic(_("_Rename"));
+  button = gtk_button_new_with_mnemonic(_("_Rename..."));
   pdialog->misc.rename_command = button;
   gtk_container_add(GTK_CONTAINER(vbox2), button);
   g_signal_connect(button, "clicked",
@@ -1078,7 +1085,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
 
   pdialog->shell = gtk_dialog_new_with_buttons(pcity->name,
-	NULL,
+	GTK_WINDOW(toplevel),
   	0,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(pdialog->shell),
@@ -1155,7 +1162,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   /* bottom buttons */
 
   pdialog->show_units_command =
-	gtk_button_new_with_mnemonic(_("_List present units"));
+	gtk_button_new_with_mnemonic(_("_List present units..."));
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(pdialog->shell)->action_area),
 		    pdialog->show_units_command);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(GTK_DIALOG(pdialog->shell)->action_area),
@@ -2805,7 +2812,11 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
 
+  reset_worklist(pdialog->production.worklist,
+		 &pdialog->pcity->worklist, pdialog->pcity);
+
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
+
   refresh_city_dialog(pdialog->pcity);
 }
