@@ -23,6 +23,7 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
+#include <X11/Xaw/Toggle.h>     
 
 #include <game.h>
 #include <player.h>
@@ -47,6 +48,7 @@ Widget goto_viewport;
 Widget goto_list;
 Widget goto_center_command;
 Widget goto_airlift_command;
+Widget goto_all_toggle;
 Widget goto_cancel_command;
 
 void update_goto_dialog(Widget goto_list);
@@ -57,6 +59,8 @@ void goto_goto_command_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data);
 void goto_airlift_command_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data);
+void goto_all_toggle_callback(Widget w, XtPointer client_data, 
+			      XtPointer call_data);
 void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 static char *dummy_city_list[]={ 
@@ -133,6 +137,11 @@ void popup_goto_dialog(void)
 						 goto_form,
 						 NULL);
 
+  goto_all_toggle = XtVaCreateManagedWidget("gotoalltoggle",
+  					    toggleWidgetClass,
+					    goto_form,
+					    NULL);
+
   goto_cancel_command = XtVaCreateManagedWidget("gotocancelcommand", 
 						commandWidgetClass,
 						goto_form,
@@ -143,6 +152,8 @@ void popup_goto_dialog(void)
 		goto_goto_command_callback, NULL);
   XtAddCallback(goto_airlift_command, XtNcallback, 
 		goto_airlift_command_callback, NULL);
+  XtAddCallback(goto_all_toggle, XtNcallback,
+		goto_all_toggle_callback, NULL);
   XtAddCallback(goto_cancel_command, XtNcallback, 
 		goto_cancel_command_callback, NULL);
 
@@ -185,13 +196,20 @@ struct city *get_selected_city()
 void update_goto_dialog(Widget goto_list)
 {
   int i, j;
+  Boolean all_cities;
+
+  XtVaGetValues(goto_all_toggle, XtNstate, &all_cities, NULL);
   
-  for(i=0, ncities_total=0; i<game.nplayers; i++)
-    ncities_total+=city_list_size(&game.players[i].cities);
+  if(all_cities)
+    for(i=0, ncities_total=0; i<game.nplayers; i++)
+      ncities_total+=city_list_size(&game.players[i].cities);
+  else
+      ncities_total=city_list_size(&game.player_ptr->cities);
 
   city_name_ptrs=(char **)malloc(ncities_total*sizeof(char*));
   
   for(i=0, j=0; i<game.nplayers; i++) {
+    if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LENGTH_NAME+3];
       strcpy(name, pcity->name);
@@ -263,6 +281,15 @@ void goto_airlift_command_callback(Widget w, XtPointer client_data,
     }
   }
   popdown_goto_dialog();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void goto_all_toggle_callback(Widget w, XtPointer client_data, 
+			      XtPointer call_data)
+{
+  update_goto_dialog(goto_list);
 }
 
 /**************************************************************************

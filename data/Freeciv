@@ -801,11 +801,17 @@ Freeciv.iconName: Freeciv
 *gotodialog.*.gotoairliftcommand.fromVert: gotoviewport
 *gotodialog.*.gotoairliftcommand.fromHoriz: gotocentercommand
 
+*gotodialog.*.gotoalltoggle.label: All Cities
+*gotodialog.*.gotoalltoggle.foreground: White
+*gotodialog.*.gotoalltoggle.background: Blue
+*gotodialog.*.gotoalltoggle.fromVert: gotoviewport
+*gotodialog.*.gotoalltoggle.fromHoriz: gotoairliftcommand
+
 *gotodialog.*.gotocancelcommand.label: Cancel
 *gotodialog.*.gotocancelcommand.foreground: White
 *gotodialog.*.gotocancelcommand.background: Blue
 *gotodialog.*.gotocancelcommand.fromVert: gotoviewport
-*gotodialog.*.gotocancelcommand.fromHoriz: gotoairliftcommand
+*gotodialog.*.gotocancelcommand.fromHoriz: gotoalltoggle
 
 !
 ! Present units dialog in city dialog
