@@ -339,7 +339,6 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = 3;
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  add_to_queue = 0;
-	  move_cost = 3;
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
 	  continue;
 
