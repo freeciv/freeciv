@@ -1947,7 +1947,7 @@ Counts as a Police Station in every city.  (That is, for each city,\
 
 [building_capitalization]
 name		= _("Capitalization")
-tech_req	= "The Corporation"
+tech_req	= "None"
 bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
