@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <sys/time.h>
 
@@ -1069,8 +1070,6 @@ static int createisland(int islemass)
 {
   int x, y, i;
   long int tries=islemass*(2+islemass/20)+99;
-
-#include <string.h>
 
   memset(hmap(0,0), '\0', sizeof(int) * map.xsize * map.ysize);
   y = map.ysize / 2;
