@@ -2426,6 +2426,7 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
       struct packet_unit_request req;
 
       req.unit_id = packet->id;
+      req.city_id = req.x = req.y = -1;
       sz_strlcpy(req.name, packet->name);
       send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
     }

@@ -638,6 +638,7 @@ void request_unit_unload(struct unit *punit)
   request_unit_wait(punit);    /* RP: unfocus the ship */
   
   req.unit_id=punit->id;
+  req.city_id = req.x = req.y = -1;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UNLOAD);
 }
@@ -649,8 +650,10 @@ void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
   struct packet_unit_request p;
   p.unit_id = punit->id;
+  p.city_id = -1;
   p.x = pcity->x;
   p.y = pcity->y;
+  p.name[0] = '\0';
   send_packet_unit_request(&aconnection, &p, PACKET_UNIT_AIRLIFT);
 }
 
@@ -731,6 +734,7 @@ void request_unit_build_city(struct unit *punit)
   else {
     struct packet_unit_request req;
     req.unit_id=punit->id;
+    req.city_id = req.x = req.y = -1;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
     return;
@@ -800,6 +804,7 @@ void request_unit_disband(struct unit *punit)
 {
   struct packet_unit_request req;
   req.unit_id=punit->id;
+  req.city_id = req.x = req.y = -1;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_DISBAND);
 }
@@ -815,6 +820,7 @@ void request_unit_change_homecity(struct unit *punit)
     struct packet_unit_request req;
     req.unit_id=punit->id;
     req.city_id=pcity->id;
+    req.x = req.y = -1;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_CHANGE_HOMECITY);
   }
@@ -831,6 +837,7 @@ void request_unit_upgrade(struct unit *punit)
     struct packet_unit_request req;
     req.unit_id=punit->id;
     req.city_id=pcity->id;
+    req.x = req.y = -1;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UPGRADE);
   }
@@ -844,6 +851,7 @@ void request_unit_auto(struct unit *punit)
   if (can_unit_do_auto(punit)) {
     struct packet_unit_request req;
     req.unit_id=punit->id;
+    req.x = req.y = -1;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
   } else {
@@ -870,6 +878,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
   
   req.unit_id = punit->id;
   req.city_id = pcity->id;
+  req.x = req.y = -1;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, action);
 }
@@ -1383,6 +1392,7 @@ void do_unit_nuke(struct unit *punit)
   struct packet_unit_request req;
  
   req.unit_id=punit->id;
+  req.city_id = req.x = req.y = -1;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_NUKE);
 }
@@ -1395,6 +1405,7 @@ void do_unit_paradrop_to(struct unit *punit, int x, int y)
   struct packet_unit_request req;
 
   req.unit_id=punit->id;
+  req.city_id = -1;
   req.x = x;
   req.y = y;
   req.name[0]='\0';

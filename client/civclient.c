@@ -527,7 +527,7 @@ void send_turn_done(void)
 
   gen_packet.message[0] = '\0';
   gen_packet.x = gen_packet.y = -1;
-
+  gen_packet.event = E_NOEVENT;
   send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
 
   update_turn_done_button_state();
@@ -601,6 +601,7 @@ void send_goto_unit(struct unit *punit, int dest_x, int dest_y)
   struct packet_unit_request req;
 
   req.unit_id = punit->id;
+  req.city_id = -1;
   req.name[0] = '\0';
   req.x = dest_x;
   req.y = dest_y;
