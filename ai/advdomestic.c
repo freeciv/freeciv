@@ -17,8 +17,6 @@
 #include <citytools.h>
 #include <advmilitary.h>
 
-extern struct move_cost_map warmap; /* useful for caravans, I assure you -- Syela */
-
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 
     want is a value between 1 and 100.
@@ -58,6 +56,8 @@ int building_value(int max, struct city *pcity, int val)
   int sad = pcity->ppl_unhappy[0]; /* yes, I'm sure about that! */
   int bored = pcity->ppl_content[4]; /* this I'm not sure of anymore */
 
+/* currently raising the lux rate will decrease building_want.  FIX! -- Syela */
+
   i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
   sad += i; /* if units are making us unhappy, count that too. */
 /*  printf("In %s, unh[0] = %d, unh[4] = %d, sad = %d\n",
@@ -68,6 +68,7 @@ int building_value(int max, struct city *pcity, int val)
   while (i && sad) { i--; sad--; j += 16; }
   i -= MIN(pcity->ppl_content[0], i); /* prevent the happy overdose */
   while (i && bored) { i--; bored--; j += 16; } /* 16 is debatable value */
+  if (city_unhappy(pcity)) j += 16 * (sad + bored); /* Desperately seeking Colosseum */
 /*  printf("%s: %d elvis %d sad %d bored %d size %d max %d val\n",
     pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
     pcity->ppl_content[4], pcity->size, max, j);  */
@@ -116,11 +117,12 @@ int farmland_food(struct city *pcity)
 
 void ai_eval_buildings(struct city *pcity)
 {
-  int i, gov, tech, val, a, t, food, j, k, hunger, def, danger, bar;
+  int i, gov, tech, val, a, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
   struct player *plr = city_owner(pcity);
-  int shield_weighting[3] = { 11, 13, 15 };
-  int food_weighting[3] = { 15, 14, 13 };
+  int shield_weighting[3] = { 17, 17, 18 };
+  int food_weighting[3] = { 18, 18, 17 };
+  int needpower;
   
   a = get_race(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
@@ -129,8 +131,15 @@ void ai_eval_buildings(struct city *pcity)
   sci *= t;
   tax *= t;
   prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * shield_weighting[a];
+  needpower = (city_got_building(pcity, B_MFG) ? 2 :
+              (city_got_building(pcity, B_FACTORY) ? 1 : 0));
   val = ai_best_tile_value(pcity);
-  food = food_weighting[a] * 4 / MAX(2,pcity->size);  
+  food = food_weighting[a] * 4 / MAX(2,pcity->size);
+  grana = food_weighting[a] * 4 / MAX(3,pcity->size + 1);
+/* because the benefit doesn't come immediately, and to stop stupidity */
+/* the AI used to really love granaries for nascent cities, which is OK */
+/* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
+  if (city_got_building(pcity, B_GRANARY)) food *= 2; /* for aqueducts mainly */
   i = (pcity->size * 2) + settler_eats(pcity);
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
   if (i > 0 && !pcity->ppl_scientist) hunger = i + 1; else hunger = 1;
@@ -146,9 +155,9 @@ void ai_eval_buildings(struct city *pcity)
     values[B_AQUEDUCT] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
                          (9 - MIN(8, pcity->size)); /* guessing about food if we did farm */
     values[B_AQUEDUCT] *= 2; /* guessing about value of loving the president */
-    if (city_happy(pcity)) values[B_AQUEDUCT] = (pcity->size * 
-              (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-              game.foodbox / 2 - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
+    if (city_happy(pcity) && (pcity->food_surplus + 2 * pcity->ppl_scientist > 0))
+      values[B_AQUEDUCT] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
+      game.foodbox / 2 - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
   }
 
 
@@ -158,7 +167,8 @@ void ai_eval_buildings(struct city *pcity)
   j = 0; k = 0;
   city_list_iterate(plr->cities, acity)
     if (acity->is_building_unit) {
-      if (!unit_flag(acity->currently_building, F_NONMIL))
+      if (!unit_flag(acity->currently_building, F_NONMIL) &&
+          unit_types[acity->currently_building].move_type == LAND_MOVING)
         j += prod;
       else if (unit_flag(acity->currently_building, F_CARAVAN) &&
         built_elsewhere(acity, B_SUNTZU)) j += prod; /* this also stops flip-flops */
@@ -185,7 +195,6 @@ void ai_eval_buildings(struct city *pcity)
   if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
 
-  def = assess_defense(pcity); /* not in the if so B_WALL can check them */
 /* old wall code depended on danger, was a CPU hog and didn't really work anyway */
 /* it was so stupid, AI wouldn't start building walls until it was in danger */
 /* and it would have no chance to finish them before it was too late */
@@ -193,6 +202,12 @@ void ai_eval_buildings(struct city *pcity)
   if (could_build_improvement(pcity, B_CITY))
 /* && !built_elsewhere(pcity, B_WALL))      was counterproductive -- Syela */
     values[B_CITY] = 40; /* WAG */
+
+  if (could_build_improvement(pcity, B_COASTAL))
+    values[B_COASTAL] = 40; /* WAG */
+
+  if (could_build_improvement(pcity, B_SAM))
+    values[B_SAM] = 50; /* WAG */
 
   if (could_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
@@ -206,13 +221,13 @@ void ai_eval_buildings(struct city *pcity)
     values[B_FACTORY] = prod / 2;
   
   if (could_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
-    values[B_GRANARY] = food * pcity->food_surplus;
+    values[B_GRANARY] = grana * pcity->food_surplus;
   
   if (could_build_improvement(pcity, B_HARBOUR))
     values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
 
   if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
-    values[B_HYDRO] = prod / 2;
+    values[B_HYDRO] = needpower * prod / 4;
 
   if (could_build_improvement(pcity, B_LIBRARY))
     values[B_LIBRARY] = sci / 2;
@@ -224,13 +239,13 @@ void ai_eval_buildings(struct city *pcity)
     values[B_MFG] = prod / 2;
 
   if (could_build_improvement(pcity, B_NUCLEAR))
-    values[B_NUCLEAR] = prod / 2;
+    values[B_NUCLEAR] = needpower * prod / 4;
 
   if (could_build_improvement(pcity, B_OFFSHORE))
     values[B_OFFSHORE] = ocean_workers(pcity) * shield_weighting[a];
 
   if (could_build_improvement(pcity, B_POWER))
-    values[B_POWER] =  prod / 2;
+    values[B_POWER] = needpower * prod / 4;
 
   if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
     values[B_RESEARCH] = sci / 2;
@@ -239,9 +254,9 @@ void ai_eval_buildings(struct city *pcity)
     values[B_SEWER] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
                       (13 - MIN(12, pcity->size)); /* guessing about food if we did farm */
     values[B_SEWER] *= 3; /* guessing about value of loving the president */
-    if (city_happy(pcity)) values[B_SEWER] = (pcity->size *
-              (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
-              game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
+    if (city_happy(pcity) && (pcity->food_surplus + 2 * pcity->ppl_scientist > 0))
+       values[B_SEWER] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
+       game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
   }
 
   if (could_build_improvement(pcity, B_STOCK))
@@ -251,7 +266,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_SUPERHIGHWAYS] = railroad_trade(pcity) * t;
 
   if (could_build_improvement(pcity, B_SUPERMARKET))
-    values[B_SUPERMARKET] = farmland_food(pcity) * t * hunger;
+    values[B_SUPERMARKET] = farmland_food(pcity) * food * hunger;
 
   if (could_build_improvement(pcity, B_TEMPLE))
     values[B_TEMPLE] = building_value(get_temple_power(pcity), pcity, val);
@@ -259,8 +274,8 @@ void ai_eval_buildings(struct city *pcity)
   if (could_build_improvement(pcity, B_UNIVERSITY))
     values[B_UNIVERSITY] = sci / 2;
 
-/* ignored: AIRPORT, COASTAL, MASS, PALACE, POLICE, PORT, */
-/* RECYCLING, SAM, SDI, and any effects of pollution. -- Syela */
+/* ignored: AIRPORT, MASS, PALACE, POLICE, PORT, */
+/* RECYCLING, SDI, and any effects of pollution. -- Syela */
 /* military advisor will deal with CITY */
 
   for (i = 0; i < B_LAST; i++) {
@@ -277,6 +292,7 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = building_value(1, pcity, val);
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
         values[i] = (research_time(plr) * 2 + game.techlevel) * t -
+                    plr->research.researched * t - /* Have to time it right */
                     400 * shield_weighting[a]; /* rough estimate at best */
       if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
         values[i] = (research_time(plr) * (100 - game.freecost)) * t / 100 *
@@ -289,10 +305,9 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_HANGING) /* will add the global effect to this. */
         values[i] = building_value(3, pcity, val) -
                     building_value(1, pcity, val);
-      if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO)) {
-        if (city_got_building(pcity, B_MFG)) values[i] = prod / 2;
-        else if (city_got_building(pcity, B_FACTORY)) values[i] = prod / 4;
-      } /* otherwise, no benefit because no benefit construed */
+      if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
+     !city_got_building(pcity, B_NUCLEAR) && !city_got_building(pcity, B_POWER))
+        values[i] = needpower * prod / 4;
       if (i == B_ISAAC)
         values[i] = sci;
       if (i == B_LEONARDO) {
@@ -405,7 +420,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     if (!acity->is_building_unit && is_wonder(acity->currently_building)
         && acity != pcity) { /* can't believe I forgot this! */
       want = pcity->ai.building_want[acity->currently_building];
-      i = warmap.cost[acity->x][acity->y] * 8 / (can_build_unit(pcity, U_FREIGHT) ? 6 : 3);
+/* distance to wonder city was established after manage_bu and before this */
+/* if we just started building a wonder during a_c_c_b, the started_building */
+/* notify comes equipped with an update.  It calls generate_warmap, but this */
+/* is a lot less warmap generation than there would be otherwise. -- Syela */
+      i = pcity->ai.distance_to_wonder_city * 8 / (can_build_unit(pcity, U_FREIGHT) ? 6 : 3);
       want -= i;
 /* value of 8 is a total guess and could be wrong, but it's better than 0 -- Syela */
       if (can_build_unit(pcity, U_CARAVAN)) {
@@ -433,7 +452,12 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* allowing buy of peaceful units after much testing -- Syela */
 
   if (!choice->want) { /* oh dear, better think of something! */
-    if (can_build_unit(pcity, U_DIPLOMAT)) {
+    if (can_build_unit(pcity, U_CARAVAN)) {
+      choice->want = 1;
+      choice->type = 1;
+      choice->choice = U_CARAVAN;
+    }
+    else if (can_build_unit(pcity, U_DIPLOMAT)) {
       choice->want = 1; /* someday, real diplomat code will be here! */
       choice->type = 1;
       choice->choice = U_DIPLOMAT;
