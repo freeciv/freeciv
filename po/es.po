@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.9\n"
-"POT-Creation-Date: 2000-07-17 11:03-0400\n"
+"POT-Creation-Date: 2000-07-20 12:34-0400\n"
 "PO-Revision-Date: 1999-10-18 23:00+1000\n"
 "Last-Translator: David Pérez Serrada <dperezs@nexo.es>\n"
 "Language-Team: Spanish <ES@li.org>\n"
@@ -516,7 +516,7 @@ msgstr ""
 "      has causado un guerra civil.Los oportunistas has crecido y se han aliado a la causa revelde,\n"
 "      los insurgentes %s han tomado el poder de %d provincias."
 
-#: server/citytools.c:1082
+#: server/citytools.c:1084
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1561,96 +1561,96 @@ msgstr "Juego: Los %s han investigado Tecnología Futura %d."
 msgid "%s discover Future Tech %d"
 msgstr "Invstigando Tecnologías futuras. %d"
 
-#: server/plrhand.c:1650
+#: server/plrhand.c:1651
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Juego: Meta de tecnologia es %s."
 
-#: server/plrhand.c:1686
+#: server/plrhand.c:1687
 msgid "Game: Cannot change rates before game start."
 msgstr "Juego: No puedes cambiar las tasas tarifas antes de que el principio del juego."
 
-#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1699
+#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1700
 msgid "Tax"
 msgstr "Impuestos"
 
-#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1701
+#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1702
 msgid "Luxury"
 msgstr "Lujos"
 
-#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1703
+#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1704
 msgid "Science"
 msgstr "Ciencia"
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1705
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Juego: %s tasa es más del máximo tasa por %s."
 
-#: server/plrhand.c:1762
+#: server/plrhand.c:1763
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Juego: %s ahora gobierna a los %s como %s."
 
-#: server/plrhand.c:1797
+#: server/plrhand.c:1798
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Juego: ¡Los %s han incitado una rebelión!"
 
-#: server/plrhand.c:1824
+#: server/plrhand.c:1825
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Juego: La tasa de los impuestos es más del máximo tasa por %s; ajustado."
 
-#: server/plrhand.c:1830
+#: server/plrhand.c:1831
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Juego: La tasa de ciencia es más del máximo tasa por %s; ajustado."
 
-#: server/plrhand.c:1836
+#: server/plrhand.c:1837
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Juego: La tasa de lujos es más del máximo tasa por %s; ajustado."
 
-#: server/plrhand.c:1891
+#: server/plrhand.c:1892
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
-#: server/plrhand.c:1901
+#: server/plrhand.c:1902
 #, fuzzy, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Juego: Te enseñan el conocimiento de %s."
 
-#: server/plrhand.c:1905
+#: server/plrhand.c:1906
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
 msgstr ""
 
-#: server/plrhand.c:1958 server/plrhand.c:1966
+#: server/plrhand.c:1959 server/plrhand.c:1967
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 
-#: server/plrhand.c:1963
+#: server/plrhand.c:1964
 #, fuzzy, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Juego: ¡%s ha cancelado el reunión!"
 
-#: server/plrhand.c:2065
+#: server/plrhand.c:2066
 msgid "Message too long in page_player_generic!!"
 msgstr "¡El mensage es demasiado largo en page_player_generic!"
 
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 #, fuzzy
 msgid "Game: You've been removed from the game!"
 msgstr "Juego: ¡Te ha quitado del juego!"
 
-#: server/plrhand.c:3052
+#: server/plrhand.c:3053
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Juego: Ha quitado a %s del juego."
 
-#: server/plrhand.c:3087 server/plrhand.c:3091
+#: server/plrhand.c:3088 server/plrhand.c:3092
 #, fuzzy, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Juego: Te enseñan el conocimiento de %s."
@@ -6202,6 +6202,19 @@ msgstr "Unidad: %s(%s%s)"
 msgid "  (%d more)"
 msgstr "  (%d más)"
 
+#: client/gui-gtk/mapctrl.c:182 client/gui-xaw/mapctrl.c:173
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
+msgstr ""
+
+#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:175
+msgid " V"
+msgstr ""
+
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:184
+msgid "A:%d D:%d FP:%d HP:%d0%%"
+msgstr ""
+
 #: client/gui-gtk/mapview.c:268 client/gui-xaw/mapview.c:248
 msgid "?timeout:off"
 msgstr ""
@@ -7044,19 +7057,6 @@ msgstr "Permite a los %s construir bases aéreas.\n"
 #, fuzzy, c-format
 msgid "City: %s(%s) %s"
 msgstr "Unidad: %s(%s%s)"
-
-#: client/gui-xaw/mapctrl.c:173
-#, c-format
-msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr ""
-
-#: client/gui-xaw/mapctrl.c:175
-msgid " V"
-msgstr ""
-
-#: client/gui-xaw/mapctrl.c:184
-msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr ""
 
 #: client/gui-xaw/mapview.c:263
 #, fuzzy, c-format

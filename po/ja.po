@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.1-devel\n"
-"POT-Creation-Date: 2000-07-20 19:25+0900\n"
+"POT-Creation-Date: 2000-07-20 12:34-0400\n"
 "PO-Revision-Date: 2000-07-20 20:57+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
@@ -10181,12 +10181,12 @@ msgid "?plural:Danes"
 msgstr "¥Ç¥ó¥Þ¡¼¥¯Ì±Â²"
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dúîedain"
+msgid "Dúnedain"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:4
 #, fuzzy
-msgid "?plural:Dúîedan"
+msgid "?plural:Dúnedan"
 msgstr "¥¤¥ó¥ÉÌ±Â²"
 
 #: data/nation/dutch.ruleset:3

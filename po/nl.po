@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.0\n"
-"POT-Creation-Date: 2000-07-17 11:03-0400\n"
+"POT-Creation-Date: 2000-07-20 12:34-0400\n"
 "PO-Revision-Date: 2000-06-22 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -493,7 +493,7 @@ msgstr ""
 "      Opportunisten zijn naar de rebellen overgelopen en het parvenue\n"
 "      %s heeft nu de macht in %d opstandige provincies."
 
-#: server/citytools.c:1082
+#: server/citytools.c:1084
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1507,95 +1507,95 @@ msgstr "Spel: De %s hebben Toekomst Tech. %d onderzocht."
 msgid "%s discover Future Tech %d"
 msgstr "%s ontdekken Toekomst Tech %d"
 
-#: server/plrhand.c:1650
+#: server/plrhand.c:1651
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spel: Technologisch doel is %s"
 
-#: server/plrhand.c:1686
+#: server/plrhand.c:1687
 msgid "Game: Cannot change rates before game start."
 msgstr "Spel: Kan waarden niet aanpassen voordat het spel is begonnen."
 
-#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1699
+#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1700
 msgid "Tax"
 msgstr "Belasting"
 
-#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1701
+#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1702
 msgid "Luxury"
 msgstr "Luxe"
 
-#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1703
+#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1704
 msgid "Science"
 msgstr "Wetenschap"
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1705
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spel: %s waarde overschreidt het maximum voor %s."
 
-#: server/plrhand.c:1762
+#: server/plrhand.c:1763
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spel: %s regeert de %s nu als een %s."
 
-#: server/plrhand.c:1797
+#: server/plrhand.c:1798
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spel: De %s zijn in opstand gekomen!"
 
-#: server/plrhand.c:1824
+#: server/plrhand.c:1825
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Belastingswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:1830
+#: server/plrhand.c:1831
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Wetenschapswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:1836
+#: server/plrhand.c:1837
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:1891
+#: server/plrhand.c:1892
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr "De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de %s."
 
-#: server/plrhand.c:1901
+#: server/plrhand.c:1902
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spel: Uw reputatie is nu %s."
 
-#: server/plrhand.c:1905
+#: server/plrhand.c:1906
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
 msgstr "Spel: De senaat besluit tot oplossing in plaats van uw akties nog langer te ondersteunen."
 
-#: server/plrhand.c:1958 server/plrhand.c:1966
+#: server/plrhand.c:1959 server/plrhand.c:1967
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spel: De diplomatieke toestand tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:1963
+#: server/plrhand.c:1964
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spel: %s heeft de diplomatieke overeenkomst verbroken!"
 
-#: server/plrhand.c:2065
+#: server/plrhand.c:2066
 msgid "Message too long in page_player_generic!!"
 msgstr "Bericht te lang in page_player_generic!!"
 
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd."
 
-#: server/plrhand.c:3052
+#: server/plrhand.c:3053
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:3087 server/plrhand.c:3091
+#: server/plrhand.c:3088 server/plrhand.c:3092
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
@@ -6147,6 +6147,19 @@ msgstr "Eenheid: %s(%s%s)"
 msgid "  (%d more)"
 msgstr "  (%d meer)"
 
+#: client/gui-gtk/mapctrl.c:182 client/gui-xaw/mapctrl.c:173
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
+msgstr "A:%d V:%d VK:%d SK:%d/%d%s%s"
+
+#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:175
+msgid " V"
+msgstr " V"
+
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:184
+msgid "A:%d D:%d FP:%d HP:%d0%%"
+msgstr "A:%d V:%d VK:%d SP:%d0%%"
+
 #: client/gui-gtk/mapview.c:268 client/gui-xaw/mapview.c:248
 msgid "?timeout:off"
 msgstr ""
@@ -6960,19 +6973,6 @@ msgstr "Staat %s toe (met %s).\n"
 #, c-format
 msgid "City: %s(%s) %s"
 msgstr "Stad: %s(%s) %s"
-
-#: client/gui-xaw/mapctrl.c:173
-#, c-format
-msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr "A:%d V:%d VK:%d SK:%d/%d%s%s"
-
-#: client/gui-xaw/mapctrl.c:175
-msgid " V"
-msgstr " V"
-
-#: client/gui-xaw/mapctrl.c:184
-msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr "A:%d V:%d VK:%d SP:%d0%%"
 
 #: client/gui-xaw/mapview.c:263
 #, c-format

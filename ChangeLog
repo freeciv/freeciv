@@ -1,3 +1,151 @@
+Thu Jul 20 16:19:23 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-mui/citydlg.c, client/gui-mui/gui_main.c,
+	client/gui-mui/gui_main.h, client/gui-mui/inputdlg.c,
+	client/gui-mui/plrdlg.c, client/gui-mui/spaceshipdlg.c:
+
+	Update to Amiga port: - GUI-MUI: Made spaceship view somewhat
+	nicer to handle.  - GUI-MUI: Added Missing close request to Change
+	and Rename dialogs.  - GUI-MUI: Added spaceship view in players
+	dialog.  - GUI-MUI: Added CTRL-G and CTRL-F support in gui-main.c
+	- GUI-MUI: Fixed menu checkmark display problems.  Patch submitted
+	by Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>.
+
+Thu Jul 20 16:15:50 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c:
+
+	Keep AI from trying impossible moves to other continents.  Patch
+	submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Thu Jul 20 12:08:22 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* doc/NEWS.ja:
+
+	Initial NEWS.ja file.
+
+Thu Jul 20 11:56:45 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1312t+22f+930u.
+
+Thu Jul 20 08:47:20 2000  Olivier Beyssac <ob@fasterix.freenix.org>:
+
+	* po/fr.po:
+
+	Minor update
+
+Thu Jul 20 05:37:19 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated Improvements by Christian Knoke <ChrisK@enter.de>
+	and Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de>
+
+Wed Jul 19 22:55:12 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Thomas Strub
+
+Wed Jul 19 22:54:12 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/plrhand.c:
+
+	Fix bug that your science is halved even when negative. (PR#455)
+
+	Bug report and solution by Thomas Strub <ue80@rz.uni-karlsruhe.de>
+
+Wed Jul 19 21:41:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/citytools.c:
+
+	Fix bug where the goto woud not work out of cities. (PR#456)
+
+	Bug reported by Kero van Gelder <freeciv@kero.tmfweb.nl>
+
+Wed Jul 19 20:47:56 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* vms/README.txt:
+
+	Added a missing end comment.
+
+	Patch by Roger Tucker <roger.tucker@wcom.com>
+
+Wed Jul 19 20:47:02 2000  Olivier Beyssac <ob@fasterix.freenix.org>:
+
+	* po/fr.po:
+
+	Update sent by Pascal Audoux
+
+Wed Jul 19 12:41:36 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapctrl.c:
+
+	Marked 3 unmarked strings.  Bug reported by Christian Knoke
+	<chrisk@enter.de>.
+
+Wed Jul 19 12:07:34 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/sernet.c:
+
+	With readline, when server is busy it would process one keystroke
+	per turn.  This adds a "continue", so that all possible keystrokes
+	are processed.
+
+Tue Jul 18 23:33:30 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Fix bug in really_generate_warmap() where railroad was ignored for
+	F_IGTER units.
+
+Tue Jul 18 23:31:23 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated.
+
+Tue Jul 18 11:57:16 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* amiga/config.h, amiga/smakefile, client/gui-mui/citydlg.c,
+	client/gui-mui/citydlg.h, client/gui-mui/cityrep.c,
+	client/gui-mui/dialogs.c, client/gui-mui/gui_main.c,
+	client/gui-mui/inputdlg.c, client/gui-mui/messagedlg.c,
+	client/gui-mui/muistuff.h, client/gui-mui/wldlg.c:
+
+	Updated the Amiga port.
+
+	News (GUI-MUI related): - Added Message options in main menu.  -
+	Added popup notify dialog.  - Added Change button support to city
+	report. The Change method is now used by city report and city view
+	and got independant from city-view structures.  - Fixed problem,
+	where creating a new (empty) worklist and renaming it caused a
+	larger Enforcer problem and loose of the entry.  - Display in city
+	report is now sorted by city name.  - Applied optimizer warnings
+	in files I already modified.
+
+	Patch submitted by Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>.
+
+Mon Jul 17 19:48:07 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv:
+
+	Bump version from 1.11.2 (beta) to 1.11.3-devel (beta).
+
+Mon Jul 17 18:08:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* BUGS, ChangeLog, NEWS, PEOPLE, configure, configure.in,
+	common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/ja.po, po/nl.po, po/no.po, po/pl.po,
+	po/pt.po, po/pt_BR.po, po/ru.po:
+
+	Begin beta-test period leading to version 1.11.4: - Changed
+	version to 1.11.2 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').  - Updated BUGS NEWS PEOPLE and ChangeLog
+	files.
+
 Mon Jul 17 14:45:43 2000  Jeff Mallatt <jjm@codewell.com>:
 
 	* acconfig.h, config.h.in, configure, configure.in,

@@ -474,10 +474,14 @@ contributions to the Freeciv project.
 
   Localization (l10n) since 1.11.0 release:
 
-     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po)
+     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po, NEWS.ja)
      Egbert Hinzen <egbert@ehinzen.de> (de.po)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
      David Pfitzner <dwp@mso.anu.edu.au> (en_GB.po)
+     Olivier Beyssac <ob@r14.freenix.org> (fr.po)
+     Christian Knoke <chrisk@enter.de> (de.po)
+     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (de.po)
+     Pascal Audoux <audoux@yalbi.com> (fr.po)
 
   Localization (l10n) up to 1.11.0 release:
      (Version numbers refer to the first non-beta release

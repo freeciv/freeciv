@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
-"POT-Creation-Date: 2000-07-17 11:03-0400\n"
+"POT-Creation-Date: 2000-07-20 12:34-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stig E Sandø <stig@ii.uib.no>\n"
 "Language-Team: \n"
@@ -509,7 +509,7 @@ msgstr ""
 "       strukturer har utløst en borgerkrig. Opportunister har sluttet seg til\n"
 "       opprørne, og oppkomlingen %s har nå makten i %d fylker."
 
-#: server/citytools.c:1082
+#: server/citytools.c:1084
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1535,96 +1535,96 @@ msgstr "Spill: %s har forsket fram Framtidsteknologi %d."
 msgid "%s discover Future Tech %d"
 msgstr "%s har oppdaget Framtidsteknologi %d."
 
-#: server/plrhand.c:1650
+#: server/plrhand.c:1651
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spill: Teknologimålet er %s."
 
-#: server/plrhand.c:1686
+#: server/plrhand.c:1687
 msgid "Game: Cannot change rates before game start."
 msgstr "Spill: Kan ikke endre prioritering/nivå før spillstart."
 
-#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1699
+#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1700
 msgid "Tax"
 msgstr "Skatt"
 
-#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1701
+#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1702
 msgid "Luxury"
 msgstr "Luksus"
 
-#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1703
+#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1704
 msgid "Science"
 msgstr "Forskning"
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1705
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spill: %s nivået er større enn maks-nivået for %s."
 
-#: server/plrhand.c:1762
+#: server/plrhand.c:1763
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spill: %s styrer nå %s som %s."
 
-#: server/plrhand.c:1797
+#: server/plrhand.c:1798
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spill: %s har startet et opprør!"
 
-#: server/plrhand.c:1824
+#: server/plrhand.c:1825
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Skattenivået er høyere enn max nivå for %s; justert."
 
-#: server/plrhand.c:1830
+#: server/plrhand.c:1831
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Forskningsnivået er høyere enn maksnivået for %s; justert."
 
-#: server/plrhand.c:1836
+#: server/plrhand.c:1837
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Luksusnivået er høyere enn maksnivået for %s; justert."
 
-#: server/plrhand.c:1891
+#: server/plrhand.c:1892
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
-#: server/plrhand.c:1901
+#: server/plrhand.c:1902
 #, fuzzy, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spill: Din %s ødela %s i %s."
 
-#: server/plrhand.c:1905
+#: server/plrhand.c:1906
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
 msgstr ""
 
-#: server/plrhand.c:1958 server/plrhand.c:1966
+#: server/plrhand.c:1959 server/plrhand.c:1967
 #, fuzzy, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spill: %s ødela %s i %s."
 
-#: server/plrhand.c:1963
+#: server/plrhand.c:1964
 #, fuzzy, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spill: %s avbrøt møtet!"
 
 # oversetter ikke
-#: server/plrhand.c:2065
+#: server/plrhand.c:2066
 msgid "Message too long in page_player_generic!!"
 msgstr "Beskjed for lang i page_player_generic!!"
 
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 msgid "Game: You've been removed from the game!"
 msgstr "Spill: Du har blitt fjernet fra spillet!"
 
-#: server/plrhand.c:3052
+#: server/plrhand.c:3053
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spill: %s har blitt fjernet fra spillet."
 
-#: server/plrhand.c:3087 server/plrhand.c:3091
+#: server/plrhand.c:3088 server/plrhand.c:3092
 #, fuzzy, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spill: Du har etablert en ambassade i %s."
@@ -6215,6 +6215,19 @@ msgstr "Enhet: %s(%s%s)"
 msgid "  (%d more)"
 msgstr "  (%d flere)"
 
+#: client/gui-gtk/mapctrl.c:182 client/gui-xaw/mapctrl.c:173
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
+msgstr "A:%d F:%d FP:%d TK:%d/%d%s%s"
+
+#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:175
+msgid " V"
+msgstr " V"
+
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:184
+msgid "A:%d D:%d FP:%d HP:%d0%%"
+msgstr "A:%d F:%d FP:%d TK:%d0%%"
+
 #: client/gui-gtk/mapview.c:268 client/gui-xaw/mapview.c:248
 msgid "?timeout:off"
 msgstr ""
@@ -7035,19 +7048,6 @@ msgstr "Tillater %s (med %s).\n"
 #, c-format
 msgid "City: %s(%s) %s"
 msgstr "By: %s(%s) %s"
-
-#: client/gui-xaw/mapctrl.c:173
-#, c-format
-msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr "A:%d F:%d FP:%d TK:%d/%d%s%s"
-
-#: client/gui-xaw/mapctrl.c:175
-msgid " V"
-msgstr " V"
-
-#: client/gui-xaw/mapctrl.c:184
-msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr "A:%d F:%d FP:%d TK:%d0%%"
 
 #: client/gui-xaw/mapview.c:263
 #, c-format
