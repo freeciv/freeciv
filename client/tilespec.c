@@ -1472,6 +1472,8 @@ static void tilespec_lookup_sprite_tags(void)
       SET_SPRITE(colors.player[i], buffer);
     }
 
+    SET_SPRITE(grid.unavailable, "grid.unavailable");
+
     for (i = 0; i < EDGE_COUNT; i++) {
       char *name[EDGE_COUNT] = {"ns", "we"};
       int j, p;
@@ -1484,9 +1486,6 @@ static void tilespec_lookup_sprite_tags(void)
 
       my_snprintf(buffer, sizeof(buffer), "grid.worked.%s", name[i]);
       SET_SPRITE(grid.worked[i], buffer);
-
-      my_snprintf(buffer, sizeof(buffer), "grid.unavailable.%s", name[i]);
-      SET_SPRITE(grid.unavailable[i], buffer);
 
       my_snprintf(buffer, sizeof(buffer), "grid.selected.%s", name[i]);
       SET_SPRITE(grid.selected[i], buffer);
@@ -2813,7 +2812,7 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
     }
   } else if (pedge) {
     bool known[EDGE_COUNT], city[EDGE_COUNT], unit[EDGE_COUNT];
-    bool worked[EDGE_COUNT], blocked[EDGE_COUNT];
+    bool worked[EDGE_COUNT];
     int i;
     struct unit *pfocus = get_unit_in_focus();
 
@@ -2823,26 +2822,35 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
       int dummy_x, dummy_y;
 
       known[i] = tile && tile_get_known(tile) != TILE_UNKNOWN;
-      city[i] = tile && (powner == NULL || powner == game.player_ptr)
-	&& player_in_city_radius(game.player_ptr, tile);
       unit[i] = tile && pfocus && unit_flag(pfocus, F_CITIES)
 	&& city_can_be_built_here(pfocus->tile, pfocus)
 	&& base_map_to_city_map(&dummy_x, &dummy_y, pfocus->tile, tile);
-      worked[i] = blocked[i] = FALSE;
-      if (city[i]) {
-	enum city_tile_type ttype;
-	struct city *dummy;
+      worked[i] = FALSE;
 
-	get_worker_on_map_position(tile, &ttype, &dummy);
-	switch (ttype) {
-	case C_TILE_EMPTY:
-	  break;
-	case C_TILE_WORKER:
-	  worked[i] = TRUE;
-	  break;
-	case C_TILE_UNAVAILABLE:
-	  blocked[i] = TRUE;
-	  break;
+      city[i] = tile && (powner == NULL || powner == game.player_ptr)
+	&& player_in_city_radius(game.player_ptr, tile);
+      if (city[i]) {
+	if (citymode) {
+	  int cx, cy;
+
+	  if (map_to_city_map(&cx, &cy, citymode, tile)) {
+	    /* In citymode, we only draw worked tiles for this city - other
+	     * tiles may be marked as unavailable. */
+	    worked[i] = citymode->city_map[cx][cy] == C_TILE_WORKER;
+	  }
+	} else {
+	  enum city_tile_type ttype;
+	  struct city *dummy;
+
+	  get_worker_on_map_position(tile, &ttype, &dummy);
+	  switch (ttype) {
+	  case C_TILE_EMPTY:
+	  case C_TILE_UNAVAILABLE:
+	    break;
+	  case C_TILE_WORKER:
+	    worked[i] = TRUE;
+	    break;
+	  }
 	}
       }
     }
@@ -2859,9 +2867,7 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
 		   ^ is_ocean(pedge->tile[1]->terrain))) {
       ADD_SPRITE_SIMPLE(sprites.grid.coastline[pedge->type]);
     } else if (draw_map_grid) {
-      if (blocked[0] || blocked[1]) {
-	ADD_SPRITE_SIMPLE(sprites.grid.unavailable[pedge->type]);
-      } else if (worked[0] || worked[1]) {
+      if (worked[0] || worked[1]) {
 	ADD_SPRITE_SIMPLE(sprites.grid.worked[pedge->type]);
       } else if (city[0] || city[1]) {
 	ADD_SPRITE_SIMPLE(sprites.grid.city[pedge->type]);
@@ -2891,6 +2897,18 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
 			    [owner1->player_no][pedge->type][1]);
 	}
       }
+    }
+  } else if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    int cx, cy;
+    enum city_tile_type ttype;
+    struct city *dummy;
+
+    if ((citymode
+	 && map_to_city_map(&cx, &cy, citymode, ptile)
+	 && citymode->city_map[cx][cy] == C_TILE_UNAVAILABLE)
+	|| (get_worker_on_map_position(ptile, &ttype, &dummy),
+	    ttype == C_TILE_UNAVAILABLE)) {
+      ADD_SPRITE_SIMPLE(sprites.grid.unavailable);
     }
   }
 

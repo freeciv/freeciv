@@ -327,7 +327,7 @@ struct named_sprites {
       *main[EDGE_COUNT],
       *city[EDGE_COUNT],
       *worked[EDGE_COUNT],
-      *unavailable[EDGE_COUNT],
+      *unavailable,
       *selected[EDGE_COUNT],
       *coastline[EDGE_COUNT],
       *borders[EDGE_COUNT][2],

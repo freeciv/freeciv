@@ -203,7 +203,8 @@ void city_dialog_redraw_map(struct city *pcity,
 	put_city_tile_output(pcity, city_x, city_y,
 			     pcanvas, canvas_x, canvas_y);
       }
-      if (pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
+      if (!sprites.grid.main[EDGE_NS]
+	  && pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
 	put_red_frame_tile(pcanvas, canvas_x, canvas_y);
       }
     }
