@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
-"PO-Revision-Date: 2003-09-20 01:03-0400\n"
+"POT-Creation-Date: 2003-12-02 14:15+0300\n"
+"PO-Revision-Date: 2003-12-02 14:44+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -164,8 +164,8 @@ msgstr "Радиация"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr ""
-"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла %"
-"s"
+"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла "
+"%s"
 
 #: common/packets.c:3059
 msgid ""
@@ -408,7 +408,7 @@ msgstr "Преобразовать"
 msgid "Patrol"
 msgstr "Патрулировать"
 
-#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1801
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
 #: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
@@ -1082,7 +1082,7 @@ msgstr ""
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr "Вы не владеете %s, нельзя заключить договор."
 
-#: server/diplhand.c:169
+#: server/diplhand.c:169 server/diplhand.c:258
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Игра: Требуют вашу столицу (%s), нельзя заключить договор."
@@ -1116,87 +1116,87 @@ msgstr ""
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Игра: %s более не контролируют город %s! Договор отменен!"
 
-#: server/diplhand.c:260 server/diplhand.c:264
+#: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Игра: %s не имеют обещанного количества денег! Договор отменен!"
 
-#: server/diplhand.c:289
+#: server/diplhand.c:296
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Игра: Вам преподали знание %s."
 
-#: server/diplhand.c:293
+#: server/diplhand.c:300
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Игра: %s приобрели %s от народа %s."
 
-#: server/diplhand.c:298
+#: server/diplhand.c:305
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s приобрели %s (Договор) от народа %s."
 
-#: server/diplhand.c:308
+#: server/diplhand.c:315
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Игра: Вы получили %d золота."
 
-#: server/diplhand.c:314
+#: server/diplhand.c:321
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Игра: Вы получили карту мира %s."
 
-#: server/diplhand.c:319
+#: server/diplhand.c:326
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Вы получили морскую карту %s."
 
-#: server/diplhand.c:334
+#: server/diplhand.c:341
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Игра: Вы получили город %s от %s."
 
-#: server/diplhand.c:338
+#: server/diplhand.c:345
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Игра: Вы сдали город %s. Захватчик - %s."
 
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:357 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Игра: Вы договорились о перемирии с %s."
 
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:369 server/diplhand.c:372
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Игра: Вы договорились о мире с %s."
 
-#: server/diplhand.c:374 server/diplhand.c:377
+#: server/diplhand.c:381 server/diplhand.c:384
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Игра: Вы заключили союз с %s."
 
-#: server/diplhand.c:385
+#: server/diplhand.c:392
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Игра: Вы поделились вашим зрением с %s."
 
-#: server/diplhand.c:388
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Игра: %s поделились с вами своим зрением."
 
-#: server/diplhand.c:489
+#: server/diplhand.c:496
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Игра: %s отказались от переговоров!"
 
-#: server/diplhand.c:495
+#: server/diplhand.c:502
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Игра: Встреча с %s прекращена."
 
-#: server/diplhand.c:538
+#: server/diplhand.c:545
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr ""
 "Компьютерные игроки не могут участвовать в дипломатических переговорах."
@@ -1805,8 +1805,8 @@ msgstr "%s образуют %s"
 
 #: server/plrhand.c:741
 #, c-format
-msgid "Game: The %s have incited a %d-turn revolt!"
-msgstr "Игра: %s начали %d-ходовую революцию!"
+msgid "Game: The %s have incited a revolt!"
+msgstr "Игра: %s начали революцию!"
 
 #: server/plrhand.c:743
 #, c-format
@@ -1882,7 +1882,13 @@ msgstr "Игра: %s был удален из игры."
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:1748
+#: server/plrhand.c:1733
+#, c-format
+msgid "Could not throw %s into civil war - too many players"
+msgstr ""
+"Невозможно ввергнуть народ %s в гражданскую войну - слишком много игроков"
+
+#: server/plrhand.c:1755
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1891,12 +1897,12 @@ msgstr ""
 "Игра: В вашей стране началась гражданская война, %s объявлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:1768
+#: server/plrhand.c:1775
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:1791
+#: server/plrhand.c:1801
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -5363,7 +5369,7 @@ msgstr ""
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Игра: ваш перелет пугает племя, оно разбегается в ужасе."
 
-#: server/unittools.c:3118
+#: server/unittools.c:3096
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6939,7 +6945,7 @@ msgstr ""
 "Производство окончено: %s"
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:145
 msgid "Cleared output window."
 msgstr "Окно вывода очищено."
 
@@ -7190,89 +7196,89 @@ msgstr " - счастливы"
 msgid "blocked"
 msgstr "заблокировано"
 
-#: client/gui-gtk-2.0/citydlg.c:1683
+#: client/gui-gtk-2.0/citydlg.c:1684
 #, c-format
 msgid "Supported units %d"
 msgstr "Поддерживаемые войска: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1777
+#: client/gui-gtk-2.0/citydlg.c:1779
 #, c-format
 msgid "Present units %d"
 msgstr "Присутствующие соединения: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:1803 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk-2.0/citydlg.c:1806 client/gui-gtk/citydlg.c:2300
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Торговля с %s дает %d золотых\n"
 
-#: client/gui-gtk-2.0/citydlg.c:1810 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:1812 client/gui-gtk/citydlg.c:2306
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1421
 msgid "No trade routes exist."
 msgstr "Нет торговых путей."
 
-#: client/gui-gtk-2.0/citydlg.c:1813
+#: client/gui-gtk-2.0/citydlg.c:1815
 #, c-format
 msgid "Total trade from trade route %d"
 msgstr "Всего торговли от торговых путей: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
+#: client/gui-gtk-2.0/citydlg.c:1932 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "Центр"
 
-#: client/gui-gtk-2.0/citydlg.c:1936 client/gui-gtk-2.0/citydlg.c:1988
+#: client/gui-gtk-2.0/citydlg.c:1938 client/gui-gtk-2.0/citydlg.c:1990
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
 msgstr "Задействовать соед."
 
-#: client/gui-gtk-2.0/citydlg.c:1942 client/gui-gtk-2.0/citydlg.c:1994
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-2.0/citydlg.c:1996
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
 msgstr "Задействовать соед., закрыть диалог"
 
-#: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-2.0/citydlg.c:2022
+#: client/gui-gtk-2.0/citydlg.c:1950 client/gui-gtk-2.0/citydlg.c:2024
 #: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1675 client/gui-win32/citydlg.c:1707
 msgid "_Disband unit"
 msgstr "Расформировать соед."
 
-#: client/gui-gtk-2.0/citydlg.c:2000 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1703
 msgid "_Sentry unit"
 msgstr "Сторожить соед."
 
-#: client/gui-gtk-2.0/citydlg.c:2011 client/gui-gtk/citydlg.c:2517
+#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1705
 msgid "_Fortify unit"
 msgstr "Укрепить соед."
 
-#: client/gui-gtk-2.0/citydlg.c:2028 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2520
 #: client/gui-win32/citydlg.c:1709
 msgid "Make new _homecity"
 msgstr "Сменить домашний город"
 
-#: client/gui-gtk-2.0/citydlg.c:2038 client/gui-gtk/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2040 client/gui-gtk/citydlg.c:2522
 #: client/gui-win32/citydlg.c:1711
 msgid "_Upgrade unit"
 msgstr "Модернизировать соед."
 
-#: client/gui-gtk-2.0/citydlg.c:2229 client/gui-gtk/citydlg.c:2695
+#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk/citydlg.c:2695
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1621
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Извините, невозможно модернизировать %s."
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
@@ -7280,7 +7286,7 @@ msgstr "Извините, невозможно модернизировать %s."
 msgid "Upgrade Unit!"
 msgstr "Модернизировать соединение!"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
 #: client/gui-xaw/citydlg.c:2120
 #, c-format
@@ -7291,7 +7297,7 @@ msgstr ""
 "Модернизировать %s до %s за %d золота?\n"
 "В казне %d золота."
 
-#: client/gui-gtk-2.0/citydlg.c:2250 client/gui-gtk-2.0/repodlgs.c:1007
+#: client/gui-gtk-2.0/citydlg.c:2252 client/gui-gtk-2.0/repodlgs.c:1007
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/repodlgs.c:905
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/repodlgs.c:586
@@ -7299,7 +7305,7 @@ msgstr ""
 msgid "Upgrade Obsolete Units"
 msgstr "Модернизировать устаревшие войска"
 
-#: client/gui-gtk-2.0/citydlg.c:2265 client/gui-gtk/citydlg.c:2716
+#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1884 client/gui-win32/citydlg.c:1641
 #: client/gui-xaw/citydlg.c:2130
 #, c-format
@@ -7310,7 +7316,7 @@ msgstr ""
 "Модернизация %s до %s стоит %d золота.\n"
 "В казне %d золота."
 
-#: client/gui-gtk-2.0/citydlg.c:2417 client/gui-gtk/citydlg.c:2900
+#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1046 client/gui-win32/citydlg.c:1034
 #: client/gui-xaw/citydlg.c:2050
 #, c-format
@@ -7321,7 +7327,7 @@ msgstr ""
 "Купить %s за %d золота?\n"
 "В казне %d золота."
 
-#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk-2.0/citydlg.c:2436
+#: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2438
 #: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/citydlg.c:1059
 #: client/gui-win32/citydlg.c:1037 client/gui-win32/citydlg.c:1046
@@ -7329,7 +7335,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Купить!"
 
-#: client/gui-gtk-2.0/citydlg.c:2433 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk-2.0/citydlg.c:2435 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1056 client/gui-win32/citydlg.c:1043
 #: client/gui-xaw/citydlg.c:2059
 #, c-format
@@ -7340,25 +7346,25 @@ msgstr ""
 "%s стоит %d золота.\n"
 "В казне %d золота."
 
-#: client/gui-gtk-2.0/citydlg.c:2466 client/gui-gtk/citydlg.c:3167
+#: client/gui-gtk-2.0/citydlg.c:2468 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1084 client/gui-win32/citydlg.c:1092
 #: client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Продать %s за %d золотых?"
 
-#: client/gui-gtk-2.0/citydlg.c:2470 client/gui-gtk/citydlg.c:3171
+#: client/gui-gtk-2.0/citydlg.c:2472 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1089 client/gui-win32/citydlg.c:1097
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Продать!"
 
-#: client/gui-gtk-2.0/citydlg.c:2548 client/gui-gtk/citydlg.c:3329
+#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3329
 #: client/gui-win32/citydlg.c:1356 data/Freeciv:524
 msgid "Rename City"
 msgstr "Переименовать город"
 
-#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3331
+#: client/gui-gtk-2.0/citydlg.c:2552 client/gui-gtk/citydlg.c:3331
 #: client/gui-win32/citydlg.c:1357 client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "Как мы должны переименовать город?"
