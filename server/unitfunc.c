@@ -2616,8 +2616,8 @@ void raze_city(struct city *pcity)
       pcity->improvements[i]=0;
     }
   }
-  if (pcity->shield_stock > 0)
-    pcity->shield_stock=0;
+  pcity->before_change_shields = 0;
+  pcity->shield_stock = 0;
   /*  advisor_choose_build(pcity);  we add the civ bug here :)*/
 }
 
