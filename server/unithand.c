@@ -988,6 +988,17 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   /*** Try to attack if there is an enemy unit on the target tile ***/
   if (pdefender
       && pplayers_at_war(unit_owner(punit), unit_owner(pdefender))) {
+    if (pcity && !pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: Can't attack %s's unit in the city of %s "
+			 "because you are not at war with %s."),
+		       unit_owner(pdefender)->name,
+		       pcity->name,
+		       city_owner(pcity)->name);
+      how_to_declare_war(pplayer);
+      return FALSE;
+    }
+
     if (!can_unit_attack_tile(punit, dest_x , dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
   		       _("Game: You can't attack there."));
@@ -1000,17 +1011,9 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     }
 
-    if (pcity && !pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Can't attack %s's unit in the city of %s "
-			 "because you are not at war with %s."),
-		       unit_owner(pdefender)->name,
-		       pcity->name,
-		       city_owner(pcity)->name);
-      how_to_declare_war(pplayer);
-      return FALSE;
-    }
-
+    /* FIXME: This code will never activate for AI players, and for
+     * human players the server-side goto implementation should be
+     * obsoleted for client usage. So in time, remove the code below. */
     if (punit->activity == ACTIVITY_GOTO && 
         !same_pos(punit->goto_dest_x, punit->goto_dest_y, dest_x, dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,

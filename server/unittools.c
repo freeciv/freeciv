@@ -104,18 +104,23 @@ int find_a_unit_type(int role, int role_tech)
 }
 
 /**************************************************************************
-  Unit can't attack if:
+ Unit can't attack if:
  1) it doesn't have any attack power.
  2) it's not a fighter and the defender is a flying unit (except city/airbase).
  3) if it's not a marine (and ground unit) and it attacks from ocean.
  4) a ground unit can't attack a ship on an ocean square (except marines).
  5) the players are not at war.
+ 6) a city there is owned by non-attack player
+
+ Does NOT check:
+ 1) Moves left
 **************************************************************************/
 bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
-				 int dest_x, int dest_y)
+                                  int dest_x, int dest_y)
 {
   enum tile_terrain_type fromtile;
   enum tile_terrain_type totile;
+  struct city *pcity = map_get_city(dest_x, dest_y);
 
   fromtile = map_get_terrain(punit->x, punit->y);
   totile   = map_get_terrain(dest_x, dest_y);
@@ -150,6 +155,10 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
   /* Shore bombardement */
   if (is_ocean(fromtile) && is_sailing_unit(punit) && !is_ocean(totile)) {
     return (get_attack_power(punit)>0);
+  }
+
+  if (pcity && !pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
+    return FALSE;
   }
 
   return TRUE;
