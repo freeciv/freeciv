@@ -981,18 +981,19 @@ static void player_load(struct player *plr, int plrno,
 						"player%d.u%d.connecting",
 						plrno, i);
 
-    {
-      /* goto */
-      bool has_goto = secfile_lookup_bool_default(file, TRUE, "player%d.u%d.go",
-                                                  plrno, i);
-      if (has_goto) {
-        punit->go = &punit->goto_struct;
-        punit->go->x = secfile_lookup_int(file, 
-					  "player%d.u%d.goto_x", plrno,i);
-        punit->go->y = secfile_lookup_int(file, 
-					  "player%d.u%d.goto_y", plrno,i);
-      }
+    /* Load the goto information.  Older savegames will not have the
+     * "go" field, so we just load the goto destination by default. */
+    if (secfile_lookup_bool_default(file, TRUE,
+				    "player%d.u%d.go", plrno, i)) {
+      punit->go = &punit->goto_struct;
+      punit->go->x = secfile_lookup_int(file,
+					"player%d.u%d.goto_x", plrno, i);
+      punit->go->y = secfile_lookup_int(file, 
+					"player%d.u%d.goto_y", plrno, i);
+    } else {
+      punit->go = NULL;
     }
+
     punit->ai.control=secfile_lookup_bool(file, "player%d.u%d.ai", plrno,i);
     punit->ai.ai_role = AIUNIT_NONE;
     punit->ai.ferryboat = 0;
