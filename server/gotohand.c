@@ -208,6 +208,8 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
 
   switch (move_type) {
   case LAND_MOVING:
+  case HELI_MOVING:
+  case AIR_MOVING:
     for (x = 0; x < map.xsize; x++)
       memset(warmap.cost[x], MAXCOST, map.ysize*sizeof(unsigned char));
     warmap.cost[orig_x][orig_y] = 0;
@@ -408,26 +410,6 @@ void generate_warmap(struct city *pcity, struct unit *punit)
     warmap.orig_x = pcity->x;
     warmap.orig_y = pcity->y;
   }
-}
-
-/**************************************************************************
-Resets the warmap for a new GOTO calculation.
-FIXME: Do we have to memset the warmap vector?
-**************************************************************************/
-static void init_gotomap(int orig_x, int orig_y, enum unit_move_type move_type)
-{
-  switch (move_type) {
-  case LAND_MOVING:
-  case HELI_MOVING:
-  case AIR_MOVING:
-    init_warmap(orig_x, orig_y, LAND_MOVING);
-    break;
-  case SEA_MOVING:
-    init_warmap(orig_x, orig_y, SEA_MOVING);
-    break;
-  }
-
-  return;
 }
 
 /**************************************************************************
@@ -650,7 +632,7 @@ static int find_the_shortest_path(struct unit *punit,
   
   local_vector[orig_x][orig_y] = 0;
 
-  init_gotomap(punit->x, punit->y, move_type);
+  init_warmap(punit->x, punit->y, move_type);
   add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit && unit_flag(punit, F_IGTER))
@@ -1573,7 +1555,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
     int x1, y1, dir, cost;
     struct unit *penemy;
 
-    init_gotomap(src_x, src_y, AIR_MOVING);
+    init_warmap(src_x, src_y, AIR_MOVING);
     add_to_mapqueue(0, src_x, src_y);
 
     while (get_from_mapqueue(&x, &y)) {
