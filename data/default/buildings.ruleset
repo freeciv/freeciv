@@ -1946,7 +1946,12 @@ Counts as a Police Station in every city.  (That is, for each city,\
 ; outside a city that is causing at least one unhappiness.
 
 [building_capitalization]
-name		= _("Capitalization")
+; FIXME: these are the real name/tech_req; restore when have a subordnate analogue
+; /* (ignore for gettext until fixed)
+;name		= _("Capitalization")
+;tech_req	= "The Corporation"
+; */
+name		= _("Coinage")
 tech_req	= "None"
 bldg_req	= "None"
 ;terr_gate	=
@@ -1963,10 +1968,18 @@ effect		=
     { "type", "range", "amount"
 	"Prod_To_Gold", "City", 100
     }
+; FIXME: this is the real helptext; restore when have a subordnate analogue
+; /* (ignore for gettext until fixed)
+;helptext	= _("\
+;This is not a normal improvement.  Instead, setting a city's\
+; production to Capitalization means its shield production is\
+; converted to tax output (money).\
+;")
+; */
 helptext	= _("\
 This is not a normal improvement.  Instead, setting a city's\
- production to Capitalization means its shield production is\
- converted to tax output (money).\
+ production to Coinage means its shield production is\
+ converted to tax output (money, coins!).\
 ")
 
 
