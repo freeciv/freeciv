@@ -2192,11 +2192,9 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
 
     /*** Dither base terrain ***/
-/* Remove until fix. -vasc
     if (draw_terrain)
       dither_tile(pm, dither, canvas_x, canvas_y,
 		  offset_x, offset_y, width, height, fog);
-*/
   }
 
   /*** Rest of terrain and specials ***/
