@@ -53,9 +53,11 @@
 
 #define MAX_AUTHENTICATION_TRIES 3
 
+#ifdef AUTHENTICATION_ENABLED 
 /* after each wrong guess for a password, the server waits this
  * many seconds to reply to the client */
-const int auth_fail_period[] = { 1, 1, 2, 3 };
+static const int auth_fail_period[] = { 1, 1, 2, 3 };
+#endif
 
 static void establish_new_connection(struct connection *pconn);
 static void reject_new_connection(char *msg, struct connection *pconn);
