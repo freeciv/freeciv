@@ -564,6 +564,9 @@ int can_unit_build_city(struct unit *punit)
   if(map_get_terrain(punit->x, punit->y)==T_OCEAN)
     return 0;
 
+  if(!punit->moves_left)
+    return 0;
+
   return 1;
 }
 
