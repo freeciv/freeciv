@@ -1625,8 +1625,6 @@ static bool create_island(int islemass, struct gen234_state *pstate)
 
 /*************************************************************************/
 
-static long int totalweight;
-
 /**************************************************************************
   make an island, fill every tile type except plains
   note: you have to create big islands first.
@@ -1778,6 +1776,7 @@ static void initworld(struct gen234_state *pstate)
 **************************************************************************/
 static void mapgenerator2(void)
 {
+  long int totalweight;
   struct gen234_state state;
   struct gen234_state *pstate = &state;
   int i;
@@ -1795,13 +1794,7 @@ static void mapgenerator2(void)
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
   /* copying the flow of the make_island loops is the safest way */
-  totalweight= 0;
-  for (i = game.nplayers; i > 0; i--)
-    totalweight+= 70;
-  for (i = game.nplayers; i > 0; i--)
-    totalweight+= 20;
-  for (i = game.nplayers; i > 0; i--)
-    totalweight+= 10;
+  totalweight = 100 * game.nplayers;
 
   initworld(pstate);
 
@@ -1904,7 +1897,7 @@ static void mapgenerator3(void)
     
   if(j==1500) {
     freelog(LOG_NORMAL, _("Generator 3 left %li landmass unplaced."), checkmass);
-  } else if(checkmass>map.xsize+map.ysize+totalweight) {
+  } else if (checkmass > map.xsize + map.ysize) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
 
@@ -1918,13 +1911,13 @@ static void mapgenerator4(void)
   int bigweight=70;
   int spares= 1;
   int i;
+  long int totalweight;
   struct gen234_state state;
   struct gen234_state *pstate = &state;
 
 
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
-  i = game.nplayers / 2;
   if ( game.nplayers<2 || map.landpercent > 80) {
     map.generator = 3;
     return;
@@ -1944,17 +1937,7 @@ static void mapgenerator4(void)
       100;
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
-  totalweight= 0;
-  if ((game.nplayers % 2) == 1)
-    totalweight+= bigweight*3;
-  else
-    i++;
-  while ((--i) > 0)
-    totalweight+= bigweight*2;
-  for (i = game.nplayers; i > 0; i--)
-    totalweight+= 20;
-  for (i = game.nplayers; i > 0; i--)
-    totalweight+= 10;
+  totalweight = (30 + bigweight) * game.nplayers;
 
   initworld(pstate);
 
