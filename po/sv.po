@@ -1,12 +1,12 @@
 # Swedish translation for Freeciv
-# Copyright (C) 2000-2003 Erik Sigra
+# Copyright (C) 2000-2004 Erik Sigra
 # Erik Sigra <freeciv@home.se>, <sigra@home.se>.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.39-1.14-10\n"
+"Project-Id-Version: 0.39-1.14-11\n"
 "POT-Creation-Date: 2003-12-30 13:54+0100\n"
-"PO-Revision-Date: 2003-12-31 11:08+0100\n"
+"PO-Revision-Date: 2004-01-10 00:23+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -172,35 +172,35 @@ msgstr ""
 
 #: common/player.c:502
 msgid "Spotless"
-msgstr "Fläckfritt"
+msgstr "fläckfri"
 
 #: common/player.c:504
 msgid "Excellent"
-msgstr "Utmärkt"
+msgstr "utmärkt"
 
 #: common/player.c:506
 msgid "Honorable"
-msgstr "Hedervärt"
+msgstr "ärevördig"
 
 #: common/player.c:508
 msgid "Questionable"
-msgstr "Tveksamt"
+msgstr "tveksam"
 
 #: common/player.c:510
 msgid "Dishonorable"
-msgstr "Ohedervärt"
+msgstr "oärlig"
 
 #: common/player.c:512
 msgid "Poor"
-msgstr "Dåligt"
+msgstr "dålig"
 
 #: common/player.c:514
 msgid "Despicable"
-msgstr "Föraktningsvärt"
+msgstr "föraktningsvärd"
 
 #: common/player.c:516
 msgid "Atrocious"
-msgstr "Förbrytaraktigt"
+msgstr "skurkaktig"
 
 #: common/player.c:526
 msgid "?diplomatic_state:Neutral"
@@ -936,7 +936,8 @@ msgstr "Spel: Friden är återställd i %s."
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
-"Spel: Medborgarna ha störtat vår regering (%s). Vårt land är i vild ofrid."
+"Spel: Medborgarna ha störtat vår regering (%s). Vårt land härjas av "
+"oroligheter."
 
 #: server/cityturn.c:1373
 #, c-format
@@ -1107,7 +1108,7 @@ msgstr ""
 #: server/diplhand.c:245 server/diplhand.c:250
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr "Spel: %s styr inte längre %s! Avtalet träder inte i kraft!"
+msgstr "Spel: %s styra ej längre %s! Avtalet träder ej i kraft!"
 
 #: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
@@ -1659,7 +1660,7 @@ msgstr "Spel: Vi äro döda!"
 #: server/plrhand.c:179
 #, c-format
 msgid "Game: The %s are no more!"
-msgstr "Spel: %s finns inte mer!"
+msgstr "Spel: %s finnas ej mer!"
 
 #: server/plrhand.c:181
 #, c-format
@@ -1689,7 +1690,7 @@ msgstr ""
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
-"Spel: Vi lärde oss %s. Våra vetenskapsmän inriktar sig på %s. Målet är %s."
+"Spel: Vi lärde oss %s. Våra vetenskapsmän inrikta sig på %s. Målet är %s."
 
 #: server/plrhand.c:285
 #, c-format
@@ -3001,7 +3002,7 @@ msgstr ""
 "Det finns en handelsbegränsning för alla städer mindre än detta värde. "
 "Begränsningen är 100% (ingen handel alls) för städer upp till notradesize "
 "och minskar gradvis till 0% (ingen begränsning förutom vanlig mutning) för "
-"städer av storlek fulltradesize. Se även notradesize."
+"städer av storlek fulltradesize. Se även \"notradesize\"."
 
 #: server/stdinhand.c:438
 msgid "Maximum size of a city without trade"
@@ -3013,21 +3014,22 @@ msgid ""
 "The produced trade increases gradually for cities larger than notradesize "
 "and smaller than fulltradesize.  See also fulltradesize."
 msgstr ""
-"Inga städer med storle <= detta värde ge någon handel alls. Handeln öker "
-"gradvis för städer > notradesize och < fulltradesize. Se även fulltradesize."
+"Inga städer med storlek <= detta värde ge någon handel alls. Handeln öker "
+"gradvis för städer > \"notradesize\" och < \"fulltradesize\". Se även "
+"\"fulltradesize\"."
 
 #: server/stdinhand.c:448
 msgid "City size before people become unhappy"
-msgstr "Stadsstorlek innan folk blir otillfredställda"
+msgstr "Stadsstorlek innan folk bli otillfredställda"
 
 #: server/stdinhand.c:449
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
 msgstr ""
-"Innan andra faktorer inverkar, äro de första unhappysize medborgarna i en "
-"stad nöjda, och de efterföljande medborgarna äro otillfredställda. Se även "
-"cityfactor."
+"Innan andra faktorer inverkar, äro de första \"unhappysize\" medborgarna i "
+"en stad nöjda, och de efterföljande medborgarna äro otillfredställda. Se "
+"även \"cityfactor\"."
 
 #
 #: server/stdinhand.c:456
@@ -3042,7 +3044,7 @@ msgid ""
 msgstr ""
 "Inför ilskna medborgare liksom civilization II. Ilskna medborgare måste bli "
 "otillfredställda innan någon annan medborgargrupp medtages i beräkningen. Se "
-"även unhappysize, cityfactor och governments."
+"även \"unhappysize\", \"cityfactor\" och \"governments\"."
 
 #: server/stdinhand.c:464
 msgid "Number of cities for higher unhappiness"
@@ -3057,7 +3059,7 @@ msgid ""
 msgstr ""
 "När antalet städer som en spelare äger är större än cityfactor, blir "
 "ytterligare en medborgare otillfredställd innan andra faktorer inverkar; se "
-"även unhappysize. Detta förutsätter folkstyre; för andra regeringar "
+"även \"unhappysize\". Detta förutsätter folkstyre; för andra regeringar "
 "uppträder denna inverkan redan vid lägre antal städer."
 
 #: server/stdinhand.c:473
@@ -4763,10 +4765,11 @@ msgstr ""
 "Välkommen - detta är den inledande hjälptexten för Freecivservern.\n"
 "\n"
 "2 Viktiga serverbegrepp äro kommandon och valmöjligheter.\n"
-"Kommandon, såsom \"help\", används för att växelverka med servern.\n"
+"Kommandon, såsom \"help\", användas för att växelverka med servern.\n"
 "Vissa kommandon ta ett eller flera argument, åtskilda av blanksteg.\n"
 "I många fall kunna kommandon och kommandoargument förkortas.\n"
-"Valmöjligheter äro inställningar som styr servern medan den är i gång.\n"
+"Valmöjligheter äro inställningar som styrs servern medan den är i\n"
+"gång.\n"
 "\n"
 "För att ta reda på hur man får ytterligare upplysningar om kommandon\n"
 "och valmöjligheter, använd \"help help\"\n"
@@ -5767,27 +5770,27 @@ msgstr "Spel: Ändrar bygget av varje %s till %s."
 
 #: client/climisc.c:344
 msgid "?embassy:Both"
-msgstr "?embassy:Båda"
+msgstr "?embassy:båda"
 
 #: client/climisc.c:346
 msgid "?embassy:Yes"
-msgstr "?embassy:Ja"
+msgstr "?embassy:ja"
 
 #: client/climisc.c:348
 msgid "?embassy:With Us"
-msgstr "?embassy:Med oss"
+msgstr "?embassy:med oss"
 
 #: client/climisc.c:360
 msgid "?vision:Both"
-msgstr "?vision:Båda"
+msgstr "?vision:båda"
 
 #: client/climisc.c:362
 msgid "?vision:To Them"
-msgstr "?vision:Till dem"
+msgstr "?vision:till dem"
 
 #: client/climisc.c:364
 msgid "?vision:To Us"
-msgstr "?vision:Till oss"
+msgstr "?vision:till oss"
 
 #: client/climisc.c:379 client/climisc.c:386
 #, c-format
@@ -7051,7 +7054,7 @@ msgstr "_Köp"
 
 #: client/gui-gtk-2.0/citydlg.c:792 client/gui-gtk/citydlg.c:1134
 msgid "_Happiness"
-msgstr "_Lycklighet"
+msgstr "Belåten_het"
 
 #: client/gui-gtk-2.0/citydlg.c:843
 msgid "C_MA"
@@ -7117,7 +7120,7 @@ msgstr "Tillverkningssida"
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
 msgid "Happiness page"
-msgstr "Lycklighet"
+msgstr "Belåtenhet"
 
 #: client/gui-gtk-2.0/citydlg.c:909 client/gui-gtk/citydlg.c:1263
 #: client/gui-mui/citydlg.c:1461
@@ -8274,7 +8277,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:810 client/gui-win32/happiness.c:90
 #: client/gui-xaw/menu.c:225 data/helpdata.txt:1273
 msgid "Happiness"
-msgstr "Lycklighet"
+msgstr "Belåtenhet"
 
 #: client/gui-gtk-2.0/happiness.c:249 client/gui-gtk/happiness.c:252
 #: client/gui-mui/citydlg.c:2339 client/gui-win32/happiness.c:193
@@ -8389,7 +8392,7 @@ msgstr "Krigsenheter i fält kunna orsaka otillfredsställdhet. "
 #: client/gui-gtk-2.0/happiness.c:377 client/gui-gtk/happiness.c:380
 #: client/gui-win32/happiness.c:322
 msgid "Military units have no happiness effect. "
-msgstr "Krigsenheter ha ingen lycklighetpåsverkan."
+msgstr "Krigsenheter ha ingen belåtenhetpåsverkan."
 
 #: client/gui-gtk-2.0/happiness.c:395 client/gui-gtk/happiness.c:398
 #: client/gui-mui/citydlg.c:2445 client/gui-win32/happiness.c:339
@@ -9351,7 +9354,7 @@ msgstr "Re_gering"
 #: client/gui-gtk-2.0/menu.c:765 client/gui-gtk/menu.c:766
 #: client/gui-win32/menu.c:381
 msgid "Happin_ess"
-msgstr "Lyckligh_et"
+msgstr "B_elåtenhet"
 
 #: client/gui-gtk-2.0/menu.c:767 client/gui-gtk/menu.c:768
 #: client/gui-win32/menu.c:382
@@ -12213,6 +12216,11 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39-1.14-11; 2004-01-10\n"
+"  Rättelser. Ändring föreslagen av Henning Norén\n"
+"  <henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
+"  (översättningen av \"Atrocious\" från \"förbrytaraktig\" till\n"
+"  \"skurkaktig\").\n"
 "Version 0.39-1.14-10; 2003-12-31\n"
 "  Rättelser, varav vissa från Henning Norén\n"
 "  <henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
@@ -13071,7 +13079,7 @@ msgstr ""
 "Så sätt inte för höga minsta överskott. Använd faktorerna i stället.\n"
 "\n"
 "Kryssrutan \"Fira\" låter staden fira. Detta går endast med hög "
-"överflödssats. Se hjälp om \"Lycklighet\".\n"
+"överflödssats. Se hjälp om \"belåtenhet\".\n"
 "\n"
 "Man kan spara rullningslistinställningarna med ett namn. Klicka på 'lägg "
 "till förinställt värde' och ange ett namn för inställningen. Man kan använda "
@@ -13163,7 +13171,7 @@ msgstr ""
 "inte. När en landenhet lyckas med ett angrepp mot en stad utan stadsmurar, "
 "minskar invånarantalet med 1. Landenheter med angreppsstyrka 0 är "
 "ickekrigsenheter. De kräver inget underhåll och ha heller ingen inverkan på "
-"hemstadens lycklighet, och kunna ej angripa fientliga enheter eller erövra "
+"hemstadens belåtenhet, och kunna ej angripa fientliga enheter eller erövra "
 "fientliga städer."
 
 #: data/helpdata.txt:832
@@ -13806,8 +13814,8 @@ msgid ""
 "destroyed one at a time.  See the Combat help section for further details."
 msgstr ""
 "Bosättare och ingenjörer kunna även bygga fästningar. Enheter inuti en "
-"fästning försvarar sig med dubbel styrka; och enheter i en fästning förstörs "
-"en i taget. Se även hjälpavsnittet kamp för ytterligare förklaring."
+"fästning försvara sig med dubbel styrka och de förstöras en i taget. Se även "
+"hjälpavsnittet \"kamp\" för ytterligare förklaring."
 
 #: data/helpdata.txt:1170
 msgid ""
@@ -13884,7 +13892,7 @@ msgid ""
 "citizens' happiness, and many other game factors."
 msgstr ""
 "Regeringsformen påverkar städers tillverkning och handel, medborgarnas "
-"lycklighet och många andra spelfaktorer."
+"belåtenhet och många andra spelfaktorer."
 
 #: data/helpdata.txt:1213
 msgid ""
@@ -14102,7 +14110,7 @@ msgstr ""
 "överflöd görs 1 nöjd medborgare lycklig. Efter omvandling av alla nöjda "
 "medborgare till lyckliga medborgare, omvandlas otillfredställda medborgare "
 "till lyckliga och/eller nöjda. Även vissa världsunder ha inverkan på "
-"medborgarnas lycklighet (se passande stycken för närmare upplysningar)."
+"medborgarnas belåtenhet (se passande stycken för närmare upplysningar)."
 
 #: data/helpdata.txt:1328
 msgid ""
@@ -14121,8 +14129,8 @@ msgid ""
 msgstr ""
 "Under många regeringsformer kan närvaron av krigsenheter skapa belåtenhet "
 "genom att införa undantagstillstånd. Under republik eller folkstyre däremot, "
-"kunna krigsenheter skapa otillfredställdhet (se regering för enskildheter). "
-"I detta fall hjälper inte de ovannämnda stadsförbättringarna. Denna form av "
+"kunna krigsenheter skapa otillfredställdhet (se \"regering\"). I detta fall "
+"hjälper inte de ovannämnda stadsförbättringarna. Denna form av "
 "otillfredställdhet kan bekämpas genom att färdigställa polisstaioner, "
 "passande världsunder (såsom Hängande Trädgårdarna, Johann Sebastan Bachs "
 "Katedral, Bot mot Cancer, Shakespeares Teater, och Kvinnlig Rösträtt; märk "
@@ -15481,7 +15489,7 @@ msgstr ""
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat utan regering). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "När man inte har någon regering kan varje stad understödja ett antal "
 "krigsenheter lika stort som stadens storlek, utan att betala underhåll. "
@@ -15538,11 +15546,11 @@ msgstr ""
 "\n"
 "Envälde är mest drabbat av mutor av alla regeringsformer.\n"
 "\n"
-"Eb bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
+"En bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat under envälde). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "Den högsta satsen som kan sättas för skatt, överflöd eller forskning är "
 "60%.\n"
@@ -15610,7 +15618,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under monarki.\n"
 "\n"
 "Om en stad under monarki firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 70%.\n"
@@ -15678,7 +15686,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -15747,7 +15755,7 @@ msgstr ""
 "handel ge 1 handel till i bonus under republik.\n"
 "\n"
 "En firande stad i en republik växer 1 medborgare varje omgång; se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -15829,7 +15837,7 @@ msgstr ""
 "handel får 1 handel till under folkstyre.\n"
 "\n"
 "Städer som firar under folkstyre växer med 1 medborgare varje omgång, se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenet\".\n"
 "\n"
 "Det finns inga satsbegränsningar under folkstyre; man kan sätta skatt, "
 "överflöd eller forskning till 100%.\n"
@@ -15894,7 +15902,7 @@ msgstr ""
 "Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -15965,7 +15973,7 @@ msgstr ""
 "Bosättare förbrukar 2 man per omgång under fundamentalism.\n"
 "\n"
 "Om en stad firar under fundamentalism, får den 1 ytterligare handel i varje "
-"ruta som redan ge minst 1 handel. Se lycklighet för enskildheter.\n"
+"ruta som redan ge minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta satsen för forskning, skatt och överflöd är 80%.\n"
 "\n"
@@ -16009,7 +16017,7 @@ msgstr ""
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gräslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat under envälde). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "Under envälde kan varje stad understödja ett antal krigsenheter lika stort "
 "som stadens storlek, utan att betala underhåll. (Varje överskjutande enhet "
@@ -16048,7 +16056,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under monarki.\n"
 "\n"
 "Om en stad under monarki firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Under monarki kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
@@ -16097,7 +16105,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Budbärare och spejare som skapas under kommunism är alltid erfarna.\n"
 "\n"
@@ -16148,7 +16156,7 @@ msgstr ""
 "handel ge 1 handel till i bonus under republik.\n"
 "\n"
 "En firande stad i en republik växer 1 medborgare varje omgång; se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Under republik kräver krigsenheter 1 sköld vardera i underhåll. Dessutom "
 "betraktas följande enheter som fältenheter:\n"
@@ -16203,7 +16211,7 @@ msgstr ""
 "handel får 1 handel till under folkstyre.\n"
 "\n"
 "Städer som firar i en folkstyre växer med 1 medborgare varje omgång, se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Under folkstyre kräver krigsenheter 1 sköld i underhåll. Dessutom ge "
 "följande enheter otillfredsställelse:\n"
@@ -17394,7 +17402,7 @@ msgstr ""
 "- En budbärare kan till och med anstifta ett uppror i en fientlig stad och "
 "omvända den till sin civilisation om man har tillräckligt med pengar!\n"
 "\n"
-"- I vissa spelstrategier används horder av budbärare för att stöka till "
+"- I vissa spelstrategier användas horder av budbärare för att stöka till "
 "fienden. Inget under att budbärare ofta ses med misstänksamhet och skräck!"
 
 #: data/default/units.ruleset:1580 data/civ2/units.ruleset:1517
