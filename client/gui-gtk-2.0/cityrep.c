@@ -338,7 +338,7 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
 
   packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = city_list_find_id(&game.player_ptr->cities,id);
+  pcity = find_city_by_id(id);
   /* try to add the object to the worklist. */
   if (worklist_append(&pcity->worklist, packet.build_id, 
 		     packet.is_build_id_unit_id)) {
@@ -370,7 +370,7 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
 
   packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = city_list_find_id(&game.player_ptr->cities,id);
+  pcity = find_city_by_id(id);
   old_id = pcity->currently_building;
   old_is_build_id_unit_id = pcity->is_building_unit;
   /* first try and insert the old production into the worklist. */
@@ -404,7 +404,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
 
   packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = city_list_find_id(&game.player_ptr->cities,id);
+  pcity = find_city_by_id(id);
   if (worklist_insert(&pcity->worklist, packet.build_id, 
 		      packet.is_build_id_unit_id, 0)) {
     copy_worklist(&packet.worklist, &pcity->worklist);
