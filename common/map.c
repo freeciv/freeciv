@@ -113,7 +113,6 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
   return &tile_types[type];
 }
 
-
 /***************************************************************
 ...
 ***************************************************************/
@@ -125,6 +124,7 @@ int real_map_distance(int x0, int y0, int x1, int y1)
   tmp=map_adjust_x(x0-x1);
   return MAX(y1 - y0, MIN(tmp, map.xsize-tmp));
 }
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -135,11 +135,9 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
   tmp= MIN(tmp, map.xsize-tmp);
   return (((y1 - y0) * (y1 - y0)) + tmp * tmp);
 }
+
 /***************************************************************
- The following two function should always be used, such
- that hand optimizations need only be performed once.
- using isnt_ is faster than using is_ sometimes.
- is terrain close diagonally or gridwise ?
+...
 ***************************************************************/
 int map_distance(int x0, int y0, int x1, int y1)
 {
@@ -152,7 +150,10 @@ int map_distance(int x0, int y0, int x1, int y1)
 }
 
 /***************************************************************
-...
+ The following two function should always be used, such
+ that hand optimizations need only be performed once.
+ using isnt_ is faster than using is_ sometimes.
+ is terrain close diagonally or gridwise ?
 ***************************************************************/
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
