@@ -1,0 +1,366 @@
+# Makefile.in generated automatically by automake 1.3 from Makefile.am
+
+# Copyright (C) 1994, 1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+SHELL = /bin/sh
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DISTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+AWK = @AWK@
+CC = @CC@
+CLIENT_CFLAGS = @CLIENT_CFLAGS@
+CLIENT_LIBS = @CLIENT_LIBS@
+CPP = @CPP@
+CVS_DEPS = @CVS_DEPS@
+GDK_IMLIB_CFLAGS = @GDK_IMLIB_CFLAGS@
+GDK_IMLIB_LIBS = @GDK_IMLIB_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_CONFIG = @GTK_CONFIG@
+GTK_LIBS = @GTK_LIBS@
+IMLIB_CFLAGS = @IMLIB_CFLAGS@
+IMLIB_CONFIG = @IMLIB_CONFIG@
+IMLIB_LIBS = @IMLIB_LIBS@
+LN_S = @LN_S@
+MAINT = @MAINT@
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+RANLIB = @RANLIB@
+SERVER_LIBS = @SERVER_LIBS@
+VERSION = @VERSION@
+gui_sources = @gui_sources@
+
+noinst_LIBRARIES = libguiclient.a
+INCLUDES = -I../include -I$(top_srcdir)/common @CLIENT_CFLAGS@
+
+BUILT_SOURCES = Freeciv.h
+
+libguiclient_a_DEPENDENCIES = ad2c
+
+libguiclient_a_SOURCES = \
+	ad2c		\
+	Freeciv.h	\
+	canvas.c	\
+	canvas.h	\
+	canvasp.h	\
+	chatline.c	\
+	chatline.h	\
+	citydlg.c	\
+	citydlg.h	\
+	cityrep.c	\
+	climisc.c	\
+	clinet.c	\
+	clinet.h	\
+	colors.c	\
+	colors.h	\
+	connectdlg.c	\
+	connectdlg.h	\
+	dialogs.c	\
+	dialogs.h	\
+	diplodlg.c	\
+	diplodlg.h	\
+	finddlg.c	\
+	gotodlg.c	\
+	gotodlg.h	\
+	graphics.c	\
+	graphics.h	\
+	gui_main.c	\
+	gui_main.h	\
+	gui_stuff.c	\
+	gui_stuff.h	\
+	helpdlg.c	\
+	inputdlg.c	\
+	inputdlg.h	\
+	inteldlg.c	\
+	mapctrl.c	\
+	mapctrl.h	\
+	mapview.c	\
+	mapview.h	\
+	menu.c		\
+	menu.h		\
+	messagedlg.c	\
+	messagewin.c	\
+	optiondlg.c	\
+	optiondlg.h	\
+	pixcomm.c	\
+	pixcomm.h	\
+	plrdlg.c	\
+	ratesdlg.c	\
+	repodlgs.c	\
+	repodlgs.h	\
+	resources.c	\
+	resources.h	\
+	spaceshipdlg.c	\
+	spaceshipdlg.h
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../../config.h
+CONFIG_CLEAN_FILES = 
+LIBRARIES =  $(noinst_LIBRARIES)
+
+
+DEFS = @DEFS@ -I. -I$(srcdir) -I../..
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+X_CFLAGS = @X_CFLAGS@
+X_LIBS = @X_LIBS@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_PRE_LIBS = @X_PRE_LIBS@
+libguiclient_a_LIBADD = 
+libguiclient_a_OBJECTS =  canvas.o chatline.o citydlg.o cityrep.o \
+climisc.o clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o \
+gotodlg.o graphics.o gui_main.o gui_stuff.o helpdlg.o inputdlg.o \
+inteldlg.o mapctrl.o mapview.o menu.o messagedlg.o messagewin.o \
+optiondlg.o pixcomm.o plrdlg.o ratesdlg.o repodlgs.o resources.o \
+spaceshipdlg.o
+AR = ar
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP = --best
+DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
+.deps/cityrep.P .deps/climisc.P .deps/clinet.P .deps/colors.P \
+.deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P .deps/finddlg.P \
+.deps/gotodlg.P .deps/graphics.P .deps/gui_main.P .deps/gui_stuff.P \
+.deps/helpdlg.P .deps/inputdlg.P .deps/inteldlg.P .deps/mapctrl.P \
+.deps/mapview.P .deps/menu.P .deps/messagedlg.P .deps/messagewin.P \
+.deps/optiondlg.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
+.deps/repodlgs.P .deps/resources.P .deps/spaceshipdlg.P
+SOURCES = $(libguiclient_a_SOURCES)
+OBJECTS = $(libguiclient_a_OBJECTS)
+
+all: Makefile $(LIBRARIES)
+
+.SUFFIXES:
+.SUFFIXES: .S .c .o .s
+$(srcdir)/Makefile.in: @MAINT@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu client/gui-xaw/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+mostlyclean-noinstLIBRARIES:
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
+distclean-noinstLIBRARIES:
+
+maintainer-clean-noinstLIBRARIES:
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+libguiclient.a: $(libguiclient_a_OBJECTS) $(libguiclient_a_DEPENDENCIES)
+	-rm -f libguiclient.a
+	$(AR) cru libguiclient.a $(libguiclient_a_OBJECTS) $(libguiclient_a_LIBADD)
+	$(RANLIB) libguiclient.a
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = client/gui-xaw
+
+distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu client/gui-xaw/Makefile
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  test -f $(distdir)/$$file \
+	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	  || cp -p $$d/$$file $(distdir)/$$file; \
+	done
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+
+maintainer-clean-depend:
+	-rm -rf .deps
+
+%.o: %.c
+	@echo '$(COMPILE) -c $<'; \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).P -c $<
+
+%.lo: %.c
+	@echo '$(LTCOMPILE) -c $<'; \
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).p -c $<
+	@-sed -e 's/^\([^:]*\)\.o:/\1.lo \1.o:/' \
+	  < .deps/$(*F).p > .deps/$(*F).P
+	@-rm -f .deps/$(*F).p
+info:
+dvi:
+check: all
+	$(MAKE)
+installcheck:
+install-exec: 
+	@$(NORMAL_INSTALL)
+
+install-data: 
+	@$(NORMAL_INSTALL)
+
+install: install-exec install-data all
+	@:
+
+uninstall: 
+
+install-strip:
+	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
+installdirs:
+
+
+mostlyclean-generic:
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
+
+clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
+
+distclean-generic:
+	-rm -f Makefile $(DISTCLEANFILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+
+maintainer-clean-generic:
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+mostlyclean:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
+
+clean:  clean-noinstLIBRARIES clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean
+
+distclean:  distclean-noinstLIBRARIES distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean
+	-rm -f config.status
+
+maintainer-clean:  maintainer-clean-noinstLIBRARIES \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
+clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info dvi \
+installcheck install-exec install-data install uninstall all \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+Freeciv.h: $(top_srcdir)/data/Freeciv
+	echo '/***********************************************/' > Freeciv.h
+	echo '/* DO NOT EDIT THIS FILE, EDIT ../data/Freeciv */' >> Freeciv.h
+	echo '/***********************************************/' >> Freeciv.h
+	./ad2c $(top_srcdir)/data/Freeciv >> Freeciv.h
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
