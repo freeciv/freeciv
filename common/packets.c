@@ -2621,6 +2621,10 @@ int send_packet_ruleset_nation(struct connection *pc,
   }
   dio_put_uint8(&dout, packet->city_style);
   dio_put_tech_list(&dout, packet->init_techs);
+  if (has_capability("class_legend", pc->capability)) {
+    dio_put_string(&dout, packet->class);
+    dio_put_string(&dout, packet->legend);
+  }
 
   SEND_PACKET_END;
 }
@@ -2654,6 +2658,13 @@ receive_packet_ruleset_nation(struct connection *pc)
 
   dio_get_uint8(&din, &packet->city_style);
   dio_get_tech_list(&din, packet->init_techs);
+  if (has_capability("class_legend", pc->capability)) {
+    dio_get_string(&din, packet->class, sizeof(packet->class));
+    dio_get_string(&din, packet->legend, sizeof(packet->legend));
+  } else {
+    packet->class[0] = '\0';
+    packet->legend[0] = '\0';
+  }
 
   RECEIVE_PACKET_END(packet);
 }

@@ -2181,6 +2181,14 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl->city_style = p->city_style;
 
+  if (p->class[0] != '\0') {
+    pl->class = mystrdup(p->class);
+  } else {
+    pl->class = mystrdup(_("Other"));
+  }
+
+  pl->legend = mystrdup(p->legend);
+
   tilespec_setup_nation_flag(p->id);
 }
 

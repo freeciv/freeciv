@@ -75,7 +75,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
-                   "city_struct_minor_cleanup obsolete_last"
+                   "city_struct_minor_cleanup obsolete_last class_legend"
   
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -95,6 +95,9 @@ const char * const our_capability = our_capability_internal;
  *
  * "obsolete_last" means A_LAST is used to mark improvements that are never
  * obsoleted.  Previously A_NONE was used.
+ *
+ * "class_legend" means each nation has a class and an (optional) legend
+ * text associated with it.
  */
 
 void init_our_capability(void)

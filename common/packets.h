@@ -791,6 +791,8 @@ struct packet_ruleset_nation {
   bool leader_sex[MAX_NUM_LEADERS];
   int city_style;
   int init_techs[MAX_NUM_TECH_LIST];
+  char class[MAX_LEN_NAME];
+  char legend[MAX_LEN_MSG];
 };
 
 struct packet_ruleset_city {

@@ -73,6 +73,8 @@ struct nation_type {
   int city_style;
   struct city_name *city_names;		/* The default city names. */
   struct Sprite *flag_sprite;
+  char *class;				/* may be empty */
+  char *legend;				/* may be empty */
 
   /* untranslated copies: */
   char name_orig[MAX_LEN_NAME];
