@@ -1,10 +1,10 @@
                            =========================
-                           Freeciv 1.7 documentation
+                           Freeciv 1.8 documentation
                            =========================
 		       
 Welcome to Freeciv!
 
-This archive contains Freeciv version 1.7, a free Civilization clone
+This archive contains Freeciv version 1.8, a free Civilization clone
 for X, primarily under Unix.  It has support for multiplayer games
 locally or over a network, and an AI which gives most people a run for
 their money.
@@ -19,8 +19,8 @@ you do not need to own Civilization to play Freeciv.
 
 Although the graphics are not as polished as those in Civilisation II,
 the rules are very complete, and our multiplayer and networking code is
-excellent.  At the moment however, we're lacking alliances and the
-Space Race, although both are being developed now.
+excellent.  At the moment however, we're lacking alliances
+A patch is ready but not yet tested.
 
 Web site:
 =========
@@ -241,7 +241,7 @@ There are three ways in which a game can end:
 1) Only one race is left.
 2) The final year is reached.
 3) A player builds and launches a spaceship, which reaches Alpha
-   Centauri first.  (Not available yet, but coming soon)
+   Centauri first.
 
 A score-table will be shown in all cases.  Hint: The server-op can set
 the final year while the game is still going by changing the
