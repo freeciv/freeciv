@@ -17,6 +17,7 @@ ruler_titles = { "government",      "male_title",      "female_title",
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
 init_techs=""
+init_buildings=""
 
 tech_goals="The Republic", "Trade", "Feudalism", "Railroad", "Steel"
 wonder="Great Wall" ; Yes, we had own great wall ( iso-8859-2 ("Wa³y ¦l±skie") )

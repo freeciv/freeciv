@@ -20,6 +20,7 @@ ruler_titles = { "government",      "male_title",        "female_title"
                }
 
 init_techs=""
+init_buildings=""
 
 tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making",
              "The Republic", "Metallurgy", "Industrialization", "Electronics",

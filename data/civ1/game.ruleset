@@ -16,6 +16,7 @@ options="1.11.1"
 
 [options]
 global_init_techs=""
+global_init_buildings="Palace"
 
 [civstyle]
 min_city_center_food	= 0

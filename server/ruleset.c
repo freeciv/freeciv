@@ -278,6 +278,55 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
 }
 
 /**************************************************************************
+  Lookup a prefix.entry string vector in the file and fill in the
+  array, which should hold MAX_NUM_BUILDING_LIST items. The output array is
+  either B_LAST terminated or full (contains MAX_NUM_BUILDING_LIST
+  items). All valid entries of the output array are guaranteed to pass
+  improvement_exist(). There should be at least one value, but it may be
+  "", meaning an empty list.
+**************************************************************************/
+static void lookup_building_list(struct section_file *file, const char *prefix,
+				 const char *entry, int *output,
+				 const char *filename)
+{
+  char **slist;
+  int i, nval;
+
+  /* pre-fill with B_LAST: */
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    output[i] = B_LAST;
+  }
+  slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
+  if (nval == 0) {
+    freelog(LOG_FATAL, "Missing string vector %s.%s (%s)",
+	    prefix, entry, filename);
+    exit(EXIT_FAILURE);
+  }
+  if (nval > MAX_NUM_BUILDING_LIST) {
+    freelog(LOG_FATAL, "String vector %s.%s too long (%d, max %d) (%s)",
+	    prefix, entry, nval, MAX_NUM_BUILDING_LIST, filename);
+    exit(EXIT_FAILURE);
+  }
+  if (nval == 1 && strcmp(slist[0], "") == 0) {
+    free(slist);
+    return;
+  }
+  for (i = 0; i < nval; i++) {
+    char *sval = slist[i];
+    int building = find_improvement_by_name(sval);
+
+    if (building == B_LAST) {
+      freelog(LOG_FATAL, "For %s %s (%d) couldn't match building \"%s\" (%s)",
+	      prefix, entry, i, sval, filename);
+      exit(EXIT_FAILURE);
+    }
+    output[i] = building;
+    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, building);
+  }
+  free(slist);
+}
+
+/**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
  unit_type id.  If (!required), return -1 if match "None" or can't match.
  If (required), die if can't match.
@@ -2341,9 +2390,10 @@ static void load_ruleset_nations(struct section_file *file)
 
     pl->civilwar_nations[j] = NO_NATION_SELECTED;
 
-    /* Load nation specific initial techs */
-
+    /* Load nation specific initial items */
     lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
+    lookup_building_list(file, sec[i], "init_buildings", pl->init_buildings,
+			 filename);
 
     /* AI techs */
 
@@ -2712,11 +2762,11 @@ static void load_ruleset_game()
     secfile_lookup_bool_default(&file, GAME_DEFAULT_SLOW_INVASIONS,
                                 "global_unit_options.slow_invasions");
   
-  /*
-   * Load global initial techs
-   */
+  /* Load global initial items. */
   lookup_tech_list(&file, "options", "global_init_techs",
 		   game.rgame.global_init_techs, filename);
+  lookup_building_list(&file, "options", "global_init_buildings",
+		       game.rgame.global_init_buildings, filename);
 
   /* Enable/Disable killstack */
   game.rgame.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");

@@ -13,6 +13,7 @@ flag_alt = "-"
 city_style = "Classical"
 
 init_techs=""
+init_buildings=""
 
 tech_goals="Monarchy", "Philosophy","Chivalry","Trade","Bridge Building",
            "Navigation"

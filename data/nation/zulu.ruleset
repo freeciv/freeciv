@@ -25,6 +25,7 @@ flag_alt = "f.rwanda"  ; used previously
 city_style = "Tropical"
 
 init_techs=""
+init_buildings=""
 
 tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
              "Railroad", "Communism"

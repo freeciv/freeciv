@@ -21,6 +21,7 @@ ruler_titles = { "government",      "male_title",      "female_title"
 }
 
 init_techs=""
+init_buildings=""
 tech_goals = "Monarchy", "Iron Working", "Feudalism", "Construction"
 wonder="Magellan's Expedition"
 government="Monarchy"

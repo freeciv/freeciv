@@ -10,6 +10,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 tech_goals = "The Republic", "Engineering", "Gunpowder", "Explosives"
 wonder = "Marco Polo's Embassy"
 government = "Democracy"

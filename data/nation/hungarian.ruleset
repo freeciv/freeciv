@@ -11,6 +11,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 
 tech_goals = "The Republic", "Iron Working", "Chivalry", "Theology",
              "Gunpowder", "Railroad", "Industrialization"

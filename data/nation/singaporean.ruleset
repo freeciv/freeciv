@@ -34,6 +34,7 @@ ruler_titles = { "government",	"male_title",		"female_title"
 }
 
 init_techs=""
+init_buildings=""
 tech_goals = "Monarchy", "Iron Working", "Trade", "Monotheism", "Navigation",
   "Railroad", "Steel", "Industrialization"
 wonder="J.S. Bach's Cathedral"

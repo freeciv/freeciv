@@ -187,7 +187,7 @@ struct player {
   bool is_dying; /* set once the player is in the process of dying */
   bool got_tech; /* set once the player is fully dead */
   int revolution;
-  bool capital; /* used to give player capital in first city. */
+  bool capital; /* used to give player init_buildings in first city. */
   int embassy;
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];

@@ -12,6 +12,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 tech_goals = "Monarchy","Chivalry","Gunpowder","Industrialization"
 wonder="Cure For Cancer"
 government = "Democracy"

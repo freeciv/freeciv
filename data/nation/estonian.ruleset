@@ -15,6 +15,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 tech_goals = "Monarchy","Chivalry","The Republic","Democracy","Conscription"
 wonder="United Nations"
 government = "Democracy"

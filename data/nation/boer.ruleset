@@ -16,6 +16,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 tech_goals = "The Republic", "Trade", "Engineering", "Gunpowder",
 	     "Railroad", "Explosives"
 wonder= "Magellan's Expedition"

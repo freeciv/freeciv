@@ -27,6 +27,7 @@ ruler_titles = { "government",      "male_title",      "female_title"
                }
 
 init_techs=""
+init_buildings=""
 
 tech_goals = "Monarchy", "Chivalry", "Trade", "Theology", "University",
              "Navigation", "Railroad"

@@ -1063,10 +1063,11 @@ void create_city(struct player *pplayer, const int x, const int y,
 {
   struct city *pcity;
   int x_itr, y_itr;
+  struct nation_type *nation = get_nation_by_plr(pplayer);
 
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC, _("%s (%i, %i) founded by the %s"), name, x, y,
-	  get_nation_name_plural(pplayer->nation));
+	  nation->name_plural);
 
   if (terrain_control.may_road) {
     map_set_special(x, y, S_ROAD);
@@ -1081,8 +1082,21 @@ void create_city(struct player *pplayer, const int x, const int y,
   idex_register_city(pcity);
 
   if (!pplayer->capital) {
+    int i;
     pplayer->capital = TRUE;
-    city_add_improvement(pcity, B_PALACE);
+
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      if (game.rgame.global_init_buildings[i] == B_LAST) {
+	break;
+      }
+      city_add_improvement(pcity, game.rgame.global_init_buildings[i]);
+    }
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      if (nation->init_buildings[i] == B_LAST) {
+	break;
+      }
+      city_add_improvement(pcity, nation->init_buildings[i]);
+    }
   }
 
   /* Before arranging workers to show unknown land */

@@ -66,6 +66,7 @@ typedef unsigned int fc_bool;
 #define MAX_NUM_BARBARIANS   2
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */
 #define MAX_NUM_TECH_LIST 10
+#define MAX_NUM_BUILDING_LIST 10
 #define MAX_LEN_NAME     32
 #define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
 #define MAX_LEN_VET_SHORT_NAME 8

@@ -211,10 +211,9 @@ struct civ_game {
     int tech_leakage;
     int tech_cost_double_year;
 
-    /* 
-     * Advances given to all players at game start.
-     */
+    /* Items given to all players at game start.  Server only. */
     int global_init_techs[MAX_NUM_TECH_LIST];
+    int global_init_buildings[MAX_NUM_BUILDING_LIST];
 
     bool killstack;
   } rgame;

@@ -9,6 +9,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 
 tech_goals = "Warrior Code"
 wonder = "Apollo Program"

@@ -13,6 +13,7 @@ flag_alt = "-"
 city_style = "European"
 
 init_techs=""
+init_buildings=""
 tech_goals = "Monarchy", "Feudalism", "Gunpowder", "Railroad",
              "Explosives"
 wonder= "Leonardo's Workshop"
