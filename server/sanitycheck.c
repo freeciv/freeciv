@@ -347,9 +347,13 @@ static void check_players(void)
     players_iterate(pplayer2) {
       assert(pplayer->diplstates[pplayer2->player_no].type
 	     == pplayer2->diplstates[pplayer->player_no].type);
-      if (pplayer->diplstates[pplayer2->player_no].type == DS_CEASEFIRE)
+      if (pplayer->diplstates[pplayer2->player_no].type == DS_CEASEFIRE) {
 	assert(pplayer->diplstates[pplayer2->player_no].turns_left
 	       == pplayer2->diplstates[pplayer->player_no].turns_left);
+      }
+      if (pplayers_allied(pplayer, pplayer2)) {
+        assert(pplayer_can_ally(pplayer, pplayer2));
+      }
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
