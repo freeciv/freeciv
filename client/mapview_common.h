@@ -19,6 +19,8 @@
 
 #include "colors_g.h"
 
+#include "tilespec.h"
+
 struct unit;
 
 struct canvas_store;		/* opaque type, real type is gui-dep */
@@ -158,6 +160,10 @@ void put_red_frame_tile(struct canvas *pcanvas,
 
 void put_nuke_mushroom_pixmaps(int map_x, int map_y);
 
+void put_drawn_sprites(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y,
+		       int count, struct drawn_sprite *pdrawn, bool fog,
+		       int map_x, int map_y, bool citymode);
 void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
 void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,

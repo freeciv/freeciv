@@ -178,6 +178,18 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 }
 
 /****************************************************************************
+  Draw a full sprite onto the canvas.  If "fog" is specified draw it with
+  fog.
+****************************************************************************/
+void canvas_put_sprite_fogged(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      struct Sprite *psprite,
+			      bool fog, int fog_x, int fog_y)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 ****************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,

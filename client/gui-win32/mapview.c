@@ -810,6 +810,19 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 		    0, 0, sprite->width, sprite->height);
 }
 
+/****************************************************************************
+  Draw a full sprite onto the canvas.  If "fog" is specified draw it with
+  fog.
+****************************************************************************/
+void canvas_put_sprite_fogged(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      struct Sprite *psprite,
+			      bool fog, int fog_x, int fog_y)
+{
+  pixmap_put_overlay_tile_draw(pcanvas->hdc, canvas_x, canvas_y,
+			       psprite, fog);
+}
+
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
@@ -878,23 +891,6 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 
 }
 
-
-/**************************************************************************
-  Put a drawn sprite (with given offset) onto the pixmap.
-**************************************************************************/
-static void pixmap_put_drawn_sprite(HDC hdc,
-                                    int canvas_x, int canvas_y,
-                                    struct drawn_sprite *pdsprite,
-                                    bool fog)
-{
-  int ox = pdsprite->offset_x, oy = pdsprite->offset_y;
-  
-  
-  pixmap_put_overlay_tile_draw(hdc, canvas_x + ox, canvas_y + oy,
-                               pdsprite->sprite, fog);
-  
-}
-
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
@@ -904,7 +900,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
 {
   struct drawn_sprite tile_sprs[80];
   struct canvas canvas_store={hdc,NULL};
-  int count, i;
+  int count;
   bool fog, solid_bg, is_real;
   enum color_std bg_color;
 
@@ -940,26 +936,8 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   }
 
   /*** Draw terrain and specials ***/
-  for (i = 0; i < count; i++) {
-    switch (tile_sprs[i].type) {
-    case DRAWN_SPRITE:
-      switch (tile_sprs[i].style) {
-      case DRAW_NORMAL:
-	pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
-				fog && tile_sprs[i].foggable);
-	break;
-      case DRAW_FULL:
-	pixmap_put_drawn_sprite(hdc,
-				canvas_x, canvas_y - NORMAL_TILE_HEIGHT / 2,
-				&tile_sprs[i],
-				fog && tile_sprs[i].foggable);
-	break;
-      }
-    case DRAWN_GRID:
-      /*** Grid (map grid, borders, coastline, etc.) ***/
-      tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, citymode);
-    }
-  }
+  put_drawn_sprites(&canvas_store, canvas_x, canvas_y,
+		    count, tile_sprs, fog, x, y, citymode);
 }
 
 /**************************************************************************

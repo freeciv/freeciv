@@ -46,6 +46,10 @@ void canvas_put_sprite(struct canvas *pcanvas,
 void canvas_put_sprite_full(struct canvas *pcanvas, 
 			    int canvas_x, int canvas_y,
 			    struct Sprite *sprite);
+void canvas_put_sprite_fogged(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      struct Sprite *psprite,
+			      bool fog, int fog_x, int fog_y);
 void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height);

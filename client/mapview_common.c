@@ -1169,6 +1169,41 @@ static void tile_draw_borders(struct canvas *pcanvas,
 }
 
 /**************************************************************************
+  Draw an array of drawn sprites onto the canvas.
+**************************************************************************/
+void put_drawn_sprites(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y,
+		       int count, struct drawn_sprite *pdrawn, bool fog,
+		       int map_x, int map_y, bool citymode)
+{
+  int i;
+
+  for (i = 0; i < count; i++) {
+    int ox = pdrawn[i].offset_x, oy = pdrawn[i].offset_y, dx, dy;
+
+    switch (pdrawn[i].type) {
+    case DRAWN_SPRITE:
+      if (pdrawn[i].style == DRAW_FULL) {
+	dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
+	dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
+      } else {
+	dx = dy = 0;
+      }
+      canvas_put_sprite_fogged(pcanvas,
+			       canvas_x + ox - dx, canvas_y + oy - dy,
+			       pdrawn[i].sprite,
+			       fog && pdrawn[i].foggable,
+			       canvas_x, canvas_y);
+      break;
+    case DRAWN_GRID:
+      /*** Grid (map grid, borders, coastline, etc.) ***/
+      tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
+      break;
+    }
+  }
+}
+
+/**************************************************************************
   Draw the given map tile at the given canvas position in non-isometric
   view.
 **************************************************************************/
