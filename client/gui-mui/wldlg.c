@@ -240,6 +240,8 @@ void popup_worklists_dialog(struct player *pplr)
   pdialog = malloc(sizeof(struct worklist_report_dialog));
   if (!pdialog) return;
 
+  memset(pdialog,0,sizeof(struct worklist_report_dialog));
+
   pdialog->listview_display_hook.h_Entry = (HOOKFUNC)worklist_report_display;
 
   pdialog->pplr = pplr;

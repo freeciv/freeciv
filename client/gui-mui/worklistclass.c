@@ -340,7 +340,34 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
       if (entry->type == 0)
       {
 	if (wid_is_worklist(entry->wid)) {
-		// TODO: Readd worklist insertion
+	  struct city *pcity = data->pcity;
+	  if (pcity)
+	  {
+	    struct player *pplr = city_owner(pcity);
+	    struct worklist *pwl = &pplr->worklists[wid_id(entry->wid)];
+	    int i;
+
+            set(obj,MUIA_NList_Quiet,TRUE);
+
+	    for (i = 0; i < worklist_length(pwl); i++) {
+	      int target;
+	      bool is_unit;
+	      struct worklist_entry newentry;
+
+	      /* end of list */
+	      if (!worklist_peek_ith(pwl, &target, &is_unit, i))
+	        break;
+
+	      newentry.type = 0;
+	      newentry.wid = wid_encode(is_unit, FALSE, target);
+
+	      if (newentry.wid == WORKLIST_END) break;
+              Worklistview_Insert(obj,&newentry,dropmark,NULL);
+	      dropmark++;
+	    }
+	  }
+
+	  set(obj,MUIA_NList_Quiet,FALSE);
 	} else
 	{
 	  /* Insert eigher a building or an unit */
@@ -579,7 +606,7 @@ static void worklist_list_update(struct Worklist_Data *data)
   set(data->current_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(data->current_listview, MUIM_NList_Clear);
 
-  if (data->embedded_in_city)
+  if (data->embedded_in_city && data->pcity)
   {
      entry.type = 0;
      entry.wid = wid_encode(data->pcity->is_building_unit, FALSE, data->pcity->currently_building);
@@ -592,7 +619,7 @@ static void worklist_list_update(struct Worklist_Data *data)
     bool is_unit;
 
     /* end of list */
-    if (!worklist_peek_ith(&data->pcity->worklist, &target, &is_unit, i))
+    if (!worklist_peek_ith(data->worklist, &target, &is_unit, i))
       break;
 
     entry.type = 0;
@@ -673,8 +700,22 @@ static VOID worklist_cancel(struct Worklist_Data **pdata)
 static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   Object *clv, *alv, *clist, *alist, *check, *remove_button, *ok_button, *cancel_button, *name_text, *name_label;
+  Object *undo_button = NULL, *button_group = NULL;
 
   int embedded = GetTagData(MUIA_Worklist_Embedded,FALSE,msg->ops_AttrList);
+
+  if (embedded)
+  {
+    undo_button = MakeButton(_("Undo"));
+    ok_button = MakeButton(_("Accept"));
+    cancel_button = NULL;
+  }  else
+  {
+    button_group = HGroup,
+	Child, ok_button = MakeButton(_("_Ok")),
+	Child, cancel_button = MakeButton(_("_Cancel")),
+	End;
+  }
 
   if ((o = (Object *) DoSuperNew(cl, o,
   	Child, VGroup,
@@ -695,7 +736,9 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 			    End,
 			End,
 		    Child, HGroup,
+		        embedded?Child:TAG_IGNORE, ok_button,
 		        Child, remove_button = MakeButton(_("_Remove")),
+		        embedded?Child:TAG_IGNORE, undo_button,
 	                End,
 	            End,
 	        Child, VGroup,
@@ -713,10 +756,7 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 		        End,
 		    End,
 		End,
-	    Child, HGroup,
-		Child, ok_button = MakeButton(_("_Ok")),
-		Child, cancel_button = MakeButton(_("_Cancel")),
-		End,
+	    embedded?TAG_IGNORE:Child, button_group,
 	    End,
 	TAG_MORE, msg->ops_AttrList)))
   {
@@ -727,6 +767,7 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
     data->current_listview = clv;
     data->available_listview = alv;
     data->future_check = check;
+    data->embedded_in_city = embedded;
 
     set(alist,MUIA_UserData,clist);
     set(clist,MUIA_UserData,alist);
@@ -763,7 +804,8 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
       DoMethod(check, MUIM_Notify, MUIA_Selected, MUIV_EveryTime, check, 4, MUIM_CallHook, &civstandard_hook, worklist_future_check, data);
       DoMethod(remove_button, MUIM_Notify, MUIA_Pressed, FALSE, remove_button, 4, MUIM_CallHook, &civstandard_hook, worklist_remove_button, data);
       DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &civstandard_hook, worklist_ok, data);
-      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
+      if (cancel_button) DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
+      if (undo_button) DoMethod(undo_button, MUIM_Notify, MUIA_Pressed, FALSE, o, 1, MUIM_Worklist_Undo);
 
       set(alist,MUIA_Worklistview_City, data->pcity);
       set(clist,MUIA_Worklistview_City, data->pcity);
@@ -811,6 +853,13 @@ DISPATCHERPROTO(Worklist_Dispatcher)
 	    {
 		struct Worklist_Data *data = (struct Worklist_Data *)INST_DATA(cl, obj);
 		worklist_cancel(&data);
+		return 0;
+	    }
+
+    case    MUIM_Worklist_Undo:
+	    {
+		struct Worklist_Data *data = (struct Worklist_Data *)INST_DATA(cl, obj);
+		worklist_list_update(data);
 		return 0;
 	    }
 

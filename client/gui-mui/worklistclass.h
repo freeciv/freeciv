@@ -26,6 +26,7 @@ extern struct MUI_CustomClass *CL_Worklist;
 
 #define MUIM_Worklist_Ok             (TAG_USER+0x2671)
 #define MUIM_Worklist_Cancel         (TAG_USER+0x2672)
+#define MUIM_Worklist_Undo           (TAG_USER+0x2673)
 
 BOOL create_worklist_class(void);
 VOID delete_worklist_class(void);
