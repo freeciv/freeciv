@@ -222,6 +222,8 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity)
     return 0;
   if (city1->airlift + pcity->airlift < 2) 
     return 0;
+  if (!is_ground_unit(punit))
+    return 0;
 
   return 1;
 }
