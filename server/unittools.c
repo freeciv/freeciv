@@ -1044,10 +1044,11 @@ static void update_unit_activity(struct unit *punit)
 		    "Moved %s's %s due to changing land to sea at (%d, %d).",
 		    unit_owner(punit2)->name, unit_name(punit2->type),
 		    punit2->x, punit2->y);
-	    notify_player(unit_owner(punit2),
-			  _("Game: Moved your %s due to changing"
-			    " land to sea at (%d, %d)."),
-			  unit_name(punit2->type), punit2->x, punit2->y);
+	    notify_player_ex(unit_owner(punit2),
+			     punit2->x, punit2->y, E_UNIT_RELOCATED,
+			     _("Game: Moved your %s due to changing"
+			       " land to sea at (%d, %d)."),
+			     unit_name(punit2->type), punit2->x, punit2->y);
 	    move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -1066,10 +1067,11 @@ static void update_unit_activity(struct unit *punit)
 		    "Embarked %s's %s due to changing land to sea at (%d, %d).",
 		    unit_owner(punit2)->name, unit_name(punit2->type),
 		    punit2->x, punit2->y);
-	    notify_player(unit_owner(punit2),
-			  _("Game: Embarked your %s due to changing"
-			    " land to sea at (%d, %d)."),
-			  unit_name(punit2->type), punit2->x, punit2->y);
+	    notify_player_ex(unit_owner(punit2),
+			     punit2->x, punit2->y, E_UNIT_RELOCATED,
+			     _("Game: Embarked your %s due to changing"
+			       " land to sea at (%d, %d)."),
+			     unit_name(punit2->type), punit2->x, punit2->y);
 	    move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -1081,10 +1083,11 @@ static void update_unit_activity(struct unit *punit)
 		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
 		unit_owner(punit2)->name, unit_name(punit2->type),
 		punit2->x, punit2->y);
-	notify_player(unit_owner(punit2),
-		      _("Game: Disbanded your %s due to changing"
-			" land to sea at (%d, %d)."),
-		      unit_name(punit2->type), punit2->x, punit2->y);
+	notify_player_ex(unit_owner(punit2),
+			 punit2->x, punit2->y, E_UNIT_LOST,
+			 _("Game: Disbanded your %s due to changing"
+			   " land to sea at (%d, %d)."),
+			 unit_name(punit2->type), punit2->x, punit2->y);
 	wipe_unit_spec_safe(punit2, NULL, FALSE);
 	goto START;
       }
@@ -1104,7 +1107,8 @@ static void update_unit_activity(struct unit *punit)
 		    "Moved %s's %s due to changing sea to land at (%d, %d).",
 		    unit_owner(punit2)->name, unit_name(punit2->type),
 		    punit2->x, punit2->y);
-	    notify_player(unit_owner(punit2),
+	    notify_player_ex(unit_owner(punit2),
+			  punit2->x, punit2->y, E_UNIT_RELOCATED,
 			  _("Game: Moved your %s due to changing"
 			    " sea to land at (%d, %d)."),
 			  unit_name(punit2->type), punit2->x, punit2->y);
@@ -1125,10 +1129,11 @@ static void update_unit_activity(struct unit *punit)
 		    "Docked %s's %s due to changing sea to land at (%d, %d).",
 		    unit_owner(punit2)->name, unit_name(punit2->type),
 		    punit2->x, punit2->y);
-	    notify_player(unit_owner(punit2),
-			  _("Game: Docked your %s due to changing"
-			    " sea to land at (%d, %d)."),
-			  unit_name(punit2->type), punit2->x, punit2->y);
+	    notify_player_ex(unit_owner(punit2),
+			     punit2->x, punit2->y, E_UNIT_RELOCATED,
+			     _("Game: Docked your %s due to changing"
+			       " sea to land at (%d, %d)."),
+			     unit_name(punit2->type), punit2->x, punit2->y);
 	    move_unit(punit2, x, y, TRUE, TRUE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -1140,10 +1145,11 @@ static void update_unit_activity(struct unit *punit)
 		"Disbanded %s's %s due to changing sea to land at (%d, %d).",
 		unit_owner(punit2)->name, unit_name(punit2->type),
 		punit2->x, punit2->y);
-	notify_player(unit_owner(punit2),
-		      _("Game: Disbanded your %s due to changing"
-			" sea to land at (%d, %d)."),
-		      unit_name(punit2->type), punit2->x, punit2->y);
+	notify_player_ex(unit_owner(punit2),
+			 punit2->x, punit2->y, E_UNIT_LOST,
+			 _("Game: Disbanded your %s due to changing"
+			   " sea to land at (%d, %d)."),
+			 unit_name(punit2->type), punit2->x, punit2->y);
 	wipe_unit_spec_safe(punit2, NULL, FALSE);
 	goto START;
       }

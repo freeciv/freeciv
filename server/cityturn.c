@@ -329,7 +329,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
 	      <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
 	notify_conn_ex(dest, pcity->x, pcity->y,
-		       E_CITY_WONDER_WILL_BE_BUILT,
+		       E_WONDER_WILL_BE_BUILT,
 		       _("Game: Notice: Wonder %s in %s will be finished"
 			 " next turn."), 
 		       get_improvement_name(pcity->currently_building),

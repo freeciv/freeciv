@@ -566,10 +566,9 @@ void init_tech(struct player *plr, int tech)
 }
 
 /**************************************************************************
-  if target has more techs than pplayer, pplayer will get a random of these
-  the clients will both be notified.
-  I have notified only those with embassies in pplayer's country - adm4
-  FIXME: this should be in plrhand
+  If target has more techs than pplayer, pplayer will get a random of
+  these, the clients will both be notified and the conquer cost
+  penalty applied. Used for diplomats and city conquest.
 **************************************************************************/
 void get_a_tech(struct player *pplayer, struct player *target)
 {
@@ -582,42 +581,45 @@ void get_a_tech(struct player *pplayer, struct player *target)
     }
   }
   if (j == 0)  {
+    /* we've moved on to future tech */
     if (target->future_tech > pplayer->future_tech) {
       found_new_future_tech(pplayer);
-
-      notify_player(pplayer, _("Game: You acquire Future Tech %d from %s."),
-		    pplayer->future_tech, target->name);
-      notify_player(target,
-		    _("Game: %s discovered Future Tech. %d in the city."), 
-		    pplayer->name, pplayer->future_tech);
-      notify_embassies(pplayer, target,
-		       _("Game: The %s discovered Future Tech %d from the %s (conq)"),
-		       get_nation_name_plural(pplayer->nation),
-		       pplayer->future_tech, get_nation_name_plural(target->nation));
+      i = game.num_tech_types + pplayer->future_tech;
+    } else {
+      return; /* nothing to learn here, move on */
     }
     return;
+  } else {
+    /* pick random tech */
+    j = myrand(j) + 1;
+    for (i = 0; i < game.num_tech_types; i++) {
+      if (get_invention(pplayer, i) != TECH_KNOWN &&
+	  get_invention(target, i) == TECH_KNOWN) {
+	j--;
+      }
+      if (j == 0) {
+	break;
+      }
+    }
   }
-  j=myrand(j)+1;
-  for (i=0;i<game.num_tech_types;i++) {
-    if (get_invention(pplayer, i)!=TECH_KNOWN && 
-	get_invention(target, i)== TECH_KNOWN) 
-      j--;
-    if (j == 0) break;
-  }
-  if (i==game.num_tech_types) {
-    freelog(LOG_ERROR, "Bug in get_a_tech");
-  }
-  gamelog(GAMELOG_TECH, _("%s acquire %s from %s"),
-	  get_nation_name_plural(pplayer->nation), advances[i].name,
+  gamelog(GAMELOG_TECH, _("%s steal %s from %s"),
+	  get_nation_name_plural(pplayer->nation),
+	  get_tech_name(pplayer, i),
 	  get_nation_name_plural(target->nation));
 
-  notify_player(pplayer, _("Game: You acquired %s from %s."),
-		advances[i].name, target->name); 
-  notify_player(target, _("Game: %s discovered %s in the city."), pplayer->name, 
-		advances[i].name); 
-  notify_embassies(pplayer, target, _("Game: The %s have stolen %s from the %s."),
+  notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
+		   _("Game: You steal %s from the %s."),
+		   get_tech_name(pplayer, i),
+		   get_nation_name_plural(target->nation));
+
+  notify_player(target, _("Game: The %s stole %s from you!"),
+		get_nation_name_plural(pplayer->nation),
+		get_tech_name(pplayer, i));
+
+  notify_embassies(pplayer, target,
+		   _("Game: The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
-		   advances[i].name,
+		   get_tech_name(pplayer, i),
 		   get_nation_name_plural(target->nation));
 
   do_conquer_cost(pplayer);
@@ -902,20 +904,23 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
     }
   }
 
-  /* Refresh all cities which have a unit of the other side within city range. */
+  /* 
+   * Refresh all cities which have a unit of the other side within
+   * city range. 
+   */
   check_city_workers(pplayer);
   check_city_workers(pplayer2);
 
-  notify_player(pplayer,
-		_("Game: The diplomatic state between the %s and the %s is now %s."),
-		get_nation_name_plural(pplayer->nation),
-		get_nation_name_plural(pplayer2->nation),
-		diplstate_text(new_type));
-  notify_player_ex(pplayer2, -1, -1, E_NOEVENT,
-		   _("Game: %s cancelled the diplomatic agreement!"),
-		   pplayer->name);
-  notify_player_ex(pplayer2, -1, -1, E_CANCEL_PACT,
-		   _("Game: The diplomatic state between the %s and the %s is now %s."),
+  notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
+		   _("Game: The diplomatic state between the %s "
+		     "and the %s is now %s."),
+		   get_nation_name_plural(pplayer->nation),
+		   get_nation_name_plural(pplayer2->nation),
+		   diplstate_text(new_type));
+  notify_player_ex(pplayer2, -1, -1, E_TREATY_BROKEN,
+		   _("Game:  %s cancelled the diplomatic agreement! "
+		     "The diplomatic state between the %s and the %s "
+		     "is now %s."), pplayer->name,
 		   get_nation_name_plural(pplayer2->nation),
 		   get_nation_name_plural(pplayer->nation),
 		   diplstate_text(new_type));
@@ -1729,10 +1734,10 @@ void civil_war(struct player *pplayer)
   freelog(LOG_VERBOSE,
 	  "%s's nation is thrust into civil war, created AI player %s",
 	  pplayer->name, cplayer->name);
-  notify_player(pplayer,
-		_("Game: Your nation is thrust into civil war, "
-		  " %s is declared the leader of the rebel states."),
-		cplayer->name);
+  notify_player_ex(pplayer, -1, -1, E_CIVIL_WAR,
+		   _("Game: Your nation is thrust into civil war, "
+		     " %s is declared the leader of the rebel states."),
+		   cplayer->name);
 
   i = city_list_size(&pplayer->cities)/2;   /* number to flip */
   j = city_list_size(&pplayer->cities);	    /* number left to process */
@@ -1749,8 +1754,9 @@ void civil_war(struct player *pplayer)
 	transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pcity->name, cplayer->name);
-	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
-		      pcity->name,cplayer->name);
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOST,
+			 _("Game: %s declares allegiance to %s."),
+			 pcity->name, cplayer->name);
 	i--;
       }
     }

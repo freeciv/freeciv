@@ -132,80 +132,100 @@ int sorted_events[E_LAST];
 #define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, E_NOEVENT }
 
 /*
- * Holds information about all event types. The entries doesn't have
+ * Holds information about all event types. The entries don't have
  * to be sorted.
  */
 static struct {
   char *enum_name, *tag_name, *descr_orig, *descr;
   enum event_type event;
 } events[] = {
-  GEN_EV(N_("Low Funds"),                         E_LOW_ON_FUNDS),
-  GEN_EV(N_("Pollution"),                         E_POLLUTION),
-  GEN_EV(N_("Global Eco-Disaster"),               E_GLOBAL_ECO),
-  GEN_EV(N_("Civil Disorder"),                    E_CITY_DISORDER),
-  GEN_EV(N_("City Celebrating"),                  E_CITY_LOVE),
-  GEN_EV(N_("City Normal"),                       E_CITY_NORMAL),
-  GEN_EV(N_("City Growth"),                       E_CITY_GROWTH),
-  GEN_EV(N_("City Needs Aqueduct"),               E_CITY_AQUEDUCT),
-  GEN_EV(N_("Famine in City"),                    E_CITY_FAMINE),
-  GEN_EV(N_("City Captured/Destroyed"),           E_CITY_LOST),
-  GEN_EV(N_("Building Unavailable Item"),         E_CITY_CANTBUILD),
-  GEN_EV(N_("Wonder Started"),                    E_WONDER_STARTED),
-  GEN_EV(N_("Wonder Finished"),                   E_WONDER_BUILD),
-  GEN_EV(N_("Improvement Built"),                 E_IMP_BUILD),
-  GEN_EV(N_("New Improvement Selected"),          E_IMP_AUTO),
-  GEN_EV(N_("Forced Improvement Sale"),           E_IMP_AUCTIONED),
-  GEN_EV(N_("Production Upgraded"),               E_UNIT_UPGRADED),
-  GEN_EV(N_("Unit Built"),                        E_UNIT_BUILD),
-  GEN_EV(N_("Unit Defender Destroyed"),           E_UNIT_LOST),
-  GEN_EV(N_("Unit Defender Survived"),            E_UNIT_WIN),
-  GEN_EV(N_("Collapse to Anarchy"),               E_ANARCHY),
-  GEN_EV(N_("Diplomat Actions - Enemy"),          E_DIPLOMATED),
-  GEN_EV(N_("Tech from Great Library"),           E_TECH_GAIN),
-  GEN_EV(N_("Player Destroyed"),                  E_DESTROYED),
-  GEN_EV(N_("Improvement Bought"),                E_IMP_BUY),
-  GEN_EV(N_("Improvement Sold"),                  E_IMP_SOLD),
-  GEN_EV(N_("Unit Bought"),                       E_UNIT_BUY),
-  GEN_EV(N_("Wonder Stopped"),                    E_WONDER_STOPPED),
-  GEN_EV(N_("City Needs Aq Being Built"),         E_CITY_AQ_BUILDING),
-  GEN_EV(N_("Diplomat Actions - Own"),            E_MY_DIPLOMAT),
-  GEN_EV(N_("Unit Attack Failed"),                E_UNIT_LOST_ATT),
-  GEN_EV(N_("Unit Attack Succeeded"),             E_UNIT_WIN_ATT),
-  GEN_EV(N_("Suggest Growth Throttling"),         E_CITY_GRAN_THROTTLE),
-  GEN_EV(N_("Spaceship Events"),                  E_SPACESHIP),
-  GEN_EV(N_("Barbarian Uprising"),                E_UPRISING ),
-  GEN_EV(N_("Worklist Events"),                   E_WORKLIST),
-  GEN_EV(N_("Pact Cancelled"),                    E_CANCEL_PACT),
-  GEN_EV(N_("Diplomatic Incident"),               E_DIPL_INCIDENT),
-  GEN_EV(N_("First Contact"),                     E_FIRST_CONTACT),
-  GEN_EV(N_("City May Soon Grow"),                E_CITY_MAY_SOON_GROW),
-  GEN_EV(N_("Wonder Made Obsolete"),              E_WONDER_OBSOLETE),
-  GEN_EV(N_("Famine Feared in City"),       	  E_CITY_FAMINE_FEARED),
-  GEN_EV(N_("Wonder Will Be Finished Next Turn"), E_CITY_WONDER_WILL_BE_BUILT),
-  GEN_EV(N_("Learned New Government"),	          E_NEW_GOVERNMENT),
-  GEN_EV(N_("City Nuked"),                        E_CITY_NUKED),
-  GEN_EV(N_("Messages from the Server Operator"), E_MESSAGE_WALL),
-  GEN_EV(N_("City Released from CMA"),            E_CITY_CMA_RELEASE),
-  GEN_EV(N_("City Was Built"),                    E_CITY_BUILD),
-  GEN_EV(N_("Revolt Started"),                    E_REVOLT_START),
-  GEN_EV(N_("Revolt Ended"),                      E_REVOLT_DONE),
-  GEN_EV(N_("Nuke Detonated"),                    E_NUKE),
-  GEN_EV(N_("Gold Found in Hut"),                 E_HUT_GOLD),
-  GEN_EV(N_("Tech Found in Hut"),                 E_HUT_TECH),
-  GEN_EV(N_("Mercenaries Found in Hut"),          E_HUT_MERC),
-  GEN_EV(N_("Unit Spared by Barbarians"),         E_HUT_BARB_CITY_NEAR),
-  GEN_EV(N_("Barbarians in a Hut Roused"),        E_HUT_BARB),
-  GEN_EV(N_("Killed by Barbarians in a Hut"),     E_HUT_BARB_KILLED),
-  GEN_EV(N_("City Founded from Hut"),             E_HUT_CITY),
-  GEN_EV(N_("Settler Found in Hut"),              E_HUT_SETTLER),
-  GEN_EV(N_("Game Started"),                      E_GAME_START),
-  GEN_EV(N_("Year Advance"),                      E_NEXT_YEAR),
-  GEN_EV(N_("Report"),                            E_REPORT),
-  GEN_EV(N_("Broadcast Report"),                  E_BROADCAST_REPORT),
-  GEN_EV(N_("Nation Selected"),                   E_NATION_SELECTED),
-  GEN_EV(N_("Game End"),                          E_GAME_END),
-  GEN_EV(N_("Turn Bell"),                         E_TURN_BELL),
-  GEN_EV(N_("Tech Learned"),                      E_TECH_LEARNED),
+  GEN_EV(N_("City: Building Unavailable Item"),       E_CITY_CANTBUILD),
+  GEN_EV(N_("City: Captured/Destroyed"),              E_CITY_LOST),
+  GEN_EV(N_("City: Celebrating"),                     E_CITY_LOVE),
+  GEN_EV(N_("City: Civil Disorder"),                  E_CITY_DISORDER),
+  GEN_EV(N_("City: Famine"),                          E_CITY_FAMINE),
+  GEN_EV(N_("City: Famine Feared"),       	      E_CITY_FAMINE_FEARED),
+  GEN_EV(N_("City: Growth"),                          E_CITY_GROWTH),
+  GEN_EV(N_("City: May Soon Grow"),                   E_CITY_MAY_SOON_GROW),
+  GEN_EV(N_("City: Needs Aqueduct"),                  E_CITY_AQUEDUCT),
+  GEN_EV(N_("City: Needs Aqueduct Being Built"),      E_CITY_AQ_BUILDING),
+  GEN_EV(N_("City: Normal"),                          E_CITY_NORMAL),
+  GEN_EV(N_("City: Nuked"),                           E_CITY_NUKED),
+  GEN_EV(N_("City: Released from CMA"),               E_CITY_CMA_RELEASE),
+  GEN_EV(N_("City: Suggest Growth Throttling"),       E_CITY_GRAN_THROTTLE),
+  GEN_EV(N_("City: Transfer"),                        E_CITY_TRANSFER),
+  GEN_EV(N_("City: Was Built"),                       E_CITY_BUILD),
+  GEN_EV(N_("City: Worklist Events"),                 E_WORKLIST),
+  GEN_EV(N_("Civ: Barbarian Uprising"),               E_UPRISING ),
+  GEN_EV(N_("Civ: Civil War"),                        E_CIVIL_WAR),
+  GEN_EV(N_("Civ: Collapse to Anarchy"),              E_ANARCHY),
+  GEN_EV(N_("Civ: First Contact"),                    E_FIRST_CONTACT),
+  GEN_EV(N_("Civ: Learned New Government"),	      E_NEW_GOVERNMENT),
+  GEN_EV(N_("Civ: Low Funds"),                        E_LOW_ON_FUNDS),
+  GEN_EV(N_("Civ: Pollution"),                        E_POLLUTION),
+  GEN_EV(N_("Civ: Revolt Ended"),                     E_REVOLT_DONE),
+  GEN_EV(N_("Civ: Revolt Started"),                   E_REVOLT_START),
+  GEN_EV(N_("Civ: Spaceship Events"),                 E_SPACESHIP),
+  GEN_EV(N_("Diplomat Action: Bribe"),              E_MY_DIPLOMAT_BRIBE),
+  GEN_EV(N_("Diplomat Action: Caused Incident"),    E_DIPLOMATIC_INCIDENT),
+  GEN_EV(N_("Diplomat Action: Escape"),             E_MY_DIPLOMAT_ESCAPE),
+  GEN_EV(N_("Diplomat Action: Embassy"),            E_MY_DIPLOMAT_EMBASSY),
+  GEN_EV(N_("Diplomat Action: Failed"),             E_MY_DIPLOMAT_FAILED),
+  GEN_EV(N_("Diplomat Action: Incite"),             E_MY_DIPLOMAT_INCITE),
+  GEN_EV(N_("Diplomat Action: Poison"),             E_MY_DIPLOMAT_POISON),
+  GEN_EV(N_("Diplomat Action: Sabotage"),           E_MY_DIPLOMAT_SABOTAGE),
+  GEN_EV(N_("Diplomat Action: Theft"),              E_MY_DIPLOMAT_THEFT),
+  GEN_EV(N_("Enemy Diplomat: Bribe"),               E_ENEMY_DIPLOMAT_BRIBE),
+  GEN_EV(N_("Enemy Diplomat: Embassy"),             E_ENEMY_DIPLOMAT_EMBASSY),
+  GEN_EV(N_("Enemy Diplomat: Failed"),              E_ENEMY_DIPLOMAT_FAILED),
+  GEN_EV(N_("Enemy Diplomat: Incite"),              E_ENEMY_DIPLOMAT_INCITE),
+  GEN_EV(N_("Enemy Diplomat: Poison"),              E_ENEMY_DIPLOMAT_POISON),
+  GEN_EV(N_("Enemy Diplomat: Sabotage"),            E_ENEMY_DIPLOMAT_SABOTAGE),
+  GEN_EV(N_("Enemy Diplomat: Theft"),               E_ENEMY_DIPLOMAT_THEFT),
+  GEN_EV(N_("Game: Broadcast Report"),                E_BROADCAST_REPORT),
+  GEN_EV(N_("Game: Game Ended"),                      E_GAME_END),
+  GEN_EV(N_("Game: Game Started"),                    E_GAME_START),
+  GEN_EV(N_("Game: Message from Server Operator"),    E_MESSAGE_WALL),
+  GEN_EV(N_("Game: Nation Selected"),                 E_NATION_SELECTED),
+  GEN_EV(N_("Game: Player Destroyed"),                E_DESTROYED),
+  GEN_EV(N_("Game: Report"),                          E_REPORT),
+  GEN_EV(N_("Game: Turn Bell"),                       E_TURN_BELL),
+  GEN_EV(N_("Game: Year Advance"),                    E_NEXT_YEAR),
+  GEN_EV(N_("Global: Eco-Disaster"),                  E_GLOBAL_ECO),
+  GEN_EV(N_("Global: Nuke Detonated"),                E_NUKE),
+  GEN_EV(N_("Hut: Barbarians in a Hut Roused"),       E_HUT_BARB),
+  GEN_EV(N_("Hut: City Founded from Hut"),            E_HUT_CITY),
+  GEN_EV(N_("Hut: Gold Found in Hut"),                E_HUT_GOLD),
+  GEN_EV(N_("Hut: Killed by Barbarians in a Hut"),    E_HUT_BARB_KILLED),
+  GEN_EV(N_("Hut: Mercenaries Found in Hut"),         E_HUT_MERC),
+  GEN_EV(N_("Hut: Settler Found in Hut"),             E_HUT_SETTLER),
+  GEN_EV(N_("Hut: Tech Found in Hut"),                E_HUT_TECH),
+  GEN_EV(N_("Hut: Unit Spared by Barbarians"),        E_HUT_BARB_CITY_NEAR),
+  GEN_EV(N_("Improvement: Bought"),                   E_IMP_BUY),
+  GEN_EV(N_("Improvement: Built"),                    E_IMP_BUILD),
+  GEN_EV(N_("Improvement: Forced to Sell"),           E_IMP_AUCTIONED),
+  GEN_EV(N_("Improvement: New Improvement Selected"), E_IMP_AUTO),
+  GEN_EV(N_("Improvement: Sold"),                     E_IMP_SOLD),
+  GEN_EV(N_("Tech: Learned From Great Library"),      E_TECH_GAIN),
+  GEN_EV(N_("Tech: Learned New Tech"),                E_TECH_LEARNED),
+  GEN_EV(N_("Treaty: Alliance"),                      E_TREATY_ALLIANCE),
+  GEN_EV(N_("Treaty: Broken"),                        E_TREATY_BROKEN),
+  GEN_EV(N_("Treaty: Ceasefire"),                     E_TREATY_CEASEFIRE),
+  GEN_EV(N_("Treaty: Peace"),                         E_TREATY_PEACE),
+  GEN_EV(N_("Treaty: Shared Vision"),                 E_TREATY_SHARED_VISION),
+  GEN_EV(N_("Unit: Attack Failed"),                   E_UNIT_LOST_ATT),
+  GEN_EV(N_("Unit: Attack Succeeded"),                E_UNIT_WIN_ATT),
+  GEN_EV(N_("Unit: Bought"),                          E_UNIT_BUY),
+  GEN_EV(N_("Unit: Built"),                           E_UNIT_BUILD),
+  GEN_EV(N_("Unit: Defender Destroyed"),              E_UNIT_LOST),
+  GEN_EV(N_("Unit: Defender Survived"),               E_UNIT_WIN),
+  GEN_EV(N_("Unit: Production Upgraded"),             E_UNIT_UPGRADED),
+  GEN_EV(N_("Unit: Relocated"),                       E_UNIT_RELOCATED),
+  GEN_EV(N_("Wonder: Finished"),                      E_WONDER_BUILD),
+  GEN_EV(N_("Wonder: Made Obsolete"),                 E_WONDER_OBSOLETE),
+  GEN_EV(N_("Wonder: Started"),                       E_WONDER_STARTED),
+  GEN_EV(N_("Wonder: Stopped"),                       E_WONDER_STOPPED),
+  GEN_EV(N_("Wonder: Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
   GEN_EV_TERMINATOR
 };
 
@@ -259,7 +279,7 @@ static int compar_message_texts(const void *i1, const void *i2)
 *****************************************************************/
 void init_messages_where(void)
 {
-  int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
+  int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY,
 		     E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
 		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
 		     E_TECH_LEARNED};
@@ -644,11 +664,25 @@ bool is_city_event(enum event_type event)
   case E_CITY_LOST:
   case E_UNIT_LOST:
   case E_UNIT_WIN:
-  case E_DIPLOMATED:
-  case E_MY_DIPLOMAT:
+  case E_ENEMY_DIPLOMAT_FAILED:
+  case E_ENEMY_DIPLOMAT_EMBASSY:
+  case E_ENEMY_DIPLOMAT_POISON:
+  case E_ENEMY_DIPLOMAT_BRIBE:
+  case E_ENEMY_DIPLOMAT_INCITE:
+  case E_ENEMY_DIPLOMAT_SABOTAGE:
+  case E_ENEMY_DIPLOMAT_THEFT:
+  case E_MY_DIPLOMAT_FAILED:
+  case E_MY_DIPLOMAT_EMBASSY:
+  case E_MY_DIPLOMAT_POISON:
+  case E_MY_DIPLOMAT_BRIBE:
+  case E_MY_DIPLOMAT_INCITE:
+  case E_MY_DIPLOMAT_SABOTAGE:
+  case E_MY_DIPLOMAT_THEFT:
+  case E_MY_DIPLOMAT_ESCAPE:
   case E_UNIT_LOST_ATT:
   case E_UNIT_WIN_ATT:
   case E_UPRISING:
+  case E_UNIT_RELOCATED:
     return FALSE;
 
   default:

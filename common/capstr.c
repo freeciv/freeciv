@@ -73,7 +73,8 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.11.6 conn_info pop_cost +turn +attributes"\
 " new_bonus_tech fund_added +processing_packets angrycitizen +tile_trade"\
 " init_techs short_worklists tech_cost_style +short_city_tile_trade"\
-" +trade_size +new_nation_selection +client_worklists sound u32timeout"
+" +trade_size +new_nation_selection +client_worklists sound u32timeout" \
+" +notifies"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -127,6 +128,8 @@ const char * const our_capability = our_capability_internal;
 
    "u32timeout" designates that game.timeout is packeted as a uint32
    instead of a uint16
+
+   "notifies" is a cleanup of event notifications
 */
 
 void init_our_capability(void)

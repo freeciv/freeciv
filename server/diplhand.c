@@ -25,6 +25,7 @@
 #include "packets.h"
 #include "player.h"
 #include "unit.h"
+#include "events.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -272,18 +273,19 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
       switch (pclause->type) {
       case CLAUSE_ADVANCE:
-	notify_player(pdest, _("Game: You are taught the knowledge of %s."),
-		      advances[pclause->value].name);
+	notify_player_ex(pdest, -1, -1, E_TECH_GAIN,
+			 _("Game: You are taught the knowledge of %s."),
+			 get_tech_name(pdest, pclause->value));
 
-	notify_embassies(pdest,pgiver,
+	notify_embassies(pdest, pgiver,
 			 _("Game: The %s have aquired %s from the %s."),
 			 get_nation_name_plural(pdest->nation),
-			 advances[pclause->value].name,
+			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));
 
 	gamelog(GAMELOG_TECH, _("%s acquire %s (Treaty) from %s"),
 		get_nation_name_plural(pdest->nation),
-		advances[pclause->value].name,
+		get_tech_name(pdest, pclause->value),
 		get_nation_name_plural(pgiver->nation));
 
 	do_dipl_cost(pdest);
@@ -316,11 +318,13 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    break;
 	  }
 
-	  notify_player(pdest, _("Game: You receive city of %s from %s."),
-			pcity->name, pgiver->name);
+	  notify_player_ex(pdest, pcity->x, pcity->y, E_CITY_TRANSFER,
+			   _("Game: You receive city of %s from %s."),
+			   pcity->name, pgiver->name);
 
-	  notify_player(pgiver, _("Game: You give city of %s to %s."),
-			pcity->name, pdest->name);
+	  notify_player_ex(pgiver, pcity->x, pcity->y, E_CITY_LOST,
+			   _("Game: You give city of %s to %s."),
+			   pcity->name, pdest->name);
 
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
@@ -330,39 +334,47 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	pgiver->diplstates[pdest->player_no].turns_left=16;
 	pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
 	pdest->diplstates[pgiver->player_no].turns_left=16;
-	notify_player(pgiver, _("Game: You agree on a cease-fire with %s."),
-		      pdest->name);
-	notify_player(pdest, _("Game: You agree on a cease-fire with %s."),
-		      pgiver->name);
+	notify_player_ex(pgiver, -1, -1, E_TREATY_CEASEFIRE,
+			 _("Game: You agree on a cease-fire with %s."),
+			 pdest->name);
+	notify_player_ex(pdest, -1, -1, E_TREATY_CEASEFIRE,
+			 _("Game: You agree on a cease-fire with %s."),
+			 pgiver->name);
 	check_city_workers(plr0);
 	check_city_workers(plr1);
 	break;
       case CLAUSE_PEACE:
 	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
 	pdest->diplstates[pgiver->player_no].type=DS_PEACE;
-	notify_player(pgiver, _("Game: You agree on peace with %s."),
-		      pdest->name);
-	notify_player(pdest, _("Game: You agree on peace with %s."),
-		      pgiver->name);    
+	notify_player_ex(pgiver, -1, -1, E_TREATY_PEACE,
+			 _("Game: You agree on a peace treaty with %s."),
+			 pdest->name);
+	notify_player_ex(pdest, -1, -1, E_TREATY_PEACE,
+			 _("Game: You agree on a peace treaty with %s."),
+			 pgiver->name);
 	check_city_workers(plr0);
 	check_city_workers(plr1);
 	break;
       case CLAUSE_ALLIANCE:
 	pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
 	pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
-	notify_player(pgiver, _("Game: You agree on an alliance with %s."),
-		      pdest->name);
-	notify_player(pdest, _("Game: You agree on an alliance with %s."),
-		      pgiver->name);
+	notify_player_ex(pgiver, -1, -1, E_TREATY_ALLIANCE,
+			 _("Game: You agree on an alliance with %s."),
+			 pdest->name);
+	notify_player_ex(pdest, -1, -1, E_TREATY_ALLIANCE,
+			 _("Game: You agree on an alliance with %s."),
+			 pgiver->name);
 	check_city_workers(plr0);
 	check_city_workers(plr1);
 	break;          
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);
-	notify_player(pgiver, _("Game: You give shared vision to %s."),
-		      pdest->name);
-	notify_player(pdest, _("Game: %s gives you shared vision."),
-		      pgiver->name);
+	notify_player_ex(pgiver, -1, -1, E_TREATY_SHARED_VISION,
+			 _("Game: You give shared vision to %s."),
+			 pdest->name);
+	notify_player_ex(pdest, -1, -1, E_TREATY_SHARED_VISION,
+			 _("Game: %s gives you shared vision."),
+			 pgiver->name);
 	break;
       }
 
