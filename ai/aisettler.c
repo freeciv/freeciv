@@ -314,7 +314,7 @@ static int defense_bonus(struct cityresult *result, struct ai_data *ai)
 **************************************************************************/
 static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 {
-  bool ocean_adjacent = is_terrain_near_tile(result->x, result->y, T_OCEAN);
+  bool ocean_adjacent = is_ocean_near_tile(result->x, result->y);
 
   /* Adjust for ocean adjacency, which is nice */
   if (ocean_adjacent) {

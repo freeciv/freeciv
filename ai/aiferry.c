@@ -237,7 +237,7 @@ static int combined_land_sea_move(int x, int y, enum direction8 dir,
   if (is_ocean(tgt_tile->terrain)) {
     /* Any-to-Sea */
     move_cost = 0;
-  } else if (src_tile->terrain == T_OCEAN) {
+  } else if (is_ocean(src_tile->terrain)) {
     /* Sea-to-Land */
     move_cost = PF_IMPOSSIBLE_MC;
   } else {
