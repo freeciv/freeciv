@@ -89,26 +89,25 @@ tiles = { "row", "column","tag"
  10,  3, "ts.whales"
  10,  5, "ts.horses"
 
+;roads
+ 11, 1, "r.road_n"
+ 11, 2, "r.road_ne"
+ 11, 3, "r.road_e"
+ 11, 4, "r.road_se"
+ 11, 5, "r.road_s"
+ 11, 6, "r.road_sw"
+ 11, 7, "r.road_w"
+ 11, 8, "r.road_nw"
 
-;roads - we follow the the numbering of the DIR_D[XY] arrays
- 11, 1, "r.road0"
- 11, 2, "r.road1"
- 11, 3, "r.road2"
- 11, 4, "r.road3"
- 11, 5, "r.road4"
- 11, 6, "r.road5"
- 11, 7, "r.road6"
- 11, 8, "r.road7"
-
-;rails - we follow the the numbering of the DIR_D[XY] arrays
- 12, 1, "r.rail0"
- 12, 2, "r.rail1"
- 12, 3, "r.rail2"
- 12, 4, "r.rail3"
- 12, 5, "r.rail4"
- 12, 6, "r.rail5"
- 12, 7, "r.rail6"
- 12, 8, "r.rail7"
+;rails
+ 12, 1, "r.rail_n"
+ 12, 2, "r.rail_ne"
+ 12, 3, "r.rail_e"
+ 12, 4, "r.rail_se"
+ 12, 5, "r.rail_s"
+ 12, 6, "r.rail_sw"
+ 12, 7, "r.rail_w"
+ 12, 8, "r.rail_nw"
 
 ;add-ons
  4, 7, "tx.farmland"

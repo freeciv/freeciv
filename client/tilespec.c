@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include "astring.h"
 #include "capability.h"
@@ -412,8 +413,10 @@ static char *nsew_str(int idx)
 }
      
 /* Not very safe, but convenient: */
-#define SET_SPRITE(field, tag) \
-    sprites.field = hash_lookup_data(sprite_hash, tag);
+#define SET_SPRITE(field, tag) do { \
+       sprites.field = hash_lookup_data(sprite_hash, tag);\
+       assert(sprites.field);\
+    } while(0)
 
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
@@ -468,10 +471,18 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(rail.isolated, "r.rail_isolated");
   
   if (is_isometric) {
-    for (i=0; i<8; i++) {
-      my_snprintf(buffer, sizeof(buffer), "r.road%d", i);
+    for (i = 0; i < 8; i++) {
+      const char *s = dir_get_name(i);
+      char dir_name[3];
+
+      assert(strlen(s) == 1 || strlen(s) == 2);
+      dir_name[0] = tolower(s[0]);
+      dir_name[1] = tolower(s[1]);
+      dir_name[2] = tolower(s[2]);
+
+      my_snprintf(buffer, sizeof(buffer), "r.road_%s", dir_name);
       SET_SPRITE(road.dir[i], buffer);
-      my_snprintf(buffer, sizeof(buffer), "r.rail%d", i);
+      my_snprintf(buffer, sizeof(buffer), "r.rail_%s", dir_name);
       SET_SPRITE(rail.dir[i], buffer);
     }
   } else {
@@ -1097,8 +1108,8 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   }
 
   for (dir=0; dir<8; dir++) {
-    int x1 = x + DIR_DX2[dir];
-    int y1 = y + DIR_DY2[dir];
+    int x1 = x + DIR_DX[dir];
+    int y1 = y + DIR_DY[dir];
     if (normalize_map_pos(&x1, &y1)) {
       ttype_near[dir] = map_get_terrain(x1, y1);
       tspecial_near[dir] = map_get_special(x1, y1);
@@ -1113,22 +1124,22 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       tspecial_near[dir] = S_NO_SPECIAL;
     }
   }
-  ttype_north      = ttype_near[0];
-  ttype_north_east = ttype_near[1];
-  ttype_east       = ttype_near[2];
-  ttype_south_east = ttype_near[3];
-  ttype_south      = ttype_near[4];
-  ttype_south_west = ttype_near[5];
-  ttype_west       = ttype_near[6];
-  ttype_north_west = ttype_near[7];
-  tspecial_north      = tspecial_near[0];
-  tspecial_north_east = tspecial_near[1];
-  tspecial_east       = tspecial_near[2];
-  tspecial_south_east = tspecial_near[3];
-  tspecial_south      = tspecial_near[4];
-  tspecial_south_west = tspecial_near[5];
-  tspecial_west       = tspecial_near[6];
-  tspecial_north_west = tspecial_near[7];
+  ttype_north      = ttype_near[DIR8_NORTH];
+  ttype_north_east = ttype_near[DIR8_NORTHEAST];
+  ttype_east       = ttype_near[DIR8_EAST];
+  ttype_south_east = ttype_near[DIR8_SOUTHEAST];
+  ttype_south      = ttype_near[DIR8_SOUTH];
+  ttype_south_west = ttype_near[DIR8_SOUTHWEST];
+  ttype_west       = ttype_near[DIR8_WEST];
+  ttype_north_west = ttype_near[DIR8_NORTHWEST];
+  tspecial_north      = tspecial_near[DIR8_NORTH];
+  tspecial_north_east = tspecial_near[DIR8_NORTHEAST];
+  tspecial_east       = tspecial_near[DIR8_EAST];
+  tspecial_south_east = tspecial_near[DIR8_SOUTHEAST];
+  tspecial_south      = tspecial_near[DIR8_SOUTH];
+  tspecial_south_west = tspecial_near[DIR8_SOUTHWEST];
+  tspecial_west       = tspecial_near[DIR8_WEST];
+  tspecial_north_west = tspecial_near[DIR8_NORTHWEST];
   
   if (draw_terrain) {
     if (ttype != T_OCEAN) /* painted via coasts. */

@@ -497,24 +497,6 @@ extern const int CAR_DIR_DY[4];
   }                                                    \
 }
 
-
-/*
-used to compute neighboring tiles:
-using
-x1 = x + DIR_DX2[dir];
-y1 = y + DIR_DY2[dir];
-will give you the tile as shown below.
--------
-|7|0|1|
-|-+-+-|
-|6| |2|
-|-+-+-|
-|5|4|3|
--------
- */
-extern const int DIR_DX2[8];
-extern const int DIR_DY2[8];
-
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
