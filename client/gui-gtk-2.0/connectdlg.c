@@ -36,7 +36,6 @@
 #include "connectdlg.h"
 
 static GtkWidget *iname, *ihost, *iport;
-static GtkWidget *connw, *quitw;
 
 static GtkWidget *dialog;
 
@@ -61,7 +60,6 @@ static void connect_callback(GtkWidget *w, gpointer data)
   if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
-    gtk_widget_set_sensitive(top_vbox,TRUE);
   }
   else
     append_output_window(errbuf);
@@ -114,10 +112,21 @@ static void meta_click_callback(GtkWidget *w, GdkEventButton *event, gpointer da
 /**************************************************************************
 ...
 **************************************************************************/
-static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
+static void connect_destroy_callback(GtkWidget *w, gpointer data)
 {
-  gtk_main_quit();
-  return FALSE;
+  dialog = NULL;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void connect_command_callback(GtkWidget *w, gint response_id)
+{
+  if (response_id == GTK_RESPONSE_ACCEPT) {
+    connect_callback(w, NULL);
+  } else {
+    gtk_main_quit();
+  }
 }
 
 /**************************************************************************
@@ -132,17 +141,23 @@ void gui_server_connect(void)
   char buf [256];
   int i;
 
-  if (!titles) titles = intl_slist(6, titles_);
+  if (!titles)
+    titles = intl_slist(6, titles_);
 
-  gtk_widget_set_sensitive(turn_done_button, FALSE);
-  gtk_widget_set_sensitive(top_vbox, FALSE);
+  dialog = gtk_dialog_new_with_buttons(_(" Connect to Freeciv Server"),
+    GTK_WINDOW(toplevel),
+    GTK_DIALOG_MODAL,
+    GTK_STOCK_JUMP_TO,
+    GTK_RESPONSE_ACCEPT,
+    GTK_STOCK_QUIT,
+    GTK_RESPONSE_REJECT,
+    NULL);
 
-  dialog=gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(dialog),"delete_event",
-	GTK_SIGNAL_FUNC(connect_deleted_callback), NULL);
+  g_signal_connect(dialog, "destroy",
+		   G_CALLBACK(connect_destroy_callback), NULL);
+  g_signal_connect(dialog, "response",
+		   G_CALLBACK(connect_command_callback), NULL);
   
-  gtk_window_set_title(GTK_WINDOW(dialog), _(" Connect to Freeciv Server"));
-
   book = gtk_notebook_new ();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), book, TRUE, TRUE, 0);
 
@@ -187,13 +202,10 @@ void gui_server_connect(void)
 #if IS_BETA_VERSION
   {
     GtkWidget *label2;
-    GtkStyle *style;
 
     label2=gtk_label_new (beta_message());
-
-    style=gtk_style_copy (label2->style);
-    style->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RED];
-    gtk_widget_set_style (label2, style);
+    gtk_widget_modify_fg(label2, GTK_STATE_NORMAL,
+	colors_standard[COLOR_STD_RED]);
     gtk_table_attach_defaults (GTK_TABLE (table), label2, 0, 2, 3, 4);
   }
 #endif
@@ -225,18 +237,7 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(update), "clicked",
 			GTK_SIGNAL_FUNC(meta_update_callback), (gpointer)list);
 
-  connw=gtk_button_new_with_label(_("Connect"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), connw,
-	TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(connw, GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(connw);
-
-  quitw=gtk_button_new_with_label(_("Quit"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), quitw,
-	TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(quitw, GTK_CAN_DEFAULT);
-
-  gtk_widget_grab_focus (iname);
+  gtk_widget_grab_focus(iname);
 
   gtk_signal_connect(GTK_OBJECT(iname), "activate",
         	      GTK_SIGNAL_FUNC(connect_callback), NULL);
@@ -244,13 +245,8 @@ void gui_server_connect(void)
         	      GTK_SIGNAL_FUNC(connect_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(iport), "activate",
         	      GTK_SIGNAL_FUNC(connect_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(connw), "clicked",
-        	      GTK_SIGNAL_FUNC(connect_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(quitw), "clicked",
-        	      GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
 
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(dialog)->action_area);
 
   gtk_widget_set_usize(dialog, 450, 250);
   gtk_set_relative_position(toplevel, dialog, 50, 50);

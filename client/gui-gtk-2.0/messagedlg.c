@@ -171,7 +171,6 @@ GtkWidget *create_messageopt_dialog(void)
 **************************************************************************/
 static void messageopt_destroy_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(shell);
   shell = NULL;
 }
 
@@ -203,7 +202,7 @@ static void messageopt_command_callback(GtkWidget *w, gint response_id)
       } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(model[n]), &it));
     }
   }
-  messageopt_destroy_callback(w, NULL);
+  gtk_widget_destroy(shell);
 }
 
 /**************************************************************************

@@ -137,15 +137,6 @@ static void update_find_dialog(GtkListStore *store)
 /**************************************************************************
 ...
 **************************************************************************/
-static void popdown_find_dialog(void)
-{
-  gtk_widget_destroy(find_dialog_shell);
-  find_dialog_shell = NULL;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void find_command_callback(GtkWidget *w, gint response_id)
 {
   if (response_id == GTK_RESPONSE_ACCEPT) {
@@ -166,7 +157,7 @@ static void find_command_callback(GtkWidget *w, gint response_id)
       }
     }
   }
-  find_destroy_callback(w, NULL);
+  gtk_widget_destroy(find_dialog_shell);
 }
 
 /**************************************************************************
@@ -175,7 +166,7 @@ static void find_command_callback(GtkWidget *w, gint response_id)
 static void find_destroy_callback(GtkWidget *w, gpointer data)
 {
   center_tile_mapcanvas(pos_x, pos_y);
-  popdown_find_dialog();
+  find_dialog_shell = NULL;
 }
 
 /**************************************************************************
