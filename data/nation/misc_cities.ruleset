@@ -201,7 +201,7 @@ cities =
   "Arp", "Bovina", "Cut and Shoot", "College Station", 
   "Grurer", "Iraan", "Leming", "Harlingen", 
   "Muleshoe", "Munday", "Kermit", "La Grange", 
-  "Ropesville", "Wink", "Yoakum", "Sourlake",  
+  "Ropesville", "Wink", "Yoakum", "Sourlake", "Waco", 
 ;  /* UT */
   "Delta", "Moab", "Nephi", "Loa", 
   "Moroni", "Orem", "Tooele", "Sigurd", 
@@ -275,7 +275,7 @@ cities =
 ; Italy 
   "Bobbio", "Viareggio", "Siderno", "Cortona", "Poggibonsi", 
 ; Spain 
-  "Pedrogao Grande", "Villarcayo", "Alosno", "La Bisbal", 
+  "Pedrogao Grande", "Villarcayo", "Alonso", "La Bisbal", 
 ; UK 
   "Cold Norton", "Potten End", "Battlesbridge", 
   "Fawkham Green", "Ysbyty Ystwyth", "Bletchley",
@@ -308,7 +308,7 @@ cities =
   "Szczebrzeszyn", "Ustrzyki Dolne", "Ciemnogród",
   "Gniewomierowice", "Budziwojów", "Trzcianki",
 ; random things
-  "Monaco", "San Marino", "Andorra", "Geneva", "Zurich",
+  "Monaco", "San Marino", "Andorra la Vella", "Geneva", "Zurich",
   "Bedford Falls", "Grodno", "Sluck", "Bobruysk", "Minsk", "Slonim",
   "Brest Litovsk", "Kobrin", "Polock", "Daugavpilsk", "Parnava",
   "Lipava", "Yelgava", "Rosienie", "Vindava", "Narva", "Durban",
