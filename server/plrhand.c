@@ -453,11 +453,18 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
         && plr->diplstates[aplayer->player_no].type == DS_TEAM
         && aplayer->is_alive
         && get_invention(aplayer, tech_found) != TECH_KNOWN) {
-      notify_player_ex(aplayer, -1, -1, E_TECH_LEARNED,
-                       _("Game: Learned %s in cooperation with %s. "
-                         "Scientists choose to research %s."),
-                       advances[tech_found].name, plr->name,
-                       get_tech_name(plr, plr->research.researching));
+      if (tech_exists(plr->research.researching)) {
+        notify_player_ex(aplayer, -1, -1, E_TECH_LEARNED,
+                         _("Game: Learned %s in cooperation with %s. "
+                           "Scientists choose to research %s."),
+                         advances[tech_found].name, plr->name,
+                         get_tech_name(plr, plr->research.researching));
+      } else {
+        notify_player_ex(aplayer, -1, -1, E_TECH_LEARNED,
+                         _("Game: Learned %s in cooperation with %s. "
+                           "Scientists do not know what to research next."),
+                         advances[tech_found].name, plr->name);
+      }
       found_new_tech(aplayer, tech_found, was_discovery, saving_bulbs,
                      plr->research.researching);
     }
