@@ -182,14 +182,7 @@ static void check_units(void) {
 	assert(pcity);
 	assert(city_owner(pcity) == pplayer);
       }
-      if (punit->activity == ACTIVITY_FORTIFIED) {
-	punit->activity = ACTIVITY_IDLE;
-	assert(can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
-	punit->activity = ACTIVITY_FORTIFIED;
-      } else {
-	assert(can_unit_do_activity_targeted(punit, punit->activity,
-					     punit->activity_target));
-      }
+      assert(can_unit_continue_current_activity(punit));
 
       pcity = map_get_city(x, y);
       if (pcity) {
