@@ -336,13 +336,7 @@ bool player_owns_active_govchange_wonder(struct player *pplayer)
 **************************************************************************/
 int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
 {
-  int i, result = 0;
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
-      result++;
-    }
-  }
-  return result;
+  return pplayer->research.num_known_tech_with_flag[flag];
 }
 
 /**************************************************************************

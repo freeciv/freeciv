@@ -161,6 +161,7 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 void update_research(struct player *pplayer)
 {
   Tech_Type_id i;
+  enum tech_flag_id flag;
 
   for (i = 0; i < game.num_tech_types; i++) {
     if (!tech_exists(i)) {
@@ -177,6 +178,16 @@ void update_research(struct player *pplayer)
       }
     }
     build_required_techs(pplayer, i);
+  }
+
+  for (flag = 0; flag < TF_LAST; flag++) {
+    pplayer->research.num_known_tech_with_flag[flag] = 0;
+
+    for (i = A_FIRST; i < game.num_tech_types; i++) {
+      if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
+	pplayer->research.num_known_tech_with_flag[flag]++;
+      }
+    }
   }
 }
 

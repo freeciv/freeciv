@@ -83,6 +83,11 @@ struct player_research {
     unsigned char required_techs[(A_LAST + 7) / 8];
     int num_required_techs, bulbs_required;
   } inventions[A_LAST];
+
+  /*
+   * Cached values. Updated by update_research.
+   */
+  int num_known_tech_with_flag[TF_LAST];
 };
 
 struct player_score {
