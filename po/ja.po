@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2004-01-12 22:20-0800\n"
-"PO-Revision-Date: 2004-03-31 14:15+0900\n"
+"PO-Revision-Date: 2004-04-01 20:50+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -4930,9 +4930,8 @@ msgid "A player already exists by that name."
 msgstr "その名前のプレイヤーは既に存在します。"
 
 #: server/stdinhand.c:1904
-#, fuzzy
 msgid "A user already exists by that name."
-msgstr "その名前のプレイヤーは既に存在します。"
+msgstr "その名前のユーザは既に存在します。"
 
 #: server/stdinhand.c:1924
 #, c-format
@@ -6026,9 +6025,9 @@ msgid "%s lose a %s (fuel)"
 msgstr "%sは%sを失う(燃料)"
 
 #: server/unittools.c:678
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s became more experienced."
-msgstr "Game: %s は補給のため帰還しました。"
+msgstr "Game: %s はベテランになりました。"
 
 #: server/unittools.c:955
 #, fuzzy, c-format
@@ -9595,7 +9594,6 @@ msgid "Goto/Airlift Unit"
 msgstr "部隊を移動/空輸"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
 msgstr "空輸"
 
@@ -21952,176 +21950,3 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
-
-#~ msgid "Game: Illegal package, can't upgrade %s (yet)."
-#~ msgstr "Game: 不正なパッケージ, %sへは(まだ)アップグレードできません。"
-
-#~ msgid "Game: Insufficient funds, upgrade costs %d."
-#~ msgstr "Game: 資金不足、アップグレード費用 %d。"
-
-#~ msgid "%s (veteran)"
-#~ msgstr "%s (ベテラン)"
-
-#~ msgid "Game: Illegal move, unit not in city!"
-#~ msgstr "Game: 不正な移動、部隊は都市内にいない!"
-
-#~ msgid "Metaserver List"
-#~ msgstr "メタサーバ一覧"
-
-#~ msgid ""
-#~ "Mouse:\n"
-#~ "======\n"
-#~ "  Left-click:  (on city):  Pop up city window\n"
-#~ "               (on unit):  Activate unit\n"
-#~ "  Center-click or\n"
-#~ "     Control-right-click:  Show tile info\n"
-#~ "  Right-click:             Center tile in view\n"
-#~ "  Shift-click:             Adjust city workers from main map"
-#~ msgstr ""
-#~ "マウス:\n"
-#~ "=======\n"
-#~ "  左クリック:   (都市上):  都市ウィンドウを開く\n"
-#~ "                (部隊上):  部隊を選択する\n"
-#~ "  中クリック または\n"
-#~ "      Ctrl + 右クリック :  地形情報を見る\n"
-#~ "  右クリック:              クリックした場所に視点をもっていく\n"
-#~ "  Shift + 左クリック:      メインマップから都市労働者を調整する"
-
-#~ msgid "?diplomatic_state:No Contact"
-#~ msgstr "未接触"
-
-# yasu
-#~ msgid "AI controlled players cannot participate in diplomatic meetings."
-#~ msgstr "AI が支配しているプレイヤーは外交会合に参加できません。"
-
-#~ msgid "Game: You are dead!"
-#~ msgstr "Game: あなたは死んでいます!"
-
-#~ msgid "Game: Connection %s from %s has joined as player %s."
-#~ msgstr "Game: プレイヤー %3$s として、%2$s からの接続 %1$s が参加しました。"
-
-#~ msgid "Connection request from %s from %s (connection named %s)"
-#~ msgstr "%2$s の %1$s (接続名 %3$s)から接続要請"
-
-#~ msgid "%s was rejected: No observation of barbarians."
-#~ msgstr "%s は拒絶されました: バーバリアンの観察はできません。"
-
-#~ msgid "%s was rejected: No observation of dead players."
-#~ msgstr "%s は拒絶されました: 死んだプレイヤーの観察はできません。"
-
-#~ msgid "%s was rejected: No observation of AI players."
-#~ msgstr "%s は拒絶されました。AI プレイヤーの観測はできません。"
-
-#~ msgid "%s was rejected: No reconnection to human players."
-#~ msgstr "%s は拒絶されました。人間プレイヤーへの再接続はできません。"
-
-# yasu
-#~ msgid "Sorry, someone else already has that name."
-#~ msgstr "残念ながら、誰か他の人がその名前を使っています。"
-
-#~ msgid "%s was rejected: Name %s already used."
-#~ msgstr "%s は拒絶されました。名前 %s は既に使われています。"
-
-#~ msgid "%s was rejected: %s already connected."
-#~ msgstr "%s は拒絶されました。%s は既に接続されています。"
-
-#~ msgid "Sorry, the game is already running."
-#~ msgstr "残念ですがゲームは既に始まっています。"
-
-#~ msgid "%s was rejected: Game running and unknown name %s."
-#~ msgstr "%s は拒絶されました。ゲームは実行中で、名前 %s が不明です。"
-
-#~ msgid "Sorry, the game is full."
-#~ msgstr "残念ですがゲームは満員です。"
-
-#~ msgid "%s was rejected: Maximum number of players reached."
-#~ msgstr "%s は拒絶されました。最大プレイヤー数に達しました。"
-
-#~ msgid "Error creating new ai player: %s\n"
-#~ msgstr "新しい AI プレイヤー %s 作成でエラー\n"
-
-#~ msgid "What connections are allowed"
-#~ msgstr "どの接続を認めるか"
-
-# clefs
-#~ msgid "You're not associated with a player and the game is starting. Bye."
-#~ msgstr ""
-#~ "あなたはプレイヤー席を確保していませんが、ゲームは既に始まりつつあります。"
-#~ "バイバイ。"
-
-#~ msgid "Game: No war declared against %s, cannot attack."
-#~ msgstr "Game: %sに対して戦争が宣言されていないので、攻撃できません。"
-
-#~ msgid "Game: No war declared against %s, cannot take over city."
-#~ msgstr "Game: %sに対して戦争が宣言されていないので、都市を占領できません。"
-
-#~ msgid "      A traderoute already exists between %s and %s!"
-#~ msgstr "      %sと%s間には交易路が既に存在します!"
-
-#~ msgid "Default tileset"
-#~ msgstr "デフォルトタイルセット"
-
-#, fuzzy
-#~ msgid "Other"
-#~ msgstr "十月"
-
-#, fuzzy
-#~ msgid "Waste: "
-#~ msgstr "Game: "
-
-#~ msgid "Chang_e"
-#~ msgstr "変更(_E)"
-
-#~ msgid " What Nation Will You Be?"
-#~ msgstr " あなたの民族は?"
-
-#~ msgid "Idle Turns"
-#~ msgstr "アイドルターン"
-
-#~ msgid "Ai"
-#~ msgstr "AI"
-
-#~ msgid "Transform terrain"
-#~ msgstr "地形を変える"
-
-#~ msgid "(%d steps)"
-#~ msgstr "(%d ステップ)"
-
-#~ msgid "City: %s(%s) %s"
-#~ msgstr "都市: %s(%s) %s"
-
-# yasu, clefs
-#~ msgid ""
-#~ " 10. Interacting with other players (Diplomacy).\n"
-#~ "\n"
-#~ "    Humans and AI differ in many ways, but the most significant is the "
-#~ "additional diplomacy that you can take part in with other humans - and "
-#~ "no, we are not talking about using spies and diplomats to incite and "
-#~ "steal."
-#~ msgstr ""
-#~ " 10. 他の人間との交渉(外交)\n"
-#~ "\n"
-#~ "    人間と AI は様々な点で違いますが、もっとも決定的な違いは他の人間達と取"
-#~ "り交せる更なる外交です。- スパイや外交官に煽動や盗みをさせることを言ってい"
-#~ "るのではありません。"
-
-# clefs
-#~ msgid "Princebishop"
-#~ msgstr "領主司教"
-
-#~ msgid "Out of memory trying to %s %lu bytes at line %d of %s."
-#~ msgstr ""
-#~ "%s が %lu バイトを得ようとしてメモリ不足になりました。  %d 行目 %s ファイ"
-#~ "ルです。"
-
-#~ msgid "Map generator: not enough start positions, fixing."
-#~ msgstr "Map generator: 十分なスタート地点がありません。修正中。"
-
-#~ msgid "Error opening OpenTransport (Id: %g)"
-#~ msgstr "OpenTransport のオープンエラー (Id: %g)"
-
-#~ msgid "Trying to write invalid map data: '%c' %d"
-#~ msgstr "不正な地図データを書こうとしています: '%c' %d"
-
-#~ msgid "Argh! ran out of nations!"
-#~ msgstr "あぁ! 民族が尽きた!"
