@@ -157,6 +157,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = TRUE;
     game.conn_id = packet->conn_id;
+    agents_game_joined();
   } else {
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), packet->message);
@@ -167,7 +168,6 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
     }
   }
   if (strcmp(s_capability, our_capability) == 0) {
-    agents_game_joined();
     return;
   }
   my_snprintf(msg, sizeof(msg),

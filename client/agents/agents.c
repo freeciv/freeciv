@@ -337,10 +337,6 @@ void agents_processing_finished(void)
 void agents_game_joined(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_game_joined()");
-  assert(has_capability("turn", aconnection.capability));
-  assert(has_capability("attributes", aconnection.capability));
-  assert(has_capability("processing_packets", aconnection.capability));
-  assert(has_capability("tile_trade", aconnection.capability));
   freeze();
 }
 

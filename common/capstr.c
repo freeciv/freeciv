@@ -70,9 +70,10 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
-" fund_added processing_packets angrycitizen tile_trade init_techs"\
-" short_worklists tech_cost_style short_city_tile_trade trade_size"
+#define CAPABILITY "+1.11.6 conn_info pop_cost +turn +attributes"\
+" new_bonus_tech fund_added +processing_packets angrycitizen +tile_trade"\
+" init_techs short_worklists tech_cost_style +short_city_tile_trade"\
+" +trade_size"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
