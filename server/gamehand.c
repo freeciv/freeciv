@@ -164,41 +164,38 @@ void init_new_game(void)
 
 
 /**************************************************************************
-...
+  Tell clients the year, and also update turn_done and nturns_idle fields
+  for all players.
 **************************************************************************/
 void send_year_to_clients(int year)
 {
-  int i;
   struct packet_new_year apacket;
-  apacket.year=year;
-
+  int i;
+  
   for(i=0; i<game.nplayers; i++) {
     struct player *pplayer = &game.players[i];
     pplayer->turn_done=0;
     pplayer->nturns_idle++;
-    send_packet_new_year(pplayer->conn, &apacket);
-    notify_player(pplayer, _("Year: %s"), textyear(game.year));
   }
+
+  apacket.year = year;
+  lsend_packet_new_year(&game.est_connections, &apacket);
+
+  /* Hmm, clients could add this themselves based on above packet? */
+  notify_conn(&game.est_connections, _("Year: %s"), textyear(year));
 }
 
 
 /**************************************************************************
-...
+  Send specifed state; should be a CLIENT_GAME_*_STATE ?
+  (But note client also changes state from other events.)
 **************************************************************************/
-void send_game_state(struct player *dest, int state)
+void send_game_state(struct conn_list *dest, int state)
 {
-  int o;
   struct packet_generic_integer pack;
-
   pack.value=state;
-  
-  
-  for(o=0; o<game.nplayers; o++)
-    if(!dest || &game.players[o]==dest)
-      send_packet_generic_integer(game.players[o].conn, 
-				  PACKET_GAME_STATE, &pack);
+  lsend_packet_generic_integer(dest, PACKET_GAME_STATE, &pack);
 }
-
 
 
 /**************************************************************************

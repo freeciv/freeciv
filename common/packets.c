@@ -169,8 +169,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     /* the first packet better be short: */
     freelog(LOG_DEBUG, "first packet type %d len %d", type, len);
     if(len > 1024) {
-      freelog(LOG_NORMAL, "connection from %s detected as old byte order",
-	      pc->addr);
+      freelog(LOG_NORMAL, "connection %s detected as old byte order",
+	      conn_description(pc));
       pc->byte_swap = 1;
     } else {
       pc->byte_swap = 0;
@@ -348,7 +348,11 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_sabotage_list(pc);
 
   default:
-    freelog(LOG_NORMAL, "unknown packet type received");
+    {
+      const char *desc = conn_description(pc);
+      freelog(LOG_NORMAL, "unknown packet type %d received%s%s",
+	      type, (strlen(desc) ? " from " : ""), desc);
+    }
     remove_packet_from_buffer(pc->buffer);
     return NULL;
   };
@@ -422,11 +426,10 @@ static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
    * unless we know we will need it:
    */
   if (piter->bad_string || piter->bad_bit_string || rem != 0) {
-    my_snprintf(from, sizeof(from), "%s%s%s%s",
-		(*pc->addr ? " from " : ""),
-		pc->addr,
-		(pc->player ? " player " : ""),
-		(pc->player ? pc->player->name : ""));
+    const char *desc = conn_description(pc);
+    if (strlen(desc)) {
+      my_snprintf(from, sizeof(from), " from %s", desc);
+    }
   }
   
   if (piter->bad_string) {

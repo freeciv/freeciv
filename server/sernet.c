@@ -100,6 +100,9 @@ void user_interrupt_callback();
 #endif
 
 
+static int server_accept_connection(int sockfd);
+
+
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
 
@@ -169,7 +172,10 @@ void close_connections_and_socket(void)
 }
 
 /*****************************************************************************
-...
+  Used for errors and other strangeness.  As well as some direct uses, is
+  passed to packet routines as callback for when packet sending has a write
+  error.  Closes the connection cleanly, calling lost_connection_to_client()
+  to clean up server variables, notify other clients, etc.
 *****************************************************************************/
 static void close_socket_callback(struct connection *pc)
 {
@@ -301,12 +307,14 @@ int sniff_packets(void)
     }
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
       freelog(LOG_VERBOSE, "got new connection");
-      if(server_accept_connection(sock)==-1)
+      if(server_accept_connection(sock)==-1) {
 	freelog(LOG_NORMAL, "failed accepting connection");
+      }
     }
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
       if(connections[i].used && FD_ISSET(connections[i].sock, &exceptfs)) {
-	freelog(LOG_VERBOSE, "cut freaky player");
+ 	freelog(LOG_NORMAL, "cut connection %s due to exception data",
+		conn_description(&connections[i]));
 	close_socket_callback(&connections[i]);
       }
     }
@@ -349,16 +357,16 @@ int sniff_packets(void)
 #endif
     else {                             /* input from a player */
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {
-	  if(read_socket_data(connections[i].sock, 
-			      connections[i].buffer)>=0) {
+  	struct connection *pconn = &connections[i];
+	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {
+	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
 	    char *packet;
 	    int type;
-	    while((packet=get_packet_from_connection(&connections[i], &type)))
-	      handle_packet_input(&connections[i], packet, type);
-	  }
-	  else {
-	    close_socket_callback(&connections[i]);
+	    while((packet=get_packet_from_connection(pconn, &type))) {
+	      handle_packet_input(pconn, packet, type);
+	    }
+	  } else {
+	    close_socket_callback(pconn);
 	  }
 	}
       }
@@ -397,9 +405,12 @@ static const char *makeup_connection_name(void)
 }
   
 /********************************************************************
- server accepts connections from client
+  Server accepts connection from client:
+  Low level socket stuff, and basic-initialize the connection struct.
+  Returns 0 on success, -1 on failure (bad accept(), or too many
+  connections).
 ********************************************************************/
-int server_accept_connection(int sockfd)
+static int server_accept_connection(int sockfd)
 {
   int fromlen;
   int new_sock;
@@ -448,8 +459,6 @@ int server_accept_connection(int sockfd)
   return -1;
 }
 
-
-
 /********************************************************************
  open server socket to be used to accept client connections
 ********************************************************************/
@@ -479,7 +488,6 @@ int server_open_socket(void)
   src.sin_family = AF_INET;
   src.sin_addr.s_addr = htonl(INADDR_ANY);
   src.sin_port = htons(port);
-
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));

@@ -480,7 +480,7 @@ main_start_players:
 
   game.is_new_game = 0;
 
-  send_game_state(0, CLIENT_GAME_RUNNING_STATE);
+  send_game_state(&game.est_connections, CLIENT_GAME_RUNNING_STATE);
 
   while(server_state==RUN_GAME_STATE) {
     /* absolute beginning of a turn */
@@ -1050,18 +1050,30 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   }
 
+  if (!pconn->established) {
+    freelog(LOG_NORMAL, "Received game packet from unaccepted connection %s",
+	    conn_description(pconn));
+    free(packet);
+    return;
+  }
+  
   pplayer = pconn->player;
 
   if(pplayer == NULL) {
-    freelog(LOG_VERBOSE, "got game packet from unaccepted connection");
+    /* don't support these yet */
+    freelog(LOG_NORMAL, "Received packet from non-player connection %s",
+ 	    conn_description(pconn));
     free(packet);
     return;
   }
 
   pplayer->nturns_idle=0;
 
-  if(!pplayer->is_alive && type!=PACKET_CHAT_MSG)
+  /* Fixme: this is too restrictive?   Eg, reports, at least.  --dwp */
+  if((!pplayer->is_alive || pconn->observer) && type!=PACKET_CHAT_MSG) {
+    free(packet);
     return;
+  }
   
   switch(type) {
     
@@ -1232,7 +1244,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
     break;
   default:
-    freelog(LOG_NORMAL, "uh got an unknown packet from %s", pplayer->name);
+    freelog(LOG_NORMAL, "Received unknown packet %d from %s",
+	    type, conn_description(pconn));
   }
 
   free(packet);
@@ -1283,13 +1296,12 @@ static int check_for_full_turn_done(void)
   if (game.fixedlength && game.timeout)
     return 0;
   for(i=0; i<game.nplayers; i++) {
+    struct player *pplayer = &game.players[i];
     if (game.turnblock) {
-      if (!game.players[i].ai.control && game.players[i].is_alive &&
-          !game.players[i].turn_done)
+      if (!pplayer->ai.control && pplayer->is_alive && !pplayer->turn_done)
         return 0;
     } else {
-      if(game.players[i].conn && game.players[i].is_alive && 
-         !game.players[i].turn_done) {
+      if(pplayer->is_connected && pplayer->is_alive && !pplayer->turn_done) {
         return 0;
       }
     }
@@ -1300,6 +1312,7 @@ static int check_for_full_turn_done(void)
 
 /**************************************************************************
 ...
+(Hmm, how should "turn done" work for multi-connected non-observer players?)
 **************************************************************************/
 static void handle_turn_done(struct player *pplayer)
 {
@@ -1409,12 +1422,14 @@ static void send_select_nation(struct player *pplayer)
  pconn->player should be set and non-NULL.
  'rejoin' is whether this is a new player, or re-connection.
  Prints a log message, and notifies other players.
+ 
+ Fixme: needs further revision for multi-connect case.
 **************************************************************************/
 static void join_game_accept(struct connection *pconn, int rejoin)
 {
   struct packet_join_game_reply packet;
   struct player *pplayer = pconn->player;
-  int i;
+  const char *format;
 
   assert(pplayer);
   packet.you_can_join = 1;
@@ -1433,57 +1448,54 @@ static void join_game_accept(struct connection *pconn, int rejoin)
     freelog(LOG_NORMAL, _("<%s@%s> has joined the game."),
 	    pplayer->name, pplayer->addr);
   }
-  for(i=0; i<game.nplayers; ++i) {
-    if (pplayer != &game.players[i]) {
-      if (rejoin) {
-	notify_player(&game.players[i],
-		      _("Game: Player <%s@%s> has reconnected."),
-		      pplayer->name, pplayer->addr);
-      } else {
-	notify_player(&game.players[i],
-		      _("Game: Player <%s@%s> has connected."),
-		      pplayer->name, pplayer->addr);
-      }
+  if (rejoin) {
+    format = _("Game: Player <%s@%s> has reconnected.");
+  } else {
+    format = _("Game: Player <%s@%s> has connected.");
+  }
+  conn_list_iterate(game.est_connections, aconn) {
+    if (aconn!=pconn) {
+      notify_conn(&aconn->self, format, pplayer->name, pplayer->addr);
     }
   }
+  conn_list_iterate_end;
 }
 
 /**************************************************************************
- Introduce player to server, and notify of other players.
+ Introduce connection/client/player to server, and notify of other players.
+ Needs further work for multi-connects.
 **************************************************************************/
-static void introduce_game_to_player(struct player *pplayer)
+static void introduce_game_to_connection(struct connection *pconn)
 {
+  struct conn_list *dest;
   char hostname[512];
   struct player *cplayer;
   int i, nconn, nother, nbarb;
-  
-  if (!pplayer->conn)
+
+  if (pconn == NULL) {
     return;
+  }
+  dest = &pconn->self;
   
   if (gethostname(hostname, 512)==0) {
-    notify_player(pplayer, _("Welcome to the %s Server running at %s."), 
-		  FREECIV_NAME_VERSION, hostname);
+    notify_conn(dest, _("Welcome to the %s Server running at %s."), 
+		FREECIV_NAME_VERSION, hostname);
   } else {
-    notify_player(pplayer, _("Welcome to the %s Server."),
-		  FREECIV_NAME_VERSION);
+    notify_conn(dest, _("Welcome to the %s Server."),
+		FREECIV_NAME_VERSION);
   }
 
   /* tell who we're waiting on to end the game turn */
   if (game.turnblock) {
     for(i=0; i<game.nplayers;++i) {
-      if (game.players[i].is_alive &&
-          !game.players[i].ai.control &&
-          !game.players[i].turn_done) {
-
-         /* skip current player */
-         if (&game.players[i] == pplayer) {
-           continue;
-         }
-
-         notify_player(pplayer,
-                       _("Turn-blocking game play: "
-			 "waiting on %s to finish turn..."),
-                       game.players[i].name);
+      cplayer = &game.players[i];
+      if (cplayer->is_alive
+	  && !cplayer->ai.control
+	  && !cplayer->turn_done
+	  && cplayer != pconn->player) {  /* skip current player */
+	notify_conn(dest, _("Turn-blocking game play: "
+			    "waiting on %s to finish turn..."),
+		    cplayer->name);
       }
     }
   }
@@ -1497,37 +1509,36 @@ static void introduce_game_to_player(struct player *pplayer)
     nbarb += is_barbarian(&game.players[i]);
   }
   if (nconn != 1) {
-    notify_player(pplayer, _("There are currently %d players connected:"),
-		  nconn);
+    notify_conn(dest, _("There are currently %d players connected:"), nconn);
   } else {
-    notify_player(pplayer, _("There is currently 1 player connected:"));
+    notify_conn(dest, _("There is currently 1 player connected:"));
   }
   for(i=0; i<game.nplayers; ++i) {
     cplayer = &game.players[i];
     if (cplayer->is_connected) {
-      notify_player(pplayer, "  <%s@%s>%s", cplayer->name, cplayer->addr,
-		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
-		     :cplayer->ai.control ? _(" (AI mode)") : ""));
+      notify_conn(dest, "  <%s@%s>%s", cplayer->name, cplayer->addr,
+		  ((!cplayer->is_alive) ? _(" (R.I.P.)")
+		   :cplayer->ai.control ? _(" (AI mode)") : ""));
     }
   }
   nother = game.nplayers - nconn - nbarb;
   if (nother > 0) {
     if (nother == 1) {
-      notify_player(pplayer, _("There is 1 other player:"));
+      notify_conn(dest, _("There is 1 other player:"));
     } else {
-      notify_player(pplayer, _("There are %d other players:"), nother);
+      notify_conn(dest, _("There are %d other players:"), nother);
     }
     for(i=0; i<game.nplayers; ++i) {
       cplayer = &game.players[i];
       if( is_barbarian(cplayer) ) continue;
       if (!cplayer->is_connected) {
-	notify_player(pplayer, "  %s%s", cplayer->name, 
+	notify_conn(dest, "  %s%s", cplayer->name, 
 		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
 		     :cplayer->ai.control ? _(" (an AI player)") : ""));
       }
     }
   }
-  /* notify_player(pplayer, "Waiting for the server to start the game."); */
+  /* notify_conn(dest, "Waiting for the server to start the game."); */
   /* I would put this here, but then would need another message when
      the game is started. --dwp */
 }
@@ -1563,7 +1574,7 @@ void accept_new_player(char *name, struct connection *pconn)
   if(server_state==PRE_GAME_STATE && game.max_players==game.nplayers)
     server_state=SELECT_RACES_STATE;
 
-  introduce_game_to_player(pplayer);
+  introduce_game_to_connection(pconn);
   send_server_info_to_metaserver(1,0);
 }
   
@@ -1699,11 +1710,11 @@ static void handle_request_join_game(struct connection *pconn,
 
       associate_player_connection(pplayer, pconn);
       join_game_accept(pconn, 1);
-      introduce_game_to_player(pplayer);
+      introduce_game_to_connection(pconn);
       if(server_state==RUN_GAME_STATE) {
         send_rulesets(&pconn->self);
 	send_all_info(pplayer);
-        send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
+        send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
 	send_player_info(NULL,NULL);
       }
       if (game.auto_ai_toggle && pplayer->ai.control) {
@@ -1787,14 +1798,13 @@ void lost_connection_to_client(struct connection *pconn)
 {
   struct player *pplayer = pconn->player;
 
+  freelog(LOG_NORMAL, _("Lost connection: %s."), conn_description(pconn));
+  
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
-    freelog(LOG_NORMAL, _("Lost connection to <unknown>."));
     return;
   }
   
-  freelog(LOG_NORMAL, _("Lost connection to %s."), pplayer->name);
-
   unassociate_player_connection(pplayer, pconn);
 
   /* Remove from lists so this conn is not included in broadcasts.
@@ -1813,7 +1823,9 @@ void lost_connection_to_client(struct connection *pconn)
     server_remove_player(pplayer);
   }
   else {
-    if (game.auto_ai_toggle && !pplayer->ai.control) {
+    if (game.auto_ai_toggle
+	&& !pplayer->ai.control
+	&& !pplayer->is_connected /* eg multiple */) {
       toggle_ai_player_direct(NULL, pplayer);
     }
     check_for_full_turn_done();
