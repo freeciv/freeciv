@@ -18,6 +18,10 @@ small_tile_height  = 20
 
 is_isometric = 0
 
+; offset the flags by this amount when drawing units
+flag_offset_x = 0
+flag_offset_y = 0
+
 ; Do not blend hills and mountains together.
 is_mountainous = 0
 
@@ -43,7 +47,7 @@ files =
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",
-  "trident/flags.spec",
+  "misc/flags.spec",
   "trident/roads.spec",
   "misc/buildings.spec",
   "misc/space.spec",

@@ -23,6 +23,10 @@ is_mountainous = 0
 
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
+ 
+; offset the flags by this amount when drawing units
+flag_offset_x = 0
+flag_offset_y = 0
 
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
@@ -43,7 +47,7 @@ files =
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",
-  "trident/flags.spec",
+  "misc/flags.spec",
   "trident/roads.spec",
   "misc/buildings.spec",
   "misc/space.spec",
