@@ -22,3 +22,23 @@ There are some settings you may change in the smakefile:
  INCDIRS     Allows to include additional include directories. Normally
              this will be the Miami or AmiTCP SDK directory or empty.
 
+How compiling works in general?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The files server/civserver.c and client/civclient.c contain the main
+functions for civserver and civclient. As we need to do special stuff on
+Amiga (e.g. library opening) before these main's are called a special
+handling is needed:
+
+The two files need to be compiled with DEFINE main=civ_main (redefine the
+name main to civ_main). The files amigaserver.c and amigaclient.c contain
+the real main functions, which call civ_main.
+The main() in amigaserver.c and amigaclient.c expect normal C style
+arguments argc and argv. If aclled from workbench, argc is 0 and argv the
+pointer to WBStartup message. If your compiler does not support that
+behaviour, add another preparser and call the main function from it.
+Maybe use same redefine method like done for the real main functions.
+
+The free process is handled with atexit(), so the libraries are freed on
+abnormal program abortion also.
+

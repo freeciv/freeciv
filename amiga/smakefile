@@ -139,11 +139,16 @@ endif
 <
 
 
-civserver: ${OBJDIR}_main.o ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS} ${AMIGASERVEROBJS)
+# Amiga server creation
+
+civserver: ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
   sc $(LNFLAGS) WITH <<
-FROM ${OBJDIR}_main.o ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS} ${AMIGASERVEROBJS)
+FROM ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
 TO civserver
 <
+
+${OBJDIR}amigaserver.o: amigaserver.c
+  ${CC} ${CCFLAGS} amigaserver.c $(INCDIRS) ${TO}$@
 
 
 # AI Files
@@ -308,7 +313,7 @@ $(OBJDIR)server/cityturn.o: ${FREECIV_DIR}server/cityturn.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/cityturn.c ${SERVERDIRS} ${TO}$@
 
 $(OBJDIR)server/civserver.o: ${FREECIV_DIR}server/civserver.c
-  ${CC} ${CCFLAGS} ${FREECIV_DIR}server/civserver.c ${SERVERDIRS} ${TO}$@
+  ${CC} ${CCFLAGS} DEFINE main=civ_main ${FREECIV_DIR}server/civserver.c ${SERVERDIRS} ${TO}$@
 
 $(OBJDIR)server/console.o: ${FREECIV_DIR}server/console.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/console.c ${SERVERDIRS} ${TO}$@
@@ -368,17 +373,16 @@ $(OBJDIR)server/unittools.o: ${FREECIV_DIR}server/unittools.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/unittools.c ${SERVERDIRS} ${TO}$@
 
 
-# Additional Amiga files for the server
+# Amiga client creation
 
-${OBJDIR}amigaserver.o: amigaserver.c
-  ${CC} ${CCFLAGS} amigaserver.c $(INCDIRS) ${TO}$@
-
-
-civclient: ${OBJDIR}_main.o ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS} ${AMIGACLIENTOBJS)
+civclient: ${AMIGACLIENTOBJS) ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS}
   sc $(LNFLAGS) WITH <<
-FROM ${OBJDIR}_main.o ${CLIENTOBJS} ${COMMONOBJS} ${CLIENTGUIOBJS} ${AMIGACLIENTOBJS)
+FROM ${AMIGACLIENTOBJS) ${CLIENTOBJS} ${COMMONOBJS} ${CLIENTGUIOBJS}
 TO civclient
 <
+
+${OBJDIR}amigaclient.o: amigaclient.c
+  ${CC} ${CCFLAGS} amigaclient.c $(INCDIRS) ${TO}$@
 
 
 # Client Files
@@ -387,7 +391,7 @@ ${OBJDIR}client/cityrepdata.o : ${FREECIV_DIR}client/cityrepdata.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/cityrepdata.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/civclient.o: ${FREECIV_DIR}client/civclient.c
-  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} ${TO}$@
+  ${CC} ${CCFLAGS} DEFINE main=civ_main ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/climisc.o: ${FREECIV_DIR}client/climisc.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/climisc.c ${CLIENTDIRS} ${TO}$@
@@ -498,17 +502,7 @@ ${OBJDIR}client/gui-mui/worklistclass.o: ${CGP}worklistclass.c
   ${CC} ${CCFLAGS} ${CGP}worklistclass.c ${CLIENTGUIDIRS} ${TO}$@
 
 
-# Additional files for the client
-
-${OBJDIR}amigaclient.o: amigaclient.c
-  ${CC} ${CCFLAGS} amigaclient.c $(INCDIRS) ${TO}$@
-
-
-# only for SAS (used by both the server and the client)
-
-${OBJDIR}_main.o: _main.c
-  ${CC} ${CCFLAGS} _main.c $(INCDIRS) ${TO}$@
-
+# The installation process
 
 install: civserver civclient
   delete ${DESTDIR}/\#? ALL

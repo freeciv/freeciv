@@ -1,87 +1,78 @@
+/* This is a preparse main function for freeciv server.
+The file server/civserver.c must be compiler with main defined to civ_main,
+or this will not work.
+
+This method is hopefully a lot better protable than the previous method, which
+depended on init, exit, cleanup and destructor methods of compiler.
+
+The main() functions either gets
+1) C-style commandline arguments or
+2) argc == 0 and argv == WBStartup message.
+
+If your compiler does not support this, create a preparse function, which
+produces that results. Maybe rename main() to main2() and name your preparse
+function main() and call main2() afterwards. This depends on your compiler.
+*/
+
+#include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
 #include <errno.h>
-
-#include <exec/types.h>
-#include <exec/memory.h>
-#include <dos/dos.h>
-#include <devices/input.h>
-#include <intuition/intuitionbase.h>
-#include <rexx/storage.h>
-
+#include <time.h>
 #include <clib/alib_protos.h>
-
-#include <proto/exec.h>
 #include <proto/dos.h>
-#include <proto/intuition.h>
-
-/* 3rd patry stuff */
-
-#ifndef _TIME_T
-#define _TIME_T
-#endif
+#include <proto/exec.h>
+#include <proto/icon.h>
+#include <proto/socket.h>
+#include <proto/usergroup.h>
+#include <libraries/usergroup.h>
+#include <workbench/startup.h>
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
 #include <amitcp/socketbasetags.h>
-#endif
-#include <libraries/usergroup.h>
-#include <proto/socket.h>
-#include <proto/usergroup.h>
-
-/* compiler stuff */
-
-#ifdef __VBCC__
-#define constructor_failed exit(20)
-#define constructor_ok return
-#else
-#define constructor_failed return 1
-#define constructor_ok return 0
 #endif
 
 #ifdef __SASC
 #include <ios1.h>
 #endif
 
-/* The ARexx Port stuff - currently not really used */
-STATIC struct MsgPort *arexx_port;
-STATIC ULONG arexx_added;
-
 #define STDIN_BUF_SIZE 256
-
-STATIC struct MsgPort *stdin_port;
-STATIC STRPTR stdin_buffer;
-STATIC char stdin_buffer_copy[STDIN_BUF_SIZE]; /* copy of the stdin_buffer */
-STATIC int stdin_buffer_copy_len;
-STATIC struct DosPacket *pkt;
-STATIC int pkt_sent;
-STATIC struct FileHandle *stdin_handle;
 
 #define SOCKETNAME "bsdsocket.library"
 #define SOCKETVERSION 3     /* minimum bsdsocket version to use */
 #define USERGROUPVERSION 1
 
-int h_errno;
+/* the external definitions */
+extern int civ_main(int, void *); /* The prototype of the REAL freeciv main function */
+extern struct ExecBase *SysBase;
+extern struct DosLibrary *DOSBase;
 
-struct Library *SocketBase;
-struct Library *UserGroupBase;
+struct Library *SocketBase = 0;
+struct Library *UserGroupBase = 0;
+struct IntuitionBase *IntuitionBase = 0;
+struct Library *IconBase;
+static char *stdargv[1] = {"civserver"}; /* standard arg, if WB parsing failed */
+static struct MsgPort *arexx_port = 0;
+static struct MsgPort *stdin_port = 0;
+static STRPTR stdin_buffer = 0;
+static char stdin_buffer_copy[STDIN_BUF_SIZE]; /* copy of the stdin_buffer */
+static int stdin_buffer_copy_len;
+static struct DosPacket *pkt = 0;
+static int pkt_sent = 0;
+static struct FileHandle *stdin_handle;
 
-/* Opened by the compiler */
-IMPORT struct ExecBase *SysBase;
-IMPORT struct DosLibrary *DOSBase;
-IMPORT struct IntuitionBase *IntuitionBase;
-
+#ifdef __SASC
 /* Stack for the server */
 __near LONG __stack = 150000;
+#endif
 
-/**************************************************************************
- ...
-**************************************************************************/
+/*********************************************************/
+
 static void send_stdin_write_packet(void)
 {
-  if (!pkt_sent)
+  if(!pkt_sent)
   {
     pkt->dp_Type = ACTION_READ;
     pkt->dp_Arg1 = stdin_handle->fh_Arg1;
@@ -93,113 +84,185 @@ static void send_stdin_write_packet(void)
   }
 }
 
-/**************************************************************************
- This is the constructor for the server (called befor main()) which does
- some necessary initialations so Freeciv needn't to be compiled with GNU C
-**************************************************************************/
-#ifdef __VBCC__
-void _INIT_3_amigaserver(void)
-#else
-int __stdargs _STI_30000_init(void)
-#endif
+static void civ_exitfunc(void)
 {
-  /* create the ARexx Port, which actually is only a dummy port */
-  struct MsgPort *old_port;
-  if(!(arexx_port = CreateMsgPort()))
-    constructor_failed;
-
-  Forbid();
-  if(old_port = FindPort("CIVSERVER"))
-  {
-    Permit();
-    DeleteMsgPort(old_port);
-    printf("Civserver is already running!\n");
-    constructor_failed;
-  }
-  arexx_port->mp_Node.ln_Name = "CIVSERVER";
-  arexx_added = TRUE;
-  AddPort(arexx_port);
-  Permit();
-
-  if((stdin_port = CreateMsgPort()))
-  {
-    if((pkt = AllocDosObject(DOS_STDPKT, NULL)))
-    {
-      if((stdin_buffer = AllocVec(STDIN_BUF_SIZE, MEMF_PUBLIC)))
-      {
-      	BPTR input = Input();
-
-#ifdef __SASC
-	/* When started from Workbench input will be NULL
-	   so we use the handle of stdin */
-	if (!input && stdin)
-	{
-	  struct UFB *stdin_ufb = chkufb(fileno(stdin));
-	  if (stdin_ufb) input = (BPTR)stdin_ufb->ufbfh;
-	}
-#endif
-	stdin_handle = (struct FileHandle *)BADDR(input);
-
-	if (stdin_handle && stdin_handle->fh_Type)
-	{
-          /* Now open the bsdsocket.library, which provides the bsd socket functions */
-          if((SocketBase = OpenLibrary(SOCKETNAME,SOCKETVERSION)))
-          {
-            SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno,
-                           SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno,
-                           SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver",
-                           TAG_END);
-
-            if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
-            {
-              ug_SetupContextTags("civserver",
-                                  UGT_INTRMASK, SIGBREAKB_CTRL_C,
-                                  UGT_ERRNOPTR(sizeof(errno)), &errno,
-                                  TAG_END);
-
-              /* Reserve 0 for stdin */
-              Dup2Socket(-1,0);
-
-              send_stdin_write_packet();
-
-              constructor_ok;
-            } else printf("Couldn't open " USERGROUPNAME"\n");
-          } else printf("Couldn't open " SOCKETNAME "!\nPlease start a TCP/IP stack.\n");
-        } else printf("Bad Input Handle\n");
-      }
-    }
-  }
-  constructor_failed;
-}
-
-/**************************************************************************
- This is the destuctor which clean ups the resources allcated
- by the constructor
-**************************************************************************/
-#ifdef __VBCC__
-void _EXIT_3_amigaserver(void)
-#else
-void __stdargs _STD_30000_dispose(void)
-#endif
-{
-  if (pkt_sent)
+  if(pkt_sent)
   {
     AbortPkt(stdin_handle->fh_Type, pkt);
     WaitPort(stdin_port);
   }
 
-  if (UserGroupBase) CloseLibrary(UserGroupBase);
-  if (SocketBase) CloseLibrary(SocketBase);
+  if(UserGroupBase) CloseLibrary(UserGroupBase);
+  if(SocketBase) CloseLibrary(SocketBase);
+  if(IntuitionBase) CloseLibrary((struct Library *) IntuitionBase);
 
-  if (pkt) FreeDosObject(DOS_STDPKT, pkt);
-  if (stdin_port) DeleteMsgPort(stdin_port);
-  if (stdin_buffer) FreeVec(stdin_buffer);
+  if(pkt) FreeDosObject(DOS_STDPKT, pkt);
+  if(stdin_port) DeleteMsgPort(stdin_port);
+  if(stdin_buffer) FreeVec(stdin_buffer);
 
-  if (arexx_port)
+  if(arexx_port)
   {
-    if (arexx_added) RemPort(arexx_port);
+    RemPort(arexx_port);
     DeleteMsgPort(arexx_port);
   }
+}
+
+int main(int argc, char **argv)
+{
+  int ret = 20;
+
+  /* using malloc needs to free calls */
+  if(!argc) /* called from WB */
+  {
+    if(IconBase = OpenLibrary("icon.library", 0L))
+    {
+      struct DiskObject *dob;
+      struct WBArg *wba = ((struct WBStartup *) argv)->sm_ArgList;
+      BPTR dir = CurrentDir(wba->wa_Lock);
+
+      if((dob = GetDiskObject(wba->wa_Name)))
+      {
+        int i = 1, j;
+      
+        if(dob->do_ToolTypes)
+        {
+          for(j = 0; dob->do_ToolTypes[j]; ++j)
+          {
+            if(*dob->do_ToolTypes[j] != '(' && *dob->do_ToolTypes[j] != ' ' &&
+            *dob->do_ToolTypes[j] != ';')
+            {
+              ++argc;
+              if(strchr(dob->do_ToolTypes[j], '='))
+                ++argc;
+            }
+          }
+        }
+
+        ++argc; /* the program name */
+        if((argv = (char**)malloc(sizeof(char*)*argc)))
+        {
+          argv[0] = stdargv[0]; /* the file name */
+
+          for(j = 0; argc && dob->do_ToolTypes[j]; ++j)
+          {
+            char *ttype = dob->do_ToolTypes[j], *dest;
+            int len = strlen(ttype), u;
+            char *second = strchr(ttype,'=');
+
+            if(*ttype == '(' || *ttype == ' ' || *ttype == ';')
+              ;
+            else if((dest = argv[i++] = (char*)malloc(len+4)))
+            {
+              if(second)
+                len = second-ttype;
+              dest[0] = dest[1] = '-';
+              strcpy(dest+2,ttype);
+              dest[2+len] = 0;
+
+              for(u = 0; dest[u]; ++u)
+                dest[u]=tolower(dest[u]);
+              if(second)
+                argv[i++] = dest+3+len;
+            }
+            else
+              argc = 0; /* error */
+          }
+        }
+        else
+          argc=0; /* error */
+
+        FreeDiskObject(dob);
+      } /* get disk object */
+      CurrentDir(dir);
+      CloseLibrary(IconBase);
+    } /* OpenLibary */
+  } /* WB start */
+
+  atexit(civ_exitfunc); /* we need to free the stuff on exit()! */
+  if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
+  {
+    /* create the ARexx Port, which actually is only a dummy port */
+    if((arexx_port = CreateMsgPort()))
+    {
+      Forbid();
+      if(FindPort("CIVSERVER"))
+      {
+        Permit();
+        DeleteMsgPort(arexx_port);
+        arexx_port = 0;
+        printf("Civserver is already running!\n");
+      }
+      else
+      {
+        arexx_port->mp_Node.ln_Name = "CIVSERVER";
+        AddPort(arexx_port);
+        Permit();
+
+        if((stdin_port = CreateMsgPort()))
+        {
+          if((pkt = AllocDosObject(DOS_STDPKT, NULL)))
+          {
+            if((stdin_buffer = AllocVec(STDIN_BUF_SIZE, MEMF_PUBLIC)))
+            {
+              BPTR input = Input();
+
+#ifdef __SASC
+              /* When started from Workbench input will be NULL so we use the handle of stdin */
+              if(!input && stdin)
+              {
+                struct UFB *stdin_ufb = chkufb(fileno(stdin));
+                if(stdin_ufb)
+                  input = (BPTR)stdin_ufb->ufbfh;
+              }
+#endif
+              stdin_handle = (struct FileHandle *) BADDR(input);
+
+              if(stdin_handle && stdin_handle->fh_Type)
+              {
+                /* Now open the bsdsocket.library, which provides the bsd socket functions */
+                if((SocketBase = OpenLibrary(SOCKETNAME,SOCKETVERSION)))
+                {
+                  int h_errno;
+
+                  SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno,
+                    SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno,
+                    SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver",
+                    TAG_END);
+
+                  if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
+                  {
+                    ug_SetupContextTags("civserver",
+                      UGT_INTRMASK, SIGBREAKB_CTRL_C,
+                      UGT_ERRNOPTR(sizeof(errno)), &errno,
+                      TAG_END);
+
+                    /* Reserve 0 for stdin */
+                    Dup2Socket(-1,0);
+
+                    send_stdin_write_packet();
+
+                    /* all went well, call main function */
+                    if(!argc)
+                      ret = civ_main(1, stdargv);
+                    else
+                      ret = civ_main(argc, argv);
+                  }
+                  else
+                    printf("Couldn't open " USERGROUPNAME"\n");
+                }
+                else
+                  printf("Couldn't open " SOCKETNAME "!\nPlease start a TCP/IP stack.\n");
+              }
+              else
+                printf("Bad Input Handle\n");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  exit (ret);
 }
 
 /**************************************************************************
@@ -378,8 +441,4 @@ time_t time(time_t *timeptr)
   if (timeptr) *timeptr = timeval;
   return timeval;
 }
-#endif
-
-#ifdef __VBCC__
-
 #endif
