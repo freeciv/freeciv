@@ -250,11 +250,14 @@ static bool is_game_over(void)
     return TRUE;
   }
 
-  /* quit if all players are allied to each other */
+  /* quit if all remaining players are allied to each other */
   all_allied = TRUE;
   players_iterate(pplayer) {
+    if (!pplayer->is_alive) {
+      continue;
+    }
     players_iterate(aplayer) {
-      if (!pplayers_allied(pplayer, aplayer)) {
+      if (!pplayers_allied(pplayer, aplayer) && aplayer->is_alive) {
         all_allied = FALSE;
         break;
       }
