@@ -689,7 +689,7 @@ fi
 
 PACKAGE=freeciv
 
-VERSION=1.6.6
+VERSION=1.7.0
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -773,7 +773,7 @@ fi
 
 
 PACKAGE=freeciv
-VERSION=1.6.6
+VERSION=1.7.0
 
 
 
