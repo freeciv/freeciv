@@ -770,6 +770,13 @@ static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
   struct pf_node *node = &pf_map->lattice[ptile->index];
 
   /* Allocating memory */
+  if (d_node1->danger_segment) {
+    /* FIXME: it is probably a major bug that create_danger_segment gets
+     * called more than once per node.  Here we prevent a memory leak when
+     * it happens, but who knows what other problems it could cause?  See
+     * PR#10613. */
+    free(d_node1->danger_segment);
+  }
   d_node1->danger_segment = fc_malloc(length * sizeof(struct pf_danger_pos));
 
   /* Now fill the positions */
