@@ -45,6 +45,7 @@ struct player_score {
   int happy;
   int content;
   int unhappy;
+  int angry;
   int taxmen;
   int scientists;
   int elvis;
@@ -453,8 +454,9 @@ int research_time(struct player *pplayer)
 int total_player_citizens(struct player *pplayer)
 {
   return (pplayer->score.happy
-	  +pplayer->score.unhappy
 	  +pplayer->score.content
+	  +pplayer->score.unhappy
+	  +pplayer->score.angry
 	  +pplayer->score.scientists
 	  +pplayer->score.elvis
 	  +pplayer->score.taxmen);
@@ -473,6 +475,7 @@ int civ_score(struct player *pplayer)
   pplayer->score.happy=0;                       /* done */
   pplayer->score.content=0;                     /* done */   
   pplayer->score.unhappy=0;                     /* done */
+  pplayer->score.angry=0;                       /* done */
   pplayer->score.taxmen=0;                      /* done */
   pplayer->score.scientists=0;                  /* done */
   pplayer->score.elvis=0;                       /* done */ 
@@ -501,6 +504,7 @@ int civ_score(struct player *pplayer)
     pplayer->score.happy+=pcity->ppl_happy[4];
     pplayer->score.content+=pcity->ppl_content[4];
     pplayer->score.unhappy+=pcity->ppl_unhappy[4];
+    pplayer->score.angry+=pcity->ppl_angry[4];
     pplayer->score.taxmen+=pcity->ppl_taxman;
     pplayer->score.scientists+=pcity->ppl_scientist;
     pplayer->score.elvis+=pcity->ppl_elvis;

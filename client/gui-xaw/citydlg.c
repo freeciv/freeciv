@@ -1630,6 +1630,18 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
   if(n<pcity->ppl_unhappy[4]) goto city_dialog_update_citizens_overflow;
 
+  for (n = 0; n < pcity->ppl_angry[4] && i < pdialog->num_citizens_shown;
+       n++, i++)
+    if (pdialog->citizen_type[i] != 9 && pdialog->citizen_type[i] != 10) {
+      pdialog->citizen_type[i] = 9 + i % 2;
+      xaw_set_bitmap(pdialog->citizen_labels[i],
+		     get_citizen_pixmap(pdialog->citizen_type[i]));
+      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
+      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
+    }
+  if (n < pcity->ppl_angry[4])
+    goto city_dialog_update_citizens_overflow;
+
   for(n=0; n<pcity->ppl_elvis && i<pdialog->num_citizens_shown; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
       xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(0));

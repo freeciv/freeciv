@@ -908,7 +908,8 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
 **************************************************************************/
 int city_happy(struct city *pcity)
 {
-  return (pcity->ppl_happy[4]>=(pcity->size+1)/2 && pcity->ppl_unhappy[4]==0);
+  return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2 &&
+	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0);
 }
 
 /**************************************************************************
@@ -916,7 +917,8 @@ int city_happy(struct city *pcity)
 **************************************************************************/
 int city_unhappy(struct city *pcity)
 {
-  return (pcity->ppl_happy[4]<pcity->ppl_unhappy[4]);
+  return (pcity->ppl_happy[4] <
+	  pcity->ppl_unhappy[4] + 2 * pcity->ppl_angry[4]);
 }
 
 /**************************************************************************

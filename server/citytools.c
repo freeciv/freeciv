@@ -334,7 +334,9 @@ void eval_buildings(struct city *pcity,int *values)
     if (g->corruption_level) 
       values[B_COURTHOUSE]=pcity->corruption*100;
     else 
-      values[B_COURTHOUSE]=pcity->ppl_unhappy[4]*200+pcity->ppl_elvis*400;
+      values[B_COURTHOUSE] =
+	  (pcity->ppl_angry[4] * 2 + pcity->ppl_unhappy[4]) * 200 +
+	  pcity->ppl_elvis * 400;
   }
   if (tech) {
     if (can_build_improvement(pcity, B_LIBRARY)) 
@@ -364,13 +366,19 @@ void eval_buildings(struct city *pcity,int *values)
       values[B_BARRACKS3]=pcity->shield_prod*50;
   }
   if (can_build_improvement(pcity, B_TEMPLE))
-     values[B_TEMPLE]=pcity->ppl_unhappy[4]*200+pcity->ppl_elvis*600;
+    values[B_TEMPLE] =
+	(pcity->ppl_angry[4] * 2 + pcity->ppl_unhappy[4]) * 200 +
+	pcity->ppl_elvis * 600;
 
   if (can_build_improvement(pcity, B_COLOSSEUM))
-    values[B_COLOSSEUM]=pcity->ppl_unhappy[4]*200+pcity->ppl_elvis*300;
+    values[B_COLOSSEUM] =
+	(pcity->ppl_angry[4] * 2 + pcity->ppl_unhappy[4]) * 200 +
+	pcity->ppl_elvis * 300;
 
   if (can_build_improvement(pcity, B_CATHEDRAL))
-    values[B_CATHEDRAL]=pcity->ppl_unhappy[4]*201+pcity->ppl_elvis*300;
+    values[B_CATHEDRAL] =
+	(pcity->ppl_angry[4] * 2 + pcity->ppl_unhappy[4]) * 201 +
+	pcity->ppl_elvis * 300;
 
   if (!(tech && plr->economic.tax > 50)) {
     if (can_build_improvement(pcity, B_COASTAL))
@@ -1186,11 +1194,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
     pcity = map_get_tile(x,y)->city;
-    if (pcity->ppl_happy[4]>=pcity->ppl_unhappy[4]) {
-      packet->happy=1;
-    } else {
-      packet->happy=0;
-    }
+    packet->happy = !city_unhappy(pcity);
   } else {
     packet->happy=1;
   }

@@ -544,9 +544,11 @@ void handle_short_city(struct packet_short_city *packet)
   if (packet->happy) {
     pcity->ppl_happy[4]   = pcity->size;
     pcity->ppl_unhappy[4] = 0;
+    pcity->ppl_angry[4]   = 0;
   } else {
-    pcity->ppl_unhappy[4] = pcity->size;
     pcity->ppl_happy[4]   = 0;
+    pcity->ppl_unhappy[4] = pcity->size;
+    pcity->ppl_angry[4]   = 0;
   }
 
   if (city_is_new) improvement_status_init(pcity->improvements);

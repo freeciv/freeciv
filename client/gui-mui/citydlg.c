@@ -1607,6 +1607,11 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
+  for (n = 0; n < pcity->ppl_angry[4]; n++) {
+    Object *o = MakeSprite(get_citizen_sprite(9 + n % 2));
+    if (o)
+      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
+  }
 
   for (n = 0; n < pcity->ppl_elvis; n++)
   {

@@ -9,7 +9,8 @@ options = "+spec2"
 artists = "
     Alexandre Beraud <a_beraud@lemel.fr>
     Jeff Mallatt <jjm@codewell.com> (cooling flakes)
-    Davide Pagnin <nightmare@freeciv.it>
+    Davide Pagnin <nightmare@freeciv.it> (angry citizens)
+    Enrico Bini <e.bini@sssup.it> (fundamentalism icon)
 "
 
 [file]
@@ -40,48 +41,48 @@ tiles = { "row", "column", "tag"
   0,  8, "gov.anarchy"
   0,  9, "gov.despotism"
   0, 10, "gov.monarchy"
-  0, 11, "gov.republic"
-  0, 12, "gov.communism"
-  0, 14, "gov.fundamentalism"  ;for civII compatibility!
-  0, 15, "gov.democracy"
+  0, 11, "gov.communism"
+  0, 12, "gov.fundamentalism"
+  0, 13, "gov.republic"
+  0, 14, "gov.democracy"
 
 ; Global warming progress indicators:
 
-  0, 16, "s.warming_sun_0"
-  0, 17, "s.warming_sun_1"
-  0, 18, "s.warming_sun_2"
-  0, 19, "s.warming_sun_3"
-  0, 20, "s.warming_sun_4"
-  0, 21, "s.warming_sun_5"
-  0, 22, "s.warming_sun_6"
-  0, 23, "s.warming_sun_7"
+  0, 15, "s.warming_sun_0"
+  0, 16, "s.warming_sun_1"
+  0, 17, "s.warming_sun_2"
+  0, 18, "s.warming_sun_3"
+  0, 19, "s.warming_sun_4"
+  0, 20, "s.warming_sun_5"
+  0, 21, "s.warming_sun_6"
+  0, 22, "s.warming_sun_7"
 
 ; Nuclear winter progress indicators:
 
-  0, 35, "s.cooling_flake_0"
-  0, 36, "s.cooling_flake_1"
-  0, 37, "s.cooling_flake_2"
-  0, 38, "s.cooling_flake_3"
-  0, 39, "s.cooling_flake_4"
-  0, 40, "s.cooling_flake_5"
-  0, 41, "s.cooling_flake_6"
-  0, 42, "s.cooling_flake_7"
+  0, 34, "s.cooling_flake_0"
+  0, 35, "s.cooling_flake_1"
+  0, 36, "s.cooling_flake_2"
+  0, 37, "s.cooling_flake_3"
+  0, 38, "s.cooling_flake_4"
+  0, 39, "s.cooling_flake_5"
+  0, 40, "s.cooling_flake_6"
+  0, 41, "s.cooling_flake_7"
 
 ; Citizen icons:
 
-  0, 24, "citizen.entertainer"
-  0, 25, "citizen.scientist"
-  0, 26, "citizen.tax_collector"
-  0, 27, "citizen.content_0"
-  0, 28, "citizen.content_1"
-  0, 29, "citizen.happy_0"
-  0, 30, "citizen.happy_1"
-  0, 31, "citizen.unhappy_0" 
-  0, 32, "citizen.unhappy_1" 
-  0, 33, "citizen.angry_0" 
-  0, 34, "citizen.angry_1" 
+  0, 23, "citizen.entertainer"
+  0, 24, "citizen.scientist"
+  0, 25, "citizen.tax_collector"
+  0, 26, "citizen.content_0"
+  0, 27, "citizen.content_1"
+  0, 28, "citizen.happy_0"
+  0, 29, "citizen.happy_1"
+  0, 30, "citizen.unhappy_0" 
+  0, 31, "citizen.unhappy_1" 
+  0, 32, "citizen.angry_0" 
+  0, 33, "citizen.angry_1" 
 
 ; Right arrow icon:
 
-  0, 43, "s.right_arrow"
+  0, 42, "s.right_arrow"
 }

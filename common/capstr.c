@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
-" fund_added processing_packets"
+" fund_added processing_packets angrycitizen"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -93,6 +93,11 @@ const char * const our_capability = our_capability_internal;
 
    "processing_packets" sends PACKET_PROCESSING_STARTED and
    PACKET_PROCESSING_FINISHED packets.
+
+   "angrycitizen" introduces angry citizens, like those in
+   civilization II.  They counts as 2 unhappy citizens, they are saved
+   in ppl_angry[], and you must dealt with them before any citizens in
+   a city can become unhappy.
 */
 
 void init_our_capability(void)

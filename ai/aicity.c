@@ -836,7 +836,8 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   foodneed -= pcity->food_prod; /* much more robust now -- Syela */
   prodneed = 0;
   prodneed -= pcity->shield_prod;
-  luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
+  luxneed = 2 * (2 * pcity->ppl_angry[4] + pcity->ppl_unhappy[4] -
+		 pcity->ppl_happy[4]);
   pwr = 2 * city_tax_bonus(pcity) / 100;
   e = (luxneed + pwr - 1) / pwr;
   if (e > 1) {
@@ -1003,9 +1004,10 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   struct city_list minilist;
   struct packet_unit_request pack;
 
-  freelog(LOG_VERBOSE, "Emergency in %s! (%d unhap, %d hap, %d food, %d prod)",
-       pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
-       pcity->food_surplus, pcity->shield_surplus);
+  freelog(LOG_VERBOSE,
+	  "Emergency in %s! (%d angry, %d unhap, %d hap, %d food, %d prod)",
+	  pcity->name, pcity->ppl_angry[4], pcity->ppl_unhappy[4],
+	  pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     struct city *acity=map_get_tile(x,y)->worked;

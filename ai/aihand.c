@@ -191,9 +191,10 @@ static void ai_manage_taxes(struct player *pplayer)
     /* this code must be ABOVE the elvises[] if SIMPLISTIC is off */
     freelog(LOG_DEBUG, "Does %s want to be bigger? %d",
 		  pcity->name, wants_to_be_bigger(pcity));
-    if (government_has_flag(g, G_RAPTURE_CITY_GROWTH) && pcity->size >= g->rapture_size  &&
-        pcity->food_surplus > 0 && !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
-	ai_fuzzy(pplayer,1)) {
+    if (government_has_flag(g, G_RAPTURE_CITY_GROWTH)
+	&& pcity->size >= g->rapture_size && pcity->food_surplus > 0
+	&& pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0
+	&& wants_to_be_bigger(pcity) && ai_fuzzy(pplayer, 1)) {
       freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);
       n = ((pcity->size/2) - pcity->ppl_happy[4]) * 20;
@@ -214,7 +215,9 @@ static void ai_manage_taxes(struct player *pplayer)
     } /* hhjj[i] is (we think) the desirability of partying with lux = 10 * i */
 /* end elevated code block */
 
-    n = (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]) * 20; /* need this much lux */
+    /* need this much lux */
+    n = (2 * pcity->ppl_angry[4] + pcity->ppl_unhappy[4] -
+	 pcity->ppl_happy[4]) * 20;
 
 /* this could be an unholy CPU glutton; it's only really useful when we need
    lots of luxury, like with pcity->size = 12 and only a temple */

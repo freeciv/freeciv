@@ -659,6 +659,14 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
+  for (n = 0; n < pcity->ppl_angry[4] && i < NUM_CITIZENS_SHOWN; n++, i++)
+    if (pdialog->citizen_type[i] != 9 && pdialog->citizen_type[i] != 10) {
+      pdialog->citizen_type[i] = 9 + i % 2;
+      BitBlt(citydlgdc, i * SMALL_TILE_WIDTH, 0,
+	     SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, NULL, 0, 0, WHITENESS);
+      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]), citydlgdc,
+		  SMALL_TILE_WIDTH * i, 0);
+    }
   for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
       pdialog->citizen_type[i]=0;

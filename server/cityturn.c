@@ -156,7 +156,8 @@ static void worker_loop(struct city *pcity, int *foodneed,
   int e, pwr, luxneed = 0; /* I should have thought of this earlier, it is so simple */
 
   city_refresh(pcity);
-  luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
+  luxneed = 2 * (2 * pcity->ppl_angry[4] + pcity->ppl_unhappy[4] -
+		 pcity->ppl_happy[4]);
   pwr = (2 * city_tax_bonus(pcity)) / 100;
   luxneed += pwr * pcity->ppl_elvis;
   if (luxneed < 0) luxneed = 0;
@@ -171,9 +172,9 @@ static void worker_loop(struct city *pcity, int *foodneed,
 
   freelog(LOG_DEBUG, "%s, %d workers, %d luxneed, %d e",
 	  pcity->name, *workers, luxneed, e);
-  freelog(LOG_DEBUG, "%s, u4 %d h4 %d pwr %d elv %d",
-	  pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
-	  pwr, pcity->ppl_elvis);
+  freelog(LOG_DEBUG, "%s, a4 %d u4 %d h4 %d pwr %d elv %d",
+	  pcity->name, pcity->ppl_angry[4], pcity->ppl_unhappy[4],
+	  pcity->ppl_happy[4], pwr, pcity->ppl_elvis);
 
   if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4)
     *foodneed += 1;

@@ -67,6 +67,7 @@ struct player_score {
   int happy;
   int content;
   int unhappy;
+  int angry;
   int taxmen;
   int scientists;
   int elvis;

@@ -69,6 +69,7 @@ static int building_value(int max, struct city *pcity, int val)
 
   i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
   sad += i; /* if units are making us unhappy, count that too. */
+  sad += pcity->ppl_angry[0] * 2; /* angry citizens has to count double!? */
   freelog(LOG_DEBUG, "In %s, unh[0] = %d, unh[4] = %d, sad = %d",
 	  pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
 
