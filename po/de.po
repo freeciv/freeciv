@@ -16,7 +16,8 @@
 # + ÄNDERUNGEN / ERGÄNZUNGEN / KORREKTUREN                           +
 # + Sollten Sie Rechtschreibfehler oder andere OFFENSICHTLICHE       +
 # + Fehler in der Übersetzung finden, senden Sie bitte einen mit     +
-# + 'diff -u' erstellten PATCH an <freeciv-de@ehinzen.de>.           +
+# + 'diff -u' erstellten PATCH an den Koordinator,                   +
+# + Egbert Hinzen <garfy@ehinzen.de>.                                +
 # + Sollten Ihnen "bessere" Übersetzungen einfallen, senden Sie      +
 # + bitte KEINEN PATCH, sondern stellen Sie Ihre Vorschläge als TEXT +
 # + zur Diskussion.                                                  +
@@ -27,14 +28,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.46  2000/06/14 22:22:11  jjm
-# Begin beta-test period leading to version 1.11.0:
-# - Changed version to 1.10.2 (beta).
-# - Ran msgmerge on all .po files (normal part of 'make dist').
-#
-# Revision 1.45  2000/06/07 16:20:31  jjm
-# Updated German (de) translation and README file.
+# Revision 1.47  2000/06/15 12:58:16  testxl
+# Updated German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
+#
+# Revision 1.10.1.9  2000/06/14 20:36:34  egbert
+# Informationen über die Mailingliste der deutschen Übersetzer geändert
 #
 # ###################################
 # ## The real PO file starts here: ##
@@ -44,9 +43,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-14 17:22-0400\n"
+"POT-Creation-Date: 2000-06-14 22:00+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
-"Language-Team: German <freeciv-de@ehinzen.de>\n"
+"Language-Team: German <garfy@ehinzen.de>\n"
 
 #: common/city.c:330
 msgid "?wonder:w"
@@ -1549,19 +1548,19 @@ msgid ""
 msgstr ""
 
 #: server/plrhand.c:1907
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The diplomatic state between %s and the %s is now %s."
-msgstr "Spiel: Die %2$s und die %3$s haben jetzt %1$s."
+msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
 #: server/plrhand.c:1912
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
-msgstr "Spiel: %s hat die Konferenz abgesagt!"
+msgstr "Spiel: %s hat die Vereinbarung aufgekündigt!"
 
 #: server/plrhand.c:1915
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
-msgstr "Spiel: Die %2$s und die %3$s haben jetzt %1$s."
+msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/plrhand.c:2014
@@ -1578,9 +1577,9 @@ msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
 #: server/plrhand.c:2999 server/plrhand.c:3003
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr "Spiel: Frieden mit %s."
+msgstr "Spiel: Kontakt zu %2$s (beherrscht die %1$s) aufgenommen."
 
 #: server/ruleset.c:96
 #, c-format
@@ -2260,17 +2259,16 @@ msgstr ""
 
 #: server/stdinhand.c:582
 msgid "Fixed-length turns play mode"
-msgstr ""
+msgstr "Spielzüge mit vorgegebener Zeit"
 
 #: server/stdinhand.c:583
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
 msgstr ""
 "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, wenn "
-"alle Spieler ihren Zug beendet haben (einschließlich der Spieler, zu denen "
-"der Server keine Verbindung mehr hat)."
+"die vorgegebene Zeit abgelaufen ist (unabhängig davon, ob die Spieler "
+"'Fertig' gedrückt haben oder nicht)."
 
 #: server/stdinhand.c:589
 msgid "What is in the Demographics report"
@@ -2899,9 +2897,8 @@ msgid "Created new AI player: %s."
 msgstr "KI-Spieler %s generiert."
 
 #: server/stdinhand.c:1493
-#, fuzzy
 msgid "Players cannot be removed once the game has started"
-msgstr "Diese Einstellung kann nach Spielstart nicht mehr geändert werden."
+msgstr "Spieler können nach Spielstart nicht mehr entfernt werden."
 
 #: server/stdinhand.c:1500
 #, c-format
@@ -3762,34 +3759,34 @@ msgid "Game: You sell %s in %s (now landlocked) for %d credits."
 msgstr "Spiel: %s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
 
 #: server/unitfunc.c:2217
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) verschoben."
 
 #: server/unitfunc.c:2240
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) eingeschifft."
 
 #: server/unitfunc.c:2253
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) aufgelöst."
 
 #: server/unitfunc.c:2283
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Versandung von (%d, %d) verschoben."
 
 #: server/unitfunc.c:2306
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Versandung von (%d, %d) gelandet."
 
 #: server/unitfunc.c:2319
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: %s wegen Versandung von (%d, %d) aufgelöst."
 
 #: server/unitfunc.c:2413
 #, c-format
@@ -4081,10 +4078,9 @@ msgstr ""
 "Spiel: Kann %ss Einheit in der Stadt der %s nicht angreifen, da kein "
 "Kriegzustand herrscht."
 
-# ?
 #: server/unithand.c:900
 msgid "Game: Aborting GOTO for AI attack procedures."
-msgstr ""
+msgstr "Spiel: GOTO abgebrochen um automatischen Angriff einzuleiten."
 
 #: server/unithand.c:907
 #, c-format
@@ -4096,11 +4092,11 @@ msgstr "Spiel: %s brach GOTO ab, da Einheiten im Weg sind."
 msgid "Game: A %s cannot attack other units."
 msgstr "Spiel: %s können keine anderen Einheiten angreifen."
 
-# ?
 #: server/unithand.c:949
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
-msgstr ""
+msgstr "Spiel: Es liegt keine Kriegserklärung gegen die %s vor; Angriff "
+"ist nicht möglich."
 
 #: server/unithand.c:963
 #, c-format
@@ -4626,6 +4622,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:732
+#, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -4992,9 +4989,8 @@ msgstr "diplomatische Krise      "
 
 #. E_DIPL_INCIDENT
 #: client/options.c:113
-#, fuzzy
 msgid "First Contact            "
-msgstr "Alltag                   "
+msgstr "Erstkontakt              "
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/options.c:177
@@ -5205,7 +5201,7 @@ msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-gtk/citydlg.c:932 client/gui-gtk/citydlg.c:937
 #: client/gui-xaw/citydlg.c:1456 client/gui-xaw/citydlg.c:1460
-#, c-format
+#, c-format, ycp-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -5233,7 +5229,7 @@ msgid "Done"
 msgstr "Fertig"
 
 #: client/gui-gtk/citydlg.c:967
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -5243,17 +5239,17 @@ msgid "Granary: %3d/%-3d"
 msgstr "Getreidevorrat: %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turn"
 msgstr "%3d/%3d %3d Runde"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d Runden"
 
 #: client/gui-gtk/citydlg.c:1028
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/XXX XXX turns"
 msgstr "%3d/XXX XXX Runden"
 
@@ -6735,12 +6731,10 @@ msgid "Chatline"
 msgstr "Chatten"
 
 #: client/gui-gtk/menu.c:644 client/gui-xaw/menu.c:202
-#, fuzzy
 msgid "Playing"
-msgstr "Ebene"
+msgstr "Spiel"
 
 #: client/gui-gtk/menu.c:648 client/gui-xaw/menu.c:204
-#, fuzzy
 msgid "Improvements"
 msgstr "Stadterweiterungen"
 
@@ -6750,11 +6744,11 @@ msgstr "Einheiten"
 
 #: client/gui-gtk/menu.c:652 client/gui-xaw/menu.c:206 data/helpdata.txt:803
 msgid "Combat"
-msgstr "Kampfsystem"
+msgstr "Kampf"
 
 #: client/gui-gtk/menu.c:654 client/gui-xaw/menu.c:207
 msgid "ZOC"
-msgstr ""
+msgstr "Kontrollzonen"
 
 #: client/gui-gtk/menu.c:656 client/gui-xaw/menu.c:208 data/helpdata.txt:705
 msgid "Technology"
@@ -6765,7 +6759,6 @@ msgid "Terrain"
 msgstr "Geländeformen"
 
 #: client/gui-gtk/menu.c:660 client/gui-xaw/menu.c:210
-#, fuzzy
 msgid "Wonders"
 msgstr "Weltwunder"
 
@@ -6994,7 +6987,7 @@ msgid "Results"
 msgstr "Ergebnisse"
 
 #: client/gui-gtk/repodlgs.c:788 client/gui-xaw/repodlgs.c:830
-#, c-format
+#, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -7085,6 +7078,7 @@ msgid "Launch"
 msgstr "Start"
 
 #: client/gui-gtk/spaceshipdlg.c:264 client/gui-xaw/spaceshipdlg.c:268
+#, ycp-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -7176,7 +7170,7 @@ msgid "empty worklist"
 msgstr "leere Arbeitsliste"
 
 #: client/gui-xaw/citydlg.c:203
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -7208,17 +7202,17 @@ msgstr ""
 "Forschung: %3d"
 
 #: client/gui-xaw/citydlg.c:316
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/XXX XXX turns "
 msgstr " %3d/XXX XXX Runden "
 
 #: client/gui-xaw/citydlg.c:321
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turn "
 msgstr " %3d/%3d %3d Runde "
 
 #: client/gui-xaw/citydlg.c:322
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turns "
 msgstr " %3d/%3d %3d Runden "
 
@@ -7377,7 +7371,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1144
-#, c-format
+#, c-format, ycp-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
@@ -7788,10 +7782,7 @@ msgstr ""
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
 "möglichkeiten der deutschen Übersetzung, indem Sie eine Email an "
-"<freeciv-de@ehinzen.de> schicken.\n"
-"\n"
-"Koordinator für die deutsche Übersetzung ist Egbert Hinzen "
-"<garfy@ehinzen.de>.\n"
+"den Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken.\n"
 "\n"
 "Sie können mit einer Email an <freeciv.de-subscribe@listbot.com> gerne "
 "unsere Mailingliste abonnieren. Wir würden uns über Ihre Mitarbeit sehr "
@@ -13191,54 +13182,3 @@ msgstr "zulunesisch"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
-
-#~ msgid ""
-#~ "Game: %s cancelled the pact! There's now %s between the %s and the %s."
-#~ msgstr ""
-#~ "Spiel: Die %s haben das Abkommen aufgekündigt. Die %3$s und die %4$s haben "
-#~ "jetzt %2$s."
-
-#~ msgid "Allience"
-#~ msgstr "Allianz"
-
-#~ msgid "Help Languages"
-#~ msgstr "Deutsche Übersetzung"
-
-#~ msgid "Help Connecting"
-#~ msgstr "Verbindungsaufbau"
-
-#~ msgid "Help Controls"
-#~ msgstr "Bedienungselemente"
-
-#~ msgid "Help Chatline"
-#~ msgstr "Chatten"
-
-#~ msgid "Help Playing"
-#~ msgstr "Strategie und Taktik"
-
-#~ msgid "Help Units"
-#~ msgstr "Einheiten"
-
-#~ msgid "Help Combat"
-#~ msgstr "Kampfsystem"
-
-#~ msgid "Help ZOC"
-#~ msgstr "Kontrollzonen"
-
-#~ msgid "Help Technology"
-#~ msgstr "Forschung"
-
-#~ msgid "Help Terrain"
-#~ msgstr "Gelände"
-
-#~ msgid "Help Wonders"
-#~ msgstr "Weltwunder"
-
-#~ msgid "Help Government"
-#~ msgstr "Regierungsformen"
-
-#~ msgid "Help Happiness"
-#~ msgstr "Bevölkerung"
-
-#~ msgid "Help Space Race"
-#~ msgstr "Welraum-Rennen"
