@@ -658,10 +658,14 @@ AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
 in gdk-imlib-dev, and it will hopefully be fixed in future debian
 releases.
 
+11. Cygwin notes:
+=================
 
-11. Building freeciv for win32 
-("native" build)
-============================================================================
+Cygwin specific installation notes can be found in doc/INSTALL-Cygwin.
+
+
+12. Win32 ("native MS Windows") notes:
+======================================
 Requirements: a unix environment with gcc and binutils for windows (mingw32)
               for the native win32 client: libz and libpng
               (from ftp://ftp.freeciv.org/pub/freeciv/requirements)
