@@ -83,6 +83,7 @@ contributions to the Freeciv project.
      Daniel Speyer <dspeyer@users.sourceforge.net> (patch)
      Christian Knoke <chrisk@enter.de> (patch)
      Andrew Pimlott <andrew@pimlott.ne.mediaone.net> (patch)
+     Michael Stefaniuc <mstefani@redhat.de> (patch)
 
   Coders up to 1.11.4 release:
 
@@ -618,6 +619,7 @@ contributions to the Freeciv project.
      Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de> (de.po)
      Gábor Dukai <dukai@EUnet.yu> (hu.po)
      Christian Knoke <ChrisK@enter.de> (NEWS.de, de.po)
+     Michael Stefaniuc <mstefani@redhat.de> (ro.po)
 
   Localization (l10n) up to 1.11.4 release:
 

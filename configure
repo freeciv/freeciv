@@ -1491,7 +1491,7 @@ fi
 
 
 
-ALL_LINGUAS="de en_GB es fr hu it ja nl no pl pt pt_BR ru sv"
+ALL_LINGUAS="de en_GB es fr hu it ja nl no pl pt pt_BR ro ru sv"
 
 # Make sure we can run config.sub.
 if ${CONFIG_SHELL-/bin/sh} $ac_config_sub sun4 >/dev/null 2>&1; then :
