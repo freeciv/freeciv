@@ -545,6 +545,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   int o;
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
+  struct unit old_punit = *punit;	/* Used for new ship algorithm. -GJW */
   struct city *pcity;
   struct city *nearcity1, *nearcity2;
   int def_x = pdefender->x, def_y = pdefender->y;
@@ -583,8 +584,19 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp
+   *
+   * And for greater Civ2 compatibility (and ship balance issues), ships
+   * use a different algorithm.  Recompute a new total MP based on the HP
+   * the ship has left after being damaged, and subtract out all of the MP
+   * that had been used so far this turn (plus the points used in the attack
+   * itself). -GJW
    */
-  punit->moves_left-=3;
+  if (is_sailing_unit (punit)) {
+    int moves_used = unit_move_rate (&old_punit) - old_punit.moves_left;
+    punit->moves_left = unit_move_rate (punit) - moves_used - 3;
+  } else {
+    punit->moves_left-=3;
+  }
   if(punit->moves_left<0)
     punit->moves_left=0;
 
