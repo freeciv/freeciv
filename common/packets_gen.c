@@ -1504,6 +1504,10 @@ static struct packet_nations_selected_info *receive_packet_nations_selected_info
     {
       int i;
     
+      if(real_packet->num_nations_used > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->num_nations_used = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->num_nations_used; i++) {
         dio_get_uint16(&din, (int *) &real_packet->nations_used[i]);
       }
@@ -2085,6 +2089,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint8(&din, (int *) &real_packet->id[i]);
       }
@@ -2095,6 +2103,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->score[i]);
       }
@@ -2105,6 +2117,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint32(&din, (int *) &real_packet->pop[i]);
       }
@@ -2115,6 +2131,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->bnp[i]);
       }
@@ -2125,6 +2145,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->mfg[i]);
       }
@@ -2135,6 +2159,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->cities[i]);
       }
@@ -2145,6 +2173,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->techs[i]);
       }
@@ -2155,6 +2187,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->mil_service[i]);
       }
@@ -2165,6 +2201,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint8(&din, (int *) &real_packet->wonders[i]);
       }
@@ -2175,6 +2215,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->research[i]);
       }
@@ -2185,6 +2229,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint32(&din, (int *) &real_packet->landarea[i]);
       }
@@ -2195,6 +2243,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint32(&din, (int *) &real_packet->settledarea[i]);
       }
@@ -2205,6 +2257,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint16(&din, (int *) &real_packet->literacy[i]);
       }
@@ -2215,6 +2271,10 @@ static struct packet_endgame_report *receive_packet_endgame_report_100(struct co
     {
       int i;
     
+      if(real_packet->nscores > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->nscores = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->nscores; i++) {
         dio_get_uint32(&din, (int *) &real_packet->spaceship[i]);
       }
@@ -3033,26 +3093,34 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
   real_packet->spacerace = BV_ISSET(fields, 27);
   if (BV_ISSET(fields, 28)) {
     
-    for(;;) {
+    for (;;) {
       int i;
     
       dio_get_uint8(&din, &i);
       if(i == 255) {
         break;
       }
-      dio_get_uint8(&din, (int *) &real_packet->global_advances[i]);
+      if(i > A_LAST) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
+      } else {
+        dio_get_uint8(&din, (int *) &real_packet->global_advances[i]);
+      }
     }
   }
   if (BV_ISSET(fields, 29)) {
     
-    for(;;) {
+    for (;;) {
       int i;
     
       dio_get_uint8(&din, &i);
       if(i == 255) {
         break;
       }
-      dio_get_uint16(&din, (int *) &real_packet->global_wonders[i]);
+      if(i > B_LAST) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
+      } else {
+        dio_get_uint16(&din, (int *) &real_packet->global_wonders[i]);
+      }
     }
   }
 
@@ -9838,6 +9906,10 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
     {
       int i;
     
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders[i]);
       }
@@ -9848,6 +9920,10 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
     {
       int i;
     
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
       }
@@ -10280,6 +10356,10 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
     {
       int i;
     
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders[i]);
       }
@@ -10290,6 +10370,10 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
     {
       int i;
     
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
       }
@@ -12466,6 +12550,10 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
     {
       int i;
     
+      if(real_packet->length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders[i]);
       }
@@ -12476,6 +12564,10 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
     {
       int i;
     
+      if(real_packet->length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->length = MAX_LEN_ROUTE;
+      }
       for (i = 0; i < real_packet->length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->dir[i]);
       }
@@ -17297,6 +17389,10 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
     {
       int i;
     
+      if(real_packet->connections > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->connections = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->connections; i++) {
         dio_get_uint8(&din, (int *) &real_packet->conn_id[i]);
       }
@@ -17307,6 +17403,10 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
     {
       int i;
     
+      if(real_packet->connections > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->connections = MAX_NUM_PLAYERS;
+      }
       for (i = 0; i < real_packet->connections; i++) {
         int tmp;
     
@@ -21536,6 +21636,10 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     {
       int i;
     
+      if(real_packet->leader_count > MAX_NUM_LEADERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->leader_count = MAX_NUM_LEADERS;
+      }
       for (i = 0; i < real_packet->leader_count; i++) {
         dio_get_string(&din, real_packet->leader_name[i], sizeof(real_packet->leader_name[i]));
       }
@@ -21546,6 +21650,10 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     {
       int i;
     
+      if(real_packet->leader_count > MAX_NUM_LEADERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->leader_count = MAX_NUM_LEADERS;
+      }
       for (i = 0; i < real_packet->leader_count; i++) {
         dio_get_bool8(&din, &real_packet->leader_sex[i]);
       }
@@ -22085,6 +22193,10 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     {
       int i;
     
+      if(real_packet->terr_gate_count > 255) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->terr_gate_count = 255;
+      }
       for (i = 0; i < real_packet->terr_gate_count; i++) {
         dio_get_uint8(&din, (int *) &real_packet->terr_gate[i]);
       }
@@ -22098,6 +22210,10 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     {
       int i;
     
+      if(real_packet->spec_gate_count > 255) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->spec_gate_count = 255;
+      }
       for (i = 0; i < real_packet->spec_gate_count; i++) {
         dio_get_uint16(&din, (int *) &real_packet->spec_gate[i]);
       }
@@ -22111,6 +22227,10 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     {
       int i;
     
+      if(real_packet->equiv_dupl_count > 255) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->equiv_dupl_count = 255;
+      }
       for (i = 0; i < real_packet->equiv_dupl_count; i++) {
         dio_get_uint8(&din, (int *) &real_packet->equiv_dupl[i]);
       }
@@ -22124,6 +22244,10 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     {
       int i;
     
+      if(real_packet->equiv_repl_count > 255) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->equiv_repl_count = 255;
+      }
       for (i = 0; i < real_packet->equiv_repl_count; i++) {
         dio_get_uint8(&din, (int *) &real_packet->equiv_repl[i]);
       }
@@ -22137,6 +22261,10 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     {
       int i;
     
+      if(real_packet->effect_count > 255) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->effect_count = 255;
+      }
       for (i = 0; i < real_packet->effect_count; i++) {
         dio_get_effect(&din, &real_packet->effect[i]);
       }

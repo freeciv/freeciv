@@ -449,26 +449,42 @@ class Field:
             c="dio_get_%(dataio_type)s(&din, (int *) &real_packet->%(name)s[i]);"%self.__dict__
         if self.is_array==2:
             array_size_u=self.array_size1_u
+            array_size_d=self.array_size1_d
+        else:
+            array_size_u=self.array_size_u
+            array_size_d=self.array_size_d
 
         if not self.diff:
+            if array_size_u != array_size_d:
+                extra='''
+  if(%(array_size_u)s > %(array_size_d)s) {
+    freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+    %(array_size_u)s = %(array_size_d)s;
+  }'''%self.get_dict(vars())
+            else:
+                extra=""                
             return '''
 {
   int i;
-
+%(extra)s
   for (i = 0; i < %(array_size_u)s; i++) {
     %(c)s
   }
 }'''%self.get_dict(vars())
         else:
             return '''
-for(;;) {
+for (;;) {
   int i;
 
   dio_get_uint8(&din, &i);
   if(i == 255) {
     break;
   }
-  %(c)s
+  if(i > %(array_size_u)s) {
+    freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
+  } else {
+    %(c)s
+  }
 }'''%self.get_dict(vars())
 
 #'''
