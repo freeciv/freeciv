@@ -2080,6 +2080,19 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
   sprs += fill_road_rail_sprite_array(sprs,
 				      tspecial, tspecial_near, pcity);
 
+  /* Add darkness sprites. */
+  for (dir = 0; dir < 4; dir++) {
+    int x1, y1;
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+
+    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir])
+	&& tile_get_known(x1, y1) == TILE_UNKNOWN) {
+      ADD_SPRITE(sprites.tx.darkness[dir],
+		 offsets[dir][0], offsets[dir][1]);
+    }
+  }
+
   if (draw_specials) {
     if (contains_special(tspecial, S_SPECIAL_1)) {
       ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
@@ -2127,19 +2140,6 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
       else
         other = ttype_near[dir];
       dither[dir] = get_dither(ttype, other);
-    }
-  }
-
-  /* Add darkness sprites. */
-  for (dir = 0; dir < 4; dir++) {
-    int x1, y1;
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
-
-    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir])
-	&& tile_get_known(x1, y1) == TILE_UNKNOWN) {
-      ADD_SPRITE(sprites.tx.darkness[dir],
-		 offsets[dir][0], offsets[dir][1]);
     }
   }
 
