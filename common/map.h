@@ -439,21 +439,6 @@ extern struct terrain_misc terrain_control;
   }                                                                         \
 }
 
-#define rectangle_iterate(map_x0, map_y0, map_width, map_height,            \
-                          x_itr, y_itr)                                     \
-{                                                                           \
-  int RI_dx_itr, RI_dy_itr;                                                 \
-  for (RI_dy_itr = 0; RI_dy_itr < (map_height); RI_dy_itr++) {              \
-    for (RI_dx_itr = 0; RI_dx_itr < (map_width); RI_dx_itr++) {             \
-      int x_itr = RI_dx_itr + (map_x0), y_itr = RI_dy_itr + (map_y0);       \
-      if (normalize_map_pos(&x_itr, &y_itr)) {
-
-#define rectangle_iterate_end                                               \
-      }                                                                     \
-    }                                                                       \
-  }                                                                         \
-}
-
 /* 
  * Iterate through all tiles in a square with given center and radius.
  * The position (x_itr, y_itr) that is returned will be normalized;
