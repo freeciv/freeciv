@@ -786,12 +786,19 @@ static void update_unit_activity(struct unit *punit)
   enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = map_get_tile(punit->x, punit->y);
 
-  /* to allow a settler to begin a task with no moves left
-     without it counting toward the time to finish */
-  if (punit->moves_left > 0) {
-    punit->activity_count += mr/SINGLE_MOVE;
-  } else if (mr == 0) {
-    punit->activity_count += 1;
+  if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
+      && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE
+      && activity != ACTIVITY_PATROL) {
+    /*  We don't need the activity_count for the above */
+    if (punit->moves_left > 0) {
+      /* 
+       * To allow a settler to begin a task with no moves left without
+       * it counting toward the time to finish 
+       */
+      punit->activity_count += mr / SINGLE_MOVE;
+    } else if (mr == 0) {
+      punit->activity_count += 1;
+    }
   }
 
   unit_restore_movepoints(pplayer, punit);
