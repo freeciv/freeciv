@@ -12,76 +12,87 @@ Here is a list of recent and past contributors to Freeciv:
      Nicolas Brunel       <brunel@lim.univ-mrs.fr>
      David Pfitzner       <dwp@mso.anu.edu.au>
 
-Coders for 1.8.0:
-	Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
-	Jeff Mallatt <jjm@codewell.com>. (diagonal roads)
-	Jake Kesinger <kesinger@math.ttu.edu> (gamelog american city names)
-	Bussi Andrea <bta@edu.al.unipmn.it> (ctrl + button)
-	Lalo Martins <lalo@debian.org>. (Debian)
-	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (ai handle diplomats)
-	Kris Bubendorfer <kris@MCS.VUW.AC.NZ> ( civil war trade cities)
-	Greg Wooledge <wooledge@kellnet.com> ( helpdata.txt terrain alteration 
-	settlers and engineers teamwork ) 
-	Frank Muzzulini <muzz@albatross.pond.sub.org> ( artillery icon )
-	David Pfitzner <dwp@mso.anu.edu.au>  (ruleset spaceship )
-	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> ( spaceship fix )
-	Per Mathisen <permath@ifi.ntnu.no> ( spaceship option )
-	Rizos Sakellariou <rizos@cs.rice.edu>
-	Massimo Campostrini <campo@mailbox.difi.unipi.it>
-	Trent Piepho <xyzzy@u.washington.edu>
-	Sebastian Fischmeister <sfischme@nexus.lzk.tuwien.ac.at> ( auttoattach )
-	Daniel Gudlat <gudlat@informatik.hu-berlin.de> 
-	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de> ( mapgen4 )
-	Daniel Burrows <Daniel_Burrows@brown.edu> ( hp regeneration )
+  Coders for 1.8.0:
 
-gtk port:
+	Bussi Andrea <bta@edu.al.unipmn.it> (ctrl + button)
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (ai diplomat use)
+	Kris Bubendorfer <kris@MCS.VUW.AC.NZ> (civil war, trade cities)
+	Daniel Burrows <Daniel_Burrows@brown.edu> (hp regeneration)
+	Massimo Campostrini <campo@mailbox.difi.unipi.it>
+	Christopher C Chimelis <chris@classnet.med.miami.edu> (fixes for Alpha)
+	Andrew Donkin <ard@scms.waikato.ac.nz>
+	Sebastian Fischmeister <sfischme@nexus.lzk.tuwien.ac.at> (autoattack)
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> 
+	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (spacerace)
+	Jake Kesinger <kesinger@math.ttu.edu> (gamelog, american city names)
+	Jeff Mallatt <jjm@codewell.com> (diagonal roads)
+	Lalo Martins <lalo@debian.org> (Debian packaging)
+	Per Mathisen <permath@ifi.ntnu.no> (spaceship option)
+	David Pfitzner <dwp@mso.anu.edu.au> (rulesets, spacerace)
+	Trent Piepho <xyzzy@u.washington.edu>
+	Reinier Post <rp@win.tue.nl>
+	Rizos Sakellariou <rizos@cs.rice.edu>
+	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de> (mapgen)
+	Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
+	Greg Wooledge <wooledge@kellnet.com> (helpdata.txt, settlers/engineers)
+
+  Gtk+ Port: (to be included in freeciv 1.8.1)
+
 	Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt>
 
-civworld:
-	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (our map editor !)
+  Civworld: (our map editor!)
 
-tilesets:
-	Ralph engel. THE tiles.
-        Trent Piepho <xyzzy@u.washington.edu> ( Diagonal road and railroads ).
-        David Pfitzner       <dwp@mso.anu.edu.au>
-	Bruno gilleta <gilleta@pento.esil.univ-mrs.fr>
-	beraud <berauda@crit2.univ-montp2.fr>  Wonders tiles
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de>
 
-Bug report 
+  Tilesets:
+
+	Ralph Engels <rengels@hydra.informatik.uni-ulm.de> (THE tiles)
+	Bruno Gilleta <gilleta@pento.esil.univ-mrs.fr>
+	Trent Piepho <xyzzy@u.washington.edu>
+	David Pfitzner <dwp@mso.anu.edu.au>
+	Alexandre Beraud <berauda@crit2.univ-montp2.fr> (Wonders tiles)
+	Frank Muzzulini <muzz@albatross.pond.sub.org> (artillery icon)
+
+  Bug reports: 
+
 	Marko Lindqvist <caz@students.cc.tut.fi>
 	Alexander Mai <st002279@hrzpub.tu-darmstadt.de>
-	Jake Kesinger <kesinger@math.ttu.edu>
-	Andrew E. Schulman" <andrex@alw.nih.gov>
+	Andrew E. Schulman <andrex@alw.nih.gov>
 	Dee Jay Randall <randal@cs.uregina.ca>
 	Todd Goodman <tsg1@earthlink.net>
 	Mel Ooran <melooran@yahoo.com> 
 	David Usherwood <davidu@infocat.co.uk>
-	and all the people on freeciv-dev@freeciv.org
 
-documentation:
-	David King <crkinger@usa.net> Freeciv Client and Server Guide. 
-	nicolas lannier <Nicolas.Lannier@epita.fr> translate freeciv in french.
+  Documentation:
 
-Projet:
-	caz@students.cc.tut.fi ai client
-	Todd Goodman <tsg1@earthlink.net> windows version
-        "Markus L. Noga" <noga@inrialpes.fr> client improvement.
-	 Schaefer Frank R <fschaef@ces.clemson.edu>  City Plans
+	David King <crkinger@usa.net> (new Freeciv Client and Server Guides)
+	Nicolas Lannier <Nicolas.Lannier@epita.fr> (Translation of Freeciv 
+						   into French)
+  Projects:
 
-Site design:
+	Marko Lindqvist <caz@students.cc.tut.fi> (AI client)
+	Todd Goodman <tsg1@earthlink.net> (Windows version)
+	Markus L. Noga <noga@inrialpes.fr> (client improvement)
+	Frank R Schaefer <fschaef@ces.clemson.edu> (City Plans)
+
+  Site design:
+
 	Martin Willemoes Hansen <martin_w_hansen@my-dejanews.com>
 
-Mailing list:
+  Mailing lists:
+
 	John Goerzen <jgoerzen@complete.org>
-	Canis_L <twolf@kc.net> freeciv.midsun.com
+        Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
 
-Site hosting:
+  Site hosting:
+
 	Tracy Reed <treed@ultraviolet.org>
-
 
   These people helped us previous to the 1.8 series:
 
+     Mitch Davis <mjd@alphalink.com.au> (administrator)
      John Stonebraker <ppaqebb@surfshop.net> (AI)
+     Markus Linnala <maage@cs.tut.fi>
      Cedric Tefft <cedric@earthling.net>
      Sverker Wiberg <sverkerw@Update.UU.SE>
      Trevor Pering <pering@tongass.EECS.Berkeley.EDU>
@@ -94,12 +105,13 @@ Site hosting:
      Sergey Shkonda <serg@bcs.zp.ua>
      Matthew Hunt <mph@pobox.com>
      Mika Korhonen <mikak@ee.oulu.fi>
+     Robert Donn <squirk@ihug.co.nz>
      Alex Rhomberg <rhomberg@ife.ee.ethz.ch>
      Jason Merrill <jason@yorick.cygnus.com>
+     Mark Brown <broonie@tardis.ed.ac.uk>
      Michael Bickel <Michael.Bickel@informatik.uni-erlangen.de>
      Ben Korvemaker <benjamin@cs.ualberta.ca>
      Walter Misar <misar@rbg.informatik.tu-darmstadt.de>
-     Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
      James Blackwell <innocent@mercury.merconline.com> (Docs, co-admin)
      Olav Andree Brevik <olavb@ifi.uio.no>
      Carl Bartels <cb@bravo436.chem.mcgill.ca>
