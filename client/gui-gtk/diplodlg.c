@@ -255,7 +255,7 @@ static int fill_diplomacy_city_menu(GtkWidget * popupmenu,
   }
 
   city_list_iterate(pgiver->cities, pcity) {
-    if (!city_got_effect(pcity, B_PALACE)) {
+    if (!is_capital(pcity)) {
       city_list_ptrs[i] = pcity;
       i++;
     }

@@ -378,7 +378,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } else if (give) {
       /* AI must be crazy to trade away its cities */
       worth -= city_gold_worth(offer);
-      if (city_got_building(offer, B_PALACE)) {
+      if (is_capital(offer)) {
         worth = -BIG_NUMBER; /* Never! Ever! */
       } else {
         worth *= 15;

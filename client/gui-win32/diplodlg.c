@@ -211,7 +211,7 @@ static void popup_cities_menu(struct Diplomacy_dialog *pdialog,int plr)
   }
   
   city_list_iterate(plr0->cities, pcity) {
-    if(!city_got_effect(pcity, B_PALACE)){
+    if (!is_capital(pcity)) {
       city_list_ptrs[i] = pcity;
       i++;
     }

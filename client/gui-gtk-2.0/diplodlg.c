@@ -281,7 +281,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     }
 
     city_list_iterate(plr0->cities, pcity) {
-      if (!city_got_effect(pcity, B_PALACE)) {
+      if (!is_capital(pcity)) {
 	city_list_ptrs[i] = pcity;
 	i++;
       }

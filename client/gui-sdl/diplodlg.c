@@ -699,7 +699,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     if (n > 0) {
       city_list_ptrs = MALLOC(sizeof(struct city *) * n);
       city_list_iterate(pPlayer0->cities, pCity) {
-        if (!city_got_effect(pCity, B_PALACE)) {
+        if (!is_capital(pCity)) {
 	  city_list_ptrs[i] = pCity;
 	  i++;
         }

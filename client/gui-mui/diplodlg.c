@@ -290,7 +290,7 @@ static int fill_diplomacy_city_menu(Object *menu_title, struct Diplomacy_dialog 
   Object *entry;
 
   city_list_iterate(plr0->cities, pcity) {
-    if(!city_got_effect(pcity, B_PALACE)){
+    if (!is_capital(pcity)) {
       entry = MUI_MakeObject(MUIO_Menuitem,pcity->name,NULL,0,0);
       set(entry,MUIA_UserData,pcity->id);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_city, pdialog, plr0->player_no,entry);

@@ -168,7 +168,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  pcity->name);
 	    return;
 	  }
-	  if (city_got_building(pcity, B_PALACE)) {
+	  if (is_capital(pcity)) {
 	    notify_player(pplayer,
 			  _("Game: Your capital (%s) is requested, "
 			    "you can't accept treaty."),
@@ -273,7 +273,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  pcity->name);
 	    goto cleanup;
 	  }
-	  if (city_got_building(pcity, B_PALACE)) {
+	  if (is_capital(pcity)) {
 	    notify_player(pother,
 			  _("Game: Your capital (%s) is requested, "
 			    "you can't accept treaty."), pcity->name);

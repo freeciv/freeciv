@@ -332,7 +332,7 @@ static void check_players(void)
     int found_palace = 0;
 
     city_list_iterate(pplayer->cities, pcity) {
-      if (city_got_building(pcity, B_PALACE)) {
+      if (is_capital(pcity)) {
 	found_palace++;
       }
       assert(found_palace <= 1);

@@ -1159,6 +1159,15 @@ bool city_got_effect(const struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
+  Return TRUE iff this city is its nation's capital.  The capital city is
+  special-cased in a number of ways.
+**************************************************************************/
+bool is_capital(const struct city *pcity)
+{
+  return city_got_building(pcity, B_PALACE);
+}
+
+/**************************************************************************
  Whether a city has its own City Walls, or the same effect via a wonder.
 **************************************************************************/
 bool city_got_citywalls(const struct city *pcity)

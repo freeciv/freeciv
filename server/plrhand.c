@@ -1975,7 +1975,7 @@ void civil_war(struct player *pplayer)
   i = city_list_size(&pplayer->cities)/2;   /* number to flip */
   j = city_list_size(&pplayer->cities);	    /* number left to process */
   city_list_iterate(pplayer->cities, pcity) {
-    if (!city_got_building(pcity, B_PALACE)) {
+    if (!is_capital(pcity)) {
       if (i >= j || (i > 0 && myrand(2) == 1)) {
 	/* Transfer city and units supported by this city to the new owner
 

@@ -1327,13 +1327,13 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
      - Kris Bubendorfer
      Also check spaceships --dwp
   */
-  if (city_got_building(pcity, B_PALACE)
+  if (is_capital(pcity)
       && (cplayer->spaceship.state == SSHIP_STARTED
           || cplayer->spaceship.state == SSHIP_LAUNCHED)) {
     spaceship_lost(cplayer);
   }
   
-  if (city_got_building(pcity, B_PALACE)
+  if (is_capital(pcity)
       && city_list_size(&cplayer->cities) >= game.civilwarsize
       && game.nplayers < game.nation_count
       && game.civilwarsize < GAME_MAX_CIVILWARSIZE
@@ -1444,8 +1444,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 
   packet->size = pdcity->size;
 
-  if (pcity && pcity->id == pdcity->id
-      && city_got_building(pcity, B_PALACE)) {
+  if (pcity && pcity->id == pdcity->id && is_capital(pcity)) {
     packet->capital = TRUE;
   } else {
     packet->capital = FALSE;
@@ -1903,11 +1902,14 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
 void building_lost(struct city *pcity, Impr_Type_id id)
 {
   struct player *owner = city_owner(pcity);
+  bool was_capital = is_capital(pcity);
 
   city_remove_improvement(pcity,id);
-  if (id == B_PALACE
+  if ((was_capital && !is_capital(pcity))
       && (owner->spaceship.state == SSHIP_STARTED
 	  || owner->spaceship.state == SSHIP_LAUNCHED)) {
+    /* If the capital was lost (by destruction of the palace) production on
+     * the spaceship is lost. */
     spaceship_lost(owner);
   }
 }
