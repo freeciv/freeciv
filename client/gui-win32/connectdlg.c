@@ -723,7 +723,8 @@ void handle_save_load(const char *title, bool is_save)
   ofn.lStructSize = sizeof(OPENFILENAME);
   ofn.hwndOwner = root_window;
   ofn.hInstance = freecivhinst;
-  ofn.lpstrFilter = NULL;
+  /* WARNING: Don't translate this next string, it has NULLs in it. */
+  ofn.lpstrFilter = "Freeciv saves\0*.sav;*.sav.gz\0All files\0*.*\0\0";
   ofn.lpstrCustomFilter = NULL;
   ofn.nMaxCustFilter = 0;
   ofn.nFilterIndex = 1;
