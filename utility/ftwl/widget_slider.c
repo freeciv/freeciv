@@ -200,9 +200,9 @@ static void drag_end(struct sw_widget *widget, enum be_mouse_button button)
   ...
 *************************************************************************/
 struct sw_widget *sw_slider_create(struct sw_widget *parent, int width,
-				   int height, struct Sprite *top,
-				   struct Sprite *bottom,struct Sprite *repeat,
-				   struct Sprite *center,
+				   int height, struct sprite *top,
+				   struct sprite *bottom,struct sprite *repeat,
+				   struct sprite *center,
 				   bool vertical)
 {
   struct sw_widget *result = create_widget(parent, WT_SLIDER);

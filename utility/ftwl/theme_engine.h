@@ -47,7 +47,7 @@ void te_destroy_screen(struct te_screen *screen);
 void te_info_update(struct te_screen *screen, const char *id);
 const char *te_edit_get_current_value(struct te_screen *screen,
 				      const char *id);
-struct Sprite *te_load_gfx(const char *filename);
+struct sprite *te_load_gfx(const char *filename);
 
 /* Read various data from the files */
 struct ct_point te_read_point(struct section_file *file, const char *section,

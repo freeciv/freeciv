@@ -36,10 +36,10 @@
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 ****************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y,
 			   int width, int height,
-			   struct Sprite *mask,
+			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
   GdkPixbuf *mypixbuf, *sub, *mask_pixbuf;
@@ -110,7 +110,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   *width = sprite->width;
   *height = sprite->height;
@@ -122,9 +122,9 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 
   FIXME: should be renamed as sprite_new or some such.
 ****************************************************************************/
-struct Sprite *ctor_sprite(GdkPixbuf *pixbuf)
+struct sprite *ctor_sprite(GdkPixbuf *pixbuf)
 {
-  struct Sprite *sprite = fc_malloc(sizeof(*sprite));
+  struct sprite *sprite = fc_malloc(sizeof(*sprite));
   bool has_alpha = FALSE, has_mask = FALSE;
 
   sprite->width = gdk_pixbuf_get_width(pixbuf);
@@ -190,7 +190,7 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ****************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   GdkPixbuf *im;
 
@@ -205,7 +205,7 @@ struct Sprite *load_gfxfile(const char *filename)
 /****************************************************************************
   Free a sprite and all associated image data.
 ****************************************************************************/
-void free_sprite(struct Sprite * s)
+void free_sprite(struct sprite * s)
 {
   if (s->pixmap) {
     g_object_unref(s->pixmap);
@@ -232,7 +232,7 @@ void free_sprite(struct Sprite * s)
   Scales a sprite. If the sprite contains a mask, the mask is scaled
   as as well.
 ****************************************************************************/
-struct Sprite *sprite_scale(struct Sprite *src, int new_w, int new_h)
+struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
 {
   return ctor_sprite(gdk_pixbuf_scale_simple(sprite_get_pixbuf(src),
 					     new_w, new_h,
@@ -244,7 +244,7 @@ struct Sprite *sprite_scale(struct Sprite *src, int new_w, int new_h)
   object/mask. The bounding box contains the border (pixel which have
   unset pixel as neighbours) pixel.
 ****************************************************************************/
-void sprite_get_bounding_box(struct Sprite * sprite, int *start_x,
+void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y)
 {
   GdkImage *mask_image;
@@ -313,7 +313,7 @@ void sprite_get_bounding_box(struct Sprite * sprite, int *start_x,
 /****************************************************************************
   Crops all blankspace from a sprite (insofar as is possible as a rectangle)
 ****************************************************************************/
-struct Sprite *crop_blankspace(struct Sprite *s)
+struct sprite *crop_blankspace(struct sprite *s)
 {
   int x1, y1, x2, y2;
 
@@ -328,7 +328,7 @@ struct Sprite *crop_blankspace(struct Sprite *s)
   This is just a helper function for sprite_get_pixbuf().  Most callers
   should use that function instead.
 ****************************************************************************/
-static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(struct Sprite *src)
+static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(struct sprite *src)
 {
   GdkPixbuf *dst;
   int w, h;
@@ -374,7 +374,7 @@ static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(struct Sprite *src)
   NOTE: the pixmap and mask of a sprite must not change after this
         function is called!
 ********************************************************************/
-GdkPixbuf *sprite_get_pixbuf(struct Sprite *sprite)
+GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite)
 {
   if (!sprite) {
     return NULL;
@@ -391,7 +391,7 @@ GdkPixbuf *sprite_get_pixbuf(struct Sprite *sprite)
 
   NOTE: the pixbuf of a sprite must not change after this function is called!
 ****************************************************************************/
-GdkBitmap *sprite_get_mask(struct Sprite *sprite)
+GdkBitmap *sprite_get_mask(struct sprite *sprite)
 {
   if (!sprite->pixmap && !sprite->mask) {
     /* If we're not in pixmap mode and we don't yet have a mask, render

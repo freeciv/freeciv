@@ -39,7 +39,7 @@
 typedef int Nation_Type_id;
 typedef int Team_Type_id;
 
-struct Sprite;			/* opaque; client-gui specific */
+struct sprite;			/* opaque; client-gui specific */
 
 /*
  * The city_name structure holds information about a default choice for
@@ -84,7 +84,7 @@ struct nation_type {
   struct leader *leaders;
   int city_style;
   struct city_name *city_names;		/* The default city names. */
-  struct Sprite *flag_sprite;
+  struct sprite *flag_sprite;
   char *legend;				/* may be empty */
 
   /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of

@@ -246,7 +246,7 @@ struct sw_widget *sw_button_create(struct sw_widget *parent,
 *************************************************************************/
 struct sw_widget *sw_button_create_text_and_background(struct sw_widget
 						       *parent, struct ct_string
-						       *string, struct Sprite
+						       *string, struct sprite
 						       *background_faces)
 {
   struct ct_size whole_size, size;
@@ -263,7 +263,7 @@ struct sw_widget *sw_button_create_text_and_background(struct sw_widget
 
   for (i = 0; i < 4; i++) {
     struct osda *t = be_create_osda(size.width, size.height);
-    struct Sprite *s = be_crop_sprite(background_faces, 0, i * size.height,
+    struct sprite *s = be_crop_sprite(background_faces, 0, i * size.height,
 				      size.width, size.height);
     struct ct_point point = { 0, 0 };
 
@@ -282,7 +282,7 @@ struct sw_widget *sw_button_create_text_and_background(struct sw_widget
 *************************************************************************/
 struct sw_widget *sw_button_create_bounded(struct sw_widget *parent,
 					   struct ct_string *string,
-					   struct Sprite *background_faces,
+					   struct sprite *background_faces,
 					   const struct ct_rect *bounds,
 					   enum ws_alignment alignment)
 {

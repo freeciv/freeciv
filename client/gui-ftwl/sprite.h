@@ -15,7 +15,7 @@
 
 #include "sprite_g.h"
 
-/* struct Sprite is backend specific */
+/* struct sprite is backend specific */
 
 #endif  /* FC__SPRITE_H */
 

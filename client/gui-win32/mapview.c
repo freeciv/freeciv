@@ -53,7 +53,7 @@
 
 extern HCURSOR cursors[];
 
-static struct Sprite *indicator_sprite[3];
+static struct sprite *indicator_sprite[3];
 
 static HBITMAP intro_gfx;
 
@@ -237,8 +237,8 @@ void update_turn_done_button(bool do_restore)
   client window.  The parameters tell which sprite to use for the
   indicator.
 ****************************************************************************/
-void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
-			 struct Sprite *flake, struct Sprite *gov)
+void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
+			 struct sprite *flake, struct sprite *gov)
 {
   int i;
   HDC hdc;

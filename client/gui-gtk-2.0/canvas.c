@@ -64,7 +64,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 ****************************************************************************/
 static void pixmap_put_sprite(GdkDrawable *pixmap,
 			      int pixmap_x, int pixmap_y,
-			      struct Sprite *ssprite,
+			      struct sprite *ssprite,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
@@ -96,7 +96,7 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 ****************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y,
-		       struct Sprite *sprite,
+		       struct sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
   switch (pcanvas->type) {
@@ -143,7 +143,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 ****************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
-			    struct Sprite *sprite)
+			    struct sprite *sprite)
 {
   canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
 		    0, 0, sprite->width, sprite->height);
@@ -155,7 +155,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 ****************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      int canvas_x, int canvas_y,
-			      struct Sprite *psprite,
+			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
   if (pcanvas->type == CANVAS_PIXMAP) {
@@ -196,7 +196,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct Sprite *psprite, enum color_std color,
+			     struct sprite *psprite, enum color_std color,
 			     int canvas_x, int canvas_y)
 {
   if (pcanvas->type == CANVAS_PIXMAP) {
@@ -214,7 +214,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
   if (pcanvas->type == CANVAS_PIXMAP) {

@@ -14,7 +14,7 @@
 #ifndef FC__WIDGET_H
 #define FC__WIDGET_H
 
-struct Sprite;
+struct sprite;
 struct sw_widget;
 
 #define SPECLIST_TAG widget
@@ -48,7 +48,7 @@ void sw_widget_set_tooltip(struct sw_widget *widget,
 void sw_widget_hcenter(struct sw_widget *widget);
 void sw_widget_vcenter(struct sw_widget *widget);
 void sw_widget_set_background_sprite(struct sw_widget *widget,
-				     struct Sprite *sprite);
+				     struct sprite *sprite);
 void sw_widget_set_background_color(struct sw_widget *widget,
 				    be_color background_color);
 void sw_widget_set_border_color(struct sw_widget *widget,
@@ -109,11 +109,11 @@ struct sw_widget *sw_button_create_text(struct sw_widget *parent,
 					struct ct_string *string);
 struct sw_widget *sw_button_create_bounded(struct sw_widget *parent,
 					   struct ct_string *string,
-					   struct Sprite *background_faces, 
+					   struct sprite *background_faces, 
 					   const struct ct_rect *bounds,enum ws_alignment alignment);
 struct sw_widget *sw_button_create_text_and_background(struct sw_widget
 						       *parent, struct ct_string
-						       *string, struct Sprite
+						       *string, struct sprite
 						       *background_faces);
 
 void sw_button_set_callback(struct sw_widget *widget,
@@ -156,9 +156,9 @@ int sw_list_get_selected_row(struct sw_widget *widget);
 void sw_list_set_row_enabled(struct sw_widget *widget, int row, bool enabled);
 bool sw_list_is_row_enabled(struct sw_widget *widget, int row);
 void sw_list_add_buttons_and_vslider(struct sw_widget *widget,
-				     struct Sprite *up, struct Sprite *down,
-				     struct Sprite *button_background,
-				     struct Sprite *scrollbar);
+				     struct sprite *up, struct sprite *down,
+				     struct sprite *button_background,
+				     struct sprite *scrollbar);
 void sw_list_set_content_changed_notify(struct sw_widget *widget,
 					void (*callback) (struct sw_widget
 							  * widget,
@@ -173,9 +173,9 @@ void sw_list_set_selection_changed_notify(struct sw_widget *widget,
 
 /* ===== slider ==== */
 struct sw_widget *sw_slider_create(struct sw_widget *parent, int width,
-				   int height, struct Sprite *top,
-				   struct Sprite *bottom,struct Sprite *repeat,
-				   struct Sprite *center,
+				   int height, struct sprite *top,
+				   struct sprite *bottom,struct sprite *repeat,
+				   struct sprite *center,
 				   bool vertical);
 void sw_slider_set_slided_notify(struct sw_widget *widget,
 				 void (*callback) (struct sw_widget * widget,

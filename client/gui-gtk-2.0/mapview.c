@@ -114,7 +114,7 @@ void update_info_label( void )
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
-    struct Sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
+    struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
@@ -122,14 +122,14 @@ void update_info_label( void )
  
   for (; d < (game.player_ptr->economic.science
 	     + game.player_ptr->economic.luxury) / 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
+    struct sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
   }
  
   for (; d < 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(tileset, O_GOLD);
+    struct sprite *sprite = get_tax_sprite(tileset, O_GOLD);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
@@ -214,8 +214,8 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
   client window.  The parameters tell which sprite to use for the
   indicator.
 ****************************************************************************/
-void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
-			 struct Sprite *flake, struct Sprite *gov)
+void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
+			 struct sprite *flake, struct sprite *gov)
 {
   gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label),
 			    sprite_get_pixbuf(bulb));
@@ -473,7 +473,7 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 **************************************************************************/
 void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 			     int canvas_x, int canvas_y,
-			     struct Sprite *ssprite)
+			     struct sprite *ssprite)
 {
   if (!ssprite) {
     return;
@@ -502,7 +502,7 @@ void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 **************************************************************************/
 static void pixmap_put_sprite(GdkDrawable *pixmap,
 			      int pixmap_x, int pixmap_y,
-			      struct Sprite *ssprite,
+			      struct sprite *ssprite,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
@@ -548,7 +548,7 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
   Created a fogged version of the sprite.  This can fail on older systems
   in which case the callers needs a fallback.
 **************************************************************************/
-static void fog_sprite(struct Sprite *sprite)
+static void fog_sprite(struct sprite *sprite)
 {
   int x, y;
   GdkPixbuf *fogged;
@@ -591,7 +591,7 @@ Only used for isometric view.
 **************************************************************************/
 void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 				  int canvas_x, int canvas_y,
-				  struct Sprite *ssprite,
+				  struct sprite *ssprite,
 				  bool fog)
 {
   if (!ssprite) {

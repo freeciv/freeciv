@@ -17,7 +17,7 @@
 
 #include "sprite_g.h"
 
-struct Sprite
+struct sprite
 {
   /* A pixmap + mask is used if there's a 1-bit alpha channel.  mask may be
    * NULL if there's no alpha.  For multi-bit alpha levels, a pixbuf will be
@@ -32,17 +32,17 @@ struct Sprite
   int	     height;
 };
 
-struct Sprite *ctor_sprite(GdkPixbuf *pixbuf);
-struct Sprite *sprite_scale(struct Sprite *src, int new_w, int new_h);
-void sprite_get_bounding_box(struct Sprite *sprite, int *start_x,
+struct sprite *ctor_sprite(GdkPixbuf *pixbuf);
+struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h);
+void sprite_get_bounding_box(struct sprite *sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
-struct Sprite *crop_blankspace(struct Sprite *s);
+struct sprite *crop_blankspace(struct sprite *s);
 
 /********************************************************************
   Note: a sprite cannot be changed after these functions are called!
 ********************************************************************/
-GdkPixbuf *sprite_get_pixbuf(struct Sprite *sprite);
-GdkBitmap *sprite_get_mask(struct Sprite *sprite);
+GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite);
+GdkBitmap *sprite_get_mask(struct sprite *sprite);
 
 #endif  /* FC__SPRITE_H */
 

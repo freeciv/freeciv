@@ -23,8 +23,8 @@
 
 void create_overlay_unit(struct canvas *pcanvas, int i);
 
-extern struct Sprite *intro_gfx_sprite;
-extern struct Sprite *radar_gfx_sprite;
+extern struct sprite *intro_gfx_sprite;
+extern struct sprite *radar_gfx_sprite;
 
 /* This name is to avoid a naming conflict with a global 'cursors'
  * variable in GTK+-2.6.  See PR#12459. */

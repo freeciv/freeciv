@@ -78,7 +78,7 @@ struct sw_widget {
 
   bool has_background_color;
   be_color background_color;
-  struct Sprite *background_sprite;	/* default NULL */
+  struct sprite *background_sprite;	/* default NULL */
   bool has_border_color;
   be_color border_color;
 
@@ -177,7 +177,7 @@ struct sw_widget {
       bool vertical;
       void (*callback) (struct sw_widget * widget, void *data);
       void *callback_data;
-      struct Sprite *faces[NUM_WIDGET_FACES][NUM_SP];
+      struct sprite *faces[NUM_WIDGET_FACES][NUM_SP];
       int cache_top_height, cache_center_height, cache_min_length;
       be_color color_active, color_drag, color_nodrag;
     } slider;

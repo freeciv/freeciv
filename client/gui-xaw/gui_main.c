@@ -282,7 +282,7 @@ void ui_init(void)
 void ui_main(int argc, char *argv[])
 {
   int i;
-  struct Sprite *icon; 
+  struct sprite *icon; 
 
   parse_options(argc, argv);
 
@@ -449,7 +449,7 @@ void ui_main(int argc, char *argv[])
 
   /* Do this outside setup_widgets() so after tiles are loaded */
   for(i=0;i<10;i++)  {
-    struct Sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
+    struct sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
 
     XtVaSetValues(econ_label[i], XtNbitmap,
 		  s->pixmap, NULL);

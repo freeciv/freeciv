@@ -89,7 +89,7 @@ struct be_event {
 };
 
 struct osda;  /* Off-Screen Drawing Area */
-struct Sprite;
+struct sprite;
 struct FT_Bitmap_;
 
 #include "text_renderer.h"
@@ -113,12 +113,12 @@ void be_draw_line(struct osda *target, const struct ct_point *start,
 void be_draw_rectangle(struct osda *target, const struct ct_rect *spec,
 		       int line_width, be_color color);
 void be_draw_sprite(struct osda *target, 
-		    const struct Sprite *sprite,
+		    const struct sprite *sprite,
 		    const struct ct_size *size,
 		    const struct ct_point *dest_pos,
 		    const struct ct_point *src_pos);
-void be_multiply_alphas(struct Sprite *dest_sprite,
-			const struct Sprite *src_sprite,
+void be_multiply_alphas(struct sprite *dest_sprite,
+			const struct sprite *src_sprite,
 			const struct ct_point *src_pos);
 void be_copy_osda_to_osda(struct osda *dest,
 			  struct osda *src,
@@ -130,16 +130,16 @@ void be_copy_osda_to_osda(struct osda *dest,
 void be_screen_get_size(struct ct_size *size);
 #define be_string_get_size tr_string_get_size
 void be_sprite_get_size(struct ct_size *size,
-			const struct Sprite *sprite);
+			const struct sprite *sprite);
 void be_osda_get_size(struct ct_size *size,
 		      const struct osda *osda);
 bool be_is_transparent_pixel(struct osda *osda, const struct ct_point *pos);
 
 /* ===== graphics.c implementation ===== */
-struct Sprite *be_load_gfxfile(const char *filename);
-struct Sprite *be_crop_sprite(struct Sprite *source,
+struct sprite *be_load_gfxfile(const char *filename);
+struct sprite *be_crop_sprite(struct sprite *source,
 			      int x, int y, int width, int height);
-void be_free_sprite(struct Sprite *sprite);
+void be_free_sprite(struct sprite *sprite);
 
 /* ===== other ===== */
 void be_init(const struct ct_size *screen_size, bool fullscreen);

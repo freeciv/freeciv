@@ -17,7 +17,7 @@
 
 #include "fc_types.h"
 
-struct Sprite;			/* opaque; client-gui specific */
+struct sprite;			/* opaque; client-gui specific */
 
 #define G_MAGIC (127)		/* magic constant, used as flag value */
 
@@ -122,7 +122,7 @@ struct government
      use government_has_flag() to access */
   int   flags;
 
-  struct Sprite *sprite;
+  struct sprite *sprite;
   
   char *helptext;
 };

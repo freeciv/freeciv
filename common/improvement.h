@@ -79,7 +79,7 @@ struct impr_type {
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
-  struct Sprite *sprite;		/* icon of the improvement */
+  struct sprite *sprite;		/* icon of the improvement */
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];

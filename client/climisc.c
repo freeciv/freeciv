@@ -303,7 +303,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 /**************************************************************************
   Return the sprite for the research indicator.
 **************************************************************************/
-struct Sprite *client_research_sprite(void)
+struct sprite *client_research_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr) {
     int index = (NUM_TILES_PROGRESS
@@ -322,7 +322,7 @@ struct Sprite *client_research_sprite(void)
 /**************************************************************************
   Return the sprite for the global-warming indicator.
 **************************************************************************/
-struct Sprite *client_warming_sprite(void)
+struct sprite *client_warming_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr) {
     int index;
@@ -347,7 +347,7 @@ struct Sprite *client_warming_sprite(void)
 /**************************************************************************
   Return the sprite for the global-cooling indicator.
 **************************************************************************/
-struct Sprite *client_cooling_sprite(void)
+struct sprite *client_cooling_sprite(void)
 {
   if (can_client_change_view()) {
     int index;
@@ -372,7 +372,7 @@ struct Sprite *client_cooling_sprite(void)
 /**************************************************************************
   Return the sprite for the government indicator.
 **************************************************************************/
-struct Sprite *client_government_sprite(void)
+struct sprite *client_government_sprite(void)
 {
   if (can_client_change_view() && game.government_count > 0) {
     return get_government(game.player_ptr->government)->sprite;

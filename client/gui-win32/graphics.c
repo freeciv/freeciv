@@ -50,8 +50,8 @@ static int cache_id_count = 0;
 
 HCURSOR cursors[CURSOR_LAST];
 
-struct Sprite *intro_gfx_sprite = NULL;
-struct Sprite *radar_gfx_sprite = NULL;
+struct sprite *intro_gfx_sprite = NULL;
+struct sprite *radar_gfx_sprite = NULL;
 
 /**************************************************************************
   Return whether the client supports isometric view (isometric tilesets).
@@ -104,7 +104,7 @@ load_cursors(void)
     int hot_x, hot_y;
     int x, y;
     int minwidth, minheight;
-    struct Sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
+    struct sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
 
     ii.xHotspot = MIN(hot_x, width);
     ii.yHotspot = MIN(hot_y, height);

@@ -26,7 +26,7 @@ struct image {
   struct ct_rect full_rect;
 };
 
-struct Sprite {
+struct sprite {
   struct image *image;
 };
 

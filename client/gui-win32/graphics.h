@@ -15,8 +15,8 @@
 
 #include "graphics_g.h"
 
-extern struct Sprite *intro_gfx_sprite;
-extern struct Sprite *radar_gfx_sprite;
+extern struct sprite *intro_gfx_sprite;
+extern struct sprite *radar_gfx_sprite;
 
 BITMAP *bmp_new(int width, int height);
 void bmp_free(BITMAP *bmp);

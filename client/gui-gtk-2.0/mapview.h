@@ -43,11 +43,11 @@ void update_map_canvas_scrollbars_size(void);
 
 void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 			     int canvas_x, int canvas_y,
-			     struct Sprite *ssprite);
+			     struct sprite *ssprite);
 
 void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 				  int canvas_x, int canvas_y,
-				  struct Sprite *ssprite,
+				  struct sprite *ssprite,
 				  bool fog);
 
 #endif  /* FC__MAPVIEW_H */

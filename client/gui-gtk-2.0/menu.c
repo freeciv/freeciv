@@ -1250,7 +1250,7 @@ void update_menus(void)
       government_iterate(g) {
         if (g->index != game.government_when_anarchy) {
           GtkWidget *item, *image;
-          struct Sprite *gsprite;
+          struct sprite *gsprite;
 	  char buf[256];
 
 	  my_snprintf(buf, sizeof(buf), _("%s..."), g->name);

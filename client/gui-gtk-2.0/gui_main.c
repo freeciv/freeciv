@@ -696,7 +696,7 @@ static void setup_widgets(void)
   GtkStyle *style;
   int i;
   char buf[256];
-  struct Sprite *sprite;
+  struct sprite *sprite;
 
   GtkWidget *notebook, *statusbar;
 

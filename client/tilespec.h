@@ -24,11 +24,11 @@
 #include "colors_g.h"
 #include "options.h"
 
-struct Sprite;			/* opaque; gui-dep */
+struct sprite;			/* opaque; gui-dep */
 
 /* Create the sprite_vector type. */
 #define SPECVEC_TAG sprite
-#define SPECVEC_TYPE struct Sprite *
+#define SPECVEC_TYPE struct sprite *
 #include "specvec.h"
 
 /* An edge is the border between two tiles.  This structure represents one
@@ -55,7 +55,7 @@ struct tile_corner {
 
 struct drawn_sprite {
   bool foggable;	/* Set to FALSE for sprites that are never fogged. */
-  struct Sprite *sprite;
+  struct sprite *sprite;
   int offset_x, offset_y;	/* offset from tile origin */
 };
 
@@ -173,30 +173,30 @@ enum spaceship_part {
   SPACESHIP_COUNT
 };
 
-struct Sprite *get_spaceship_sprite(struct tileset *t,
+struct sprite *get_spaceship_sprite(struct tileset *t,
 				    enum spaceship_part part);
-struct Sprite *get_citizen_sprite(struct tileset *t,
+struct sprite *get_citizen_sprite(struct tileset *t,
 				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
-struct Sprite *get_nation_flag_sprite(struct tileset *t,
+struct sprite *get_nation_flag_sprite(struct tileset *t,
 				      const struct nation_type *nation);
-struct Sprite *get_sample_city_sprite(struct tileset *t, int city_style);
-struct Sprite *get_arrow_sprite(struct tileset *t);
-struct Sprite *get_tax_sprite(struct tileset *t, Output_type_id otype);
-struct Sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off);
+struct sprite *get_sample_city_sprite(struct tileset *t, int city_style);
+struct sprite *get_arrow_sprite(struct tileset *t);
+struct sprite *get_tax_sprite(struct tileset *t, Output_type_id otype);
+struct sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off);
 struct sprite_vector *get_unit_explode_animation(struct tileset *t);
-struct Sprite *get_nuke_explode_sprite(struct tileset *t);
-struct Sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
+struct sprite *get_nuke_explode_sprite(struct tileset *t);
+struct sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
-struct Sprite *get_icon_sprite(struct tileset *t, enum icon_type icon);
-struct Sprite *get_attention_crosshair_sprite(struct tileset *t);
-struct Sprite *get_indicator_sprite(struct tileset *t,
+struct sprite *get_icon_sprite(struct tileset *t, enum icon_type icon);
+struct sprite *get_attention_crosshair_sprite(struct tileset *t);
+struct sprite *get_indicator_sprite(struct tileset *t,
 				    enum indicator_type indicator,
 				    int index);
-struct Sprite *get_unit_unhappy_sprite(struct tileset *t,
+struct sprite *get_unit_unhappy_sprite(struct tileset *t,
 				       const struct unit *punit);
-struct Sprite *get_unit_upkeep_sprite(struct tileset *t,
+struct sprite *get_unit_upkeep_sprite(struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
 
@@ -223,7 +223,7 @@ const char *tileset_main_intro_filename(struct tileset *t);
 const char *tileset_mini_intro_filename(struct tileset *t);
 int tileset_num_city_colors(struct tileset *t);
 
-struct Sprite *load_sprite(struct tileset *t, const char *tag_name);
+struct sprite *load_sprite(struct tileset *t, const char *tag_name);
 void unload_sprite(struct tileset *t, const char *tag_name);
 bool sprite_exists(struct tileset *t, const char *tag_name);
 

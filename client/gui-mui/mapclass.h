@@ -87,9 +87,9 @@ struct MUIP_Map_UndrawSegment   {ULONG MethodID; LONG src_x; LONG src_y; LONG di
 
 #define MUIA_SpaceShip_Ship             (TAG_USER+0x1235000) /* N... struct player_spaceship * */
 
-#define MUIA_Sprite_Sprite              (TAG_USER+0x1234800) /* NS.. struct Sprite * */
+#define MUIA_Sprite_Sprite              (TAG_USER+0x1234800) /* NS.. struct sprite * */
 #define MUIA_Sprite_Transparent         (TAG_USER+0x1234801) /* N... BOOL */
-#define MUIA_Sprite_OverlaySprite       (TAG_USER+0x1234802) /* N... struct Sprite * */
+#define MUIA_Sprite_OverlaySprite       (TAG_USER+0x1234802) /* N... struct sprite * */
 #define MUIA_Sprite_Background          (TAG_USER+0x1234803) /* NS.. ULONG */
 
 #define MUIA_Unit_Unit                  (TAG_USER+0x1234900) /* NSG. struct unit * */
@@ -105,8 +105,8 @@ extern VOID delete_map_class(void);
 extern Object *MakeMap(void);
 extern Object *MakeCityMap(struct city *city);
 extern Object *MakeSpaceShip(struct player_spaceship *ship);
-extern Object *MakeSprite(struct Sprite *sprite);
-extern Object *MakeBorderSprite(struct Sprite *sprite);
+extern Object *MakeSprite(struct sprite *sprite);
+extern Object *MakeBorderSprite(struct sprite *sprite);
 extern Object *MakeUnit(struct unit *punit, LONG upkeep);
 extern Object *MakePresentUnit(struct unit *punit);
 extern Object *MakeSupportedUnit(struct unit *punit);

@@ -25,7 +25,7 @@ That means HBITMAPs cannot be stored in a sprite struct.
 The bitmaps are stored using GetObject/GetBitmapBits. 
 **********************************************************************/
 
-struct Sprite
+struct sprite
 {
   BITMAP *img;
   BITMAP *fog;
@@ -39,12 +39,12 @@ struct Sprite
   int height;
 };
 
-void fog_sprite(struct Sprite *sprite);
-void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y);
-void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y);
-void draw_sprite_part(struct Sprite *sprite, HDC hdc, int x, int y, int w,
+void fog_sprite(struct sprite *sprite);
+void draw_sprite(struct sprite *sprite, HDC hdc, int x, int y);
+void draw_sprite_fog(struct sprite *sprite, HDC hdc, int x, int y);
+void draw_sprite_part(struct sprite *sprite, HDC hdc, int x, int y, int w,
 		      int h, int offset_x, int offset_y);
 void init_fog_bmp(void);
-void draw_fog(struct Sprite *sprite, HDC hdc, int x, int y);
+void draw_fog(struct sprite *sprite, HDC hdc, int x, int y);
 
 #endif  /* FC__SPRITE_H */

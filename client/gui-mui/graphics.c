@@ -61,7 +61,7 @@ void free_intro_radar_sprites(void)
 {
 }
 
-void free_sprite(struct Sprite *sprite)
+void free_sprite(struct sprite *sprite)
 {
 }
 
@@ -88,9 +88,9 @@ const char **gfx_fileextensions(void)
  this saves memory (because Data of BitMaps are aligned) and
  loading time
 *****************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source, int x, int y, int width, int height)
+struct sprite *crop_sprite(struct sprite *source, int x, int y, int width, int height)
 {
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite));
+  struct sprite *sprite = (struct sprite *) malloc(sizeof(struct sprite));
 
   if (sprite)
   {
@@ -114,12 +114,12 @@ struct Sprite *crop_sprite(struct Sprite *source, int x, int y, int width, int h
  Load a gfxfile as a sprite (called from the gui independend
  part)
 *****************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
-  struct SpriteNode *node = (struct SpriteNode *) AllocVec(sizeof(*node), 0x10000);
+  struct spriteNode *node = (struct spriteNode *) AllocVec(sizeof(*node), 0x10000);
   if (node)
   {
-    struct Sprite *sprite = load_sprite(tileset, filename, TRUE);
+    struct sprite *sprite = load_sprite(tileset, filename, TRUE);
     if (sprite)
     {
       if (!sprite_initialized)
@@ -158,9 +158,9 @@ int get_normal_tile_width(void)
 /****************************************************************
  Allocate and load a sprite
 *****************************************************************/
-struct Sprite *load_sprite(tileset, const char *filename, ULONG usemask)
+struct sprite *load_sprite(tileset, const char *filename, ULONG usemask)
 {
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite));
+  struct sprite *sprite = (struct sprite *) malloc(sizeof(struct sprite));
 
   if (sprite)
   {
@@ -200,7 +200,7 @@ struct Sprite *load_sprite(tileset, const char *filename, ULONG usemask)
 /****************************************************************
  Cleanup the sprite
 *****************************************************************/
-static void cleanup_sprite(struct Sprite *sprite)
+static void cleanup_sprite(struct sprite *sprite)
 {
   if (!sprite->reference)
   {
@@ -227,11 +227,11 @@ static void cleanup_sprite(struct Sprite *sprite)
 *****************************************************************/
 void cleanup_sprites(void)
 {
-  struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
+  struct spriteNode *node = (struct spriteNode *) sprite_list.mlh_Head;
   while (node->node.mln_Succ)
   {
     cleanup_sprite(node->sprite);
-    node = (struct SpriteNode *) node->node.mln_Succ;
+    node = (struct spriteNode *) node->node.mln_Succ;
   }
 
   if (iso_fog_mask)
@@ -244,7 +244,7 @@ void cleanup_sprites(void)
 /****************************************************************
  Free the sprite
 *****************************************************************/
-void real_free_sprite(struct Sprite *sprite)
+void real_free_sprite(struct sprite *sprite)
 {
   cleanup_sprite(sprite);
   free(sprite);
@@ -255,10 +255,10 @@ void real_free_sprite(struct Sprite *sprite)
 *****************************************************************/
 static void free_sprites(void)
 {
-  struct SpriteNode *node;
+  struct spriteNode *node;
   if(sprite_initialized)
   {
-    while ((node = (struct SpriteNode *) RemHead((struct List *) &sprite_list)))
+    while ((node = (struct spriteNode *) RemHead((struct List *) &sprite_list)))
     {
       real_free_sprite(node->sprite);
       if (node->filename)
@@ -271,13 +271,13 @@ static void free_sprites(void)
 /****************************************************************
  Render the sprite for this drawhandle
 *****************************************************************/
-static int render_sprite(APTR drawhandle, struct SpriteNode *node)
+static int render_sprite(APTR drawhandle, struct spriteNode *node)
 {
-  struct Sprite *sprite = node->sprite;
+  struct sprite *sprite = node->sprite;
 
   if (!sprite->picture)
   {
-    struct Sprite *ns;
+    struct sprite *ns;
 
     cleanup_sprite(sprite);
 
@@ -341,12 +341,12 @@ static int render_sprite(APTR drawhandle, struct SpriteNode *node)
 *****************************************************************/
 int render_sprites(APTR drawhandle)
 {
-  struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
+  struct spriteNode *node = (struct spriteNode *) sprite_list.mlh_Head;
   while (node->node.mln_Succ)
   {
     if (!render_sprite(drawhandle, node))
       return FALSE;
-    node = (struct SpriteNode *) node->node.mln_Succ;
+    node = (struct spriteNode *) node->node.mln_Succ;
   }
 
   if (tileset_is_isometric(tileset))
@@ -363,7 +363,7 @@ int render_sprites(APTR drawhandle)
     {
       struct RastPort rp;
       struct BitMap bmap;
-      struct Sprite *sprite = sprites.black_tile;
+      struct sprite *sprite = sprites.black_tile;
       const static UWORD patt[] = {0xaaaa,0x5555};
       LONG bpr = GetBitMapAttr(sprite->parent->bitmap, BMA_WIDTH) / 8;
       PLANEPTR mask = (PLANEPTR)(((UWORD*)sprite->parent->mask)+(sprite->offx/16+(sprite->offy)*bpr/2));
@@ -392,7 +392,7 @@ int render_sprites(APTR drawhandle)
 /****************************************************************
  Returns a thumb sprite
 *****************************************************************/
-struct Sprite *get_thumb_sprite(int onoff)
+struct sprite *get_thumb_sprite(int onoff)
 {
   return sprites.treaty_thumb[BOOL_VAL(onoff)];
 }
@@ -429,7 +429,7 @@ void free_all_sprites(void)
 /****************************************************************
  Draw the whole sprite on position x,y in the Rastport
 *****************************************************************/
-void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y)
+void put_sprite(struct RastPort *rp, struct sprite *sprite, LONG x, LONG y)
 {
   struct BitMap *bmap;
   if (!sprite)
@@ -686,7 +686,7 @@ VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, str
  Draw the sprite on position x,y in the Rastport (with a mask of
  a differnt sprite) restricted to height and width with offset
 *****************************************************************/
-static void put_sprite_overlay_total_with_different_mask(struct RastPort *rp, struct Sprite *sprite, struct Sprite *masksprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
+static void put_sprite_overlay_total_with_different_mask(struct RastPort *rp, struct sprite *sprite, struct sprite *masksprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
 {
   struct BitMap *bmap;
   struct BitMap *maskbmap;
@@ -747,7 +747,7 @@ static void put_sprite_overlay_total_with_different_mask(struct RastPort *rp, st
  Draw the sprite on position x,y in the Rastport (masked)
  restricted to height and width with offset
 *****************************************************************/
-static void put_sprite_overlay_total(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
+static void put_sprite_overlay_total(struct RastPort *rp, struct sprite *sprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
 {
   struct BitMap *bmap;
   APTR mask = NULL;
@@ -791,7 +791,7 @@ static void fog_tile(struct RastPort *rp, LONG x, LONG y,
  Draw the sprite on position x,y in the Rastport (masked)
  restricted to height
 *****************************************************************/
-void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG height)
+void put_sprite_overlay_height(struct RastPort *rp, struct sprite *sprite, LONG x, LONG y, LONG height)
 {
   put_sprite_overlay_total(rp,sprite,x,y,0,0,sprite->width, height);
 }
@@ -799,7 +799,7 @@ void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG 
 /****************************************************************
  Draw the whole sprite on position x,y in the Rastport (masked)
 *****************************************************************/
-void put_sprite_overlay(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y)
+void put_sprite_overlay(struct RastPort *rp, struct sprite *sprite, LONG x, LONG y)
 {
   put_sprite_overlay_height(rp, sprite, x, y, sprite->height);
 }
@@ -854,7 +854,7 @@ void put_line(struct RastPort *rp, int dest_x, int dest_y, int x, int y, int dir
 *****************************************************************/
 void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
 {
-  struct Sprite *sprites[40];
+  struct sprite *sprites[40];
   int solid_bg;
   int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
@@ -888,7 +888,7 @@ void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
 **************************************************************************/
 void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode)
 {
-  struct Sprite *tile_sprs[80];
+  struct sprite *tile_sprs[80];
   int fill_bg;
   struct player *pplayer;
 
@@ -1069,7 +1069,7 @@ static void put_color_tile_iso(struct RastPort *rp,
 			       int offset_x, int offset_y,
 			       int width, int height, int color)
 {
-  struct Sprite *sprite = sprites.black_tile;
+  struct sprite *sprite = sprites.black_tile;
   LONG bpr = GetBitMapAttr(sprite->parent->bitmap, BMA_WIDTH) / 8;
   PLANEPTR mask = (PLANEPTR)(((UWORD*)sprite->parent->mask)+((sprite->offx+offset_x)/16+(sprite->offy+offset_y)*bpr/2));
 
@@ -1083,7 +1083,7 @@ Only used for isometric view.
 **************************************************************************/
 static void put_overlay_tile_draw(struct RastPort *rp,
 				  int canvas_x, int canvas_y,
-				  struct Sprite *ssprite,
+				  struct sprite *ssprite,
 				  int offset_x, int offset_y,
 				  int width, int height,
 				  int fog)
@@ -1117,7 +1117,7 @@ static void put_city_draw(struct city *pcity, struct RastPort *rp,
 			  int width, int height_unit,
 			  int fog)
 {
-  struct Sprite *sprites[80];
+  struct sprite *sprites[80];
   int count = fill_city_sprite_array_iso(sprites, pcity);
   int i;
 
@@ -1139,7 +1139,7 @@ static void put_unit_draw(struct unit *punit, struct RastPort *rp,
 			  int offset_x, int offset_y_unit,
 			  int width, int height_unit)
 {
-  struct Sprite *sprites[40];
+  struct sprite *sprites[40];
   int dummy;
   int count = fill_unit_sprite_array(sprites, punit, &dummy);
   int i;
@@ -1157,7 +1157,7 @@ static void put_unit_draw(struct unit *punit, struct RastPort *rp,
 Blend the tile with neighboring tiles.
 Only used for isometric view.
 **************************************************************************/
-static void dither_tile(struct RastPort *rp, struct Sprite **dither,
+static void dither_tile(struct RastPort *rp, struct sprite **dither,
 			int canvas_x, int canvas_y,
 			int offset_x, int offset_y,
 			int width, int height, int fog)
@@ -1217,9 +1217,9 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
 				int width, int height, int height_unit,
 				enum draw_type draw)
 {
-  struct Sprite *tile_sprs[80];
-  struct Sprite *coasts[4];
-  struct Sprite *dither[4];
+  struct sprite *tile_sprs[80];
+  struct sprite *coasts[4];
+  struct sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
   enum tile_special_type special;

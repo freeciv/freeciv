@@ -34,9 +34,9 @@ static struct {
   struct ct_rect bounds;
   enum ws_alignment alignment;
 
-  struct Sprite *up, *down, *left, *right;
-  struct Sprite *vert_top, *vert_bottom, *vert_repeat, *vert_center;
-  struct Sprite *hori_top, *hori_bottom, *hori_repeat, *hori_center;
+  struct sprite *up, *down, *left, *right;
+  struct sprite *vert_top, *vert_bottom, *vert_repeat, *vert_center;
+  struct sprite *hori_top, *hori_bottom, *hori_repeat, *hori_center;
 } config;
 
 static struct {

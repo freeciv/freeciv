@@ -67,7 +67,7 @@ struct op {
   GdkColor *color;
 
   /* OP_COPY */
-  struct Sprite *src;
+  struct sprite *src;
   gint x, y;
 };
 
@@ -187,7 +187,7 @@ gtk_pixcomm_fill(GtkPixcomm *p, GdkColor *color)
   refresh(p);
 }
 
-void gtk_pixcomm_copyto(GtkPixcomm *p, struct Sprite *src, gint x, gint y)
+void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 {
   struct op v;
 

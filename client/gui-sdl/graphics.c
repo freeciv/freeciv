@@ -3477,7 +3477,7 @@ SDL_Surface * get_logo_gfx(void)
 SDL_Surface * get_city_gfx(void)
 {
   SDL_Surface *pCity_Surf;
-  struct Sprite *pSpr = load_sprite(tileset, "theme.city");
+  struct sprite *pSpr = load_sprite(tileset, "theme.city");
   
   pCity_Surf = (pSpr ? GET_SURF(pSpr) : NULL);
   assert(pCity_Surf != NULL);
@@ -3596,16 +3596,16 @@ const char **gfx_fileextensions(void)
 /**************************************************************************
   Create a sprite struct and fill it with SDL_Surface pointer
 **************************************************************************/
-static struct Sprite * ctor_sprite(SDL_Surface *pSurface)
+static struct sprite * ctor_sprite(SDL_Surface *pSurface)
 {
-  struct Sprite *result = fc_malloc(sizeof(struct Sprite));
+  struct sprite *result = fc_malloc(sizeof(struct sprite));
 
   result->psurface = pSurface;
 
   return result;
 }
 
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   *width = GET_SURF(sprite)->w;
   *height = GET_SURF(sprite)->h;
@@ -3620,9 +3620,9 @@ void gui_flush(void)
   Create a new sprite by cropping and taking only the given portion of
   the image.
 **************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
-			   struct Sprite *mask,
+			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
   /* FIXME: this needs to be able to crop from a mask - equivalent to the
@@ -3710,7 +3710,7 @@ static bool correct_black(SDL_Surface * pSrc)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 **************************************************************************/
-struct Sprite * load_gfxfile(const char *filename)
+struct sprite * load_gfxfile(const char *filename)
 {
   SDL_Surface *pNew = NULL;
   SDL_Surface *pBuf = NULL;
@@ -3757,7 +3757,7 @@ struct Sprite * load_gfxfile(const char *filename)
 /**************************************************************************
   Free a sprite and all associated image data.
 **************************************************************************/
-void free_sprite(struct Sprite *s)
+void free_sprite(struct sprite *s)
 {
   FREESURFACE(GET_SURF(s));
   /*s->psurface=NULL;*/

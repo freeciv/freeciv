@@ -336,7 +336,7 @@ void sw_widget_align_box(struct sw_widget *widget,
   ...
 *************************************************************************/
 void sw_widget_set_background_sprite(struct sw_widget *widget,
-				     struct Sprite *sprite)
+				     struct sprite *sprite)
 {
   widget->background_sprite = sprite;
   widget_needs_paint(widget);

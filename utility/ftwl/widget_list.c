@@ -565,9 +565,9 @@ static void vscroll_button_down_callback(struct sw_widget *button, void *data)
   ...
 *************************************************************************/
 void sw_list_add_buttons_and_vslider(struct sw_widget *widget,
-				     struct Sprite *up, struct Sprite *down,
-				     struct Sprite *button_background,
-				     struct Sprite *scrollbar)
+				     struct sprite *up, struct sprite *down,
+				     struct sprite *button_background,
+				     struct sprite *scrollbar)
 {
     assert(0);
     /*

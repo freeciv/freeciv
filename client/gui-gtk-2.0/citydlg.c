@@ -1571,7 +1571,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       bool is_unit;
       int id;
       const char* name;
-      struct Sprite* sprite;
+      struct sprite* sprite;
 
       cid_decode(items[item].cid, &is_unit, &id);
       if (is_unit) {

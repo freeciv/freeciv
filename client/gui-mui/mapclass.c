@@ -224,8 +224,8 @@ Object *MakeMap(void)
 struct Map_Data
 {
   /* Über Tags (2 Sprites) */
-  struct Sprite *intro_gfx_sprite;
-  struct Sprite *radar_gfx_sprite;
+  struct sprite *intro_gfx_sprite;
+  struct sprite *radar_gfx_sprite;
 
   LONG black_pen;
   LONG white_pen;
@@ -1061,7 +1061,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	  for (y_itr=0; y_itr<3; y_itr++) {
 	    for (x_itr=0; x_itr<3; x_itr++) {
-	      struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
+	      struct sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
 	      get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
 	      put_sprite_overlay( _rp(o), mysprite, _mleft(o) + canvas_x, _mtop(o) + canvas_y);
   	    }
@@ -2372,7 +2372,7 @@ static ULONG SpaceShip_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * m
 
   {
     int i, j, k, x, y;
-    struct Sprite *sprite = sprites.spaceship.habitation;	/* for size */
+    struct sprite *sprite = sprites.spaceship.habitation;	/* for size */
     struct player_spaceship *ship = data->ship;
 
     SetAPen(rp, 1);		/* black */
@@ -2446,7 +2446,7 @@ DISPATCHERPROTO(SpaceShip_Dispatcher)
 
 struct MUI_CustomClass *CL_Sprite;
 
-Object *MakeSprite(struct Sprite *sprite)
+Object *MakeSprite(struct sprite *sprite)
 {
   return SpriteObject,
     MUIA_Sprite_Sprite, sprite,
@@ -2455,7 +2455,7 @@ Object *MakeSprite(struct Sprite *sprite)
     End;
 }
 
-Object *MakeBorderSprite(struct Sprite *sprite)
+Object *MakeBorderSprite(struct sprite *sprite)
 {
   return SpriteObject,
     TextFrame,
@@ -2464,10 +2464,10 @@ Object *MakeBorderSprite(struct Sprite *sprite)
     End;
 }
 
-struct Sprite_Data
+struct sprite_Data
 {
-  struct Sprite *sprite;
-  struct Sprite *overlay_sprite;
+  struct sprite *sprite;
+  struct sprite *overlay_sprite;
   ULONG transparent;
 
   ULONG bgcol;
@@ -2482,7 +2482,7 @@ static ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
-    struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+    struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
     struct TagItem *tl = msg->ops_AttrList;
     struct TagItem *ti;
 
@@ -2491,11 +2491,11 @@ static ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
       switch (ti->ti_Tag)
       {
 	case  MUIA_Sprite_Sprite:
-	      data->sprite = (struct Sprite *) ti->ti_Data;
+	      data->sprite = (struct sprite *) ti->ti_Data;
 	      break;
 
 	case  MUIA_Sprite_OverlaySprite:
-	      data->overlay_sprite = (struct Sprite *) ti->ti_Data;
+	      data->overlay_sprite = (struct sprite *) ti->ti_Data;
 	      break;
 
 	case  MUIA_Sprite_Transparent:
@@ -2514,7 +2514,7 @@ static ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
 
 static ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
   struct TagItem *ti;
   BOOL redraw = FALSE;
@@ -2525,7 +2525,7 @@ static ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
     switch (ti->ti_Tag)
     {
       case  MUIA_Sprite_Sprite:
-	    data->sprite = (struct Sprite *) ti->ti_Data;
+	    data->sprite = (struct sprite *) ti->ti_Data;
 	    redraw = TRUE;
             break;
 
@@ -2565,7 +2565,7 @@ static ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
 
 static ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
 {
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
 
   if (!DoSuperMethodA(cl, o, msg))
@@ -2585,7 +2585,7 @@ static ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
 
 static ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
 
   data->setup = FALSE;
 
@@ -2601,7 +2601,7 @@ static ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
 
 static ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
 
   if (data->sprite)
@@ -2624,7 +2624,7 @@ static ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMin
 
 static ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct sprite_Data *data = (struct sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
 
   if (data->bgpen != -1)
@@ -3180,7 +3180,7 @@ BOOL create_map_class(void)
     if ((CL_Map = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Map_Data), (APTR) Map_Dispatcher)))
       if ((CL_CityMap = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct CityMap_Data), (APTR) CityMap_Dispatcher)))
 	if ((CL_SpaceShip = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct SpaceShip_Data), (APTR) SpaceShip_Dispatcher)))
-	  if ((CL_Sprite = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Sprite_Data), (APTR) Sprite_Dispatcher)))
+	  if ((CL_Sprite = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct sprite_Data), (APTR) Sprite_Dispatcher)))
 	    if ((CL_Unit = MUI_CreateCustomClass(NULL, MUIC_Area, NULL, sizeof(struct Unit_Data), (APTR) Unit_Dispatcher)))
 	      if ((CL_PresentUnit = MUI_CreateCustomClass(NULL, NULL, CL_Unit, sizeof(struct PresentUnit_Data), (APTR) PresentUnit_Dispatcher)))
 		if ((CL_SupportedUnit = MUI_CreateCustomClass(NULL, NULL, CL_Unit, sizeof(struct SupportedUnit_Data), (APTR) SupportedUnit_Dispatcher)))

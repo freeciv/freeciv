@@ -86,7 +86,7 @@ void te_init(const char *theme, char *example_file)
 /*************************************************************************
   ...
 *************************************************************************/
-struct Sprite *te_load_gfx(const char *filename)
+struct sprite *te_load_gfx(const char *filename)
 {
   const int prefixes = 6;
   char prefix[prefixes][512];

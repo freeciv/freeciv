@@ -88,7 +88,7 @@ struct advance {
   unsigned int flags;
   char *helptext;
 
-  struct Sprite *sprite;		/* icon of tech. */
+  struct sprite *sprite;		/* icon of tech. */
 	  
   /* 
    * Message displayed to the first player to get a bonus tech 

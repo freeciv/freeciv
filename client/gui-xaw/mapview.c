@@ -56,7 +56,7 @@
 #define map_canvas_store (mapview.store->pixmap)
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
- 				    struct Sprite *ssprite);
+ 				    struct sprite *ssprite);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -258,8 +258,8 @@ Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
-			 struct Sprite *flake, struct Sprite *gov)
+void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
+			 struct sprite *flake, struct sprite *gov)
 {
   xaw_set_bitmap(bulb_label, bulb->pixmap);
   xaw_set_bitmap(sun_label, sol->pixmap);
@@ -361,7 +361,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 **************************************************************************/
 static void pixmap_put_sprite(Pixmap pixmap,
 			      int canvas_x, int canvas_y,
-			      struct Sprite *sprite,
+			      struct sprite *sprite,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
@@ -386,7 +386,7 @@ static void pixmap_put_sprite(Pixmap pixmap,
 **************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y,
-		       struct Sprite *sprite,
+		       struct sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
   pixmap_put_sprite(pcanvas->pixmap, canvas_x, canvas_y,
@@ -398,7 +398,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 **************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
-			    struct Sprite *sprite)
+			    struct sprite *sprite)
 {
   canvas_put_sprite(pcanvas, canvas_x, canvas_y,
 		    sprite, 0, 0, sprite->width, sprite->height);
@@ -410,7 +410,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 ****************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      int canvas_x, int canvas_y,
-			      struct Sprite *psprite,
+			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
   canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, psprite);
@@ -436,7 +436,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct Sprite *psprite, enum color_std color,
+			     struct sprite *psprite, enum color_std color,
 			     int canvas_x, int canvas_y)
 {
   if (psprite->has_mask) {
@@ -456,7 +456,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
   if (psprite->has_mask) {
@@ -719,7 +719,7 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 ...
 **************************************************************************/
 static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
- 				    struct Sprite *ssprite)
+ 				    struct sprite *ssprite)
 {
   if (!ssprite) return;
 

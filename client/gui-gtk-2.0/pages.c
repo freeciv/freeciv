@@ -1435,7 +1435,7 @@ static GdkPixbuf *get_flag(const struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;
-  struct Sprite *flag;
+  struct sprite *flag;
 
   flag = get_nation_flag_sprite(tileset, nation);
 

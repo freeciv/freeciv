@@ -131,7 +131,7 @@ void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
 **************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
-		    struct Sprite *sprite,
+		    struct sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
   SDL_Rect src = {offset_x, offset_y, width, height};
@@ -144,7 +144,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 **************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
-			 struct Sprite *sprite)
+			 struct sprite *sprite)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
   SDL_BlitSurface(GET_SURF(sprite), NULL, pcanvas->surf, &dst);
@@ -377,8 +377,8 @@ void flush_dirty(void)
   client window.  The parameters tell which sprite to use for the
   indicator.
 **************************************************************************/
-void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
-			 struct Sprite *flake, struct Sprite *gov)
+void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
+			 struct sprite *flake, struct sprite *gov)
 {
   struct GUI *pBuf = NULL;
   char cBuf[128];

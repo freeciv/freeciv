@@ -29,9 +29,9 @@
 /*************************************************************************
   ...
 *************************************************************************/
-static struct Sprite *ctor_sprite(struct image *image)
+static struct sprite *ctor_sprite(struct image *image)
 {
-  struct Sprite *result = fc_malloc(sizeof(struct Sprite));
+  struct sprite *result = fc_malloc(sizeof(struct sprite));
   result->image = image;
   return result;
 }
@@ -39,7 +39,7 @@ static struct Sprite *ctor_sprite(struct image *image)
 /*************************************************************************
   ...
 *************************************************************************/
-void be_free_sprite(struct Sprite *sprite)
+void be_free_sprite(struct sprite *sprite)
 {
   free(sprite);
 }
@@ -47,10 +47,10 @@ void be_free_sprite(struct Sprite *sprite)
 /*************************************************************************
   ...
 *************************************************************************/
-struct Sprite *be_crop_sprite(struct Sprite *source,
+struct sprite *be_crop_sprite(struct sprite *source,
 			      int x, int y, int width, int height)
 {
-  struct Sprite *result = ctor_sprite(image_create(width, height));
+  struct sprite *result = ctor_sprite(image_create(width, height));
   struct ct_rect region = { x, y, width, height };
 
   ct_clip_rect(&region, &source->image->full_rect);
@@ -63,13 +63,13 @@ struct Sprite *be_crop_sprite(struct Sprite *source,
 /*************************************************************************
   ...
 *************************************************************************/
-struct Sprite *be_load_gfxfile(const char *filename)
+struct sprite *be_load_gfxfile(const char *filename)
 {
   png_structp pngp;
   png_infop infop;
   png_int_32 width, height, x, y;
   FILE *fp;
-  struct Sprite *mysprite;
+  struct sprite *mysprite;
   struct image *xi;
 
   fp = fopen(filename, "rb");
@@ -170,7 +170,7 @@ struct Sprite *be_load_gfxfile(const char *filename)
 /*************************************************************************
   ...
 *************************************************************************/
-void be_sprite_get_size(struct ct_size *size, const struct Sprite *sprite)
+void be_sprite_get_size(struct ct_size *size, const struct sprite *sprite)
 {
   size->width = sprite->image->width;
   size->height = sprite->image->height;

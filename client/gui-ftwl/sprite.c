@@ -41,7 +41,7 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 **************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   return be_load_gfxfile(filename);
 }
@@ -50,12 +50,12 @@ struct Sprite *load_gfxfile(const char *filename)
   Create a new sprite by cropping and taking only the given portion of
   the image.
 **************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
-			   struct Sprite *mask, int mask_offset_x,
+			   struct sprite *mask, int mask_offset_x,
 			   int mask_offset_y)
 {
-  struct Sprite *result = be_crop_sprite(source, x, y, width, height);
+  struct sprite *result = be_crop_sprite(source, x, y, width, height);
 
   if (mask) {
     struct ct_point pos = { mask_offset_x, mask_offset_y };
@@ -68,7 +68,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   struct ct_size size;
 
@@ -80,7 +80,7 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 /**************************************************************************
   Free a sprite and all associated image data.
 **************************************************************************/
-void free_sprite(struct Sprite *s)
+void free_sprite(struct sprite *s)
 {
   be_free_sprite(s);
 }

@@ -41,7 +41,7 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ****************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   /* PORTME */
   return NULL;
@@ -64,9 +64,9 @@ struct Sprite *load_gfxfile(const char *filename)
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 ****************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
-			   struct Sprite *mask,
+			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
   /* PORTME */
@@ -76,7 +76,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   /* PORTME */
 #if 0
@@ -88,7 +88,7 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 /****************************************************************************
   Free a sprite and all associated image data.
 ****************************************************************************/
-void free_sprite(struct Sprite *s)
+void free_sprite(struct sprite *s)
 {
   /* PORTME */
 }

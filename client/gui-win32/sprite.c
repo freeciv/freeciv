@@ -55,11 +55,11 @@ gfx_fileextensions(void)
 /**************************************************************************
   Create a new sprite from the given bitmap.
 **************************************************************************/
-static struct Sprite *sprite_new(BITMAP *bmp)
+static struct sprite *sprite_new(BITMAP *bmp)
 {
-  struct Sprite *mysprite;
+  struct sprite *mysprite;
 
-  mysprite = fc_malloc(sizeof(struct Sprite));
+  mysprite = fc_malloc(sizeof(struct sprite));
 
   mysprite->img            = bmp;
   mysprite->fog            = NULL;
@@ -87,7 +87,7 @@ static struct Sprite *sprite_new(BITMAP *bmp)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ***************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   return sprite_new(bmp_load_png(filename));
 }
@@ -109,9 +109,9 @@ struct Sprite *load_gfxfile(const char *filename)
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 ****************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *sprsrc,
+struct sprite *crop_sprite(struct sprite *sprsrc,
 			   int x, int y, int width, int height,
-			   struct Sprite *sprmask,
+			   struct sprite *sprmask,
 			   int mask_offset_x, int mask_offset_y)
 {
   BITMAP *crop_bmp, *dst_bmp;
@@ -132,7 +132,7 @@ struct Sprite *crop_sprite(struct Sprite *sprsrc,
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   *width = sprite->width;
   *height = sprite->height;
@@ -142,7 +142,7 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 /**************************************************************************
   Free a sprite and all associated image data.
 **************************************************************************/
-void free_sprite(struct Sprite *s)
+void free_sprite(struct sprite *s)
 {
   if (s->mask) {
     bmp_free(s->mask);
@@ -194,7 +194,7 @@ void init_fog_bmp(void)
 /**************************************************************************
   Create a dimmed version of this sprite's image.
 **************************************************************************/
-void fog_sprite(struct Sprite *sprite)
+void fog_sprite(struct sprite *sprite)
 {
   sprite->fog = bmp_fog(sprite->img, 65);
 }
@@ -202,7 +202,7 @@ void fog_sprite(struct Sprite *sprite)
 /**************************************************************************
   Draw a sprite to the specified device context.
 **************************************************************************/
-static void real_draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y,
+static void real_draw_sprite(struct sprite *sprite, HDC hdc, int x, int y,
 			     int w, int h, int src_x, int src_y, bool fog)
 {
   HDC src_hdc;
@@ -267,7 +267,7 @@ static void real_draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y,
 /**************************************************************************
   Wrapper for real_draw_sprite(), for fogged sprites.
 **************************************************************************/
-void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y)
+void draw_sprite_fog(struct sprite *sprite, HDC hdc, int x, int y)
 {
   real_draw_sprite(sprite, hdc, x, y, sprite->width, sprite->height, 0, 0,
 		   TRUE);
@@ -276,7 +276,7 @@ void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y)
 /**************************************************************************
   Wrapper for real_draw_sprite(), for unfogged sprites.
 **************************************************************************/
-void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
+void draw_sprite(struct sprite *sprite, HDC hdc, int x, int y)
 {
   real_draw_sprite(sprite, hdc, x, y, sprite->width, sprite->height, 0, 0,
 		   FALSE);
@@ -285,7 +285,7 @@ void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
 /**************************************************************************
   Wrapper for real_draw_sprite(), for partial sprites.
 **************************************************************************/
-void draw_sprite_part(struct Sprite *sprite, HDC hdc, int x, int y, int w,
+void draw_sprite_part(struct sprite *sprite, HDC hdc, int x, int y, int w,
 		      int h, int offset_x, int offset_y)
 {
   real_draw_sprite(sprite, hdc, x, y, w, h, offset_x, offset_y, FALSE);
@@ -294,7 +294,7 @@ void draw_sprite_part(struct Sprite *sprite, HDC hdc, int x, int y, int w,
 /**************************************************************************
   Draw stippled fog, using the mask of the specified sprite.
 **************************************************************************/
-void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
+void draw_fog(struct sprite *sprmask, HDC hdc, int x, int y)
 {
   HDC hdcmask;
   HDC hdcsrc;

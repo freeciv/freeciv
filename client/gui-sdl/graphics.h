@@ -164,7 +164,7 @@
 
 #endif /* USE_DUFFS_LOOP */
 
-struct Sprite {
+struct sprite {
   struct SDL_Surface *psurface;
 };
 

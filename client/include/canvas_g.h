@@ -17,7 +17,7 @@
 
 #include "colors_g.h"
 
-struct Sprite;
+struct sprite;
 struct canvas;			/* opaque type, real type is gui-dep */
 
 /* Creator and destructor */
@@ -29,22 +29,22 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 		 int src_x, int src_y, int dest_x, int dest_y,
 		 int width, int height);
 void canvas_put_sprite(struct canvas *pcanvas,
-		       int canvas_x, int canvas_y, struct Sprite *sprite,
+		       int canvas_x, int canvas_y, struct sprite *sprite,
 		       int offset_x, int offset_y, int width, int height);
 void canvas_put_sprite_full(struct canvas *pcanvas, 
 			    int canvas_x, int canvas_y,
-			    struct Sprite *sprite);
+			    struct sprite *sprite);
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      int canvas_x, int canvas_y,
-			      struct Sprite *psprite,
+			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y);
 void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height);
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct Sprite *psprite, enum color_std color,
+			     struct sprite *psprite, enum color_std color,
 			     int canvas_x, int canvas_y);
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y);
 void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     enum line_type ltype, int start_x, int start_y,

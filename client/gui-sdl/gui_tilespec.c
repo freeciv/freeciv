@@ -113,7 +113,7 @@ static void real_reload_citizens_icons(int style)
   char tag[64];
   char alt_buf[32] = ".";
   int i , j;
-  struct Sprite *pSpr = NULL;
+  struct sprite *pSpr = NULL;
     
   if (strcmp("generic" , city_styles[style].citizens_graphic_alt))
   {
@@ -276,7 +276,7 @@ void reload_citizens_icons(int style)
 void tilespec_setup_city_icons(void)
 {
   int i, j;
-  struct Sprite *pSpr = NULL;
+  struct sprite *pSpr = NULL;
   
   pIcons = ( struct City_Icon *)MALLOC( sizeof( struct City_Icon ));
   
@@ -392,7 +392,7 @@ void tilespec_free_city_icons(void)
  */
 void tilespec_setup_theme(void)
 {
-  struct Sprite *pBuf = NULL;
+  struct sprite *pBuf = NULL;
   
   pTheme = MALLOC(sizeof(struct Theme));
   
@@ -588,7 +588,7 @@ do { \
 void tilespec_setup_anim(void)
 {
   char buf[32];	/* I hope this is enought :) */
-  struct Sprite *pSpr = NULL;
+  struct sprite *pSpr = NULL;
   SDL_Surface *image = NULL;
   int i, num;
   pAnim = MALLOC(sizeof(struct Animation));

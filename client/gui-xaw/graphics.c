@@ -45,13 +45,13 @@
 
 #include "graphics.h"
 
-struct Sprite *intro_gfx_sprite;
-struct Sprite *radar_gfx_sprite;
+struct sprite *intro_gfx_sprite;
+struct sprite *radar_gfx_sprite;
 
 Cursor cursors[CURSOR_LAST];
 
-static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
-static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
+static struct sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
+static struct sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
  				       int width, int height);
 
 /***************************************************************************
@@ -162,9 +162,9 @@ void load_intro_gfx(void)
   Create a new sprite by cropping and taking only the given portion of
   the image.
 ****************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
-			   struct Sprite *mask,
+			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
   Pixmap mypixmap, mymask;
@@ -211,7 +211,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   *width = sprite->width;
   *height = sprite->height;
@@ -224,7 +224,7 @@ void load_cursors(void)
 {
   enum cursor_type cursor;
   XColor white, black;
-  struct Sprite *sprite;
+  struct sprite *sprite;
   int hot_x, hot_y;
 
   white.pixel = colors_standard[COLOR_STD_WHITE];
@@ -247,9 +247,9 @@ void load_cursors(void)
 /***************************************************************************
 ...
 ***************************************************************************/
-static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
+static struct sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 {
-  struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
+  struct sprite *mysprite=fc_malloc(sizeof(struct sprite));
   mysprite->pixmap=mypixmap;
   mysprite->width=width;
   mysprite->height=height;
@@ -261,10 +261,10 @@ static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 /***************************************************************************
 ...
 ***************************************************************************/
-static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
+static struct sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
 				       int width, int height)
 {
-  struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
+  struct sprite *mysprite=fc_malloc(sizeof(struct sprite));
   mysprite->pixmap=mypixmap;
   mysprite->mask=mask;
 
@@ -313,7 +313,7 @@ static Pixmap image2pixmap(XImage *xi)
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   png_structp pngp;
   png_infop infop;
@@ -326,7 +326,7 @@ struct Sprite *load_gfxfile(const char *filename)
   png_uint_32 stride;
   unsigned long *pcolorarray;
   bool *ptransarray;
-  struct Sprite *mysprite;
+  struct sprite *mysprite;
   XImage *xi;
   int has_mask;
 
@@ -475,7 +475,7 @@ struct Sprite *load_gfxfile(const char *filename)
 /***************************************************************************
    Deletes a sprite.  These things can use a lot of memory.
 ***************************************************************************/
-void free_sprite(struct Sprite *s)
+void free_sprite(struct sprite *s)
 {
   XFreePixmap(display, s->pixmap);
   if (s->has_mask) {
@@ -514,7 +514,7 @@ Pixmap create_overlay_unit(int i)
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
-    struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
+    struct sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
@@ -525,7 +525,7 @@ Pixmap create_overlay_unit(int i)
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
-    struct Sprite *s=get_unit_type(i)->sprite;
+    struct sprite *s=get_unit_type(i)->sprite;
 
     XSetClipOrigin(display,civ_gc,0,0);
     XSetClipMask(display,civ_gc,s->mask);

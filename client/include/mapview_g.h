@@ -26,8 +26,8 @@ void update_unit_info_label(struct unit *punit);
 void update_timeout_label(void);
 void update_turn_done_button(bool do_restore);
 void update_city_descriptions(void);
-void set_indicator_icons(struct Sprite *bulb, struct Sprite *sol,
-			 struct Sprite *flake, struct Sprite *gov);
+void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
+			 struct sprite *flake, struct sprite *gov);
 
 void map_size_changed(void);
 struct canvas *get_overview_window(void);

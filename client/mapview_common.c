@@ -993,7 +993,7 @@ void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y)
 {
-  struct Sprite *sprite;
+  struct sprite *sprite;
 
   sprite = get_unit_unhappy_sprite(tileset, punit);
   if (sprite) {
@@ -1063,7 +1063,7 @@ void toggle_unit_color(struct unit *punit)
 void put_nuke_mushroom_pixmaps(struct tile *ptile)
 {
   int canvas_x, canvas_y;
-  struct Sprite *mysprite = get_nuke_explode_sprite(tileset);
+  struct sprite *mysprite = get_nuke_explode_sprite(tileset);
   int width, height;
 
   /* We can't count on the return value of tile_to_canvas_pos since the
@@ -1508,7 +1508,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     for (i = 0; i < num_tiles_explode_unit; i++) {
       int w, h;
-      struct Sprite *sprite = *sprite_vector_get(anim, i);
+      struct sprite *sprite = *sprite_vector_get(anim, i);
 
       get_sprite_dimensions(sprite, &w, &h);
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
@@ -2424,7 +2424,7 @@ void init_mapcanvas_and_overview(void)
 ****************************************************************************/
 void get_spaceship_dimensions(int *width, int *height)
 {
-  struct Sprite *sprite
+  struct sprite *sprite
     = get_spaceship_sprite(tileset, SPACESHIP_HABITATION);
 
   get_sprite_dimensions(sprite, width, height);
@@ -2441,7 +2441,7 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   int i, x, y;  
   const struct player_spaceship *ship = &pplayer->spaceship;
   int w, h;
-  struct Sprite *sprite;
+  struct sprite *sprite;
   struct tileset *t = tileset;
 
   sprite = get_spaceship_sprite(t, SPACESHIP_HABITATION);
@@ -2452,7 +2452,7 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   for (i = 0; i < NUM_SS_MODULES; i++) {
     const int j = i / 3;
     const int k = i % 3;
-    struct Sprite *sprite;
+    struct sprite *sprite;
 
     if ((k == 0 && j >= ship->habitation)
 	|| (k == 1 && j >= ship->life_support)
@@ -2471,7 +2471,7 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   for (i=0; i < NUM_SS_COMPONENTS; i++) {
     const int j = i / 2;
     const int k = i % 2;
-    struct Sprite *sprite;
+    struct sprite *sprite;
 
     if ((k == 0 && j >= ship->fuel)
 	|| (k == 1 && j >= ship->propulsion)) {

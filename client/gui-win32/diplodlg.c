@@ -80,8 +80,8 @@ struct Diplomacy_dialog {
   HWND gold1_label;
   POINT thumb0_pos;
   POINT thumb1_pos;
-  struct Sprite *thumb0;
-  struct Sprite *thumb1;
+  struct sprite *thumb0;
+  struct sprite *thumb1;
   HMENU menu_shown;
 };
 

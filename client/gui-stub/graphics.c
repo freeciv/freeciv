@@ -21,8 +21,8 @@
 
 #include "graphics.h"
 
-struct Sprite *intro_gfx_sprite;
-struct Sprite *radar_gfx_sprite;
+struct sprite *intro_gfx_sprite;
+struct sprite *radar_gfx_sprite;
 
 /****************************************************************************
   Return whether the client supports isometric view (isometric tilesets).

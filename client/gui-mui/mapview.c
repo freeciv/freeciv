@@ -320,7 +320,7 @@ void update_unit_info_label(struct unit *punit)
 **************************************************************************/
 void set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
-  struct Sprite *gov_sprite;
+  struct sprite *gov_sprite;
 
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS - 1);
   sol = CLIP(0, sol, NUM_TILES_PROGRESS - 1);

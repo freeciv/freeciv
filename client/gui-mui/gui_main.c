@@ -1398,7 +1398,7 @@ void ui_main(int argc, char *argv[])
 	/* HACK: the UNHAPPY citizen is used for the government
 	 * when we don't know any better. */
 	struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-	struct Sprite *sprite = get_citizen_sprite(tileset, c, 0, NULL);
+	struct sprite *sprite = get_citizen_sprite(tileset, c, 0, NULL);
 
 	main_government_sprite = MakeBorderSprite(sprite);
       }

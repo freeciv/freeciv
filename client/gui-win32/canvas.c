@@ -229,7 +229,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 **************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y,
-		       struct Sprite *sprite,
+		       struct sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
   HDC hdc = canvas_get_hdc(pcanvas);
@@ -245,7 +245,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 **************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
-			    struct Sprite *sprite)
+			    struct sprite *sprite)
 {
   HDC hdc = canvas_get_hdc(pcanvas);
 
@@ -260,7 +260,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 ****************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      int canvas_x, int canvas_y,
-			      struct Sprite *psprite,
+			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
   HDC hdc;
@@ -314,7 +314,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
   /* PORTME */

@@ -666,12 +666,12 @@ static void help_draw_unit(HDC hdc,int i)
   
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
-    struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
+    struct sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
     draw_sprite(flag,hdc,unitpos.x,unitpos.y);
   }
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
-    struct Sprite *s=get_unit_type(i)->sprite;
+    struct sprite *s=get_unit_type(i)->sprite;
     draw_sprite(s,hdc,unitpos.x,unitpos.y);
   }
   
