@@ -358,12 +358,13 @@ struct unit *get_attacker(struct player *pplayer, struct unit *aunit,
 			  int x, int y)
 { /* get unit at (x, y) that wants to kill aunit */
   struct unit *bestatt = 0;
-  int bestvalue=-1;
+  int bestvalue=-1, unit_a;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (pplayer->player_no==punit->owner)
       return 0;
-    if(rate_unit_a(punit, aunit)>bestvalue) {
-      bestvalue=rate_unit_a(punit, aunit);
+    unit_a=rate_unit_a(punit, aunit);
+    if(unit_a>bestvalue) {
+      bestvalue=unit_a;
       bestatt=punit;
     }
   }
