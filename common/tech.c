@@ -151,9 +151,6 @@ void update_research(struct player *plr)
        && get_invention(plr, advances[i].req[1])==TECH_KNOWN)
       plr->research.inventions[i]=TECH_REACHABLE;
   }
-/*  
-      
-      set_invention(plr, i, TECH_REACHABLE); */
 }
 
 /**************************************************************************
@@ -167,8 +164,8 @@ int tech_goal_turns_rec(struct player *plr, int goal)
       get_invention(plr, goal) == TECH_MARKED) 
     return 0; 
   set_invention(plr, goal, TECH_MARKED);
-  return (tech_goal_turns(plr, advances[goal].req[0]) + 
-	  tech_goal_turns(plr, advances[goal].req[1]) + 1);
+  return (tech_goal_turns_rec(plr, advances[goal].req[0]) + 
+          tech_goal_turns_rec(plr, advances[goal].req[1]) + 1);
 }
 
 /**************************************************************************
@@ -177,12 +174,10 @@ int tech_goal_turns_rec(struct player *plr, int goal)
 **************************************************************************/
 int tech_goal_turns(struct player *plr, int goal)
 {
-  int res,i;
-  for (i = 0; i < A_LAST; i++) 
-    if (get_invention(plr, goal) != TECH_KNOWN) 
-      set_invention(plr, goal, TECH_UNKNOWN);
+  int res;
   res = tech_goal_turns_rec(plr, goal);
   update_research(plr);
+  return res;
 }
 
 
