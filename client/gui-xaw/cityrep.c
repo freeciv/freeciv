@@ -1093,7 +1093,7 @@ static void chgall_refresh_command_callback(Widget w,
   state->fr_count = collect_cids2(cids);
   name_and_sort_items(cids, state->fr_count, items, FALSE, NULL);
   for (i = 0; i < state->fr_count; i++) {
-    state->fr_list[i] = strdup(items[i].descr);
+    state->fr_list[i] = mystrdup(items[i].descr);
     state->fr_cids[i] = items[i].cid;
   }
   XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
@@ -1101,7 +1101,7 @@ static void chgall_refresh_command_callback(Widget w,
   state->to_count = collect_cids3(cids);
   name_and_sort_items(cids, state->to_count, items, TRUE, NULL);
   for (i = 0; i < state->to_count; i++) {
-    state->to_list[i] = strdup(items[i].descr);
+    state->to_list[i] = mystrdup(items[i].descr);
     state->to_cids[i] = items[i].cid;
   }
   XawListChange(state->w.to, state->to_list, state->to_count, 0, FALSE);

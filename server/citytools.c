@@ -1135,7 +1135,7 @@ void remove_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   bool effect_update, had_palace = pcity->improvements[B_PALACE] != I_NONE;
-  char *city_name = strdup(pcity->name);
+  char *city_name = mystrdup(pcity->name);
 
   gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
 	  get_nation_name_plural(pplayer->nation), pcity->name, pcity->x,
