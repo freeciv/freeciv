@@ -400,8 +400,8 @@ void popup_bribe_dialog(struct unit *punit)
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
 		punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"), buf,
-			_("Yes"), diplomat_bribe_yes_callback, 0,
-			_("No"), diplomat_bribe_no_callback, 0, 0);
+			_("_Yes"), diplomat_bribe_yes_callback, 0,
+			_("_No"), diplomat_bribe_no_callback, 0, 0);
   } else {
     my_snprintf(buf, sizeof(buf),
 		_("Bribing the unit costs %d gold.\n"
@@ -935,8 +935,8 @@ void popup_incite_dialog(struct city *pcity)
 		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(toplevel, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
-		       _("Yes"), diplomat_incite_yes_callback, 0,
-		       _("No"), diplomat_incite_no_callback, 0, 0);
+		       _("_Yes"), diplomat_incite_yes_callback, 0,
+		       _("_No"), diplomat_incite_no_callback, 0, 0);
   } else {
     my_snprintf(buf, sizeof(buf),
 		_("Inciting a revolt costs %d gold.\n"
@@ -977,12 +977,12 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     if(!unit_flag(punit->type, F_SPY)){
       shl=popup_message_dialog(toplevel, /*"diplomatdialog"*/_(" Choose Your Diplomat's Strategy"), 
          		     _("Sir, the diplomat is waiting for your command"),
-         		     _("Establish embassy"), diplomat_embassy_callback, 0,
-         		     _("Investigate City"), diplomat_investigate_callback, 0,
-         		     _("Sabotage city"), diplomat_sabotage_callback, 0,
-         		     _("Steal technology"), diplomat_steal_callback, 0,
-         		     _("Incite a revolt"), diplomat_incite_callback, 0,
-         		     _("Cancel"), diplomat_cancel_callback, 0,
+         		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
+         		     _("_Investigate City"), diplomat_investigate_callback, 0,
+         		     _("_Sabotage City"), diplomat_sabotage_callback, 0,
+         		     _("Steal _Technology"), diplomat_steal_callback, 0,
+         		     _("Incite a _Revolt"), diplomat_incite_callback, 0,
+         		     _("_Cancel"), diplomat_cancel_callback, 0,
          		     0);
       
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
@@ -998,13 +998,13 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     }else{
        shl=popup_message_dialog(toplevel, /*"spydialog"*/_("Choose Your Spy's Strategy"),
  			      _("Sir, the spy is waiting for your command"),
- 			      _("Establish Embassy"), diplomat_embassy_callback, 0,
- 			      _("Investigate City (free)"), diplomat_investigate_callback, 0,
- 			      _("Poison City"), spy_poison_callback,0,
- 			      _("Industrial Sabotage"), spy_sabotage_popup, 0,
- 			      _("Steal Technology"), spy_steal_popup, 0,
- 			      _("Incite a Revolt"), diplomat_incite_callback, 0,
- 			      _("Cancel"), diplomat_cancel_callback, 0,
+ 			      _("Establish _Embassy"), diplomat_embassy_callback, 0,
+ 			      _("_Investigate City (free)"), diplomat_investigate_callback, 0,
+ 			      _("_Poison City"), spy_poison_callback,0,
+ 			      _("Industrial _Sabotage"), spy_sabotage_popup, 0,
+ 			      _("Steal _Technology"), spy_steal_popup, 0,
+ 			      _("Incite a _Revolt"), diplomat_incite_callback, 0,
+ 			      _("_Cancel"), diplomat_cancel_callback, 0,
  			      0);
  
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
@@ -1030,9 +1030,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
                               (!unit_flag(punit->type, F_SPY))?
  			      _("Sir, the diplomat is waiting for your command"):
  			      _("Sir, the spy is waiting for your command"),
- 			      _("Bribe Enemy Unit"), diplomat_bribe_callback, 0,
- 			      _("Sabotage Enemy Unit"), spy_sabotage_unit_callback, 0,
- 			      _("Cancel"), diplomat_cancel_callback, 0,
+ 			      _("_Bribe Enemy Unit"), diplomat_bribe_callback, 0,
+ 			      _("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, 0,
+ 			      _("_Cancel"), diplomat_cancel_callback, 0,
  			      0);
         
        if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
@@ -1124,9 +1124,9 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_dialog=popup_message_dialog(toplevel,
 			   /*"caravandialog"*/_("Your Caravan Has Arrived"), 
 			   buf,
-			   _("Establish traderoute"),caravan_establish_trade_callback, 0,
-			   _("Help build Wonder"),caravan_help_build_wonder_callback, 0,
-			   _("Keep moving"),caravan_keep_moving_callback, 0,
+			   _("Establish _Traderoute"),caravan_establish_trade_callback, 0,
+			   _("Help build _Wonder"),caravan_help_build_wonder_callback, 0,
+			   _("_Keep moving"),caravan_keep_moving_callback, 0,
 			   0);
   
   if(!can_establish_trade_route(phomecity, pdestcity))
@@ -1245,8 +1245,8 @@ void popup_revolution_dialog(void)
 {
   popup_message_dialog(toplevel, /*"revolutiondialog"*/_("Revolution!"), 
 		       _("You say you wanna revolution?"),
-		       _("Yes"),revolution_callback_yes, 0,
-		       _("No"),revolution_callback_no, 0, 
+		       _("_Yes"),revolution_callback_yes, 0,
+		       _("_No"),revolution_callback_no, 0, 
 		       0);
 }
 
@@ -1463,6 +1463,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
 {
   va_list args;
   GtkWidget *dshell, *button, *dlabel, *vbox;
+  GtkAccelGroup *accel = gtk_accel_group_new();
   void (*fcb)(GtkWidget *, gpointer);
   gpointer data;
   char *name;
@@ -1473,6 +1474,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
   
   dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
+  gtk_accel_group_attach(accel, GTK_OBJECT(dshell));
 
   gtk_signal_connect( GTK_OBJECT(dshell),"delete_event",
 	GTK_SIGNAL_FUNC(popup_mes_del_callback),(gpointer)parent );
@@ -1497,7 +1499,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
     data=va_arg(args, gpointer);
     my_snprintf(button_name, sizeof(button_name), "button%d", i++);
     
-    button=gtk_button_new_with_label(name);
+    button=gtk_accelbutton_new(name, accel);
     gtk_box_pack_start( GTK_BOX( vbox ), button, TRUE, FALSE, 0 );
     
     gtk_object_set_data( GTK_OBJECT( dshell ), button_name, button );

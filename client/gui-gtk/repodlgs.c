@@ -59,7 +59,7 @@ GtkWidget *science_dialog_shell=NULL;
 GtkWidget *science_label;
 GtkWidget *science_current_label, *science_goal_label;
 GtkWidget *science_change_menu_button, *science_goal_menu_button;
-GtkWidget *science_list, *science_help_toggle;
+GtkWidget *science_list[4], *science_help_toggle;
 int science_dialog_shell_is_modal;
 int science_dialog_popupmenu;
 GtkWidget *popupmenu, *goalmenu;
@@ -195,7 +195,7 @@ void create_science_dialog(int make_modal)
         frame, FALSE, FALSE, 0 );
 
   hbox = gtk_hbox_new( TRUE, 5 );
-  gtk_container_add(GTK_CONTAINER(frame),hbox);
+  gtk_container_add(GTK_CONTAINER(frame), hbox);
 
   science_change_menu_button = gtk_option_menu_new();
   gtk_box_pack_start( GTK_BOX( hbox ), science_change_menu_button,TRUE, TRUE, 0 );
@@ -230,9 +230,17 @@ void create_science_dialog(int make_modal)
   w = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
 
-  science_list = gtk_clist_new(4);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
-		science_list, TRUE, TRUE, 0 );
+  hbox = gtk_hbox_new(TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(science_dialog_shell)->vbox),
+		     hbox, TRUE, TRUE, 0);
+
+  for (i=0; i<4; i++) {
+    science_list[i] = gtk_clist_new(1);
+    gtk_box_pack_start(GTK_BOX(hbox), science_list[i], TRUE, TRUE, 0);
+    gtk_clist_set_column_auto_resize (GTK_CLIST (science_list[i]), 0, TRUE);
+    gtk_signal_connect(GTK_OBJECT(science_list[i]), "select_row",
+		       GTK_SIGNAL_FUNC(science_help_callback), NULL);
+  }
 
   close_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->action_area ),
@@ -243,17 +251,11 @@ void create_science_dialog(int make_modal)
   gtk_signal_connect( GTK_OBJECT( close_command ), "clicked",
         GTK_SIGNAL_FUNC( science_close_callback ), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(science_list), "select_row",
-	GTK_SIGNAL_FUNC(science_help_callback), NULL);
-
   gtk_widget_show_all( GTK_DIALOG(science_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(science_dialog_shell)->action_area );
 
   gtk_widget_add_accelerator(close_command, "clicked",
 	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
-
-  for(i=0; i<4; i++)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (science_list), i, TRUE);
 
   science_dialog_update();
 }
@@ -331,12 +333,13 @@ void science_close_callback(GtkWidget *widget, gpointer data)
 
 void science_help_callback(GtkWidget *w, gint row, gint column)
 {
-  char *s;
-
-  gtk_clist_get_text(GTK_CLIST(science_list), row, column, &s);
+  gtk_clist_unselect_row(GTK_CLIST(w), row, column);
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
   {
+    char *s;
+
+    gtk_clist_get_text(GTK_CLIST(w), row, column, &s);
     if (*s != '\0')
       popup_help_dialog_typed(s, HELP_TECH);
     else
@@ -351,42 +354,33 @@ void science_dialog_update(void)
 {
   if(science_dialog_shell) {
   char text[512];
-    int i, j, hist, n;
-    char *report_title;
-    static char *row	[4];
-    GtkWidget *item;
+  int i, j, hist;
+  char *report_title;
+  static char *row	[1];
+  GtkWidget *item;
     
   if(delay_report_update) return;
   report_title=get_report_title(_("Science Advisor"));
   gtk_set_label(science_label, report_title);
   free(report_title);
 
-  gtk_clist_freeze(GTK_CLIST(science_list));
-  gtk_clist_clear(GTK_CLIST(science_list));
-  for(n=0, i=A_FIRST; i<game.num_tech_types; i++)
-  {
-    if ((get_invention(game.player_ptr, i)==TECH_KNOWN))
-      n++;
+  for (i=0; i<4; i++) {
+    gtk_clist_freeze(GTK_CLIST(science_list[i]));
+    gtk_clist_clear(GTK_CLIST(science_list[i]));
   }
+
   for(j=0, i=A_FIRST; i<game.num_tech_types; i++)
   {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)){
-      if (j==4)
-        j=0;
-      row[j++] = advances[i].name;
-
-      if (j==4)
-        gtk_clist_append( GTK_CLIST(science_list), row);
-      }
-  }
-  if (j!=4)
-  {
-    for (;j<4; j++)
-      row[j]="";
-    gtk_clist_append( GTK_CLIST(science_list), row );
+      row[0] = advances[i].name;
+      gtk_clist_append(GTK_CLIST(science_list[j%4]), row);
+      j++;
+    }
   }
 
-  gtk_clist_thaw(GTK_CLIST(science_list));
+  for (i=0; i<4; i++) {
+    gtk_clist_thaw(GTK_CLIST(science_list[i]));
+  }
 
   gtk_widget_destroy(popupmenu);
   popupmenu = gtk_menu_new();

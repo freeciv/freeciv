@@ -89,7 +89,7 @@ struct city_dialog {
   GtkWidget *present_unit_label;
   GtkWidget *present_unit_boxes		[NUM_UNITS_SHOWN];
   GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
-  GtkWidget *change_list;
+  GtkWidget *change_shell, *change_list;
   GtkWidget *rename_input;
   GtkWidget *worklist_shell;
   
@@ -101,8 +101,6 @@ struct city_dialog {
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
   
-  char *change_list_names_ptrs[B_LAST+1+U_LAST+1+1];
-  char change_list_names[B_LAST+1+U_LAST+1][200];
   int change_list_ids[B_LAST+1+U_LAST+1];
   int change_list_num_improvements;
 
@@ -316,6 +314,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
+  pdialog->change_shell=0;
 
   pdialog->shell=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(pdialog->shell),"delete_event",
@@ -581,7 +580,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   genlist_insert(&dialog_list, pdialog, 0);
 
   for(i=0; i<B_LAST+1; i++)
-    pdialog->improvlist_names_ptrs[i]=0;
+      pdialog->improvlist_names_ptrs[i]=0;
 
   for(i=0; i<NUM_CITIZENS_SHOWN; i++)
     pdialog->citizen_type[i]=-1;
@@ -802,17 +801,17 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
     wd=popup_message_dialog(pdialog->shell, 
 			   /*"presentunitsdialog"*/_("Unit Commands"), 
 			   unit_description(punit),
-			   _("Activate unit"),
+			   _("_Activate unit"),
 			     present_units_activate_callback, punit->id,
-			   _("Activate unit, close dialog"),
+			   _("Activate unit, _close dialog"),
 			     present_units_activate_close_callback, punit->id,
-			   _("Disband unit"),
+			   _("_Disband unit"),
 			     present_units_disband_callback, punit->id,
-			   _("Make new homecity"),
+			   _("Make new _homecity"),
 			     present_units_homecity_callback, punit->id,
-			   _("Upgrade unit"),
+			   _("_Upgrade unit"),
 			     upgrade_callback, punit->id,
-			   _("Cancel"),
+			   _("_Cancel"),
 			     present_units_cancel_callback, 0, 
 			   NULL);
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
@@ -977,9 +976,9 @@ void city_dialog_update_building(struct city_dialog *pdialog)
  		get_unit_type(pcity->currently_building)->build_cost,
  		turns);
     sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
-    pct = CLAMP((gfloat)pcity->shield_stock /
-		(get_unit_type(pcity->currently_building)->build_cost+0.1),
-		0.0, 1.0);
+    pct = (gfloat)pcity->shield_stock /
+	  (get_unit_type(pcity->currently_building)->build_cost + 0.1);
+    pct = CLAMP(pct, 0.0, 1.0);		
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
       /* Capitalization is special, you can't buy it or finish making it */
@@ -997,9 +996,9 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 		  pcity->shield_stock, 
 		  get_improvement_type(pcity->currently_building)->build_cost,
 		  turns);
-      pct = CLAMP((gfloat)pcity->shield_stock /
-	          (get_improvement_type(pcity->currently_building)->build_cost
-		   + 0.1), 0.0, 1.0);
+      pct = (gfloat)pcity->shield_stock /
+	    (get_improvement_type(pcity->currently_building)->build_cost + 0.1);
+      pct = CLAMP(pct, 0.0, 1.0);		
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
@@ -1196,13 +1195,13 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
     popup_message_dialog(pdialog->shell,
     	   /*"supportunitsdialog"*/ _("Unit Commands"), 
     	   unit_description(punit),
-    	   _("Activate unit"),
+    	   _("_Activate unit"),
     	     present_units_activate_callback, punit->id,
-    	   _("Activate unit, close dialog"),
+    	   _("Activate unit, _close dialog"),
     	     supported_units_activate_close_callback, punit->id, /* act+c */
-    	   _("Disband unit"),
+    	   _("_Disband unit"),
     	     present_units_disband_callback, punit->id,
-    	   _("Cancel"),
+    	   _("_Cancel"),
     	     present_units_cancel_callback, 0, 0);
     }
   return TRUE;
@@ -1521,8 +1520,8 @@ void buy_callback(GtkWidget *w, gpointer data)
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->shell, /*"buydialog"*/ _("Buy It!"), buf,
-			 _("Yes"), buy_callback_yes, pdialog,
-			 _("No"), buy_callback_no, 0, 0);
+			 _("_Yes"), buy_callback_yes, pdialog,
+			 _("_No"), buy_callback_no, 0, 0);
   }
   else {
     my_snprintf(buf, sizeof(buf),
@@ -1591,9 +1590,9 @@ void upgrade_callback(GtkWidget *w, gpointer data)
 	       value, game.player_ptr->economic.gold);
 	popup_message_dialog(toplevel, 
 			     /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
-			     _("Yes"),
+			     _("_Yes"),
 			       unitupgrade_callback_yes, (gpointer)(punit->id),
-			     _("No"),
+			     _("_No"),
 			       unitupgrade_callback_no, 0,
 			     NULL);
       } else {
@@ -1636,6 +1635,7 @@ static void change_to_callback(GtkWidget *w, gpointer data)
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
   }
   gtk_widget_destroy(w->parent->parent->parent);
+  pdialog->change_shell=0;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
 }
 
@@ -1649,6 +1649,7 @@ static void change_no_callback(GtkWidget *w, gpointer data)
   pdialog=(struct city_dialog *)data;
   
   gtk_widget_destroy(w->parent->parent->parent);
+  pdialog->change_shell=0;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
 }
 
@@ -1691,6 +1692,7 @@ static gint change_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
   
   pdialog=(struct city_dialog *)data;
   
+  pdialog->change_shell=0;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
   return FALSE;
 }
@@ -1713,26 +1715,37 @@ void change_callback(GtkWidget *w, gpointer data)
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
   int i, n, turns;
-  static gchar *title_[1] = { N_("Select new production") };
+  static gchar *title_[4] = { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
   static gchar **title = NULL;
   GtkAccelGroup *accel=gtk_accel_group_new();
+  char *row   [4];
+  char  buf   [4][64];
 
-  if (!title) title = intl_slist(1, title_);
+  if (!title) title = intl_slist(4, title_);
   
   pdialog=(struct city_dialog *)data;
   
   cshell=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(cshell),"delete_event",
 	GTK_SIGNAL_FUNC(change_deleted_callback),pdialog);
+  pdialog->change_shell=cshell;
 
   gtk_window_set_position (GTK_WINDOW(cshell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(cshell));
   gtk_window_set_title(GTK_WINDOW(cshell), _("Change Production"));
 
-  pdialog->change_list=gtk_clist_new_with_titles(1, title);
+  pdialog->change_list=gtk_clist_new_with_titles(4, title);
   gtk_clist_column_titles_passive(GTK_CLIST(pdialog->change_list));
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), pdialog->change_list);
+
+  for (i=0; i<4; i++)
+    gtk_clist_set_column_auto_resize(GTK_CLIST (pdialog->change_list), i, TRUE);
+
+  gtk_clist_set_column_justification(GTK_CLIST (pdialog->change_list), 2,
+				     GTK_JUSTIFY_RIGHT);
+  gtk_clist_set_column_justification(GTK_CLIST (pdialog->change_list), 3,
+				     GTK_JUSTIFY_RIGHT);
 
   /* Set up the doubleclick-on-list-item handler */
   gtk_signal_connect(GTK_OBJECT(pdialog->change_list), "select_row",
@@ -1770,23 +1783,47 @@ void change_callback(GtkWidget *w, gpointer data)
 
   gtk_widget_set_sensitive(pdialog->shell, FALSE);
 
+  for(i=0; i<4; i++)
+    row[i]=buf[i];
+
+  gtk_clist_freeze(GTK_CLIST(pdialog->change_list));
+  gtk_clist_clear(GTK_CLIST(pdialog->change_list));
+
   for(i=0, n=0; i<B_LAST; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
-      if (i==B_CAPITAL) { /* Total and turns left meaningless for captialization */
-	my_snprintf(pdialog->change_list_names[n],
-		    sizeof(pdialog->change_list_names[n]),
-		    "%s (XX)",
-		    get_imp_name_ex(pdialog->pcity, i));
+      if (i==B_CAPITAL) { /* Total & turns left meaningless on capitalization */
+	my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
+	buf[1][0]='\0';
+	my_snprintf(buf[2], sizeof(buf[2]), "--");
+	my_snprintf(buf[3], sizeof(buf[3]), "--");
       } else {
 	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
-	my_snprintf(pdialog->change_list_names[n],
-		    sizeof(pdialog->change_list_names[n]),
-		    turns == 1 ? _("%s (%d) %3d turn") : _("%s (%d) %3d turns"),
-		    get_imp_name_ex(pdialog->pcity, i),
-		    get_improvement_type(i)->build_cost,
+	my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
+
+        /* from city.c get_imp_name_ex() */
+        if (wonder_replacement(pdialog->pcity, i))
+        {
+	  my_snprintf(buf[1], sizeof(buf[1]), "*");
+        }
+        else
+        {
+	  char *state = "";
+
+          if (is_wonder(i))
+          {
+	    state = N_("Wonder");
+            if (game.global_wonders[i])	state = N_("Built");
+            if (wonder_obsolete(i))	state = N_("Obsolete");
+          }
+	  my_snprintf(buf[1], sizeof(buf[1]), state);
+        }
+
+	my_snprintf(buf[2], sizeof(buf[2]), "%d",
+		    get_improvement_type(i)->build_cost);
+	my_snprintf(buf[3], sizeof(buf[3]), "%d",
 		    turns);
       }
-      pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
+      gtk_clist_append(GTK_CLIST(pdialog->change_list), row);
       pdialog->change_list_ids[n++]=i;
     }
   
@@ -1795,25 +1832,26 @@ void change_callback(GtkWidget *w, gpointer data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
+      struct unit_type *ptype;
+
       turns = city_turns_to_build (pdialog->pcity, i, TRUE);
-      my_snprintf(pdialog->change_list_names[n],
-		  sizeof(pdialog->change_list_names[n]),
-		  turns == 1 ? _("%s (%d) %3d turn") : _("%s (%d) %3d turns"),
-		  get_unit_name(i),
-		  get_unit_type(i)->build_cost,
-		  turns);
-      pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
+      my_snprintf(buf[0], sizeof(buf[0]), unit_name(i));
+      
+      /* from unit.h get_unit_name() */
+      ptype = get_unit_type(i);
+      if (ptype->fuel)
+	my_snprintf(buf[1], sizeof(buf[1]), "%d/%d/%d(%d)",
+		    ptype->attack_strength, ptype->defense_strength,
+		    ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);
+      else
+        my_snprintf(buf[1], sizeof(buf[1]), "%d/%d/%d",
+		    ptype->attack_strength, ptype->defense_strength,
+		    ptype->move_rate / 3);
+      my_snprintf(buf[2], sizeof(buf[2]), "%d", get_unit_type(i)->build_cost);
+      my_snprintf(buf[3], sizeof(buf[3]), "%d", turns);
+      gtk_clist_append(GTK_CLIST(pdialog->change_list), row);
       pdialog->change_list_ids[n++]=i;
     }
-  
-  pdialog->change_list_names_ptrs[n]=0;
-
-  gtk_clist_freeze(GTK_CLIST(pdialog->change_list));
-  gtk_clist_clear(GTK_CLIST(pdialog->change_list));
-
-  for(i=0; i<n; i++)
-    gtk_clist_append(GTK_CLIST(pdialog->change_list),
-		     &pdialog->change_list_names_ptrs[i]);
 
   gtk_clist_thaw(GTK_CLIST(pdialog->change_list));
 
@@ -1964,8 +2002,8 @@ void sell_callback(GtkWidget *w, gpointer data)
 		  improvement_value(i));
 
 	  popup_message_dialog(pdialog->shell, /*"selldialog"*/ _("Sell It!"), buf,
-			       _("Yes"), sell_callback_yes, pdialog,
-			       _("No"), sell_callback_no, pdialog, 0);
+			       _("_Yes"), sell_callback_yes, pdialog,
+			       _("_No"), sell_callback_no, pdialog, 0);
 	  return;
 	}
 	n++;
@@ -1986,6 +2024,9 @@ void close_city_dialog(struct city_dialog *pdialog)
 
   if (pdialog->worklist_shell)
     gtk_widget_destroy(pdialog->worklist_shell);
+
+  if (pdialog->change_shell)
+    gtk_widget_destroy(pdialog->change_shell);
 
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);
