@@ -9,17 +9,29 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "July 1st 2004"
+.TH FREECIV 6 "January 24th 2005"
 .SH NAME
 civserver \- The server for the Freeciv game
 .SH SYNOPSIS
 .B civserver \
-[ -b|--bind \fIaddress\fP ] [ -d|--debug \fIlevel\fP ] \
-[ -f|--file \fIsavegame\fP ] [ -g|--gamelog \fIgamelog\fP ] [ -h|--help ] \
-[ -i|--info \fIinfo\fP ] [ -l|--log \fIlogfile\fP ] [ -m|--meta ] \
-[ -M|--Metaserver \fIserver\fP ] [ -p|--port \fIport\fP ] \
-[ -q|--quitidle \fIseconds\fP ] [ -e|--exit-on-end ] \
-[ -r|--read \fIfile\fP ] [ -v|--version ]
+[ \-a|\-\-auth ] \
+[ \-b|\-\-bind \fIaddress\fP ] \
+[ \-d|\-\-debug \fIlevel_number\fP ] \
+[ \-e|\-\-exit\-on\-end ] \
+[ \-f|\-\-file \fIfilename\fP ] \
+[ \-G|\-\-Guests ] \
+[ \-g|\-\-gamelog \fIfilename\fP ] \
+[ \-h|\-\-help ] \
+[ \-l|\-\-log \fIfilename\fP ] \
+[ \-M|\-\-Metaserver \fIaddress\fP ] \
+[ \-m|\-\-meta ] \
+[ \-N|\-\-Newusers ] \
+[ \-p|\-\-port \fIport\fP ] \
+[ \-q|\-\-quitidle \fItime\fP ] \
+[ \-r|\-\-read \fIfilename\fP ] \
+[ \-S|\-\-Serverid \fIid\fP ] \
+[ \-s|\-\-saves \fIdirectory\fP ] \
+[ \-v|\-\-version ]
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -44,70 +56,140 @@ http://www.freeciv.org/
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
 The following options are accepted on the command line of the server. They may
-not be combined; that is, "civserver -fp savegame.sav 555" will not work,
-instead you would need to enter "civserver -f savegame.sav -p 555". All options
-have a short form (single hyphen and single letter) and a long form (double
-hyphen and a complete word); their effects are identical.
+not be combined; that is, "civserver \-fp savegame.sav 555" will not work,
+instead you would need to enter "civserver \-f savegame.sav \-p 555". All
+options have a short form (single hyphen and single letter) and a long form
+(double hyphen and a complete word); their effects are identical.
 .TP
-.BI "-b, --bind"
-Sets the address on which the server will listen for clients.
+.BI "\-a, \-\-auth"
+Enables server authentication and allows access to registered players only.
 .TP
-.BI "-d, --debug"
+.BI "\-b \fIaddress\fP, \-\-bind \fIaddress\fP"
+Sets the \fIaddress\fP on which the server will listen for clients.
+.TP
+.BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
 Sets the amount of debugging information to be logged in the file named by the
-.I -l
-option. The number should be 0 for fatal errors only, 1 for fatal and normal
-messages, 2 for fatal, normal, and debugging messages, or 3 for very verbose
-output.
+.I \-l
+option. Acceptable values for the \fIlevel_number\fP are:
+
+\fB0\fP    for fatal messages only.
+
+\fB1\fP    for fatal and error messages.
+
+\fB2\fP    for fatal, error and normal messages.
+
+\fB3\fP    for fatal, error, normal, and verbose messages.
+
 .TP
-.BI "-f, --file"
-Loads a saved game into the server before initialization, instead of starting a
-new game. This is for reloading saved games, or for loading scenarios.
-.TP
-.BI "-g, --gamelog"
-Defines a log file to be produced during processing. This is a game progress
-log of game-related events recording the activities of the players.
-.TP
-.BI "-h, --help"
-Prints out a description of the command line options and exits.
-.TP
-.BI "-i, --info"
-Extra info to be sent to the metaserver.
-.TP
-.BI "-l, --log"
-Defines a log file to be produced during processing. Use the
-.I -d
-option to set how much is logged.
-.TP
-.BI "-m, --meta"
-Directs the server to communicate with a metaserver, a place where Freeciv
-servers can publish their presence. Freeciv clients consult the metaserver to
-offer users a selection of games to join.
-.TP
-.BI "-M, --Metaserver"
-Sets the metaserver address.
-.TP
-.BI "-p, --port"
-Specifies the TCP port number to which clients will connect; players must know
-this number to be able to connect if they are not to use the default of 5555
-decimal. You may need to use this if 5555 is not available for your use on your
-system.
-.TP
-.BI "-q, --quitidle"
-Quit if no players present for the given number of seconds.
-.TP
-.BI "-e, --exit-on-end"
+.BI "\-e, \-\-exit\-on\-end"
 When a game ends, exit instead of restarting.
 .TP
-.BI "-r, --read"
-Specifies a file of server commands which the server will automatically read and
-process, as if you had typed them in at the server's prompt.
+.BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
+Loads a saved game (\fIfilename\fP) into the server before initialization,
+instead of starting a new game. This is for reloading saved games, or for 
+loading scenarios. The distribution comes with such scenarios, typically stored
+in \fI/usr/local/share/freeciv/scenario\fP:
+
+.IP
+\(bu
+.I british\-isles\-85x80\-v2.80.sav
+
+\(bu
+.I earth\-160x90\-v2.sav
+
+\(bu
+.I earth\-80x50\-v2.sav
+
+\(bu
+.I europe\-200x100\-v2.sav
+
+\(bu
+.I hagworld\-120x60\-v1.2.sav
+
+\(bu
+.I iberian\-peninsula\-136x100\-v1.0.sav
+
 .TP
-.BI "-v, --version"
+.BI "\-G, \-\-Guests"
+Allow guests to login as 'guest' when authentication is enabled.
+.TP
+.BI "\-g \fIfilename\fP, \-\-gamelog \fIfilename\fP"
+Defines a log file, \fIfilename\fP, to be produced during processing. This is a
+game progress log of game-related events recording the activities of the
+players.
+.TP
+.BI "\-h, \-\-help"
+Prints out a description of the command line options and exits.
+.TP
+.BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
+Defines a log file, \fIfilename\fP, to be produced during processing. Use the
+.I \-d
+option to set how much is logged.  By default, fatal and normal messages are 
+printed to standard output.  With a log file, such messages go to the log
+instead.
+.TP
+.BI "\-M \fIaddress\fP, \-\-Metaserver \fIaddress\fP"
+Specifies the \fIaddress\fP of the metaserver to send your server's information
+to. 
+.TP
+.BI "\-m, \-\-meta"
+Directs the server to communicate with a metaserver, a place where Freeciv
+servers can publish their presence. Freeciv clients consult the metaserver to
+offer users a selection of games to join. By default the standard Freeciv 
+metaserver is used. You may specify an alternate metaserver with the \fI\-M\fP
+option.
+.TP
+.BI "\-N, \-\-Newusers"
+Allow new users to login and be registered in the players base if authentication
+is enabled.
+.TP
+.BI "\-p \fIport\fP, \-\-port \fIport\fP"
+Specifies the TCP \fIport\fP number to which clients will connect; players must know
+this number to be able to connect if they are not to use the default of 5555
+decimal. You may need to use this if 5555 is not available for your use on your
+system, or if you would like to run multiple servers on the same system.
+.TP
+.BI "\-q \fItime\fP, \-\-quitidle \fItime\fP"
+Quits if no players are present for the specified \fItime\fP, in seconds, and 
+restarts a new server.
+.TP
+.BI "\-r \fIfilename\fP, \-\-read \fIfilename\fP"
+Specifies a file, \fIfilename\fP, of server commands which the server will 
+automatically read and process, as if you had typed them in at the server's 
+prompt. The distribution comes with a few examples that set options to be 
+similar to Civilization I\*R and Civilization II\*R . The files are named 
+\fIciv1.serv\fP and \fIciv2.serv\fP, and are typically found at 
+\fI/usr/local/share/freeciv/\fP.
+.TP
+.BI "\-S, \-\-Serverid \fIid\fP"
+Sets the server \fIid\fP.
+.TP
+.BI "\-s \fIdirectory\fP, \-\-saves \fIdirectory\fP"
+Specifies the \fIdirectory\fP to place save game files created by the server.
+This is especially useful when you're running more than one server on the same
+system, as it inhibits your servers from clobbering other's save game files.
+.TP
+.BI "\-v, \-\-version"
 Causes the server to display its version number and exit.
 .SH EXAMPLES
-civserver --file oldgame.sav --port 2244
-
-civserver -g gamelog -l logfile -r script -f oldgame.sav.gz
+.TP
+.B civserver \-\-file oldgame.sav \-\-port 2244
+Starts a server on port \fI2244\fP, loading the save game file 
+\fIoldgame.sav\fP.
+.TP
+.B civserver \-g gamelog \-l logfile \-r script \-f oldgame.sav.gz -p 2244
+Starts a server on port \fI2244\fP, loading the save game file 
+\fIoldgame.sav.gz\fP. Game related events are written to \fIgamelog\fP, other 
+logging information is written to \fIlogfile\fP. When the server starts, it 
+immediately executes the commands contained in \fIscript\fP.
+.TP
+.B civserver -m -a -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
+Starts a server on port \fI2244\fP with authentication enabled and communicates 
+its existence to the standard Freeciv metaserver. Fatal, error, and normal 
+messages are written to \fIlogfile\fP. When the server starts it immediately 
+executes the commands contained in \fIscript\fP. Save game files are stored in 
+the \fI~/saves\fP directory. When there are no users on the server for \fI60\fP
+seconds, the server will restart.
 .SH COMMANDS
 You may enter commands into the server at any time, either before or during the
 running of a game. 
@@ -123,14 +205,31 @@ by default:
 .I default/buildings.ruleset
 
 \(bu
+.I default/cities.ruleset
+
+\(bu
+.I default/game.ruleset
+
+\(bu
+.I default/governments.ruleset
+
+\(bu
+.I default/nations.ruleset
+
+\(bu
 .I default/techs.ruleset
+
+\(bu
+.I default/terrain.ruleset
 
 \(bu
 .I default/units.ruleset
 
 These are the default rule sets used for the game. Alternate sets of rules can
-be installed with the option settings "techs", "units", and "buildings", each of
-which provides a name to replace the directory name "default".
+be used by placing them in a separate directory and using the \fBrulesetdir\fP
+command to change your server's ruleset directory. 
+
+Type \fBhelp rulesetdir\fP for more information.
 .SH ENVIRONMENT
 The Freeciv server accepts these environment variables:
 .TP
@@ -156,7 +255,7 @@ Set this variable accordingly when using a proxy.
 .SH BUGS
 Please report bugs to
 .UR
-http://rt.freeciv.org/
+http://bugs.freeciv.org/
 .UE
 \.
 .SH "MORE INFO"
@@ -170,9 +269,11 @@ Updates and new info is first posted there.
 .SH AUTHORS
 The Freeciv Team <freeciv-dev AT freeciv.org>.
 
-This manpage was put together by Florian Ernst <florian_ernst AT gmx.net> using
-the Server Manual and the comments in the sourcecode. Feel free to use it as
-you wish.
+This manpage was originally put together by Florian Ernst 
+<florian_ernst AT gmx.net> using the Server Manual and the comments in the 
+sourcecode. It was updated by Ben Bettin <bwbettin AT gmail.com> to add new
+features, integrate information from the website's online documentation, and 
+for slight formatting adjustments. Feel free to use it as you wish.
 .SH "SEE ALSO"
 .IR civclient (6)
 and the Server Manual on the Freeciv homepage.
