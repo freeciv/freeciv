@@ -53,7 +53,7 @@ contributions to the Freeciv project.
      Kero van Gelder <kero@ipc3799cba.dial.wxs.nl>
 	(patches, goto improvement)
      Chris Chittleborough <cchittleborough@yahoo.com.au> (patch)
-     Raimar Falke <hawk@B205a.WH8.TU-Dresden.De> (patch)
+     Raimar Falke <rf13@inf.tu-dresden.de> (patch)
      Daniel M Church <dchurch@crossbreed.mbhs.edu> (layer view)
      Joona Kiiski <zamar@freenet.hut.fi> (patches, production fixes)
      Arien Malec <arien_malec@yahoo.com> (patches)
@@ -76,7 +76,7 @@ contributions to the Freeciv project.
      IQ <iquin@technologist.com> (cleanup)
      Luke Reeves <luke949@sympatico.ca> (patches)
      Oliver Gantert <lucyg@t-online.de> (patch)
-     Raahul Kumar <z1156937@cit-student.gu.edu.au> (patch)
+     Raahul Kumar <raahul_da_man@yahoo.com> (patch)
      Davide Pagnin <nigthmare@freeciv.it> (patch)
      Michael Zinn <michaelz@cse.unsw.edu.au> (patch)
      Robert Alan Byer <byer@chef.ourservers.net> (vms update)
@@ -86,7 +86,7 @@ contributions to the Freeciv project.
      Michael Stefaniuc <mstefani@redhat.de> (patch)
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il> (patch)
      Reinier Post <reinpost@win.tue.nl> (patch)
-     Jason Dorje Short <jshort@devon.dhs.org> (patches)
+     Jason Dorje Short <jdorje@users.sourceforge.net> (patches)
 
   Coders up to 1.11.4 release:
 
@@ -446,7 +446,7 @@ contributions to the Freeciv project.
      Gordon Tetlow <gordont@bluemtn.net>
      Rigel Freden <rigelf@angelfire.com>
      Mike Jing <mike_jing@email.com>
-     Jason Short <jshort@devon.dhs.org>
+     Jason Short <jdorje@users.sourceforge.net>
      Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de>
      Urban Dominik Mueller <mueller@relog.ch>
      Daniel Frazier <dfrazier@magpage.com>
