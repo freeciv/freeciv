@@ -439,12 +439,12 @@ msgstr ""
 #: ai/aicity.c:250 server/citytools.c:1770
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Peli: %s ovat keskeyttäneet %sn rakentamisen %sn kaupungissa."
+msgstr "Peli: %s ovat keskeyttäneet hankkeensa %s kaupungissa %s."
 
 #: ai/aicity.c:259 server/citytools.c:1812
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
-msgstr "Peli: %s yrittävät rakentaa %sn %sn kaupungissa."
+msgstr "Peli: %s tavoittelevat taivaita: %s rakenteilla kaupungissa %s."
 
 #: ai/aicity.c:373 ai/aicity.c:504
 #, c-format
@@ -613,33 +613,30 @@ msgstr " työlistasta"
 #: server/citytools.c:1801
 #, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Peli: %s rakentaa %s%s."
+msgstr "Peli: %s on aloittanut uuden hankkeen: %s%s."
 
 # *** Has started building... to avoid vowel harmony problems. ***
 #: server/citytools.c:1805
 #, c-format
 msgid "Game: %s is building %s."
-msgstr "Peli: %s on aloittanut %sn rakentamisen."
+msgstr "Peli: %s on aloittanut uuden hankkeen: %s."
 
 #: server/cityturn.c:569
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
-msgstr "Peli: %s myy %s:n (vanhentunut) hintaan %d."
+msgstr "Peli: %s realisoi omaisuuttaan: Vanhentunut %s myyty hintaan %d."
 
 #: server/cityturn.c:781
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
-"Peli: Huomautus: Ihme %s kaupungissa %s valmistuu seuraavalla pelivuorolla."
+msgstr "Peli: Huomautus: %s valmistuu seuraavalla pelivuorolla kaupungissa %s."
 
 #: server/cityturn.c:813
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
-msgstr ""
-"Peli: Ehkä kannattaisi hidastaa %sn kasvua, rakenteilla olevan %sn "
-"käyttämiseksi tehokkaammin."
+msgstr "Peli: Kannattaisiko hidastaa kaupungin %s kasvua, jotta rakenteilla oleva %s tulisi tehokkaammin käytetyksi?"
 
 #: server/cityturn.c:827
 #, c-format
@@ -649,11 +646,11 @@ msgstr "Peli: %s saattaa pian kasvaa kokoon %i"
 #: server/cityturn.c:834
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
-msgstr "Peli: Nälänhädän vaara %sn kaupungissa."
+msgstr "Peli: Nälänhädän vaara kaupungissa %s."
 
 #: server/cityturn.c:865
 msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr "Peli: VAROITUS, rahavaranne ovat vähissä!"
+msgstr "Peli: VAROITUS, rahavarasi ovat vähissä!"
 
 #: server/cityturn.c:915 server/cityturn.c:934
 #, c-format
@@ -679,7 +676,7 @@ msgstr "Peli: Nälänhätä vähentää väkilukua kaupungissa %s."
 #: server/cityturn.c:1036
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
-msgstr "Peli: Nälänhätä %sn kaupungissa, %s menetetty!"
+msgstr "Peli: Nälänhätä kaupungissa %s, %s menetetty!"
 
 #: server/cityturn.c:1121 server/cityturn.c:1161
 #, c-format
@@ -698,7 +695,7 @@ msgstr ""
 #: server/cityturn.c:1148 server/cityturn.c:1205 server/cityturn.c:1308
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
-msgstr "Peli: Vanhentuneen %sn tuotanto korotettu %sksi %sn kaupungissa."
+msgstr "Peli: Tuotantoa uudistetaan: %s korvattu tavoitteella %s kaupungissa %s."
 
 #: server/cityturn.c:1187
 #, c-format
@@ -758,7 +755,7 @@ msgstr "Peli: %s ei voi vielä yrittää %sn rakentamista."
 #: server/cityturn.c:1476
 #, c-format
 msgid "Game: %s is finished building %s."
-msgstr "Peli: %s on nyt rakentanut %sn."
+msgstr "Peli: %s sai valmiiksi hankkeensa %s."
 
 #: server/cityturn.c:1517
 #, c-format
@@ -1205,12 +1202,12 @@ msgstr ""
 #: server/diplomats.c:801
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
-msgstr "Peli: %s kapinoi, nyt sinä hallitset kaupunkia!"
+msgstr "Peli: %s kapinoi ja liittyy valtakuntaasi!"
 
 #: server/diplomats.c:804
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
-msgstr "Peli: %s kapinoi, onko %s lähettiläs lietsonnan takana?"
+msgstr "Peli: %s kapinoi, onko %s lähettiläs levottomuuksien takana?"
 
 #: server/diplomats.c:882
 #, c-format
@@ -1230,7 +1227,7 @@ msgstr "Peli: Lähettämäsi %s ei löytänyt mitään sabotoitavaa kaupungista %s."
 #: server/diplomats.c:962
 #, c-format
 msgid "Game: You cannot sabotage a wonder or a %s!"
-msgstr "Peli: Ihme ja %s ovat immuuneja sabotaasille!"
+msgstr "Peli: Ihmeet ja %s ovat immuuneja sabotaasille!"
 
 #: server/diplomats.c:972
 #, c-format
@@ -1243,14 +1240,12 @@ msgstr ""
 #: server/diplomats.c:998
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr ""
-"Peli: Lähettämäsi %s onnistui häiritsemään %sn tuotantoa kaupungissa %s."
+msgstr "Peli: Lähettämäsi %s onnistui! %s ei valmistu aikataulussa kaupungissa %s."
 
-# Hard too.
 #: server/diplomats.c:1002
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr "Peli: Häiriöitä %sn tuotannossa kaupungissa %s, epäiltyinä %s."
+msgstr "Peli: %s ei valmistu ajoissa kaupungissa %s, %s saattavat olla syypäitä."
 
 #: server/diplomats.c:1020
 #, c-format
@@ -1260,7 +1255,7 @@ msgstr "Peli: Lähettämäsi %s jäi kiinni kesken sabotointiyrityksen!"
 #: server/diplomats.c:1024
 #, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "Peli: %s %s jäi kiinni kaupungissa %s - %s yritettiin sabotoida!"
+msgstr "Peli: %s taas pahanteossa: %s yritti sabotaasia - kohteena %s kaupungissa %s!"
 
 #: server/diplomats.c:1037
 #, c-format
@@ -1282,7 +1277,7 @@ msgstr ""
 #: server/diplomats.c:1135
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s in %s."
-msgstr "Peli: Lähettämäsi %1$s eliminoitiin - kaupunkia %3$s puolusti %2$s."
+msgstr "Peli: Lähettämäsi %s eliminoitiin - %s puolusti kaupunkia %s."
 
 #: server/diplomats.c:1141
 #, c-format
@@ -1488,17 +1483,17 @@ msgstr "Odottaa"
 #: server/plrhand.c:120
 #, c-format
 msgid "Game: %s acquired from The Great Library!"
-msgstr "Peli: %s saatu Suuresta kirjastosta!"
+msgstr "Peli: %s saatu Aleksandrian kirjastosta!"
 
 #: server/plrhand.c:125
 #, c-format
 msgid "Game: The %s have aquired %s from the Great Library."
-msgstr "Peli: %s tonkivat Suurta kirjastoa: %s opittu!"
+msgstr "Peli: %s tonkivat Aleksandrian kirjastoa ja oppivat uutta (%s)!"
 
 #: server/plrhand.c:189
 #, c-format
 msgid "Game: The %s are no more!"
-msgstr "Peli: %s ovat lakanneet olemasta!"
+msgstr "Peli: %s on hävitetty kokonaan maailmankartalta!"
 
 #: server/plrhand.c:225
 #, c-format
@@ -1551,16 +1546,15 @@ msgstr ""
 "Peli: Suuret filosofit ympäri maailmaa liittyvät riveihisi; saat "
 "välittömästi edistysaskeleen."
 
-# I'm assuming this means they now know it.
 #: server/plrhand.c:317
 #, c-format
 msgid "Game: The %s have researched %s."
-msgstr "Peli: %s kehittyvät: %s keksitty."
+msgstr "Peli: %s ovat oppineet jotain uutta (%s)."
 
 #: server/plrhand.c:321
 #, c-format
 msgid "%s discover %s"
-msgstr "%s kehittyvät: %s keksitty."
+msgstr "%s ovat tehneet löydön (%s)."
 
 #: server/plrhand.c:327
 #, c-format
@@ -1597,7 +1591,7 @@ msgstr ""
 #: server/plrhand.c:512
 #, c-format
 msgid "Game: You acquired %s from %s."
-msgstr "Peli: Sait teknologian %s; %s janoavat kostoa."
+msgstr "Peli: Sait teknologian %s; %s janoaa kostoa."
 
 #: server/plrhand.c:514
 #, c-format
@@ -1632,7 +1626,7 @@ msgstr "Peli: %s-taso on liian korkea tälle valtiomuodolle (%s)."
 #: server/plrhand.c:621
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
-msgstr "Peli: % johtaa nyt kansaansa (%s) hallitusmuodolla %s."
+msgstr "Peli: %s johtaa nyt kansaansa (%s) hallitusmuodolla %s."
 
 #: server/plrhand.c:656
 #, c-format
@@ -2205,7 +2199,7 @@ msgstr ""
 #: server/srv_main.c:939
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "%s: kansallisuus: %s, nimi: %s."
+msgstr "%s sai johtaakseen %s nimellä %s."
 
 #: server/srv_main.c:966
 #, c-format
@@ -2249,7 +2243,7 @@ msgstr "AI-pelaaja %s lisätty."
 #: server/srv_main.c:1112
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Peli: AI-pelaaja %s lisätty."
+msgstr "Peli: Lisätty AI-pelaaja %s."
 
 #: server/srv_main.c:1199
 #, c-format
@@ -2432,7 +2426,7 @@ msgstr "%s ovat AI:n hallinnassa, johtaja: %s."
 #: server/srv_main.c:1649
 #, c-format
 msgid "Game: %s rules the %s."
-msgstr "Peli: Nimi: %s: kansallisuus: %s."
+msgstr "Peli: %s sai johtaakseen %s."
 
 #: server/srv_main.c:1794
 #, c-format
@@ -4596,8 +4590,7 @@ msgstr ""
 #: server/unithand.c:1046
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
-msgstr ""
-"Peli: Yksikkösi %s auttaa %s:n valmistelussa kaupungissa %s (%d jäljellä)."
+msgstr "Peli: %s auttaa valmistelemaan ihmettä %s kaupungissa %s (%d jäljellä)."
 
 #: server/unithand.c:1088
 #, c-format
@@ -4640,7 +4633,7 @@ msgstr "Peli: Et voi hyökätä ennen sodanjulistusta."
 #: server/unittools.c:366
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
-msgstr "Peli: %s voi liikkua vain itse valvomillasi alueilla."
+msgstr "Peli: Sotilasyksikkö voi liikkua vain itse valvomillasi alueilla."
 
 # Can't quite figure out the last string. Coordinates?
 #: server/unittools.c:462
@@ -4720,22 +4713,22 @@ msgstr ""
 #: server/unittools.c:1304
 #, c-format
 msgid " at %s"
-msgstr "kaupungin %s luona"
+msgstr " kaupungin %s luona"
 
 #: server/unittools.c:1306
 #, c-format
 msgid " in %s"
-msgstr "kaupungissa %s"
+msgstr " kaupungissa %s"
 
 #: server/unittools.c:1313
 #, c-format
 msgid " outside %s"
-msgstr "kaupungin %s ulkopuolella"
+msgstr " kaupungin %s ulkopuolella"
 
 #: server/unittools.c:1316
 #, c-format
 msgid " near %s"
-msgstr "lähellä kaupunkia %s"
+msgstr " lähellä kaupunkia %s"
 
 #: server/unittools.c:1504
 #, c-format
@@ -8199,7 +8192,7 @@ msgstr "Mikä annetaan uudeksi nimeksi?"
 #: client/gui-gtk/wldlg.c:618 client/gui-mui/wldlg.c:110
 #: client/gui-xaw/wldlg.c:673
 msgid "empty worklist"
-msgstr "tyhjennä työlista"
+msgstr "tyhjä työlista"
 
 #: client/gui-mui/chatline.c:67
 msgid "Cleared output window.\n"
