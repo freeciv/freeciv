@@ -280,6 +280,7 @@ extern int OVERVIEW_TILE_WIDTH;
 extern int OVERVIEW_TILE_HEIGHT;
 
 extern bool is_isometric;
+extern int hex_width, hex_height;
 
 /* name of font to use to draw city names on main map */
 

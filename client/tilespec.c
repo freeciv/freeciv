@@ -76,6 +76,7 @@ int OVERVIEW_TILE_WIDTH = 2;
 int OVERVIEW_TILE_HEIGHT = 2;
 
 bool is_isometric;
+int hex_width, hex_height;
 
 char *city_names_font;
 char *city_productions_font_name;
@@ -635,10 +636,10 @@ bool tilespec_read_toplevel(const char *tileset_name)
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
   int i;
-  int num_spec_files, num_terrains;
+  int num_spec_files, num_terrains, hex_side;
   char **spec_filenames, **terrains;
   char *file_capstr;
-  bool duplicates_ok;
+  bool duplicates_ok, is_hex;
 
   fname = tilespec_fullname(tileset_name);
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
@@ -659,6 +660,20 @@ bool tilespec_read_toplevel(const char *tileset_name)
   (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
   is_isometric = secfile_lookup_bool_default(file, FALSE, "tilespec.is_isometric");
+
+  /* Read hex-tileset information. */
+  is_hex = secfile_lookup_bool_default(file, FALSE, "tilespec.is_hex");
+  hex_side = secfile_lookup_int_default(file, 0, "tilespec.hex_side");
+  hex_width = hex_height = 0;
+  if (is_hex) {
+    if (is_isometric) {
+      hex_height = hex_side;
+    } else {
+      hex_width = hex_side;
+    }
+    is_isometric = TRUE; /* Hex tilesets are drawn the same as isometric. */
+  }
+
   if (is_isometric && !isometric_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support isometric tilesets."
 	    " Using default tileset instead."));

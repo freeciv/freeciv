@@ -758,6 +758,7 @@ static bool get_tile_boundaries(enum direction8 dir,
 				int *end_x, int *end_y)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  const int HW = hex_width, HH = hex_height;
   const int overlap = (width > 1) ? 1 : 0;
 
   assert(inset >= 0);
@@ -797,41 +798,61 @@ static bool get_tile_boundaries(enum direction8 dir,
    * adjustment and the overlap adjustment are both 1.
    */
 
+  if (!(draw & D_B) && !(draw & D_M)) {
+    /* Nothing drawable. */
+    return FALSE;
+  }
+
   if (is_isometric) {
     switch (dir) {
     case DIR8_NORTH:
       /* Top right. */
-      *start_x = W / 2;
-      *end_x = W - inset;
-      *start_y = inset + width;
-      *end_y = H / 2 + width;
+      *start_x = (W + HW) / 2;
+      *end_x = W - HW / 2 - inset;
+      *start_y = HH / 2 + inset + width;
+      *end_y = (H - HH) / 2 + width;
       return (draw & D_M_R) == D_M_R;
     case DIR8_SOUTH:
       /* Bottom left. */
-      *start_x = inset;
-      *end_x = W / 2;
-      *start_y = H / 2 - overlap;
-      *end_y = H - inset - overlap;
+      *start_x = (W - HW) / 2;
+      *end_x = HW / 2 + inset;
+      *start_y = H - HH / 2 - inset - overlap;
+      *end_y = (H + HH) / 2 - overlap;
       return (draw & D_B_L) == D_B_L && (inset + overlap) > 0;
     case DIR8_EAST:
       /* Bottom right. */
-      *start_x = W - inset;
-      *end_x = W / 2;
-      *start_y = H / 2 - overlap;
-      *end_y = H - inset - overlap;
+      *start_x = W - HW / 2 - inset;
+      *end_x = (W + HW) / 2;
+      *start_y = (H + HH) / 2 - overlap;
+      *end_y = H - HH / 2 - inset - overlap;
       return (draw & D_B_R) == D_B_R && (inset + overlap) > 0;
     case DIR8_WEST:
       /* Top left. */
-      *start_x = inset;
-      *end_x = W / 2;
-      *start_y = H / 2 + width;
-      *end_y = inset + width;
+      *start_x = HW / 2 + inset;
+      *end_x = (W - HW) / 2;
+      *start_y = (H - HH) / 2 + width;
+      *end_y = HH / 2 + inset + width;
       return (draw & D_M_L) == D_M_L;
     case DIR8_NORTHEAST:
+      *start_x = *end_x = W - HW / 2 - inset - overlap;
+      *start_y = (draw & D_M_R) == D_M_R ? ((H - HH) / 2) : H / 2;
+      *end_y = (draw & D_B_R) == D_B_R ? ((H + HH) / 2) : H / 2;
+      return HH > 0 && (draw & D_R);
     case DIR8_SOUTHEAST:
+      *start_x = (draw & D_B_R) == D_B_R ? ((W + HW) / 2) : W / 2;
+      *end_x = (draw & D_B_L) == D_B_L ? ((W - HW) / 2) : W / 2;
+      *start_y = *end_y = H - HH / 2 - inset - overlap;
+      return HW > 0 && (draw & D_B);
     case DIR8_SOUTHWEST:
+      *start_x = *end_x = HW / 2 + inset + width;
+      *start_y = (draw & D_B_L) == D_B_L ? ((H + HH) / 2) : H / 2;
+      *end_y = (draw & D_M_L) == D_M_L ? ((H - HH) / 2) : H / 2;
+      return HH > 0 && (draw & D_L);
     case DIR8_NORTHWEST:
-      return FALSE;
+      *start_x = (draw & D_M_L) == D_M_L ? ((W - HW) / 2) : W / 2;
+      *end_x = (draw & D_M_R) == D_M_R ? ((W + HW) / 2) : W / 2;
+      *start_y = *end_y = HH / 2 + inset + width;
+      return HW > 0 && (draw & D_M);
     }
   } else {
     switch (dir) {
@@ -953,7 +974,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
      * we use this hack. */
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
       if ((dir == DIR8_WEST || dir == DIR8_NORTHWEST
-	   || dir == DIR8_NORTH || dir == DIR8_NORTHEAST)
+	   || dir == DIR8_NORTH || dir == DIR8_SOUTHWEST)
 	  && get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
 				  &start_x, &start_y, &end_x, &end_y)
 	  && tile_get_known(adjc_x, adjc_y)
