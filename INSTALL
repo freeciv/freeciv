@@ -161,7 +161,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Imlib library installed, then it may be obtained from here:
 
-     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/imlib-1.9.7.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.7.tar.gz
 
    (Imlib documentation says that you require other libraries to use
    certain features but none of those are needed by the Freeciv client).
