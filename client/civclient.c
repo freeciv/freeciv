@@ -50,6 +50,7 @@ int use_solid_color_behind_units;
 int sound_bell_at_new_turn;
 int smooth_move_units=1;
 int flags_are_transparent=0;
+int ai_popup_windows=0;
 
 int seconds_to_turndone;
 

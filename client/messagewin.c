@@ -38,6 +38,7 @@
 
 extern Widget toplevel, main_form;
 extern struct player_race races[];
+extern int ai_popup_windows;
 
 Widget meswin_dialog_shell;
 Widget meswin_form;
@@ -63,6 +64,10 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_meswin_dialog(void)
 {
+  /* don't popup message window if we're watching AI controlled 
+     player */
+  if(game.player_ptr->ai.control && !ai_popup_windows) return;
+
   if(!meswin_dialog_shell)
     create_meswin_dialog();
 

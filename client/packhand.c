@@ -22,6 +22,7 @@ extern int seconds_to_turndone;
 extern int turn_gold_difference;
 extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
+extern int ai_popup_windows;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -181,7 +182,8 @@ void handle_city_info(struct packet_city_info *packet)
   refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
   
   if(city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
-     pcity->owner==game.player_idx)
+     pcity->owner==game.player_idx &&
+     (!game.player_ptr->ai.control || ai_popup_windows))
     popup_city_dialog(pcity, 0);
 
   if(!city_is_new)
@@ -238,7 +240,8 @@ void handle_page_msg(struct packet_generic_message *packet)
     title[i]=packet->message[i];
   title[i]='\0';
   
-  popup_notify_dialog(title, packet->message+i+1);
+  if (!game.player_ptr->ai.control || ai_popup_windows)
+    popup_notify_dialog(title, packet->message+i+1);
 }
 
 /**************************************************************************
@@ -474,6 +477,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
   int poptechup;
+  char msg[MSG_SIZE];
   struct player *pplayer=&game.players[pinfo->playerno];
   
   strcpy(pplayer->name, pinfo->name);
@@ -499,7 +503,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     strcpy(name, pplayer->name);
     if(poptechup) {
-      popup_science_dialog(1);
+      if(!game.player_ptr->ai.control || ai_popup_windows)
+	popup_science_dialog(1);
       did_advance_tech_this_turn=game.year;
       science_dialog_update();
     } 
@@ -513,14 +518,26 @@ void handle_player_info(struct packet_player_info *pinfo)
   strcpy(pplayer->addr, pinfo->addr);
 
   pplayer->revolution=pinfo->revolution;
+  if(pplayer->ai.control!=pinfo->ai)  {
+    pplayer->ai.control=pinfo->ai;
+    if(pplayer==game.player_ptr)  {
+      sprintf(msg,"AI Mode is now %s.",game.player_ptr->ai.control?"ON":"OFF");
+      append_output_window(msg);
+    }
+  }
+  pplayer->ai.manual_turn_done=pinfo->ai_manual_turn_done;
   
   if(pplayer==game.player_ptr && pplayer->revolution==0 && 
-     pplayer->government==G_ANARCHY) 
+     pplayer->government==G_ANARCHY &&
+     (!game.player_ptr->ai.control || ai_popup_windows))
     popup_government_dialog();
   
   update_players_dialog();
 
   if(pplayer==game.player_ptr) {
+    if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+       !game.player_ptr->turn_done)
+      enable_turn_done_button();
     update_info_label();
   }
 }

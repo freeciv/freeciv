@@ -222,11 +222,14 @@ void toggle_ai_player(char *arg)
     return;
   }
   pplayer->ai.control = !pplayer->ai.control;
-  if (pplayer->ai.control) 
+  if (pplayer->ai.control) {
     notify_player(0, "Option: %s is AI-controlled.", pplayer->name);
-  else
+    printf("%s is now under AI control.\n",pplayer->name);
+  } else {
     notify_player(0, "Option: %s is human.", pplayer->name);
-  
+    printf("%s is now under human control.\n",pplayer->name);
+  }
+  if(pplayer->conn) send_player_info(pplayer,0);
 }
 
 /**************************************************************************
@@ -435,7 +438,7 @@ void handle_stdin_input(char *str)
     int i;
     if(!strcmp("s", command)) {
       for (i=0;i<game.nplayers;i++) {
-	if (game.players[i].conn) plrs++ ;
+	if (game.players[i].conn || game.players[i].ai.control) plrs++ ;
       }
       if (plrs<game.min_players) 
 	printf("Not enough players, game will not start.\n");

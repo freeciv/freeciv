@@ -257,6 +257,8 @@ void update_turn_done_button(int do_restore)
    static int flip;
    Pixel fore, back;
  
+   if(game.player_ptr->ai.control && !game.player_ptr->ai.manual_turn_done)
+     return;
    if((do_restore && flip) || !do_restore) { 
    
       XtVaGetValues(turn_done_button, 
