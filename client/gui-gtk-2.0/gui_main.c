@@ -286,8 +286,10 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
     }
   }
 
-  if (data)
+  if (data) {
     gtk_entry_set_text(GTK_ENTRY(w), data);
+    gtk_editable_set_position(GTK_EDITABLE(w), -1);
+  }
   return keypress;
 }
 
