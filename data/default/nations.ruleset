@@ -882,7 +882,7 @@ government="Democracy"
 
 cities =
  "Stockholm", "Uppsala", "Solentuna", "Sigtuna", "Birka",
- "Norrköping", "Linköping", "Örebro", "Gävle", "Västeras",
+ "Norrköping", "Linköping", "Örebro", "Gävle", "Västerås",
  "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
  "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
  "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
@@ -922,8 +922,8 @@ cities =
 
 [nation27]
 
-name="Portuguese"
-plural="Portuguese"
+name=_("Portuguese")
+plural=_("Portuguese")
 leader="Afonso Henriques", "Afonso IV", "João II"
 leader_sex="Male", "Male", "Male"
 flag="f.portugal"
@@ -956,6 +956,56 @@ cities =
  "Funchal", "Ponta Delgada", "Torres Vedras", "Torres Novas",
  "Amadora", "Queluz", "Maia", "Figueira da Foz", "Matosinhos",
  "Vila Nova de Gaia"
+
+[nation28]
+
+name=_("Finnish")
+plural=_("Finns")
+leader="Mannerheim", "Kekkonen", "Ahtisaari", "Linus Torvalds"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.finland"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("President"),      _("President")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=2
+expand=0
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making", 
+             "Republic", "Metallurgy", "Industrialization", "Electronics", 
+             "Tactics"
+wonder="Women's Suffrage"
+government="Republic"
+
+; all the Finnish cities, the situation in 1998, 
+; ordered by combined population and age (in 2000)
+
+cities =
+ "Helsinki", "Turku", "Oulu", "Tampere", "Pori", "Porvoo", "Vaasa",
+ "Rauma", "Lappeenranta", "Kuopio", "Hämeenlinna", "Kokkola", "Kajaani",
+ "Jyväskylä", "Savonlinna", "Lahti", "Tornio", "Joensuu", "Naantali", 
+ "Pietarsaari", "Kotka", "Uusikaupunki", "Tammisaari", "Raahe", "Espoo", 
+ "Mikkeli", "Vantaa", "Heinola", "Hamina", "Kemi", "Kristiinankaupunki",
+ "Uusikaarlepyy", "Iisalmi", "Loviisa", "Hyvinkää", "Maarianhamina",
+ "Rovaniemi", "Hanko", "Kouvola", "Seinäjoki", "Järvenpää", "Lohja",
+ "Riihimäki", "Salo", "Imatra", "Varkaus", "Kerava", "Valkeakoski",
+ "Forssa", "Nokia", "Raisio", "Kuusankoski", "Vammala", "Pieksämäki",
+ "Lieksa", "Anjalankoski", "Ylivieska", "Äänekoski", "Kankaanpää",
+ "Kaskinen", "Lapua", "Jämsä", "Kemijärvi", "Parainen", "Nurmes",
+ "Kurikka", "Kauniainen", "Alavus", "Loimaa", "Huittinen", "Kokemäki",
+ "Karjaa", "Karkkila", "Virrat", "Outokumpu", "Haapajärvi", "Mänttä",
+ "Suonenjoki", "Oulainen", "Toijala", "Harjavalta", "Parkano",
+ "Ikaalinen", "Keuruu", "Kuhmo", "Saarijärvi", "Kaarina", "Suolahti",
+ "Alajärvi", "Orivesi", "Laitila", "Kauhava", "Orimattila", "Jämsänkoski",
+ "Ähtäri", "Nivala", "Kannus", "Kitee", "Kiuruvesi", "Närpiö", "Somero",
+ "Pyhäjärvi", "Haapavesi", "Viitasaari", "Paimio", "Nilsiä", "Juankoski"
+
 
 [misc]
 
