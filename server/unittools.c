@@ -688,8 +688,9 @@ static void update_unit_activity(struct unit *punit)
       return;
     }
 
-    if (more_to_explore) {
-      handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
+    assert(punit->activity == ACTIVITY_EXPLORE); 
+    if (!more_to_explore) {
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
     send_unit_info(NULL, punit);
     return;

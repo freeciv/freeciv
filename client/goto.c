@@ -342,24 +342,6 @@ static enum tile_behavior get_TB_aggr(int x, int y, enum known_type known,
 }
 
 /********************************************************************** 
-  PF callback to prohibit going into the unknown.  Also makes sure we 
-  don't plan to attack anyone.
-***********************************************************************/
-static enum tile_behavior get_TB_peace(int x, int y, enum known_type known,
-                                       struct pf_parameter *param)
-{
-  struct tile *ptile = map_get_tile(x, y);
-
-  if (known == TILE_UNKNOWN
-      || is_non_allied_unit_tile(ptile, param->owner)
-      || is_non_allied_city_tile(ptile, param->owner)) {
-    /* Can't attack */
-    return TB_IGNORE;
-  }
-  return TB_NORMAL;
-}
-
-/********************************************************************** 
   Fill the PF parameter with the correct client-goto values.
 ***********************************************************************/
 static void fill_client_goto_parameter(struct unit *punit,
@@ -373,7 +355,7 @@ static void fill_client_goto_parameter(struct unit *punit,
   if (unit_type(punit)->attack_strength > 0 || unit_flag(punit, F_DIPLOMAT)) {
     parameter->get_TB = get_TB_aggr;
   } else {
-    parameter->get_TB = get_TB_peace;
+    parameter->get_TB = no_fights_or_unknown;
   }
   parameter->turn_mode = TM_WORST_TIME;
   parameter->start_x = punit->x;

@@ -28,6 +28,7 @@
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
+#include "pf_tools.h"
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
@@ -407,8 +408,35 @@ comment below.
 #define DIFF_TER_SCORE         81
 #define KNOWN_SAME_TER_SCORE   0
 #define KNOWN_DIFF_TER_SCORE   51
-#define OWN_CITY_SCORE         18100
-#define HUT_SCORE              200000
+
+/* The maximum number of tiles that the unit might uncover in a move. 
+ * #define MAX_NEW_TILES          (1 + 4 * (unit_type(punit)->vision_range))
+ * The previous line would be ideal, but we'd like these to be constants
+ * for efficiency, so pretend vision_range == 1 */
+#define MAX_NEW_TILES          5
+
+/* The number of tiles that the unit can see. =(1 + 2r)^2
+ * #define VISION_TILES           (1 + 2 * unit_type(punit)->vision_range)*\
+ *                                (1 + 2 * unit_type(punit)->vision_range)
+ * As above, set vision_range == 1 */
+#define VISION_TILES           9
+
+/* The desirability of the best tile possible without cities or huts. 
+ * TER_SCORE is given per 1% of certainty about the terrain, so
+ * muliply by 100 to compensate. */
+#define BEST_NORMAL_TILE       \
+  (100 * MAX_NEW_TILES * DIFF_TER_SCORE +\
+   100 * (VISION_TILES - MAX_NEW_TILES) * KNOWN_DIFF_TER_SCORE)
+
+/* We value exploring around our cities just slightly more than exploring
+ * tiles fully surrounded by different terrain. */
+#define OWN_CITY_SCORE         (BEST_NORMAL_TILE + 1)
+
+/* And we value exploring huts even more than our own cities. */
+#define HUT_SCORE              (OWN_CITY_SCORE + 1) 
+
+#define BEST_POSSIBLE_SCORE    (HUT_SCORE + BEST_NORMAL_TILE)
+
 static int explorer_desirable(int x, int y, struct player *pplayer, 
                               struct unit *punit)
 {
@@ -493,256 +521,126 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
 
   return desirable;
 }
+
+/**************************************************************************
+  Handle eXplore mode of a unit (explorers are always in eXplore mode 
+  for AI) - explores unknown territory, finds huts.
+
+  Returns whether there is any more territory to be explored.
+**************************************************************************/
+bool ai_manage_explorer(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  /* Loop prevention */
+  int x = punit->x, y = punit->y;
+
+  /* The want of the most desirable tile, given nearby water, cities, etc. */
+  float most_desirable = 0;
+
+  /* The maximum distance we are willing to search. It decreases depending
+   * on the want of already discovered tagets.  It is defined as the distance
+   * at which a tile with BEST_POSSIBLE_SCORE would have to be found in
+   * order to be better than the current most_desirable tile. */
+  int max_dist = FC_INFINITY;
+
+  /* Coordinates of most desirable tile. Initialized to make 
+   * compiler happy. */
+  int best_x = -1, best_y = -1;
+
+  /* Path-finding stuff */
+  struct pf_map *map;
+  struct pf_parameter parameter;
+
+#define DIST_FACTOR   0.6
+
+  pft_fill_default_parameter(&parameter);
+  pft_fill_unit_parameter(&parameter, punit);
+  parameter.get_TB = no_fights_or_unknown;
+  /* When exploring, even AI should pretend to not cheat. */
+  parameter.omniscience = FALSE;
+
+  map = pf_create_map(&parameter);
+  while (pf_next(map)) {
+    float desirable;
+    struct pf_position pos;
+
+    pf_next_get_position(map, &pos);
+    
+    /* Our callback should insure this. */
+    assert(map_is_known(pos.x, pos.y, pplayer));
+    
+    desirable = explorer_desirable(pos.x, pos.y, pplayer, punit);
+    if (desirable == 0) { 
+      /* Totally non-desirable tile. No need to continue. */
+      continue;
+    }
+    desirable *= pow(DIST_FACTOR, pos.total_MC);
+
+    if (desirable > most_desirable) {
+      most_desirable = desirable;
+      best_x = pos.x;
+      best_y = pos.y;
+      /* We want to break when
+       *   most_desirable > BEST_POSSIBLE_SCORE * DIST_FACTOR^dist
+       * which is equivalent to
+       *   most_desirable/BEST_POSSIBLE_SCORE > DIST_FACTOR^dist
+       *   log(most_desirable/BEST_POSSIBLE_SCORE) > dist * log(DIST_FACTOR)
+       *   log(most_desirable/BEST_POSSIBLE_SCORE)/log(DIST_FACTOR) > dist
+       */
+      max_dist = log(most_desirable / BEST_POSSIBLE_SCORE) / log(DIST_FACTOR);
+    }
+
+    if (pos.total_MC > max_dist) {
+      break;
+    }
+  }
+  pf_destroy_map(map);
+
+  /* Go to the best tile found. */
+  if (most_desirable > 0) {
+    /* TODO: read the path off the map we made.  Then we can make a path 
+     * which goes beside the unknown, with a good EC callback... */
+    if (!ai_unit_goto(punit, best_x, best_y)) {
+      /* Died?  Strange... */
+      return FALSE;
+    }
+    if (punit->moves_left > 0) {
+      /* We can still move on... */
+      if (!same_pos(punit->x, punit->y, x, y)) {
+	/* At least we moved (and maybe even got to where we wnated).  
+         * Let's try again. */
+	return ai_manage_explorer(punit);          
+      } else {
+	/* Something went wrong. What to do but return?
+	 * Answer: if we're a trireme we could get to this point,
+	 * but only with a non-full complement of movement points,
+	 * in which case the goto code is simply requesting a
+	 * one turn delay (the next tile we would occupy is not safe).
+	 * In that case, we should just wait. */
+        if (unit_flag(punit, F_TRIREME) 
+            && (punit->moves_left != unit_move_rate(punit))) {
+          /* we're a trireme with non-full complement of movement points,
+           * so wait until next turn. */
+          return TRUE;
+        }
+	return FALSE;
+      }
+    }
+    return TRUE;
+  } else {
+    /* Didn't find anything. */
+    UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
+    return FALSE;
+  }
+#undef DIST_FACTOR
+}
+
 #undef SAME_TER_SCORE
 #undef DIFF_TER_SCORE
 #undef KNOWN_SAME_TER_SCORE
 #undef KNOWN_DIFF_TER_SCORE
 #undef OWN_CITY_SCORE
 #undef HUT_SCORE
-
-/**************************************************************************
-Handle eXplore mode of a unit (explorers are always in eXplore mode for AI) -
-explores unknown territory, finds huts.
-
-Returns whether there is any more territory to be explored.
-
-TODO: Convert to using new Path Finding, thus unifying Parts 1 and 2 (in 
-doing so one should aim to break the PF-loop early, to avoid slow-down).
-**************************************************************************/
-bool ai_manage_explorer(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
-  /* The position of the unit; updated inside the function */
-  int x = punit->x, y = punit->y;
-
-  /* 
-   * PART 1: Move into unexplored territory
-   * Move the unit as long as moving will unveil unknown territory
-   */
-  
-  while (punit->moves_left > 0) {
-    /* How desirable the most desirable tile is, given nearby water, 
-     * cities, etc. */
-    int most_desirable = 0; 
-     /* Coordinates of most desirable tile. Initialized to make
-      * compiler happy as these variables are guarded by
-      * most_desirable. */
-    int best_x = -1, best_y = -1;
-
-    /* Evaluate all adjacent tiles. */
-    adjc_iterate(x, y, x1, y1) {
-      int desirable;
-
-      if (could_unit_move_to_tile(punit, x1, y1) != 1) {
-        /* we can't move there anyway, don't consider how good it might be. */
-	continue;
-      }
-
-      desirable = explorer_desirable(x1, y1, pplayer, punit);
-
-      if ((desirable > most_desirable) &&
-	  (is_my_zoc(pplayer, x,y) || 
-	   unit_type_really_ignores_zoc(punit->type))) {
-	most_desirable = desirable;
-	best_x = x1;
-	best_y = y1;
-      }
-    } adjc_iterate_end;
-
-    if (most_desirable > 0) {
-      /* We can die because easy AI may stumble on huts and so disappear 
-       * in the wilderness - unit_id is used to check this */
-      int unit_id = punit->id;
-      bool move_success;
-
-      /* Some tile has unexplored territory adjacent, let's move there. */
-      
-      /* ai_unit_move for AI players, handle_unit_move_request for humans */
-      if (pplayer->ai.control) {
-        move_success = ai_unit_move(punit, best_x, best_y);
-      } else {
-        /* Need to idle unit otherwise handle_unit_move_request fails.
-         * We can use ai_unit_goto, but it's a bit wasteful here... */
-
-        if (punit->activity != ACTIVITY_IDLE) {
-          handle_unit_activity_request(punit, ACTIVITY_IDLE);
-        }
-        move_success = handle_unit_move_request(punit, best_x, best_y, 
-                                                FALSE, FALSE);
-      }
-      
-      if (!player_find_unit_by_id(pplayer, unit_id)) {
-        /* We're dead. */
-        return FALSE;
-      }
-
-      if (move_success) { 
-        /* We moved, update our current position */
-        x = punit->x;
-        y = punit->y;
-      } else {
-        /* Move failed, break to avoid an endless loop */
-        break; 
-      }
-
-    } else {
-      /* Everything immediately beside us is already explored. */
-      break;
-    }
-  }
-
-  if (punit->moves_left == 0) {
-    /* We can't move on anymore. */
-    return TRUE;
-  }
-
-  /* 
-   * PART 2: Go towards unexplored territory
-   * No adjacent squares help us to explore - really slow part follows.
-   */
-
-  {
-    /* most desirable tile, given nearby water, cities, etc. */
-    float most_desirable = 0;
-     /* Coordinates of most desirable tile. Initialized to make
-      * compiler happy as these variables are guarded by
-      * most_desirable. */
-    int best_x = -1, best_y = -1;
-  
-    generate_warmap(map_get_city(x, y), punit);
-
-    whole_map_iterate(x1, y1) {
-      float desirable;
-      int dist = (is_sailing_unit(punit) ?
-                  WARMAP_SEACOST(x1, y1) : WARMAP_COST(x1,y1));
-
-      if (!is_dist_finite(dist)) {
-        /* This position is unreachable anyway */
-        continue;
-      }
-
-      desirable = explorer_desirable(x1, y1, pplayer, punit);
-
-      if (desirable > 0) {
-	/* add some "noise" to the signal so equally desirable tiles
-	 * will be selected randomly. The noise has an amplitude
-	 * of 0.1, so a far-away tile with a higher score will still
-	 * usually be selected over a nearby tile with a high noise 
-	 * value. */
-	desirable += myrand(100) * 0.001;
-
-	/* now we want to reduce the desirability of far-away
-	 * tiles, without reducing it to zero, regardless how
-	 * far away it is. */
-#define DIST_FACTOR   0.8
-	desirable *= pow(DIST_FACTOR, dist);
-#undef DIST_FACTOR
-
-	if (desirable > most_desirable) {
-	  best_x = x1;
-	  best_y = y1;
-	  if (desirable > most_desirable) {
-	    most_desirable = desirable;
-          }
-        }
-      }
-    } whole_map_iterate_end;
-
-    if (most_desirable > 0) {
-      /* Go there! */
-      if (!ai_unit_goto(punit, best_x, best_y)) {
-	return FALSE;
-      }
-      
-      if (punit->moves_left > 0) {
-        /* We can still move on... */
-
-        if (same_pos(punit->x, punit->y, best_x, best_y)) {
-          /* ...and got into desired place. */
-	  return ai_manage_explorer(punit);          
-        } else {
-          /* Something went wrong. What to do but return? 
-	   * Answer: if we're a trireme we could get to this point,
-	   * but only with a non-full complement of movement points, 
-	   * in which case the goto code is simply requesting a
-	   * one turn delay (the next tile we would occupy is not safe). 
-	   * In that case, we should just wait. */
-          if (punit->activity == ACTIVITY_EXPLORE) {
-	    if(unit_flag(punit, F_TRIREME) &&
-	       (punit->moves_left != unit_move_rate(punit))) {
-	      /* we're a trireme with non-full complement of movement points,
-	       * so wait until next turn. */
-	      return TRUE;
-	    }
-	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-          }
-	  return FALSE;
-        }
-      } else {
-        return TRUE;
-      }
-    }
-    /* No candidates; fall-through. */
-  }
-
-  /* We have nothing to explore, so we can go idle. 
-   * Do we need this idle? It seems to me that we'll never get to part 3,
-   * so AI explorers will never go home. --CJM
-   */
-  UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
-  if (punit->activity == ACTIVITY_EXPLORE) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  }
-  
-  /* 
-   * PART 3: Go home
-   * If we are AI controlled _military_ unit (so Explorers don't count, why?
-   * --pasky), we will return to our homecity, maybe even to another continent.
-   */
-  
-  if (pplayer->ai.control) {
-    /* Unit's homecity */
-    struct city *pcity = find_city_by_id(punit->homecity);
-    /* No homecity? Find one! */
-    if (!pcity) {
-      bool sea_required = is_sailing_unit(punit);
-
-      pcity = find_closest_owned_city(pplayer, punit->x, punit->y, 
-                                      sea_required, NULL);
-      if (pcity && ai_unit_make_homecity(punit, pcity)) {
-        CITY_LOG(LOG_DEBUG, pcity, "we became home to an exploring %s",
-                 unit_name(punit->type));
-      }
-    }
-
-    if (pcity && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-      if (map_get_continent(pcity->x, pcity->y)
-          == map_get_continent(x, y)
-          || (is_sailing_unit(punit) 
-              && is_ocean_near_tile(pcity->x, pcity->y))) {
-        UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by foot");
-        if (punit->homecity != 0) {
-          ai_military_gohome(pplayer, punit);
-        } else {
-          /* Also try take care of deliberately homeless units */
-          (void) ai_unit_goto(punit, pcity->x, pcity->y);
-        }
-      } else {
-        /* Sea travel */
-        if (find_boat(pplayer, &x, &y, 0) == 0) {
-          punit->ai.ferryboat = -1;
-          UNIT_LOG(LOG_DEBUG, punit, "exploring unit wants a boat, going home");
-          ai_military_gohome(pplayer, punit); /* until then go home */
-        } else {
-          UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by boat");
-          (void) ai_unit_goto(punit, x, y);
-        }
-      }
-    }
-  }
-
-  return FALSE;
-}
 
 /*********************************************************************
   In the words of Syela: "Using funky fprime variable instead of f in

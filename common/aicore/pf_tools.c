@@ -347,6 +347,25 @@ static enum tile_behavior dont_cross_ocean(int x, int y,
   return TB_NORMAL;
 }
 
+/********************************************************************** 
+  PF callback to prohibit going into the unknown.  Also makes sure we 
+  don't plan to attack anyone.
+***********************************************************************/
+enum tile_behavior no_fights_or_unknown(int x, int y, 
+                                        enum known_type known,
+                                        struct pf_parameter *param)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  if (known == TILE_UNKNOWN
+      || is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_city_tile(ptile, param->owner)) {
+    /* Can't attack */
+    return TB_IGNORE;
+  }
+  return TB_NORMAL;
+}
+
 
 /* =====================  Postion Dangerous Callbacks ================ */
 
@@ -468,6 +487,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
   parameter->owner = unit_owner(punit);
+  parameter->unit_flags = unit_type(punit)->flags;
   parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
 
   switch (unit_type(punit)->move_type) {
