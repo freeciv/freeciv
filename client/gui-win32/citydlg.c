@@ -1122,12 +1122,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_CHANGE:
 	  if (sel>=0)
 	    {
-	      struct packet_city_request packet;  
-	      packet.city_id=pdialog->pcity->id;
-	      packet.build_id=idx;
-	      packet.is_build_id_unit_id=is_unit;
-	      
-	      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+	      city_change_production(pdialog->pcidy, is_unit, idx);
 	      DestroyWindow(hWnd);
 	    }
 	  break;
@@ -1264,13 +1259,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
         (!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
-
         /* Change the current target */
-        packet.city_id = pdialog->pcity->id;
-        packet.build_id = id;
-        packet.is_build_id_unit_id = is_unit;
-        send_packet_city_request(&aconnection, &packet,
-                                 PACKET_CITY_CHANGE);
+	city_change_production(pdialog->pcity, is_unit, id);
       }
 
       /* This item is now (and may have always been) the current

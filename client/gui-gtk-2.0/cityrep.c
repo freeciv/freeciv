@@ -287,11 +287,12 @@ static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
   struct packet_city_request packet;
   gint id;
 
+  /* FIXME: don't use network packet structures here. */
   packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  packet.city_id = id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  city_change_production(find_city_by_id(id),
+			 packet->is_build_id_unit_id, packet->build_id);
 }
 
 /****************************************************************

@@ -50,4 +50,6 @@ void get_city_citizen_types(struct city *pcity, int index,
 
 void activate_all_units(int map_x, int map_y);
 
+int city_change_production(struct city *pcity, bool is_unit, int build_id);
+
 #endif /* FC__CITYDLG_COMMON_H */

@@ -3100,16 +3100,11 @@ static void change_yes_callback(GtkWidget * w, gpointer data)
   GList *selection = GTK_CLIST(pdialog->change_list)->selection;
 
   if (selection) {
-    struct packet_city_request packet;
     cid cid = GPOINTER_TO_INT(
                   gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
 					 GPOINTER_TO_INT(selection->data)));
 
-    packet.city_id = pdialog->pcity->id;
-    packet.build_id = cid_id(cid);
-    packet.is_build_id_unit_id = cid_is_unit(cid);
-
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    city_change_production(pdialog->pcity, cid_is_unit(cid), cid_id(cid));
   }
   gtk_widget_destroy(w->parent->parent->parent);
   pdialog->change_shell = NULL;
@@ -3303,13 +3298,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
-
 	/* Change the current target */
-	packet.city_id = pdialog->pcity->id;
-	packet.build_id = id;
-	packet.is_build_id_unit_id = is_unit;
-	send_packet_city_request(&aconnection, &packet,
-				 PACKET_CITY_CHANGE);
+	city_change_production(pdialog->pcity, is_unit, id);
       }
 
       /* This item is now (and may have always been) the current

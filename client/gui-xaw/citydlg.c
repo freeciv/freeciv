@@ -2115,14 +2115,10 @@ static void change_to_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(pdialog->change_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    struct packet_city_request packet;
-  
-    packet.city_id=pdialog->pcity->id;
-    packet.build_id=pdialog->change_list_ids[ret->list_index];
-    packet.is_build_id_unit_id=
-      (ret->list_index >= pdialog->change_list_num_improvements);
-    
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    bool is_unit = ret->list_index >= pdialog->change_list_num_improvements;
+    int build_id = pdialog->change_list_ids[ret->list_index];
+
+    city_change_production(pdialog->pcity, is_unit, build_id);
   }
   
   XtDestroyWidget(XtParent(XtParent(w)));
@@ -2362,12 +2358,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
-
 	/* Change the current target */
-	packet.city_id=pdialog->pcity->id;
-	packet.build_id = id;
-	packet.is_build_id_unit_id = is_unit;
-	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+	city_change_production(pdialog->pcity, is_unit, id);
       }
 
       /* This item is now (and may have always been) the current

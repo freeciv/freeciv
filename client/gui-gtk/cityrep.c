@@ -311,13 +311,8 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 
       connection_do_buffer(&aconnection);  
       for (; selection; selection = g_list_next(selection)) {
-	struct packet_city_request packet;
-
-	packet.city_id = city_from_glist(selection)->id;
-	packet.build_id = id;
-	packet.is_build_id_unit_id = is_unit;
-	last_request_id = send_packet_city_request(&aconnection, &packet,
-						   PACKET_CITY_CHANGE);
+	last_request_id = city_change_production(city_from_glist(selection),
+						 is_unit, id);
       }
 
       connection_do_unbuffer(&aconnection);

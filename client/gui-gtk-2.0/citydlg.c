@@ -736,16 +736,8 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 
     if (gtk_tree_model_get_iter(model, &it, path)) {
       cid cid;
-      struct packet_city_request packet;
-
       gtk_tree_model_get(model, &it, 0, &cid, -1);
-
-      packet.city_id = pdialog->pcity->id;
-      packet.build_id = cid_id(cid);
-      packet.is_build_id_unit_id = cid_is_unit(cid);
-
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-
+      city_change_production(pdialog->pcity, cid_id(cid), cid_is_unit(cid));
       gtk_drag_finish(context, TRUE, FALSE, time);
     }
     gtk_tree_path_free(path);

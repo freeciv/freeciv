@@ -177,12 +177,9 @@ static int ok_worklist_editor_callback(struct GUI *pWidget)
     
     /* change production */
     if(pEditor->is_building_unit != pCity->is_building_unit ||
-      pEditor->currently_building != pCity->currently_building) {
-         
-      packet.build_id = pEditor->currently_building;
-      packet.is_build_id_unit_id = pEditor->is_building_unit;
-	
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+       pEditor->currently_building != pCity->currently_building) {
+      city_change_production(pCity, pEditor->is_building_unit,
+			     pEditor->currently_building);
       same_prod = FALSE;
     }
     

@@ -498,15 +498,11 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
 
   connection_do_buffer(&aconnection);
   for (i = 0; i < selcount; i++) {
-    struct packet_city_request packet;
     pcity = (struct city *) ListBox_GetItemData(GetDlgItem(hWnd,
 							   ID_CITYREP_LIST),
 						cityids[i]);
-    packet.city_id = pcity->id;
-    packet.build_id = number;
-    packet.is_build_id_unit_id = is_unit;
     last_request_id =
-	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+      city_change_production(pcity, is_unit, number);
     ListBox_SetSel(GetDlgItem(hWnd, ID_CITYREP_LIST), FALSE, cityids[i]);
   }
 

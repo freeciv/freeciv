@@ -274,19 +274,6 @@ struct city_dialog
 /****************************************************************
  ...
 *****************************************************************/
-static void request_city_change_production(struct city *pcity, int id, bool is_unit_id)
-{
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.build_id = id;
-  packet.is_build_id_unit_id = is_unit_id;
-
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-}
-/****************************************************************
- ...
-*****************************************************************/
 static void request_city_change_specialist(struct city *pcity, int from, int to)
 {
   struct packet_city_request packet;
@@ -909,13 +896,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
-
 	/* Change the current target */
-	packet.city_id = pdialog->pcity->id;
-	packet.build_id = id;
-	packet.is_build_id_unit_id = is_unit;
-	send_packet_city_request(&aconnection, &packet,
-				 PACKET_CITY_CHANGE);
+	city_change_production(pdialog->pcity, is_unit, id);
       }
 
       /* This item is now (and may have always been) the current
@@ -1173,7 +1155,7 @@ static void city_prod_change(struct city_prod **ppcprod)
     else
       which--;
 
-    request_city_change_production(pcprod->pcity, which, is_unit);
+    city_change_production(pcprod->pcity, is_unit, which);
     city_prod_destroy(ppcprod);
   }
 }

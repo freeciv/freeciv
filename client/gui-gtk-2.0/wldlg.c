@@ -547,15 +547,9 @@ static void change_callback(GtkWidget *w, gpointer data)
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint cid;
 
-    struct packet_city_request packet;
-
     gtk_tree_model_get(model, &it, 0, &cid, -1);
 
-    packet.city_id = ptr->pcity->id;
-    packet.build_id = cid_id(cid);
-    packet.is_build_id_unit_id = cid_is_unit(cid);
-
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    city_change_production(ptr->pcity, cid_is_unit(cid), cid_id(cid));
   }
 }
 

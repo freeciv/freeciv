@@ -153,7 +153,6 @@ void client_change_all(cid x, cid y)
 {
   int fr_id = cid_id(x), to_id = cid_id(y);
   bool fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
-  struct packet_city_request packet;
   char buf[512];
   int last_request_id = 0;
 
@@ -178,11 +177,7 @@ void client_change_all(cid x, cid y)
 	 (!to_is_unit &&
 	  can_build_improvement (pcity, to_id))))
       {
-	packet.city_id = pcity->id;
-	packet.build_id = to_id;
-	packet.is_build_id_unit_id = to_is_unit;
-	last_request_id = send_packet_city_request(&aconnection, &packet,
-						   PACKET_CITY_CHANGE);
+	last_request_id = city_change_production(pcity, to_is_unit, to_id);
       }
   } city_list_iterate_end;
 

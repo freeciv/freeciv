@@ -20,6 +20,7 @@
 #include "log.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "control.h"
 #include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for is_isometric */
@@ -339,4 +340,22 @@ void activate_all_units(int map_x, int map_y)
     /* Put the focus on one of the activated units. */
     set_unit_focus(pmyunit);
   }
+}
+
+/**************************************************************************
+  Change the production of a given city.  Return the request ID.
+**************************************************************************/
+int city_change_production(struct city *pcity, bool is_unit, int build_id)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+  packet.build_id = build_id;
+  packet.is_build_id_unit_id = is_unit;
+
+  /* Fill out unused fields. */
+  packet.worker_x = packet.worker_y = -1;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
 }

@@ -384,7 +384,6 @@ void city_change_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
-    struct packet_city_request packet;
     cid my_cid = (cid) XTPOINTER_TO_INT(client_data);
     Boolean unit;
     int build_nr;
@@ -392,10 +391,7 @@ void city_change_callback(Widget w, XtPointer client_data,
     unit = cid_is_unit(my_cid);
     build_nr = cid_id(my_cid);
 
-    packet.city_id=pcity->id;
-    packet.build_id=build_nr;
-    packet.is_build_id_unit_id=unit;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    city_change_production(pcity, unit, build_nr);
   }
 }
 
