@@ -22,7 +22,7 @@
 #include <SDL/SDL.h>
 
 #include "back_end.h"
-#include "back_end_common_24.h"
+#include "be_common_24.h"
 
 #include "shared.h"
 
@@ -36,6 +36,8 @@
 
 static SDL_Surface *screen;
 static int other_fd = -1;
+
+#define P IMAGE_GET_ADDRESS
 
 /*************************************************************************
   ...
@@ -350,7 +352,7 @@ static void fill_surface_from_image_8888(SDL_Surface * surface,
 /*************************************************************************
   ...
 *************************************************************************/
-void be_copy_osda_to_screen(struct osda *src, const struct ct_size *size)
+void be_copy_osda_to_screen(struct osda *src)
 {
   assert(screen->w == src->image->width && screen->h == src->image->height);
 
