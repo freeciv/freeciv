@@ -166,17 +166,20 @@ int log_parse_level_str(const char *level_str)
 }
 
 /**************************************************************************
-Initialise the log module.
-Either 'filename' or 'callback' may be NULL.
-If both are NULL, print to stderr.
-If both are non-NULL, both callback, and fprintf to file.
+  Initialise the log module. Either 'filename' or 'callback' may be NULL.
+  If both are NULL, print to stderr. If both are non-NULL, both callback, 
+  and fprintf to file.
 **************************************************************************/
 void log_init(const char *filename, int initial_level,
 	      log_callback_fn callback)
 {
-  fc_log_level=initial_level;
-  log_filename=filename;
-  log_callback=callback;
+  fc_log_level = initial_level;
+  if (filename && strlen(filename) > 0) {
+    log_filename = filename;
+  } else {
+    log_filename = NULL;
+  }
+  log_callback = callback;
   freelog(LOG_VERBOSE, "log started");
   freelog(LOG_DEBUG, "LOG_DEBUG test");
 }
