@@ -630,9 +630,6 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       return;
     }
 
-    /* TODO: following lines to be absorbed in a goto wrapper */
-    punit->goto_dest_x = ctarget->x;
-    punit->goto_dest_y = ctarget->y;
     ai_unit_new_role(punit, task, ctarget->x, ctarget->y);
   }
 

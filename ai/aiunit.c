@@ -2530,8 +2530,6 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   punit->ai.passenger = 0;
   UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  punit->goto_dest_x = 0; /* FIXME: -1 */
-  punit->goto_dest_y = 0; /* FIXME: -1 */
 
   /* Release bodyguard and let it roam */
   ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);

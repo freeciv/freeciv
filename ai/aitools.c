@@ -206,9 +206,18 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   punit->ai.charge = BODYGUARD_NONE;
 
   punit->ai.ai_role = task;
-/* TODO:
-  punit->goto_dest_x = x;
-  punit->goto_dest_y = y; */
+
+  /* Verify and set the goto destination.  Eventually this can be a lot more
+   * stringent, but for now we don't want to break things too badly. */
+  if (x == -1 && y == -1) {
+    /* No goto_dest. */
+    punit->goto_dest_x = 0;
+    punit->goto_dest_y = 0;
+  } else {
+    assert(is_normal_map_pos(x, y));
+    punit->goto_dest_x = x;
+    punit->goto_dest_y = y;
+  }
 
   if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {
     ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);
