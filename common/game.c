@@ -796,6 +796,19 @@ void game_init(void)
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT);
 
+  game.save_options.save_random = 1;
+  game.save_options.save_players = 1;
+  game.save_options.save_known = 1;
+  game.save_options.save_starts = 1;
+  game.save_options.save_private_map = 1;
+
+  game.load_options.load_random = 1;
+  game.load_options.load_players = 1;
+  game.load_options.load_known = 1;
+  game.load_options.load_starts = 1;
+  game.load_options.load_private_map = 1;
+  game.load_options.load_settings = 1;
+  
   map_init();
   idex_init();
   

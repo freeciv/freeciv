@@ -1262,7 +1262,9 @@ void map_fractal_generate(void)
   if(!map.have_specials) /* some scenarios already provide specials */
     add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
 
-  make_huts(map.huts);
+  if (!map.have_huts)
+    make_huts(map.huts); /* Vi vil have store promiller; man kan aldrig faa
+			    for meget oel! */
 
   /* restore previous random state: */
   set_myrand_state(rstate);

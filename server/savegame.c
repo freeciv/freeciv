@@ -59,7 +59,7 @@ static const char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2"
+" diplchance_percent worklists2 map_editor"
 
 
 /***************************************************************
@@ -194,7 +194,13 @@ static void map_load(struct section_file *file)
    */
 
   map_tiles_load(file);
-  map_startpos_load(file);
+  if (secfile_lookup_int_default(file, 1, "game.save_starts")
+      && game.load_options.load_starts) {
+    map_startpos_load(file);
+  } else {
+    map.num_start_positions = 0;
+    map.fixed_start_positions = 0;
+  }
 
   /* get lower 4 bits of special flags */
   for(y=0; y<map.ysize; y++) {
@@ -270,66 +276,69 @@ static void map_load(struct section_file *file)
     }
   }
 
-  /* get bits 0-3 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.a%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      map_get_tile(x,y)->sent=0;
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.a) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-      else
-	map_get_tile(x, y)->known=0;
-    }
-  }
-
-  /* get bits 4-7 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.b%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.b) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
+  if (secfile_lookup_int_default(file, 1, "game.save_known")
+      && game.load_options.load_known) {
+    /* get bits 0-3 of known flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "map.a%03d", y);
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	map_get_tile(x,y)->sent=0;
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown known flag (map.a) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
+	else
+	  map_get_tile(x, y)->known=0;
       }
     }
-  }
 
-  /* get bits 8-11 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.c%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.c) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
+    /* get bits 4-7 of known flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "map.b%03d", y);
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown known flag (map.b) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
       }
     }
-  }
 
-  /* get bits 12-15 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.d%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
+    /* get bits 8-11 of known flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "map.c%03d", y);
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown known flag (map.c) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
+      }
+    }
 
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.d) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
+    /* get bits 12-15 of known flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "map.d%03d", y);
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown known flag (map.d) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
       }
     }
   }
@@ -355,9 +364,12 @@ static void map_save(struct section_file *file)
    */
   secfile_insert_int(file, map.is_earth, "map.is_earth");
 
-  for(i=0; i<map.num_start_positions; i++) {
-    secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
-    secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+  secfile_insert_int(file, game.save_options.save_starts, "game.save_starts");
+  if (game.save_options.save_starts) {
+    for (i=0; i<map.num_start_positions; i++) {
+      secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
+      secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+    }
   }
     
   /* put the terrain type */
@@ -404,45 +416,48 @@ static void map_save(struct section_file *file)
     secfile_insert_str(file, pbuf, "map.n%03d", y);
   }
 
-  /* put "final" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf000)>>12];
-    pbuf[x]='\0';
+  secfile_insert_int(file, game.save_options.save_known, "game.save_known");
+  if (game.save_options.save_known) {
+    /* put "final" 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf000)>>12];
+      pbuf[x]='\0';
 
-    secfile_insert_str(file, pbuf, "map.f%03d", y);
-  }
+      secfile_insert_str(file, pbuf, "map.f%03d", y);
+    }
 
-  /* put bit 0-3 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->known&0xf)];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.a%03d", y);
-  }
+    /* put bit 0-3 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_tile(x, y)->known&0xf)];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.a%03d", y);
+    }
 
-  /* put bit 4-7 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0))>>4];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.b%03d", y);
-  }
+    /* put bit 4-7 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0))>>4];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.b%03d", y);
+    }
 
-  /* put bit 8-11 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00))>>8];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.c%03d", y);
-  }
+    /* put bit 8-11 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00))>>8];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.c%03d", y);
+    }
 
-  /* put bit 12-15 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000))>>12];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.d%03d", y);
+    /* put bit 12-15 of known bits */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000))>>12];
+      pbuf[x]='\0';
+      secfile_insert_str(file, pbuf, "map.d%03d", y);
+    }
   }
   
   free(pbuf);
@@ -992,7 +1007,9 @@ static void player_map_load(struct player *plr, int plrno,
   */
   if (secfile_lookup_int_default(file, -1, "game.fogofwar") != -1
       && game.fogofwar == 1
-      && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1) {
+      && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
+      && secfile_lookup_int_default(file, 1, "game.save_private_map")
+      && game.load_options.load_private_map) {
     /* get the terrain type */
     for(y=0; y<map.ysize; y++) {
       char *terline=secfile_lookup_str(file, "player%d.map_t%03d", plrno, y);
@@ -1441,7 +1458,8 @@ static void player_save(struct player *plr, int plrno,
 
   /********** Put the players private map **********/
  /* Otherwise the player can see all, and there's no reason to save the private map. */
-  if (game.fogofwar) {
+  if (game.fogofwar
+      && game.save_options.save_private_map) {
     /* put the terrain type */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
@@ -1605,52 +1623,6 @@ void game_load(struct section_file *file)
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
-  sz_strlcpy(srvarg.metaserver_info_line,
-	     secfile_lookup_str_default(file, default_meta_server_info_string(),
-					"game.metastring"));
-  sz_strlcpy(srvarg.metaserver_addr,
-	     secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
-					"game.metaserver"));
-  meta_addr_split();
-
-  game.gold          = secfile_lookup_int(file, "game.gold");
-  game.tech          = secfile_lookup_int(file, "game.tech");
-  game.skill_level   = secfile_lookup_int(file, "game.skill_level");
-  if (game.skill_level==0)
-    game.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
-  game.timeout       = secfile_lookup_int(file, "game.timeout");
-  game.end_year      = secfile_lookup_int(file, "game.end_year");
-  game.techlevel     = secfile_lookup_int(file, "game.techlevel");
-  game.year          = secfile_lookup_int(file, "game.year");
-  game.min_players   = secfile_lookup_int(file, "game.min_players");
-  game.max_players   = secfile_lookup_int(file, "game.max_players");
-  game.nplayers      = secfile_lookup_int(file, "game.nplayers");
-  game.globalwarming = secfile_lookup_int(file, "game.globalwarming");
-  game.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
-  game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
-  game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
-  game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
-
-  if (game.version >= 10100) {
-    game.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
-    game.diplcost    = secfile_lookup_int(file, "game.diplcost");
-    game.freecost    = secfile_lookup_int(file, "game.freecost");
-    game.conquercost = secfile_lookup_int(file, "game.conquercost");
-    game.foodbox     = secfile_lookup_int(file, "game.foodbox");
-    game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
-    game.razechance  = secfile_lookup_int(file, "game.razechance");
-
-    /* suppress warnings about unused entries in old savegames: */
-    section_file_lookup(file, "game.rail_food");
-    section_file_lookup(file, "game.rail_prod");
-    section_file_lookup(file, "game.rail_trade");
-    section_file_lookup(file, "game.farmfood");
-  }
-  if (game.version >= 10300) {
-    game.civstyle = secfile_lookup_int_default(file, 0, "game.civstyle");
-    game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
-  }
-
   if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
       || (game.version > 10604)) 
     savefile_options = secfile_lookup_str(file,"savefile.options");
@@ -1663,119 +1635,154 @@ void game_load(struct section_file *file)
      secfile_lookup_str_default(), etc.
   */
 
-  sz_strlcpy(game.save_name,
-	     secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
-					"game.save_name"));
+  if (game.load_options.load_settings) {
+    sz_strlcpy(srvarg.metaserver_info_line,
+	       secfile_lookup_str_default(file, default_meta_server_info_string(),
+					  "game.metastring"));
+    sz_strlcpy(srvarg.metaserver_addr,
+	       secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
+					  "game.metaserver"));
+    meta_addr_split();
 
-  game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
+    game.gold          = secfile_lookup_int(file, "game.gold");
+    game.tech          = secfile_lookup_int(file, "game.tech");
+    game.skill_level   = secfile_lookup_int(file, "game.skill_level");
+    if (game.skill_level==0)
+      game.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
+    game.timeout       = secfile_lookup_int(file, "game.timeout");
+    game.end_year      = secfile_lookup_int(file, "game.end_year");
+    game.techlevel     = secfile_lookup_int(file, "game.techlevel");
+    game.year          = secfile_lookup_int(file, "game.year");
+    game.min_players   = secfile_lookup_int(file, "game.min_players");
+    game.max_players   = secfile_lookup_int(file, "game.max_players");
+    game.nplayers      = secfile_lookup_int(file, "game.nplayers");
+    game.globalwarming = secfile_lookup_int(file, "game.globalwarming");
+    game.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
+    game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
+    game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
+    game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
 
-  game.scorelog = secfile_lookup_int_default(file, 0, "game.scorelog");
+    if (game.version >= 10100) {
+      game.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
+      game.diplcost    = secfile_lookup_int(file, "game.diplcost");
+      game.freecost    = secfile_lookup_int(file, "game.freecost");
+      game.conquercost = secfile_lookup_int(file, "game.conquercost");
+      game.foodbox     = secfile_lookup_int(file, "game.foodbox");
+      game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
+      game.razechance  = secfile_lookup_int(file, "game.razechance");
 
-  game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
-  game.fogofwar_old = game.fogofwar;
+      /* suppress warnings about unused entries in old savegames: */
+      section_file_lookup(file, "game.rail_food");
+      section_file_lookup(file, "game.rail_prod");
+      section_file_lookup(file, "game.rail_trade");
+      section_file_lookup(file, "game.farmfood");
+    }
+    if (game.version >= 10300) {
+      game.civstyle = secfile_lookup_int_default(file, 0, "game.civstyle");
+      game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
+    }
+
+    sz_strlcpy(game.save_name,
+	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
+					  "game.save_name"));
+
+    game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
+
+    game.scorelog = secfile_lookup_int_default(file, 0, "game.scorelog");
+
+    game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
+    game.fogofwar_old = game.fogofwar;
   
-  game.civilwarsize =
-    secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
-			       "game.civilwarsize");
+    game.civilwarsize =
+      secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
+				 "game.civilwarsize");
   
-  if(has_capability("diplchance_percent", savefile_options)) {
-    game.diplchance = secfile_lookup_int_default(file, game.diplchance,
-						 "game.diplchance");
-  } else {
-    game.diplchance = secfile_lookup_int_default(file, 3, /* old default */
-						 "game.diplchance");
-    if (game.diplchance < 2) {
-      game.diplchance = GAME_MAX_DIPLCHANCE;
-    } else if (game.diplchance > 10) {
-      game.diplchance = GAME_MIN_DIPLCHANCE;
+    if(has_capability("diplchance_percent", savefile_options)) {
+      game.diplchance = secfile_lookup_int_default(file, game.diplchance,
+						   "game.diplchance");
     } else {
-      game.diplchance = 100 - (10 * (game.diplchance - 1));
+      game.diplchance = secfile_lookup_int_default(file, 3, /* old default */
+						   "game.diplchance");
+      if (game.diplchance < 2) {
+	game.diplchance = GAME_MAX_DIPLCHANCE;
+      } else if (game.diplchance > 10) {
+	game.diplchance = GAME_MIN_DIPLCHANCE;
+      } else {
+	game.diplchance = 100 - (10 * (game.diplchance - 1));
+      }
     }
-  }
-  game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
-						 "game.aqueductloss");
-  game.killcitizen = secfile_lookup_int_default(file, game.killcitizen,
-						 "game.killcitizen");
-  game.turnblock = secfile_lookup_int_default(file,game.turnblock,
-					      "game.turnblock");
-  game.fixedlength = secfile_lookup_int_default(file,game.fixedlength,
-						"game.fixedlength");
-  game.barbarianrate = secfile_lookup_int_default(file, game.barbarianrate,
-						  "game.barbarians");
-  game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
-						   "game.onsetbarbs");
-  game.nbarbarians = 0; /* counted in player_load for compatibility with 
-			   1.10.0 */
-  game.occupychance = secfile_lookup_int_default(file, game.occupychance,
-  						 "game.occupychance");
-  
-  game.randseed = secfile_lookup_int_default(file, game.randseed,
-					     "game.randseed");
-  
-  if (section_file_lookup(file, "random.index_J")) {
-    RANDOM_STATE rstate;
-    rstate.j = secfile_lookup_int(file,"random.index_J");
-    rstate.k = secfile_lookup_int(file,"random.index_K");
-    rstate.x = secfile_lookup_int(file,"random.index_X");
-    for(i=0;i<8;i++) {
-      char name[20];
-      my_snprintf(name, sizeof(name), "random.table%d",i);
-      string=secfile_lookup_str(file,name);
-      sscanf(string,"%8x %8x %8x %8x %8x %8x %8x", &rstate.v[7*i],
-	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
-	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
+    game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
+						   "game.aqueductloss");
+    game.killcitizen = secfile_lookup_int_default(file, game.killcitizen,
+						  "game.killcitizen");
+    game.turnblock = secfile_lookup_int_default(file,game.turnblock,
+						"game.turnblock");
+    game.fixedlength = secfile_lookup_int_default(file,game.fixedlength,
+						  "game.fixedlength");
+    game.barbarianrate = secfile_lookup_int_default(file, game.barbarianrate,
+						    "game.barbarians");
+    game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
+						     "game.onsetbarbs");
+    game.nbarbarians = 0; /* counted in player_load for compatibility with 
+			     1.10.0 */
+    game.occupychance = secfile_lookup_int_default(file, game.occupychance,
+						   "game.occupychance");
+    game.randseed = secfile_lookup_int_default(file, game.randseed,
+					       "game.randseed");
+
+    sz_strlcpy(game.ruleset.techs,
+	       secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
+    sz_strlcpy(game.ruleset.units,
+	       secfile_lookup_str_default(file, "default", "game.ruleset.units"));
+    sz_strlcpy(game.ruleset.buildings,
+	       secfile_lookup_str_default(file, "default",
+					  "game.ruleset.buildings"));
+    sz_strlcpy(game.ruleset.terrain,
+	       secfile_lookup_str_default(file, "classic",
+					  "game.ruleset.terrain"));
+    sz_strlcpy(game.ruleset.governments,
+	       secfile_lookup_str_default(file, "default",
+					  "game.ruleset.governments"));
+    sz_strlcpy(game.ruleset.nations,
+	       secfile_lookup_str_default(file, "default",
+					  "game.ruleset.nations"));
+    sz_strlcpy(game.ruleset.cities,
+	       secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
+    if(game.civstyle == 1) {
+      string = "civ1";
+    } else {
+      string = "default";
+      game.civstyle = GAME_DEFAULT_CIVSTYLE;
     }
-    rstate.is_init = 1;
-    set_myrand_state(rstate);
+    sz_strlcpy(game.ruleset.game,
+	       secfile_lookup_str_default(file, string,
+					  "game.ruleset.game"));
+
+    sz_strlcpy(game.demography,
+	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
+					  "game.demography"));
+
+    game.spacerace = secfile_lookup_int_default(file, game.spacerace,
+						"game.spacerace");
+
+    game.auto_ai_toggle = secfile_lookup_int_default(file, game.auto_ai_toggle,
+						     "game.auto_ai_toggle");
+
+    game.heating=0;
+    game.cooling=0;
+
+    load_rulesets();
   }
 
-  sz_strlcpy(game.ruleset.techs,
-	     secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
-  sz_strlcpy(game.ruleset.units,
-	     secfile_lookup_str_default(file, "default", "game.ruleset.units"));
-  sz_strlcpy(game.ruleset.buildings,
-	     secfile_lookup_str_default(file, "default",
-					"game.ruleset.buildings"));
-  sz_strlcpy(game.ruleset.terrain,
-	     secfile_lookup_str_default(file, "classic",
-					"game.ruleset.terrain"));
-  sz_strlcpy(game.ruleset.governments,
-	     secfile_lookup_str_default(file, "default",
-					"game.ruleset.governments"));
-  sz_strlcpy(game.ruleset.nations,
-	     secfile_lookup_str_default(file, "default",
-					"game.ruleset.nations"));
-  sz_strlcpy(game.ruleset.cities,
-	     secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
-  if(game.civstyle == 1) {
-    string = "civ1";
-  } else {
-    string = "default";
-    game.civstyle = GAME_DEFAULT_CIVSTYLE;
-  }
-  sz_strlcpy(game.ruleset.game,
-	     secfile_lookup_str_default(file, string,
-					"game.ruleset.game"));
-
-  sz_strlcpy(game.demography,
-	     secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
-					"game.demography"));
-
-  game.spacerace = secfile_lookup_int_default(file, game.spacerace,
-					      "game.spacerace");
-
-  game.auto_ai_toggle = secfile_lookup_int_default(file, game.auto_ai_toggle,
-						   "game.auto_ai_toggle");
-
-  game.heating=0;
-  game.cooling=0;
   if(tmp_server_state==PRE_GAME_STATE 
      || has_capability("startoptions", savefile_options)) {
     if (game.version >= 10300) {
-      game.settlers = secfile_lookup_int(file, "game.settlers");
-      game.explorer = secfile_lookup_int(file, "game.explorer");
-      game.dispersion =
-	secfile_lookup_int_default(file, GAME_DEFAULT_DISPERSION, "game.dispersion");
+      if (game.load_options.load_settings) {
+	game.settlers = secfile_lookup_int(file, "game.settlers");
+	game.explorer = secfile_lookup_int(file, "game.explorer");
+	game.dispersion =
+	  secfile_lookup_int_default(file, GAME_DEFAULT_DISPERSION, "game.dispersion");
+      }
 
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
@@ -1789,6 +1796,7 @@ void game_load(struct section_file *file)
       map.riverlength = secfile_lookup_int(file, "map.riverlength");
       map.mountains = secfile_lookup_int(file, "map.mountains");
       map.forestsize = secfile_lookup_int(file, "map.forestsize");
+      map.have_huts = secfile_lookup_int_default(file, 1, "map.have_huts");
 
       if (has_capability("startoptions", savefile_options)) {
 	map.xsize = secfile_lookup_int(file, "map.width");
@@ -1799,8 +1807,9 @@ void game_load(struct section_file *file)
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
 
-      if (tmp_server_state==PRE_GAME_STATE &&
-	  map.generator == 0) {
+      if (tmp_server_state==PRE_GAME_STATE
+	  && map.generator == 0
+	  && !has_capability("map_editor",savefile_options)) {
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
@@ -1827,73 +1836,101 @@ void game_load(struct section_file *file)
     }
   }
 
-  game.is_new_game = 0;
-  
-  load_rulesets();
+  /* We check
+     1) if the block exists at all.
+     2) if it is saved. */
+  if (section_file_lookup(file, "random.index_J")
+      && secfile_lookup_int_default(file, 1, "game.save_random")
+      && game.load_options.load_random) {
+    RANDOM_STATE rstate;
+    rstate.j = secfile_lookup_int(file,"random.index_J");
+    rstate.k = secfile_lookup_int(file,"random.index_K");
+    rstate.x = secfile_lookup_int(file,"random.index_X");
+    for(i=0;i<8;i++) {
+      char name[20];
+      my_snprintf(name, sizeof(name), "random.table%d",i);
+      string=secfile_lookup_str(file,name);
+      sscanf(string,"%8x %8x %8x %8x %8x %8x %8x", &rstate.v[7*i],
+	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
+	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
+    }
+    rstate.is_init = 1;
+    set_myrand_state(rstate);
+  } else {
+    /* mark it */
+    secfile_lookup_int_default(file, 1, "game.save_random");
+  }
+
+
+  game.is_new_game = !secfile_lookup_int_default(file, 1, "game.save_players");
 
   map_load(file);
 
-  /* destroyed wonders: */
-  string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
-  for(i=0; i<game.num_impr_types && string[i]; i++) {
-    if (string[i] == '1') {
-      game.global_wonders[i] = -1; /* destroyed! */
+  if (!game.is_new_game && game.load_options.load_players) {
+    /* destroyed wonders: */
+    string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
+    for(i=0; i<game.num_impr_types && string[i]; i++) {
+      if (string[i] == '1') {
+	game.global_wonders[i] = -1; /* destroyed! */
+      }
     }
-  }
-  
-  for(i=0; i<game.nplayers; i++) {
-    player_load(&game.players[i], i, file); 
-  }
-  /* Since the cities must be placed on the map to put them on the
-     player map we do this afterwards */
-  for(i=0; i<game.nplayers; i++) {
-    player_map_load(&game.players[i], i, file); 
-  }
-  /* FIXME: This is a kluge to keep the AI working for the moment. */
-  /*        When the AI is taught to handle diplomacy, remove this. */
-  for (i = 0; i < game.nplayers; i++) {
-    struct player *pplayer = get_player(i);
-    if (pplayer->ai.control) {
-      for (o = 0; o < game.nplayers; o++) {
-	struct player *pother = get_player(o);
-	if (pplayer != pother) {
-	  pplayer->diplstates[pother->player_no].type =
-	    pother->diplstates[pplayer->player_no].type =
-	    DS_WAR;
-	  pplayer->diplstates[pother->player_no].turns_left =
-	    pother->diplstates[pplayer->player_no].turns_left =
-	    16;
+
+    for(i=0; i<game.nplayers; i++) {
+      player_load(&game.players[i], i, file); 
+    }
+    /* Since the cities must be placed on the map to put them on the
+       player map we do this afterwards */
+    for(i=0; i<game.nplayers; i++) {
+      player_map_load(&game.players[i], i, file); 
+    }
+    /* FIXME: This is a kluge to keep the AI working for the moment. */
+    /*        When the AI is taught to handle diplomacy, remove this. */
+    for (i = 0; i < game.nplayers; i++) {
+      struct player *pplayer = get_player(i);
+      if (pplayer->ai.control) {
+	for (o = 0; o < game.nplayers; o++) {
+	  struct player *pother = get_player(o);
+	  if (pplayer != pother) {
+	    pplayer->diplstates[pother->player_no].type =
+	      pother->diplstates[pplayer->player_no].type =
+	      DS_WAR;
+	    pplayer->diplstates[pother->player_no].turns_left =
+	      pother->diplstates[pplayer->player_no].turns_left =
+	      16;
+	  }
 	}
       }
     }
-  }
 
-  /* We do this here since if the did it in player_load, player 1
-     would try to unfog (unloaded) player 2's map when player 1's units
-     were loaded */
-  players_iterate(pplayer) {
-    pplayer->really_gives_vision = 0;
-    pplayer->gives_shared_vision = 0;
-  } players_iterate_end;
-  players_iterate(pplayer) {
-    char *vision;
-    int plrno = pplayer->player_no;
-    vision = secfile_lookup_str_default(file, NULL, "player%d.gives_shared_vision",
-					plrno);
-    if (vision)
-      for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-	if (vision[i] == '1')
-	  give_shared_vision(pplayer, get_player(i));
-  } players_iterate_end;
+    /* We do this here since if the did it in player_load, player 1
+       would try to unfog (unloaded) player 2's map when player 1's units
+       were loaded */
+    players_iterate(pplayer) {
+      pplayer->really_gives_vision = 0;
+      pplayer->gives_shared_vision = 0;
+    } players_iterate_end;
+    players_iterate(pplayer) {
+      char *vision;
+      int plrno = pplayer->player_no;
+      vision = secfile_lookup_str_default(file, NULL, "player%d.gives_shared_vision",
+					  plrno);
+      if (vision)
+	for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
+	  if (vision[i] == '1')
+	    give_shared_vision(pplayer, get_player(i));
+    } players_iterate_end;
 
-  initialize_globals();
-  apply_unit_ordering();
+    initialize_globals();
+    apply_unit_ordering();
 
-  for(i=0; i<game.nplayers; i++) {
-    update_research(&game.players[i]);
-    city_list_iterate(game.players[i].cities, pcity)
-      city_refresh(pcity);
-    city_list_iterate_end;
+    for(i=0; i<game.nplayers; i++) {
+      update_research(&game.players[i]);
+      city_list_iterate(game.players[i].cities, pcity)
+	city_refresh(pcity);
+      city_list_iterate_end;
+    }
+  } else {
+    game.nplayers = 0;
   }
 
   game.player_idx=0;
@@ -1941,7 +1978,7 @@ void game_save(struct section_file *file)
     }
   }
   secfile_insert_str(file, options, "savefile.options");
-  
+
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");
@@ -2012,12 +2049,14 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.forestsize, "map.forestsize");
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
+    secfile_insert_int(file, map.have_huts, "map.have_huts");
   } 
 
   secfile_insert_int(file, game.randseed, "game.randseed");
   
-  if (myrand_is_init()) {
+  if (myrand_is_init() && game.save_options.save_random) {
     RANDOM_STATE rstate = get_myrand_state();
+    secfile_insert_int(file, 1, "game.save_random");
     assert(rstate.is_init);
 
     secfile_insert_int(file, rstate.j, "random.index_J");
@@ -2033,6 +2072,8 @@ void game_save(struct section_file *file)
 		  rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
       secfile_insert_str(file, vec, name);
     }
+  } else {
+    secfile_insert_int(file, 0, "game.save_random");
   }
 
   if (!map_is_empty())
@@ -2041,21 +2082,25 @@ void game_save(struct section_file *file)
   if ((server_state==PRE_GAME_STATE) && game.is_new_game) {
     return; /* want to save scenarios as well */
   }
+
+  secfile_insert_int(file, game.save_options.save_players, "game.save_players");
+  if (game.save_options.save_players) {
+    /* destroyed wonders: */
+    for(i=0; i<game.num_impr_types; i++) {
+      if (is_wonder(i) && game.global_wonders[i]!=0
+	  && !find_city_by_id(game.global_wonders[i])) {
+	temp[i] = '1';
+      } else {
+	temp[i] = '0';
+      }
+    }
+    temp[i] = '\0';
+    secfile_insert_str(file, temp, "game.destroyed_wonders");
+
+    calc_unit_ordering();
   
-  /* destroyed wonders: */
-  for(i=0; i<game.num_impr_types; i++) {
-    if (is_wonder(i) && game.global_wonders[i]!=0
-	&& !find_city_by_id(game.global_wonders[i])) {
-      temp[i] = '1';
-    } else {
-      temp[i] = '0';
+    for (i=0; i<game.nplayers; i++) {
+      player_save(&game.players[i], i, file);
     }
   }
-  temp[i] = '\0';
-  secfile_insert_str(file, temp, "game.destroyed_wonders");
-
-  calc_unit_ordering();
-  
-  for(i=0; i<game.nplayers; i++)
-    player_save(&game.players[i], i, file);
 }

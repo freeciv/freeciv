@@ -182,6 +182,7 @@ void map_init(void)
   map.fixed_start_positions=0;
   map.have_specials = 0;
   map.have_rivers_overlay = 0;
+  map.have_huts = 0;
 
   tile_init(&void_tile);
 }
@@ -463,7 +464,7 @@ int is_starter_close(int x, int y, int nr, int dist)
     return 1;
   
   /* don't want them starting on the poles: */
-  if (map_get_continent(x, y)<=2)
+  if (map_get_continent(x, y)<=2 && map.generator != 0)
     return 1;
 
   /* don't start too close to someone else: */

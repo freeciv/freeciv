@@ -172,6 +172,24 @@ struct civ_game {
 
   char demography[MAX_LEN_DEMOGRAPHY];
   char allow_connect[MAX_LEN_ALLOW_CONNECT];
+
+  /* used by the map editor to control game_save; could be used by the server too */
+  struct {
+    int save_random;
+    int save_players;
+    int save_known; /* loading will just reveal the squares around cities and units */
+    int save_starts; /* start positions will be auto generated */
+    int save_private_map; /* FoW map; will be created if not saved */
+  } save_options;
+  /* Used by mapeditor to load only the map */
+  struct {
+    int load_random;
+    int load_players;
+    int load_known; /* Only makes sense if the players are loaded. */
+    int load_starts; /* Should be done if the players are loaded. */
+    int load_private_map; /* Only makes sense if the players are loaded. */
+    int load_settings;
+  } load_options;
 };
 
 struct lvldat {

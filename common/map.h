@@ -161,6 +161,7 @@ struct civ_map {
   int num_start_positions;
   int fixed_start_positions;
   int have_specials;
+  int have_huts;
   int have_rivers_overlay;	/* only applies if !have_specials */
   int num_continents;
   struct tile *tiles;
