@@ -575,7 +575,7 @@ static void city_populate(struct city *pcity)
 			 _("Game: Famine feared in %s, %s lost!"), 
 			 pcity->name, unit_type(punit)->name);
  
-        gamelog(GAMELOG_UNITLOSS, punit, NULL, "%s lose %s (famine)");
+        gamelog(GAMELOG_UNITLOSS, punit, NULL, "famine");
         wipe_unit(punit);
 
 	pcity->food_stock = (city_granary_size(pcity->size)
