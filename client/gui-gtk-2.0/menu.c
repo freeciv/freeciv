@@ -807,7 +807,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("_Wait"),			"w",
 	orders_menu_callback,	MENU_ORDER_WAIT						},
-  { "/" N_("Orders") "/" N_("Done"),			N_("?key:space"),
+  { "/" N_("Orders") "/" N_("Done"),			"space",
 	orders_menu_callback,	MENU_ORDER_DONE						},
   /* Reports menu ... */
   { "/" N_("_Reports"),					NULL,
