@@ -465,16 +465,16 @@ void draw_line(int dest_x, int dest_y)
 }
 
 /**************************************************************************
-  Send an arbitrary goto path for the unit to the server.  FIXME: danger
-  paths are not supported.
+  Send a path as a goto or patrol route to the server.
 **************************************************************************/
-void send_goto_path(struct unit *punit, struct pf_path *path)
+static void send_path_route(struct unit *punit, struct pf_path *path,
+			    enum unit_activity activity)
 {
   struct packet_unit_route p;
   int i;
 
   p.unit_id = punit->id;
-  p.activity = ACTIVITY_GOTO;
+  p.activity = activity;
 
   /* we skip the start position */
   p.length = path->length - 1;
@@ -491,45 +491,48 @@ void send_goto_path(struct unit *punit, struct pf_path *path)
 }
 
 /**************************************************************************
+  Send an arbitrary goto path for the unit to the server.
+**************************************************************************/
+void send_goto_path(struct unit *punit, struct pf_path *path)
+{
+  send_path_route(punit, path, ACTIVITY_GOTO);
+}
+
+/**************************************************************************
   Send the current patrol route (i.e., the one generated via HOVER_STATE)
-  to the server.  FIXME: danger paths are not supported.
+  to the server.
 **************************************************************************/
 void send_patrol_route(struct unit *punit)
 {
-  struct packet_unit_route p;
-  int i, j = 0;
-  struct pf_path *path = NULL;
+  int i;
+  struct pf_path *path = NULL, *return_path;
+  struct pf_parameter parameter = goto_map.template;
+  struct pf_map *map;
 
   assert(is_active);
   assert(punit->id == goto_map.unit_id);
 
+  parameter.start_x = goto_map.parts[goto_map.num_parts - 1].end_x;
+  parameter.start_y = goto_map.parts[goto_map.num_parts - 1].end_y;
+  parameter.moves_left_initially
+    = goto_map.parts[goto_map.num_parts - 1].end_moves_left;
+  map = pf_create_map(&parameter);
+  return_path = pf_get_path(map, goto_map.parts[0].start_x,
+			    goto_map.parts[0].start_y);
+  if (!return_path) {
+    die("No return path found!");
+  }
+
   for (i = 0; i < goto_map.num_parts; i++) {
     path = pft_concat(path, goto_map.parts[i].path);
   }
+  path = pft_concat(path, return_path);
 
-  p.unit_id = punit->id;
-  p.activity = ACTIVITY_PATROL;
+  pf_destroy_map(map);
+  pf_destroy_path(return_path);
 
-  /* we skip the start position */
-  p.length = 2 * (path->length - 1);
-  assert(p.length < MAX_LEN_ROUTE);
+  send_path_route(punit, path, ACTIVITY_PATROL);
 
-  j = 0;
-  for (i = 1; i < path->length; i++) {
-    p.x[j] = path->positions[i].x;
-    p.y[j] = path->positions[i].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.x[j],
-            p.y[j]);
-    j++;
-  }
-  for (i = path->length - 2; i >= 0; i--) {
-    p.x[j] = path->positions[i].x;
-    p.y[j] = path->positions[i].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.x[j],
-            p.y[j]);
-    j++;
-  }
-  send_packet_unit_route(&aconnection, &p);
   pf_destroy_path(path);
 }
 
