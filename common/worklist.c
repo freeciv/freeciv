@@ -61,7 +61,7 @@ void destroy_worklist(struct worklist *pwl)
 /****************************************************************
 ...
 ****************************************************************/
-int worklist_length(struct worklist *pwl)
+int worklist_length(const struct worklist *pwl)
 {
   int len = 0;
 
@@ -75,7 +75,7 @@ int worklist_length(struct worklist *pwl)
 /****************************************************************
 ...
 ****************************************************************/
-int worklist_is_empty(struct worklist *pwl)
+int worklist_is_empty(const struct worklist *pwl)
 {
   return pwl == NULL || pwl->wlefs[0] == WEF_END;
 }
@@ -85,7 +85,7 @@ int worklist_is_empty(struct worklist *pwl)
   if the worklist is non-empty.  Return 1 iff id and is_unit
   are valid.
 ****************************************************************/
-int worklist_peek(struct worklist *pwl, int *id, int *is_unit)
+int worklist_peek(const struct worklist *pwl, int *id, int *is_unit)
 {
   if (worklist_is_empty(pwl))
     return 0;
@@ -97,7 +97,8 @@ int worklist_peek(struct worklist *pwl, int *id, int *is_unit)
   Fill in the id and is_unit values for the ith element in the
   worklist.  If the worklist has fewer than i elements, return 0.
 ****************************************************************/
-int worklist_peek_ith(struct worklist *pwl, int *id, int *is_unit, int idx)
+int worklist_peek_ith(const struct worklist *pwl, int *id, int *is_unit,
+		      int idx)
 {
   int i;
 
@@ -127,7 +128,7 @@ void worklist_advance(struct worklist *pwl)
 /****************************************************************
 ...
 ****************************************************************/
-void copy_worklist(struct worklist *dst, struct worklist *src)
+void copy_worklist(struct worklist *dst, const struct worklist *src)
 {
   memcpy(dst, src, sizeof(struct worklist));
 }

@@ -39,13 +39,14 @@ struct worklist *create_worklist(void);
 void init_worklist(struct worklist *pwl);
 void destroy_worklist(struct worklist *pwl);
 
-int worklist_length(struct worklist *pwl);
-int worklist_is_empty(struct worklist *pwl);
-int worklist_peek(struct worklist *pwl, int *id, int *is_unit);
-int worklist_peek_ith(struct worklist *pwl, int *id, int *is_unit, int idx);
+int worklist_length(const struct worklist *pwl);
+int worklist_is_empty(const struct worklist *pwl);
+int worklist_peek(const struct worklist *pwl, int *id, int *is_unit);
+int worklist_peek_ith(const struct worklist *pwl, int *id, int *is_unit,
+		      int idx);
 void worklist_advance(struct worklist *pwl);
 
-void copy_worklist(struct worklist *dst, struct worklist *src);
+void copy_worklist(struct worklist *dst, const struct worklist *src);
 void worklist_remove(struct worklist *pwl, int idx);
 
 #endif /* FC__WORKLIST_H */
