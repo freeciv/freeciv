@@ -100,7 +100,7 @@ static void notify(struct player *pplayer, const char *text, ...)
   lust for gold.
 ***********************************************************************/
 static int greed(int missing_love)
-#define NUM_BANDS 6
+#define NUM_BANDS 5
 {
   int band_incr[NUM_BANDS] = {5, 5, 10, 20, 30};
   int band_rate[NUM_BANDS+1] = {10, 25, 50, 100, 250, 500};
