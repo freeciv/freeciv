@@ -689,17 +689,13 @@ land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
-  struct city *pcity;
   int leonardo=0;
   int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
   struct unit_list list;
   struct unit *next_unit;
   int upgrade_type, done;
 
-  pcity=city_list_find_id(&pplayer->cities, 
-			  game.global_wonders[B_LEONARDO]);
-  if (pcity && !wonder_obsolete(B_LEONARDO))
-    leonardo = 1;
+  leonardo = player_owns_active_wonder(pplayer, B_LEONARDO);
 
   /* get Leonardo out of the way first: */
   if (leonardo) {
@@ -773,9 +769,7 @@ void player_restore_units(struct player *pplayer)
     } else if (punit->type==U_TRIREME && (lighthouse_effect!=1) &&
 	       !is_coastline(punit->x, punit->y)) {
       if (lighthouse_effect == -1) {
-	pcity=city_list_find_id(&pplayer->cities, 
-				game.global_wonders[B_LIGHTHOUSE]);
-	lighthouse_effect = (pcity && !wonder_obsolete(B_LIGHTHOUSE));
+	lighthouse_effect = player_owns_active_wonder(pplayer, B_LIGHTHOUSE);
       }
       if ((!lighthouse_effect) && (myrand(100) >= 50)) {
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
@@ -852,12 +846,9 @@ void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 void maybe_make_veteran(struct unit *punit)
 {
-    struct city *pcity;
     if (punit->veteran) 
       return;
-    pcity=city_list_find_id(&game.players[punit->owner].cities, 
-			    game.global_wonders[B_SUNTZU]);
-    if(pcity && !wonder_obsolete(B_SUNTZU)) 
+    if(player_owns_active_wonder(get_player(punit->owner), B_SUNTZU)) 
       punit->veteran = 1;
     else
       punit->veteran=myrand(2);

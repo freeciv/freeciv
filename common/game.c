@@ -292,8 +292,7 @@ void game_remove_unit(int unit_id)
   if((punit=game_find_unit_by_id(unit_id))) {
     struct city *pcity;
 
-    pcity=city_list_find_id(&game.players[punit->owner].cities, 
-			    punit->homecity);
+    pcity=player_find_city_by_id(get_player(punit->owner), punit->homecity);
     if(pcity)
       unit_list_unlink(&pcity->units_supported, punit);
 

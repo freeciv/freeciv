@@ -21,6 +21,8 @@
 #include <shared.h>
 #include <tech.h>
 
+extern int is_server;
+
 struct player_race races[]= { /* additional goals added by Syela */
   {"Roman", "Romans",           1, 2, 2,
      {100,100,100,100,100,100,100},
@@ -207,8 +209,6 @@ char *get_government_name(enum government_type type)
 ***************************************************************/
 int can_change_to_government(struct player *pplayer, enum government_type gov)
 {
-  struct city *pcity;
-
   if (gov>=G_LAST)
     return 0;
 
@@ -237,8 +237,7 @@ int can_change_to_government(struct player *pplayer, enum government_type gov)
     return 0;
     break;
   }
-  pcity=find_city_by_id(game.global_wonders[B_LIBERTY]);
-  return (pcity && player_owns_city(pplayer, pcity));
+  return player_owns_active_wonder(pplayer, B_LIBERTY);
 }
 
 /***************************************************************
@@ -322,6 +321,44 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
   
   return 1;
 }
+
+/***************************************************************
+ If the specified player owns the city with the specified id,
+ return pointer to the city struct.  Else return 0.
+ In the server we want to use find_city_by_id, which is fast due
+ to the citycache, while in the client we just search the
+ player's cities, rather than find_city_by_id which goes through
+ all players.
+***************************************************************/
+struct city *player_find_city_by_id(struct player *pplayer, int city_id)
+{
+  struct city *pcity;
+  
+  if(is_server) {
+    pcity = find_city_by_id(city_id);
+    if(pcity && (pcity->owner==pplayer->player_no)) {
+      return pcity;
+    } else {
+      return 0;
+    }
+  } else {
+    return city_list_find_id(&pplayer->cities, city_id);
+  }
+}
+
+/**************************************************************************
+ Return 1 if one of the player's cities has the specified wonder,
+ and it is not obsolete.
+**************************************************************************/
+int player_owns_active_wonder(struct player *pplayer,
+			      enum improvement_type_id id)
+{
+  return (improvement_exists(id)
+	  && is_wonder(id)
+	  && (!wonder_obsolete(id))
+	  && player_find_city_by_id(pplayer, game.global_wonders[id]));
+}
+
 
 int ai_handicap(struct player *pplayer, enum handicap_type htype)
 {

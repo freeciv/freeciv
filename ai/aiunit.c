@@ -44,19 +44,16 @@ extern struct move_cost_map warmap;
 int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
-  struct city *pcity;
   m = unit_types[punit->type].move_rate;
   if (unit_flag(punit->type, F_IGTER)) m *= 3;
   if(is_sailing_unit(punit)) {
-    if (!wonder_obsolete(B_LIGHTHOUSE)) {
-      pcity=find_city_by_id(game.global_wonders[B_LIGHTHOUSE]);
-      if (pcity && pcity->owner == punit->owner) m += 3;
-    }
-    if (!wonder_obsolete(B_MAGELLAN)) {
-      pcity=find_city_by_id(game.global_wonders[B_MAGELLAN]);
-      if(pcity && pcity->owner == punit->owner) m += 6;
-    }
-    if (get_invention(&game.players[punit->owner], A_POWER) == TECH_KNOWN) m += 3;
+    struct player *pplayer = get_player(punit->owner);
+    if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
+      m += 3;
+    if (player_owns_active_wonder(pplayer, B_MAGELLAN))
+      m += 6;
+    if (get_invention(pplayer, A_POWER) == TECH_KNOWN)
+      m += 3;
   }   
 
   if (unit_types[punit->type].move_type == LAND_MOVING)

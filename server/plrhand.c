@@ -881,7 +881,6 @@ void handle_player_government(struct player *pplayer,
 
 void handle_player_revolution(struct player *pplayer)
 {
-  struct city *pcity;
   if ((pplayer->revolution<=5) &&
       (pplayer->revolution>0) &&
       ( pplayer->government==G_ANARCHY))
@@ -891,8 +890,7 @@ void handle_player_revolution(struct player *pplayer)
   notify_player(pplayer, "Game: The %s have incited a revolt!", 
 		races[pplayer->race].name);
   send_player_info(pplayer, pplayer);
-  pcity=find_city_by_id(game.global_wonders[B_LIBERTY]);
-  if (pcity && player_owns_city(pplayer,pcity)) 
+  if (player_owns_active_wonder(pplayer, B_LIBERTY))
     pplayer->revolution=1;
 }
 

@@ -151,22 +151,12 @@ struct player_race *get_race(struct player *plr);
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
 int player_owns_city(struct player *pplayer, struct city *pcity);
 
+struct city *player_find_city_by_id(struct player *pplayer, int city_id);
+int player_owns_active_wonder(struct player *pplayer,
+			      enum improvement_type_id id);
+
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 
 extern struct player_race races[];
 extern char *default_race_leader_names[];
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-

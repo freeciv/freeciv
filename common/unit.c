@@ -118,18 +118,10 @@ int unit_move_rate(struct unit *punit)
   if (!is_air_unit(punit) && !is_heli_unit(punit)) 
     val = (val * punit->hp) / get_unit_type(punit->type)->hp;
   if(is_sailing_unit(punit)) {
-    struct city *pcity;
-    
-    pcity=city_list_find_id(&pplayer->cities, 
-			    game.global_wonders[B_LIGHTHOUSE]);
-    if(pcity && !wonder_obsolete(B_LIGHTHOUSE)) 
+    if(player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
       val+=3;
-    
-    pcity=city_list_find_id(&pplayer->cities, 
-			    game.global_wonders[B_MAGELLAN]);
-    if(pcity && !wonder_obsolete(B_MAGELLAN)) 
-/*    val+=3;                                Everything says this should be */
-      val += 6;
+    if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
+      val+=6;	   /* or 3 */
     if (get_invention(pplayer, A_POWER) == TECH_KNOWN)
       val+=3;
     if (val < 6) 

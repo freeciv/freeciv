@@ -844,15 +844,19 @@ int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*F
     return 0;
   if (!is_wonder(id) || wonder_obsolete(id))
     return 0;
-  tmp=find_city_by_id(game.global_wonders[id]);
-  if (!tmp)
-    return 0;
-  if (id==B_MANHATTEN) 
-    return 1;
-  if (tmp->owner!=pcity->owner)
-    return 0;
   if (city_got_building(pcity, id))
     return 1;
+  /* For Manhatten it can be owned by anyone, but otherwise the player
+   * who owns the city needs to have it to get the effect.
+   * (Note player_find_city_by_id() may be faster, in the client)
+   */
+  if (id==B_MANHATTEN) 
+    return (find_city_by_id(game.global_wonders[id]) != 0);
+  
+  tmp = player_find_city_by_id(get_player(pcity->owner),
+			       game.global_wonders[id]);
+  if (!tmp)
+    return 0;
   switch (id) {
   case B_ASMITHS:
   case B_APOLLO:
