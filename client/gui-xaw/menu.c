@@ -183,6 +183,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Patrol"), 0               },     "q", MENU_ORDER_PATROL, 0 },
     { { N_("Go to"), 0                },     "g", MENU_ORDER_GOTO, 0 },
     { { N_("Go/Airlift to City"), 0   },     "l", MENU_ORDER_GOTO_CITY, 0 },
+    { { N_("Return to nearest city"), 0 },    "", MENU_ORDER_RETURN, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Disband Unit"), 0         },     "D", MENU_ORDER_DISBAND, 0 },
     { { N_("Help Build Wonder"), 0    },     "b", MENU_ORDER_BUILD_WONDER, 0 },
@@ -648,6 +649,11 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
   case MENU_ORDER_GOTO_CITY:
     if(get_unit_in_focus())
       popup_goto_dialog();
+    break;
+  case MENU_ORDER_RETURN:
+    if (get_unit_in_focus()) {
+      request_unit_return(get_unit_in_focus());
+    }
     break;
   case MENU_ORDER_DISBAND:
     key_unit_disband();

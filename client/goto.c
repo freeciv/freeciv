@@ -578,3 +578,31 @@ int get_drawn(int x, int y, int dir)
 
   return *get_drawn_char(x, y, dir);
 }
+
+/**************************************************************************
+  Find the nearest (fastest to reach) allied city for the unit, or NULL if
+  none is reachable.
+***************************************************************************/
+struct city *find_nearest_allied_city(struct unit *punit)
+{
+  struct city *pcity = NULL;
+
+  if ((pcity = is_allied_city_tile(map_get_tile(punit->x, punit->y),
+				   game.player_ptr))) {
+    /* We're already on a city - PF doesn't check for this (!). */
+    return pcity;
+  }
+
+  simple_unit_path_iterator(punit, pos) {
+    if ((pcity = is_allied_city_tile(map_get_tile(pos.x, pos.y),
+				     game.player_ptr))) {
+      /* We use break so that the PF map can be destroyed. */
+      break;
+    }
+  } simple_unit_path_iterator_end;
+
+  /* FIXME: For some reason this sometimes seems to find arbitrary but
+   * reproducable far-away cities instead of the obvious closest city. */
+
+  return pcity;
+}

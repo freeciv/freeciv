@@ -655,6 +655,24 @@ void request_unit_airlift(struct unit *punit, struct city *pcity)
 }
 
 /**************************************************************************
+  Return-and-recover for a particular unit.  This sets the unit to GOTO
+  the nearest city.
+**************************************************************************/
+void request_unit_return(struct unit *punit)
+{
+  struct city *pcity;
+
+  enter_goto_state(punit);
+
+  if ((pcity = find_nearest_allied_city(punit))) {
+    draw_line(pcity->x, pcity->y);
+    send_goto_route(punit);
+  }
+
+  exit_goto_state();
+}
+
+/**************************************************************************
 (RP:) un-sentry all my own sentried units on punit's tile
 **************************************************************************/
 void request_unit_wakeup(struct unit *punit)

@@ -121,6 +121,7 @@ enum MenuID {
   IDM_ORDERS_CONNECT,
   IDM_ORDERS_GOTO,
   IDM_ORDERS_AIRLIFT,
+  IDM_ORDERS_RETURN,
 
   IDM_ORDERS_DISBAND,
   IDM_ORDERS_WONDER,
@@ -342,6 +343,7 @@ static struct my_menu main_menu[]={
   {N_("_Connect") "\tShift+C",IDM_ORDERS_CONNECT},
   {N_("_Go to") "\tG",IDM_ORDERS_GOTO},
   {N_("Go/Airlift to City") "\tL",IDM_ORDERS_AIRLIFT},
+  {N_("Return to nearest city") "\tShift+G", IDM_ORDERS_RETURN},
   { "",IDM_SEPARATOR},
   {N_("Disband Unit") "\tShift+D",IDM_ORDERS_DISBAND},
   {N_("Help Build Wonder") "\tShift+B",IDM_ORDERS_WONDER},
@@ -716,6 +718,11 @@ void handle_menu(int code)
     case IDM_ORDERS_AIRLIFT:
       if(get_unit_in_focus())
 	popup_goto_dialog();
+      break;
+    case IDM_ORDERS_RETURN:
+      if (get_unit_in_focus()) {
+	request_unit_return(get_unit_in_focus());
+      }
       break;
     case IDM_ORDERS_DISBAND:
       if(get_unit_in_focus())

@@ -30,4 +30,6 @@ int get_drawn(int x, int y, int dir);
 void send_patrol_route(struct unit *punit);
 void send_goto_route(struct unit *punit);
 
+struct city *find_nearest_allied_city(struct unit *punit);
+
 #endif /* FC__GOTO_H */

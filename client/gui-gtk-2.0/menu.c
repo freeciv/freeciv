@@ -120,6 +120,7 @@ enum MenuID {
   MENU_ORDER_PATROL,
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
+  MENU_ORDER_RETURN,
   MENU_ORDER_DISBAND,
   MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_NUKE,
@@ -396,6 +397,11 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_GOTO_CITY:
     if(get_unit_in_focus())
       popup_goto_dialog();
+    break;
+   case MENU_ORDER_RETURN:
+    if (get_unit_in_focus()) {
+      request_unit_return(get_unit_in_focus());
+    }
     break;
    case MENU_ORDER_DISBAND:
     key_unit_disband();
@@ -703,6 +709,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_GOTO						},
   { "/" N_("Orders") "/" N_("Go\\/Airlift to City"),	"l",
 	orders_menu_callback,	MENU_ORDER_GOTO_CITY					},
+  { "/" N_("Orders") "/" N_("Return to nearest city"),	"<shift>g",
+	orders_menu_callback,	MENU_ORDER_RETURN },
   { "/" N_("Orders") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("Disband Unit"),		"<shift>d",
