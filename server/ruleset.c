@@ -622,6 +622,12 @@ static void load_ruleset_units(struct section_file *file)
 
   game.firepower_factor =
     secfile_lookup_int_default(file, 1, "units_adjust.firepower_factor");
+  if (game.firepower_factor <= 0) {
+      freelog(LOG_FATAL, "In the [units_adjust] section of the %s file,\n"
+		      "firepower_factor has been set to %d but has to be "
+		      "higher than zero.", filename, game.firepower_factor);
+      exit(EXIT_FAILURE);
+  }
 
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
 

@@ -22,8 +22,8 @@ description="Default unit_type data for Freeciv"
 options="1.9"
 
 [units_adjust]
-firepower_factor=1     ; Multiply firepower by this value. Set it
-                       ; to zero to disable firepower altogether.
+firepower_factor=1     ; Divide hitpoints by this value. It has to be 
+                       ; set higher than zero.
 
 ; Below: The individual units, one per section.
 ;
