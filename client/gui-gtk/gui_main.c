@@ -107,9 +107,7 @@ GdkFont *	city_productions_font;
 
 GtkWidget *	main_frame_civ_name;
 GtkWidget *	main_label_info;
-/*
 GtkWidget *	main_label_info_ebox;
-*/
 GtkText *	main_message_area;
 
 GtkWidget *	econ_label			[10];
@@ -143,10 +141,7 @@ enum Display_color_type		display_color_type;
 
 extern int	num_units_below;
 
-#ifdef UNUSED  /* used in commented-out code */
 static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
-#endif
-
 static gint timer_callback(gpointer data);
 
 
@@ -351,19 +346,16 @@ static void setup_widgets(void)
 
       vbox4 = gtk_vbox_new(FALSE, 0);
       gtk_container_add(GTK_CONTAINER(frame), vbox4);
-/*
+
       main_label_info_ebox = gtk_event_box_new ();
       gtk_widget_set_events (main_label_info_ebox, GDK_BUTTON_PRESS_MASK);
 
       gtk_box_pack_start(GTK_BOX(vbox4), main_label_info_ebox, FALSE, FALSE, 0);
-*/
+
       main_label_info = gtk_label_new("\n\n\n\n");
-      gtk_box_pack_start(GTK_BOX(vbox4), main_label_info, FALSE, FALSE, 0);
-/*
       gtk_container_add (GTK_CONTAINER (main_label_info_ebox), main_label_info);
       gtk_signal_connect (GTK_OBJECT(main_label_info_ebox),"button_press_event",
 			  GTK_SIGNAL_FUNC (show_info_popup), NULL);
-*/
   }
 
   { /* production status */
@@ -718,7 +710,6 @@ void remove_net_input(void)
   gdk_window_set_cursor(root_window, 0);
 }
 
-#ifdef UNUSED  /* used in show_info_popup() below */
 /**************************************************************************
 ...
 **************************************************************************/
@@ -730,9 +721,7 @@ show_info_button_release(GtkWidget *w, GdkEventButton *event)
   gtk_widget_destroy(w);
   return FALSE;
 }
-#endif /* UNUSED */
 
-#ifdef UNUSED  /* used in commented-out code */
 /**************************************************************************
 ...
 **************************************************************************/
@@ -776,7 +765,6 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
   }
   return TRUE;
 }
-#endif /* UNUSED */
 
 
 
