@@ -15,6 +15,7 @@
 #define FC__TEXT_H
 
 struct city;
+struct player;
 struct player_spaceship;
 struct unit;
 
