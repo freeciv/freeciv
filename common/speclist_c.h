@@ -39,39 +39,39 @@
 
 #define SPECLIST_FOO(suffix) SPECLIST_PASTE(SPECLIST_TAG, suffix)
 
-void SPECLIST_FOO(_list_init) (SPECLIST_LIST *this)
+void SPECLIST_FOO(_list_init) (SPECLIST_LIST *tthis)
 {
-  genlist_init(&this->list);
+  genlist_init(&tthis->list);
 }
 
-int SPECLIST_FOO(_list_size) (SPECLIST_LIST *this)
+int SPECLIST_FOO(_list_size) (SPECLIST_LIST *tthis)
 {
-  return genlist_size(&this->list);
+  return genlist_size(&tthis->list);
 }
 
-SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *this, int index)
+SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *tthis, int index)
 {
-  return genlist_get(&this->list, index);
+  return genlist_get(&tthis->list, index);
 }
 
-void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo)
+void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
 {
-  genlist_insert(&this->list, pfoo, 0);
+  genlist_insert(&tthis->list, pfoo, 0);
 }
 
-void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo)
+void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
 {
-  genlist_insert(&this->list, pfoo, -1);
+  genlist_insert(&tthis->list, pfoo, -1);
 }
 
-void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *this, SPECLIST_TYPE *pfoo)
+void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
 {
-  genlist_unlink(&this->list, pfoo);
+  genlist_unlink(&tthis->list, pfoo);
 }
 
-void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *this)
+void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *tthis)
 {
-  genlist_unlink_all(&this->list);
+  genlist_unlink_all(&tthis->list);
 }
 
 #undef SPECLIST_TAG
