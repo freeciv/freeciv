@@ -2654,7 +2654,9 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
       ADD_BG(player_color(city_owner(pcity)));
     }
   } else if (!draw_terrain) {
-    ADD_BG(COLOR_STD_BACKGROUND);
+    if (ptile) {
+      ADD_BG(COLOR_STD_BACKGROUND);
+    }
   }
 
   /* Terrain and specials. */
