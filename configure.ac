@@ -255,7 +255,7 @@ FC_EXPAND_DIR(LOCALEDIR, '${prefix}/share/locale')
 AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
 
 if test -n "$GCC"; then
-   CFLAGS="$CFLAGS -Wall"
+   CFLAGS="$CFLAGS -Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
 fi
 
 if test "$CVS_DEPS" = "maybe"; then
@@ -669,6 +669,9 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
      fi
    fi]],[[]])
 
+if test -n "$GCC"; then
+  CFLAGS="$CFLAGS $EXTRA_GCC_DEBUG_CFLAGS"
+fi
 
 AC_CONFIG_FILES([Makefile
           data/Makefile 
