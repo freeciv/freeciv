@@ -2,7 +2,7 @@
 FEHLER
 ======                                                                                                 
 
-Stand:  09.06.2002
+Stand:  02.07.2002
 
 Freeciv 1.13.0 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
@@ -96,6 +96,10 @@ BEKANNTE FEHLER:
  - Der Xaw Client arbeitet mit dem KDE Windowmanager nicht gut zusammen.
    Verwenden Sie stattdessen den Gtk Clienten oder einen anderen 
    Windowmanager.
+
+ - Version 1.13.0 arbeitet nicht mit Version 1.12.0 oder älteren zusammen.
+   Der Client wird sich in diesem Fall sofort mit einer Fehlermeldung
+   beenden.
 
 
 FEHLER MITTEILEN:

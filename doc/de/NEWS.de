@@ -22,6 +22,8 @@ sollten einen Blick in die ChangeLog Datei werfen.
  - Eine GTK 2.0 Version des Clients.
  - Bei einer Stadtgründung werden Namen vorgeschlagen, die zum Terrain
    passen.
+ - Der Spieler-Dialog präsentiert seine Informationen jetzt farbig und
+   sortierbar. Auch die Spielerflaggen werden angezeigt.
  - Der Server unterstützt nicht mehr die '--server' Kommandozeilenoption,
    stattdessen können Sie mit der '--info' Option den Ankündigungstext für
    den Metaserver angeben. Die '-a' Option des Clients überspringt den Ver-
@@ -41,20 +43,20 @@ sollten einen Blick in die ChangeLog Datei werfen.
  - Im Kommunismus wurden die Nahrungskosten von Siedlern in den Standard-
    regeln auf 1 geändert, unter den Civ2-Regeln betragen sie 2.
  - In den Civ2-Regeln gibt es nun Fundamentalismus.
- - Verbesserte Fähigkeiten vom Modpacks: Die Karavaneigenschaft wurde
+ - Verbesserte Fähigkeiten von Modpacks: Die Karavaneigenschaft wurde
    geteilt. Neue Wege zur Bestimmung der Forschungskosten. Bessere Doku-
    mentation. Die Regeln können Starttechnologien festlegen. Es ist mehr
    als eine Bonustechnologie möglich. Siedlerfähigkeiten wurden geteilt.
    Die Regelsyntax für Gebäude wurde deutlich erweitert, aber die Effekte
    funktionieren noch nicht.
- - Die Serveroption 'tiyisles' erlaubt 1x1 große Inseln;
-   'seperatepoles' erlaubt Polkontinente.
- - 'citymindist' legt einen Minimalabstand zwischen Städten fest;
-   mit 'notradesize' und 'fulltradesize' kann der Handelsertrag von kleinen
+ - Die Serveroption 'tiyisles' erlaubt 1x1 große Inseln; 'seperatepoles' 
+   erlaubt Polkontinente.
+ - 'citymindist' legt einen Minimalabstand zwischen Städten fest; mit 
+   'notradesize' und 'fulltradesize' kann der Handelsertrag von kleinen
    Städten verringert werden.
- - Die 'angrycitizens' Option können Bürger auch 'wütend' werden.
- - Von 'Wachtürmen' (Befestigungen) aus kann man weiter sehen.
-   s. Wachtturm-Optionen.
+ - Mit der 'angrycitizens' Option können Bürger auch 'wütend' werden.
+ - Von 'Wachtürmen' (Befestigungen) aus kann man weiter sehen. Siehe 
+   'watchtower' Optionen.
  - Wenn der Palast verlorengeht, erhalten Sie in einer zufällig ausge-
    wählten Stadt einen neuen. Dieses Verhalten kann mit der Serveroption
    'savepalace' ausgeschaltet werden.
@@ -64,7 +66,11 @@ sollten einen Blick in die ChangeLog Datei werfen.
    entfernt.
  - Das Format für die isometrische Grafik wurde geändert (spec-Datei).
  - Der Code für die Karte und die KI wurde wesentlich bereinigt.
- - Übersetzungen verbessert. Bessere Unterstützung für Pluralformen möglich.
+ - Übersetzungen verbessert. Bessere Unterstützung für Pluralformen
+   möglich.
+ - Einige Fehler wurden beseitigt, und unter der Oberfläche eine
+   Menge Arbeit getan.
+ - Eine Übersicht über die verbliebenen Fehler steht in doc/de/BUGS.de .
 
 ÄNDERUNGEN SEIT VERSION 1.11.4
 
