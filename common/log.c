@@ -271,9 +271,13 @@ void vreal_freelog(int level, const char *message, va_list ap)
       repeated++;
       if(repeated==next){
 	my_snprintf(buf, sizeof(buf),
-		    _("last message repeated %d times"), repeated-prev);
+		    PL_("last message repeated %d time",
+		        "last message repeated %d times",
+			repeated-prev), repeated-prev);
 	if (repeated>2) {
-	  cat_snprintf(buf, sizeof(buf), _(" (total %d repeats)"), repeated);
+	  cat_snprintf(buf, sizeof(buf), 
+	               PL_(" (total %d repeat)", " (total %d repeats)", repeated), 
+		       repeated);
 	}
 	log_write(fs, prev_level, buf);
 	prev=repeated;

@@ -1195,8 +1195,10 @@ static const struct command commands[] = {
    N_("If 'cmdlevel first come' has been used to set a special 'first come'\n"
       "command access level, this is the command to grab it with.")
   },
-  {"timeoutincrease", ALLOW_CTRL, "timeoutincrease <turn> <turninc> <value> "
-   "<valuemult>", N_("See \"help timeoutincrease\"."),
+  {"timeoutincrease", ALLOW_CTRL, 
+   /* TRANS: translate text between <> only */
+   N_("timeoutincrease <turn> <turninc> <value> <valuemult>"), 
+   N_("See \"help timeoutincrease\"."),
    N_("Every <turn> turns, add <value> to timeout timer, then add <turninc> "
       "to <turn> and multiply <value> by <valuemult>.  Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
@@ -3564,11 +3566,8 @@ void show_players(struct connection *caller)
       my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
       
       n = conn_list_size(&pplayer->connections);
-      if (n==1) {
-	sz_strlcat(buf, _(" 1 connection:"));
-      } else if (n>1) {
-	cat_snprintf(buf, sizeof(buf), _(" %d connections:"), n);
-      }
+      cat_snprintf(buf, sizeof(buf), 
+                   PL_(" %d connection:", "%d connections:", n), n);
       cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
       
       conn_list_iterate(pplayer->connections, pconn) {
