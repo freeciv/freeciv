@@ -1135,7 +1135,7 @@ signed short map_get_continent(int x, int y)
 ***************************************************************/
 void map_set_continent(int x, int y, int val)
 {
-  assert(normalize_map_pos(&x, &y));
+  assert(is_real_tile(x, y));
   (map.tiles + map_adjust_x(x) + y * map.xsize)->continent=val;
 }
 
@@ -1291,5 +1291,5 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
   *x = x0 + DIR_DX[choice];
   *y = y0 + DIR_DY[choice];
 
-  assert(normalize_map_pos(x, y));
+  assert(is_real_tile(*x, *y));
 }
