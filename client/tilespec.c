@@ -79,15 +79,57 @@ int num_tiles_explode_unit=0;
 static bool is_mountainous = FALSE;
 static int roadstyle;
 
-static int num_spec_files = 0;
-static char **spec_filenames;	/* full pathnames */
+struct specfile;
 
-static struct hash_table *sprite_hash = NULL;
+#define SPECLIST_TAG specfile
+#define SPECLIST_TYPE struct specfile
+#include "speclist.h"
+
+#define SPECLIST_TAG specfile
+#define SPECLIST_TYPE struct specfile
+#include "speclist_c.h"
+
+#define specfile_list_iterate(list, pitem) \
+    TYPED_LIST_ITERATE(struct specfile, list, pitem)
+#define specfile_list_iterate_end  LIST_ITERATE_END
+
+struct small_sprite;
+#define SPECLIST_TAG small_sprite
+#define SPECLIST_TYPE struct small_sprite
+#include "speclist.h"
+
+#define SPECLIST_TAG small_sprite
+#define SPECLIST_TYPE struct small_sprite
+#include "speclist_c.h"
+
+#define small_sprite_list_iterate(list, pitem) \
+    TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
+#define small_sprite_list_iterate_end  LIST_ITERATE_END
+
+static struct specfile_list specfiles;
+
+struct specfile {
+  struct Sprite *big_sprite;
+  char *file_name;
+  struct small_sprite_list small_sprites;
+};
+
+/* 
+ * Information about an individual sprite. All fields except 'sprite' are
+ * filled at the time of the scan of the specfile. 'Sprite' is
+ * set/cleared on demand in load_sprite/unload_sprite.
+ */
+struct small_sprite {
+  int ref_count;
+  int x, y, width, height;
+  struct specfile *sf;
+  struct Sprite *sprite;
+};
+
 /*
-   This hash table sprite_hash maps tilespec tags to tile Sprite pointers.
-   This is kept permanently after setup, for doing lookups on ruleset
-   information (including on reconnections etc).
-*/
+ * This hash table maps tilespec tags to struct small_sprites.
+ */
+static struct hash_table *sprite_hash = NULL;
 
 #define TILESPEC_CAPSTR "+tilespec2 duplicates_ok roadstyle"
 /*
@@ -209,35 +251,6 @@ static void check_tilespec_capabilities(struct section_file *file,
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(EXIT_FAILURE);
   }
-}
-
-/**********************************************************************
-  Returns the correct name of the gfx file (with path and extension)
-  Must be free'd when no longer used
-***********************************************************************/
-static char *tilespec_gfx_filename(const char *gfx_filename)
-{
-  const char  *gfx_current_fileext;
-  const char **gfx_fileexts = gfx_fileextensions();
-
-  while((gfx_current_fileext = *gfx_fileexts++))
-  {
-    char *full_name =
-	fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
-    char *real_full_name;
-
-    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
-
-    real_full_name = datafilename(full_name);
-    free(full_name);
-    if (real_full_name) {
-      return mystrdup(real_full_name);
-    }
-  }
-
-  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
-	  gfx_filename);
-  exit(EXIT_FAILURE);
 }
 
 /**********************************************************************
@@ -373,6 +386,170 @@ void tilespec_reread_callback(struct client_option *option)
   tilespec_reread(option->p_string_value);
 }
 
+/**************************************************************************
+  Ensure that the big sprite of the given spec file is loaded.
+**************************************************************************/
+static void ensure_big_sprite(struct specfile *sf)
+{
+  struct section_file the_file, *file = &the_file;
+  const char *gfx_filename, *gfx_current_fileext, **gfx_fileexts;
+
+  if (sf->big_sprite) {
+    /* Looks like it's already loaded. */
+    return;
+  }
+
+  /* Otherwise load it.  The big sprite will sometimes be freed and will have
+   * to be reloaded, but most of the time it's just loaded once, the small
+   * sprites are extracted, and then it's freed. */
+  if (!section_file_load(file, sf->file_name)) {
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
+    exit(EXIT_FAILURE);
+  }
+  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, sf->file_name);
+
+  gfx_fileexts = gfx_fileextensions();
+  gfx_filename = secfile_lookup_str(file, "file.gfx");
+
+  /* Try out all supported file extensions to find one that works. */
+  while (!sf->big_sprite && (gfx_current_fileext = *gfx_fileexts++)) {
+    char *real_full_name;
+    char *full_name =
+	fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
+    sprintf(full_name, "%s.%s", gfx_filename, gfx_current_fileext);
+
+    if ((real_full_name = datafilename(full_name))) {
+      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
+      sf->big_sprite = load_gfxfile(real_full_name);
+      if (!sf->big_sprite) {
+	freelog(LOG_VERBOSE, "loading the gfx file %s failed",
+		real_full_name);
+      }
+    }
+    free(full_name);
+  }
+
+  if (!sf->big_sprite) {
+    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
+	    sf->file_name);
+    exit(EXIT_FAILURE);
+  }
+  section_file_free(file);
+}
+
+/**************************************************************************
+  Scan all sprites declared in the given specfile.  This means that the
+  positions of the sprites in the big_sprite are saved in the
+  small_sprite structs.
+**************************************************************************/
+static void scan_specfile(struct specfile *sf)
+{
+  struct section_file the_file, *file = &the_file;
+  char **gridnames;
+  int num_grids, i;
+
+  if (!section_file_load(file, sf->file_name)) {
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
+    exit(EXIT_FAILURE);
+  }
+  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, sf->file_name);
+
+  /* currently unused */
+  (void) section_file_lookup(file, "info.artists");
+  (void) secfile_lookup_str(file, "file.gfx");
+
+  gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
+  if (num_grids == 0) {
+    freelog(LOG_FATAL, "spec %s has no grid_* sections", sf->file_name);
+    exit(EXIT_FAILURE);
+  }
+
+  for (i = 0; i < num_grids; i++) {
+    int j, k;
+    int x_top_left, y_top_left, dx, dy;
+    bool is_pixel_border =
+      secfile_lookup_bool_default(file, FALSE,
+				  "%s.is_pixel_border", gridnames[i]);
+    x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
+    y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
+    dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);
+    dy = secfile_lookup_int(file, "%s.dy", gridnames[i]);
+
+    j = -1;
+    while (section_file_lookup(file, "%s.tiles%d.tag", gridnames[i], ++j)) {
+      struct small_sprite *ss = fc_malloc(sizeof(*ss));
+      int row, column;
+      int x1, y1;
+      char **tags;
+      int num_tags;
+
+      row = secfile_lookup_int(file, "%s.tiles%d.row", gridnames[i], j);
+      column = secfile_lookup_int(file, "%s.tiles%d.column", gridnames[i], j);
+      tags = secfile_lookup_str_vec(file, &num_tags, "%s.tiles%d.tag",
+				    gridnames[i], j);
+
+      /* there must be at least 1 because of the while(): */
+      assert(num_tags > 0);
+
+      x1 = x_top_left + column * dx + (is_pixel_border ? column : 0);
+      y1 = y_top_left + row * dy + (is_pixel_border ? row : 0);
+
+      ss->ref_count = 0;
+      ss->x = x1;
+      ss->y = y1;
+      ss->width = dx;
+      ss->height = dy;
+      ss->sf = sf;
+      ss->sprite = NULL;
+
+      small_sprite_list_insert(&ss->sf->small_sprites, ss);
+
+      for (k = 0; k < num_tags; k++) {
+	if (!hash_insert(sprite_hash, mystrdup(tags[k]), ss)) {
+	  freelog(LOG_ERROR, "warning: already have a sprite for %s",
+		  tags[k]);
+	}
+      }
+      free(tags);
+      tags = NULL;
+    }
+  }
+  free(gridnames);
+  gridnames = NULL;
+
+  section_file_check_unused(file, sf->file_name);
+  section_file_free(file);
+}
+
+/**********************************************************************
+  Returns the correct name of the gfx file (with path and extension)
+  Must be free'd when no longer used
+***********************************************************************/
+static char *tilespec_gfx_filename(const char *gfx_filename)
+{
+  const char  *gfx_current_fileext;
+  const char **gfx_fileexts = gfx_fileextensions();
+
+  while((gfx_current_fileext = *gfx_fileexts++))
+  {
+    char *full_name =
+       fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
+    char *real_full_name;
+
+    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
+
+    real_full_name = datafilename(full_name);
+    free(full_name);
+    if (real_full_name) {
+      return mystrdup(real_full_name);
+    }
+  }
+
+  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
+         gfx_filename);
+  exit(EXIT_FAILURE);
+}
+
 /**********************************************************************
   Finds and reads the toplevel tilespec file based on given name.
   Sets global variables, including tile sizes and full names for
@@ -383,6 +560,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
   int i;
+  int num_spec_files;
+  char **spec_filenames;
 
   fname = tilespec_fullname(tileset_name);
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
@@ -458,10 +637,20 @@ void tilespec_read_toplevel(const char *tileset_name)
     freelog(LOG_FATAL, "No tile files specified in \"%s\"", fname);
     exit(EXIT_FAILURE);
   }
-  
-  for(i=0; i<num_spec_files; i++) {
-    spec_filenames[i] = mystrdup(datafilename_required(spec_filenames[i]));
+
+  sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  specfile_list_init(&specfiles);
+  for (i = 0; i < num_spec_files; i++) {
+    struct specfile *sf = fc_malloc(sizeof(*sf));
+
     freelog(LOG_DEBUG, "spec file %s", spec_filenames[i]);
+    
+    sf->big_sprite = NULL;
+    sf->file_name = mystrdup(datafilename_required(spec_filenames[i]));
+    small_sprite_list_init(&sf->small_sprites);
+    scan_specfile(sf);
+
+    specfile_list_insert(&specfiles, sf);
   }
 
   section_file_check_unused(file, fname);
@@ -469,105 +658,6 @@ void tilespec_read_toplevel(const char *tileset_name)
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
   free(fname);
-}
-
-/**********************************************************************
-  Load one specfile and specified xpm file; splits xpm into tiles,
-  and save sprites in sprite_hash.
-***********************************************************************/
-static void tilespec_load_one(const char *spec_filename)
-{
-  struct section_file the_file, *file = &the_file;
-  struct Sprite *big_sprite = NULL, *small_sprite;
-  const char *gfx_filename, *gfx_current_fileext, **gfx_fileexts;
-  char **gridnames, **tags;
-  int num_grids, num_tags;
-  int i, j, k;
-  int x_top_left, y_top_left, dx, dy;
-  int row, column;
-  int x1, y1;
-
-  freelog(LOG_DEBUG, "loading spec %s", spec_filename);
-  if (!section_file_load(file, spec_filename)) {
-    freelog(LOG_FATAL, _("Could not open \"%s\"."), spec_filename);
-    exit(EXIT_FAILURE);
-  }
-  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, spec_filename);
-
-  (void) section_file_lookup(file, "info.artists"); /* currently unused */
-
-  gfx_fileexts = gfx_fileextensions();
-  gfx_filename = secfile_lookup_str(file, "file.gfx");
-
-  while((!big_sprite) && (gfx_current_fileext = *gfx_fileexts++))
-  {
-    char *full_name,*real_full_name;
-    full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
-    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
-
-    if((real_full_name = datafilename(full_name)))
-    {
-      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
-      if(!(big_sprite = load_gfxfile(real_full_name)))
-      {
-        freelog(LOG_VERBOSE, "loading the gfx file %s failed", real_full_name);
-      }
-    }
-    free(full_name);
-  }
-
-  if(!big_sprite) {
-    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
-	    spec_filename);
-    exit(EXIT_FAILURE);
-  }
-
-
-  gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
-  if (num_grids==0) {
-    freelog(LOG_FATAL, "spec %s has no grid_* sections", spec_filename);
-    exit(EXIT_FAILURE);
-  }
-
-  for(i=0; i<num_grids; i++) {
-    bool is_pixel_border =
-      secfile_lookup_bool_default(file, FALSE, "%s.is_pixel_border", gridnames[i]);
-    x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
-    y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
-    dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);
-    dy = secfile_lookup_int(file, "%s.dy", gridnames[i]);
-
-    j = -1;
-    while(section_file_lookup(file, "%s.tiles%d.tag", gridnames[i], ++j)) {
-      row = secfile_lookup_int(file, "%s.tiles%d.row", gridnames[i], j);
-      column = secfile_lookup_int(file, "%s.tiles%d.column", gridnames[i], j);
-      tags = secfile_lookup_str_vec(file, &num_tags, "%s.tiles%d.tag",
-				    gridnames[i], j);
-
-      /* there must be at least 1 because of the while(): */
-      assert(num_tags>0);
-
-      x1 = x_top_left + column * dx + (is_pixel_border ? column : 0);
-      y1 = y_top_left + row * dy + (is_pixel_border ? row : 0);
-      small_sprite = crop_sprite(big_sprite, x1, y1, dx, dy);
-
-      for(k=0; k<num_tags; k++) {
-	/* don't free old sprite, since could be multiple tags
-	   pointing to it */
-	(void) hash_replace(sprite_hash, mystrdup(tags[k]), small_sprite);
-      }
-      free(tags);
-      tags = NULL;
-    }
-  }
-  free(gridnames);
-  gridnames = NULL;
-
-  free_sprite(big_sprite);
-  
-  section_file_check_unused(file, spec_filename);
-  section_file_free(file);
-  freelog(LOG_DEBUG, "finished %s", spec_filename);
 }
 
 /**********************************************************************
@@ -612,8 +702,8 @@ static char *nsew_str(int idx)
 }
      
 /* Not very safe, but convenient: */
-#define SET_SPRITE(field, tag) do { \
-       sprites.field = hash_lookup_data(sprite_hash, tag);\
+#define SET_SPRITE(field, tag) do {                       \
+       sprites.field = load_sprite(tag);                  \
        if (!sprites.field) {                              \
          die("Sprite tag %s missing.", buffer);           \
        }                                                  \
@@ -621,9 +711,9 @@ static char *nsew_str(int idx)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
 #define SET_SPRITE_ALT(field, tag, alt) do {                   \
-       sprites.field = hash_lookup_data(sprite_hash, tag);     \
+       sprites.field = load_sprite(tag);                       \
        if (!sprites.field) {                                   \
-           sprites.field = hash_lookup_data(sprite_hash, alt); \
+           sprites.field = load_sprite(alt);                   \
        }                                                       \
        if (!sprites.field) {                                   \
          die("Sprite tag %s and alternate %s are both missing.", tag, alt); \
@@ -632,7 +722,7 @@ static char *nsew_str(int idx)
 
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \
-  sprites.field = hash_lookup_data(sprite_hash, tag)
+  sprites.field = load_sprite(tag)
 
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
@@ -668,7 +758,7 @@ static void tilespec_lookup_sprite_tags(void)
   /* Load the citizen sprite graphics. */
   for (i = 0; i < NUM_TILES_CITIZEN; i++) {
     my_snprintf(buffer, sizeof(buffer), "citizen.%s", get_citizen_name(i));
-    sprites.citizen[i].sprite[0] = hash_lookup_data(sprite_hash, buffer);
+    sprites.citizen[i].sprite[0] = load_sprite(buffer);
     if (sprites.citizen[i].sprite[0]) {
       /*
        * If this form exists, use it as the only sprite.  This allows
@@ -682,7 +772,7 @@ static void tilespec_lookup_sprite_tags(void)
     for (j = 0; j < NUM_TILES_CITIZEN; j++) {
       my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d",
 		  get_citizen_name(i), j);
-      sprites.citizen[i].sprite[j] = hash_lookup_data(sprite_hash, buffer);
+      sprites.citizen[i].sprite[j] = load_sprite(buffer);
       if (!sprites.citizen[i].sprite[j]) {
 	break;
       }
@@ -766,7 +856,7 @@ static void tilespec_lookup_sprite_tags(void)
   do {
     my_snprintf(buffer, sizeof(buffer), "explode.unit_%d",
 		num_tiles_explode_unit++);
-  } while (hash_key_exists(sprite_hash, buffer));
+  } while (load_sprite(buffer));
   num_tiles_explode_unit--;
     
   if (num_tiles_explode_unit==0) {
@@ -907,16 +997,8 @@ static void tilespec_lookup_sprite_tags(void)
 ***********************************************************************/
 void tilespec_load_tiles(void)
 {
-  int i;
-  
-  assert(num_spec_files>0);
-  sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
-
-  for(i=0; i<num_spec_files; i++) {
-    tilespec_load_one(spec_filenames[i]);
-  }
-
   tilespec_lookup_sprite_tags();
+  finish_loading_sprites();
 }
 
 /**********************************************************************
@@ -935,10 +1017,10 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
     die("attempt to lookup for %s %s before sprite_hash setup", what, name);
   }
 
-  sp = hash_lookup_data(sprite_hash, tag);
+  sp = load_sprite(tag);
   if (sp) return sp;
 
-  sp = hash_lookup_data(sprite_hash, alt);
+  sp = load_sprite(alt);
   if (sp) {
     freelog(loglevel, "Using alternate graphic %s (instead of %s) for %s %s",
 	    alt, tag, what, name);
@@ -2119,10 +2201,10 @@ static void tilespec_setup_style_tile(int style, char *graphics)
 
   for(j=0; j<32 && city_styles[style].tiles_num < MAX_CITY_TILES; j++) {
     my_snprintf(buffer, sizeof(buffer), "%s_%d", graphics, j);
-    sp = hash_lookup_data(sprite_hash, buffer);
+    sp = load_sprite(buffer);
     if (is_isometric) {
       my_snprintf(buffer, sizeof(buffer_wall), "%s_%d_wall", graphics, j);
-      sp_wall = hash_lookup_data(sprite_hash, buffer);
+      sp_wall = load_sprite(buffer);
     }
     if (sp) {
       sprites.city.tile[style][city_styles[style].tiles_num] = sp;
@@ -2142,7 +2224,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
   if (!is_isometric) {
     /* the wall tile */
     my_snprintf(buffer, sizeof(buffer), "%s_wall", graphics);
-    sp = hash_lookup_data(sprite_hash, buffer);
+    sp = load_sprite(buffer);
     if (sp) {
       sprites.city.tile[style][city_styles[style].tiles_num] = sp;
     } else {
@@ -2152,7 +2234,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
 
   /* occupied tile */
   my_snprintf(buffer, sizeof(buffer), "%s_occupied", graphics);
-  sp = hash_lookup_data(sprite_hash, buffer);
+  sp = load_sprite(buffer);
   if (sp) {
     sprites.city.tile[style][city_styles[style].tiles_num+1] = sp;
   } else {
@@ -2183,12 +2265,9 @@ void tilespec_setup_city_tiles(int style)
 	    "No tiles for alternate %s style, using default tiles",
             city_styles[style].graphic_alt);
 
-    sprites.city.tile[style][0] =
-      hash_lookup_data(sprite_hash, "cd.city");
-    sprites.city.tile[style][1] =
-      hash_lookup_data(sprite_hash, "cd.city_wall");
-    sprites.city.tile[style][2] =
-      hash_lookup_data(sprite_hash, "cd.occupied");
+    sprites.city.tile[style][0] = load_sprite("cd.city");
+    sprites.city.tile[style][1] = load_sprite("cd.city_wall");
+    sprites.city.tile[style][2] = load_sprite("cd.occupied");
     city_styles[style].tiles_num = 1;
     city_styles[style].tresh[0] = 0;
   }
@@ -2321,24 +2400,18 @@ struct unit *get_drawable_unit(int x, int y, bool citymode)
     return NULL;
 }
 
-/**********************************************************************
-...
-***********************************************************************/
-static int my_cmp(const void *a1, const void *a2)
+static void unload_all_sprites(void )
 {
-  const struct Sprite **b1 = (const struct Sprite **) a1;
-  const struct Sprite **b2 = (const struct Sprite **) a2;
+  int i, entries = hash_num_entries(sprite_hash);
 
-  const struct Sprite *c1 = *b1;
-  const struct Sprite *c2 = *b2;
+  for (i = 0; i < entries; i++) {
+    const char *tag_name = hash_key_by_number(sprite_hash, i);
+    struct small_sprite *ss = hash_lookup_data(sprite_hash, tag_name);
 
-  if (c1 < c2) {
-    return -1;
+    while (ss->ref_count > 0) {
+      unload_sprite(tag_name);
+    }
   }
-  if (c2 < c1) {
-    return 1;
-  }
-  return 0;
 }
 
 /**********************************************************************
@@ -2347,33 +2420,35 @@ static int my_cmp(const void *a1, const void *a2)
 void tilespec_free_tiles(void)
 {
   int i, entries = hash_num_entries(sprite_hash);
-  struct Sprite **sprites = fc_malloc(sizeof(*sprites) * entries);
-  struct Sprite *last_sprite = NULL;
 
   freelog(LOG_DEBUG, "tilespec_free_tiles");
+
+  unload_all_sprites();
 
   for (i = 0; i < entries; i++) {
     const char *key = hash_key_by_number(sprite_hash, 0);
 
-    sprites[i] = hash_delete_entry(sprite_hash, key);
+    hash_delete_entry(sprite_hash, key);
     free((void *) key);
   }
 
-  qsort(sprites, entries, sizeof(sprites[0]), my_cmp);
-
-  for (i = 0; i < entries; i++) {
-    if (sprites[i] == last_sprite) {
-      continue;
-    }
-
-    last_sprite = sprites[i];
-    free_sprite(sprites[i]);
-  }
-
-  free(sprites);
-
   hash_free(sprite_hash);
   sprite_hash = NULL;
+
+  specfile_list_iterate(specfiles, sf) {
+    small_sprite_list_iterate(sf->small_sprites, ss) {
+      small_sprite_list_unlink(&sf->small_sprites, ss);
+      assert(ss->sprite == NULL);
+      free(ss);
+    } small_sprite_list_iterate_end;
+
+    specfile_list_unlink(&specfiles, sf);
+    if (sf->big_sprite) {
+      free_sprite(sf->big_sprite);
+      sf->big_sprite = NULL;
+    }
+    free(sf);
+  } specfile_list_iterate_end;
 }
 
 /**************************************************************************
@@ -2389,4 +2464,74 @@ struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
   assert(type >= 0 && type < NUM_TILES_CITIZEN);
   citizen_index %= sprites.citizen[type].count;
   return sprites.citizen[type].sprite[citizen_index];
+}
+
+/**************************************************************************
+  Loads the sprite. If the sprite is already loaded a reference
+  counter is increased. Can return NULL if the sprite couldn't be
+  loaded.
+**************************************************************************/
+struct Sprite *load_sprite(const char *tag_name)
+{
+  /* Lookup information about where the sprite is found. */
+  struct small_sprite *ss = hash_lookup_data(sprite_hash, tag_name);
+
+  freelog(LOG_DEBUG, "load_sprite(tag='%s')", tag_name);
+  if (!ss) {
+    return NULL;
+  }
+
+  assert(ss->ref_count >= 0);
+
+  if (!ss->sprite) {
+    /* If the sprite hasn't been loaded already, then load it. */
+    assert(ss->ref_count == 0);
+    ensure_big_sprite(ss->sf);
+    ss->sprite =
+	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height);
+  }
+
+  /* Track the reference count so we know when to free the sprite. */
+  ss->ref_count++;
+
+  return ss->sprite;
+}
+
+/**************************************************************************
+  Unloads the sprite. Decrease the reference counter. If the last
+  reference is removed the sprite is freed.
+**************************************************************************/
+void unload_sprite(const char *tag_name)
+{
+  struct small_sprite *ss = hash_lookup_data(sprite_hash, tag_name);
+
+  assert(ss);
+  assert(ss->ref_count >= 1);
+  assert(ss->sprite);
+
+  ss->ref_count--;
+
+  if (ss->ref_count == 0) {
+    /* Nobody's using the sprite anymore, so we should free it.  We know
+     * where to find it if we need it again. */
+    freelog(LOG_DEBUG, "freeing sprite '%s'", tag_name);
+    free_sprite(ss->sprite);
+    ss->sprite = NULL;
+  }
+}
+
+/**************************************************************************
+  Frees any internal buffers which are created by load_sprite. Should
+  be called after the last (for a given period of time) load_sprite
+  call.  This saves a fair amount of memory, but it will take extra time
+  the next time we start loading sprites again.
+**************************************************************************/
+void finish_loading_sprites(void)
+{
+  specfile_list_iterate(specfiles, sf) {
+    if (sf->big_sprite) {
+      free_sprite(sf->big_sprite);
+      sf->big_sprite = NULL;
+    }
+  } specfile_list_iterate_end;
 }
