@@ -44,7 +44,7 @@ void select_help_item_string( char *item );
 
 void create_science_dialog(int make_modal);
 void science_close_callback(GtkWidget *widget, gpointer data);
-void science_help_callback(GtkWidget *widget, gpointer data);
+void science_help_callback(GtkWidget *w, gint row, gint column);
 void science_change_callback(GtkWidget *widget, gpointer data);
 void science_goal_callback(GtkWidget *widget, gpointer data);
 
@@ -54,7 +54,7 @@ GtkWidget *science_dialog_shell=NULL;
 GtkWidget *science_label;
 GtkWidget *science_current_label, *science_goal_label;
 GtkWidget *science_change_menu_button, *science_goal_menu_button;
-GtkWidget *science_list;
+GtkWidget *science_list, *science_help_toggle;
 int science_dialog_shell_is_modal;
 int science_dialog_popupmenu;
 GtkWidget *popupmenu, *goalmenu;
@@ -163,10 +163,11 @@ void popup_science_dialog(int make_modal)
 *****************************************************************/
 void create_science_dialog(int make_modal)
 {
-  GtkWidget *close_command, *scrolled;
+  GtkWidget *close_command;
   char *report_title;
-  GtkWidget *frame, *hbox;
+  GtkWidget *frame, *hbox, *w;
   GtkAccelGroup *accel=gtk_accel_group_new();
+  int i;
 
   science_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(science_dialog_shell),"delete_event",
@@ -197,8 +198,11 @@ void create_science_dialog(int make_modal)
   gtk_widget_show_all(popupmenu);
 
   science_current_label = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,FALSE, FALSE, 0 );
+  gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
   gtk_widget_set_usize(science_current_label, 0,25);
+
+  science_help_toggle = gtk_check_button_new_with_label ("Help");
+  gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
 
   frame = gtk_frame_new( "Goal");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
@@ -214,19 +218,15 @@ void create_science_dialog(int make_modal)
   gtk_widget_show_all(goalmenu);
 
   science_goal_label = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( hbox ), science_goal_label, FALSE, FALSE, 0 );
+  gtk_box_pack_start( GTK_BOX( hbox ), science_goal_label, TRUE, FALSE, 0 );
   gtk_widget_set_usize(science_goal_label, 0,25);
 
-  science_list = gtk_clist_new(1);
-  gtk_clist_set_column_width(GTK_CLIST(science_list), 0, GTK_CLIST(science_list)->clist_window_width);
-  gtk_clist_set_auto_sort (GTK_CLIST (science_list), TRUE);
-  scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), science_list);
+  w = gtk_label_new("");
+  gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
 
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+  science_list = gtk_clist_new(4);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
-		scrolled, TRUE, TRUE, 0 );
+		science_list, TRUE, TRUE, 0 );
 
   close_command = gtk_button_new_with_label("Close");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->action_area ),
@@ -236,16 +236,18 @@ void create_science_dialog(int make_modal)
 
   gtk_signal_connect( GTK_OBJECT( close_command ), "clicked",
         GTK_SIGNAL_FUNC( science_close_callback ), NULL);
-  /*
-  XtAddCallback(science_list, XtNcallback, science_help_callback, NULL);
-*/
-  gtk_widget_set_usize(science_label, 500,0);
-  
+
+  gtk_signal_connect(GTK_OBJECT(science_list), "select_row",
+	GTK_SIGNAL_FUNC(science_help_callback), NULL);
+
   gtk_widget_show_all( GTK_DIALOG(science_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(science_dialog_shell)->action_area );
 
   gtk_widget_add_accelerator(close_command, "clicked",
 	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
+
+  for(i=0; i<4; i++)
+    gtk_clist_set_column_auto_resize (GTK_CLIST (science_list), i, TRUE);
 
   science_dialog_update();
 }
@@ -258,12 +260,11 @@ void science_change_callback(GtkWidget *widget, gpointer data)
   char text[512];
   struct packet_player_request packet;
   size_t to;
-  int b=FALSE;
 
   to=(size_t)data;
 
-  if (b == TRUE)
-    select_help_item_string(advances[to].name);
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
+    popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else
     {  
       sprintf(text, "%d/%d",
@@ -284,12 +285,11 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
   char text[512];
   struct packet_player_request packet;
   size_t to;
-  int b=FALSE;
 
   to=(size_t)data;
 
-  if (b == TRUE)
-     select_help_item_string(advances[to].name);
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
+    popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else
   {  
     sprintf(text, "(%d steps)",
@@ -313,26 +313,24 @@ void science_close_callback(GtkWidget *widget, gpointer data)
   science_dialog_shell=NULL;
 }
 
-#if 0
 /****************************************************************
 ...
 *****************************************************************/
 
-void science_help_callback(GtkWidget *w, gpointer data)
+void science_help_callback(GtkWidget *w, gint row, gint column)
 {
-  XawListReturnStruct *ret=XawListShowCurrent(science_list);
-  Boolean b;
+  char *s;
 
-  XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
-  if (b == TRUE)
-    {
-      if(ret->list_index!=XAW_LIST_NONE)
-        popup_help_dialog_typed(ret->string, HELP_TECH);
-      else
-        popup_help_dialog_string(HELP_TECHS_ITEM);
-    }
+  gtk_clist_get_text(GTK_CLIST(science_list), row, column, &s);
+
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
+  {
+    if (*s != '\0')
+      popup_help_dialog_typed(s, HELP_TECH);
+    else
+      popup_help_dialog_string(HELP_TECHS_ITEM);
+  }
 }
-#endif
 
 /****************************************************************
 ...
@@ -341,9 +339,9 @@ void science_dialog_update(void)
 {
   if(science_dialog_shell) {
   char text[512];
-    int i, j, hist;
+    int i, j, hist, n;
     char *report_title;
-    static char *row	[1];
+    static char *row	[4];
     GtkWidget *item;
     
   if(delay_report_update) return;
@@ -353,14 +351,29 @@ void science_dialog_update(void)
 
   gtk_clist_freeze(GTK_CLIST(science_list));
   gtk_clist_clear(GTK_CLIST(science_list));
-  for(i=1; i<A_LAST; i++)
+  for(n=0, i=1; i<A_LAST; i++)
+  {
+    if ((get_invention(game.player_ptr, i)==TECH_KNOWN))
+      n++;
+  }
+  for(j=0, i=1; i<A_LAST; i++)
   {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)){
-      row[0] = advances[i].name;
+      if (j==4)
+        j=0;
+      row[j++] = advances[i].name;
 
-      gtk_clist_append( GTK_CLIST(science_list), row);
+      if (j==4)
+        gtk_clist_append( GTK_CLIST(science_list), row);
       }
   }
+  if (j!=4)
+  {
+    for (;j<4; j++)
+      row[j]="";
+    gtk_clist_append( GTK_CLIST(science_list), row );
+  }
+
   gtk_clist_thaw(GTK_CLIST(science_list));
 
   gtk_widget_destroy(popupmenu);
@@ -474,7 +487,6 @@ void create_trade_report_dialog(int make_modal)
   GtkWidget *close_command, *scrolled;
   char *report_title;
   gchar *titles [4] =	{ "Building Name", "Count", "Cost", "U Total" };
-  gint   widths [4] =	{ 100, 40, 40, 40 };
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
   
@@ -499,7 +511,7 @@ void create_trade_report_dialog(int make_modal)
   gtk_widget_set_usize(trade_list, 300, 150);
 
   for ( i = 0; i < 4; i++ )
-	gtk_clist_set_column_width(GTK_CLIST(trade_list),i,widths[i]);
+    gtk_clist_set_column_auto_resize(GTK_CLIST(trade_list),i,TRUE);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
@@ -728,7 +740,6 @@ void create_activeunits_report_dialog(int make_modal)
   GtkWidget *close_command, *scrolled;
   char *report_title;
   gchar *titles [3] =	{ "Unit Type", "U", "Total" };
-  gint   widths [3] =	{ 100, 10, 30 };
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
@@ -755,7 +766,7 @@ void create_activeunits_report_dialog(int make_modal)
   gtk_widget_set_usize(scrolled, 200, 150);
 
   for ( i = 0; i < 3; i++ )
-	gtk_clist_set_column_width(GTK_CLIST(activeunits_list),i,widths[i]);
+	gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
