@@ -185,28 +185,31 @@ void parse_options(int *argc, char **argv[])
     
     for (i = 1; i < *argc;)
     {
-      if (!strcmp ("--help", (*argv)[i]))
+      if (!strcmp ("--help", (*argv)[i]) ||
+              !strncmp ("-h", (*argv)[i], 2))
       {
 	fprintf(stderr, usage, (*argv)[0]);
-	fprintf(stderr, "  --help\t\tPrint a summary of the options.\n");
-	fprintf(stderr, "  --log=FILE\t\tUse FILE as logfile.\n");
-	fprintf(stderr, "  --name=NAME\t\tUse NAME.\n");
-	fprintf(stderr, "  --port=PORT\t\tConnect to PORT.\n");
-	fprintf(stderr, "  --server=SERVER\tConnect to the server SERVER.\n");
-	fprintf(stderr, "  --debug=LEVEL\t\tSet debug log LEVEL (0,1,2).\n");
-	fprintf(stderr, "  --tiles=DIR\t\tLook in directory DIR for the tiles.\n");
-	fprintf(stderr, "  --version\t\tPrint the version number.\n");
+	fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
+	fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
+	fprintf(stderr, "  -n, --name=NAME\tUse NAME.\n");
+	fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
+	fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
+	fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n");
+	fprintf(stderr, "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n");
+	fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
 	exit(0);
       }
-      else if (!strcmp ("--version", (*argv)[i]))
+      else if (!strcmp ("--version", (*argv)[i]) ||
+              !strncmp ("-v", (*argv)[i], 2))
       {
         fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
         exit(0);
       }
       else if (!strcmp ("--log",  (*argv)[i]) ||
-              !strncmp ("--log=", (*argv)[i], 6))
+              !strncmp ("--log=", (*argv)[i], 6) ||
+              !strncmp ("-l", (*argv)[i], 2))
       {
-	char *opt_log = (*argv)[i] + 6;
+	char *opt_log = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 5);
 	
 	if (*opt_log == '=')
 	  opt_log++;
@@ -221,9 +224,10 @@ void parse_options(int *argc, char **argv[])
 	logfile=opt_log;
       }
       else if (!strcmp ("--name",  (*argv)[i]) ||
-              !strncmp ("--name=", (*argv)[i], 7))
+              !strncmp ("--name=", (*argv)[i], 7) ||
+              !strncmp ("-n", (*argv)[i], 2))
       {
-	char *opt_name = (*argv)[i] + 6;
+	char *opt_name = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 6);
 	
 	if (*opt_name == '=')
 	  opt_name++;
@@ -238,9 +242,10 @@ void parse_options(int *argc, char **argv[])
 	strcpy(name, opt_name);
       }
       else if (!strcmp ("--port",  (*argv)[i]) ||
-              !strncmp ("--port=", (*argv)[i], 7))
+              !strncmp ("--port=", (*argv)[i], 7) ||
+              !strncmp ("-p", (*argv)[i], 2))
       {
-	char *opt_port = (*argv)[i] + 6;
+	char *opt_port = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 6);
 	
 	if (*opt_port == '=')
 	  opt_port++;
@@ -255,9 +260,10 @@ void parse_options(int *argc, char **argv[])
 	server_port=atoi(opt_port);
       }
       else if (!strcmp ("--server",  (*argv)[i]) ||
-              !strncmp ("--server=", (*argv)[i], 9))
+              !strncmp ("--server=", (*argv)[i], 9) ||
+              !strncmp ("-s", (*argv)[i], 2))
       {
-	char *opt_server = (*argv)[i] + 8;
+	char *opt_server = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 8);
 	
 	if (*opt_server == '=')
 	  opt_server++;
@@ -272,9 +278,10 @@ void parse_options(int *argc, char **argv[])
 	strcpy(server_host, opt_server);
       }
       else if (!strcmp ("--debug",  (*argv)[i]) ||
-              !strncmp ("--debug=", (*argv)[i], 8))
+              !strncmp ("--debug=", (*argv)[i], 8) ||
+              !strncmp ("-d", (*argv)[i], 2))
       {
-	char *opt_debug = (*argv)[i] + 7;
+	char *opt_debug = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 7);
 	
 	if (*opt_debug == '=')
 	  opt_debug++;
@@ -289,9 +296,10 @@ void parse_options(int *argc, char **argv[])
 	loglevel=atoi(opt_debug);
       }
       else if (!strcmp ("--tiles",  (*argv)[i]) ||
-              !strncmp ("--tiles=", (*argv)[i], 8))
+              !strncmp ("--tiles=", (*argv)[i], 8) ||
+              !strncmp ("-t", (*argv)[i], 2))
       {
-	char *opt_tiles = (*argv)[i] + 7;
+	char *opt_tiles = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 7);
 	
 	if (*opt_tiles == '=')
 	  opt_tiles++;
@@ -385,6 +393,7 @@ void setup_widgets(void)
   GtkWidget	      *menubar;
   GtkWidget	      *table;
   GtkWidget	      *ebox, *paned;
+  GtkStyle	      *text_style;
   int		       i;
 
   vbox = gtk_vbox_new( FALSE, 5 );
@@ -591,12 +600,19 @@ void setup_widgets(void)
       gtk_text_set_editable (GTK_TEXT (text), FALSE);
 
       text_scrollbar = gtk_vscrollbar_new (GTK_TEXT(text)->vadj);
-
       gtk_widget_realize (text);
+
+      /* hack to make insensitive text readable */
+      text_style = gtk_style_copy (text->style);
+      text_style->base[GTK_STATE_INSENSITIVE]=
+					text_style->base[GTK_STATE_NORMAL];
+      text_style->text[GTK_STATE_INSENSITIVE]=
+					text_style->text[GTK_STATE_NORMAL];
+      gtk_widget_set_style (text, text_style);
+
       main_message_area = GTK_TEXT (text);
 
       gtk_box_pack_start (GTK_BOX(hbox), text_scrollbar, FALSE, FALSE, 0);
-
       gtk_widget_realize (text_scrollbar);
 
       append_output_window(
@@ -638,7 +654,9 @@ int ui_main(int argc, char **argv)
   root_window=toplevel->window;
   init_color_system();
   notify_dialog_style=gtk_style_new();
+  gdk_font_unref (notify_dialog_style->font);
   notify_dialog_style->font=gdk_font_load (NOTIFY_DIALOG_FONT);
+  gdk_font_ref (notify_dialog_style->font);
 
   gtk_signal_connect( GTK_OBJECT(toplevel),"delete_event",
       GTK_SIGNAL_FUNC(gtk_main_quit),NULL );
