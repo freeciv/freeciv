@@ -1503,6 +1503,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   for (i = 0; i < B_LAST/*game.num_impr_types*/; i++) {
      pplayer->small_wonders[i] = pinfo->small_wonders[i];
   }
+  
+  pplayer->ai.science_cost = pinfo->science_cost;
 
   /* If the server sends out player information at the wrong time, it is
    * likely to give us inconsistent player tech information, causing a

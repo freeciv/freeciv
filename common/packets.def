@@ -573,6 +573,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   UINT32 bulbs_researched;
   UINT32 techs_researched;
   UINT8 researching;
+  UINT16 science_cost;
 
   UINT16 future_tech;
   UINT8 tech_goal;

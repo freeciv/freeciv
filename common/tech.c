@@ -472,9 +472,7 @@ int base_total_bulbs_required(const struct player *pplayer,
    * can also be adpoted to create an extra-hard AI skill level where the AI
    * gets science benefits */
 
-  /* FIXME: the is_server is a kludge to unbreak CVS. GB promises 
-   * to fix correctly a.s.a.p. 2003/5/18 -mck */
-  if (is_server && pplayer->ai.control) {
+  if (pplayer->ai.control) {
     assert(pplayer->ai.science_cost > 0);
     cost = (cost * pplayer->ai.science_cost) / 100;
   }

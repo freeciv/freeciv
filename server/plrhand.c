@@ -1459,6 +1459,7 @@ static void package_player_common(struct player *plr,
   for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++) {
     packet->small_wonders[i] = plr->small_wonders[i];
   }
+  packet->science_cost = plr->ai.science_cost;
 }
 
 /**************************************************************************
