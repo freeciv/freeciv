@@ -252,6 +252,9 @@ int main(int argc, char *argv[])
     game.max_players=game.nplayers;
     flood_it(game.scenario);
     choose_start_positions();
+  } else {
+    for (i=0;i<game.nplayers;i++) /* if we don't, the AI gets really confused */
+      civ_score(&game.players[i]);
   }
   
   send_all_info(0);

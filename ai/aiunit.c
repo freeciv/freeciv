@@ -53,7 +53,7 @@ void ai_manage_units(struct player *pplayer)
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 {
-  int i, j, d, f, x, y, con;
+  int i, j, d, f, x, y, con, best, dest_x, dest_y, cur, a, b;
   if (punit->activity == ACTIVITY_IDLE) {
     x = punit->x; y = punit->y;
     con = map_get_continent(x, y);
@@ -75,31 +75,40 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       } /* end for I */
     } /* end for D */
 /* OK, failed to find huts.  Will explore basically at random */
-    for (d = 1; d <= 24; d++) { /* won't go more than 24 squares to hut */
-/* printf("Exploring: D = %d\n", d); */
-      for (i = 0 - d; i <= d; i++) {
-        f = 1;
-        if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
-        for (j = 0 - d; j <= d; j += f) {
-          if (!map_get_known(x + i, y + j, pplayer) &&
-          (map_get_continent(x + i, y + j) == con ||
-          map_get_continent(x + i, y + j + 1) == con ||
-          map_get_continent(x + i, y + j - 1) == con ||
-          map_get_continent(x + i + 1, y + j) == con ||
-          map_get_continent(x + i + 1, y + j + 1) == con ||
-          map_get_continent(x + i + 1, y + j - 1) == con ||
-          map_get_continent(x + i - 1, y + j) == con ||
-          map_get_continent(x + i - 1, y + j + 1) == con ||
-          map_get_continent(x + i - 1, y + j - 1) == con)) {
-            punit->goto_dest_x = map_adjust_x(x + i);
-            punit->goto_dest_y = y + j;
-            punit->activity = ACTIVITY_GOTO;
-            do_unit_goto(pplayer, punit);
-            if (!punit->moves_left) return; /* otherwise, had some ZOC problem ? */
-          } /* end if HUT */
-        } /* end for J */
-      } /* end for I */
-    } /* end for D */
+/* my old code was dumb dumb dumb dumb dumb and I'm rewriting it -- Syela */
+
+    while (punit->moves_left) {
+      x = punit->x; y = punit->y;
+      for (d = 1; d <= 24; d++) {
+  /* printf("Exploring: D = %d\n", d); */
+        best = 0; dest_x = 0; dest_y = 0;
+        for (i = 0 - d; i <= d; i++) {
+          f = 1;
+          if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
+          for (j = 0 - d; j <= d; j += f) {
+            if (map_get_continent(x + i, y + j) == con) {
+              cur = 0;
+              for (a = i - 1; a <= i + 1; a++)
+                for (b = j - 1; b <= j + 1; b++)
+                  if (!map_get_known(x + a, y + b, pplayer)) cur++;
+              if (cur > best || (cur == best && myrand(2))) {
+                best = cur;
+                dest_x = map_adjust_x(x + i);
+                dest_y = y + j;
+              }
+            }
+          } /* end j */
+        } /* end i */
+        if (best) {
+          punit->goto_dest_x = dest_x;
+          punit->goto_dest_y = dest_y;
+          punit->activity = ACTIVITY_GOTO;
+          if (d > 1) do_unit_goto(pplayer, punit); /* don't trust goto for d == 1 */
+          else handle_unit_move_request(pplayer, punit, dest_x, dest_y);
+          if (x != punit->x || y != punit->y) break; /* this ought to work, I hope */
+        } /* end if best */
+      } /* end for D */
+    } /* end while we can move */
   } /* end if not already doing something */
 }
 

@@ -114,7 +114,7 @@ int farmland_food(struct city *pcity)
 
 void ai_eval_buildings(struct city *pcity)
 {
-  int i, gov, tech, val, a, t, food, j, k, hunger;
+  int i, gov, tech, val, a, t, food, j, k, hunger, def, danger, bar;
   int tax, prod, sci, values[B_LAST];
   struct player *plr = city_owner(pcity);
   int shield_weighting[3] = { 11, 13, 15 };
@@ -156,27 +156,40 @@ void ai_eval_buildings(struct city *pcity)
   
   j = 0; k = 0;
   city_list_iterate(plr->cities, acity)
-    if (acity->is_building_unit)
+    if (acity->is_building_unit) {
       if (!unit_flag(acity->currently_building, F_NONMIL))
         j += prod;
-        k++;
+      else if (unit_flag(acity->currently_building, F_CARAVAN) &&
+        built_elsewhere(acity, B_SUNTZU)) j += prod; /* this also stops flip-flops */
+    } else if (acity->currently_building == B_BARRACKS || /* this stops flip-flops */
+             acity->currently_building == B_BARRACKS2 ||
+             acity->currently_building == B_BARRACKS3 ||
+             acity->currently_building == B_SUNTZU) j += prod;
+    k++;
   city_list_iterate_end;
   if (!k) printf("Gonna crash, 0 k, looking at %s (ai_eval_buildings)\n", pcity->name);
   /* rationale: barracks effectively double prod while building military units */
   /* if half our production is military, effective gain is 1/2 city prod */
-  /* this might cause flipflops, but it's better than j = 0 */
+  bar = j / k;
 
-  if (can_build_improvement(pcity, B_BARRACKS))
-    values[B_BARRACKS] = j / k;
-
-  if (can_build_improvement(pcity, B_BARRACKS2))
-    values[B_BARRACKS2] = j / k;
-
-  if (can_build_improvement(pcity, B_BARRACKS3))
-    values[B_BARRACKS3] = j / k;
+  if (!built_elsewhere(pcity, B_SUNTZU)) {
+    if (can_build_improvement(pcity, B_BARRACKS))
+      values[B_BARRACKS] = bar;
+    if (can_build_improvement(pcity, B_BARRACKS2))
+      values[B_BARRACKS2] = bar;
+    if (can_build_improvement(pcity, B_BARRACKS3))
+      values[B_BARRACKS3] = bar;
+  }
 
   if (can_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
+
+  def = assess_defense(pcity); /* not in the if so B_WALL can check them */
+  danger = assess_danger(pcity) - def;
+
+  if (can_build_improvement(pcity, B_CITY) && !built_elsewhere(pcity, B_WALL)) {
+    if (def && danger > 0) values[B_CITY] = danger * 100 / def;
+  } /* this may be incorrect but it's worth a try; the 100 might be better as 80 */
 
   if (can_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
@@ -266,8 +279,10 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_GREAT) /* basically (100 - techcost)% of a free tech per turn */
         values[i] = (research_time(plr) * (100 - game.techcost)) * t / 100 *
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
+
       if (i == B_WALL)
-        values[i] = values[B_CITY]; /* FIX */
+        if (def && danger > 0) values[B_WALL] = danger * 100 / def;
+
       if (i == B_HANGING) /* will add the global effect to this. */
         values[i] = building_value(3, pcity, val) -
                     building_value(1, pcity, val);
@@ -299,7 +314,7 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_SHAKESPEARE)
         values[i] = building_value(pcity->size, pcity, val);
       if (i == B_SUNTZU)
-        values[i] = values[B_BARRACKS] + values[B_BARRACKS2] + values[B_BARRACKS3];
+        values[i] = bar;
       if (i == B_WOMENS) {
         unit_list_iterate(pcity->units_supported, punit)
           if (punit->unhappiness) values[i] += t * 2;
@@ -349,7 +364,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* if we have 5 cities, 1 settler, and expand_factor = 3, work = 1 */
     want = work * 20;
     cit -= expand_cities[get_race(pplayer)->expand];
-    if (cit < 0) want = 100; /* if we need to expand, just expand */
+    if (cit < 0) want = 101; /* if we need to expand, just expand */
 /* if we NEED a military unit, that takes precedence anyway */
 /* was not getting enough settlers after expand_cities reached, so ... */
 /* if 7 cities, expand = 2, cit will = 0. */
@@ -369,7 +384,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
         want = pcity->ai.building_want[acity->currently_building];
         want -= warmap.cost[acity->x][acity->y] * 8 / 3;
 /* value of 8 is a total guess and could be wrong, but it's better than 0 -- Syela */
-        if (want > 100) want = 100;
         if (want > choice->want) {
           if (can_build_unit(pcity, U_FREIGHT)) choice->choice = U_FREIGHT;
           else choice->choice = U_CARAVAN;
@@ -387,7 +401,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* want > 100 means BUY RIGHT NOW */
     choice->type = 0;
   }
-  if (choice->want > 100 && choice->type) choice->want = 100; /* don't buy settlers. */
+/* allowing buy of peaceful units after much testing -- Syela */
   return;
 }
 

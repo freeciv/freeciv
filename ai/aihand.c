@@ -289,7 +289,8 @@ void ai_manage_taxes(struct player *pplayer)
     pplayer->economic.tax = 100 - pplayer->economic.luxury;
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
-    n = ((ai_gold_reserve(pplayer) - gnow - expense) * 20 + trade) / trade / 2;
+/*  n = ((ai_gold_reserve(pplayer) - gnow - expense) ... I hate typos. -- Syela */
+    n = ((ai_gold_reserve(pplayer) - gnow + expense) * 20 + trade) / trade / 2;
     if (n < 1) n = 1; /* should allow 0 tax? */
     while (n > 10 - (pplayer->economic.luxury / 10)) n--;
     pplayer->economic.tax = 10 * n;

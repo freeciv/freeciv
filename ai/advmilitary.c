@@ -137,6 +137,20 @@ int assess_danger(struct player *pplayer, struct city *pcity)
   return(danger);
 }
 
+int assess_defense(struct city *pcity)
+{
+  int v, def;
+  def = 0;
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    v = get_defense_power(punit) * punit->hp * get_unit_type(punit->type)->firepower;
+    def += v * v;
+  unit_list_iterate_end;
+  def *= 2.25; /* because we are in a city == fortified */ 
+  if (city_got_citywalls(pcity)) def *= 9; /* walls rule */
+  /* def is an estimate of our total defensive might */
+  return(def);
+}
+
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, 
     where want is a value between 1 and 100.
@@ -154,25 +168,18 @@ void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   choice->want   = 0;
   choice->type   = 0;
 
-  def = 0;
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    v = get_defense_power(punit) * punit->hp * get_unit_type(punit->type)->firepower;
-    def += v * v;
-  unit_list_iterate_end;
-  def *= 2.25; /* because we are in a city == fortified */ 
-  if (city_got_citywalls(pcity)) def *= 9; /* walls rule */
-  /* def is an estimate of our total defensive might */
-
+  def = assess_defense(pcity);
 /* logically we should adjust this for race attack tendencies */
   danger = assess_danger(pplayer, pcity);
 /* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
   danger -= def;
+
   if (danger > 1000) { /* might be able to wait a little longer to defend */
     if (danger >= def) danger = 101; /* > 100 means BUY RIGHT NOW */
     else { danger *= 100; danger /= def; }
-    if (def && can_build_improvement(pcity, B_CITY)) { /* walls before a second defender */
-      choice->choice = B_CITY;
-      choice->want = danger;
+    if (pcity->ai.building_want[B_CITY]) { /* walls before a second defender */
+      choice->choice = B_CITY; /* great wall is under domestic */
+      choice->want = pcity->ai.building_want[B_CITY];
       choice->type = 0;
     } else {
       choice->choice = ai_choose_defender(pcity);

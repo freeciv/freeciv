@@ -116,6 +116,7 @@ void ai_manage_buildings(struct player *pplayer)
     pcity->ai.building_want[B_PYRAMIDS] = values[B_PYRAMIDS];
     pcity->ai.building_want[B_SETI] = values[B_SETI];
     pcity->ai.building_want[B_SUNTZU] = values[B_SUNTZU];
+    pcity->ai.building_want[B_WALL] = values[B_WALL];
     pcity->ai.building_want[B_WOMENS] = values[B_WOMENS];
   city_list_iterate_end;
 }
@@ -142,7 +143,7 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     copy_if_better_choice(&curchoice, &bestchoice);
   }
 
-  if (bestchoice.want) {
+  if (bestchoice.want) { /* Note - on fallbacks, will NOT get stopped building msg */
    if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
      notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
@@ -162,9 +163,14 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     pcity->currently_building = bestchoice.choice;
     pcity->is_building_unit    = bestchoice.type;
     if (bestchoice.want > 100) { /* either need defense or building NOW */
-      if (pplayer->economic.gold >= city_buy_cost(pcity)) {
-        really_handle_city_buy(pplayer, pcity); /* totally untested yet! */
-      } /* disclaimer - this might need fixed but I am too busy -- Syela */
+      if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
+            !city_got_building(pcity, B_GRANARY) && /* don't vaporize workers */
+            pcity->food_stock < (pcity->size - 1) * game.foodbox) ;
+      else if (bestchoice.type && unit_flag(bestchoice.choice, F_NONMIL) &&
+         pcity->shield_stock < city_buy_cost(pcity) / 3) ; /* too expensive */
+      else if (pplayer->economic.gold >= city_buy_cost(pcity)) {
+        really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+      } 
     }
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
