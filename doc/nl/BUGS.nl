@@ -2,7 +2,7 @@
 BUGS c.q. FOUTEN
 ================
 
-Freeciv 1.13.0 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
+Freeciv 1.14.0 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
 voor dagelijks gebruik. Indien u echter een bug ontdekt dan willen we dat echt
 graag weten, zodat we dat kunnen verhelpen. Dit document is een opsomming van
 ons bekende fouten in deze versie en geeft informatie over hoe u een nieuwe
@@ -11,14 +11,22 @@ bug kunt rapporteren.
 De opsomming betreft uitsluitend de meest zichtbare fouten. Voor een complete
 opsomming zie:
 
-    http://www.freeciv.org/cgi-bin/bugs
+    http://rt.freeciv.org/
 
 BEKENDE FOUTEN:
 ===============
 
+ - In de Xaw client werkt de -t optie niet altijd. Gebruik in dat geval de
+   --tiles optie.
+   
+ - Het tonen van eenheden in het veld onder de knop 'Beurt klaar' gaat niet
+   altijd even foutloos. Een KI kan eenheden verplaatsen zonder dit veld bij
+   te werken. U kunt dus 3 of 4 eenheden in dit veld zien, terwijl er maar één
+   is. Zie onderwerp PR#2625 voor meer info.
+
  - Sommige regels met speciale tekens erin verschijnen blanco indien uw locale
    op "C" is ingesteld. Als een noodoplossing kunt u uw locale op iets anders
-   zetten, zoals "en_US" of uiteraard "dutch" ;-)
+   zetten, zoals "en_US" of uiteraard "dutch" of "nl_NL" ;-)
 
  - Wijzigingen in de Burgemeester-instellingen worden pas naar de server
    gezonden als u op de 'Beurt klaar' knop klikt (of Enter geeft). Wijzigingen
@@ -41,15 +49,18 @@ BEKENDE FOUTEN:
    steeds enkele domme dingen. Hij verkiest het bijv. om steden in opstand te
    laten boven het laten uithongeren/krimpen.
 
- - Soms zijn er zoveel vooruitgangen in het 'doel' menu van het
-   wetenschappelijk rapport, dat het menu voorbij de onderkant van het scherm
-   komt en u niet alles meer kunt selecteren.
+ - Soms zijn er zoveel vooruitgangen in het 'doel' menu van het wetenschap-
+   pelijk rapport, dat het menu voorbij de onderkant van het scherm komt en
+   u niet alles meer kunt selecteren.
 
  - U kunt some het bericht krijgen
      {ss} speler voor fragment <01> niet gevonden
      {ss} speler voor fragment <01> niet gevonden
    wanneer u de esound driver gebruikt. Dat is niets om u zorgen over te
    maken.
+
+ - Als u op Ctrl-C drukt in de client terwijl u de esd plugin gebruikt dan
+   wordt het huidige geluid niet altijd correct onderbroken.
 
  - Sommige gevolgen van wonderen en onderzoek hebben pas de beurt erop
    effect. Bijv. wanneer u de vuurtoren gebouwd hebt dan zullen de triremen
@@ -66,15 +77,12 @@ BEKENDE FOUTEN:
  - De wetenschapsdialoog wordt niet bijgewerkt wanneer u een vooruitgang
    boekt. U dient hem te sluiten en opnieuw te openen.
 
- - In de Gtk client is er soms rommel in het gebied naast de minikaart.
+ - In de GTK+ client is er soms rommel in het gebied naast de minikaart.
 
  - Automatische routines zoals auto-onderzoek kunnen niet zo goed overweg
    met triremen.
 
  - LOG_DEBUG werkt niet met niet-GCC compilers.
-
- - De kleurmarkering in het Gtk-berichtenvenster gaat verloren indien de
-   dialoog gesloten en heropend wordt.
 
  - Bij het instellen van servervariabelen controleert de server de waarden
    niet altijd zo goed als zou moeten.
@@ -86,12 +94,14 @@ BEKENDE FOUTEN:
    speler een kans om te bewegen krijgen. Dit kan soms de indruk wekken dat
    een KI tweemaal verplaatst (dat is dus echt niet zo).
 
- - De xaw client werkt niet erg goed in combinatie met de KDE window manager.
-   Probeer de GTK client te gebruiken of gebruik een andere window manager.
+ - De Xaw client werkt niet erg goed in combinatie met de KDE window manager.
+   Probeer de GTK+ client te gebruiken of gebruik een andere window manager.
 
- - Versie 1.13.0 werkt niet met versie 1.12.0 en eerder. Merk op dat de client
-   nu wat harder stopt door een boodschap af te drukken op stdout en daarna te
-   stoppen.
+ - Alle opties die aan de client worden gegeven worden ook doorgegeven aan de
+   UI. Dat houdt in dat indien er identieke opties zijn, deze een conflict
+   kunnen veroorzaken. Dit is met name voor de Xaw client het geval bij het
+   gebruik van de -d en soms de -t optie. Een noodoplossing is het gebruik
+   van de lange optienaam (--debug en --tiles in dit geval). Zie PR#1752.
 
 RAPPORTEREN VAN FOUTEN:
 =======================
@@ -137,7 +147,7 @@ Dit is wat u moet doen:
 
    - Beschrijf het probleem, inclusief eventuele berichten die getoond werden.
 
-   - Geef aan welke client u gebruikte (Gtk+ of Xaw, ...)
+   - Geef aan welke client(s) u gebruikte (GTK+ of Xaw, ...)
 
    - Vertel ons de naam en de versie van:
 
@@ -146,8 +156,8 @@ Dit is wat u moet doen:
 
        - Het versienummer van Freeciv
 
-       - Als u de Gtk+ client gebruikt, de versienummers (indien bekend) van
-         uw Gtk+, glib en imlib bibliotheken.
+       - Als u de GTK+ client gebruikt, de versienummers (indien bekend) van
+         uw GTK+, glib en imlib bibliotheken.
 
        - Als u de Xaw client gebruikt, de versienummers (indien bekend) van de
          X, Xpm en Xaw-bibliotheken en in het bijzonder of het standaard Xaw

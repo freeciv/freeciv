@@ -1,26 +1,26 @@
 ====================
-Freeciv Versie 1.13
+Freeciv Versie 1.14
 ====================
 
 Welkom bij Freeciv!
 
 Dit archief bevat Freeciv, een vrije Civilization kloon, primair voor
 X onder Unix. Het heeft ondersteuning voor multi-speler spellen lokaal
-of over een netwerk en een KI die de meeste mensen een de stuipen op het
+of over een netwerk en een KI die de meeste mensen de stuipen op het
 lijf jaagt.
 
 Freeciv probeert overwegend spelregel-uitwisselbaar te zijn met 
 Civilization II [tm], gepubliceerd door Sid Meier en Microprose [tm].
 Een aantal regels zijn anders waar we denken dat dat zinvol is en we
-hebben heel veel instelbare parameters om het customizen van spelen
-mogelijk te maken.
+hebben heel veel instelbare parameters om maatwerkspelen mogelijk te 
+maken.
 
 Freeciv is volledig onafhankelijk van Civilization gebouwd; u hebt
 Civilization niet nodig om Freeciv te kunnen spelen.
 
 Hoewel de computerspelers (KI's) nog niet kunnen onderhandelen, hebben
-we inmiddels geluidsondersteuning, zeer volledige spelregels en is onze
-multispeler netwerkcode uitstekend.
+we zeer volledige spelregels en is onze multispeler- en netwerkcode 
+uitstekend.
 
 
 Web site:
@@ -163,7 +163,7 @@ Client:
   - trident: een civ1-stijl vlakkenset met 30x30 afbeeldingen.
     De trident vlakkenset heeft een variant met de naam "trident_shields".
 
-  In deze uitgave is de isotrident vlakkenset de standaard voor de gtk-,
+  In deze uitgave is de isotrident vlakkenset de standaard voor de GTK+-,
   amiga- en win32 clients, terwijl de xaw clients trident als standaard
   heeft. De "_shields" variant gebruikt een schild-vormige vlag, die 
   kleiner is en wellicht minder bedekt. Probeer ze beide en beslis voor
@@ -237,14 +237,14 @@ aankondigen, start civserver met de '--meta' optie, of gewoon '-m'.
 Aandachtspunten:
 
  1) Als gevolg van nieuwe mogelijkheden zijn verschillende client- en
-    server-versies vaak niet uitwisselbaar. De 1.13.0 versie is bijv.
-    niet uitwisselbaar met 1.12.0 of eerdere versies.
+    server-versies vaak niet uitwisselbaar. De 1.14.0 versie is bijv.
+    niet uitwisselbaar met 1.13.0 of eerdere versies.
 
  2) Als de Metaserver knop in de verbindingsdialoog niet werkt, controleer
     dan of uw ISP een verplichte WWW-proxy heeft en laat civclient deze
     gebruiken door de $http_proxy omgevingsvariabele. Als bijvoorbeeld de
-    proxy proxy.myisp.com is, poort 8888, zet dan $http_proxy op
-    http://proxy.myisp.com:8888/ voordat u de client start.
+    proxy proxy.mijnisp.com is, poort 8888, zet dan $http_proxy op
+    http://proxy.mijnisp.com:8888/ voordat u de client start.
 
  3) Soms zijn er geen spelen op de metaserver. Dat gebeurt. Het aantal
     spelers daar varieert in de loop van een dag. Probeer zelf een spel
@@ -308,7 +308,7 @@ Uiteraard zou de server niet met root-privileges mogen draaien in welk
 geval dan ook, juist om dit soort risico's te beperken.
 
 Als u net begint en u wilt een idee krijgen van de strategie, kijk dan
-in de Freeciv HOWTO, in het bestand HOWTOPLAY.
+in de Freeciv HOWTO, in het bestand nl/HOWTOPLAY.nl.
 
 Voor heel veel meer informatie over de client, de server en de concepten
 en regels van het spel, bekijk de Freeciv handleiding, beschikbaar op de
@@ -330,8 +330,7 @@ Er zijn drie manieren waarop een spel kan eindigen:
 Een score-tabel zal in elk van de gevallen getoond worden. De server-
 beheerder kan het eindjaar instellen terwijl het spel al aan de gang
 is door de 'end-year' optie te wijzigen. Dit is leuk als de winnaar
-duidelijk is, maar u wilt vast niet door de saaie 'opruimingsfase'
-spelen.
+duidelijk is, maar u niet door de saaie 'opruimingsfase' wilt spelen.
 
 
 Herstellen van spellen:
@@ -440,14 +439,14 @@ Fouten:
 =======
 
 Fout gevonden? We willen dit echt graag van u horen zodat we dat herstellen
-kunnen. Bekijk het bestand BUGS voor een lijst met bekende fouten in deze
-versie en informatie over het rapporteren van fouten.
+kunnen. Bekijk het bestand nl/BUGS.nl voor een lijst met bekende fouten in
+deze versie en voor informatie over het rapporteren van fouten.
 
 
 Mailing lijsten:
 ================
 
-Wij onderhouden 7 mailing lijsten:
+Wij onderhouden 8 mailing lijsten:
 
   freeciv          Algemene discussie
   freeciv-announce Aankondigingen van algemeen belang
@@ -455,6 +454,10 @@ Wij onderhouden 7 mailing lijsten:
                    M.a.w. u kunt niet naar deze lijst sturen, alleen maar
                    ontvangen. (Aankondigingen die hier naar toe gestuurd
                    worden komen ook op freeciv).
+  freeciv-i18n     Freeciv vertaling.
+                   Alle discussies met betrekking op het vertalen van Freeciv
+                   code, documentatie en website in andere talen dan het
+                   Engels.
   freeciv-dev      Freeciv ontwikkeling.
   freeciv-data     Freeciv data-map ontwikkeling.
                    (Discussie over spelregels, vlakkensets, enz.)
@@ -477,6 +480,7 @@ stappen:
       Om mee te doen:
         subscribe freeciv
         subscribe freeciv-announce
+        subscribe freeciv-i18n
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
@@ -485,6 +489,7 @@ stappen:
       To niet meer mee te doen:
         unsubscribe freeciv
         unsubscribe freeciv-announce
+        unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
@@ -494,6 +499,7 @@ stappen:
 Om email naar de lijst te sturen, stuur het naar:
 
   Voor freeciv, mail moet gestuurd worden naar <freeciv@freeciv.org>.
+  Voor freeciv-i18n, mail moet gestuurd worden naar <freeciv-i18n@freeciv.org>.
   Voor freeciv-dev, mail moet gestuurd worden naar <freeciv-dev@freeciv.org>.
   Voor freeciv-data, mail moet gestuurd worden naar <freeciv-data@freeciv.org>.
   Voor freeciv-java, mail moet gestuurd worden naar <freeciv-java@freeciv.org>.
@@ -513,13 +519,13 @@ Nieuwe versies:
 ===============
 
 We hopen elke vier maanden een nieuwe release van Freeciv te maken.
-Controleer het Freeciv website van tijd tot tijd om te zien of er een nieuwere
+Controleer de Freeciv website van tijd tot tijd om te zien of er een nieuwere
 versie is!!
 
 
 Tenslotte:
 ==========
 
-Heb plezier en geef ze van katoen!!
+Veel plezier en geef ze van katoen!!
 
                                    -- Het Freeciv team.

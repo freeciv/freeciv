@@ -6,9 +6,8 @@ De Freeciv spel HOWTO
 Als u zoekt hoe u Freeciv moet installeren, kijk in INSTALL.
 Als u zoekt hoe u Freeciv moet starten, kijk in README.
 
-Als u nog nooit Freeciv gespeeld hebt, is het het gemakkelijkst
-om te beginnen met de Freeciv handleiding (in Engels), apart
-beschikbaar op:
+Als u nog nooit Civilisation-spelen gespeeld hebt, is het het gemakkelijkst
+om te beginnen met de Freeciv handleiding (in Engels), apart beschikbaar op:
 
      http://www.freeciv.org/manual/
 
@@ -84,7 +83,7 @@ feestvieren en ze zullen per beurt 1 groeien voor zover er voeding beschikbaar
 is. Zodra ze groot genoeg zijn, zet dan de luxe op een meer acceptable waarde
 van 20-40%. Dit plaatst u in de tweede expansiefase.
 
-        De keerzijde van deze aanpak is dat een luxe-waarde van 100% inhoud
+        De keerzijde van deze aanpak is dat een luxe-waarde van 100% inhoudt
 dat uw wetenschappelijk onderzoek tot stilstand komt. Nadat uw steden gegroeid
 zijn en uw wetenschapswaarde weer op 50% staat of zoiets zult u weer
 ontwikkeling zien, maar langzamer. Als u wat verkenningen hebt verricht en
@@ -192,7 +191,7 @@ optie gemaakt. Als deze op 1 staat geeft het een normale kaart met eilanden
 van verschillende (en mogelijk oneerlijke) grootte. Maar wanneer deze op 2, 3
 of 4 staat genereert hij eilanden van gelijke grootte (soms worden er wat
 kleinere eilanden ingezet). Op deze manier kan niemand zeuren over het
-verliezen "door dan ver* eiland".
+verliezen "door dat ver* eiland".
 
 
 V. Moet ik het spel gemakkelijker maken door het startgoud te verhogen?

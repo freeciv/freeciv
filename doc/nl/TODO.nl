@@ -21,7 +21,7 @@ TEDOEN:
 
 - Betere internationalisatie (verhelp enige problemen, wijzig die Engelse
   zinnen die niet goed vertaald kunnen worden in de meeste andere talen,
-  betere GUI afhandeling voor woorden van verschillende lengte, gemegde taal
+  betere GUI afhandeling voor woorden van verschillende lengte, gemengde taal
   client/server, meer complete vertalingen, meer vertalingen).
 
 - Maak de spelregels voor Stadsverbeteringen en Wonderen flexibeler.
@@ -38,7 +38,7 @@ TEDOEN:
   nummeringsschema die eigenschap niet heeft.
   Wanneer alle code geconverteerd is, kan de hele freeciv server aangepast
   worden voor het gebruik van een vlakke kaart, een isometrische kaart, een
-  cilindrische kaart or misschien zelfs een hexagonale kaart, allemaal door
+  cilindrische kaart or misschien zelfs een hexagonale kaart, allemaal met
   slechts een kleine hoeveelheid code op de juiste plaatsen.
   Merk op dat de KI op diverse plaatsen de vlakken niet goed aanpast, zelfs
   niet in het huidige nummeringsschema.
@@ -65,15 +65,14 @@ TEDOEN:
 
 - Documenteren/opschonen KI code. Hernoem variabelen naar meer sprekende name
   dan deze:
-  int a, c, d, e, i, a0, b0, f, g, fprime;
-  int j, k, l, m, q;
-  (uit ai/advmilitary.c:process_attacker_want())
-  I zou in het bijzonder graag het gebruik van de amortize() functie in
+  int a=0, b, c, d, e, m, n, v, f, b0, ab, g;
+  (uit from ai/aiunit.c:find_something_to_kill())
+  Ik zou in het bijzonder graag het gebruik van de amortize() functie in
   servers/settlers.c gedocumenteerd zien.
   Ik zal patches accepteren zelfs als ze slechts een enkele variabele
   hernoemen
 
-- Implementeer goto (ga naar) in common map.
+- Implementeer goto (ga naar) in de common code.
 
 VERDERE INFORMATIE:
 ===================

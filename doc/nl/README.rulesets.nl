@@ -9,8 +9,8 @@ Snelstart:
 ----------
  Spelregels staan wijzigbare verzamelingen gegevens voor eenheden,
  vooruitgangen, terrein, verbeteringen, wonderen, naties, steden,
- regeringsvormen en diverse andere spelregels toe zonder de noodzaak tot
- hercompileren op een wijze die consistent is over een netwerk en over
+ regeringsvormen en diverse andere spelregels toe, zonder de noodzaak tot
+ hercompileren, op een wijze die consistent is over een netwerk en over
  opgeslagen spelen. (In de toekomst kunnen er andere categorieën spelregels
  komen.)
 
@@ -107,7 +107,7 @@ spreken. Een aantal punten:
 - Wonderen en stadsverbeteringen hebben een nieuw veld, "variant". Dit staat
   beperkte wijzigingen toe in het effect van specifieke wonderen en
   stadsverbeteringen waar zulke wijzigingen geïmplementeerd zijn. Zie de
-  "TEDOEN Variants" sectie verderop voor waar deze variant tot dusverre
+  "TEDOEN Varianten" sectie verderop voor waar deze variant tot dusverre
   geïmplementeerd is.
 
 - Eenheden hebben een nieuw veld, "roles" analoog aan "flags", maar die
@@ -116,12 +116,10 @@ spreken. Een aantal punten:
   commentaar in common/unit.h
 
 - De [units_adjust] sectie van het units bestand verdient enige uitleg. Het
-  bevat de attributen:
+  bevat het attribuut:
 
-	max_hitpoints, max_firepower, firepower_factor.
+	firepower_factor.
 
-  De eerste twee attributen (tenzij nul) overschrijven de hitpoints en
-  firepower attributen voor individuele eenheden als een gemaksoptie.
   De waarde voor firepower_factor wordt gebruikt wanneer een gevecht wordt
   berekend: alle gevechts firepower-waarden worden vermenigvuldigd met
   firepower_factor, wat inhoudt dat de effectieve hitpoints van enige eenheid
@@ -144,11 +142,11 @@ spreken. Een aantal punten:
   waar de stadsnaam gewoon de naam van de stad is (let op dat er geen
   aanhalingstekens of haakjes in voor mogen komen), en elk "label" markeert
   (niet hoofdlettergevoelig) een terreintype voor de stad (of "river"), met
-  een !, - of ~ er aan voorafgaand in het geval van een ontkenning. De
-  terrein-lijst is optioneel uiteraard, dus de regel kan gewoon de stadsnaam
-  bevatten indien gewenst. Een stad die gemarkeerd is voor een bepaald
-  terreintype zal passend worden geacht voor een kaartcoördinaat indien de
-  omringende vlakken of het vlak zelf het terreintype bevat als gemarkeerd.
+  een ! er aan voorafgaand in het geval van een ontkenning. De terrein-lijst
+  is optioneel uiteraard, dus de regel kan gewoon de stadsnaam bevatten indien
+  gewenst. Een stad die gemarkeerd is voor een bepaald terreintype zal passend
+  worden geacht voor een kaartcoördinaat indien de omringende vlakken of het
+  vlak zelf het terreintype bevat als gemarkeerd.
   In het geval van het "river" label (wat een speciaal geval is) wordt alleen
   het vlak op de coördinaat zélf in ogenschouw genomen. Een complex voorbeeld:
 
@@ -172,7 +170,7 @@ spreken. Een aantal punten:
 Eigenschappen van eenheden en vooruitgangen zijn nu behoorlijk goed
 gegeneraliseerd.
 Eigenschappen van gebouwen en stadsverbeteringen zijn nog steeds behoorlijk
-beperkt.
+star.
 
 OPMERKING: Er is veel in de spelregels dat nog niet volledig is
 geïmplementeerd. Verzeker u ervan dat u Beperkingen en Limieten leest
@@ -209,7 +207,7 @@ Voorbeelden van problemen die nog niet verholpen zijn:
 - Stadswallen zijn voldoende verschillend (verhoogde bouw- en onderhoudskosten
   en effect aan de kust) om afwijkende omgang te rechtvaardigen?
 - Zonder de Haven en Booreiland verbeteringen zijn steden met veel
-  oceaan-vlakken in Civ1 veel meer beperkt.
+  oceaan-vlakken in Civ1 veel beperkter.
 - Wonderen die slechts effect hebben op een enkel werelddeel krijgen geen
   speciale behandeling van de KI.
 
@@ -276,8 +274,8 @@ Implementatiedetails:
 Deze sectie en de volgende zijn voornamelijk van belang voor ontwikkelaars die
 bekend zijn met de sourcecode van Freeciv.
 
-Spelregels zijn voornamelijk in de server geïmplementeers. De server leest de
-bestanden en zend dan de informatie naar de clients. Meestal worden spelregels
+Spelregels zijn voornamelijk in de server geïmplementeerd. De server leest de
+bestanden en zendt dan de informatie naar de clients. Meestal worden spelregels
 gebruikt om de basis data-tabellen voor eenheden e.d. te vullen, maar in
 sommige gevallen is enige extra informatie noodzakelijk.
 
@@ -306,8 +304,8 @@ TEDOEN:
 - Spelregels voor: tijdsverloop, ...?
 
 ----------------------------------------------------------------------
-TEDOEN Variants: 
---------------
+TEDOEN Varianten: 
+-----------------
 
 Eerst de varianten die geïmplementeerd zijn:
 (Let op dat Variant=0 altijd "standard Freeciv" effect zou moeten zijn.)
@@ -363,7 +361,7 @@ Notities:
 
 Aquaduct en Riolering:
    De maximale grootte van steden zonder deze verbeteringen wordt apart
-behandeld zonder gebruik van varianten. De laat varianten beschikbaar als
+behandeld zonder gebruik van varianten. Dit laat varianten beschikbaar als
 andere effecten gewenst zijn.
 
 Colosseum, Kathedraal, Tempel:
