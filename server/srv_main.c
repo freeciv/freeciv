@@ -1544,7 +1544,7 @@ static void handle_request_join_game(struct connection *pconn,
 
     allow++;
     if (conn_list_size(&pplayer->connections) > 0
-	&& !(*allow == '*' || *allow == '+')) {
+	&& !(*allow == '*' || *allow == '+' || *allow == '=')) {
 
       /* The player exists but is already connected and multiple
        * connections not permitted. */
@@ -1574,7 +1574,8 @@ static void handle_request_join_game(struct connection *pconn,
     }
 
     /* The player exists and not connected or multi-conn allowed: */
-    if (pplayer->is_connected && (*allow != '*')) {
+    if ((*allow == '=') || (*allow == '-')
+	|| (pplayer->is_connected && (*allow != '*'))) {
       pconn->observer = 1;
     }
     associate_player_connection(pplayer, pconn);

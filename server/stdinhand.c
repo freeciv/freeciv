@@ -586,12 +586,16 @@ static struct settings_s settings[] = {
        "player is the one which applies.  Thus 'd' does not include Barbarians, "
        "'a' does not include dead AI players, and so on.  Upper case letters "
        "apply before the game has started, lower case letters afterwards.\n"
-       "If a letter of followed immediately by the single character '*', "
-       "then multiple connections are allowed for that player type.  The "
-       "character '+' is the same, but only one \"controlling\" connection "
-       "is allowed -- other connections will be \"observers\".  "
+       "Each character above may be followed by one of the following "
+       "special characters to allow or restrict multiple and observer "
+       "connections:\n"
+       "   * = Multiple controlling connections allowed;\n"
+       "   + = One controller and multiple observers allowed;\n"
+       "   = = Multiple observers allowed, no controllers;\n"
+       "   - = Single observer only, no controllers;\n"
+       "   (none) = Single controller only.\n"
        "Multiple connections and observer connections are currently "
-       "EXPERIMENTAL and may not work properly."),
+       "EXPERIMENTAL."),
     game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT,
     sizeof(game.allow_connect) },
 
@@ -2433,7 +2437,7 @@ static int is_ok_opt_name_char(char c)
 ******************************************************************/
 static int is_ok_opt_value_char(char c)
 {
-  return (c == '-') || (c == '*') || (c == '+') || isalnum(c);
+  return (c == '-') || (c == '*') || (c == '+') || (c == '=') || isalnum(c);
 }
 
 /******************************************************************
