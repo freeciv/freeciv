@@ -28,12 +28,18 @@ The bitmaps are stored using GetObject/GetBitmapBits.
 typedef struct Sprite SPRITE;
 struct Sprite
 {
-  int has_mask;
-  int has_fog;
+  bool has_mask;
+  bool has_fog;
+  bool has_pmimg;
+  bool alphablend;
   BITMAP img;
   BITMAP fog;
+  BITMAP mask;
+  BITMAP pmimg;
   int img_cache_id;
   int fog_cache_id;
+  int mask_cache_id;
+  int pmimg_cache_id;
   int width;
   int height;
 };
@@ -58,6 +64,8 @@ struct canvas
 void fog_sprite(struct Sprite *sprite);
 void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y);
 void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y);
+void draw_sprite_part(struct Sprite *sprite, HDC hdc, int x, int y, int w,
+		      int h, int offset_x, int offset_y);
 void init_fog_bmp(void);
 void draw_fog(struct Sprite *sprite, HDC hdc, int x, int y);
 

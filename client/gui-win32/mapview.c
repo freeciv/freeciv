@@ -746,15 +746,10 @@ void canvas_put_sprite(struct canvas *pcanvas,
 		       struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
-  struct Sprite *tmp;
   HDC hdc = canvas_get_hdc(pcanvas);
 
-  /* FIXME: make a new function for drawing partial sprites. */
-  tmp = crop_sprite(sprite, offset_x, offset_y, width, height, NULL, 0, 0);
-
-  draw_sprite(tmp, hdc, canvas_x, canvas_y);
-
-  free_sprite(tmp);
+  draw_sprite_part(sprite, hdc, canvas_x, canvas_y, width, height, offset_x,
+		   offset_y);
 
   canvas_release_hdc(pcanvas);
 }

@@ -93,6 +93,7 @@ HFONT city_descriptions_font;
 extern int seconds_to_turndone;   
 
 bool better_fog = TRUE;
+bool enable_alpha = TRUE;
 
 const static RECT textwin_size={0,1,0,100};
 
@@ -108,6 +109,13 @@ client_option gui_options[] = {
 		  N_("If this is enabled then a better method is used for "
 		     "drawing fog-of-war.  It is not any slower but will "
 		     "consume about twice as much memory."),
+		  COC_GRAPHICS),
+  GEN_BOOL_OPTION(enable_alpha,
+		  N_("Enable alpha blending"),
+		  N_("If this is enabled, then alpha blending will be used "
+		     "in rendering, instead of an ordered dither.  If there "
+		     "is no hardware support for alpha blending, this is "
+		     "much slower."),
 		  COC_GRAPHICS)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
@@ -592,6 +600,118 @@ void ui_init(void)
 
 }
 
+static HINSTANCE hmsimg32;
+
+/**************************************************************************
+  Look for the alphablend function, then return TRUE if it works.
+**************************************************************************/
+static bool test_alphablend()
+{
+  HDC hdc;
+  BLENDFUNCTION bf;
+  COLORREF cr;
+  BITMAP bmp;
+  unsigned char *p;
+  HBITMAP src, dst;
+  HDC srcdc, dstdc;
+  HGDIOBJ tmpsrc, tmpdst;
+
+  /* Try to get AlphaBlend() from msimg32.dll */
+  if ((hmsimg32 = LoadLibrary("msimg32.dll"))) {
+    if ((AlphaBlend = GetProcAddress(hmsimg32, "AlphaBlend"))) {
+      /* fall through, do nothing */
+    } else {
+      freelog(LOG_NORMAL, "No AlphaBlend() in msimg32.dll, alpha blending disabled");
+      return FALSE;
+    }
+  } else {
+    freelog(LOG_NORMAL, "No msimg32.dll, alpha blending disabled");
+    return FALSE;
+  }
+
+  hdc = GetDC(map_window);
+
+  if (GetDeviceCaps(hdc, BITSPIXEL) < 32) {
+    freelog(LOG_NORMAL, "Not running in 32 bit color, alpha blending disabled");
+    ReleaseDC(map_window, hdc);
+    return FALSE;
+  }
+
+  /* As of version 3.2 of mingw's w32api, SHADEBLENDCAPS is not defined. */
+#define SHADEBLENDCAPS 120
+#define SB_NONE 0
+
+  if (GetDeviceCaps(hdc, SHADEBLENDCAPS) == SB_NONE) {
+    freelog(LOG_NORMAL, "Device does not support alpha blending, alpha blending disabled");
+    ReleaseDC(map_window, hdc);
+    return FALSE;
+  }
+
+#undef SB_NONE
+#undef SHADEBLENDCAPS
+
+  ReleaseDC(map_window, hdc);
+
+  /* It's not enough to simply have AlphaBlend, we must test it to see it
+     actually works. */
+  
+  p = fc_malloc(4);
+
+  bmp.bmType       = 0;
+  bmp.bmWidth      = 1;
+  bmp.bmHeight     = 1;
+  bmp.bmWidthBytes = 4;
+  bmp.bmPlanes     = 1;
+  bmp.bmBitsPixel  = 32;
+  bmp.bmBits       = p;
+
+  p[0] = 32;
+  p[1] = 64;
+  p[2] = 128;
+  p[3] = 128;
+
+  src = CreateBitmapIndirect(&bmp);
+
+  p[0] = 255;
+  p[1] = 170;
+  p[2] = 85;
+  p[3] = 0;
+
+  dst = CreateBitmapIndirect(&bmp);
+
+  free(p);
+
+  hdc = GetDC(root_window);
+  srcdc = CreateCompatibleDC(hdc);
+  dstdc = CreateCompatibleDC(hdc);
+  ReleaseDC(root_window, hdc);
+
+  tmpsrc = SelectObject(srcdc, src);
+  tmpdst = SelectObject(dstdc, dst);
+
+  bf.BlendOp = AC_SRC_OVER;
+  bf.BlendFlags = 0;
+  bf.SourceConstantAlpha = 255;
+  bf.AlphaFormat = AC_SRC_ALPHA;
+  AlphaBlend(dstdc, 0, 0, 1, 1, srcdc, 0, 0, 1, 1, bf);
+
+  cr = GetPixel(dstdc, 0, 0);
+
+  SelectObject(srcdc, tmpsrc);
+  SelectObject(dstdc, tmpdst);
+
+  DeleteObject(dstdc);
+  DeleteObject(srcdc);
+  DeleteObject(dst);
+  DeleteObject(src);
+
+  if (abs(GetRValue(cr) - 170) + abs(GetGValue(cr) - 149)
+      + abs(GetBValue(cr) - 159) > 25) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -600,8 +720,6 @@ ui_main(int argc, char *argv[])
 {
   RECT rc;
   MSG msg;
-  HINSTANCE hmsimg32;
-  HDC hdc;
   bool quit = FALSE;
   bool idle;
   struct timer *callback_timer;
@@ -612,23 +730,8 @@ ui_main(int argc, char *argv[])
   init_layoutwindow();
   InitCommonControls();
 
-  /* Try to get AlphaBlend() from msimg32.dll */
-  if ((hmsimg32 = LoadLibrary("msimg32.dll"))) {
-    if ((AlphaBlend = GetProcAddress(hmsimg32, "AlphaBlend"))) {
-      have_AlphaBlend = TRUE;
-    } else {
-      freelog(LOG_NORMAL, "No AlphaBlend() in msimg32.dll, alpha blending disabled");
-    }
-  } else {
-    freelog(LOG_NORMAL, "No msimg32.dll, alpha blending disabled");
-  }
-
-  hdc = GetDC(map_window);
-  if (GetDeviceCaps(hdc, BITSPIXEL) < 32) {
-    freelog(LOG_NORMAL, "Not running in 32 bit color, alpha blending disabled");
-    have_AlphaBlend = FALSE;
-  }
-  ReleaseDC(map_window, hdc);
+  have_AlphaBlend = test_alphablend();
+  enable_alpha = have_AlphaBlend;
 
   unitselect_init(freecivhinst);
   init_mapwindow();
