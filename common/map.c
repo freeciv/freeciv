@@ -761,8 +761,11 @@ void map_irrigate_tile(int x, int y)
   }
   else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
-    if (result==T_OCEAN)
+    if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
+					   rivers in oceans, don't clear this! */
+    }
     reset_move_costs(x, y);
   }
   map_clear_special(x, y, S_MINE);
@@ -782,8 +785,11 @@ void map_mine_tile(int x, int y)
     map_set_special(x, y, S_MINE);
   else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
-    if (result==T_OCEAN)
+    if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
+					   rivers in oceans, don't clear this! */
+    }
     reset_move_costs(x, y);
   }
   map_clear_special(x,y, S_FARMLAND);
@@ -802,8 +808,11 @@ void map_transform_tile(int x, int y)
   
   if (result != T_LAST) {
     map_set_terrain(x, y, result);
-    if (result==T_OCEAN)
+    if (result==T_OCEAN) {
       clear_infrastructure(x, y);
+      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
+					   rivers in oceans, don't clear this! */
+    }
     reset_move_costs(x, y);
   }
 

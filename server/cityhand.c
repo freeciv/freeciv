@@ -42,6 +42,7 @@
 #include "plrhand.h"
 #include "settlers.h"
 #include "unitfunc.h"
+#include "unithand.h"
 #include "unittools.h"
 
 #include "aicity.h"
@@ -129,11 +130,12 @@ char *city_name_suggestion(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_city(struct player *pplayer, int x, int y, char *name)
+void create_city(struct player *pplayer, const int x, const int y, char *name)
 {
   struct city *pcity, *othercity;
-  int i;
-  
+  int i, x_itr, y_itr;
+  struct tile_type *pcitytile;
+
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
 	  x,y, get_nation_name_plural(pplayer->nation));
@@ -167,9 +169,9 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   /* Set up the worklist */
   pcity->worklist = create_worklist();
 
-  for (y = 0; y < CITY_MAP_SIZE; y++)
-    for (x = 0; x < CITY_MAP_SIZE; x++)
-      pcity->city_map[x][y]=C_TILE_EMPTY;
+  for (y_itr = 0; y_itr < CITY_MAP_SIZE; y_itr++)
+    for (x_itr = 0; x_itr < CITY_MAP_SIZE; x_itr++)
+      pcity->city_map[x_itr][y_itr]=C_TILE_EMPTY;
 
   for(i=0; i<B_LAST; i++)
     pcity->improvements[i]=0;
@@ -195,24 +197,24 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->science_bonus = 100;
 
   /* Before arranging workers to show unknown land */
-  map_unfog_pseudo_city_area(pplayer, pcity->x, pcity->y);
+  map_unfog_pseudo_city_area(pplayer, x, y);
 
-  map_set_city(pcity->x, pcity->y, pcity);
+  map_set_city(x, y, pcity);
 
   unit_list_init(&pcity->units_supported);
   city_list_insert(&pplayer->cities, pcity);
-  add_city_to_minimap(pcity->x, pcity->y);
+  add_city_to_minimap(x, y);
 
 /* it is possible to build a city on a tile that is already worked */
 /* this will displace the worker on the newly-built city's tile -- Syela */
-  city_map_iterate(x, y) { /* usurping the parameters x, y */
-    othercity = map_get_city(pcity->x+x-2, pcity->y+y-2);
+  city_map_iterate(x_itr, y_itr) {
+    othercity = map_get_city(x+x_itr-2, y+y_itr-2);
     if (othercity && othercity != pcity) {
-      if (get_worker_city(othercity, 4 - x, 4 - y) == C_TILE_WORKER) {
-        set_worker_city(othercity, 4 - x, 4 - y, C_TILE_UNAVAILABLE);
+      if (get_worker_city(othercity, 4 - x_itr, 4 - y_itr) == C_TILE_WORKER) {
+        set_worker_city(othercity, 4 - x_itr, 4 - y_itr, C_TILE_UNAVAILABLE);
         add_adjust_workers(othercity); /* will place the displaced */
         city_refresh(othercity); /* may be unnecessary; can't hurt */
-      } else set_worker_city(othercity, 4 - x, 4 - y, C_TILE_UNAVAILABLE);
+      } else set_worker_city(othercity, 4 - x_itr, 4 - y_itr, C_TILE_UNAVAILABLE);
       send_city_info(city_owner(othercity), othercity);
     }
   }
@@ -224,7 +226,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
 
   city_incite_cost(pcity);
   initialize_infrastructure_cache(pcity);
-  reset_move_costs(pcity->x, pcity->y);
+  reset_move_costs(x, y);
 /* I stupidly thought that setting S_ROAD took care of this, but of course
 the city_id isn't set when S_ROAD is set, so reset_move_costs doesn't allow
 sea movement at the point it's called.  This led to a problem with the
@@ -233,6 +235,27 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   send_adjacent_cities(pcity);
   send_city_info(0, pcity);
+
+  /* if anyone changing to ocean here, stop them */
+  pcitytile = get_tile_type(map_get_terrain(x, y));
+  if (pcitytile->mining_result == T_OCEAN) {
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      if (punit->activity == ACTIVITY_MINE)
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    } unit_list_iterate_end;
+  }
+  if (pcitytile->irrigation_result == T_OCEAN) {
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      if (punit->activity == ACTIVITY_IRRIGATE)
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    } unit_list_iterate_end;
+  }
+  if (pcitytile->transform_result == T_OCEAN) {
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      if (punit->activity == ACTIVITY_TRANSFORM)
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    } unit_list_iterate_end;
+  }
 }
 
 /**************************************************************************

@@ -18,7 +18,7 @@
 struct player;
 struct city;
 
-void create_city(struct player *pplayer, int x, int y, char *name);
+void create_city(struct player *pplayer, const int x, const int y, char *name);
 void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity);
 void send_city_info_at_tile(struct player *dest, int x, int y);
