@@ -1535,7 +1535,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
 								char *text, ...)
 {
   va_list args;
-  GtkWidget *dshell, *button, *dlabel, *vbox;
+  GtkWidget *dshell, *button0=NULL, *button, *dlabel, *vbox;
   GtkAccelGroup *accel = gtk_accel_group_new();
   void (*fcb)(GtkWidget *, gpointer);
   gpointer data;
@@ -1578,6 +1578,9 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
     gtk_object_set_data( GTK_OBJECT( dshell ), button_name, button );
 
     gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(fcb),data );
+
+    if (i==1)
+      gtk_widget_grab_focus(button);
   }
   
   va_end(args);
