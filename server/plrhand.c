@@ -70,11 +70,22 @@ enum historian_type {
         HISTORIAN_LARGEST=4};
 
 static char *historian_message[]={
-    N_("Herodot's report on the RICHEST Civilizations in the World."),
-    N_("Herodot's report on the most ADVANCED Civilizations in the World."),
-    N_("Herodot's report on the most MILITARIZED Civilizations in the World."),
-    N_("Herodot's report on the HAPPIEST Civilizations in the World."),
-    N_("Herodot's report on the LARGEST Civilizations in the World.")
+    N_("%s report on the RICHEST Civilizations in the World."),
+    N_("%s report on the most ADVANCED Civilizations in the World."),
+    N_("%s report on the most MILITARIZED Civilizations in the World."),
+    N_("%s report on the HAPPIEST Civilizations in the World."),
+    N_("%s report on the LARGEST Civilizations in the World.")
+};
+
+static char *historian_name[]={
+    N_("Herodotus'"),
+    N_("Thucydides'"),
+    N_("Pliny the Elder's"),
+    N_("Livy's"),
+    N_("Toynbee's"),
+    N_("Gibbon's"),
+    N_("Ssu-ma Ch'ien's"),
+    N_("Pan Ku's")
 };
 
 static void update_player_aliveness(struct player *pplayer);
@@ -102,7 +113,10 @@ static char *greatness[MAX_NUM_PLAYERS] = {
 static void historian_generic(enum historian_type which_news)
 {
   int i,j=0;
+  int rank=0;
+  int which_historian;
   char buffer[4096];
+  char title[1024];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
@@ -135,15 +149,18 @@ static void historian_generic(enum historian_type which_news)
   qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<j;i++) {
+    if (i == 0 || size[i].value < size[i-1].value)
+      rank = i;
     cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s %s\n"), i+1, _(greatness[i]),
+		 _("%2d: The %s %s\n"), rank+1, _(greatness[rank]),
 		 get_nation_name_plural(game.players[size[i].idx].nation));
   }
   free(size);
-  page_player_generic(0, _("Historian Publishes!"),
-		      _(historian_message[which_news]),
-		      buffer, BROADCAST_EVENT);
-
+  which_historian=myrand(sizeof(historian_name)/sizeof(historian_name[0]));
+  my_snprintf(title, sizeof(title), _(historian_message[which_news]),
+    _(historian_name[which_historian]));
+  page_player_generic(0, _("Historian Publishes!"), title, buffer,
+		 BROADCAST_EVENT);
 }
 
 static int nr_wonders(struct city *pcity)
