@@ -765,10 +765,6 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  TECH_TREE_EXPANDED_DEPTH, NULL);
     */
     helptext_tech(buf, i, pitem->text);
-    if (advances[i].helptext) {
-      if (strlen(buf)) strcat(buf, "\n");
-      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
-    }
     wordwrap_string(buf, 68);
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 

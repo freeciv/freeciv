@@ -871,12 +871,6 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
     helptext_tech(buf, i, pitem->text);
     len = strlen(buf);
-    if (advances[i].helptext) {
-      if (len) strcat(buf, "\n");
-      sprintf(buf+len, "%s\n", _(advances[i].helptext));
-      len = strlen(buf);
-    }
-
     my_chomp(buf, len);
 
     w = gtk_text_view_new();

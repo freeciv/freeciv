@@ -816,10 +816,6 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show_all(help_tree_buttons_hbox);
 
     helptext_tech(buf, i, pitem->text);
-    if (advances[i].helptext) {
-      if (strlen(buf)) strcat(buf, "\n");
-      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
-    }
     wordwrap_string(buf, 68);
 
     w = gtk_label_new(buf);

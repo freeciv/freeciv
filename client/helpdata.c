@@ -521,8 +521,8 @@ void helptext_improvement(char *buf, int which, const char *user_text)
     sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
 	   game.sewer_size);
   }
-  if (imp->helptext) {
-    sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
+  if (imp->helptext[0] != '\0') {
+    sprintf(buf + strlen(buf), "%s  ", _(imp->helptext));
   }
   if(which==B_BARRACKS
      && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
@@ -567,8 +567,8 @@ void helptext_wonder(char *buf, int which,
 	   _("Allows all players with knowledge of %s to build %s units.  "),
 	   advances[t].name, get_unit_type(u)->name);
   }
-  if (imp->helptext) {
-    sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
+  if (imp->helptext[0] != '\0') {
+    sprintf(buf + strlen(buf), "%s  ", _(imp->helptext));
   }
   if (strcmp(user_text, "")!=0) {
     sprintf(buf+strlen(buf), "\n\n%s", user_text);
@@ -775,8 +775,8 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (strlen(buf) > 0) {
     sprintf(buf+strlen(buf), "\n");
   } 
-  if (utype->helptext) {
-    sprintf(buf+strlen(buf), "%s\n\n", _(utype->helptext));
+  if (utype->helptext[0] != '\0') {
+    sprintf(buf + strlen(buf), "%s\n\n", _(utype->helptext));
   }
   strcpy(buf+strlen(buf), user_text);
   wordwrap_string(buf, 68);
@@ -885,6 +885,12 @@ void helptext_tech(char *buf, int i, const char *user_text)
 	    units_str);
     free((void *) units_str);
   }
+  if (advances[i].helptext[0] != '\0') {
+    if (strlen(buf) > 0) {
+      sprintf(buf + strlen(buf), "\n");
+    }
+    sprintf(buf + strlen(buf), "%s\n", _(advances[i].helptext));
+  }
 }
 
 /****************************************************************
@@ -900,7 +906,7 @@ void helptext_terrain(char *buf, int i, const char *user_text)
     return;
 
   pt = &tile_types[i];
-  if (pt->helptext) {
+  if (pt->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(pt->helptext));
   }
   strcat(buf, user_text);
@@ -916,7 +922,7 @@ void helptext_government(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
   
-  if (gov->helptext) {
+  if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
   strcat(buf, user_text);
