@@ -333,6 +333,7 @@ struct packet_player_info {
   int bulbs_researched;
   int techs_researched;
   int researching;
+  int science_cost;
   int future_tech;
   int tech_goal;
   bool is_connected;
