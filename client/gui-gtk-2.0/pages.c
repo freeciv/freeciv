@@ -599,7 +599,7 @@ GtkWidget *create_network_page(void)
 	-1, titles[i], rend, "text", i, NULL);
   }
 
-  label = gtk_label_new_with_mnemonic(_("Connect to _Metaserver Game"));
+  label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
@@ -631,7 +631,7 @@ GtkWidget *create_network_page(void)
 	-1, titles[i], rend, "text", i, NULL);
   }
 
-  label = gtk_label_new_with_mnemonic(_("Connect to L_AN Game"));
+  label = gtk_label_new_with_mnemonic(_("Local _Area Network"));
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
