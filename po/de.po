@@ -1448,7 +1448,7 @@ msgstr "  -s, --saves VERZ\tSpielstände im Verzeichnis VERZ speichern.\n"
 
 #: server/civserver.c:189
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "  -S, --serverid ID\tSetze Server-ID\n"
+msgstr "  -S, --Serverid ID\tSetze Server-ID\n"
 
 #: server/civserver.c:190
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -11251,7 +11251,8 @@ msgstr ""
 
 #: client/gui-gtk-2.0/mapview.c:960 client/gui-win32/mapview.c:725
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr "Bessere Nebeldarstellung kann nur in Echtfarben erfolgen. Wird abgeschaltet."
+msgstr ""
+"Bessere Nebeldarstellung kann nur in Echtfarben erfolgen. Wird abgeschaltet."
 
 #: client/gui-gtk-2.0/menu.c:231
 msgid "Leaving a local game will end it!"
@@ -14911,7 +14912,7 @@ msgid ""
 "\n"
 msgstr ""
 "%s%s  -  %s%s\n"
-"\n"    
+"\n"
 
 #: manual/civmanual.c:199
 #, c-format
@@ -14924,7 +14925,7 @@ msgstr ""
 "<table>\n"
 "<tr>\n"
 "<td valign=\"top\"><pre>Kurzdarstellung:</pre></td>\n"
-"<td>"  
+"<td>"
 
 #: manual/civmanual.c:203
 #, c-format
@@ -14942,7 +14943,7 @@ msgid ""
 "\n"
 msgstr ""
 "<p>Beschreibung:</p>\n"
-"\n"    
+"\n"
 
 #: manual/civmanual.c:219
 #, c-format
@@ -15451,14 +15452,13 @@ msgstr ""
 "jedoch ändern, indem man das Programm anstatt mit 'civclient' mit 'LANG=xx "
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
-"Bitte informieren Sie uns über Fehler bzw. Verbesserungsmöglichkeiten "
-"der deutschen Übersetzung, indem Sie eine Email an den Übersetzer "
-"schicken.\n"
+"Bitte informieren Sie uns über Fehler bzw. Verbesserungsmöglichkeiten der "
+"deutschen Übersetzung, indem Sie eine Email an den Übersetzer schicken.\n"
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
 "deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an <freeciv."
-"de-request@freelists.org>, Betreff: subscribe, abonnieren. Siehe auch: "
-"  http://www.freeciv.org/index.php/Translations\n"
+"de-request@freelists.org>, Betreff: subscribe, abonnieren. Siehe auch:   "
+"http://www.freeciv.org/index.php/Translations\n"
 "\n"
 "Weiterhin gibt es die internationale Übersetzerliste:\n"
 "\n"
@@ -15603,7 +15603,6 @@ msgid ""
 "  w: focus on next unit (wait)\n"
 "  W: wake up other units on tile\n"
 "  c: center view on unit\n"
-
 msgstr ""
 "Einheiten bewegen:\n"
 "==================\n"
