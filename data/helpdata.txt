@@ -882,7 +882,7 @@ If the attacker is a ground unit and wins, and the defender is in a \
 city without City Walls, the city is reduced in size by 1.\
 "), _("\
 If the defender loses, and is not inside a city or fortress, all \
-other units at the defender's location are destroyed along with the\
+other units at the defender's location are destroyed along with the \
 defender.\
 ")
 
