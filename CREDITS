@@ -23,11 +23,17 @@ Peter Meerwald:        OS/2 version of FreeCiv (XFree86)
 Mitch Davis:           Many patches fixing spelling mistakes and various code
                        issues. Patch; introducing variable sized tiles and 
                        several helptext updates. 
-Michael Hohensee:      Draw new units. (Cruiser miss, freigt, battleship, partisans, explorer,                                                                      archer) and wrote a very nice HOWTOPLAY document. 
+Michael Hohensee:      Draw new units. (Cruiser miss, freigt, battleship, 
+                       partisans, explorer, archer) and wrote a very nice 
+                       HOWTOPLAY document. 
 Rajala Ilkka:          Patch concerning Partisan bug when reloading a saved game. 
 Richard Braakman:      Fixed bug related to detecting savefile error. 
 Jan Echternach:        Fixed bug related to workers replacement. 
-
+James Blackwell:       Fixed problem with slow connects blocking the server
+                       for other players.
+Tracy Reed:            Home of Freeciv CVS home site, and future web site.
+Manuel Algaba:         In depth proposals of AI structure (Keep those 
+                       ideas coming!)
 
 And the rest of DAIMI boys for playtesting and criticising. There's no question
 that when it comes to hardcore gamers, our CS-labs are second to none.
