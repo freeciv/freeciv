@@ -36,6 +36,7 @@ int unit_belligerence(struct unit *punit);
 int unit_vulnerability_basic(struct unit *punit, struct unit *pdef);
 int unit_vulnerability_virtual(struct unit *punit);
 int unit_vulnerability(struct unit *punit, struct unit *pdef);
+int military_amortize(int value, int delay, int build_cost);
 
 int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
 int is_ai_simple_military(Unit_Type_id type);

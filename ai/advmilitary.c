@@ -546,7 +546,7 @@ static void process_attacker_want(struct player *pplayer,
 { 
   Unit_Type_id i;
   Tech_Type_id j;
-  int a, c, d, e, a0, b0, f, g, fprime;
+  int a, c, d, e, b0, f, g, fprime;
   int k, l, m, q;
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   struct city *acity = map_get_city(x, y);
@@ -629,10 +629,7 @@ static void process_attacker_want(struct player *pplayer,
         b0 -= l * SHIELD_WEIGHTING;
         b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
       }
-      if (b0 > 0) {
-        a0 = amortize(b0, MAX(1, c));
-        e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
-      } else e = 0;  
+      e = military_amortize(b0, MAX(1, c), fprime + needferry);
       if (e > 0) {
         if (k) {
           pplayer->ai.tech_want[j] += e;
@@ -664,7 +661,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 {
   int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
   Unit_Type_id v, n;
-  int m, vet, dist, a0, b0, fprime;
+  int m, vet, dist, b0, fprime;
   int x, y, unhap = 0;
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
@@ -827,10 +824,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
                g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
     }
     b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
-    if (b0 > 0) {
-      a0 = amortize(b0, MAX(1, c));
-      e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
-    } else e = 0;  
+    e = military_amortize(b0, MAX(1, c), fprime + needferry);
 
 #ifdef DEBUG
     if (e != fstk && acity) {

@@ -490,6 +490,26 @@ static void invasion_funct(struct unit *punit, int dest, int n, int which)
 }
 
 /**************************************************************************
+Military "want" estimates are amortized in this complicated way.
+COMMENTME: Why not use simple amortize? -- GB
+**************************************************************************/
+int military_amortize(int value, int delay, int build_cost)
+{
+  int simply_amortized, fully_amortized;
+
+  if (value <= 0) {
+    return 0;
+  }
+
+  simply_amortized = amortize(value, delay);
+  fully_amortized = ((value * simply_amortized) * 100
+                     / (MAX(1, value - simply_amortized))
+                     / (build_cost * MORT));
+
+  return fully_amortized;
+}
+
+/**************************************************************************
  this is still pretty dopey but better than the original -- Syela
 **************************************************************************/
 static int reinforcements_value(struct unit *punit, int x, int y)
@@ -1162,14 +1182,14 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 **************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
-  int a=0, b, c, d, e, m, n, v, i, f, a0, b0, ab, g;
+  int a=0, b, c, d, e, m, n, v, i, f, b0, ab, g;
 #ifdef DEBUG
   int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
 #endif
   int con = map_get_continent(punit->x, punit->y);
   struct player *aplayer;
   struct unit *pdef;
-  int best = 0, maxd, boatid = 0;
+  int best = 0, maxd, boatid = 0, needferry;
   int harborcity = 0, bx = 0, by = 0;
   int fprime, handicap;
   struct unit *ferryboat = 0;
@@ -1314,35 +1334,31 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
                       g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
           }
           b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
-          if (b0 > 0) {
-            a0 = amortize(b0, MAX(1, c));
-            if (!sanity && !boatid && is_ground_unit(punit))
-              e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + 40) * MORT);
-            else e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
- /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
-          } else if (!punit->id && !best) {
-            b0 = b * SHIELD_WEIGHTING;
-            a0 = amortize(b0, MAX(1, c));
-            if (!sanity && !boatid && is_ground_unit(punit))
-              e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + 40) * MORT);
-            else e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
-            if (e > bk) {
-              if (punit->id && is_ground_unit(punit) &&
-                       !unit_flag(punit, F_MARINES) &&
-                       map_get_continent(acity->x, acity->y) != con) {
+          /* FIXME: build_cost of ferry */
+          needferry = 
+            (!sanity && !boatid && is_ground_unit(punit) ? 40 : 0);
+          e = military_amortize(b0, MAX(1, c), fprime + needferry);
+          /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
+          if (b0 <= 0 && !punit->id && !best) {
+            int bk_e = military_amortize(b * SHIELD_WEIGHTING, 
+                                         MAX(1, c), fprime + needferry);
+            if (bk_e > bk) {
+              if (punit->id && is_ground_unit(punit) 
+                  && !unit_flag(punit, F_MARINES) 
+                  && map_get_continent(acity->x, acity->y) != con) {
                 if (find_beachhead(punit, acity->x, acity->y, &xx, &yy)) {
                   *x = acity->x;
                   *y = acity->y;
-                  bk = e;
+                  bk = bk_e;
                 } /* else no beachhead */
               } else {
                 *x = acity->x;
                 *y = acity->y;
-                bk = e;
+                bk = bk_e;
               }
             }
-            e = 0; /* END STEAM-ENGINES KLUGE */
-          } else e = 0;
+          }
+          /* END STEAM-ENGINES KLUGE */
 
 	  if (punit->id && ferryboat && is_ground_unit(punit)) {
 	    freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
@@ -1410,10 +1426,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
           else if (c > THRESHOLD) b0 = 0;
           else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d)) - 
             c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
-          if (b0 > 0) {
-            a0 = amortize(b0, MAX(1, c));
-            e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
-          } else e = 0;
+          e = military_amortize(b0, MAX(1, c), fprime);
           if (e > best && ai_fuzzy(pplayer,1)) {
 #ifdef DEBUG
             aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
