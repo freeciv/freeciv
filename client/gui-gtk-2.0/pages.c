@@ -52,7 +52,7 @@ static GtkListStore *load_store, *scenario_store,
   *nation_store, *meta_store, *lan_store; 
 
 static GtkTreeSelection *load_selection, *scenario_selection,
-  *nation_selection;
+  *nation_selection, *meta_selection, *lan_selection;
 
 static enum client_pages old_page;
 
@@ -244,21 +244,23 @@ static GtkWidget *network_password_label, *network_password;
 static GtkWidget *network_confirm_password_label, *network_confirm_password;
 
 /**************************************************************************
-  get the list of servers from the metaserver
+  update a server list.
 **************************************************************************/
-static int get_meta_list(char *errbuf, int n_errbuf)
+static void update_server_list(GtkTreeSelection *selection,
+			       GtkListStore *store, struct server_list *list)
 {
-  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
+  const gchar *host, *port;
 
-  if (!server_list) {
-    return -1;
-  }
+  host = gtk_entry_get_text(GTK_ENTRY(network_host));
+  port = gtk_entry_get_text(GTK_ENTRY(network_port));
 
-  gtk_list_store_clear(meta_store);
+  gtk_list_store_clear(store);
 
-  server_list_iterate(*server_list, pserver) {
+  server_list_iterate(*list, pserver) {
     GtkTreeIter it;
     gchar *row[6];
+
+    gtk_list_store_append(store, &it);
 
     row[0] = pserver->host;
     row[1] = pserver->port;
@@ -267,15 +269,31 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     row[4] = pserver->nplayers;
     row[5] = pserver->message;
 
-    gtk_list_store_append(meta_store, &it);
-    gtk_list_store_set(meta_store, &it,
-		       0, row[0], 1, row[1], 2, row[2],
-		       3, row[3], 4, row[4], 5, row[5], -1);
-  }
-  server_list_iterate_end;
+    gtk_list_store_set(store, &it,
+	0, row[0], 1, row[1], 2, row[2],
+	3, row[3], 4, row[4], 5, row[5], -1);
 
-  delete_server_list(server_list);
-  return 0;
+    if (strcmp(host, pserver->host) == 0 && strcmp(port, pserver->port) == 0) {
+      gtk_tree_selection_select_iter(selection, &it);
+    }
+  } server_list_iterate_end;
+}
+
+/**************************************************************************
+  get the list of servers from the metaserver.
+**************************************************************************/
+static bool get_meta_list(char *errbuf, int n_errbuf)
+{
+  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
+
+  update_server_list(meta_selection, meta_store, server_list);
+
+  if (server_list) {
+    delete_server_list(server_list);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 /**************************************************************************
@@ -289,35 +307,15 @@ static void get_lan_destroy(gpointer data)
 }
 
 /**************************************************************************
-  this function updates the list of LAN servers every 100 ms for 5 seconds. 
+  this function updates the list of LAN servers every 1000 ms for 5 secs.
 **************************************************************************/
 static gboolean get_lan_list(gpointer data)
 {
   struct server_list *server_list = get_lan_server_list();
 
-  if (server_list) {
-    gtk_list_store_clear(lan_store);
-
-    server_list_iterate(*server_list, pserver) {
-      GtkTreeIter it;
-      gchar *row[6];
-
-      row[0] = pserver->host;
-      row[1] = pserver->port;
-      row[2] = pserver->version;
-      row[3] = _(pserver->state);
-      row[4] = pserver->nplayers;
-      row[5] = pserver->message;
-
-      gtk_list_store_append(lan_store, &it);
-      gtk_list_store_set(lan_store, &it,
-		         0, row[0], 1, row[1], 2, row[2],
-		         3, row[3], 4, row[4], 5, row[5], -1);
-    } server_list_iterate_end;
-  }
-
+  update_server_list(lan_selection, lan_store, server_list);
   num_lanservers_timer++;
-  if (num_lanservers_timer == 50) {
+  if (num_lanservers_timer == 5) {
     return FALSE;
   } else {
     return TRUE;
@@ -331,15 +329,13 @@ static void update_network_lists(void)
 {
   char errbuf[128];
 
-  if (get_meta_list(errbuf, sizeof(errbuf)) == -1)  {
+  if (!get_meta_list(errbuf, sizeof(errbuf)))  {
     append_output_window(errbuf);
   }
 
   if (lan_timer == 0) { 
-    gtk_list_store_clear(lan_store);
-
     if (begin_lanserver_scan()) {
-      lan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
+      lan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000,
 	  get_lan_list, NULL, get_lan_destroy);
     }
   }
@@ -576,7 +572,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   connect on list item double-click.
 ***************************************************************************/
-static void network_click_callback(GtkTreeView *view,
+static void network_activate_callback(GtkTreeView *view,
                       		      GtkTreePath *arg1,
 				      GtkTreeViewColumn *arg2,
 				      gpointer data)
@@ -597,6 +593,13 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
     return;
   }
 
+  /* only one server can be selected in either list. */
+  if (select == meta_selection) {
+    gtk_tree_selection_unselect_all(lan_selection);
+  } else {
+    gtk_tree_selection_unselect_all(meta_selection);
+  }
+
   gtk_tree_model_get(model, &it, 0, &host, 1, &port, -1);
 
   gtk_entry_set_text(GTK_ENTRY(network_host), host);
@@ -609,6 +612,9 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
 static void update_network_page(void)
 {
   char buf[256];
+
+  gtk_tree_selection_unselect_all(lan_selection);
+  gtk_tree_selection_unselect_all(meta_selection);
 
   gtk_entry_set_text(GTK_ENTRY(network_login), user_name);
   gtk_entry_set_text(GTK_ENTRY(network_host), server_host);
@@ -660,9 +666,12 @@ GtkWidget *create_network_page(void)
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
+  meta_selection = selection;
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+  g_signal_connect(view, "focus",
+      		   G_CALLBACK(gtk_true), NULL);
   g_signal_connect(view, "row_activated",
-		   G_CALLBACK(network_click_callback), NULL);
+		   G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",
                    G_CALLBACK(network_list_callback), NULL);
 
@@ -692,9 +701,12 @@ GtkWidget *create_network_page(void)
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
+  lan_selection = selection;
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+  g_signal_connect(view, "focus",
+      		   G_CALLBACK(gtk_true), NULL);
   g_signal_connect(view, "row_activated",
-		   G_CALLBACK(network_click_callback), NULL);
+		   G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",
                    G_CALLBACK(network_list_callback), NULL);
 
