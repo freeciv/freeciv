@@ -48,7 +48,6 @@ TODO:
   the right places.
   Note that the AI in various places do not adjust tiles properly even
   for the current numbering scheme.
-  It vould also be nice to get rid of the void_tile kludge.
   Note that the conversion is backwards compatible, so it can be done in
   small steps. No mega-patches please.
 
