@@ -695,6 +695,11 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
                  aplayer->name, pplayer->ai.love[aplayer->player_no]);
     } else if (pplayer->diplstates[aplayer->player_no].type == DS_WAR) {
       pplayer->ai.love[aplayer->player_no] -= ai->diplomacy.love_incr;
+      if (ai->diplomacy.target != aplayer && 
+          pplayer->ai.love[aplayer->player_no] < 0) {
+        /* Give him a better chance for a cease fire */
+        pplayer->ai.love[aplayer->player_no] += 3;
+      }
       PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Reduced love for %s (now %d) ",
                  aplayer->name, pplayer->ai.love[aplayer->player_no]);
     } else if (pplayer->diplstates[a].has_reason_to_cancel != 0) {
