@@ -1981,6 +1981,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         ai_unit_attack(punit, dest_x, dest_y);
       }
     } else {
+      UNIT_LOG(LOG_DEBUG, punit, "fstk didn't find us a worthy target!");
       /* No worthy enemies found, so abort loop */
       ct = 0;
     }
@@ -2008,7 +2009,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
        not sit helplessly, but advance towards nearest known enemy city */
     struct city *pc;
     int fx, fy;
-    UNIT_LOG(LOG_DEBUG, punit, "Barbarian didn't get enough targets from fstk");
     if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
       if (map_get_terrain(punit->x,punit->y) != T_OCEAN) {
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
