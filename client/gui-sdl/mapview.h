@@ -31,12 +31,16 @@ struct city;
 void get_new_view_rectsize(void);
 void tmp_map_surfaces_init(void);
 void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window);
-int get_mcell_cr(int X, int Y, int *pCol, int *pRow);
-void redraw_map_visible(void);
 void real_blink_active_unit(void);
 SDL_Surface *create_city_map(struct city *pCity);
 int correction_map_pos(int *pCol, int *pRow);
 void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
 			  Sint16 map_x, Sint16 map_y);
 
-#endif				/* FC__MAPVIEW_H */
+void init_cells_sprites(void);
+void free_cells_sprites(void);
+
+void init_map_cells(void);
+void free_map_cells(void);
+
+#endif	/* FC__MAPVIEW_H */

@@ -1,22 +1,16 @@
 First off all :
 
- -  Some part of graphic and SDL gfx code come from Michael Speck and his "LGeneral"
-    Great Thaks for his job... and I dont known if he agree to I use his graphic
-    but LGeneral is on GPL ...
+ -  Some part of graphic and SDL gfx code come from Michael Speck
+    and his "LGeneral" Great Thaks for his job... but I dont known
+    if he agree to I use his graphic( but LGeneral is on GPL )
      
- -  zoom and putline functions come from SDL_gfx-2.0 lib and it is on LGPL licence.
-    I won't use new lib only to this functions.
+ -  zoom and putline functions come from SDL_gfx-2.0 lib and
+    it is on LGPL licence. I won't use new lib only to this functions.
     AA_ZoomSurfaceFastRGBA(...) funtion and some others in SDLClient are 
     my invention.
 
- -  DON'T USE WITH SDL SOUND OUTPUT.
-    I don't have time to integrate this futures with my client, and both
-     call 'SDL_Init(...) and 'SDL_Quit()'. 
-
- -  For now only isometric tiles are suportet with size 64x32 ( there is ugly
-    hack in code )    
-
  -  City graphics come from Tim F. Smith (yoohootim@hotmail.com) GPL.
+ 
  
 Requirements:
 
@@ -31,8 +25,23 @@ configure --enable-client=sdl
 make
 and pray :)
 
+Please copy "theme" dir from test-cvs (freeciv-test.sourceforge.net) to game
+data dir.
 
 In Game:
     - use <Right Shift>+Enter to show input dialog.
-
+    - <~> hide/show log window
+    - <ctrl - w> hide/show fog of war
+    - <ctrl - r> hide/show road/RR
+    - <ctrl - t> hide/show terrains
+    - <ctrl - i> hide/show irrigations/farmlands
+    - <ctrl - u> hide/show units    
+    - <ctrl - o> hide/show pollutions
+    - <ctrl - p> hide/show city productions
+    - <ctrl - s> hide/show map specials
+    - <ctrl - g> hide/show map grids
+    - <ctrl - l> hide/show nuke wast
+    - <ctrl - c> hide/show cities
+    - <ctrl - n> hide/show city names
+    - others
     

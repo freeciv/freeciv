@@ -41,7 +41,7 @@
 #include "gui_tilespec.h"
 
 extern char *pDataPath;
-
+extern SDL_Surface *pDitherMasks[4];
 /*******************************************************************************
  * reload small citizens "style" icons.
  *******************************************************************************/
@@ -294,7 +294,7 @@ void tilespec_setup_city_icons(void)
  */
 void tilespec_setup_theme(void)
 {
-
+  int i;
   char buf[80];	/* I hope this is enought :) */
 
   pTheme = MALLOC(sizeof(struct Theme));
@@ -619,6 +619,16 @@ void tilespec_setup_theme(void)
   pTheme->ORoad_Icon = load_surf(buf);
   SDL_SetColorKey(pTheme->ORoad_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
 		  getpixel(pTheme->ORoad_Icon, 0, 0));
+
+
+  /* ================================================== */
+  /* Map Dithering */
+  
+  for ( i=0; i<4; i++) {
+    my_snprintf(buf,sizeof(buf), "%s/theme/default/dither_mask%d.png", pDataPath, i );	  
+    pDitherMasks[i] = load_surf(buf);
+    assert(pDitherMasks[i]);	  
+  }
 
 
   return;

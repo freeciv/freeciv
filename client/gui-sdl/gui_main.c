@@ -328,7 +328,7 @@ static void gui_main_loop(void)
     }
   }
 
-  del_main_list();
+  /*del_main_list();*/
 }
 
 /**************************************************************************
@@ -473,7 +473,12 @@ void ui_init(void)
 
   set_data_path();
 
+#if 1
   iScreenFlags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE;
+#else  
+  iScreenFlags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
+#endif
+  
   set_video_mode(640, 480, iScreenFlags);
 
   /* create label beackground */
@@ -500,6 +505,7 @@ void ui_init(void)
       convert_to_utf16(_("Waiting for the beginning of the game"));
 
   init_gui_list(ID_WAITING_LABEL, pInit_String);
+  
 }
 
 /**************************************************************************
@@ -549,6 +555,9 @@ void ui_main(int argc, char *argv[])
   Redraw_Log_Window(2);
 
   refresh_fullscreen();
+
+  /* disable for default becouse is buggy */
+  draw_fog_of_war = FALSE;
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 

@@ -185,6 +185,7 @@ static int change_mode_callback(struct GUI *pWidget)
 
   center_optiondlg();
 
+  /* Options Dlg Window */
   pWindow = pEndOptionsWidgetList;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
@@ -260,7 +261,7 @@ static int video_callback(struct GUI *pWidget)
   int i = 0;
   char __buf[50] = "";
   Uint16 len = 0;
-  Sint16 xxx;			/* tmp */
+  Sint16 xxx;	/* tmp */
   SDL_Rect **pModes_Rect = NULL;
   struct GUI *pTmpGui = NULL, *pWindow = pEndOptionsWidgetList;
   Uint16 **pModes = get_list_modes(Main.screen->flags);
@@ -309,8 +310,9 @@ static int video_callback(struct GUI *pWidget)
 			create_str16_from_char(_("Fullscreen Mode"),
 					       10), 150, 30, 0);
 
-  pTmpGui->string16->style |= (TTF_STYLE_BOLD | SF_CENTER_RIGHT);
-  pTmpGui->string16->style &= ~SF_CENTER;
+  /*pTmpGui->string16->style |= (TTF_STYLE_BOLD | SF_CENTER_RIGHT);*/
+  pTmpGui->string16->style |= TTF_STYLE_BOLD;
+  /*pTmpGui->string16->style &= ~SF_CENTER;*/
   /* pTmpGui->string16->forecol.r = 255;
      pTmpGui->string16->forecol.g = 255;
      pTmpGui->string16->forecol.b = 255; */
@@ -615,7 +617,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pTmpGui = create_iconlabel_from_chars(NULL, _("Animacjia Walki"), 10, 0);
+  pTmpGui = create_iconlabel_from_chars(NULL, _("Combat Animation"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -943,6 +945,18 @@ static int draw_fortress_airbase_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static int draw_civ3_city_text_style_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  refresh_rect(pWidget->size);
+  SDL_Client_Flags ^= CF_CIV3_CITY_TEXT_STYLE;
+  return -1;
+}
+
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int map_setting_callback(struct GUI *pWidget)
 {
   struct GUI *pTmpGui = NULL, *pWindow = pEndOptionsWidgetList;
@@ -1204,7 +1218,7 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui = create_checkbox(draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fog_of_war_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  /* set_wstate(pTmpGui, WS_NORMAL); */
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1347,7 +1361,36 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
 
+/* 'Civ3 / Classic CITY Text Style ' */
+  /* check box */
+  pTmpGui = create_checkbox( ((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) > 0),
+			    WF_DRAW_THEME_TRANSPARENT);
 
+  pTmpGui->action = draw_civ3_city_text_style_callback;
+  set_wstate(pTmpGui, WS_NORMAL);
+
+  pTmpGui->size.x = pWindow->size.x + 170;
+
+  add_to_gui_list(ID_OPTIONS_MAP_CITY_CIV3_TEXT_STYLE_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pTmpGui = create_iconlabel_from_chars(NULL, _("Civ3 city text style"),
+					10, 0);
+  pTmpGui->string16->style |= TTF_STYLE_BOLD;
+  pTmpGui->string16->forecol.r = 255;
+  pTmpGui->string16->forecol.g = 255;
+  /*pTmpGui->string16->forecol.b = 255; */
+
+  pTmpGui->size.x = pWindow->size.x + 210;
+
+  add_to_gui_list(ID_OPTIONS_MAP_CITY_CIV3_TEXT_STYLE_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+      
+  /* ================================================== */
+  
   pBeginOptionsWidgetList = pTmpGui;
 
   /* redraw window group */
@@ -1439,7 +1482,7 @@ void popup_optiondlg(void)
 
   Uint16 longest = 0;
 
-  Uint16 w = 300;
+  Uint16 w = 350;
   Uint16 h = 300;
 
   Sint16 start_x = (Main.screen->w - w) / 2;

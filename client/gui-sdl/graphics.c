@@ -323,8 +323,8 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
 **************************************************************************/
 
 /**************************************************************************
-  Draw Horizontal line;
-  NOTE: Befor call this func. check if 'y' is inside 'pDest' surface.
+  Draw Vertical line;
+  NOTE: Befor call this func. check if 'x' is inside 'pDest' surface.
 **************************************************************************/
 static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 		      Uint32 color)
@@ -333,7 +333,7 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
   register int pitch = pDest->pitch;
   register size_t lng;
 
-  /* correct x0, x1 position ( must be inside 'pDest' surface ) */
+  /* correct y0, y1 position ( must be inside 'pDest' surface ) */
   if (y0 < 0) {
     y0 = 0;
   } else if (y0 > pDest->h) {
@@ -342,12 +342,14 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 
   if (y1 < 0) {
     y1 = 0;
-  } else if (y1 > pDest->w) {
-    y1 = pDest->w;
+  } else if (y1 > pDest->h) {
+    y1 = pDest->h;
   }
 
   lng = (y1 - y0);
 
+  if (!lng) return;
+  
   if (lng < 0) {
     int tmp = y0;
     y0 = y1;
@@ -405,7 +407,7 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
 		      Uint32 color)
 {
-  register Uint8 *buf_ptr = ((Uint8 *) pDest->pixels + (y * pDest->pitch));
+  register Uint8 *buf_ptr;
   register size_t lng;
   register int i;
 
@@ -423,10 +425,15 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
   }
 
   lng = (x1 - x0);
+  
+  if (!lng) return;
+  
   if (lng < 0) {
     lng *= -1;
   }
 
+  buf_ptr = ((Uint8 *) pDest->pixels + (y * pDest->pitch));
+  
   switch (pDest->format->BytesPerPixel) {
   case 1:
     buf_ptr += x0;
@@ -1314,6 +1321,10 @@ static int __FillRectAlpha888(SDL_Surface * pSurface, SDL_Rect * pRect,
 int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 		      SDL_Color * pColor)
 {
+	
+  if ( pRect && ( pRect->x < - pRect->w || pRect->x >= pSurface->w ||
+	         pRect->y < - pRect->h || pRect->y >= pSurface->h ) )
+     return -2;	
   if (pColor->unused == 255) {
     return SDL_FillRect(pSurface, pRect,
 			SDL_MapRGB(pSurface->format, pColor->r, pColor->g,

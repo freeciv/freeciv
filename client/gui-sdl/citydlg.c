@@ -107,7 +107,8 @@ extern char *pDataPath;
 static struct city_dialog {
   struct city *pCity;
 
-  enum { INFO_PAGE = 0,
+  enum {
+    INFO_PAGE = 0,
     HAPPINESS_PAGE = 1,
     ARMY_PAGE,
     SUPPORTED_UNITS_PAGE,
@@ -1185,7 +1186,7 @@ static void create_city_options_widget_list(struct city *pCity)
   SDL_String16 *pStr;
   char cBuf[80];
 
-  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack vs land units"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack\nvs land units"));
 
   pStr = create_str16_from_char(cBuf, 10);
   pStr->forecol = *get_game_colorRGB(COLOR_STD_WHITE);
@@ -1208,7 +1209,7 @@ static void create_city_options_widget_list(struct city *pCity)
   pCityDlg->pEndCityPanelWidgetList = pBuf;
 
   /* ---- */
-  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack vs sea units"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack\nvs sea units"));
 
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -1227,7 +1228,7 @@ static void create_city_options_widget_list(struct city *pCity)
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
 
   /* ----- */
-  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack vs air units"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack\nvs air units"));
 
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -1246,7 +1247,7 @@ static void create_city_options_widget_list(struct city *pCity)
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
 
   /* ----- */
-  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack vs air units"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Auto-attack\nvs air units"));
 
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -1266,7 +1267,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   /* ----- */
   my_snprintf(cBuf, sizeof(cBuf),
-	      _("Disband if build settler at size 1"));
+	      _("Disband if build\nsettler at size 1"));
 
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -4723,8 +4724,7 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
 
   pLogo = create_city_map(pCity);
   pBuf =
-      create_themelabel(ResizeSurface(pLogo, 192, 96, 1), NULL, 192, 96,
-			0);
+      create_themelabel(ResizeSurface(pLogo, 192, 96, 1), NULL, 192, 96, 0);
   FREESURFACE(pLogo);
 
   pCityDlg->pResource_Map = pBuf;
@@ -4872,8 +4872,7 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
 			  (WF_WIDGET_HAS_INFO_LABEL |
 			   WF_DRAW_THEME_TRANSPARENT));
 
-  pBuf->string16 = create_str16_from_char(_("Citizen Management Agent"),
-					  12);
+  pBuf->string16 = create_str16_from_char(_("Citizen Management Agent"), 12);
 
   pBuf->action = cma_city_dlg_callback;
 
@@ -4959,7 +4958,9 @@ void popdown_city_dialog(struct city *pCity)
   if (city_dialog_is_open(pCity)) {
     del_city_dialog();
     SDL_Client_Flags |= CF_CITY_DIALOG_IS_OPEN;
-    redraw_map_visible();
+	  
+    update_map_canvas_visible();
+	  
     SDL_Client_Flags &= ~CF_CITY_DIALOG_IS_OPEN;
     SDL_Client_Flags &= ~CF_CITY_STATUS_SPECIAL;
     update_menus();

@@ -45,6 +45,7 @@
 #include "gui_tilespec.h"
 #include "gui_main.h"
 
+#include "gui_id.h"
 #include "gui_stuff.h"
 
 #define INFO_TIMER_INTERVAL	1500
@@ -415,7 +416,6 @@ struct GUI *MainWidgetListKeyScaner(SDL_keysym Key)
     if ( pWidget->action )
       if ( pWidget->action(pWidget)  ) ID = 0;
     if widget callback function return = 0 then return NOZERO
-
     I default return (-1) from Widget callback functions.
 **************************************************************************/
 Uint16 widget_pressed_action(struct GUI * pWidget)
@@ -1751,7 +1751,7 @@ int real_redraw_icon2(struct GUI *pIcon, SDL_Surface * pDest)
   int ret;
   SDL_Rect dest = { pIcon->size.x, pIcon->size.y, 0, 0 };
   Uint32 state = get_wstate(pIcon);
-
+    
   if (pIcon->gfx) {
     ret = SDL_BlitSurface(pIcon->gfx, NULL, pDest, &dest);
     if (ret) {
@@ -2452,9 +2452,7 @@ void edit_field(struct GUI *pEdit_Widget)
   pInputChain = &___last;
   pEndTextChain = pInputChain;
   pEndTextChain->chr = 32;	/*spacebar */
-  pEndTextChain->pTsurf = NULL;
   pEndTextChain->next = NULL;
-  pEndTextChain->prev = NULL;
   
   /* set font style (if any ) */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
@@ -2488,6 +2486,7 @@ void edit_field(struct GUI *pEdit_Widget)
 
       pInputChain_TMP = pInputChain_TMP->next;
     }
+    /* set terminator of list */
     pInputChain_TMP->next = pInputChain;
     pInputChain->prev = pInputChain_TMP;
     pInputChain_TMP = NULL;

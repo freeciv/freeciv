@@ -577,8 +577,9 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
     return TRUE;
   }
 #endif
-  get_mcell_cr((int) pButtonEvent->x, (int) pButtonEvent->y, &col, &row);
-
+  
+  get_map_xy((int) pButtonEvent->x, (int) pButtonEvent->y, &col, &row);
+  
   if (pButtonEvent->button == SDL_BUTTON_LEFT) {
     do_map_click(col, row);
 
@@ -603,67 +604,80 @@ int map_event_handler(SDL_keysym Key)
     switch (Key.sym) {
     case SDLK_g:
       draw_map_grid ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_n:
       draw_city_names ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_p:
       draw_city_productions ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_t:
       draw_terrain ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_r:
       draw_roads_rails ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_i:
       draw_irrigation ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_m:
       draw_mines ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_f:
       draw_fortress_airbase ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_s:
       draw_specials ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_o:
       draw_pollution ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_c:
       draw_cities ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_u:
       draw_units ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     case SDLK_w:
       draw_fog_of_war ^= TRUE;
-      redraw_map_visible();
+      update_map_canvas_visible();
+      refresh_fullscreen();
       return 0;
 
     default:
