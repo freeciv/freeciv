@@ -47,6 +47,7 @@ explorer=2
 options="1.7 startoptions spacerace rulesets startpos riversoverlay"
 
 [map]
+topology_id=0
 width=85
 height=81
 seed=0
@@ -59,7 +60,7 @@ mountains=36
 forestsize=7
 huts=50
 generator=0
-is_earth=1
+is_earth=0
 r0sx=56
 r0sy=20
 r1sx=51

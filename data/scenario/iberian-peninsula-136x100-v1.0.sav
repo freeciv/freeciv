@@ -49,6 +49,7 @@ dispersion=2
 options="1.7 startoptions spacerace rulesets startpos riversoverlay"
 
 [map]
+topology_id=0
 width=136
 height=100
 seed=0
