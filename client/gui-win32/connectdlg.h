@@ -16,9 +16,6 @@
 #define ID_SERVERBUTTON 2432
 #include "connectdlg_g.h"
 
-void quit_client_only(void);
-void show_server_window(void);
-void handle_pipe_and_process(void);
 void handle_server_buttons(HWND button);
 
 #endif  /* FC__CONNECTDLG_H */

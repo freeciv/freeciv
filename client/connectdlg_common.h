@@ -15,7 +15,7 @@ Freeciv - Copyright (C) 2003 - The Freeciv Project
 
 #include "shared.h"
 
-#if defined HAVE_WORKING_FORK
+#if defined(HAVE_WORKING_FORK) || defined(WIN32_NATIVE)
 # define CLIENT_CAN_LAUNCH_SERVER
 #endif
 

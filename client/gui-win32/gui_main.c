@@ -509,7 +509,6 @@ static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTim
           break;
         }
     }           
-  handle_pipe_and_process();
 } 
 
 /**************************************************************************

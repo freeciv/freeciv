@@ -55,6 +55,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #ifdef WIN32_NATIVE
 /* FIXME: this is referenced directly in gui-win32/connectdlg.c. */
 HANDLE server_process = INVALID_HANDLE_VALUE;
+HANDLE loghandle = INVALID_HANDLE_VALUE;
 #else
 static pid_t server_pid = - 1;
 #endif
@@ -120,7 +121,11 @@ void client_kill_server()
 #ifdef WIN32_NATIVE
     TerminateProcess(server_process, 0);
     CloseHandle(server_process);
-    server_process = INVALID_HANDLE_VALUE;		
+    if (loghandle != INVALID_HANDLE_VALUE) {
+      CloseHandle(loghandle);
+    }
+    server_process = INVALID_HANDLE_VALUE;
+    loghandle = INVALID_HANDLE_VALUE;
 #else
     kill(server_pid, SIGTERM);
     waitpid(server_pid, NULL, WUNTRACED);
@@ -137,9 +142,23 @@ code will come later
 *****************************************************************/ 
 bool client_start_server(void)
 {
-#ifdef HAVE_WORKING_FORK
+#if !defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
+  /* Can't do much without fork */
+  return FALSE;
+#else
   char buf[512];
   int connect_tries = 0;
+# ifdef WIN32_NATIVE
+  STARTUPINFO si;
+  PROCESS_INFORMATION pi;
+  
+  char options[512];
+  char cmdline1[512];
+  char cmdline2[512];
+  char cmdline3[512];
+  char logcmdline[512];
+  char scriptcmdline[512];
+# endif
 
   /* only one server (forked from this client) shall be running at a time */ 
   client_kill_server();
@@ -149,6 +168,7 @@ bool client_start_server(void)
   /* find a free port */ 
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT);
 
+# ifdef HAVE_WORKING_FORK
   server_pid = fork();
   
   if (server_pid == 0) {
@@ -214,7 +234,58 @@ bool client_start_server(void)
      * Calling exit here is dangerous due to X11 problems (async replies) */ 
     _exit(1);
   } 
+# else
+#  ifdef WIN32_NATIVE
+  if (logfile) {
+    loghandle = CreateFile(logfile, GENERIC_WRITE, FILE_SHARE_READ, NULL,
+			   OPEN_ALWAYS, 0, NULL);
+  }
 
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+  si.hStdOutput = loghandle;
+  si.hStdInput = INVALID_HANDLE_VALUE;
+  si.hStdError = loghandle;
+  si.dwFlags = STARTF_USESTDHANDLES;
+
+  /* Set up the command-line parameters. */
+  logcmdline[0] = 0;
+  scriptcmdline[0] = 0;
+
+  if (logfile) {
+    my_snprintf(logcmdline, sizeof(logcmdline), " --debug 3 --log %s",
+		logfile);
+  }
+  if (scriptfile) {
+    my_snprintf(scriptcmdline, sizeof(scriptcmdline),  " --read %s",
+		scriptfile);
+  }
+
+  my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s",
+	      internal_server_port, logcmdline, scriptcmdline);
+  my_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
+  my_snprintf(cmdline2, sizeof(cmdline2), "./server/civserver %s", options);
+  my_snprintf(cmdline3, sizeof(cmdline3), "civserver %s", options);
+
+  if (!CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
+		     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+		     NULL, NULL, &si, &pi) 
+      && !CreateProcess(NULL, cmdline2, NULL, NULL, TRUE,
+			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+			NULL, NULL, &si, &pi) 
+      && !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
+			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+			NULL, NULL, &si, &pi)) {
+    append_output_window(_("Couldn't start the server. You'll have to "
+			   "start one manually. Sorry..."));
+    return FALSE;
+  }
+  
+  server_process = pi.hProcess;
+
+#  endif
+# endif
+ 
   /* a reasonable number of tries */ 
   while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
@@ -229,8 +300,7 @@ bool client_start_server(void)
    * capabilities won't help us here... */ 
   if (!aconnection.used) {
     /* possible that server is still running. kill it */ 
-    kill(server_pid, SIGTERM);
-    server_pid = -1;
+    client_kill_server();
 
     append_output_window(_("Couldn't connect to the server. We probably "
                            "couldn't start it from here. You'll have to "
@@ -260,8 +330,6 @@ bool client_start_server(void)
   send_chat(buf);
 
   return TRUE;
-#else /* Can't do much without fork(). */
-  return FALSE;
 #endif
 }
 
