@@ -155,6 +155,7 @@ int connect_to_server(char *name, char *hostname, int port,
   aconnection.last_write = 0;
   
   aconnection.used = 1;
+  aconnection.delayed_disconnect = 0;
 
   /* gui-dependent details now in gui_main.c: */
   add_net_input(aconnection.sock);

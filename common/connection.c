@@ -54,6 +54,12 @@
  * blank/unknown/not-applicable address:
  */
 const char blank_addr_str[] = "---.---.---.---";
+
+/* This is only used by the server.
+   If it is set the disconnection of conns is posponed. This is sometimes
+   neccesary as removing a random connection while we are iterating through
+   a connection list might corrupt the list. */
+int delayed_disconnect = 0;
   
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -147,7 +153,6 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   return -1;
 }
 
-
 /**************************************************************************
   write wrapper function -vasc
 **************************************************************************/
@@ -155,6 +160,17 @@ static int write_socket_data(struct connection *pc,
 			     struct socket_packet_buffer *buf, int limit)
 {
   int start, nput, nblock;
+
+  if (pc->delayed_disconnect) {
+    if (delayed_disconnect) {
+      return 0;
+    } else {
+      if (close_callback) {
+	(*close_callback)(pc);
+      }
+      return -1;
+    }
+  }
 
   for (start=0; buf->ndata-start>limit;) {
     fd_set writefs, exceptfs;
@@ -172,10 +188,15 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
-      if (close_callback) {
-	(*close_callback)(pc);
+      if (delayed_disconnect) {
+	pc->delayed_disconnect = 1;
+	return 0;
+      } else {
+	if (close_callback) {
+	  (*close_callback)(pc);
+	}
+	return -1;
       }
-      return -1;
     }
 
     if (FD_ISSET(pc->sock, &writefs)) {
@@ -187,10 +208,15 @@ static int write_socket_data(struct connection *pc,
 	  break;
 	}
 #endif
-	if (close_callback) {
-	  (*close_callback)(pc);
+	if (delayed_disconnect) {
+	  pc->delayed_disconnect = 1;
+	  return 0;
+	} else {
+	  if (close_callback) {
+	    (*close_callback)(pc);
+	  }
+	  return -1;
 	}
-	return -1;
       }
       start += nput;
     }
@@ -231,6 +257,17 @@ void flush_connection_send_buffer_packets(struct connection *pc)
 static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
+  if (pc && pc->delayed_disconnect) {
+    if (delayed_disconnect) {
+      return 1;
+    } else {
+      if (close_callback) {
+	(*close_callback)(pc);
+      }
+      return 0;
+    }
+  }
+
   if (pc && pc->used) {
     struct socket_packet_buffer *buf;
 
@@ -242,16 +279,26 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 
       /* added this check so we don't gobble up too much mem */
       if (buf->nsize > MAX_LEN_BUFFER) {
-	if (close_callback) {
-	  (*close_callback)(pc);
-	}
-	return 0;
-      } else {
-        if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
+	if (delayed_disconnect) {
+	  pc->delayed_disconnect = 1;
+	  return 1;
+	} else {
 	  if (close_callback) {
 	    (*close_callback)(pc);
 	  }
 	  return 0;
+	}
+      } else {
+        if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
+	  if (delayed_disconnect) {
+	    pc->delayed_disconnect = 1;
+	    return 1;
+	  } else {
+	    if (close_callback) {
+	      (*close_callback)(pc);
+	    }
+	    return 0;
+	  }
 	}
       }
     }

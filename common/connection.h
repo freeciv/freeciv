@@ -111,6 +111,10 @@ struct connection {
   int route_length;
   /* These are used when recieving goto routes; they are send split, and in
      the time where the route is partially recieved it is stored here. */
+
+  int delayed_disconnect;
+  /* Something has occured that means the connection should be closed, but
+     the closing has been postponed. */
 };
 
 
@@ -143,5 +147,7 @@ void free_socket_packet_buffer(struct socket_packet_buffer *buf);
 const char *conn_description(const struct connection *pconn);
 
 extern const char blank_addr_str[];
-  
+
+extern int delayed_disconnect;
+
 #endif  /* FC__CONNECTION_H */

@@ -1393,13 +1393,15 @@ void lost_connection_to_client(struct connection *pconn)
    * Safe to unlink even if not in list:
    */
   conn_list_unlink(&game.est_connections, pconn);
+  delayed_disconnect++;
   notify_conn(&game.est_connections, _("Game: Lost connection: %s."), desc);
-  
+
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
+    delayed_disconnect--;
     return;
   }
-  
+
   unassociate_player_connection(pplayer, pconn);
 
   /* Remove from lists so this conn is not included in broadcasts.
@@ -1439,6 +1441,7 @@ void lost_connection_to_client(struct connection *pconn)
     }
     check_for_full_turn_done();
   }
+  delayed_disconnect--;
 }
 
 /**************************************************************************
