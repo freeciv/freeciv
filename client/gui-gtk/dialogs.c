@@ -2339,12 +2339,12 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
 
     for (i = 0; i < packet->num_nations_used; i++) {
       int nation = packet->nations_used[i];
+      int index =
+	  g_list_index(sorted_races_list[class_id], GINT_TO_POINTER(nation));
 
-      gtk_widget_set_sensitive(races_toggles[class_id][g_list_index
-						       (sorted_races_list
-							[class_id],
-							GINT_TO_POINTER
-							(nation))], FALSE);
+      if (index != -1) {
+	gtk_widget_set_sensitive(races_toggles[class_id][index], FALSE);
+      }
     }
   }
 
