@@ -899,7 +899,7 @@ static int find_a_direction(struct unit *punit,
    */
 #define DONT_SELECT_ME_FITNESS		(-1)
 
-  int fitness[8], best_fitness = DONT_SELECT_ME_FITNESS;
+  int i, fitness[8], best_fitness = DONT_SELECT_ME_FITNESS;
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
   bool afraid_of_sinking = (unit_flag(punit, F_TRIREME) && 
@@ -935,7 +935,9 @@ static int find_a_direction(struct unit *punit,
     }
   }
 
-  memset(fitness, 0, sizeof(fitness));
+  for (i = 0; i < 8; i++) {
+    fitness[i] = DONT_SELECT_ME_FITNESS;
+  }
 
   /*
    * Loop over all directions, fill the fitness array and update
@@ -1152,8 +1154,8 @@ static int find_a_direction(struct unit *punit,
     if (fitness[dir] != DONT_SELECT_ME_FITNESS
 	&& fitness[dir] > best_fitness) {
       best_fitness = fitness[dir];
-      freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
-	      best_fitness, punit->x, punit->y, x, y);
+      freelog(LOG_DEBUG, "New best = %d: dir=%d (%d, %d) -> (%d, %d)",
+	      best_fitness, dir, punit->x, punit->y, x, y);
     }
   } adjc_dir_iterate_end;
 
@@ -1189,6 +1191,9 @@ static int find_a_direction(struct unit *punit,
     int dir = myrand(8);
 
     if (fitness[dir] == best_fitness) {
+      freelog(LOG_DEBUG,
+	      "find_a_direction: returning dir=%d with fitness=%d", dir,
+	      fitness[dir]);
       return dir;
     }
   }
