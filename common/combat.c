@@ -258,7 +258,7 @@ int get_attack_power(struct unit *punit)
 int get_defense_power(struct unit *punit)
 {
   int power;
-  int terra;
+  enum tile_terrain_type terra;
   int db;
 
   if (!punit || punit->type<0 || punit->type>=U_LAST

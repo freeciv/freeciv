@@ -297,7 +297,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 	  return FALSE;
 	}
       } else {
-	buf->data = fc_realloc(buf->data, buf->nsize);
+	buf->data = (unsigned char *)fc_realloc(buf->data, buf->nsize);
       }
     }
     memcpy(buf->data + buf->ndata, data, len);
@@ -441,11 +441,11 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
 {
   struct socket_packet_buffer *buf;
 
-  buf = fc_malloc(sizeof(*buf));
+  buf = (struct socket_packet_buffer *)fc_malloc(sizeof(*buf));
   buf->ndata = 0;
   buf->do_buffer_sends = 0;
   buf->nsize = 10*MAX_LEN_PACKET;
-  buf->data = fc_malloc(buf->nsize);
+  buf->data = (unsigned char *)fc_malloc(buf->nsize);
   return buf;
 }
 

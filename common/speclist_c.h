@@ -51,7 +51,7 @@ int SPECLIST_FOO(_list_size) (SPECLIST_LIST *tthis)
 
 SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *tthis, int index)
 {
-  return genlist_get(&tthis->list, index);
+  return (SPECLIST_TYPE *)genlist_get(&tthis->list, index);
 }
 
 void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
