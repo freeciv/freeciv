@@ -81,7 +81,7 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 
 noinst_LIBRARIES = libguiclient.a
-INCLUDES = -I../include -I$(top_srcdir)/common @CLIENT_CFLAGS@
+INCLUDES = -I$(srcdir)/../include -I$(top_srcdir)/common @CLIENT_CFLAGS@
 
 libguiclient_a_SOURCES = \
 	chatline.h	\

@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LIBRARIES = libguiclient.a
-INCLUDES = -I../include -I$(top_srcdir)/common @CLIENT_CFLAGS@
+INCLUDES = -I$(srcdir)/../include -I$(top_srcdir)/common @CLIENT_CFLAGS@
 
 libguiclient_a_SOURCES = \
 	chatline.h	\

@@ -84,7 +84,7 @@ SUBDIRS = @gui_sources@
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -Iinclude -I$(top_srcdir)/common -I@gui_sources@ @CLIENT_CFLAGS@
+INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I$(srcdir)/@gui_sources@ @CLIENT_CFLAGS@
 
 civclient_SOURCES = \
 	civclient.c	\
