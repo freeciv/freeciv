@@ -21,88 +21,88 @@
 #include <shared.h>
 #include <tech.h>
 
-struct player_race races[]= {
+struct player_race races[]= { /* additional goals added by Syela */
   {"Roman", "Romans",           1, 2, 2,
      {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE},           
-    B_LEONARDO  , G_DEMOCRACY}
+   { {A_REPUBLIC, A_WHEEL, A_IRON, A_CONSTRUCTION, A_RAILROAD, 
+      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},           
+    B_LEONARDO  , G_DEMOCRACY} /* wonder not actually checked in choose_build */
   },
   {"Babylonian", "Babylonians", 0, 0, 2,
      {100,100,100,100,100,100,100},
-   { {A_MATHEMATICS, A_THEOLOGY, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE},          
+   { {A_MONARCHY, A_PHILOSOPHY, A_MATHEMATICS, A_CHIVALRY, A_THEOLOGY,
+      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},          
      B_HANGING   , G_MONARCHY}
   },
   {"German", "Germans",         2, 0, 2,        
    {100,100,100,100,100,100,100},
-   { {A_GUNPOWDER, A_FLIGHT, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE},            
+   { {A_REPUBLIC, A_IRON, A_GUNPOWDER, A_EXPLOSIVES, A_FLIGHT,
+      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},            
      B_BACH      , G_REPUBLIC}
   },
   {"Egyptian", "Egyptians",     1, 1, 2,    
-   {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   {100,100,100,100,100,100,100}, /* different order for experiment and flavor */
+   { {A_MONARCHY, A_PHILOSOPHY, A_NAVIGATION, A_IRON, A_RAILROAD,
+      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE}, 
      B_PYRAMIDS  , G_MONARCHY}
   },
   {"American", "Americans",     0, 1, 2,    
    {100,100,100,100,100,100,100},
-   { {A_RAILROAD, A_AUTOMOBILE, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE},
+   { {A_REPUBLIC, A_TRADE, A_ENGINEERING, A_DEMOCRACY, A_RAILROAD,
+        A_EXPLOSIVES, A_AUTOMOBILE, A_NONE, A_NONE, A_NONE},
      B_LIBERTY   , G_DEMOCRACY}
   },
   {"Greek", "Greeks",           1, 2, 0,          
    {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_REPUBLIC, A_PHILOSOPHY, A_TRADE, A_ENGINEERING, A_IRON,
+      A_RAILROAD, A_NONE, A_NONE, A_NONE, A_NONE},
      B_LIGHTHOUSE, G_REPUBLIC}
   },
   {"Indian", "Indians",         0, 0, 1,        
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_PHILOSOPHY, A_REPUBLIC, A_IRON, A_ENGINEERING,
+      A_RAILROAD, A_NONE, A_NONE, A_NONE, A_NONE},
      B_ORACLE    , G_REPUBLIC}
   },
   {"Russian", "Russians",       2, 1, 0,      
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_PHILOSOPHY, A_CHIVALRY, A_TRADE, A_BRIDGE,
+      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE},
      B_WOMENS    , G_COMMUNISM}
   },
   {"Zulu", "Zulus",             2, 1, 1,            
    {100,100,100,100,100,100,100},
-   { {A_CHIVALRY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_PHILOSOPHY, A_CHIVALRY, A_TRADE, A_BRIDGE,
+      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE},
      B_APOLLO    , G_COMMUNISM}
   },
   {"French", "French",          2, 2, 2,         
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_CHIVALRY, A_PHILOSOPHY, A_REPUBLIC, A_MONOTHEISM,
+      A_ENGINEERING, A_NAVIGATION, A_RAILROAD, A_NONE, A_NONE},
      B_MAGELLAN  , G_REPUBLIC}
   },
   {"Aztec", "Aztecs",           1, 0, 2,          
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_CHIVALRY, A_IRON, A_TRADE, A_NAVIGATION,
+      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE}, 
      B_HOOVER    , G_COMMUNISM}
   },
   {"Chinese", "Chinese",        1, 1, 2,     
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_TRADE, A_PHILOSOPHY, A_BRIDGE, A_RAILROAD, 
+      A_COMMUNISM, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
      B_WALL      , G_COMMUNISM}
   },
   {"English", "English",        1, 2, 1,     
      {100,100,100,100,100,100,100},
-   { {A_DEMOCRACY,A_RAILROAD, A_NONE, A_NONE, A_NONE, 
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
+   { {A_MONARCHY, A_CHIVALRY, A_TRADE, A_THEOLOGY, A_NAVIGATION,
+      A_DEMOCRACY,A_RAILROAD, A_NONE, A_NONE, A_NONE}, 
      B_RICHARDS  , G_DEMOCRACY}
   },
   {"Mongol", "Mongols",         2, 2, 0,      
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_RAILROAD, A_NONE, A_NONE, A_NONE, 
+   { {A_MONARCHY, A_CHIVALRY, A_TRADE, A_BRIDGE, A_RAILROAD,
       A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
      B_SUNTZU    , G_MONARCHY}
   }
@@ -114,7 +114,7 @@ char *government_names[G_LAST] = {
 };
 
 char *ruler_titles[G_LAST] = {
-  "Mr.", "Emperor", "King",
+  "Mr.", "Emperor", "King", /* even for Elizabeth */
   "Comrade", "President", "President"
 };
 
