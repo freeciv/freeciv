@@ -191,6 +191,8 @@ void map_init(void)
   map.riverlength           = MAP_DEFAULT_RIVERS;
   map.forestsize            = MAP_DEFAULT_FORESTS;
   map.generator             = MAP_DEFAULT_GENERATOR;
+  map.tinyisles             = MAP_DEFAULT_TINYISLES;
+  map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;
   map.tiles                 = NULL;
   map.num_continents        = 0;
   map.num_start_positions   = 0;
@@ -447,9 +449,12 @@ int is_starter_close(int x, int y, int nr, int dist)
   if (map_get_tile(x, y)->special&S_HUT)
     return 1;
   
-  /* don't want them starting on the poles: */
-  if (map_get_continent(x, y)<=2 && map.generator != 0)
+  /* don't want them starting on the poles unless the poles are
+     connected to more land: */
+  if (map_get_continent(x, y) <= 2 && map.generator != 0
+      && map.separatepoles) {
     return 1;
+  }
 
   /* don't start too close to someone else: */
   for (i=0;i<nr;i++) {

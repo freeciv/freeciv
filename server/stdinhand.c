@@ -216,6 +216,18 @@ static struct settings_s settings[] = {
        "Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
        "(Zero indicates a scenario map.)") },
 
+  { "tinyisles", &map.tinyisles, NULL, NULL, 
+    SSET_MAP_GEN, SSET_TO_CLIENT, 
+    MAP_MIN_TINYISLES, MAP_MAX_TINYISLES, MAP_DEFAULT_TINYISLES, 
+    N_("Presence or absence of 1x1 islands"),
+    N_("0 = no 1x1 islands; 1 = some 1x1 islands") },
+
+  { "separatepoles", &map.separatepoles, NULL, NULL,
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_SEPARATE_POLES, MAP_MAX_SEPARATE_POLES, MAP_DEFAULT_SEPARATE_POLES,
+    N_("Whether the poles are separate continents"),
+    N_("0 = continents may attach to poles; 1 = poles will be separate") },
+
   { "landmass", &map.landpercent, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS,

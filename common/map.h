@@ -168,6 +168,8 @@ struct civ_map {
   int riverlength;
   int forestsize;
   int generator;
+  int tinyisles;
+  int separatepoles;
   int num_start_positions;
   int fixed_start_positions;
   int have_specials;
@@ -658,5 +660,13 @@ extern const int CAR_DIR_DY[4];
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1
 #define MAP_MAX_GENERATOR        4
+
+#define MAP_DEFAULT_TINYISLES    0
+#define MAP_MIN_TINYISLES        0
+#define MAP_MAX_TINYISLES        1
+
+#define MAP_DEFAULT_SEPARATE_POLES   1
+#define MAP_MIN_SEPARATE_POLES       0
+#define MAP_MAX_SEPARATE_POLES       1
 
 #endif  /* FC__MAP_H */

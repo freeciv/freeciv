@@ -843,7 +843,9 @@ static void make_land(void)
       tres*=9;
     tres/=10;
   } while (abs(total-count)> maxval/40);
-  make_passable();
+  if (map.separatepoles) {
+    make_passable();
+  }
   make_mountains(maxval*8/10);
   make_forests();
   make_swamps();
@@ -1002,7 +1004,7 @@ static void setup_isledata(void)
   } whole_map_iterate_end;
   
   /* the arctic and the antarctic are continents 1 and 2 for generator>0*/
-  if (map.generator>0) {
+  if ((map.generator > 0) && map.separatepoles) {
     firstcont = 3;
   } else {
     firstcont = 1;
@@ -1201,7 +1203,9 @@ void map_fractal_generate(void)
       mapgenerator2();
     if( map.generator == 1 )
       mapgenerator1();
-    remove_tiny_islands();
+    if (!map.tinyisles) {
+      remove_tiny_islands();
+    }
   }
 
   if(!map.have_specials) /* some scenarios already provide specials */
