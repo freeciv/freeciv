@@ -30,9 +30,6 @@ Pixmap get_citizen_pixmap(enum citizen_type type, int cnum,
 
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm);
 
-void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y, 
-			  int food, int shield, int trade);
-
 void overview_canvas_expose(Widget w, XEvent *event, Region exposed, 
 			    void *client_data);
 void map_canvas_expose(Widget w, XEvent *event, Region exposed, 

@@ -761,21 +761,6 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y, 
-			  int food, int shield, int trade)
-{
-  food = CLIP(0, food, NUM_TILES_DIGITS-1);
-  trade = CLIP(0, trade, NUM_TILES_DIGITS-1);
-  shield = CLIP(0, shield, NUM_TILES_DIGITS-1);
-  
-  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_foodnum[food]);
-  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_shieldnum[shield]);
-  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_tradenum[trade]);
-}
-
-/**************************************************************************
   FIXME: 
   For now only two food, one shield and two masks can be drawn per unit,
   the proper way to do this is probably something like what Civ II does.
@@ -857,6 +842,7 @@ void put_city_workers(struct city *pcity, int color)
 {
   int canvas_x, canvas_y;
   static struct city *last_pcity = NULL;
+  struct canvas_store store = {XtWindow(map_canvas)};
 
   if (color == -1) {
     if (pcity != last_pcity)
@@ -886,11 +872,7 @@ void put_city_workers(struct city *pcity, int color)
 		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
     if (worked == C_TILE_WORKER) {
-      put_city_tile_output(XtWindow(map_canvas),
-			   canvas_x, canvas_y,
-			   city_get_food_tile(i, j, pcity),
-			   city_get_shields_tile(i, j, pcity),
-			   city_get_trade_tile(i, j, pcity));
+      put_city_tile_output(pcity, i, j, &store, canvas_x, canvas_y);
     }
   } city_map_checked_iterate_end;
 

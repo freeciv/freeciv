@@ -1762,6 +1762,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   int city_x, city_y;
+  struct canvas_store store = {pdialog->map_canvas_store};
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
 
@@ -1791,11 +1792,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
     if (tile_get_known(map_x, map_y)
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(pdialog->map_canvas_store,
-			   canvas_x, canvas_y,
-			   city_get_food_tile(x, y, pcity),
-			   city_get_shields_tile(x, y, pcity),
-			   city_get_trade_tile(x, y, pcity));
+      put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
     }
   }
   city_map_checked_iterate_end;
@@ -1835,12 +1832,9 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
 	put_one_tile(&store, map_x, map_y,
 		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_WIDTH, TRUE);
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
-	  put_city_tile_output(pdialog->map_canvas_store,
+	  put_city_tile_output(pcity, x, y, &store,
 			       x * NORMAL_TILE_WIDTH,
-			       y * NORMAL_TILE_HEIGHT,
-			       city_get_food_tile(x, y, pcity),
-			       city_get_shields_tile(x, y, pcity),
-			       city_get_trade_tile(x, y, pcity));
+			       y * NORMAL_TILE_HEIGHT);
 	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
 	  pixmap_frame_tile_red(pdialog->map_canvas_store,
 				x * NORMAL_TILE_WIDTH,

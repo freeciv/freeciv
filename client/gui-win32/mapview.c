@@ -285,27 +285,6 @@ void check_mapstore()
   }
 }
 
-
-/**************************************************************************
-
-**************************************************************************/
-void put_city_tile_output(HDC hdc, int canvas_x, int canvas_y,
-			  int food, int shield, int trade)
-{
-  food = CLIP(0, food, NUM_TILES_DIGITS-1);
-  trade = CLIP(0, trade, NUM_TILES_DIGITS-1);
-  shield = CLIP(0, shield, NUM_TILES_DIGITS-1);  
-  if (is_isometric) {
-    canvas_x += NORMAL_TILE_WIDTH/3;
-    canvas_y -= NORMAL_TILE_HEIGHT/3;
-  }
-
-  draw_sprite(sprites.city.tile_foodnum[food],hdc,canvas_x,canvas_y);
-  draw_sprite(sprites.city.tile_shieldnum[shield],hdc,canvas_x,canvas_y);
-  draw_sprite(sprites.city.tile_tradenum[trade],hdc,canvas_x,canvas_y); 
-
-}
-
 /**************************************************************************
 
 **************************************************************************/

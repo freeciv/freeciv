@@ -165,6 +165,10 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 	      int unit_width, int unit_height);
 void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 		   int canvas_x, int canvas_y);
+
+void put_city_tile_output(struct city *pcity, int city_x, int city_y,
+			  struct canvas_store *pcanvas_store,
+			  int canvas_x, int canvas_y);
 void put_unit_city_overlays(struct unit *punit,
 			    struct canvas_store *pcanvas_store,
 			    int canvas_x, int canvas_y);

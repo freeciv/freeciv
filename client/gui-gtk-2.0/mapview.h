@@ -33,8 +33,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 			      gpointer data);
 
-void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y, 
-			  int food, int shield, int trade);
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
 
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);

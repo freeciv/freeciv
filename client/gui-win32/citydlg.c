@@ -500,6 +500,7 @@ static void city_dialog_update_map_iso(HDC hdc,struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   int city_x,city_y;
+  struct canvas_store store = {hdc, NULL};
   
   /* We have to draw the tiles in a particular order, so its best
      to avoid using any iterator macro. */
@@ -522,11 +523,7 @@ static void city_dialog_update_map_iso(HDC hdc,struct city_dialog *pdialog)
     if (tile_get_known(map_x, map_y)
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(hdc,
-			   canvas_x, canvas_y,
-			   city_get_food_tile(x, y, pcity),
-			   city_get_shields_tile(x, y, pcity), 
-			   city_get_trade_tile(x, y, pcity));
+      put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
     }
   } city_map_checked_iterate_end;
 
@@ -566,11 +563,9 @@ static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
 	put_one_tile(&store, map_x, map_y,
 		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, TRUE);
         if(pcity->city_map[x][y]==C_TILE_WORKER)
-          put_city_tile_output(citydlgdc, NORMAL_TILE_WIDTH*x,
-			       y*NORMAL_TILE_HEIGHT,
-                               city_get_food_tile(x, y, pcity),
-                               city_get_shields_tile(x, y, pcity),
-                               city_get_trade_tile(x, y, pcity));
+          put_city_tile_output(pcity, x, y, &store,
+			       NORMAL_TILE_WIDTH * x,
+			       NORMAL_TILE_HEIGHT * y);
 	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
 	  pixmap_frame_tile_red(citydlgdc, x*NORMAL_TILE_WIDTH,
 				y*NORMAL_TILE_HEIGHT);

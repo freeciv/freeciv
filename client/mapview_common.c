@@ -665,6 +665,40 @@ void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 }
 
 /****************************************************************************
+  Draw food, shield, and trade output values on the tile.
+
+  The proper way to do this is probably something like what Civ II does
+  (one sprite drawn N times on top of itself), but we just use separate
+  sprites (limiting the number of combinations).
+****************************************************************************/
+void put_city_tile_output(struct city *pcity, int city_x, int city_y,
+			  struct canvas_store *pcanvas_store,
+			  int canvas_x, int canvas_y)
+{
+  int food = city_get_food_tile(city_x, city_y, pcity);
+  int shields = city_get_shields_tile(city_x, city_y, pcity);
+  int trade = city_get_trade_tile(city_x, city_y, pcity);
+
+  food = CLIP(0, food, NUM_TILES_DIGITS - 1);
+  shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
+  trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+
+  /* In iso-view the output sprite is a bit smaller than the tile, so we
+   * have to use an offset. */
+  if (is_isometric) {
+    canvas_x += NORMAL_TILE_WIDTH / 3;
+    canvas_y -= NORMAL_TILE_HEIGHT / 3;
+  }
+
+  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+		      sprites.city.tile_foodnum[food]);
+  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+		      sprites.city.tile_shieldnum[shields]);
+  gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+		      sprites.city.tile_tradenum[trade]);
+}
+
+/****************************************************************************
   Draw food, gold, and shield upkeep values on the unit.
 
   The proper way to do this is probably something like what Civ II does
