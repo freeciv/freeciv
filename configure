@@ -2085,7 +2085,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2091 "configure"
 #include "confdefs.h"
@@ -2133,7 +2133,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXext $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXext $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2139 "configure"
 #include "confdefs.h"
@@ -2180,7 +2180,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXt $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXt $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2186 "configure"
 #include "confdefs.h"
@@ -2223,7 +2223,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXmu $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXmu $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2229 "configure"
 #include "confdefs.h"
@@ -2266,7 +2266,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXpm $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXpm $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2272 "configure"
 #include "confdefs.h"
@@ -2315,7 +2315,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXaw $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXaw $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2321 "configure"
 #include "confdefs.h"
@@ -2359,7 +2359,7 @@ if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -lXaw3d $X_EXTRA_LIBS"
+LIBS="$X_LIBS -lXaw3d $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 2365 "configure"
 #include "confdefs.h"

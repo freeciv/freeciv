@@ -16,10 +16,10 @@ dnl   ACTION-IF-NOT-FOUND]])
 dnl
 dnl This macro is intended to search for X11-related libraries.  It takes the
 dnl following variables for input:
-dnl   LIBS		-- prefixed to all linker lines
-dnl   X_LIBS		-- prefixed to all linker lines (after LIBS)
+dnl   X_LIBS		-- prefixed to all linker lines
 dnl   X_EXTRA_LIBS	-- suffixed to all linker lines
-dnl Thus, the trial linker line will be "$LIBS $X_LIBS -l$1 $X_EXTRA_LIBS".
+dnl   LIBS		-- suffixed to all linker lines (after X_EXTRA_LIBS)
+dnl Thus, the trial linker line will be "$X_LIBS -l$1 $X_EXTRA_LIBS $LIBS".
 dnl
 dnl The following variables are output:
 dnl   X_EXTRA_LIBS	-- contains "-l$1 $X_EXTRA_LIBS" if the link succeeds
@@ -31,7 +31,7 @@ dnl	dnl Is it just me or is AC_PATH_XTRA broken?
 dnl   FC_CHECK_X_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"))
 dnl   FC_CHECK_X_LIB(Xext, XShapeCombineMask)
 dnl     [etc.]
-dnl   LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
+dnl   LIBS="$X_LIBS $X_EXTRA_LIBS $LIBS"
 dnl
 AC_DEFUN(FC_CHECK_X_LIB,
 [AC_MSG_CHECKING([for $2 in X library -l$1])
@@ -42,7 +42,7 @@ dnl may have different results.
 ac_lib_var=`echo $1['_']$2 | sed 'y%./+-%__p_%'`
 AC_CACHE_VAL(ac_cv_lib_$ac_lib_var,
 [ac_save_LIBS="$LIBS"
-LIBS="$LIBS $X_LIBS -l$1 $X_EXTRA_LIBS"
+LIBS="$X_LIBS -l$1 $X_EXTRA_LIBS $LIBS"
 AC_TRY_LINK(dnl
 ifelse([$2], [main], , dnl Avoid conflicting decl of main.
 [/* Override any gcc2 internal prototype to avoid an error.  */
@@ -92,6 +92,7 @@ AC_DEFUN(AC_EXPAND_DIR, [
             eval echo \""[$]$1"\"
         )`
 ])
+
 # Like AC_CONFIG_HEADER, but automatically create stamp file.
 
 AC_DEFUN(AM_CONFIG_HEADER,
