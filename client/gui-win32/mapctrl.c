@@ -179,7 +179,7 @@ static void popit(int x, int y, int xtile, int ytile)
 		  ptype->defense_strength, ptype->firepower, punit->hp, 
 		  ptype->hp, punit->veteran?_(" V"):"", uc);
       
-      if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
+      if (is_goto_dest_set(punit)) {
 	cross_head->x = goto_dest_x(punit);
 	cross_head->y = goto_dest_y(punit);
 	cross_head++;

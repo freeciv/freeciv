@@ -80,7 +80,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(xtile, ytile)));
     
     punit = find_visible_unit(map_get_tile(xtile, ytile));
-    if (punit && (punit->activity == ACTIVITY_GOTO || punit->connecting))  {
+    if (punit && is_goto_dest_set(punit))  {
       cross_head->x = goto_dest_x(punit);
       cross_head->y = goto_dest_y(punit);
       cross_head++;

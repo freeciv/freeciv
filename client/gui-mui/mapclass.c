@@ -161,8 +161,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 		  ptype->defense_strength, ptype->firepower, punit->hp,
 		  ptype->hp, punit->veteran ? " V" : "", uc);
 
-	  if(punit->activity==ACTIVITY_GOTO || punit->connecting) 
-	  {
+	  if (is_goto_dest_set(punit)) {
 	    cross_head->x = punit->goto_dest_x;
 	    cross_head->y = punit->goto_dest_y;
 	    cross_head++;
