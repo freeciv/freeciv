@@ -81,6 +81,20 @@ static int highest_cost;
    an item with priority less than the smallest item (which shouldn't be a
    problem for our uses) */
 
+/* FIXME: The queue use an array with the movecosts as indices.
+   This was smart in the server where the max movecost is 255.
+   It is not a good idea here in the client where the max movecost 0xFFFF.
+   It is impossible to use when we raise the max movecost to 0xFFFFFFFF
+   as we intend to.
+
+   Setting max movecost to 0xFFFFFFFF would allow us to evaluate the tiles
+   much more fine-grained, putting attractiveness evaluations beside pure
+   cost into it.
+   It would also be nice when we are able to change the definitions of
+   SINGLE_MOVE etc to larger numbers.
+
+   Se we need to change the implementation at some point. */
+
 /**************************************************************************
 Called once per use of the queue.
 **************************************************************************/
