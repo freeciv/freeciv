@@ -628,7 +628,7 @@ extern const int DIR_DY[8];
 #define MAP_MIN_SEED             0
 #define MAP_MAX_SEED             (MAX_UINT32 >> 1)
 
-#define MAP_DEFAULT_LANDMASS     35
+#define MAP_DEFAULT_LANDMASS     30
 #define MAP_MIN_LANDMASS         15
 #define MAP_MAX_LANDMASS         85
 
@@ -636,11 +636,11 @@ extern const int DIR_DY[8];
 #define MAP_MIN_RICHES           0
 #define MAP_MAX_RICHES           1000
 
-#define MAP_DEFAULT_MOUNTAINS    10
-#define MAP_MIN_MOUNTAINS        5
+#define MAP_DEFAULT_MOUNTAINS    30
+#define MAP_MIN_MOUNTAINS        10
 #define MAP_MAX_MOUNTAINS        100
 
-#define MAP_DEFAULT_GRASS       55
+#define MAP_DEFAULT_GRASS       35
 #define MAP_MIN_GRASS           20
 #define MAP_MAX_GRASS           100
 
@@ -656,7 +656,7 @@ extern const int DIR_DY[8];
 #define MAP_MIN_RIVERS           0
 #define MAP_MAX_RIVERS           100
 
-#define MAP_DEFAULT_FORESTS      12
+#define MAP_DEFAULT_FORESTS      20
 #define MAP_MIN_FORESTS          0
 #define MAP_MAX_FORESTS          100
 

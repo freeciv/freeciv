@@ -49,15 +49,6 @@ struct player_tile {
   short last_updated;
 };
 
-/* this is used for generator 2-4 and in assign_continent number */
-#define MAP_NCONT 300
-
-/* signus safe way for nr continent <0 or >0 */
-extern int mass_size[2 * MAP_NCONT];
-#define MASS_SIZE(nr) (mass_size[FC_WRAP((nr), 2 * MAP_NCONT)]) 
-void assign_continent_numbers(void);
-
-
 void global_warming(int effect);
 void nuclear_winter(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);

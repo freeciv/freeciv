@@ -25,7 +25,6 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
-#include "maphand.h" /* assign_continent_numberd(),MASS_SIZE(), MAP_NCONT */
 #include "mem.h"
 #include "rand.h"
 #include "shared.h"
@@ -76,13 +75,8 @@ enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
 static int *river_map;
 
 static int *height_map;
-static const int maxval=1000;
-static int reliefval=0, seaval=0;
-static int forests_to_be_placed =0;
-static int deserts_to_be_placed=0;
-static int grass_to_be_placed=0;
-static int plains_to_be_placed=0;
-static int swamps_to_be_placed=0;
+static int maxval=0;
+static int forests=0;
 
 struct isledata {
   int goodies;
@@ -90,22 +84,14 @@ struct isledata {
 };
 static struct isledata *islands;
 
+/* this is used for generator>1 */
+#define MAP_NCONT 255
+
 /* this is the maximal temperature at equators returned by map_temperature */
 #define MAX_TEMP 1000
 
 /* An estimate of the linear (1-dimensional) size of the map. */
 #define SQSIZE MAX(1, sqrt(map.xsize * map.ysize / 1000))
-
-/* define the 4 region of a Earth like map
-  =========================================================
-   0-COLD_LV                cold region: most ice/tundra/mountains
-   COLD_LV-TREOPICAL_LV     temperate region: all terrains types
-   TROPICAL_LV-WET_LV  tropical dry region: most dessert/mountains
-   WET_LV-MAX_TEMP     tropical wet region: most jungle/mountains
-*/
-#define COLD_LEVEL (10 * MAX_TEMP / 100)
-#define TROPICAL_LEVEL (65 * MAX_TEMP / 100)
-#define WET_LEVEL (80 * MAX_TEMP / 100)
 
 /* used to create the poles and for separating them.  In a
  * mercator projection map we don't want the poles to be too big. */
@@ -113,20 +99,8 @@ static struct isledata *islands;
   ((!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY))	\
    /* 5% for little maps; 2% for big ones */			\
    ? MAX_TEMP * (3 + 2 * SQSIZE) / (100 * SQSIZE)		\
-   : COLD_LEVEL / 2  /* for all maps */)
+   : 5 * MAX_TEMP / 100  /* 5% for all maps */)
 
-#define T_NOTPLACED T_UNKNOWN
-
-/********************************************************************
- * used to initialize a array with some value
- ********************************************************************/
-#define INITIALIZE_ARRAY(A, MAX, VAL)                            \
-  { \
-    int INI_INEX; \
-    for(INI_INEX = 0; INI_INEX < (MAX);INI_INEX++) { \
-      (A)[INI_INEX] = (VAL); \
-     } \
-  } 
 /****************************************************************************
   Returns the temperature of this map position.  This is a value in the
   range of 0 to MAX_TEMP (inclusive).
@@ -309,65 +283,41 @@ static bool near_singularity(int map_x, int map_y)
 }
 
 /**************************************************************************
-  Checks if land has not yet been placed on tile at (x, y) 
-**************************************************************************/
-static bool not_placed(x, y)
-{
-  return map_get_terrain(x, y) == T_NOTPLACED;
-}
-
-/**************************************************************************
-  we don't want huge areas of grass/plains, 
-  so we put in a hill here and there, where it gets too 'clean' 
-
-  Return TRUE if the terrain at the given map position is "clean".  This
-  means that all the terrain for 2 squares around it is not mountain or hill.
-****************************************************************************/
-static bool terrain_is_clean(int map_x, int map_y,int thill, int my_high)
-{
-  int biger_me = 0;
-  square_iterate(map_x, map_y, 2, x1, y1) {
-    if (hmap(x1, y1) > thill) {
-      return FALSE;
-    }
-    if (hmap(x1, y1) > my_high){
-      if(map_distance(map_x, map_y, x1, y1) == 1) {
-	return FALSE;
-      }
-      if(++biger_me > 2) {
-	return FALSE;
-      };
-    }
-  } square_iterate_end;
-
-  if ((thill - seaval) * (biger_me)  > (my_high - seaval) * 4 ) {
-      return FALSE;
-  }
-  return TRUE;
-}
-
-/**************************************************************************
-  make_relief() will convert all squares that are higher than thill to
+  make_mountains() will convert all squares that are higher than thill to
   mountains and hills. Notice that thill will be adjusted according to
   the map.mountains value, so increase map.mountains and you'll get more 
   hills and mountains (and vice versa).
-  TODO: extend to place ocean/deepocean/abys relief in oceans
 **************************************************************************/
-static void make_relief()
+static void make_mountains(int thill)
 {
-  reliefval = ((maxval - seaval)* (100 - map.mountains)) / 100 + seaval;
+  int mount;
+  int j;
+
+  for (j = 0; j < 10; j++) {
+    mount = 0;
+    whole_map_iterate(x, y) {
+      if (hmap(x, y) > thill) {
+	mount++;
+      }
+    } whole_map_iterate_end;
+    if (mount < (map_num_tiles() * map.mountains) / 1000) {
+      thill *= 95;
+    } else {
+      thill *= 105;
+    }
+    thill /= 100;
+  }
+  
   whole_map_iterate(x, y) {
-    if (not_placed(x,y) 
-	&& (hmap(x, y) > reliefval 
-	    || terrain_is_clean(x, y, reliefval, hmap(x, y)))) { 
+    if (hmap(x, y) > thill && !is_ocean(map_get_terrain(x,y))) { 
       /* Randomly place hills and mountains on "high" tiles.  But don't
        * put hills near the poles (they're too green). */
-      if (myrand(100) > 70 
-	  || map_temperature(x, y) <= COLD_LEVEL) {
+      if (myrand(100) > 75 
+	  || map_temperature(x, y) <= MAX_TEMP / 10) {
 	map_set_terrain(x, y, T_MOUNTAINS);
-      } else {
+      } else if (myrand(100) > 25) {
 	map_set_terrain(x, y, T_HILLS);
-      }  
+      }
     }
   } whole_map_iterate_end;
 }
@@ -405,24 +355,6 @@ static void make_polar(void)
     }
   } whole_map_iterate_end;
 }
-/*************************************************************************
- if separatepoles is set, return false if this tile has to kip ocean
-************************************************************************/
-static bool ok_for_separate_poles(int x, int y) 
-{
-  if (!map.separatepoles) {
-    return TRUE;
-  }
-  adjc_iterate(x, y, x1, y1) {
-    if(!is_ocean(map_get_terrain(x1, y1))
-       && map_get_continent(x1, y1 ) != 0) {
-      return FALSE;
-    }
-  } adjc_iterate_end;
-  return TRUE;
-}
-
-
 
 /****************************************************************************
   Place untextured land at the poles.  This is used by generators 1 and 5.
@@ -433,17 +365,30 @@ static void make_polar_land(void)
   struct tile *ptile;
   int T;
 
-  assign_continent_numbers();
   whole_map_iterate(map_x, map_y) {
     T = map_temperature(map_x, map_y);	/* temperature parameter */
     ptile = map_get_tile(map_x, map_y);
-    if (T < 1.5 * ICE_BASE_LEVEL && ok_for_separate_poles(map_x, map_y)) {
-      ptile->terrain = T_NOTPLACED;
-      map_set_continent(map_x, map_y, 0);
-    } else if ((T <= 2 * ICE_BASE_LEVEL) 
-	       && myrand(10) > 4 && ok_for_separate_poles(map_x, map_y)) { 
-      ptile->terrain = T_NOTPLACED;
-      map_set_continent(map_x, map_y, 0);
+    if (T < 1.5 * ICE_BASE_LEVEL) {
+      ptile->terrain = T_GRASSLAND;
+    } else if ((T <= 2 * ICE_BASE_LEVEL) && myrand(10) > 4 ) { 
+      ptile->terrain = T_GRASSLAND;
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Create tundra in cold zones.  Used by generators 1 and 5.  This must be
+  called after make_arctic since it will fill all remaining untextured
+  areas (we don't want any grassland left on the poles).
+****************************************************************************/
+static void make_tundra(void)
+{
+  whole_map_iterate(x, y) {
+    int T = map_temperature(x, y);
+
+    if (map_get_terrain(x, y) == T_GRASSLAND 
+	&& (2 * ICE_BASE_LEVEL > T || myrand(MAX_TEMP/5) > T)) {
+      map_set_terrain(x, y, T_TUNDRA);
     }
   } whole_map_iterate_end;
 }
@@ -456,8 +401,8 @@ static void make_arctic(void)
   whole_map_iterate(x, y) {
     int T = map_temperature(x, y);
 
-    if (not_placed(x, y)
-	&& myrand(1.5 * COLD_LEVEL) > T -  ICE_BASE_LEVEL 
+    if (map_get_terrain(x, y) == T_GRASSLAND 
+	&& myrand(15 * MAX_TEMP / 100) > T -  ICE_BASE_LEVEL 
 	&& T <= 3 * ICE_BASE_LEVEL) {
       map_set_terrain(x, y, T_ARCTIC);
     }
@@ -478,16 +423,14 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
 {
   const int DeltaT = MAX_TEMP / (3 * SQSIZE);
 
-  if(deserts_to_be_placed <= 0) { return; }
-
   if (abs(hmap(x, y) - height) < diff 
-      && not_placed(x, y) && count_ocean_near_tile(x,y) <= 2) {
+      && map_get_terrain(x, y) == T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
-    deserts_to_be_placed--;
     cardinal_adjc_iterate(x, y, x1, y1) {
       make_desert(x1, y1, height,
 		  diff - 1 - abs(map_temperature(x1, y1) - base_T) / DeltaT,
 		  base_T);
+     
     } cardinal_adjc_iterate_end;
   }
 }
@@ -500,171 +443,125 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
 **************************************************************************/
 static void make_forest(int map_x, int map_y, int height, int diff)
 {
-  int T;
+  int nat_x, nat_y, T;
 
-  if(forests_to_be_placed <= 0) { return; }
-  if (not_placed(map_x, map_y)) {
-    if ((T = map_temperature(map_x, map_y))> WET_LEVEL 	&& myrand(100) >  50) {
+  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  T = map_temperature(map_x, map_y);
+  if (map_get_terrain(map_x, map_y) == T_GRASSLAND) {
+    if (T > 8 * MAX_TEMP / 10 
+	&& myrand(1000) > 500 - 300 * (T * 1000 / MAX_TEMP - 800)) {
       map_set_terrain(map_x, map_y, T_JUNGLE);
     } else {
       map_set_terrain(map_x, map_y, T_FOREST);
     }
-    forests_to_be_placed--;
     if (abs(hmap(map_x, map_y) - height) < diff) {
       cardinal_adjc_iterate(map_x, map_y, x1, y1) {
-	if (myrand(10) > 5 || (T > WET_LEVEL && myrand(10) >  5)) {
+	if (myrand(10) > 5) {
 	  make_forest(x1, y1, height, diff - 5);
 	}
       } cardinal_adjc_iterate_end;
     }
+    forests++;
   }
 }
 
 /**************************************************************************
-  a recursive function that adds swamps to the current location and try
-  to spread out to the neighbours.
+  makeforest calls make_forest with random grassland locations until there
+  has been made enough forests. (the map.forestsize value controls this) 
 **************************************************************************/
-static void make_swamp(int map_x, int map_y, int height, int diff)
-{
-  if(swamps_to_be_placed <= 0) { return; }
-  if (not_placed(map_x, map_y) 
-      && ( 2 * (hmap(map_x, map_y) - seaval) < myrand(reliefval - seaval)
-	|| (map_temperature(map_x, map_y) > WET_LEVEL && myrand(40) >  30))) {
-      map_set_terrain(map_x, map_y, T_SWAMP);
-      swamps_to_be_placed--;
-      if (abs(hmap(map_x, map_y) - height) < diff) {
-	  cardinal_adjc_iterate(map_x, map_y, x1, y1) {
-	  make_forest(x1, y1, height, diff - 5);
-      } cardinal_adjc_iterate_end;
-    }
-  }
-}
-/**************************************************************************
-  a simple function that adds plains or tundra to the current location.
-**************************************************************************/
-static void make_plain(int x, int y)
-{
-  int T = map_temperature(x, y);
-
-  if(2 * ICE_BASE_LEVEL > T || myrand(2 * COLD_LEVEL) > T) {
-    map_set_terrain(x, y, T_TUNDRA); /* in cold place we get tundra instead */
-  } else {
-    map_set_terrain(x, y, T_PLAINS);
-  }
-  plains_to_be_placed--;
-}
-
-/**************************************************************************
-  make_terrains calls make_forest, make_dessert  with random free locations 
-  until there  has been made enough.
- Comment: funtions as make_swamp, etc. has to have a non 0 probability
- to place one terrains in called position. Else make_terrains can get
- in a infinite loop!
-**************************************************************************/
-static void make_terrains(void)
+static void make_forests(void)
 {
   int x, y;
-  int total = 0;
-  whole_map_iterate(x, y) {
-    if(not_placed(x,y)) {
-      total++;
-    }
-  } whole_map_iterate_end;
+  int forestsize = (map_num_tiles() * map.forestsize) / 1000;
 
-  forests_to_be_placed = total * map.forestsize
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize );
-  deserts_to_be_placed = total * map.deserts
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize);
-  swamps_to_be_placed = total * map.swampsize
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize);
+  forests = 0;
 
-  /* tundra and plains is counted in map.grasssize */
-  grass_to_be_placed = total * map.grasssize / 2
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize);
-  plains_to_be_placed = total /* and tundra */
-      - forests_to_be_placed - deserts_to_be_placed - grass_to_be_placed;
-
-  /* the plasing loop */
   do {
-    if(forests_to_be_placed > 0) {
-      /* Place one forest clump between Very Cold level and MAX_TEMP. */
-      if (rand_map_pos_temperature(&x, &y,
-				   (COLD_LEVEL + ICE_BASE_LEVEL) / 2, MAX_TEMP,
-				   T_NOTPLACED)) {
-	make_forest(x, y, hmap(x, y), 25);
-      } else { 
-        /* If rand_map_pos_temperature returns FALSE we may as well stop
-         * looking for forest. */
-	plains_to_be_placed += forests_to_be_placed;
-	forests_to_be_placed = 0;
-      }
+    /* Place one forest clump anywhere. */
+    if (rand_map_pos_temperature(&x, &y,
+				 MAX_TEMP / 10, MAX_TEMP,
+				 T_GRASSLAND)) {
+      make_forest(x, y, hmap(x, y), 25);
+    } else { 
+      /* If rand_map_pos_temperature returns FALSE we may as well stop
+       * looking. */
+      break;
     }
 
-    if(swamps_to_be_placed > 0) {
-      /* Place one swamp clump between COLD_LEVEL and MAX_TEMP.. */
-      if (rand_map_pos_temperature(&x, &y,
-				   COLD_LEVEL, MAX_TEMP,
-				   T_NOTPLACED)) {
-	make_swamp(x, y, hmap(x, y), 25);
-      } else { 
-        /* If rand_map_pos_temperature returns FALSE we may as well stop
-         * looking for swamp. */
-	plains_to_be_placed += swamps_to_be_placed; /* reactivate plains */
-	swamps_to_be_placed = 0;
-      }
+    /* Now add another tropical forest clump (70-100% temperature). */
+    if (rand_map_pos_temperature(&x, &y,
+				 7 *MAX_TEMP / 10, MAX_TEMP,
+				 T_GRASSLAND)) {
+      make_forest(x, y, hmap(x, y), 25);
     }
 
-    if(deserts_to_be_placed > 0) {
-      /* Choose a random coordinate between TROPICAL_LEVEL and WET_LEVEL;
-	 make_desert will expand them). */
-      if (rand_map_pos_temperature(&x, &y,
-				   TROPICAL_LEVEL, WET_LEVEL,
-				   T_NOTPLACED)){
-	  make_desert(x, y, hmap(x, y), 40, map_temperature(x, y));
-      } else {
-	/* If rand_map_pos_temperature returns FALSE we may as well stop
-	 * looking for dessert. (convert to plains) */
-	plains_to_be_placed += deserts_to_be_placed;
-	deserts_to_be_placed = 0;
-      }
+    /* And add a cold forest clump (10%-30% temperature). */
+    if (rand_map_pos_temperature(&x, &y,
+				 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10,
+				 T_GRASSLAND)) {
+      make_forest(x, y, hmap(x, y), 25);
     }
+  } while (forests < forestsize);
+}
 
-    /* Make the grass */
-    if(grass_to_be_placed > 0) {
-      if (rand_map_pos_temperature(&x, &y,
-				   COLD_LEVEL, MAX_TEMP,
-				   T_NOTPLACED)){
-	map_set_terrain(x, y, T_GRASSLAND);
-	grass_to_be_placed--;
-      } else {
-	  plains_to_be_placed += grass_to_be_placed;
-	  grass_to_be_placed = 0;
-      }
+/**************************************************************************
+  swamps, is placed on low lying locations, that will typically be close to
+  the shoreline. They're put at random (where there is grassland)
+  and with 50% chance each of it's neighbour squares will be converted to
+  swamp aswell
+**************************************************************************/
+static void make_swamps(void)
+{
+  int x, y, swamps;
+  int forever = 0;
+
+  for (swamps = 0; swamps < map.swampsize; ) {
+    forever++;
+    if (forever > 1000) {
+      return;
     }
-
-    /* there is very important: this place all terrains when there
-       is not posibe for other types kip the 0, MAX_TEMP range. */
-    /* make the plains and tundras */
-    if(plains_to_be_placed > 0) {
-      if (rand_map_pos_temperature(&x, &y,
-				   0, MAX_TEMP,
-				   T_NOTPLACED)){
-	make_plain(x,y);
-      } else {
-	/* If rand_map_pos_temperature returns FALSE we may as well stop
-	 * looking for plains. */
-	plains_to_be_placed = 0;
-      }
+    rand_map_pos(&x, &y);
+    if (map_get_terrain(x, y) == T_GRASSLAND
+	&& hmap(x, y) < (maxval * 60) / 100) {
+      map_set_terrain(x, y, T_SWAMP);
+      cardinal_adjc_iterate(x, y, x1, y1) {
+ 	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1)) 
+	    && map_get_terrain(x1, y1) != T_SWAMP ) { 
+	  map_set_terrain(x1, y1, T_SWAMP);
+	  swamps++;
+	}
+      } cardinal_adjc_iterate_end;
+      swamps++;
     }
+  }
+}
 
-  } while (forests_to_be_placed > 0 || deserts_to_be_placed > 0 
-	   || grass_to_be_placed > 0 || plains_to_be_placed > 0 
-	   || swamps_to_be_placed > 0 );
+/*************************************************************************
+  Make deserts until we have enough of them.
+**************************************************************************/
+static void make_deserts(void)
+{
+  int x, y, i = map.deserts, j = 0;
 
-  /* final test */
-  whole_map_iterate(x, y) {
-    assert(!not_placed(x,y));
-  } whole_map_iterate_end;
+  /* "i" is the number of desert clumps made; "j" is the number of tries. */
+  /* TODO: j is no longer needed */
+  while (i > 0 && j < 100 * map.deserts) {
+    j++;
+
+    /* Choose a random coordinate between 20 and 30 degrees north/south
+     * (deserts tend to be between 15 and 35; make_desert will expand
+     * them). */
+    if (rand_map_pos_temperature(&x, &y,
+				 65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100,
+				 T_GRASSLAND)){
+      make_desert(x, y, hmap(x, y), 50, map_temperature(x, y));
+      i--;
+    } else {
+      /* If rand_map_pos_temperature returns FALSE we may as well stop
+       * looking. */
+      break;
+    }
+  }
 }
 
 /*********************************************************************
@@ -917,7 +814,7 @@ static bool make_river(int x, int y)
     if (adjacent_river_tiles4(x, y) != 0
 	|| adjacent_ocean_tiles4(x, y) != 0
         || (map_get_terrain(x, y) == T_ARCTIC 
-	    && map_temperature(x, y) < 0.8 * COLD_LEVEL)) { 
+	    && map_temperature(x, y) < 8 * MAX_TEMP / 100)) { 
 
       freelog(LOG_DEBUG,
 	      "The river ended at (%d, %d).\n", x, y);
@@ -1130,6 +1027,56 @@ static void make_rivers(void)
   river_map = NULL;
 }
 
+/**************************************************************************
+  make_plains converts 50% of the remaining grassland to plains, this should
+  maybe be lowered to 30% or done in batches, like the swamps?
+**************************************************************************/
+static void make_plains(void)
+{
+  whole_map_iterate(x, y) {
+    if (map_get_terrain(x, y) == T_GRASSLAND && myrand(100) > 50)
+      map_set_terrain(x, y, T_PLAINS);
+  } whole_map_iterate_end;
+}
+/****************************************************************************
+  Return TRUE if the terrain at the given map position is "clean".  This
+  means that all the terrain for 2 squares around it is either grassland or
+  plains.
+****************************************************************************/
+static bool terrain_is_clean(int map_x, int map_y)
+{
+  square_iterate(map_x, map_y, 2, x1, y1) {
+    if (map_get_terrain(x1, y1) != T_GRASSLAND
+	&& map_get_terrain(x1, y1) != T_PLAINS) {
+      return FALSE;
+    }
+  } square_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  we don't want huge areas of grass/plains, 
+ so we put in a hill here and there, where it gets too 'clean' 
+**************************************************************************/
+static void make_fair(void)
+{
+  whole_map_iterate(map_x, map_y) {
+    if (terrain_is_clean(map_x, map_y)) {
+      if (!map_has_special(map_x, map_y, S_RIVER)) {
+	map_set_terrain(map_x, map_y, T_HILLS);
+      }
+      cardinal_adjc_iterate(map_x, map_y, x1, y1) {
+	if (myrand(100) > 66
+	    && !is_ocean(map_get_terrain(x1, y1))
+	    && !map_has_special(x1, y1, S_RIVER)) {
+	  map_set_terrain(x1, y1, T_HILLS);
+	}
+      } cardinal_adjc_iterate_end;
+    }
+  } whole_map_iterate_end;
+}
+
 /****************************************************************************
   Lower the land near the polar region to avoid too much land there.
 
@@ -1170,21 +1117,6 @@ static void renormalize_hmap_poles(void)
     }
   } whole_map_iterate_end;
 }
-/**************************************************************************
- if there are room the isle is grownd by one else isle is deleted
-**************************************************************************/
-static void grown_tiny_isle(int x,int y, int nr) {
-  adjc_iterate(x, y, x1, y1) {
-    if(count_ocean_near_tile(x1,y1) == 7) {
-      map_set_terrain(x1, y1, T_NOTPLACED);
-      map_set_continent(x1, y1, nr);
-      MASS_SIZE(nr)++;
-      return;
-    }
-  } adjc_iterate_end;
-  map_set_terrain(x, y, T_OCEAN);
-  return;
-}
 
 /**************************************************************************
   make land simply does it all based on a generated heightmap
@@ -1193,34 +1125,44 @@ static void grown_tiny_isle(int x,int y, int nr) {
 **************************************************************************/
 static void make_land(void)
 {
+  int tres;
+  int count=0;
+  int total = (map_num_tiles() * map.landpercent) / 100;
+  int forever=0;
+
   adjust_map();
   normalize_hmap_poles();
-  seaval = maxval - (maxval * map.landpercent) / 100;
-  whole_map_iterate(x, y) {
-    if (hmap(x, y) < seaval)
-      map_set_terrain(x, y, T_OCEAN);
-    else {
-      map_set_terrain(x, y, T_NOTPLACED);
-    }
-  } whole_map_iterate_end;
+  tres = (maxval * map.landpercent) / 100;
+
+  do {
+    forever++;
+    if (forever>50) break; /* loop elimination */
+    count=0;
+    whole_map_iterate(x, y) {
+      if (hmap(x, y) < tres)
+	map_set_terrain(x, y, T_OCEAN);
+      else {
+	map_set_terrain(x, y, T_GRASSLAND);
+	count++;
+      }
+    } whole_map_iterate_end;
+    if (count>total)
+      tres*=11;
+    else
+      tres*=9;
+    tres/=10;
+  } while (abs(total-count)> maxval/40);
+
   renormalize_hmap_poles();
   make_polar_land(); /* make extra land at poles*/
-  assign_continent_numbers(); /* count sizes */
-  whole_map_iterate(x, y) {
-      int nr = map_get_continent(x,y);
-      /* avoid too small oceans */
-      if (is_ocean(map_get_terrain(x, y)) && MASS_SIZE(nr) < 8) {
-	map_set_terrain(x, y, T_NOTPLACED);  
-      } 
-      /* avoid tiny isles */
-      else if (!is_ocean(map_get_terrain(x, y)) && MASS_SIZE(nr) == 1) {
-	grown_tiny_isle(x, y, nr);
-      }
-  } whole_map_iterate_end;
-
-  make_relief(); /* base relief on map */
-  make_arctic(); 
-  make_terrains();/* place forest/dessert/swamp/grass/tundra and plains */
+  make_mountains(maxval*8/10);
+  make_arctic();
+  make_tundra();
+  make_forests();
+  make_swamps();
+  make_deserts();
+  make_plains();
+  make_fair();
   make_rivers();
 
   assign_continent_numbers();
@@ -1262,6 +1204,63 @@ static void remove_tiny_islands(void)
   } whole_map_iterate_end;
 }
 
+/**************************************************************************
+  Number this tile and recursive adjacent tiles with specified
+  continent number, by flood-fill algorithm.
+  is_land tells us whether we are assigning continent numbers or ocean 
+  numbers.
+**************************************************************************/
+static void assign_continent_flood(int x, int y, bool is_land, int nr)
+{
+  if (map_get_continent(x, y) != 0) {
+    return;
+  }
+
+  if ((is_land && is_ocean(map_get_terrain(x, y)))
+      || (!is_land && !is_ocean(map_get_terrain(x, y)))) {
+    return;
+  }
+
+  map_set_continent(x, y, nr);
+
+  adjc_iterate(x, y, x1, y1) {
+    assign_continent_flood(x1, y1, is_land, nr);
+  } adjc_iterate_end;
+}
+
+/**************************************************************************
+  Assign continent and ocean numbers to all tiles, set map.num_continents 
+  and map.num_oceans.
+  Continents have numbers 1 to map.num_continents _inclusive_.
+  Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
+**************************************************************************/
+void assign_continent_numbers(void)
+{
+  /* Initialize */
+  map.num_continents = 0;
+  map.num_oceans = 0;
+  whole_map_iterate(x, y) {
+    map_set_continent(x, y, 0);
+  } whole_map_iterate_end;
+
+  /* Assign new numbers */
+  whole_map_iterate(x, y) {
+    if (map_get_continent(x, y) != 0) {
+      /* Already assigned */
+      continue;
+    }
+    if (!is_ocean(map_get_terrain(x, y))) {
+      map.num_continents++;
+      assign_continent_flood(x, y, TRUE, map.num_continents);
+    } else {
+      map.num_oceans++;
+      assign_continent_flood(x, y, FALSE, -map.num_oceans);
+    }      
+  } whole_map_iterate_end;
+
+  freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
+	  map.num_continents, map.num_oceans);
+}
 
 /****************************************************************************
   Return an approximation of the goodness of a tile to a civilization.
@@ -1675,9 +1674,9 @@ void map_fractal_generate(void)
 static void adjust_terrain_param(void)
 {
   int total;
-  int polar = ICE_BASE_LEVEL * 100 / MAX_TEMP;
+  int polar = 5; /* FIXME: convert to a server option */
 
-  total = map.mountains + map.deserts + map.forestsize + map.swampsize
+  total = map.mountains + map.deserts + map.forestsize + map.swampsize 
     + map.grasssize;
 
   if (total != 100 - polar) {
@@ -1691,43 +1690,25 @@ static void adjust_terrain_param(void)
 }
 
 /**************************************************************************
-  Adjust the hmap to be a linearize distribution of heights
-  form 0 to maxval (maxval is a global const )
-  sample
-  ( hmap[x,y] < 0.13 * maxval) handle the 13% lowerest part of the map
+  Adjust the map so that its minimum height is 0.  This raises or lowers
+  every position by a fixed amount and sets the "maxval" global variable
+  to hold the maximum height.
 **************************************************************************/
 static void adjust_map(void)
 {
-  int i, min = hnat(0, 0), max = hnat(0, 0);
-  int count=0, f[maxval];
-  
-  INITIALIZE_ARRAY(f,maxval,0);
+  int minval = maxval = hnat(0, 0);
 
   /* Determine minimum and maximum heights. */
   whole_map_iterate(x, y) {
-    max = MAX(max, hmap(x, y));
-    min = MIN(min, hmap(x, y));
+    maxval = MAX(maxval, hmap(x, y));
+    minval = MIN(minval, hmap(x, y));
   } whole_map_iterate_end;
 
-  /* Translate heights so the minimum height is 0 and  maximum is maxval.
-     and count pos in granularity */
-  max -= min;
+  /* Translate heights so the minimum height is 0. */
+  maxval -= minval;
   whole_map_iterate(x, y) {
-    hmap(x, y) = (hmap(x, y) - min) * maxval;
-    hmap(x, y) /= max;
-    f[hmap(x, y)]++;
+    hmap(x, y) -= minval;
   } whole_map_iterate_end;
-
-  /* create the linearize function */
-  for(i =  -1; i++ < maxval;) {
-      count += f[i];
-      f[i] = (count * maxval) / (map.xsize * map.ysize) ;
-     }
-
-  /* apply the linearize function */
-  whole_map_iterate(x, y) {
-    hmap(x, y) = f[hmap(x, y)];
-  } whole_map_iterate_end; 
 }
 
 /**************************************************************************
@@ -2382,17 +2363,6 @@ static void initworld(struct gen234_state *pstate)
  *  x * DMSIS / 100 */
 #define DMSIS 10
 
-/**************************************************************************
-  make_plains converts 50% of the remaining grassland to plains, this should
-  maybe be lowered to 30% or done in batches, like the swamps?
-**************************************************************************/
-static void make_plains(void)
-{
-  whole_map_iterate(x, y) {
-    if (map_get_terrain(x, y) == T_GRASSLAND && myrand(100) > 50)
-      map_set_terrain(x, y, T_PLAINS);
-  } whole_map_iterate_end;
-}
 /**************************************************************************
   island base map generators
 **************************************************************************/

@@ -32,6 +32,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"
+#include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
 #include "srv_main.h"
@@ -39,74 +40,6 @@
 #include "unittools.h"
 
 #include "maphand.h"
-
-
-int mass_size[2 * MAP_NCONT];
-/**************************************************************************
-  Number this tile and recursive adjacent tiles with specified
-  continent number, by flood-fill algorithm.
-  is_land tells us whether we are assigning continent numbers or ocean 
-  numbers.
-**************************************************************************/
-static void assign_continent_flood(int x, int y, bool is_land, int nr)
-{
-  if (map_get_continent(x, y) != 0) {
-    return;
-  }
-
-  if (!XOR(is_land , is_ocean(map_get_terrain(x, y)))) {
-    return;
-  }
-
-  map_set_continent(x, y, nr);
-  MASS_SIZE(nr)++;
-
-  adjc_iterate(x, y, x1, y1) {
-    assign_continent_flood(x1, y1, is_land, nr);
-  } adjc_iterate_end;
-}
-
-/**************************************************************************
-  Assign continent and ocean numbers to all tiles, set map.num_continents 
-  and map.num_oceans.
-  Continents have numbers 1 to map.num_continents _inclusive_.
-  Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
-**************************************************************************/
-void assign_continent_numbers(void)
-{
-  int i;
-
-  /* Initialize */
-  for(i = 0; i < 2 * MAP_NCONT; i++) {
-    MASS_SIZE(i) = 0;
-  }
-  map.num_continents = 0;
-  map.num_oceans = 0;
-    
-  whole_map_iterate(x, y) {
-    map_set_continent(x, y, 0);
-  } whole_map_iterate_end;
-
-  /* Assign new numbers */
-  whole_map_iterate(x, y) {
-    if (map_get_continent(x, y) != 0) {
-      /* Already assigned */
-      continue;
-    }
-    if (!is_ocean(map_get_terrain(x, y))) {
-      map.num_continents++;
-      assert ( map.num_continents < MAP_NCONT);
-      assign_continent_flood(x, y, TRUE, map.num_continents);
-    } else {
-      map.num_oceans++;
-      assert ( map.num_oceans < MAP_NCONT);
-      assign_continent_flood(x, y, FALSE, -map.num_oceans);
-    }      
-  } whole_map_iterate_end;
-
-  freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
-	  map.num_continents, map.num_oceans);
-}
 
 static void player_tile_init(int x, int y, struct player *pplayer);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
