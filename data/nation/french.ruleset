@@ -24,13 +24,27 @@ wonder="Magellan's Expedition"
 government="Republic"
 
 cities =
-  "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",
+  "Paris", "Lyon", "Marseille", "Lille", 
   "Nantes", "Rouen", "Reims", "Tours", "Angers",
-  "Toulouse", "Montpellier", "Nîmes", "Toulon", "Orléans",
+  "Toulouse", 
+  "Nîmes", "Toulon", "Orléans",
   "Chartres", "Avignon", "Grenoble", "Dijon", "Amiens",
   "Cherbourg", "Caen", "Calais", "Limoges", "Clermont-Ferrand",
   "Nancy", "Besançon", "St. Etienne", "Brest", "Perpignan",
-  "Vichy", "Rennes", "Le Havre", "La Rochelle", "Poitiers",
-  "St. Nazaire", "Bourges", "Le Mans", "Valenciennes", "Montlucon"
+  "Vichy", "Rennes", "Le Havre", "Poitiers",
+  "St. Nazaire", "Bourges", "Le Mans", "Valenciennes"
 
+river_cities = 
+  "Chalons-sur-Marne", "Chatillon-Sur-Seine", "Campigny-sur-Marne",
+  "Ivry-sur-Seine"
 
+coastal_cities =
+  "Bordeaux", "La Rochelle", "Cap de la Hague"
+
+hills_cities =
+  "Montpellier", "Montlucon", "Chamonix-Mont-Blanc", "L'Alpe-d'Huez",
+  "Mont-de-Marsan", "Mont-Saint-Vincent", "Montauban", "Montelimar",
+  "Chaumont", "La Roche-sur-Yon", "La Rochelle"
+
+forest_cities =
+  "Aulnay-sous-Bois", "Fontenay-sous-Bois"

@@ -67,20 +67,56 @@ Returned pointer points into internal data structures or static
 buffer etc, and should be considered read-only (and not freed)
 by caller.
 *****************************************************************/
-char *city_name_suggestion(struct player *pplayer)
+char *city_name_suggestion(struct player *pplayer, int x, int y)
 {
   char **nptr;
   int i, j;
+  struct nation_type *nation = get_nation_by_plr(pplayer);
   static char tempname[MAX_LEN_NAME];
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
 
-  freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
+  freelog(LOG_VERBOSE, "Suggesting city name for %s at (%d,%d)",
+	  pplayer->name, x, y);
   
-  for(nptr=get_nation_by_plr(pplayer)->default_city_names; *nptr; nptr++) {
-    if(!game_find_city_by_name(*nptr))
-      return *nptr;
+  CHECK_MAP_POS(x,y);
+
+#define SEARCH_AND_RETURN_CITY_NAME(list)   \
+    for(nptr=list; *nptr; nptr++) {         \
+      if(!game_find_city_by_name(*nptr)) {  \
+        return *nptr;                       \
+      }                                     \
+    }
+
+  /* 
+   * Use a special name if the tile has a river, is coastal or there
+   * is an available name depending on the terrain.
+   */ 
+
+  /* deal with rivers */
+  if (map_get_special(x, y) & S_RIVER) {
+    if (is_terrain_near_tile(x, y, T_OCEAN)) {
+      /* coastal river */
+      SEARCH_AND_RETURN_CITY_NAME(nation->default_crcity_names);
+    } else {
+      /* non-coastal river */
+      SEARCH_AND_RETURN_CITY_NAME(nation->default_rcity_names);
+    }
   }
+
+  /* coastal */
+  if (is_terrain_near_tile(x, y, T_OCEAN)) {
+    SEARCH_AND_RETURN_CITY_NAME(nation->default_ccity_names);
+  }
+  
+  /* check terrain type */
+  SEARCH_AND_RETURN_CITY_NAME(nation->
+			      default_tcity_names[map_get_terrain(x, y)]);
+
+  /* we haven't found a name: it's a normal tile or they're all used */
+  SEARCH_AND_RETURN_CITY_NAME(nation->default_city_names);
+
+#undef SEARCH_AND_RETURN_CITY_NAME
 
   if (num_misc_city_names > 0) {
     j = myrand(num_misc_city_names);

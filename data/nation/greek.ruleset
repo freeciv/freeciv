@@ -26,7 +26,7 @@ cities =
   "Miletus", "Ephesus", "Piraeus", "Argos", "Megalopolis",
   "Megara", "Eleusis", "Chalcis", "Eretria", "Thessalonica",
   "Pella", "Edessa", "Dodona", "Nikopolis", "Naupactus",
-  "Patrae", "Olympia", "Pylos", "Mantinea", "Tegea",
+  "Patrae", "Pylos", "Mantinea", "Tegea",
   "Nauplion", "Mycenae", "Nemea", "Epidauros", "Aulis",
   "Orchomenos", "Marathon", "Delphi", "Thermopylae", "Phaleron",
   "Nicaea", "Heraclea", "Potidaea", "Stagira", "Olynthus",
@@ -37,4 +37,5 @@ cities =
   "Ithaca", "Thera", "Delos", "Panormos", "Ortygia",
   "Melos", "Lykosoura", "Amyclae", "Clazomenae", "Kynos Kephalae"
 
-
+mountains_cities =
+  "Olympia"

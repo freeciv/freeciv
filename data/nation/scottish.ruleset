@@ -27,19 +27,42 @@ wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-  "Edinburgh", "Glasgow", "Aberdeen", "Perth", "Dundee", "Inverness",
-  "Stirling", "Hamilton", "Motherwell", "Dunfermline", "Falkirk",
-  "Kilmarnock", "Dumfries", "East Kilbride", "Coatbridge",
-  "Dumbarton", "Irvine", "Lanark", "St Andrews",
-  "Kirkcaldy", "Fort William", "Bathgate",
-  "Cumbernauld", "Johnstone", "Livingstone", "Lockerbie",
-  "Oban", "Leven", "Paisley", "Peterhead", "Prestwick", "Stranraer",
-  "Airdrie", "Troon", "Ullapool", "Ayr", "Aviemore", "Lerwick", "Largs",
-  "Bellshill", "Wick", "Larkhall", "Cowdenbeath", "Gretna", "Brechin",
-  "Helensburgh", "Dunblane", "Montrose", "Kilwinning", "Monifieth",
-  "Dunbar", "Cumnock", "Stornoway", "Callander", "Portree", "Kelso",
-  "Whitebridge", "Kirkintilloch", "Braemar", "Jedburgh", "Alloa",
-  "Newton Stewart", "Wigtown", "Girvan", "Fort Augustus", "Bothwell",
-  "Grantown on spey", "Dornoch", "Coldstream", "Eyemouth", "Wishaw",
-  "Kirkwall", "Haddington", "Strathaven", "Glencoe",
-  "Lennoxtown", "Biggar", "Culross", "Newcastleton", "Durness"
+  "Edinburgh", "Perth", "Stirling", "Hamilton",  "Motherwell", 
+  "Dunfermline", "Falkirk",
+  "Kilmarnock", "Bathgate",
+  "Cumbernauld", "Johnstone", "Livingstone",
+  "Lockerbie",  "Airdrie",  "Larkhall", 
+  "Cowdenbeath", "Kilwinning", "Cumnock",
+  "Kirkintilloch", "Wigtown", 
+  "Wishaw", "Glencoe", "St Andrews",
+  "Haddington", "Biggar", "Newcastleton"
+  
+river_cities =
+  "Glasgow", "Inverness", "Dumfries", 
+  "Callander", "Lanark", "ColdStream",
+  "Granton on spey", "Jedburgh",
+  "Alloa", "Coatbridge", "Bothwell", "Strathavon", "Dunblane",
+  "Peebles", "Kelso", "Newton Stewart", "Inverurie",
+  "Whitebridge", "Elgin", "Brechin", "Ellon"
+
+coastal_river_cities =
+ "Aberdeen", "Dundee", "Paisley", "Ayr", 
+ "Dunbar", "Eyemouth", 
+ "Fort Augustus", "Irvine", "Grangemouth",
+ "Montrose", "Largs", "Annan", 
+ "Gretna", "Girvan", "Nairn"
+
+coastal_cities =
+  "Dumbarton", "Peterhead", "Prestwick", "Oban", 
+  "Helensburgh", "Leven",
+  "Stranraer", "Troon", "Kirkcaldy", "Arbroath",
+  "Ullapool", "Lerwick", "Wick", "Portree",
+  "Fort William", "Culross", "Durness",
+  "PortGlasgow", "Kirkwall", "Stornoway",
+  "Dornoch", "Kinghorn","Gourock", "Rothesay", 
+  "Boness", "Fraserburgh", "Mallaig", "Monifieth"
+
+hills_cities ="Aviemore", "Braemar", 
+  "Eastkilbride", "Bellshill", "Huntly",
+  "Shotts", "Torphichen", "Stow", "Darvel", "Thornhill",
+  "Lennoxtown"

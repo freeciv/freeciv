@@ -47,13 +47,21 @@ void handle_city_name_suggest_req(struct connection *pconn,
 				  struct packet_generic_integer *packet)
 {
   struct packet_city_name_suggestion reply;
+  struct unit *punit =
+      player_find_unit_by_id(pconn->player, packet->value);
+
   if (!pconn->player) {
     freelog(LOG_ERROR, "City-name suggestion request from non-player %s",
 	    conn_description(pconn));
     return;
   }
+
+  freelog(LOG_VERBOSE, "handle_city_name_suggest_req(unit_pos=(%d,%d))",
+	  punit->x, punit->y);
+
   reply.id = packet->value;
-  sz_strlcpy(reply.name, city_name_suggestion(pconn->player));
+  sz_strlcpy(reply.name,
+	     city_name_suggestion(pconn->player, punit->x, punit->y));
   send_packet_city_name_suggestion(pconn, &reply);
 }
 

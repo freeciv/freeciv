@@ -31,19 +31,28 @@ government="Republic"
 cities =
   "Barcelona", "Tarragona", "Lleida", "Girona", "Perpinyà", "Valencia",
   "Tolosa", "Ripoll", "Vic", "La Seu d'Urgell", "Cardona", "Tortosa",
-  "Montserrat", "Poblet", "Santes Creus", "Vallbona de les Monges",
+  "Poblet", "Santes Creus", "Vallbona de les Monges",
   "Balaguer", "Manresa", "Terrassa", "Sabadell", "Palma de Mallorca",
-  "Eivissa", "Alacant", "Elx", "Castelló de la Plana", "Montblanc",
-  "Igualada", "Cervera", "Berga", "Dénia", "Reus", "Granollers",
-  "Mataró", "Figueres", "Olot", "Badalona", "Tàrrega", "Amposta",
+  "Eivissa", "Alacant", "Elx", "Igualada", "Cervera", "Berga", "Dénia", 
+  "Reus", "Granollers", "Mataró", "Figueres", "Olot", "Badalona", 
+  "Tàrrega", "Amposta",
   "El Bruc", "Valls", "Vilafranca del Penedés", "Manacor", "Alcúdia",
   "Sóller", "Artà", "Llucmajor", "Felanitx", "Andratx", "Ciutadella",
   "Penyiscola", "Sitges", "Vilanova i la Geltrú", "Viella", "L'Alguer",
-  "Perelló", "Torelló", "Sant Cugat", "Portbou", "Palafrugell",
+  "Perelló", "Torelló", "Sant Cugat", "Palafrugell",
   "Manlleu", "Sallent", "Puigcerdà", "Bellver", "Sant Boi de Llobregat",
   "Vandellós", "Cornellà", "Tremp", "Palamós", "El Vendrell",
   "Sant Feliu de Guíxols", "Sant Celoni", "Martorell", "L'Hospitalet",
-  "Mollet del Vallès", "Banyoles", "Blanes", "Lloret de mar", "Malgrat de mar",
-  "Canet de mar", "Molins de Rei", "Pons", "Súria", "Llívia",
-  "La Bisbal d'Empurdà", "Prada", "Elna", "Ceret", "Cadaqués", "Begur",
-  "Olesa de Montserrat"
+  "Mollet del Vallès", "Banyoles", "Blanes", "Molins de Rei", "Pons", 
+  "Súria", "Llívia", "La Bisbal d'Empurdà", "Prada", "Elna", "Ceret", 
+  "Cadaqués", "Begur"
+  
+
+mountains_cities =
+  "Montserrat", "Montblanc", "Olesa de Montserrat"
+
+plains_cities =
+"Castelló de la Plana"
+
+coastal_cities =
+  "Portbou", "Lloret de mar", "Malgrat de mar", "Canet de mar"

@@ -19,7 +19,10 @@ government="Communism"
 
 cities =
   "Manila", "Cebu", "Makati", "Quezon", "Pasig", "Angeles", "Davao",
-  "San Fernando", "Puerto Princesa", "Cagayan de Oro", "Zamboanga",
-  "Bacolod", "Butuan", "Puerto Galera", "Olongapo", "Los Banos", "Lipa",
+  "San Fernando", "Cagayan de Oro", "Zamboanga",
+  "Bacolod", "Butuan", "Olongapo", "Los Banos", "Lipa",
   "Batangas", "Naga", "Bauang", "Agoo", "San Pablo", "Calamba",
   "Iloilo", "Lucena", "Cabanatuan"
+
+coastal_cities =
+  "Puerto Princesa", "Puerto Galera"

@@ -37,6 +37,10 @@ struct nation_type {
   int  leader_is_male[MAX_NUM_LEADERS];
   int city_style;
   char **default_city_names;
+  char **default_rcity_names;		/* river city names */
+  char **default_crcity_names;		/* coastal-river city names */
+  char **default_ccity_names;		/* coastal city names */
+  char **default_tcity_names[T_COUNT];	/* terrain-specific city names */
   struct Sprite *flag_sprite;
 
   /* untranslated copies: */

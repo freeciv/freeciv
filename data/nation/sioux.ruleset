@@ -25,9 +25,21 @@ government="Republic"
 ;big problem I use names of more known battles between Indians and USA
 
 cities =
-  "Big Mound", "Killdeer Knee", "Bear Paw", "Lame Deer",
-  "Wolf Mountain", "Dull Knife", "Little Bighorn", "Blue Water",
-  "Birch Coulee", "Wood Lake", "Whitestone Hill", "Dead Buffalo Lake",
-  "Whitebird Creek", "Clearwater", "Big Hole", "Pine Ridge"
+  "Killdeer Knee", "Bear Paw", "Lame Deer",
+  "Dull Knife", "Little Bighorn", 
+  "Birch Coulee", "Big Hole"
 
+river_cities =
+  "Whitebird Creek" 
 
+hills_cities =
+  "Whitestone Hill", "Big Mound"
+
+forest_cities =
+  "Pine Ridge"
+
+mountains_cities =
+  "Wolf Mountain"
+
+coastal_cities =
+  "Clearwater", "Dead Buffalo Lake", "Wood Lake", "Blue Water"

@@ -2389,7 +2389,8 @@ static void hut_get_city(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   
   if (is_ok_city_spot(punit->x, punit->y)) {
-    create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
+    create_city(pplayer, punit->x, punit->y,
+		city_name_suggestion(pplayer, punit->x, punit->y));
   } else {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Friendly nomads are impressed by you,"

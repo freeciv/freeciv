@@ -22,15 +22,34 @@ wonder="Cure For Cancer"
 government="Democracy"
 
 cities =
-  "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",
-  "Calgary", "Edmonton", "Victoria", "Yellowknife", "Fredericton",
-  "Charlottetown", "Regina", "Saskatoon", "Whitehorse", "Iqaluit",
-  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", "Sudbury", "St. John",
-  "St. John's", "Sault Ste. Marie", "Thunder Bay", "Red Deer", "Jasper",
-  "Prince Rupert", "Windsor", "Prince George", "Kamloops", "Lethbridge",
-  "Medicine Hat", "Prince Albert", "Thompson", "Timmins", "Sarnia",
-  "Guelph", "St. Catharines", "Barrie", "North Bay", "Belleville",
-  "Kingston", "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski",
-  "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
+  "Toronto", "Vancouver", "Ottawa", "Edmonton", "Alberta", "Calgary",
+  "Winnipeg", "Hamilton", "Kitchener", "St. Catharines", "Halifax",
+  "Victoria", "Windsor", "Oshawa", "Saskatoon", "Regina", "St. John's",
+  "Sudbury", "Chicoutimi", "Kingston", "Kelowna",
+  "Saint John", "Barrie", "Sydney", "Moncton", "Guelph", "Peterborough",
+  "Belleville", "Sarnia", "Nanaimo", "Kamloops", "Sault Ste. Marie",
+  "Fredericton", "Prince George", "Chatham", "Chilliwack", "Drummondville",
+  "Cornwall", "Red Deer", "Shawinigan", "Granby", "Charlottetown",
+  "Medicine Hat", "Vernon", "Courtenay", "Saint-Hyacinthe", "Whitehorse",
+  "Yellowknife", "Iqaluit", "Gander"
 
+river_cities = 
+  "Quebec", "Trois-Rivieres", "Abbotsford", "Brantford", 
+  "Saint-Jean-sur-Richelieu", "Lethbridge", "La Grande", "La Ronge", 
+  "La Tuque", "Pembroke", "Powell River", "Riviere-du-Loup", 
+  "Smooth Rock Falls", "Swift Current", "Corner Brook", "Sherbrooke"
 
+coastal_river_cities =
+  "Dartmouth"
+
+coastal_cities =
+  "Thunder Bay", "North Bay", "Baker Lake", "Owen Sound", "Cold Lake", 
+  "Deer Lake", "East Point", "Elliot Lake", "Goose Bay", "Harrington Harbour", 
+  "Iles-de-la-Madeleine", "Kirkland Lake", "Parry Sound", "Port Alberni", 
+  "Port aux Basques", "Port Hardy", "Sept-Iles", "Slave Lake", 
+  "Wabush Lake", "Williams Lake", "Bathurst Inlet", "Cape Perry",
+  "Ocean Falls", "Repulse Bay"
+
+hills_cities =
+  "Montreal", "Churchill", "High Level", "Mont-Joli", "Mont-Laurier", 
+  "Montmagny"

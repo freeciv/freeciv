@@ -58,8 +58,8 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   struct packet_unit_request req;
   struct city *pcity;
   req.unit_id=punit->id;
-  sz_strlcpy(req.name, city_name_suggestion(pplayer));
   x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
+  sz_strlcpy(req.name, city_name_suggestion(pplayer, x, y));
   handle_unit_build_city(pplayer, &req);        
   pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
   if (!pcity)

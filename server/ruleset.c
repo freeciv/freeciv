@@ -1802,6 +1802,7 @@ static void load_ruleset_nations(struct section_file *file)
   char temp_name[MAX_LEN_NAME];
   char **cities, **techs, **leaders, **sec;
   const char *filename = secfile_filename(file);
+  enum tile_terrain_type type;
 
   datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
 
@@ -2009,34 +2010,72 @@ static void load_ruleset_nations(struct section_file *file)
     }
     pl->goals.government = val;
 
-    /* read city names */
+#define BASE_READ_CITY_NAME_LIST(target,format,arg1,arg2,arg3)  \
+  cities = secfile_lookup_str_vec(file, &dim, format,           \
+                                  arg1, arg2, arg3);            \
+  target = fc_calloc(dim + 1, sizeof(char *));                  \
+  target[dim] = NULL;                                           \
+  for (j = 0; j < dim; j++) {                                   \
+    target[j] = mystrdup(cities[j]);                            \
+    if (check_name(cities[j])) {                                \
+      target[j][MAX_LEN_NAME - 1] = 0;                          \
+    }                                                           \
+  }                                                             \
+  if (cities) {                                                 \
+    free(cities);                                               \
+  }
 
-    cities = secfile_lookup_str_vec(file, &dim, "%s.cities", sec[i]);
-    pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
-    pl->default_city_names[dim] = NULL;
-    for (j = 0; j < dim; j++) {
-      pl->default_city_names[j] = mystrdup(cities[j]);
-      if (check_name(cities[j])) {
-	pl->default_city_names[j][MAX_LEN_NAME - 1] = 0;
+#define READ_CITY_NAME_LIST(target_field,format,arg)            \
+  BASE_READ_CITY_NAME_LIST(pl->target_field, "%s." format "%s", \
+                           sec[i], arg, "cities")
+
+    /* read "normal" city names */
+    READ_CITY_NAME_LIST(default_city_names, "%s", "");
+
+    /* read river city names */
+    READ_CITY_NAME_LIST(default_rcity_names, "%s", "river_");
+
+    /* read coastal-river city names */
+    READ_CITY_NAME_LIST(default_crcity_names, "%s","coastal_river_");
+
+    /* read coastal city names */
+    READ_CITY_NAME_LIST(default_ccity_names, "%s", "coastal_");
+
+    /* 
+     * Read terrain-specific city names. 
+     */    
+    for (type = T_FIRST; type < T_COUNT; type++) {
+      int k;
+      char namebuf[MAX_LEN_NAME];
+
+      /*
+       * Note that at this time (before a call to
+       * translate_data_names) the terrain_name fields contains an
+       * untranslated string. Note that name of T_RIVER is "". However
+       * this is not a problem because we take care of this using
+       * default_rcity_names.
+       */
+      mystrlcpy(namebuf, tile_types[type].terrain_name,
+		sizeof(tile_types[type].terrain_name));
+
+      /* transform to lower case */
+      for (k = 0; k < strlen(namebuf); k++) {
+	namebuf[k] = tolower(namebuf[k]);
       }
+
+      READ_CITY_NAME_LIST(default_tcity_names[type], "%s_", namebuf);
     }
-    if(cities) free(cities);
   }
 
   /* read miscellaneous city names */
+  BASE_READ_CITY_NAME_LIST(misc_city_names, "misc.cities%s%s%s", "", "",
+			   "");
 
-  cities = secfile_lookup_str_vec(file, &dim, "misc.cities");
-  misc_city_names = fc_calloc(dim, sizeof(char*));
-
-  for (j = 0; j < dim; j++) {
-    misc_city_names[j] = mystrdup(cities[j]);
-    if (check_name(cities[j])) {
-      misc_city_names[j][MAX_LEN_NAME - 1] = 0;
-    }
-  }
+  /* dim is set in BASE_READ_CITY_NAME_LIST */
   num_misc_city_names = dim;
 
-  if (cities) free(cities);
+#undef READ_CITY_NAME_LIST
+#undef BASE_READ_CITY_NAME_LIST
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -2569,7 +2608,7 @@ void load_rulesets(void)
   load_ruleset_cities(&cityfile);
   load_ruleset_governments(&govfile);
   load_ruleset_units(&unitfile);
-  load_ruleset_terrain(&terrfile);
+  load_ruleset_terrain(&terrfile);    /* terrain must precede nations */
   load_ruleset_buildings(&buildfile);
   load_ruleset_nations(&nationfile);
   load_ruleset_game(game.ruleset.game);

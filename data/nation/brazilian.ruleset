@@ -28,9 +28,13 @@ wonder="Marco Polo's Embassy"
 government="Republic"
 
 cities =
-  "Brasilia", "Sao Paulo", "Rio de Janeiro", "Salvador", "Porto Alegre", "Curitiba",
-  "Belo Horizonte", "Manaus", "Belem", "Florianopolis", "Blumenau", "Fortaleza",
+  "Brasilia", "Sao Paulo", "Salvador", "Curitiba", "Belo Horizonte", 
+  "Manaus", "Belem", "Florianopolis", "Blumenau", "Fortaleza",
   "Niteroi", "Natal", "Ouro Preto", "Alagoas", "Londrina", "Goiania",
-  "Vitória da Conquista", "Petropolis", "Ribeirão Preto", "Olinda"
+  "Vitória da Conquista", "Petropolis", "Olinda"
 
+coastal_cities =
+  "Porto Alegre"
 
+river_cities =
+  "Rio de Janeiro", "Ribeirão Preto"

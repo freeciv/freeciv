@@ -21,11 +21,20 @@ wonder= "Magellan's Expedition"
 government= "Communism"
 
 cities =
-  "Kaapstad", "Stellenbosch", "Swellendam", "Graaff-Reinet",
-  "Johannesburg", "Oudtshoorn", "Vereeniging",
-  "Bloemfontein", "Welkom", "Bethlehem", "Nieu-Bethesda",
+  "Graaff-Reinet", "Johannesburg","Vereeniging",
+  "Welkom", "Bethlehem", "Nieu-Bethesda",
   "Pretoria", "De Aar", "Middelburg", "Springbok", "Uitenhage",
-  "Paarl", "Potchefstroom", "Leliesfontein", "Nelspruit",
+  "Paarl", "Nelspruit",
   "Pietermaritzburg", "Lydenburg", "Ermelo", "Klerksdorp",
   "Vryburg", "Hotazel", "Postmasburg", "Pofadder", "Kenhardt",
-  "Vanrhynsdorp", "Bitterfontein", "Potgietersrus", "Waterkloof"
+  "Vanrhynsdorp", "Potgietersrus"
+
+coastal_cities = 
+  "Swellendam", "Oudtshoorn", "Kaapstad"
+
+river_cities =
+  "Leliesfontein", "Potchefstroom", "Bitterfontein", "Waterkloof",
+  "Bloemfontein"
+
+forest_cities =
+  "Stellenbosch"

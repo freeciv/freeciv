@@ -27,14 +27,14 @@ government="Republic"
 
 cities =
   "Berlin", "Hamburg", "München", "Köln", "Frankfurt am Main",
-  "Essen", "Dortmund", "Stuttgart", "Düsseldorf", "Bremen",
+  "Essen", "Stuttgart", "Düsseldorf", "Bremen",
   "Duisburg", "Hannover", "Nürnberg", "Leipzig", "Dresden",
-  "Bochum", "Wuppertal", "Bielefeld", "Mannheim", "Bonn",
-  "Halle/Saale", "Gelsenkirchen", "Chemnitz", "Karlsruhe", "Wiesbaden",
-  "Magdeburg", "Münster", "Mönchengladbach", "Augsburg", "Braunschweig",
-  "Krefeld", "Kiel", "Aachen", "Rostock", "Oberhausen",
+  "Bochum", "Mannheim", "Bonn",
+  "Halle/Saale", "Gelsenkirchen", "Chemnitz", "Karlsruhe", 
+  "Magdeburg", "Münster", "Augsburg", "Braunschweig",
+  "Kiel", "Aachen", "Rostock", "Oberhausen",
   "Lübeck", "Hagen", "Kassel", "Erfurt", "Freiburg i. Br.",
-  "Saarbrücken", "Mainz", "Hamm", "Herne", "Mülheim an der Ruhr",
+  "Saarbrücken", "Mainz", "Hamm", "Herne", 
   "Ludwigshafen", "Osnabrück", "Solingen", "Leverkusen", "Neuss",
   "Oldenburg", "Darmstadt", "Heidelberg", "Potsdam", "Bremerhaven",
   "Paderborn", "Würzburg", "Göttingen", "Cottbus", "Wolfsburg",
@@ -42,12 +42,23 @@ cities =
   "Schwerin", "Bottrop", "Salzgitter", "Pforzheim", "Offenbach a. M.",
   "Ulm", "Siegen", "Koblenz", "Ingolstadt", "Fürth",
   "Zwickau", "Reutlingen", "Moers", "Hildesheim", "Witten",
-  "Bergisch Gladbach", "Erlangen", "Kaiserslautern", "Jena", "Trier",
+  "Erlangen", "Kaiserslautern", "Jena", "Trier",
   "Frankfurt/Oder", "Fulda", "Bamberg", "Marburg", "Wittenberg",
   "Weimar", "Baden-Baden", "Passau", "Verden", "Wismar",
-  "Nördlingen", "Stralsund", "Mansfeld", "Donauwörth", "Dessau",
+  "Nördlingen", "Stralsund", "Donauwörth", "Dessau",
   "Worms", "Wittstock", "Mühlberg", "Speyer", "Kleve",
   "Landau", "Rosheim", "Schmalkalden", "Lutter", "Barmen",
   "Wiesloch", "Rosslau", "Minden", "Sinsheim", "Gotha",
-  "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab",
-  "Elberfeld"
+  "Philippsburg", "Halberstadt", "Altenburg", "Klostergrab"
+
+coastal_river_cities =
+  "Dortmund"
+
+grassland_cities =
+  "Krefeld", "Bielefeld", "Hersfeld", "Elberfeld", "Mansfeld" 
+
+river_cities =
+  "Wiesbaden","Mönchengladbach", "Mülheim an der Ruhr", "Bergisch Gladbach"
+
+hills_cities = 
+  "Wuppertal"

@@ -24,11 +24,11 @@ wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
-  "Buenos Aires", "Mar del Plata", "Rosario", "La Plata", "Paraná",
+  "Buenos Aires", "Rosario", "La Plata", "Paraná",
   "Santa Fe", "Corrientes", "Resistencia", "Salta", "Córdoba",
   "San Miguel de Tucumán", "Santiago del Estero", "San Juan", "Mendoza",
   "Bahía Blanca", "San Salvador de Jujuy", "Formosa", "Catamarca",
-  "San Luis", "Río Cuarto", "Villa María", "San Nicolás de los arroyos",
+  "San Luis", "Villa María", "San Nicolás de los arroyos",
   "Zárate", "Junín", "Comodoro Rivadavia", "San Carlos de Bariloche",
   "Tandil", "Tartagal", "Embarcación", "Libertador General San Martín",
   "San Antonio de los Cobres", "Metán", "Rosario de la Frontera",
@@ -38,11 +38,20 @@ cities =
   "Neuquén", "General Roca", "Venado Tuerto", "Rufino", "Pergamino",
   "Ibicuy", "Maipú", "Chascomús", "Dolores", "Las Flores", "Balcarce",
   "Necochea", "25 de Mayo", "9 de Julio", "Olavarría", "Coronel Suárez",
-  "Coronel Pringles", "Tres Arroyos", "Punta Alta", "General Acha",
-  "Río Colorado", "San Cristóbal", "Santa Isabel", "Pehuajo", "Viedma",
-  "Maquinchao", "Esquel", "Paso de indios", "Las Plumas", "Rawson",
-  "Sarmiento", "San Julián", "Perito Moreno", "Puerto Deseado",
-  "Santa Cruz", "Río Gallegos", "Río Grande", "Ushuaia", "Entre Ríos",
+  "Coronel Pringles", "General Acha", "San Cristóbal", "Santa Isabel", 
+  "Pehuajo", "Viedma", "Maquinchao", "Esquel", "Paso de indios", 
+  "Las Plumas", "Rawson", "Sarmiento", "San Julián", "Perito Moreno", 
+  "Santa Cruz", "Ushuaia", 
   "Chimbas", "El Leoncito", "Lanús", "Morón", "San Lorenzo",
-  "Teniente Matienzo", "Cruz del Eje", "San Pedro", "Río Negro",
+  "Teniente Matienzo", "Cruz del Eje", "San Pedro", 
   "Quequén", "Decepción", "Esperanza"
+
+coastal_cities =
+  "Mar del Plata", "Puerto Deseado"
+
+river_cities =
+  "Río Cuarto", "Tres Arroyos", "Río Colorado", "Río Gallegos", 
+  "Río Grande", "Entre Ríos", "Río Negro"
+
+mountains_cities =
+  "Punta Alta"

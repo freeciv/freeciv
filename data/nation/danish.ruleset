@@ -31,12 +31,24 @@ wonder="Magellan's Expedition"
 government="Democracy"
 
 cities =
-  "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
-  "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
-  "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
-  "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
+  "Århus", "Odense", "Ålborg", "Randers", "Helsingør", 
+  "Slagelse", "Sønderborg", "Åbenrå", "Haderslev", "Vejle", 
+  "Hirtshals", "Tylstrup", "Skagen", "Hjørring", "Blokhus", "Nørresundby", 
+  "Hanstholm", "Thisted",
   "Løgstør", "Thyborøn", "Skive", "Hadsund", "Ålestrup", "Grenå",
-  "Struer", "Herning", "Silkeborg", "Yding", "Skovhøj", "Give", "Tarm",
+  "Struer", "Herning", "Silkeborg", "Yding", "Give", "Tarm",
   "Varde", "Assens", "Nyborg", "Fåborg", "Korsør", "Næstved", "Vordingborg",
-  "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø",
+  "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø",
   "Fredericia", "Godthåb", "Julianehåb", "Daneborg"
+
+river_cities =
+  "Holstebro"
+
+coastal_cities =
+  "København", "Frederikshavn"
+
+hills_cities =
+  "Esbjerg", "Roskilde", "Skovhøj"
+
+forest_cities =
+  "Nakskov"
