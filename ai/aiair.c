@@ -99,7 +99,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
   if ((pdefender == NULL) 
-      || !can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y)) {
+      || !can_unit_attack_all_at_tile(punit, dest_x, dest_y)) {
     return 0;
   }
 

@@ -117,24 +117,30 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 }
 
 /***********************************************************************
+  To attack a stack, unit must be able to attack every unit there
+************************************************************************/
+bool can_unit_attack_all_at_tile(struct unit *punit, int x, int y)
+{
+  unit_list_iterate(map_get_tile(x, y)->units, aunit) {
+    if (!can_unit_attack_unit_at_tile(punit, aunit, x, y)) {
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  return TRUE;
+}
+
+/***********************************************************************
   Is unit (1) diplomatically allowed to attack and (2) physically able
   to do so?
 ***********************************************************************/
 bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
-  struct unit *pdefender;
-
   if (!can_player_attack_tile(unit_owner(punit), dest_x, dest_y)) {
     return FALSE;
   }
 
-  pdefender = get_defender(punit, dest_x, dest_y);
-  if (!pdefender) {
-    /* It must be the empty city! */
-    return TRUE;
-  }
-
-  return can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y);
+  return can_unit_attack_all_at_tile(punit, dest_x, dest_y);
 }
 
 /***********************************************************************

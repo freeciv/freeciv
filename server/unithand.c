@@ -1067,13 +1067,11 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
 
     if (victim) {
       /* Must be physically able to attack EVERY unit there */
-      unit_list_iterate(pdesttile->units, aunit) {
-        if (!can_unit_attack_unit_at_tile(punit, aunit, x, y)) {
-          notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                           _("Game: You can't attack there."));
-          return FALSE;
-        }
-      } unit_list_iterate_end;
+      if (!can_unit_attack_all_at_tile(punit, x, y)) {
+        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                         _("Game: You can't attack there."));
+        return FALSE;
+      }
       
       handle_unit_attack_request(punit, victim);
       return TRUE;

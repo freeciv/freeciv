@@ -129,22 +129,13 @@ static struct unit *search_best_target(struct player *pplayer,
     }
 
     /*
-     * c_u_a_u_a_t() seems to assume that attacker is in an adjacent tile but I
-     * do not think it matters.
-     *
-     * On the other hand, we already checked everything that this function
-     * checks, except for missiles trying to attack air units, so perhaps we
-     * should just do that check here?  But doing a final sanity check to make
-     * sure our attacker can engage the enemy at all seems safest.
-     *
      * Without this check, missiles are made useless for auto-attack as they
      * get triggered by fighters and bombers and end up being wasted when they
      * cannot engage.
      */
-    if (!can_unit_attack_unit_at_tile(punit, enemy, x, y)) {
-      freelog(LOG_DEBUG, "%s at (%d,%d) cannot attack %s at (%d,%d)",
-	      unit_name(punit->type), punit->x, punit->y,
-	      unit_name(enemy->type), x, y);
+    if (!can_unit_attack_all_at_tile(punit, x, y)) {
+      freelog(LOG_DEBUG, "%s at (%d,%d) cannot attack at (%d,%d)",
+	      unit_name(punit->type), punit->x, punit->y, x, y);
       continue;
     }
 

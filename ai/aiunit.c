@@ -1008,7 +1008,7 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
     unit_list_iterate(ptile->units, aunit) {
       if (aunit == punit || aunit->owner != punit->owner)
 	continue;
-      if (!can_unit_attack_unit_at_tile(aunit, pdef, pdef->x, pdef->y))
+      if (!can_unit_attack_all_at_tile(aunit, pdef->x, pdef->y))
 	continue;
       d = get_virtual_defense_power(aunit->type, pdef->type, pdef->x,
 				    pdef->y, FALSE, FALSE);
@@ -1049,8 +1049,7 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
   
   if (pdef) {
     
-    if (!can_player_attack_tile(pplayer, x, y)
-        || !can_unit_attack_unit_at_tile(punit, pdef, x, y)) {
+    if (!can_unit_attack_tile(punit, x, y)) {
       return 0;
     }
     
@@ -2284,7 +2283,10 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if (!can_unit_attack_unit_at_tile(punit, aunit, aunit->x, aunit->y)
+      /* We have to assume the attack is diplomatically ok.
+       * We cannot use can_player_attack_tile, because we might not
+       * be at war with aplayer yet */
+      if (!can_unit_attack_all_at_tile(punit, aunit->x, aunit->y)
           || !(aunit == get_defender(punit, aunit->x, aunit->y))) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
