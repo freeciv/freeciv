@@ -10,7 +10,7 @@ style "notify_label"
 
 style "spaceship_label"
 {
-  font_name = "Monospace Bold 9"
+  font_name = "Monospace 8"
 }
 
 style "help_label"
