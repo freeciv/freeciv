@@ -121,7 +121,9 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
       u = get_role_unit(F_DIPLOMAT, 0);
       /* 3000 is a just a large number, but not hillariously large as the
          previously used one. This is important for diplomacy later - Per */
-      pplayer->ai.tech_want[get_unit_type(u)->tech_requirement] += 3000;
+      if (u != U_LAST) {
+        pplayer->ai.tech_want[get_unit_type(u)->tech_requirement] += 3000;
+      }
     }
   }
 }

@@ -123,7 +123,7 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_Type_id tech)
     return 0;
   }
   worth = total_bulbs_required_for_goal(pplayer, tech) * 3;
-  worth += pplayer->ai.tech_want[tech] / MAX(game.turn, 1);
+  worth += MAX(pplayer->ai.tech_want[tech], 0) / MAX(game.turn, 1);
   if (get_invention(pplayer, tech) == TECH_REACHABLE) {
     worth /= 2;
   }

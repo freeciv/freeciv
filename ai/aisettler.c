@@ -582,10 +582,12 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       if (boattype == U_LAST) {
         /* Sea travel not possible yet. Bump tech want for ferries. */
         Unit_Type_id boattype = get_role_unit(L_FERRYBOAT, 0);
-        Tech_Type_id tech_req = unit_types[boattype].tech_requirement;
+        if (boattype != U_LAST) {
+          Tech_Type_id tech_req = unit_types[boattype].tech_requirement;
 
-        pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
-        return;
+          pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
+          return;
+        }
       }
       ferry = create_unit_virtual(pplayer, NULL, boattype, 0);
       ferry->tile = punit->tile;
