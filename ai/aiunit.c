@@ -340,7 +340,7 @@ void invasion_funct(struct unit *punit, int dest, int n, int which)
   if (dest) { x = punit->goto_dest_x; y = punit->goto_dest_y; }
   else { x = punit->x; y = punit->y; }
   for (j = y - n; j <= y + n; j++) {
-    if (j < 0 || j >= map.xsize) continue;
+    if (j < 0 || j >= map.ysize) continue;
     for (i = x - n; i <= x + n; i++) {
       pcity = map_get_city(i, j);
       if (pcity && pcity->owner != punit->owner)
@@ -355,7 +355,7 @@ int reinforcements_value(struct unit *punit, int x, int y)
   int val = 0, i, j;
   struct tile *ptile;
   for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.xsize) continue;
+    if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
       ptile = map_get_tile(i, j);
       unit_list_iterate(ptile->units, aunit)
@@ -372,7 +372,7 @@ int reinforcements_cost(struct unit *punit, int x, int y)
   int val = 0, i, j;
   struct tile *ptile;
   for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.xsize) continue;
+    if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
       ptile = map_get_tile(i, j);
       unit_list_iterate(ptile->units, aunit)
@@ -390,7 +390,7 @@ int is_my_turn(struct unit *punit, struct unit *pdef)
   int val = unit_belligerence_primitive(punit), i, j, cur, d;
   struct tile *ptile;
   for (j = pdef->y - 1; j <= pdef->y + 1; j++) {
-    if (j < 0 || j >= map.xsize) continue;
+    if (j < 0 || j >= map.ysize) continue;
     for (i = pdef->x - 1; i <= pdef->x + 1; i++) {
       ptile = map_get_tile(i, j);
       unit_list_iterate(ptile->units, aunit)
