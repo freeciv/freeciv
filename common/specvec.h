@@ -31,6 +31,7 @@
       void foo_vector_reserve(struct foo_vector *tthis, int n);
       int  foo_vector_size(struct foo_vector *tthis);
       foo_t *foo_vector_get(struct foo_vector *tthis, int index);
+      void foo_vector_copy(struct foo_vector *to, struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
 
    Also, in a single .c file, you should include specvec_c.h,
@@ -67,6 +68,7 @@ void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis);
 void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n);
 size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis);
 SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index);
+void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to, SPECVEC_VECTOR *from);
 void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis);
 
 #undef SPECVEC_TAG

@@ -24,6 +24,9 @@
    happens anyway, so this restriction may be considered beneficial.
 */
 
+#include <stdio.h>
+#include <string.h>		/* for memcpy */
+
 #ifndef SPECVEC_TAG
 #error Must define a SPECVEC_TAG to use this header
 #endif
@@ -59,6 +62,21 @@ SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index)
   assert(index>=0 && index<tthis->vector.n);
 
   return ((SPECVEC_TYPE *)ath_get(&tthis->vector, index));
+}
+
+/* You must _init "*to" before using this function */
+void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to, SPECVEC_VECTOR *from)
+{
+  int i;
+  size_t size = SPECVEC_FOO(_vector_size) (from);
+
+  SPECVEC_FOO(_vector_reserve) (to, size);
+
+  for (i = 0; i < size; i++) {
+    memcpy(SPECVEC_FOO(_vector_get) (to, i), 
+           SPECVEC_FOO(_vector_get) (from, i),
+           sizeof(SPECVEC_TYPE));
+  }
 }
 
 void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
