@@ -154,6 +154,38 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
+static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
+{
+  if (ev->type == GDK_2BUTTON_PRESS) {
+    GtkTreePath *path;
+
+    gtk_tree_view_get_cursor(view, &path, NULL);
+    if (path) {
+      GtkTreeIter it;
+      gint id;
+      struct player *plr;
+
+      gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &it, path);
+      gtk_tree_path_free(path);
+
+      gtk_tree_model_get(GTK_TREE_MODEL(store), &it, PLRNO_COLUMN, &id, -1);
+      plr = get_player(id);
+
+      if (ev->button == 1) {
+	if (can_intel_with_player(plr)) {
+	  popup_intel_dialog(plr);
+	}
+      } else {
+	dsend_packet_diplomacy_init_meeting_req(&aconnection, id);
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void create_players_dialog(void)
 {
   static char *titles[NUM_COLUMNS] = {
@@ -229,7 +261,9 @@ void create_players_dialog(void)
 
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",
-        G_CALLBACK(selection_callback), NULL);
+      G_CALLBACK(selection_callback), NULL);
+  g_signal_connect(players_list, "button_press_event",
+      G_CALLBACK(button_press_callback), NULL);
 
   for (i = 0; i < NUM_COLUMNS; i++) {
     GtkCellRenderer *renderer;
