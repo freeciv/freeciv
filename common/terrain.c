@@ -172,17 +172,22 @@ bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t)
 /****************************************************************************
   Return the number of adjacent tiles that have the given terrain.
 ****************************************************************************/
-int count_terrain_near_tile(int map_x, int map_y, bool cardinal_only,
+int count_terrain_near_tile(int map_x, int map_y,
+			    bool cardinal_only, bool percentage,
 			    Terrain_type_id t)
 {
-  int count = 0;
+  int count = 0, total = 0;
 
   variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
     if (map_get_terrain(adjc_x, adjc_y) == t) {
       count++;
     }
+    total++;
   } variable_adjc_iterate_end;
 
+  if (percentage) {
+    count = count * 100 / total;
+  }
   return count;
 }
 
@@ -203,17 +208,22 @@ bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe)
 /****************************************************************************
   Returns the number of adjacent tiles that have the given map special.
 ****************************************************************************/
-int count_special_near_tile(int map_x, int map_y, bool cardinal_only,
+int count_special_near_tile(int map_x, int map_y,
+			    bool cardinal_only, bool percentage,
 			    enum tile_special_type spe)
 {
-  int count = 0;
+  int count = 0, total = 0;
 
   variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
     if (map_has_special(adjc_x, adjc_y, spe)) {
       count++;
     }
+    total++;
   } variable_adjc_iterate_end;
 
+  if (percentage) {
+    count = count * 100 / total;
+  }
   return count;
 }
 
@@ -235,16 +245,21 @@ bool is_terrain_flag_near_tile(int map_x, int map_y,
 /****************************************************************************
   Return the number of adjacent tiles that have terrain with the given flag.
 ****************************************************************************/
-int count_terrain_flag_near_tile(int map_x, int map_y, bool cardinal_only,
+int count_terrain_flag_near_tile(int map_x, int map_y,
+				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag)
 {
-  int count = 0;
+  int count = 0, total = 0;
 
   variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
     if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
       count++;
     }
+    total++;
   } variable_adjc_iterate_end;
 
+  if (percentage) {
+    count = count * 100 / total;
+  }
   return count;
 }

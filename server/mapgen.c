@@ -328,9 +328,10 @@ static int map_temperature(int map_x, int map_y)
 /* WETNESS */
 
 /* necessary condition of deserts placement */
-#define map_pos_is_dry(x, y) ((map_temperature((x), (y)) <= DRY_MAX_LEVEL) &&\
-                              (map_temperature((x), (y)) > DRY_MIN_LEVEL) && \
-                              (count_ocean_near_tile((x),(y),FALSE) <= 2))
+#define map_pos_is_dry(x, y)						\
+  (map_temperature((x), (y)) <= DRY_MAX_LEVEL				\
+   && map_temperature((x), (y)) > DRY_MIN_LEVEL				\
+   && count_ocean_near_tile((x), (y), FALSE, TRUE) <= 50)
 typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 
 /* TEMPERATURE */
@@ -831,7 +832,7 @@ static int river_test_blocked(int x, int y)
 *********************************************************************/
 static int river_test_rivergrid(int x, int y)
 {
-  return (count_special_near_tile(x, y, TRUE, S_RIVER) > 1) ? 1 : 0;
+  return (count_special_near_tile(x, y, TRUE, FALSE, S_RIVER) > 1) ? 1 : 0;
 }
 
 /*********************************************************************
@@ -848,9 +849,7 @@ static int river_test_highlands(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_ocean(int x, int y)
 {
-  /* This number must always be >= 0.  6 is the maximum number of
-   * cardinal directions. */
-  return 6 - count_ocean_near_tile(x, y, TRUE);
+  return 100 - count_ocean_near_tile(x, y, TRUE, TRUE);
 }
 
 /*********************************************************************
@@ -858,9 +857,7 @@ static int river_test_adjacent_ocean(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_river(int x, int y)
 {
-  /* This number must always be >= 0.  6 is the maximum number of
-   * cardinal directions. */
-  return 6 - count_special_near_tile(x, y, TRUE, S_RIVER);
+  return 100 - count_special_near_tile(x, y, TRUE, TRUE, S_RIVER);
 }
 
 /*********************************************************************
@@ -868,8 +865,8 @@ static int river_test_adjacent_river(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_highlands(int x, int y)
 {
-  return (count_terrain_near_tile(x, y, TRUE, T_HILLS)
-	  + 2 * count_terrain_near_tile(x, y, TRUE, T_MOUNTAINS));
+  return (count_terrain_near_tile(x, y, TRUE, TRUE, T_HILLS)
+	  + 2 * count_terrain_near_tile(x, y, TRUE, TRUE, T_MOUNTAINS));
 }
 
 /*********************************************************************
@@ -885,9 +882,7 @@ static int river_test_swamp(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_swamp(int x, int y)
 {
-  /* This number must always be >= 0.  6 is the maximum number of
-   * cardinal directions. */
-  return 6 - count_terrain_near_tile(x, y, TRUE, T_SWAMP);
+  return 100 - count_terrain_near_tile(x, y, TRUE, TRUE, T_SWAMP);
 }
 
 /*********************************************************************
@@ -986,16 +981,13 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
      (river_test_adjacent_ocean)
      Rivers must flow down to coastal areas when possible:
 
-     Possible values:
-     n: 4 - adjacent_terrain_tiles4(...)
+     Possible values: 0-100
 
  * Adjacent river:
      (river_test_adjacent_river)
      Rivers must flow down to areas near other rivers when possible:
 
-     Possible values:
-     n: 6 - count_river_near_tile(...) (should be small after the
-                                        river-grid test)
+     Possible values: 0-100
 					
  * Adjacent highlands:
      (river_test_adjacent_highlands)
@@ -1044,8 +1036,8 @@ static bool make_river(int x, int y)
 
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
-    if (count_special_near_tile(x, y, TRUE, S_RIVER) != 0
-	|| count_ocean_near_tile(x, y, TRUE) != 0
+    if (count_special_near_tile(x, y, TRUE, TRUE, S_RIVER) > 0
+	|| count_ocean_near_tile(x, y, TRUE, TRUE) > 0
         || (map_get_terrain(x, y) == T_ARCTIC 
 	    && map_temperature(x, y) < 0.8 * COLD_LEVEL)) { 
 
@@ -1195,14 +1187,14 @@ static void make_rivers(void)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
-	&& (count_special_near_tile(x, y, TRUE, S_RIVER)
-	    + count_ocean_near_tile(x, y, TRUE) <= 1)
+	&& (count_special_near_tile(x, y, TRUE, FALSE, S_RIVER)
+	    + count_ocean_near_tile(x, y, TRUE, FALSE) <= 1)
 
 	/* Don't start a river on a tile that is surrounded by hills or
 	   mountains unless it is hard to find somewhere else to start
 	   it. */
-	&& (count_terrain_near_tile(x, y, TRUE, T_HILLS)
-	    + count_terrain_near_tile(x, y, TRUE, T_MOUNTAINS) < 4
+	&& (count_terrain_near_tile(x, y, TRUE, TRUE, T_HILLS)
+	    + count_terrain_near_tile(x, y, TRUE, TRUE, T_MOUNTAINS) < 90
 	    || iteration_counter == RIVERS_MAXTRIES / 10 * 5)
 
 	/* Don't start a river on hills unless it is hard to find
@@ -2163,12 +2155,12 @@ static void fill_island_rivers(int coast, long int *bucket,
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
       if ((i * 3 > k * 2 
-	   || count_special_near_tile(x, y, FALSE, S_RIVER) > 0
+	   || count_special_near_tile(x, y, FALSE, TRUE, S_RIVER) > 0
 	   || myrand(100) < 50)
 	  && (!is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast)) {
 	if (is_water_adjacent_to_tile(x, y)
-	    && count_ocean_near_tile(x, y, FALSE) < 4
-            && count_special_near_tile(x, y, FALSE, S_RIVER) < 3) {
+	    && count_ocean_near_tile(x, y, FALSE, TRUE) < 50
+            && count_special_near_tile(x, y, FALSE, TRUE, S_RIVER) < 35) {
 	  map_set_special(x, y, S_RIVER);
 	  i--;
 	}
