@@ -83,7 +83,9 @@ typedef unsigned int fc_bool;
 #endif
 #define CLIP(lower,this,upper) \
     ((this)<(lower)?(lower):(this)>(upper)?(upper):(this))
-#define WRAP(value, range)                                                  \
+
+/* Note: Solaris already has a WRAP macro that is completely different. */
+#define FC_WRAP(value, range)                                               \
     ((value) < 0                                                            \
      ? ((value) % (range) != 0 ? (value) % (range) + (range) : 0)           \
      : ((value) >= (range) ? (value) % (range) : (value)))

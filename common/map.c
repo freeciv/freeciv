@@ -1384,10 +1384,10 @@ bool normalize_map_pos(int *x, int *y)
 
   /* Wrap in X and Y directions, as needed. */
   if (topo_has_flag(TF_WRAPX)) {
-    nat_x = WRAP(nat_x, map.xsize);
+    nat_x = FC_WRAP(nat_x, map.xsize);
   }
   if (topo_has_flag(TF_WRAPY)) {
-    nat_y = WRAP(nat_y, map.ysize);
+    nat_y = FC_WRAP(nat_y, map.ysize);
   }
 
   /* Now transform things back to map coordinates. */
@@ -1454,11 +1454,11 @@ void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1)
     *dy = y1 - y0;
     if (topo_has_flag(TF_WRAPX)) {
       /* Wrap dx to be in [-map.xsize/2, map.xsize/2). */
-      *dx = WRAP(*dx + map.xsize / 2, map.xsize) - map.xsize / 2;
+      *dx = FC_WRAP(*dx + map.xsize / 2, map.xsize) - map.xsize / 2;
     }
     if (topo_has_flag(TF_WRAPY)) {
       /* Wrap dy to be in [-map.ysize/2, map.ysize/2). */
-      *dy = WRAP(*dy + map.ysize / 2, map.ysize) - map.ysize / 2;
+      *dy = FC_WRAP(*dy + map.ysize / 2, map.ysize) - map.ysize / 2;
     }
 
     /* Convert the native delta vector back to a pair of map positions. */

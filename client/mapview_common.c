@@ -312,13 +312,13 @@ static void set_mapview_origin(int map_x0, int map_y0)
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
   if (topo_has_flag(TF_WRAPX)) {
-    nat_x0 = WRAP(nat_x0, map.xsize);
+    nat_x0 = FC_WRAP(nat_x0, map.xsize);
   } else {
     nat_x0 = CLIP(xmin, nat_x0, xmax - xsize);
   }
 
   if (topo_has_flag(TF_WRAPY)) {
-    nat_y0 = WRAP(nat_y0, map.ysize);
+    nat_y0 = FC_WRAP(nat_y0, map.ysize);
   } else {
     nat_y0 = CLIP(ymin, nat_y0, ymax - ysize);
   }
@@ -1485,12 +1485,12 @@ static void center_tile_overviewcanvas(int map_x, int map_y)
    * basically necessary for the overview to be efficiently updated.  See
    * refresh_overview_viewrect(). */
   if (topo_has_flag(TF_WRAPX)) {
-    map_overview_x0 = WRAP(map_x - map.xsize / 2, map.xsize);
+    map_overview_x0 = FC_WRAP(map_x - map.xsize / 2, map.xsize);
   } else {
     map_overview_x0 = 0;
   }
   if (topo_has_flag(TF_WRAPY)) {
-    map_overview_y0 = WRAP(map_y - map.ysize / 2, map.ysize);
+    map_overview_y0 = FC_WRAP(map_y - map.ysize / 2, map.ysize);
   } else {
     map_overview_y0 = 0;
   }
@@ -1512,10 +1512,10 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
   gui_x -= map_overview_x0;
   gui_y -= map_overview_y0;
   if (topo_has_flag(TF_WRAPX)) {
-    gui_x = WRAP(gui_x, map.xsize);
+    gui_x = FC_WRAP(gui_x, map.xsize);
   }
   if (topo_has_flag(TF_WRAPY)) {
-    gui_y = WRAP(gui_y, map.ysize);
+    gui_y = FC_WRAP(gui_y, map.ysize);
   }
   *overview_x = OVERVIEW_TILE_WIDTH * gui_x;
   *overview_y = OVERVIEW_TILE_HEIGHT * gui_y;
