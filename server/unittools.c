@@ -199,12 +199,16 @@ int zoc_ok_move(struct unit *punit,int x, int y)
  calculate how expensive it is to bribe the unit
  depends on distance to the capital, and government form
  settlers are half price
+
+ Plus, the damage to the unit reduces the price.
+
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
 {  
   int cost;
   struct city *capital;
   int dist;
+  int default_hp = get_unit_type(punit->type)->hp;
 
   cost = (&game.players[punit->owner])->economic.gold+750;
   capital=find_palace(&game.players[punit->owner]);
@@ -217,6 +221,15 @@ int unit_bribe_cost(struct unit *punit)
   cost=(cost/(dist+2))*(get_unit_type(punit->type)->build_cost/10);
   if (unit_flag(punit->type, F_SETTLERS)) 
     cost/=2;
+
+  /* Cost now contains the basic bribe cost.  We now reduce it by:
+
+     cost = basecost/2 + basecost/2 * damage/hp
+     
+   */
+  
+  cost = (int)((float)cost/(float)2 + ((float)punit->hp/(float)default_hp) * ((float)cost/(float)2));
+  
   return cost;
 }
 

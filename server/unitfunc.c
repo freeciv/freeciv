@@ -164,9 +164,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
       notify_player_ex(pplayer, pvictim->x, pvictim->y, E_NOEVENT, 
 		    "Game: Succeeded in bribing the enemy unit.");
       
-      create_unit(pplayer, pvictim->x, pvictim->y,
+      create_unit_full(pplayer, pvictim->x, pvictim->y,
 		  pvictim->type, pvictim->veteran, pdiplomat->homecity,
-		  pvictim->moves_left);
+		  pvictim->moves_left, pvictim->hp);
       light_square(pplayer, pvictim->x, pvictim->y,
                    get_unit_type(pvictim->type)->vision_range);
       wipe_unit(0, pvictim);
@@ -372,8 +372,12 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: Your spy has successfully completed her mission and returned unharmed to %s.", spyhome->name);
       
+      /* being teleported costs 1 move */
+
       if(pdiplomat->moves_left > 3)
 	pdiplomat->moves_left -= 3;
+      else
+	pdiplomat->moves_left = 0;
 
       create_unit(pplayer, spyhome->x, spyhome->y,
 		  pdiplomat->type, 1, spyhome->id, pdiplomat->moves_left);
@@ -977,8 +981,17 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
  TODO: Maybe this procedure should refresh its homecity? so it'll show up 
  immediately on the clients? (refresh_city + send_city_info)
 **************************************************************************/
-void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
-		 int make_veteran, int homecity_id, int moves_left)
+
+/* This is a wrapper */
+
+void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type, int make_veteran, int homecity_id, int moves_left){
+  create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
+}
+
+/* This is the full call.  We don't want to have to change all other calls to
+   this function to ensure the hp are set */
+
+void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id type, int make_veteran, int homecity_id, int moves_left, int hp_left)
 {
   struct unit *punit;
   struct city *pcity;
@@ -996,7 +1009,11 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
   pcity=game_find_city_by_id(homecity_id);
   punit->veteran=make_veteran;
   punit->homecity=homecity_id;
-  punit->hp=get_unit_type(punit->type)->hp;
+
+  if(hp_left == -1)
+    punit->hp=get_unit_type(punit->type)->hp;
+  else
+    punit->hp = hp_left;
   punit->activity=ACTIVITY_IDLE;
   punit->activity_count=0;
   punit->upkeep=0;

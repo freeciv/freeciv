@@ -158,8 +158,10 @@ int diplomat_can_do_action(struct unit *pdiplomat,
 {
   struct city *pcity=map_get_city(destx, desty);
   struct tile *ptile=map_get_tile(destx, desty);
+  int move_cost = tile_move_cost(pdiplomat,pdiplomat->x,pdiplomat->y, destx, desty);
   
-  if(is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty)) {
+  if(is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty) && pdiplomat->moves_left >= move_cost) {
+    
     if(pcity) {  
       if(pcity->owner!=pdiplomat->owner) {
 	if(action==DIPLOMAT_SABOTAGE)

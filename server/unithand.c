@@ -188,36 +188,49 @@ void handle_diplomat_action(struct player *pplayer,
   move_cost = tile_move_cost(pdiplomat,pdiplomat->x,pdiplomat->y, x, y);
   
   if(pdiplomat && pdiplomat->moves_left >= move_cost) {
-    pdiplomat->moves_left -= move_cost;    
-    send_unit_info(pplayer, pdiplomat, 0);
+
     switch(packet->action_type) {
     case DIPLOMAT_BRIBE:
       if(pvictim && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
-					   pvictim->x, pvictim->y))
+					   pvictim->x, pvictim->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	diplomat_bribe(pplayer, pdiplomat, pvictim);
+      }
       break;
     case SPY_SABOTAGE_UNIT:
       if(pvictim && diplomat_can_do_action(pdiplomat, SPY_SABOTAGE_UNIT,
-					   pvictim->x, pvictim->y))
+					   pvictim->x, pvictim->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	spy_sabotage_unit(pplayer, pdiplomat, pvictim);
+      }
       break;
      case DIPLOMAT_SABOTAGE:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE, 
-					 pcity->x, pcity->y))
+					 pcity->x, pcity->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	diplomat_sabotage(pplayer, pdiplomat, pcity, packet->value);
+      }
       break;
     case SPY_POISON:
       if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
-					 pcity->x, pcity->y))
+					 pcity->x, pcity->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	spy_poison(pplayer, pdiplomat, pcity);
+      }
       break;
     case DIPLOMAT_INVESTIGATE:
 
       /* Note: this is free (no movement cost) for spies */
       
       if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE ,
-					 pcity->x, pcity->y))
+					 pcity->x, pcity->y)){
+	send_unit_info(pplayer, pdiplomat, 0);
 	diplomat_investigate(pplayer, pdiplomat, pcity);
+      }
       break;
     case DIPLOMAT_EMBASSY:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY, 
@@ -248,12 +261,17 @@ void handle_diplomat_action(struct player *pplayer,
       break;
     case DIPLOMAT_INCITE:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE, 
-					 pcity->x, pcity->y))
+					 pcity->x, pcity->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	diplomat_incite(pplayer, pdiplomat, pcity);
+      }
       break;
     case DIPLOMAT_STEAL:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL, 
 					 pcity->x, pcity->y)){
+	pdiplomat->moves_left -= move_cost;    
+	send_unit_info(pplayer, pdiplomat, 0);
 	diplomat_get_tech(pplayer, pdiplomat, pcity, packet->value);
       }
       break;

@@ -42,6 +42,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit);
 
 void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
 		 int make_veteran, int homecity_id, int moves_left);
+void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id 
+		      type, int make_veteran, int homecity_id, int moves_left
+		      , int hp);
 void send_remove_unit(struct player *pplayer, int unit_id);
 void wipe_unit(struct player *dest, struct unit *punit);
 void wipe_unit_safe(struct player *dest, struct unit *punit,

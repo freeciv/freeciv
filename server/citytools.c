@@ -605,8 +605,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
   /* Transfer units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-    create_unit(pplayer, x, y, vunit->type, vunit->veteran,
-		pcity->id, vunit->moves_left);
+    create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
+		pcity->id, vunit->moves_left, vunit->hp);
     wipe_unit(0, vunit);
   } unit_list_iterate_end;
 
@@ -617,8 +617,9 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     if(new_home_city)  {
       /* unit is in another city: make that the new homecity */
 	
-      create_unit(pvictim, vunit->x, vunit->y, vunit->type, 
-		  vunit->veteran, new_home_city->id, vunit->moves_left);
+      create_unit_full(pvictim, vunit->x, vunit->y, vunit->type, 
+		  vunit->veteran, new_home_city->id, vunit->moves_left,
+		  vunit->hp);
 
     }
     /* unit isn't in a city - Civ2 deletes it - seems like a good idea to
