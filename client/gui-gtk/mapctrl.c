@@ -140,6 +140,13 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     "GtkLabel::label", s,
 				     NULL);
       count++;
+
+      if (city_got_citywalls(pcity)) {
+        gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+		       "GtkLabel::label", _("with City Walls"),
+		       NULL);
+	count++;
+      }
     }
 
     if(get_tile_infrastructure_set(ptile)) {

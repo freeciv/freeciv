@@ -133,8 +133,9 @@ static void popit(int xin, int yin, int xtile, int ytile)
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
-      sprintf(s, _("City: %s(%s)"), pcity->name, 
-	      get_nation_name(game.players[pcity->owner].nation));
+      sprintf(s, _("City: %s(%s) %s"), pcity->name, 
+	      get_nation_name(game.players[pcity->owner].nation),
+	      city_got_citywalls(pcity) ? _("with City Walls") : "");
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
