@@ -1911,8 +1911,13 @@ void cma_init(void)
 void cma_free(void)
 {
   free_timer(stats.wall_timer);
+  stats.wall_timer = NULL;
+
   free(cache2.secondary_stats);
+  cache2.secondary_stats = NULL;
+
   free(cache2.city_status);
+  cache2.city_status = NULL;
 }
 
 /****************************************************************************
