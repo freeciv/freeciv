@@ -250,7 +250,7 @@ void gui_server_connect(void)
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
   gtk_widget_show_all(GTK_DIALOG(dialog)->action_area);
 
-  gtk_widget_set_usize(dialog, 450, 215);
+  gtk_widget_set_usize(dialog, 450, 250);
   gtk_set_relative_position(toplevel, dialog, 50, 50);
   gtk_widget_show(dialog);
 }
