@@ -224,6 +224,12 @@ void reset_move_costs(int x, int y);
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
+#define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y) \
+  (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y))
+
+#define map_to_native_pos(pnat_x, pnat_y, map_x, map_y) \
+  (*(pnat_x) = (map_x), *(pnat_y) = (map_y))
+
 #define map_pos_to_index(map_x, map_y)        \
   (CHECK_MAP_POS((map_x), (map_y)),           \
    (map_x) + (map_y) * map.xsize)

@@ -408,6 +408,154 @@ exception of this rule. To assert this the CHECK_MAP_POS macro should
 be used.
 
 =========================================================================
+Different types of map topology
+=========================================================================
+
+Originally Freeciv supports only a simple rectangular map.  For instance
+a 5x3 map would be conceptualized as
+
+  <- XXXXX ->
+  <- XXXXX ->
+  <- XXXXX ->
+
+and it looks just like that under "overhead" (non-isometric) view (the
+arrows represent an east-west wrapping).  But under an isometric-view
+client, the same map will look like
+
+     X
+    X X
+   X X X
+    X X X
+     X X X
+      X X
+       x
+
+where "north" is to the upper-right and "south" to the lower-left.  This
+makes for a mediocre interface.
+
+An isometric-view client will behave better with an isometric map.  This is
+what Civ2, SMAC, Civ3, etc. all use.  A rectangular isometric map can be
+conceptualized as
+
+  <- X X X X X  ->
+  <-  X X X X X ->
+  <- X X X X X  ->
+  <-  X X X X X ->
+
+(north is up) and it will look just like that under an isometric-view client.
+Of course under an overhead-view client it will again turn out badly.
+
+Both types of maps can easily wrap in either direction: north-south or
+east-west.  Thus there are four types of wrapping: flat-earth, vertical
+cylinder, horizontal cylinder, and torus.  Traditionally Freeciv only wraps
+in the east-west direction.
+
+=========================================================================
+Different coordinate systems
+=========================================================================
+
+In Freeciv, we have the general concept of a "position" or "tile".  A tile
+can be referred to in any of several coordinate systems.  The distinction
+becomes important when we start to use non-standard maps (see above).
+
+- Map (or "standard") coordinates.
+
+  All of the code examples above are in map coordinates.  These preserve
+  the local geometry of square tiles, but do not represent the global map
+  geometry well.  In map coordinates, you are guaranteed (so long as we use
+  square tiles) that the tile adjacency rules
+
+      (map_x-1, map_y-1)    (map_x, map_y-1)   (map_x+1, map_y-1)
+      (map_x-1, map_y)      (map_x, map_y)     (map_x+1, map_y)
+      (map_x-1, map_y+1)    (map_x, map_y+1)   (map_x+1, map_y+1)
+
+  are preserved, regardless of what the underlying map or drawing code
+  looks like.  This is the definition of the system.
+
+  Map coordinates are easiest for local operations (like square_iterate
+  or adjc_iterate) but unwieldy for global operations.
+
+- Native coordinates.
+
+  With an iso-rectangular map, global operations are difficult using map
+  coordinates.  Imagine a simple iso-rectangular map.  Its "natural"
+  representation is
+
+                 A B C        (0,0)   (2,0)   (4,0)
+                  D E F  <=>      (1,1)   (3,1)   (5,1)
+                 G H I        (0,2)   (2,2)   (4,2)
+
+  while its representation in map coordinates would be
+
+                     CF                   (2,0) (3,0)
+                    BEI  <=>        (1,1) (2,1) (3,1)
+                   ADH        (0,2) (1,2) (2,2)
+                    G               (1,3)
+
+  Neither is particularly good for a global map operation such as
+  whole_map_iterate.  Something better is needed.
+
+  Native coordinates compress the map into a continuous rectangle; the
+  dimensions are defined as map.xsize x map.ysize.  For instance the
+  above iso-rectangular map is represented in native coordinates by
+  compressing the natural representation in the X axis to get the
+  3x3 iso-rectangle of
+
+                    ABC       (0,0) (1,0) (2,0)
+                    DEF  <=>  (0,1) (1,1) (2,1)
+                    GHI       (0,2) (1,2) (3,2)
+
+  The resulting coordinate system is much easier to use than map
+  coordinates for some operations.  These include most internal topology
+  operations (e.g., normalize_map_pos, whole_map_iterate) as well as
+  storage (in map.tiles and savegames, for instance).
+
+  In general, native coordinates can be defined based on this property:
+  the basic map becomes a continuous (gap-free) cardinally-oriented
+  rectangle when expressed in native coordinates.
+
+- Index coordinates.
+
+  Index coordinates simply reorder the map into a continous (filled-in)
+  one-dimensional system.  For instance the above iso-rectangular map
+  would look like
+
+        25        0 1 2         012     
+       148   <=>   3 4 5   <=>  345   <=> 012345678
+      037         6 7 8         678
+       6
+
+  in index coordinates.  This coordinate system is closely tied to
+  the ordering of the tiles in native coordinates, and is slightly
+  easier to use for some operations (like storage) because it is
+  one-dimensional.
+
+- Natural coordinates.
+
+  These have been hinted at above, but are not actually used in Freeciv.  But
+  they are very helpful for human understanding of non-standard maps.
+
+  Natural coordinates preserve the geometry of map coordinates, but also have
+  the rectangular property of native coordinates.  They are unwieldy for
+  some operations because of their sparseness - they may not have the same
+  scale as map coordinates and, in the iso case, there are gaps in the
+  natural representation of a map.
+
+With a standard rectangular map, map and native coordinates are
+equivalent.  When we introduce isometric maps, the distinction becomes
+important, as demonstrated above.  Many places in the code have
+introduced "map_x/map_y" or "nat_x/nat_y" to help distinguish whether
+map or native coordinates are being used.  Other places are not yet
+rigorous in keeping them apart, and will often just name their variables
+"x" and "y".
+
+Note that map.xsize and map.ysize define the dimension of the map in
+_native_ coordinates.
+
+Of course, if a future topology does not fit these rules for coordinate
+systems, they will have to be refined.
+
+=========================================================================
 Unknown tiles and Fog of War
 =========================================================================
 
