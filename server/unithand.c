@@ -961,14 +961,16 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
      final destination.
   */
   if (is_diplomat_unit(punit)
-      && (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
-	  || is_non_allied_city_tile(pdesttile, unit_owner(punit))
+      && (is_non_allied_unit_tile(pdesttile, pplayer)
+	  || is_non_allied_city_tile(pdesttile, pplayer)
 	  || !move_diplomat_city)) {
     if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				     dest_x, dest_y)) {
       struct packet_diplomat_action packet;
-      if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
+
+      if (pplayer->ai.control) {
 	return FALSE;
+      }
 
       /* If we didn't send_unit_info the client would sometimes think that
 	 the diplomat didn't have any moves left and so don't pop up the box.
