@@ -369,9 +369,7 @@ static void tile_init(struct tile *ptile)
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
-  if (!is_server) {
-    ptile->client.hilite = HILITE_NONE; /* Area Selection in client. */
-  }
+  ptile->client.hilite = HILITE_NONE; /* Area Selection in client. */
   ptile->spec_sprite = NULL;
 }
 
