@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
-"POT-Creation-Date: 2002-09-09 13:16+0200\n"
-"PO-Revision-Date: 2002-09-09 13:21+0200\n"
-"Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
+"POT-Creation-Date: 2002-09-19 16:43+0200\n"
+"PO-Revision-Date: 2002-09-19 16:45+0200\n"
+"Last-Translator: Andreas Røsdal <andreasr@www.freeciv.org>\n"
 "Language-Team: Norwegian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -93,8 +93,9 @@ msgstr "Tomt filnavn i loggnivå argument \"%s\".\n"
 msgid "Couldn't open logfile: %s for appending.\n"
 msgstr "Klarte ikke å åpne loggfil: %s for tilføying.\n"
 
-#: common/log.c:274
 # c-format
+#: common/log.c:274
+#, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] "siste beskjed gjentatt %d gang"
@@ -183,7 +184,7 @@ msgstr "Atomavfall"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Tomt for minne ved forsøk på %s %lu bytes på linje %d i %s."
 
-#: common/packets.c:4133
+#: common/packets.c:4135
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -253,83 +254,83 @@ msgstr "?diplomatic_state:Allianse"
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Ingen kontakt"
 
-#: common/shared.c:157
+#: common/shared.c:158
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Mangler argument for \"%s\".\n"
 
-#: common/shared.c:161
+#: common/shared.c:162
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Mangler argument for \"%s\".\n"
 
-#: common/shared.c:408
+#: common/shared.c:409
 #, c-format
 msgid "%d BC"
 msgstr "%d f.Kr"
 
-#: common/shared.c:410
+#: common/shared.c:411
 #, c-format
 msgid "%d AD"
 msgstr "%d e.Kr"
 
-#: common/shared.c:755
+#: common/shared.c:756
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH er satt til å være tom, benytter standard PATH i stedet."
 
-#: common/shared.c:859
+#: common/shared.c:860
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Klarte ikke å lese fra datakatalogen %s: %s."
 
-#: common/shared.c:991
+#: common/shared.c:990
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Datastien kan settes via (environment) miljøvariablen FREECIV_PATH."
 
-#: common/shared.c:993
+#: common/shared.c:992
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Nåværende datasti er: \"%s\""
 
-#: common/shared.c:995
+#: common/shared.c:994
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Den nødvendige filen \"%s\" mangler...   avslutter!"
 
-#: common/shared.c:1112
+#: common/shared.c:1111
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Fatal feil: du forsøker å kjøre meg som superbruker!\n"
 
-#: common/shared.c:1114
+#: common/shared.c:1113
 msgid "Use a non-privileged account instead.\n"
 msgstr "Bruk en ikke-priviligert konto istedet.\n"
 
-#: common/shared.c:1130
+#: common/shared.c:1129
 msgid "exact match"
 msgstr "eksakt treff"
 
-#: common/shared.c:1131
+#: common/shared.c:1130
 msgid "only match"
 msgstr "eneste treff"
 
-#: common/shared.c:1132
+#: common/shared.c:1131
 msgid "ambiguous"
 msgstr "uklar"
 
-#: common/shared.c:1133
+#: common/shared.c:1132
 msgid "empty"
 msgstr "tom"
 
-#: common/shared.c:1134
+#: common/shared.c:1133
 msgid "too long"
 msgstr "for lang"
 
-#: common/shared.c:1135
+#: common/shared.c:1134
 msgid "non-match"
 msgstr "ikke treff"
 
-#: common/shared.c:1198
+#: common/shared.c:1197
 msgid "'Cause civilization should be free!"
 msgstr "Fordi Civilization burde være fritt!"
 
@@ -2499,104 +2500,104 @@ msgstr "Beklager, %s er allerede tilkoblet."
 msgid "%s was rejected: %s already connected."
 msgstr "%s ble bortvist: %s er allerede tilkoblet."
 
-#: server/srv_main.c:1377
+#: server/srv_main.c:1379
 msgid "Sorry, the game is already running."
 msgstr "Beklager, spillet er allerede i gang."
 
-#: server/srv_main.c:1378
+#: server/srv_main.c:1380
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s ble bortvist: Spill i gang og ukjent navn %s."
 
-#: server/srv_main.c:1384
+#: server/srv_main.c:1386
 msgid "Sorry, the game is full."
 msgstr "Beklager, du kan ikke delta. Spillet er fullt."
 
-#: server/srv_main.c:1385
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s ble bortvist: Maksimalt antall spillere nådd."
 
-#: server/srv_main.c:1391
+#: server/srv_main.c:1393
 msgid "Sorry, no new players allowed in this game."
 msgstr "Beklager, nye spillere ikke tillatt."
 
-#: server/srv_main.c:1392
+#: server/srv_main.c:1394
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s ble bortvist: Nye tilkoblinger ikke tillatt."
 
-#: server/srv_main.c:1414
+#: server/srv_main.c:1416
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Mistet tilkobling: %s."
 
-#: server/srv_main.c:1423
+#: server/srv_main.c:1425
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spill: Mistet tilkobling: %s."
 
-#: server/srv_main.c:1509
+#: server/srv_main.c:1511
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Gikk tom for nasjoner.  AI kontrollert spiller %s ikke opprettet."
 
-#: server/srv_main.c:1550
+#: server/srv_main.c:1552
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Nasjonstall mindre enn 'aifill'; 'aifill' redusert til %d."
 
-#: server/srv_main.c:1557
+#: server/srv_main.c:1559
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Antall spillere mindre enn 'aifill'; 'aifill' redusert til %d."
 
-#: server/srv_main.c:1571
+#: server/srv_main.c:1573
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Feil ved opprettelse av ny AI spiller: %s\n"
 
-#: server/srv_main.c:1630
+#: server/srv_main.c:1632
 #, c-format
 msgid "Player %d"
 msgstr "Spiller %d"
 
-#: server/srv_main.c:1645
+#: server/srv_main.c:1647
 msgid "Argh! ran out of nations!"
 msgstr "Argh! gikk tom for nasjoner!"
 
-#: server/srv_main.c:1660
+#: server/srv_main.c:1662
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "AIen kontrollerer %s styrt av %s."
 
-#: server/srv_main.c:1666
+#: server/srv_main.c:1668
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spill: %s styrer %s."
 
-#: server/srv_main.c:1785
+#: server/srv_main.c:1812
 msgid "Starting new log"
 msgstr "Starter ny logg"
 
-#: server/srv_main.c:1815
+#: server/srv_main.c:1842
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sender info til metaserver [%s]"
 
-#: server/srv_main.c:1831
+#: server/srv_main.c:1858
 msgid "Now accepting new client connections."
 msgstr "Aksepterer nå nye klient-tilkoblinger."
 
-#: server/srv_main.c:1892
+#: server/srv_main.c:1919
 msgid "Last player has disconnected: will need to restart."
 msgstr "Siste spiller har koblet fra - start tjeneren på nytt."
 
-#: server/srv_main.c:1985
+#: server/srv_main.c:2014
 msgid "Game: The game is over..."
 msgstr "Spill: Spillet er over..."
 
-#: server/srv_main.c:1986
+#: server/srv_main.c:2015
 msgid "The game is over!"
 msgstr "Spillet er slutt!"
 
@@ -4030,7 +4031,7 @@ msgstr "Endre server-utskrifter mellom 'RFC-style' og vanlig."
 msgid "(ambiguous)"
 msgstr "(uklar)"
 
-#: client/packhand.c:995 server/stdinhand.c:1361
+#: client/packhand.c:991 server/stdinhand.c:1361
 msgid "(unknown)"
 msgstr "(ukjent)"
 
@@ -5584,8 +5585,8 @@ msgid "Corruption"
 msgstr "Korrupsjon"
 
 #: client/cityrepdata.c:232 client/gui-gtk-2.0/cityrep.c:1086
-#: client/gui-gtk-2.0/cityrep.c:1230 client/gui-gtk/cityrep.c:522
-#: client/gui-gtk/cityrep.c:894 client/gui-mui/citydlg.c:1453
+#: client/gui-gtk-2.0/cityrep.c:1230 client/gui-gtk/cityrep.c:531
+#: client/gui-gtk/cityrep.c:903 client/gui-mui/citydlg.c:1453
 msgid "CMA"
 msgstr "Byforvaltning"
 
@@ -5639,110 +5640,110 @@ msgstr "  -t, --tiles FIL\tBruk datafile FIL.tilespec for feltgrafikk\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Ukjent opsjon: \"%s\"\n"
 
-#: client/civclient.c:595
+#: client/civclient.c:620
 msgid "Game started."
 msgstr "Spillet har startet."
 
-#: client/civclient.c:618
+#: client/civclient.c:643
 msgid "There was an error while auto connecting; aborting."
 msgstr "Det oppstod en feil under automatisk tilkobling, avbryter."
 
-#: client/climisc.c:309
+#: client/climisc.c:311
 #, c-format
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spill: Endrer produksjon for hver %s til %s."
 
-#: client/climisc.c:349
+#: client/climisc.c:351
 msgid "?embassy:Both"
 msgstr "?embassy:begge"
 
-#: client/climisc.c:351
+#: client/climisc.c:353
 msgid "?embassy:Yes"
 msgstr "?embassy:ja"
 
-#: client/climisc.c:353
+#: client/climisc.c:355
 msgid "?embassy:With Us"
 msgstr "?embassy:hos oss"
 
-#: client/climisc.c:365
+#: client/climisc.c:367
 msgid "?vision:Both"
 msgstr "?vision:begge"
 
-#: client/climisc.c:367
+#: client/climisc.c:369
 msgid "?vision:To Them"
 msgstr "?vision:for dem"
 
-#: client/climisc.c:369
+#: client/climisc.c:371
 msgid "?vision:To Us"
 msgstr "?vision:for oss"
 
-#: client/climisc.c:384 client/climisc.c:391
+#: client/climisc.c:386 client/climisc.c:393
 #, c-format
 msgid "The %s give %s"
 msgstr "%s gir %s"
 
-#: client/climisc.c:395
+#: client/climisc.c:397
 #, c-format
 msgid "The %s give unknown city."
 msgstr "%s gir bort ukjent by."
 
-#: client/climisc.c:400
+#: client/climisc.c:402
 #, c-format
 msgid "The %s give %d gold"
 msgstr "%s gir deg %d gull"
 
-#: client/climisc.c:405
+#: client/climisc.c:407
 #, c-format
 msgid "The %s give their worldmap"
 msgstr "%s gir deg sine verdenskart"
 
-#: client/climisc.c:409
+#: client/climisc.c:411
 #, c-format
 msgid "The %s give their seamap"
 msgstr "%s gir deg sine sjøkart"
 
-#: client/climisc.c:413
+#: client/climisc.c:415
 msgid "The parties agree on a cease-fire"
 msgstr "Partene blir enig om en våpenhvile"
 
-#: client/climisc.c:416
+#: client/climisc.c:418
 msgid "The parties agree on a peace"
 msgstr "Partene slutter fred"
 
-#: client/climisc.c:419
+#: client/climisc.c:421
 msgid "The parties create an alliance"
 msgstr "Partene allierer seg"
 
-#: client/climisc.c:422
+#: client/climisc.c:424
 #, c-format
 msgid "The %s gives shared vision"
 msgstr "%s gir deg utsyn"
 
-#: client/climisc.c:545
+#: client/climisc.c:547
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02ds"
 
-#: client/climisc.c:548
+#: client/climisc.c:550
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dm %02ds"
 
-#: client/climisc.c:551
+#: client/climisc.c:553
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dt %02dm"
 
-#: client/climisc.c:554
+#: client/climisc.c:556
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dd %02dt"
 
-#: client/climisc.c:557
+#: client/climisc.c:559
 msgid "?duration:overflow"
 msgstr "?duration:overflod"
 
-#: client/climisc.c:1108
+#: client/climisc.c:1110
 msgid ""
 "Population:       1234\n"
 "Support:           100 %\n"
@@ -5760,23 +5761,23 @@ msgstr ""
 "Suksess sanns.:    100 %\n"
 "Ankomstår:        1234 e.Kr"
 
-#: client/climisc.c:1119
+#: client/climisc.c:1121
 #, c-format, ycp-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisetid:        %5.1f år"
 
-#: client/climisc.c:1123
+#: client/climisc.c:1125
 msgid "Travel time:        N/A     "
 msgstr "Reisetid:           N/A     "
 
-#: client/climisc.c:1134
+#: client/climisc.c:1136
 #, c-format, ycp-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Masse:  %5d tonn"
 msgstr[1] "Masse:  %5d tonn"
 
-#: client/climisc.c:1138
+#: client/climisc.c:1140
 #, c-format
 msgid ""
 "Population:      %5d\n"
@@ -5795,15 +5796,15 @@ msgstr ""
 "Sann. for å lykkes:%5d %%\n"
 "Ankomst:       %8s"
 
-#: client/climisc.c:1180
+#: client/climisc.c:1182
 msgid "Exporting output window to civgame.log ..."
 msgstr "Eksporterer utskriftsvindu til civgame.log ..."
 
-#: client/climisc.c:1184
+#: client/climisc.c:1186
 msgid "Export complete."
 msgstr "Eksport fullført."
 
-#: client/climisc.c:1186
+#: client/climisc.c:1188
 msgid "Export failed, couldn't write to file."
 msgstr "Klarer ikke skrive til fil."
 
@@ -5811,7 +5812,7 @@ msgstr "Klarer ikke skrive til fil."
 msgid "Lost connection to server!"
 msgstr "Mistet kopling til serveren!"
 
-#: client/clinet.c:154 client/clinet.c:518
+#: client/clinet.c:154 client/clinet.c:556
 msgid "Failed looking up host"
 msgstr "Feilet i forsøk på å finne server"
 
@@ -5819,45 +5820,45 @@ msgstr "Feilet i forsøk på å finne server"
 msgid "Disconnecting from server."
 msgstr "Kobler fra serveren."
 
-#: client/clinet.c:474
+#: client/clinet.c:512
 msgid "Invalid $http_proxy value, must start with 'http://'"
 msgstr "Ugyldig $http_proxy verdi, må starte med 'http://'"
 
-#: client/clinet.c:481
+#: client/clinet.c:519
 msgid "Invalid metaserver URL, must start with 'http://'"
 msgstr "Ugyldig metaserver URL, må starte med 'http://'"
 
-#: client/clinet.c:509
+#: client/clinet.c:547
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ugyldig $http_proxy verdi, kan ikke finne skilletegn '/'"
 
-#: client/control.c:585
+#: client/control.c:586
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spill: Kun transportenheter kan lastes av."
 
-#: client/control.c:779
+#: client/control.c:780
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr "Game: Kun nybyggere og militære enheter i byer kan plasseres i auto-modus."
 
-#: client/control.c:812
+#: client/control.c:813
 msgid "Game: Only nuclear units can do this."
 msgstr "Spill: Kun atombombe-enheter kan gjøre dette."
 
-#: client/control.c:829
+#: client/control.c:830
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spill: Kun fallskjermjegere kan gjøre dette."
 
-#: client/control.c:1205
+#: client/control.c:1206
 msgid "Game: Too far for this unit."
 msgstr "Spill: For langt for denne enheten."
 
-#: client/control.c:1271 client/control.c:1320
+#: client/control.c:1272 client/control.c:1321
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Spill: Fant ingen rute til målet."
 
-#: client/control.c:1311
+#: client/control.c:1312
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Spill: Beklager, luftpatruljering er ikke implementert."
 
@@ -6646,29 +6647,29 @@ msgstr "Klient egenskapsstreng: %s"
 msgid "Server capability string: %s"
 msgstr "Server egenskapsstreng: %s"
 
-#: client/packhand.c:668
+#: client/packhand.c:666
 #, c-format
 msgid "Start of turn %d"
 msgstr "Runden begynner %d"
 
-#: client/packhand.c:741
+#: client/packhand.c:736
 msgid "Popup Request"
 msgstr "Popup spørsmål"
 
-#: client/packhand.c:1217
+#: client/packhand.c:1214
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI modus er nå %s."
 
-#: client/packhand.c:1218
+#: client/packhand.c:1215
 msgid "ON"
 msgstr "PÅ"
 
-#: client/packhand.c:1218
+#: client/packhand.c:1215
 msgid "OFF"
 msgstr "AV"
 
-#: client/packhand.c:1228
+#: client/packhand.c:1225
 msgid "Game: Revolution finished"
 msgstr "Spill: Revolusjonen er over."
 
@@ -6766,13 +6767,13 @@ msgid "Gold"
 msgstr "Gull"
 
 #: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:382
-#: client/gui-gtk-2.0/cityrep.c:402 client/gui-gtk/cityrep.c:422
-#: client/gui-gtk/cityrep.c:441
+#: client/gui-gtk-2.0/cityrep.c:402 client/gui-gtk/cityrep.c:431
+#: client/gui-gtk/cityrep.c:450
 msgid "none"
 msgstr "ingen"
 
 #: client/agents/cma_fec.c:242 client/gui-gtk-2.0/cityrep.c:424
-#: client/gui-gtk/cityrep.c:462
+#: client/gui-gtk/cityrep.c:471
 msgid "custom"
 msgstr "egendefinert"
 
@@ -6891,7 +6892,7 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d runder"
 
 #: client/gui-gtk-2.0/citydlg.c:829 client/gui-gtk-2.0/cityrep.c:638
-#: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:605
+#: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
 #: client/gui-mui/citydlg.c:1544 client/gui-mui/cityrep.c:391
 msgid "_Buy"
 msgstr "_Kjøp"
@@ -7405,11 +7406,11 @@ msgstr "Omdøp by"
 msgid "What should we rename the city to?"
 msgstr "Hva skal vi omdøpe byen til?"
 
-#: client/gui-gtk-2.0/cityrep.c:514 client/gui-gtk/cityrep.c:610
+#: client/gui-gtk-2.0/cityrep.c:514 client/gui-gtk/cityrep.c:619
 msgid "_Change..."
 msgstr "_Endre..."
 
-#: client/gui-gtk-2.0/cityrep.c:519 client/gui-gtk/cityrep.c:615
+#: client/gui-gtk-2.0/cityrep.c:519 client/gui-gtk/cityrep.c:624
 msgid "_Select..."
 msgstr "_Velg..."
 
@@ -7419,7 +7420,7 @@ msgstr "V_is"
 
 #: client/gui-gtk-2.0/cityrep.c:600 client/gui-gtk-2.0/diplodlg.c:378
 #: client/gui-gtk-2.0/diplodlg.c:390 client/gui-gtk-2.0/menu.c:626
-#: client/gui-gtk/cityrep.c:563 client/gui-gtk/diplodlg.c:378
+#: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:378
 #: client/gui-gtk/diplodlg.c:390 client/gui-gtk/menu.c:625
 #: client/gui-mui/diplodlg.c:479 client/gui-mui/diplodlg.c:514
 #: client/gui-mui/diplodlg.c:595 client/gui-mui/diplodlg.c:605
@@ -7431,12 +7432,12 @@ msgstr "V_is"
 msgid "Cities"
 msgstr "Byer"
 
-#: client/gui-gtk-2.0/cityrep.c:626 client/gui-gtk/cityrep.c:595
+#: client/gui-gtk-2.0/cityrep.c:626 client/gui-gtk/cityrep.c:604
 #: client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "Sen_trer"
 
-#: client/gui-gtk-2.0/cityrep.c:632 client/gui-gtk/cityrep.c:600
+#: client/gui-gtk-2.0/cityrep.c:632 client/gui-gtk/cityrep.c:609
 #: client/gui-mui/cityrep.c:390
 msgid "_Popup"
 msgstr "Vis _By"
@@ -7445,15 +7446,15 @@ msgstr "Vis _By"
 msgid "_Refresh"
 msgstr "_Oppfrisk"
 
-#: client/gui-gtk-2.0/cityrep.c:878 client/gui-gtk/cityrep.c:1139
-#: client/gui-mui/cityrep.c:186 client/gui-win32/cityrep.c:379
+#: client/gui-gtk-2.0/cityrep.c:878 client/gui-gtk/cityrep.c:1148
+#: client/gui-mui/cityrep.c:186 client/gui-win32/cityrep.c:384
 #: client/gui-xaw/cityrep.c:419
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spill: %s koster %d gull og du har kun %d gull."
 
 #: client/gui-gtk-2.0/cityrep.c:1080 client/gui-gtk-2.0/menu.c:628
-#: client/gui-gtk-2.0/repodlgs.c:852 client/gui-gtk/cityrep.c:516
+#: client/gui-gtk-2.0/repodlgs.c:852 client/gui-gtk/cityrep.c:525
 #: client/gui-gtk/menu.c:627 client/gui-gtk/repodlgs.c:793
 #: client/gui-mui/citydlg.c:1450 client/gui-mui/gui_main.c:228
 #: client/gui-win32/menu.c:313 client/gui-win32/repodlgs.c:625
@@ -7467,7 +7468,7 @@ msgstr "Enheter"
 #: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:610
 #: client/gui-gtk-2.0/menu.c:612 client/gui-gtk-2.0/menu.c:614
 #: client/gui-gtk-2.0/menu.c:616 client/gui-gtk-2.0/menu.c:618
-#: client/gui-gtk-2.0/menu.c:620 client/gui-gtk/cityrep.c:513
+#: client/gui-gtk-2.0/menu.c:620 client/gui-gtk/cityrep.c:522
 #: client/gui-gtk/menu.c:609 client/gui-gtk/menu.c:611
 #: client/gui-gtk/menu.c:613 client/gui-gtk/menu.c:615
 #: client/gui-gtk/menu.c:617 client/gui-gtk/menu.c:619
@@ -7476,37 +7477,37 @@ msgstr "Enheter"
 msgid "Improvements"
 msgstr "Forbedringer"
 
-#: client/gui-gtk-2.0/cityrep.c:1084 client/gui-gtk/cityrep.c:519
+#: client/gui-gtk-2.0/cityrep.c:1084 client/gui-gtk/cityrep.c:528
 #: client/gui-xaw/menu.c:223
 msgid "Wonders"
 msgstr "Underverk"
 
 #: client/gui-gtk-2.0/cityrep.c:1126 client/gui-gtk-2.0/gotodlg.c:122
-#: client/gui-gtk/cityrep.c:813 client/gui-gtk/gotodlg.c:122
-#: client/gui-win32/cityrep.c:456 client/gui-win32/gotodlg.c:166
+#: client/gui-gtk/cityrep.c:822 client/gui-gtk/gotodlg.c:122
+#: client/gui-win32/cityrep.c:461 client/gui-win32/gotodlg.c:166
 #: data/Freeciv:1141
 msgid "All Cities"
 msgstr "Alle byer"
 
-#: client/gui-gtk-2.0/cityrep.c:1131 client/gui-gtk/cityrep.c:819
-#: client/gui-win32/cityrep.c:457
+#: client/gui-gtk-2.0/cityrep.c:1131 client/gui-gtk/cityrep.c:828
+#: client/gui-win32/cityrep.c:462
 msgid "No Cities"
 msgstr "Ingen byer"
 
-#: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk/cityrep.c:825
-#: client/gui-win32/cityrep.c:458
+#: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk/cityrep.c:834
+#: client/gui-win32/cityrep.c:463
 msgid "Invert Selection"
 msgstr "Snu valg"
 
-#: client/gui-gtk-2.0/cityrep.c:1146 client/gui-gtk/cityrep.c:857
+#: client/gui-gtk-2.0/cityrep.c:1146 client/gui-gtk/cityrep.c:866
 msgid "Building Units"
 msgstr "Bygger enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1152 client/gui-gtk/cityrep.c:851
+#: client/gui-gtk-2.0/cityrep.c:1152 client/gui-gtk/cityrep.c:860
 msgid "Building Improvements"
 msgstr "Bygger byforbedringer"
 
-#: client/gui-gtk-2.0/cityrep.c:1158 client/gui-gtk/cityrep.c:863
+#: client/gui-gtk-2.0/cityrep.c:1158 client/gui-gtk/cityrep.c:872
 msgid "Building Wonders"
 msgstr "Bygger underverk"
 
@@ -7522,29 +7523,29 @@ msgstr "Bygger byforbedring"
 msgid "Building Wonder"
 msgstr "Bygger underverk"
 
-#: client/gui-gtk-2.0/cityrep.c:1186 client/gui-gtk/cityrep.c:834
-#: client/gui-win32/cityrep.c:460
+#: client/gui-gtk-2.0/cityrep.c:1186 client/gui-gtk/cityrep.c:843
+#: client/gui-win32/cityrep.c:465
 msgid "Coastal Cities"
 msgstr "Byer ved kysten"
 
-#: client/gui-gtk-2.0/cityrep.c:1191 client/gui-gtk/cityrep.c:840
-#: client/gui-win32/cityrep.c:461
+#: client/gui-gtk-2.0/cityrep.c:1191 client/gui-gtk/cityrep.c:849
+#: client/gui-win32/cityrep.c:466
 msgid "Same Island"
 msgstr "Samme øy"
 
-#: client/gui-gtk-2.0/cityrep.c:1201 client/gui-gtk/cityrep.c:873
+#: client/gui-gtk-2.0/cityrep.c:1201 client/gui-gtk/cityrep.c:882
 #: client/gui-mui/citydlg.c:1531 client/gui-mui/citydlg.c:1570
-#: client/gui-win32/cityrep.c:464
+#: client/gui-win32/cityrep.c:469
 msgid "Supported Units"
 msgstr "Støttede enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1204 client/gui-gtk/cityrep.c:876
-#: client/gui-win32/cityrep.c:471
+#: client/gui-gtk-2.0/cityrep.c:1204 client/gui-gtk/cityrep.c:885
+#: client/gui-win32/cityrep.c:476
 msgid "Units Present"
 msgstr "Enheter tilstede"
 
-#: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk/cityrep.c:879
-#: client/gui-win32/cityrep.c:486
+#: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk/cityrep.c:888
+#: client/gui-win32/cityrep.c:491
 msgid "Improvements in City"
 msgstr "Forbedringer i by"
 
@@ -7552,15 +7553,15 @@ msgstr "Forbedringer i by"
 msgid "Wonders in City"
 msgstr "Underverk i byen"
 
-#: client/gui-gtk-2.0/cityrep.c:1221 client/gui-gtk/cityrep.c:886
+#: client/gui-gtk-2.0/cityrep.c:1221 client/gui-gtk/cityrep.c:895
 msgid "Available Units"
 msgstr "Tilgjengelige enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1224 client/gui-gtk/cityrep.c:882
+#: client/gui-gtk-2.0/cityrep.c:1224 client/gui-gtk/cityrep.c:891
 msgid "Available Improvements"
 msgstr "Tilgjengelige Forbedringer"
 
-#: client/gui-gtk-2.0/cityrep.c:1227 client/gui-gtk/cityrep.c:890
+#: client/gui-gtk-2.0/cityrep.c:1227 client/gui-gtk/cityrep.c:899
 msgid "Available Wonders"
 msgstr "Tilgjengelige underverker"
 
@@ -7760,7 +7761,7 @@ msgstr "Beskjed:"
 #: client/gui-gtk-2.0/dialogs.c:298 client/gui-gtk-2.0/dialogs.c:677
 #: client/gui-gtk-2.0/dialogs.c:775 client/gui-gtk-2.0/dialogs.c:1756
 #: client/gui-gtk-2.0/inteldlg.c:176 client/gui-gtk-2.0/spaceshipdlg.c:206
-#: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/cityrep.c:1379
+#: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/cityrep.c:1388
 #: client/gui-gtk/dialogs.c:204 client/gui-gtk/dialogs.c:329
 #: client/gui-gtk/dialogs.c:693 client/gui-gtk/dialogs.c:791
 #: client/gui-gtk/dialogs.c:1746 client/gui-gtk/gamedlgs.c:476
@@ -7768,7 +7769,7 @@ msgstr "Beskjed:"
 #: client/gui-gtk/repodlgs.c:203 client/gui-gtk/repodlgs.c:579
 #: client/gui-gtk/repodlgs.c:812 client/gui-gtk/spaceshipdlg.c:206
 #: client/gui-gtk/wldlg.c:201 client/gui-win32/citydlg.c:923
-#: client/gui-win32/cityrep.c:133 client/gui-win32/cityrep.c:893
+#: client/gui-win32/cityrep.c:133 client/gui-win32/cityrep.c:898
 #: client/gui-win32/dialogs.c:180 client/gui-win32/dialogs.c:245
 #: client/gui-win32/dialogs.c:683 client/gui-win32/dialogs.c:1294
 #: client/gui-win32/dialogs.c:1508 client/gui-win32/helpdlg.c:424
@@ -8082,11 +8083,11 @@ msgstr "Velg hva som skal plyndres:"
 
 #: client/gui-gtk-2.0/dialogs.c:1397 client/gui-gtk-2.0/dialogs.c:1506
 #: client/gui-gtk-2.0/inputdlg.c:106 client/gui-gtk-2.0/wldlg.c:488
-#: client/gui-gtk/cityrep.c:1095 client/gui-gtk/dialogs.c:1325
+#: client/gui-gtk/cityrep.c:1104 client/gui-gtk/dialogs.c:1325
 #: client/gui-gtk/dialogs.c:1405 client/gui-gtk/finddlg.c:107
 #: client/gui-gtk/gamedlgs.c:314 client/gui-gtk/inputdlg.c:132
 #: client/gui-gtk/messagedlg.c:124 client/gui-gtk/wldlg.c:487
-#: client/gui-win32/citydlg.c:1214 client/gui-win32/cityrep.c:771
+#: client/gui-win32/citydlg.c:1214 client/gui-win32/cityrep.c:776
 #: client/gui-win32/connectdlg.c:1176 client/gui-win32/dialogs.c:1773
 #: client/gui-win32/dialogs.c:1981 client/gui-win32/finddlg.c:127
 #: client/gui-win32/gotodlg.c:168 client/gui-win32/inputdlg.c:145
@@ -9643,7 +9644,7 @@ msgstr "Rykte"
 msgid "Host"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/plrdlg.c:157 client/gui-gtk/cityrep.c:589
+#: client/gui-gtk-2.0/plrdlg.c:157 client/gui-gtk/cityrep.c:598
 #: client/gui-gtk/plrdlg.c:157
 msgid "C_lose"
 msgstr "_Lukk"
@@ -9955,57 +9956,57 @@ msgstr "Enheter tilstede(%d)"
 msgid "Ca_ncel"
 msgstr "_Avbryt"
 
-#: client/gui-gtk/cityrep.c:309 client/gui-win32/cityrep.c:241
+#: client/gui-gtk/cityrep.c:318 client/gui-win32/cityrep.c:246
 msgid "No Buildings Available"
 msgstr "Ingen bygninger tilgjengelig"
 
-#: client/gui-gtk/cityrep.c:321 client/gui-win32/cityrep.c:252
+#: client/gui-gtk/cityrep.c:330 client/gui-win32/cityrep.c:257
 msgid "No Units Available"
 msgstr "Ingen enheter tilgjengelige"
 
-#: client/gui-gtk/cityrep.c:333 client/gui-win32/cityrep.c:265
+#: client/gui-gtk/cityrep.c:342 client/gui-win32/cityrep.c:270
 msgid "No Wonders Available"
 msgstr "Ingen underverk tilgjengelig"
 
-#: client/gui-gtk/cityrep.c:532
+#: client/gui-gtk/cityrep.c:541
 msgid "Change All..."
 msgstr "Endre alle..."
 
-#: client/gui-gtk/cityrep.c:620
+#: client/gui-gtk/cityrep.c:629
 msgid "Con_figure..."
 msgstr "_Tilpass..."
 
-#: client/gui-gtk/cityrep.c:923 client/gui-win32/cityrep.c:710
+#: client/gui-gtk/cityrep.c:932 client/gui-win32/cityrep.c:715
 msgid "Game: Select a unit or improvement to change production to."
 msgstr "Spill: Velg en enhet eller forbedring å endre produksjon i."
 
-#: client/gui-gtk/cityrep.c:957 client/gui-win32/cityrep.c:759
+#: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:764
 #: data/Freeciv:1693
 msgid "From:"
 msgstr "Fra:"
 
-#: client/gui-gtk/cityrep.c:958 client/gui-win32/cityrep.c:767
+#: client/gui-gtk/cityrep.c:967 client/gui-win32/cityrep.c:772
 #: data/Freeciv:1703
 msgid "To:"
 msgstr "Til:"
 
-#: client/gui-gtk/cityrep.c:986 client/gui-win32/cityrep.c:751
+#: client/gui-gtk/cityrep.c:995 client/gui-win32/cityrep.c:756
 #: data/Freeciv:1687
 msgid "Change Production Everywhere"
 msgstr "Endre produksjon alle steder"
 
-#: client/gui-gtk/cityrep.c:1086 client/gui-win32/citydlg.c:898
-#: client/gui-win32/citydlg.c:1212 client/gui-win32/cityrep.c:763
-#: client/gui-win32/cityrep.c:897 data/Freeciv:1383 data/Freeciv:1585
+#: client/gui-gtk/cityrep.c:1095 client/gui-win32/citydlg.c:898
+#: client/gui-win32/citydlg.c:1212 client/gui-win32/cityrep.c:768
+#: client/gui-win32/cityrep.c:902 data/Freeciv:1383 data/Freeciv:1585
 #: data/Freeciv:1739 data/Freeciv:2028 data/Freeciv:2976
 msgid "Change"
 msgstr "Endre"
 
-#: client/gui-gtk/cityrep.c:1365 data/Freeciv:1668
+#: client/gui-gtk/cityrep.c:1374 data/Freeciv:1668
 msgid "Configure Cities Report"
 msgstr "Tilpass byrapport"
 
-#: client/gui-gtk/cityrep.c:1368 client/gui-mui/cityrep.c:295
+#: client/gui-gtk/cityrep.c:1377 client/gui-mui/cityrep.c:295
 #: client/gui-win32/cityrep.c:128 data/Freeciv:1673
 msgid "Set columns shown"
 msgstr "Sett ant. kolonner som blir vist"
@@ -10022,7 +10023,7 @@ msgstr "Avslutt"
 msgid "Disconnect"
 msgstr "Koble fra"
 
-#: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:894
+#: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:899
 #: client/gui-win32/finddlg.c:126 data/Freeciv:1089 data/Freeciv:1561
 msgid "Center"
 msgstr "Sentrer"
@@ -10120,7 +10121,7 @@ msgstr "Totalt: ..."
 msgid "Upgrade"
 msgstr "Oppgrader"
 
-#: client/gui-gtk/repodlgs.c:824 client/gui-win32/cityrep.c:899
+#: client/gui-gtk/repodlgs.c:824 client/gui-win32/cityrep.c:904
 #: client/gui-win32/repodlgs.c:725 data/Freeciv:1601 data/Freeciv:1746
 #: data/Freeciv:1903
 msgid "Refresh"
@@ -10288,7 +10289,7 @@ msgid "_Ok"
 msgstr "_Ok"
 
 #: client/gui-mui/cityrep.c:373 client/gui-mui/cityrep.c:401
-#: client/gui-win32/cityrep.c:1084
+#: client/gui-win32/cityrep.c:1089
 msgid "City Report"
 msgstr "Byrapport"
 
@@ -10296,8 +10297,8 @@ msgstr "Byrapport"
 msgid "Con_figure"
 msgstr "_Tilpass"
 
-#: client/gui-mui/cityrep.c:440 client/gui-win32/cityrep.c:903
-#: client/gui-win32/cityrep.c:1155
+#: client/gui-mui/cityrep.c:440 client/gui-win32/cityrep.c:908
+#: client/gui-win32/cityrep.c:1160
 msgid "City Advisor"
 msgstr "Byrådgiver"
 
@@ -11093,7 +11094,7 @@ msgstr ""
 "Luksus:    %2d\n"
 "Forskning: %2d"
 
-#: client/gui-win32/citydlg.c:896 client/gui-win32/cityrep.c:896
+#: client/gui-win32/citydlg.c:896 client/gui-win32/cityrep.c:901
 #: data/Freeciv:1577
 msgid "Buy"
 msgstr "Kjøp"
@@ -11130,31 +11131,31 @@ msgstr "Auto-angrep mot luftenheter"
 msgid "Auto-attack vs helicopters"
 msgstr "Auto-angrep mot helikoptre"
 
-#: client/gui-win32/cityrep.c:479
+#: client/gui-win32/cityrep.c:484
 msgid "Available To Build"
 msgstr "Tilgjengelig for bygging"
 
-#: client/gui-win32/cityrep.c:701
+#: client/gui-win32/cityrep.c:706
 msgid "Game: Select a unit or improvement to change production from."
 msgstr "Spill: Velg en enhet eller forbedring å endre produksjon fra."
 
-#: client/gui-win32/cityrep.c:716
+#: client/gui-win32/cityrep.c:721
 msgid "Game: That's the same thing!"
 msgstr "Spill: Det er den samme tingen!"
 
-#: client/gui-win32/cityrep.c:895 data/Freeciv:1569
+#: client/gui-win32/cityrep.c:900 data/Freeciv:1569
 msgid "Popup"
 msgstr "Vis"
 
-#: client/gui-win32/cityrep.c:898 data/Freeciv:1593
+#: client/gui-win32/cityrep.c:903 data/Freeciv:1593
 msgid "Change All"
 msgstr "Endre alle"
 
-#: client/gui-win32/cityrep.c:900
+#: client/gui-win32/cityrep.c:905
 msgid "Select"
 msgstr "Velg"
 
-#: client/gui-win32/cityrep.c:901 data/Freeciv:1609
+#: client/gui-win32/cityrep.c:906 data/Freeciv:1609
 msgid "Configure"
 msgstr "Innstillinger"
 
@@ -11944,12 +11945,12 @@ msgstr ""
 "\n"
 "Dersom du oppdager feil ved oversettelsen, \n"
 "så kan du rapportere de til den nåværende oversetteren:\n"
-"Andreas Røsdal <andrearo@stud.ntnu.no>.\n"
+"Andreas Røsdal <andreasr@www.freeciv.org>.\n"
 "\n"
 "For mer informasjon om oversettelser av Freeciv, gå til\n"
 "<http://www.freeciv.org/l10n.phtml>\n"
 "Du kan også sende inn spørsmål til mailinglisten \n"
-"Freeciv International:  <freeciv-i18n@@freeciv.org>"
+"Freeciv International:  <freeciv-i18n@freeciv.org>"
 
 #: data/helpdata.txt:403
 msgid ""
@@ -17716,3 +17717,4 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
+
