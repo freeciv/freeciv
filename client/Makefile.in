@@ -153,7 +153,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DIST_SUBDIRS =  gui-gtk gui-xaw gui-stub gui-win32 include agents
 DEP_FILES =  .deps/attribute.P .deps/citydlg_common.P \

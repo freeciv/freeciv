@@ -138,7 +138,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/advattitude.P .deps/advdomestic.P .deps/advforeign.P \
 .deps/advisland.P .deps/advleader.P .deps/advmilitary.P \

@@ -136,7 +136,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/agents.P .deps/cma_core.P .deps/cma_fec.P
 SOURCES = $(libagents_a_SOURCES)

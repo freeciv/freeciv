@@ -150,7 +150,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/autoattack.P .deps/barbarian.P .deps/cityhand.P \
 .deps/citytools.P .deps/cityturn.P .deps/civserver.P .deps/console.P \

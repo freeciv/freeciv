@@ -109,7 +109,7 @@ pkgdata_DATA =  	Freeciv		freeciv.rc		engels.tilespec		engels_shields.tilespec		
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation hires
+SUBDIRS = misc trident engels default civ1 civ2 scenario nation hires
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -120,7 +120,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
