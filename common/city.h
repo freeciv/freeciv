@@ -202,6 +202,7 @@ struct ai_city {
 
   /* so we can contemplate with warmap fresh and decide later */
   int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
+  int next_founder_want_recalc; /* do not recalc founder_want every turn */
   bool founder_boat; /* if the city founder will need a boat */
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of
