@@ -691,7 +691,6 @@ static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
   if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
     do {
       if (gtk_tree_selection_iter_is_selected(city_selection, &it)) {
-        /* XXX: GTK+ has a typo bug in this function. i won't kludge */
 	gtk_tree_selection_unselect_iter(city_selection, &it);
       } else {
 	gtk_tree_selection_select_iter(city_selection, &it);
