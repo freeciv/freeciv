@@ -650,7 +650,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
 				 "recover 50%% of the production cost.\n"));
   }
   if (unit_type_flag(i, F_CITIES)) {
-    sprintf(buf+strlen(buf), _("* Can build new cities.\n"));
+    sprintf(buf + strlen(buf), _("* Can build new cities.\n"));
   }
   if (unit_type_flag(i, F_ADD_TO_CITY)) {
     sprintf(buf + strlen(buf), _("* Can add on %d population to "
@@ -717,11 +717,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	    _("* May pillage to destroy infrastructure from tiles.\n"));
   }
   if (unit_type_flag(i, F_DIPLOMAT)) {
-    if (unit_type_flag(i, F_SPY)) 
-      sprintf(buf+strlen(buf), _("* Can perform diplomatic actions,"
-				 " plus special spy abilities.\n"));
-    else 
-      sprintf(buf+strlen(buf), _("* Can perform diplomatic actions.\n"));
+    if (unit_type_flag(i, F_SPY)) {
+      sprintf(buf + strlen(buf), _("* Can perform diplomatic actions,"
+				   " plus special spy abilities.\n"));
+    } else {
+      sprintf(buf + strlen(buf), _("* Can perform diplomatic actions.\n"));
+    }
   }
   if (unit_type_flag(i, F_SUPERSPY)) {
     sprintf(buf + strlen(buf), _("* Will never lose a "
@@ -731,40 +732,43 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
   }
   if (unit_type_flag(i, F_FIGHTER)) {
-    sprintf(buf+strlen(buf), _("* Can attack enemy air units.\n"));
+    sprintf(buf + strlen(buf), _("* Can attack enemy air units.\n"));
   }
   if (unit_type_flag(i, F_PARTIAL_INVIS)) {
-    sprintf(buf+strlen(buf), _("* Is invisible except when next to an"
-			       " enemy unit or city.\n"));
+    sprintf(buf + strlen(buf), _("* Is invisible except when next to an"
+				 " enemy unit or city.\n"));
   }
   if (unit_type_flag(i, F_NO_LAND_ATTACK)) {
-    sprintf(buf+strlen(buf), _("* Can only attack units on ocean squares"
-			       " (no land attacks).\n"));
+    sprintf(buf + strlen(buf), _("* Can only attack units on ocean squares"
+				 " (no land attacks).\n"));
   }
   if (unit_type_flag(i, F_MARINES)) {
-    sprintf(buf+strlen(buf), _("* Can attack from aboard sea units: against"
-			       " enemy cities and onto land squares."));
+    sprintf(buf + strlen(buf),
+	    _("* Can attack from aboard sea units: against"
+	      " enemy cities and onto land squares.\n"));
   }
   if (unit_type_flag(i, F_PARATROOPERS)) {
-    sprintf(buf+strlen(buf), _("* Can be paradropped from a friendly city"
-			       " (Range: %d)."), utype->paratroopers_range);
+    sprintf(buf + strlen(buf),
+	    _("* Can be paradropped from a friendly city"
+	      " (Range: %d).\n"), utype->paratroopers_range);
   }
   if (unit_type_flag(i, F_PIKEMEN)) {
-    sprintf(buf+strlen(buf), _("* Gets double defense against units"
-			       " specified as 'mounted'.\n"));
+    sprintf(buf + strlen(buf), _("* Gets double defense against units"
+				 " specified as 'mounted'.\n"));
   }
   if (unit_type_flag(i, F_HORSE)) {
-    sprintf(buf+strlen(buf),
+    sprintf(buf + strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
   if (unit_type_flag(i, F_MISSILE)) {
-    sprintf(buf+strlen(buf),
+    sprintf(buf + strlen(buf),
 	    _("* A missile unit: gets used up in making an attack.\n"));
   } else if(unit_type_flag(i, F_ONEATTACK)) {
-    sprintf(buf+strlen(buf), _("* Making an attack ends this unit's turn.\n"));
+    sprintf(buf + strlen(buf),
+	    _("* Making an attack ends this unit's turn.\n"));
   }
   if (unit_type_flag(i, F_NUCLEAR)) {
-    sprintf(buf+strlen(buf),
+    sprintf(buf + strlen(buf),
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
   if (unit_type_flag(i, F_CITYBUSTER)) {
@@ -772,7 +776,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	    _("* Gets double firepower when attacking cities.\n"));
   }
   if (unit_type_flag(i, F_IGWALL)) {
-    sprintf(buf+strlen(buf), _("* Ignores the effects of city walls.\n"));
+    sprintf(buf + strlen(buf), _("* Ignores the effects of city walls.\n"));
   }
   if (unit_type_flag(i, F_BOMBARDER)) {
     sprintf(buf + strlen(buf),
@@ -781,27 +785,28 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	      "the attacker.\n"), utype->bombard_rate);
   }
   if (unit_type_flag(i, F_AEGIS)) {
-    sprintf(buf+strlen(buf),
+    sprintf(buf + strlen(buf),
 	    _("* Gets quintuple defence against missiles and aircraft.\n"));
   }
   if (unit_type_flag(i, F_IGTER)) {
-    sprintf(buf+strlen(buf),
+    sprintf(buf + strlen(buf),
 	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
   if (unit_type_flag(i, F_IGTIRED)) {
-    sprintf(buf+strlen(buf),
-	    _("* Attacks with full strength even if less than one movement left.\n"));
+    sprintf(buf + strlen(buf),
+	    _("* Attacks with full strength even if less than "
+	      "one movement left.\n"));
   }
   if (unit_type_flag(i, F_IGZOC)) {
-    sprintf(buf+strlen(buf), _("* Ignores zones of control.\n"));
+    sprintf(buf + strlen(buf), _("* Ignores zones of control.\n"));
   }
   if (unit_type_flag(i, F_NONMIL)) {
-    sprintf(buf+strlen(buf), _("* A non-military unit"
-			       " (cannot attack; no martial law).\n"));
+    sprintf(buf + strlen(buf), _("* A non-military unit"
+				 " (cannot attack; no martial law).\n"));
   }
   if (unit_type_flag(i, F_FIELDUNIT)) {
-    sprintf(buf+strlen(buf), _("* A field unit: one unhappiness applies"
-			       " even when non-aggressive.\n"));
+    sprintf(buf + strlen(buf), _("* A field unit: one unhappiness applies"
+				 " even when non-aggressive.\n"));
   }
   if (unit_type_flag(i, F_NO_VETERAN)) {
     sprintf(buf + strlen(buf),
@@ -891,12 +896,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
     astr_free(&astr);
   }
   if (strlen(buf) > 0) {
-    sprintf(buf+strlen(buf), "\n");
+    sprintf(buf + strlen(buf), "\n");
   } 
   if (utype->helptext && utype->helptext[0] != '\0') {
     sprintf(buf + strlen(buf), "%s\n\n", _(utype->helptext));
   }
-  strcpy(buf+strlen(buf), user_text);
+  strcpy(buf + strlen(buf), user_text);
   wordwrap_string(buf, 68);
 }
 
