@@ -529,11 +529,10 @@ returns 1 if unit is available with current tech OR will be available
 with future tech.  returns 0 if unit is obsolete.
 *****************************************************************/
 int can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
-{  
-  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
+{
+  if (!unit_type_exists(id))
     return 0;
-  /* Unit is "Never" (defined in ruleset.c) available. */
-  if (unit_types[id].tech_requirement == A_LAST)
+  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
     return 0;
   return 1;
 }
