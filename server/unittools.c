@@ -58,7 +58,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
-static int upgrade_would_strand(struct unit *punit, int upgrade_type);
+static bool upgrade_would_strand(struct unit *punit, int upgrade_type);
 static void handle_leonardo(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
@@ -70,7 +70,7 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
 static bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
 				   Unit_Type_id type, bool unit_is_on_tile);
-static int maybe_cancel_patrol_due_to_enemy(struct unit *punit);
+static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
 /**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 

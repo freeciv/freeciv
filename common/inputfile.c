@@ -136,7 +136,7 @@ static tok_tab[INF_TOK_LAST] =
   { "value",        get_token_value },
 };
 
-static int read_a_line(struct inputfile *inf);
+static bool read_a_line(struct inputfile *inf);
 
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'

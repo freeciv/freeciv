@@ -50,14 +50,14 @@
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity);
 
-static int worklist_change_build_target(struct player *pplayer, 
-					struct city *pcity);
+static bool worklist_change_build_target(struct player *pplayer,
+					 struct city *pcity);
 
 static void city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity);
-static int city_build_building(struct player *pplayer, struct city *pcity);
-static int city_build_unit(struct player *pplayer, struct city *pcity);
-static int city_build_stuff(struct player *pplayer, struct city *pcity);
+static bool city_build_building(struct player *pplayer, struct city *pcity);
+static bool city_build_unit(struct player *pplayer, struct city *pcity);
+static bool city_build_stuff(struct player *pplayer, struct city *pcity);
 static int improvement_upgrades_to(struct city *pcity, int imp);
 static void upgrade_building_prod(struct city *pcity);
 static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id);

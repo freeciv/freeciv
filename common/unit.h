@@ -201,7 +201,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity, int new_target);
 bool can_unit_do_auto(struct unit *punit); 
-int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
+bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
 bool is_military_unit(struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(struct unit *punit);

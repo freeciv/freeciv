@@ -37,7 +37,7 @@
 /****************************************************************************/
 
 static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y);
-static int diplomat_success_vs_defender (struct unit *pdefender);
+static bool diplomat_success_vs_defender(struct unit *pdefender);
 static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
 				     struct unit *pdiplomat, struct city *pcity);
 static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,

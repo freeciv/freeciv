@@ -100,7 +100,7 @@ static void before_end_year(void);
 static void end_turn(void);
 static void send_all_info(struct conn_list *dest);
 static void ai_start_turn(void);
-static int is_game_over(void);
+static bool is_game_over(void);
 static void save_game_auto(void);
 static void generate_ai_players(void);
 static int mark_nation_as_used(int nation);

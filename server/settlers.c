@@ -45,8 +45,8 @@ static int city_desirability(struct player *pplayer, int x, int y);
 
 static void auto_settlers_player(struct player *pplayer); 
 
-static int is_already_assigned(struct unit *myunit, struct player *pplayer, 
-			       int x, int y);
+static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
+				int x, int y);
 
 
 /**************************************************************************

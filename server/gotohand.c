@@ -68,7 +68,7 @@ static unsigned int refuellist_size;
 static void make_list_of_refuel_points(struct player *pplayer);
 static void dealloc_refuel_stack(void);
 static bool find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
-static int airspace_looks_safe(int x, int y, struct player *pplayer);
+static bool airspace_looks_safe(int x, int y, struct player *pplayer);
 
 /* These are used for all GOTO's */
 
