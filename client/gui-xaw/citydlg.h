@@ -18,11 +18,10 @@
 
 #include "citydlg_g.h"
 
-void button_down_citymap(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void close_city_dialog_action(Widget w, XEvent *event, String *argv,
-			      Cardinal *argc);
-void city_dialog_returnkey(Widget w, XEvent *event, String *params,
-			   Cardinal *num_params);
+
+void citydlg_btn_select_citymap(Widget w, XEvent *event);
+void citydlg_key_return(Widget w);
+void citydlg_msg_close(Widget w);
+
 
 #endif  /* FC__CITYDLG_H */
-

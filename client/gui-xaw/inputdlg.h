@@ -16,6 +16,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
+
 Widget input_dialog_create(Widget parent, char *dialogname, 
 			   char *text, char *postinputtest,
 			   void *ok_callback, XtPointer ok_cli_data, 
@@ -23,7 +24,8 @@ Widget input_dialog_create(Widget parent, char *dialogname,
 
 void input_dialog_destroy(Widget button);
 char *input_dialog_get_input(Widget button);
-void input_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params);
+
+void inputdlg_key_return(Widget w);
+
 
 #endif  /* FC__INPUTDLG_H */

@@ -17,7 +17,8 @@
 
 #include "chatline_g.h"
 
-void inputline_return(Widget w,	XEvent *event, String *params,
-		      Cardinal *num_params);
+
+void chatline_key_return(Widget w);
+
 
 #endif  /* FC__CHATLINE_H */

@@ -17,7 +17,8 @@
 
 #include "connectdlg_g.h"
 
-void connect_dialog_returnkey(Widget w, XEvent *event, String *params,
-			      Cardinal *num_params);
+
+void connectdlg_key_return(Widget w);
+
 
 #endif  /* FC__CONNECTDLG_H */

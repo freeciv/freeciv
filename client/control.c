@@ -739,50 +739,6 @@ void request_center_focus_unit(void)
 }
 
 /**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-void key_unit_nuke(void)
-{
-  if(get_unit_in_focus())
-    request_unit_nuke(punit_focus);
-}
- 
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_disband(void)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if(punit)
-    request_unit_disband(punit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_homecity(void)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if(punit)
-    request_unit_change_homecity(punit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_end_turn(void)
-{
-  if(/*!get_unit_in_focus() &&*/ !game.player_ptr->turn_done) {
-      struct packet_generic_message gen_packet;
-    gen_packet.message[0]='\0';
-    send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
-    set_turn_done_button_state(FALSE);
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void key_cancel_action(void)
@@ -795,7 +751,6 @@ void key_cancel_action(void)
     goto_state=0;
     nuke_state=0;
     paradrop_state=0;
-    connect_state = 0;
 
     update_unit_info_label(punit);
   }
@@ -804,17 +759,94 @@ void key_cancel_action(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_fortify(void)
+void key_end_turn(void)
 {
-  struct unit *punit=get_unit_in_focus();
-     
-  if(punit) {
-    if(unit_flag(punit->type, F_SETTLERS))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
-    else 
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFY);
+  if(!game.player_ptr->turn_done) {
+    struct packet_generic_message gen_packet;
+    gen_packet.message[0]='\0';
+    send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
+    set_turn_done_button_state(FALSE);
   }
- 
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_map_grid_toggle(void)
+{
+  request_toggle_map_grid();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, 0, -1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north_east(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, 1, -1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_east(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, 1, 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south_east(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, 1, 1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, 0, 1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south_west(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, -1, 1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_west(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, -1, 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north_west(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, -1, -1);
 }
 
 /**************************************************************************
@@ -822,21 +854,60 @@ void key_unit_fortify(void)
 **************************************************************************/
 void key_unit_airbase(void)
 {
-  struct unit *punit=get_unit_in_focus();
-     
-  if(punit) {
-    if(unit_flag(punit->type, F_AIRBASE))
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_AIRBASE))
       request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
-  }
- 
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_goto(void)
+void key_unit_auto_attack(void)
 {
-  request_unit_goto();
+  if(get_unit_in_focus())
+    if(!unit_flag(punit_focus->type, F_SETTLERS) &&
+       can_unit_do_auto(punit_focus))
+      request_unit_auto(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_auto_explore(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_EXPLORE))
+      request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_auto_settle(void)
+{
+  if(get_unit_in_focus())
+    if(unit_flag(punit_focus->type, F_SETTLERS) &&
+       can_unit_do_auto(punit_focus))
+      request_unit_auto(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_build_city(void)
+{
+  if(get_unit_in_focus())
+    request_unit_build_city(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_build_wonder(void)
+{
+  if(get_unit_in_focus())
+    if(unit_flag(punit_focus->type, F_CARAVAN))
+      request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
 }
 
 /**************************************************************************
@@ -850,95 +921,10 @@ void key_unit_connect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_build_city(void)
-{
-  struct unit *punit=get_unit_in_focus();
-  if (!punit) return;
-  if (unit_flag(punit->type, F_CARAVAN)) {
-    request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
-  } else {
-    request_unit_build_city(punit);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_unload(void)
+void key_unit_disband(void)
 {
   if(get_unit_in_focus())
-    request_unit_unload(punit_focus);
-}
-
-/**************************************************************************
-...
-+**************************************************************************/
-void key_unit_wakeup(void)
-{
-  if(get_unit_in_focus())
-    request_unit_wakeup(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_sentry(void)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_map_grid(void)
-{
-  request_toggle_map_grid();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_clean_pollution(void)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if (!punit) return;
-
-  if (unit_flag(punit->type, F_PARATROOPERS)) {
-    request_unit_paradrop(punit);
-  }
-  else {
-    request_new_unit_activity(punit, ACTIVITY_POLLUTION);
-  }
-
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_pillage(void)
-{
-  if(get_unit_in_focus())
-    request_unit_pillage(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_explore(void)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_wait(void)
-{
-  if(get_unit_in_focus())
-    request_unit_wait(get_unit_in_focus());
+    request_unit_disband(punit_focus);
 }
 
 /**************************************************************************
@@ -952,39 +938,38 @@ void key_unit_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_mine(void)
+void key_unit_fortify(void)
 {
   if(get_unit_in_focus())
-      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFY))
+      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFY);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_transform(void)
+void key_unit_fortress(void)
 {
   if(get_unit_in_focus())
-      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTRESS))
+      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_road(void)
+void key_unit_goto(void)
 {
-  struct unit *punit=get_unit_in_focus();
-  
-  if (!punit) return;
+  request_unit_goto();
+}
 
-  if (unit_flag(punit->type, F_CARAVAN)) {
-    request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
-  }
-  else {
-    if(can_unit_do_activity(punit, ACTIVITY_ROAD))
-      request_new_unit_activity(punit, ACTIVITY_ROAD);
-    else if(can_unit_do_activity(punit, ACTIVITY_RAILROAD))
-      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
-  }
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_homecity(void)
+{
+  if(get_unit_in_focus())
+    request_unit_change_homecity(punit_focus);
 }
 
 /**************************************************************************
@@ -993,87 +978,124 @@ void key_unit_road(void)
 void key_unit_irrigate(void)
 {
   if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_IRRIGATE))
+      request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_auto(void)
+void key_unit_mine(void)
 {
   if(get_unit_in_focus())
-    request_unit_auto(punit_focus);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_MINE))
+      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
+}
+
+/**************************************************************************
+Explode nuclear at a tile without enemy units
+**************************************************************************/
+void key_unit_nuke(void)
+{
+  if(get_unit_in_focus())
+    request_unit_nuke(punit_focus);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_north(void)
+void key_unit_paradrop(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 0, -1);
+    if(can_unit_paradropped(punit_focus))
+      request_unit_paradrop(punit_focus);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_north_east(void)
+void key_unit_pillage(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, -1);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_PILLAGE))
+      request_unit_pillage(punit_focus);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_east(void)
+void key_unit_pollution(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, 0);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION))
+      request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_south_east(void)
+void key_unit_road(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 1, 1);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
+      request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
+    else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
+      request_new_unit_activity(punit_focus, ACTIVITY_RAILROAD);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_south(void)
+void key_unit_sentry(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 0, 1);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_SENTRY))
+      request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_south_west(void)
+void key_unit_traderoute(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, 1);
+    if(unit_flag(punit_focus->type, F_CARAVAN))
+      request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_west(void)
+void key_unit_transform(void)
 {
   if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, -1, 0);
+    if(can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM))
+      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_north_west(void)
+void key_unit_unload(void)
 {
   if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, -1);
+    request_unit_unload(punit_focus);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_wait(void)
+{
+  if(get_unit_in_focus())
+    request_unit_wait(punit_focus);
+}
+
+/**************************************************************************
+...
+***************************************************************************/
+void key_unit_wakeup_others(void)
+{
+  if(get_unit_in_focus())
+    request_unit_wakeup(punit_focus);
+}

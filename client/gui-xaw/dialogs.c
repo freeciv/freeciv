@@ -1965,7 +1965,7 @@ void create_races_dialog(void)
 		races_ok_command_callback, NULL);
 
   textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: races-dialog-returnkey()");
+    XtParseTranslationTable("<Key>Return: key-dialog-races-return()");
   XtOverrideTranslations(races_leader, textfieldtranslations);
 
 
@@ -1988,8 +1988,7 @@ void create_races_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void races_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params)
+void racesdlg_key_return(Widget w)
 {
   Widget ok = XtNameToWidget(XtParent(XtParent(w)), "*racesokcommand");
   if (ok)

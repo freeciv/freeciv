@@ -1724,9 +1724,9 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	      {
 	      	/* Note: Must be better done (linked with the pull down menu */
 		if (can_unit_build_city(punit))
-		  Map_InsertCommand(&list, "Build City", PACK_USERDATA(punit, MENU_ORDER_CITY));
+		  Map_InsertCommand(&list, "Build City", PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
 		if (can_unit_add_to_city(punit))
-		  Map_InsertCommand(&list, "Add to City", PACK_USERDATA(punit, MENU_ORDER_CITY));
+		  Map_InsertCommand(&list, "Add to City", PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
 		if (can_unit_do_activity(punit, ACTIVITY_ROAD))
 		  Map_InsertCommand(&list, "Build Road", PACK_USERDATA(punit, MENU_ORDER_ROAD));
 		if (can_unit_do_activity(punit, ACTIVITY_RAILROAD))
@@ -1748,7 +1748,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		if (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS))
 		  Map_InsertCommand(&list, "Auto Attack", PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
 		if (can_unit_do_activity(punit, ACTIVITY_EXPLORE))
-		  Map_InsertCommand(&list, "Auto Explore", PACK_USERDATA(punit, MENU_ORDER_EXPLORE));
+		  Map_InsertCommand(&list, "Auto Explore", PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
 		if (can_unit_paradropped(punit))
 		  Map_InsertCommand(&list, "Paradrop", PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
 		if (unit_flag(punit->type, F_NUCLEAR))
@@ -1756,7 +1756,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		if (get_transporter_capacity(punit) > 0)
 		  Map_InsertCommand(&list, "Unload", PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
 		if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y))
-		  Map_InsertCommand(&list, "Wake up", PACK_USERDATA(punit, MENU_ORDER_WAKEUP));
+		  Map_InsertCommand(&list, "Wake up", PACK_USERDATA(punit, MENU_ORDER_WAKEUP_OTHERS));
 		if (punit != focus)
 		  Map_InsertCommand(&list, "Activate", PACK_USERDATA(punit, UNIT_ACTIVATE));
 

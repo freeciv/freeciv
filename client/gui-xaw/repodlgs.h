@@ -17,8 +17,10 @@
 
 #include "repodlgs_g.h"
 
-void close_science_dialog_action(Widget, XEvent *, String *, Cardinal *);
-void close_trade_dialog_action(Widget, XEvent *, String *, Cardinal *);
-void close_activeunits_dialog_action(Widget, XEvent *, String *, Cardinal *);
+
+void activeunits_msg_close(Widget w);
+void sciencereport_msg_close(Widget w);
+void tradereport_msg_close(Widget w);
+
 
 #endif  /* FC__REPODLGS_H */

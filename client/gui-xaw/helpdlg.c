@@ -239,7 +239,7 @@ static void create_help_dialog(void)
   XSetWMProtocols(display, XtWindow(help_dialog_shell), 
 		  &wm_delete_window, 1);
   XtOverrideTranslations(help_dialog_shell,
-	 XtParseTranslationTable("<Message>WM_PROTOCOLS: close-helpdialog()"));
+	 XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-help()"));
 
   /* create_help_page(HELP_IMPROVEMENT); */
   create_help_page(HELP_TEXT);
@@ -1221,8 +1221,7 @@ static void help_close_command_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_help_dialog_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc)
+void helpdlg_msg_close(Widget w)
 {
   help_close_command_callback(w, NULL, NULL);
 }

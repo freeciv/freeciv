@@ -21,6 +21,8 @@ libguiclient_a_DEPENDENCIES = ad2c
 libguiclient_a_SOURCES = \
 	ad2c		\
 	Freeciv.h	\
+	actions.c	\
+	actions.h	\
 	canvas.c	\
 	canvas.h	\
 	canvasp.h	\

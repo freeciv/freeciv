@@ -39,8 +39,7 @@ extern Widget inputline_text, outputwindow_text;
 /**************************************************************************
 ...
 **************************************************************************/
-void inputline_return(Widget w, XEvent *event, String *params,
-		      Cardinal *num_params)
+void chatline_key_return(Widget w)
 {
   struct packet_generic_message apacket;
   String theinput;

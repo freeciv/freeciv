@@ -17,7 +17,8 @@
 
 #include "messagewin_g.h"
 
-void close_meswin_dialog_action(Widget w, XEvent *event, 
-				String *argv, Cardinal *argc);
+
+void meswin_msg_close(Widget w);
+
 
 #endif  /* FC__MESSAGEWIN_H */

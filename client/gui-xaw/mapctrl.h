@@ -17,51 +17,16 @@
 
 #include "mapctrl_g.h"
 
-struct unit;
 
-void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void mapctrl_key_city_workers(XEvent *event);
+void mapctrl_btn_adjust_workers(XEvent *event);
 
-void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void mapctrl_btn_mapcanvas(XEvent *event);
+void mapctrl_btn_overviewcanvas(XEvent *event);
+void mapctrl_btn_wakeup(XEvent *event);
 
-void focus_to_next_unit(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_cancel_action(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_airbase(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_east(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_north(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_south_east(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_south_west(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_south(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void xaw_key_unit_west(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void focus_to_next_unit(void);
+void center_on_unit(void);
 
 
 #endif  /* FC__MAPCTRL_H */

@@ -17,9 +17,9 @@
 
 #include "spaceshipdlg_g.h"
 
-void close_spaceship_dialog_action(Widget w, XEvent *event, String *argv,
-				   Cardinal *argc);
-void spaceship_dialog_returnkey(Widget w, XEvent *event, String *params,
-				Cardinal *num_params);
+
+void spaceshipdlg_key_return(Widget w);
+void spaceshipdlg_msg_close(Widget w);
+
 
 #endif  /* FC__SPACESHIPDLG_H */

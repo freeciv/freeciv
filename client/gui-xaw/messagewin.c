@@ -183,7 +183,7 @@ void create_meswin_dialog(void)
   XSetWMProtocols(display, XtWindow(meswin_dialog_shell), 
 		  &wm_delete_window, 1);
   XtOverrideTranslations(meswin_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-meswindialog()"));
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-messages()"));
 
 }
 
@@ -399,8 +399,7 @@ void meswin_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_meswin_dialog_action(Widget w, XEvent *event, 
-				String *argv, Cardinal *argc)
+void meswin_msg_close(Widget w)
 {
   meswin_close_callback(w, NULL, NULL);
 }

@@ -87,30 +87,30 @@ enum MenuID {
   MENU_ORDER_TRANSFORM,
   MENU_ORDER_FORTRESS,
   MENU_ORDER_AIRBASE,
-  MENU_ORDER_CITY,
+  MENU_ORDER_BUILD_CITY,
   MENU_ORDER_ROAD,
   MENU_ORDER_CONNECT,
   MENU_ORDER_POLLUTION,
   MENU_ORDER_FORTIFY,
   MENU_ORDER_SENTRY,
   MENU_ORDER_PILLAGE,
-  MENU_ORDER_EXPLORE,
+  MENU_ORDER_AUTO_EXPLORE,
   MENU_ORDER_HOMECITY,
   MENU_ORDER_WAIT,
   MENU_ORDER_UNLOAD,
-  MENU_ORDER_WAKEUP,
+  MENU_ORDER_WAKEUP_OTHERS,
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
   MENU_ORDER_DISBAND,
   MENU_ORDER_BUILD_WONDER,
-  MENU_ORDER_TRADE_ROUTE,
+  MENU_ORDER_TRADEROUTE,
   MENU_ORDER_DONE,
   MENU_ORDER_NUKE,
 
   MENU_REPORT_CITY,
   MENU_REPORT_SCIENCE,
   MENU_REPORT_TRADE,
-  MENU_REPORT_ACTIVE_UNITS,
+  MENU_REPORT_MILITARY,
   MENU_REPORT_DEMOGRAPHIC,
   MENU_REPORT_TOP_CITIES,
   MENU_REPORT_WOW,
@@ -208,7 +208,7 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
 {
   switch(callback_action) {
   case MENU_VIEW_SHOW_MAP_GRID:
-    key_map_grid ();
+    key_map_grid_toggle ();
     break;
   case MENU_VIEW_CENTER_VIEW:
     center_on_unit();
@@ -229,7 +229,7 @@ static void orders_menu_callback(gpointer callback_data,
     if(get_unit_in_focus())
       request_unit_auto(get_unit_in_focus());
     break;
-   case MENU_ORDER_CITY:
+   case MENU_ORDER_BUILD_CITY:
     if(get_unit_in_focus())
       request_unit_build_city(get_unit_in_focus());
     break;
@@ -261,7 +261,7 @@ static void orders_menu_callback(gpointer callback_data,
       request_unit_connect();
     break;
    case MENU_ORDER_POLLUTION:
-    key_unit_clean_pollution();
+    key_unit_pollution();
     break;
    case MENU_ORDER_HOMECITY:
     if(get_unit_in_focus())
@@ -283,7 +283,7 @@ static void orders_menu_callback(gpointer callback_data,
     if(get_unit_in_focus())
       request_unit_unload(get_unit_in_focus());
     break;
-   case MENU_ORDER_WAKEUP:
+   case MENU_ORDER_WAKEUP_OTHERS:
     if(get_unit_in_focus())
       request_unit_wakeup(get_unit_in_focus());
     break;
@@ -303,7 +303,7 @@ static void orders_menu_callback(gpointer callback_data,
     if(get_unit_in_focus())
       request_unit_pillage(get_unit_in_focus());
      break;
-   case MENU_ORDER_EXPLORE:
+   case MENU_ORDER_AUTO_EXPLORE:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_EXPLORE);
      break;
@@ -312,7 +312,7 @@ static void orders_menu_callback(gpointer callback_data,
       request_unit_caravan_action(get_unit_in_focus(),
 				 PACKET_UNIT_HELP_BUILD_WONDER);
      break;
-   case MENU_ORDER_TRADE_ROUTE:
+   case MENU_ORDER_TRADEROUTE:
     if(get_unit_in_focus())
       request_unit_caravan_action(get_unit_in_focus(),
 				 PACKET_UNIT_ESTABLISH_TRADE);
@@ -346,7 +346,7 @@ static void reports_menu_callback(gpointer callback_data,
    case MENU_REPORT_TRADE:
     popup_trade_report_dialog(0);
     break;
-   case MENU_REPORT_ACTIVE_UNITS:
+   case MENU_REPORT_MILITARY:
     popup_activeunits_report_dialog(0);
     break;
   case MENU_REPORT_DEMOGRAPHIC:
@@ -516,7 +516,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Orders") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
   { "/" N_("Orders") "/" N_("Build City"),	"b",		orders_menu_callback,
-    MENU_ORDER_CITY							      },
+    MENU_ORDER_BUILD_CITY						      },
   { "/" N_("Orders") "/" N_("Build Road"),	"r",		orders_menu_callback,
     MENU_ORDER_ROAD							      },
   { "/" N_("Orders") "/" N_("Build Irrigation"), "i",		orders_menu_callback,
@@ -546,7 +546,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Orders") "/" N_("Unload"),	"u",		orders_menu_callback,
     MENU_ORDER_UNLOAD							      },
   { "/" N_("Orders") "/" N_("Wake up others"), "<shift>w",	orders_menu_callback,
-    MENU_ORDER_WAKEUP							      },
+    MENU_ORDER_WAKEUP_OTHERS						      },
   { "/" N_("Orders") "/sep3",		NULL,		NULL,
     0,					"<Separator>"			      },
   { "/" N_("Orders") "/" N_("Auto Settler"),	"a",		orders_menu_callback,
@@ -554,7 +554,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Orders") "/" N_("Auto Attack"),	"<shift>a",	orders_menu_callback,
     MENU_ORDER_AUTO_ATTACK						      },
   { "/" N_("Orders") "/" N_("Auto Explore"),	"x",		orders_menu_callback,
-    MENU_ORDER_EXPLORE							      },
+    MENU_ORDER_AUTO_EXPLORE						      },
   { "/" N_("Orders") "/" N_("Connect"),	        "<shift>c",	orders_menu_callback,
     MENU_ORDER_CONNECT							      },
   { "/" N_("Orders") "/" N_("Go to"),		"g",		orders_menu_callback,
@@ -568,7 +568,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Orders") "/" N_("Help Build Wonder"), "<shift>b",	orders_menu_callback,
     MENU_ORDER_BUILD_WONDER						      },
   { "/" N_("Orders") "/" N_("Make Trade Route"), "<shift>r",	orders_menu_callback,
-    MENU_ORDER_TRADE_ROUTE						      },
+    MENU_ORDER_TRADEROUTE						      },
   { "/" N_("Orders") "/" N_("Explode Nuclear"), "<shift>n",	orders_menu_callback,
     MENU_ORDER_NUKE							      },
   { "/" N_("Orders") "/sep5",		NULL,		NULL,
@@ -585,7 +585,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Reports") "/" N_("City Report"),	"F1",		reports_menu_callback,
     MENU_REPORT_CITY							      },
   { "/" N_("Reports") "/" N_("Military Report"), "F2",	reports_menu_callback,
-    MENU_REPORT_ACTIVE_UNITS						      },
+    MENU_REPORT_MILITARY						      },
   { "/" N_("Reports") "/" N_("Trade Report"),	  "F5",		reports_menu_callback,
     MENU_REPORT_TRADE							      },
   { "/" N_("Reports") "/" N_("Science Report"), "F6",		reports_menu_callback,

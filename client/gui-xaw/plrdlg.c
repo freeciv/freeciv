@@ -151,7 +151,7 @@ void create_players_dialog(void)
   XSetWMProtocols(display, XtWindow(players_dialog_shell), 
 		  &wm_delete_window, 1);
   XtOverrideTranslations(players_dialog_shell,
-    XtParseTranslationTable("<Message>WM_PROTOCOLS: close-playersdialog()"));
+    XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-players()"));
 }
 
 
@@ -260,8 +260,7 @@ void players_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_players_dialog_action(Widget w, XEvent *event, 
-				 String *argv, Cardinal *argc)
+void plrdlg_msg_close(Widget w)
 {
   players_close_callback(w, NULL, NULL);
 }

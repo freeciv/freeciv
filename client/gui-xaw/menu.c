@@ -53,86 +53,6 @@
 #include "menu.h"
 
 
-enum MenuID {
-  MENU_END_OF_LIST=0,
-
-  MENU_GAME_OPTIONS,
-  MENU_GAME_MSG_OPTIONS,
-  MENU_GAME_SAVE_SETTINGS,
-  MENU_GAME_PLAYERS,
-  MENU_GAME_MESSAGES,
-  MENU_GAME_SERVER_OPTIONS1,
-  MENU_GAME_SERVER_OPTIONS2,
-  MENU_GAME_OUTPUT_LOG,
-  MENU_GAME_CLEAR_OUTPUT,
-  MENU_GAME_DISCONNECT,
-  MENU_GAME_QUIT,
-
-  MENU_KINGDOM_RATES,   
-  MENU_KINGDOM_FIND_CITY,
-  MENU_KINGDOM_REVOLUTION,
-
-  MENU_VIEW_SHOW_MAP_GRID,
-  MENU_VIEW_CENTER_VIEW,
-  
-  MENU_ORDER_CITY,
-  MENU_ORDER_ROAD,
-  MENU_ORDER_CONNECT,
-  MENU_ORDER_IRRIGATE,
-  MENU_ORDER_MINE,
-  MENU_ORDER_TRANSFORM,
-  MENU_ORDER_FORTRESS,
-  MENU_ORDER_AIRBASE,
-  MENU_ORDER_POLLUTION,
-  MENU_ORDER_FORTIFY,
-  MENU_ORDER_SENTRY,
-  MENU_ORDER_PILLAGE,
-  MENU_ORDER_HOMECITY,
-  MENU_ORDER_UNLOAD,
-  MENU_ORDER_WAKEUP,
-  MENU_ORDER_AUTO_SETTLER,
-  MENU_ORDER_AUTO_ATTACK,
-  MENU_ORDER_EXPLORE,
-  MENU_ORDER_GOTO,
-  MENU_ORDER_GOTO_CITY,
-  MENU_ORDER_DISBAND,
-  MENU_ORDER_BUILD_WONDER,
-  MENU_ORDER_TRADE_ROUTE,
-  MENU_ORDER_NUKE,
-  MENU_ORDER_WAIT,
-  MENU_ORDER_DONE,
-
-  MENU_REPORT_CITY,
-  MENU_REPORT_ACTIVE_UNITS,
-  MENU_REPORT_TRADE,
-  MENU_REPORT_SCIENCE,
-  MENU_REPORT_WOW,
-  MENU_REPORT_TOP_CITIES,
-  MENU_REPORT_DEMOGRAPHIC,
-  MENU_REPORT_SPACESHIP,
-
-  MENU_HELP_CONTROLS,
-  MENU_HELP_PLAYING,
-  MENU_HELP_IMPROVEMENTS,
-  MENU_HELP_UNITS,
-  MENU_HELP_COMBAT,
-  MENU_HELP_ZOC,
-  MENU_HELP_TECH,
-  MENU_HELP_TERRAIN,
-  MENU_HELP_WONDERS,
-  MENU_HELP_GOVERNMENT,
-  MENU_HELP_HAPPINESS,
-  MENU_HELP_SPACE_RACE,
-  MENU_HELP_COPYING,
-  MENU_HELP_ABOUT,
-  MENU_HELP_CONNECTING,
-  MENU_HELP_CHATLINE,
-  MENU_HELP_LANGUAGES,
-
-  MENU_SEPARATOR_LINE
-};
-
-
 /* stuff for run-time mutable menu text */
 
 #define MAX_LEN_TERR_NAME_DISP  9
@@ -177,14 +97,7 @@ struct Menu {
   struct MenuEntry *entries;
 };
 
-static struct Menu
-  *game_menu,
-  *kingdom_menu,
-  *view_menu,
-  *orders_menu,
-  *reports_menu,
-  *help_menu;
-
+static struct Menu *menus[MENU_LAST];
 
 static struct MenuEntry game_menu_entries[]={
     { { N_("Local Options"), 0        },      "", MENU_GAME_OPTIONS, 0 },
@@ -222,7 +135,7 @@ static struct MenuEntry view_menu_entries[]={
 
 static struct MenuEntry order_menu_entries[]={
     { { N_("Build City"),
-        N_("Add to City"), 0          },     "b", MENU_ORDER_CITY, 0 },
+        N_("Add to City"), 0          },     "b", MENU_ORDER_BUILD_CITY, 0 },
     { { N_("Build Road"),
         N_("Build Railroad"), 0       },     "r", MENU_ORDER_ROAD, 0 },
     { { N_("Build Irrigation"),
@@ -243,18 +156,18 @@ static struct MenuEntry order_menu_entries[]={
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Make Homecity"), 0        },     "h", MENU_ORDER_HOMECITY, 0 },
     { { N_("Unload"), 0               },     "u", MENU_ORDER_UNLOAD, 0 },
-    { { N_("Wake up others"), 0       },     "W", MENU_ORDER_WAKEUP, 0 },
+    { { N_("Wake up others"), 0       },     "W", MENU_ORDER_WAKEUP_OTHERS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Auto Settler"), 0         },     "a", MENU_ORDER_AUTO_SETTLER, 0 },
     { { N_("Auto Attack"), 0          },     "a", MENU_ORDER_AUTO_ATTACK, 0 },
-    { { N_("Auto Explore"), 0         },     "x", MENU_ORDER_EXPLORE, 0 },
+    { { N_("Auto Explore"), 0         },     "x", MENU_ORDER_AUTO_EXPLORE, 0 },
     { { N_("Connect"), 0              },     "C", MENU_ORDER_CONNECT, 0 },
     { { N_("Go to"), 0                },     "g", MENU_ORDER_GOTO, 0 },
     { { N_("Go/Airlift to City"), 0   },     "l", MENU_ORDER_GOTO_CITY, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Disband Unit"), 0         },     "D", MENU_ORDER_DISBAND, 0 },
     { { N_("Help Build Wonder"), 0    },     "b", MENU_ORDER_BUILD_WONDER, 0 },
-    { { N_("Make Trade Route"), 0     },     "r", MENU_ORDER_TRADE_ROUTE, 0 },
+    { { N_("Make Trade Route"), 0     },     "r", MENU_ORDER_TRADEROUTE, 0 },
     { { N_("Explode Nuclear"), 0      },     "N", MENU_ORDER_NUKE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wait"), 0                 },     "w", MENU_ORDER_WAIT, 0 },
@@ -264,7 +177,7 @@ static struct MenuEntry order_menu_entries[]={
 
 static struct MenuEntry reports_menu_entries[]={
     { { N_("City Report"), 0          },    "F1", MENU_REPORT_CITY, 0 },
-    { { N_("Military Report"), 0      },    "F2", MENU_REPORT_ACTIVE_UNITS, 0 },
+    { { N_("Military Report"), 0      },    "F2", MENU_REPORT_MILITARY, 0 },
     { { N_("Trade Report"), 0         },    "F5", MENU_REPORT_TRADE, 0 },
     { { N_("Science Report"), 0       },    "F6", MENU_REPORT_SCIENCE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -299,14 +212,12 @@ static struct MenuEntry help_menu_entries[]={
 };
 
 
-static enum unit_activity road_activity;
-
-static struct Menu *create_menu(char *name, struct MenuEntry entries[], 
-				void (*menucallback)(Widget, XtPointer, XtPointer),
-				Widget parent);
-static void menu_entry_sensitive(struct Menu *pmenu, enum MenuID id, Bool s);
-static void menu_entry_rename(struct Menu *pmenu, enum MenuID id, int var, char *terr);
-static char *menu_entry_text(struct Menu *pmenu, int ent, int var, char *terr);
+static void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[], 
+			void (*menucallback)(Widget, XtPointer, XtPointer),
+			Widget parent);
+static void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s);
+static void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr);
+static char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr);
 
 /****************************************************************
 ...
@@ -314,20 +225,20 @@ static char *menu_entry_text(struct Menu *pmenu, int ent, int var, char *terr);
 void update_menus(void)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    XtVaSetValues(reports_menu->button, XtNsensitive, False, NULL);
-    XtVaSetValues(orders_menu->button, XtNsensitive, False, NULL);
-    XtVaSetValues(view_menu->button, XtNsensitive, False, NULL);
-    XtVaSetValues(kingdom_menu->button, XtNsensitive, False, NULL);
+    XtSetSensitive(menus[MENU_REPORT]->button, False);
+    XtSetSensitive(menus[MENU_ORDER]->button, False);
+    XtSetSensitive(menus[MENU_VIEW]->button, False);
+    XtSetSensitive(menus[MENU_KINGDOM]->button, False);
 
-    menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_MSG_OPTIONS, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_SAVE_SETTINGS, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 0);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 0);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 0);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_PLAYERS, 0);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_MESSAGES, 0);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
   }
   else {
     struct unit *punit;
@@ -343,23 +254,23 @@ void update_menus(void)
       }
     }
 
-    XtVaSetValues(reports_menu->button, XtNsensitive, True, NULL);
-    XtVaSetValues(orders_menu->button, XtNsensitive, (punit != NULL), NULL);
-    XtVaSetValues(view_menu->button, XtNsensitive, True, NULL);
-    XtVaSetValues(kingdom_menu->button, XtNsensitive, True, NULL);
-  
-    menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_MSG_OPTIONS, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_SAVE_SETTINGS, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
+    XtSetSensitive(menus[MENU_REPORT]->button, True);
+    XtSetSensitive(menus[MENU_ORDER]->button, (punit != NULL));
+    XtSetSensitive(menus[MENU_VIEW]->button, True);
+    XtSetSensitive(menus[MENU_KINGDOM]->button, True);
 
-    menu_entry_sensitive(reports_menu, MENU_REPORT_SPACESHIP,
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_PLAYERS, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_MESSAGES, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_DISCONNECT, 1);
+
+    menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP,
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if(punit) {
@@ -369,114 +280,112 @@ void update_menus(void)
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
 
-      menu_entry_sensitive(orders_menu, MENU_ORDER_CITY, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY, 
 			   (can_unit_build_city(punit) ||
 			    can_unit_add_to_city(punit)));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_ROAD, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_ROAD, 
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_CONNECT, 
-			   can_unit_do_connect(punit, ACTIVITY_IDLE)
-			   && has_capability ("unit_connect", aconnection.capability));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_IRRIGATE, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_IRRIGATE, 
 			   can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_MINE, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_MINE, 
 			   can_unit_do_activity(punit, ACTIVITY_MINE));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_TRANSFORM, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_TRANSFORM, 
 			   can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_FORTRESS, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FORTRESS, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_AIRBASE,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AIRBASE,
 			   can_unit_do_activity(punit, ACTIVITY_AIRBASE));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_POLLUTION, 
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_FORTIFY, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FORTIFY, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFY));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_SENTRY, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_SENTRY, 
 			   can_unit_do_activity(punit, ACTIVITY_SENTRY));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_PILLAGE, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_PILLAGE, 
 			   can_unit_do_activity(punit, ACTIVITY_PILLAGE));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_HOMECITY, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_HOMECITY, 
 			   can_unit_change_homecity(punit));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_UNLOAD, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD, 
 			   get_transporter_capacity(punit)>0);
-      menu_entry_sensitive(orders_menu, MENU_ORDER_WAKEUP, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_SETTLER,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_SETTLER,
 			   (can_unit_do_auto(punit)
 			    && unit_flag(punit->type, F_SETTLERS)));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_ATTACK, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, 
 			   (can_unit_do_auto(punit)
 			    && !unit_flag(punit->type, F_SETTLERS)));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_EXPLORE, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_GOTO_CITY,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
+			   can_unit_do_connect(punit, ACTIVITY_IDLE)
+			   && has_capability ("unit_connect", aconnection.capability));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
-      menu_entry_sensitive(orders_menu, MENU_ORDER_BUILD_WONDER,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,
 			   unit_can_help_build_wonder_here(punit));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_TRADE_ROUTE,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_TRADEROUTE,
 			   unit_can_est_traderoute_here(punit));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_NUKE,
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
                            unit_flag(punit->type, F_NUCLEAR));
 
       if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_CITY,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_ADD_TO, NULL);
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_CITY,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_BUILD, NULL);
       }
 
       if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
 	       improvement_exists(B_SUPERMARKET)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_IRRIGATE, NULL);
       }
 
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_MINE,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
 			  (get_tile_type(tinfo->mining_result))->terrain_name);
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_MINE,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_MINE, NULL);
       }
 
       if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_TRANSFORM,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
 			  (get_tile_type(tinfo->transform_result))->terrain_name);
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_TRANSFORM,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);
       }
 
       if (unit_flag(punit->type, F_PARATROOPERS)) {
-	menu_entry_rename(orders_menu, MENU_ORDER_POLLUTION,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_POLLUTION,
 			  TEXT_ORDER_POLLUTION_PARADROP, NULL);
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_POLLUTION,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_POLLUTION,
 			  TEXT_ORDER_POLLUTION_POLLUTION, NULL);
       }
 
       if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
-	menu_entry_rename(orders_menu, MENU_ORDER_ROAD,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
 			  TEXT_ORDER_ROAD_RAILROAD, NULL);
-	road_activity=ACTIVITY_RAILROAD;  
       } else {
-	menu_entry_rename(orders_menu, MENU_ORDER_ROAD,
+	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
 			  TEXT_ORDER_ROAD_ROAD, NULL);
-	road_activity=ACTIVITY_ROAD;  
       }
     }
   }
@@ -558,7 +467,7 @@ static void view_menu_callback(Widget w, XtPointer client_data,
 
   switch(pane_num) {
   case MENU_VIEW_SHOW_MAP_GRID:
-    request_toggle_map_grid();
+    key_map_grid_toggle();
     break;
   case MENU_VIEW_CENTER_VIEW:
     request_center_focus_unit();
@@ -573,112 +482,100 @@ static void view_menu_callback(Widget w, XtPointer client_data,
 static void orders_menu_callback(Widget w, XtPointer client_data,
 				 XtPointer garbage)
 {
+
+
+
+
+
+  struct unit *punit;
   size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
-   case MENU_ORDER_CITY:
-    if(get_unit_in_focus())
-      request_unit_build_city(get_unit_in_focus());
+  case MENU_ORDER_BUILD_CITY:
+    key_unit_build_city();
     break;
-   case MENU_ORDER_ROAD:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), road_activity);
+  case MENU_ORDER_ROAD:
+    key_unit_road();
     break;
-   case MENU_ORDER_CONNECT:
-    if(get_unit_in_focus())
-      request_unit_connect();
+  case MENU_ORDER_IRRIGATE:
+    key_unit_irrigate();
     break;
-   case MENU_ORDER_IRRIGATE:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_IRRIGATE);
+  case MENU_ORDER_MINE:
+    key_unit_mine();
     break;
-   case MENU_ORDER_MINE:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_MINE);
+  case MENU_ORDER_TRANSFORM:
+    key_unit_transform();
     break;
-   case MENU_ORDER_TRANSFORM:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_TRANSFORM);
+  case MENU_ORDER_FORTRESS:
+    key_unit_fortress();
     break;
-   case MENU_ORDER_FORTRESS:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTRESS);
-    break;
-   case MENU_ORDER_AIRBASE:
+  case MENU_ORDER_AIRBASE:
     key_unit_airbase(); 
     break;
-   case MENU_ORDER_POLLUTION:
-    key_unit_clean_pollution();
+  case MENU_ORDER_POLLUTION: /* or MENU_ORDER_PARADROP */
+    if((punit = get_unit_in_focus())) {
+      if (unit_flag(punit->type, F_SETTLERS))
+	key_unit_pollution();
+      else
+	key_unit_paradrop();
+    }
     break;
-   case MENU_ORDER_FORTIFY:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTIFY);
+  case MENU_ORDER_FORTIFY:
+    key_unit_fortify();
     break;
-   case MENU_ORDER_SENTRY:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_SENTRY);
+  case MENU_ORDER_SENTRY:
+    key_unit_sentry();
     break;
-   case MENU_ORDER_PILLAGE:
-    if(get_unit_in_focus())
-      request_unit_pillage(get_unit_in_focus());
+  case MENU_ORDER_PILLAGE:
+    key_unit_pillage();
     break;
-   case MENU_ORDER_HOMECITY:
-    if(get_unit_in_focus())
-      request_unit_change_homecity(get_unit_in_focus());
+  case MENU_ORDER_HOMECITY:
+    key_unit_homecity();
     break;
-   case MENU_ORDER_UNLOAD:
-    if(get_unit_in_focus())
-      request_unit_unload(get_unit_in_focus());
+  case MENU_ORDER_UNLOAD:
+    key_unit_unload();
     break;
-   case MENU_ORDER_WAKEUP:
-    if(get_unit_in_focus())
-      request_unit_wakeup(get_unit_in_focus());
+  case MENU_ORDER_WAKEUP_OTHERS:
+    key_unit_wakeup_others();
     break;
-   case MENU_ORDER_AUTO_SETTLER:
-   case MENU_ORDER_AUTO_ATTACK:
-    if(get_unit_in_focus())
-      request_unit_auto(get_unit_in_focus());
+  case MENU_ORDER_AUTO_SETTLER:
+    key_unit_auto_settle();
     break;
-   case MENU_ORDER_EXPLORE:
-    if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_EXPLORE);
-     break;
-   case MENU_ORDER_GOTO:
-    if(get_unit_in_focus())
-      request_unit_goto();
+  case MENU_ORDER_AUTO_ATTACK:
+    key_unit_auto_attack();
     break;
-   case MENU_ORDER_GOTO_CITY:
+  case MENU_ORDER_AUTO_EXPLORE:
+    key_unit_auto_explore();
+    break;
+  case MENU_ORDER_CONNECT:
+    key_unit_connect();
+    break;
+  case MENU_ORDER_GOTO:
+    key_unit_goto();
+    break;
+  case MENU_ORDER_GOTO_CITY:
     if(get_unit_in_focus())
       popup_goto_dialog();
     break;
-   case MENU_ORDER_DISBAND:
-    if(get_unit_in_focus())
-      request_unit_disband(get_unit_in_focus());
+  case MENU_ORDER_DISBAND:
+    key_unit_disband();
     break;
-   case MENU_ORDER_BUILD_WONDER:
-    if(get_unit_in_focus())
-      request_unit_caravan_action(get_unit_in_focus(),
-				  PACKET_UNIT_HELP_BUILD_WONDER);
-     break;
-   case MENU_ORDER_TRADE_ROUTE:
-    if(get_unit_in_focus())
-      request_unit_caravan_action(get_unit_in_focus(),
-				  PACKET_UNIT_ESTABLISH_TRADE);
-     break;
-   case MENU_ORDER_NUKE:
-    if(get_unit_in_focus())
-      request_unit_nuke(get_unit_in_focus());
+  case MENU_ORDER_BUILD_WONDER:
+    key_unit_build_wonder();
     break;
-   case MENU_ORDER_WAIT:
-    if(get_unit_in_focus())
-      request_unit_wait(get_unit_in_focus());
+  case MENU_ORDER_TRADEROUTE:
+    key_unit_traderoute();
     break;
-   case MENU_ORDER_DONE:
-    if(get_unit_in_focus())
-      request_unit_move_done();
+  case MENU_ORDER_NUKE:
+    key_unit_nuke();
+    break;
+  case MENU_ORDER_WAIT:
+    key_unit_wait();
+    break;
+  case MENU_ORDER_DONE:
+    key_unit_done();
     break;
   }
-
 }
 
 
@@ -694,7 +591,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
    case MENU_REPORT_CITY:
     popup_city_report_dialog(0);
     break;
-   case MENU_REPORT_ACTIVE_UNITS:
+   case MENU_REPORT_MILITARY:
     popup_activeunits_report_dialog(0);
     break;
    case MENU_REPORT_TRADE:
@@ -718,7 +615,6 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
   }
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -734,11 +630,11 @@ static void help_menu_callback(Widget w, XtPointer client_data,
   case MENU_HELP_CONNECTING:
     popup_help_dialog_string(HELP_CONNECTING_ITEM);
     break;
-  case MENU_HELP_CHATLINE:
-    popup_help_dialog_string(HELP_CHATLINE_ITEM);
-    break;
   case MENU_HELP_CONTROLS:
     popup_help_dialog_string(HELP_CONTROLS_ITEM);
+    break;
+  case MENU_HELP_CHATLINE:
+    popup_help_dialog_string(HELP_CHATLINE_ITEM);
     break;
   case MENU_HELP_PLAYING:
     popup_help_dialog_string(HELP_PLAYING_ITEM);
@@ -783,36 +679,53 @@ static void help_menu_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+ Initialize menus.
 *****************************************************************/
 void setup_menus(Widget parent_form)
 {
-  game_menu=create_menu("gamemenu", 
-			game_menu_entries, game_menu_callback, 
-			parent_form);
-  kingdom_menu=create_menu("kingdommenu", 
-			   kingdom_menu_entries, kingdom_menu_callback, 
-			   parent_form);
-  view_menu=create_menu("viewmenu", 
-			view_menu_entries, view_menu_callback, 
-			parent_form);
-  orders_menu=create_menu("ordersmenu", 
-			  order_menu_entries, orders_menu_callback, 
-			  parent_form);
-  reports_menu=create_menu("reportsmenu", 
-			   reports_menu_entries, reports_menu_callback, 
-			   parent_form);
-  help_menu=create_menu("helpmenu", 
-			help_menu_entries, help_menu_callback, 
-			parent_form);
+  create_menu(MENU_GAME, "gamemenu", 
+	      game_menu_entries, game_menu_callback, 
+	      parent_form);
+  create_menu(MENU_KINGDOM, "kingdommenu", 
+	      kingdom_menu_entries, kingdom_menu_callback, 
+	      parent_form);
+  create_menu(MENU_VIEW, "viewmenu", 
+	      view_menu_entries, view_menu_callback, 
+	      parent_form);
+  create_menu(MENU_ORDER, "ordersmenu", 
+	      order_menu_entries, orders_menu_callback, 
+	      parent_form);
+  create_menu(MENU_REPORT, "reportsmenu", 
+	      reports_menu_entries, reports_menu_callback, 
+	      parent_form);
+  create_menu(MENU_HELP, "helpmenu", 
+	      help_menu_entries, help_menu_callback, 
+	      parent_form);
+}
+
+/****************************************************************
+ Determine whether menu item is active or not.
+*****************************************************************/
+int is_menu_item_active(enum MenuIndex menu, enum MenuID id)
+{
+  struct Menu *pmenu = menus[menu];
+  int i;
+
+  for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
+    if(pmenu->entries[i].id==id) {
+      return XtIsSensitive(pmenu->entries[i].w);
+    }
+  }
+
+  return FALSE;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-struct Menu *create_menu(char *name, struct MenuEntry entries[], 
-			 void (*menucallback)(Widget, XtPointer, XtPointer),
-			 Widget parent)
+void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[], 
+		 void (*menucallback)(Widget, XtPointer, XtPointer),
+		 Widget parent)
 {
   int i, j;
   struct Menu *mymenu;
@@ -822,6 +735,7 @@ struct Menu *create_menu(char *name, struct MenuEntry entries[],
   int lacel;
 
   mymenu=fc_malloc(sizeof(struct Menu));
+  menus[menu]=mymenu;
   mymenu->entries=entries;
 
   /* Calculate the longest string in this menu so if the font
@@ -865,7 +779,7 @@ struct Menu *create_menu(char *name, struct MenuEntry entries[],
       entries[i].w = XtCreateManagedWidget(NULL, smeLineObjectClass, 
 					   mymenu->shell, NULL, 0);
     } else {
-      xlt=menu_entry_text(mymenu, i, 0, "");
+      xlt=menu_entry_text(menu, i, 0, "");
       entries[i].w = XtCreateManagedWidget(xlt, smeBSBObjectClass, 
 					   mymenu->shell, NULL, 0);
       XtAddCallback(entries[i].w, XtNcallback, menucallback, 
@@ -873,20 +787,21 @@ struct Menu *create_menu(char *name, struct MenuEntry entries[],
     }
   }
 
-  return (mymenu);
+  return;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void menu_entry_rename(struct Menu *pmenu, enum MenuID id, int var, char *terr)
+void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr)
 {
+  struct Menu *pmenu = menus[menu];
   int i;
   char *item;
 
   for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
     if(pmenu->entries[i].id==id) {
-      item=menu_entry_text(pmenu, i, var, terr);
+      item=menu_entry_text(menu, i, var, terr);
       XtVaSetValues(pmenu->entries[i].w, XtNlabel, item, NULL);
       return;
     }
@@ -896,13 +811,14 @@ void menu_entry_rename(struct Menu *pmenu, enum MenuID id, int var, char *terr)
 /****************************************************************
 ...
 *****************************************************************/
-void menu_entry_sensitive(struct Menu *pmenu, enum MenuID id, Bool s)
+void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s)
 {
+  struct Menu *pmenu = menus[menu];
   int i;
 
   for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
     if(pmenu->entries[i].id==id) {
-      XtVaSetValues(pmenu->entries[i].w, XtNsensitive, (s ? 1 : 0), NULL);
+      XtSetSensitive(pmenu->entries[i].w, (s ? True : False));
       return;
     }
   }
@@ -911,8 +827,9 @@ void menu_entry_sensitive(struct Menu *pmenu, enum MenuID id, Bool s)
 /****************************************************************
 ...
 *****************************************************************/
-char *menu_entry_text(struct Menu *pmenu, int ent, int var, char *terr)
+char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr)
 {
+  struct Menu *pmenu = menus[menu];
   static char retbuf[256];
   char tmp[256];
   char *xlt;

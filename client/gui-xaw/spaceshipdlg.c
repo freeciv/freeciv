@@ -245,10 +245,10 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   XSetWMProtocols(display, XtWindow(pdialog->shell), &wm_delete_window, 1);
   XtOverrideTranslations(pdialog->shell, 
-    XtParseTranslationTable ("<Message>WM_PROTOCOLS: close-spaceshipdialog()"));
+    XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-close-spaceship()"));
 
   textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: spaceship-dialog-returnkey()");
+    XtParseTranslationTable("<Key>Return: key-dialog-spaceship-return()");
   XtOverrideTranslations(pdialog->close_command, textfieldtranslations);
   XtSetKeyboardFocus(pdialog->shell, pdialog->close_command);
 
@@ -378,15 +378,15 @@ void close_spaceship_dialog(struct spaceship_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void spaceship_dialog_returnkey(Widget w, XEvent *event, String *params, Cardinal *num_params)
+void spaceshipdlg_key_return(Widget w)
 {
-  close_spaceship_dialog_action(XtParent(XtParent(w)), 0, 0, 0);
+  spaceshipdlg_msg_close(XtParent(XtParent(w)));
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void close_spaceship_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void spaceshipdlg_msg_close(Widget w)
 {
   struct genlist_iterator myiter;
 

@@ -17,7 +17,8 @@
 
 #include "plrdlg_g.h"
 
-void close_players_dialog_action(Widget w, XEvent *event, 
-				 String *argv, Cardinal *argc);
+
+void plrdlg_msg_close(Widget w);
+
 
 #endif  /* FC__PLRDLG_H */

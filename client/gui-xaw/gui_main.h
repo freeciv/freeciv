@@ -17,9 +17,9 @@
 
 #include "gui_main_g.h"
 
-void setup_widgets(void);
 
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
-void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void main_quit_freeciv(void);
+void main_show_info_popup(XEvent *event);
+
 
 #endif  /* FC__GUI_MAIN_H */

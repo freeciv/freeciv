@@ -989,7 +989,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   XSetWMProtocols(display, XtWindow(pdialog->shell), &wm_delete_window, 1);
   XtOverrideTranslations(pdialog->shell, 
-    XtParseTranslationTable ("<Message>WM_PROTOCOLS: close-citydialog()"));
+    XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-close-city()"));
 
   XtSetKeyboardFocus(pdialog->shell, pdialog->close_command);
 
@@ -1766,7 +1766,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 /**************************************************************************
 ...
 **************************************************************************/
-void button_down_citymap(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void citydlg_btn_select_citymap(Widget w, XEvent *event)
 {
   XButtonEvent *ev=&event->xbutton;
   struct genlist_iterator myiter;
@@ -2284,15 +2284,15 @@ void close_city_dialog(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_returnkey(Widget w, XEvent *event, String *params, Cardinal *num_params)
+void citydlg_key_return(Widget w)
 {
-  close_city_dialog_action(XtParent(XtParent(w)), 0, 0, 0);
+  citydlg_msg_close(XtParent(XtParent(w)));
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void close_city_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void citydlg_msg_close(Widget w)
 {
   struct genlist_iterator myiter;
 
@@ -2303,7 +2303,6 @@ void close_city_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *a
       return;
     }
 }
-
 
 /****************************************************************
 ...

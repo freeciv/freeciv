@@ -72,6 +72,9 @@ extern int smooth_move_units; /* from options.c */
 extern int auto_center_on_unit;
 extern int draw_map_grid;
 
+
+static void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointer call_data);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -235,7 +238,7 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 (RP:) wake up my own sentried units on the tile that was clicked
 **************************************************************************/
-void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void mapctrl_btn_wakeup(XEvent *event)
 {
   int xtile, ytile;
   XButtonEvent *ev=&event->xbutton;
@@ -252,14 +255,14 @@ void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
 /**************************************************************************
 ...
 **************************************************************************/
-void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void mapctrl_btn_mapcanvas(XEvent *event)
 {
   int xtile, ytile;
   XButtonEvent *ev=&event->xbutton;
-  
+
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
-  
+
   xtile=map_adjust_x(map_view_x0+ev->x/NORMAL_TILE_WIDTH);
   ytile=map_adjust_y(map_view_y0+ev->y/NORMAL_TILE_HEIGHT);
 
@@ -307,7 +310,7 @@ static struct city *find_city_near_tile(int x, int y)
 /**************************************************************************
   Adjust the position of city workers from the mapcanvas
 **************************************************************************/
-void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void mapctrl_btn_adjust_workers(XEvent *event)
 {
   int x,y;
   XButtonEvent *ev=&event->xbutton;
@@ -327,7 +330,7 @@ void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
   packet.worker_x=x;
   packet.worker_y=y;
   packet.name[0]='\0';
-  
+
   if(pcity->city_map[x][y]==C_TILE_WORKER)
     send_packet_city_request(&aconnection, &packet, 
 			     PACKET_CITY_MAKE_SPECIALIST);
@@ -341,11 +344,10 @@ void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
   return;
 }
 
-
 /**************************************************************************
   Draws the on the map the tiles the given city is using
 **************************************************************************/
-void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void mapctrl_key_city_workers(XEvent *event)
 {
   int x,y;
   XButtonEvent *ev=&event->xbutton;
@@ -353,42 +355,29 @@ void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
-  
+
   x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
   x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
 
   pcity = find_city_near_tile(x,y);
   if(pcity==NULL) return;
 
-
   /* Shade tiles on usage */
   city_workers_color = (city_workers_color%3)+1;
   put_city_workers(pcity, city_workers_color);
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
-void focus_to_next_unit(Widget w, XEvent *event, String *argv, 
-			Cardinal *argc)
-{
-  advance_unit_focus();
-  /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv, 
-			      Cardinal *argc)
+void mapctrl_btn_overviewcanvas(XEvent *event)
 {
   int xtile, ytile;
   XButtonEvent *ev=&event->xbutton;
 
   xtile=ev->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
   ytile=ev->y/2;
-  
+
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
      return;
 
@@ -401,7 +390,16 @@ void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv,
 /**************************************************************************
 ...
 **************************************************************************/
-void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
+void focus_to_next_unit(void)
+{
+  advance_unit_focus();
+  /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void center_on_unit(void)
 {
   request_center_focus_unit();
 }
@@ -414,136 +412,3 @@ void set_turn_done_button_state( int state )
 {
   XtSetSensitive(turn_done_button, state);
 }
-
-/**************************************************************************
-...
-**************************************************************************/
-void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_end_turn();
-}
-void xaw_key_cancel_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_cancel_action();
-}
-void xaw_key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_map_grid();
-}
-void xaw_key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_auto();
-}
-void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_build_city();
-}
-void xaw_key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_clean_pollution();
-}
-void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_disband();
-}
-void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_done();
-}
-void xaw_key_unit_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_east();
-}
-void xaw_key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_explore();
-}
-void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_fortify();
-}
-void xaw_key_unit_airbase(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_airbase();
-}
-void xaw_key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_goto();
-}
-void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_homecity();
-}
-void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_connect();
-}
-void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_irrigate();
-}
-void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_mine();
-}
-void xaw_key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_north_east();
-}
-void xaw_key_unit_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_north_west();
-}
-void xaw_key_unit_north(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_north();
-}
-void xaw_key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_nuke();
-}
-void xaw_key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_pillage();
-}
-void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_road();
-}
-void xaw_key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_sentry();
-}
-void xaw_key_unit_south_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_south_east();
-}
-void xaw_key_unit_south_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_south_west();
-}
-void xaw_key_unit_south(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_south();
-}
-void xaw_key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_transform();
-}
-void xaw_key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_unload();
-}
-void xaw_key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_wait();
-}
-void xaw_key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_wakeup();
-}
-void xaw_key_unit_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  key_unit_west();
-}
-

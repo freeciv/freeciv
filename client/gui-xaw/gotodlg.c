@@ -88,10 +88,6 @@ static int ncities_total = 0;
 static char **city_name_ptrs = NULL;
 static int original_x, original_y;
 
-void popup_goto_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  popup_goto_dialog();
-}
 
 /****************************************************************
 popup the dialog 10% inside the main-window 

@@ -354,7 +354,7 @@ void create_science_dialog(int make_modal)
     XSetWMProtocols(display, XtWindow(science_dialog_shell), 
 		    &wm_delete_window, 1);
     XtOverrideTranslations(science_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-sciencedialog()"));
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-science-report()"));
   }
 
   width=500;
@@ -436,8 +436,7 @@ void science_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_science_dialog_action(Widget w, XEvent *event, 
-				 String *argv, Cardinal *argc)
+void sciencereport_msg_close(Widget w)
 {
   science_close_callback(w, NULL, NULL);
 }
@@ -659,7 +658,7 @@ void create_trade_report_dialog(int make_modal)
     XSetWMProtocols(display, XtWindow(trade_dialog_shell), 
 		    &wm_delete_window, 1);
     XtOverrideTranslations(trade_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-tradedialog()"));
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-trade-report()"));
   }
 
   trade_report_dialog_update();
@@ -704,8 +703,7 @@ void trade_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_trade_dialog_action(Widget w, XEvent *event, 
-			       String *argv, Cardinal *argc)
+void tradereport_msg_close(Widget w)
 {
   trade_close_callback(w, NULL, NULL);
 }
@@ -929,7 +927,7 @@ void create_activeunits_report_dialog(int make_modal)
     XSetWMProtocols(display, XtWindow(activeunits_dialog_shell), 
 		    &wm_delete_window, 1);
     XtOverrideTranslations(activeunits_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-activeunitsdialog()"));
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-military-report()"));
   }
 
   activeunits_report_dialog_update();
@@ -1038,8 +1036,7 @@ void activeunits_refresh_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_activeunits_dialog_action(Widget w, XEvent *event, 
-			       String *argv, Cardinal *argc)
+void activeunits_msg_close(Widget w)
 {
   activeunits_close_callback(w, NULL, NULL);
 }

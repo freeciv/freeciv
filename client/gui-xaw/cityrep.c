@@ -294,7 +294,7 @@ void create_city_report_dialog(int make_modal)
     XSetWMProtocols(display, XtWindow(city_dialog_shell), 
 		    &wm_delete_window, 1);
     XtOverrideTranslations(city_dialog_shell,
-	 XtParseTranslationTable("<Message>WM_PROTOCOLS: close-cityreport()"));
+	 XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-city-report()"));
   }
 
   city_report_dialog_update();
@@ -475,8 +475,7 @@ void city_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void close_city_report_action(Widget w, XEvent *event, 
-				     String *argv, Cardinal *argc)
+void cityrep_msg_close(Widget w)
 {
   city_close_callback(w, NULL, NULL);
 }
@@ -791,7 +790,7 @@ struct chgall_data
 
 static struct chgall_data *chgall_state = NULL;
 
-static void chgall_change_action (Widget w, XEvent *event,
+static void chgall_accept_action (Widget w, XEvent *event,
 				  String *params, Cardinal *num_params);
 static void chgall_cancel_action (Widget w, XEvent *event,
 				  String *params, Cardinal *num_params);
@@ -832,8 +831,8 @@ static void popup_chgall_dialog (Widget parent)
     {
       static XtActionsRec actions[] =
       {
-	{ "chgall-change", chgall_change_action },
-	{ "chgall-cancel", chgall_cancel_action }
+	{ "key-dialog-chgall-accept", chgall_accept_action },
+	{ "key-dialog-chgall-cancel", chgall_cancel_action }
       };
 
       initialized = TRUE;
@@ -984,7 +983,7 @@ static void popup_chgall_dialog (Widget parent)
 ...
 **************************************************************************/
 
-static void chgall_change_action (Widget w, XEvent *event,
+static void chgall_accept_action (Widget w, XEvent *event,
 				  String *params, Cardinal *num_params)
 {
   Widget target = XtNameToWidget (w, "chgallchangecommand");

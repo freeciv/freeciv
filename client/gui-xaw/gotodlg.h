@@ -17,7 +17,5 @@
 
 #include "gotodlg_g.h"
 
-void popup_goto_dialog_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc);
 
 #endif  /* FC__GOTODLG_H */

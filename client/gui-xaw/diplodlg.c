@@ -549,7 +549,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
 
   textfieldtranslations = 
-  XtParseTranslationTable("<Key>Return: diplo-dialog-returnkey()");
+  XtParseTranslationTable("<Key>Return: key-dialog-diplo-return()");
   XtOverrideTranslations(pdialog->dip_gold_input0, textfieldtranslations);
   XtOverrideTranslations(pdialog->dip_gold_input1, textfieldtranslations);
   
@@ -864,8 +864,7 @@ static struct Diplomacy_dialog *find_diplomacy_by_input(Widget w)
 /*****************************************************************
 ...
 *****************************************************************/
-void diplo_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params)
+void diplodlg_key_return(Widget w)
 {
   struct Diplomacy_dialog *pdialog;
   

@@ -17,7 +17,8 @@
 
 #include "helpdlg_g.h"
 
-void close_help_dialog_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc);
+
+void helpdlg_msg_close(Widget w);
+
 
 #endif  /* FC__HELPDLG_H */

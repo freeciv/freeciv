@@ -17,7 +17,8 @@
 
 #include "cityrep_g.h"
 
-void close_city_report_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc);
+
+void cityrep_msg_close(Widget w);
+
 
 #endif  /* FC__CITYREP_H */

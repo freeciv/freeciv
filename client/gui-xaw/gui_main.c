@@ -41,34 +41,20 @@
 #include "map.h"
 #include "version.h"
 
-#include "chatline.h"
-#include "citydlg.h"
-#include "cityrep.h"
+#include "actions.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
-#include "connectdlg.h"
 #include "dialogs.h"
-#include "diplodlg.h"
-#include "finddlg.h"
-#include "gotodlg.h"
 #include "graphics.h"
 #include "gui_stuff.h"		/* I_SW() */
 #include "helpdata.h"		/* boot_help_texts() */
-#include "helpdlg.h"
-#include "inputdlg.h"
-#include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
-#include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
-#include "plrdlg.h"
-#include "ratesdlg.h"
-#include "repodlgs.h"
 #include "resources.h"
-#include "spaceshipdlg.h"
 #include "tilespec.h"
 
 #include "gui_main.h"
@@ -84,6 +70,10 @@ extern char metaserver[];
 extern int  server_port;
 
 extern int num_units_below;
+
+
+static void setup_widgets(void);
+
 
 /**************************************************************************
 ...
@@ -139,37 +129,12 @@ static XrmOptionDescRec cmd_options[] = {
 /* { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }*/
 };
 
+/**************************************************************************/
+
+static void end_turn_callback(Widget w, XtPointer client_data,
+			      XtPointer call_data);
+
 static void timer_callback(caddr_t client_data, XtIntervalId *id);
-static void show_info_popup(Widget w, XEvent *event, String *argv,
-			    Cardinal *argc);
-static void key_open_players(Widget w, XEvent *event, String *argv,
-			     Cardinal *argc);
-static void key_open_messages(Widget w, XEvent *event, String *argv,
-			      Cardinal *argc);
-static void key_open_rates(Widget w, XEvent *event, String *argv,
-			   Cardinal *argc);
-static void key_open_find_city(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc);
-static void key_ask_revolution(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc);
-static void key_open_city_report(Widget w, XEvent *event, String *argv,
-				 Cardinal *argc);
-static void key_open_military_report(Widget w, XEvent *event, String *argv,
-				     Cardinal *argc);
-static void key_open_trade_report(Widget w, XEvent *event, String *argv,
-				  Cardinal *argc);
-static void key_open_science_report(Widget w, XEvent *event, String *argv,
-				    Cardinal *argc);
-static void key_open_wonders(Widget w, XEvent *event, String *argv,
-			     Cardinal *argc);
-static void key_open_top_five(Widget w, XEvent *event, String *argv,
-			      Cardinal *argc);
-static void key_open_demographics(Widget w, XEvent *event, String *argv,
-				  Cardinal *argc);
-static void key_open_spaceship(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc);
-static void quit_freeciv(Widget w, XEvent *event, String *argv,
-			 Cardinal *argc);
 
 /**************************************************************************/
 
@@ -240,80 +205,6 @@ XtInputId x_input_id;
 XtIntervalId x_interval_id;
 Atom wm_delete_window;
 
-XtActionsRec Actions[] = {
-  { "show-info-popup",  show_info_popup},
-  { "select-mapcanvas", butt_down_mapcanvas},
-  { "select-overviewcanvas", butt_down_overviewcanvas},
-  { "key-open-players", key_open_players},
-  { "key-open-messages", key_open_messages},
-  { "key-open-rates", key_open_rates},
-  { "key-open-find-city", key_open_find_city},
-  { "key-ask-revolution", key_ask_revolution},
-  { "key-open-city-report", key_open_city_report},
-  { "key-open-military-report", key_open_military_report},
-  { "key-open-trade-report", key_open_trade_report},
-  { "key-open-science-report", key_open_science_report},
-  { "key-open-wonders", key_open_wonders},
-  { "key-open-top-five", key_open_top_five},
-  { "key-open-demographics", key_open_demographics},
-  { "key-open-spaceship", key_open_spaceship},
-  { "focus-to-next-unit", focus_to_next_unit },
-  { "center-on-unit", center_on_unit },
-  { "inputline-return", inputline_return },
-  { "input-dialog-returnkey", input_dialog_returnkey},
-  { "races-dialog-returnkey", races_dialog_returnkey},
-  { "diplo-dialog-returnkey", diplo_dialog_returnkey},
-  { "city-dialog-returnkey",  city_dialog_returnkey},
-  { "connect-dialog-returnkey",  connect_dialog_returnkey},
-  { "key-unit-connect", xaw_key_unit_connect },
-  { "key-unit-irrigate", xaw_key_unit_irrigate },
-  { "key-unit-road", xaw_key_unit_road },
-  { "key-unit-mine", xaw_key_unit_mine },
-  { "key-unit-transform", xaw_key_unit_transform },
-  { "key-unit-homecity", xaw_key_unit_homecity },
-  { "key-unit-clean-pollution", xaw_key_unit_clean_pollution },
-  { "key-unit-auto", xaw_key_unit_auto },
-  { "key-unit-pillage", xaw_key_unit_pillage },
-  { "key-unit-explore", xaw_key_unit_explore },
-  { "key-unit-disband", xaw_key_unit_disband },
-  { "key-unit-fortify", xaw_key_unit_fortify },
-  { "key-unit-airbase", xaw_key_unit_airbase },
-  { "key-unit-goto", xaw_key_unit_goto },
-  { "key-unit-sentry", xaw_key_unit_sentry },
-  { "key-unit-wait", xaw_key_unit_wait },
-  { "key-unit-done", xaw_key_unit_done },
-  { "key-unit-north", xaw_key_unit_north },
-  { "key-unit-north-east", xaw_key_unit_north_east },
-  { "key-unit-east", xaw_key_unit_east },
-  { "key-unit-south-east", xaw_key_unit_south_east },
-  { "key-unit-south", xaw_key_unit_south },
-  { "key-unit-south-west", xaw_key_unit_south_west },
-  { "key-unit-west", xaw_key_unit_west },
-  { "key-unit-north-west", xaw_key_unit_north_west },
-  { "key-unit-build-city", xaw_key_unit_build_city },
-  { "key-unit-unload", xaw_key_unit_unload },
-  { "key-unit-nuke", xaw_key_unit_nuke },
-  { "key-unit-wakeup", xaw_key_unit_wakeup },
-  { "wakeup", butt_down_wakeup },
-  { "key-end-turn", xaw_key_end_turn },
-  { "key-cancel-action", xaw_key_cancel_action },
-  { "select-citymap", button_down_citymap},
-  { "quit-freeciv", quit_freeciv},
-  { "close-citydialog", close_city_dialog_action},
-  { "close-sciencedialog", close_science_dialog_action },
-  { "close-tradedialog", close_trade_dialog_action },
-  { "close-activeunitsdialog", close_activeunits_dialog_action },
-  { "key-goto-dialog", popup_goto_dialog_action },
-  { "key-city-workers", key_city_workers },
-  { "adjust-workers", adjust_workers },
-  { "close-spaceshipdialog", close_spaceship_dialog_action },
-  { "spaceship-dialog-returnkey", spaceship_dialog_returnkey },
-  { "key-map-grid", xaw_key_map_grid },
-  { "close-helpdialog", close_help_dialog_action },
-  { "close-meswindialog", close_meswin_dialog_action },
-  { "close-playersdialog", close_players_dialog_action },
-  { "close-cityreport", close_city_report_action }
-};
 
 #ifdef UNUSED
 /**************************************************************************
@@ -505,10 +396,10 @@ void ui_main(int argc, char *argv[])
   XtSetKeyboardFocus(below_menu_form, map_canvas);
   
   TextFieldTranslations = XtParseTranslationTable  /*BLAH!*/
-		("<Key>Return: inputline-return()");
+		("<Key>Return: key-chatline-return()");
   XtOverrideTranslations(inputline_text, TextFieldTranslations);
 
-  XtAppAddActions(app_context, Actions, XtNumber(Actions));
+  InitializeActions(app_context);
 
   /* Do this outside setup_widgets() so after tiles are loaded */
   for(i=0;i<10;i++)  {
@@ -566,7 +457,8 @@ void ui_main(int argc, char *argv[])
 
   wm_delete_window = XInternAtom(XtDisplay(toplevel), "WM_DELETE_WINDOW", 0);
   XSetWMProtocols(display, XtWindow(toplevel), &wm_delete_window, 1);
-  XtOverrideTranslations(toplevel, XtParseTranslationTable ("<Message>WM_PROTOCOLS: quit-freeciv()"));
+  XtOverrideTranslations(toplevel,
+    XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-quit-freeciv()"));
 
   load_options();
 
@@ -749,9 +641,73 @@ void setup_widgets(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data)
+void main_quit_freeciv(void)
 { 
   exit(0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void main_show_info_popup(XEvent *event)
+{
+  XButtonEvent *ev=(XButtonEvent *)event;
+  if(ev->button==Button1) {
+    Widget  p;
+    Position x, y;
+    Dimension w, h;
+    char buf[512];
+
+    sprintf(buf, _("%s People\n"
+		   "Year: %s\n"
+		   "Gold: %d\n"
+		   "Net Income: %d\n"
+		   "Tax:%d Lux:%d Sci:%d\n"
+		   "Researching %s: %d/%d"),
+	    int_to_text(civ_population(game.player_ptr)),
+	    textyear(game.year),
+	    game.player_ptr->economic.gold,
+	    turn_gold_difference,
+	    game.player_ptr->economic.tax,
+	    game.player_ptr->economic.luxury,
+	    game.player_ptr->economic.science,
+	    advances[game.player_ptr->research.researching].name,
+	    game.player_ptr->research.researched,
+	    research_time(game.player_ptr));
+
+    p=XtCreatePopupShell("popupinfo", 
+			 overrideShellWidgetClass, 
+			 info_command, NULL, 0);
+
+    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
+
+    XtVaCreateManagedWidget("fullinfopopuplabel", 
+			    labelWidgetClass,
+			    p,
+			    XtNlabel, buf,
+			    NULL);
+
+    XtRealizeWidget(p);
+
+    XtVaGetValues(p, XtNwidth, &w, XtNheight, &h,  NULL);
+    XtTranslateCoords(info_command, ev->x, ev->y, &x, &y);
+    XtVaSetValues(p, XtNx, x-w/2, XtNy, y-h/2, NULL);
+    XtPopupSpringLoaded(p);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void enable_turn_done_button(void)
+{
+  if(game.player_ptr->ai.control && !ai_manual_turn_done)
+    user_ended_turn();
+  XtSetSensitive(turn_done_button, 
+                 !game.player_ptr->ai.control||ai_manual_turn_done);
+
+  if(sound_bell_at_new_turn)
+    XBell(display, 100);
 }
 
 /**************************************************************************
@@ -785,243 +741,6 @@ void remove_net_input(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void quit_freeciv(Widget w, XEvent *event, String *argv,
-			 Cardinal *argc)
-{
-  exit(0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void show_info_popup(Widget w, XEvent *event, String *argv,
-			    Cardinal *argc)
-{
-  XButtonEvent *ev=&event->xbutton;
-
-  if(ev->button==Button1) {
-    Widget  p;
-    Position x, y;
-    Dimension w, h;
-    char buf[512];
-    
-    sprintf(buf, _("%s People\n"
-		   "Year: %s\n"
-		   "Gold: %d\n"
-		   "Net Income: %d\n"
-		   "Tax:%d Lux:%d Sci:%d\n"
-		   "Researching %s: %d/%d"),
-	    int_to_text(civ_population(game.player_ptr)),
-	    textyear(game.year),
-	    game.player_ptr->economic.gold,
-	    turn_gold_difference,
-	    game.player_ptr->economic.tax,
-	    game.player_ptr->economic.luxury,
-	    game.player_ptr->economic.science,
-	    
-	    advances[game.player_ptr->research.researching].name,
-	    game.player_ptr->research.researched,
-	    research_time(game.player_ptr));
-    
-    p=XtCreatePopupShell("popupinfo", 
-			 overrideShellWidgetClass, 
-			 info_command, NULL, 0);
-
-    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
-
-    XtVaCreateManagedWidget("fullinfopopuplabel", 
-			      labelWidgetClass,
-			      p,
-			      XtNlabel, buf,
-			      NULL);
-    
-    
-    
-    XtRealizeWidget(p);
-    
-    XtVaGetValues(p, XtNwidth, &w, XtNheight, &h,  NULL);
-    XtTranslateCoords(info_command, ev->x, ev->y, &x, &y);
-    XtVaSetValues(p, XtNx, x-w/2, XtNy, y-h/2, NULL);
-    XtPopupSpringLoaded(p);
-  }
-  
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_players(Widget w, XEvent *event, String *argv,
-			     Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_players_dialog();
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_messages(Widget w, XEvent *event, String *argv,
-			     Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_meswin_dialog();
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_rates(Widget w, XEvent *event, String *argv,
-			   Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_rates_dialog();
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_find_city(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_find_dialog();
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_ask_revolution(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_revolution_dialog();
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_city_report(Widget w, XEvent *event, String *argv,
-				 Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_city_report_dialog(0);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_military_report(Widget w, XEvent *event, String *argv,
-				     Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_activeunits_report_dialog(0);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_trade_report(Widget w, XEvent *event, String *argv,
-				  Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_trade_report_dialog(0);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_science_report(Widget w, XEvent *event, String *argv,
-				    Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      popup_science_dialog(0);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_wonders(Widget w, XEvent *event, String *argv,
-			     Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      send_report_request(REPORT_WONDERS_OF_THE_WORLD);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_top_five(Widget w, XEvent *event, String *argv,
-			      Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      send_report_request(REPORT_TOP_5_CITIES);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_demographics(Widget w, XEvent *event, String *argv,
-				  Cardinal *argc)
-{
-  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
-    {
-      send_report_request(REPORT_DEMOGRAPHIC);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void key_open_spaceship(Widget w, XEvent *event, String *argv,
-			       Cardinal *argc)
-{
-  if ((get_client_state()==CLIENT_GAME_RUNNING_STATE) &&
-      (game.player_ptr->spaceship.state!=SSHIP_NONE))
-    {
-      popup_spaceship_dialog(game.player_ptr);
-    }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void enable_turn_done_button(void)
-{
-  if(game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();
-  XtSetSensitive(turn_done_button, 
-                 !game.player_ptr->ai.control||ai_manual_turn_done);
-
-  if(sound_bell_at_new_turn)
-    XBell(display, 100);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
 void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
 { 
   XtSetSensitive(turn_done_button, FALSE);
@@ -1029,12 +748,10 @@ void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
   user_ended_turn();
 }
 
-
-
 /**************************************************************************
 ...
 **************************************************************************/
-static void timer_callback(caddr_t client_data, XtIntervalId *id)
+void timer_callback(caddr_t client_data, XtIntervalId *id)
 {
   static int flip;
   
@@ -1070,4 +787,3 @@ static void timer_callback(caddr_t client_data, XtIntervalId *id)
     flip=!flip;
   }
 }
-

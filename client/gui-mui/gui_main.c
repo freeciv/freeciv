@@ -296,7 +296,7 @@ static struct NewMenu MenuData[] =
   MAKE_TITLE("Order", MENU_ORDER),
   MAKE_ITEM("Auto Settler", MENU_ORDER_AUTO_SETTLER, "a", NM_COMMANDSTRING),
   MAKE_ITEM("Auto Attack", MENU_ORDER_AUTO_ATTACK, "SHIFT A", NM_COMMANDSTRING),
-  MAKE_ITEM("Build City", MENU_ORDER_CITY, "b", NM_COMMANDSTRING),
+  MAKE_ITEM("Build City", MENU_ORDER_BUILD_CITY, "b", NM_COMMANDSTRING),
   MAKE_ITEM("Build Road", MENU_ORDER_ROAD, "r", NM_COMMANDSTRING),
   MAKE_ITEM("Build Mine", MENU_ORDER_MINE, "m", NM_COMMANDSTRING),
   MAKE_ITEM("Build Irrigation", MENU_ORDER_IRRIGATE, "i", NM_COMMANDSTRING),
@@ -306,7 +306,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Build Airbase", MENU_ORDER_AIRBASE, "e", NM_COMMANDSTRING),
   MAKE_ITEM("Clean Pollution", MENU_ORDER_POLLUTION, "p", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
-  MAKE_ITEM("Auto Explore", MENU_ORDER_EXPLORE, "x", NM_COMMANDSTRING),
+  MAKE_ITEM("Auto Explore", MENU_ORDER_AUTO_EXPLORE, "x", NM_COMMANDSTRING),
   MAKE_ITEM("Explode Nuclear", MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
   MAKE_ITEM("Unload", MENU_ORDER_UNLOAD, "u", NM_COMMANDSTRING),
   MAKE_ITEM("Go to", MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
@@ -317,18 +317,18 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Sentry", MENU_ORDER_SENTRY, "s", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Disband Unit", MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
-  MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP, "SHIFT W", NM_COMMANDSTRING),
+  MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP_OTHERS, "SHIFT W", NM_COMMANDSTRING),
   MAKE_ITEM("Wait", MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
   MAKE_ITEM("Pillage", MENU_ORDER_PILLAGE, "SHIFT P", NM_COMMANDSTRING),
   MAKE_ITEM("Help Build Wonder", MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
-  MAKE_ITEM("Make Trade Route", MENU_ORDER_TRADE_ROUTE, "SHIFT R", NM_COMMANDSTRING),
+  MAKE_ITEM("Make Trade Route", MENU_ORDER_TRADEROUTE, "SHIFT R", NM_COMMANDSTRING),
   MAKE_ITEM("Done", MENU_ORDER_DONE, "SPACE", NM_COMMANDSTRING),
 
   MAKE_TITLE("Report", MENU_REPORT),
   MAKE_ITEM("City Report...", MENU_REPORT_CITY, "F1", NM_COMMANDSTRING),
   MAKE_ITEM("Science Report...", MENU_REPORT_SCIENCE, "F6", NM_COMMANDSTRING),
   MAKE_ITEM("Trade Report...", MENU_REPORT_TRADE, "F5", NM_COMMANDSTRING),
-  MAKE_ITEM("Military Report...", MENU_REPORT_ACTIVE_UNITS, "F2", NM_COMMANDSTRING),
+  MAKE_ITEM("Military Report...", MENU_REPORT_MILITARY, "F2", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Wonders of the World", MENU_REPORT_WOW, "F7", NM_COMMANDSTRING),
   MAKE_ITEM("Top 5 Cities", MENU_REPORT_TOP_CITIES, "F8", NM_COMMANDSTRING),
@@ -409,28 +409,28 @@ static void control_callback(ULONG * value)
     switch (*value)
     {
     case UNIT_NORTH:
-      key_unit_north();
+      key_move_north();
       break;
     case UNIT_SOUTH:
-      key_unit_south();
+      key_move_south();
       break;
     case UNIT_EAST:
-      key_unit_east();
+      key_move_east();
       break;
     case UNIT_WEST:
-      key_unit_west();
+      key_move_west();
       break;
     case UNIT_NORTH_EAST:
-      key_unit_north_east();
+      key_move_north_east();
       break;
     case UNIT_NORTH_WEST:
-      key_unit_north_west();
+      key_move_north_west();
       break;
     case UNIT_SOUTH_EAST:
-      key_unit_south_east();
+      key_move_south_east();
       break;
     case UNIT_SOUTH_WEST:
-      key_unit_south_west();
+      key_move_south_west();
       break;
     case UNIT_POPUP_CITY:
       {
@@ -512,17 +512,17 @@ static void control_callback(ULONG * value)
       break;
 
     case MENU_VIEW_SHOW_MAP_GRID:
-      key_map_grid();
+      key_map_grid_toggle();
       break;
     case MENU_VIEW_CENTER_VIEW:
       request_center_focus_unit() /*center_on_unit() */ ;
       break;
 
     case MENU_ORDER_AUTO_SETTLER:
-      key_unit_auto();
+      key_unit_auto_settle();
       break;
     case MENU_ORDER_AUTO_ATTACK:
-      key_unit_auto();
+      key_unit_auto_attack();
       break;
     case MENU_ORDER_MINE:
       key_unit_mine();
@@ -534,20 +534,20 @@ static void control_callback(ULONG * value)
       key_unit_transform();
       break;
     case MENU_ORDER_FORTRESS:
-      key_unit_fortify();
+      key_unit_fortress();
       break;
     case MENU_ORDER_AIRBASE:
       key_unit_airbase();
       break;
 
-    case MENU_ORDER_CITY:
+    case MENU_ORDER_BUILD_CITY:
       key_unit_build_city();
       break;
     case MENU_ORDER_ROAD:
       key_unit_road();
       break;
     case MENU_ORDER_POLLUTION:
-      key_unit_clean_pollution();
+      key_unit_pollution();
       break;
     case MENU_ORDER_FORTIFY:
       key_unit_fortify();
@@ -558,8 +558,8 @@ static void control_callback(ULONG * value)
     case MENU_ORDER_PILLAGE:
       key_unit_pillage();
       break;
-    case MENU_ORDER_EXPLORE:
-      key_unit_explore();
+    case MENU_ORDER_AUTO_EXPLORE:
+      key_unit_auto_explore();
       break;
     case MENU_ORDER_HOMECITY:
       key_unit_homecity();
@@ -570,8 +570,8 @@ static void control_callback(ULONG * value)
     case MENU_ORDER_UNLOAD:
       key_unit_unload();
       break;
-    case MENU_ORDER_WAKEUP:
-      key_unit_wakeup();
+    case MENU_ORDER_WAKEUP_OTHERS:
+      key_unit_wakeup_others();
       break;
     case MENU_ORDER_GOTO:
       key_unit_goto();
@@ -584,10 +584,10 @@ static void control_callback(ULONG * value)
       key_unit_disband();
       break;
     case MENU_ORDER_BUILD_WONDER:
-      key_unit_build_city();
+      key_unit_build_wonder();
       break;
-    case MENU_ORDER_TRADE_ROUTE:
-      key_unit_road();
+    case MENU_ORDER_TRADEROUTE:
+      key_unit_traderoute();
       break;
     case MENU_ORDER_DONE:
       key_unit_done();
@@ -605,7 +605,7 @@ static void control_callback(ULONG * value)
     case MENU_REPORT_TRADE:
       popup_trade_report_dialog(0);
       break;
-    case MENU_REPORT_ACTIVE_UNITS:
+    case MENU_REPORT_MILITARY:
       popup_activeunits_report_dialog(0);
       break;
     case MENU_REPORT_DEMOGRAPHIC:
@@ -1186,7 +1186,7 @@ void update_menus(void) /* from menu.c */
 
       set(main_menu, MUIA_Window_Menustrip, NULL);
 
-      menu_entry_sensitive(MENU_ORDER_CITY, (can_unit_build_city(punit) || can_unit_add_to_city(punit)));
+      menu_entry_sensitive(MENU_ORDER_BUILD_CITY, (can_unit_build_city(punit) || can_unit_add_to_city(punit)));
       menu_entry_sensitive(MENU_ORDER_ROAD, can_unit_do_activity(punit, ACTIVITY_ROAD) || can_unit_do_activity(punit, ACTIVITY_RAILROAD));
       menu_entry_sensitive(MENU_ORDER_IRRIGATE, can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
       menu_entry_sensitive(MENU_ORDER_MINE, can_unit_do_activity(punit, ACTIVITY_MINE));
@@ -1210,22 +1210,22 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_PILLAGE, can_unit_do_activity(punit, ACTIVITY_PILLAGE));
       menu_entry_sensitive(MENU_ORDER_HOMECITY, can_unit_change_homecity(punit));
       menu_entry_sensitive(MENU_ORDER_UNLOAD, get_transporter_capacity(punit) > 0);
-      menu_entry_sensitive(MENU_ORDER_WAKEUP, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y));
+      menu_entry_sensitive(MENU_ORDER_WAKEUP_OTHERS, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y));
       menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit->type, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS)));
-      menu_entry_sensitive(MENU_ORDER_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
+      menu_entry_sensitive(MENU_ORDER_AUTO_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER_GOTO_CITY, any_cities);
       menu_entry_sensitive(MENU_ORDER_BUILD_WONDER, unit_can_help_build_wonder_here(punit));
-      menu_entry_sensitive(MENU_ORDER_TRADE_ROUTE, unit_can_est_traderoute_here(punit));
+      menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));
       menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit->type, F_NUCLEAR));
 
       if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y))
       {
-	menu_entry_rename(MENU_ORDER_CITY, "Add to City", FALSE);
+	menu_entry_rename(MENU_ORDER_BUILD_CITY, "Add to City", FALSE);
       }
       else
       {
-	menu_entry_rename(MENU_ORDER_CITY, "Build City", FALSE);
+	menu_entry_rename(MENU_ORDER_BUILD_CITY, "Build City", FALSE);
       }
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;

@@ -59,8 +59,7 @@ void input_dialog_destroy(Widget button)
 /****************************************************************
 ...
 *****************************************************************/
-void input_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params)
+void inputdlg_key_return(Widget w)
 {
   x_simulate_button_click(XtNameToWidget(XtParent(w), "iokcommand"));
 }
@@ -120,7 +119,7 @@ Widget input_dialog_create(Widget parent, char *dialogname,
 		cancel_cli_data);
   
   textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: input-dialog-returnkey()");
+    XtParseTranslationTable("<Key>Return: key-dialog-input-return()");
 
   XtOverrideTranslations(input, textfieldtranslations);
   

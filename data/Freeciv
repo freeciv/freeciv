@@ -1756,8 +1756,8 @@ Freeciv*cityconfigokcommand.label:       _("Close")
 Freeciv*chgalldialog.title:		_("Change Production Everywhere")
 
 Freeciv*chgalldialog*chgallform.translations:		#override \
-					<Key>Return: chgall-change() \n\
-					<Key>Escape: chgall-cancel()
+			<Key>Return: key-dialog-chgall-accept() \n\
+			<Key>Escape: key-dialog-chgall-cancel()
 
 Freeciv*chgalldialog.*.chgallfrlabel.label:		_("From:")
 Freeciv*chgalldialog.*.chgallfrlabel.justify:		left
@@ -2392,7 +2392,7 @@ Freeciv*infocommand.left:                          chainLeft
 Freeciv*infocommand.right:                         chainRight
 
 Freeciv*infocommand.translations: #override \
-                              <Btn1Down>: show-info-popup() \n\
+                              <Btn1Down>: btn-show-info-popup() \n\
 			      <EnterWindow>:
 
 
@@ -2662,91 +2662,148 @@ Freeciv*inputlinetext.bottom:                    chainBottom
 !
 ! translations
 !
+
 Freeciv*mapcanvas.translations:\
-   Shift<Key>c:       key-unit-connect()    \n\
-   Ctrl<Key>g:        key-map-grid()        \n\
-   Shift<BtnDown>:    adjust-workers()      \n\
-   <BtnDown>:         select-mapcanvas()    \n\
-   <Key>F3:           key-open-players()         \n\
-   <Key>F10:          key-open-messages()        \n\
-   Shift<Key>t:       key-open-rates()           \n\
-   Ctrl<Key>f:        key-open-find-city()       \n\
-   Shift<Key>r:       key-ask-revolution()       \n\
-   <Key>F1:           key-open-city-report()     \n\
-   <Key>F2:           key-open-military-report() \n\
-   <Key>F5:           key-open-trade-report()    \n\
-   <Key>F6:           key-open-science-report()  \n\
-   <Key>F7:           key-open-wonders()         \n\
-   <Key>F8:           key-open-top-five()        \n\
-   <Key>F11:          key-open-demographics()    \n\
-   <Key>F12:          key-open-spaceship()       \n\
-   <Key>Tab:          focus-to-next-unit()  \n\
-   <Key>c:            center-on-unit()      \n\
-   <Key>KP_8:         key-unit-north()      \n\
-   <Key>Up:           key-unit-north()      \n\
-   <Key>KP_9:         key-unit-north-east() \n\
-   <Key>Prior:        key-unit-north-east() \n\
-   <Key>KP_6:         key-unit-east()       \n\
-   <Key>Right:        key-unit-east()       \n\
-   <Key>KP_3:         key-unit-south-east() \n\
-   <Key>Next:         key-unit-south-east() \n\
-   <Key>KP_2:         key-unit-south()      \n\
-   <Key>Down:         key-unit-south()      \n\
-   <Key>KP_1:         key-unit-south-west() \n\
-   <Key>End:          key-unit-south-west() \n\
-   <Key>KP_4:         key-unit-west()       \n\
-   <Key>Left:         key-unit-west()       \n\
-   <Key>KP_7:         key-unit-north-west() \n\
-   <Key>Home:         key-unit-north-west() \n\
-   <Key>KP_5:         focus-to-next-unit()  \n\
-   <Key>i:            key-unit-irrigate()   \n\
-   <Key>r:            key-unit-road()       \n\
-   <Key>m:            key-unit-mine()       \n\
-   <Key>f:            key-unit-fortify()    \n\
-   <Key>e:            key-unit-airbase()    \n\
-   <Key>g:            key-unit-goto()       \n\
-   Shift<Key>d:       key-unit-disband()    \n\
-   Shift<Key>p:       key-unit-pillage()    \n\
-   <Key>x:            key-unit-explore()    \n\
-   <Key>s:            key-unit-sentry()     \n\
-   Shift<Key>w:       key-unit-wakeup()     \n\
-   <Key>w:            key-unit-wait()       \n\
-   <Key>space:        key-unit-done()       \n\
-   <Key>b:            key-unit-build-city() \n\
-   <Key>Return:       key-end-turn()        \n\
-   <Key>KP_Enter:     key-end-turn()        \n\
-   <Key>h:            key-unit-homecity()   \n\
-   <Key>p:            key-unit-clean-pollution() \n\
-   <Key>a:            key-unit-auto()       \n\
-   <Key>u:            key-unit-unload()     \n\
-   Shift<Key>n:       key-unit-nuke()       \n\
-   <Key>o:            key-unit-transform()  \n\
-   <Key>l:            key-goto-dialog()     \n\
-   <Key>t:            key-city-workers()    \n\
-   <Key>9:            key-unit-north-east() \n\
-   <Key>8:            key-unit-north()      \n\
-   <Key>7:            key-unit-north-west() \n\
-   <Key>6:            key-unit-east()       \n\
-   <Key>5:            focus-to-next-unit()  \n\
-   <Key>4:            key-unit-west()       \n\
-   <Key>3:            key-unit-south-east() \n\
-   <Key>2:            key-unit-south()      \n\
-   <Key>1:            key-unit-south-west() \n\
+   Shift<BtnDown>:    btn-adjust-workers()             \n\
+   <BtnDown>:         btn-select-mapcanvas()           \n\
+   Ctrl<Key>f:        key-open-find-city()             \n\
+   Ctrl<Key>g:        key-map-grid-toggle()            \n\
+   Shift<Key>c:       key-unit-connect()               \n\
+   Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>n:       key-unit-nuke()                  \n\
+   Shift<Key>p:       key-unit-pillage()               \n\
+   Shift<Key>r:       key-open-revolution()            \n\
+   Shift<Key>t:       key-open-rates()                 \n\
+   Shift<Key>w:       key-unit-wakeup-others()         \n\
+   <Key>a:            key-unit-auto-attack-or-settle() \n\
+   <Key>b:            key-unit-build-city-or-wonder()  \n\
+   <Key>c:            key-center-on-unit()             \n\
+   <Key>e:            key-unit-airbase()               \n\
+   <Key>f:            key-unit-fortify-or-fortress()   \n\
+   <Key>g:            key-unit-goto()                  \n\
+   <Key>h:            key-unit-homecity()              \n\
+   <Key>i:            key-unit-irrigate()              \n\
+   <Key>l:            key-open-goto-airlift()          \n\
+   <Key>m:            key-unit-mine()                  \n\
+   <Key>o:            key-unit-transform()             \n\
+   <Key>p:            key-unit-paradrop-or-pollution() \n\
+   <Key>r:            key-unit-road-or-traderoute()    \n\
+   <Key>s:            key-unit-sentry()                \n\
+   <Key>t:            key-city-workers()               \n\
+   <Key>u:            key-unit-unload()                \n\
+   <Key>w:            key-unit-wait()                  \n\
+   <Key>x:            key-unit-auto-explore()          \n\
+   <Key>F1:           key-open-city-report()           \n\
+   <Key>F2:           key-open-military-report()       \n\
+   <Key>F3:           key-open-players()               \n\
+   <Key>F5:           key-open-trade-report()          \n\
+   <Key>F6:           key-open-science-report()        \n\
+   <Key>F7:           key-open-wonders()               \n\
+   <Key>F8:           key-open-top-five()              \n\
+   <Key>F10:          key-open-messages()              \n\
+   <Key>F11:          key-open-demographics()          \n\
+   <Key>F12:          key-open-spaceship()             \n\
+   <Key>KP_8:         key-move-north()                 \n\
+   <Key>Up:           key-move-north()                 \n\
+   <Key>8:            key-move-north()                 \n\
+   <Key>KP_9:         key-move-north-east()            \n\
+   <Key>Prior:        key-move-north-east()            \n\
+   <Key>9:            key-move-north-east()            \n\
+   <Key>KP_6:         key-move-east()                  \n\
+   <Key>Right:        key-move-east()                  \n\
+   <Key>6:            key-move-east()                  \n\
+   <Key>KP_3:         key-move-south-east()            \n\
+   <Key>Next:         key-move-south-east()            \n\
+   <Key>3:            key-move-south-east()            \n\
+   <Key>KP_2:         key-move-south()                 \n\
+   <Key>Down:         key-move-south()                 \n\
+   <Key>2:            key-move-south()                 \n\
+   <Key>KP_1:         key-move-south-west()            \n\
+   <Key>End:          key-move-south-west()            \n\
+   <Key>1:            key-move-south-west()            \n\
+   <Key>KP_4:         key-move-west()                  \n\
+   <Key>Left:         key-move-west()                  \n\
+   <Key>4:            key-move-west()                  \n\
+   <Key>KP_7:         key-move-north-west()            \n\
+   <Key>Home:         key-move-north-west()            \n\
+   <Key>7:            key-move-north-west()            \n\
+   <Key>KP_5:         key-focus-to-next-unit()         \n\
+   <Key>Tab:          key-focus-to-next-unit()         \n\
+   <Key>5:            key-focus-to-next-unit()         \n\
+   <Key>space:        key-unit-done()                  \n\
+   <Key>Return:       key-end-turn()                   \n\
+   <Key>KP_Enter:     key-end-turn()                   \n\
    <Key>Escape:       key-cancel-action()
 
 Freeciv*overviewcanvas.translations:\
-   <BtnDown>:         select-overviewcanvas() \n\
-   <Key>g:            key-unit-goto()       \n\
-   <Key>Tab:          focus-to-next-unit()  \n\
-   <Key>KP_8:         key-unit-north()      \n\
-   <Key>KP_9:         key-unit-north-east() \n\
-   <Key>KP_6:         key-unit-east()       \n\
-   <Key>KP_3:         key-unit-south-east() \n\
-   <Key>KP_2:         key-unit-south()      \n\
-   <Key>KP_1:         key-unit-south-west() \n\
-   <Key>KP_4:         key-unit-west()       \n\
-   <Key>KP_7:         key-unit-north-west() \n\
-   <Key>KP_5:         focus-to-next-unit()  \n\
+   <BtnDown>:         btn-select-overviewcanvas()      \n\
+   Ctrl<Key>f:        key-open-find-city()             \n\
+   Ctrl<Key>g:        key-map-grid-toggle()            \n\
+   Shift<Key>c:       key-unit-connect()               \n\
+   Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>n:       key-unit-nuke()                  \n\
+   Shift<Key>p:       key-unit-pillage()               \n\
+   Shift<Key>r:       key-open-revolution()            \n\
+   Shift<Key>t:       key-open-rates()                 \n\
+   Shift<Key>w:       key-unit-wakeup-others()         \n\
+   <Key>a:            key-unit-auto-attack-or-settle() \n\
+   <Key>b:            key-unit-build-city-or-wonder()  \n\
+   <Key>c:            key-center-on-unit()             \n\
+   <Key>e:            key-unit-airbase()               \n\
+   <Key>f:            key-unit-fortify-or-fortress()   \n\
+   <Key>g:            key-unit-goto()                  \n\
+   <Key>h:            key-unit-homecity()              \n\
+   <Key>i:            key-unit-irrigate()              \n\
+   <Key>l:            key-open-goto-airlift()          \n\
+   <Key>m:            key-unit-mine()                  \n\
+   <Key>o:            key-unit-transform()             \n\
+   <Key>p:            key-unit-paradrop-or-pollution() \n\
+   <Key>r:            key-unit-road-or-traderoute()    \n\
+   <Key>s:            key-unit-sentry()                \n\
+   <Key>t:            key-city-workers()               \n\
+   <Key>u:            key-unit-unload()                \n\
+   <Key>w:            key-unit-wait()                  \n\
+   <Key>x:            key-unit-auto-explore()          \n\
+   <Key>F1:           key-open-city-report()           \n\
+   <Key>F2:           key-open-military-report()       \n\
+   <Key>F3:           key-open-players()               \n\
+   <Key>F5:           key-open-trade-report()          \n\
+   <Key>F6:           key-open-science-report()        \n\
+   <Key>F7:           key-open-wonders()               \n\
+   <Key>F8:           key-open-top-five()              \n\
+   <Key>F10:          key-open-messages()              \n\
+   <Key>F11:          key-open-demographics()          \n\
+   <Key>F12:          key-open-spaceship()             \n\
+   <Key>KP_8:         key-move-north()                 \n\
+   <Key>Up:           key-move-north()                 \n\
+   <Key>8:            key-move-north()                 \n\
+   <Key>KP_9:         key-move-north-east()            \n\
+   <Key>Prior:        key-move-north-east()            \n\
+   <Key>9:            key-move-north-east()            \n\
+   <Key>KP_6:         key-move-east()                  \n\
+   <Key>Right:        key-move-east()                  \n\
+   <Key>6:            key-move-east()                  \n\
+   <Key>KP_3:         key-move-south-east()            \n\
+   <Key>Next:         key-move-south-east()            \n\
+   <Key>3:            key-move-south-east()            \n\
+   <Key>KP_2:         key-move-south()                 \n\
+   <Key>Down:         key-move-south()                 \n\
+   <Key>2:            key-move-south()                 \n\
+   <Key>KP_1:         key-move-south-west()            \n\
+   <Key>End:          key-move-south-west()            \n\
+   <Key>1:            key-move-south-west()            \n\
+   <Key>KP_4:         key-move-west()                  \n\
+   <Key>Left:         key-move-west()                  \n\
+   <Key>4:            key-move-west()                  \n\
+   <Key>KP_7:         key-move-north-west()            \n\
+   <Key>Home:         key-move-north-west()            \n\
+   <Key>7:            key-move-north-west()            \n\
+   <Key>KP_5:         key-focus-to-next-unit()         \n\
+   <Key>Tab:          key-focus-to-next-unit()         \n\
+   <Key>5:            key-focus-to-next-unit()         \n\
+   <Key>space:        key-unit-done()                  \n\
+   <Key>Return:       key-end-turn()                   \n\
+   <Key>KP_Enter:     key-end-turn()                   \n\
    <Key>Escape:       key-cancel-action()
 
 
@@ -2790,8 +2847,8 @@ Freeciv*citysellcommand.label:			_(" Sell ")
 
 Freeciv*cityclosecommand.label:			_("Close")
 Freeciv*cityclosecommand.translations:		#override \n\
-  <Key>Return:	city-dialog-returnkey() \n\
-  <Key>Escape:	city-dialog-returnkey()
+  <Key>Return:	key-dialog-city-return() \n\
+  <Key>Escape:	key-dialog-city-return()
 
 Freeciv*cityrenamecommand.label:		_("Rename")
 
@@ -2859,7 +2916,7 @@ Freeciv*presentunitprevcommand.background:	blue
 
 Freeciv*citymapcanvas.horizDistance:	0
 Freeciv*citymapcanvas.translations: \
-  <BtnDown>:	select-citymap()
+  <BtnDown>:	btn-select-citymap()
 
 
 !

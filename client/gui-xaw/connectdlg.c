@@ -116,7 +116,7 @@ void gui_server_connect(void)
   XtPopup(shell, XtGrabNone);
 
   textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: connect-dialog-returnkey()");
+    XtParseTranslationTable("<Key>Return: key-dialog-connect-return()");
   XtOverrideTranslations(form, textfieldtranslations);
   XtOverrideTranslations(iname, textfieldtranslations);
   XtOverrideTranslations(ihost, textfieldtranslations);
@@ -128,8 +128,7 @@ void gui_server_connect(void)
 /****************************************************************
 ...
 *****************************************************************/
-void connect_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params)
+void connectdlg_key_return(Widget w)
 {
   x_simulate_button_click(connw);
 }

@@ -10,15 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__DIPLODLG_H
-#define FC__DIPLODLG_H
+#ifndef FC__ACTIONS_H
+#define FC__ACTIONS_H
 
 #include <X11/Intrinsic.h>
 
-#include "diplodlg_g.h"
+
+extern void InitializeActions (XtAppContext app_context);
 
 
-void diplodlg_key_return(Widget w);
-
-
-#endif  /* FC__DIPLODLG_H */
+#endif  /* FC__ACTIONS_H */
