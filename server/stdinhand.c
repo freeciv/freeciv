@@ -297,7 +297,7 @@ void help_command(char *str)
       puts("No help on that (yet).");
       return;
     }
-    printf("%s: is set to %d\nAffect: %s\nMinimum %d, Maximum %d, Default %d\n"
+    printf("%s: is set to %d\nEffect: %s\nMinimum %d, Maximum %d, Default %d\n"
 	   , settings[cmd].name, *settings[cmd].value, settings[cmd].help, 
 	   settings[cmd].min_value, settings[cmd].max_value, 
 	   settings[cmd].default_value);
