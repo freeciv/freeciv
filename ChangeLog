@@ -1,6 +1,25 @@
-Sat Jun  6 03:23:35 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
+Sat Jun  6 13:52:34 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
 
 	Released 1.6.2.
+
+Sat Jun  6 13:50:43 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
+
+	* ai/aihand.c: Removed a comment left over from 1.5.1.
+
+Sat Jun  6 13:44:59 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
+
+	* NEWS, ChangeLog, configure, configure.in, client/Freeciv.h,
+	common/shared.h, data/Freeciv: Updated version numbers to 1.6.2.
+
+Fri Jun  5 21:36:21 ??? 1998  Trent Piepho  <xyzzy@u.washington.edu>
+	
+	* client/mapview.c: Added Markus L. Noga's
+ 	<ut6e@rz.uni-karlsruhe.de> patch so cities are drawn correctly
+ 	with transparent flags.
+
+Fri Jun  5 21:33:55 ??? 1998  Trent Piepho  <xyzzy@u.washington.edu>
+	
+	* client/mapctrl.c: Fix for minor bug in crosshairs display.
 
 Sat Jun  6 03:23:07 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
 
