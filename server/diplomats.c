@@ -1164,14 +1164,6 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 		 _("Game: An enemy %s has been eliminated defending %s."),
 		unit_name(punit->type), (pcity ? pcity->name : ""));
 
-	notify_player_ex(cplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-			 _("Game: Your %s has been eliminated defending"
-			   " against a %s in %s."), unit_name(punit->type),
-			 unit_name(pdiplomat->type), pcity->name);
-	notify_player_ex(pplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-			 _("Game: An enemy %s has been eliminated defending"
-			   " %s."), unit_name(punit->type), pcity->name);
-
 	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
         send_unit_info(pplayer, pdiplomat);
