@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/@PACKAGE@/trident
 
 pkgdata_DATA =          \
+	auto_ll.spec	\
 	cities.xpm	\
 	cities.spec	\
 	flags.xpm	\

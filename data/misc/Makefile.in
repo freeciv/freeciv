@@ -102,7 +102,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/misc
 
-pkgdata_DATA =  	intro.xpm		radar.xpm		small.xpm		small.spec		space.xpm		space.spec		treaty.xpm		treaty.spec
+pkgdata_DATA =  	chiefs.xpm		chiefs.spec		intro.xpm		radar.xpm		shields.xpm		shields.spec		small.xpm		small.spec		space.xpm		space.spec		treaty.xpm		treaty.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)

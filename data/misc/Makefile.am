@@ -4,8 +4,12 @@
 pkgdatadir = $(datadir)/@PACKAGE@/misc
 
 pkgdata_DATA =          \
+	chiefs.xpm	\
+	chiefs.spec	\
 	intro.xpm	\
 	radar.xpm	\
+	shields.xpm	\
+	shields.spec	\
 	small.xpm	\
 	small.spec	\
 	space.xpm	\
