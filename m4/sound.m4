@@ -43,6 +43,7 @@ AC_DEFUN(FC_CHECK_SOUND,[
       fi
     else
       AC_MSG_RESULT([no, install SDL_mixer first: http://www.libsdl.org/projects/SDL_mixer/index.html])
+      SDL_mixer="xno"
     fi
   fi
  fi
