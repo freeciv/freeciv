@@ -9,10 +9,13 @@ and gives information about reporting new bugs.
 
 This lists only the most obvious bugs.  For a complete list, see:
 
-    http://www.freeciv.org/cgi-bin/bugs
+    http://rt.freeciv.org/
 
 KNOWN BUGS:
 ===========
+
+ - In the XAW/XAW3d client, the -t options for the tileset to use
+   sometimes does not work. In this case, use --tiles instead.
 
  - Your CMA settings are only sent to the server when you press
    turn done, and therefore changes you make to CMA in the same
