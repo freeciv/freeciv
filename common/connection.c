@@ -570,22 +570,32 @@ static void free_packet_hashes(struct connection *pc)
 
   conn_clear_packet_cache(pc);
 
-  for (i = 0; i < PACKET_LAST; i++) {
-    if (pc->phs.sent[i] != NULL) {
-      hash_free(pc->phs.sent[i]);
-      pc->phs.sent[i] = NULL;
+  if (pc->phs.sent) {
+    for (i = 0; i < PACKET_LAST; i++) {
+      if (pc->phs.sent[i] != NULL) {
+	hash_free(pc->phs.sent[i]);
+	pc->phs.sent[i] = NULL;
+      }
     }
-    if (pc->phs.received[i] != NULL) {
-      hash_free(pc->phs.received[i]);
-      pc->phs.received[i] = NULL;
-    }
+    free(pc->phs.sent);
+    pc->phs.sent = NULL;
   }
-  free(pc->phs.sent);
-  pc->phs.sent = NULL;
-  free(pc->phs.received);
-  pc->phs.received = NULL;
-  free(pc->phs.variant);
-  pc->phs.variant = NULL;
+
+  if (pc->phs.received) {
+    for (i = 0; i < PACKET_LAST; i++) {
+      if (pc->phs.received[i] != NULL) {
+	hash_free(pc->phs.received[i]);
+	pc->phs.received[i] = NULL;
+      }
+    }
+    free(pc->phs.received);
+    pc->phs.received = NULL;
+  }
+
+  if (pc->phs.variant) {
+    free(pc->phs.variant);
+    pc->phs.variant = NULL;
+  }
 }
 
 /**************************************************************************
@@ -612,18 +622,22 @@ void connection_common_init(struct connection *pconn)
 **************************************************************************/
 void connection_common_close(struct connection *pconn)
 {
-  my_closesocket(pconn->sock);
-  pconn->used = FALSE;
-  pconn->established = FALSE;
+  if (!pconn->used) {
+    freelog(LOG_ERROR, "WARNING: Trying to close already closed connection");
+  } else {
+    my_closesocket(pconn->sock);
+    pconn->used = FALSE;
+    pconn->established = FALSE;
 
-  free_socket_packet_buffer(pconn->buffer);
-  pconn->buffer = NULL;
+    free_socket_packet_buffer(pconn->buffer);
+    pconn->buffer = NULL;
 
-  free_socket_packet_buffer(pconn->send_buffer);
-  pconn->send_buffer = NULL;
+    free_socket_packet_buffer(pconn->send_buffer);
+    pconn->send_buffer = NULL;
 
-  free_compression_queue(pconn);
-  free_packet_hashes(pconn);
+    free_compression_queue(pconn);
+    free_packet_hashes(pconn);
+  }
 }
 
 /**************************************************************************
@@ -635,7 +649,7 @@ void conn_clear_packet_cache(struct connection *pc)
   int i;
 
   for (i = 0; i < PACKET_LAST; i++) {
-    if (pc->phs.sent[i] != NULL) {
+    if (pc->phs.sent != NULL && pc->phs.sent[i] != NULL) {
       struct hash_table *hash = pc->phs.sent[i];
       while (hash_num_entries(hash) > 0) {
 	const void *key = hash_key_by_number(hash, 0);
@@ -643,7 +657,7 @@ void conn_clear_packet_cache(struct connection *pc)
 	free((void *) key);
       }
     }
-    if (pc->phs.received[i] != NULL) {
+    if (pc->phs.received != NULL && pc->phs.received[i] != NULL) {
       struct hash_table *hash = pc->phs.received[i];
       while (hash_num_entries(hash) > 0) {
 	const void *key = hash_key_by_number(hash, 0);
