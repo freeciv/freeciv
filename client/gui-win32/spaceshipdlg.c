@@ -31,6 +31,7 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
