@@ -154,3 +154,85 @@ struct city *find_city_by_id(int id)
 { /* no idea where this belongs either */
   return(game_find_city_by_id(id));
 }
+
+#define NCONT 256		/* should really be (UCHAR_MAX+1)? */
+static char used_continent_val[NCONT];   /* boolean */
+
+/**************************************************************************
+...
+**************************************************************************/
+void climap_init_continents(void)
+{
+  int i;
+  for(i=0; i<NCONT; i++) {
+    used_continent_val[i] = 0;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void climap_renumber_continent(int x, int y, int new)
+{
+  int i, j, old;
+
+  if (y<0 || y>=map.ysize) return;
+  x = map_adjust_x(x);
+
+  old = map_get_continent(x,y);
+  map_set_continent(x,y,new);
+  for(i=x-1; i<=x+1; i++) {
+    for(j=y-1; j<=y+1; j++) {
+      if(!(i==x && j==y) && j>=0 && j<map.ysize
+	 && tile_is_known(i,j)>=TILE_KNOWN
+	 && map_get_terrain(i,j)!=T_OCEAN
+	 && map_get_continent(i,j)==old) {
+	climap_renumber_continent(i,j,new);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void climap_update_continents(int x, int y)
+{
+  struct tile *ptile = map_get_tile(x,y);
+  int i, j, con, this_con;
+
+  if(ptile->terrain == T_OCEAN) return;
+  this_con = -1;
+  for(i=x-1; i<=x+1; i++) {
+    for(j=y-1; j<=y+1; j++) {
+      if(!(i==x && j==y) && j>=0 && j<map.ysize
+	 && tile_is_known(i,j)>=TILE_KNOWN
+	 && map_get_terrain(i,j)!=T_OCEAN) {
+	con = map_get_continent(i,j);
+	if(this_con==-1) {
+	  ptile->continent = this_con = con;
+	} else if(con != this_con) {
+	  flog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
+	       con, this_con, x, y);
+	  climap_renumber_continent(i,j,this_con);
+	  used_continent_val[con] = 0;
+	}
+      }
+    }
+  }
+  if(this_con==-1) {
+    for(i=2; i<NCONT; i++) {
+      if(!used_continent_val[i]) {
+	flog(LOG_DEBUG, "new client continent %d at (%d %d)", i, x, y);
+	ptile->continent = this_con = i;
+	used_continent_val[i] = 1;
+	break;
+      }
+    }
+  }
+  if(this_con==-1) {
+    flog(LOG_NORMAL, "ran out of continent numbers in client");
+    ptile->continent = 0;
+  }
+}
+

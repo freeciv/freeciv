@@ -522,6 +522,8 @@ void handle_map_info(struct packet_map_info *pinfo)
     for(x=0; x<map.xsize; x++)
       tile_init(map_get_tile(x, y));
 
+  climap_init_continents();
+  
   set_overview_dimensions(map.xsize, map.ysize);
 }
 
@@ -679,6 +681,10 @@ void handle_tile_info(struct packet_tile_info *packet)
   ptile->special=packet->special;
 
   ptile->known=packet->known;
+
+  if(packet->known >= TILE_KNOWN && old_known < TILE_KNOWN
+     && ptile->terrain != T_OCEAN)
+    climap_update_continents(packet->x, packet->y);
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && packet->known>=TILE_KNOWN) {
     refresh_tile_mapcanvas(packet->x, packet->y, 1); 
