@@ -478,6 +478,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
     XSetClipMask(display, fill_tile_gc, psprite->mask);
   }
   XSetStipple(display, fill_tile_gc, gray50);
+  XSetTSOrigin(display, fill_tile_gc, canvas_x, canvas_y);
   XSetForeground(display, fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
 
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
@@ -805,6 +806,7 @@ void put_city_worker(struct canvas *pcanvas,
     return;
   }
 
+  XSetTSOrigin(display, fill_tile_gc, canvas_x, canvas_y);
   XSetForeground(display, fill_tile_gc, colors_standard[color]);
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
 		 canvas_x, canvas_y,
