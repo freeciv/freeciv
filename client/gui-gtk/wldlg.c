@@ -877,7 +877,7 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
 				     int where)
 {
   int target;
-  int i, idx;
+  int i, idx, len;
 
   /* Is there anything selected to insert? */
   if (! availSelection)
@@ -899,21 +899,27 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
       if (where < MAX_LEN_WORKLIST)
 	where++;
     }
-    if (where < MAX_LEN_WORKLIST)
-      where--;
   } else if (idx >= pdialog->worklist_avail_num_improvements) {
     /* target is an improvement or wonder */
     insert_into_worklist(pdialog, where, target+B_LAST);
+    where++;
   } else {
     /* target is a unit */
     insert_into_worklist(pdialog, where, target);
+    where++;
   }
 
   /* Update the list with the actual data */
   update_clist(pdialog->worklist, pdialog->worklist_names_ptrs);
 
+  /* How long is the new worklist? */
+  for (len = 0; len < MAX_LEN_WORKLIST; len++)
+    if (pdialog->worklist_ids[len] == WORKLIST_END)
+      break;
+
   /* Re-select the item that was previously selected. */
-  gtk_clist_select_row((GtkCList *)pdialog->worklist, where+1, 0);
+  if (where < len)
+    gtk_clist_select_row((GtkCList *)pdialog->worklist, where, 0);
 }
 
 /****************************************************************

@@ -902,7 +902,7 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
 				     int where)
 {
   int target;
-  int i;
+  int i, len;
 
   /* Is there anything selected to insert? */
   if (retAvail->list_index == XAW_LIST_NONE)
@@ -922,22 +922,28 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
       if (where < MAX_LEN_WORKLIST)
 	where++;
     }
-    if (where < MAX_LEN_WORKLIST)
-      where--;
   } else if (retAvail->list_index >= 
 	     pdialog->worklist_avail_num_improvements) {
     /* target is an improvement or wonder */
     insert_into_worklist(pdialog, where, target+B_LAST);
+    where++;
   } else {
     /* target is a unit */
     insert_into_worklist(pdialog, where, target);
+    where++;
   }
 
   /* Update the list with the actual data */
   XawListChange(pdialog->worklist, pdialog->worklist_names_ptrs, 
 		0, 0, False);
-  if (where+1 < MAX_LEN_WORKLIST)
-    XawListHighlight(pdialog->worklist, where+1);
+
+  /* How long is the new worklist? */
+  for (len = 0; len < MAX_LEN_WORKLIST; len++)
+    if (pdialog->worklist_ids[len] == WORKLIST_END)
+      break;
+
+  if (where < len)
+    XawListHighlight(pdialog->worklist, where);
 }
 
 /****************************************************************
