@@ -980,44 +980,6 @@ void put_cross_overlay_tile(struct tile *ptile)
   }
 }
 
-/****************************************************************************
-  Draw a single tile of the citymap onto the mapview.  The tile is drawn
-  as the given color with the given worker on it.  The exact method of
-  drawing is left up to the GUI.
-****************************************************************************/
-void put_city_worker(struct canvas *pcanvas,
-		     enum color_std color, enum city_tile_type worker,
-		     int canvas_x, int canvas_y)
-{
-  GdkBitmap *mask;
-
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    if (worker == C_TILE_EMPTY) {
-      gdk_gc_set_stipple(fill_tile_gc, gray25);
-    } else if (worker == C_TILE_WORKER) {
-      gdk_gc_set_stipple(fill_tile_gc, gray50);
-    } else {
-      return;
-    }
-
-    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
-
-    if (sprites.black_tile && (mask = sprite_get_mask(sprites.black_tile))) {
-      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-      gdk_gc_set_clip_mask(fill_tile_gc, mask);
-    }
-
-    gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
-		       canvas_x, canvas_y,
-		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-    if (sprites.black_tile && sprites.black_tile->mask) {
-      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-    }
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

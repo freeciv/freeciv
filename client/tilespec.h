@@ -220,9 +220,14 @@ struct named_sprites {
 
     /* The panel sprites for showing tax % allocations. */
     *tax_luxury, *tax_science, *tax_gold,
-
-    *black_tile,      /* only used for isometric view */
     *dither_tile;     /* only used for isometric view */
+
+  struct {
+    struct Sprite
+      *tile,
+      *worked_tile,
+      *unworked_tile;
+  } mask;
 
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
@@ -299,6 +304,8 @@ struct named_sprites {
       *tile_tradenum[NUM_TILES_DIGITS],
       ***tile_wall,      /* only used for isometric view */
       ***tile;
+    struct sprite_vector worked_tile_overlay;
+    struct sprite_vector unworked_tile_overlay;
   } city;
   struct {
     struct Sprite
@@ -336,6 +343,8 @@ struct named_sprites {
       *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
   } grid;
   struct {
+    struct sprite_vector overlays;
+
     struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   } colors;
 

@@ -58,6 +58,7 @@ minimap_intro_file = "misc/radar"
 ; tag is used).
 files = 
   "misc/colors.spec",
+  "misc/overlays.spec",
   "isophex/terrain1.spec",
   "isophex/terrain2.spec",
   "isophex/darkness.spec",

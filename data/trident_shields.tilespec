@@ -49,6 +49,7 @@ minimap_intro_file = "misc/radar"
 ; tag is used).
 files = 
   "misc/colors.spec",
+  "misc/overlays.spec",
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",

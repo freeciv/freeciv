@@ -134,7 +134,7 @@ tiles = { "row", "column","tag"
   0, 0, "t.dither_tile"
   0, 0, "tx.darkness"
   0, 1, "tx.fog"
-  0, 2, "t.black_tile"
+  0, 2, "mask.tile"
   0, 3, "t.coast_color"
 
   0, 4, "user.attention"

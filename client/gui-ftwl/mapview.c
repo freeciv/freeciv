@@ -599,17 +599,6 @@ void put_cross_overlay_tile(struct tile *ptile)
 }
 
 /**************************************************************************
-  Draw in information about city workers on the mapview in the given
-  color.
-**************************************************************************/
-void put_city_worker(struct canvas *pcanvas,
-                     enum color_std color, enum city_tile_type worker,
-                     int canvas_x, int canvas_y)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
   This function is called when the tileset is changed.
 **************************************************************************/
 void tileset_changed(void)

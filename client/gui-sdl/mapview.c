@@ -2089,17 +2089,6 @@ void put_cross_overlay_tile(int x, int y)
 }
 
 /**************************************************************************
-  Draw in information about city workers on the mapview in the given
-  color.
-**************************************************************************/
-void put_city_worker(struct canvas *pcanvas,
-		     enum color_std color, enum city_tile_type worker,
-		     int canvas_x, int canvas_y)
-{
-  freelog(LOG_DEBUG, "MAPVIEW: put_city_workers : PORT ME");
-}
-
-/**************************************************************************
  Area Selection
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)

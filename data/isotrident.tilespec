@@ -50,6 +50,7 @@ minimap_intro_file = "misc/radar"
 ; tag is used).
 files = 
   "misc/colors.spec",
+  "misc/overlays.spec",
   "isotrident/terrain1.spec",
   "isotrident/terrain2.spec",
   "isotrident/tiles.spec",

@@ -951,11 +951,11 @@ static void put_drawn_sprites(struct canvas *pcanvas,
     case DRAWN_BG:
       /*** Background color. ***/
       if (tileset_is_isometric()) {
-	canvas_fill_sprite_area(pcanvas, sprites.black_tile,
+	canvas_fill_sprite_area(pcanvas, sprites.mask.tile,
 				pdrawn[i].data.bg.color,
 				canvas_x, canvas_y);
 	if (fog) {
-	  canvas_fog_sprite_area(pcanvas, sprites.black_tile,
+	  canvas_fog_sprite_area(pcanvas, sprites.mask.tile,
 				 canvas_x, canvas_y);
 	}
       } else {
@@ -1107,14 +1107,8 @@ void put_unit_city_overlays(struct unit *punit,
  *
  * This array can be added to without breaking anything elsewhere.
  */
-static enum color_std city_colors[] = {
-  COLOR_STD_RED,
-  COLOR_STD_YELLOW,
-  COLOR_STD_CYAN,
-  COLOR_STD_WHITE
-};
 static int color_index = 0;
-#define NUM_CITY_COLORS ARRAY_SIZE(city_colors)
+#define NUM_CITY_COLORS (sprites.city.worked_tile_overlay.size)
 
 
 /****************************************************************************
@@ -1713,19 +1707,31 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  && pcity->client.colored
 	  && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
+	int index = pcity->client.color_index % NUM_CITY_COLORS;
 
-	put_city_worker(mapview.store,
-			city_colors[pcity->client.color_index], worker,
-			canvas_x2, canvas_y2);
-	if (worker == C_TILE_WORKER) {
+	switch (worker) {
+	case C_TILE_EMPTY:
+	  canvas_put_sprite_full(mapview.store,
+				 canvas_x2, canvas_y2,
+				 sprites.city.unworked_tile_overlay.p[index]);
+	  break;
+	case C_TILE_WORKER:
+	  canvas_put_sprite_full(mapview.store,
+				 canvas_x2, canvas_y2,
+				 sprites.city.worked_tile_overlay.p[index]);
 	  put_city_tile_output(pcity, city_x, city_y,
 			       mapview.store, canvas_x2, canvas_y2);
+	  break;
+	case C_TILE_UNAVAILABLE:
+	  break;
 	}
       } else if (punit && punit->client.colored) {
+	int index = punit->client.color_index % NUM_CITY_COLORS;
+
 	/* Draw citymap overlay for settlers. */
-	put_city_worker(mapview.store,
-			city_colors[punit->client.color_index], C_TILE_EMPTY,
-			canvas_x2, canvas_y2);
+	canvas_put_sprite_full(mapview.store,
+			       canvas_x2, canvas_y2,
+			       sprites.city.unworked_tile_overlay.p[index]);
       }
     }
   } gui_rect_iterate_end;

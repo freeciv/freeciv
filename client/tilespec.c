@@ -1269,6 +1269,7 @@ static void tilespec_lookup_sprite_tags(void)
 {
   char buffer[512];
   const char dir_char[] = "nsew";
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
   int i;
   
   assert(sprite_hash != NULL);
@@ -1287,9 +1288,12 @@ static void tilespec_lookup_sprite_tags(void)
 
   SET_SPRITE(right_arrow, "s.right_arrow");
   if (is_isometric) {
-    SET_SPRITE(black_tile, "t.black_tile");
     SET_SPRITE(dither_tile, "t.dither_tile");
   }
+
+  SET_SPRITE(mask.tile, "mask.tile");
+  SET_SPRITE(mask.worked_tile, "mask.worked_tile");
+  SET_SPRITE(mask.unworked_tile, "mask.unworked_tile");
 
   SET_SPRITE(tax_luxury, "s.tax_luxury");
   SET_SPRITE(tax_science, "s.tax_science");
@@ -1493,12 +1497,48 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.airbase,    "tx.airbase");
   SET_SPRITE(tx.fog,        "tx.fog");
 
-  if (load_sprite("grid.main.ns")) {
-    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-      my_snprintf(buffer, sizeof(buffer), "colors.player%d", i);
-      SET_SPRITE(colors.player[i], buffer);
-    }
+  /* Load color sprites. */
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    my_snprintf(buffer, sizeof(buffer), "colors.player%d", i);
+    SET_SPRITE(colors.player[i], buffer);
+  }
+  sprite_vector_init(&sprites.colors.overlays);
+  for (i = 0; ; i++) {
+    struct Sprite *sprite;
 
+    my_snprintf(buffer, sizeof(buffer), "colors.overlay_%d", i);
+    sprite = load_sprite(buffer);
+    if (!sprite) {
+      break;
+    }
+    sprite_vector_append(&sprites.colors.overlays, &sprite);
+  }
+  if (i == 0) {
+    freelog(LOG_FATAL, "Missing overlay-color sprite colors.overlay_0.");
+    exit(EXIT_FAILURE);
+  }
+
+  /* Chop up and build the overlay graphics. */
+  sprite_vector_reserve(&sprites.city.worked_tile_overlay,
+			sprite_vector_size(&sprites.colors.overlays));
+  sprite_vector_reserve(&sprites.city.unworked_tile_overlay,
+			sprite_vector_size(&sprites.colors.overlays));
+  for (i = 0; i < sprite_vector_size(&sprites.colors.overlays); i++) {
+    struct Sprite *color, *color_mask;
+    struct Sprite *worked, *unworked;
+
+    color = *sprite_vector_get(&sprites.colors.overlays, i);
+    color_mask = crop_sprite(color, 0, 0, W, H, sprites.mask.tile, 0, 0);
+    worked = crop_sprite(color_mask, 0, 0, W, H,
+			 sprites.mask.worked_tile, 0, 0);
+    unworked = crop_sprite(color_mask, 0, 0, W, H,
+			   sprites.mask.unworked_tile, 0, 0);
+    free_sprite(color_mask);
+    sprites.city.worked_tile_overlay.p[i] =  worked;
+    sprites.city.unworked_tile_overlay.p[i] = unworked;
+  }
+
+  if (load_sprite("grid.main.ns")) {
     SET_SPRITE(grid.unavailable, "grid.unavailable");
 
     for (i = 0; i < EDGE_COUNT; i++) {
@@ -1881,7 +1921,7 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
 
 		  sprite = crop_sprite(sprite,
 				       x[dir], y[dir], W / 2, H / 2,
-				       sprites.black_tile, xo[dir], yo[dir]);
+				       sprites.mask.tile, xo[dir], yo[dir]);
 		}
 
 		draw->layer[l].cells[i] = sprite;

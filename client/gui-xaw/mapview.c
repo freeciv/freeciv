@@ -778,30 +778,6 @@ void put_cross_overlay_tile(struct tile *ptile)
   }
 }
 
-/****************************************************************************
-  Draw a single tile of the citymap onto the mapview.  The tile is drawn
-  as the given color with the given worker on it.  The exact method of
-  drawing is left up to the GUI.
-****************************************************************************/
-void put_city_worker(struct canvas *pcanvas,
-		     enum color_std color, enum city_tile_type worker,
-		     int canvas_x, int canvas_y)
-{
-  if (worker == C_TILE_EMPTY) {
-    XSetStipple(display, fill_tile_gc, gray25);
-  } else if (worker == C_TILE_WORKER) {
-    XSetStipple(display, fill_tile_gc, gray50);
-  } else {
-    return;
-  }
-
-  XSetTSOrigin(display, fill_tile_gc, canvas_x, canvas_y);
-  XSetForeground(display, fill_tile_gc, colors_standard[color]);
-  XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
-		 canvas_x, canvas_y,
-		 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

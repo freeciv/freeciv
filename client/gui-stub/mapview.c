@@ -338,18 +338,6 @@ void put_cross_overlay_tile(struct tile *ptile)
 }
 
 /****************************************************************************
-  Draw a single tile of the citymap onto the mapview.  The tile is drawn
-  as the given color with the given worker on it.  The exact method of
-  drawing is left up to the GUI.
-****************************************************************************/
-void put_city_worker(struct canvas *pcanvas,
-		     enum color_std color, enum city_tile_type worker,
-		     int canvas_x, int canvas_y)
-{
-  /* PORTME */
-}
-
-/****************************************************************************
  Area Selection
 ****************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
