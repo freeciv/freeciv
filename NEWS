@@ -67,8 +67,6 @@ WHAT'S CHANGED SINCE 1.11.4
  - In the players dialog it is now reported which nations have an
    embassy with you. Your embassies are also listed.
  - Wonders being built are listed in the "wonders of the world" popup.
- - "allowconnect" server variables controls to which types of players a
-   client can connect.
  - Server "save" command saves to <auto-save name prefix><year>m.sav[.gz]
    if it is not given any arguments.
  - "quitidle" server commandline option makes server quit if there has

@@ -24,7 +24,7 @@ contributions to the Freeciv project.
 
      Thue Janus Kristensen <thue@diku.dk>
 	(readline completion, cleanup, patches, shared vision,
-	 goto polyline, isometric view)
+	goto polyline, isometric view)
      Jeff Mallatt <jjm@codewell.com> (co-admin, patches, cleanup)
      David Pfitzner <dwp@mso.anu.edu.au> (cleanup,
 	experimental multiple connection support, patches,
@@ -282,7 +282,7 @@ contributions to the Freeciv project.
 	(flags, chiefs occupied, simple icon, civ2 specials)
      Jerzy Klek <qpkjeek@epk.ericsson.se> (flags, city styles)
      Alexandre Beraud <a_beraud@lemel.fr> (space, wonders, small)
-     Reineir Post <reinpost@win.tue.nl> (Sweden, Holland flags)
+     Reinier Post <reinpost@win.tue.nl> (Sweden, Holland flags)
      Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal flag)
      David Pfitzner <dwp@mso.anu.edu.au> (roads, flags)
      Bruno Gilleta <gilleta@pento.esil.univ-mrs.fr> (improved classic)
@@ -402,7 +402,7 @@ contributions to the Freeciv project.
   Website contributors:
 
      Paul Zastoupil <paulz@dunedain.net>
-     Reineir Post <reinpost@win.tue.nl>
+     Reinier Post <reinpost@win.tue.nl>
      Patrick Gardella <patrick@cre8tivegroup.com> (Games Announcement)
      Fabrice Noilhan <fabrice.noilhan@ens.fr> (Poll system)
      Jeff Mallatt <jjm@codewell.com> (i18n, l10n, DB intf.)
