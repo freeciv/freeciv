@@ -1,5 +1,5 @@
-このファイルは CVS-1.36 に基づいています。
-This file based on cvs-1.36's NEWS.
+このファイルは CVS-1.37 に基づいています。
+This file based on cvs-1.37's NEWS.
 
 ========================
 ようこそ Freeciv 1.12 へ
@@ -15,7 +15,7 @@ This file based on cvs-1.36's NEWS.
 1.11.4 から変更された点:
 
  - 国際化が広がりました。まだ向上する必要があります。
-   現在の地域化: de en_GB es fr hu it ja nl no pl pt pt_BR ru sv
+   現在の地域化: de en_GB es fr hu it ja nl no pl pt pt_BR ro ru sv
  - gtk と amiga クライアントで使う isometric(等角)ビューは、ほぼ civ2 
    互換のタイルセットです。これは、それらのクライアントではデフォルト
    です。まだ古い isometric ではないタイルセットもクライアントへ 
