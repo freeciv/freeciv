@@ -78,7 +78,7 @@
 - continent attack
 4 Superadvanced:
 - Transporters (attack on other continents)
-- diplomati (ambassader/bytte tech/bytte kort med anden AI)
+- diplomacy (embassies / tech trading / map trading with other AIs)
 
 
 Step 1 is the basics, can be used for the blank seat people usually have when
