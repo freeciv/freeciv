@@ -73,6 +73,7 @@
 
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
+static void handle_unit_packet_common(struct unit *packet_unit, bool carried);
 static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
 
@@ -108,6 +109,27 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
+
+  return punit;
+}
+
+/**************************************************************************
+  Unpackage a short_unit_info packet.  This extracts a limited amount of
+  information about the unit, and is sent for units we shouldn't know
+  everything about (like our enemies' units).
+**************************************************************************/
+static struct unit *unpackage_short_unit(struct packet_short_unit *packet)
+{
+  struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
+					   packet->type, FALSE);
+
+  /* Owner and type fields are already filled in by create_unit_virtual. */
+  punit->id = packet->id;
+  punit->x = packet->x;
+  punit->y = packet->y;
+  punit->veteran = packet->veteran;
+  punit->hp = packet->hp;
+  punit->activity = packet->activity;
 
   return punit;
 }
@@ -839,72 +861,55 @@ void handle_page_msg(struct packet_generic_message *packet)
 **************************************************************************/
 void handle_unit_info(struct packet_unit_info *packet)
 {
-  struct city *pcity;
   struct unit *punit;
-  bool repaint_unit;
-  bool repaint_city;		/* regards unit's homecity */
-  bool check_focus = FALSE; /* conservative focus change */
-  bool moved = FALSE;
-  int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
 
-  /* Special case for a diplomat/spy investigating a city:
-     The investigator needs to know the supported and present
-     units of a city, whether or not they are fogged. So, we
-     send a list of them all before sending the city info. */
-  if ((packet->packet_use == UNIT_INFO_CITY_SUPPORTED) ||
-      (packet->packet_use == UNIT_INFO_CITY_PRESENT)) {
-    static int last_serial_num = 0;
-    /* fetch city -- abort if not found */
-    pcity = find_city_by_id(packet->info_city_id);
-    if (!pcity) {
-      return;
-    }
-    /* new serial number -- clear everything */
-    if (last_serial_num != packet->serial_num) {
-      last_serial_num = packet->serial_num;
-      unit_list_iterate(pcity->info_units_supported, psunit) {
-	destroy_unit_virtual(psunit);
-      } unit_list_iterate_end;
-      unit_list_unlink_all(&(pcity->info_units_supported));
-      unit_list_iterate(pcity->info_units_present, ppunit) {
-	destroy_unit_virtual(ppunit);
-      } unit_list_iterate_end;
-      unit_list_unlink_all(&(pcity->info_units_present));
-    }
-    /* okay, append a unit struct to the proper list */
-    punit = unpackage_unit(packet);
-    if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      unit_list_insert(&(pcity->info_units_supported), punit);
-    } else {
-      assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      unit_list_insert(&(pcity->info_units_present), punit);
-    }
-    /* done with special case */
-    return;
+  if (packet->owner != game.player_idx ) {
+    freelog(LOG_ERROR, "Got packet_unit_info for unit of %s.",
+            game.players[packet->owner].name);
   }
 
-  repaint_unit = FALSE;
-  repaint_city = FALSE;
-  punit = player_find_unit_by_id(get_player(packet->owner), packet->id);
+  punit = unpackage_unit(packet);
+  handle_unit_packet_common(punit, packet->carried);
+  free(punit);
+}
 
-  if(punit) {
-    int dest_x,dest_y;
-    punit->activity_count = packet->activity_count;
-    if (punit->ai.control!=packet->ai) {
-      punit->ai.control = packet->ai;
+/**************************************************************************
+  Called to do basic handling for a unit_info or short_unit_info packet.
+**************************************************************************/
+static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
+{
+  struct city *pcity;
+  struct unit *punit;
+  bool repaint_unit = FALSE;
+  bool repaint_city = FALSE;	/* regards unit's homecity */
+  int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
+  bool check_focus = FALSE;     /* conservative focus change */
+  bool moved = FALSE;
+
+  punit = player_find_unit_by_id(get_player(packet_unit->owner),
+				 packet_unit->id);
+
+  if (punit) {
+    int dest_x, dest_y;
+    punit->activity_count = packet_unit->activity_count;
+    if (punit->ai.control != packet_unit->ai.control) {
+      punit->ai.control = packet_unit->ai.control;
       repaint_unit = TRUE;
       /* AI is set:     may change focus */
       /* AI is cleared: keep focus */
-      if (packet->ai && punit == get_unit_in_focus()) {
+      if (packet_unit->ai.control && punit == get_unit_in_focus()) {
         check_focus = TRUE;
       }
     }
-    if((punit->activity!=packet->activity)         /* change activity */
-       || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
+    if (punit->activity != packet_unit->activity
+        || punit->activity_target != packet_unit->activity_target) {
+      /* change activity or act's target */
 
       /* May change focus if focus unit gets a new activity.
-         But if new activity is Idle, it means user specifically selected the unit */
-      if (punit == get_unit_in_focus() && packet->activity != ACTIVITY_IDLE) {
+       * But if new activity is Idle, it means user specifically selected
+       * the unit */
+      if (punit == get_unit_in_focus()
+	  && packet_unit->activity != ACTIVITY_IDLE) {
         check_focus = TRUE;
       }
 
@@ -914,10 +919,10 @@ void handle_unit_info(struct packet_unit_info *packet)
       if (wakeup_focus 
           && punit->owner == game.player_idx
           && punit->activity == ACTIVITY_SENTRY
-          && packet->activity == ACTIVITY_IDLE
+          && packet_unit->activity == ACTIVITY_IDLE
           && (!get_unit_in_focus()
               /* only 1 wakeup focus per tile is useful */
-              || !same_pos(packet->x, packet->y,
+              || !same_pos(packet_unit->x, packet_unit->y,
                            get_unit_in_focus()->x,
                            get_unit_in_focus()->y))) {
         set_unit_focus(punit);
@@ -930,46 +935,46 @@ void handle_unit_info(struct packet_unit_info *packet)
         }
       }
 
-      punit->activity = packet->activity;
-      punit->activity_target = packet->activity_target;
+      punit->activity = packet_unit->activity;
+      punit->activity_target = packet_unit->activity_target;
 
-      if(punit->owner==game.player_idx) 
+      if (punit->owner == game.player_idx) {
         refresh_unit_city_dialogs(punit);
-      /*      refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
-       *      update_unit_pix_label(punit);
-       *      update_unit_focus();
-       */
+      }
 
       /* These two lines force the menus to be updated as appropriate when
 	 the unit activity changes. */
-      if(punit == get_unit_in_focus())
+      if (punit == get_unit_in_focus()) {
          update_menus();
+      }
     }
     
-    if(punit->homecity!=packet->homecity) { /* change homecity */
+    if (punit->homecity != packet_unit->homecity) {
+      /* change homecity */
       struct city *pcity;
-      if((pcity=find_city_by_id(punit->homecity))) {
+      if ((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_unlink(&pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
-      punit->homecity=packet->homecity;
-      if((pcity=find_city_by_id(punit->homecity))) {
+      punit->homecity = packet_unit->homecity;
+      if ((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_insert(&pcity->units_supported, punit);
 	repaint_city = TRUE;
       }
     }
 
-    if(punit->hp!=packet->hp) {                      /* hp changed */
-      punit->hp=packet->hp;
+    if (punit->hp != packet_unit->hp) {
+      /* hp changed */
+      punit->hp = packet_unit->hp;
       repaint_unit = TRUE;
     }
 
-    if (punit->type!=packet->type) {
+    if (punit->type != packet_unit->type) {
       /* Unit type has changed (been upgraded) */
       struct city *pcity = map_get_city(punit->x, punit->y);
       
-      punit->type=packet->type;
+      punit->type = packet_unit->type;
       repaint_unit = TRUE;
       repaint_city = TRUE;
       if (pcity && (pcity->id != punit->homecity)) {
@@ -982,11 +987,12 @@ void handle_unit_info(struct packet_unit_info *packet)
     }
 
     /* May change focus if an attempted move or attack exhausted unit */
-    if (punit->moves_left != packet->movesleft && punit == get_unit_in_focus()) {
-        check_focus = TRUE;
+    if (punit->moves_left != packet_unit->moves_left
+        && punit == get_unit_in_focus()) {
+      check_focus = TRUE;
     }
 
-    if (!same_pos(punit->x, punit->y, packet->x, packet->y)) { 
+    if (!same_pos(punit->x, punit->y, packet_unit->x, packet_unit->y)) { 
       /* change position */
       struct city *pcity = map_get_city(punit->x, punit->y);
 
@@ -995,15 +1001,15 @@ void handle_unit_info(struct packet_unit_info *packet)
       moved = TRUE;
 
       /* Show where the unit is going. */
-      do_move_unit(punit, packet);
+      do_move_unit(punit, packet_unit, carried);
 
       if (!can_player_see_unit_at(game.player_ptr, punit, 
-				  packet->x, packet->y)) {
+				  packet_unit->x, packet_unit->y)) {
         /* The unit has moved out of sight; the server won't send us any
 	 * more updates about it.  Remove it so we don't get stuck with
 	 * a phantom (incorrect/imaginary) unit. */
 	client_remove_unit(punit);
-	refresh_tile_mapcanvas(packet->x, packet->y, FALSE);
+	refresh_tile_mapcanvas(packet_unit->x, packet_unit->y, FALSE);
         return;
       }
 
@@ -1046,20 +1052,20 @@ void handle_unit_info(struct packet_unit_info *packet)
       
       repaint_unit = FALSE;
     }
-    if (punit->unhappiness!=packet->unhappiness) {
-      punit->unhappiness=packet->unhappiness;
+    if (punit->unhappiness != packet_unit->unhappiness) {
+      punit->unhappiness = packet_unit->unhappiness;
       repaint_city = TRUE;
     }
-    if (punit->upkeep!=packet->upkeep) {
-      punit->upkeep=packet->upkeep;
+    if (punit->upkeep != packet_unit->upkeep) {
+      punit->upkeep = packet_unit->upkeep;
       repaint_city = TRUE;
     }
-    if (punit->upkeep_food!=packet->upkeep_food) {
-      punit->upkeep_food=packet->upkeep_food;
+    if (punit->upkeep_food != packet_unit->upkeep_food) {
+      punit->upkeep_food = packet_unit->upkeep_food;
       repaint_city = TRUE;
     }
-    if (punit->upkeep_gold!=packet->upkeep_gold) {
-      punit->upkeep_gold=packet->upkeep_gold;
+    if (punit->upkeep_gold != packet_unit->upkeep_gold) {
+      punit->upkeep_gold = packet_unit->upkeep_gold;
       repaint_city = TRUE;
     }
     if (repaint_city) {
@@ -1068,20 +1074,21 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
     }
 
-    punit->veteran=packet->veteran;
-    punit->moves_left=packet->movesleft;
-    punit->bribe_cost=0;
-    punit->fuel=packet->fuel;
-    if (is_normal_map_pos(packet->goto_dest_x, packet->goto_dest_y)) {
-      set_goto_dest(punit, packet->goto_dest_x, packet->goto_dest_y);
+    punit->veteran = packet_unit->veteran;
+    punit->moves_left = packet_unit->moves_left;
+    punit->bribe_cost = 0;
+    punit->fuel = packet_unit->fuel;
+    if (is_normal_map_pos(packet_unit->goto_dest.x,
+                          packet_unit->goto_dest.y)) {
+      set_goto_dest(punit, packet_unit->goto_dest.x, packet_unit->goto_dest.y);
     } else {
       clear_goto_dest(punit);
     }
-    punit->paradropped=packet->paradropped;
-    punit->connecting=packet->connecting;
+    punit->paradropped = packet_unit->paradropped;
+    punit->connecting = packet_unit->connecting;
   
-    dest_x = packet->x;
-    dest_y = packet->y;
+    dest_x = packet_unit->x;
+    dest_y = packet_unit->y;
     /*fog of war*/
     if (!(tile_get_known(punit->x,punit->y) == TILE_KNOWN)) {
       client_remove_unit(punit);
@@ -1089,11 +1096,12 @@ void handle_unit_info(struct packet_unit_info *packet)
     }
     agents_unit_changed(punit);
   } else {
-    /* create new unit */
-    punit = unpackage_unit(packet);
+    /* create new unit */ 
+    punit = fc_malloc(sizeof(struct unit));
+    *punit = *packet_unit;
     idex_register_unit(punit);
 
-    unit_list_insert(&get_player(packet->owner)->units, punit);
+    unit_list_insert(&get_player(punit->owner)->units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
     if((pcity=find_city_by_id(punit->homecity))) {
@@ -1105,7 +1113,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 
-    repaint_unit = !packet->carried;
+    repaint_unit = !carried;
     agents_unit_new(punit);
 
     if ((pcity = map_get_city(punit->x, punit->y))) {
@@ -1130,6 +1138,63 @@ void handle_unit_info(struct packet_unit_info *packet)
 
   if (check_focus || get_unit_in_focus() == NULL)
     update_unit_focus(); 
+}
+
+/**************************************************************************
+  Receive a short_unit info packet.
+**************************************************************************/
+void handle_short_unit(struct packet_short_unit *packet)
+{
+  struct city *pcity;
+  struct unit *punit;
+
+  /* Special case for a diplomat/spy investigating a city: The investigator
+   * needs to know the supported and present units of a city, whether or not
+   * they are fogged. So, we send a list of them all before sending the city
+   * info. */
+  if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED
+      || packet->packet_use == UNIT_INFO_CITY_PRESENT) {
+    static int last_serial_num = 0;
+
+    /* fetch city -- abort if not found */
+    pcity = find_city_by_id(packet->info_city_id);
+    if (!pcity) {
+      return;
+    }
+
+    /* New serial number -- clear (free) everything */
+    if (last_serial_num != packet->serial_num) {
+      last_serial_num = packet->serial_num;
+      unit_list_iterate(pcity->info_units_supported, psunit) {
+	destroy_unit_virtual(psunit);
+      } unit_list_iterate_end;
+      unit_list_unlink_all(&(pcity->info_units_supported));
+      unit_list_iterate(pcity->info_units_present, ppunit) {
+	destroy_unit_virtual(ppunit);
+      } unit_list_iterate_end;
+      unit_list_unlink_all(&(pcity->info_units_present));
+    }
+
+    /* Okay, append a unit struct to the proper list. */
+    punit = unpackage_short_unit(packet);
+    if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
+      unit_list_insert(&(pcity->info_units_supported), punit);
+    } else {
+      assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
+      unit_list_insert(&(pcity->info_units_present), punit);
+    }
+
+    /* Done with special case. */
+    return;
+  }
+
+  if (packet->owner == game.player_idx ) {
+    freelog(LOG_ERROR, "Got packet_short_unit for own unit.");
+  }
+
+  punit = unpackage_short_unit(packet);
+  handle_unit_packet_common(punit, packet->carried);
+  free(punit);
 }
 
 /**************************************************************************

@@ -1239,45 +1239,53 @@ void request_unit_move_done(void)
 }
 
 /**************************************************************************
-...
+  Called to have the client move a unit from one location to another,
+  updating the graphics if necessary.
 **************************************************************************/
-void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
+void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
 {
   int x, y;
   bool was_teleported;
   
-  was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
-  x=punit->x;
-  y=punit->y;
+  was_teleported = !is_tiles_adjacent(punit->x, punit->y,
+				      target_unit->x, target_unit->y);
+  x = punit->x;
+  y = punit->y;
 
-  if (!was_teleported && punit->activity != ACTIVITY_SENTRY && !pinfo->carried) {
+  if (!was_teleported && punit->activity != ACTIVITY_SENTRY && !carried) {
     audio_play_sound(unit_type(punit)->sound_move,
 		     unit_type(punit)->sound_move_alt);
   }
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
-  if(!pinfo->carried)
+  if (!carried) {
     refresh_tile_mapcanvas(x, y, FALSE);
+  }
   
-  if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
-     auto_center_on_unit && punit->activity!=ACTIVITY_SENTRY &&
-     !tile_visible_and_not_on_border_mapcanvas(pinfo->x, pinfo->y))
-    center_tile_mapcanvas(pinfo->x, pinfo->y);
+  if (game.player_idx == punit->owner
+      && auto_center_on_unit
+      && punit->activity != ACTIVITY_GOTO
+      && punit->activity != ACTIVITY_SENTRY
+      && !tile_visible_and_not_on_border_mapcanvas(target_unit->x,
+                                                   target_unit->y)) {
+    center_tile_mapcanvas(target_unit->x, target_unit->y);
+  }
 
-  if(!pinfo->carried && !was_teleported) {
+  if (!carried && !was_teleported) {
     int dx, dy;
 
-    map_distance_vector(&dx, &dy, punit->x, punit->y, pinfo->x, pinfo->y);
-    if(smooth_move_units)
+    map_distance_vector(&dx, &dy, punit->x, punit->y,
+                        target_unit->x, target_unit->y);
+    if (smooth_move_units) {
       move_unit_map_canvas(punit, x, y, dx, dy);
+    }
     refresh_tile_mapcanvas(x, y, FALSE);
   }
     
-  punit->x=pinfo->x;
-  punit->y=pinfo->y;
-  punit->fuel=pinfo->fuel;
-  punit->hp=pinfo->hp;
+  punit->x = target_unit->x;
+  punit->y = target_unit->y;
+
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
   square_iterate(punit->x, punit->y, 2, x, y) {
@@ -1294,8 +1302,9 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     }
   } square_iterate_end;
   
-  if(!pinfo->carried && tile_get_known(punit->x,punit->y) == TILE_KNOWN)
+  if (!carried && tile_get_known(punit->x, punit->y) == TILE_KNOWN) {
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+  }
 
   if(get_unit_in_focus()==punit) update_menus();
 }

@@ -290,6 +290,9 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_UNIT_INFO:
     return receive_packet_unit_info(pc);
 
+  case PACKET_SHORT_UNIT:
+    return receive_packet_short_unit(pc);
+
   case PACKET_CITY_INFO:
     return receive_packet_city_info(pc);
 
@@ -1293,9 +1296,6 @@ int send_packet_unit_info(struct connection *pc,
   dio_put_uint8(&dout, req->goto_dest_x);
   dio_put_uint8(&dout, req->goto_dest_y);
   dio_put_uint16(&dout, req->activity_target);
-  dio_put_uint8(&dout, req->packet_use);
-  dio_put_uint16(&dout, req->info_city_id);
-  dio_put_uint16(&dout, req->serial_num);
 
   if (req->fuel > 0)
     dio_put_uint8(&dout, req->fuel);
@@ -1575,9 +1575,6 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint8(&din, &packet->goto_dest_x);
   dio_get_uint8(&din, &packet->goto_dest_y);
   dio_get_uint16(&din, (int *) &packet->activity_target);
-  dio_get_uint8(&din, &packet->packet_use);
-  dio_get_uint16(&din, &packet->info_city_id);
-  dio_get_uint16(&din, &packet->serial_num);
 
   if (dio_input_remaining(&din) >= 1) {
     dio_get_uint8(&din, &packet->fuel);
@@ -1959,6 +1956,63 @@ int send_packet_ruleset_control(struct connection *pc,
   }
 
   SEND_PACKET_END;
+}
+
+/**************************************************************************
+  Send a short_unit packet (containing limited information about a unit)
+  to a client.
+**************************************************************************/
+int send_packet_short_unit(struct connection *pc,
+                           const struct packet_short_unit *req)
+{
+  int pack;
+  SEND_PACKET_START(PACKET_SHORT_UNIT);
+  
+  dio_put_uint16(&dout, req->id);
+  dio_put_uint8(&dout, req->owner);
+  dio_put_uint8(&dout, req->x);
+  dio_put_uint8(&dout, req->y);
+  dio_put_uint8(&dout, req->type);
+  dio_put_uint8(&dout, req->hp);
+  dio_put_uint8(&dout, req->activity);
+
+  pack = (COND_SET_BIT(req->carried, 3)
+	  | COND_SET_BIT(req->veteran, 4));
+  dio_put_uint8(&dout, pack);
+
+  dio_put_uint8(&dout, req->packet_use);
+  dio_put_uint16(&dout, req->info_city_id);
+  dio_put_uint16(&dout, req->serial_num);
+    
+  SEND_PACKET_END;
+}
+
+/**************************************************************************
+  Receive a short_unit packet (containing limited information about a unit)
+  from the server.
+**************************************************************************/
+struct packet_short_unit *receive_packet_short_unit(struct connection *pc)
+{
+  int pack;
+  RECEIVE_PACKET_START(packet_short_unit, packet);
+
+  dio_get_uint16(&din, &packet->id);
+  dio_get_uint8(&din, &packet->owner);
+  dio_get_uint8(&din, &packet->x);
+  dio_get_uint8(&din, &packet->y);
+  dio_get_uint8(&din, &packet->type);
+  dio_get_uint8(&din, &packet->hp);
+  dio_get_uint8(&din, &packet->activity);
+
+  dio_get_uint8(&din, &pack);
+  packet->carried = TEST_BIT(pack, 3);
+  packet->veteran = TEST_BIT(pack, 4);
+
+  dio_get_uint8(&din, &packet->packet_use);
+  dio_get_uint16(&din, &packet->info_city_id);
+  dio_get_uint8(&din, &packet->serial_num);
+
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************

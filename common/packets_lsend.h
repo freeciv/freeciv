@@ -44,6 +44,8 @@ void lsend_packet_move_unit(struct conn_list *dest,
 			  const struct packet_move_unit *request);
 void lsend_packet_unit_info(struct conn_list *dest,
 			  const struct packet_unit_info *req);
+void lsend_packet_short_unit(struct conn_list *dest,
+			   const struct packet_short_unit *req);
 void lsend_packet_login_request(struct conn_list *dest, 
 			      const struct packet_login_request *request);
 void lsend_packet_login_reply(struct conn_list *dest, 

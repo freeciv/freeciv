@@ -32,6 +32,8 @@
    before we have the capability string.
 */
 
+/* The order of these cannot be changed without breaking network
+ * compatability. */
 enum packet_type {
   PACKET_LOGIN_REQUEST,
   PACKET_LOGIN_REPLY,
@@ -39,6 +41,7 @@ enum packet_type {
   PACKET_PROCESSING_FINISHED,
   PACKET_SERVER_SHUTDOWN,
   PACKET_UNIT_INFO,
+  PACKET_SHORT_UNIT,
   PACKET_MOVE_UNIT,
   PACKET_TURN_DONE,
   PACKET_NEW_YEAR,
@@ -323,11 +326,30 @@ struct packet_unit_info {
   enum tile_special_type activity_target;
   bool paradropped;
   bool connecting;
+
   /* in packet only, not in unit struct */
-  bool carried;
+  bool carried;		/* FIXME: should not send carried units at all? */
+};
+
+
+/**************************************************************************
+  Information for a short_unit packet.  This packet type is sent
+  server->client to give limited information about a unit.
+**************************************************************************/
+struct packet_short_unit {
+  int id;
+  int owner;
+  int x, y;
+  bool veteran;
+  int type;
+  int hp;
+  int activity;
+
+  /* in packet only, not in unit struct */
+  int carried;		/* FIXME: should not send carried units at all? */
   int packet_use;	/* see enum unit_info_use */
   int info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
-			   and UNIT_INFO_CITY_PRESENT uses */
+  			   and UNIT_INFO_CITY_PRESENT uses */
   int serial_num;	/* a 16-bit unsigned number, never zero
 			   (not used by UNIT_INFO_IDENTITY) */
 };
@@ -1016,6 +1038,10 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc);
 int send_packet_unit_info(struct connection *pc,
 			  const struct packet_unit_info *req);
 struct packet_unit_info *receive_packet_unit_info(struct connection *pc);
+
+int send_packet_short_unit(struct connection *pc,
+			   const struct packet_short_unit *req);
+struct packet_short_unit *receive_packet_short_unit(struct connection *pc);
 
 int send_packet_login_request(struct connection *pc, 
 			      const struct packet_login_request *request);

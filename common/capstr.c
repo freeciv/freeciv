@@ -79,7 +79,8 @@ const char * const our_capability = our_capability_internal;
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
                    "+diplomacy2 +citizens_style +root_tech auth " \
-                   "+nat_ulimit +retake +goto_pack borders dip"
+                   "+nat_ulimit +retake +goto_pack borders dip " \
+                   "+packet_short_unit"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -145,6 +146,9 @@ const char * const our_capability = our_capability_internal;
  * 
  * "dip" is support for reporting the state of ability to do 
  *  diplomacy restrictions (see game.diplomacy)
+ *
+ * "packet_short_unit" is packet sent instead of full packet_unit_info to
+ * enemies, so that not all info about the unit is sent.
  */
 
 void init_our_capability(void)

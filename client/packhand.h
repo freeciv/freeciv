@@ -25,6 +25,7 @@ void handle_game_info(struct packet_game_info *pinfo);
 void handle_map_info(struct packet_map_info *pinfo);
 void handle_select_nation(struct packet_nations_used *packet);
 void handle_unit_info(struct packet_unit_info *packet);
+void handle_short_unit(struct packet_short_unit *packet);
 void handle_chat_msg(struct packet_generic_message *packet);
 
 void handle_remove_city(struct packet_generic_integer *packet);

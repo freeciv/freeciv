@@ -133,6 +133,14 @@ void lsend_packet_unit_info(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_short_unit(struct conn_list *dest,
+			   const struct packet_short_unit *req)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_short_unit(pconn, req);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_login_request(struct conn_list *dest, 
 			      const struct packet_login_request *request)
 {

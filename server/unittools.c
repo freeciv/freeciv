@@ -1778,21 +1778,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Package a unit_info packet.  This packet contains basically all
+  information about a unit.
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  bool carried, enum unit_info_use packet_use,
-		  int info_city_id, bool new_serial_num)
+		  bool carried)
 {
-  static unsigned int serial_num = 0;
-
-  /* a 16-bit unsigned number, never zero */
-  if (new_serial_num) {
-    serial_num = (serial_num + 1) & 0xFFFF;
-    if (serial_num == 0)
-      serial_num++;
-  }
-
   packet->id = punit->id;
   packet->owner = punit->owner;
   packet->x = punit->x;
@@ -1822,9 +1813,47 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
   packet->carried = carried;
+}
+
+/**************************************************************************
+  Package a short_unit_info packet.  This contains a limited amount of
+  information about the unit, and is sent to players who shouldn't know
+  everything (like the unit's owner's enemies).
+**************************************************************************/
+void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
+			bool carried, enum unit_info_use packet_use,
+			int info_city_id, bool new_serial_num)
+{
+  static unsigned int serial_num = 0;
+
+  /* a 16-bit unsigned number, never zero */
+  if (new_serial_num) {
+    serial_num = (serial_num + 1) & 0xFFFF;
+    if (serial_num == 0) {
+      serial_num++;
+    }
+  }
+  packet->serial_num = serial_num;
   packet->packet_use = packet_use;
   packet->info_city_id = info_city_id;
-  packet->serial_num = serial_num;
+
+  packet->id = punit->id;
+  packet->owner = punit->owner;
+  packet->x = punit->x;
+  packet->y = punit->y;
+  packet->veteran = punit->veteran;
+  packet->type = punit->type;
+  packet->hp = punit->hp;
+
+  if (punit->activity == ACTIVITY_GOTO
+      || punit->activity == ACTIVITY_EXPLORE
+      || punit->activity == ACTIVITY_PATROL) {
+    packet->activity = ACTIVITY_IDLE;
+  } else {
+    packet->activity = punit->activity;
+  }
+
+  packet->carried  = carried;
 }
 
 /**************************************************************************
@@ -1838,11 +1867,15 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 				 int x, int y, bool carried)
 {
   struct packet_unit_info info;
+  struct packet_short_unit sinfo;
 
-  if (!dest) dest = &game.game_connections;
-  
-  package_unit(punit, &info, carried,
-	       UNIT_INFO_IDENTITY, FALSE, FALSE);
+  if (!dest) {
+    dest = &game.game_connections;
+  }
+
+  package_unit(punit, &info, carried);
+  package_short_unit(punit, &sinfo, carried,
+		     UNIT_INFO_IDENTITY, FALSE, FALSE);
 
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
@@ -1853,11 +1886,13 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
     if (!same_pos(x, y, punit->x, punit->y)) {
       see_xy = can_player_see_unit_at(pplayer, punit, x, y);
     }
-    if ((!pplayer && pconn->observer) || see_pos || see_xy) {
+    if ((!pplayer && pconn->observer) 
+	|| pplayer->player_no == punit->owner) {
       send_packet_unit_info(pconn, &info);
+    } else if (see_pos || see_xy) {
+      send_packet_short_unit(pconn, &sinfo);
     }
-  }
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************

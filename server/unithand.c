@@ -673,7 +673,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   struct city *pcity;
   int moves_used, def_moves_used; 
   int def_x = pdefender->x, def_y = pdefender->y;
-  struct packet_unit_info unit_att_packet, unit_def_packet;
+  struct packet_unit_info unit_att_full_packet, unit_def_full_packet;
+  struct packet_short_unit unit_att_short_packet, unit_def_short_packet;
 
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
@@ -756,10 +757,12 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   combat.defender_hp=pdefender->hp;
   combat.make_winner_veteran=pwinner->veteran?1:0;
 
-  package_unit(punit, &unit_att_packet, FALSE, UNIT_INFO_IDENTITY, 0,
-	       FALSE);
-  package_unit(pdefender, &unit_def_packet, FALSE, UNIT_INFO_IDENTITY,
-	       0, FALSE);
+  package_unit(punit, &unit_att_full_packet, FALSE);
+  package_unit(pdefender, &unit_def_full_packet, FALSE);
+  package_short_unit(punit, &unit_att_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
+  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
   
   players_iterate(other_player) {
     if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
@@ -773,16 +776,30 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
        * player has to know the unit of the other side.
        */
 
-      lsend_packet_unit_info(&other_player->connections, &unit_att_packet);
-      lsend_packet_unit_info(&other_player->connections, &unit_def_packet);
+      if (other_player->player_no == punit->owner) {
+	lsend_packet_unit_info(&other_player->connections,
+			       &unit_att_full_packet);
+      } else {
+	lsend_packet_short_unit(&other_player->connections,
+				&unit_att_short_packet);
+      }
+
+      if (other_player->player_no == pdefender->owner) {
+	lsend_packet_unit_info(&other_player->connections,
+			       &unit_def_full_packet);
+      } else {
+	lsend_packet_short_unit(&other_player->connections,
+				&unit_def_short_packet);
+      }
+
       lsend_packet_unit_combat(&other_player->connections, &combat);
     }
   } players_iterate_end;
 
   conn_list_iterate(game.game_connections, pconn) {
     if (!pconn->player && pconn->observer) {
-      send_packet_unit_info(pconn, &unit_att_packet);
-      send_packet_unit_info(pconn, &unit_def_packet);
+      send_packet_unit_info(pconn, &unit_att_full_packet);
+      send_packet_unit_info(pconn, &unit_def_full_packet);
       send_packet_unit_combat(pconn, &combat);
     }
   } conn_list_iterate_end;

@@ -285,6 +285,10 @@ void handle_packet_input(void *packet, int type)
     handle_unit_info((struct packet_unit_info *)packet);
     break;
 
+  case PACKET_SHORT_UNIT:
+    handle_short_unit(packet);
+    break;
+
   case PACKET_TILE_INFO:
     handle_tile_info((struct packet_tile_info *)packet);
     break;
@@ -552,8 +556,6 @@ void send_unit_info(struct unit *punit)
   info.activity_count = 0;
   info.goto_dest_x = 0;
   info.goto_dest_y = 0;
-  info.info_city_id = 0;
-  info.serial_num = 0;
   info.fuel = 0;
 
   /* These fields are used. */
@@ -567,7 +569,6 @@ void send_unit_info(struct unit *punit)
   info.movesleft=punit->moves_left;
   info.activity=punit->activity;
   info.activity_target=punit->activity_target;
-  info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);
 }
