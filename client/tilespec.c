@@ -2770,10 +2770,9 @@ static int fill_city_tile_output_sprite_array(struct tileset *t,
     shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
     trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
 
-    ADD_SPRITE(sprites.city.tile_foodnum[food], DRAW_NORMAL, TRUE, ox, oy);
-    ADD_SPRITE(sprites.city.tile_shieldnum[shields], DRAW_NORMAL,
-	       TRUE, ox, oy);
-    ADD_SPRITE(sprites.city.tile_tradenum[trade], DRAW_NORMAL, TRUE, ox, oy);
+    ADD_SPRITE(sprites.city.tile_foodnum[food], TRUE, ox, oy);
+    ADD_SPRITE(sprites.city.tile_shieldnum[shields], TRUE, ox, oy);
+    ADD_SPRITE(sprites.city.tile_tradenum[trade], TRUE, ox, oy);
   }
 
   return sprs - saved_sprs;
