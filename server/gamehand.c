@@ -396,7 +396,7 @@ int game_load(struct section_file *file)
   apply_unit_ordering();
 
   for(i=0; i<game.nplayers; i++) {
-    /*    player_load(&game.players[i], i, file); */
+    update_research(&game.players[i]);
     city_list_iterate(game.players[i].cities, pcity)
       city_refresh(pcity);
     city_list_iterate_end;

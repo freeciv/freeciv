@@ -1176,8 +1176,6 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   for(i=0; i<A_LAST; i++)
     set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
   
-  update_research(plr);
-    
   if (has_capability("spacerace", savefile_options)) {
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
