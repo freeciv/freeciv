@@ -26,6 +26,7 @@
 #include "rand.h"
 #include "support.h"
 #include "tech.h"
+#include "shared.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -375,14 +376,18 @@ void tech_researched(struct player* plr)
 /**************************************************************************
 Called from each city to update the research.
 **************************************************************************/
-int update_tech(struct player *plr, int bulbs)
+void update_tech(struct player *plr, int bulbs)
 {
-  plr->research.bulbs_researched += bulbs;
-  if (plr->research.bulbs_researched < total_bulbs_required(plr)) {
-    return 0;
-  } else {
+  int missing = total_bulbs_required(plr) - plr->research.bulbs_researched;
+
+  assert(missing > 0);
+
+  if (bulbs >= missing) {
+    plr->research.bulbs_researched += missing;
     tech_researched(plr);
-    return 1;
+    plr->research.bulbs_researched += (bulbs - missing);
+  } else {
+    plr->research.bulbs_researched += bulbs;
   }
 }
 

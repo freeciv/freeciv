@@ -75,7 +75,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 		    char saving_bulbs);
 void found_new_future_tech(struct player *pplayer);
 void tech_researched(struct player* plr);
-int update_tech(struct player *plr, int bulbs);
+void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech);
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);

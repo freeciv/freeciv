@@ -70,7 +70,7 @@ static void sanity_check_city(struct city *pcity);
 static int disband_city(struct city *pcity);
 
 static void define_orig_production_values(struct city *pcity);
-static int update_city_activity(struct player *pplayer, struct city *pcity);
+static void update_city_activity(struct player *pplayer, struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
 
 static void worker_loop(struct city *pcity, int *foodneed,
@@ -1233,10 +1233,9 @@ void nullify_prechange_production(struct city *pcity)
 /**************************************************************************
  Called every turn, at end of turn, for every city.
 **************************************************************************/
-static int update_city_activity(struct player *pplayer, struct city *pcity)
+static void update_city_activity(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
-  int got_tech = 0;
 
   city_refresh(pcity);
 
@@ -1274,7 +1273,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
       int id=pcity->id;
       city_populate(pcity);
       if(!player_find_city_by_id(pplayer, id))
-	return 0;
+	return;
     }
 
     pcity->is_updated=1;
@@ -1285,8 +1284,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
       pcity->airlift=1;
     else
       pcity->airlift=0;
-    if (update_tech(pplayer, pcity->science_total)) 
-      got_tech = 1;
+    update_tech(pplayer, pcity->science_total);
     pplayer->economic.gold+=pcity->tax_total;
     pay_for_buildings(pplayer, pcity);
 
@@ -1319,7 +1317,6 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
     }
     sanity_check_city(pcity);
   }
-  return got_tech;
 }
 
 /**************************************************************************
