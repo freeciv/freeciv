@@ -194,7 +194,7 @@ GtkWidget *create_main_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(start_scenario_callback), NULL);
 
-  button = gtk_button_new_with_mnemonic("_Load Saved Game");
+  button = gtk_button_new_with_mnemonic(_("_Load Saved Game"));
   gtk_size_group_add_widget(size, button);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
@@ -1188,7 +1188,7 @@ GtkWidget *create_load_page(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
 
-  button = gtk_button_new_with_mnemonic("_Browse...");
+  button = gtk_button_new_with_mnemonic(_("_Browse..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
