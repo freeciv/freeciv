@@ -37,6 +37,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "options.h"
 
 #include "diplodlg.h"
 
@@ -440,10 +441,14 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   init_treaty(&pdialog->treaty, plr0, plr1);
 
   shell = gtk_dialog_new_with_buttons(_("Diplomacy meeting"),
-				      GTK_WINDOW(toplevel),
+				      NULL,
 				      0,
 				      NULL);
   pdialog->shell = shell;
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
   g_signal_connect(shell, "destroy",
 		   G_CALLBACK(diplomacy_destroy), pdialog);
   g_signal_connect(shell, "response",

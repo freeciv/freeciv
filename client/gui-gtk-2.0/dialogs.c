@@ -137,11 +137,17 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   GtkWidget *shell, *label, *headline_label, *sw;
 
   shell = gtk_dialog_new_with_buttons(caption,
-	GTK_WINDOW(toplevel),
+	NULL,
 	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell),
     GTK_RESPONSE_CLOSE);
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
@@ -216,9 +222,15 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   GtkWidget *shell, *label, *goto_command, *popcity_command;
   
   shell = gtk_dialog_new_with_buttons(headline,
-        GTK_WINDOW(toplevel),
+        NULL,
         0,
         NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
@@ -298,19 +310,27 @@ void popup_bribe_dialog(struct unit *punit)
   GtkWidget *shell;
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+    shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Bribe unit for %d gold?\nTreasury contains %d gold."),
       punit->bribe_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
   } else {
-    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+    shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
       punit->bribe_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
   }
   gtk_window_present(GTK_WINDOW(shell));
   
@@ -483,13 +503,17 @@ static void create_advances_list(struct player *pplayer,
   GtkTreeViewColumn *col;
 
   spy_tech_shell = gtk_dialog_new_with_buttons(_("Steal Technology"),
-    GTK_WINDOW(toplevel),
+    NULL,
     0,
     GTK_STOCK_CANCEL,
     GTK_RESPONSE_CANCEL,
     _("_Steal"),
     GTK_RESPONSE_ACCEPT,
     NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(spy_tech_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_position(GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_tech_shell),
@@ -638,13 +662,17 @@ static void create_improvements_list(struct player *pplayer,
   GtkTreeIter it;
   
   spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
-    GTK_WINDOW(toplevel),
+    NULL,
     0,
     GTK_STOCK_CANCEL,
     GTK_RESPONSE_CANCEL,
     _("_Sabotage"), 
     GTK_RESPONSE_ACCEPT,
     NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(spy_sabotage_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_position(GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
@@ -814,6 +842,10 @@ void popup_incite_dialog(struct city *pcity)
       _("You can't incite a revolt in %s."),
       pcity->name);
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
   } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
       0,
@@ -821,6 +853,10 @@ void popup_incite_dialog(struct city *pcity)
       _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
   } else {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
       0,
@@ -828,6 +864,10 @@ void popup_incite_dialog(struct city *pcity)
       _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
   }
   gtk_window_present(GTK_WINDOW(shell));
   
@@ -1184,12 +1224,16 @@ void popup_revolution_dialog(void)
 {
   GtkWidget *shell;
 
-  shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+  shell = gtk_message_dialog_new(NULL,
     GTK_DIALOG_MODAL,
     GTK_MESSAGE_WARNING,
     GTK_BUTTONS_YES_NO,
     _("You say you wanna revolution?"));
   gtk_window_set_title(GTK_WINDOW(shell), _("Revolution!"));
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
 
   if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
     struct packet_player_request packet;
@@ -1645,10 +1689,16 @@ void popup_unit_select_dialog(struct tile *ptile)
     GtkWidget *ready_cmd, *sentry_cmd, *close_cmd;
 
     shell = gtk_dialog_new_with_buttons(_("Unit selection"),
-      GTK_WINDOW(toplevel),
+      NULL,
       0,
       NULL);
     unit_select_dialog_shell = shell;
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
+    gtk_window_set_type_hint(GTK_WINDOW(shell),
+			     GDK_WINDOW_TYPE_HINT_NORMAL);
 
     unit_select_tips = gtk_tooltips_new();
     g_object_ref(unit_select_tips);
@@ -1725,7 +1775,7 @@ static void create_races_dialog(void)
   
   shell =
     gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
-				GTK_WINDOW(toplevel),
+				NULL,
 				GTK_DIALOG_MODAL,
 				"_Disconnect",
 				GTK_RESPONSE_CANCEL,
@@ -1733,6 +1783,10 @@ static void create_races_dialog(void)
 				GTK_RESPONSE_ACCEPT,
 				NULL);
   races_shell = shell;
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_default_size(GTK_WINDOW(shell), -1, 310);
 

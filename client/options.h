@@ -42,6 +42,7 @@ extern bool concise_city_production;
 extern bool auto_turn_done;
 extern bool meta_accelerators;
 extern bool map_scrollbars;
+extern bool dialogs_on_top;
 extern bool ask_city_name;
 extern bool popup_new_cities;
 extern bool update_city_text_in_refresh_tile;

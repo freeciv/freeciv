@@ -37,6 +37,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "options.h"
 
 #include "gotodlg.h"
 
@@ -120,7 +121,7 @@ static void create_goto_dialog(void)
   GtkTreeViewColumn *col;
 
   dshell = gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
-    GTK_WINDOW(toplevel),
+    NULL,
     0,
     GTK_STOCK_CANCEL,
     GTK_RESPONSE_CANCEL,
@@ -129,6 +130,10 @@ static void create_goto_dialog(void)
     ("_Goto"),
     CMD_GOTO,
     NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(dshell),
+				 GTK_WINDOW(toplevel));
+  }
 
   gtk_window_set_position(GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);

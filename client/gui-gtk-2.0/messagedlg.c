@@ -59,13 +59,19 @@ static GtkWidget *create_messageopt_dialog(void)
   int n, i, j;
   
   shell = gtk_dialog_new_with_buttons(_("Message Options"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK,
 	GTK_RESPONSE_OK,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   gtk_widget_set_name(shell, "Freeciv");

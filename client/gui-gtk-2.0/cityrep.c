@@ -644,9 +644,13 @@ static void create_city_report_dialog(bool make_modal)
   int i;
   
   city_dialog_shell = gtk_dialog_new_with_buttons(_("Cities"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(city_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_type_hint(GTK_WINDOW(city_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_default_size(GTK_WINDOW(city_dialog_shell), -1, 420);

@@ -33,6 +33,7 @@
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "options.h"
 
 #include "connectdlg.h"
 
@@ -151,10 +152,13 @@ void gui_server_connect(void)
   GtkTreeSelection *selection;
 
   dialog = gtk_dialog_new_with_buttons(_(" Connect to Freeciv Server"),
-    GTK_WINDOW(toplevel),
+    NULL,
     GTK_DIALOG_MODAL,
     NULL);
-
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(dialog),
+				 GTK_WINDOW(toplevel));
+  }
   g_signal_connect(dialog, "destroy",
 		   G_CALLBACK(connect_destroy_callback), NULL);
   g_signal_connect(dialog, "response",

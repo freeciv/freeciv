@@ -41,6 +41,7 @@
 #include "spaceshipdlg.h"
 #include "colors.h"
 #include "graphics.h"
+#include "options.h"
 
 #include "plrdlg.h"
 
@@ -200,10 +201,14 @@ void create_players_dialog(void)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   players_dialog_shell = gtk_dialog_new_with_buttons(_("Players"),
-    GTK_WINDOW(toplevel),
+    NULL,
     0,
     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
     NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(players_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_type_hint(GTK_WINDOW(players_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_default_size(GTK_WINDOW(players_dialog_shell), -1, 270);
