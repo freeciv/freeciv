@@ -309,7 +309,7 @@ static void ai_new_spend_gold(struct player *pplayer)
               if (punit->hp==get_unit_type(punit->type)->hp)
                 punit->hp=get_unit_type(id)->hp;
               notify_player(pplayer,
-			    _("Game: %s upgraded to %s in %s for %d credits"),
+			    _("Game: %s upgraded to %s in %s for %d credits."),
 			    unit_types[punit->type].name, unit_types[id].name,
 			    pcity->name, cost);
               punit->type = id;
@@ -436,7 +436,8 @@ static void ai_new_spend_gold(struct player *pplayer)
         pplayer->economic.gold -= cost;
         if (punit->hp==get_unit_type(punit->type)->hp)
           punit->hp=get_unit_type(id)->hp;
-        notify_player(pplayer, _("Game: %s upgraded to %s in %s for %d credits"),
+        notify_player(pplayer,
+		      _("Game: %s upgraded to %s in %s for %d credits."),
 		      unit_types[punit->type].name, unit_types[id].name,
 		      pcity->name, cost);
         punit->type = id;
@@ -761,7 +762,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
        && (wonder_replacement(pcity, i) || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
-		       _("Game: %s is selling %s (not needed) for %d"), 
+		       _("Game: %s is selling %s (not needed) for %d."), 
 		       pcity->name, get_improvement_name(i), 
 		       improvement_value(i)/2);
       return; /* max 1 building each turn */

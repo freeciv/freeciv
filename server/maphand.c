@@ -436,7 +436,7 @@ void map_startpos_load(struct section_file *file)
   map.num_start_positions = i;
 
   if (map.num_start_positions < MAX_NUM_PLAYERS) {
-    freelog(LOG_FATAL, _("Too few starts %d (need at least %d)"),
+    freelog(LOG_FATAL, _("Too few starts %d (need at least %d)."),
 	    map.num_start_positions, MAX_NUM_PLAYERS);
     exit(1);
   }

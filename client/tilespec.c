@@ -17,12 +17,17 @@
   original author: David Pfitzner <dwp@mso.anu.edu.au>
 ***********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
 
 #include "astring.h"
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h" /* for fill_xxx */
 #include "government.h"
 #include "log.h"
@@ -144,15 +149,15 @@ static char *tilespec_fullname(const char *tileset_name)
   } else {
     level = LOG_NORMAL;
   }
-  freelog(level, "Could not find readable file \"%s\" in data path",
+  freelog(level, _("Could not find readable file \"%s\" in data path."),
 	  fname);
-  freelog(level, "The data path may be set via"
-	  " the environment variable FREECIV_PATH");
-  freelog(level, "Current data path is: \"%s\"", datafilename(NULL));
+  freelog(level, _("The data path may be set via"
+		   " the environment variable FREECIV_PATH."));
+  freelog(level, _("Current data path is: \"%s\""), datafilename(NULL));
   if (level == LOG_FATAL) {
     exit(1);
   }
-  freelog(level, "Trying \"%s\" tileset", tileset_default);
+  freelog(level, _("Trying \"%s\" tileset."), tileset_default);
   free(fname);
   return tilespec_fullname(tileset_default);
 }
@@ -170,18 +175,18 @@ static void check_tilespec_capabilities(struct section_file *file,
   char *file_capstr = secfile_lookup_str(file, "%s.options", which);
   
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_FATAL, "%s file appears incompatible", which);
-    freelog(LOG_FATAL, "file: \"%s\"", filename);
-    freelog(LOG_FATAL, "file options: %s", file_capstr);
-    freelog(LOG_FATAL, "supported options: %s", us_capstr);
+    freelog(LOG_FATAL, _("%s file appears incompatible:"), which);
+    freelog(LOG_FATAL, _("file: \"%s\""), filename);
+    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
+    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(1);
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_FATAL,
-	    "%s file claims required option(s) which we don't support", which);
-    freelog(LOG_FATAL, "file: \"%s\"", filename);
-    freelog(LOG_FATAL, "file options: %s", file_capstr);
-    freelog(LOG_FATAL, "supported options: %s", us_capstr);
+    freelog(LOG_FATAL, _("%s file claims required option(s)"
+			 " which we don't support:"), which);
+    freelog(LOG_FATAL, _("file: \"%s\""), filename);
+    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
+    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(1);
   }
 }
@@ -207,7 +212,8 @@ char *tilespec_gfx_filename(const char *gfx_filename)
     if(real_full_name) return mystrdup(real_full_name);
   }
 
-  freelog(LOG_FATAL, "Couldn't find a supported gfx file extension for %s", gfx_filename);
+  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
+	  gfx_filename);
   exit(1);
 }
 
@@ -226,7 +232,7 @@ void tilespec_read_toplevel(const char *tileset_name)
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
 
   if (!section_file_load(file, fname)) {
-    freelog(LOG_FATAL, "Could not open \"%s\"", fname);
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), fname);
     exit(1);
   }
   check_tilespec_capabilities(file, "tilespec", "+tilespec2", fname);
@@ -294,7 +300,7 @@ static void tilespec_load_one(const char *spec_filename)
 
   freelog(LOG_DEBUG, "loading spec %s", spec_filename);
   if (!section_file_load(file, spec_filename)) {
-    freelog(LOG_FATAL, "Could not open \"%s\"", spec_filename);
+    freelog(LOG_FATAL, _("Could not open \"%s\"."), spec_filename);
     exit(1);
   }
   check_tilespec_capabilities(file, "spec", "+spec2", spec_filename);
@@ -322,7 +328,8 @@ static void tilespec_load_one(const char *spec_filename)
   }
 
   if(!big_sprite) {
-    freelog(LOG_FATAL, "Couldn't load gfx file for the spec file %s", spec_filename);
+    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
+	    spec_filename);
     exit(1);
   }
 

@@ -593,7 +593,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	    unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
     if (verbose) {
-      notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s"),
+      notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
 		    unit_name(vunit->type), vcity->name,
 		    pvictim->name, pplayer->name);
     }
@@ -613,7 +613,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	freelog(LOG_VERBOSE, "Changed homecity of %s's %s in %s",
 	     pvictim->name, unit_name(vunit->type), new_home_city->name);
 	if(verbose) {
-	  notify_player(pvictim, _("Game: Changed homecity of %s in %s"),
+	  notify_player(pvictim, _("Game: Changed homecity of %s in %s."),
 			unit_name(vunit->type), new_home_city->name);
 	}
       } else {
@@ -621,7 +621,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	     unit_name(vunit->type), new_home_city->name,
 	     pvictim->name, city_owner(new_home_city)->name);
 	if (verbose) {
-	  notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s"),
+	  notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
 			unit_name(vunit->type), new_home_city->name,
 			pvictim->name, pplayer->name);
 	}
@@ -636,7 +636,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	      unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
       if (verbose) {
 	notify_player(pvictim,
-		      _("Game: Transfered %s at (%d, %d) from %s to %s"),
+		      _("Game: Transfered %s at (%d, %d) from %s to %s."),
 		      unit_name(vunit->type), x, y,
 		      pvictim->name, pplayer->name);
       }
@@ -906,7 +906,7 @@ void civil_war(struct player *pplayer)
 	
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pnewcity->name, cplayer->name);
-	notify_player(pplayer, _("Game: %s declares allegiance to %s"),
+	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
 		      pnewcity->name,cplayer->name);
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
 	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0, 0);

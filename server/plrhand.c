@@ -1091,14 +1091,14 @@ static void great_library(struct player *pplayer)
     if (get_invention(pplayer, pplayer->research.researching)==TECH_KNOWN) {
       if (choose_goal_tech(pplayer)) {
 	notify_player(pplayer,
-		      _("Game: Our scientist now focus on %s, goal is %s"),
+		      _("Game: Our scientist now focus on %s, goal is %s."),
 		      advances[pplayer->research.researching].name,
 		      advances[pplayer->ai.tech_goal].name );
 	
       } else {
 	choose_random_tech(pplayer);
 	notify_player(pplayer,
-		      _("Game: Our scientist has choosen to research %s"),
+		      _("Game: Our scientist has choosen to research %s."),
 		      advances[pplayer->research.researching].name);
       }
     }
@@ -1194,7 +1194,8 @@ int update_tech(struct player *plr, int bulbs)
 
   if (choose_goal_tech(plr)) {
     notify_player(plr, 
-		  _("Game: Learned %s. Our scientists focus on %s, goal is %s"),
+		  _("Game: Learned %s.  "
+		    "Our scientists focus on %s, goal is %s."),
 		  advances[old].name, 
 		  advances[plr->research.researching].name,
 		  advances[plr->ai.tech_goal].name);
@@ -1202,18 +1203,18 @@ int update_tech(struct player *plr, int bulbs)
     choose_random_tech(plr);
     if (plr->research.researching!=A_NONE && old != A_NONE)
       notify_player(plr,
-		    _("Game: Learned %s. Scientists choose to research %s."),
+		    _("Game: Learned %s.  Scientists choose to research %s."),
 		    advances[old].name,
 		    advances[plr->research.researching].name);
     else if (old != A_NONE)
       notify_player(plr,
-		    _("Game: Learned %s. Scientists choose to research "
+		    _("Game: Learned %s.  Scientists choose to research "
 		      "Future Tech. 1."),
 		    advances[old].name);
     else {
       plr->future_tech++;
       notify_player(plr,
-                   _("Game: Learned Future Tech. %d. "
+                   _("Game: Learned Future Tech. %d.  "
 		     "Researching Future Tech. %d."),
 		    plr->future_tech,(plr->future_tech)+1);
     }
@@ -1235,7 +1236,7 @@ int update_tech(struct player *plr, int bulbs)
 
   if (philohack) {
     notify_player(plr, _("Game: Great philosophers from all the world join "
-			 "your civilization, you get an immediate advance"));
+			 "your civilization; you get an immediate advance."));
     update_tech(plr, 1000000);
   }
 
@@ -1360,7 +1361,7 @@ void handle_player_rates(struct player *pplayer,
   if (server_state!=RUN_GAME_STATE) {
     freelog(LOG_NORMAL, "received player_rates packet from %s before start",
 	    pplayer->name);
-    notify_player(pplayer, _("Game: cannot change rates before game start."));
+    notify_player(pplayer, _("Game: Cannot change rates before game start."));
     return;
   }
 	
@@ -1488,7 +1489,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.luxury += surplus;
       notify_player(pplayer,
-             _("Game: Tax rate exceeded the max rate for %s. Adjusted."), 
+             _("Game: Tax rate exceeded the max rate for %s; adjusted."), 
                     get_government_name(pplayer->government));
   }
   if (pplayer->economic.science > maxrate) {
@@ -1499,7 +1500,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.luxury += surplus;
       notify_player(pplayer,
-             _("Game: Science rate exceeded the max rate for %s. Adjusted."), 
+             _("Game: Science rate exceeded the max rate for %s; adjusted."), 
                     get_government_name(pplayer->government));
   }
   if (pplayer->economic.luxury > maxrate) {
@@ -1510,7 +1511,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.science += surplus;
       notify_player(pplayer,
-             _("Game: Luxury rate exceeded the max rate for %s. Adjusted."), 
+             _("Game: Luxury rate exceeded the max rate for %s; adjusted."), 
                     get_government_name(pplayer->government));
   }
 
@@ -2133,7 +2134,8 @@ void server_remove_player(struct player *pplayer)
   if(pplayer->conn)
     close_connection(pplayer->conn);
   pplayer->conn=NULL;
-  notify_player(0, _("Game: %s has been removed from the game"), pplayer->name);
+  notify_player(0, _("Game: %s has been removed from the game."),
+		pplayer->name);
   check_for_full_turn_done();
   
   idx=pplayer->player_no;

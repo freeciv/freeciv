@@ -84,9 +84,10 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
       /* Can't attack a city from ocean unless marines */
       if(!unit_flag(punit->type, F_MARINES)
 	 && is_enemy_city_tile(x,y,punit->owner)) {
+	char *us = get_units_with_flag_string(F_MARINES);
         notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
-			 E_NOEVENT,
-			 _("Game: Only Marines can attack from sea."));
+			 E_NOEVENT, _("Game: Only %s can attack from sea."), us);
+	free(us);
 	return 0;
       }
     }
@@ -716,7 +717,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 	      x, y,ccity->name);
       if (verbose) {
 	notify_player(get_player(cunit->owner),
-		      _("Game: Teleported your %s from (%d, %d) to %s"),
+		      _("Game: Teleported your %s from (%d, %d) to %s."),
 		      unit_name(cunit->type), x, y,ccity->name);
       }
     }else{
@@ -726,7 +727,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 	      x, y, pcity->name);
       if (verbose) {
 	notify_player(get_player(punit->owner),
-		      _("Game: Teleported your %s from (%d, %d) to %s"),
+		      _("Game: Teleported your %s from (%d, %d) to %s."),
 		      unit_name(punit->type), x, y, pcity->name);
       }
     }
@@ -755,7 +756,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 	if (verbose) {
 	  notify_player(get_player(vunit->owner),
 			_("Game: Teleported your %s to %s as there is"
-			  " no transport space on square (%d, %d)"),
+			  " no transport space on square (%d, %d)."),
 			unit_name(vunit->type), vcity->name, x, y);
 	}
       }

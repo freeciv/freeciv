@@ -2,6 +2,7 @@
 # (Filenames relative to toplevel dir.)
 common/log.c
 common/map.c
+common/mem.c
 common/shared.c
 common/unit.c
 server/cityhand.c
@@ -10,10 +11,12 @@ server/cityturn.c
 server/civserver.c
 server/console.c
 server/diplhand.c
+server/gamelog.c
 server/handchat.c
 server/maphand.c
 server/meta.c
 server/plrhand.c
+server/ruleset.c
 server/spacerace.c
 server/stdinhand.c
 server/unitfunc.c
@@ -26,6 +29,7 @@ client/control.c
 client/helpdata.c
 client/options.c
 client/packhand.c
+client/tilespec.c
 client/gui-gtk/chatline.c
 client/gui-gtk/citydlg.c
 client/gui-gtk/cityrep.c
@@ -49,8 +53,10 @@ client/gui-gtk/spaceshipdlg.c
 client/gui-xaw/chatline.c
 client/gui-xaw/citydlg.c
 client/gui-xaw/cityrep.c
+client/gui-xaw/colors.c
 client/gui-xaw/dialogs.c
 client/gui-xaw/diplodlg.c
+client/gui-xaw/graphics.c
 client/gui-xaw/gui_main.c
 client/gui-xaw/helpdlg.c
 client/gui-xaw/inputdlg.c

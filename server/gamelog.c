@@ -10,12 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -55,7 +59,7 @@ void gamelog(int level, char *message, ...)
 
   fs=fopen(gamelog_filename, "a");
   if(!fs) {
-    freelog(LOG_FATAL, "couldn't open gamelogfile: %s for appending.\n", 
+    freelog(LOG_FATAL, _("Couldn't open gamelogfile \"%s\" for appending."), 
 	    gamelog_filename);
     exit(1);
   }

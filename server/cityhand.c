@@ -289,7 +289,7 @@ void handle_city_make_specialist(struct player *pplayer,
     send_city_info(pplayer, pcity, 0);
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		     _("Game: you don't have a worker here")); 
+		     _("Game: you don't have a worker here.")); 
   }
 }
 
@@ -404,7 +404,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   if (!pcity->is_building_unit && pcity->currently_building==B_CAPITAL)  {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-                     _("Game: You don't buy Capitalization!"));
+                     _("Game: You don't buy %s!"),
+		     improvement_types[B_CAPITAL].name);
     return;
   }
 

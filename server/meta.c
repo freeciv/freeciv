@@ -168,7 +168,7 @@ void server_open_udp(void)
   bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0);
 #endif
   if (bad) {
-    perror(_("metaserver: can't open datagram socket"));
+    perror(_("Metaserver: can't open datagram socket"));
     con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
@@ -188,7 +188,7 @@ void server_open_udp(void)
   bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0);
 #endif
   if (bad) {
-    perror(_("metaserver: can't bind local address"));
+    perror(_("Metaserver: can't bind local address"));
     con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;

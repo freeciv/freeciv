@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +21,7 @@
 
 #include "capability.h"
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -76,17 +81,17 @@ static char *openload_ruleset_file(struct section_file *file,
     sprintf(filename2, "%s/%s.ruleset", subdir, whichset);
     dfilename = datafilename(filename2);
     if (!dfilename) {
-      freelog(LOG_FATAL, "Could not find readable ruleset file \"%s\"",
+      freelog(LOG_FATAL, _("Could not find readable ruleset file \"%s\""),
 	      filename1);
-      freelog(LOG_FATAL, "or \"%s\" in data path", filename2);
-      freelog(LOG_FATAL, "The data path may be set via"
-	      " the environment variable FREECIV_PATH");
-      freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
+      freelog(LOG_FATAL, _("or \"%s\" in data path."), filename2);
+      freelog(LOG_FATAL, _("The data path may be set via"
+			   " the environment variable FREECIV_PATH."));
+      freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
       exit(1);
     }
   }
   if (!section_file_load(file,dfilename)) {
-    freelog(LOG_FATAL, "Could not load ruleset file %s", dfilename);
+    freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), dfilename);
     exit(1);
   }
   return dfilename;
@@ -104,18 +109,18 @@ static char *check_ruleset_capabilities(struct section_file *file,
   
   datafile_options = secfile_lookup_str(file, "datafile.options");
   if (!has_capabilities(us_capstr, datafile_options)) {
-    freelog(LOG_FATAL, "Ruleset datafile appears incompatible");
-    freelog(LOG_FATAL, "file: \"%s\"", filename);
-    freelog(LOG_FATAL, "file options: %s", datafile_options);
-    freelog(LOG_FATAL, "supported options: %s", us_capstr);
+    freelog(LOG_FATAL, _("Ruleset datafile appears incompatible:"));
+    freelog(LOG_FATAL, _("file: \"%s\""), filename);
+    freelog(LOG_FATAL, _("file options: %s"), datafile_options);
+    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(1);
   }
   if (!has_capabilities(datafile_options, us_capstr)) {
-    freelog(LOG_FATAL,
-	    "Ruleset datafile claims required option(s) which we don't support");
-    freelog(LOG_FATAL, "file: \"%s\"", filename);
-    freelog(LOG_FATAL, "file options: %s", datafile_options);
-    freelog(LOG_FATAL, "supported options: %s", us_capstr);
+    freelog(LOG_FATAL, _("Ruleset datafile claims required option(s)"
+			 " which we don't support:"));
+    freelog(LOG_FATAL, _("file: \"%s\""), filename);
+    freelog(LOG_FATAL, _("file options: %s"), datafile_options);
+    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(1);
   }
   return datafile_options;

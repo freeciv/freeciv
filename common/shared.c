@@ -144,7 +144,7 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
 	if (*i < argc - 1) 
 	  (*i)++;
 	else {
-          fprintf(stderr, _("Missing argument for %s\n"), option_name);
+          fprintf(stderr, _("Missing argument for \"%s\".\n"), option_name);
           exit(1);
 	  }
 	}
@@ -675,10 +675,10 @@ char *datafilename_required(const char *filename)
   if (dname) {
     return dname;
   } else {
-    freelog(LOG_FATAL, _("Could not find readable file \"%s\" in data path"),
+    freelog(LOG_FATAL, _("Could not find readable file \"%s\" in data path."),
 	    filename);
     freelog(LOG_FATAL, _("The data path may be set via"
-			 " the environment variable FREECIV_PATH"));
+			 " the environment variable FREECIV_PATH."));
     freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
     exit(1);
   }

@@ -104,10 +104,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       
       
       notify_player(plr0,
-		    _("Game: A treaty containing %d clauses was agreed upon"),
+		    _("Game: A treaty containing %d clauses was agreed upon."),
 		    genlist_size(&ptreaty->clauses));
       notify_player(plr1,
-		    _("Game: A treaty containing %d clauses was agreed upon"),
+		    _("Game: A treaty containing %d clauses was agreed upon."),
 		    genlist_size(&ptreaty->clauses));
       gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
 	      get_nation_name_plural(plr0->nation),
@@ -143,7 +143,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	
 	switch(pclause->type) {
 	 case CLAUSE_ADVANCE:
-	  notify_player(pdest, _("Game: You are taught the knowledge of %s"),
+	  notify_player(pdest, _("Game: You are taught the knowledge of %s."),
 			advances[pclause->value].name);
 	  if (tech_flag(pclause->value,TF_RAILROAD)) {
 	    upgrade_city_rails(pdest, 0);
@@ -158,18 +158,18 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  pdest->research.researchpoints++;
 	  break;
 	 case CLAUSE_GOLD:
-	  notify_player(pdest, _("Game: You get %d gold"), pclause->value);
+	  notify_player(pdest, _("Game: You get %d gold."), pclause->value);
 	  pgiver->economic.gold-=pclause->value;
 	  pdest->economic.gold+=pclause->value;
 	  break;
 	 case CLAUSE_MAP:
 	  give_map_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, _("Game: You receive %s's worldmap"),
+	  notify_player(pdest, _("Game: You receive %s's worldmap."),
 			pgiver->name);
 	  break;
 	 case CLAUSE_SEAMAP:
 	  give_seamap_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, _("Game: You receive %s's seamap"),
+	  notify_player(pdest, _("Game: You receive %s's seamap."),
 			pgiver->name);
 	  break;
 	case CLAUSE_CITY:{
@@ -183,10 +183,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    break;
 	  }
 	  
-	  notify_player(pdest, _("Game: You receive city of %s from %s"),
+	  notify_player(pdest, _("Game: You receive city of %s from %s."),
 			pcity->name, pgiver->name);
 	  
-	  notify_player(pgiver, _("Game: You give city of %s to %s"),
+	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
 	  
 	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity))){

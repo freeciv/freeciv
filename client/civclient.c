@@ -291,7 +291,7 @@ void handle_packet_input(char *packet, int type)
     break;
     
   default:
-    freelog(LOG_FATAL, "Received unknown packet from server!");
+    freelog(LOG_FATAL, _("Received unknown packet from server!"));
     exit(1);
     break;
   }

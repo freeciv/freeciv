@@ -81,7 +81,7 @@ int log_parse_level_str(char *level_str)
       fprintf(stderr, _("Bad log level %d in \"%s\".\n"), level, level_str);
       if (level == LOG_DEBUG && max_level < LOG_DEBUG) {
 	fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag"
-			  " to use debug level %d\n"), LOG_DEBUG);
+			  " to use debug level %d.\n"), LOG_DEBUG);
       }
       return -1;
     }
@@ -226,7 +226,7 @@ void vreal_freelog(int level, char *message, va_list ap)
 
     if(log_filename) {
       if(!(fs=fopen(log_filename, "a"))) {
-	fprintf(stderr, _("couldn't open logfile: %s for appending.\n"), 
+	fprintf(stderr, _("Couldn't open logfile: %s for appending.\n"), 
 		log_filename);
 	exit(1);
       }

@@ -323,7 +323,7 @@ int main(int argc, char *argv[])
   send_server_info_to_metaserver(1,0);
   
   /* accept new players, wait for serverop to start..*/
-  freelog(LOG_NORMAL, _("Now accepting new client connections"));
+  freelog(LOG_NORMAL, _("Now accepting new client connections."));
   server_state=PRE_GAME_STATE;
 
   if (script_filename)
@@ -826,11 +826,11 @@ static void save_game_auto(void)
 void start_game(void)
 {
   if(server_state!=PRE_GAME_STATE) {
-    con_puts(C_SYNTAX, _("the game is already running."));
+    con_puts(C_SYNTAX, _("The game is already running."));
     return;
   }
 
-  con_puts(C_OK, _("starting game."));
+  con_puts(C_OK, _("Starting game."));
 
   server_state=SELECT_RACES_STATE; /* loaded ??? */
   force_end_of_sniff=1;
@@ -1148,7 +1148,7 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
        return;
     }
 
-  freelog(LOG_NORMAL, _("%s is the %s ruler %s"), game.players[player_no].name, 
+  freelog(LOG_NORMAL, _("%s is the %s ruler %s."), game.players[player_no].name, 
       get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
@@ -1175,7 +1175,8 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
   if( nations_used == game.nation_count ) {
     for(i=0; i<game.nplayers; i++) {
       if( game.players[i].nation == MAX_NUM_NATIONS ) {
-        reject_new_player(_("Sorry you can't play. There's no nation left."),
+        reject_new_player(_("Sorry, you can't play."
+			    "  There are no nations left."),
 			  game.players[i].conn);
 	freelog(LOG_NORMAL, _("Game full - %s was rejected."),
 		game.players[i].name);    
@@ -1263,10 +1264,10 @@ static void introduce_game_to_player(struct player *pplayer)
     return;
   
   if (gethostname(hostname, 512)==0) {
-    notify_player(pplayer, _("Welcome to the %s Server running at %s"), 
+    notify_player(pplayer, _("Welcome to the %s Server running at %s."), 
 		  FREECIV_NAME_VERSION, hostname);
   } else {
-    notify_player(pplayer, _("Welcome to the %s Server"),
+    notify_player(pplayer, _("Welcome to the %s Server."),
 		  FREECIV_NAME_VERSION);
   }
 
@@ -1283,7 +1284,7 @@ static void introduce_game_to_player(struct player *pplayer)
          }
 
          notify_player(pplayer,
-                       _("turn-blocking game play: "
+                       _("Turn-blocking game play: "
 			 "waiting on %s to finish turn..."),
                        game.players[i].name);
       }
@@ -1407,7 +1408,7 @@ static void handle_request_join_game(struct connection *pconn,
 	    req->major_version, req->minor_version,
 	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities"),
+    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities."),
 	    req->name);
     close_connection(pconn);
     return;
@@ -1447,8 +1448,8 @@ static void handle_request_join_game(struct connection *pconn,
 
     if(server_state==PRE_GAME_STATE) {
       if(game.nplayers==game.max_players) {
-	reject_new_player(_("Sorry you can't join. The game is full."), pconn);
-	freelog(LOG_NORMAL, _("game full - %s was rejected."), req->name);    
+	reject_new_player(_("Sorry, you can't join.  The game is full."), pconn);
+	freelog(LOG_NORMAL, _("Game full - %s was rejected."), req->name);    
 	close_connection(pconn);
         return;
       }
@@ -1467,7 +1468,7 @@ static void handle_request_join_game(struct connection *pconn,
       }
     }
 
-    sprintf(msg, _("You can't join the game. %s is already connected."), 
+    sprintf(msg, _("You can't join the game.  %s is already connected."), 
 	    pplayer->name);
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected."), pplayer->name);
@@ -1479,9 +1480,9 @@ static void handle_request_join_game(struct connection *pconn,
   /* unknown name */
 
   if(server_state!=PRE_GAME_STATE) {
-    reject_new_player(_("Sorry you can't join. The game is already running."),
+    reject_new_player(_("Sorry, you can't join.  The game is already running."),
 		      pconn);
-    freelog(LOG_NORMAL, _("game running - %s was rejected."), req->name);
+    freelog(LOG_NORMAL, _("Game running - %s was rejected."), req->name);
     lost_connection_to_player(pconn);
     close_connection(pconn);
 
@@ -1489,7 +1490,7 @@ static void handle_request_join_game(struct connection *pconn,
   }
 
   if(game.nplayers==game.max_players) {
-    reject_new_player(_("Sorry you can't join. The game is full."), pconn);
+    reject_new_player(_("Sorry, you can't join.  The game is full."), pconn);
     freelog(LOG_NORMAL, _("game full - %s was rejected."), req->name);    
     close_connection(pconn);
 
@@ -1512,9 +1513,9 @@ void lost_connection_to_player(struct connection *pconn)
       game.players[i].conn=NULL;
       game.players[i].is_connected=0;
       strcpy(game.players[i].addr, "---.---.---.---");
-      freelog(LOG_NORMAL, _("lost connection to %s"), game.players[i].name);
+      freelog(LOG_NORMAL, _("Lost connection to %s."), game.players[i].name);
       send_player_info(&game.players[i], 0);
-      notify_player(0, _("Game: Lost connection to %s"), game.players[i].name);
+      notify_player(0, _("Game: Lost connection to %s."), game.players[i].name);
 
       if(is_new_game && (server_state==PRE_GAME_STATE ||
 			 server_state==SELECT_RACES_STATE))
@@ -1523,7 +1524,7 @@ void lost_connection_to_player(struct connection *pconn)
       return;
     }
 
-  freelog(LOG_FATAL, _("lost connection to unknown"));
+  freelog(LOG_FATAL, _("Lost connection to <unknown>."));
 }
 
 /**************************************************************************
@@ -1560,7 +1561,7 @@ static void generate_ai_players(void)
 
     if( num_nations_avail == 0 ) {
       freelog( LOG_NORMAL,
-	       _("Run out of nations. AI controlled player %s not created."),
+	       _("Ran out of nations.  AI controlled player %s not created."),
                game.players[player].name );
       server_remove_player(&game.players[player]);
       continue;
@@ -1592,7 +1593,7 @@ static void generate_ai_players(void)
   if( game.nation_count < game.aifill ) {
     game.aifill = game.nation_count;
     freelog( LOG_NORMAL,
-	     _("Nation count smaller than aifill; aifill reduced to %d"),
+	     _("Nation count smaller than aifill; aifill reduced to %d."),
              game.nation_count);
   }
 
@@ -1684,7 +1685,7 @@ static int mark_nation_as_used (int nation)
 static void announce_ai_player (struct player *pplayer) {
    int i;
 
-   freelog(LOG_NORMAL, _("AI is controlling the %s ruled by %s"),
+   freelog(LOG_NORMAL, _("AI is controlling the %s ruled by %s."),
                     get_nation_name_plural(pplayer->nation),
                     pplayer->name);
 

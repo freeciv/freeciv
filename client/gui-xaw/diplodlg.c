@@ -892,6 +892,6 @@ void diplo_dialog_returnkey(Widget w, XEvent *event, String *params,
       XtVaSetValues(w, XtNstring, "", NULL);
     }
     else
-      append_output_window(_("Game: Invalid amount of gold specified"));
+      append_output_window(_("Game: Invalid amount of gold specified."));
   }
 }

@@ -22,7 +22,9 @@
 
 #include <stdio.h>
 
+#include "fcintl.h"
 #include "log.h"
+
 #include "colors.h"
 
 Colormap cmap;
@@ -79,11 +81,12 @@ void color_error(void)
   static int using_private_cmap;
   
   if(using_private_cmap) {
-    freelog(LOG_FATAL, "Private colormap ran out of entries -  exiting");
+    freelog(LOG_FATAL, _("Private colormap ran out of entries -  exiting."));
     exit(1);
   }
   else {
-    freelog(LOG_NORMAL, "Ran out of colors -  trying with a private colormap"); 
+    freelog(LOG_NORMAL,
+	    _("Ran out of colors -  trying with a private colormap.")); 
     cmap=XCopyColormapAndFree(display, cmap);
     XtVaSetValues(toplevel, XtNcolormap, cmap, NULL);
     using_private_cmap=1;

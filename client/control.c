@@ -301,7 +301,7 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
     if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
       popup_diplomat_dialog(punit, dest_x, dest_y);
     } else {
-      append_output_window(_("Game: You don't have enough movement left"));
+      append_output_window(_("Game: You don't have enough movement left."));
     }
     return;
   }

@@ -79,7 +79,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   int to_unit;
   int upgraded = 0;
   if ((to_unit =can_upgrade_unittype(pplayer, packet->type)) == -1) {
-    notify_player(pplayer, _("Game: illegal package, can't upgrade %s (yet)."), 
+    notify_player(pplayer, _("Game: Illegal package, can't upgrade %s (yet)."), 
 		  unit_types[packet->type].name);
     return;
   }
@@ -99,7 +99,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   }
   unit_list_iterate_end;
   if (upgraded > 0) {
-    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d credits"), 
+    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d credits."), 
 		  upgraded, unit_types[packet->type].name, 
 		  unit_types[to_unit].name, cost * upgraded);
     send_player_info(pplayer, pplayer);
@@ -115,7 +115,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
                                  struct packet_unit_request *packet)
 {
   int cost;
-  int to_unit;
+  int from_unit, to_unit;
   struct unit *punit;
   struct city *pcity;
   
@@ -123,17 +123,18 @@ void handle_unit_upgrade_request(struct player *pplayer,
   if(!(pcity=find_city_by_id(packet->city_id))) return;
 
   if(punit->x!=pcity->x || punit->y!=pcity->y)  {
-    notify_player(pplayer, _("Game: illegal move, unit not in city!"));
+    notify_player(pplayer, _("Game: Illegal move, unit not in city!"));
     return;
   }
+  from_unit = punit->type;
   if((to_unit=can_upgrade_unittype(pplayer, punit->type)) == -1) {
-    notify_player(pplayer, _("Game: illegal package, can't upgrade %s (yet)."), 
+    notify_player(pplayer, _("Game: Illegal package, can't upgrade %s (yet)."), 
 		  unit_types[punit->type].name);
     return;
   }
   cost = unit_upgrade_price(pplayer, punit->type, to_unit);
   if(cost > pplayer->economic.gold) {
-    notify_player(pplayer, _("Game: Insufficient funds, upgrade costs %d"),
+    notify_player(pplayer, _("Game: Insufficient funds, upgrade costs %d."),
 		  cost);
     return;
   }
@@ -143,8 +144,8 @@ void handle_unit_upgrade_request(struct player *pplayer,
   punit->type = to_unit;
   send_unit_info(0, punit, 0);
   send_player_info(pplayer, pplayer);
-  notify_player(pplayer, _("Game: Unit upgraded to %s for %d credits"), 
-		unit_types[to_unit].name, cost);
+  notify_player(pplayer, _("Game: %s upgraded to %s for %d credits."), 
+		unit_name(from_unit), unit_name(to_unit), cost);
 }
 
 
@@ -271,12 +272,12 @@ void handle_diplomat_action(struct player *pplayer,
 	pplayer->embassy|=(1<<pcity->owner);
 	send_player_info(pplayer, pplayer);
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 _("Game: You have established an embassy in %s"),
+			 _("Game: You have established an embassy in %s."),
 			 pcity->name);
 	
 	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y,
 			 E_DIPLOMATED, 
-			 _("Game: The %s have established an embassy in %s"),
+			 _("Game: The %s have established an embassy in %s."),
 		         get_nation_name_plural(pplayer->nation), pcity->name);
         gamelog(GAMELOG_EMBASSY,"%s establish an embassy in %s (%s) (%i,%i)\n",
                 get_nation_name_plural(pplayer->nation),
@@ -399,7 +400,7 @@ void handle_unit_build_city(struct player *pplayer,
       wipe_unit(0, punit);
       send_city_info(pplayer, pcity, 0);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       _("Game: %s added to aid %s in growing"), 
+		       _("Game: %s added to aid %s in growing."), 
 		       unit_name, pcity->name);
     } else {
       if(pcity->size > 8) {
@@ -1020,7 +1021,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 
   connection_do_buffer(pplayer->conn);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		   _("Game: Your %s helps build the %s in %s. (%d remaining)"), 
+		   _("Game: Your %s helps build the %s in %s (%d remaining)."), 
 		   unit_name(punit->type),
 		   get_improvement_type(pcity_dest->currently_building)->name,
 		   pcity_dest->name, 
@@ -1061,7 +1062,7 @@ int handle_unit_establish_trade(struct player *pplayer,
   if (!can_establish_trade_route(pcity_homecity, pcity_dest)) {
     int i;
     notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		     _("Game: Sorry. Your %s cannot establish"
+		     _("Game: Sorry, your %s cannot establish"
 		       " a trade route here!"),
 		     unit_name(punit->type));
     for (i=0;i<4;i++) {
@@ -1139,7 +1140,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		       _("Game: You destroy %s completely."), pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		    _("Game: %s has been destroyed by %s"), 
+		    _("Game: %s has been destroyed by %s."), 
 		    pcity->name, pplayer->name);
       gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
               pcity->name,

@@ -816,7 +816,7 @@ static void meta_command(struct player *caller, char *arg)
     cmd_reply(CMD_META, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
-    notify_player(0, _("Metaserver infostring set to '%s'"),
+    notify_player(0, _("Metaserver infostring set to '%s'."),
 		  metaserver_info_line);
     cmd_reply(CMD_META, caller, C_OK,
 	      _("Metaserver info string set."), arg);
@@ -832,7 +832,7 @@ static void close_udp_safe(struct player *caller)
   if (send_server_info_to_metaserver(1,1))
   {
     server_close_udp();
-    notify_player(0, _("Close metaserver connection to '%s'"), metaserver_addr);
+    notify_player(0, _("Close metaserver connection to '%s'."), metaserver_addr);
     cmd_reply(CMD_META, caller, C_OK,
 	      _("Metaserver connection closed."));
   }
@@ -850,7 +850,7 @@ static void set_metaserver(struct player *caller, char *arg)
   server_open_udp(); 
   if (send_server_info_to_metaserver(1,0))
   { 
-    notify_player(0, _("Metaserver is now '%s'"), metaserver_addr);
+    notify_player(0, _("Metaserver is now '%s'."), metaserver_addr);
     cmd_reply(CMD_META, caller, C_OK,
 	      _("Metaserver connection opened."));
   }
@@ -1005,7 +1005,7 @@ static void create_ai_player(struct player *caller, char *arg)
   if (PNameStatus == PNameTooLong)
   {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-	      _("The name exceeds the maximum of %d chars."), MAX_LEN_NAME-1);
+	      _("That name exceeds the maximum of %d chars."), MAX_LEN_NAME-1);
     return;
   }
 
@@ -1103,15 +1103,15 @@ static int set_cmdlevel(struct player *caller, struct player *pplayer,
        ALLOW_HACK can take away ALLOW_HACK from others... --dwp
     */
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("cannot decrease command level '%s' for player '%s',"
-		" you only have '%s'"),
+	      _("Cannot decrease command level '%s' for player '%s';"
+		" you only have '%s'."),
 	      cmdlevel_name(access_level(pplayer)),
 	      pplayer->name,
 	      cmdlevel_name(access_level(caller)));
     return 0;
   } else {
     pplayer->conn->access_level = level;
-    notify_player(pplayer, _("Game: you now have access level '%s'"),
+    notify_player(pplayer, _("Game: You now have access level '%s'."),
 		  cmdlevel_name(level));
     return 1;
   }
@@ -1166,13 +1166,13 @@ static void cmdlevel_command(struct player *caller, char *str)
 
   if ((level = cmdlevel_named(arg_level)) == ALLOW_UNRECOGNIZED) {
     cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
-	      _("error: command level must be one of"
-		" 'none', 'info', 'ctrl', or 'hack'"));
+	      _("Error: command level must be one of"
+		" 'none', 'info', 'ctrl', or 'hack'."));
     return;
   } else if (caller && level > access_level(caller)) {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("cannot increase command level to '%s',"
-		" you only have '%s' yourself"),
+	      _("Cannot increase command level to '%s';"
+		" you only have '%s' yourself."),
 	      arg_level, cmdlevel_name(access_level(caller)));
     return;
   }
@@ -1198,12 +1198,12 @@ static void cmdlevel_command(struct player *caller, char *str)
       if (pplayer->conn) {
 	if (set_cmdlevel(caller, pplayer, level)) {
 	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    _("command access level set to '%s' for player %s"),
+	    _("Command access level set to '%s' for player %s."),
 	    cmdlevel_name(level),
 	    pplayer->name);
 	} else {
 	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    _("command access level could not be set to '%s' for player %s"),
+	    _("Command access level could not be set to '%s' for player %s."),
 	    cmdlevel_name(level),
 	    pplayer->name);
 	}
@@ -1211,9 +1211,9 @@ static void cmdlevel_command(struct player *caller, char *str)
     }
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      _("default command access level set to '%s'"),
+	      _("Default command access level set to '%s'."),
 	      cmdlevel_name(level));
-    notify_player(0, _("Game: all players now have access level '%s'"),
+    notify_player(0, _("Game: All players now have access level '%s'."),
 		  cmdlevel_name(level));
   }
   else if (strcmp(arg_name,"new") == 0) {
@@ -1221,32 +1221,33 @@ static void cmdlevel_command(struct player *caller, char *str)
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 	      _("default command access level set to '%s'"),
 	      cmdlevel_name(level));
-    notify_player(0, _("Game: new connections will have access level '%s'"),
+    notify_player(0, _("Game: New connections will have access level '%s'."),
 		  cmdlevel_name(level));
   }
   else if (test_player_name(arg_name) == PNameOk &&
                 (pplayer=find_player_by_name(arg_name))) {
     if (!pplayer->conn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		_("cannot change command access for unconnected player '%s'"),
+		_("Cannot change command access for unconnected player '%s'."),
 		arg_name);
       return;
     }
     if (set_cmdlevel(caller,pplayer,level)) {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("command access level set to '%s' for player %s"),
+		_("Command access level set to '%s' for player %s."),
 		cmdlevel_name(level),
 		pplayer->name);
     } else {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("command access level could not be set to '%s' for player %s"),
+		_("Command access level could not be set to '%s'"
+		  " for player %s."),
 		cmdlevel_name(level),
 		pplayer->name);
     }
   } else {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("cannot change command access for unknown/invalid"
-		" player name '%s'"),
+	      _("Cannot change command access for unknown/invalid"
+		" player name '%s'."),
 	      arg_name);
   }
 }
@@ -1614,7 +1615,7 @@ static void set_command(struct player *caller, char *str)
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-	_("Value out of range. Usage: set <option> <value>."));
+	_("Value out of range.  Usage: set <option> <value>."));
     }
   } else {
     if (strlen(arg)<MAX_LEN_NAME) {
@@ -1678,7 +1679,7 @@ void handle_stdin_input(struct player *caller, char *str)
     cmd = command_named(command,1);
     cmd_reply(cmd, caller, C_SYNTAX,
 	_("Warning: '%s' interpreted as '%s', but it is ambiguous."
-	  " Try '%shelp'."),
+	  "  Try '%shelp'."),
 	command, commands[cmd].name, caller?"/":"");
   } else if (cmd == CMD_UNRECOGNIZED) {
     cmd_reply(cmd, caller, C_SYNTAX,
@@ -1765,7 +1766,7 @@ void handle_stdin_input(struct player *caller, char *str)
       show_ending();
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
-		_("The game must be running before you can see the score"));
+		_("The game must be running before you can see the score."));
     }
     break;
   case CMD_READ:
@@ -1831,12 +1832,12 @@ void cut_player_connection(struct player *caller, char *playername)
 
   if(pplayer && pplayer->conn) {
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
-	       _("cutting connection to %s"), playername);
+	       _("Cutting connection to %s."), playername);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
   }
   else {
-    cmd_reply(CMD_CUT, caller, C_FAIL, _("uh, no such player connected"));
+    cmd_reply(CMD_CUT, caller, C_FAIL, _("Sorry, no such player connected."));
   }
 }
 

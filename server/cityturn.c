@@ -545,7 +545,7 @@ void remove_obsolete_buildings(struct player *pplayer)
 	 && improvement_obsolete(pplayer, i)) {
 	do_sell_building(pplayer, pcity, i);
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
-			 _("Game: %s is selling %s (obsolete) for %d"), 
+			 _("Game: %s is selling %s (obsolete) for %d."),
 			 pcity->name, get_improvement_name(i), 
 			 improvement_value(i)/2);
       }
@@ -772,11 +772,11 @@ static void city_increase_size(struct city *pcity)
     if (!pcity->is_building_unit && pcity->currently_building == B_AQUEDUCT) {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
-			 "to grow any further"), pcity->name,
+			 "to grow any further."), pcity->name,
 		       improvement_types[B_AQUEDUCT].name);
     } else {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-		       _("Game: %s needs %s to grow any further"),
+		       _("Game: %s needs %s to grow any further."),
 		       pcity->name, improvement_types[B_AQUEDUCT].name);
     }
     /* Granary can only hold so much */
@@ -790,11 +790,11 @@ static void city_increase_size(struct city *pcity)
     if (!pcity->is_building_unit && pcity->currently_building == B_SEWER) {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
-			 "to grow any further"), pcity->name,
+			 "to grow any further."), pcity->name,
 		       improvement_types[B_SEWER].name);
     } else {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-		       "Game: %s needs %s to grow any further",
+		       "Game: %s needs %s to grow any further.",
 		       pcity->name, improvement_types[B_SEWER].name);
     }
     /* Granary can only hold so much */
@@ -841,7 +841,7 @@ static void city_increase_size(struct city *pcity)
   connection_do_buffer(city_owner(pcity)->conn);
   send_city_info(&game.players[pcity->owner], pcity, 0);
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_GROWTH,
-                   _("Game: %s grows to size %d"), pcity->name, pcity->size);
+                   _("Game: %s grows to size %d."), pcity->name, pcity->size);
   connection_do_unbuffer(city_owner(pcity)->conn);
 }
 
@@ -852,7 +852,7 @@ static void city_reduce_size(struct city *pcity)
 {
   pcity->size--;
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
-		   _("Game: Famine feared in %s"), pcity->name);
+		   _("Game: Famine feared in %s."), pcity->name);
   if (city_got_effect(pcity, B_GRANARY))
     pcity->food_stock=(pcity->size*game.foodbox)/2;
   else
@@ -970,7 +970,7 @@ static void upgrade_unit_prod(struct city *pcity)
   if (can_build_unit_direct(pcity, id2)) {
     pcity->currently_building=id2;
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
-		  _("Game: production of %s is upgraded to %s in %s"),
+		  _("Game: Production of %s is upgraded to %s in %s."),
 		  get_unit_type(id)->name, 
 		  get_unit_type(id2)->name , 
 		  pcity->name);
@@ -990,7 +990,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     unit_list_iterate(pcity->units_supported, punit) {
       if (utype_shield_cost(get_unit_type(punit->type), g)) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
-			 _("Game: %s can't upkeep %s, unit disbanded"),
+			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, get_unit_type(punit->type)->name);
 	 wipe_unit(pplayer, punit);
 	 break;
@@ -1010,7 +1010,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     upgrade_building_prod(pcity);
     if (!can_build_improvement(pcity, pcity->currently_building)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-		    _("Game: %s is building %s, which is no longer available"),
+		    _("Game: %s is building %s, which is no longer available."),
 	pcity->name,get_imp_name_ex(pcity, pcity->currently_building));
       return 1;
     }
@@ -1056,14 +1056,15 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
                 pcity->name);
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,
-		    _("Game: %s has finished building %s"), pcity->name, 
+		    _("Game: %s has finished building %s."), pcity->name, 
 		    improvement_types[pcity->currently_building].name
 		    );
 
       if (pcity->currently_building==B_DARWIN) {
 	notify_player(pplayer, 
-		      _("Game: Darwin's Voyage boosts research, "
-			"you gain 2 immediate advances."));
+		      _("Game: %s boosts research, "
+			"you gain 2 immediate advances."),
+		      improvement_types[B_DARWIN].name);
 	update_tech(pplayer, 1000000); 
 	update_tech(pplayer, 1000000); 
       }
@@ -1081,7 +1082,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	advisor_choose_build(pcity);
 	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
-			 _("Game: %s is now building %s"), pcity->name, 
+			 _("Game: %s is now building %s."), pcity->name, 
 			 improvement_types[pcity->currently_building].name);
       }
     } 
@@ -1097,8 +1098,8 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	    return 0;
 	  } else {
 	    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			     _("Game: %s can't build settler yet"),
-			     pcity->name);
+			     _("Game: %s can't build %s yet."),
+			     pcity->name, unit_name(pcity->currently_building));
 	  }
 	  return 1;
 
@@ -1113,7 +1114,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       /* to eliminate micromanagement, we only subtract the unit's cost */
       pcity->shield_stock-=unit_value(pcity->currently_building); 
       notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
-		       _("Game: %s is finished building %s"), 
+		       _("Game: %s is finished building %s."), 
 		       pcity->name, 
 		       unit_types[pcity->currently_building].name);
     gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
@@ -1211,7 +1212,7 @@ static void check_pollution(struct city *pcity)
 	  map_set_special(x,y, S_POLLUTION);
 	  send_tile_info(0, x, y, TILE_KNOWN);
 	  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_POLLUTION,
-			   _("Game: Pollution near %s"), pcity->name);
+			   _("Game: Pollution near %s."), pcity->name);
 	  return;
 	}
       }
@@ -1306,9 +1307,10 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
     if ((turns_growth < 5) && (turns_granary < 5) &&
         (turns_growth < turns_granary)) {
        notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
-                     E_CITY_GRAN_THROTTLE,
-                    _("Game: %s suggest throttling growth to use granary "
-		      "(being built) more effectively."), pcity->name);
+			E_CITY_GRAN_THROTTLE,
+			_("Game: %s suggest throttling growth to use %s "
+			  "(being built) more effectively."), pcity->name,
+			improvement_types[B_GRANARY].name);
        }
     }
   
@@ -1322,13 +1324,13 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
   if (city_build_stuff(pplayer, pcity)) {
     if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
-	     	    _("Game: We Love The %s Day celebrated in %s"), 
+	     	    _("Game: We Love The %s Day celebrated in %s."), 
 	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
 		    pcity->name);
     }
     if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
-		    _("Game: We Love The %s Day canceled in %s"),
+		    _("Game: We Love The %s Day canceled in %s."),
 	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
 		    pcity->name);
 
@@ -1358,7 +1360,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
       pcity->anarchy++;
       if (pcity->anarchy == 1) 
         notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
-	  	         _("Game: Civil disorder in %s"), pcity->name);
+	  	         _("Game: Civil disorder in %s."), pcity->name);
       else
         notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
 		         _("Game: CIVIL DISORDER CONTINUES in %s."),
@@ -1367,7 +1369,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     else {
       if (pcity->anarchy)
         notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
-	  	         _("Game: Order restored in %s"), pcity->name);
+	  	         _("Game: Order restored in %s."), pcity->name);
       pcity->anarchy=0;
     }
     check_pollution(pcity);
@@ -1376,8 +1378,9 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     send_city_info(0, pcity, 0);
     if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
-		       _("Game: The people have overthrown your democracy, "
-			 "your country is in turmoil"));
+		       _("Game: The people have overthrown your %s, "
+			 "your country is in turmoil."),
+		       get_government_name(g->index));
       handle_player_revolution(pplayer);
     }
     sanity_check_city(pcity);
@@ -1410,9 +1413,9 @@ static void disband_city(struct city *pcity)
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
     notify_player_ex(pplayer, x, y, E_NOEVENT,
-		     _("Game: %s can't build settler yet, "
-		     "and we can't disband our only city"),
-		     pcity->name);
+		     _("Game: %s can't build %s yet, "
+		     "and we can't disband our only city."),
+		     pcity->name, unit_name(pcity->currently_building));
     return;
   }
 
@@ -1424,7 +1427,7 @@ static void disband_city(struct city *pcity)
   transfer_city_units(pplayer, pplayer, rcity, pcity, 0, 1);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
-		   _("Game: %s is disbanded into %s"), 
+		   _("Game: %s is disbanded into %s."), 
 		   pcity->name, unit_types[pcity->currently_building].name);
   gamelog(GAMELOG_UNIT, "%s (%i, %i) disbanded into %s by the %s", pcity->name, 
 	  x,y, unit_types[pcity->currently_building].name,

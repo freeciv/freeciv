@@ -113,7 +113,8 @@ void handle_chat_msg(struct player *pplayer,
       return;
     }
     if(nmatches>=2) {
-      sprintf(genmsg.message, _("Game: %s is an ambiguous name-prefix"), name);
+      sprintf(genmsg.message, _("Game: %s is an ambiguous name-prefix."),
+	      name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
@@ -122,7 +123,8 @@ void handle_chat_msg(struct player *pplayer,
      */
     cpblank=strchr(packet->message, ' ');
     if (!cpblank || (cp < cpblank)) {
-      sprintf(genmsg.message, _("Game: there's no player by the name %s"), name);
+      sprintf(genmsg.message, _("Game: There's no player by the name %s."),
+	      name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }

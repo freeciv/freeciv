@@ -28,6 +28,7 @@
 #include <X11/xpm.h>
 #endif
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "mem.h"
@@ -264,7 +265,7 @@ again:
       color_error();
       goto again;
     }
-    freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
+    freelog(LOG_FATAL, _("Failed reading XPM file: %s"), filename);
     exit(1);
   }
 

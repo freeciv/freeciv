@@ -17,9 +17,14 @@
 *
 **********************************************************************/ 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 
@@ -30,7 +35,7 @@
 static void handle_alloc_failure(size_t size, const char *called_as,
 				 int line, const char *file)
 {
-  freelog(LOG_FATAL, "Out of memory trying to %s %lu bytes at line %d of %s",
+  freelog(LOG_FATAL, _("Out of memory trying to %s %lu bytes at line %d of %s."),
 	  called_as, (unsigned long)size, line, file);
   /*
    * Do anything else here (cleanups? safe-save??)

@@ -375,16 +375,16 @@ void ui_main(int argc, char *argv[])
   XSetErrorHandler(myerr);*/
 
   if(appResources.version==NULL)  {
-    freelog(LOG_FATAL, _("No version number in resources"));
+    freelog(LOG_FATAL, _("No version number in resources."));
     freelog(LOG_FATAL, _("You probably have an old (circa V1.0)"
-			 " Freeciv resource file somewhere"));
+			 " Freeciv resource file somewhere."));
     exit(1);
   }
 
   /* TODO: Use capabilities here instead of version numbers */
   if(strncmp(appResources.version, VERSION_STRING,
 	     strlen(appResources.version))) {
-    freelog(LOG_FATAL, _("Game version does not match Resource version"));
+    freelog(LOG_FATAL, _("Game version does not match Resource version."));
     freelog(LOG_FATAL, _("Game version: %s - Resource version: %s"), 
 	    VERSION_STRING, appResources.version);
     freelog(LOG_FATAL, _("You might have an old Freeciv resourcefile"
@@ -433,7 +433,7 @@ void ui_main(int argc, char *argv[])
 
   
   if(display_color_type!=COLOR_DISPLAY) {
-    freelog(LOG_FATAL, _("only color displays are supported for now..."));
+    freelog(LOG_FATAL, _("Only color displays are supported for now..."));
     /*    exit(1); */
   }
   
@@ -458,7 +458,7 @@ void ui_main(int argc, char *argv[])
 
     main_font_struct=XLoadQueryFont(display, city_names_font);
     if(main_font_struct==0) {
-      freelog(LOG_FATAL, _("failed loading font: %s"), city_names_font);
+      freelog(LOG_FATAL, _("Failed loading font: %s"), city_names_font);
       exit(1);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
