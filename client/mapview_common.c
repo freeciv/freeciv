@@ -34,10 +34,19 @@
 struct canvas mapview_canvas;
 struct overview overview;
 
+/*
+ * Set to TRUE if the backing store is more recent than the version
+ * drawn into overview.window.
+ */
+static bool overview_dirty = FALSE;
+
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y);
 static void center_tile_overviewcanvas(int map_x, int map_y);
 static void get_mapview_corners(int x[4], int y[4]);
+static void redraw_overview(void);
+static void dirty_overview(void);
+static void flush_dirty_overview(void);
 
 /**************************************************************************
  Refreshes a single tile on the map canvas.
@@ -1517,6 +1526,7 @@ void unqueue_mapview_updates(void)
   needed_updates = UPDATE_NONE;
 
   flush_dirty();
+  flush_dirty_overview();
 }
 
 /**************************************************************************
@@ -1572,6 +1582,10 @@ static void redraw_overview(void)
 {
   struct canvas_store *dest = overview.window;
 
+  if (!dest || !overview.store) {
+    return;
+  }
+
   {
     struct canvas_store *src = overview.store;
     int x = overview.map_x0 * OVERVIEW_TILE_WIDTH;
@@ -1600,6 +1614,26 @@ static void redraw_overview(void)
       gui_put_line(dest, COLOR_STD_WHITE, LINE_NORMAL, src_x, src_y,
 		   dest_x - src_x, dest_y - src_y);
     }
+  }
+
+  overview_dirty = FALSE;
+}
+
+/****************************************************************************
+  Mark the overview as "dirty" so that it will be redrawn soon.
+****************************************************************************/
+static void dirty_overview(void)
+{
+  overview_dirty = TRUE;
+}
+
+/****************************************************************************
+  Redraw the overview if it is "dirty".
+****************************************************************************/
+static void flush_dirty_overview(void)
+{
+  if (overview_dirty) {
+    redraw_overview();
   }
 }
 
@@ -1756,6 +1790,7 @@ void overview_update_tile(int map_x, int map_y)
   gui_put_rectangle(overview.store,
 		    overview_tile_color(map_x, map_y), base_x, base_y,
 		    OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+  dirty_overview();
 }
 
 /**************************************************************************
