@@ -70,33 +70,48 @@ int city_map_iterate_outwards_indices[CITY_TILES][2] =
 struct citystyle *city_styles = NULL;
 
 /**************************************************************************
-...
+  Return TRUE if the given city coordinate pair is "valid"; that is, if it
+  is a part of the citymap and thus is workable by the city.
 **************************************************************************/
 bool is_valid_city_coords(const int city_x, const int city_y)
 {
-  if ((city_x == 0 || city_x == CITY_MAP_SIZE-1)
-      && (city_y == 0 || city_y == CITY_MAP_SIZE-1))
+  /* The city's valid positions are in a circle of radius CITY_MAP_RADIUS
+   * around the city center.  Depending on the value of CITY_MAP_RADIUS
+   * this circle will be:
+   *
+   *   333
+   *  32223
+   * 3211123
+   * 3210123
+   * 3211123
+   *  32223
+   *   333
+   *
+   * So CITY_MAP_RADIUS==2 corresponds to the "traditional" city map.
+   *
+   * FIXME: this won't work for hexagonal tiles.
+   */
+  if (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1
+      >= ((city_x - CITY_MAP_RADIUS) * (city_x - CITY_MAP_RADIUS) +
+	  (city_y - CITY_MAP_RADIUS) * (city_y - CITY_MAP_RADIUS))) {
+    return TRUE;
+  } else {
     return FALSE;
-  if (city_x < 0 || city_y < 0
-      || city_x >= CITY_MAP_SIZE
-      || city_y >= CITY_MAP_SIZE)
-    return FALSE;
-
-  return TRUE;
+  }
 }
 
 /**************************************************************************
-...
+  Return TRUE iff the given city coordinate pair is the center tile of
+  the citymap.
 **************************************************************************/
 bool is_city_center(int city_x, int city_y)
 {
-  return (city_x == (CITY_MAP_SIZE / 2))
-      && (city_y == (CITY_MAP_SIZE / 2));
+  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
 }
 
 /**************************************************************************
-Finds the city map coordinate for a given map position and a city
-center. Returns whether the map position is inside of the city map.
+  Finds the city map coordinate for a given map position and a city
+  center. Returns whether the map position is inside of the city map.
 **************************************************************************/
 static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 				 int city_center_x, int city_center_y,
@@ -104,8 +119,8 @@ static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 {
   map_distance_vector(city_map_x, city_map_y,
 		      city_center_x, city_center_y, map_x, map_y);
-  *city_map_x += CITY_MAP_SIZE / 2;
-  *city_map_y += CITY_MAP_SIZE / 2;
+  *city_map_x += CITY_MAP_RADIUS;
+  *city_map_y += CITY_MAP_RADIUS;
   return is_valid_city_coords(*city_map_x, *city_map_y);
 }
 
