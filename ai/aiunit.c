@@ -1681,7 +1681,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   /* First calculate in nearby units */
   players_iterate(aplayer) {
-    if (!HOSTILE_PLAYER(pplayer, ai, aplayer)) {
+    /* See comment below in next usage of HOSTILE_PLAYER. */
+    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, ai, aplayer))
+        || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue;
     }
     city_list_iterate(aplayer->cities, acity) {
@@ -1770,7 +1772,12 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   players_iterate(aplayer) {
-    if (!HOSTILE_PLAYER(pplayer, ai, aplayer)) {
+    /* For the virtual unit case, which is when we are called to evaluate
+     * which units to build, we want to calculate in danger and which
+     * players we want to make war with in the future. We do _not_ want
+     * to do this when actually making attacks. */
+    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, ai, aplayer))
+        || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       /* Not an enemy */
       continue;
     }
