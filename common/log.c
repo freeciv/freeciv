@@ -236,7 +236,7 @@ void vreal_freelog(int level, char *message, va_list ap)
 	if (repeated>2) {
 	  sprintf(buf+strlen(buf), " (total %d repeats)", repeated);
 	}
-	log_write(fs, level, buf);
+	log_write(fs, prev_level, buf);
 	prev=repeated;
 	next*=2;
       }
@@ -244,7 +244,7 @@ void vreal_freelog(int level, char *message, va_list ap)
       if(repeated>0 && repeated!=prev){
 	if(repeated==1) {
 	  /* just repeat the previous message: */
-	  log_write(fs, level, bufbuf[!whichbuf]);
+	  log_write(fs, prev_level, bufbuf[!whichbuf]);
 	} else {
 	  if(repeated-prev==1) {
 	    strcpy(buf, "last message repeated once");
@@ -254,7 +254,7 @@ void vreal_freelog(int level, char *message, va_list ap)
 	  if (repeated>2) {
 	    sprintf(buf+strlen(buf), " (total %d repeats)", repeated);
 	  }
-	  log_write(fs, level, buf);
+	  log_write(fs, prev_level, buf);
 	}
       }
       prev_level=level;
