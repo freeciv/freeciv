@@ -109,6 +109,8 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/worklistclass.c          \
 		gui-mui/worklistclass.h          \
 		\
+		civclient_gen.c			 \
+		\
 		$(ALL_ESD_FILES)                 \
 		$(ALL_SDL_FILES)                 \
 		$(ALL_WINMM_FILES)		 \
@@ -164,6 +166,7 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	messagewin_common.h \
 	packhand.c	\
 	packhand.h	\
+	packhand_gen.h	\
 	plrdlg_common.c \
 	plrdlg_common.h \
 	options.c	\
