@@ -1196,18 +1196,28 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 {
   switch (punit->activity) {
   case ACTIVITY_IDLE:
-    if (old_activity == ACTIVITY_PILLAGE) {
-      enum tile_special_type prereq =
+    switch (old_activity) {
+    case ACTIVITY_PILLAGE: 
+      {
+        enum tile_special_type prereq =
 	  map_get_infrastructure_prerequisite(old_target);
-      if (prereq != S_NO_SPECIAL) {
-	unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
-	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
-	      (punit2->activity_target == prereq)) {
-	    set_unit_activity(punit2, ACTIVITY_IDLE);
-	    send_unit_info(NULL, punit2);
-	  }
-	unit_list_iterate_end;
+        if (prereq != S_NO_SPECIAL) {
+          unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
+            if ((punit2->activity == ACTIVITY_PILLAGE) &&
+                (punit2->activity_target == prereq)) {
+              set_unit_activity(punit2, ACTIVITY_IDLE);
+              send_unit_info(NULL, punit2);
+            }
+          unit_list_iterate_end;
+        }
+        break;
       }
+    case ACTIVITY_EXPLORE:
+      /* Restore unit's control status */
+      punit->ai.control = FALSE;
+      break;
+    default: 
+      /* do nothing */
     }
     break;
   case ACTIVITY_EXPLORE:
