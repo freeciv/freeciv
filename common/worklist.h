@@ -45,5 +45,7 @@ void worklist_advance(struct worklist *pwl);
 
 void copy_worklist(struct worklist *dst, const struct worklist *src);
 void worklist_remove(struct worklist *pwl, int idx);
+bool worklist_append(struct worklist *pwl, int id, bool is_unit);
+bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx);
 
 #endif /* FC__WORKLIST_H */

@@ -43,17 +43,18 @@ void init_worklist(struct worklist *pwl)
   }
 }
 
-/****************************************************************
-...
-****************************************************************/
+/****************************************************************************
+  Returns the number of entries in the worklist.  The returned value can
+  also be used as the next available worklist index (assuming that
+  len < MAX_LEN_WORKLIST).
+****************************************************************************/
 int worklist_length(const struct worklist *pwl)
 {
   int len = 0;
 
   if (pwl) {
-    for (len = 0; len < MAX_LEN_WORKLIST && pwl->wlefs[len] != WEF_END;
-	 len++) {
-      /* nothing */
+    while (len < MAX_LEN_WORKLIST && pwl->wlefs[len] != WEF_END) {
+      len++;
     }
   }
 
@@ -140,4 +141,65 @@ void worklist_remove(struct worklist *pwl, int idx)
 
   pwl->wlefs[MAX_LEN_WORKLIST-1] = WEF_END;
   pwl->wlids[MAX_LEN_WORKLIST-1] = 0;
+}
+
+/****************************************************************************
+  Adds the id to the next available slot in the worklist.  'id' is the ID of
+  the unit/building to be produced; is_unit specifies whether it's a unit or
+  a building.  Returns TRUE if successful.
+****************************************************************************/
+bool worklist_append(struct worklist *pwl, int id, bool is_unit)
+{
+  int next_index = worklist_length(pwl);
+
+  if (next_index >= MAX_LEN_WORKLIST) {
+    return FALSE;
+  }
+  
+  pwl->wlefs[next_index] = (is_unit ? WEF_UNIT : WEF_IMPR);
+  pwl->wlids[next_index] = id;
+  
+  if (next_index + 1 < MAX_LEN_WORKLIST) {
+    pwl->wlefs[next_index + 1] = WEF_END;
+    pwl->wlids[next_index + 1] = 0;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Inserts the production at the location idx in the worklist, thus moving
+  all subsequent entries down.  'id' specifies the unit/building to
+  be produced; is_unit tells whether it's a unit or building.  Returns TRUE
+  if successful.
+****************************************************************************/
+bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
+{
+  int len = worklist_length(pwl);
+
+  if (len >= MAX_LEN_WORKLIST || idx > len) {
+    /* NOTE: the insert will fail rather than just dropping the last item. */
+    return FALSE;
+  }
+
+  /* move all active values down an index to get room for new id
+   * move from [idx .. len - 1] to [idx + 1 .. len].
+   * Don't copy WEF_END (the terminator) because that might end up outside of
+   * the list. */
+  memmove(&pwl->wlefs[idx + 1], &pwl->wlefs[idx],
+	  sizeof(pwl->wlefs[0]) * (len - idx));
+  memmove(&pwl->wlids[idx + 1], &pwl->wlids[idx],
+	  sizeof(pwl->wlids[0]) * (len - idx));
+  
+  pwl->wlefs[idx] = (is_unit ? WEF_UNIT : WEF_IMPR);
+  pwl->wlids[idx] = id;
+  
+  /* Since we don't copy the WEF_END, need to reinsert it at the end
+   * if there is room. */
+  if (len + 1 < MAX_LEN_WORKLIST) {
+    pwl->wlefs[len + 1] = WEF_END;
+    pwl->wlids[len + 1] = 0;
+  }
+  
+  return TRUE;
 }
