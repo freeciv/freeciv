@@ -404,6 +404,8 @@ void meswin_close_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(meswin_dialog_shell);
   meswin_dialog_shell=0;
+  gtk_style_unref(meswin_visited_style);
+  gtk_style_unref(meswin_not_visited_style);
 }
 
 /**************************************************************************
