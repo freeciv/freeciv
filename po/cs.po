@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-09 13:03+0100\n"
+"PO-Revision-Date: 2005-01-09 13:49+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2026,12 +2026,12 @@ msgstr "Nelze připojit vaše spojení na nového hráče."
 #: server/connecthand.c:149
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr ""
+msgstr "Přihlásili jste se jako '%s' a nepřipojili se k hráči."
 
 #: server/connecthand.c:152
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
-msgstr ""
+msgstr "Přihlásili jste se jako '%s' a pripojili k anonymnímu hráči."
 
 #: server/connecthand.c:156
 #, c-format
@@ -2946,7 +2946,7 @@ msgstr "Hra: Učinil(a) jste kontakt s %s, kterým vládne %s."
 #: server/plrhand.c:2116
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr ""
+msgstr "Nelze uvrhnout %s do občanské války - příliš mnoho hráčů"
 
 #: server/plrhand.c:2138
 #, c-format
@@ -3332,7 +3332,7 @@ msgstr "Obrázek RAS má neznámý typ"
 #: server/ruleset.c:1402
 #, c-format
 msgid "Building %s has missing requirement data (%s)"
-msgstr ""
+msgstr "Stavbě %s chybí požadovaná data (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1438
@@ -4014,7 +4014,7 @@ msgstr "civstyle je zastaralé nastavení"
 
 #: server/settings.c:626
 msgid "This setting is obsolete; it does nothing in the current version. It will be removed from future versions."
-msgstr ""
+msgstr "Toto nastavení je zastaralé; v této verzi nedělá nic. Bude odebráno v budoucích verzích."
 
 #: server/settings.c:632
 msgid "Chance of moving into tile after attack"
@@ -6025,7 +6025,7 @@ msgstr ""
 #: server/unittools.c:1540
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
-msgstr ""
+msgstr "Ztráta %s znamená prohru ve hře! Buďte příště více opatrnější!"
 
 #: server/unittools.c:1629
 #, c-format
@@ -6195,12 +6195,12 @@ msgstr ""
 #: server/unittools.c:2980
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
-msgstr ""
+msgstr "Hra: Rozkazy pro %s zrušeny, v cestě jsou jednotky."
 
 #: server/unittools.c:3006
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Hra: Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
 #: server/unittools.c:3033
 #, c-format
@@ -6233,6 +6233,9 @@ msgid ""
 "Maybe the numbers of players/ia is too much for this map.\n"
 "Please report this bug at %s."
 msgstr ""
+"Server vypadá, že se dostal do nekonečného cyklu v alokaci startovních pozic a bude přerušen.\n"
+"Možná je počet hráčů/počítačem ovládaných příliš vysoký pro tuto mapu.\n"
+"Prosím nahlašte bug na %s."
 
 #: client/attribute.c:241
 msgid "There has been a CMA error.  Your CMA settings may be broken."
@@ -6847,7 +6850,7 @@ msgstr "Zkuste použít --help.\n"
 #: client/civclient.c:254
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr ""
+msgstr "Neplatná ladící úroveň \"%s\" určená s --debug volbou.\n"
 
 #: client/civclient.c:264
 #, c-format
@@ -7126,7 +7129,7 @@ msgstr "* Objev %s způsobí, že %s zastarají.\n"
 #: client/helpdata.c:537
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr ""
+msgstr "* Umožní všem hráčům s znalostí %s stavbu %s jednotek.\n"
 
 #: client/helpdata.c:571
 #: client/helpdata.c:585
