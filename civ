@@ -18,4 +18,12 @@ if [ "$FREECIV_DATADIR" = "" ] ; then
     FREECIV_DATADIR=$DIR/data; export FREECIV_DATADIR
 fi
 
-exec $DIR/civclient ${1+"$@"}
+[ -x $DIR/client/civclient ] && EXE=$DIR/client/civclient
+[ -x $DIR/civclient ] && EXE=$DIR/civclient
+
+if [ "$EXE" = "" ]; then
+  echo $0: Unable to find civclient.
+  exit 1
+fi
+
+exec $EXE ${1+"$@"}
