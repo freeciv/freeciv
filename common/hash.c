@@ -189,7 +189,7 @@ unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets)
     result *= 5; 
     result += *key;
   }
-  result &= 0xFFFFFFFF; /* To make results independant of sizeof(long) */
+  result &= 0xFFFFFFFF; /* To make results independent of sizeof(long) */
   return (result % num_buckets);
 }
 

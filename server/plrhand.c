@@ -1117,7 +1117,7 @@ static void package_player_common(struct player *plr,
 }
 
 /**************************************************************************
- Package player info dependant on info_level.
+ Package player info depending on info_level.
 
  Note: if reciever is NULL and info < INFO_EMBASSY the info related to the
        receiving player are not set correctly.

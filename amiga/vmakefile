@@ -60,7 +60,7 @@ LNFLAGS0 = -o
 LNFLAGS1 = -lusergroup -lmieee -lguigfx
 
 ####################################################################
-##### Any stuff after this line should be compiler independant #####
+##### Any stuff after this line should be compiler independent #####
 ####################################################################
 
 OBJDIR  = ${OBJDIR1}/

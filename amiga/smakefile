@@ -69,7 +69,7 @@ LNFLAGS0 = RESOPT LINK ${DEBFLAGS} ${CPU_MATH} LINK NOICONS NOVERSION TO
 LNFLAGS1 = WITH
 
 ####################################################################
-##### Any stuff after this line should be compiler independant #####
+##### Any stuff after this line should be compiler independent #####
 ####################################################################
 
 OBJDIR  = ${OBJDIR1}/
