@@ -408,7 +408,7 @@ static void ai_spend_gold(struct player *pplayer)
           && pcity->size == 1
           && city_granary_size(pcity->size)
              > pcity->food_stock + pcity->food_surplus) {
-        /* Don't build settlers in size 1 cities unless we grow next turn */
+        /* Don't buy settlers in size 1 cities unless we grow next turn */
         continue;
       } else if (city_list_size(&pplayer->cities) > 6) {
           /* Don't waste precious money buying settlers late game
