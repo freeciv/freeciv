@@ -715,6 +715,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		    "Game: %s has been destroyed by %s", 
 		    pcity->name, pplayer->name);
+      remove_city_from_minimap(pcity->x, pcity->y);
       remove_city(pcity);
       return;
     }
