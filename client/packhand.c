@@ -2582,6 +2582,9 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
+  /* Must set num_specialist_types before iterating over them. */
+  game.rgame.num_specialist_types = packet->num_specialist_types;
+  game.rgame.default_specialist = packet->default_specialist;
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;
 

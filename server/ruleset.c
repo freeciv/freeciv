@@ -2536,11 +2536,6 @@ static void load_ruleset_cities(struct section_file *file)
 
   /* Specialist options */
   specialist_names = secfile_lookup_str_vec(file, &nval, "specialist.types");
-  if (nval != SP_COUNT) {
-    freelog(LOG_FATAL, "There must be exactly %d types of specialist.",
-	    SP_COUNT);
-    exit(EXIT_FAILURE);
-  }
 
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i], *short_name;
@@ -2559,7 +2554,17 @@ static void load_ruleset_cities(struct section_file *file)
 					    "specialist.%s_bonus_%s",
 					    name, get_output_identifier(o));
     } output_type_iterate_end;
+    if (game.rgame.specialists[i].min_size == 0
+	&& game.rgame.default_specialist == -1) {
+      game.rgame.default_specialist = i;
+    }
   }
+  if (game.rgame.default_specialist == -1) {
+    freelog(LOG_FATAL, "You must give a min_size of 0 for at least one "
+	    "specialist type (in %s).", filename);
+    exit(EXIT_FAILURE);
+  }
+  game.rgame.num_specialist_types = nval;
   free(specialist_names);
 
   game.rgame.changable_tax = 
@@ -2573,11 +2578,6 @@ static void load_ruleset_cities(struct section_file *file)
   if (game.rgame.forced_science + game.rgame.forced_luxury
       + game.rgame.forced_gold != 100) {
     freelog(LOG_FATAL, "Forced taxes do not add up in ruleset!");
-    exit(EXIT_FAILURE);
-  }
-  if (game.rgame.specialists[SP_ELVIS].min_size > 0) {
-    freelog(LOG_FATAL, "Elvises must be available without a "
-	    "city size restriction!");
     exit(EXIT_FAILURE);
   }
 
@@ -3129,6 +3129,8 @@ static void send_ruleset_game(struct conn_list *dest)
   int i;
   struct packet_ruleset_game misc_p;
 
+  misc_p.num_specialist_types = SP_COUNT;
+  misc_p.default_specialist = DEFAULT_SPECIALIST;
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;
 

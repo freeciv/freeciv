@@ -21,12 +21,6 @@
  * Nothing in this file should require anything else from the common/
  * directory! */
 
-enum specialist_type {
-  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_LAST
-};
-#define SP_COUNT num_specialist_types
-#define SP_MAX SP_LAST /* Changing this breaks network compatibility. */
-
 enum output_type {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
@@ -35,7 +29,7 @@ enum output_type {
 
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
-typedef enum specialist_type Specialist_type_id;
+typedef int Specialist_type_id;
 typedef int Impr_Type_id;
 typedef enum output_type Output_type_id;
 
@@ -44,5 +38,7 @@ struct government;
 struct player;
 struct tile;
 struct unit;
+
+#define SP_MAX 20
 
 #endif /* FC__FC_TYPES_H */

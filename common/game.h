@@ -192,13 +192,16 @@ struct civ_game {
 
   /* values from game.ruleset */
   struct {
+    int num_specialist_types;
+    int default_specialist;
     struct specialist {
       char name[MAX_LEN_NAME];
       char short_name[MAX_LEN_NAME];
       int min_size;
       int bonus[O_MAX];
     } specialists[SP_MAX];
-#define DEFAULT_SPECIALIST SP_ELVIS
+#define SP_COUNT game.rgame.num_specialist_types
+#define DEFAULT_SPECIALIST game.rgame.default_specialist
     bool changable_tax;
     int forced_science; /* only relevant if !changable_tax */
     int forced_luxury;

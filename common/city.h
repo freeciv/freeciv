@@ -333,7 +333,6 @@ struct citystyle {
 
 extern struct citystyle *city_styles;
 extern const Output_type_id num_output_types;
-extern const Specialist_type_id num_specialist_types;
 
 /* get 'struct city_list' and related functions: */
 #define SPECLIST_TAG city

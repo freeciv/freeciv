@@ -968,6 +968,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
 end
 
 PACKET_RULESET_GAME=97;sc,lsend
+  UINT8 default_specialist, num_specialist_types;
   STRING specialist_name[SP_MAX][MAX_LEN_NAME];
   STRING specialist_short_name[SP_MAX][MAX_LEN_NAME];
   UINT8 specialist_min_size[SP_MAX];

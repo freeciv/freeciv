@@ -41,7 +41,6 @@ struct citystyle *city_styles = NULL;
 
 int city_tiles;
 const Output_type_id num_output_types = O_LAST;
-const Specialist_type_id num_specialist_types = SP_LAST;
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
