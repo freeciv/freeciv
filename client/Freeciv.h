@@ -880,7 +880,7 @@
 "*reportcitylistlabel.left:               chainLeft",
 "*reportcitylistlabel.right:              chainRight",
 "*reportcitylistlabel.fromVert:           reportcitylabel",
-"*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     Food     Production          ",
+"*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     Food      Production          ",
 "*reportcitylist.fromVert:            reportcitylistlabel",
 "*reportcitylist.forceColumns:        true",
 "*reportcitylist.defaultColumns:      1",

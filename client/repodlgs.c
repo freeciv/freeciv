@@ -865,7 +865,7 @@ void city_report_dialog_update(void)
                pcity->food_stock,
 	       pcity->size * game.foodbox);
 
-       sprintf(city_list_names[i], "%-15s %-16s%-12s%-9s%s", 
+       sprintf(city_list_names[i], "%-15s %-16s%-12s%-10s%s", 
 	       pcity->name,
 	       happytext,
 	       statetext,
