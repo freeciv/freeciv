@@ -1960,10 +1960,14 @@ static bool set_cmdlevel(struct connection *caller,
   assert(ptarget != NULL);    /* only ever call me for specific connection */
 
   if (caller && ptarget->access_level > caller->access_level) {
-    /* Can this happen?  Caller must already have ALLOW_HACK
-       to even use the cmdlevel command.  Hmm, someone with
-       ALLOW_HACK can take away ALLOW_HACK from others... --dwp
-    */
+    /*
+     * This command is intended to be used at ctrl access level
+     * and thus this if clause is needed.
+     * (Imagine a ctrl level access player that wants to change
+     * access level of a hack level access player)
+     * At the moment it can be used only by hack access level 
+     * and thus this clause is never used.
+     */
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 	      _("Cannot decrease command access level '%s' for connection '%s';"
 		" you only have '%s'."),
@@ -2116,12 +2120,10 @@ static void cmdlevel_command(struct connection *caller, char *str)
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level set to '%s' for new players."),
 		cmdlevel_name(level));
-    if (level > first_access_level) {
-      first_access_level = level;
-      cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+    first_access_level = level;
+    cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level set to '%s' for first player to grab it."),
 		cmdlevel_name(level));
-    }
   }
   else if (strcmp(arg_name,"new") == 0) {
     default_access_level = level;
