@@ -296,6 +296,27 @@ GtkWidget *city_change_all_to_list;
 
 int city_dialog_shell_is_modal;
 
+/*
+ * Sort cities by column...
+ */
+void sort_cities_callback( GtkButton *button, gpointer *data )
+{
+  int sort_column = GPOINTER_TO_INT( data );
+
+  if ( sort_column == GTK_CLIST( city_list )->sort_column )
+  {
+    if ( GTK_CLIST( city_list )->sort_type == GTK_SORT_ASCENDING )
+      gtk_clist_set_sort_type( GTK_CLIST( city_list ), GTK_SORT_DESCENDING );
+    else
+      gtk_clist_set_sort_type( GTK_CLIST( city_list ), GTK_SORT_ASCENDING );
+    gtk_clist_sort( GTK_CLIST( city_list ) );
+  }
+  else
+  {
+    gtk_clist_set_sort_column( GTK_CLIST( city_list ), sort_column );
+    gtk_clist_sort( GTK_CLIST( city_list ) );
+  }
+}
 
 /****************************************************************
  Create the text for a line in the city report
@@ -401,7 +422,7 @@ void create_city_report_dialog(int make_modal)
   get_city_table_header(titles);
 
   city_list = gtk_clist_new_with_titles(NUM_CREPORT_COLS,titles);
-  gtk_clist_column_titles_passive(GTK_CLIST(city_list));
+  gtk_clist_column_titles_active(GTK_CLIST(city_list));
   gtk_clist_set_auto_sort (GTK_CLIST (city_list), TRUE);
   gtk_clist_set_selection_mode(GTK_CLIST (city_list), GTK_SELECTION_EXTENDED);
   scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -480,6 +501,10 @@ void create_city_report_dialog(int make_modal)
 	GTK_SIGNAL_FUNC(city_list_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(city_list), "unselect_row",
 	GTK_SIGNAL_FUNC(city_list_ucallback), NULL);
+
+  for ( i = 0;i < GTK_CLIST(city_list)->columns; i++ )
+    gtk_signal_connect(GTK_OBJECT(GTK_CLIST(city_list)->column[i].button),
+      "clicked", GTK_SIGNAL_FUNC(sort_cities_callback), GINT_TO_POINTER(i) );
 
   gtk_widget_show_all( GTK_DIALOG(city_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(city_dialog_shell)->action_area );
