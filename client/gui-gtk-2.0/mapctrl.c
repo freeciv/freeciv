@@ -281,20 +281,6 @@ void set_turn_done_button_state(bool state)
   gtk_widget_set_sensitive(turn_done_button, state);
 }
 
-
-/**************************************************************************
-(RP:) wake up my own sentried units on the tile that was clicked
-**************************************************************************/
-gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  /* when you get a <SHIFT>+<LMB> pow! */
-  if (ev->state & GDK_SHIFT_MASK) {
-    wakeup_button_pressed(ev->x, ev->y);
-  }
-
-  return TRUE;
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -310,6 +296,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   if (ev->button == 1 && (ev->state & GDK_SHIFT_MASK)) {
     adjust_workers_button_pressed(ev->x, ev->y);
+    wakeup_button_pressed(ev->x, ev->y);
   } else if (ev->button == 1) {
     action_button_pressed(ev->x, ev->y);
   } else if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)

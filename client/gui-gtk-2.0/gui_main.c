@@ -857,9 +857,6 @@ static void setup_widgets(void)
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(keyboard_handler), NULL);
 
-  g_signal_connect(map_canvas, "button_press_event",
-                   G_CALLBACK(butt_down_wakeup), NULL);
-
   /* *** The message window -- this is a detachable widget *** */
 
   ahbox = detached_widget_new();
