@@ -1784,8 +1784,15 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
           c = (n + m - 1) / m;
           if (!is_ground_unit(punit) && d == 0) b0 = 0;
           else if (c > THRESHOLD) b0 = 0;
-          else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d)) - 
-            c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
+          else {
+            b0 = kill_desire(b, a, f, d, 1);
+            /* Take into account maintainance of the unit */
+            /* FIXME: Depends on the government */
+            b0 -= c * SHIELD_WEIGHTING;
+            /* Take into account unhappiness 
+             * (costs 2 luxuries to compensate) */
+            b0 -= (unhap ? 2 * c * TRADE_WEIGHTING : 0);
+          }
           e = military_amortize(b0, MAX(1, c), fprime);
           if (e > best && ai_fuzzy(pplayer, TRUE)) {
 #ifdef DEBUG
