@@ -260,13 +260,12 @@ void free_sprite(struct Sprite *s)
 Pixmap create_overlay_unit(int i)
 {
   Pixmap pm;
-  int bg_color;
+  enum color_std bg_color;
   
   pm=XCreatePixmap(display, root_window, 
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
 
   /* Give tile a background color, based on the type of unit */
-  bg_color = COLOR_STD_RACE0+game.player_ptr->nation;
   switch (get_unit_type(i)->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
     case SEA_MOVING:  bg_color = COLOR_STD_OCEAN; break;

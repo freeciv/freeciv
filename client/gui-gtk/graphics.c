@@ -256,12 +256,11 @@ void free_sprite(SPRITE *s)
 GdkPixmap *create_overlay_unit(int i)
 {
   GdkPixmap *pm;
-  int bg_color;
+  enum color_std bg_color;
   
   pm=gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
 
   /* Give tile a background color, based on the type of unit */
-  bg_color = COLOR_STD_RACE0+game.player_ptr->nation;
   switch (get_unit_type(i)->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
     case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
