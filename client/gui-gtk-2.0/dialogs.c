@@ -2029,7 +2029,6 @@ void create_races_dialog(void)
     gtk_table_new(((b_s_num-1)/2)+1, 2, TRUE );
   gtk_container_add( GTK_CONTAINER( fa ), city_style_toggles_form ); 
 
-printf("%d %d\n", b_s_num, ((b_s_num-1)/2)+1);
   for(i=0; i<b_s_num; i++) {
       city_style_toggles[i] =
 	gtk_radio_button_new_with_label(cgroup,
