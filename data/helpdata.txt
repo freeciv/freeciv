@@ -27,8 +27,8 @@
 ; long.
 ;  This marks 68 char limit -------------------------------------->|
 ;
-; Notice not all entries are marked for i18n with _(""), as some
-; are not appropriate to translate.
+; Notice not all entries are marked for i18n, as some are not 
+; appropriate to translate.
 ;
 ; Comments with c-style comments are just to stop xgettext from 
 ; complaining about stray single-quote characters.
