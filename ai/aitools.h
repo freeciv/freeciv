@@ -26,9 +26,9 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
-struct unit *create_virtual_unit(struct player *pplayer, int x, int y,
+struct unit *create_unit_virtual(struct player *pplayer, int x, int y,
 				 Unit_Type_id type, bool make_veteran);
-void destroy_virtual_unit(struct unit *punit);
+void destroy_unit_virtual(struct unit *punit);
 int is_stack_vulnerable(int x, int y);
 
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task utask);

@@ -406,7 +406,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
     if (get_unit_type(u_type)->move_type != AIR_MOVING) continue;
     if (can_build_unit(pcity, u_type)) {
       struct unit *virtual_unit = 
-	create_virtual_unit(pplayer, pcity->x, pcity->y, u_type, TRUE);
+	create_unit_virtual(pplayer, pcity->x, pcity->y, u_type, TRUE);
       int profit = find_something_to_bomb(virtual_unit, pcity->x, pcity->y);
       if (profit > choice->want){
 	/* Update choice */
@@ -420,7 +420,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
       freelog(LOG_DEBUG, "%s doesn't want to build %s (want=%d)",
 		pcity->name, get_unit_type(u_type)->name, profit);
       }
-      destroy_virtual_unit(virtual_unit);
+      destroy_unit_virtual(virtual_unit);
     }
   }
 
