@@ -4059,7 +4059,8 @@ static bool quit_game(struct connection *caller, bool check)
 bool handle_stdin_input(struct connection *caller, char *str, bool check)
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE],
-      allargs[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
+      allargs[MAX_LEN_CONSOLE_LINE], full_command[MAX_LEN_CONSOLE_LINE],
+      *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
 
@@ -4091,6 +4092,9 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   for (; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
+
+  /* copy the full command, in case we need it for voting purposes. */
+  sz_strlcpy(full_command, cptr_s);
 
   /*
    * cptr_s points now to the beginning of the real command. It has
@@ -4130,11 +4134,11 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     }
 
     /* Check if the vote command would succeed. */
-    if (handle_stdin_input(caller, command, TRUE)) {
+    if (handle_stdin_input(caller, full_command, TRUE)) {
       last_vote++;
       notify_player(NULL, _("New vote, no. %d, by %s: %s."), last_vote, 
-                    caller->player->name, command);
-      sz_strlcpy(votes[idx].command, command);
+                    caller->player->name, full_command);
+      sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
       votes[idx].full_turn = FALSE; /* just to be sure */
       memset(votes[idx].votes_cast, 0, sizeof(votes[idx].votes_cast));
@@ -4143,7 +4147,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       return TRUE;
     } else {
       cmd_reply(CMD_VOTE, caller, C_FAIL, "Your new vote (\"%s\") was not "
-                "legal or was not recognized.", command);
+                "legal or was not recognized.", full_command);
       return FALSE;
     }
   }
