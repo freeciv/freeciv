@@ -1389,13 +1389,17 @@ static void generate_ai_players(void)
              game.max_players);
   }
 
-  /* we don't want aifill to count global observers... */
+  /* we don't want aifill to count global observers unless 
+   * aifill = MAX_NUM_PLAYERS */
   i = 0;
   players_iterate(pplayer) {
     if (pplayer->is_observer) {
       i++;
     }
   } players_iterate_end;
+  if (game.aifill == MAX_NUM_PLAYERS) {
+    i = 0;
+  }
 
   for(;game.nplayers < game.aifill + i;) {
     nation = select_random_nation(common_class);
