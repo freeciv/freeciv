@@ -437,7 +437,7 @@ static void create_option_dialog(void)
 		     notebook, FALSE, FALSE, 0);
 
   for (i = 0; i < COC_MAX; i++) {
-    label = gtk_label_new_with_mnemonic(client_option_class_names[i]);
+    label = gtk_label_new_with_mnemonic(_(client_option_class_names[i]));
     align = gtk_alignment_new(0.0, 0.0, 1.0, 0.0);
     gtk_container_set_border_width(GTK_CONTAINER(align), 8);
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), align, label);
