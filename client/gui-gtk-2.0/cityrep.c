@@ -505,7 +505,7 @@ static void update_view_menu(GtkWidget *show_item)
 /****************************************************************
 ...
 *****************************************************************/
-static GtkWidget *create_city_report_menubar()
+static GtkWidget *create_city_report_menubar(void)
 {
   GtkWidget *menubar, *item;
 
