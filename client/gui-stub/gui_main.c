@@ -7,6 +7,10 @@
 const char *client_string = "gui-stub";
 
 
+void ui_init(void)
+{
+}
+
 void
 ui_main(int argc, char *argv[])
 {

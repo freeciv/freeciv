@@ -17,6 +17,7 @@
 
 struct unit;
 
+void ui_init(void);
 void ui_main(int argc, char *argv[]);
 void sound_bell(void);
 void enable_turn_done_button(void);

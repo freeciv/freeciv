@@ -155,13 +155,45 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gint timer_callback(gpointer data);
 
 /**************************************************************************
+...
+**************************************************************************/
+static void fprintf_utf8(FILE *stream, const char *format, ...)
+{
+  va_list ap;
+  const gchar *charset;
+  gchar *s;
+
+  va_start(ap, format);
+  s = g_strdup_vprintf(format, ap);
+  va_end(ap);
+
+  if (!g_get_charset(&charset)) {
+    GError *error = NULL;
+    gchar  *s2;
+
+    s2 = g_convert(s, -1, charset, "UTF-8", NULL, NULL, &error);
+
+    if (error) {
+      fprintf(stream, "fprintf_utf8: %s\n", error->message);
+      g_error_free(error);
+    } else {
+      g_free(s);
+      s = s2;
+    }
+  }
+  fputs(s, stream);
+  fflush(stream);
+  g_free(s);
+}
+
+/**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr. 
 **************************************************************************/
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fprintf_utf8(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
 }
 
 /**************************************************************************
@@ -774,21 +806,25 @@ static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void log_callback_utf8(int level, char *message)
+{
+  fprintf_utf8(stderr, "%d: %s\n", level, message);
+}
+
+/**************************************************************************
  called from main().
 **************************************************************************/
 void ui_init(void)
 {
+  gchar *s;
+
 #ifdef ENABLE_NLS
   bind_textdomain_codeset(PACKAGE, "UTF-8");
 #endif
-}
 
-/**************************************************************************
-...
-**************************************************************************/
-void setup_conv(void)
-{
-  gchar *s;
+  log_set_callback(log_callback_utf8);
 
   /* set networking string conversion callbacks */
   set_put_conv_callback(put_conv);
@@ -809,7 +845,6 @@ void setup_conv(void)
   g_free(s);
 }
 
-
 /**************************************************************************
  called from main(), is what it's named.
 **************************************************************************/
@@ -819,7 +854,6 @@ void ui_main(int argc, char **argv)
   GtkStyle *has_resources;
   PangoLanguage *lang;
 
-  setup_conv();
   parse_options(argc, argv);
 
   /* GTK withdraw gtk options. Process GTK arguments */

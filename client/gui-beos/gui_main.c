@@ -9,6 +9,11 @@ const char *client_string = "gui-beos";
 char logfile[256] = "";
 
 void
+ui_init(void)
+{
+}
+
+void
 ui_main(int argc, char *argv[])		/* EXTERNAL HOOK */
 {
 	app_main( argc, argv );

@@ -191,6 +191,7 @@ int main(int argc, char *argv[])
 
   /* initialization */
 
+  ui_init();
   my_init_network();
   init_messages_where();
   init_our_capability();
