@@ -1,3 +1,9 @@
+freeciv (1.9.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Lalo Martins <lalo@webcom.com>  Sat, 23 Oct 1999 18:29:12 -0200
+
 freeciv (1.8.1+cvs19990926) unstable; urgency=low
 
   * New upstream release (CVS snapshot); highlights:
