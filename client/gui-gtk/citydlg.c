@@ -338,22 +338,14 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
   
   for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
-    GdkPixmap *p;
-  
     pdialog->citizen_boxes[i]=gtk_event_box_new();
     gtk_widget_set_events(pdialog->citizen_boxes[i], GDK_BUTTON_PRESS_MASK);
-
     gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
-    gtk_widget_show(pdialog->citizen_boxes[i]);
 
-    p=gdk_pixmap_new(root_window, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, -1);
-    pdialog->citizen_pixmaps[i]= gtk_pixmap_new(p, NULL);
-    gtk_pixmap_set_build_insensitive (GTK_PIXMAP (pdialog->citizen_pixmaps[i]),
-                                      FALSE);
+    pdialog->citizen_pixmaps[i]= gtk_pixcomm_new (root_window,
+					SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER(pdialog->citizen_boxes[i]),
 	pdialog->citizen_pixmaps[i]);
-    gtk_object_set_data_by_id_full (GTK_OBJECT (pdialog->citizen_pixmaps[i]), 1,
-						p,(GtkDestroyNotify)gdk_pixmap_unref);
   }
   pdialog->sub_form=gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->sub_form, TRUE, TRUE, 0);
@@ -1032,13 +1024,13 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i, n;
   struct city *pcity=pdialog->pcity;
-    
+
   for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=5 && pdialog->citizen_type[i]!=6) {
       pdialog->citizen_type[i]=5+i%2;
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(pdialog->citizen_type[i]), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
@@ -1048,18 +1040,18 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
       pdialog->citizen_type[i]=3+i%2;
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(pdialog->citizen_type[i]), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
     }
-      
+
   for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=7) {
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(7), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(7), 0, 0, TRUE);
 
       pdialog->citizen_type[i]=7;
 
@@ -1070,8 +1062,8 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
   for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(0), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(0), 0, 0, TRUE);
 
       pdialog->citizen_type[i]=0;
 
@@ -1081,13 +1073,12 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
     }
-
   
   for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=1) {
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(1), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(1), 0, 0, TRUE);
 
       pdialog->citizen_type[i]=1;
 
@@ -1101,8 +1092,8 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
   for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=2) {
 
-      gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
-	get_citizen_pixmap(2), NULL);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
+	get_citizen_sprite(2), 0, 0, TRUE);
 
       pdialog->citizen_type[i]=2;
 
@@ -1112,22 +1103,12 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
     }
-  
+
   for(; i<NUM_CITIZENS_SHOWN; i++) {
-      gdk_draw_rectangle(GTK_PIXMAP(pdialog->citizen_pixmaps[i])->pixmap,
-	toplevel->style->bg_gc[GTK_STATE_NORMAL], TRUE,
-	0, 0,
-	SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-/*      gtk_widget_queue_clear(pdialog->citizen_pixmaps[i]);*/
+      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]), TRUE);
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-  }
-
-
-  for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
-      gtk_widget_hide(pdialog->citizen_pixmaps[i]);
-      gtk_widget_show(pdialog->citizen_pixmaps[i]);
   }
 }
 
@@ -1184,16 +1165,16 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   
   genlist_iterator_init(&myiter, &pdialog->pcity->units_supported.list, 0);
 
-  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
         
     if(unitid && punit->id!=unitid)
       continue;
 
     if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i])); /* STG */
+      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), 0,0);
     put_unit_gpixmap_city_overlays(punit, 
 				  GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]),
 				  punit->unhappiness, punit->upkeep);   
@@ -1213,7 +1194,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   }
     
   for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), TRUE);
     pdialog->support_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);
   }
@@ -1239,16 +1220,16 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   genlist_iterator_init(&myiter, 
 	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list, 0);
   
-  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
     
     if(unitid && punit->id!=unitid)
       continue;
 
     if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i])); /* STG */
+      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), 0,0);
     put_unit_gpixmap_city_overlays(punit, 
 				  GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]),
 				  0, 0);   
@@ -1267,7 +1248,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], TRUE);
   }
   for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), TRUE);
     pdialog->present_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);
   }

@@ -323,9 +323,8 @@ void update_unit_pix_label(struct unit *punit)
   
   if(punit) {
     if(punit->type!=utemplate || punit->activity!=uactivity) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap)); /* STG */
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), FALSE); /* STG */
       put_unit_gpixmap(punit, GTK_PIXCOMM(unit_pixmap), 0, 0);
-      gtk_pixcomm_changed(GTK_PIXCOMM(unit_pixmap));
       utemplate=punit->type;
       uactivity=punit->activity;
     }
@@ -344,14 +343,13 @@ void update_unit_pix_label(struct unit *punit)
       /* IS THIS INTENTIONAL?? - mjd */
       if(1 || unit_ids[i]!=id) {
 	if(id) {
-	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i])); /* STG */
+	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), FALSE); /* STG */
 	  put_unit_gpixmap((struct unit *)ITERATOR_PTR(myiter),
 			  GTK_PIXCOMM(unit_below_pixmap[i]),
 			  0, 0);
-	  gtk_pixcomm_changed(GTK_PIXCOMM(unit_below_pixmap[i]));
 	}
 	else
-	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
+	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
 
 	  
 	unit_ids[i]=id;
@@ -361,7 +359,7 @@ void update_unit_pix_label(struct unit *punit)
 
     
     for(; i<num_units_below; i++) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
       unit_ids[i]=0;
     }
 
@@ -380,11 +378,11 @@ void update_unit_pix_label(struct unit *punit)
     }
   }
   else {
-    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
+    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
     utemplate=U_LAST;
     uactivity=ACTIVITY_UNKNOWN;
     for(i=0; i<num_units_below; i++) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
       unit_ids[i]=0;
     }
     gtk_widget_hide(more_arrow_pixmap);
@@ -406,6 +404,15 @@ GdkPixmap *get_thumb_pixmap(int onoff)
 GdkPixmap *get_citizen_pixmap(int frame)
 {
   return get_tile_sprite(PEOPLE_TILES+frame)->pixmap;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+SPRITE *get_citizen_sprite(int frame)
+{
+  return get_tile_sprite(PEOPLE_TILES+frame);
 }
 
 
@@ -1027,35 +1034,17 @@ void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 {
-  SPRITE *mysprite;
-
   if(use_solid_color_behind_units) {
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                                        game.players[punit->owner].race]);
-    gdk_draw_rectangle(GTK_PIXCOMM(p)->pixmap, fill_bg_gc, TRUE,
-                    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-                    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_fg_gc, TRUE,
-                    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-                    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    gtk_pixcomm_fill(p, colors_standard[COLOR_STD_RACE0+
+			game.players[punit->owner].race], FALSE);
   }
   else {
-    if(flags_are_transparent) {
       put_overlay_tile_gpixmap(p, xtile, ytile, 
-			      game.players[punit->owner].race+FLAG_TILES);
-    } else {
-      mysprite=get_tile_sprite(game.players[punit->owner].race+FLAG_TILES);
-      gdk_draw_pixmap(GTK_PIXCOMM(p)->pixmap, civ_gc, mysprite->pixmap,
-		0, 0,
-		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
-		mysprite->width, mysprite->height);
-      gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_fg_gc, TRUE,
-		0, 0, 
-		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
+				game.players[punit->owner].race+FLAG_TILES);
   }
     
-  put_overlay_tile_gpixmap(p, xtile, ytile, get_unit_type(punit->type)->graphics+UNIT_TILES);
+  put_overlay_tile_gpixmap(p, xtile, ytile,
+			get_unit_type(punit->type)->graphics+UNIT_TILES);
 
   if(punit->activity!=ACTIVITY_IDLE) {
     int tileno=0;
@@ -1113,10 +1102,6 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p, 
 				   int unhappiness, int upkeep)
 {
-  gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_bg_gc, TRUE,
-		    0, NORMAL_TILE_WIDTH,
-		    NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
-
   if(upkeep) {
     if(unit_flag(punit->type, F_SETTLERS)) {
       put_overlay_tile_gpixmap(p, 0, 1, CITY_FOOD_TILES+upkeep-1);
@@ -1546,21 +1531,8 @@ void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y, int tileno)
 {
   SPRITE *ssprite=get_tile_sprite(tileno);
 
-  gdk_gc_set_clip_origin(civ_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT );
-  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-  gdk_gc_set_clip_origin(mask_fg_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
-
-  gdk_draw_pixmap(GTK_PIXCOMM(p)->pixmap, civ_gc, ssprite->pixmap,
-	    0, 0,
-	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-	    ssprite->width, ssprite->height );
-  gdk_draw_pixmap(GTK_PIXCOMM(p)->mask, mask_fg_gc, ssprite->mask,
-	    0, 0,
-	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-	    ssprite->width, ssprite->height );
-
-  gdk_gc_set_clip_origin(mask_fg_gc, 0, 0);
-  gdk_gc_set_clip_mask(civ_gc, NULL);
+  gtk_pixcomm_copyto (p, ssprite, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		FALSE);
 }
 
 /**************************************************************************

@@ -29,7 +29,7 @@
 
 
 #include <gtk/gtkmisc.h>
-#include <gdk/gdk.h>
+#include "graphics.h"
 
 
 #ifdef __cplusplus
@@ -53,8 +53,11 @@ struct _GtkPixcomm
   
   GdkPixmap *pixmap;
   GdkBitmap *mask;
-
   GdkPixmap *pixmap_insensitive;
+
+  GdkGC     *fg_gc;
+  GdkGC     *mask_fg_gc;
+  GdkGC     *mask_bg_gc;
 };
 
 struct _GtkPixcommClass
@@ -65,8 +68,12 @@ struct _GtkPixcommClass
 
 GtkType	   gtk_pixcomm_get_type	 (void);
 GtkWidget* gtk_pixcomm_new	 (GdkWindow *window, gint width, gint height);
+void       gtk_pixcomm_copyto	 (GtkPixcomm *pixcomm, SPRITE *src,
+				  gint x, gint y, gboolean refresh);
 void       gtk_pixcomm_changed	 (GtkPixcomm *pixcomm);
-void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm);
+void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm, gboolean refresh);
+void	   gtk_pixcomm_fill	 (GtkPixcomm *pixcomm, GdkColor *color,
+				  gboolean refresh);
 
 
 #ifdef __cplusplus

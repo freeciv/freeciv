@@ -617,7 +617,7 @@ static void setup_widgets(void)
 
     unit_pixmap=gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     gtk_table_attach_defaults( GTK_TABLE(table), unit_pixmap, 0, 1, 0, 1 );
-    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
+    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
 
     for (i=0; i<num_units_below; i++)
     {
@@ -626,7 +626,7 @@ static void setup_widgets(void)
     	  i, i+1, 1, 2);
       gtk_widget_set_usize(unit_below_pixmap[i],
             NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
     }
 
     more_arrow_pixmap=gtk_pixmap_new(get_tile_sprite(RIGHT_ARROW_TILE)->pixmap, NULL);
