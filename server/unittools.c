@@ -3182,6 +3182,8 @@ enum goto_result execute_orders(struct unit *punit)
 	  unit_name(punit->type), punit->id);
 
   while (TRUE) {
+    struct unit_order order;
+
     if (punit->moves_left == 0) {
       /* FIXME: this check won't work when actions take 0 MP. */
       freelog(LOG_DEBUG, "  stopping because of no more move points");
@@ -3208,7 +3210,16 @@ enum goto_result execute_orders(struct unit *punit)
     last_order = (!punit->orders.repeat
 		  && punit->orders.index + 1 == punit->orders.length);
 
-    switch (punit->orders.list[punit->orders.index].order) {
+    order = punit->orders.list[punit->orders.index];
+    if (last_order) {
+      /* Clear the orders before we engage in the move.  That way any
+       * has_orders checks will yield FALSE and this will be treated as
+       * a normal move.  This is important: for instance a caravan goto
+       * will popup the caravan dialog on the last move only. */
+      free_unit_orders(punit);
+    }
+
+    switch (order.order) {
     case ORDER_FINISH_TURN:
       punit->done_moving = TRUE;
       freelog(LOG_DEBUG, "  waiting this turn");
@@ -3216,8 +3227,7 @@ enum goto_result execute_orders(struct unit *punit)
       break;
     case ORDER_MOVE:
       /* Move unit */
-      if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y,
-		   punit->orders.list[punit->orders.index].dir)) {
+      if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, order.dir)) {
 	freelog(LOG_DEBUG, "  move order sent us to invalid location");
 	return GR_FAILED;
       }
@@ -3248,11 +3258,6 @@ enum goto_result execute_orders(struct unit *punit)
 	return GR_FAILED;
       }
 
-      if (last_order && punit->transported_by != -1) {
-	/* Set activity to sentry if boarding a ship.  This is done in
-	 * move_unit, but that function doesn't handle the orders case. */
-	set_unit_activity(punit, ACTIVITY_SENTRY);
-      }
       break;
     case ORDER_LAST:
       freelog(LOG_DEBUG, "  client sent invalid order!");
@@ -3262,20 +3267,20 @@ enum goto_result execute_orders(struct unit *punit)
       return GR_FAILED;
     }
 
+    if (last_order) {
+      assert(punit->has_orders == FALSE);
+      freelog(LOG_DEBUG, "  stopping because orders are complete");
+      return GR_ARRIVED;
+    }
+
     /* We succeeded in moving one step forward */
     punit->orders.index++;
 
     if (punit->orders.index == punit->orders.length) {
-      if (!punit->orders.repeat) {
-	free_unit_orders(punit);
-	assert(punit->has_orders == FALSE);
-	freelog(LOG_DEBUG, "  stopping because orders are complete");
-	return GR_ARRIVED;
-      } else {
-	/* Start over. */
-	freelog(LOG_DEBUG, "  repeating orders.");
-	punit->orders.index = 0;
-      }
+      assert(punit->orders.repeat);
+      /* Start over. */
+      freelog(LOG_DEBUG, "  repeating orders.");
+      punit->orders.index = 0;
     }
   } /* end while */
 }
