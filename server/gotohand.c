@@ -1120,6 +1120,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
 	    "%s's %s at (%d, %d) -> (%d, %d)",
 	    pplayer->name, unit_types[punit->type].name,
 	    punit->x, punit->y, dest_x, dest_y);
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
   /** Finished moving the unit for this turn **/
 
