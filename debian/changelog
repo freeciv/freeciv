@@ -1,3 +1,12 @@
+freeciv (1.8.1+cvs19990926) unstable; urgency=low
+
+  * New upstream release (CVS snapshot); highlights:
+      * Terrain rulesets
+      * Nation rulesets (you can add nations)
+      * Beginnings of internacionalization
+
+ -- Lalo Martins <lalo@webcom.com>  Sat, 25 Sep 1999 21:31:41 -0300
+
 freeciv (1.8.1-1) unstable; urgency=low
 
   * New upstream release; this gets the GTK+ client out of experimental and
