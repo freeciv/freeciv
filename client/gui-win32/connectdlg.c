@@ -932,6 +932,15 @@ void gui_server_connect()
 
   dialog_config = LOGIN_TYPE;
 
+  /* If the connect dialog already exists, return it to its initial state
+     and return. */
+  if (connect_dlg) {
+    ShowWindow(start_dlg, SW_SHOWNORMAL);
+    ShowWindow(network_dlg, SW_HIDE);
+    ShowWindow(players_dlg, SW_HIDE);
+    ShowWindow(newgame_dlg, SW_HIDE);
+    return;
+  }
 
   /* Create connect dialog, which contains all the other dialogs */
   connect_dlg = fcwin_create_layouted_window(connectdlg_proc,
