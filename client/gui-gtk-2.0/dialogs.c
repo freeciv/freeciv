@@ -735,7 +735,7 @@ void popup_incite_dialog(struct city *pcity)
   GtkWidget *shell;
   
   if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
-    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+    shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("You can't incite a revolt in %s."),
@@ -743,7 +743,7 @@ void popup_incite_dialog(struct city *pcity)
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   setup_dialog(shell, toplevel);
   } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
-    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+    shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
@@ -751,7 +751,7 @@ void popup_incite_dialog(struct city *pcity)
     gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
     setup_dialog(shell, toplevel);
   } else {
-    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+    shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),

@@ -593,7 +593,7 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
   GtkWidget *parent = gtk_widget_get_toplevel(pdialog->shell), *shl;
 
   pdialog->id = preset_index;
-  shl = gtk_message_dialog_new(GTK_WINDOW(parent),
+  shl = gtk_message_dialog_new(NULL,
 			       GTK_DIALOG_DESTROY_WITH_PARENT,
 			       GTK_MESSAGE_QUESTION,
 			       GTK_BUTTONS_YES_NO,

@@ -780,11 +780,12 @@ static void economy_command_callback(struct gui_dialog *dlg, int response)
   if (is_impr == TRUE) {
     if (response == ECONOMY_SELL_ALL) {
       shell = gtk_message_dialog_new(
-	  GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
+	  NULL,
 	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Do you really wish to sell your %s?\n"),
 	  get_improvement_name(i));
+      setup_dialog(shell, gui_dialog_get_toplevel(dlg));
       gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
 
       if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
@@ -804,10 +805,11 @@ static void economy_command_callback(struct gui_dialog *dlg, int response)
   }
 
   shell = gtk_message_dialog_new(
-      GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
+      NULL,
       GTK_DIALOG_DESTROY_WITH_PARENT,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       buf);
+  setup_dialog(shell, gui_dialog_get_toplevel(dlg));
 
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
@@ -1136,7 +1138,7 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
     ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
 
     shell = gtk_message_dialog_new(
-	  GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
+	  NULL,
 	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -1144,6 +1146,8 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
 	  unit_types[ut1].name, unit_types[ut2].name,
 	  unit_upgrade_price(game.player_ptr, ut1, ut2),
 	  game.player_ptr->economic.gold);
+    setup_dialog(shell, gui_dialog_get_toplevel(dlg));
+
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {

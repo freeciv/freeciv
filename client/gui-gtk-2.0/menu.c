@@ -229,10 +229,11 @@ static void game_menu_callback(gpointer callback_data,
 	  GTK_MESSAGE_WARNING,
 	  GTK_BUTTONS_OK_CANCEL,
 	  _("Leaving a local game will end it!"));
+      setup_dialog(dialog, toplevel);
       gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
       g_signal_connect(dialog, "response", 
 	  G_CALLBACK(leave_local_game_response), NULL);
-      gtk_widget_show_all(dialog);
+      gtk_window_present(GTK_WINDOW(dialog));
     } else {
       disconnect_from_server();
     }
