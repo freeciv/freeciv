@@ -55,9 +55,6 @@ options="1.9"
 ; "Airbase" = "Airbase" unit types can build Airbases
 ; "Build_Airborne" = from now on can build air units (for use by AI)
 
-; Note that after year 0, the cost for techs double. This behaviour is
-; hard-coded and cannot yet be changed in rulesets.
-
 [advance_advanced_flight]
 name     = _("Advanced Flight")
 req1     = "Radio"
