@@ -1127,6 +1127,7 @@ static const struct command commands[] = {
   {"vote",	ALLOW_INFO,
    N_("vote yes|no [vote number]"),
    N_("Start or participate in a vote."),
+      /* xgettext:no-c-format */
    N_("A player with info level access issueing a control level command "
       "starts a new vote for given command.  /vote followed by "
       "\"yes\" or \"no\", and optionally a vote number, "
