@@ -246,7 +246,7 @@ bool ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* Loop prevention */
-  struct tile *ptile = punit->tile;
+  int init_moves = punit->moves_left;
 
   /* The log of the want of the most desirable tile, 
    * given nearby water, cities, etc. */
@@ -348,9 +348,11 @@ bool ai_manage_explorer(struct unit *punit)
     }
     if (punit->moves_left > 0) {
       /* We can still move on... */
-      if (!same_pos(punit->tile, ptile)) {
-	/* At least we moved (and maybe even got to where we wnated).  
-         * Let's try again. */
+      if (punit->moves_left < init_moves) {
+	/* At least we moved (and maybe even got to where we wanted).  
+         * Let's do more exploring. 
+         * (Checking only whether our position changed is unsafe: can allow
+         * yoyoing on a RR) */
 	return ai_manage_explorer(punit);          
       } else {
 	/* Something went wrong. What to do but return?
