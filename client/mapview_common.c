@@ -1015,21 +1015,21 @@ void put_unit_city_overlays(struct unit *punit,
 }
 
 /*
- * pcity->client.color is an index into the city_colors array.  The default
- * color index is DEFAULT_CITY_COLOR in city.h.  When toggle_city_color is
- * called the index moves forward one position.  Each color in the array
- * tells what color the citymap will be drawn on the mapview; COLOR_STD_LAST
- * is a marker meaning nothing will be drawn (which of course is the
- * default).
+ * pcity->client.color_index is an index into the city_colors array.
+ * When toggle_city_color is called the city's coloration is toggled.  When
+ * a city is newly colored its color is taken from color_index and
+ * color_index is moved forward one position. Each color in the array
+ * tells what color the citymap will be drawn on the mapview.
  *
  * This array can be added to without breaking anything elsewhere.
  */
 static enum color_std city_colors[] = {
-  COLOR_STD_LAST,  /* Default color (see DEFAULT_CITY_COLOR in city.h). */
   COLOR_STD_RED,
-  COLOR_STD_WHITE,
   COLOR_STD_YELLOW,
+  COLOR_STD_CYAN,
+  COLOR_STD_WHITE
 };
+static int color_index = 0;
 #define NUM_CITY_COLORS ARRAY_SIZE(city_colors)
 
 
@@ -1044,7 +1044,13 @@ void toggle_city_color(struct city *pcity)
   int width = get_citydlg_canvas_width();
   int height = get_citydlg_canvas_height();
 
-  pcity->client.color = (pcity->client.color + 1) % NUM_CITY_COLORS;
+  if (pcity->client.colored) {
+    pcity->client.colored = FALSE;
+  } else {
+    pcity->client.colored = TRUE;
+    pcity->client.color_index = color_index;
+    color_index = (color_index + 1) % NUM_CITY_COLORS;
+  }
 
   tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
@@ -1063,7 +1069,13 @@ void toggle_unit_color(struct unit *punit)
   int width = get_citydlg_canvas_width();
   int height = get_citydlg_canvas_height();
 
-  punit->client.color = (punit->client.color + 1) % NUM_CITY_COLORS;
+  if (punit->client.colored) {
+    punit->client.colored = FALSE;
+  } else {
+    punit->client.colored = TRUE;
+    punit->client.color_index = color_index;
+    color_index = (color_index + 1) % NUM_CITY_COLORS;
+  }
 
   tile_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
@@ -1616,25 +1628,23 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       int city_x, city_y, canvas_x2, canvas_y2;
 
       pcity = find_city_or_settler_near_tile(ptile, &punit);
-      if (pcity
-	  && city_colors[pcity->client.color] != COLOR_STD_LAST
+      if (pcity && pcity->client.colored
 	  && map_to_city_map(&city_x, &city_y, pcity, ptile)
 	  && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
 
 	put_city_worker(mapview_canvas.store,
-			city_colors[pcity->client.color], worker,
+			city_colors[pcity->client.color_index], worker,
 			canvas_x2, canvas_y2);
 	if (worker == C_TILE_WORKER) {
 	  put_city_tile_output(pcity, city_x, city_y,
 			       mapview_canvas.store, canvas_x2, canvas_y2);
 	}
-      } else if (punit
-		 && city_colors[punit->client.color] != COLOR_STD_LAST
+      } else if (punit && punit->client.colored
 		 && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	/* Draw citymap overlay for settlers. */
 	put_city_worker(mapview_canvas.store,
-			city_colors[punit->client.color], C_TILE_EMPTY,
+			city_colors[punit->client.color_index], C_TILE_EMPTY,
 			canvas_x2, canvas_y2);
       }
     }
@@ -2073,7 +2083,7 @@ struct city *find_city_or_settler_near_tile(struct tile *ptile,
 	  if (!closest_settler) {
 	    closest_settler = psettler;
 	  }
-	  if (!best_settler && psettler->client.color != 0) {
+	  if (!best_settler && psettler->client.colored) {
 	    best_settler = psettler;
 	  }
 	}

@@ -1377,7 +1377,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
     if (unit_type_flag(punit->type, F_CITIES)
-	&& punit->client.color != 0) {
+	&& punit->client.colored) {
       /* For settlers with an overlay, redraw the entire area of the
        * overlay. */
       int width = get_citydlg_canvas_width();

@@ -2478,7 +2478,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
 
   pcity->client.occupied = FALSE;
   pcity->client.happy = pcity->client.unhappy = FALSE;
-  pcity->client.color = DEFAULT_CITY_COLOR;
+  pcity->client.colored = FALSE;
 
   unit_list_init(&pcity->units_supported);
   pcity->debug = FALSE;
