@@ -2,23 +2,23 @@ Hur man spelar Freeciv
 
   Ursprungligen av Michael Hohensee (aka Zarchon)
 
-Om du undrar hur man installerar Freeciv, se INSTALL.sv
-Om du undrar hur man kör Freeciv, se README.sv
+För upplysningar om hur man installerar Freeciv, se INSTALL.sv
+För upplysningar om hur man kör Freeciv, se README.sv
 
-Om du aldirg har spelat civilisationsspel är det enklast om man börjar
+Om man aldrig har spelat civilisationsspel är det enklast om man börjar
 med att läsa Freecivs handbok som är tillgänglig vid:
 
      http://www.freeciv.org/manual/manual.html
      ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
 
-Om du undrar hur man spelar Freeciv, fortsätt läsa!
+För upplysningar om hur man spelar Freeciv, fortsätt läsa!
 
 	När man har fått i gång Freeciv vill man antagligen spela sina
 första spel. Man råds att spela ensam några gånger för att få en
 känsla för hur saker fungerar, men det är inte nödvändigt. Man kan
 lära sig genom att spela mot andra människor eller mot datorn.
 
-Fråga: Kan jag få en grundläggande strategi?
+Fråga: Vilken är den grundläggande strategin?
 
 	För det första är detta inte en *perfekt* strategi; det är
 inte ens en mycket bra strategi. Men låt oss först sätta i gång med att
@@ -165,8 +165,8 @@ och den andre inte vill vänta kan en tidsgräns på 1 minut (när man
 sätter tidsgränsen anger man dock tiden i sekunder) vara tillräckligt.
 Senare i spelet när det är mer att göra vill man antagligen öka
 tidsgränsen till 4 minuter. I allmänhet behövs det längre tid ju fler
-spelare man är. Sätt den tidsgräns som du tycker passar men kom i håg
-att det brukar störa folk om man går över 5 minuter.
+spelare man är. Sätt den tidsgräns som passar men kom i håg att det brukar
+störa folk om man går över 5 minuter.
 
 Fråga: Vilken kartstorlek ska man använda?
 
