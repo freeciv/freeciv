@@ -77,6 +77,7 @@ GtkWidget *		help_clist;
 GtkWidget *		help_clist_scrolled;
 GtkWidget *		help_frame;
 GtkWidget *		help_text;
+GtkWidget *		help_text_scrolled;
 GtkWidget *		help_vbox;
 GtkWidget *		unit_tile;
 GtkWidget *		help_box;
@@ -469,7 +470,12 @@ void create_tech_tree(GtkCTree *ctree, int tech, int levels,
 **************************************************************************/
 void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
 {
-  select_help_item_string(GTK_LABEL(GTK_BUTTON(w)->child)->label, type);
+  char *s;
+
+  s=GTK_LABEL(GTK_BUTTON(w)->child)->label;
+
+  if (strcmp (s, "(Never)") && strcmp (s, "None"))
+    select_help_item_string(s, type);
 }
 
 GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
@@ -635,9 +641,13 @@ void create_help_dialog(void)
   help_vbox=gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start( GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0 );
 
+  help_text_scrolled = gtk_scrolled_window_new( NULL, NULL );
   help_text = gtk_text_new( NULL, NULL );
+  gtk_container_add(GTK_CONTAINER (help_text_scrolled), help_text);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_scrolled),
+  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_text_set_editable( GTK_TEXT( help_text ), FALSE );
-  gtk_box_pack_start( GTK_BOX( help_box ), help_text, TRUE, TRUE, 0 );
+  gtk_box_pack_start( GTK_BOX( help_box ), help_text_scrolled, TRUE, TRUE, 0 );
 
   style = gtk_style_new();
   style->font = gdk_font_load( HELP_TEXT_FONT );
@@ -781,6 +791,7 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
   gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
   gtk_text_thaw(GTK_TEXT(help_text));
   gtk_widget_show(help_text);
+  gtk_widget_show(help_text_scrolled);
 }
   
 /**************************************************************************
@@ -832,6 +843,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
   gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
   gtk_text_thaw(GTK_TEXT(help_text));
   gtk_widget_show(help_text);
+  gtk_widget_show(help_text_scrolled);
 }
 
 /**************************************************************************
@@ -962,6 +974,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
     gtk_text_thaw(GTK_TEXT(help_text));
     gtk_widget_show(help_text);
+    gtk_widget_show(help_text_scrolled);
 
     gtk_pixmap_set(GTK_PIXMAP(unit_tile), create_overlay_unit(i), NULL);
     gtk_widget_show(unit_tile);
@@ -983,6 +996,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, pitem->text, -1);
     gtk_text_thaw(GTK_TEXT(help_text));
     gtk_widget_show(help_text);
+    gtk_widget_show(help_text_scrolled);
   }
   gtk_widget_show_all(help_utable);
 }
@@ -1141,6 +1155,7 @@ void help_update_dialog(struct help_item *pitem)
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, pitem->text, -1);
     gtk_text_thaw(GTK_TEXT(help_text));
     gtk_widget_show(help_text);
+    gtk_widget_show(help_text_scrolled);
     break;
   }
   set_title_topic(pitem->topic);

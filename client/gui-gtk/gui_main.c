@@ -323,7 +323,8 @@ void parse_options(int *argc, char **argv[])
       }
     }
   }
-  log_init((logfile? logfile :"civlog"), loglevel, NULL);
+  log_init(logfile? logfile :"civlog");
+  log_set_level(loglevel);
 }
 
 
@@ -374,6 +375,7 @@ void setup_widgets(void)
 {
   GtkWidget	      *vbox;
   GtkWidget	      *hbox;
+  GtkWidget	      *hbox2;
   GtkWidget	      *vbox1;
   GtkWidget	      *vbox2;
 
@@ -387,7 +389,7 @@ void setup_widgets(void)
   vbox = gtk_vbox_new( FALSE, 5 );
   gtk_container_add( GTK_CONTAINER( toplevel ), vbox );
   
-  setup_menus(toplevel, &menubar);
+  setup_menus( toplevel, &menubar );
 
   gtk_box_pack_start( GTK_BOX( vbox ), menubar, FALSE, FALSE, 0 );
 
@@ -400,8 +402,11 @@ void setup_widgets(void)
   vbox1 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
 
+  hbox2 = gtk_hbox_new( FALSE, 0 );
+  gtk_box_pack_start( GTK_BOX( vbox1 ), hbox2, FALSE, FALSE, 0 );
+
   frame = gtk_frame_new( NULL );
-  gtk_box_pack_start( GTK_BOX( vbox1 ), frame, FALSE, FALSE, 0 );
+  gtk_box_pack_start( GTK_BOX( hbox2 ), frame, FALSE, FALSE, 0 );
   
   overview_canvas	      = gtk_drawing_area_new();
   gtk_container_add( GTK_CONTAINER( frame ), overview_canvas );
@@ -451,7 +456,7 @@ void setup_widgets(void)
       gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
       gtk_box_pack_start(GTK_BOX(box4), table, TRUE, FALSE, 0);
 
-      for ( i = 0 ; i < 10 ; i++ )
+      for (i=0 ; i<10 ; i++)
       {
           ebox = gtk_event_box_new();
           gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
@@ -469,28 +474,31 @@ void setup_widgets(void)
       government_label= gtk_pixmap_new(get_tile_sprite(GOVERNMENT_TILES)->pixmap,NULL);
       timeout_label   = gtk_label_new("");
 
-      for ( i = 6; i < 10; i++ )
+      for (i=5; i<9; i++)
       {
           frame = gtk_frame_new(NULL);
           gtk_widget_set_usize(frame, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-          gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 1, 1, 2);
 
-          switch ( i )
+	  if (i==8)
+            gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 2, 1, 2);
+	  else
+            gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 1, 1, 2);
+
+          switch (i)
           {
-          case 6: gtk_container_add( GTK_CONTAINER( frame ), bulb_label );
+          case 5: gtk_container_add( GTK_CONTAINER( frame ), bulb_label );
               break;
-          case 7: gtk_container_add( GTK_CONTAINER( frame ), sun_label );
+          case 6: gtk_container_add( GTK_CONTAINER( frame ), sun_label );
               break;
-          case 8: gtk_container_add( GTK_CONTAINER( frame ), government_label );
+          case 7: gtk_container_add( GTK_CONTAINER( frame ), government_label );
               break;
-          case 9: gtk_container_add( GTK_CONTAINER( frame ), timeout_label );
+          case 8: gtk_container_add( GTK_CONTAINER( frame ), timeout_label );
               break;
           }
       }
 
   turn_done_button = gtk_button_new_with_label( "Turn Done" );
-  gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 6, 1, 2);
-
+  gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
   }
 
   { /* selected unit status */
