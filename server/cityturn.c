@@ -699,14 +699,14 @@ void city_increase_size(struct city *pcity)
   }
   else
     pcity->food_stock=0;
-  if (!city_got_building(pcity, B_AQUEDUCT) && pcity->size>=8) {/* need aquaduct */
-    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUADUCT,
-	  "Game: %s needs Aquaducts to grow any further", pcity->name);
+  if (!city_got_building(pcity, B_AQUEDUCT) && pcity->size>=8) {/* need aqueduct */
+    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
+	  "Game: %s needs Aqueducts to grow any further", pcity->name);
     return;
   }
 
   if (!city_got_building(pcity, B_SEWER) && pcity->size>=12) {/* need sewer */
-    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUADUCT,
+    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
 	  "Game: %s needs Sewer system to grow any further", pcity->name);
     return;
   }
