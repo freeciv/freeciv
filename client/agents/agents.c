@@ -305,7 +305,11 @@ void agents_free(void)
 {
   int i;
 
-  cmafec_free();
+  /* FIXME: doing this will wipe out any presets on disconnect.
+   * a proper solution should be to split up the client_free functions 
+   * for a simple disconnect and a client quit. for right now, we just
+   * let the OS free the memory on exit instead of doing it ourselves. */
+  /* cmafec_free(); */
   cma_free();
 
   for (;;) {
