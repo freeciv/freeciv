@@ -54,10 +54,6 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-/* like DIR_DX[] and DIR_DY[], only cartesian */
-const int CAR_DIR_DX[4] = {1, 0, -1, 0};
-const int CAR_DIR_DY[4] = {0, 1, 0, -1};
-
 /* Names of specials.
  * (These must correspond to enum tile_special_type in terrain.h.)
  */

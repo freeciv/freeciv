@@ -832,11 +832,8 @@ static bool make_river(int x, int y)
     for (func_num = 0; func_num < NUM_TEST_FUNCTIONS; func_num++) {
       int best_val = -1;
       /* first get the tile values for the function */
-      for (dir = 0; dir < 4; dir++) {
-	int x1 = x + CAR_DIR_DX[dir];
-	int y1 = y + CAR_DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1)
-	    && rd_direction_is_valid[dir]) {
+      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+	if (rd_direction_is_valid[dir]) {
 	  rd_comparison_val[dir] = (test_funcs[func_num].func) (x1, y1);
 	  if (best_val == -1) {
 	    best_val = rd_comparison_val[dir];
@@ -844,22 +841,19 @@ static bool make_river(int x, int y)
 	    best_val = MIN(rd_comparison_val[dir], best_val);
 	  }
 	}
-      }
+      } cardinal_adjc_dir_iterate_end;
       assert(best_val != -1);
 
       /* should we abort? */
       if (best_val > 0 && test_funcs[func_num].fatal) return FALSE;
 
       /* mark the less attractive directions as invalid */
-      for (dir = 0; dir < 4; dir++) {
-	int x1 = x + CAR_DIR_DX[dir];
-	int y1 = y + CAR_DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1)
-	    && rd_direction_is_valid[dir]) {
+      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+	if (rd_direction_is_valid[dir]) {
 	  if (rd_comparison_val[dir] != best_val)
 	    rd_direction_is_valid[dir] = FALSE;
 	}
-      }
+      } cardinal_adjc_dir_iterate_end;
     }
 
     /* Directions evaluated with all functions. Now choose the best
@@ -873,16 +867,13 @@ static bool make_river(int x, int y)
     case 0:
       return FALSE; /* river aborted */
     case 1:
-      for (dir = 0; dir < 4; dir++) {
-	int x1 = x + CAR_DIR_DX[dir];
-	int y1 = y + CAR_DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1)
-	    && rd_direction_is_valid[dir]) {
+      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+	if (rd_direction_is_valid[dir]) {
 	  river_blockmark(x, y);
 	  x = x1;
 	  y = y1;
 	}
-      }
+      } cardinal_adjc_dir_iterate_end;
       break;
     default:
       /* More than one possible direction; Let the random number
@@ -893,11 +884,8 @@ static bool make_river(int x, int y)
       freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
 
       /* Find the direction that the random number generator selected. */
-      for (dir = 0; dir < 4; dir++) {
-	int x1 = x + CAR_DIR_DX[dir];
-	int y1 = y + CAR_DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1)
-	    && rd_direction_is_valid[dir]) {
+      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+	if (rd_direction_is_valid[dir]) {
 	  if (direction > 0) direction--;
 	  else {
 	    river_blockmark(x, y);
@@ -906,7 +894,7 @@ static bool make_river(int x, int y)
 	    break;
 	  }
 	}
-      }
+      } cardinal_adjc_dir_iterate_end;
       break;
     } /* end switch (rd_number_of_directions()) */
 

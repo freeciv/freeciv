@@ -568,6 +568,12 @@ extern struct terrain_misc terrain_control;
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
 
+#define cardinal_adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)\
+  adjc_dirlist_iterate(center_x, center_y, x_itr, y_itr, dir_itr,	    \
+		       map.cardinal_dirs, map.num_cardinal_dirs)
+
+#define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
+
 /* Iterate through all tiles adjacent to a tile using the given list of
  * directions.  dir_itr is the directional value, (center_x, center_y) is
  * the center tile (which must be normalized), and (x_itr, y_itr) is the
@@ -634,10 +640,6 @@ bool is_valid_dir(enum direction8 dir);
 
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];
-
-/* like DIR_DX[] and DIR_DY[], only cartesian */
-extern const int CAR_DIR_DX[4];
-extern const int CAR_DIR_DY[4];
 
 /* Used for network transmission; do not change. */
 #define MAP_TILE_OWNER_NULL	 MAX_UINT8
