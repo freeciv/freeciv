@@ -492,6 +492,8 @@ static void tearoff_callback(GtkToggleButton *b, gpointer data)
 
   if (gtk_toggle_button_get_active(b)) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_widget_set_name(w, "Freeciv");
+    gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
 
