@@ -124,8 +124,8 @@ struct player_ai {
   int tech_goal;
   int prev_gold;
   int maxbuycost;
-  int tech_want[A_LAST];
-  int tech_turns[A_LAST]; /* saves zillions of calculations! */
+  int tech_want[A_LAST+1];
+  int tech_turns[A_LAST+1]; /* saves zillions of calculations! */
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */

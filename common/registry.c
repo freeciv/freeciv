@@ -159,6 +159,7 @@
 #define DO_HASH 1
 #define HASH_DEBUG 1		/* 0,1,2 */
 #define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
+#define SECF_DEBUG_ENTRIES 0	/* LOG_DEBUG each entry value */
 
 /* An 'entry' is a single value, either a string or integer;
  * Whether string or int is determined by whether svalue is NULL.
@@ -318,11 +319,15 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
   if (tok[0] == '\"') {
     pentry->svalue = minstrdup(sb, tok+1);
     pentry->ivalue = 0;
-    freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
+    if (SECF_DEBUG_ENTRIES) {
+      freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
+    }
   } else {
     pentry->svalue = NULL;
     pentry->ivalue = atoi(tok);
-    freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
+    if (SECF_DEBUG_ENTRIES) {
+      freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
+    }
   }
   pentry->used = 0;
   return pentry;

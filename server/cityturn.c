@@ -74,6 +74,9 @@ static void disband_city(struct city *pcity);
 
 static int update_city_activity(struct player *pplayer, struct city *pcity);
 
+static void worker_loop(struct city *pcity, int *foodneed,
+			int *prodneed, int *workers);
+
 /**************************************************************************
 calculate the incomes according to the taxrates and # of specialists.
 **************************************************************************/
@@ -557,7 +560,11 @@ void remove_obsolete_buildings(struct player *pplayer)
   city_list_iterate_end;
 }
 
-void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
+/**************************************************************************
+...
+**************************************************************************/
+static void worker_loop(struct city *pcity, int *foodneed,
+			int *prodneed, int *workers)
 {
   int x, y, bx, by, best, cur;
   int conflict[5][5];
@@ -579,8 +586,15 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
 
   freelog(LOG_DEBUG, "%s, %d workers, %d luxneed, %d e",
 	  pcity->name, *workers, luxneed, e);
+  freelog(LOG_DEBUG, "%s, u4 %d h4 %d pwr %d elv %d",
+	  pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
+	  pwr, pcity->ppl_elvis);
 
-  if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4) *foodneed += 1;
+  if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4)
+    *foodneed += 1;
+
+  freelog(LOG_DEBUG, "%s, foodneed %d prodneed %d",
+	  pcity->name, *foodneed, *prodneed);
 
   city_map_iterate(x, y) {
     conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+x-2)][map_adjust_y(pcity->y+y-2)];

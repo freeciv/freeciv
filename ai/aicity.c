@@ -290,8 +290,9 @@ static void ai_new_spend_gold(struct player *pplayer)
         id = can_upgrade_unittype(pplayer, punit->type);
         did_upgrade = 0;
 	freelog(LOG_DEBUG, "%s wants %s, %s -> %s", pcity->name,
-		      unit_types[bestchoice.choice].name, 
-		      unit_types[punit->type].name, unit_types[id].name);
+		unit_types[bestchoice.choice].name, 
+		unit_types[punit->type].name,
+		(id>=0 ? unit_types[id].name : "-1"));
         if (id == bestchoice.choice && ai_fuzzy(pplayer,1)) {
 	  /* and I can simply upgrade a unit I already have */
 	  freelog(LOG_DEBUG, "Trying to upgrade in %s.", pcity->name);

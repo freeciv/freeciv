@@ -571,11 +571,15 @@ it some more variables for it to meddle with -- Syela */
       if (e > 0) {
         if (k) {
           pplayer->ai.tech_want[j] += e;
-	  if (movetype == SEA_MOVING) {
+	  if (movetype == SEA_MOVING) {	   /* huh? */
 	    freelog(LOG_DEBUG,
-		    "%s wants %s to punish %s@(%d, %d) with desire %d.", 
-		    pcity->name, unit_name(i), (acity ? acity->name : "punit"),
-		    x, y, e);
+		    "%s wants %s, %s to punish %s@(%d, %d) with desire %d.", 
+		    pcity->name, advances[j].name, unit_name(i),
+		    (acity ? acity->name : "punit"), x, y, e);
+	  } else {
+	    freelog(LOG_DEBUG,
+		    "%s wants %s, %s for something with desire %d.", 
+		    pcity->name, advances[j].name, unit_name(i), e);
 	  }
 	} else if (e > *e0) {
 	  freelog(LOG_DEBUG, "%s overriding %s(%d) with %s(%d)"

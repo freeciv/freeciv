@@ -74,6 +74,9 @@
 
 #include "inputfile.h"
 
+#define INF_DEBUG_FOUND     0
+#define INF_DEBUG_NOT_FOUND 0
+
 struct inputfile {
   char *filename;		/* filename as passed to fopen */
   FILE *fp;			/* read from this */
@@ -391,10 +394,14 @@ static const char *get_token(struct inputfile *inf,
     }
   }
   if (c) {
-    freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
+    if (INF_DEBUG_FOUND) {
+      freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
+    }
   } else {
     if (!required) {
-      freelog(LOG_DEBUG, "inputfile: did not find %s", name);
+      if (INF_DEBUG_NOT_FOUND) {
+	freelog(LOG_DEBUG, "inputfile: did not find %s", name);
+      }
     } else {
       /* inf_die etc should be varargs... */
       freelog(LOG_FATAL, "Did not find token: %s", name);

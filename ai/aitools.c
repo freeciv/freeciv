@@ -189,7 +189,8 @@ int ai_assess_military_unhappiness(struct city *pcity, int gov)
       }
     }
     unit_list_iterate_end;
-    if (have_police) unhap--;
+    unhap--;		       /* One free unhappy under Republic */
+    if (have_police) unhap--;  /* variant==0 */
   } 
   else if (gov == G_DEMOCRACY) {
     unit_list_iterate(pcity->units_supported, punit) {
