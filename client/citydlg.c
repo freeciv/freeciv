@@ -828,7 +828,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   
   sprintf(buf, "Granary: %3d/%-3d", pcity->food_stock,
-	  10*pcity->size);
+	  game.foodbox*pcity->size);
 
   xaw_set_label(pdialog->storage_label, buf);
 }
