@@ -300,28 +300,32 @@ void boot_help_texts(void)
     case HELP_UNIT:
       i = find_unit_type_by_name(pname);
       if(!unit_type_exists(i)) {
-	flog(LOG_DEBUG, "Filtering unit type %s from help", pname);
+	if(booted)
+	  flog(LOG_DEBUG, "Filtering unit type %s from help", pname);
 	filter_this = 1;
       }
       break;
     case HELP_TECH:
       i = find_tech_by_name(pname);
       if(!tech_exists(i)) {
-	flog(LOG_DEBUG, "Filtering tech %s from help", pname);
+	if(booted)
+	  flog(LOG_DEBUG, "Filtering tech %s from help", pname);
 	filter_this = 1;
       }
       break;
     case HELP_IMPROVEMENT:
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || is_wonder(i)) {
-	flog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
+	if(booted)
+	  flog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
 	filter_this = 1;
       }
       break;
     case HELP_WONDER:
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || !is_wonder(i)) {
-	flog(LOG_DEBUG, "Filtering wonder %s from help", pname);
+	if(booted)
+	  flog(LOG_DEBUG, "Filtering wonder %s from help", pname);
 	filter_this = 1;
       }
       break;
