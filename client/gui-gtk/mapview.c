@@ -213,7 +213,7 @@ static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
 /**************************************************************************
 If x is -1 we never draw the goto line.
 **************************************************************************/
-static void pixmap_put_black_tile(GdkDrawable *pm, int x, int y,
+static void pixmap_put_black_tile(GdkDrawable *pm,
 				  int canvas_x, int canvas_y,
 				  int offset_x, int offset_y,
 				  int width, int height)
@@ -229,19 +229,6 @@ static void pixmap_put_black_tile(GdkDrawable *pm, int x, int y,
 		  width, height);
 
   gdk_gc_set_clip_mask(civ_gc, NULL);
-
-  /* Drawing is cheap; we just draw all the lines.
-     Perhaps this should be optimized, though... */
-  if (x != -1 && y >= 0 && y < map.ysize) {
-    int dir;
-    for (dir = 0; dir < 8; dir++)
-      if (get_drawn(x, y, dir)) {
-	int x1 = x + DIR_DX[dir];
-	int y1 = y + DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1))
-	  really_draw_segment(x, y, dir, 0, 1);
-      }
-  }
 }
 
 /**************************************************************************
@@ -347,7 +334,7 @@ static void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 				 x, y, citymode);
 
   if (!count) { /* tile is unknown */
-    pixmap_put_black_tile(pm, x, y, canvas_x, canvas_y,
+    pixmap_put_black_tile(pm, canvas_x, canvas_y,
 			  offset_x, offset_y, width, height);
     return;
   }
@@ -488,19 +475,6 @@ static void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 				 sprites.tx.fortress,
 				 offset_x, offset_y_unit,
 				 width, height_unit, fog);
-
-  /* Drawing is cheap; we just draw all the lines.
-     Perhaps this should be optimized, though... */
-  if (y >= 0 && y < map.ysize && !citymode) {
-    int dir;
-    for (dir = 0; dir < 8; dir++)
-      if (get_drawn(x, y, dir)) {
-	int x1 = x + DIR_DX[dir];
-	int y1 = y + DIR_DY[dir];
-	if (normalize_map_pos(&x1, &y1))
-	  really_draw_segment(x, y, dir, 0, 1);
-      }
-  }
 }
 #else
 /**************************************************************************
@@ -1664,7 +1638,7 @@ static void put_one_tile(int x, int y, enum draw_type draw)
 		      width, height, height_unit,
 		      draw);
     } else {
-      pixmap_put_black_tile(map_canvas_store, -1, -1, canvas_x, canvas_y,
+      pixmap_put_black_tile(map_canvas_store, canvas_x, canvas_y,
 			    offset_x, offset_y,
 			    width, height);
     }
@@ -1743,6 +1717,31 @@ void update_map_canvas(const int x, const int y, int width, int height,
   }
 
   put_one_tile(x+width, y+height, D_T_LR); /* right-bottom corner */
+
+
+  /*** Draw the goto line on top of the whole thing. Done last as
+       we want it completely on top. ***/
+  /* Drawing is cheap; we just draw all the lines.
+     Perhaps this should be optimized, though... */
+  for (x_itr = x-1; x_itr <= x+width; x_itr++) {
+    for (y_itr = y-1; y_itr <= y+height; y_itr++) {
+      int x1 = x_itr;
+      int y1 = y_itr;
+      if (normalize_map_pos(&x1, &y1)) {
+	int dir;
+	for (dir = 0; dir < 8; dir++) {
+	  if (get_drawn(x1, y1, dir)) {
+	    int x2 = x1 + DIR_DX[dir];
+	    int y2 = y1 + DIR_DY[dir];
+	    if (normalize_map_pos(&x2, &y2)) {
+	      really_draw_segment(x1, y1, dir, 0, 1);
+	    }
+	  }
+	}
+      }
+    }
+  }
+
 
   /*** Lastly draw our changes to the screen. ***/
   if (write_to_screen) {
