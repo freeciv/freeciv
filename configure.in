@@ -163,8 +163,12 @@ fi
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
   AC_DEFINE(SOCKET_ZERO_ISNT_STDIN)
-  CFLAGS="$CFLAGS -Wno-multichar -gdwarf-2"
-  LDFLAGS="$LDFLAGS -x none -gdwarf-2"
+  CFLAGS="$CFLAGS -Wno-multichar"
+  LDFLAGS="$LDFLAGS -x none"
+  if test x$enable_debug = xyes ; then
+    CFLAGS="$CFLAGS -gdwarf-2"
+    LDFLAGS="$LDFLAGS -gdwarf-2"
+  fi
   ARFLAGS=${ARFLAGS:-cru}
   AC_SUBST(ARFLAGS)
 fi
@@ -286,7 +290,7 @@ if test x$client != xno; then
   if test "$client" = beos || test "$client" = yes ; then
     if test x`$UNAME -s` = xBeOS ; then
       CLIENT_CFLAGS=
-      CLIENT_LIBS=
+      CLIENT_LIBS="-Lgui-beos/lib -lBdhGame -lBdh -ltranslation -lbe -lroot"
       found_client=yes
     fi
 
@@ -465,7 +469,6 @@ AC_OUTPUT(Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-xaw/Makefile 
-	  client/gui-beos/Makefile 
 	  client/gui-win32/Makefile 
 	  client/gui-stub/Makefile 
 	  server/Makefile 

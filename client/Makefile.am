@@ -10,9 +10,9 @@ endif
 if CLIENT_GUI_XAW
 GUI_SUBDIR = gui-xaw
 endif
-if CLIENT_GUI_BEOS
-GUI_SUBDIR = gui-beos
-endif
+## if CLIENT_GUI_BEOS
+## GUI_SUBDIR = gui-beos
+## endif
 if CLIENT_GUI_STUB
 GUI_SUBDIR = gui-stub
 endif
