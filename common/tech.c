@@ -101,7 +101,8 @@ static void build_required_techs_helper(struct player *pplayer,
    * already marked */
   if (!tech_is_available(pplayer, tech)
       || get_invention(pplayer, tech) == TECH_KNOWN
-      || is_tech_a_req_for_goal(pplayer, tech, goal)) {
+      || is_tech_a_req_for_goal(pplayer, tech, goal)
+      || tech == A_NONE) {
     return;
   }
 
