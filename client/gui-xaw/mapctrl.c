@@ -280,14 +280,12 @@ void mapctrl_btn_mapcanvas(XEvent *event)
 **************************************************************************/
 void update_line(int window_x, int window_y)
 {
+  int x, y, old_x, old_y;
+
   if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
-    int old_x, old_y;
-    int x = map_view_x0 + window_x/NORMAL_TILE_WIDTH;
-    int y = map_view_y0 + window_y/NORMAL_TILE_HEIGHT;
-    int is_real = normalize_map_pos(&x, &y);
-    assert(is_real);
- 
+    get_map_xy(window_x, window_y, &x, &y);
+
     get_line_dest(&old_x, &old_y);
     if (!same_pos(old_x, old_y, x, y)) {
       draw_line(x, y);
