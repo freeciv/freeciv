@@ -587,6 +587,33 @@ static void get_current_as_result(struct city *pcity,
 }
 
 /****************************************************************************
+ Invalidate cache3 if the given city is the one which is cached by
+ cache3. The other caches (cache1, cache2 and tile_stats) doesn't have
+ to be invalidated since they are chained on cache3.
+*****************************************************************************/
+static void clear_caches(struct city *pcity)
+{
+  freelog(LOG_DEBUG, "clear_caches(city='%s'(%d))", pcity->name,
+	  pcity->id);
+
+  if (cache3.pcity == pcity) {
+    int i, j;
+    for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
+      for (j = 0; j < MAX_COMBINATIONS; j++) {
+	if (!cache3.results[i].combinations[j].is_valid) {
+	  continue;
+	}
+	if (cache3.results[i].combinations[j].cache1) {
+	  free(cache3.results[i].combinations[j].cache1);
+	  cache3.results[i].combinations[j].cache1 = NULL;
+	}
+      }
+    }
+    cache3.pcity = NULL;
+  }
+}
+
+/****************************************************************************
  Change the actual city setting to the given result. Returns TRUE iff
  the actual data matches the calculated one.
 *****************************************************************************/
@@ -724,11 +751,15 @@ static bool apply_result_on_server(struct city *pcity,
   freelog(APPLY_RESULT_LOG_LEVEL, "apply_result: return");
 
   success = results_are_equal(pcity, result, &current_state);
-  if (!success && SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
-    freelog(LOG_NORMAL, "expected");
-    print_result(pcity, result);
-    freelog(LOG_NORMAL, "got");
-    print_result(pcity, &current_state);
+  if (!success) {
+    clear_caches(pcity);
+
+    if (SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
+      freelog(LOG_NORMAL, "expected");
+      print_result(pcity, result);
+      freelog(LOG_NORMAL, "got");
+      print_result(pcity, &current_state);
+    }
   }
   return success;
 }
@@ -949,33 +980,6 @@ static void calc_fitness(struct city *pcity,
   freelog(CALC_FITNESS_LOG_LEVEL,
 	  "calc_fitness: fitness = %d, minor_fitness=%d", *major_fitness,
 	  *minor_fitness);
-}
-
-/****************************************************************************
- Invalidate cache3 if the given city is the one which is cached by
- cache3. The other caches (cache1, cache2 and tile_stats) doesn't have
- to be invalidated since they are chained on cache3.
-*****************************************************************************/
-static void clear_caches(struct city *pcity)
-{
-  freelog(LOG_DEBUG, "clear_caches(city='%s'(%d))", pcity->name,
-	  pcity->id);
-
-  if (cache3.pcity == pcity) {
-    int i, j;
-    for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
-      for (j = 0; j < MAX_COMBINATIONS; j++) {
-	if (!cache3.results[i].combinations[j].is_valid) {
-	  continue;
-	}
-	if (cache3.results[i].combinations[j].cache1) {
-	  free(cache3.results[i].combinations[j].cache1);
-	  cache3.results[i].combinations[j].cache1 = NULL;
-	}
-      }
-    }
-    cache3.pcity = NULL;
-  }
 }
 
 /****************************************************************************
