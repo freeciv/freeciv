@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-10-20 10:37+0200\n"
-"PO-Revision-Date: 2003-10-20 10:42+0200\n"
+"POT-Creation-Date: 2003-10-23 16:47+0200\n"
+"PO-Revision-Date: 2003-10-23 16:49+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4946,7 +4946,7 @@ msgstr "Dynamische timeout ingesteld op %d %d %d %d"
 msgid "Option:"
 msgstr "Optie:"
 
-#: server/stdinhand.c:2431 server/stdinhand.c:4215
+#: server/stdinhand.c:2431 server/stdinhand.c:4231
 msgid "Description:"
 msgstr "Beschrijving:"
 
@@ -5424,20 +5424,38 @@ msgstr "Het spel moet begonnen zijn voordat u de score kunt zien."
 msgid "Not enough players, game will not start."
 msgstr "Niet genoeg spelers, spel zal niet beginnen."
 
-#: server/stdinhand.c:4098
+#: server/stdinhand.c:4099
+msgid ""
+"Cannot start the game: the game is waiting for all clients to disconnect."
+msgstr ""
+"Kan spel niet starten: het wachten is tot alle clients de verbinding hebben "
+"verbroken."
+
+#: server/stdinhand.c:4105
+msgid "Cannot start the game: it has already been started."
+msgstr "Kan spel niet starten: het is al begonnen."
+
+#: server/stdinhand.c:4110
 msgid "Cannot start the game: it is already running."
 msgstr "Kan spel niet starten: het is al begonnen."
 
-#: server/stdinhand.c:4107
+#: server/stdinhand.c:4119
+msgid ""
+"Ending the game. The server will restart once all clients have disconnected."
+msgstr ""
+"Einde van het spel. De server zal herstarten zodra alle clients de verbinding "
+"hebben verbroken."
+
+#: server/stdinhand.c:4123
 msgid "Cannot end the game: no game running."
 msgstr "Kan spel niet beëindigen: geen spel actief."
 
-#: server/stdinhand.c:4138
+#: server/stdinhand.c:4154
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Verbreek verbinding met %s."
 
-#: server/stdinhand.c:4156
+#: server/stdinhand.c:4172
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -5477,116 +5495,116 @@ msgstr ""
 "  save   - om het huidige spel te bewaren\n"
 "  quit   - om de server te verlaten"
 
-#: server/stdinhand.c:4191 server/stdinhand.c:4194
+#: server/stdinhand.c:4207 server/stdinhand.c:4210
 msgid "Command:"
 msgstr "Opdracht:"
 
-#: server/stdinhand.c:4198
+#: server/stdinhand.c:4214
 msgid "Synopsis: "
 msgstr "Beknopt: "
 
-#: server/stdinhand.c:4207
+#: server/stdinhand.c:4223
 #, c-format
 msgid "Level: %s"
 msgstr "Niveau: %s"
 
-#: server/stdinhand.c:4232
+#: server/stdinhand.c:4248
 msgid "The following server commands are available:"
 msgstr "De volgende serveropdrachten zijn beschikbaar:"
 
-#: server/stdinhand.c:4307
+#: server/stdinhand.c:4323
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Help argument '%s' is dubbelzinnig."
 
-#: server/stdinhand.c:4312
+#: server/stdinhand.c:4328
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Geen overeenkomst voor help argument '%s'."
 
-#: server/stdinhand.c:4370
+#: server/stdinhand.c:4386
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Verkeerd argument voor list: '%s'. Probeer '%shelp list'."
 
-#: server/stdinhand.c:4402
+#: server/stdinhand.c:4418
 msgid "List of players:"
 msgstr "Lijst van spelers:"
 
-#: server/stdinhand.c:4407
+#: server/stdinhand.c:4423
 msgid "<no players>"
 msgstr "<geen spelers>"
 
-#: server/stdinhand.c:4424
+#: server/stdinhand.c:4440
 #, c-format
 msgid "user %s, "
 msgstr "gebruiker %s, "
 
-#: server/stdinhand.c:4428 data/nation/barbarian.ruleset:3
+#: server/stdinhand.c:4444 data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbaars"
 
-#: server/stdinhand.c:4430 client/gui-gtk-2.0/plrdlg.c:165
+#: server/stdinhand.c:4446 client/gui-gtk-2.0/plrdlg.c:165
 #: client/gui-gtk/plrdlg.c:140 client/gui-sdl/plrdlg.c:207
 #: client/gui-sdl/plrdlg.c:643 client/gui-win32/plrdlg.c:353
 msgid "AI"
 msgstr "KI"
 
-#: server/stdinhand.c:4432
+#: server/stdinhand.c:4448
 msgid "Human"
 msgstr "Menselijk"
 
-#: server/stdinhand.c:4435
+#: server/stdinhand.c:4451
 msgid ", Dead"
 msgstr ", Dood"
 
-#: server/stdinhand.c:4438
+#: server/stdinhand.c:4454
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", moeilijkheidsniveau %s"
 
-#: server/stdinhand.c:4442
+#: server/stdinhand.c:4458
 #, c-format
 msgid ", nation %s"
 msgstr ", natie %s"
 
-#: server/stdinhand.c:4454
+#: server/stdinhand.c:4470
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d verbinding:"
 msgstr[1] " %d verbindingen:"
 
-#: server/stdinhand.c:4460
+#: server/stdinhand.c:4476
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s van %s, (opdrachttoegangsniveau %s), buffergrootte=%dkb"
 
-#: server/stdinhand.c:4465
+#: server/stdinhand.c:4481
 msgid " (observer mode)"
 msgstr " (waarnemers modus)"
 
-#: server/stdinhand.c:4481
+#: server/stdinhand.c:4497
 msgid "List of connections to server:"
 msgstr "Lijst met verbindingen met server:"
 
-#: server/stdinhand.c:4485
+#: server/stdinhand.c:4501
 msgid "<no connections>"
 msgstr "<geen verbindingen>"
 
-#: server/stdinhand.c:4509
+#: server/stdinhand.c:4525
 msgid ""
 "notradesize must be always smaller than fulltradesize, keeping old value."
 msgstr ""
 "notradesize moet altijd kleiner zijn dan fulltradesize. Oude waarde blijft."
 
-#: server/stdinhand.c:4522
+#: server/stdinhand.c:4538
 msgid ""
 "fulltradesize must be always bigger than notradesize, keeping old value."
 msgstr ""
 "fulltradesize moet altijd groter zijn dan notradesize. Oude waarde blijft."
 
-#: server/stdinhand.c:4575
+#: server/stdinhand.c:4591
 msgid ""
 "Allowed take string contains invalid\n"
 "characters.  Try \"help allowtake\"."
@@ -7263,52 +7281,52 @@ msgstr "%s%d goud"
 #: client/mapctrl_common.c:304 client/gui-sdl/dialogs.c:925
 #: client/gui-sdl/mapview.c:678
 msgid "?nation:Neutral"
-msgstr "?nation:Neutraal"
+msgstr "?nation:Neutrale"
 
 #: client/mapctrl_common.c:304 client/gui-sdl/dialogs.c:925
 #: client/gui-sdl/mapview.c:678
 msgid "?nation:Hostile"
-msgstr "?nation:Vijandig"
+msgstr "?nation:Vijandige"
 
 #: client/mapctrl_common.c:306 client/gui-sdl/dialogs.c:926
 #: client/gui-sdl/mapview.c:680
 msgid "?nation:Peaceful"
-msgstr "?nation:Vredelievend"
+msgstr "?nation:Vredelievende"
 
 #: client/mapctrl_common.c:306 client/gui-sdl/dialogs.c:927
 #: client/gui-sdl/mapview.c:680
 msgid "?nation:Friendly"
-msgstr "?nation:Vriendelijk"
+msgstr "?nation:Vriendelijke"
 
 #: client/mapctrl_common.c:307 client/gui-sdl/dialogs.c:927
 #: client/gui-sdl/mapview.c:681
 msgid "?nation:Mysterious"
-msgstr "?nation:Mysterieus"
+msgstr "?nation:Mysterieuze"
 
 #: client/mapctrl_common.c:309 client/gui-sdl/dialogs.c:955
 #: client/gui-sdl/mapview.c:710
 msgid "?city:Neutral"
-msgstr "?stad:Neutraal"
+msgstr "?stad:Neutrale"
 
 #: client/mapctrl_common.c:309 client/gui-sdl/dialogs.c:955
 #: client/gui-sdl/mapview.c:710
 msgid "?city:Hostile"
-msgstr "?stad:Vijandig"
+msgstr "?stad:Vijandige"
 
 #: client/mapctrl_common.c:311 client/gui-sdl/dialogs.c:956
 #: client/gui-sdl/mapview.c:711
 msgid "?city:Peaceful"
-msgstr "?city:Vredelievend"
+msgstr "?city:Vredelievende"
 
 #: client/mapctrl_common.c:311 client/gui-sdl/dialogs.c:957
 #: client/gui-sdl/mapview.c:712
 msgid "?city:Friendly"
-msgstr "?city:Vriendelijk"
+msgstr "?city:Vriendelijke"
 
 #: client/mapctrl_common.c:311 client/gui-sdl/dialogs.c:957
 #: client/gui-sdl/mapview.c:712
 msgid "?city:Mysterious"
-msgstr "?city:Mysterieus"
+msgstr "?city:Mysterieuze"
 
 #: client/mapctrl_common.c:315
 #, c-format
@@ -9393,21 +9411,21 @@ msgstr "Kies bestemming"
 msgid "Show _All Cities"
 msgstr "Toon _alle steden"
 
-#: client/gui-gtk-2.0/gui_main.c:512 client/gui-gtk-2.0/gui_main.c:1074
+#: client/gui-gtk-2.0/gui_main.c:512 client/gui-gtk-2.0/gui_main.c:1078
 #: client/gui-gtk/gui_main.c:375 client/gui-gtk/gui_main.c:840
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:722
+#: client/gui-gtk-2.0/gui_main.c:726
 msgid "_Connected Users:"
 msgstr "_Verbonden gebruikers:"
 
-#: client/gui-gtk-2.0/gui_main.c:848 client/gui-gtk/gui_main.c:663
+#: client/gui-gtk-2.0/gui_main.c:852 client/gui-gtk/gui_main.c:663
 #: client/gui-win32/gui_main.c:388 data/Freeciv:2609
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
-#: client/gui-gtk-2.0/gui_main.c:960 client/gui-gtk/gui_main.c:767
+#: client/gui-gtk-2.0/gui_main.c:964 client/gui-gtk/gui_main.c:767
 #: client/gui-mui/gui_main.c:1026 client/gui-win32/gui_main.c:439
 #: data/Freeciv:2800
 msgid ""
@@ -9420,17 +9438,17 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-mui/citydlg.c:1559
+#: client/gui-gtk-2.0/gui_main.c:1252 client/gui-mui/citydlg.c:1559
 #: client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Naam:"
 
-#: client/gui-gtk-2.0/gui_main.c:1255 client/gui-gtk/connectdlg.c:327
+#: client/gui-gtk-2.0/gui_main.c:1259 client/gui-gtk/connectdlg.c:327
 #: client/gui-win32/connectdlg.c:391
 msgid "Host:"
 msgstr "Server:"
 
-#: client/gui-gtk-2.0/gui_main.c:1387 client/gui-gtk/gui_main.c:1092
+#: client/gui-gtk-2.0/gui_main.c:1391 client/gui-gtk/gui_main.c:1092
 #: client/gui-xaw/gui_main.c:706
 #, c-format
 msgid ""
