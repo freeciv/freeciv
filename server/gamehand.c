@@ -102,7 +102,10 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
 
   /* Create the unit of an appropriate type, if it exists */
   if (num_role_units(role) > 0) {
-    utype = get_role_unit(role, 0);
+    utype = first_role_unit_for_player(pplayer, role);
+    if (utype == U_LAST) {
+      utype = get_role_unit(role, 0);
+    }
     (void) create_unit(pplayer, x, y, utype, FALSE, 0, -1);
   }
 }

@@ -664,6 +664,26 @@ Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role)
   return U_LAST;
 }
 
+/**************************************************************************
+  Return first unit the player can build, with given role/flag.
+  Returns U_LAST if none match.  Used eg when placing starting units.
+**************************************************************************/
+Unit_Type_id first_role_unit_for_player(struct player *pplayer, int role)
+{
+  int j;
+
+  assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
+
+  for(j = 0; j < n_with_role[role]; j++) {
+    Unit_Type_id utype = with_role[role][j];
+
+    if (can_player_build_unit(pplayer, utype)) {
+      return utype;
+    }
+  }
+
+  return U_LAST;
+}
 
 /**************************************************************************
   Frees the memory associated with this unit type.
