@@ -338,7 +338,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     else if (nearcity) notify_player_ex(&game.players[pwinner->owner], 
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
 		  "Game: Your %s near %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type), incity->name,
+                  unit_name(pwinner->type), nearcity->name,
 		  game.players[plooser->owner].name,
 		  unit_name(punit->type));
     else notify_player_ex(&game.players[pwinner->owner], 
@@ -358,7 +358,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		     "Game: Your attacking %s failed against %s's %s near %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type), incity->name);
+		  unit_name(pwinner->type), nearcity->name);
     else notify_player_ex(&game.players[plooser->owner], 
 		     pdefender->x, pdefender->y, E_NOEVENT, 
 		     "Game: Your attacking %s failed against %s's %s!",
