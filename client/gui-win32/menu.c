@@ -374,6 +374,7 @@ static struct my_menu main_menu[]={
   {N_("Com_bat"),IDM_HELP_COMBAT},
   {N_("_ZOC"),IDM_HELP_ZOC},
   {N_("Techno_logy"),IDM_HELP_TECH},
+  {N_("_Terrain"),IDM_HELP_TERRAIN},
   {N_("Won_ders"),IDM_HELP_WONDERS},
   {N_("_Government"),IDM_HELP_GOVERNMENT},
   {N_("Happin_ess"),IDM_HELP_HAPPINESS},

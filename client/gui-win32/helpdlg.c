@@ -39,12 +39,16 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
+#include "options.h"
 #include "tilespec.h"
                                   
 #include "helpdlg.h"
 #define ID_HELP_LIST 109
-#define ID_HELP_IMPR_REQ 110
-#define ID_HELP_WOND_REQ 111
+#define ID_HELP_TECH_LINK 110
+#define ID_HELP_UNIT_LINK 111
+#define ID_HELP_IMPROVEMENT_LINK 112
+#define ID_HELP_WONDER_LINK 113
+
 extern char long_buffer[64000];
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
@@ -53,9 +57,15 @@ static HWND helpdlg_list;
 static HWND helpdlg_topic;
 static HWND helpdlg_text;
 static HWND helpdlg_close;
-static HWND helpdlg_ilabel[6];
+static HWND help_ilabel[6];
+static HWND help_ulabel[5][5];
+static HWND help_tlabel[4][5];
+
+static POINT unitpos;
+static int unit_num=-1;
+
 struct fcwin_box *helpdlg_hbox;
-struct fcwin_box *helpdlg_vbox;
+static struct fcwin_box *helpdlg_page_vbox;
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
 /* static void create_help_page(enum help_page_type type);
@@ -71,20 +81,40 @@ char *help_wlabel_name[6] =
  
 char *help_ulabel_name[5][5] =
 {
-    { N_("Cost:"),              "", "", N_("Attack:"),  "" },
-    { N_("Defense:"),   "", "", N_("Move:")     ,       "" },
-    { N_("FirePower:"), "", "", N_("Hitpoints:"),       "" },
-    { N_("Basic Upkeep:"),      "", "", N_("Vision:"),  "" },
-    { N_("Requirement:"),       "", "", N_("Obsolete by:"),     "" }
+    { N_("Cost:"),"",           "", N_("Attack:"),  "" },
+    { N_("Defense:"),"",        "", N_("Move:"),       "" },
+    { N_("FirePower:"),"",      "", N_("Hitpoints:"),       "" },
+    { N_("Basic Upkeep:"),"",   "", N_("Vision:"),  "" },
+    { N_("Requirement:"),"",    "", N_("Obsolete by:"),     "" }
 };
  
 char *help_tlabel_name[4][5] =
 {
-    { N_("Move/Defense:"),      "", "", N_("Food/Res/Trade:"),  "" },
-    { N_("Sp1 F/R/T:"), "", "", N_("Sp2 F/R/T:"),               "" },
-    { N_("Road Rslt/Time:"),"", "",     N_("Irrig. Rslt/Time:"),        "" },
-    { N_("Mine Rslt/Time:"),"", "",     N_("Trans. Rslt/Time:"),        "" }
+    { N_("Move/Defense:"),"",          "", N_("Food/Res/Trade:"),  "" },
+    { N_("Sp1 F/R/T:"),"",            "", N_("Sp2 F/R/T:"),               "" },
+    { N_("Road Rslt/Time:"),"",        "", N_("Irrig. Rslt/Time:"),        "" },
+    { N_("Mine Rslt/Time:"),"",        "", N_("Trans. Rslt/Time:"),        "" }
 };                                 
+
+static void help_draw_unit(HDC hdc,int i);
+
+/**************************************************************************
+
+**************************************************************************/
+static enum help_page_type page_type_from_id(int id)
+{
+  switch(id){
+  case ID_HELP_WONDER_LINK:
+    return HELP_WONDER;
+  case ID_HELP_IMPROVEMENT_LINK:
+    return HELP_IMPROVEMENT;
+  case ID_HELP_UNIT_LINK:
+    return HELP_UNIT;
+  case ID_HELP_TECH_LINK:
+    return HELP_TECH;
+  }
+  return HELP_ANY;
+}
 
 /**************************************************************************
 
@@ -93,6 +123,8 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
 				    UINT wParam,
 				    LONG lParam)
 {
+  PAINTSTRUCT ps;
+  HDC hdc;
   switch (uMsg)
     {
     case WM_CREATE:
@@ -100,7 +132,6 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
       return 0;
     case WM_DESTROY:
       helpdlg_win=NULL;
-      helpdlg_vbox=NULL;
       break;
     case WM_GETMINMAXINFO:
     
@@ -110,11 +141,30 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
     case WM_CLOSE:
       DestroyWindow(hWnd);
       break;
+    case WM_PAINT:
+      hdc=BeginPaint(hWnd,(LPPAINTSTRUCT)&ps);
+      if (unit_num>=0)
+	help_draw_unit(hdc,unit_num);
+      EndPaint(hWnd,(LPPAINTSTRUCT)&ps);
+      break;
     case WM_COMMAND:
       switch (LOWORD(wParam))
 	{
 	case IDCANCEL:
 	  DestroyWindow(hWnd);
+	  break;
+	case ID_HELP_TECH_LINK:
+	case ID_HELP_UNIT_LINK:
+	case ID_HELP_WONDER_LINK:
+	case ID_HELP_IMPROVEMENT_LINK:
+	  {
+	    char s[128];
+	    GetWindowText((HWND)lParam,s,sizeof(s));
+	    if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
+		&& strcmp(s, advances[A_NONE].name))
+	      select_help_item_string(s,page_type_from_id(LOWORD(wParam)));
+	    
+	  }
 	  break;
 	case ID_HELP_LIST:
 	  {
@@ -185,48 +235,153 @@ static void edit_setsize(LPRECT rc, void *data)
 /**************************************************************************
 
 **************************************************************************/
-void create_help_page(enum help_page_type type)
+static void create_improvement_page(struct fcwin_box *vbox)
 {
-  struct fcwin_box *vbox;
-  printf("helppage1\n");
-  fcwin_box_freeitem(helpdlg_hbox,1);
-  vbox=fcwin_vbox_new(helpdlg_win,FALSE);
-  helpdlg_topic=fcwin_box_add_static(vbox,"",0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_box(helpdlg_hbox,vbox,TRUE,TRUE,5);
-  if (type==HELP_IMPROVEMENT || type==HELP_WONDER) {
-    struct fcwin_box *hbox;
-    int i;
-    hbox=fcwin_hbox_new(helpdlg_win,TRUE);
-    fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-    if (type==HELP_IMPROVEMENT)
-      {
-	for (i=0;i<5;i++)
-	  {
-	    helpdlg_ilabel[i]=fcwin_box_add_static(hbox,
-						   _(help_ilabel_name[i]),0,
-						   SS_LEFT,TRUE,TRUE,5);
-	  }
-      }
+  struct fcwin_box *hbox;
+  int i;
+  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+  for (i=0;i<5;i++)
+    {
+      help_ilabel[i]=fcwin_box_add_static(hbox,
+					     _(help_ilabel_name[i]),0,
+					     SS_LEFT,TRUE,TRUE,5);
+    }
+  help_ilabel[5]=fcwin_box_add_button(hbox,"",ID_HELP_TECH_LINK,0,TRUE,TRUE,5);
+}
+
+
+/**************************************************************************
+
+**************************************************************************/
+static void create_wonder_page(struct fcwin_box *vbox)
+{
+  struct fcwin_box *hbox;
+  int i;
+  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+  for(i=0;i<5;i++)
+    {
+      if (i==3)
+	help_ilabel[3]=fcwin_box_add_button(hbox,"",
+					    ID_HELP_TECH_LINK,
+					    0,TRUE,TRUE,5);
+      else
+	help_ilabel[i]=fcwin_box_add_static(hbox,
+					    _(help_wlabel_name[i]),0,
+					    SS_LEFT,TRUE,TRUE,5);      
+    }
+  help_ilabel[5]=fcwin_box_add_button(hbox,"",ID_HELP_TECH_LINK,
+				      0,TRUE,TRUE,5);
+  
+}
+
+/*************************************************************************
+
+**************************************************************************/
+static void unit_minsize(POINT *min,void *data)
+{
+  min->x=UNIT_TILE_WIDTH;
+  min->y=UNIT_TILE_HEIGHT;
+}
+
+/*************************************************************************
+
+**************************************************************************/
+static void unit_setsize(RECT *rc,void *data)
+{
+  unitpos.x=rc->left;
+  unitpos.y=rc->top;
+  InvalidateRect(helpdlg_win,rc,TRUE);
+}
+
+/**************************************************************************
+
+***************************************************************************/
+static void create_unit_page(struct fcwin_box *vbox)
+{
+  int x,y;
+  struct fcwin_box *hbox;
+  struct fcwin_box *vbox_labels;
+  fcwin_box_add_generic(vbox,unit_minsize,unit_setsize,NULL,NULL,FALSE,FALSE,5);
+  hbox=fcwin_hbox_new(helpdlg_win,TRUE);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+  for(x=0;x<5;x++) {
+    vbox_labels=fcwin_vbox_new(helpdlg_win,FALSE);
+    fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,15);
+    for(y=0;y<4;y++) {
+      help_ulabel[y][x]=
+	fcwin_box_add_static(vbox_labels,help_ulabel_name[y][x],0,SS_LEFT,
+			     FALSE,FALSE,0);
+    }
+    if ((x==1)||(x==4))
+      help_ulabel[y][x]=
+	fcwin_box_add_button(vbox_labels,help_ulabel_name[y][x],
+			     x==1?ID_HELP_TECH_LINK:ID_HELP_UNIT_LINK,
+			     0,TRUE,TRUE,0);
     else
-      {
-	for(i=0;i<5;i++)
-	  {
-	    if (i==3)
-	      helpdlg_ilabel[3]=fcwin_box_add_button(hbox,"",
-						     ID_HELP_WOND_REQ,
-						     0,TRUE,TRUE,5);
-	    else
-	      helpdlg_ilabel[i]=fcwin_box_add_static(hbox,
-						     _(help_wlabel_name[i]),0,
-						     SS_LEFT,TRUE,TRUE,5);
-						     
-	  }
-      }
-    helpdlg_ilabel[5]=fcwin_box_add_button(hbox,"",ID_HELP_IMPR_REQ,0,TRUE,TRUE,5);
+      help_ulabel[y][x]=
+	fcwin_box_add_static(vbox_labels,help_ulabel_name[y][x],0,SS_LEFT,
+			     TRUE,TRUE,0);
   }
-  fcwin_box_add_generic(vbox,edit_minsize,edit_setsize,NULL,
-			helpdlg_text,TRUE,TRUE,5);
-  printf("helppage2\n");
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void create_terrain_page(struct fcwin_box *vbox)
+{
+  int x,y;
+  struct fcwin_box *hbox;
+  struct fcwin_box *vbox_labels;  
+  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+  for(x=0;x<5;x++) {
+    vbox_labels=fcwin_vbox_new(helpdlg_win,FALSE);
+    fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,15);
+    for(y=0;y<4;y++) {
+      help_tlabel[y][x]=
+	fcwin_box_add_static(vbox_labels,help_tlabel_name[y][x],0,SS_LEFT,
+			     FALSE,FALSE,0);
+    }
+  }
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void create_help_page(enum help_page_type type)
+{
+
+  RECT rc;
+  GetClientRect(helpdlg_win,&rc);
+  InvalidateRect(helpdlg_win,&rc,TRUE);
+  fcwin_box_freeitem(helpdlg_hbox,1);
+  unit_num=-1;
+  helpdlg_page_vbox=fcwin_vbox_new(helpdlg_win,FALSE);
+  helpdlg_topic=fcwin_box_add_static(helpdlg_page_vbox,
+				     "",0,SS_LEFT,FALSE,FALSE,5);
+  fcwin_box_add_box(helpdlg_hbox,helpdlg_page_vbox,TRUE,TRUE,5);
+  switch(type) {
+  case HELP_IMPROVEMENT:
+    create_improvement_page(helpdlg_page_vbox);
+    break;
+  case HELP_WONDER:
+    create_wonder_page(helpdlg_page_vbox);
+    break;
+  case HELP_UNIT:
+    create_unit_page(helpdlg_page_vbox);
+    break;
+  case HELP_TERRAIN:
+    create_terrain_page(helpdlg_page_vbox);
+    break;
+  default:
+    break;
+  }
+  if (type!=HELP_TECH)
+    fcwin_box_add_generic(helpdlg_page_vbox,edit_minsize,edit_setsize,NULL,
+			  helpdlg_text,TRUE,TRUE,5);
+  ShowWindow(helpdlg_text,type==HELP_TECH?SW_HIDE:SW_SHOWNORMAL);
 }
 
 /**************************************************************************
@@ -235,6 +390,7 @@ void create_help_page(enum help_page_type type)
 void create_help_dialog()
 {
   struct fcwin_box *vbox;
+  unit_num=-1;
   helpdlg_win=fcwin_create_layouted_window(HelpdlgWndProc,
 					   _("Freeciv Help Browser"),
 					   WS_OVERLAPPEDWINDOW,
@@ -262,18 +418,18 @@ void create_help_dialog()
 		     LBS_NOTIFY | WS_VSCROLL,
 		     FALSE,FALSE,5);
   fcwin_box_add_box(helpdlg_hbox,vbox,TRUE,TRUE,5);
-  helpdlg_vbox=fcwin_vbox_new(helpdlg_win,FALSE);
-  fcwin_box_add_box(helpdlg_vbox,helpdlg_hbox,TRUE,TRUE,5);
-  helpdlg_close=fcwin_box_add_button(helpdlg_vbox,_("Close"),IDCANCEL,0,
+  vbox=fcwin_vbox_new(helpdlg_win,FALSE);
+  fcwin_box_add_box(vbox,helpdlg_hbox,TRUE,TRUE,5);
+  helpdlg_close=fcwin_box_add_button(vbox,_("Close"),IDCANCEL,0,
 		       FALSE,FALSE,5);
   help_items_iterate(pitem)
     ListBox_AddString(helpdlg_list,pitem->topic);
   help_items_iterate_end;
-  fcwin_set_box(helpdlg_win,helpdlg_vbox);
+  fcwin_set_box(helpdlg_win,vbox);
   create_help_page(HELP_TEXT);
-  printf("create_help1\n");
+  
   fcwin_redo_layout(helpdlg_win);
-  printf("create_help2\n");
+  
 }
 
 /**************************************************************************
@@ -289,20 +445,20 @@ static void help_update_improvement(const struct help_item *pitem,
   if (which<B_LAST) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
-    SetWindowText(helpdlg_ilabel[1], buf);
+    SetWindowText(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
-    SetWindowText(helpdlg_ilabel[3], buf);
+    SetWindowText(help_ilabel[3], buf);
     if (imp->tech_req == A_LAST) {
-      SetWindowText(helpdlg_ilabel[5], _("(Never)"));
+      SetWindowText(help_ilabel[5], _("(Never)"));
     } else {
-      SetWindowText(helpdlg_ilabel[5], advances[imp->tech_req].name);
+      SetWindowText(help_ilabel[5], advances[imp->tech_req].name);
     }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
-    SetWindowText(helpdlg_ilabel[1], "0");
-    SetWindowText(helpdlg_ilabel[3], "0");
-    SetWindowText(helpdlg_ilabel[5], _("(Never)"));
+    SetWindowText(help_ilabel[1], "0");
+    SetWindowText(help_ilabel[3], "0");
+    SetWindowText(help_ilabel[5], _("(Never)"));
 /*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3);*/
   }
   helptext_improvement(buf, which, pitem->text);
@@ -322,26 +478,330 @@ static void help_update_wonder(const struct help_item *pitem,
   if (which<B_LAST) {
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
-    SetWindowText(helpdlg_ilabel[1], buf);
+    SetWindowText(help_ilabel[1], buf);
     if (imp->tech_req == A_LAST) {
-      SetWindowText(helpdlg_ilabel[3], _("(Never)"));
+      SetWindowText(help_ilabel[3], _("(Never)"));
     } else {
-      SetWindowText(helpdlg_ilabel[3], advances[imp->tech_req].name);
+      SetWindowText(help_ilabel[3], advances[imp->tech_req].name);
     }
-    SetWindowText(helpdlg_ilabel[5], advances[imp->obsolete_by].name);
+    SetWindowText(help_ilabel[5], advances[imp->obsolete_by].name);
     /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     /* can't find wonder */
-    SetWindowText(helpdlg_ilabel[1], "0");
-    SetWindowText(helpdlg_ilabel[3], _("(Never)"));
-    SetWindowText(helpdlg_ilabel[5], _("None"));
+    SetWindowText(help_ilabel[1], "0");
+    SetWindowText(help_ilabel[3], _("(Never)"));
+    SetWindowText(help_ilabel[5], _("None"));
 /*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3); */
   }
  
   helptext_wonder(buf, which, pitem->text);
   set_help_text(buf);
 }                            
+
+/**************************************************************************
+...
+**************************************************************************/
+static void help_update_terrain(const struct help_item *pitem,
+				char *title, int i)
+{
+  char *buf = &long_buffer[0];
+  
+  create_help_page(HELP_TERRAIN);
+
+  if (i < T_COUNT)
+    {
+      sprintf (buf, "%d/%d.%d",
+	       tile_types[i].movement_cost,
+	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
+      SetWindowText (help_tlabel[0][1], buf);
+
+      sprintf (buf, "%d/%d/%d",
+	       tile_types[i].food,
+	       tile_types[i].shield,
+	       tile_types[i].trade);
+      SetWindowText (help_tlabel[0][4], buf);
+
+      if (*(tile_types[i].special_1_name))
+	{
+	  sprintf (buf, _("%s F/R/T:"),
+		   tile_types[i].special_1_name);
+	  SetWindowText (help_tlabel[1][0], buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_1,
+		   tile_types[i].shield_special_1,
+		   tile_types[i].trade_special_1);
+	  SetWindowText (help_tlabel[1][1], buf);
+	} else {
+	  SetWindowText (help_tlabel[1][0], " ");
+	  SetWindowText (help_tlabel[1][1], " ");
+	}
+
+      if (*(tile_types[i].special_2_name))
+	{
+	  sprintf (buf, _("%s F/R/T:"),
+		   tile_types[i].special_2_name);
+	  SetWindowText (help_tlabel[1][3], buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_2,
+		   tile_types[i].shield_special_2,
+		   tile_types[i].trade_special_2);
+	  SetWindowText (help_tlabel[1][4], buf);
+	} else {
+	  SetWindowText (help_tlabel[1][3], " ");
+	  SetWindowText (help_tlabel[1][4], " ");
+	}
+
+      if (tile_types[i].road_trade_incr > 0)
+	{
+	  sprintf (buf, _("+%d Trade / %d"),
+		   tile_types[i].road_trade_incr,
+		   tile_types[i].road_time);
+	}
+      else if (tile_types[i].road_time > 0)
+	{
+	  sprintf (buf, _("no extra / %d"),
+		   tile_types[i].road_time);
+	}
+      else
+	{
+	  strcpy (buf, _("n/a"));
+	}
+      SetWindowText (help_tlabel[2][1], buf);
+
+      strcpy (buf, _("n/a"));
+      if (tile_types[i].irrigation_result == i)
+	{
+	  if (tile_types[i].irrigation_food_incr > 0)
+	    {
+	      sprintf (buf, _("+%d Food / %d"),
+		       tile_types[i].irrigation_food_incr,
+		       tile_types[i].irrigation_time);
+	    }
+	}
+      else if (tile_types[i].irrigation_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].irrigation_result].terrain_name,
+		   tile_types[i].irrigation_time);
+	}
+      SetWindowText (help_tlabel[2][4], buf);
+
+      strcpy (buf, _("n/a"));
+      if (tile_types[i].mining_result == i)
+	{
+	  if (tile_types[i].mining_shield_incr > 0)
+	    {
+	      sprintf (buf, _("+%d Res. / %d"),
+		       tile_types[i].mining_shield_incr,
+		       tile_types[i].mining_time);
+	    }
+	}
+      else if (tile_types[i].mining_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].mining_result].terrain_name,
+		   tile_types[i].mining_time);
+	}
+      SetWindowText (help_tlabel[3][1], buf);
+
+      if (tile_types[i].transform_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].transform_result].terrain_name,
+		   tile_types[i].transform_time);
+	} else {
+	  strcpy (buf, "n/a");
+	}
+      SetWindowText (help_tlabel[3][4], buf);
+    }
+
+  helptext_terrain(buf, i, pitem->text);
+  set_help_text(buf);
+
+}
+
+/*************************************************************************
+
+*************************************************************************/
+static void help_draw_unit(HDC hdc,int i)
+{
+  enum color_std bg_color;
+  RECT rc;
+  rc.top=unitpos.y;
+  rc.left=unitpos.x;
+  rc.bottom=unitpos.y+UNIT_TILE_HEIGHT;
+  rc.right=unitpos.x+UNIT_TILE_WIDTH;
+  
+  /* Give tile a background color, based on the type of unit */
+  switch (get_unit_type(i)->move_type) {
+  case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
+  case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
+  case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
+  case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
+  default:          bg_color = COLOR_STD_BLACK;  break;
+  }
+  FillRect(hdc,&rc,brush_std[bg_color]);
+  
+  /* If we're using flags, put one on the tile */
+  if(!solid_color_behind_units)  {
+    struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
+    draw_sprite(flag,hdc,unitpos.x,unitpos.y);
+  }
+  /* Finally, put a picture of the unit in the tile */
+  if(i<game.num_unit_types) {
+    struct Sprite *s=get_unit_type(i)->sprite;
+    draw_sprite(s,hdc,unitpos.x,unitpos.y);
+  }
+  
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void help_update_unit_type(const struct help_item *pitem,
+				  char *title, int i)
+{
+  char *buf = &long_buffer[0];
+  create_help_page(HELP_UNIT);
+  unit_num=i;
+  if (i<game.num_unit_types) {
+    struct unit_type *utype = get_unit_type(i);
+    sprintf(buf, "%d", utype->build_cost);
+    SetWindowText(help_ulabel[0][1], buf);
+    sprintf(buf, "%d", utype->attack_strength);
+    SetWindowText(help_ulabel[0][4], buf);
+    sprintf(buf, "%d", utype->defense_strength);
+    SetWindowText(help_ulabel[1][1], buf);
+    sprintf(buf, "%d", utype->move_rate/3);
+    SetWindowText(help_ulabel[1][4], buf);
+    sprintf(buf, "%d", utype->firepower);
+    SetWindowText(help_ulabel[2][1], buf);
+    sprintf(buf, "%d", utype->hp);
+    SetWindowText(help_ulabel[2][4], buf);
+    SetWindowText(help_ulabel[3][1], helptext_unit_upkeep_str(i));
+    sprintf(buf, "%d", utype->vision_range);
+    SetWindowText(help_ulabel[3][4], buf);
+    if(utype->tech_requirement==A_LAST) {
+      SetWindowText(help_ulabel[4][1], _("(Never)"));
+    } else {
+      SetWindowText(help_ulabel[4][1], advances[utype->tech_requirement].name);
+    }
+    /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
+    if(utype->obsoleted_by==-1) {
+      SetWindowText(help_ulabel[4][4], _("None"));
+    } else {
+      SetWindowText(help_ulabel[4][4], get_unit_type(utype->obsoleted_by)->name);
+    }
+
+    helptext_unit(buf, i, pitem->text);
+    set_help_text(buf);
+  }
+  else {
+    SetWindowText(help_ulabel[0][1], "0");
+    SetWindowText(help_ulabel[0][4], "0");
+    SetWindowText(help_ulabel[1][1], "0");
+    SetWindowText(help_ulabel[1][4], "0");
+    SetWindowText(help_ulabel[2][1], "0");
+    SetWindowText(help_ulabel[2][4], "0");
+    SetWindowText(help_ulabel[3][1], "0");
+    SetWindowText(help_ulabel[3][4], "0");
+
+    SetWindowText(help_ulabel[4][1], _("(Never)"));
+/*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
+    SetWindowText(help_ulabel[4][4], _("None"));
+    set_help_text(pitem->text);
+  }
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void help_update_tech(const struct help_item *pitem, char *title, int i)
+{
+  int j;
+  struct fcwin_box *hbox;
+  char *buf= &long_buffer[0];
+
+  create_help_page(HELP_TECH);
+  if (i<game.num_tech_types&&i!=A_NONE) {
+    /*    
+	  create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
+	  TECH_TREE_EXPANDED_DEPTH, NULL);
+    */
+    helptext_tech(buf, i, pitem->text);
+    if (advances[i].helptext) {
+      if (strlen(buf)) strcat(buf, "\n");
+      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
+    }
+    wordwrap_string(buf, 68);
+    fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
+    for(j=0; j<game.num_impr_types; ++j) {
+      if(i==improvement_types[j].tech_req) {
+	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+	fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
+	fcwin_box_add_button(hbox,improvement_types[j].name,
+			     is_wonder(j)?
+			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
+			     0,FALSE,FALSE,5);
+      }
+      if(i==improvement_types[j].obsolete_by) {
+	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+	fcwin_box_add_static(hbox,_("Obsoletes "),0,SS_LEFT,FALSE,FALSE,5);
+	fcwin_box_add_button(hbox,improvement_types[j].name,
+			     is_wonder(j)?
+			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
+			     0,FALSE,FALSE,5);
+      }
+    }
+    for(j=0; j<game.num_unit_types; ++j) {
+      if(i!=get_unit_type(j)->tech_requirement) continue;
+      hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+      fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+      fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
+      fcwin_box_add_button(hbox,get_unit_type(j)->name,
+			   ID_HELP_UNIT_LINK,
+			   0,FALSE,FALSE,5);
+    }
+    for(j=0; j<game.num_tech_types; ++j) {
+      if(i==advances[j].req[0]) {
+        if(advances[j].req[1]==A_NONE) {
+	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
+	  fcwin_box_add_button(hbox,advances[j].name,
+			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
+	} else {
+	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
+	  fcwin_box_add_button(hbox,advances[j].name,
+			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
+	  fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
+	  fcwin_box_add_button(hbox,advances[advances[j].req[1]].name,
+			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
+	  fcwin_box_add_static(hbox,Q_("?techhelp:)."),
+			       0,SS_LEFT,FALSE,FALSE,5);
+	}
+      }
+      if (i==advances[j].req[1]) {
+	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
+	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
+	fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
+	fcwin_box_add_button(hbox,advances[j].name,
+			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
+	fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
+	fcwin_box_add_button(hbox,advances[advances[j].req[0]].name,
+			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
+	fcwin_box_add_static(hbox,Q_("?techhelp:)."),
+			     0,SS_LEFT,FALSE,FALSE,5);
+      }
+    }
+  }
+}
+
 /**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
@@ -367,7 +827,7 @@ static void help_update_dialog(const struct help_item *pitem)
   int i;
   char *top;
   /* figure out what kind of item is required for pitem ingo */
-  printf("update\n");
+
   for(top=pitem->topic; *top==' '; ++top);
   SetWindowText(helpdlg_text,"");
 
@@ -382,7 +842,6 @@ static void help_update_dialog(const struct help_item *pitem)
     if(i!=B_LAST && !is_wonder(i)) i = B_LAST;
     help_update_wonder(pitem, top, i);
     break;
-#if 0
   case HELP_UNIT:
     help_update_unit_type(pitem, top, find_unit_type_by_name(top));
     break;
@@ -392,7 +851,6 @@ static void help_update_dialog(const struct help_item *pitem)
   case HELP_TERRAIN:
     help_update_terrain(pitem, top, get_terrain_by_name(top));
     break;
-#endif
   case HELP_GOVERNMENT:
     help_update_government(pitem, top, find_government_by_name(top));
     break;
@@ -402,10 +860,8 @@ static void help_update_dialog(const struct help_item *pitem)
     set_help_text(pitem->text);
     break;
   }
-  printf("upd2\n");
   SetWindowText(helpdlg_topic,pitem->topic);
   fcwin_redo_layout(helpdlg_win);
-  printf("upd3\n");
   /* set_title_topic(pitem->topic); */
   ShowWindow(helpdlg_win,SW_SHOWNORMAL);
 }
