@@ -54,8 +54,8 @@ void add_to_stack(int x, int y)
 void generate_warmap(struct city *pcity)
 {
   int x, y, c, i, j, k, xx[3], yy[3], tm;
-  int ii[9] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int jj[9] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
   struct city *acity;
