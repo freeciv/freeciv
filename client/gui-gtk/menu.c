@@ -970,7 +970,7 @@ the string is used for a lookup via gtk_item_factory_get_widget()
 *****************************************************************/
 void update_menus(void)
 {
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Reports", FALSE);
     menus_set_sensitive("<main>/_Kingdom", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
@@ -980,12 +980,14 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Reports", TRUE);
     menus_set_sensitive("<main>/_Kingdom", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
-    menus_set_sensitive("<main>/_Orders", !client_is_observer());
+    menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
 
-    menus_set_sensitive("<main>/_Kingdom/_Tax Rates", !client_is_observer());
-    menus_set_sensitive("<main>/_Kingdom/Work_lists", !client_is_observer());
+    menus_set_sensitive("<main>/_Kingdom/_Tax Rates",
+			can_client_issue_orders());
+    menus_set_sensitive("<main>/_Kingdom/Work_lists",
+			can_client_issue_orders());
     menus_set_sensitive("<main>/_Kingdom/_Revolution",
-			!client_is_observer());
+			can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
@@ -1012,7 +1014,7 @@ void update_menus(void)
 
     /* Remaining part of this function: Update Orders menu */
 
-    if (client_is_observer()) {
+    if (!can_client_issue_orders()) {
       return;
     }
 

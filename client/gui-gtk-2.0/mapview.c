@@ -556,11 +556,12 @@ void set_overview_dimensions(int x, int y)
 **************************************************************************/
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(radar_gfx_sprite)
+  if (!can_client_change_view()) {
+    if (radar_gfx_sprite) {
       gdk_draw_pixmap(overview_canvas->window, civ_gc,
 		      radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
 		      ev->area.x, ev->area.y, ev->area.width, ev->area.height);
+    }
     return TRUE;
   }
   
@@ -727,7 +728,7 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
     gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE, 0, 0, -1, -1);
     update_map_canvas_scrollbars_size();
 
-    if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    if (can_client_change_view()) {
       if (map.xsize) { /* do we have a map at all */
         update_map_canvas_visible();
         update_map_canvas_scrollbars();
@@ -748,7 +749,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
   static bool cleared = FALSE;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     if (map_configure || !scaled_intro_sprite) {
 
       if (!intro_gfx_sprite) {
@@ -1542,8 +1543,9 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 
   gfloat percent=adj->value;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   last_map_view_x0=map_view_x0;
   last_map_view_y0=map_view_y0;

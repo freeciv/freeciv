@@ -193,105 +193,105 @@ static void xaw_key_move_north_west(Widget w, XEvent *event, String *argv, Cardi
 
 static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_CITIES))
     popup_city_report_dialog(0);
 }
 
 static void xaw_key_open_demographics(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_DEMOGRAPHIC))
     send_report_request(REPORT_DEMOGRAPHIC);
 }
 
 static void xaw_key_open_economy_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_ECONOMY))
     popup_economy_report_dialog(0);
 }
 
 static void xaw_key_open_find_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_KINGDOM, MENU_KINGDOM_FIND_CITY))
     popup_find_dialog();
 }
 
 static void xaw_key_open_goto_airlift(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_ORDER, MENU_ORDER_GOTO_CITY))
     popup_goto_dialog();
 }
 
 static void xaw_key_open_messages(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_MESSAGES))
     popup_meswin_dialog();
 }
 
 static void xaw_key_open_players(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_PLAYERS))
     popup_players_dialog();
 }
 
 static void xaw_key_open_rates(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_KINGDOM, MENU_KINGDOM_RATES))
     popup_rates_dialog();
 }
 
 static void xaw_key_open_revolution(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_KINGDOM, MENU_KINGDOM_REVOLUTION))
     popup_revolution_dialog();
 }
 
 static void xaw_key_open_science_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_SCIENCE))
     popup_science_dialog(0);
 }
 
 static void xaw_key_open_spaceship(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_SPACESHIP))
     popup_spaceship_dialog(game.player_ptr);
 }
 
 static void xaw_key_open_top_five(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_TOP_CITIES))
     send_report_request(REPORT_TOP_5_CITIES);
 }
 
 static void xaw_key_open_units_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_UNITS))
     popup_activeunits_report_dialog(0);
 }
 
 static void xaw_key_open_wonders(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_WOW))
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
 }
 
 static void xaw_key_open_worklists(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+  if (can_client_change_view() &&
      is_menu_item_active(MENU_KINGDOM, MENU_KINGDOM_WORKLISTS))
     popup_worklists_dialog(game.player_ptr);
 }

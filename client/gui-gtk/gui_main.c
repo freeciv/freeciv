@@ -1015,6 +1015,11 @@ void set_unit_icon(int idx, struct unit *punit)
     w = unit_below_pixmap[idx];
     unit_ids[idx] = punit ? punit->id : 0;
   }
+
+  if (get_client_state() == CLIENT_GAME_OVER_STATE) {
+    gtk_pixcomm_clear(GTK_PIXCOMM(w), TRUE);
+    return;
+  }
   
   if (punit) {
     gtk_pixcomm_clear(GTK_PIXCOMM(w), FALSE);

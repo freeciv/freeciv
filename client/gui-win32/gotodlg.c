@@ -140,8 +140,9 @@ popup_goto_dialog(void)
   struct fcwin_box *vbox;
   if (goto_dialog)
     return;
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
   if (get_unit_in_focus()==0)
     return;
 

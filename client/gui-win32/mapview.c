@@ -117,13 +117,12 @@ void map_resize()
   map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
   update_map_canvas_scrollbars_size();
-  if ((get_client_state()==CLIENT_GAME_RUNNING_STATE)&&(map.xsize))
-    {
-      update_map_canvas_visible();
-      update_map_canvas_scrollbars();
-      refresh_overview_viewrect_real(NULL);
-      refresh_overview_canvas();
-    }
+  if (can_client_change_view() && (map.xsize != 0)) {
+    update_map_canvas_visible();
+    update_map_canvas_scrollbars();
+    refresh_overview_viewrect_real(NULL);
+    refresh_overview_canvas();
+  }
 }
 
 /**************************************************************************
@@ -154,32 +153,33 @@ void map_expose(HDC hdc)
 
   HBITMAP bmsave;
   HDC introgfxdc;
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    {
-      if (!intro_gfx_sprite) load_intro_gfx();
-      if (!intro_gfx) intro_gfx=BITMAP2HBITMAP(&intro_gfx_sprite->bmp);
-      introgfxdc=CreateCompatibleDC(hdc);
-      bmsave=SelectObject(introgfxdc,intro_gfx);
-      StretchBlt(hdc,0,0,map_win_width,map_win_height,
-		 introgfxdc,0,0,
-		 intro_gfx_sprite->width,
-		 intro_gfx_sprite->height,
-		 SRCCOPY);
-      SelectObject(introgfxdc,bmsave);
-      DeleteDC(introgfxdc);
+  if (!can_client_change_view()) {
+    if (!intro_gfx_sprite) {
+      load_intro_gfx();
     }
-  else
-    {
-      HBITMAP old;
-      HDC mapstoredc;
-      mapstoredc=CreateCompatibleDC(NULL);
-      old=SelectObject(mapstoredc,mapstorebitmap);
-      BitBlt(hdc,0,0,map_win_width,map_win_height,
-	     mapstoredc,0,0,SRCCOPY);
-      SelectObject(mapstoredc,old);
-      DeleteDC(mapstoredc);
-      show_city_descriptions();
+    if (!intro_gfx) {
+      intro_gfx = BITMAP2HBITMAP(&intro_gfx_sprite->bmp);
     }
+    introgfxdc = CreateCompatibleDC(hdc);
+    bmsave = SelectObject(introgfxdc, intro_gfx);
+    StretchBlt(hdc, 0, 0, map_win_width, map_win_height,
+	       introgfxdc, 0, 0,
+	       intro_gfx_sprite->width,
+	       intro_gfx_sprite->height,
+	       SRCCOPY);
+    SelectObject(introgfxdc, bmsave);
+    DeleteDC(introgfxdc);
+  } else {
+    HBITMAP old;
+    HDC mapstoredc;
+    mapstoredc = CreateCompatibleDC(NULL);
+    old = SelectObject(mapstoredc, mapstorebitmap);
+    BitBlt(hdc, 0, 0, map_win_width, map_win_height,
+	   mapstoredc, 0, 0, SRCCOPY);
+    SelectObject(mapstoredc, old);
+    DeleteDC(mapstoredc);
+    show_city_descriptions();
+  }
 } 
 
 /**************************************************************************
@@ -1168,8 +1168,7 @@ void overview_expose(HDC hdc)
   HBITMAP old;
   HBITMAP bmp;
   int i;
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    {
+  if (!can_client_change_view()) {
       if (!radar_gfx_sprite) {
 	load_intro_gfx();
       }
@@ -1234,8 +1233,9 @@ void overview_expose(HDC hdc)
 **************************************************************************/
 void map_handle_hscroll(int pos)
 {
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
   map_view_x=pos;
   update_map_canvas_visible();
   refresh_overview_viewrect();                                                
@@ -1246,8 +1246,9 @@ void map_handle_hscroll(int pos)
 **************************************************************************/
 void map_handle_vscroll(int pos)
 {
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
   map_view_y=pos;
   map_view_y=(map_view_y<0)?0:map_view_y;
   map_view_y= (map_view_y>map.ysize+EXTRA_BOTTOM_ROW-map_view_height) ?

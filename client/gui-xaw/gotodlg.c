@@ -98,8 +98,9 @@ void popup_goto_dialog(void)
   Dimension width, height;
   Boolean no_player_cities = !(city_list_size(&game.player_ptr->cities));
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_issue_orders()) {
     return;
+  }
   if(get_unit_in_focus()==0)
     return;
 

@@ -626,19 +626,6 @@ void set_client_state(enum client_states newstate)
       && (newstate == CLIENT_PRE_GAME_STATE);
   enum client_states oldstate = client_state;
 
-  /*
-   * We are currently ignoring the CLIENT_GAME_OVER_STATE state
-   * because the client hasen't been changed to take care of it. So it
-   * breaks the show-whole-map-at-the-end-of-the-game. Nevertheless
-   * the server is so kind and sends the client this information. And
-   * in the future the client can/should take advantage of this
-   * information.
-   *
-   * FIXME: audit all client code to that it copes with
-   * CLIENT_GAME_OVER_STATE and implement specific
-   * CLIENT_GAME_OVER_STATE actions like history browsing. Then remove
-   * the kludge below.
-   */
   if (newstate == CLIENT_GAME_OVER_STATE) {
     /*
      * Extra kludge for end-game handling of the CMA.
@@ -648,10 +635,9 @@ void set_client_state(enum client_states newstate)
         cma_release_city(pcity);
       }
     } city_list_iterate_end;
-    newstate = CLIENT_GAME_RUNNING_STATE;
   }
 
-  if(client_state!=newstate) {
+  if (client_state != newstate) {
 
     /* If changing from pre-game state to _either_ select race
        or running state, then we have finished getting ruleset data,
@@ -668,7 +654,7 @@ void set_client_state(enum client_states newstate)
       
     client_state=newstate;
 
-    if(client_state==CLIENT_GAME_RUNNING_STATE) {
+    if (client_state == CLIENT_GAME_RUNNING_STATE) {
       load_ruleset_specific_options();
       create_event(-1, -1, E_GAME_START, _("Game started."));
       update_research(game.player_ptr);
@@ -676,7 +662,7 @@ void set_client_state(enum client_states newstate)
       boot_help_texts();	/* reboot */
       update_unit_focus();
     }
-    else if(client_state==CLIENT_PRE_GAME_STATE) {
+    else if (client_state == CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
       popdown_all_game_dialogs();
       close_all_diplomacy_dialogs();
@@ -815,4 +801,26 @@ void real_timer_callback(void)
   }
 
   flip = !flip;
+}
+
+/**************************************************************************
+  Returns TRUE if the client can issue orders (such as giving unit
+  commands).  This function should be called each time before allowing the
+  user to give an order.
+**************************************************************************/
+bool can_client_issue_orders(void)
+{
+  return (!client_is_observer()
+	  && get_client_state() == CLIENT_GAME_RUNNING_STATE);
+}
+
+/**************************************************************************
+  Return TRUE if the client can change the view; i.e. if the mapview is
+  active.  This function should be called each time before allowing the
+  user to do mapview actions.
+**************************************************************************/
+bool can_client_change_view(void)
+{
+  return (get_client_state() == CLIENT_GAME_RUNNING_STATE
+	  || get_client_state() == CLIENT_GAME_OVER_STATE);
 }

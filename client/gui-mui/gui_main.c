@@ -412,8 +412,7 @@ static void control_callback(ULONG * value)
       }
       break;
     case END_TURN:
-      if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-        key_end_turn();
+      key_end_turn();
       break;
     case NEXT_UNIT:
       advance_unit_focus();	/*focus_to_next_unit(); */
@@ -727,8 +726,9 @@ static void taxrates_callback(LONG * number)
   int delta = 10;
   struct packet_player_request packet;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_issue_orders()) {
     return;
+  }
 
   i = (size_t) * number;
 
@@ -1183,8 +1183,7 @@ void remove_net_input(void)
 **************************************************************************/
 void update_menus(void) /* from menu.c */
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
-  {
+  if (!can_client_change_view()) {
     menu_title_sensitive(MENU_REPORT, FALSE);
     menu_title_sensitive(MENU_ORDER, FALSE);
     menu_title_sensitive(MENU_VIEW, FALSE);
@@ -1207,14 +1206,18 @@ void update_menus(void) /* from menu.c */
     }
 
     menu_title_sensitive(MENU_REPORT, TRUE);
-    menu_title_sensitive(MENU_ORDER, punit ? TRUE : FALSE);
+    menu_title_sensitive(MENU_ORDER, punit
+			 ? can_client_issue_orders() : FALSE);
     menu_title_sensitive(MENU_VIEW, TRUE);
     menu_title_sensitive(MENU_KINGDOM, TRUE);
 
+    menu_title_sensitive(MENU_KINGDOM_TAX_RATE, can_client_issue_orders());
+    menu_title_sensitive(MENU_KINGDOM_WORKLISTS, can_client_issue_orders());
+    menu_title_sensitive(MENU_KINGDOM_REVOLUTION, can_client_issue_orders());
+
     menu_entry_sensitive(MENU_REPORT_SPACESHIP, (game.player_ptr->spaceship.state != SSHIP_NONE));
 
-    if (punit)
-    {
+    if (punit && can_client_issue_orders()) {
       const char *chgfmt = _("Change to %s");
       static char irrtext[64];
       static char mintext[64];

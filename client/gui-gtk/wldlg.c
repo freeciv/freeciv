@@ -22,6 +22,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "civclient.h"
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
@@ -910,7 +911,7 @@ static void worklist_select_callback(GtkWidget * w, gint row, gint column,
   int row_selected;
   struct worklist_editor *peditor = (struct worklist_editor *) data;
 
-  if (ev && ev->type == GDK_2BUTTON_PRESS) {
+  if (can_client_issue_orders() && ev && ev->type == GDK_2BUTTON_PRESS) {
     /* Double-click to remove item from worklist */
     worklist_remove_item(peditor);
     return;
@@ -918,8 +919,10 @@ static void worklist_select_callback(GtkWidget * w, gint row, gint column,
 
   row_selected = (GTK_CLIST(peditor->worklist)->selection != NULL);
 
-  gtk_widget_set_sensitive(peditor->btn_up, row_selected && row > 0);
-  gtk_widget_set_sensitive(peditor->btn_down, row_selected &&
+  gtk_widget_set_sensitive(peditor->btn_up, can_client_issue_orders() &&
+			   row_selected && row > 0 );
+  gtk_widget_set_sensitive(peditor->btn_down, can_client_issue_orders() &&
+			   row_selected &&
 			   row < GTK_CLIST(peditor->worklist)->rows - 1);
 }
 
@@ -929,7 +932,7 @@ static void worklist_select_callback(GtkWidget * w, gint row, gint column,
 static void targets_select_callback(GtkWidget * w, gint row, gint column,
 				    GdkEvent * ev, gpointer data)
 {
-  if (ev && ev->type == GDK_2BUTTON_PRESS) {
+  if (can_client_issue_orders() && ev && ev->type == GDK_2BUTTON_PRESS) {
     struct worklist_editor *peditor = (struct worklist_editor *) data;
     /* Double-click to insert item in worklist */
     worklist_insert_item(peditor);

@@ -273,8 +273,7 @@ gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
   int xtile, ytile;
 
   /* when you get a <SHIFT>+<LMB> pow! */
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE
-      || !(ev->state & GDK_SHIFT_MASK)) {
+  if (!can_client_issue_orders() || !(ev->state & GDK_SHIFT_MASK)) {
     return TRUE;
   }
 
@@ -290,11 +289,13 @@ gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
-  
-  if(get_client_state() != CLIENT_GAME_RUNNING_STATE)
+
+  if (!can_client_change_view()) {
     return TRUE;
-  
-  if ((ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
+  }
+
+  if (can_client_issue_orders()
+      && (ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
     adjust_workers(w, ev);
     return TRUE;
   }
@@ -361,7 +362,7 @@ void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   struct packet_city_request packet;
   enum city_tile_type wrk;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_issue_orders()) {
     return;
   }
 
@@ -414,15 +415,13 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
 			 (map_view_x0 + map_canvas_store_twidth / 2));
   }
   ytile = ev->y / 2;
-  
-  if(get_client_state() != CLIENT_GAME_RUNNING_STATE)
-     return TRUE;
 
-  if (ev->button == 1) {
-    do_unit_goto(xtile, ytile);
-  } else if (ev->button == 3) {
+  if (can_client_change_view() && (ev->button == 3)) {
     center_tile_mapcanvas(xtile, ytile);
+  } else if (can_client_issue_orders() && (ev->button == 1)) {
+    do_unit_goto(xtile, ytile);
   }
+
   return TRUE;
 }
 
@@ -442,7 +441,7 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev)
   int x,y;
   struct city *pcity;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     return;
   }
   

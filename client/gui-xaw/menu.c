@@ -246,7 +246,7 @@ static char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr);
 *****************************************************************/
 void update_menus(void)
 {
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     XtSetSensitive(menus[MENU_REPORT]->button, False);
     XtSetSensitive(menus[MENU_ORDER]->button, False);
     XtSetSensitive(menus[MENU_VIEW]->button, False);
@@ -275,10 +275,17 @@ void update_menus(void)
     }
 
     XtSetSensitive(menus[MENU_REPORT]->button, True);
-    XtSetSensitive(menus[MENU_ORDER]->button, (punit != NULL));
+    XtSetSensitive(menus[MENU_ORDER]->button,
+		   punit && can_client_issue_orders());
     XtSetSensitive(menus[MENU_VIEW]->button, True);
     XtSetSensitive(menus[MENU_KINGDOM]->button, True);
 
+    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_RATES,
+                         can_client_issue_orders());
+    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_WORKLISTS,
+                         can_client_issue_orders());
+    menu_entry_sensitive(MENU_KINGDOM, MENU_KINGDOM_REVOLUTION,
+                         can_client_issue_orders());
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,
 			 draw_city_names);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_TERRAIN, 1);
@@ -306,7 +313,7 @@ void update_menus(void)
     menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP,
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
-    if(punit) {
+    if (punit && can_client_issue_orders()) {
       enum tile_terrain_type  ttype;
       struct tile_type *      tinfo;
 

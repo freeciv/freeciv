@@ -240,8 +240,9 @@ void mapctrl_btn_wakeup(XEvent *event)
   int map_x, map_y, is_real;
   XButtonEvent *ev=&event->xbutton;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
   map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
@@ -259,8 +260,9 @@ void mapctrl_btn_mapcanvas(XEvent *event)
   int x, y;
   XButtonEvent *ev=&event->xbutton;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   get_map_xy(ev->x, ev->y, &x, &y);
 
@@ -326,8 +328,9 @@ void mapctrl_btn_adjust_workers(XEvent *event)
   struct packet_city_request packet;
   enum city_tile_type wrk;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
   map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
@@ -367,8 +370,9 @@ void mapctrl_key_city_workers(XEvent *event)
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
   y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
@@ -394,8 +398,9 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
   xtile=ev->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
   ytile=ev->y/2;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   if(ev->button==Button1)
     do_unit_goto(xtile,ytile);

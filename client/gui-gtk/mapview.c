@@ -382,7 +382,7 @@ void update_info_label( void )
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
-  if(punit) {
+  if (punit && get_client_state() != CLIENT_GAME_OVER_STATE) {
     char buffer[512];
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
@@ -550,7 +550,7 @@ void set_overview_dimensions(int x, int y)
 **************************************************************************/
 gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 {
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     if(radar_gfx_sprite)
       gdk_draw_pixmap(overview_canvas->window, civ_gc,
 		      radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
@@ -729,7 +729,7 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
     map_resized=TRUE;
   }
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     if (!intro_gfx_sprite) {
       load_intro_gfx();
     }
@@ -1470,8 +1470,9 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 
   gfloat percent=adj->value;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   last_map_view_x0=map_view_x0;
   last_map_view_y0=map_view_y0;

@@ -54,6 +54,8 @@ extern int seconds_to_turndone;
 void wait_till_request_got_processed(int request_id);
 bool client_is_observer(void);
 void real_timer_callback(void);
+bool can_client_issue_orders(void);
+bool can_client_change_view(void);
 
 void client_game_init(void);
 void client_game_free(void);

@@ -273,8 +273,9 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   case WM_CREATE:
     break;
   case WM_LBUTTONDOWN:
-    if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+    if (!can_client_change_view()) {
       break;
+    }
     SetFocus(root_window);
     get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
     if (wParam&MK_SHIFT) {
@@ -287,13 +288,13 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     }
     break;
   case WM_MBUTTONDOWN:
-    if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    if (can_client_change_view()) {
       get_map_xy(LOWORD(lParam), HIWORD(lParam), &xtile, &ytile);
       popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
     }
     break;
   case WM_RBUTTONDOWN:
-    if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+    if (can_client_change_view()) {
       get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
       if (wParam&MK_CONTROL) {
 	popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);	
@@ -315,7 +316,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     }
     break;
   case WM_MOUSEMOVE:
-    if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+    if (can_client_change_view()) {
       map_handle_move(LOWORD(lParam),HIWORD(lParam));
     }
     break;
@@ -365,8 +366,9 @@ void overview_handle_rbut(int x, int y)
 
  ytile=y/2; 
 
- if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return ;
+ if (!can_client_change_view()) {
+   return;
+ }
  center_tile_mapcanvas(xtile,ytile); 
 
 }

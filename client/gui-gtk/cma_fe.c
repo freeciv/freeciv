@@ -24,6 +24,7 @@
 #include "mem.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep.h"
@@ -361,10 +362,13 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   }
 
   gtk_widget_set_sensitive(GTK_WIDGET(pdialog->change_command),
+			   can_client_issue_orders() &&
 			   result.found_a_valid && !controlled);
   gtk_widget_set_sensitive(GTK_WIDGET(pdialog->perm_command),
+			   can_client_issue_orders() &&
 			   result.found_a_valid && !controlled);
   gtk_widget_set_sensitive(GTK_WIDGET(pdialog->release_command),
+			   can_client_issue_orders() &&
 			   controlled);
 }
 

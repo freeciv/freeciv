@@ -382,8 +382,8 @@ void update_unit_pix_label(struct unit *punit)
   
   int i;
   
-  if(punit) {
-    if(punit->type != prev_unit_type
+  if (punit && get_client_state() != CLIENT_GAME_OVER_STATE) {
+    if (punit->type != prev_unit_type
        || punit->activity != prev_activity
        || punit->hp != prev_hp) {
       set_unit_icon(-1, punit);
@@ -929,7 +929,9 @@ void request_unit_pillage(struct unit *punit)
 **************************************************************************/
 void request_toggle_map_grid(void) 
 {
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   draw_map_grid^=1;
   update_map_canvas_visible();
@@ -940,8 +942,9 @@ void request_toggle_map_grid(void)
 **************************************************************************/
 void request_toggle_city_names(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_city_names ^= 1;
   update_map_canvas_visible();
@@ -965,8 +968,9 @@ void request_toggle_city_growth(void)
 **************************************************************************/
 void request_toggle_city_productions(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_city_productions ^= 1;
   update_map_canvas_visible();
@@ -977,8 +981,9 @@ void request_toggle_city_productions(void)
 **************************************************************************/
 void request_toggle_terrain(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_terrain ^= 1;
   update_map_canvas_visible();
@@ -989,8 +994,9 @@ void request_toggle_terrain(void)
 **************************************************************************/
 void request_toggle_coastline(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_coastline ^= 1;
   update_map_canvas_visible();
@@ -1001,8 +1007,9 @@ void request_toggle_coastline(void)
 **************************************************************************/
 void request_toggle_roads_rails(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_roads_rails ^= 1;
   update_map_canvas_visible();
@@ -1013,8 +1020,9 @@ void request_toggle_roads_rails(void)
 **************************************************************************/
 void request_toggle_irrigation(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_irrigation ^= 1;
   update_map_canvas_visible();
@@ -1025,8 +1033,9 @@ void request_toggle_irrigation(void)
 **************************************************************************/
 void request_toggle_mines(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_mines ^= 1;
   update_map_canvas_visible();
@@ -1037,8 +1046,9 @@ void request_toggle_mines(void)
 **************************************************************************/
 void request_toggle_fortress_airbase(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_fortress_airbase ^= 1;
   update_map_canvas_visible();
@@ -1049,8 +1059,9 @@ void request_toggle_fortress_airbase(void)
 **************************************************************************/
 void request_toggle_specials(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_specials ^= 1;
   update_map_canvas_visible();
@@ -1061,8 +1072,9 @@ void request_toggle_specials(void)
 **************************************************************************/
 void request_toggle_pollution(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_pollution ^= 1;
   update_map_canvas_visible();
@@ -1073,8 +1085,9 @@ void request_toggle_pollution(void)
 **************************************************************************/
 void request_toggle_cities(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_cities ^= 1;
   update_map_canvas_visible();
@@ -1085,8 +1098,9 @@ void request_toggle_cities(void)
 **************************************************************************/
 void request_toggle_units(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_units ^= 1;
   update_map_canvas_visible();
@@ -1097,8 +1111,9 @@ void request_toggle_units(void)
 **************************************************************************/
 void request_toggle_focus_unit(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_focus_unit ^= 1;
   update_map_canvas_visible();
@@ -1109,8 +1124,9 @@ void request_toggle_focus_unit(void)
 **************************************************************************/
 void request_toggle_fog_of_war(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_change_view()) {
     return;
+  }
 
   draw_fog_of_war ^= 1;
   update_map_canvas_visible();

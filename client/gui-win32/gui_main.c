@@ -460,7 +460,7 @@ void create_main_window()
 static VOID CALLBACK blink_timer(HWND hwnd, UINT uMsg, UINT idEvent,
 				 DWORD dwTime)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (can_client_change_view()) {
     check_mapstore();
   }
 

@@ -275,7 +275,7 @@ static void try_update_effects(bool need_update)
 **************************************************************************/
 void handle_game_state(struct packet_generic_integer *packet)
 {
-  if(get_client_state()==CLIENT_SELECT_RACE_STATE && 
+  if (get_client_state() == CLIENT_SELECT_RACE_STATE && 
      packet->value==CLIENT_GAME_RUNNING_STATE &&
      game.player_ptr->nation == MAX_NUM_NATIONS) {
     popdown_races_dialog();
@@ -283,7 +283,7 @@ void handle_game_state(struct packet_generic_integer *packet)
   
   set_client_state(packet->value);
 
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     refresh_overview_canvas();
     refresh_overview_viewrect();
     player_set_unit_focus_status(game.player_ptr);
@@ -297,6 +297,15 @@ void handle_game_state(struct packet_generic_integer *packet)
     
     free_intro_radar_sprites();
     agents_game_start();
+  }
+
+  if (get_client_state() == CLIENT_GAME_OVER_STATE) {
+    refresh_overview_canvas();
+    refresh_overview_viewrect();
+
+    update_info_label();
+    update_unit_focus();
+    update_unit_info_label(NULL); 
   }
 }
 
@@ -448,7 +457,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->occupied =
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
 
-  popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
+  popup = (city_is_new && can_client_change_view() && 
            pcity->owner==game.player_idx && popup_new_cities) 
           || packet->diplomat_investigate;
 
@@ -488,7 +497,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     }
   }
 
-  if (draw_map_grid && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (draw_map_grid && can_client_change_view()) {
     queue_mapview_update();
   } else {
     refresh_tile_mapcanvas(pcity->x, pcity->y, TRUE);
@@ -1086,7 +1095,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.heating=pinfo->heating;
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     improvement_status_init(game.improvements,
 			    ARRAY_SIZE(game.improvements));
 
@@ -1120,9 +1129,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   /* Only update effects if a new wonder appeared or was destroyed */
   try_update_effects(need_effect_update);
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(get_client_state()==CLIENT_SELECT_RACE_STATE)
-      popdown_races_dialog();
+  if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
+    popdown_races_dialog();
   }
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
@@ -1130,7 +1138,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.unhappysize = pinfo->unhappysize;
   game.cityfactor = pinfo->cityfactor;
 
-  boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
+  boot_help = (can_client_change_view()
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
   if (game.timeout != 0) {
@@ -1218,7 +1226,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
   
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
+  if (can_client_change_view() && pplayer == game.player_ptr) {
     if(poptechup) {
       if(!game.player_ptr->ai.control || ai_popup_windows)
 	popup_science_dialog(TRUE);
@@ -1256,7 +1264,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       (pplayer->revolution < 1 || pplayer->revolution > 5) &&
       pplayer->government == game.government_when_anarchy &&
       (!game.player_ptr->ai.control || ai_popup_windows) &&
-      (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
+      can_client_change_view()) {
     create_event(-1, -1, E_REVOLT_DONE, _("Game: Revolution finished"));
     popup_government_dialog();
   }
@@ -1264,8 +1272,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_players_dialog();
   update_worklist_report_dialog();
 
-  if (pplayer == game.player_ptr
-      && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (pplayer == game.player_ptr && can_client_change_view()) {
     update_info_label();
   }
 }
@@ -1608,7 +1615,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   /* refresh tiles */
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+  if (can_client_change_view()) {
     int x = packet->x, y = packet->y;
 
     /* the tile itself */

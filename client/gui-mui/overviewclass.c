@@ -449,8 +449,7 @@ static ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
 
     MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS);
 
-    if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-    {
+    if (can_client_change_view()) {
       Overview_FillBuffer(data);
     }
 
@@ -510,8 +509,7 @@ static ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-  {
+  if (can_client_change_view()) {
     LONG scalex = data->ov_ScaleX;
     LONG scaley = data->ov_ScaleY;
 

@@ -33,6 +33,7 @@
 #include "support.h"
 #include "unit.h"
 
+#include "civclient.h"
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
@@ -704,11 +705,12 @@ static void create_city_report_dialog(bool make_modal)
 *****************************************************************/
 static void city_list_callback(GtkWidget *w, gint row, gint column)
 {
+  gtk_widget_set_sensitive(city_change_command, can_client_issue_orders());
+  gtk_widget_set_sensitive(city_select_command, can_client_issue_orders());
   if (GTK_CLIST(city_list)->selection) {
-    gtk_widget_set_sensitive(city_change_command, TRUE);
     gtk_widget_set_sensitive(city_center_command, TRUE);
     gtk_widget_set_sensitive(city_popup_command, TRUE);
-    gtk_widget_set_sensitive(city_buy_command, TRUE);
+    gtk_widget_set_sensitive(city_buy_command, can_client_issue_orders());
   } else {
     gtk_widget_set_sensitive(city_center_command, FALSE);
     gtk_widget_set_sensitive(city_popup_command, FALSE);

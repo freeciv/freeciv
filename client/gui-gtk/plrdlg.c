@@ -30,6 +30,7 @@
 #include "player.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "chatline.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -490,17 +491,20 @@ void players_list_callback(GtkWidget * w, gint row, gint column)
     break;
   default:
     gtk_widget_set_sensitive(players_war_command,
-			     game.player_idx != player_index);
+			     can_client_issue_orders()
+			     && game.player_idx != player_index);
   }
 
   gtk_widget_set_sensitive(players_vision_command,
-			   gives_shared_vision(game.player_ptr, pplayer));
+			   can_client_issue_orders()
+			   && gives_shared_vision(game.player_ptr, pplayer));
 
   if (pplayer->is_alive 
       && pplayer != game.player_ptr
       && player_has_embassy(game.player_ptr, pplayer)) {
     if (pplayer->is_connected)
-      gtk_widget_set_sensitive(players_meet_command, TRUE);
+      gtk_widget_set_sensitive(players_meet_command,
+			       can_client_issue_orders());
     else
       gtk_widget_set_sensitive(players_meet_command, FALSE);
     gtk_widget_set_sensitive(players_int_command, TRUE);

@@ -491,7 +491,7 @@ void center_on_something(void)
   struct city *pcity;
   struct unit *punit;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (!can_client_change_view()) {
     return;
   }
 

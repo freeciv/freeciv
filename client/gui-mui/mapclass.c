@@ -782,8 +782,7 @@ static ULONG Map_Set(struct IClass * cl, Object * o, struct opSet * msg)
     }
   }
 
-  if (redraw && get_client_state() == CLIENT_GAME_RUNNING_STATE)
-  {
+  if (redraw && can_client_change_view()) {
     data->old_horiz_first = data->horiz_first;
     data->old_vert_first = data->vert_first;
     data->horiz_first = new_horiz_first;
@@ -1082,8 +1081,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-  {
+  if (can_client_change_view()) {
     BOOL drawmap = FALSE;
     if (msg->flags & MADF_DRAWUPDATE)
     {
@@ -1587,8 +1585,7 @@ static ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
   }
 
 
-  if (msg->imsg && (get_client_state() == CLIENT_GAME_RUNNING_STATE))
-  {
+  if (msg->imsg && can_client_change_view()) {
     UWORD qual = msg->imsg->Qualifier;
 
     switch (msg->imsg->Class)
@@ -1666,8 +1663,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
   if (data->context_menu)
     MUI_DisposeObject(data->context_menu);
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
-  {
+  if (can_client_change_view()) {
     if (_isinobject(msg->mx, msg->my))
     {
       struct city *pcity;

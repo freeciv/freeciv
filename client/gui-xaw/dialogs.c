@@ -2448,8 +2448,9 @@ void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
   int delta=10;
   struct packet_player_request packet;
 
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if (!can_client_issue_orders) {
     return;
+  }
   
   i= (size_t)client_data;
   

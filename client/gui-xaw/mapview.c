@@ -398,13 +398,14 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 {
   Dimension height, width;
   
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(radar_gfx_sprite)
+  if (!can_client_change_view()) {
+    if (radar_gfx_sprite) {
       XCopyArea(display, radar_gfx_sprite->pixmap, XtWindow(overview_canvas),
                  civ_gc,
                  event->xexpose.x, event->xexpose.y,
                  event->xexpose.width, event->xexpose.height,
                  event->xexpose.x, event->xexpose.y);
+    }
     return;
   }
 
@@ -514,11 +515,15 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(!intro_gfx_sprite)  load_intro_gfx();
-    if(height!=scaled_intro_pixmap_height || width!=scaled_intro_pixmap_width) {
-      if(scaled_intro_pixmap)
+  if (!can_client_change_view()) {
+    if (!intro_gfx_sprite) {
+      load_intro_gfx();
+    }
+    if (height != scaled_intro_pixmap_height
+        || width != scaled_intro_pixmap_width) {
+      if (scaled_intro_pixmap) {
 	XFreePixmap(display, scaled_intro_pixmap);
+      }
 
       scaled_intro_pixmap=x_scale_pixmap(intro_gfx_sprite->pixmap,
 					 intro_gfx_sprite->width,
@@ -1051,8 +1056,9 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 {
   float percent=*(float*)percent_ptr;
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   if(w==map_horizontal_scrollbar)
     map_view_x0=percent*map.xsize;
@@ -1080,9 +1086,9 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 {
   int position = XTPOINTER_TO_INT(position_val), is_real;
 
-
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
+  if (!can_client_change_view()) {
+    return;
+  }
 
   if(w==map_horizontal_scrollbar) {
     if(position>0) 
