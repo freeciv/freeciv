@@ -448,7 +448,7 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain 6 mailing lists:
+We maintain 7 mailing lists:
 
   freeciv          General discussion.
   freeciv-announce Announcements of general interest.
@@ -459,6 +459,7 @@ We maintain 6 mailing lists:
   freeciv-data     Freeciv data directory development.
                    (Discussion of rulesets, tilesets, etc.)
   freeciv-java     Freeciv Java client development.
+  freeciv-ai       Freeciv AI development.
   freeciv-cvs      Notifications of changes to the CVS repository.
                    This is a "Read Only" list, carrying automated messages.
                    In other words you can't mail this list, just read it.
@@ -476,6 +477,7 @@ To join (or leave) these lists follow these steps:
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
+        subscribe freeciv-ai
         subscribe freeciv-cvs
       To leave:
         unsubscribe freeciv
@@ -483,6 +485,7 @@ To join (or leave) these lists follow these steps:
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
+        unsubscribe freeciv-ai
         unsubscribe freeciv-cvs
 
 To send an email to the lists, address it to:
@@ -491,6 +494,7 @@ To send an email to the lists, address it to:
   For freeciv-dev, mail should be sent to <freeciv-dev@freeciv.org>.
   For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
   For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
+  For freeciv-ai, mail should be sent to <freeciv-ai@freeciv.org>.
 
 
 New Releases:
