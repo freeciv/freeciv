@@ -58,7 +58,6 @@
 
 int CITY_DIALOG_HEIGHT;
 int CITY_DIALOG_WIDTH;
-int NUM_UNITS_SHOWN;
 
 
 struct city_dialog {
@@ -84,12 +83,14 @@ struct city_dialog {
   GtkWidget *worklist_label;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
-  GtkWidget **support_unit_boxes;
-  GtkWidget **support_unit_pixmaps;
+  GtkWidget *support_box;
+  GList *support_unit_boxes;
+  GList *support_unit_pixmaps;
   GtkWidget *support_unit_button	[2];
   GtkWidget *present_unit_label;
-  GtkWidget **present_unit_boxes;
-  GtkWidget **present_unit_pixmaps;
+  GtkWidget *present_box;
+  GList *present_unit_boxes;
+  GList *present_unit_pixmaps;
   GtkWidget *present_unit_button	[2];
   GtkWidget *close_command;
   GtkWidget *rename_command; 
@@ -107,9 +108,9 @@ struct city_dialog {
   
   int first_elvis, first_scientist, first_taxman;
   int cwidth;
-  int *support_unit_ids;
+  GList *support_unit_ids;
   int support_unit_pos;
-  int *present_unit_ids;
+  GList *present_unit_ids;
   int present_unit_pos;
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
@@ -118,6 +119,8 @@ struct city_dialog {
   int change_list_num_improvements;
 
   int is_modal;
+  int NUM_UNITS_SHOWN;
+  int initialized;
 };
 
 static GdkBitmap *icon_bitmap;
@@ -130,6 +133,8 @@ static struct city_dialog *get_city_dialog(struct city *pcity);
 static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
 static void close_city_dialog(struct city_dialog *pdialog);
 static void initialize_city_dialogs(void);
+
+static void recalculate_NUM_UNITS_SHOWN(struct city_dialog* pdialog);
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
@@ -222,14 +227,20 @@ static void initialize_city_dialogs(void)
   CITY_DIALOG_HEIGHT = 2*SMALL_TILE_HEIGHT + canvas_height
 	+ 3*NORMAL_TILE_HEIGHT + 160;
 
-  if (is_isometric) {
-    NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/UNIT_TILE_WIDTH-1;
-  } else {
-    NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/(UNIT_TILE_WIDTH + UNIT_TILE_WIDTH/2)-1;
-  }
-
   city_dialogs_have_been_initialised=1;
 }
+
+/****************************************************************
+...
+*****************************************************************/
+static void recalculate_NUM_UNITS_SHOWN(struct city_dialog* pdialog){
+  if (is_isometric) {
+    pdialog->NUM_UNITS_SHOWN = (GTK_WIDGET(pdialog->shell)->allocation.width-50)/UNIT_TILE_WIDTH;
+  } else {
+    pdialog->NUM_UNITS_SHOWN = (GTK_WIDGET(pdialog->shell)->allocation.width-50)/(UNIT_TILE_WIDTH + UNIT_TILE_WIDTH/2);
+  }
+}
+
 
 /****************************************************************
 ...
@@ -426,6 +437,38 @@ static void city_dialog_present_unit_pos_callback(GtkWidget *w, gpointer data)
   city_dialog_update_present_units(pdialog, 0);
 }
 
+
+/****************************************************************
+...
+*****************************************************************/
+static void add_box_and_pixmap(GList* box, GList* map, GList* id,
+			       GtkWidget* hbox, gint own_city)
+{
+  box->data=(gpointer)gtk_event_box_new();
+  gtk_widget_set_events((GtkWidget*)(box->data),
+			GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
+  
+  gtk_box_pack_start(GTK_BOX(hbox), (GtkWidget*)(box->data),
+		     FALSE, FALSE, 0);
+    
+  map->data=(gpointer)(gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
+				       NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2));
+
+  gtk_container_add(GTK_CONTAINER((GtkWidget*)(box->data)),
+		    (GtkWidget*)(map->data));
+  
+  id->data=(gpointer)(-1);
+  
+  if (own_city)
+    gtk_widget_set_sensitive((GtkWidget*)(box->data), FALSE);    
+
+  gtk_widget_show_all((GtkWidget*)(box->data));
+
+  box->next=NULL;
+  map->next=NULL;
+  id->next=NULL;
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -440,16 +483,17 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
     initialize_city_dialogs();
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
+  pdialog->initialized=0;
   pdialog->pcity=pcity;
   pdialog->change_shell=0;
 
-  pdialog->support_unit_boxes=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
-  pdialog->support_unit_pixmaps=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
-  pdialog->present_unit_boxes=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
-  pdialog->present_unit_pixmaps=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
+  pdialog->support_unit_boxes=NULL;
+  pdialog->support_unit_pixmaps=NULL;
+  pdialog->present_unit_boxes=NULL;
+  pdialog->present_unit_pixmaps=NULL;
 
-  pdialog->support_unit_ids=fc_calloc(NUM_UNITS_SHOWN, sizeof(int));
-  pdialog->present_unit_ids=fc_calloc(NUM_UNITS_SHOWN, sizeof(int));
+  pdialog->support_unit_ids=NULL;
+  pdialog->present_unit_ids=NULL;
 
 
   pdialog->shell=gtk_dialog_new();
@@ -608,33 +652,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
 	FALSE, FALSE, 0);
   gtk_widget_realize(pdialog->support_unit_label);
 
-  box=gtk_hbox_new(TRUE, 1);
+  box=gtk_hbox_new(FALSE,1);
   gtk_container_add(GTK_CONTAINER(pdialog->support_unit_label),box);
   gtk_widget_realize(box);
 
-  for(i=0; i<NUM_UNITS_SHOWN; i++) {
-    pdialog->support_unit_boxes[i]=gtk_event_box_new();
-    gtk_widget_set_events(pdialog->support_unit_boxes[i],
-	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
-
-    gtk_box_pack_start(GTK_BOX(box), pdialog->support_unit_boxes[i],
-		       TRUE, FALSE, 0);
-    gtk_widget_show(pdialog->support_unit_boxes[i]);
-
-    pdialog->support_unit_pixmaps[i]=
-      gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
-		      NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
-    gtk_container_add(GTK_CONTAINER(pdialog->support_unit_boxes[i]),
-	pdialog->support_unit_pixmaps[i]);
-
-    pdialog->support_unit_ids[i]=-1;
-
-    if(pcity->owner != game.player_idx)
-      gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);    
-  }
-
   vbox2=gtk_vbox_new(FALSE, 1);
-  gtk_box_pack_start(GTK_BOX(box), vbox2, TRUE, FALSE, 0);
+  gtk_box_pack_end(GTK_BOX(box), vbox2, FALSE, FALSE, 0);
 
   pdialog->support_unit_button[0]=gtk_button_new_with_label("<");
   gtk_box_pack_start(GTK_BOX(vbox2),
@@ -643,6 +666,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   pdialog->support_unit_button[1]=gtk_button_new_with_label(">");
   gtk_box_pack_start(GTK_BOX(vbox2),
   	pdialog->support_unit_button[1], TRUE, TRUE, 0);
+
+  pdialog->support_box=gtk_hbox_new(FALSE, 1);
+  
+  gtk_widget_realize(box);
+  gtk_box_pack_start(GTK_BOX(box), pdialog->support_box, FALSE, FALSE, 0);
+  
 
   gtk_signal_connect(GTK_OBJECT(pdialog->support_unit_button[0]), "clicked",
 	GTK_SIGNAL_FUNC(city_dialog_support_unit_pos_callback), pdialog);
@@ -658,32 +687,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
 	FALSE, FALSE, 0);
   gtk_widget_realize(pdialog->present_unit_label);
 
-  box=gtk_hbox_new(TRUE, 1);
+  box=gtk_hbox_new(FALSE, 1);
   gtk_container_add(GTK_CONTAINER(pdialog->present_unit_label),box);
   gtk_widget_realize(box);
 
-  for(i=0; i<NUM_UNITS_SHOWN; i++) {
-    pdialog->present_unit_boxes[i]=gtk_event_box_new();
-    gtk_widget_set_events(pdialog->present_unit_boxes[i],
-	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
-
-    gtk_box_pack_start(GTK_BOX(box), pdialog->present_unit_boxes[i],
-		       TRUE, FALSE, 0);
-    gtk_widget_show(pdialog->present_unit_boxes[i]);
-
-    pdialog->present_unit_pixmaps[i]=
-     gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    gtk_container_add(GTK_CONTAINER(pdialog->present_unit_boxes[i]),
-	pdialog->present_unit_pixmaps[i]);
-
-    pdialog->present_unit_ids[i]=-1;
-
-    if(pcity->owner != game.player_idx)
-      gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);    
-  }
-
   vbox2=gtk_vbox_new(FALSE, 1);
-  gtk_box_pack_start(GTK_BOX(box), vbox2, TRUE, FALSE, 0);
+  gtk_box_pack_end(GTK_BOX(box), vbox2, FALSE, FALSE, 0);
 
   pdialog->present_unit_button[0]=gtk_button_new_with_label("<");
   gtk_box_pack_start(GTK_BOX(vbox2),
@@ -692,6 +701,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   pdialog->present_unit_button[1]=gtk_button_new_with_label(">");
   gtk_box_pack_start(GTK_BOX(vbox2),
   	pdialog->present_unit_button[1], TRUE, TRUE, 0);
+
+  pdialog->present_box=gtk_hbox_new(FALSE, 1);
+  gtk_box_pack_start(GTK_BOX(box),pdialog->present_box, FALSE, FALSE, 0);
+  gtk_widget_realize(pdialog->present_box);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->present_unit_button[0]), "clicked",
 	GTK_SIGNAL_FUNC(city_dialog_present_unit_pos_callback), pdialog);
@@ -1619,12 +1632,15 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct genlist_iterator myiter;
   struct unit *punit;
   int size;
+  GList **support_box,**support_pixmap,**support_id,*iter,*tmp;
+
+  recalculate_NUM_UNITS_SHOWN(pdialog);
 
   if(unitid) {
-    for(i=0; i<NUM_UNITS_SHOWN; i++)
-      if(pdialog->support_unit_ids[i]==unitid)
+    for(i=0,iter=pdialog->support_unit_ids; i<pdialog->NUM_UNITS_SHOWN && iter; iter=iter->next, i++)
+      if((gint)(iter->data)==unitid)
 	break;
-    if(i==NUM_UNITS_SHOWN)
+    if(i==pdialog->NUM_UNITS_SHOWN)
       unitid=0;
   }
 
@@ -1634,7 +1650,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     plist = &(pdialog->pcity->units_supported);
   }
 
-  size = (plist->list.nelements-1)/NUM_UNITS_SHOWN;
+  size=(plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
   size = MAX(0, size);
   if (size==0 || pdialog->support_unit_pos>size) {
     pdialog->support_unit_pos=0;
@@ -1646,58 +1662,94 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   	(pdialog->support_unit_pos<size));
 
   genlist_iterator_init(&myiter, &(plist->list),
-  	pdialog->support_unit_pos*NUM_UNITS_SHOWN);
+  	pdialog->support_unit_pos*pdialog->NUM_UNITS_SHOWN);
 
-  for(i=0;i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
+
+  support_box=&(pdialog->support_unit_boxes);
+  support_pixmap=&(pdialog->support_unit_pixmaps);
+  support_id=&(pdialog->support_unit_ids);
+
+  for(i=0;i<pdialog->NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
-        
+    
     if(unitid && punit->id!=unitid)
       continue;
-
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), FALSE);
-
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
-    put_unit_gpixmap_city_overlays(punit, 
-				  GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
-
-    gtk_pixcomm_changed(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
-
-    pdialog->support_unit_ids[i]=punit->id;
-
-    gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->support_unit_boxes[i]));
-    gtk_signal_connect(GTK_OBJECT(pdialog->support_unit_boxes[i]),
-	"button_press_event",
-	GTK_SIGNAL_FUNC(support_units_callback), (gpointer)punit->id);
-    gtk_signal_connect(GTK_OBJECT(pdialog->support_unit_boxes[i]),
-	"button_release_event",
-	GTK_SIGNAL_FUNC(s_units_middle_callback), (gpointer)punit->id);
-    gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], TRUE);
-  }
     
-  for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), TRUE);
-    pdialog->support_unit_ids[i]=0;
-    gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);
+    if (*support_box==NULL){ /*The three lists should always be syncronized*/
+      *support_box=fc_malloc(sizeof(GList*));
+      *support_pixmap=fc_malloc(sizeof(GList*));
+      *support_id=fc_malloc(sizeof(GList*));
+      add_box_and_pixmap(*support_box,*support_pixmap,*support_id,pdialog->support_box,(pdialog->pcity->owner==game.player_idx));
+    }
+    
+    if (flags_are_transparent)
+      gtk_pixcomm_clear(GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)), FALSE);
+    
+    put_unit_gpixmap(punit, GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
+    put_unit_gpixmap_city_overlays(punit, 
+				   GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
+    
+    gtk_pixcomm_changed(GTK_PIXCOMM((GtkWidget*)((*support_pixmap)->data)));
+    
+    (*support_id)->data=(gpointer)(punit->id);
+    
+    gtk_signal_handlers_destroy(GTK_OBJECT((GtkWidget*)((*support_box)->data)));
+    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*support_box)->data)),
+		       "button_press_event",
+		       GTK_SIGNAL_FUNC(support_units_callback), (gpointer)punit->id);
+    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*support_box)->data)),
+		       "button_release_event",
+		       GTK_SIGNAL_FUNC(s_units_middle_callback), (gpointer)punit->id);
+    gtk_widget_set_sensitive((GtkWidget*)((*support_box)->data), TRUE);
+
+    support_box=&((*support_box)->next);
+    support_pixmap=&((*support_pixmap)->next);
+    support_id=&((*support_id)->next);
+
   }
+
+  for(iter=*support_box;iter;iter=tmp){
+    gtk_widget_destroy((GtkWidget*)iter->data);
+    tmp=iter->next;
+    free(iter);
+  }
+  for(iter=*support_pixmap;iter;iter=tmp){
+    tmp=iter->next;
+    free(iter);
+  }
+  for(iter=*support_id;iter;iter=tmp){
+    tmp=iter->next;
+    free(iter);
+  }
+  *support_box=NULL;
+  *support_pixmap=NULL;
+  *support_id=NULL;
+  
 }
+
 
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
+static void city_dialog_update_present_units(struct city_dialog *pdialog, 
+					       int unitid)
 {
   int i;
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
   int size;
-  
+  GList **present_box,**present_pixmap,**present_id,*iter,*tmp;
+
+
+  recalculate_NUM_UNITS_SHOWN(pdialog);
+
+
   if(unitid) {
-    for(i=0; i<NUM_UNITS_SHOWN; i++)
-      if(pdialog->present_unit_ids[i]==unitid)
+    for(i=0, iter=pdialog->present_unit_ids;i<pdialog->NUM_UNITS_SHOWN && iter; i++, iter=iter->next)
+      if ((gint)(iter->data)==unitid)
 	break;
-    if(i==NUM_UNITS_SHOWN)
+    if(i==pdialog->NUM_UNITS_SHOWN)
       unitid=0;
   }
 
@@ -1707,7 +1759,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
     plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
 
-  size = (plist->list.nelements-1)/NUM_UNITS_SHOWN;
+  size=(plist->list.nelements-1)/pdialog->NUM_UNITS_SHOWN;
   size = MAX(0, size);
   if (size==0 || pdialog->present_unit_pos>size) {
     pdialog->present_unit_pos=0;
@@ -1719,38 +1771,69 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   	(pdialog->present_unit_pos<size));
 
   genlist_iterator_init(&myiter, &(plist->list),
-  	pdialog->present_unit_pos*NUM_UNITS_SHOWN);
+  	pdialog->present_unit_pos*pdialog->NUM_UNITS_SHOWN);
 
-  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
+
+  present_box=&(pdialog->present_unit_boxes);
+  present_pixmap=&(pdialog->present_unit_pixmaps);
+  present_id=&(pdialog->present_unit_ids);
+
+  for(i=0; i<pdialog->NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
     
     if(unitid && punit->id!=unitid)
       continue;
 
+    if (*present_box==NULL){ /*The three lists should always be syncronized*/
+      *present_box=fc_malloc(sizeof(GList*));
+      *present_pixmap=fc_malloc(sizeof(GList*));
+      *present_id=fc_malloc(sizeof(GList*));
+      add_box_and_pixmap(*present_box,*present_pixmap,*present_id,pdialog->present_box,(pdialog->pcity->owner==game.player_idx));
+    }
+
     if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), FALSE);
+      gtk_pixcomm_clear(GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
+    put_unit_gpixmap(punit, GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)));
 
-    gtk_pixcomm_changed(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
+    gtk_pixcomm_changed(GTK_PIXCOMM((GtkWidget*)((*present_pixmap)->data)));
+    
+    (*present_id)->data=(gpointer)(punit->id);
+    
+    gtk_signal_handlers_destroy(GTK_OBJECT((GtkWidget*)((*present_box)->data)));
+    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*present_box)->data)),
+		       "button_press_event",
+		       GTK_SIGNAL_FUNC(present_units_callback), (gpointer)punit->id);
+    gtk_signal_connect(GTK_OBJECT((GtkWidget*)((*present_box)->data)),
+		       "button_release_event",
+		       GTK_SIGNAL_FUNC(p_units_middle_callback), (gpointer)punit->id);
+    gtk_widget_set_sensitive((GtkWidget*)((*present_box)->data), TRUE);
 
-    pdialog->present_unit_ids[i]=punit->id;
+    present_box=&((*present_box)->next);
+    present_pixmap=&((*present_pixmap)->next);
+    present_id=&((*present_id)->next);
 
-    gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->present_unit_boxes[i]));
-    gtk_signal_connect(GTK_OBJECT(pdialog->present_unit_boxes[i]),
-	"button_press_event",
-	GTK_SIGNAL_FUNC(present_units_callback), (gpointer)punit->id);
-    gtk_signal_connect(GTK_OBJECT(pdialog->present_unit_boxes[i]),
-	"button_release_event",
-	GTK_SIGNAL_FUNC(p_units_middle_callback), (gpointer)punit->id);
-    gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], TRUE);
   }
-  for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), TRUE);
-    pdialog->present_unit_ids[i]=0;
-    gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);
+
+  for(iter=*present_box;iter;iter=tmp){
+    gtk_widget_destroy((GtkWidget*)iter->data);
+    tmp=iter->next;
+    free(iter);
   }
+  for(iter=*present_pixmap;iter;iter=tmp){
+    tmp=iter->next;
+    free(iter);
+  }
+  for(iter=*present_id;iter;iter=tmp){
+    tmp=iter->next;
+    free(iter);
+  }
+  *present_box=NULL;
+  *present_pixmap=NULL;
+  *present_id=NULL;
+  
 }
+
 
 /****************************************************************
 ...
