@@ -52,12 +52,10 @@
 #define PATH_SEPARATOR ":"
 #endif
 
-#define BASE_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR "~/.freeciv"
-
-#ifdef FREECIV_DATADIR       /* the configured installation directory */
-#define DEFAULT_DATA_PATH BASE_DATA_PATH PATH_SEPARATOR FREECIV_DATADIR
-#else
-#define DEFAULT_DATA_PATH BASE_DATA_PATH
+/* If no default data path is defined use the default default one */
+#ifndef DEFAULT_DATA_PATH
+#define DEFAULT_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR \
+                          "~/.freeciv"
 #endif
 
 /* Random Number Generator variables */
@@ -542,9 +540,8 @@ char *user_username(void)
   Returns a filename to access the specified file from a data directory;
   The file may be in any of the directories in the data path, which is
   specified internally or may be set as the environment variable
-  $FREECIV_PATH.  (A colon-separated list of directories.)
-  (For backward compatability the directory specified by $FREECIV_DATADIR
-  (if any) is prepended to this path.  (Is this desirable?))
+  $FREECIV_PATH.  (A separated list of directories, where the separator
+  itself can specified internally.)
   '~' at the start of a component (provided followed by '/' or '\0')
   is expanded as $HOME.
 
@@ -569,17 +566,10 @@ char *datafilename(const char *filename)
   if (!init) {
     char *tok;
     char *path = getenv("FREECIV_PATH");
-    char *data = getenv("FREECIV_DATADIR");
     if (!path) {
       path = DEFAULT_DATA_PATH;
     }
-    if (data) {
-      char *tmp = fc_malloc(strlen(data) + strlen(path) + 2);
-      sprintf(tmp, "%s" PATH_SEPARATOR "%s", data, path);
-      path = tmp;
-    } else {
-      path = mystrdup(path);	/* something we can strtok */
-    }
+    path = mystrdup(path);	/* something we can strtok */
     
     tok = strtok(path, PATH_SEPARATOR);
     do {

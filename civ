@@ -15,10 +15,6 @@
 #***********************************************************************/
 DIR=`dirname $0`
 
-#if [ "$FREECIV_DATADIR" = "" ] ; then
-#    FREECIV_DATADIR=$DIR/data; export FREECIV_DATADIR
-#fi
-
 [ -x $DIR/client/civclient ] && EXE=$DIR/client/civclient
 [ -x $DIR/civclient ] && EXE=$DIR/civclient
 

@@ -6025,7 +6025,7 @@ rm -f conftest*
         )`
 
 cat >> confdefs.h <<EOF
-#define FREECIV_DATADIR "$FREECIV_DATADIR"
+#define DEFAULT_DATA_PATH ".:data:~/.freeciv:$FREECIV_DATADIR"
 EOF
 
 

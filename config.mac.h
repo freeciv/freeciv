@@ -70,7 +70,6 @@
 #undef PATCH_VERSION
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
-#undef FREECIV_DATADIR
 #undef HAVE_LIBICE
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11
@@ -86,6 +85,7 @@
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
 #undef LOCALEDIR
+#undef DEFAULT_DATA_PATH
 #define HAVE_SIGPIPE 1		/* ? dwp */
 #undef XPM_H_NO_X11
 
@@ -97,7 +97,6 @@
 
 #define GENERATING_MAC
 #define HAVE_OPENTRANSPORT
-
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
