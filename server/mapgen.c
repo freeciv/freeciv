@@ -344,10 +344,10 @@ void make_plains()
 }
 
 /**************************************************************************
-  we want the map to be sailable east-west atleast at north and south pole 
-  and make it a bit jagged at the edge aswell.
+  we want the map to be sailable east-west at least at north and south pole 
+  and make it a bit jagged at the edge as well.
   So this procedure converts the second line and the second last line to
-  ocean, and 50% of the 3 and 3 last line to ocean. 
+  ocean, and 50% of the 3rd and 3rd last line to ocean. 
 **************************************************************************/
 void make_passable()
 {
@@ -430,7 +430,7 @@ void make_land()
 }
 
 /**************************************************************************
- returns if this is a 1x1 island (which we removes)
+ returns if this is a 1x1 island (which we remove)
 **************************************************************************/
 int tiny_island(int x, int y) 
 {
@@ -806,10 +806,10 @@ void placeisland(int xp, int yp)
 	map_set_terrain(xp + x, yp + y, mini_map(xs+x, ys+y));
     }
 }
+
 /**************************************************************************
   is there a neighbour square in the 4 basic directions?
 **************************************************************************/
-
 int neighbour(int x, int y)
 {
   if ( x == 0 || x == xmax - 1 || y==0 || y == ymax -1) return 0;
@@ -1055,4 +1055,3 @@ void make_huts(int number)
     }
   }
 }
-

@@ -19,7 +19,6 @@ libcivcommon_a_SOURCES = \
 		log.h		\
 		map.c		\
 		map.h		\
-		mapgen.c	\
 		packets.c	\
 		packets.h	\
 		player.c	\
