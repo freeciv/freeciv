@@ -11,6 +11,7 @@ artists = "
     David Pfitzner <dwp@mso.anu.edu.au> (revised)
     Jerzy Klek <qpkjeek@epk.ericsson.se> (more flags added)
     Reineir Post <rp@win.tue.nl> (Sweden, Holland)
+    Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
 "
 
 [file]
@@ -60,4 +61,5 @@ tiles = { "row", "column", "tag"
   2,  5, "f.ukraine"
   2,  6, "f.sioux"        ; actually Cheyenne...
   2,  7, "f.norway"
+  2,  8, "f.portugal"
 }
