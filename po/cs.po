@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-26 11:27+0100\n"
+"PO-Revision-Date: 2005-01-26 14:23+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21766,5 +21766,5 @@ msgstr "?plural:Zuluové"
 
 #: data/nation/zulu.ruleset:16
 msgid "The Zulus are a warlike Bantu people who migrated from west-central Africa into southern Africa beginning in the early 1700s, conquering the native Khoisan peoples and clashing with European settlers."
-msgstr ""
+msgstr "Zuluové jsou válečnickým národem, který migroval ze západu střední Afriky na do jižní části začátkem roku 1700, podrobil si původní obyvatele a zápolil s Evropskými osadníky."
 
