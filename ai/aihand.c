@@ -226,6 +226,10 @@ void ai_manage_taxes(struct player *pplayer)
   struct packet_unit_request pack;
   struct city *incity; /* stay a while, until the night is over */
   struct unit *visitor; /* stay a while, stay forever */
+  int maxrate = 10;
+
+  if (ai_handicap(pplayer, H_RATES))
+    maxrate = get_government_max_rate(pplayer->government) / 10;
 
   pplayer->economic.science += pplayer->economic.luxury;
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
@@ -307,7 +311,7 @@ void ai_manage_taxes(struct player *pplayer)
   for (i = 0; i <= 10; i++) elvises[i] += (trade * i) / 10 * TRADE_WEIGHTING;
   /* elvises[i] is the production + income lost to elvises with lux = i * 10 */
   n = 0; /* default to 0 lux */
-  for (i = 1; i <= 10; i++) if (elvises[i] < elvises[n]) n = i;
+  for (i = 1; i <= maxrate; i++) if (elvises[i] < elvises[n]) n = i;
 /* two thousand zero zero party over it's out of time */
   for (i = 0; i <= 10; i++) {
     hhjj[i] -= (trade * i) / 10 * TRADE_WEIGHTING; /* hhjj is now our bonus */
@@ -320,29 +324,37 @@ void ai_manage_taxes(struct player *pplayer)
 /* Less-intelligent previous versions of the follow equation purged. -- Syela */
   n = ((expense - gnow + cities + pplayer->ai.maxbuycost) * 10 + trade - 1) / trade;
   if (n < 0) n = 0;
-  while (n > 10 - (pplayer->economic.luxury / 10)) n--;
+  while (n > 10 - (pplayer->economic.luxury / 10) || n > maxrate) n--;
 
 /*printf("%s has %d trade and %d expense.  Min lux = %d, tax = %d\n",
 pplayer->name, trade, expense, m, n);*/
 
   /* want to max the hhjj */
-  for (i = m; i <= 10 - n; i++) if (hhjj[i] > hhjj[m]) m = i;
+  for (i = m; i <= maxrate && i <= 10 - n; i++) if (hhjj[i] > hhjj[m]) m = i;
   pplayer->economic.luxury = 10 * m;
 
   if (pplayer->research.researching==A_NONE) {
     pplayer->economic.tax = 100 - pplayer->economic.luxury;
+    while (pplayer->economic.tax > maxrate * 10) {
+      pplayer->economic.tax -= 10;
+      pplayer->economic.luxury += 10;
+    }
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*  n = ((ai_gold_reserve(pplayer) - gnow - expense) ... I hate typos. -- Syela */
     n = ((ai_gold_reserve(pplayer) - gnow + expense + cities) * 20 + (trade<<1) - 1) / (trade<<1);
 /* same bug here as above, caused us not to afford city walls we needed. -- Syela */
     if (n < 0) n = 0; /* shouldn't allow 0 tax? */
-    while (n > 10 - (pplayer->economic.luxury / 10)) n--;
+    while (n > 10 - (pplayer->economic.luxury / 10) || n > maxrate) n--;
     pplayer->economic.tax = 10 * n;
   }
 
 /* once we have tech_want established, can compare it to cash want here -- Syela */
   pplayer->economic.science = 100 - pplayer->economic.tax - pplayer->economic.luxury;
+  while (pplayer->economic.science > maxrate * 10) {
+    pplayer->economic.tax += 10;
+    pplayer->economic.science -= 10;
+  }
 
   city_list_iterate(pplayer->cities, pcity) 
     pcity->ppl_elvis = 0;
