@@ -322,3 +322,10 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
   
   return 1;
 }
+
+int ai_handicap(struct player *pplayer, enum handicap_type htype)
+{
+  if (!pplayer->ai.control) return -1;
+  return(pplayer->ai.handicap&htype);
+}
+
