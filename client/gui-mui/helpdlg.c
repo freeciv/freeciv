@@ -353,7 +353,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     if (o)
     {
       DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
-//      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
+/*      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o); */
       set(o,MUIA_UserData, tech);
       leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
     }
@@ -659,7 +659,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       text = get_unit_type(utype->obsoleted_by)->name;
     SetAttrs(help_unit_obsolete_button,
 	     MUIA_Text_Contents, text,
-	     MUIA_UserData, HELP_UNIT,	//utype->obsoleted_by,
+	     MUIA_UserData, HELP_UNIT,	/*utype->obsoleted_by,*/
 	      TAG_DONE);
 
     set(help_unit_sprite, MUIA_Sprite_Sprite, get_unit_type(i)->sprite);

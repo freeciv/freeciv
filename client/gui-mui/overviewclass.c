@@ -414,7 +414,7 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
     if (draw_overview)
     {
       LONG x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
-      LONG x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;	//x1 + data->rect_width * scale - 1;
+      LONG x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;	/*x1 + data->rect_width * scale - 1; */
 
       LONG y1 = _mtop(o) + data->rect_top * scaley;
       LONG y2 = y1 + data->rect_height * scaley - 1;
@@ -458,7 +458,7 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
   {
     if (!(msg->flags & MADF_DRAWUPDATE))
     {
-      IMPORT APTR pen_shared_map;	// should happen with Tags...
+      IMPORT APTR pen_shared_map;	/* should happen with Tags... */
 
       if (pen_shared_map && data->radar_picture)
       {

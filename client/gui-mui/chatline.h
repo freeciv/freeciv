@@ -13,10 +13,8 @@
 #ifndef FC__CHATLINE_H
 #define FC__CHATLINE_H
 
-//#include <gtk/gtk.h>
-
 #include "chatline_g.h"
 
-//void inputline_return(GtkWidget *w, gpointer data);
+/* nothing to add */
 
 #endif  /* FC__CHATLINE_H */

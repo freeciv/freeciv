@@ -13,10 +13,8 @@
 #ifndef FC__CITYDLG_H
 #define FC__CITYDLG_H
 
-//#include <gtk/gtk.h>
-
 #include "citydlg_g.h"
 
-//gint button_down_citymap(GtkWidget *w, GdkEventButton *ev);
+/* nothing to add */
 
 #endif  /* FC__CITYDLG_H */

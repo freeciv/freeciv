@@ -120,7 +120,7 @@ char **gfx_fileextensions(void)
 *****************************************************************/
 static struct Sprite *load_sprite(const char *filename, ULONG usemask)
 {
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite));	//AllocVec(sizeof(struct Sprite),MEMF_CLEAR);
+  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite)); /*AllocVec(sizeof(struct Sprite),MEMF_CLEAR);*/
 
   if (sprite)
   {
@@ -146,7 +146,7 @@ static struct Sprite *load_sprite(const char *filename, ULONG usemask)
 
 	if (usemask && !sprite->hasmask)
 	{
-	  printf("Could not get the mask altrough there must be one!Graphics may look corrupt\n");
+	  printf("Could not get the mask although there must be one! Graphics may look corrupt.\n");
 	}
 
 	return sprite;
@@ -175,7 +175,7 @@ struct Sprite *load_gfxfile(const char *filename)
 	sprite_initialized = TRUE;
       }
       node->sprite = sprite;
-      node->filename = StrCopy(filename);
+      node->filename = StrCopy((STRPTR) filename);
       AddTail((struct List *) &sprite_list, (struct Node *) node);
       return sprite;
     }
@@ -194,7 +194,7 @@ struct Sprite *load_gfxfile(const char *filename)
 *****************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source, int x, int y, int width, int height)
 {
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite));	//AllocVec(sizeof(struct Sprite),MEMF_CLEAR);
+  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite)); /*AllocVec(sizeof(struct Sprite),MEMF_CLEAR);*/
 
   if (sprite)
   {
@@ -282,12 +282,15 @@ static void real_free_sprite(struct Sprite *sprite)
 static void free_sprites(void)
 {
   struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
-  while ((node = (struct SpriteNode *) RemHead((struct List *) &sprite_list)))
+  if(sprite_initialized)
   {
-    real_free_sprite(node->sprite);
-    if (node->filename)
-      FreeVec(node->filename);
-    FreeVec(node);
+    while ((node = (struct SpriteNode *) RemHead((struct List *) &sprite_list)))
+    {
+      real_free_sprite(node->sprite);
+      if (node->filename)
+        FreeVec(node->filename);
+      FreeVec(node);
+    }
   }
 }
 
@@ -1042,7 +1045,7 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 
 	  if (draw_city_productions && (pcity->owner==game.player_idx))
 	  {
-	    int turns, y_offset;
+	    int turns;
 	    struct unit_type *punit_type;
 	    struct impr_type *pimprovement_type;
 	    static char buffer[256];
@@ -1342,12 +1345,12 @@ STATIC ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax
   DoSuperMethodA(cl, o, (Msg) msg);
 
   msg->MinMaxInfo->MinWidth += 2;
-  msg->MinMaxInfo->DefWidth += 200;	//get_normal_tile_height()*5;
+  msg->MinMaxInfo->DefWidth += 200;	/*get_normal_tile_height()*5;*/
 
   msg->MinMaxInfo->MaxWidth += MUI_MAXMAX;
 
   msg->MinMaxInfo->MinHeight += 2;
-  msg->MinMaxInfo->DefHeight += 100;	//get_normal_tile_height()*5;
+  msg->MinMaxInfo->DefHeight += 100;	/*get_normal_tile_height()*5;*/
 
   msg->MinMaxInfo->MaxHeight += MUI_MAXMAX;
   return 0;
@@ -1356,7 +1359,6 @@ STATIC ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax
 STATIC ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
-  static int test = 0;
   ULONG flags;
   ULONG depth;
 
@@ -1435,7 +1437,6 @@ STATIC ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
 STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
-  struct RastPort *rp = _rp(o);
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -1500,7 +1501,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	int map_view_x0 = data->horiz_first;
 	int map_view_y0 = data->vert_first;
 	int i, x, y, diffx, diffy, x0 = data->x0, y0 = data->y0, dx = data->dx,
-	  dy = data->dy, dest_x = data->dest_x, dest_y = data->dest_y;
+	  dy = data->dy;
 	struct unit *punit = data->punit;
 
 	if (x0 >= map_view_x0)
@@ -2234,7 +2235,7 @@ STATIC ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
 	if (newcity != data->pcity)
 	{
 	  data->pcity = newcity;
-//                                                              MUI_Redraw(o,MADF_DRAWUPDATE);
+/*          MUI_Redraw(o,MADF_DRAWUPDATE); */
 	}
       }
       break;
@@ -2829,7 +2830,7 @@ STATIC ULONG Unit_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
        * the proper way to do this is probably something like what Civ II does.
        * (One food/shield/mask drawn N times, possibly one top of itself. -- SKi */
 
-      {				// from put_unit_gpixmap_city_overlay
+      {				/* from put_unit_gpixmap_city_overlay */
 
 	int upkeep_food = CLIP(0, punit->upkeep_food, 2);
 	int unhappy = CLIP(0, punit->unhappiness, 2);

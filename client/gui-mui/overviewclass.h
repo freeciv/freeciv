@@ -2,20 +2,20 @@
 
 #include <libraries/mui.h>
 
-#define MUIA_Overview_Width				(TAG_USER+0x3000001) // IG LONG
-#define MUIA_Overview_Height				(TAG_USER+0x3000002) // IG LONG
-#define MUIA_Overview_Scale   			(TAG_USER+0x3000003) // I  LONG
+#define MUIA_Overview_Width           (TAG_USER+0x3000001) /* IG LONG */
+#define MUIA_Overview_Height          (TAG_USER+0x3000002) /* IG LONG */
+#define MUIA_Overview_Scale           (TAG_USER+0x3000003) /* I  LONG */
 
-#define MUIA_Overview_RectLeft			(TAG_USER+0x3000005) // GS
-#define MUIA_Overview_RectTop			(TAG_USER+0x3000006) // GS
-#define MUIA_Overview_RectWidth		(TAG_USER+0x3000007) // GS
-#define MUIA_Overview_RectHeight		(TAG_USER+0x3000008) // GS
-#define MUIA_Overview_NewPos				(TAG_USER+0x3000009) // N 
+#define MUIA_Overview_RectLeft        (TAG_USER+0x3000005) /* GS */
+#define MUIA_Overview_RectTop         (TAG_USER+0x3000006) /* GS */
+#define MUIA_Overview_RectWidth       (TAG_USER+0x3000007) /* GS */
+#define MUIA_Overview_RectHeight      (TAG_USER+0x3000008) /* GS */
+#define MUIA_Overview_NewPos          (TAG_USER+0x3000009) /* N */
 
-#define MUIA_Overview_RadarPicture	(TAG_USER+0x3000010) // S
+#define MUIA_Overview_RadarPicture    (TAG_USER+0x3000010) /* S */
 
-#define MUIM_Overview_Refresh         (0x7287822) // Refresh complete
-#define MUIM_Overview_RefreshSingle   (0x7287823) // Refresh single
+#define MUIM_Overview_Refresh         (0x7287822) /* Refresh complete */
+#define MUIM_Overview_RefreshSingle   (0x7287823) /* Refresh single */
 
 struct MUIP_Overview_RefreshSingle { ULONG MethodID; int x; int y;};
 

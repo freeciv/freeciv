@@ -85,7 +85,7 @@ Object *MakeSprite(struct Sprite *sprite);
 Object *MakeBorderSprite(struct Sprite *sprite);
 Object *MakeUnit(struct unit *punit, LONG upkeep);
 
-// Something which should be otherwere
+/* Something which should be otherwere */
 
 int get_normal_tile_height(void);
 int get_normal_tile_width(void);
@@ -93,7 +93,7 @@ int get_normal_tile_width(void);
 struct Sprite *get_citizen_sprite(int frame);
 struct Sprite *get_thumb_sprite(int onoff);
 
-// void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y);
+/* void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y); */
 
 int load_all_sprites(void);
 void free_all_sprites(void);

@@ -13,10 +13,8 @@
 #ifndef FC__DIPLODLG_H
 #define FC__DIPLODLG_H
 
-//#include <gtk/gtk.h>
-
 #include "diplodlg_g.h"
 
-//void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
+/* nothing to add */
 
 #endif  /* FC__DIPLODLG_H */

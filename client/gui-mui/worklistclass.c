@@ -28,8 +28,6 @@
 #include "worklistclass.h"
 #include "muistuff.h"
 
-void kprintf(...);
-
 #define MUIA_Worklistview_City           (TAG_USER+0x554546) /* struct city * */
 #define MUIA_Worklistview_CurrentTargets (TAG_USER+0x554547) /* BOOL */
 
@@ -380,7 +378,7 @@ __asm __saveds STATIC ULONG Worklistview_Dispatcher(register __a0 struct IClass 
 
 struct MUI_CustomClass *CL_Worklistview;
 
-//-------------------------------------
+/*-------------------------------------*/
 
 struct Worklist_Data
 {
@@ -741,7 +739,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
 STATIC VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
-  struct Worklist_Data *data = (struct Worklist_Data *) INST_DATA(cl, o);
+/*  struct Worklist_Data *data = (struct Worklist_Data *) INST_DATA(cl, o); */
   DoSuperMethodA(cl, o, msg);
 }
 

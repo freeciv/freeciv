@@ -252,6 +252,7 @@ STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
        TAG_MORE, msg->ops_AttrList)))
   {
     struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
+/*
     struct TagItem *tl = msg->ops_AttrList;
     struct TagItem *ti;
 
@@ -261,7 +262,7 @@ STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
       {
       }
     }
-
+*/
     if ((data->pool = CreatePool(0,2048,2048)))
     {
       return (ULONG)o;
@@ -329,7 +330,7 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
 
   if(!node) return;
 
-//  n = (struct ObjectTree_Node *)List_First(&((struct ObjectTree_Node *)msg->parent)->list);
+/*  n = (struct ObjectTree_Node *)List_First(&((struct ObjectTree_Node *)msg->parent)->list); */
 
   while((n = (struct ObjectTree_Node *)RemTail((struct List*)&node->list)))
   {
@@ -349,7 +350,7 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
 
 STATIC BOOL ObjectTree_HasSubNodes(struct IClass * cl, Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
 {
-  struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
+/*  struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o); */
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
 
   if(!node) return FALSE;

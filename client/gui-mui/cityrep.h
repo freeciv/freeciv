@@ -15,6 +15,6 @@
 
 #include "cityrep_g.h"
 
-/* nothing else */
+/* nothing to add */
 
 #endif  /* FC__CITYREP_H */

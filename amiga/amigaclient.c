@@ -1,3 +1,7 @@
+#ifdef __SASC /* remove usage of strerror prototype */
+#define strerror strerror_unuse
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -6,7 +10,11 @@
 #include <exec/memory.h>
 #include <devices/input.h>
 #include <intuition/intuitionbase.h>
+#ifdef MIAMI_SDK
+#include <bsdsocket/socketbasetags.h>
+#else /* AmiTCP */
 #include <amitcp/socketbasetags.h>
+#endif
 #include <sys/errno.h>
 
 #include <clib/alib_protos.h>
@@ -14,11 +22,12 @@
 #include <clib/dos_protos.h>
 #include <clib/socket_protos.h>
 #include <clib/usergroup_protos.h>
+#include <libraries/usergroup.h>
 
-#include <pragmas/exec_sysbase_pragmas.h>
-#include <pragmas/dos_pragmas.h>
-#include <pragmas/socket_pragmas.h>
-#include <pragmas/usergroup_pragmas.h>
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/socket.h>
+#include <proto/usergroup.h>
 
 #define MUIMASTER_NAME    "muimaster.library"
 #define MUIMASTER_VMIN    11
@@ -36,8 +45,8 @@ struct Library *MUIMasterBase;
 struct Library *DataTypesBase;
 
 /* Opened by the compiler */
-IMPORT struct Library *SysBase;
-IMPORT struct Library *DOSBase;
+IMPORT struct ExecBase *SysBase;
+IMPORT struct DosLibrary *DOSBase;
 
 /* Stack for the client */
 __near LONG __stack = 120000;
@@ -120,6 +129,10 @@ void usleep(unsigned long usec)
  strerror() which also understand the non ANSI C errors. Complete.
  Note. SAS uses another prototype definition.
 **************************************************************************/
+#ifdef __SASC /* remove usage of strerror prototype */
+#undef strerror
+#endif
+
 const char *strerror(unsigned int error)
 {
   ULONG taglist[3];
@@ -135,7 +148,11 @@ const char *strerror(unsigned int error)
 /**************************************************************************
  select() emulation (only sockets)
 **************************************************************************/
+#ifdef MIAMI_SDK
+long select(long nfds,fd_set *readfds, fd_set *writefds, fd_set *exeptfds, void *timeout)
+#else
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct timeval *timeout)
+#endif
 {
   return WaitSelect(nfds, readfds, writefds, exeptfds, timeout, NULL);
 }
@@ -167,5 +184,13 @@ int write(int fd, char *buf, int len)
 void close(int fd)
 {
   if(fd) CloseSocket(fd);
+}
+
+/**************************************************************************
+ ioctl() stub
+**************************************************************************/
+int ioctl(int fd, unsigned int request, char *argp)
+{
+  return IoctlSocket(fd, request, argp);
 }
 

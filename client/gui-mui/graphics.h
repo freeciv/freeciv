@@ -13,29 +13,23 @@
 #ifndef FC__GRAPHICS_H
 #define FC__GRAPHICS_H
 
-//#include <gtk/gtk.h>
-
 #include "graphics_g.h"
 
 struct Sprite
 {
-	int width;
-	int height;
-	int hasmask;
+  int width;
+  int height;
+  int hasmask;
 
-	int offx,offy;
+  int offx,offy;
   int reference;
-	int numsprites; // contains the number of references
+  int numsprites; /* contains the number of references */
 
   void *bitmap;
-	void *mask;
-	void *picture;
+  void *mask;
+  void *picture;
 
-	struct Sprite *parent;
-
-//	int dtobj;			// TRUE if picture is datatypes object
+  struct Sprite *parent;
 };
-/*
-GdkPixmap *	create_overlay_unit	(int i);
-*/
+
 #endif  /* FC__GRAPHICS_H */

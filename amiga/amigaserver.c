@@ -19,8 +19,14 @@
 
 /* 3rd patry stuff */
 
+#ifndef _TIME_T
 #define _TIME_T
+#endif
+#ifdef MIAMI_SDK
+#include <bsdsocket/socketbasetags.h>
+#else /* AmiTCP */
 #include <amitcp/socketbasetags.h>
+#endif
 #include <libraries/usergroup.h>
 #include <proto/socket.h>
 #include <proto/usergroup.h>
@@ -199,7 +205,11 @@ void __stdargs _STD_30000_dispose(void)
 /**************************************************************************
  select() emulation and more. Complete.
 **************************************************************************/
+#ifdef MIAMI_SDK
+long select(long nfds,fd_set *readfds, fd_set *writefds, fd_set *exeptfds, void *timeout)
+#else
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct timeval *timeout)
+#endif
 {
   ULONG stdinmask = 1UL << stdin_port->mp_SigBit;
   ULONG arexxmask = 1UL << arexx_port->mp_SigBit;

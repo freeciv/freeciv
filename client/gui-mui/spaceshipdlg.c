@@ -48,7 +48,7 @@
 
 #include "spaceshipdlg.h"
 
-// Amiga Client Stuff
+/* Amiga Client Stuff */
 #include "muistuff.h"
 #include "mapclass.h"
 

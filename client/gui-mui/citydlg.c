@@ -44,6 +44,7 @@
 #include "dialogs.h"
 #include "graphics.h"
 #include "helpdlg.h"
+#include "inputdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "support.h"
@@ -685,8 +686,8 @@ static int city_msg_no(struct popup_message_data *data)
 **************************************************************************/
 static city_buy_yes(struct popup_message_data *data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data->data;
-  request_city_buy(pdialog->pcity);
+  struct city *pcity = (struct city *) data->data;
+  request_city_buy(pcity);
   destroy_message_dialog(data->wnd);
   return NULL;
 }
@@ -792,6 +793,39 @@ static int city_trade(struct city_dialog **ppdialog)
 		       0);
 
   return 0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void rename_city_hook(struct input_dialog_data *data)
+{
+  struct city *pcity = (struct city *) data->data;
+
+  if(pcity)
+  {
+    struct packet_city_request packet;
+
+    packet.city_id=pcity->id;
+    packet.worklist.name[0] = '\0';
+    sz_strlcpy(packet.name, input_dialog_get_input(data->name));
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  }
+
+  input_dialog_destroy(data->wnd);
+}
+
+/****************************************************************
+ Callback for the Rename button
+*****************************************************************/
+void city_rename(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog;
+
+  input_dialog_create(pdialog->wnd,
+    "What should we rename the city to?", "_Rename City", pdialog->pcity->name,
+    (void*)rename_city_hook, pdialog->pcity,
+    (void*)rename_city_hook, 0);
 }
 
 /**************************************************************************
@@ -1054,7 +1088,7 @@ static int city_buy(struct city_dialog **ppdialog)
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->wnd, "Buy It!", buf,
-			 "_Yes", city_buy_yes, pdialog,
+			 "_Yes", city_buy_yes, pdialog->pcity,
 			 "_No", city_msg_no, pdialog,
 			 NULL);
   }
@@ -1382,6 +1416,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_change, pdialog);
     DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_worklist, pdialog);
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_buy, pdialog);
+    DoMethod(pdialog->rename_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_rename, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_sell, pdialog);
 
     DoMethod(pdialog->prod_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);

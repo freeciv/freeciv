@@ -35,6 +35,7 @@
 #include "graphics.h"
 #include "options.h"
 #include "tilespec.h"
+#include "climisc.h"
 
 #include "mapview.h"
 
@@ -326,7 +327,7 @@ int map_canvas_adjust_x(int x)
 **************************************************************************/
 int map_canvas_adjust_y(int y)
 {
-  return y - get_map_y_start();	//map_view_y0;
+  return y - get_map_y_start();	/*map_view_y0;*/
 
 }
 
@@ -387,7 +388,6 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
   int dest_x, dest_y;
-  int i;
 
   dest_x = map_adjust_x(x0 + dx);
   dest_y = map_adjust_y(y0 + dy);
@@ -431,8 +431,6 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 void center_tile_mapcanvas(int x, int y)
 {
   int new_map_view_x0, new_map_view_y0;
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_view_y0 = get_map_y_start();
   LONG map_canvas_store_twidth = get_map_x_visible();
   LONG map_canvas_store_theight = get_map_y_visible();
 

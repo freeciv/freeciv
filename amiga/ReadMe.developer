@@ -1,8 +1,8 @@
-Requierements to compile Freeciv
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Currently the nativ vesion of freeciv can only be compiled with
+Requirements to compile Freeciv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Currently the native version of freeciv can only be compiled with
 SAS C.
-Further you need the AmiTCP SDK (maybe the Miami SDK also works),
+Further you need the AmiTCP SDK or Miami SDK,
 MUI, NList and Guigfx includes to be on your machine.
 
 How to compile?
@@ -10,6 +10,15 @@ How to compile?
 If all is ready, simply cd into this directory and enter
  'smake'
 But note that I can't guarante if it is possible to compile on another
-machine yet, espacially I expect that 'smake install' doesn't work
-(because there are currently no icons in the cvs; also DESTDIR need
-to be adapted)
+machine yet, especially I expect that 'smake install' doesn't work
+(because there are currently no icons in the cvs).
+
+There are some settings you may change in the smakefile:
+ DESTDIR     set to the directory, where install should copy files to
+ CPU_MATH    set the CPU and math type you want including the math library
+             for linker.
+ TCPSDK      Choose one of the two possible lines
+ OPTFLAGS    Set optimization flags, default are none.
+ INCDIRS     Allows to include additional include directories. Normally
+             this will be the Miami or AmiTCP SDK directory or empty.
+

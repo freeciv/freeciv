@@ -25,6 +25,7 @@
 #include "log.h"
 #include "map.h"
 #include "player.h"
+#include "support.h"
 #include "unit.h"
 
 #include "civclient.h"
@@ -32,6 +33,7 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "inputdlg.h"
 #include "mapview.h"
 
 #include "mapctrl.h"
@@ -44,53 +46,28 @@
 IMPORT Object *app;
 IMPORT Object *main_turndone_button;
 
-STATIC Object *newcity_wnd;
-STATIC Object *newcity_name_string;
-STATIC Object *newcity_ok_button;
-STATIC Object *newcity_cancel_button;
-STATIC LONG newcity_open;
-
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
 
-/**************************************************************************
- GUI independend (control.c)
-**************************************************************************/
-static void build_city(size_t unit_id, char *cityname)
+/****************************************************************
+...
+*****************************************************************/
+static void newcity_city_hook(struct input_dialog_data *data)
 {
-  if (unit_id)
+  struct unit *punit = (struct unit *) data->data;
+
+  if(punit)
   {
-    struct packet_unit_request req;
-    req.unit_id = unit_id;
-    strncpy(req.name, cityname, MAX_LEN_NAME);
-    req.name[MAX_LEN_NAME - 1] = '\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+    struct packet_unit_request packet;
+
+    packet.unit_id = punit->id;
+    sz_strlcpy(packet.name, input_dialog_get_input(data->name));
+    send_packet_unit_request(&aconnection, &packet, PACKET_UNIT_BUILD_CITY);
   }
-}
 
-/* TODO: Better put this in dialogs.c and create a subclass
-  of WindowC */
-
-/**************************************************************************
- Callback for the Cancel button in the new city dialog
-**************************************************************************/
-static void newcity_cancel(void)
-{
-  set(newcity_wnd, MUIA_Window_Open, FALSE);
-  DoMethod(newcity_ok_button, MUIM_KillNotify, MUIA_Pressed);
-  DoMethod(newcity_name_string, MUIM_KillNotify, MUIA_String_Acknowledge);
-  newcity_open = FALSE;
-}
-
-/**************************************************************************
- Callback for the Ok button in the new city dialog
-**************************************************************************/
-static void newcity_ok(int *uid)
-{
-  newcity_cancel();
-  build_city(*uid, getstring(newcity_name_string));
+  input_dialog_destroy(data->wnd);
 }
 
 /**************************************************************************
@@ -100,43 +77,10 @@ static void newcity_ok(int *uid)
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
-  if (!newcity_wnd)
-  {
-    newcity_wnd = WindowObject,
-      MUIA_Window_Title, "What should we call our new city?",
-      MUIA_Window_ID, 'NEWC',
-
-      WindowContents, VGroup,
-	  Child, HGroup,
-	      Child, MakeLabel("City_name"),
-	      Child, newcity_name_string = MakeString("City_name", MAX_LEN_NAME - 1),
-	      End,
-	  Child, HGroup,
-	      Child, newcity_ok_button = MakeButton("_Ok"),
-	      Child, newcity_cancel_button = MakeButton("_Cancel"),
-	      End,
-	  End,
-      End;
-
-    if (newcity_wnd)
-    {
-      DoMethod(newcity_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, newcity_cancel_button, 3, MUIM_CallHook, &standart_hook, newcity_cancel);
-      DoMethod(app, OM_ADDMEMBER, newcity_wnd);
-    }
-  }
-
-  if (newcity_wnd && !newcity_open)
-  {
-    DoMethod(newcity_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, newcity_cancel_button, 4, MUIM_CallHook, &standart_hook, newcity_ok, punit->id);
-    DoMethod(newcity_name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, newcity_cancel_button, 4, MUIM_CallHook, &standart_hook, newcity_ok, punit->id);
-    setstring(newcity_name_string, suggestname);
-    SetAttrs(newcity_wnd,
-	     MUIA_Window_Open, TRUE,
-	     MUIA_Window_ActiveObject, newcity_name_string,
-	     TAG_DONE);
-
-    newcity_open = TRUE;
-  }
+  input_dialog_create(app,
+    "What should we call our new city?", "City_name", suggestname,
+    (void*)newcity_city_hook, punit,
+    (void*)newcity_city_hook, 0);
 }
 
 /**************************************************************************

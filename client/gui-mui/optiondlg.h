@@ -13,9 +13,6 @@
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
 
-//#include <gtk/gtk.h>
-
 void popup_option_dialog(void);
-//void toggle_callback(GtkWidget *w, gpointer data);
 
 #endif  /* FC__OPTIONDLG_H */

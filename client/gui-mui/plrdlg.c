@@ -220,7 +220,6 @@ static void players_intelligence(void)
 
   if (playerno)
   {
-    struct player *pplayer;
     playerno -= 100;
 
     if (player_has_embassy(game.player_ptr, &game.players[playerno]))

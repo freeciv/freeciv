@@ -13,10 +13,8 @@
 #ifndef FC__SPACESHIPDLG_H
 #define FC__SPACESHIPDLG_H
 
-//#include <gtk/gtk.h>
-
 #include "spaceshipdlg_g.h"
 
-//void close_spaceship_dialog_action(GtkWidget *w, gpointer data);
+/* nothing to add */
 
 #endif  /* FC__SPACESHIPDLG_H */

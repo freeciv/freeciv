@@ -729,7 +729,7 @@ static void spy_steal(struct popup_message_data *data)
 has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 
-    create_advances_list(game.player_ptr, pvictim, 1);//spy_tech_shell_is_modal);
+    create_advances_list(game.player_ptr, pvictim, 1);/*spy_tech_shell_is_modal);*/
   }
 }
 
@@ -1373,7 +1373,7 @@ Object *popup_message_dialog( Object *parent, char *title, char *text, ... )
 }
 
 /****************************************************************
- popup_message_dialog_args with variable parameters
+ destroy_message_dialog destroy the object after use
 *****************************************************************/
 void destroy_message_dialog( Object *wnd)
 {

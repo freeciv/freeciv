@@ -20,7 +20,6 @@
 #include <errno.h>
 
 #include <unistd.h>
-#include <pwd.h>
 
 #include <exec/memory.h>
 #include <libraries/gadtools.h>
@@ -1003,7 +1002,7 @@ static void loop(void)
 	sel = WaitSelect(connected_sock + 1, &readfs, NULL, NULL, NULL, &mask);
 	if (sel > 0)
 	{
-	  if (FD_ISSET(connected_sock, &readfs))	// handle_net_input(); /* in clinet.c */
+	  if (FD_ISSET(connected_sock, &readfs))	/* handle_net_input(); in clinet.c */
 
 	    input_from_server(connected_sock);
 	}

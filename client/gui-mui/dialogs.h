@@ -13,8 +13,6 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
-//#include <gtk/gtk.h>
-
 #include "dialogs_g.h"
 
 #ifndef INTUITION_CLASSUSR_H

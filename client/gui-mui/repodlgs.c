@@ -136,7 +136,7 @@ char *get_report_title(char *report_name)
 ****************************************************************/
 static void science_goal(ULONG * newgoal)
 {
-  int i, j;
+  int i;
   int to = -1;
 
   if (game.player_ptr->ai.tech_goal == A_NONE)
@@ -168,7 +168,7 @@ static void science_goal(ULONG * newgoal)
 ****************************************************************/
 static void science_research(ULONG * newresearch)
 {
-  int i, j;
+  int i;
   int to = -1;
 
   for (i = A_FIRST; i < game.num_tech_types; i++)
@@ -320,7 +320,6 @@ void popup_science_dialog(int make_modal)
 
     if (science_wnd)
     {
-      int i;
       DoMethod(science_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, science_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
       DoMethod(app, OM_ADDMEMBER, science_wnd);
     }
@@ -878,7 +877,6 @@ void activeunits_report_dialog_update(void)
   int i;
   struct actunit_units_entry entry;
   struct repoinfo unitarray[U_LAST];
-  struct repoinfo unittotals;
 
   if (!actunit_wnd)
     return;

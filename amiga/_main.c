@@ -26,8 +26,8 @@
 #include <stdlib.h>
 #include <constructor.h>
 #include <workbench/startup.h>
-#include <libraries/dos.h>
-#include <libraries/dosextens.h>
+#include <dos/dos.h>
+#include <dos/dosextens.h>
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include <proto/icon.h>
@@ -197,7 +197,7 @@ void __stdargs __main(line)
 
   if (argc)
   {
-    argv = malloc/*AllocMem*/((argc+1) * sizeof(char *));//, MEMF_CLEAR);
+    argv = malloc/*AllocMem*/((argc+1) * sizeof(char *));/*, MEMF_CLEAR);*/
     if (argv == NULL)
        exit(20);
          
@@ -244,7 +244,7 @@ void __stdargs __main(line)
 	  }
 	}
 	if (*line) line++;
-	*argbuf++ = '\0'; /* terminate arg */
+	*argbuf = '\0'; /* terminate arg */
       }
       else            /* non-quoted arg */
       {       

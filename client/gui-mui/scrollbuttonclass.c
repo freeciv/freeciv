@@ -29,7 +29,7 @@ STATIC ULONG ScrollButton_New(struct IClass * cl, Object * o, struct opSet * msg
   		MUIA_InputMode,MUIV_InputMode_RelVerify,
 		TAG_MORE, msg->ops_AttrList)))
   {
-    struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);
+/*    struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);*/
   }
   return (ULONG) o;
 }

@@ -15,6 +15,6 @@
 
 #include "colors_g.h"
 
-/*extern GdkColor *colors_standard[COLOR_STD_LAST];*/
+/* nothing to add */
 
 #endif  /* FC__COLORS_H */
