@@ -1072,7 +1072,7 @@ void check_pollution(struct city *pcity)
 	   (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
 	   (!(map_get_special(x,y)&S_POLLUTION)) ) { 
 	map_set_special(x,y, S_POLLUTION);
-	send_tile_info(0, x, y, PACKET_TILE_INFO);
+	send_tile_info(0, x, y, TILE_KNOWN);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_POLLUTION,
 			 "Game: Pollution near %s", pcity->name);
 	return;
