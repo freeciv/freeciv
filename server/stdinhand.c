@@ -726,13 +726,27 @@ void remove_player(char *arg)
   server_remove_player(pplayer);
 }
 
+/**************************************************************************
+Find option index by name. Return index (>=0) on success, -1 if no
+suitable options were found, -2 if several matches were found.
+**************************************************************************/
 int lookup_cmd(char *find)
 {
-  int i;
+  int i, lastmatch = -1;
+    
   for (i=0;settings[i].name!=NULL;i++) 
-    if (!strcmp(find, settings[i].name)) return i;
-  
-  return -1;
+    if (!strncmp(find, settings[i].name, strlen(find))) 
+    {
+	/* If name is a perfect match, not partial, assume
+	 * that this is the option the user wanted. */
+	if (!strcmp(find, settings[i].name))
+	  return i;
+	if (lastmatch != -1)
+	  return -2;
+	lastmatch = i;
+    }
+    
+  return lastmatch;
 }
 
 void explain_option(char *str)
@@ -749,6 +763,10 @@ void explain_option(char *str)
     cmd=lookup_cmd(command);
     if (cmd==-1) {
       puts("No explanation for that yet.");
+      return;
+    }
+    else if (cmd==-2) {
+      puts("Ambiguous option name.");
       return;
     }
     else {
@@ -931,6 +949,10 @@ void set_command(char *str)
     puts("Undefined argument.  Usage: set <option> <value>.");
     return;
   }
+  else if (cmd==-2) {
+    puts("Ambiguous option name.");
+    return;
+  }
   if (!sset_is_changeable(cmd)) {
     puts("This setting can't be modified after game has started");
     return;
@@ -942,8 +964,11 @@ void set_command(char *str)
     val = atoi(arg);
     if (val >= op->min_value && val <= op->max_value) {
       *(op->value) = val;
+      printf("Option: %s has been set to %d.\n", 
+	     settings[cmd].name, val);
       if (sset_is_to_client(cmd)) {
-	notify_player(0, "Option: %s has been set to %d.", command, val);
+	notify_player(0, "Option: %s has been set to %d.", 
+		      settings[cmd].name, val);
 	/* canonify map generator settings( all of which are int ) */
 	adjust_terrain_param();
       }
@@ -953,8 +978,11 @@ void set_command(char *str)
   } else {
     if (strlen(arg)<MAX_LENGTH_NAME) {
       strcpy(op->svalue, arg);
+      printf("Option: %s has been set to \"%s\".\n",
+	     settings[cmd].name, arg);
       if (sset_is_to_client(cmd)) {
-	notify_player(0, "Option: %s has been set to \"%s\".", command, arg);
+	notify_player(0, "Option: %s has been set to \"%s\".", 
+		      settings[cmd].name, arg);
       }
     } else {
       puts("String value too long. Usage: set <option> <value>.");
