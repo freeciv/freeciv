@@ -75,6 +75,7 @@ static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset)
 {
   char filename1[512], filename2[512], *dfilename;
+  static char sfilename[512];
 
   my_snprintf(filename1, sizeof(filename1), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename1);
@@ -91,11 +92,15 @@ static char *openload_ruleset_file(struct section_file *file,
       exit(1);
     }
   }
-  if (!section_file_load(file,dfilename)) {
-    freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), dfilename);
+  /* Need to re-store the filename, since section_file_load()
+     may call datafilename() for includes. */
+  sz_strlcpy(sfilename, dfilename);
+  
+  if (!section_file_load(file,sfilename)) {
+    freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), sfilename);
     exit(1);
   }
-  return dfilename;
+  return sfilename;
 }
 
 /**************************************************************************

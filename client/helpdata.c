@@ -212,6 +212,7 @@ void boot_help_texts(void)
     freelog(LOG_NORMAL, "Did not read help texts");
     return;
   }
+  /* after following call filename may be clobbered; use sf->filename instead */
   if (!section_file_load(sf, filename)) {
     /* this is now unlikely to happen */
     freelog(LOG_NORMAL, "failed reading help-texts");
@@ -355,7 +356,7 @@ void boot_help_texts(void)
     genlist_insert(&help_nodes, pitem, -1);
   }
 
-  section_file_check_unused(sf, filename);
+  section_file_check_unused(sf, sf->filename);
   section_file_free(sf);
   booted = 1;
   freelog(LOG_VERBOSE, "Booted help texts ok");

@@ -27,6 +27,12 @@
   - Whitespace lines are ignored, as are lines where the first
   non-whitespace character is ';' (comment lines).
   Optionally '#' can also be used for comments.
+
+  - A line of the form:
+       *include "filename"
+  includes the named file at that point.  (The '*' must be the
+  first character on the line.) The file is found by looking in
+  FREECIV_PATH.  Non-infinite recursive includes are allowed.
   
   - A line with "[name]" labels the start of a section with
   that name; one of these must be the first non-comment line in
@@ -369,7 +375,7 @@ int section_file_load(struct section_file *sf, const char *filename)
   struct athing columns_tab;	        /* astrings for column headings */
   struct astring *columns = NULL;	/* -> columns_tab.ptr */
 
-  inf = inf_open(filename);
+  inf = inf_open(filename, datafilename);
   if (!inf) {
     freelog(LOG_NORMAL, "Could not open file \"%s\"", filename);
     return 0;

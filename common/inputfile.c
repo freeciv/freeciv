@@ -77,7 +77,10 @@
 #define INF_DEBUG_FOUND     0
 #define INF_DEBUG_NOT_FOUND 0
 
+#define INF_MAGIC (0xabdc0132)	/* arbitrary */
+
 struct inputfile {
+  unsigned int magic;		/* memory check */
   char *filename;		/* filename as passed to fopen */
   FILE *fp;			/* read from this */
   int at_eof;			/* flag for end-of-file */
@@ -91,6 +94,15 @@ struct inputfile {
   struct astring partial;	/* used in accumulating multi-line strings;
 				   used only in get_token_value, but put
 				   here so it gets freed when file closed */
+  datafilename_fn_t datafn;	/* function like datafilename(); use a
+				   function pointer just to keep this
+				   inputfile module "generic" */
+  int in_string;		/* set when reading multi-line strings,
+				   to know not to handle *include at start
+				   of line as include mechanism */
+  struct inputfile *included_from; /* NULL for toplevel file, otherwise
+				      points back to files which this one
+				      has been included from */
 };
 
 /* A function to get a specific token type: */
@@ -119,6 +131,8 @@ tok_tab[INF_TOK_LAST] =
   { "value",        get_token_value },
 };
 
+static int read_a_line(struct inputfile *inf);
+
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'
 ***********************************************************************/
@@ -134,9 +148,12 @@ static int my_is_comment(int c)
 static void init_zeros(struct inputfile *inf)
 {
   assert(inf);
+  inf->magic = INF_MAGIC;
   inf->filename = NULL;
   inf->fp = NULL;
-  inf->line_num = inf->at_eof = inf->cur_line_pos = 0;
+  inf->datafn = NULL;
+  inf->included_from = NULL;
+  inf->line_num = inf->at_eof = inf->cur_line_pos = inf->in_string = 0;
   astr_init(&inf->cur_line);
   astr_init(&inf->copy_line);
   astr_init(&inf->token);
@@ -149,11 +166,13 @@ static void init_zeros(struct inputfile *inf)
 static void assert_sanity(struct inputfile *inf)
 {
   assert(inf);
+  assert(inf->magic==INF_MAGIC);
   assert(inf->filename);
   assert(inf->fp);
   assert(inf->line_num >= 0);
   assert(inf->cur_line_pos >= 0);
   assert(inf->at_eof==0 || inf->at_eof==1);
+  assert(inf->in_string==0 || inf->in_string==1);
 #ifdef DEBUG
   assert(inf->cur_line.n >= 0);
   assert(inf->copy_line.n >= 0);
@@ -163,6 +182,9 @@ static void assert_sanity(struct inputfile *inf)
   assert(inf->copy_line.n_alloc >= 0);
   assert(inf->token.n_alloc >= 0);
   assert(inf->partial.n_alloc >= 0);
+  if(inf->included_from) {
+    assert_sanity(inf->included_from);
+  }
 #endif
 }
 
@@ -170,7 +192,8 @@ static void assert_sanity(struct inputfile *inf)
   Open the file, and return an allocated, initialized structure.
   Returns NULL if the file could not be opened.
 ***********************************************************************/
-struct inputfile *inf_open(const char *filename)
+struct inputfile *inf_open(const char *filename,
+			   datafilename_fn_t datafn)
 {
   struct inputfile *inf;
   FILE *fp;
@@ -186,6 +209,7 @@ struct inputfile *inf_open(const char *filename)
   
   inf->filename = mystrdup(filename);
   inf->fp = fp;
+  inf->datafn = datafn;
 
   freelog(LOG_DEBUG, "inputfile: opened \"%s\" ok", filename);
   return inf;
@@ -193,15 +217,16 @@ struct inputfile *inf_open(const char *filename)
 
 
 /********************************************************************** 
-  Close the file and free associated memory.
-  Should only be used on an actually open inputfile.
-  After this, the pointer should not be used.
+  Close the file and free associated memory, but don't recurse
+  included_from files, and don't free the actual memory where
+  the inf record is stored (ie, the memory where the users pointer
+  points to).  This is used when closing an included file.
 ***********************************************************************/
-void inf_close(struct inputfile *inf)
+static void inf_close_partial(struct inputfile *inf)
 {
   assert_sanity(inf);
-  
-  freelog(LOG_DEBUG, "inputfile: closing \"%s\"", inf->filename);
+
+  freelog(LOG_DEBUG, "inputfile: sub-closing \"%s\"", inf->filename);
 
   fclose(inf->fp);
   free(inf->filename);
@@ -212,7 +237,27 @@ void inf_close(struct inputfile *inf)
 
   /* assign zeros for safety if accidently re-use etc: */
   init_zeros(inf);
-  
+  inf->magic = ~INF_MAGIC;
+
+  freelog(LOG_DEBUG, "inputfile: sub-closed ok");
+}
+
+/********************************************************************** 
+  Close the file and free associated memory, included any partially
+  recursed included files, and the memory allocated for 'inf' itself.
+  Should only be used on an actually open inputfile.
+  After this, the pointer should not be used.
+***********************************************************************/
+void inf_close(struct inputfile *inf)
+{
+  assert_sanity(inf);
+
+  freelog(LOG_DEBUG, "inputfile: closing \"%s\"", inf->filename);
+  if (inf->included_from) {
+    inf_close(inf->included_from);
+  }
+  inf_close_partial(inf);
+  free(inf);
   freelog(LOG_DEBUG, "inputfile: closed ok");
 }
 
@@ -242,6 +287,93 @@ int inf_at_eof(struct inputfile *inf)
 {
   assert_sanity(inf);
   return inf->at_eof;
+}
+
+/********************************************************************** 
+  Check for an include command, which is an isolated line with:
+     *include "filename"
+  If a file is included via this mechanism, returns 1, and sets up
+  data appropriately: (*inf) will now correspond to the new file,
+  which is opened but no data read, and inf->included_from is set
+  to newly malloced memory which corresponds to the old file.
+***********************************************************************/
+static int check_include(struct inputfile *inf)
+{
+  const char *include_prefix = "*include";
+  static int len = 0;
+  char *bare_name, *full_name, *c;
+  struct inputfile *new_inf, temp;
+
+  if (len==0) {
+    len = strlen(include_prefix);
+  }
+  assert_sanity(inf);
+  if (inf->at_eof || inf->in_string || inf->cur_line.n <= len
+      || inf->cur_line_pos > 0) {
+    return 0;
+  }
+  if (strncmp(inf->cur_line.str, include_prefix, len)!=0) {
+    return 0;
+  }
+  /* from here, the include-line must be well formed or we die */
+  /* keep inf->cur_line_pos accurate just so error messages are useful */
+
+  /* skip any whitespace: */
+  inf->cur_line_pos = len;
+  c = inf->cur_line.str + len;
+  while (*c && isspace(*c)) c++;
+
+  if (*c != '\"') {
+    inf_die(inf, "Did not find opening doublequote for '*include' line");
+  }
+  c++;
+  inf->cur_line_pos = c - inf->cur_line.str;
+
+  bare_name = c;
+  while (*c && *c!='\"') c++;
+  if (*c != '\"') {
+    inf_die(inf, "Did not find closing doublequote for '*include' line");
+  }
+  *c++ = '\0';
+  inf->cur_line_pos = c - inf->cur_line.str;
+
+  /* check rest of line is well-formed: */
+  while (*c && isspace(*c) && !my_is_comment(*c)) c++;
+  if (!(*c=='\0' || my_is_comment(*c))) {
+    inf_die(inf, "Junk after filename for '*include' line");
+  }
+  inf->cur_line_pos = inf->cur_line.n-1;
+
+  full_name = inf->datafn(bare_name);
+  if (!full_name) {
+    freelog(LOG_FATAL, "Could not find included file \"%s\"", bare_name);
+    inf_die(inf, NULL);
+  }
+
+  /* avoid recursion: (first filename may not have the same path,
+     but will at least stop infinite recursion) */
+  {
+    struct inputfile *inc = inf;
+    do {
+      if (strcmp(full_name, inc->filename)==0) {
+	freelog(LOG_FATAL, "Recursion trap on '*include' for \"%s\"", full_name);
+	inf_die(inf, NULL);
+      }
+    } while((inc=inc->included_from));
+  }
+  
+  new_inf = inf_open(full_name, inf->datafn);
+
+  /* Swap things around so that memory pointed to by inf (user pointer,
+     and pointer in calling functions) contains the new inputfile,
+     and newly allocated memory for new_inf contains the old inputfile.
+     This is pretty scary, lets hope it works...
+  */
+  temp = *new_inf;
+  *new_inf = *inf;
+  *inf = temp;
+  inf->included_from = new_inf;
+  return 1;
 }
 
 /********************************************************************** 
@@ -288,6 +420,18 @@ static int read_a_line(struct inputfile *inf)
       }
       line->str[0] = '\0';
       line->n = 0;
+      if (inf->included_from && !inf->in_string) {
+	/* Pop the include, and get next line from file above instead;
+	 * For in_string, gets too messy, so just leave this file at eol
+	 * to let caller die with more information (starting line number).
+	 */
+	struct inputfile *inc = inf->included_from;
+	inf_close_partial(inf);
+	*inf = *inc;		/* so the user pointer in still valid
+				   (and inf pointers in calling functions) */
+	free(inc);
+	return read_a_line(inf);
+      }
       break;
     }
     
@@ -310,6 +454,9 @@ static int read_a_line(struct inputfile *inf)
   astr_minsize(&inf->copy_line, inf->cur_line.n + (inf->cur_line.n==0));
   strcpy(inf->copy_line.str, inf->cur_line.str);
 
+  if (check_include(inf)) {
+    return read_a_line(inf);
+  }
   return (!inf->at_eof);
 }
 
@@ -341,7 +488,7 @@ static void inf_log(struct inputfile *inf, int loglevel,
   if (message) {
     freelog(loglevel, "%s", message);
   }
-  freelog(loglevel, "  (file \"%s\", line %d, pos %d%s)",
+  freelog(loglevel, "  file \"%s\", line %d, pos %d%s",
 	  inf->filename, inf->line_num, inf->cur_line_pos,
 	  (inf->at_eof ? ", EOF" : ""));
   if (inf->cur_line.str && inf->cur_line.n) {
@@ -350,6 +497,10 @@ static void inf_log(struct inputfile *inf, int loglevel,
   }
   if (inf->copy_line.str && inf->copy_line.n) {
     freelog(loglevel, "  original line: '%s'", inf->copy_line.str);
+  }
+  while ((inf=inf->included_from)) {    /* local pointer assignment */
+    freelog(loglevel, "  included from file \"%s\", line %d",
+	    inf->filename, inf->line_num);
   }
 }
 
@@ -404,8 +555,8 @@ static const char *get_token(struct inputfile *inf,
       }
     } else {
       /* inf_die etc should be varargs... */
-      freelog(LOG_FATAL, "Did not find token: %s", name);
-      inf_die(inf, "Did not find required token");
+      freelog(LOG_FATAL, "Did not find required token: %s", name);
+      inf_die(inf, NULL);
     }
   }
   return c;
@@ -638,6 +789,7 @@ static const char *get_token_value(struct inputfile *inf)
 
   /* prepare for possibly multi-line string: */
   start_line = inf->line_num;
+  inf->in_string = 1;
 
   partial = &inf->partial;	/* abbreviation */
   astr_minsize(partial, 1);
@@ -670,9 +822,9 @@ static const char *get_token_value(struct inputfile *inf)
     
     if (!read_a_line(inf)) {
       /* inf_warn etc should be varargs... */
-      inf_warn(inf, "Multi-line string went to end-of-file");
-      freelog(LOG_NORMAL, "Start of string was at line %d", start_line);
-      return NULL;
+      freelog(LOG_FATAL, "Multi-line string went to end-of-file"
+	      " (string started at line %d)", start_line);
+      inf_die(inf, NULL);
     }
     c = start = inf->cur_line.str;
   }
@@ -692,6 +844,7 @@ static const char *get_token_value(struct inputfile *inf)
       inf_warn(inf, "Missing end of i18n string marking");
     }
   }
+  inf->in_string = 0;
   return inf->token.str;
 }
 
