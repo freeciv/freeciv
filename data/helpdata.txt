@@ -1409,7 +1409,8 @@ for upkeep.  In addition the following units are considered
 aggressive units:
 
  - units with an attack strength greater than 0 which are not
-   inside the city
+   inside a city or inside a fortress within 3 squares of a friendly
+   city
 
  - air units (including missiles) and sea units with an attack
    strength greater than 0, regardless of their location
@@ -1430,10 +1431,11 @@ Under Democracy, military units require 1 production shield each for
 upkeep.  In addition the following units generate unhappiness:
 
  - Units with an attack strength greater than 0 which are not
-   inside the city generate 2 unhappy citizens.
+   inside a city, or inside a fortress within 3 squares of a
+   friendly city, generate 2 unhappy citizens.
 
  - Air/sea units with an attack strength greater than 0 which are
-   inside the city generate 1 unhappy citizen.
+   inside a city or nearby fortress generate only 1 unhappy citizen.
 
 If a city remains in disorder more than 2 turns under Democratic
 rule, the citizens will spontaneously revolt and plunge your
