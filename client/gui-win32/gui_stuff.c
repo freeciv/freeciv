@@ -625,7 +625,6 @@ static void groupbox_del(void *data)
   struct groupbox_data *gb=(struct groupbox_data *)data;
   DestroyWindow(gb->win);
   fcwin_box_free(gb->content);
-  free(gb->content);
 }
 
 /**************************************************************************
