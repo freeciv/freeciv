@@ -769,14 +769,10 @@ int map_get_known(int x, int y, struct player *pplayer)
 ***************************************************************/
 int map_get_known_and_seen(int x, int y, struct player *pplayer)
 {
-  int is_real = normalize_map_pos(&x, &y);
-  int playerid=pplayer->player_no;
   int offset = map_inx(x, y);
 
-  assert(is_real);
-
-  return ((map.tiles + offset)->known) & (1u << playerid) &&
-      (pplayer->private_map + offset)->seen;
+  return ((map.tiles + offset)->known) & (1u << (pplayer->player_no))
+      && (pplayer->private_map + offset)->seen;
 }
 
 /***************************************************************

@@ -1068,9 +1068,6 @@ void reset_move_costs(int x, int y)
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
-
   tile0 = map_get_tile(x, y);
   debug_log_move_costs("Resetting move costs for", x, y, tile0);
 
@@ -1128,6 +1125,8 @@ int map_move_cost(struct unit *punit, int x, int y)
 ***************************************************************/
 int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 {
+  CHECK_MAP_POS(x1, y1);
+  /* (x0,y0) are checked in adjc_iterate */
   adjc_iterate(x0, y0, x, y) {
     if (x == x1 && y == y1)
       return 1;
@@ -1156,10 +1155,6 @@ void tile_init(struct tile *ptile)
 ***************************************************************/
 struct tile *map_get_tile(int x, int y)
 {
-  int is_real = normalize_map_pos(&x, &y);
-
-  assert(is_real);
-
   return MAP_TILE(x, y);
 }
 
@@ -1168,10 +1163,7 @@ struct tile *map_get_tile(int x, int y)
 ***************************************************************/
 signed short map_get_continent(int x, int y)
 {
-  if (!normalize_map_pos(&x, &y))
-    return -1;
-  else
-    return MAP_TILE(x, y)->continent;
+  return MAP_TILE(x, y)->continent;
 }
 
 /***************************************************************
@@ -1179,8 +1171,6 @@ signed short map_get_continent(int x, int y)
 ***************************************************************/
 void map_set_continent(int x, int y, int val)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
   MAP_TILE(x, y)->continent = val;
 }
 
@@ -1190,10 +1180,7 @@ void map_set_continent(int x, int y, int val)
 ***************************************************************/
 enum tile_terrain_type map_get_terrain(int x, int y)
 {
-  if (!normalize_map_pos(&x, &y))
-    return T_UNKNOWN;
-  else
-    return MAP_TILE(x, y)->terrain;
+  return MAP_TILE(x, y)->terrain;
 }
 
 /***************************************************************
@@ -1201,10 +1188,7 @@ enum tile_terrain_type map_get_terrain(int x, int y)
 ***************************************************************/
 enum tile_special_type map_get_special(int x, int y)
 {
-  if (!normalize_map_pos(&x, &y))
-    return S_NO_SPECIAL;
-  else
-    return MAP_TILE(x, y)->special;
+  return MAP_TILE(x, y)->special;
 }
 
 /***************************************************************
@@ -1212,8 +1196,6 @@ enum tile_special_type map_get_special(int x, int y)
 ***************************************************************/
 void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
   MAP_TILE(x, y)->terrain = ter;
 }
 
@@ -1222,9 +1204,6 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 ***************************************************************/
 void map_set_special(int x, int y, enum tile_special_type spe)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
-
   MAP_TILE(x, y)->special |= spe;
 
   if (spe & (S_ROAD | S_RAILROAD))
@@ -1236,8 +1215,6 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 void map_clear_special(int x, int y, enum tile_special_type spe)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
   MAP_TILE(x, y)->special &= ~spe;
 
   if (spe & (S_ROAD | S_RAILROAD))
@@ -1249,8 +1226,6 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 struct city *map_get_city(int x, int y)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
   return MAP_TILE(x, y)->city;
 }
 
@@ -1260,8 +1235,6 @@ struct city *map_get_city(int x, int y)
 ***************************************************************/
 void map_set_city(int x, int y, struct city *pcity)
 {
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
   MAP_TILE(x, y)->city = pcity;
 }
 
@@ -1271,10 +1244,7 @@ Only for use on the client side
 ***************************************************************/
 enum known_type tile_is_known(int x, int y)
 {
-  if (!normalize_map_pos(&x, &y))
-    return TILE_UNKNOWN;
-  else
-    return (enum known_type) (MAP_TILE(x, y)->known);
+  return (enum known_type) (MAP_TILE(x, y)->known);
 }
 
 /***************************************************************
@@ -1283,17 +1253,14 @@ enum known_type tile_is_known(int x, int y)
 ***************************************************************/
 int same_pos(int x1, int y1, int x2, int y2)
 {
-  assert(is_real_tile(x1, y1) && is_real_tile(x2, y2));
-  normalize_map_pos(&x1, &y1);
-  normalize_map_pos(&x2, &y2);
+  CHECK_MAP_POS(x1, y1);
+  CHECK_MAP_POS(x2, y2);
   return (x1 == x2 && y1 == y2);
 }
 
 int is_real_tile(int x, int y)
 {
-  int x1 = x, y1 = y;
-
-  return normalize_map_pos(&x1, &y1);
+  return normalize_map_pos(&x, &y);
 }
 
 /**************************************************************************
@@ -1436,9 +1403,6 @@ Returns 1 if the move from the position (start_x,start_y) to
 **************************************************************************/
 int is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 {
-  assert(is_real_tile(start_x, start_y) && is_real_tile(end_x, end_y));
-  normalize_map_pos(&start_x, &start_y);
-  normalize_map_pos(&end_x, &end_y);
   assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
 
   /* FIXME: this check will not work with an orthogonal map */

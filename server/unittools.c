@@ -1628,8 +1628,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   idex_register_unit(punit);
   punit->owner=pplayer->player_no;
 
-  assert(is_real_tile(x, y));
-  normalize_map_pos(&x, &y);
+  CHECK_MAP_POS(x, y);
   punit->x = x;
   punit->y = y;
 
@@ -2895,7 +2894,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
 
-  assert(is_normal_map_pos(dest_x, dest_y));
+  CHECK_MAP_POS(dest_x, dest_y);
 
   conn_list_do_buffer(&pplayer->connections);
 

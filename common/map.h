@@ -13,6 +13,7 @@
 #ifndef FC__MAP_H
 #define FC__MAP_H
 
+#include "assert.h"
 #include "player.h"
 #include "terrain.h"
 #include "unit.h"
@@ -197,6 +198,8 @@ signed short map_get_continent(int x, int y);
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
+#define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
+
 #define map_adjust_x(X)            \
   ((X) < 0                         \
    ? ((X) % map.xsize != 0 ? (X) % map.xsize + map.xsize : 0) \
@@ -208,7 +211,7 @@ void reset_move_costs(int x, int y);
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
 #define map_inx(x,y) \
-  ((x)+(y)*map.xsize)
+  (CHECK_MAP_POS((x),(y)), (x)+(y)*map.xsize)
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
@@ -367,6 +370,7 @@ extern struct tile_type tile_types[T_LAST];
   int MACRO_xcycle = 1;                                                       \
   int MACRO_positive = 0;                                                     \
   int MACRO_dxy = 0, MACRO_do_xy;                                             \
+  CHECK_MAP_POS(ARG_start_x, ARG_start_y);                                    \
   while(MACRO_dxy <= (ARG_max_dist)) {                                        \
     for (MACRO_do_xy = -MACRO_dxy; MACRO_do_xy <= MACRO_dxy; MACRO_do_xy++) { \
       if (MACRO_xcycle) {                                                     \
@@ -411,6 +415,7 @@ extern struct tile_type tile_types[T_LAST];
 {                                                                             \
   int SI_x_itr, SI_y_itr;                                                     \
   int SI_x_itr1, SI_y_itr1;                                                   \
+  CHECK_MAP_POS(SI_center_x, SI_center_y);                                    \
   for (SI_y_itr1 = (SI_center_y) - (radius);                                  \
        SI_y_itr1 <= (SI_center_y) + (radius); SI_y_itr1++) {                  \
     for (SI_x_itr1 = (SI_center_x) - (radius);                                \
@@ -429,6 +434,7 @@ extern struct tile_type tile_types[T_LAST];
 {                                                                             \
   int RI_x_itr, RI_y_itr;                                                     \
   int RI_x_itr1, RI_y_itr1;                                                   \
+  CHECK_MAP_POS(RI_center_x, RI_center_y);                                    \
   for (RI_y_itr1 = RI_center_y - 1;                                           \
        RI_y_itr1 <= RI_center_y + 1; RI_y_itr1++) {                           \
     for (RI_x_itr1 = RI_center_x - 1;                                         \
@@ -453,7 +459,7 @@ extern struct tile_type tile_types[T_LAST];
   int x_itr, y_itr, dir_itr, MACRO_border;                                    \
   int MACRO_center_x = (center_x);                                            \
   int MACRO_center_y = (center_y);                                            \
-  assert(is_normal_map_pos(MACRO_center_x, MACRO_center_y));                  \
+  CHECK_MAP_POS(MACRO_center_x, MACRO_center_y);                              \
   MACRO_border = IS_BORDER_MAP_POS(MACRO_center_x, MACRO_center_y);           \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
     DIRSTEP(x_itr, y_itr, dir_itr);                                           \
@@ -529,6 +535,7 @@ extern const int CAR_DIR_DY[4];
 {                                                      \
   int IAC_i;                                           \
   int IAC_x, IAC_y;                                    \
+  CHECK_MAP_POS(x, y);                                 \
   for (IAC_i = 0; IAC_i < 4; IAC_i++) {                \
     switch (IAC_i) {                                   \
     case 0:                                            \

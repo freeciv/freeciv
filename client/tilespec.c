@@ -1114,7 +1114,6 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
   *solid_bg = 0;
 
-  assert(is_normal_map_pos(x, y));
   if (!tile_is_known(x, y))
     return -1;
 
@@ -1341,7 +1340,6 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   *solid_bg = 0;
   *pplayer = NULL;
 
-  assert(is_normal_map_pos(abs_x0, abs_y0));
   ptile=map_get_tile(abs_x0, abs_y0);
 
   if (tile_is_known(abs_x0,abs_y0) == TILE_UNKNOWN) {
