@@ -356,7 +356,7 @@ void update_players_dialog(void)
 {
   int i;
 
-  if (!player_wnd)
+  if (!player_wnd || delay_plrdlg_update)
     return;
 
   set(player_players_listview, MUIA_NList_Quiet, TRUE);

@@ -1641,9 +1641,9 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  if (t == C_TILE_WORKER)
 	  {
 	    put_city_output_tile(_rp(o),
-				 get_food_tile(i, j, pcity),
-				 get_shields_tile(i, j, pcity),
-				 get_trade_tile(i, j, pcity),
+				 city_get_food_tile(i, j, pcity),
+				 city_get_shields_tile(i, j, pcity),
+				 city_get_trade_tile(i, j, pcity),
 				 _mleft(o), _mtop(o), x + i - 2, y + j - 2);
 	  }
 	}
@@ -2512,7 +2512,10 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 
 	    if (pcity->city_map[x][y] == C_TILE_WORKER)
 	    {
-	      put_city_output_tile(_rp(o), city_get_food_tile(x, y, pcity), city_get_shields_tile(x, y, pcity), city_get_trade_tile(x, y, pcity),
+	      put_city_output_tile(_rp(o),
+	                           city_get_food_tile(x, y, pcity),
+	                           city_get_shields_tile(x, y, pcity),
+	                           city_get_trade_tile(x, y, pcity),
 				   _mleft(o), _mtop(o), x, y);
 
 	    } else
