@@ -52,21 +52,24 @@
 
 
 /**************************************************************************
-
+ Handles WM_COMMAND messages from the chatline
+ To find out when the return key is pressed, it checks for newlines
+ in the string
+ A backup of the string (without the newline) is sent to the server
+ Is there a nicer way to handle this?
 **************************************************************************/
 void handle_chatline()
 {
+  static char msg_buf[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
+  char msg_buf2[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
   struct packet_generic_message apacket;
-  GetWindowText(hchatline,apacket.message,MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-  if (strchr(apacket.message,'\n')) {
-    char *crpos;
-    if ((crpos=strchr(apacket.message,'\r')))
-      crpos[0]=0;
-    if ((crpos=strchr(apacket.message,'\n')))
-      crpos[0]=0;
-  
+  GetWindowText(hchatline,msg_buf2,sizeof(msg_buf2));
+  if (strchr(msg_buf2,'\n')) {
+    sz_strlcpy(apacket.message, msg_buf);
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG,&apacket);
     SetWindowText(hchatline,"");
+  } else {
+    sz_strlcpy(msg_buf, msg_buf2);
   }
 }
 
