@@ -1483,7 +1483,12 @@ void popup_settable_options_dialog(void)
 
     /* if we have extra help, use that as a tooltip */
     if (settable_options[i].extra_help[0] != '\0') {
-      gtk_tooltips_set_tip(tips, ebox, _(settable_options[i].extra_help), NULL);
+      char buf[4096];
+
+      my_snprintf(buf, sizeof(buf), "%s\n\n%s",
+		  settable_options[i].name,
+		  _(settable_options[i].extra_help));
+      gtk_tooltips_set_tip(tips, ebox, buf, NULL);
     }
 
     /* create the proper entry method depending on the type */

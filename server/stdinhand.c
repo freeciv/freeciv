@@ -1614,13 +1614,7 @@ void report_settable_server_options(struct connection *dest, int which)
     packet.id = s++;
     sz_strlcpy(packet.name, settings[i].name);
     sz_strlcpy(packet.short_help, settings[i].short_help);
-
-    /* append extra help */
-    sz_strlcpy(packet.extra_help, settings[i].name);
-    if (settings[i].extra_help[0] != '\0') {
-      sz_strlcat(packet.extra_help, "\n\n");
-      sz_strlcat(packet.extra_help, settings[i].extra_help);
-    }
+    sz_strlcpy(packet.extra_help, settings[i].extra_help);
 
     packet.category = settings[i].category;
     packet.type = settings[i].type;
