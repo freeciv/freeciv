@@ -1853,9 +1853,17 @@ will loot half of your treasury and retain all of your
 scientific advances.
 
 Players remain in the civil war state for just one turn, after
-which the government enters a state of anarchy.  The only real
-way of avoiding Civil War is to defend your civilization's
-capital at all costs.
+which the empire enters a state of anarchy.  
+
+The capture of your capital does not always lead to civil war.  If
+you have treated your people with kindness, you are more likely to
+retain their loyalty.  Each city that is celebrating reduces the
+chance of civil war, while each revolting city increases the 
+likelihood.
+
+In addition, the form of government directly contributes to the
+chance of civil war.  Governments with universal franchise are
+far less likely to revolt than those more despotic in nature.
 
 The number of cities an empire needs before it can erupt into
 civil war is by default 10.  That is, empires with fewer than 10

@@ -1036,7 +1036,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     if(city_got_building(pcity, B_PALACE) 
        && city_list_size(&cplayer->cities) >= game.civilwarsize 
        && game.nplayers < R_LAST 
-       && game.civilwarsize < GAME_MAX_CIVILWARSIZE)
+       && game.civilwarsize < GAME_MAX_CIVILWARSIZE
+       && civil_war_triggered(cplayer))
       civil_war(cplayer);
 
     if (pcity->size<1) {

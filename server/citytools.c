@@ -779,6 +779,59 @@ struct player *split_player(struct player *pplayer)
 }
 
 /*
+ * civil_war_triggered:
+ *
+ * The capture of a capital is not a sure fire way to throw
+ * and empire into civil war.  Some governments are more susceptible 
+ * than others, here are the base probabilities:
+ *
+ *      Anarchy   	90%   
+ *	Despotism 	80%
+ *	Monarchy  	70%
+ *	Fundamentalism  60% (In case it gets implemented one day)
+ *	Communism 	50%
+ *   	Republic  	40%
+ *	Democracy 	30%	
+ *
+ * Note:  In the event that Fundamentalism is added, you need to
+ * update the array government_civil_war[G_LAST] in player.c
+ *
+ * In addition each city in revolt adds 5%, each city in rapture 
+ * subtracts 5% from the probability of a civil war.  
+ *
+ * If you have at least 1 turns notice of the impending loss of 
+ * your capital, you can hike luxuries up to the hightest value,
+ * and by this reduce the chance of a civil war.  In fact by
+ * hiking the luxuries to 100% under Democracy, it is easy to
+ * get massively negative numbers - guaranteeing imunity from
+ * civil war.  Likewise, 3 revolting cities under despotism
+ * guarantees a civil war.
+ *
+ * This routine calculates these probabilities and returns true
+ * if a civil war is triggered.
+ *                                    - Kris Bubendorfer 
+ */
+
+int civil_war_triggered(struct player *pplayer)
+{
+  /* Get base probabilities */
+
+  int dice = myrand(100); /* Throw the dice */
+  int prob = get_government_civil_war_prob(pplayer->government);
+
+  /* Now compute the contribution of the cities. */
+  
+  city_list_iterate(pplayer->cities, pcity)
+    prob += city_unhappy(pcity) * 5 - city_celebrating(pcity) * 5;
+  city_list_iterate_end;
+
+  freelog(LOG_DEBUG, "Civil war chance for %s: prob %d, dice %d",
+	  pplayer->name, prob, dice);
+  
+  return(dice < prob);
+}
+
+/*
  * Capturing a nation's capital is a devastating blow.  This function
  * creates a new AI player, and randomly splits the original players
  * city list into two.  Of course this results in a real mix up of 

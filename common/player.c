@@ -131,13 +131,17 @@ int government_rates[G_LAST] = {
   100, 60, 70, 80, 80, 100
 };
 
+int government_civil_war[G_LAST] = {
+  90, 80, 70, 50, 40, 30
+};
+
 char *government_names[G_LAST] = {
   "Anarchy", "Despotism", "Monarchy",
   "Communism", "Republic", "Democracy"
 };
 
 char *ruler_titles[G_LAST] = {
-  "Mr.", "Emperor", "King", /* even for Elizabeth */
+  "Mr.", "Emperor", "King", /* even for Elizabeth */ 
   "Comrade", "President", "President"
 };
 
@@ -194,6 +198,16 @@ char *get_ruler_title(enum government_type type)
 int get_government_max_rate(enum government_type type)
 {
   return government_rates[type];
+}
+
+/***************************************************************
+Added for civil war probability computation - Kris Bubendorfer
+***************************************************************/
+int get_government_civil_war_prob(enum government_type type)
+{
+  if(type >= G_ANARCHY && type < G_LAST)
+    return government_civil_war[type];
+  return 0;
 }
 
 /***************************************************************

@@ -150,6 +150,7 @@ int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 int can_change_to_government(struct player *pplayer, 
 			    enum government_type);
 int get_government_max_rate(enum government_type type);
+int get_government_civil_war_prob(enum government_type type);
 char *get_government_name(enum government_type type);
 char *get_ruler_title(enum government_type type);
 char *get_race_name(enum race_type race);
