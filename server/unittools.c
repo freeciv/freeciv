@@ -1891,10 +1891,20 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->occupy = get_transporter_occupancy(punit);
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {
-    packet->repeat = punit->orders.repeat;
-    packet->vigilant = punit->orders.vigilant;
+    int i;
+
+    packet->orders_length = punit->orders.length;
+    packet->orders_index = punit->orders.index;
+    packet->orders_repeat = punit->orders.repeat;
+    packet->orders_vigilant = punit->orders.vigilant;
+    for (i = 0; i < punit->orders.length; i++) {
+      packet->orders[i] = punit->orders.list[i].order;
+      packet->orders_dirs[i] = punit->orders.list[i].dir;
+    }
   } else {
-    packet->repeat = packet->vigilant = FALSE;
+    packet->orders_length = packet->orders_index = 0;
+    packet->orders_repeat = packet->orders_vigilant = FALSE;
+    /* No need to initialize array. */
   }
 }
 
@@ -3217,6 +3227,11 @@ bool execute_orders(struct unit *punit)
       free_unit_orders(punit);
     }
 
+    /* Advance the orders one step forward.  This is needed because any
+     * updates sent to the client as a result of the action should include
+     * the new index value. */
+    punit->orders.index++;
+
     switch (order.order) {
     case ORDER_FINISH_TURN:
       punit->done_moving = TRUE;
@@ -3287,9 +3302,6 @@ bool execute_orders(struct unit *punit)
       freelog(LOG_DEBUG, "  stopping because orders are complete");
       return TRUE;
     }
-
-    /* We succeeded in moving one step forward */
-    punit->orders.index++;
 
     if (punit->orders.index == punit->orders.length) {
       assert(punit->orders.repeat);

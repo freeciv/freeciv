@@ -117,8 +117,20 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
     punit->transported_by = 0;
   }
   punit->has_orders = packet->has_orders;
-  punit->orders.repeat = packet->repeat;
-  punit->orders.vigilant = packet->vigilant;
+  punit->orders.length = packet->orders_length;
+  punit->orders.index = packet->orders_index;
+  punit->orders.repeat = packet->orders_repeat;
+  punit->orders.vigilant = packet->orders_vigilant;
+  if (punit->has_orders) {
+    int i;
+
+    punit->orders.list
+      = fc_malloc(punit->orders.length * sizeof(*punit->orders.list));
+    for (i = 0; i < punit->orders.length; i++) {
+      punit->orders.list[i].order = packet->orders[i];
+      punit->orders.list[i].dir = packet->orders_dirs[i];
+    }
+  }
   return punit;
 }
 
@@ -979,9 +991,19 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
+
       punit->has_orders = packet_unit->has_orders;
+      punit->orders.length = packet_unit->orders.length;
+      punit->orders.index = packet_unit->orders.index;
       punit->orders.repeat = packet_unit->orders.repeat;
       punit->orders.vigilant = packet_unit->orders.vigilant;
+
+      /* We cheat by just stealing the packet unit's list. */
+      if (punit->orders.list) {
+	free(punit->orders.list);
+      }
+      punit->orders.list = packet_unit->orders.list;
+      packet_unit->orders.list = NULL;
 
       if (punit->owner == game.player_idx) {
         refresh_unit_city_dialogs(punit);

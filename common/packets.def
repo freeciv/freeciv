@@ -599,7 +599,6 @@ PACKET_UNIT_INFO=49; is-info,sc
   UINT8 veteran; add-cap(veteran)
   BOOL veteran_old; remove-cap(veteran)
   BOOL ai, paradropped, connecting, carried, done_moving;
-  BOOL has_orders, repeat, vigilant;
 
   UNIT_TYPE type;
   UINT8 movesleft, hp, fuel, activity_count;
@@ -607,6 +606,12 @@ PACKET_UNIT_INFO=49; is-info,sc
   COORD goto_dest_x,goto_dest_y;
   ACTIVITY activity;
   SPECIAL activity_target;
+
+  BOOL has_orders;
+  UINT16 orders_length, orders_index;
+  BOOL orders_repeat, orders_vigilant;
+  ORDERS orders[MAX_LEN_ROUTE:orders_length];
+  DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
 end
 
 PACKET_UNIT_SHORT_INFO=50; is-info,sc

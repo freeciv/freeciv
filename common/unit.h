@@ -164,10 +164,10 @@ struct unit {
 
   bool has_orders;
   struct {
-    int length, index;	/* server only */
+    int length, index;
     bool repeat;	/* The path is to be repeated on completion. */
     bool vigilant;	/* Orders should be cleared if an enemy is met. */
-    struct unit_order *list; /* server only */
+    struct unit_order *list;
   } orders;
 };
 

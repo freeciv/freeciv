@@ -391,9 +391,6 @@ struct packet_unit_info {
   bool connecting;
   bool carried;
   bool done_moving;
-  bool has_orders;
-  bool repeat;
-  bool vigilant;
   Unit_Type_id type;
   int movesleft;
   int hp;
@@ -408,6 +405,13 @@ struct packet_unit_info {
   int goto_dest_y;
   enum unit_activity activity;
   enum tile_special_type activity_target;
+  bool has_orders;
+  int orders_length;
+  int orders_index;
+  bool orders_repeat;
+  bool orders_vigilant;
+  enum unit_orders orders[MAX_LEN_ROUTE];
+  enum direction8 orders_dirs[MAX_LEN_ROUTE];
 };
 
 struct packet_unit_short_info {
