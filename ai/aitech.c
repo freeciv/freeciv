@@ -203,7 +203,10 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   int values[A_LAST];
   int goal_values[A_LAST];
   int prereq[A_LAST];
-  unsigned char cache[A_LAST][A_LAST];
+  unsigned char cache[A_LAST][(A_LAST+7)/8];   /* bit vector for tech pairs */
+
+#define CACHE_SET(i,k)  cache[i][(k)/8] |= (1<<((k)%8))
+#define CACHE_TEST(i,k) cache[i][(k)/8] &  (1<<((k)%8))
   
   num_cities_nonzero = MAX(1, city_list_size(&pplayer->cities));
   memset(values, 0, sizeof(values));
@@ -217,7 +220,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
       find_prerequisites(pplayer, i, prereq);
       for (k = A_FIRST; k < game.num_tech_types; k++) {
         if (prereq[k]) {
-          cache[i][k]++;
+	  CACHE_SET(i,k);
           values[k] += pplayer->ai.tech_want[i] / j;
         }
       }
@@ -227,7 +230,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     if (pplayer->ai.tech_turns[i]) {
       for (k = A_FIRST; k < game.num_tech_types; k++) {
-        if (cache[i][k]) {
+	if (CACHE_TEST(i,k)) {
           goal_values[i] += values[k];
         }
       }
@@ -272,6 +275,8 @@ to be doing; it just looks strange. -- Syela */
   }
   return;
 }
+#undef CACHE_SET
+#undef CACHE_TEST
 
 static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
