@@ -70,6 +70,7 @@ void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
     for (y = 0; y < map.ysize; y++) 
       if (which == LAND_MOVING) warmap.cost[x][y] = 255; /* one if by land */
       else warmap.seacost[x][y] = 255;
+      /* why a seacost and a landcost nb */
   if (which == LAND_MOVING) warmap.cost[orig_x][orig_y] = 0;
   else warmap.seacost[orig_x][orig_y] = 0;
 }  
