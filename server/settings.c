@@ -45,34 +45,6 @@ const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
 
 
 /**************************************************************************
-  Verify that notradesize is always smaller than fulltradesize
-**************************************************************************/
-static bool notradesize_callback(int value, const char **error_message)
-{
-  if (value < game.fulltradesize) {
-    return TRUE;
-  }
-
-  *error_message = _("notradesize must be always smaller than "
-		     "fulltradesize; keeping old value.");
-  return FALSE;
-}
-
-/**************************************************************************
-  Verify that fulltradesize is always bigger than notradesize
-**************************************************************************/
-static bool fulltradesize_callback(int value, const char **error_message)
-{
-  if (value > game.notradesize) {
-    return TRUE;
-  }
-
-  *error_message = _("fulltradesize must be always bigger than "
-		     "notradesize; keeping old value.");
-  return FALSE;
-}
-
-/**************************************************************************
   A callback invoked when autotoggle is set.
 **************************************************************************/
 static bool autotoggle_callback(bool value, const char **reject_message)
@@ -547,6 +519,12 @@ struct settings_s settings[] = {
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
 
+  /* Notradesize and fulltradesize used to have callbacks to prevent them
+   * from being set illegally (notradesize > fulltradesize).  However this
+   * provided a problem when setting them both through the client's settings
+   * dialog, since they cannot both be set atomically.  So the callbacks were
+   * removed and instead the game now knows how to deal with invalid
+   * settings. */
   GEN_INT("fulltradesize", game.fulltradesize,
 	  SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Minimum city size to get full trade"),
@@ -554,7 +532,7 @@ struct settings_s settings[] = {
 	     "The penalty is 100% (no trade at all) for sizes up to "
 	     "notradesize, and decreases gradually to 0% (no penalty "
 	     "except the normal corruption) for size=fulltradesize. "
-	     "See also notradesize."), fulltradesize_callback, 
+	     "See also notradesize."), NULL, 
 	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
 	  GAME_DEFAULT_FULLTRADESIZE)
 
@@ -564,8 +542,7 @@ struct settings_s settings[] = {
 	  N_("Cities do not produce any trade at all unless their size "
 	     "is larger than this amount. The produced trade increases "
 	     "gradually for cities larger than notradesize and smaller "
-	     "than fulltradesize. See also fulltradesize."),
-	  notradesize_callback,
+	     "than fulltradesize. See also fulltradesize."), NULL,
 	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
 	  GAME_DEFAULT_NOTRADESIZE)
 

@@ -2299,15 +2299,20 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
 
   if (otype == O_TRADE) {
     /* FIXME: special case for trade: it is affected by notradesize and
-     * fulltradesize server settings. */
-    assert(game.notradesize < game.fulltradesize);
-    if (pcity->size <= game.notradesize) {
+     * fulltradesize server settings.
+     *
+     * If notradesize and fulltradesize are equal then the city gets no
+     * trade at that size. */
+    int notradesize = MIN(game.notradesize, game.fulltradesize);
+    int fulltradesize = MAX(game.notradesize, game.fulltradesize);
+
+    if (pcity->size <= notradesize) {
       penalty = total;
-    } else if (pcity->size >= game.fulltradesize) {
+    } else if (pcity->size >= fulltradesize) {
       penalty = 0;
     } else {
-      penalty = total * (game.fulltradesize - pcity->size) /
-	(game.fulltradesize - game.notradesize);
+      penalty = total * (fulltradesize - pcity->size)
+	/ (fulltradesize - notradesize);
     }
   }
 
