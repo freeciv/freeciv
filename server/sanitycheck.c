@@ -353,6 +353,10 @@ static void check_players(void)
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
+      if (pplayer->government == game.government_when_anarchy) {
+        freelog(LOG_FATAL, "%s's government is anarchy but does not finish",
+                pplayer->name);
+      }
       assert(pplayer->government != game.government_when_anarchy);
     } else if (pplayer->revolution_finishes > game.turn) {
       assert(pplayer->government == game.government_when_anarchy);
