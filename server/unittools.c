@@ -2025,9 +2025,9 @@ bool do_airline(struct unit *punit, struct city *city2)
 }
 
 /**************************************************************************
-Returns whether the drop was made or not. Note that it also returns 1 in
-the case where the drop was succesfull, but the unit was killed by
-barbarians in a hut
+  Returns whether the drop was made or not. Note that it also returns 1 
+  in the case where the drop was succesful, but the unit was killed by
+  barbarians in a hut.
 **************************************************************************/
 bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
 {
@@ -2040,8 +2040,9 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return FALSE;
   }
 
-  if (!can_unit_paradrop(punit))
+  if (!can_unit_paradrop(punit)) {
     return FALSE;
+  }
 
   if (!map_get_known(dest_x, dest_y, pplayer)) {
     notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
@@ -2049,9 +2050,10 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return FALSE;
   }
 
-  if (is_ocean(map_get_player_tile(dest_x, dest_y, pplayer)->terrain)) {
+  if (is_ocean(map_get_player_tile(dest_x, dest_y, pplayer)->terrain)
+      && is_ground_unit(punit)) {
     notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
-                     _("Game: Cannot paradrop into ocean."));
+                     _("Game: This unit cannot paradrop into ocean."));
     return FALSE;    
   }
 
@@ -2075,7 +2077,8 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     }
   }
 
-  if (is_ocean(map_get_terrain(dest_x, dest_y))) {
+  if (is_ocean(map_get_terrain(dest_x, dest_y))
+      && is_ground_unit(punit)) {
     int srange = unit_type(punit)->vision_range;
     show_area(pplayer, dest_x, dest_y, srange);
 
@@ -2107,7 +2110,6 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return move_unit(punit, dest_x, dest_y, FALSE, FALSE, move_cost);
   }
 }
-
 
 /**************************************************************************
   Get gold from entering a hut.
