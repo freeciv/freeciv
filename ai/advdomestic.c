@@ -18,6 +18,8 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "rand.h"
+#include "unittype.h"
 #include "unit.h"
 #include "mem.h"
 
@@ -63,8 +65,7 @@ static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
                || (ai->threats.invasions
                    && is_water_adjacent_to_tile(pcity->x, pcity->y));
 
-  /* 40 is a magic number inherited from Syela */
-  return vulnerable ? 40 : 1;
+  return vulnerable ? 20 : 1; /* WAG */
 }
 
 /**************************************************************************
@@ -79,8 +80,7 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
     return 40;
   }
 
-  /* 40 is a magic number inherited from Syela */
-  return ai->threats.sea ? 40 : 1;
+  return ai->threats.sea ? 30 : 1; /* WAG */
 }
 
 /**************************************************************************
@@ -104,7 +104,7 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
                    || city_got_building(pcity, B_PALACE));
 
   /* 50 is a magic number inherited from Syela */
-  return vulnerable ? 50 : 0;
+  return vulnerable ? 40 : 1;
 }
 
 /**************************************************************************
@@ -134,11 +134,11 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
                 || is_water_adjacent_to_tile(pcity->x, pcity->y)
                 || city_got_building(pcity, B_PALACE);
 
-  /* 20 is just a new magic number, which will be +20 if we are
-     in a vulnerable spot, and +20 if someone we are not allied
+  /* 15 is just a new magic number, which will be +15 if we are
+     in a vulnerable spot, and +15 if someone we are not allied
      with really have built nukes. This might be overkill, but
      at least it is not as bad as it used to be. */
-  return ((ai->threats.nuclear + vulnerable) * 20);
+  return ((ai->threats.nuclear + vulnerable) * 15);
 }
 
 /**************************************************************************
@@ -154,7 +154,7 @@ static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
 
   /* Only build missile defence if opponent builds them, and we are in
      a vulnerable spot. FIXME: 10 is a totally arbitrary Syelaism. - Per */
-  return (ai->threats.missile && vulnerable) ? 10 : 0;
+  return (ai->threats.missile && vulnerable) ? 10 : 1;
 }
 
 /**************************************************************************
@@ -199,7 +199,7 @@ unhappy * SADVAL).
 Note that an elvis citizen is a parasite. The fewer you have, the more
 food/prod/trade your city produces.
 **************************************************************************/
-static int impr_happy_val(int happy, struct city *pcity, int tileval)
+static int impr_happy_val(struct city *pcity, int happy, int tileval)
 {
   /* How much one rebeling citizen counts - 16 is debatable value */
 #define SADVAL 16
@@ -390,371 +390,436 @@ static int pollution_benefit(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-Evaluate the current desirability of all city improvements for the given city
-to update pcity->ai.building_want.
+  Evaluate the current desirability of all city improvements for the given 
+  city to update pcity->ai.building_want.
 **************************************************************************/
 void ai_eval_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
-  int i, val, t, food, j, k, hunger, bar, grana;
-  int tax, prod, sci, values[B_LAST];
-  int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
-  int needpower;
-  int wwtv = worst_worker_tile_value(pcity);
+  int bar, est_food, food, grana, hunger, needpower;
+  int tprod, prod, sci, tax, t, val, wwtv;
+  int j, k;
+  int values[B_LAST];
 
-  t = pcity->ai.trade_want; /* trade_weighting */
+  /* --- initialize control parameters --- */
+  t = pcity->ai.trade_want;  /* trade_weighting */
   sci = (pcity->trade_prod * pplayer->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
-#ifdef STUPID
-  sci *= t;
-  tax *= t;
-#else
-/* better might be a longterm weighted average, this is a quick-n-dirty fix -- Syela */
+
+  /* better might be a longterm weighted average, this is a quick-n-dirty fix 
+  -- Syela */
   sci = ((sci + pcity->trade_prod) * t)/2;
   tax = ((tax + pcity->trade_prod) * t)/2;
-#endif
-  if (pplayer->research.researching == A_NONE) sci = 0; /* don't need libraries!! */
-  prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * SHIELD_WEIGHTING;
+  /* don't need libraries!! */
+  if (pplayer->research.researching == A_NONE) sci = 0;
+
+  est_food = 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman
+           + pcity->food_surplus; 
+  prod = 
+    (pcity->shield_prod * SHIELD_WEIGHTING * 100) / city_shield_bonus(pcity);
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
               (city_got_building(pcity, B_FACTORY) ? 1 : 0));
   val = ai_best_tile_value(pcity);
-  food = food_weighting(MAX(2,pcity->size));
-  grana = food_weighting(MAX(3,pcity->size + 1));
-/* because the benefit doesn't come immediately, and to stop stupidity */
-/* the AI used to really love granaries for nascent cities, which is OK */
-/* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
-  i = (pcity->size * 2) + settler_eats(pcity);
-  i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
-  if (i > 0 && pcity->ppl_scientist == 0 && pcity->ppl_taxman == 0) hunger = i + 1;
-  else hunger = 1;
+  wwtv = worst_worker_tile_value(pcity);
 
-  memset(values, 0, sizeof(values)); /* clear to initialize */
+  /* because the benefit doesn't come immediately, and to stop stupidity   */
+  /* the AI used to really love granaries for nascent cities, which is OK  */
+  /* as long as they aren't rated above Settlers and Laws is above Pottery */
+  /* -- Syela */
+  grana = MAX(2,pcity->size);
+  food  = food_weighting(grana);
+  grana = food_weighting(grana + 1);
+  hunger = 1;
+  j = (pcity->size * 2) + settler_eats(pcity) - pcity->food_prod;
+  if (j >= 0 && pcity->ppl_scientist <= 0 && pcity->ppl_taxman <= 0) 
+    hunger += j+1;
 
-  /* I don't know how the change in granary size calculation would affect 
-     this because I don't really understand this piece of code.  Exact same 
-     thing with B_SEWER later in this function.  --Jing   12/30/2000 */
-  if (could_build_improvement(pcity, B_AQUEDUCT)) {
-    int asz = game.aqueduct_size;
-    if (city_happy(pcity) && pcity->size > asz-1 && est_food > 0)
-      values[B_AQUEDUCT] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
-         city_granary_size(pcity->size))/2) - pcity->food_stock) * food;
-    else {
-      int tmp = ((asz+1 - MIN(asz, pcity->size)) * (MAX(asz, pcity->size)+1) *
-	       game.foodbox - pcity->food_stock);
-      values[B_AQUEDUCT] = food * est_food * (asz+1) * game.foodbox / MAX(1, tmp);
-    }
-  }
-
-
-  if (could_build_improvement(pcity, B_BANK))
-    values[B_BANK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
-  
-  j = 0; k = 0;
-  city_list_iterate(pplayer->cities, acity)
-    if (acity->is_building_unit) {
-      if (!unit_type_flag(acity->currently_building, F_NONMIL) &&
-          unit_types[acity->currently_building].move_type == LAND_MOVING)
-        j += prod;
-      else if (unit_type_flag(acity->currently_building, F_HELP_WONDER) 
-               && built_elsewhere(acity, B_SUNTZU)) {
-             j += prod; /* this also stops flip-flops */
-      }
-    } else if (acity->currently_building == B_BARRACKS || /* this stops flip-flops */
-             acity->currently_building == B_BARRACKS2 ||
-             acity->currently_building == B_BARRACKS3 ||
-             acity->currently_building == B_SUNTZU) j += prod;
+  /* rationale: barracks effectively doubles prod if building military units */
+  /* if half our production is military, effective gain is 1/2 city prod     */
+  bar = ((!pcity->is_building_unit && pcity->currently_building == B_SUNTZU)
+      || built_elsewhere(pcity, B_SUNTZU)) ? 1 : 0;
+  j = 0; k = 0, tprod = 0;
+  city_list_iterate(pplayer->cities, acity) {
     k++;
-  city_list_iterate_end;
-  if (k == 0) freelog(LOG_FATAL,
-		  "Gonna crash, 0 k, looking at %s (ai_eval_buildings)",
-		  pcity->name);
-  /* rationale: barracks effectively double prod while building military units */
-  /* if half our production is military, effective gain is 1/2 city prod */
-  bar = j / k;
+    tprod += acity->shield_prod;
+    if (acity->is_building_unit) {
+      if (!unit_type_flag(acity->currently_building, F_NONMIL) 
+       && unit_types[acity->currently_building].move_type == LAND_MOVING)
+        j += prod;
+      else 
+      if (unit_type_flag(acity->currently_building, F_HELP_WONDER) && bar != 0)
+       j += prod;                              /* this also stops flip-flops */
+    } else 
+      if (acity->currently_building == B_BARRACKS   /* this stops flip-flops */
+       || acity->currently_building == B_BARRACKS2
+       || acity->currently_building == B_BARRACKS3
+       || acity->currently_building == B_SUNTZU)
+       j += prod;
+  } city_list_iterate_end;
+  bar = j > 0 ? j / k : 0;
 
-  if (!built_elsewhere(pcity, B_SUNTZU)) { /* yes, I want can, not could! */
-    if (can_build_improvement(pcity, B_BARRACKS3))
-      values[B_BARRACKS3] = bar;
-    else if (can_build_improvement(pcity, B_BARRACKS2))
-      values[B_BARRACKS2] = bar;
-    else if (can_build_improvement(pcity, B_BARRACKS))
-      values[B_BARRACKS] = bar;
-  }
+  /* --- clear to initialize values ... and go --- */
+  memset(values, 0, sizeof(values));
 
-  if (could_build_improvement(pcity, B_CAPITAL))
-    values[B_CAPITAL] = TRADE_WEIGHTING * 999 / MORT; /* trust me */
-/* rationale: If cost is N and benefit is N gold per MORT turns, want is
-TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela */
-
-  if (could_build_improvement(pcity, B_CATHEDRAL) && 
-      (improvement_variant(B_MICHELANGELO)==1 || !built_elsewhere(pcity, B_MICHELANGELO)))
-    values[B_CATHEDRAL] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
-  else if (tech_exists(game.rtech.cathedral_plus) &&
-	   get_invention(pplayer, game.rtech.cathedral_plus) != TECH_KNOWN)
-    values[B_CATHEDRAL] = impr_happy_val(4, pcity, val) - impr_happy_val(3, pcity, val);
-
-/* old wall code depended on danger, was a CPU hog and didn't really work anyway */
-/* it was so stupid, AI wouldn't start building walls until it was in danger */
-/* and it would have no chance to finish them before it was too late */
-
-  if (could_build_improvement(pcity, B_CITY))
-    values[B_CITY] = ai_eval_threat_land(pplayer, pcity);
-
-  if (could_build_improvement(pcity, B_COASTAL))
-    values[B_COASTAL] = ai_eval_threat_sea(pplayer, pcity);
-
-  if (could_build_improvement(pcity, B_SAM))
-    values[B_SAM] = ai_eval_threat_air(pplayer, pcity);
-
-  if (could_build_improvement(pcity, B_COLOSSEUM))
-    values[B_COLOSSEUM] = impr_happy_val(get_colosseum_power(pcity), pcity, val);
-  else if (tech_exists(game.rtech.colosseum_plus) &&
-	   get_invention(pplayer, game.rtech.colosseum_plus) != TECH_KNOWN)
-    values[B_COLOSSEUM] = impr_happy_val(4, pcity, val) - impr_happy_val(3, pcity, val);
-  
-  if (could_build_improvement(pcity, B_COURTHOUSE)) {
-    if (g->corruption_level == 0) {
-      values[B_COURTHOUSE] += impr_happy_val (1, pcity, val);
-    } else {
-      values[B_COURTHOUSE] = (pcity->corruption * t)/2;
-    }
-  }
-  
-  if (could_build_improvement(pcity, B_FACTORY))
-    values[B_FACTORY] = (prod/2) + pollution_benefit(pplayer, pcity, B_FACTORY);
-  
-  if (could_build_improvement(pcity, B_GRANARY) &&
-      !(improvement_variant(B_PYRAMIDS)==0 &&
-	built_elsewhere(pcity, B_PYRAMIDS)))
-    values[B_GRANARY] = grana * pcity->food_surplus;
-  
-  if (could_build_improvement(pcity, B_HARBOUR))
-    values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
-
-  if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
-    values[B_HYDRO] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_HYDRO);
-
-  if (could_build_improvement(pcity, B_LIBRARY))
-    values[B_LIBRARY] = sci/2;
-
-  if (could_build_improvement(pcity, B_MARKETPLACE))
-    values[B_MARKETPLACE] = (tax + 3*pcity->ppl_taxman +
-     pcity->ppl_elvis*wwtv)/2;
-
-  if (could_build_improvement(pcity, B_MFG))
-    values[B_MFG] = ((city_got_building(pcity, B_HYDRO) ||
-                     city_got_building(pcity, B_NUCLEAR) ||
-                     city_got_building(pcity, B_POWER) ||
-                     city_affected_by_wonder(pcity, B_HOOVER)) ?
-                     (prod * 3)/4 : prod/2) +
-                     pollution_benefit(pplayer, pcity, B_MFG);
-
-  if (could_build_improvement(pcity, B_NUCLEAR))
-    values[B_NUCLEAR] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_NUCLEAR);
-
-  if (could_build_improvement(pcity, B_OFFSHORE)) /* ignoring pollu.  FIX? */
-    values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
-
-  if (could_build_improvement(pcity, B_POWER))
-    values[B_POWER] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_POWER);
-
-  if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
-    values[B_RESEARCH] = sci/2;
-
-  if (could_build_improvement(pcity, B_SDI))
-    values[B_SDI] = MAX(ai_eval_threat_nuclear(pplayer, pcity),
-                        ai_eval_threat_missile(pplayer, pcity));
-
-  /* see comments above on B_AQUADUCT (wrt. granary size).  --Jing */
-  if (could_build_improvement(pcity, B_SEWER)) {
-    int ssz = game.sewer_size;
-    if (city_happy(pcity) && pcity->size > ssz-1 && est_food > 0)
-      values[B_SEWER] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
-         city_granary_size(pcity->size))/2) - pcity->food_stock) * food;
-    else {
-      int tmp = ((ssz+1 - MIN(ssz, pcity->size)) * (MAX(ssz, pcity->size)+1) *
-	       game.foodbox - pcity->food_stock);
-      values[B_SEWER] = food * est_food * (ssz+1) * game.foodbox / MAX(1, tmp);
-    }
-  }
-
-  if (game.spacerace) {
-    if (could_build_improvement(pcity, B_SCOMP)) {
-      if (pplayer->spaceship.components < NUM_SS_COMPONENTS) {
-        values[B_SCOMP] = values[B_CAPITAL]+1;
-      }
-    }
-    if (could_build_improvement(pcity, B_SMODULE)) {
-      if (pplayer->spaceship.modules < NUM_SS_MODULES) {
-        values[B_SMODULE] = values[B_CAPITAL]+1;
-      }
-    }
-    if (could_build_improvement(pcity, B_SSTRUCTURAL)) {
-      if (pplayer->spaceship.structurals < NUM_SS_STRUCTURALS) {
-        values[B_SSTRUCTURAL] = values[B_CAPITAL]+1;
-      }
-    }
-  }
-
-  if (could_build_improvement(pcity, B_STOCK))
-    values[B_STOCK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
-
-  if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
-    values[B_SUPERHIGHWAYS] = road_trade(pcity) * t;
-
-  if (could_build_improvement(pcity, B_SUPERMARKET) &&
-      player_knows_techs_with_flag(pplayer, TF_FARMLAND))
-    values[B_SUPERMARKET] = farmland_food(pcity) * food * hunger;
-
-  if (could_build_improvement(pcity, B_TEMPLE))
-    values[B_TEMPLE] = impr_happy_val(get_temple_power(pcity), pcity, val);
-
-  if (could_build_improvement(pcity, B_UNIVERSITY))
-    values[B_UNIVERSITY] = sci/2;
-
-  if (could_build_improvement(pcity, B_MASS))
-    values[B_MASS] = pollution_benefit(pplayer, pcity, B_MASS);
-
-  if (could_build_improvement(pcity, B_RECYCLING))
-    values[B_RECYCLING] = pollution_benefit(pplayer, pcity, B_RECYCLING);
-
-/* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
-/* military advisor will deal with CITY and PORT */
-
+  /* Buildings first, values are used in Wonder section next */
   impr_type_iterate(id) {
-    if (is_wonder(id) && could_build_improvement(pcity, id)
-	&& !wonder_obsolete(id)&& is_wonder_useful(id)) {
-      if (id == B_ASMITHS) {
-	built_impr_iterate(pcity, id2) {
-          if (improvement_upkeep(pcity, id2) == 1)
-            values[id] += t;
-	} built_impr_iterate_end;
+    if ( is_wonder(id) 
+      || !can_build_improvement(pcity, id))
+      continue;
+
+    switch (id) {
+    
+    /* food/growth production */
+    case B_AQUEDUCT:
+    case B_SEWER:
+      /* Aqueducts and Sewers are similar */
+      k = (id == B_AQUEDUCT ? game.aqueduct_size : game.sewer_size);
+      if (pcity->size >= k-1 && est_food > 0) {
+        /* need it to grow, but don't force */
+        j = ((city_happy(pcity) || pcity->size > k) ? -100 : -66);
       }
-
-      if (id == B_COLLOSSUS)
-        values[id] = (pcity->size + 1) * t; /* probably underestimates the value */
-      if (id == B_COPERNICUS)
-        values[id] = sci/2;
-      if (id == B_CURE)
-        values[id] = impr_happy_val(1, pcity, val);
-
-      /* this is a one-time boost, not constant */
-      if (id == B_DARWIN) {
-	values[id] =
-	    ((total_bulbs_required(pplayer) * 2 + game.researchcost) * t -
-	     pplayer->research.bulbs_researched * t) / MORT;
+      else {
+        /* how long (== how much food) till we grow big enough? 
+         * j = num_pop_rollover * biggest_granary_size - current_food */
+        j = (k+1) - MIN(k, pcity->size);
+        j*= (MAX(k, pcity->size)+1) * game.foodbox;
+        j-= pcity->food_stock;
+  
+        /* value = some odd factors / food_required */
+        j = (k+1) * food * est_food * game.foodbox / MAX(1, j);
       }
-
-      /* basically (100 - freecost)% of a free tech per turn guessing */
-      if (id == B_GREAT) {
-	values[id] =
-	    (total_bulbs_required(pplayer) * (100 - game.freecost)) * t *
-	    (game.nplayers - 2) / (game.nplayers * 100);
+      values[id] = j;
+      break;
+    case B_GRANARY:
+      if (improvement_variant(B_PYRAMIDS) != 0
+          || !built_elsewhere(pcity, B_PYRAMIDS))
+        values[id] = grana * pcity->food_surplus;
+      break;
+    case B_HARBOUR:
+      values[id] = ocean_workers(pcity) * food * hunger;
+      break;
+    case B_SUPERMARKET:
+      if (player_knows_techs_with_flag(pplayer, TF_FARMLAND))
+        values[id] = farmland_food(pcity) * food * hunger;
+      break;
+  
+    /* science production */
+    case B_RESEARCH:
+      if (built_elsewhere(pcity, B_SETI))
+        break;
+    case B_UNIVERSITY:
+    case B_LIBRARY:
+      values[id] = sci/2;
+      break;
+  
+    /* happiness generation - trade production */
+    case B_MARKETPLACE:
+    case B_BANK:
+    case B_STOCK:
+      values[id] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
+      break;
+    case B_SUPERHIGHWAYS:
+      values[id] = road_trade(pcity) * t;
+      break;
+    case B_CAPITAL:
+      /* rationale: If cost is N and benefit is N gold per MORT turns, want is
+       * TRADE_WEIGHTING * 100 / MORT. This is comparable, thus the same weight 
+      values[id] = TRADE_WEIGHTING * 999 / MORT; / * trust me * /
+      -- Syela */
+      values[id] = -60 * TRADE_WEIGHTING / MORT; /* want ~50 */
+      break;
+  
+    /* unhappiness relief */
+    case B_TEMPLE:
+      values[id] = impr_happy_val(pcity, get_temple_power(pcity), val);
+      break;
+    case B_CATHEDRAL:
+      if (improvement_variant(B_MICHELANGELO) == 1 
+          || !built_elsewhere(pcity, B_MICHELANGELO))
+        values[id]= impr_happy_val(pcity, get_cathedral_power(pcity), val);
+      else
+      if (tech_exists(game.rtech.cathedral_plus)
+        && get_invention(pplayer, game.rtech.cathedral_plus) != TECH_KNOWN)
+        values[id]= impr_happy_val(pcity, 4, val) - impr_happy_val(pcity, 3, val);
+      break;
+    case B_COLOSSEUM:
+      values[id] = impr_happy_val(pcity, get_colosseum_power(pcity), val);
+      break;
+    case B_COURTHOUSE:
+      if (g->corruption_level == 0) {
+        values[id] += impr_happy_val(pcity, 1, val);
+      } else {
+        /* We only really get half the value saved, but since
+         * courthouse helps against incitement as well, and incite
+         * cost gets proportionally lower as corruption increases
+         * (though no causal relation), this is a useful metric for
+         * how much Courthouse will help */
+        values[id] = pcity->corruption * t;
       }
-
-      if (id == B_WALL && !city_got_citywalls(pcity))
-/* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */
-        values[B_WALL] = 1; /* WAG */
- /* was 40, which led to the AI building WALL, not being able to build CITY,
-someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela */
-
-      if (id == B_HANGING) /* will add the global effect to this. */
-        values[id] = impr_happy_val(3, pcity, val) -
-                    impr_happy_val(1, pcity, val);
-      if (id == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
-                           !city_got_building(pcity, B_NUCLEAR))
-        values[id] = (city_got_building(pcity, B_POWER) ? 0 :
-               (needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_HOOVER);
-      if (id == B_ISAAC)
-        values[id] = sci;
-      if (id == B_LEONARDO) {
-        unit_list_iterate(pcity->units_supported, punit) {
-          Unit_Type_id unit_id;
-
-          unit_id = can_upgrade_unittype(pplayer, punit->type);
-  	  if (unit_id >= 0) {
-	     /* this is probably wrong -- Syela */
-	    int tmp = 8 * unit_upgrade_price(pplayer, punit->type, unit_id);
-	    values[id] = MAX(values[id], tmp);
-	  }
-        } unit_list_iterate_end;
-      }
-      if (id == B_BACH)
-        values[id] = impr_happy_val(2, pcity, val);
-      if (id == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
-        values[id] = (pcity->size + 1) * SHIELD_WEIGHTING;
-      if (id == B_MICHELANGELO) {
-	/* Note: Mich not built, so get_cathedral_power() doesn't include its effect. */
-        if (improvement_variant(B_MICHELANGELO)==0 &&
-	    !city_got_building(pcity, B_CATHEDRAL)) {
-	  /* Assumes Mich will act as the Cath that is not in this city. */
-          values[id] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
-	} else if (improvement_variant(B_MICHELANGELO)==1 &&
-		   city_got_building(pcity, B_CATHEDRAL)) {
-	  /* Assumes Mich will double the power of the Cath that is in this city. */
-          values[id] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
-	}
-      }
-
-      /* The following is probably wrong if B_ORACLE req is
-	 not the same as game.rtech.temple_plus (was A_MYSTICISM)
-	 --dwp */
-      if (id == B_ORACLE) {
-        if (city_got_building(pcity, B_TEMPLE)) {
-          if (get_invention(pplayer, game.rtech.temple_plus) == TECH_KNOWN)
-            values[id] = impr_happy_val(2, pcity, val);
-          else {
-            values[id] = impr_happy_val(4, pcity, val) - impr_happy_val(1, pcity, val);
-            values[id] += impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
-/* The += has nothing to do with oracle, just the tech_Want of mysticism! */
-          }
-        } else {
-          if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
-            values[id] = impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
-            values[id] += impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
-          }
-        }
-      }
-          
-      if (id == B_PYRAMIDS && improvement_variant(B_PYRAMIDS)==0
-	  && !city_got_building(pcity, B_GRANARY))
-        values[id] = food * pcity->food_surplus; /* different tech req's */
-      if (id == B_SETI && !city_got_building(pcity, B_RESEARCH))
-        values[id] = sci/2;
-      if (id == B_SHAKESPEARE)
-        values[id] = impr_happy_val(pcity->size, pcity, val);
-      if (id == B_SUNTZU)
+      break;
+    
+    /* shield production and pollution */
+    case B_OFFSHORE:  /* ignoring pollu. FIX? */
+      values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
+      break;
+    case B_FACTORY:
+    case B_MFG:
+      values[id] = 
+        (( city_got_building(pcity, B_HYDRO)
+        || city_got_building(pcity, B_NUCLEAR)
+        || city_got_building(pcity, B_POWER)
+        || city_affected_by_wonder(pcity, B_HOOVER))
+        ?  (prod * 3)/4 : prod/2) 
+        + pollution_benefit(pplayer, pcity, id);
+      break;
+    case B_HYDRO: 
+    case B_NUCLEAR: 
+    case B_POWER: 
+      if ( !city_got_building(pcity, B_HYDRO)
+        && !city_got_building(pcity, B_NUCLEAR)
+        && !city_got_building(pcity, B_POWER)
+        && !city_affected_by_wonder(pcity, B_HOOVER))
+        values[id] = (needpower*prod)/4 + pollution_benefit(pplayer, pcity, id);
+      break;
+    case B_MASS:
+    case B_RECYCLING:
+      values[id] = pollution_benefit(pplayer, pcity, id);
+      break;
+  
+    /* defense/protection */
+    case B_BARRACKS:
+    case B_BARRACKS2:
+    case B_BARRACKS3:
+      if (!built_elsewhere(pcity, B_SUNTZU)) 
         values[id] = bar;
-      if (id == B_WOMENS) {
-        unit_list_iterate(pcity->units_supported, punit)
-          if (punit->unhappiness > 0) values[id] += t * 2;
-        unit_list_iterate_end;
-      }
+      break;
+  
+    /* military advisor will deal with CITY and PORT */
+  
+    /* old wall code depended on danger, was a CPU hog and didn't really work 
+     * anyway. It was so stupid, AI wouldn't start building walls until it was 
+     * in danger and it would have no chance to finish them before it was too 
+     * late */
+    case B_CITY:
+      /* if (!built_elsewhere(pcity, B_WALL)) was counterproductive -- Syela */
+      values[id] = ai_eval_threat_land(pplayer, pcity);
+      break;
+    case B_COASTAL:
+      values[id] = ai_eval_threat_sea(pplayer, pcity);
+      break;
+    case B_SAM:
+      values[id] = ai_eval_threat_air(pplayer, pcity);
+      break;
+    case B_SDI:
+      values[B_SDI] = MAX(ai_eval_threat_nuclear(pplayer, pcity),
+			ai_eval_threat_missile(pplayer, pcity));
+      break;
+  
+    /* spaceship production */
+    case B_SCOMP:
+      if ((game.spacerace)
+        && pplayer->spaceship.components < NUM_SS_COMPONENTS) 
+        values[id] = -90;
+      break;
+    case B_SMODULE:
+      if ((game.spacerace)
+        && pplayer->spaceship.modules < NUM_SS_MODULES) 
+        values[id] = -90;
+      break;
+    case B_SSTRUCTURAL:
+      if ((game.spacerace)
+        && pplayer->spaceship.structurals < NUM_SS_STRUCTURALS)
+        values[id] = -80;
+      break;
 
-      if ((id == B_APOLLO) && game.spacerace) {
-        values[id] = values[B_CAPITAL]+1;
-      }
-
-      /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
-    }
+      /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
+    } /* end switch */
   } impr_type_iterate_end;
 
+  /* Miscellaneous building values */
+  if ( values[B_COLOSSEUM] == 0
+    && tech_exists(game.rtech.colosseum_plus)
+    && get_invention(pplayer, game.rtech.colosseum_plus) != TECH_KNOWN)
+    values[B_COLOSSEUM] = 
+      impr_happy_val(pcity, 4, val) - impr_happy_val(pcity, 3, val);
+    
+  /* Wonders */
   impr_type_iterate(id) {
-    if (values[id] != 0) {
-      freelog(LOG_DEBUG, "%s wants %s with desire %d.",
-	      pcity->name, get_improvement_name(id), values[id]);
-    }
-    if (!is_wonder(id)) values[id] -= improvement_upkeep(pcity, id) * t;
-    values[id] *= 100;
-    if (!is_wonder(id)) { /* trying to buy fewer improvements */
-      values[id] *= SHIELD_WEIGHTING;
-      values[id] /= MORT;
-    }
-    j = improvement_value(id);
-/* handle H_PROD here? -- Syela */
-    pcity->ai.building_want[id] = values[id] / j;
+    if (!is_wonder(id) 
+      || !can_build_improvement(pcity, id)
+      || wonder_obsolete(id)
+      || !is_wonder_useful(id)) 
+      continue;
+
+    switch (id) {
+    case B_ASMITHS:
+      impr_type_iterate(id2) {
+        if (city_got_building(pcity, id2)
+          && improvement_upkeep(pcity, id2) == 1)
+          values[id] += t;
+      } impr_type_iterate_end;
+      break;
+    case B_COLLOSSUS:
+      /* probably underestimates the value */
+      values[id] = (pcity->size + 1) * t;
+      break;
+    case B_COPERNICUS:
+      values[id] = sci/2;
+      break;
+    case B_CURE:
+      values[id] = impr_happy_val(pcity, 1, val);
+      break;
+    case B_DARWIN:
+      /* this is a one-time boost, not constant */
+      values[id] = ((total_bulbs_required(pplayer) * 2 + game.researchcost) * t 
+                 - pplayer->research.bulbs_researched * t) / MORT;
+      break;
+    case B_GREAT:
+      /* basically (100 - freecost)% of a free tech per 2 turns */
+      values[id] = (total_bulbs_required(pplayer) * (100 - game.freecost) * t
+                 * (game.nplayers - 2)) / (game.nplayers * 2 * 100);
+      break;
+    case B_WALL:
+      if (!city_got_citywalls(pcity)) {
+        /* allowing B_CITY when B_WALL exists, 
+         * don't like B_WALL when B_CITY exists. */
+        /* was 40, which led to the AI building WALL, not being able to build 
+         * CITY, someone learning Metallurgy, and the AI collapsing.  
+         * I hate the WALL. -- Syela */
+        values[B_WALL] = 1; /* WAG */
+      }
+      break;
+    case B_HANGING:
+      /* will add the global effect to this. */
+      values[id] = impr_happy_val(pcity, 3, val)
+                 - impr_happy_val(pcity, 1, val);
+      break;
+    case B_HOOVER:
+      if (!city_got_building(pcity, B_HYDRO)
+        && !city_got_building(pcity, B_NUCLEAR)) {
+        values[id] = (city_got_building(pcity, B_POWER) ? 0 :
+          (needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_HOOVER);
+      }
+      break;
+    case B_ISAAC:
+      values[id] = sci;
+      break;
+    case B_LEONARDO:
+      unit_list_iterate(pcity->units_supported, punit) {
+        Unit_Type_id unit_id = can_upgrade_unittype(pplayer, punit->type);
+        if (unit_id >= 0) {
+          /* this is probably wrong -- Syela */
+          j = 8 * unit_upgrade_price(pplayer, punit->type, unit_id);
+          values[id] = MAX(values[id], j);
+        }
+      } unit_list_iterate_end;
+      break;
+    case B_BACH:
+      values[id] = impr_happy_val(pcity, 2, val);
+      break;
+    case B_RICHARDS:
+      /* ignoring pollu, I don't think it matters here -- Syela */
+      values[id] = (pcity->size + 1) * SHIELD_WEIGHTING;
+      break;
+    case B_MICHELANGELO:
+      /* Note: Mich not built, so get_cathedral_power() doesn't include 
+       * its effect. */
+      if (improvement_variant(B_MICHELANGELO) == 0
+        && !city_got_building(pcity, B_CATHEDRAL)) {
+        /* Assumes Mich will act as the Cath that is not in this city. */
+        values[id] = impr_happy_val(pcity, get_cathedral_power(pcity), val);
+      }
+      else
+      if (improvement_variant(B_MICHELANGELO)==1
+        && city_got_building(pcity, B_CATHEDRAL)) {
+        /* Assumes Mich doubles the power of the Cath that is in this city. */
+        values[id] = impr_happy_val(pcity, get_cathedral_power(pcity), val);
+      }
+      break;
+    case B_ORACLE:
+      /* The following is probably wrong if B_ORACLE req is
+       * not the same as game.rtech.temple_plus (was A_MYSTICISM) --dwp */
+      if (!city_got_building(pcity, B_TEMPLE)) {
+        if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
+          /* The += has nothing to do with oracle, 
+           * just the tech_Want of mysticism! */
+          values[id] = impr_happy_val(pcity, 2, val) 
+                     - impr_happy_val(pcity, 1, val);
+          values[id]+= impr_happy_val(pcity, 2, val)
+                     - impr_happy_val(pcity, 1, val);
+        }
+      } else {
+        if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
+          /* The += has nothing to do with oracle, 
+           * just the tech_Want of mysticism! */
+          values[id] = impr_happy_val(pcity, 4, val) 
+                     - impr_happy_val(pcity, 1, val);
+          values[id]+= impr_happy_val(pcity, 2, val)
+                     - impr_happy_val(pcity, 1, val);
+        }
+        else
+          values[id] = impr_happy_val(pcity, 2, val);
+      }
+      break;
+    case B_PYRAMIDS:
+      if (improvement_variant(B_PYRAMIDS)==0
+        && !city_got_building(pcity, B_GRANARY)) {
+        /* different tech req's */
+        values[id] = food * pcity->food_surplus;
+      }
+      break;
+    case B_SETI:
+      if (!city_got_building(pcity, B_RESEARCH))
+        values[id] = sci/2;
+      break;
+    case B_SHAKESPEARE:
+      values[id] = impr_happy_val(pcity, pcity->size, val);
+      break;
+    case B_SUNTZU:
+      values[id] = bar;
+      break;
+    case B_WOMENS:
+      unit_list_iterate(pcity->units_supported, punit)
+        if (punit->unhappiness) values[id] += t * 2;
+      unit_list_iterate_end;
+      break;
+    case B_APOLLO:
+      if (game.spacerace) 
+        values[id] = values[B_CAPITAL]+1;
+      break;
+
+    /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
+    } /* end switch */
   } impr_type_iterate_end;
+
+  /* Final massage */
+  impr_type_iterate(id) {
+    if (values[id] >= 0) {
+      if (!is_wonder(id)) {
+        /* trying to buy fewer improvements */
+        values[id]-= improvement_upkeep(pcity, id) * t;
+        values[id] = (values[id] <= 0 
+          ? 0 : (values[id] * SHIELD_WEIGHTING * 100) / MORT);
+      }
+      else {
+        /* bias against wonders when total production is small */
+        values[id] *= (tprod < 50 ? 100/(50-tprod): 100);
+      }
+
+      /* handle H_PROD here? -- Syela */
+      j = improvement_value(id);
+      pcity->ai.building_want[id] = values[id] / j;
+    }
+    else 
+      pcity->ai.building_want[id] = -values[id];
+
+    if (values[id]) 
+      freelog(LOG_DEBUG, "ai_eval_buildings: %s wants %s with desire %d.",
+        pcity->name, get_improvement_name(id), pcity->ai.building_want[id]);
+  } impr_type_iterate_end;
+
+  return;
 }
 
 /***************************************************************************
