@@ -5086,7 +5086,7 @@ msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
 
 #: client/civclient.c:121
 msgid "  -a, --autoconnect\tAutomatically connect to server\n"
-msgstr "  -a, --autoconnnect\tAutomatisch mit dem Server verbinden\n"
+msgstr "  -a, --autoconnnect\tMit dem lokalen Server verbinden\n"
 
 #: client/civclient.c:122
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
@@ -6526,7 +6526,8 @@ msgstr "Beenden"
 #: client/gui-gtk/connectdlg.c:308
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
-msgstr "Konnte Server '%s' an Port %d nicht finden (%d Versuche)."
+msgstr "Verbindungsaufbau mit Server '%s' an Port %d war in %4$d Versuchen "
+"nicht möglich."
 
 #: client/gui-gtk/connectdlg.c:322 client/gui-gtk/connectdlg.c:352
 #, c-format
@@ -6537,14 +6538,16 @@ msgstr ""
 "Fehler beim Kontaktversuch mit Server '%s' an Port %d als '%s':\n"
 "%s\n"
 
+# EH: Information verkürzt
 #: client/gui-gtk/connectdlg.c:343
 #, c-format
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
 "for %d times"
 msgstr ""
-"Verbindungsaufbau zu Server '%s' an Port %d als '%s' wird alle "
-"%d.%d Sekunde(n) automatisch versucht (bis zu %dmal)."
+" \n"
+"Versuche als '%3$s' eine Verbindung zu Server '%1$s' an Port %2$d "
+"herzustellen..."
 
 #: client/gui-gtk/dialogs.c:316
 msgid "Message:"
