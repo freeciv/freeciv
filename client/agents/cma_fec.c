@@ -255,7 +255,7 @@ static const char *const get_city_growth_string(struct city *pcity,
   static char buffer[50];
 
   if (surplus == 0) {
-    my_snprintf(buffer, sizeof(buffer), N_("never"));
+    my_snprintf(buffer, sizeof(buffer), _("never"));
     return buffer;
   }
 
@@ -275,7 +275,8 @@ static const char *const get_city_growth_string(struct city *pcity,
       turns = (stock / surplus);
     }
   }
-  my_snprintf(buffer, sizeof(buffer), "%d turn(s)", turns);
+  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+	      turns);
   return buffer;
 }
 
@@ -289,7 +290,7 @@ static const char *const get_prod_complete_string(struct city *pcity,
   static char buffer[50];
 
   if (surplus <= 0) {
-    my_snprintf(buffer, sizeof(buffer), N_("never"));
+    my_snprintf(buffer, sizeof(buffer), _("never"));
     return buffer;
   }
 
@@ -318,7 +319,8 @@ static const char *const get_prod_complete_string(struct city *pcity,
       turns = (stock / surplus);
     }
   }
-  my_snprintf(buffer, sizeof(buffer), "%d turn(s)", turns);
+  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+	      turns);
   return buffer;
 }
 
