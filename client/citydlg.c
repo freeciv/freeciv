@@ -72,6 +72,7 @@ struct city_dialog {
   Widget map_canvas;
   Widget sell_command;
   Widget close_command, rename_command, trade_command, activate_command;
+  Widget show_units_command;
   Widget building_label, progress_label, buy_command, change_command;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
@@ -123,6 +124,7 @@ void close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void rename_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void trade_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void activate_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void show_units_callback(Widget W, XtPointer client_data, XtPointer call_data);
 void unitupgrade_callback_yes(Widget w, XtPointer client_data,
 			      XtPointer call_data);
 void unitupgrade_callback_no(Widget w, XtPointer client_data,
@@ -211,6 +213,9 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->activate_command,
 		   unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
 		   ?True:False);
+    XtSetSensitive(pdialog->show_units_command,
+                   unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
+		   ?True:False);
   }
   if(pcity->owner == game.player_idx)  {
     city_report_dialog_update_city(pcity);
@@ -223,6 +228,7 @@ void refresh_city_dialog(struct city *pcity)
       XtSetSensitive(pdialog->sell_command, FALSE);
       XtSetSensitive(pdialog->rename_command, FALSE);
       XtSetSensitive(pdialog->activate_command, FALSE);
+      XtSetSensitive(pdialog->show_units_command, FALSE);
     }
   }
 }
@@ -574,6 +580,14 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz, pdialog->trade_command,
 			    NULL);
 
+  pdialog->show_units_command=
+    XtVaCreateManagedWidget("cityshowunitscommand",
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, pdialog->present_unit_pixcomms[0],
+			    XtNfromHoriz, pdialog->activate_command,
+			    NULL);
+
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
 		(XtPointer)pdialog);
 
@@ -593,6 +607,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 		(XtPointer)pdialog);
 
   XtAddCallback(pdialog->activate_command, XtNcallback, activate_callback,
+		(XtPointer)pdialog);
+
+  XtAddCallback(pdialog->show_units_command, XtNcallback, show_units_callback,
 		(XtPointer)pdialog);
 
   genlist_insert(&dialog_list, pdialog, 0);
@@ -626,6 +643,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   return pdialog;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void activate_callback(Widget w, XtPointer client_data,
 		       XtPointer call_data)
 {
@@ -642,6 +662,21 @@ void activate_callback(Widget w, XtPointer client_data,
     set_unit_focus(unit_list_get(punit_list, 0));
   }
 }
+
+
+/****************************************************************
+...
+*****************************************************************/
+void show_units_callback(Widget w, XtPointer client_data,
+                        XtPointer call_data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)client_data;
+  struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
+
+  if( unit_list_size(&ptile->units) )
+    popup_unit_select_dialog(ptile);
+}
+
 
 /****************************************************************
 ...

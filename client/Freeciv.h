@@ -1732,6 +1732,7 @@ Now.. Go give'em hell!",
 "*cityrenamecommand.label: Rename",
 "*citytradecommand.label: Trade",
 "*cityactivatecommand.label: Activate Units",
+"*cityshowunitscommand.label: Unit List",
 "*cityprodlabel.label: \
 Food:    12 (-2)\\n\
 Prod:     2 (+2)\\n\
