@@ -34,7 +34,8 @@ KNOWN BUGS:
 
  - Sometimes there may be too many advances in the "goal" menu of
    the science report, such that the menu goes off the bottom of the
-   screen and you cannot select some items.
+   screen and you cannot select some items. This affects the GTK+-1.2
+   client only.
 
  - You may sometimes get the messages
 	{ss} player for sample <01> not found
