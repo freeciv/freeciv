@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -89,10 +90,11 @@ static int         sabotage_improvement = 0;
 
 /******************************************************************/
 
+#define MAX_SELECT_UNITS 100
 static GtkWidget  *unit_select_dialog_shell;
-static GtkWidget  *unit_select_commands[100];
-static GtkWidget  *unit_select_labels[100];
-static int         unit_select_ids[100];
+static GtkWidget  *unit_select_commands[MAX_SELECT_UNITS];
+static GtkWidget  *unit_select_labels[MAX_SELECT_UNITS];
+static int         unit_select_ids[MAX_SELECT_UNITS];
 static int         unit_select_no;
 
 static int races_buttons_get_current(void);
@@ -1679,11 +1681,12 @@ static int number_of_columns(int n)
 {
 #if 0
   /* This would require libm, which isn't worth it for this one little
-   * function.  Since the number of units is limited to 100 already, the ifs
+   * function.  Since MAX_SELECT_UNITS is 100 already, the ifs
    * work fine.  */
   double sqrt(); double ceil();
   return ceil(sqrt((double)n/5.0));
 #else
+  assert(MAX_SELECT_UNITS == 100);
   if(n<=5) return 1;
   else if(n<=20) return 2;
   else if(n<=45) return 3;
@@ -1718,8 +1721,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   gtk_window_set_title(GTK_WINDOW(unit_select_dialog_shell),
 	_("Unit selection") );
 
-  n=unit_list_size(&ptile->units);
-  r=number_of_rows(n);
+  n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
+  r = number_of_rows(n);
 
   table=gtk_table_new(r, number_of_columns(n), FALSE);
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(unit_select_dialog_shell)->vbox),

@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -89,12 +90,13 @@ static int improvement_type[B_LAST+1];
 static int sabotage_improvement = 0;
 
 /******************************************************************/
+#define MAX_SELECT_UNITS 100
 static Widget unit_select_dialog_shell;
 static Widget unit_select_form;
-static Widget unit_select_commands[100];
-static Widget unit_select_labels[100];
-static Pixmap unit_select_pixmaps[100];
-static int unit_select_ids[100];
+static Widget unit_select_commands[MAX_SELECT_UNITS];
+static Widget unit_select_labels[MAX_SELECT_UNITS];
+static Pixmap unit_select_pixmaps[MAX_SELECT_UNITS];
+static int unit_select_ids[MAX_SELECT_UNITS];
 static int unit_select_no;
 
 void about_button_callback(Widget w, XtPointer client_data, 
@@ -1577,11 +1579,12 @@ static int number_of_columns(int n)
 {
 #if 0
   /* This would require libm, which isn't worth it for this one little
-   * function.  Since the number of units is limited to 100 already, the ifs
+   * function.  Since MAX_SELECT_UNITS is 100 already, the ifs
    * work fine.  */
   double sqrt(); double ceil();
   return ceil(sqrt((double)n/5.0));
 #else
+  assert(MAX_SELECT_UNITS == 100);
   if(n<=5) return 1;
   else if(n<=20) return 2;
   else if(n<=45) return 3;
@@ -1624,8 +1627,8 @@ void popup_unit_select_dialog(struct tile *ptile)
     XSetForeground(display, fill_bg_gc, bg);
   }
 
-  n=unit_list_size(&ptile->units);
-  r=number_of_rows(n);
+  n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
+  r = number_of_rows(n);
 
   for(i=0; i<n; i++) {
     struct unit *punit=unit_list_get(&ptile->units, i);
