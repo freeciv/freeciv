@@ -579,23 +579,6 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-int city_get_buildings(struct city *pcity)
-{
-  int b=0;
-  Impr_Type_id i;
-
-  for (i=0; i<game.num_impr_types; i++) {
-    if (is_wonder(i)) continue;
-    if (i==B_PALACE)  continue;
-    if (city_got_building(pcity, i))
-      b++;
-  }
-  return b;
-}
-
-/**************************************************************************
 ... find a good (bad) tile to remove
 **************************************************************************/
 static bool worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
@@ -609,34 +592,6 @@ static bool worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 		      foodneed + city_get_food_tile(bx, by, pcity),
 		      prodneed + city_get_shields_tile(bx, by, pcity));
   return (a < b);
-}
-
-/************************************************************************** 
-...
-**************************************************************************/
-static bool is_defender_unit(Unit_Type_id unit_type) 
-{
-  return unit_has_role(unit_type, L_DEFEND_GOOD)
-      || unit_has_role(unit_type, L_DEFEND_OK);
-  /* return ((U_WARRIORS <= unit_type) && (unit_type <= U_MECH)); */
-}
-
-/************************************************************************** 
-...
-**************************************************************************/
-int city_get_defenders(struct city *pcity)
-{
-  int def=0;
-  unit_list_iterate(pcity->units_supported, punit) {
-    if (!can_build_unit_direct(pcity, punit->type))
-      continue;
-    if (!is_defender_unit(punit->type))
-      continue;
-    if (punit->x==pcity->x && punit->y==pcity->y)
-      def++;
-  }
-  unit_list_iterate_end;
-  return def;
 }
 
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)

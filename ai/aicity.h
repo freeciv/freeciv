@@ -20,11 +20,6 @@ struct city;
 struct ai_choice;
 
 void ai_manage_cities(struct player *pplayer);
-int city_get_buildings(struct city *pcity);
-int city_get_defenders(struct city *pcity);
-#ifdef UNUSED
-int city_get_settlers(struct city *pcity);
-#endif
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice);
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v);
 Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
