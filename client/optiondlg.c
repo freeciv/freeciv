@@ -389,6 +389,7 @@ void load_options(void)
     append_output_window(orig_buffer);
 
   next_line:
+    {} /* placate Solaris cc/xmkmf/makedepend */
   }
 
   fclose(option_file);

@@ -327,6 +327,7 @@ void boot_help_texts(void)
       break;
     default:
       /* nothing */
+      {} /* placate Solaris cc/xmkmf/makedepend */
     }
     if(i>=0) {
       seen[i] = 1;
