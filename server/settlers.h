@@ -20,6 +20,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit,
 int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
 void auto_settlers_player(struct player *pplayer); 
 void auto_settlers();
+int find_boat(struct player *pplayer, struct unit *punit, int *x, int *y);
 
 #define MORT 24
 
