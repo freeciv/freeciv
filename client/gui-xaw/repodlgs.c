@@ -34,7 +34,7 @@
 #include <repodlgs.h>
 #include <cityrep.h>
 #include <shared.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <city.h>
 #include <helpdlg.h>
 #include <dialogs.h>

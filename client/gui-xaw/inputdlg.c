@@ -8,7 +8,7 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 
-#include <xstuff.h>
+#include <gui_stuff.h>
 
 /****************************************************************
 ...

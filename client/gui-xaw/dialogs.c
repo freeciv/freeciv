@@ -34,7 +34,7 @@
 #include <mapview.h>
 #include <game.h>
 #include <mapctrl.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <graphics.h>
 #include <civclient.h>
 

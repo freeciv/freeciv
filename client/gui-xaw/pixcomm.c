@@ -52,7 +52,7 @@ in this Software without prior written authorization from the X Consortium.
 
 #include <pixcomm.h>
 #include <pixcommp.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 
 extern GC civ_gc;
 extern GC fill_bg_gc;

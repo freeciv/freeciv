@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __XSTUFF_H
-#define __XSTUFF_H
+#ifndef __GUI_STUFF_H
+#define __GUI_STUFF_H
 
 #include <X11/Intrinsic.h>
 

@@ -46,7 +46,7 @@
 #include <log.h>
 #include <chatline.h>
 #include <packets.h>
-#include <xmain.h>
+#include <gui_main.h>
 #include <chatline.h>
 #include <game.h>
 #include <packhand.h>

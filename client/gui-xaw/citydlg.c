@@ -42,7 +42,7 @@
 #include <packets.h>
 #include <dialogs.h>
 #include <inputdlg.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <colors.h>
 #include <repodlgs.h>
 #include <helpdlg.h>

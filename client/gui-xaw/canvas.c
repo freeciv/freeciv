@@ -25,7 +25,7 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/XawInit.h>
 
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <canvasp.h>
 
 #define offset(field) XtOffset(CanvasWidget, canvas.field)

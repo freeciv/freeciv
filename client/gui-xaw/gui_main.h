@@ -10,12 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __XMAIN_H
-#define __XMAIN_H
+#ifndef __GUI_MAIN_H
+#define __GUI_MAIN_H
 
 #include <X11/Intrinsic.h>
 
-void x_main(int argc, char *argv[]);
+void ui_main(int argc, char *argv[]);
 void setup_widgets(void);
 
 void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);

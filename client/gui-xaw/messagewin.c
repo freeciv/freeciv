@@ -31,7 +31,7 @@
 #include <packets.h>
 #include <clinet.h>
 #include <chatline.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <packets.h>
 #include <mapview.h>
 #include <map.h>

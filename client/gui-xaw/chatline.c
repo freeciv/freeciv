@@ -22,7 +22,7 @@
 #include <log.h>
 #include <packets.h>
 #include <clinet.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 
 extern Widget inputline_text, outputwindow_text;
 

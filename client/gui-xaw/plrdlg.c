@@ -30,7 +30,7 @@
 #include <packets.h>
 #include <clinet.h>
 #include <chatline.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <spaceshipdlg.h>
 
 extern Widget toplevel, main_form;

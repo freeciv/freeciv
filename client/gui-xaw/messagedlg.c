@@ -30,7 +30,7 @@
 #include <messagedlg.h>
 #include <shared.h>
 #include <packets.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <events.h>
 #include <optiondlg.h>
 

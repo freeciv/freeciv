@@ -38,7 +38,7 @@
 #include <shared.h>
 #include <mapview.h>
 #include <map.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <chatline.h>
 #include <capability.h>
 

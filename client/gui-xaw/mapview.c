@@ -28,7 +28,7 @@
 #include <unit.h>
 #include <game.h>
 #include <civclient.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <mapctrl.h>
 #include <canvas.h>
 #include <pixcomm.h>

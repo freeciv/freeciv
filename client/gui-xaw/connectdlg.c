@@ -13,7 +13,7 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <clinet.h>
 #include <chatline.h>
 #include <shared.h>

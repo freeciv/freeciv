@@ -30,7 +30,7 @@
 #include <ratesdlg.h>
 #include <shared.h>
 #include <packets.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 
 extern Widget toplevel, main_form;
 

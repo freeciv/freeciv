@@ -28,7 +28,7 @@
 #include <X11/Xaw/AsciiText.h>
 #include <X11/Xaw/Tree.h>
 
-#include <xstuff.h>
+#include <gui_stuff.h>
 
 #include <genlist.h>
 #include <climisc.h>

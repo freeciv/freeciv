@@ -34,7 +34,7 @@
 #include <X11/Xatom.h>
 
 #include <pixcomm.h>
-#include <xmain.h>
+#include <gui_main.h>
 #include <canvas.h>
 #include <menu.h>
 #include <colors.h>
@@ -260,7 +260,7 @@ int myerr(Display *p, XErrorEvent *e)
 /**************************************************************************
 ...
 **************************************************************************/
-void x_main(int argc, char *argv[])
+void ui_main(int argc, char *argv[])
 {
   int i;
   Pixmap icon_pixmap; 

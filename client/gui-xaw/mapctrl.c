@@ -27,7 +27,7 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <civclient.h>
 #include <unit.h>
 #include <game.h>
@@ -38,7 +38,7 @@
 #include <dialogs.h>
 #include <citydlg.h>
 #include <clinet.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <inputdlg.h>
 #include <chatline.h>
 #include <menu.h>

@@ -29,7 +29,7 @@
 #include <X11/Xaw/Viewport.h>
 
 #include <shared.h>
-#include <xstuff.h>
+#include <gui_stuff.h>
 #include <game.h>
 #include <unit.h>
 #include <city.h>
