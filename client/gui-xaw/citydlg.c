@@ -1052,7 +1052,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 
   for (i = 0; i < pdialog->num_citizens_shown; i++) {
     /* Initialize to an invalid value to trigger an assert if it's used */
-    pdialog->citizen_type[i] = T_LAST_CITIZEN;
+    pdialog->citizen_type[i] = CITIZEN_LAST;
   }
   
   XtRealizeWidget(pdialog->shell);
