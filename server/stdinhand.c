@@ -1372,9 +1372,10 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   }
 
   if (rfc_status == C_OK) {
-    notify_player(NULL, "Game: %s", line);
+    notify_player(NULL, _("Game: %s"), line);
   }
 }
+
 /**************************************************************************
   va_list version which allow embedded newlines, and each line is sent
   separately. 'prefix' is prepended to every line _after_ the first line.
@@ -1396,6 +1397,7 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
   }
   cmd_reply_line(cmd, caller, rfc_status, (c0==buf?"":prefix), c0);
 }
+
 /**************************************************************************
   var-args version of above
   duplicate declaration required for attribute to work...
@@ -1971,8 +1973,6 @@ static bool set_cmdlevel(struct connection *caller,
     return FALSE;
   } else {
     ptarget->access_level = level;
-    notify_conn(&ptarget->self, _("Game: You now have access level '%s'."),
-		cmdlevel_name(level));
     return TRUE;
   }
 }
@@ -2449,7 +2449,7 @@ void set_ai_level_directer(struct player *pplayer, int level)
   Translate an AI level back to its CMD_* value.
   If we just used /set ailevel <num> we wouldn't have to do this - rp
 ******************************************************************/
-static enum command_id cmd_of_level(level)
+static enum command_id cmd_of_level(int level)
 {
   switch(level) {
     case 3 : return CMD_EASY;
