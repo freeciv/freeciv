@@ -76,7 +76,7 @@ void astr_minsize(struct astring *astr, int n)
   /* allocated more if this is only a small increase on before: */
   n1 = (3*(astr->n_alloc+10)) / 2;
   astr->n_alloc = (n > n1) ? n : n1;
-  astr->str = fc_realloc(astr->str, astr->n_alloc);
+  astr->str = (char *)fc_realloc(astr->str, astr->n_alloc);
 }
 
 /**********************************************************************
