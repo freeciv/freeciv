@@ -105,8 +105,8 @@ extern bool can_slide;
     const int _Wr = NORMAL_TILE_WIDTH;					    \
     const int _Hr = NORMAL_TILE_HEIGHT;					    \
     /* Don't divide by _r yet, to avoid integer rounding errors. */	    \
-    const int GRI_x0 = DIVIDE(_gui_x0 * _r, _Wr) - 1;			    \
-    const int GRI_y0 = DIVIDE(_gui_y0 * _r, _Hr) - 1;			    \
+    const int GRI_x0 = DIVIDE(_gui_x0 * _r, _Wr) - _ratio / 2;		\
+    const int GRI_y0 = DIVIDE(_gui_y0 * _r, _Hr) - _ratio / 2;		\
     const int GRI_x1 = DIVIDE((_gui_x0 + _width) * _r + _Wr - 1,	    \
 			      _Wr) + _ratio;				    \
     const int GRI_y1 = DIVIDE((_gui_y0 + _height) * _r + _Hr - 1,	    \
