@@ -284,6 +284,8 @@ int map_num_tiles(void);
 
 void rand_neighbour(int x0, int y0, int *x, int *y);
 void rand_map_pos(int *x, int *y);
+bool rand_map_pos_filtered(int *x, int *y, void *data,
+			   bool (*filter)(int x, int y, void *data));
 
 bool is_water_adjacent_to_tile(int x, int y);
 bool is_tiles_adjacent(int x0, int y0, int x1, int y1);

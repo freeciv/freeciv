@@ -1401,6 +1401,47 @@ void rand_map_pos(int *x, int *y)
 }
 
 /**************************************************************************
+  Give a random tile anywhere on the map for which the 'filter' function
+  returns TRUE.  Return FALSE if none can be found.  The filter may be
+  NULL if any position is okay; if non-NULL it shouldn't have any side
+  effects.
+**************************************************************************/
+bool rand_map_pos_filtered(int *x, int *y, void *data,
+			   bool (*filter)(int x, int y, void *data))
+{
+  int tries = 0;
+  const int max_tries = map.xsize * map.ysize / 10;
+
+  /* First do a few quick checks to find a spot.  The limit on number of
+   * tries could use some tweaking. */
+  do {
+    index_to_map_pos(x, y, myrand(map.xsize * map.ysize));
+  } while (filter && !filter(*x, *y, data) && ++tries < max_tries);
+
+  /* If that fails, count all available spots and pick one.
+   * Slow but reliable. */
+  if (tries == max_tries) {
+    int count = 0, positions[map.xsize * map.ysize];
+
+    whole_map_iterate(x1, y1) {
+      if (filter(x1, y1, data)) {
+	positions[count] = map_pos_to_index(x1, y1);
+	count++;
+      }
+    } whole_map_iterate_end;
+
+    if (count == 0) {
+      return FALSE;
+    }
+
+    count = myrand(count);
+    index_to_map_pos(x, y, positions[count]);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
 Return the debugging name of the direction.
 **************************************************************************/
 const char *dir_get_name(enum direction8 dir)

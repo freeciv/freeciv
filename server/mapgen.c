@@ -1050,108 +1050,107 @@ static void setup_isledata(void)
   }
 }
 
-/****************************************************************************
-  Returns TRUE if (x,y) is _not_ a good position to start from.
+struct start_filter_data {
+  int count; /* Number of existing start positions. */
+  int dist; /* Minimum distance between starting positions. */
+};
+
+/**************************************************************************
+  Return TRUE if (x,y) is a good starting position.
 
   Bad places:
+  - Islands with no room.
   - Non-suitable terrain;
   - On a hut;
   - Too close to another starter on the same continent:
     'dist' is too close (real_map_distance)
     'nr' is the number of other start positions in
     map.start_positions to check for too closeness.
-****************************************************************************/
-static bool is_illegal_start_pos(int x, int y, int nr, int dist) 
+**************************************************************************/
+static bool is_valid_start_pos(int x, int y, void *dataptr)
 {
+  struct start_filter_data *data = dataptr;
   int i;
   enum tile_terrain_type t = map_get_terrain(x, y);
 
+  if (islands[(int)map_get_continent(x, y)].starters == 0) {
+    return FALSE;
+  }
+
   /* Only start on certain terrain types. */
   if (!terrain_has_flag(t, TER_STARTER)) {
-    return TRUE;
+    return FALSE;
   }
   
-  /* don't start on a hut: */
+  /* Don't start on a hut. */
   if (map_has_special(x, y, S_HUT)) {
-    return TRUE;
+    return FALSE;
   }
   
   /* Nobody will start on the poles since they aren't valid terrain. */
 
-  /* don't start too close to someone else: */
-  for (i = 0; i < nr; i++) {
+  /* Don't start too close to someone else. */
+  for (i = 0; i < data->count; i++) {
     int x1 = map.start_positions[i].x;
     int y1 = map.start_positions[i].y;
+
     if (map_get_continent(x, y) == map_get_continent(x1, y1)
-	&& real_map_distance(x, y, x1, y1) < dist) {
-      return TRUE;
+	&& real_map_distance(x, y, x1, y1) < data->dist) {
+      return FALSE;
     }
   }
 
-  return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
   where do the different races start on the map? well this function tries
   to spread them out on the different islands.
-
-  FIXME: MAXTRIES used to be 1.000.000, but has been raised to 10.000.000
-         because a set of values hit the limit. At some point we want to
-         make a better solution.
 **************************************************************************/
-#define MAXTRIES 10000000
 void create_start_positions(void)
 {
-  int nr=0;
-  int dist=40;
-  int x, y, j=0, k, sum;
-  int counter = 0;
+  int x, y, k, sum;
+  struct start_filter_data data;
 
-  if (!islands)		/* already setup for generators 2,3, and 4 */
+  if (!islands) {
+    /* Isle data is already setup for generators 2, 3, and 4. */
     setup_isledata();
+  }
 
-  if(dist>= map.xsize/2)
-    dist= map.xsize/2;
-  if(dist>= map.ysize/2)
-    dist= map.ysize/2;
+  data.count = 0;
+  data.dist = MIN(40, MIN(map.xsize / 2, map.ysize / 2));
 
-  sum=0;
-  for (k=0; k<=map.num_continents; k++) {
+  sum = 0;
+  for (k = 0; k <= map.num_continents; k++) {
     sum += islands[k].starters;
-    if (islands[k].starters!=0) {
+    if (islands[k].starters != 0) {
       freelog(LOG_VERBOSE, "starters on isle %i", k);
     }
   }
-  assert(game.nplayers<=nr+sum);
+  assert(game.nplayers <= data.count + sum);
 
   map.start_positions = fc_realloc(map.start_positions,
 				   game.nplayers
 				   * sizeof(*map.start_positions));
-  while (nr<game.nplayers) {
-    rand_map_pos(&x, &y);
-    if (islands[(int)map_get_continent(x, y)].starters != 0) {
-      j++;
-      if (!is_illegal_start_pos(x, y, nr, dist)) {
-	islands[(int)map_get_continent(x, y)].starters--;
-	map.start_positions[nr].x=x;
-	map.start_positions[nr].y=y;
-	nr++;
-      }else{
-	if (j>900-dist*9) {
- 	  if(dist>1)
-	    dist--;	  	  
-	  j=0;
-	}
+  while (data.count < game.nplayers) {
+    if (rand_map_pos_filtered(&x, &y, &data, is_valid_start_pos)) {
+      islands[(int)map_get_continent(x, y)].starters--;
+      map.start_positions[data.count].x = x;
+      map.start_positions[data.count].y = y;
+      freelog(LOG_DEBUG, "Adding %d,%d as starting position %d.",
+	      x, y, data.count);
+      data.count++;
+    } else {
+      data.dist--;
+      if (data.dist == 0) {
+	char filename[] = "map_core.sav";
+
+	save_game(filename);
+	die(_("The server appears to have gotten into an infinite loop "
+	      "in the allocation of starting positions, and will abort.\n"
+	      "The map has been saved into %s.\n"
+	      "Please report this bug at %s."), filename, WEBSITE_URL);
       }
-    }
-    counter++;
-    if (counter > MAXTRIES) {
-      char filename[] = "map_core.sav";
-      save_game(filename);
-      die(_("The server appears to have gotten into an infinite loop "
-	    "in the allocation of starting positions, and will abort.\n"
-	    "The map has been saved into %s.\n"
-	    "Please report this bug at %s."), filename, WEBSITE_URL);
     }
   }
   map.num_start_positions = game.nplayers;
