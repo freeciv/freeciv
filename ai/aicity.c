@@ -628,12 +628,13 @@ static void calculate_city_clusters(struct player *pplayer)
     pcity->ai.downtown = 0;
   } city_list_iterate_end;
 
+  if (num_role_units(F_HELP_WONDER) == 0) {
+    return; /* ruleset has no help wonder unit */
+  }
+
   unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
   if (unittype == U_LAST) {
     unittype = get_role_unit(F_HELP_WONDER, 0); /* simulate future unit */
-    if (unittype == U_LAST) {
-      return; /* ruleset has no help wonder unit */
-    }
   }
   ghost = create_unit_virtual(pplayer, NULL, unittype, 0);
   range = unit_move_rate(ghost) * 4;
@@ -752,7 +753,7 @@ void ai_manage_buildings(struct player *pplayer)
     int best_candidate_value = 0;
     struct city *best_candidate = NULL;
     /* Whether ruleset has a help wonder unit type */
-    bool has_help = (get_role_unit(F_HELP_WONDER, 0) != U_LAST);
+    bool has_help = (num_role_units(F_HELP_WONDER) > 0);
 
     calculate_city_clusters(pplayer);
 
