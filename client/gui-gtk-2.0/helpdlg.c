@@ -51,30 +51,33 @@
 /*
  * Globals.
  */
-static GtkWidget * help_dialog_shell;
-static GtkWidget * help_clist;
-static GtkWidget * help_clist_scrolled;
-static GtkWidget * help_frame;
-static GtkWidget * help_text;
-static GtkWidget * help_text_scrolled;
-static GtkWidget * help_vbox;
-static GtkWidget * unit_tile;
-static GtkWidget * help_box;
-static GtkWidget * help_itable;
-static GtkWidget * help_wtable;
-static GtkWidget * help_utable;
-static GtkWidget * help_ttable;
-static GtkWidget * help_tree;
-static GtkWidget * help_tree_scrolled;
-static GtkWidget * help_tree_expand;
-static GtkWidget * help_tree_expand_unknown;
-static GtkWidget * help_tree_collapse;
-static GtkWidget * help_tree_reset;
-static GtkWidget * help_tree_buttons_hbox;
-static GtkWidget * help_ilabel[6];
-static GtkWidget * help_wlabel[6];
-static GtkWidget * help_ulabel[5][5];
-static GtkWidget * help_tlabel[4][5];
+static GtkWidget *help_dialog_shell;
+static GtkWidget *help_clist;
+static GtkWidget *help_view_scrolled;
+
+static GtkWidget *help_view;
+
+static GtkWidget *help_frame;
+static GtkWidget *help_text;
+static GtkWidget *help_text_scrolled;
+static GtkWidget *help_vbox;
+static GtkWidget *unit_tile;
+static GtkWidget *help_box;
+static GtkWidget *help_itable;
+static GtkWidget *help_wtable;
+static GtkWidget *help_utable;
+static GtkWidget *help_ttable;
+static GtkWidget *help_tree;
+static GtkWidget *help_tree_scrolled;
+static GtkWidget *help_tree_expand;
+static GtkWidget *help_tree_expand_unknown;
+static GtkWidget *help_tree_collapse;
+static GtkWidget *help_tree_reset;
+static GtkWidget *help_tree_buttons_hbox;
+static GtkWidget *help_ilabel[6];
+static GtkWidget *help_wlabel[6];
+static GtkWidget *help_ulabel[5][5];
+static GtkWidget *help_tlabel[4][5];
 
 typedef struct help_tree_node {
   int tech;
@@ -109,7 +112,6 @@ static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
 static void create_help_page(enum help_page_type type);
 
-static void select_help_item(int item);
 static void select_help_item_string(const char *item,
 				    enum help_page_type htype);
 
@@ -405,25 +407,16 @@ static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
   return button;
 }
 
-static void selected_topic(GtkCList *clist, gint row, gint column,
-			   GdkEventButton *event)
+static void selected_topic(GtkTreeSelection *selection, GtkTreeModel *model)
 {
+  GtkTreeIter it;
   const struct help_item *p = NULL;
 
-  help_items_iterate(pitem) {
-    if ((row--)==0)
-    {
-      p=pitem;
-      break;
-    }
-  }
-  help_items_iterate_end;
+  if (!gtk_tree_selection_get_selected(selection, NULL, &it))
+    return;
 
-  if (!p)
-      return;
-
+  gtk_tree_model_get(model, &it, 1, &p, -1);
   help_update_dialog(p);
-  return;
 }
 
 /**************************************************************************
@@ -433,9 +426,12 @@ static void create_help_dialog(void)
 {
   GtkWidget *hbox;
   GtkWidget *button;
-  char      *row       [1];
   int	     i, j;
-
+  GtkCellRenderer   *renderer;
+  GtkTreeViewColumn *col;
+  GArray            *array;
+  GtkTreeStore      *store;
+  GtkTreeSelection  *selection;
 
   help_dialog_shell = gtk_dialog_new();
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
@@ -450,26 +446,60 @@ static void create_help_dialog(void)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(help_dialog_shell)->vbox ),
   	  hbox, TRUE, TRUE, 0 );
 
+  /* build tree store. */
+  store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+
+  array = g_array_new(FALSE, FALSE, sizeof(GtkTreeIter));
+  help_items_iterate(pitem) {
+    GtkTreeIter *it, *parent;
+    const char *s;
+    int depth;
+
+    for (s = pitem->topic; *s == ' '; s++) {
+      /* nothing */
+    }
+    depth = s - pitem->topic;
+
+    array = g_array_set_size(array, depth+1);
+
+    if (depth > 0) {
+      parent = &g_array_index(array, GtkTreeIter, depth-1);
+    } else {
+      parent = NULL;
+    }
+
+    it = &g_array_index(array, GtkTreeIter, depth);
+    gtk_tree_store_append(store, it, parent);
+
+    gtk_tree_store_set(store, it, 0, pitem->topic, 1, pitem, -1);
+  } help_items_iterate_end;
+
+
+  /* create tree view. */
+  help_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(help_view));
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(help_view), FALSE);
+
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
+  g_signal_connect(selection, "changed", G_CALLBACK(selected_topic), store);
+
+  renderer = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, renderer, "text",0,NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(help_view), col);
+
   help_clist = gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(help_clist), 0, GTK_CLIST(help_clist)->clist_window_width);
-  help_clist_scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_clist_scrolled),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(help_clist_scrolled, 180, 350);
-  gtk_container_add(GTK_CONTAINER(help_clist_scrolled), help_clist);
-  gtk_box_pack_start( GTK_BOX(hbox), help_clist_scrolled, TRUE, TRUE, 0 );
+  help_view_scrolled = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_scrolled),
+  			  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_usize(help_view_scrolled, 180, -1);
+  gtk_container_add(GTK_CONTAINER(help_view_scrolled), help_view);
 
-  g_signal_connect(G_OBJECT(help_clist), "select_row",
-  		      G_CALLBACK(selected_topic), NULL);
-
-  help_items_iterate(pitem) 
-    row[0]=pitem->topic;
-    i = gtk_clist_append (GTK_CLIST (help_clist), row);
-  help_items_iterate_end;
+  gtk_box_pack_start(GTK_BOX(hbox), help_view_scrolled, FALSE, FALSE, 0);
 
   help_frame = gtk_frame_new( "" );
   gtk_box_pack_start( GTK_BOX( hbox ), help_frame, TRUE, TRUE, 0 );
-  gtk_widget_set_usize( help_frame, 520, 350 );
+  gtk_widget_set_usize(help_frame, 580, 350);
 
   help_box = gtk_vbox_new( FALSE, 5 );
   gtk_container_add( GTK_CONTAINER( help_frame ), help_box );
@@ -560,11 +590,13 @@ static void create_help_dialog(void)
 
   help_text_scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_scrolled),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  			  GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   help_text = gtk_text_view_new();
   gtk_container_add(GTK_CONTAINER(help_text_scrolled), help_text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(help_text), FALSE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(help_text), GTK_WRAP_NONE);
   gtk_box_pack_start(GTK_BOX(help_box), help_text_scrolled, TRUE, TRUE, 0);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(help_text), 5);
   gtk_widget_set_name(help_text, "help text");
 
   help_tree = gtk_ctree_new(1,0);
@@ -1113,10 +1145,54 @@ static void help_update_dialog(const struct help_item *pitem)
 /**************************************************************************
 ...
 **************************************************************************/
-static void select_help_item(int item)
+gboolean select_item_iteration(GtkTreeModel *model, GtkTreePath *path,
+			       GtkTreeIter *it, gpointer data)
 {
-  gtk_clist_moveto(GTK_CLIST (help_clist), item, 0, 0, 0);
-  gtk_clist_select_row(GTK_CLIST (help_clist), item, 0);
+  const struct help_item *pitem = data, *pitem2;
+
+  gtk_tree_model_get(model, it, 1, &pitem2, -1);
+
+  if (pitem == pitem2) {
+    GtkTreeSelection *selection;
+    GtkTreeIter       parent, step;
+    GtkTreePath      *ppath;
+
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
+
+    step = *it;
+    while (gtk_tree_store_iter_depth(model, &step) > 0) {
+      gtk_tree_model_iter_parent(model, &parent, &step);
+      step = parent;
+    }
+
+    ppath = gtk_tree_model_get_path(model, &step);
+    gtk_tree_view_expand_row(GTK_TREE_VIEW(help_view), ppath, TRUE);
+    gtk_tree_path_free(ppath);
+
+    gtk_tree_selection_select_iter(selection, it);
+
+#ifdef UNUSED
+    /* XXX: would be nice if it actually worked everytime! */
+    gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(help_view), path, NULL,
+				 TRUE, 0.0, 0.0);
+#endif
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void select_help_item(const struct help_item *pitem)
+{
+  if (pitem) {
+    GtkTreeModel *model;
+
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(help_view));
+    gtk_tree_model_foreach(model, select_item_iteration, (gpointer)pitem);
+  }
 }
 
 /****************************************************************
@@ -1129,7 +1205,6 @@ static void select_help_item_string(const char *item,
   int idx;
 
   pitem = get_help_item_spec(item, htype, &idx);
-  if(idx==-1) idx = 0;
-  select_help_item(idx);
+  select_help_item(pitem);
   help_update_dialog(pitem);
 }
