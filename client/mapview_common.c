@@ -1118,6 +1118,15 @@ void update_map_canvas_visible(void)
 {
   dirty_all();
 
+  /* Clear the entire mapview.  This is necessary since if the mapview is
+   * large enough duplicated tiles will not be drawn twice.  Those areas of
+   * the mapview aren't updated at all and can be cluttered with city names
+   * and other junk. */
+  /* FIXME: we don't have to draw black (unknown) tiles since they're already
+   * cleared. */
+  gui_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
+		    0, 0, mapview_canvas.width, mapview_canvas.height);
+
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
        invisible tiles will not be drawn. */
