@@ -308,20 +308,7 @@ if test x$client != xno; then
   FC_GTK_CLIENT
 
   dnl Gtk-2.0-specific overrides
-  if test "$client" = "gtk-2.0" || test "$client" = yes ; then
-    AM_PATH_GTK_2_0(2.0.0, gtk_2_0_found="yes", gtk2_0_found="")
-    if test "x$gtk_2_0_found" = "xyes"; then
-      CLIENT_CFLAGS="$GTK_CFLAGS"
-      CLIENT_LIBS="$GTK_LIBS"
-      found_client=yes
-    fi
-
-    if test "x$found_client" = "xyes"; then
-      client="gtk-2.0"
-    elif test "$client" = "gtk-2.0"; then
-      AC_MSG_ERROR(specified client 'gtk-2.0' not configurable)
-    fi
-  fi
+  FC_GTK2_CLIENT
 
   dnl SDL-specific overrides
   FC_SDL_CLIENT
