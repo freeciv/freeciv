@@ -388,7 +388,9 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 
       if (i == B_WALL && !city_got_citywalls(pcity))
 /* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */
-        values[B_WALL] = 40; /* WAG */
+        values[B_WALL] = 1; /* WAG */
+ /* was 40, which led to the AI building WALL, not being able to build CITY,
+someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela */
 
       if (i == B_HANGING) /* will add the global effect to this. */
         values[i] = building_value(3, pcity, val) -
