@@ -443,17 +443,3 @@ void send_save_game(char *filename)
 
   send_chat(message);
 }
-
-/**************************************************************** 
- Should be called by gui after disconnecting from local server
-*****************************************************************/ 
-void disconnected_from_local_server() 
-{
-  char buf[1024];
-  assert(is_server_running());
-  my_snprintf(buf, sizeof(buf), 
-              _("A local server is still running on port %d. Use "
-                "\"Connect to Network Game\" to connect to it."),
-	      internal_server_port);
-  append_output_window(buf);
-}

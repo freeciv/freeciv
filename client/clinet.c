@@ -74,6 +74,7 @@
 #include "chatline_g.h"
 #include "civclient.h"
 #include "climisc.h"
+#include "connectdlg_common.h"
 #include "connectdlg_g.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
@@ -119,6 +120,8 @@ static void close_socket_callback(struct connection *pc)
   append_output_window(_("Lost connection to server!"));
   freelog(LOG_NORMAL, "lost connection to server");
   close_socket_nomessage(pc);
+  /* If we lost connection to the internal server - kill him */
+  client_kill_server();
 }
 
 /**************************************************************************
@@ -233,6 +236,9 @@ void disconnect_from_server(void)
 {
   append_output_window(_("Disconnecting from server."));
   close_socket_nomessage(&aconnection);
+  /* If it's internal server - kill him 
+   * We assume that we are always connected to the internal server  */
+  client_kill_server();
 }  
 
 /**************************************************************************

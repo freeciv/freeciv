@@ -79,7 +79,6 @@ enum MenuID {
   MENU_GAME_OUTPUT_LOG,
   MENU_GAME_CLEAR_OUTPUT,
   MENU_GAME_DISCONNECT,
-  MENU_GAME_END,
   MENU_GAME_QUIT,
   
   MENU_GOVERNMENT_TAX_RATE,
@@ -206,13 +205,6 @@ static void game_menu_callback(gpointer callback_data,
     break;
   case MENU_GAME_DISCONNECT:
     disconnect_from_server();
-    if (is_server_running()) {
-      disconnected_from_local_server();
-    }
-    break;
-  case MENU_GAME_END:
-    disconnect_from_server();
-    client_kill_server();
     break;
   case MENU_GAME_QUIT:
     exit(EXIT_SUCCESS);
@@ -625,10 +617,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_SAVE_GAME,			"<StockItem>",
 	GTK_STOCK_SAVE_AS								},
   { "/" N_("Game") "/sep4",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("_End Game"),		NULL,
-	game_menu_callback,	MENU_GAME_END						},
-  { "/" N_("Game") "/sep5",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("E_xport Log"),		NULL,
 	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
@@ -1081,8 +1069,6 @@ void update_menus(void)
 		      can_client_access_hack()
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/_Save Game", can_client_access_hack()
-		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_End Game", can_client_access_hack()
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/Server O_ptions", 
 		      aconnection.established);
