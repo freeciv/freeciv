@@ -45,6 +45,7 @@ enum req_range {
  * unit reqs the target will be a city; for tech reqs it will be a player;
  * for effect reqs it may be anything. */
 enum target_type {
+  TARGET_WORLD,
   TARGET_PLAYER,
   TARGET_CITY,
   TARGET_BUILDING 

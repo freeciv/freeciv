@@ -166,6 +166,7 @@ bool is_effect_useful(enum target_type target,
 bool is_building_replaced(const struct city *pcity, Impr_Type_id building);
 
 /* functions to know the bonuses a certain effect is granting */
+int get_world_bonus(enum effect_type effect_type);
 int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
 int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,

@@ -715,6 +715,15 @@ static int get_target_bonus_effects(struct effect_list *plist,
 }
 
 /**************************************************************************
+  Returns the effect bonus for the whole world.
+**************************************************************************/
+int get_world_bonus(enum effect_type effect_type)
+{
+  return get_target_bonus_effects(NULL, TARGET_WORLD,
+				  NULL, NULL, B_LAST, NULL, effect_type);
+}
+
+/**************************************************************************
   Returns the effect bonus for a player.
 **************************************************************************/
 int get_player_bonus(const struct player *pplayer,

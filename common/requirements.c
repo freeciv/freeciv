@@ -311,6 +311,8 @@ static bool is_target_possible(enum target_type target,
 			       enum req_range range)
 {
   switch (target) {
+  case TARGET_WORLD:
+    return (range >= REQ_RANGE_WORLD);
   case TARGET_PLAYER:
     return (range >= REQ_RANGE_PLAYER);
   case TARGET_CITY:
@@ -448,10 +450,6 @@ int count_buildings_in_range(enum target_type target,
 			     enum req_range range, bool survives,
 			     Impr_Type_id source)
 {
-  if (!is_target_possible(target, range)) {
-    return 0;
-  }
-
   if (improvement_obsolete(target_player, source)) {
     return 0;
   }
@@ -494,6 +492,32 @@ int count_buildings_in_range(enum target_type target,
   }
   assert(0);
   return 0;
+}
+
+/****************************************************************************
+  Is there a source tech within range of the target?
+****************************************************************************/
+static bool is_tech_in_range(enum target_type target,
+			     const struct player *target_player,
+			     enum req_range range,
+			     Tech_Type_id tech)
+{
+  switch (range) {
+  case REQ_RANGE_PLAYER:
+    return (target_player
+	    && get_invention(target_player, tech) == TECH_KNOWN);
+  case REQ_RANGE_WORLD:
+    return game.global_advances[tech] > 0;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
 }
 
 /****************************************************************************
@@ -575,6 +599,10 @@ bool is_req_active(enum target_type target,
 		   const struct tile *target_tile,
 		   const struct requirement *req)
 {
+  if (!is_target_possible(target, req->range)) {
+    return FALSE;
+  }
+
   /* Note the target may actually not exist.  In particular, effects that
    * have a REQ_SPECIAL or REQ_TERRAIN may often be passed to this function
    * with a city as their target.  In this case the requirement is simply
@@ -584,9 +612,8 @@ bool is_req_active(enum target_type target,
     return TRUE;
   case REQ_TECH:
     /* The requirement is filled if the player owns the tech. */
-    return (target_player
-	    && get_invention(target_player,
-			     req->source.value.tech) == TECH_KNOWN);
+    return is_tech_in_range(target, target_player, req->range,
+			    req->source.value.tech);
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
     return (target_player
