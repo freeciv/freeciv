@@ -216,6 +216,7 @@ buildings.ruleset:
     - spec_gate
     - equiv_range
     - equiv_repl
+    - sabotage
     - effect
 
 nations.ruleset:
