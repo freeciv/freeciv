@@ -233,26 +233,28 @@ int city_tile_value(struct city *pcity, int x, int y,
 
   plr = city_owner(pcity);
 
-  food_value = city_get_food_tile(x, y, pcity);
+  food_value = city_get_output_tile(x, y, pcity, O_FOOD);
   if (foodneed > 0) {
     food_value += 9 * MIN(food_value, foodneed);
   }
   food_value *= food_weighting(MAX(2, pcity->size));
   
-  shield_value = city_get_shields_tile(x, y, pcity);
+  shield_value = city_get_output_tile(x, y, pcity, O_SHIELD);
   if (prodneed > 0) {
     shield_value += 9 * (MIN(shield_value, prodneed));
   }
   shield_value *= SHIELD_WEIGHTING * pcity->bonus[O_SHIELD];
   shield_value /= 100;
 
-  trade_value = (city_get_trade_tile(x, y, pcity) * pcity->ai.trade_want
-       * (pcity->bonus[O_GOLD] * plr->economic.tax
-	  + pcity->bonus[O_LUXURY] * plr->economic.luxury
-	  + pcity->bonus[O_SCIENCE] * plr->economic.science)) / 10000;
+  trade_value = city_get_output_tile(x, y, pcity, O_TRADE);
+  trade_value *= pcity->ai.trade_want;
+  trade_value *= (pcity->bonus[O_GOLD] * plr->economic.tax
+		  + pcity->bonus[O_LUXURY] * plr->economic.luxury
+		  + pcity->bonus[O_SCIENCE] * plr->economic.science);
+  trade_value /= 10000;
 
   return food_value + shield_value + trade_value;
-}  
+}
 
 /**************************************************************************
   Calculates the value of removing pollution at the given tile.

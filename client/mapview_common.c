@@ -935,9 +935,9 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
 			  struct canvas *pcanvas,
 			  int canvas_x, int canvas_y)
 {
-  int food = city_get_food_tile(city_x, city_y, pcity);
-  int shields = city_get_shields_tile(city_x, city_y, pcity);
-  int trade = city_get_trade_tile(city_x, city_y, pcity);
+  int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
+  int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
+  int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
 
   food = CLIP(0, food, NUM_TILES_DIGITS - 1);
   shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);

@@ -422,9 +422,8 @@ void generate_city_map_indices(void);
 
 /* output on spot */
 int get_output_tile(const struct tile *ptile, Output_type_id otype);
-int city_get_shields_tile(int city_x, int city_y, const struct city *pcity);
-int city_get_trade_tile(int city_x, int city_y, const struct city *pcity);
-int city_get_food_tile(int city_x, int city_y, const struct city *pcity);
+int city_get_output_tile(int city_x, int city_y, const struct city *pcity,
+			 Output_type_id otype);
 int base_city_get_output_tile(int city_x, int city_y,
 			      const struct city *pcity, bool is_celebrating,
 			      Output_type_id otype);

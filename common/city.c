@@ -818,13 +818,15 @@ int get_output_tile(const struct tile *ptile, Output_type_id otype)
 }
 
 /**************************************************************************
-  Calculate the shields the given tile is capable of producing for the
-  city.
+  Calculate the production output the given tile is capable of producing
+  for the city.  The output type is given by 'otype' (generally O_FOOD,
+  O_SHIELD, or O_TRADE).
 **************************************************************************/
-int city_get_shields_tile(int city_x, int city_y, const struct city *pcity)
+int city_get_output_tile(int city_x, int city_y, const struct city *pcity,
+			 Output_type_id otype)
 {
   return base_city_get_output_tile(city_x, city_y, pcity,
-				   city_celebrating(pcity), O_SHIELD);
+				   city_celebrating(pcity), otype);
 }
 
 /**************************************************************************
@@ -846,25 +848,6 @@ int base_city_get_output_tile(int city_x, int city_y,
 
   return base_get_output_tile(ptile, pcity,
 			      city_x, city_y, is_celebrating, otype);
-}
-/**************************************************************************
-  Calculate the trade the given tile is capable of producing for the
-  city.
-**************************************************************************/
-int city_get_trade_tile(int city_x, int city_y, const struct city *pcity)
-{
-  return base_city_get_output_tile(city_x, city_y,
-				   pcity, city_celebrating(pcity), O_TRADE);
-}
-
-/**************************************************************************
-  Calculate the food the given tile is capable of producing for the
-  city.
-**************************************************************************/
-int city_get_food_tile(int city_x, int city_y, const struct city *pcity)
-{
-  return base_city_get_output_tile(city_x, city_y, pcity,
-				   city_celebrating(pcity), O_FOOD);
 }
 
 /**************************************************************************
