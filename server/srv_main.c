@@ -1646,7 +1646,10 @@ void srv_main(void)
 
     send_game_state(&game.game_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
+    connection_do_buffer(NULL);
+    lsend_packet_processing_started(&game.game_connections);
     show_map_to_all();
+    lsend_packet_processing_finished(&game.game_connections);
     notify_player(NULL, _("Game: The game is over..."));
     gamelog(GAMELOG_NORMAL, _("The game is over!"));
     send_server_info_to_metaserver(META_INFO);
