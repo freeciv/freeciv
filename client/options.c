@@ -335,7 +335,7 @@ void save_options(void)
 		_("Save failed, cannot write to file %s"), name);
   } else {
     my_snprintf(output_buffer, sizeof(output_buffer),
-		_("Saved setttings to file %s"), name);
+		_("Saved settings to file %s"), name);
   }
 
   append_output_window(output_buffer);
