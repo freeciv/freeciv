@@ -13,8 +13,7 @@
 
 /* specvectors: "specific vectors".
    
-   This file is used to implement type-checked vectors (variable size arrays).
-   (Or, maybe, what you end up doing when you don't use C++ ?)
+   This file is used to implement resizable arrays.
    
    Before including this file, you must define the following:
      SPECVEC_TAG - this tag will be used to form names for functions etc.
@@ -34,10 +33,6 @@
       void foo_vector_copy(struct foo_vector *to, struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
 
-   Also, in a single .c file, you should include specvec_c.h,
-   with the same SPECVEC_TAG and SPECVEC_TYPE defined, to
-   provide the function implementations.
-
    Note this is not protected against multiple inclusions; this is
    so that you can have multiple different specvectors.  For each
    specvector, this file should be included _once_, inside a .h file
@@ -47,7 +42,7 @@
 #include <assert.h>
 #include <string.h>		/* for memcpy */
 
-#include "astring.h"
+#include "mem.h"
 
 #ifndef SPECVEC_TAG
 #error Must define a SPECVEC_TAG to use this header
@@ -64,7 +59,10 @@
 #define SPECVEC_FOO(suffix) SPECVEC_PASTE(SPECVEC_TAG, suffix)
 
 SPECVEC_VECTOR {
-  struct athing vector;
+  /* Users are allowed to access the data pointer directly. */
+  SPECVEC_TYPE *p;
+
+  size_t size, size_alloc;
 };
 
 #ifndef SPECVEC_TAG
@@ -84,44 +82,52 @@ SPECVEC_VECTOR {
 
 static inline void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis)
 {
-  ath_init(&tthis->vector, sizeof(SPECVEC_TYPE));
+  tthis->p = NULL;
+  tthis->size = tthis->size_alloc = 0;
 }
 
-static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n)
+static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis,
+						 int size)
 {
-  ath_minnum(&tthis->vector, n);
+  if (size > tthis->size_alloc) {
+    int new_size = MAX(size, tthis->size_alloc * 2);
+
+    tthis->p = fc_realloc(tthis->p, new_size * sizeof(*tthis->p));
+    tthis->size_alloc = new_size;
+  }
+  tthis->size = size;
 }
 
 static inline size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
 {
-  return tthis->vector.n;
+  return tthis->size;
 }
 
-static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index)
+static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis,
+						      int index)
 {
-  assert(index>=0 && index<tthis->vector.n);
-
-  return ((SPECVEC_TYPE *)ath_get(&tthis->vector, index));
+  if (index < 0 || index >= tthis->size) {
+    assert(index >= 0 && index < tthis->size);
+    return NULL;
+  } else {
+    return tthis->p + index;
+  }
 }
 
 /* You must _init "*to" before using this function */
-static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to, SPECVEC_VECTOR *from)
+static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to,
+					      SPECVEC_VECTOR *from)
 {
-  int i;
-  size_t size = SPECVEC_FOO(_vector_size) (from);
-
-  SPECVEC_FOO(_vector_reserve) (to, size);
-
-  for (i = 0; i < size; i++) {
-    memcpy(SPECVEC_FOO(_vector_get) (to, i), 
-           SPECVEC_FOO(_vector_get) (from, i),
-           sizeof(SPECVEC_TYPE));
-  }
+  SPECVEC_FOO(_vector_reserve) (to, from->size);
+  memcpy(to->p, from->p, from->size * sizeof(*to->p));
 }
 
 static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
 {
-  ath_free(&tthis->vector);
+  if (tthis->p) {
+    free(tthis->p);
+  }
+  SPECVEC_FOO(_vector_init)(tthis);
 }
 
 #undef SPECVEC_TAG
