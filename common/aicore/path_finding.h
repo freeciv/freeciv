@@ -386,7 +386,8 @@ struct pf_path * pf_next_get_path(const struct pf_map *pf_map);
  * purposes.  Make sure the path is valid (if you got it from pf_get_path). */
 void pf_print_path(int log_level, const struct pf_path *path);
 
-/* After use, a path must be destroyed. */
+/* After use, a path must be destroyed. pf_destroy_path will also
+ * accept NULL (which is returned by pf_get_path in error case). */
 void pf_destroy_path(struct pf_path *path);
 
 /* After usage the map should be destroyed. */

@@ -675,8 +675,10 @@ void pf_print_path(int log_level, const struct pf_path *path)
 ************************************************************************/
 void pf_destroy_path(struct pf_path *path)
 {
-  free(path->positions);
-  free(path);
+  if (path) {
+    free(path->positions);
+    free(path);
+  }
 }
 
 

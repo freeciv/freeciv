@@ -513,9 +513,12 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 
       MAPSTEP(x, y, pos.x, pos.y, DIR_REVERSE(pos.dir_to_here));
       path = pf_get_path(map, pos.x, pos.y);
-      if (!ai_unit_execute_path(punit, path) || punit->moves_left <= 0) {
+      if (!path || !ai_unit_execute_path(punit, path) 
+          || punit->moves_left <= 0) {
+        pf_destroy_path(path);
         return FALSE;
       }
+      pf_destroy_path(path);
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.x, pos.y)) {
@@ -667,7 +670,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     struct pf_path *path;
 
     path = pf_get_path(map, goto_dest_x(punit), goto_dest_y(punit));
-    if (ai_unit_execute_path(punit, path) && punit->moves_left > 0) {
+    if (path && ai_unit_execute_path(punit, path) && punit->moves_left > 0) {
       /* Check if we can do something with our destination now. */
       if (punit->ai.ai_role == AIUNIT_ATTACK) {
         int dist  = real_map_distance(punit->x, punit->y,
