@@ -1499,6 +1499,54 @@ static void reject_new_player(char *msg, struct connection *pconn)
 }
   
 /**************************************************************************
+  Try a single name as new connection name for set_unique_conn_name().
+  If name is ok, copy to pconn->name and return 1, else return 0.
+**************************************************************************/
+static int try_conn_name(struct connection *pconn, const char *name)
+{
+  char save_name[MAX_LEN_NAME];
+
+  /* avoid matching current name in find_conn_by_name() */
+  sz_strlcpy(save_name, pconn->name);
+  pconn->name[0] = '\0';
+  
+  if (!find_conn_by_name(name)) {
+    sz_strlcpy(pconn->name, name);
+    return 1;
+  } else {
+    sz_strlcpy(pconn->name, save_name);
+    return 0;
+  }
+}
+
+/**************************************************************************
+  Set pconn->name based on reqested name req_name: either use req_name,
+  if no other connection has that name, else a modified name based on
+  req_name (req_name prefixed by digit and dash).
+  Returns 0 if req_name used unchanged, else 1.
+**************************************************************************/
+static int set_unique_conn_name(struct connection *pconn, const char *req_name)
+{
+  char adjusted_name[MAX_LEN_NAME];
+  int i;
+  
+  if (try_conn_name(pconn, req_name)) {
+    return 0;
+  }
+  for(i=1; i<10000; i++) {
+    my_snprintf(adjusted_name, sizeof(adjusted_name), "%d-%s", i, req_name);
+    if (try_conn_name(pconn, adjusted_name)) {
+      return 1;
+    }
+  }
+  /* This should never happen */
+  freelog(LOG_ERROR, "Too many failures in set_unique_conn_name(%s,%s)",
+	  pconn->name, req_name);
+  sz_strlcpy(pconn->name, req_name);
+  return 0;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void handle_request_join_game(struct connection *pconn, 
@@ -1522,12 +1570,10 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  if (!find_conn_by_name(req->name)) {
-    sz_strlcpy(pconn->name, req->name);
+  if (set_unique_conn_name(pconn, req->name)==0) {
     freelog(LOG_NORMAL, _("Connection request from %s from %s"),
 	    req->name, pconn->addr);
   } else {
-    /* leave made-up name */
     freelog(LOG_NORMAL,
 	    _("Connection request from %s from %s (connection named %s)"),
 	    req->name, pconn->addr, pconn->name);
