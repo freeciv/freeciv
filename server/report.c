@@ -1116,8 +1116,7 @@ void report_progress_scores(void)
 void report_final_scores(void)
 {
   int i, j = 0;
-  struct player_score_entry *size =
-      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
+  struct player_score_entry size[game.nplayers];
   struct packet_endgame_report packet;
 
   players_iterate(pplayer) {
