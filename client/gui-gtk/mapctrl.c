@@ -328,6 +328,7 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   int x,y;
   struct city *pcity;
   struct packet_city_request packet;
+  enum city_tile_type wrk;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return TRUE;
@@ -337,16 +338,19 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 
   if(!(pcity = find_city_near_tile(x,y)))  return TRUE;
 
-  x = x-pcity->x+2; y = y-pcity->y+2;
+  x = map_to_city_x(pcity, x);
+  y = map_to_city_y(pcity, y);
+
   packet.city_id=pcity->id;
   packet.worker_x=x;
   packet.worker_y=y;
   packet.name[0]='\0';
   
-  if(pcity->city_map[x][y]==C_TILE_WORKER)
+  wrk = get_worker_city(pcity, x, y);
+  if(wrk==C_TILE_WORKER)
     send_packet_city_request(&aconnection, &packet, 
 			    PACKET_CITY_MAKE_SPECIALIST);
-  else if(pcity->city_map[x][y]==C_TILE_EMPTY)
+  else if(wrk==C_TILE_EMPTY)
     send_packet_city_request(&aconnection, &packet, 
 			    PACKET_CITY_MAKE_WORKER);
 

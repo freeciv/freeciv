@@ -1208,20 +1208,27 @@ void put_city_workers(struct city *pcity, int color)
   city_map_iterate(i, j)  {
     enum city_tile_type t=get_worker_city(pcity, i, j);
     enum city_tile_type last_t=-1;
-    if(i==2 && j==2) continue;
-    if(t==C_TILE_EMPTY) {
-      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray25);
-    } else if(t==C_TILE_WORKER) {
-      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray50);
-    } else continue;
-    last_t=t;
-    XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc, 
-	      (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT, 
-	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-	      (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT);
-    XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
-		   (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    if(!(i==2 && j==2)) {
+      if(t==C_TILE_EMPTY) {
+	if(last_t!=t) XSetStipple(display,fill_tile_gc,gray25);
+      } else if(t==C_TILE_WORKER) {
+	if(last_t!=t) XSetStipple(display,fill_tile_gc,gray50);
+      } else continue;
+      last_t=t;
+      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc, 
+		(x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT, 
+		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		(x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT);
+      XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
+		     (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
+		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    }
+    if(t==C_TILE_WORKER) {
+      put_city_tile_output(XtWindow(map_canvas), x+i-2, y+j-2, 
+			   get_food_tile(i, j, pcity),
+			   get_shields_tile(i, j, pcity), 
+			   get_trade_tile(i, j, pcity) );
+    }
   }
 
   last_pcity=pcity;
