@@ -850,7 +850,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   unit_list_unlink_all(&old_city_units);
   reset_move_costs(pcity->tile);
 
-  if (resolve_stack && !pplayers_allied(pgiver, ptaker)) {
+  if (resolve_stack) {
     resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);
   }
 
