@@ -20,6 +20,7 @@ server/cityhand.c
 server/citytools.c
 server/cityturn.c
 server/civserver.c
+server/connecthand.c
 server/console.c
 server/diplhand.c
 server/diplomats.c
