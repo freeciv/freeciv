@@ -1918,6 +1918,10 @@ void cma_free(void)
 
   free(cache2.city_status);
   cache2.city_status = NULL;
+
+  cache2.allocated_size = 0;
+  cache2.allocated_trade = 0;
+  cache2.allocated_luxury = 0;
 }
 
 /****************************************************************************
