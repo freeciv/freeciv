@@ -653,8 +653,8 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
       if (selcols & DEM_COL_QUANTITY)
 	{
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       int_to_text (pplayer->score.population));
+	  my_snprintf(outptr, nleft, fmt_quan,
+		      population_to_text(pplayer->score.population));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -666,9 +666,9 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
           player_has_embassy(pplayer, (best_player = best_population())) )
         {
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       int_to_text(best_player->score.population) );
+	  my_snprintf(outptr, nleft, fmt_best,
+		      get_nation_name_plural(best_player->nation),
+		      population_to_text(best_player->score.population));
         }
       break;
     case DEM_KEY_ROW_LAND_AREA:
