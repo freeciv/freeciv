@@ -98,6 +98,7 @@ bool create_lock(void)
   }
 #else
   freelog(LOG_VERBOSE, "FILE_LOCKING not available"); 
+  return TRUE;
 #endif /* HAS_FILE_LOCKING */
 
   freelog(LOG_DEBUG, "Unable to create lock");
