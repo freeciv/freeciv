@@ -382,8 +382,8 @@ void map_mine_tile(int x, int y)
 void reset_move_costs(int x, int y)
 {
   int c, i, j, k, xx[3], yy[3];
-  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
   
@@ -442,8 +442,8 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
 void initialize_move_costs(void)
 {
   int x, y, c, i, j, k, xx[3], yy[3];
-  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
