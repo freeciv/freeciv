@@ -2942,12 +2942,11 @@ msgstr "unterstützte Optionen: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 
-# ?
 #. TRANS: Rare error message.
 #: server/ruleset.c:1632
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr ""
+msgstr "Fehler im Ruleset: Terrain %s has unknown flag %s"
 
 #: server/ruleset.c:3169
 msgid "Loading rulesets"
@@ -2985,22 +2984,19 @@ msgstr ""
 "Anzahl der Spieler (%d) ist kleiner als max. Anzahl der Spieler (%d); max. "
 "Anzahl der Spieler wird verkleinert."
 
-# ?
 #: server/savegame.c:758 server/savegame.c:766 server/savegame.c:773
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
-msgstr ""
+msgstr "Wrong player%d.u%d.type value (%d)"
 
-# ?
 #: server/savegame.c:783
 #, c-format
 msgid "Unknown unit type '%s' in player%d section"
-msgstr ""
+msgstr "Unknown unit type '%s' in player%d section"
 
-# ?
 #: server/savegame.c:904
 msgid "Savegame error: invalid unit orders."
-msgstr ""
+msgstr "Fehler in Spielstandsdatei: Ungültige Befehle für Einheiten."
 
 #: server/savegame.c:1004
 #, c-format
@@ -3609,8 +3605,8 @@ msgstr ""
 "    x   = Kundschafter (z.B. Kundschafter)\n"
 "    k   = Spielentscheidende Einheit (z.B. König)\n"
 "    s   = Diplomat (z.B. Diplomat)\n"
-"    f   = Fährschiff (z.B. Trireme)\n"                         
-"    d   = Verteidiger (z.B. Krieger)\n"                  
+"    f   = Fährschiff (z.B. Trireme)\n"
+"    d   = Verteidiger (z.B. Krieger)\n"
 "    D   = Guter Verteidiger (z.B. Phalanx)\n"
 "    a   = Schneller Angreifer (z.B. Reiter)\n"
 "    A   = Starker Angreifer (z.B. Katapult)\n"
@@ -4587,10 +4583,9 @@ msgid ""
 "votes have been cast for or against."
 msgstr ""
 
-# ? buggy code
 #: server/stdinhand.c:1222
 msgid "debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>"
-msgstr ""
+msgstr "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
 
 #: server/stdinhand.c:1223
 msgid "Turn on or off AI debugging of given entity."
@@ -5091,14 +5086,15 @@ msgstr "Serverausgabe ändern: 'RFC-Stl' oder 'Standard-Stil'"
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr ""
-"Der Befehl '%s' wurde in der Abstimmung mit %d to %d angenommen, "
-"bei %d Enthaltungen."
+"Der Befehl '%s' wurde in der Abstimmung mit %d to %d angenommen, bei %d "
+"Enthaltungen."
 
 #: server/stdinhand.c:1536
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
-msgstr "Der Befehl '%s' wurde in der Abstimmung mit %d gegen %d abgelehnt, "
-"bei %d Enthaltungen."
+msgstr ""
+"Der Befehl '%s' wurde in der Abstimmung mit %d gegen %d abgelehnt, bei %d "
+"Enthaltungen."
 
 #: server/stdinhand.c:1649
 msgid "(ambiguous)"
@@ -5567,12 +5563,13 @@ msgstr "Sie haben für '%s' gestimmt."
 msgid "You voted against \"%s\""
 msgstr "Sie haben gegen '%s' gestimmt."
 
-# ? buggy code
 #: server/stdinhand.c:3325
 msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
 "<x> <y> | unit <id>>."
 msgstr ""
+"Undefined arguments. Usage: debug [ player <player> | city <x> <y> "
+"| units <x> <y> | unit <id> ]."
 
 #: server/stdinhand.c:3331
 msgid "Can only use this command once game has begun."
@@ -5850,7 +5847,8 @@ msgstr "Aber %s ist tot!"
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
-"Spiel wird beendet. Der Server startet neu, wenn sich alle Clients abgemeldet haben."
+"Spiel wird beendet. Der Server startet neu, wenn sich alle Clients "
+"abgemeldet haben."
 
 #: server/stdinhand.c:4511
 msgid "Cannot end the game: no game running."
@@ -6249,8 +6247,8 @@ msgstr "Spiel: Diese Truppenart kann keine Stadt einnehmen."
 msgid ""
 "Game: A transported unit is not allied to all units or city on target tile."
 msgstr ""
-"Spiel: Eine transportierte Einheit ist nicht mit allen Einheiten oder der Stadt "
-"auf dem Zielfeld alliiert."
+"Spiel: Eine transportierte Einheit ist nicht mit allen Einheiten oder der "
+"Stadt auf dem Zielfeld alliiert."
 
 #: server/unithand.c:1205
 #, c-format
@@ -6625,7 +6623,8 @@ msgstr "Spiel: %s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 #: server/unittools.c:3037
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
-msgstr "Spiel: Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
+msgstr ""
+"Spiel: Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
 #: server/unittools.c:3047
 #, c-format
@@ -7386,8 +7385,8 @@ msgid ""
 "Couldn't connect to the server. We probably couldn't start it from here. "
 "You'll have to start one manually. Sorry..."
 msgstr ""
-"Kann nicht mit dem Server verbinden, wahrscheinlich konnte er von hier "
-"nicht gestartet werden. Bitte starte den Server von Hand."
+"Kann nicht mit dem Server verbinden, wahrscheinlich konnte er von hier nicht "
+"gestartet werden. Bitte starte den Server von Hand."
 
 #: client/connectdlg_common.c:295
 msgid "We have control of the server (command access level hack)"
@@ -7722,12 +7721,14 @@ msgstr "* Marine-Einheiten erhalten einen zusätzlichen Bewegungspunkt.\n"
 #: client/helpdata.c:831
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr "* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 25%%.\n"
+msgstr ""
+"* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 25%%.\n"
 
 #: client/helpdata.c:834
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr "* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 12%%.\n"
+msgstr ""
+"* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 12%%.\n"
 
 #: client/helpdata.c:837
 #, c-format
@@ -8689,7 +8690,7 @@ msgstr "Bevölkerung:     %5d"
 #: client/text.c:584
 #, c-format
 msgid "Support:         %5d %%"
-msgstr ""
+msgstr "Lebenshaltung:   %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:588
@@ -8720,13 +8721,13 @@ msgstr "Reisezeit:          ?       "
 #: client/text.c:605
 #, c-format
 msgid "Success prob.:   %5d %%"
-msgstr ""
+msgstr "Erfolgschance:   %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:609
 #, c-format
 msgid "Year of arrival: %8s"
-msgstr ""
+msgstr "Ankunftsjahr:    %8s"
 
 #: client/text.c:627
 msgid "?timeout:off"
@@ -8787,7 +8788,7 @@ msgid ""
 msgstr ""
 "%s file appears incompatible:\n"
 "file: \"%s\"\n"
-"file options: %s\n"   
+"file options: %s\n"
 "supported options: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
@@ -13962,12 +13963,13 @@ msgstr "Nächste Stadt"
 msgid "size"
 msgstr "Größe"
 
-# ?
 #: client/gui-sdl/cityrep.c:161
 msgid ""
 "time\n"
 "to grow"
 msgstr ""
+"Zeit bis\n"
+"Wachstum"
 
 #: client/gui-sdl/cityrep.c:180
 msgid "Cities Report"
@@ -14060,10 +14062,9 @@ msgstr "Spiel laden"
 msgid "Join Game"
 msgstr "Am Spiel teilnehmen"
 
-# ?
 #: client/gui-sdl/connectdlg.c:1067
 msgid "Join Pubserver"
-msgstr ""
+msgstr "Verbinde mit öffentlichem Server"
 
 #: client/gui-sdl/connectdlg.c:1077
 msgid "Join LAN Server"
@@ -14074,10 +14075,9 @@ msgstr "Verbinde mit LAN-Server"
 msgid "Options"
 msgstr "Optionen"
 
-# ?
 #: client/gui-sdl/connectdlg.c:1142
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "Der SDL-Client heißt Dich willkommen..."
 
 #: client/gui-sdl/connectdlg.c:1144
 msgid ""
@@ -14110,40 +14110,45 @@ msgstr "Veteran"
 #: client/gui-sdl/dialogs.c:679
 #, fuzzy, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "A:%d V:%d FK:%d TP:%d0%%"
+msgstr "%s %s %s(A:%d V:%d M:%d FK:%d) TP:%d%%"
 
 #: client/gui-sdl/dialogs.c:691 client/gui-sdl/dialogs.c:1528
 #: client/gui-sdl/dialogs.c:1653
-#, fuzzy, c-format
+#, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Siegchance: A:%d%% V:%d%%"
+msgstr "Siegchance: Angr:%d%% Vert:%d%%"
 
 #: client/gui-sdl/dialogs.c:894 client/gui-sdl/dialogs.c:1317
-#, fuzzy
 msgid "Terrain Info"
-msgstr "Geländeformen"
+msgstr "Gelände Info"
 
 #: client/gui-sdl/dialogs.c:908
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Terrain: %s\n"
 "Food/Prod/Trade: %s\n"
 "%s"
-msgstr "Nahrung/Produktion/Handel: %s"
+msgstr ""
+"Gelände: %s\n"
+"Nahrung/Produktion/Handel: %s\n"
+"%s"
 
 #: client/gui-sdl/dialogs.c:915
-#, fuzzy
 msgid ""
 "\n"
 "Minor Tribe Village"
-msgstr "Kleine Siedlung"
+msgstr ""
+"\n"
+"Kleine Siedlung"
 
 #: client/gui-sdl/dialogs.c:921
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Infrastructure: %s"
-msgstr "Infrastruktur: "
+msgstr ""
+"\n"
+"Infrastruktur: %s"
 
 #: client/gui-sdl/dialogs.c:934 client/gui-sdl/mapview.c:656
 msgid ""
@@ -14165,25 +14170,30 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: client/gui-sdl/dialogs.c:944 client/gui-sdl/mapview.c:666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
-msgstr "Die %s der %s"
+msgstr ""
+"\n"
+"Gebiet der %s %s"
 
 #: client/gui-sdl/dialogs.c:949 client/gui-sdl/mapview.c:672
-#, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
-msgstr "Neutrales Gebiet"
+msgstr ""
+"\n"
+"Neutrales Gebiet"
 
 #: client/gui-sdl/dialogs.c:963 client/gui-sdl/mapview.c:687
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "City of %s"
-msgstr "Stadt %s"
+msgstr ""
+"\n"
+"Stadt %s"
 
 #: client/gui-sdl/dialogs.c:971
 #, c-format
@@ -14196,7 +14206,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-# ?
 #. TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)"
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/dialogs.c:976 client/gui-sdl/mapview.c:726
@@ -14205,15 +14214,17 @@ msgid ""
 "\n"
 "(%s,%s)"
 msgstr ""
+"\n"
+"(%s,%s)"
 
 #: client/gui-sdl/dialogs.c:985
 msgid "Terrain : UNKNOWN"
 msgstr "Gelände: UNBEKANNT"
 
+# ?
 #: client/gui-sdl/dialogs.c:1293
-#, fuzzy
 msgid "Advanced Menu"
-msgstr "Forschungsergebnisse"
+msgstr ""
 
 # ?
 #: client/gui-sdl/dialogs.c:1346
@@ -14234,14 +14245,12 @@ msgid "Patrol here"
 msgstr "Patrouilliere hier"
 
 #: client/gui-sdl/dialogs.c:1429
-#, fuzzy
 msgid "Connect here"
-msgstr "Verbinden"
+msgstr "Verbinde nach hier"
 
 #: client/gui-sdl/dialogs.c:1450
-#, fuzzy
 msgid "Paradrop here"
-msgstr "Fallschirmspringen"
+msgstr "Hier abspringen"
 
 # ?
 #: client/gui-sdl/dialogs.c:1498 client/gui-sdl/dialogs.c:1614
@@ -14251,14 +14260,13 @@ msgstr ""
 
 # ? M?
 #: client/gui-sdl/dialogs.c:1516 client/gui-sdl/dialogs.c:1641
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s (A:%d V:%d M:%d FK:%d) TP:%d%%"
 
 #: client/gui-sdl/dialogs.c:1586
-#, fuzzy
 msgid "Sentry idle"
-msgstr "_Einheiten stationieren"
+msgstr "Einheiten stationieren"
 
 #: client/gui-sdl/dialogs.c:1672
 #, c-format
@@ -14266,9 +14274,9 @@ msgid "View Civiliopedia entry for %s"
 msgstr "Civiliopedia Eintrag für %s ansehen"
 
 #: client/gui-sdl/dialogs.c:1850
-#, fuzzy, c-format
+#, c-format
 msgid "Your caravan has arrived at %s"
-msgstr "Karawane ist angekommen"
+msgstr "Karawane ist in %s angekommen"
 
 #: client/gui-sdl/dialogs.c:1873
 #, c-format
@@ -14276,9 +14284,9 @@ msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
 msgstr "Handelsroute mit %s (%d F&G + %d Handel)"
 
 #: client/gui-sdl/dialogs.c:1879
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "Marktplatz betreten"
+msgstr "Marktplatz betreten (%d F&G Bonus)"
 
 #: client/gui-sdl/dialogs.c:1897 data/Freeciv:2262
 msgid "Help build Wonder"
@@ -14314,26 +14322,22 @@ msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
 #: client/gui-sdl/dialogs.c:3576
-#, fuzzy
 msgid "REVOLUTION!"
-msgstr "REVOLUTION..."
+msgstr "REVOLUTION!"
 
 #: client/gui-sdl/dialogs.c:4213 client/gui-win32/dialogs.c:492
 msgid "What nation will you be?"
 msgstr "Nationalität wählen:"
 
 #: client/gui-sdl/dialogs.c:4427
-#, fuzzy
 msgid "Start"
-msgstr "Status"
+msgstr "Start"
 
 #: client/gui-sdl/diplodlg.c:572
-#, fuzzy
 msgid "World map"
 msgstr "Weltkarte"
 
 #: client/gui-sdl/diplodlg.c:586
-#, fuzzy
 msgid "Sea map"
 msgstr "Seekarte"
 
@@ -14351,13 +14355,14 @@ msgstr "Sollen wir ihnen den KRIEG erklären?"
 msgid "Foreign Minister"
 msgstr "Aussenminister"
 
-# ?
 #: client/gui-sdl/diplodlg.c:1223
 #, c-format
 msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
+"%s Botschafter ist angekommen\n"
+"Welche Anweisungen haben Sie?"
 
 #: client/gui-sdl/diplodlg.c:1240
 msgid "Declare WAR"
@@ -14373,9 +14378,8 @@ msgid "Withdraw vision"
 msgstr "Karteneinsicht verbieten"
 
 #: client/gui-sdl/diplodlg.c:1282
-#, fuzzy
 msgid "Call Diplomatic Meeting"
-msgstr "Konferenz"
+msgstr "Konferenz einberufen"
 
 #: client/gui-sdl/diplodlg.c:1296
 msgid "Send him back"
@@ -14494,50 +14498,54 @@ msgstr "Error in create_string16: Aborting ..."
 #: client/gui-sdl/gui_string.c:208
 #, c-format
 msgid "Couldn't blit text to display: %s"
-msgstr ""
+msgstr "Couldn't blit text to display: %s"
 
 #: client/gui-sdl/gui_string.c:246
 #, c-format
 msgid ""
 "Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
 msgstr ""
+"Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
 
 #: client/gui-sdl/gui_string.c:267
 #, c-format
 msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-msgstr ""
+msgstr "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
 
 #: client/gui-sdl/gui_string.c:269
 #, c-format
 msgid "SDL_create_str16_surf: String is %d lenght"
-msgstr ""
+msgstr "SDL_create_str16_surf: String is %d lenght"
 
 #: client/gui-sdl/gui_string.c:564
 msgid "Error in change_ptsize: Change ptsize failed"
-msgstr ""
+msgstr "Error in change_ptsize: Change ptsize failed"
 
 #: client/gui-sdl/gui_string.c:597
 msgid ""
 "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to "
 "data dir as stdfont.ttf"
 msgstr ""
+"Kann Datei stdfont.ttf nicht finden. Bitte linken Sie irgendein ttf font in "
+"das data Verzeichnis als stdfont.ttf"
 
 #: client/gui-sdl/gui_string.c:607
 #, c-format
 msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-msgstr ""
+msgstr "Error in load_font: Couldn't load %d pt font from %s: %s"
 
 #: client/gui-sdl/gui_string.c:647
 msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-msgstr ""
+msgstr "Error in unload_font: Trying unload from empty Font ARRAY"
 
 #: client/gui-sdl/gui_string.c:661
 msgid ""
 "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 msgstr ""
+"Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 
 #: client/gui-sdl/inteldlg.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about %s Spaceship"
 msgstr "Geheimdienstinformationen über das Raumschiff der %s"
 
@@ -14554,6 +14562,7 @@ msgstr ""
 "Steuern: %d%% Forschung: %d%% Luxus: %d%%\n"
 "Erforscht: %s(%d/%d)"
 
+# ?
 #: client/gui-sdl/inteldlg.c:218
 msgid "Their techs that we don't have :"
 msgstr ""
@@ -14599,14 +14608,12 @@ msgid "Exit"
 msgstr "Ende"
 
 #: client/gui-sdl/mapctrl.c:888
-#, fuzzy
 msgid "Width"
-msgstr "Warten"
+msgstr "Breite"
 
 #: client/gui-sdl/mapctrl.c:892
-#, fuzzy
 msgid "Height"
-msgstr "Lastwagen"
+msgstr "Höhe"
 
 #: client/gui-sdl/mapctrl.c:901
 msgid "Scale Unit Info"
@@ -14629,9 +14636,8 @@ msgid "End Turn (Enter)"
 msgstr "Rundenende (Enter)"
 
 #: client/gui-sdl/mapctrl.c:1545
-#, fuzzy
 msgid "Players (F3)"
-msgstr "Spieler"
+msgstr "Spieler (F3)"
 
 #: client/gui-sdl/mapctrl.c:1557
 msgid ""
@@ -14639,6 +14645,9 @@ msgid ""
 "or\n"
 "Find City (Shift + F)"
 msgstr ""
+"Stadtreport (F1)\n"
+"oder\n"
+"Finde Stadt (Shift + F)"
 
 #: client/gui-sdl/mapctrl.c:1572
 msgid "Units (F2)"
@@ -14673,32 +14682,28 @@ msgstr ""
 "%s"
 
 #: client/gui-sdl/mapview.c:466
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Research (F6)\n"
 "%s (%d/%d)"
-msgstr "Erforsche: %s(%d/%d)"
+msgstr ""
+"Forschungsbericht (F6)\n"
+"%s (%d/%d)"
 
 #: client/gui-sdl/mapview.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr ""
-"Bevölkerung: %s\n"
-"Jahr: %s\n"
-"Gold: %d\n"
-"St: %d Luxus: %d Forschung: %d"
+msgstr "%s Bevölkerung: %s  Jahr: %s  Gold: %d Ste: %d Lux: %d For: %d "
 
 #: client/gui-sdl/mapview.c:619 data/default/units.ruleset:32
 #: data/civ2/units.ruleset:21 data/civ1/units.ruleset:21
 #: data/history/units.ruleset:29
-#, fuzzy
 msgid "veteran"
-msgstr "(Veteran)"
+msgstr "Veteran"
 
 #: client/gui-sdl/mapview.c:700
-#, fuzzy
 msgid " with "
-msgstr " (mit "
+msgstr " mit "
 
 #: client/gui-sdl/mapview.c:702 data/default/buildings.ruleset:169
 #: data/civ2/buildings.ruleset:122 data/civ1/buildings.ruleset:121
@@ -14719,23 +14724,25 @@ msgid "City Walls"
 msgstr "Stadtmauer"
 
 #: client/gui-sdl/mapview.c:736
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
-msgstr "Nahrung/Produktion/Handel: %s"
+msgstr ""
+"\n"
+"Nahrung/Produktion/Handel: %s"
 
 #: client/gui-sdl/mapview.c:970
 msgid ""
 "End of Turn\n"
 "(Press Enter)"
 msgstr ""
-"Rundenende\n"   
+"Rundenende\n"
 "(Enter drücken)"
 
 #: client/gui-sdl/mapview.c:2239
 msgid "sprite is NULL"
-msgstr ""
+msgstr "sprite is NULL"
 
 #: client/gui-sdl/menu.c:368
 msgid "No orders"
@@ -14763,68 +14770,59 @@ msgid "Auto-Attack"
 msgstr "Automatisch angreifen"
 
 #: client/gui-sdl/menu.c:507 client/gui-sdl/menu.c:1174
-#, fuzzy
 msgid "Auto-Settler"
 msgstr "Siedler automatisieren"
 
 #: client/gui-sdl/menu.c:523
-#, fuzzy
 msgid "Wake Up Others"
 msgstr "Andere alarmieren"
 
 #: client/gui-sdl/menu.c:544
-#, fuzzy
 msgid "Find Homecity"
-msgstr "Finde Stadt"
+msgstr "Finde Heimatstadt"
 
 #: client/gui-sdl/menu.c:635
-#, fuzzy
 msgid "Transform Tile"
 msgstr "Verändern"
 
 #: client/gui-sdl/menu.c:668
-#, fuzzy
 msgid "Form Traderoute"
-msgstr "Handelswege"
+msgstr "Begründe Handelsweg"
 
 #: client/gui-sdl/menu.c:1006
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-msgstr ""
+msgstr "Begründe Handelsweg mit %s (%d F&G + %d Handel) (R)"
 
 #: client/gui-sdl/menu.c:1012
 #, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
-msgstr ""
+msgstr "Handel mit %s (%d F&G Bonus) (R)"
 
+# ?
 #: client/gui-sdl/menu.c:1027
 msgid "Cut Down to"
 msgstr ""
 
 #: client/gui-sdl/menu.c:1035 client/gui-sdl/menu.c:1061
-#, fuzzy
 msgid "Irrigate to"
-msgstr "Bewässerung"
+msgstr "Bewässerung anlegen für"
 
 #: client/gui-sdl/menu.c:1073
-#, fuzzy
 msgid "Plant Forest"
-msgstr "Wald"
+msgstr "Aufforsten"
 
 #: client/gui-sdl/menu.c:1094
-#, fuzzy
 msgid "Transform to"
-msgstr "Zu %s verändern"
+msgstr "Verändern zu"
 
 #: client/gui-sdl/messagewin.c:263
-#, fuzzy
 msgid "Log"
-msgstr "Name:"
+msgstr "Nachrichten"
 
 #: client/gui-sdl/optiondlg.c:340
-#, fuzzy
 msgid "Add new worklist"
-msgstr "Arbeitsliste umbenennen"
+msgstr "Neue Arbeitsliste"
 
 #: client/gui-sdl/optiondlg.c:457 client/gui-sdl/optiondlg.c:612
 #, c-format
@@ -14832,6 +14830,8 @@ msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
+"Eingestellt:\n"
+"Vollbild %dx%d"
 
 #: client/gui-sdl/optiondlg.c:460 client/gui-sdl/optiondlg.c:615
 #, c-format
@@ -14839,15 +14839,16 @@ msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
+"Eingestellt\n"
+"%dx%d"
 
 #: client/gui-sdl/optiondlg.c:592
-#, fuzzy
 msgid "No modes available!"
-msgstr "Keine Weltwunder erhältlich"
+msgstr "Keine Modi verfügbar!"
 
 #: client/gui-sdl/optiondlg.c:598
 msgid "All resolutions available."
-msgstr ""
+msgstr "Alle Auflösungen verfügbar."
 
 #: client/gui-sdl/optiondlg.c:956
 msgid "Smooth unit moves"
@@ -14857,32 +14858,32 @@ msgstr "Einheiten langsam bewegen"
 msgid "Smooth unit move steps"
 msgstr "Einheiten langsam bewegen"
 
+# ?
 #: client/gui-sdl/optiondlg.c:1041
-#, fuzzy
 msgid "Show focus animation"
-msgstr "Kampfanimationen zeigen"
+msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1068
-#, fuzzy
 msgid "Show cursors animation"
-msgstr "Kampfanimationen zeigen"
+msgstr "Zeige Cursoranimation"
 
 #: client/gui-sdl/optiondlg.c:1545 client/gui-xaw/menu.c:132
 msgid "National Borders"
 msgstr "Landesgrenzen"
 
+# ?
 #: client/gui-sdl/optiondlg.c:1625
 msgid "Draw city map grid"
 msgstr ""
 
+# ?
 #: client/gui-sdl/optiondlg.c:1655
 msgid "Draw city worker map grid"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1682
-#, fuzzy
 msgid "Special Resources"
-msgstr "Ressourcen"
+msgstr "Besondere Ressourcen"
 
 #: client/gui-sdl/optiondlg.c:1816 client/gui-xaw/menu.c:141
 msgid "Roads and Rails"
@@ -14892,43 +14893,38 @@ msgstr "Straßen und Eisenbahnen"
 msgid "Fortress and Airbase"
 msgstr "Befestigungen und Fliegerhorste"
 
+# ?
 #: client/gui-sdl/optiondlg.c:1922
 msgid "Civ3 city text style"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:2118
-#, fuzzy
 msgid "Back"
-msgstr "Bank"
+msgstr "Zurück"
 
 #: client/gui-sdl/optiondlg.c:2160
-#, fuzzy
 msgid "Video options"
-msgstr "Einstellungen"
+msgstr "Videooptionen"
 
 #: client/gui-sdl/optiondlg.c:2172
-#, fuzzy
 msgid "Sound options"
-msgstr "Client konfigurieren"
+msgstr "Soundoptionen"
 
 #: client/gui-sdl/optiondlg.c:2185
-#, fuzzy
 msgid "Game options"
-msgstr "Spielsteuerung"
+msgstr "Spieloptionen"
 
 #: client/gui-sdl/optiondlg.c:2196
-#, fuzzy
 msgid "Map options"
-msgstr "Einstellungen"
+msgstr "Kartenoptionen"
 
 #: client/gui-sdl/optiondlg.c:2208 client/gui-xaw/menu.c:124 data/Freeciv:1970
 msgid "Worklists"
 msgstr "Arbeitslisten"
 
 #: client/gui-sdl/plrdlg.c:223 client/gui-sdl/plrdlg.c:663
-#, fuzzy
 msgid "disconnected"
-msgstr "Verbindung zum Server trennen"
+msgstr "abgemeldet"
 
 #: client/gui-sdl/plrdlg.c:237
 #, c-format
@@ -14941,40 +14937,45 @@ msgid ""
 "State : %s\n"
 "Idle : %d %s"
 msgstr ""
+"Name : %s\n"
+"Nation : %s\n"
+"Team : %s\n"  
+"Reputation : %s\n"
+"Botschaft :%s\n"
+"Status : %s\n" 
+"Letzter Zug : %d %s" 
 
 #: client/gui-sdl/plrdlg.c:620
-#, fuzzy
 msgid "Nations"
-msgstr "Nation"
+msgstr "Nationen"
 
 #: client/gui-sdl/repodlgs.c:343
-#, fuzzy
 msgid "active"
 msgstr "aktiv"
 
 #: client/gui-sdl/repodlgs.c:348
-#, fuzzy
 msgid ""
 "under\n"
 "construction"
-msgstr "Konstruktion"
+msgstr ""
+"in\n"
+"Bau"
 
 #: client/gui-sdl/repodlgs.c:352
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
-msgstr "Konstruktion"
+msgstr ""
+"Baldige\n"
+"Fertigstellung"
 
 #: client/gui-sdl/repodlgs.c:356
-#, fuzzy
 msgid "Total"
-msgstr "Kosten gesamt"
+msgstr "Gesamt"
 
 #: client/gui-sdl/repodlgs.c:367
-#, fuzzy
 msgid "Units Report"
-msgstr "Stadtbericht"
+msgstr "Militärbericht"
 
 #: client/gui-sdl/repodlgs.c:1471
 #, c-format
@@ -14983,46 +14984,45 @@ msgid ""
 "(total value is : %d)\n"
 "We can sell %d of them for %d gold"
 msgstr ""
+"Wir haben %d %s\n"
+"(Gesamtwert ist : %d)\n"
+"Wir können %d davon verkaufen für %d Gold"
 
 #: client/gui-sdl/repodlgs.c:1477
 #, c-format
 msgid "We can't sell any %s in this turn"
-msgstr ""
+msgstr "Wir können diese Runde keine %s verkaufen"
 
 #: client/gui-sdl/repodlgs.c:1691
-#, fuzzy
 msgid "Economy Report"
-msgstr "Wirtschaft: Gold"
+msgstr "Wirtschaftsbericht"
 
 #: client/gui-sdl/repodlgs.c:2006
-#, fuzzy
 msgid "Treasury: "
-msgstr "Vertrag: Frieden"
+msgstr "Staatsvermögen: "
 
 #: client/gui-sdl/repodlgs.c:2013
-#, fuzzy
 msgid "Tax Rate: "
-msgstr "Steuern"
+msgstr "Steuerrate: "
 
 #: client/gui-sdl/repodlgs.c:2018
-#, fuzzy
 msgid "Total Income: "
-msgstr "Gesamtkosten:"
+msgstr "Gesamteinkommen: "
 
 #: client/gui-sdl/repodlgs.c:2023
-#, fuzzy
 msgid "Total Cost: "
-msgstr "Gesamtkosten:"
+msgstr "Gesamtkosten: "
 
 #: client/gui-sdl/repodlgs.c:2028
 msgid "Net Income: "
-msgstr ""
+msgstr "Nettoeinkommen: "
 
 #: client/gui-sdl/repodlgs.c:2115
-#, fuzzy, c-format
+#, c-format
 msgid "%s max rate : %d%%"
-msgstr "%s Maximum: %d%%"
+msgstr "%s Maximum : %d%%"
 
+# ?
 #: client/gui-sdl/repodlgs.c:2242
 msgid "FT"
 msgstr ""
@@ -15033,13 +15033,16 @@ msgid ""
 "Research speed : none\n"
 "Next's advance time : never"
 msgstr ""
+"Forschungsleistung : 0\n"
+"Forschungstempo : 0\n"
+"Nächster Fortschritt : nie"
 
 #: client/gui-sdl/repodlgs.c:2533
 #, c-format
 msgid "Next advance in %d turn"
 msgid_plural "Next advance in %d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Nächster Fortschritt in %d Runde"
+msgstr[1] "Nächster Fortschritt in %d Runden"
 
 #: client/gui-sdl/repodlgs.c:2537
 #, c-format
@@ -15048,6 +15051,9 @@ msgid ""
 "Research speed : %d %s/advance\n"
 "%s"
 msgstr ""
+"Forschungsleistung : %d pro Runde\n"
+"Forschungstempo : %d %s/Fortschritt\n"
+"%s"
 
 #: client/gui-sdl/repodlgs.c:2666 client/gui-sdl/repodlgs.c:3058
 #, fuzzy
@@ -15098,6 +15104,8 @@ msgid ""
 "%s\n"
 "finished!"
 msgstr ""
+"%s\n"
+"fertiggestellt!"
 
 #: client/gui-sdl/wldlg.c:1049 client/gui-sdl/wldlg.c:1159
 #, c-format
@@ -15105,19 +15113,25 @@ msgid "( %d elements )"
 msgstr ""
 
 #: client/gui-sdl/wldlg.c:1145
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Worklist of\n"
 "%s"
-msgstr "Arbeitslisten"
+msgstr ""
+"Arbeitsliste von\n"
+"%s"
 
+# ?
 #: client/gui-sdl/wldlg.c:1438
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1441 client/gui-sdl/wldlg.c:1447
 #: client/gui-sdl/wldlg.c:1455 client/gui-sdl/wldlg.c:1461
