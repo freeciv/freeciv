@@ -35,7 +35,7 @@
 extern struct connection aconnection;
 
 /* unit_focus points to the current unit in focus */
-struct unit *punit_focus;
+static struct unit *punit_focus;
 
 /* set high, if the player has selected goto */
 /* actually, set to id of unit goto-ing (id is non-zero) */

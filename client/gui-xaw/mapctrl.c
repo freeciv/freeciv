@@ -403,7 +403,6 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
 void focus_to_next_unit(void)
 {
   advance_unit_focus();
-  /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
 }
 
 /**************************************************************************

@@ -640,11 +640,10 @@ void do_unit_function(struct unit *punit, ULONG value)
 {
   if (value != UNIT_ACTIVATE)
   {
-    extern struct unit *punit_focus;
-    struct unit *punit_oldfocus = punit_focus;
-    punit_focus = punit;
+    struct unit *punit_oldfocus = get_unit_in_focus();
+    set_unit_focus_no_center(punit);
     control_callback(&value);
-    punit_focus = punit_oldfocus;
+    set_unit_focus_no_center(punit_oldfocus);
   }
   else
   {

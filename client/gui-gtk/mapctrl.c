@@ -430,10 +430,6 @@ gint key_city_workers(GtkWidget *widget, GdkEventKey *ev)
 void focus_to_next_unit(void)
 {
   advance_unit_focus();
-/*
-  goto_state=0;
-  nuke_state=0;
-  set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
 }
 
 /**************************************************************************
