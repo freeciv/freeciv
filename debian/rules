@@ -104,7 +104,6 @@ binary-arch: build install
 	dh_strip -pfreeciv-gtk
 	dh_compress
 	dh_fixperms
-	dh_suidregister
 	dh_installdeb
 #	dh_installdeb -pfreeciv-xaw
 	dh_installdeb -pfreeciv-xaw3d
