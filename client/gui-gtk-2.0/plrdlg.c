@@ -54,8 +54,6 @@ static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 static GtkListStore *store;
 
-static GdkPixbuf *flags[MAX_NUM_NATIONS];
-
 static void create_players_dialog(void);
 static void players_meet_callback(GtkMenuItem *item, gpointer data);
 static void players_war_callback(GtkMenuItem *item, gpointer data);
@@ -360,42 +358,38 @@ void create_players_dialog(void)
 /* 
  * Builds the flag pixmap.
  */
-static void build_flag(Nation_Type_id nation)
+static GdkPixbuf *get_flag(struct nation_type *nation)
 {
-  if (!flags[nation]) {
-    int x0, y0, x1, y1, w, h;
-    GdkPixbuf *scaled;
-    SPRITE *flag;
+  int x0, y0, x1, y1, w, h;
+  GdkPixbuf *im;
+  SPRITE *flag;
 
-    if (!(flag = get_nation_by_idx(nation)->flag_sprite)) {
-      return;
-    }
+  flag = nation->flag_sprite;
 
-    /* calculate the bounding box ... */
-    sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
+  /* calculate the bounding box ... */
+  sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
 
-    assert(x0 != -1);
-    assert(y0 != -1);
-    assert(x1 != -1);
-    assert(y1 != -1);
+  assert(x0 != -1);
+  assert(y0 != -1);
+  assert(x1 != -1);
+  assert(y1 != -1);
 
-    w = (x1 - x0) + 1;
-    h = (y1 - y0) + 1;
+  w = (x1 - x0) + 1;
+  h = (y1 - y0) + 1;
 
-    /* if the flag is smaller then 5 x 5, something is wrong */
-    assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
+  /* if the flag is smaller then 5 x 5, something is wrong */
+  assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
 
-    /* croping */
-    scaled = gdk_pixbuf_get_from_drawable(NULL,
-      flag->pixmap,
-      gdk_colormap_get_system(),
-      x0, y0,
-      0, 0,
-      w, h);
+  /* croping */
+  im = gdk_pixbuf_get_from_drawable(NULL,
+				    flag->pixmap,
+				    gdk_colormap_get_system(),
+				    x0, y0,
+				    0, 0,
+				    w, h);
 
-    /* and finaly store the scaled flag pixbuf in the static flags array */
-    flags[nation] = scaled;
-  }
+  /* and finaly store the scaled flag pixbuf in the static flags array */
+  return im;
 }
 
 
@@ -410,6 +404,7 @@ static void build_row(GtkTreeIter *it, int i)
   const struct player_diplstate *pds;
   gint idle;
   struct player *plr = get_player(i);
+  GdkPixbuf *flag;
   GdkColor *state_col;
   GValue value = { 0, };
 
@@ -479,10 +474,9 @@ static void build_row(GtkTreeIter *it, int i)
     -1);
 
    /* set flag. */
-   build_flag(plr->nation);
-   if (flags[plr->nation]) {
-     gtk_list_store_set(store, it, 1, flags[plr->nation], -1);
-   }
+   flag = get_flag(get_nation_by_plr(plr));
+   gtk_list_store_set(store, it, 1, flag, -1);
+   g_object_unref(flag);
 
    /* now add some eye candy ... */
    switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
