@@ -344,6 +344,9 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     } else {
       if (plr->ai.control || !was_discovery) {
         choose_random_tech(plr);
+      } else if (is_future_tech(tech_found)) {
+        /* Continue researching future tech. */
+        plr->research.researching = A_FUTURE;
       } else {
         plr->research.researching = A_UNSET;
       }
