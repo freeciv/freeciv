@@ -949,19 +949,27 @@ tile dies unless ...
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
   int klaf;
-  struct city *pcity = map_get_city(punit->x, punit->y);
+  struct city *nearcity = dist_nearest_enemy_city(0, punit->x, punit->y);
+  struct city *incity = map_get_city(punit->x, punit->y);
   struct player *dest = &game.players[pkiller->owner];
   klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
-  if( (pcity) || 
+  if( (incity) || 
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
       (klaf == 1)) {
-    if (pcity) 
+    if (incity) 
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
 		       "Game: You lost a%s %s under an attack from %s's %s, in %s",
 		       n_if_vowel(get_unit_type(punit->type)->name[0]),
 		       get_unit_type(punit->type)->name, dest->name,
-                       unit_name(pkiller->type), pcity->name);
+                       unit_name(pkiller->type), incity->name);
+    else if (nearcity) 
+      notify_player_ex(&game.players[punit->owner], 
+		       punit->x, punit->y, E_UNIT_LOST,
+		       "Game: You lost a%s %s under an attack from %s's %s, near %s",
+		       n_if_vowel(get_unit_type(punit->type)->name[0]),
+		       get_unit_type(punit->type)->name, dest->name,
+                       unit_name(pkiller->type), nearcity->name);
     else
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
@@ -972,7 +980,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
   }  else {
-      notify_player_ex(&game.players[punit->owner], 
+      if (nearcity) notify_player_ex(&game.players[punit->owner], 
+		       punit->x, punit->y, E_UNIT_LOST,
+		       "Game: You lost %d units under an attack from %s's %s, near %s",
+		       klaf, dest->name, unit_name(pkiller->type), nearcity->name);
+      else notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST, 
 		       "Game: You lost %d units under an attack from %s's %s",
 		       klaf, dest->name, unit_name(pkiller->type));
