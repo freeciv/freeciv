@@ -168,7 +168,7 @@ void gui_server_connect(void)
   vbox=gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
 
-  table = gtk_table_new (4, 2, FALSE);
+  table = gtk_table_new (4, 1, FALSE);
   gtk_table_set_row_spacings (GTK_TABLE (table), 2);
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
   gtk_container_set_border_width(GTK_CONTAINER(table), 5);
@@ -207,7 +207,10 @@ void gui_server_connect(void)
     label2=gtk_label_new (beta_message());
     gtk_widget_modify_fg(label2, GTK_STATE_NORMAL,
 	colors_standard[COLOR_STD_RED]);
-    gtk_table_attach_defaults (GTK_TABLE (table), label2, 0, 2, 3, 4);
+    g_object_set(label2,
+		 "xalign", 0.5, "yalign", 0.3,
+		 "justify", GTK_JUSTIFY_CENTER, NULL);
+    gtk_box_pack_start(GTK_BOX(vbox), label2, TRUE, TRUE, 0);
   }
 #endif
 
