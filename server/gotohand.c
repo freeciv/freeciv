@@ -443,28 +443,41 @@ int find_a_direction(struct unit *punit)
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   struct tile *ptile, *adjtile;
-  int nearland = 0;
+  int nearland;
+  struct city *pcity;
 
   for (k = 0; k < 8; k++) {
     if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
     else {
-      x = punit->x + ii[k]; y = punit->y + jj[k];
+      x = map_adjust_x(punit->x + ii[k]); y = map_adjust_y(punit->y + jj[k]);
       ptile = map_get_tile(x, y);
-      d0 = get_virtual_defense_power(punit->type, punit->type, x, y);
+      d0 = get_virtual_defense_power(U_HOWITZER, punit->type, x, y);
+      pcity = map_get_city(x, y);
+      n = 2;
+      if (pcity) { /* this code block inspired by David Pfitzner -- Syela */
+        if (city_got_citywalls(pcity)) n += 2;
+        if (city_got_building(pcity, B_SDI)) n++;
+        if (city_got_building(pcity, B_SAM)) n++;
+        if (city_got_building(pcity, B_COASTAL)) n++;
+      }
+      d0 = (d0 * n) / 2;
       h0 = punit->hp; h1 = 0; d1 = 0; u = 1;
       unit_list_iterate(ptile->units, aunit)
         if (aunit->owner != punit->owner) d1 = -1; /* MINIMUM priority */
         else {
           u++;
-          a = get_virtual_defense_power(aunit->type, aunit->type, x, y);
+          a = get_virtual_defense_power(U_HOWITZER, aunit->type, x, y) * n / 2;
           if (a * aunit->hp > d1 * h1) { d1 = a; h1 = aunit->hp; }
         }
       unit_list_iterate_end;
       if (u == 1) d[k] = d0 * h0;
+      else if (pcity || ptile->special&S_FORTRESS)
+        d[k] = MAX(d0 * h0, d1 * h1);
       else if ((d0 * h0) <= (d1 * h1)) d[k] = (d1 * h1) * (u - 1) / u;
       else d[k] = MIN(d0 * h0 * u, d0 * h0 * d0 * h0 * (u - 1) / MAX(u, (d1 * h1 * u)));
       if (d0 > d1) d1 = d0;
 
+      nearland = 0;
       for (n = 0; n < 8; n++) {
         adjtile = map_get_tile(x + ii[n], y + jj[n]);
         if (adjtile->terrain != T_OCEAN) nearland++;
@@ -482,7 +495,14 @@ int find_a_direction(struct unit *punit)
  
       if (punit->type == U_TRIREME && !nearland) {
         if (punit->moves_left < 6) d[k] = 1;
-        else if (punit->moves_left == 6) d[k] -= 10;
+        else if (punit->moves_left == 6) {
+          for (n = 0; n < 8; n++) {
+            if ((warmap.vector[x][y]&(1<<n))) {
+              if (is_coastline(x + ii[n], y + jj[n])) nearland++;
+            }
+          }
+          if (!nearland) d[k] = 1;
+        }
       }
 
       if (d[k] < 1) d[k] = 1;
