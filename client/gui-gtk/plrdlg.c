@@ -546,6 +546,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   
     pa.plrno0=game.player_idx;
     pa.plrno1=player_index;
+    pa.plrno_from=pa.plrno0;
     send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
         		       &pa);
   }
