@@ -429,6 +429,12 @@ int assess_danger(struct city *pcity)
     if (unit_flag(punit, F_PIKEMEN)) pikemen = TRUE;
   } unit_list_iterate_end;
 
+  /* Add some default danger to protect palace, but don't do this
+   * early game. */
+  if (city_got_building(pcity, B_PALACE)) {
+    danger[0] += pcity->size - 1;
+  }
+
   players_iterate(aplayer) {
     int boatspeed;
     int boatid, boatdist;
