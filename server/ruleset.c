@@ -943,9 +943,10 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
 
     u->happy_cost  = secfile_lookup_int(file, "%s.uk_happy", sec[i]);
-    u->shield_cost = secfile_lookup_int(file, "%s.uk_shield", sec[i]);
-    u->food_cost   = secfile_lookup_int(file, "%s.uk_food", sec[i]);
-    u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
+    output_type_iterate(o) {
+      u->upkeep[o] = secfile_lookup_int_default(file, 0, "%s.uk_%s", sec[i],
+						get_output_identifier(o));
+    } output_type_iterate_end;
 
     u->helptext = lookup_helptext(file, sec[i]);
 
@@ -2812,9 +2813,9 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.flags = u->flags;
     packet.roles = u->roles;
     packet.happy_cost = u->happy_cost;
-    packet.shield_cost = u->shield_cost;
-    packet.food_cost = u->food_cost;
-    packet.gold_cost = u->gold_cost;
+    output_type_iterate(o) {
+      packet.upkeep[o] = u->upkeep[o];
+    } output_type_iterate_end;
     packet.paratroopers_range = u->paratroopers_range;
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;

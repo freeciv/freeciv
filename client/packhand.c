@@ -2228,9 +2228,9 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->flags              = p->flags;
   u->roles              = p->roles;
   u->happy_cost         = p->happy_cost;
-  u->shield_cost        = p->shield_cost;
-  u->food_cost          = p->food_cost;
-  u->gold_cost          = p->gold_cost;
+  output_type_iterate(o) {
+    u->upkeep[o] = p->upkeep[o];
+  } output_type_iterate_end;
   u->paratroopers_range = p->paratroopers_range;
   u->paratroopers_mr_req = p->paratroopers_mr_req;
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;

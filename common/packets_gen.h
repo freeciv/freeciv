@@ -715,9 +715,7 @@ struct packet_ruleset_unit {
   int obsoleted_by;
   int fuel;
   int happy_cost;
-  int shield_cost;
-  int food_cost;
-  int gold_cost;
+  int upkeep[O_MAX];
   int paratroopers_range;
   int paratroopers_mr_req;
   int paratroopers_mr_sub;

@@ -38,9 +38,9 @@
 #define HOSTILE_PLAYER(pplayer, ai, aplayer) \
   (pplayers_at_war(pplayer, aplayer)         \
    || ai->diplomacy.target == aplayer)
-#define UNITTYPE_COSTS(ut)                             \
-  (ut->pop_cost * 3 + ut->happy_cost + ut->shield_cost \
-   + ut->food_cost + ut->gold_cost)
+#define UNITTYPE_COSTS(ut)						\
+  (ut->pop_cost * 3 + ut->happy_cost					\
+   + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])
 
 struct ai_choice;
 struct pf_path;

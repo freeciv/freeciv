@@ -402,8 +402,8 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
        the greater good -- Per */
     return FALSE;
   }
-  if (pcity->surplus[O_SHIELD] - unit_type(punit)->shield_cost >= 0
-      && pcity->surplus[O_FOOD] - unit_type(punit)->food_cost >= 0) {
+  if (pcity->surplus[O_SHIELD] >= unit_type(punit)->upkeep[O_SHIELD]
+      && pcity->surplus[O_FOOD] >= unit_type(punit)->upkeep[O_FOOD]) {
     handle_unit_change_homecity(unit_owner(punit), punit->id, pcity->id);
     return TRUE;
   }

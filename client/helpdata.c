@@ -1168,6 +1168,7 @@ char *helptext_unit_upkeep_str(int i)
 {
   static char buf[128];
   struct unit_type *utype;
+  int any = 0;
 
   utype = get_unit_type(i);
   if (!utype) {
@@ -1176,33 +1177,26 @@ char *helptext_unit_upkeep_str(int i)
   }
 
 
-  if (utype->shield_cost > 0 || utype->food_cost > 0
-      || utype->gold_cost > 0 || utype->happy_cost > 0) {
-    int any = 0;
-    buf[0] = '\0';
-    if (utype->shield_cost > 0) {
-      sprintf(buf+strlen(buf), _("%s%d shield"),
-	      (any > 0 ? ", " : ""), utype->shield_cost);
+  buf[0] = '\0';
+  output_type_iterate(o) {
+    if (utype->upkeep[o] > 0) {
+      /* TRANS: "2 Food" or ", 1 shield" */
+      cat_snprintf(buf, sizeof(buf), _("%s%d %s"),
+	      (any > 0 ? ", " : ""), utype->upkeep[o],
+	      get_output_name(o));
       any++;
     }
-    if (utype->food_cost > 0) {
-      sprintf(buf+strlen(buf), _("%s%d food"),
-	      (any > 0 ? ", " : ""), utype->food_cost);
-      any++;
-    }
-    if (utype->happy_cost > 0) {
-      sprintf(buf+strlen(buf), _("%s%d unhappy"),
-	      (any > 0 ? ", " : ""), utype->happy_cost);
-      any++;
-    }
-    if (utype->gold_cost > 0) {
-      sprintf(buf+strlen(buf), _("%s%d gold"),
-	      (any > 0 ? ", " : ""), utype->gold_cost);
-      any++;
-    }
-  } else {
+  } output_type_iterate_end;
+  if (utype->happy_cost > 0) {
+    /* TRANS: "2 unhappy" or ", 1 unhappy" */
+    cat_snprintf(buf, sizeof(buf), _("%s%d unhappy"),
+	    (any > 0 ? ", " : ""), utype->happy_cost);
+    any++;
+  }
+
+  if (any == 0) {
     /* strcpy(buf, _("None")); */
-    sprintf(buf, "%d", 0);
+    snprintf(buf, sizeof(buf), "%d", 0);
   }
   return buf;
 }

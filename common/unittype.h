@@ -203,9 +203,7 @@ struct unit_type {
   bv_roles roles;
 
   int happy_cost;  /* unhappy people in home city */
-  int shield_cost; /* normal upkeep cost */
-  int food_cost;   /* settler food cost */
-  int gold_cost;   /* gold upkeep */
+  int upkeep[O_MAX];
 
   int paratroopers_range; /* only valid for F_PARATROOPERS */
   int paratroopers_mr_req;

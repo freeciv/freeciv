@@ -535,7 +535,7 @@ static void city_populate(struct city *pcity)
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (unit_type(punit)->food_cost > 0 
+      if (unit_type(punit)->upkeep[O_FOOD] > 0 
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	const char *utname = unit_type(punit)->name;
 	wipe_unit(punit);

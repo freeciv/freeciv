@@ -948,9 +948,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   UINT8 fuel;
 
   UINT8 happy_cost;   # unhappy people in home city
-  UINT8 shield_cost;   # normal upkeep cost
-  UINT8 food_cost;   # settler food cost
-  UINT8 gold_cost;   # gold upkeep (n/a now, maybe later)
+  UINT8 upkeep[O_MAX]; # normal upkeep cost (food, gold, shields)
 
   UINT8 paratroopers_range;  # max range of paratroopers, F_PARATROOPERS
   UINT8 paratroopers_mr_req;
