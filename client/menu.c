@@ -36,6 +36,7 @@
 #include <gotodlg.h>
 #include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
 #include <climisc.h>
+#include <clinet.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,

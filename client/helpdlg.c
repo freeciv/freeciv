@@ -611,7 +611,6 @@ void help_update_dialog(struct help_item *pitem)
   for(i=0; i<U_LAST; ++i) {
     if(!strcmp(top, get_unit_type(i)->name)) {
        char buf[64];
-       Pixmap pm;
        create_help_page(HELP_UNIT);
        sprintf(buf, "%d ", get_unit_type(i)->build_cost);
        xaw_set_label(help_unit_cost_data, buf);

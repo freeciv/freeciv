@@ -26,6 +26,7 @@ used throughout the client.
 #include <climisc.h>
 #include <mapctrl.h>
 #include <map.h>
+#include <chatline.h>
 
 extern Widget outputwindow_text;
 

@@ -391,8 +391,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
     popup_help_dialog_string(advances[to].name);
   else {  
     sprintf(goal_text, "Goal: %s (%d steps)",
-	    advances[to].name, tech_goal_turns(game.player_ptr, to),
-	    tech_goal_turns(game.player_ptr, to));
+	    advances[to].name, tech_goal_turns(game.player_ptr, to));
 
     XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
 
