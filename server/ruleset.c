@@ -1557,6 +1557,13 @@ static void load_ruleset_cities(char *ruleset_subdir)
   datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
+  /* City Parameters */
+
+  game.add_to_size_limit =
+    secfile_lookup_int_default(&file, 9, "parameters.add_to_size_limit");
+
+  /* City Styles ... */
+
   /* The sections: */
   styles = secfile_get_secnames_prefix(&file, "citystyle_", &nval);
   game.styles_count = nval;

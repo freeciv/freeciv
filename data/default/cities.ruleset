@@ -11,6 +11,9 @@
 description="Cities data for Freeciv"
 options="1.9"
 
+[parameters]
+add_to_size_limit  = 9		; largest size for adding settlers
+
 ;
 ; City styles define the way cities are drawn
 ;

@@ -80,6 +80,7 @@ struct civ_game {
   int randseed;
   int aqueduct_size;
   int sewer_size;
+  int add_to_size_limit;
   int spacerace;
   int turnblock;
   

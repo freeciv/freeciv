@@ -442,7 +442,7 @@ void handle_unit_build_city(struct player *pplayer,
 		       _("Game: %s added to aid %s in growing."), 
 		       unit_name, pcity->name);
     } else {
-      if(pcity->size > 8) {
+      if(pcity->size > game.add_to_size_limit) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			 _("Game: %s is too big to add %s."),
 			 pcity->name, unit_name);

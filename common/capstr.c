@@ -69,7 +69,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.9 river_help_text +barbarians founders lesshappy \
-		    unit_connect"
+		    unit_connect add_to_size_limit"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
@@ -83,6 +83,8 @@ const char * const our_capability = our_capability_internal;
    "lesshappy" is protocol extension for empire_size_inc happiness modifier.
 
    "unit_connect" is protocol extension for settlers connecting w/ roads etc.
+
+   "add_to_size_limit" adds add_to_size_limit field to game structure.
 */
 
 void init_our_capability(void)

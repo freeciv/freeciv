@@ -464,6 +464,7 @@ struct packet_spaceship_action {
 struct packet_ruleset_control {
   int aqueduct_size;
   int sewer_size;
+  int add_to_size_limit;
   int num_unit_types;
   int num_tech_types;
   struct {

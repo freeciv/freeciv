@@ -739,7 +739,7 @@ int can_unit_add_to_city(struct unit *punit)
 
   if(!pcity)
     return 0;
-  if(pcity->size>8)
+  if(pcity->size > game.add_to_size_limit)
     return 0;
 
   if(improvement_exists(B_AQUEDUCT)
