@@ -221,7 +221,8 @@ static bool is_game_over(void)
   if (game.year > game.end_year) {
     notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw as end year exceeded"));
-    gamelog(GAMELOG_NORMAL, _("Game ended in a draw as end year exceeded"));
+    gamelog(GAMELOG_JUDGE, GL_DRAW, 
+            "Game ended in a draw as end year exceeded");
     return TRUE;
   }
 
@@ -253,8 +254,7 @@ static bool is_game_over(void)
     if (team_count_members_alive(pteam->id) == alive) {
       notify_conn_ex(&game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), pteam->name);
-      gamelog(GAMELOG_NORMAL, _("Team victory to %s"), pteam->name);
-      gamelog(GAMELOG_TEAM, "TEAMVICTORY %s", pteam->name);
+      gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
       return TRUE;
     }
   } team_iterate_end;
@@ -263,15 +263,12 @@ static bool is_game_over(void)
   if (alive == 1) {
     notify_conn_ex(&game.est_connections, NULL, E_GAME_END,
 		   _("Game ended in victory for %s"), victor->name);
-    gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
-        victor->name);
-    gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
+    gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     return TRUE;
   } else if (alive == 0) {
     notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
-    gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
-    gamelog(GAMELOG_TEAM, "NOWINNER");
+    gamelog(GAMELOG_JUDGE, GL_DRAW);
     return TRUE;
   }
 
@@ -294,8 +291,7 @@ static bool is_game_over(void)
   if (all_allied) {
     notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in allied victory"));
-    gamelog(GAMELOG_NORMAL, _("Game ended in allied victory"));
-    gamelog(GAMELOG_TEAM, "ALLIEDVICTORY");
+    gamelog(GAMELOG_JUDGE, GL_ALLIEDWIN);
     return TRUE;
   }
 
@@ -645,24 +641,7 @@ static void end_turn(void)
   /* Output some ranking and AI debugging info here. */
   if (game.turn % 10 == 0) {
     players_iterate(pplayer) {
-      int workers = 0, food = 0, shields = 0, trade = 0, settlers = 0;
-
-      /* Compile statistics */
-      unit_list_iterate(pplayer->units, punit) {
-        if (unit_flag(punit, F_CITIES)) {
-          settlers++; 
-        }
-      } unit_list_iterate_end;
-      city_list_iterate(pplayer->cities, pcity) {
-        workers += pcity->size;
-        shields += pcity->shield_prod;
-        food += pcity->food_prod;
-        trade += pcity->trade_prod;
-      } city_list_iterate_end;
-      gamelog(GAMELOG_NORMAL, "INFO %s cities %d, pop %d "
-              "food %d, prod %d, trade %d, settlers %d, units %d",
-              pplayer->name, city_list_size(&pplayer->cities), workers, food,
-              shields, trade, settlers, unit_list_size(&pplayer->units));
+      gamelog(GAMELOG_INFO, pplayer);
     } players_iterate_end;
   }
 
@@ -784,7 +763,7 @@ static void save_game_auto(void)
   my_snprintf(filename, sizeof(filename),
 	      "%s%+05d.sav", game.save_name, game.year);
   save_game(filename);
-  gamelog_save();		/* should this be in save_game()? --dwp */
+  gamelog(GAMELOG_STATUS);
 }
 
 /**************************************************************************
@@ -1624,7 +1603,7 @@ void srv_main(void)
   con_log_init(srvarg.log_filename, srvarg.loglevel);
   gamelog_init(srvarg.gamelog_filename);
   gamelog_set_level(GAMELOG_FULL);
-  gamelog(GAMELOG_NORMAL, _("Starting new log"));
+  gamelog(GAMELOG_BEGIN);
   
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");
@@ -1672,11 +1651,12 @@ void srv_main(void)
     report_final_scores();
     show_map_to_all();
     notify_player(NULL, _("Game: The game is over..."));
-    gamelog(GAMELOG_NORMAL, _("The game is over!"));
+    gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.save_nturns > 0) {
       save_game_auto();
     }
+    gamelog(GAMELOG_END);
 
     /* Remain in GAME_OVER_STATE until players log out */
     while (conn_list_size(&game.est_connections) > 0) {
@@ -1822,7 +1802,7 @@ main_start_players:
     map_fractal_generate(TRUE);
   }
 
-  gamelog_map();
+  gamelog(GAMELOG_MAP);
   /* start the game */
 
   server_state = RUN_GAME_STATE;
@@ -1861,6 +1841,16 @@ main_start_players:
     } players_iterate_end;
    } players_iterate_end;
   }
+
+  /* tell the gamelog about the players */
+  players_iterate(pplayer) {
+    gamelog(GAMELOG_PLAYER, pplayer);
+  } players_iterate_end;
+
+  /* tell the gamelog who is whose team */
+  team_iterate(pteam) {
+    gamelog(GAMELOG_TEAM, pteam);
+  } team_iterate_end;
 
   initialize_move_costs(); /* this may be the wrong place to do this */
   init_settlers(); /* create minimap and other settlers.c data */

@@ -31,7 +31,6 @@
 
 #include "citytools.h"
 #include "cityturn.h"
-#include "gamelog.h"
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
 #include "srv_main.h"
@@ -1467,14 +1466,9 @@ enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
     ocean_to_land_fix_rivers(ptile);
     city_landlocked_sell_coastal_improvements(ptile);
 
-    gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"),
-	    TILE_XY(ptile));
     change_type = OLC_OCEAN_TO_LAND;
   } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
-
-    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"),
-	    TILE_XY(ptile));
     change_type = OLC_LAND_TO_OCEAN;
   }
 

@@ -16,49 +16,62 @@
 
 #include "shared.h"		/* fc__attribute */
 
-#define GAMELOG_FATAL  0
-#define GAMELOG_NORMAL 1
-#define GAMELOG_INIT  2
-#define GAMELOG_MAP 3
-#define GAMELOG_WONDER 4
-#define GAMELOG_FOUNDC 5 
-#define GAMELOG_LOSEC 6
-#define GAMELOG_TECH 7
-#define GAMELOG_EMBASSY 8
-#define GAMELOG_GOVERNMENT 9
-#define GAMELOG_CONQ 10
-#define GAMELOG_REVOLT 11
-#define GAMELOG_GENO 12
-#define GAMELOG_TREATY 13
-#define GAMELOG_TEAM 15
-#define GAMELOG_STATUS 16
-#define GAMELOG_RANK 17
-#define GAMELOG_LAST 18
-#define GAMELOG_EOT 19
-#define GAMELOG_FULL 20
-/*Unit created*/
-#define GAMELOG_UNIT 21
-/*Unit destroyed*/
-#define GAMELOG_UNITL 22
-/*Unit  lost due to fuel*/
-#define GAMELOG_UNITF 23
-/*Trireme lost at sea*/
-#define GAMELOG_UNITTRI 24
-/*Settlers lost to famine*/
-#define GAMELOG_UNITFS 25
-/*Improvements*/
-#define GAMELOG_IMP 28
-/*Taxation rate change*/
-#define GAMELOG_RATE 29
-#define GAMELOG_EVERYTHING 30
-#define GAMELOG_DEBUG 40
+enum {
+  GAMELOG_BEGIN,
+  GAMELOG_END,
+  GAMELOG_JUDGE,
+  GAMELOG_MAP,
+  GAMELOG_PLAYER,
+  GAMELOG_TEAM,
+  GAMELOG_WONDER,
+  GAMELOG_FOUNDCITY,
+  GAMELOG_LOSECITY,
+  GAMELOG_DISBANDCITY,
+  GAMELOG_TECH,
+  GAMELOG_EMBASSY,
+  GAMELOG_GOVERNMENT,
+  GAMELOG_REVOLT,
+  GAMELOG_GENO,
+  GAMELOG_TREATY,
+  GAMELOG_DIPLSTATE,
+  GAMELOG_STATUS,
+  GAMELOG_FULL,		/* placeholder */
+  GAMELOG_INFO,
+  GAMELOG_UNITLOSS,
+  GAMELOG_UNITGAMELOSS,
+  GAMELOG_BUILD,
+  GAMELOG_RATECHANGE,
+  GAMELOG_EVERYTHING,
+  GAMELOG_DEBUG
+};
+
+/* end game states */
+enum {
+  GL_NONE,
+  GL_DRAW,
+  GL_LONEWIN,
+  GL_TEAMWIN,
+  GL_ALLIEDWIN
+};
+
+/* treaty clause types */
+enum {
+  GL_EMBASSY,
+  GL_TECH,
+  GL_GOLD,
+  GL_MAP,
+  GL_SEAMAP,
+  GL_CITY,
+  GL_CEASEFIRE,
+  GL_PEACE,
+  GL_ALLIANCE,
+  GL_TEAM,
+  GL_VISION
+};
 
 void gamelog_init(char *filename);
 void gamelog_set_level(int level);
-void gamelog(int level, const char *message, ...)
-             fc__attribute((format (printf, 2, 3)));
-void gamelog_map(void);
-void gamelog_save(void);
+void gamelog(int level, ...);
 
 extern int gamelog_level;
 

@@ -31,6 +31,7 @@
 #include "user_db.h"
 #include "diplhand.h"
 #include "gamehand.h"
+#include "gamelog.h"
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
@@ -115,6 +116,10 @@ static void establish_new_connection(struct connection *pconn)
   if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
 
+    if (game.auto_ai_toggle && pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+
     if (server_state == RUN_GAME_STATE) {
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
@@ -128,9 +133,8 @@ static void establish_new_connection(struct connection *pconn)
       send_packet_start_turn(pconn);
     }
 
-    if (game.auto_ai_toggle && pplayer->ai.control) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
+    gamelog(GAMELOG_PLAYER, pplayer);
+
   } else if (server_state == PRE_GAME_STATE && game.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
       notify_conn(dest, _("Couldn't attach your connection to new player."));
@@ -583,6 +587,9 @@ void lost_connection_to_client(struct connection *pconn)
         && !pplayer->is_connected /* eg multiple controllers */) {
       toggle_ai_player_direct(NULL, pplayer);
     }
+
+    gamelog(GAMELOG_PLAYER, pplayer);
+
     check_for_full_turn_done();
   }
 

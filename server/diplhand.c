@@ -236,9 +236,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 		      "Game: A treaty containing %d clauses was agreed upon.",
 		      nclauses),
 		  nclauses);
-    gamelog(GAMELOG_TREATY, _("%s and %s agree to a treaty"),
-	    get_nation_name_plural(pplayer->nation),
-	    get_nation_name_plural(pother->nation));
 
     /* Check that one who accepted treaty earlier still have everything
        (s)he promised to give. */
@@ -342,6 +339,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
                          _("Game: %s allowed you to create an embassy!"),
                          pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_EMBASSY, pgiver, pdest);
         break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
@@ -365,11 +363,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));
 
-	gamelog(GAMELOG_TECH, _("%s acquire %s (Treaty) from %s"),
-		get_nation_name_plural(pdest->nation),
-		get_tech_name(pdest, pclause->value),
-		get_nation_name_plural(pgiver->nation));
-
+        gamelog(GAMELOG_TECH, pdest, pgiver, pclause->value, "acquire");
+        gamelog(GAMELOG_TREATY, GL_TECH, pgiver, pdest);
 	do_dipl_cost(pdest);
 
 	found_new_tech(pdest, pclause->value, FALSE, TRUE, A_NONE);
@@ -378,19 +373,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, _("Game: You get %d gold."), pclause->value);
 	pgiver->economic.gold -= pclause->value;
 	pdest->economic.gold += pclause->value;
-	gamelog(GAMELOG_TECH, _("%s acquire %d gold from %s"),
-		get_nation_name_plural(pdest->nation), pclause->value, 
-		get_nation_name_plural(pgiver->nation));
+        gamelog(GAMELOG_TREATY, GL_GOLD, pgiver, pdest);
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, _("Game: You receive %s's worldmap."),
 		      pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_MAP, pgiver, pdest);
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, _("Game: You receive %s's seamap."),
 		      pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_SEAMAP, pgiver, pdest);
 	break;
       case CLAUSE_CITY:
 	{
@@ -411,9 +406,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			   _("Game: You give city of %s to %s."),
 			   pcity->name, pdest->name);
 
-          gamelog(GAMELOG_TECH, _("%s acquire the city %s from %s"),
-		  get_nation_name_plural(pdest->nation), pcity->name, 
-		  get_nation_name_plural(pgiver->nation));
+          gamelog(GAMELOG_LOSECITY, pgiver, pdest, pcity, "acquired");
+          gamelog(GAMELOG_TREATY, GL_CITY, pgiver, pdest, pcity);
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
 	}
@@ -428,6 +422,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player_ex(pdest, NULL, E_TREATY_CEASEFIRE,
 			 _("Game: You agree on a cease-fire with %s."),
 			 pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_CEASEFIRE, pgiver, pdest);
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
@@ -440,6 +435,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player_ex(pdest, NULL, E_TREATY_PEACE,
 			 _("Game: You agree on a peace treaty with %s."),
 			 pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
@@ -452,9 +448,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player_ex(pdest, NULL, E_TREATY_ALLIANCE,
 			 _("Game: You agree on an alliance with %s."),
 			 pgiver->name);
-	gamelog(GAMELOG_TECH, _("%s agree on an alliance with %s"),
-		get_nation_name_plural(pdest->nation), 
-		get_nation_name_plural(pgiver->nation));
+
+        gamelog(GAMELOG_TREATY, GL_ALLIANCE, pgiver, pdest);
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
@@ -465,6 +460,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         notify_player_ex(pdest, NULL, E_TREATY_ALLIANCE,
                          _("Game: You start a research pool with %s."),
                          pgiver->name);
+        gamelog(GAMELOG_TREATY, GL_TEAM, pgiver, pdest);
         /* We must share and average research */
         {
           int average = (pplayer->research.bulbs_researched
@@ -507,9 +503,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("Game: %s gives you shared vision."),
 			 pgiver->name);
-	gamelog(GAMELOG_TECH, _("%s share vision with %s"),
-		get_nation_name_plural(pdest->nation), 
-		get_nation_name_plural(pgiver->nation));
+        gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);
 	break;
       case CLAUSE_LAST:
         freelog(LOG_ERROR, "Received bad clause type");

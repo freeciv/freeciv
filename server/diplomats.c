@@ -289,9 +289,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_EMBASSY,
 		   _("Game: The %s have established an embassy in %s."),
 		   get_nation_name_plural(pplayer->nation), pcity->name);
-  gamelog(GAMELOG_EMBASSY, _("%s establish an embassy in %s (%s) (%i,%i)"),
-	  get_nation_name_plural(pplayer->nation), pcity->name,
-	  get_nation_name(cplayer->nation), pcity->tile->x, pcity->tile->y);
+  gamelog(GAMELOG_EMBASSY, pplayer, pcity);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -671,9 +669,6 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		     _("Game: Future Tech. %d stolen by %s %s from %s."),
 		     pplayer->future_tech, get_nation_name(pplayer->nation),
 		     unit_name(pdiplomat->type), pcity->name);
-    gamelog(GAMELOG_TECH, _("%s steals Future Tech. %d from the %s"),
-	    get_nation_name_plural(pplayer->nation), pplayer->future_tech,
-	    get_nation_name_plural(cplayer->nation));
     freelog (LOG_DEBUG, "steal-tech: stole future-tech %d",
 	     pplayer->future_tech);
   } else {
@@ -696,13 +691,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		     get_nation_name_plural(pplayer->nation),
 		     get_tech_name(cplayer, target),
 		     get_nation_name_plural(cplayer->nation));
-    gamelog(GAMELOG_TECH, _("%s steals %s from the %s"),
-	    get_nation_name_plural(pplayer->nation),
-	    get_tech_name(cplayer, target),
-	    get_nation_name_plural(cplayer->nation));
     freelog(LOG_DEBUG, "steal-tech: stole %s",
 	    get_tech_name(cplayer, target));
   }
+
+  gamelog(GAMELOG_TECH, pplayer, cplayer, target, "steals");
 
   /* Update stealing player's science progress and research fields */
   send_player_info(pplayer, pplayer);
@@ -814,6 +807,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= revolt_cost;
 
   /* Notify everybody involved. */
+  gamelog(GAMELOG_LOSECITY, cplayer, pplayer, pcity, "incited to revolt");
+
   notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_INCITE,
 		   _("Game: Revolt incited in %s, you now rule the city!"),
 		   pcity->name);
