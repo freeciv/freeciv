@@ -34,6 +34,7 @@ For the gtk client:
 gdk-imlib1-dev
 libglib1.2-dev
 libgtk1.2-dev
+imlib-progs
 
 For the xaw client:
 xaw3dg-dev
