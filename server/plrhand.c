@@ -205,18 +205,19 @@ void kill_player(struct player *pplayer) {
   pplayer->is_dying = FALSE; /* Can't get more dead than this. */
   pplayer->is_alive = FALSE;
 
-  /* Remove shared vision. Do it for both for completeness. */
+  /* Remove shared vision from dead player to friends. */
   players_iterate(aplayer) {
     if (gives_shared_vision(pplayer, aplayer)) {
       remove_shared_vision(pplayer, aplayer);
     }
-    if (gives_shared_vision(aplayer, pplayer)) {
-      remove_shared_vision(aplayer, pplayer);
-    }
   } players_iterate_end;
     
   cancel_all_meetings(pplayer);
-  map_know_and_see_all(pplayer);
+
+  /* Show entire map for players who are *not* in a team. */
+  if (pplayer->team == TEAM_NONE) {
+    map_know_and_see_all(pplayer);
+  }
 
   if (is_barbarian(pplayer)) {
     gamelog(GAMELOG_GENO, _("The feared barbarian leader %s is no more"),
