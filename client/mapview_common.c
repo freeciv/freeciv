@@ -398,6 +398,47 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
   }
 }
 
+/**************************************************************************
+  Draw the given unit onto the canvas store at the given location.
+
+  unit_offset_x, unit_offset_y, unit_width, unit_height are used
+  in iso-view to draw only part of the tile.  Non-iso view should use
+  put_unit_full instead.
+**************************************************************************/
+void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
+	      int canvas_x, int canvas_y,
+	      int unit_offset_x, int unit_offset_y,
+	      int unit_width, int unit_height)
+{
+  struct Sprite *sprites[40];
+  int solid_bg, i;
+  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
+
+  if (!is_isometric && solid_bg) {
+    gui_put_rectangle(pcanvas_store, player_color(unit_owner(punit)),
+		      canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  }
+
+  for (i = 0; i < count; i++) {
+    if (sprites[i]) {
+      /* units are never fogged */
+      gui_put_sprite(pcanvas_store,
+		     canvas_x, canvas_y, sprites[i],
+		     unit_offset_x, unit_offset_y,
+		     unit_width, unit_height);
+    }
+  }
+}
+
+/**************************************************************************
+  Draw the given unit onto the canvas store at the given location.
+**************************************************************************/
+void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
+		   int canvas_x, int canvas_y)
+{
+  put_unit(punit, pcanvas_store, canvas_x, canvas_y,
+	   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+}
 
 /**************************************************************************
   Draw the given map tile at the given canvas position in non-isometric

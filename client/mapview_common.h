@@ -146,6 +146,13 @@ void center_tile_mapcanvas(int map_x, int map_y);
 bool tile_visible_mapcanvas(int map_x, int map_y);
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
+void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
+	      int canvas_x, int canvas_y,
+	      int unit_offset_x, int unit_offset_y,
+	      int unit_width, int unit_height);
+void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
+		   int canvas_x, int canvas_y);
+
 void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
 

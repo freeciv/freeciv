@@ -56,14 +56,8 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 static void put_overlay_tile_gpixmap(GtkPixcomm *p,
 				     int canvas_x, int canvas_y,
 				     struct Sprite *ssprite);
-static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
-			    int canvas_x, int canvas_y);
 static void put_line(GdkDrawable *pm, int x, int y, int dir);
 
-static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
-				 int canvas_x, int canvas_y,
-				 int offset_x, int offset_y_unit,
-				 int width, int height_unit);
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int canvas_x, int canvas_y,
 					 struct Sprite *ssprite,
@@ -146,7 +140,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
       put_one_tile(&store, losing_unit->x, losing_unit->y,
 		   0, 0, FALSE);
-      put_unit_pixmap(losing_unit, single_tile_pixmap, 0, 0);
+      put_unit_full(losing_unit, &store, 0, 0);
       pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
 			      sprites.explode.unit[i]);
 
@@ -357,6 +351,8 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y)
 {
+  struct canvas_store store = {single_tile_pixmap};
+
   /* Clear old sprite. */
   gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
 		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
@@ -365,7 +361,7 @@ void draw_unit_animation_frame(struct unit *punit,
   /* Draw the new sprite. */
   gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
 		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+  put_unit_full(punit, &store, 0, 0);
 
   /* Write to screen. */
   gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
@@ -632,73 +628,6 @@ void pixmap_put_black_tile(GdkDrawable *pm,
 }
 
 /**************************************************************************
-FIXME: Find a better way to put flags and such on top.
-**************************************************************************/
-static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
-			    int canvas_x, int canvas_y)
-{
-  int solid_bg;
-
-  if (is_isometric) {
-    struct Sprite *sprites[40];
-    int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
-    int i;
-
-    assert(!solid_bg);
-    for (i=0; i<count; i++) {
-      if (sprites[i]) {
-	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
-      }
-    }
-  } else { /* is_isometric */
-    struct Sprite *sprites[40];
-    int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
-
-    if (count) {
-      int i = 0;
-
-      if (solid_bg) {
-	gdk_gc_set_foreground(fill_bg_gc,
-			      colors_standard[player_color(unit_owner(punit))]);
-	gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-			   canvas_x, canvas_y,
-			   UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-      } else {
-	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
-	i++;
-      }
-
-      for (; i<count; i++) {
-	if (sprites[i])
-	  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
-      }
-    }
-  }
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
-				 int canvas_x, int canvas_y,
-				 int offset_x, int offset_y_unit,
-				 int width, int height_unit)
-{
-  struct Sprite *sprites[40];
-  int dummy;
-  int count = fill_unit_sprite_array(sprites, punit, &dummy);
-  int i;
-
-  for (i=0; i<count; i++) {
-    if (sprites[i]) {
-      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
-				   offset_x, offset_y_unit,
-				   width, height_unit, 0);
-    }
-  }
-}
-
-/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 void put_one_tile_full(GdkDrawable *pm, int x, int y,
@@ -910,23 +839,9 @@ void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
-  struct Sprite *sprites[40];
-  int solid_bg;
-  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
+  struct canvas_store canvas_store = {NULL, p};
 
-  if (count) {
-    int i;
-
-    if (solid_bg) {
-      gtk_pixcomm_fill(p, colors_standard[player_color(unit_owner(punit))],
-		       FALSE);
-    }
-
-    for (i=0;i<count;i++) {
-      if (sprites[i])
-        put_overlay_tile_gpixmap(p, 0, 0, sprites[i]);
-    }
-  }
+  put_unit_full(punit, &canvas_store, 0, 0);
 
   gtk_pixcomm_changed(GTK_PIXCOMM(p));
 }
@@ -1092,8 +1007,13 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
-		    sprite, offset_x, offset_y, width, height);
+  if (pcanvas_store->pixmap) {
+    pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
+		      sprite, offset_x, offset_y, width, height);
+  } else {
+    gtk_pixcomm_copyto(pcanvas_store->pixcomm, sprite,
+		       canvas_x, canvas_y, FALSE);
+  }
 }
 
 /**************************************************************************
@@ -1126,9 +1046,13 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
-  gdk_draw_rectangle(pcanvas_store->pixmap, fill_bg_gc, TRUE,
-		     canvas_x, canvas_y, width, height);
+  if (pcanvas_store->pixmap) {
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
+    gdk_draw_rectangle(pcanvas_store->pixmap, fill_bg_gc, TRUE,
+		       canvas_x, canvas_y, width, height);
+  } else {
+    gtk_pixcomm_fill(pcanvas_store->pixcomm, colors_standard[color], FALSE);
+  }
 }
 
 /**************************************************************************
@@ -1546,6 +1470,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   int count, i = 0;
   int fog;
   int solid_bg;
+  struct canvas_store canvas_store = {pm};
 
   if (!width || !(height || height_unit))
     return;
@@ -1746,10 +1671,10 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** Unit ***/
   if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    put_unit_pixmap_draw(punit, pm,
-			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-			 offset_x, offset_y_unit,
-			 width, height_unit);
+    put_unit(punit, &canvas_store,
+	     canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+	     offset_x, offset_y_unit,
+	     width, height_unit);
     if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
       pixmap_put_overlay_tile_draw(pm,
 				   canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,

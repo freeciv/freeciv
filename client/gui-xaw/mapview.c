@@ -103,7 +103,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
     put_one_tile(&store, 0, 0, losing_unit->x, losing_unit->y, FALSE);
-    put_unit_pixmap(losing_unit, single_tile_pixmap, 0, 0);
+    put_unit_full(losing_unit, &store, 0, 0);
     pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, sprites.explode.unit[i]);
 
     XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
@@ -339,6 +339,8 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y)
 {
+  struct canvas_store store = {single_tile_pixmap};
+
   /* Clear old sprite. */
   XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
 	    old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
@@ -348,7 +350,7 @@ void draw_unit_animation_frame(struct unit *punit,
   XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
 	    new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 0,
 	    0);
-  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+  put_unit_full(punit, &store, 0, 0);
 
   /* Write to screen. */
   XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc, 0, 0,
@@ -876,39 +878,6 @@ void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y,
   pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_shieldnum[shield]);
   pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_tradenum[trade]);
 }
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void put_unit_pixmap(struct unit *punit, Pixmap pm,
-		     int canvas_x, int canvas_y)
-{
-  struct Sprite *sprites[40];
-  int solid_bg;
-  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
-
-  if (count) {
-    int i = 0;
-
-    if (solid_bg) {
-      XSetForeground(display, fill_bg_gc,
-		     colors_standard[player_color(unit_owner(punit))]);
-      XFillRectangle(display, pm, fill_bg_gc, 
-		     canvas_x, canvas_y,
-		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    } else {
-      pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
-      i++;
-    }
-
-    for (; i<count; i++) {
-      if (sprites[i])
-	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
-    }
-  }
-}
-
 
 /**************************************************************************
   FIXME: 

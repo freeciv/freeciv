@@ -935,6 +935,7 @@ void ui_main(int argc, char **argv)
                                  -1);
   mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
   mapview_canvas.store->pixmap = map_canvas_store;
+  mapview_canvas.store->pixcomm = NULL;
 
   overview_canvas_store = gdk_pixmap_new(root_window,
                                          overview_canvas_store_width,

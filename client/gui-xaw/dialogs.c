@@ -1608,6 +1608,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     struct unit *punit=unit_list_get(&ptile->units, i);
     struct unit_type *punittemp=unit_type(punit);
     struct city *pcity;
+    struct canvas_store store;
     
     if(!(i%r))  {
       nargs=0;
@@ -1633,8 +1634,8 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
 		   0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-    put_unit_pixmap(punit, unit_select_pixmaps[i], 0, 0);
+    store.pixmap = unit_select_pixmaps[i];
+    put_unit_full(punit, &store, 0, 0);
 
     nargs=0;
     XtSetArg(args[nargs], XtNbitmap, (XtArgVal)unit_select_pixmaps[i]);nargs++;

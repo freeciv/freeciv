@@ -1703,16 +1703,17 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   for(i=0;
       i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
       ITERATOR_NEXT(myiter), i++) {
+    struct canvas_store store;
+
     punit=(struct unit*)ITERATOR_PTR(myiter);
     pixcomm=pdialog->support_unit_pixcomms[i];
+    store.pixmap = XawPixcommPixmap(pixcomm);
 
     if(!adj_base && unitid && punit->id!=unitid)
       continue;
 
     XawPixcommClear(pixcomm); /* STG */
-    put_unit_pixmap(punit,
-		    XawPixcommPixmap(pixcomm), 
-		    0, 0);
+    put_unit_full(punit, &store, 0, 0);
     put_unit_pixmap_city_overlays(punit,
 				  XawPixcommPixmap(pixcomm));
 
@@ -1764,16 +1765,17 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   for(i=0;
       i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
       ITERATOR_NEXT(myiter), i++) {
+    struct canvas_store store;
+
     punit=(struct unit*)ITERATOR_PTR(myiter);
     pixcomm=pdialog->present_unit_pixcomms[i];
+    store.pixmap = XawPixcommPixmap(pixcomm);
 
     if(!adj_base && unitid && punit->id!=unitid)
       continue;
 
     XawPixcommClear(pixcomm); /* STG */
-    put_unit_pixmap(punit,
-		    XawPixcommPixmap(pixcomm),
-		    0, 0);
+    put_unit_full(punit, &store, 0, 0);
 
     xaw_expose_now(pixcomm);
 

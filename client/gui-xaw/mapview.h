@@ -28,9 +28,6 @@ Pixmap get_thumb_pixmap(int onoff);
 Pixmap get_citizen_pixmap(enum citizen_type type, int cnum,
 			  struct city *pcity);
 
-void put_unit_pixmap(struct unit *punit, Pixmap pm,
-		     int canvas_x, int canvas_y);
-
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm);
 
 void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y, 
