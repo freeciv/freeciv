@@ -209,8 +209,11 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_UNIT_INFO:
     return receive_packet_unit_info(pc);
 
-   case PACKET_CITY_INFO:
+  case PACKET_CITY_INFO:
     return receive_packet_city_info(pc);
+
+  case PACKET_SHORT_CITY:
+    return receive_packet_short_city(pc);
 
   case PACKET_MOVE_UNIT:
     return receive_packet_move_unit(pc);
@@ -2257,6 +2260,132 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
     iget_uint8(&iter, &packet->trade_value[data]);
   }
   for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(pc->buffer);
+  return packet;
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+int send_packet_short_city(struct connection *pc, struct packet_short_city *req)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  int i;
+
+  if (pc && !has_capability("packet_short_city", pc->capability)) {
+
+    /* Send packet_city_info instead. */
+    struct packet_city_info old;
+    char *p;
+    int x, y;
+
+    old.id                 = req->id;
+    old.owner              = req->owner;
+    old.x                  = req->x;
+    old.y                  = req->y;
+    sz_strlcpy(old.name, req->name);
+    old.size               = req->size;
+    old.ppl_happy          = 0;
+    if (req->happy) {
+      old.ppl_content        = req->size;
+      old.ppl_unhappy        = 0;
+    } else {
+      old.ppl_content        = 0;
+      old.ppl_unhappy        = req->size;
+    }
+    old.ppl_elvis          = req->size;
+    old.ppl_scientist      = 0;
+    old.ppl_taxman         = 0;
+    for (i=0;i<4;i++)  {
+      old.trade[i]=0;
+      old.trade_value[i]     = 0;
+    }
+    old.food_prod          = 0;
+    old.food_surplus       = 0;
+    old.shield_prod        = 0;
+    old.shield_surplus     = 0;
+    old.trade_prod         = 0;
+    old.corruption         = 0;
+    old.luxury_total       = 0;
+    old.tax_total          = 0;
+    old.science_total      = 0;
+    old.food_stock         = 0;
+    old.shield_stock       = 0;
+    old.pollution          = 0;
+    old.city_options       = 0;
+    old.is_building_unit   = 0;
+    old.currently_building = 0;
+    init_worklist(&old.worklist);
+    old.diplomat_investigate = 0;
+    old.airlift            = 0;
+    old.did_buy            = 0;
+    old.did_sell           = 0;
+    old.was_happy          = 0;
+
+    p=old.improvements;
+    for(i=0; i<B_LAST; i++)
+      *p++ = '0';
+    *p='\0';
+    if (req->capital)
+      old.improvements[B_PALACE] = '1';
+    if (req->walls)
+      old.improvements[B_CITY]   = '1';
+
+    p=old.city_map;
+    for(y=0; y<CITY_MAP_SIZE; y++) /* (Mis)use of function parameters */
+      for(x=0; x<CITY_MAP_SIZE; x++)
+        *p++=C_TILE_EMPTY+'0';
+    *p='\0';
+
+    return send_packet_city_info(pc, &old);
+  } /* !has_capability(packet_short_city) */
+
+
+  cptr=put_uint8(buffer+2, PACKET_SHORT_CITY);
+  cptr=put_uint16(cptr, req->id);
+  cptr=put_uint8(cptr, req->owner);
+  cptr=put_uint8(cptr, req->x);
+  cptr=put_uint8(cptr, req->y);
+  cptr=put_string(cptr, req->name);
+  
+  cptr=put_uint8(cptr, req->size);
+
+  i = (req->happy?1:0) | (req->capital?2:0) | (req->walls?4:0);
+  cptr=put_uint8(cptr, i);
+
+  put_uint16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_short_city *
+receive_packet_short_city(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_short_city *packet=
+    fc_malloc(sizeof(struct packet_short_city));
+  int i;
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint16(&iter, &packet->id);
+  iget_uint8(&iter, &packet->owner);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
+  iget_string(&iter, packet->name, sizeof(packet->name));
+  
+  iget_uint8(&iter, &packet->size);
+
+  iget_uint8(&iter, &i);
+  packet->happy   = i & 1;
+  packet->capital = i & 2;
+  packet->walls   = i & 4;
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

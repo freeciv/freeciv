@@ -237,6 +237,10 @@ void handle_packet_input(char *packet, int type)
     handle_city_info((struct packet_city_info *)packet);
     break;
 
+  case PACKET_SHORT_CITY:
+    handle_short_city((struct packet_short_city *)packet);
+    break;
+
   case PACKET_REMOVE_UNIT:
     handle_remove_unit((struct packet_generic_integer *)packet);
     break;

@@ -53,6 +53,7 @@ void lsend_packet_generic_message(struct conn_list *dest, int type,
 void lsend_packet_generic_integer(struct conn_list *dest, int type,
 				struct packet_generic_integer *packet);
 void lsend_packet_city_info(struct conn_list *dest,struct packet_city_info *req);
+void lsend_packet_short_city(struct conn_list *dest,struct packet_short_city *req);
 void lsend_packet_city_request(struct conn_list *dest, 
 			     struct packet_city_request *packet,
 			     enum packet_type req_type);

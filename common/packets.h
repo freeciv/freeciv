@@ -111,6 +111,7 @@ enum packet_type {
   PACKET_ADVANCE_FOCUS,
   PACKET_RULESET_GAME,
   PACKET_CONN_INFO,
+  PACKET_SHORT_CITY,
   PACKET_LAST  /* leave this last */
 };
 
@@ -355,6 +356,17 @@ struct packet_city_info {
   int city_options;
 };
 
+
+struct packet_short_city {
+  int id;			/* uint16 */
+  int owner;			/* uint8 */
+  int x, y;			/* uint8 */
+  char name[MAX_LEN_NAME];
+  int size;			/* uint8 */
+  int happy;			/* boolean */
+  int capital;			/* boolean */
+  int walls;			/* boolean */
+};
 
 
 /*********************************************************
@@ -917,6 +929,9 @@ struct packet_generic_integer *receive_packet_generic_integer(struct
 
 int send_packet_city_info(struct connection *pc,struct packet_city_info *req);
 struct packet_city_info *receive_packet_city_info(struct connection *pc);
+
+int send_packet_short_city(struct connection *pc,struct packet_short_city *req);
+struct packet_short_city *receive_packet_short_city(struct connection *pc);
 
 int send_packet_city_request(struct connection *pc, 
 			     struct packet_city_request *packet,

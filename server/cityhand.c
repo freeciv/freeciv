@@ -51,7 +51,7 @@
 #include "cityhand.h"
 
 static void package_dumb_city(struct player* pplayer, int x, int y,
-			      struct packet_city_info *packet);
+			      struct packet_short_city *packet);
 static void remove_trade_route(int c1, int c2); 
 
 /**************************************************************************
@@ -768,6 +768,7 @@ static void broadcast_city_info(struct city *pcity)
   int o;
   struct player *powner = city_owner(pcity);
   struct packet_city_info packet;
+  struct packet_short_city sc_pack;
 
   /* nocity_send is used to inhibit sending cities to the owner between
    * turn updates
@@ -784,8 +785,8 @@ static void broadcast_city_info(struct city *pcity)
     if(pcity->owner==o) continue; /* already sent above */
     if(map_get_known_and_seen(pcity->x, pcity->y, o)) {
       update_dumb_city(pplayer, pcity);
-      package_dumb_city(pplayer, pcity->x, pcity->y, &packet);
-      lsend_packet_city_info(&pplayer->connections, &packet);
+      package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
+      lsend_packet_short_city(&pplayer->connections, &sc_pack);
     }
   }
   /* send to non-player observers:
@@ -840,6 +841,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 {
   struct player *powner = NULL;
   struct packet_city_info packet;
+  struct packet_short_city sc_pack;
   struct dumb_city *pdcity;
 
   if (pcity==NULL)
@@ -869,14 +871,14 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     } else if (map_get_known_and_seen(x, y, pviewer->player_no)) {
       if (pcity) { /* it's there and we see it; update and send */
 	update_dumb_city(pviewer, pcity);
-	package_dumb_city(pviewer, x, y, &packet);
-	lsend_packet_city_info(dest, &packet);
+	package_dumb_city(pviewer, x, y, &sc_pack);
+	lsend_packet_short_city(dest, &sc_pack);
       }
     } else { /* not seen; send old info */
       pdcity = map_get_player_tile(x, y, pviewer->player_no)->city;
       if (pdcity) {
-	package_dumb_city(pviewer, x, y, &packet);
-	lsend_packet_city_info(dest, &packet);
+	package_dumb_city(pviewer, x, y, &sc_pack);
+	lsend_packet_short_city(dest, &sc_pack);
       }
     }
   }
@@ -1069,14 +1071,10 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
 /**************************************************************************
 This fills out a package from a players dumb_city.
-FIXME: we should make a new package and let the client fill in the dummy
-info itself
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, int x, int y,
-			      struct packet_city_info *packet)
+			      struct packet_short_city *packet)
 {
-  int i;
-  char *p;
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer->player_no)->city;
   struct city *pcity;
   packet->id=pdcity->id;
@@ -1086,76 +1084,26 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   sz_strlcpy(packet->name, pdcity->name);
 
   packet->size=pdcity->size;
-  packet->ppl_happy=0;
   if (map_get_known_and_seen(x, y, pplayer->player_no)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
     pcity = map_get_tile(x,y)->city;
     if (pcity->ppl_happy[4]>=pcity->ppl_unhappy[4]) {
-      packet->ppl_content=pdcity->size;
-      packet->ppl_unhappy=0;
+      packet->happy=1;
     } else {
-      packet->ppl_content=0;
-      packet->ppl_unhappy=pdcity->size;
+      packet->happy=0;
     }
   } else {
-    packet->ppl_content=pdcity->size;
-    packet->ppl_unhappy=0;
+    packet->happy=1;
   }
-  packet->ppl_elvis=pdcity->size;
-  packet->ppl_scientist=0;
-  packet->ppl_taxman=0;
-  for (i=0;i<4;i++)  {
-    packet->trade[i]=0;
-    packet->trade_value[i]=0;
-  }
-
-  packet->food_prod=0;
-  packet->food_surplus=0;
-  packet->shield_prod=0;
-  packet->shield_surplus=0;
-  packet->trade_prod=0;
-  packet->corruption=0;
-  
-  packet->luxury_total=0;
-  packet->tax_total=0;
-  packet->science_total=0;
-  
-  packet->food_stock=0;
-  packet->shield_stock=0;
-  packet->pollution=0;
-
-  packet->city_options=0;
-  
-  packet->is_building_unit=0;
-  packet->currently_building=0;
-  init_worklist(&packet->worklist);
-  packet->diplomat_investigate=0;
-
-  packet->airlift=0;
-  packet->did_buy=0;
-  packet->did_sell=0;
-  packet->was_happy=0;
-
-  p=packet->improvements;
-
-  for(i=0; i<B_LAST; i++)
-    *p++ = '0';
 
   if ((pcity = map_get_city(x,y)) && pcity->id == pdcity->id &&
       city_got_building(pcity,  B_PALACE))
-    packet->improvements[B_PALACE] = '1';
+    packet->capital=1;
+  else
+    packet->capital=0;
 
-  if (pdcity->has_walls)
-    packet->improvements[B_CITY] = '1';
-
-  *p='\0';
-
-  p=packet->city_map;
-  for(y=0; y<CITY_MAP_SIZE; y++) /* (Mis)use of function parameters */
-    for(x=0; x<CITY_MAP_SIZE; x++)
-      *p++=C_TILE_EMPTY+'0';
-  *p='\0';
+  packet->walls = pdcity->has_walls;
 }
 
 /**************************************************************************

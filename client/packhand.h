@@ -37,6 +37,7 @@ void handle_spaceship_info(struct packet_spaceship_info *packet);
 void handle_move_unit(struct packet_move_unit *packet);
 void handle_new_year(struct packet_new_year *ppacket);
 void handle_city_info(struct packet_city_info *packet);
+void handle_short_city(struct packet_short_city *packet);
 void handle_unit_combat(struct packet_unit_combat *packet);
 void handle_game_state(struct packet_generic_integer *packet);
 void handle_nuke_tile(struct packet_nuke_tile *packet);

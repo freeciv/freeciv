@@ -66,6 +66,9 @@ extern int did_advance_tech_this_turn;
 extern char name[512];
 
 
+static void handle_city_packet_common(struct city *pcity, int is_new,
+                                      int popup);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -225,6 +228,7 @@ void handle_city_info(struct packet_city_info *packet)
 {
   int i, x, y, city_is_new;
   struct city *pcity;
+  int popup;
 
   pcity=find_city_by_id(packet->id);
 
@@ -317,12 +321,26 @@ void handle_city_info(struct packet_city_info *packet)
     
   for(i=0; i<B_LAST; i++)
     pcity->improvements[i]=(packet->improvements[i]=='1') ? 1 : 0;
-  
-  if(city_is_new) {
+
+  popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
+           pcity->owner==game.player_idx) || packet->diplomat_investigate;
+
+  handle_city_packet_common(pcity, city_is_new, popup);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void handle_city_packet_common(struct city *pcity, int is_new,
+                                      int popup)
+{
+  int i;
+
+  if(is_new) {
     unit_list_init(&pcity->units_supported);
     unit_list_init(&pcity->info_units_supported);
     unit_list_init(&pcity->info_units_present);
-    city_list_insert(&game.players[packet->owner].cities, pcity);
+    city_list_insert(&game.players[pcity->owner].cities, pcity);
     map_set_city(pcity->x, pcity->y, pcity);
     if(pcity->owner==game.player_idx)
       city_report_dialog_update();
@@ -336,7 +354,7 @@ void handle_city_info(struct packet_city_info *packet)
   }
 
   if(draw_map_grid &&
-     city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+     is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE) {
     /* just to update grid; slow, but doesn't happen very often --jjm */
     int r=((CITY_MAP_SIZE+1)/2);
     int d=(2*r)+1;
@@ -357,14 +375,13 @@ void handle_city_info(struct packet_city_info *packet)
     city_workers_display=NULL;
   }
 
-  if(((city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
-      pcity->owner==game.player_idx) || packet->diplomat_investigate) &&
+  if( popup &&
      (!game.player_ptr->ai.control || ai_popup_windows)) {
     update_menus();
     popup_city_dialog(pcity, 0);
   }
 
-  if(!city_is_new && pcity->owner==game.player_idx) {
+  if(!is_new && pcity->owner==game.player_idx) {
     struct unit *punit = get_unit_in_focus();
     if (punit && (punit->x == pcity->x) && (punit->y == pcity->y)) {
       update_menus();
@@ -372,11 +389,112 @@ void handle_city_info(struct packet_city_info *packet)
     refresh_city_dialog(pcity);
   }
 
-  if(city_is_new) {
+  if(is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
 	 get_nation_name(city_owner(pcity)->nation),
 	 pcity->name, pcity->id, pcity->x, pcity->y);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_short_city(struct packet_short_city *packet)
+{
+  struct city *pcity;
+  int city_is_new;
+
+  pcity=find_city_by_id(packet->id);
+
+  if (pcity && (pcity->owner != packet->owner)) {
+    /* With current server, this shouldn't happen: when city changes
+     * owner it is re-created with a new id.  Unclear what to do here;
+     * try to cope...
+     */
+    freelog(LOG_ERROR,
+	    "Got existing city id (%d %s) with wrong owner (%d %s, old %d %s)",
+	    packet->id, pcity->name, packet->owner,
+	    get_player(packet->owner)->name, pcity->owner,
+	    get_player(pcity->owner)->name);
+    client_remove_city(pcity);
+    pcity = 0;
+  }
+
+  if(!pcity) {
+    city_is_new=1;
+    pcity=fc_malloc(sizeof(struct city));
+    pcity->id=packet->id;
+    idex_register_city(pcity);
+  }
+  else {
+    city_is_new=0;
+    assert(pcity->id == packet->id);
+  }
+
+  pcity->owner=packet->owner;
+  pcity->x=packet->x;
+  pcity->y=packet->y;
+  sz_strlcpy(pcity->name, packet->name);
+  
+  pcity->size=packet->size;
+
+  if (packet->happy) {
+    pcity->ppl_happy[4]   = pcity->size;
+    pcity->ppl_unhappy[4] = 0;
+  } else {
+    pcity->ppl_unhappy[4] = pcity->size;
+    pcity->ppl_happy[4]   = 0;
+  }
+
+  pcity->improvements[B_PALACE] = packet->capital;
+  pcity->improvements[B_CITY]   = packet->walls;
+
+  if (city_is_new)
+    pcity->worklist = create_worklist();
+
+  /* This sets dumb values for everything else. This is not really required,
+     but just want to be at the safe side. */
+  {
+    int i;
+    int x, y;
+
+    pcity->ppl_elvis          = pcity->size;
+    pcity->ppl_scientist      = 0;
+    pcity->ppl_taxman         = 0;
+    for (i=0;i<4;i++)  {
+      pcity->trade[i]=0;
+      pcity->trade_value[i]     = 0;
+    }
+    pcity->food_prod          = 0;
+    pcity->food_surplus       = 0;
+    pcity->shield_prod        = 0;
+    pcity->shield_surplus     = 0;
+    pcity->trade_prod         = 0;
+    pcity->corruption         = 0;
+    pcity->luxury_total       = 0;
+    pcity->tax_total          = 0;
+    pcity->science_total      = 0;
+    pcity->food_stock         = 0;
+    pcity->shield_stock       = 0;
+    pcity->pollution          = 0;
+    pcity->city_options       = 0;
+    pcity->is_building_unit    = 0;
+    pcity->currently_building = 0;
+    init_worklist(pcity->worklist);
+    pcity->airlift            = 0;
+    pcity->did_buy            = 0;
+    pcity->did_sell           = 0;
+    pcity->was_happy          = 0;
+    for(i=0; i<B_LAST; i++) {
+      if (i != B_PALACE && i != B_CITY)
+        pcity->improvements[i] = 0;
+    }
+    for(y=0; y<CITY_MAP_SIZE; y++)
+      for(x=0; x<CITY_MAP_SIZE; x++)
+	pcity->city_map[x][y] = C_TILE_EMPTY;
+  } /* Dumb values */
+
+  handle_city_packet_common(pcity, city_is_new, 0);
 }
 
 /**************************************************************************

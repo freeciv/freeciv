@@ -168,6 +168,13 @@ void lsend_packet_city_info(struct conn_list *dest,struct packet_city_info *req)
   conn_list_iterate_end;
 }
 
+void lsend_packet_short_city(struct conn_list *dest,struct packet_short_city *req)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_short_city(pconn, req);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_city_request(struct conn_list *dest, 
 			     struct packet_city_request *packet,
 			     enum packet_type req_type)
