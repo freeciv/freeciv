@@ -2340,12 +2340,17 @@ void game_load(struct section_file *file)
     players_iterate(pplayer) {
       char *vision;
       int plrno = pplayer->player_no;
-      vision = secfile_lookup_str_default(file, NULL, "player%d.gives_shared_vision",
+
+      vision = secfile_lookup_str_default(file, NULL,
+					  "player%d.gives_shared_vision",
 					  plrno);
-      if (vision)
-	for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-	  if (vision[i] == '1')
-	    give_shared_vision(pplayer, get_player(i));
+      if (vision) {
+	players_iterate(pplayer2) {
+	  if (vision[pplayer2->player_no] == '1') {
+	    give_shared_vision(pplayer, pplayer2);
+	  }
+	} players_iterate_end;
+      }
     } players_iterate_end;
 
     initialize_globals();
