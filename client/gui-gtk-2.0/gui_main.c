@@ -144,7 +144,7 @@ static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 
-static void tearoff_callback(GtkToggleButton *b, gpointer data);
+static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
@@ -423,14 +423,18 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 }
 
 /**************************************************************************
- reattaches the detached widget when the user closes it via 
- the window manager.
+ reattaches the detached widget when the user destroys it.
 **************************************************************************/
 static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
-  GtkWidget *p, *box = GTK_WIDGET(data);
+  GtkWidget *p, *b, *box;
 
-  p = g_object_get_data(G_OBJECT(w), "prev_parent");
+  box = GTK_WIDGET(data);
+  p = g_object_get_data(G_OBJECT(w), "parent");
+  b = g_object_get_data(G_OBJECT(w), "toggle");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b), FALSE);
+
+  gtk_widget_hide(w);
   gtk_widget_reparent(box, p);
 }
 
@@ -438,24 +442,24 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
  callback for the toggle button in the detachable widget: causes the
  widget to detach or reattach.
 **************************************************************************/
-static void tearoff_callback(GtkToggleButton *b, gpointer data)
+static void tearoff_callback(GtkWidget *b, gpointer data)
 {
   GtkWidget *box = GTK_WIDGET(data);
   GtkWidget *w;
 
-  if (gtk_toggle_button_get_active(b)) {
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
-
-    g_object_set_data(G_OBJECT(w), "prev_parent", box->parent);
+    
+    g_object_set_data(G_OBJECT(w), "parent", box->parent);
+    g_object_set_data(G_OBJECT(w), "toggle", b);
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
   } else {
-    w = box->parent;
-    gtk_widget_destroy(w);
+    gtk_widget_destroy(box->parent);
   }
 }
 
