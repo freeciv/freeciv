@@ -63,7 +63,7 @@ static void mapgenerator3(void);
 static void mapgenerator4(void);
 static void mapgenerator5(void);
 static void smooth_map(void);
-static void adjust_map(void);
+static void adjust_hmap(void);
 static void adjust_terrain_param(void);
 
 #define RIVERS_MAXTRIES 32767
@@ -75,8 +75,21 @@ enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
    A value of 2 means river.                            -Erik Sigra */
 static int *river_map;
 
+/*
+ * Height map information
+ *
+ *   height_map[] stores the height of each tile
+ *   hmap_max_level is the maximum height (heights will range from
+ *     [0,hmap_max_level).
+ *   hmap_shore_level is the level of ocean.  Any tile at this height or
+ *     above is land; anything below is ocean.
+ *   hmap_mount_level is the level of mountains and hills.  Any tile above
+ *     this height will usually be a mountain or hill.
+ */
 static int *height_map;
-static int maxval=0;
+static const int hmap_max_level = 1000;
+static int hmap_shore_level, hmap_mountain_level;
+
 static int forests=0;
 
 struct isledata {
@@ -105,6 +118,19 @@ static struct isledata *islands;
    /* 5% for little maps; 2% for big ones */			\
    ? MAX_TEMP * (3 + 2 * SQSIZE) / (100 * SQSIZE)		\
    : 5 * MAX_TEMP / 100  /* 5% for all maps */)
+
+/****************************************************************************
+  Used to initialize an array 'a' of size 'size' with value 'val' in each
+  element.
+****************************************************************************/
+#define INITIALIZE_ARRAY(array, size, value)				    \
+  {									    \
+    int _ini_index;							    \
+    									    \
+    for (_ini_index = 0; _ini_index < (size); _ini_index++) {		    \
+      (array)[_ini_index] = (value);					    \
+    }									    \
+  }
 
 /****************************************************************************
   Returns the temperature of this map position.  This is a value in the
@@ -293,28 +319,16 @@ static bool near_singularity(int map_x, int map_y)
   the map.mountains value, so increase map.mountains and you'll get more 
   hills and mountains (and vice versa).
 **************************************************************************/
-static void make_mountains(int thill)
+static void make_mountains(void)
 {
-  int mount;
-  int j;
+  /* Calculate the mountain level.  map.mountains specifies the percentage
+   * of land that is turned into hills and mountains. */
+  hmap_mountain_level = ((hmap_max_level - hmap_shore_level)
+			 * (100 - map.mountains)) / 100 + hmap_shore_level;
 
-  for (j = 0; j < 10; j++) {
-    mount = 0;
-    whole_map_iterate(x, y) {
-      if (hmap(x, y) > thill) {
-	mount++;
-      }
-    } whole_map_iterate_end;
-    if (mount < (map_num_tiles() * map.mountains) / 1000) {
-      thill *= 95;
-    } else {
-      thill *= 105;
-    }
-    thill /= 100;
-  }
-  
   whole_map_iterate(x, y) {
-    if (hmap(x, y) > thill && !is_ocean(map_get_terrain(x,y))) { 
+    if (hmap(x, y) > hmap_mountain_level
+	&& !is_ocean(map_get_terrain(x, y))) { 
       /* Randomly place hills and mountains on "high" tiles.  But don't
        * put hills near the poles (they're too green). */
       if (myrand(100) > 75 
@@ -519,15 +533,19 @@ static void make_swamps(void)
 {
   int x, y, swamps;
   int forever = 0;
+  const int swamps_to_be_placed 
+      = MAX_MAP_INDEX *  map.swampsize * map.landpercent / 10000;
+  const int hmap_swamp_level = ((hmap_max_level - hmap_shore_level)
+			  * 2 * map.swampsize) / 100 + hmap_shore_level;
 
-  for (swamps = 0; swamps < map.swampsize; ) {
+  for (swamps = 0; swamps < swamps_to_be_placed; ) {
     forever++;
     if (forever > 1000) {
       return;
     }
     rand_map_pos(&x, &y);
     if (not_placed(x, y)
-	&& hmap(x, y) < (maxval * 60) / 100) {
+	&& hmap(x, y) < hmap_swamp_level) {
       map_set_terrain(x, y, T_SWAMP);
       cardinal_adjc_iterate(x, y, x1, y1) {
  	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1)) 
@@ -537,6 +555,7 @@ static void make_swamps(void)
 	}
       } cardinal_adjc_iterate_end;
       swamps++;
+      forever = 0;
     }
   }
 }
@@ -1137,41 +1156,24 @@ static void renormalize_hmap_poles(void)
 **************************************************************************/
 static void make_land(void)
 {
-  int tres;
-  int count=0;
-  int total = (map_num_tiles() * map.landpercent) / 100;
-  int forever=0;
-
-  adjust_map();
+  adjust_hmap();
   normalize_hmap_poles();
-  tres = (maxval * map.landpercent) / 100;
-
-  do {
-    forever++;
-    if (forever>50) break; /* loop elimination */
-    count=0;
-    whole_map_iterate(x, y) {
-      if (hmap(x, y) < tres)
-	map_set_terrain(x, y, T_OCEAN);
-      else {
-	map_set_terrain(x, y, T_NOT_PLACED);
-	count++;
-      }
-    } whole_map_iterate_end;
-    if (count>total)
-      tres*=11;
-    else
-      tres*=9;
-    tres/=10;
-  } while (abs(total-count)> maxval/40);
+  hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
+  whole_map_iterate(x, y) {
+    if (hmap(x, y) < hmap_shore_level) {
+      map_set_terrain(x, y, T_OCEAN);
+    } else {
+      map_set_terrain(x, y, T_NOT_PLACED);
+    }
+  } whole_map_iterate_end;
 
   renormalize_hmap_poles();
   make_polar_land(); /* make extra land at poles*/
-  make_mountains(maxval*8/10);
+  make_mountains();
   make_arctic();
   make_tundra();
-  make_forests();
   make_swamps();
+  make_forests();
   make_deserts();
   make_plains();
   make_fair();
@@ -1645,13 +1647,16 @@ static void adjust_terrain_param(void)
 }
 
 /**************************************************************************
-  Adjust the map so that its minimum height is 0.  This raises or lowers
-  every position by a fixed amount and sets the "maxval" global variable
-  to hold the maximum height.
+  Change the values of the height map, so that they contain ranking of each 
+  tile scaled to [0 .. hmap_max_level].
+  The lowest 20% of tiles will have values lower than 0.2 * hmap_max_level.
+
+  slope can globally be estimated as
+        hmap_max_level * sqrt(number_of_islands) / linear_size_of_map
 **************************************************************************/
-static void adjust_map(void)
+static void adjust_hmap(void)
 {
-  int minval = maxval = hnat(0, 0);
+  int minval = hnat(0, 0), maxval = minval;
 
   /* Determine minimum and maximum heights. */
   whole_map_iterate(x, y) {
@@ -1659,11 +1664,31 @@ static void adjust_map(void)
     minval = MIN(minval, hmap(x, y));
   } whole_map_iterate_end;
 
-  /* Translate heights so the minimum height is 0. */
-  maxval -= minval;
-  whole_map_iterate(x, y) {
-    hmap(x, y) -= minval;
-  } whole_map_iterate_end;
+  {
+    int const size = 1 + maxval - minval;
+    int i, count = 0, frequencies[size];
+
+    INITIALIZE_ARRAY(frequencies, size, 0);
+
+    /* Translate heights so the minimum height is 0
+       and count the number of occurencies of all values to initialize the 
+       frequencies[] */
+    whole_map_iterate(x, y) {
+      hmap(x, y) = (hmap(x, y) - minval);
+      frequencies[hmap(x, y)]++;
+    } whole_map_iterate_end;
+
+    /* create the linearize function as "incremental" frequencies */
+    for(i =  0; i < size; i++) {
+      count += frequencies[i]; 
+      frequencies[i] = (count * hmap_max_level) / MAX_MAP_INDEX;
+    }
+
+    /* apply the linearize function */
+    whole_map_iterate(x, y) {
+      hmap(x, y) = frequencies[hmap(x, y)];
+    } whole_map_iterate_end; 
+  }
 }
 
 /**************************************************************************
