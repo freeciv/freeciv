@@ -50,7 +50,7 @@ struct player_tile {
 };
 
 /* The maximum number of continents and oceans. */
-#define MAP_NCONT 300
+#define MAP_NCONT 600
 
 void assign_continent_numbers(bool skip_unsafe);
 
