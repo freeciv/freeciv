@@ -1,3 +1,19 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,6 +33,7 @@
 #include <proto/intuition.h>
 
 #include "civclient.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "support.h"
@@ -88,10 +105,10 @@ char *get_improvement_info(int id, struct city *pcity)
   if (is_wonder(id))
   {
     if (game.global_wonders[id])
-      return "Built";
+      return _("Built");
     if (wonder_obsolete(id))
-      return "Obsolete";
-    return "Wonder";
+      return _("Obsolete");
+    return _("Wonder");
   }
   return "";
 }
@@ -173,7 +190,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 	      struct player *pplr = game.player_ptr;
               int entries = worklist_length(&pplr->worklists[entry->id]);
 
-	      my_snprintf(buf,64,"%d %s",entries,entries==1?"entry":"entries");
+	      my_snprintf(buf,64,"%d %s",entries,entries==1?_("entry"):_("entries"));
 
 	      *array++ = pplr->worklists[entry->id].name;
 	      *array++ = buf;
@@ -183,7 +200,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 
       case  3:
             {
-              *array++ = "\33u\338Units\33n";
+              *array++ = _("\33u\338Units\33n");
               *array++ = "";
               *array = "";
             }
@@ -191,7 +208,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 
       case  4:
 	    {
-              *array++ = "\33u\338Improvements\33n";
+              *array++ = _("\33u\338Improvements\33n");
               *array++ = "";
               *array = "";
             }
@@ -199,7 +216,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 
       case  5:
             {
-	      *array++ = "\33u\338Worklists\33n";
+	      *array++ = _("\33u\338Worklists\33n");
               *array++ = "";
               *array = "";
             }
@@ -207,9 +224,9 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
     }
   } else
   {
-    *array++ = "Type";
-    *array++ = "Info";
-    *array = "Cost";
+    *array++ = _("Type");
+    *array++ = _("Info");
+    *array = _("Cost");
   }
 }
 
@@ -617,7 +634,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
   Object *clv, *alv, *clist, *alist, *check, *remove_button, *ok_button, *cancel_button, *name_text, *name_label;
 
   if ((o = (Object *) DoSuperNew(cl, o,
-        MUIA_Window_Title, "Freeciv - Edit Worklist",
+        MUIA_Window_Title, _("Freeciv - Edit Worklist"),
         MUIA_Window_ID, MAKE_ID('W','R','K','L'),
   	WindowContents, VGroup,
   	    Child, HGroup,
@@ -628,7 +645,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 		End,
   	    Child, HGroup,
 		Child, VGroup,
-		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, "Current Targets", End,
+		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, _("Current Targets"), End,
 		    Child, clv = NListviewObject,
 		        MUIA_CycleChain, 1,
 		        MUIA_NListview_NList, clist = WorklistviewObject,
@@ -637,11 +654,11 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 			    End,
 			End,
 		    Child, HGroup,
-		        Child, remove_button = MakeButton("_Remove"),
+		        Child, remove_button = MakeButton(_("_Remove")),
 	                End,
 	            End,
 	        Child, VGroup,
-		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, "Available Targets", End,
+		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, _("Available Targets"), End,
 		    Child, alv = NListviewObject,
 		        MUIA_CycleChain, 1,
 		        MUIA_NListview_NList, alist = WorklistviewObject,
@@ -649,15 +666,15 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 			    End,
 		        End,
 		    Child, HGroup,
-		        Child, MakeLabel("Show future targets"),
-		        Child, check = MakeCheck("Show future targets", FALSE),
+		        Child, MakeLabel(_("Show future targets")),
+		        Child, check = MakeCheck(_("Show future targets"), FALSE),
 		        Child, HSpace(0),
 		        End,
 		    End,
 		End,
 	    Child, HGroup,
-		Child, ok_button = MakeButton("_Ok"),
-		Child, cancel_button = MakeButton("_Cancel"),
+		Child, ok_button = MakeButton(_("_Ok")),
+		Child, cancel_button = MakeButton(_("_Cancel")),
 		End,
 	    End,
 	TAG_MORE, msg->ops_AttrList)))
@@ -716,11 +733,11 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
       if (data->pcity)
       {
-      	settext(name_label, "Worklist for city");
+      	settext(name_label, _("Worklist for city"));
       	settext(name_text, data->pcity->name);
       } else
       {
-      	settext(name_label, "Name of Worklist");
+      	settext(name_label, _("Name of Worklist"));
       	settext(name_text, data->worklist->name );
       }
 

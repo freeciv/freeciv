@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -23,6 +27,7 @@
 #include <proto/utility.h>
 #include <proto/muimaster.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -106,7 +111,7 @@ static void intel_create_dialog(struct player *p)
     return;
 
   intel_wnd = WindowObject,
-    MUIA_Window_Title, "Foreign Intelligence Report",
+    MUIA_Window_Title, _("Foreign Intelligence Report"),
     WindowContents, VGroup,
 	Child, title_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	Child, ruler_text = TextObject, MUIA_Text_PreParse, "\33c", End,
@@ -133,27 +138,27 @@ static void intel_create_dialog(struct player *p)
     struct city *pcity = find_palace(p);
     int i;
 
-    settextf(title_text, "Intelligence Information for the %s Empire", get_nation_name(p->nation));
-    settextf(ruler_text, "Ruler: %s %s", get_ruler_title(p->government, p->is_male, p->nation), p->name);
-    settextf(government_text, "Government: %s", get_government_name(p->government));
-    settextf(gold_text, "Gold: %d", p->economic.gold);
-    settextf(tax_text, "Tax: %d%%", p->economic.tax);
-    settextf(science_text, "Science: %d%%", p->economic.science);
-    settextf(luxury_text, "Luxury: %d%%", p->economic.luxury);
+    settextf(title_text, _("Intelligence Information for the %s Empire"), get_nation_name(p->nation));
+    settextf(ruler_text, _("Ruler: %s %s"), get_ruler_title(p->government, p->is_male, p->nation), p->name);
+    settextf(government_text, _("Government: %s"), get_government_name(p->government));
+    settextf(gold_text, _("Gold: %d"), p->economic.gold);
+    settextf(tax_text, _("Tax: %d%%"), p->economic.tax);
+    settextf(science_text, _("Science: %d%%"), p->economic.science);
+    settextf(luxury_text, _("Luxury: %d%%"), p->economic.luxury);
     if (p->research.researching != A_NONE)
     {
-      settextf(researching_text, "Researching: %s(%d/%d)",
+      settextf(researching_text, _("Researching: %s(%d/%d)"),
 	       advances[p->research.researching].name,
 	       p->research.researched,
 	       research_time(p));
     }
     else
     {
-      settextf(researching_text, "Researching Future Tech. %d: %d/%d",
+      settextf(researching_text, _("Researching Future Tech. %d: %d/%d"),
 	  ((p->future_tech) + 1), p->research.researched, research_time(p));
     }
 
-    settextf(capital_text, "Capital: %s", (pcity == NULL) ? "(Unknown)" : pcity->name);
+    settextf(capital_text, _("Capital: %s"), (pcity == NULL) ? _("(Unknown)") : pcity->name);
 
     for (i = 1; i < game.num_tech_types; i++)
     {

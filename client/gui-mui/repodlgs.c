@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,6 +28,7 @@
 #include <proto/muimaster.h>
 
 #include "mem.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -120,7 +125,7 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
 
-  sprintf(buf, "%s\n%s of the %s\n%s %s: %s",
+  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
@@ -158,7 +163,7 @@ static void science_goal(ULONG * newgoal)
     else
     {
       request_player_tech_goal(to);
-      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, "(%ld steps)", tech_goal_turns(game.player_ptr, to));
+      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, to));
     }
   }
 }
@@ -187,7 +192,7 @@ static void science_research(ULONG * newresearch)
     else
     {
       request_player_research(to);
-/*      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, "(%ld steps)", tech_goal_turns(game.player_ptr, to)); */
+/*      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, to)); */
     }
   }
 }
@@ -205,11 +210,13 @@ static void science_researched(ULONG * tech)
 ****************************************************************/
 void popup_science_dialog(int make_modal)
 {
-  STATIC STRPTR def_entries[] =
-  {"None", NULL};
+  STATIC STRPTR def_entries[2];
   STRPTR *goal_entries = def_entries;
   STRPTR *research_entries = def_entries;
   int i, j;
+
+  def_entries[0] = _("None");
+  def_entries[1] = 0;
 
   if (help_research_entries)
   {
@@ -289,7 +296,7 @@ void popup_science_dialog(int make_modal)
 
 /*  else
    {
-   sprintf(text, "Researching Future Tech. %d",
+   sprintf(text, _("Researching Future Tech. %d"),
    ((game.player_ptr->future_tech)+1));
 
    item = gtk_menu_item_new_with_label(text);
@@ -300,7 +307,7 @@ void popup_science_dialog(int make_modal)
   if (!science_wnd)
   {
     science_wnd = WindowObject,
-      MUIA_Window_Title, "Science",
+      MUIA_Window_Title, _("Science"),
       MUIA_Window_ID, MAKE_ID('S','C','N','C'),
 
       WindowContents, VGroup,
@@ -313,7 +320,7 @@ void popup_science_dialog(int make_modal)
               Child, science_help_button = TextObject,
                   ButtonFrame,
                   MUIA_Text_PreParse, "\33c",
-                  MUIA_Text_Contents, "Help",
+                  MUIA_Text_Contents, _("Help"),
                   MUIA_Font, MUIV_Font_Button,
                   MUIA_InputMode, MUIV_InputMode_Toggle,
                   MUIA_Background, MUII_ButtonBack,
@@ -335,8 +342,8 @@ void popup_science_dialog(int make_modal)
 
   if (science_wnd)
   {
-    char *report_title = get_report_title("Science Advisor");
-    settextf(science_title_text, "%s\n(%d turns/advance)", report_title,tech_turns_to_advance(game.player_ptr));
+    char *report_title = get_report_title(_("Science Advisor"));
+    settextf(science_title_text, _("%s\n(%d turns/advance)"), report_title,tech_turns_to_advance(game.player_ptr));
     free(report_title);
 
     DoMethod(science_cycle_group, MUIM_Group_InitChange);
@@ -352,13 +359,13 @@ void popup_science_dialog(int make_modal)
 
       o = VGroup,
 	Child, HGroup,
-	    Child, MakeLabel("_Goal"),
-	    Child, science_goal_popup = MakeCycle("_Goal", goal_entries),
+	    Child, MakeLabel(_("_Goal")),
+	    Child, science_goal_popup = MakeCycle(_("_Goal"), goal_entries),
 	    Child, science_steps_text = TextObject, End,
 	    End,
 	Child, HGroup,
-	    Child, MakeLabel("_Research"),
-	    Child, science_research_popup = MakeCycle("_Research", research_entries),
+	    Child, MakeLabel(_("_Research")),
+	    Child, science_research_popup = MakeCycle(_("_Research"), research_entries),
 	    Child, status_text = TextObject, End,
 	    End,
 	End;
@@ -378,7 +385,7 @@ void popup_science_dialog(int make_modal)
     }
     DoMethod(science_cycle_group, MUIM_Group_ExitChange);
 
-    DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, "(%ld steps)", tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+    DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
 
     DoMethod(science_researched_group, MUIM_Group_InitChange);
     DoMethod(science_researched_group, MUIM_AutoGroup_DisposeChilds);
@@ -491,10 +498,10 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
   }
   else
   {
-    *array++ = "Building Name";
-    *array++ = "Count";
-    *array++ = "Cost";
-    *array = "U Total";
+    *array++ = _("Building Name");
+    *array++ = _("Count");
+    *array++ = _("Cost");
+    *array = _("U Total");
   }
 }
 
@@ -544,13 +551,13 @@ static void trade_sell(int *data)
 
     if (count)
     {
-      sprintf(str, "Sold %d %s for %d gold", count, get_improvement_name(i), gold);
+      sprintf(str, _("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
     }
     else
     {
-      sprintf(str, "No %s could be sold", get_improvement_name(i));
+      sprintf(str, _("No %s could be sold"), get_improvement_name(i));
     }
-    popup_notify_dialog("Sell-Off:", "Results", str);
+    popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
   }
 }
 
@@ -564,7 +571,7 @@ static void create_trade_report_dialog(void/*int make_modal*/)
   trade_imprv_disphook.h_Entry = (HOOKFUNC) trade_imprv_render;
 
   trade_wnd = WindowObject,
-    MUIA_Window_Title, "Trade Report",
+    MUIA_Window_Title, _("Trade Report"),
     MUIA_Window_ID, MAKE_ID('T','R','A','D'),
     WindowContents, VGroup,
 	Child, trade_title_text = TextObject, MUIA_Text_PreParse, "\33c", End,
@@ -579,16 +586,16 @@ static void create_trade_report_dialog(void/*int make_modal*/)
 	    End,
 	Child, trade_total_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	Child, HGroup,
-	    Child, trade_close_button = MakeButton("_Close"),
-	    Child, trade_sellobsolete_button = MakeButton("Sell _Obsolete"),
-	    Child, trade_sellall_button = MakeButton("Sell _All"),
+	    Child, trade_close_button = MakeButton(_("_Close")),
+	    Child, trade_sellobsolete_button = MakeButton(_("Sell _Obsolete")),
+	    Child, trade_sellall_button = MakeButton(_("Sell _All")),
 	    End,
 	End,
     End;
 
   if (trade_wnd)
   {
-    char *report_title = report_title = get_report_title("Trade Advisor");
+    char *report_title = report_title = get_report_title(_("Trade Advisor"));
     set(trade_title_text, MUIA_Text_Contents, report_title);
     free(report_title);
 
@@ -616,7 +623,7 @@ void trade_report_dialog_update(void)
   if (!trade_wnd)
     return;
 
-  if ((report_title = get_report_title("Trade Advisor")))
+  if ((report_title = get_report_title(_("Trade Advisor"))))
   {
     set(trade_title_text, MUIA_Text_Contents, report_title);
     free(report_title);
@@ -664,7 +671,7 @@ void trade_report_dialog_update(void)
 
   set(trade_imprv_listview, MUIA_NList_Quiet, FALSE);
 
-  settextf(trade_total_text, "Income:%6d    Total Costs: %6d", tax, total);
+  settextf(trade_total_text, _("Income:%6d    Total Costs: %6d"), tax, total);
 }
 
 /****************************************************************
@@ -758,12 +765,12 @@ HOOKPROTONH(actunit_units_display, void, char **array, struct actunit_units_entr
   }
   else
   {
-    *array++ = "Unit Type";
-    *array++ = "U";
-    *array++ = "In-Prog";
-    *array++ = "Active";
-    *array++ = "Shield";
-    *array = "Food";
+    *array++ = _("Unit Type");
+    *array++ = _("U");
+    *array++ = _("In-Prog");
+    *array++ = _("Active");
+    *array++ = _("Shield");
+    *array = _("Food");
   }
 }
 
@@ -813,15 +820,15 @@ static void actunit_upgrade(void)
       char buf[512];
 
       sprintf(buf,
-	      "Upgrade as many %s to %s as possible for %d gold each?\n"
-	      "Treasury contains %d gold.",
+	      _("Upgrade as many %s to %s as possible for %d gold each?\n"
+	      "Treasury contains %d gold."),
 	      unit_types[ut1].name, unit_types[ut2].name,
 	      unit_upgrade_price(game.player_ptr, ut1, ut2),
 	      game.player_ptr->economic.gold);
 
-      popup_message_dialog(actunit_wnd, "Upgrade Obsolete Units", buf,
-			   "_Yes", actunit_upgrade_yes, entry->type,
-			   "_No", message_close, 0,
+      popup_message_dialog(actunit_wnd, _("Upgrade Obsolete Units"), buf,
+			   _("_Yes"), actunit_upgrade_yes, entry->type,
+			   _("_No"), message_close, 0,
 			   0);
 
     }
@@ -841,7 +848,7 @@ void create_activeunits_report_dialog(int make_modal)
   actunit_units_disphook.h_Entry = (HOOKFUNC) actunit_units_display;
 
   actunit_wnd = WindowObject,
-    MUIA_Window_Title, "Military Report",
+    MUIA_Window_Title, _("Military Report"),
     MUIA_Window_ID, MAKE_ID('M','I','L','I'),
 	WindowContents, VGroup,
 	Child, actunit_title_text = TextObject,
@@ -858,8 +865,8 @@ void create_activeunits_report_dialog(int make_modal)
 	    End,
 	Child, actunit_total_text = TextObject, End,
 	Child, HGroup,
-	    Child, actunit_close_button = MakeButton("_Close"),
-	    Child, actunit_upgrade_button = MakeButton("_Upgrade"),
+	    Child, actunit_close_button = MakeButton(_("_Close")),
+	    Child, actunit_upgrade_button = MakeButton(_("_Upgrade")),
 	    End,
 	End,
     End;
@@ -867,7 +874,7 @@ void create_activeunits_report_dialog(int make_modal)
   if (actunit_wnd)
   {
     char *report_title;
-    report_title = get_report_title("Military Report");
+    report_title = get_report_title(_("Military Report"));
     set(actunit_title_text, MUIA_Text_Contents, report_title);
     free(report_title);
     set(actunit_upgrade_button, MUIA_Disabled, TRUE);
@@ -904,7 +911,7 @@ void activeunits_report_dialog_update(void)
   if (delay_report_update)
     return;
 
-  report_title = get_report_title("Military Report");
+  report_title = get_report_title(_("Military Report"));
   set(actunit_title_text, MUIA_Text_Contents, report_title);
   free(report_title);
 

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +28,7 @@
 #include <proto/graphics.h>
 #include <proto/utility.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "player.h"
 #include "mapview.h"
@@ -91,10 +96,10 @@ void popup_find_dialog(void)
   if (!find_wnd)
   {
     find_wnd = WindowObject,
-        MUIA_Window_Title, "Find City",
+        MUIA_Window_Title, _("Find City"),
         WindowContents, VGroup,
             Child, TextObject,
-                MUIA_Text_Contents, "Select a city",
+                MUIA_Text_Contents, _("Select a city"),
                 MUIA_Text_PreParse, "\33c",
                 End,
             Child, find_cities_listview = NListviewObject,
@@ -104,8 +109,8 @@ void popup_find_dialog(void)
                     End,
                 End,
             Child, HGroup,
-                Child, find_ok_button = MakeButton("_Ok"),
-                Child, find_cancel_button = MakeButton("_Cancel"),
+                Child, find_ok_button = MakeButton(_("_Ok")),
+                Child, find_cancel_button = MakeButton(_("_Cancel")),
                 End,
             End,
         End;

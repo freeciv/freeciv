@@ -142,7 +142,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
           MUIA_NList_AutoCopyToClip, TRUE,
           End,
         End,
-        Child, close_button = MakeButton("_Close"),
+        Child, close_button = MakeButton(_("_Close")),
       End,
     End;
 
@@ -189,8 +189,8 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
         MUIA_Text_PreParse, "\33c",
         End,
       Child, HGroup,
-        Child, close_button = MakeButton("_Close"),
-        Child, goto_button = MakeButton("_Goto and Close"),
+        Child, close_button = MakeButton(_("_Close")),
+        Child, goto_button = MakeButton(_("_Goto and Close")),
         End,
       End,
     End;
@@ -230,20 +230,20 @@ void popup_bribe_dialog(struct unit *punit)
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost)
   {
-    my_snprintf(buf, sizeof(buf),"Bribe unit for %d gold?\nTreasury contains %d gold.",
+    my_snprintf(buf, sizeof(buf),_("Bribe unit for %d gold?\nTreasury contains %d gold."),
                 punit->bribe_cost, game.player_ptr->economic.gold);
 
-    popup_message_dialog(main_wnd, "Bribe Enemy Unit", buf,
-                         "Yes", diplomat_bribe_yes, 0,
-                         "No", message_close, 0,
+    popup_message_dialog(main_wnd, _("Bribe Enemy Unit"), buf,
+                         _("Yes"), diplomat_bribe_yes, 0,
+                         _("No"), message_close, 0,
                          0);
   } else
   {
-    my_snprintf(buf, sizeof(buf), "Bribing the unit costs %d gold.\nTreasury contains %d gold.",
+    my_snprintf(buf, sizeof(buf), _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
                 punit->bribe_cost, game.player_ptr->economic.gold);
 
-    popup_message_dialog(main_wnd, "Traitors Demand Too Much!", buf,
-                         "Darn", message_close,0,
+    popup_message_dialog(main_wnd, _("Traitors Demand Too Much!"), buf,
+                         _("Darn"), message_close,0,
                          0);
   }
 }
@@ -318,7 +318,7 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
     else *array = advances[which-100].name;
   }
   else
-    *array = "Technology";
+    *array = _("Technology");
 }
 
 
@@ -334,11 +334,11 @@ static void create_advances_list(struct player *pplayer,
   disphook.h_Entry = (HOOKFUNC)advance_display;
 
   wnd = WindowObject,
-    MUIA_Window_Title,"Steal Technology",
+    MUIA_Window_Title, _("Steal Technology"),
     MUIA_Window_ID, MAKE_ID('S','P','S','T'),
     WindowContents, VGroup,
       Child, TextObject,
-        MUIA_Text_Contents,"Select Advance to Steal",
+        MUIA_Text_Contents, _("Select Advance to Steal"),
         MUIA_Text_PreParse,"\33c",
         End,
       Child, listview = NListviewObject,
@@ -347,8 +347,8 @@ static void create_advances_list(struct player *pplayer,
           End,
         End,
       Child, HGroup,
-        Child, steal_button = MakeButton("_Steal"),
-        Child, cancel_button = MakeButton("_Cancel"),
+        Child, steal_button = MakeButton(_("_Steal")),
+        Child, cancel_button = MakeButton(_("_Cancel")),
         End,
       End,
     End;
@@ -432,11 +432,11 @@ static void create_improvements_list(/*struct player *pplayer,*/
   disphook.h_Entry = (HOOKFUNC)imprv_display;
 
   wnd = WindowObject,
-    MUIA_Window_Title,"Sabotage Improvements",
+    MUIA_Window_Title, _("Sabotage Improvements"),
     MUIA_Window_ID, MAKE_ID('S','P','I','P'),
     WindowContents, VGroup,
       Child, TextObject,
-        MUIA_Text_Contents,"Select Improvement to Sabotage",
+        MUIA_Text_Contents, _("Select Improvement to Sabotage"),
         MUIA_Text_PreParse,"\33c",
         End,
       Child, listview = NListviewObject,
@@ -445,8 +445,8 @@ static void create_improvements_list(/*struct player *pplayer,*/
           End,
         End,
       Child, HGroup,
-        Child, steal_button = MakeButton("_Sabotage"),
-        Child, cancel_button = MakeButton("_Cancel"),
+        Child, steal_button = MakeButton(_("_Sabotage")),
+        Child, cancel_button = MakeButton(_("_Cancel")),
         End,
       End,
     End;
@@ -513,21 +513,21 @@ void popup_incite_dialog(struct city *pcity)
 
   if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost)
   {
-    my_snprintf(buf, sizeof(buf),"Incite a revolt for %d gold?\nTreasury contains %d gold.",
+    my_snprintf(buf, sizeof(buf),_("Incite a revolt for %d gold?\nTreasury contains %d gold."),
             pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     diplomat_target_id = pcity->id;
 
-    popup_message_dialog(main_wnd, "Incite a Revolt!", buf,
-                         "_Yes", diplomat_incite_yes, 0,
-                         "_No", diplomat_incite_no, 0,
+    popup_message_dialog(main_wnd, _("Incite a Revolt!"), buf,
+                         _("_Yes"), diplomat_incite_yes, 0,
+                         _("_No"), diplomat_incite_no, 0,
                          0);
 
   } else
   {
-    my_snprintf(buf, sizeof(buf), "Inciting a revolt costs %d gold.\nTreasury contains %d gold.",
+    my_snprintf(buf, sizeof(buf), _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
                 pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(main_wnd, "Traitors Demand Too Much!", buf,
-                         "Darn", diplomat_incite_no,0,
+    popup_message_dialog(main_wnd, _("Traitors Demand Too Much!"), buf,
+                         _("Darn"), diplomat_incite_no,0,
                          0);
   }
 }
@@ -777,7 +777,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     {
       if(diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Establish embassy";
+      	msg_dlg[i].label = _("_Establish embassy");
       	msg_dlg[i].function = (APTR)diplomat_embassy;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -785,7 +785,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Investigate city",
+      	msg_dlg[i].label = _("_Investigate city"),
       	msg_dlg[i].function = (APTR)diplomat_investigate;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -793,7 +793,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Sabotage city";
+      	msg_dlg[i].label = _("_Sabotage city");
         msg_dlg[i].function = (APTR)diplomat_sabotage;
         msg_dlg[i].data = NULL;
       	i++;
@@ -801,7 +801,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "Steal _technology";
+      	msg_dlg[i].label = _("Steal _technology");
       	msg_dlg[i].function = (APTR)diplomat_steal;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -809,26 +809,26 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "Incite a _revolt";
+      	msg_dlg[i].label = _("Incite a _revolt");
       	msg_dlg[i].function = (APTR)diplomat_incite;
       	msg_dlg[i].data = NULL;
       	i++;
       }
 
-      msg_dlg[i].label = "_Cancel";
+      msg_dlg[i].label = _("_Cancel");
       msg_dlg[i].function = (APTR)diplomat_cancel;
       msg_dlg[i++].data = NULL;
 
       msg_dlg[i].label = NULL;
 
-      popup_message_dialog_args(main_wnd, "Choose Your Diplomat's Strategy",
-                                "Sir, the diplomat is waiting for your command",
+      popup_message_dialog_args(main_wnd, _("Choose Your Diplomat's Strategy"),
+                                _("Sir, the diplomat is waiting for your command"),
                                 msg_dlg);
     } else
     {
       if(diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Establish embassy";
+      	msg_dlg[i].label = _("_Establish embassy");
       	msg_dlg[i].function = (APTR)diplomat_embassy;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -836,7 +836,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Investigate city (free)";
+      	msg_dlg[i].label = _("_Investigate city (free)");
       	msg_dlg[i].function = (APTR)diplomat_investigate;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -844,7 +844,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Poison city";
+      	msg_dlg[i].label = _("_Poison city");
       	msg_dlg[i].function = (APTR)spy_poison;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -852,7 +852,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "Industrial _sabotage";
+      	msg_dlg[i].label = _("Industrial _sabotage");
       	msg_dlg[i].function = (APTR)spy_request_sabotage_list;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -860,7 +860,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "Steal _technology";
+      	msg_dlg[i].label = _("Steal _technology");
       	msg_dlg[i].function = (APTR)spy_steal;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -868,20 +868,20 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "Incite a _revolt";
+      	msg_dlg[i].label = _("Incite a _revolt");
       	msg_dlg[i].function = (APTR)diplomat_incite;
       	msg_dlg[i].data = NULL;
       	i++;
       }
 
-      msg_dlg[i].label = "_Cancel";
+      msg_dlg[i].label = _("_Cancel");
       msg_dlg[i].function = (APTR)diplomat_cancel;
       msg_dlg[i++].data = NULL;
 
       msg_dlg[i].label = NULL;
 
-      popup_message_dialog_args(main_wnd, "Choose Your Spy's Strategy",
-                                "Sir, the spy is waiting for your command",
+      popup_message_dialog_args(main_wnd, _("Choose Your Spy's Strategy"),
+                                _("Sir, the spy is waiting for your command"),
                                 msg_dlg);
 
     }
@@ -895,7 +895,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  
       if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Bribe Enemy Unit";
+      	msg_dlg[i].label = _("_Bribe Enemy Unit");
       	msg_dlg[i].function = (APTR)diplomat_bribe_unit;
       	msg_dlg[i].data = NULL;
       	i++;
@@ -903,21 +903,22 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
       {
-      	msg_dlg[i].label = "_Sabotage Enemy Unit";
+      	msg_dlg[i].label = _("_Sabotage Enemy Unit");
       	msg_dlg[i].function = (APTR)spy_sabotage_unit;
       	msg_dlg[i].data = NULL;
       	i++;
       }
 
-      msg_dlg[i].label = "_Cancel";
+      msg_dlg[i].label = _("_Cancel");
       msg_dlg[i].function = (APTR)message_close;
       msg_dlg[i++].data = NULL;
 
       msg_dlg[i].label = NULL;
 
-      popup_message_dialog_args(main_wnd, "Subvert Enemy Unit",
+      popup_message_dialog_args(main_wnd, _("Subvert Enemy Unit"),
                                (!unit_flag(punit->type, F_SPY))?
-                                "Sir, the diplomat is waiting for your command":"Sir, the spy is waiting for your command",
+                                _("Sir, the diplomat is waiting for your command"):
+                                _("Sir, the spy is waiting for your command"),
                                 msg_dlg);
 
     }
@@ -1002,7 +1003,7 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
   int i=0;
   char buf[128];
 
-  my_snprintf(buf, sizeof(buf),"Your caravan from %s reaches the city of %s.\nWhat now?",
+  my_snprintf(buf, sizeof(buf),_("Your caravan from %s reaches the city of %s.\nWhat now?"),
           phomecity->name, pdestcity->name);
 
   if(can_establish_trade_route(phomecity, pdestcity))
@@ -1013,7 +1014,7 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
       cd->caravan_city_id = pdestcity->id;
       cd->caravan_unit_id = punit->id;
 
-      msg_dlg[i].label = "_Establish traderoute";
+      msg_dlg[i].label = _("_Establish traderoute");
       msg_dlg[i].function = (APTR)caravan_establish;
       msg_dlg[i].data = (APTR)cd;
       i++;
@@ -1028,20 +1029,20 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
       cd->caravan_city_id = pdestcity->id;
       cd->caravan_unit_id = punit->id;
 
-      msg_dlg[i].label = "_Help build Wonder";
+      msg_dlg[i].label = _("_Help build Wonder");
       msg_dlg[i].function = (APTR)caravan_help;
       msg_dlg[i].data = (APTR)cd;
       i++;
     }
   }
 
-  msg_dlg[i].label = "_Keep moving";
+  msg_dlg[i].label = _("_Keep moving");
   msg_dlg[i].function = (APTR)caravan_keep;
   msg_dlg[i].data = NULL;
   i++; msg_dlg[i].label = NULL;
 
   caravan_dialog = 1;
-  popup_message_dialog_args(main_wnd, "Your Caravan Has Arrived",
+  popup_message_dialog_args(main_wnd, _("Your Caravan Has Arrived"),
                             buf,msg_dlg);
 }
 
@@ -1105,8 +1106,8 @@ void popup_government_dialog(void)
 
       msg_dlg[j].label = NULL;
 
-      popup_message_dialog_args(main_wnd, "Choose Your New Government",
-                                "Select government type:",msg_dlg);
+      popup_message_dialog_args(main_wnd, _("Choose Your New Government"),
+                                _("Select government type:"),msg_dlg);
     }
     free(msg_dlg);
   }
@@ -1127,9 +1128,9 @@ static void revolution_yes( struct popup_message_data *data)
 *****************************************************************/
 void popup_revolution_dialog(void)
 {
-  popup_message_dialog(main_wnd, "Revolution!", "You say you wanna revolution?",
-                       "_Yes",revolution_yes, 0,
-                       "_No",message_close, 0,
+  popup_message_dialog(main_wnd, _("Revolution!"), _("You say you wanna revolution?"),
+                       _("_Yes"),revolution_yes, 0,
+                       _("_No"),message_close, 0,
                        NULL);
 }
 
@@ -1192,14 +1193,14 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
           may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
         }
 	
-        msg_dlg[i].label = "_Cancel";
+        msg_dlg[i].label = _("_Cancel");
         msg_dlg[i].function = (APTR)pillage_button;
         msg_dlg[i].data = NULL;
 	
         msg_dlg[++i].label = NULL;
 	
-        popup_message_dialog_args(main_wnd, "Freeciv - Pillage",
-                                  "Select what to pillage:",msg_dlg);
+        popup_message_dialog_args(main_wnd, _("Freeciv - Pillage"),
+                                  _("Select what to pillage:"),msg_dlg);
 
         for(i=0;i<count;i++)
         {
@@ -1282,14 +1283,14 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
           i++;
         }
 
-        msg_dlg[i].label = "_Cancel";
+        msg_dlg[i].label = _("_Cancel");
         msg_dlg[i].function = (APTR)connect_button;
         msg_dlg[i].data = NULL;
 
         msg_dlg[++i].label = NULL;
 
-        popup_message_dialog_args(main_wnd, "Freeciv - Connect",
-                                  "Choose unit activity:",msg_dlg);
+        popup_message_dialog_args(main_wnd, _("Freeciv - Connect"),
+                                  _("Choose unit activity:"),msg_dlg);
 
         for(i=0;i<count;i++)
         {
@@ -1445,11 +1446,11 @@ void popup_unit_select_dialog(struct tile *ptile)
     Object *close_button;
 
     unitsel_wnd = WindowObject,
-      MUIA_Window_Title, "Freeciv - Select an unit",
+      MUIA_Window_Title, _("Freeciv - Select an unit"),
       WindowContents, window_group = VGroup,
         Child, button_group = HGroup,
-          Child, close_button = MakeButton("_Close"),
-          Child, readyall_button = MakeButton("_Ready All"),
+          Child, close_button = MakeButton(_("_Close")),
+          Child, readyall_button = MakeButton(_("_Ready All")),
           End,
         End,
       End;
@@ -1495,7 +1496,7 @@ void popup_unit_select_dialog(struct tile *ptile)
         pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
         my_snprintf(buffer, sizeof(buffer),"%s%s\n%s\n%s", punittemp->name,
-               (punit->veteran) ? " (veteran)" : "", unit_activity_text(punit),pcity ? pcity->name : "");
+               (punit->veteran) ? _(" (veteran)") : "", unit_activity_text(punit),pcity ? pcity->name : "");
 
         o = HGroup,
           Child, unit_obj = UnitObject,
@@ -1604,7 +1605,7 @@ static void nations_ok(void)
   packet.name[MAX_LEN_NAME-1]='\0';
   
   if(!get_sane_name(packet.name)) {
-    append_output_window("You must type a legal name.");
+    append_output_window(_("You must type a legal name."));
     return;
   }
 
@@ -1673,10 +1674,14 @@ void popup_races_dialog(void)
     Object *nations_quit_button;
 
     int i;
-    static char *sex_labels[] = {"Male","Female",NULL};
+    static char *sex_labels[3];
     static struct Hook objstr_hook;
     static struct Hook strobj_hook;
 
+
+    sex_labels[0] = _("Male");
+    sex_labels[1] = _("Female");
+    sex_labels[2] = 0;
     objstr_hook.h_Entry = (HOOKFUNC)nations_obj2str;
     strobj_hook.h_Entry = (HOOKFUNC)nations_str2obj;
 
@@ -1695,7 +1700,7 @@ void popup_races_dialog(void)
     styles_entries[styles_basic_nums] = NULL;
 
     nations_wnd = WindowObject,
-        MUIA_Window_Title,  "Freeciv - Select a Nation",
+        MUIA_Window_Title,  _("Freeciv - Select a Nation"),
         MUIA_Window_ID, MAKE_ID('S','N','A','T'),
         WindowContents, VGroup,
             Child, HGroup,
@@ -1718,7 +1723,7 @@ void popup_races_dialog(void)
 		    	Child, HVSpace,
 			End,
 	            Child, HGroup,
-        	        Child, MakeLabel("_Leader Name"),
+        	        Child, MakeLabel(_("_Leader Name")),
 	                Child, nations_leader_poplist = PopobjectObject,
         	            MUIA_Popstring_String, nations_leader_string = MakeString(NULL,40),
                 	    MUIA_Popstring_Button, PopButton(MUII_PopUp),
@@ -1733,16 +1738,16 @@ void popup_races_dialog(void)
         	        Child, nations_sex_radio = MakeRadio(NULL,sex_labels),
                 	End,
 	            Child, HGroup,
-        	        Child, MakeLabel("_City Style"),
-                	Child, nations_styles_cycle = MakeCycle("_City Style",styles_entries),
+        	        Child, MakeLabel(_("_City Style")),
+                	Child, nations_styles_cycle = MakeCycle(_("_City Style"),styles_entries),
                 	End,
 		    Child, HVSpace,
                     End,
                 End,
             Child, HGroup,
-                Child, nations_ok_button = MakeButton("_Ok"),
-                Child, nations_disconnect_button = MakeButton("_Disconnect"),
-                Child, nations_quit_button = MakeButton("_Quit"),
+                Child, nations_ok_button = MakeButton(_("_Ok")),
+                Child, nations_disconnect_button = MakeButton(_("_Disconnect")),
+                Child, nations_quit_button = MakeButton(_("_Quit")),
                 End,
             End,
         End;

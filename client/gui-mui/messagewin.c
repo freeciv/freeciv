@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +28,7 @@
 #include <proto/muimaster.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "mem.h"
@@ -135,7 +140,7 @@ HOOKPROTONH(mes_display, void, char **array, struct message_entry *entry)
   }
   else
   {
-    *array = "Messages";
+    *array = _("Messages");
   }
 }
 
@@ -219,7 +224,7 @@ void create_meswin_dialog(void)
   mes_disphook.h_Entry = (HOOKFUNC) mes_display;
 
   mes_wnd = WindowObject,
-    MUIA_Window_Title, "Messages",
+    MUIA_Window_Title, _("Messages"),
     MUIA_Window_ID, MAKE_ID('M','E','S','S'),
     WindowContents, VGroup,
         Child, mes_listview = NListviewObject,
@@ -230,9 +235,9 @@ void create_meswin_dialog(void)
 		End,
 	    End,
 	Child, HGroup,
-	    Child, mes_close_button = MakeButton("_Close"),
-	    Child, mes_goto_button = MakeButton("_Goto Location"),
-	    Child, mes_popcity_button = MakeButton("_Popup City"),
+	    Child, mes_close_button = MakeButton(_("_Close")),
+	    Child, mes_goto_button = MakeButton(_("_Goto Location")),
+	    Child, mes_popcity_button = MakeButton(_("_Popup City")),
 	    End,
 	End,
     End;
@@ -278,7 +283,7 @@ void add_notify_window(struct packet_generic_message *packet)
       return;
   }
 
-  if (!strncmp(packet->message, "Game: ", 6))
+  if (!strncmp(packet->message, _("Game: "), 6))
     entry.message = packet->message + 6;
   else
     entry.message = packet->message;

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -23,6 +27,7 @@
 #include <proto/muimaster.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "government.h"
@@ -357,7 +362,7 @@ static void diplomacy_gold( struct Diplomacy_data *data)
   if(amount>=0 && amount<=game.players[data->playerno].economic.gold)
   {
     request_diplomacy_create_clause(&pdialog->treaty, CLAUSE_GOLD, data->playerno,amount);
-  } else append_output_window("Game: Invalid amount of gold specified.");
+  } else append_output_window(_("Game: Invalid amount of gold specified."));
 }
 
 /****************************************************************
@@ -438,21 +443,21 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   if(!pdialog) return NULL;
 
   pdialog->wnd = WindowObject,
-      MUIA_Window_Title, "Diplomacy meeting",
+      MUIA_Window_Title, _("Diplomacy meeting"),
       WindowContents, VGroup,
           Child, HGroup,
               Child, VGroup,  /* Plr 0 */
                   MUIA_HorizWeight,50,
 		  Child, HVSpace,
                   Child, plr0_text = TextObject, End,
-                  Child, pdialog->plr0_maps_button = MakeButton("Maps"),
-                  Child, pdialog->plr0_adv_button = MakeButton("Advances"),
-                  Child, pdialog->plr0_cities_button = MakeButton("Cities"),
+                  Child, pdialog->plr0_maps_button = MakeButton(_("Maps")),
+                  Child, pdialog->plr0_adv_button = MakeButton(_("Advances")),
+                  Child, pdialog->plr0_cities_button = MakeButton(_("Cities")),
                   Child, HGroup,
                       Child, plr0_gold_text = TextObject, End,
                       Child, pdialog->plr0_gold_integer = MakeInteger(NULL),
                       End,
-                  Child, pdialog->plr0_pacts_button = MakeButton("Pacts"),
+                  Child, pdialog->plr0_pacts_button = MakeButton(_("Pacts")),
                   Child, HVSpace,
                   End,
               Child, VGroup, /* Middle */
@@ -473,15 +478,15 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                          Child, pdialog->plr1_thumb_sprite = SpriteObject, MUIA_Sprite_Sprite, get_thumb_sprite(0), End,
                          End,
                      End,
-                  Child, erase_clause = MakeButton("Erase clause"),
+                  Child, erase_clause = MakeButton(_("Erase clause")),
                   End,
               Child, VGroup,  /* Plr 1 */
                   MUIA_HorizWeight,50,
                   Child, HVSpace,
                   Child, plr1_text = TextObject, End,
-                  Child, pdialog->plr1_maps_button = MakeButton("Maps"),
-                  Child, pdialog->plr1_adv_button = MakeButton("Advances"),
-                  Child, pdialog->plr1_cities_button = MakeButton("Cities"),
+                  Child, pdialog->plr1_maps_button = MakeButton(_("Maps")),
+                  Child, pdialog->plr1_adv_button = MakeButton(_("Advances")),
+                  Child, pdialog->plr1_cities_button = MakeButton(_("Cities")),
                   Child, HGroup,
                       Child, plr1_gold_text = TextObject, End,
                       Child, pdialog->plr1_gold_integer = MakeInteger(NULL),
@@ -490,8 +495,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                   End,
               End,
           Child, HGroup,
-              Child, accept_treaty = MakeButton("_Accept treaty"),
-              Child, cancel_meeting = MakeButton("_Cancel meeting"),
+              Child, accept_treaty = MakeButton(_("_Accept treaty")),
+              Child, cancel_meeting = MakeButton(_("_Cancel meeting")),
               End,
           End,
       End;
@@ -505,43 +510,43 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     init_treaty(&pdialog->treaty, plr0, plr1);
 
     pdialog->plr0_maps_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Maps"),
+        Child, menu_title = MenuObjectT(_("Maps")),
             End,
 	End;
 
     if(menu_strip)
     {
        Object *entry;
-       entry = MUI_MakeObject(MUIO_Menuitem,"World-Map",NULL,0,0);
+       entry = MUI_MakeObject(MUIO_Menuitem,_("World-Map"),NULL,0,0);
        DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, plr0->player_no);
        DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-       entry = MUI_MakeObject(MUIO_Menuitem,"Sea-Map",NULL,0,0);
+       entry = MUI_MakeObject(MUIO_Menuitem,_("Sea-Map"),NULL,0,0);
        DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, plr0->player_no);
        DoMethod(menu_title,MUIM_Family_AddTail, entry);
        set(pdialog->plr0_maps_button,MUIA_ContextMenu,menu_strip);
     }
 
     pdialog->plr1_maps_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Maps"),
+        Child, menu_title = MenuObjectT(_("Maps")),
             End,
         End;
 
     if(menu_strip)
     {
       Object *entry;
-      entry = MUI_MakeObject(MUIO_Menuitem,"World-Map",NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,_("World-Map"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, plr1->player_no);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-      entry = MUI_MakeObject(MUIO_Menuitem,"Sea-Map",NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,_("Sea-Map"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, plr1->player_no);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       set(pdialog->plr1_maps_button,MUIA_ContextMenu,menu_strip);
     }
 
     pdialog->plr0_adv_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Advances"), End,
+        Child, menu_title = MenuObjectT(_("Advances")), End,
         End;
 
     if(menu_strip)
@@ -551,7 +556,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     }
 
     pdialog->plr1_adv_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Advances"), End,
+        Child, menu_title = MenuObjectT(_("Advances")), End,
         End;
 
     if(menu_strip)
@@ -561,7 +566,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     }
 
     pdialog->plr0_cities_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Cities"), End,
+        Child, menu_title = MenuObjectT(_("Cities")), End,
         End;
 
     if(menu_strip)
@@ -571,7 +576,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     }
 
     pdialog->plr1_cities_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Cities"), End,
+        Child, menu_title = MenuObjectT(_("Cities")), End,
         End;
 
     if(menu_strip)
@@ -582,35 +587,35 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 
     pdialog->plr0_pacts_menu = menu_strip = MenustripObject,
-        Child, menu_title = MenuObjectT("Pacts"),
+        Child, menu_title = MenuObjectT(_("Pacts")),
             End,
         End;
 
     if(menu_strip)
     {
       Object *entry;
-      entry = MUI_MakeObject(MUIO_Menuitem,"Cease-fire",NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,_("Cease-fire"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_ceasefire, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-      entry = MUI_MakeObject(MUIO_Menuitem,"Peace",NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,_("Peace"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_peace, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-      entry = MUI_MakeObject(MUIO_Menuitem,"Alliance",NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,_("Alliance"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_alliance, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       set(pdialog->plr0_pacts_button,MUIA_ContextMenu, menu_strip);
     }
 
-    settextf(plr0_text,"The %s offerings", get_nation_name(plr0->nation));
-    settextf(plr1_text,"The %s offerings", get_nation_name(plr1->nation));
-    settextf(plr0_gold_text,"Gold(max %d)", plr0->economic.gold);
-    settextf(plr1_gold_text,"Gold(max %d)", plr1->economic.gold);
-    settextf(plr0_view_text, "%s view:", get_nation_name(plr0->nation));
-    settextf(plr1_view_text, "%s view:", get_nation_name(plr1->nation));
+    settextf(plr0_text,_("The %s offerings"), get_nation_name(plr0->nation));
+    settextf(plr1_text,_("The %s offerings"), get_nation_name(plr1->nation));
+    settextf(plr0_gold_text, _("Gold(max %d)"), plr0->economic.gold);
+    settextf(plr1_gold_text, _("Gold(max %d)"), plr1->economic.gold);
+    settextf(plr0_view_text, _("%s view:"), get_nation_name(plr0->nation));
+    settextf(plr1_view_text, _("%s view:"), get_nation_name(plr1->nation));
 
-    settextf(diplo_text, "This Eternal Treaty\nmarks the results\nof the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s",
+    settextf(diplo_text, _("This Eternal Treaty\nmarks the results\nof the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s"),
              get_nation_name(plr0->nation),
              get_ruler_title(plr0->government,plr0->is_male,plr0->nation),
              plr0->name,

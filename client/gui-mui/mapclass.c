@@ -1,3 +1,15 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -179,7 +191,7 @@ static struct Sprite *load_sprite(const char *filename, ULONG usemask)
 
 	if (usemask && !sprite->hasmask)
 	{
-	  printf("Could not get the mask although there must be one! Graphics may look corrupt.\n");
+	  printf(_("Could not get the mask although there must be one! Graphics may look corrupt.\n"));
 	}
 
 	return sprite;
@@ -724,14 +736,14 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 
       if ((pcity = map_get_city(xtile, ytile)))
       {
-	sprintf(s, "City: %s(%s)", pcity->name, get_nation_name(game.players[pcity->owner].nation));
+	sprintf(s, _("City: %s(%s)"), pcity->name, get_nation_name(game.players[pcity->owner].nation));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 
 	if(text_obj)
 	  DoMethod(group, OM_ADDMEMBER, text_obj);
 
 	if (city_got_citywalls(pcity)) {
-	  text_obj = TextObject, MUIA_Text_Contents, "with City Walls", End;
+	  text_obj = TextObject, MUIA_Text_Contents, _("with City Walls"), End;
 	  if (text_obj)
 	    DoMethod(group, OM_ADDMEMBER, text_obj);
 	}
@@ -768,7 +780,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	  if (unit_list_size(&ptile->units) >= 2)
 	    sprintf(uc, _("  (%d more)"), unit_list_size(&ptile->units) - 1);
 
-	  sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength,
+	  sprintf(s, _("A:%d D:%d FP:%d HP:%d/%d%s%s"), ptype->attack_strength,
 		  ptype->defense_strength, ptype->firepower, punit->hp,
 		  ptype->hp, punit->veteran ? " V" : "", uc);
 
@@ -781,7 +793,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	}
 	else
 	{
-	  sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength,
+	  sprintf(s, _("A:%d D:%d FP:%d HP:%d0%%"), ptype->attack_strength,
 		  ptype->defense_strength, ptype->firepower,
 		  (punit->hp * 100 / ptype->hp + 9) / 10);
 	}
@@ -2049,11 +2061,11 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	focus = get_unit_in_focus();
 
 	if (pcity)
-	  sprintf(title, "City %s", pcity->name);
+	  sprintf(title, _("City %s"), pcity->name);
 	else if (punit)
-	  sprintf(title, "Unit %s", unit_name(punit->type));
+	  sprintf(title, _("Unit %s"), unit_name(punit->type));
 	else
-	  sprintf(title, "Tile %s", map_get_tile_info_text(x, y));
+	  sprintf(title, _("Tile %s"), map_get_tile_info_text(x, y));
 
 	context_menu = MenustripObject,
 	  Child, menu_title = MenuObjectT(title),
@@ -2066,7 +2078,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 
 	  if (pcity && pcity->owner == game.player_idx)
 	  {
-	    Map_MakeContextItem(menu_title, "Popup City", PACK_CITY_USERDATA(pcity, CITY_POPUP));
+	    Map_MakeContextItem(menu_title, _("Popup City"), PACK_CITY_USERDATA(pcity, CITY_POPUP));
 	    need_barlabel = TRUE;
 	  } else
 	  {
@@ -2078,43 +2090,43 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	      {
 	      	/* Note: Must be better done (linked with the pull down menu */
 		if (can_unit_build_city(punit))
-		  Map_InsertCommand(&list, "Build City", PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
+		  Map_InsertCommand(&list, _("Build City"), PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
 		if (can_unit_add_to_city(punit))
-		  Map_InsertCommand(&list, "Add to City", PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
+		  Map_InsertCommand(&list, _("Add to City"), PACK_USERDATA(punit, MENU_ORDER_BUILD_CITY));
 		if (can_unit_do_activity(punit, ACTIVITY_ROAD))
-		  Map_InsertCommand(&list, "Build Road", PACK_USERDATA(punit, MENU_ORDER_ROAD));
+		  Map_InsertCommand(&list, _("Build Road"), PACK_USERDATA(punit, MENU_ORDER_ROAD));
 		if (can_unit_do_activity(punit, ACTIVITY_RAILROAD))
-		  Map_InsertCommand(&list, "Build Railroad", PACK_USERDATA(punit, MENU_ORDER_ROAD));
+		  Map_InsertCommand(&list, _("Build Railroad"), PACK_USERDATA(punit, MENU_ORDER_ROAD));
 		if (can_unit_do_activity(punit, ACTIVITY_FORTRESS))
-		  Map_InsertCommand(&list, "Build Fortress", PACK_USERDATA(punit, MENU_ORDER_FORTRESS));
+		  Map_InsertCommand(&list, _("Build Fortress"), PACK_USERDATA(punit, MENU_ORDER_FORTRESS));
 		if (can_unit_do_activity(punit, ACTIVITY_AIRBASE))
-		  Map_InsertCommand(&list, "Build Airbase", PACK_USERDATA(punit, MENU_ORDER_AIRBASE));
+		  Map_InsertCommand(&list, _("Build Airbase"), PACK_USERDATA(punit, MENU_ORDER_AIRBASE));
 		if (can_unit_do_activity(punit, ACTIVITY_POLLUTION))
-		  Map_InsertCommand(&list, "Clean Pollution", PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
+		  Map_InsertCommand(&list, _("Clean Pollution"), PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
 		if (can_unit_do_activity(punit, ACTIVITY_FALLOUT))
-		  Map_InsertCommand(&list, "Clean Nuclear Fallout", PACK_USERDATA(punit, MENU_ORDER_FALLOUT));
+		  Map_InsertCommand(&list, _("Clean Nuclear Fallout"), PACK_USERDATA(punit, MENU_ORDER_FALLOUT));
 		if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
-		  Map_InsertCommand(&list, "Fortify", PACK_USERDATA(punit, MENU_ORDER_FORTIFY));
+		  Map_InsertCommand(&list, _("Fortify"), PACK_USERDATA(punit, MENU_ORDER_FORTIFY));
 		if (can_unit_do_activity(punit, ACTIVITY_SENTRY))
-		  Map_InsertCommand(&list, "Sentry", PACK_USERDATA(punit, MENU_ORDER_SENTRY));
+		  Map_InsertCommand(&list, _("Sentry"), PACK_USERDATA(punit, MENU_ORDER_SENTRY));
 		if (can_unit_do_activity(punit, ACTIVITY_PILLAGE))
-		  Map_InsertCommand(&list, "Pillage", PACK_USERDATA(punit, MENU_ORDER_PILLAGE));
+		  Map_InsertCommand(&list, _("Pillage"), PACK_USERDATA(punit, MENU_ORDER_PILLAGE));
 		if (can_unit_do_auto(punit) && unit_flag(punit->type, F_SETTLERS))
-		  Map_InsertCommand(&list, "Auto Settler", PACK_USERDATA(punit, MENU_ORDER_AUTO_SETTLER));
+		  Map_InsertCommand(&list, _("Auto Settler"), PACK_USERDATA(punit, MENU_ORDER_AUTO_SETTLER));
 		if (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS))
-		  Map_InsertCommand(&list, "Auto Attack", PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
+		  Map_InsertCommand(&list, _("Auto Attack"), PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
 		if (can_unit_do_activity(punit, ACTIVITY_EXPLORE))
-		  Map_InsertCommand(&list, "Auto Explore", PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
+		  Map_InsertCommand(&list, _("Auto Explore"), PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
 		if (can_unit_paradrop(punit))
-		  Map_InsertCommand(&list, "Paradrop", PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
+		  Map_InsertCommand(&list, _("Paradrop"), PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
 		if (unit_flag(punit->type, F_NUCLEAR))
-		  Map_InsertCommand(&list, "Explode Nuclear", PACK_USERDATA(punit, MENU_ORDER_NUKE));
+		  Map_InsertCommand(&list, _("Explode Nuclear"), PACK_USERDATA(punit, MENU_ORDER_NUKE));
 		if (get_transporter_capacity(punit) > 0)
-		  Map_InsertCommand(&list, "Unload", PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
+		  Map_InsertCommand(&list, _("Unload"), PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
 		if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y))
-		  Map_InsertCommand(&list, "Wake up", PACK_USERDATA(punit, MENU_ORDER_WAKEUP_OTHERS));
+		  Map_InsertCommand(&list, _("Wake up"), PACK_USERDATA(punit, MENU_ORDER_WAKEUP_OTHERS));
 		if (punit != focus)
-		  Map_InsertCommand(&list, "Activate", PACK_USERDATA(punit, UNIT_ACTIVATE));
+		  Map_InsertCommand(&list, _("Activate"), PACK_USERDATA(punit, UNIT_ACTIVATE));
 
 		if (can_unit_do_activity(punit, ACTIVITY_IRRIGATE))
 		{
@@ -2122,24 +2134,24 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
 		      player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 		  {
-		    strcpy(irrtext, "Build Farmland");
+		    strcpy(irrtext, _("Build Farmland"));
 		  }
 		  else
-		    strcpy(irrtext, "Build Irrigation");
+		    strcpy(irrtext, _("Build Irrigation"));
 		  Map_InsertCommand(&list, irrtext, PACK_USERDATA(punit, MENU_ORDER_IRRIGATE));
 		}
 
 		if (can_unit_do_activity(punit, ACTIVITY_MINE))
 		{
 		  static char mintext[64];
-		  strcpy(mintext, "Build Mine");
+		  strcpy(mintext, _("Build Mine"));
 		  Map_InsertCommand(&list, mintext, PACK_USERDATA(punit, MENU_ORDER_MINE));
 		}
 
 		if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM))
 		{
 		  static char transtext[64];
-		  strcpy(transtext, "Transform terrain");
+		  strcpy(transtext, _("Transform terrain"));
 		  Map_InsertCommand(&list, transtext, PACK_USERDATA(punit, MENU_ORDER_TRANSFORM));
 		}
 
@@ -2168,7 +2180,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	      Map_MakeContextBarlabel(menu_title);
 	    }
 
-	    Map_MakeContextItem(menu_title, "List all units", PACK_USERDATA(punit, UNIT_POPUP_UNITLIST));
+	    Map_MakeContextItem(menu_title, _("List all units"), PACK_USERDATA(punit, UNIT_POPUP_UNITLIST));
 	    need_barlabel = TRUE;
 	  }
 
@@ -2183,10 +2195,10 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 
 	      if (can_unit_do_connect(focus, ACTIVITY_IDLE))
 	      {
-		Map_MakeContextItem(menu_title, "Connect to this location", PACK_USERDATA(focus, UNIT_CONNECT_TO));
+		Map_MakeContextItem(menu_title, _("Connect to this location"), PACK_USERDATA(focus, UNIT_CONNECT_TO));
 	      }
 
-	      Map_MakeContextItem(menu_title, "Goto this location", PACK_USERDATA(focus, UNIT_GOTOLOC));
+	      Map_MakeContextItem(menu_title, _("Goto this location"), PACK_USERDATA(focus, UNIT_GOTOLOC));
 
 	      data->click.x = x;
 	      data->click.y = y;

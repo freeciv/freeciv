@@ -18,6 +18,7 @@
 #include <clib/alib_protos.h>
 #include <proto/muimaster.h>
 
+#include "fcintl.h"
 #include "shared.h"
 #include "inputdlg.h"
 
@@ -79,8 +80,8 @@ void *ok_callback, APTR ok_data, void *cancel_callback, APTR cancel_data)
 	      Child, name_string = MakeString(text, MAX_LEN_NAME - 1),
 	      End,
 	  Child, HGroup,
-	      Child, ok_button = MakeButton("_Ok"),
-	      Child, cancel_button = MakeButton("_Cancel"),
+	      Child, ok_button = MakeButton(_("_Ok")),
+	      Child, cancel_button = MakeButton(_("_Cancel")),
 	      End,
 	  End,
       End;

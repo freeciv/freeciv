@@ -26,6 +26,7 @@
 #include "player.h"
 #include "rand.h"
 #include "support.h"
+#include "version.h"
 
 #include "report.h"
 

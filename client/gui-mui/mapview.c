@@ -10,6 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <string.h>
 #include <stdlib.h>
@@ -23,6 +26,7 @@
 #include <proto/muimaster.h>
 #include <proto/intuition.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
@@ -218,7 +222,7 @@ void update_timeout_label(void)
 {
   char buffer[64];
   if (game.timeout <= 0)
-    sz_strlcpy(buffer, "off");
+    sz_strlcpy(buffer, _("off"));
   else
     format_duration(buffer, sizeof(buffer), seconds_to_turndone);
 
@@ -232,10 +236,10 @@ void update_info_label(void)
 {
   int d;
 
-  settextf(main_people_text, "Population: %s", int_to_text(civ_population(game.player_ptr)));
-  settextf(main_year_text, "Year: %s", textyear(game.year));
-  settextf(main_gold_text, "Gold: %d", game.player_ptr->economic.gold);
-  settextf(main_tax_text, "Tax:%d Lux:%d Sci:%d",
+  settextf(main_people_text, _("Population: %s"), int_to_text(civ_population(game.player_ptr)));
+  settextf(main_year_text, _("Year: %s"), textyear(game.year));
+  settextf(main_gold_text, _("Gold: %d"), game.player_ptr->economic.gold);
+  settextf(main_tax_text, _("Tax:%d Lux:%d Sci:%d"),
 	   game.player_ptr->economic.tax,
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
@@ -276,8 +280,8 @@ void update_unit_info_label(struct unit *punit)
     struct city *pcity;
     pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
-    settextf(main_unitname_text, "%s%s", get_unit_type(punit->type)->name, (punit->veteran) ? " (veteran)" : "");
-    settext(main_moves_text, (goto_state == punit->id) ? "Select destination" : unit_activity_text(punit));
+    settextf(main_unitname_text, "%s%s", get_unit_type(punit->type)->name, (punit->veteran) ? _(" (veteran)") : "");
+    settext(main_moves_text, (goto_state == punit->id) ? _("Select destination") : unit_activity_text(punit));
     settext(main_terrain_text, map_get_tile_info_text(punit->x, punit->y));
     settext(main_hometown_text, pcity ? pcity->name : "");
   }

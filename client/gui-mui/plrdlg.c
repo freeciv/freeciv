@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -23,6 +27,7 @@
 #include <proto/muimaster.h>
 #include <proto/graphics.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -117,7 +122,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     const struct player_diplstate *pds;
 
     if (game.players[i].nturns_idle > 3)
-      sprintf(idlebuf, "(idle %d turns)", game.players[i].nturns_idle - 1);
+      sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle - 1);
     else
       idlebuf[0] = '\0';
 
@@ -126,15 +131,15 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
       if (game.players[i].is_connected)
       {
 	if (game.players[i].turn_done)
-	  strcpy(statebuf, "done");
+	  strcpy(statebuf, _("done"));
 	else
-	  strcpy(statebuf, "moving");
+	  strcpy(statebuf, _("moving"));
       }
       else
 	statebuf[0] = '\0';
     }
     else
-      strcpy(statebuf, "R.I.P");
+      strcpy(statebuf, _("R.I.P"));
 
     if (game.players[i].ai.control)
       sprintf(namebuf, "*%-15s", game.players[i].name);
@@ -172,14 +177,14 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
   }
   else
   {
-    *array++ = "Name";
-    *array++ = "Nation";
-    *array++ = "Embassy";
-    *array++ = "Dipl.State";
-    *array++ = "Reputation";
-    *array++ = "State";
-    *array++ = "Host";
-    *array = "Idle";
+    *array++ = _("Name");
+    *array++ = _("Nation");
+    *array++ = _("Embassy");
+    *array++ = _("Dipl.State");
+    *array++ = _("Reputation");
+    *array++ = _("State");
+    *array++ = _("Host");
+    *array = _("Idle");
   }
 }
 
@@ -267,7 +272,7 @@ static void players_meet(void)
   }
   else
   {
-    append_output_window("Game: You need an embassy to establish a diplomatic meeting.");
+    append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
   }
 }
 
@@ -315,7 +320,7 @@ void create_players_dialog(void)
   player_players_disphook.h_Entry = (HOOKFUNC) players_render;
 
   player_wnd = WindowObject,
-    MUIA_Window_Title, "Players",
+    MUIA_Window_Title, _("Players"),
     WindowContents, VGroup,
 	Child, player_players_listview = NListviewObject,
 	MUIA_NListview_NList, NListObject,
@@ -325,11 +330,11 @@ void create_players_dialog(void)
 	    End,
 	End,
 	Child, HGroup,
-	    Child, player_close_button = MakeButton("_Close"),
-	    Child, player_intelligence_button = MakeButton("_Intelligence"),
-	    Child, player_meet_button = MakeButton("_Meet"),
-	    Child, player_war_button = MakeButton("_Cancel Treaty"),
-	    Child, player_spaceship_button = MakeButton("_Spaceship"),
+	    Child, player_close_button = MakeButton(_("_Close")),
+	    Child, player_intelligence_button = MakeButton(_("_Intelligence")),
+	    Child, player_meet_button = MakeButton(_("_Meet")),
+	    Child, player_war_button = MakeButton(_("_Cancel Treaty")),
+	    Child, player_spaceship_button = MakeButton(_("_Spaceship")),
 	    End,
 	End,
     End;

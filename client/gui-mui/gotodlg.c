@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +28,7 @@
 #include <proto/graphics.h>
 #include <proto/utility.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "packets.h"
@@ -158,7 +163,7 @@ void popup_goto_dialog(void)
     goto_cities_disphook.h_Entry = (HOOKFUNC) goto_cities_display;
 
     goto_wnd = WindowObject,
-        MUIA_Window_Title, "Goto/Airlift Unit",
+        MUIA_Window_Title, _("Goto/Airlift Unit"),
         MUIA_Window_ID, MAKE_ID('G','O','T','O'),
         WindowContents, VGroup,
             Child, goto_cities_listview = NListviewObject,
@@ -168,9 +173,9 @@ void popup_goto_dialog(void)
                     End,
                 End,
             Child, HGroup,
-                Child, goto_ok_button = MakeButton("_Ok"),
-                Child, goto_airlift_button = MakeButton("_Airlift"),
-                Child, goto_cancel_button = MakeButton("_Cancel"),
+                Child, goto_ok_button = MakeButton(_("_Ok")),
+                Child, goto_airlift_button = MakeButton(_("_Airlift")),
+                Child, goto_cancel_button = MakeButton(_("_Cancel")),
                 End,
             End,
         End;

@@ -211,22 +211,22 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 		Child, HVSpace,
 		Child, HGroup,
 		    TextFrame,
-		    Child, MakeLabel("Population:\n"
+		    Child, MakeLabel(_("Population:\n"
 				     "Support:\n"
 				     "Energy:\n"
 				     "Mass:\n"
 				     "Travel time:\n"
 				     "Success prob.:\n"
-				     "Year of arrival:"),
+				     "Year of arrival:")),
 		    Child, pdialog->info_text = TextObject,
 			End,
 		    End,
-		Child, pdialog->launch_button = MakeButton("_Launch"),
+		Child, pdialog->launch_button = MakeButton(_("_Launch")),
 		Child, HVSpace,
 		End,
 	    End,
 	Child, HGroup,
-	    Child, close_button = MakeButton("_Close"),
+	    Child, close_button = MakeButton(_("_Close")),
 	    End,
 	End,
     End;
@@ -261,13 +261,13 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 				    + (int) pship->travel_time)));
   }
   sprintf(buf,
-	  "%5d\n"
+	  _("%5d\n"
 	  "%5d %%\n"
 	  "%5d %%\n"
 	  "%5d tons\n"
 	  "%5.1f years\n"
 	  "%5d %%\n"
-	  "%8s",
+	  "%8s"),
 	  pship->population,
 	  (int) (pship->support_rate * 100.0),
 	  (int) (pship->energy_rate * 100.0),

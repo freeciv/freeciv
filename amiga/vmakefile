@@ -68,12 +68,14 @@ OBJDIR  = ${OBJDIR1}/
 COMMONOBJS = ${OBJDIR}common/astring.o ${OBJDIR}common/capability.o ${OBJDIR}common/capstr.o \
  ${OBJDIR}common/city.o ${OBJDIR}common/connection.o ${OBJDIR}common/diptreaty.o ${OBJDIR}common/fcintl.o \
  ${OBJDIR}common/game.o ${OBJDIR}common/genlist.o ${OBJDIR}common/government.o ${OBJDIR}common/hash.o \
- ${OBJDIR}common/idex.o ${OBJDIR}common/inputfile.o ${OBJDIR}common/ioz.o ${OBJDIR}common/log.o \
+ ${OBJDIR}common/idex.o ${OBJDIR}common/improvement.o ${OBJDIR}common/inputfile.o ${OBJDIR}common/ioz.o \
+ ${OBJDIR}common/log.o \
  ${OBJDIR}common/map.o ${OBJDIR}common/nation.o ${OBJDIR}common/packets.o ${OBJDIR}common/packets_lsend.o \
  ${OBJDIR}common/player.o ${OBJDIR}common/mem.o \
  ${OBJDIR}common/netintf.o ${OBJDIR}common/rand.o ${OBJDIR}common/registry.o ${OBJDIR}common/sbuffer.o \
  ${OBJDIR}common/shared.o ${OBJDIR}common/spaceship.o ${OBJDIR}common/support.o ${OBJDIR}common/tech.o \
- ${OBJDIR}common/timing.o ${OBJDIR}common/unit.o ${OBJDIR}common/version.o ${OBJDIR}common/worklist.o
+ ${OBJDIR}common/timing.o ${OBJDIR}common/unit.o ${OBJDIR}common/unittype.o ${OBJDIR}common/version.o \
+ ${OBJDIR}common/worklist.o
 COMMONDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}common
 
 AIOBJS = ${OBJDIR}ai/advattitude.o ${OBJDIR}ai/advdomestic.o ${OBJDIR}ai/advforeign.o \
@@ -87,8 +89,8 @@ SERVEROBJS = ${OBJDIR}server/autoattack.o ${OBJDIR}server/barbarian.o ${OBJDIR}s
  ${OBJDIR}server/console.o ${OBJDIR}server/diplhand.o ${OBJDIR}server/gamehand.o \
  ${OBJDIR}server/gamelog.o ${OBJDIR}server/gotohand.o ${OBJDIR}server/handchat.o \
  ${OBJDIR}server/mapgen.o ${OBJDIR}server/maphand.o ${OBJDIR}server/meta.o ${OBJDIR}server/plrhand.o \
- ${OBJDIR}server/ruleset.o ${OBJDIR}server/rulesout.o ${OBJDIR}server/sernet.o \
- ${OBJDIR}server/settlers.o ${OBJDIR}server/spacerace.o ${OBJDIR}server/stdinhand.o \
+ ${OBJDIR}server/report.o ${OBJDIR}server/ruleset.o ${OBJDIR}server/rulesout.o ${OBJDIR}server/sernet.o \
+ ${OBJDIR}server/settlers.o ${OBJDIR}server/spacerace.o ${OBJDIR}server/srv_main.o ${OBJDIR}server/stdinhand.o \
  ${OBJDIR}server/unitfunc.o ${OBJDIR}server/unithand.o ${OBJDIR}server/unittools.o
 SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DIR}common ${INC}${FREECIV_DIR}ai
 
@@ -275,6 +277,9 @@ ${OBJDIR}common/hash.o: ${FREECIV_DIR}common/hash.c
 ${OBJDIR}common/idex.o: ${FREECIV_DIR}common/idex.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/idex.c ${COMMONDIRS} ${TO}$@
 
+${OBJDIR}common/improvement.o: ${FREECIV_DIR}common/improvement.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}common/improvement.c ${COMMONDIRS} ${TO}$@
+
 ${OBJDIR}common/inputfile.o: ${FREECIV_DIR}common/inputfile.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/inputfile.c ${COMMONDIRS} ${TO}$@
 
@@ -332,6 +337,9 @@ ${OBJDIR}common/timing.o: ${FREECIV_DIR}common/timing.c
 ${OBJDIR}common/unit.o: ${FREECIV_DIR}common/unit.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/unit.c ${COMMONDIRS} ${TO}$@
 
+${OBJDIR}common/unittype.o: ${FREECIV_DIR}common/unittype.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}common/unittype.c ${COMMONDIRS} ${TO}$@
+
 ${OBJDIR}common/version.o: ${FREECIV_DIR}common/version.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/version.c ${COMMONDIRS} ${TO}$@
 
@@ -388,6 +396,9 @@ ${OBJDIR}server/meta.o: ${FREECIV_DIR}server/meta.c
 ${OBJDIR}server/plrhand.o: ${FREECIV_DIR}server/plrhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/plrhand.c ${SERVERDIRS} ${TO}$@
 
+${OBJDIR}server/report.o: ${FREECIV_DIR}server/report.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}server/report.c ${SERVERDIRS} ${TO}$@
+
 ${OBJDIR}server/ruleset.o: ${FREECIV_DIR}server/ruleset.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/ruleset.c ${SERVERDIRS} ${TO}$@
 
@@ -402,6 +413,9 @@ ${OBJDIR}server/settlers.o: ${FREECIV_DIR}server/settlers.c
 
 ${OBJDIR}server/spacerace.o: ${FREECIV_DIR}server/spacerace.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/spacerace.c ${SERVERDIRS} ${TO}$@
+
+${OBJDIR}server/srv_main.o: ${FREECIV_DIR}server/srv_main.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}server/srv_main.c ${SERVERDIRS} ${TO}$@
 
 ${OBJDIR}server/stdinhand.o: ${FREECIV_DIR}server/stdinhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/stdinhand.c ${SERVERDIRS} ${TO}$@

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,6 +29,7 @@
 #include <proto/muimaster.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "shared.h"
@@ -192,7 +197,7 @@ static void cityrep_buy(void)
     else
     {
       my_snprintf(buf, sizeof(buf),
-        "Game: %s costs %d gold and you only have %d gold.",
+        _("Game: %s costs %d gold and you only have %d gold."),
         name,value,game.player_ptr->economic.gold);
       append_output_window(buf);
     }
@@ -298,10 +303,10 @@ static void cityrep_configure(void)
 
     config_wnd = WindowObject,
       MUIA_Window_ID, MAKE_ID('O','P','T','C'),
-      MUIA_Window_Title, "Configure City Report",
+      MUIA_Window_Title, _("Configure City Report"),
       WindowContents, VGroup,
         Child, TextObject,
-          MUIA_Text_Contents,"Set columns shown",
+          MUIA_Text_Contents,_("Set columns shown"),
           MUIA_Text_PreParse, "\33c",
           End,
         Child, HGroup,
@@ -310,8 +315,8 @@ static void cityrep_configure(void)
           Child, HSpace(0),
           End,
         Child, HGroup,
-          Child, ok_button = MakeButton("_Ok"),
-          Child, cancel_button = MakeButton("_Cancel"),
+          Child, ok_button = MakeButton(_("_Ok")),
+          Child, cancel_button = MakeButton(_("_Cancel")),
           End,
         End,
       End;
@@ -379,7 +384,7 @@ static void create_city_report_dialog(void)
   cityreq_comparehook.h_Entry = (HOOKFUNC) cityrep_compare;
 
   cityrep_wnd = WindowObject,
-    MUIA_Window_Title, "City Report",
+    MUIA_Window_Title, _("City Report"),
     MUIA_Window_ID, MAKE_ID('C','T','Y','R'),
     WindowContents, VGroup,
 	Child, cityrep_title_text = TextObject,
@@ -394,20 +399,20 @@ static void create_city_report_dialog(void)
 		End,
 	    End,
 	Child, HGroup,
-	    Child, cityrep_close_button = MakeButton("_Close"),
-	    Child, cityrep_center_button = MakeButton("Cen_ter"),
-	    Child, cityrep_popup_button = MakeButton("_Popup"),
-	    Child, cityrep_buy_button = MakeButton("_Buy"),
-	    Child, cityrep_change_button = MakeButton("Chan_ge"),
-	    Child, cityrep_refresh_button = MakeButton("_Refresh"),
-	    Child, cityrep_configure_button = MakeButton("Con_figure"),
+	    Child, cityrep_close_button = MakeButton(_("_Close")),
+	    Child, cityrep_center_button = MakeButton(_("Cen_ter")),
+	    Child, cityrep_popup_button = MakeButton(_("_Popup")),
+	    Child, cityrep_buy_button = MakeButton(_("_Buy")),
+	    Child, cityrep_change_button = MakeButton(_("Chan_ge")),
+	    Child, cityrep_refresh_button = MakeButton(_("_Refresh")),
+	    Child, cityrep_configure_button = MakeButton(_("Con_figure")),
 	    End,
 	End,
     End;
 
   if (cityrep_wnd)
   {
-    char *report_title = get_report_title("City Report");
+    char *report_title = get_report_title(_("City Report"));
     if (report_title)
     {
       set(cityrep_title_text, MUIA_Text_Contents, report_title);
@@ -446,7 +451,7 @@ void city_report_dialog_update(void)
   if (delay_report_update)
     return;
 
-  report_title = get_report_title("City Advisor");
+  report_title = get_report_title(_("City Advisor"));
   set(cityrep_title_text, MUIA_Text_Contents, report_title);
   free(report_title);
 

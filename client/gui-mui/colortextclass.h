@@ -1,6 +1,3 @@
-#ifndef FC__COLORTEXTCLASS_H
-#define FC__COLORTEXTCLASS_H
-
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
@@ -13,6 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifndef FC__COLORTEXTCLASS_H
+#define FC__COLORTEXTCLASS_H
 
 #define ColorTextObject NewObject(CL_ColorText->mcc_Class, NULL
 

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +25,7 @@
 #include <proto/muimaster.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -77,7 +82,7 @@ static void newcity_city_hook(struct input_dialog_data *data)
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(app,
-    "What should we call our new city?", "City_name", suggestname,
+    _("What should we call our new city?"), _("City_name"), suggestname,
     (void*)newcity_city_hook, punit,
     (void*)newcity_city_hook, 0);
 }
