@@ -106,6 +106,15 @@ void user_interrupt_callback();
 static int server_accept_connection(int sockfd);
 
 
+/*****************************************************************************
+  This happens if you type an EOF character with nothing on the current line.
+*****************************************************************************/
+static void handle_stdin_close(void)
+{
+  printf("quit");
+  quit_game(NULL);
+}
+
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
 
@@ -121,10 +130,8 @@ static int readline_handled_input = 0;
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
-  if (!line) { /* This happens if you type an EOF character with
-		  nothing on the current line. */
-    printf("quit");
-    quit_game(NULL); /* Maybe print an 'are you sure?' message? */
+  if (!line) {
+    handle_stdin_close();	/* maybe print an 'are you sure?' message? */
   }
 
   if (*line)
@@ -471,6 +478,11 @@ int sniff_packets(void)
 	freelog(LOG_FATAL, "read from stdin failed");
 	exit(1);
       }
+
+      if(didget==0) {
+        handle_stdin_close();
+      }
+
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input((struct connection *)NULL, buf);
