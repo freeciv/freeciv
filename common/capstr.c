@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9 +river_help_text"
+#define CAPABILITY "+1.9 river_help_text"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
