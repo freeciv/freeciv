@@ -610,13 +610,14 @@ void popit(int xin, int yin, int xtile, int ytile)
 
       if(punit->owner==game.player_idx)  {
         sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s", ptype->attack_strength, 
-	  ptype->defense_strength, ptype->firepower, punit->hp, 
-	  ptype->hp, punit->veteran?" V":"");
+	        ptype->defense_strength, ptype->firepower, punit->hp, 
+	        ptype->hp, punit->veteran?" V":"");
 
-      if(punit->activity==ACTIVITY_GOTO)
-        put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
-        XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
-		      (XtPointer)punit);
+        if(punit->activity==ACTIVITY_GOTO)  {
+          put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
+          XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
+	  	        (XtPointer)punit);
+        }
       } else {
         sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
 	  ptype->defense_strength, ptype->firepower, 
