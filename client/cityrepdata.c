@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -533,6 +534,8 @@ void init_city_report_data(void)
     }
     p->explanation = _(p->explanation);
   }
+
+  assert(NUM_CREPORT_COLS == ARRAY_SIZE(city_report_specs));
 }
 
 /**********************************************************************
