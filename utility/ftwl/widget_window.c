@@ -623,11 +623,9 @@ void sw_paint_all(void)
   int region_nr;
 #endif
 
-  handle_destroyed_widgets();
-
   call++;
-  if(DEBUG_PAINT_ALL)
-  printf("%%%%%%%% starting sw_paint_all %d\n",call);
+
+  handle_destroyed_widgets();
 
   region_list_init(&normalized_regions);
 
@@ -642,7 +640,9 @@ void sw_paint_all(void)
     return;
   }
 
-  if(DEBUG_PAINT_ALL)  printf("%%%%%%%% updated windows; %d regions have to be flushed\n",regions);
+  if (DEBUG_PAINT_ALL) {
+    printf("updated windows; %d regions have to be flushed\n", regions);
+  }
 
   if (DUMP_WINDOWS) {
     widget_list_iterate(windows_back_to_front, widget) {
@@ -655,13 +655,17 @@ void sw_paint_all(void)
     } widget_list_iterate_end;
   }
 
-  start_timer(timer2);
+  if (DEBUG_PAINT_ALL) {
+    start_timer(timer2);
+  }
   widget_list_iterate(windows_back_to_front, widget) {
+#if 0
     if (DEBUG_PAINT_ALL) {
       region_list_iterate(widget->data.window.to_flush, region) {
 	printf("  region=%s\n", ct_rect_to_string(region));
       } region_list_iterate_end;
     }
+#endif
 
     region_list_iterate(widget->data.window.to_flush, region) {
       region->x += widget->outer_bounds.x;
@@ -670,20 +674,25 @@ void sw_paint_all(void)
       region_list_insert(&normalized_regions, region);
     } region_list_iterate_end;
   } widget_list_iterate_end;
-  stop_timer(timer2);
+  if (DEBUG_PAINT_ALL) {
+    stop_timer(timer2);
+  }
 
+#if 0
   if (DEBUG_PAINT_ALL) {
     printf("  normalized_regions\n");
     region_list_iterate(normalized_regions, region) {
       printf("    region=%s\n", ct_rect_to_string(region));
     } region_list_iterate_end;
   }
+#endif
 
   merge_regions(&normalized_regions);
 
-  if(DEBUG_PAINT_ALL)
-  printf("%%%%%%%% starting flushing of %d regions\n",
-	 region_list_size(&normalized_regions));
+  if(DEBUG_PAINT_ALL) {
+    printf("starting flushing of %d regions\n",
+           region_list_size(&normalized_regions));
+  }
 
 #if DUMP_UPDATES
   sprintf(filename,"whole-c%03d-r000-before.ppm",call);
@@ -691,7 +700,9 @@ void sw_paint_all(void)
   region_nr = 1;
 #endif
 
-  start_timer(timer3);
+  if (DEBUG_PAINT_ALL) {
+    start_timer(timer3);
+  }
   region_list_iterate(normalized_regions, region) {
     int window_nr = 0;
 
@@ -721,9 +732,10 @@ void sw_paint_all(void)
 		region_nr, window_nr);
 	be_write_osda_to_file(whole_osda,filename);
 #endif
-      }else {
-	if(DEBUG_UPDATES)
+      } else {
+	if (DEBUG_UPDATES) {
 	  printf("    disjunkt\n");
+        }
       }
       window_nr++;
     } widget_list_iterate_end;
@@ -739,14 +751,19 @@ void sw_paint_all(void)
   be_write_osda_to_file(whole_osda,filename);
 #endif
 
-  start_timer(timer4);
+  if (DEBUG_PAINT_ALL) {
+    start_timer(timer4);
+  }
   flush_all_to_screen();
-  stop_timer(timer4);
+  if (DEBUG_PAINT_ALL) {
+    stop_timer(timer4);
+  }
 
-  if(0)
-  printf("PAINT-ALL: update=%fs normalize=%fs flushs=%fs flush-all=%fs\n",
-	 read_timer_seconds(timer1), read_timer_seconds(timer2),
-	 read_timer_seconds(timer3), read_timer_seconds(timer4));
+  if (DEBUG_PAINT_ALL) {
+    printf("PAINT-ALL: update=%fs normalize=%fs flushs=%fs flush-all=%fs\n",
+           read_timer_seconds(timer1), read_timer_seconds(timer2),
+	   read_timer_seconds(timer3), read_timer_seconds(timer4));
+  }
 }
 
 /*************************************************************************
@@ -930,13 +947,11 @@ bool deliver_key(const struct be_key *key)
       continue;
     }
     if (pwidget->key && pwidget->key(pwidget, key,pwidget->key_data)) {
-      // printf("deliver key %s to window %p\n", ct_key_format(key), pwidget);
       return TRUE;
     }
 
     widget_list_iterate(pwidget->data.window.children, pwidget2) {
       if (pwidget2->key && pwidget2->key(pwidget2, key, pwidget2->key_data)) {
-        // printf("deliver key %s to widget %p\n", ct_key_format(key), pwidget2);
 	return TRUE;
       }
     } widget_list_iterate_end;

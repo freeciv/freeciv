@@ -243,9 +243,9 @@ static void overview_mouse_press_callback(struct sw_widget *widget,
 {
   int xtile, ytile;
 
-  freelog(LOG_NORMAL, "press (%d,%d)", pos->x, pos->y);
+  freelog(LOG_DEBUG, "press (%d,%d)", pos->x, pos->y);
   overview_to_map_pos(&xtile,&ytile,pos->x,pos->y);
-  freelog(LOG_NORMAL, " --> (%d,%d)", xtile, ytile);
+  freelog(LOG_DEBUG, " --> (%d,%d)", xtile, ytile);
   if (can_client_change_view() && button == 3) {
     center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   }
@@ -516,7 +516,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   struct ct_size size = { pixel_width, pixel_height };
   struct ct_point pos = { canvas_x, canvas_y };
 
-  freelog(LOG_DEBUG,"flush_mapcanvas=%s",ct_rect_to_string(&rect));
+  freelog(LOG_DEBUG, "flush_mapcanvas=%s", ct_rect_to_string(&rect));
   be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_canvas_window),
 		       mapview_canvas.store->osda, &size, &pos, &pos);
   sw_window_canvas_background_region_needs_repaint(mapview_canvas_window,
@@ -750,7 +750,6 @@ static void update_focus_tile_list(void)
   } unit_list_iterate_end;
 
   for (i = 0; i < tile_list.items; i++) {
-    printf("destroy button %d\n", i);
     sw_widget_destroy(tile_list.item[i].button);
     be_free_osda(tile_list.item[i].selected);
     be_free_osda(tile_list.item[i].unselected);
@@ -1066,7 +1065,6 @@ static void action_callback(const char *action)
     }
 
     total = (int) (factor * (float) base);
-    //printf("base=%d factor=%f total=%d\n",base,factor,total);
     {
       int x, y;
       get_mapview_scroll_pos(&x, &y);

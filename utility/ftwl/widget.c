@@ -336,9 +336,6 @@ void sw_mainloop(void (*input_callback)(int socket))
 
     get_select_timeout(&timeout);    
     be_next_event(&event, &timeout);
-    if (event.type == BE_KEY_PRESSED) {
-      printf("received key %d:%d\n", event.key.key, event.key.type);
-    }
 
     switch (event.type) {
     case BE_DATA_OTHER_FD:
