@@ -36,6 +36,16 @@
  * the client and server, which are valid if the client has been accepted
  * by the server.  Client and server software can test these strings for
  * a capability by calling the has_capability fn in capability.c.
+ *
+ * Known bug:  There is only one c_capability in the server, whereas there
+ * should actually be one per connection.  This is being worked on.
+ *
+ * A note to whoever increments the capability string for a new release:
+ * It is your responsibility to search the Freeciv code, and look for places
+ * where people are using has_capability.  If you're taking a capability out
+ * of the string, because now every client and server supports it, then
+ * you should take out the if(has_capability( code so that this code is
+ * always executed.
  */
 
 /* The default string is really simple */
