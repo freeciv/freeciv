@@ -71,7 +71,6 @@ enum MenuID {
   IDM_GAME_SERVER_OPTIONS2,
   IDM_GAME_SAVE_GAME,
   IDM_GAME_SAVE_QUICK,
-  IDM_GAME_END_GAME,
   IDM_GAME_EXPORT_LOG, 
   IDM_GAME_CLEAR_OUTPUT,
   IDM_GAME_DISCONNECT,
@@ -308,7 +307,6 @@ static struct my_menu main_menu[] = {
   {N_("_Save Game"),				IDM_GAME_SAVE_QUICK},
   {N_("Save Game _As..."),			IDM_GAME_SAVE_GAME},
   {"", IDM_SEPARATOR},
-  {N_("_End Game"),				IDM_GAME_END_GAME},
   {N_("E_xport Log"),				IDM_GAME_EXPORT_LOG},
   {N_("Clear _Log"),				IDM_GAME_CLEAR_OUTPUT},
   {"", IDM_SEPARATOR},
@@ -592,13 +590,6 @@ void handle_menu(int code)
       break;
     case IDM_GAME_DISCONNECT:
       disconnect_from_server();
-      if (is_server_running()) {
-	disconnected_from_local_server();
-      }
-      break;
-    case IDM_GAME_END_GAME:
-      disconnect_from_server();
-      client_kill_server();
       break;
     case IDM_GAME_QUIT:
       exit(EXIT_SUCCESS);
@@ -961,9 +952,6 @@ update_menus(void)
   my_enable_menu(menu, IDM_GAME_SAVE_QUICK,
 		 can_client_access_hack()
 		 && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  my_enable_menu(menu, IDM_GAME_END_GAME,
-		 can_client_access_hack()
-		 && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS2,
 		 aconnection.established);
   my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS1,
@@ -1066,6 +1054,12 @@ update_menus(void)
       sz_strlcpy(mintext, N_("Build Mine") "\tM");
       sz_strlcpy(transtext, N_("Transform Terrain") "\tO");
       
+      /* Since the entire menu is disabled by default, enable the
+	 items with no checks. */
+      my_enable_menu(menu, IDM_ORDERS_PATROL, TRUE);
+      my_enable_menu(menu, IDM_ORDERS_GOTO, TRUE);
+      my_enable_menu(menu, IDM_ORDERS_GOTO_CITY, TRUE);
+
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
       my_enable_menu(menu, IDM_ORDERS_BUILD_CITY,
