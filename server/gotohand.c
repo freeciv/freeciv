@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "capability.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -984,10 +985,13 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
   if (punit->x == dest_x && punit->y == dest_y)
     punit->activity=ACTIVITY_IDLE;
   else if (punit->moves_left) {
-    struct packet_generic_integer packet;
-    packet.value = punit->id;
-    send_packet_generic_integer(pplayer->conn, PACKET_ADVANCE_FOCUS,
-				&packet);
+    struct connection *pc = pplayer->conn;
+    if (pc && has_capability("ocean_reclamation", pc->capability)) {
+      struct packet_generic_integer packet;
+      packet.value = punit->id;
+      send_packet_generic_integer(pc, PACKET_ADVANCE_FOCUS,
+				  &packet);
+    }
   }
 
   punit->connecting=0;

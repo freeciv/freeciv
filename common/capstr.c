@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
-ocean_reclamation +dipl_cli_pop_dlg"
+ocean_reclamation +dipl_cli_pop_dlg advance_focus_package"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -87,6 +87,9 @@ ocean_reclamation +dipl_cli_pop_dlg"
 
    "dipl_cli_pop_dlg" is protocol extension for notification to client
    of need to popup diplomat dialog.
+
+   "advance_focus_packet" is a protocol extension that the server uses to
+   tell the client that the server does not intent to move a unit further.
 */
 
 void init_our_capability(void)
