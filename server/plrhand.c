@@ -1024,13 +1024,6 @@ repeat_break_treaty:
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
     resolve_unit_stacks(pplayer, pplayer2, TRUE);
-
-    /* Inform clients about units that have been hidden.  Units in cities
-     * and transporters are visible to allies but not visible once the
-     * alliance is broken.  We have to call this after resolve_unit_stacks
-     * because that function may change units' locations. */
-    remove_allied_visibility(pplayer, pplayer2);
-    remove_allied_visibility(pplayer2, pplayer);
   }
 
   /* We want to go all the way to war, whatever the cost! 
@@ -1073,6 +1066,19 @@ repeat_break_treaty:
 
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
+
+
+  if (old_type == DS_ALLIANCE) {
+    /* Inform clients about units that have been hidden.  Units in cities
+     * and transporters are visible to allies but not visible once the
+     * alliance is broken.  We have to call this after resolve_unit_stacks
+     * because that function may change units' locations.  It also sends
+     * out new city info packets to tell the client about occupied cities,
+     * so it should also come after the send_player_info calls above. */
+    remove_allied_visibility(pplayer, pplayer2);
+    remove_allied_visibility(pplayer2, pplayer);
+  }
+
 
   /* 
    * Refresh all cities which have a unit of the other side within

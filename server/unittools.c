@@ -1455,6 +1455,13 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
       unit_goes_out_of_sight(pplayer, punit);
     }
   } unit_list_iterate_end;
+
+  city_list_iterate(aplayer->cities, pcity) {
+    /* The player used to know what units were in these cities.  Now that he
+     * doesn't, he needs to get a new short city packet updating the
+     * occupied status. */
+    send_city_info(pplayer, pcity);
+  } city_list_iterate_end;
 }
 
 /**************************************************************************
