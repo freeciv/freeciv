@@ -710,9 +710,6 @@ void handle_new_year(struct packet_new_year *ppacket)
 
   update_city_descriptions();
 
-  if(game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();
-
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
     create_event(-1, -1, E_TURN_BELL, _("Start of turn %d"), game.turn);
@@ -749,6 +746,10 @@ void handle_before_new_year(void)
 void handle_start_turn(void)
 {
   agents_start_turn();
+
+  if(game.player_ptr->ai.control && !ai_manual_turn_done) {
+    user_ended_turn();
+  }
 }
 
 /**************************************************************************
