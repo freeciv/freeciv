@@ -690,6 +690,12 @@ static void xaw_msg_close_players(Widget w, XEvent *event, String *argv, Cardina
   plrdlg_msg_close(w);
 }
 
+static void xaw_msg_close_intel(Widget w, XEvent *event, String *argv,
+				      Cardinal *argc)
+{
+  intel_dialog_msg_close(w);
+}
+
 static void xaw_msg_close_intel_diplo(Widget w, XEvent *event, String *argv,
 				      Cardinal *argc)
 {
@@ -809,6 +815,7 @@ static XtActionsRec Actions[] = {
   { "msg-close-help", xaw_msg_close_help },
   { "msg-close-messages", xaw_msg_close_messages },
   { "msg-close-players", xaw_msg_close_players },
+  { "msg-close-intel", xaw_msg_close_intel },
   { "msg-close-intel-diplo", xaw_msg_close_intel_diplo },
   { "msg-close-science-report", xaw_msg_close_science_report },
   { "msg-close-spaceship", xaw_msg_close_spaceship },

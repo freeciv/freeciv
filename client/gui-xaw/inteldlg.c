@@ -43,23 +43,40 @@
 #include "inteldlg.h"
 
 /******************************************************************/
-static Widget intel_dialog_shell;
-static Widget intel_form;
-static Widget intel_label;
-static Widget intel_close_command;
-static Widget intel_diplo_command;
-static bool intel_dialog_shell_is_raised;
+struct intel_dialog {
+  struct player *pplayer;
 
-static Widget intel_diplo_dialog_shell;
-static Widget intel_diplo_form;
-static Widget intel_diplo_label;
-static Widget intel_diplo_list;
-static Widget intel_diplo_close_command;
-static bool intel_diplo_dialog_shell_is_raised;
+  Widget intel_dialog_shell;
+  Widget intel_form;
+  Widget intel_label;
+  Widget intel_close_command;
+  Widget intel_diplo_command;
+  bool intel_dialog_shell_is_raised;
+
+  Widget intel_diplo_dialog_shell;
+  Widget intel_diplo_form;
+  Widget intel_diplo_label;
+  Widget intel_diplo_list;
+  Widget intel_diplo_close_command;
+  bool intel_diplo_dialog_shell_is_raised;
+};
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct intel_dialog
+#include "speclist.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct intel_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_has_been_initialised = FALSE;
+
 /******************************************************************/
 
-void popdown_intel_dialog(void);
-void create_intel_dialog(struct player *pplayer);
+struct intel_dialog *get_intel_dialog(struct player *pplayer);
+void popdown_intel_dialog(struct intel_dialog *pdialog);
+void create_intel_dialog(struct intel_dialog *pdialog, bool raise);
 
 void intel_close_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data);
@@ -67,24 +84,54 @@ void intel_diplo_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data);
 
 void popup_intel_diplo_dialog(struct player *pplayer, bool raise);
-void popdown_intel_diplo_dialog(void);
-void create_intel_diplo_dialog(struct player *pplayer, bool raise);
-void update_intel_diplo_dialog(struct player *pplayer);
+void popdown_intel_diplo_dialog(struct intel_dialog *pdialog);
+void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise);
+void update_intel_diplo_dialog(struct intel_dialog *pdialog);
 void intel_diplo_close_callback(Widget w, XtPointer client_data,
 				XtPointer call_data);
 
 /****************************************************************
+  Get an intelligence dialog for the given player.
+*****************************************************************/
+struct intel_dialog *get_intel_dialog(struct player *pplayer)
+{
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
+  }
+
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->pplayer == pplayer) {
+      return pdialog;
+    }
+  } dialog_list_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************
   Popup an intelligence dialog for the given player.
 *****************************************************************/
-void popup_intel_dialog(struct player *p)
+void popup_intel_dialog(struct player *pplayer)
 {
-  intel_dialog_shell_is_raised = TRUE;
-  if (!intel_dialog_shell) {
-    create_intel_dialog(p);
+  struct intel_dialog *pdialog;
+  bool raise = FALSE; /* Drop when we'll have raise-parametered popup */
+
+  if (!(pdialog = get_intel_dialog(pplayer))) {
+    pdialog = fc_malloc(sizeof(struct intel_dialog));
+    pdialog->pplayer = pplayer;
+    pdialog->intel_dialog_shell = 0;
+    pdialog->intel_diplo_dialog_shell = 0;
+    dialog_list_insert(&dialog_list, pdialog);
   }
-  xaw_set_relative_position(toplevel, intel_dialog_shell, 25, 25);
-  XtPopup(intel_dialog_shell, XtGrabNone);
-  if (intel_dialog_shell_is_raised) {
+
+  if (!(pdialog->intel_dialog_shell)) {
+    create_intel_dialog(pdialog, raise);
+  }
+
+  xaw_set_relative_position(toplevel, pdialog->intel_dialog_shell, 25, 25);
+  XtPopup(pdialog->intel_dialog_shell, XtGrabNone);
+  if (pdialog->intel_dialog_shell_is_raised) {
     XtSetSensitive(main_form, FALSE);
   }
 }
@@ -92,21 +139,24 @@ void popup_intel_dialog(struct player *p)
 /****************************************************************
   Close an intelligence dialog.
 *****************************************************************/
-void popdown_intel_dialog(void)
+void popdown_intel_dialog(struct intel_dialog *pdialog)
 {
-  if (intel_dialog_shell) {
-    if (intel_dialog_shell_is_raised) {
-      XtSetSensitive(main_form, TRUE);
-    }
-    XtDestroyWidget(intel_dialog_shell);
-    intel_dialog_shell = 0;
+  if (pdialog->intel_dialog_shell_is_raised) {
+    XtSetSensitive(main_form, TRUE);
+  }
+  XtDestroyWidget(pdialog->intel_dialog_shell);
+  pdialog->intel_dialog_shell = 0;
+
+  if (!(pdialog->intel_diplo_dialog_shell)) {
+    dialog_list_unlink(&dialog_list, pdialog);
+    free(pdialog);
   }
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void create_intel_dialog(struct player *pplayer)
+void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 {
   char buf[64];
   struct city *pcity;
@@ -115,101 +165,110 @@ void create_intel_dialog(struct player *pplayer)
   static char tech_list_names[A_LAST+1][200];
   int i, j;
 
+  pdialog->intel_dialog_shell_is_raised = raise;
 
-  I_T(intel_dialog_shell = XtCreatePopupShell("intelpopup", 
-					      transientShellWidgetClass,
-					      toplevel, NULL, 0));
+  I_T(pdialog->intel_dialog_shell =
+    XtCreatePopupShell("intelpopup",
+		       raise ? transientShellWidgetClass
+		       : topLevelShellWidgetClass,
+		       toplevel, NULL, 0));
 
-  intel_form = XtVaCreateManagedWidget("intelform", 
-				       formWidgetClass, 
-				       intel_dialog_shell, NULL);
-
-  my_snprintf(buf, sizeof(buf),
-	      _("Intelligence Information for the %s Empire"), 
-	      get_nation_name(pplayer->nation));
-
-  intel_label = I_L(XtVaCreateManagedWidget("inteltitlelabel", 
-					    labelWidgetClass, 
-					    intel_form, 
-					    XtNlabel, buf,
-					    NULL));
-
-  my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
-	      get_ruler_title(pplayer->government, pplayer->is_male,
-			      pplayer->nation),
-	      pplayer->name);
-  XtVaCreateManagedWidget("intelnamelabel", 
-			  labelWidgetClass, 
-			  intel_form, 
-			  XtNlabel, buf,
-			  NULL);   
+  pdialog->intel_form = XtVaCreateManagedWidget("intelform",
+						formWidgetClass,
+						pdialog->intel_dialog_shell,
+						NULL);
 
   my_snprintf(buf, sizeof(buf),
-	      _("Government: %s"), get_government_name(pplayer->government));
-  XtVaCreateManagedWidget("intelgovlabel", 
-			  labelWidgetClass, 
-			  intel_form, 
-			  XtNlabel, buf,
-			  NULL);   
+	      _("Intelligence Information for the %s Empire"),
+	      get_nation_name(pdialog->pplayer->nation));
 
-  my_snprintf(buf, sizeof(buf), _("Gold: %d"), pplayer->economic.gold);
-  XtVaCreateManagedWidget("intelgoldlabel", 
-			  labelWidgetClass, 
-			  intel_form, 
-			  XtNlabel, buf,
-			  NULL);   
+  pdialog->intel_label = I_L(XtVaCreateManagedWidget("inteltitlelabel",
+						     labelWidgetClass,
+						     pdialog->intel_form,
+						     XtNlabel, buf,
+						     NULL));
 
-  my_snprintf(buf, sizeof(buf), _("Tax: %d%%"), pplayer->economic.tax);
-  XtVaCreateManagedWidget("inteltaxlabel", 
-			  labelWidgetClass, 
-			  intel_form, 
+  my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"),
+	      get_ruler_title(pdialog->pplayer->government,
+			      pdialog->pplayer->is_male,
+			      pdialog->pplayer->nation),
+	      pdialog->pplayer->name);
+  XtVaCreateManagedWidget("intelnamelabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
 			  XtNlabel, buf,
-			  NULL);   
+			  NULL);
+
+  my_snprintf(buf, sizeof(buf), _("Government: %s"),
+	      get_government_name(pdialog->pplayer->government));
+  XtVaCreateManagedWidget("intelgovlabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
+			  XtNlabel, buf,
+			  NULL);
+
+  my_snprintf(buf, sizeof(buf), _("Gold: %d"),
+	      pdialog->pplayer->economic.gold);
+  XtVaCreateManagedWidget("intelgoldlabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
+			  XtNlabel, buf,
+			  NULL);
+
+  my_snprintf(buf, sizeof(buf), _("Tax: %d%%"),
+	      pdialog->pplayer->economic.tax);
+  XtVaCreateManagedWidget("inteltaxlabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
+			  XtNlabel, buf,
+			  NULL);
 
   my_snprintf(buf, sizeof(buf), _("Science: %d%%"),
-	      pplayer->economic.science);
-  XtVaCreateManagedWidget("intelscilabel", 
-			  labelWidgetClass, 
-			  intel_form, 
+	      pdialog->pplayer->economic.science);
+  XtVaCreateManagedWidget("intelscilabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
 			  XtNlabel, buf,
-			  NULL);   
+			  NULL);
 
-  my_snprintf(buf, sizeof(buf), _("Luxury: %d%%"), pplayer->economic.luxury);
-  XtVaCreateManagedWidget("intelluxlabel", 
-			  labelWidgetClass, 
-			  intel_form, 
+  my_snprintf(buf, sizeof(buf), _("Luxury: %d%%"),
+	      pdialog->pplayer->economic.luxury);
+  XtVaCreateManagedWidget("intelluxlabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
 			  XtNlabel, buf,
-			  NULL);   
+			  NULL);
 
-  if (pplayer->research.researching == A_UNSET) {
+  if (pdialog->pplayer->research.researching == A_UNSET) {
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advances[A_NONE].name,
-		pplayer->research.bulbs_researched,
-		total_bulbs_required(pplayer));
+		pdialog->pplayer->research.bulbs_researched,
+		total_bulbs_required(pdialog->pplayer));
   } else {
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-		get_tech_name(pplayer, pplayer->research.researching),
-		pplayer->research.bulbs_researched,
-		total_bulbs_required(pplayer));
+		get_tech_name(pdialog->pplayer,
+			      pdialog->pplayer->research.researching),
+		pdialog->pplayer->research.bulbs_researched,
+		total_bulbs_required(pdialog->pplayer));
   }
 
-  XtVaCreateManagedWidget("intelreslabel", 
-			  labelWidgetClass, 
-			  intel_form, 
+  XtVaCreateManagedWidget("intelreslabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
 			  XtNlabel, buf,
-			  NULL);   
+			  NULL);
 
-  pcity = find_palace(pplayer);
+  pcity = find_palace(pdialog->pplayer);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
 	      (!pcity)?_("(Unknown)"):pcity->name);
-  XtVaCreateManagedWidget("intelcapitallabel", 
-			  labelWidgetClass, 
-			  intel_form, 
+  XtVaCreateManagedWidget("intelcapitallabel",
+			  labelWidgetClass,
+			  pdialog->intel_form,
 			  XtNlabel, buf,
-			  NULL);   
+			  NULL);
 
   for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
-    if (get_invention(pplayer, i) == TECH_KNOWN) {
+    if (get_invention(pdialog->pplayer, i) == TECH_KNOWN) {
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
 	sz_strlcpy(tech_list_names[j], advances[i].name);
       } else {
@@ -221,31 +280,45 @@ void create_intel_dialog(struct player *pplayer)
     }
   tech_list_names_ptrs[j]=0;
 
-  XtVaCreateManagedWidget("inteltechlist", 
+  XtVaCreateManagedWidget("inteltechlist",
 			  listWidgetClass,
-			  intel_form,
+			  pdialog->intel_form,
 			  XtNlist, tech_list_names_ptrs,
 			  NULL);
 
-  intel_close_command =
-    I_L(XtVaCreateManagedWidget("intelclosecommand", 
+  pdialog->intel_close_command =
+    I_L(XtVaCreateManagedWidget("intelclosecommand",
 				commandWidgetClass,
-				intel_form, NULL));
+				pdialog->intel_form, NULL));
 
-  intel_diplo_command =
+  pdialog->intel_diplo_command =
     I_L(XtVaCreateManagedWidget("inteldiplocommand",
 				commandWidgetClass,
-				intel_form, NULL));
+				pdialog->intel_form, NULL));
 
-  XtAddCallback(intel_close_command, XtNcallback,
-		intel_close_callback, NULL);
-  XtAddCallback(intel_diplo_command, XtNcallback,
-		intel_diplo_callback, INT_TO_XTPOINTER(pplayer->player_no));
-  XtRealizeWidget(intel_dialog_shell);
+  XtAddCallback(pdialog->intel_close_command, XtNcallback,
+		intel_close_callback, (XtPointer)pdialog);
+  XtAddCallback(pdialog->intel_diplo_command, XtNcallback,
+		intel_diplo_callback,
+		INT_TO_XTPOINTER(pdialog->pplayer->player_no));
+  XtRealizeWidget(pdialog->intel_dialog_shell);
 
-  xaw_horiz_center(intel_label);
+  xaw_horiz_center(pdialog->intel_label);
+
+  XSetWMProtocols(display, XtWindow(pdialog->intel_dialog_shell), 
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(pdialog->intel_dialog_shell,
+    XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-intel()"));
 }
 
+/****************************************************************************
+  Update the intelligence dialog for the given player.  This is called by
+  the core client code when that player's information changes.
+****************************************************************************/
+void update_intel_dialog(struct player *p)
+{
+  /* PORTME */
+}
 
 /**************************************************************************
 ...
@@ -253,11 +326,7 @@ void create_intel_dialog(struct player *pplayer)
 void intel_close_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data)
 {
-/*  XtSetSensitive(main_form, TRUE);
-  XtDestroyWidget(intel_dialog_shell);
-  intel_dialog_shell=0;
-*/
-  popdown_intel_dialog();
+  popdown_intel_dialog((struct intel_dialog *)client_data);
 }
 
 /**************************************************************************
@@ -270,13 +339,17 @@ void intel_diplo_callback(Widget w, XtPointer client_data,
 			   FALSE);
 }
 
-/****************************************************************************
-  Update the intelligence dialog for the given player.  This is called by
-  the core client code when that player's information changes.
-****************************************************************************/
-void update_intel_dialog(struct player *p)
+/**************************************************************************
+...
+**************************************************************************/
+void intel_dialog_msg_close(Widget w)
 {
-  /* PORTME */
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->intel_dialog_shell == w) {
+      popdown_intel_dialog(pdialog);
+      return;
+    }
+  } dialog_list_iterate_end;
 }
 
 /****************************************************************
@@ -284,13 +357,24 @@ void update_intel_dialog(struct player *p)
 *****************************************************************/
 void popup_intel_diplo_dialog(struct player *pplayer, bool raise)
 {
-  if (!intel_diplo_dialog_shell) {
-    intel_diplo_dialog_shell_is_raised = raise;
-    create_intel_diplo_dialog(pplayer, intel_diplo_dialog_shell_is_raised);
+  struct intel_dialog *pdialog;
+  
+  if (!(pdialog = get_intel_dialog(pplayer))) {
+    pdialog = fc_malloc(sizeof(struct intel_dialog));
+    pdialog->pplayer = pplayer;
+    pdialog->intel_dialog_shell = 0;
+    pdialog->intel_diplo_dialog_shell = 0;
+    dialog_list_insert(&dialog_list, pdialog);
   }
-  xaw_set_relative_position(toplevel, intel_diplo_dialog_shell, 25, 25);
-  XtPopup(intel_diplo_dialog_shell, XtGrabNone);
-  if (intel_diplo_dialog_shell_is_raised) {
+
+  if (!(pdialog->intel_diplo_dialog_shell)) {
+    create_intel_diplo_dialog(pdialog, raise);
+  }
+
+  xaw_set_relative_position(toplevel,
+			    pdialog->intel_diplo_dialog_shell, 25, 25);
+  XtPopup(pdialog->intel_diplo_dialog_shell, XtGrabNone);
+  if (pdialog->intel_diplo_dialog_shell_is_raised) {
     XtSetSensitive(main_form, FALSE);
   }
 }
@@ -298,84 +382,92 @@ void popup_intel_diplo_dialog(struct player *pplayer, bool raise)
 /****************************************************************
   Close a player's relations dialog.
 *****************************************************************/
-void popdown_intel_diplo_dialog(void)
+void popdown_intel_diplo_dialog(struct intel_dialog *pdialog)
 {
-  if (intel_diplo_dialog_shell) {
-    if (intel_diplo_dialog_shell_is_raised) {
-      XtSetSensitive(main_form, TRUE);
-    }
-    XtDestroyWidget(intel_diplo_dialog_shell);
-    intel_diplo_dialog_shell = 0;
+  if (pdialog->intel_diplo_dialog_shell_is_raised) {
+    XtSetSensitive(main_form, TRUE);
+  }
+  XtDestroyWidget(pdialog->intel_diplo_dialog_shell);
+  pdialog->intel_diplo_dialog_shell = 0;
+
+  if (!(pdialog->intel_dialog_shell)) {
+    dialog_list_unlink(&dialog_list, pdialog);
+    free(pdialog);
   }
 }
 
 /****************************************************************
   Create a player's relations dialog for the given player.
 *****************************************************************/
-void create_intel_diplo_dialog(struct player *pplayer, bool raise)
+void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 {
   char buf[64];
 
-  intel_diplo_dialog_shell =
+  pdialog->intel_diplo_dialog_shell_is_raised = raise;
+
+  pdialog->intel_diplo_dialog_shell =
     I_IN(I_T(XtCreatePopupShell("inteldiplopopup",
 				raise ? transientShellWidgetClass
 				: topLevelShellWidgetClass,
 				toplevel, NULL, 0)));
 
-  intel_diplo_form = XtVaCreateManagedWidget("inteldiploform",
-					     formWidgetClass,
-					     intel_diplo_dialog_shell,
-					     NULL);
+  pdialog->intel_diplo_form =
+    XtVaCreateManagedWidget("inteldiploform",
+			    formWidgetClass,
+			    pdialog->intel_diplo_dialog_shell,
+			    NULL);
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Diplomacy Information for the %s Empire"),
-	      get_nation_name(pplayer->nation));
+	      get_nation_name(pdialog->pplayer->nation));
 
-  intel_diplo_label = I_L(XtVaCreateManagedWidget("inteldiplolabel",
-						  labelWidgetClass,
-						  intel_diplo_form,
-						  XtNlabel, buf,
-						  NULL));
-
+  pdialog->intel_diplo_label =
+    I_L(XtVaCreateManagedWidget("inteldiplolabel",
+				labelWidgetClass,
+				pdialog->intel_diplo_form,
+				XtNlabel, buf,
+				NULL));
    
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
-	      get_ruler_title(pplayer->government, pplayer->is_male,
-			      pplayer->nation),
-	      pplayer->name);
+	      get_ruler_title(pdialog->pplayer->government,
+			      pdialog->pplayer->is_male,
+			      pdialog->pplayer->nation),
+	      pdialog->pplayer->name);
   XtVaCreateManagedWidget("inteldiplonamelabel", 
 			  labelWidgetClass, 
-			  intel_diplo_form, 
+			  pdialog->intel_diplo_form, 
 			  XtNlabel, buf,
 			  NULL);   
 
-  intel_diplo_list = XtVaCreateManagedWidget("inteldiplolist",
-					     listWidgetClass,
-					     intel_diplo_form,
-					     NULL);
+  pdialog->intel_diplo_list =
+    XtVaCreateManagedWidget("inteldiplolist",
+			    listWidgetClass,
+			    pdialog->intel_diplo_form,
+			    NULL);
 
-  intel_diplo_close_command =
+  pdialog->intel_diplo_close_command =
     I_L(XtVaCreateManagedWidget("inteldiploclosecommand",
 				commandWidgetClass,
-				intel_diplo_form,
+				pdialog->intel_diplo_form,
 				NULL));
 
-  XtAddCallback(intel_diplo_close_command, XtNcallback,
-		intel_diplo_close_callback, NULL);
+  XtAddCallback(pdialog->intel_diplo_close_command, XtNcallback,
+		intel_diplo_close_callback, (XtPointer)pdialog);
 
-  update_intel_diplo_dialog(pplayer);
+  update_intel_diplo_dialog(pdialog);
 
-  XtRealizeWidget(intel_diplo_dialog_shell);
+  XtRealizeWidget(pdialog->intel_diplo_dialog_shell);
   
-  XSetWMProtocols(display, XtWindow(intel_diplo_dialog_shell), 
+  XSetWMProtocols(display, XtWindow(pdialog->intel_diplo_dialog_shell), 
 		  &wm_delete_window, 1);
-  XtOverrideTranslations(intel_diplo_dialog_shell,
+  XtOverrideTranslations(pdialog->intel_diplo_dialog_shell,
     XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-intel-diplo()"));
 }
 
 /****************************************************************
   Update a player's relations dialog for the given player.
 *****************************************************************/
-void update_intel_diplo_dialog(struct player *pplayer)
+void update_intel_diplo_dialog(struct intel_dialog *pdialog)
 {
   int i;
   Dimension width;
@@ -383,13 +475,13 @@ void update_intel_diplo_dialog(struct player *pplayer)
   static char namelist_text[MAX_NUM_PLAYERS][72];
   const struct player_diplstate *state;
 
-  if (intel_diplo_dialog_shell) {
+  if (pdialog->intel_diplo_dialog_shell) {
     i = 0;
     players_iterate(other) {
-      if (other == pplayer) {
+      if (other == pdialog->pplayer) {
 	continue;
       }
-      state = pplayer_get_diplstate(pplayer, other);
+      state = pplayer_get_diplstate(pdialog->pplayer, other);
       my_snprintf(namelist_text[i], sizeof(namelist_text[i]),
 		  "%-32s %-16s %-16s",
 		  other->name,
@@ -399,10 +491,10 @@ void update_intel_diplo_dialog(struct player *pplayer)
       i++;
     } players_iterate_end;
 
-    XawListChange(intel_diplo_list, namelist_ptrs, i, 0, True);
+    XawListChange(pdialog->intel_diplo_list, namelist_ptrs, i, 0, True);
 
-    XtVaGetValues(intel_diplo_list, XtNwidth, &width, NULL);
-    XtVaSetValues(intel_diplo_label, XtNwidth, width, NULL); 
+    XtVaGetValues(pdialog->intel_diplo_list, XtNwidth, &width, NULL);
+    XtVaSetValues(pdialog->intel_diplo_label, XtNwidth, width, NULL); 
   }
 }
 
@@ -412,7 +504,7 @@ void update_intel_diplo_dialog(struct player *pplayer)
 void intel_diplo_close_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data)
 {
-  popdown_intel_diplo_dialog();
+  popdown_intel_diplo_dialog((struct intel_dialog *)client_data);
 }
 
 /**************************************************************************
@@ -420,5 +512,10 @@ void intel_diplo_close_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void intel_diplo_dialog_msg_close(Widget w)
 {
-  intel_diplo_close_callback(w, NULL, NULL);
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->intel_diplo_dialog_shell == w) {
+      popdown_intel_diplo_dialog(pdialog);
+      return;
+    }
+  } dialog_list_iterate_end;
 }

@@ -15,6 +15,7 @@
 
 #include "inteldlg_g.h"
 
+void intel_dialog_msg_close(Widget w);
 void intel_diplo_dialog_msg_close(Widget w);
 
 #endif				/* FC__INTELDLG_H */
