@@ -176,7 +176,8 @@ int foo() {
 
 - If you use a system specific feature, don't add #ifdef __CRAY__ or
   something like that.  Rather write a check for that feature for
-  configure.in, and use a meaningful macro name in the source.
+  both configure.in and configure.ac, and use a meaningful macro name 
+  in the source.
 
 - Always prototype global functions in the appropriate header file.
   Local functions should always be declared as static.
