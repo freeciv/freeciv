@@ -719,7 +719,18 @@ static void player_load(struct player *plr, int plrno,
     secfile_lookup_int_default(file, 0,
 			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
-  
+  /* Sanity check alliances, prevent allied-with-ally-of-enemy */
+  players_iterate(aplayer) {
+    if (pplayers_allied(plr, aplayer)
+        && !pplayer_can_ally(plr, aplayer)) {
+      freelog(LOG_ERROR, "Illegal alliance structure detected: "
+              "%s's alliance to %s reduced to peace treaty.",
+              plr->name, aplayer->name);
+      plr->diplstates[aplayer->player_no].type = DS_PEACE;
+      aplayer->diplstates[plr->player_no].type = DS_PEACE;
+    }
+  } players_iterate_end;
+
   { /* spacerace */
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];

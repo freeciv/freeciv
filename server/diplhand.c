@@ -181,6 +181,22 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    return;
 	  }
 	  break;
+	case CLAUSE_ALLIANCE:
+          if (!pplayer_can_ally(pplayer, other)) {
+	    notify_player(pplayer,
+			  _("Game: You are at war with one of %s's "
+			    "allies - an alliance with %s is impossible."),
+			  other->name, other->name);
+            return;
+          }
+          if (!pplayer_can_ally(other, pplayer)) {
+	    notify_player(pplayer,
+			  _("Game: %s is at war with one of your allies "
+			    "- an alliance with %s is impossible."),
+			  other->name, other->name);
+            return;
+          }
+          break;
 	case CLAUSE_GOLD:
 	  if (pplayer->economic.gold < pclause->value) {
 	    notify_player(pplayer,
@@ -263,6 +279,21 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    goto cleanup;
 	  }
 	  break;
+	case CLAUSE_ALLIANCE:
+          /* We need to recheck this way since things might have
+           * changed. */
+          if (!pplayer_can_ally(other, pplayer)) {
+	    notify_player(pplayer,
+			  _("Game: %s is at war with one of your "
+			    "allies - an alliance with %s is impossible."),
+			  other->name, other->name);
+	    notify_player(other,
+			  _("Game: You are at war with one of %s's "
+			    "allies - an alliance with %s is impossible."),
+			  pplayer->name, pplayer->name);
+	    goto cleanup;
+          }
+          break;
 	case CLAUSE_GOLD:
 	  if (other->economic.gold < pclause->value) {
 	    notify_player(plr0,
@@ -397,6 +428,9 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			 _("Game: %s gives you shared vision."),
 			 pgiver->name);
 	break;
+      case CLAUSE_LAST:
+        freelog(LOG_ERROR, "Received bad clause type");
+        break;
       }
 
     } clause_list_iterate_end;

@@ -800,6 +800,12 @@ void check_player_government_rates(struct player *pplayer)
 
 /**************************************************************************
   Handles a player cancelling a "pact" with another player.
+
+  packet.id is id of player we want to cancel a pact with
+  packet.val1 is a special value indicating what kind of treaty we want
+    to break. If this is CLAUSE_VISION we break shared vision. If it is
+    a pact treaty type, we break one pact level. If it is CLAUSE_LAST
+    we break _all_ treaties and go straight to war.
 **************************************************************************/
 void handle_player_cancel_pact(struct player *pplayer,
                                struct packet_generic_values *packet)
@@ -808,7 +814,7 @@ void handle_player_cancel_pact(struct player *pplayer,
   enum diplstate_type new_type;
   struct player *pplayer2;
   int reppenalty = 0;
-  bool has_senate;
+  bool has_senate, repeat = FALSE;
   int other_player = packet->id;
   int clause = packet->value1;
 
@@ -842,9 +848,11 @@ void handle_player_cancel_pact(struct player *pplayer,
 
   /* else, breaking a treaty */
 
+repeat_break_treaty:
   /* check what the new status will be, and what will happen to our
      reputation */
   switch(old_type) {
+  case DS_NO_CONTACT: /* possible if someone declares war on our ally */
   case DS_NEUTRAL:
     new_type = DS_WAR;
     reppenalty = 0;
@@ -869,10 +877,11 @@ void handle_player_cancel_pact(struct player *pplayer,
   /* if there's a reason to cancel the pact, do it without penalty */
   if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
     pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
-    if (has_senate)
+    if (has_senate && !repeat) {
       notify_player(pplayer, _("The senate passes your bill because of the "
 			       "constant provocations of the %s."),
 		    get_nation_name_plural(pplayer2->nation));
+    }
   }
   /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
   /* FIXME: according to civII rules, republics and democracies
@@ -882,7 +891,7 @@ void handle_player_cancel_pact(struct player *pplayer,
     pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
     notify_player(pplayer, _("Game: Your reputation is now %s."),
 		  reputation_text(pplayer->reputation));
-    if (has_senate) {
+    if (has_senate && pplayer->revolution == 0) {
       if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
 	notify_player(pplayer, _("Game: The senate decides to dissolve "
 				 "rather than support your actions any longer."));
@@ -898,6 +907,15 @@ void handle_player_cancel_pact(struct player *pplayer,
   pplayer->diplstates[pplayer2->player_no].turns_left =
     pplayer2->diplstates[pplayer->player_no].turns_left =
     16;
+
+  /* We want to go all the way to war, whatever the cost! 
+   * This is only used when declaring war against an alliance 
+   * and by the AI. */
+  if (clause == CLAUSE_LAST && new_type != DS_WAR) {
+    repeat = TRUE;
+    old_type = new_type;
+    goto repeat_break_treaty;
+  }
 
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
@@ -928,6 +946,22 @@ void handle_player_cancel_pact(struct player *pplayer,
 		   get_nation_name_plural(pplayer2->nation),
 		   get_nation_name_plural(pplayer->nation),
 		   diplstate_text(new_type));
+
+  /* Check fall-out of a war declaration. */
+  players_iterate(other) {
+    if (other->is_alive && other != pplayer && other != pplayer2
+        && (pplayer->team == TEAM_NONE || pplayer->team != pplayer2->team)
+        && new_type == DS_WAR && pplayers_allied(pplayer2, other)
+        && !pplayers_at_war(pplayer, other)) {
+      struct packet_generic_values packet;
+
+      /* A declaration of war by A against B also means A declares
+       * war against all of B's allies. Yes, A gets the blame. */
+      packet.id = other->player_no;
+      packet.value1 = CLAUSE_LAST;
+      handle_player_cancel_pact(pplayer, &packet);
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************

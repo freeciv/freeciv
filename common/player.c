@@ -36,6 +36,29 @@
 #include "player.h"
 
 /***************************************************************
+  Returns true iff p1 can ally p2. There is only one condition:
+  We are not at war with any of p2's allies. Note that for an
+  alliance to be made, we need to check this both ways.
+
+  The reason for this is to avoid the dread 'love-love-hate' 
+  triad, in which p1 is allied to p2 is allied to p3 is at
+  war with p1. These lead to strange situations.
+***************************************************************/
+bool pplayer_can_ally(struct player *p1, struct player *p2)
+{
+  players_iterate(pplayer) {
+    if (pplayer != p1
+        && pplayer != p2
+        && pplayers_allied(p2, pplayer)
+        && pplayers_at_war(p1, pplayer)
+        && pplayer->is_alive) {
+      return FALSE;
+    }
+  } players_iterate_end;
+  return TRUE;
+}
+
+/***************************************************************
   Check if pplayer has an embassy with pplayer2. We always have
   an embassy with ourselves.
 ***************************************************************/
