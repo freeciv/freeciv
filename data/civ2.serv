@@ -3,6 +3,7 @@
 # Use this as, eg, "./ser -r data/civ2.serv" 
 #
 # Civ2 start:
+set researchcost 10
 set startunits cc
 rulesetdir civ2
 #

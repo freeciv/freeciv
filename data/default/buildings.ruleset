@@ -91,14 +91,6 @@ elements	=
       "Cathedral", "City"
     }
 
-[group_labs]
-name		= "Labs"
-elements	=
-    { "building", "range"
-      "SETI Program", "Player"
-      "Research Lab", "City"
-    }
-
 [group_generators]
 name		= "Generators"
 elements	=
@@ -629,13 +621,13 @@ upkeep		= 1
 sabotage	= 100
 effect		=
     { "name", "value"
-      "Science_Bonus", 50
+      "Science_Bonus", 100
     }
 sound		= "b_library"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases the science output in a city by 50%.\
+Increases the science output in a city by 100%.\
 ")
 
 [building_marketplace]
@@ -969,23 +961,24 @@ graphic_alt	= "-"
 ;spec_gate	=
 equiv_range	= "City"
 ;equiv_dupl	=
-equiv_repl	= "SETI Program"
+;equiv_repl	= 
 obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
 effect		=
-    { "name", "value", "equiv", "req_type", "req"
-	"Science_Bonus", 50, "Labs", "Building", "Library"
+    { "name", "value", "req_type", "req"
+	"Science_Bonus", 100, "Building", "Library"
+	"Science_Bonus", 100, "Building", "University"
     }
 sound		= "b_research_lab"
 sound_alt	= "b_generic"
 helptext	= _("\
 Together with a Library, a Research Lab increases the science\
- production of a city by 100%. \
+ production of a city by 200%. \
 Together with a Library and a University, a Research Lab increases\
- the science production of a city by 150%.\
+ the science production of a city by 450%.\
 ")
 
 [building_sam_battery]
@@ -1346,14 +1339,14 @@ upkeep		= 3
 sabotage	= 100
 effect		=
     { "name", "value", "req_type", "req"
-      "Science_Bonus", 50, "Building", "Library"
+      "Science_Bonus", 150, "Building", "Library"
     }
 sound		= "b_university"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 Together with a Library, a University increases the science\
- production of a city by 100%.\
+ production of a city by 250%.\
 ")
 
 [building_apollo_program]
@@ -1457,13 +1450,13 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "name", "value"
-      "Science_Bonus", 50
+      "Science_Bonus", 100
     }
 sound		= "w_copernicus_observatory"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Boosts science production by 50% in the city where it is built.\
+Boosts science production by 100% in the city where it is built.\
 ")
 
 [building_cure_for_cancer]
@@ -1688,14 +1681,15 @@ build_cost	= 300
 upkeep		= 0
 sabotage	= 0
 effect		=
-    { "name", "value"
-      "Science_Bonus", 100
+    { "name", "value", "req_type", "req"
+      "Science_Bonus", 100, "Building", "University"
     }
 sound		= "w_isaac_newtons_college"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Boosts science production by 100% in the city where it is built.\
+Boosts science production by 100% in every city you control that\
+ has a University.\
 ")
 
 [building_js_bachs_cathedral]
@@ -1986,14 +1980,13 @@ build_cost	= 600
 upkeep		= 0
 sabotage	= 0
 effect		=
-    { "name", "range", "value", "equiv", "req_type", "req"
-      "Science_Bonus", "Player", 50, "Labs", "Building", "Library"
+    { "name", "range", "value", "req_type", "req"
+      "Science_Bonus", "Player", 100, "Building", "Research Lab"
     }
 sound		= "w_seti_program"
 sound_alt	= "w_generic"
 helptext	= _("\
-Boosts science production in each city with a Library by 50%. \
- (Counts as having a Research Lab in all of your cities.)\
+Boosts science production in each city with a Research Lab by 100%. \
 ")
 
 [building_shakespeares_theatre]
