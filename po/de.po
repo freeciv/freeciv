@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-19 18:09+0200\n"
+"POT-Creation-Date: 2000-06-21 12:40-0400\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -511,7 +511,7 @@ msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s bauen, um weiter wachsen zu können."
 
-#: server/cityturn.c:838
+#: server/cityturn.c:838 server/cityturn.c:857
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
@@ -733,7 +733,7 @@ msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
 #. add client-specific usage information here
-#: client/gui-gtk/gui_main.c:160 client/gui-xaw/gui_main.c:231
+#: client/gui-gtk/gui_main.c:155 client/gui-xaw/gui_main.c:233
 #: server/civserver.c:263
 #, c-format
 msgid "Report bugs to <%s>.\n"
@@ -2814,7 +2814,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:618 server/stdinhand.c:1088
+#: client/packhand.c:619 server/stdinhand.c:1088
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -3823,55 +3823,55 @@ msgstr "Spiel: %s ist auf hoher See gesunken."
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spiel: %s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
 
-#: server/unitfunc.c:2228
+#: server/unitfunc.c:2275
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) verschoben."
 
-#: server/unitfunc.c:2253
+#: server/unitfunc.c:2300
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) eingeschifft."
 
-#: server/unitfunc.c:2268
+#: server/unitfunc.c:2315
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) aufgelöst."
 
-#: server/unitfunc.c:2298
+#: server/unitfunc.c:2345
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) verschoben."
 
-#: server/unitfunc.c:2323
+#: server/unitfunc.c:2370
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) gelandet."
 
-#: server/unitfunc.c:2338
+#: server/unitfunc.c:2385
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) aufgelöst."
 
-#: server/unitfunc.c:2432
+#: server/unitfunc.c:2479
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spiel: %s transportiert."
 
-#: server/unitfunc.c:2452
+#: server/unitfunc.c:2499
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spiel: Diese Einheit kann nicht Fallschirmspringen."
 
-#: server/unitfunc.c:2461
+#: server/unitfunc.c:2508
 msgid "Game: The destination location is not known."
 msgstr "Spiel: Der Zielort ist nicht bekannt."
 
-#: server/unitfunc.c:2468
+#: server/unitfunc.c:2515
 msgid "Game: Cannot paradrop into ocean."
 msgstr ""
 "Spiel: Über dem Ozean können keine Fallschirmspringer abgesetzt werden."
 
-#: server/unitfunc.c:2477
+#: server/unitfunc.c:2524
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -3879,7 +3879,7 @@ msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit "
 "(%i)."
 
-#: server/unitfunc.c:2488
+#: server/unitfunc.c:2535
 msgid ""
 "Game: Cannot paradrop because there are enemy units on the destination "
 "location."
@@ -3887,84 +3887,84 @@ msgstr ""
 "Spiel: Fallschirmspringer können nicht abgesetzt werden,\n"
 "       da diese Gegend von feindlichen Einheiten besetzt ist."
 
-#: server/unitfunc.c:2548
+#: server/unitfunc.c:2595
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spiel: Zukunftstechnologie %d von %s erhalten."
 
-#: server/unitfunc.c:2551
+#: server/unitfunc.c:2598
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spiel: %s entdeckte Zukunftstechnologie %d in der Stadt."
 
-#: server/unitfunc.c:2554
+#: server/unitfunc.c:2601
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spiel: Die %s eroberten Zukunftstechnologie %d von den %s."
 
-#: server/unitfunc.c:2575
+#: server/unitfunc.c:2622
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spiel. %s von %s erhalten."
 
-#: server/unitfunc.c:2577
+#: server/unitfunc.c:2624
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spiel: %s entdeckte %s in der Stadt."
 
-#: server/unitfunc.c:2579
+#: server/unitfunc.c:2626
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2720
+#: server/unitfunc.c:2767
 #, c-format
 msgid "Game: You lost a%s %s when %s lost."
 msgstr "Spiel: %2$s beim Verlust von %3$s verloren."
 
-#: server/unitfunc.c:2774
+#: server/unitfunc.c:2821
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spiel: Barbarenführer gefaßt, %d Goldstücke Belohnung erhalten."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2794
+#: server/unitfunc.c:2841
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s%s."
 msgstr "Spiel: %2$s bei einem Angriff von %3$ss %4$s verloren."
 
-#: server/unitfunc.c:2826
+#: server/unitfunc.c:2873
 #, c-format
 msgid "Game: You lost %d units under an attack from %s's %s%s."
 msgstr "Spiel: %d Einheiten beim Angriff von %ss %s verloren."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2838
+#: server/unitfunc.c:2885
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s."
 msgstr "Spiel: %2$s beim Angriff von %3$ss %4$s verloren."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2936
+#: server/unitfunc.c:2983
 #, c-format
 msgid "%sat %s"
 msgstr " bei %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2938
+#: server/unitfunc.c:2985
 #, c-format
 msgid "%sin %s"
 msgstr " in %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2945
+#: server/unitfunc.c:2992
 #, c-format
 msgid "%soutside %s"
 msgstr " außerhalb von %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2948
+#: server/unitfunc.c:2995
 #, c-format
 msgid "%snear %s"
 msgstr " in der Nähe von %2$s"
@@ -4278,8 +4278,8 @@ msgstr "Begeisterung"
 msgid "Disorder"
 msgstr "Aufruhr"
 
-#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:420
-#: client/gui-xaw/diplodlg.c:484
+#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429
+#: client/gui-xaw/diplodlg.c:489
 msgid "Peace"
 msgstr "Frieden"
 
@@ -4673,7 +4673,6 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:734
-#, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -5087,16 +5086,16 @@ msgstr "Client capability string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:788
+#: client/packhand.c:789
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:789
+#: client/packhand.c:790
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:789
+#: client/packhand.c:790
 msgid "OFF"
 msgstr "AUS"
 
@@ -5256,7 +5255,7 @@ msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-gtk/citydlg.c:932 client/gui-gtk/citydlg.c:937
 #: client/gui-xaw/citydlg.c:1456 client/gui-xaw/citydlg.c:1460
-#, c-format, ycp-format
+#, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -5284,7 +5283,7 @@ msgid "Done"
 msgstr "Fertig"
 
 #: client/gui-gtk/citydlg.c:967
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -5294,17 +5293,17 @@ msgid "Granary: %3d/%-3d"
 msgstr "Getreidevorrat: %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/%3d %3d turn"
 msgstr "%3d/%3d %3d Runde"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d Runden"
 
 #: client/gui-gtk/citydlg.c:1028
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/XXX XXX turns"
 msgstr "%3d/XXX XXX Runden"
 
@@ -6014,64 +6013,64 @@ msgstr "Es MUSS eine Bauweise gewählt werden werden."
 msgid "You must type a legal name."
 msgstr "Es MUSS ein zulässiger Name eingegeben werden."
 
-#: client/gui-gtk/diplodlg.c:261 data/Freeciv:268
+#: client/gui-gtk/diplodlg.c:270 data/Freeciv:268
 msgid "The following clauses have been agreed upon:"
 msgstr "Folgende Vereinbarungen wurden getroffen:"
 
-#: client/gui-gtk/diplodlg.c:274 data/Freeciv:227
+#: client/gui-gtk/diplodlg.c:283 data/Freeciv:227
 msgid "Diplomacy meeting"
 msgstr "Konferenz"
 
-#: client/gui-gtk/diplodlg.c:283 client/gui-gtk/diplodlg.c:291
-#: client/gui-xaw/diplodlg.c:335 client/gui-xaw/diplodlg.c:343
+#: client/gui-gtk/diplodlg.c:292 client/gui-gtk/diplodlg.c:300
+#: client/gui-xaw/diplodlg.c:340 client/gui-xaw/diplodlg.c:348
 #, c-format
 msgid "The %s offerings"
 msgstr "Die %s bieten"
 
-#: client/gui-gtk/diplodlg.c:304 client/gui-gtk/diplodlg.c:322
-#: client/gui-xaw/diplodlg.c:362 client/gui-xaw/diplodlg.c:380
+#: client/gui-gtk/diplodlg.c:313 client/gui-gtk/diplodlg.c:331
+#: client/gui-xaw/diplodlg.c:367 client/gui-xaw/diplodlg.c:385
 msgid "World-map"
 msgstr "Weltkarte"
 
-#: client/gui-gtk/diplodlg.c:309 client/gui-gtk/diplodlg.c:327
-#: client/gui-xaw/diplodlg.c:366 client/gui-xaw/diplodlg.c:384
+#: client/gui-gtk/diplodlg.c:318 client/gui-gtk/diplodlg.c:336
+#: client/gui-xaw/diplodlg.c:371 client/gui-xaw/diplodlg.c:389
 msgid "Sea-map"
 msgstr "Seekarte"
 
-#: client/gui-gtk/diplodlg.c:315 client/gui-gtk/diplodlg.c:333
+#: client/gui-gtk/diplodlg.c:324 client/gui-gtk/diplodlg.c:342
 #: data/Freeciv:332 data/Freeciv:341
 msgid "Maps"
 msgstr "Karten"
 
-#: client/gui-gtk/diplodlg.c:341 client/gui-gtk/diplodlg.c:353
+#: client/gui-gtk/diplodlg.c:350 client/gui-gtk/diplodlg.c:362
 #: data/Freeciv:350 data/Freeciv:359
 msgid "Advances"
 msgstr "Forschungsergebnisse"
 
-#: client/gui-gtk/diplodlg.c:367 client/gui-gtk/diplodlg.c:379
+#: client/gui-gtk/diplodlg.c:376 client/gui-gtk/diplodlg.c:388
 #: data/Freeciv:368 data/Freeciv:377
 msgid "Cities"
 msgstr "Städte"
 
-#: client/gui-gtk/diplodlg.c:396 client/gui-gtk/diplodlg.c:403
-#: client/gui-xaw/diplodlg.c:457 client/gui-xaw/diplodlg.c:464
+#: client/gui-gtk/diplodlg.c:405 client/gui-gtk/diplodlg.c:412
+#: client/gui-xaw/diplodlg.c:462 client/gui-xaw/diplodlg.c:469
 #, c-format
 msgid "Gold(max %d)"
 msgstr "Gold (max %d)"
 
-#: client/gui-gtk/diplodlg.c:415 client/gui-xaw/diplodlg.c:480
+#: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485
 msgid "Cease-fire"
 msgstr "Waffenstillstand"
 
-#: client/gui-gtk/diplodlg.c:425 client/gui-xaw/diplodlg.c:488
+#: client/gui-gtk/diplodlg.c:434 client/gui-xaw/diplodlg.c:493
 msgid "Alliance"
 msgstr "Allianz"
 
-#: client/gui-gtk/diplodlg.c:432 data/Freeciv:432
+#: client/gui-gtk/diplodlg.c:441 data/Freeciv:432
 msgid "Pacts"
 msgstr "Verträge"
 
-#: client/gui-gtk/diplodlg.c:441 client/gui-xaw/diplodlg.c:494
+#: client/gui-gtk/diplodlg.c:450 client/gui-xaw/diplodlg.c:499
 #, c-format
 msgid ""
 "This Eternal Treaty\n"
@@ -6086,25 +6085,25 @@ msgstr ""
 "und\n"
 "dem %sen %s %s"
 
-#: client/gui-gtk/diplodlg.c:471 client/gui-gtk/diplodlg.c:479
-#: client/gui-xaw/diplodlg.c:534 client/gui-xaw/diplodlg.c:545
+#: client/gui-gtk/diplodlg.c:480 client/gui-gtk/diplodlg.c:488
+#: client/gui-xaw/diplodlg.c:539 client/gui-xaw/diplodlg.c:550
 #, c-format
 msgid "%s view:"
 msgstr "%s Meinung:"
 
-#: client/gui-gtk/diplodlg.c:487 data/Freeciv:324
+#: client/gui-gtk/diplodlg.c:496 data/Freeciv:324
 msgid "Erase clause"
 msgstr "Klausel löschen"
 
-#: client/gui-gtk/diplodlg.c:491 data/Freeciv:441
+#: client/gui-gtk/diplodlg.c:500 data/Freeciv:441
 msgid "Accept treaty"
 msgstr "Abkommen unterzeichnen"
 
-#: client/gui-gtk/diplodlg.c:496 data/Freeciv:450
+#: client/gui-gtk/diplodlg.c:505 data/Freeciv:450
 msgid "Cancel meeting"
 msgstr "Konferenz verlassen"
 
-#: client/gui-gtk/diplodlg.c:859 client/gui-xaw/diplodlg.c:948
+#: client/gui-gtk/diplodlg.c:868 client/gui-xaw/diplodlg.c:953
 msgid "Game: Invalid amount of gold specified."
 msgstr "Spiel: Ungültiger Betrag an Gold angegeben."
 
@@ -6143,7 +6142,7 @@ msgid "Goto/Airlift Unit"
 msgstr "Gehe nach / Fliege nach"
 
 #: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:333
-#: client/gui-xaw/mapview.c:308
+#: client/gui-xaw/mapview.c:310
 msgid "Select destination"
 msgstr "Bestimmungsort wählen"
 
@@ -6151,11 +6150,11 @@ msgstr "Bestimmungsort wählen"
 msgid "_Goto"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk/gui_main.c:423 data/Freeciv:2472
+#: client/gui-gtk/gui_main.c:415 data/Freeciv:2472
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk/gui_main.c:542 data/Freeciv:2707
+#: client/gui-gtk/gui_main.c:534 data/Freeciv:2707
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -6165,11 +6164,11 @@ msgstr ""
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
 "und weitergegeben werden."
 
-#: client/gui-gtk/gui_main.c:597
+#: client/gui-gtk/gui_main.c:589
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk/gui_main.c:746 client/gui-xaw/gui_main.c:660
+#: client/gui-gtk/gui_main.c:735 client/gui-xaw/gui_main.c:682
 #, c-format
 msgid ""
 "%s People\n"
@@ -6478,7 +6477,7 @@ msgstr ""
 "Gold: %d\n"
 "Steuern: %d Luxus: %d Forschung: %d"
 
-#: client/gui-gtk/mapview.c:328 client/gui-xaw/mapview.c:306
+#: client/gui-gtk/mapview.c:328 client/gui-xaw/mapview.c:308
 msgid "(veteran)"
 msgstr "(Veteran)"
 
@@ -7047,7 +7046,7 @@ msgid "Results"
 msgstr "Ergebnisse"
 
 #: client/gui-gtk/repodlgs.c:788 client/gui-xaw/repodlgs.c:830
-#, c-format, ycp-format
+#, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -7138,7 +7137,6 @@ msgid "Launch"
 msgstr "Start"
 
 #: client/gui-gtk/spaceshipdlg.c:264 client/gui-xaw/spaceshipdlg.c:268
-#, ycp-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -7230,7 +7228,7 @@ msgid "empty worklist"
 msgstr "leere Arbeitsliste"
 
 #: client/gui-xaw/citydlg.c:203
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -7262,17 +7260,17 @@ msgstr ""
 "Forschung: %3d"
 
 #: client/gui-xaw/citydlg.c:316
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/XXX XXX turns "
 msgstr " %3d/XXX XXX Runden "
 
 #: client/gui-xaw/citydlg.c:321
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/%3d %3d turn "
 msgstr " %3d/%3d %3d Runde "
 
 #: client/gui-xaw/citydlg.c:322
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/%3d %3d turns "
 msgstr " %3d/%3d %3d Runden "
 
@@ -7313,42 +7311,42 @@ msgid "Failed reading XPM file: %s"
 msgstr "Failed reading XPM file: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:299
+#: client/gui-xaw/gui_main.c:301
 msgid "No version number in resources."
 msgstr "No version number in resources."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:300
+#: client/gui-xaw/gui_main.c:302
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:308
+#: client/gui-xaw/gui_main.c:310
 msgid "Game version does not match Resource version."
 msgstr "Game version does not match Resource version."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:309
+#: client/gui-xaw/gui_main.c:311
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Game version: %s - Resource version: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:311
+#: client/gui-xaw/gui_main.c:313
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:317
+#: client/gui-xaw/gui_main.c:319
 msgid "Using fallback resources - which is OK"
 msgstr "Benutze Reserveressourcen - OK"
 
-#: client/gui-xaw/gui_main.c:328
+#: client/gui-xaw/gui_main.c:330
 msgid "Only color displays are supported for now..."
 msgstr "Z.Zt. werden nur Farbbildschirme unterstützt..."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:348 client/gui-xaw/gui_main.c:360
+#: client/gui-xaw/gui_main.c:350 client/gui-xaw/gui_main.c:362
 #, c-format
 msgid "Failed loading font: %s"
 msgstr "Failed loading font: %s"
@@ -7388,7 +7386,7 @@ msgstr ""
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "A:%d V:%d FK:%d TP:%d0%%"
 
-#: client/gui-xaw/mapview.c:265
+#: client/gui-xaw/mapview.c:267
 #, c-format
 msgid ""
 "%s People\n"
@@ -7426,7 +7424,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1144
-#, c-format, ycp-format
+#, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
