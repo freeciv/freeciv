@@ -1654,7 +1654,7 @@ static void load_government_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_governments(struct section_file *file)
 {
-  int i, j, nval;
+  int j, nval;
   char **sec, **slist;
   const char *filename = secfile_filename(file);
 
@@ -1667,24 +1667,6 @@ static void load_ruleset_governments(struct section_file *file)
   
   game.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
-
-  if (game.default_government == game.government_when_anarchy) {
-    players_iterate(pplayer) {
-      /* If we do not do this, the game will crash. It enables us to
-       * select a valid government on game start. */
-      pplayer->revolution_finishes = 0;
-    } players_iterate_end;
-  }
-  
-  /* Because player_init is called before rulesets are loaded we set
-   * all players governments here, if they have not been previously
-   * set (eg by loading game).
-   */
-  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
-    if (game.players[i].government == G_MAGIC) {
-      game.players[i].government = game.default_government;
-    }
-  }
 
   /* easy ones: */
   government_iterate(g) {

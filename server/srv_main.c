@@ -53,6 +53,7 @@
 #include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -1709,6 +1710,28 @@ void srv_main(void)
 /**************************************************************************
   Server loop, run to set up one game.
 **************************************************************************/
+static void final_ruleset_adjustments()
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    if (game.players[i].government == G_MAGIC) {
+      game.players[i].government = game.default_government;
+    }
+  }
+
+  if (game.default_government == game.government_when_anarchy) {
+    players_iterate(pplayer) {
+      /* If we do not do this, an assert will trigger. This enables us to
+       * select a valid government on game start. */
+      pplayer->revolution_finishes = 0;
+    } players_iterate_end;
+  }
+}
+
+/**************************************************************************
+  Server loop, run to set up one game.
+**************************************************************************/
 static void srv_loop(void)
 {
   int i;
@@ -1823,6 +1846,7 @@ main_start_players:
   if (game.is_new_game) {
     generate_ai_players();
   }
+  final_ruleset_adjustments();
    
   /* If we have a tile map, and map.generator==0, call map_fractal_generate
    * anyway to make the specials, huts and continent numbers. */
