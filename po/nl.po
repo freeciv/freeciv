@@ -11313,7 +11313,7 @@ msgstr "?plural:Baverianen"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Boer"
+msgstr "Boeren"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
@@ -11321,7 +11321,7 @@ msgstr "?plural:Boeren"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brazilianen"
+msgstr "Braziliaanse"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
@@ -11413,7 +11413,7 @@ msgstr "Grote Bruixa"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "Chileese"
+msgstr "Chileense"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
