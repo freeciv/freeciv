@@ -2834,6 +2834,14 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       unfog_area(unit_owner(pcargo), dest_x, dest_y, unit_type(pcargo)->vision_range);
       pcargo->x = dest_x;
       pcargo->y = dest_y;
+
+      if ((pcargo->activity == ACTIVITY_GOTO
+	   || pcargo->activity == ACTIVITY_PATROL)
+	  && !pcargo->ai.control) {
+	/* Cancel any _client_ gotos for these units. */
+	handle_unit_activity_request(pcargo, ACTIVITY_IDLE);
+      }
+
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, TRUE);
