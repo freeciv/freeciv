@@ -912,6 +912,12 @@ static void build_free_palace(struct player *pplayer,
   notify_player(pplayer, _("Game: You lost your capital %s. A new palace "
 			   "was built in %s."), old_capital_name,
 		pnew_capital->name);
+
+  /* 
+   * The enemy want to see the new capital in his intelligence
+   * report. 
+   */
+  send_city_info(NULL, pnew_capital);
 }
 
 /**********************************************************************
