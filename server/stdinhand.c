@@ -830,6 +830,23 @@ static bool toggle_ai_player(struct connection *caller, char *arg, bool check)
   return TRUE;
 }
 
+/****************************************************************************
+  Return the number of non-observer players.  game.nplayers includes
+  observers so in some places this function should be called instead.
+****************************************************************************/
+static int get_num_nonobserver_players(void)
+{
+  int nplayers = 0;
+
+  players_iterate(pplayer) {
+    if (!pplayer->is_observer) {
+      nplayers++;
+    }
+  } players_iterate_end;
+
+  return nplayers;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -845,8 +862,10 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (game.nplayers >= game.max_players) 
-  {
+  /* game.max_players is a limit on the number of non-observer players.
+   * MAX_NUM_PLAYERS is a limit on all players. */
+  if (get_num_nonobserver_players() >= game.max_players
+      || game.nplayers >= MAX_NUM_PLAYERS) {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
 	      _("Can't add more players, server is full."));
     return FALSE;
@@ -3592,10 +3611,12 @@ static bool start_command(struct connection *caller, char *name, bool check)
 	game.max_players = map.num_start_positions;
       }
 
-      if (game.nplayers > game.max_players) {
+      if (get_num_nonobserver_players() > game.max_players) {
 	/* Because of the way player ids are renumbered during
 	   server_remove_player() this is correct */
-        while (game.nplayers > game.max_players) {
+        while (get_num_nonobserver_players() > game.max_players) {
+	  /* This may erronously remove observer players sometimes.  This
+	   * is a bug but non-fatal. */
 	  server_remove_player(get_player(game.max_players));
         }
 
@@ -3608,7 +3629,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
     }
 
     /* check min_players */
-    if (game.nplayers < game.min_players) {
+    if (get_num_nonobserver_players() < game.min_players) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
 		_("Not enough players, game will not start."));
       return FALSE;
