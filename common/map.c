@@ -1406,6 +1406,7 @@ int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
       return dir;
   }
   assert(0);
+  return -1;
 }
 
 /**************************************************************************
