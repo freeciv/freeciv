@@ -328,7 +328,10 @@ void popup_science_dialog(int make_modal)
               End,
           Child, ScrollgroupObject,
               MUIA_Scrollgroup_FreeVert, FALSE,
-              MUIA_Scrollgroup_Contents, science_researched_group = AutoGroup, VirtualFrame, End,
+              MUIA_Scrollgroup_Contents, science_researched_group = AutoGroup,
+                  VirtualFrame,
+		  MUIA_AutoGroup_DefVertObjects, 8,
+                  End,
               End,              
           End,
       End;

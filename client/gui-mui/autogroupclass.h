@@ -17,6 +17,8 @@
 
 IMPORT struct MUI_CustomClass *CL_AutoGroup;
 
+#define MUIA_AutoGroup_DefVertObjects   (TAG_USER+0x3000101) /* I.. LONG */
+
 #define MUIM_AutoGroup_DisposeChilds (0x7287840)
 
 BOOL create_autogroup_class(void);

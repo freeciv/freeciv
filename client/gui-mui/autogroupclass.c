@@ -34,7 +34,7 @@
 
 struct AutoGroup_Data
 {
-  ULONG dummy;
+  ULONG defvobjs;
 };
 
 HOOKPROTONH(AutoGroup_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
@@ -58,9 +58,11 @@ HOOKPROTONH(AutoGroup_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
 
             Object *cstate = (Object *)lm->lm_Children->mlh_Head;
 	    Object *child;
+	    struct AutoGroup_Data *data = INST_DATA(CL_AutoGroup->mcc_Class,obj);
 
 	    WORD maxminwidth  = 0;
 	    WORD maxminheight = 0;
+	    ULONG defvobjs = data->defvobjs;
 
 	    /* find out biggest widths & heights of our children */
 
@@ -75,7 +77,7 @@ HOOKPROTONH(AutoGroup_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
 	    lm->lm_MinMax.MinWidth  = 2*maxminwidth+horiz_spacing;
 	    lm->lm_MinMax.MinHeight = 2*maxminheight+vert_spacing;
 	    lm->lm_MinMax.DefWidth  = 4*maxminwidth+3*horiz_spacing;
-	    lm->lm_MinMax.DefHeight = 4*maxminheight+3*vert_spacing;
+	    lm->lm_MinMax.DefHeight = defvobjs*maxminheight+(defvobjs-1)*vert_spacing;
 	    lm->lm_MinMax.MaxWidth  = MUI_MAXMAX;
 	    lm->lm_MinMax.MaxHeight = MUI_MAXMAX;
 
@@ -151,6 +153,13 @@ STATIC ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
        MUIA_Group_LayoutHook, &layout_hook,
        TAG_MORE, msg->ops_AttrList)))
   {
+    struct AutoGroup_Data *data = (struct AutoGroup_Data*)INST_DATA(cl,o);
+    struct TagItem *ti;
+
+    if ((ti = FindTagItem(MUIA_AutoGroup_DefVertObjects,msg->ops_AttrList)))
+    {
+      data->defvobjs = ti->ti_Data;
+    } else data->defvobjs = 4;
     return (ULONG)o;
   }
   return 0;
