@@ -936,6 +936,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 
       /* Wakeup Focus */
       if (wakeup_focus 
+          && !game.player_ptr->ai.control
           && punit->owner == game.player_idx
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
@@ -1158,7 +1159,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
   if(repaint_unit)
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
-  if (check_focus || get_unit_in_focus() == NULL)
+  if ((check_focus || get_unit_in_focus() == NULL) &&
+      !game.player_ptr->ai.control)
     update_unit_focus();
   
   return ret;
