@@ -22,23 +22,45 @@
 #include <unittools.h>
 #include <gotohand.h>
 #include <settlers.h>
+#include <log.h>
 
 struct move_cost_map warmap;
 
+#define WARSTACK_DIM 16384
+/* Must be a power of 2, size of order (MAP_MAX_WIDTH*MAP_MAX_HEIGHT);
+ * (Could be non-power-of-2 and then use modulus in add_to_stack
+ * and get_from_warstack.)
+ */
+   
 struct stack_element {
   unsigned char x, y;
-} warstack[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
+} warstack[WARSTACK_DIM];
 
-/* this wastes ~20K of memory and should really be fixed but I'm lazy  -- Syela */
+/* This wastes ~20K of memory and should really be fixed but I'm lazy  -- Syela
+ *
+ * Note this is really a queue.  And now its a circular queue to avoid
+ * problems with large maps.  Note that a single (x,y) can appear multiple
+ * times in warstack due to a sequence of paths with successively
+ * smaller costs.  --dwp
+ */
 
-int warstacksize;
-int warnodes;
+unsigned int warstacksize;
+unsigned int warnodes;
 
-void add_to_stack(int x, int y)
+static void add_to_stack(int x, int y)
 {
-  warstack[warstacksize].x = x;
-  warstack[warstacksize].y = y;
+  unsigned int i = warstacksize & (WARSTACK_DIM-1);
+  warstack[i].x = x;
+  warstack[i].y = y;
   warstacksize++;
+}
+
+static void get_from_warstack(unsigned int i, int *x, int *y)
+{
+  assert(i<warstacksize && warstacksize-i<WARSTACK_DIM);
+  i &= (WARSTACK_DIM-1);
+  *x = warstack[i].x;
+  *y = warstack[i].y;
 }
 
 void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
@@ -97,8 +119,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
   if (punit && punit->type == U_SETTLERS) maxcost >>= 1;
 
   do {
-    x = warstack[warnodes].x;
-    y = warstack[warnodes].y;
+    get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
     if((xx[2]=x+1)==map.xsize) xx[2]=0;
@@ -139,9 +160,11 @@ This led to a bad bug where a unit in a swamp was considered too far away */
       }
     } /* end for */
   } while (warstacksize > warnodes);
-  if (warnodes > 15000) printf("Warning: %d nodes in map #%d for (%d, %d)\n",
-     warnodes, which, orig_x, orig_y);
-/* printf("Generated warmap for (%d,%d) with %d nodes checked.\n", orig_x, orig_y, warnodes); */
+  if (warnodes > WARSTACK_DIM) {
+    flog(LOG_DEBUG, "Warning: %u nodes in map #%d for (%d, %d)",
+	 warnodes, which, orig_x, orig_y);
+  }
+/* printf("Generated warmap for (%d,%d) with %u nodes checked.\n", orig_x, orig_y, warnodes); */
 /* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
@@ -405,8 +428,7 @@ and independently I can worry about optimizing them. -- Syela */
 /* if passenger is nonzero, the next-to-last tile had better be zoc-ok! */
 
   do {
-    x = warstack[warnodes].x;
-    y = warstack[warnodes].y;
+    get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
     if((xx[2]=x+1)==map.xsize) xx[2]=0;
@@ -483,7 +505,7 @@ punit->goto_dest_x, punit->goto_dest_y);*/
       }
     } /* end for */
   } while (warstacksize > warnodes);
-/*printf("GOTO: (%d, %d) -> (%d, %d), %d nodes, cost = %d\n", 
+/*printf("GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d\n", 
 orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);*/
   if (maxcost == 255) return(0);
 /* succeeded.  the vector at the destination indicates which way we get there */
@@ -493,8 +515,7 @@ orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);*/
   add_to_stack(dest_x, dest_y);
 
   do {
-    x = warstack[warnodes].x;
-    y = warstack[warnodes].y;
+    get_from_warstack(warnodes, &x, &y);
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
     if((xx[2]=x+1)==map.xsize) xx[2]=0;
@@ -516,7 +537,7 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
       }
     }
   } while (warstacksize > warnodes);
-/*printf("BACKTRACE: %d nodes\n", warnodes);*/
+/*printf("BACKTRACE: %u nodes\n", warnodes);*/
   return(1);
 /* DONE! */
 }
