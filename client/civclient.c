@@ -703,7 +703,9 @@ double real_timer_callback(void)
     time_until_next_call = MIN(time_until_next_call, blink_time);
   }
 
-  if (game.timeout > 0) {
+  /* It is possible to have game.timeout > 0 but !turndone_timer, in the
+   * first moments after the timeout is set. */
+  if (game.timeout > 0 && turndone_timer) {
     double seconds = seconds_to_turndone - read_timer_seconds(turndone_timer);
     int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
 
