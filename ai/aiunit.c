@@ -260,7 +260,7 @@ static bool has_defense(struct city *pcity)
 static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int move_time;
-  int move_rate = unit_type(punit)->move_rate;
+  int move_rate = unit_move_rate(punit);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -277,20 +277,6 @@ static int unit_move_turns(struct unit *punit, int x, int y)
     break;
  
   case SEA_MOVING:
-   
-    if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
-        move_rate += SINGLE_MOVE;
-    }
-    
-    if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
-        move_rate += (improvement_variant(B_MAGELLAN) == 1) 
-                       ?  SINGLE_MOVE : 2 * SINGLE_MOVE;
-    }
-      
-    if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
-        move_rate += SINGLE_MOVE;
-    }
-      
     move_time = WARMAP_SEACOST(x, y) / move_rate;
     break;
  
@@ -1188,7 +1174,7 @@ bool find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 	if (map_has_special(x1, y1, S_RIVER))
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
-            unit_type(punit)->move_rate)
+            unit_move_rate(punit))
 	  ok *= 8;
         ok += (6 * THRESHOLD - WARMAP_SEACOST(x1, y1));
         if (ok > best) {
@@ -1269,7 +1255,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
   unit_list_iterate(pplayer->units, buddy) {
     if (buddy->ai.bodyguard != BODYGUARD_WANTED
         || !goto_is_sane(punit, buddy->x, buddy->y, TRUE)
-        || unit_type(buddy)->move_rate > unit_type(punit)->move_rate
+        || unit_move_rate(buddy) > unit_move_rate(punit)
         || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
         || (is_military_unit(buddy) && get_transporter_capacity(buddy) == 0
             && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))
@@ -1709,7 +1695,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
       }
-      invasion_funct(aunit, FALSE, unit_type(aunit)->move_rate / SINGLE_MOVE,
+      invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
                      (COULD_OCCUPY(aunit) ? 1 : 2));
     } else if (aunit->ai.passenger != 0 &&
                !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
@@ -1736,7 +1722,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
   }
 
-  move_rate = unit_type(punit)->move_rate;
+  move_rate = unit_move_rate(punit);
   if (unit_flag(punit, F_IGTER)) {
     move_rate *= 3;
   }

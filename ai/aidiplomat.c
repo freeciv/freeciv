@@ -482,7 +482,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     /* Compare with victim's attack power */
     newval = ATTACK_POWER(pvictim);
     if (newval > bestval
-        && unit_type(pvictim)->move_rate > pos.total_MC) {
+        && unit_move_rate(pvictim) > pos.total_MC) {
       /* Enemy can probably kill us */
       threat = TRUE;
     } else {

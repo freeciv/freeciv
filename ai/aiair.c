@@ -223,7 +223,7 @@ static bool ai_find_strategic_airbase(struct unit *punit,
     = refuel_iterate_init(unit_owner(punit), punit->x, punit->y,
                           punit->x, punit->y, TRUE, 
                           punit->moves_left / SINGLE_MOVE, 
-                          unit_type(punit)->move_rate / SINGLE_MOVE, 
+                          unit_move_rate(punit) / SINGLE_MOVE, 
                           unit_type(punit)->fuel);
 
   while( (airbase = refuel_iterate_next(airbase_iterator)) != NULL) {

@@ -440,7 +440,7 @@ static int assess_danger(struct city *pcity)
     /* Look for enemy units */
     unit_list_iterate(aplayer->units, punit) {
       int paramove = 0;
-      int move_rate = unit_type(punit)->move_rate;
+      int move_rate = unit_move_rate(punit);
       int vulnerability = assess_danger_unit(pcity, punit);
       int dist = assess_distance(pcity, punit, move_rate);
       bool igwall = unit_really_ignores_citywalls(punit);
