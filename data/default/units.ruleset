@@ -18,7 +18,7 @@ options="1.9"
 
 [units_adjust]
 ; FIXME: These variables are here just for lazy ruleset authors
-; who couldn't be bothered to run search/replace (or sed) on the
+; who could not be bothered to run search/replace (or sed) on the
 ; rulesets they modify. Notably the civ1 ruleset. This should be
 ; fixed, and these options removed. - Per
 max_hitpoints=0        ; Cap on unit hitpoints, 0 means no max
