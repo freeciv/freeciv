@@ -301,7 +301,8 @@ unit_types[punit->type].name, unit_types[id].name); */
       unit_list_iterate_end;
     }
 
-    if (bestchoice.want > 100) { /* either need defense or building NOW */
+    if (bestchoice.want > 100 ||  /* either need defense or building NOW */
+        pplayer->research.researching == A_NONE) { /* nothing else to do */
       buycost = city_buy_cost(pcity);
       if (!pcity->shield_stock) ;
       else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
@@ -534,13 +535,21 @@ int ai_choose_defender_versus(struct city *pcity, int v)
   return bestid;
 }
 
+int has_a_normal_defender(struct city *pcity)
+{
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    if (is_military_unit(punit) && is_ground_unit(punit)) return 1;
+  unit_list_iterate_end;
+  return 0;
+}
+
 int ai_choose_defender_limited(struct city *pcity, int n)
 {
   int i, j, m;
   int best= 0;
   int bestid = 0;
   int walls = 1; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
-  int isdef = assess_defense(pcity);
+  int isdef = has_a_normal_defender(pcity);
 
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
     m = unit_types[i].move_type;
@@ -788,4 +797,43 @@ int ai_fix_unhappy(struct city *pcity)
 /*     city_refresh(pcity);         moved into ai_make_elvis for utility -- Syela */
   }
   return (city_unhappy(pcity));
+}
+
+void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
+{ /* I don't care how slow this is; it will almost never be used. -- Syela */
+/* this would be a lot easier if I made ->worked a city id. */
+  struct city_list minilist;
+  int i, j;
+   
+printf("Emergency in %s!\n", pcity->name);
+  city_list_init(&minilist);
+  city_list_iterate(pplayer->cities, acity)
+    if (acity == pcity) continue;
+    city_map_iterate(i, j) {
+      if (get_worker_city(acity, i, j) != C_TILE_WORKER) continue;
+/* am I nearby? */
+      if (make_dx(acity->x+i-2, pcity->x) <= 2 &&
+          make_dy(acity->y+j-2, pcity->y) <= 2) {
+printf("Availing square in %s\n", acity->name);
+        set_worker_city(pcity, i, j, C_TILE_EMPTY);
+        if (!city_list_find_id(&minilist, acity->id))
+          city_list_insert(&minilist, acity);
+      }
+    }
+  city_list_iterate_end;
+  city_check_workers(pplayer, pcity);
+  auto_arrange_workers(pcity);
+  if (ai_fix_unhappy(pcity))
+    ai_scientists_taxmen(pcity);
+printf("Rearranging workers in %s\n", pcity->name);
+
+  city_list_iterate(minilist, acity)
+    city_check_workers(pplayer, acity);
+    add_adjust_workers(acity);
+    city_refresh(acity);
+    if (ai_fix_unhappy(acity))
+      ai_scientists_taxmen(acity);
+printf("Readjusting workers in %s\n", acity->name);
+    send_city_info(city_owner(acity), acity, 1);
+  city_list_iterate_end;
 }
