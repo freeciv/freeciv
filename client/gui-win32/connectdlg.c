@@ -57,11 +57,26 @@
 
 #include "gui_main.h"
 
+static enum {
+  LOGIN_TYPE, 
+  NEW_PASSWORD_TYPE, 
+  VERIFY_PASSWORD_TYPE,
+  ENTER_PASSWORD_TYPE
+} dialog_config;
 
 static HWND connect_dlg;
-static HWND tab_childs[2];
-static HWND server_listview;
+static HWND start_dlg;
+static HWND newgame_dlg;
+static HWND players_dlg;
+static HWND players_listview;
+static HWND network_dlg;
+static HWND network_tabs[3];
 static HWND tab_ctrl;
+static HWND networkdlg_msg;
+static HWND networkdlg_name;
+static HWND server_listview;
+static HWND lan_listview;
+
 static int autoconnect_timer_id;
 struct t_server_button {
   HWND button;
@@ -71,11 +86,9 @@ struct t_server_button {
 
 enum new_game_dlg_ids {
   ID_NAME=100,
-  ID_EASY,
-  ID_MEDIUM,
-  ID_HARD,
-  ID_AIFILL,
-  ID_STARTGAME,
+  ID_NEWGAMEDLG_AISKILL,
+  ID_NEWGAMEDLG_AIFILL,
+  ID_NEWGAMEDLG_OPTIONS,
   ID_OK=IDOK,
   ID_CANCEL=IDCANCEL
 };
@@ -88,39 +101,141 @@ static struct t_server_button server_buttons[]={{NULL,N_("Start Game"),
 						 "/quit"},
 						{NULL,N_("Get Score"),
 						 "/score"}};
-static HWND main_menu;
 static char saved_games_dirname[MAX_PATH+1]=".";
 
-static void new_game_callback(HWND w,void * data);
+static void load_game_callback(void);
 
+static int get_lanservers(HWND list);
+
+static int num_lanservers_timer = 0;
 
 
 /*************************************************************************
- PORTME
+ configure the dialog depending on what type of authentication request the
+ server is making.
 *************************************************************************/
 void handle_authentication_req(enum authentication_type type, char *message)
 {
+  SetFocus(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME));
+  SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), "");
+  EnableWindow(GetDlgItem(network_dlg, ID_CONNECTDLG_CONNECT), TRUE);
+  SetWindowText(networkdlg_msg, message);
+
+  switch (type) {
+  case AUTH_NEWUSER_FIRST:
+    dialog_config = NEW_PASSWORD_TYPE;
+    break;
+  case AUTH_NEWUSER_RETRY:
+    dialog_config = NEW_PASSWORD_TYPE;
+    break;
+  case AUTH_LOGIN_FIRST:
+    /* if we magically have a password already present in 'password'
+     * then, use that and skip the password entry dialog */
+    if (password[0] != '\0') {
+      struct packet_authentication_reply reply;
+
+      sz_strlcpy(reply.password, password);
+      send_packet_authentication_reply(&aconnection, &reply);
+      return;
+    } else {
+      dialog_config = ENTER_PASSWORD_TYPE;
+    }
+    break;
+  case AUTH_LOGIN_RETRY:
+    dialog_config = ENTER_PASSWORD_TYPE;
+    break;
+  default:
+    assert(0);
+  }
+
+  SetWindowText(networkdlg_name, _("Password:"));
+  Edit_SetPasswordChar(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), '*');
+  fcwin_redo_layout(network_dlg);
+  InvalidateRect(network_dlg, NULL, TRUE);
 }
 
 /**************************************************************************
- PORTME 
+  this regenerates the player information from a loaded game on the server.
 **************************************************************************/
 void handle_game_load(struct packet_game_load *packet)
 { 
+  char *row[3];
+  int i;
+
+  if (!connect_dlg) {
+    return;
+  }
+
+  /* we couldn't load the savegame, we could have gotten the name wrong, etc */
+  if (!packet->load_successful
+      || strcmp(current_filename, packet->load_filename) != 0) {
+
+    SetWindowText(connect_dlg, _("Couldn't load the savegame"));
+    return;
+  } else {
+    char *buf = strrchr(current_filename, '/');
+
+    if (buf == NULL) {
+      buf = current_filename;
+    } else {
+      buf++;
+    }
+    SetWindowText(connect_dlg, buf);
+  }
+
+  ShowWindow(start_dlg, SW_HIDE);
+  ShowWindow(players_dlg, SW_SHOWNORMAL);
+
+  game.nplayers = packet->nplayers;
+  ListView_DeleteAllItems(players_listview);
+
+  for (i = 0; i < packet->nplayers; i++) {
+    row[0] = packet->name[i];
+    row[1] = packet->nation_name[i];
+    row[2] = packet->is_alive[i] ? _("Alive") : _("Dead");
+    row[3] = packet->is_ai[i] ? _("AI") : _("Human");
+    fcwin_listview_add_row(players_listview, 0, 4, row);
+  }
+
+  /* if nplayers is zero, we suppose it's a scenario */
+  if (packet->load_successful && packet->nplayers == 0) {
+    char message[MAX_LEN_MSG];
+
+    my_snprintf(message, sizeof(message), "/create %s", user_name);
+    send_chat(message);
+    my_snprintf(message, sizeof(message), "/ai %s", user_name);
+    send_chat(message);
+    my_snprintf(message, sizeof(message), "/take %s", user_name);
+    send_chat(message);
+
+    /* create a false entry */
+    row[0] = user_name;
+    row[1] = "";
+    row[2] = _("Alive");
+    row[3] = _("Human");
+    fcwin_listview_add_row(players_listview, 0, 4, row);
+  }
 }
 
 /**************************************************************************
- PORTME 
+ really close and destroy the dialog.
 **************************************************************************/
 void really_close_connection_dialog(void)
 {
+  if (connect_dlg) {
+    DestroyWindow(connect_dlg);
+  }
 }
 
 /*************************************************************************
- PORTME
+ close and destroy the dialog but only if we don't have a local
+ server running (that we started).
 *************************************************************************/
 void close_connection_dialog()
 {
+  if (!is_server_running()) {
+    really_close_connection_dialog();
+  }
 }
 
 /*************************************************************************
@@ -154,34 +269,108 @@ static void add_server_control_buttons()
 }
 
 /**************************************************************************
-
+ if on the metaserver page, switch page to the login page (with new server
+ and port). if on the login page, send connect and/or authentication 
+ requests to the server.
 **************************************************************************/
 static void connect_callback()
 {
   char errbuf[512];
   char portbuf[10];
-  Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_NAME),user_name,512);
-  Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_HOST),server_host,512);
-  Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_PORT),portbuf,10);
-  sscanf(portbuf, "%d", &server_port);
-  if (connect_to_server(user_name,server_host,server_port,
-			errbuf,sizeof(errbuf))!=-1)
-    {
-      DestroyWindow(connect_dlg);
-    }
-  else
-    {
-      printf("xx\n");
+  struct packet_authentication_reply reply;
+
+  if (TabCtrl_GetCurSel(tab_ctrl) != 0) {
+    TabCtrl_SetCurSel(tab_ctrl, 0);
+    ShowWindow(network_tabs[0], SW_SHOWNORMAL);
+    ShowWindow(network_tabs[1], SW_HIDE);
+    ShowWindow(network_tabs[2], SW_HIDE);
+    return;
+  }
+
+  switch (dialog_config) {
+  case LOGIN_TYPE:
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME),
+		 user_name, 512);
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_HOST),
+		 server_host, 512);
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_PORT),
+		 portbuf, 10);
+    server_port = atoi(portbuf);
+  
+    if (connect_to_server(user_name, server_host, server_port,
+                          errbuf, sizeof(errbuf)) != -1) {
+    } else {
       append_output_window(errbuf);
     }
+
+    break; 
+  case NEW_PASSWORD_TYPE:
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME),
+		 password, 512);
+    SetWindowText(networkdlg_msg, _("Verify Password"));
+    SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), "");
+    SetFocus(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME));
+    dialog_config = VERIFY_PASSWORD_TYPE;
+    break;
+  case VERIFY_PASSWORD_TYPE:
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), 
+		 reply.password, 512);
+    if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
+      EnableWindow(GetDlgItem(network_dlg, ID_CONNECTDLG_CONNECT), FALSE);
+      password[0] = '\0';
+      send_packet_authentication_reply(&aconnection, &reply);
+    } else { 
+      SetFocus(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME));
+      SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME), "");
+      SetWindowText(networkdlg_msg,
+		    _("Passwords don't match, enter password."));
+      dialog_config = NEW_PASSWORD_TYPE;
+    }
+    break;
+  case ENTER_PASSWORD_TYPE:
+    EnableWindow(GetDlgItem(network_dlg, ID_CONNECTDLG_CONNECT), FALSE);
+    Edit_GetText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_NAME),
+		 reply.password, 512);
+    send_packet_authentication_reply(&aconnection, &reply);
+    break;
+  default:
+    assert(0);
+  }
 }
 
 /**************************************************************************
-
+  Callback function for connect dialog window messages
 **************************************************************************/
-static LONG CALLBACK connectdlg_proc(HWND hWnd,
-				     UINT message,
-				     WPARAM wParam,
+static LONG CALLBACK connectdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
+				     LPARAM lParam)  
+{
+  switch(message)
+    {
+    case WM_CREATE:
+      break;
+    case WM_CLOSE:
+      PostQuitMessage(0);
+      break;
+    case WM_DESTROY:
+      break;
+    case WM_COMMAND:
+      break;
+    case WM_NOTIFY:
+      break;
+    case WM_SIZE:
+      break;
+    case WM_GETMINMAXINFO:
+      break;
+    default:
+      return DefWindowProc(hWnd, message, wParam, lParam); 
+    }
+  return FALSE;  
+}
+
+/**************************************************************************
+  Callback function for network subwindow messages
+**************************************************************************/
+static LONG CALLBACK networkdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
 				     LPARAM lParam)  
 {
   LPNMHDR nmhdr;
@@ -197,6 +386,10 @@ static LONG CALLBACK connectdlg_proc(HWND hWnd,
     case WM_COMMAND:
       switch (LOWORD(wParam))
 	{
+	case ID_CONNECTDLG_BACK:
+	  ShowWindow(network_dlg, SW_HIDE);
+	  ShowWindow(start_dlg, SW_SHOWNORMAL);
+	  break;
 	case ID_CONNECTDLG_QUIT:
 	  PostQuitMessage(0);
 	  break;
@@ -208,12 +401,117 @@ static LONG CALLBACK connectdlg_proc(HWND hWnd,
     case WM_NOTIFY:
       nmhdr=(LPNMHDR)lParam;
       if (nmhdr->hwndFrom==tab_ctrl) {
-	if (TabCtrl_GetCurSel(tab_ctrl)) {
-	  ShowWindow(tab_childs[0],SW_HIDE);
-	  ShowWindow(tab_childs[1],SW_SHOWNORMAL);
+	if (TabCtrl_GetCurSel(tab_ctrl) == 0) {
+	  ShowWindow(network_tabs[0], SW_SHOWNORMAL);
+	  ShowWindow(network_tabs[1], SW_HIDE);
+	  ShowWindow(network_tabs[2], SW_HIDE);
+	} else if (TabCtrl_GetCurSel(tab_ctrl) == 1) {
+	  ShowWindow(network_tabs[0], SW_HIDE);
+	  ShowWindow(network_tabs[1], SW_SHOWNORMAL);
+	  ShowWindow(network_tabs[2], SW_HIDE);
 	} else {
-	  ShowWindow(tab_childs[0],SW_SHOWNORMAL);
-	  ShowWindow(tab_childs[1],SW_HIDE);
+	  ShowWindow(network_tabs[0], SW_HIDE);
+	  ShowWindow(network_tabs[1], SW_HIDE);
+	  ShowWindow(network_tabs[2], SW_SHOWNORMAL);
+	}
+      }
+      break;
+    case WM_SIZE:
+      break;
+    case WM_GETMINMAXINFO:
+      break;
+    default:
+      return DefWindowProc(hWnd, message, wParam, lParam); 
+    }
+  return FALSE;  
+}
+
+/**************************************************************************
+  Callback function for start subwindow messages
+**************************************************************************/
+static LONG CALLBACK startdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
+				   LPARAM lParam)  
+{
+  switch(message)
+    {
+    case WM_CREATE:
+      break;
+    case WM_CLOSE:
+      PostQuitMessage(0);
+      break;
+    case WM_DESTROY:
+      break;
+    case WM_COMMAND:
+      switch (LOWORD(wParam))
+	{
+	case ID_STARTDLG_NEWGAME:
+	  if (is_server_running() || client_start_server()) {
+	    ShowWindow(start_dlg, SW_HIDE);
+	    ShowWindow(newgame_dlg, SW_SHOWNORMAL);
+	  }
+	  break;
+	case ID_STARTDLG_LOADGAME:
+	  load_game_callback();
+	  break;
+	case ID_STARTDLG_CONNECTGAME:
+	  ShowWindow(start_dlg, SW_HIDE);
+	  ShowWindow(network_dlg, SW_SHOWNORMAL);
+	  break;
+	}
+      break;
+    case WM_NOTIFY:
+      break;
+    case WM_SIZE:
+      break;
+    case WM_GETMINMAXINFO:
+      break;
+    default:
+      return DefWindowProc(hWnd, message, wParam, lParam); 
+    }
+  return FALSE;  
+}
+
+/**************************************************************************
+  Callback function for players subwindow messages
+**************************************************************************/
+static LONG CALLBACK playersdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
+				     LPARAM lParam)  
+{
+  NM_LISTVIEW *nmlv;
+  switch(message)
+    {
+    case WM_CREATE:
+      break;
+    case WM_CLOSE:
+      PostQuitMessage(0);
+      break;
+    case WM_DESTROY:
+      break;
+    case WM_COMMAND:
+      break;
+    case WM_NOTIFY:
+      nmlv = (NM_LISTVIEW *)lParam;
+      if (nmlv->hdr.hwndFrom == players_listview) {
+	char name[512];
+	int i, n;
+	n = ListView_GetItemCount(players_listview);
+	for (i = 0; i < n; i++) {
+	  if (ListView_GetItemState(players_listview, i, LVIS_SELECTED)) {
+	    LV_ITEM lvi;
+	    lvi.iItem = i;
+	    lvi.iSubItem = 0;
+	    lvi.mask = LVIF_TEXT;
+	    lvi.cchTextMax = 512;
+	    lvi.pszText = name;
+	    ListView_GetItem(players_listview, &lvi);
+	  }
+	}
+
+	sz_strlcpy(player_name, name);
+
+	if (nmlv->hdr.code == NM_DBLCLK) {
+	  really_close_connection_dialog();
+	  send_start_saved_game();
 	}
       }
       break;
@@ -228,59 +526,101 @@ static LONG CALLBACK connectdlg_proc(HWND hWnd,
 }
 
 /**************************************************************************
+ This function updates the list of LAN servers every 100 ms for 5 seconds. 
+**************************************************************************/
+static int get_lanservers(HWND list)
+{
+  struct server_list *server_list = get_lan_server_list();
+  char *row[6];
+
+  if (server_list != NULL) {
+    ListView_DeleteAllItems(list);
+
+    server_list_iterate(*server_list, pserver) {
+
+      row[0] = pserver->name;
+      row[1] = pserver->port;
+      row[2] = pserver->version;
+      row[3] = _(pserver->status);
+      row[4] = pserver->players;
+      row[5] = pserver->metastring;
+
+      fcwin_listview_add_row(list,0,6,row);
+
+    } server_list_iterate_end;
+  }
+
+  num_lanservers_timer++;
+  if (num_lanservers_timer == 50) {
+    finish_lanserver_scan();
+    num_lanservers_timer = 0;
+    return 0;
+  }
+  return 1;
+}
+
+/**************************************************************************
 
  *************************************************************************/
-static int get_meta_list(HWND list,char *errbuf,int n_errbuf)
+static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
 {
   int i;
   char *row[6];
   char  buf[6][64];
+
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
-  if(!server_list) return -1;
+
+  if (!server_list) {
+    return -1;
+  }
+
   ListView_DeleteAllItems(list);
-  for (i=0; i<6; i++)
-    row[i]=buf[i];
-  server_list_iterate(*server_list,pserver) {
+
+  for (i = 0; i < 6; i++)
+    row[i] = buf[i];
+
+  server_list_iterate(*server_list, pserver) {
     sz_strlcpy(buf[0], pserver->name);
     sz_strlcpy(buf[1], pserver->port);
     sz_strlcpy(buf[2], pserver->version);
     sz_strlcpy(buf[3], _(pserver->status));
     sz_strlcpy(buf[4], pserver->players);
     sz_strlcpy(buf[5], pserver->metastring);
-    fcwin_listview_add_row(list,0,6,row);
-    
-  }
-  server_list_iterate_end;
+    fcwin_listview_add_row(list, 0, 6, row);
+  } server_list_iterate_end;
   
   delete_server_list(server_list);
+
   return 0;
 }
 
 /**************************************************************************
-
+  handle a selection in either the metaserver or LAN tabs
  *************************************************************************/
-static void handle_row_click()
+static void handle_row_click(HWND list)
 {
-  int i,n;
-  n=ListView_GetItemCount(server_listview);
-  for(i=0;i<n;i++) {
-    if (ListView_GetItemState(server_listview,i,LVIS_SELECTED)) {
+  int i, n;
+  n = ListView_GetItemCount(list);
+  for(i = 0; i < n; i++) {
+    if (ListView_GetItemState(list, i, LVIS_SELECTED)) {
       char portbuf[10];
       LV_ITEM lvi;
-      lvi.iItem=i;
-      lvi.iSubItem=0;
-      lvi.mask=LVIF_TEXT;
-      lvi.cchTextMax=512;
-      lvi.pszText=server_host;
-      ListView_GetItem(server_listview,&lvi);
-      lvi.iItem=i;
-      lvi.iSubItem=1;
-      lvi.mask=LVIF_TEXT;
-      lvi.cchTextMax=sizeof(portbuf);
-      lvi.pszText=portbuf;
-      ListView_GetItem(server_listview,&lvi);
-      SetWindowText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_HOST),server_host);
-      SetWindowText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_PORT),portbuf);
+      lvi.iItem = i;
+      lvi.iSubItem = 0;
+      lvi.mask = LVIF_TEXT;
+      lvi.cchTextMax = 512;
+      lvi.pszText = server_host;
+      ListView_GetItem(list, &lvi);
+      lvi.iItem = i;
+      lvi.iSubItem = 1;
+      lvi.mask = LVIF_TEXT;
+      lvi.cchTextMax = sizeof(portbuf);
+      lvi.pszText = portbuf;
+      ListView_GetItem(list, &lvi);
+      SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_HOST),
+		    server_host);
+      SetWindowText(GetDlgItem(network_tabs[0], ID_CONNECTDLG_PORT),
+		    portbuf);
     }
   }
 }
@@ -288,7 +628,8 @@ static void handle_row_click()
 /**************************************************************************
 
  *************************************************************************/
-static LONG CALLBACK tabs_page_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM lParam)
+static LONG CALLBACK tabs_page_proc(HWND dlg, UINT message, WPARAM wParam,
+				    LPARAM lParam)
 {
   NM_LISTVIEW *nmlv;
   switch(message)
@@ -298,16 +639,24 @@ static LONG CALLBACK tabs_page_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
     case WM_COMMAND:
       if (LOWORD(wParam)==IDOK) {
 	char errbuf[128];
-	if (get_meta_list(server_listview,errbuf,sizeof(errbuf))==-1) {
-	  append_output_window(errbuf);
+	if (TabCtrl_GetCurSel(tab_ctrl) == 2) {
+	  get_lanservers(lan_listview);
+	} else {
+	  if (get_meta_list(server_listview, errbuf, sizeof(errbuf)) == -1) {
+	    append_output_window(errbuf);
+	  }
 	}
       }
       break;
     case WM_NOTIFY:
       nmlv=(NM_LISTVIEW *)lParam;
-      if (nmlv->hdr.hwndFrom==server_listview) {
-	handle_row_click();
-	if (nmlv->hdr.code==NM_DBLCLK)
+      if (nmlv->hdr.hwndFrom == server_listview) {
+	handle_row_click(server_listview);
+	if (nmlv->hdr.code == NM_DBLCLK)
+	  connect_callback();
+      } else if (nmlv->hdr.hwndFrom == lan_listview) {
+	handle_row_click(lan_listview);
+	if (nmlv->hdr.code == NM_DBLCLK)
 	  connect_callback();
       }
       break;
@@ -315,84 +664,6 @@ static LONG CALLBACK tabs_page_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
       return DefWindowProc(dlg,message,wParam,lParam);
     }
   return 0;
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void
-gui_server_connect_real(void)
-{
-  int i;
-  char buf[20];
-  char *titles_[2]= {N_("Freeciv Server Selection"),N_("Metaserver")};
-  char *server_list_titles_[6]={N_("Server Name"), N_("Port"), N_("Version"),
-				N_("Status"), N_("Players"), N_("Comment")};
-  char *titles[2];
-  WNDPROC wndprocs[2]={tabs_page_proc,tabs_page_proc};
-  void *user_data[2]={NULL,NULL};
-  struct fcwin_box *hbox;
-  struct fcwin_box *vbox;
-  struct fcwin_box *main_vbox;
-  
-  titles[0]=_(titles_[0]);
-  titles[1]=_(titles_[1]);
-  connect_dlg=fcwin_create_layouted_window(connectdlg_proc,
-					   _("Connect to Freeciv Server"),
-					   WS_OVERLAPPEDWINDOW,
-					   CW_USEDEFAULT,CW_USEDEFAULT,
-					   root_window,NULL,
-					   REAL_CHILD,
-					   NULL);
-  main_vbox=fcwin_vbox_new(connect_dlg,FALSE);
-  tab_ctrl=fcwin_box_add_tab(main_vbox,wndprocs,tab_childs,
-			     titles,user_data,2,
-			     0,0,TRUE,TRUE,5);
-  hbox=fcwin_hbox_new(tab_childs[0],FALSE);
-  vbox=fcwin_vbox_new(tab_childs[0],FALSE);
-  fcwin_box_add_static(vbox,_("Name:"),0,SS_CENTER,
-		       TRUE,TRUE,5);
-  fcwin_box_add_static(vbox,_("Host:"),0,SS_CENTER,
-		       TRUE,TRUE,5);
-  fcwin_box_add_static(vbox,_("Port:"),0,SS_CENTER,
-		       TRUE,TRUE,5);
-  fcwin_box_add_box(hbox,vbox,FALSE,FALSE,5);
-  vbox=fcwin_vbox_new(tab_childs[0],FALSE);
-  fcwin_box_add_edit(vbox,user_name,40,ID_CONNECTDLG_NAME,0,
-		     TRUE,TRUE,10);
-  fcwin_box_add_edit(vbox,server_host,40,ID_CONNECTDLG_HOST,0,
-		     TRUE,TRUE,10);
-  my_snprintf(buf, sizeof(buf), "%d", server_port);
-  fcwin_box_add_edit(vbox,buf,8,ID_CONNECTDLG_PORT,0,TRUE,TRUE,15);
-  fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
-  vbox=fcwin_vbox_new(tab_childs[0],FALSE);
-  fcwin_box_add_box(vbox,hbox,TRUE,FALSE,0);
-  fcwin_set_box(tab_childs[0],vbox);
-  vbox=fcwin_vbox_new(tab_childs[1],FALSE);
-  server_listview=fcwin_box_add_listview(vbox,5,0,LVS_REPORT | LVS_SINGLESEL,
-					 TRUE,TRUE,5);
-  fcwin_box_add_button(vbox,_("Update"),IDOK,0,FALSE,FALSE,5);
-  fcwin_set_box(tab_childs[1],vbox);
-  
-  hbox=fcwin_hbox_new(connect_dlg,TRUE);
-  fcwin_box_add_button(hbox,_("Connect"),ID_CONNECTDLG_CONNECT,
-		       0,TRUE,TRUE,5);
-  fcwin_box_add_button(hbox,_("Quit"),ID_CONNECTDLG_QUIT,
-		       0,TRUE,TRUE,5);
-  fcwin_box_add_box(main_vbox,hbox,FALSE,FALSE,5);
-  for(i=0;i<ARRAY_SIZE(server_list_titles_);i++) {
-    LV_COLUMN lvc;
-    lvc.pszText=_(server_list_titles_[i]);
-    lvc.mask=LVCF_TEXT;
-    ListView_InsertColumn(server_listview,i,&lvc);
-  }
-  fcwin_set_box(connect_dlg,main_vbox);
-  for(i=0;i<ARRAY_SIZE(server_list_titles_);i++) {
-    ListView_SetColumnWidth(server_listview,i,LVSCW_AUTOSIZE_USEHEADER);
-  }
-  fcwin_redo_layout(connect_dlg);
-  ShowWindow(tab_childs[0],SW_SHOWNORMAL);
-  ShowWindow(connect_dlg,SW_SHOWNORMAL);
 }
 
 /**************************************************************************
@@ -434,12 +705,12 @@ static int try_to_autoconnect()
 /**************************************************************************
 
 **************************************************************************/
-static void CALLBACK autoconnect_timer(HWND  hwnd,UINT uMsg,
+static void CALLBACK autoconnect_timer(HWND hwnd,UINT uMsg,
 				       UINT idEvent,DWORD  dwTime)  
 {
   printf("Timer\n");
   if (!try_to_autoconnect())
-    KillTimer(NULL,autoconnect_timer_id);
+    KillTimer(NULL, autoconnect_timer_id);
 }
 
 /**************************************************************************
@@ -470,14 +741,14 @@ void server_autoconnect()
   printf("server_autoconnect\n");
   if (try_to_autoconnect()) {
     printf("T2\n");
-    autoconnect_timer_id=SetTimer(root_window,3,AUTOCONNECT_INTERVAL,
-				  autoconnect_timer);
+    autoconnect_timer_id = SetTimer(root_window, 3, AUTOCONNECT_INTERVAL,
+				    autoconnect_timer);
   }
 
 }
 
 /**************************************************************************
-
+  Callback function for save game button
 **************************************************************************/
 static void save_game()
 {
@@ -542,9 +813,9 @@ void handle_server_buttons(HWND button)
 }
 
 /**************************************************************************
-
+  Callback function for load game button
 **************************************************************************/
-static void load_game_callback(HWND w, void * data)
+static void load_game_callback()
 {
   if (is_server_running() || client_start_server()) {
     char dirname[MAX_PATH + 1];
@@ -552,7 +823,6 @@ static void load_game_callback(HWND w, void * data)
     char filename[MAX_PATH + 1];
 
     filename[0] = '\0';
-    destroy_message_dialog(w);
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(OPENFILENAME);
     ofn.hwndOwner = root_window;
@@ -562,83 +832,27 @@ static void load_game_callback(HWND w, void * data)
     ofn.nMaxFile = sizeof(filename);
     ofn.Flags = OFN_EXPLORER;
     GetCurrentDirectory(MAX_PATH, dirname);
-    if (data != NULL) {
-      SetCurrentDirectory((char *)data);
-    } else {
-      SetCurrentDirectory(saved_games_dirname);
-    }
+    SetCurrentDirectory(saved_games_dirname);
     if (GetOpenFileName(&ofn)) {
       char message[512];
 
+      if (current_filename) {
+	free(current_filename);
+      }
+
       GetCurrentDirectory(MAX_PATH, saved_games_dirname);
       SetCurrentDirectory(dirname);
- 
+
+      current_filename = mystrdup(ofn.lpstrFile);
+
       add_server_control_buttons();
       my_snprintf(message, sizeof(message), "/load %s", ofn.lpstrFile);
       send_chat(message);
-      send_packet_single_playerlist_req(&aconnection);
 
     } else {
       SetCurrentDirectory(dirname);
-      gui_server_connect();
     }
   }
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void scroll_minsize(POINT *rcmin,void *data)
-{
-  rcmin->y=15;
-  rcmin->x=100;
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void scroll_setsize(RECT *rc,void *data)
-{
-  MoveWindow((HWND)data,rc->left,rc->top,
-             rc->right-rc->left,
-             rc->bottom-rc->top,TRUE);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void scroll_del(void *data)
-{
-  DestroyWindow((HWND)data);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void handle_hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos) 
-{
-  int PosCur,PosMax,PosMin;
-  char buf[10];
-  PosCur=ScrollBar_GetPos(hWndCtl);
-  ScrollBar_GetRange(hWndCtl,&PosMin,&PosMax);
-  switch(code)
-    {
-    case SB_LINELEFT: PosCur--; break;
-    case SB_LINERIGHT: PosCur++; break;
-    case SB_PAGELEFT: PosCur-=(PosMax-PosMin+1)/10; break;
-    case SB_PAGERIGHT: PosCur+=(PosMax-PosMin+1)/10; break;
-    case SB_LEFT: PosCur=PosMin; break;
-    case SB_RIGHT: PosCur=PosMax; break;
-    case SB_THUMBTRACK: PosCur=pos; break; 
-    default:
-      return;
-    }
-  if (PosCur<PosMin) PosCur=PosMin;
-  if (PosCur>PosMax) PosCur=PosMax;
-  ScrollBar_SetPos(hWndCtl,PosCur,TRUE);
-   
-  my_snprintf(buf,sizeof(buf),"%d",PosCur);
-  SetWindowText(GetNextSibling(hWndCtl),buf);
 }
 
 /**************************************************************************
@@ -647,36 +861,36 @@ static void handle_hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos)
 static void set_new_game_params(HWND win)
 {
   int aifill;
+  int aiskill;
+
+  char buf[512];
   char aifill_str[MAX_LEN_MSG - MAX_LEN_USERNAME + 1];
 
   if (!is_server_running()) {
     client_start_server();
   }
 
-  GetWindowText(GetDlgItem(win,ID_NAME),user_name,512);
+  aiskill = ComboBox_GetCurSel(GetDlgItem(newgame_dlg,
+					  ID_NEWGAMEDLG_AISKILL));
+
   add_server_control_buttons();
-  if (IsDlgButtonChecked(win,ID_EASY)) {
-    send_chat("/easy");
-  } else if (IsDlgButtonChecked(win,ID_MEDIUM)) {
-    send_chat("/normal");
-  } else {
-    send_chat("/hard");
-  }
+  my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[aiskill]);
+  send_chat(buf);
+
 #if 0 
   send_chat("/set autotoggle 1");
 #endif
-  aifill=ScrollBar_GetPos(GetDlgItem(win,ID_AIFILL));
+  Edit_GetText(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AIFILL), buf, 512);
+  aifill = atoi(buf);
 
   my_snprintf(aifill_str, sizeof(aifill_str), "/set aifill %d", aifill);
   send_chat(aifill_str);
-   
-  if (Button_GetCheck(GetDlgItem(win,ID_STARTGAME))==BST_CHECKED) {
-    send_chat("/start");
-  }
+
+  send_chat("/start");
 }
 
 /**************************************************************************
-
+  Callback function for new game subwindow messages
 **************************************************************************/
 static LONG CALLBACK new_game_proc(HWND win, UINT message,
 				   WPARAM wParam, LPARAM lParam)
@@ -689,123 +903,284 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
     case WM_GETMINMAXINFO:
       break;
     case WM_CLOSE:
-      DestroyWindow(win);
-      gui_server_connect();
-      break;
-    case WM_HSCROLL:
-      HANDLE_WM_HSCROLL(win,wParam,lParam,handle_hscroll);
       break;
     case WM_COMMAND:
       switch((enum new_game_dlg_ids)LOWORD(wParam))
 	{
+	case ID_NEWGAMEDLG_OPTIONS:
+	  send_report_request(REPORT_SERVER_OPTIONS2);
+	  break;
 	case ID_CANCEL:
-	  DestroyWindow(win);
-	  gui_server_connect();
+	  client_kill_server();
+	  ShowWindow(newgame_dlg,SW_HIDE);
+	  ShowWindow(start_dlg,SW_SHOWNORMAL);
 	  break;
 	case ID_OK:
 	  set_new_game_params(win);
-	  DestroyWindow(win);
 	  break;
 	default:
 	  break;
 	}
       break;
     default:
-      return DefWindowProc(win,message,wParam,lParam);
+      return DefWindowProc(win, message, wParam, lParam);
     }
   return 0;
 }
 
 /**************************************************************************
-
+  Callback function for setting connect dialog window size
 **************************************************************************/
-static void new_game_callback(HWND w,void * data)
+static void cdlg_setsize(RECT *size, void *data)
 {
- 
-  HWND win;
-  HWND scroll;
-  struct fcwin_box *hbox;
-  struct fcwin_box *vbox;
-  if (w!=NULL)
-    destroy_message_dialog(w);
-  win=fcwin_create_layouted_window(new_game_proc,_("Start New Game"),
-				   WS_OVERLAPPEDWINDOW,
-				   10,10,
-				   root_window,NULL,
-				   FAKE_CHILD,
-				   NULL);
-  vbox=fcwin_vbox_new(win,FALSE);
-  hbox=fcwin_hbox_new(win,FALSE);
-  fcwin_box_add_static(hbox,_("Your name:"),0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_edit(hbox,user_name,30,ID_NAME,0,TRUE,TRUE,5);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  hbox=fcwin_hbox_new(win,FALSE);
-  fcwin_box_add_static(hbox,_("Difficulty:"),0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_radiobutton(hbox,_("easy"),ID_EASY,WS_GROUP,TRUE,TRUE,5);
-  fcwin_box_add_radiobutton(hbox,_("medium"),ID_MEDIUM,0,TRUE,TRUE,5);
-  fcwin_box_add_radiobutton(hbox,_("hard"),ID_HARD,0,TRUE,TRUE,5);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  hbox=fcwin_hbox_new(win,FALSE);
-  fcwin_box_add_static(hbox,_("Total players (fill with AIs)"),0,
-		       WS_GROUP|SS_LEFT,FALSE,FALSE,5);
-  CheckRadioButton(win,ID_EASY,ID_HARD,ID_EASY);
-  scroll=CreateWindow("SCROLLBAR",NULL,
-		      WS_CHILD | WS_VISIBLE | SBS_HORZ,
-		      0,0,0,0,
-		      win,
-		      (HMENU)ID_AIFILL,
-		      freecivhinst,NULL);
-  fcwin_box_add_generic(hbox,scroll_minsize,scroll_setsize,scroll_del,
-			scroll,TRUE,TRUE,15);
-  ScrollBar_SetRange(scroll,1,30,TRUE);
-  ScrollBar_SetPos(scroll,5,TRUE);
-  fcwin_box_add_static(hbox,"  5",0,SS_RIGHT,FALSE,FALSE,15);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  fcwin_box_add_checkbox(vbox,_("Start game automatically?"),
-			 ID_STARTGAME,0,FALSE,FALSE,5);
-  Button_SetCheck(GetDlgItem(win,ID_STARTGAME),BST_CHECKED);
-  hbox=fcwin_hbox_new(win,TRUE);
-  fcwin_box_add_button(hbox,_("OK"),ID_OK,0,TRUE,TRUE,5);
-  fcwin_box_add_button(hbox,_("Cancel"),ID_CANCEL,0,TRUE,TRUE,5);
-  fcwin_box_add_box(vbox,hbox,TRUE,FALSE,5);
-  fcwin_set_box(win,vbox);
-  ShowWindow(win,SW_SHOWNORMAL);
+  MoveWindow(network_dlg, size->left, size->top, size->right - size->left,
+	     size->bottom - size->top, TRUE);
+  MoveWindow(start_dlg, size->left, size->top, size->right - size->left,
+	     size->bottom - size->top, TRUE);
+  MoveWindow(players_dlg, size->left, size->top, size->right - size->left,
+	     size->bottom - size->top, TRUE);
+  MoveWindow(newgame_dlg, size->left, size->top, size->right - size->left,
+	     size->bottom - size->top, TRUE);
+  fcwin_redo_layout(network_dlg);
+  fcwin_redo_layout(start_dlg);
+  fcwin_redo_layout(players_dlg);
+  fcwin_redo_layout(newgame_dlg);
 }
 
-
 /**************************************************************************
-
+  Returns the minimum connect dialog window size
 **************************************************************************/
-static void quit_game_callback(HWND w,void *data)
+static void cdlg_minsize(POINT *size, void *data)
 {
-  exit(0);
+  size->x = 460;
+  size->y = 310;
 }
 
 /**************************************************************************
-...
+  Function called when connect dialog is destroyed
 **************************************************************************/
-static void join_game_callback(HWND w,void *data)
-{ 
-  if (w)
-    destroy_message_dialog(w);
-  gui_server_connect_real();
+static void cdlg_del(void *data)
+{
+  DestroyWindow(network_dlg);
+  DestroyWindow(start_dlg);
+  DestroyWindow(players_dlg);
+  DestroyWindow(newgame_dlg);
 }
 
-/**************************************************************************
 
+/**************************************************************************
+  Creates the server connection window and all associated subwindows
 **************************************************************************/
 void gui_server_connect()
 {
-  client_kill_server();
-  main_menu=popup_message_dialog(root_window,
-                                 _("Start a game"),
-                                 _("What do you wish to to?"),
-                                 _("New Game"),new_game_callback,NULL,
-                                 _("Load Game"),load_game_callback,NULL,
-                                 _("Load Scenario"),load_game_callback,
-				 "data/scenario",
-				 _("Join Game"),join_game_callback,NULL,
-                                 _("Quit Game"),quit_game_callback,NULL,
-                                 NULL);
+  int i;
+  char buf[20];
+  char *titles_[3] = {N_("Freeciv Server Selection"),N_("Metaserver"),
+		      N_("Local Area Network")};
+  char *server_list_titles_[6] = {N_("Server Name"), N_("Port"),
+				  N_("Version"), N_("Status"), N_("Players"),
+				  N_("Comment")};
+  char *titles[3];
+  WNDPROC wndprocs[3] = {tabs_page_proc, tabs_page_proc, tabs_page_proc};
+  void *user_data[3] = {NULL, NULL, NULL};
+  struct fcwin_box *hbox;
+  struct fcwin_box *vbox;
+  struct fcwin_box *main_vbox;
+  struct fcwin_box *network_vbox;
+  struct fcwin_box *start_vbox;
+  struct fcwin_box *players_vbox;
+  struct fcwin_box *newgame_vbox;
+  LV_COLUMN lvc;
+  
+  titles[0] =_(titles_[0]);
+  titles[1] =_(titles_[1]);
+  titles[2] =_(titles_[2]);
+
+  dialog_config = LOGIN_TYPE;
+
+
+  /* Create connect dialog, which contains all the other dialogs */
+  connect_dlg = fcwin_create_layouted_window(connectdlg_proc,
+					     _("Welcome to Freeciv"),
+					     WS_OVERLAPPEDWINDOW,
+					     CW_USEDEFAULT, CW_USEDEFAULT,
+					     root_window, NULL,
+					     REAL_CHILD, NULL);
+  main_vbox = fcwin_vbox_new(connect_dlg, FALSE);
+  fcwin_box_add_generic(main_vbox, cdlg_minsize, cdlg_setsize, cdlg_del,
+			NULL, TRUE, TRUE, 0);
+
+
+  /* Create start dialog */
+  start_dlg = fcwin_create_layouted_window(startdlg_proc, NULL, WS_CHILD,
+					   0, 0, connect_dlg, NULL, 
+					   REAL_CHILD, NULL);
+  start_vbox = fcwin_vbox_new(start_dlg, FALSE);
+
+  fcwin_box_add_button_default(start_vbox, _("Start New Game"),
+			       ID_STARTDLG_NEWGAME, 0);
+  fcwin_box_add_button_default(start_vbox, _("Load Saved Game"),
+			       ID_STARTDLG_LOADGAME, 0);
+  fcwin_box_add_button_default(start_vbox, _("Connect To Network Game"),
+			       ID_STARTDLG_CONNECTGAME, 0);
+
+
+  /* Create player selection dialog, for starting a loaded game */
+  players_dlg = fcwin_create_layouted_window(playersdlg_proc, NULL, WS_CHILD,
+					     0, 0, connect_dlg, NULL, 
+					     REAL_CHILD, NULL);
+  players_vbox = fcwin_vbox_new(players_dlg, FALSE);
+
+  fcwin_box_add_static(players_vbox, _("Choose a nation to play"), 0,
+		       SS_LEFT, FALSE, FALSE, 5);
+
+  players_listview = fcwin_box_add_listview(players_vbox, 5, 0, 
+					    LVS_REPORT | LVS_SINGLESEL, TRUE,
+					    TRUE, 5);
+  lvc.pszText = _("Name");
+  lvc.mask = LVCF_TEXT;
+  ListView_InsertColumn(players_listview, 0, &lvc);
+  ListView_SetColumnWidth(players_listview, 0, LVSCW_AUTOSIZE_USEHEADER);
+
+  lvc.pszText = _("Nation");
+  lvc.mask = LVCF_TEXT;
+  ListView_InsertColumn(players_listview, 1, &lvc);
+  ListView_SetColumnWidth(players_listview, 1, LVSCW_AUTOSIZE_USEHEADER);
+
+  lvc.pszText = _("Status");
+  lvc.mask = LVCF_TEXT;
+  ListView_InsertColumn(players_listview, 2, &lvc);
+  ListView_SetColumnWidth(players_listview, 2, LVSCW_AUTOSIZE_USEHEADER);
+
+  lvc.pszText = _("Type");
+  lvc.mask = LVCF_TEXT;
+  ListView_InsertColumn(players_listview, 3, &lvc);
+  ListView_SetColumnWidth(players_listview, 3, LVSCW_AUTOSIZE_USEHEADER);
+
+
+  /* Create new game dialog */
+  newgame_dlg = fcwin_create_layouted_window(new_game_proc, NULL, WS_CHILD,
+					     0, 0, connect_dlg, NULL, 
+					     REAL_CHILD, NULL);
+  newgame_vbox = fcwin_vbox_new(newgame_dlg, FALSE);
+
+  hbox = fcwin_hbox_new(newgame_dlg, TRUE);
+
+  fcwin_box_add_static(hbox, _("Number of players (Including AI):"), 0,
+		       SS_LEFT, TRUE, TRUE, 5);
+  fcwin_box_add_edit(hbox, "5", 3, ID_NEWGAMEDLG_AIFILL, ES_NUMBER, TRUE,
+		     TRUE, 10);
+  fcwin_box_add_box(newgame_vbox, hbox, FALSE, FALSE, 5);
+
+  hbox = fcwin_hbox_new(newgame_dlg, TRUE);
+
+  fcwin_box_add_static(hbox, _("AI skill level:"), 0, SS_LEFT, TRUE, TRUE,
+		       5);
+  fcwin_box_add_combo(hbox, NUM_SKILL_LEVELS, ID_NEWGAMEDLG_AISKILL,
+		      CBS_DROPDOWN, TRUE, TRUE, 5);
+  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
+    ComboBox_AddString(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL), 
+		       _(skill_level_names[i]));
+  }
+  ComboBox_SetCurSel(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL), 1);
+
+  fcwin_box_add_box(newgame_vbox, hbox, FALSE, FALSE, 5);
+
+  hbox = fcwin_hbox_new(newgame_dlg, TRUE);
+
+  fcwin_box_add_button(hbox, _("Game Options"), ID_NEWGAMEDLG_OPTIONS, 0, 
+		       TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("OK"), ID_OK, 0, TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Cancel"), ID_CANCEL, 0, TRUE, TRUE, 5);
+
+  fcwin_box_add_box(newgame_vbox, hbox, TRUE, FALSE, 5);
+
+
+  /* Create network game dialog */
+  network_dlg = fcwin_create_layouted_window(networkdlg_proc, NULL, WS_CHILD,
+					     0, 0, connect_dlg, NULL, 
+					     REAL_CHILD, NULL);
+  network_vbox = fcwin_vbox_new(network_dlg,FALSE);
+
+  /* Change 2 to 3 here to enable lan tab */
+  tab_ctrl = fcwin_box_add_tab(network_vbox, wndprocs, network_tabs, titles, 
+			       user_data, 2, 0, 0, TRUE, TRUE, 5);
+
+  hbox = fcwin_hbox_new(network_tabs[0], FALSE);
+
+  vbox = fcwin_vbox_new(network_tabs[0], FALSE);
+  networkdlg_name = fcwin_box_add_static(vbox, _("Login:"), 0, SS_CENTER,
+					 TRUE, TRUE, 5);
+  fcwin_box_add_static(vbox, _("Host:"), 0, SS_CENTER, TRUE, TRUE, 5);
+  fcwin_box_add_static(vbox, _("Port:"), 0, SS_CENTER, TRUE, TRUE, 5);
+  fcwin_box_add_box(hbox, vbox, FALSE, FALSE, 5);
+  vbox = fcwin_vbox_new(network_tabs[0], FALSE);
+  fcwin_box_add_edit(vbox, user_name, 40, ID_CONNECTDLG_NAME, 0,
+		     TRUE, TRUE, 10);
+  fcwin_box_add_edit(vbox, server_host, 40, ID_CONNECTDLG_HOST, 0,
+		     TRUE, TRUE, 10);
+  my_snprintf(buf, sizeof(buf), "%d", server_port);
+  fcwin_box_add_edit(vbox, buf, 8, ID_CONNECTDLG_PORT, 0, TRUE, TRUE, 15);
+
+  fcwin_box_add_box(hbox, vbox, TRUE, TRUE, 5);
+
+  vbox=fcwin_vbox_new(network_tabs[0], FALSE);
+  networkdlg_msg = fcwin_box_add_static(vbox, "", 0, SS_LEFT, TRUE, TRUE,
+					5);
+  fcwin_box_add_box(vbox, hbox, TRUE, FALSE, 0);
+  fcwin_set_box(network_tabs[0], vbox);
+
+  vbox=fcwin_vbox_new(network_tabs[1], FALSE);
+  server_listview = fcwin_box_add_listview(vbox, 5, 0, LVS_REPORT
+					   | LVS_SINGLESEL, TRUE, TRUE, 5);
+  fcwin_box_add_button(vbox, _("Update"), IDOK, 0, FALSE, FALSE, 5);
+  fcwin_set_box(network_tabs[1], vbox);
+
+  vbox=fcwin_vbox_new(network_tabs[2], FALSE);
+  lan_listview = fcwin_box_add_listview(vbox, 5, 0, LVS_REPORT
+					| LVS_SINGLESEL, TRUE, TRUE,5);
+  fcwin_box_add_button(vbox, _("Update"), IDOK, 0, FALSE, FALSE, 5);
+  fcwin_set_box(network_tabs[2], vbox);
+  
+  hbox=fcwin_hbox_new(network_dlg, TRUE);
+  fcwin_box_add_button(hbox, _("Back"), ID_CONNECTDLG_BACK,
+		       0, TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Connect"), ID_CONNECTDLG_CONNECT,
+		       0, TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Quit"), ID_CONNECTDLG_QUIT,
+		       0, TRUE, TRUE, 5);
+  fcwin_box_add_box(network_vbox, hbox, FALSE, FALSE, 5);
+
+  for(i = 0; i < ARRAY_SIZE(server_list_titles_); i++) {
+    LV_COLUMN lvc;
+    lvc.pszText = _(server_list_titles_[i]);
+    lvc.mask = LVCF_TEXT;
+    ListView_InsertColumn(server_listview, i, &lvc);
+    ListView_InsertColumn(lan_listview, i, &lvc);
+  }
+
+  for(i = 0; i < ARRAY_SIZE(server_list_titles_); i++) {
+    ListView_SetColumnWidth(server_listview, i, LVSCW_AUTOSIZE_USEHEADER);
+    ListView_SetColumnWidth(lan_listview, i, LVSCW_AUTOSIZE_USEHEADER);
+  }
+
+  /* Assign boxes to windows */
+  fcwin_set_box(start_dlg, start_vbox);
+  fcwin_set_box(network_dlg, network_vbox);
+  fcwin_set_box(connect_dlg, main_vbox);
+  fcwin_set_box(players_dlg, players_vbox);
+  fcwin_set_box(newgame_dlg, newgame_vbox);
+
+  /* Redo layouts */
+  fcwin_redo_layout(connect_dlg);
+  fcwin_redo_layout(network_dlg);
+  fcwin_redo_layout(start_dlg);
+  fcwin_redo_layout(players_dlg);
+  fcwin_redo_layout(newgame_dlg);
+
+  /* Show the first tab, the initial dialog, and the window */
+  ShowWindow(network_tabs[0],SW_SHOWNORMAL);
+  ShowWindow(start_dlg,SW_SHOWNORMAL);
+  ShowWindow(connect_dlg,SW_SHOWNORMAL);
 }
 
