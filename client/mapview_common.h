@@ -60,6 +60,12 @@ struct city *find_city_near_tile(int x, int y);
 
 void get_city_mapview_production(struct city *pcity,
                                  char *buf, size_t buf_len);
+void get_city_mapview_name_and_growth(struct city *pcity,
+				      char *name_buffer,
+				      size_t name_buffer_len,
+				      char *growth_buffer,
+				      size_t growth_buffer_len,
+				      enum color_std *grwoth_color);
 
 void queue_mapview_update(void);
 void unqueue_mapview_update(void);

@@ -338,6 +338,12 @@ void handle_city_info(struct packet_city_info *packet)
 		pcity->shield_surplus != packet->shield_surplus ||
 		pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
+    } else if (draw_city_names && draw_city_growth &&
+	       (pcity->food_stock != packet->food_stock ||
+		pcity->food_surplus != packet->food_surplus)) {
+      /* If either the food stock or surplus have changed, the time-to-grow
+	 is likely to have changed as well. */
+      update_descriptions = TRUE;
     }
 
     /* update the descriptions if necessary */

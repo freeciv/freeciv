@@ -81,6 +81,7 @@ enum MenuID {
 
   MENU_VIEW_SHOW_MAP_GRID,
   MENU_VIEW_SHOW_CITY_NAMES,
+  MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
   MENU_VIEW_SHOW_CITY_PRODUCTIONS,
   MENU_VIEW_SHOW_TERRAIN,
   MENU_VIEW_SHOW_COASTLINE,
@@ -228,8 +229,14 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
       key_map_grid_toggle();
     break;
   case MENU_VIEW_SHOW_CITY_NAMES:
-    if (draw_city_names ^ GTK_CHECK_MENU_ITEM(widget)->active)
+    if (draw_city_names ^ GTK_CHECK_MENU_ITEM(widget)->active) {
       key_city_names_toggle();
+      menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+    }
+    break;
+  case MENU_VIEW_SHOW_CITY_GROWTH_TURNS:
+    if (draw_city_growth ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_city_growth_toggle();
     break;
   case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
     if (draw_city_productions ^ GTK_CHECK_MENU_ITEM(widget)->active)
@@ -600,6 +607,9 @@ static GtkItemFactoryEntry menu_items[]	=
 	view_menu_callback,	MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"	},
   { "/" N_("View") "/" N_("City _Names"),		"<control>n",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("City G_rowth"),		"<control>r",
+	view_menu_callback,	MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
+	"<CheckItem>"	},
   { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
   { "/" N_("View") "/sep1",				NULL,
@@ -977,6 +987,8 @@ void update_menus(void)
 
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
     menus_set_active("<main>/_View/City _Names", draw_city_names);
+    menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
+    menus_set_active("<main>/_View/City G_rowth", draw_city_growth);
     menus_set_active("<main>/_View/City _Productions", draw_city_productions);
     menus_set_active("<main>/_View/Terrain", draw_terrain);
     menus_set_active("<main>/_View/Coastline", draw_coastline);

@@ -946,6 +946,19 @@ void request_toggle_city_names(void)
   draw_city_names ^= 1;
   update_map_canvas_visible();
 }
+ 
+ /**************************************************************************
+ Toggle display of city growth (turns-to-grow)
+**************************************************************************/
+void request_toggle_city_growth(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
+
+  draw_city_growth = !draw_city_growth;
+  update_map_canvas_visible();
+}
 
 /**************************************************************************
  Toggle display of city productions
@@ -1744,6 +1757,15 @@ void key_map_grid_toggle(void)
 void key_city_names_toggle(void)
 {
   request_toggle_city_names();
+}
+
+/**************************************************************************
+  Toggles the "show city growth turns" option by passing off the
+  request to another function...
+**************************************************************************/
+void key_city_growth_toggle(void)
+{
+  request_toggle_city_growth();
 }
 
 /**************************************************************************

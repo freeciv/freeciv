@@ -469,3 +469,48 @@ void unqueue_mapview_update(void)
     need_mapview_update = FALSE;
   }
 }
+
+/**************************************************************************
+  Fill the two buffers which information about the city which is shown
+  below it. It takes draw_city_names and draw_city_growth into account.
+**************************************************************************/
+void get_city_mapview_name_and_growth(struct city *pcity,
+				      char *name_buffer,
+				      size_t name_buffer_len,
+				      char *growth_buffer,
+				      size_t growth_buffer_len,
+				      enum color_std *growth_color)
+{
+  if (!draw_city_names) {
+    name_buffer[0] = '\0';
+    growth_buffer[0] = '\0';
+    *growth_color = COLOR_STD_WHITE;
+    return;
+  }
+
+  my_snprintf(name_buffer, name_buffer_len, pcity->name);
+
+  if (draw_city_growth && pcity->owner == game.player_idx) {
+    int turns = city_turns_to_grow(pcity);
+
+    if (turns == 0) {
+      my_snprintf(growth_buffer, growth_buffer_len, "X");
+    } else if (turns == FC_INFINITY) {
+      my_snprintf(growth_buffer, growth_buffer_len, "-");
+    } else {
+      /* Negative turns means we're shrinking, but that's handled
+         down below. */
+      my_snprintf(growth_buffer, growth_buffer_len, "%d", abs(turns));
+    }
+
+    if (turns <= 0) {
+      /* A blocked or shrinking city has its growth status shown in red. */
+      *growth_color = COLOR_STD_RED;
+    } else {
+      *growth_color = COLOR_STD_WHITE;
+    }
+  } else {
+    growth_buffer[0] = '\0';
+    *growth_color = COLOR_STD_WHITE;
+  }
+}

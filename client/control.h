@@ -66,6 +66,7 @@ void request_unit_wait(struct unit *punit);
 void request_unit_wakeup(struct unit *punit);
 void request_toggle_map_grid(void);
 void request_toggle_city_names(void);
+void request_toggle_city_growth(void);
 void request_toggle_city_productions(void);
 void request_toggle_terrain(void);
 void request_toggle_coastline(void);
@@ -99,6 +100,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id);
 
 void key_cancel_action(void);
 void key_city_names_toggle(void);
+void key_city_growth_toggle(void);
 void key_city_productions_toggle(void);
 void key_terrain_toggle(void);
 void key_coastline_toggle(void);

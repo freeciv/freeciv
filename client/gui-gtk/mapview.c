@@ -1272,23 +1272,40 @@ void update_city_descriptions(void)
 **************************************************************************/
 static void show_desc_at_tile(int x, int y)
 {
-  static char buffer[512];
-  struct city *pcity;
-  if ((pcity = map_get_city(x, y))) {
+  static char buffer[512], buffer2[32];
+  struct city *pcity = map_get_city(x, y);
+
+  if (pcity) {
     int canvas_x, canvas_y;
-    int w, ascent;
+    int w, w2, ascent;
+    enum color_std color;
 
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    if (draw_city_names) {
-      my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
-      gdk_string_extents(main_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
-      gtk_draw_shadowed_string(map_canvas->window, main_fontset,
-			       toplevel->style->black_gc,
-			       toplevel->style->white_gc,
-			       canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			       canvas_y + NORMAL_TILE_HEIGHT +
-			       ascent, buffer);
+
+    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				     buffer2, sizeof(buffer2), &color);
+
+    gdk_string_extents(main_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
+    if (buffer2[0] != '\0') {
+      /* HACK: put a character's worth of space between the two strings. */
+      w += gdk_string_width(main_fontset, "M");
     }
+    w2 = gdk_string_width(prod_fontset, buffer2);
+
+    gtk_draw_shadowed_string(map_canvas->window, main_fontset,
+			     toplevel->style->black_gc,
+			     toplevel->style->white_gc,
+			     canvas_x + NORMAL_TILE_WIDTH / 2 - (w + w2) / 2,
+			     canvas_y + NORMAL_TILE_HEIGHT + ascent,
+			     buffer);
+    gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+    gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
+			     toplevel->style->black_gc,
+			     civ_gc,
+			     canvas_x + NORMAL_TILE_WIDTH / 2
+			     - (w + w2) / 2 + w,
+			     canvas_y + NORMAL_TILE_HEIGHT + ascent,
+			     buffer2);
 
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
       int y_offset;

@@ -712,22 +712,23 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-Draw at x = center of string, y = top of string.
+Draw at x = left of string, y = top of string.
 **************************************************************************/
 static void draw_shadowed_string(XFontStruct * font, GC font_gc,
-					  int x, int y, const char *string)
+				 enum color_std foreground,
+				 enum color_std shadow,
+				 int x, int y, const char *string)
 {
-  Window wndw=XtWindow(map_canvas);
-  int len=strlen(string);
-  int wth=XTextWidth(font, string, len);
-  int xs=x-wth/2;
-  int ys=y+font->ascent;
+  Window wndw = XtWindow(map_canvas);
+  size_t len = strlen(string);
 
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
-  XDrawString(display, wndw, font_gc, xs+1, ys+1, string, len);
+  y += font->ascent;
 
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
-  XDrawString(display, wndw, font_gc, xs, ys, string, len);
+  XSetForeground(display, font_gc, colors_standard[shadow]);
+  XDrawString(display, wndw, font_gc, x + 1, y + 1, string, len);
+
+  XSetForeground(display, font_gc, colors_standard[foreground]);
+  XDrawString(display, wndw, font_gc, x, y, string, len);
 }
 
 /**************************************************************************
@@ -749,30 +750,47 @@ void show_city_descriptions(void)
       if (!normalize_map_pos(&rx, &ry))
         continue;
 
-      if((pcity=map_get_city(rx, ry))) {
+      if ((pcity = map_get_city(rx, ry))) {
+	char buffer[512], buffer2[512];
+	enum color_std color;
+	int w, w2;
 
-	if (draw_city_names) {
-	  draw_shadowed_string(main_font_struct, font_gc,
-			       x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
-			       (y+1)*NORMAL_TILE_HEIGHT,
-			       pcity->name);
+	get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+					 buffer2, sizeof(buffer2), &color);
+
+	w = XTextWidth(main_font_struct, buffer, strlen(buffer));
+	if (buffer2[0] != '\0') {
+	  /* HACK: put a character's worth of space between the two strings. */
+	  w += XTextWidth(main_font_struct, "M", 1);
 	}
+	w2 = XTextWidth(main_font_struct, buffer2, strlen(buffer2));
 
-	if (draw_city_productions && (pcity->owner==game.player_idx)) {
-	  char buffer[512];
-	
+	draw_shadowed_string(main_font_struct, font_gc,
+			     COLOR_STD_WHITE, COLOR_STD_BLACK,
+			     x * NORMAL_TILE_WIDTH +
+			     NORMAL_TILE_WIDTH / 2 - (w + w2) / 2,
+			     (y + 1) * NORMAL_TILE_HEIGHT, buffer);
+
+	draw_shadowed_string(prod_font_struct, prod_font_gc, color,
+			     COLOR_STD_BLACK,
+			     x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 -
+			     (w + w2) / 2 + w, (y + 1) * NORMAL_TILE_HEIGHT,
+			     buffer2);
+
+	if (draw_city_productions && (pcity->owner == game.player_idx)) {
+	  int yoffset = (draw_city_names ? main_font_struct->ascent +
+			 main_font_struct->descent : 0);
+
           get_city_mapview_production(pcity, buffer, sizeof(buffer));
+	  w = XTextWidth(prod_font_struct, buffer, strlen(buffer));
 
 	  draw_shadowed_string(prod_font_struct, prod_font_gc,
-			       x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
-			       (y+1)*NORMAL_TILE_HEIGHT +
-			         (draw_city_names ?
-				   main_font_struct->ascent +
-				     main_font_struct->descent :
-				   0),
-			       buffer);
+			       COLOR_STD_WHITE, COLOR_STD_BLACK,
+			       x * NORMAL_TILE_WIDTH +
+			       NORMAL_TILE_WIDTH / 2 - w / 2,
+			       (y + 1) * NORMAL_TILE_HEIGHT +
+			       yoffset, buffer);
 	}
-
       }
     }
   }

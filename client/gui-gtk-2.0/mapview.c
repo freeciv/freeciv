@@ -1296,26 +1296,67 @@ void update_city_descriptions(void)
 **************************************************************************/
 static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 {
-  static char buffer[512];
+  static char buffer[512], buffer2[32];
   struct city *pcity;
   if ((pcity = map_get_city(x, y))) {
     int canvas_x, canvas_y;
-    PangoRectangle rect;
+    PangoRectangle rect, rect2;
+    enum color_std color;
+    int extra_width = 0;
 
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
     if (draw_city_names) {
-      my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
-      
-      pango_layout_set_font_description(layout, main_font);
-      pango_layout_set_text(layout, buffer, -1);
+      get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				       buffer2, sizeof(buffer2), &color);
 
+      pango_layout_set_font_description(layout, main_font);
+      if (buffer2[0] != '\0') {
+	/* HACK: put a character's worth of space between the two strings. */
+	pango_layout_set_text(layout, "M", -1);
+	pango_layout_get_pixel_extents(layout, &rect, NULL);
+	extra_width = rect.width;
+      }
+      pango_layout_set_text(layout, buffer, -1);
       pango_layout_get_pixel_extents(layout, &rect, NULL);
+      rect.width += extra_width;
+
+      if (draw_city_growth && pcity->owner == game.player_idx) {
+	/* We need to know the size of the growth text before
+	   drawing anything. */
+	pango_layout_set_font_description(layout, city_productions_font);
+	pango_layout_set_text(layout, buffer2, -1);
+	pango_layout_get_pixel_extents(layout, &rect2, NULL);
+
+	/* Now return the layout to its previous state. */
+	pango_layout_set_font_description(layout, main_font);
+	pango_layout_set_text(layout, buffer, -1);
+      } else {
+	rect2.width = 0;
+      }
+
       gtk_draw_shadowed_string(map_canvas->window,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
+			   canvas_x + NORMAL_TILE_WIDTH / 2
+			       - (rect.width + rect2.width) / 2,
 			   canvas_y + NORMAL_TILE_HEIGHT +
 			   PANGO_ASCENT(rect), layout);
+
+      if (draw_city_growth && pcity->owner == game.player_idx) {
+	pango_layout_set_font_description(layout, city_productions_font);
+	pango_layout_set_text(layout, buffer2, -1);
+	gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+	gtk_draw_shadowed_string(map_canvas->window,
+			toplevel->style->black_gc,
+			civ_gc,
+			canvas_x + NORMAL_TILE_WIDTH / 2
+				 - (rect.width + rect2.width) / 2
+				 + rect.width,
+			canvas_y + NORMAL_TILE_HEIGHT +
+			PANGO_ASCENT(rect) + rect.height / 2
+				 - rect2.height / 2, layout);
+
+      }
     }
 
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
