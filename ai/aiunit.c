@@ -55,6 +55,8 @@
 
 #include "aiunit.h"
 
+#define LOGLEVEL_RECOVERY LOG_DEBUG
+
 static void ai_manage_military(struct player *pplayer,struct unit *punit);
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
@@ -1427,6 +1429,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   struct unit *aunit;
   int val, def;
   int q = 0;
+  struct unit_type *punittype = get_unit_type(punit->type);
 
 /* tired of AI abandoning its cities! -- Syela */
   if (punit->homecity != 0 && (pcity = find_city_by_id(punit->homecity))) {
@@ -1495,6 +1498,15 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   if (q > 0 && pcity->ai.urgency > 0) {
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    return;
+  }
+
+  /* Is the unit badly damaged? */
+  if ((punit->ai.ai_role == AIUNIT_RECOVER
+       && punit->hp < punittype->hp)
+      || punit->hp < punittype->hp * 0.25) { /* WAG */
+    UNIT_LOG(LOGLEVEL_RECOVERY, punit, "set to hp recovery");
+    ai_unit_new_role(punit, AIUNIT_RECOVER, -1, -1);
     return;
   }
 
@@ -1885,35 +1897,50 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
   return(best);
 }
 
-/********************************************************************** 
-  Find safe harbour (preferably with PORT). An allied player's city is
-  just as good as one of our own, since both replenish our hitpoints and
+/**********************************************************************
+  Find safe city to recover in. An allied player's city is just as 
+  good as one of our own, since both replenish our hitpoints and
   reduce unhappiness.
+
+  TODO: Actually check how safe the city is. This is a difficult
+  decision not easily taken, since we also want to protect unsafe
+  cities, at least most of the time.
 ***********************************************************************/
-static bool find_nearest_friendly_port(struct unit *punit)
+static struct city *find_nearest_safe_city(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
+  struct city *acity = NULL;
   int best = 6 * THRESHOLD + 1, cur;
+  bool ground = is_ground_unit(punit);
+
   generate_warmap(map_get_city(punit->x, punit->y), punit);
   players_iterate(aplayer) {
     if (pplayers_allied(pplayer,aplayer)) {
       city_list_iterate(aplayer->cities, pcity) {
-        cur = warmap.seacost[pcity->x][pcity->y];
-        if (city_got_building(pcity, B_PORT)) cur /= 3;
+        if (ground) {
+          cur = warmap.cost[pcity->x][pcity->y];
+          if (city_got_building(pcity, B_BARRACKS)
+              || city_got_building(pcity, B_BARRACKS2)
+              || city_got_building(pcity, B_BARRACKS3)) {
+            cur /= 3;
+          }
+        } else {
+          cur = warmap.seacost[pcity->x][pcity->y];
+          if (city_got_building(pcity, B_PORT)) {
+            cur /= 3;
+          }
+        }
         if (cur < best) {
-          punit->goto_dest_x = pcity->x;
-          punit->goto_dest_y = pcity->y;
           best = cur;
+          acity = pcity;
         }
       } city_list_iterate_end;
     }
   } players_iterate_end;
-  if (best > 6 * THRESHOLD) return FALSE;
-  freelog(LOG_DEBUG, "Friendly port nearest to (%d,%d) is %s@(%d,%d) [%d]",
-		punit->x, punit->y,
-		map_get_city(punit->goto_dest_x, punit->goto_dest_y)->name,
-		punit->goto_dest_x, punit->goto_dest_y, best);
-  return TRUE;
+  if (best > 6 * THRESHOLD) {
+    return NULL;
+  }
+  return acity;
 }
 
 /*************************************************************************
@@ -1927,6 +1954,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int dest_x, dest_y; 
   int id = punit->id;
   int ct = 10;
+  struct city *pcity = NULL;
 
   assert(punit != NULL);
   if (punit->activity == ACTIVITY_GOTO) {
@@ -1989,10 +2017,10 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   if (punit->moves_left == 0) {
     return;
   }
-  if (is_sailing_unit(punit)
-      && find_nearest_friendly_port(punit)) {
+  pcity = find_nearest_safe_city(punit);
+  if (is_sailing_unit(punit) && pcity) {
     /* Sail somewhere */
-    (void) ai_unit_gothere(punit);
+    (void) ai_unit_goto(punit, pcity->x, pcity->y);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do. Worst case, this function
        will send us back home */
@@ -2105,8 +2133,10 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 { /* It's about 12 feet square and has a capacity of almost 1000 pounds.
      It is well constructed of teak, and looks seaworthy. */
   struct city *pcity;
+  struct city *port = NULL;
   struct unit *bodyguard;
-  int best = 4 * unit_type(punit)->move_rate, x = punit->x, y = punit->y;
+  struct unit_type *punittype = get_unit_type(punit->type);
+  int best = 4 * punittype->move_rate, x = punit->x, y = punit->y;
   int n = 0, p = 0;
 
   if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger))
@@ -2131,6 +2161,16 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       }
     }
   unit_list_iterate_end;
+
+  /* we try to recover hitpoints if we are in a city, before we leave */
+  if (punit->hp < punittype->hp 
+      && (pcity = map_get_city(punit->x, punit->y))) {
+    /* Don't do anything, just wait in the city */
+    UNIT_LOG(LOG_DEBUG, punit, "waiting in %s to recover hitpoints "
+            "before ferrying", pcity->name);
+    return;
+  }
+
   if (p != 0) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
@@ -2138,9 +2178,9 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       (void) ai_unit_gothere(punit);
     } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
-      if (find_nearest_friendly_port(punit)
-	  && !ai_unit_gothere(punit)) {
-	return;			/* oops! */
+      port = find_nearest_safe_city(punit);
+      if (port && !ai_unit_goto(punit, port->x, port->y)) {
+        return; /* oops! */
       }
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
@@ -2221,6 +2261,60 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   return;
 }
 
+/*************************************************************************
+ This function goes wait a unit in a city for the hitpoints to recover. 
+ If something is attacking our city, kill it yeahhh!!!.
+**************************************************************************/
+static void ai_manage_hitpoint_recovery(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  struct city *safe = NULL;
+  struct unit_type *punittype = get_unit_type(punit->type);
+
+  if (pcity) {
+    /* rest in city until the hitpoints are recovered, but attempt
+       to protect city from attack */
+    if ((punit = ai_military_rampage(punit, 2))) {
+      freelog(LOG_DEBUG, "%s's %s(%d) at (%d, %d) recovering hit points.",
+              pplayer->name, unit_type(punit)->name, punit->id, punit->x,
+              punit->y);
+    } else {
+      return; /* we died heroically defending our city */
+    }
+  } else {
+    /* goto to nearest city to recover hit points */
+    /* just before, check to see if we can occupy at enemy city undefended */
+    if (!(punit = ai_military_rampage(punit, 99999))) { 
+      return; /* oops, we died */
+    }
+
+    /* find city to stay and go there */
+    safe = find_nearest_safe_city(punit);
+    if (safe) {
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover", safe->name);
+      if (!ai_unit_goto(punit, safe->x, safe->y)) {
+        freelog(LOGLEVEL_RECOVERY, "died trying to hide and recover");
+        return;
+      }
+    } else {
+      /* oops */
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "didn't find a city to recover in!");
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+      ai_military_attack(pplayer, punit);
+      return;
+    }
+  }
+
+  /* is the unit still damaged? if true recover hit points, if not idle */
+  if (punit->hp == punittype->hp) {
+    /* we are ready to go out and kick ass again */
+    UNIT_LOG(LOGLEVEL_RECOVERY, punit, "ready to kick ass again!");
+    ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);  
+    return;
+  }
+}
+
 /**************************************************************************
 decides what to do with a military unit.
 **************************************************************************/
@@ -2259,6 +2353,9 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     return; /* when you pillage, you have moves left, avoid later fortify */
   case AIUNIT_EXPLORE:
     (void) ai_manage_explorer(punit);
+    break;
+  case AIUNIT_RECOVER:
+    ai_manage_hitpoint_recovery(punit);
     break;
   default:
     assert(FALSE);

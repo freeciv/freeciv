@@ -50,7 +50,7 @@ enum diplomat_client_actions {
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
                     AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
-                    AIUNIT_PILLAGE };
+                    AIUNIT_PILLAGE, AIUNIT_RECOVER };
 
 enum goto_move_restriction {
   GOTO_MOVE_ANY,
