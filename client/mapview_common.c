@@ -684,7 +684,7 @@ struct tile *get_center_tile_mapcanvas(void)
 void center_tile_mapcanvas(struct tile *ptile)
 {
   int gui_x, gui_y;
-  bool first = TRUE;
+  static bool first = TRUE;
 
   assert(!first || !can_slide);
   first = FALSE;
