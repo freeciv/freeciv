@@ -119,10 +119,14 @@ void init_new_game(void)
 		   !is_non_allied_unit_tile(map_get_tile(dx, dy),
 					    game.players[i].player_no)));
       }
-      /* For scenarios, huts may coincide with player starts;
-	 remove any such hut: */
+      /* For scenarios or dispersion, huts may coincide with player
+	 starts (in other cases, huts are avoided as start positions).
+	 Remove any such hut, and make sure to tell the client, since
+	 we may have already sent this tile (with the hut) earlier:
+      */
       if (map_get_special(dx, dy) & S_HUT) {
         map_clear_special(dx, dy, S_HUT);
+	send_tile_info(NULL, dx, dy);
         freelog(LOG_VERBOSE, "Removed hut on start position for %s",
 		game.players[i].name);
       }
