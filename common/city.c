@@ -2185,15 +2185,16 @@ int city_corruption(const struct city *pcity, int trade)
   int dist;
   unsigned int val;
   int trade_penalty;
+  int notradesize = MIN(game.notradesize, game.fulltradesize);
+  int fulltradesize = MAX(game.notradesize, game.fulltradesize);
 
-  assert(game.notradesize < game.fulltradesize);
-  if (pcity->size <= game.notradesize) {
+  if (pcity->size <= notradesize) {
     trade_penalty = trade;
-  } else if (pcity->size >= game.fulltradesize) {
+  } else if (pcity->size >= fulltradesize) {
     trade_penalty = 0;
   } else {
-    trade_penalty = trade * (game.fulltradesize - pcity->size) /
-	(game.fulltradesize - game.notradesize);
+    trade_penalty = trade * (fulltradesize - pcity->size) /
+      (fulltradesize - notradesize);
   }
 
   if (g->corruption_level == 0) {
