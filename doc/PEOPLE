@@ -742,6 +742,7 @@ contributions to the Freeciv project.
   Localization (l10n) since 1.12.0 release:
 
      Egbert Hinzen <egbert@hinzen-koeln.de> (de.po)
+     Jens Georg <mail@jensgeorg.de> (INSTALL.de)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
      Miguel Lobo <miguell@miguell.cjb.net> (es.po)
      Erik Sigra <sigra@home.se> (sv.po)
@@ -770,7 +771,7 @@ contributions to the Freeciv project.
      Gaute Strokkenes <gs234@cam.ac.uk> (no.po)
      Dmitriy Genzel <udgenzel@mcs.drexel.edu> (ru.po)
      Frank Osterfeld <frank.osterfeld@dorninger.de> (HOWTOPLAY.de)
-     Jens Georg <jgeorg@ldknet.org> (INSTALL.de)
+     Jens Georg <mail@jensgeorg.de> (INSTALL.de)
      Christian Marillat <marillat.christian@wanadoo.fr> (fr.po)
      Franck Reinquin <freinquin@fairesuivre.fr> (fr.po)
      Nicolas Lannier <archeide@yahoo.com> (fr.po)
@@ -802,7 +803,7 @@ contributions to the Freeciv project.
      Tomasz Wegrzanowski <maniek@beer.com> (pl.po 1.11.0)
      Christian Knoke <chrisk@enter.de> (de.po 1.11.4, 1.11.0)
      Frank Osterfeld <fraos@gmx.de> (de.po 1.11.0)
-     Jens Georg <jgeorg@ldknet.org> (INSTALL.de 1.11.0, 1.10.0)
+     Jens Georg <mail@jensgeorg.de> (INSTALL.de 1.11.0, 1.10.0)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po 1.11.4, 1.11.0)
      Gabor Dukai <dukai@eunet.yu> (hu.po 1.11.0, 1.10.0)
      Lalo Martins <lalo@hackandroll.org> (pt_BR.po 1.11.0, 1.9.0)
