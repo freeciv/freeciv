@@ -1110,7 +1110,7 @@ static char* find_common_class(void)
   struct nation_type* nation;
 
   players_iterate(pplayer) {
-    if (pplayer->nation == MAX_NUM_NATIONS) {
+    if (pplayer->nation == NO_NATION_SELECTED) {
       /* still undecided */
       continue;  
     }
