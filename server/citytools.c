@@ -803,7 +803,6 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
   called when a player conquers a city, remove buildings (not wonders and 
   always palace) with game.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
-  FIXME: this should be in citytools
 **************************************************************************/
 static void raze_city(struct city *pcity)
 {
