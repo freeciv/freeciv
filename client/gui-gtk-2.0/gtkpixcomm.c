@@ -40,6 +40,7 @@
 #include "gui_main.h"
 #include "gtkpixcomm.h"
 
+
 static void	gtk_pixcomm_class_init (GtkPixcommClass *klass);
 static void	gtk_pixcomm_init       (GtkPixcomm *pixcomm);
 static gboolean gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *ev);
@@ -49,6 +50,7 @@ static void build_insensitive_pixbuf (GtkPixcomm *pixcomm);
 #endif
 
 static GtkMiscClass *parent_class;
+
 
 enum op_t {
   OP_FILL,
@@ -67,6 +69,7 @@ struct op {
   gint x, y;
 };
 
+
 GType
 gtk_pixcomm_get_type(void)
 {
@@ -75,13 +78,13 @@ gtk_pixcomm_get_type(void)
   if (!pixcomm_type) {
     static const GTypeInfo pixcomm_info = {
       sizeof(GtkPixcommClass),
-      NULL,
-      NULL,
+      NULL,		/* base_init */
+      NULL,		/* base_finalize */
       (GClassInitFunc) gtk_pixcomm_class_init,
-      NULL,
-      NULL,
+      NULL,		/* class_finalize */
+      NULL,		/* class_data */
       sizeof(GtkPixcomm),
-      0,
+      0,		/* n_preallocs */
       (GInstanceInitFunc) gtk_pixcomm_init
     };
 
