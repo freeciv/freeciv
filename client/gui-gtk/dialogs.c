@@ -1711,8 +1711,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   gtk_widget_set_sensitive(top_vbox, FALSE);
 
   unit_select_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(unit_select_dialog_shell),"delete_event",
-	GTK_SIGNAL_FUNC(deleted_callback),NULL );
+  gtk_signal_connect(GTK_OBJECT(unit_select_dialog_shell), "delete_event",
+		     unit_select_callback, NULL);
   gtk_window_set_position (GTK_WINDOW(unit_select_dialog_shell), GTK_WIN_POS_MOUSE);
 
   gtk_window_set_title(GTK_WINDOW(unit_select_dialog_shell),
