@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.13.1-devel\n"
-"POT-Creation-Date: 2002-10-09 16:25+0200\n"
+"POT-Creation-Date: 2002-10-12 01:15+0200\n"
 "PO-Revision-Date: 2002-09-01 00:46+0900\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -1734,7 +1734,7 @@ msgstr "Game: %sを覚えました。"
 msgid "Researching %s."
 msgstr "%sを研究しています。"
 
-#: server/plrhand.c:309
+#: server/plrhand.c:309 server/stdinhand.c:1375
 #, c-format
 msgid "Game: %s"
 msgstr "Game: %s"
@@ -2708,23 +2708,23 @@ msgstr "Game: ゲームオーバー..."
 msgid "The game is over!"
 msgstr "ゲームオーバーです!"
 
-#: server/stdinhand.c:178
+#: server/stdinhand.c:177
 msgid "Number of players is higher than requested value, keeping old value"
 msgstr "プレイヤー数が要求した値より大きいです。値を変更しません。"
 
-#: server/stdinhand.c:218
+#: server/stdinhand.c:217
 msgid "Map width in squares"
 msgstr "地図の幅"
 
-#: server/stdinhand.c:222
+#: server/stdinhand.c:221
 msgid "Map height in squares"
 msgstr "地図の高さ"
 
-#: server/stdinhand.c:229
+#: server/stdinhand.c:228
 msgid "Method used to generate map"
 msgstr "地図生成の方法"
 
-#: server/stdinhand.c:230
+#: server/stdinhand.c:229
 msgid ""
 "1 = standard, with random continents;\n"
 "2 = equally sized large islands with one player each, and twice that many\n"
@@ -2747,61 +2747,61 @@ msgstr ""
 "注: 2,3,4 は、公平な(しかし退屈な)地図です。\n"
 "(ゼロはシナリオ地図を意味します。)"
 
-#: server/stdinhand.c:249
+#: server/stdinhand.c:248
 msgid "Presence or absence of 1x1 islands"
 msgstr "大きさ 1x1 島の出現"
 
-#: server/stdinhand.c:250
+#: server/stdinhand.c:249
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr "0 = 1x1 島なし; 1 = 1x1 島あり"
 
-#: server/stdinhand.c:254
+#: server/stdinhand.c:253
 msgid "Whether the poles are separate continents"
 msgstr "極地が大陸から離れているかどうか"
 
-#: server/stdinhand.c:255
+#: server/stdinhand.c:254
 msgid "0 = continents may attach to poles; 1 = poles will be separate"
 msgstr "0 = 大陸は極地に接しているかもしれない; 1 = 極地は離れている"
 
-#: server/stdinhand.c:260
+#: server/stdinhand.c:259
 msgid "Amount of land vs ocean"
 msgstr "海に対する陸の量"
 
-#: server/stdinhand.c:264
+#: server/stdinhand.c:263
 msgid "Amount of hills/mountains"
 msgstr "丘、山の量"
 
-#: server/stdinhand.c:265
+#: server/stdinhand.c:264
 msgid ""
 "Small values give flat maps, higher values give more hills and mountains."
 msgstr ""
 "値が小さければ平坦な土地に、大きければ丘や山がいっぱいの土地になります。"
 
-#: server/stdinhand.c:270
+#: server/stdinhand.c:269
 msgid "Amount of river squares"
 msgstr "川の量"
 
-#: server/stdinhand.c:274
+#: server/stdinhand.c:273
 msgid "Amount of grass squares"
 msgstr "草原の量"
 
-#: server/stdinhand.c:278
+#: server/stdinhand.c:277
 msgid "Amount of forest squares"
 msgstr "森の量"
 
-#: server/stdinhand.c:282
+#: server/stdinhand.c:281
 msgid "Amount of swamp squares"
 msgstr "湿地の量"
 
-#: server/stdinhand.c:286
+#: server/stdinhand.c:285
 msgid "Amount of desert squares"
 msgstr "砂漠の量"
 
-#: server/stdinhand.c:290
+#: server/stdinhand.c:289
 msgid "Map generation random seed"
 msgstr "地図生成用のランダム種"
 
-#: server/stdinhand.c:291
+#: server/stdinhand.c:290
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time, to give a random map."
@@ -2809,44 +2809,44 @@ msgstr ""
 "同じ種は常に同じ地図を作成します。ゼロ(既定値)の時は、時間を基にして種を選び"
 "ます。"
 
-#: server/stdinhand.c:302
+#: server/stdinhand.c:301
 msgid "General random seed"
 msgstr "一般用のランダム種"
 
-#: server/stdinhand.c:303
+#: server/stdinhand.c:302
 msgid "For zero (the default) a seed will be chosen based on the time."
 msgstr "ゼロ(既定値)の時は、時間を基にして種を選びます。"
 
-#: server/stdinhand.c:308
+#: server/stdinhand.c:307
 msgid "Amount of \"special\" resource squares"
 msgstr "「特別」な資源の量"
 
-#: server/stdinhand.c:309
+#: server/stdinhand.c:308
 msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
 msgstr "特別な資源は、基本地形型を向上させます。値は 1000 に対する量です。"
 
-#: server/stdinhand.c:315
+#: server/stdinhand.c:314
 msgid "Amount of huts (minor tribe villages)"
 msgstr "小屋(小数部族の村)の量"
 
-#: server/stdinhand.c:324
+#: server/stdinhand.c:323
 msgid "Minimum number of players"
 msgstr "最小プレイヤー数"
 
-#: server/stdinhand.c:325
+#: server/stdinhand.c:324
 msgid ""
 "There must be at least this many players (connected players or AI's) before "
 "the game can start."
 msgstr ""
 "ゲームが始まる前に、少なくともこの数のプレイヤーがいなければなりません。"
 
-#: server/stdinhand.c:331
+#: server/stdinhand.c:330
 msgid "Maximum number of players"
 msgstr "最大プレイヤー数"
 
-#: server/stdinhand.c:332
+#: server/stdinhand.c:331
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -2855,11 +2855,11 @@ msgstr ""
 "ゲームに参加する人間プレイヤーと AIプレイヤーの最大数。プリゲーム状態にこの数"
 "のプレイヤーが接続したら、接続しようとする新しいプレイヤーは拒絶されます。"
 
-#: server/stdinhand.c:340
+#: server/stdinhand.c:339
 msgid "Number of players to fill to with AI's"
 msgstr "AI で穴埋めするプレイヤーの数"
 
-#: server/stdinhand.c:341
+#: server/stdinhand.c:340
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
@@ -2868,45 +2868,45 @@ msgstr ""
 "もしゲーム開始時にこの数のプレイヤーより少なければ、合計がこのオプションの値"
 "になるまで AI プレイヤーで穴埋めされます。"
 
-#: server/stdinhand.c:351
+#: server/stdinhand.c:350
 msgid "Number of initial settlers per player"
 msgstr "プレイヤーごとの開拓者の初期数"
 
-#: server/stdinhand.c:355
+#: server/stdinhand.c:354
 msgid "Number of initial explorers per player"
 msgstr "プレイヤーごとの探索者の初期数"
 
-#: server/stdinhand.c:359
+#: server/stdinhand.c:358
 msgid "Area where initial units are located"
 msgstr "最初の部隊が置かれる範囲"
 
-#: server/stdinhand.c:360
+#: server/stdinhand.c:359
 msgid ""
 "This is half the length of a side of the square within which the initial "
 "units are dispersed."
 msgstr "これは、最初の部隊が分散する土地の片側の長さの半分です。"
 
-#: server/stdinhand.c:365
+#: server/stdinhand.c:364
 msgid "Starting gold per player"
 msgstr "プレイヤーごとの開始時の金"
 
-#: server/stdinhand.c:369
+#: server/stdinhand.c:368
 msgid "Number of initial advances per player"
 msgstr "プレイヤーごとの科学の初期数"
 
-#: server/stdinhand.c:373
+#: server/stdinhand.c:372
 msgid "Points required to gain a new advance"
 msgstr "新しい科学を得るのに必要なポイント"
 
-#: server/stdinhand.c:374
+#: server/stdinhand.c:373
 msgid "This affects how quickly players can research new technology."
 msgstr "これは、新しい科学をどのぐらい早く発見できるかに影響します。"
 
-#: server/stdinhand.c:380
+#: server/stdinhand.c:379
 msgid "Percentage penalty when changing tech"
 msgstr "科学を変えた時に受けるペナルティーの割合"
 
-#: server/stdinhand.c:381
+#: server/stdinhand.c:380
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points.  This "
@@ -2916,11 +2916,11 @@ msgstr ""
 "合だけ研究ポイントから失ないます。ただし、現在のターンに科学を得た場合には、"
 "この規則は適用されません。"
 
-#: server/stdinhand.c:389
+#: server/stdinhand.c:388
 msgid "Penalty when getting tech from treaty"
 msgstr "条約により科学を得た時のペナルティー"
 
-#: server/stdinhand.c:390
+#: server/stdinhand.c:389
 msgid ""
 "For each advance you gain from a diplomatic treaty, you lose research points "
 "equal to this percentage of the cost to research an new advance.  You can "
@@ -2930,11 +2930,11 @@ msgstr ""
 "で指定した割合に等しいだけの研究ポイントを失います。この値が 0 以外なら負の研"
 "究ポイントになることもあります。"
 
-#: server/stdinhand.c:397
+#: server/stdinhand.c:396
 msgid "Penalty when getting tech from conquering"
 msgstr "征服により科学を得た時のペナルティー"
 
-#: server/stdinhand.c:398
+#: server/stdinhand.c:397
 msgid ""
 "For each advance you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research an new advance.  You "
@@ -2944,11 +2944,11 @@ msgstr ""
 "で指定した割合に等しいだけの研究ポイントを失います。この値が 0 以外なら負の研"
 "究ポイントになることもあります。"
 
-#: server/stdinhand.c:406
+#: server/stdinhand.c:405
 msgid "Penalty when getting a free tech"
 msgstr "自由に入手可能な科学を得た時のペナルティー"
 
-#: server/stdinhand.c:407
+#: server/stdinhand.c:406
 msgid ""
 "For each advance you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from the Great Library), you lose "
@@ -2960,16 +2960,16 @@ msgstr ""
 "こで指定した割合に等しいだけの研究ポイントを失います。この値が 0 以外なら負の"
 "研究ポイントになることもあります。"
 
-#: server/stdinhand.c:416
+#: server/stdinhand.c:415
 msgid "Food required for a city to grow"
 msgstr "都市拡大に必要な食料"
 
-#: server/stdinhand.c:420
+#: server/stdinhand.c:419
 msgid "Percentage food lost when need aqueduct"
 msgstr "水道が必要な時に失なう食料の割合"
 
 # ama, yasu
-#: server/stdinhand.c:421
+#: server/stdinhand.c:420
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
@@ -2978,11 +2978,11 @@ msgstr ""
 "都市が拡張しようとしたのに水道(または下水道)が必要で拡張できなかった場合、こ"
 "こで指定した割合だけ(穀物庫がある場合はその半分)食料備蓄から失います。"
 
-#: server/stdinhand.c:429
+#: server/stdinhand.c:428
 msgid "Minimum city size to get full trade"
 msgstr "最大交易を得るための最小都市規模"
 
-#: server/stdinhand.c:430
+#: server/stdinhand.c:429
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
@@ -2993,11 +2993,11 @@ msgstr ""
 "notradesize 以下なら 100%(交易なし)、 size=fulltradesize にかけて、徐々に 0%"
 "(通常の汚職を除いてペナルティなし)に減ります。 notradesize も見て下さい。"
 
-#: server/stdinhand.c:439
+#: server/stdinhand.c:438
 msgid "Maximum size of a city without trade"
 msgstr "交易のない都市の最大規模"
 
-#: server/stdinhand.c:440
+#: server/stdinhand.c:439
 msgid ""
 "All the cities of smaller or equal size to this do not produce trade at all. "
 "The produced trade increases gradually for cities larger than notradesize "
@@ -3007,12 +3007,12 @@ msgstr ""
 "fulltradesize より小さい都市では、徐々に交易が増えます。 fulltradesize も見て"
 "下さい。"
 
-#: server/stdinhand.c:449
+#: server/stdinhand.c:448
 msgid "City size before people become unhappy"
 msgstr "市民が不幸にならない都市規模"
 
 # yasu
-#: server/stdinhand.c:450
+#: server/stdinhand.c:449
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
@@ -3020,11 +3020,11 @@ msgstr ""
 "他の修正がない時、この規模になった時の最初の市民は普通状態で、それ以後の市民"
 "が不幸状態になります。cityfactor も参照。"
 
-#: server/stdinhand.c:457
+#: server/stdinhand.c:456
 msgid "Whether angry citizens are enabled"
 msgstr "怒り市民の有効/無効"
 
-#: server/stdinhand.c:458
+#: server/stdinhand.c:457
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
@@ -3034,11 +3034,11 @@ msgstr ""
 "は、怒り市民は不幸市民になるはずです。unhappysize, cityfactor, 政治体制も見て"
 "下さい。 "
 
-#: server/stdinhand.c:465
+#: server/stdinhand.c:464
 msgid "Number of cities for higher unhappiness"
 msgstr "不幸増加の都市数"
 
-#: server/stdinhand.c:466
+#: server/stdinhand.c:465
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
 "extra citizen is unhappy before other adjustments; see also unhappysize.  "
@@ -3049,11 +3049,11 @@ msgstr ""
 "1市民が不幸になります。 unhappysize も見て下さい。このは民主性の時です。他の"
 "政治体制では、都市の数は少なくなります。"
 
-#: server/stdinhand.c:474
+#: server/stdinhand.c:473
 msgid "Minimum distance between cities (move distance)"
 msgstr "都市間の最小(移動)距離"
 
-#: server/stdinhand.c:475
+#: server/stdinhand.c:474
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
 "citymindist distance. For example, if citymindist is 3, there have to be at "
@@ -3065,33 +3065,33 @@ msgstr ""
 "りません。 0(デフォルト)をセットしたら、ゲームを開始した時に現在のルールセッ"
 "トで上書きされます。"
 
-#: server/stdinhand.c:485
+#: server/stdinhand.c:484
 msgid "Number of turns between rapture effect"
 msgstr ""
 
-#: server/stdinhand.c:486
+#: server/stdinhand.c:485
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after rapturing n+1 turns."
 msgstr ""
 
 # yasu
-#: server/stdinhand.c:492
+#: server/stdinhand.c:491
 msgid "Chance for conquered building destruction"
 msgstr "占領した建物が壊れる確率"
 
 # yasu
-#: server/stdinhand.c:493
+#: server/stdinhand.c:492
 msgid ""
 "When a player conquers a city, each City Improvement has this percentage "
 "chance to be destroyed."
 msgstr "都市を占領した場合、その都市毎に破壊される確率が決まっています。"
 
-#: server/stdinhand.c:498
+#: server/stdinhand.c:497
 msgid "Style of Civ rules"
 msgstr "Civ ルールのスタイル"
 
-#: server/stdinhand.c:499
+#: server/stdinhand.c:498
 msgid ""
 "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
 "Currently this option affects the following rules:\n"
@@ -3104,11 +3104,11 @@ msgstr ""
 "    明らかにします。\n"
 "README.rulesets を見て下さい。"
 
-#: server/stdinhand.c:506
+#: server/stdinhand.c:505
 msgid "Chance of moving into tile after attack"
 msgstr "攻撃の後タイルへ移動する可能性"
 
-#: server/stdinhand.c:507
+#: server/stdinhand.c:506
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place).  "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -3121,11 +3121,11 @@ msgstr ""
 "移動します(そして、敵の部隊はそのタイルに残れません。)。 0 から 100 の間の値"
 "を設定したら、占領可能な割合として使われます。"
 
-#: server/stdinhand.c:517
+#: server/stdinhand.c:516
 msgid "Reduce city population after attack"
 msgstr "攻撃による都市人口の減少"
 
-#: server/stdinhand.c:518
+#: server/stdinhand.c:517
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -3141,11 +3141,11 @@ msgstr ""
 "  4 = ヘリコプター部隊\n"
 "  8 = 飛行部隊"
 
-#: server/stdinhand.c:529
+#: server/stdinhand.c:528
 msgid "Range of vision for units in a fortress"
 msgstr "要塞内の部隊の視野範囲"
 
-#: server/stdinhand.c:530
+#: server/stdinhand.c:529
 msgid ""
 "watchtower vision range: If set to 1, it has no effect. If 2 or larger, the "
 "vision range of a unit inside a fortress is set to this value, if the "
@@ -3157,11 +3157,11 @@ msgstr ""
 "ruleset内の 'Watchtower'フラグによって決定されます。wtowerevision も見て下さ"
 "い。"
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:540
 msgid "Extra vision range for units in a fortress"
 msgstr "要塞内の部隊の追加視野範囲"
 
-#: server/stdinhand.c:542
+#: server/stdinhand.c:541
 msgid ""
 "watchtower extra vision range: If set to 0, it has no effect. If larger than "
 "0, the visionrange of a unit is raised by this value, if the unit is inside "
@@ -3174,11 +3174,11 @@ msgstr ""
 "ら、要塞にいる部隊の視野範囲はこの値だけ広がります。常に wtowervision と "
 "wtowerevision の大きい方が使われます。wtowervision も見て下さい。"
 
-#: server/stdinhand.c:553
+#: server/stdinhand.c:552
 msgid "Allowed city names"
 msgstr ""
 
-#: server/stdinhand.c:554
+#: server/stdinhand.c:553
 msgid ""
 "If set to 0, there are no restrictions: players can have multiple cities "
 "with the same names. If set to 1, city names have to be unique to a player: "
@@ -3188,11 +3188,11 @@ msgid ""
 "name of another nations."
 msgstr ""
 
-#: server/stdinhand.c:580
+#: server/stdinhand.c:579
 msgid "Barbarian appearance frequency"
 msgstr "バーバリアンの出現頻度"
 
-#: server/stdinhand.c:581
+#: server/stdinhand.c:580
 msgid ""
 "0 - no barbarians \n"
 "1 - barbarians only in huts \n"
@@ -3206,19 +3206,19 @@ msgstr ""
 "3 - 頻繁なバーバリアンの出現\n"
 "4 - 猛威を奮う遊牧民、バーバリアンの群れ"
 
-#: server/stdinhand.c:591
+#: server/stdinhand.c:590
 msgid "Barbarian onset year"
 msgstr "バーバリアン攻撃開始年"
 
-#: server/stdinhand.c:592
+#: server/stdinhand.c:591
 msgid "Barbarians will not appear before this year."
 msgstr "バーバリアンはこの年より前には出現しません。"
 
-#: server/stdinhand.c:597
+#: server/stdinhand.c:596
 msgid "Whether to enable fog of war"
 msgstr "霧戦を有効にするかどうか"
 
-#: server/stdinhand.c:598
+#: server/stdinhand.c:597
 msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -3228,12 +3228,12 @@ msgstr ""
 "ていない場所の新しい都市や地形の変更をあなたは見ることができません。"
 
 # yasu
-#: server/stdinhand.c:605
+#: server/stdinhand.c:604
 msgid "Chance in diplomat/spy contests"
 msgstr "外交官/スパイ競争の確率"
 
 # yasu, ama
-#: server/stdinhand.c:607
+#: server/stdinhand.c:606
 #, no-c-format
 msgid ""
 "A Diplomat or Spy acting against a city which has one or more defending "
@@ -3250,19 +3250,19 @@ msgstr ""
 "御側のスパイは一般的に外交官の2倍、ベテランはそうでない部隊の1.5倍の能力があ"
 "ります。"
 
-#: server/stdinhand.c:619
+#: server/stdinhand.c:618
 msgid "Whether to allow space race"
 msgstr "宇宙開発競争を有効にするかどうか"
 
-#: server/stdinhand.c:620
+#: server/stdinhand.c:619
 msgid "If this option is 1, players can build spaceships."
 msgstr "このオプションが 1 なら、プレイヤーは宇宙船を組み立てできます。"
 
-#: server/stdinhand.c:625
+#: server/stdinhand.c:624
 msgid "Minimum number of cities for civil war"
 msgstr "内戦の起こる都市数の最小"
 
-#: server/stdinhand.c:626
+#: server/stdinhand.c:625
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
 "player's capital is captured.  If this option is set to the maximum value, "
@@ -3271,11 +3271,11 @@ msgstr ""
 "プレイヤーが少くともこの数より多くの都市を持ち、首都が占領されていたら内戦が"
 "引き起こされます。このオプションが最大値に設定したら内戦は完全にやみます。"
 
-#: server/stdinhand.c:634
+#: server/stdinhand.c:633
 msgid "Rebuild palace if capital is conquered"
 msgstr "首都が占領された時に宮殿が再建築されるか"
 
-#: server/stdinhand.c:635
+#: server/stdinhand.c:634
 msgid ""
 "If this is set to 1 when the capital is conquered, palace is automatically "
 "rebuilt for free in another randomly choosed city, regardless on the "
@@ -3284,21 +3284,21 @@ msgstr ""
 "1をセットしていて首都が占領されら、無料で他のランダムに選ばれた都市に自動的に"
 "宮殿が再建築されます。これは「建築」を知らなくても起こります。"
 
-#: server/stdinhand.c:642
+#: server/stdinhand.c:641
 msgid "Whether to use natural city names"
 msgstr "自然の都市名を使うかどうか"
 
-#: server/stdinhand.c:643
+#: server/stdinhand.c:642
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "有効にしたら、デフォルトの都市名をまわりの地形を元に決定します。"
 
-#: server/stdinhand.c:655
+#: server/stdinhand.c:654
 msgid "What connections are allowed"
 msgstr "どの接続を認めるか"
 
-#: server/stdinhand.c:656
+#: server/stdinhand.c:655
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization, or \"player\".  Clients will only be permitted to "
@@ -3345,11 +3345,11 @@ msgstr ""
 "   (none) = 単一コントロールのみ認めます。\n"
 "複数接続と観察接続は現在実験中です。"
 
-#: server/stdinhand.c:686
+#: server/stdinhand.c:685
 msgid "Whether AI-status toggles with connection"
 msgstr "接続によって AI の状態を切りかえるかどうか"
 
-#: server/stdinhand.c:687
+#: server/stdinhand.c:686
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -3357,15 +3357,15 @@ msgstr ""
 "1 にしたら、プレイヤーが接続した時に AI を無効にし、切断した時に AI を有効に"
 "します。"
 
-#: server/stdinhand.c:692
+#: server/stdinhand.c:691
 msgid "Year the game ends"
 msgstr "ゲーム終了年"
 
-#: server/stdinhand.c:697 server/stdinhand.c:706
+#: server/stdinhand.c:696 server/stdinhand.c:705
 msgid "Maximum seconds per turn"
 msgstr "ターン毎の最大秒数"
 
-#: server/stdinhand.c:698
+#: server/stdinhand.c:697
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In DEBUG servers, a "
@@ -3377,7 +3377,7 @@ msgstr ""
 "は、タイムアウトを -1 にセットすると、自動ゲーム・テスト・モードになります。"
 "動的タイマーは、この変数とコマンド \"timeoutincrease\" を使います。"
 
-#: server/stdinhand.c:707
+#: server/stdinhand.c:706
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. Use this with the "
@@ -3387,11 +3387,11 @@ msgstr ""
 "終了させられます。ゼロはタイムアウトしないことを意味します。動的タイマーは、"
 "この変数とコマンド \"timeoutincrease\" を使います。"
 
-#: server/stdinhand.c:715
+#: server/stdinhand.c:714
 msgid "Seconds to let a client connection block"
 msgstr "クライアントの接続中断を待つ秒数"
 
-#: server/stdinhand.c:716
+#: server/stdinhand.c:715
 msgid ""
 "If a TCP connection is blocking for a time greater than this value, then the "
 "TCP connection is closed. Zero means there is no timeout beyond that "
@@ -3400,11 +3400,11 @@ msgstr ""
 "この値より大きな時間 TCP 接続が中断した時、 TCP 接続は閉ざされます。ゼロは "
 "TCP プロトコル実装のタイムアウトを越え、タイムアウトしないようにします。"
 
-#: server/stdinhand.c:723
+#: server/stdinhand.c:722
 msgid "Max seconds for TCP buffers to drain"
 msgstr "TCP バッファを空にする最大秒数"
 
-#: server/stdinhand.c:724
+#: server/stdinhand.c:723
 msgid ""
 "The civserver will wait for upto the value of this parameter in seconds, for "
 "all client connection TCP buffers to unblock. Zero means the server will not "
@@ -3414,11 +3414,11 @@ msgstr ""
 "のパラメータで指定した秒を最大待ちます。ゼロはサーバは全く待たないことを意味"
 "します。"
 
-#: server/stdinhand.c:731
+#: server/stdinhand.c:730
 msgid "Maximum seconds between PINGs"
 msgstr "PING 間の最大秒数"
 
-#: server/stdinhand.c:732
+#: server/stdinhand.c:731
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses. If a client doesn't reply with a PONG before the next server "
@@ -3428,11 +3428,11 @@ msgstr ""
 "す。次にサーバから送られる PING までにクライアントが返答しなければ切断されま"
 "す。"
 
-#: server/stdinhand.c:739
+#: server/stdinhand.c:738
 msgid "Turn-blocking game play mode"
 msgstr "ターンブロッキング・ゲームプレイモード"
 
-#: server/stdinhand.c:740
+#: server/stdinhand.c:739
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -3440,11 +3440,11 @@ msgstr ""
 "1 にしたら、全てのプレイヤーが自分のターンを終了するまでゲームターンは進みま"
 "せん。これには切断されたプレイヤーも含みます。"
 
-#: server/stdinhand.c:746
+#: server/stdinhand.c:745
 msgid "Fixed-length turns play mode"
 msgstr "固定長ターン・プレイモード"
 
-#: server/stdinhand.c:747
+#: server/stdinhand.c:746
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
@@ -3452,11 +3452,11 @@ msgstr ""
 "1 にしたら、プレイヤーが「ターン終了」を実行するかどうかに関係なく、タイムア"
 "ウトが発生するまでゲームターンは進みません。"
 
-#: server/stdinhand.c:753
+#: server/stdinhand.c:752
 msgid "What is in the Demographics report"
 msgstr "人口統計報告の項目"
 
-#: server/stdinhand.c:754
+#: server/stdinhand.c:753
 msgid ""
 "This should be a string of characters, each of which specifies the the "
 "inclusion of a line of information in the Demographics report.\n"
@@ -3484,11 +3484,11 @@ msgstr ""
 "    b = \"最良国家\"欄を表示する\n"
 "(これらの文字の順には意味がありませんが、文字のケースは意味があります。)"
 
-#: server/stdinhand.c:772
+#: server/stdinhand.c:771
 msgid "Turns per auto-save"
 msgstr "自動保存の間隔"
 
-#: server/stdinhand.c:773
+#: server/stdinhand.c:772
 msgid ""
 "The game will be automatically saved per this number of turns.\n"
 "Zero means never auto-save."
@@ -3496,11 +3496,11 @@ msgstr ""
 "ゲームはここで指定したターンごとに自動的に保存されます。\n"
 "ゼロは自動保存しないことを意味します。"
 
-#: server/stdinhand.c:782 server/stdinhand.c:792
+#: server/stdinhand.c:781 server/stdinhand.c:791
 msgid "Savegame compression level"
 msgstr "セーブゲームの圧縮レベル"
 
-#: server/stdinhand.c:783 server/stdinhand.c:793
+#: server/stdinhand.c:782 server/stdinhand.c:792
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format).  "
 "Larger values will give better compression but take longer.  If the maximum "
@@ -3510,11 +3510,11 @@ msgstr ""
 "良い圧縮を生みますが、時間がかかります。最大値がゼロの時は、サーバは zlib を"
 "使うようにコンパイルされていません。"
 
-#: server/stdinhand.c:803
+#: server/stdinhand.c:802
 msgid "Auto-save name prefix"
 msgstr "自動保存の名前接頭辞"
 
-#: server/stdinhand.c:804
+#: server/stdinhand.c:803
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\".\n"
 "This setting sets the <prefix> part."
@@ -3522,11 +3522,11 @@ msgstr ""
 "自動的に保存されるゲームは \"<接頭辞><年>.sav\" という名前になります。\n"
 "この変数は <接頭辞> の部分を設定します。"
 
-#: server/stdinhand.c:810
+#: server/stdinhand.c:809
 msgid "Whether to log player statistics"
 msgstr "プレイヤー統計のログを行なうかどうか"
 
-#: server/stdinhand.c:811
+#: server/stdinhand.c:810
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn.  These statistics can be used to create power graphs after "
@@ -3536,11 +3536,11 @@ msgstr ""
 "\" へ追加されます。これらの統計は、ゲーム後パワー・グラフを作るのに使われま"
 "す。"
 
-#: server/stdinhand.c:817
+#: server/stdinhand.c:816
 msgid "Detail level for logging game events"
 msgstr "ゲームイベントのログの詳細レベル"
 
-#: server/stdinhand.c:818
+#: server/stdinhand.c:817
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
@@ -3550,11 +3550,11 @@ msgstr ""
 "れます。レベル: 0=ログをとらない, 20=通常のログ取り, 30=詳細ログ取り, 40=デ"
 "バッグログ取り"
 
-#: server/stdinhand.c:990
+#: server/stdinhand.c:989
 msgid "Start the game, or restart after loading a savegame."
 msgstr "ゲームを開始します。セーブゲームをロードした後なら再開します。"
 
-#: server/stdinhand.c:991
+#: server/stdinhand.c:990
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -3572,7 +3572,7 @@ msgstr ""
 "が開始されたら、このコマンドは不要なので利用できません。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1004
+#: server/stdinhand.c:1003
 msgid ""
 "help\n"
 "help commands\n"
@@ -3586,11 +3586,11 @@ msgstr ""
 "help <コマンド名>\n"
 "help <オプション名>"
 
-#: server/stdinhand.c:1009
+#: server/stdinhand.c:1008
 msgid "Show help about server commands and server options."
 msgstr "サーバコマンドとサーバオプションについてのヘルプを表示します。"
 
-#: server/stdinhand.c:1010
+#: server/stdinhand.c:1009
 msgid ""
 "With no arguments gives some introductory help.  With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options.  "
@@ -3605,11 +3605,11 @@ msgstr ""
 "されます。引数がオプションの時は、現在の値と既定値も表示されます。引数はあい"
 "まいでなければ後ろを省略できます。"
 
-#: server/stdinhand.c:1023
+#: server/stdinhand.c:1022
 msgid "Show a list of players or connections."
 msgstr "プレーヤーもしくは接続のリストを表示します。"
 
-#: server/stdinhand.c:1024
+#: server/stdinhand.c:1023
 msgid ""
 "Show a list of players, or a list of connections to the server.  The "
 "argument may be abbreviated, and defaults to 'players' if absent."
@@ -3618,20 +3618,20 @@ msgstr ""
 "省略して書くことができ、また省略されたら 'players' が指定されたものとみなしま"
 "す。"
 
-#: server/stdinhand.c:1029
+#: server/stdinhand.c:1028
 msgid "Quit the game and shutdown the server."
 msgstr "ゲームを終了し、サーバをシャットダウンする。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1033
+#: server/stdinhand.c:1032
 msgid "cut <connection-name>"
 msgstr "cut <接続名>"
 
-#: server/stdinhand.c:1034
+#: server/stdinhand.c:1033
 msgid "Cut a client's connection to server."
 msgstr "クライアントの接続を切ります。"
 
-#: server/stdinhand.c:1035
+#: server/stdinhand.c:1034
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game.  If the game has not yet started that client's player is removed "
@@ -3644,7 +3644,7 @@ msgstr ""
 "取ることに注意して下さい。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1042
+#: server/stdinhand.c:1041
 msgid ""
 "explain\n"
 "explain <option-name>"
@@ -3652,11 +3652,11 @@ msgstr ""
 "explain\n"
 "explain <オプション名>"
 
-#: server/stdinhand.c:1044
+#: server/stdinhand.c:1043
 msgid "Explain server options."
 msgstr "サーバオプションを説明する。"
 
-#: server/stdinhand.c:1045
+#: server/stdinhand.c:1044
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility.  With no arguments it gives a list of "
@@ -3669,7 +3669,7 @@ msgstr ""
 "のオプションのヘルプを表示します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1052
+#: server/stdinhand.c:1051
 msgid ""
 "show\n"
 "show <option-name>\n"
@@ -3679,11 +3679,11 @@ msgstr ""
 "show <オプション名>\n"
 "show <オプション名の先頭部分>"
 
-#: server/stdinhand.c:1055
+#: server/stdinhand.c:1054
 msgid "Show server options."
 msgstr "サーバオプションを表示する。"
 
-#: server/stdinhand.c:1056
+#: server/stdinhand.c:1055
 msgid ""
 "With no arguments, shows all server options (or available options, when used "
 "by clients).  With an argument, show only the named option, or options with "
@@ -3693,11 +3693,11 @@ msgstr ""
 "トによって使用された時、利用可能なオプションを表示します。) 引数付きで呼ばれ"
 "たら、その名前もしくはその名前で始まるオプションだけを表示します。"
 
-#: server/stdinhand.c:1062
+#: server/stdinhand.c:1061
 msgid "Show current scores."
 msgstr "現在の得点を表示する。"
 
-#: server/stdinhand.c:1063
+#: server/stdinhand.c:1062
 msgid ""
 "For each connected client, pops up a window showing the current player "
 "scores."
@@ -3705,50 +3705,50 @@ msgstr ""
 "接続しているクライアントに対して、現在のプレイヤー得点を表示するウィンドウを"
 "ポップアップします。"
 
-#: server/stdinhand.c:1067
+#: server/stdinhand.c:1066
 msgid "wall <message>"
 msgstr "wall <メッセージ>"
 
-#: server/stdinhand.c:1068
+#: server/stdinhand.c:1067
 msgid "Send message to all connections."
 msgstr "全ての接続にメッセージを送る"
 
-#: server/stdinhand.c:1069
+#: server/stdinhand.c:1068
 msgid ""
 "For each connected client, pops up a window showing the message entered."
 msgstr ""
 "接続している各クライアントに対して、そのメッセージを含んだウィンドウをポップ"
 "アップします。"
 
-#: server/stdinhand.c:1073
+#: server/stdinhand.c:1072
 msgid "set <option-name> <value>"
 msgstr "set <オプション名> <値>"
 
-#: server/stdinhand.c:1074
+#: server/stdinhand.c:1073
 msgid "Set server option."
 msgstr "サーバオプションを設定する。"
 
-#: server/stdinhand.c:1077
+#: server/stdinhand.c:1076
 msgid "fix <option-name>"
 msgstr "fix <オプション名>"
 
-#: server/stdinhand.c:1078
+#: server/stdinhand.c:1077
 msgid "Make server option unchangeable during game."
 msgstr ""
 
-#: server/stdinhand.c:1081
+#: server/stdinhand.c:1080
 msgid "unfix <option-name>"
 msgstr "unfix <オプション名>"
 
-#: server/stdinhand.c:1082
+#: server/stdinhand.c:1081
 msgid "Make server option changeable during game."
 msgstr ""
 
-#: server/stdinhand.c:1085
+#: server/stdinhand.c:1084
 msgid "rulesetdir <directory>"
 msgstr "rulesetdir <ディレクトリ>"
 
-#: server/stdinhand.c:1086
+#: server/stdinhand.c:1085
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
@@ -3756,24 +3756,24 @@ msgstr ""
 "新しいルールセット・ディレクトリもしくは mpodpack を\n"
 " 選択する。引数なしで呼んだら、現在選択されているルールセットを表示します。"
 
-#: server/stdinhand.c:1092
+#: server/stdinhand.c:1091
 msgid "This command is not currently implemented."
 msgstr "このコマンドは、まだ実装されていません。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1096
+#: server/stdinhand.c:1095
 msgid "metainfo <meta-line>"
 msgstr "metainfo <メタサーバ情報行>"
 
-#: server/stdinhand.c:1097
+#: server/stdinhand.c:1096
 msgid "Set metaserver info line."
 msgstr "メタサーバ情報行を設定する。"
 
-#: server/stdinhand.c:1103
+#: server/stdinhand.c:1102
 msgid "Control metaserver connection."
 msgstr "メタサーバ接続を操作する。"
 
-#: server/stdinhand.c:1104
+#: server/stdinhand.c:1103
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver.\n"
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -3784,39 +3784,39 @@ msgstr ""
 "'metaconnection up' もしくは 'metac u' は、メタサーバへ接続します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1110
+#: server/stdinhand.c:1109
 msgid "metaserver <address>"
 msgstr "metaserver <所在>"
 
-#: server/stdinhand.c:1111
+#: server/stdinhand.c:1110
 msgid "Set address for metaserver to report to."
 msgstr "メタサーバへ報告する所在を設定します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1115
+#: server/stdinhand.c:1114
 msgid "aitoggle <player-name>"
 msgstr "aitoggle <プレイヤー名>"
 
-#: server/stdinhand.c:1116
+#: server/stdinhand.c:1115
 msgid "Toggle AI status of player."
 msgstr "プレイヤーの AI 状態を切り替える。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1120
+#: server/stdinhand.c:1119
 msgid "create <player-name>"
 msgstr "create <プレイヤー名>"
 
-#: server/stdinhand.c:1121
+#: server/stdinhand.c:1120
 msgid "Create an AI player with a given name."
 msgstr "与えられた名前で AI プレイヤーを作る。"
 
-#: server/stdinhand.c:1122
+#: server/stdinhand.c:1121
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr "'create' コマンドは、ゲームを開始する前だけ利用できます。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1127
+#: server/stdinhand.c:1126
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -3824,11 +3824,11 @@ msgstr ""
 "easy\n"
 "easy <プレイヤー名>"
 
-#: server/stdinhand.c:1129
+#: server/stdinhand.c:1128
 msgid "Set one or all AI players to 'easy'."
 msgstr "一人もしくは全ての AI プレイヤーを 'easy' に設定する。"
 
-#: server/stdinhand.c:1130
+#: server/stdinhand.c:1129
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -3839,7 +3839,7 @@ msgstr ""
 "そのプレイヤーの手腕だけを設定します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1136
+#: server/stdinhand.c:1135
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -3847,11 +3847,11 @@ msgstr ""
 "normal\n"
 "normal <プレイヤー名>"
 
-#: server/stdinhand.c:1138
+#: server/stdinhand.c:1137
 msgid "Set one or all AI players to 'normal'."
 msgstr "一人もしくは全ての AI プレイヤーを 'normal' に設定する。"
 
-#: server/stdinhand.c:1139
+#: server/stdinhand.c:1138
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -3862,7 +3862,7 @@ msgstr ""
 "ら、そのプレイヤーの手腕だけを設定します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1145
+#: server/stdinhand.c:1144
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -3870,11 +3870,11 @@ msgstr ""
 "hard\n"
 "hard <プレイヤー名>"
 
-#: server/stdinhand.c:1147
+#: server/stdinhand.c:1146
 msgid "Set one or all AI players to 'hard'."
 msgstr "一人もしくは全ての AI プレイヤーを 'hard' に設定する。"
 
-#: server/stdinhand.c:1148
+#: server/stdinhand.c:1147
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -3885,7 +3885,7 @@ msgstr ""
 "そのプレイヤーの手腕だけを設定します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1155
+#: server/stdinhand.c:1154
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -3893,11 +3893,11 @@ msgstr ""
 "experimental\n"
 "experimental <プレイヤー名>"
 
-#: server/stdinhand.c:1157
+#: server/stdinhand.c:1156
 msgid "Set one or all AI players to 'experimental'."
 msgstr "一人もしくは全ての AI プレイヤーを 'experimental' に設定する。"
 
-#: server/stdinhand.c:1158
+#: server/stdinhand.c:1157
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -3910,7 +3910,7 @@ msgstr ""
 "です!!! 通常のサーバでは、このオプションは無効です。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1167
+#: server/stdinhand.c:1166
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -3924,11 +3924,11 @@ msgstr ""
 "cmdlevel <レベル> first\n"
 "cmdlevel <レベル> <接続名>"
 
-#: server/stdinhand.c:1172
+#: server/stdinhand.c:1171
 msgid "Query or set command access level access."
 msgstr "コマンド利用権レベルを問い合わせ、または設定する。"
 
-#: server/stdinhand.c:1173
+#: server/stdinhand.c:1172
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -3970,11 +3970,11 @@ msgstr ""
 "用できない人が同じ名前で再接続できるからです。このコマンドは今では引数\n"
 "としてプレイヤー名ではなく接続名を取ることに注意して下さい。"
 
-#: server/stdinhand.c:1196
+#: server/stdinhand.c:1195
 msgid "Grab the 'first come' command access level."
 msgstr "'first come' コマンド利用権レベルを得る。"
 
-#: server/stdinhand.c:1197
+#: server/stdinhand.c:1196
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
@@ -3983,15 +3983,15 @@ msgstr ""
 "使っていたら、このコマンドでその権利を得ます。 "
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1202
+#: server/stdinhand.c:1201
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <ターン> <ターン増加> <値> <乗値>"
 
-#: server/stdinhand.c:1203
+#: server/stdinhand.c:1202
 msgid "See \"help timeoutincrease\"."
 msgstr "\"help timeoutincrease\" を見て下さい。"
 
-#: server/stdinhand.c:1204
+#: server/stdinhand.c:1203
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -4001,24 +4001,24 @@ msgstr ""
 "加>を加え、<乗値>を<値>に掛けます。このコマンドは、オプション \"timeout\" と"
 "協調して使います。デフォルトは 0 0 0 1 です。"
 
-#: server/stdinhand.c:1210
+#: server/stdinhand.c:1209
 msgid "End the game."
 msgstr "ゲームを終える。"
 
-#: server/stdinhand.c:1211
+#: server/stdinhand.c:1210
 msgid "This command ends the game immediately."
 msgstr "このコマンドは、ゲームを即座に終了します。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1215
+#: server/stdinhand.c:1214
 msgid "remove <player-name>"
 msgstr "remove <プレイヤー名>"
 
-#: server/stdinhand.c:1216
+#: server/stdinhand.c:1215
 msgid "Fully remove player from game."
 msgstr "ゲームからプレイヤーを完全に追い出す。"
 
-#: server/stdinhand.c:1217
+#: server/stdinhand.c:1216
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -4027,7 +4027,7 @@ msgstr ""
 "して使って下さい。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1222
+#: server/stdinhand.c:1221
 msgid ""
 "save\n"
 "save <file-name>"
@@ -4035,11 +4035,11 @@ msgstr ""
 "save\n"
 "save <ファイル名>"
 
-#: server/stdinhand.c:1224
+#: server/stdinhand.c:1223
 msgid "Save game to file."
 msgstr "ファイルにゲームを保存します。"
 
-#: server/stdinhand.c:1225
+#: server/stdinhand.c:1224
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -4056,7 +4056,7 @@ msgstr ""
 "を使い起動し、一旦プレイヤーを再接続してコマンド 'start' を使って下さい。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1234
+#: server/stdinhand.c:1233
 msgid ""
 "load\n"
 "load <file-name>"
@@ -4064,220 +4064,210 @@ msgstr ""
 "load\n"
 "load <ファイル名>"
 
-#: server/stdinhand.c:1236
+#: server/stdinhand.c:1235
 msgid "Load game from file."
 msgstr "ファイルからゲームをロードします。"
 
-#: server/stdinhand.c:1237
+#: server/stdinhand.c:1236
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
 msgstr ""
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1242
+#: server/stdinhand.c:1241
 msgid "read <file-name>"
 msgstr "read <ファイル名>"
 
-#: server/stdinhand.c:1243
+#: server/stdinhand.c:1242
 msgid "Process server commands from file."
 msgstr "ファイルからのサーバコマンドを処理する。"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1247
+#: server/stdinhand.c:1246
 msgid "write <file-name>"
 msgstr "write <ファイル名>"
 
-#: server/stdinhand.c:1248
+#: server/stdinhand.c:1247
 msgid "Write current settings as server commands to file."
 msgstr "ファイルへサーバコマンドとして現在の設定を保存する。"
 
-#: server/stdinhand.c:1252
+#: server/stdinhand.c:1251
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "サーバの出力を、'RFC-style' と通常の形式とで切り替えます。"
 
-#: server/stdinhand.c:1362
+#: server/stdinhand.c:1361
 msgid "(ambiguous)"
 msgstr "(あいまい)"
 
-#: server/stdinhand.c:1363 client/packhand.c:1000
+#: server/stdinhand.c:1362 client/packhand.c:1000
 msgid "(unknown)"
 msgstr "(不明)"
 
-#: server/stdinhand.c:1439
+#: server/stdinhand.c:1445
 msgid "Name is empty, so cannot be a player."
 msgstr "名前が空です。プレイヤーを入力して下さい。"
 
-#: server/stdinhand.c:1443
+#: server/stdinhand.c:1449
 msgid "Name is too long, so cannot be a player."
 msgstr "名前が長過ぎます。プレイヤーを正しく入力して下さい。"
 
-#: server/stdinhand.c:1447
+#: server/stdinhand.c:1453
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "プレイヤー名の先頭部分 '%s' は一意ではありません。"
 
-#: server/stdinhand.c:1451
+#: server/stdinhand.c:1457
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "'%s' という名前のプレイヤーはいません。"
 
-#: server/stdinhand.c:1455 server/stdinhand.c:1490
+#: server/stdinhand.c:1461 server/stdinhand.c:1496
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "'%3$s' に対して予期しない match_result %1$d (%2$s)。"
 
-#: server/stdinhand.c:1474
+#: server/stdinhand.c:1480
 msgid "Name is empty, so cannot be a connection."
 msgstr "名前が空なので接続できません。"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1484
 msgid "Name is too long, so cannot be a connection."
 msgstr "名前が長過ぎるので接続できません。"
 
-#: server/stdinhand.c:1482
+#: server/stdinhand.c:1488
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "接続名の先頭部分 '%s' は一意ではありません。"
 
-#: server/stdinhand.c:1486
+#: server/stdinhand.c:1492
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "'%s' という名前の接続はありません。"
 
-#: server/stdinhand.c:1505
+#: server/stdinhand.c:1511
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "[%s]へのメタサーバ接続を開きます。"
 
-#: server/stdinhand.c:1517
+#: server/stdinhand.c:1523
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "[%s]へのメタサーバ接続を閉じます。"
 
-#: server/stdinhand.c:1531
+#: server/stdinhand.c:1537
 msgid "Metaserver connection is open."
 msgstr "メタサーバ接続は開いています。"
 
-#: server/stdinhand.c:1534
+#: server/stdinhand.c:1540
 msgid "Metaserver connection is closed."
 msgstr "メタサーバ接続は閉ざされました。"
 
-#: server/stdinhand.c:1542
+#: server/stdinhand.c:1548
 msgid "Metaserver connection is already open."
 msgstr "メタサーバ接続は既に開いています。"
 
-#: server/stdinhand.c:1550
+#: server/stdinhand.c:1556
 msgid "Metaserver connection is already closed."
 msgstr "メタサーバ接続は既に閉じています。"
 
-#: server/stdinhand.c:1554
+#: server/stdinhand.c:1560
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "引数は 'u', 'up', 'd', 'down', '?' のいずれかでなければなりません。"
 
-#: server/stdinhand.c:1566
+#: server/stdinhand.c:1572
 msgid "Not reporting to the metaserver."
 msgstr "メタサーバへは報告していません。"
 
-#: server/stdinhand.c:1568
+#: server/stdinhand.c:1574
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "メタサーバの情報文字列を '%s' へ設定します。"
 
-#: server/stdinhand.c:1583
+#: server/stdinhand.c:1589
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "メタサーバは今では[%s]です。"
 
-#: server/stdinhand.c:1656
+#: server/stdinhand.c:1662
 msgid "The game cannot be saved before it is started."
 msgstr "ゲームが始まる前には保存できません。"
 
-#: server/stdinhand.c:1670
+#: server/stdinhand.c:1676
 msgid "Cannot toggle a barbarian player."
 msgstr "バーバリアン・プレイヤーをトグルできません。"
 
-#: server/stdinhand.c:1676
-#, c-format
-msgid "Game: %s is now AI-controlled."
-msgstr "Game: %s は AI が操作します。"
-
-#: server/stdinhand.c:1678
+#: server/stdinhand.c:1683
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s は AI が操作します。"
 
-#: server/stdinhand.c:1693
-#, c-format
-msgid "Game: %s is now human."
-msgstr "Game: %s は人間が操作します。"
-
-#: server/stdinhand.c:1695
+#: server/stdinhand.c:1699
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s は人間が操作します。"
 
-#: server/stdinhand.c:1733
+#: server/stdinhand.c:1737
 msgid "Can't add AI players once the game has begun."
 msgstr "一旦ゲームが始まると AI プレイヤーを追加できません。"
 
-#: server/stdinhand.c:1740
+#: server/stdinhand.c:1744
 msgid "Can't add more players, server is full."
 msgstr "プレイヤーを追加できません。サーバ満員です。"
 
-#: server/stdinhand.c:1746
+#: server/stdinhand.c:1750
 msgid "Can't use an empty name."
 msgstr "空の名前は使えません。"
 
-#: server/stdinhand.c:1753
+#: server/stdinhand.c:1757
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "その名前は最長の%d文字を越えています。"
 
-#: server/stdinhand.c:1760
+#: server/stdinhand.c:1764
 msgid "A player already exists by that name."
 msgstr "その名前のプレイヤーは既に存在します。"
 
-#: server/stdinhand.c:1769
+#: server/stdinhand.c:1773
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "新しい AI プレイヤー作成エラー: %s"
 
-#: server/stdinhand.c:1797
+#: server/stdinhand.c:1801
 msgid "Players cannot be removed once the game has started."
 msgstr "一旦ゲームが開始された後では、プレイヤーを削除できません。"
 
-#: server/stdinhand.c:1805
+#: server/stdinhand.c:1809
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "ゲームからプレイヤー %s を追い出しました。"
 
-#: server/stdinhand.c:1815
+#: server/stdinhand.c:1819
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "残念ながら'%s'コマンドはまだ実装されていません。"
 
-#: server/stdinhand.c:1833
+#: server/stdinhand.c:1837
 #, c-format
 msgid "Loading script file: %s"
 msgstr "スクリプトフィアルをロードしています: %s"
 
-#: server/stdinhand.c:1845
+#: server/stdinhand.c:1849
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "コマンドライン・スクリプトファイル '%s' を読むことができません。"
 
-#: server/stdinhand.c:1847
+#: server/stdinhand.c:1851
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "スクリプトファイル '%s' を読むことができませんでした。"
 
-#: server/stdinhand.c:1936
+#: server/stdinhand.c:1940
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "スクリプトファイル '%s' を書くことができませんでした。"
 
-#: server/stdinhand.c:1964
+#: server/stdinhand.c:1968
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -4286,12 +4276,7 @@ msgstr ""
 "接続 '%2$s' のコマンド利用権レベルを '%1$s' へ下げれません; 利用権 '%3$s' し"
 "か持っていません。"
 
-#: server/stdinhand.c:1972
-#, c-format
-msgid "Game: You now have access level '%s'."
-msgstr "Game: あなたの利用レベルは '%s' になりました。"
-
-#: server/stdinhand.c:2020
+#: server/stdinhand.c:2022
 #, c-format
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
@@ -4300,28 +4285,28 @@ msgstr ""
 "Game: 誰でも 'firstlevel' コマンドを発行することで、コマンド利用権レベル '%"
 "s' になれます。"
 
-#: server/stdinhand.c:2053
+#: server/stdinhand.c:2055
 msgid "Command access levels in effect:"
 msgstr "現在のコマンド利用権レベル:"
 
-#: server/stdinhand.c:2061
+#: server/stdinhand.c:2063
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "新規接続者のコマンド利用権レベル: %s"
 
-#: server/stdinhand.c:2064
+#: server/stdinhand.c:2066
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "最初のプレイヤーが取得するコマンド利用権レベル: %s"
 
-#: server/stdinhand.c:2073
+#: server/stdinhand.c:2075
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "エラー: コマンド利用権レベルは 'none', 'info', 'ctrl', 'hack' のいずれかでな"
 "ければなりません。"
 
-#: server/stdinhand.c:2078
+#: server/stdinhand.c:2080
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -4329,381 +4314,346 @@ msgstr ""
 "'%1$s' へコマンド利用権レベルを上げれません; あなたは利用権 '%2$s' しか持って"
 "いません。"
 
-#: server/stdinhand.c:2102 server/stdinhand.c:2159
+#: server/stdinhand.c:2104 server/stdinhand.c:2153
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
 
-#: server/stdinhand.c:2106 server/stdinhand.c:2163
+#: server/stdinhand.c:2108 server/stdinhand.c:2157
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定できません。"
 
-#: server/stdinhand.c:2115 server/stdinhand.c:2129
-#, c-format
-msgid "Default command access level set to '%s'."
-msgstr "デフォルトコマンド利用権レベルを '%s' に設定しました。"
+#: server/stdinhand.c:2117 server/stdinhand.c:2129 server/stdinhand.c:2146
+#, fuzzy, c-format
+msgid "Command access level set to '%s' for new players."
+msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
 
-#: server/stdinhand.c:2117
-#, c-format
-msgid "Game: All players now have access level '%s'."
-msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
+#: server/stdinhand.c:2122 server/stdinhand.c:2134 server/stdinhand.c:2141
+#, fuzzy, c-format
+msgid "Command access level set to '%s' for first player to grab it."
+msgstr "最初のプレイヤーが取得するコマンド利用権レベル: %s"
 
-#: server/stdinhand.c:2122 server/stdinhand.c:2137
-#, c-format
-msgid "'First come' command access level also raised to '%s'."
-msgstr "'first come' コマンド利用権レベルも '%s' へ引き上げられました。"
-
-#: server/stdinhand.c:2132
-#, c-format
-msgid "Game: New connections will have access level '%s'."
-msgstr "Game: 新しい接続は利用権レベル '%s' を持ちます。"
-
-#: server/stdinhand.c:2144
-#, c-format
-msgid "'First come' command access level set to '%s'."
-msgstr "'first come' コマンド利用権レベルを '%s' に設定しました。"
-
-#: server/stdinhand.c:2147
-#, c-format
-msgid "Game: 'First come' command access level set to '%s'."
-msgstr "Game: 'first come' コマンド利用権レベルを '%s' に設定しました。"
-
-#: server/stdinhand.c:2152
-#, c-format
-msgid "Default command access level also lowered to '%s'."
-msgstr "デフォルトコマンド利用権レベルも '%s' に下げました。"
-
-#: server/stdinhand.c:2182
+#: server/stdinhand.c:2176
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr ""
 "サーバのコマンドラインで 'firstlevel' コマンドを利用する意味がありません。"
 
-#: server/stdinhand.c:2185
+#: server/stdinhand.c:2179
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "既にコマンド利用権レベルは '%s' 以上です。"
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2183
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "他の誰かが既にコマンド利用権レベル '%s' 以上を持っています。"
 
-#: server/stdinhand.c:2194
-#, c-format
-msgid "Your command access level has been increased to '%s'."
-msgstr "コマンド利用権レベルが '%s' へ上がりました。"
+#: server/stdinhand.c:2188
+#, fuzzy, c-format
+msgid "Command access level '%s' has been grabbed by connection %s."
+msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
 
-#: server/stdinhand.c:2196
-#, c-format
-msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
-msgstr "Game: 接続 '%s' は 'first come' の利用権レベル, '%s' を得ました。"
-
-#: server/stdinhand.c:2227
+#: server/stdinhand.c:2219
 #, c-format
 msgid "Invalid argument %d."
 msgstr "無効な引数 %d"
 
-#: server/stdinhand.c:2234
+#: server/stdinhand.c:2226
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "使用法: timeoutincrease <ターン> <ターン増加> <値> <乗値>"
 
-#: server/stdinhand.c:2240
+#: server/stdinhand.c:2232
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "動的タイムアオウトを %d %d %d %d へセットします"
 
-#: server/stdinhand.c:2278 server/stdinhand.c:2281
+#: server/stdinhand.c:2270 server/stdinhand.c:2273
 msgid "Option:"
 msgstr "オプション:"
 
-#: server/stdinhand.c:2291 server/stdinhand.c:3351
+#: server/stdinhand.c:2283 server/stdinhand.c:3361
 msgid "Description:"
 msgstr "説明:"
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2288
 #, c-format
 msgid "Status: %s"
 msgstr "状態: %s"
 
-#: server/stdinhand.c:2297
+#: server/stdinhand.c:2289
 msgid "changeable"
 msgstr "変更可"
 
-#: server/stdinhand.c:2297
+#: server/stdinhand.c:2289
 msgid "fixed"
 msgstr "固定"
 
-#: server/stdinhand.c:2303
+#: server/stdinhand.c:2295
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "現在値: %d, 最小値: 0, 既定値: %d, 最大値: 1"
 
-#: server/stdinhand.c:2308
+#: server/stdinhand.c:2300
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "現在値: %d, 最小値: %d, 既定値: %d, 最大値: %d"
 
-#: server/stdinhand.c:2314
+#: server/stdinhand.c:2306
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "現在値: \"%s\", 既定値: \"%s\""
 
-#: server/stdinhand.c:2333
+#: server/stdinhand.c:2325
 msgid "Explanations are available for the following server options:"
 msgstr "以下に挙げるサーバオプションには、説明があります:"
 
-#: server/stdinhand.c:2375
+#: server/stdinhand.c:2367
 msgid "No explanation for that yet."
 msgstr "その説明はまだありません。"
 
-#: server/stdinhand.c:2378 server/stdinhand.c:2689 server/stdinhand.c:2835
+#: server/stdinhand.c:2370 server/stdinhand.c:2695 server/stdinhand.c:2840
 msgid "Ambiguous option name."
 msgstr "オプション名を省略し過ぎです。"
 
-#: server/stdinhand.c:2393
+#: server/stdinhand.c:2385
 #, c-format
 msgid "Server Operator: %s"
 msgstr "サーバオペレータ: %s"
 
-#: server/stdinhand.c:2410
+#: server/stdinhand.c:2402
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20s値    (最小, 最大)"
 
-#: server/stdinhand.c:2410 server/stdinhand.c:2562
+#: server/stdinhand.c:2402 server/stdinhand.c:2568
 msgid "Option"
 msgstr "オプション"
 
-#: server/stdinhand.c:2412
+#: server/stdinhand.c:2404
 msgid "Server Options (initial)"
 msgstr "サーバオプション (開始時)"
 
-#: server/stdinhand.c:2413
+#: server/stdinhand.c:2405
 msgid "Server Options (ongoing)"
 msgstr "サーバオプション (進行中)"
 
-#: server/stdinhand.c:2462
-#, c-format
-msgid "%s is now %s."
-msgstr "%s は今では %s です。"
-
-#: server/stdinhand.c:2492
+#: server/stdinhand.c:2473 server/stdinhand.c:2494 server/stdinhand.c:2505
 #, fuzzy, c-format
-msgid "Game: Player '%s' now has skill level '%s'."
+msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
 
-#: server/stdinhand.c:2496
+#: server/stdinhand.c:2498
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s は AI で制御されていません。"
 
-#: server/stdinhand.c:2504
+#: server/stdinhand.c:2511
 #, fuzzy, c-format
-msgid "Game: AI players now have skill level '%s'."
-msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
+msgid "Default AI skill level set to '%s'."
+msgstr "デフォルトコマンド利用権レベルを '%s' に設定しました。"
 
-#: server/stdinhand.c:2536
+#: server/stdinhand.c:2542
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "残念ながらオプション '%s' を閲覧する権限を持っていません。"
 
-#: server/stdinhand.c:2541
+#: server/stdinhand.c:2547
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "未知のオプション '%s'。"
 
-#: server/stdinhand.c:2558
+#: server/stdinhand.c:2564
 msgid "+ means you may change the option"
 msgstr "+ は変更するかもしれないオプションを意味します。"
 
-#: server/stdinhand.c:2559
+#: server/stdinhand.c:2565
 msgid "= means the option is on its default value"
 msgstr "= は既定値のまま進めるかもしれないオプションを意味します。"
 
-#: server/stdinhand.c:2562
+#: server/stdinhand.c:2568
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s 値      (最小,最大)    "
 
-#: server/stdinhand.c:2565
+#: server/stdinhand.c:2571
 msgid "description"
 msgstr "説明"
 
-#: server/stdinhand.c:2684
+#: server/stdinhand.c:2690
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "不明な引数です。使用法: set <オプション名> <値>"
 
-#: server/stdinhand.c:2694
+#: server/stdinhand.c:2700
 msgid "You are not allowed to set this option."
 msgstr "このオプションの設定を許可されていません。"
 
-#: server/stdinhand.c:2699
+#: server/stdinhand.c:2705
 msgid "This setting can't be modified after the game has started."
 msgstr "ゲームが開始された後、この設定を変更できません。"
 
-#: server/stdinhand.c:2704
+#: server/stdinhand.c:2710
 msgid ""
 "This setting is protected from being modified after the game has started."
 msgstr "ゲームが開始された後、この設定は変更できません。"
 
-#: server/stdinhand.c:2717 server/stdinhand.c:2739
+#: server/stdinhand.c:2723 server/stdinhand.c:2745
 msgid "Value must be an integer."
 msgstr "値は整数でなければなりません。"
 
-#: server/stdinhand.c:2720
+#: server/stdinhand.c:2726
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "範囲外の値です (最小値: 0, 最大値: 1)"
 
-#: server/stdinhand.c:2731 server/stdinhand.c:2753
+#: server/stdinhand.c:2737 server/stdinhand.c:2759
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "オプション: %s は %d に設定されました。"
 
-#: server/stdinhand.c:2742
+#: server/stdinhand.c:2748
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "範囲外の値です (最小値: %d, 最大値: %d)"
 
-#: server/stdinhand.c:2763
+#: server/stdinhand.c:2769
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "文字列の値が長すぎません。使用法: set <オプション> <値>"
 
-#: server/stdinhand.c:2773
+#: server/stdinhand.c:2779
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "オプション: %s は \"%s\" に設定されました。"
 
-#: server/stdinhand.c:2813
+#: server/stdinhand.c:2818
 msgid "This command may only be used before the game has started."
 msgstr "このコマンドは、ゲームを開始する前だけ利用できるのかもしれません。"
 
-#: server/stdinhand.c:2823
+#: server/stdinhand.c:2828
 #, c-format
 msgid "Need an argument.  Usage: %s <option-name>."
 msgstr "引数が必要です。使用法: %s <オプション名>"
 
-#: server/stdinhand.c:2832
+#: server/stdinhand.c:2837
 msgid "Unknown option name."
 msgstr "未知のオプション名。"
 
-#: server/stdinhand.c:2842
+#: server/stdinhand.c:2847
 #, c-format
 msgid "Option '%s' can never be modified after the game has started."
 msgstr "ゲームが開始された後、オプション '%s' は変更できません。"
 
-#: server/stdinhand.c:2849
+#: server/stdinhand.c:2855
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not prevent it from being "
 "set, either."
 msgstr ""
 
-#: server/stdinhand.c:2852
+#: server/stdinhand.c:2860
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not allow it to be set, "
 "either."
 msgstr ""
 
-#: server/stdinhand.c:2861
+#: server/stdinhand.c:2870
 #, c-format
 msgid "Option: '%s' now cannot be modified after the game has started."
 msgstr ""
 
-#: server/stdinhand.c:2865
+#: server/stdinhand.c:2876
 #, c-format
 msgid "Option: '%s' may now be modified after the game has started."
 msgstr ""
 
-#: server/stdinhand.c:2881
+#: server/stdinhand.c:2891
 msgid "Usage: load <filename>"
 msgstr "使用法: load <ファイル名>"
 
-#: server/stdinhand.c:2886
+#: server/stdinhand.c:2896
 msgid "Can't load a game while another is running."
 msgstr "他のゲームが動いている間、ゲームをロードできません。"
 
-#: server/stdinhand.c:2894
+#: server/stdinhand.c:2904
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "セーブファイルをロードできません: %s"
 
-#: server/stdinhand.c:2898
+#: server/stdinhand.c:2908
 #, c-format
 msgid "Loading saved game: %s..."
 msgstr "保存されたゲームをロードしています: %s..."
 
-#: server/stdinhand.c:2942
+#: server/stdinhand.c:2952
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "現在のルールセット=ディレクトリは: \"%s\""
 
-#: server/stdinhand.c:2949
+#: server/stdinhand.c:2959
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "ルールセット=ディレクトリ \"%s\" が見つかりません"
 
-#: server/stdinhand.c:2953
+#: server/stdinhand.c:2963
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "ルールセット=ディレクトリを \"%s\" にセットします"
 
-#: server/stdinhand.c:3004
+#: server/stdinhand.c:3014
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "残念ですがサーバコマンドを使うことを許可されていません。"
 
-#: server/stdinhand.c:3039
+#: server/stdinhand.c:3049
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "警告: '%1$s' は '%2$s' と解釈されましたが、'%1$s' は一意ではありません。'%3"
 "$shelp' と打って下さい。"
 
-#: server/stdinhand.c:3044
+#: server/stdinhand.c:3054
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "不明なコマンドです。'%shelp'を見て下さい。"
 
-#: server/stdinhand.c:3050
+#: server/stdinhand.c:3060
 msgid "You are not allowed to use this command."
 msgstr "そのコマンドを利用できません。"
 
-#: server/stdinhand.c:3077
+#: server/stdinhand.c:3087
 #, fuzzy
 msgid "(server prompt)"
 msgstr " (観察者モード)"
 
-#: server/stdinhand.c:3157
+#: server/stdinhand.c:3167
 msgid "The game must be running before you can see the score."
 msgstr "得点を見る前にゲームを開始しなければなりません。"
 
-#: server/stdinhand.c:3217
+#: server/stdinhand.c:3227
 msgid "Not enough players, game will not start."
 msgstr "十分なプレイヤーがいないので、ゲームを開始できません。"
 
-#: server/stdinhand.c:3221
+#: server/stdinhand.c:3231
 msgid "You're not associated with a player and the game is starting. Bye."
 msgstr ""
 
-#: server/stdinhand.c:3232
+#: server/stdinhand.c:3242
 msgid "Cannot start the game: it is already running."
 msgstr "ゲームを開始できません: 既にゲームは始まっています。"
 
-#: server/stdinhand.c:3241
+#: server/stdinhand.c:3251
 msgid "Cannot end the game: no game running."
 msgstr "ゲームを終了できません: ゲームは始まっていません。"
 
-#: server/stdinhand.c:3269
+#: server/stdinhand.c:3279
 #, c-format
 msgid "Cutting connection %s."
 msgstr "%sとの接続を切りました。"
 
-#: server/stdinhand.c:3279
+#: server/stdinhand.c:3289
 msgid "Goodbye."
 msgstr "さようなら。"
 
-#: server/stdinhand.c:3292
+#: server/stdinhand.c:3302
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -4741,115 +4691,115 @@ msgstr ""
 "  save   -  現在のゲームを保存します。\n"
 "  quit   -  終了します。"
 
-#: server/stdinhand.c:3327 server/stdinhand.c:3330
+#: server/stdinhand.c:3337 server/stdinhand.c:3340
 msgid "Command:"
 msgstr "コマンド:"
 
-#: server/stdinhand.c:3334
+#: server/stdinhand.c:3344
 msgid "Synopsis: "
 msgstr "意味: "
 
-#: server/stdinhand.c:3343
+#: server/stdinhand.c:3353
 #, c-format
 msgid "Level: %s"
 msgstr "レベル: %s"
 
-#: server/stdinhand.c:3368
+#: server/stdinhand.c:3378
 msgid "The following server commands are available:"
 msgstr "以下のサーバコマンドが利用できます:"
 
-#: server/stdinhand.c:3443
+#: server/stdinhand.c:3453
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "ヘルプ引数 '%s' は省略しすぎです。"
 
-#: server/stdinhand.c:3448
+#: server/stdinhand.c:3458
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "ヘルプへ引数 '%s' は理解できません。"
 
-#: server/stdinhand.c:3506
+#: server/stdinhand.c:3516
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "list の引数 '%s' は間違っています。 '%shelp list' を試みて下さい。"
 
-#: server/stdinhand.c:3538
+#: server/stdinhand.c:3548
 msgid "List of players:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:3542
+#: server/stdinhand.c:3552
 msgid "<no players>"
 msgstr "<なし>"
 
-#: server/stdinhand.c:3563
+#: server/stdinhand.c:3573
 #, c-format
 msgid "username %s, "
 msgstr "ユーザ名 %s, "
 
-#: server/stdinhand.c:3567 data/nation/barbarian.ruleset:3
+#: server/stdinhand.c:3577 data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "バーバリアン"
 
-#: server/stdinhand.c:3569
+#: server/stdinhand.c:3579
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3571
+#: server/stdinhand.c:3581
 msgid "Human"
 msgstr "人間"
 
-#: server/stdinhand.c:3574
+#: server/stdinhand.c:3584
 msgid ", Dead"
 msgstr ", 死亡"
 
-#: server/stdinhand.c:3577
+#: server/stdinhand.c:3587
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", 難易度レベル %s"
 
-#: server/stdinhand.c:3581
+#: server/stdinhand.c:3591
 #, c-format
 msgid ", nation %s"
 msgstr ", 民族 %s"
 
-#: server/stdinhand.c:3589
+#: server/stdinhand.c:3599
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d接続:"
 
-#: server/stdinhand.c:3595
+#: server/stdinhand.c:3605
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s (%s から, コマンド利用権レベル %s), bufsize=%dkb"
 
-#: server/stdinhand.c:3600
+#: server/stdinhand.c:3610
 msgid " (observer mode)"
 msgstr " (観察者モード)"
 
-#: server/stdinhand.c:3616
+#: server/stdinhand.c:3626
 msgid "List of connections to server:"
 msgstr "サーバへの接続のリスト:"
 
-#: server/stdinhand.c:3620
+#: server/stdinhand.c:3630
 msgid "<no connections>"
 msgstr "<接続なし>"
 
-#: server/stdinhand.c:3644
+#: server/stdinhand.c:3654
 msgid ""
 "notradesize must be always smaller than fulltradesize, keeping old value."
 msgstr ""
 "notradesize は常に fulltradesize より小さくなければなりません。値を変更しませ"
 "ん。"
 
-#: server/stdinhand.c:3657
+#: server/stdinhand.c:3667
 msgid ""
 "fulltradesize must be always bigger than notradesize, keeping old value."
 msgstr ""
 "fulltradesize は常に notradesize より大きくなければなりません。値を変更しませ"
 "ん。"
 
-#: server/stdinhand.c:3712
+#: server/stdinhand.c:3722
 msgid ""
 "Allowed connections string contains invalid\n"
 "characters.  Try \"help allowconnect\"."
@@ -17489,6 +17439,46 @@ msgstr "ズールー人"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "ズールー族"
+
+#~ msgid "Game: %s is now AI-controlled."
+#~ msgstr "Game: %s は AI が操作します。"
+
+#~ msgid "Game: %s is now human."
+#~ msgstr "Game: %s は人間が操作します。"
+
+#~ msgid "Game: You now have access level '%s'."
+#~ msgstr "Game: あなたの利用レベルは '%s' になりました。"
+
+#~ msgid "Game: All players now have access level '%s'."
+#~ msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
+
+#~ msgid "'First come' command access level also raised to '%s'."
+#~ msgstr "'first come' コマンド利用権レベルも '%s' へ引き上げられました。"
+
+#~ msgid "Game: New connections will have access level '%s'."
+#~ msgstr "Game: 新しい接続は利用権レベル '%s' を持ちます。"
+
+#~ msgid "'First come' command access level set to '%s'."
+#~ msgstr "'first come' コマンド利用権レベルを '%s' に設定しました。"
+
+#~ msgid "Game: 'First come' command access level set to '%s'."
+#~ msgstr "Game: 'first come' コマンド利用権レベルを '%s' に設定しました。"
+
+#~ msgid "Default command access level also lowered to '%s'."
+#~ msgstr "デフォルトコマンド利用権レベルも '%s' に下げました。"
+
+#~ msgid "Your command access level has been increased to '%s'."
+#~ msgstr "コマンド利用権レベルが '%s' へ上がりました。"
+
+#~ msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
+#~ msgstr "Game: 接続 '%s' は 'first come' の利用権レベル, '%s' を得ました。"
+
+#~ msgid "%s is now %s."
+#~ msgstr "%s は今では %s です。"
+
+#, fuzzy
+#~ msgid "Game: AI players now have skill level '%s'."
+#~ msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
 
 #~ msgid "last message repeated once"
 #~ msgstr "最後のメッセージが一度繰り返されました。"

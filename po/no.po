@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14\n"
-"POT-Creation-Date: 2002-10-10 16:28-0700\n"
+"POT-Creation-Date: 2002-10-12 01:15+0200\n"
 "PO-Revision-Date: 2002-10-10 16:28\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Language-Team: Norwegian\n"
@@ -1680,7 +1680,7 @@ msgstr "Spill: Du har lært %s."
 msgid "Researching %s."
 msgstr "Forsker på %s"
 
-#: server/plrhand.c:309
+#: server/plrhand.c:309 server/stdinhand.c:1375
 #, c-format
 msgid "Game: %s"
 msgstr "Spill: %s"
@@ -4071,181 +4071,176 @@ msgstr "(uklar)"
 msgid "(unknown)"
 msgstr "(ukjent)"
 
-#: server/stdinhand.c:1443
+#: server/stdinhand.c:1445
 msgid "Name is empty, so cannot be a player."
 msgstr "Navnet er tomt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:1447
+#: server/stdinhand.c:1449
 msgid "Name is too long, so cannot be a player."
 msgstr "Navnet er for langt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:1451
+#: server/stdinhand.c:1453
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Spillernavn prefikset '%s' er ikke entydig."
 
-#: server/stdinhand.c:1455
+#: server/stdinhand.c:1457
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Ingen spiller med navn '%s'."
 
-#: server/stdinhand.c:1459 server/stdinhand.c:1494
+#: server/stdinhand.c:1461 server/stdinhand.c:1496
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Uventet match_result %d (%s) for '%s'."
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1480
 msgid "Name is empty, so cannot be a connection."
 msgstr "Navnet er tomt, så det kan ikke være en tilkobling."
 
-#: server/stdinhand.c:1482
+#: server/stdinhand.c:1484
 msgid "Name is too long, so cannot be a connection."
 msgstr "Navnet er for langt, så det kan ikke være en tilkobling."
 
-#: server/stdinhand.c:1486
+#: server/stdinhand.c:1488
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Spillernavn-prefikset '%s' er ikke-entydig."
 
-#: server/stdinhand.c:1490
+#: server/stdinhand.c:1492
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Ingen tilkobling med navn '%s'."
 
-#: server/stdinhand.c:1509
+#: server/stdinhand.c:1511
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Åpne metaserver kobling til [%s]."
 
-#: server/stdinhand.c:1521
+#: server/stdinhand.c:1523
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Lukk metaserver-tilknytningen til [%s]."
 
-#: server/stdinhand.c:1535
+#: server/stdinhand.c:1537
 msgid "Metaserver connection is open."
 msgstr "Metaserver-tilknytning er åpen."
 
-#: server/stdinhand.c:1538
+#: server/stdinhand.c:1540
 msgid "Metaserver connection is closed."
 msgstr "Metaserver-tilknytning er lukket."
 
-#: server/stdinhand.c:1546
+#: server/stdinhand.c:1548
 msgid "Metaserver connection is already open."
 msgstr "Metaserver-tilknytning er allerede åpen."
 
-#: server/stdinhand.c:1554
+#: server/stdinhand.c:1556
 msgid "Metaserver connection is already closed."
 msgstr "Metaserver-tilknytning er allerede lukket."
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1560
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argumentet må være 'u', 'up', 'd', 'down', eller '?'."
 
-#: server/stdinhand.c:1570
+#: server/stdinhand.c:1572
 msgid "Not reporting to the metaserver."
 msgstr "Rapporterer ikke til metaserver."
 
-#: server/stdinhand.c:1572
+#: server/stdinhand.c:1574
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "Metaserver infostreng satt til '%s'."
 
-#: server/stdinhand.c:1587
+#: server/stdinhand.c:1589
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver er nå [%s]."
 
-#: server/stdinhand.c:1660
+#: server/stdinhand.c:1662
 msgid "The game cannot be saved before it is started."
 msgstr "Spillet kan ikke lagres før det er startet."
 
-#: server/stdinhand.c:1674
+#: server/stdinhand.c:1676
 msgid "Cannot toggle a barbarian player."
 msgstr "Kan ikke endre en 'barbar'-spiller."
 
-#: server/stdinhand.c:1681
+#: server/stdinhand.c:1683
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s er nå under AI-kontroll."
 
-#: server/stdinhand.c:1697
+#: server/stdinhand.c:1699
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s er nå under menneskelig kontroll."
 
-#: server/stdinhand.c:1735
+#: server/stdinhand.c:1737
 msgid "Can't add AI players once the game has begun."
 msgstr "Kan ikke legge til AI spillere når spillet er startet."
 
-#: server/stdinhand.c:1742
+#: server/stdinhand.c:1744
 msgid "Can't add more players, server is full."
 msgstr "Kan ikke legge til flere spillere, serveren er full."
 
-#: server/stdinhand.c:1748
+#: server/stdinhand.c:1750
 msgid "Can't use an empty name."
 msgstr "Kan ikke bruke et tomt navn"
 
-#: server/stdinhand.c:1755
+#: server/stdinhand.c:1757
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Det navnet er lengre enn det maksimale som er %d tegn."
 
-#: server/stdinhand.c:1762
+#: server/stdinhand.c:1764
 msgid "A player already exists by that name."
 msgstr "Der finnes allerede en spiller med det navnet."
 
-#: server/stdinhand.c:1771
+#: server/stdinhand.c:1773
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Feil ved opprettelse av ny AI spiller: %s."
 
-#: server/stdinhand.c:1799
+#: server/stdinhand.c:1801
 msgid "Players cannot be removed once the game has started."
 msgstr "Spillere kan ikke fjernes efter at spillet har startet."
 
-#: server/stdinhand.c:1807
+#: server/stdinhand.c:1809
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Fjernet spiller %s fra spillet."
 
-#: server/stdinhand.c:1817
+#: server/stdinhand.c:1819
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Beklager, kommandoen '%s' er ikke implementert ennå."
 
-#: server/stdinhand.c:1835
+#: server/stdinhand.c:1837
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Laster inn manus filen: %s"
 
-#: server/stdinhand.c:1847
+#: server/stdinhand.c:1849
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Kunne ikke lese kommando manusfilen \"%s\"."
 
-#: server/stdinhand.c:1849
+#: server/stdinhand.c:1851
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Klarte ikke å lese manusfilen '%s'."
 
-#: server/stdinhand.c:1938
+#: server/stdinhand.c:1940
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Klarte ikke å skrive til manusfilen '%s'."
 
-#: server/stdinhand.c:1966
+#: server/stdinhand.c:1968
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
 "Kan ikke redusere tilgangsnivå '%s' for tilkobling '%s'; du har kun '%s'."
-
-#: server/stdinhand.c:1974
-#, c-format
-msgid "Game: You now have access level '%s'."
-msgstr "Spill: Du har nå tilgangsnivå '%s'."
 
 #: server/stdinhand.c:2022
 #, c-format
@@ -17762,3 +17757,6 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
+
+#~ msgid "Game: You now have access level '%s'."
+#~ msgstr "Spill: Du har nå tilgangsnivå '%s'."

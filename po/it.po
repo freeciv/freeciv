@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2002-10-11 18:20+0200\n"
+"POT-Creation-Date: 2002-10-12 01:15+0200\n"
 "PO-Revision-Date: 2002-10-09 21:30+0200\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -1721,7 +1721,7 @@ msgstr "Gioco: appreso %s. "
 msgid "Researching %s."
 msgstr "Ricerca %s."
 
-#: server/plrhand.c:309
+#: server/plrhand.c:309 server/stdinhand.c:1375
 #, c-format
 msgid "Game: %s"
 msgstr "Gioco: %s"
@@ -4162,171 +4162,171 @@ msgstr "(ambiguo)"
 msgid "(unknown)"
 msgstr "(sconosciuto)"
 
-#: server/stdinhand.c:1443
+#: server/stdinhand.c:1445
 msgid "Name is empty, so cannot be a player."
 msgstr "Il nome è vuoto, non può essere quello di un giocatore."
 
-#: server/stdinhand.c:1447
+#: server/stdinhand.c:1449
 msgid "Name is too long, so cannot be a player."
 msgstr "Il nome è troppo lungo, non può essere quello di un giocatore."
 
-#: server/stdinhand.c:1451
+#: server/stdinhand.c:1453
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Il prefisso del nome di giocatore '%s' è ambiguo."
 
-#: server/stdinhand.c:1455
+#: server/stdinhand.c:1457
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Nessun giocatore di nome '%s'."
 
-#: server/stdinhand.c:1459 server/stdinhand.c:1494
+#: server/stdinhand.c:1461 server/stdinhand.c:1496
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Valore di match_result inatteso %d (%s) per '%s'."
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1480
 msgid "Name is empty, so cannot be a connection."
 msgstr "Il nome è vuoto, non può essere quello di un collegamento."
 
-#: server/stdinhand.c:1482
+#: server/stdinhand.c:1484
 msgid "Name is too long, so cannot be a connection."
 msgstr "Il nome è troppo lungo, non può essere quello di un collegamento."
 
-#: server/stdinhand.c:1486
+#: server/stdinhand.c:1488
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Il prefisso del nome di collegamento '%s' è ambiguo."
 
-#: server/stdinhand.c:1490
+#: server/stdinhand.c:1492
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Nessun collegamento di nome '%s'."
 
-#: server/stdinhand.c:1509
+#: server/stdinhand.c:1511
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Aperto il collegamento al metaserver [%s]."
 
-#: server/stdinhand.c:1521
+#: server/stdinhand.c:1523
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Chiuso il collegamento al metaserver [%s]."
 
-#: server/stdinhand.c:1535
+#: server/stdinhand.c:1537
 msgid "Metaserver connection is open."
 msgstr "Il collegamento con il metaserver è aperto."
 
-#: server/stdinhand.c:1538
+#: server/stdinhand.c:1540
 msgid "Metaserver connection is closed."
 msgstr "Il collegamento con il metaserver è chiuso."
 
-#: server/stdinhand.c:1546
+#: server/stdinhand.c:1548
 msgid "Metaserver connection is already open."
 msgstr "Il collegamento con il metaserver è già aperto."
 
-#: server/stdinhand.c:1554
+#: server/stdinhand.c:1556
 msgid "Metaserver connection is already closed."
 msgstr "Il collegamento con il metaserver è già chiuso."
 
-#: server/stdinhand.c:1558
+#: server/stdinhand.c:1560
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "L'argomento deve essere 'u', 'up', 'd', 'down' o '?'."
 
-#: server/stdinhand.c:1570
+#: server/stdinhand.c:1572
 msgid "Not reporting to the metaserver."
 msgstr "Il collegamento con il metaserver è chiuso."
 
-#: server/stdinhand.c:1572
+#: server/stdinhand.c:1574
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "Stringa di informazioni sul metaserver impostata a '%s'."
 
-#: server/stdinhand.c:1587
+#: server/stdinhand.c:1589
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Il metaserver è ora [%s]."
 
-#: server/stdinhand.c:1660
+#: server/stdinhand.c:1662
 msgid "The game cannot be saved before it is started."
 msgstr "La partita non può essere salvata prima che sia iniziata."
 
-#: server/stdinhand.c:1674
+#: server/stdinhand.c:1676
 msgid "Cannot toggle a barbarian player."
 msgstr "Impossibile commutare un giocatore barbaro."
 
-#: server/stdinhand.c:1681
+#: server/stdinhand.c:1683
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s ora è controllato da una IA."
 
-#: server/stdinhand.c:1697
+#: server/stdinhand.c:1699
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s ora è umano."
 
-#: server/stdinhand.c:1735
+#: server/stdinhand.c:1737
 msgid "Can't add AI players once the game has begun."
 msgstr "Impossibile aggiungere giocatori IA dopo l'inizio della partita."
 
-#: server/stdinhand.c:1742
+#: server/stdinhand.c:1744
 msgid "Can't add more players, server is full."
 msgstr "Impossibile aggiungere altri giocatori: il server è completo."
 
-#: server/stdinhand.c:1748
+#: server/stdinhand.c:1750
 msgid "Can't use an empty name."
 msgstr "Impossibile usare un nome vuoto."
 
-#: server/stdinhand.c:1755
+#: server/stdinhand.c:1757
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Questo nome supera il limite massimo di %d caratteri."
 
-#: server/stdinhand.c:1762
+#: server/stdinhand.c:1764
 msgid "A player already exists by that name."
 msgstr "Esiste già un giocatore con questo nome."
 
-#: server/stdinhand.c:1771
+#: server/stdinhand.c:1773
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Errore nel creare un nuovo giocatore IA: %s."
 
-#: server/stdinhand.c:1799
+#: server/stdinhand.c:1801
 msgid "Players cannot be removed once the game has started."
 msgstr "I giocatori non possono essere rimossi dopo l'inizio della partita."
 
-#: server/stdinhand.c:1807
+#: server/stdinhand.c:1809
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Giocatore %s rimosso dalla partita."
 
-#: server/stdinhand.c:1817
+#: server/stdinhand.c:1819
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Spiacente, il comando '%s' non è stato ancora implementato."
 
-#: server/stdinhand.c:1835
+#: server/stdinhand.c:1837
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Carico il file script: %s"
 
-#: server/stdinhand.c:1847
+#: server/stdinhand.c:1849
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr ""
 "Impossibile leggere il file script '%s' richiesto dalla linea di comando."
 
-#: server/stdinhand.c:1849
+#: server/stdinhand.c:1851
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Impossibile leggere il file script '%s'."
 
-#: server/stdinhand.c:1938
+#: server/stdinhand.c:1940
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Impossibile scrivere il file script '%s'."
 
-#: server/stdinhand.c:1966
+#: server/stdinhand.c:1968
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -4334,11 +4334,6 @@ msgid ""
 msgstr ""
 "Non potete restringere il livello di accesso ai comandi '%s' per il "
 "collegamento '%s'; avete solo livello '%s'."
-
-#: server/stdinhand.c:1974
-#, c-format
-msgid "Game: You now have access level '%s'."
-msgstr "Gioco: ora il tuo livello di accesso ai comandi è '%s'."
 
 #: server/stdinhand.c:2022
 #, c-format
@@ -18079,3 +18074,6 @@ msgstr "Zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulu"
+
+#~ msgid "Game: You now have access level '%s'."
+#~ msgstr "Gioco: ora il tuo livello di accesso ai comandi è '%s'."
