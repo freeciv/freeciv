@@ -17484,9 +17484,10 @@ msgstr ""
 "Jeżeli broniący się przegrał poza miastem czy fortecą, to wszystkie inne "
 "jednostki na tym samym polu giną."
 
+#SPACJE NA POCZĄTKU SĄ WAŻNE!!
 #: data/helpdata.txt:1000
 msgid " Modifying Combat Rules"
-msgstr "Zmienianie zasad walki"
+msgstr " Zmienianie zasad walki"
 
 #: data/helpdata.txt:1001
 msgid ""
