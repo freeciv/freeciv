@@ -137,15 +137,16 @@ void create_meswin_dialog(void)
 
   gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), _("Messages") );
 
-  meswin_list = gtk_clist_new_with_titles(1, titles);
-  gtk_clist_column_titles_passive(GTK_CLIST(meswin_list));
   scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled),meswin_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(scrolled, 500, 250);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->vbox),
-		     scrolled, TRUE, TRUE, 0 );
+		     scrolled, TRUE, TRUE, 0);
+
+  meswin_list = gtk_clist_new_with_titles(1, titles);
+  gtk_container_add(GTK_CONTAINER(scrolled),meswin_list);
+  gtk_clist_column_titles_passive(GTK_CLIST(meswin_list));
+  gtk_clist_set_column_auto_resize(GTK_CLIST(meswin_list), 0, TRUE);
 
   meswin_close_command = gtk_accelbutton_new(_("_Close"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
