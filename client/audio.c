@@ -41,10 +41,13 @@
 #ifdef WINMM
 #include "audio_winmm.h"
 #endif
+#ifdef ALSA
+#include "audio_alsa.h"
+#endif
 
 #include "audio.h"
 
-#define MAX_NUM_PLUGINS		3
+#define MAX_NUM_PLUGINS		4
 #define SNDSPEC_SUFFIX		".soundspec"
 
 /* keep it open throughout */
@@ -156,6 +159,9 @@ void audio_init()
 #endif
 #ifdef SDL
   audio_sdl_init();
+#endif
+#ifdef ALSA
+  audio_alsa_init();
 #endif
 #ifdef WINMM
   audio_winmm_init();
@@ -275,6 +281,9 @@ void audio_real_init(const char *const spec_name,
 #endif
 #ifdef SDL
   if (audio_select_plugin("sdl")) return; 
+#endif
+#ifdef ALSA
+  if (audio_select_plugin("alsa")) return;
 #endif
 #ifdef WINMM
   if (audio_select_plugin("winmm")) return;

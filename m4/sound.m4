@@ -7,6 +7,10 @@ AC_DEFUN([FC_CHECK_SOUND],[
    [  --disable-sdl-mixer     Do not try to use the SDL mixer],
    USE_SOUND=no, USE_SOUND_SDL=yes)
 
+ AC_ARG_ENABLE(alsa,
+   [  --disable-alsa          Do not try to use ALSA],
+   USE_SOUND=no, USE_SOUND_ALSA=yes)
+
  AC_ARG_ENABLE(winmm,
    [  --disable-winmm         Do not try to use WinMM for sound],
    USE_SOUND=no, USE_SOUND_WINMM=yes)
@@ -45,6 +49,18 @@ AC_DEFUN([FC_CHECK_SOUND],[
       AC_MSG_RESULT([no, install SDL_mixer first: http://www.libsdl.org/projects/SDL_mixer/index.html])
       SDL_mixer="xno"
     fi
+  fi
+ fi
+
+ if test "x$USE_SOUND_ALSA" = "xyes"; then
+  dnl Add ALSA support to client
+  AM_ALSA_SUPPORT(ALSA=yes, ALSA=no)
+  if test "x$ALSA" != "xno"; then
+    SOUND_CFLAGS="$SOUND_CFLAGS $ALSA_CFLAGS"
+    SOUND_LIBS="$SOUND_LIBS $ALSA_LIB"
+    AC_DEFINE(ALSA, 1, [ALSA support])
+    AC_MSG_CHECKING(building ALSA support)
+    AC_MSG_RESULT(yes)
   fi
  fi
 

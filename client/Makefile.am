@@ -28,6 +28,7 @@ endif
 
 ALL_ESD_FILES=audio_esd.c audio_esd.h
 ALL_SDL_FILES=audio_sdl.c audio_sdl.h
+ALL_ALSA_FILES=audio_alsa.c audio_alsa.h
 ALL_WINMM_FILES=audio_winmm.c audio_winmm.h
 ALL_AMIGA_FILES=audio_amiga.c audio_amiga.h
 
@@ -36,6 +37,9 @@ ESD_FILES=$(ALL_ESD_FILES)
 endif
 if SDL
 SDL_FILES=$(ALL_SDL_FILES)
+endif
+if ALSA
+ALSA_FILES=$(ALL_ALSA_FILES)
 endif
 if WINMM
 WINMM_FILES=$(ALL_WINMM_FILES)
@@ -111,6 +115,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		\
 		$(ALL_ESD_FILES)                 \
 		$(ALL_SDL_FILES)                 \
+		$(ALL_ALSA_FILES)                \
 		$(ALL_WINMM_FILES)		 \
 		$(ALL_AMIGA_FILES)
 
@@ -133,7 +138,7 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aic
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
-civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
+civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	attribute.h	\
 	attribute.c	\
 	citydlg_common.c \
