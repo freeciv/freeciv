@@ -16,14 +16,6 @@ fullständig lista, se:
 KÄNDA PROGRAMFEL:
 =================
 
- - Gtk+-klienten har ibland ett problem med at fokuset fastnar på
-   tjattraden. Då fungerar pilknapparna inte längre för att flytta
-   enheter i huvudanblicken. Ett sätt att komma tillbaka till
-   huvudanblicken är att använda <Tab>-knappen för att flytta fram
-   fokuset till någon annan skärmbeståndsdel. Då fungerar pilknapparna
-   igen. (Att klicka i huvudanblicken är också ett sätt att upphäva
-   problemet.)
-
  - De enkla datorstyrda fienderna är inte tillräckligt enkla för
    nybörjare. Om de datorstyrda spelarna besegrar dig tidigt i spelet,
    prova att sätta sververvalmöjligheten "generator" till 2 eller 3,
@@ -35,7 +27,7 @@ KÄNDA PROGRAMFEL:
    föredrar de att lämna städer i upplopp i stället för att svälta ner
    dem.
 
- - Ibland är det för många framsteg i "mål"-menyn i
+ - Ibland är det för många framsteg i "Mål"-menyn i
    forskningsredogörelsen så att menyn sträcker sig utanför skärmens
    underkant så att man inte kan välja alla framsteg. 
 
@@ -44,6 +36,42 @@ KÄNDA PROGRAMFEL:
  - Världsundret "Stora Muren", vilket verkar som en stadsmur i varje
    stad, förhindrar byggandet av riktiga stadsmurar som inte
    försvinner när världsundret blir föråldrat.
+
+ - Vissa världsunder börjar inte verka förrän omgången efter att de
+   har färdigställts. När man till exempel färdigställer Fyrtornet får
+   vissa triremer sitt extra drag först nästa omgång.
+
+ - XAW-klienten kan endast visa 25 städer i stadsredogörelsen.
+
+ - Självständigt angrepp fungerar i allmänhet inte bra.
+
+ - När en förflyttningsväg planeras i servern, till exempel för en
+   självständig bosättare eller ett flygplan, används information som
+   inte är tillgänglig för spelaren.
+
+ - Forskningsdialogen uppdateras inte när man lär sig en teknologi.
+   Man måste stänga och öppna den.
+
+ - I GTK-klienten förekommer i bland skräp i området nära den lilla
+   kartan.
+
+ - Triremer hanteras inte bra i självständigt läge.
+
+ - LOG_DEBUG fungerar inte med andra kompilatorer än GCC.
+
+ - Färgmarkeringarna i GTK-meddelandedialogen försvinner om den stängs
+   och öppnas.
+
+ - När man sätter servervariabler kontrollerar servern ofta inte
+   värdena så bra som den skulle kunna.
+
+ - Dåliga saker händer om man ändrar flera övergripande arbetslistor
+   samtidigt.
+
+ - Även i spel där datormotståndare är de enda motståndarna får de
+   möjlighet att utföra drag både före och efter den mänskliga
+   spelaren varje omgång. Detta ger i bland sken av att datorn gör 2
+   drag.
 
 ANMÄLA PROGRAMFEL
 =================
