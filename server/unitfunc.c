@@ -589,10 +589,17 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 
     /*
      *check we're not trying to sabotage city walls or inside the capital 
-     * If we are, then there is a 50% chance of failing.
+     * If we are, then there is a 50% chance of failing.  Also, wonders of
+     * the world cannot be sabotaged, and neither can the Palace.
      */
 
     improvement--;
+
+    if (is_wonder(improvement) || improvement == B_PALACE) {
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		 "Game: You cannot sabotage a wonder or a Palace!");
+	return;
+    }
 
     capital=find_palace(city_owner(pcity));
 

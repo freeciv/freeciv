@@ -764,7 +764,7 @@ int create_improvements_list(struct player *pplayer, struct city *pcity, int mak
   improvement_type[j++] = -1;
 
   for(i=0; i<B_LAST; i++) 
-    if(pcity->improvements[i]) {
+    if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
       improvements_can_sabotage[j] = get_imp_name_ex(pcity, i);
       improvement_type[j++] = i;
     }  
