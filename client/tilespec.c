@@ -1394,7 +1394,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.road,	        "unit.road");
   SET_SPRITE(unit.sentry,	"unit.sentry");      
   SET_SPRITE(unit.stack,	"unit.stack");
-  sprites.unit.loaded = load_sprite("unit.loaded");
+  SET_SPRITE(unit.loaded, "unit.loaded");
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
   SET_SPRITE(unit.patrol,       "unit.patrol");
