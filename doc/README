@@ -1,5 +1,5 @@
 ====================
-Freeciv Version 1.13
+Freeciv Version 1.14
 ====================
 
 Welcome to Freeciv!
@@ -16,9 +16,8 @@ adjustable parameters to make customizing games possible.
 Freeciv has been implemented completely independently of Civilization;
 you do not need to own Civilization to play Freeciv.
 
-Allthough we do not yet have sound support, and the computer players
-can't yet negotiate, the rules are very complete, and our multiplayer
-and networking code is excellent.
+Allthough the computer players can't yet negotiate, the rules are very
+complete, and our multiplayer and networking code is excellent.
 
 
 Translations:
@@ -245,8 +244,8 @@ there, start civserver with the '--meta' option, or just '-m' for short.
 Caveats:
 
  1) Due to the inclusion of new features, different client and server
-    versions are often incompatible. The 1.13.0 version is for example
-    incompatible with 1.12.0 or earlier versions.
+    versions are often incompatible. The 1.14.0 version is for example
+    incompatible with 1.13.0 or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make civclient
@@ -451,13 +450,17 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain 7 mailing lists:
+We maintain 8 mailing lists:
 
   freeciv          General discussion.
   freeciv-announce Announcements of general interest.
                    This is a "Read Only" list, with infrequent messages.
                    In other words you can't mail this list, just read it.
                    (Announcements sent to this are also sent to freeciv.)
+  freeciv-i18n     Freeciv translation.
+                   All discussions related to translating the Freeciv code,
+                   documentation, and website, into other languages than
+                   English.
   freeciv-dev      Freeciv development.
   freeciv-data     Freeciv data directory development.
                    (Discussion of rulesets, tilesets, etc.)
@@ -477,6 +480,7 @@ To join (or leave) these lists follow these steps:
       To join:
         subscribe freeciv
         subscribe freeciv-announce
+        subscribe freeciv-i18n
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
@@ -485,6 +489,7 @@ To join (or leave) these lists follow these steps:
       To leave:
         unsubscribe freeciv
         unsubscribe freeciv-announce
+        unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
@@ -494,6 +499,7 @@ To join (or leave) these lists follow these steps:
 To send an email to the lists, address it to:
 
   For freeciv, mail should be sent to <freeciv@freeciv.org>.
+  For freeciv-i18n, mail should be sent to <freeciv-i18n@freeciv.org>.
   For freeciv-dev, mail should be sent to <freeciv-dev@freeciv.org>.
   For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
   For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
