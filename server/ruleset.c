@@ -649,6 +649,13 @@ static void load_ruleset_units(struct section_file *file)
     if( max_firepower && u->firepower > max_firepower ) {
       u->firepower = max_firepower;
     }
+    if (u->firepower <= 0) {
+      freelog(LOG_FATAL, "for unit_type \"%s\": firepower is %d but "
+	      "must be at least 1.\nSet the unit's attack strength to 0 "
+	      "if you want it to not have any attack ability. (%s)",
+	      u->name, u->firepower, filename);
+      exit(1);
+    }
     u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
 
     u->happy_cost  = secfile_lookup_int(file, "%s.uk_happy", sec[i]);
