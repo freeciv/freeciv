@@ -72,8 +72,7 @@ int UNIT_TILE_HEIGHT;
 int SMALL_TILE_WIDTH;
 int SMALL_TILE_HEIGHT;
 
-int OVERVIEW_TILE_WIDTH = 2;
-int OVERVIEW_TILE_HEIGHT = 2;
+int OVERVIEW_TILE_SIZE = 2;
 
 bool is_isometric;
 int hex_width, hex_height;

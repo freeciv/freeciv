@@ -278,8 +278,14 @@ extern int UNIT_TILE_HEIGHT;
 extern int SMALL_TILE_WIDTH;
 extern int SMALL_TILE_HEIGHT;
 
-extern int OVERVIEW_TILE_WIDTH;
-extern int OVERVIEW_TILE_HEIGHT;
+/* The overview tile width and height are defined in terms of the base
+ * size.  For iso-maps the width is twice the height since "natural"
+ * coordinates are used.  For classical maps the width and height are
+ * equal.  The base size may be adjusted to get the correct scale. */
+extern int OVERVIEW_TILE_SIZE;
+#define OVERVIEW_TILE_WIDTH \
+  ((topo_has_flag(TF_ISO) ? 2 : 1) * OVERVIEW_TILE_SIZE)
+#define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
 extern bool is_isometric;
 extern int hex_width, hex_height;
