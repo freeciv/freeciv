@@ -171,6 +171,14 @@ void auto_arrange_workers(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct ai_data *ai = ai_data_get(pplayer);
 
+  /* HACK: make sure everything is up-to-date before continuing.  This may
+   * result in recursive calls to auto_arrange_workers, but it's better
+   * to have these calls here than while we're reassigning workers (when
+   * they will be fatal). */
+  map_city_radius_iterate(pcity->x, pcity->y, map_x, map_y) {
+    update_city_tile_status_map(pcity, map_x, map_y);
+  } map_city_radius_iterate_end;
+
   sanity_check_city(pcity);
   cm_clear_cache(pcity);
 
