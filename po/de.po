@@ -3,9 +3,9 @@
 # ###########################################################
 # # German translations for freeciv package                 #
 # # German messages for freeciv.                            #
-# # Copyright (C) 1999-2003 Free Software Foundation, Inc.  #
+# # Copyright (C) 1999-2005 Free Software Foundation, Inc.  #
 # # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.      #
-# # Christian Knoke <chrisk@cknoke.de>, 2003-2004.          #
+# # Christian Knoke <chrisk@cknoke.de>, 2003-2005.          #
 # ###########################################################
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-02 22:45-0500\n"
+"POT-Creation-Date: 2005-01-03 11:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -1786,7 +1786,7 @@ msgstr "aitoggle <Spieler>"
 
 #: server/commands.c:182
 msgid "Toggle AI status of player."
-msgstr "Spieler wird von der KI geführt: AN / AUS"
+msgstr "Umschalten zwischen menschlichem und KI-Spieler."
 
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:186
@@ -8394,13 +8394,12 @@ msgid "Game: Clipboard is empty."
 msgstr "Spiel: Zwischenablage ist leer."
 
 #: client/mapview_common.c:778
-#, fuzzy
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
 msgstr ""
 "Pfade länger als 99 Züge werden nicht unterstützt.\n"
-"Bitte berichte diesen Fehler an bugs@freeciv.freeciv.org."
+"Bitte berichte diesen Fehler an bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -14837,12 +14836,12 @@ msgid "Could not write manual file %s."
 msgstr "Konnte die Handbuch-Datei '%s' nicht schreiben."
 
 #: manual/civmanual.c:129
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Geländehilfe</h1>\n"
+"<h1>Freeciv %s Server Optionen</h1>\n"
 "\n"
 
 #: manual/civmanual.c:145
@@ -14916,12 +14915,12 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:190
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Geländehilfe</h1>\n"
+"<h1>Freeciv %s Server Befehle</h1>\n"
 "\n"
 
 #: manual/civmanual.c:196
@@ -14970,7 +14969,7 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Geländehilfe</h1>\n"
+"<h1>Freeciv %s Hilfe für Gelände</h1>\n"
 "\n"
 
 #: manual/civmanual.c:221
@@ -14991,12 +14990,12 @@ msgstr "<th>Special 1</th><th>Nahrung/ Produktion/ Handel</th>"
 #: manual/civmanual.c:224
 #, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
-msgstr "<th>Special 2</th><th>Nahrung/ Produktion/ Handel</th"
+msgstr "<th>Special 2</th><th>Nahrung/ Produktion/ Handel</th>"
 
 #: manual/civmanual.c:225
 #, c-format
 msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
-msgstr "<th>Bewegungspunkte</th><th>Verteidigung</th><th>Straße +Handel</th>\n"
+msgstr "<th>Bewegungskosten</th><th>Verteidigung</th><th>Straße +Handel</th>\n"
 
 #: manual/civmanual.c:227
 #, c-format
@@ -15011,50 +15010,50 @@ msgstr "<th>Verändern zu</th>"
 #: manual/civmanual.c:265
 #, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr ""
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:266
 #, c-format
 msgid "<caption>Time to perform action</caption>"
-msgstr ""
+msgstr "<caption>Zeitdauer für Arbeiten</caption>"
 
 #: manual/civmanual.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "<tr><th>Terrain</th>\n"
-msgstr "<table border=1><tr><th>Gelände</th>"
+msgstr "<tr><th>Gelände</th>\n"
 
 #: manual/civmanual.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr "<table border=1><tr><th>Gelände</th>"
+msgstr "<th>Straße</th><th>Bewässerung</th>\n"
 
 #: manual/civmanual.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
-msgstr "<th>Bewässerung +Nahrung</th><th>Bergwerk +Produktion</th>\n"
+msgstr "<th>Bergwerk</th><th>Eisenbahn</th>\n"
 
 #: manual/civmanual.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr "<th>Special 2</th><th>Nahrung/ Produktion/ Handel</th"
+msgstr "<th>Fliegerhorst</th><th>Festung</th>\n"
 
 #: manual/civmanual.c:271
 #, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgstr "<th>Umweltverschmutzung beseitigen</th><th>Fallout beseitigen</th>\n"
 
 #: manual/civmanual.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Transform</th></tr>\n"
-msgstr "<th>Verändern zu</th>"
+msgstr "<th>Verändern</th></tr>\n"
 
 #: manual/civmanual.c:298
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Geländehilfe</h1>\n"
+"<h1>Freeciv %s Hilfe für Stadtverbesserungen</h1>\n"
 "\n"
 
 #: manual/civmanual.c:311 manual/civmanual.c:340
@@ -15078,12 +15077,12 @@ msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
 msgstr "<tr><td>Veraltet durch: <td>%s</tr>\n"
 
 #: manual/civmanual.c:327
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Geländehilfe</h1>\n"
+"<h1>Freeciv %s Hilfe für Wunder</h1>\n"
 "\n"
 
 #: data/Freeciv.in:111
@@ -22763,7 +22762,7 @@ msgstr "schweizerisch"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
-msgstr "Schweiz"
+msgstr "Schweizer"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -22897,17 +22896,3 @@ msgstr ""
 "Die Zulu sind ein kriegerisches Bantu-Volk, die Anfang des 18. Jahrhunderts "
 "von Westzentralafrika in den Süden einwanderten, wo sie die Khoisan Völker "
 "eroberten und mit europäischen Siedlern zusammenstießen."
-
-#~ msgid ""
-#~ "<h1>Buildings help for %s</h1>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<h1>Hilfe für Stadtverbesserungen für %s</h1>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "<h1>Wonder help for %s</h1>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<h1>Hilfe für Wunder für %s</h1>\n"
-#~ "\n"
