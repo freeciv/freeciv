@@ -1305,154 +1305,197 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 }
 
 /**************************************************************************
-...
+  A helper function for ai_military_gothere.  Estimates the dangers we will
+  be facing a out destination and tries to find/request a bodyguard if 
+  needed.
+**************************************************************************/
+static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
+{
+  int danger;
+  struct city *dcity;
+  struct tile *ptile;
+
+  
+  if (is_barbarian(unit_owner(punit)))  {
+    /* barbarians must have more courage (= less brains) */
+    punit->ai.bodyguard = BODYGUARD_NONE;
+    return;
+  }
+
+  /* Estimate enemy attack power. */
+  danger = stack_attack_value(dest_x, dest_y);
+  if ((dcity = map_get_city(dest_x, dest_y))) {
+    /* Assume enemy will build another defender, add it's attack strength */
+    int d_type = ai_choose_defender_versus(dcity, punit->type);
+    danger += 
+      base_unit_belligerence_primitive(d_type, 
+                                       do_make_unit_veteran(dcity, d_type), 
+                                       SINGLE_MOVE, unit_types[d_type].hp);
+  }
+  danger *= POWER_DIVIDER;
+
+  /* If we are fast, there is less danger. */
+  danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
+  if (unit_flag(punit, F_IGTER)) {
+    danger /= 1.5;
+  }
+
+  ptile = map_get_tile(punit->x, punit->y);
+  /* We look for the bodyguard where we stand. */
+  if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
+    int my_def = (punit->hp * (punit->veteran ? 15 : 10)
+                  * unit_type(punit)->defense_strength);
+    
+    /* FIXME: danger is multiplied by POWER_FACTOR, my_def isn't. */
+    if (danger >= my_def) {
+      UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
+               "wants a bodyguard, danger=%d, my_def=%d", danger, my_def);
+      punit->ai.bodyguard = BODYGUARD_WANTED;
+    } else {
+      punit->ai.bodyguard = BODYGUARD_NONE;
+    }
+  }
+
+  /* What if we have a bodyguard, but don't need one? */
+}
+
+/**************************************************************************
+  Return values: 
+  -1: died
+  0: didn't move
+  1: moved
+  TODO: Convert to bool.
 **************************************************************************/
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
-  int id, x, y, boatid = 0, bx = 0, by = 0;
-  struct unit *ferryboat;
+  int id, x, y, boatid = 0, bx = -1, by = -1;
+  struct unit *ferryboat = NULL;
   struct unit *def;
-  struct city *dcity;
+  struct city *dcity = map_get_city(dest_x, dest_y);
   struct tile *ptile;
-  int d_type, d_val;
 
   CHECK_UNIT(punit);
 
   id = punit->id; x = punit->x; y = punit->y;
 
-  if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
-  ferryboat = unit_list_find(&(map_get_tile(x, y)->units), boatid);
-
-  if (!same_pos(dest_x, dest_y, x, y)) {
-
-/* do we require protection? */
-    d_val = stack_attack_value(dest_x, dest_y);
-    if ((dcity = map_get_city(dest_x, dest_y))) {
-      d_type = ai_choose_defender_versus(dcity, punit->type);
-      d_val += 
-	base_unit_belligerence_primitive(d_type, 
-                                         do_make_unit_veteran(dcity, d_type), 
-                                         SINGLE_MOVE, unit_types[d_type].hp);
-    }
-    d_val *= POWER_DIVIDER;
-    d_val /= (unit_type(punit)->move_rate / SINGLE_MOVE);
-    if (unit_flag(punit, F_IGTER)) d_val /= 1.5;
-    freelog(LOG_DEBUG,
-	    "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
-	    unit_type(punit)->name, punit->x, punit->y, d_val,
-	    (punit->hp * (punit->veteran ? 15 : 10)
-	     * unit_type(punit)->defense_strength));
-    ptile = map_get_tile(punit->x, punit->y);
-    if (d_val >= punit->hp * (punit->veteran ? 15 : 10) *
-                unit_type(punit)->defense_strength) {
-/*      if (!unit_list_find(&pplayer->units, punit->ai.bodyguard))   Ugggggh */
-      if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
-        punit->ai.bodyguard = -1;
-    } else if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
-      punit->ai.bodyguard = BODYGUARD_NONE;
-
-    if (is_barbarian(pplayer))  /* barbarians must have more courage */
-      punit->ai.bodyguard = BODYGUARD_NONE;
-/* end protection subroutine */
-
-    if (!goto_is_sane(punit, dest_x, dest_y, TRUE) ||
-       (ferryboat && goto_is_sane(ferryboat, dest_x, dest_y, TRUE))) { /* Important!! */
-      punit->ai.ferryboat = boatid;
-      freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
-		    pplayer->name, punit->id, punit->x, punit->y, boatid);
-      if (boatid > 0 && !same_pos(x, y, bx, by)) {
-	if (!ai_unit_goto(punit, bx, by)) {
-	  return -1;		/* died */
-	}
-      }
-      ptile = map_get_tile(punit->x, punit->y);
-      ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
-      if (ferryboat && (ferryboat->ai.passenger == 0 ||
-          ferryboat->ai.passenger == punit->id)) {
-	freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
-		punit->id, ferryboat->id, punit->x, punit->y,
-		dest_x, dest_y);
-        handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-        ferryboat->ai.passenger = punit->id;
-/* the code that worked for settlers wasn't good for piles of cannons */
-        if (find_beachhead(punit, dest_x, dest_y, &ferryboat->goto_dest_x,
-               &ferryboat->goto_dest_y)) {
-          punit->goto_dest_x = dest_x;
-          punit->goto_dest_y = dest_y;
-          handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-	  if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
-	      <= 0) {
-	    freelog(LOG_DEBUG, "All aboard!");
-	    /* perhaps this should only require two passengers */
-            unit_list_iterate(ptile->units, mypass) {
-              if (mypass->ai.ferryboat == ferryboat->id
-                  && punit->owner == mypass->owner) {
-                handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
-                def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
-                if (def) {
-                  handle_unit_activity_request(def, ACTIVITY_SENTRY);
-                }
-              }
-            } unit_list_iterate_end; /* passengers are safely stowed away */
-	    if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
-	      return -1;	/* died */
-	    }
-            handle_unit_activity_request(punit, ACTIVITY_IDLE);
-          } /* else wait, we can GOTO later. */
-        }
-      } 
-    }
-    if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0 &&
-       (!ferryboat || 
-       (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 &&
-       (punit->ai.bodyguard == BODYGUARD_NONE || unit_list_find(&(map_get_tile(punit->x,
-       punit->y)->units), punit->ai.bodyguard) || (dcity &&
-       !has_defense(dcity)))))) {
-/* if we are on a boat, disembark only if we are within two tiles of
-our target, and either 1) we don't need a bodyguard, 2) we have a
-bodyguard, or 3) we are going to an empty city.  Previously, cannons
-would disembark before the cruisers arrived and die. -- Syela */
-
-      punit->goto_dest_x = dest_x;
-      punit->goto_dest_y = dest_y;
-
-/* The following code block is supposed to stop units from running away from their
-bodyguards, and not interfere with those that don't have bodyguards nearby -- Syela */
-/* The case where the bodyguard has moves left and could meet us en route is not
-handled properly.  There should be a way to do it with dir_ok but I'm tired now. -- Syela */
-      if (punit->ai.bodyguard < BODYGUARD_NONE) { 
-	adjc_iterate(punit->x, punit->y, i, j) {
-	  unit_list_iterate(map_get_tile(i, j)->units, aunit) {
-	    if (aunit->ai.charge == punit->id
-                && punit->owner == aunit->owner) {
-	      freelog(LOG_DEBUG,
-		      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
-		      i, j, punit->x, punit->y);
-	      if (aunit->moves_left > 0) return(0);
-	      else return ai_unit_move(punit, i, j) ? 1 : 0;
-	    }
-	  } unit_list_iterate_end;
-        } adjc_iterate_end;
-      } /* end if */
-/* end 'short leash' subroutine */
-
-      if (ferryboat) {
-	freelog(LOG_DEBUG, "GOTHERE: %s#%d@(%d,%d)->(%d,%d)", 
-		unit_type(punit)->name, punit->id,
-		punit->x, punit->y, dest_x, dest_y);
-      }
-      if (!ai_unit_goto(punit, dest_x, dest_y)) {
-	return -1;		/* died */
-      }
-      /* liable to bump into someone that will kill us.  Should avoid? */
-    } else {
-      freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
-		    unit_type(punit)->name, punit->id,
-		    punit->x, punit->y, dest_x, dest_y);
-    }
+  if (same_pos(dest_x, dest_y, x, y)) {
+    /* Nowhere to go */
+    return 0;
   }
 
+  if (is_ground_unit(punit)) { 
+    boatid = find_boat(pplayer, &bx, &by, 2);
+    /* NB: ferryboat is set only if the boat is where we are */
+    ferryboat = unit_list_find(&(map_get_tile(x, y)->units), boatid);
+  }
+
+  ai_gothere_bodyguard(punit, dest_x, dest_y);
+  
+  if (!goto_is_sane(punit, dest_x, dest_y, TRUE) 
+      || (ferryboat && goto_is_sane(ferryboat, dest_x, dest_y, TRUE))) {
+    punit->ai.ferryboat = boatid;
+    freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
+            pplayer->name, punit->id, punit->x, punit->y, boatid);
+    if (boatid > 0 && !same_pos(x, y, bx, by)) {
+      /* Go to the boat */
+      /* FIXME: this can lose bodyguard */
+      if (!ai_unit_goto(punit, bx, by)) {
+        /* Died. */
+        return -1;
+      }
+    }
+    ptile = map_get_tile(punit->x, punit->y);
+    ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
+
+    if (ferryboat && (ferryboat->ai.passenger == 0 
+                      || ferryboat->ai.passenger == punit->id)) {
+      freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
+              punit->id, ferryboat->id, punit->x, punit->y, dest_x, dest_y);
+      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      ferryboat->ai.passenger = punit->id;
+
+      /* Last ingredient: a beachhead. */
+      if (find_beachhead(punit, dest_x, dest_y, 
+                         &ferryboat->goto_dest_x, &ferryboat->goto_dest_y)) {
+        punit->goto_dest_x = dest_x;
+        punit->goto_dest_y = dest_y;
+        if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
+            <= 0) {
+          /* FIXME: perhaps we should only require only two passengers */
+          freelog(LOG_DEBUG, "All aboard!");
+          unit_list_iterate(ptile->units, mypass) {
+            if (mypass->ai.ferryboat == ferryboat->id
+                && punit->owner == mypass->owner) {
+              handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
+              def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
+              if (def) {
+                handle_unit_activity_request(def, ACTIVITY_SENTRY);
+              }
+            }
+          } unit_list_iterate_end; /* passengers are safely stowed away */
+          if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
+            return -1;	/* died */
+          }
+          handle_unit_activity_request(punit, ACTIVITY_IDLE);
+        } /* else wait, we can GOTO when more passengers come. */
+      }
+    } 
+  }
+
+  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0 
+      && (!ferryboat 
+          || (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 
+              && (punit->ai.bodyguard == BODYGUARD_NONE 
+                  || unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
+                                    punit->ai.bodyguard) 
+                  || (dcity && !has_defense(dcity)))))) {
+    /* if we are on a boat, disembark only if we are within two tiles of
+     * our target, and either 1) we don't need a bodyguard, 2) we have a
+     * bodyguard, or 3) we are going to an empty city.  Previously, cannons
+     * would disembark before the cruisers arrived and die. -- Syela */
+    
+    punit->goto_dest_x = dest_x;
+    punit->goto_dest_y = dest_y;
+    
+    /* The following code block is supposed to stop units from running away 
+     * from their bodyguards, and not interfere with those that don't have 
+     * bodyguards nearby -- Syela */
+    /* The case where the bodyguard has moves left and could meet us en route 
+     * is not handled properly.  There should be a way to do it with dir_ok 
+     * but I'm tired now. -- Syela */
+    if (punit->ai.bodyguard == BODYGUARD_WANTED) { 
+      adjc_iterate(punit->x, punit->y, i, j) {
+        unit_list_iterate(map_get_tile(i, j)->units, aunit) {
+          if (aunit->ai.charge != punit->id || punit->owner != aunit->owner) {
+            continue;
+          }
+          freelog(LOG_DEBUG, "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
+                  i, j, punit->x, punit->y);
+          /* FIXME: What is happening here? */
+          if (aunit->moves_left > 0) {
+            return 0;
+          } else {
+            return (ai_unit_move(punit, i, j) ? 1 : 0);
+          }
+        } unit_list_iterate_end;
+      } adjc_iterate_end;
+    }
+    /* end 'short leash' subroutine */
+    
+    freelog(LOG_DEBUG, "GOTHERE: %s#%d@(%d,%d)->(%d,%d)", 
+            unit_type(punit)->name, punit->id,
+            punit->x, punit->y, dest_x, dest_y);
+    if (!ai_unit_goto(punit, dest_x, dest_y)) {
+      return -1;		/* died */
+    }
+    /* liable to bump into someone that will kill us.  Should avoid? */
+  } else {
+    freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
+            unit_type(punit)->name, punit->id,
+            punit->x, punit->y, dest_x, dest_y);
+  }
+  
   /* Dead unit shouldn't reach this point */
   CHECK_UNIT(punit);
   
