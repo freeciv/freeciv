@@ -1206,7 +1206,7 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 		    int offset_x, int offset_y, int width, int height)
 {
   HDC hdc;
-  HBITMAP old;
+  HBITMAP old = NULL; /*Remove warning*/
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
   if (pcanvas_store->bitmap) {
@@ -1242,13 +1242,27 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
-  HDC hdc = CreateCompatibleDC(pcanvas_store->hdc);
-  HBRUSH old = SelectObject(hdc, brush_std[color]);
+  HDC hdc;
+  HBITMAP old = NULL; /*Remove warning*/
+  RECT rect;
 
-  mydrawrect(hdc, canvas_x, canvas_y, width, height);
+  if (pcanvas_store->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas_store->hdc);
+    old = SelectObject(hdc, pcanvas_store->bitmap);
+  } else {
+    hdc = pcanvas_store->hdc;
+  }
 
-  SelectObject(hdc, old);
-  DeleteDC(hdc);
+  /*"+1"s are needed because FillRect doesn't fill bottom and right edges*/
+  SetRect(&rect, canvas_x, canvas_y, canvas_x + width + 1,
+		 canvas_y + height + 1);
+
+  FillRect(hdc, &rect, brush_std[color]);
+
+  if (pcanvas_store->bitmap) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
 }
 
 /**************************************************************************
@@ -1258,14 +1272,27 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
-  HDC hdc = CreateCompatibleDC(pcanvas_store->hdc);
-  HPEN old = SelectObject(hdc, pen_std[color]);
+  HDC hdc;
+  HBITMAP old = NULL; /*Remove warning*/
+  HPEN old_pen;
 
+  if (pcanvas_store->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas_store->hdc);
+    old = SelectObject(hdc, pcanvas_store->bitmap);
+  } else {
+    hdc = pcanvas_store->hdc;
+  }
+
+  old_pen = SelectObject(hdc, pen_std[color]);
   MoveToEx(hdc, start_x, start_y, NULL);
   LineTo(hdc, start_x + dx, start_y + dy);
+  SelectObject(hdc, old_pen);
 
-  SelectObject(hdc, old);
-  DeleteDC(hdc);
+  if (pcanvas_store->bitmap) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
+
 }
 
 
