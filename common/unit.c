@@ -960,6 +960,9 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
 	if (target == S_NO_SPECIAL)
 	  return ((pspresent & (~psworking)) != 0);
+	else if ((game.civstyle != 2) &&
+		 (target != get_preferred_pillage(pspresent)))
+	  return 0;
 	else
 	  return ((pspresent & (~psworking) & target) != 0);
       } else {
