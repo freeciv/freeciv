@@ -733,106 +733,173 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 }
 
 /*************************************************************************
-This looks at tiles neighbouring the unit to find something to kill or
-explore. It prefers tiles in the following order:
-1. Undefended cities
-2. Huts
-3. Enemy units weaker than the unit
-4. Land barbarians also like unfrastructure tiles (for later pillage)
-If none of the following is there, nothing is chosen.
+This function looks at tiles adjacent to the unit in order to find something
+to kill or explore.  It prefers tiles in the following order:
 
-work of Syela - mostly to fix the ZOC/goto strangeness
+Returns value of the victim which has been chosen:
+
+99999    means empty (undefended) city
+99998    means hut
+2..99997 means value of enemy unit weaker than our unit
+1        means barbarians wanting to pillage
+0        means nothing found or error
+-2*MORT*TRADE_WEIGHTING
+         means nothing found and punit causing unhappiness
+
+If value <= 0 is returned, (dest_x, dest_y) is set to actual punit's position.
 **************************************************************************/
 static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
-				  int *dest_x, int *dest_y)
+                                  int *dest_x, int *dest_y)
 {
-  int x, y;
-  int best = 0, a, b, c, d, e, f;
-  struct unit *pdef;
-  struct unit *patt;
-  struct city *pcity;
-  x = punit->x;
-  y = punit->y;
+  /* Set the tile with our target as the best (with value new_best). */
+#define SET_BEST(new_best) \
+  do { best = (new_best); *dest_x = x1; *dest_y = y1; } while (FALSE)
+
+  int bellig = unit_belligerence_primitive(punit);
+  int x = punit->x, y = punit->y;
+  int best = 0;
+  int stack_size = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
+  
   *dest_y = y;
   *dest_x = x;
-  if (punit->unhappiness) best = 0 - 2 * MORT * TRADE_WEIGHTING; /* desperation */
-  f = unit_type(punit)->build_cost;
-  c = 0; /* only dealing with adjacent victims here */
-
-  if (get_transporter_capacity(punit)) {
-    unit_list_iterate(map_get_tile(x, y)->units, aunit)
-      if (!is_sailing_unit(aunit)) return(0);
-    unit_list_iterate_end;
-  } /* ferryboats do not attack.  no. -- Syela */
+ 
+  /* Ferryboats with passengers do not attack. */
+  if (punit->ai.passenger > 0) {
+    return 0;
+  }
+ 
+  if (punit->unhappiness > 0) {
+    /* When we're causing unhappiness, we'll set best even lower, 
+     * so that we will take even targets which we would ignore otherwise 
+     * (in other words -- we're going to commit suicide). */
+    best = - 2 * MORT * TRADE_WEIGHTING;
+  }
 
   adjc_iterate(x, y, x1, y1) {
-    pdef = get_defender(punit, x1, y1);
+    struct unit *pdef = get_defender(punit, x1, y1);
+    
     if (pdef) {
-      patt = get_attacker(punit, x1, y1);
-/* horsemen in city refused to attack phalanx just outside that was
-bodyguarding catapult - patt will resolve this bug nicely -- Syela */
-      if (can_unit_attack_tile(punit, x1, y1)) { /* thanks, Roar */
-        d = unit_vulnerability(punit, pdef);
-        if (map_get_city(x, y) && /* pikemen defend Knights, attack Catapults */
-              get_total_defense_power(pdef, punit) *
-              get_total_defense_power(punit, pdef) >= /* didn't like > -- Syela */
-              get_total_attack_power(patt, punit) * /* patt, not pdef */
-              get_total_attack_power(punit, pdef) &&
-              unit_list_size(&(map_get_tile(punit->x, punit->y)->units)) < 2 &&
-	      get_total_attack_power(patt, punit)) { 
-	  freelog(LOG_DEBUG, "%s defending %s from %s's %s",
-		  unit_type(punit)->name,
-		  map_get_city(x, y)->name,
-		  unit_owner(pdef)->name, unit_type(pdef)->name);
-        } else {
-          a = reinforcements_value(punit, pdef->x, pdef->y);
-          a += unit_belligerence_primitive(punit);
-          a *= a;
-          b = unit_type(pdef)->build_cost;
-          if (map_get_city(x1, y1)) /* bonus restored 980804 -- Syela */
-            b = (b + 40) * punit->hp / unit_type(punit)->hp;
-/* c is always equal to zero in this routine, and f is already known */
-/* arguable that I should use reinforcement_cost here?? -- Syela */
-          if (a && is_my_turn(punit, pdef)) {
-            e = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
-/* no need to amortize! */
-            if (e > best && ai_fuzzy(pplayer, TRUE)) {
-	      freelog(LOG_DEBUG, "Better than %d is %d (%s)",
-			    best, e, unit_type(pdef)->name);
-              best = e; *dest_y = y1; *dest_x = x1;
-            } else {
-	      freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
-			    best, e, unit_type(pdef)->name);
-	    }
-          } /* end if we have non-zero belligerence */
+      struct unit *patt = get_attacker(punit, x1, y1);
+
+      if (!can_unit_attack_tile(punit, x1, y1)) {
+        continue;
+      }
+
+      /* If we are in the city, let's deeply consider defending it - however,
+       * horsemen in city refused to attack phalanx just outside that was
+       * bodyguarding catapult; thus, we get the best attacker on the tile (x1,
+       * y1) as well, for the case when there are multiple different units on
+       * the tile (x1, y1). Thus we force punit to attack a stack of units if
+       * they're endangering punit seriously, even if they aren't that weak. */
+      /* FIXME: The get_total_defense_power(pdef, punit) should probably use
+       * patt rather than pdef. There also ought to be a better metric for
+       * determining this. */
+      if (map_get_city(x, y) && get_total_defense_power(pdef, punit) *
+                                get_total_defense_power(punit, pdef) >=
+                                get_total_attack_power(patt, punit) *
+                                get_total_attack_power(punit, pdef)
+          && stack_size < 2 && get_total_attack_power(patt, punit) > 0) {
+        freelog(LOG_DEBUG, "%s defending %s from %s's %s",
+                unit_type(punit)->name,
+                map_get_city(x, y)->name,
+                unit_owner(pdef)->name, unit_type(pdef)->name);
+        
+      } else {
+        int vuln = unit_vulnerability(punit, pdef);
+        
+        /* The total possible attack power we can throw on the victim. Note
+         * that we will even square this. */
+        int attack = reinforcements_value(punit, pdef->x, pdef->y) + bellig;
+        
+        /* Something like 'attractiveness' of the victim, how nice it would be
+         * to destroy it. Larger value, worse loss for enemy. */
+        int benefit = unit_type(pdef)->build_cost;
+        
+        /* We're only dealing with adjacent victims here. */
+        int move_cost = 0;
+        
+        /* The possible loss when we would lose the unit we want to attack. */
+        int loss = unit_type(punit)->build_cost;
+        
+        attack *= attack;
+        
+        /* If the victim is in the city, we increase the benefit and correct
+         * it with our health because there may be more units in the city
+         * stacked, and we won't destroy them all at once, so in the next
+         * turn they may attack us. So we shouldn't send already injured
+         * units to useless suicide. */
+        if (map_get_city(x1, y1)) {
+          benefit += unit_value(get_role_unit(F_CITIES, 0));
+          benefit = (benefit * punit->hp) / unit_type(punit)->hp;
+        }
+        
+        /* If we have non-zero belligerence... */
+        if (attack > 0 && is_my_turn(punit, pdef)) {
+          int desire;
+          
+          /* TODO: This equation is simplified version of much worse ones in
+           * that long fat routines, but it's still a common pattern, so we
+           * will can this equation to one separate readable function. We'll
+           * also be able to remove move_cost and loss variables. */
+         
+          /*         attractiveness     danger */ 
+          desire = ((benefit * attack - loss * vuln) * SHIELD_WEIGHTING
+                    / (attack + vuln) - move_cost * SHIELD_WEIGHTING);
+          
+          /* No need to amortize! We're doing it in one-turn horizon (?). */
+          
+          if (desire > best && ai_fuzzy(pplayer, 1)) {
+            freelog(LOG_DEBUG, "Better than %d is %d (%s)",
+                          best, desire, unit_type(pdef)->name);
+            SET_BEST(desire);
+            
+          } else {
+            freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
+                    best, desire, unit_type(pdef)->name);
+          }
         }
       }
-    } else { /* no pdef */
-      pcity = map_get_city(x1, y1);
-      if (pcity && is_ground_unit(punit) &&
-          map_get_terrain(punit->x, punit->y) != T_OCEAN) {
-        if (pcity->owner != pplayer->player_no) { /* free goodies */
-          best = 99999; *dest_y = y1; *dest_x = x1;
-        }
+      
+    } else {
+      struct city *pcity = map_get_city(x1, y1);
+      
+      /* No defender... */
+     
+      /* ...and free foreign city waiting for us. Who would resist! */
+      /* TODO: When diplomacy is implemented, don't capture enemy cities so
+       * enthusiastically. -- mike, pasky */
+      if (pcity && pcity->owner != pplayer->player_no
+          && is_non_allied_city_tile(map_get_tile(x1, y1), pplayer)
+          && is_ground_unit(punit)
+          && map_get_terrain(punit->x, punit->y) != T_OCEAN) {
+        SET_BEST(99999);
+        continue;
       }
-      if (map_has_special(x1, y1, S_HUT) && best < 99999 &&
-          could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) &&
-          !is_barbarian(unit_owner(punit)) &&
-/*          zoc_ok_move(punit, x1, y1) && !is_sailing_unit(punit) &&*/
-          punit->ai.ai_role != AIUNIT_ESCORT && /* makes life easier */
-          !punit->ai.charge && /* above line seems not to work. :( */
-          punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
-        best = 99998; *dest_y = y1; *dest_x = x1;
+
+      /* ...or tiny pleasant hut here! */
+      if (map_has_special(x1, y1, S_HUT) && best < 99999
+          && could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) != 0
+          && !is_barbarian(unit_owner(punit))
+          && punit->ai.ai_role != AIUNIT_ESCORT
+          && punit->ai.charge == 0 /* Above line doesn't seem to work. :( */
+          && punit->ai.ai_role != AIUNIT_DEFEND_HOME) {
+        SET_BEST(99998);
+        continue;
       }
-      if( is_land_barbarian(pplayer) && best == 0 &&
-          get_tile_infrastructure_set(map_get_tile(x1, y1)) &&
-          could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) ) {
-        best = 1; *dest_y = y1; *dest_x = x1;
-      } /* next to nothing is better than nothing */
+      
+      /* If we have nothing to do, we can at least pillage something, hmm? */
+      if (is_land_barbarian(pplayer) && best == 0
+          && get_tile_infrastructure_set(map_get_tile(x1, y1)) != S_NO_SPECIAL
+          && could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) != 0) {
+        SET_BEST(1);
+        continue;
+      }
     }
   } adjc_iterate_end;
 
   return best;
+  
+#undef SET_BEST
 }
 
 /*************************************************************************
