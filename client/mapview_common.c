@@ -588,9 +588,21 @@ void set_mapview_origin(int gui_x0, int gui_y0)
   if (can_slide && smooth_center_slide_msec > 0) {
     int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
     int diff_x, diff_y;
-    double timing_sec = (double)smooth_center_slide_msec / 1000.0, mytime;
+    double timing_sec = (double)smooth_center_slide_msec / 1000.0, currtime;
     static struct timer *anim_timer;
     int frames = 0;
+
+    /* We track the average FPS, which is used to predict how long the
+     * next draw will take.  We start with a 100 FPS estimate - this
+     * value will quickly become irrelevant as the correct value is
+     * calculated, but it's needed to give an estimate of the FPS for
+     * the first draw.
+     *
+     * Note that the initial value shouldn't be larger than the sliding
+     * time, or we'll jump straight to the last frame.  The FPS should
+     * therefore be a "high" estimate. */
+    static double total_frames = 0.01;
+    static double total_time = 0.0001;
 
     gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
@@ -598,18 +610,36 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     unqueue_mapview_updates(TRUE);
 
     do {
-      mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
+      double mytime;
 
+      /* Get the current time, and add on the average 1/FPS, which is the
+       * expected time this frame will take.  This is done so that the
+       * frame's position is calculated from the expected time when the
+       * frame will complete, rather than the time when the frame drawing
+       * is started. */
+      currtime = read_timer_seconds(anim_timer);
+      currtime += total_time / total_frames;
+
+      mytime = MIN(currtime, timing_sec);
       base_set_mapview_origin(start_x + diff_x * (mytime / timing_sec),
 			      start_y + diff_y * (mytime / timing_sec));
       flush_dirty();
       gui_flush();
       frames++;
-    } while (mytime < timing_sec);
+    } while (currtime < timing_sec);
 
-    mytime = read_timer_seconds(anim_timer);
-    freelog(LOG_DEBUG, "Got %d frames in %f seconds: %f FPS.",
-	    frames, mytime, (double)frames / mytime);
+    currtime = read_timer_seconds(anim_timer);
+    total_frames += frames;
+    total_time += currtime;
+    freelog(LOG_DEBUG, "Got %d frames in %f seconds: %f FPS (avg %f).",
+	    frames, currtime, (double)frames / currtime,
+	    total_frames / total_time);
+
+    /* A very small decay factor to make things more accurate when something
+     * changes (mapview size, tileset change, etc.).  This gives a
+     * half-life of 68 slides. */
+    total_frames *= 0.99;
+    total_time *= 0.99;
   } else {
     base_set_mapview_origin(gui_x0, gui_y0);
   }
