@@ -611,7 +611,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 
     notify_player_ex(get_player(pwinner->owner), 
 		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     _("Game: Your attacking %s was successful"
+		     _("Game: Your attacking %s succeeded"
 		       " against %s's %s%s!"),
 		     unit_name(pwinner->type),
 		     get_player(plooser->owner)->name,
