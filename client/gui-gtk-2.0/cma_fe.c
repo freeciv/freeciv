@@ -74,8 +74,6 @@ static void cma_change_permanent_to_callback(GtkWidget *w, gpointer data);
 static void cma_release_callback(GtkWidget *w, gpointer data);
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
 				         GtkTreeViewColumn *col, gpointer data);
-static void cma_select_preset_callback(GtkTreeSelection *selection,
-				       gpointer data);
 
 static void hscale_changed(GtkAdjustment *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
@@ -199,8 +197,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  g_signal_connect(pdialog->selection, "changed",
-		   G_CALLBACK(cma_select_preset_callback), pdialog);
   g_signal_connect(view, "row_activated",
 		   G_CALLBACK(cma_activate_preset_callback), pdialog);
   g_signal_connect(view, "key-press-event",
@@ -425,33 +421,16 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
 }
 
 /****************************************************************
- callback for removing a preset from the preset view
+ callback for selecting a preset from the preset view
 *****************************************************************/
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
 				         GtkTreeViewColumn *col, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int preset_index;
-
-  preset_index = gtk_tree_path_get_indices(path) [0];
-
-  /* Double-click to remove preset from list */
-  cma_preset_remove(pdialog, preset_index);
-}
-
-/****************************************************************
- callback for selecting a preset from the preset view
-*****************************************************************/
-static void cma_select_preset_callback(GtkTreeSelection *selection,
-				       gpointer data)
-{
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  int preset_index;
   const struct cm_parameter *pparam;
 
-  if ((preset_index = gtk_tree_selection_get_row(selection)) == -1) {
-    return;
-  }
+  preset_index = gtk_tree_path_get_indices(path) [0];
 
   pparam = cmafec_preset_get_parameter(preset_index);
 
