@@ -52,9 +52,12 @@ struct packet_server_shutdown {
   char __dummy;			/* to avoid malloc(0); */
 };
 
-struct packet_nations_selected_info {
-  int num_nations_used;
-  Nation_Type_id nations_used[MAX_NUM_PLAYERS];
+struct packet_nation_unavailable {
+  Nation_Type_id nation;
+};
+
+struct packet_select_races {
+  char __dummy;			/* to avoid malloc(0); */
 };
 
 struct packet_nation_select_req {
@@ -1029,7 +1032,7 @@ enum packet_type {
   PACKET_AUTHENTICATION_REQ,
   PACKET_AUTHENTICATION_REPLY,
   PACKET_SERVER_SHUTDOWN,
-  PACKET_NATIONS_SELECTED_INFO,
+  PACKET_NATION_UNAVAILABLE,
   PACKET_NATION_SELECT_REQ,              /* 10 */
   PACKET_NATION_SELECT_OK,
   PACKET_GAME_STATE,
@@ -1134,6 +1137,7 @@ enum packet_type {
   PACKET_SINGLE_PLAYERLIST_REPLY,
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
+  PACKET_SELECT_RACES,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1170,9 +1174,13 @@ struct packet_server_shutdown *receive_packet_server_shutdown(struct connection 
 int send_packet_server_shutdown(struct connection *pc);
 void lsend_packet_server_shutdown(struct conn_list *dest);
 
-struct packet_nations_selected_info *receive_packet_nations_selected_info(struct connection *pc, enum packet_type type);
-int send_packet_nations_selected_info(struct connection *pc, const struct packet_nations_selected_info *packet);
-void lsend_packet_nations_selected_info(struct conn_list *dest, const struct packet_nations_selected_info *packet);
+struct packet_nation_unavailable *receive_packet_nation_unavailable(struct connection *pc, enum packet_type type);
+int send_packet_nation_unavailable(struct connection *pc, const struct packet_nation_unavailable *packet);
+void lsend_packet_nation_unavailable(struct conn_list *dest, const struct packet_nation_unavailable *packet);
+
+struct packet_select_races *receive_packet_select_races(struct connection *pc, enum packet_type type);
+int send_packet_select_races(struct connection *pc);
+void lsend_packet_select_races(struct conn_list *dest);
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);

@@ -1994,15 +1994,12 @@ static void select_random_race(void)
 /**************************************************************************
   ...
  **************************************************************************/
-void races_toggles_set_sensitive(int num_nations_used,
-				 Nation_Type_id * nations_used)
+void races_toggles_set_sensitive(bool *nations_used)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
   GtkTreePath *path;
   gboolean chosen;
-
-  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
 
   if (!races_shell) {
     return;
@@ -2011,20 +2008,12 @@ void races_toggles_set_sensitive(int num_nations_used,
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list));
 
   if (gtk_tree_model_get_iter_first(model, &it)) {
-    int i;
-
     do {
       int nation;
 
       gtk_tree_model_get(model, &it, 0, &nation, -1);
 
-      for (i = 0; i < num_nations_used; i++) {
-	if (nations_used[i] == nation) {
-	  break;
-	}
-      }
-
-      chosen = (i < num_nations_used);
+      chosen = nations_used[nation];
       gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 
     } while (gtk_tree_model_iter_next(model, &it));

@@ -71,8 +71,11 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_SERVER_SHUTDOWN:
     return receive_packet_server_shutdown(pc, type);
 
-  case PACKET_NATIONS_SELECTED_INFO:
-    return receive_packet_nations_selected_info(pc, type);
+  case PACKET_NATION_UNAVAILABLE:
+    return receive_packet_nation_unavailable(pc, type);
+
+  case PACKET_SELECT_RACES:
+    return receive_packet_select_races(pc, type);
 
   case PACKET_NATION_SELECT_REQ:
     return receive_packet_nation_select_req(pc, type);
@@ -425,8 +428,11 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_SERVER_SHUTDOWN:
     return "PACKET_SERVER_SHUTDOWN";
 
-  case PACKET_NATIONS_SELECTED_INFO:
-    return "PACKET_NATIONS_SELECTED_INFO";
+  case PACKET_NATION_UNAVAILABLE:
+    return "PACKET_NATION_UNAVAILABLE";
+
+  case PACKET_SELECT_RACES:
+    return "PACKET_SELECT_RACES";
 
   case PACKET_NATION_SELECT_REQ:
     return "PACKET_NATION_SELECT_REQ";
@@ -1614,25 +1620,25 @@ void lsend_packet_server_shutdown(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-#define hash_packet_nations_selected_info_100 hash_const
+#define hash_packet_nation_unavailable_100 hash_const
 
-#define cmp_packet_nations_selected_info_100 cmp_const
+#define cmp_packet_nation_unavailable_100 cmp_const
 
-BV_DEFINE(packet_nations_selected_info_100_fields, 2);
+BV_DEFINE(packet_nation_unavailable_100_fields, 1);
 
-static struct packet_nations_selected_info *receive_packet_nations_selected_info_100(struct connection *pc, enum packet_type type)
+static struct packet_nation_unavailable *receive_packet_nation_unavailable_100(struct connection *pc, enum packet_type type)
 {
-  packet_nations_selected_info_100_fields fields;
-  struct packet_nations_selected_info *old;
+  packet_nation_unavailable_100_fields fields;
+  struct packet_nation_unavailable *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_nations_selected_info *clone;
-  RECEIVE_PACKET_START(packet_nations_selected_info, real_packet);
+  struct packet_nation_unavailable *clone;
+  RECEIVE_PACKET_START(packet_nation_unavailable, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_nations_selected_info_100, cmp_packet_nations_selected_info_100);
+    *hash = hash_new(hash_packet_nation_unavailable_100, cmp_packet_nation_unavailable_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -1643,21 +1649,7 @@ static struct packet_nations_selected_info *receive_packet_nations_selected_info
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->num_nations_used);
-  }
-  if (BV_ISSET(fields, 1)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_nations_used > MAX_NUM_PLAYERS) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_nations_used = MAX_NUM_PLAYERS;
-      }
-      for (i = 0; i < real_packet->num_nations_used; i++) {
-        dio_get_uint16(&din, (int *) &real_packet->nations_used[i]);
-      }
-    }
+    dio_get_uint16(&din, (int *) &real_packet->nation);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -1670,18 +1662,18 @@ static struct packet_nations_selected_info *receive_packet_nations_selected_info
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_nations_selected_info_100(struct connection *pc, const struct packet_nations_selected_info *packet)
+static int send_packet_nation_unavailable_100(struct connection *pc, const struct packet_nation_unavailable *packet)
 {
-  const struct packet_nations_selected_info *real_packet = packet;
-  packet_nations_selected_info_100_fields fields;
-  struct packet_nations_selected_info *old, *clone;
+  const struct packet_nation_unavailable *real_packet = packet;
+  packet_nation_unavailable_100_fields fields;
+  struct packet_nation_unavailable *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_NATIONS_SELECTED_INFO];
+  struct hash_table **hash = &pc->phs.sent[PACKET_NATION_UNAVAILABLE];
   int different = 0;
-  SEND_PACKET_START(PACKET_NATIONS_SELECTED_INFO);
+  SEND_PACKET_START(PACKET_NATION_UNAVAILABLE);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_nations_selected_info_100, cmp_packet_nations_selected_info_100);
+    *hash = hash_new(hash_packet_nation_unavailable_100, cmp_packet_nation_unavailable_100);
   }
   BV_CLR_ALL(fields);
 
@@ -1693,25 +1685,9 @@ static int send_packet_nations_selected_info_100(struct connection *pc, const st
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->num_nations_used != real_packet->num_nations_used);
+  differ = (old->nation != real_packet->nation);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
-
-
-    {
-      differ = (old->num_nations_used != real_packet->num_nations_used);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_nations_used; i++) {
-          if (old->nations_used[i] != real_packet->nations_used[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -1720,17 +1696,7 @@ static int send_packet_nations_selected_info_100(struct connection *pc, const st
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->num_nations_used);
-  }
-  if (BV_ISSET(fields, 1)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_nations_used; i++) {
-        dio_put_uint16(&dout, real_packet->nations_used[i]);
-      }
-    } 
+    dio_put_uint16(&dout, real_packet->nation);
   }
 
 
@@ -1745,11 +1711,11 @@ static int send_packet_nations_selected_info_100(struct connection *pc, const st
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_nations_selected_info(struct connection *pc)
+static void ensure_valid_variant_packet_nation_unavailable(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_NATIONS_SELECTED_INFO] != -1) {
+  if(pc->phs.variant[PACKET_NATION_UNAVAILABLE] != -1) {
     return;
   }
 
@@ -1759,10 +1725,10 @@ static void ensure_valid_variant_packet_nations_selected_info(struct connection 
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_NATIONS_SELECTED_INFO] = variant;
+  pc->phs.variant[PACKET_NATION_UNAVAILABLE] = variant;
 }
 
-struct packet_nations_selected_info *receive_packet_nations_selected_info(struct connection *pc, enum packet_type type)
+struct packet_nation_unavailable *receive_packet_nation_unavailable(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -1772,17 +1738,17 @@ struct packet_nations_selected_info *receive_packet_nations_selected_info(struct
   }
   assert(pc->phs.variant != NULL);
   if(is_server) {
-    freelog(LOG_ERROR, "Receiving packet_nations_selected_info at the server.");
+    freelog(LOG_ERROR, "Receiving packet_nation_unavailable at the server.");
   }
-  ensure_valid_variant_packet_nations_selected_info(pc);
+  ensure_valid_variant_packet_nation_unavailable(pc);
 
-  switch(pc->phs.variant[PACKET_NATIONS_SELECTED_INFO]) {
-    case 100: return receive_packet_nations_selected_info_100(pc, type);
+  switch(pc->phs.variant[PACKET_NATION_UNAVAILABLE]) {
+    case 100: return receive_packet_nation_unavailable_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_nations_selected_info(struct connection *pc, const struct packet_nations_selected_info *packet)
+int send_packet_nation_unavailable(struct connection *pc, const struct packet_nation_unavailable *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -1792,20 +1758,97 @@ int send_packet_nations_selected_info(struct connection *pc, const struct packet
   }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
-    freelog(LOG_ERROR, "Sending packet_nations_selected_info from the client.");
+    freelog(LOG_ERROR, "Sending packet_nation_unavailable from the client.");
   }
-  ensure_valid_variant_packet_nations_selected_info(pc);
+  ensure_valid_variant_packet_nation_unavailable(pc);
 
-  switch(pc->phs.variant[PACKET_NATIONS_SELECTED_INFO]) {
-    case 100: return send_packet_nations_selected_info_100(pc, packet);
+  switch(pc->phs.variant[PACKET_NATION_UNAVAILABLE]) {
+    case 100: return send_packet_nation_unavailable_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_nations_selected_info(struct conn_list *dest, const struct packet_nations_selected_info *packet)
+void lsend_packet_nation_unavailable(struct conn_list *dest, const struct packet_nation_unavailable *packet)
 {
   conn_list_iterate(*dest, pconn) {
-    send_packet_nations_selected_info(pconn, packet);
+    send_packet_nation_unavailable(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+static struct packet_select_races *receive_packet_select_races_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_select_races, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_select_races_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_SELECT_RACES);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_select_races(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_SELECT_RACES] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_SELECT_RACES] = variant;
+}
+
+struct packet_select_races *receive_packet_select_races(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if(is_server) {
+    freelog(LOG_ERROR, "Receiving packet_select_races at the server.");
+  }
+  ensure_valid_variant_packet_select_races(pc);
+
+  switch(pc->phs.variant[PACKET_SELECT_RACES]) {
+    case 100: return receive_packet_select_races_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_select_races(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if(!is_server) {
+    freelog(LOG_ERROR, "Sending packet_select_races from the client.");
+  }
+  ensure_valid_variant_packet_select_races(pc);
+
+  switch(pc->phs.variant[PACKET_SELECT_RACES]) {
+    case 100: return send_packet_select_races_100(pc);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_select_races(struct conn_list *dest)
+{
+  conn_list_iterate(*dest, pconn) {
+    send_packet_select_races(pconn);
   } conn_list_iterate_end;
 }
 

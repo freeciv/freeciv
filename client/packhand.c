@@ -2067,25 +2067,47 @@ void handle_nation_select_ok(void)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_nations_selected_info(int num_nations_used,
-				  Nation_Type_id * nations_used)
-{
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
-    races_toggles_set_sensitive(num_nations_used, nations_used);
-  } else if (get_client_state() == CLIENT_PRE_GAME_STATE) {
-    set_client_state(CLIENT_SELECT_RACE_STATE);
+static bool *nations_used;
 
-    if (!client_is_observer()) {
-      really_close_connection_dialog();
-      popup_races_dialog();
-      races_toggles_set_sensitive(num_nations_used, nations_used);
+/**************************************************************************
+  Mark a nation as unavailable, after we've entered the select-race state.
+**************************************************************************/
+void handle_nation_unavailable(Nation_Type_id nation)
+{
+  if (get_client_state() == CLIENT_SELECT_RACE_STATE
+      && nation >= 0 && nation < game.playable_nation_count) {
+    if (!nations_used[nation]) {
+      nations_used[nation] = TRUE;
+      races_toggles_set_sensitive(nations_used);
     }
   } else {
     freelog(LOG_ERROR,
 	    "got a select nation packet in an incompatible state");
+  }
+}
+
+/**************************************************************************
+  Enter the select races state.
+**************************************************************************/
+void handle_select_races(void)
+{
+  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+    /* First set the state. */
+    set_client_state(CLIENT_SELECT_RACE_STATE);
+
+    /* Then clear the nations used.  They are filled by a
+     * PACKET_NATION_UNAVAILABLE packet that follows. */
+    nations_used = fc_realloc(nations_used,
+			      game.playable_nation_count
+			      * sizeof(nations_used));
+    memset(nations_used, 0,
+	   game.playable_nation_count * sizeof(nations_used));
+
+    if (!client_is_observer()) {
+      /* Now close the conndlg and popup the races dialog. */
+      really_close_connection_dialog();
+      popup_races_dialog();
+    }
   }
 }
 

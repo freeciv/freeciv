@@ -857,8 +857,7 @@ popup_unit_select_dialog(struct tile *ptile)
 /**************************************************************************
 
 **************************************************************************/
-void races_toggles_set_sensitive(int num_nations_used,
-				 Nation_Type_id * nations_used)
+void races_toggles_set_sensitive(bool *nations_used)
 {
   int i;
 
@@ -866,9 +865,12 @@ void races_toggles_set_sensitive(int num_nations_used,
     EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
-  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
-  for (i = 0; i < num_nations_used; i++) {
-    Nation_Type_id nation = nations_used[i];
+  for (i = 0; i < game.playable_nation_count; i++) {
+    Nation_Type_id nation = i;
+
+    if (!nations_used[i]) {
+      continue;
+    }
 
     freelog(LOG_DEBUG, "  [%d]: %d", i, nation);
 

@@ -54,10 +54,13 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_server_shutdown();
     return TRUE;
 
-  case PACKET_NATIONS_SELECTED_INFO:
-    handle_nations_selected_info(
-      ((struct packet_nations_selected_info *)packet)->num_nations_used,
-      ((struct packet_nations_selected_info *)packet)->nations_used);
+  case PACKET_NATION_UNAVAILABLE:
+    handle_nation_unavailable(
+      ((struct packet_nation_unavailable *)packet)->nation);
+    return TRUE;
+
+  case PACKET_SELECT_RACES:
+    handle_select_races();
     return TRUE;
 
   case PACKET_NATION_SELECT_OK:

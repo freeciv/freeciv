@@ -1974,8 +1974,7 @@ void racesdlg_key_ok(Widget w)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_toggles_set_sensitive(int num_nations_used,
-				 Nation_Type_id * nations_used)
+void races_toggles_set_sensitive(bool *nations_used)
 {
   int i;
 
@@ -1983,9 +1982,12 @@ void races_toggles_set_sensitive(int num_nations_used,
     XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
   }
 
-  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
-  for (i = 0; i < num_nations_used; i++) {
-    int nation = nations_used[i], selected_nation = -1;
+  for (i = 0; i < game.playable_nation_count; i++) {
+    int nation = i, selected_nation = -1;
+
+    if (!nations_used[i]) {
+      continue;
+    }
 
     if (races_buttons_get_current() != -1) {
       selected_nation =

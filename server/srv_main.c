@@ -1037,19 +1037,18 @@ void handle_nation_select_req(struct player *pplayer,
 **************************************************************************/
 static void send_select_nation(struct player *pplayer)
 {
-  struct packet_nations_selected_info packet;
+  struct packet_nation_unavailable packet;
 
-  packet.num_nations_used = 0;
+  lsend_packet_select_races(&pplayer->connections);
 
   players_iterate(other_player) {
     if (other_player->nation == NO_NATION_SELECTED) {
       continue;
     }
-    packet.nations_used[packet.num_nations_used] = other_player->nation;
-    packet.num_nations_used++;
-  } players_iterate_end;
 
-  lsend_packet_nations_selected_info(&pplayer->connections, &packet);
+    packet.nation = other_player->nation;
+    lsend_packet_nation_unavailable(&pplayer->connections, &packet);
+  } players_iterate_end;
 }
 
 /**************************************************************************

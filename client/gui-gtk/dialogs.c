@@ -2189,12 +2189,9 @@ static void races_by_name_callback(GtkWidget * w, gpointer data)
 /**************************************************************************
  ...
 **************************************************************************/
-void races_toggles_set_sensitive(int num_nations_used,
-				 Nation_Type_id * nations_used)
+void races_toggles_set_sensitive(bool *nations_used)
 {
   int i, class_id;
-
-  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
 
   for (class_id = 0; class_id < num_classes; class_id++) {
     int nations_in_class = g_list_length(sorted_races_list[class_id]);
@@ -2203,25 +2200,20 @@ void races_toggles_set_sensitive(int num_nations_used,
       gtk_widget_set_sensitive(races_toggles[class_id][i], TRUE);
     }
 
-    for (i = 0; i < num_nations_used; i++) {
-      int nation = nations_used[i];
-      int index =
-	  g_list_index(sorted_races_list[class_id], GINT_TO_POINTER(nation));
+    for (i = 0; i < game.playable_nation_count; i++) {
+      if (nations_used[i]) {
+	int index =
+	  g_list_index(sorted_races_list[class_id], GINT_TO_POINTER(i));
 
-      if (index != -1) {
-	gtk_widget_set_sensitive(races_toggles[class_id][index], FALSE);
+	if (index != -1) {
+	  gtk_widget_set_sensitive(races_toggles[class_id][index], FALSE);
+	}
       }
     }
   }
 
-  for (i = 0; i < num_nations_used; i++) {
-    int nation = nations_used[i];
-
-    freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation,
-	    get_nation_name(nation));
-    if (nation == selected_nation) {
-      select_random_race();
-    }
+  if (nations_used[selected_nation]) {
+    select_random_race();
   }
 }
 

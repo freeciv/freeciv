@@ -212,7 +212,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 113.
+The last used packet number is 114.
 ****************************************************/
 
 
@@ -264,9 +264,13 @@ end
 PACKET_SERVER_SHUTDOWN=8;sc,lsend
 end
 
-PACKET_NATIONS_SELECTED_INFO=9;sc,lsend
-  UINT8 num_nations_used;
-  NATION nations_used[MAX_NUM_PLAYERS:num_nations_used];
+PACKET_NATION_UNAVAILABLE=9;sc,lsend
+  NATION nation;
+end
+
+# Sent to tell the client it needs to select a nation.  The unavailable
+# nations will be sent afterward via PACKET_NATION_UNAVAILABLE
+PACKET_SELECT_RACES=114;sc,lsend
 end
 
 PACKET_NATION_SELECT_REQ=10;cs,dsend
