@@ -31,8 +31,8 @@
 #include <climisc.h>
 #include <mem.h>
 
-#include <../data/goto_cursor.xbm>
-#include <../data/goto_cursor_mask.xbm>
+#include <goto_cursor.xbm>
+#include <goto_cursor_mask.xbm>
 
 extern int display_depth;
 extern Widget map_canvas;

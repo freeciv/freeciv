@@ -89,7 +89,7 @@ pkgdata_DATA = Freeciv	\
 	intro.xpm	\
 	radar.xpm
 
-EXTRA_DIST = $(pkgdata_DATA) goto_cursor.xbm goto_cursor_mask.xbm
+EXTRA_DIST = $(pkgdata_DATA)
 
 SUBDIRS = default civ1 classic
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
