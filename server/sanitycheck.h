@@ -13,6 +13,8 @@
 #ifndef FC__SANITYCHECK_H
 #define FC__SANITYCHECK_H
 
+struct city;
+
 #define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
 void real_sanity_check_city(struct city *pcity, const char *file, int line);
 

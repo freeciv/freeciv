@@ -10,9 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-
 #ifndef FC__SCORE_H
 #define FC__SCORE_H
+
+struct player;
 
 int civ_score(struct player *pplayer);
 

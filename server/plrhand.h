@@ -13,6 +13,8 @@
 #ifndef FC__PLRHAND_H
 #define FC__PLRHAND_H
 
+#include <stdarg.h>
+
 #include "packets.h"
 #include "shared.h"		/* fc__attribute */
 

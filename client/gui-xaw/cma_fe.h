@@ -13,6 +13,8 @@
 #ifndef FC__XAW_CMA_H
 #define FC__XAW_CMA_H
 
+#include <X11/Intrinsic.h>
+
 #include "cma_core.h"
 
 void show_cma_dialog(struct city *pcity, Widget citydlg);
