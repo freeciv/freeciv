@@ -1511,8 +1511,9 @@ TIP 2: Scientific advancement requires high levels of trade, which
 ---
 # Anarchy (Gov)
 Anarchy is simply the absence of any recognizable government.
-Citizens are disorganized and unproductive, but can be kept in line
-by a strong military force.
+Citizens are disorganized and unproductive, and will spent all
+income as quickly as possible, rather than paying taxes or 
+conducting research.
 
 Anarchy offers slightly less corruption than Despotism, but slightly
 more unhappiness.
