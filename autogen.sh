@@ -10,15 +10,19 @@ srcfile=client/civclient.h
 
 FC_USE_NLS=yes
 FC_USE_NEWAUTOCONF=yes
+FC_HELP=no
 
 # Leave out NLS checks
 for NAME in $@ ; do
+  if [ "x$NAME" = "x--help" ]; then 
+    FC_HELP=yes
+  fi
   if [ "x$NAME" = "x--disable-nls" ]; then 
-    echo "+ nls checks disabled"
+    echo "! nls checks disabled"
     FC_USE_NLS=no
   fi
   if [ "x$NAME" = "x--disable-autoconf2.52" ]; then 
-    echo "+ forcing old autoconf configuration"
+    echo "! forcing old autoconf configuration"
     FC_USE_NEWAUTOCONF=no
   else
     FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
@@ -210,9 +214,6 @@ echo
   exit 1
 }
 
-echo 
-echo "Now type 'make' to compile $package."
-
 # Reverse changes to make tree sane
 [ -f configure.old ] && { 
   mv configure.old configure.in 
@@ -223,3 +224,13 @@ echo "Now type 'make' to compile $package."
 [ -f acconfig.old ] && { 
   mv acconfig.old acconfig.h 
 }
+
+# abort if we did --help
+if [ "$FC_HELP" = "yes" ]; then
+  exit 1
+fi
+
+echo 
+echo "Now type 'make' to compile $package."
+
+exit 0
