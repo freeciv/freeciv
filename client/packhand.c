@@ -2707,6 +2707,8 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     game.rgame.specialists[i].min_size = packet->specialist_min_size[i];
     game.rgame.specialists[i].bonus = packet->specialist_bonus[i];
   }
+  tilespec_setup_specialist_types();
+
   game.rgame.changable_tax = packet->changable_tax;
   game.rgame.forced_science = packet->forced_science;
   game.rgame.forced_luxury = packet->forced_luxury;

@@ -253,7 +253,7 @@ Pixmap get_thumb_pixmap(int onoff)
 /**************************************************************************
 ...
 **************************************************************************/
-Pixmap get_citizen_pixmap(enum citizen_type type, int cnum,
+Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,
 			  struct city *pcity)
 {
   return get_citizen_sprite(type, cnum, pcity)->pixmap;
@@ -276,8 +276,11 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   xaw_set_bitmap(flake_label, sprites.cooling[flake]->pixmap);
 
   if (game.government_count==0) {
-    /* not sure what to do here */
-    gov_sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+
+    gov_sprite = get_citizen_sprite(c, 0, NULL);
   } else {
     gov_sprite = get_government(gov)->sprite;
   }

@@ -1387,8 +1387,14 @@ void ui_main(int argc, char *argv[])
       main_bulb_sprite = MakeBorderSprite(sprites.bulb[0]);
       main_sun_sprite = MakeBorderSprite(sprites.warming[0]);
       main_flake_sprite = MakeBorderSprite(sprites.cooling[0]);
-      main_government_sprite
-	= MakeBorderSprite(get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL));
+      {
+	/* HACK: the UNHAPPY citizen is used for the government
+	 * when we don't know any better. */
+	struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+	struct Sprite *sprite = get_citizen_sprite(c, 0, NULL);
+
+	main_government_sprite = MakeBorderSprite(sprite);
+      }
       main_timeout_text = TextObject, End;
 
       econ_group = HGroup, GroupSpacing(0), End;

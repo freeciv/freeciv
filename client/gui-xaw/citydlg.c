@@ -494,7 +494,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   Dimension widthNext, borderNext, internalNext, spaceNext;
   Dimension widthPrev, borderPrev, internalPrev, spacePrev;
   Widget relative;
-
+  struct citizen_type c = {.type = CITIZEN_SPECIALIST,
+			   .spec_type = SP_TAXMAN};
 
   if (NORMAL_TILE_HEIGHT<45) dummy_improvement_list[5]=0;
 
@@ -545,7 +546,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    XtNfromVert, 
 			    pdialog->cityname_label,
 			    XtNbitmap,
-			    get_citizen_pixmap(CITIZEN_TAXMAN, 0, pcity),
+			    get_citizen_pixmap(c, 0, pcity),
 			    NULL);
 
 
@@ -956,7 +957,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    XtNfromHoriz, 
 			      (XtArgVal)pdialog->citizen_labels[i-1],
 			    XtNbitmap,
-			    get_citizen_pixmap(CITIZEN_TAXMAN, 0, pcity),
+			    get_citizen_pixmap(c, 0, pcity),
 			    NULL);
 
 
@@ -1542,7 +1543,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i;
   struct city *pcity=pdialog->pcity;
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
 
   get_city_citizen_types(pcity, 4, citizens);
 

@@ -23,15 +23,16 @@
 struct city;
 struct canvas;
 
-enum citizen_type {
-  CITIZEN_ELVIS,
-  CITIZEN_SCIENTIST,
-  CITIZEN_TAXMAN,
-  CITIZEN_CONTENT,
-  CITIZEN_HAPPY,
-  CITIZEN_UNHAPPY,
-  CITIZEN_ANGRY,
-  CITIZEN_LAST
+struct citizen_type {
+  enum {
+    CITIZEN_SPECIALIST,
+    CITIZEN_CONTENT,
+    CITIZEN_HAPPY,
+    CITIZEN_UNHAPPY,
+    CITIZEN_ANGRY,
+    CITIZEN_LAST
+  } type;
+  enum specialist_type spec_type;
 };
 
 int get_citydlg_canvas_width(void);
@@ -54,7 +55,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 				    bool is_unit, struct city *pcity);
 
 void get_city_citizen_types(struct city *pcity, int index,
-			    enum citizen_type *citizens);
+			    struct citizen_type *citizens);
 void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(int map_x, int map_y);

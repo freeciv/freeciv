@@ -970,17 +970,13 @@ bool tilespec_read_toplevel(const char *tileset_name)
 /**********************************************************************
   Returns a text name for the citizen, as used in the tileset.
 ***********************************************************************/
-static const char *get_citizen_name(enum citizen_type citizen)
+static const char *get_citizen_name(struct citizen_type citizen)
 {
   /* These strings are used in reading the tileset.  Do not
    * translate. */
-  switch (citizen) {
-  case CITIZEN_ELVIS:
-    return "entertainer";
-  case CITIZEN_SCIENTIST:
-    return "scientist";
-  case CITIZEN_TAXMAN:
-    return "tax_collector";
+  switch (citizen.type) {
+  case CITIZEN_SPECIALIST:
+    return game.rgame.specialists[citizen.spec_type].name;
   case CITIZEN_HAPPY:
     return "happy";
   case CITIZEN_CONTENT:
@@ -989,9 +985,10 @@ static const char *get_citizen_name(enum citizen_type citizen)
     return "unhappy";
   case CITIZEN_ANGRY:
     return "angry";
-  default:
-    die("unknown citizen type %d", (int) citizen);
+  case CITIZEN_LAST:
+    break;
   }
+  die("unknown citizen type %d", (int) citizen.type);
   return NULL;
 }
 
@@ -1053,6 +1050,66 @@ static char *cw_str(int idx)
 					    "sprite", #field); \
     } while (FALSE)
 
+/****************************************************************************
+  Setup the graphics for specialist types.
+****************************************************************************/
+void tilespec_setup_specialist_types(void)
+{
+  int i, j;
+  char buffer[512];
+
+  /* Load the specialist sprite graphics. */
+  for (i = 0; i < SP_COUNT; i++) {
+    struct citizen_type c = {.type = CITIZEN_SPECIALIST, .spec_type = i};
+    const char *name = get_citizen_name(c);
+
+    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+      my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
+      sprites.specialist[i].sprite[j] = load_sprite(buffer);
+      if (!sprites.specialist[i].sprite[j]) {
+	break;
+      }
+    }
+    sprites.specialist[i].count = j;
+    if (j == 0) {
+      freelog(LOG_NORMAL, _("No graphics for specialist %s."), name);
+      exit(EXIT_FAILURE);
+    }
+  }
+}
+
+/****************************************************************************
+  Setup the graphics for (non-specialist) citizen types.
+****************************************************************************/
+static void tilespec_setup_citizen_types(void)
+{
+  int i, j;
+  char buffer[512];
+
+  /* Load the citizen sprite graphics. */
+  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
+    struct citizen_type c = {.type = i};
+    const char *name = get_citizen_name(c);
+
+    if (i == CITIZEN_SPECIALIST) {
+      continue; /* Handled separately. */
+    }
+
+    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+      my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
+      sprites.citizen[i].sprite[j] = load_sprite(buffer);
+      if (!sprites.citizen[i].sprite[j]) {
+	break;
+      }
+    }
+    sprites.citizen[i].count = j;
+    if (j == 0) {
+      freelog(LOG_NORMAL, _("No graphics for citizen %s."), name);
+      exit(EXIT_FAILURE);
+    }
+  }
+}
+
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
   freeciv always requires. 
@@ -1061,7 +1118,7 @@ static void tilespec_lookup_sprite_tags(void)
 {
   char buffer[512];
   const char dir_char[] = "nsew";
-  int i, j;
+  int i;
   
   assert(sprite_hash != NULL);
 
@@ -1087,31 +1144,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tax_science, "s.tax_science");
   SET_SPRITE(tax_gold, "s.tax_gold");
 
-  /* Load the citizen sprite graphics. */
-  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
-    my_snprintf(buffer, sizeof(buffer), "citizen.%s", get_citizen_name(i));
-    sprites.citizen[i].sprite[0] = load_sprite(buffer);
-    if (sprites.citizen[i].sprite[0]) {
-      /*
-       * If this form exists, use it as the only sprite.  This allows
-       * backwards compatability with tilesets that use e.g.,
-       * citizen.entertainer.
-       */
-      sprites.citizen[i].count = 1;
-      continue;
-    }
-
-    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
-      my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d",
-		  get_citizen_name(i), j);
-      sprites.citizen[i].sprite[j] = load_sprite(buffer);
-      if (!sprites.citizen[i].sprite[j]) {
-	break;
-      }
-    }
-    sprites.citizen[i].count = j;
-    assert(j > 0);
-  }
+  tilespec_setup_citizen_types();
 
   SET_SPRITE(spaceship.solar_panels, "spaceship.solar_panels");
   SET_SPRITE(spaceship.life_support, "spaceship.life_support");
@@ -2915,12 +2948,19 @@ void tilespec_free_tiles(void)
   value indicates there is no city; i.e., the sprite is just being
   used as a picture).
 **************************************************************************/
-struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
-				  struct city *pcity)
+struct Sprite *get_citizen_sprite(struct citizen_type type,
+				  int citizen_index,
+				  const struct city *pcity)
 {
-  assert(type >= 0 && type < NUM_TILES_CITIZEN);
-  citizen_index %= sprites.citizen[type].count;
-  return sprites.citizen[type].sprite[citizen_index];
+  struct citizen_graphic *graphic;
+
+  if (type.type == CITIZEN_SPECIALIST) {
+    graphic = &sprites.specialist[type.spec_type];
+  } else {
+    graphic = &sprites.citizen[type.type];
+  }
+
+  return graphic->sprite[citizen_index % graphic->count];
 }
 
 /**************************************************************************

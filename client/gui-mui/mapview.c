@@ -333,7 +333,11 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   if (game.government_count == 0)
   {
     /* not sure what to do here */
-    gov_sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+
+    gov_sprite = get_citizen_sprite(c, 0, NULL);
   }
   else
   {

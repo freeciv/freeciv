@@ -324,8 +324,11 @@ set_indicator_icons(int bulb, int sol, int flake, int gov)
   indicator_sprite[1]=sprites.warming[sol];
   indicator_sprite[2]=sprites.cooling[flake];
   if (game.government_count==0) {
-    /* not sure what to do here */
-    indicator_sprite[3] = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+
+    gov_sprite = get_citizen_sprite(c, 0, NULL);
   } else {
     indicator_sprite[3] = get_government(gov)->sprite;    
   }

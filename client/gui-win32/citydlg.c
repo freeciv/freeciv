@@ -97,7 +97,7 @@ struct city_dialog {
   int present_y;
   Impr_Type_id sell_id;
   
-  enum citizen_type citizen_type[NUM_CITIZENS_SHOWN];
+  struct citizen_type citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];
   int change_list_ids[B_LAST+1+U_LAST+1];
@@ -531,7 +531,7 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   RECT rc;
   HBITMAP oldbit;
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
   oldbit=SelectObject(citydlgdc,pdialog->citizen_bmp);
 
   get_city_citizen_types(pcity, 4, citizens);

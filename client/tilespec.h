@@ -54,6 +54,7 @@ void tilespec_free_tiles(void);
 void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
+void tilespec_setup_specialist_types(void);
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_impr_type(int id);
 void tilespec_setup_tech_type(int id);
@@ -173,12 +174,12 @@ struct named_sprites {
     *black_tile,      /* only used for isometric view */
     *dither_tile;     /* only used for isometric view */
 
-  struct {
+  struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
      * sprites, as defined by the tileset. */
     int count;
     struct Sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN];
+  } citizen[NUM_TILES_CITIZEN], specialist[SP_COUNT];
   struct {
     struct Sprite
       *solar_panels,
@@ -280,8 +281,9 @@ struct named_sprites {
 
 extern struct named_sprites sprites;
 
-struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
-				  struct city *pcity);
+struct Sprite *get_citizen_sprite(struct citizen_type type,
+				  int citizen_index,
+				  const struct city *pcity);
 
 /* full pathnames: */
 extern char *main_intro_filename;

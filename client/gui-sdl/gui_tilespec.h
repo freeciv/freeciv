@@ -22,7 +22,7 @@
 #ifndef FC__GUI_TILESPEC_H
 #define FC__GUI_TILESPEC_H
 
-#include "citydlg_common.h"	/* enum citizen_type */
+#include "citydlg_common.h"	/* struct citizen_type */
   
 struct Theme {
 	SDL_Surface *Button;
@@ -205,7 +205,8 @@ struct City_Icon {
 void tilespec_setup_city_icons(void);
 void tilespec_free_city_icons(void);
 void reload_citizens_icons(int style);
-SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index);
+SDL_Surface * get_citizen_surface(struct citizen_type type,
+				  int citizen_index);
 void unload_unused_graphics(void);
 
 #endif  /* FC__GUI_TILESPEC_H */

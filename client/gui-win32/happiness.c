@@ -392,7 +392,7 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
   HBITMAP old;
   RECT rc;
   int i;
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
   int num_citizens = pcity->size;
   int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
   int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);

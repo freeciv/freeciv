@@ -76,9 +76,10 @@ tiles = { "row", "column", "tag"
 
 ; Citizen icons:
 
-  0, 23, "citizen.entertainer"
-  0, 24, "citizen.scientist"
-  0, 25, "citizen.tax_collector"
+  0, 23, "specialist.elvis_0"
+  0, 24, "specialist.scientist_0"
+  0, 25, "specialist.taxman_0"
+
   0, 26, "citizen.content_0"
   0, 27, "citizen.content_1"
   0, 28, "citizen.happy_0"

@@ -1262,7 +1262,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i, width;
   struct city *pcity = pdialog->pcity;
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */

@@ -387,32 +387,29 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   citizens (use MAX_CITY_SIZE to be on the safe side).
 **************************************************************************/
 void get_city_citizen_types(struct city *pcity, int index,
-			    enum citizen_type *citizens)
+			    struct citizen_type *citizens)
 {
-  int i = 0, n;
+  int i = 0, n, sp;
   assert(index >= 0 && index < 5);
 
   for (n = 0; n < pcity->ppl_happy[index]; n++, i++) {
-    citizens[i] = CITIZEN_HAPPY;
+    citizens[i].type = CITIZEN_HAPPY;
   }
   for (n = 0; n < pcity->ppl_content[index]; n++, i++) {
-    citizens[i] = CITIZEN_CONTENT;
+    citizens[i].type = CITIZEN_CONTENT;
   }
   for (n = 0; n < pcity->ppl_unhappy[index]; n++, i++) {
-    citizens[i] = CITIZEN_UNHAPPY;
+    citizens[i].type = CITIZEN_UNHAPPY;
   }
   for (n = 0; n < pcity->ppl_angry[index]; n++, i++) {
-    citizens[i] = CITIZEN_ANGRY;
+    citizens[i].type = CITIZEN_ANGRY;
   }
 
-  for (n = 0; n < pcity->specialists[SP_ELVIS]; n++, i++) {
-    citizens[i] = CITIZEN_ELVIS;
-  }
-  for (n = 0; n < pcity->specialists[SP_SCIENTIST]; n++, i++) {
-    citizens[i] = CITIZEN_SCIENTIST;
-  }
-  for (n = 0; n < pcity->specialists[SP_TAXMAN]; n++, i++) {
-    citizens[i] = CITIZEN_TAXMAN;
+  for (sp = 0; sp < SP_COUNT; sp++) {
+    for (n = 0; n < pcity->specialists[sp]; n++, i++) {
+      citizens[i].type = CITIZEN_SPECIALIST;
+      citizens[i].spec_type = sp;
+    }
   }
 
   assert(i == pcity->size);
@@ -423,7 +420,7 @@ void get_city_citizen_types(struct city *pcity, int index,
 **************************************************************************/
 void city_rotate_specialist(struct city *pcity, int citizen_index)
 {
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
   enum specialist_type from, to;
 
   if (citizen_index < 0 || citizen_index >= pcity->size) {
@@ -432,19 +429,10 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
 
   get_city_citizen_types(pcity, 4, citizens);
 
-  switch (citizens[citizen_index]) {
-  case CITIZEN_ELVIS:
-    from = SP_ELVIS;
-    break;
-  case CITIZEN_SCIENTIST:
-    from = SP_SCIENTIST;
-    break;
-  case CITIZEN_TAXMAN:
-    from = SP_TAXMAN;
-    break;
-  default:
+  if (citizens[citizen_index].type != CITIZEN_SPECIALIST) {
     return;
   }
+  from = citizens[citizen_index].spec_type;
 
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */

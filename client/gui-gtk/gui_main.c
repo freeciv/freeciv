@@ -638,9 +638,14 @@ static void setup_widgets(void)
   flake_label = gtk_pixmap_new(sprites.cooling[0]->pixmap, NULL);
   gtk_pixmap_set_build_insensitive(GTK_PIXMAP(flake_label), FALSE);
 
-  government_label
-    = gtk_pixmap_new(get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL)->pixmap,
-		     NULL);
+  {
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+    struct Sprite *sprite = get_citizen_sprite(c, 0, NULL);
+
+    government_label = gtk_pixmap_new(sprite->pixmap, NULL);
+  }
   gtk_pixmap_set_build_insensitive(GTK_PIXMAP(government_label), FALSE);
 
   timeout_label = gtk_label_new("");

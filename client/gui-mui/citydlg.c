@@ -1861,7 +1861,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i;
   struct city *pcity = pdialog->pcity;
-  enum citizen_type citizens[MAX_CITY_SIZE];
+  struct citizen_type citizens[MAX_CITY_SIZE];
 
   DoMethod(pdialog->citizen_group, MUIM_Group_InitChange);
   if (pdialog->citizen2_group)
@@ -2379,7 +2379,7 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   {
     int j;
     int num_citizens = pcity->size;
-    enum citizen_type citizens[MAX_CITY_SIZE];
+    struct citizen_type citizens[MAX_CITY_SIZE];
 
     DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_InitChange);
     DisposeAllChilds(pdialog->happiness_citizen_group[i]);

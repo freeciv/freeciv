@@ -80,7 +80,7 @@ do {							\
 /**********************************************************************
   Returns a text name for the citizen, as used in the tileset.
 ***********************************************************************/
-static const char *get_citizen_name(enum citizen_type citizen)
+static const char *get_citizen_name(struct citizen_type citizen)
 {
   /* These strings are used in reading the tileset.  Do not
    * translate. */
@@ -778,7 +778,8 @@ void tilespec_unload_theme(void)
   Return a surface for the given citizen.  The citizen's type is given,
   as well as their index (in the range [0..pcity->size)).
 **************************************************************************/
-SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index)
+SDL_Surface * get_citizen_surface(struct citizen_type type,
+				  int citizen_index)
 {
   assert(type >= 0 && type < NUM_TILES_CITIZEN);
   citizen_index %= sprites.citizen[type].count;

@@ -820,7 +820,13 @@ static void setup_widgets(void)
   bulb_label = gtk_image_new_from_pixmap(sprites.bulb[0]->pixmap, NULL);
   sun_label = gtk_image_new_from_pixmap(sprites.warming[0]->pixmap, NULL);
   flake_label = gtk_image_new_from_pixmap(sprites.cooling[0]->pixmap, NULL);
-  sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
+  {
+    /* HACK: the UNHAPPY citizen is used for the government
+     * when we don't know any better. */
+    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
+
+    sprite = get_citizen_sprite(c, 0, NULL);
+  }
   government_label = gtk_image_new_from_pixmap(sprite->pixmap, sprite->mask);
 
   for (i = 0; i < 4; i++) {
