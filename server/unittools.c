@@ -2755,8 +2755,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 {
   int src_x = punit->x;
   int src_y = punit->y;
-  int playerid = punit->owner;
-  struct player *pplayer = get_player(playerid);
+  struct player *pplayer = unit_owner(punit);
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
   struct city *pcity;
@@ -2775,10 +2774,12 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       punit->ai.ferryboat = 0;
     }
   }
-  /* A transporter should not take units with it when on an attack goto -- fisch */
-  if ((punit->activity == ACTIVITY_GOTO) &&
-      get_defender(punit, goto_dest_x(punit), goto_dest_y(punit)) &&
-      !is_ocean(psrctile->terrain)) {
+
+  /* A transporter should not take units with it on an attack goto. */
+  if (punit->activity == ACTIVITY_GOTO
+      && (is_non_allied_unit_tile(pdesttile, pplayer)
+          || is_non_allied_city_tile(pdesttile, pplayer))
+      && !is_ocean(psrctile->terrain)) {
     transport_units = FALSE;
   }
 

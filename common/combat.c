@@ -561,36 +561,36 @@ static int get_defense_rating(struct unit *attacker, struct unit *defender)
 }
 
 /**************************************************************************
-Finds the best defender on the square, given an attacker.
-
-This is simply done by calling win_chance with all the possible defenders
-in turn.
-This functions could be improved to take the value of the unit into
-account. It currently uses build cost as a modifier in case the chances of
-2 units are identical, but this is crude as build cost does not neccesarily
-have anything to do with the value of a unit.
-It would be nice if the function was a bit more fuzzy about prioritizing,
-making it able to fx choose a 1a/9d unit over a 10a/10d unit. It should
-also be able to spare units without full hp's to some extend, as these
-could be more valuable later.
+  Finds the best defender on the tile, given an attacker.  The diplomatic
+  relationship of attacker and defender is ignored; the caller should check
+  this.
 **************************************************************************/
 struct unit *get_defender(struct unit *attacker, int x, int y)
 {
   struct unit *bestdef = NULL;
-  int bestvalue = -1, count = 0, best_cost = 0, rating_of_best = 0;
-  struct player *att_owner = unit_owner(attacker);
+  int bestvalue = -1, best_cost = 0, rating_of_best = 0;
+  struct tile *ptile = map_get_tile(x, y);
 
-  unit_list_iterate(map_get_tile(x, y)->units, defender) {
-    if (pplayers_allied(att_owner, unit_owner(defender)))
-      continue;
-    count++;
+  /* Simply call win_chance with all the possible defenders in turn, and
+   * take the best one.  It currently uses build cost as a tiebreaker in
+   * case 2 units are identical, but this is crude as build cost does not
+   * neccesarily have anything to do with the value of a unit.  This function
+   * could be improved to take the value of the unit into account.  It would
+   * also be nice if the function was a bit more fuzzy about prioritizing,
+   * making it able to fx choose a 1a/9d unit over a 10a/10d unit. It should
+   * also be able to spare units without full hp's to some extent, as these
+   * could be more valuable later. */
+  unit_list_iterate(ptile->units, defender) {
+    /* We used to skip over allied units, but the logic for that is
+     * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)) {
       bool change = FALSE;
       int build_cost = unit_type(defender)->build_cost;
       int defense_rating = get_defense_rating(attacker, defender);
-
       /* This will make units roughly evenly good defenders look alike. */
-      int unit_def = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
+      int unit_def 
+        = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
+
       assert(unit_def >= 0);
 
       if (unit_def > bestvalue) {
@@ -614,8 +614,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
     }
   } unit_list_iterate_end;
 
-  if (count > 0 && !bestdef) {
-    struct tile *ptile = map_get_tile(x, y);
+  if (unit_list_size(&ptile->units) > 0 && !bestdef) {
     struct unit *punit = unit_list_get(&ptile->units, 0);
 
     freelog(LOG_ERROR, "get_defender bug: %s's %s vs %s's %s (total %d"
@@ -623,7 +622,6 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
             unit_type(attacker)->name, unit_owner(punit)->name,
             unit_type(punit)->name, unit_list_size(&ptile->units), 
             get_terrain_name(ptile->terrain), x, y);
-    assert(FALSE);
   }
 
   return bestdef;
