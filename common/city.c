@@ -33,9 +33,6 @@
 
 /* start helper functions for generic_city_refresh */
 static int content_citizens(struct player *pplayer);
-static int set_city_shield_bonus(struct city *pcity);
-static int set_city_tax_bonus(struct city *pcity);
-static int set_city_science_bonus(struct city *pcity);
 static void set_tax_income(struct city *pcity);
 static void add_buildings_effect(struct city *pcity);
 static void happy_copy(struct city *pcity, int i);
@@ -1413,44 +1410,47 @@ static int content_citizens(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+ Return the factor (in %) by which the shield should be multiplied.
 **************************************************************************/
-static int set_city_shield_bonus(struct city *pcity)
+int get_city_shield_bonus(struct city *pcity)
 {
-  int tmp = 0;
+  int shield_bonus = 100;
+
   if (city_got_building(pcity, B_FACTORY)) {
-    if (city_got_building(pcity, B_MFG))
-      tmp = 100;
-    else
-      tmp = 50;
+    shield_bonus += 50;
+    if (city_got_building(pcity, B_MFG)) {
+      shield_bonus += 50;
+    }
 
     if (city_affected_by_wonder(pcity, B_HOOVER) ||
 	city_got_building(pcity, B_POWER) ||
 	city_got_building(pcity, B_HYDRO) ||
 	city_got_building(pcity, B_NUCLEAR)) {
-      tmp = (3 * tmp) / 2;
+      shield_bonus = 100 + (3 * (shield_bonus - 100)) / 2;
     }
   }
 
-  pcity->shield_bonus = tmp + 100;
-  return (tmp + 100);
+  return shield_bonus;
 }
 
 /**************************************************************************
-...
+ Return the factor (in %) by which the tax and luxury should be
+ multiplied.
 **************************************************************************/
-static int set_city_tax_bonus(struct city *pcity)
+int get_city_tax_bonus(struct city *pcity)
 {
   int tax_bonus = 100;
+
   if (city_got_building(pcity, B_MARKETPLACE)) {
     tax_bonus += 50;
     if (city_got_building(pcity, B_BANK)) {
       tax_bonus += 50;
-      if (city_got_building(pcity, B_STOCK))
+      if (city_got_building(pcity, B_STOCK)) {
 	tax_bonus += 50;
+      }
     }
   }
-  pcity->tax_bonus = tax_bonus;
+
   return tax_bonus;
 }
 
@@ -1481,24 +1481,31 @@ static int get_city_tithes_bonus(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the factor (in %) by which the science should be multiplied.
 **************************************************************************/
-static int set_city_science_bonus(struct city *pcity)
+int get_city_science_bonus(struct city *pcity)
 {
   int science_bonus = 100;
+
   if (city_got_building(pcity, B_LIBRARY)) {
     science_bonus += 50;
     if (city_got_building(pcity, B_UNIVERSITY)) {
       science_bonus += 50;
     }
-    if (city_got_effect(pcity, B_RESEARCH))
+    if (city_got_effect(pcity, B_RESEARCH)) {
       science_bonus += 50;
+    }
   }
-  if (city_affected_by_wonder(pcity, B_COPERNICUS))
+  if (city_affected_by_wonder(pcity, B_COPERNICUS)) {
     science_bonus += 50;
-  if (city_affected_by_wonder(pcity, B_ISAAC))
+  }
+  if (city_affected_by_wonder(pcity, B_ISAAC)) {
     science_bonus += 100;
-  pcity->science_bonus = science_bonus;
+  }
+  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
+    science_bonus /= 2;
+  }
+
   return science_bonus;
 }
 
@@ -1558,22 +1565,15 @@ Modify the incomes according to various buildings.
 **************************************************************************/
 static void add_buildings_effect(struct city *pcity)
 {
-  int tax_bonus, science_bonus;
-  int shield_bonus;
-
   /* this is the place to set them */
-  tax_bonus = set_city_tax_bonus(pcity);	
-  science_bonus = set_city_science_bonus(pcity);
-  shield_bonus = set_city_shield_bonus(pcity);
+  pcity->tax_bonus = get_city_tax_bonus(pcity);
+  pcity->science_bonus = get_city_science_bonus(pcity);
+  pcity->shield_bonus = get_city_shield_bonus(pcity);
 
-  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
-    science_bonus /= 2;
-  }
-
-  pcity->shield_prod = (pcity->shield_prod * shield_bonus) / 100;
-  pcity->luxury_total = (pcity->luxury_total * tax_bonus) / 100;
-  pcity->tax_total = (pcity->tax_total * tax_bonus) / 100;
-  pcity->science_total = (pcity->science_total * science_bonus) / 100;
+  pcity->shield_prod = (pcity->shield_prod * pcity->shield_bonus) / 100;
+  pcity->luxury_total = (pcity->luxury_total * pcity->tax_bonus) / 100;
+  pcity->tax_total = (pcity->tax_total * pcity->tax_bonus) / 100;
+  pcity->science_total = (pcity->science_total * pcity->science_bonus) / 100;
   pcity->shield_surplus = pcity->shield_prod;
 }
 

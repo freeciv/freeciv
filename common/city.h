@@ -447,6 +447,9 @@ int city_specialists(struct city *pcity);                 /* elv+tax+scie */
 int get_temple_power(struct city *pcity);
 int get_cathedral_power(struct city *pcity);
 int get_colosseum_power(struct city *pcity);
+int get_city_tax_bonus(struct city *pcity);
+int get_city_shield_bonus(struct city *pcity);
+int get_city_science_bonus(struct city *pcity);
 
 /* misc */
 bool is_city_option_set(struct city *pcity, enum city_options option);
