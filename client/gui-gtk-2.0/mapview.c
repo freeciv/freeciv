@@ -149,9 +149,9 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 			  0, 0, canvas_x, canvas_y,
 			  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
       }
+      gdk_flush();
+      usleep_since_timer_start(anim_timer, 20000);
     }
-    gdk_flush();
-    usleep_since_timer_start(anim_timer, 20000);
   }
 
   set_units_in_combat(NULL, NULL);
