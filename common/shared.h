@@ -83,9 +83,6 @@
    because it improves player's fighting capabilities.
 */
   
-  #define CITY_NAMES_FONT "10x20"
-  #define BROADCAST_EVENT -2
-
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2
 
