@@ -205,7 +205,6 @@ int trade_between_cities(struct city *pc1, struct city *pc2);
 struct city *find_city_by_id(int id);
 /* this funct is no longer in this module, but leaving it proto'd
 here saves more headaches than you can imagine -- Syela */
-struct city *find_city_by_name(int id);
 void city_list_init(struct city_list *This);
 struct city *city_list_get(struct city_list *This, int index);
 struct city *city_list_find_id(struct city_list *This, int id);
