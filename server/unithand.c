@@ -1166,8 +1166,11 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   struct player *cplayer;
   struct city *pnewcity;
 
+  /* if not at war, may peacefully enter city */
   if (!players_at_war(pplayer->player_no, pcity->owner))
     return;
+
+  /* okay, we're at war - invader captures/destroys city... */
 
   cplayer = city_owner(pcity);
   

@@ -3471,8 +3471,7 @@ static void check_unit_activity(struct unit *punit)
 
 /**************************************************************************
 Moves a unit. No checks whatsoever! This is meant as a practical function
-for other functions like handle_unit_move_consequences and do_airline,
-who do the checking themselves.
+for other functions, like do_airline, which do the checking themselves.
 If you move a unit you should always use this function, as it also sets the
 transported_by unit field correctly.
 take_from_land is only relevant if you have set transport_units.
