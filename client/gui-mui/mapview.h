@@ -20,8 +20,6 @@
 void create_line_at_mouse_pos(void);
 
 /* Use of these wrapper functions is deprecated. */
-#define get_map_xy(canvas_x, canvas_y, map_x, map_y) \
-  canvas_to_map_pos(map_x, map_y, canvas_x, canvas_y)
 #define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
   map_to_canvas_pos(canvas_x, canvas_y, map_x, map_y)
 

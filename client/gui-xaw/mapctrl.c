@@ -264,7 +264,9 @@ void mapctrl_btn_mapcanvas(XEvent *event)
     return;
   }
 
-  get_map_xy(ev->x, ev->y, &x, &y);
+  if (!canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
+    nearest_real_pos(&x, &y);
+  }
 
   if (ev->button==Button1)
     do_map_click(x, y);

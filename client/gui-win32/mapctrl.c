@@ -58,18 +58,7 @@ HWND popit_popup=NULL;
 *************************************************************************/
 void map_handle_move(int window_x, int window_y)
 {
-  int x, y, old_x, old_y;
-
-  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-      && draw_goto_line) {
-    get_map_xy(window_x, window_y, &x, &y);
-    
-    get_line_dest(&old_x, &old_y);
-    if (old_x != x || old_y != y) {
-      draw_line(x, y);
-    }
-  }
-  
+  update_line(window_x, window_y);
 }
 
 /*************************************************************************
@@ -278,7 +267,9 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       break;
     }
     SetFocus(root_window);
-    get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
+    if (!canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam))) {
+      break;
+    }
     if (wParam&MK_SHIFT) {
       adjust_workers(xtile,ytile);
       wakeup_sentried_units(xtile,ytile);
@@ -289,18 +280,24 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     }
     break;
   case WM_MBUTTONDOWN:
-    if (can_client_change_view()) {
-      get_map_xy(LOWORD(lParam), HIWORD(lParam), &xtile, &ytile);
+    if (can_client_change_view()
+        && canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam))) {
       popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
     }
     break;
   case WM_RBUTTONDOWN:
     if (can_client_change_view()) {
-      get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
+      bool is_real =
+        canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam));
       if (wParam&MK_CONTROL) {
-	popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);	
+        if (is_real) {
+          popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
+        }
       } else {
-	center_tile_mapcanvas(xtile,ytile);
+        if (!is_real) {
+          nearest_real_pos(&xtile, &ytile);
+        }
+        center_tile_mapcanvas(xtile, ytile);
       }
     }
     break;

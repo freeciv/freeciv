@@ -157,7 +157,10 @@ void popup_find_dialog(void)
   
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
   
-  get_map_xy(Main.map->w/2 , Main.map->h/2 , &orginal_x , &orginal_y);
+  if (!canvas_to_map_pos(&orginal_x, &orginal_y,
+			 Main.map->w/2, Main.map->h/2)) {
+    nearest_real_pos(&orginal_x, &orginal_y);
+  }
   
   pFind_City_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
   

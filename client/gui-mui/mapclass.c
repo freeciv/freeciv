@@ -1538,7 +1538,11 @@ static ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
 	if (_isinobject(msg->imsg->MouseX, msg->imsg->MouseY))
 	{
           int x, y;
-          get_map_xy(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
+          if (!canvas_to_map_pos(&x, &y,
+				 msg->imsg->MouseX - _mleft(o),
+				 msg->imsg->MouseY - _mtop(o))) {
+            nearest_real_pos(&x, &y);
+          }
 
 	  if ((qual & IEQUALIFIER_LSHIFT) || (qual & IEQUALIFIER_RSHIFT))
 	  {
@@ -1610,7 +1614,10 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
       struct tile *ptile;
       int x,y;
 
-      get_map_xy(msg->mx - _mleft(o), msg->my - _mtop(o), &x, &y);
+      if (!canvas_to_map_pos(&x, &y,
+			     msg->mx - _mleft(o), msg->my - _mtop(o)))  {
+        nearest_real_pos(&x, &y);
+      }
 
       ptile = map_get_tile(x, y);
 

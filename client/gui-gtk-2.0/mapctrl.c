@@ -296,9 +296,10 @@ gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
     return TRUE;
   }
 
-  get_map_xy(ev->x, ev->y, &xtile, &ytile);
+  if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)) {
+    wakeup_sentried_units(xtile, ytile);
+  }
 
-  wakeup_sentried_units(xtile, ytile);
   return TRUE;
 }
 
@@ -308,6 +309,7 @@ gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
+  bool is_real;
 
   if (!can_client_change_view()) {
     return TRUE;
@@ -319,12 +321,16 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     return TRUE;
   }
 
-  get_map_xy(ev->x, ev->y, &xtile, &ytile);
+  is_real = canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y);
+  if (!is_real) {
+    nearest_real_pos(&xtile, &ytile);
+  }
 
-  if (ev->button == 1) {
+  if (is_real && ev->button == 1) {
     do_map_click(xtile, ytile);
     gtk_widget_grab_focus(map_canvas);
-  } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
+  } else if (is_real
+	     && (ev->button == 2 || (ev->state & GDK_CONTROL_MASK))) {
     popit(ev, xtile, ytile);
   } else if (ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
@@ -367,7 +373,9 @@ void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
     return;
   }
 
-  get_map_xy(ev->x, ev->y, &map_x, &map_y);
+  if (!canvas_to_map_pos(&map_x, &map_y, ev->x, ev->y)) {
+    return;
+  }
 
   pcity = find_city_near_tile(map_x, map_y);
   if (!pcity) {
@@ -447,7 +455,9 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev)
   }
   
   gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
-  get_map_xy(x, y, &x, &y);
+  if (!canvas_to_map_pos(&x, &y, x, y)) {
+    nearest_real_pos(&x, &y);
+  }
 
   pcity = find_city_near_tile(x, y);
   if (!pcity) {

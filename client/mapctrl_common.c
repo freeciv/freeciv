@@ -58,7 +58,9 @@ void scroll_mapview(enum direction8 gui_dir)
   canvas_y = mapview_canvas.height / 2;
   canvas_x += DIR_DX[gui_dir] * mapview_canvas.width / 2;
   canvas_y += DIR_DY[gui_dir] * mapview_canvas.height / 2;
-  canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y);
+  if (!canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+    nearest_real_pos(&map_x, &map_y);
+  }
   center_tile_mapcanvas(map_x, map_y);
 }
 
@@ -109,7 +111,9 @@ void update_line(int canvas_x, int canvas_y)
       && draw_goto_line) {
     int x, y, old_x, old_y;
 
-    canvas_to_map_pos(&x, &y, canvas_x, canvas_y);
+    if (!canvas_to_map_pos(&x, &y, canvas_x, canvas_y)) {
+      nearest_real_pos(&x, &y);
+    }
 
     get_line_dest(&old_x, &old_y);
     if (!same_pos(old_x, old_y, x, y)) {

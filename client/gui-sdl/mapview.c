@@ -1221,7 +1221,10 @@ void refresh_overview_viewrect(void)
     map_h = mapview_canvas.tile_height;
     
 #if 0
-    get_map_xy(0, 0, &Wx, &Wy);	/* take from Main Map */
+    /* take from Main Map */
+    if (!canvas_to_map_pos(&Wx, &Wy, 0, 0)) {
+      nearest_real_pos(&Wx, &Wy);
+    }
 #endif
     
     Wx = map_view_x0 * Mini_map_cell_w + FRAME_WH;

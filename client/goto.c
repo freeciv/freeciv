@@ -822,10 +822,7 @@ void draw_line(int dest_x, int dest_y)
   int start_index;
 
   assert(is_active);
-
-  /* Replace with check for is_normal_tile later */
-  assert(is_real_map_pos(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
+  CHECK_MAP_POS(dest_x, dest_y);
 
   if (VECTOR(dest_x, dest_y) == 0) {
     undraw_line();

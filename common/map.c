@@ -1314,7 +1314,11 @@ bool is_normal_map_pos(int x, int y)
 }
 
 /**************************************************************************
-Normalizes the map position. Returns TRUE if it is real, FALSE otherwise.
+  If the position is real, it will be normalized and TRUE will be returned.
+  If the position is unreal, it will be wrapped and FALSE will be returned.
+
+  Note, we need to leave x and y with sane values even in the unreal case.
+  Some callers may for instance call nearest_real_pos on these values.
 **************************************************************************/
 bool normalize_map_pos(int *x, int *y)
 {

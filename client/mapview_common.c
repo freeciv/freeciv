@@ -228,9 +228,12 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 }
 
 /**************************************************************************
-  Finds the map coordinates corresponding to pixel coordinates.
+  Finds the map coordinates corresponding to pixel coordinates.  Returns
+  TRUE if the position is real; in this case it will be normalized. Returns
+  FALSE if the tile is unreal - caller may use nearest_real_pos() if
+  required.
 **************************************************************************/
-void canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
+bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 {
   if (is_isometric) {
     /* The basic operation here is a simple pi/4 rotation; however, we
@@ -270,11 +273,7 @@ void canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
   *map_x += mapview_canvas.map_x0;
   *map_y += mapview_canvas.map_y0;
 
-  /*
-   * If we are outside the map find the nearest tile, with distance as
-   * seen on the map.
-   */
-  nearest_real_pos(map_x, map_y);
+  return normalize_map_pos(map_x, map_y);
 }
 
 /**************************************************************************
@@ -283,8 +282,10 @@ void canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 void get_center_tile_mapcanvas(int *map_x, int *map_y)
 {
   /* This sets the pointers map_x and map_y */
-  canvas_to_map_pos(map_x, map_y,
-		    mapview_canvas.width / 2, mapview_canvas.height / 2);
+  if (!canvas_to_map_pos(map_x, map_y,
+          mapview_canvas.width / 2, mapview_canvas.height / 2)) {
+    nearest_real_pos(map_x, map_y);
+  }
 }
 
 /**************************************************************************
