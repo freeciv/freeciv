@@ -778,9 +778,11 @@ void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
   struct packet_diplomacy_info pa;
   struct player *pgiver;
 
+  /* This shouldn't happen (button is disabled), but check just in case (?) */
+  /* Don't bother translating below since should not happen... */
   if (!has_capability("shared_vision", aconnection.capability)) {
-    append_output_window(_("clause not added as the server does not"
-			 "have the capability"));
+    append_output_window("Clause not added as the server does not"
+			 "have the capability.");
     return;
   }
 
