@@ -43,12 +43,28 @@
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
+  struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
+
+  /* Clear any ferry we might be occupying */
+  if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
+    struct unit *ferry = find_unit_by_id(punit->ai.ferryboat);
+
+    if (ferry && ferry->ai.passenger == punit->id) {
+      ferry->ai.passenger = 0;
+    }
+    punit->ai.ferryboat = 0;
+  }
+
   if (charge && (charge->ai.bodyguard == punit->id)) {
     /* ensure we don't let the unit believe we bodyguard it */
     charge->ai.bodyguard = BODYGUARD_NONE; 
   }
   punit->ai.charge = BODYGUARD_NONE;
   punit->ai.ai_role = task;
+
+  if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {
+    ai_unit_new_role(bodyguard, AIUNIT_NONE);
+  }
 }
 
 /**************************************************************************
@@ -154,6 +170,7 @@ void ai_unit_attack(struct unit *punit, int x, int y)
   pmove.x = x;
   pmove.y = y;
   pmove.unid = punit->id;
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   handle_move_unit(unit_owner(punit), &pmove);
 
   if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
@@ -217,6 +234,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   pmove.x = x;
   pmove.y = y;
   pmove.unid = punit->id;
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   handle_move_unit(unit_owner(punit), &pmove);
 
   /* handle the results */
