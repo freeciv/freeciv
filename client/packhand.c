@@ -1286,6 +1286,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       return;
     }
     client_remove_cli_conn(pconn);
+    pconn = NULL;
   }
   else {
     /* Add or update the connection */
@@ -1652,6 +1653,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
     free(get_government(i)->helptext);
   }
   free(governments);
+  governments = NULL;
       
   game.aqueduct_size = packet->aqueduct_size;
   game.sewer_size = packet->sewer_size;

@@ -240,11 +240,13 @@ static void inf_close_partial(struct inputfile *inf)
     freelog(LOG_ERROR, "Error before closing %s: %s", inf->filename,
 	    fz_strerror(inf->fp));
     fz_fclose(inf->fp);
+    inf->fp = NULL;
   }
   else if (fz_fclose(inf->fp) != 0) {
     freelog(LOG_ERROR, "Error closing %s", inf->filename);
   }
   free(inf->filename);
+  inf->filename = NULL;
   astr_free(&inf->cur_line);
   astr_free(&inf->copy_line);
   astr_free(&inf->token);

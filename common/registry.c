@@ -285,9 +285,10 @@ void section_file_free(struct section_file *file)
   
   /* free the real data: */
   sbuf_free(file->sb);
-  free(file->filename);
-
   file->sb = NULL;
+
+  free(file->filename);
+  file->filename = NULL;
 }
 
 /**************************************************************************
@@ -514,6 +515,7 @@ static bool section_file_load_dup(struct section_file *sf,
   }
 
   inf_close(inf);
+  inf = NULL;
   
   astr_free(&base_name);
   astr_free(&entry_name);
@@ -1173,6 +1175,7 @@ void secfilehash_free(struct section_file *file)
   secfilehash_check(file);
   hash_free(file->hashd->htbl);
   free(file->hashd);
+  file->hashd = NULL;
 }
 
 /**************************************************************************

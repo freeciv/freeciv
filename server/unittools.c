@@ -1746,6 +1746,7 @@ static void server_remove_unit(struct unit *punit)
   if (punit->pgr) {
     free(punit->pgr->pos);
     free(punit->pgr);
+    punit->pgr = NULL;
   }
 
   packet.value = punit->id;
@@ -1756,7 +1757,8 @@ static void server_remove_unit(struct unit *punit)
     }
   } players_iterate_end;
 
-  game_remove_unit(punit);  
+  game_remove_unit(punit);
+  punit = NULL;
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(punit_x, punit_y, x1, y1) {

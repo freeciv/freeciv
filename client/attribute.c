@@ -209,8 +209,10 @@ void attribute_flush(void)
   if (hash_num_entries(attribute_hash) == 0)
     return;
 
-  if (pplayer->attribute_block.data)
+  if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
+    pplayer->attribute_block.data = NULL;
+  }
 
   serialize_hash(attribute_hash, &(pplayer->attribute_block.data),
 		 &(pplayer->attribute_block.length));

@@ -828,6 +828,7 @@ void send_patrol_route(struct unit *punit)
   p.pos[j].y = punit->y;
   send_packet_goto_route(&aconnection, &p, ROUTE_PATROL);
   free(p.pos);
+  p.pos = NULL;
 }
 
 /********************************************************************** 
@@ -847,4 +848,5 @@ void send_goto_route(struct unit *punit)
   }
   send_packet_goto_route(&aconnection, &p, ROUTE_GOTO);
   free(p.pos);
+  p.pos = NULL;
 }

@@ -94,6 +94,7 @@ void init_new_game(void)
       }
     }
     free(pos_used);
+    pos_used = NULL;
   }
 
   /* Loop over all players, creating their initial units... */

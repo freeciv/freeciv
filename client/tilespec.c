@@ -391,9 +391,11 @@ static void tilespec_load_one(const char *spec_filename)
 		     small_sprite);
       }
       free(tags);
+      tags = NULL;
     }
   }
   free(gridnames);
+  gridnames = NULL;
 
   free_sprite(big_sprite);
   
@@ -1718,14 +1720,20 @@ void tilespec_free_city_tiles(int count)
   int i;
 
   for (i=0; i<count; i++) {
-    if (is_isometric)
+    if (is_isometric) {
       free(sprites.city.tile_wall[i]);
+      sprites.city.tile_wall[i] = NULL;
+    }
     free(sprites.city.tile[i]);
+    sprites.city.tile[i] = NULL;
   }
 
-  if (is_isometric)
+  if (is_isometric) {
     free(sprites.city.tile_wall);
+    sprites.city.tile_wall = NULL;
+  }
   free(sprites.city.tile);
+  sprites.city.tile = NULL;
 }
 
 /**********************************************************************

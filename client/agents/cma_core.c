@@ -913,6 +913,7 @@ static void clear_caches(struct city *pcity)
 	}
 	if (cache3.results[i].combinations[j].cache1) {
 	  free(cache3.results[i].combinations[j].cache1);
+	  cache3.results[i].combinations[j].cache1 = NULL;
 	}
       }
     }

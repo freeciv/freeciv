@@ -193,7 +193,9 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
     freelog(LOG_ERROR, "Unexpected buffers in try_to_connect()");
     /* get newly initialized ones instead */
     free_socket_packet_buffer(aconnection.buffer);
+    aconnection.buffer = NULL;
     free_socket_packet_buffer(aconnection.send_buffer);
+    aconnection.send_buffer = NULL;
   }
 
   aconnection.buffer = new_socket_packet_buffer();
@@ -322,6 +324,7 @@ void input_from_server(int fd)
       packet = get_packet_from_connection(&aconnection, &type, &result);
       if (result) {
 	handle_packet_input(packet, type);
+	packet = NULL;
       } else {
 	break;
       }
@@ -360,6 +363,7 @@ void input_from_server_till_request_got_processed(int fd,
 	}
 
 	handle_packet_input(packet, type);
+	packet = NULL;
 
 	if (type == PACKET_PROCESSING_FINISHED) {
 	  freelog(LOG_DEBUG, "ifstrgp: expect=%d, seen=%d",

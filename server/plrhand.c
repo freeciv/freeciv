@@ -879,6 +879,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
       for (i = 0; i < tot_units * 2; i += 2)
 	resolve_unit_stack(resolve_list[i], resolve_list[i+1], TRUE);
       free(resolve_list);
+      resolve_list = NULL;
     }
   }
 
@@ -1548,6 +1549,7 @@ struct player *split_player(struct player *pplayer)
 
   cplayer->nation = nations_used[i];
   free(nations_used);
+  nations_used = NULL;
   pick_ai_player_name(cplayer->nation,cplayer->name);
 
   sz_strlcpy(cplayer->username, cplayer->name);

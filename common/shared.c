@@ -559,8 +559,8 @@ char *user_home_dir(void)
       home_dir=fc_malloc(PATH_MAX);
       if (!getcwd(home_dir,PATH_MAX)) {
 	free(home_dir);
-	freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
 	home_dir=NULL;
+	freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
       }
 #else
       freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
@@ -693,6 +693,7 @@ char *datafilename(const char *filename)
 	freelog(LOG_VERBOSE, "Data path component (%d): %s", num_dirs-1, tok);
 	if (i == -1) {
 	  free(tok);
+	  tok = NULL;
 	}
       }
 

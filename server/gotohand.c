@@ -1476,8 +1476,10 @@ static void make_list_of_refuel_points(struct player *pplayer)
 static void dealloc_refuel_stack(void)
 {
   int i; 
-  for (i = 0; i < refuellist_size; i++)
+  for (i = 0; i < refuellist_size; i++) {
     free(refuels[i]);
+    refuels[i] = NULL;
+  }
 }
 
 /**************************************************************************

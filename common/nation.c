@@ -178,6 +178,7 @@ void free_nations(int num)
     }
   }
   free(nations);
+  nations = NULL;
 }
 
 /***************************************************************

@@ -810,6 +810,7 @@ struct city *transfer_city(struct player *ptaker,
       resolve_unit_stack(resolve_list[i].x, resolve_list[i].y,
 			 transfer_unit_verbose);
     free(resolve_list);
+    resolve_list = NULL;
   }
 
   /* Update the city's trade routes. */

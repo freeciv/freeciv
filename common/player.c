@@ -156,16 +156,18 @@ void player_free_island_imprs(struct player *plr, int numcont)
 {
   int i;
 
-  if (plr->island_improv)
+  if (plr->island_improv) {
     free(plr->island_improv);
+    plr->island_improv = NULL;
+  }
+
   if (plr->island_effects) {
     for (i=0; i<=numcont; i++) {
       geff_vector_free(&plr->island_effects[i]);
     }
     free(plr->island_effects);
+    plr->island_effects = NULL;
   }
-  plr->island_improv=NULL;
-  plr->island_effects=NULL;
 }
 
 /***************************************************************

@@ -76,12 +76,14 @@ void client_remove_unit(int unit_id)
     if(punit==ufocus) {
       set_unit_focus_no_center(NULL);
       game_remove_unit(punit);
+      punit = ufocus = NULL;
       advance_unit_focus();
     }
     else {
       /* calculate before punit disappears, use after punit removed: */
       bool update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
       game_remove_unit(punit);
+      punit = NULL;
       if (update) {
 	update_unit_pix_label(ufocus);
       }

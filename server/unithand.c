@@ -1511,6 +1511,7 @@ void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packe
 
   if (!check_route(pplayer, packet)) {
     free(packet->pos);
+    packet->pos = NULL;
     return;
   }
 

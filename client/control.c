@@ -387,6 +387,7 @@ void process_caravan_arrival(struct unit *punit)
     genlist_unlink(&arrival_queue, p_id);
     id = *p_id;
     free(p_id);
+    p_id = NULL;
     punit = player_find_unit_by_id(game.player_ptr, id);
 
     if (punit && (unit_can_help_build_wonder_here(punit)
@@ -444,6 +445,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     diplomat_id = p_ids[0];
     victim_id = p_ids[1];
     free(p_ids);
+    p_ids = NULL;
     pdiplomat = player_find_unit_by_id(game.player_ptr, diplomat_id);
     pcity = find_city_by_id(victim_id);
     punit = find_unit_by_id(victim_id);

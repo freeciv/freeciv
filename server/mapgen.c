@@ -752,6 +752,7 @@ static void make_rivers(void)
 	    current_riverlength, desirable_riverlength, iteration_counter);
   } /* end while; */
   free(river_map);
+  river_map = NULL;
 }
 
 /**************************************************************************
@@ -1339,6 +1340,7 @@ static void mapgenerator1(void)
 
   make_land();
   free(height_map);
+  height_map = NULL;
 }
 
 /**************************************************************************
@@ -1886,6 +1888,7 @@ static void mapgenerator2(void)
   }
   make_plains();  
   free(height_map);
+  height_map = NULL;
 
   if(checkmass>map.xsize+map.ysize+totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
@@ -1970,6 +1973,7 @@ static void mapgenerator3(void)
 
   make_plains();  
   free(height_map);
+  height_map = NULL;
     
   if(j==1500) {
     freelog(LOG_NORMAL, _("Generator 3 left %li landmass unplaced."), checkmass);
@@ -2045,6 +2049,7 @@ static void mapgenerator4(void)
   }
   make_plains();  
   free(height_map);
+  height_map = NULL;
 
   if(checkmass>map.xsize+map.ysize+totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
