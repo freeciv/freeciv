@@ -60,6 +60,8 @@ enum city_options {
 /* for new city: default auto-attack options all on, others off: */
 #define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
 
+/* Diameter of the workable city area. Must be unequal.
+   Some places in the code hardcodes this number (yet). */
 #define CITY_MAP_SIZE 5
 
 
@@ -157,7 +159,9 @@ struct ai_city {
   struct ai_choice choice; /* to spend gold in the right place only */
   int downtown; /* distance from neighbours, for locating wonders wisely */
   int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
-  /* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
+
+  /* Used for caching when settlers evalueate which tile to improve,
+     and when we place workers. */
   signed short int detox[5][5];
   signed short int derad[5][5];
   signed short int mine[5][5];
@@ -165,7 +169,8 @@ struct ai_city {
   signed short int road[5][5];
   signed short int railroad[5][5];
   signed short int transform[5][5];
-  signed short int tile_value[5][5]; /* caching these will help too. */
+  signed short int tile_value[5][5];
+
   /* so we can contemplate with warmap fresh and decide later */
   int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
   int a, f, invasion; /* who's coming to kill us, for attack co-ordination */
@@ -180,7 +185,15 @@ struct city {
   /* the people */
   int size;
 
+  /* How the citizens feel:
+     ppl_*[0] is distribution before any of the modifiers below.
+     ppl_*[1] is distribution after luxury.
+     ppl_*[2] is distribution after after building effects.
+     ppl_*[3] is distribution after units enfored martial order.
+     ppl_*[4] is distribution after wonders. (final result.) */
   int ppl_happy[5], ppl_content[5], ppl_unhappy[5];
+
+  /* Specialists */
   int ppl_elvis, ppl_scientist, ppl_taxman;
 
   /* trade routes */
