@@ -285,6 +285,12 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       do_map_click(xtile,ytile);
     }
     break;
+  case WM_MBUTTONDOWN:
+    if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+      get_map_xy(LOWORD(lParam), HIWORD(lParam), &xtile, &ytile);
+      popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
+    }
+    break;
   case WM_RBUTTONDOWN:
     if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
       get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
